@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-13 02:06+0000\n"
-"PO-Revision-Date: 2025-05-02 12:50+0200\n"
+"POT-Creation-Date: 2025-05-14 01:59+0000\n"
+"PO-Revision-Date: 2025-05-13 10:26+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1154,7 +1154,7 @@ msgstr "Terra"
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
 #: tools/imagingplanner.cpp:84 tools/imagingplanner.cpp:1546
-#: tools/imagingplanner.cpp:3088 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:3092 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2722,7 +2722,7 @@ msgstr "No naveguis"
 msgid "Show webpage about "
 msgstr "Mostra la pàgina web quant a "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3233
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3237
 #, kde-format
 msgid "object"
 msgstr "objecte"
@@ -28411,37 +28411,41 @@ msgstr "Selecció del directori de tasques"
 msgid ""
 "Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
 msgstr ""
+"No hi ha tasques que es puguin executar durant els 3 dies vinents. S'han "
+"completat totes les tasques."
 
 #: ekos/scheduler/greedyscheduler.cpp:98
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
 msgstr ""
+"No hi ha tasques que es puguin executar durant els 3 dies vinents. S'ha "
+"completat la tasca %1."
 
 #: ekos/scheduler/greedyscheduler.cpp:111
-#, fuzzy, kde-format
-#| msgid "Job '%1' is complete."
+#, kde-format
 msgid "(%1) Job %2: has completed."
-msgstr "La tasca «%1» s'ha completat."
+msgstr "(%1) Tasca %2: s'ha completat."
 
 #: ekos/scheduler/greedyscheduler.cpp:115
 #, kde-format
 msgid "(%1) Job %2: cannot run because: %3"
-msgstr ""
+msgstr "(%1) Tasca %2: no s'ha pogut executar perquè: %3"
 
 #: ekos/scheduler/greedyscheduler.cpp:119
 #, kde-format
 msgid "******************** Now ********************"
-msgstr ""
+msgstr "******************** Ara ********************"
 
+# skip-rule: rst-asterisk3
 #: ekos/scheduler/greedyscheduler.cpp:121
 #, kde-format
 msgid "*****************In %1 Hours******************"
-msgstr ""
+msgstr "*****************D'aquí a %1 hores**************"
 
 #: ekos/scheduler/greedyscheduler.cpp:123
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days."
-msgstr ""
+msgstr "No hi ha tasques que es puguin executar durant els 3 dies vinents."
 
 #: ekos/scheduler/greedyscheduler.cpp:217
 #, kde-format
@@ -82897,8 +82901,8 @@ msgid "Object Set"
 msgstr "Posta de l'objecte"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3105
-#: tools/imagingplanner.cpp:3116 tools/imagingplanner.cpp:3131
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3109
+#: tools/imagingplanner.cpp:3120 tools/imagingplanner.cpp:3135
 #, kde-format
 msgid "Transit"
 msgstr "Trànsit"
@@ -84133,7 +84137,7 @@ msgstr "Obre un navegador amb el 3r enllaç d'aquesta nota: %1"
 msgid "Updating tables..."
 msgstr "S'estan actualitzant les taules..."
 
-#: tools/imagingplanner.cpp:2421
+#: tools/imagingplanner.cpp:2425
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -84144,34 +84148,34 @@ msgstr ""
 "Feu servir el botó Carrega el catàleg si en teniu un.\n"
 "Si no, vegeu Dades -> Descarrega dades noves..."
 
-#: tools/imagingplanner.cpp:2424
+#: tools/imagingplanner.cpp:2428
 #, kde-format
 msgid "No Catalog!"
 msgstr "Sense catàleg!"
 
-#: tools/imagingplanner.cpp:2470
+#: tools/imagingplanner.cpp:2474
 #, kde-format
 msgid "Select an object."
 msgstr "Seleccioneu un objecte."
 
-#: tools/imagingplanner.cpp:2472
+#: tools/imagingplanner.cpp:2476
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr "Comprova els filtres per a deixar d'ocular objectes."
 
-#: tools/imagingplanner.cpp:2474
+#: tools/imagingplanner.cpp:2478
 #, kde-format
 msgid "Load a Catalog."
 msgstr "Carrega un catàleg."
 
 # skip-rule: ff-professor
-#: tools/imagingplanner.cpp:2604
+#: tools/imagingplanner.cpp:2608
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
 msgstr "Cerca al lloc web en línia del professor Seligman imatges NGC."
 
 # skip-rule: ff-professor
-#: tools/imagingplanner.cpp:2609
+#: tools/imagingplanner.cpp:2613
 #, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
@@ -84179,7 +84183,7 @@ msgstr ""
 "Cerca al lloc web en línia del professor Seligman informació sobre els "
 "objectes IC."
 
-#: tools/imagingplanner.cpp:2615
+#: tools/imagingplanner.cpp:2619
 #, kde-format
 msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
@@ -84188,94 +84192,94 @@ msgstr ""
 "Cerca al lloc en línia galaxymap.org informació sobre els objectes "
 "Sharpless2."
 
-#: tools/imagingplanner.cpp:2621
+#: tools/imagingplanner.cpp:2625
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
 "Cerca al lloc en línia de la NASA informació sobre els objectes de Messier."
 
-#: tools/imagingplanner.cpp:2626
+#: tools/imagingplanner.cpp:2630
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
 "Cerca al lloc en línia d'Emil Ivanov informació sobre els objectes VDB."
 
-#: tools/imagingplanner.cpp:2769
+#: tools/imagingplanner.cpp:2773
 #, kde-format
 msgid "Loading Catalogs..."
 msgstr "S'estan carregant els catàlegs..."
 
-#: tools/imagingplanner.cpp:3094
+#: tools/imagingplanner.cpp:3098
 #, kde-format
 msgid "Transits"
 msgstr "Trànsits"
 
-#: tools/imagingplanner.cpp:3099 tools/imagingplanner.cpp:3103
+#: tools/imagingplanner.cpp:3103 tools/imagingplanner.cpp:3107
 #, kde-format
 msgid "Sets at"
 msgstr "Posta a les"
 
-#: tools/imagingplanner.cpp:3110 tools/imagingplanner.cpp:3114
+#: tools/imagingplanner.cpp:3114 tools/imagingplanner.cpp:3118
 #, kde-format
 msgid "Rises at"
 msgstr "Sortida a les"
 
-#: tools/imagingplanner.cpp:3121 tools/imagingplanner.cpp:3127
+#: tools/imagingplanner.cpp:3125 tools/imagingplanner.cpp:3131
 #, kde-format
 msgid "Rises"
 msgstr "Sortida"
 
-#: tools/imagingplanner.cpp:3123 tools/imagingplanner.cpp:3129
+#: tools/imagingplanner.cpp:3127 tools/imagingplanner.cpp:3133
 #, kde-format
 msgid "Sets"
 msgstr "Es pon"
 
-#: tools/imagingplanner.cpp:3235 tools/imagingplanner.cpp:3491
+#: tools/imagingplanner.cpp:3239 tools/imagingplanner.cpp:3495
 #, kde-format
 msgid "objects"
 msgstr "objectes"
 
-#: tools/imagingplanner.cpp:3487
+#: tools/imagingplanner.cpp:3491
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 i altres %3 objectes"
 
-#: tools/imagingplanner.cpp:3495 tools/imagingplanner.cpp:3499
+#: tools/imagingplanner.cpp:3499 tools/imagingplanner.cpp:3503
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr "Marca %1 com a NO obtinguda la imatge"
 
-#: tools/imagingplanner.cpp:3496 tools/imagingplanner.cpp:3501
+#: tools/imagingplanner.cpp:3500 tools/imagingplanner.cpp:3505
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr "Marca %1 com a obtinguda la imatge"
 
-#: tools/imagingplanner.cpp:3505 tools/imagingplanner.cpp:3509
+#: tools/imagingplanner.cpp:3509 tools/imagingplanner.cpp:3513
 #, kde-format
 msgid "Un-pick %1"
 msgstr "Anul·la la tria %1"
 
-#: tools/imagingplanner.cpp:3506 tools/imagingplanner.cpp:3511
+#: tools/imagingplanner.cpp:3510 tools/imagingplanner.cpp:3515
 #, kde-format
 msgid "Pick %1"
 msgstr "Tria %1"
 
-#: tools/imagingplanner.cpp:3516 tools/imagingplanner.cpp:3521
+#: tools/imagingplanner.cpp:3520 tools/imagingplanner.cpp:3525
 #, kde-format
 msgid "Stop ignoring %1"
 msgstr "Atura ignorar %1"
 
-#: tools/imagingplanner.cpp:3517 tools/imagingplanner.cpp:3523
+#: tools/imagingplanner.cpp:3521 tools/imagingplanner.cpp:3527
 #, kde-format
 msgid "Ignore %1"
 msgstr "Ignora %1"
 
-#: tools/imagingplanner.cpp:3526
+#: tools/imagingplanner.cpp:3530
 #, kde-format
 msgid "Center %1 on SkyMap"
 msgstr "Centra %1 al mapa celeste"
 
-#: tools/imagingplanner.cpp:3528
+#: tools/imagingplanner.cpp:3532
 #, kde-format
 msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
@@ -84284,64 +84288,64 @@ msgstr ""
 "Fa una captura de pantalla d'alguna imatge de %1, la resol i la col·loca "
 "temporalment al mapa celeste"
 
-#: tools/imagingplanner.cpp:3668
+#: tools/imagingplanner.cpp:3672
 #, kde-format
 msgid "Successfully marked %1 objects as read"
 msgstr "S'han marcat correctament %1 objectes com a llegits"
 
-#: tools/imagingplanner.cpp:3670
+#: tools/imagingplanner.cpp:3674
 #, kde-format
 msgid "Empty file"
 msgstr "Fitxer buit"
 
-#: tools/imagingplanner.cpp:3679
+#: tools/imagingplanner.cpp:3683
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr ""
 "Ha fallat en marcar tots aquests objectes com a obtinguda la imatge: %1"
 
-#: tools/imagingplanner.cpp:3681
+#: tools/imagingplanner.cpp:3685
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 "Ha fallat en marcar %1 objectes com a obtinguda la imatge, incloent-hi: %2"
 
-#: tools/imagingplanner.cpp:3683
+#: tools/imagingplanner.cpp:3687
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 "S'han marcat correctament %1 objectes com obtinguda la seva imatge. Ha "
 "fallat amb %2: %3"
 
-#: tools/imagingplanner.cpp:3686
+#: tools/imagingplanner.cpp:3690
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 "S'han marcat correctament %1 objectes com obtinguda la seva imatge. Ha "
 "fallat amb %2 incloent-hi aquests: %3"
 
-#: tools/imagingplanner.cpp:3692 tools/imagingplanner.cpp:3942
+#: tools/imagingplanner.cpp:3696 tools/imagingplanner.cpp:3946
 #, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "No s'ha pogut obrir el fitxer: «%1»"
 
-#: tools/imagingplanner.cpp:3806
+#: tools/imagingplanner.cpp:3810
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr "El fitxer de catàleg no existeix: «%1»"
 
-#: tools/imagingplanner.cpp:3927
+#: tools/imagingplanner.cpp:3931
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr "%1/%2: S'està afegint %3"
 
-#: tools/imagingplanner.cpp:4010
+#: tools/imagingplanner.cpp:4014
 #, kde-format
 msgctxt "@action:button"
 msgid "OK"
 msgstr "D'acord"
 
-#: tools/imagingplanner.cpp:4011
+#: tools/imagingplanner.cpp:4015
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
@@ -89728,18 +89732,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgid "PHD2: Guiding started."
-#~ msgstr "PHD2: S'ha iniciat el guiatge."
-
-#~ msgid "Autoguiding started."
-#~ msgstr "S'ha iniciat el guiatge automàtic."
-
-#~ msgid "Enable the GPG guider for RA guiding."
-#~ msgstr "Activa el sistema de guiatge GPG per al guiatge de l'AR."
-
-#~ msgid "Enable GPG"
-#~ msgstr "Activa el GPG"
-
-#~ msgid "Help..."
-#~ msgstr "Ajuda..."

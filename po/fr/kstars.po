@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-13 02:06+0000\n"
+"POT-Creation-Date: 2025-05-14 01:59+0000\n"
 "PO-Revision-Date: 2025-04-14 08:21+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -1162,7 +1162,7 @@ msgstr "Terre"
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
 #: tools/imagingplanner.cpp:84 tools/imagingplanner.cpp:1546
-#: tools/imagingplanner.cpp:3088 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:3092 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2728,7 +2728,7 @@ msgstr "Ne pas naviguer"
 msgid "Show webpage about "
 msgstr "Afficher la page web sur "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3233
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3237
 #, kde-format
 msgid "object"
 msgstr "objet"
@@ -83080,8 +83080,8 @@ msgid "Object Set"
 msgstr "Coucher"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3105
-#: tools/imagingplanner.cpp:3116 tools/imagingplanner.cpp:3131
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3109
+#: tools/imagingplanner.cpp:3120 tools/imagingplanner.cpp:3135
 #, kde-format
 msgid "Transit"
 msgstr "Transit"
@@ -84311,7 +84311,7 @@ msgstr "Ouvrir un navigateur avec le troisième lien de cette note : %1"
 msgid "Updating tables..."
 msgstr "Mise à jour des tables…"
 
-#: tools/imagingplanner.cpp:2421
+#: tools/imagingplanner.cpp:2425
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -84322,38 +84322,38 @@ msgstr ""
 "Utiliser le bouton Charger le Catalogue si présent.Voir Données -> "
 "Télécharger de nouvelles données…"
 
-#: tools/imagingplanner.cpp:2424
+#: tools/imagingplanner.cpp:2428
 #, kde-format
 msgid "No Catalog!"
 msgstr "Pas de catalogue !"
 
-#: tools/imagingplanner.cpp:2470
+#: tools/imagingplanner.cpp:2474
 #, kde-format
 msgid "Select an object."
 msgstr "Sélectionner un objet."
 
-#: tools/imagingplanner.cpp:2472
+#: tools/imagingplanner.cpp:2476
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr "Vérifier les filtres pour afficher les objets."
 
-#: tools/imagingplanner.cpp:2474
+#: tools/imagingplanner.cpp:2478
 #, kde-format
 msgid "Load a Catalog."
 msgstr "Charger un catalogue."
 
-#: tools/imagingplanner.cpp:2604
+#: tools/imagingplanner.cpp:2608
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
 msgstr "Recherche sur le site en ligne du professeur Seligman des images NGC."
 
-#: tools/imagingplanner.cpp:2609
+#: tools/imagingplanner.cpp:2613
 #, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
 msgstr "Recherche sur le site en ligne du professeur Seligman des images IC."
 
-#: tools/imagingplanner.cpp:2615
+#: tools/imagingplanner.cpp:2619
 #, kde-format
 msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
@@ -84362,95 +84362,95 @@ msgstr ""
 "Recherche sur le site en ligne galaxymap.org pour des informations sur les "
 "objets du catalogue Sharpless2."
 
-#: tools/imagingplanner.cpp:2621
+#: tools/imagingplanner.cpp:2625
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
 "Recherche sur le site en ligne de la NASA pour des informations sur les "
 "objets Messier."
 
-#: tools/imagingplanner.cpp:2626
+#: tools/imagingplanner.cpp:2630
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
 "Recherche sur le site en ligne pour des informations sur les objets VDB."
 
-#: tools/imagingplanner.cpp:2769
+#: tools/imagingplanner.cpp:2773
 #, kde-format
 msgid "Loading Catalogs..."
 msgstr "Les catalogues sont en train d'être chargés…"
 
-#: tools/imagingplanner.cpp:3094
+#: tools/imagingplanner.cpp:3098
 #, kde-format
 msgid "Transits"
 msgstr "Transits"
 
-#: tools/imagingplanner.cpp:3099 tools/imagingplanner.cpp:3103
+#: tools/imagingplanner.cpp:3103 tools/imagingplanner.cpp:3107
 #, kde-format
 msgid "Sets at"
 msgstr "Se couche à"
 
-#: tools/imagingplanner.cpp:3110 tools/imagingplanner.cpp:3114
+#: tools/imagingplanner.cpp:3114 tools/imagingplanner.cpp:3118
 #, kde-format
 msgid "Rises at"
 msgstr "Se lève à"
 
-#: tools/imagingplanner.cpp:3121 tools/imagingplanner.cpp:3127
+#: tools/imagingplanner.cpp:3125 tools/imagingplanner.cpp:3131
 #, kde-format
 msgid "Rises"
 msgstr "Lever"
 
-#: tools/imagingplanner.cpp:3123 tools/imagingplanner.cpp:3129
+#: tools/imagingplanner.cpp:3127 tools/imagingplanner.cpp:3133
 #, kde-format
 msgid "Sets"
 msgstr "Coucher"
 
-#: tools/imagingplanner.cpp:3235 tools/imagingplanner.cpp:3491
+#: tools/imagingplanner.cpp:3239 tools/imagingplanner.cpp:3495
 #, kde-format
 msgid "objects"
 msgstr "objets"
 
-#: tools/imagingplanner.cpp:3487
+#: tools/imagingplanner.cpp:3491
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 et %3 autres objets"
 
-#: tools/imagingplanner.cpp:3495 tools/imagingplanner.cpp:3499
+#: tools/imagingplanner.cpp:3499 tools/imagingplanner.cpp:3503
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr "Marquer %1 comme NON acquise"
 
-#: tools/imagingplanner.cpp:3496 tools/imagingplanner.cpp:3501
+#: tools/imagingplanner.cpp:3500 tools/imagingplanner.cpp:3505
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr "Marquer %1 comme déjà acquise"
 
-#: tools/imagingplanner.cpp:3505 tools/imagingplanner.cpp:3509
+#: tools/imagingplanner.cpp:3509 tools/imagingplanner.cpp:3513
 #, kde-format
 msgid "Un-pick %1"
 msgstr "Non choisi %1"
 
-#: tools/imagingplanner.cpp:3506 tools/imagingplanner.cpp:3511
+#: tools/imagingplanner.cpp:3510 tools/imagingplanner.cpp:3515
 #, kde-format
 msgid "Pick %1"
 msgstr "Choisi %1"
 
-#: tools/imagingplanner.cpp:3516 tools/imagingplanner.cpp:3521
+#: tools/imagingplanner.cpp:3520 tools/imagingplanner.cpp:3525
 #, kde-format
 msgid "Stop ignoring %1"
 msgstr "Arrêter d'ignorer %1"
 
-#: tools/imagingplanner.cpp:3517 tools/imagingplanner.cpp:3523
+#: tools/imagingplanner.cpp:3521 tools/imagingplanner.cpp:3527
 #, kde-format
 msgid "Ignore %1"
 msgstr "Ignorer %1"
 
-#: tools/imagingplanner.cpp:3526
+#: tools/imagingplanner.cpp:3530
 #, kde-format
 msgid "Center %1 on SkyMap"
 msgstr "Centrer %1 sur la carte"
 
-#: tools/imagingplanner.cpp:3528
+#: tools/imagingplanner.cpp:3532
 #, kde-format
 msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
@@ -84459,61 +84459,61 @@ msgstr ""
 "Effectués quelques captures d'écran de %1, les résoudre et les placer "
 "temporairement sur la carte du ciel."
 
-#: tools/imagingplanner.cpp:3668
+#: tools/imagingplanner.cpp:3672
 #, kde-format
 msgid "Successfully marked %1 objects as read"
 msgstr "Les %1 objets ont été marqués comme lus"
 
-#: tools/imagingplanner.cpp:3670
+#: tools/imagingplanner.cpp:3674
 #, kde-format
 msgid "Empty file"
 msgstr "Fichier vide"
 
-#: tools/imagingplanner.cpp:3679
+#: tools/imagingplanner.cpp:3683
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "Échec du marquage de tous ces objets acquis : %1"
 
-#: tools/imagingplanner.cpp:3681
+#: tools/imagingplanner.cpp:3685
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr "Échec du marquage des %1 objets acquis, en incluant : %2"
 
-#: tools/imagingplanner.cpp:3683
+#: tools/imagingplanner.cpp:3687
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr "Succès du marquage des %1 objets acquis. Échec pour %2 : %3"
 
-#: tools/imagingplanner.cpp:3686
+#: tools/imagingplanner.cpp:3690
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 "Succès du marquage des %1 objets acquis. Échec pour %2 en incluant ceux-ci : "
 "%3"
 
-#: tools/imagingplanner.cpp:3692 tools/imagingplanner.cpp:3942
+#: tools/imagingplanner.cpp:3696 tools/imagingplanner.cpp:3946
 #, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Désolé, impossible d'ouvrir le fichier %1"
 
-#: tools/imagingplanner.cpp:3806
+#: tools/imagingplanner.cpp:3810
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr "Désolé, le fichier catalogue n'existe pas : %1"
 
-#: tools/imagingplanner.cpp:3927
+#: tools/imagingplanner.cpp:3931
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr "%1/%2 : ajout de %3"
 
-#: tools/imagingplanner.cpp:4010
+#: tools/imagingplanner.cpp:4014
 #, fuzzy, kde-format
 #| msgid "OK"
 msgctxt "@action:button"
 msgid "OK"
 msgstr "Ok"
 
-#: tools/imagingplanner.cpp:4011
+#: tools/imagingplanner.cpp:4015
 #, fuzzy, kde-format
 #| msgid "Cancel"
 msgctxt "@action:button"

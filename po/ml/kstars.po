@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-13 02:06+0000\n"
+"POT-Creation-Date: 2025-05-14 01:59+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -1191,7 +1191,7 @@ msgstr "ഭൂമി"
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
 #: tools/imagingplanner.cpp:84 tools/imagingplanner.cpp:1546
-#: tools/imagingplanner.cpp:3088 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:3092 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2718,7 +2718,7 @@ msgstr "%s സൂക്ഷിക്കുവാന്‍ സാധിച്ച�
 msgid "Show webpage about "
 msgstr "%s പ്രവര്‍ത്തിപ്പിയ്ക്കാനൊരുങ്ങുന്നു.\\n"
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3233
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3237
 #, kde-format
 msgid "object"
 msgstr "വസ്തു"
@@ -84750,8 +84750,8 @@ msgid "Object Set"
 msgstr "ഖഗോളവസ്തുവിനെ തിരയല്‍"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3105
-#: tools/imagingplanner.cpp:3116 tools/imagingplanner.cpp:3131
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3109
+#: tools/imagingplanner.cpp:3120 tools/imagingplanner.cpp:3135
 #, fuzzy, kde-format
 msgid "Transit"
 msgstr "ശരിക്കുള്ള സമയം"
@@ -85868,7 +85868,7 @@ msgstr ""
 msgid "Updating tables..."
 msgstr "നക്ഷത്രരാശിയുടെ പടം ലോഡ് ചെയ്തുകൊണ്ടിരിക്കുന്നു: "
 
-#: tools/imagingplanner.cpp:2421
+#: tools/imagingplanner.cpp:2425
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -85876,195 +85876,195 @@ msgid ""
 "See Data -> Download New Data if not..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2424
+#: tools/imagingplanner.cpp:2428
 #, fuzzy, kde-format
 msgid "No Catalog!"
 msgstr "നക്ഷത്രം തിളങ്ങുന്നതിന്റെ മാനം :"
 
-#: tools/imagingplanner.cpp:2470
+#: tools/imagingplanner.cpp:2474
 #, fuzzy, kde-format
 msgid "Select an object."
 msgstr "ഖഗോളവസ്തുവിനെ തിരയല്‍"
 
-#: tools/imagingplanner.cpp:2472
+#: tools/imagingplanner.cpp:2476
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2474
+#: tools/imagingplanner.cpp:2478
 #, fuzzy, kde-format
 msgid "Load a Catalog."
 msgstr "NGC കാറ്റലോഗ് ലോഡ് ചെയ്തുകൊണ്ടിരിക്കുന്നു: "
 
-#: tools/imagingplanner.cpp:2604
+#: tools/imagingplanner.cpp:2608
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2609
+#: tools/imagingplanner.cpp:2613
 #, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2615
+#: tools/imagingplanner.cpp:2619
 #, kde-format
 msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2621
+#: tools/imagingplanner.cpp:2625
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2626
+#: tools/imagingplanner.cpp:2630
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2769
+#: tools/imagingplanner.cpp:2773
 #, fuzzy, kde-format
 msgid "Loading Catalogs..."
 msgstr "NGC കാറ്റലോഗ് ലോഡ് ചെയ്തുകൊണ്ടിരിക്കുന്നു: "
 
-#: tools/imagingplanner.cpp:3094
+#: tools/imagingplanner.cpp:3098
 #, fuzzy, kde-format
 msgid "Transits"
 msgstr "ശരിക്കുള്ള സമയം"
 
-#: tools/imagingplanner.cpp:3099 tools/imagingplanner.cpp:3103
+#: tools/imagingplanner.cpp:3103 tools/imagingplanner.cpp:3107
 #, fuzzy, kde-format
 msgid "Sets at"
 msgstr "%s അടയാളവാക്ക് സൂചികയില്‍ നല്‍കുക.\\n"
 
-#: tools/imagingplanner.cpp:3110 tools/imagingplanner.cpp:3114
+#: tools/imagingplanner.cpp:3114 tools/imagingplanner.cpp:3118
 #, fuzzy, kde-format
 #| msgid "Rises at: %1"
 msgid "Rises at"
 msgstr "ഉദയസമയം: %1"
 
-#: tools/imagingplanner.cpp:3121 tools/imagingplanner.cpp:3127
+#: tools/imagingplanner.cpp:3125 tools/imagingplanner.cpp:3131
 #, fuzzy, kde-format
 #| msgctxt "angular size in arcseconds"
 #| msgid "%1 arcsec"
 msgid "Rises"
 msgstr "%1 arcsec"
 
-#: tools/imagingplanner.cpp:3123 tools/imagingplanner.cpp:3129
+#: tools/imagingplanner.cpp:3127 tools/imagingplanner.cpp:3133
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3235 tools/imagingplanner.cpp:3491
+#: tools/imagingplanner.cpp:3239 tools/imagingplanner.cpp:3495
 #, fuzzy, kde-format
 #| msgid "object"
 msgid "objects"
 msgstr "വസ്തു"
 
-#: tools/imagingplanner.cpp:3487
+#: tools/imagingplanner.cpp:3491
 #, fuzzy, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr "ടിവിയും റേഡിയോയും"
 
-#: tools/imagingplanner.cpp:3495 tools/imagingplanner.cpp:3499
+#: tools/imagingplanner.cpp:3499 tools/imagingplanner.cpp:3503
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3496 tools/imagingplanner.cpp:3501
+#: tools/imagingplanner.cpp:3500 tools/imagingplanner.cpp:3505
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3505 tools/imagingplanner.cpp:3509
+#: tools/imagingplanner.cpp:3509 tools/imagingplanner.cpp:3513
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3506 tools/imagingplanner.cpp:3511
+#: tools/imagingplanner.cpp:3510 tools/imagingplanner.cpp:3515
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3516 tools/imagingplanner.cpp:3521
+#: tools/imagingplanner.cpp:3520 tools/imagingplanner.cpp:3525
 #, fuzzy, kde-format
 msgid "Stop ignoring %1"
 msgstr "റിക്കോര്‍ഡിങ് _നിര്‍ത്തുക"
 
-#: tools/imagingplanner.cpp:3517 tools/imagingplanner.cpp:3523
+#: tools/imagingplanner.cpp:3521 tools/imagingplanner.cpp:3527
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignore %1"
 msgstr "അവഗണിക്കുക"
 
-#: tools/imagingplanner.cpp:3526
+#: tools/imagingplanner.cpp:3530
 #, fuzzy, kde-format
 msgid "Center %1 on SkyMap"
 msgstr "രഹസ്യ രീതിയില്‍ പ്രവര്‍ത്തിപ്പിയ്ക്കുക"
 
-#: tools/imagingplanner.cpp:3528
+#: tools/imagingplanner.cpp:3532
 #, kde-format
 msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
 "SkyMap"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3668
+#: tools/imagingplanner.cpp:3672
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Successfully marked %1 objects as read"
 msgstr "ബന്ധം"
 
-#: tools/imagingplanner.cpp:3670
+#: tools/imagingplanner.cpp:3674
 #, fuzzy, kde-format
 msgid "Empty file"
 msgstr "ഫയലുകളുടെ നടത്തിപ്പു്"
 
-#: tools/imagingplanner.cpp:3679
+#: tools/imagingplanner.cpp:3683
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3681
+#: tools/imagingplanner.cpp:3685
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3683
+#: tools/imagingplanner.cpp:3687
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3686
+#: tools/imagingplanner.cpp:3690
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3692 tools/imagingplanner.cpp:3942
+#: tools/imagingplanner.cpp:3696 tools/imagingplanner.cpp:3946
 #, fuzzy, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "URL തുറക്കുവാന്‍ സാധ്യമായില്ല"
 
-#: tools/imagingplanner.cpp:3806
+#: tools/imagingplanner.cpp:3810
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3927
+#: tools/imagingplanner.cpp:3931
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:4010
+#: tools/imagingplanner.cpp:4014
 #, fuzzy, kde-format
 #| msgid "&OK"
 msgctxt "@action:button"
 msgid "OK"
 msgstr "&OK"
 
-#: tools/imagingplanner.cpp:4011
+#: tools/imagingplanner.cpp:4015
 #, fuzzy, kde-format
 #| msgid "Cancel"
 msgctxt "@action:button"
