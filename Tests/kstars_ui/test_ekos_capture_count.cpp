@@ -362,7 +362,7 @@ bool TestEkosCaptureCount::setupScheduler(QString sequenceFile, QString sequence
         case Ekos::FINISH_REPEAT:
             // repeat the job for a fixed amount
             KTRY_SET_RADIOBUTTON_SUB(scheduler, schedulerRepeatSequences, true);
-            KTRY_SET_SPINBOX_SUB(scheduler, schedulerExecutionSequencesLimit, iterations);
+            KTRY_SET_SPINBOX_SUB(scheduler, schedulerRepeatSequencesLimit, iterations);
             break;
         case Ekos::FINISH_LOOP:
             KTRY_SET_RADIOBUTTON_SUB(scheduler, schedulerUntilTerminated, true);

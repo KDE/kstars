@@ -573,6 +573,6 @@ bool SchedulerModuleState::checkRepeatSequence()
 {
     return (!Options::rememberJobProgress() && Options::schedulerRepeatEverything() &&
             (Options::schedulerExecutionSequencesLimit() == 0
-             || sequenceExecutionCounter()) < Options::schedulerExecutionSequencesLimit());
+             || sequenceExecutionCounter() < Options::schedulerExecutionSequencesLimit()));
 }
 } // Ekos namespace

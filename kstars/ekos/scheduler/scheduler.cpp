@@ -369,6 +369,10 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     {
         Options::setErrorHandlingStrategyDelay(value);
     });
+    connect(executionSequenceLimit, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [](int value)
+    {
+        Options::setSchedulerExecutionSequencesLimit(value);
+    });
 
     // Retiring the Classic algorithm.
     if (Options::schedulerAlgorithm() != ALGORITHM_GREEDY)
@@ -510,7 +514,7 @@ void Scheduler::watchJobChanges(bool enable)
 
     QSpinBox * const spinBoxes[] =
     {
-        schedulerExecutionSequencesLimit,
+        schedulerRepeatSequencesLimit,
         errorHandlingStrategyDelay
     };
 
@@ -928,7 +932,7 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
                              positionAngleSpin->value(), sequenceURL, fitsURL,
 
                              startCondition, startupTimeEdit->dateTime(),
-                             stopCondition, schedulerUntilValue->dateTime(), schedulerExecutionSequencesLimit->value(),
+                             stopCondition, schedulerUntilValue->dateTime(), schedulerRepeatSequencesLimit->value(),
 
                              altConstraint,
                              moonSeparation,
@@ -1167,7 +1171,7 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
 
         case FINISH_REPEAT:
             schedulerRepeatSequences->setChecked(true);
-            schedulerExecutionSequencesLimit->setValue(job->getRepeatsRequired());
+            schedulerRepeatSequencesLimit->setValue(job->getRepeatsRequired());
             break;
 
         case FINISH_LOOP:
