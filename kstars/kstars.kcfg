@@ -3357,6 +3357,10 @@
          <label>Wait this many minutes for the weather to improve before giving up.</label>
          <default>10</default>
       </entry>
+      <entry name="SchedulerWeatherShutdownDelay" type="UInt">
+         <label>Wait this many seconds when detecting weather alert before starting observatory shutdown.</label>
+         <default>10</default>
+      </entry>
       <entry name="SchedulerTwilight" type="Bool">
          <label>Default scheduler checkbox for job twilight constraints.</label>
          <default>true</default>

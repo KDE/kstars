@@ -69,6 +69,9 @@ SchedulerProcess::SchedulerProcess(QSharedPointer<SchedulerModuleState> state, c
                                           SLOT(registerNewModule(QString)));
     QDBusConnection::sessionBus().connect(kstarsInterfaceString, ekosPathStr, ekosInterfaceStr, "newDevice", this,
                                           SLOT(registerNewDevice(QString, int)));
+
+    m_WeatherShutdownTimer.setSingleShot(true);
+    connect(&m_WeatherShutdownTimer, &QTimer::timeout, this, &SchedulerProcess::startShutdownDueToWeather);
 }
 
 SchedulerState SchedulerProcess::status()
@@ -417,7 +420,7 @@ void SchedulerProcess::findNextJob()
     {
         /* Unexpected situation, mitigate by resetting the job and restarting the scheduler timer */
         qCDebug(KSTARS_EKOS_SCHEDULER) << "BUGBUG! Job '" << activeJob()->getName() <<
-                                          "' timer elapsed, but no action to be taken.";
+                                       "' timer elapsed, but no action to be taken.";
 
         // Always reset job stage
         moduleState()->updateJobStage(SCHEDSTAGE_IDLE);
@@ -673,14 +676,16 @@ bool SchedulerProcess::shouldSchedulerSleep(SchedulerJob * job)
     if (Options::schedulerWeather())
     {
         ISD::Weather::Status weatherStatus = moduleState()->weatherStatus();
-        if (weatherStatus == ISD::Weather::WEATHER_WARNING || weatherStatus == ISD::Weather::WEATHER_ALERT)
+        // Do not evaluate job that are in the process of getting aborted or aborted or complete already
+        if (m_WeatherShutdownTimer.isActive() == false && job->getState() < SCHEDJOB_ERROR &&
+                (weatherStatus == ISD::Weather::WEATHER_WARNING || weatherStatus == ISD::Weather::WEATHER_ALERT))
         {
             // If we're already in preemptive shutdown, give up on this job
             if (moduleState()->weatherGracePeriodActive())
             {
                 appendLogText(i18n("Job '%1' cannot start because weather status is %2 and grace period is over.",
                                    job->getName(), (weatherStatus == ISD::Weather::WEATHER_WARNING) ? i18n("Warning") : i18n("Alert")));
-                activeJob()->setState(SCHEDJOB_ERROR);
+                job->setState(SCHEDJOB_ERROR);
                 moduleState()->setWeatherGracePeriodActive(false);
                 findNextJob();
                 return true;
@@ -1365,7 +1370,7 @@ bool SchedulerProcess::checkEkosState()
                 moduleState()->startCurrentOperationTimer();
 
                 qCInfo(KSTARS_EKOS_SCHEDULER) << "Ekos communication status is" << moduleState()->ekosCommunicationStatus() <<
-                                                 "Starting Ekos...";
+                                              "Starting Ekos...";
 
                 return false;
             }
@@ -3165,7 +3170,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
     outstream << "<SchedulerList version='2.1'>" << Qt::endl;
     // ensure to escape special XML characters
     outstream << "<Profile>" << QString(entityXML(strdup(moduleState()->currentProfile().toStdString().c_str()))) <<
-                 "</Profile>" << Qt::endl;
+              "</Profile>" << Qt::endl;
 
     auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
     bool useMosaicInfo = !tiles->sequenceFile().isEmpty();
@@ -3228,7 +3233,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
 
         if (! job->getOpticalTrain().isEmpty())
             outstream << "<OpticalTrain>" << QString(entityXML(strdup(job->getOpticalTrain().toStdString().c_str()))) <<
-                         "</OpticalTrain>" << Qt::endl;
+                      "</OpticalTrain>" << Qt::endl;
 
         if (job->isLead() && job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
             outstream << "<FITS>" << job->getFITSFile().toLocalFile() << "</FITS>" << Qt::endl;
@@ -3312,7 +3317,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
     outstream << "<StartupProcedure>" << Qt::endl;
     if (moduleState()->startupScriptURL().isEmpty() == false)
         outstream << "<Procedure value='" << moduleState()->startupScriptURL().toString(QUrl::PreferLocalFile) <<
-                     "'>StartupScript</Procedure>" << Qt::endl;
+                  "'>StartupScript</Procedure>" << Qt::endl;
     if (Options::schedulerUnparkDome())
         outstream << "<Procedure>UnparkDome</Procedure>" << Qt::endl;
     if (Options::schedulerUnparkMount())
@@ -3332,7 +3337,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
         outstream << "<Procedure>ParkDome</Procedure>" << Qt::endl;
     if (moduleState()->shutdownScriptURL().isEmpty() == false)
         outstream << "<Procedure value='" << moduleState()->shutdownScriptURL().toString(QUrl::PreferLocalFile) <<
-                     "'>schedulerStartupScript</Procedure>" <<
+                  "'>schedulerStartupScript</Procedure>" <<
                   Qt::endl;
     outstream << "</ShutdownProcedure>" << Qt::endl;
 
@@ -4132,6 +4137,10 @@ void SchedulerProcess::setWeatherStatus(ISD::Weather::Status status)
     ISD::Weather::Status oldStatus = moduleState()->weatherStatus();
     moduleState()->setWeatherStatus(newStatus);
 
+    // Stop shutdown timer in case weather improves.
+    if (m_WeatherShutdownTimer.isActive() && newStatus != ISD::Weather::WEATHER_ALERT)
+        m_WeatherShutdownTimer.stop();
+
     // If we're in a preemptive shutdown due to weather and weather improves, wake up
     if (moduleState()->preemptiveShutdown() &&
             oldStatus != ISD::Weather::WEATHER_OK &&
@@ -4146,8 +4155,20 @@ void SchedulerProcess::setWeatherStatus(ISD::Weather::Status status)
              moduleState()->schedulerState() != Ekos::SCHEDULER_IDLE &&
              moduleState()->schedulerState() != Ekos::SCHEDULER_SHUTDOWN))
     {
-        appendLogText(i18n("Weather alert detected. Starting soft shutdown procedure."));
+        m_WeatherShutdownTimer.start(Options::schedulerWeatherShutdownDelay() * 1000);
+        appendLogText(i18n("Weather alert detected. Starting soft shutdown procedure in %1 seconds.", Options::schedulerWeatherShutdownDelay()));
+    }
 
+    // forward weather state
+    emit newWeatherStatus(status);
+}
+
+void SchedulerProcess::startShutdownDueToWeather()
+{
+    if (activeJob() && Options::schedulerWeather() && (moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT &&
+            moduleState()->schedulerState() != Ekos::SCHEDULER_IDLE &&
+            moduleState()->schedulerState() != Ekos::SCHEDULER_SHUTDOWN))
+    {
         // Abort current job but keep it in the queue
         if (activeJob())
         {
@@ -4168,9 +4189,6 @@ void SchedulerProcess::setWeatherStatus(ISD::Weather::Status status)
         emit schedulerSleeping(true, true);
         checkShutdownState();
     }
-
-    // forward weather state
-    emit newWeatherStatus(status);
 }
 
 void SchedulerProcess::checkStartupProcedure()
@@ -4437,7 +4455,7 @@ SkyPoint SchedulerProcess::mountCoords()
     if (coords.size() != 2)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << "Warning: reading equatorial coordinates received" << coords.size() <<
-                                             "instead of 2 values: " << coords;
+                                          "instead of 2 values: " << coords;
         return SkyPoint();
     }
 
@@ -4478,15 +4496,15 @@ bool SchedulerProcess::isMountParked()
         // Deduce state of mount - see getParkingStatus in mount.cpp
         switch (static_cast<ISD::ParkStatus>(parkingStatus.toInt()))
         {
-                //            case Mount::PARKING_OK:     // INDI switch ok, and parked
-                //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
+            //            case Mount::PARKING_OK:     // INDI switch ok, and parked
+            //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
             case ISD::PARK_PARKED:
                 return true;
 
-                //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
-                //            case Mount::PARKING_ERROR:  // INDI switch error
-                //            case Mount::PARKING_BUSY:   // INDI switch busy
-                //            case Mount::UNPARKING_BUSY: // INDI switch busy
+            //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
+            //            case Mount::PARKING_ERROR:  // INDI switch error
+            //            case Mount::PARKING_BUSY:   // INDI switch busy
+            //            case Mount::UNPARKING_BUSY: // INDI switch busy
             default:
                 return false;
         }
