@@ -60,4 +60,6 @@
           <GainReadNoiseValue><Gain>510</Gain><ReadNoise>1.044</ReadNoise></GainReadNoiseValue>
         </CameraGainReadNoise>
     </CameraGainReadMode>
+    <CameraPixelSize>3.76</CameraPixelSize>
+    <CameraQuantumEfficiency>0.9</CameraQuantumEfficiency>
 </ExposureCalculatorCameraData>

@@ -90,12 +90,36 @@ QVector<OptimalExposure::CameraGainReadMode> OptimalExposure::ImagingCameraData:
     return CameraGainReadModeVector;
 }
 
+void OptimalExposure::ImagingCameraData::setCameraPixelSize(double newCameraPixelSize)
+{
+	cameraPixelSize = newCameraPixelSize;
+}
+
+double OptimalExposure::ImagingCameraData::getCameraPixelSize()
+{
+	return cameraPixelSize;
+}
+
+void OptimalExposure::ImagingCameraData::setCameraQuantumEfficiency(double newCameraQuantumEfficiency)
+{
+	cameraQuantumEfficiency = newCameraQuantumEfficiency;
+}
+
+double OptimalExposure::ImagingCameraData::getCameraQuantumEfficiency()
+{
+	return cameraQuantumEfficiency;
+}
+
+
 ImagingCameraData::ImagingCameraData(const QString &cameraId, SensorType sensorType, GainSelectionType gainSelectionType,
-                                     const QVector<int> &gainSelectionRange, const QVector<CameraGainReadMode> &CameraGainReadModeVector) : cameraId(cameraId),
+                                     const QVector<int> &gainSelectionRange, const QVector<CameraGainReadMode> &CameraGainReadModeVector, double cameraPixelSize,
+                                     double cameraQuantumEfficiency) : cameraId(cameraId),
     sensorType(sensorType),
     gainSelectionType(gainSelectionType),
     gainSelectionRange(gainSelectionRange),
-    CameraGainReadModeVector(CameraGainReadModeVector)
+    CameraGainReadModeVector(CameraGainReadModeVector),
+    cameraPixelSize(cameraPixelSize),
+    cameraQuantumEfficiency(cameraQuantumEfficiency)
 {}
 
 }

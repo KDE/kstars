@@ -222,20 +222,27 @@ double OptimalSubExposureCalculator::calculateCFactor(double aNoiseTolerance)
 
 double OptimalSubExposureCalculator::calculateLightPollutionElectronBaseRate(double skyQuality)
 {
+	/* Old Methodology
+    
     // Conversion curve fitted from Dr Glover data
     double base = std::stod("1.25286030612621E+27");
     double power = (double) -19.3234809465887;
-
     // New version of Dr Glover's function calculates the Electron rate at thet pixel level
-    // and requires pixel size in microns and QE of sensor.
+	// and requires pixel size in microns and QE of sensor.
     // double baseV2 = 1009110388.7838
     // Calculation of an initial electron rate will
     // use a new fitted curve based upon a 1.0 micon pixel and 100% QE
     // curve appears to be f(sqm) = 1009110388.7838 exp (-0.921471189594521 * sqm)
-    //
-
-
     return(base * pow(skyQuality, power));
+    
+    */
+    ImagingCameraData cameraData = getImagingCameraData();
+    double pixelSize = cameraData.getCameraPixelSize();
+	double QE = cameraData.getCameraQuantumEfficiency();
+
+	return (double)(3.341e6 * QE * 300 * pow(10, -0.4*skyQuality) * pow(pixelSize, 2));
+	
+    
 }
 
 OptimalExposure::CameraExposureEnvelope OptimalSubExposureCalculator::calculateCameraExposureEnvelope()
