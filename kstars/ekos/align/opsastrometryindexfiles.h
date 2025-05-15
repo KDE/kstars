@@ -38,6 +38,7 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
         void addDirectoryToList(QString directory);
         void removeDirectoryFromList(QString directory);
         void updateIndexDirectoryList();
+        void setCheckBoxStateProgrammatically(QCheckBox* checkbox, bool checked);
 
     signals:
         void newDownloadProgress(QString info);

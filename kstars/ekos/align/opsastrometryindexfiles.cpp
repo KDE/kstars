@@ -57,7 +57,7 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
 
     for (auto &checkBox : checkboxes)
     {
-        connect(checkBox, &QCheckBox::clicked, this, &OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles);
+        connect(checkBox, &QCheckBox::toggled, this, &OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles);
     }
 
     QList<QProgressBar *> progressBars = findChildren<QProgressBar *>();
@@ -226,13 +226,20 @@ void OpsAstrometryIndexFiles::downloadSingleIndexFile(const QString &indexFileNa
     slotUpdate();
 }
 
+void OpsAstrometryIndexFiles::setCheckBoxStateProgrammatically(QCheckBox* checkbox, bool checked)
+{
+    checkbox->blockSignals(true);   // Temporarily block signals
+    checkbox->setChecked(checked);  // Update checkbox state
+    checkbox->blockSignals(false);  // Re-enable signals
+}
+
 void OpsAstrometryIndexFiles::slotUpdate()
 {
     QList<QCheckBox *> checkboxes = findChildren<QCheckBox *>();
 
     for (auto &checkBox : checkboxes)
     {
-        checkBox->setChecked(false);
+        setCheckBoxStateProgrammatically(checkBox, false);
     }
 
     if(indexLocations->count() == 0)
@@ -292,7 +299,7 @@ void OpsAstrometryIndexFiles::slotUpdate()
                 indexName                = indexName.replace('-', '_').left(10);
                 QCheckBox *indexCheckBox = findChild<QCheckBox *>(indexName);
                 if (indexCheckBox)
-                    indexCheckBox->setChecked(true);
+                    setCheckBoxStateProgrammatically(indexCheckBox, true);
             }
         }
     }
@@ -622,6 +629,10 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
 {
     QCheckBox *checkBox = qobject_cast<QCheckBox *>(QObject::sender());
 
+    // check to prevent unwanted triggers during initialization
+    if (!isVisible() || !checkBox)
+        return;
+
     if (indexLocations->count() == 0)
         return;
 
@@ -660,11 +671,13 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                             i18n("Install File(s)"), KStandardGuiItem::cont(),
                             KStandardGuiItem::cancel(), "install_index_files_warning"))
                 {
+                    checkBox->blockSignals(true);
+                    checkBox->setChecked(false);
+                    checkBox->blockSignals(false);
                     slotUpdate();
                     return;
                 }
             }
-            checkBox->setChecked(!checked);
             if (astrometryIndicesAreAvailable())
             {
                 QString BASE_URL;
@@ -696,6 +709,9 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
             }
             else
             {
+                checkBox->blockSignals(true);
+                checkBox->setChecked(false);
+                checkBox->blockSignals(false);
                 KSNotification::sorry(i18n("Could not contact Astrometry Index Server."), i18n("Error"), 10);
             }
         }
