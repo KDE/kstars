@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-15 02:01+0000\n"
+"POT-Creation-Date: 2025-05-16 02:01+0000\n"
 "PO-Revision-Date: 2025-05-11 13:14+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -587,14 +587,14 @@ msgstr "Annulla"
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:506
-#: ekos/align/opsastrometryindexfiles.cpp:544
-#: ekos/align/opsastrometryindexfiles.cpp:558
-#: ekos/align/opsastrometryindexfiles.cpp:578
-#: ekos/align/opsastrometryindexfiles.cpp:636
-#: ekos/align/opsastrometryindexfiles.cpp:699
-#: ekos/align/opsastrometryindexfiles.cpp:720
-#: ekos/align/opsastrometryindexfiles.cpp:730 ekos/analyze/analyze.cpp:140
+#: ekos/align/opsastrometryindexfiles.cpp:513
+#: ekos/align/opsastrometryindexfiles.cpp:551
+#: ekos/align/opsastrometryindexfiles.cpp:565
+#: ekos/align/opsastrometryindexfiles.cpp:585
+#: ekos/align/opsastrometryindexfiles.cpp:647
+#: ekos/align/opsastrometryindexfiles.cpp:715
+#: ekos/align/opsastrometryindexfiles.cpp:736
+#: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1307 ekos/manager.cpp:1322 ekos/manager.cpp:1352
 #: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
@@ -606,7 +606,7 @@ msgid "Error"
 msgstr "Errore"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
-#: ekos/align/opsastrometryindexfiles.cpp:643
+#: ekos/align/opsastrometryindexfiles.cpp:654
 #: ekos/scheduler/framingassistantui.cpp:788
 #, kde-format
 msgid "Sorry"
@@ -2460,7 +2460,7 @@ msgstr "Sconosciuto"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_35)
-#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:304
+#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:311
 #: ekos/align/opsastrometryindexfiles.ui:201
 #, kde-format
 msgid "Optional"
@@ -8626,18 +8626,18 @@ msgid "No index file directories configured."
 msgstr "Non è stata trovata alcuna cartella dei file indice configurata."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:636
+#: ekos/align/opsastrometryindexfiles.cpp:647
 #, kde-format
 msgid "No writable index file directory found."
 msgstr "Non è stata trovata alcuna cartella dei file indice scrivibile."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:699
+#: ekos/align/opsastrometryindexfiles.cpp:715
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "Non è stato possibile contattare il server dell'astrometria."
 
-#: ekos/align/opsastrometryindexfiles.cpp:261
+#: ekos/align/opsastrometryindexfiles.cpp:268
 #, kde-format
 msgid ""
 "Downloads Disabled, this is not a directory, it is a list of all index files."
@@ -8645,40 +8645,40 @@ msgstr ""
 "Scaricamenti disabilitati, questa non è una cartella, è un elenco di tutti i "
 "file indice."
 
-#: ekos/align/opsastrometryindexfiles.cpp:271
+#: ekos/align/opsastrometryindexfiles.cpp:278
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
 msgstr "Scaricamenti abilitati, la cartella esiste ed è scrivibile."
 
-#: ekos/align/opsastrometryindexfiles.cpp:273
+#: ekos/align/opsastrometryindexfiles.cpp:280
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
 msgstr "Scaricamenti disabilitati, problema con i permessi della cartella."
 
-#: ekos/align/opsastrometryindexfiles.cpp:275
+#: ekos/align/opsastrometryindexfiles.cpp:282
 #, kde-format
 msgid "Downloads Disabled, directory does not exist."
 msgstr "Scaricamenti disabilitati, la cartella non esiste."
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: ekos/align/opsastrometryindexfiles.cpp:324
-#: ekos/align/opsastrometryindexfiles.cpp:329
-#: ekos/align/opsastrometryindexfiles.cpp:334
+#: ekos/align/opsastrometryindexfiles.cpp:331
+#: ekos/align/opsastrometryindexfiles.cpp:336
+#: ekos/align/opsastrometryindexfiles.cpp:341
 #: ekos/align/opsastrometryindexfiles.ui:93
 #, kde-format
 msgid "Required"
 msgstr "Obbligatorio"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
-#: ekos/align/opsastrometryindexfiles.cpp:342
-#: ekos/align/opsastrometryindexfiles.cpp:347
-#: ekos/align/opsastrometryindexfiles.cpp:352
+#: ekos/align/opsastrometryindexfiles.cpp:349
+#: ekos/align/opsastrometryindexfiles.cpp:354
+#: ekos/align/opsastrometryindexfiles.cpp:359
 #: ekos/align/opsastrometryindexfiles.ui:147
 #, kde-format
 msgid "Recommended"
 msgstr "Raccomandato"
 
-#: ekos/align/opsastrometryindexfiles.cpp:505
+#: ekos/align/opsastrometryindexfiles.cpp:512
 #, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
@@ -8687,28 +8687,28 @@ msgstr ""
 "Tempo scaduto per lo scaricamento: o la rete non è abbastanza veloce o il "
 "file non è accessibile oppure non sei connesso."
 
-#: ekos/align/opsastrometryindexfiles.cpp:523
+#: ekos/align/opsastrometryindexfiles.cpp:530
 #, kde-format
 msgid "%1 download cancelled."
 msgstr "%1 dello scaricamento annullato."
 
-#: ekos/align/opsastrometryindexfiles.cpp:558
+#: ekos/align/opsastrometryindexfiles.cpp:565
 #, kde-format
 msgid "File Write Error"
 msgstr "Errore di scrittura su file"
 
-#: ekos/align/opsastrometryindexfiles.cpp:572
+#: ekos/align/opsastrometryindexfiles.cpp:579
 #, kde-format
 msgid "%1 download complete."
 msgstr "%1 dello scaricamento completato."
 
-#: ekos/align/opsastrometryindexfiles.cpp:578
-#: ekos/align/opsastrometryindexfiles.cpp:730
+#: ekos/align/opsastrometryindexfiles.cpp:585
+#: ekos/align/opsastrometryindexfiles.cpp:746
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "Errore sui permessi della cartella dell'astrometria"
 
-#: ekos/align/opsastrometryindexfiles.cpp:643
+#: ekos/align/opsastrometryindexfiles.cpp:654
 #, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
@@ -8717,7 +8717,7 @@ msgstr ""
 "La cartella selezionata dei file indice non esiste; creala o scegline "
 "un'altra."
 
-#: ekos/align/opsastrometryindexfiles.cpp:658
+#: ekos/align/opsastrometryindexfiles.cpp:669
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8726,22 +8726,22 @@ msgstr ""
 "Il file %1 esiste già in un'altra cartella. Vuoi davvero scaricarlo anche in "
 "questa?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:660
+#: ekos/align/opsastrometryindexfiles.cpp:671
 #, kde-format
 msgid "Install File(s)"
 msgstr "Installa file"
 
-#: ekos/align/opsastrometryindexfiles.cpp:705
+#: ekos/align/opsastrometryindexfiles.cpp:721
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Vuoi davvero eliminare questi file indice? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:706
+#: ekos/align/opsastrometryindexfiles.cpp:722
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Elimina file"
 
-#: ekos/align/opsastrometryindexfiles.cpp:720
+#: ekos/align/opsastrometryindexfiles.cpp:736
 #, kde-format
 msgid "File Delete Error"
 msgstr "Errore nell'eliminazione del file"

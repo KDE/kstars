@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-15 02:01+0000\n"
-"PO-Revision-Date: 2025-05-13 19:58+0300\n"
+"POT-Creation-Date: 2025-05-16 02:01+0000\n"
+"PO-Revision-Date: 2025-05-15 13:28+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -583,14 +583,14 @@ msgstr "İptal"
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:506
-#: ekos/align/opsastrometryindexfiles.cpp:544
-#: ekos/align/opsastrometryindexfiles.cpp:558
-#: ekos/align/opsastrometryindexfiles.cpp:578
-#: ekos/align/opsastrometryindexfiles.cpp:636
-#: ekos/align/opsastrometryindexfiles.cpp:699
-#: ekos/align/opsastrometryindexfiles.cpp:720
-#: ekos/align/opsastrometryindexfiles.cpp:730 ekos/analyze/analyze.cpp:140
+#: ekos/align/opsastrometryindexfiles.cpp:513
+#: ekos/align/opsastrometryindexfiles.cpp:551
+#: ekos/align/opsastrometryindexfiles.cpp:565
+#: ekos/align/opsastrometryindexfiles.cpp:585
+#: ekos/align/opsastrometryindexfiles.cpp:647
+#: ekos/align/opsastrometryindexfiles.cpp:715
+#: ekos/align/opsastrometryindexfiles.cpp:736
+#: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1307 ekos/manager.cpp:1322 ekos/manager.cpp:1352
 #: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
@@ -602,7 +602,7 @@ msgid "Error"
 msgstr "Hata"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
-#: ekos/align/opsastrometryindexfiles.cpp:643
+#: ekos/align/opsastrometryindexfiles.cpp:654
 #: ekos/scheduler/framingassistantui.cpp:788
 #, kde-format
 msgid "Sorry"
@@ -2436,7 +2436,7 @@ msgstr "Bilinmiyor"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_35)
-#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:304
+#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:311
 #: ekos/align/opsastrometryindexfiles.ui:201
 #, kde-format
 msgid "Optional"
@@ -8548,18 +8548,18 @@ msgid "No index file directories configured."
 msgstr "Yapılandırılmış indeks dosyası dizini yok."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:636
+#: ekos/align/opsastrometryindexfiles.cpp:647
 #, kde-format
 msgid "No writable index file directory found."
 msgstr "Bulunan yazılabilir indeks dosyası dizini yok."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:699
+#: ekos/align/opsastrometryindexfiles.cpp:715
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "Astrometri indeksi sunucusuyla bağlantı kurulamadı."
 
-#: ekos/align/opsastrometryindexfiles.cpp:261
+#: ekos/align/opsastrometryindexfiles.cpp:268
 #, kde-format
 msgid ""
 "Downloads Disabled, this is not a directory, it is a list of all index files."
@@ -8567,40 +8567,40 @@ msgstr ""
 "İndirmeler devre dışı; bu bir dizin değil, tüm indeks dosyalarının "
 "listesidir."
 
-#: ekos/align/opsastrometryindexfiles.cpp:271
+#: ekos/align/opsastrometryindexfiles.cpp:278
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
 msgstr "İndirmeler etkinleştirildi; dizin var ve yazılabilir."
 
-#: ekos/align/opsastrometryindexfiles.cpp:273
+#: ekos/align/opsastrometryindexfiles.cpp:280
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
 msgstr "İndirmeler devre dışı; dizin izinleri sorunu."
 
-#: ekos/align/opsastrometryindexfiles.cpp:275
+#: ekos/align/opsastrometryindexfiles.cpp:282
 #, kde-format
 msgid "Downloads Disabled, directory does not exist."
 msgstr "İndirmeler devre dışı; dizin yok."
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: ekos/align/opsastrometryindexfiles.cpp:324
-#: ekos/align/opsastrometryindexfiles.cpp:329
-#: ekos/align/opsastrometryindexfiles.cpp:334
+#: ekos/align/opsastrometryindexfiles.cpp:331
+#: ekos/align/opsastrometryindexfiles.cpp:336
+#: ekos/align/opsastrometryindexfiles.cpp:341
 #: ekos/align/opsastrometryindexfiles.ui:93
 #, kde-format
 msgid "Required"
 msgstr "Gerekli"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
-#: ekos/align/opsastrometryindexfiles.cpp:342
-#: ekos/align/opsastrometryindexfiles.cpp:347
-#: ekos/align/opsastrometryindexfiles.cpp:352
+#: ekos/align/opsastrometryindexfiles.cpp:349
+#: ekos/align/opsastrometryindexfiles.cpp:354
+#: ekos/align/opsastrometryindexfiles.cpp:359
 #: ekos/align/opsastrometryindexfiles.ui:147
 #, kde-format
 msgid "Recommended"
 msgstr "Önerilen"
 
-#: ekos/align/opsastrometryindexfiles.cpp:505
+#: ekos/align/opsastrometryindexfiles.cpp:512
 #, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
@@ -8609,28 +8609,28 @@ msgstr ""
 "İndirme zaman aşımına uğradı. Ya ağ yeterince hızlı değil ya dosyaya "
 "erişilemiyor ya da bağlı değilsiniz."
 
-#: ekos/align/opsastrometryindexfiles.cpp:523
+#: ekos/align/opsastrometryindexfiles.cpp:530
 #, kde-format
 msgid "%1 download cancelled."
 msgstr "%1 indirmesi iptal edildi."
 
-#: ekos/align/opsastrometryindexfiles.cpp:558
+#: ekos/align/opsastrometryindexfiles.cpp:565
 #, kde-format
 msgid "File Write Error"
 msgstr "Dosya yazma hatası"
 
-#: ekos/align/opsastrometryindexfiles.cpp:572
+#: ekos/align/opsastrometryindexfiles.cpp:579
 #, kde-format
 msgid "%1 download complete."
 msgstr "%1 indirmesi tamamlandı."
 
-#: ekos/align/opsastrometryindexfiles.cpp:578
-#: ekos/align/opsastrometryindexfiles.cpp:730
+#: ekos/align/opsastrometryindexfiles.cpp:585
+#: ekos/align/opsastrometryindexfiles.cpp:746
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "Astrometri klasörü izinleri hatası"
 
-#: ekos/align/opsastrometryindexfiles.cpp:643
+#: ekos/align/opsastrometryindexfiles.cpp:654
 #, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
@@ -8639,7 +8639,7 @@ msgstr ""
 "Seçili indeks dosyası dizini yok. Lütfen ya oluşturun ya da başka bir tane "
 "seçin."
 
-#: ekos/align/opsastrometryindexfiles.cpp:658
+#: ekos/align/opsastrometryindexfiles.cpp:669
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8648,22 +8648,22 @@ msgstr ""
 "%1 dosyası halihazırda başka bir dizinde var. Bu dizine de indirmek "
 "istediğinizden emin misiniz?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:660
+#: ekos/align/opsastrometryindexfiles.cpp:671
 #, kde-format
 msgid "Install File(s)"
 msgstr "Dosyaları Kur"
 
-#: ekos/align/opsastrometryindexfiles.cpp:705
+#: ekos/align/opsastrometryindexfiles.cpp:721
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Bu indeks dosyalarını silmek istediğinizden emin misiniz? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:706
+#: ekos/align/opsastrometryindexfiles.cpp:722
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Dosyaları Sil"
 
-#: ekos/align/opsastrometryindexfiles.cpp:720
+#: ekos/align/opsastrometryindexfiles.cpp:736
 #, kde-format
 msgid "File Delete Error"
 msgstr "Dosya Silme Hatası"
@@ -28243,23 +28243,19 @@ msgstr "Hava durumunu bekleme süresi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/scheduler/opsoffsetsettings.ui:160
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait this many seconds after autofocus completes "
-#| "before resuming guiding.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds when detecting weather alert "
 "before starting observatory shutdown.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Kendiliğinden odaklama tamamlandıktan sonra "
-"kılavuzluğu sürdürmeden önce birkaç saniye bekleyin.</p></body></html>"
+"<html><head/><body><p>Gözlemevi kapanmasını başlatmadan önce hava durumu "
+"ikazlarını algılarken bu kadar saniye bekleyin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/opsoffsetsettings.ui:163
-#, fuzzy, kde-format
-#| msgid "Weather Alert"
+#, kde-format
 msgid "Weather Alert  Shutdown Delay:"
-msgstr "Hava durumu ikazı"
+msgstr "Hava durumu ikazı kapanma gecikmesi:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -30239,10 +30235,11 @@ msgid "Weather has improved. Resuming operations."
 msgstr "Hava durumu artık daha iyi. İşlemler sürdürülüyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:4159
-#, fuzzy, kde-format
-#| msgid "Weather alert detected. Starting soft shutdown procedure."
+#, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
-msgstr "Hava durumu ikazı algılandı. Yumuşak kapatma prosedürü başlatılıyor."
+msgstr ""
+"Hava durumu ikazı algılandı. %1 saniye içinde yumuşak kapatma prosedürü "
+"başlatılıyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:4185
 #, kde-format
@@ -40992,15 +40989,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeatherShutdownDelay), group (Scheduler)
 #: kstars.kcfg:3361
-#, fuzzy, kde-format
-#| msgid ""
-#| "Wait this many seconds after guiding is resumed before starting capture."
+#, kde-format
 msgid ""
 "Wait this many seconds when detecting weather alert before starting "
 "observatory shutdown."
 msgstr ""
-"Yakalama işlemine başlamadan önce, kılavuzluk sürdürüldükten sonra bu kadar "
-"saniye bekle"
+"Gözlemevi kapanmasını başlatmadan önce hava durumu ikazını algılarken bu "
+"kadar saniye bekleyin."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3365

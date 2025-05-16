@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-15 02:01+0000\n"
+"POT-Creation-Date: 2025-05-16 02:01+0000\n"
 "PO-Revision-Date: 2025-05-02 23:03+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -587,14 +587,14 @@ msgstr "Cancel·la"
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:506
-#: ekos/align/opsastrometryindexfiles.cpp:544
-#: ekos/align/opsastrometryindexfiles.cpp:558
-#: ekos/align/opsastrometryindexfiles.cpp:578
-#: ekos/align/opsastrometryindexfiles.cpp:636
-#: ekos/align/opsastrometryindexfiles.cpp:699
-#: ekos/align/opsastrometryindexfiles.cpp:720
-#: ekos/align/opsastrometryindexfiles.cpp:730 ekos/analyze/analyze.cpp:140
+#: ekos/align/opsastrometryindexfiles.cpp:513
+#: ekos/align/opsastrometryindexfiles.cpp:551
+#: ekos/align/opsastrometryindexfiles.cpp:565
+#: ekos/align/opsastrometryindexfiles.cpp:585
+#: ekos/align/opsastrometryindexfiles.cpp:647
+#: ekos/align/opsastrometryindexfiles.cpp:715
+#: ekos/align/opsastrometryindexfiles.cpp:736
+#: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1307 ekos/manager.cpp:1322 ekos/manager.cpp:1352
 #: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
@@ -606,7 +606,7 @@ msgid "Error"
 msgstr "S'ha produït un error"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
-#: ekos/align/opsastrometryindexfiles.cpp:643
+#: ekos/align/opsastrometryindexfiles.cpp:654
 #: ekos/scheduler/framingassistantui.cpp:788
 #, kde-format
 msgid "Sorry"
@@ -2466,7 +2466,7 @@ msgstr "Desconeguda"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_35)
-#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:304
+#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:311
 #: ekos/align/opsastrometryindexfiles.ui:201
 #, kde-format
 msgid "Optional"
@@ -8708,18 +8708,18 @@ msgid "No index file directories configured."
 msgstr "No s'ha configurat cap directori de fitxers d'índex."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:636
+#: ekos/align/opsastrometryindexfiles.cpp:647
 #, kde-format
 msgid "No writable index file directory found."
 msgstr "No s'ha trobat un directori de fitxers d'índex on s'hi puga escriure."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:699
+#: ekos/align/opsastrometryindexfiles.cpp:715
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "No s'ha pogut connectar amb el servidor d'índex de l'astrometria."
 
-#: ekos/align/opsastrometryindexfiles.cpp:261
+#: ekos/align/opsastrometryindexfiles.cpp:268
 #, kde-format
 msgid ""
 "Downloads Disabled, this is not a directory, it is a list of all index files."
@@ -8727,42 +8727,42 @@ msgstr ""
 "Les baixades estan inhabilitades, no és cap directori, sinó una llista de "
 "tots els fitxers d'índex."
 
-#: ekos/align/opsastrometryindexfiles.cpp:271
+#: ekos/align/opsastrometryindexfiles.cpp:278
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
 msgstr ""
 "Les baixades estan habilitades, el directori existix i s'hi pot escriure."
 
-#: ekos/align/opsastrometryindexfiles.cpp:273
+#: ekos/align/opsastrometryindexfiles.cpp:280
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
 msgstr ""
 "Les baixades estan inhabilitades, problema de permisos amb el directori."
 
-#: ekos/align/opsastrometryindexfiles.cpp:275
+#: ekos/align/opsastrometryindexfiles.cpp:282
 #, kde-format
 msgid "Downloads Disabled, directory does not exist."
 msgstr "Les baixades estan inhabilitades, el directori no existix."
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: ekos/align/opsastrometryindexfiles.cpp:324
-#: ekos/align/opsastrometryindexfiles.cpp:329
-#: ekos/align/opsastrometryindexfiles.cpp:334
+#: ekos/align/opsastrometryindexfiles.cpp:331
+#: ekos/align/opsastrometryindexfiles.cpp:336
+#: ekos/align/opsastrometryindexfiles.cpp:341
 #: ekos/align/opsastrometryindexfiles.ui:93
 #, kde-format
 msgid "Required"
 msgstr "Requerit"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
-#: ekos/align/opsastrometryindexfiles.cpp:342
-#: ekos/align/opsastrometryindexfiles.cpp:347
-#: ekos/align/opsastrometryindexfiles.cpp:352
+#: ekos/align/opsastrometryindexfiles.cpp:349
+#: ekos/align/opsastrometryindexfiles.cpp:354
+#: ekos/align/opsastrometryindexfiles.cpp:359
 #: ekos/align/opsastrometryindexfiles.ui:147
 #, kde-format
 msgid "Recommended"
 msgstr "Recomanat"
 
-#: ekos/align/opsastrometryindexfiles.cpp:505
+#: ekos/align/opsastrometryindexfiles.cpp:512
 #, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
@@ -8771,29 +8771,29 @@ msgstr ""
 "La baixada ha expirat. O la xarxa no és prou ràpida, no es pot accedir al "
 "fitxer, o no hi ha connexió."
 
-#: ekos/align/opsastrometryindexfiles.cpp:523
+#: ekos/align/opsastrometryindexfiles.cpp:530
 #, kde-format
 msgid "%1 download cancelled."
 msgstr "S'ha cancel·lat la baixada de %1."
 
 # skip-rule: k-Alt-1
-#: ekos/align/opsastrometryindexfiles.cpp:558
+#: ekos/align/opsastrometryindexfiles.cpp:565
 #, kde-format
 msgid "File Write Error"
 msgstr "S'ha produït un error mentre s'escrivia en el fitxer"
 
-#: ekos/align/opsastrometryindexfiles.cpp:572
+#: ekos/align/opsastrometryindexfiles.cpp:579
 #, kde-format
 msgid "%1 download complete."
 msgstr "S'ha completat la baixada de %1."
 
-#: ekos/align/opsastrometryindexfiles.cpp:578
-#: ekos/align/opsastrometryindexfiles.cpp:730
+#: ekos/align/opsastrometryindexfiles.cpp:585
+#: ekos/align/opsastrometryindexfiles.cpp:746
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "S'ha produït un error de permisos en la carpeta de l'astrometria"
 
-#: ekos/align/opsastrometryindexfiles.cpp:643
+#: ekos/align/opsastrometryindexfiles.cpp:654
 #, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
@@ -8802,7 +8802,7 @@ msgstr ""
 "El directori seleccionat per als fitxers d'índex de l'astrometria no "
 "existix. Creeu-lo o trieu-ne un altre."
 
-#: ekos/align/opsastrometryindexfiles.cpp:658
+#: ekos/align/opsastrometryindexfiles.cpp:669
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8811,22 +8811,22 @@ msgstr ""
 "El fitxer %1 ja existix en un altre directori. Segur que també el voleu "
 "baixar a este directori?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:660
+#: ekos/align/opsastrometryindexfiles.cpp:671
 #, kde-format
 msgid "Install File(s)"
 msgstr "Instal·la els fitxers"
 
-#: ekos/align/opsastrometryindexfiles.cpp:705
+#: ekos/align/opsastrometryindexfiles.cpp:721
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Segur que voleu eliminar estos fitxers d'índex? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:706
+#: ekos/align/opsastrometryindexfiles.cpp:722
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Suprimix els fitxers"
 
-#: ekos/align/opsastrometryindexfiles.cpp:720
+#: ekos/align/opsastrometryindexfiles.cpp:736
 #, kde-format
 msgid "File Delete Error"
 msgstr "S'ha produït un error en suprimir un fitxer"

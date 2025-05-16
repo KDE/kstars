@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-15 02:01+0000\n"
-"PO-Revision-Date: 2025-05-13 19:56+0100\n"
+"POT-Creation-Date: 2025-05-16 02:01+0000\n"
+"PO-Revision-Date: 2025-05-15 17:17+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -576,14 +576,14 @@ msgstr "Cancelar"
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:506
-#: ekos/align/opsastrometryindexfiles.cpp:544
-#: ekos/align/opsastrometryindexfiles.cpp:558
-#: ekos/align/opsastrometryindexfiles.cpp:578
-#: ekos/align/opsastrometryindexfiles.cpp:636
-#: ekos/align/opsastrometryindexfiles.cpp:699
-#: ekos/align/opsastrometryindexfiles.cpp:720
-#: ekos/align/opsastrometryindexfiles.cpp:730 ekos/analyze/analyze.cpp:140
+#: ekos/align/opsastrometryindexfiles.cpp:513
+#: ekos/align/opsastrometryindexfiles.cpp:551
+#: ekos/align/opsastrometryindexfiles.cpp:565
+#: ekos/align/opsastrometryindexfiles.cpp:585
+#: ekos/align/opsastrometryindexfiles.cpp:647
+#: ekos/align/opsastrometryindexfiles.cpp:715
+#: ekos/align/opsastrometryindexfiles.cpp:736
+#: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1307 ekos/manager.cpp:1322 ekos/manager.cpp:1352
 #: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
@@ -595,7 +595,7 @@ msgid "Error"
 msgstr "Error"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
-#: ekos/align/opsastrometryindexfiles.cpp:643
+#: ekos/align/opsastrometryindexfiles.cpp:654
 #: ekos/scheduler/framingassistantui.cpp:788
 #, kde-format
 msgid "Sorry"
@@ -2446,7 +2446,7 @@ msgstr "Desconocido"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_35)
-#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:304
+#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:311
 #: ekos/align/opsastrometryindexfiles.ui:201
 #, kde-format
 msgid "Optional"
@@ -8614,7 +8614,7 @@ msgid "No index file directories configured."
 msgstr "No se han configurado directorios de archivos de índice."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:636
+#: ekos/align/opsastrometryindexfiles.cpp:647
 #, kde-format
 msgid "No writable index file directory found."
 msgstr ""
@@ -8622,12 +8622,12 @@ msgstr ""
 "escritura."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:699
+#: ekos/align/opsastrometryindexfiles.cpp:715
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "No se puede contactar con el servidor índice de Astrometry."
 
-#: ekos/align/opsastrometryindexfiles.cpp:261
+#: ekos/align/opsastrometryindexfiles.cpp:268
 #, kde-format
 msgid ""
 "Downloads Disabled, this is not a directory, it is a list of all index files."
@@ -8635,40 +8635,40 @@ msgstr ""
 "Descargas desactivadas: esto no es un directorio, sino una lista de todos "
 "los archivos de índice."
 
-#: ekos/align/opsastrometryindexfiles.cpp:271
+#: ekos/align/opsastrometryindexfiles.cpp:278
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
 msgstr "Descargas activadas: el directorio existe y se puede escribir en él."
 
-#: ekos/align/opsastrometryindexfiles.cpp:273
+#: ekos/align/opsastrometryindexfiles.cpp:280
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
 msgstr "Descargas desactivadas: hay problemas con los permisos del directorio."
 
-#: ekos/align/opsastrometryindexfiles.cpp:275
+#: ekos/align/opsastrometryindexfiles.cpp:282
 #, kde-format
 msgid "Downloads Disabled, directory does not exist."
 msgstr "Descargas desactivadas: el directorio no existe."
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: ekos/align/opsastrometryindexfiles.cpp:324
-#: ekos/align/opsastrometryindexfiles.cpp:329
-#: ekos/align/opsastrometryindexfiles.cpp:334
+#: ekos/align/opsastrometryindexfiles.cpp:331
+#: ekos/align/opsastrometryindexfiles.cpp:336
+#: ekos/align/opsastrometryindexfiles.cpp:341
 #: ekos/align/opsastrometryindexfiles.ui:93
 #, kde-format
 msgid "Required"
 msgstr "Necesario"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
-#: ekos/align/opsastrometryindexfiles.cpp:342
-#: ekos/align/opsastrometryindexfiles.cpp:347
-#: ekos/align/opsastrometryindexfiles.cpp:352
+#: ekos/align/opsastrometryindexfiles.cpp:349
+#: ekos/align/opsastrometryindexfiles.cpp:354
+#: ekos/align/opsastrometryindexfiles.cpp:359
 #: ekos/align/opsastrometryindexfiles.ui:147
 #, kde-format
 msgid "Recommended"
 msgstr "Recomendado"
 
-#: ekos/align/opsastrometryindexfiles.cpp:505
+#: ekos/align/opsastrometryindexfiles.cpp:512
 #, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
@@ -8677,28 +8677,28 @@ msgstr ""
 "Se ha agotado el tiempo de la descarga. La red no es lo suficientemente "
 "rápida, no se puede acceder al archivo o no está conectado."
 
-#: ekos/align/opsastrometryindexfiles.cpp:523
+#: ekos/align/opsastrometryindexfiles.cpp:530
 #, kde-format
 msgid "%1 download cancelled."
 msgstr "Descarga de %1 cancelada."
 
-#: ekos/align/opsastrometryindexfiles.cpp:558
+#: ekos/align/opsastrometryindexfiles.cpp:565
 #, kde-format
 msgid "File Write Error"
 msgstr "Error de escritura de archivo"
 
-#: ekos/align/opsastrometryindexfiles.cpp:572
+#: ekos/align/opsastrometryindexfiles.cpp:579
 #, kde-format
 msgid "%1 download complete."
 msgstr "Descarga de %1 completada."
 
-#: ekos/align/opsastrometryindexfiles.cpp:578
-#: ekos/align/opsastrometryindexfiles.cpp:730
+#: ekos/align/opsastrometryindexfiles.cpp:585
+#: ekos/align/opsastrometryindexfiles.cpp:746
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "Error en permisos de la carpeta de Astrometry"
 
-#: ekos/align/opsastrometryindexfiles.cpp:643
+#: ekos/align/opsastrometryindexfiles.cpp:654
 #, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
@@ -8707,7 +8707,7 @@ msgstr ""
 "El directorio de archivos de índice seleccionado no existe. Créelo o escoja "
 "otro."
 
-#: ekos/align/opsastrometryindexfiles.cpp:658
+#: ekos/align/opsastrometryindexfiles.cpp:669
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8716,22 +8716,22 @@ msgstr ""
 "El archivo %1 existe en otro directorio. ¿Seguro que quiere descargarlo "
 "también en este directorio?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:660
+#: ekos/align/opsastrometryindexfiles.cpp:671
 #, kde-format
 msgid "Install File(s)"
 msgstr "Instalar archivo(s)"
 
-#: ekos/align/opsastrometryindexfiles.cpp:705
+#: ekos/align/opsastrometryindexfiles.cpp:721
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "¿Seguro que desea borrar estos archivos de índice? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:706
+#: ekos/align/opsastrometryindexfiles.cpp:722
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Borrar archivos"
 
-#: ekos/align/opsastrometryindexfiles.cpp:720
+#: ekos/align/opsastrometryindexfiles.cpp:736
 #, kde-format
 msgid "File Delete Error"
 msgstr "Error de borrado de archivo"
@@ -21623,8 +21623,8 @@ msgid ""
 "<html><head/><body><p>Wait this many seconds after autofocus completes "
 "before resuming guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Esperar estos segundos tras después de que se complete "
-"el enfoque automático antes de reanudar el guiado..</p></body></html>"
+"<html><head/><body><p>Esperar estos segundos tras completar el enfoque "
+"automático antes de reanudar el guiado.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/opsfocussettings.ui:147
@@ -28684,23 +28684,19 @@ msgstr "Período de gracia meteorológica"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/scheduler/opsoffsetsettings.ui:160
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait this many seconds after autofocus completes "
-#| "before resuming guiding.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds when detecting weather alert "
 "before starting observatory shutdown.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Esperar estos segundos tras después de que se complete "
-"el enfoque automático antes de reanudar el guiado..</p></body></html>"
+"<html><head/><body><p>Esperar estos segundos al detectar una alerta "
+"meteorológica antes de iniciar el apagado del observatorio.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/opsoffsetsettings.ui:163
-#, fuzzy, kde-format
-#| msgid "Weather Alert"
+#, kde-format
 msgid "Weather Alert  Shutdown Delay:"
-msgstr "Alerta meteorológica"
+msgstr "Demora de apagado para alerta meteorológica:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -30741,11 +30737,11 @@ msgstr ""
 "Las condiciones meteorológicas han mejorado. Se reanudan las operaciones."
 
 #: ekos/scheduler/schedulerprocess.cpp:4159
-#, fuzzy, kde-format
-#| msgid "Weather alert detected. Starting soft shutdown procedure."
+#, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
-"Alerta meteorológica detectada. Iniciando procedimiento de apagado suave."
+"Alerta meteorológica detectada. Iniciando procedimiento de apagado suave en "
+"%1 segundos."
 
 #: ekos/scheduler/schedulerprocess.cpp:4185
 #, kde-format
@@ -41663,14 +41659,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeatherShutdownDelay), group (Scheduler)
 #: kstars.kcfg:3361
-#, fuzzy, kde-format
-#| msgid ""
-#| "Wait this many seconds after guiding is resumed before starting capture."
+#, kde-format
 msgid ""
 "Wait this many seconds when detecting weather alert before starting "
 "observatory shutdown."
 msgstr ""
-"Esperar estos segundos tras reanudar el guiado antes de empezar a capturar."
+"Esperar estos segundos al detectar alertas meteorológicas antes de iniciar "
+"el apagado del observatorio."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3365
