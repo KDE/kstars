@@ -104,16 +104,14 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         {
             return opticalTrainCombo->currentText();
         }
-        void setOpticalTrain(const QString &value)
-        {
-            opticalTrainCombo->setCurrentText(value);
-        }
+        void setOpticalTrain(const QString &value, bool enabled = true);
 
         /**
          * @brief stop Abort all dark job captures.
          */
         void stop();
-    protected:
+
+protected:
         virtual void closeEvent(QCloseEvent *ev) override;
 
     signals:

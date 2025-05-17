@@ -154,7 +154,7 @@ class Capture : public QWidget, public Ui::Capture
              * @param lead lead or follower job?
              * @param targetName override the target in the sequence queue file (necessary for using the target of the scheduler)
              */
-        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, QString train = "", bool isLead = true, QString targetName = "");
+        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, const QString &train = "", bool isLead = true, const QString &targetName = "");
 
         /** DBUS interface function.
              * Saves the Sequence Queue to the Ekos Sequence Queue file.
@@ -401,12 +401,25 @@ class Capture : public QWidget, public Ui::Capture
         const QSharedPointer<Camera> mainCamera() const;
 
         /**
-         * @brief find the camera using the given train
+         * @brief find the camera ID using the given train
          * @param train optical train name
          * @param addIfNecessary if true, add a new camera with the given train, if none uses this train
          * @return index in the lost of cameras (@see #camera(int))
          */
-        int findCamera(QString train, bool addIfNecessary);
+        int findCameraPosition(QString train, bool addIfNecessary);
+
+        /**
+         * @brief findCamera Find the camera that uses the given optical train.
+         * For lead jobs, this returns always the first camera tab. If the train of the first
+         * camera tab does not match, it is changed to the given train name.
+         * For follower jobs, the behavior is different. It searches through the tabs and
+         * searches for the first one that uses the given train. If none is found, a new camera
+         * tab with the given optical train is created.
+         * @param train train name
+         * @param isLead it this done for a lead or a follower job
+         */
+        const QSharedPointer<Camera> findCamera(const QString &train, bool isLead = false);
+
 
         // ////////////////////////////////////////////////////////////////////
         // Changing the devices used by Capture

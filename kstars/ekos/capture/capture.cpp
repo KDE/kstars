@@ -116,7 +116,7 @@ void Capture::setupOptions()
 
 void Capture::clearAutoFocusHFR(const QString &trainname)
 {
-    int pos = findCamera(trainname, false);
+    int pos = findCameraPosition(trainname, false);
     if (pos >= 0)
         camera(pos)->clearAutoFocusHFR();
 }
@@ -294,29 +294,12 @@ QString Capture::filter()
     return mainCamera()->FilterPosCombo->currentText();
 }
 
-bool Capture::loadSequenceQueue(const QString &fileURL, QString train, bool isLead, QString targetName)
-{
-    QSharedPointer<Camera> cam;
-    if (train == "")
-        cam = mainCamera();
-    else if (isLead)
-    {
-        // take the main camera, and select the train if necessary
-        if (mainCamera()->opticalTrain() != train)
-            mainCamera()->selectOpticalTrain(train);
 
-        cam = mainCamera();
-    }
-    else
-    {
-        // find the camera, create a new one if necessary
-        int pos = findCamera(train, true);
-        if (pos < 0)
-            return false;
-        else
-            cam = camera(pos);
-    }
-    // camera found, load the sequence queue
+
+bool Capture::loadSequenceQueue(const QString &fileURL, const QString &train, bool isLead, const QString &targetName)
+{
+    QSharedPointer<Camera> cam = findCamera(train, isLead);
+
     return cam->loadSequenceQueue(fileURL, targetName);
 }
 
@@ -367,7 +350,7 @@ void Capture::setCapturedFramesMap(const QString &signature, int count, QString 
     else
     {
         // find the camera, create a new one if necessary
-        int pos = findCamera(train, true);
+        int pos = findCameraPosition(train, true);
         if (pos < 0)
             qCWarning(KSTARS_EKOS_CAPTURE) << "Cannot set the captured frames map for train" << train;
         else
@@ -407,7 +390,7 @@ QString Capture::start(QString train)
     else
     {
         // find the camera, create a new one if necessary
-        int pos = findCamera(train, true);
+        int pos = findCameraPosition(train, true);
         if (pos < 0)
         {
             qCWarning(KSTARS_EKOS_CAPTURE) << "Cannot start capturing for train" << train;
@@ -430,7 +413,7 @@ void Capture::abort(QString train)
             cam->abort();
     else
     {
-        int pos = findCamera(train, false);
+        int pos = findCameraPosition(train, false);
         if (pos < 0)
         {
             qCWarning(KSTARS_EKOS_CAPTURE) << "Cannot abort capturing for train" << train;
@@ -502,14 +485,16 @@ const QSharedPointer<Camera> Capture::mainCamera() const
     {
         QSharedPointer<CaptureModuleState> cms;
         cms.reset(new CaptureModuleState());
-        // TODO FIXME
-        //return QSharedPointer<Camera>(new Camera(cms));
         return QSharedPointer<Camera>(new Camera(0));
     }
 }
 
-int Capture::findCamera(QString train, bool addIfNecessary)
+int Capture::findCameraPosition(QString train, bool addIfNecessary)
 {
+    // select main camera, if no train is given
+    if (train == "")
+        return 0;
+
     for (auto &cam : cameras())
     {
         if (cam->opticalTrain() == train)
@@ -525,6 +510,24 @@ int Capture::findCamera(QString train, bool addIfNecessary)
     }
     // nothing found
     return -1;
+}
+
+const QSharedPointer<Camera> Capture::findCamera(const QString &train, bool isLead)
+{
+    if (isLead)
+    {
+        // take the main camera, and select the train if necessary
+        if (train != "" && mainCamera()->opticalTrain() != train)
+            mainCamera()->selectOpticalTrain(train);
+
+        return mainCamera();
+    }
+    else
+    {
+        // find the camera, create a new one if necessary
+        int pos = findCameraPosition(train, true);
+        return camera(pos);
+    }
 }
 
 void Capture::setMountStatus(ISD::Mount::Status newState)

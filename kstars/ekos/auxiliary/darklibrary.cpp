@@ -578,9 +578,10 @@ void DarkLibrary::closeEvent(QCloseEvent *ev)
     Options::setUseSummaryPreview(m_RememberSummaryView);
     if (m_JobsGenerated)
     {
+        QSharedPointer<Camera> cam = m_CaptureModule->findCamera(opticalTrain());
         m_JobsGenerated = false;
-        m_CaptureModule->clearSequenceQueue();
-        m_CaptureModule->mainCamera()->setAllSettings(m_CaptureModuleSettings);
+        cam->clearSequenceQueue();
+        cam->setAllSettings(m_CaptureModuleSettings);
     }
 }
 
@@ -596,9 +597,10 @@ void DarkLibrary::setCompleted()
     Options::setUseSummaryPreview(m_RememberSummaryView);
     if (m_JobsGenerated)
     {
+        QSharedPointer<Camera> cam = m_CaptureModule->findCamera(opticalTrain());
         m_JobsGenerated = false;
-        m_CaptureModule->clearSequenceQueue();
-        m_CaptureModule->mainCamera()->setAllSettings(m_CaptureModuleSettings);
+        cam->clearSequenceQueue();
+        cam->setAllSettings(m_CaptureModuleSettings);
     }
 
     m_Camera->disconnect(this);
@@ -1112,13 +1114,14 @@ void DarkLibrary::countDarkTotalTime()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::generateDarkJobs()
 {
+    QSharedPointer<Camera> cam = m_CaptureModule->findCamera(opticalTrain());
     // Always clear sequence queue before starting
-    m_CaptureModule->clearSequenceQueue();
+    cam->clearSequenceQueue();
 
     if (m_JobsGenerated == false)
     {
         m_JobsGenerated = true;
-        m_CaptureModuleSettings = m_CaptureModule->mainCamera()->getAllSettings();
+        m_CaptureModuleSettings = cam->getAllSettings();
     }
 
     QList<double> temperatures;
@@ -1131,12 +1134,12 @@ void DarkLibrary::generateDarkJobs()
         }
 
         // Enforce temperature set
-        m_CaptureModule->mainCamera()->setForceTemperature(true);
+        cam->setForceTemperature(true);
     }
     else
     {
         // Disable temperature set
-        m_CaptureModule->mainCamera()->setForceTemperature(false);
+        cam->setForceTemperature(false);
         temperatures << INVALID_VALUE;
     }
 
@@ -1183,8 +1186,8 @@ void DarkLibrary::generateDarkJobs()
                 settings["fileDirectoryT"] = QString(prefix + QString("sequence_%1").arg(sequence));
                 settings["captureCountN"] = countSpin->value();
 
-                m_CaptureModule->mainCamera()->setAllSettings(settings);
-                m_CaptureModule->mainCamera()->createJob();
+                cam->setAllSettings(settings);
+                cam->createJob();
             }
         }
     }
@@ -1208,7 +1211,8 @@ void DarkLibrary::execute()
     stopB->setEnabled(true);
     m_DarkView->reset();
     m_StatusLabel->setText(i18n("In progress..."));
-    m_CaptureModule->start();
+    QSharedPointer<Camera> cam = m_CaptureModule->findCamera(opticalTrain());
+    cam->start();
 
 }
 
@@ -1217,7 +1221,8 @@ void DarkLibrary::execute()
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::stop()
 {
-    m_CaptureModule->abort();
+    QSharedPointer<Camera> cam = m_CaptureModule->findCamera(opticalTrain());
+    cam->abort();
     darkProgress->setValue(0);
     m_DarkView->reset();
 }
@@ -1883,6 +1888,13 @@ void DarkLibrary::setAllSettings(const QVariantMap &settings)
 
     // Restablish connections
     connectSettings();
+}
+
+void DarkLibrary::setOpticalTrain(const QString &value, bool enabled)
+{
+    opticalTrainCombo->setCurrentText(value);
+    opticalTrainCombo->setEnabled(enabled);
+    trainB->setEnabled(enabled);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

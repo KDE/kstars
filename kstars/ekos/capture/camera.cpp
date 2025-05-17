@@ -294,7 +294,11 @@ void Camera::initCamera()
     });
 
     connect(limitsB, &QPushButton::clicked, m_LimitsDialog, &QDialog::show);
-    connect(darkLibraryB, &QPushButton::clicked, DarkLibrary::Instance(), &QDialog::show);
+    connect(darkLibraryB, &QPushButton::clicked, this, [this]
+    {
+        DarkLibrary::Instance()->setOpticalTrain(opticalTrain(), false);
+        DarkLibrary::Instance()->show();
+    });
     connect(scriptManagerB, &QPushButton::clicked, this, &Camera::handleScriptsManager);
 
     connect(temperatureRegulationB, &QPushButton::clicked, this, &Camera::showTemperatureRegulation);
