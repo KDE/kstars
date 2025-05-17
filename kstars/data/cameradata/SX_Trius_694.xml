@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExposureCalculatorCameraData>
+    <CameraDataClassVersion>1</CameraDataClassVersion>
+    <CameraId>Starlight Xpress Trius Pro 694</CameraId>
+    <SensorType>MONOCHROME</SensorType>
+    <GainSelectionType>FIXED</GainSelectionType>
+    <CameraGainSelections>
+        <GainSelection>0</GainSelection>
+    </CameraGainSelections>
+   <CameraGainReadMode>
+        <GainReadModeNumber>0</GainReadModeNumber>
+        <GainReadModeName>Standard</GainReadModeName>
+        <CameraGainReadNoise>
+            <GainReadNoiseValue>
+                <Gain>-1</Gain>
+                <ReadNoise>3.5</ReadNoise>
+            </GainReadNoiseValue>
+            <GainReadNoiseValue>
+                <Gain>1</Gain>
+                <ReadNoise>3.5</ReadNoise>
+            </GainReadNoiseValue>
+        </CameraGainReadNoise>
+    </CameraGainReadMode>
+    <CameraPixelSize>4.54</CameraPixelSize>
+    <CameraQuantumEfficiency>0.7</CameraQuantumEfficiency>
+</ExposureCalculatorCameraData>
