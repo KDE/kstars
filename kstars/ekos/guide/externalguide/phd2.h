@@ -275,6 +275,7 @@ class PHD2 : public GuideInterface
         QTimer *abortTimer;
         QTimer *ditherTimer;
         QTimer *stateTimer;
+        QTimer *appStateTimer;
 
         double pixelScale = 0;
 

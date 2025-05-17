@@ -174,12 +174,21 @@ PHD2::PHD2()
                 break;
         }
     });
+
+    // Periodic app state polling
+    appStateTimer = new QTimer(this);
+    connect(appStateTimer, &QTimer::timeout, this, [=]()
+    {
+        requestAppState();
+    });
+    appStateTimer->setInterval(2000);
 }
 
 PHD2::~PHD2()
 {
     delete abortTimer;
     delete ditherTimer;
+    delete appStateTimer; // Add this line
 }
 
 bool PHD2::Connect()
@@ -235,6 +244,8 @@ void PHD2::ResetConnectionState()
     abortTimer->stop();
 
     tcpSocket->disconnect(this);
+
+    appStateTimer->stop(); // Stop polling on disconnect
 
     emit newStatus(GUIDE_DISCONNECTED);
 }
@@ -1180,6 +1191,9 @@ void PHD2::setEquipmentConnected()
         updateGuideParameters();
         requestExposureDurations();
         requestCurrentEquipmentUpdate();
+
+        // Start periodic polling when equipment is connected
+        appStateTimer->start();
     }
 }
 
