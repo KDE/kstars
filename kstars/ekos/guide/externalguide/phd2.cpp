@@ -194,6 +194,13 @@ PHD2::~PHD2()
 
 bool PHD2::Connect()
 {
+    // If the socket is not connected, force state to DISCONNECTED
+    if (tcpSocket->state() == QAbstractSocket::UnconnectedState && connection != DISCONNECTED)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: Forcing state to DISCONNECTED due to socket state.";
+        ResetConnectionState();
+    }
+
     switch (connection)
     {
         case DISCONNECTED:
