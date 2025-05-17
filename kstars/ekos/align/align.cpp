@@ -346,22 +346,22 @@ void Align::handlePointTooltip(QMouseEvent *event)
                 return;
             QToolTip::showText(event->globalPos(),
                                i18n("<table>"
-                                    "<tr>"
-                                    "<th colspan=\"2\">Object %1: %2</th>"
-                                    "</tr>"
-                                    "<tr>"
-                                    "<td>RA:</td><td>%3</td>"
-                                    "</tr>"
-                                    "<tr>"
-                                    "<td>DE:</td><td>%4</td>"
-                                    "</tr>"
-                                    "<tr>"
-                                    "<td>dRA:</td><td>%5</td>"
-                                    "</tr>"
-                                    "<tr>"
-                                    "<td>dDE:</td><td>%6</td>"
-                                    "</tr>"
-                                    "</table>",
+                 "<tr>"
+                 "<th colspan=\"2\">Object %1: %2</th>"
+                 "</tr>"
+                 "<tr>"
+                 "<td>RA:</td><td>%3</td>"
+                 "</tr>"
+                 "<tr>"
+                 "<td>DE:</td><td>%4</td>"
+                 "</tr>"
+                 "<tr>"
+                 "<td>dRA:</td><td>%5</td>"
+                 "</tr>"
+                 "<tr>"
+                 "<td>dDE:</td><td>%6</td>"
+                 "</tr>"
+                 "</table>",
                                     point + 1,
                                     solutionTable->item(point, 2)->text(),
                                     solutionTable->item(point, 0)->text(),
@@ -1046,7 +1046,13 @@ void Align::calculateEffectiveFocalLength(double newFOVW)
     if (focal_diff > 1)
     {
         m_EffectiveFocalLength = new_focal_length / m_Reducer;
-        appendLogText(i18n("Effective telescope focal length is updated to %1 mm.", m_EffectiveFocalLength));
+        appendLogText(i18n("Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: %4 Pitch: %5 FOVW: %6).",
+                           m_EffectiveFocalLength,
+                           m_FocalLength,
+                           m_Reducer,
+                           m_CameraWidth,
+                           m_CameraPixelWidth,
+                           newFOVW));
     }
 }
 
@@ -1538,7 +1544,7 @@ bool Align::captureAndSolve(bool initialCall)
     if (m_Dome && m_Dome->isMoving())
     {
         qCWarning(KSTARS_EKOS_ALIGN) << "Cannot capture while dome is in motion. Retrying in" <<  CAPTURE_RETRY_DELAY / 1000 <<
-                                     "seconds...";
+                                        "seconds...";
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return true;
     }
@@ -3952,7 +3958,7 @@ void Align::exportSolutionPoints()
     {
         int r = KMessageBox::warningContinueCancel(nullptr,
                 i18n("A file named \"%1\" already exists. "
-                     "Overwrite it?",
+             "Overwrite it?",
                      exportFile.fileName()),
                 i18n("Overwrite File?"), KStandardGuiItem::overwrite());
         if (r == KMessageBox::Cancel)
@@ -4228,28 +4234,28 @@ void Align::syncSettings()
     QString key;
     QVariant value;
 
-    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    if ( (dsb = qobject_cast<QDoubleSpinBox * >(sender())))
     {
         key = dsb->objectName();
         value = dsb->value();
 
     }
-    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    else if ( (sb = qobject_cast<QSpinBox * >(sender())))
     {
         key = sb->objectName();
         value = sb->value();
     }
-    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    else if ( (cb = qobject_cast<QCheckBox * >(sender())))
     {
         key = cb->objectName();
         value = cb->isChecked();
     }
-    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    else if ( (cbox = qobject_cast<QComboBox * >(sender())))
     {
         key = cbox->objectName();
         value = cbox->currentText();
     }
-    else if ( (cradio = qobject_cast<QRadioButton*>(sender())))
+    else if ( (cradio = qobject_cast<QRadioButton * >(sender())))
     {
         key = cradio->objectName();
         // Discard false requests
@@ -4287,7 +4293,7 @@ void Align::loadGlobalSettings()
 
     QVariantMap settings;
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
     {
         if (oneWidget->objectName() == "opticalTrainCombo")
             continue;
@@ -4302,7 +4308,7 @@ void Align::loadGlobalSettings()
     }
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -4314,7 +4320,7 @@ void Align::loadGlobalSettings()
     }
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -4326,7 +4332,7 @@ void Align::loadGlobalSettings()
     }
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -4338,7 +4344,7 @@ void Align::loadGlobalSettings()
     }
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -4356,23 +4362,23 @@ void Align::loadGlobalSettings()
 void Align::connectSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Align::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         connect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Align::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         connect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Align::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         connect(oneWidget, &QRadioButton::toggled, this, &Ekos::Align::syncSettings);
 
     // Train combo box should NOT be synced.
@@ -4382,23 +4388,23 @@ void Align::connectSettings()
 void Align::disconnectSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Align::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Align::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Align::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::Align::syncSettings);
 
 }
@@ -4411,23 +4417,23 @@ QVariantMap Align::getAllSettings() const
     QVariantMap settings;
 
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->currentText());
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     // All Radio Buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     return settings;
