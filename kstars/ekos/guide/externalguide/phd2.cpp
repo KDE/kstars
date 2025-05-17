@@ -1367,6 +1367,12 @@ bool PHD2::guide()
         return true;
     }
 
+    if (state == PAUSED)
+    {
+        emit newLog(i18n("PHD2: Guiding is paused, resuming..."));
+        return resume();
+    }
+
     if (connection != EQUIPMENT_CONNECTED)
     {
         emit newLog(i18n("PHD2 Error: Equipment not connected."));
