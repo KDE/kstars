@@ -188,7 +188,8 @@ PHD2::~PHD2()
 {
     delete abortTimer;
     delete ditherTimer;
-    delete appStateTimer; // Add this line
+    delete appStateTimer;
+    delete stateTimer;
 }
 
 bool PHD2::Connect()
@@ -230,6 +231,8 @@ bool PHD2::Connect()
 
 void PHD2::ResetConnectionState()
 {
+    appStateTimer->stop();
+
     connection = DISCONNECTED;
 
     // clear the outstanding and queued RPC requests
@@ -244,8 +247,6 @@ void PHD2::ResetConnectionState()
     abortTimer->stop();
 
     tcpSocket->disconnect(this);
-
-    appStateTimer->stop(); // Stop polling on disconnect
 
     emit newStatus(GUIDE_DISCONNECTED);
 }
