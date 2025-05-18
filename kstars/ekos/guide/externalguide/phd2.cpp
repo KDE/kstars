@@ -1576,7 +1576,16 @@ bool PHD2::abort()
 
     abortTimer->stop();
 
+    // If PHD2 is paused, unpause it first so stop_capture will work
+    if (state == PAUSED)
+    {
+        QJsonObject args;
+        args["paused"] = false;
+        sendPHD2Request("set_paused", args);
+    }
+
     sendPHD2Request("stop_capture");
+
     return true;
 }
 
