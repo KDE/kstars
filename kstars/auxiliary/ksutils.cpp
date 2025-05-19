@@ -1347,7 +1347,7 @@ bool configureAstrometry()
         if (KMessageBox::warningContinueCancel(
                     nullptr,
                     i18n("The selected Astrometry Index File Location:\n %1 \n does not "
-                         "exist.  Do you want to make the directory?",
+             "exist.  Do you want to make the directory?",
                          defaultAstrometryDataDir),
                     i18n("Make Astrometry Index File Directory?")) == KMessageBox::Continue)
         {
@@ -1360,7 +1360,7 @@ bool configureAstrometry()
             {
                 KSNotification::sorry(
                     i18n("The Default Astrometry Index File Directory does not exist and "
-                         "was not able to be created."));
+                     "was not able to be created."));
             }
         }
         else
@@ -1870,6 +1870,23 @@ double positionAngleToRotation(double value)
     while (rotation < -180)
         rotation += 360;
     return rotation;
+}
+
+QString getMachineID()
+{
+    // Get Machine ID from Qt first
+    auto id = QSysInfo::machineUniqueId();
+    // If empty, read it directly
+    if (id.isEmpty())
+    {
+        QFile machineID("/etc/machine-id");
+        if (machineID.open(QIODevice::ReadOnly))
+        {
+            id = machineID.readAll();
+        }
+    }
+
+    return QString::fromUtf8(id).trimmed();
 }
 
 

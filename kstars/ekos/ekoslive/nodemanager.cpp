@@ -9,6 +9,7 @@
 
 #include "nodemanager.h"
 #include "version.h"
+#include "ksutils.h"
 #include "ekos_debug.h"
 
 #include <QWebSocket>
@@ -89,7 +90,8 @@ void NodeManager::setConnected()
         // If we were re-authenticating, mark it as complete now that all nodes are connected.
         if (m_isReauthenticating)
         {
-            qCInfo(KSTARS_EKOS) << "NodeManager for URL" << m_ServiceURL.toDisplayString() << "successfully re-authenticated and connected all nodes.";
+            qCInfo(KSTARS_EKOS) << "NodeManager for URL" << m_ServiceURL.toDisplayString() <<
+                                   "successfully re-authenticated and connected all nodes.";
             setIsReauthenticating(false);
         }
         emit connected();
@@ -137,7 +139,8 @@ void NodeManager::authenticate()
     {
         // Already trying to authenticate this manager, prevent stacking requests.
         // Log this attempt or decide if it should queue. For now, just return.
-        qCInfo(KSTARS_EKOS) << "NodeManager::authenticate called while already in progress for URL:" << m_ServiceURL.toDisplayString() << ". Ignoring.";
+        qCInfo(KSTARS_EKOS) << "NodeManager::authenticate called while already in progress for URL:" <<
+                            m_ServiceURL.toDisplayString() << ". Ignoring.";
         return;
     }
     // setIsReauthenticating(true); // This will be set by the Client before calling authenticate
@@ -150,7 +153,7 @@ void NodeManager::authenticate()
 
     request.setUrl(authURL);
 
-    QJsonObject json = {{"username", m_Username}, {"password", m_Password}, {"machine_id", QString::fromUtf8(QSysInfo::machineUniqueId())}};
+    QJsonObject json = {{"username", m_Username}, {"password", m_Password}, {"machine_id", KSUtils::getMachineID()}};
 
     auto postData = QJsonDocument(json).toJson(QJsonDocument::Compact);
 

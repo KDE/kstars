@@ -204,11 +204,13 @@ void Client::processGlobalLogoutTrigger(const QUrl &url)
         {
             if (oneManager->isReauthenticating())
             {
-                qCInfo(KSTARS_EKOS) << "NodeManager for URL" << (managerUrl.isValid() ? managerUrl.toDisplayString() : "Unknown") << "is already re-authenticating. Skipping trigger.";
+                qCInfo(KSTARS_EKOS) << "NodeManager for URL" << (managerUrl.isValid() ? managerUrl.toDisplayString() : "Unknown") <<
+                                       "is already re-authenticating. Skipping trigger.";
                 continue; // Skip this manager if already processing
             }
 
-            qCInfo(KSTARS_EKOS) << "EkosLiveClient: Disconnecting and re-authenticating NodeManager triggered by URL:" << url.toDisplayString();
+            qCInfo(KSTARS_EKOS) << "EkosLiveClient: Disconnecting and re-authenticating NodeManager triggered by URL:" <<
+                                url.toDisplayString();
             oneManager->setIsReauthenticating(true); // Set flag before starting async operations
             oneManager->disconnectNodes();
             oneManager->setCredentials(username->text(), password->text());
@@ -220,7 +222,8 @@ void Client::processGlobalLogoutTrigger(const QUrl &url)
 
     if (!processedAny && !urlIsEmpty)
     {
-        qCWarning(KSTARS_EKOS) << "Global logout trigger for URL" << url.toDisplayString() << "did not match any active NodeManager.";
+        qCWarning(KSTARS_EKOS) << "Global logout trigger for URL" << url.toDisplayString() <<
+                                  "did not match any active NodeManager.";
     }
 }
 
@@ -366,7 +369,7 @@ void Client::showSelectServersDialog()
     QLineEdit onlineEdit(&dialog);
     QLineEdit machineID(&dialog);
     machineID.setReadOnly(true);
-    machineID.setText(QString::fromUtf8(QSysInfo::machineUniqueId()));
+    machineID.setText(KSUtils::getMachineID());
 
     observatoryEdit.setText(Options::ekosLiveObservatory());
     offlineEdit.setText(Options::ekosLiveOfflineServer());
