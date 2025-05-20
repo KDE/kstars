@@ -60,6 +60,7 @@ the new polar alignment error.
 ******************************************************************/
 
 using Rotations::V3;
+constexpr bool REFRACT_IN_PAA = true;
 
 PolarAlign::PolarAlign(const GeoLocation *geo)
 {
@@ -172,7 +173,7 @@ double getRotationAngles(const V3 &from, const V3 &goal, double *zAngle, double 
 
     // Compute the rotation using a great circle. This somewhat constrains our search below.
     const double rotationAngle = getAngle(from, goal); // degrees
-    const double pass1Range = std::max(1.0, std::min(10.0, 2.5 * fabs(rotationAngle)));
+    const double pass1Range = std::max(3.0, std::min(10.0, 2.5 * fabs(rotationAngle)));
 
     // Grid search across all y,z angle possibilities, sampling by 2 arc-minutes.
     const double pass1Residual = getBestRotation(from, goal, 0, 0, zAngle, yAngle, pass1Range, pass1Resolution);
@@ -181,19 +182,6 @@ double getRotationAngles(const V3 &from, const V3 &goal, double *zAngle, double 
     // Refine the search around the best solution so far
     return getBestRotation(from, goal, *zAngle, *yAngle, zAngle, yAngle, pass2Range, pass2Resolution);
 }
-
-// Computes the new RA axis resulting from when point "before" is rotated to "after". This corresponds to the
-// change in RA axis that happens when the user adjusts the mount's altitude and azimuth knobs.
-// Before is the telescope's view before the knobs are changed (which is the polar-align's point3)
-// and After is the telescope's view after the mount is rotated (which is the plate solve of some refresh point).
-V3 getNewAxis(const V3 &before, const V3 &after, const V3 &originalAxis)
-{
-    V3 rotationAxis = Rotations::getAxis(before, after);
-    double rotationDegrees = Rotations::getAngle(before, after);
-    // Rotate the original RA axis position by the above adjustments.
-    return Rotations::rotateAroundAxis(originalAxis, rotationAxis, rotationDegrees);
-}
-
 }  // namespace
 
 // Compute the polar-alignment azimuth and altitude error by comparing the new image's coordinates
@@ -210,7 +198,8 @@ bool PolarAlign::processRefreshCoords(const SkyPoint &coords, const KStarsDateTi
     SkyPoint point = SkyPoint::timeTransformed(&c, time, geoLocation, 0);
     // We refract the solver's coordinates, since the atmosphere will make the object appear higher
     // that it actually is. Thus our mount must be pointing higher to see it.
-    const double az = point.az().Degrees(), alt = SkyPoint::refract(point.alt().Degrees(), Options::useRefraction());
+    const double az = point.az().Degrees();
+    const double alt = SkyPoint::refract(point.alt().Degrees(), REFRACT_IN_PAA && Options::useRefraction());
     const V3 newPoint = Rotations::azAlt2xyz(QPointF(az, alt));
 
     // Get the x,y,z coordinates of the original position (from the 3rd polar-align image).
@@ -231,8 +220,10 @@ bool PolarAlign::processRefreshCoords(const SkyPoint &coords, const KStarsDateTi
 
     // Get the xyz coordinates of the original 3rd point.
     // Similar to the comment above, we refract the altitude of points[2].
-    const V3 p3OrigPoint = Rotations::azAlt2xyz(QPointF(points[2].az().Degrees(), 
-        SkyPoint::refract(points[2].alt().Degrees(), Options::useRefraction())));
+    const V3 p3OrigPoint = Rotations::azAlt2xyz(QPointF(points[2].az().Degrees(),
+                           SkyPoint::refract(points[2].alt().Degrees(),
+                                   REFRACT_IN_PAA && Options::useRefraction())));
+
     // Get the unit vector corresponding the original RA axis
     const V3 origAxisPt = Rotations::azAlt2xyz(QPointF(azimuthCenter, altitudeCenter));
     // Rotate the original 3rd point around that axis, simulating the mount's tracking movements.
@@ -241,32 +232,39 @@ bool PolarAlign::processRefreshCoords(const SkyPoint &coords, const KStarsDateTi
     // Find the adjustment the user must have made by examining the change from point3 to newPoint
     // (i.e. the rotation caused by the user adjusting the azimuth and altitude knobs).
     // We assume that this was a rotation around a level mount's y axis and z axis.
+    double zAdjustment, yAdjustment;
+    double residual = getRotationAngles(point3, newPoint, &zAdjustment, &yAdjustment);
+    if (residual > 0.5)
+    {
+        qCInfo(KSTARS_EKOS_ALIGN) << QString("PAA refresh: failed to estimate rotation angle (residual %1'").arg(residual * 60);
+        return false;
+    }
+    qCInfo(KSTARS_EKOS_ALIGN) << QString("PAA refresh: Estimated current adjustment: Az %1' Alt %2' residual %3a-s")
+                              .arg(zAdjustment * 60, 0, 'f', 1).arg(yAdjustment * 60, 0, 'f', 1).arg(residual * 3600, 0, 'f', 0);
+
+    // Return the estimated adjustments (used by testing).
+    if (altAdjustment != nullptr) *altAdjustment = yAdjustment;
+    if (azAdjustment != nullptr) *azAdjustment = zAdjustment;
+
+    // Rotate the original RA axis position by the above adjustments.
     const V3 origAxisPoint = Rotations::azAlt2xyz(QPointF(azimuthCenter, altitudeCenter));
-    const V3 newAxisPoint = getNewAxis(point3, newPoint, origAxisPoint);
+    const V3 tempPoint = Rotations::rotateAroundY(origAxisPoint, yAdjustment);
+    const V3 newAxisPoint = Rotations::rotateAroundZ(tempPoint, zAdjustment);
+
     // Convert the rotated axis point back to an az/alt coordinate, representing the new RA axis.
     const QPointF newAxisAzAlt = Rotations::xyz2azAlt(newAxisPoint);
     const double newAxisAz = newAxisAzAlt.x();
     const double newAxisAlt = newAxisAzAlt.y();
-    double azAdjustmentKeep = newAxisAz - azimuthCenter;
-    double altAdjustmentKeep = newAxisAlt - altitudeCenter;
-
-    qCInfo(KSTARS_EKOS_ALIGN) << QString("PAA refresh: Estimated current adjustment: Az %1' Alt %2'")
-                              .arg(azAdjustmentKeep * 60, 0, 'f', 1).arg(altAdjustmentKeep * 60, 0, 'f', 1);
-
-    // Return the estimated adjustments (used by testing).
-    if (altAdjustment != nullptr) *altAdjustment = altAdjustmentKeep;
-    if (azAdjustment != nullptr) *azAdjustment = azAdjustmentKeep;
 
     // Compute the polar alignment error for the new RA axis.
     calculateAzAltErrorFromAzAlt(azError, altError, newAxisAz, newAxisAlt);
 
     QString infoString =
-        QString("PAA refresh: ra0 %1 dec0 %2 Az/Alt: %3 %4 AXIS: %5 %6 --> %7 %8 ADJ: %9' %10' ERR: %11' %12'")
+        QString("PAA refresh: ra0 %1 dec0 %2 Az/Alt: %3 %4 AXIS: %5 %6 --> %7 %8 ERR: %9' alt %10'")
         .arg(coords.ra0().Degrees(), 0, 'f', 3).arg(coords.dec0().Degrees(), 0, 'f', 3)
         .arg(az, 0, 'f', 3).arg(alt, 0, 'f', 3)
         .arg(azimuthCenter, 0, 'f', 3).arg(altitudeCenter, 0, 'f', 3)
         .arg(newAxisAz, 0, 'f', 3).arg(newAxisAlt, 0, 'f', 3)
-        .arg(azAdjustmentKeep * 60, 0, 'f', 1).arg(altAdjustmentKeep * 60, 0, 'f', 1)
         .arg(*azError * 60, 0, 'f', 1).arg(*altError * 60, 0, 'f', 1);
     qCInfo(KSTARS_EKOS_ALIGN) << infoString;
 
@@ -332,12 +330,12 @@ bool PolarAlign::findAxis()
     // We have 3 points, get their xyz positions.
     // We need to refract these altitudes--refraction raises the apparent altitude of
     // sky objects, so our mount must be pointing higher than where the object actually is.
-    V3 p1(Rotations::azAlt2xyz(QPointF(points[0].az().Degrees(), 
-          SkyPoint::refract(points[0].alt().Degrees(), Options::useRefraction()))));
-    V3 p2(Rotations::azAlt2xyz(QPointF(points[1].az().Degrees(), 
-          SkyPoint::refract(points[1].alt().Degrees(), Options::useRefraction()))));
-    V3 p3(Rotations::azAlt2xyz(QPointF(points[2].az().Degrees(), 
-          SkyPoint::refract(points[2].alt().Degrees(), Options::useRefraction()))));
+    V3 p1(Rotations::azAlt2xyz(QPointF(points[0].az().Degrees(),
+                                       SkyPoint::refract(points[0].alt().Degrees(), REFRACT_IN_PAA && Options::useRefraction()))));
+    V3 p2(Rotations::azAlt2xyz(QPointF(points[1].az().Degrees(),
+                                       SkyPoint::refract(points[1].alt().Degrees(), REFRACT_IN_PAA && Options::useRefraction()))));
+    V3 p3(Rotations::azAlt2xyz(QPointF(points[2].az().Degrees(),
+                                       SkyPoint::refract(points[2].alt().Degrees(), REFRACT_IN_PAA && Options::useRefraction()))));
     V3 axis = Rotations::getAxis(p1, p2, p3);
 
     if (axis.length() < 0.9)
@@ -395,9 +393,9 @@ void PolarAlign::calculateAzAltError(double *azError, double *altError) const
 }
 
 // Calculate the mount's azimuth and altitude error given the known geographic location
-// and the passedin az and alt. 
+// and the passedin az and alt.
 // I do not think we should adjust the altitude target (the latitude)
-// due to refraction. Yes, it might correct tracking at this altitude, 
+// due to refraction. Yes, it might correct tracking at this altitude,
 // but tracking at higher altitudes would suffer.
 void PolarAlign::calculateAzAltErrorFromAzAlt(double *azError, double *altError, double az, double alt) const
 {
