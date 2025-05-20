@@ -261,6 +261,7 @@ QString KStars::location()
         {"country", currentLocation->country()},
         {"longitude", currentLocation->lng()->Degrees()},
         {"latitude", currentLocation->lat()->Degrees()},
+        {"elevation", currentLocation->elevation()},
         {"tz0", currentLocation->TZ0()},
         {"tz", currentLocation->TZ()}
     };
