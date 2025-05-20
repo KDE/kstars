@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-19 02:01+0000\n"
+"POT-Creation-Date: 2025-05-20 01:58+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -6096,12 +6096,11 @@ msgid "Mount does not support syncing."
 msgstr "赤道仪不支持同步。"
 
 #: ekos/align/align.cpp:1049
-#, fuzzy, kde-format
-#| msgid "Effective telescope focal length is updated to %1 mm."
+#, kde-format
 msgid ""
 "Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
 "%4 Pitch: %5 FOVW: %6)."
-msgstr "有效望远镜焦距已更新为 %1 毫米。"
+msgstr ""
 
 #: ekos/align/align.cpp:1097
 #, kde-format
@@ -12788,7 +12787,7 @@ msgstr "端口"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:307
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:310
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12799,7 +12798,7 @@ msgstr "连接"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:250
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:253
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -17297,28 +17296,28 @@ msgstr "终止中"
 msgid "Stopped"
 msgstr "已终止"
 
-#: ekos/ekoslive/ekosliveclient.cpp:357
+#: ekos/ekoslive/ekosliveclient.cpp:360
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "选择 EkosLive 服务器"
 
-#: ekos/ekoslive/ekosliveclient.cpp:359
+#: ekos/ekoslive/ekosliveclient.cpp:362
 #, kde-format
 msgid "Observatory:"
 msgstr "天文台:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:360
+#: ekos/ekoslive/ekosliveclient.cpp:363
 #, kde-format
 msgid "Offline:"
 msgstr "离线:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:361
+#: ekos/ekoslive/ekosliveclient.cpp:364
 #, kde-format
 msgid "Online:"
 msgstr "在线:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:362
+#: ekos/ekoslive/ekosliveclient.cpp:365
 #, kde-format
 msgid "Machine ID:"
 msgstr "机器ID："
@@ -17387,12 +17386,12 @@ msgstr "目标"
 msgid "Mosaic import failed."
 msgstr "Mosaic 导入失败。"
 
-#: ekos/ekoslive/nodemanager.cpp:178
+#: ekos/ekoslive/nodemanager.cpp:181
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr "Ekos Live 服务器身份验证错误：%1"
 
-#: ekos/ekoslive/nodemanager.cpp:191
+#: ekos/ekoslive/nodemanager.cpp:194
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr "解析服务器响应时出错： %1"

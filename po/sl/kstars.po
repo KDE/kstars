@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-19 02:01+0000\n"
-"PO-Revision-Date: 2025-05-15 07:01+0200\n"
+"POT-Creation-Date: 2025-05-20 01:58+0000\n"
+"PO-Revision-Date: 2025-05-19 06:45+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -49,7 +49,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 25.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6226,12 +6226,13 @@ msgid "Mount does not support syncing."
 msgstr "Naprava ne podpira sinhronizacije."
 
 #: ekos/align/align.cpp:1049
-#, fuzzy, kde-format
-#| msgid "Effective telescope focal length is updated to %1 mm."
+#, kde-format
 msgid ""
 "Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
 "%4 Pitch: %5 FOVW: %6)."
-msgstr "Efektivna goriščna razdalja teleskopa se posodablja na %1 mm."
+msgstr ""
+"Efektivna goriščna razdalja teleskopa je posodobljena na %1 mm (FL: %2 "
+"Reduktor: %3 Š:%4 Nagib: %5 Vidno polje Š: %6)."
 
 #: ekos/align/align.cpp:1097
 #, kde-format
@@ -13217,7 +13218,7 @@ msgstr "Vrata"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:307
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:310
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13228,7 +13229,7 @@ msgstr "Poveži"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:250
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:253
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -17889,28 +17890,28 @@ msgstr "Ustavljanje"
 msgid "Stopped"
 msgstr "Zaustavljeno"
 
-#: ekos/ekoslive/ekosliveclient.cpp:357
+#: ekos/ekoslive/ekosliveclient.cpp:360
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Izberi strežnike EkosLive"
 
-#: ekos/ekoslive/ekosliveclient.cpp:359
+#: ekos/ekoslive/ekosliveclient.cpp:362
 #, kde-format
 msgid "Observatory:"
 msgstr "Observatorij:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:360
+#: ekos/ekoslive/ekosliveclient.cpp:363
 #, kde-format
 msgid "Offline:"
 msgstr "Brez povezave:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:361
+#: ekos/ekoslive/ekosliveclient.cpp:364
 #, kde-format
 msgid "Online:"
 msgstr "Povezano:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:362
+#: ekos/ekoslive/ekosliveclient.cpp:365
 #, kde-format
 msgid "Machine ID:"
 msgstr "ID stroja:"
@@ -17979,12 +17980,12 @@ msgstr "cilj"
 msgid "Mosaic import failed."
 msgstr "Uvoz mozaika ni uspel."
 
-#: ekos/ekoslive/nodemanager.cpp:178
+#: ekos/ekoslive/nodemanager.cpp:181
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr "Napaka preverjanja pristnosti s strežnikom Ekos Live: %1"
 
-#: ekos/ekoslive/nodemanager.cpp:191
+#: ekos/ekoslive/nodemanager.cpp:194
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Napaka med razčlenjevanjem odziva strežnika: %1"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-19 02:01+0000\n"
-"PO-Revision-Date: 2025-05-15 08:58+0200\n"
+"POT-Creation-Date: 2025-05-20 01:58+0000\n"
+"PO-Revision-Date: 2025-05-19 10:34+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6243,13 +6243,17 @@ msgstr "El solucionador ha excedit el temps límit."
 msgid "Mount does not support syncing."
 msgstr "La muntura no permet la sincronització."
 
+# FL = Focal Lenght -> Distància focal = DF
+# W = Width -> Amplada = A
+# FOVW = Field of View Width -> Amplada del camp de visió = ACDV
 #: ekos/align/align.cpp:1049
-#, fuzzy, kde-format
-#| msgid "Effective telescope focal length is updated to %1 mm."
+#, kde-format
 msgid ""
 "Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
 "%4 Pitch: %5 FOVW: %6)."
-msgstr "La distància focal efectiva del telescopi s'ha actualitzat a %1 mm."
+msgstr ""
+"La distància focal efectiva del telescopi s'ha actualitzat a %1 mm. (DF: %2 "
+"Reductor: %3 A: %4 Capcineig: %5 ACDV: %6)."
 
 #: ekos/align/align.cpp:1097
 #, kde-format
@@ -13353,7 +13357,7 @@ msgstr "Port"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:307
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:310
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13364,7 +13368,7 @@ msgstr "Connecta"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:250
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:253
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -16767,7 +16771,7 @@ msgid ""
 "put the same value in the horizontal and vertical pixel pitches.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Distància dels píxels en micròmetres. Per a les "
+"<html><head/><body><p>Capcineig dels píxels en micròmetres. Per a les "
 "càmeres de píxels quadrats, poseu el mateix valor a la distància horitzontal "
 "i vertical dels píxels.</p></body></html>"
 
@@ -16775,7 +16779,7 @@ msgstr ""
 #: ekos/capture/dslrinfo.ui:118
 #, kde-format
 msgid "Pixel Pitch:"
-msgstr "Distància dels píxels:"
+msgstr "Capcineig dels píxels:"
 
 #: ekos/capture/dslrinfodialog.cpp:39
 #, kde-format
@@ -18133,28 +18137,28 @@ msgstr "Aturant"
 msgid "Stopped"
 msgstr "Aturada"
 
-#: ekos/ekoslive/ekosliveclient.cpp:357
+#: ekos/ekoslive/ekosliveclient.cpp:360
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Selecció dels servidors Ekos Live"
 
-#: ekos/ekoslive/ekosliveclient.cpp:359
+#: ekos/ekoslive/ekosliveclient.cpp:362
 #, kde-format
 msgid "Observatory:"
 msgstr "Observatori:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:360
+#: ekos/ekoslive/ekosliveclient.cpp:363
 #, kde-format
 msgid "Offline:"
 msgstr "Desconnectat:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:361
+#: ekos/ekoslive/ekosliveclient.cpp:364
 #, kde-format
 msgid "Online:"
 msgstr "Connectat:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:362
+#: ekos/ekoslive/ekosliveclient.cpp:365
 #, kde-format
 msgid "Machine ID:"
 msgstr "ID de la màquina:"
@@ -18223,12 +18227,12 @@ msgstr "objectiu"
 msgid "Mosaic import failed."
 msgstr "Ha fallat la importació del mosaic."
 
-#: ekos/ekoslive/nodemanager.cpp:178
+#: ekos/ekoslive/nodemanager.cpp:181
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr "Error d'autenticació amb el servidor Ekos Live: %1"
 
-#: ekos/ekoslive/nodemanager.cpp:191
+#: ekos/ekoslive/nodemanager.cpp:194
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Error en analitzar la resposta del servidor: %1"
@@ -33175,7 +33179,7 @@ msgstr "Si hi ha més d'una ocurrència, estableix l'angle base de gir."
 msgid ""
 "Set the Pitch Circle Diameter where there are multiple occurrences (Count >1)"
 msgstr ""
-"Estableix el diàmetre del cercle de punt (PCD) quan hi ha múltiples "
+"Estableix el diàmetre del cercle de capcineig (PCD) quan hi ha múltiples "
 "ocurrències (comptador >1)"
 
 #. i18n: ectx: property (text), widget (QLabel, pcdLabel)

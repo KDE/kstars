@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-19 02:01+0000\n"
+"POT-Creation-Date: 2025-05-20 01:58+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -13475,7 +13475,7 @@ msgstr "Θύρα"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:307
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:310
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13486,7 +13486,7 @@ msgstr "Σύνδεση"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:250
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:253
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -18279,29 +18279,29 @@ msgstr "Σταμάτημα ανί&χνευσης"
 msgid "Stopped"
 msgstr "Διακοπή"
 
-#: ekos/ekoslive/ekosliveclient.cpp:357
+#: ekos/ekoslive/ekosliveclient.cpp:360
 #, fuzzy, kde-format
 #| msgid "Stop Service"
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Σταμάτημα υπηρεσίας"
 
-#: ekos/ekoslive/ekosliveclient.cpp:359
+#: ekos/ekoslive/ekosliveclient.cpp:362
 #, fuzzy, kde-format
 msgid "Observatory:"
 msgstr "Ντάιερ παρατηρητήριο"
 
-#: ekos/ekoslive/ekosliveclient.cpp:360
+#: ekos/ekoslive/ekosliveclient.cpp:363
 #, fuzzy, kde-format
 msgid "Offline:"
 msgstr "Μολίν"
 
-#: ekos/ekoslive/ekosliveclient.cpp:361
+#: ekos/ekoslive/ekosliveclient.cpp:364
 #, fuzzy, kde-format
 msgid "Online:"
 msgstr "Μολίν"
 
-#: ekos/ekoslive/ekosliveclient.cpp:362
+#: ekos/ekoslive/ekosliveclient.cpp:365
 #, fuzzy, kde-format
 msgid "Machine ID:"
 msgstr "Μάλχιν"
@@ -18376,12 +18376,12 @@ msgstr "Σάρτζεντ"
 msgid "Mosaic import failed."
 msgstr "Η αποθήκευση της εικόνας %1 απέτυχε."
 
-#: ekos/ekoslive/nodemanager.cpp:178
+#: ekos/ekoslive/nodemanager.cpp:181
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr ""
 
-#: ekos/ekoslive/nodemanager.cpp:191
+#: ekos/ekoslive/nodemanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error parsing server response: %1"

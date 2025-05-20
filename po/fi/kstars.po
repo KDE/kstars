@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-19 02:01+0000\n"
+"POT-Creation-Date: 2025-05-20 01:58+0000\n"
 "PO-Revision-Date: 2024-11-21 20:29+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -13196,7 +13196,7 @@ msgstr "Portti"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:307
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:310
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13207,7 +13207,7 @@ msgstr "Yhdistä"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:250
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:253
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -17885,20 +17885,20 @@ msgstr "Pysäytä &seuranta"
 msgid "Stopped"
 msgstr "Pysäytä"
 
-#: ekos/ekoslive/ekosliveclient.cpp:357
+#: ekos/ekoslive/ekosliveclient.cpp:360
 #, fuzzy, kde-format
 #| msgid "Stop Service"
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Pysäytä palvelu"
 
-#: ekos/ekoslive/ekosliveclient.cpp:359
+#: ekos/ekoslive/ekosliveclient.cpp:362
 #, fuzzy, kde-format
 #| msgid "Observatory"
 msgid "Observatory:"
 msgstr "Observatorio"
 
-#: ekos/ekoslive/ekosliveclient.cpp:360
+#: ekos/ekoslive/ekosliveclient.cpp:363
 #, fuzzy, kde-format
 #| msgid "Offline"
 msgid "Offline:"
@@ -17906,14 +17906,14 @@ msgstr ""
 "Poissa verkosta|/|$[aseta tilanmuutos 'poistui verkosta' "
 "omantilanmuutoslause 'Olet poistunut verkosta.']"
 
-#: ekos/ekoslive/ekosliveclient.cpp:361
+#: ekos/ekoslive/ekosliveclient.cpp:364
 #, fuzzy, kde-format
 #| msgctxt "City in Illinois USA"
 #| msgid "Moline"
 msgid "Online:"
 msgstr "Moline"
 
-#: ekos/ekoslive/ekosliveclient.cpp:362
+#: ekos/ekoslive/ekosliveclient.cpp:365
 #, fuzzy, kde-format
 #| msgctxt "City in Germany"
 #| msgid "Malchin"
@@ -17995,12 +17995,12 @@ msgstr "Sargent"
 msgid "Mosaic import failed."
 msgstr "Kuvan %1 tallentaminen epäonnistui."
 
-#: ekos/ekoslive/nodemanager.cpp:178
+#: ekos/ekoslive/nodemanager.cpp:181
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr ""
 
-#: ekos/ekoslive/nodemanager.cpp:191
+#: ekos/ekoslive/nodemanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error parsing server response: %1"

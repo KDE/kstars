@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-19 02:01+0000\n"
-"PO-Revision-Date: 2025-05-15 12:15+0200\n"
+"POT-Creation-Date: 2025-05-20 01:58+0000\n"
+"PO-Revision-Date: 2025-05-19 16:20+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6220,12 +6220,13 @@ msgid "Mount does not support syncing."
 msgstr "Opstelling ondersteunt geen synchronisatie."
 
 #: ekos/align/align.cpp:1049
-#, fuzzy, kde-format
-#| msgid "Effective telescope focal length is updated to %1 mm."
+#, kde-format
 msgid ""
 "Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
 "%4 Pitch: %5 FOVW: %6)."
-msgstr "Effectieve brandpuntsafstand telescoop bijgewerkt tot %1 mm."
+msgstr ""
+"Effectieve brandpuntsafstand van de telescoop bijgewerkt tot %1 mm (BA: %2 "
+"Reduceerder: %3 W: %4 Pitch: %5 FOVW: %6)."
 
 #: ekos/align/align.cpp:1097
 #, kde-format
@@ -13237,7 +13238,7 @@ msgstr "Poort"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:307
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:310
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13248,7 +13249,7 @@ msgstr "Verbinden"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:250
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:253
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -17933,28 +17934,28 @@ msgstr "Bezig met stoppen"
 msgid "Stopped"
 msgstr "Gestopt"
 
-#: ekos/ekoslive/ekosliveclient.cpp:357
+#: ekos/ekoslive/ekosliveclient.cpp:360
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Ekos-livedervers selecteren"
 
-#: ekos/ekoslive/ekosliveclient.cpp:359
+#: ekos/ekoslive/ekosliveclient.cpp:362
 #, kde-format
 msgid "Observatory:"
 msgstr "Sterrenwacht:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:360
+#: ekos/ekoslive/ekosliveclient.cpp:363
 #, kde-format
 msgid "Offline:"
 msgstr "Offline:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:361
+#: ekos/ekoslive/ekosliveclient.cpp:364
 #, kde-format
 msgid "Online:"
 msgstr "Online:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:362
+#: ekos/ekoslive/ekosliveclient.cpp:365
 #, kde-format
 msgid "Machine ID:"
 msgstr "Machine-ID:"
@@ -18023,12 +18024,12 @@ msgstr "doel"
 msgid "Mosaic import failed."
 msgstr "Mozaïek importeren is mislukt."
 
-#: ekos/ekoslive/nodemanager.cpp:178
+#: ekos/ekoslive/nodemanager.cpp:181
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr "Fout bij het aanmelden bij server Ekos Live: %1"
 
-#: ekos/ekoslive/nodemanager.cpp:191
+#: ekos/ekoslive/nodemanager.cpp:194
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Fout bij lezen antwoord server: %1"
