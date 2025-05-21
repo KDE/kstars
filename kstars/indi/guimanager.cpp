@@ -85,7 +85,17 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
     connect(closeB, SIGNAL(clicked()), this, SLOT(close()));
     connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
 
-    resize(Options::iNDIWindowWidth(), Options::iNDIWindowHeight());
+    if (qgetenv("KDE_FULL_SESSION") != "true")
+    {
+        if (!Options::iNDIWindowGeometry().isEmpty())
+            restoreGeometry(QByteArray::fromBase64(Options::iNDIWindowGeometry().toLatin1()));
+        else
+            resize(800, 600);
+    }
+    else
+    {
+        resize(Options::iNDIWindowWidth(), Options::iNDIWindowHeight());
+    }
 
     QAction *showINDIPanel =
         KStars::Instance()->actionCollection()->action("show_control_panel");
@@ -121,12 +131,20 @@ void GUIManager::closeEvent(QCloseEvent * /*event*/)
         showINDIPanel->setChecked(false);
     }
 
-    Options::setINDIWindowWidth(width());
-    Options::setINDIWindowHeight(height());
+    if (qgetenv("KDE_FULL_SESSION") != "true")
+        Options::setINDIWindowGeometry(QString::fromLatin1(saveGeometry().toBase64()));
+    else
+    {
+        Options::setINDIWindowWidth(width());
+        Options::setINDIWindowHeight(height());
+    }
 }
 
 void GUIManager::hideEvent(QHideEvent * /*event*/)
 {
+    if (qgetenv("KDE_FULL_SESSION") != "true")
+        Options::setINDIWindowGeometry(QString::fromLatin1(saveGeometry().toBase64()));
+
     KStars *ks = KStars::Instance();
 
     if (ks)

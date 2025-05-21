@@ -338,7 +338,15 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
 
     /* initially resize in accord with KDE rules */
     show();
-    resize(INITIAL_W, INITIAL_H);
+    if (qgetenv("KDE_FULL_SESSION") != "true")
+    {
+        if (!Options::fITSWindowGeometry().isEmpty())
+            restoreGeometry(QByteArray::fromBase64(Options::fITSWindowGeometry().toLatin1()));
+        else
+            resize(INITIAL_W, INITIAL_H);
+    }
+    else
+        resize(INITIAL_W, INITIAL_H);
 }
 
 void FITSViewer::changeAlwaysOnTop(Qt::ApplicationState state)
@@ -361,6 +369,14 @@ void FITSViewer::closeEvent(QCloseEvent * /*event*/)
 {
     KStars *ks = KStars::Instance();
 
+    if (qgetenv("KDE_FULL_SESSION") != "true")
+    {
+        // Admittedly, this isn't as obvious as KStars/INDI/Ekos geometry, as there
+        // could be multiple FITS Windows. However, guessing that it's better to save the
+        // geometry that not.
+        Options::setFITSWindowGeometry(QString::fromLatin1(saveGeometry().toBase64()));
+    }
+
     if (ks)
     {
         QAction *a                  = KStars::Instance()->actionCollection()->action("show_fits_viewer");
@@ -378,6 +394,9 @@ void FITSViewer::closeEvent(QCloseEvent * /*event*/)
 
 void FITSViewer::hideEvent(QHideEvent * /*event*/)
 {
+    if (qgetenv("KDE_FULL_SESSION") != "true")
+        Options::setFITSWindowGeometry(QString::fromLatin1(saveGeometry().toBase64()));
+
     KStars *ks = KStars::Instance();
 
     if (ks)

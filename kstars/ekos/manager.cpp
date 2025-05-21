@@ -498,7 +498,16 @@ Manager::Manager(QWidget * parent) : QDialog(parent), m_networkManager(this)
         button->setAutoDefault(false);
 
 
-    resize(Options::ekosWindowWidth(), Options::ekosWindowHeight());
+    if (qgetenv("KDE_FULL_SESSION") != "true")
+    {
+        if (!Options::ekosGeometry().isEmpty())
+            restoreGeometry(QByteArray::fromBase64(Options::ekosGeometry().toLatin1()));
+        else
+            resize(600, 600);
+    }
+    else
+        resize(Options::ekosWindowWidth(), Options::ekosWindowHeight());
+
 }
 
 void Manager::changeAlwaysOnTop(Qt::ApplicationState state)
@@ -523,6 +532,9 @@ void Manager::closeEvent(QCloseEvent * event)
     //    QAction * a = KStars::Instance()->actionCollection()->action("show_ekos");
     //    a->setChecked(false);
 
+    if (qgetenv("KDE_FULL_SESSION") != "true")
+        Options::setEkosGeometry(QString::fromLatin1(saveGeometry().toBase64()));
+
     // 2019-02-14 JM: Close event, for some reason, make all the children disappear
     // when the widget is shown again. Applying a workaround here
 
@@ -532,8 +544,13 @@ void Manager::closeEvent(QCloseEvent * event)
 
 void Manager::hideEvent(QHideEvent * /*event*/)
 {
-    Options::setEkosWindowWidth(width());
-    Options::setEkosWindowHeight(height());
+    if (qgetenv("KDE_FULL_SESSION") != "true")
+        Options::setEkosGeometry(QString::fromLatin1(saveGeometry().toBase64()));
+    else
+    {
+        Options::setEkosWindowWidth(width());
+        Options::setEkosWindowHeight(height());
+    }
 
     QAction * a = KStars::Instance()->actionCollection()->action("show_ekos");
     a->setChecked(false);
@@ -631,6 +648,9 @@ void Manager::showEvent(QShowEvent * /*event*/)
 
 void Manager::resizeEvent(QResizeEvent *)
 {
+    if (qgetenv("KDE_FULL_SESSION") != "true")
+        Options::setEkosGeometry(QString::fromLatin1(saveGeometry().toBase64()));
+
     focusProgressWidget->updateFocusDetailView();
     guideManager->updateGuideDetailView();
 }

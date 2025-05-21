@@ -2131,10 +2131,15 @@ void KStars::slotAboutToQuit()
     delete m_SkyMap;
     m_SkyMap = nullptr;
 
-    //Store Window geometry in Options object
-    Options::setWindowWidth(width());
-    Options::setWindowHeight(height());
+    if (qgetenv("KDE_FULL_SESSION") != "true")
+        Options::setKStarsGeometry(QString::fromLatin1(saveGeometry().toBase64()));
+    else
+    {
+        //Store Window geometry in Options object
+        Options::setWindowWidth(width());
+        Options::setWindowHeight(height());
 
+    }
     //explicitly save the colorscheme data to the config file
     data()->colorScheme()->saveToConfig();
 
