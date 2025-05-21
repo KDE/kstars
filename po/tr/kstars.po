@@ -15,16 +15,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 01:58+0000\n"
-"PO-Revision-Date: 2025-05-18 18:41+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"POT-Creation-Date: 2025-05-21 02:01+0000\n"
+"PO-Revision-Date: 2025-05-20 21:55+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.07.70\n"
+"X-Generator: Lokalize 25.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6208,12 +6208,13 @@ msgid "Mount does not support syncing."
 msgstr "Kaide, eşzamanlamayı desteklemiyor."
 
 #: ekos/align/align.cpp:1049
-#, fuzzy, kde-format
-#| msgid "Effective telescope focal length is updated to %1 mm."
+#, kde-format
 msgid ""
 "Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
 "%4 Pitch: %5 FOVW: %6)."
-msgstr "Efektif teleskop odak uzaklığı %1 mm olarak güncellendi."
+msgstr ""
+"Etkili teleskop odak uzaklığı %1 mm olarak güncellendi (FL: %2 Redüktör: %3 "
+"W: %4 Aralık: %5 FOVW: %6)."
 
 #: ekos/align/align.cpp:1097
 #, kde-format
@@ -21636,7 +21637,7 @@ msgid "Max Total Move:"
 msgstr "En büyük hareket:"
 
 #: ekos/guide/externalguide/linguider.cpp:70
-#: ekos/guide/externalguide/phd2.cpp:279
+#: ekos/guide/externalguide/phd2.cpp:298
 #, kde-format
 msgid ""
 "The host was not found. Please check the host name and port settings in "
@@ -21655,7 +21656,7 @@ msgstr ""
 "kapı adı ayarlarının doğru olduğundan emin olun."
 
 #: ekos/guide/externalguide/linguider.cpp:79
-#: ekos/guide/externalguide/phd2.cpp:286
+#: ekos/guide/externalguide/phd2.cpp:305
 #, kde-format
 msgid "The following error occurred: %1."
 msgstr "Şu hata oluştu: %1."
@@ -21737,29 +21738,29 @@ msgstr "Yeniden bağlanmaktan vazgeçiliyor."
 msgid "Reconnecting to PHD2 Host: %1, on port %2. . ."
 msgstr "PHD2 makinesine yeniden bağlanılıyor: %1, %2 numaralı kapıdan…"
 
-#: ekos/guide/externalguide/phd2.cpp:192
+#: ekos/guide/externalguide/phd2.cpp:209
 #, kde-format
 msgid "Connecting to PHD2 Host: %1, on port %2. . ."
 msgstr "PHD2 makinesine bağlanılıyor: %1, %2 numaralı kapıdan…"
 
-#: ekos/guide/externalguide/phd2.cpp:247
+#: ekos/guide/externalguide/phd2.cpp:266
 #, kde-format
 msgid "Aborting any capture before disconnecting equipment..."
 msgstr ""
 "Ekipman bağlantısı kesilmeden önce herhangi bir yakalama işlemi iptal "
 "ediliyor…"
 
-#: ekos/guide/externalguide/phd2.cpp:260
+#: ekos/guide/externalguide/phd2.cpp:279
 #, kde-format
 msgid "Disconnected from PHD2 Host: %1, on port %2."
 msgstr "PHD2 makinesine bağlantısı kesildi: %1, %2 numaralı kapıdan…"
 
-#: ekos/guide/externalguide/phd2.cpp:276
+#: ekos/guide/externalguide/phd2.cpp:295
 #, kde-format
 msgid "The host disconnected."
 msgstr "Makine bağlantıyı kesti."
 
-#: ekos/guide/externalguide/phd2.cpp:282
+#: ekos/guide/externalguide/phd2.cpp:301
 #, kde-format
 msgid ""
 "The connection was refused by the peer. Make sure the PHD2 is running, and "
@@ -21768,178 +21769,178 @@ msgstr ""
 "Bağlantı, eş tarafından reddedildi. PHD2’nin çalıştığından ve makine ve kapı "
 "adı ayarlarının doğru olduğundan emin olun."
 
-#: ekos/guide/externalguide/phd2.cpp:308
+#: ekos/guide/externalguide/phd2.cpp:327
 #, kde-format
 msgid "PHD2: invalid response received: %1"
 msgstr "PHD2: Geçersiz yanıt alındı: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:309
+#: ekos/guide/externalguide/phd2.cpp:328
 #, kde-format
 msgid "PHD2: JSON error: %1"
 msgstr "PHD2: JSON hatası: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:333
+#: ekos/guide/externalguide/phd2.cpp:352
 #, kde-format
 msgid "Unknown PHD2 event: %1"
 msgstr "Bilinmeyen PHD2 olayı: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:342
+#: ekos/guide/externalguide/phd2.cpp:361
 #, kde-format
 msgid "PHD2: Version %1"
 msgstr "PHD2: Sürüm %1"
 
-#: ekos/guide/externalguide/phd2.cpp:346
+#: ekos/guide/externalguide/phd2.cpp:365
 #, kde-format
 msgid "PHD2: Calibration Complete."
 msgstr "PHD2: Kalibrasyon tamamlandı."
 
-#: ekos/guide/externalguide/phd2.cpp:356
+#: ekos/guide/externalguide/phd2.cpp:375
 #, kde-format
 msgid "PHD2: Waiting for guiding to settle."
 msgstr "PHD2: Kılavuzun yerleşmesi bekleniyor."
 
-#: ekos/guide/externalguide/phd2.cpp:379
+#: ekos/guide/externalguide/phd2.cpp:398
 #, kde-format
 msgid "PHD2: Calibration Failed (%1)."
 msgstr "PHD2: Kalibrasyon başarısız (%1)."
 
-#: ekos/guide/externalguide/phd2.cpp:384
+#: ekos/guide/externalguide/phd2.cpp:403
 #, kde-format
 msgid "Calibration Data Flipped."
 msgstr "Kalibrasyon verisi ters döndü."
 
-#: ekos/guide/externalguide/phd2.cpp:403
+#: ekos/guide/externalguide/phd2.cpp:422
 #, kde-format
 msgid "PHD2: SettleDone."
 msgstr "PHD2: Yerleşim tamamlandı."
 
-#: ekos/guide/externalguide/phd2.cpp:414
+#: ekos/guide/externalguide/phd2.cpp:433
 #, kde-format
 msgid "PHD2: Settling failed (%1)."
 msgstr "PHD2: Yerleşim başarısız (%1)."
 
-#: ekos/guide/externalguide/phd2.cpp:433
+#: ekos/guide/externalguide/phd2.cpp:452
 #, kde-format
 msgid "PHD2: There was a dithering error, but continue guiding."
 msgstr "PHD2: Bir kıpırdatma hatası oluştu; ancak kıpırdatmayı sürdürüyoruz."
 
-#: ekos/guide/externalguide/phd2.cpp:442
+#: ekos/guide/externalguide/phd2.cpp:461
 #, kde-format
 msgid "PHD2: Settling failed, aborted."
 msgstr "PHD2: Yerleşim başarısız, iptal edildi."
 
-#: ekos/guide/externalguide/phd2.cpp:448
+#: ekos/guide/externalguide/phd2.cpp:467
 #, kde-format
 msgid "PHD2: Settling complete, Guiding Started."
 msgstr "PHD2: Yerleşim başarılı, kılavuzluk başlatıldı."
 
-#: ekos/guide/externalguide/phd2.cpp:477
+#: ekos/guide/externalguide/phd2.cpp:496
 #, kde-format
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "PHD2: Yıldız bulundu, kılavuzluk sürüyor…"
 
-#: ekos/guide/externalguide/phd2.cpp:623
+#: ekos/guide/externalguide/phd2.cpp:642
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr "PHD2 %1: %2"
 
-#: ekos/guide/externalguide/phd2.cpp:677
+#: ekos/guide/externalguide/phd2.cpp:696
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr "PHD2: Pozlamaları döngüleme durduruldu."
 
-#: ekos/guide/externalguide/phd2.cpp:682
+#: ekos/guide/externalguide/phd2.cpp:701
 #, kde-format
 msgid "PHD2: Guiding Stopped."
 msgstr "PHD2: Kılavuzluk durduruldu."
 
-#: ekos/guide/externalguide/phd2.cpp:701
+#: ekos/guide/externalguide/phd2.cpp:720
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr "PHD2: Kilit konumu ayarlandı."
 
-#: ekos/guide/externalguide/phd2.cpp:712
+#: ekos/guide/externalguide/phd2.cpp:731
 #, kde-format
 msgid "PHD2: Star Selected."
 msgstr "PHD2: Yıldız seçildi."
 
-#: ekos/guide/externalguide/phd2.cpp:721
+#: ekos/guide/externalguide/phd2.cpp:740
 #, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
 msgstr "PHD2: Kılavuzluk yapılıyor… Yerleşim bekleniyor…"
 
-#: ekos/guide/externalguide/phd2.cpp:725
+#: ekos/guide/externalguide/phd2.cpp:744
 #, kde-format
 msgid "PHD2: Dithering successful."
 msgstr "PHD2: Kıpırdatma başarılı."
 
-#: ekos/guide/externalguide/phd2.cpp:731
+#: ekos/guide/externalguide/phd2.cpp:750
 #, kde-format
 msgid "PHD2: Guiding running."
 msgstr "PHD2: Kılavuzlama çalışıyor."
 
-#: ekos/guide/externalguide/phd2.cpp:742
+#: ekos/guide/externalguide/phd2.cpp:761
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr "PHD2: Kilit konumu kaybedildi; kalibrasyon sürdürülüyor."
 
-#: ekos/guide/externalguide/phd2.cpp:748
+#: ekos/guide/externalguide/phd2.cpp:767
 #, kde-format
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr ""
 "PHD2: Yıldız kaybedildi. %1 saniye boyunca yeniden bulunmaya çalışılıyor."
 
-#: ekos/guide/externalguide/phd2.cpp:754
+#: ekos/guide/externalguide/phd2.cpp:773
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr "PHD2: Kilit konumu kaybedildi."
 
-#: ekos/guide/externalguide/phd2.cpp:760
+#: ekos/guide/externalguide/phd2.cpp:779
 #, kde-format
 msgid "PHD2: Guiding paused."
 msgstr "PHD2: Kılavuzluk duraklatıldı."
 
-#: ekos/guide/externalguide/phd2.cpp:765
+#: ekos/guide/externalguide/phd2.cpp:784
 #, kde-format
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "PHD2: Kalibre ediliyor; %1 saniye içinde zaman aşımına uğrayacak."
 
-#: ekos/guide/externalguide/phd2.cpp:774
+#: ekos/guide/externalguide/phd2.cpp:793
 #, kde-format
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "PHD2: Kalibrasyon döngüya alındı, başarısız oldu."
 
-#: ekos/guide/externalguide/phd2.cpp:778
+#: ekos/guide/externalguide/phd2.cpp:797
 #, kde-format
 msgid "PHD2: Looping Exposures."
 msgstr "PHD2: Döngüleme pozlamaları."
 
-#: ekos/guide/externalguide/phd2.cpp:784
+#: ekos/guide/externalguide/phd2.cpp:803
 #, kde-format
 msgid "PHD2: Dithering started."
 msgstr "PHD2: Kıpırdatma başlatıldı."
 
-#: ekos/guide/externalguide/phd2.cpp:812
+#: ekos/guide/externalguide/phd2.cpp:831
 #, kde-format
 msgid "PHD2: Calibration is cleared"
 msgstr "PHD2: Kalibrasyon temizlendi."
 
-#: ekos/guide/externalguide/phd2.cpp:908
+#: ekos/guide/externalguide/phd2.cpp:927
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr "PHD2: DEC kılavuz kipi şuna ayarlandı: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:918
+#: ekos/guide/externalguide/phd2.cpp:937
 #, kde-format
 msgid "PHD2: Exposure Time set to: "
 msgstr "PHD2: Pozlama zamanı şuna ayarlandı: "
 
-#: ekos/guide/externalguide/phd2.cpp:926
+#: ekos/guide/externalguide/phd2.cpp:945
 #, kde-format
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Geçerli pozlama zamanları: Kendiliğinden, "
 
-#: ekos/guide/externalguide/phd2.cpp:957
+#: ekos/guide/externalguide/phd2.cpp:976
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
@@ -21948,37 +21949,43 @@ msgstr ""
 "PHD2: Lütfen PHD2’de CCD ve teleskop parametrelerini ayarlayın. Piksel "
 "ölçeği geçersiz."
 
-#: ekos/guide/externalguide/phd2.cpp:959
+#: ekos/guide/externalguide/phd2.cpp:978
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr "PHD2: Piksel ölçeği %1 piksel/yaysaniye"
 
-#: ekos/guide/externalguide/phd2.cpp:1074
+#: ekos/guide/externalguide/phd2.cpp:1093
 #, kde-format
 msgid "PHD2 Error: unhandled '%1'"
 msgstr "PHD2 hatası: İdare edilmemiş “%1”"
 
-#: ekos/guide/externalguide/phd2.cpp:1207
-#: ekos/guide/externalguide/phd2.cpp:1225
-#: ekos/guide/externalguide/phd2.cpp:1372
-#: ekos/guide/externalguide/phd2.cpp:1488
-#: ekos/guide/externalguide/phd2.cpp:1515
-#: ekos/guide/externalguide/phd2.cpp:1544
+#: ekos/guide/externalguide/phd2.cpp:1229
+#: ekos/guide/externalguide/phd2.cpp:1247
+#: ekos/guide/externalguide/phd2.cpp:1400
+#: ekos/guide/externalguide/phd2.cpp:1516
+#: ekos/guide/externalguide/phd2.cpp:1543
+#: ekos/guide/externalguide/phd2.cpp:1572
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr "PHD2 hatası: Ekipman bağlı değil."
 
-#: ekos/guide/externalguide/phd2.cpp:1365
+#: ekos/guide/externalguide/phd2.cpp:1387
 #, kde-format
 msgid "PHD2: Guiding is already running."
 msgstr "PHD2: Kılavuzlama halihazırda çalışıyor."
 
-#: ekos/guide/externalguide/phd2.cpp:1428
+#: ekos/guide/externalguide/phd2.cpp:1394
+#, fuzzy, kde-format
+#| msgid "PHD2: Guiding is already running."
+msgid "PHD2: Guiding is paused, resuming..."
+msgstr "PHD2: Kılavuzlama halihazırda çalışıyor."
+
+#: ekos/guide/externalguide/phd2.cpp:1456
 #, kde-format
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "PHD2: Ekipman bağlanıyor. . ."
 
-#: ekos/guide/externalguide/phd2.cpp:1430
+#: ekos/guide/externalguide/phd2.cpp:1458
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: Ekipman bağlantısı kesiliyor. . ."
@@ -70594,7 +70601,7 @@ msgstr "güneybatı"
 msgid "northwest"
 msgstr "kuzeybatı"
 
-#: kstarsdbus.cpp:1026
+#: kstarsdbus.cpp:1027
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Sky"

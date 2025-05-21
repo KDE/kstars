@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 01:58+0000\n"
-"PO-Revision-Date: 2025-05-15 17:17+0100\n"
+"POT-Creation-Date: 2025-05-21 02:01+0000\n"
+"PO-Revision-Date: 2025-05-21 01:06+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -237,12 +237,12 @@ msgstr "Error de guiado de DEC"
 #: auxiliary/colorscheme.cpp:67 ekos/align/align.cpp:107
 #, kde-format
 msgid "Solver FOV"
-msgstr "Campo visual del sistema de identificación"
+msgstr "Campo de visión del sistema de identificación"
 
 #: auxiliary/colorscheme.cpp:68
 #, kde-format
 msgid "Sensor FOV"
-msgstr "Campo visual del sensor"
+msgstr "Campo de visión del sensor"
 
 #: auxiliary/colorscheme.cpp:69
 #, kde-format
@@ -361,7 +361,7 @@ msgstr "30 m a 1,3 cm"
 #: auxiliary/fov.cpp:193
 #, kde-format
 msgid "No FOV"
-msgstr "Sin campo visual"
+msgstr "Sin campo de visión"
 
 #: auxiliary/imageexporter.cpp:40 auxiliary/imageexporter.cpp:41
 #, kde-format
@@ -1408,7 +1408,7 @@ msgstr "Volver a centrar la imagen de XPlanet tras moverla"
 #: auxiliary/xplanetimageviewer.cpp:296 ekos/align/align.ui:371
 #, kde-format
 msgid "FOV:"
-msgstr "Campo visual:"
+msgstr "Campo de visión:"
 
 #: auxiliary/xplanetimageviewer.cpp:305
 #, kde-format
@@ -1416,8 +1416,8 @@ msgid ""
 "Sets the FOV to the Specified value.   Note: has no effect if hovering over "
 "object."
 msgstr ""
-"Define el campo visual al valor indicado. Nota: no tiene efecto al situar el "
-"cursor sobre un objeto."
+"Define el campo de visión al valor indicado. Nota: no tiene efecto al situar "
+"el cursor sobre un objeto."
 
 #: auxiliary/xplanetimageviewer.cpp:321
 #, kde-format
@@ -1425,15 +1425,15 @@ msgid ""
 "Zoom to the current KStars FOV.   Note: has no effect if hovering over "
 "object."
 msgstr ""
-"Ampliar hasta el campo visual actual de KStars. Nota: no tiene efecto al "
+"Ampliar hasta el campo de visión actual de KStars. Nota: no tiene efecto al "
 "situar el cursor sobre un objeto."
 
 #: auxiliary/xplanetimageviewer.cpp:330
 #, kde-format
 msgid "Zoom to a specific FOV. This has no effect when hovering over an object"
 msgstr ""
-"Ampliar hasta el campo visual indicado. No tiene efecto al situar el cursor "
-"sobre un objeto."
+"Ampliar hasta el campo de visión indicado. No tiene efecto al situar el "
+"cursor sobre un objeto."
 
 #: auxiliary/xplanetimageviewer.cpp:339
 #, kde-format
@@ -1441,8 +1441,8 @@ msgid ""
 "Optimum FOV for the target, FOV parameter not specified.  Note: has no "
 "effect if hovering over object."
 msgstr ""
-"Campo visual óptimo para el destino; parámetro de campo visual no indicado. "
-"Nota: no tiene efecto al situar el cursor sobre un objeto."
+"Campo de visión óptimo para el destino; parámetro de campo de visión no "
+"indicado. Nota: no tiene efecto al situar el cursor sobre un objeto."
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
@@ -1597,7 +1597,7 @@ msgstr "Vista de XPlanet: %1 desde %2 en %3"
 #: auxiliary/xplanetimageviewer.cpp:756
 #, kde-format
 msgid "XPlanet View: %1 from %2 on %3 at FOV: %4 deg"
-msgstr "Vista de XPlanet: %1 desde %2 en %3 con campo visual: %4 grados"
+msgstr "Vista de XPlanet: %1 desde %2 en %3 con campo de visión: %4 grados"
 
 #: auxiliary/xplanetimageviewer.cpp:770
 #, kde-format
@@ -1626,12 +1626,12 @@ msgstr "%1, %2, %3"
 #: auxiliary/xplanetimageviewer.cpp:1122
 #, kde-format
 msgid "Choose a field-of-view"
-msgstr "Elija un campo visual"
+msgstr "Elija un campo de visión"
 
 #: auxiliary/xplanetimageviewer.cpp:1123
 #, kde-format
 msgid "FOV to render in XPlanet:"
-msgstr "Campo visual a mostrar en XPlanet:"
+msgstr "Campo de visión a mostrar en XPlanet:"
 
 #: auxiliary/xplanetimageviewer.cpp:1247
 #, kde-format
@@ -4626,19 +4626,19 @@ msgstr "Alt (aparente):"
 #, kde-format
 msgctxt "@title:window"
 msgid "Set FOV Indicator"
-msgstr "Definir indicador del campo visual"
+msgstr "Definir indicador del campo de visión"
 
 #: dialogs/fovdialog.cpp:180
 #, kde-format
 msgctxt "@title:window"
 msgid "New FOV Indicator"
-msgstr "Nuevo indicador de campo visual"
+msgstr "Nuevo indicador de campo de visión"
 
 #: dialogs/fovdialog.cpp:238
 #, kde-format
 msgctxt "Specify the apparent field of view (AFOV) manually"
 msgid "Specify AFOV"
-msgstr "Especificar campo visual aparente"
+msgstr "Especificar campo de visión aparente"
 
 #: dialogs/fovdialog.cpp:239
 #, kde-format
@@ -4759,13 +4759,13 @@ msgstr "Número F: "
 #: dialogs/fovdialog.ui:13
 #, kde-format
 msgid "Edit FOV Symbols"
-msgstr "Editar símbolos de campo visual"
+msgstr "Editar símbolos de campo de visión"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/fovdialog.ui:54
 #, kde-format
 msgid "Add a new FOV symbol"
-msgstr "Añadir un nuevo símbolo para el campo visual"
+msgstr "Añadir un nuevo símbolo para el campo de visión"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/fovdialog.ui:57
@@ -4774,7 +4774,7 @@ msgid ""
 "Add a new field-of-view (FOV) symbol to the list.  You can define the size, "
 "shape, and color of the new symbol."
 msgstr ""
-"Añadir un nuevo símbolo para el campo visual a la lista. Puede definir el "
+"Añadir un nuevo símbolo para el campo de visión a la lista. Puede definir el "
 "tamaño, forma, y color del nuevo símbolo."
 
 #. i18n: ectx: property (text), widget (QPushButton, NewButton)
@@ -4787,7 +4787,7 @@ msgstr "Nuevo…"
 #: dialogs/fovdialog.ui:83
 #, kde-format
 msgid "Modify the highlighted FOV symbol"
-msgstr "Modificar el símbolo del campo visual resaltado"
+msgstr "Modificar el símbolo del campo de visión resaltado"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
 #: dialogs/fovdialog.ui:86
@@ -4796,21 +4796,21 @@ msgid ""
 "Press this button to modify the highlighted FOV symbol.  You can change its "
 "size, shape and color."
 msgstr ""
-"Pulse este botón para modificar el símbolo de campo visual resaltado. Puede "
-"cambiar su tamaño, forma y color."
+"Pulse este botón para modificar el símbolo de campo de visión resaltado. "
+"Puede cambiar su tamaño, forma y color."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/fovdialog.ui:96
 #, kde-format
 msgid "Remove highlighted FOV symbol"
-msgstr "Eliminar símbolo de campo visual resaltado"
+msgstr "Eliminar símbolo de campo de visión resaltado"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: dialogs/fovdialog.ui:99
 #, kde-format
 msgid "Press this button to remove the highlighted FOV symbol from the list."
 msgstr ""
-"Pulse este botón para eliminar el símbolo de campo visual resaltado de la "
+"Pulse este botón para eliminar el símbolo de campo de visión resaltado de la "
 "lista."
 
 #: dialogs/locationdialog.cpp:53
@@ -5077,7 +5077,7 @@ msgstr "Eliminar ciudad"
 #: dialogs/newfov.ui:14
 #, kde-format
 msgid "New FOV Indicator"
-msgstr "Nuevo indicador de campo visual"
+msgstr "Nuevo indicador de campo de visión"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: dialogs/newfov.ui:58
@@ -5095,7 +5095,7 @@ msgstr ""
 #: dialogs/newfov.ui:65
 #, kde-format
 msgid "Name for FOV symbol"
-msgstr "Nombre para el símbolo de campo visual"
+msgstr "Nombre para el símbolo de campo de visión"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, FOVName)
 #: dialogs/newfov.ui:68
@@ -5104,8 +5104,8 @@ msgid ""
 "The name of the field-of-view (FOV) symbol.  This name appears in the FOV "
 "menu and in the \"Edit FOV Symbols\" tool."
 msgstr ""
-"El nombre del símbolo de campo visual. Este nombre aparece en el menú del "
-"campo visual y en la herramienta «Editar símbolos de campo visual»."
+"El nombre del símbolo de campo de visión. Este nombre aparece en el menú del "
+"campo de visión y en la herramienta «Editar símbolos de campo de visión»."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #. i18n: ectx: attribute (title), widget (QWidget, Eyepiece)
@@ -5142,7 +5142,8 @@ msgstr ""
 "Introduzca la distancia focal del telescopio, en milímetros.\n"
 "\n"
 "Este es uno de los campos de datos necesarios para definir un símbolo de "
-"campo visual. que coincida con el campo visual del ocular de un telescopio."
+"campo de visión. que coincida con el campo de visión del ocular de un "
+"telescopio."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2_2)
@@ -5184,25 +5185,26 @@ msgstr ""
 "Introduzca la distancia focal del ocular, en milímetros.\n"
 "\n"
 "Este es uno de los campos de datos necesarios para definir un símbolo de "
-"campo visual que coincida con el campo visual del ocular del telescopio."
+"campo de visión que coincida con el campo de visión del ocular del "
+"telescopio."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel8_2)
 #: dialogs/newfov.ui:224
 #, kde-format
 msgid "Enter the eyepiece's Apparent field-of-view"
-msgstr "Introduzca el campo visual aparente de ocular"
+msgstr "Introduzca el campo de visión aparente de ocular"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8_2)
 #: dialogs/newfov.ui:227
 #, kde-format
 msgid "Eyepiece AFOV:"
-msgstr "Campo visual aparente del ocular:"
+msgstr "Campo de visión aparente del ocular:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, EyeFOV)
 #: dialogs/newfov.ui:272
 #, kde-format
 msgid "field-of-view of the eyepiece, in arcminutes"
-msgstr "campo visual del ocular, en minutos de arco"
+msgstr "campo de visión del ocular, en minutos de arco"
 
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, EyeFOV)
 #: dialogs/newfov.ui:277
@@ -5213,10 +5215,11 @@ msgid ""
 "This is one of the data fields required for defining a field-of-view (FOV) "
 "symbol which matches the field-of-view of a telescope eyepiece."
 msgstr ""
-"Introduzca el campo visual del ocular en minutos de arco.\n"
+"Introduzca el campo de visión del ocular en minutos de arco.\n"
 "\n"
 "Este es uno de los campos de datos necesarios para definir un símbolo de "
-"campo visual que coincida con el campo visual del ocular del telescopio."
+"campo de visión que coincida con el campo de visión del ocular del "
+"telescopio."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2_2_2)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -5249,7 +5252,7 @@ msgstr ""
 #: dialogs/newfov.ui:415 dialogs/newfov.ui:629 dialogs/newfov.ui:799
 #, kde-format
 msgid "Compute field-of-view from above data fields"
-msgstr "Calcular el campo visual a partir de los campos de datos superiores"
+msgstr "Calcular el campo de visión a partir de los campos de datos anteriores"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, ComputeEyeFOV)
 #: dialogs/newfov.ui:420
@@ -5263,13 +5266,13 @@ msgid ""
 "The computed FOV angle (in arcminutes) will be displayed in the \"Field of "
 "view\" edit box."
 msgstr ""
-"Este botón calculará el ángulo del campo visual para una combinación "
+"Este botón calculará el ángulo del campo de visión para una combinación "
 "específica cámara/telescopio. Primero debe especificar la distancia focal "
-"del telescopio y el ocular, y el ángulo del campo visual del ocular en los "
-"campos de entrada superiores.\n"
+"del telescopio y el ocular, y el ángulo del campo de visión del ocular en "
+"los campos de entrada anteriores.\n"
 "\n"
-"El ángulo calculado del campo visual (en minutos de arco) se mostrará en el "
-"cuadro de edición del «Campo visual»."
+"El ángulo calculado del campo de visión (en minutos de arco) se mostrará en "
+"el cuadro de edición del «Campo de visión»."
 
 #. i18n: ectx: property (text), widget (QPushButton, ComputeEyeFOV)
 #. i18n: ectx: property (text), widget (QPushButton, ComputeCameraFOV)
@@ -5277,7 +5280,7 @@ msgstr ""
 #: dialogs/newfov.ui:423 dialogs/newfov.ui:637 dialogs/newfov.ui:807
 #, kde-format
 msgid "Compute FOV"
-msgstr "Calcular campo visual"
+msgstr "Calcular campo de visión"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
@@ -5307,8 +5310,8 @@ msgstr ""
 "Introduzca la distancia focal del telescopio en milímetros.\n"
 "\n"
 "Este es uno de los campos de datos necesarios para definir un símbolo de "
-"campo visual que coincida con el campo visual de una cámara montada en un "
-"telescopio."
+"campo de visión que coincida con el campo de visión de una cámara montada en "
+"un telescopio."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/newfov.ui:484
@@ -5368,7 +5371,8 @@ msgstr ""
 "Introduzca el tamaño físico del chip CCD o de un negativo de película.\n"
 "\n"
 "Este es uno de los campos de datos necesarios para definir un símbolo de "
-"campo visual que coincida con el campo visual de una cámara en un telescopio."
+"campo de visión que coincida con el campo de visión de una cámara en un "
+"telescopio."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2_3_2)
 #: dialogs/newfov.ui:590
@@ -5387,12 +5391,12 @@ msgid ""
 "The computed FOV angle (in arcminutes) will be displayed in the \"Field of "
 "view\" edit box."
 msgstr ""
-"Este botón calculará el ángulo del campo visual para una combinación "
+"Este botón calculará el ángulo del campo de visión para una combinación "
 "específica cámara/telescopio. Primero debe especificar la distancia focal "
 "del telescopio y el tamaño del chip CCD o del negativo de la película.\n"
 "\n"
-"El ángulo calculado del campo visual (en minutos de arco) se mostrará en el "
-"cuadro de edición del «Campo visual»."
+"El ángulo calculado del campo de visión (en minutos de arco) se mostrará en "
+"el cuadro de edición del «Campo de visión»."
 
 #. i18n: ectx: property (text), widget (QPushButton, DetectFromINDI)
 #: dialogs/newfov.ui:650
@@ -5410,7 +5414,7 @@ msgstr "Prismáticos"
 #: dialogs/newfov.ui:686
 #, kde-format
 msgid "Field of View:"
-msgstr "Campo visual:"
+msgstr "Campo de visión:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel9_31)
 #: dialogs/newfov.ui:741
@@ -5428,11 +5432,12 @@ msgid ""
 "The computed FOV angle (in arcminutes) will be displayed in the \"Field of "
 "view\" edit box."
 msgstr ""
-"Este botón calculará el ángulo del campo visual para unos prismáticos.Debe "
-"especificar el campo visual lineal como se menciona en los prismáticos.\n"
+"Este botón calculará el ángulo del campo de visión para unos prismáticos. "
+"Debe especificar el campo de visión lineal como se menciona en los "
+"prismáticos.\n"
 "\n"
-"El ángulo calculado del campo visual (en minutos de arco) se mostrará en el "
-"cuadro de edición del «Campo visual»."
+"El ángulo calculado del campo de visión (en minutos de arco) se mostrará en "
+"el cuadro de edición del «Campo de visión»."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab4)
 #: dialogs/newfov.ui:817
@@ -5489,7 +5494,7 @@ msgstr ""
 "radiotelescopio y la longitud de onda observada.\n"
 "\n"
 "El ángulo HPBW se mostrará (en minutos de arco) en el cuadro de edición del "
-"«Campo visual»."
+"«Campo de visión»."
 
 #. i18n: ectx: property (text), widget (QPushButton, ComputeHPBW)
 #: dialogs/newfov.ui:999
@@ -5511,7 +5516,7 @@ msgstr "minutos de arco"
 #: dialogs/newfov.ui:1041
 #, kde-format
 msgid "Field of view:"
-msgstr "Campo visual:"
+msgstr "Campo de visión:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVEditRotation)
 #: dialogs/newfov.ui:1048
@@ -5577,7 +5582,7 @@ msgstr "Grados al E del N"
 #: dialogs/newfov.ui:1102
 #, kde-format
 msgid "Desired field-of-view size, in arcminutes"
-msgstr "Campo visual deseado, en minutos de arco"
+msgstr "Campo de visión deseado, en minutos de arco"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, FOVEditX)
 #: dialogs/newfov.ui:1107
@@ -5588,7 +5593,7 @@ msgid ""
 "You can either enter a value directly, or use the \"Eyepiece\" or \"Camera\" "
 "Tabs to compute an angular size for specific eyepieces or cameras."
 msgstr ""
-"Introduzca el tamaño angular deseado para el símbolo de campo visual.\n"
+"Introduzca el tamaño angular deseado para el símbolo de campo de visión.\n"
 "\n"
 "Puede introducir un valor directamente, o usar los tabuladores «Ocular» o "
 "«Cámara» para calcular el tamaño angular para oculares específicos o cámaras."
@@ -5627,19 +5632,19 @@ msgstr "Fijar al polo celeste"
 #: dialogs/newfov.ui:1226
 #, kde-format
 msgid "Select color for the field-of-view symbol"
-msgstr "Seleccione un color para el símbolo de campo visual"
+msgstr "Seleccione un color para el símbolo de campo de visión"
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, ColorButton)
 #: dialogs/newfov.ui:1229
 #, kde-format
 msgid "Select a color for the field-of-view (FOV) symbol."
-msgstr "Seleccione un color para el símbolo de campo visual."
+msgstr "Seleccione un color para el símbolo de campo de visión."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, ShapeBox)
 #: dialogs/newfov.ui:1253
 #, kde-format
 msgid "Select a shape for the field-of-view symbol"
-msgstr "Seleccione una forma para el símbolo de campo visual"
+msgstr "Seleccione una forma para el símbolo de campo de visión"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ShapeBox)
 #: dialogs/newfov.ui:1258
@@ -5650,7 +5655,7 @@ msgid ""
 "\n"
 "Circle, Square, Crosshairs, Bullseye."
 msgstr ""
-"Seleccione una forma para el símbolo de campo visual. Las formas posibles "
+"Seleccione una forma para el símbolo de campo de visión. Las formas posibles "
 "son:\n"
 "\n"
 "Círculo, cuadrado, cruceta, diana."
@@ -5829,7 +5834,7 @@ msgstr ""
 #: dialogs/newview.ui:303
 #, kde-format
 msgid "Also set the field of view"
-msgstr "Definir también el campo visual"
+msgstr "Definir también el campo de visión"
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -6226,12 +6231,13 @@ msgid "Mount does not support syncing."
 msgstr "La montura no permite sincronización."
 
 #: ekos/align/align.cpp:1049
-#, fuzzy, kde-format
-#| msgid "Effective telescope focal length is updated to %1 mm."
+#, kde-format
 msgid ""
 "Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
 "%4 Pitch: %5 FOVW: %6)."
-msgstr "La longitud focal efectiva del telescopio está actualizada a %1 mm."
+msgstr ""
+"La longitud focal efectiva del telescopio está actualizada a %1 mm (LF: %2, "
+"Reductor: %3, W: %4, Pitch: %5, FOVW: %6)."
 
 #: ekos/align/align.cpp:1097
 #, kde-format
@@ -6239,7 +6245,7 @@ msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
 "telescope focal length and camera pixel size are correct."
 msgstr ""
-"Advertencia: El campo visual calculado (%1) está fuera de los límites. "
+"Advertencia: El campo de visión calculado (%1) está fuera de los límites. "
 "Asegúrese de que la distancia focal del telescopio y el tamaño del píxel de "
 "la cámara son correctos."
 
@@ -6250,14 +6256,14 @@ msgid ""
 "solve once to measure the effective FOV or enter the values manually.</"
 "p><p>Calculated FOV: %1</p>"
 msgstr ""
-"<p>Tamaño del campo visual efectivo en minutos de arco.</p><p>Capture y "
-"resuelva una vez para medir el campo visual efectivo o introduzca los "
-"valores de forma manual.</p><p>Campo visual calculado: %1</p>"
+"<p>Tamaño del campo de visión efectivo en minutos de arco.</p><p>Capture y "
+"resuelva una vez para medir el campo de visión efectivo o introduzca los "
+"valores de forma manual.</p><p>Campo de visión calculado: %1</p>"
 
 #: ekos/align/align.cpp:1145
 #, kde-format
 msgid "<p>Effective field of view size in arcminutes.</p>"
-msgstr "<p>Campo visual efectivo, en minutos de arco.</p>"
+msgstr "<p>Campo de visión efectivo, en minutos de arco.</p>"
 
 #: ekos/align/align.cpp:1429
 #, kde-format
@@ -6712,7 +6718,7 @@ msgstr "Enfoque automático al cambiar filtros…"
 #: ekos/align/align.cpp:3799
 #, kde-format
 msgid "Invalid FOV."
-msgstr "Campo visual no válido."
+msgstr "Campo de visión no válido."
 
 #: ekos/align/align.cpp:3947
 #, kde-format
@@ -6949,7 +6955,7 @@ msgstr "Coordenadas de la solución (JNow)"
 #: ekos/align/align.ui:368 ekos/align/align.ui:503
 #, kde-format
 msgid "Effective field of view size in arcminutes."
-msgstr "Campo visual efectivo, en minutos de arco."
+msgstr "Campo de visión efectivo, en minutos de arco."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, err)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, errOut)
@@ -8067,7 +8073,7 @@ msgstr "WCS"
 #, kde-format
 msgid "Display received FITS images unto solver FOV rectangle in the sky map"
 msgstr ""
-"Mostrar las imágenes FITS recibidas en el rectángulo del campo visual del "
+"Mostrar las imágenes FITS recibidas en el rectángulo del campo de visión del "
 "sistema de identificación en el mapa del cielo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
@@ -8825,9 +8831,9 @@ msgid ""
 "<html><head/><body><p>This displays the current CCD field of view that will "
 "be used to calculate which index files are needed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Aquí se muestra el campo visual actual del CCD que se "
-"usará para calcular los archivos de índice que son necesarios.</p></body></"
-"html>"
+"<html><head/><body><p>Aquí se muestra el campo de visión actual del CCD que "
+"se usará para calcular los archivos de índice que son necesarios.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: ekos/align/opsastrometryindexfiles.ui:241
@@ -8901,7 +8907,7 @@ msgstr "Abrir"
 #: ekos/align/opsastrometryindexfiles.ui:295
 #, kde-format
 msgid "Current CCD FOV: "
-msgstr "Campo visual actual del CCD"
+msgstr "Campo de visión actual del CCD"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_24)
 #: ekos/align/opsastrometryindexfiles.ui:302
@@ -10133,8 +10139,8 @@ msgid ""
 "the Legacy Polar Alignment Tool.</p>"
 msgstr ""
 "<p>La herramienta de alineación polar necesita lo siguiente:</p><p>1. "
-"Montura ecuatorial alemana</p><p>2. Campo visual amplio &gt; 1 grados</"
-"p><p>Para campos visuales pequeños, use la herramienta de alineación polar "
+"Montura ecuatorial alemana</p><p>2. Campo de visión amplio &gt; 1 grados</"
+"p><p>Para campos de visión pequeños, use la herramienta de alineación polar "
 "antigua.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, introText)
@@ -10165,7 +10171,7 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Desactivado: el "
-"campo visual debe ser de 10 minutos de arco o superior. Se recomienda 60 "
+"campo de visión debe ser de 10 minutos de arco o superior. Se recomienda 60 "
 "minutos de arco o más.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, directionLabel)
@@ -10293,8 +10299,8 @@ msgstr ""
 "alineación corregido durante el proceso de actualización. El usuario debería "
 "intentar reducir el error en la línea «Error actualizado» inferior y "
 "minimizar el tamaño de las flechas. Este es el único esquema que puede "
-"corregir por completo un error mayor que el campo visual de la imagen, pero "
-"depende de una identificación de placas fiable.</li><li style=\" margin-"
+"corregir por completo un error mayor que el campo de visión de la imagen, "
+"pero depende de una identificación de placas fiable.</li><li style=\" margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Mover "
 "estrella</span>: Se superpone un triángulo a la imagen capturada de la parte "
@@ -17671,12 +17677,12 @@ msgid ""
 "(-179.99° to 180.00°).</p></body></html>"
 msgstr ""
 "<html><head/><body><p>El ángulo de la dirección vertical de la cámara "
-"(consulte Campo visual) respectivo a la dirección de origen del rotador. El "
-"desplazamiento de la cámara se determina automáticamente con <span style=\" "
-"font-weight:700;\">Capturar y resolver</span> o <span style=\" font-"
-"weight:700;\">Cargar y desplazar</span> en el módulo de alineación</p><p>El "
-"desplazamiento de la cámara se mide en el alcance del ángulo de posición(de "
-"-179,99° a 180,00°).</p></body></html>"
+"(consulte «Campo de visión») respectivo a la dirección de origen del "
+"rotador. El desplazamiento de la cámara se determina automáticamente con "
+"<span style=\" font-weight:700;\">Capturar y resolver</span> o <span style="
+"\" font-weight:700;\">Cargar y desplazar</span> en el módulo de alineación</"
+"p><p>El desplazamiento de la cámara se mide en el alcance del ángulo de "
+"posición(de -179,99° a 180,00°).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
@@ -21914,7 +21920,7 @@ msgid "Max Total Move:"
 msgstr "Movimiento total máximo:"
 
 #: ekos/guide/externalguide/linguider.cpp:70
-#: ekos/guide/externalguide/phd2.cpp:279
+#: ekos/guide/externalguide/phd2.cpp:298
 #, kde-format
 msgid ""
 "The host was not found. Please check the host name and port settings in "
@@ -21934,7 +21940,7 @@ msgstr ""
 "del puerto son correctas."
 
 #: ekos/guide/externalguide/linguider.cpp:79
-#: ekos/guide/externalguide/phd2.cpp:286
+#: ekos/guide/externalguide/phd2.cpp:305
 #, kde-format
 msgid "The following error occurred: %1."
 msgstr "Ha ocurrido el siguiente error: %1."
@@ -22016,27 +22022,27 @@ msgstr "Desistiendo de volver a conectar."
 msgid "Reconnecting to PHD2 Host: %1, on port %2. . ."
 msgstr "Reconectando con el servidor PHD2: %1, en el puerto %2…"
 
-#: ekos/guide/externalguide/phd2.cpp:192
+#: ekos/guide/externalguide/phd2.cpp:209
 #, kde-format
 msgid "Connecting to PHD2 Host: %1, on port %2. . ."
 msgstr "Conectando con el servidor PHD2: %1, en el puerto %2…"
 
-#: ekos/guide/externalguide/phd2.cpp:247
+#: ekos/guide/externalguide/phd2.cpp:266
 #, kde-format
 msgid "Aborting any capture before disconnecting equipment..."
 msgstr "Interrumpiendo toda captura antes de desconectar el equipo…"
 
-#: ekos/guide/externalguide/phd2.cpp:260
+#: ekos/guide/externalguide/phd2.cpp:279
 #, kde-format
 msgid "Disconnected from PHD2 Host: %1, on port %2."
 msgstr "Desconectado del servidor PHD2: %1, en el puerto %2."
 
-#: ekos/guide/externalguide/phd2.cpp:276
+#: ekos/guide/externalguide/phd2.cpp:295
 #, kde-format
 msgid "The host disconnected."
 msgstr "Se ha desconectado el servidor."
 
-#: ekos/guide/externalguide/phd2.cpp:282
+#: ekos/guide/externalguide/phd2.cpp:301
 #, kde-format
 msgid ""
 "The connection was refused by the peer. Make sure the PHD2 is running, and "
@@ -22046,177 +22052,177 @@ msgstr ""
 "en ejecución y compruebe que las preferencias del nombre del servidor y del "
 "puerto son correctas."
 
-#: ekos/guide/externalguide/phd2.cpp:308
+#: ekos/guide/externalguide/phd2.cpp:327
 #, kde-format
 msgid "PHD2: invalid response received: %1"
 msgstr "PHD2: se ha recibido una respuesta no válida: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:309
+#: ekos/guide/externalguide/phd2.cpp:328
 #, kde-format
 msgid "PHD2: JSON error: %1"
 msgstr "PHD2: error de JSON: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:333
+#: ekos/guide/externalguide/phd2.cpp:352
 #, kde-format
 msgid "Unknown PHD2 event: %1"
 msgstr "Evento de PHD2 desconocido: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:342
+#: ekos/guide/externalguide/phd2.cpp:361
 #, kde-format
 msgid "PHD2: Version %1"
 msgstr "PHD2: Versión %1"
 
-#: ekos/guide/externalguide/phd2.cpp:346
+#: ekos/guide/externalguide/phd2.cpp:365
 #, kde-format
 msgid "PHD2: Calibration Complete."
 msgstr "PHD2: Calibración terminada."
 
-#: ekos/guide/externalguide/phd2.cpp:356
+#: ekos/guide/externalguide/phd2.cpp:375
 #, kde-format
 msgid "PHD2: Waiting for guiding to settle."
 msgstr "PHD2: Esperando que el guiado se estabilice."
 
-#: ekos/guide/externalguide/phd2.cpp:379
+#: ekos/guide/externalguide/phd2.cpp:398
 #, kde-format
 msgid "PHD2: Calibration Failed (%1)."
 msgstr "PHD2: La calibración automática ha fallado (%1)."
 
-#: ekos/guide/externalguide/phd2.cpp:384
+#: ekos/guide/externalguide/phd2.cpp:403
 #, kde-format
 msgid "Calibration Data Flipped."
 msgstr "Datos de calibración invertidos."
 
-#: ekos/guide/externalguide/phd2.cpp:403
+#: ekos/guide/externalguide/phd2.cpp:422
 #, kde-format
 msgid "PHD2: SettleDone."
 msgstr "PHD2: Estabilización terminada."
 
-#: ekos/guide/externalguide/phd2.cpp:414
+#: ekos/guide/externalguide/phd2.cpp:433
 #, kde-format
 msgid "PHD2: Settling failed (%1)."
 msgstr "PHD2: La estabilización ha fallado (%1)."
 
-#: ekos/guide/externalguide/phd2.cpp:433
+#: ekos/guide/externalguide/phd2.cpp:452
 #, kde-format
 msgid "PHD2: There was a dithering error, but continue guiding."
 msgstr "PHD2: Ha ocurrido un error de desvío, pero se continúa el guiado."
 
-#: ekos/guide/externalguide/phd2.cpp:442
+#: ekos/guide/externalguide/phd2.cpp:461
 #, kde-format
 msgid "PHD2: Settling failed, aborted."
 msgstr "PHD2: La estabilización ha fallado. Se ha interrumpido."
 
-#: ekos/guide/externalguide/phd2.cpp:448
+#: ekos/guide/externalguide/phd2.cpp:467
 #, kde-format
 msgid "PHD2: Settling complete, Guiding Started."
 msgstr "PHD2: Estabilización completada, guiado automático iniciado."
 
-#: ekos/guide/externalguide/phd2.cpp:477
+#: ekos/guide/externalguide/phd2.cpp:496
 #, kde-format
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "PHD2: Estrella encontrada, continuando el guiado automático."
 
-#: ekos/guide/externalguide/phd2.cpp:623
+#: ekos/guide/externalguide/phd2.cpp:642
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr "PHD2 %1: %2"
 
-#: ekos/guide/externalguide/phd2.cpp:677
+#: ekos/guide/externalguide/phd2.cpp:696
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr "PHD2: Bucle de exposiciones detenido."
 
-#: ekos/guide/externalguide/phd2.cpp:682
+#: ekos/guide/externalguide/phd2.cpp:701
 #, kde-format
 msgid "PHD2: Guiding Stopped."
 msgstr "PHD2: Guiado automático detenido."
 
-#: ekos/guide/externalguide/phd2.cpp:701
+#: ekos/guide/externalguide/phd2.cpp:720
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr "PHD2: Posición de bloqueo ajustada."
 
-#: ekos/guide/externalguide/phd2.cpp:712
+#: ekos/guide/externalguide/phd2.cpp:731
 #, kde-format
 msgid "PHD2: Star Selected."
 msgstr "PHD2: Estrella seleccionada."
 
-#: ekos/guide/externalguide/phd2.cpp:721
+#: ekos/guide/externalguide/phd2.cpp:740
 #, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
 msgstr "PHD2: Guiado… Esperando estabilización…"
 
-#: ekos/guide/externalguide/phd2.cpp:725
+#: ekos/guide/externalguide/phd2.cpp:744
 #, kde-format
 msgid "PHD2: Dithering successful."
 msgstr "PHD2: Desvío terminado con éxito"
 
-#: ekos/guide/externalguide/phd2.cpp:731
+#: ekos/guide/externalguide/phd2.cpp:750
 #, kde-format
 msgid "PHD2: Guiding running."
 msgstr "PHD2: Guiado en funcionamiento."
 
-#: ekos/guide/externalguide/phd2.cpp:742
+#: ekos/guide/externalguide/phd2.cpp:761
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr "PHD2: Posición de bloqueo perdida, continuando la calibración."
 
-#: ekos/guide/externalguide/phd2.cpp:748
+#: ekos/guide/externalguide/phd2.cpp:767
 #, kde-format
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr "PHD2: Estrella perdida. Intentando volver a obtenerla durante %1s."
 
-#: ekos/guide/externalguide/phd2.cpp:754
+#: ekos/guide/externalguide/phd2.cpp:773
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr "PHD2: Posición de bloqueo perdida."
 
-#: ekos/guide/externalguide/phd2.cpp:760
+#: ekos/guide/externalguide/phd2.cpp:779
 #, kde-format
 msgid "PHD2: Guiding paused."
 msgstr "PHD2: Guiado automático suspendido."
 
-#: ekos/guide/externalguide/phd2.cpp:765
+#: ekos/guide/externalguide/phd2.cpp:784
 #, kde-format
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "PHD2: Calibrando, el tiempo expira en %1s."
 
-#: ekos/guide/externalguide/phd2.cpp:774
+#: ekos/guide/externalguide/phd2.cpp:793
 #, kde-format
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "PHD2: La calibración ha entrado en bucle y ha fallado."
 
-#: ekos/guide/externalguide/phd2.cpp:778
+#: ekos/guide/externalguide/phd2.cpp:797
 #, kde-format
 msgid "PHD2: Looping Exposures."
 msgstr "PHD2: Bucle de exposiciones."
 
-#: ekos/guide/externalguide/phd2.cpp:784
+#: ekos/guide/externalguide/phd2.cpp:803
 #, kde-format
 msgid "PHD2: Dithering started."
 msgstr "PHD2: Desvío iniciado."
 
-#: ekos/guide/externalguide/phd2.cpp:812
+#: ekos/guide/externalguide/phd2.cpp:831
 #, kde-format
 msgid "PHD2: Calibration is cleared"
 msgstr "PHD2: Datos de calibración borrados"
 
-#: ekos/guide/externalguide/phd2.cpp:908
+#: ekos/guide/externalguide/phd2.cpp:927
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr "PHD2: Modo de guiado DEC fijado a: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:918
+#: ekos/guide/externalguide/phd2.cpp:937
 #, kde-format
 msgid "PHD2: Exposure Time set to: "
 msgstr "PHD2: Tiempo de exposición fijado a: "
 
-#: ekos/guide/externalguide/phd2.cpp:926
+#: ekos/guide/externalguide/phd2.cpp:945
 #, kde-format
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Tiempos de exposición válidos: Auto, "
 
-#: ekos/guide/externalguide/phd2.cpp:957
+#: ekos/guide/externalguide/phd2.cpp:976
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
@@ -22225,37 +22231,43 @@ msgstr ""
 "PHD2: Por favor, defina los parámetros del CCD y del telescopio en PHD2; la "
 "escala de píxeles no es válida."
 
-#: ekos/guide/externalguide/phd2.cpp:959
+#: ekos/guide/externalguide/phd2.cpp:978
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr "PHD2: La escala de píxeles es de %1 segundos de arco por píxel"
 
-#: ekos/guide/externalguide/phd2.cpp:1074
+#: ekos/guide/externalguide/phd2.cpp:1093
 #, kde-format
 msgid "PHD2 Error: unhandled '%1'"
 msgstr "Error de PHD2: «%1» no está contemplado"
 
-#: ekos/guide/externalguide/phd2.cpp:1207
-#: ekos/guide/externalguide/phd2.cpp:1225
-#: ekos/guide/externalguide/phd2.cpp:1372
-#: ekos/guide/externalguide/phd2.cpp:1488
-#: ekos/guide/externalguide/phd2.cpp:1515
-#: ekos/guide/externalguide/phd2.cpp:1544
+#: ekos/guide/externalguide/phd2.cpp:1229
+#: ekos/guide/externalguide/phd2.cpp:1247
+#: ekos/guide/externalguide/phd2.cpp:1400
+#: ekos/guide/externalguide/phd2.cpp:1516
+#: ekos/guide/externalguide/phd2.cpp:1543
+#: ekos/guide/externalguide/phd2.cpp:1572
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr "Error de PHD2: Equipo no conectado."
 
-#: ekos/guide/externalguide/phd2.cpp:1365
+#: ekos/guide/externalguide/phd2.cpp:1387
 #, kde-format
 msgid "PHD2: Guiding is already running."
 msgstr "PHD2: El guiado automático ya está en uso."
 
-#: ekos/guide/externalguide/phd2.cpp:1428
+#: ekos/guide/externalguide/phd2.cpp:1394
+#, fuzzy, kde-format
+#| msgid "PHD2: Guiding is already running."
+msgid "PHD2: Guiding is paused, resuming..."
+msgstr "PHD2: El guiado automático ya está en uso."
+
+#: ekos/guide/externalguide/phd2.cpp:1456
 #, kde-format
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "PHD2: Conectando el equipo…"
 
-#: ekos/guide/externalguide/phd2.cpp:1430
+#: ekos/guide/externalguide/phd2.cpp:1458
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: Desconectando el equipo…"
@@ -22717,7 +22729,7 @@ msgstr "Información del telescopio/lente"
 #: ekos/guide/guide.ui:594
 #, kde-format
 msgid "Field of View (arcmin)"
-msgstr "Campo visual (arcmin):"
+msgstr "Campo de visión (arcmin):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Aperture)
 #: ekos/guide/guide.ui:648
@@ -27803,7 +27815,7 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:478
 #, kde-format
 msgid "Cover FOV"
-msgstr "Campo visual cubierto"
+msgstr "Campo de visión cubierto"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
@@ -27851,14 +27863,14 @@ msgid ""
 "Final mosaic field of view size in arc minutes. Click update to calculate it "
 "or enter it manually."
 msgstr ""
-"Tamaño final del campo visual del mosaico en minutos de arco. Haga clic para "
-"actualizarlo o introdúzcalo de forma manual."
+"Tamaño final del campo de visión del mosaico en minutos de arco. Haga clic "
+"para actualizarlo o introdúzcalo de forma manual."
 
 #. i18n: ectx: property (text), widget (QLabel, targetFOVLabel)
 #: ekos/scheduler/framingassistant.ui:599
 #, kde-format
 msgid "Mosaic FOV:"
-msgstr "Campo visual en mosaico:"
+msgstr "Campo de visión en mosaico:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetWFOVSpin)
 #: ekos/scheduler/framingassistant.ui:636
@@ -27905,14 +27917,14 @@ msgstr ""
 #, kde-format
 msgid "Camera FOV in arc minutes as determined from equipment parameters above"
 msgstr ""
-"Campo visual de la cámara en minutos de arco, como se deduce de los "
+"Campo de visión de la cámara en minutos de arco, como se deduce de los "
 "anteriores parámetros del equipo"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraFOVLabel)
 #: ekos/scheduler/framingassistant.ui:708
 #, kde-format
 msgid "Camera FOV:"
-msgstr "Campo visual de la cámara:"
+msgstr "Campo de visión de la cámara:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraWFOVSpin)
 #: ekos/scheduler/framingassistant.ui:751
@@ -28008,8 +28020,8 @@ msgid ""
 "<html><head/><body><p align=\"justify\">Orientation of the camera field of "
 "view.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Orientación del campo visual de la "
-"cámara.</p></body></html>"
+"<html><head/><body><p align=\"justify\">Orientación del campo de visión de "
+"la cámara.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, positionAngleSpin)
 #: ekos/scheduler/framingassistant.ui:920
@@ -28496,8 +28508,8 @@ msgstr ""
 "<html><head/><body><p>Si la calibración de guiado falla, reiniciar el "
 "proceso de alineación antes de continuar nuevamente con el proceso de "
 "recalibración del guiado. Esto puede ayudar a volver a centrar el objeto de "
-"destino en el campo visual si el proceso de calibración se alejó demasiado.</"
-"p></body></html>"
+"destino en el campo de visión si el proceso de calibración se alejó "
+"demasiado.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RealignAfterCalibrationFailure)
 #: ekos/scheduler/opsalignmentsettings.ui:99
@@ -35424,7 +35436,7 @@ msgstr "Tipo de cursor cuando se explora el mapa del cielo."
 #: kstars.kcfg:377
 #, kde-format
 msgid "Name of selected FOV indicators"
-msgstr "Indicadores del campo visual seleccionado"
+msgstr "Indicadores del campo de visión seleccionado"
 
 #. i18n: ectx: whatsthis, entry (FOVNames), group (View)
 #: kstars.kcfg:378
@@ -35433,9 +35445,9 @@ msgid ""
 "The names of the currently selected field-of-view indicators. The list of "
 "defined FOV indicator names is listed in the \"Settings|FOV Symbols\" menu."
 msgstr ""
-"Los nombres de los indicadores del campo visual seleccionados actualmente. "
-"La lista de indicadores de campos visuales se encuentra en el menú: "
-"«Preferencias|Símbolos de campos visuales»."
+"Los nombres de los indicadores del campo de visión seleccionados "
+"actualmente. La lista de indicadores de campos de visión se encuentra en el "
+"menú: «Preferencias|Símbolos de campos de visión»."
 
 #. i18n: ectx: label, entry (FadePlanetTrails), group (View)
 #: kstars.kcfg:382
@@ -36810,13 +36822,13 @@ msgstr ""
 #: kstars.kcfg:892
 #, kde-format
 msgid "Density of stars in the field of view"
-msgstr "Densidad de estrellas en el campo visual"
+msgstr "Densidad de estrellas en el campo de visión"
 
 #. i18n: ectx: whatsthis, entry (StarDensity), group (View)
 #: kstars.kcfg:893
 #, kde-format
 msgid "Sets the density of stars in the field of view"
-msgstr "Fijar la densidad de estrellas en el campo visual"
+msgstr "Fijar la densidad de estrellas en el campo de visión"
 
 #. i18n: ectx: label, entry (MagLimitDrawStarZoomOut), group (View)
 #: kstars.kcfg:898
@@ -37866,14 +37878,14 @@ msgstr ""
 #: kstars.kcfg:1331
 #, kde-format
 msgid "Color of solver FOV box"
-msgstr "Color del cuadro del campo visual del sistema de identificación"
+msgstr "Color del cuadro del campo de visión del sistema de identificación"
 
 #. i18n: ectx: whatsthis, entry (SolverFOVColor), group (Colors)
 #: kstars.kcfg:1332
 #, kde-format
 msgid "The color for solver FOV box in Ekos alignment module."
 msgstr ""
-"El color para cuadro del campo visual del sistema de identificación en el "
+"El color para cuadro del campo de visión del sistema de identificación en el "
 "módulo de alineación de Ekos."
 
 #. i18n: ectx: label, entry (xplanetIsInternal), group (Xplanet)
@@ -38306,14 +38318,14 @@ msgstr "Usar el archivo de configuración especificado."
 #: kstars.kcfg:1503
 #, kde-format
 msgid "Use KStars's FOV"
-msgstr "Usar el campo visual de KStars"
+msgstr "Usar el campo de visión de KStars"
 
 #. i18n: ectx: whatsthis, entry (XplanetFOV), group (Xplanet)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetFOV)
 #: kstars.kcfg:1504 xplanet/opsxplanet.ui:239
 #, kde-format
 msgid "If checked, use kstars's FOV."
-msgstr "Si está marcado se usará el campo visual de KStars."
+msgstr "Si está marcado se usará el campo de visión de KStars."
 
 #. i18n: ectx: label, entry (XplanetMarkerFile), group (Xplanet)
 #: kstars.kcfg:1508
@@ -39179,7 +39191,7 @@ msgstr "Nombre completo del observador por omisión."
 #, kde-format
 msgid "Sync FOV indicator Position Angle with Rotator Settings Position Angle"
 msgstr ""
-"Sincronizar el ángulo de posición del indicador de campo visual con el "
+"Sincronizar el ángulo de posición del indicador de campo de visión con el "
 "ángulo de posición de las preferencias del rotador"
 
 #. i18n: ectx: label, entry (PAMultiplier), group (Capture)
@@ -40592,7 +40604,7 @@ msgstr ""
 #, kde-format
 msgid "Display received FITS images unto solver FOV rectangle in the sky map."
 msgstr ""
-"Mostrar las imágenes FITS recibidas en el rectángulo del campo visual del "
+"Mostrar las imágenes FITS recibidas en el rectángulo del campo de visión del "
 "sistema de identificación en el mapa del cielo."
 
 #. i18n: ectx: label, entry (AstrometryDifferentialSlewing), group (Align)
@@ -70980,30 +70992,30 @@ msgstr "Activar &seguimiento"
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
-msgstr "Campo visual aproximado: %1 grados"
+msgstr "Campo de visión aproximado: %1 grados"
 
 #: kstarsactions.cpp:1713
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
-msgstr "Campo visual aproximado: %1 minutos de arco"
+msgstr "Campo de visión aproximado: %1 minutos de arco"
 
 #: kstarsactions.cpp:1719
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
-msgstr "Campo visual aproximado: %1 segundos de arco"
+msgstr "Campo de visión aproximado: %1 segundos de arco"
 
 #: kstarsactions.cpp:1736
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
-msgstr "Introducir ángulo del campo visual deseado"
+msgstr "Introducir ángulo del campo de visión deseado"
 
 #: kstarsactions.cpp:1737
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
-msgstr "Introducir ángulo del campo visual en grados: "
+msgstr "Introducir ángulo del campo de visión en grados: "
 
 #: kstarsactions.cpp:1768 kstarsinit.cpp:741
 #, kde-format
@@ -71212,7 +71224,7 @@ msgstr "suroeste"
 msgid "northwest"
 msgstr "noroeste"
 
-#: kstarsdbus.cpp:1026
+#: kstarsdbus.cpp:1027
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Sky"
@@ -71823,12 +71835,12 @@ msgstr "Conmutar visor FITS"
 #, kde-format
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
-msgstr "Campo visual del sensor"
+msgstr "Campo de visión del sensor"
 
 #: kstarsinit.cpp:658
 #, kde-format
 msgid "Toggle Sensor FOV"
-msgstr "Conmutar el campo visual del sensor"
+msgstr "Conmutar el campo de visión del sensor"
 
 #: kstarsinit.cpp:663
 #, kde-format
@@ -72046,7 +72058,7 @@ msgstr "Editar vistas…"
 #: kstarsinit.cpp:848
 #, kde-format
 msgid "Edit FOV Symbols..."
-msgstr "Editar símbolos de campo visual…"
+msgstr "Editar símbolos de campo de visión…"
 
 #: kstarsinit.cpp:885
 #, kde-format
@@ -73508,7 +73520,7 @@ msgstr "Sesgo CCD"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD FOV"
-msgstr "Campo visual del CCD"
+msgstr "Campo de visión del CCD"
 
 #: libindi_strings.cpp:51
 #, kde-kuit-format
@@ -77066,7 +77078,7 @@ msgstr "Guardar ocular"
 #: oal/equipmentwriter.ui:438
 #, kde-format
 msgid "Apparent FOV:"
-msgstr "Campo visual aparente:"
+msgstr "Campo de visión aparente:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
 #: oal/equipmentwriter.ui:504
@@ -79726,7 +79738,7 @@ msgstr "Fecha, hora y posición: "
 #, kde-format
 msgctxt "@title:window"
 msgid "Field of View Snapshot Browser"
-msgstr "Navegador de capturas de campo visual"
+msgstr "Navegador de capturas de campo de visión"
 
 #: printing/foveditordialog.cpp:198 printing/pwizprint.cpp:127
 #: tools/scriptbuilder.cpp:921
@@ -79737,7 +79749,7 @@ msgstr "No se puede enviar el archivo"
 #: printing/foveditordialog.cpp:247
 #, kde-format
 msgid "FOV (%1/%2): %3 (%4' x %5')"
-msgstr "Campo visual (%1/%2): %3 (%4' x %5')"
+msgstr "Campo de visión (%1/%2): %3 (%4' x %5')"
 
 #. i18n: ectx: property (text), widget (QPushButton, recaptureButton)
 #: printing/foveditordialog.ui:154
@@ -79894,7 +79906,7 @@ msgstr "Formulario de registro"
 #: printing/printingwizard.cpp:540
 #, kde-format
 msgid "Field of View Snapshots"
-msgstr "Capturas de campo visual"
+msgstr "Capturas de campo de visión"
 
 #: printing/printingwizard.cpp:548
 #, kde-format
@@ -79902,7 +79914,7 @@ msgctxt ""
 "%1 = FOV index, %2 = FOV count, %3 = FOV name, %4 = FOV X size, %5 = FOV Y "
 "size"
 msgid "FOV (%1/%2): %3 (%4' x %5')"
-msgstr "Campo visual (%1/%2): %3 (%4' x %5')"
+msgstr "Campo de visión (%1/%2): %3 (%4' x %5')"
 
 #: printing/printingwizard.cpp:558
 #, kde-format
@@ -80003,7 +80015,7 @@ msgstr "Añadir un formulario de registro básico al mapa de localización"
 #: printing/pwizfovbrowse.ui:71
 #, kde-format
 msgid "Browse Captured Field of View Images"
-msgstr "Explorar las imágenes de campo visual capturadas"
+msgstr "Explorar las imágenes de campo de visión capturadas"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizfovbrowse.ui:94
@@ -80012,8 +80024,9 @@ msgid ""
 "After FOV snapshots are captured, you can view, caption and delete them "
 "using Field of View Snapshot Browser window."
 msgstr ""
-"Tras realizar una captura de un campo visual, puede verla, darle un titulo o "
-"borrarla usando la ventana del explorador de capturas de campo visual."
+"Tras realizar una captura de un campo de visión, puede verla, darle un "
+"titulo o borrarla usando la ventana del explorador de capturas de campo de "
+"visión."
 
 #. i18n: ectx: property (text), widget (QPushButton, browseButton)
 #: printing/pwizfovbrowse.ui:135
@@ -80030,7 +80043,7 @@ msgstr "Solo carta de magnitudes"
 #: printing/pwizfovconfig.ui:77
 #, kde-format
 msgid "Set Basic Field of View Capture Settings"
-msgstr "Ajustar las preferencias básicas de la captura del campo visual"
+msgstr "Ajustar las preferencias básicas de la captura del campo de visión"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizfovconfig.ui:100
@@ -80039,9 +80052,9 @@ msgid ""
 "<p>Set basic field of view capture settings: color scheme, legend and FOV "
 "image shape, then click <b>Next</b> to proceed.</p>"
 msgstr ""
-"<p>Establezca las preferencias básicas del campo visual: esquema de color, "
-"leyenda y forma de la imagen de campo visual. Pulse <b>Siguiente</b> para "
-"continuar.</p>"
+"<p>Establezca las preferencias básicas del campo de visión: esquema de "
+"color, leyenda y forma de la imagen de campo de visión. Pulse <b>Siguiente</"
+"b> para continuar.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, switchColorsBox)
 #: printing/pwizfovconfig.ui:126
@@ -80053,7 +80066,7 @@ msgstr "Usar esquema de colores «Carta estelar»"
 #: printing/pwizfovconfig.ui:136
 #, kde-format
 msgid "Override FOV shape to rectangular"
-msgstr "Redefinir la forma del campo visual como rectangular"
+msgstr "Redefinir la forma del campo de visión como rectangular"
 
 #. i18n: ectx: property (text), widget (QLabel, label1)
 #: printing/pwizfovconfig.ui:165
@@ -80066,7 +80079,8 @@ msgstr "Carta de escala y magnitudes"
 #, kde-format
 msgid "Add scale and magnitudes chart to exported FOV images"
 msgstr ""
-"Añadir carta de escala y magnitudes a las imágenes exportadas de campo visual"
+"Añadir carta de escala y magnitudes a las imágenes exportadas de campo de "
+"visión"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useAlphaBlendBox)
 #: printing/pwizfovconfig.ui:179
@@ -80096,7 +80110,7 @@ msgstr "Tipo de carta:"
 #: printing/pwizfovmanual.ui:71
 #, kde-format
 msgid "Manually Capture Field of View Snapshots"
-msgstr "Hacer capturas del campo visual manualmente"
+msgstr "Hacer capturas del campo de visión manualmente"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizfovmanual.ui:96
@@ -80111,13 +80125,13 @@ msgid ""
 "p>\n"
 "<p>Press <b>Next</b> when done.</p>"
 msgstr ""
-"<p>En el método de captura manual del campo visual, el usuario centra el "
+"<p>En el método de captura manual del campo de visión, el usuario centra el "
 "mapa del cielo en un punto de interés y luego realiza capturas de fragmentos "
-"del cielo dentro del símbolo de campo visual.</p>\n"
-"<p>En el modo de captura del campo visual, pulse <b>Página arriba</b> y "
-"<b>Página abajo</b> para cambiar el símbolo del campo visual. Las capturas "
-"se llevan a cabo pulsando la tecla <b>K</b>. Cuando termine, pulse la tecla "
-"<b>Escape</b> para volver al asistente de impresión.</p>\n"
+"del cielo dentro del símbolo de campo de visión.</p>\n"
+"<p>En el modo de captura del campo de visión, pulse <b>Página arriba</b> y "
+"<b>Página abajo</b> para cambiar el símbolo del campo de visión. Las "
+"capturas se llevan a cabo pulsando la tecla <b>K</b>. Cuando termine, pulse "
+"la tecla <b>Escape</b> para volver al asistente de impresión.</p>\n"
 "<p>Pulse <b>Siguiente</b> cuando haya terminado.</p>"
 
 #. i18n: ectx: property (text), widget (QPushButton, pushButton)
@@ -80131,7 +80145,7 @@ msgstr "Comenzar la captura"
 #: printing/pwizfovsh.ui:77
 #, kde-format
 msgid "Set Star Hopper FOV Capture Options"
-msgstr "Opciones de captura del campo visual para saltos de estrellas"
+msgstr "Opciones de captura del campo de visión para saltos de estrellas"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizfovsh.ui:100
@@ -80140,9 +80154,9 @@ msgid ""
 "Configure star hopper FOV capture: select object at which star hopping will "
 "begin, select FOV symbol and magnitude limit."
 msgstr ""
-"Configurar la captura de campo visual de saltos de estrellas: seleccione el "
-"objeto donde comenzará el salto de estrellas, seleccione el símbolo de campo "
-"visual y el límite de magnitud."
+"Configurar la captura de campo de visión de saltos de estrellas: seleccione "
+"el objeto donde comenzará el salto de estrellas, seleccione el símbolo de "
+"campo de visión y el límite de magnitud."
 
 #. i18n: ectx: property (text), widget (QLabel, label1)
 #: printing/pwizfovsh.ui:116
@@ -80173,7 +80187,7 @@ msgstr "Mostrar detalles…"
 #: printing/pwizfovsh.ui:242
 #, kde-format
 msgid "Hopping FOV:"
-msgstr "Campo visual del salto:"
+msgstr "Campo de visión del salto:"
 
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #: printing/pwizfovsh.ui:252
@@ -80185,7 +80199,7 @@ msgstr "Límite de magnitud para el salto:"
 #: printing/pwizfovtypeselection.ui:71
 #, kde-format
 msgid "Choose Field of View Capture Method"
-msgstr "Escoja el método de captura del campo visual"
+msgstr "Escoja el método de captura del campo de visión"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizfovtypeselection.ui:97
@@ -80200,28 +80214,28 @@ msgid ""
 "<p>Once you have selected field of view capture method, press <b>Next</b>.</"
 "p>"
 msgstr ""
-"<p>Seleccione el método de captura del campo visual. Dispone de dos métodos: "
-"manual y basado en saltos de estrellas.</p>\n"
+"<p>Seleccione el método de captura del campo de visión. Dispone de dos "
+"métodos: manual y basado en saltos de estrellas.</p>\n"
 "<p>En el <b>método manual</b> podrá explorar el mapa del cielo para "
 "encontrar los objetos de interés y capturar múltiples representaciones de "
-"campos visuales.</p>\n"
+"campos de visión.</p>\n"
 "<p>El <b>método basado en saltos de estrellas</b> realiza automáticamente "
-"capturas de campos visuales usando saltos de estrellas. Se trata de una "
+"capturas de campos de visión usando saltos de estrellas. Se trata de una "
 "funcionalidad experimental.</p>\n"
-"<p>Una vez haya seleccionado el método de captura del campo visual, pulse "
+"<p>Una vez haya seleccionado el método de captura del campo de visión, pulse "
 "<b>Siguiente</b>.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, typeLabel)
 #: printing/pwizfovtypeselection.ui:129
 #, kde-format
 msgid "Field of view definition method:"
-msgstr "Método de definición del campo visual:"
+msgstr "Método de definición del campo de visión:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, manualRadio)
 #: printing/pwizfovtypeselection.ui:136
 #, kde-format
 msgid "Manually capture field of view snapshots"
-msgstr "Hacer capturas del campo visual manualmente"
+msgstr "Hacer capturas del campo de visión manualmente"
 
 #. i18n: ectx: property (text), widget (QRadioButton, hopperRadio)
 #: printing/pwizfovtypeselection.ui:152
@@ -80851,22 +80865,23 @@ msgstr "; Distancia física: %1 pc"
 #: skymap.cpp:756
 #, kde-format
 msgid "Star Hopper: Choose a field-of-view"
-msgstr "Saltos de estrellas: elija un campo visual"
+msgstr "Saltos de estrellas: elija un campo de visión"
 
 #: skymap.cpp:757
 #, kde-format
 msgid "FOV to use for star hopping:"
-msgstr "Campo visual a usar para los saltos de estrellas:"
+msgstr "Campo de visión a usar para los saltos de estrellas:"
 
 #: skymap.cpp:764
 #, kde-format
 msgid "Star Hopper: Enter field-of-view to use"
-msgstr "Saltos de estrellas: introduzca el campo visual a usar"
+msgstr "Saltos de estrellas: introduzca el campo de visión a usar"
 
 #: skymap.cpp:765
 #, kde-format
 msgid "FOV to use for star hopping (in arcminutes):"
-msgstr "Campo visual a usar para los saltos de estrellas (en minutos de arco):"
+msgstr ""
+"Campo de visión a usar para los saltos de estrellas (en minutos de arco):"
 
 #: skymap.cpp:943
 #, kde-format
@@ -82246,9 +82261,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t<p>Puede construir sus propios símbolos de campo visual\n"
-"\t\t\tusando el editor de campo visual en el menú «Preferencias->Símbolos\n"
-"\t\t\tde campo visual». Puede definir el tamaño angular, la forma, y el "
+"\t<p>Puede construir sus propios símbolos de campo de visión\n"
+"\t\t\tusando el editor de campo de visión en el menú «Preferencias-"
+">Símbolos\n"
+"\t\t\tde campo de visión». Puede definir el tamaño angular, la forma, y el "
 "color\n"
 "\t\t\tde los nuevos símbolos.\n"
 "\t\t</p>\n"
@@ -82267,11 +82283,11 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Si usa una cámara para capturar imágenes, puede crear un símbolo de "
-"campo visual que coincida con el tamaño del sensor de su cámara. De este "
-"modo podrá ajustar la orientación del símbolo de campo visual para que se "
+"campo de visión que coincida con el tamaño del sensor de su cámara. De este "
+"modo podrá ajustar la orientación del símbolo de campo de visión para que se "
 "corresponda con el de su cámara y así poder ver lo que cabe en el campo de "
-"captura de imágenes. Puede acceder al editor de campo visual usando el menú "
-"«Preferencias->Símbolos de campo visual»..\n"
+"captura de imágenes. Puede acceder al editor de campo de visión usando el "
+"menú «Preferencias->Símbolos de campo de visión».\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -87545,8 +87561,8 @@ msgstr "Fijar el factor de zoom"
 #, kde-format
 msgid "Select angular size for the FOV symbol (in arcmin)"
 msgstr ""
-"Seleccionar el tamaño angular para el símbolo de campo visual (en minutos de "
-"arco)"
+"Seleccionar el tamaño angular para el símbolo de campo de visión (en minutos "
+"de arco)"
 
 #: tools/scriptbuilder.cpp:644
 #, kde-format
@@ -87554,7 +87570,7 @@ msgid ""
 "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, "
 "4=Bullseye)"
 msgstr ""
-"Seleccione una forma para el símbolo de campo visual. (0=Cuadrado, "
+"Seleccione una forma para el símbolo de campo de visión. (0=Cuadrado, "
 "1=círculo, 2=cruceta, 4=diana)"
 
 #: tools/scriptbuilder.cpp:645
@@ -87565,7 +87581,7 @@ msgstr "int"
 #: tools/scriptbuilder.cpp:648
 #, kde-format
 msgid "Select color for the FOV symbol"
-msgstr "Seleccione un color para el símbolo de campo visual"
+msgstr "Seleccione un color para el símbolo de campo de visión"
 
 #: tools/scriptbuilder.cpp:648
 #, kde-format
@@ -88072,7 +88088,7 @@ msgstr "triángulo equilátero"
 #: tools/starhopper.cpp:340
 #, kde-format
 msgid " within %1% of FOV of the marked star"
-msgstr " dentro del %1% del campo visual de la estrella marcada"
+msgstr " dentro del %1% del campo de visión de la estrella marcada"
 
 #: tools/starhopperdialog.cpp:64
 #, kde-format
@@ -88081,8 +88097,8 @@ msgid ""
 "smaller FOV or changing the source point"
 msgstr ""
 "El algoritmo de saltos de estrellas ha fallado. Si está intentando hacer un "
-"gran salto de estrella, pruebe a usar un campo visual menor o a cambiar el "
-"punto de origen."
+"gran salto de estrella, pruebe a usar un campo de visión menor o a cambiar "
+"el punto de origen."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, StarHopperDialog)
 #: tools/starhopperdialog.ui:14
@@ -89125,7 +89141,7 @@ msgstr "La demora entre fotogramas para la animación"
 #: xplanet/opsxplanet.ui:216
 #, kde-format
 msgid "Use KStars's FOV?"
-msgstr "¿Usar el campo visual de KStars?"
+msgstr "¿Usar el campo de visión de KStars?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetUseFIFO)
 #: xplanet/opsxplanet.ui:219
@@ -89162,13 +89178,13 @@ msgstr "(guarda en memoria en lugar de en disco duro)"
 #: xplanet/opsxplanet.ui:236
 #, kde-format
 msgid "Use kstars's FOV?"
-msgstr "¿Usar el campo visual de KStars?"
+msgstr "¿Usar el campo de visión de KStars?"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetFOV)
 #: xplanet/opsxplanet.ui:242
 #, kde-format
 msgid "Use kstars's FOV"
-msgstr "Usar el campo visual de KStars"
+msgstr "Usar el campo de visión de KStars"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetMagnitude)
 #: xplanet/opsxplanet.ui:249

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 01:58+0000\n"
+"POT-Creation-Date: 2025-05-21 02:01+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -20111,7 +20111,7 @@ msgid "Max Total Move:"
 msgstr "Masa Ketara Lokal"
 
 #: ekos/guide/externalguide/linguider.cpp:70
-#: ekos/guide/externalguide/phd2.cpp:279
+#: ekos/guide/externalguide/phd2.cpp:298
 #, kde-format
 msgid ""
 "The host was not found. Please check the host name and port settings in "
@@ -20126,7 +20126,7 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/externalguide/linguider.cpp:79
-#: ekos/guide/externalguide/phd2.cpp:286
+#: ekos/guide/externalguide/phd2.cpp:305
 #, kde-format
 msgid "The following error occurred: %1."
 msgstr ""
@@ -20205,244 +20205,249 @@ msgstr ""
 msgid "Reconnecting to PHD2 Host: %1, on port %2. . ."
 msgstr "Sambung atau Nyahsambung."
 
-#: ekos/guide/externalguide/phd2.cpp:192
+#: ekos/guide/externalguide/phd2.cpp:209
 #, fuzzy, kde-format
 msgid "Connecting to PHD2 Host: %1, on port %2. . ."
 msgstr "Sambung atau Nyahsambung."
 
-#: ekos/guide/externalguide/phd2.cpp:247
+#: ekos/guide/externalguide/phd2.cpp:266
 #, kde-format
 msgid "Aborting any capture before disconnecting equipment..."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:260
+#: ekos/guide/externalguide/phd2.cpp:279
 #, fuzzy, kde-format
 msgid "Disconnected from PHD2 Host: %1, on port %2."
 msgstr "Sambung atau Nyahsambung."
 
-#: ekos/guide/externalguide/phd2.cpp:276
+#: ekos/guide/externalguide/phd2.cpp:295
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "The host disconnected."
 msgstr "Putus"
 
-#: ekos/guide/externalguide/phd2.cpp:282
+#: ekos/guide/externalguide/phd2.cpp:301
 #, kde-format
 msgid ""
 "The connection was refused by the peer. Make sure the PHD2 is running, and "
 "check that the host name and port settings are correct."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:308
+#: ekos/guide/externalguide/phd2.cpp:327
 #, kde-format
 msgid "PHD2: invalid response received: %1"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:309
+#: ekos/guide/externalguide/phd2.cpp:328
 #, fuzzy, kde-format
 #| msgid "Version"
 msgid "PHD2: JSON error: %1"
 msgstr "Versi"
 
-#: ekos/guide/externalguide/phd2.cpp:333
+#: ekos/guide/externalguide/phd2.cpp:352
 #, kde-format
 msgid "Unknown PHD2 event: %1"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:342
+#: ekos/guide/externalguide/phd2.cpp:361
 #, fuzzy, kde-format
 #| msgid "Version"
 msgid "PHD2: Version %1"
 msgstr "Versi"
 
-#: ekos/guide/externalguide/phd2.cpp:346
+#: ekos/guide/externalguide/phd2.cpp:365
 #, fuzzy, kde-format
 msgid "PHD2: Calibration Complete."
 msgstr "Bandar nama"
 
-#: ekos/guide/externalguide/phd2.cpp:356
+#: ekos/guide/externalguide/phd2.cpp:375
 #, fuzzy, kde-format
 msgid "PHD2: Waiting for guiding to settle."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:379
+#: ekos/guide/externalguide/phd2.cpp:398
 #, fuzzy, kde-format
 msgid "PHD2: Calibration Failed (%1)."
 msgstr "Bandar nama"
 
-#: ekos/guide/externalguide/phd2.cpp:384
+#: ekos/guide/externalguide/phd2.cpp:403
 #, fuzzy, kde-format
 msgid "Calibration Data Flipped."
 msgstr "Bandar nama"
 
-#: ekos/guide/externalguide/phd2.cpp:403
+#: ekos/guide/externalguide/phd2.cpp:422
 #, fuzzy, kde-format
 msgid "PHD2: SettleDone."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:414
+#: ekos/guide/externalguide/phd2.cpp:433
 #, kde-format
 msgid "PHD2: Settling failed (%1)."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:433
+#: ekos/guide/externalguide/phd2.cpp:452
 #, kde-format
 msgid "PHD2: There was a dithering error, but continue guiding."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:442
+#: ekos/guide/externalguide/phd2.cpp:461
 #, fuzzy, kde-format
 msgid "PHD2: Settling failed, aborted."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:448
+#: ekos/guide/externalguide/phd2.cpp:467
 #, fuzzy, kde-format
 msgid "PHD2: Settling complete, Guiding Started."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:477
+#: ekos/guide/externalguide/phd2.cpp:496
 #, fuzzy, kde-format
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:623
+#: ekos/guide/externalguide/phd2.cpp:642
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:677
+#: ekos/guide/externalguide/phd2.cpp:696
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:682
+#: ekos/guide/externalguide/phd2.cpp:701
 #, fuzzy, kde-format
 msgid "PHD2: Guiding Stopped."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:701
+#: ekos/guide/externalguide/phd2.cpp:720
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:712
+#: ekos/guide/externalguide/phd2.cpp:731
 #, kde-format
 msgid "PHD2: Star Selected."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:721
+#: ekos/guide/externalguide/phd2.cpp:740
 #, fuzzy, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:725
+#: ekos/guide/externalguide/phd2.cpp:744
 #, fuzzy, kde-format
 msgid "PHD2: Dithering successful."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:731
+#: ekos/guide/externalguide/phd2.cpp:750
 #, fuzzy, kde-format
 msgid "PHD2: Guiding running."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:742
+#: ekos/guide/externalguide/phd2.cpp:761
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:748
+#: ekos/guide/externalguide/phd2.cpp:767
 #, fuzzy, kde-format
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:754
+#: ekos/guide/externalguide/phd2.cpp:773
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:760
+#: ekos/guide/externalguide/phd2.cpp:779
 #, fuzzy, kde-format
 msgid "PHD2: Guiding paused."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:765
+#: ekos/guide/externalguide/phd2.cpp:784
 #, fuzzy, kde-format
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "Bandar nama"
 
-#: ekos/guide/externalguide/phd2.cpp:774
+#: ekos/guide/externalguide/phd2.cpp:793
 #, fuzzy, kde-format
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "Bandar nama"
 
-#: ekos/guide/externalguide/phd2.cpp:778
+#: ekos/guide/externalguide/phd2.cpp:797
 #, fuzzy, kde-format
 msgid "PHD2: Looping Exposures."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:784
+#: ekos/guide/externalguide/phd2.cpp:803
 #, fuzzy, kde-format
 msgid "PHD2: Dithering started."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:812
+#: ekos/guide/externalguide/phd2.cpp:831
 #, fuzzy, kde-format
 msgid "PHD2: Calibration is cleared"
 msgstr "Bandar nama"
 
-#: ekos/guide/externalguide/phd2.cpp:908
+#: ekos/guide/externalguide/phd2.cpp:927
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:918
+#: ekos/guide/externalguide/phd2.cpp:937
 #, fuzzy, kde-format
 msgid "PHD2: Exposure Time set to: "
 msgstr "Mula Kamera ialah inci saat."
 
-#: ekos/guide/externalguide/phd2.cpp:926
+#: ekos/guide/externalguide/phd2.cpp:945
 #, fuzzy, kde-format
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "Imej Imej"
 
-#: ekos/guide/externalguide/phd2.cpp:957
+#: ekos/guide/externalguide/phd2.cpp:976
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:959
+#: ekos/guide/externalguide/phd2.cpp:978
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:1074
+#: ekos/guide/externalguide/phd2.cpp:1093
 #, kde-format
 msgid "PHD2 Error: unhandled '%1'"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:1207
-#: ekos/guide/externalguide/phd2.cpp:1225
-#: ekos/guide/externalguide/phd2.cpp:1372
-#: ekos/guide/externalguide/phd2.cpp:1488
-#: ekos/guide/externalguide/phd2.cpp:1515
-#: ekos/guide/externalguide/phd2.cpp:1544
+#: ekos/guide/externalguide/phd2.cpp:1229
+#: ekos/guide/externalguide/phd2.cpp:1247
+#: ekos/guide/externalguide/phd2.cpp:1400
+#: ekos/guide/externalguide/phd2.cpp:1516
+#: ekos/guide/externalguide/phd2.cpp:1543
+#: ekos/guide/externalguide/phd2.cpp:1572
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:1365
+#: ekos/guide/externalguide/phd2.cpp:1387
 #, fuzzy, kde-format
 msgid "PHD2: Guiding is already running."
 msgstr "Padanan kurungan"
 
-#: ekos/guide/externalguide/phd2.cpp:1428
+#: ekos/guide/externalguide/phd2.cpp:1394
+#, fuzzy, kde-format
+msgid "PHD2: Guiding is paused, resuming..."
+msgstr "Padanan kurungan"
+
+#: ekos/guide/externalguide/phd2.cpp:1456
 #, fuzzy, kde-format
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "Konfigurasi mengguna _DHCP"
 
-#: ekos/guide/externalguide/phd2.cpp:1430
+#: ekos/guide/externalguide/phd2.cpp:1458
 #, fuzzy, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "Sambung atau Nyahsambung."
@@ -67416,7 +67421,7 @@ msgstr "baratdaya Mali"
 msgid "northwest"
 msgstr "Northwest Territory"
 
-#: kstarsdbus.cpp:1026
+#: kstarsdbus.cpp:1027
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Print Sky"
