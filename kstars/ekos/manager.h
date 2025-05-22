@@ -576,9 +576,7 @@ class Manager : public QDialog, public Ui::Manager
         QJsonObject m_ProfileMapping;
 
         // Mount Summary
-        QPointer<QProcess> indiHubAgent;
         KLed *mountMotionState { nullptr };
-
 
         // Capture Summary
         QTimer m_CountdownTimer;
