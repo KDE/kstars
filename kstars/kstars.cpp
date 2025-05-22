@@ -41,6 +41,7 @@
 #endif
 #include <QStatusBar>
 #include <QMenu>
+#include <QThread>
 
 #include <kstars_debug.h>
 
@@ -292,18 +293,35 @@ KStars::~KStars()
 
 void KStars::releaseResources()
 {
+    bool ekosWasActive = false;
+#ifdef HAVE_INDI
+    // Check if Ekos was active before releasing its resources
+    if (Ekos::Manager::Instance())
+    {
+        // Check if Ekos was successfully started
+        if (Ekos::Manager::Instance()->ekosStatus() == Ekos::CommunicationStatus::Success)
+        {
+            ekosWasActive = true;
+        }
+    }
+
+    qCInfo(KSTARS) << "Releasing INDI/Ekos resources...";
+    // Release INDI and Ekos resources first
+    GUIManager::release();
+    Ekos::Manager::release();
+    DriverManager::release();
+
+    // Allow grace period for shutdown
+    if (ekosWasActive)
+        QThread::msleep(1000);
+#endif
+
     delete m_KStarsData;
     m_KStarsData = nullptr;
     delete StarBlockFactory::Instance();
     TextureManager::Release();
     SkyQPainter::releaseImageCache();
     FOVManager::releaseCache();
-
-#ifdef HAVE_INDI
-    GUIManager::release();
-    Ekos::Manager::release();
-    DriverManager::release();
-#endif
 
     QSqlDatabase::removeDatabase("userdb");
     QSqlDatabase::removeDatabase("skydb");
