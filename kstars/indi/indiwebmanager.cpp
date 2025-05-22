@@ -152,7 +152,7 @@ bool checkVersion(const QSharedPointer<ProfileInfo> &pi)
 bool syncCustomDrivers(const QSharedPointer<ProfileInfo> &pi)
 {
     QNetworkAccessManager manager;
-    QUrl url(QString("http://%1:%2/api/profiles/custom").arg(pi->host).arg(pi->INDIWebManagerPort));
+    QUrl url(QString("http://%1:%2/api/profiles/custom/add").arg(pi->host).arg(pi->INDIWebManagerPort));
 
     QStringList customDriversLabels;
     QMapIterator<QString, QString> i(pi->drivers);
