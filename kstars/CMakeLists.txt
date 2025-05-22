@@ -200,8 +200,6 @@ if (INDI_FOUND)
             ekos/auxiliary/ledstatuswidget.ui
             # Ekos Live
             ekos/ekoslive/ekoslivedialog.ui
-            # INDI Hub
-            ekos/indihub.ui
         )
         # Aberration Inspector
         if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)

@@ -32,9 +32,6 @@ OpsINDI::OpsINDI() : QFrame(KStars::Instance())
     selectDriversDirB->setIcon(
         QIcon::fromTheme("document-open-folder"));
     selectDriversDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    selectINDIHubB->setIcon(
-        QIcon::fromTheme("document-open"));
-    selectINDIHubB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
 #ifdef Q_OS_MACOS
     connect(kcfg_indiServerIsInternal, SIGNAL(clicked()), this, SLOT(toggleINDIInternal()));
@@ -56,7 +53,6 @@ OpsINDI::OpsINDI() : QFrame(KStars::Instance())
     connect(selectDriversDirB, SIGNAL(clicked()), this, SLOT(saveDriversDirectory()));
     connect(showLogsB, SIGNAL(clicked()), this, SLOT(slotShowLogFiles()));
     connect(kcfg_indiServer, SIGNAL(editingFinished()), this, SLOT(verifyINDIServer()));
-    connect(selectINDIHubB, &QPushButton::clicked, this, &OpsINDI::saveINDIHubAgent);
 
 #ifdef Q_OS_WIN
     kcfg_indiServer->setEnabled(false);
@@ -86,7 +82,8 @@ void OpsINDI::toggleDriversInternal()
 void OpsINDI::saveFITSDirectory()
 {
     QString dir =
-        QFileDialog::getExistingDirectory(KStars::Instance(), i18nc("@title:window", "FITS Default Directory"), kcfg_fitsDir->text());
+        QFileDialog::getExistingDirectory(KStars::Instance(), i18nc("@title:window", "FITS Default Directory"),
+                                          kcfg_fitsDir->text());
 
     if (!dir.isEmpty())
         kcfg_fitsDir->setText(dir);
@@ -102,15 +99,6 @@ void OpsINDI::saveDriversDirectory()
         kcfg_indiDriversDir->setText(dir);
         KSNotification::info(i18n("You need to restart KStars for this change to take effect."));
     }
-}
-
-void OpsINDI::saveINDIHubAgent()
-{
-    QUrl url = QFileDialog::getOpenFileUrl(this, i18nc("@title:window", "Select INDIHub Agent"), QUrl(),  "indihub-agent");
-    if (url.isEmpty())
-        return;
-
-    kcfg_INDIHubAgent->setText(url.toLocalFile());
 }
 
 void OpsINDI::slotShowLogFiles()

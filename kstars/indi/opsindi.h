@@ -34,7 +34,6 @@ class OpsINDI : public QFrame, public Ui::OpsINDI
         void toggleINDIInternal();
         void toggleDriversInternal();
         void verifyINDIServer();
-        void saveINDIHubAgent();
 
     private:
         KConfigDialog *m_ConfigDialog { nullptr };

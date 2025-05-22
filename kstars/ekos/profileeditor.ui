@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>613</width>
-    <height>357</height>
+    <width>657</width>
+    <height>427</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -75,7 +75,7 @@
         <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -118,13 +118,32 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="1" column="0">
-         <widget class="QLabel" name="guidingTypeLabel">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Select which plug-in the Guider module should use.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <item row="2" column="8">
+         <widget class="QLabel" name="INDIWebManagerPortLabel">
+          <property name="enabled">
+           <bool>false</bool>
           </property>
           <property name="text">
-           <string>Guiding:</string>
+           <string>Port:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="9">
+         <widget class="QLineEdit" name="externalGuidePort">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;External guider port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -142,39 +161,6 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="9">
-         <widget class="QLabel" name="INDIWebManagerPortLabel">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Port:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="9">
-         <widget class="QLabel" name="externalGuidePortLabel">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Port:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QRadioButton" name="remoteMode">
-          <property name="text">
-           <string>Re&amp;mote</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="3">
          <widget class="QLabel" name="remoteHostLabel">
           <property name="enabled">
@@ -184,24 +170,58 @@
            <string>Host:</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
         </item>
-        <item row="0" column="9">
-         <widget class="QLabel" name="remotePortLabel">
+        <item row="2" column="4" colspan="3">
+         <widget class="QPushButton" name="openWebManagerB">
           <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="text">
-           <string>Port:</string>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Open Web Manager in browser.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Web Manager</string>
+          </property>
+          <property name="icon">
+           <iconset theme="applications-internet"/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
           </property>
          </widget>
         </item>
-        <item row="2" column="10">
+        <item row="2" column="7">
+         <widget class="QPushButton" name="scanB">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Scan local network for INDI web managers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Scan</string>
+          </property>
+          <property name="icon">
+           <iconset theme="search"/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="9">
          <widget class="QLineEdit" name="INDIWebManagerPort">
           <property name="enabled">
            <bool>false</bool>
@@ -220,83 +240,6 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="4" colspan="5">
-         <widget class="QLineEdit" name="remoteHost">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Remote INDI server host or address.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string notr="true">localhost</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="10">
-         <widget class="QLineEdit" name="remotePort">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Remote INDI Server Port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>7624</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="4" colspan="5">
-         <widget class="QLineEdit" name="externalGuideHost">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;External guider host or address.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>localhost</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="7">
-         <widget class="QPushButton" name="indihubB">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Configure INDIHub.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>INDI Hub</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../data/kstars.qrc">
-            <normaloff>:/icons/indihub.svg</normaloff>:/icons/indihub.svg</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="1">
          <widget class="QRadioButton" name="localMode">
           <property name="text">
@@ -304,55 +247,6 @@
           </property>
           <property name="checked">
            <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="10">
-         <widget class="QLineEdit" name="externalGuidePort">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;External guider port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="8">
-         <widget class="QPushButton" name="scanB">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Scan local network for INDI web managers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Scan</string>
-          </property>
-          <property name="icon">
-           <iconset theme="search">
-            <normaloff>.</normaloff>.</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="QLabel" name="externalGuideHostLabel">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Host:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -381,6 +275,16 @@
           </item>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="guidingTypeLabel">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Select which plug-in the Guider module should use.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Guiding:</string>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="0" colspan="4">
          <widget class="QCheckBox" name="INDIWebManagerCheck">
           <property name="enabled">
@@ -394,8 +298,92 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="4" colspan="3">
-         <widget class="QPushButton" name="openWebManagerB">
+        <item row="0" column="8">
+         <widget class="QLabel" name="remotePortLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Port:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QRadioButton" name="remoteMode">
+          <property name="text">
+           <string>Re&amp;mote</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4" colspan="4">
+         <widget class="QLineEdit" name="remoteHost">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Remote INDI server host or address.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string notr="true">localhost</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="8">
+         <widget class="QLabel" name="externalGuidePortLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Port:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4" colspan="4">
+         <widget class="QLineEdit" name="externalGuideHost">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;External guider host or address.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>localhost</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLabel" name="externalGuideHostLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Host:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="9">
+         <widget class="QLineEdit" name="remotePort">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -406,20 +394,10 @@
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Open Web Manager in browser.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Remote INDI Server Port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
-           <string>Web Manager</string>
-          </property>
-          <property name="icon">
-           <iconset theme="applications-internet">
-            <normaloff>.</normaloff>.</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
+           <string>7624</string>
           </property>
          </widget>
         </item>
@@ -728,7 +706,7 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>

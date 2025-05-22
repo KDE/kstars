@@ -1138,15 +1138,6 @@ QString getDefaultPath(const QString &option)
         return "/%t/%T/%F/%t_%T_%F";
 #endif
     }
-    else if (option == "INDIHubAgent")
-    {
-#if defined(INDI_PREFIX)
-        return QString(INDI_PREFIX "/bin/indihub-agent");
-#elif defined(Q_OS_MACOS)
-        return "/usr/local/bin/indihub-agent";
-#endif
-        return prefix + "/bin/indihub-agent";
-    }
     else if (option == "indiDriversDir")
     {
 #if defined(INDI_PREFIX)

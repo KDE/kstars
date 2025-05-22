@@ -658,6 +658,16 @@ bool GenericDevice::processBLOB(INDI::Property prop)
     return true;
 }
 
+bool GenericDevice::wasConfigLoaded() const
+{
+    auto svp = m_BaseDevice.getSwitch("CONFIG_PROCESS");
+
+    if (!svp)
+        return false;
+
+    return svp->getState() == IPS_OK;
+}
+
 bool GenericDevice::setConfig(INDIConfig tConfig)
 {
     auto svp = m_BaseDevice.getSwitch("CONFIG_PROCESS");
@@ -1072,112 +1082,112 @@ bool GenericDevice::findConcreteDevice(uint32_t interface, QSharedPointer<Concre
 ISD::Mount *GenericDevice::getMount()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::TELESCOPE_INTERFACE))
-        return dynamic_cast<ISD::Mount*>(m_ConcreteDevices[INDI::BaseDevice::TELESCOPE_INTERFACE].get());
+        return dynamic_cast<ISD::Mount * >(m_ConcreteDevices[INDI::BaseDevice::TELESCOPE_INTERFACE].get());
     return nullptr;
 }
 
 ISD::Camera *GenericDevice::getCamera()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::CCD_INTERFACE))
-        return dynamic_cast<ISD::Camera*>(m_ConcreteDevices[INDI::BaseDevice::CCD_INTERFACE].get());
+        return dynamic_cast<ISD::Camera * >(m_ConcreteDevices[INDI::BaseDevice::CCD_INTERFACE].get());
     return nullptr;
 }
 
 ISD::Guider *GenericDevice::getGuider()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::GUIDER_INTERFACE))
-        return dynamic_cast<ISD::Guider*>(m_ConcreteDevices[INDI::BaseDevice::GUIDER_INTERFACE].get());
+        return dynamic_cast<ISD::Guider * >(m_ConcreteDevices[INDI::BaseDevice::GUIDER_INTERFACE].get());
     return nullptr;
 }
 
 ISD::Focuser *GenericDevice::getFocuser()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::FOCUSER_INTERFACE))
-        return dynamic_cast<ISD::Focuser*>(m_ConcreteDevices[INDI::BaseDevice::FOCUSER_INTERFACE].get());
+        return dynamic_cast<ISD::Focuser * >(m_ConcreteDevices[INDI::BaseDevice::FOCUSER_INTERFACE].get());
     return nullptr;
 }
 
 ISD::FilterWheel *GenericDevice::getFilterWheel()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::FILTER_INTERFACE))
-        return dynamic_cast<ISD::FilterWheel*>(m_ConcreteDevices[INDI::BaseDevice::FILTER_INTERFACE].get());
+        return dynamic_cast<ISD::FilterWheel * >(m_ConcreteDevices[INDI::BaseDevice::FILTER_INTERFACE].get());
     return nullptr;
 }
 
 ISD::Dome *GenericDevice::getDome()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::DOME_INTERFACE))
-        return dynamic_cast<ISD::Dome*>(m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].get());
+        return dynamic_cast<ISD::Dome * >(m_ConcreteDevices[INDI::BaseDevice::DOME_INTERFACE].get());
     return nullptr;
 }
 
 ISD::GPS *GenericDevice::getGPS()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::GPS_INTERFACE))
-        return dynamic_cast<ISD::GPS*>(m_ConcreteDevices[INDI::BaseDevice::GPS_INTERFACE].get());
+        return dynamic_cast<ISD::GPS * >(m_ConcreteDevices[INDI::BaseDevice::GPS_INTERFACE].get());
     return nullptr;
 }
 
 ISD::Weather *GenericDevice::getWeather()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::WEATHER_INTERFACE))
-        return dynamic_cast<ISD::Weather*>(m_ConcreteDevices[INDI::BaseDevice::WEATHER_INTERFACE].get());
+        return dynamic_cast<ISD::Weather * >(m_ConcreteDevices[INDI::BaseDevice::WEATHER_INTERFACE].get());
     return nullptr;
 }
 
 ISD::AdaptiveOptics *GenericDevice::getAdaptiveOptics()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::AO_INTERFACE))
-        return dynamic_cast<ISD::AdaptiveOptics*>(m_ConcreteDevices[INDI::BaseDevice::AO_INTERFACE].get());
+        return dynamic_cast<ISD::AdaptiveOptics * >(m_ConcreteDevices[INDI::BaseDevice::AO_INTERFACE].get());
     return nullptr;
 }
 
 ISD::DustCap *GenericDevice::getDustCap()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::DUSTCAP_INTERFACE))
-        return dynamic_cast<ISD::DustCap*>(m_ConcreteDevices[INDI::BaseDevice::DUSTCAP_INTERFACE].get());
+        return dynamic_cast<ISD::DustCap * >(m_ConcreteDevices[INDI::BaseDevice::DUSTCAP_INTERFACE].get());
     return nullptr;
 }
 
 ISD::LightBox *GenericDevice::getLightBox()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::LIGHTBOX_INTERFACE))
-        return dynamic_cast<ISD::LightBox*>(m_ConcreteDevices[INDI::BaseDevice::LIGHTBOX_INTERFACE].get());
+        return dynamic_cast<ISD::LightBox * >(m_ConcreteDevices[INDI::BaseDevice::LIGHTBOX_INTERFACE].get());
     return nullptr;
 }
 
 ISD::Detector *GenericDevice::getDetector()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::DETECTOR_INTERFACE))
-        return dynamic_cast<ISD::Detector*>(m_ConcreteDevices[INDI::BaseDevice::DETECTOR_INTERFACE].get());
+        return dynamic_cast<ISD::Detector * >(m_ConcreteDevices[INDI::BaseDevice::DETECTOR_INTERFACE].get());
     return nullptr;
 }
 
 ISD::Rotator *GenericDevice::getRotator()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::ROTATOR_INTERFACE))
-        return dynamic_cast<ISD::Rotator*>(m_ConcreteDevices[INDI::BaseDevice::ROTATOR_INTERFACE].get());
+        return dynamic_cast<ISD::Rotator * >(m_ConcreteDevices[INDI::BaseDevice::ROTATOR_INTERFACE].get());
     return nullptr;
 }
 
 ISD::Spectrograph *GenericDevice::getSpectrograph()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::SPECTROGRAPH_INTERFACE))
-        return dynamic_cast<ISD::Spectrograph*>(m_ConcreteDevices[INDI::BaseDevice::SPECTROGRAPH_INTERFACE].get());
+        return dynamic_cast<ISD::Spectrograph * >(m_ConcreteDevices[INDI::BaseDevice::SPECTROGRAPH_INTERFACE].get());
     return nullptr;
 }
 
 ISD::Correlator *GenericDevice::getCorrelator()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::CORRELATOR_INTERFACE))
-        return dynamic_cast<ISD::Correlator*>(m_ConcreteDevices[INDI::BaseDevice::CORRELATOR_INTERFACE].get());
+        return dynamic_cast<ISD::Correlator * >(m_ConcreteDevices[INDI::BaseDevice::CORRELATOR_INTERFACE].get());
     return nullptr;
 }
 
 ISD::Auxiliary *GenericDevice::getAuxiliary()
 {
     if (m_ConcreteDevices.contains(INDI::BaseDevice::AUX_INTERFACE))
-        return dynamic_cast<ISD::Auxiliary*>(m_ConcreteDevices[INDI::BaseDevice::AUX_INTERFACE].get());
+        return dynamic_cast<ISD::Auxiliary * >(m_ConcreteDevices[INDI::BaseDevice::AUX_INTERFACE].get());
     return nullptr;
 }
 

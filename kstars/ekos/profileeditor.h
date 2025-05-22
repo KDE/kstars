@@ -60,7 +60,6 @@ class ProfileEditor : public QDialog
     private slots:
         void updateGuiderSelection(int id);
         void scanNetwork();
-        void showINDIHub();
         void executeScriptEditor();
 
     private:
@@ -81,7 +80,6 @@ class ProfileEditor : public QDialog
         ProfileEditorUI *ui { nullptr };
         QSharedPointer<ProfileInfo> pi;
         QMap<QString, DeviceInfo> m_Devices;
-        uint8_t m_INDIHub { 0 };
 
         QPointer<QProgressDialog> m_ProgressDialog;
         QNetworkAccessManager m_Manager;

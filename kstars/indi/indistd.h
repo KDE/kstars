@@ -167,6 +167,7 @@ class GenericDevice : public GDInterface
         }
 
         virtual bool setConfig(INDIConfig tConfig);
+        virtual bool wasConfigLoaded() const;
         virtual bool isConnected() const
         {
             return m_Connected;
@@ -243,7 +244,7 @@ class GenericDevice : public GDInterface
     protected:
         uint32_t m_DriverInterface { 0 };
         QString m_DriverVersion;
-        QMap<uint32_t, QSharedPointer<ConcreteDevice>> m_ConcreteDevices;
+        QMap<uint32_t, QSharedPointer<ConcreteDevice >> m_ConcreteDevices;
 
     signals:
         void Connected();

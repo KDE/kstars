@@ -359,30 +359,30 @@ bool KSUserDB::Initialize()
         QSqlQuery query(db);
 
         bool ok = query.exec("CREATE TABLE tempfilter ( "
-                        "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT , "
-                        "Vendor TEXT DEFAULT NULL, "
-                        "Model TEXT DEFAULT NULL, "
-                        "Type TEXT DEFAULT NULL, "
-                        "Color TEXT DEFAULT NULL,"
-                        "Exposure REAL DEFAULT 1.0,"
-                        "Offset INTEGER DEFAULT 0,"
-                        "UseAutoFocus INTEGER DEFAULT 0,"
-                        "LockedFilter TEXT DEFAULT '--',"
-                        "AbsoluteFocusPosition INTEGER DEFAULT 0,"
-                        "FocusTemperature REAL DEFAULT NULL,"
-                        "FocusAltitude REAL DEFAULT NULL,"
-                        "FocusDatetime TEXT DEFAULT NULL,"
-                        "FocusTicksPerTemp REAL DEFAULT 0.0,"
-                        "FocusTicksPerAlt REAL DEFAULT 0.0,"
-                        "Wavelength INTEGER DEFAULT 500)");
+                             "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT , "
+                             "Vendor TEXT DEFAULT NULL, "
+                             "Model TEXT DEFAULT NULL, "
+                             "Type TEXT DEFAULT NULL, "
+                             "Color TEXT DEFAULT NULL,"
+                             "Exposure REAL DEFAULT 1.0,"
+                             "Offset INTEGER DEFAULT 0,"
+                             "UseAutoFocus INTEGER DEFAULT 0,"
+                             "LockedFilter TEXT DEFAULT '--',"
+                             "AbsoluteFocusPosition INTEGER DEFAULT 0,"
+                             "FocusTemperature REAL DEFAULT NULL,"
+                             "FocusAltitude REAL DEFAULT NULL,"
+                             "FocusDatetime TEXT DEFAULT NULL,"
+                             "FocusTicksPerTemp REAL DEFAULT 0.0,"
+                             "FocusTicksPerAlt REAL DEFAULT 0.0,"
+                             "Wavelength INTEGER DEFAULT 500)");
 
         if (ok)
             ok = query.exec("INSERT INTO tempfilter (id, Vendor, Model, Type, Color, Exposure, Offset, "
-                                  "UseAutoFocus, LockedFilter, AbsoluteFocusPosition, FocusTemperature, "
-                                  "FocusAltitude, FocusTicksPerTemp, FocusTicksPerAlt, Wavelength) "
-                             "SELECT id, Vendor, Model, Type, Color, Exposure, Offset, "
-                                  "UseAutoFocus, LockedFilter, AbsoluteFocusPosition, FocusTemperature, "
-                                  "FocusAltitude, FocusTicksPerTemp, FocusTicksPerAlt, Wavelength FROM filter");
+                            "UseAutoFocus, LockedFilter, AbsoluteFocusPosition, FocusTemperature, "
+                            "FocusAltitude, FocusTicksPerTemp, FocusTicksPerAlt, Wavelength) "
+                            "SELECT id, Vendor, Model, Type, Color, Exposure, Offset, "
+                            "UseAutoFocus, LockedFilter, AbsoluteFocusPosition, FocusTemperature, "
+                            "FocusAltitude, FocusTicksPerTemp, FocusTicksPerAlt, Wavelength FROM filter");
 
         if (ok)
             ok = query.exec("DROP TABLE filter");
@@ -1257,7 +1257,7 @@ bool KSUserDB::DeleteHIPSSource(const QString &ID)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool KSUserDB::GetAllHIPSSources(QList<QMap<QString, QString>> &HIPSSources)
+bool KSUserDB::GetAllHIPSSources(QList<QMap<QString, QString >> &HIPSSources)
 {
     auto db = QSqlDatabase::database(m_ConnectionName);
     if (!db.isValid())
@@ -1362,7 +1362,7 @@ bool KSUserDB::DeleteDSLRInfo(const QString &model)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool KSUserDB::GetAllDSLRInfos(QList<QMap<QString, QVariant>> &DSLRInfos)
+bool KSUserDB::GetAllDSLRInfos(QList<QMap<QString, QVariant >> &DSLRInfos)
 {
     auto db = QSqlDatabase::database(m_ConnectionName);
     if (!db.isValid())
@@ -2910,10 +2910,6 @@ bool KSUserDB::SaveProfile(const QSharedPointer<ProfileInfo> &pi)
     if (!query.exec(QString("UPDATE profile SET guidertype=%1 WHERE id=%2").arg(pi->guidertype).arg(pi->id)))
         qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
-    // Update INDI Hub
-    if (!query.exec(QString("UPDATE profile SET indihub=%1 WHERE id=%2").arg(pi->indihub).arg(pi->id)))
-        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
-
     // If using external guider
     if (pi->guidertype != 0)
     {
@@ -2950,7 +2946,7 @@ bool KSUserDB::SaveProfile(const QSharedPointer<ProfileInfo> &pi)
     return true;
 }
 
-bool KSUserDB::GetAllProfiles(QList<QSharedPointer<ProfileInfo>> &profiles)
+bool KSUserDB::GetAllProfiles(QList<QSharedPointer<ProfileInfo >> &profiles)
 {
     auto db = QSqlDatabase::database(m_ConnectionName);
     if (!db.isValid())
@@ -2984,8 +2980,6 @@ bool KSUserDB::GetAllProfiles(QList<QSharedPointer<ProfileInfo>> &profiles)
         pi->INDIWebManagerPort = record.value("indiwebmanagerport").toInt();
         pi->autoConnect        = (record.value("autoconnect").toInt() == 1);
         pi->portSelector       = (record.value("portselector").toInt() == 1);
-
-        pi->indihub = record.value("indihub").toInt();
 
         pi->guidertype = record.value("guidertype").toInt();
         if (pi->guidertype != 0)

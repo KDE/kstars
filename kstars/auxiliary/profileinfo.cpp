@@ -119,7 +119,6 @@ QJsonObject ProfileInfo::toJson() const
         {"mode", host.isEmpty() ? "local" : "remote"},
         {"remote_host", host},
         {"remote_port", port},
-        {"indihub", indihub},
         {"guiding", guidertype},
         {"remote_guiding_host", guiderhost},
         {"remote_guiding_port", guiderport},
