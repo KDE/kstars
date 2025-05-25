@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-23 02:00+0000\n"
-"PO-Revision-Date: 2025-05-21 20:49+0300\n"
+"PO-Revision-Date: 2025-05-24 21:20+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -34330,7 +34330,7 @@ msgstr "Piksel olarak ana pencerenin yüksekliği"
 #: kstars.kcfg:113
 #, kde-format
 msgid "Geometry of main window, encoded byte array"
-msgstr ""
+msgstr "Ana pencerenin geometrisi, kodlanmış bayt dizilişi"
 
 #. i18n: ectx: label, entry (RunStartupWizard), group (GUI)
 #: kstars.kcfg:117
@@ -34458,7 +34458,7 @@ msgstr "INDI penceresi genişliği"
 #: kstars.kcfg:179
 #, kde-format
 msgid "Geometry of INDI window, encoded byte array"
-msgstr ""
+msgstr "INDI penceresinin geometrisi kodlanmış bayt dizilişi"
 
 #. i18n: ectx: label, entry (useGeographicUpdate), group (indi)
 #: kstars.kcfg:183
@@ -38109,7 +38109,7 @@ msgstr "Ekos gözlemevi modülü etkinliğini günlükleyin."
 #: kstars.kcfg:1669
 #, kde-format
 msgid "Geometry of FITS window, encoded byte array"
-msgstr ""
+msgstr "FITS penceresinin geometrisi, kodlanmış bayt dizilişi"
 
 #. i18n: ectx: label, entry (useFITSViewer), group (FITSViewer)
 #: kstars.kcfg:1673
@@ -38359,7 +38359,7 @@ msgstr "Ekos penceresi yüksekliği"
 #: kstars.kcfg:1817
 #, kde-format
 msgid "Geometry of Ekos window, encoded byte array"
-msgstr ""
+msgstr "Ekos penceresinin geometrisi, kodlanmış bayt dizilişi"
 
 #. i18n: ectx: label, entry (EkosLeftIcons), group (Ekos)
 #: kstars.kcfg:1825

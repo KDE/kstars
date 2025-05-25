@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-23 02:00+0000\n"
-"PO-Revision-Date: 2025-05-22 22:00+0200\n"
+"PO-Revision-Date: 2025-05-23 09:26+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -27603,7 +27603,7 @@ msgstr ""
 #, kde-format
 msgid "Enter host name and port. If you do not know, leave as is."
 msgstr ""
-"Introduïu el nom de l'amfitrió i el port. Si no el coneixeu, deixeu-ho com "
+"Introduïu el nom i el port de l'amfitrió. Si no el coneixeu, deixeu-ho com "
 "està."
 
 #. i18n: ectx: property (text), widget (QLineEdit, PiHost)
@@ -73001,7 +73001,7 @@ msgstr "Latitud: "
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:307
 #, kde-kuit-format
 msgid "Longitude: "
-msgstr "Llargària: "
+msgstr "Longitud: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:323
 #, kde-kuit-format
@@ -90330,73 +90330,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "INDI Hub Settings"
-#~ msgstr "Configureu el Hub d'INDI"
-
-#~ msgid ""
-#~ "<html><head/><body><h2 style=\" margin-top:16px; margin-bottom:12px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"><span style=\" font-size:x-large; font-weight:600;\">Share access to "
-#~ "your observatory on </span><a href=\"https://indihub.space\"><span style="
-#~ "\" font-size:x-large; font-weight:600; text-decoration: underline; color:"
-#~ "#007af4;\">indihub.space</span></a></h2></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><h2 style=\"margin-top:16px; margin-bottom:12px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"><span style=\"font-size:x-large; font-weight:600;\">Compartiu l'accés "
-#~ "al vostre observatori en </span><a href=\"https://indihub.space\"><span "
-#~ "style=\"font-size:x-large; font-weight:600; text-decoration:underline; "
-#~ "color:#007af4;\">indihub.space</span></a></h2></body></html>"
-
-#~ msgid ""
-#~ "Use you equipment without opening remote access but equipment is still "
-#~ "connected to INDIHUB-network and all images taken are contributed for "
-#~ "scientific purposes."
-#~ msgstr ""
-#~ "Utilitzeu l'equip sense obrir l'accés remot, però l'equip encara està "
-#~ "connectat amb la xarxa INDIHUB i totes les imatges preses s'aportaran amb "
-#~ "finalitat científica."
-
-#~ msgid "Solo"
-#~ msgstr "Individual"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Open remote access to your equipment via INDIHUB-"
-#~ "network of telescopes, so you can provide remote imaging sessions to your "
-#~ "guests.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Obri l'accés remot a l'equip via la xarxa INDIHUB "
-#~ "de telescopis, de manera que pot proporcionar sessions remotes d'obtenció "
-#~ "d'imatges als convidats.</p></body></html>"
-
-#~ msgid "Share"
-#~ msgstr "Compartix"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Open remote access to your equipment to be "
-#~ "controlled by scheduler running in INDIHUB-cloud (experimental).</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Obri l'accés remot a l'equip perquè es controle amb "
-#~ "el programador executat en el núvol INDIHUB (experimental).</p></body></"
-#~ "html>"
-
-#~ msgid "Robotic (Experimental)"
-#~ msgstr "Robotitzat (experimental)"
-
-#~ msgid "<html><head/><body><p>Configure INDIHub.</p></body></html>"
-#~ msgstr "<html><head/><body><p>Configura INDIHub.</p></body></html>"
-
-#~ msgid "INDI Hub"
-#~ msgstr "Concentrador INDI"
-
-#~ msgctxt "@title:window"
-#~ msgid "Select INDIHub Agent"
-#~ msgstr "Seleccioneu l'agent INDIHub"
-
-#~ msgid "INDIHub agent:"
-#~ msgstr "Agent d'INDIHub:"
-
-#~ msgid "PATH to indihub-agent binary"
-#~ msgstr "Camí cap al binari «indihub-agent»"
