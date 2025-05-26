@@ -29,7 +29,7 @@ class FITSLabel : public QLabel
         void setSize(double w, double h);
         void centerTelescope(double raJ2000, double decJ2000);
         bool getMouseButtonDown();
-        void updateROIToolTip(const QPoint p);
+        void updatePersistentRoiLabel(const QRect &roiGeometry);
 
     public slots:
         void setRubberBand(QRect rect);
@@ -43,11 +43,15 @@ class FITSLabel : public QLabel
         virtual void mouseDoubleClickEvent(QMouseEvent *e) override;
         virtual void leaveEvent(QEvent *e) override;
 
+    private slots:
+        void handleImageDataUpdated();
+
     private:
         bool mouseButtonDown { false };
         bool isRoiSelected { false };
         QPoint lastMousePoint;
         FITSView *view { nullptr };
+        QLabel *m_roiStatsLabel { nullptr };
         dms m_RA;
         dms m_DE;
         float prevscale{ 1.0 };
@@ -67,7 +71,7 @@ class FITSLabel : public QLabel
         void pointSelected(int x, int y);
         void highlightSelected(int x, int y);
         void markerSelected(int x, int y);
-        void rectangleSelected(QPoint p1, QPoint p2,bool refreshCenter);
+        void rectangleSelected(QPoint p1, QPoint p2, bool refreshCenter);
         void circleSelected(QPoint p1, QPoint p2);
         void mouseOverPixel(int x, int y);
 };

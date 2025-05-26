@@ -51,7 +51,27 @@ FITSLabel::FITSLabel(FITSView *View, QWidget *parent) : QLabel(parent)
 
     pal.setBrush(QPalette::Highlight, QBrush(red70));
     roiRB->setPalette(pal);
-    QToolTip::showText(QPoint(1, 1), "Move Once to show selection stats", this);
+    // QToolTip::showText(QPoint(1, 1), "Move Once to show selection stats", this); // Replaced by persistent label
+
+    m_roiStatsLabel = new QLabel(this);
+    m_roiStatsLabel->setObjectName("roiStatsLabel");
+    m_roiStatsLabel->hide();
+    m_roiStatsLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+    // Basic styling, can be adjusted. Make sure it's visible against typical FITS images.
+    m_roiStatsLabel->setStyleSheet("QLabel#roiStatsLabel { background-color: rgba(0, 0, 0, 220); padding: 4px; border: 1px solid white; border-radius: 3px; font-weight: bold; }");
+
+    QPalette statsPalette = m_roiStatsLabel->palette();
+    statsPalette.setColor(QPalette::WindowText, Qt::white);
+    m_roiStatsLabel->setPalette(statsPalette);
+
+    m_roiStatsLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop); // Align text to top-left within the label
+
+    // Connect to FITSView's updated signal
+    if (view)
+    {
+        connect(view, &FITSView::updated, this, &FITSLabel::handleImageDataUpdated);
+        // connect(view, &FITSView::rectangleUpdated, this, &FITSLabel::updatePersistentRoiLabel); // This might cause issues if rect is raw
+    }
 }
 
 
@@ -89,13 +109,15 @@ void FITSLabel::mouseReleaseEvent(QMouseEvent *e)
         {
             QRect roiRaw = roiRB->geometry();
             emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
-            updateROIToolTip(e->globalPos());
+            // updateROIToolTip(e->globalPos());
+            updatePersistentRoiLabel(roiRB->geometry());
         }
         if( e->modifiers () == Qt::ShiftModifier && view->isSelectionRectShown())
         {
             QRect roiRaw = roiRB->geometry();
             emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
-            updateROIToolTip(e->globalPos());
+            // updateROIToolTip(e->globalPos());
+            updatePersistentRoiLabel(roiRB->geometry());
         }
         isRoiSelected = false;
         // Only process the circle if relevant to Catalog Objects and a query is not already in progress
@@ -157,7 +179,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             if(!view->isLargeImage())
             {
                 emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
-                updateROIToolTip(e->globalPos());
+                updatePersistentRoiLabel(roiRB->geometry());
             }
         }
         //Stretching of ROI
@@ -170,7 +192,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             if(!view->isLargeImage())
             {
                 emit rectangleSelected(roiRaw.topLeft() / prevscale, roiRaw.bottomRight() / prevscale, true);
-                updateROIToolTip(e->globalPos());
+                updatePersistentRoiLabel(roiRB->geometry());
             }
         }
     }
@@ -245,9 +267,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     if(view->isSelectionRectShown())
     {
         if (roiRB->geometry().contains(e->pos()))
-            updateROIToolTip(e->globalPos());
-        else
-            QToolTip::hideText();
+            updatePersistentRoiLabel(roiRB->geometry());
     }
 
     emit newStatus(stringValue, FITS_VALUE);
@@ -480,10 +500,14 @@ void FITSLabel::showRubberBand(bool on)
     if(on)
     {
         roiRB->show();
+        if (roiRB->isVisible() && !roiRB->geometry().isNull())
+            updatePersistentRoiLabel(roiRB->geometry());
     }
     else
     {
         roiRB->hide();
+        if (m_roiStatsLabel)
+            m_roiStatsLabel->hide();
     }
 }
 
@@ -515,6 +539,8 @@ void FITSLabel::zoomRubberBand(double scale)
 
     roiRB->setGeometry(r);
     prevscale = scale;
+    if (roiRB->isVisible())
+        updatePersistentRoiLabel(roiRB->geometry());
 }
 /// Intended to take raw rect as input from FITSView context
 void FITSLabel::setRubberBand(QRect rect)
@@ -532,12 +558,137 @@ void FITSLabel::setRubberBand(QRect rect)
 
     roiRB->setGeometry(rect);
     prevscale = scale;
+    if (roiRB->isVisible())
+        updatePersistentRoiLabel(roiRB->geometry());
 }
 
-void FITSLabel::updateROIToolTip(const QPoint p)
+void FITSLabel::updatePersistentRoiLabel(const QRect &roiGeometry)
 {
-    auto result = QString("σ %1").arg(QString::number(view->imageData()->getAverageStdDev(true), 'f', 2));
-    result += "\nx̄ " + QString::number(view->imageData()->getAverageMean(true), 'f', 2);
-    result += "\nM " + QString::number(view->imageData()->getAverageMedian(true), 'f', 2);
-    QToolTip::showText(p, result, this);
+    if (!view || !view->imageData() || !view->isSelectionRectShown() || !m_roiStatsLabel || roiGeometry.isNull() || roiGeometry.isEmpty())
+    {
+        if (m_roiStatsLabel)
+            m_roiStatsLabel->hide();
+        return;
+    }
+
+    const auto &imgData = view->imageData();
+    if (!imgData) // Double check
+    {
+        m_roiStatsLabel->hide();
+        return;
+    }
+
+    // Calculate stats
+    auto result = QString("σ %1").arg(QString::number(imgData->getAverageStdDev(true), 'f', 2));
+    result += QString("\nx̄ %1").arg(QString::number(imgData->getAverageMean(true), 'f', 2));
+    result += QString("\nM %1").arg(QString::number(imgData->getAverageMedian(true), 'f', 2));
+
+    m_roiStatsLabel->setText(result);
+    m_roiStatsLabel->adjustSize(); // Adjust size to fit content first
+
+    // Position the label (e.g., to the right of the ROI or inside)
+    // Place it outside the rubber band, vertically centered, with adjustments to stay within FITSLabel
+    QPoint labelPos;
+    int labelHalfHeight = m_roiStatsLabel->height() / 2;
+    int roiCenterY = roiGeometry.center().y();
+
+    // Attempt to place to the right, vertically centered
+    labelPos.setX(roiGeometry.right() + 5); // 5px offset to the right
+    labelPos.setY(roiCenterY - labelHalfHeight);
+
+    // Ensure the label is within the FITSLabel bounds horizontally
+    if (labelPos.x() + m_roiStatsLabel->width() > width())   // If too far right
+    {
+        labelPos.setX(roiGeometry.left() - m_roiStatsLabel->width() - 5); // Try left of ROI
+        if (labelPos.x() < 0)   // If still too far left (ROI is near left edge)
+        {
+            labelPos.setX(roiGeometry.right() - m_roiStatsLabel->width()); // Try inside right
+            if (labelPos.x() < roiGeometry.left()) labelPos.setX(roiGeometry.left()); // Ensure it starts within ROI
+        }
+    }
+    if (labelPos.x() < 0) labelPos.setX(0); // Final check for left boundary
+
+
+    // Ensure the label is within the FITSLabel bounds vertically
+    if (labelPos.y() < 0)   // If too high
+    {
+        labelPos.setY(0);
+    }
+    else if (labelPos.y() + m_roiStatsLabel->height() > height())   // If too low
+    {
+        labelPos.setY(height() - m_roiStatsLabel->height());
+    }
+    // Final check for vertical position if label is taller than view (should be rare for this small label)
+    if (labelPos.y() < 0) labelPos.setY(0);
+
+
+    m_roiStatsLabel->move(labelPos);
+    m_roiStatsLabel->show();
+    m_roiStatsLabel->raise(); // Ensure it's on top
+}
+
+void FITSLabel::handleImageDataUpdated()
+{
+    if (roiRB && roiRB->isVisible() && view && view->isSelectionRectShown() && m_roiStatsLabel)
+    {
+        // When FITSView signals it has updated (e.g. new image loaded),
+        // we need to ensure the ROI statistics are recalculated for the *new* data
+        // using the *current* ROI selection.
+        // We do this by re-emitting the rectangleSelected signal with the current ROI's
+        // raw (unscaled) coordinates. This will trigger FITSView::processRectangle.
+        float currentGuiScale = view->getCurrentZoom() / ZOOM_DEFAULT;
+
+        if (currentGuiScale > 0.0001) // Check for valid scale
+        {
+            QRect currentScaledRoi = roiRB->geometry();
+            QPoint p1_raw(round(currentScaledRoi.left() / currentGuiScale), round(currentScaledRoi.top() / currentGuiScale));
+            QPoint p2_raw(round(currentScaledRoi.right() / currentGuiScale), round(currentScaledRoi.bottom() / currentGuiScale));
+
+            // Ensure the rectangle is normalized (p1 is top-left)
+            QRect rawRoiRect = QRect(p1_raw, p2_raw).normalized();
+
+            if (rawRoiRect.isValid())
+            {
+                // Tell FITSView to process this rectangle.
+                // FITSView::processRectangle will call FITSData::calculateROIStatistics()
+                // and then emit FITSView::rectangleUpdated() or FITSView::updated() again.
+                // The third parameter must be true to ensure statistics are calculated.
+                emit rectangleSelected(rawRoiRect.topLeft(), rawRoiRect.bottomRight(), true);
+
+                // It's expected that after FITSView processes this, it will emit a signal
+                // (like `updated` or `rectangleUpdated`) which will lead to
+                // `updatePersistentRoiLabel` being called with the fresh statistics.
+                // If that signal chain isn't perfectly reliable or timely,
+                // a direct call here might show stale data briefly then update.
+                // For now, rely on the signal chain initiated by rectangleSelected.
+            }
+            else
+            {
+                // If ROI somehow became invalid (e.g. due to extreme zoom out and fixed size ROI)
+                // still try to update the label, which might hide it or show default.
+                updatePersistentRoiLabel(currentScaledRoi);
+            }
+        }
+        else
+        {
+            // Invalid scale, update with current geometry (might hide label or show default)
+            updatePersistentRoiLabel(roiRB->geometry());
+        }
+        // The actual update of the label text with new stats should happen
+        // when updatePersistentRoiLabel is called *after* FITSView has processed
+        // the rectangleSelected signal and its own data is updated.
+        // This typically happens if FITSView::updated() is emitted again, or if
+        // FITSView::rectangleUpdated() is connected to a slot that updates the label.
+        // Our current connection is FITSView::updated -> handleImageDataUpdated.
+        // So, if emitting rectangleSelected causes FITSView to emit updated() again,
+        // this function will be re-entered, and the *next* time updatePersistentRoiLabel
+        // is called (implicitly or explicitly), it should have the correct stats.
+        // To ensure the label *does* refresh after this trigger, we can call it:
+        updatePersistentRoiLabel(roiRB->geometry());
+    }
+    else
+    {
+        if (m_roiStatsLabel)
+            m_roiStatsLabel->hide();
+    }
 }
