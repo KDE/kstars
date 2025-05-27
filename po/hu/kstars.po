@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-23 02:00+0000\n"
+"POT-Creation-Date: 2025-05-27 01:56+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -3866,7 +3866,7 @@ msgstr "A következő fájl törlése nem sikerült: %1"
 msgid "No connected mounts found."
 msgstr "Nem található %1 nevű objektum."
 
-#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:452
+#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:472
 #: kstarsactions.cpp:306 tools/observinglist.cpp:700
 #: tools/whatsinteresting/wiview.cpp:354
 #, fuzzy, kde-format
@@ -30980,14 +30980,14 @@ msgstr ""
 msgid "Apply"
 msgstr "&Alkalmazás"
 
-#: fitsviewer/fitslabel.cpp:356 tools/whatsinteresting/wiview.cpp:336
+#: fitsviewer/fitslabel.cpp:376 tools/whatsinteresting/wiview.cpp:336
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Abort Slew"
 msgid "Continue Slew"
 msgstr "Forgatás megszakítása"
 
-#: fitsviewer/fitslabel.cpp:441 fitsviewer/fitslabel.cpp:468
+#: fitsviewer/fitslabel.cpp:461 fitsviewer/fitslabel.cpp:488
 #, fuzzy, kde-format
 #| msgid "KStars did not find any active telescopes."
 msgid "KStars did not find any active mounts."

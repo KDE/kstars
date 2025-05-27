@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars VERSION\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-23 02:00+0000\n"
+"POT-Creation-Date: 2025-05-27 01:56+0000\n"
 "PO-Revision-Date: 2002-11-07 11:31+0200\n"
 "Last-Translator: WEB-Translator <http://kde.af.org.za>\n"
 "Language-Team: AFRIKAANS <AF@lia.org.za>\n"
@@ -3790,7 +3790,7 @@ msgstr "Kon nie uitvee die lêer: %1"
 msgid "No connected mounts found."
 msgstr "Nee voorwerp genaamd %1 gevind."
 
-#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:452
+#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:472
 #: kstarsactions.cpp:306 tools/observinglist.cpp:700
 #: tools/whatsinteresting/wiview.cpp:354
 #, kde-format
@@ -28749,12 +28749,12 @@ msgstr ""
 msgid "Apply"
 msgstr "Waarskuwing"
 
-#: fitsviewer/fitslabel.cpp:356 tools/whatsinteresting/wiview.cpp:336
+#: fitsviewer/fitslabel.cpp:376 tools/whatsinteresting/wiview.cpp:336
 #, fuzzy, kde-format
 msgid "Continue Slew"
 msgstr " norman"
 
-#: fitsviewer/fitslabel.cpp:441 fitsviewer/fitslabel.cpp:468
+#: fitsviewer/fitslabel.cpp:461 fitsviewer/fitslabel.cpp:488
 #, kde-format
 msgid "KStars did not find any active mounts."
 msgstr ""

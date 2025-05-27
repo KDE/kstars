@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-23 02:00+0000\n"
+"POT-Creation-Date: 2025-05-27 01:56+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3698,7 +3698,7 @@ msgstr "未能更新用户日志。"
 msgid "No connected mounts found."
 msgstr "未找到已连接的支架。"
 
-#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:452
+#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:472
 #: kstarsactions.cpp:306 tools/observinglist.cpp:700
 #: tools/whatsinteresting/wiview.cpp:354
 #, kde-format
@@ -29515,12 +29515,12 @@ msgstr "B"
 msgid "Apply"
 msgstr "执行"
 
-#: fitsviewer/fitslabel.cpp:356 tools/whatsinteresting/wiview.cpp:336
+#: fitsviewer/fitslabel.cpp:376 tools/whatsinteresting/wiview.cpp:336
 #, kde-format
 msgid "Continue Slew"
 msgstr "继续转动"
 
-#: fitsviewer/fitslabel.cpp:441 fitsviewer/fitslabel.cpp:468
+#: fitsviewer/fitslabel.cpp:461 fitsviewer/fitslabel.cpp:488
 #, kde-format
 msgid "KStars did not find any active mounts."
 msgstr "KStars 未找到任何活动的支架。"

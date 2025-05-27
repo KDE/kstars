@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-23 02:00+0000\n"
+"POT-Creation-Date: 2025-05-27 01:56+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -3908,7 +3908,7 @@ msgstr "Nuk mund të hapim skedarin %1"
 msgid "No connected mounts found."
 msgstr "Nuk u gjet asnjë objekt i emërtuar %1."
 
-#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:452
+#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:472
 #: kstarsactions.cpp:306 tools/observinglist.cpp:700
 #: tools/whatsinteresting/wiview.cpp:354
 #, fuzzy, kde-format
@@ -29987,12 +29987,12 @@ msgstr "VARRI"
 msgid "Apply"
 msgstr ""
 
-#: fitsviewer/fitslabel.cpp:356 tools/whatsinteresting/wiview.cpp:336
+#: fitsviewer/fitslabel.cpp:376 tools/whatsinteresting/wiview.cpp:336
 #, kde-format
 msgid "Continue Slew"
 msgstr ""
 
-#: fitsviewer/fitslabel.cpp:441 fitsviewer/fitslabel.cpp:468
+#: fitsviewer/fitslabel.cpp:461 fitsviewer/fitslabel.cpp:488
 #, fuzzy, kde-format
 #| msgid "KStars did not find any active telescopes."
 msgid "KStars did not find any active mounts."

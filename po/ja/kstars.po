@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-23 02:00+0000\n"
+"POT-Creation-Date: 2025-05-27 01:56+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -4002,7 +4002,7 @@ msgstr "ファイルを削除できませんでした: %1"
 msgid "No connected mounts found."
 msgstr "%1 という名前の天体が見つかりません。"
 
-#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:452
+#: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:472
 #: kstarsactions.cpp:306 tools/observinglist.cpp:700
 #: tools/whatsinteresting/wiview.cpp:354
 #, fuzzy, kde-format
@@ -31006,13 +31006,13 @@ msgstr ""
 msgid "Apply"
 msgstr "アップルトン"
 
-#: fitsviewer/fitslabel.cpp:356 tools/whatsinteresting/wiview.cpp:336
+#: fitsviewer/fitslabel.cpp:376 tools/whatsinteresting/wiview.cpp:336
 #, fuzzy, kde-format
 #| msgid "Abort"
 msgid "Continue Slew"
 msgstr "中止"
 
-#: fitsviewer/fitslabel.cpp:441 fitsviewer/fitslabel.cpp:468
+#: fitsviewer/fitslabel.cpp:461 fitsviewer/fitslabel.cpp:488
 #, fuzzy, kde-format
 #| msgid "KStars did not find any active telescopes."
 msgid "KStars did not find any active mounts."
