@@ -246,6 +246,10 @@ if (INDI_FOUND)
             ekos/capture/camerastate.cpp
             ekos/capture/capturedeviceadaptor.cpp
             ekos/capture/camera.cpp
+            ekos/capture/camera_actions.cpp
+            ekos/capture/camera_config.cpp
+            ekos/capture/camera_device.cpp
+            ekos/capture/camera_jobs.cpp
             ekos/capture/capturepreviewwidget.cpp
             ekos/capture/capturecountswidget.cpp
             ekos/capture/captureprocessoverlay.cpp
