@@ -48,7 +48,7 @@ Mount::Mount(GenericDevice *parent) : ConcreteDevice(parent)
     updateCoordinatesTimer.setSingleShot(false);
     connect(&updateCoordinatesTimer, &QTimer::timeout, this, [this]()
     {
-        if (isConnected())
+        if (isConnected() && isParked() == false)
         {
             currentCoords.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
             emit newCoords(currentCoords, pierSide(), hourAngle());
