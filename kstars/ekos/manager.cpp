@@ -1823,6 +1823,8 @@ void Manager::addLightBox(ISD::LightBox * device)
 
 void Manager::syncGenericDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
+    qCDebug(KSTARS_EKOS) << "Syncing Generic Device" << device->getDeviceName();
+
     createModules(device);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3802,8 +3804,12 @@ void Manager::setDeviceReady()
     // If port selector is active, then do not show optical train dialog unless it is dismissed first.
     if (m_DriverDevicesCount <= 0 && (m_CurrentProfile->portSelector == false || !m_PortSelector))
     {
-        for (auto &device : INDIListener::devices())
-            syncGenericDevice(device);
+        for (auto &oneDevice : INDIListener::devices())
+        {
+            // Fix issue reported by Ed Lee (#238) as we only need to sync once per device
+            if (oneDevice->getDeviceName() == device->getDeviceName())
+                syncGenericDevice(oneDevice);
+        }
         OpticalTrainManager::Instance()->setProfile(m_CurrentProfile);
     }
 }
