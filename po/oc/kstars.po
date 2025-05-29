@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-27 01:56+0000\n"
+"POT-Creation-Date: 2025-05-29 02:02+0000\n"
 "PO-Revision-Date: 2008-08-05 23:45+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (lengadocian) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -6719,7 +6719,7 @@ msgstr "Nom de fichièrs :"
 
 #: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4136
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1241 ekos/manager.cpp:2156 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1241 ekos/manager.cpp:2158 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3688
 #, kde-format
@@ -10665,7 +10665,7 @@ msgstr "Impossible de dobrir lo fichièr : %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2303 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2304 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2306 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:490
 #, kde-format
@@ -10674,7 +10674,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2260
+#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2262
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:498
 #, fuzzy, kde-format
@@ -10688,7 +10688,7 @@ msgstr "Autre"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2305 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2525
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2527
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:494
 #, fuzzy, kde-format
@@ -10706,7 +10706,7 @@ msgstr "Resumit"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2307 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2450 ekos/manager.ui:778
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2452 ekos/manager.ui:778
 #, fuzzy, kde-format
 #| msgid "Country:"
 msgid "Mount"
@@ -12922,7 +12922,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2575
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2577
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 #| msgid "Server"
@@ -24568,74 +24568,74 @@ msgstr "Païs :"
 msgid "%1 Light box is online."
 msgstr "Païs :"
 
-#: ekos/manager.cpp:1969
+#: ekos/manager.cpp:1971
 #, kde-format
 msgid "%1 is offline."
 msgstr ""
 
-#: ekos/manager.cpp:2208
+#: ekos/manager.cpp:2210
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr ""
 
-#: ekos/manager.cpp:2592
+#: ekos/manager.cpp:2594
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2781
+#: ekos/manager.cpp:2783
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr ""
 
-#: ekos/manager.cpp:2782
+#: ekos/manager.cpp:2784
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Confirm Delete"
 msgstr "Error al moment de dobrir lo fichièr"
 
-#: ekos/manager.cpp:2834
+#: ekos/manager.cpp:2836
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2836
+#: ekos/manager.cpp:2838
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:3109
+#: ekos/manager.cpp:3111
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3117
+#: ekos/manager.cpp:3119
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3145
+#: ekos/manager.cpp:3147
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3157
+#: ekos/manager.cpp:3159
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3878
+#: ekos/manager.cpp:3884
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:3885
+#: ekos/manager.cpp:3891
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:3892
+#: ekos/manager.cpp:3898
 #, kde-format
 msgid "Received external preview file"
 msgstr ""

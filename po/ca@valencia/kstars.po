@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-27 01:56+0000\n"
+"POT-Creation-Date: 2025-05-29 02:02+0000\n"
 "PO-Revision-Date: 2025-05-23 09:26+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3667,7 +3667,7 @@ msgstr "%1 km"
 #, kde-format
 msgctxt "Rotation period in hours"
 msgid "%1 h"
-msgstr "%1 h"
+msgstr "%1h"
 
 #: dialogs/detaildialog.cpp:472 dialogs/detaildialog.cpp:530
 #, kde-format
@@ -6593,7 +6593,7 @@ msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4136
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1241 ekos/manager.cpp:2156 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1241 ekos/manager.cpp:2158 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3688
 #, kde-format
@@ -10704,7 +10704,7 @@ msgstr "No s'ha pogut mostrar el fitxer temporal d'imatge: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2303 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2304 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2306 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:490
 #, kde-format
@@ -10713,7 +10713,7 @@ msgstr "Enfocament"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2260
+#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2262
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:498
 #, kde-format
@@ -10725,7 +10725,7 @@ msgstr "Alinea"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2305 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2525
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2527
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:494
 #, kde-format
@@ -10741,7 +10741,7 @@ msgstr "Invertix"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2307 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2450 ekos/manager.ui:778
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2452 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
 msgstr "Muntura"
@@ -13033,7 +13033,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2575
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2577
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -25343,75 +25343,75 @@ msgstr "La tapa per la pols «%1» està en línia."
 msgid "%1 Light box is online."
 msgstr "La caixa de llum «%1» està en línia."
 
-#: ekos/manager.cpp:1969
+#: ekos/manager.cpp:1971
 #, kde-format
 msgid "%1 is offline."
 msgstr "El «%1» està fora de línia."
 
-#: ekos/manager.cpp:2208
+#: ekos/manager.cpp:2210
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2592
+#: ekos/manager.cpp:2594
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "El port del sistema de guiatge «%1» està a punt."
 
-#: ekos/manager.cpp:2781
+#: ekos/manager.cpp:2783
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Segur que voleu eliminar el perfil?"
 
-#: ekos/manager.cpp:2782
+#: ekos/manager.cpp:2784
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirmeu la supressió"
 
-#: ekos/manager.cpp:2834
+#: ekos/manager.cpp:2836
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "L'emplaçament del lloc s'ha actualitzat a %1."
 
-#: ekos/manager.cpp:2836
+#: ekos/manager.cpp:2838
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "No s'ha pogut actualitzar l'emplaçament del lloc a %1. No s'ha trobat la "
 "ciutat."
 
-#: ekos/manager.cpp:3109
+#: ekos/manager.cpp:3111
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "S'activa el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3117
+#: ekos/manager.cpp:3119
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Es desactiva el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3145
+#: ekos/manager.cpp:3147
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Es torna a activar el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3157
+#: ekos/manager.cpp:3159
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3878
+#: ekos/manager.cpp:3884
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Font de vista prèvia establida a externa"
 
-#: ekos/manager.cpp:3885
+#: ekos/manager.cpp:3891
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Font de vista prèvia restablida a interna"
 
-#: ekos/manager.cpp:3892
+#: ekos/manager.cpp:3898
 #, kde-format
 msgid "Received external preview file"
 msgstr "S'ha rebut un fitxer extern de vista prèvia"
@@ -32420,7 +32420,7 @@ msgstr "Llindar de 16 bits:"
 #: fitsviewer/opsfits.ui:286
 #, kde-format
 msgid "64K Clipping value."
-msgstr "Valor del retallat de 64K."
+msgstr "Valor del retallat de 64 K."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:302
@@ -85893,13 +85893,13 @@ msgstr "Coordenades aparents:"
 #: tools/modcalcapcoord.ui:346
 #, kde-format
 msgid "+00d 00' 00.0\""
-msgstr "+00d 00' 00.0\""
+msgstr "+00 d 00' 00.0\""
 
 #. i18n: ectx: property (text), widget (QLabel, RA)
 #: tools/modcalcapcoord.ui:374
 #, kde-format
 msgid "00h 00m 00.0s"
-msgstr "00h 00m 00.0s"
+msgstr "00 h 00 m 00.0 s"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: tools/modcalcapcoord.ui:596
