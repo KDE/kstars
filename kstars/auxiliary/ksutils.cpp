@@ -1880,5 +1880,46 @@ QString getMachineID()
     return QString::fromUtf8(id).trimmed();
 }
 
+qlonglong getJwtExpiryTimestamp(const QString &jwtToken)
+{
+    QStringList parts = jwtToken.split('.');
+    if (parts.length() < 2)
+    {
+        qCWarning(KSTARS) << "Invalid JWT format: not enough parts.";
+        return 0; // Invalid token format
+    }
+
+    // The middle part is the payload, Base64URL encoded.
+    // QByteArray::fromBase64 expects standard Base64, so URL-specific characters might need handling
+    // if they were present, but usually for JWTs they are chosen to be URL-safe.
+    // Qt 5.15+ QByteArray::fromBase64 has Base64UrlEncoding option.
+    QByteArray payloadData = QByteArray::fromBase64(parts[1].toUtf8(),
+                             QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals);
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(payloadData, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError)
+    {
+        qCWarning(KSTARS) << "Failed to parse JWT payload:" << parseError.errorString();
+        return 0;
+    }
+
+    if (!doc.isObject())
+    {
+        qCWarning(KSTARS) << "JWT payload is not a JSON object.";
+        return 0;
+    }
+
+    QJsonObject payloadObj = doc.object();
+    if (payloadObj.contains("exp") && payloadObj["exp"].isDouble())
+    {
+        return static_cast<qlonglong>(payloadObj["exp"].toDouble());
+    }
+    else
+    {
+        qCWarning(KSTARS) << "JWT payload does not contain a valid 'exp' (expiration) claim or it's not a number.";
+    }
+    return 0; // No 'exp' claim found or not a number
+}
 
 } // namespace KSUtils

@@ -9,10 +9,11 @@
 
 #include "nodemanager.h"
 #include "version.h"
-#include "ksutils.h"
+#include "../../auxiliary/ksutils.h"
 #include "ekos_debug.h"
 
 #include <QWebSocket>
+#include <QDateTime>
 #include <QUrlQuery>
 #include <QTimer>
 #include <QJsonDocument>
@@ -135,15 +136,15 @@ void NodeManager::setCredentials(const QString &username, const QString &passwor
 ///////////////////////////////////////////////////////////////////////////////////////////
 void NodeManager::authenticate()
 {
-    if (m_isReauthenticating)
+    if (m_isReauthenticating) // Check if already in progress
     {
         // Already trying to authenticate this manager, prevent stacking requests.
-        // Log this attempt or decide if it should queue. For now, just return.
         qCInfo(KSTARS_EKOS) << "NodeManager::authenticate called while already in progress for URL:" <<
                             m_ServiceURL.toDisplayString() << ". Ignoring.";
         return;
     }
-    // setIsReauthenticating(true); // This will be set by the Client before calling authenticate
+
+    m_isReauthenticating = true; // Set the flag at the start of a new authentication attempt.
 
     QNetworkRequest request;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -160,6 +161,38 @@ void NodeManager::authenticate()
     m_NetworkManager->post(request, postData);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool NodeManager::isTokenNearlyExpired(int bufferSeconds) const
+{
+    if (m_AuthResponse.isEmpty() || m_tokenExpiryTimestamp == 0)
+    {
+        qCWarning(KSTARS_EKOS) << "NodeManager: Token is considered expired (empty auth response or no expiry timestamp).";
+        return true; // No token or expiry unknown, assume needs auth
+    }
+
+    qlonglong currentTime = QDateTime::currentSecsSinceEpoch();
+    bool expired = currentTime >= (m_tokenExpiryTimestamp - bufferSeconds);
+    if (expired)
+    {
+        qCWarning(KSTARS_EKOS) << "NodeManager: Token is nearly expired. CurrentTime:" << currentTime
+                               << "Expiry:" << m_tokenExpiryTimestamp << "Buffer:" << bufferSeconds;
+    }
+    return expired;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void NodeManager::clearAuthentication()
+{
+    qCInfo(KSTARS_EKOS) << "NodeManager: Clearing authentication data.";
+    m_AuthResponse = QJsonObject();
+    m_tokenExpiryTimestamp = 0;
+    // Also disconnect nodes if they are connected with old auth
+    // disconnectNodes(); // Caller (EkosLiveClient) should manage this if needed before re-auth.
+}
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -201,11 +234,29 @@ void NodeManager::onResult(QNetworkReply *reply)
     if (m_AuthResponse["success"].toBool() == false)
     {
         // Reset flag on authentication error (server denied)
+        m_tokenExpiryTimestamp = 0; // Clear any old expiry on auth failure
         setIsReauthenticating(false);
         emit authenticationError(m_AuthResponse["message"].toString());
         reply->deleteLater();
         return;
     }
+
+    // Store token expiry
+    m_tokenExpiryTimestamp = KSUtils::getJwtExpiryTimestamp(m_AuthResponse["token"].toString());
+    if (m_tokenExpiryTimestamp > 0)
+    {
+        qCInfo(KSTARS_EKOS) << "NodeManager for URL" << m_ServiceURL.toDisplayString() << "authenticated. Token expiry:"
+                            << QDateTime::fromSecsSinceEpoch(m_tokenExpiryTimestamp).toString(Qt::ISODate);
+    }
+    else
+    {
+        qCWarning(KSTARS_EKOS) << "NodeManager for URL" << m_ServiceURL.toDisplayString() <<
+                                  "authenticated, but failed to parse token expiry.";
+        // Decide if this is a critical failure. For now, proceed but token checks might fail.
+    }
+
+    // If we were re-authenticating, NodeManager::setConnected will reset the flag once all nodes connect.
+    // If not re-authenticating, this is a fresh authentication.
 
     for (auto &node : m_Nodes)
     {

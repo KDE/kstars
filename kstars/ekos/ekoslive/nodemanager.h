@@ -68,6 +68,10 @@ class NodeManager : public QObject
             m_isReauthenticating = state;
         }
 
+        // New methods for token expiry
+        bool isTokenNearlyExpired(int bufferSeconds = 300) const;
+        void clearAuthentication();
+
     signals:
         void connected();
         void disconnected();
@@ -85,6 +89,7 @@ class NodeManager : public QObject
 
     private:
         QJsonObject m_AuthResponse;
+        qlonglong m_tokenExpiryTimestamp {0}; // Store token expiry in seconds since epoch
         bool m_isReauthenticating {false};
         uint16_t m_ReconnectTries {0};
         QUrl m_ServiceURL, m_WebsocketURL;

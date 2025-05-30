@@ -397,4 +397,11 @@ double positionAngleToRotation(double value);
  */
 QString getMachineID();
 
+/**
+ *@short Parse a JWT string and return its expiration timestamp.
+ *@param jwtToken The JWT string.
+ *@return qlonglong Returns the 'exp' claim value (seconds since epoch) or 0 if parsing fails or exp is not found.
+ */
+qlonglong getJwtExpiryTimestamp(const QString &jwtToken);
+
 } // namespace KSUtils

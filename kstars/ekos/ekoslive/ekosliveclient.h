@@ -78,6 +78,7 @@ class Client : public QDialog, public Ui::EkosLiveDialog
         void onConnected();
         void onDisconnected();
         void processGlobalLogoutTrigger(const QUrl &url);
+        void checkAndTriggerAuth();
 
     private:
         Ekos::Manager *m_Manager { nullptr };
@@ -85,7 +86,7 @@ class Client : public QDialog, public Ui::EkosLiveDialog
         bool m_isProcessingGlobalLogout {false};
 
         QProgressIndicator *pi { nullptr };
-        QVector<QSharedPointer<NodeManager>> m_NodeManagers;
+        QVector<QSharedPointer<NodeManager >> m_NodeManagers;
 
         QPointer<Message> m_Message;
         QPointer<Media> m_Media;
