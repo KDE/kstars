@@ -35,6 +35,8 @@ Node::Node(const QString &name) : m_Name(name)
 
 void Node::connectServer()
 {
+    qCDebug(KSTARS_EKOS) << "Node(" << m_Name << "): Entered connectServer(). Base URL:" << m_URL.toDisplayString() << "Path:"
+                         << m_Path;
     QUrl requestURL(m_URL);
 
     QUrlQuery query;
@@ -56,6 +58,14 @@ void Node::connectServer()
 
     requestURL.setPath(m_Path);
     requestURL.setQuery(query);
+
+    if (m_Name == "message" || m_Name == "Message")   // Log more details for message node
+    {
+        qCDebug(KSTARS_EKOS) << "Node(" << m_Name << "): About to open websocket. Request URL:" << requestURL.toDisplayString() <<
+                                "Is valid:" << requestURL.isValid();
+        qCDebug(KSTARS_EKOS) << "Node(" << m_Name << "): Auth Token used:" << m_AuthResponse["token"].toString().left(
+                                 10) << "..."; // Log part of token
+    }
 
     m_WebSocket.open(requestURL);
 

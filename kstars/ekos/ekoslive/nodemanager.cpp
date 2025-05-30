@@ -258,8 +258,14 @@ void NodeManager::onResult(QNetworkReply *reply)
     // If we were re-authenticating, NodeManager::setConnected will reset the flag once all nodes connect.
     // If not re-authenticating, this is a fresh authentication.
 
+    qCDebug(KSTARS_EKOS) << "NodeManager(" << m_ServiceURL.toDisplayString() << "): Authenticated. Processing" <<
+                         m_Nodes.count() << "nodes for reconnection.";
     for (auto &node : m_Nodes)
     {
+        // To get node name here, Node class would need a public name() getter.
+        // For now, let's log its pointer. The actual name will be logged from Node::connectServer().
+        qCDebug(KSTARS_EKOS) << "NodeManager(" << m_ServiceURL.toDisplayString() << "): Processing node with pointer" << node <<
+                                "- Calling setAuthResponse and connectServer.";
         node->setAuthResponse(m_AuthResponse);
         node->connectServer();
     }
