@@ -48,6 +48,16 @@ windows_qt515:
   rules:
     - !reference [.standard-build-recipes, rules]
 
+suse_tumbleweed_qt69:
+  allow_failure: true
+  rules:
+    - !reference [.standard-build-recipes, rules]
+
+windows_qt68:
+  allow_failure: true
+  rules:
+    - !reference [.standard-build-recipes, rules]
+
 # Craft recipes
 
 craft_appimage_qt515_x86_64:
