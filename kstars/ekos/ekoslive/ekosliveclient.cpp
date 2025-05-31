@@ -379,7 +379,12 @@ void Client::onDisconnected()
         selectServersB->setEnabled(true);
         emit disconnected(); // Emit client disconnected signal
 
+        qCInfo(KSTARS_EKOS) << "Client::onDisconnected: Overall connection lost. Attempting to re-authenticate all managers.";
+        checkAndTriggerAuth(); // Proactively attempt to re-establish the session
+
         // If we are transitioning to a fully disconnected state (no manager is connected or trying to connect), ensure PI is stopped.
+        // Note: checkAndTriggerAuth() will start PI if it initiates authentication.
+        // This check remains useful if checkAndTriggerAuth decides no auth is needed but we are still disconnected.
         bool anyManagerStillActive = false;
         for (const auto &manager : m_NodeManagers)
         {
