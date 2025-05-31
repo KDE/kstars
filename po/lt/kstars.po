@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-29 02:02+0000\n"
+"POT-Creation-Date: 2025-05-31 02:00+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -13365,7 +13365,7 @@ msgstr "Prievadas"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:310
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:377
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13376,7 +13376,7 @@ msgstr "Užmegzti ryšį"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:253
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:320
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -18066,31 +18066,31 @@ msgstr "Nebe&sekti"
 msgid "Stopped"
 msgstr "Stabdyti"
 
-#: ekos/ekoslive/ekosliveclient.cpp:360
+#: ekos/ekoslive/ekosliveclient.cpp:442
 #, fuzzy, kde-format
 #| msgid "Stop Service"
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Stabdyti tarnybą"
 
-#: ekos/ekoslive/ekosliveclient.cpp:362
+#: ekos/ekoslive/ekosliveclient.cpp:444
 #, fuzzy, kde-format
 msgid "Observatory:"
 msgstr "Stebimųjų sąrašas"
 
-#: ekos/ekoslive/ekosliveclient.cpp:363
+#: ekos/ekoslive/ekosliveclient.cpp:445
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgid "Offline:"
 msgstr "Tiesinė"
 
-#: ekos/ekoslive/ekosliveclient.cpp:364
+#: ekos/ekoslive/ekosliveclient.cpp:446
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgid "Online:"
 msgstr "Tiesinė"
 
-#: ekos/ekoslive/ekosliveclient.cpp:365
+#: ekos/ekoslive/ekosliveclient.cpp:447
 #, kde-format
 msgid "Machine ID:"
 msgstr ""
@@ -18167,12 +18167,12 @@ msgstr "Sargas"
 msgid "Mosaic import failed."
 msgstr "Paveikslo %1 įrašyti nepavyko."
 
-#: ekos/ekoslive/nodemanager.cpp:181
+#: ekos/ekoslive/nodemanager.cpp:214
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr ""
 
-#: ekos/ekoslive/nodemanager.cpp:194
+#: ekos/ekoslive/nodemanager.cpp:227
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error parsing server response: %1"

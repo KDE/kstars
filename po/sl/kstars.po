@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-29 02:02+0000\n"
+"POT-Creation-Date: 2025-05-31 02:00+0000\n"
 "PO-Revision-Date: 2025-05-22 07:05+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -13218,7 +13218,7 @@ msgstr "Vrata"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:310
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:377
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13229,7 +13229,7 @@ msgstr "Poveži"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:253
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:320
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -17889,28 +17889,28 @@ msgstr "Ustavljanje"
 msgid "Stopped"
 msgstr "Zaustavljeno"
 
-#: ekos/ekoslive/ekosliveclient.cpp:360
+#: ekos/ekoslive/ekosliveclient.cpp:442
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Izberi strežnike EkosLive"
 
-#: ekos/ekoslive/ekosliveclient.cpp:362
+#: ekos/ekoslive/ekosliveclient.cpp:444
 #, kde-format
 msgid "Observatory:"
 msgstr "Observatorij:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:363
+#: ekos/ekoslive/ekosliveclient.cpp:445
 #, kde-format
 msgid "Offline:"
 msgstr "Brez povezave:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:364
+#: ekos/ekoslive/ekosliveclient.cpp:446
 #, kde-format
 msgid "Online:"
 msgstr "Povezano:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:365
+#: ekos/ekoslive/ekosliveclient.cpp:447
 #, kde-format
 msgid "Machine ID:"
 msgstr "ID stroja:"
@@ -17979,12 +17979,12 @@ msgstr "cilj"
 msgid "Mosaic import failed."
 msgstr "Uvoz mozaika ni uspel."
 
-#: ekos/ekoslive/nodemanager.cpp:181
+#: ekos/ekoslive/nodemanager.cpp:214
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr "Napaka preverjanja pristnosti s strežnikom Ekos Live: %1"
 
-#: ekos/ekoslive/nodemanager.cpp:194
+#: ekos/ekoslive/nodemanager.cpp:227
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Napaka med razčlenjevanjem odziva strežnika: %1"
