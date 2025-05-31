@@ -4,6 +4,92 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.7.7
+
+5b0460403 2025-05-31 Jasem Mutlaq         More logging                                                                                                                                          
+8707363e6 2025-05-30 Jasem Mutlaq         Add more logging                                                                                                                                      
+af8f6e2a2 2025-05-30 Jasem Mutlaq         Reconnect if token expires                                                                                                                            
+513f89d5f 2025-05-28 Jasem Mutlaq         Fix issue with over syncing generic devices. Fix issue #238                                                                                           
+8efc2c112 2025-05-27 Jasem Mutlaq         Do not update mount coordinates when parked                                                                                                           
+d7575b7d6 2025-05-26 Jasem Mutlaq         Fix issue where ROI statistics were not calculated after a new image is captured. Also, make the ROI statistic visible all the time instead of just ..
+5ba8ac95a 2025-05-22 Jasem Mutlaq         1. Remove last remnant of INDI Hub 2. Some devices take time to define their properties after connection is established, and therefore we need to wa..
+9f9461271 2025-05-22 Jasem Mutlaq         Remove any traces of INDI hub as the project is dead                                                                                                  
+6dc3ede48 2025-05-13 Jasem Mutlaq         Initial flatpak support                                                                                                                               
+b88e8184e 2025-05-22 Jasem Mutlaq         Fix custom INDI Web Manager path                                                                                                                      
+1baeb7b29 2025-05-22 Jasem Mutlaq         Project against KStars crash on shutdown when INDI is online.                                                                                         
+9827c0852 2025-05-21 Hy Murveit           Remember window geometry for kstars, ekos, indi and fits windows                                                                                      
+5a45dee9b 2025-05-20 Jasem Mutlaq         Add elevation to the location payload                                                                                                                 
+cdf683e29 2025-05-20 Hy Murveit           Fix bad PAA algorithm for computing Az/Alt adjustments                                                                                                
+cb6cb2abe 2025-05-18 Eric Dejouhanet      fix(phd2): unpause before stop when aborting.                                                                                                         
+b10e4e3f4 2025-05-17 Eric Dejouhanet      fix(phd2): reset connection state when socket is found vanished.                                                                                      
+190e2b23d 2025-05-17 Eric Dejouhanet      fix(phd2): fix missing delete on socket state timer.                                                                                                  
+1c7e05041 2025-05-17 Eric Dejouhanet      fix(phd2): read server state periodically.                                                                                                            
+a42944026 2025-05-17 Eric Dejouhanet      fix(phd2): resuming when paused instead of starting.                                                                                                  
+5152cd7eb 2025-05-19 Jasem Mutlaq         KStars inside flatpak apparently cannot access machine id from QSysInfo so I added a KSUtil function to read it directly from system                  
+ba56fdda3 2025-05-17 Jasem Mutlaq         Add more logging to effective focal length calculations                                                                                               
+3bb120dc6 2025-05-17 Sebastian Krauthauser Add SX Cameras to Exposure Calculator                                                                                                                 
+dfe3ce181 2025-05-17 Wolfgang Reissenberger Bugfix creating a darks library using camera tabs                                                                                                     
+053d4fb99 2025-05-15 Salman Naheed        Feature/fix astrometry file download                                                                                                                  
+d5dfe3240 2025-05-15 Sebastian Krauthauser Updated Exposure Calculator Logic                                                                                                                     
+70035ca19 2025-05-15 Sebastian Krauthauser Adding missing cameras from Exposure Calculator list                                                                                                  
+ac4ba685e 2025-05-14 Hy Murveit           Fix bug in repeat all sequences, rename widget                                                                                                        
+9149cb14d 2025-05-14 Jasem Mutlaq         Add a configurable delay period whe detecting WEATHER_ALERT before starting the actual soft shutdown procedure.                                       
+b14471a0d 2025-05-13 Hy Murveit           UI tweak--hidden columns were unhidden on date change                                                                                                 
+57413665a 2025-05-12 Hy Murveit           fix great-circle bug                                                                                                                                  
+6cfee920c 2025-05-11 Hy Murveit           Update scheduler empty plan messaging, include job completion reason.                                                                                 
+45d696c4a 2025-05-11 Jasem Mutlaq         Remove duplicate include                                                                                                                              
+112d61819 2025-05-10 Jasem Mutlaq         Fix crashes in focus module and scheduler process. Fix headers for Qt6                                                                                
+e734ed172 2025-05-08 Jasem Mutlaq         Fix reconnect issue when token is invalid.                                                                                                            
+c6b8e0e50 2025-05-05 Jasem Mutlaq         Reconnect signals after reconnection                                                                                                                  
+d2464daf5 2025-05-05 Jasem Mutlaq         Fix issue when dome is reconnected. When dome is disconnected, all controls are disabled but there were not enabled when dome is connected again. Th..
+4ad3e3777 2025-05-04 John Evans           Focus Param Fix                                                                                                                                       
+89d6f6362 2025-05-01 Hy Murveit           Add an up/down sort-order arrow to the imaging planner table header                                                                                   
+4c100fa72 2025-05-01 Hy Murveit           Change misleading time menu wording when real-time clock in use.                                                                                      
+14d1dcde7 2025-05-01 Jasem Mutlaq         Align mount widget in center                                                                                                                          
+93f6381cb 2025-04-28 Hy Murveit           Add developer option to not sync clock to real time when Ekos starts                                                                                  
+8d9fe3bea 2025-04-28 Hy Murveit           Fix bug in immediate restart                                                                                                                          
+edc7415ca 2025-04-25 Wolfgang Reissenberger Bugfix refactoring deprecated null check                                                                                                              
+7b825ff76 2025-04-24 Ed Lee               Fixes for extension discovery and conf testing                                                                                                        
+19e1c3666 2025-04-23 Hy Murveit           Fix ugly formatting in opsekos                                                                                                                        
+3da5af56e 2025-04-23 Wolfgang Reissenberger Show guiding image for PHD2                                                                                                                           
+033706e16 2025-04-22 Hy Murveit           Allow scheduler altitude graph to show daytime jobs if some are scheduled                                                                             
+0369623f5 2025-04-22 Hy Murveit           Create a new guider timer dedicated to dither settling.                                                                                               
+ff7857747 2025-04-22 Eric Dejouhanet      chore(ci): reduce compute resources.                                                                                                                  
+90ac60da3 2025-04-21 Yuri Chornoivan      Fix minor typos                                                                                                                                       
+d0b8578c0 2025-04-20 Hy Murveit           New Linear and Hysteresis Guiders                                                                                                                     
+8d6c2cacd 2025-04-19 Hy Murveit           ImagingPlanner bugfix on ok/cancel popup                                                                                                              
+ef11946c5 2025-04-18 Jasem Mutlaq         Fix build on Windows                                                                                                                                  
+a0f1fa382 2025-04-18 Jasem Mutlaq         Fix scheduler clear and improve the manual button                                                                                                     
+21b731bca 2025-04-16 Wolfgang Reissenberger Bug fixes for capture counts on the manager tab                                                                                                       
+acd47bb66 2025-04-15 Eric Dejouhanet      CI/CD Documentation                                                                                                                                   
+5c5a42a0f 2025-04-15 Hy Murveit           Changing the dreaded Empty Plan error message                                                                                                         
+279edc246 2025-04-15 Ed Lee               Added pre & post driver shutdown scripts                                                                                                              
+172079c57 2025-04-14 Hy Murveit           Fix analyze bug computing guide rms error                                                                                                             
+2c7e2dd3d 2025-04-11 Hy Murveit           Remove unnecessary multiplier for guide RMS error and improve the analyze guide rms too                                                               
+d1acb4973 2025-04-12 Wolfgang Reissenberger Capture preparation logging                                                                                                                           
+917ca1a13 2025-04-10 Robert Lancaster     Fixing a DBus issue and 2 Qt6 issues                                                                                                                  
+441b9a91c 2025-04-10 Jasem Mutlaq         Fix compile error on Qt6                                                                                                                              
+14e98a6c5 2025-04-01 Alessandro Astone    Fix access by key on QJsonValue                                                                                                                       
+47d9fe5b2 2025-04-08 Hy Murveit           Tickle the scheduler altitude graph every hour during long scheduler sleeps                                                                           
+385db96ec 2025-04-07 Jasem Mutlaq         Migrate INDI Properties usage to use moderm INDI properties.                                                                                          
+b76d1f6ff 2025-03-19 Hy Murveit           Add skymap command ctrl-alt-shift mouse-drag to rotate the FOV symbols and add degrees display on the rect FOV.                                       
+45f8eaa15 2025-03-15 Hy Murveit           ImagingPlanner tool for framing images                                                                                                                
+933b43b70 2025-04-04 Hy Murveit           Add Ekos help--links to new doc site                                                                                                                  
+6e9a9e835 2025-04-04 Eric Dejouhanet      fix: update custom build CI.                                                                                                                          
+2f77f07ab 2025-04-04 Eric Dejouhanet      fix: update index sources in custom build image.                                                                                                      
+4dfae9cd8 2025-04-04 Eric Dejouhanet      fix: update index sources in custom build image.                                                                                                      
+9e3238253 2025-04-03 Jasem Mutlaq         Protect against crash when accessing filter manager                                                                                                   
+c1f76f84b 2025-04-02 Jasem Mutlaq         Use stable ppa                                                                                                                                        
+ff8f3f36c 2025-04-02 Jasem Mutlaq         Use stable PPA                                                                                                                                        
+1811b20e1 2025-04-02 Jasem Mutlaq         KStars v3.7.7 develpment cycle                                                                                                                        
+78a087922 2025-04-02 Jasem Mutlaq         Fix rotate icon                                                                                                                                       
+fd8e54166 2025-03-31 Hy Murveit           Update doc links for Imaging Planner and Analyze                                                                                                      
+6dda93b8b 2025-03-31 Jasem Mutlaq         Fix build failure on launchpad                                                                                                                        
+498e86dbc 2025-03-31 Jasem Mutlaq         Fix issue with repeated MF success on align failure                                                                                                   
+f9839263a 2025-03-31 Jasem Mutlaq         Fix issue where the wait time for local or remote drivers is not sufficient due to pre and post delays. Now we account for them to prevent premature..
+dadd611d1 2025-03-31 Jasem Mutlaq         Add back drivers removed by mistake                                                                                                                   
+c244bca34 2025-03-31 Wolfgang Reissenberger Set correct limits when selecting optical train                                                                                                       
+
 3.7.6
 
 b7839ee0b 2025-03-30 Jasem Mutlaq         Fix issue where remote drivers do not start immediately due to scripts with Pre and Post conditions                                                   
