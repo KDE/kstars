@@ -84,6 +84,7 @@ class Client : public QDialog, public Ui::EkosLiveDialog
         Ekos::Manager *m_Manager { nullptr };
         bool m_isConnected {false};
         bool m_isProcessingGlobalLogout {false};
+        bool m_userRequestedDisconnect {false};
 
         QProgressIndicator *pi { nullptr };
         QVector<QSharedPointer<NodeManager >> m_NodeManagers;

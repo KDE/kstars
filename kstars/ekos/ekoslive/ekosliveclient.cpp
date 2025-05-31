@@ -80,11 +80,13 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     {
         if (m_isConnected) // If fully connected, then this button is "Disconnect"
         {
+            m_userRequestedDisconnect = true; // User is clicking "Disconnect"
             for (auto &oneManager : m_NodeManagers)
                 oneManager->disconnectNodes();
         }
         else // Button is "Connect"
         {
+            m_userRequestedDisconnect = false; // User is clicking "Connect"
             // pi->startAnimation() will be handled by checkAndTriggerAuth if auth is attempted
             checkAndTriggerAuth();
         }
@@ -379,8 +381,22 @@ void Client::onDisconnected()
         selectServersB->setEnabled(true);
         emit disconnected(); // Emit client disconnected signal
 
-        qCInfo(KSTARS_EKOS) << "Client::onDisconnected: Overall connection lost. Attempting to re-authenticate all managers.";
-        checkAndTriggerAuth(); // Proactively attempt to re-establish the session
+        bool wasUserDisconnect = m_userRequestedDisconnect;
+
+        if (!wasUserDisconnect)
+        {
+            qCInfo(KSTARS_EKOS) <<
+            "Client::onDisconnected: Overall connection lost (unexpected). Attempting to re-authenticate all managers.";
+            checkAndTriggerAuth(); // Proactively attempt to re-establish the session
+        }
+        else
+        {
+            qCInfo(KSTARS_EKOS) << "Client::onDisconnected: User-initiated disconnect processed. Auto-reconnect skipped.";
+            m_userRequestedDisconnect = false; // Reset flag after processing user disconnect
+            // Ensure progress indicator is stopped if it was running due to a previous attempt
+            if (pi && pi->isAnimated())
+                pi->stopAnimation();
+        }
 
         // If we are transitioning to a fully disconnected state (no manager is connected or trying to connect), ensure PI is stopped.
         // Note: checkAndTriggerAuth() will start PI if it initiates authentication.
