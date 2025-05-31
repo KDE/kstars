@@ -136,6 +136,8 @@ void NodeManager::setCredentials(const QString &username, const QString &passwor
 ///////////////////////////////////////////////////////////////////////////////////////////
 void NodeManager::authenticate()
 {
+    qCDebug(KSTARS_EKOS) << "NodeManager(" << m_ServiceURL.toDisplayString() <<
+                            "): Entering authenticate(). Current re-auth status:" << m_isReauthenticating;
     if (m_isReauthenticating) // Check if already in progress
     {
         // Already trying to authenticate this manager, prevent stacking requests.
@@ -198,6 +200,8 @@ void NodeManager::clearAuthentication()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void NodeManager::onResult(QNetworkReply *reply)
 {
+    qCDebug(KSTARS_EKOS) << "NodeManager(" << m_ServiceURL.toDisplayString() << "): Entering onResult(). Reply error:" <<
+                         reply->error() << "String:" << reply->errorString();
     if (reply->error() != QNetworkReply::NoError)
     {
         // If connection refused, retry up to 3 times
