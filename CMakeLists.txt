@@ -9,7 +9,7 @@ PROJECT(kstars
 set (KStars_VERSION_MAJOR ${kstars_VERSION_MAJOR})
 set (KStars_VERSION_MINOR ${kstars_VERSION_MINOR})
 set (KStars_VERSION_REVISION ${kstars_VERSION_PATCH})
-set (KSTARS_BUILD_RELEASE "Beta")
+set (KSTARS_BUILD_RELEASE "Stable")
 set (CMAKE_CXX_STANDARD 17)
 
 # Option to choose between Qt5 and Qt6
@@ -26,9 +26,6 @@ endif(BUILD_QT5)
 
 # Build KStars Lite with -DBUILD_KSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
-
-# Build KStars documentation
-option(BUILD_DOC "Build Documentation" ON)
 
 # Build the Python bindings for the SkyMesh indexation
 option(BUILD_PYKSTARS "Build SkyMesh Python Bindings" OFF)
@@ -502,10 +499,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kstars/version.h.cmake
 
 # let our config.h be found first in any case
 include_directories (BEFORE ${CMAKE_CURRENT_BINARY_DIR})
-
-if (BUILD_DOC)
-    add_subdirectory(doc)
-endif()
 
 # add some utility headers
 include_directories(utils)
