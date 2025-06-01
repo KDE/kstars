@@ -28,9 +28,9 @@ namespace ISD
 {
 
 const QList<KLocalizedString> Mount::mountStates = { ki18n("Idle"),  ki18n("Moving"), ki18n("Slewing"),
-                                                     ki18n("Tracking"), ki18n("Parking"), ki18n("Parked"),
-                                                     ki18n("Error")
-                                                   };
+    ki18n("Tracking"), ki18n("Parking"), ki18n("Parked"),
+    ki18n("Error")
+};
 
 Mount::Mount(GenericDevice *parent) : ConcreteDevice(parent)
 {
@@ -48,7 +48,7 @@ Mount::Mount(GenericDevice *parent) : ConcreteDevice(parent)
     updateCoordinatesTimer.setSingleShot(false);
     connect(&updateCoordinatesTimer, &QTimer::timeout, this, [this]()
     {
-        if (isConnected() && isParked() == false)
+        if (isConnected())
         {
             currentCoords.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
             emit newCoords(currentCoords, pierSide(), hourAngle());

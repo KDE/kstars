@@ -59,7 +59,7 @@ Mount::Mount()
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount", this);
     // Set up DBus interfaces
     QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
-            QDBusConnection::sessionBus(), this);
+        QDBusConnection::sessionBus(), this);
     qDBusRegisterMetaType<SkyPoint>();
 
     // Connecting DBus signals
@@ -521,15 +521,15 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
     if (m_Mount == nullptr || !m_Mount->isConnected())
         return;
 
+    // No need to update coords if we are still parked.
+    if (m_Status == ISD::Mount::MOUNT_PARKED && m_Status == m_Mount->status())
+        return;
+
     telescopeCoord = position;
 
     // forward the position to the position widget and control panel
     mountPosition->updateTelescopeCoords(position, ha);
     m_ControlPanel->mountPosition->updateTelescopeCoords(position, ha);
-
-    // No need to update coords if we are still parked.
-    if (m_Status == ISD::Mount::MOUNT_PARKED && m_Status == m_Mount->status())
-        return;
 
     double currentAlt = telescopeCoord.altRefracted().Degrees();
 
@@ -593,10 +593,10 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         }
 
         qCDebug(KSTARS_EKOS_MOUNT) << "Ha: " << haHours <<
-                                   " haLimit " << haLimit <<
-                                   " " << ISD::Mount::pierSideStateString(m_Mount->pierSide()) <<
-                                   " haLimitReached " << (haLimitReached ? "true" : "false") <<
-                                   " lastHa " << m_LastHourAngle;
+                                      " haLimit " << haLimit <<
+                                      " " << ISD::Mount::pierSideStateString(m_Mount->pierSide()) <<
+                                      " haLimitReached " << (haLimitReached ? "true" : "false") <<
+                                      " lastHa " << m_LastHourAngle;
 
         // compare with last ha to avoid multiple calls
         if (haLimitReached && (rangeHA(haHours - m_LastHourAngle) >= 0 ) &&
@@ -985,9 +985,9 @@ bool Mount::slew(double RA, double DEC)
 
     qCDebug(KSTARS_EKOS_MOUNT) << "Slewing to RA=" <<
                                targetPosition->ra().toHMSString() <<
-                               "DEC=" << targetPosition->dec().toDMSString();
+    "DEC=" << targetPosition->dec().toDMSString();
     qCDebug(KSTARS_EKOS_MOUNT) << "Initial HA " << initialHA() << ", flipDelayHrs " << mf_state->getFlipDelayHrs() <<
-                               "MFStatus " << MeridianFlipState::meridianFlipStatusString(mf_state->getMeridianFlipMountState());
+                                  "MFStatus " << MeridianFlipState::meridianFlipStatusString(mf_state->getMeridianFlipMountState());
 
     // start the slew
     return(m_Mount->Slew(targetPosition));
@@ -1427,23 +1427,23 @@ QVariantMap Mount::getAllSettings() const
     QVariantMap settings;
 
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->currentText());
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     // All Time
-    for (auto &oneWidget : findChildren<QTimeEdit*>())
+    for (auto &oneWidget : findChildren<QTimeEdit * >())
         settings.insert(oneWidget->objectName(), oneWidget->time().toString());
 
     return settings;
@@ -1600,23 +1600,23 @@ void Mount::syncSettings()
     QString key;
     QVariant value;
 
-    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    if ( (dsb = qobject_cast<QDoubleSpinBox * >(sender())))
     {
         key = dsb->objectName();
         value = dsb->value();
 
     }
-    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    else if ( (sb = qobject_cast<QSpinBox * >(sender())))
     {
         key = sb->objectName();
         value = sb->value();
     }
-    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    else if ( (cb = qobject_cast<QCheckBox * >(sender())))
     {
         key = cb->objectName();
         value = cb->isChecked();
     }
-    else if ( (rb = qobject_cast<QRadioButton*>(sender())))
+    else if ( (rb = qobject_cast<QRadioButton * >(sender())))
     {
         key = rb->objectName();
         if (rb->isChecked() == false)
@@ -1626,12 +1626,12 @@ void Mount::syncSettings()
         }
         value = true;
     }
-    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    else if ( (cbox = qobject_cast<QComboBox * >(sender())))
     {
         key = cbox->objectName();
         value = cbox->currentText();
     }
-    else if ( (timeEdit = qobject_cast<QTimeEdit*>(sender())))
+    else if ( (timeEdit = qobject_cast<QTimeEdit * >(sender())))
     {
         key = timeEdit->objectName();
         value = timeEdit->time().toString();
@@ -1667,7 +1667,7 @@ void Mount::loadGlobalSettings()
 
     QVariantMap settings;
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
     {
         if (oneWidget->objectName() == "opticalTrainCombo")
             continue;
@@ -1682,7 +1682,7 @@ void Mount::loadGlobalSettings()
     }
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -1694,7 +1694,7 @@ void Mount::loadGlobalSettings()
     }
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -1706,7 +1706,7 @@ void Mount::loadGlobalSettings()
     }
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -1730,27 +1730,27 @@ void Mount::loadGlobalSettings()
 void Mount::connectSyncSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Mount::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         connect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         connect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         connect(oneWidget, &QRadioButton::toggled, this, &Ekos::Mount::syncSettings);
 
     // All QDateTimeEdit
-    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+    for (auto &oneWidget : findChildren<QDateTimeEdit * >())
         connect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Mount::syncSettings);
 }
 
@@ -1760,26 +1760,26 @@ void Mount::connectSyncSettings()
 void Mount::disconnectSyncSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Mount::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Mount::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::Mount::syncSettings);
 
-    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+    for (auto &oneWidget : findChildren<QDateTimeEdit * >())
         disconnect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Mount::syncSettings);
 }
 
