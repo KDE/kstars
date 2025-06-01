@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-31 02:00+0000\n"
+"POT-Creation-Date: 2025-06-01 02:04+0000\n"
 "PO-Revision-Date: 2014-06-12 16:56+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -13465,7 +13465,7 @@ msgstr "Koppelsteed"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:377
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:379
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13476,7 +13476,7 @@ msgstr "Tokoppeln"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:320
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:322
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -18273,34 +18273,34 @@ msgstr "&Mittrecken anhollen"
 msgid "Stopped"
 msgstr "Anhollen"
 
-#: ekos/ekoslive/ekosliveclient.cpp:442
+#: ekos/ekoslive/ekosliveclient.cpp:463
 #, fuzzy, kde-format
 #| msgid "Stop Service"
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Deenst anhollen"
 
-#: ekos/ekoslive/ekosliveclient.cpp:444
+#: ekos/ekoslive/ekosliveclient.cpp:465
 #, fuzzy, kde-format
 #| msgctxt "City in Tennessee USA"
 #| msgid "Dyer Observatory"
 msgid "Observatory:"
 msgstr "Dyer-Steernwacht"
 
-#: ekos/ekoslive/ekosliveclient.cpp:445
+#: ekos/ekoslive/ekosliveclient.cpp:466
 #, fuzzy, kde-format
 #| msgid "Offline Solver"
 msgid "Offline:"
 msgstr "Afkoppelt Löser"
 
-#: ekos/ekoslive/ekosliveclient.cpp:446
+#: ekos/ekoslive/ekosliveclient.cpp:467
 #, fuzzy, kde-format
 #| msgctxt "City in Illinois USA"
 #| msgid "Moline"
 msgid "Online:"
 msgstr "Moline"
 
-#: ekos/ekoslive/ekosliveclient.cpp:447
+#: ekos/ekoslive/ekosliveclient.cpp:468
 #, fuzzy, kde-format
 #| msgctxt "City in Germany"
 #| msgid "Malchin"
@@ -18382,12 +18382,12 @@ msgstr "Sargent"
 msgid "Mosaic import failed."
 msgstr "Sekern vun Bild \"%1\" fehlslaan."
 
-#: ekos/ekoslive/nodemanager.cpp:214
+#: ekos/ekoslive/nodemanager.cpp:218
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr ""
 
-#: ekos/ekoslive/nodemanager.cpp:227
+#: ekos/ekoslive/nodemanager.cpp:231
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error parsing server response: %1"
