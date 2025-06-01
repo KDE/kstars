@@ -319,7 +319,7 @@ else()
 endif()
 
 ## OpenCV
-find_package(OpenCV)
+find_package(OpenCV COMPONENTS highgui imgcodecs)
 MACRO_BOOL_TO_01(OpenCV_FOUND HAVE_OPENCV)
 if (OpenCV_FOUND)
     set_package_properties(OpenCV PROPERTIES DESCRIPTION "OpenCV library" URL "https://opencv.org" TYPE OPTIONAL PURPOSE "Standard library of image processing functions.")
