@@ -1,9 +1,0 @@
-<chapter id="astroinfo">
-<title
->The AstroInfo Project</title>
-
-<para
->Siin leiab hulga lühiartikleid, mis selgitavad mitmesuguseid &kstars;is kasutatavaid astronoomilisi mõisteid ja nähtusi. Siit leiab vastuse peeaegu igale küsimusele alates koordinaatide süsteemist ja lõpetades taevamehaanikaga. </para
-><para
->Mõned artiklid sisaldavad ka räägitu illustreerimiseks ülesandeid, mida saab täita &kstars;i abiga. </para>
-&contents; &skycoords; &cequator; &cpoles; &csphere; &ecliptic; &equinox; &geocoords; &greatcircle; &horizon; &hourangle; &meridian; &precession; &zenith; &epoch; &julianday; &leapyear; &sidereal; &timezones; &utime; &telescopes; &blackbody; &darkmatter; &flux; &luminosity; &parallax; &retrograde; &ellipgal; &spiralgal; &magnitude; &stars; &colorandtemp; &cosmicdist; </chapter>

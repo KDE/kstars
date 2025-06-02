@@ -1,9 +1,0 @@
-<chapter id="astroinfo">
-<title
->Projekt AstroInfo</title>
-
-<para
->Tukaj lahko najdete zbirko kratkih člankov, ki pojasnjujejo različne astronomske koncepte, uporabljene v &kstars;. Tukaj lahko najdete odgovore na svoja vprašanja, od koordinatnih sistemov do nebesne mehanike. </para
-><para
->Članki včasih vsebujejo tudi vaje, ki jih lahko izvajate s &kstars; za ponazoritev koncepta članka. </para
->&contents; &skycoords; &cequator; &cpoles; &csphere; &ecliptic; &equinox; &geocoords; &greatcircle; &horizon; &hourangle; &meridian; &precession; &zenith; &epoch; &julianday; &leapyear; &sidereal; &timezones; &utime; &telescopes; &blackbody; &darkmatter; &flux; &luminosity; &parallax; &retrograde; &ellipgal; &spiralgal; &magnitude; &stars; &colorandtemp; &cosmicdist; </chapter>

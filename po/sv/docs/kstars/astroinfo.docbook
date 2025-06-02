@@ -1,9 +1,0 @@
-<chapter id="astroinfo">
-<title
->Astroinfo-projektet</title>
-
-<para
->Här hittar du en samling med korta notiser som förklarar olika astronomiska begrepp som används i &kstars;. Från koordinatsystem till himmelsmekanik, så hittar du svar på dina frågor här. </para
-><para
->Notiserna innehåller också ibland övningar som du kan göra med &kstars; för att illustrera konceptet bakom notisen. </para
->&contents; &skycoords; &cequator; &cpoles; &csphere; &ecliptic; &equinox; &geocoords; &greatcircle; &horizon; &hourangle; &meridian; &precession; &zenith; &epoch; &julianday; &leapyear; &sidereal; &timezones; &utime; &telescopes; &blackbody; &darkmatter; &flux; &luminosity; &parallax; &retrograde; &ellipgal; &spiralgal; &magnitude; &stars; &colorandtemp; &cosmicdist; </chapter>

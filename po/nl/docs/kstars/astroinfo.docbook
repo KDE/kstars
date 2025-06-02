@@ -1,9 +1,0 @@
-<chapter id="astroinfo">
-<title
->Het AstroInfoproject</title>
-
-<para
->U vindt hier een verzameling van korte artikelen waarin verschillende astronomische begrippen worden uitgelegd, die in &kstars; worden gebruikt. Van coördinatenstelsels tot hemelmechanica, kunt u hier een antwoord vinden op Uw vragen. </para
-><para
->In de artikelen zijn soms ook wat oefeningen opgenomen, die u kunt maken met behulp van &kstars; om zo het artikel beter te kunnen begrijpen. </para
->&contents; &skycoords; &cequator; &cpoles; &csphere; &ecliptic; &equinox; &geocoords; &greatcircle; &horizon; &hourangle; &meridian; &precession; &zenith; &epoch; &julianday; &leapyear; &sidereal; &timezones; &utime; &telescopes; &blackbody; &darkmatter; &flux; &luminosity; &parallax; &retrograde; &ellipgal; &spiralgal; &magnitude; &stars; &colorandtemp; &cosmicdist; </chapter>

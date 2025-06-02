@@ -1,9 +1,0 @@
-<chapter id="astroinfo">
-<title
->Le projet AstroInfo</title>
-
-<para
->Vous trouverez ici une collection de courts articles qui expliquent une variété de concepts d'astronomie utilisés dans &kstars;. Des systèmes de coordonnées à la mécanique céleste, vous trouverez ici les réponses à vos questions. </para
-><para
->Certains articles contiennent des exercices à compléter dans &kstars; pour illustrer le concept développé dans l'article. </para
->&contents; &skycoords; &cequator; &cpoles; &csphere; &ecliptic; &equinox; &geocoords; &greatcircle; &horizon; &hourangle; &meridian; &precession; &zenith; &epoch; &julianday; &leapyear; &sidereal; &timezones; &utime; &telescopes; &blackbody; &darkmatter; &flux; &luminosity; &parallax; &retrograde; &ellipgal; &spiralgal; &magnitude; &stars; &colorandtemp; &cosmicdist; </chapter>

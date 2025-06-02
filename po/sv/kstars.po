@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-01 02:04+0000\n"
-"PO-Revision-Date: 2025-02-28 19:56+0100\n"
+"PO-Revision-Date: 2025-06-01 17:18+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 25.04.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -6188,12 +6188,13 @@ msgid "Mount does not support syncing."
 msgstr "Stativet stöder inte synkronisering."
 
 #: ekos/align/align.cpp:1049
-#, fuzzy, kde-format
-#| msgid "Effective telescope focal length is updated to %1 mm."
+#, kde-format
 msgid ""
 "Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
 "%4 Pitch: %5 FOVW: %6)."
-msgstr "Teleskopets effektiva brännvidd är uppdaterad till %1 mm."
+msgstr ""
+"Teleskopets effektiva brännvidd är uppdaterad till %1 mm (FL: %2 Reducering: "
+"%3 W: %4 Stigning: %5 Synfält: %6)."
 
 #: ekos/align/align.cpp:1097
 #, kde-format
@@ -16298,7 +16299,7 @@ msgstr "Byt visning av antal tagningar till grafiskt läge."
 #: ekos/capture/capturedeviceadaptor.cpp:423
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
-msgstr ""
+msgstr "Filterhantering är inte initierad ännu. Saknas filterhjul i optiken?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:677
 #, kde-format
@@ -17688,40 +17689,34 @@ msgid "Light box on."
 msgstr "Ljuslåda på."
 
 #: ekos/capture/sequencejobstate.cpp:892
-#, fuzzy, kde-format
-#| msgid "Dust cap error."
+#, kde-format
 msgid "Dust cap error occurred."
-msgstr "Dammskyddsfel."
+msgstr "Dammskyddsfel inträffade."
 
 #: ekos/capture/sequencejobstate.cpp:896
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap is idle."
-msgstr "%1 dammskydd är uppkopplat."
+msgstr "Dammskyddet är overksamt."
 
 #: ekos/capture/sequencejobstate.cpp:899
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust cap is parked."
-msgstr "Dammskydd parkerat."
+msgstr "Dammskyddet är parkerat."
 
 #: ekos/capture/sequencejobstate.cpp:902
-#, fuzzy, kde-format
-#| msgid "%1 is parking..."
+#, kde-format
 msgid "Dust cap is parking..."
-msgstr "%1 parkeras..."
+msgstr "Dammskyddet parkeras..."
 
 #: ekos/capture/sequencejobstate.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 is unparking..."
+#, kde-format
 msgid "Dust cap is unparking..."
-msgstr "%1 frigörs..."
+msgstr "Damskyddet lossas..."
 
 #: ekos/capture/sequencejobstate.cpp:908
-#, fuzzy, kde-format
-#| msgid "Dust cap light on."
+#, kde-format
 msgid "Dust cap status unknown."
-msgstr "Dammskyddets ljus på."
+msgstr "Dammskyddets status okänd."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -21848,10 +21843,9 @@ msgid "PHD2: Dithering successful."
 msgstr "PHD2: Gitter lyckades."
 
 #: ekos/guide/externalguide/phd2.cpp:750
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding running."
-msgstr "PHD2: Guidning kör redan."
+msgstr "PHD2: Guidning kör."
 
 #: ekos/guide/externalguide/phd2.cpp:761
 #, kde-format
@@ -21947,10 +21941,9 @@ msgid "PHD2: Guiding is already running."
 msgstr "PHD2: Guidning kör redan."
 
 #: ekos/guide/externalguide/phd2.cpp:1394
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding is paused, resuming..."
-msgstr "PHD2: Guidning kör redan."
+msgstr "PHD2: Guidning är pausad, återupptar..."
 
 #: ekos/guide/externalguide/phd2.cpp:1456
 #, kde-format
@@ -22094,10 +22087,9 @@ msgid "Guiding resumed."
 msgstr "Guidning återupptagen."
 
 #: ekos/guide/guide.cpp:1691
-#, fuzzy, kde-format
-#| msgid "Autoguiding resumed."
+#, kde-format
 msgid "Autoguiding running."
-msgstr "Automatisk guidning återupptagen."
+msgstr "Automatisk guidning pågår."
 
 #: ekos/guide/guide.cpp:1703
 #, kde-format
@@ -22395,10 +22387,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideShowFrame)
 #: ekos/guide/guide.ui:543
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Toggle the Guider Image..."
-msgstr "Spara bilder från guidningsverktyg"
+msgstr "Ändra guidningsbild..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
@@ -22528,11 +22519,9 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1164
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Mario"
+#, kde-format
 msgid "Mount Drift"
-msgstr "Mount Mario"
+msgstr "Stativavdrift"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1199
@@ -22719,16 +22708,14 @@ msgstr ""
 "cirkeln i bågsekunder.</p></body></html>"
 
 #: ekos/guide/guidedriftgraph.cpp:77
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr "avdrift (bågsek)"
+msgstr "Stativavdrift Dek (bågsek)"
 
 #: ekos/guide/guidedriftgraph.cpp:78
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr "avdrift (bågsek)"
+msgstr "Stativavdrift RA (bågsek)"
 
 #: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
 #: ekos/guide/guidedriftgraph.cpp:723
@@ -22916,7 +22903,7 @@ msgstr "Dek-riktning omvänd (RA-Dek är nu normalt moturs system)."
 #: ekos/guide/internalguide/gmath.cpp:511
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
-msgstr ""
+msgstr "Begränsa %1 ms long puls till %2 ms"
 
 #: ekos/guide/internalguide/internalguider.cpp:540
 #, kde-format
@@ -23455,6 +23442,8 @@ msgstr ""
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
 msgstr ""
+"Aktivera GPG på guidningsfliken, genom att använda RA-guidningsalgoritmens "
+"meny"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -23822,45 +23811,19 @@ msgstr "Styrparametrar"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "The algorithm that tracks guide stars and determines the guide deviation."
+#, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr "Algoritmen som följer guidestjärnor och bestämmer guidningsavvikelsen."
+msgstr "Algoritmen som beräknar guidningens korrigeringspulser."
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "Algoritm"
+msgstr "Guidningsalgoritm"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA and DEC.</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
@@ -23888,62 +23851,35 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Stjärndetekteringsmetod:</p><ul style=\"margin-top: "
-"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, en "
-"effektiv metod för källdetektering baserad på Source Extractor (Bertin och "
-"Arnouts 1996; Bertin 2016). Se <a href=\"https://joss.theoj.org/"
-"papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: underline; "
-"color:#0000ff;\">SEP: Source Extractor as a library</span></a> i Journal of "
-"Open Source Software.</li><li style=\" margin-top:12px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Tyngdpunkt</span>: en källdetektering "
-"baserad på uppskattning av stjärnans massa omkring signaltoppar.</li><li "
-"style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Gradient</span>: detektering av en ensam källa baserat på "
-"Sobel-filter. Inledande eller fullfältsanalys använder SEP istället för den "
-"här metoden.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Tröskel</span>: detektering av en ensam källa "
-"baserad på bildpunktsvärden. Inledande eller fullfältsanalys använder SEP "
-"istället för den här metoden.</li></ul></body></html>"
+"<html><head/><body><p>Välj guidningspulsernas algoritmer för RA och Dek.</"
+"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Standard</span>:Den "
+"traditionella proportionella guidningsalgoritmen. Den beräknar en puls för "
+"att korrigera den beräknade guidningsavdriften. Aggressivitetsparametern "
+"avgör hur stor andel av felet som korrigeras. Fel mindre än Minimalt fel "
+"korrigeras inte. Maximalt svar begränsar den största korrigeringen. "
+"Hysteresparametern används inte.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Hysteres</span>: Hysteres är "
+"som standardalgoritmen men viktar in den föregående korrigeringen enligt "
+"hysteresparametern. Integralförstärkning gäller inte..</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Linjär</"
+"span>: Liknar PHD2 Lågpass 2-algoritmen. Den beräknar felpulser baserat på "
+"en kort historik över de senaste felen. Det kan vara lämpligt för mycket "
+"stabila stativ. Hysteres och integralförstärkning gäller inte.</li><li style="
+"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
+"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">GPG</"
+"span>: (bara RA) GPG-algoritmen försöker förutsäga periodiska fel och "
+"linjära avvikelser. Den använder aggressivitets-, min- och maxparametrarna "
+"här, och fler parametrar under den separata GPG-fliken. Hysteres och "
+"integralförstärkning gäller inte.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated,  further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage Tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method.  Upon "
-#| "crossing to the other side of the V-Curve,  polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes.  The algorithm can be slow, but it is more "
-#| "resilient to backlash.  Start with the focuser positioned near good "
-#| "focus.  Set Initial Step Size and Max Travel for the desired sampling "
-#| "interval and range around start focus position.  Tolerance should be "
-#| "around 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Linear 1 Pass</span>: Starts like <span style="
-#| "\" font-weight:600;\">Linear</span> but after completing the 1st pass, "
-#| "instead of doing a 2nd pass,  moves straight to the minimum HFR value "
-#| "calculated.  Use Curve Fit of Hyperbola or Parabola.</li></ul></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
@@ -23971,81 +23907,57 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Välj fokuseringsprocessens algoritm:</p><ul style="
-"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"<html><head/><body><p>Välj guidningspulsernas algoritmer för RA.</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Standard</span>:Den traditionella "
+"proportionella guidningsalgoritmen. Den beräknar en puls för att korrigera "
+"den beräknade guidningsavdriften. Aggressivitetsparametern avgör hur stor "
+"andel av felet som korrigeras. Fel mindre än Minimalt fel korrigeras inte. "
+"Maximalt svar begränsar den största korrigeringen. Hysteresparametern "
+"används inte.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Iterative</span>: Flyttar fokuseringsenheten med "
-"diskreta steg som initialt bestäms av stegstorleken. När kurvans lutning väl "
-"har beräknats, beräknas ytterligare stegstorlekar för att nå en optimal "
-"lösning. Algoritmen stannar när uppmätt HFR är inom procentuell tolerans av "
-"den lägsta HFR som registrerats i proceduren.</li><li style=\" margin-"
-"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Polynomisk</"
-"span>: Börjar med den iterativa metoden. Vid övergång till andra sidan av v-"
-"kurvan, beräknas polynomiska anpassningskoefficienter tillsammans med möjlig "
-"minimal lösning. Algoritmen kan vara snabbare än en rent iterativ metod "
-"given en bra datauppsättning.</li><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Linjär</span>: Samplar fokus "
-"inåt på ett vanligt sätt, i två omgångar. Algoritmen kan vara långsam, men "
-"den är mer motståndskraftig mot spel. Börja med fokuseringsenheten nära bra "
-"fokus. Ställ in Initial stegstorlek och Maximal rörelse för önskat "
-"samplingsintervall och intervall omkring ursprunglig fokuseringsposition. "
-"Toleransen bör vara cirka 5 %.</li><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Engångslinjär</span>: Börjar "
-"som <span style=\" font-weight:600;\">Linjär</span> men går direkt till det "
-"minimala HFR-värdet som beräknats efter att ha slutfört första omgången, "
-"istället för att fortsätta till den andra omgången, . Använd kurvanpassning "
-"för hyperbel eller parabel.</li></ul></body></html>"
+"style=\" font-weight:600;\">Hysteres</span>: Hysteres är som "
+"standardalgoritmen men viktar in den föregående korrigeringen enligt "
+"hysteresparametern. Integralförstärkning gäller inte..</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Linjär</"
+"span>: Liknar PHD2 Lågpass 2-algoritmen. Den beräknar felpulser baserat på "
+"en kort historik över de senaste felen. Det kan vara lämpligt för mycket "
+"stabila stativ. Hysteres och integralförstärkning gäller inte.</li><li style="
+"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
+"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">GPG</"
+"span>: GPG-algoritmen försöker förutsäga periodiska fel och linjära "
+"avvikelser. Den använder aggressivitets-, min- och maxparametrarna här, och "
+"fler parametrar under den separata GPG-fliken. Hysteres och "
+"integralförstärkning gäller inte.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Santander"
+#, kde-format
 msgid "Standard"
-msgstr "Santander"
+msgstr "Standard"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asterism"
+#, kde-format
 msgid "Hysteresis"
-msgstr "Asterism"
+msgstr "Hysteres"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
-#, fuzzy, kde-format
-#| msgid "GPS"
+#, kde-format
 msgid "GPG"
-msgstr "GPS"
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2. This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for DEC.</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -24067,21 +23979,25 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Välj typ av kurva som ska anpassas till data:</p><ul "
+"<html><head/><body><p>Välj guidningspulsernas algoritmer för Dek.</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Kvadratisk</span>: Använder en "
-"polynomanpassning av grad 2. Det är för närvarande standardalternativ och "
-"det enda alternativet för alla algoritmer utom Engångslinjär.</li><li style="
-"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Hyperbel</span>: Anpassar en hyperbel till datapunkterna. Det är för "
-"närvarande endast tillgängligt för algoritmen Engångslinjär.</li><li style="
-"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Parabel</span>: Anpassar en parabel till datapunkterna. Det är för "
-"närvarande endast tillgängligt för algoritmen Engångslinjär.</li></ul></"
+"\"><span style=\" font-weight:600;\">Standard</span>:Den traditionella "
+"proportionella guidningsalgoritmen. Den beräknar en puls för att korrigera "
+"den beräknade guidningsavdriften. Aggressivitetsparametern avgör hur stor "
+"andel av felet som korrigeras. Fel mindre än Minimalt fel korrigeras inte. "
+"Maximalt svar begränsar den största korrigeringen. Hysteresparametern "
+"används inte.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Hysteres</span>: Hysteres är som "
+"standardalgoritmen men viktar in den föregående korrigeringen enligt "
+"hysteresparametern. Integralförstärkning gäller inte..</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Linjär</"
+"span>: Liknar PHD2 Lågpass 2-algoritmen. Den beräknar felpulser baserat på "
+"en kort historik över de senaste felen. Det kan vara lämpligt för mycket "
+"stabila stativ. Hysteres och integralförstärkning gäller inte.</li></ul></"
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
@@ -24089,12 +24005,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECIntegralGain)
 #: ekos/guide/opsguide.ui:150 ekos/guide/opsguide.ui:254
 #: ekos/guide/opsguide.ui:283
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This adds a correction term based on the average of "
-#| "the past 50 guide deviations. For example, if the deviation is "
-#| "consistently negative, this will attempt to compensate. Best to start "
-#| "with 0.0 (no effect) and only use this if necessary.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This adds a correction term based on the average of "
 "the past 50 guide deviations. For example, if the deviation is consistently "
@@ -24105,14 +24016,14 @@ msgstr ""
 "<html><head/><body><p>Lägger till en korrektionsterm baserad på medelvärdet "
 "av de senaste 50 guidningsavvikelserna. Om avvikelsen exempelvis hela tiden "
 "är negativ, görs ett försök att kompensera. Det är bäst att starta med 0,0 "
-"(ingen effekt) och bara använda det om nödvändigt.</p></body></html>"
+"(ingen effekt) och bara använda det om nödvändigt (gäller bara "
+"standardalgoritmen).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
-#, fuzzy, kde-format
-#| msgid "Integral gain (0-1.0)"
+#, kde-format
 msgid "Integral gain (deprecated)"
-msgstr "Integrerande förstärkning (0 - 1,0)"
+msgstr "Integrerande förstärkning (föråldrad)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_11)
 #: ekos/guide/opsguide.ui:176
@@ -24173,42 +24084,33 @@ msgstr "Minimalt fel (bågsekunder)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Storlek på mellanrummet mellan plattorna.</p></body></"
-"html>"
+"<html><head/><body><p>Ställer in hysteresparametern (gäller bara "
+"hysteresalgoritmen).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Storlek på mellanrummet mellan plattorna.</p></body></"
-"html>"
+"<html><head/><body><p>Ställer in RA-hysteresparametern (gäller bara "
+"hysteresalgoritmen).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Storlek på mellanrummet mellan plattorna.</p></body></"
-"html>"
+"<html><head/><body><p>Ställer in DEK-hysteresparametern (gäller bara "
+"hysteresalgoritmen).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -24311,10 +24213,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:567
-#, fuzzy, kde-format
-#| msgid "Invent Multi-Star Guide Star (experimental)"
+#, kde-format
 msgid "Invent Multi-Star Guide Star"
-msgstr "Uppfinn flerstjärnig guidestjärna (experimentell)"
+msgstr "Uppfinn flerstjärnig guidestjärna"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:577
@@ -24375,8 +24276,7 @@ msgstr "Algoritmen som följer guidestjärnor och bestämmer guidningsavvikelsen
 
 #. i18n: ectx: property (text), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:640
-#, fuzzy, kde-format
-#| msgid "Star detection algorithm"
+#, kde-format
 msgid "Star Detection Algorithm"
 msgstr "Algoritm för stjärndetektering"
 
@@ -25557,7 +25457,7 @@ msgstr "Hastighet"
 #: ekos/mount/mounttargetwidget.ui:155
 #, kde-format
 msgid "RA/DE"
-msgstr "RA/DEK"
+msgstr "RA/Dek"
 
 #. i18n: ectx: property (text), widget (QRadioButton, horizontalCheckObject)
 #: ekos/mount/mounttargetwidget.ui:168
@@ -25569,7 +25469,7 @@ msgstr "Elev/AZ"
 #: ekos/mount/mounttargetwidget.ui:178
 #, kde-format
 msgid "HA/DE"
-msgstr "Timvinkel/DEK"
+msgstr "Timvinkel/Dek"
 
 #: ekos/observatory/observatory.cpp:309
 #, kde-format
@@ -26661,24 +26561,22 @@ msgstr ""
 "postdrivrutinskriptet körs."
 
 #: ekos/profilescript.cpp:56
-#, fuzzy, kde-format
-#| msgid "Delay this many seconds before executing pre driver script."
+#, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
-msgstr "Vänta så här många sekunder innan predrivrutinskriptet körs."
+msgstr ""
+"Vänta så här många sekunder efter skriptet för stoppad drivrutin körs innan "
+"drivrutinen stoppas."
 
 #: ekos/profilescript.cpp:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
 msgstr ""
-"Vänta så här många sekunder efter drivrutinen startats innan "
-"postdrivrutinskriptet körs."
+"Vänta så här många sekunder efter drivrutinen stoppas innan skriptet för "
+"stoppad drivrutin."
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -26691,16 +26589,14 @@ msgid "Select script to execute after starting the driver"
 msgstr "Välj skript att köra efter drivrutinen startats"
 
 #: ekos/profilescript.cpp:93
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "Välj skript att köra innan drivrutinen startas"
+msgstr "Välj skript att köra innan drivrutinen stoppas"
 
 #: ekos/profilescript.cpp:102
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "Välj skript att köra efter drivrutinen startats"
+msgstr "Välj skript att köra efter drivrutinen stoppas"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -26715,20 +26611,16 @@ msgid "Select Post Driver Startup Script"
 msgstr "Välj postdrivrutinstartskript"
 
 #: ekos/profilescript.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Pre Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "Välj predrivrutinstartskript"
+msgstr "Välj predrivrutinstoppskript"
 
 #: ekos/profilescript.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "Välj postdrivrutinstartskript"
+msgstr "Välj postdrivrutinstoppskript"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -26741,28 +26633,24 @@ msgid "Driver"
 msgstr "Drivrutin"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "Starta om"
+msgstr "Före start"
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "Fokuseringsstjärna"
+msgstr "Efter start"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
 msgid "Pre stop"
-msgstr ""
+msgstr "Före stopp"
 
 #: ekos/profilescriptdialog.cpp:35
-#, fuzzy, kde-format
-#| msgid "Ekos stopped."
+#, kde-format
 msgid "Post stop"
-msgstr "Ekos stoppat."
+msgstr "Efter stopp"
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -27576,12 +27464,9 @@ msgstr "Positionsvinkel:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, goRotateB)
 #: ekos/scheduler/framingassistant.ui:836
-#, fuzzy, kde-format
-#| msgid "Set FOV indicator Position Angle to match this Position Angle"
+#, kde-format
 msgid "Go to center and rotate to match this position angle"
-msgstr ""
-"Ställ in synfältsindikatorns positionsvinkel för att motsvara den här "
-"positionsvinkeln"
+msgstr "Gå till centrum och rotera för att motsvara den här positionsvinkeln"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/scheduler/framingassistant.ui:855
@@ -28003,38 +27888,38 @@ msgstr "Välj jobbkatalog"
 msgid ""
 "Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
 msgstr ""
+"Tyvärr är inga jobb körbara under kommande tre dagar. Alla jobb är färdiga."
 
 #: ekos/scheduler/greedyscheduler.cpp:98
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
 msgstr ""
+"Tyvärr är inga jobb körbara under kommande tre dagar. Jobb %1 är färdigt."
 
 #: ekos/scheduler/greedyscheduler.cpp:111
-#, fuzzy, kde-format
-#| msgid "Job '%1' is complete."
+#, kde-format
 msgid "(%1) Job %2: has completed."
-msgstr "Jobb '%1' färdigt."
+msgstr "(%1) Jobb %2: är färdigt."
 
 #: ekos/scheduler/greedyscheduler.cpp:115
-#, fuzzy, kde-format
-#| msgid "Job '%1' cannot run now because of bad weather."
+#, kde-format
 msgid "(%1) Job %2: cannot run because: %3"
-msgstr "Jobb '%1' kan inte köra nu på grund av dåligt väder."
+msgstr "(%1) Jobb %2: kan inte köra på grund av: %3"
 
 #: ekos/scheduler/greedyscheduler.cpp:119
 #, kde-format
 msgid "******************** Now ********************"
-msgstr ""
+msgstr "********************* Nu ********************"
 
 #: ekos/scheduler/greedyscheduler.cpp:121
 #, kde-format
 msgid "*****************In %1 Hours******************"
-msgstr ""
+msgstr "****************Om %1 timmar******************"
 
 #: ekos/scheduler/greedyscheduler.cpp:123
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days."
-msgstr ""
+msgstr "Tyvärr är inga jobb körbara under kommande tre dagar."
 
 #: ekos/scheduler/greedyscheduler.cpp:217
 #, kde-format
@@ -28273,33 +28158,34 @@ msgid ""
 "or grace period expiration, after which the current job is terminated.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:700;\">Aktivera "
+"väderbaserad schemaläggning:</span> Förhindrar att nya jobb startas vid "
+"vädervarningar eller larm. Befintliga jobb fortsätter vid varningar, men "
+"avbryts vid larm. Systemet initierar en mjuk avstängning och väntar på "
+"förbättrade förhållanden eller att respitperioden löpt ut, varefter det "
+"aktuella jobbet avslutas.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:140
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "Vädervarning"
+msgstr "Värderrespitperiod"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/scheduler/opsoffsetsettings.ui:160
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait this many seconds after autofocus completes "
-#| "before resuming guiding.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds when detecting weather alert "
 "before starting observatory shutdown.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Vänta så här många sekunder efter automatisk "
-"fokusering har slutförts innan guidning återupptas.</p></body></html>"
+"<html><head/><body><p>Vänta så här många sekunder när ett väderlarm upptäcks "
+"innan avstängning av observatoriet påbörjas.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/opsoffsetsettings.ui:163
-#, fuzzy, kde-format
-#| msgid "Weather Alert"
+#, kde-format
 msgid "Weather Alert  Shutdown Delay:"
-msgstr "Väderlarm"
+msgstr "Avstängningsfördröjning vid väderlarm:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -28339,7 +28225,7 @@ msgid ""
 "this option so that no disconnection errors are generated.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Om avstängningsskriptet avslutar INDI-servern, "
-"aktivera alternativet så att inga nerkopplingsfel genereras.</p></body></"
+"aktivera alternativet så att inga nedkopplingsfel genereras.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
@@ -28354,12 +28240,7 @@ msgid "Follower"
 msgstr "Följare"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields.\n"
-#| "Shift click to view a job's altitude tonight."
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -28368,7 +28249,6 @@ msgstr ""
 "Jobbschemaläggningslista.\n"
 "Klicka för att välja ett jobb i listan.\n"
 "Dubbelklicka för att redigera ett jobb med fälten till vänster.\n"
-"Skift-klicka för att visa ett jobbs elevation i natt."
 
 #: ekos/scheduler/scheduler.cpp:164
 #, kde-format
@@ -28515,7 +28395,7 @@ msgstr "Varning: RA-värdet %1 är ogiltigt."
 #: ekos/scheduler/scheduler.cpp:763
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
-msgstr "Varning: DEK-värdet %1 är ogiltigt."
+msgstr "Varning: Dek-värdet %1 är ogiltigt."
 
 #: ekos/scheduler/scheduler.cpp:794
 #, kde-format
@@ -28870,10 +28750,9 @@ msgstr "Ekos-enhetsprofil"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copyMountTargetB)
 #: ekos/scheduler/scheduler.ui:652
-#, fuzzy, kde-format
-#| msgid "Update coordinates to the current telescope position"
+#, kde-format
 msgid "Fill coordinates with current mount position."
-msgstr "Uppdatera koordinater till teleskopets aktuella position"
+msgstr "Fyll i koordinater med stativets aktuella position."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, trainLabel)
 #: ekos/scheduler/scheduler.ui:667
@@ -29423,22 +29302,19 @@ msgid "Cap"
 msgstr "Skydd"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
-#, fuzzy, kde-format
-#| msgctxt "City in Georgia USA"
-#| msgid "Morrow"
+#, kde-format
 msgid "Tomorrow"
-msgstr "Morrow"
+msgstr "I morgon"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
 msgid "Day After Tomorrow"
-msgstr ""
+msgstr "I övermorgon"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:193
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Tonight"
-msgstr "Överst till höger"
+msgstr "I natt"
 
 #: ekos/scheduler/schedulerjob.cpp:339
 #, kde-format
@@ -29575,12 +29451,12 @@ msgstr ""
 msgid ""
 "Job '%1' cannot start because weather status is %2 and grace period is over."
 msgstr ""
+"Jobbet '%1' kan inte starta eftersom väderstatus är %2 och respitperioden är "
+"över"
 
 #: ekos/scheduler/schedulerprocess.cpp:687
 #: ekos/scheduler/schedulerprocess.cpp:697
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
 msgstr "Larm"
 
@@ -29590,6 +29466,8 @@ msgid ""
 "Job '%1' cannot start because weather status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
+"Jobb '%1' kan inte starta eftersom väderstatus är %2. Väntar tills vädret "
+"förbättras eller tills %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:718
 #, kde-format
@@ -30277,22 +30155,22 @@ msgstr ""
 "Avbryter."
 
 #: ekos/scheduler/schedulerprocess.cpp:4149
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Weather has improved. Resuming operations."
-msgstr "Parkering av kupol misslyckades. Startar om åtgärden ..."
+msgstr "Vädret har förbättrats. Återupptar operationer."
 
 #: ekos/scheduler/schedulerprocess.cpp:4159
-#, fuzzy, kde-format
-#| msgid "Scheduler complete. Starting shutdown procedure..."
+#, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
-msgstr "Schemaläggning slutförd. Starta avstängningsprocedur..."
+msgstr "Väderlarm upptäckt. Mjuk avstängningsprocedur påbörjas om %1 sekunder."
 
 #: ekos/scheduler/schedulerprocess.cpp:4185
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
 msgstr ""
+"Observatoriet schemalagt för mjuk avstängning tills vädret förbättras eller "
+"tills %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:4207
 #, kde-format
@@ -31947,11 +31825,9 @@ msgstr "Lös astrobilden med användning av parametrarna nedan."
 
 #. i18n: ectx: property (text), widget (QPushButton, auxButton)
 #: fitsviewer/platesolve.ui:63
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Acrux"
+#, kde-format
 msgid "Aux"
-msgstr "Acrux"
+msgstr "Aux"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:120
@@ -32063,7 +31939,7 @@ msgstr "Linjär bild"
 #: fitsviewer/solveInfo.ui:71
 #, kde-format
 msgid "DE"
-msgstr "DEK"
+msgstr "Dek"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:76
@@ -33033,28 +32909,24 @@ msgid "Modify Host"
 msgstr "Ändra värddator"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "Dammskydd parkerat."
+msgstr "Dammskyddet är parkerat"
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "Dammskydd parkerat."
+msgstr "Dammskyddet är lossat"
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "%1 is parking..."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "%1 parkeras..."
+msgstr "Dammskyddet parkeras"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "%1 is unparking..."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "%1 frigörs..."
+msgstr "Damskyddet lossas"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -33516,16 +33388,14 @@ msgid "Post driver startup script failed with exit code: %1"
 msgstr "Postdrivrutinstartskript misslyckades med slutkod: %1"
 
 #: indi/servermanager.cpp:319
-#, fuzzy, kde-format
-#| msgid "Pre driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
-msgstr "Predrivrutinstartskript misslyckades med slutkod: %1"
+msgstr "Predrivrutinavstängningsskript misslyckades med slutkod: %1"
 
 #: indi/servermanager.cpp:377
-#, fuzzy, kde-format
-#| msgid "Post driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
-msgstr "Postdrivrutinstartskript misslyckades med slutkod: %1"
+msgstr "Postdrivrutinavstängningsskript misslyckades med slutkod: %1"
 
 #: indi/servermanager.cpp:521
 #, kde-format
@@ -34383,7 +34253,7 @@ msgstr "Huvudfönstrets höjd, i bildpunkter"
 #: kstars.kcfg:113
 #, kde-format
 msgid "Geometry of main window, encoded byte array"
-msgstr ""
+msgstr "Huvudfönstrets geometri, kodat bytefält"
 
 #. i18n: ectx: label, entry (RunStartupWizard), group (GUI)
 #: kstars.kcfg:117
@@ -34511,7 +34381,7 @@ msgstr "INDI-fönsterhöjd"
 #: kstars.kcfg:179
 #, kde-format
 msgid "Geometry of INDI window, encoded byte array"
-msgstr ""
+msgstr "INDI-fönstrets geometri, kodat bytefält"
 
 #. i18n: ectx: label, entry (useGeographicUpdate), group (indi)
 #: kstars.kcfg:183
@@ -36680,7 +36550,7 @@ msgstr "Gör bildplaneringsverktyget till ett oberoende fönster."
 #: kstars.kcfg:1109
 #, kde-format
 msgid "Start solving immediately after taking a screenshot."
-msgstr ""
+msgstr "Påbörja lösning omedelbart efter en skärmbild har tagits."
 
 #. i18n: ectx: whatsthis, entry (ImagingPlannerStartSolvingImmediately), group (ImagingPlanner)
 #: kstars.kcfg:1110
@@ -36689,6 +36559,8 @@ msgid ""
 "Start solving immediately after taking a screenshot, instead of waiting for "
 "the Solve button to be pressed."
 msgstr ""
+"Påbörja lösning omedelbart efter en skärmbild har tagits, istället för att "
+"vänta på att knappen Lös ska tryckas ner."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1116
@@ -37240,7 +37112,7 @@ msgstr "Färg på DEK-guidningsfel"
 #: kstars.kcfg:1330
 #, kde-format
 msgid "The color for DEC Guide Error bar in Ekos guide module."
-msgstr "Färg på stapeln för DEK-guidningsfel i Ekos guidningsmodul."
+msgstr "Färg på stapeln för Dek-guidningsfel i Ekos guidningsmodul."
 
 #. i18n: ectx: label, entry (SolverFOVColor), group (Colors)
 #: kstars.kcfg:1334
@@ -38033,7 +37905,7 @@ msgstr "Spara misslyckade inriktningsbilder på disk?"
 #: kstars.kcfg:1647
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup."
-msgstr ""
+msgstr "Synkronisera inte till realtid när Ekos startas."
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1651
@@ -38063,7 +37935,7 @@ msgstr "Logga aktivitet för Ekos-observationsmodul."
 #: kstars.kcfg:1669
 #, kde-format
 msgid "Geometry of FITS window, encoded byte array"
-msgstr ""
+msgstr "FITS-fönstrets geometri, kodat bytefält"
 
 #. i18n: ectx: label, entry (useFITSViewer), group (FITSViewer)
 #: kstars.kcfg:1673
@@ -38306,7 +38178,7 @@ msgstr "Ekos fönsterhöjd"
 #: kstars.kcfg:1817
 #, kde-format
 msgid "Geometry of Ekos window, encoded byte array"
-msgstr ""
+msgstr "Ekos-fönstrets geometri, kodat bytefält"
 
 #. i18n: ectx: label, entry (EkosLeftIcons), group (Ekos)
 #: kstars.kcfg:1825
@@ -39880,7 +39752,7 @@ msgid ""
 "World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in "
 "captured CCD images."
 msgstr ""
-"Världskoordinatsystem (WCS). WCS används för att koda Rekt. och Dek. "
+"Världskoordinatsystem (WCS). WCS används för att koda RA- och Dek-"
 "koordinater i tagna CCD-bilder."
 
 #. i18n: ectx: label, entry (AstrometrySolverOverlay), group (Align)
@@ -40212,6 +40084,8 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
+"Vilken algoritm som ska användas för att beräkna styrpulser för RA (0 "
+"standard, 1 hysteres, 2 linjär, 3 GPG)."
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2870
@@ -40220,6 +40094,8 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
+"Vilken algoritm som ska användas för att beräkna styrpulser för DEK (0 "
+"standard, 1 hysteres, 2 linjär)."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:2874
@@ -40275,10 +40151,9 @@ msgstr "Välj kalibreringsstjärna automatiskt och utför kalibrering."
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
 #: kstars.kcfg:2910
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display guiding frames."
-msgstr "Visa överlagrade bilder."
+msgstr "Visa guidningsbildrutor."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:2918
@@ -40519,6 +40394,7 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for RA internal guiding with that value."
 msgstr ""
+"Om > 0, använd hysteresstyrningen för RA intern styrning med det värdet."
 
 #. i18n: ectx: label, entry (DECHysteresis), group (Guide)
 #: kstars.kcfg:3145
@@ -40526,6 +40402,7 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for DEC internal guiding with that value."
 msgstr ""
+"Om > 0, använd hysteresstyrningen för DEK intern styrning med det värdet."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:3151
@@ -40894,28 +40771,26 @@ msgstr "Månens elevationsrestriktion i jobb för standardschemaläggning."
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3364
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job weather constraints."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
-msgstr "Kryssruta i standardschemaläggning för väderrestriktion i jobb."
+msgstr "Kryssruta i standardschemaläggning för väderrestriktioner."
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3368
-#, fuzzy, kde-format
-#| msgid "How many dithering attempts to undertake before giving up."
+#, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
-msgstr "Hur många försök som ska utföras innan gitter överges."
+msgstr ""
+"Vänta så här många minuter på att vädret ska förbättras innan avstående."
 
 #. i18n: ectx: label, entry (SchedulerWeatherShutdownDelay), group (Scheduler)
 #: kstars.kcfg:3372
-#, fuzzy, kde-format
-#| msgid ""
-#| "Wait this many seconds after guiding is resumed before starting capture."
+#, kde-format
 msgid ""
 "Wait this many seconds when detecting weather alert before starting "
 "observatory shutdown."
 msgstr ""
-"Vänta så här många sekunder efter guidning återupptas innan tagning påbörjas."
+"Vänta så här många sekunder när ett väderlarm upptäcks innan avstängning av "
+"observatoriet påbörjas."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3376
@@ -41056,7 +40931,7 @@ msgstr "Visa RA på analysens statistikdiagram."
 #: kstars.kcfg:3457
 #, kde-format
 msgid "Display DEC on the Analyze Statistics Plot."
-msgstr "Visa DEK på analysens statistikdiagram."
+msgstr "Visa Dek på analysens statistikdiagram."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRAp), group (Analyze)
 #: kstars.kcfg:3461
@@ -41068,7 +40943,7 @@ msgstr "Visa RA på analysens statistikdiagram."
 #: kstars.kcfg:3465
 #, kde-format
 msgid "Display DEC Pulses on the Analyze Statistics Plot."
-msgstr "Visa DEK-pulser på analysens statistikdiagram."
+msgstr "Visa Dek-pulser på analysens statistikdiagram."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDrift), group (Analyze)
 #: kstars.kcfg:3469
@@ -41110,7 +40985,7 @@ msgstr "Visa stativets RA på analysens statistikdiagram."
 #: kstars.kcfg:3489
 #, kde-format
 msgid "Display Mount DEC on the Analyze Statistics Plot."
-msgstr "Visa stativets DEK på analysens statistikdiagram."
+msgstr "Visa stativets Dek på analysens statistikdiagram."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountHA), group (Analyze)
 #: kstars.kcfg:3493
@@ -70185,10 +70060,9 @@ msgid "Do Not Switch"
 msgstr "Byt inte"
 
 #: kstarsactions.cpp:1532
-#, fuzzy, kde-format
-#| msgid "Run clock in realtime"
+#, kde-format
 msgid "Stop running clock in realtime"
-msgstr "Låt klockan gå i realtid"
+msgstr "Sluta låta klockan gå i realtid"
 
 #: kstarsactions.cpp:1550 kstarsinit.cpp:199
 #, kde-format
@@ -72578,13 +72452,13 @@ msgstr "Elevation G:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Alt/Dec Anti-backlash"
-msgstr "Elev/dek antispel"
+msgstr "Elev/Dek antispel"
 
 #: libindi_strings.cpp:27
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Alt/Dec PEC"
-msgstr "Elev/dek periodisk felkorrigering"
+msgstr "Elev/Dek periodisk felkorrigering"
 
 #: libindi_strings.cpp:28
 #, kde-kuit-format
@@ -72824,7 +72698,7 @@ msgstr "Färg"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Comet DEC motion arcmin/day"
-msgstr "Kometrörelse dek. bågmin/dag"
+msgstr "Kometrörelse Dek. bågmin/dag"
 
 #: libindi_strings.cpp:69
 #, kde-kuit-format
@@ -77648,12 +77522,15 @@ msgid ""
 "This could cause issues for real imaging runs, but can be useful in "
 "reproducing/debugging issues.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Synkronisera inte med systemklockan när Ekos startas. "
+"Det kan orsaka problem vid verkliga bildtagningskörningar, men kan vara "
+"användbart för att reproducera eller felsöka problem.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSyncToRealTime)
 #: options/opsdeveloper.ui:83
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
-msgstr ""
+msgstr "Synkronisera inte till realtid när Ekos startas"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
@@ -82927,17 +82804,15 @@ msgid "Updating tables..."
 msgstr "Uppdaterar tabeller..."
 
 #: tools/imagingplanner.cpp:2425
-#, fuzzy, kde-format
-#| msgid ""
-#| "You need to load a catalog to start using this tool.\n"
-#| "See Data -> Download New Data..."
+#, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "Use the Load Catalog button if you have one.\n"
 "See Data -> Download New Data if not..."
 msgstr ""
 "Du måste läsa in en katalog för att börja använda verktyget.\n"
-"Se Data -> Ladda ner nya data..."
+"Använd knappen Läs in katalog om det finns någon.\n"
+"Se Data -> Ladda ner nya data om det inte är fallet ..."
 
 #: tools/imagingplanner.cpp:2428
 #, kde-format
@@ -82960,34 +82835,32 @@ msgid "Load a Catalog."
 msgstr "Läs in en katalog."
 
 #: tools/imagingplanner.cpp:2608
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
-msgstr "Sök på Professor Seligmans nätplats efter NGC/IC-bilder."
+msgstr "Sök på Professor Seligmans webbplats efter NGC-bilder."
 
 #: tools/imagingplanner.cpp:2613
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
-msgstr "Sök på Professor Seligmans nätplats efter NGC/IC-bilder."
+msgstr "Sök på Professor Seligmans webbplats efter information om IC-objekt."
 
 #: tools/imagingplanner.cpp:2619
 #, kde-format
 msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
-msgstr ""
+msgstr "Sök på galaxymap.org webbplats efter information om Sharpless2-objekt."
 
 #: tools/imagingplanner.cpp:2625
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
-msgstr ""
+msgstr "Sök på NASA:s webbplats efter information om Messier-objekt."
 
 #: tools/imagingplanner.cpp:2630
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
-msgstr ""
+msgstr "Sök på Emil Ivanovs webbplats efter information om VDB-objekt."
 
 #: tools/imagingplanner.cpp:2773
 #, kde-format
@@ -83070,6 +82943,8 @@ msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
 "SkyMap"
 msgstr ""
+"Ta en skärmbild av %1, analyserad den och placera den tillfälligt på "
+"himmelskartan"
 
 #: tools/imagingplanner.cpp:3672
 #, kde-format
@@ -83121,15 +82996,13 @@ msgid "%1/%2: Adding %3"
 msgstr "%1/%2: Lägger till %3"
 
 #: tools/imagingplanner.cpp:4014
-#, fuzzy, kde-format
-#| msgid "OK"
+#, kde-format
 msgctxt "@action:button"
 msgid "OK"
 msgstr "Ok"
 
 #: tools/imagingplanner.cpp:4015
-#, fuzzy, kde-format
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Avbryt"
@@ -83852,22 +83725,20 @@ msgstr "Oberoende fönster"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Multiplier for manual focus motions when the "
-#| "control key is pressed.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Start solving immediately after taking a screenshot, "
 "instead of waiting for the Solve button to be pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Multiplikator för manuell fokuseringsrörelse när Ctrl-"
-"tangenten hålls nere.</p></body></html>"
+"<html><head/><body><p>Påbörja lösning omedelbart efter att en skärmbild har "
+"tagits, istället för att vänta på att knappen Lös ska tryckas ner.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:40
 #, kde-format
 msgid "Start Solving Immediately"
-msgstr ""
+msgstr "Påbörja lösning omedelbart"
 
 #: tools/jmoontool.cpp:30
 #, kde-format
@@ -85766,7 +85637,7 @@ msgstr "Centrerad RA (i timmar):"
 #: tools/obslistwizard.ui:616
 #, kde-format
 msgid "Center Dec (in Degrees):"
-msgstr "Skapa deklination (i grader):"
+msgstr "Skapa Dek (i grader):"
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642
@@ -88427,7 +88298,7 @@ msgstr "Bakgrundsfärg:"
 #: xplanet/opsxplanet.ui:1070
 #, kde-format
 msgid "Set the color for the background."
-msgstr "Ange bakgrundens färg."
+msgstr "Ställ in bakgrundsfärgen."
 
 #~ msgid "INDI Hub Settings"
 #~ msgstr "INDIHub-inställningar"
