@@ -157,7 +157,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="pAHMountSpeed"/>
+          <widget class="QComboBox" name="pAHMountSpeed">
+           <property name="toolTip">
+            <string>Mount slew speed</string>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QCheckBox" name="pAHManualSlew">
