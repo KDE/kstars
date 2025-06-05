@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-01 02:04+0000\n"
+"POT-Creation-Date: 2025-06-05 01:58+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -797,7 +797,7 @@ msgstr "< 上一步(&B)"
 
 #. i18n: ectx: property (text), widget (QPushButton, PAHManualDone)
 #: auxiliary/kswizard.cpp:80 ekos/align/manualrotator.cpp:47
-#: ekos/align/polaralignmentassistant.ui:278 ekos/focus/focusadvisor.cpp:169
+#: ekos/align/polaralignmentassistant.ui:282 ekos/focus/focusadvisor.cpp:169
 #: ekos/focus/focusadvisor.cpp:757 ekos/focus/focusadvisor.cpp:1152
 #: ekos/focus/focusadvisor.cpp:1397
 #, kde-format
@@ -4524,7 +4524,7 @@ msgstr "方位"
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorAz)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: dialogs/focusdialog.ui:151 ekos/align/polaralignmentassistant.ui:592
+#: dialogs/focusdialog.ui:151 ekos/align/polaralignmentassistant.ui:596
 #: ekos/capture/calibrationoptions.ui:73 tools/argsetaltaz.ui:30
 #: tools/modcalcplanets.ui:303
 #, kde-format
@@ -6644,8 +6644,8 @@ msgstr "加载并转动"
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
-#: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:819
-#: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
+#: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
+#: ekos/align/polaralignmentassistant.ui:826 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:231
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
@@ -9669,7 +9669,7 @@ msgstr "PAA：找不到赤经轴。退出。"
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
 #: ekos/align/polaralignmentassistant.cpp:1242
-#: ekos/align/polaralignmentassistant.ui:212
+#: ekos/align/polaralignmentassistant.ui:216
 #, kde-format
 msgid ""
 "<p>The assistant requires three images to find a solution.  Ekos is now "
@@ -9852,26 +9852,33 @@ msgstr "以度为单位的旋转角度"
 msgid "Speed:"
 msgstr "速度："
 
+#. i18n: ectx: property (toolTip), widget (QComboBox, pAHMountSpeed)
+#: ekos/align/polaralignmentassistant.ui:162
+#, fuzzy, kde-format
+#| msgid "Mount already parked."
+msgid "Mount slew speed"
+msgstr "赤道仪已经归位完毕。"
+
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
-#: ekos/align/polaralignmentassistant.ui:168
+#: ekos/align/polaralignmentassistant.ui:172
 #, kde-format
 msgid "Toggle for manual slewing with non-GOTO mounts"
 msgstr "切换到无 GOTO 赤道仪"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pAHManualSlew)
-#: ekos/align/polaralignmentassistant.ui:171
+#: ekos/align/polaralignmentassistant.ui:175
 #, kde-format
 msgid "Manual slew"
 msgstr "手动旋转"
 
 #. i18n: ectx: property (text), widget (QLabel, manualRotateText)
-#: ekos/align/polaralignmentassistant.ui:262
+#: ekos/align/polaralignmentassistant.ui:266
 #, kde-format
 msgid "Please rotate your mount in RA"
 msgstr "请绕赤经轴旋转赤道仪"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHRefreshB)
-#: ekos/align/polaralignmentassistant.ui:337
+#: ekos/align/polaralignmentassistant.ui:341
 #, kde-format
 msgid ""
 "Start the refresh phase--where image captures loop while you adjust the "
@@ -9882,26 +9889,26 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, PAHRefreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshSourceB)
-#: ekos/align/polaralignmentassistant.ui:340 ekos/auxiliary/darklibrary.ui:1202
+#: ekos/align/polaralignmentassistant.ui:344 ekos/auxiliary/darklibrary.ui:1202
 #: hips/opships.ui:116
 #, kde-format
 msgid "Refresh"
 msgstr "刷新"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, pAHExposure)
-#: ekos/align/polaralignmentassistant.ui:347
+#: ekos/align/polaralignmentassistant.ui:351
 #, kde-format
 msgid "Exposure duration in seconds during refresh phase"
 msgstr "刷新阶段以秒为单位的曝光时间"
 
 #. i18n: ectx: property (text), widget (QLabel, PAHIteration)
-#: ekos/align/polaralignmentassistant.ui:385
+#: ekos/align/polaralignmentassistant.ui:389
 #, kde-format
 msgid "Image#"
 msgstr "图像#"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHRefreshAlgorithm)
-#: ekos/align/polaralignmentassistant.ui:414
+#: ekos/align/polaralignmentassistant.ui:418
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select polar-alignment correction algorithm:</p><ul "
@@ -9943,27 +9950,27 @@ msgstr ""
 "试图跟踪正在移动的星点并估计当前的极轴误差。</li></ul><p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHRefreshAlgorithm)
-#: ekos/align/polaralignmentassistant.ui:418
+#: ekos/align/polaralignmentassistant.ui:422
 #, kde-format
 msgid "Plate Solve"
 msgstr "平面解析"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHRefreshAlgorithm)
-#: ekos/align/polaralignmentassistant.ui:423
+#: ekos/align/polaralignmentassistant.ui:427
 #, kde-format
 msgid "Move Star"
 msgstr "移动星点"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHRefreshAlgorithm)
-#: ekos/align/polaralignmentassistant.ui:428
+#: ekos/align/polaralignmentassistant.ui:432
 #, kde-format
 msgid "Move Star & Calc Error"
 msgstr "移动星点并计算误差"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorTotal)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:501
-#: ekos/align/polaralignmentassistant.ui:526
+#: ekos/align/polaralignmentassistant.ui:505
+#: ekos/align/polaralignmentassistant.ui:530
 #, kde-format
 msgid ""
 "Polar Alignment total error measured by the 3 exposures at the start of the "
@@ -9971,15 +9978,15 @@ msgid ""
 msgstr "极轴对齐总误差测自开头的三次曝光。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:504
+#: ekos/align/polaralignmentassistant.ui:508
 #, kde-format
 msgid "Measured Err:"
 msgstr "测量到的错误："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorAlt)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorAlt)
-#: ekos/align/polaralignmentassistant.ui:545
-#: ekos/align/polaralignmentassistant.ui:570
+#: ekos/align/polaralignmentassistant.ui:549
+#: ekos/align/polaralignmentassistant.ui:574
 #, kde-format
 msgid ""
 "Polar Alignment altitude error measured by the 3 exposures at the start of "
@@ -9990,7 +9997,7 @@ msgstr "极轴对齐高度角误差测自极轴对齐流程开头的三次曝光
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/align/polaralignmentassistant.ui:548
+#: ekos/align/polaralignmentassistant.ui:552
 #: ekos/capture/calibrationoptions.ui:87 tools/argsetaltaz.ui:37
 #: tools/modcalcplanets.ui:296
 #, kde-format
@@ -9999,8 +10006,8 @@ msgstr "高度角："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorAz)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorAz)
-#: ekos/align/polaralignmentassistant.ui:589
-#: ekos/align/polaralignmentassistant.ui:614
+#: ekos/align/polaralignmentassistant.ui:593
+#: ekos/align/polaralignmentassistant.ui:618
 #, kde-format
 msgid ""
 "Polar Alignment azimuth error measured by the 3 exposures at the start of "
@@ -10009,30 +10016,30 @@ msgstr "极轴对齐方位角误差测自极轴对齐流程开头的三次曝光
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorTotal)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:646
-#: ekos/align/polaralignmentassistant.ui:671
+#: ekos/align/polaralignmentassistant.ui:650
+#: ekos/align/polaralignmentassistant.ui:675
 #, kde-format
 msgid "Polar Alignment total error estimated after recent adjustments."
 msgstr "在最近调节后的极轴对齐总误差。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHUpdatedErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:649
+#: ekos/align/polaralignmentassistant.ui:653
 #, kde-format
 msgid "Updated Err:"
 msgstr "更新后的误差:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAlt)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAlt)
-#: ekos/align/polaralignmentassistant.ui:690
-#: ekos/align/polaralignmentassistant.ui:715
+#: ekos/align/polaralignmentassistant.ui:694
+#: ekos/align/polaralignmentassistant.ui:719
 #, kde-format
 msgid "Polar Alignment altitude error estimated after recent adjustments."
 msgstr "在最近调节后的极轴高度角误差。"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAz)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAz)
-#: ekos/align/polaralignmentassistant.ui:734
-#: ekos/align/polaralignmentassistant.ui:759
+#: ekos/align/polaralignmentassistant.ui:738
+#: ekos/align/polaralignmentassistant.ui:763
 #, kde-format
 msgid "Polar Alignment azimuth error estimated after recent adjustments."
 msgstr "在最近调节后的极轴对齐方位角误差。"
@@ -10040,8 +10047,8 @@ msgstr "在最近调节后的极轴对齐方位角误差。"
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStartB)
 #. i18n: ectx: property (text), widget (QPushButton, PAHStartB)
 #. i18n: ectx: property (text), widget (QPushButton, startB)
-#: ekos/align/polaralignmentassistant.ui:806
-#: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
+#: ekos/align/polaralignmentassistant.ui:810
+#: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
 #: ekos/manager.cpp:146 ekos/manager.cpp:237 ekos/manager.cpp:796
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135

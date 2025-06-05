@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-01 02:04+0000\n"
+"POT-Creation-Date: 2025-06-05 01:58+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -838,7 +838,7 @@ msgstr "&Πίσω"
 
 #. i18n: ectx: property (text), widget (QPushButton, PAHManualDone)
 #: auxiliary/kswizard.cpp:80 ekos/align/manualrotator.cpp:47
-#: ekos/align/polaralignmentassistant.ui:278 ekos/focus/focusadvisor.cpp:169
+#: ekos/align/polaralignmentassistant.ui:282 ekos/focus/focusadvisor.cpp:169
 #: ekos/focus/focusadvisor.cpp:757 ekos/focus/focusadvisor.cpp:1152
 #: ekos/focus/focusadvisor.cpp:1397
 #, fuzzy, kde-format
@@ -4772,7 +4772,7 @@ msgstr "Αζιμούθιο:"
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorAz)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: dialogs/focusdialog.ui:151 ekos/align/polaralignmentassistant.ui:592
+#: dialogs/focusdialog.ui:151 ekos/align/polaralignmentassistant.ui:596
 #: ekos/capture/calibrationoptions.ui:73 tools/argsetaltaz.ui:30
 #: tools/modcalcplanets.ui:303
 #, kde-format
@@ -7063,8 +7063,8 @@ msgstr "Φόρτωση καταλόγου..."
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
-#: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:819
-#: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
+#: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
+#: ekos/align/polaralignmentassistant.ui:826 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:231
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
@@ -10192,7 +10192,7 @@ msgstr "Αποτυχία καθορισμού συνένωσης εικονοσ�
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
 #: ekos/align/polaralignmentassistant.cpp:1242
-#: ekos/align/polaralignmentassistant.ui:212
+#: ekos/align/polaralignmentassistant.ui:216
 #, kde-format
 msgid ""
 "<p>The assistant requires three images to find a solution.  Ekos is now "
@@ -10367,26 +10367,33 @@ msgstr "Γεωγραφικό μήκος σε μοίρες"
 msgid "Speed:"
 msgstr "Ταχύτητα:"
 
+#. i18n: ectx: property (toolTip), widget (QComboBox, pAHMountSpeed)
+#: ekos/align/polaralignmentassistant.ui:162
+#, fuzzy, kde-format
+#| msgid "Adjust time step"
+msgid "Mount slew speed"
+msgstr "Ρύθμιση χρονικού βήματος"
+
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
-#: ekos/align/polaralignmentassistant.ui:168
+#: ekos/align/polaralignmentassistant.ui:172
 #, kde-format
 msgid "Toggle for manual slewing with non-GOTO mounts"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, pAHManualSlew)
-#: ekos/align/polaralignmentassistant.ui:171
+#: ekos/align/polaralignmentassistant.ui:175
 #, fuzzy, kde-format
 msgid "Manual slew"
 msgstr "Βανουάτου"
 
 #. i18n: ectx: property (text), widget (QLabel, manualRotateText)
-#: ekos/align/polaralignmentassistant.ui:262
+#: ekos/align/polaralignmentassistant.ui:266
 #, kde-format
 msgid "Please rotate your mount in RA"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHRefreshB)
-#: ekos/align/polaralignmentassistant.ui:337
+#: ekos/align/polaralignmentassistant.ui:341
 #, kde-format
 msgid ""
 "Start the refresh phase--where image captures loop while you adjust the "
@@ -10396,28 +10403,28 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, PAHRefreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshSourceB)
-#: ekos/align/polaralignmentassistant.ui:340 ekos/auxiliary/darklibrary.ui:1202
+#: ekos/align/polaralignmentassistant.ui:344 ekos/auxiliary/darklibrary.ui:1202
 #: hips/opships.ui:116
 #, kde-format
 msgid "Refresh"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, pAHExposure)
-#: ekos/align/polaralignmentassistant.ui:347
+#: ekos/align/polaralignmentassistant.ui:351
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure duration in seconds during refresh phase"
 msgstr "Έναρξη έκθεσης φωτογραφικής/CCD. Η διάρκεια είναι σε δευτερόλεπτα."
 
 #. i18n: ectx: property (text), widget (QLabel, PAHIteration)
-#: ekos/align/polaralignmentassistant.ui:385
+#: ekos/align/polaralignmentassistant.ui:389
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Image#"
 msgstr "Εικόνα"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHRefreshAlgorithm)
-#: ekos/align/polaralignmentassistant.ui:414
+#: ekos/align/polaralignmentassistant.ui:418
 #, fuzzy, kde-format
 #| msgid ""
 #| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
@@ -10494,29 +10501,29 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHRefreshAlgorithm)
-#: ekos/align/polaralignmentassistant.ui:418
+#: ekos/align/polaralignmentassistant.ui:422
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid "Plate Solve"
 msgstr "Εξυπηρετητής του INDI:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHRefreshAlgorithm)
-#: ekos/align/polaralignmentassistant.ui:423
+#: ekos/align/polaralignmentassistant.ui:427
 #, fuzzy, kde-format
 #| msgid "Auto Stretch"
 msgid "Move Star"
 msgstr "Αυτόματη επιμήκυνση"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHRefreshAlgorithm)
-#: ekos/align/polaralignmentassistant.ui:428
+#: ekos/align/polaralignmentassistant.ui:432
 #, kde-format
 msgid "Move Star & Calc Error"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorTotal)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:501
-#: ekos/align/polaralignmentassistant.ui:526
+#: ekos/align/polaralignmentassistant.ui:505
+#: ekos/align/polaralignmentassistant.ui:530
 #, kde-format
 msgid ""
 "Polar Alignment total error measured by the 3 exposures at the start of the "
@@ -10524,15 +10531,15 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:504
+#: ekos/align/polaralignmentassistant.ui:508
 #, kde-format
 msgid "Measured Err:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorAlt)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorAlt)
-#: ekos/align/polaralignmentassistant.ui:545
-#: ekos/align/polaralignmentassistant.ui:570
+#: ekos/align/polaralignmentassistant.ui:549
+#: ekos/align/polaralignmentassistant.ui:574
 #, kde-format
 msgid ""
 "Polar Alignment altitude error measured by the 3 exposures at the start of "
@@ -10543,7 +10550,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/align/polaralignmentassistant.ui:548
+#: ekos/align/polaralignmentassistant.ui:552
 #: ekos/capture/calibrationoptions.ui:87 tools/argsetaltaz.ui:37
 #: tools/modcalcplanets.ui:296
 #, kde-format
@@ -10552,8 +10559,8 @@ msgstr "Alt:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorAz)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorAz)
-#: ekos/align/polaralignmentassistant.ui:589
-#: ekos/align/polaralignmentassistant.ui:614
+#: ekos/align/polaralignmentassistant.ui:593
+#: ekos/align/polaralignmentassistant.ui:618
 #, kde-format
 msgid ""
 "Polar Alignment azimuth error measured by the 3 exposures at the start of "
@@ -10562,14 +10569,14 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorTotal)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:646
-#: ekos/align/polaralignmentassistant.ui:671
+#: ekos/align/polaralignmentassistant.ui:650
+#: ekos/align/polaralignmentassistant.ui:675
 #, kde-format
 msgid "Polar Alignment total error estimated after recent adjustments."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHUpdatedErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:649
+#: ekos/align/polaralignmentassistant.ui:653
 #, fuzzy, kde-format
 #| msgid "Update TLEs"
 msgid "Updated Err:"
@@ -10577,16 +10584,16 @@ msgstr "Ενημέρωση TLE"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAlt)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAlt)
-#: ekos/align/polaralignmentassistant.ui:690
-#: ekos/align/polaralignmentassistant.ui:715
+#: ekos/align/polaralignmentassistant.ui:694
+#: ekos/align/polaralignmentassistant.ui:719
 #, kde-format
 msgid "Polar Alignment altitude error estimated after recent adjustments."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAz)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAz)
-#: ekos/align/polaralignmentassistant.ui:734
-#: ekos/align/polaralignmentassistant.ui:759
+#: ekos/align/polaralignmentassistant.ui:738
+#: ekos/align/polaralignmentassistant.ui:763
 #, kde-format
 msgid "Polar Alignment azimuth error estimated after recent adjustments."
 msgstr ""
@@ -10594,8 +10601,8 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStartB)
 #. i18n: ectx: property (text), widget (QPushButton, PAHStartB)
 #. i18n: ectx: property (text), widget (QPushButton, startB)
-#: ekos/align/polaralignmentassistant.ui:806
-#: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
+#: ekos/align/polaralignmentassistant.ui:810
+#: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
 #: ekos/manager.cpp:146 ekos/manager.cpp:237 ekos/manager.cpp:796
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
@@ -97873,11 +97880,6 @@ msgstr "Ορισμός του χρώματος του φόντου."
 #~| msgid "Calibration Options"
 #~ msgid "Calibration Settings"
 #~ msgstr "Επιλογές βαθμονόμησης"
-
-#, fuzzy
-#~| msgid "Adjust time step"
-#~ msgid "Slew speed"
-#~ msgstr "Ρύθμιση χρονικού βήματος"
 
 #~ msgid "Filename for sky image"
 #~ msgstr "Όνομα αρχείου της εικόνας του ουρανού"
