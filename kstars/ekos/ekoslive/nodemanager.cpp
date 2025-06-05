@@ -208,6 +208,7 @@ void NodeManager::onResult(QNetworkReply *reply)
         if (reply->error() == QNetworkReply::ConnectionRefusedError && m_ReconnectTries++ < RECONNECT_MAX_TRIES)
         {
             reply->deleteLater();
+            setIsReauthenticating(false);
             QTimer::singleShot(RECONNECT_INTERVAL, this, &NodeManager::authenticate);
             return;
         }
