@@ -916,6 +916,7 @@ bool Guide::abort()
 
         case GUIDE_CALIBRATING:
         case GUIDE_DITHERING:
+        case GUIDE_DITHERING_SETTLE:
         case GUIDE_STAR_SELECT:
         case GUIDE_CAPTURE:
         case GUIDE_GUIDING:
