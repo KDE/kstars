@@ -24,8 +24,8 @@ if(BUILD_QT5)
     set(QT_MIN_VERSION 5.12.7)
     set(KF5_MIN_VERSION 5.68.0)
 else()
-    set(QT_MIN_VERSION 6.9.0)
-    set(KF6_MIN_VERSION 6.13.0)
+    set(QT_MIN_VERSION 6.8.0)
+    set(KF6_MIN_VERSION 6.8.0)
 endif(BUILD_QT5)
 
 # Build KStars Lite with -DBUILD_KSTARS_LITE=ON
