@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-05 01:58+0000\n"
-"PO-Revision-Date: 2025-05-22 12:29+0200\n"
+"PO-Revision-Date: 2025-06-05 10:15+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -10148,10 +10148,9 @@ msgstr "Snelheid:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHMountSpeed)
 #: ekos/align/polaralignmentassistant.ui:162
-#, fuzzy, kde-format
-#| msgid "Slew speed"
+#, kde-format
 msgid "Mount slew speed"
-msgstr "Draaisnelheid"
+msgstr "Draaisnelheid van opstelling"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:172

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-05 01:58+0000\n"
-"PO-Revision-Date: 2025-05-22 18:49+0300\n"
+"PO-Revision-Date: 2025-06-05 18:57+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -10181,10 +10181,9 @@ msgstr "Швидкість:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHMountSpeed)
 #: ekos/align/polaralignmentassistant.ui:162
-#, fuzzy, kde-format
-#| msgid "Mount already parked."
+#, kde-format
 msgid "Mount slew speed"
-msgstr "Лафет уже запарковано."
+msgstr "Швидкість обертання лафета"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:172

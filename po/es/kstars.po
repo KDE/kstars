@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-05 01:58+0000\n"
-"PO-Revision-Date: 2025-05-22 12:19+0100\n"
+"PO-Revision-Date: 2025-06-05 13:47+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -10216,10 +10216,9 @@ msgstr "Velocidad:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHMountSpeed)
 #: ekos/align/polaralignmentassistant.ui:162
-#, fuzzy, kde-format
-#| msgid "Mount already parked."
+#, kde-format
 msgid "Mount slew speed"
-msgstr "La montura ya está aparcada."
+msgstr "Velocidad de movimiento de la montura"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:172
@@ -89467,73 +89466,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid "INDI Hub Settings"
-#~ msgstr "Preferencias de INDI Hub"
-
-#~ msgid ""
-#~ "<html><head/><body><h2 style=\" margin-top:16px; margin-bottom:12px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"><span style=\" font-size:x-large; font-weight:600;\">Share access to "
-#~ "your observatory on </span><a href=\"https://indihub.space\"><span style="
-#~ "\" font-size:x-large; font-weight:600; text-decoration: underline; color:"
-#~ "#007af4;\">indihub.space</span></a></h2></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><h2 style=\" margin-top:16px; margin-bottom:12px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"><span style=\" font-size:x-large; font-weight:600;\">Comparta el "
-#~ "acceso a su observatorio en </span><a href=\"https://indihub.space"
-#~ "\"><span style=\" font-size:x-large; font-weight:600; text-decoration: "
-#~ "underline; color:#007af4;\">indihub.space</span></a></h2></body></html>"
-
-#~ msgid ""
-#~ "Use you equipment without opening remote access but equipment is still "
-#~ "connected to INDIHUB-network and all images taken are contributed for "
-#~ "scientific purposes."
-#~ msgstr ""
-#~ "Usar su equipo sin permitir el acceso remoto, aunque el equipo continúa "
-#~ "conectado a la red INDIHUB y todas las imágenes obtenidas se comparten "
-#~ "con propósitos científicos."
-
-#~ msgid "Solo"
-#~ msgstr "A solas"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Open remote access to your equipment via INDIHUB-"
-#~ "network of telescopes, so you can provide remote imaging sessions to your "
-#~ "guests.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Permitir el acceso remoto a su equipo usando la red "
-#~ "de telescopios INDIHUB, de modo que pueda proporcionar sesiones remotas "
-#~ "de captura de imágenes a los invitados.</p></body></html>"
-
-#~ msgid "Share"
-#~ msgstr "Compartir"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Open remote access to your equipment to be "
-#~ "controlled by scheduler running in INDIHUB-cloud (experimental).</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Permitir el acceso remoto a su equipo para que lo "
-#~ "pueda controlar el planificador que se ejecuta en la nube INDIHUB "
-#~ "(experimental).</p></body></html>"
-
-#~ msgid "Robotic (Experimental)"
-#~ msgstr "Robotizado (experimental)"
-
-#~ msgid "<html><head/><body><p>Configure INDIHub.</p></body></html>"
-#~ msgstr "<html><head/><body><p>Configurar INDIHub.</p></body></html>"
-
-#~ msgid "INDI Hub"
-#~ msgstr "INDI Hub"
-
-#~ msgctxt "@title:window"
-#~ msgid "Select INDIHub Agent"
-#~ msgstr "Seleccionar el agente INDIHub"
-
-#~ msgid "INDIHub agent:"
-#~ msgstr "Agente INDIHub:"
-
-#~ msgid "PATH to indihub-agent binary"
-#~ msgstr "Ruta al binario indihub-agent"

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-05 01:58+0000\n"
-"PO-Revision-Date: 2025-05-23 09:26+0200\n"
+"PO-Revision-Date: 2025-06-05 22:13+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.1\n"
 "X-Accelerator-Marker: &\n"
 
 # Diccionari de termes astronòmics:
@@ -3667,7 +3667,7 @@ msgstr "%1 km"
 #, kde-format
 msgctxt "Rotation period in hours"
 msgid "%1 h"
-msgstr "%1h"
+msgstr "%1 h"
 
 #: dialogs/detaildialog.cpp:472 dialogs/detaildialog.cpp:530
 #, kde-format
@@ -10327,10 +10327,9 @@ msgstr "Velocitat:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHMountSpeed)
 #: ekos/align/polaralignmentassistant.ui:162
-#, fuzzy, kde-format
-#| msgid "Mount already parked."
+#, kde-format
 msgid "Mount slew speed"
-msgstr "La muntura ja està aparcada."
+msgstr "Velocitat d'orientació de la muntura"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
@@ -85900,13 +85899,13 @@ msgstr "Coordenades aparents:"
 #: tools/modcalcapcoord.ui:346
 #, kde-format
 msgid "+00d 00' 00.0\""
-msgstr "+00 d 00' 00.0\""
+msgstr "+00d 00' 00.0\""
 
 #. i18n: ectx: property (text), widget (QLabel, RA)
 #: tools/modcalcapcoord.ui:374
 #, kde-format
 msgid "00h 00m 00.0s"
-msgstr "00 h 00 m 00.0 s"
+msgstr "00 h 00 m 00,0 s"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: tools/modcalcapcoord.ui:596
