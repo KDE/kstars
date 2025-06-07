@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-05 01:58+0000\n"
+"POT-Creation-Date: 2025-06-07 01:55+0000\n"
 "PO-Revision-Date: 2004-02-26 16:58+0000\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -6647,7 +6647,7 @@ msgstr "Cadwyd y ffeil."
 
 #: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4136
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1241 ekos/manager.cpp:2158 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2158 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3688
 #, kde-format
@@ -15805,7 +15805,7 @@ msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
 #: ekos/capture/cameraprocess.cpp:2132 ekos/focus/focus.cpp:5782
-#: ekos/guide/guide.cpp:1009
+#: ekos/guide/guide.cpp:1010
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr ""
@@ -21708,214 +21708,214 @@ msgstr ""
 msgid "Error: lost connection to CCD."
 msgstr "Cysylltiad"
 
-#: ekos/guide/guide.cpp:1003
+#: ekos/guide/guide.cpp:1004
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "llinell"
 
-#: ekos/guide/guide.cpp:1031
+#: ekos/guide/guide.cpp:1032
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1033
+#: ekos/guide/guide.cpp:1034
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1035
+#: ekos/guide/guide.cpp:1036
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1044
+#: ekos/guide/guide.cpp:1045
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "llinell"
 
-#: ekos/guide/guide.cpp:1314
+#: ekos/guide/guide.cpp:1315
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1320
+#: ekos/guide/guide.cpp:1321
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1401
+#: ekos/guide/guide.cpp:1402
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1504
+#: ekos/guide/guide.cpp:1505
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1518
+#: ekos/guide/guide.cpp:1519
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Mount Ekar"
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Mynydd Ekar"
 
-#: ekos/guide/guide.cpp:1535
+#: ekos/guide/guide.cpp:1536
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Mount Ekar"
 msgid "Mount is parking. Aborting guide..."
 msgstr "Mynydd Ekar"
 
-#: ekos/guide/guide.cpp:1537
+#: ekos/guide/guide.cpp:1538
 #, fuzzy, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Cysylltiad"
 
-#: ekos/guide/guide.cpp:1600
+#: ekos/guide/guide.cpp:1601
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration is cleared."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:1628
+#: ekos/guide/guide.cpp:1629
 #, kde-format
 msgid "External guider connected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1646
+#: ekos/guide/guide.cpp:1647
 #, kde-format
 msgid "External guider disconnected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1663
+#: ekos/guide/guide.cpp:1664
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration completed."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:1681
+#: ekos/guide/guide.cpp:1682
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration started."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:1688
+#: ekos/guide/guide.cpp:1689
 #, fuzzy, kde-format
 msgid "Guiding resumed."
 msgstr "Ychwanegu Catalog"
 
-#: ekos/guide/guide.cpp:1691
+#: ekos/guide/guide.cpp:1692
 #, fuzzy, kde-format
 msgid "Autoguiding running."
 msgstr "Ychwanegu Catalog"
 
-#: ekos/guide/guide.cpp:1703
+#: ekos/guide/guide.cpp:1704
 #, fuzzy, kde-format
 msgid "Autoguiding aborted."
 msgstr "Ychwanegu Catalog"
 
-#: ekos/guide/guide.cpp:1708
+#: ekos/guide/guide.cpp:1709
 #, fuzzy, kde-format
 msgid "Guiding suspended."
 msgstr "Ychwanegu Catalog"
 
-#: ekos/guide/guide.cpp:1717
+#: ekos/guide/guide.cpp:1718
 #, fuzzy, kde-format
 msgid "Manual dithering in progress."
 msgstr "Goose Creek"
 
-#: ekos/guide/guide.cpp:1721
+#: ekos/guide/guide.cpp:1722
 #, fuzzy, kde-format
 msgid "Dithering in progress."
 msgstr "Goose Creek"
 
-#: ekos/guide/guide.cpp:1725
+#: ekos/guide/guide.cpp:1726
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/guide/guide.cpp:1730
+#: ekos/guide/guide.cpp:1731
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Dithering failed."
 msgstr "Arall"
 
-#: ekos/guide/guide.cpp:1741
+#: ekos/guide/guide.cpp:1742
 #, fuzzy, kde-format
 msgid "Dithering completed successfully."
 msgstr "Dewis Dim"
 
-#: ekos/guide/guide.cpp:1790
+#: ekos/guide/guide.cpp:1791
 #, fuzzy, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "Dewis Dim"
 
-#: ekos/guide/guide.cpp:1812
+#: ekos/guide/guide.cpp:1813
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1938
+#: ekos/guide/guide.cpp:1939
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2033
+#: ekos/guide/guide.cpp:2034
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2440
+#: ekos/guide/guide.cpp:2441
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Calibration failed to start."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:2591
+#: ekos/guide/guide.cpp:2592
 #, fuzzy, kde-format
 msgid "Auto star selected."
 msgstr "Toggle display of star name labels"
 
-#: ekos/guide/guide.cpp:2595
+#: ekos/guide/guide.cpp:2596
 #, fuzzy, kde-format
 msgid "Failed to select an auto star."
 msgstr "Methu cadw'r ddelwedd : %1 "
 
-#: ekos/guide/guide.cpp:2604
+#: ekos/guide/guide.cpp:2605
 #, fuzzy, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Dewis Dim"
 
-#: ekos/guide/guide.cpp:2866
+#: ekos/guide/guide.cpp:2867
 #, kde-format
 msgid "dx (pixels)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:2867
+#: ekos/guide/guide.cpp:2868
 #, kde-format
 msgid "dy (pixels)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3010 ekos/guide/guide.cpp:3138
+#: ekos/guide/guide.cpp:3011 ekos/guide/guide.cpp:3139
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3014 ekos/guide/guide.cpp:3142
+#: ekos/guide/guide.cpp:3015 ekos/guide/guide.cpp:3143
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -21923,7 +21923,7 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3309
+#: ekos/guide/guide.cpp:3310
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
