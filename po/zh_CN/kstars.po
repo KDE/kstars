@@ -9854,10 +9854,9 @@ msgstr "速度："
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHMountSpeed)
 #: ekos/align/polaralignmentassistant.ui:162
-#, fuzzy, kde-format
-#| msgid "Mount already parked."
+#, kde-format
 msgid "Mount slew speed"
-msgstr "赤道仪已经归位完毕。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:172
@@ -17147,12 +17146,12 @@ msgstr ""
 #: ekos/capture/sequencejobstate.cpp:905
 #, kde-format
 msgid "Dust cap is unparking..."
-msgstr ""
+msgstr "防尘盖取消归位中..."
 
 #: ekos/capture/sequencejobstate.cpp:908
 #, kde-format
 msgid "Dust cap status unknown."
-msgstr ""
+msgstr "防尘盖状态未知。"
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -19783,13 +19782,13 @@ msgstr ""
 #: ekos/focus/opsfocusmechanics.ui:514
 #, kde-format
 msgid "Speedup (Shift)"
-msgstr ""
+msgstr "加速(Shift)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedupCtrlLabel)
 #: ekos/focus/opsfocusmechanics.ui:521
 #, kde-format
 msgid "Speedup (Ctrl)"
-msgstr ""
+msgstr "加速(Ctrl)"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupShift)
 #: ekos/focus/opsfocusmechanics.ui:528
@@ -19798,6 +19797,7 @@ msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the shift key "
 "is pressed.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>按下 Shift 时，手动对焦的移动倍数。</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupShift)
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupCtrl)
@@ -19817,6 +19817,7 @@ msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the control "
 "key is pressed.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>按下 Control 时，手动对焦的移动倍数。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:34
@@ -20656,7 +20657,7 @@ msgstr "挂起导星"
 #: ekos/focus/opsfocussettings.ui:248
 #, kde-format
 msgid "Optimize AF:"
-msgstr ""
+msgstr "最优 AF:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOptimize)
 #: ekos/focus/opsfocussettings.ui:261
@@ -21077,7 +21078,7 @@ msgstr "PHD2: 抖动成功。"
 #: ekos/guide/externalguide/phd2.cpp:750
 #, kde-format
 msgid "PHD2: Guiding running."
-msgstr ""
+msgstr "PHD2： 导星运行中。"
 
 #: ekos/guide/externalguide/phd2.cpp:761
 #, kde-format
@@ -21172,10 +21173,9 @@ msgid "PHD2: Guiding is already running."
 msgstr "PHD2： 导星已在运行。"
 
 #: ekos/guide/externalguide/phd2.cpp:1394
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding is paused, resuming..."
-msgstr "PHD2： 导星已在运行。"
+msgstr "PHD2： 导星已暂停，正在恢复..."
 
 #: ekos/guide/externalguide/phd2.cpp:1456
 #, kde-format
@@ -21320,7 +21320,7 @@ msgstr "自动导星已经恢复。"
 #: ekos/guide/guide.cpp:1692
 #, kde-format
 msgid "Autoguiding running."
-msgstr ""
+msgstr "自动导星运行中。"
 
 #: ekos/guide/guide.cpp:1704
 #, kde-format
@@ -21608,7 +21608,7 @@ msgstr "128"
 #: ekos/guide/guide.ui:543
 #, kde-format
 msgid "Toggle the Guider Image..."
-msgstr ""
+msgstr "切换导星图像..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
@@ -21739,7 +21739,7 @@ msgstr ""
 #: ekos/guide/guide.ui:1164
 #, kde-format
 msgid "Mount Drift"
-msgstr ""
+msgstr "支架漂移"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1199
@@ -21910,12 +21910,12 @@ msgstr ""
 #: ekos/guide/guidedriftgraph.cpp:77
 #, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr ""
+msgstr "支架赤纬偏移（角秒）"
 
 #: ekos/guide/guidedriftgraph.cpp:78
 #, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr ""
+msgstr "支架赤经漂移（角秒）"
 
 #: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
 #: ekos/guide/guidedriftgraph.cpp:723
@@ -22411,7 +22411,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
-msgstr ""
+msgstr "当改变墩侧以及复用校准时，反转赤经导星脉冲。"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -22602,7 +22602,7 @@ msgstr ""
 #: ekos/guide/opsgpg.ui:81
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
-msgstr ""
+msgstr "启用在导星选项卡上的 GPG，使用赤经导星算法的下拉菜单。"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -22958,13 +22958,13 @@ msgstr "控制参数"
 #: ekos/guide/opsguide.ui:70
 #, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr ""
+msgstr "此算法计算导星修正脉冲。"
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
 #, kde-format
 msgid "Guiding Algorithm"
-msgstr ""
+msgstr "导星算法"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
@@ -22996,6 +22996,26 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>选择赤经和赤纬的导星脉冲算法。.</p><ul style=\"margin-"
+"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">标准</span>: 传统的比例导星算法。计算得出一个脉冲"
+"值，以修正算出的导星漂移。激进度参数决定了误差校正的比例。不修正小于 "
+"MinError 的误差。最大响应极限约束最大的修正值。不使用滞后参数。</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">滞后</span>: 滞后算法与标准算法类似，但根据滞后参数对之前的校正"
+"进行加权。不应用积分增益。</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">线性</span>: 这类似于 PHD2 "
+"Lowpass2 算法。它根据近期误差的简短历史记录计算误差脉冲。这或许适用于非常稳定"
+"的支架。不应用滞后和积分增益。</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">GPG</span>: (仅适用赤径) GPG "
+"算法尝试预测周期性误差和线性漂移。它使用此处的激进度、最小值和最大值参数，以"
+"及单独的 GPG 选项卡中的更多参数。不应用滞后和积分增益。</li></ul></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
@@ -23033,7 +23053,7 @@ msgstr ""
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
 #, kde-format
 msgid "Standard"
-msgstr ""
+msgstr "标准"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
@@ -23042,13 +23062,13 @@ msgstr ""
 #: ekos/guide/opsguide.ui:332
 #, kde-format
 msgid "Hysteresis"
-msgstr ""
+msgstr "滞后"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
 #, kde-format
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
@@ -23074,6 +23094,21 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>选择赤纬的导星脉冲算法。.</p><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">标准</span>: 传统的比例导星算法。计算得出一个脉冲"
+"值，以修正算出的导星漂移。激进度参数决定了误差校正的比例。不修正小于 "
+"MinError 的误差。最大响应极限约束最大的修正值。不使用滞后参数。</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">滞后</span>: 滞后算法与标准算法类似，但根据滞后参数对之前的校正"
+"进行加权。不应用积分增益。</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">线性</span>: 这类似于 PHD2 "
+"Lowpass2 算法。它根据近期误差的简短历史记录计算误差脉冲。这或许适用于非常稳定"
+"的支架。不应用滞后和积分增益。</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAIntegralGain)
@@ -23088,12 +23123,15 @@ msgid ""
 "effect) and only use this if necessary. (Only applies to the standard "
 "algorithm.)</p></body></html>"
 msgstr ""
+"<html><head/><body><p>增加基于过往50次导星偏差的平均值的修正项。比如，如果偏"
+"差持续为负，此项将尝试补偿。最后先设为 0.0(不起效) ，并只在需要时使用。 (仅应"
+"用于标准算法。)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
 #, kde-format
 msgid "Integral gain (deprecated)"
-msgstr ""
+msgstr "积分增益(已弃用)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_11)
 #: ekos/guide/opsguide.ui:176
@@ -23154,6 +23192,7 @@ msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>设置滞后参数（仅应用与滞后算法）。</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
@@ -23162,6 +23201,8 @@ msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>设置赤径滞后参数（仅应用于滞后算法）。</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
@@ -23170,6 +23211,8 @@ msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>设置赤纬滞后参数（仅应用于滞后算法）。</p></body></"
+"html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -23269,7 +23312,7 @@ msgstr ""
 #: ekos/guide/opsguide.ui:567
 #, kde-format
 msgid "Invent Multi-Star Guide Star"
-msgstr ""
+msgstr "创建多星被导星"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:577
@@ -23331,7 +23374,7 @@ msgstr "跟踪被导星并决定导星偏差的算法。"
 #: ekos/guide/opsguide.ui:640
 #, kde-format
 msgid "Star Detection Algorithm"
-msgstr ""
+msgstr "星点检测算法"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_MinDetectionsSEPMultistar)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
@@ -25552,7 +25595,7 @@ msgstr "驱动启动后，执行后驱动脚本前的延迟的秒数。"
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
-msgstr ""
+msgstr "执行停止驱动程序脚本后，延迟这么多秒再停止驱动程序。"
 
 #: ekos/profilescript.cpp:65
 #, kde-format
@@ -28155,17 +28198,17 @@ msgstr "合上防尘盖"
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
 msgid "Tomorrow"
-msgstr ""
+msgstr "明天"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
 msgid "Day After Tomorrow"
-msgstr ""
+msgstr "后天"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:193
 #, kde-format
 msgid "Tonight"
-msgstr ""
+msgstr "今晚"
 
 #: ekos/scheduler/schedulerjob.cpp:339
 #, kde-format
@@ -31631,22 +31674,22 @@ msgstr "修改主机"
 #: indi/indidustcap.cpp:59
 #, kde-format
 msgid "Dust Cap is parked"
-msgstr ""
+msgstr "防尘盖已归位。"
 
 #: indi/indidustcap.cpp:67
 #, kde-format
 msgid "Dust Cap is unparked"
-msgstr ""
+msgstr "防尘盖已取消归位"
 
 #: indi/indidustcap.cpp:78
 #, kde-format
 msgid "Dust Cap is parking"
-msgstr ""
+msgstr "防尘盖归位中"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
 #, kde-format
 msgid "Dust Cap is unparking"
-msgstr ""
+msgstr "防尘盖取消归位中"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -42977,7 +43020,7 @@ msgstr "仙后座 W"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "FISH HOOK"
-msgstr ""
+msgstr "FISH HOOK"
 
 #: kstars_i18n.cpp:664
 #, kde-kuit-format
@@ -42989,7 +43032,7 @@ msgstr "北十字"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SICKLE"
-msgstr ""
+msgstr "镰刀"
 
 #: kstars_i18n.cpp:666
 #, kde-kuit-format
@@ -50723,7 +50766,7 @@ msgstr "哈特福德"
 #, kde-kuit-format
 msgctxt "City in South Africa"
 msgid "Hartrao"
-msgstr ""
+msgstr "Hartrao"
 
 #: kstars_i18n.cpp:1961
 #, kde-kuit-format
@@ -50933,7 +50976,7 @@ msgstr "海里亚市"
 #, kde-kuit-format
 msgctxt "City in North Carolina USA"
 msgid "Hickory"
-msgstr ""
+msgstr "Hickory"
 
 #: kstars_i18n.cpp:1996
 #, kde-kuit-format
@@ -50981,7 +51024,7 @@ msgstr "山市"
 #, kde-kuit-format
 msgctxt "City in Zealand Denmark"
 msgid "Hilleroed"
-msgstr ""
+msgstr "Hilleroed"
 
 #: kstars_i18n.cpp:2004
 #, kde-kuit-format
@@ -51005,7 +51048,7 @@ msgstr "希洛"
 #, kde-kuit-format
 msgctxt "City in Bavaria Germany"
 msgid "Hilpoltstein"
-msgstr ""
+msgstr "Hilpoltstein"
 
 #: kstars_i18n.cpp:2008
 #, kde-kuit-format
@@ -51977,7 +52020,7 @@ msgstr "堪萨斯城"
 #, kde-kuit-format
 msgctxt "City in Austria"
 msgid "Kanzelhoehe"
-msgstr ""
+msgstr "Kanzelhoehe"
 
 #: kstars_i18n.cpp:2170
 #, kde-kuit-format
@@ -52157,7 +52200,7 @@ msgstr "凯内马"
 #, kde-kuit-format
 msgctxt "City in Munster Ireland"
 msgid "Kenmar"
-msgstr ""
+msgstr "Kenmar"
 
 #: kstars_i18n.cpp:2200
 #, kde-kuit-format
@@ -52217,7 +52260,7 @@ msgstr "哈巴罗夫斯克市"
 #, kde-kuit-format
 msgctxt "City in Greece"
 msgid "Khaniá"
-msgstr ""
+msgstr "Khaniá"
 
 #: kstars_i18n.cpp:2210
 #, kde-kuit-format
@@ -52253,7 +52296,7 @@ msgstr "Khmel'nyts'kyi"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Kickapoo Cavern  SP (Bracketville)"
-msgstr ""
+msgstr "Kickapoo Cavern  SP (Bracketville)"
 
 #: kstars_i18n.cpp:2216
 #, kde-kuit-format
@@ -52301,7 +52344,7 @@ msgstr "金博尔"
 #, kde-kuit-format
 msgctxt "City in Hambuk North Korea"
 msgid "Kimchaek"
-msgstr ""
+msgstr "Kimchaek"
 
 #: kstars_i18n.cpp:2224
 #, kde-kuit-format
@@ -52343,7 +52386,7 @@ msgstr "国王海滩"
 #, kde-kuit-format
 msgctxt "City in Tennessee USA"
 msgid "Kingsport"
-msgstr ""
+msgstr "Kingsport"
 
 #: kstars_i18n.cpp:2231
 #, kde-kuit-format
@@ -52469,7 +52512,7 @@ msgstr "克利纳克林"
 #, kde-kuit-format
 msgctxt "City in North Carolina USA"
 msgid "Knightdale"
-msgstr ""
+msgstr "Knightdale"
 
 #: kstars_i18n.cpp:2252
 #, kde-kuit-format
@@ -52499,7 +52542,7 @@ msgstr "科迪亚克"
 #, kde-kuit-format
 msgctxt "City in Zealand Denmark"
 msgid "Koege"
-msgstr ""
+msgstr "Koege"
 
 #: kstars_i18n.cpp:2257
 #, kde-kuit-format
@@ -68594,7 +68637,7 @@ msgstr "下载新数据"
 #: kstarsinit.cpp:155
 #, kde-format
 msgid "Open Image(s)..."
-msgstr ""
+msgstr "打开图像..."
 
 #: kstarsinit.cpp:164
 #, kde-format
@@ -68826,7 +68869,7 @@ msgstr "HiPS 全天覆盖"
 #: kstarsinit.cpp:401
 #, kde-format
 msgid "Skymap Orientation"
-msgstr ""
+msgstr "天图方向"
 
 #: kstarsinit.cpp:407
 #, kde-format
@@ -69299,7 +69342,7 @@ msgstr ""
 msgctxt ""
 "Orientation of the sky map is arbitrary as it has been adjusted by the user"
 msgid "Arbitrary"
-msgstr ""
+msgstr "任意"
 
 #: kstarsinit.cpp:763
 #, kde-format
@@ -69368,7 +69411,7 @@ msgstr ""
 #, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
-msgstr ""
+msgstr "任意"
 
 #: kstarsinit.cpp:821
 #, kde-format
@@ -75644,7 +75687,7 @@ msgstr ""
 #: options/opsdeveloper.ui:63
 #, kde-format
 msgid "Save Align Images"
-msgstr ""
+msgstr "保存对齐图像"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:70
@@ -75659,7 +75702,7 @@ msgstr ""
 #: options/opsdeveloper.ui:73
 #, kde-format
 msgid "Save Failed Align Images"
-msgstr ""
+msgstr "保存对齐图像失败"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DontSyncToRealTime)
 #: options/opsdeveloper.ui:80
@@ -77620,7 +77663,7 @@ msgstr ""
 #: skycomponents/imageoverlaycomponent.cpp:537
 #, kde-format
 msgid "Bad File"
-msgstr ""
+msgstr "坏文件"
 
 #: skycomponents/imageoverlaycomponent.cpp:537
 #, kde-format
@@ -79577,7 +79620,7 @@ msgstr ""
 #: tools/argchangeviewoption.ui:69
 #, kde-format
 msgid "Browse Tree..."
-msgstr ""
+msgstr "浏览树..."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, OptionValue)
 #: tools/argchangeviewoption.ui:76
@@ -80608,7 +80651,7 @@ msgstr ""
 #: tools/imagingplanner.cpp:2024
 #, kde-format
 msgid "Updating tables..."
-msgstr ""
+msgstr "正在更新表..."
 
 #: tools/imagingplanner.cpp:2425
 #, kde-format
@@ -80621,7 +80664,7 @@ msgstr ""
 #: tools/imagingplanner.cpp:2428
 #, kde-format
 msgid "No Catalog!"
-msgstr ""
+msgstr "没有星表！"
 
 #: tools/imagingplanner.cpp:2474
 #, kde-format
@@ -80636,7 +80679,7 @@ msgstr ""
 #: tools/imagingplanner.cpp:2478
 #, kde-format
 msgid "Load a Catalog."
-msgstr ""
+msgstr "加载星表。"
 
 #: tools/imagingplanner.cpp:2608
 #, kde-format
@@ -80669,7 +80712,7 @@ msgstr ""
 #: tools/imagingplanner.cpp:2773
 #, kde-format
 msgid "Loading Catalogs..."
-msgstr ""
+msgstr "加载星表中..."
 
 #: tools/imagingplanner.cpp:3098
 #, kde-format
@@ -80734,7 +80777,7 @@ msgstr ""
 #: tools/imagingplanner.cpp:3521 tools/imagingplanner.cpp:3527
 #, kde-format
 msgid "Ignore %1"
-msgstr ""
+msgstr "忽略 %1"
 
 #: tools/imagingplanner.cpp:3530
 #, kde-format
@@ -80797,19 +80840,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: tools/imagingplanner.cpp:4015
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SearchB)
 #: tools/imagingplanner.ui:77
 #, kde-format
 msgid "Search for an object in the table."
-msgstr ""
+msgstr "搜索表中的天体。"
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, SearchText)
 #. i18n: ectx: property (title), widget (QGroupBox, ObjectBox)
@@ -80822,7 +80865,7 @@ msgstr "天体名称"
 #: tools/imagingplanner.ui:214
 #, kde-format
 msgid "Select an Object"
-msgstr ""
+msgstr "选择天体"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backOneDay)
 #: tools/imagingplanner.ui:302
@@ -80834,25 +80877,25 @@ msgstr ""
 #: tools/imagingplanner.ui:319
 #, kde-format
 msgid "dd/MM/yy"
-msgstr ""
+msgstr "日/月/年"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, forwardOneDay)
 #: tools/imagingplanner.ui:347
 #, kde-format
 msgid "Forward one day"
-msgstr ""
+msgstr "前进一天"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
 #, kde-format
 msgid "Open options menu."
-msgstr ""
+msgstr "打开位置菜单。"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
 #: tools/imagingplanner.ui:421
 #, kde-format
 msgid "Open web documentation."
-msgstr ""
+msgstr "打开网页文档。"
 
 #. i18n: ectx: property (text), widget (QLabel, DevelLabel)
 #: tools/imagingplanner.ui:445
@@ -80867,7 +80910,7 @@ msgstr ""
 #: tools/imagingplanner.ui:464
 #, kde-format
 msgid "Downsample"
-msgstr ""
+msgstr "降采样"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DevelDownsampleButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, DevelCheckTargetsButton)
@@ -80995,7 +81038,7 @@ msgstr ""
 #: tools/imagingplanner.ui:1194
 #, kde-format
 msgid "Moon:"
-msgstr ""
+msgstr "月球:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minMoon)
 #: tools/imagingplanner.ui:1213
@@ -81010,7 +81053,7 @@ msgstr ""
 #: tools/imagingplanner.ui:1216 tools/imagingplanner.ui:1235
 #, kde-format
 msgid "°"
-msgstr ""
+msgstr "°"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1232
@@ -85868,70 +85911,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "INDI Hub Settings"
-#~ msgstr "INDI Hub 设置"
-
-#~ msgid ""
-#~ "<html><head/><body><h2 style=\" margin-top:16px; margin-bottom:12px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"><span style=\" font-size:x-large; font-weight:600;\">Share access to "
-#~ "your observatory on </span><a href=\"https://indihub.space\"><span style="
-#~ "\" font-size:x-large; font-weight:600; text-decoration: underline; color:"
-#~ "#007af4;\">indihub.space</span></a></h2></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><h2 style=\" margin-top:16px; margin-bottom:12px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"><span style=\" font-size:x-large; font-weight:600;\">分享您天文台的权限"
-#~ "于 </span><a href=\"https://indihub.space\"><span style=\" font-size:x-"
-#~ "large; font-weight:600; text-decoration: underline; color:#007af4;"
-#~ "\">indihub.space</span></a></h2></body></html>"
-
-#~ msgid ""
-#~ "Use you equipment without opening remote access but equipment is still "
-#~ "connected to INDIHUB-network and all images taken are contributed for "
-#~ "scientific purposes."
-#~ msgstr ""
-#~ "使用您的设备而不打开远程访问，但设备仍然连接到 INDIHUB 网络，所有拍摄的图"
-#~ "像都用于科学目的。"
-
-#~ msgid "Solo"
-#~ msgstr "Solo"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Open remote access to your equipment via INDIHUB-"
-#~ "network of telescopes, so you can provide remote imaging sessions to your "
-#~ "guests.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>通过 INDIHUB 望远镜网络开放远程访问您的设备，这样您"
-#~ "可以为您的客人提供远程成像会话。</p></body></html>"
-
-#~ msgid "Share"
-#~ msgstr "分享"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Open remote access to your equipment to be "
-#~ "controlled by scheduler running in INDIHUB-cloud (experimental).</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>开放远程访问您的设备，由在 INDIHUB-cloud 运行的调度"
-#~ "程序控制(实验性)。</p></body></html>"
-
-#~ msgid "Robotic (Experimental)"
-#~ msgstr "Robotic（实验性）"
-
-#~ msgid "<html><head/><body><p>Configure INDIHub.</p></body></html>"
-#~ msgstr "<html><head/><body><p>配置 INDIHub。</p></body></html>"
-
-#~ msgid "INDI Hub"
-#~ msgstr "INDI Hub"
-
-#~ msgctxt "@title:window"
-#~ msgid "Select INDIHub Agent"
-#~ msgstr "选择 INDIHub 代理"
-
-#~ msgid "INDIHub agent:"
-#~ msgstr "INDIHub 代理程序:"
-
-#~ msgid "PATH to indihub-agent binary"
-#~ msgstr "indihub-agent 二进制文件路径"
