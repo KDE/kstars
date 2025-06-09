@@ -55,19 +55,21 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
 
     // Initialize node managers
     QSharedPointer<NodeManager> onlineManager(new NodeManager(NodeManager::Message | NodeManager::Media | NodeManager::Cloud));
-    connect(onlineManager.get(), &NodeManager::authenticationError, this, [this](const QString & message)
+    connect(onlineManager.get(), &NodeManager::authenticationError, this, [this, onlineManager](const QString & message)
     {
         onlineLabel->setToolTip(message);
         if (pi && pi->isAnimated()) pi->stopAnimation();
+        onlineManager->setIsReauthenticating(false);
         onDisconnected(); // Refresh overall UI state potentially
     });
 
     QSharedPointer<NodeManager> offlineManager(new NodeManager(NodeManager::Message | NodeManager::Media));
 
-    connect(offlineManager.get(), &NodeManager::authenticationError, this, [this](const QString & message)
+    connect(offlineManager.get(), &NodeManager::authenticationError, this, [this, offlineManager](const QString & message)
     {
         offlineLabel->setToolTip(message);
         if (pi && pi->isAnimated()) pi->stopAnimation();
+        offlineManager->setIsReauthenticating(false);
         onDisconnected(); // Refresh overall UI state potentially
     });
 
