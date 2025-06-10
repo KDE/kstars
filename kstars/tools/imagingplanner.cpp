@@ -7,6 +7,7 @@
 #include "imagingplanner.h"
 
 #include <kio_version.h>
+#include <KLocalizedString>
 
 #include "artificialhorizoncomponent.h"
 #include "auxiliary/screencapture.h"
@@ -78,10 +79,10 @@ enum ColumnEnum
 
 // The columns at the end of enum ColumnEnum above are not displayed
 // in the table, and thus have no header name.
-const QStringList COLUMN_HEADERS =
+const QList<KLocalizedString> COLUMN_HEADERS =
 {
-    i18n("Name"), i18n("Hours"), i18n("Type"), i18n("Size"),
-    i18n("Alt"), i18n("Moon"), i18n("Const"), i18n("Coord")
+    ki18n("Name"), ki18n("Hours"), ki18n("Type"), ki18n("Size"),
+    ki18n("Alt"), ki18n("Moon"), ki18n("Const"), ki18n("Coord")
 };
 }
 
@@ -863,7 +864,7 @@ void CatalogFilter::setKeywordConstraints(bool enabled, bool required, const QSt
 void CatalogFilter::setSortColumn(int column)
 {
     // Restore the original column header
-    sourceModel()->setHeaderData(m_SortColumn, Qt::Horizontal, COLUMN_HEADERS[m_SortColumn]);
+    sourceModel()->setHeaderData(m_SortColumn, Qt::Horizontal, COLUMN_HEADERS[m_SortColumn].toString());
 
     if (column == m_SortColumn)
         m_ReverseSort = !m_ReverseSort;
@@ -885,7 +886,7 @@ void CatalogFilter::setSortColumn(int column)
     }
     sourceModel()->setHeaderData(
         m_SortColumn, Qt::Horizontal,
-        QString("%1%2").arg(arrowChar).arg(COLUMN_HEADERS[m_SortColumn]));
+        QString("%1%2").arg(arrowChar).arg(COLUMN_HEADERS[m_SortColumn].toString()));
 }
 
 // The main function used when sorting the table by a column (which is stored in m_SortColumn).
@@ -1160,8 +1161,12 @@ void ImagingPlanner::initialize()
     // Setup the Table Views
     m_CatalogModel = new QStandardItemModel(0, LAST_COLUMN);
 
+    QStringList columns;
+    for (auto &oneColumn : COLUMN_HEADERS)
+        columns << oneColumn.toString();
+
     // Setup the labels and tooltips for the header row of the table.
-    m_CatalogModel->setHorizontalHeaderLabels(COLUMN_HEADERS);
+    m_CatalogModel->setHorizontalHeaderLabels(columns);
     m_CatalogModel->horizontalHeaderItem(NAME_COLUMN)->setToolTip(
         i18n("Object Name--click header to sort ascending/descending."));
     m_CatalogModel->horizontalHeaderItem(
