@@ -91,6 +91,10 @@
             <driver name="AstroPhysics V2">indi_lx200ap_v2</driver>
             <version>1.1</version>
         </device>
+        <device label="AstroPhysics GTOCP2" manufacturer="Astrophysics">
+            <driver name="AstroPhysics GTOCP2">indi_lx200ap_legacy</driver>
+            <version>1.1</version>
+        </device>
         <device label="Pegasus NYX-101" manufacturer="Pegasus Astro">
             <driver name="Pegasus NYX-101">indi_lx200_pegasus_nyx101</driver>
             <version>2.2</version>
@@ -433,6 +437,10 @@
             <driver name="MyFocuserPro2">indi_myfocuserpro2_focus</driver>
             <version>1.0</version>
         </device>
+        <device label="Gemini EAF" manufacturer="Gemini">
+            <driver name="MyFocuserPro2">indi_myfocuserpro2_focus</driver>
+            <version>1.0</version>
+        </device>
         <device label="DeepSkyDad AF1" manufacturer="DeepSkyDad">
             <driver name="DeepSkyDad AF1">indi_deepskydad_af1_focus</driver>
             <version>1.0</version>
@@ -597,6 +605,10 @@
             <driver name="Alluna TCS2">indi_alluna_tcs2</driver>
             <version>1.0</version>
         </device>
+        <device label="Astromechanics FOC" manufacturer="Astromechanics">
+            <driver name="Astromechanics FOC">indi_astromechfoc</driver>
+            <version>0.2</version>
+        </device>
     </devGroup>
     <devGroup group="CCDs">
         <device label="CCD Simulator" mdpd="true" manufacturer="Simulator">
@@ -727,11 +739,11 @@
         </device>
         <device label="Pegasus PPBA" manufacturer="Pegasus Astro">
             <driver name="Pegasus PPBA">indi_pegasus_ppba</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
         <device label="Pegasus PPBM" manufacturer="Pegasus Astro">
             <driver name="Pegasus PPBM">indi_pegasus_ppba</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
         <device label="Pegasus UPB" manufacturer="Pegasus Astro">
             <driver name="Pegasus UPB">indi_pegasus_upb</driver>
@@ -877,6 +889,10 @@
             <driver name="Simulator IO">indi_simulator_io</driver>
             <version>1.0</version>
         </device>
+        <device label="Gemini Flatpanel" manufacturer="Gemini">
+            <driver name="Gemini Flatpanel">indi_gemini_flatpanel</driver>
+            <version>1.0</version>
+        </device>
     </devGroup>
     <devGroup group="Domes">
         <device label="ScopeDome Dome" manufacturer="ScopeDome">
@@ -998,14 +1014,6 @@
     </devGroup>
 </driversList>
 <driversList>
-    <devGroup group="Spectrographs">
-        <device label="XC Correlator" manufacturer="AHP">
-            <driver name="AHP XC Correlator">indi_ahp_xc</driver>
-            <version>1.0</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
     <devGroup group="Telescopes">
         <device label="AOK Skywalker" manufacturer="AOKSwiss/Magnetdrives">
             <driver name="LX200 AOK">indi_lx200aok</driver>
@@ -1024,14 +1032,6 @@
         <device label="Apogee CFW" manufacturer="Andor">
             <driver name="Agogee CFW">indi_apogee_wheel</driver>
             <version>1.9</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="Auxiliary">
-        <device label="ASI Power">
-            <driver name="ASI Power">indi_asi_power</driver>
-            <version>0.95</version>
         </device>
     </devGroup>
 </driversList>
@@ -1076,22 +1076,6 @@
         <device label="Oasis Filter Wheel" manufacturer="Astroasis">
             <driver name="Oasis Filter Wheel">indi_oasis_filter_wheel</driver>
             <version>1.1</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="Auxiliary">
-        <device label="AstroLink 4">
-            <driver name="AstroLink 4">indi_astrolink4</driver>
-            <version>0.7</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="Focusers">
-        <device label="Astromechanics FOC" manufacturer="Astromechanics">
-            <driver name="Astromechanics FOC">indi_astromechfoc</driver>
-            <version>0.2</version>
         </device>
     </devGroup>
 </driversList>
@@ -1149,15 +1133,7 @@
     <devGroup group="Telescopes">
         <device label="BRESSER Messier EXOS-2 EQ GoTo" manufacturer="BRESSER">
             <driver name="BRESSER Messier Exos-2 EQ GoTo">indi_bresserexos2</driver>
-            <version>0.901</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="CCDs">
-        <device label="Cam90 CCD" mdpd="true">
-            <driver name="Cam90 CCD">indi_cam90_ccd</driver>
-            <version>1.0</version>
+            <version>0.953</version>
         </device>
     </devGroup>
 </driversList>
@@ -1176,6 +1152,10 @@
             <version>1.4</version>
         </device>
         <device label="Celestron Evolution WiFi Wedge" manufacturer="Celestron">
+            <driver name="Celestron AUX">indi_celestron_aux</driver>
+            <version>1.4</version>
+        </device>
+        <device label="Celestron CPC Wired" manufacturer="Celestron">
             <driver name="Celestron AUX">indi_celestron_aux</driver>
             <version>1.4</version>
         </device>
@@ -1203,13 +1183,13 @@
             <driver name="Celestron AUX">indi_celestron_aux</driver>
             <version>1.4</version>
         </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="Focusers">
-        <device label="DreamFocuser" manufacturer="Astromaniak">
-            <driver name="DreamFocuser">indi_dreamfocuser_focus</driver>
-            <version>2.1</version>
+        <device label="Celestron Advanced GT Wired" manufacturer="Celestron">
+            <driver name="Celestron AUX">indi_celestron_aux</driver>
+            <version>1.4</version>
+        </device>
+        <device label="Celestron Advanced GT WiFi" manufacturer="Celestron">
+            <driver name="Celestron AUX">indi_celestron_aux</driver>
+            <version>1.4</version>
         </device>
     </devGroup>
 </driversList>
@@ -1487,21 +1467,21 @@
     <devGroup group="CCDs">
         <device label="MI CCD (USB)" manufacturer="Moravian Instruments">
             <driver name="MI CCD">indi_mi_ccd_usb</driver>
-            <version>2.1</version>
+            <version>2.2</version>
         </device>
         <device label="MI CCD (ETH)" manufacturer="Moravian Instruments">
             <driver name="MI CCD">indi_mi_ccd_eth</driver>
-            <version>2.1</version>
+            <version>2.2</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="MI SFW (USB)" manufacturer="Moravian Instruments">
             <driver name="MI SFW">indi_mi_sfw_usb</driver>
-            <version>2.1</version>
+            <version>2.2</version>
         </device>
         <device label="MI SFW (ETH)" manufacturer="Moravian Instruments">
             <driver name="MI SFW">indi_mi_sfw_eth</driver>
-            <version>2.1</version>
+            <version>2.2</version>
         </device>
     </devGroup>
 </driversList>
@@ -1525,7 +1505,7 @@
     <devGroup group="Domes">
         <device label="OCS" manufacturer="Other">
             <driver name="OCS">indi_ocs</driver>
-            <version>1.1</version>
+            <version>1.3</version>
         </device>
     </devGroup>
 </driversList>
@@ -1549,25 +1529,25 @@
     <devGroup group="CCDs">
         <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
-            <version>1.18</version>
+            <version>1.19</version>
         </device>
         <device label="PlayerOne Camera 1" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.18</version>
+            <version>1.19</version>
         </device>
         <device label="PlayerOne Camera 2" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.18</version>
+            <version>1.19</version>
         </device>
         <device label="PlayerOne Camera 3" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.18</version>
+            <version>1.19</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="PlayerOne EFW" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne EFW">indi_playerone_wheel</driver>
-            <version>1.18</version>
+            <version>1.19</version>
         </device>
     </devGroup>
 </driversList>
@@ -1709,139 +1689,139 @@
     <devGroup group="CCDs">
         <device label="Toupcam" mdpd="true" manufacturer="Toupcam">
             <driver name="Touptek">indi_toupcam_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Altair" mdpd="true" manufacturer="Altair">
             <driver name="Altair">indi_altair_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Bresser" mdpd="true" manufacturer="Bresser">
             <driver name="Bresser">indi_bressercam_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Mallincam" mdpd="true" manufacturer="Mallincam">
             <driver name="MALLINCAM">indi_mallincam_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Nncam" mdpd="true" manufacturer="Nn">
             <driver name="Nn">indi_nncam_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Ogmacam" mdpd="true" manufacturer="OGMAVision">
             <driver name="OGMAVision">indi_ogmacam_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="OmegonPro" mdpd="true" manufacturer="Omegon">
             <driver name="Astroshop">indi_omegonprocam_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="StartshootG" mdpd="true" manufacturer="Orion">
             <driver name="Orion">indi_starshootg_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Tscam" mdpd="true" manufacturer="Teleskop">
             <driver name="Teleskop">indi_tscam_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Meadecam" mdpd="true" manufacturer="Meade">
             <driver name="Meade">indi_meadecam_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Svbonycam" mdpd="true" manufacturer="SVBONY2">
             <driver name="SVBONY2">indi_svbonycam_ccd</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="Toupcam EFW" mdpd="true" manufacturer="Toupcam">
             <driver name="Touptek">indi_toupcam_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Altair EFW" mdpd="true" manufacturer="Altair">
             <driver name="Altair">indi_altair_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Bresser EFW" mdpd="true" manufacturer="Bresser">
             <driver name="Bresser">indi_bressercam_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Mallincam EFW" mdpd="true" manufacturer="Mallincam">
             <driver name="MALLINCAM">indi_mallincam_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Nncam EFW" mdpd="true" manufacturer="Nn">
             <driver name="Nn">indi_nncam_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Ogmacam EFW" mdpd="true" manufacturer="OGMAVision">
             <driver name="OGMAVision">indi_ogmacam_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="OmegonPro EFW" mdpd="true" manufacturer="Omegon">
             <driver name="Astroshop">indi_omegonprocam_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="StartshootG EFW" mdpd="true" manufacturer="Orion">
             <driver name="Orion">indi_starshootg_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Tscam EFW" mdpd="true" manufacturer="Teleskop">
             <driver name="Teleskop">indi_tscam_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Meadecam EFW" mdpd="true" manufacturer="Meade">
             <driver name="Meade">indi_meadecam_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Svbonycam EFW" mdpd="true" manufacturer="SVBONY2">
             <driver name="SVBONY2">indi_svbonycam_wheel</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
     </devGroup>
     <devGroup group="Focusers">
         <device label="Toupcam AAF" mdpd="true" manufacturer="Toupcam">
             <driver name="Touptek">indi_toupcam_focuser</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Altair AAF" mdpd="true" manufacturer="Altair">
             <driver name="Altair">indi_altair_focuser</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Bresser AAF" mdpd="true" manufacturer="Bresser">
             <driver name="Bresser">indi_bressercam_focuser</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Mallincam AAF" mdpd="true" manufacturer="Mallincam">
             <driver name="MALLINCAM">indi_mallincam_focuser</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Nncam AAF" mdpd="true" manufacturer="Nn">
             <driver name="Nn">indi_nncam_focuser</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Ogmacam AAF" mdpd="true" manufacturer="OGMAVision">
             <driver name="OGMAVision">indi_ogmacam_focuser</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="OmegonPro AAF" mdpd="true" manufacturer="Omegon">
             <driver name="Astroshop">indi_omegonprocam_focuser</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="StartshootG AAF" mdpd="true" manufacturer="Orion">
             <driver name="Orion">indi_starshootg_focuser</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Tscam AAF" mdpd="true" manufacturer="Teleskop">
             <driver name="Teleskop">indi_tscam_focuser</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Meadecam AAF" mdpd="true" manufacturer="Meade">
             <driver name="Meade">indi_meadecam_focuser</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
         <device label="Svbonycam AAF" mdpd="true" manufacturer="SVBONY">
             <driver name="SVBONY2">indi_svbonycam_focuser</driver>
-            <version>2.2</version>
+            <version>2.3</version>
         </device>
     </devGroup>
 </driversList>
@@ -1873,14 +1853,6 @@
     <devGroup group="CCDs">
         <device label="Cam90 CCD" mdpd="true">
             <driver name="Cam90 CCD">indi_cam90_ccd</driver>
-            <version>1.0</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="Spectrographs">
-        <device label="RTL-SDR" mdpd="false">
-            <driver name="RTL-SDR">indi_rtlsdr</driver>
             <version>1.0</version>
         </device>
     </devGroup>
