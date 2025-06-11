@@ -105,12 +105,12 @@ void Node::onError(QAbstractSocket::SocketError error)
 {
     qCritical(KSTARS_EKOS) << m_Name << "Websocket connection error from" << m_URL.toDisplayString() << ":" <<
                            m_WebSocket.errorString();
-    if (error == QAbstractSocket::RemoteHostClosedError ||
-            error == QAbstractSocket::ConnectionRefusedError)
-    {
-        if (m_ReconnectTries++ < RECONNECT_MAX_TRIES)
-            QTimer::singleShot(RECONNECT_INTERVAL, this, &Node::connectServer);
-    }
+
+    // When a websocket error occurs, the node is for all intents and purposes disconnected.
+    // The QWebSocket::disconnected signal should also be emitted, but we call onDisconnected()
+    // here to ensure the state is updated immediately and propagated to the NodeManager,
+    // which is responsible for any retry logic.
+    onDisconnected();
 }
 
 

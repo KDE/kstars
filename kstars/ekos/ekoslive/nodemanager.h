@@ -87,6 +87,9 @@ class NodeManager : public QObject
     protected slots:
         void onResult(QNetworkReply *reply);
 
+    private slots:
+        void retryAuthentication();
+
     private:
         QJsonObject m_AuthResponse;
         qlonglong m_tokenExpiryTimestamp {0}; // Store token expiry in seconds since epoch
@@ -100,8 +103,8 @@ class NodeManager : public QObject
 
         // Retry every 5 seconds in case remote server is down
         static const uint16_t RECONNECT_INTERVAL = 5000;
-        // Retry authentication up to 3 times
-        static const uint16_t RECONNECT_MAX_TRIES = 3;
+        // Retry authentication up to 12 times (1 minute)
+        static const uint16_t RECONNECT_MAX_TRIES = 12;
         // Throttle interval
         static const uint16_t THROTTLE_INTERVAL = 1000;
 };

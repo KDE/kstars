@@ -78,7 +78,7 @@ class Client : public QDialog, public Ui::EkosLiveDialog
         void onConnected();
         void onDisconnected();
         void processGlobalLogoutTrigger(const QUrl &url);
-        void checkAndTriggerAuth();
+        void checkAndTriggerAuth(bool force = false);
 
     private:
         Ekos::Manager *m_Manager { nullptr };
