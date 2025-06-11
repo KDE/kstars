@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-10 01:58+0000\n"
+"POT-Creation-Date: 2025-06-11 02:06+0000\n"
 "PO-Revision-Date: 2009-07-28 20:12+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -428,7 +428,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:386
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1292
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera_jobs.cpp:410
 #: ekos/scheduler/scheduler.cpp:2103
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -1118,7 +1118,7 @@ msgstr "Sólkerfis skoðari"
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1571 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1576 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1195,8 +1195,8 @@ msgstr "Jörðin"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:84 tools/imagingplanner.cpp:1546
-#: tools/imagingplanner.cpp:3092 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:85 tools/imagingplanner.cpp:1551
+#: tools/imagingplanner.cpp:3097 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2706,7 +2706,7 @@ msgstr "Slóð a?"
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3971
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
-#: ekos/capture/camera.cpp:1246 ekos/capture/camera.cpp:1301
+#: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2003
 #: ekos/scheduler/scheduler.cpp:2113 fitsviewer/fitstab.cpp:979
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -2729,7 +2729,7 @@ msgstr "Des Moines"
 msgid "Show webpage about "
 msgstr "Sýna vefsíðu um "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3237
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3242
 #, fuzzy, kde-format
 msgid "object"
 msgstr "Finna hlut"
@@ -2855,7 +2855,7 @@ msgstr ""
 msgid "Degrees"
 msgstr "Evergreen"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:83
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:84
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Tours"
@@ -2906,7 +2906,7 @@ msgstr "&Vestur"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2322 tools/imagingplanner.cpp:83
+#: ekos/capture/camera.ui:2322 tools/imagingplanner.cpp:84
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, fuzzy, kde-format
@@ -3285,7 +3285,7 @@ msgstr "Mynd"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1139 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:83 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:84 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -3948,7 +3948,7 @@ msgstr "0.0"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1781 ekos/capture/camera.cpp:1821
+#: ekos/capture/camera_device.cpp:907 ekos/capture/camera_device.cpp:949
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:446 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:597
@@ -6659,7 +6659,7 @@ msgstr "<i>arcmin</i>"
 msgid "dDE (arcsec)"
 msgstr "Parsons"
 
-#: ekos/align/align.cpp:3654 ekos/capture/camera.cpp:3438
+#: ekos/align/align.cpp:3654 ekos/capture/camera_config.cpp:717
 #: ekos/focus/focus.cpp:5606
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -6667,18 +6667,18 @@ msgstr "Parsons"
 msgid "Filter operation failed."
 msgstr "Caliente"
 
-#: ekos/align/align.cpp:3666 ekos/capture/camera.cpp:3936
+#: ekos/align/align.cpp:3666 ekos/capture/camera.cpp:585
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3673 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3941
+#: ekos/capture/camera.cpp:590
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3678 ekos/capture/camera.cpp:3946
+#: ekos/align/align.cpp:3678 ekos/capture/camera.cpp:595
 #, fuzzy, kde-format
 msgid "Auto focus on filter change..."
 msgstr "halastjarna"
@@ -6696,8 +6696,8 @@ msgid "Export Solution Points"
 msgstr "Þurrka út allir"
 
 #: ekos/align/align.cpp:3970 ekos/align/mountmodel.cpp:266
-#: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1245
-#: ekos/capture/camera.cpp:1300 ekos/guide/guidedriftgraph.cpp:501
+#: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
+#: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2002 ekos/scheduler/scheduler.cpp:2112
 #: fitsviewer/fitstab.cpp:978 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6715,7 +6715,7 @@ msgid "Unable to write to file %1"
 msgstr "Gat ekki vistað mynd: %1 "
 
 #: ekos/align/align.cpp:3980 ekos/align/mountmodel.cpp:286
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2942
+#: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:347
 #: ekos/capture/cameraprocess.cpp:2595 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3160
 #: ekos/scheduler/schedulerprocess.cpp:3507
@@ -7353,7 +7353,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Bæta við lista"
 
-#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2941
+#: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:346
 #: ekos/capture/cameraprocess.cpp:2594 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3506
 #: ekos/scheduler/schedulerprocess.cpp:4918
@@ -11651,8 +11651,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, exposureOptionsLabel)
 #. i18n: ectx: property (text), widget (QLabel, countLabel)
-#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.cpp:1061
-#: ekos/capture/camera.ui:1691 indi/collimationOptions.ui:440
+#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.ui:1691
+#: ekos/capture/camera_config.cpp:958 indi/collimationOptions.ui:440
 #, fuzzy, kde-format
 msgid "Count:"
 msgstr "Land:"
@@ -12197,7 +12197,7 @@ msgstr "halastjarna"
 msgid "Aligning..."
 msgstr "á "
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:853
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera_actions.cpp:213
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -14028,346 +14028,59 @@ msgstr ""
 msgid "Sky flats"
 msgstr "JPEG gæði"
 
-#: ekos/capture/camera.cpp:109 ekos/capture/camera.cpp:111
+#: ekos/capture/camera.cpp:78 ekos/capture/camera.cpp:80
 #, kde-format
 msgid "Capture Sequence Editor: %1"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/camera.cpp:120 ekos/capture/camera.ui:2768
+#: ekos/capture/camera.cpp:89 ekos/capture/camera.ui:2768
 #, fuzzy, kde-format
 msgid "sec"
 msgstr "sekúndur"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/capture/camera.cpp:121 ekos/capture/limits.ui:180
+#: ekos/capture/camera.cpp:90 ekos/capture/limits.ui:180
 #: ekos/guide/opsdither.ui:170 ekos/scheduler/opsalignmentsettings.ui:82
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "frames"
 msgstr "Nafn:"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4061
+#: ekos/capture/camera.cpp:139 ekos/capture/camera_jobs.cpp:258
 #, fuzzy, kde-format
 msgid "Add job to sequence queue"
 msgstr "Vista Mynd"
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4062
+#: ekos/capture/camera.cpp:140 ekos/capture/camera_jobs.cpp:259
 #, fuzzy, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Vista Mynd"
 
-#: ekos/capture/camera.cpp:524
+#: ekos/capture/camera.cpp:505
 #, fuzzy, kde-format
 msgid "Downloading..."
 msgstr "Hleð inn KStars..."
 
-#: ekos/capture/camera.cpp:640 ekos/capture/camera.cpp:641
+#: ekos/capture/camera.cpp:602
 #, fuzzy, kde-format
-msgid "Focus complete."
-msgstr "halastjarna"
+msgid "Filter set to %1."
+msgstr "Vistað í skrá: %1"
 
-#: ekos/capture/camera.cpp:645
-#, fuzzy, kde-format
-msgid "Autofocus failed."
-msgstr "halastjarna"
-
-#: ekos/capture/camera.cpp:832
-#, fuzzy, kde-format
-msgid "Capturing %1 x %2-second %3 video..."
-msgstr "Hleð inn KStars..."
-
-#: ekos/capture/camera.cpp:838
-#, fuzzy, kde-format
-msgid "Capturing %1-second %2 image..."
-msgstr "Hleð inn KStars..."
-
-#: ekos/capture/camera.cpp:907
+#: ekos/capture/camera.cpp:627
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/camera.cpp:910
+#: ekos/capture/camera.cpp:630
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
-
-#: ekos/capture/camera.cpp:945
-#, kde-format
-msgid "One dark flats job was created."
-msgid_plural "%1 dark flats jobs were created."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ekos/capture/camera.cpp:990
-#, kde-format
-msgid "Job #%1 changes applied."
-msgstr ""
-
-#: ekos/capture/camera.cpp:1001
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Framingham"
-msgid "Framing..."
-msgstr "Framingham"
-
-#: ekos/capture/camera.cpp:1012
-#, fuzzy, kde-format
-msgid "Captured image received"
-msgstr "Vista Mynd"
-
-#. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.cpp:1030 ekos/capture/camera.ui:2679
-#, fuzzy, kde-format
-msgid "Expose (-/-):"
-msgstr "Geislun:"
-
-#: ekos/capture/camera.cpp:1060
-#, fuzzy, kde-format
-#| msgid "Duration of night for selected date"
-msgid "Duration of the video sequence"
-msgstr "Lengd nætur fyrir valinn dag"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
-#. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
-#. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/camera.cpp:1060 ekos/capture/limits.ui:108
-#: ekos/capture/limits.ui:378 ekos/focus/focus.ui:713
-#, kde-format
-msgid "Number of images to capture"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera.cpp:1061 indi/recordingoptions.ui:40
-#, fuzzy, kde-format
-msgid "Duration:"
-msgstr "Dagur Tímalengd"
-
-#: ekos/capture/camera.cpp:1062
-#, fuzzy, kde-format
-#| msgid "Pause delay in seconds"
-msgid "Exposure time in seconds of a single video frame"
-msgstr "Bið í sekúndum"
-
-#: ekos/capture/camera.cpp:1063
-#, fuzzy, kde-format
-#| msgid "Pause delay in seconds"
-msgid "Exposure time in seconds for individual images"
-msgstr "Bið í sekúndum"
-
-#: ekos/capture/camera.cpp:1078
-#, fuzzy, kde-format
-msgid "Stop Sequence"
-msgstr "Tíðni:"
-
-#: ekos/capture/camera.cpp:1084
-#, fuzzy, kde-format
-msgid "Resume Sequence"
-msgstr "Tíðni:"
-
-#: ekos/capture/camera.cpp:1115
-#, fuzzy, kde-format
-msgid "Setting temperature to %1 °C..."
-msgstr "Ljósop:"
-
-#: ekos/capture/camera.cpp:1116
-#, fuzzy, kde-format
-msgid "Set Temp to %1 °C..."
-msgstr "Ljósop:"
-
-#: ekos/capture/camera.cpp:1120
-#, fuzzy, kde-format
-msgid "Waiting for guide drift below %1\"..."
-msgstr "Finna hlut"
-
-#: ekos/capture/camera.cpp:1121
-#, kde-format
-msgid "Wait for Guider < %1\"..."
-msgstr ""
-
-#: ekos/capture/camera.cpp:1125
-#, fuzzy, kde-format
-msgid "Setting camera to %1 degrees E of N..."
-msgstr "Ljósop:"
-
-#: ekos/capture/camera.cpp:1126
-#, fuzzy, kde-format
-#| msgid "Set Location..."
-msgid "Set Camera to %1 deg..."
-msgstr "Stilla staðsetningu..."
-
-#: ekos/capture/camera.cpp:1237
-#, fuzzy, kde-format
-msgctxt "@title:window"
-msgid "Open Ekos Sequence Queue"
-msgstr "Bæta við lista"
-
-#: ekos/capture/camera.cpp:1270
-#, fuzzy, kde-format
-msgctxt "@title:window"
-msgid "Save Ekos Sequence Queue"
-msgstr "Vista Mynd"
-
-#: ekos/capture/camera.cpp:1292
-#, kde-format
-msgid "Failed to save sequence queue"
-msgstr ""
-
-#: ekos/capture/camera.cpp:1349 ekos/capture/camera.cpp:2420
-#, fuzzy, kde-format
-msgid "Dark Flat"
-msgstr "Barnesville"
-
-#: ekos/capture/camera.cpp:2083 ekos/scheduler/framingassistant.cpp:220
-#, fuzzy, kde-format
-msgctxt "@title:window"
-msgid "FITS Save Directory"
-msgstr "Vista Mynd"
-
-#: ekos/capture/camera.cpp:2196
-#, kde-format
-msgid "Reset %1 configuration to default?"
-msgstr ""
-
-#: ekos/capture/camera.cpp:2198
-#, fuzzy, kde-format
-msgid "Confirmation"
-msgstr "Eyða Staðfesting"
-
-#: ekos/capture/camera.cpp:2397
-#, kde-format
-msgid "You must set local or remote directory for Remotely & Both modes."
-msgstr ""
-
-#: ekos/capture/camera.cpp:2403
-#, kde-format
-msgid "You must set local directory for Locally & Both modes."
-msgstr ""
-
-#: ekos/capture/camera.cpp:3598
-#, kde-format
-msgid "Paused..."
-msgstr ""
-
-#: ekos/capture/camera.cpp:3603
-#, fuzzy, kde-format
-msgid "Meridian Flip..."
-msgstr "Sól"
-
-#: ekos/capture/camera.cpp:3604
-#, fuzzy, kde-format
-msgid "Meridian flip started"
-msgstr "Sól"
-
-#: ekos/capture/camera.cpp:3608
-#, fuzzy, kde-format
-msgid "Flip complete."
-msgstr "halastjarna"
-
-#: ekos/capture/camera.cpp:3668
-#, kde-format
-msgctxt "Maximum temperature variation over time when regulating."
-msgid "Ramp (°C/min):"
-msgstr ""
-
-#: ekos/capture/camera.cpp:3674
-#, kde-format
-msgid ""
-"<html><body><p>Maximum temperature change per minute when cooling or warming "
-"the camera. Set zero to disable.<p>This setting is read from and stored in "
-"the INDI camera driver configuration.</body></html>"
-msgstr ""
-
-#: ekos/capture/camera.cpp:3679
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Freehold"
-msgctxt "Temperature threshold above which regulation triggers."
-msgid "Threshold (°C):"
-msgstr "Freehold"
-
-#: ekos/capture/camera.cpp:3685
-#, kde-format
-msgid ""
-"<html><body><p>Maximum difference between camera and target temperatures "
-"triggering regulation.<p>This setting is read from and stored in the INDI "
-"camera driver configuration.</body></html>"
-msgstr ""
-
-#: ekos/capture/camera.cpp:3698
-#, fuzzy, kde-format
-msgctxt "@title:window"
-msgid "Set Temperature Regulation"
-msgstr "Ljósop:"
-
-#: ekos/capture/camera.cpp:3738
-#, fuzzy, kde-format
-msgctxt "@title:window"
-msgid "Select Current Observer"
-msgstr "Staðvært/þjónn"
-
-#: ekos/capture/camera.cpp:3740
-#, fuzzy, kde-format
-msgid "Current Observer:"
-msgstr "Staðvært/þjónn"
-
-#. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3751 oal/execute.cpp:38 oal/observeradd.ui:26
-#, fuzzy, kde-format
-msgid "Manage Observers"
-msgstr "Staðvært/þjónn"
-
-#: ekos/capture/camera.cpp:3923
-#, kde-format
-msgid "Cooler is on"
-msgstr ""
-
-#: ekos/capture/camera.cpp:3923
-#, kde-format
-msgid "Cooler is off"
-msgstr ""
-
-#: ekos/capture/camera.cpp:3953
-#, fuzzy, kde-format
-msgid "Filter set to %1."
-msgstr "Vistað í skrá: %1"
-
-#: ekos/capture/camera.cpp:3986
-#, fuzzy, kde-format
-msgid "Are you sure you want to reset status of all jobs?"
-msgstr "tengill?"
-
-#: ekos/capture/camera.cpp:3986 ekos/capture/cameraprocess.cpp:2715
-#, fuzzy, kde-format
-msgid "Reset job status"
-msgstr "Eyða Staðfesting"
-
-#: ekos/capture/camera.cpp:4039
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
-msgid "Editing job #%1..."
-msgstr "Breyta tengli..."
-
-#: ekos/capture/camera.cpp:4042 ekos/scheduler/scheduler.cpp:1348
-#, kde-format
-msgid "Apply job changes."
-msgstr ""
-
-#: ekos/capture/camera.cpp:4043
-#, fuzzy, kde-format
-msgid "Cancel job changes."
-msgstr "Vista breytingar í skriftu?"
-
-#: ekos/capture/camera.cpp:4056
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
-msgid "Editing job canceled."
-msgstr "Breyta tengli..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
 #: ekos/capture/camera.ui:160
@@ -15076,6 +14789,12 @@ msgstr "Tíðni:"
 msgid "Total remaining:"
 msgstr "Hleð inn myndaslóðum"
 
+#. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
+#: ekos/capture/camera.ui:2679 ekos/capture/camera_actions.cpp:142
+#, fuzzy, kde-format
+msgid "Expose (-/-):"
+msgstr "Geislun:"
+
 #. i18n: ectx: property (text), widget (QLabel, frameRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, jobRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceRemainingTime)
@@ -15152,6 +14871,287 @@ msgstr "Gat ekki opnað skrá %1"
 #| msgid "Save Script As..."
 msgid "Save As..."
 msgstr "Vista skriftu sem..."
+
+#: ekos/capture/camera_actions.cpp:113
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Framingham"
+msgid "Framing..."
+msgstr "Framingham"
+
+#: ekos/capture/camera_actions.cpp:124
+#, fuzzy, kde-format
+msgid "Captured image received"
+msgstr "Vista Mynd"
+
+#: ekos/capture/camera_actions.cpp:192
+#, fuzzy, kde-format
+msgid "Capturing %1 x %2-second %3 video..."
+msgstr "Hleð inn KStars..."
+
+#: ekos/capture/camera_actions.cpp:198
+#, fuzzy, kde-format
+msgid "Capturing %1-second %2 image..."
+msgstr "Hleð inn KStars..."
+
+#: ekos/capture/camera_actions.cpp:280
+#, fuzzy, kde-format
+msgid "Stop Sequence"
+msgstr "Tíðni:"
+
+#: ekos/capture/camera_actions.cpp:286
+#, fuzzy, kde-format
+msgid "Resume Sequence"
+msgstr "Tíðni:"
+
+#: ekos/capture/camera_actions.cpp:316
+#, fuzzy, kde-format
+msgid "Setting temperature to %1 °C..."
+msgstr "Ljósop:"
+
+#: ekos/capture/camera_actions.cpp:317
+#, fuzzy, kde-format
+msgid "Set Temp to %1 °C..."
+msgstr "Ljósop:"
+
+#: ekos/capture/camera_actions.cpp:321
+#, fuzzy, kde-format
+msgid "Waiting for guide drift below %1\"..."
+msgstr "Finna hlut"
+
+#: ekos/capture/camera_actions.cpp:322
+#, kde-format
+msgid "Wait for Guider < %1\"..."
+msgstr ""
+
+#: ekos/capture/camera_actions.cpp:326
+#, fuzzy, kde-format
+msgid "Setting camera to %1 degrees E of N..."
+msgstr "Ljósop:"
+
+#: ekos/capture/camera_actions.cpp:327
+#, fuzzy, kde-format
+#| msgid "Set Location..."
+msgid "Set Camera to %1 deg..."
+msgstr "Stilla staðsetningu..."
+
+#: ekos/capture/camera_config.cpp:957
+#, fuzzy, kde-format
+#| msgid "Duration of night for selected date"
+msgid "Duration of the video sequence"
+msgstr "Lengd nætur fyrir valinn dag"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
+#. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
+#. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
+#: ekos/capture/camera_config.cpp:957 ekos/capture/limits.ui:108
+#: ekos/capture/limits.ui:378 ekos/focus/focus.ui:713
+#, kde-format
+msgid "Number of images to capture"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
+#: ekos/capture/camera_config.cpp:958 indi/recordingoptions.ui:40
+#, fuzzy, kde-format
+msgid "Duration:"
+msgstr "Dagur Tímalengd"
+
+#: ekos/capture/camera_config.cpp:959
+#, fuzzy, kde-format
+#| msgid "Pause delay in seconds"
+msgid "Exposure time in seconds of a single video frame"
+msgstr "Bið í sekúndum"
+
+#: ekos/capture/camera_config.cpp:960
+#, fuzzy, kde-format
+#| msgid "Pause delay in seconds"
+msgid "Exposure time in seconds for individual images"
+msgstr "Bið í sekúndum"
+
+#: ekos/capture/camera_config.cpp:987 ekos/scheduler/framingassistant.cpp:220
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "FITS Save Directory"
+msgstr "Vista Mynd"
+
+#: ekos/capture/camera_config.cpp:1029
+#, kde-format
+msgid "You must set local or remote directory for Remotely & Both modes."
+msgstr ""
+
+#: ekos/capture/camera_config.cpp:1035
+#, kde-format
+msgid "You must set local directory for Locally & Both modes."
+msgstr ""
+
+#: ekos/capture/camera_config.cpp:1163
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Select Current Observer"
+msgstr "Staðvært/þjónn"
+
+#: ekos/capture/camera_config.cpp:1165
+#, fuzzy, kde-format
+msgid "Current Observer:"
+msgstr "Staðvært/þjónn"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
+#: ekos/capture/camera_config.cpp:1176 oal/execute.cpp:38 oal/observeradd.ui:26
+#, fuzzy, kde-format
+msgid "Manage Observers"
+msgstr "Staðvært/þjónn"
+
+#: ekos/capture/camera_device.cpp:166
+#, kde-format
+msgctxt "Maximum temperature variation over time when regulating."
+msgid "Ramp (°C/min):"
+msgstr ""
+
+#: ekos/capture/camera_device.cpp:172
+#, kde-format
+msgid ""
+"<html><body><p>Maximum temperature change per minute when cooling or warming "
+"the camera. Set zero to disable.<p>This setting is read from and stored in "
+"the INDI camera driver configuration.</body></html>"
+msgstr ""
+
+#: ekos/capture/camera_device.cpp:177
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Freehold"
+msgctxt "Temperature threshold above which regulation triggers."
+msgid "Threshold (°C):"
+msgstr "Freehold"
+
+#: ekos/capture/camera_device.cpp:183
+#, kde-format
+msgid ""
+"<html><body><p>Maximum difference between camera and target temperatures "
+"triggering regulation.<p>This setting is read from and stored in the INDI "
+"camera driver configuration.</body></html>"
+msgstr ""
+
+#: ekos/capture/camera_device.cpp:196
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Set Temperature Regulation"
+msgstr "Ljósop:"
+
+#: ekos/capture/camera_device.cpp:221
+#, kde-format
+msgid "Cooler is on"
+msgstr ""
+
+#: ekos/capture/camera_device.cpp:221
+#, kde-format
+msgid "Cooler is off"
+msgstr ""
+
+#: ekos/capture/camera_device.cpp:713
+#, kde-format
+msgid "Reset %1 configuration to default?"
+msgstr ""
+
+#: ekos/capture/camera_device.cpp:715
+#, fuzzy, kde-format
+msgid "Confirmation"
+msgstr "Eyða Staðfesting"
+
+#: ekos/capture/camera_device.cpp:733 ekos/capture/camera_device.cpp:734
+#, fuzzy, kde-format
+msgid "Focus complete."
+msgstr "halastjarna"
+
+#: ekos/capture/camera_device.cpp:738
+#, fuzzy, kde-format
+msgid "Autofocus failed."
+msgstr "halastjarna"
+
+#: ekos/capture/camera_device.cpp:758
+#, kde-format
+msgid "Paused..."
+msgstr ""
+
+#: ekos/capture/camera_device.cpp:763
+#, fuzzy, kde-format
+msgid "Meridian Flip..."
+msgstr "Sól"
+
+#: ekos/capture/camera_device.cpp:764
+#, fuzzy, kde-format
+msgid "Meridian flip started"
+msgstr "Sól"
+
+#: ekos/capture/camera_device.cpp:768
+#, fuzzy, kde-format
+msgid "Flip complete."
+msgstr "halastjarna"
+
+#: ekos/capture/camera_jobs.cpp:162
+#, kde-format
+msgid "Job #%1 changes applied."
+msgstr ""
+
+#: ekos/capture/camera_jobs.cpp:183
+#, fuzzy, kde-format
+msgid "Are you sure you want to reset status of all jobs?"
+msgstr "tengill?"
+
+#: ekos/capture/camera_jobs.cpp:183 ekos/capture/cameraprocess.cpp:2715
+#, fuzzy, kde-format
+msgid "Reset job status"
+msgstr "Eyða Staðfesting"
+
+#: ekos/capture/camera_jobs.cpp:236
+#, fuzzy, kde-format
+#| msgid "Edit Link..."
+msgid "Editing job #%1..."
+msgstr "Breyta tengli..."
+
+#: ekos/capture/camera_jobs.cpp:239 ekos/scheduler/scheduler.cpp:1348
+#, kde-format
+msgid "Apply job changes."
+msgstr ""
+
+#: ekos/capture/camera_jobs.cpp:240
+#, fuzzy, kde-format
+msgid "Cancel job changes."
+msgstr "Vista breytingar í skriftu?"
+
+#: ekos/capture/camera_jobs.cpp:253
+#, fuzzy, kde-format
+#| msgid "Edit Link..."
+msgid "Editing job canceled."
+msgstr "Breyta tengli..."
+
+#: ekos/capture/camera_jobs.cpp:323
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Open Ekos Sequence Queue"
+msgstr "Bæta við lista"
+
+#: ekos/capture/camera_jobs.cpp:388
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Save Ekos Sequence Queue"
+msgstr "Vista Mynd"
+
+#: ekos/capture/camera_jobs.cpp:410
+#, kde-format
+msgid "Failed to save sequence queue"
+msgstr ""
+
+#: ekos/capture/camera_jobs.cpp:485 ekos/capture/camera_jobs.cpp:867
+#, fuzzy, kde-format
+msgid "Dark Flat"
+msgstr "Barnesville"
+
+#: ekos/capture/camera_jobs.cpp:905
+#, kde-format
+msgid "One dark flats job was created."
+msgid_plural "%1 dark flats jobs were created."
+msgstr[0] ""
+msgstr[1] ""
 
 #: ekos/capture/cameraprocess.cpp:214 ekos/capture/cameraprocess.cpp:632
 #, fuzzy, kde-format
@@ -29541,7 +29541,7 @@ msgid "Distance"
 msgstr "Plaisance"
 
 #: fitsviewer/fitstab.cpp:736 fitsviewer/fitsviewer.cpp:1413
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:83
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Sólarupprás:"
@@ -85119,8 +85119,8 @@ msgid "Object Set"
 msgstr "Finna hlut"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3109
-#: tools/imagingplanner.cpp:3120 tools/imagingplanner.cpp:3135
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3114
+#: tools/imagingplanner.cpp:3125 tools/imagingplanner.cpp:3140
 #, fuzzy, kde-format
 msgid "Transit"
 msgstr "tími:"
@@ -86157,120 +86157,120 @@ msgid ""
 "import region buttons.</li></ul></body></html>"
 msgstr ""
 
-#: tools/imagingplanner.cpp:84
+#: tools/imagingplanner.cpp:85
 #, fuzzy, kde-format
 msgid "Alt"
 msgstr ""
 "_: Stjörnuhæð\n"
 "Hæð"
 
-#: tools/imagingplanner.cpp:84
+#: tools/imagingplanner.cpp:85
 #, fuzzy, kde-format
 msgid "Const"
 msgstr "Concord"
 
-#: tools/imagingplanner.cpp:84
+#: tools/imagingplanner.cpp:85
 #, fuzzy, kde-format
 msgid "Coord"
 msgstr "Ógild hnit"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:185 tools/imagingplanner.ui:2057
+#: tools/imagingplanner.cpp:186 tools/imagingplanner.ui:2057
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Imaged"
 msgstr "Mynd"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:190 tools/imagingplanner.ui:2027
+#: tools/imagingplanner.cpp:191 tools/imagingplanner.ui:2027
 #, kde-format
 msgid "Picked"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:196 tools/imagingplanner.ui:2114
+#: tools/imagingplanner.cpp:197 tools/imagingplanner.ui:2114
 #, fuzzy, kde-format
 msgid "Ignored"
 msgstr "Hunsa"
 
-#: tools/imagingplanner.cpp:1020
+#: tools/imagingplanner.cpp:1021
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "Borg heiti a"
 
-#: tools/imagingplanner.cpp:1166
+#: tools/imagingplanner.cpp:1171
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1168
+#: tools/imagingplanner.cpp:1173
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1170
+#: tools/imagingplanner.cpp:1175
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1172
+#: tools/imagingplanner.cpp:1177
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1174
+#: tools/imagingplanner.cpp:1179
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1176
+#: tools/imagingplanner.cpp:1181
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1178
+#: tools/imagingplanner.cpp:1183
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1180
+#: tools/imagingplanner.cpp:1185
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1615
+#: tools/imagingplanner.cpp:1620
 #, fuzzy, kde-format
 #| msgid "Almanac"
 msgid "No match for \"%1\""
 msgstr "Dagatal"
 
-#: tools/imagingplanner.cpp:1679
+#: tools/imagingplanner.cpp:1684
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1684
+#: tools/imagingplanner.cpp:1689
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1689
+#: tools/imagingplanner.cpp:1694
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2024
+#: tools/imagingplanner.cpp:2029
 #, fuzzy, kde-format
 msgid "Updating tables..."
 msgstr "Hleð inn KStars..."
 
-#: tools/imagingplanner.cpp:2425
+#: tools/imagingplanner.cpp:2430
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -86278,191 +86278,191 @@ msgid ""
 "See Data -> Download New Data if not..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2428
+#: tools/imagingplanner.cpp:2433
 #, fuzzy, kde-format
 #| msgid "&Star Chart"
 msgid "No Catalog!"
 msgstr "&Stjörnukort"
 
-#: tools/imagingplanner.cpp:2474
+#: tools/imagingplanner.cpp:2479
 #, fuzzy, kde-format
 msgid "Select an object."
 msgstr "Hlutur tegund:"
 
-#: tools/imagingplanner.cpp:2476
+#: tools/imagingplanner.cpp:2481
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2478
+#: tools/imagingplanner.cpp:2483
 #, fuzzy, kde-format
 msgid "Load a Catalog."
 msgstr "Bæta við."
 
-#: tools/imagingplanner.cpp:2608
+#: tools/imagingplanner.cpp:2613
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2613
+#: tools/imagingplanner.cpp:2618
 #, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2619
+#: tools/imagingplanner.cpp:2624
 #, kde-format
 msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2625
+#: tools/imagingplanner.cpp:2630
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2630
+#: tools/imagingplanner.cpp:2635
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2773
+#: tools/imagingplanner.cpp:2778
 #, fuzzy, kde-format
 msgid "Loading Catalogs..."
 msgstr "Bæta við."
 
-#: tools/imagingplanner.cpp:3098
+#: tools/imagingplanner.cpp:3103
 #, fuzzy, kde-format
 msgid "Transits"
 msgstr "tími:"
 
-#: tools/imagingplanner.cpp:3103 tools/imagingplanner.cpp:3107
+#: tools/imagingplanner.cpp:3108 tools/imagingplanner.cpp:3112
 #, fuzzy, kde-format
 msgid "Sets at"
 msgstr "1"
 
-#: tools/imagingplanner.cpp:3114 tools/imagingplanner.cpp:3118
+#: tools/imagingplanner.cpp:3119 tools/imagingplanner.cpp:3123
 #, fuzzy, kde-format
 msgid "Rises at"
 msgstr "1"
 
-#: tools/imagingplanner.cpp:3125 tools/imagingplanner.cpp:3131
+#: tools/imagingplanner.cpp:3130 tools/imagingplanner.cpp:3136
 #, fuzzy, kde-format
 msgid "Rises"
 msgstr "Ris-tími:"
 
-#: tools/imagingplanner.cpp:3127 tools/imagingplanner.cpp:3133
+#: tools/imagingplanner.cpp:3132 tools/imagingplanner.cpp:3138
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3239 tools/imagingplanner.cpp:3495
+#: tools/imagingplanner.cpp:3244 tools/imagingplanner.cpp:3500
 #, fuzzy, kde-format
 msgid "objects"
 msgstr "Finna hlut"
 
-#: tools/imagingplanner.cpp:3491
+#: tools/imagingplanner.cpp:3496
 #, fuzzy, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr "%1 og %2"
 
-#: tools/imagingplanner.cpp:3499 tools/imagingplanner.cpp:3503
+#: tools/imagingplanner.cpp:3504 tools/imagingplanner.cpp:3508
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3500 tools/imagingplanner.cpp:3505
+#: tools/imagingplanner.cpp:3505 tools/imagingplanner.cpp:3510
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3509 tools/imagingplanner.cpp:3513
+#: tools/imagingplanner.cpp:3514 tools/imagingplanner.cpp:3518
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3510 tools/imagingplanner.cpp:3515
+#: tools/imagingplanner.cpp:3515 tools/imagingplanner.cpp:3520
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3520 tools/imagingplanner.cpp:3525
+#: tools/imagingplanner.cpp:3525 tools/imagingplanner.cpp:3530
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop ignoring %1"
 msgstr "S&töðva eftirför"
 
-#: tools/imagingplanner.cpp:3521 tools/imagingplanner.cpp:3527
+#: tools/imagingplanner.cpp:3526 tools/imagingplanner.cpp:3532
 #, fuzzy, kde-format
 msgid "Ignore %1"
 msgstr "Hunsa"
 
-#: tools/imagingplanner.cpp:3530
+#: tools/imagingplanner.cpp:3535
 #, fuzzy, kde-format
 msgid "Center %1 on SkyMap"
 msgstr "Miðja Lag"
 
-#: tools/imagingplanner.cpp:3532
+#: tools/imagingplanner.cpp:3537
 #, kde-format
 msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
 "SkyMap"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3672
+#: tools/imagingplanner.cpp:3677
 #, fuzzy, kde-format
 msgid "Successfully marked %1 objects as read"
 msgstr "villa."
 
-#: tools/imagingplanner.cpp:3674
+#: tools/imagingplanner.cpp:3679
 #, fuzzy, kde-format
 msgid "Empty file"
 msgstr "Inntaksskrá..."
 
-#: tools/imagingplanner.cpp:3683
+#: tools/imagingplanner.cpp:3688
 #, fuzzy, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "Sýna heiti merki?"
 
-#: tools/imagingplanner.cpp:3685
+#: tools/imagingplanner.cpp:3690
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3687
+#: tools/imagingplanner.cpp:3692
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3690
+#: tools/imagingplanner.cpp:3695
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3696 tools/imagingplanner.cpp:3946
+#: tools/imagingplanner.cpp:3701 tools/imagingplanner.cpp:3951
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Gat ekki opnað skrá %1"
 
-#: tools/imagingplanner.cpp:3810
+#: tools/imagingplanner.cpp:3815
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3931
+#: tools/imagingplanner.cpp:3936
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:4014
+#: tools/imagingplanner.cpp:4019
 #, fuzzy, kde-format
 msgctxt "@action:button"
 msgid "OK"
 msgstr "Í &lagi"
 
-#: tools/imagingplanner.cpp:4015
+#: tools/imagingplanner.cpp:4020
 #, fuzzy, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
