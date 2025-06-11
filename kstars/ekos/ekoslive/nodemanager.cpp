@@ -104,13 +104,15 @@ void NodeManager::setConnected()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void NodeManager::setDisconnected()
 {
-    auto node = qobject_cast<Node*>(sender());
+    auto node = qobject_cast<Node *>(sender());
     if (!node)
         return;
 
     // Only emit once all nodes are disconnected.
     if (isConnected() == false)
+    {
         emit disconnected();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -207,15 +209,17 @@ void NodeManager::onResult(QNetworkReply *reply)
         // If connection refused, retry up to 3 times
         if (reply->error() == QNetworkReply::ConnectionRefusedError && m_ReconnectTries++ < RECONNECT_MAX_TRIES)
         {
+            qCInfo(KSTARS_EKOS) << "NodeManager for" << m_ServiceURL.toDisplayString() << "failed to connect. Retrying in" <<
+                                RECONNECT_INTERVAL << "ms. Attempt" << m_ReconnectTries;
             reply->deleteLater();
-            QTimer::singleShot(RECONNECT_INTERVAL, this, &NodeManager::authenticate);
+            QTimer::singleShot(RECONNECT_INTERVAL, this, &NodeManager::retryAuthentication);
             return;
         }
 
         m_ReconnectTries = 0;
         // Reset flag on authentication error
         setIsReauthenticating(false);
-        emit authenticationError(i18n("Error authentication with Ekos Live server: %1", reply->errorString()));
+        emit authenticationError(i18n("Error authenticating with EkosLive server: %1", reply->errorString()));
         reply->deleteLater();
         return;
     }
@@ -275,6 +279,17 @@ void NodeManager::onResult(QNetworkReply *reply)
     }
 
     reply->deleteLater();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void NodeManager::retryAuthentication()
+{
+    // This is called by a timer after a failed connection attempt.
+    // Reset the re-authenticating flag to allow the new attempt to proceed.
+    setIsReauthenticating(false);
+    authenticate();
 }
 
 }
