@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-11 02:06+0000\n"
-"PO-Revision-Date: 2025-06-05 22:13+0200\n"
+"POT-Creation-Date: 2025-06-12 01:59+0000\n"
+"PO-Revision-Date: 2025-06-10 06:10+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.1\n"
+"X-Generator: Lokalize 25.04.2\n"
 "X-Accelerator-Marker: &\n"
 
 # Diccionari de termes astronòmics:
@@ -13479,7 +13479,7 @@ msgstr "Port"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:381
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:396
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13490,7 +13490,7 @@ msgstr "Connecta"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:324
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:339
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -18369,28 +18369,28 @@ msgstr "S'està parant"
 msgid "Stopped"
 msgstr "Parada"
 
-#: ekos/ekoslive/ekosliveclient.cpp:465
+#: ekos/ekoslive/ekosliveclient.cpp:480
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Seleccioneu els servidors Ekos Live"
 
-#: ekos/ekoslive/ekosliveclient.cpp:467
+#: ekos/ekoslive/ekosliveclient.cpp:482
 #, kde-format
 msgid "Observatory:"
 msgstr "Observatori:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:468
+#: ekos/ekoslive/ekosliveclient.cpp:483
 #, kde-format
 msgid "Offline:"
 msgstr "Desconnectat:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:469
+#: ekos/ekoslive/ekosliveclient.cpp:484
 #, kde-format
 msgid "Online:"
 msgstr "Connectat:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:470
+#: ekos/ekoslive/ekosliveclient.cpp:485
 #, kde-format
 msgid "Machine ID:"
 msgstr "ID de la màquina:"
@@ -18459,12 +18459,13 @@ msgstr "Objectiu"
 msgid "Mosaic import failed."
 msgstr "Ha fallat la importació del mosaic."
 
-#: ekos/ekoslive/nodemanager.cpp:218
-#, kde-format
-msgid "Error authentication with Ekos Live server: %1"
+#: ekos/ekoslive/nodemanager.cpp:222
+#, fuzzy, kde-format
+#| msgid "Error authentication with Ekos Live server: %1"
+msgid "Error authenticating with EkosLive server: %1"
 msgstr "S'ha produït un error d'autenticació amb el servidor Ekos Live: %1"
 
-#: ekos/ekoslive/nodemanager.cpp:231
+#: ekos/ekoslive/nodemanager.cpp:235
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr ""
@@ -19934,7 +19935,7 @@ msgstr "No s'ha seleccionat cap estrela. S'interromp…"
 #: ekos/focus/focus.cpp:5296
 #, kde-format
 msgid "Focuser already at %1..."
-msgstr "L'enfocador ja es troba a %1.."
+msgstr "L'enfocador ja es troba a %1…"
 
 #: ekos/focus/focus.cpp:5395
 #, kde-format
@@ -20471,7 +20472,7 @@ msgstr "S'han detectat estreles, s'està centrant l'interval"
 msgid "Find Stars Run %1: No stars at start %2, scanning..."
 msgstr ""
 "Execució %1 de «Troba les estreles»: no hi ha cap estrela al començament de "
-"%2, s'està buscant"
+"%2, s'està buscant…"
 
 #: ekos/focus/focusadvisor.cpp:852
 #, kde-format
@@ -41396,7 +41397,7 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
-"Quin algorisme s'ha d'utilitzar per a calcular els polsos del guiatge per a "
+"Quin algorisme s'ha d'utilitzar per a calcular els polsos de guiatge per a "
 "l'AR (0 estàndard, 1 histèresi, 2 lineal, 3 GPG)."
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
@@ -41406,7 +41407,7 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
-"Quin algorisme s'ha d'utilitzar per a calcular els polsos del guiatge per a "
+"Quin algorisme s'ha d'utilitzar per a calcular els polsos de guiatge per a "
 "la Dec (0 estàndard, 1 histèresi, 2 lineal)."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
@@ -85899,7 +85900,7 @@ msgstr "Coordenades aparents:"
 #: tools/modcalcapcoord.ui:346
 #, kde-format
 msgid "+00d 00' 00.0\""
-msgstr "+00d 00' 00.0\""
+msgstr "+00 d 00' 00,0\""
 
 #. i18n: ectx: property (text), widget (QLabel, RA)
 #: tools/modcalcapcoord.ui:374
@@ -87048,7 +87049,7 @@ msgstr "Guarda la llista d'observació actual al disc."
 #: tools/observinglist.ui:139
 #, kde-format
 msgid "Save observing session as..."
-msgstr "Es guarda la sessió d'observació com a."
+msgstr "Anomena i guarda la sessió d'observació…"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveAsButton)

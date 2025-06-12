@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-11 02:06+0000\n"
+"POT-Creation-Date: 2025-06-12 01:59+0000\n"
 "PO-Revision-Date: 2024-08-14 00:39+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi.pub@gmail.com>\n"
 "Language-Team: fa\n"
@@ -13548,7 +13548,7 @@ msgstr "درگاه"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:381
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:396
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13559,7 +13559,7 @@ msgstr "اتصال"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:324
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:339
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -18249,35 +18249,35 @@ msgstr "ایست در &ردگیری‌"
 msgid "Stopped"
 msgstr "هندی"
 
-#: ekos/ekoslive/ekosliveclient.cpp:465
+#: ekos/ekoslive/ekosliveclient.cpp:480
 #, fuzzy, kde-format
 #| msgid "Stop Service"
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "ایست خدمت"
 
-#: ekos/ekoslive/ekosliveclient.cpp:467
+#: ekos/ekoslive/ekosliveclient.cpp:482
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Meudon (observatory)"
 msgid "Observatory:"
 msgstr "مئودون )رصدخانه("
 
-#: ekos/ekoslive/ekosliveclient.cpp:468
+#: ekos/ekoslive/ekosliveclient.cpp:483
 #, fuzzy, kde-format
 #| msgctxt "Region/state name (optional, rarely needs a translation)"
 #| msgid "Maine"
 msgid "Offline:"
 msgstr "مین"
 
-#: ekos/ekoslive/ekosliveclient.cpp:469
+#: ekos/ekoslive/ekosliveclient.cpp:484
 #, fuzzy, kde-format
 #| msgctxt "Region/state name (optional, rarely needs a translation)"
 #| msgid "Maine"
 msgid "Online:"
 msgstr "مین"
 
-#: ekos/ekoslive/ekosliveclient.cpp:470
+#: ekos/ekoslive/ekosliveclient.cpp:485
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Mali"
@@ -18359,12 +18359,13 @@ msgstr "شاردن"
 msgid "Mosaic import failed."
 msgstr "خرابی در ذخیره تصویر %1."
 
-#: ekos/ekoslive/nodemanager.cpp:218
-#, kde-format
-msgid "Error authentication with Ekos Live server: %1"
-msgstr ""
+#: ekos/ekoslive/nodemanager.cpp:222
+#, fuzzy, kde-format
+#| msgid "Error: Unable to save image: %1 "
+msgid "Error authenticating with EkosLive server: %1"
+msgstr "خطا: ناتوانی در ذخیره تصویر: %1"
 
-#: ekos/ekoslive/nodemanager.cpp:231
+#: ekos/ekoslive/nodemanager.cpp:235
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error parsing server response: %1"
