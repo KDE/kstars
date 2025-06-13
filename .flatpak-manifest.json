@@ -1,0 +1,369 @@
+{
+    "id": "org.kde.kstars",
+    "branch": "master",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "6.9",
+    "sdk": "org.kde.Sdk",
+    "command": "kstars",
+    "rename-icon": "kstars",
+    "tags": ["nightly"],
+    "desktop-file-name-suffix": " (Nightly)",
+    "finish-args": [
+        "--share=ipc",
+        "--socket=x11",
+        "--socket=wayland",
+        "--socket=pulseaudio",
+        "--share=network",
+        "--device=all",
+        "--filesystem=host",
+        "--system-talk-name=org.freedesktop.PolicyKit1",
+        "--system-talk-name=org.bluez",
+        "--talk-name=org.freedesktop.Notifications",
+        "--filesystem=xdg-run/dconf",
+        "--filesystem=~/.config/dconf:ro",
+        "--talk-name=ca.desrt.dconf",
+        "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+        "--env=GSCDAT=/app/share/GSC",
+        "--filesystem=home",
+        "--talk-name=org.kde.*",
+        "--talk-name=org.freedesktop.DBus",
+        "--system-talk-name=org.freedesktop.DBus",
+        "--own-name=org.kde.*",
+        "--system-talk-name=org.freedesktop.UPower",
+        "--system-talk-name=org.freedesktop.login1",
+        "--system-talk-name=org.freedesktop.NetworkManager",
+        "--system-talk-name=org.freedesktop.UDisks2"
+    ],
+    "modules": [
+        {
+            "name": "eigen",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.bz2",
+                    "sha256": "b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 666,
+                        "stable-only": true,
+                        "url-template": "https://gitlab.com/libeigen/eigen/-/archive/$version/eigen-$version.tar.bz2"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "gsl",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.savannah.gnu.org/gsl.git"
+                }
+            ]
+        },
+        {
+            "name": "cfitsio",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio-4.2.0.tar.gz",
+                    "sha256": "eba53d1b3f6e345632bb09a7b752ec7ced3d63ec5153a848380f3880c5d61889"
+                }
+            ]
+        },
+        {
+            "name": "wcslib",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://src.rrz.uni-hamburg.de/files/src/wcslib/wcslib-7.10.tar.bz2",
+                    "sha256": "1796b0979df950ba7eae1010b986134067187846892b8e9b3c42d30361c9d929"
+                }
+            ]
+        },
+        {
+            "name": "stellarsolver",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "config-opts": ["-DUSE_QT5=OFF"],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/rlancaste/stellarsolver.git"
+                }
+            ]
+        },
+        {
+            "name": "libev",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://dist.schmorp.de/libev/Attic/libev-4.33.tar.gz",
+                    "sha256": "507eb7b8d1015fbec5b935f34ebed15bf346bed04a11ab82b8eee848c4205aea"
+                }
+            ],
+            "buildsystem": "autotools"
+        },
+        {
+            "name": "libnova",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://netix.dl.sourceforge.net/project/libnova/libnova/v%200.15.0/libnova-0.15.0.tar.gz?viasf=1",
+                    "sha256": "7c5aa33e45a3e7118d77df05af7341e61784284f1e8d0d965307f1663f415bb1"
+                }
+            ],
+            "buildsystem": "simple",
+            "build-commands": [
+                "autoreconf -fi",
+                "./configure --prefix=/app",
+                "make",
+                "make install"
+            ]
+        },
+        {
+            "name": "libusb",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2",
+                    "sha256": "12ce7a61fc9854d1d2a1ffe095f7b5fac19ddba095c259e6067a46500381b5a5"
+                }
+            ]
+        },
+        {
+            "name": "libraw",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://www.libraw.org/data/LibRaw-0.21.4.tar.gz",
+                    "sha256": "6be43f19397e43214ff56aab056bf3ff4925ca14012ce5a1538a172406a09e63"
+                }
+            ]
+        },
+        {
+            "name": "gsc",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://git.launchpad.net/gsc"
+                }
+            ]
+        },
+        {
+            "name": "libXISF",
+            "buildsystem": "cmake",
+            "config-opts": [
+                "-DUSE_BUNDLED_ZLIB=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitea.nouspiro.space/nou/libXISF.git",
+                    "branch": "ubuntu"
+                }
+            ]
+        },
+        {
+            "name": "indi",
+            "buildsystem": "cmake",
+            "config-opts": [
+                "-DINDI_INSTALL_UDEV_RULES=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/indilib/indi.git"
+                }
+            ]
+        },
+        {
+            "name": "libconfuse",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/libconfuse/libconfuse/releases/download/v3.3/confuse-3.3.tar.xz",
+                    "sha256": "1dd50a0320e135a55025b23fcdbb3f0a81913b6d0b0a9df8cc2fdf3b3dc67010"
+                }
+            ]
+        },
+        {
+            "name": "libftdi1",
+            "buildsystem": "cmake",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://developer.intra2net.com/libftdi"
+                }
+            ]
+        },
+        {
+            "name": "libdc1394",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://deac-riga.dl.sourceforge.net/project/libdc1394/libdc1394-2/2.2.6/libdc1394-2.2.6.tar.gz?viasf=1",
+                    "sha256": "2b905fc9aa4eec6bdcf6a2ae5f5ba021232739f5be047dec8fe8dd6049c10fed"
+                }
+            ]
+        },
+        {
+            "name": "libraw1394",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://www.kernel.org/pub/linux/libs/ieee1394/libraw1394-2.1.2.tar.xz",
+                    "sha256": "03ccc69761d22c7deb1127fc301010dd13e70e44bb7134b8ff0d07590259a55e"
+                }
+            ]
+        },
+        {
+            "name": "libgd",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DBUILD_SHARED_LIBS=ON"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.gz",
+                    "sha256": "dd3f1f0bb016edcc0b2d082e8229c822ad1d02223511997c80461481759b1ed2"
+                }
+            ]
+        },
+        {
+            "name": "libgphoto",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/gphoto/libgphoto2.git"
+                }
+            ]
+        },
+        {
+            "name": "limesuite",
+            "buildsystem": "cmake",
+            "builddir": true,
+            "config-opts": [
+                "-DCMAKE_INSTALL_PREFIX=/app",
+                "-DCMAKE_BUILD_TYPE=Release"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/myriadrf/LimeSuite.git"
+                }
+            ]
+        },
+        {
+            "name": "scons",
+            "buildsystem": "simple",
+            "build-commands": [
+                "export SETUPTOOLS_DISABLE_VERSIONED_EASY_INSTALL_SCRIPT=1",
+                "python3 setup.py install --prefix=/app --single-version-externally-managed --root=/",
+                "printf '#!/usr/bin/env python3\\nfrom SCons.Script import main\\nmain()\\n' > /app/bin/scons",
+                "chmod +x /app/bin/scons"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://files.pythonhosted.org/packages/c8/c1/30176c76c1ef723fab62e5cdb15d3c972427a146cb6f868748613d7b25af/scons-4.9.1.tar.gz",
+                    "sha256": "bacac880ba2e86d6a156c116e2f8f2bfa82b257046f3ac2666c85c53c615c338"
+                }
+            ]
+        },
+        {
+            "name": "gpsd",
+            "buildsystem": "simple",
+            "builddir": true,
+            "build-commands": [
+                "scons prefix=/app",
+                "find . -name 'libgps.so' -exec install -Dm755 {} /app/lib/libgps.so \\;",
+                "install -Dm644 include/gps.h /app/include/gps.h",
+                "install -Dm644 include/libgps.h /app/include/libgps.h",
+                "install -Dm644 include/libgpsmm.h /app/include/libgpsmm.h"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.savannah.gnu.org/releases/gpsd/gpsd-3.26.1.tar.gz",
+                    "sha256": "dc7e465968c1540e61bc57c7586d6a57a0047212a014efdad348f907bc2e0990"
+                }
+            ]
+        },
+        {
+            "name": "zeromq",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/zeromq/libzmq/releases/download/v4.3.5/zeromq-4.3.5.tar.gz",
+                    "sha256": "6653ef5910f17954861fe72332e68b03ca6e4d9c7160eb3a8de5a5a913bfab43"
+                }
+            ],
+            "config-opts": [
+                "--prefix=/app"
+            ]
+        },
+        {
+            "name": "indi-3rd-party-libraries",
+            "buildsystem": "cmake",
+            "config-opts": [
+                "-DBUILD_LIBS=ON",
+                "-DINDI_INSTALL_UDEV_RULES=OFF",
+                "-DINDI_INSTALL_FIRMWARE=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/indilib/indi-3rdparty.git",
+                    "branch": "master"
+                }
+            ]
+        },
+        {
+            "name": "indi-3rd-party-drivers",
+            "buildsystem": "cmake",
+            "config-opts": [
+                "-DBUILD_LIBS=OFF",
+                "-DCMAKE_PREFIX_PATH=/app",
+                "-DINDI_INSTALL_UDEV_RULES=OFF",
+                "-DINDI_INSTALL_FIRMWARE=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/indilib/indi-3rdparty.git",
+                    "branch": "master"
+                }
+            ]
+        },
+        {
+            "name": "kstars",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DBUILD_TESTING=OFF",
+                "-DBUILD_QT5=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "/home/jasem/Projects/kstars"
+                }
+            ]
+        }
+    ]
+}

@@ -31,6 +31,7 @@ build_kstarslite/android_libs_src/libnova/build/*
 
 CMakeLists.txt.user
 
+.flatpak-builder
 build
 moc_*.cpp
 kstars/ui_*.h

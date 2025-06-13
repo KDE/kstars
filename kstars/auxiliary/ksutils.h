@@ -56,6 +56,9 @@ namespace KSUtils
 // right now the only check is architecture. arm processors are limited while x86 are sufficient
 bool isHardwareLimited();
 
+// Check if we are running inside a flatpak
+bool isFlatpak();
+
 /** Attempt to open the data file named filename, using the QFile object "file".
  *First look in the standard KDE directories, then look in a local "data"
  *subdirectory.  If the data file cannot be found or opened, display a warning

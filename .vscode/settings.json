@@ -1,5 +1,5 @@
 {
-  "cmake.configureArgs": ["-DBUILD_TESTING=OFF", "-DBUILD_DOCS=OFF"],
+  "cmake.configureArgs": ["-DBUILD_TESTING=OFF", "-BUILD_QT5=OFF"],
   "files.associations": {
     "*.js": "javascriptreact",
     "*.tcc": "cpp",

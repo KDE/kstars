@@ -53,6 +53,11 @@ bool isHardwareLimited()
 #endif
 }
 
+bool isFlatpak()
+{
+    return QProcessEnvironment::systemEnvironment().contains("FLATPAK_ID");
+}
+
 bool openDataFile(QFile &file, const QString &s)
 {
     QString FileName = KSPaths::locate(QStandardPaths::AppLocalDataLocation, s);
@@ -1099,7 +1104,6 @@ QString getDefaultPath(const QString &option)
     // The path should accomodate the differences between the different
     // packaging solutions
     QString snap   = QProcessEnvironment::systemEnvironment().value("SNAP");
-    QString flat   = QProcessEnvironment::systemEnvironment().value("FLATPAK_ID");
     QString appimg = QProcessEnvironment::systemEnvironment().value("APPDIR");
 
     // User prefix is the primary mounting point
@@ -1110,12 +1114,13 @@ QString getDefaultPath(const QString &option)
     if (QProcessEnvironment::systemEnvironment().value("APPIMAGE").isEmpty() == false &&
             appimg.isEmpty() == false)
         prefix = appimg + userPrefix;
-    else if (flat.isEmpty() == false)
+    else if (isFlatpak())
         // Detect if we are within a Flatpak
         prefix = "/app";
     // Detect if we are within a snap
     else if (snap.isEmpty() == false)
         prefix = snap + userPrefix;
+
 
     if (option == "fitsDir")
     {
