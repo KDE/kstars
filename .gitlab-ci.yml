@@ -31,15 +31,7 @@ include:
 #       allow_failure: true
 
 # Standard build recipes
-
-suse_tumbleweed_qt515:
-  rules:
-    - !reference [.standard-build-recipes, rules]
-
-windows_qt515:
-  rules:
-    - !reference [.standard-build-recipes, rules]
-    
+   
 suse_tumbleweed_qt69:
   allow_failure: true
   rules:
@@ -51,25 +43,6 @@ windows_qt68:
     - !reference [.standard-build-recipes, rules]
 
 # Craft recipes
-
-craft_appimage_qt515_x86_64:
-  needs:
-    - suse_tumbleweed_qt515
-  rules:
-    - !reference [.craft-recipes, rules]
-
-craft_windows_qt515_x86_64:
-  needs:
-    - windows_qt515
-  rules:
-    - !reference [.craft-recipes, rules]
-
-craft_macos_x86_64:
-  timeout: 2h # Signing procedure often exceeds the default 1h
-  needs:
-    - suse_tumbleweed_qt515 # we don't have a macos check build
-  rules:
-    - !reference [.craft-recipes, rules]
     
 craft_windows_qt6_x86_64:
   needs:
@@ -97,11 +70,12 @@ craft_macos_qt6_x86_64:
 
 # Publishing recipes
 
-microsoftstore_qt515:
-  needs:
-    - craft_windows_qt515_x86_64
-  rules:
-    - !reference [.publishing-recipes, rules]
+# TODO Update to microsoftpublish for Qt6
+# microsoftstore_qt515:
+#   needs:
+#     - craft_windows_qt515_x86_64
+#   rules:
+#     - !reference [.publishing-recipes, rules]
 
 # Custom build recipes - until tests are operational in the KDE CI image
 
@@ -134,10 +108,10 @@ build:
   stage: build
   extends: .custom_build
   needs:
-    - suse_tumbleweed_qt515
+    - suse_tumbleweed_qt69
   script:
     - cd kstars-build
-    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=OFF -DBUILD_DOC=OFF ..
+    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=OFF -DBUILD_DOC=OFF -DBUILD_QT5=OFF ..
     - ninja -j8 all install
 
 # Run the full validation in one step, stable tests that must not fail
@@ -154,7 +128,7 @@ build-and-test-stable:
     BUILD_TESTING: "ON"
   script:
     - cd kstars-build
-    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=ON -DBUILD_DOC=ON ..
+    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=ON -DBUILD_QT5=OFF ..
     - ninja -j8 all install
     - rm -rf Testing
     - mkdir -p /var/run/dbus
@@ -172,33 +146,3 @@ build-and-test-stable:
     reports:
       junit:
         ./junit_result.stable.xml
-
-# Run the full validation in one step, unstable tests still in development
-# build-and-test-unstable:
-#   stage: test-unstable
-#   interruptible: true
-#   allow_failure: true
-#   only:
-#     - merge_requests
-#   variables:
-#     BUILD_TESTING: "ON"
-#   before_script:
-#     - *build_recipe
-#   script:
-#     - rm -rf Testing
-#     - mkdir -p /var/run/dbus
-#     - dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
-#     - dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
-#     - apt install -y --no-install-recommends dbus-x11
-#     - export $(dbus-launch)
-#     - dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
-#     - xvfb-run ctest -T test -LE stable --output-on-failure --no-compress-output
-#   after_script:
-#     - pwd
-#     - saxon-xslt -u $(find . -name Test.xml) https://raw.githubusercontent.com/rpavlik/jenkins-ctest-plugin/master/ctest-to-junit.xsl > ./junit_result.unstable.xml
-#     - ccache -s
-#   artifacts:
-#     reports:
-#       junit:
-#         ./junit_result.unstable.xml
-#
