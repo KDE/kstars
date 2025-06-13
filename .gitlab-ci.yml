@@ -6,6 +6,7 @@ stages:
   - build
   - test
   #- test-unstable
+  - validate
   - deploy
   - publish
 
@@ -13,21 +14,13 @@ include:
   - local: '.gitlab-ci/common_rules.yml'
   - project: sysadmin/ci-utilities
     file:
-      
       - /gitlab-templates/linux-qt6.yml
       - /gitlab-templates/windows-qt6.yml
       - /gitlab-templates/flatpak.yml
       - /gitlab-templates/craft-windows-x86-64-qt6.yml
+      - /gitlab-templates/craft-windows-appx-qt6.yml
       - /gitlab-templates/craft-macos-x86-64-qt6.yml
-      #- /gitlab-templates/linux.yml
-      #- /gitlab-templates/windows.yml
-      #- /gitlab-templates/android.yml
-      #- /gitlab-templates/craft-appimage.yml
-      #- /gitlab-templates/craft-windows-x86-64.yml
-      #- /gitlab-templates/craft-macos-x86-64.yml
-      #- /gitlab-templates/craft-windows-appx-qt5.yml
-      # - /gitlab-templates/reuse-lint.yml
-      
+      - /gitlab-templates/craft-macos-arm64-qt6.yml
 
 # Jobs
 
@@ -44,6 +37,16 @@ suse_tumbleweed_qt515:
     - !reference [.standard-build-recipes, rules]
 
 windows_qt515:
+  rules:
+    - !reference [.standard-build-recipes, rules]
+    
+suse_tumbleweed_qt69:
+  allow_failure: true
+  rules:
+    - !reference [.standard-build-recipes, rules]
+
+windows_qt68:
+  allow_failure: true
   rules:
     - !reference [.standard-build-recipes, rules]
 
@@ -67,6 +70,30 @@ craft_macos_x86_64:
     - suse_tumbleweed_qt515 # we don't have a macos check build
   rules:
     - !reference [.craft-recipes, rules]
+    
+craft_windows_qt6_x86_64:
+  needs:
+    - windows_qt68
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
+      when: always
+    - when: manual
+      allow_failure: true
+      
+craft_macos_qt6_x86_64:
+  timeout: 2h # Signing procedure often exceeds the default 1h
+  needs:
+    - suse_tumbleweed_qt69 # we don't have a macos check build
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      allow_failure: true # MacOS build is unstable
+      when: always
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
+      when: always
+    - when: manual
+      allow_failure: true
 
 # Publishing recipes
 

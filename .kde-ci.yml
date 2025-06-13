@@ -2,29 +2,54 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 Dependencies:
-- 'on': ['@all']
+- 'on': ['Linux/Qt5', 'FreeBSD/Qt5', 'Windows/Qt5', 'macOS/Qt5']
   'require':
     'frameworks/extra-cmake-modules': '@stable'
     'frameworks/kconfig': '@stable'
     'frameworks/kguiaddons': '@stable'
     'frameworks/ki18n': '@stable'
+    'frameworks/kinit': '@stable'
     'frameworks/kplotting': '@stable'
+    'libs/stellarsolver': '@stable'
 
-- 'on': ['Linux','Windows']
+- 'on': ['Linux/Qt5','Windows/Qt5']
   'require':
     'frameworks/breeze-icons': '@stable'
     'frameworks/kcrash': '@stable'
     'frameworks/kdoctools': '@stable'
-    'frameworks/kinit': '@stable'
     'frameworks/knewstuff': '@stable'
     'frameworks/knotifications': '@stable'
     'frameworks/knotifyconfig': '@stable'
     'frameworks/kxmlgui': '@stable'
 
+- 'on': ['Linux/Qt6', 'FreeBSD/Qt6', 'Windows/Qt6', 'macOS/Qt6']
+  'require':
+    'frameworks/extra-cmake-modules': '@stable-kf6'
+    'frameworks/kconfig': '@stable-kf6'
+    'frameworks/kguiaddons': '@stable-kf6'
+    'frameworks/ki18n': '@stable-kf6'
+    'frameworks/kplotting': '@stable-kf6'
+    'libs/stellarsolver': '@stable-kf6'
+
+- 'on': ['Linux/Qt6','Windows/Qt6']
+  'require':
+    'frameworks/breeze-icons': '@stable-kf6'
+    'frameworks/kcrash': '@stable-kf6'
+    'frameworks/kdoctools': '@stable-kf6'
+    'frameworks/knewstuff': '@stable-kf6'
+    'frameworks/knotifications': '@stable-kf6'
+    'frameworks/knotifyconfig': '@stable-kf6'
+    'frameworks/kxmlgui': '@stable-kf6'
+
 #- 'on': ['Android']
 #  'require':
+
+Environment:
+  CMAKE_VERBOSE_MAKEFILE: "ON"
 
 Options:
   in-source-build: False
   setup-dbus-session: True
   setup-x-environment: True
+  cmake-options: '--trace'
+  use-ccache: True
