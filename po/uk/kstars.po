@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 01:59+0000\n"
-"PO-Revision-Date: 2025-06-05 18:57+0300\n"
+"PO-Revision-Date: 2025-06-12 10:32+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -18165,10 +18165,9 @@ msgid "Mosaic import failed."
 msgstr "Не вдалося імпортувати мозаїку."
 
 #: ekos/ekoslive/nodemanager.cpp:222
-#, fuzzy, kde-format
-#| msgid "Error authentication with Ekos Live server: %1"
+#, kde-format
 msgid "Error authenticating with EkosLive server: %1"
-msgstr "Помилка під час розпізнавання на сервері Ekos Live: %1"
+msgstr "Помилка розпізнавання на сервері EkosLive: %1"
 
 #: ekos/ekoslive/nodemanager.cpp:235
 #, kde-format

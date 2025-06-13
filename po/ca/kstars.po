@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-12 01:59+0000\n"
-"PO-Revision-Date: 2025-06-10 13:56+0200\n"
+"PO-Revision-Date: 2025-06-12 17:12+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18233,10 +18233,9 @@ msgid "Mosaic import failed."
 msgstr "Ha fallat la importació del mosaic."
 
 #: ekos/ekoslive/nodemanager.cpp:222
-#, fuzzy, kde-format
-#| msgid "Error authentication with Ekos Live server: %1"
+#, kde-format
 msgid "Error authenticating with EkosLive server: %1"
-msgstr "Error d'autenticació amb el servidor Ekos Live: %1"
+msgstr "Error d'autenticació amb el servidor EkosLive: %1"
 
 #: ekos/ekoslive/nodemanager.cpp:235
 #, kde-format
@@ -35330,7 +35329,7 @@ msgstr ""
 #: kstars.kcfg:353
 #, kde-format
 msgid "Time Zone offset of geographic location, in hours."
-msgstr "Desplaçament de la zona horària de l'emplaçament geogràfic, en hores."
+msgstr "Desplaçament del fus horari de l'emplaçament geogràfic, en hores."
 
 #. i18n: ectx: label, entry (DST), group (Location)
 #: kstars.kcfg:357
@@ -71142,7 +71141,7 @@ msgstr "No s'ha trobat el fitxer crític: %1"
 #: kstarsdata.cpp:137
 #, kde-format
 msgid "Reading time zone rules"
-msgstr "S'estan llegint les regles de la zona horària"
+msgstr "S'estan llegint les regles del fus horari"
 
 #: kstarsdata.cpp:145
 #, kde-format
@@ -81448,7 +81447,7 @@ msgstr ""
 #: time/timezonerule.cpp:37
 #, kde-format
 msgid "Error parsing TimeZoneRule, setting to empty rule."
-msgstr "Error en interpretar la zona horària, establint a regla buida."
+msgstr "Error en interpretar el fus horari, establint a regla buida."
 
 #: time/timezonerule.cpp:104
 #, kde-format
