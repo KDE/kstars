@@ -361,7 +361,7 @@
             "sources": [
                 {
                     "type": "dir",
-                    "path": "/home/jasem/Projects/kstars"
+                    "path": "."
                 }
             ]
         }

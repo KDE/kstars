@@ -13,15 +13,21 @@ include:
   - local: '.gitlab-ci/common_rules.yml'
   - project: sysadmin/ci-utilities
     file:
-      - /gitlab-templates/linux.yml
-      - /gitlab-templates/windows.yml
+      
+      - /gitlab-templates/linux-qt6.yml
+      - /gitlab-templates/windows-qt6.yml
+      - /gitlab-templates/flatpak.yml
+      - /gitlab-templates/craft-windows-x86-64-qt6.yml
+      - /gitlab-templates/craft-macos-x86-64-qt6.yml
+      #- /gitlab-templates/linux.yml
+      #- /gitlab-templates/windows.yml
       #- /gitlab-templates/android.yml
-      - /gitlab-templates/craft-appimage.yml
-      - /gitlab-templates/craft-windows-x86-64.yml
-      - /gitlab-templates/craft-macos-x86-64.yml
-      - /gitlab-templates/craft-windows-appx-qt5.yml
+      #- /gitlab-templates/craft-appimage.yml
+      #- /gitlab-templates/craft-windows-x86-64.yml
+      #- /gitlab-templates/craft-macos-x86-64.yml
+      #- /gitlab-templates/craft-windows-appx-qt5.yml
       # - /gitlab-templates/reuse-lint.yml
-      # - /gitlab-templates/flatpak.yml
+      
 
 # Jobs
 
