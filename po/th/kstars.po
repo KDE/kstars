@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-12 01:59+0000\n"
+"POT-Creation-Date: 2025-06-14 01:58+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -627,109 +627,109 @@ msgstr ""
 msgid "Info"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:157
+#: auxiliary/ksutils.cpp:162
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "N"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:158
+#: auxiliary/ksutils.cpp:163
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNE"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:159
+#: auxiliary/ksutils.cpp:164
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NE"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:160
+#: auxiliary/ksutils.cpp:165
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ENE"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:161
+#: auxiliary/ksutils.cpp:166
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "E"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:162
+#: auxiliary/ksutils.cpp:167
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ESE"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:163
+#: auxiliary/ksutils.cpp:168
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SE"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:164
+#: auxiliary/ksutils.cpp:169
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSE"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:165
+#: auxiliary/ksutils.cpp:170
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "S"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:166
+#: auxiliary/ksutils.cpp:171
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSW"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:167
+#: auxiliary/ksutils.cpp:172
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SW"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:168
+#: auxiliary/ksutils.cpp:173
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WSW"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:169
+#: auxiliary/ksutils.cpp:174
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "W"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:170
+#: auxiliary/ksutils.cpp:175
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WNW"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:171
+#: auxiliary/ksutils.cpp:176
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NW"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:172
+#: auxiliary/ksutils.cpp:177
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNW"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:173
+#: auxiliary/ksutils.cpp:178
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1340
+#: auxiliary/ksutils.cpp:1345
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -737,61 +737,61 @@ msgid ""
 " does not exist.  Do you want to make the directory?"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1343
+#: auxiliary/ksutils.cpp:1348
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1348
+#: auxiliary/ksutils.cpp:1353
 #, fuzzy, kde-format
 #| msgid "Invalid Save Location"
 msgid "The Default Astrometry Index File Location was created."
 msgstr "ที่ตั้งการบันทึกไม่ถูกต้อง"
 
-#: auxiliary/ksutils.cpp:1353
+#: auxiliary/ksutils.cpp:1358
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1374 auxiliary/ksutils.cpp:1530
-#: auxiliary/ksutils.cpp:1595
+#: auxiliary/ksutils.cpp:1379 auxiliary/ksutils.cpp:1535
+#: auxiliary/ksutils.cpp:1600
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1388 auxiliary/ksutils.cpp:1573
-#: auxiliary/ksutils.cpp:1615
+#: auxiliary/ksutils.cpp:1393 auxiliary/ksutils.cpp:1578
+#: auxiliary/ksutils.cpp:1620
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1661 fitsviewer/fitsdata.cpp:756
+#: auxiliary/ksutils.cpp:1666 fitsviewer/fitsdata.cpp:756
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1672
+#: auxiliary/ksutils.cpp:1677
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Cannot open %1: %2"
 msgstr "ไม่สามารเปิดแฟ้ม %1"
 
-#: auxiliary/ksutils.cpp:1680
+#: auxiliary/ksutils.cpp:1685
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1691
+#: auxiliary/ksutils.cpp:1696
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot write %s %1: %2"
 msgstr "ไม่สามารถเขียนไปแฟ้มบันทึกของผู้ใช้ได้"
 
-#: auxiliary/ksutils.cpp:1815 ekos/scheduler/framingassistantui.cpp:186
+#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:186
 #: ekos/scheduler/framingassistantui.cpp:201
 #: ekos/scheduler/framingassistantui.cpp:874
 #: ekos/scheduler/framingassistantui.cpp:893 skyobjects/ksplanetbase.h:60
@@ -69771,7 +69771,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:114
+#: kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:108
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Star Name"
 msgid "KStars"
@@ -74323,14 +74323,14 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "warm"
 msgstr ""
 
-#: main.cpp:81
+#: main.cpp:79
 #, kde-format
 msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
 "program now."
 msgstr ""
 
-#: main.cpp:116
+#: main.cpp:110
 #, kde-format
 msgid ""
 " (c), The KStars Team\n"
@@ -74338,7 +74338,7 @@ msgid ""
 "The Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"
 msgstr ""
 
-#: main.cpp:118
+#: main.cpp:112
 #, kde-format
 msgctxt "Build number followed by copyright notice"
 msgid ""
@@ -74349,370 +74349,370 @@ msgid ""
 "%3"
 msgstr ""
 
-#: main.cpp:125
+#: main.cpp:119
 #, kde-format
 msgid "Jason Harris"
 msgstr ""
 
-#: main.cpp:125
+#: main.cpp:119
 #, kde-format
 msgid "Original Author"
 msgstr ""
 
-#: main.cpp:127
+#: main.cpp:121
 #, kde-format
 msgid "Jasem Mutlaq"
 msgstr ""
 
-#: main.cpp:127
+#: main.cpp:121
 #, kde-format
 msgid "Current Maintainer"
 msgstr ""
 
-#: main.cpp:131
+#: main.cpp:125
 #, kde-format
 msgid "Akarsh Simha"
 msgstr ""
 
-#: main.cpp:133
+#: main.cpp:127
 #, kde-format
 msgid "Robert Lancaster"
 msgstr ""
 
-#: main.cpp:134
+#: main.cpp:128
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:136
+#: main.cpp:130
 #, kde-format
 msgid "Eric Dejouhanet"
 msgstr ""
 
-#: main.cpp:137
+#: main.cpp:131
 #, fuzzy, kde-format
 #| msgid "Add to Observing WishList"
 msgid "Ekos Scheduler Improvements"
 msgstr "เพิ่มเข้ารายการตั้งใจจะสังเกต"
 
-#: main.cpp:138
+#: main.cpp:132
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr ""
 
-#: main.cpp:140
+#: main.cpp:134
 #, fuzzy, kde-format
 #| msgid "Add to Observing WishList"
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "เพิ่มเข้ารายการตั้งใจจะสังเกต"
 
-#: main.cpp:141
+#: main.cpp:135
 #, kde-format
 msgid "Hy Murveit"
 msgstr ""
 
-#: main.cpp:142
+#: main.cpp:136
 #, fuzzy, kde-format
 #| msgid "Add to Observing WishList"
 msgid "FITS, Focus, Guide Improvements"
 msgstr "เพิ่มเข้ารายการตั้งใจจะสังเกต"
 
-#: main.cpp:143
+#: main.cpp:137
 #, kde-format
 msgid "John Evans"
 msgstr ""
 
-#: main.cpp:144
+#: main.cpp:138
 #, fuzzy, kde-format
 #| msgid "Save the image to disk"
 msgid "Focus algorithms"
 msgstr "บันทึกภาพไปยังดิสก์"
 
-#: main.cpp:147
+#: main.cpp:141
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr ""
 
-#: main.cpp:149
+#: main.cpp:143
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr ""
 
-#: main.cpp:150
+#: main.cpp:144
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr ""
 
-#: main.cpp:150
+#: main.cpp:144
 #, fuzzy, kde-format
 #| msgid "Star Name"
 msgid "KStars Lite"
 msgstr "ชื่อดาว"
 
-#: main.cpp:152
+#: main.cpp:146
 #, kde-format
 msgid "James Bowlin"
 msgstr ""
 
-#: main.cpp:153
+#: main.cpp:147
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr ""
 
-#: main.cpp:154
+#: main.cpp:148
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr ""
 
-#: main.cpp:155
+#: main.cpp:149
 #, kde-format
 msgid "Heiko Evermann"
 msgstr ""
 
-#: main.cpp:157
+#: main.cpp:151
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr ""
 
-#: main.cpp:158
+#: main.cpp:152
 #, kde-format
 msgid "Mark Hollomon"
 msgstr ""
 
-#: main.cpp:159
+#: main.cpp:153
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr ""
 
-#: main.cpp:160
+#: main.cpp:154
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr ""
 
-#: main.cpp:162
+#: main.cpp:156
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr ""
 
-#: main.cpp:164
+#: main.cpp:158
 #, kde-format
 msgid "Prakash Mohan"
 msgstr ""
 
-#: main.cpp:165
+#: main.cpp:159
 #, kde-format
 msgid "Victor Cărbune"
 msgstr ""
 
-#: main.cpp:166
+#: main.cpp:160
 #, kde-format
 msgid "Henry de Valence"
 msgstr ""
 
-#: main.cpp:167
+#: main.cpp:161
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr ""
 
-#: main.cpp:169
+#: main.cpp:163
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr ""
 
-#: main.cpp:170
+#: main.cpp:164
 #, kde-format
 msgid "Rishab Arora"
 msgstr ""
 
-#: main.cpp:174
+#: main.cpp:168
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr ""
 
-#: main.cpp:175
+#: main.cpp:169
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 
-#: main.cpp:176
+#: main.cpp:170
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr ""
 
-#: main.cpp:177
+#: main.cpp:171
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr ""
 
-#: main.cpp:178
+#: main.cpp:172
 #, kde-format
 msgid "Andrew Stepanenko"
 msgstr ""
 
-#: main.cpp:179
+#: main.cpp:173
 #, kde-format
 msgid "Guiding code based on lin_guider"
 msgstr ""
 
-#: main.cpp:180
+#: main.cpp:174
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr ""
 
-#: main.cpp:180
+#: main.cpp:174
 #, kde-format
 msgid "Artwork"
 msgstr ""
 
-#: main.cpp:182
+#: main.cpp:176
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr ""
 
-#: main.cpp:183
+#: main.cpp:177
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
 
-#: main.cpp:184
+#: main.cpp:178
 #, kde-format
 msgid "Daniel Holler"
 msgstr ""
 
-#: main.cpp:185
+#: main.cpp:179
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr ""
 
-#: main.cpp:187
+#: main.cpp:181
 #, kde-format
 msgid "Stephane Lucas"
 msgstr ""
 
-#: main.cpp:188
+#: main.cpp:182
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:189
+#: main.cpp:183
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr ""
 
-#: main.cpp:190
+#: main.cpp:184
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr ""
 
-#: main.cpp:191
+#: main.cpp:185
 #, kde-format
 msgid "Jamie Smith"
 msgstr ""
 
-#: main.cpp:191
+#: main.cpp:185
 #, kde-format
 msgid "KStars OSX Port."
 msgstr ""
 
-#: main.cpp:192
+#: main.cpp:186
 #, kde-format
 msgid "Patrick Molenaar"
 msgstr ""
 
-#: main.cpp:192
+#: main.cpp:186
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr ""
 
-#: main.cpp:193
+#: main.cpp:187
 #, kde-format
 msgid "Philipp Auersperg-Castell"
 msgstr ""
 
-#: main.cpp:193
+#: main.cpp:187
 #, fuzzy, kde-format
 #| msgid "Star Name"
 msgid "Supernovae daily updates"
 msgstr "ชื่อดาว"
 
-#: main.cpp:194
+#: main.cpp:188
 #, kde-format
 msgid "Tony Schriber"
 msgstr ""
 
-#: main.cpp:194
+#: main.cpp:188
 #, kde-format
 msgid "Rotator Dialog improvements"
 msgstr ""
 
-#: main.cpp:195
+#: main.cpp:189
 #, kde-format
 msgid "Joseph McGee"
 msgstr ""
 
-#: main.cpp:195
+#: main.cpp:189
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 
-#: main.cpp:205
+#: main.cpp:199
 #, kde-format
 msgid "Dump sky image to file."
 msgstr ""
 
-#: main.cpp:206
+#: main.cpp:200
 #, kde-format
 msgid "Script to execute."
 msgstr ""
 
-#: main.cpp:207
+#: main.cpp:201
 #, kde-format
 msgid "Width of sky image."
 msgstr ""
 
-#: main.cpp:208
+#: main.cpp:202
 #, kde-format
 msgid "Height of sky image."
 msgstr ""
 
-#: main.cpp:209
+#: main.cpp:203
 #, kde-format
 msgid "Date and time."
 msgstr ""
 
-#: main.cpp:210
+#: main.cpp:204
 #, kde-format
 msgid "Start with clock paused."
 msgstr ""
 
-#: main.cpp:213
+#: main.cpp:207
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr ""
 
-#: main.cpp:249 printing/foveditordialog.cpp:176
+#: main.cpp:243 printing/foveditordialog.cpp:176
 #, fuzzy, kde-format
 #| msgid "Could not upload image to remote location: %1"
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "ไม่สามารถอัพโหลดภาพไปยังที่ตั้งระยะไกลได้: %1"
 
-#: main.cpp:307
+#: main.cpp:301
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 
-#: main.cpp:338
+#: main.cpp:332
 #, kde-format
 msgid "Script executed."
 msgstr ""
 
-#: main.cpp:342
+#: main.cpp:336
 #, fuzzy, kde-format
 #| msgid "Could not upload file"
 msgid "Could not execute script."
 msgstr "ไม่สามารถอัพโหลดแฟ้มได้"
 
-#: main.cpp:366
+#: main.cpp:360
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr ""
