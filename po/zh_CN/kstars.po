@@ -17392,10 +17392,9 @@ msgid "Mosaic import failed."
 msgstr "Mosaic 导入失败。"
 
 #: ekos/ekoslive/nodemanager.cpp:222
-#, fuzzy, kde-format
-#| msgid "Error authentication with Ekos Live server: %1"
+#, kde-format
 msgid "Error authenticating with EkosLive server: %1"
-msgstr "Ekos Live 服务器身份验证错误：%1"
+msgstr ""
 
 #: ekos/ekoslive/nodemanager.cpp:235
 #, kde-format
