@@ -92,7 +92,7 @@ void NodeManager::setConnected()
         if (m_isReauthenticating)
         {
             qCInfo(KSTARS_EKOS) << "NodeManager for URL" << m_ServiceURL.toDisplayString() <<
-                                   "successfully re-authenticated and connected all nodes.";
+                                "successfully re-authenticated and connected all nodes.";
             setIsReauthenticating(false);
         }
         emit connected();
@@ -139,7 +139,7 @@ void NodeManager::setCredentials(const QString &username, const QString &passwor
 void NodeManager::authenticate()
 {
     qCDebug(KSTARS_EKOS) << "NodeManager(" << m_ServiceURL.toDisplayString() <<
-                            "): Entering authenticate(). Current re-auth status:" << m_isReauthenticating;
+                         "): Entering authenticate(). Current re-auth status:" << m_isReauthenticating;
     if (m_isReauthenticating) // Check if already in progress
     {
         // Already trying to authenticate this manager, prevent stacking requests.
@@ -206,8 +206,8 @@ void NodeManager::onResult(QNetworkReply *reply)
                          reply->error() << "String:" << reply->errorString();
     if (reply->error() != QNetworkReply::NoError)
     {
-        // If connection refused, retry up to 3 times
-        if (reply->error() == QNetworkReply::ConnectionRefusedError && m_ReconnectTries++ < RECONNECT_MAX_TRIES)
+        // If connection refused or server error, retry up to 3 times
+        if ((reply->error() == QNetworkReply::ConnectionRefusedError || reply->error() == QNetworkReply::UnknownServerError) && m_ReconnectTries++ < RECONNECT_MAX_TRIES)
         {
             qCInfo(KSTARS_EKOS) << "NodeManager for" << m_ServiceURL.toDisplayString() << "failed to connect. Retrying in" <<
                                 RECONNECT_INTERVAL << "ms. Attempt" << m_ReconnectTries;
@@ -259,7 +259,7 @@ void NodeManager::onResult(QNetworkReply *reply)
     else
     {
         qCWarning(KSTARS_EKOS) << "NodeManager for URL" << m_ServiceURL.toDisplayString() <<
-                                  "authenticated, but failed to parse token expiry.";
+                               "authenticated, but failed to parse token expiry.";
         // Decide if this is a critical failure. For now, proceed but token checks might fail.
     }
 
@@ -273,7 +273,7 @@ void NodeManager::onResult(QNetworkReply *reply)
         // To get node name here, Node class would need a public name() getter.
         // For now, let's log its pointer. The actual name will be logged from Node::connectServer().
         qCDebug(KSTARS_EKOS) << "NodeManager(" << m_ServiceURL.toDisplayString() << "): Processing node with pointer" << node <<
-                                "- Calling setAuthResponse and connectServer.";
+                             "- Calling setAuthResponse and connectServer.";
         node->setAuthResponse(m_AuthResponse);
         node->connectServer();
     }
