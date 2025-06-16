@@ -72,6 +72,28 @@
         <file>icons/cdsportal.svg</file>
         <file>icons/simbad.svg</file>
         <file>icons/NED.png</file>
+        <file>categories/adaptiveoptics.svg</file>
+        <file>categories/auxiliary.svg</file>
+        <file>categories/barlow.svg</file>
+        <file>categories/camera.svg</file>
+        <file>categories/counterweight.svg</file>
+        <file>categories/dome.svg</file>
+        <file>categories/dustcap.svg</file>
+        <file>categories/extentioncub.svg</file>
+        <file>categories/filter.svg</file>
+        <file>categories/filterwheel.svg</file>
+        <file>categories/focuser.svg</file>
+        <file>categories/lightbox.svg</file>
+        <file>categories/mount.svg</file>
+        <file>categories/mounthandset.svg</file>
+        <file>categories/pier.svg</file>
+        <file>categories/power.svg</file>
+        <file>categories/rotator.svg</file>
+        <file>categories/telescope.svg</file>
+        <file>categories/threadadapter.svg</file>
+        <file>categories/tripod.svg</file>
+        <file>categories/weather.svg</file>
+        <file>categories/visualback.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>

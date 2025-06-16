@@ -478,7 +478,8 @@ class Manager : public QDialog, public Ui::Manager
 
         // Capture Summary
         void updateCaptureStatus(CaptureState status, const QString &trainname);
-        void updateCaptureProgress(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data, const QString &devicename = "");
+        void updateCaptureProgress(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data,
+                                   const QString &devicename = "");
         void updateExposureProgress(const QSharedPointer<SequenceJob> &job, const QString &trainname);
         void updateCaptureCountDown();
 
@@ -538,10 +539,10 @@ class Manager : public QDialog, public Ui::Manager
         // Containers
 
         // All Drivers
-        QHash<QString, QSharedPointer<DriverInfo>> driversList;
+        QHash<QString, QSharedPointer<DriverInfo >> driversList;
 
         // All managed drivers
-        QList<QSharedPointer<DriverInfo>> managedDrivers;
+        QList<QSharedPointer<DriverInfo >> managedDrivers;
 
         // Smart pointers for the various Ekos Modules
         std::unique_ptr<Capture> captureProcess;
@@ -572,7 +573,7 @@ class Manager : public QDialog, public Ui::Manager
         ExtensionState m_extensionStatus { Ekos::EXTENSION_STOPPED };
 
         std::unique_ptr<QStandardItemModel> profileModel;
-        QList<QSharedPointer<ProfileInfo>> profiles;
+        QList<QSharedPointer<ProfileInfo >> profiles;
         QJsonObject m_ProfileMapping;
 
         // Mount Summary
@@ -589,14 +590,13 @@ class Manager : public QDialog, public Ui::Manager
 
         QSharedPointer<ProfileInfo> m_CurrentProfile;
         bool profileWizardLaunched { false };
-        QString m_PrimaryCamera, m_GuideCamera;
 
         // Port Selector
         std::unique_ptr<Selector::Dialog> m_PortSelector;
         QTimer m_PortSelectorTimer;
 
-        QMap<QString, QSharedPointer<FilterManager>> m_FilterManagers;
-        QMap<QString, QSharedPointer<RotatorSettings>> m_RotatorControllers;
+        QMap<QString, QSharedPointer<FilterManager >> m_FilterManagers;
+        QMap<QString, QSharedPointer<RotatorSettings >> m_RotatorControllers;
 
         // Logs
         QPointer<OpsLogs> opsLogs;

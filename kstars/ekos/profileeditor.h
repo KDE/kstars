@@ -16,10 +16,14 @@
 #include <QPointer>
 #include <QProgressDialog>
 #include <QNetworkAccessManager>
+#include <QStandardItemModel>
+#include <QStringListModel>
 
 class ProfileInfo;
-class QStandardItemModel;
 class DriverInfo;
+class QStandardItemModel;
+class QListView;
+class QStringListModel;
 
 class ProfileEditorUI : public QFrame, public Ui::ProfileEditorUI
 {
@@ -61,25 +65,24 @@ class ProfileEditor : public QDialog
         void updateGuiderSelection(int id);
         void scanNetwork();
         void executeScriptEditor();
+        void addDriver();
+        void removeDriver();
+        void addDriver(const QModelIndex &index);
+        void filterDrivers(const QString &text);
+        void filterProfileDrivers(const QString &text);
+        void updateDriverCount();
 
     private:
-        void populateManufacturerCombo(QStandardItemModel *model, QComboBox *combo, const QString &selectedDriver, bool isLocal,
-                                       const QList<DeviceFamily> &families);
+        QIcon getIconForFamily(DeviceFamily family);
         QString getTooltip(const QSharedPointer<DriverInfo> &driver);
         void scanIP(const QString &ip);
         void clearAllRequests();
 
-        struct DeviceInfo
-        {
-            QComboBox *combo;
-            QStandardItemModel *model;
-            QString selectedDriver;
-            QList<DeviceFamily> families;
-        };
-
         ProfileEditorUI *ui { nullptr };
         QSharedPointer<ProfileInfo> pi;
-        QMap<QString, DeviceInfo> m_Devices;
+
+        QStandardItemModel *driversModel { nullptr };
+        QStandardItemModel *profileDriversModel { nullptr };
 
         QPointer<QProgressDialog> m_ProgressDialog;
         QNetworkAccessManager m_Manager;

@@ -852,7 +852,7 @@ void Manager::start()
     // Load profile location if one exists
     updateProfileLocation(m_CurrentProfile);
 
-    bool haveCCD = false, haveGuider = false;
+    bool haveCamera = false;
 
     // If external guide is specified in the profile, set the
     // corresponding options
@@ -880,97 +880,20 @@ void Manager::start()
     // For locally running INDI server
     if (m_LocalMode)
     {
-        auto drv = driversList.value(m_CurrentProfile->mount());
-
-        if (!drv.isNull())
-            managedDrivers.append(drv->clone());
-
-        drv = driversList.value(m_CurrentProfile->ccd());
-        if (!drv.isNull())
+        for (auto it = m_CurrentProfile->drivers.constBegin(); it != m_CurrentProfile->drivers.constEnd(); ++it)
         {
-            managedDrivers.append(drv->clone());
-            haveCCD = true;
-        }
-
-        Options::setGuiderType(m_CurrentProfile->guidertype);
-
-        drv = driversList.value(m_CurrentProfile->guider());
-        if (!drv.isNull())
-        {
-            haveGuider = true;
-
-            // If the guider and ccd are the same driver, we have two cases:
-            // #1 Drivers that only support ONE device per driver (such as sbig)
-            // #2 Drivers that supports multiples devices per driver (such as sx)
-            // For #1, we modify guider_di to make a unique label for the other device with postfix "Guide"
-            // For #2, we set guider_di to nullptr and we prompt the user to select which device is primary ccd and which is guider
-            // since this is the only way to find out in real time.
-            if (haveCCD && m_CurrentProfile->guider() == m_CurrentProfile->ccd())
+            for (const QString &driver : it.value())
             {
-                if (checkUniqueBinaryDriver( driversList.value(m_CurrentProfile->ccd()), drv))
+                auto drv = driversList.value(driver);
+                if (!drv.isNull())
                 {
-                    drv.clear();
-                }
-                else
-                {
-                    drv->setUniqueLabel(drv->getLabel() + " Guide");
+                    if (it.key() == KSTARS_CCD)
+                        haveCamera = true;
+                    managedDrivers.append(drv->clone());
                 }
             }
-
-            if (!drv.isNull())
-                managedDrivers.append(drv->clone());
         }
-
-        drv = driversList.value(m_CurrentProfile->ao());
-        if (!drv.isNull())
-            managedDrivers.append(drv->clone());
-
-        drv = driversList.value(m_CurrentProfile->filter());
-        if (!drv.isNull())
-            managedDrivers.append(drv->clone());
-
-        drv = driversList.value(m_CurrentProfile->focuser());
-        if (!drv.isNull())
-            managedDrivers.append(drv->clone());
-
-        drv = driversList.value(m_CurrentProfile->dome());
-        if (!drv.isNull())
-            managedDrivers.append(drv->clone());
-
-        drv = driversList.value(m_CurrentProfile->weather());
-        if (!drv.isNull())
-            managedDrivers.append(drv->clone());
-
-        drv = driversList.value(m_CurrentProfile->aux1());
-        if (!drv.isNull())
-        {
-            if (!checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->ccd()), drv) &&
-                    !checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->guider()), drv))
-                managedDrivers.append(drv->clone());
-        }
-        drv = driversList.value(m_CurrentProfile->aux2());
-        if (!drv.isNull())
-        {
-            if (!checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->ccd()), drv) &&
-                    !checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->guider()), drv))
-                managedDrivers.append(drv->clone());
-        }
-
-        drv = driversList.value(m_CurrentProfile->aux3());
-        if (!drv.isNull())
-        {
-            if (!checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->ccd()), drv) &&
-                    !checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->guider()), drv))
-                managedDrivers.append(drv->clone());
-        }
-
-        drv = driversList.value(m_CurrentProfile->aux4());
-        if (!drv.isNull())
-        {
-            if (!checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->ccd()), drv) &&
-                    !checkUniqueBinaryDriver(driversList.value(m_CurrentProfile->guider()), drv))
-                managedDrivers.append(drv->clone());
-        }
+        Options::setGuiderType(m_CurrentProfile->guidertype);
 
         // Add remote drivers if we have any
         if (m_CurrentProfile->remotedrivers.isEmpty() == false && m_CurrentProfile->remotedrivers.contains("@"))
@@ -1024,9 +947,9 @@ void Manager::start()
         }
 
 
-        if (haveCCD == false && haveGuider == false && m_CurrentProfile->remotedrivers.isEmpty())
+        if (haveCamera == false && m_CurrentProfile->remotedrivers.isEmpty())
         {
-            KSNotification::error(i18n("Ekos requires at least one CCD or Guider to operate."));
+            KSNotification::error(i18n("Ekos requires at least one Camera to operate."));
             managedDrivers.clear();
             m_ekosStatus = Ekos::Error;
             emit ekosStatusChanged(m_ekosStatus);
@@ -1045,14 +968,13 @@ void Manager::start()
 
         managedDrivers.append(remote_indi);
 
-        haveCCD    = m_CurrentProfile->drivers.contains("CCD");
-        haveGuider = m_CurrentProfile->drivers.contains("Guider");
+        haveCamera = m_CurrentProfile->drivers.contains(KSTARS_CCD);
 
         Options::setGuiderType(m_CurrentProfile->guidertype);
 
-        if (haveCCD == false && haveGuider == false && m_CurrentProfile->remotedrivers.isEmpty())
+        if (m_CurrentProfile->drivers.empty() == false && haveCamera == false && m_CurrentProfile->remotedrivers.isEmpty())
         {
-            KSNotification::error(i18n("Ekos requires at least one CCD or Guider to operate."));
+            KSNotification::error(i18n("Ekos requires at least one Camera to operate."));
             m_DriverDevicesCount = 0;
             m_ekosStatus = Ekos::Error;
             emit ekosStatusChanged(m_ekosStatus);
@@ -1440,21 +1362,24 @@ void Manager::checkINDITimeout()
     {
         QStringList remainingDevices;
 
-        for (auto &driver : m_CurrentProfile->drivers.values())
+        for (auto &drivers : m_CurrentProfile->drivers)
         {
-            bool driverFound = false;
-
-            for (auto &device : INDIListener::devices())
+            for (auto &driver : drivers)
             {
-                if (device->getBaseDevice().getDriverName() == driver)
-                {
-                    driverFound = true;
-                    break;
-                }
-            }
+                bool driverFound = false;
 
-            if (driverFound == false)
-                remainingDevices << QString("+ %1").arg(driver);
+                for (auto &device : INDIListener::devices())
+                {
+                    if (device->getBaseDevice().getDriverName() == driver)
+                    {
+                        driverFound = true;
+                        break;
+                    }
+                }
+
+                if (driverFound == false)
+                    remainingDevices << QString("+ %1").arg(driver);
+            }
         }
 
         if (remainingDevices.count() == 1)
@@ -1621,21 +1546,6 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
     connect(device.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Manager::processUpdateProperty,
             Qt::UniqueConnection);
     connect(device.get(), &ISD::GenericDevice::messageUpdated, this, &Ekos::Manager::processMessage, Qt::UniqueConnection);
-
-
-
-    // Only look for primary & guider CCDs if we can tell a difference between them
-    // otherwise rely on saved options
-    if (m_CurrentProfile->ccd() != m_CurrentProfile->guider())
-    {
-        for (auto &oneCamera : INDIListener::devices())
-        {
-            if (oneCamera->getDeviceName().startsWith(m_CurrentProfile->ccd(), Qt::CaseInsensitive))
-                m_PrimaryCamera = QString(oneCamera->getDeviceName());
-            else if (oneCamera->getDeviceName().startsWith(m_CurrentProfile->guider(), Qt::CaseInsensitive))
-                m_GuideCamera = QString(oneCamera->getDeviceName());
-        }
-    }
 
     if (m_DriverDevicesCount <= 0)
     {

@@ -2928,15 +2928,19 @@ bool KSUserDB::SaveProfile(const QSharedPointer<ProfileInfo> &pi)
                         pi->id)))
         qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
-    QMapIterator<QString, QString> i(pi->drivers);
+    QMapIterator<DeviceFamily, QList<QString>> i(pi->drivers);
     while (i.hasNext())
     {
         i.next();
-        if (!query.exec(QString("INSERT INTO driver (label, role, profile) VALUES('%1','%2',%3)")
-                        .arg(i.value(), i.key())
-                        .arg(pi->id)))
+        QString role = fromDeviceFamily(i.key());
+        for (const QString &label : i.value())
         {
-            qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
+            if (!query.exec(QString("INSERT INTO driver (label, role, profile) VALUES('%1','%2',%3)")
+                            .arg(label, role)
+                            .arg(pi->id)))
+            {
+                qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
+            }
         }
     }
 
@@ -3015,13 +3019,29 @@ bool KSUserDB::GetProfileDrivers(const QSharedPointer<ProfileInfo> &pi)
     if (driver.select() == false)
         qCWarning(KSTARS) << "Driver select error:" << driver.lastError().text();
 
+    // Process CCDs first to ensure correct order
     for (int i = 0; i < driver.rowCount(); ++i)
     {
         QSqlRecord record = driver.record(i);
-        QString label     = record.value("label").toString();
         QString role      = record.value("role").toString();
+        if (role == "CCD")
+        {
+            QString label     = record.value("label").toString();
+            DeviceFamily family = toDeviceFamily(role);
+            pi->addDriver(family, label);
+        }
+    }
 
-        pi->drivers[role] = label;
+    for (int i = 0; i < driver.rowCount(); ++i)
+    {
+        QSqlRecord record = driver.record(i);
+        QString role      = record.value("role").toString();
+        if (role != "CCD")
+        {
+            QString label     = record.value("label").toString();
+            DeviceFamily family = toDeviceFamily(role);
+            pi->addDriver(family, label);
+        }
     }
 
     driver.clear();

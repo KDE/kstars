@@ -124,8 +124,12 @@ typedef enum
     KSTARS_SPECTROGRAPHS,
     KSTARS_TELESCOPE,
     KSTARS_WEATHER,
+    KSTARS_POWER,
     KSTARS_UNKNOWN
 } DeviceFamily;
+
+DeviceFamily toDeviceFamily(const QString &family);
+QString fromDeviceFamily(DeviceFamily family);
 
 const QMap<DeviceFamily, QString> DeviceFamilyLabels =
 {
@@ -141,6 +145,7 @@ const QMap<DeviceFamily, QString> DeviceFamilyLabels =
     {KSTARS_SPECTROGRAPHS, "Spectrographs"},
     {KSTARS_TELESCOPE, "Telescopes"},
     {KSTARS_WEATHER, "Weather"},
+    {KSTARS_POWER, "Power"},
     {KSTARS_UNKNOWN, "Unknown"},
 };
 

@@ -84,6 +84,7 @@ if (INDI_FOUND)
         indi/indistd.cpp
         indi/indilistener.cpp
         indi/indiconcretedevice.cpp
+        indi/indicommon.cpp
         indi/indiguider.cpp
         indi/indimount.cpp
         indi/indicamera.cpp
@@ -234,8 +235,9 @@ if (INDI_FOUND)
             ekos/auxiliary/buildfilteroffsets.cpp
             ekos/auxiliary/tabledelegate.cpp
             ekos/auxiliary/opslogs.cpp
-	    ekos/auxiliary/rotatorutils.cpp
+	        ekos/auxiliary/rotatorutils.cpp
             ekos/auxiliary/serialportassistant.cpp
+            ekos/auxiliary/collapsiblewidget.cpp
             ekos/auxiliary/portselector.cpp
             ekos/auxiliary/ledstatuswidget.cpp
 

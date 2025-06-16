@@ -155,16 +155,19 @@ bool syncCustomDrivers(const QSharedPointer<ProfileInfo> &pi)
     QUrl url(QString("http://%1:%2/api/profiles/custom/add").arg(pi->host).arg(pi->INDIWebManagerPort));
 
     QStringList customDriversLabels;
-    QMapIterator<QString, QString> i(pi->drivers);
+    QMapIterator<DeviceFamily, QList<QString>> i(pi->drivers);
     while (i.hasNext())
     {
-        QString name       = i.next().value();
-        auto driver = DriverManager::Instance()->findDriverByName(name);
+        i.next();
+        for (const QString &name : i.value())
+        {
+            auto driver = DriverManager::Instance()->findDriverByName(name);
 
-        if (driver.isNull())
-            driver = DriverManager::Instance()->findDriverByLabel(name);
-        if (driver && driver->getDriverSource() == CUSTOM_SOURCE)
-            customDriversLabels << driver->getLabel();
+            if (driver.isNull())
+                driver = DriverManager::Instance()->findDriverByLabel(name);
+            if (driver && driver->getDriverSource() == CUSTOM_SOURCE)
+                customDriversLabels << driver->getLabel();
+        }
     }
 
     // Search for locked filter by filter color name
@@ -203,16 +206,19 @@ bool areDriversRunning(const QSharedPointer<ProfileInfo> &pi)
             return false;
 
         QStringList piExecDrivers;
-        QMapIterator<QString, QString> i(pi->drivers);
+        QMapIterator<DeviceFamily, QList<QString>> i(pi->drivers);
         while (i.hasNext())
         {
-            QString name       = i.next().value();
-            auto driver = DriverManager::Instance()->findDriverByName(name);
+            i.next();
+            for (const QString &name : i.value())
+            {
+                auto driver = DriverManager::Instance()->findDriverByName(name);
 
-            if (driver.isNull())
-                driver = DriverManager::Instance()->findDriverByLabel(name);
-            if (driver)
-                piExecDrivers << driver->getExecutable();
+                if (driver.isNull())
+                    driver = DriverManager::Instance()->findDriverByLabel(name);
+                if (driver)
+                    piExecDrivers << driver->getExecutable();
+            }
         }
 
         if (array.count() < piExecDrivers.count())
@@ -280,35 +286,17 @@ bool syncProfile(const QSharedPointer<ProfileInfo> &pi)
     // Add drivers
     url = QUrl(QString("http://%1:%2/api/profiles/%3/drivers").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
     QJsonArray driverArray;
-    QMapIterator<QString, QString> i(pi->drivers);
+    QMapIterator<DeviceFamily, QList<QString>> i(pi->drivers);
 
-    // In case both Guider + CCD are Multiple-Devices-Per-Driver type
-    // Then we should not define guider as a separate driver since that would start the driver executable twice
-    // when we only need it once
-    if (pi->drivers.contains("Guider"))
-    {
-        if (pi->drivers["Guider"] == pi->drivers["CCD"])
-        {
-            QSharedPointer<DriverInfo> guiderInfo;
-            if ((guiderInfo = DriverManager::Instance()->findDriverByName(pi->drivers["Guider"])).isNull())
-            {
-                if ((guiderInfo = DriverManager::Instance()->findDriverByLabel(pi->drivers["Guider"])).isNull())
-                {
-                    guiderInfo = DriverManager::Instance()->findDriverByExec(pi->drivers["Guider"]);
-                }
-            }
-
-            if (guiderInfo && guiderInfo->getAuxInfo().value("mdpd", false).toBool())
-            {
-                pi->drivers.remove("Guider");
-                i = QMapIterator<QString, QString>(pi->drivers);
-            }
-        }
-    }
+    // No changes needed here for now
 
     // Regular Drivers
     while (i.hasNext())
-        driverArray.append(QJsonObject({{"label", i.next().value()}}));
+    {
+        i.next();
+        for (const QString &label : i.value())
+            driverArray.append(QJsonObject({ { "label", label } }));
+    }
 
     // Remote Drivers
     if (pi->remotedrivers.isEmpty() == false)

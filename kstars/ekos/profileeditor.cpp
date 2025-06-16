@@ -20,6 +20,8 @@
 #include <QNetworkInterface>
 #include <QListView>
 #include <QDesktopServices>
+#include <QStandardItemModel>
+#include <QStringListModel>
 
 ProfileEditorUI::ProfileEditorUI(QWidget *p) : QFrame(p)
 {
@@ -36,42 +38,11 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 
     pi = nullptr;
 
-    // Initialize device map
-    m_Devices =
-    {
-        {"Mount", {ui->mountCombo, new QStandardItemModel(this), QString(), {KSTARS_TELESCOPE}}},
-        {"CCD", {ui->ccdCombo, new QStandardItemModel(this), QString(), {KSTARS_CCD}}},
-        {"Guider", {ui->guiderCombo, new QStandardItemModel(this), QString(), {KSTARS_CCD}}},
-        {"Focuser", {ui->focuserCombo, new QStandardItemModel(this), QString(), {KSTARS_FOCUSER}}},
-        {"Filter", {ui->filterCombo, new QStandardItemModel(this), QString(), {KSTARS_FILTER}}},
-        {"AO", {ui->AOCombo, new QStandardItemModel(this), QString(), {KSTARS_ADAPTIVE_OPTICS}}},
-        {"Dome", {ui->domeCombo, new QStandardItemModel(this), QString(), {KSTARS_DOME}}},
-        {"Weather", {ui->weatherCombo, new QStandardItemModel(this), QString(), {KSTARS_WEATHER}}},
-        {
-            "Aux1", {
-                ui->aux1Combo, new QStandardItemModel(this), QString(),
-                {KSTARS_AUXILIARY, KSTARS_CCD, KSTARS_FOCUSER, KSTARS_FILTER, KSTARS_WEATHER, KSTARS_SPECTROGRAPHS, KSTARS_DETECTORS}
-            }
-        },
-        {
-            "Aux2", {
-                ui->aux2Combo, new QStandardItemModel(this), QString(),
-                {KSTARS_AUXILIARY, KSTARS_CCD, KSTARS_FOCUSER, KSTARS_FILTER, KSTARS_WEATHER, KSTARS_SPECTROGRAPHS, KSTARS_DETECTORS}
-            }
-        },
-        {
-            "Aux3", {
-                ui->aux3Combo, new QStandardItemModel(this), QString(),
-                {KSTARS_AUXILIARY, KSTARS_CCD, KSTARS_FOCUSER, KSTARS_FILTER, KSTARS_WEATHER, KSTARS_SPECTROGRAPHS, KSTARS_DETECTORS}
-            }
-        },
-        {
-            "Aux4", {
-                ui->aux4Combo, new QStandardItemModel(this), QString(),
-                {KSTARS_AUXILIARY, KSTARS_CCD, KSTARS_FOCUSER, KSTARS_FILTER, KSTARS_WEATHER, KSTARS_SPECTROGRAPHS, KSTARS_DETECTORS}
-            }
-        }
-    };
+    driversModel = new QStandardItemModel(this);
+    profileDriversModel = new QStandardItemModel(this);
+
+    ui->driversTree->setModel(driversModel);
+    ui->profileDriversList->setModel(profileDriversModel);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
@@ -106,6 +77,14 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 
     connect(ui->scanB, &QPushButton::clicked, this, &ProfileEditor::scanNetwork);
 
+    connect(ui->addDriverB, &QPushButton::clicked, this, QOverload<>::of(&ProfileEditor::addDriver));
+    connect(ui->removeDriverB, &QPushButton::clicked, this, &ProfileEditor::removeDriver);
+    connect(ui->driversTree, &QTreeView::doubleClicked, this, QOverload<const QModelIndex &>::of(&ProfileEditor::addDriver));
+    connect(ui->driverSearchEdit, &QLineEdit::textChanged, this, &ProfileEditor::filterDrivers);
+    connect(ui->profileSearchEdit, &QLineEdit::textChanged, this, &ProfileEditor::filterProfileDrivers);
+    connect(profileDriversModel, &QStandardItemModel::rowsInserted, this, &ProfileEditor::updateDriverCount);
+    connect(profileDriversModel, &QStandardItemModel::rowsRemoved, this, &ProfileEditor::updateDriverCount);
+
 #ifdef Q_OS_WIN
     ui->remoteMode->setChecked(true);
     ui->localMode->setEnabled(false);
@@ -119,14 +98,6 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 
     // Shared tooltips
     ui->remoteDrivers->setToolTip(ui->remoteDriversLabel->toolTip());
-    ui->aux1Combo->setToolTip(ui->aux1Label->toolTip());
-    ui->aux2Combo->setToolTip(ui->aux2Label->toolTip());
-    ui->aux3Combo->setToolTip(ui->aux3Label->toolTip());
-    ui->aux4Combo->setToolTip(ui->aux4Label->toolTip());
-    ui->filterCombo->setToolTip(ui->filterLabel->toolTip());
-    ui->AOCombo->setToolTip(ui->AOLabel->toolTip());
-    ui->domeCombo->setToolTip(ui->domeLabel->toolTip());
-    ui->weatherCombo->setToolTip(ui->weatherLabel->toolTip());
     ui->localMode->setToolTip(ui->modeLabel->toolTip());
     ui->remoteMode->setToolTip(ui->modeLabel->toolTip());
     ui->remoteHostLabel->setToolTip(ui->remoteHost->toolTip());
@@ -223,65 +194,15 @@ void ProfileEditor::saveProfile()
         }
     }
 
-    if (ui->mountCombo->currentText().isEmpty() || ui->mountCombo->currentText() == "--")
-        pi->drivers.remove("Mount");
-    else
-        pi->drivers["Mount"] = ui->mountCombo->currentText();
+    pi->drivers.clear();
 
-    if (ui->ccdCombo->currentText().isEmpty() || ui->ccdCombo->currentText() == "--")
-        pi->drivers.remove("CCD");
-    else
-        pi->drivers["CCD"] = ui->ccdCombo->currentText();
-
-    if (ui->guiderCombo->currentText().isEmpty() || ui->guiderCombo->currentText() == "--")
-        pi->drivers.remove("Guider");
-    else
-        pi->drivers["Guider"] = ui->guiderCombo->currentText();
-
-    if (ui->focuserCombo->currentText().isEmpty() || ui->focuserCombo->currentText() == "--")
-        pi->drivers.remove("Focuser");
-    else
-        pi->drivers["Focuser"] = ui->focuserCombo->currentText();
-
-    if (ui->filterCombo->currentText().isEmpty() || ui->filterCombo->currentText() == "--")
-        pi->drivers.remove("Filter");
-    else
-        pi->drivers["Filter"] = ui->filterCombo->currentText();
-
-    if (ui->AOCombo->currentText().isEmpty() || ui->AOCombo->currentText() == "--")
-        pi->drivers.remove("AO");
-    else
-        pi->drivers["AO"] = ui->AOCombo->currentText();
-
-    if (ui->domeCombo->currentText().isEmpty() || ui->domeCombo->currentText() == "--")
-        pi->drivers.remove("Dome");
-    else
-        pi->drivers["Dome"] = ui->domeCombo->currentText();
-
-    if (ui->weatherCombo->currentText().isEmpty() || ui->weatherCombo->currentText() == "--")
-        pi->drivers.remove("Weather");
-    else
-        pi->drivers["Weather"] = ui->weatherCombo->currentText();
-
-    if (ui->aux1Combo->currentText().isEmpty() || ui->aux1Combo->currentText() == "--")
-        pi->drivers.remove("Aux1");
-    else
-        pi->drivers["Aux1"] = ui->aux1Combo->currentText();
-
-    if (ui->aux2Combo->currentText().isEmpty() || ui->aux2Combo->currentText() == "--")
-        pi->drivers.remove("Aux2");
-    else
-        pi->drivers["Aux2"] = ui->aux2Combo->currentText();
-
-    if (ui->aux3Combo->currentText().isEmpty() || ui->aux3Combo->currentText() == "--")
-        pi->drivers.remove("Aux3");
-    else
-        pi->drivers["Aux3"] = ui->aux3Combo->currentText();
-
-    if (ui->aux4Combo->currentText().isEmpty() || ui->aux4Combo->currentText() == "--")
-        pi->drivers.remove("Aux4");
-    else
-        pi->drivers["Aux4"] = ui->aux4Combo->currentText();
+    for (int i = 0; i < profileDriversModel->rowCount(); ++i)
+    {
+        QStandardItem *item = profileDriversModel->item(i);
+        QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(item->text());
+        if (driverInfo)
+            pi->addDriver(driverInfo->getType(), driverInfo->getName());
+    }
 
     pi->remotedrivers = ui->remoteDrivers->text();
 
@@ -306,19 +227,6 @@ void ProfileEditor::setRemoteMode(bool enable)
 
     //ui->customLabel->setEnabled(!enable);
     //ui->customDriversIN->setEnabled(!enable);
-
-    ui->mountCombo->setEditable(enable);
-    ui->ccdCombo->setEditable(enable);
-    ui->guiderCombo->setEditable(enable);
-    ui->focuserCombo->setEditable(enable);
-    ui->filterCombo->setEditable(enable);
-    ui->AOCombo->setEditable(enable);
-    ui->domeCombo->setEditable(enable);
-    ui->weatherCombo->setEditable(enable);
-    ui->aux1Combo->setEditable(enable);
-    ui->aux2Combo->setEditable(enable);
-    ui->aux3Combo->setEditable(enable);
-    ui->aux4Combo->setEditable(enable);
 
     ui->remoteDrivers->setEnabled(!enable);
 
@@ -386,139 +294,32 @@ void ProfileEditor::setPi(const QSharedPointer<ProfileInfo> &newProfile)
         Options::setLinGuiderPort(pi->guiderport);
     }
 
-    QMapIterator<QString, QString> i(pi->drivers);
-
+    QStringList profileDriverLabels;
+    QMapIterator<DeviceFamily, QList<QString >> i(pi->drivers);
     while (i.hasNext())
     {
-        int row = 0;
         i.next();
-
-        QString key   = i.key();
-        QString value = i.value();
-
-        if (key == "Mount")
+        for (const QString &driverName : i.value())
         {
-            // If driver doesn't exist, let's add it to the list
-            if ((row = ui->mountCombo->findText(value)) == -1)
-            {
-                ui->mountCombo->addItem(value);
-                row = ui->mountCombo->count() - 1;
-            }
-
-            // Set index to our driver
-            ui->mountCombo->setCurrentIndex(row);
-        }
-        else if (key == "CCD")
-        {
-            if ((row = ui->ccdCombo->findText(value)) == -1)
-            {
-                ui->ccdCombo->addItem(value);
-                row = ui->ccdCombo->count() - 1;
-            }
-
-            ui->ccdCombo->setCurrentIndex(row);
-        }
-        else if (key == "Guider")
-        {
-            if ((row = ui->guiderCombo->findText(value)) == -1)
-            {
-                ui->guiderCombo->addItem(value);
-                row = ui->guiderCombo->count() - 1;
-            }
-
-            ui->guiderCombo->setCurrentIndex(row);
-        }
-        else if (key == "Focuser")
-        {
-            if ((row = ui->focuserCombo->findText(value)) == -1)
-            {
-                ui->focuserCombo->addItem(value);
-                row = ui->focuserCombo->count() - 1;
-            }
-
-            ui->focuserCombo->setCurrentIndex(row);
-        }
-        else if (key == "Filter")
-        {
-            if ((row = ui->filterCombo->findText(value)) == -1)
-            {
-                ui->filterCombo->addItem(value);
-                row = ui->filterCombo->count() - 1;
-            }
-
-            ui->filterCombo->setCurrentIndex(row);
-        }
-        else if (key == "AO")
-        {
-            if ((row = ui->AOCombo->findText(value)) == -1)
-            {
-                ui->AOCombo->addItem(value);
-                row = ui->AOCombo->count() - 1;
-            }
-
-            ui->AOCombo->setCurrentIndex(row);
-        }
-        else if (key == "Dome")
-        {
-            if ((row = ui->domeCombo->findText(value)) == -1)
-            {
-                ui->domeCombo->addItem(value);
-                row = ui->domeCombo->count() - 1;
-            }
-
-            ui->domeCombo->setCurrentIndex(row);
-        }
-        else if (key == "Weather")
-        {
-            if ((row = ui->weatherCombo->findText(value)) == -1)
-            {
-                ui->weatherCombo->addItem(value);
-                row = ui->weatherCombo->count() - 1;
-            }
-
-            ui->weatherCombo->setCurrentIndex(row);
-        }
-        else if (key == "Aux1")
-        {
-            if ((row = ui->aux1Combo->findText(value)) == -1)
-            {
-                ui->aux1Combo->addItem(value);
-                row = ui->aux1Combo->count() - 1;
-            }
-
-            ui->aux1Combo->setCurrentIndex(row);
-        }
-        else if (key == "Aux2")
-        {
-            if ((row = ui->aux2Combo->findText(value)) == -1)
-            {
-                ui->aux2Combo->addItem(value);
-                row = ui->aux2Combo->count() - 1;
-            }
-
-            ui->aux2Combo->setCurrentIndex(row);
-        }
-        else if (key == "Aux3")
-        {
-            if ((row = ui->aux3Combo->findText(value)) == -1)
-            {
-                ui->aux3Combo->addItem(value);
-                row = ui->aux3Combo->count() - 1;
-            }
-
-            ui->aux3Combo->setCurrentIndex(row);
-        }
-        else if (key == "Aux4")
-        {
-            if ((row = ui->aux4Combo->findText(value)) == -1)
-            {
-                ui->aux4Combo->addItem(value);
-                row = ui->aux4Combo->count() - 1;
-            }
-
-            ui->aux4Combo->setCurrentIndex(row);
+            QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(driverName);
+            if (driverInfo)
+                profileDriverLabels.append(driverInfo->getLabel());
         }
     }
+
+    profileDriversModel->clear();
+    for (const QString &label : profileDriverLabels)
+    {
+        QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(label);
+        if (driverInfo)
+        {
+            QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), label);
+            item->setEditable(false);
+            profileDriversModel->appendRow(item);
+        }
+    }
+    profileDriversModel->sort(0);
+    updateDriverCount();
 }
 
 QString ProfileEditor::getTooltip(const QSharedPointer<DriverInfo> &driver)
@@ -539,15 +340,38 @@ QString ProfileEditor::getTooltip(const QSharedPointer<DriverInfo> &driver)
 
 void ProfileEditor::loadDrivers()
 {
-    const bool isLocal = ui->localMode->isChecked();
+    driversModel->clear();
+    driversModel->setHorizontalHeaderLabels({i18n("Drivers")});
 
-    // Save current selections and update models
-    for (auto &device : m_Devices)
+    QMap<DeviceFamily, QMap<QString, QList<QSharedPointer<DriverInfo >>> > categorizedDrivers;
+
+    for (QSharedPointer<DriverInfo> driver : DriverManager::Instance()->getDrivers())
     {
-        device.selectedDriver = device.combo->currentText();
-        delete device.model;
-        device.model = new QStandardItemModel(this);
-        populateManufacturerCombo(device.model, device.combo, device.selectedDriver, isLocal, device.families);
+        categorizedDrivers[driver->getType()][driver->manufacturer()] << driver;
+    }
+
+    for (auto it = categorizedDrivers.constBegin(); it != categorizedDrivers.constEnd(); ++it)
+    {
+        QStandardItem *familyItem = new QStandardItem(fromDeviceFamily(it.key()));
+        familyItem->setEditable(false);
+        driversModel->appendRow(familyItem);
+
+        for (auto it2 = it.value().constBegin(); it2 != it.value().constEnd(); ++it2)
+        {
+            QStandardItem *manufacturerItem = new QStandardItem(it2.key());
+            manufacturerItem->setEditable(false);
+            familyItem->appendRow(manufacturerItem);
+
+            for (const QSharedPointer<DriverInfo> &driver : it2.value())
+            {
+                if (driver->getLabel().isEmpty())
+                    continue;
+                QStandardItem *driverItem = new QStandardItem(driver->getLabel());
+                driverItem->setToolTip(getTooltip(driver));
+                driverItem->setEditable(false);
+                manufacturerItem->appendRow(driverItem);
+            }
+        }
     }
 }
 
@@ -558,26 +382,18 @@ void ProfileEditor::setProfileName(const QString &name)
 
 void ProfileEditor::setAuxDrivers(const QStringList &aux)
 {
-    QStringList auxList(aux);
-
-    if (auxList.isEmpty())
-        return;
-    ui->aux1Combo->setCurrentText(auxList.first());
-    auxList.removeFirst();
-
-    if (auxList.isEmpty())
-        return;
-    ui->aux2Combo->setCurrentText(auxList.first());
-    auxList.removeFirst();
-
-    if (auxList.isEmpty())
-        return;
-    ui->aux3Combo->setCurrentText(auxList.first());
-    auxList.removeFirst();
-
-    if (auxList.isEmpty())
-        return;
-    ui->aux4Combo->setCurrentText(auxList.first());
+    for (const QString &driverLabel : aux)
+    {
+        QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(driverLabel);
+        if (driverInfo)
+        {
+            QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), driverInfo->getLabel());
+            item->setEditable(false);
+            profileDriversModel->appendRow(item);
+        }
+    }
+    profileDriversModel->sort(0);
+    updateDriverCount();
 }
 
 void ProfileEditor::setHostPort(const QString &host, const QString &port)
@@ -625,7 +441,7 @@ void ProfileEditor::setConnectionOptionsEnabled(bool enable)
     updateGuiderSelection(ui->guideTypeCombo->currentIndex());
 
     if (enable == false)
-        ui->mountCombo->setFocus();
+        ui->driversTree->setFocus();
 }
 
 void ProfileEditor::updateGuiderSelection(int id)
@@ -692,72 +508,172 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     ui->INDIWebManagerCheck->setChecked(profile["use_web_manager"].toBool());
     ui->remoteDrivers->setText(profile["remote"].toString(ui->remoteDrivers->text()));
 
-    const bool isLocal = ui->localMode->isChecked();
-
-    // Helper function to set combo box value
-    auto setComboValue = [this, isLocal](QComboBox * combo, const QString & value)
+    QStringList profileDrivers;
+    for (const auto &key : profile.keys())
     {
-        if (value.isEmpty() || value == "--")
+        if (key != "name" && key != "auto_connect" && key != "port_selector" && key != "mode" &&
+                key != "remote_host" && key != "remote_port" && key != "guiding" && key != "remote_guiding_host" &&
+                key != "remote_guiding_port" && key != "use_web_manager" && key != "remote")
         {
-            combo->setCurrentIndex(0);
-            return;
-        }
-
-        // For local mode, search through manufacturer groups
-        if (isLocal)
-        {
-            QAbstractItemModel *model = combo->model();
-            // Search through manufacturer groups
-            for (int i = 0; i < model->rowCount(); i++)
+            QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByName(profile[key].toString());
+            if (driverInfo)
             {
-                QModelIndex parent = model->index(i, 0);
-                // Skip non-manufacturer items (like --)
-                if (model->hasChildren(parent))
+                QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), driverInfo->getLabel());
+                item->setEditable(false);
+                profileDriversModel->appendRow(item);
+            }
+        }
+    }
+    profileDriversModel->sort(0);
+    updateDriverCount();
+}
+
+void ProfileEditor::removeDriver()
+{
+    QModelIndexList indexes = ui->profileDriversList->selectionModel()->selectedIndexes();
+    for (const QModelIndex &index : indexes)
+    {
+        profileDriversModel->removeRow(index.row());
+    }
+    profileDriversModel->sort(0);
+    updateDriverCount();
+}
+
+void ProfileEditor::addDriver(const QModelIndex &index)
+{
+    if (!index.isValid() || !index.parent().isValid() || !index.parent().parent().isValid())
+        return;
+
+    QString driverLabel = driversModel->data(index).toString();
+    for (int i = 0; i < profileDriversModel->rowCount(); ++i)
+    {
+        if (profileDriversModel->item(i)->text() == driverLabel)
+            return;
+    }
+
+    QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(driverLabel);
+    if (driverInfo)
+    {
+        QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), driverLabel);
+        item->setEditable(false);
+        profileDriversModel->appendRow(item);
+        profileDriversModel->sort(0);
+    }
+}
+
+void ProfileEditor::addDriver()
+{
+    addDriver(ui->driversTree->currentIndex());
+}
+
+void ProfileEditor::filterDrivers(const QString &text)
+{
+    if (text.length() < 2)
+    {
+        for (int i = 0; i < driversModel->rowCount(); ++i)
+        {
+            QModelIndex familyIndex = driversModel->index(i, 0);
+            ui->driversTree->setRowHidden(i, QModelIndex(), false);
+            QStandardItem *familyItem = driversModel->itemFromIndex(familyIndex);
+
+            for (int j = 0; j < familyItem->rowCount(); ++j)
+            {
+                QModelIndex manufacturerIndex = familyItem->child(j)->index();
+                ui->driversTree->setRowHidden(j, familyIndex, false);
+                QStandardItem *manufacturerItem = familyItem->child(j);
+
+                for (int k = 0; k < manufacturerItem->rowCount(); ++k)
                 {
-                    // Search through drivers under this manufacturer
-                    for (int j = 0; j < model->rowCount(parent); j++)
-                    {
-                        QModelIndex child = model->index(j, 0, parent);
-                        if (model->data(child).toString() == value)
-                        {
-                            // Set the manufacturer as root and select the driver
-                            combo->setRootModelIndex(parent);
-                            combo->setCurrentIndex(j);
-                            combo->setRootModelIndex(QModelIndex());
-                            return;
-                        }
-                    }
+                    ui->driversTree->setRowHidden(k, manufacturerIndex, false);
                 }
             }
+            ui->driversTree->collapse(familyIndex);
         }
-        else
+        return;
+    }
+
+    QRegularExpression regex(text, QRegularExpression::CaseInsensitiveOption);
+    for (int i = 0; i < driversModel->rowCount(); ++i)
+    {
+        QStandardItem *familyItem = driversModel->item(i);
+        bool familyHasVisibleChildren = false;
+        for (int j = 0; j < familyItem->rowCount(); ++j)
         {
-            // For remote mode, first try to find the driver
-            int index = combo->findText(value);
-            if (index >= 0)
-                combo->setCurrentIndex(index);
-            else
+            QStandardItem *manufacturerItem = familyItem->child(j);
+            bool manufacturerHasVisibleChildren = false;
+            for (int k = 0; k < manufacturerItem->rowCount(); ++k)
             {
-                // If not found, add it
-                combo->addItem(value);
-                combo->setCurrentIndex(combo->count() - 1);
+                QStandardItem *driverItem = manufacturerItem->child(k);
+                bool match = driverItem->text().contains(regex);
+                ui->driversTree->setRowHidden(k, manufacturerItem->index(), !match);
+                if (match)
+                {
+                    manufacturerHasVisibleChildren = true;
+                }
+            }
+
+            ui->driversTree->setRowHidden(j, familyItem->index(), !manufacturerHasVisibleChildren);
+            if (manufacturerHasVisibleChildren)
+            {
+                familyHasVisibleChildren = true;
+                ui->driversTree->expand(manufacturerItem->index());
             }
         }
-    };
+        ui->driversTree->setRowHidden(i, QModelIndex(), !familyHasVisibleChildren);
+        if (familyHasVisibleChildren)
+        {
+            ui->driversTree->expand(familyItem->index());
+        }
+    }
+}
 
-    // Set all device combos
-    setComboValue(ui->mountCombo, profile["mount"].toString("--"));
-    setComboValue(ui->ccdCombo, profile["ccd"].toString("--"));
-    setComboValue(ui->guiderCombo, profile["guider"].toString("--"));
-    setComboValue(ui->focuserCombo, profile["focuser"].toString("--"));
-    setComboValue(ui->filterCombo, profile["filter"].toString("--"));
-    setComboValue(ui->AOCombo, profile["ao"].toString("--"));
-    setComboValue(ui->domeCombo, profile["dome"].toString("--"));
-    setComboValue(ui->weatherCombo, profile["weather"].toString("--"));
-    setComboValue(ui->aux1Combo, profile["aux1"].toString("--"));
-    setComboValue(ui->aux2Combo, profile["aux2"].toString("--"));
-    setComboValue(ui->aux3Combo, profile["aux3"].toString("--"));
-    setComboValue(ui->aux4Combo, profile["aux4"].toString("--"));
+void ProfileEditor::filterProfileDrivers(const QString &text)
+{
+    QRegularExpression regex(text, QRegularExpression::CaseInsensitiveOption);
+    for (int i = 0; i < profileDriversModel->rowCount(); ++i)
+    {
+        QStandardItem *item = profileDriversModel->item(i);
+        bool match = item->text().contains(regex);
+        ui->profileDriversList->setRowHidden(i, !match);
+    }
+}
+
+void ProfileEditor::updateDriverCount()
+{
+    ui->driverCount->setText(QString::number(profileDriversModel->rowCount()));
+}
+
+QIcon ProfileEditor::getIconForFamily(DeviceFamily family)
+{
+    switch (family)
+    {
+        case KSTARS_TELESCOPE:
+            return QIcon(":/categories/telescope.svg");
+        case KSTARS_CCD:
+            return QIcon(":/categories/camera.svg");
+        case KSTARS_FOCUSER:
+            return QIcon(":/categories/focuser.svg");
+        case KSTARS_FILTER:
+            return QIcon(":/categories/filterwheel.svg");
+        case KSTARS_ADAPTIVE_OPTICS:
+            return QIcon(":/categories/adaptiveoptics.svg");
+        case KSTARS_DOME:
+            return QIcon(":/categories/dome.svg");
+        case KSTARS_WEATHER:
+            return QIcon(":/categories/weather.svg");
+        case KSTARS_ROTATOR:
+            return QIcon(":/categories/rotator.svg");
+        case KSTARS_POWER:
+            return QIcon(":/categories/power.svg");
+        case KSTARS_SPECTROGRAPHS:
+            return QIcon(":/categories/spectrograph.svg");
+        case KSTARS_AGENT:
+            return QIcon(":/categories/agent.svg");
+        case KSTARS_AUXILIARY:
+            return QIcon(":/categories/auxiliary.svg");
+        default:
+            return QIcon();
+    }
 }
 
 void ProfileEditor::scanNetwork()
@@ -845,93 +761,15 @@ void ProfileEditor::clearAllRequests()
     m_Replies.clear();
 }
 
-void ProfileEditor::populateManufacturerCombo(QStandardItemModel *model, QComboBox *combo, const QString &selectedDriver,
-        bool isLocal, const QList<DeviceFamily> &families)
-{
-    if (isLocal)
-    {
-        QStandardItem *selectedItem = nullptr;
-        model->appendRow(new QStandardItem("--"));
-        for (QSharedPointer<DriverInfo>driver : DriverManager::Instance()->getDrivers())
-        {
-            if (!families.contains(driver->getType()))
-                continue;
-
-            QString manufacturer = driver->manufacturer();
-            QList<QStandardItem*> manufacturers = model->findItems(manufacturer);
-
-            QStandardItem *parentItem = nullptr;
-            if (model->findItems(manufacturer).empty())
-            {
-                parentItem = new QStandardItem(manufacturer);
-                parentItem->setSelectable(false);
-                model->appendRow(parentItem);
-            }
-            else
-            {
-                parentItem = manufacturers.first();
-            }
-
-            QStandardItem *item = new QStandardItem(driver->getLabel());
-            item->setData(getTooltip(driver), Qt::ToolTipRole);
-            parentItem->appendRow(item);
-            if (selectedDriver == driver->getLabel())
-                selectedItem = item;
-        }
-        QTreeView *view = new QTreeView(this);
-        view->setModel(model);
-        view->sortByColumn(0, Qt::AscendingOrder);
-        combo->setView(view);
-        combo->setModel(model);
-        if (selectedItem)
-        {
-            // JM: Only way to make it the QTreeView sets the current index
-            // in the combo way
-
-            QModelIndex index = model->indexFromItem(selectedItem);
-
-            // First set current index to the child
-            combo->setRootModelIndex(index.parent());
-            combo->setModelColumn(index.column());
-            combo->setCurrentIndex(index.row());
-
-            // Now reset
-            combo->setRootModelIndex(QModelIndex());
-            view->setCurrentIndex(index);
-        }
-    }
-    else
-    {
-        QIcon remoteIcon = QIcon::fromTheme("network-modem");
-        combo->setView(new QListView(this));
-        model->appendRow(new QStandardItem("--"));
-        QIcon icon;
-        for (QSharedPointer<DriverInfo>driver : DriverManager::Instance()->getDrivers())
-        {
-            if (!families.contains(driver->getType()))
-                continue;
-
-            bool locallyAvailable = false;
-            if (driver->getAuxInfo().contains("LOCALLY_AVAILABLE"))
-                locallyAvailable = driver->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
-            icon = locallyAvailable ? QIcon() : remoteIcon;
-
-            QStandardItem *mount = new QStandardItem(icon, driver->getLabel());
-            mount->setData(getTooltip(driver), Qt::ToolTipRole);
-            model->appendRow(mount);
-        }
-        combo->setModel(model);
-        combo->setCurrentText(selectedDriver);
-    }
-}
-
 void ProfileEditor::executeScriptEditor()
 {
     if (pi == nullptr)
         return;
     QStringList currentDrivers;
-    for (auto &oneCombo : ui->driversGroupBox->findChildren<QComboBox *>())
-        currentDrivers << oneCombo->currentText();
+    for (int i = 0; i < profileDriversModel->rowCount(); ++i)
+    {
+        currentDrivers << profileDriversModel->item(i)->text();
+    }
     for (auto &oneDriver : ui->remoteDrivers->text().split(","))
         currentDrivers << oneDriver;
     currentDrivers.removeAll("--");

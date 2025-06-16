@@ -13,100 +13,123 @@ ProfileInfo::ProfileInfo(int id, const QString &name)
     port = INDIWebManagerPort = guiderport = -1;
 }
 
+void ProfileInfo::addDriver(DeviceFamily family, const QString &driver)
+{
+    if (drivers.contains(family))
+    {
+        drivers[family].append(driver);
+    }
+    else
+    {
+        QList<QString> driverList;
+        driverList.append(driver);
+        drivers.insert(family, driverList);
+    }
+}
+
+QList<QString> ProfileInfo::getDrivers(DeviceFamily family) const
+{
+    if (drivers.contains(family))
+        return drivers[family];
+    else
+        return QList<QString>();
+}
+
 QString ProfileInfo::mount() const
 {
-    if (drivers.contains("Mount"))
-        return drivers["Mount"];
-    else
+    auto driverList = getDrivers(KSTARS_TELESCOPE);
+    if (driverList.isEmpty())
         return QString();
+    return driverList.first();
 }
 
 QString ProfileInfo::ccd() const
 {
-    if (drivers.contains("CCD"))
-        return drivers["CCD"];
-    else
+    auto driverList = getDrivers(KSTARS_CCD);
+    if (driverList.isEmpty())
         return QString();
+    return driverList.first();
 }
 
 QString ProfileInfo::guider() const
 {
-    if (drivers.contains("Guider"))
-        return drivers["Guider"];
-    else
-        return QString();
+    auto driverList = getDrivers(KSTARS_CCD);
+    if (driverList.count() > 1)
+        return driverList.at(1);
+
+    return QString();
 }
 
 QString ProfileInfo::focuser() const
 {
-    if (drivers.contains("Focuser"))
-        return drivers["Focuser"];
-    else
+    auto driverList = getDrivers(KSTARS_FOCUSER);
+    if (driverList.isEmpty())
         return QString();
+    return driverList.first();
 }
 
 QString ProfileInfo::filter() const
 {
-    if (drivers.contains("Filter"))
-        return drivers["Filter"];
-    else
+    auto driverList = getDrivers(KSTARS_FILTER);
+    if (driverList.isEmpty())
         return QString();
+    return driverList.first();
 }
 
 QString ProfileInfo::dome() const
 {
-    if (drivers.contains("Dome"))
-        return drivers["Dome"];
-    else
+    auto driverList = getDrivers(KSTARS_DOME);
+    if (driverList.isEmpty())
         return QString();
+    return driverList.first();
 }
 
 QString ProfileInfo::weather() const
 {
-    if (drivers.contains("Weather"))
-        return drivers["Weather"];
-    else
+    auto driverList = getDrivers(KSTARS_WEATHER);
+    if (driverList.isEmpty())
         return QString();
+    return driverList.first();
 }
 
 QString ProfileInfo::ao() const
 {
-    if (drivers.contains("AO"))
-        return drivers["AO"];
-    else
+    auto driverList = getDrivers(KSTARS_ADAPTIVE_OPTICS);
+    if (driverList.isEmpty())
         return QString();
+    return driverList.first();
 }
 
 QString ProfileInfo::aux1() const
 {
-    if (drivers.contains("Aux1"))
-        return drivers["Aux1"];
-    else
+    auto driverList = getDrivers(KSTARS_AUXILIARY);
+    if (driverList.isEmpty())
         return QString();
+    return driverList.at(0);
 }
 
 QString ProfileInfo::aux2() const
 {
-    if (drivers.contains("Aux2"))
-        return drivers["Aux2"];
-    else
+    auto driverList = getDrivers(KSTARS_AUXILIARY);
+    if (driverList.count() < 2)
         return QString();
+    return driverList.at(1);
 }
 
 QString ProfileInfo::aux3() const
 {
-    if (drivers.contains("Aux3"))
-        return drivers["Aux3"];
-    else
+    auto driverList = getDrivers(KSTARS_AUXILIARY);
+    if (driverList.count() < 3)
         return QString();
+    return driverList.at(2);
 }
 
 QString ProfileInfo::aux4() const
 {
-    if (drivers.contains("Aux4"))
-        return drivers["Aux4"];
-    else
+    auto driverList = getDrivers(KSTARS_AUXILIARY);
+    if (driverList.count() < 4)
         return QString();
+    return driverList.at(3);
 }
 
 QJsonObject ProfileInfo::toJson() const
