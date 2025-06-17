@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>567</width>
-    <height>399</height>
+    <height>512</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,5">
@@ -74,9 +74,6 @@
         </item>
         <item>
          <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Orientation::Vertical</enum>
-          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
@@ -410,7 +407,7 @@
        <number>3</number>
       </property>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="5,0,5">
         <property name="spacing">
          <number>3</number>
         </property>
@@ -445,7 +442,7 @@
           </property>
           <item>
            <spacer name="verticalSpacer">
-            <property name="orientation">
+           <property name="orientation">
              <enum>Qt::Orientation::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
@@ -514,7 +511,7 @@
           </item>
           <item>
            <spacer name="verticalSpacer_2">
-            <property name="orientation">
+           <property name="orientation">
              <enum>Qt::Orientation::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
