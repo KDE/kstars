@@ -11,6 +11,7 @@
 #include <QMap>
 #include <QString>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QList>
 
 class ProfileInfo

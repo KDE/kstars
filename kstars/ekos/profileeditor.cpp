@@ -201,7 +201,7 @@ void ProfileEditor::saveProfile()
         QStandardItem *item = profileDriversModel->item(i);
         QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(item->text());
         if (driverInfo)
-            pi->addDriver(driverInfo->getType(), driverInfo->getName());
+            pi->addDriver(driverInfo->getType(), driverInfo->getLabel());
     }
 
     pi->remotedrivers = ui->remoteDrivers->text();

@@ -134,30 +134,44 @@ QString ProfileInfo::aux4() const
 
 QJsonObject ProfileInfo::toJson() const
 {
-    return
+    QJsonObject json;
+    json["name"] = name;
+    json["auto_connect"] = autoConnect;
+    json["port_selector"] = portSelector;
+    json["mode"] = host.isEmpty() ? "local" : "remote";
+    json["remote_host"] = host;
+    json["remote_port"] = port;
+    json["guiding"] = guidertype;
+    json["remote_guiding_host"] = guiderhost;
+    json["remote_guiding_port"] = guiderport;
+    json["use_web_manager"] = INDIWebManagerPort != -1;
+    json["mount"] = mount();
+    json["ccd"] = ccd();
+    json["guider"] = guider();
+    json["focuser"] = focuser();
+    json["filter"] = filter();
+    json["ao"] = ao();
+    json["dome"] = dome();
+    json["weather"] = weather();
+    json["aux1"] = aux1();
+    json["aux2"] = aux2();
+    json["aux3"] = aux3();
+    json["aux4"] = aux4();
+    json["remote"] = remotedrivers;
+
+    QJsonObject driversObject;
+    QMapIterator<DeviceFamily, QList<QString>> i(drivers);
+    while (i.hasNext())
     {
-        {"name", name},
-        {"auto_connect", autoConnect},
-        {"port_selector", portSelector},
-        {"mode", host.isEmpty() ? "local" : "remote"},
-        {"remote_host", host},
-        {"remote_port", port},
-        {"guiding", guidertype},
-        {"remote_guiding_host", guiderhost},
-        {"remote_guiding_port", guiderport},
-        {"use_web_manager", INDIWebManagerPort != -1},
-        {"mount", mount()},
-        {"ccd", ccd()},
-        {"guider", guider()},
-        {"focuser", focuser()},
-        {"filter", filter()},
-        {"ao", ao()},
-        {"dome", dome()},
-        {"weather", weather()},
-        {"aux1", aux1()},
-        {"aux2", aux2()},
-        {"aux3", aux3()},
-        {"aux4", aux4()},
-        {"remote", remotedrivers},
-    };
+        i.next();
+        QJsonArray driverArray;
+        for (const QString &driver : i.value())
+        {
+            driverArray.append(driver);
+        }
+        driversObject[fromDeviceFamily(i.key())] = driverArray;
+    }
+    json["drivers"] = driversObject;
+
+    return json;
 }
