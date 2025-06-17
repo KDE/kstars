@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-14 01:58+0000\n"
+"POT-Creation-Date: 2025-06-17 01:58+0000\n"
 "PO-Revision-Date: 2025-04-11 22:27+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -584,7 +584,7 @@ msgstr "Отказ"
 #: ekos/align/opsastrometryindexfiles.cpp:736
 #: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
-#: ekos/manager.cpp:1323 ekos/manager.cpp:1338 ekos/manager.cpp:1354
+#: ekos/manager.cpp:1245 ekos/manager.cpp:1260 ekos/manager.cpp:1276
 #: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
@@ -6500,7 +6500,7 @@ msgstr "Решаването е прекъснато след %1 секунди.
 
 #: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4136
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2158 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2068 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3688
 #, kde-format
@@ -7099,11 +7099,10 @@ msgid "Camera Gain"
 msgstr "Вировитица"
 
 #. i18n: ectx: property (text), widget (QLabel, FilterPosLabel)
-#. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/align.ui:685 ekos/capture/camera.ui:694 ekos/focus/focus.ui:719
-#: ekos/profileeditor.ui:622 fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
+#: fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
 #, kde-format
 msgid "Filter:"
 msgstr "Филтър:"
@@ -10552,7 +10551,7 @@ msgstr "Не може да се покаже временния файл на и
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2303 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2306 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2216 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:490
 #, kde-format
@@ -10561,7 +10560,7 @@ msgstr "Фокус"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2262
+#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2172
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:498
 #, kde-format
@@ -10573,7 +10572,7 @@ msgstr "Подравняване"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2305 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2527
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2437
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:494
 #, kde-format
@@ -10589,7 +10588,7 @@ msgstr "Обръщане"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2307 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2452 ekos/manager.ui:778
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2362 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
 msgstr "Монтиране"
@@ -10925,9 +10924,7 @@ msgstr "Гидиране:"
 
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/analyze/analyze.ui:501 ekos/auxiliary/opticaltrains.ui:163
-#: ekos/profileeditor.ui:636
 #, kde-format
 msgid "Mount:"
 msgstr "Монтировка:"
@@ -12520,9 +12517,7 @@ msgstr "Настройки на филтъра"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFilterWheelLogging)
-#. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/filtersettings.ui:28 ekos/auxiliary/opslogs.ui:272
-#: ekos/profileeditor.ui:619
 #, kde-format
 msgid "Filter Wheel"
 msgstr "Филтърно колело"
@@ -12866,7 +12861,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2577
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2487
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -12891,8 +12886,7 @@ msgid "Detector"
 msgstr "Детектор"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_INDIAOLogging)
-#. i18n: ectx: property (toolTip), widget (QLabel, AOLabel)
-#: ekos/auxiliary/opslogs.ui:354 ekos/profileeditor.ui:514
+#: ekos/auxiliary/opslogs.ui:354
 #, kde-format
 msgid "Adaptive Optics"
 msgstr "Адаптивна оптика"
@@ -13205,8 +13199,7 @@ msgid "Select a mechanized focuser if any."
 msgstr "Изберете механизирано фокусиращо устройство, ако има такова."
 
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
-#. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/auxiliary/opticaltrains.ui:324 ekos/profileeditor.ui:629
+#: ekos/auxiliary/opticaltrains.ui:324
 #, kde-format
 msgid "Focuser:"
 msgstr "Фокусер:"
@@ -14874,7 +14867,7 @@ msgstr "Управление на последователни скриптов�
 
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
-#: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:699
+#: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:615
 #: ekos/scheduler/scheduler.cpp:460
 #, kde-format
 msgid "Scripts"
@@ -15258,7 +15251,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, remoteLabel)
 #. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
-#: ekos/capture/camera.ui:1903 ekos/profileeditor.ui:458
+#: ekos/capture/camera.ui:1903 ekos/profileeditor.ui:601
 #, kde-format
 msgid "Remote:"
 msgstr "Отдалечени:"
@@ -24797,12 +24790,13 @@ msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:1029 ekos/manager.cpp:1055
-#, kde-format
-msgid "Ekos requires at least one CCD or Guider to operate."
+#: ekos/manager.cpp:952 ekos/manager.cpp:977
+#, fuzzy, kde-format
+#| msgid "Ekos requires at least one CCD or Guider to operate."
+msgid "Ekos requires at least one Camera to operate."
 msgstr "Ekos изисква поне един CCD или гид модул, за да работи."
 
-#: ekos/manager.cpp:1118
+#: ekos/manager.cpp:1040
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -24811,17 +24805,17 @@ msgstr ""
 "Ekos е открила, че PTP камера е стартирана и може да попречи на камера Canon "
 "или Nikon да се свърже с Ekos. Искате ли да прекратите PTP камера сега?"
 
-#: ekos/manager.cpp:1119
+#: ekos/manager.cpp:1041
 #, kde-format
 msgid "PTP Camera"
 msgstr "Камера PTP"
 
-#: ekos/manager.cpp:1133
+#: ekos/manager.cpp:1055
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Стартиране на INDI услуги..."
 
-#: ekos/manager.cpp:1164
+#: ekos/manager.cpp:1086
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -24831,47 +24825,47 @@ msgstr ""
 "изключите съществуващата инстанция, преди да стартирате нова?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1166 indi/opsindi.ui:248
+#: ekos/manager.cpp:1088 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "Сървър на INDI"
 
-#: ekos/manager.cpp:1181
+#: ekos/manager.cpp:1103
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "Свързване към отдалечен INDI сървър на %1 на порт %2"
 
-#: ekos/manager.cpp:1201
+#: ekos/manager.cpp:1123
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Неуспешно стартиране на профил в отдалечен INDI уеб мениджър."
 
-#: ekos/manager.cpp:1205
+#: ekos/manager.cpp:1127
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Стартиране на профил на отдалечения INDI уеб мениджър..."
 
-#: ekos/manager.cpp:1218
+#: ekos/manager.cpp:1140
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Установява се комуникация с отдалечен INDI уеб мениджър..."
 
-#: ekos/manager.cpp:1238
+#: ekos/manager.cpp:1160
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr "Предупреждение: Уеб мениджърът на INDI не е онлайн."
 
-#: ekos/manager.cpp:1275
+#: ekos/manager.cpp:1197
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "INDI услугите стартираха на порт %1."
 
-#: ekos/manager.cpp:1278
+#: ekos/manager.cpp:1200
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Услугите INDI са стартирани на порт %1. Моля, свържете устройствата."
 
-#: ekos/manager.cpp:1283
+#: ekos/manager.cpp:1205
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -24880,27 +24874,27 @@ msgstr ""
 "Стартиране на услугите на INDI. Връзката с отдалечения INDI сървър %1:%2 е "
 "успешна. Изчакваме устройства..."
 
-#: ekos/manager.cpp:1314
+#: ekos/manager.cpp:1236
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Неуспешно свързване с локален INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1316
+#: ekos/manager.cpp:1238
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Неуспешно свързване с отдалечен INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1329
+#: ekos/manager.cpp:1251
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Загубена връзка с локалния INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1331
+#: ekos/manager.cpp:1253
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Загубена връзка с отдалечен INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1394
+#: ekos/manager.cpp:1316
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -24908,7 +24902,7 @@ msgstr ""
 "Не успя да се свърже с %1. Моля, уверете се, че устройството е свързано и "
 "включено."
 
-#: ekos/manager.cpp:1396
+#: ekos/manager.cpp:1318
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -24919,7 +24913,7 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че всяко устройство е свързано и включено."
 
-#: ekos/manager.cpp:1424
+#: ekos/manager.cpp:1346
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -24930,13 +24924,13 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че устройството е свързано и включено."
 
-#: ekos/manager.cpp:1428 ekos/manager.cpp:1436 ekos/manager.cpp:1466
-#: ekos/manager.cpp:1474
+#: ekos/manager.cpp:1350 ekos/manager.cpp:1358 ekos/manager.cpp:1391
+#: ekos/manager.cpp:1399
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Грешка при стартиране на Ekos"
 
-#: ekos/manager.cpp:1432
+#: ekos/manager.cpp:1354
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -24947,7 +24941,7 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че всяко устройство е свързано и включено."
 
-#: ekos/manager.cpp:1462
+#: ekos/manager.cpp:1387
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -24958,7 +24952,7 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че устройството е свързано и включено."
 
-#: ekos/manager.cpp:1470
+#: ekos/manager.cpp:1395
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -24969,32 +24963,32 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че всяко устройство е свързано и включено."
 
-#: ekos/manager.cpp:1528
+#: ekos/manager.cpp:1453
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Свързване на INDI устройства..."
 
-#: ekos/manager.cpp:1539
+#: ekos/manager.cpp:1464
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Прекъсване на INDI устройствата..."
 
-#: ekos/manager.cpp:1578
+#: ekos/manager.cpp:1503
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Услугите на INDI са спрени."
 
-#: ekos/manager.cpp:1653
+#: ekos/manager.cpp:1563
 #, kde-format
 msgid "Remote devices established."
 msgstr "Установени са отдалечени устройства."
 
-#: ekos/manager.cpp:1655
+#: ekos/manager.cpp:1565
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Установени са отдалечени устройства. Моля, свържете устройствата."
 
-#: ekos/manager.cpp:1719
+#: ekos/manager.cpp:1629
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -25003,119 +24997,119 @@ msgstr ""
 "%1 не успя да се свърже.\n"
 "Моля, уверете се, че устройството е свързано и включено."
 
-#: ekos/manager.cpp:1726
+#: ekos/manager.cpp:1636
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 е разкачен."
 
-#: ekos/manager.cpp:1747 ekos/manager.cpp:1756 ekos/manager.cpp:1789
+#: ekos/manager.cpp:1657 ekos/manager.cpp:1666 ekos/manager.cpp:1699
 #: indi/indistd.cpp:716
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 е достъпен."
 
-#: ekos/manager.cpp:1764
+#: ekos/manager.cpp:1674
 #, kde-format
 msgid "%1 filter is online."
 msgstr "%1 филтър е онлайн."
 
-#: ekos/manager.cpp:1773
+#: ekos/manager.cpp:1683
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "%1 фокусер е достъпен."
 
-#: ekos/manager.cpp:1780
+#: ekos/manager.cpp:1690
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "Ротатор %1 е онлайн."
 
-#: ekos/manager.cpp:1796
+#: ekos/manager.cpp:1706
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "%1 Времето е онлайн."
 
-#: ekos/manager.cpp:1803
+#: ekos/manager.cpp:1713
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "%1 GPS е онлайн."
 
-#: ekos/manager.cpp:1812
+#: ekos/manager.cpp:1722
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "%1 Защитната капачка е онлайн."
 
-#: ekos/manager.cpp:1819
+#: ekos/manager.cpp:1729
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "%1 Светлинен източник е онлайн."
 
-#: ekos/manager.cpp:1971
+#: ekos/manager.cpp:1881
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 е недостъпен."
 
-#: ekos/manager.cpp:2210
+#: ekos/manager.cpp:2120
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2594
+#: ekos/manager.cpp:2504
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Портът на гид модула от %1 е готов."
 
-#: ekos/manager.cpp:2783
+#: ekos/manager.cpp:2693
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Сигурни ли сте, че искате да изтриете профила?"
 
-#: ekos/manager.cpp:2784
+#: ekos/manager.cpp:2694
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Потвърждение за изтриване"
 
-#: ekos/manager.cpp:2836
+#: ekos/manager.cpp:2746
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Местоположението е актуализирано на %1."
 
-#: ekos/manager.cpp:2838
+#: ekos/manager.cpp:2748
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Не успя да актуализира местоположението до %1. Градът не е намерен."
 
-#: ekos/manager.cpp:3111
+#: ekos/manager.cpp:3021
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Включване на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:3119
+#: ekos/manager.cpp:3029
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Изключване на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:3147
+#: ekos/manager.cpp:3057
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Повторно активиране на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:3159
+#: ekos/manager.cpp:3069
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Повторно деактивиране на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:3884
+#: ekos/manager.cpp:3794
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Източникът на визуализация е зададен като външен"
 
-#: ekos/manager.cpp:3891
+#: ekos/manager.cpp:3801
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Възстановяване на източника на визуализация към вътрешен"
 
-#: ekos/manager.cpp:3898
+#: ekos/manager.cpp:3808
 #, kde-format
 msgid "Received external preview file"
 msgstr "Получен файл за външен преглед"
@@ -26526,23 +26520,23 @@ msgstr ""
 "Задаване на алтернативна базова директория за файлове с изображения на "
 "Analyze"
 
-#: ekos/profileeditor.cpp:80
+#: ekos/profileeditor.cpp:51
 #, kde-format
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "Редактор на профили"
 
-#: ekos/profileeditor.cpp:146
+#: ekos/profileeditor.cpp:117
 #, kde-format
 msgid "Cannot save an empty profile."
 msgstr "Не може да се запази празен профил."
 
-#: ekos/profileeditor.cpp:158
+#: ekos/profileeditor.cpp:129
 #, kde-format
 msgid "Profile name already exists."
 msgstr "Името на профила вече съществува."
 
-#: ekos/profileeditor.cpp:532
+#: ekos/profileeditor.cpp:333
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
@@ -26551,7 +26545,7 @@ msgstr ""
 "<nobr>Предлага се като <b>отдалечен</b>драйвер. За да го използвате локално, "
 "инсталирайте съответния драйвер.<nobr/>"
 
-#: ekos/profileeditor.cpp:534
+#: ekos/profileeditor.cpp:335
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -26560,24 +26554,30 @@ msgstr ""
 "<nobr><b>Етикет</b>: %1 &#9473; <b>Драйвер</b>: %2 &#9473; <b>Изп. файл</b>: "
 "%3<nobr/>"
 
+#: ekos/profileeditor.cpp:344
+#, fuzzy, kde-format
+#| msgid "Drivers:"
+msgid "Drivers"
+msgstr "Драйвери:"
+
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:689 ekos/profileeditor.ui:263
+#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:257
 #, kde-format
 msgid "Internal"
 msgstr "Вътрешен"
 
-#: ekos/profileeditor.cpp:767
+#: ekos/profileeditor.cpp:683
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Сканиране на мрежата"
 
-#: ekos/profileeditor.cpp:768
+#: ekos/profileeditor.cpp:684
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Сканиране на мрежа за INDI уеб мениджъри..."
 
-#: ekos/profileeditor.cpp:832
+#: ekos/profileeditor.cpp:748
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Намерен INDI уеб мениджър на %1"
@@ -26651,21 +26651,21 @@ msgstr "Местоположение"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
-#: ekos/profileeditor.ui:127 ekos/profileeditor.ui:307
-#: ekos/profileeditor.ui:346 ekos/profilewizard.ui:526
+#: ekos/profileeditor.ui:127 ekos/profileeditor.ui:301
+#: ekos/profileeditor.ui:337 ekos/profilewizard.ui:526
 #: ekos/profilewizard.ui:718 indi/indihostconf.ui:40
 #, kde-format
 msgid "Port:"
 msgstr "Порт:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, externalGuidePort)
-#: ekos/profileeditor.ui:146
+#: ekos/profileeditor.ui:143
 #, kde-format
 msgid "<html><body><p>External guider port.</p></body></html>"
 msgstr "<html><body><p>Порт на външен гид модул</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
-#: ekos/profileeditor.ui:157
+#: ekos/profileeditor.ui:154
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -26685,7 +26685,7 @@ msgstr ""
 "</body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
-#: ekos/profileeditor.ui:160
+#: ekos/profileeditor.ui:157
 #, kde-format
 msgid "Mode:"
 msgstr "Режим:"
@@ -26695,26 +26695,26 @@ msgstr "Режим:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: ekos/profileeditor.ui:170 ekos/profileeditor.ui:378
+#: ekos/profileeditor.ui:167 ekos/profileeditor.ui:366
 #: ekos/profilewizard.ui:512 ekos/profilewizard.ui:691 indi/indihostconf.ui:30
 #, kde-format
 msgid "Host:"
 msgstr "Сървър:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, openWebManagerB)
-#: ekos/profileeditor.ui:189
+#: ekos/profileeditor.ui:183
 #, kde-format
 msgid "<html><body><p>Open Web Manager in browser.</p></body></html>"
 msgstr "<html><body><p>Отваряне на уеб мениджъра в браузър.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, openWebManagerB)
-#: ekos/profileeditor.ui:192
+#: ekos/profileeditor.ui:186
 #, kde-format
 msgid "Web Manager"
 msgstr "Уеб мениджър"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scanB)
-#: ekos/profileeditor.ui:208
+#: ekos/profileeditor.ui:202
 #, kde-format
 msgid ""
 "<html><body><p>Scan local network for INDI web managers.</p></body></html>"
@@ -26723,44 +26723,44 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, scanB)
-#: ekos/profileeditor.ui:211
+#: ekos/profileeditor.ui:205
 #, kde-format
 msgid "Scan"
 msgstr "Сканиране"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, INDIWebManagerPort)
-#: ekos/profileeditor.ui:236
+#: ekos/profileeditor.ui:230
 #, kde-format
 msgid "<html><body><p>INDI Web Manager port.</p></body></html>"
 msgstr "<html><body><p>Порт на INDI уеб мениджър.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, INDIWebManagerPort)
-#: ekos/profileeditor.ui:239
+#: ekos/profileeditor.ui:233
 #, kde-format
 msgid "8624"
 msgstr "8624"
 
 #. i18n: ectx: property (text), widget (QRadioButton, localMode)
-#: ekos/profileeditor.ui:246
+#: ekos/profileeditor.ui:240
 #, kde-format
 msgid "&Local"
 msgstr "&Локално"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)
-#: ekos/profileeditor.ui:268 ekos/profilewizard.ui:978
+#: ekos/profileeditor.ui:262 ekos/profilewizard.ui:978
 #, kde-format
 msgid "PHD2"
 msgstr "PHD2"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.ui:273
+#: ekos/profileeditor.ui:267
 #, kde-format
 msgid "LinGuider"
 msgstr "LinGuider"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guidingTypeLabel)
-#: ekos/profileeditor.ui:281
+#: ekos/profileeditor.ui:275
 #, kde-format
 msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
@@ -26770,13 +26770,13 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/profileeditor.ui:284
+#: ekos/profileeditor.ui:278
 #, kde-format
 msgid "Guiding:"
 msgstr "Гидиране:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, INDIWebManagerCheck)
-#: ekos/profileeditor.ui:294
+#: ekos/profileeditor.ui:288
 #, kde-format
 msgid ""
 "<html><body><p>Store profile on remote INDI Web Manager. Use INDI Web "
@@ -26787,38 +26787,38 @@ msgstr ""
 "прекратите INDI сървъра.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, INDIWebManagerCheck)
-#: ekos/profileeditor.ui:297
+#: ekos/profileeditor.ui:291
 #, kde-format
 msgid "INDI Web Manager"
 msgstr "INDI Web Manager"
 
 #. i18n: ectx: property (text), widget (QRadioButton, remoteMode)
-#: ekos/profileeditor.ui:317
+#: ekos/profileeditor.ui:308
 #, kde-format
 msgid "Re&mote"
 msgstr "&Отдалечено"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, remoteHost)
-#: ekos/profileeditor.ui:333
+#: ekos/profileeditor.ui:324
 #, kde-format
 msgid "<html><body><p>Remote INDI server host or address.</p></body></html>"
 msgstr ""
 "<html><body><p>Хост или адрес на отдалечен INDI сървър.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, externalGuideHost)
-#: ekos/profileeditor.ui:365
+#: ekos/profileeditor.ui:353
 #, kde-format
 msgid "<html><body><p>External guider host or address.</p></body></html>"
 msgstr "<html><body><p>Хост или адрес на външен гид модул.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, externalGuideHost)
-#: ekos/profileeditor.ui:368
+#: ekos/profileeditor.ui:356
 #, kde-format
 msgid "localhost"
 msgstr "localhost"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, remotePort)
-#: ekos/profileeditor.ui:397
+#: ekos/profileeditor.ui:382
 #, kde-format
 msgid "<html><body><p>Remote INDI Server Port.</p></body></html>"
 msgstr "<html><body><p>Порт на отдалечен INDI сървър.</p></body></html>"
@@ -26826,62 +26826,34 @@ msgstr "<html><body><p>Порт на отдалечен INDI сървър.</p></
 #. i18n: ectx: property (text), widget (QLineEdit, remotePort)
 #. i18n: ectx: property (text), widget (QLineEdit, remotePortEdit)
 #. i18n: ectx: property (text), widget (QLineEdit, PiPort)
-#: ekos/profileeditor.ui:400 ekos/profilewizard.ui:533
+#: ekos/profileeditor.ui:385 ekos/profilewizard.ui:533
 #: ekos/profilewizard.ui:725
 #, kde-format
 msgid "7624"
 msgstr "7624"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driversGroupBox)
-#: ekos/profileeditor.ui:412
+#: ekos/profileeditor.ui:397
 #, kde-format
 msgid "Select Devices"
 msgstr "Избор на устройства"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, aux3Label)
-#: ekos/profileeditor.ui:418
-#, kde-format
-msgid "Auxiliary #3"
-msgstr "Допълнителни #3"
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, driverSearchEdit)
+#: ekos/profileeditor.ui:425
+#, fuzzy, kde-format
+#| msgid "Driver Restart"
+msgid "Driver Search"
+msgstr "Презареждане на драйвера"
 
-#. i18n: ectx: property (text), widget (QLabel, aux3Label)
-#: ekos/profileeditor.ui:421
-#, kde-format
-msgid "Aux 3:"
-msgstr "Доп. 3:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, aux4Label)
-#: ekos/profileeditor.ui:428
-#, kde-format
-msgid "Auxiliary #4"
-msgstr "Допълнителни #4"
-
-#. i18n: ectx: property (text), widget (QLabel, aux4Label)
-#: ekos/profileeditor.ui:431
-#, kde-format
-msgid "Aux 4:"
-msgstr "Доп. 4:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/profileeditor.ui:438
-#, kde-format
-msgid "Camera 2:"
-msgstr "Камера 2:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, aux1Label)
-#: ekos/profileeditor.ui:445
-#, kde-format
-msgid "Auxiliary #1"
-msgstr "Допълнителни #1"
-
-#. i18n: ectx: property (text), widget (QLabel, aux1Label)
-#: ekos/profileeditor.ui:448
-#, kde-format
-msgid "Aux 1:"
-msgstr "Доп. 1:"
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, profileSearchEdit)
+#: ekos/profileeditor.ui:549
+#, fuzzy, kde-format
+#| msgid "Profile"
+msgid "Profile Search"
+msgstr "Профил"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteDriversLabel)
-#: ekos/profileeditor.ui:455
+#: ekos/profileeditor.ui:598
 #, kde-format
 msgid ""
 "<html><head/><body><p>Add remote INDI drivers to chain with the local INDI "
@@ -26914,57 +26886,8 @@ msgstr ""
 "трябва да са стартирани отдалечените моторни устройства на INDI.</p></body></"
 "html>"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, domeLabel)
-#: ekos/profileeditor.ui:478
-#, kde-format
-msgid "Dome Controller"
-msgstr "Управление на купола"
-
-#. i18n: ectx: property (text), widget (QLabel, domeLabel)
-#: ekos/profileeditor.ui:481
-#, kde-format
-msgid "Dome:"
-msgstr "Купол:"
-
-#. i18n: ectx: property (text), widget (QLabel, AOLabel)
-#: ekos/profileeditor.ui:517
-#, kde-format
-msgid "AO:"
-msgstr "AO:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, aux2Label)
-#: ekos/profileeditor.ui:550
-#, kde-format
-msgid "Auxiliary #2"
-msgstr "Допълнителни #2"
-
-#. i18n: ectx: property (text), widget (QLabel, aux2Label)
-#: ekos/profileeditor.ui:553
-#, kde-format
-msgid "Aux 2:"
-msgstr "Доп. 2:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/profileeditor.ui:599
-#, kde-format
-msgid "Camera 1:"
-msgstr "Камера 1:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, weatherLabel)
-#: ekos/profileeditor.ui:669
-#, kde-format
-msgid "Weather Station"
-msgstr "Метеорологична станция"
-
-#. i18n: ectx: property (text), widget (QLabel, weatherLabel)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/profileeditor.ui:672 oal/execute.ui:65
-#, kde-format
-msgid "Weather:"
-msgstr "Метеорологично време:"
-
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, remoteDrivers)
-#: ekos/profileeditor.ui:692
+#: ekos/profileeditor.ui:608
 #, kde-format
 msgid "driver@host:port,driver@host,@host:port,@host,driver"
 msgstr "driver@host:port,driver@host,@host:port,@host,driver"
@@ -33648,7 +33571,7 @@ msgstr "Монтиране на локацията"
 msgid "Data file saved to %1"
 msgstr "Файлът с данни е записан в %1"
 
-#: indi/indiwebmanager.cpp:239
+#: indi/indiwebmanager.cpp:245
 #, kde-format
 msgid "Driver %1 failed to start on the remote INDI server."
 msgstr "Драйвер %1 не успя да стартира на отдалечения INDI сървър."
@@ -77303,6 +77226,12 @@ msgstr "задаване на местоположение"
 msgid "Begin:"
 msgstr "Начало:"
 
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: oal/execute.ui:65
+#, kde-format
+msgid "Weather:"
+msgstr "Метеорологично време:"
+
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: oal/execute.ui:79
 #, kde-format
@@ -89397,6 +89326,48 @@ msgstr "Цвят на фона:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Задаване на цвета на фона."
+
+#~ msgid "Auxiliary #3"
+#~ msgstr "Допълнителни #3"
+
+#~ msgid "Aux 3:"
+#~ msgstr "Доп. 3:"
+
+#~ msgid "Auxiliary #4"
+#~ msgstr "Допълнителни #4"
+
+#~ msgid "Aux 4:"
+#~ msgstr "Доп. 4:"
+
+#~ msgid "Camera 2:"
+#~ msgstr "Камера 2:"
+
+#~ msgid "Auxiliary #1"
+#~ msgstr "Допълнителни #1"
+
+#~ msgid "Aux 1:"
+#~ msgstr "Доп. 1:"
+
+#~ msgid "Dome Controller"
+#~ msgstr "Управление на купола"
+
+#~ msgid "Dome:"
+#~ msgstr "Купол:"
+
+#~ msgid "AO:"
+#~ msgstr "AO:"
+
+#~ msgid "Auxiliary #2"
+#~ msgstr "Допълнителни #2"
+
+#~ msgid "Aux 2:"
+#~ msgstr "Доп. 2:"
+
+#~ msgid "Camera 1:"
+#~ msgstr "Камера 1:"
+
+#~ msgid "Weather Station"
+#~ msgstr "Метеорологична станция"
 
 #~ msgid "INDI Hub Settings"
 #~ msgstr "Настройки на INDI хъб"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-14 01:58+0000\n"
+"POT-Creation-Date: 2025-06-17 01:58+0000\n"
 "PO-Revision-Date: 2002-11-09 20:07+0200\n"
 "Last-Translator: Thelma Lungcuzo <thelma@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -603,7 +603,7 @@ msgstr "Cannes"
 #: ekos/align/opsastrometryindexfiles.cpp:736
 #: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
-#: ekos/manager.cpp:1323 ekos/manager.cpp:1338 ekos/manager.cpp:1354
+#: ekos/manager.cpp:1245 ekos/manager.cpp:1260 ekos/manager.cpp:1276
 #: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
@@ -6491,7 +6491,7 @@ msgstr "Cwangcisa ixesha: "
 
 #: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4136
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2158 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2068 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3688
 #, kde-format
@@ -7080,11 +7080,10 @@ msgid "Camera Gain"
 msgstr "Varsovia"
 
 #. i18n: ectx: property (text), widget (QLabel, FilterPosLabel)
-#. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/align.ui:685 ekos/capture/camera.ui:694 ekos/focus/focus.ui:719
-#: ekos/profileeditor.ui:622 fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
+#: fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
 #, fuzzy, kde-format
 msgid "Filter:"
 msgstr "Icebo lesixeko lokucoca"
@@ -10279,7 +10278,7 @@ msgstr "Ayinakuyicima ifayile: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2303 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2306 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2216 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:490
 #, kde-format
@@ -10288,7 +10287,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2262
+#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2172
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:498
 #, fuzzy, kde-format
@@ -10301,7 +10300,7 @@ msgstr "Iqwalasele ku: "
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2305 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2527
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2437
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:494
 #, fuzzy, kde-format
@@ -10317,7 +10316,7 @@ msgstr "Fairfield"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2307 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2452 ekos/manager.ui:778
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2362 ekos/manager.ui:778
 #, fuzzy, kde-format
 msgid "Mount"
 msgstr "Ilizwe:"
@@ -10627,9 +10626,7 @@ msgstr "Isalathiso"
 
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/analyze/analyze.ui:501 ekos/auxiliary/opticaltrains.ui:163
-#: ekos/profileeditor.ui:636
 #, fuzzy, kde-format
 msgid "Mount:"
 msgstr "Ilizwe:"
@@ -12080,9 +12077,7 @@ msgstr "Gcina Imibala Yangoku..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIFilterWheelLogging)
-#. i18n: ectx: property (toolTip), widget (QLabel, filterLabel)
 #: ekos/auxiliary/filtersettings.ui:28 ekos/auxiliary/opslogs.ui:272
-#: ekos/profileeditor.ui:619
 #, fuzzy, kde-format
 msgid "Filter Wheel"
 msgstr "Icebo lesixeko lokucoca"
@@ -12431,7 +12426,7 @@ msgstr "Fumana umxholo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2577
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2487
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 msgid "Observatory"
@@ -12456,8 +12451,7 @@ msgid "Detector"
 msgstr "Dibanisa"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_INDIAOLogging)
-#. i18n: ectx: property (toolTip), widget (QLabel, AOLabel)
-#: ekos/auxiliary/opslogs.ui:354 ekos/profileeditor.ui:514
+#: ekos/auxiliary/opslogs.ui:354
 #, fuzzy, kde-format
 msgid "Adaptive Optics"
 msgstr "Alice"
@@ -12739,8 +12733,7 @@ msgid "Select a mechanized focuser if any."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
-#. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/auxiliary/opticaltrains.ui:324 ekos/profileeditor.ui:629
+#: ekos/auxiliary/opticaltrains.ui:324
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focuser:"
@@ -14351,7 +14344,7 @@ msgstr "Nakanye"
 
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
-#: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:699
+#: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:615
 #: ekos/scheduler/scheduler.cpp:460
 #, fuzzy, kde-format
 msgid "Scripts"
@@ -14626,7 +14619,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, remoteLabel)
 #. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
-#: ekos/capture/camera.ui:1903 ekos/profileeditor.ui:458
+#: ekos/capture/camera.ui:1903 ekos/profileeditor.ui:601
 #, fuzzy, kde-format
 msgid "Remote:"
 msgstr "&Cima intshukumo"
@@ -23247,31 +23240,31 @@ msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Iqwalasele ku: "
 
-#: ekos/manager.cpp:1029 ekos/manager.cpp:1055
+#: ekos/manager.cpp:952 ekos/manager.cpp:977
 #, kde-format
-msgid "Ekos requires at least one CCD or Guider to operate."
+msgid "Ekos requires at least one Camera to operate."
 msgstr ""
 
-#: ekos/manager.cpp:1118
+#: ekos/manager.cpp:1040
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
 "camera from connecting to Ekos. Do you want to quit PTP Camera now?"
 msgstr ""
 
-#: ekos/manager.cpp:1119
+#: ekos/manager.cpp:1041
 #, fuzzy, kde-format
 msgid "PTP Camera"
 msgstr "eCameroon"
 
-#: ekos/manager.cpp:1133
+#: ekos/manager.cpp:1055
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Starting INDI services..."
 msgstr "Farmington"
 
-#: ekos/manager.cpp:1164
+#: ekos/manager.cpp:1086
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -23279,80 +23272,80 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1166 indi/opsindi.ui:248
+#: ekos/manager.cpp:1088 indi/opsindi.ui:248
 #, fuzzy, kde-format
 msgid "INDI Server"
 msgstr "Nakanye"
 
-#: ekos/manager.cpp:1181
+#: ekos/manager.cpp:1103
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr ""
 
-#: ekos/manager.cpp:1201
+#: ekos/manager.cpp:1123
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr ""
 
-#: ekos/manager.cpp:1205
+#: ekos/manager.cpp:1127
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:1218
+#: ekos/manager.cpp:1140
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:1238
+#: ekos/manager.cpp:1160
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr ""
 
-#: ekos/manager.cpp:1275
+#: ekos/manager.cpp:1197
 #, fuzzy, kde-format
 msgid "INDI services started on port %1."
 msgstr "St. Peter Port"
 
-#: ekos/manager.cpp:1278
+#: ekos/manager.cpp:1200
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1283
+#: ekos/manager.cpp:1205
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
 "Waiting for devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1314
+#: ekos/manager.cpp:1236
 #, fuzzy, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Dibanisa"
 
-#: ekos/manager.cpp:1316
+#: ekos/manager.cpp:1238
 #, fuzzy, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Dibanisa"
 
-#: ekos/manager.cpp:1329
+#: ekos/manager.cpp:1251
 #, fuzzy, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Dibanisa"
 
-#: ekos/manager.cpp:1331
+#: ekos/manager.cpp:1253
 #, fuzzy, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Dibanisa"
 
-#: ekos/manager.cpp:1394
+#: ekos/manager.cpp:1316
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1396
+#: ekos/manager.cpp:1318
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -23360,7 +23353,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1424
+#: ekos/manager.cpp:1346
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -23368,13 +23361,13 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1428 ekos/manager.cpp:1436 ekos/manager.cpp:1466
-#: ekos/manager.cpp:1474
+#: ekos/manager.cpp:1350 ekos/manager.cpp:1358 ekos/manager.cpp:1391
+#: ekos/manager.cpp:1399
 #, fuzzy, kde-format
 msgid "Ekos startup error"
 msgstr "Fumana umxholo"
 
-#: ekos/manager.cpp:1432
+#: ekos/manager.cpp:1354
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -23382,7 +23375,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1462
+#: ekos/manager.cpp:1387
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -23390,7 +23383,7 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1470
+#: ekos/manager.cpp:1395
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -23398,151 +23391,151 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1528
+#: ekos/manager.cpp:1453
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1539
+#: ekos/manager.cpp:1464
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1578
+#: ekos/manager.cpp:1503
 #, kde-format
 msgid "INDI services stopped."
 msgstr ""
 
-#: ekos/manager.cpp:1653
+#: ekos/manager.cpp:1563
 #, fuzzy, kde-format
 msgid "Remote devices established."
 msgstr "Nakanye"
 
-#: ekos/manager.cpp:1655
+#: ekos/manager.cpp:1565
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1719
+#: ekos/manager.cpp:1629
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1726
+#: ekos/manager.cpp:1636
 #, fuzzy, kde-format
 msgid "%1 is disconnected."
 msgstr "Winskin"
 
-#: ekos/manager.cpp:1747 ekos/manager.cpp:1756 ekos/manager.cpp:1789
+#: ekos/manager.cpp:1657 ekos/manager.cpp:1666 ekos/manager.cpp:1699
 #: indi/indistd.cpp:716
 #, kde-format
 msgid "%1 is online."
 msgstr ""
 
-#: ekos/manager.cpp:1764
+#: ekos/manager.cpp:1674
 #, kde-format
 msgid "%1 filter is online."
 msgstr ""
 
-#: ekos/manager.cpp:1773
+#: ekos/manager.cpp:1683
 #, fuzzy, kde-format
 msgid "%1 focuser is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1780
+#: ekos/manager.cpp:1690
 #, fuzzy, kde-format
 msgid "Rotator %1 is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1796
+#: ekos/manager.cpp:1706
 #, fuzzy, kde-format
 msgid "%1 Weather is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1803
+#: ekos/manager.cpp:1713
 #, fuzzy, kde-format
 msgid "%1 GPS is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1812
+#: ekos/manager.cpp:1722
 #, fuzzy, kde-format
 msgid "%1 Dust cap is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1819
+#: ekos/manager.cpp:1729
 #, fuzzy, kde-format
 msgid "%1 Light box is online."
 msgstr "Ikhaya"
 
-#: ekos/manager.cpp:1971
+#: ekos/manager.cpp:1881
 #, kde-format
 msgid "%1 is offline."
 msgstr ""
 
-#: ekos/manager.cpp:2210
+#: ekos/manager.cpp:2120
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr ""
 
-#: ekos/manager.cpp:2594
+#: ekos/manager.cpp:2504
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2783
+#: ekos/manager.cpp:2693
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr ""
 
-#: ekos/manager.cpp:2784
+#: ekos/manager.cpp:2694
 #, fuzzy, kde-format
 msgid "Confirm Delete"
 msgstr "Imposiso Ukucimeni Ifayile"
 
-#: ekos/manager.cpp:2836
+#: ekos/manager.cpp:2746
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2838
+#: ekos/manager.cpp:2748
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:3111
+#: ekos/manager.cpp:3021
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3119
+#: ekos/manager.cpp:3029
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3147
+#: ekos/manager.cpp:3057
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3159
+#: ekos/manager.cpp:3069
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3884
+#: ekos/manager.cpp:3794
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:3891
+#: ekos/manager.cpp:3801
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:3898
+#: ekos/manager.cpp:3808
 #, kde-format
 msgid "Received external preview file"
 msgstr ""
@@ -24920,56 +24913,61 @@ msgstr "e-Iceland"
 msgid "Set the alternative image directory for Analyze"
 msgstr ""
 
-#: ekos/profileeditor.cpp:80
+#: ekos/profileeditor.cpp:51
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "Ukhetho Lwegalelo"
 
-#: ekos/profileeditor.cpp:146
+#: ekos/profileeditor.cpp:117
 #, fuzzy, kde-format
 msgid "Cannot save an empty profile."
 msgstr "Dibanisa kuluhlu"
 
-#: ekos/profileeditor.cpp:158
+#: ekos/profileeditor.cpp:129
 #, kde-format
 msgid "Profile name already exists."
 msgstr ""
 
-#: ekos/profileeditor.cpp:532
+#: ekos/profileeditor.cpp:333
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:534
+#: ekos/profileeditor.cpp:335
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
 "%3<nobr/>"
 msgstr ""
 
+#: ekos/profileeditor.cpp:344
+#, fuzzy, kde-format
+msgid "Drivers"
+msgstr "Nakanye"
+
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:689 ekos/profileeditor.ui:263
+#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:257
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Vernal"
 msgid "Internal"
 msgstr "Vernal"
 
-#: ekos/profileeditor.cpp:767
+#: ekos/profileeditor.cpp:683
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:768
+#: ekos/profileeditor.cpp:684
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr ""
 
-#: ekos/profileeditor.cpp:832
+#: ekos/profileeditor.cpp:748
 #, fuzzy, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Ubeko lwephepha"
@@ -25035,21 +25033,21 @@ msgstr "Ubeko lwephepha"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
-#: ekos/profileeditor.ui:127 ekos/profileeditor.ui:307
-#: ekos/profileeditor.ui:346 ekos/profilewizard.ui:526
+#: ekos/profileeditor.ui:127 ekos/profileeditor.ui:301
+#: ekos/profileeditor.ui:337 ekos/profilewizard.ui:526
 #: ekos/profilewizard.ui:718 indi/indihostconf.ui:40
 #, fuzzy, kde-format
 msgid "Port:"
 msgstr "Ubeko lwephepha"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, externalGuidePort)
-#: ekos/profileeditor.ui:146
+#: ekos/profileeditor.ui:143
 #, fuzzy, kde-format
 msgid "<html><body><p>External guider port.</p></body></html>"
 msgstr "Fumana umxholo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
-#: ekos/profileeditor.ui:157
+#: ekos/profileeditor.ui:154
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -25062,7 +25060,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
-#: ekos/profileeditor.ui:160
+#: ekos/profileeditor.ui:157
 #, fuzzy, kde-format
 msgid "Mode:"
 msgstr "Indlela"
@@ -25072,70 +25070,70 @@ msgstr "Indlela"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: ekos/profileeditor.ui:170 ekos/profileeditor.ui:378
+#: ekos/profileeditor.ui:167 ekos/profileeditor.ui:366
 #: ekos/profilewizard.ui:512 ekos/profilewizard.ui:691 indi/indihostconf.ui:30
 #, fuzzy, kde-format
 msgid "Host:"
 msgstr "Izonwabiso"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, openWebManagerB)
-#: ekos/profileeditor.ui:189
+#: ekos/profileeditor.ui:183
 #, fuzzy, kde-format
 msgid "<html><body><p>Open Web Manager in browser.</p></body></html>"
 msgstr "Fumana umxholo"
 
 #. i18n: ectx: property (text), widget (QPushButton, openWebManagerB)
-#: ekos/profileeditor.ui:192
+#: ekos/profileeditor.ui:186
 #, fuzzy, kde-format
 msgid "Web Manager"
 msgstr "Nakanye"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scanB)
-#: ekos/profileeditor.ui:208
+#: ekos/profileeditor.ui:202
 #, fuzzy, kde-format
 msgid ""
 "<html><body><p>Scan local network for INDI web managers.</p></body></html>"
 msgstr "Fumana umxholo"
 
 #. i18n: ectx: property (text), widget (QPushButton, scanB)
-#: ekos/profileeditor.ui:211
+#: ekos/profileeditor.ui:205
 #, kde-format
 msgid "Scan"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, INDIWebManagerPort)
-#: ekos/profileeditor.ui:236
+#: ekos/profileeditor.ui:230
 #, fuzzy, kde-format
 msgid "<html><body><p>INDI Web Manager port.</p></body></html>"
 msgstr "Fumana umxholo"
 
 #. i18n: ectx: property (text), widget (QLineEdit, INDIWebManagerPort)
-#: ekos/profileeditor.ui:239
+#: ekos/profileeditor.ui:233
 #, kde-format
 msgid "8624"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, localMode)
-#: ekos/profileeditor.ui:246
+#: ekos/profileeditor.ui:240
 #, fuzzy, kde-format
 msgid "&Local"
 msgstr "Yobulali"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)
-#: ekos/profileeditor.ui:268 ekos/profilewizard.ui:978
+#: ekos/profileeditor.ui:262 ekos/profilewizard.ui:978
 #, kde-format
 msgid "PHD2"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.ui:273
+#: ekos/profileeditor.ui:267
 #, fuzzy, kde-format
 msgid "LinGuider"
 msgstr "Isalathiso"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guidingTypeLabel)
-#: ekos/profileeditor.ui:281
+#: ekos/profileeditor.ui:275
 #, fuzzy, kde-format
 msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
@@ -25143,13 +25141,13 @@ msgid ""
 msgstr "Fumana umxholo"
 
 #. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/profileeditor.ui:284
+#: ekos/profileeditor.ui:278
 #, fuzzy, kde-format
 msgid "Guiding:"
 msgstr "Isalathiso"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, INDIWebManagerCheck)
-#: ekos/profileeditor.ui:294
+#: ekos/profileeditor.ui:288
 #, kde-format
 msgid ""
 "<html><body><p>Store profile on remote INDI Web Manager. Use INDI Web "
@@ -25157,37 +25155,37 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, INDIWebManagerCheck)
-#: ekos/profileeditor.ui:297
+#: ekos/profileeditor.ui:291
 #, fuzzy, kde-format
 msgid "INDI Web Manager"
 msgstr "Nakanye"
 
 #. i18n: ectx: property (text), widget (QRadioButton, remoteMode)
-#: ekos/profileeditor.ui:317
+#: ekos/profileeditor.ui:308
 #, fuzzy, kde-format
 msgid "Re&mote"
 msgstr "&Cima intshukumo"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, remoteHost)
-#: ekos/profileeditor.ui:333
+#: ekos/profileeditor.ui:324
 #, fuzzy, kde-format
 msgid "<html><body><p>Remote INDI server host or address.</p></body></html>"
 msgstr "Fumana umxholo"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, externalGuideHost)
-#: ekos/profileeditor.ui:365
+#: ekos/profileeditor.ui:353
 #, fuzzy, kde-format
 msgid "<html><body><p>External guider host or address.</p></body></html>"
 msgstr "Fumana umxholo"
 
 #. i18n: ectx: property (text), widget (QLineEdit, externalGuideHost)
-#: ekos/profileeditor.ui:368
+#: ekos/profileeditor.ui:356
 #, fuzzy, kde-format
 msgid "localhost"
 msgstr "LT:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, remotePort)
-#: ekos/profileeditor.ui:397
+#: ekos/profileeditor.ui:382
 #, fuzzy, kde-format
 msgid "<html><body><p>Remote INDI Server Port.</p></body></html>"
 msgstr "Fumana umxholo"
@@ -25195,68 +25193,33 @@ msgstr "Fumana umxholo"
 #. i18n: ectx: property (text), widget (QLineEdit, remotePort)
 #. i18n: ectx: property (text), widget (QLineEdit, remotePortEdit)
 #. i18n: ectx: property (text), widget (QLineEdit, PiPort)
-#: ekos/profileeditor.ui:400 ekos/profilewizard.ui:533
+#: ekos/profileeditor.ui:385 ekos/profilewizard.ui:533
 #: ekos/profilewizard.ui:725
 #, kde-format
 msgid "7624"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, driversGroupBox)
-#: ekos/profileeditor.ui:412
+#: ekos/profileeditor.ui:397
 #, fuzzy, kde-format
 msgid "Select Devices"
 msgstr "Ukhetho Lwegalelo"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, aux3Label)
-#: ekos/profileeditor.ui:418
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, driverSearchEdit)
+#: ekos/profileeditor.ui:425
 #, fuzzy, kde-format
-#| msgctxt "Constellation Name"
-#| msgid "Constell. Name"
-msgid "Auxiliary #3"
-msgstr "Igama.Lenketho zeqela leenkwenkwezi"
+#| msgid "star"
+msgid "Driver Search"
+msgstr "inkwenkwezi"
 
-#. i18n: ectx: property (text), widget (QLabel, aux3Label)
-#: ekos/profileeditor.ui:421
-#, kde-format
-msgid "Aux 3:"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QLabel, aux4Label)
-#: ekos/profileeditor.ui:428
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, profileSearchEdit)
+#: ekos/profileeditor.ui:549
 #, fuzzy, kde-format
-#| msgctxt "Constellation Name"
-#| msgid "Constell. Name"
-msgid "Auxiliary #4"
-msgstr "Igama.Lenketho zeqela leenkwenkwezi"
-
-#. i18n: ectx: property (text), widget (QLabel, aux4Label)
-#: ekos/profileeditor.ui:431
-#, kde-format
-msgid "Aux 4:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/profileeditor.ui:438
-#, fuzzy, kde-format
-msgid "Camera 2:"
-msgstr "eCameroon"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, aux1Label)
-#: ekos/profileeditor.ui:445
-#, fuzzy, kde-format
-#| msgctxt "Constellation Name"
-#| msgid "Constell. Name"
-msgid "Auxiliary #1"
-msgstr "Igama.Lenketho zeqela leenkwenkwezi"
-
-#. i18n: ectx: property (text), widget (QLabel, aux1Label)
-#: ekos/profileeditor.ui:448
-#, kde-format
-msgid "Aux 1:"
-msgstr ""
+msgid "Profile Search"
+msgstr "Recife"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteDriversLabel)
-#: ekos/profileeditor.ui:455
+#: ekos/profileeditor.ui:598
 #, kde-format
 msgid ""
 "<html><head/><body><p>Add remote INDI drivers to chain with the local INDI "
@@ -25274,64 +25237,8 @@ msgid ""
 "the connection to succeed.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QLabel, domeLabel)
-#: ekos/profileeditor.ui:478
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Montreal"
-msgid "Dome Controller"
-msgstr "Montreal"
-
-#. i18n: ectx: property (text), widget (QLabel, domeLabel)
-#: ekos/profileeditor.ui:481
-#, kde-format
-msgid "Dome:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, AOLabel)
-#: ekos/profileeditor.ui:517
-#, fuzzy, kde-format
-#| msgid "RA:"
-msgid "AO:"
-msgstr "RA:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, aux2Label)
-#: ekos/profileeditor.ui:550
-#, fuzzy, kde-format
-#| msgctxt "Constellation Name"
-#| msgid "Constell. Name"
-msgid "Auxiliary #2"
-msgstr "Igama.Lenketho zeqela leenkwenkwezi"
-
-#. i18n: ectx: property (text), widget (QLabel, aux2Label)
-#: ekos/profileeditor.ui:553
-#, kde-format
-msgid "Aux 2:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/profileeditor.ui:599
-#, fuzzy, kde-format
-msgid "Camera 1:"
-msgstr "eCameroon"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, weatherLabel)
-#: ekos/profileeditor.ui:669
-#, fuzzy, kde-format
-msgid "Weather Station"
-msgstr "Trenton"
-
-#. i18n: ectx: property (text), widget (QLabel, weatherLabel)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/profileeditor.ui:672 oal/execute.ui:65
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Chester"
-msgid "Weather:"
-msgstr "Chester"
-
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, remoteDrivers)
-#: ekos/profileeditor.ui:692
+#: ekos/profileeditor.ui:608
 #, kde-format
 msgid "driver@host:port,driver@host,@host:port,@host,driver"
 msgstr ""
@@ -31574,7 +31481,7 @@ msgstr "&Indawo ekuyo"
 msgid "Data file saved to %1"
 msgstr "Cwangcisa ixesha: "
 
-#: indi/indiwebmanager.cpp:239
+#: indi/indiwebmanager.cpp:245
 #, kde-format
 msgid "Driver %1 failed to start on the remote INDI server."
 msgstr ""
@@ -80582,6 +80489,14 @@ msgstr "&Indawo ekuyo"
 msgid "Begin:"
 msgstr "Berlin"
 
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: oal/execute.ui:65
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Chester"
+msgid "Weather:"
+msgstr "Chester"
+
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: oal/execute.ui:79
 #, kde-format
@@ -91936,6 +91851,53 @@ msgstr "Itshathi Yenkwenkwezi"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "IC injongo"
+
+#, fuzzy
+#~| msgctxt "Constellation Name"
+#~| msgid "Constell. Name"
+#~ msgid "Auxiliary #3"
+#~ msgstr "Igama.Lenketho zeqela leenkwenkwezi"
+
+#, fuzzy
+#~| msgctxt "Constellation Name"
+#~| msgid "Constell. Name"
+#~ msgid "Auxiliary #4"
+#~ msgstr "Igama.Lenketho zeqela leenkwenkwezi"
+
+#, fuzzy
+#~ msgid "Camera 2:"
+#~ msgstr "eCameroon"
+
+#, fuzzy
+#~| msgctxt "Constellation Name"
+#~| msgid "Constell. Name"
+#~ msgid "Auxiliary #1"
+#~ msgstr "Igama.Lenketho zeqela leenkwenkwezi"
+
+#, fuzzy
+#~| msgctxt "City name (optional, probably does not need a translation)"
+#~| msgid "Montreal"
+#~ msgid "Dome Controller"
+#~ msgstr "Montreal"
+
+#, fuzzy
+#~| msgid "RA:"
+#~ msgid "AO:"
+#~ msgstr "RA:"
+
+#, fuzzy
+#~| msgctxt "Constellation Name"
+#~| msgid "Constell. Name"
+#~ msgid "Auxiliary #2"
+#~ msgstr "Igama.Lenketho zeqela leenkwenkwezi"
+
+#, fuzzy
+#~ msgid "Camera 1:"
+#~ msgstr "eCameroon"
+
+#, fuzzy
+#~ msgid "Weather Station"
+#~ msgstr "Trenton"
 
 #, fuzzy
 #~ msgid "INDI Hub Settings"
