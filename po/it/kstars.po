@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-17 01:58+0000\n"
+"POT-Creation-Date: 2025-06-18 01:57+0000\n"
 "PO-Revision-Date: 2025-06-13 22:34+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -14915,7 +14915,7 @@ msgstr "Gestisci gli script delle sequenze"
 
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
-#: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:615
+#: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:612
 #: ekos/scheduler/scheduler.cpp:460
 #, kde-format
 msgid "Scripts"
@@ -15298,7 +15298,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, remoteLabel)
 #. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
-#: ekos/capture/camera.ui:1903 ekos/profileeditor.ui:601
+#: ekos/capture/camera.ui:1903 ekos/profileeditor.ui:598
 #, kde-format
 msgid "Remote:"
 msgstr "Remoto:"
@@ -26525,7 +26525,7 @@ msgid "Drivers"
 msgstr "Driver:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:257
+#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
 #, kde-format
 msgid "Internal"
 msgstr "Interno"
@@ -26570,7 +26570,7 @@ msgid "Auto Connect"
 msgstr "Connessione automatica"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, portSelectorCheck)
-#: ekos/profileeditor.ui:91
+#: ekos/profileeditor.ui:88
 #, kde-format
 msgid ""
 "Show port selector dialog when first connecting to equipment. It is "
@@ -26581,13 +26581,13 @@ msgstr ""
 "che la connessione è stata stabilita."
 
 #. i18n: ectx: property (text), widget (QCheckBox, portSelectorCheck)
-#: ekos/profileeditor.ui:94
+#: ekos/profileeditor.ui:91
 #, kde-format
 msgid "Port Selector"
 msgstr "Selettore porta"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, loadSiteCheck)
-#: ekos/profileeditor.ui:110
+#: ekos/profileeditor.ui:107
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -26605,7 +26605,7 @@ msgstr ""
 "</body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, loadSiteCheck)
-#: ekos/profileeditor.ui:113
+#: ekos/profileeditor.ui:110
 #, kde-format
 msgid "Site Info"
 msgstr "Informazioni sul sito"
@@ -26616,21 +26616,21 @@ msgstr "Informazioni sul sito"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
-#: ekos/profileeditor.ui:127 ekos/profileeditor.ui:301
-#: ekos/profileeditor.ui:337 ekos/profilewizard.ui:526
+#: ekos/profileeditor.ui:124 ekos/profileeditor.ui:298
+#: ekos/profileeditor.ui:334 ekos/profilewizard.ui:526
 #: ekos/profilewizard.ui:718 indi/indihostconf.ui:40
 #, kde-format
 msgid "Port:"
 msgstr "Porta:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, externalGuidePort)
-#: ekos/profileeditor.ui:143
+#: ekos/profileeditor.ui:140
 #, kde-format
 msgid "<html><body><p>External guider port.</p></body></html>"
 msgstr "<html><body><p>Porta del telescopio guida esterno.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
-#: ekos/profileeditor.ui:154
+#: ekos/profileeditor.ui:151
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -26650,7 +26650,7 @@ msgstr ""
 "</body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
-#: ekos/profileeditor.ui:157
+#: ekos/profileeditor.ui:154
 #, kde-format
 msgid "Mode:"
 msgstr "Modalità:"
@@ -26660,26 +26660,26 @@ msgstr "Modalità:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: ekos/profileeditor.ui:167 ekos/profileeditor.ui:366
+#: ekos/profileeditor.ui:164 ekos/profileeditor.ui:363
 #: ekos/profilewizard.ui:512 ekos/profilewizard.ui:691 indi/indihostconf.ui:30
 #, kde-format
 msgid "Host:"
 msgstr "Host:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, openWebManagerB)
-#: ekos/profileeditor.ui:183
+#: ekos/profileeditor.ui:180
 #, kde-format
 msgid "<html><body><p>Open Web Manager in browser.</p></body></html>"
 msgstr "<html><body><p>Apri il Manager Web nel browser.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, openWebManagerB)
-#: ekos/profileeditor.ui:186
+#: ekos/profileeditor.ui:183
 #, kde-format
 msgid "Web Manager"
 msgstr "Manager web"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scanB)
-#: ekos/profileeditor.ui:202
+#: ekos/profileeditor.ui:199
 #, kde-format
 msgid ""
 "<html><body><p>Scan local network for INDI web managers.</p></body></html>"
@@ -26687,44 +26687,44 @@ msgstr ""
 "<html><body><p>Cerca INDI Web Manager nella rete locale.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, scanB)
-#: ekos/profileeditor.ui:205
+#: ekos/profileeditor.ui:202
 #, kde-format
 msgid "Scan"
 msgstr "Analizza"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, INDIWebManagerPort)
-#: ekos/profileeditor.ui:230
+#: ekos/profileeditor.ui:227
 #, kde-format
 msgid "<html><body><p>INDI Web Manager port.</p></body></html>"
 msgstr "<html><head/><body><p>Porta di INDI Web Manager.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, INDIWebManagerPort)
-#: ekos/profileeditor.ui:233
+#: ekos/profileeditor.ui:230
 #, kde-format
 msgid "8624"
 msgstr "8624"
 
 #. i18n: ectx: property (text), widget (QRadioButton, localMode)
-#: ekos/profileeditor.ui:240
+#: ekos/profileeditor.ui:237
 #, kde-format
 msgid "&Local"
 msgstr "&Locale"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)
-#: ekos/profileeditor.ui:262 ekos/profilewizard.ui:978
+#: ekos/profileeditor.ui:259 ekos/profilewizard.ui:978
 #, kde-format
 msgid "PHD2"
 msgstr "PHD2"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.ui:267
+#: ekos/profileeditor.ui:264
 #, kde-format
 msgid "LinGuider"
 msgstr "LinGuider"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guidingTypeLabel)
-#: ekos/profileeditor.ui:275
+#: ekos/profileeditor.ui:272
 #, kde-format
 msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
@@ -26734,13 +26734,13 @@ msgstr ""
 "modulo del Telescopio guida.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/profileeditor.ui:278
+#: ekos/profileeditor.ui:275
 #, kde-format
 msgid "Guiding:"
 msgstr "Guida:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, INDIWebManagerCheck)
-#: ekos/profileeditor.ui:288
+#: ekos/profileeditor.ui:285
 #, kde-format
 msgid ""
 "<html><body><p>Store profile on remote INDI Web Manager. Use INDI Web "
@@ -26751,26 +26751,26 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, INDIWebManagerCheck)
-#: ekos/profileeditor.ui:291
+#: ekos/profileeditor.ui:288
 #, kde-format
 msgid "INDI Web Manager"
 msgstr "INDI Web Manager"
 
 #. i18n: ectx: property (text), widget (QRadioButton, remoteMode)
-#: ekos/profileeditor.ui:308
+#: ekos/profileeditor.ui:305
 #, kde-format
 msgid "Re&mote"
 msgstr "Re&mota"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, remoteHost)
-#: ekos/profileeditor.ui:324
+#: ekos/profileeditor.ui:321
 #, kde-format
 msgid "<html><body><p>Remote INDI server host or address.</p></body></html>"
 msgstr ""
 "<html><body><p>Host o indirizzo del server INDI remoto.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, externalGuideHost)
-#: ekos/profileeditor.ui:353
+#: ekos/profileeditor.ui:350
 #, kde-format
 msgid "<html><body><p>External guider host or address.</p></body></html>"
 msgstr ""
@@ -26778,13 +26778,13 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, externalGuideHost)
-#: ekos/profileeditor.ui:356
+#: ekos/profileeditor.ui:353
 #, kde-format
 msgid "localhost"
 msgstr "localhost"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, remotePort)
-#: ekos/profileeditor.ui:382
+#: ekos/profileeditor.ui:379
 #, kde-format
 msgid "<html><body><p>Remote INDI Server Port.</p></body></html>"
 msgstr "<html><body><p>Porta del server INDI remoto.</p></body></html>"
@@ -26792,34 +26792,34 @@ msgstr "<html><body><p>Porta del server INDI remoto.</p></body></html>"
 #. i18n: ectx: property (text), widget (QLineEdit, remotePort)
 #. i18n: ectx: property (text), widget (QLineEdit, remotePortEdit)
 #. i18n: ectx: property (text), widget (QLineEdit, PiPort)
-#: ekos/profileeditor.ui:385 ekos/profilewizard.ui:533
+#: ekos/profileeditor.ui:382 ekos/profilewizard.ui:533
 #: ekos/profilewizard.ui:725
 #, kde-format
 msgid "7624"
 msgstr "7624"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driversGroupBox)
-#: ekos/profileeditor.ui:397
+#: ekos/profileeditor.ui:394
 #, kde-format
 msgid "Select Devices"
 msgstr "Seleziona dispositivi"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, driverSearchEdit)
-#: ekos/profileeditor.ui:425
+#: ekos/profileeditor.ui:422
 #, fuzzy, kde-format
 #| msgid "Driver Restart"
 msgid "Driver Search"
 msgstr "Riavvio driver"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, profileSearchEdit)
-#: ekos/profileeditor.ui:549
+#: ekos/profileeditor.ui:546
 #, fuzzy, kde-format
 #| msgid "Profile"
 msgid "Profile Search"
 msgstr "Profilo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteDriversLabel)
-#: ekos/profileeditor.ui:598
+#: ekos/profileeditor.ui:595
 #, kde-format
 msgid ""
 "<html><head/><body><p>Add remote INDI drivers to chain with the local INDI "
@@ -26853,7 +26853,7 @@ msgstr ""
 "positivo.</p></body></html>"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, remoteDrivers)
-#: ekos/profileeditor.ui:608
+#: ekos/profileeditor.ui:605
 #, kde-format
 msgid "driver@host:port,driver@host,@host:port,@host,driver"
 msgstr "driver@host:porta,driver@host,@host:porta,@host,driver"

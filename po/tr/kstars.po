@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-17 01:58+0000\n"
+"POT-Creation-Date: 2025-06-18 01:57+0000\n"
 "PO-Revision-Date: 2025-06-12 12:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -5691,7 +5691,7 @@ msgstr "Görünüm Ekle/Düzenle"
 #: dialogs/newview.ui:29
 #, kde-format
 msgid "9x50 RACI finder on Dob"
-msgstr "Dob Üzerinde 9 × 50 RACI Bulucusu"
+msgstr "Dob üzerinde 9 × 50 RACI bulucusu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newview.ui:47
@@ -14775,7 +14775,7 @@ msgstr "Sekans betiklerini yönet"
 
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
-#: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:615
+#: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:612
 #: ekos/scheduler/scheduler.cpp:460
 #, kde-format
 msgid "Scripts"
@@ -15154,7 +15154,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, remoteLabel)
 #. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
-#: ekos/capture/camera.ui:1903 ekos/profileeditor.ui:601
+#: ekos/capture/camera.ui:1903 ekos/profileeditor.ui:598
 #, kde-format
 msgid "Remote:"
 msgstr "Uzak:"
@@ -24436,10 +24436,9 @@ msgid "Ekos"
 msgstr "Ekos"
 
 #: ekos/manager.cpp:952 ekos/manager.cpp:977
-#, fuzzy, kde-format
-#| msgid "Ekos requires at least one CCD or Guider to operate."
+#, kde-format
 msgid "Ekos requires at least one Camera to operate."
-msgstr "Ekos, en az bir CCD veya kılavuza gereksinim duyar."
+msgstr "Ekos, çalışmak için en az bir kameraya gereksinim duyar."
 
 #: ekos/manager.cpp:1040
 #, kde-format
@@ -26186,13 +26185,12 @@ msgstr ""
 "%3<nobr/>"
 
 #: ekos/profileeditor.cpp:344
-#, fuzzy, kde-format
-#| msgid "Drivers:"
+#, kde-format
 msgid "Drivers"
-msgstr "Sürücüler:"
+msgstr "Sürücüler"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:257
+#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
 #, kde-format
 msgid "Internal"
 msgstr "İçsel"
@@ -26237,7 +26235,7 @@ msgid "Auto Connect"
 msgstr "Kendiliğinden bağlan"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, portSelectorCheck)
-#: ekos/profileeditor.ui:91
+#: ekos/profileeditor.ui:88
 #, kde-format
 msgid ""
 "Show port selector dialog when first connecting to equipment. It is "
@@ -26247,13 +26245,13 @@ msgstr ""
 "Bağlantı kurulduktan sonra kendiliğinden devre dışı bırakılır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, portSelectorCheck)
-#: ekos/profileeditor.ui:94
+#: ekos/profileeditor.ui:91
 #, kde-format
 msgid "Port Selector"
 msgstr "Kapı seçicisi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, loadSiteCheck)
-#: ekos/profileeditor.ui:110
+#: ekos/profileeditor.ui:107
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -26271,7 +26269,7 @@ msgstr ""
 "</body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, loadSiteCheck)
-#: ekos/profileeditor.ui:113
+#: ekos/profileeditor.ui:110
 #, kde-format
 msgid "Site Info"
 msgstr "Site Bilgisi"
@@ -26282,21 +26280,21 @@ msgstr "Site Bilgisi"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
-#: ekos/profileeditor.ui:127 ekos/profileeditor.ui:301
-#: ekos/profileeditor.ui:337 ekos/profilewizard.ui:526
+#: ekos/profileeditor.ui:124 ekos/profileeditor.ui:298
+#: ekos/profileeditor.ui:334 ekos/profilewizard.ui:526
 #: ekos/profilewizard.ui:718 indi/indihostconf.ui:40
 #, kde-format
 msgid "Port:"
 msgstr "Kapı:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, externalGuidePort)
-#: ekos/profileeditor.ui:143
+#: ekos/profileeditor.ui:140
 #, kde-format
 msgid "<html><body><p>External guider port.</p></body></html>"
 msgstr "<html><body><p>Dış kılavuz kapısı.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
-#: ekos/profileeditor.ui:154
+#: ekos/profileeditor.ui:151
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -26316,7 +26314,7 @@ msgstr ""
 "</body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
-#: ekos/profileeditor.ui:157
+#: ekos/profileeditor.ui:154
 #, kde-format
 msgid "Mode:"
 msgstr "Kip:"
@@ -26326,26 +26324,26 @@ msgstr "Kip:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: ekos/profileeditor.ui:167 ekos/profileeditor.ui:366
+#: ekos/profileeditor.ui:164 ekos/profileeditor.ui:363
 #: ekos/profilewizard.ui:512 ekos/profilewizard.ui:691 indi/indihostconf.ui:30
 #, kde-format
 msgid "Host:"
 msgstr "Makine:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, openWebManagerB)
-#: ekos/profileeditor.ui:183
+#: ekos/profileeditor.ui:180
 #, kde-format
 msgid "<html><body><p>Open Web Manager in browser.</p></body></html>"
 msgstr "<html><body><p>Web yöneticisini tarayıcıda açın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, openWebManagerB)
-#: ekos/profileeditor.ui:186
+#: ekos/profileeditor.ui:183
 #, kde-format
 msgid "Web Manager"
 msgstr "Web Yöneticisi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scanB)
-#: ekos/profileeditor.ui:202
+#: ekos/profileeditor.ui:199
 #, kde-format
 msgid ""
 "<html><body><p>Scan local network for INDI web managers.</p></body></html>"
@@ -26354,44 +26352,44 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, scanB)
-#: ekos/profileeditor.ui:205
+#: ekos/profileeditor.ui:202
 #, kde-format
 msgid "Scan"
 msgstr "Tara"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, INDIWebManagerPort)
-#: ekos/profileeditor.ui:230
+#: ekos/profileeditor.ui:227
 #, kde-format
 msgid "<html><body><p>INDI Web Manager port.</p></body></html>"
 msgstr "<html><body><p>INDI web yöneticisi kapısı.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, INDIWebManagerPort)
-#: ekos/profileeditor.ui:233
+#: ekos/profileeditor.ui:230
 #, kde-format
 msgid "8624"
 msgstr "8624"
 
 #. i18n: ectx: property (text), widget (QRadioButton, localMode)
-#: ekos/profileeditor.ui:240
+#: ekos/profileeditor.ui:237
 #, kde-format
 msgid "&Local"
 msgstr "&Yerel"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)
-#: ekos/profileeditor.ui:262 ekos/profilewizard.ui:978
+#: ekos/profileeditor.ui:259 ekos/profilewizard.ui:978
 #, kde-format
 msgid "PHD2"
 msgstr "PHD2"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.ui:267
+#: ekos/profileeditor.ui:264
 #, kde-format
 msgid "LinGuider"
 msgstr "LinGuider"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guidingTypeLabel)
-#: ekos/profileeditor.ui:275
+#: ekos/profileeditor.ui:272
 #, kde-format
 msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
@@ -26401,13 +26399,13 @@ msgstr ""
 "seçin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
-#: ekos/profileeditor.ui:278
+#: ekos/profileeditor.ui:275
 #, kde-format
 msgid "Guiding:"
 msgstr "Kılavuzluk:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, INDIWebManagerCheck)
-#: ekos/profileeditor.ui:288
+#: ekos/profileeditor.ui:285
 #, kde-format
 msgid ""
 "<html><body><p>Store profile on remote INDI Web Manager. Use INDI Web "
@@ -26418,38 +26416,38 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, INDIWebManagerCheck)
-#: ekos/profileeditor.ui:291
+#: ekos/profileeditor.ui:288
 #, kde-format
 msgid "INDI Web Manager"
 msgstr "INDI web yöneticisi"
 
 #. i18n: ectx: property (text), widget (QRadioButton, remoteMode)
-#: ekos/profileeditor.ui:308
+#: ekos/profileeditor.ui:305
 #, kde-format
 msgid "Re&mote"
 msgstr "Uz&ak"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, remoteHost)
-#: ekos/profileeditor.ui:324
+#: ekos/profileeditor.ui:321
 #, kde-format
 msgid "<html><body><p>Remote INDI server host or address.</p></body></html>"
 msgstr ""
 "<html><body><p>Uzak INDI sunucusu makinesi veya adresi.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, externalGuideHost)
-#: ekos/profileeditor.ui:353
+#: ekos/profileeditor.ui:350
 #, kde-format
 msgid "<html><body><p>External guider host or address.</p></body></html>"
 msgstr "<html><body><p>Dış kılavuz makinesi veya adresi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, externalGuideHost)
-#: ekos/profileeditor.ui:356
+#: ekos/profileeditor.ui:353
 #, kde-format
 msgid "localhost"
 msgstr "localhost"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, remotePort)
-#: ekos/profileeditor.ui:382
+#: ekos/profileeditor.ui:379
 #, kde-format
 msgid "<html><body><p>Remote INDI Server Port.</p></body></html>"
 msgstr "<html><body><p>Uzak INDI sunucusu kapısı.</p></body></html>"
@@ -26457,34 +26455,32 @@ msgstr "<html><body><p>Uzak INDI sunucusu kapısı.</p></body></html>"
 #. i18n: ectx: property (text), widget (QLineEdit, remotePort)
 #. i18n: ectx: property (text), widget (QLineEdit, remotePortEdit)
 #. i18n: ectx: property (text), widget (QLineEdit, PiPort)
-#: ekos/profileeditor.ui:385 ekos/profilewizard.ui:533
+#: ekos/profileeditor.ui:382 ekos/profilewizard.ui:533
 #: ekos/profilewizard.ui:725
 #, kde-format
 msgid "7624"
 msgstr "7624"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driversGroupBox)
-#: ekos/profileeditor.ui:397
+#: ekos/profileeditor.ui:394
 #, kde-format
 msgid "Select Devices"
 msgstr "Aygıtlar Seç"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, driverSearchEdit)
-#: ekos/profileeditor.ui:425
-#, fuzzy, kde-format
-#| msgid "Driver Restart"
+#: ekos/profileeditor.ui:422
+#, kde-format
 msgid "Driver Search"
-msgstr "Sürücüyü Yeniden Başlat"
+msgstr "Sürücü ara…"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, profileSearchEdit)
-#: ekos/profileeditor.ui:549
-#, fuzzy, kde-format
-#| msgid "Profile"
+#: ekos/profileeditor.ui:546
+#, kde-format
 msgid "Profile Search"
-msgstr "Profil"
+msgstr "Profil ara…"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteDriversLabel)
-#: ekos/profileeditor.ui:598
+#: ekos/profileeditor.ui:595
 #, kde-format
 msgid ""
 "<html><head/><body><p>Add remote INDI drivers to chain with the local INDI "
@@ -26518,7 +26514,7 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, remoteDrivers)
-#: ekos/profileeditor.ui:608
+#: ekos/profileeditor.ui:605
 #, kde-format
 msgid "driver@host:port,driver@host,@host:port,@host,driver"
 msgstr "sürücü@makine:kapı,sürücü@makine,@makine:kapı,@makine,sürücü"
@@ -26800,7 +26796,7 @@ msgstr "Uzak bilgisayar bilgisini gir:"
 #: ekos/profilewizard.ui:519 ekos/profilewizard.ui:701
 #, kde-format
 msgid "Enter IP address or host name"
-msgstr "IP adresini veya makine adını gir"
+msgstr "IP adresini veya makine adını gir…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/profilewizard.ui:548
@@ -78241,7 +78237,7 @@ msgstr "Uydular listesi"
 #: options/opssatellites.ui:87
 #, kde-format
 msgid "Search satellites"
-msgstr "Uyduları ara"
+msgstr "Uydular ara…"
 
 #. i18n: ectx: property (text), widget (QPushButton, UpdateTLEButton)
 #: options/opssatellites.ui:103
@@ -88564,127 +88560,3 @@ msgstr "Arka plan rengi:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Arka plan rengini ayarlayın."
-
-#~ msgid "Auxiliary #3"
-#~ msgstr "Yedek №3"
-
-#~ msgid "Aux 3:"
-#~ msgstr "Yedek 3:"
-
-#~ msgid "Auxiliary #4"
-#~ msgstr "Yedek №4"
-
-#~ msgid "Aux 4:"
-#~ msgstr "Yedek 4:"
-
-#~ msgid "Camera 2:"
-#~ msgstr "Kamera 2:"
-
-#~ msgid "Auxiliary #1"
-#~ msgstr "Yedek №1"
-
-#~ msgid "Aux 1:"
-#~ msgstr "Yedek 1:"
-
-#~ msgid "Dome Controller"
-#~ msgstr "Kubbe Denetleyicisi"
-
-#~ msgid "Dome:"
-#~ msgstr "Kubbe:"
-
-#~ msgid "AO:"
-#~ msgstr "AO:"
-
-#~ msgid "Auxiliary #2"
-#~ msgstr "Yedek №2"
-
-#~ msgid "Aux 2:"
-#~ msgstr "Yedek 2:"
-
-#~ msgid "Camera 1:"
-#~ msgstr "Kamera 1:"
-
-#~ msgid "Weather Station"
-#~ msgstr "Hava Tahmin İstasyonu"
-
-#~ msgid "INDI Hub Settings"
-#~ msgstr "INDI Hub Ayarları"
-
-#~ msgid ""
-#~ "<html><head/><body><h2 style=\" margin-top:16px; margin-bottom:12px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"><span style=\" font-size:x-large; font-weight:600;\">Share access to "
-#~ "your observatory on </span><a href=\"https://indihub.space\"><span style="
-#~ "\" font-size:x-large; font-weight:600; text-decoration: underline; color:"
-#~ "#007af4;\">indihub.space</span></a></h2></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><h2 style=\" margin-top:16px; margin-bottom:12px; "
-#~ "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#~ "\"><span style=\" font-size:x-large; font-weight:600;\">Gözlemevinize "
-#~ "olan erişimi </span><a href=\"https://indihub.space\"><span style=\" font-"
-#~ "size:x-large; font-weight:600; text-decoration: underline; color:#007af4;"
-#~ "\">indihub.space</span></a> üzerinden paylaşın</h2></body></html>"
-
-#~ msgid ""
-#~ "Use you equipment without opening remote access but equipment is still "
-#~ "connected to INDIHUB-network and all images taken are contributed for "
-#~ "scientific purposes."
-#~ msgstr ""
-#~ "Ekipmanınızı uzaktan erişimi açmadan kullanın; ancak ekipman hâlâ INDIHUB "
-#~ "ağına bağlıdır ve çekilen tüm görseller bilimsel amaçlı katkıda "
-#~ "bulunulmaktadır."
-
-#~ msgid "Solo"
-#~ msgstr "Solo"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Open remote access to your equipment via INDIHUB-"
-#~ "network of telescopes, so you can provide remote imaging sessions to your "
-#~ "guests.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>INDIHUB teleskop ağı aracılığıyla ekipmanınıza "
-#~ "uzaktan erişimi açın, böylece konuklarınıza uzaktan görselleme oturumları "
-#~ "sağlayabilirsiniz.</p></body></html>"
-
-#~ msgid "Share"
-#~ msgstr "Paylaş"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Open remote access to your equipment to be "
-#~ "controlled by scheduler running in INDIHUB-cloud (experimental).</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>INDIHUB bulutunda (deneysel) çalışan zamanlayıcı "
-#~ "tarafından denetlenecek ekipmanınıza uzaktan erişimi açın.</p></body></"
-#~ "html>"
-
-#~ msgid "Robotic (Experimental)"
-#~ msgstr "Robotik (Deneysel)"
-
-#~ msgid "<html><head/><body><p>Configure INDIHub.</p></body></html>"
-#~ msgstr "<html><head/><body><p>INDIHub’ı yapılandırın.</p></body></html>"
-
-#~ msgid "INDI Hub"
-#~ msgstr "INDIHub"
-
-#~ msgctxt "@title:window"
-#~ msgid "Select INDIHub Agent"
-#~ msgstr "INDIHub Aracısını Seç"
-
-#~ msgid "INDIHub agent:"
-#~ msgstr "INDIHub aracısı:"
-
-#~ msgid "PATH to indihub-agent binary"
-#~ msgstr "indihub-agent ikilisinin PATH’i"
-
-#~ msgid "PHD2: Guiding started."
-#~ msgstr "PHD2: Kılavuzluk başlatıldı."
-
-#~ msgid "Autoguiding started."
-#~ msgstr "Kendiliğinden kılavuzluk başlatıldı."
-
-#~ msgid "Enable the GPG guider for RA guiding."
-#~ msgstr "RA kılavuzu için GPG kılavuzunu etkinleştirin."
-
-#~ msgid "Enable GPG"
-#~ msgstr "GPG’yi etkinleştir"
