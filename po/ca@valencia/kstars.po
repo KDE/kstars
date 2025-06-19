@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-18 01:57+0000\n"
-"PO-Revision-Date: 2025-06-13 15:43+0200\n"
+"PO-Revision-Date: 2025-06-18 13:58+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -21334,19 +21334,19 @@ msgstr ""
 "style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">Sobel</span>: Utilitza l'algorisme de detecció de vores de "
-"Sobel. Està pensat per a camps sense estelles, p. ex., solar, d'alguna lluna "
+"Sobel. Està pensat per a camps sense estreles, p. ex., solar, d'alguna lluna "
 "o planetaris. Esta és una característica experimental que requerix la "
 "instal·lació d'openCV.</li><li style=\"margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\"font-weight:600;\">De Laplace</span> Utilitza l'algoritme "
-"de detecció de vores de Laplace. Està pensat per a camps sense estelles, p. "
+"de detecció de vores de Laplace. Està pensat per a camps sense estreles, p. "
 "ex., solar, d'alguna lluna o planetaris. Esta és una característica "
 "experimental que requerix la instal·lació d'openCV.</li></ul><ul style="
 "\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "list-indent:1;\"><li style=\"margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">Canny</span>: Utilitza l'algorisme de detecció de "
-"vores de Canny. Està pensat per a camps sense estelles, p. ex., solar, "
+"vores de Canny. Està pensat per a camps sense estreles, p. ex., solar, "
 "d'alguna lluna o planetaris. Esta és una característica experimental que "
 "requerix la instal·lació d'openCV.</li></ul></body></html>"
 
@@ -25087,10 +25087,9 @@ msgid "Ekos"
 msgstr "Ekos"
 
 #: ekos/manager.cpp:952 ekos/manager.cpp:977
-#, fuzzy, kde-format
-#| msgid "Ekos requires at least one CCD or Guider to operate."
+#, kde-format
 msgid "Ekos requires at least one Camera to operate."
-msgstr "Ekos necessita almenys un CCD o sistema de guiatge per a funcionar."
+msgstr "Ekos necessita almenys una càmera per a funcionar."
 
 #: ekos/manager.cpp:1040
 #, kde-format
@@ -26867,10 +26866,9 @@ msgstr ""
 "b>: %3<nobr/>"
 
 #: ekos/profileeditor.cpp:344
-#, fuzzy, kde-format
-#| msgid "Drivers:"
+#, kde-format
 msgid "Drivers"
-msgstr "Controladors:"
+msgstr "Controladors"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
@@ -27154,17 +27152,15 @@ msgstr "Selecciona els dispositius"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, driverSearchEdit)
 #: ekos/profileeditor.ui:422
-#, fuzzy, kde-format
-#| msgid "Driver Restart"
+#, kde-format
 msgid "Driver Search"
-msgstr "Reinicia el controlador"
+msgstr "Busca el controlador"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, profileSearchEdit)
 #: ekos/profileeditor.ui:546
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile Search"
-msgstr "Perfil"
+msgstr "Busca el perfil"
 
 # skip-rule: t-pu_sp
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteDriversLabel)
@@ -38392,7 +38388,7 @@ msgid ""
 msgstr ""
 "Especifica el format de l'etiqueta de data i hora. Esta cadena de format es "
 "passa a strftime(3). De manera predeterminada val «%c %Z», la qual mostra la "
-"data, hora i zona horària en la representació adint segons la configuració "
+"data, hora i fus horari en la representació adint segons la configuració "
 "regional («locale»)."
 
 #. i18n: ectx: label, entry (XplanetLabelTL), group (Xplanet)
@@ -90065,7 +90061,7 @@ msgid ""
 msgstr ""
 "S'especifica el format de l'etiqueta per a la data i l'hora. Esta cadena de "
 "format es passa a strftime(3). De manera predeterminada val «%c %Z», la qual "
-"mostra la data, hora i zona horària en la representació adint segons la "
+"mostra la data, hora i fus horari en la representació adint segons la "
 "configuració regional («locale»)."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetFontSize)
@@ -90259,51 +90255,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-# skip-rule: punctuation-period-no
-#~ msgid "Auxiliary #3"
-#~ msgstr "Auxiliar número 3."
-
-#~ msgid "Aux 3:"
-#~ msgstr "Aux. 3:"
-
-# skip-rule: punctuation-period-no
-#~ msgid "Auxiliary #4"
-#~ msgstr "Auxiliar número 4."
-
-#~ msgid "Aux 4:"
-#~ msgstr "Aux. 4:"
-
-#~ msgid "Camera 2:"
-#~ msgstr "Càmera 2:"
-
-# skip-rule: punctuation-period-no
-#~ msgid "Auxiliary #1"
-#~ msgstr "Auxiliar número 1."
-
-#~ msgid "Aux 1:"
-#~ msgstr "Aux. 1:"
-
-# skip-rule: punctuation-period-no
-#~ msgid "Dome Controller"
-#~ msgstr "Control de la cúpula."
-
-#~ msgid "Dome:"
-#~ msgstr "Cúpula:"
-
-#~ msgid "AO:"
-#~ msgstr "OA:"
-
-# skip-rule: punctuation-period-no
-#~ msgid "Auxiliary #2"
-#~ msgstr "Auxiliar número 2."
-
-#~ msgid "Aux 2:"
-#~ msgstr "Aux. 2:"
-
-#~ msgid "Camera 1:"
-#~ msgstr "Càmera 1:"
-
-# skip-rule: punctuation-period-no
-#~ msgid "Weather Station"
-#~ msgstr "Estació meteorològica."

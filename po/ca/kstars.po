@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-18 01:57+0000\n"
-"PO-Revision-Date: 2025-06-17 09:07+0200\n"
+"PO-Revision-Date: 2025-06-18 20:30+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -24608,7 +24608,7 @@ msgstr ""
 #: ekos/guide/opsguide.ui:567
 #, kde-format
 msgid "Invent Multi-Star Guide Star"
-msgstr "Inventa una estralla guia multiestrella"
+msgstr "Inventa una estrella guia multiestrella"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:577
@@ -41280,7 +41280,7 @@ msgstr ""
 #, kde-format
 msgid "Reverse DEC on pier-side change when reusing calibration."
 msgstr ""
-"Inverteix el Dec en canviar el costat del moll en reutilitzar el calibratge."
+"Inverteix la Dec en canviar el costat del moll en reutilitzar el calibratge."
 
 #. i18n: ectx: label, entry (GuideCalibrationBacklash), group (Scheduler)
 #: kstars.kcfg:3199

@@ -24127,10 +24127,9 @@ msgid ""
 msgstr ""
 
 #: ekos/profileeditor.cpp:344
-#, fuzzy, kde-format
-#| msgid "Drivers:"
+#, kde-format
 msgid "Drivers"
-msgstr "Ovladače:"
+msgstr "Ovladače"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254

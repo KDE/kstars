@@ -21,10 +21,10 @@
 # Steve <stax@ik.me>, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
-"Project-Id-Version: kstars_3.7.4\n"
+"Project-Id-Version: kstars_3.7.7\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-18 01:57+0000\n"
-"PO-Revision-Date: 2025-04-14 08:21+0200\n"
+"PO-Revision-Date: 2025-06-17 07:52+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -6264,12 +6264,13 @@ msgid "Mount does not support syncing."
 msgstr "La monture ne prend pas en charge la synchronisation."
 
 #: ekos/align/align.cpp:1049
-#, fuzzy, kde-format
-#| msgid "Effective telescope focal length is updated to %1 mm."
+#, kde-format
 msgid ""
 "Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
 "%4 Pitch: %5 FOVW: %6)."
-msgstr "La longueur focale réelle du télescope a été mise à jour avec %1 mm."
+msgstr ""
+"La longueur focale réelle du télescope a été mise à jour avec %1 mm (LF : "
+"%2, réducteur : %3, W : %4, pas : %5, FOVW : %6)."
 
 #: ekos/align/align.cpp:1097
 #, kde-format
@@ -10232,10 +10233,9 @@ msgstr "Vitesse "
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHMountSpeed)
 #: ekos/align/polaralignmentassistant.ui:162
-#, fuzzy, kde-format
-#| msgid "Adjust time step"
+#, kde-format
 msgid "Mount slew speed"
-msgstr "Ajuster le pas de temps"
+msgstr "Vitesse de rotation de la monture"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:172
@@ -18219,10 +18219,9 @@ msgid "Mosaic import failed."
 msgstr "Échec de l'importation de la mosaïque."
 
 #: ekos/ekoslive/nodemanager.cpp:222
-#, fuzzy, kde-format
-#| msgid "Error authentication with Ekos Live server: %1"
+#, kde-format
 msgid "Error authenticating with EkosLive server: %1"
-msgstr "Erreur d'authentification avec le serveur Ekos Live : %1"
+msgstr "Erreur d'authentification avec le serveur EkosLive : %1"
 
 #: ekos/ekoslive/nodemanager.cpp:235
 #, kde-format
@@ -22208,10 +22207,9 @@ msgid "PHD2: Dithering successful."
 msgstr "PHD2 : décalage réussi."
 
 #: ekos/guide/externalguide/phd2.cpp:750
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding running."
-msgstr "PHD2 : le guidage est déjà lancé."
+msgstr "PHD2 : le guidage est lancé."
 
 #: ekos/guide/externalguide/phd2.cpp:761
 #, kde-format
@@ -22309,10 +22307,9 @@ msgid "PHD2: Guiding is already running."
 msgstr "PHD2 : le guidage est déjà lancé."
 
 #: ekos/guide/externalguide/phd2.cpp:1394
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding is paused, resuming..."
-msgstr "PHD2 : le guidage est déjà lancé."
+msgstr "PHD2 : le guidage est en pause, en reprise…"
 
 #: ekos/guide/externalguide/phd2.cpp:1456
 #, kde-format
@@ -22459,10 +22456,9 @@ msgid "Guiding resumed."
 msgstr "Reprise du guidage."
 
 #: ekos/guide/guide.cpp:1692
-#, fuzzy, kde-format
-#| msgid "Autoguiding resumed."
+#, kde-format
 msgid "Autoguiding running."
-msgstr "Reprise du guidage automatique."
+msgstr "Le guidage automatique est lancé."
 
 #: ekos/guide/guide.cpp:1704
 #, kde-format
@@ -22765,10 +22761,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideShowFrame)
 #: ekos/guide/guide.ui:543
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Toggle the Guider Image..."
-msgstr "Enregistrer les images du guidage"
+msgstr "Basculer les images du guidage…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
@@ -23286,7 +23281,7 @@ msgstr ""
 #: ekos/guide/internalguide/gmath.cpp:511
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
-msgstr ""
+msgstr "Longue impulsion limitée entre %1ms et %2ms"
 
 #: ekos/guide/internalguide/internalguider.cpp:540
 #, kde-format
@@ -23845,6 +23840,8 @@ msgstr ""
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
 msgstr ""
+"Active GPG de l'onglet Guide, en utilisant le menu déroulant de l'algorithme "
+"de guidage en AD"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -24235,48 +24232,20 @@ msgstr "Paramètres de contrôle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "The algorithm that tracks guide stars and determines the guide deviation."
+#, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr ""
-"L'algorithme suivant les étoiles de guidage et déterminant la déviation du "
-"guidage."
+msgstr "L'algorithme qui calcule les impulsions les corrections de guidage."
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "Algorithme"
+msgstr "Algorithme de guidage"
 
 # unreviewed-context
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA and DEC.</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
@@ -24304,65 +24273,38 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Méthode de détection des étoiles : </p><ul style="
-"\"margin-top : 0px ; margin-bottom : 0px ; margin-left : 0px ; margin-"
-"right : 0px ; -qt-list-indent : 1 ;\"><li style=\" margin-top:12px ; margin-"
-"bottom:12px ; margin-left:0px ; margin-right:0px ; -qt-block-indent:0 ; text-"
-"indent:0px ;\"><span style=\" font-weight:600 ;\">SEP :</span> Extracteur de "
-"Sources et Photométrie (Source Extractor and Photometry), une méthode de "
-"détection de sources efficace reposant sur l'extracteur de sources (Bertin "
-"et Arnouts 1996 ; Bertin 2016). Veuillez consulter <a href=\"https://joss."
-"theoj.org/papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration : "
-"underline ; color:#0000ff ;\">« SEP : Source Extractor as a library »</"
-"span></a> dans le Journal du logiciel libre.</li><li style=\" margin-"
-"top:12px ; margin-bottom:12px ; margin-left:0px ; margin-right:0px ; -qt-"
-"block-indent:0 ; text-indent:0px ;\"><span style=\" font-weight:600 ;"
-"\">Centroïde</span> : une détection de source reposant sur l'estimation de "
-"la masse des étoiles autour des pics de signal.</li><li style=\" margin-"
-"top:12px ; margin-bottom:12px ; margin-left:0px ; margin-right:0px ; -qt-"
-"block-indent:0 ; text-indent:0px ;\"><span style=\" font-weight:600 ;"
-"\">Gradient</span> : une détection de source unique reposant sur le filtre "
-"de Sobel. L'analyse initiale ou plein champ utilisera la SEP à la place de "
-"cette méthode.</li><li style=\" margin-top:12px ; margin-bottom:12px ; "
-"margin-left:0px ; margin-right:0px ; -qt-block-indent:0 ; text-indent:0px ;"
-"\"><span style=\" font-weight:600 ;\">Seuil</span> : une détection de source "
-"unique reposant sur les valeurs des pixels. L'analyse initiale ou plein "
-"champ utilisera la SEP au lieu de cette méthode.</li></ul></body></html>"
+"<html><head/><body><p>Sélectionner les algorithmes de guidage en AD et DEC.</"
+"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Standard</span> : "
+"l'algorithme de guidage proportionnel et traditionnel. Il calcule une "
+"impulsion pour corriger la dérive calculée du guidage. Le paramètre "
+"d'agressivité décide quelle proportion de l'erreur est corrigée. Les erreurs "
+"plus faibles que MinError ne seront pas corrigées. La réponse Max limite la "
+"plus grande correction. Le paramètre d'hystérèse n'est pas utilisé.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Hystérèse</span> : pareil à l'algorithme standard mais inclut "
+"la correction précédente en tenant compte du paramètre d'hystérèse. Le gain "
+"intégral n'est pas pris en compte.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Linéaire</span> : similaire "
+"à l'algorithme Lowpass2 de PHD2. Il calcule les impulsions d'erreur en se "
+"basant sur le court historique des erreurs récentes. Possiblement applicable "
+"pour les montures très stables. L'hystérèse et le gain intégral ne "
+"s'appliquent pas.</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">GPG</span> : (seulement AD) cet "
+"algorithme essaie de prévoir l'erreur périodique et les dérives linéaires. "
+"Il utilise le paramètre d'agressivité, les paramètres min et max et "
+"davantage de paramètres situés dans l'onglet séparé de GPG. L'hystérèse et "
+"le gain intégral ne s'appliquent pas.</li></ul></body></html>"
 
 # unreviewed-context
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated,  further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage Tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method.  Upon "
-#| "crossing to the other side of the V-Curve,  polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes.  The algorithm can be slow, but it is more "
-#| "resilient to backlash.  Start with the focuser positioned near good "
-#| "focus.  Set Initial Step Size and Max Travel for the desired sampling "
-#| "interval and range around start focus position.  Tolerance should be "
-#| "around 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Linear 1 Pass</span>: Starts like <span style="
-#| "\" font-weight:600;\">Linear</span> but after completing the 1st pass, "
-#| "instead of doing a 2nd pass,  moves straight to the minimum HFR value "
-#| "calculated.  Use Curve Fit of Hyperbola or Parabola.</li></ul></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
@@ -24390,85 +24332,59 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Sélectionnez l'algorithme du processus de mise au "
-"point : </p><ul style=\"margin-top : 0px ; margin-bottom : 0px ; margin-"
-"left : 0px ; margin-right : 0px ; -qt-list-indent : 1 ;\"><li style=\" "
-"margin-top:12px ; margin-bottom:0px ; margin-left:0px ; margin-right:0px ; -"
-"qt-block-indent:0 ; text-indent:0px ;\"><span style=\" font-weight:600 ;"
-"\">Itératif</span> : déplace le moteur de mise au point par pas discrets, "
-"selon un pas préalablement défini. Une fois que la pente de la courbe est "
-"calculée, d'autres tailles de pas sont calculées pour atteindre la solution "
-"optimale. L'algorithme s'arrête lorsque le HFR mesuré se situe dans la "
-"tolérance en pourcentage du HFR minimum enregistré dans la procédure.</"
-"li><li style=\" margin-top:0px ; margin-bottom:0px ; margin-left:0px ; "
-"margin-right:0px ; -qt-block-indent:0 ; text-indent:0px ;\"><span style=\" "
-"font-weight:600 ;\">Polynomial</span> : commence par une méthode itérative. "
-"En passant de l'autre côté de la courbe en V, les coefficients d'ajustement "
-"polynomiaux ainsi que la solution minimale possible sont calculés. Cet "
-"algorithme peut être plus rapide que l'approche purement itérative, "
-"moyennant un bon ensemble de données.</li><li style=\" margin-top:0px ; "
-"margin-bottom:12px ; margin-left:0px ; margin-right:0px ; -qt-block-"
-"indent:0 ; text-indent:0px ;\"><span style=\" font-weight:600 ;\">Linéaire</"
-"span> : les échantillons se concentrent vers l'intérieur de façon homogène, "
-"en utilisant 2 passes. L'algorithme peut être lent, mais il est plus "
-"résistant aux contrecoups. Commencez avec le moteur de mise au point "
-"positionné près de la bonne mise au point. Définissez la taille du pas "
-"initial et le déplacement maximal pour l'intervalle d'échantillonnage "
-"souhaité et la plage autour de la position de départ de la mise au point. La "
-"tolérance devrait être d'environ 5 %.</li><li style=\"margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\"font-weight:600;\">Linéaire 1 passe</span> : "
-"commence comme <span style=\"font-weight:600;\">linéaire</span> mais après "
-"avoir terminé la première passe et plutôt que d'en faire une seconde, se "
-"déplace directement à la valeur minimale du HFR calculé. Utilise une "
-"régression hyperbolique ou parabolique.</li></ul></body></html>"
+"<html><head/><body><p>Sélection des algorithmes d'impulsion de guidage en AD."
+"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Standard</span> : "
+"l'algorithme proportionnel et traditionnel de guidage. Il calcule une "
+"impulsion pour corriger la dérive calculée du guide. Le paramètre "
+"d'agressivité décide quelle proportion de l'erreur est corrigée. Les erreurs "
+"plus petites que MinError ne sont pas corrigées. Max limite la plus grande "
+"correction. Le paramètre d'hystérèse n'est pas utilisé.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Hystérèse</span> : pareil à l'algorithme standard mais inclut les "
+"corrections précédentes selon le paramètre d'hystérèse. Le gain intégral ne "
+"s'applique pas.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Linéaire</span> : similaire à l'algorithme "
+"Lowpass2 de PHD2. Il calcule les impulsions de correction en se basant sur "
+"un historique des erreurs récentes. S'applique possiblement aux montures "
+"très stables. L'hystérèse et le gain intégral ne s'appliquent pas.</li><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">GPG</span> : cet algorithme essaie de prédire l'erreur "
+"périodique et les dérives linéaires. Il utilise le paramètre d'agressivité, "
+"les paramètres min et max, ainsi que davantage de paramètres situés dans "
+"l'onglet séparé de GPG. L'hystérèse et le gain intégral ne s'appliquent pas."
+"</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Santander"
+#, kde-format
 msgid "Standard"
-msgstr "Santander"
+msgstr "Standard"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asterism"
+#, kde-format
 msgid "Hysteresis"
-msgstr "Astérisme"
+msgstr "Hystérèse"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
-#, fuzzy, kde-format
-#| msgid "GPS"
+#, kde-format
 msgid "GPG"
-msgstr "GPS"
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2. This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for DEC.</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -24490,34 +24406,33 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Sélectionner le type de courbes de régression :</p><ul "
-"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\"margin-top:12px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\"font-weight:600;\">Quadratique</span> : utilise une "
-"régression polynomiale de degrés 2. C'est l'option par défaut actuelle et "
-"actuellement la seule option pour tous les algorithmes excepté l'algorithme "
-"linéaire à 1 passe.</li><li style=\"margin-top:0px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\"font-weight:600;\">Hyperbolique</span> : utilise une "
-"régression hyperbolique. Actuellement seulement disponible pour l'algorithme "
-"linéaire à 1 passe.</li><li style=\"margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\"font-weight:600;\">Parabolique</span> : utilise une "
-"régression parabolique. Actuellement seulement disponible pour l'algorithme "
-"linéaire à 1 passe.</li></ul></body></html>"
+"<html><head/><body><p>Sélection des algorithmes d'impulsions de guidage en "
+"DEC.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Standard</span> : "
+"l'algorithme proportionnel traditionnel de guidage. Il calcule une impulsion "
+"pour corriger la dérive calculée du guidage. Le paramètre d'agressivité "
+"décide quelle proportion de l'erreur est corrigée. Les erreurs plus petites "
+"que MinError ne sont pas corrigées. Max limite la plus grande correction. Le "
+"paramètre d'hystérèse n'est pas utilisé.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Hystérèse</span> : "
+"pareil à l'algorithme standard mais inclut les corrections précédentes en "
+"accord avec le paramètre d'hystérèse. Le gain intégral ne s'applique pas.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Linéaire</span> : similaire à l'algorithme Lowpass2 de PHD2. "
+"Il calcule les impulsions d'erreur en se basant sur l'historique des erreurs "
+"récentes. S'applique possiblement aux montures très stables. L'hystérèse et "
+"le gain intégral ne s'appliquent pas.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAIntegralGain)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECIntegralGain)
 #: ekos/guide/opsguide.ui:150 ekos/guide/opsguide.ui:254
 #: ekos/guide/opsguide.ui:283
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This adds a correction term based on the average of "
-#| "the past 50 guide deviations. For example, if the deviation is "
-#| "consistently negative, this will attempt to compensate. Best to start "
-#| "with 0.0 (no effect) and only use this if necessary.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This adds a correction term based on the average of "
 "the past 50 guide deviations. For example, if the deviation is consistently "
@@ -24528,15 +24443,14 @@ msgstr ""
 "<html><head/><body><p>Ceci ajoute un terme de correction fondé sur la "
 "moyenne des 50 écarts de guidage passés. Ainsi, si la déviation est toujours "
 "négative, ceci déclenchera une compensation. Il vaut mieux démarrer avec les "
-"valeurs 0,0 (pas d'effet) et utiliser seulement si nécessaire.</p></body></"
-"html>"
+"valeurs 0.0 (pas d'effet) et utiliser seulement si nécessaire. (Ne "
+"s'applique qu'à l'algorithme standard)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
-#, fuzzy, kde-format
-#| msgid "Integral gain (0-1.0)"
+#, kde-format
 msgid "Integral gain (deprecated)"
-msgstr "Gain intégral (0 - 1,0)"
+msgstr "Gain intégral (obsolète)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_11)
 #: ekos/guide/opsguide.ui:176
@@ -24598,39 +24512,33 @@ msgstr "Erreur minimale (secondes d'arc)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><body><p>Taille de la séparation entre les tuiles.</p></body></html>"
+"<html><body><p>Définit le paramètre d'hystérèse (ne s'applique qu'à "
+"l'algorithme hystérèse).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><body><p>Taille de la séparation entre les tuiles.</p></body></html>"
+"<html><body><p>Définit le paramètre d'hystérèse en AD (ne s'applique qu'à "
+"l'algorithme hystérèse).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><body><p>Taille de la séparation entre les tuiles.</p></body></html>"
+"<html><body><p>Définit le paramètre d'hystérèse en DEC (ne s'applique qu'à "
+"l'algorithme hystérèse)</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -24735,10 +24643,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:567
-#, fuzzy, kde-format
-#| msgid "Invent Multi-Star Guide Star (experimental)"
+#, kde-format
 msgid "Invent Multi-Star Guide Star"
-msgstr "Inventer une étoile multiple comme étoile guide (expérimental)"
+msgstr "Inventer une étoile multiple comme étoile guide"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:577
@@ -24802,8 +24709,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:640
-#, fuzzy, kde-format
-#| msgid "Star detection algorithm"
+#, kde-format
 msgid "Star Detection Algorithm"
 msgstr "Algorithme de détection d'étoiles"
 
@@ -27054,26 +26960,21 @@ msgstr ""
 "l'exécution du script de post-initialisation du pilote."
 
 #: ekos/profilescript.cpp:56
-#, fuzzy, kde-format
-#| msgid "Delay this many seconds before executing pre driver script."
+#, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
 msgstr ""
-"Retarder de ce nombre de secondes l'exécution du script d'initialisation du "
-"pilote."
+"Retarder de ce nombre de secondes après l'arrêt du script d'arrêt du pilote."
 
 #: ekos/profilescript.cpp:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
 msgstr ""
-"Attendre ce nombre de secondes après l'initialisation du pilote et avant "
-"l'exécution du script de post-initialisation du pilote."
+"Attendre ce nombre de secondes après l'arrêt du pilote et avant l'exécution "
+"du script de post-initialisation du pilote."
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -27086,16 +26987,14 @@ msgid "Select script to execute after starting the driver"
 msgstr "Sélectionner le script à exécuter après le démarrage du pilote"
 
 #: ekos/profilescript.cpp:93
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "Sélectionner le script à exécuter avant le démarrage du pilote"
+msgstr "Sélectionner le script à exécuter après l'arrêt du pilote"
 
 #: ekos/profilescript.cpp:102
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "Sélectionner le script à exécuter après le démarrage du pilote"
+msgstr "Sélectionner le script à exécuter après l'arrêt du pilote"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -27110,20 +27009,16 @@ msgid "Select Post Driver Startup Script"
 msgstr "Sélectionner le script de démarrage après initialisation du pilote"
 
 #: ekos/profilescript.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Pre Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "Sélectionner le script de démarrage avant initialisation du pilote"
+msgstr "Sélectionner le script d'arrêt du pilote"
 
 #: ekos/profilescript.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "Sélectionner le script de démarrage après initialisation du pilote"
+msgstr "Sélectionner le script d'arrêt du pilote"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -27136,28 +27031,24 @@ msgid "Driver"
 msgstr "Pilote"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "Redémarrer"
+msgstr "Avant le démarrage"
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "Étoile de mise au point"
+msgstr "Après le démarrage"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
 msgid "Pre stop"
-msgstr ""
+msgstr "Avant l'arrêt"
 
 #: ekos/profilescriptdialog.cpp:35
-#, fuzzy, kde-format
-#| msgid "Ekos stopped."
+#, kde-format
 msgid "Post stop"
-msgstr "Arrêt de Ekos."
+msgstr "Après l'arrêt"
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -28421,42 +28312,45 @@ msgstr "Sélectionner le dossier des tâches"
 msgid ""
 "Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
 msgstr ""
+"Désolé, aucune tâche n'est exécutable dans les 3 prochains jours. Toutes les "
+"tâches sont terminées."
 
 #: ekos/scheduler/greedyscheduler.cpp:98
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
 msgstr ""
+"Désolé, aucune tâche n'est exécutable dans les 3 prochains jours. La tâche "
+"%1 est terminée."
 
 #: ekos/scheduler/greedyscheduler.cpp:111
-#, fuzzy, kde-format
-#| msgid "Job '%1' is complete."
+#, kde-format
 msgid "(%1) Job %2: has completed."
-msgstr "La tâche « %1 » est terminée."
+msgstr "(%1) Tâche %2 : terminée."
 
 #: ekos/scheduler/greedyscheduler.cpp:115
 #, kde-format
 msgid "(%1) Job %2: cannot run because: %3"
-msgstr ""
+msgstr "(%1) Tâche %2 : exécution impossible à cause de %3"
 
 #: ekos/scheduler/greedyscheduler.cpp:119
 #, kde-format
 msgid "******************** Now ********************"
-msgstr ""
+msgstr "******************** Maintenant ********************"
 
 #: ekos/scheduler/greedyscheduler.cpp:121
 #, kde-format
 msgid "*****************In %1 Hours******************"
-msgstr ""
+msgstr "***************** Dans %1 heures ******************"
 
 #: ekos/scheduler/greedyscheduler.cpp:123
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days."
-msgstr ""
+msgstr "Désolé, aucune tâche n'est exécutable dans les 3 prochains jours."
 
 #: ekos/scheduler/greedyscheduler.cpp:217
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
-msgstr "La tâche « %1 » a terminé son lot de travaux."
+msgstr "La tâche %1 a terminé son lot de travaux."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: label, entry (AlignCheckThreshold), group (Scheduler)
@@ -28709,24 +28603,20 @@ msgstr "Période de sécurité météo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/scheduler/opsoffsetsettings.ui:160
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait this many seconds after autofocus completes "
-#| "before resuming guiding.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds when detecting weather alert "
 "before starting observatory shutdown.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Attendre ce nombre de secondes après que la mise au "
-"point automatique soit terminée avant de reprendre le guidage.</p></body></"
+"<html><head/><body><p>Attendre ce nombre de secondes lorsqu'une alerte météo "
+"est détectée avant la procédure de fermeture de l'observatoire.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/opsoffsetsettings.ui:163
-#, fuzzy, kde-format
-#| msgid "Weather Alert"
+#, kde-format
 msgid "Weather Alert  Shutdown Delay:"
-msgstr "Alerte météo"
+msgstr "Délai de fermeture du à une alerte météo :"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -29863,22 +29753,19 @@ msgid "Cap"
 msgstr "Capuchon"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
-#, fuzzy, kde-format
-#| msgctxt "City in Georgia USA"
-#| msgid "Morrow"
+#, kde-format
 msgid "Tomorrow"
-msgstr "Morrow"
+msgstr "Demain"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
 msgid "Day After Tomorrow"
-msgstr ""
+msgstr "Surlendemain"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:193
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Tonight"
-msgstr "En haut à droite"
+msgstr "Ce soir"
 
 #: ekos/scheduler/schedulerjob.cpp:339
 #, kde-format
@@ -29928,17 +29815,17 @@ msgstr "Reprise de l'ordonnanceur."
 #: ekos/scheduler/schedulerprocess.cpp:160
 #, kde-format
 msgid "Job '%1' is terminated due to errors."
-msgstr "La tâche « %1 » s'est terminée par suite d'erreurs."
+msgstr "La tâche %1 s'est terminée par suite d'erreurs."
 
 #: ekos/scheduler/schedulerprocess.cpp:162
 #, kde-format
 msgid "Job '%1' is aborted."
-msgstr "La tâche « %1 » a été annulée."
+msgstr "La tâche %1 a été annulée."
 
 #: ekos/scheduler/schedulerprocess.cpp:186
 #, kde-format
 msgid "Waiting %1 seconds to restart job '%2'."
-msgstr "En attente de %1 secondes pour relancer la tâche « %2 »."
+msgstr "En attente de %1 secondes pour relancer la tâche %2."
 
 #: ekos/scheduler/schedulerprocess.cpp:192
 #, kde-format
@@ -29948,27 +29835,27 @@ msgstr "L'ordonnanceur est en attente d'une reprise."
 #: ekos/scheduler/schedulerprocess.cpp:226
 #, kde-format
 msgid "Job '%1' is complete."
-msgstr "La tâche « %1 » est terminée."
+msgstr "La tâche %1 est terminée."
 
 #: ekos/scheduler/schedulerprocess.cpp:270
 #, kde-format
 msgid "Job '%1' is complete after #%2 batch."
 msgid_plural "Job '%1' is complete after #%2 batches."
-msgstr[0] "La tâche « %1 » s'est terminée après %2 itération."
-msgstr[1] "La tâche « %1 » s'est terminée après %2 itérations."
+msgstr[0] "La tâche %1 s'est terminée après #%2 itération."
+msgstr[1] "La tâche %1 s'est terminée après %2 itérations."
 
 #: ekos/scheduler/schedulerprocess.cpp:318
 #: ekos/scheduler/schedulerprocess.cpp:360
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
-msgstr[0] "La tâche « %1 » se répète, #%2 reste dans le lot de tâches."
-msgstr[1] "La tâche « %1 » se répète, #%2 reste dans les lots de tâches."
+msgstr[0] "La tâche %1 se répète, #%2 reste dans le lot de tâches."
+msgstr[1] "La tâche %1 se répète, #%2 reste dans les lots de tâches."
 
 #: ekos/scheduler/schedulerprocess.cpp:364
 #, kde-format
 msgid "Job '%1' is repeating, looping indefinitely."
-msgstr "La tâche « %1 » se répète en boucle de façon infinie."
+msgstr "La tâche %1 se répète en boucle de façon infinie."
 
 #: ekos/scheduler/schedulerprocess.cpp:383
 #, kde-format
@@ -29976,20 +29863,18 @@ msgid "Job '%1' stopping, reached completion time with #%2 batch done."
 msgid_plural ""
 "Job '%1' stopping, reached completion time with #%2 batches done."
 msgstr[0] ""
-"Arrêt de la tâche « %1 », temps d'achèvement atteint avec #%2 lot terminé."
+"Arrêt de la tâche %1, temps d'achèvement atteint avec #%2 lot terminé."
 msgstr[1] ""
-"Arrêt de la tâche « %1 », temps d'achèvement atteint avec les #%2 lots "
-"terminés."
+"Arrêt de la tâche %1, temps d'achèvement atteint avec les #%2 lots terminés."
 
 #: ekos/scheduler/schedulerprocess.cpp:412
 #, kde-format
 msgid "Job '%1' completed #%2 batch before completion time, restarted."
 msgid_plural ""
 "Job '%1' completed #%2 batches before completion time, restarted."
-msgstr[0] ""
-"Tâche « %1 » terminée. #%2 lot avant le temps d'achèvement, redémarré."
+msgstr[0] "Tâche %1 terminée. #%2 lot avant le temps d'achèvement, redémarré."
 msgstr[1] ""
-"Tâche « %1 » terminée. #%2 lots avant le temps d'achèvement, redémarrés."
+"Tâche %1 terminée. #%2 lots avant le temps d'achèvement, redémarrés."
 
 #: ekos/scheduler/schedulerprocess.cpp:510
 #, kde-format
@@ -30012,8 +29897,8 @@ msgstr ""
 #, kde-format
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr ""
-"La tâche « %1 » n'a pas été traitée lors de l'arrêt de l'ordonnanceur. "
-"Marquée comme annulée."
+"La tâche %1 n'a pas été traitée lors de l'arrêt de l'ordonnanceur. Marquée "
+"comme annulée."
 
 #: ekos/scheduler/schedulerprocess.cpp:686
 #, kde-format
@@ -30044,8 +29929,8 @@ msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
 "until next job is ready."
 msgstr ""
-"La tâche planifiée « %1 » pour être réalisée à %2. L'observatoire a entamé "
-"un arrêt sauf si la prochaine tâche est prête."
+"La tâche planifiée %1 pour être réalisée à %2. L'observatoire a entamé un "
+"arrêt sauf si la prochaine tâche est prête."
 
 #: ekos/scheduler/schedulerprocess.cpp:740
 #, kde-format
@@ -30053,13 +29938,13 @@ msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
 "ready."
 msgstr ""
-"La tâche planifiée « %1 » pour être réalisée à %2. Parcage de la monture "
-"jusqu'à ce que la prochaine tâche soit prête."
+"La tâche planifiée %1 pour être réalisée à %2. Parcage de la monture jusqu'à "
+"ce que la prochaine tâche soit prête."
 
 #: ekos/scheduler/schedulerprocess.cpp:750
 #, kde-format
 msgid "Sleeping until observation job %1 is ready at %2"
-msgstr "En attente que la tâche d'observation « %1 » soit prête à %2"
+msgstr "En attente que la tâche d'observation %1 soit prête à %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:761
 #, kde-format
@@ -30067,25 +29952,25 @@ msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
 "Shutdown."
 msgstr ""
-"Attention : la tâche « %1» est à %2 de distance dans le temps par rapport à "
+"Attention : la tâche %1 est à %2 de distance dans le temps par rapport à "
 "maintenant. Vous pourriez vouloir activer l'arrêt préemptif."
 
 #: ekos/scheduler/schedulerprocess.cpp:814
 #, kde-format
 msgid "Job '%1' is slewing to target."
-msgstr "La tâche « %1 » effectue la rotation vers la cible"
+msgstr "La tâche %1 effectue la rotation vers la cible"
 
 #: ekos/scheduler/schedulerprocess.cpp:890
 #, kde-format
 msgid "Warning: job '%1' is unable to proceed with autofocus, not supported."
 msgstr ""
-"Alarme : le traitement pour la tâche « %1 » est impossible avec la mise au "
-"point automatique et non pris en charge."
+"Alarme : le traitement pour la tâche %1 est impossible avec la mise au point "
+"automatique et non pris en charge."
 
 #: ekos/scheduler/schedulerprocess.cpp:1006
 #, kde-format
 msgid "Job '%1' is focusing."
-msgstr "La tâche « %1 » réalise la mise au point."
+msgstr "La tâche %1 réalise la mise au point."
 
 #: ekos/scheduler/schedulerprocess.cpp:1033
 #, kde-format
@@ -30096,8 +29981,7 @@ msgstr "Attention : le fichier FITS de la cible de la tâche %1 n'existe pas."
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
 msgstr ""
-"Attention : la requête %1 de la tâche loadAndSlew %1 a reçu l'erreur D-Bus "
-"%2."
+"Attention : la requête %1 de la tâche loadAndSlew %1 a reçu l'erreur DBus %2."
 
 #: ekos/scheduler/schedulerprocess.cpp:1056
 #, kde-format
@@ -30113,7 +29997,7 @@ msgstr "La tâche %1 est en cours de la résolution %2."
 #, kde-format
 msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
 msgstr ""
-"Attention : la requête de la tâche setTargetCoords %1 a reçu l'erreur D-Bus "
+"Attention : la requête de la tâche setTargetCoords %1 a reçu l'erreur DBus "
 "%2."
 
 #: ekos/scheduler/schedulerprocess.cpp:1092
@@ -30122,13 +30006,13 @@ msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
 msgstr ""
 "Attention : la requête de la tâche setTargetPositionAngle %1 a reçu l'erreur "
-"D-Bus %2."
+"DBus %2."
 
 #: ekos/scheduler/schedulerprocess.cpp:1105
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
 msgstr ""
-"Attention : la requête de la tâche captureAndSolve %1 a reçu l'erreur D-Bus "
+"Attention : la requête de la tâche captureAndSolve %1 a reçu l'erreur DBus "
 "%2."
 
 #: ekos/scheduler/schedulerprocess.cpp:1116
@@ -30161,12 +30045,12 @@ msgstr "Tâche Ekos (%1) - Acquisition débutée"
 #: ekos/scheduler/schedulerprocess.cpp:1228
 #, kde-format
 msgid "Job '%1' capture is in progress (batch #%2)..."
-msgstr "La tâche d'acquisition « %1 » est en cours (itération #%2)…"
+msgstr "La tâche d'acquisition %1 est en cours (itération #%2)…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1231
 #, kde-format
 msgid "Job '%1' capture is in progress..."
-msgstr "La tâche d'acquisition « %1 » est en cours…"
+msgstr "La tâche d'acquisition %1 est en cours…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1338
 #, kde-format
@@ -30256,7 +30140,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:1531
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
-msgstr "Le dé-parcage du dôme est requis mais le dôme n'est pas encore prêt."
+msgstr "Le déparcage du dôme est requis mais le dôme n'est pas encore prêt."
 
 #: ekos/scheduler/schedulerprocess.cpp:1541
 #, kde-format
@@ -30767,10 +30651,10 @@ msgid "Weather has improved. Resuming operations."
 msgstr "Les conditions météo se sont améliorées. Reprise des opérations."
 
 #: ekos/scheduler/schedulerprocess.cpp:4159
-#, fuzzy, kde-format
-#| msgid "Weather alert detected. Starting soft shutdown procedure."
+#, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
-msgstr "Alerte météo détectée. Démarrage de la procédure d'arrêt."
+msgstr ""
+"Alerte météo détectée. Démarrage de la procédure d'arrêt dans %1 secondes."
 
 #: ekos/scheduler/schedulerprocess.cpp:4185
 #, kde-format
@@ -34048,20 +33932,16 @@ msgstr ""
 "code %1"
 
 #: indi/servermanager.cpp:319
-#, fuzzy, kde-format
-#| msgid "Pre driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
 msgstr ""
-"Le script de démarrage avant l'initialisation du pilote a échoué avec le "
-"code %1"
+"Le script d'arrêt avant l'initialisation du pilote a échoué avec le code %1"
 
 #: indi/servermanager.cpp:377
-#, fuzzy, kde-format
-#| msgid "Post driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
 msgstr ""
-"Le script de démarrage après l'initialisation du pilote a échoué avec le "
-"code %1"
+"Le script d'arrêt après l'initialisation du pilote a échoué avec le code %1"
 
 #: indi/servermanager.cpp:521
 #, kde-format
@@ -34938,7 +34818,7 @@ msgstr "Hauteur de la fenêtre principale, en pixels"
 #: kstars.kcfg:113
 #, kde-format
 msgid "Geometry of main window, encoded byte array"
-msgstr ""
+msgstr "Géométrie de la fenêtre principale, tableau d'octets codés"
 
 #. i18n: ectx: label, entry (RunStartupWizard), group (GUI)
 #: kstars.kcfg:117
@@ -35061,19 +34941,19 @@ msgstr ""
 #: kstars.kcfg:171
 #, kde-format
 msgid "INDI window width"
-msgstr "Largeur de la fenêtre « INDI »"
+msgstr "Largeur de la fenêtre INDI"
 
 #. i18n: ectx: label, entry (INDIWindowHeight), group (indi)
 #: kstars.kcfg:175
 #, kde-format
 msgid "INDI window height"
-msgstr "Hauteur de la fenêtre « INDI »"
+msgstr "Hauteur de la fenêtre INDI"
 
 #. i18n: ectx: label, entry (INDIWindowGeometry), group (indi)
 #: kstars.kcfg:179
 #, kde-format
 msgid "Geometry of INDI window, encoded byte array"
-msgstr ""
+msgstr "Géométrie de la fenêtre INDI, tableaux d'octets codés"
 
 #. i18n: ectx: label, entry (useGeographicUpdate), group (indi)
 #: kstars.kcfg:183
@@ -38778,13 +38658,13 @@ msgstr "Faut-il enregistrer les images d'alignement échouées sur le disque ?"
 #: kstars.kcfg:1647
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup."
-msgstr ""
+msgstr "Ne pas synchroniser l'heure réelle au démarrage d'Ekos."
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1651
 #, kde-format
 msgid "Log Ekos Guide Module activity."
-msgstr "Enregistrer l'activité du module de guidage de Ekos ."
+msgstr "Enregistrer l'activité du module de guidage de Ekos."
 
 #. i18n: ectx: whatsthis, entry (AlignmentLogging), group (General)
 #: kstars.kcfg:1655
@@ -38808,7 +38688,7 @@ msgstr "Enregistrer l'activité du module d'observation de Ekos."
 #: kstars.kcfg:1669
 #, kde-format
 msgid "Geometry of FITS window, encoded byte array"
-msgstr ""
+msgstr "Géométrie de la fenêtre FITS, tableau d'octets codés"
 
 #. i18n: ectx: label, entry (useFITSViewer), group (FITSViewer)
 #: kstars.kcfg:1673
@@ -38882,8 +38762,7 @@ msgstr ""
 #, kde-format
 msgid "Process 3D FITS Cube (RGB). If false, only first channel is processed."
 msgstr ""
-"Traitement du cube « 3D FITS » (RGB). Si « Faux », seul le premier canal est "
-"traité."
+"Traitement du cube 3D FITS (RGB). Si Faux, seul le premier canal est traité."
 
 #. i18n: ectx: label, entry (AutoHFR), group (FITSViewer)
 #: kstars.kcfg:1708
@@ -38907,8 +38786,8 @@ msgid ""
 "Automatically process World-Coordinate-System (WCS) data when loading a FITS "
 "file."
 msgstr ""
-"Traiter automatiquement les données « WCS » (Système de coordonnées "
-"mondiales) lors du chargement d'un fichier « FITS »."
+"Traiter automatiquement les données WCS (Système de coordonnées mondiales) "
+"lors du chargement d'un fichier au format FITS."
 
 #. i18n: ectx: label, entry (LimitedResourcesMode), group (FITSViewer)
 #: kstars.kcfg:1724
@@ -39060,13 +38939,13 @@ msgstr "Hauteur de la fenêtre Ekos"
 #: kstars.kcfg:1817
 #, kde-format
 msgid "Geometry of Ekos window, encoded byte array"
-msgstr ""
+msgstr "Géométrie de la fenêtre Ekos, tableau d'octets codés"
 
 #. i18n: ectx: label, entry (EkosLeftIcons), group (Ekos)
 #: kstars.kcfg:1825
 #, kde-format
 msgid "Ekos modules icons are placed to the left of pages"
-msgstr "Les icônes des modules « Ekos » sont placées sur la gauche des pages."
+msgstr "Les icônes des modules Ekos sont placées sur la gauche des pages."
 
 #. i18n: ectx: label, entry (independentWindowEkos), group (Ekos)
 #: kstars.kcfg:1829
@@ -41066,6 +40945,8 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
+"Algorithme à utiliser pour le calcul des impulsions de guidage en AD (0 "
+"standard, 1 hystérèse, 2 linéaire, 3 GPG"
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2870
@@ -41074,6 +40955,8 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
+"Algorithme à utiliser pour le calcul des impulsions de guidage en DEC (0 "
+"standard, 1 hystérèse, 2 linéaire)"
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:2874
@@ -41131,10 +41014,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
 #: kstars.kcfg:2910
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display guiding frames."
-msgstr "Afficher les superpositions d'image."
+msgstr "Afficher les poses de guidage."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:2918
@@ -41388,6 +41270,8 @@ msgstr "Afficher le tracé d'erreur RMS sur le graphique de dérive du guidage."
 msgid ""
 "If > 0, use the hysteresis guider for RA internal guiding with that value."
 msgstr ""
+"Si > 0, utilisation du guidage hystérèse pour le guidage interne en AD avec "
+"cette valeur."
 
 #. i18n: ectx: label, entry (DECHysteresis), group (Guide)
 #: kstars.kcfg:3145
@@ -41395,6 +41279,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for DEC internal guiding with that value."
 msgstr ""
+"Si > 0, utilisation du guidage hystérèse pour le guidage interne en DEC avec "
+"cette valeur."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:3151
@@ -41804,15 +41690,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeatherShutdownDelay), group (Scheduler)
 #: kstars.kcfg:3372
-#, fuzzy, kde-format
-#| msgid ""
-#| "Wait this many seconds after guiding is resumed before starting capture."
+#, kde-format
 msgid ""
 "Wait this many seconds when detecting weather alert before starting "
 "observatory shutdown."
 msgstr ""
-"Se mettre en attente de quelques secondes après que le guidage ait repris et "
-"avant de démarrer l'acquisition."
+"Attendre ce nombre de secondes quand une alerte météo est détectée avant le "
+"démarrage de fermeture de l'observatoire."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3376
@@ -71124,10 +71008,9 @@ msgid "Do Not Switch"
 msgstr "Ne pas changer"
 
 #: kstarsactions.cpp:1532
-#, fuzzy, kde-format
-#| msgid "Run clock in realtime"
+#, kde-format
 msgid "Stop running clock in realtime"
-msgstr "Lancer l'horloge en temps réel"
+msgstr "Arrêter l'horloge en temps réel"
 
 #: kstarsactions.cpp:1550 kstarsinit.cpp:199
 #, kde-format
@@ -78655,12 +78538,16 @@ msgid ""
 "This could cause issues for real imaging runs, but can be useful in "
 "reproducing/debugging issues.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Ne pas synchroniser avec l'horloge système au "
+"démarrage d'Ekos. Cela pourrait causer des problèmes pour les séances "
+"réelles d'imagerie, mais peut être utile pour reproduire ou débugguer des "
+"problèmes.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSyncToRealTime)
 #: options/opsdeveloper.ui:83
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
-msgstr ""
+msgstr "Ne pas synchroniser avec l'heure réelle au démarrage d'Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
@@ -84402,15 +84289,13 @@ msgid "%1/%2: Adding %3"
 msgstr "%1/%2 : ajout de %3"
 
 #: tools/imagingplanner.cpp:4019
-#, fuzzy, kde-format
-#| msgid "OK"
+#, kde-format
 msgctxt "@action:button"
 msgid "OK"
 msgstr "Ok"
 
 #: tools/imagingplanner.cpp:4020
-#, fuzzy, kde-format
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Annuler"
