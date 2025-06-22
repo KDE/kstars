@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-18 01:57+0000\n"
-"PO-Revision-Date: 2025-03-20 08:20+0100\n"
+"PO-Revision-Date: 2025-06-21 12:07+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -29769,11 +29769,9 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:687
 #: ekos/scheduler/schedulerprocess.cpp:697
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
-msgstr "Alert"
+msgstr "Alerta"
 
 #: ekos/scheduler/schedulerprocess.cpp:696
 #, kde-format
@@ -83803,15 +83801,13 @@ msgid "%1/%2: Adding %3"
 msgstr "%1/%2: Engadindo %3"
 
 #: tools/imagingplanner.cpp:4019
-#, fuzzy, kde-format
-#| msgid "OK"
+#, kde-format
 msgctxt "@action:button"
 msgid "OK"
-msgstr "Bo"
+msgstr "Aceptar"
 
 #: tools/imagingplanner.cpp:4020
-#, fuzzy, kde-format
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Cancelar"
