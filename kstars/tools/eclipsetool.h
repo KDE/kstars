@@ -70,7 +70,7 @@ class EclipseModel : public QAbstractTableModel
 
     private slots:
         // reimplemented to clear the data
-        void resetInternalData()
+        void resetInternalData() override
         {
             m_eclipses.clear();
         }
