@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-18 01:57+0000\n"
+"POT-Creation-Date: 2025-06-23 01:57+0000\n"
 "PO-Revision-Date: 2025-06-12 21:59+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -26147,18 +26147,18 @@ msgstr "Drivrutiner:"
 msgid "Internal"
 msgstr "Intern"
 
-#: ekos/profileeditor.cpp:683
+#: ekos/profileeditor.cpp:684
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Söker igenom nätverket"
 
-#: ekos/profileeditor.cpp:684
+#: ekos/profileeditor.cpp:685
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Söker igenom nätverket efter INDI-webbhanterare..."
 
-#: ekos/profileeditor.cpp:748
+#: ekos/profileeditor.cpp:749
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Hittade INDI-webbhanterare på %1"

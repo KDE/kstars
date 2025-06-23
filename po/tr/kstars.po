@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-18 01:57+0000\n"
+"POT-Creation-Date: 2025-06-23 01:57+0000\n"
 "PO-Revision-Date: 2025-06-12 12:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -26195,18 +26195,18 @@ msgstr "Sürücüler"
 msgid "Internal"
 msgstr "İçsel"
 
-#: ekos/profileeditor.cpp:683
+#: ekos/profileeditor.cpp:684
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Ağ Taranıyor"
 
-#: ekos/profileeditor.cpp:684
+#: ekos/profileeditor.cpp:685
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "INDI web yöneticileri için ağ taranıyor…"
 
-#: ekos/profileeditor.cpp:748
+#: ekos/profileeditor.cpp:749
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "%1 konumunda INDI web yöneticisi bulundu"
