@@ -641,7 +641,7 @@ class CameraProcess : public QObject
          * -filter
          * TODO depending on user feedback.
          */
-        QStringList generateScriptArguments() const;
+        QByteArray generateScriptInput();
 
         /**
          * @brief Does the CCD has a cooler control (On/Off) ?
