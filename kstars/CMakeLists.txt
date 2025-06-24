@@ -292,9 +292,6 @@ if (INDI_FOUND)
             ekos/scheduler/schedulerutils.cpp
             ekos/scheduler/schedulertypes.cpp
             ekos/scheduler/framingassistantui.cpp
-            ekos/scheduler/mosaictilesmanager.cpp
-            ekos/scheduler/mosaictilesmodel.cpp
-            #ekos/scheduler/mosaicrenderer.cpp
             ekos/scheduler/greedyscheduler.cpp
             ekos/scheduler/scheduleraltitudegraph.cpp
             ekos/scheduler/opsalignmentsettings.cpp
