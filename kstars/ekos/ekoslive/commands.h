@@ -37,6 +37,8 @@ enum COMMANDS
     NEW_TEMPERATURE,
     NEW_SCHEDULER_STATE,
 
+    NEW_MOSAIC_TILES,
+
     INVOKE_METHOD,
     SET_PROPERTY,
     GET_PROPERTY,
@@ -277,6 +279,8 @@ static QMap<COMMANDS, QString> const commands =
     {NEW_TEMPERATURE, "new_temperature"},
     {NEW_SCHEDULER_STATE, "new_scheduler_state"},
 
+    {NEW_MOSAIC_TILES, "new_mosaic_tiles"},
+
     {INVOKE_METHOD, "invoke_method"},
     {SET_PROPERTY, "set_property"},
     {GET_PROPERTY, "get_property"},
@@ -459,11 +463,11 @@ static QMap<COMMANDS, QString> const commands =
     {DARK_LIBRARY_GET_ALL_SETTINGS, "dark_library_get_all_settings"},
     {DARK_LIBRARY_GET_DEFECT_SETTINGS, "dark_library_get_defect_settings"},
     {DARK_LIBRARY_SET_DEFECT_PIXELS, "dark_library_set_defect_pixels"},
+    {DARK_LIBRARY_SAVE_MAP, "dark_library_save_map"},
     {DARK_LIBRARY_GET_VIEW_MASTERS, "dark_library_get_view_masters"},
     {DARK_LIBRARY_GET_MASTERS_IMAGE, "dark_library_get_masters_image"},
     {DARK_LIBRARY_CLEAR_MASTERS_ROW, "dark_library_clear_masters_row"},
     {DARK_LIBRARY_SET_DEFECT_FRAME, "dark_library_set_defect_frame"},
-    {DARK_LIBRARY_SAVE_MAP, "dark_library_save_map"},
 
     {FILE_DEFAULT_PATH, "file_default_path"},
     {FILE_DIRECTORY_OPERATION, "file_directory_operation"},

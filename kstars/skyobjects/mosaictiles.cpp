@@ -5,6 +5,9 @@
 */
 
 #include <QPainter>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
 
 #include "mosaictiles.h"
 #include "kstarsdata.h"
@@ -176,6 +179,14 @@ bool MosaicTiles::fromXML(const QString &filename)
     delLilXML(xmlParser);
     if (mosaicInfoFound)
         updateCoordsNow(KStarsData::Instance()->updateNum());
+
+    if (updateCallback)
+    {
+        QJsonObject tilesJSON;
+        toJSON(tilesJSON);
+        updateCallback(tilesJSON);
+    }
+
     return mosaicInfoFound;
 }
 
@@ -229,11 +240,90 @@ bool MosaicTiles::processJobInfo(XMLEle *root, int index)
 }
 
 
-//bool MosaicTiles::toJSON(QJsonObject &output)
-//{
-//    Q_UNUSED(output)
-//    return false;
-//}
+bool MosaicTiles::toJSON(QJsonObject &output)
+{
+    output["focalLength"] = m_FocalLength;
+    output["focalReducer"] = m_FocalReducer;
+    output["positionAngle"] = m_PositionAngle;
+
+    QJsonObject cameraSizeObj;
+    cameraSizeObj["width"] = m_CameraSize.width();
+    cameraSizeObj["height"] = m_CameraSize.height();
+    output["cameraSize"] = cameraSizeObj;
+
+    QJsonObject pixelSizeObj;
+    pixelSizeObj["width"] = m_PixelSize.width();
+    pixelSizeObj["height"] = m_PixelSize.height();
+    output["pixelSize"] = pixelSizeObj;
+
+    QJsonObject gridSizeObj;
+    gridSizeObj["width"] = m_GridSize.width();
+    gridSizeObj["height"] = m_GridSize.height();
+    output["gridSize"] = gridSizeObj;
+
+    output["overlap"] = m_Overlap;
+
+    QJsonObject cameraFOVObj;
+    cameraFOVObj["width"] = m_CameraFOV.width();
+    cameraFOVObj["height"] = m_CameraFOV.height();
+    output["cameraFOV"] = cameraFOVObj;
+
+    QJsonObject mosaicFOVObj;
+    mosaicFOVObj["width"] = m_MosaicFOV.width();
+    mosaicFOVObj["height"] = m_MosaicFOV.height();
+    output["mosaicFOV"] = mosaicFOVObj;
+
+    output["painterAlpha"] = m_PainterAlpha;
+    output["painterAlphaAuto"] = m_PainterAlphaAuto;
+    output["targetName"] = m_TargetName;
+    output["group"] = m_Group;
+    output["completionCondition"] = m_CompletionCondition;
+    output["completionConditionArg"] = m_CompletionConditionArg;
+    output["sequenceFile"] = m_SequenceFile;
+    output["outputDirectory"] = m_OutputDirectory;
+    output["focusEveryN"] = m_FocusEveryN;
+    output["alignEveryN"] = m_AlignEveryN;
+    output["isTrackChecked"] = m_TrackChecked;
+    output["isFocusChecked"] = m_FocusChecked;
+    output["isAlignChecked"] = m_AlignChecked;
+    output["isGuideChecked"] = m_GuideChecked;
+
+    output["ra0"] = ra0().Degrees();
+    output["dec0"] = dec0().Degrees();
+    output["ra"] = ra().Degrees();
+    output["dec"] = dec().Degrees();
+
+    QJsonArray tilesArray;
+    for (const auto &tile : m_Tiles)
+    {
+        QJsonObject tileObj;
+
+        QJsonObject posObj;
+        posObj["x"] = tile->pos.x();
+        posObj["y"] = tile->pos.y();
+        tileObj["pos"] = posObj;
+
+        QJsonObject centerObj;
+        centerObj["x"] = tile->center.x();
+        centerObj["y"] = tile->center.y();
+        tileObj["center"] = centerObj;
+
+        QJsonObject skyCenterObj;
+        skyCenterObj["ra0"] = tile->skyCenter.ra0().Degrees();
+        skyCenterObj["dec0"] = tile->skyCenter.dec0().Degrees();
+        skyCenterObj["ra"] = tile->skyCenter.ra().Degrees();
+        skyCenterObj["dec"] = tile->skyCenter.dec().Degrees();
+        tileObj["skyCenter"] = skyCenterObj;
+
+        tileObj["rotation"] = tile->rotation;
+        tileObj["index"] = tile->index;
+
+        tilesArray.append(tileObj);
+    }
+    output["tiles"] = tilesArray;
+
+    return true;
+}
 
 //bool MosaicTiles::fromJSON(const QJsonObject &input)
 //{
@@ -339,6 +429,13 @@ void MosaicTiles::updateTiles()
         }
 
         x -= xOffset;
+    }
+
+    if (updateCallback)
+    {
+        QJsonObject tilesJSON;
+        toJSON(tilesJSON);
+        updateCallback(tilesJSON);
     }
 }
 
@@ -494,4 +591,3 @@ void MosaicTiles::syncFOVs()
     m_CameraFOV = calculateCameraFOV();
     m_MosaicFOV = calculateTargetMosaicFOV();
 }
-

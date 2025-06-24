@@ -44,6 +44,9 @@
 #include "indi/indigps.h"
 #include "indi/indiguider.h"
 #include "indi/indirotator.h"
+#include "skymapcomposite.h"
+#include "mosaiccomponent.h"
+#include "mosaictiles.h"
 #include "mount/meridianflipstatuswidget.h"
 #include "ekos/auxiliary/rotatorutils.h"
 
@@ -185,6 +188,18 @@ Manager::Manager(QWidget * parent) : QDialog(parent), m_networkManager(this)
             &EkosLive::Media::resetPolarView);
     connect(KSMessageBox::Instance(), &KSMessageBox::newMessage, ekosLiveClient.get()->message(),
             &EkosLive::Message::sendDialog);
+
+    auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
+    if (tiles)
+    {
+        tiles->setUpdateCallback([this](const QJsonObject & tiles)
+        {
+            if (ekosLiveClient && ekosLiveClient->message())
+            {
+                ekosLiveClient->message()->sendMosaicTiles(tiles);
+            }
+        });
+    }
 
     // Port Selector
     m_PortSelectorTimer.setInterval(500);

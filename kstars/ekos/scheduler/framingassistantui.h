@@ -30,6 +30,19 @@ class MosaicTilesScene;
 class FramingAssistantUI : public QDialog
 {
         Q_OBJECT
+
+        Q_PROPERTY(QSize gridSize READ gridSize WRITE setGridSize NOTIFY gridSizeChanged)
+        Q_PROPERTY(double overlap READ overlap WRITE setOverlap NOTIFY overlapChanged)
+        Q_PROPERTY(double positionAngle READ positionAngle WRITE setPositionAngle NOTIFY positionAngleChanged)
+        Q_PROPERTY(QString sequenceFile READ sequenceFile WRITE setSequenceFile NOTIFY sequenceFileChanged)
+        Q_PROPERTY(QString outputDirectory READ outputDirectory WRITE setOutputDirectory NOTIFY outputDirectoryChanged)
+        Q_PROPERTY(QString targetName READ targetName WRITE setTargetName NOTIFY targetNameChanged)
+        Q_PROPERTY(int focusEveryN READ focusEveryN WRITE setFocusEveryN NOTIFY focusEveryNChanged)
+        Q_PROPERTY(int alignEveryN READ alignEveryN WRITE setAlignEveryN NOTIFY alignEveryNChanged)
+        Q_PROPERTY(bool isTrackChecked READ isTrackChecked WRITE setIsTrackChecked NOTIFY isTrackCheckedChanged)
+        Q_PROPERTY(bool isFocusChecked READ isFocusChecked WRITE setIsFocusChecked NOTIFY isFocusCheckedChanged)
+        Q_PROPERTY(bool isAlignChecked READ isAlignChecked WRITE setIsAlignChecked NOTIFY isAlignCheckedChanged)
+        Q_PROPERTY(bool isGuideChecked READ isGuideChecked WRITE setIsGuideChecked NOTIFY isGuideCheckedChanged)
     public:
 
         FramingAssistantUI();
@@ -46,6 +59,81 @@ class FramingAssistantUI : public QDialog
 
         // Import Mosaic JSON Data
         bool importMosaic(const QJsonObject &payload);
+
+    public:
+        Q_INVOKABLE void setGridSize(const QSize &value);
+        const QSize &gridSize() const
+        {
+            return m_GridSize;
+        }
+
+        Q_INVOKABLE void setOverlap(double value);
+        double overlap() const
+        {
+            return m_Overlap;
+        }
+
+        Q_INVOKABLE void setPositionAngle(double);
+        double positionAngle() const
+        {
+            return m_PA;
+        }
+
+        Q_INVOKABLE void setSequenceFile(const QString &value);
+        const QString &sequenceFile() const
+        {
+            return m_SequenceFile;
+        }
+
+        Q_INVOKABLE void setOutputDirectory(const QString &value);
+        const QString &outputDirectory() const
+        {
+            return m_OutputDirectory;
+        }
+
+        Q_INVOKABLE void setTargetName(const QString &value);
+        const QString &targetName() const
+        {
+            return m_TargetName;
+        }
+
+        Q_INVOKABLE void setFocusEveryN(int value);
+        int focusEveryN() const
+        {
+            return m_FocusEveryN;
+        }
+
+        Q_INVOKABLE void setAlignEveryN(int value);
+        int alignEveryN() const
+        {
+            return m_AlignEveryN;
+        }
+
+        Q_INVOKABLE void setIsTrackChecked(bool value);
+        bool isTrackChecked() const
+        {
+            return m_IsTrackChecked;
+        }
+
+        Q_INVOKABLE void setIsFocusChecked(bool value);
+        bool isFocusChecked() const
+        {
+            return m_IsFocusChecked;
+        }
+
+        Q_INVOKABLE void setIsAlignChecked(bool value);
+        bool isAlignChecked() const
+        {
+            return m_IsAlignChecked;
+        }
+
+        Q_INVOKABLE void setIsGuideChecked(bool value);
+        bool isGuideChecked() const
+        {
+            return m_IsGuideChecked;
+        }
+
+        Q_INVOKABLE void createJobs();
 
     protected:
         /// @brief Camera information validity checker.
@@ -73,7 +161,6 @@ class FramingAssistantUI : public QDialog
          */
         void goAndRotate();
 
-        void createJobs();
         // Select sequence file
         void selectSequence();
         // Select jobs directory
@@ -96,6 +183,20 @@ class FramingAssistantUI : public QDialog
         void setMountState(ISD::Mount::Status value);
         void setAlignState(AlignState value);
 
+    signals:
+        void gridSizeChanged(const QSize &value);
+        void overlapChanged(double value);
+        void positionAngleChanged(double value);
+        void sequenceFileChanged(const QString &value);
+        void outputDirectoryChanged(const QString &value);
+        void targetNameChanged(const QString &value);
+        void focusEveryNChanged(int value);
+        void alignEveryNChanged(int value);
+        void isTrackCheckedChanged(bool value);
+        void isFocusCheckedChanged(bool value);
+        void isAlignCheckedChanged(bool value);
+        void isGuideCheckedChanged(bool value);
+
     private:
 
         SkyPoint m_CenterPoint;
@@ -112,10 +213,18 @@ class FramingAssistantUI : public QDialog
         // Equipment
         double m_FocalLength {0};
         double m_FocalReducer {1};
-        QSize m_CameraSize;
+        QSize m_CameraSize, m_GridSize;
         QSizeF m_PixelSize, m_cameraFOV, m_MosaicFOV;
-        QSize m_GridSize {1, 1};
-        double m_Overlap {10}, m_PA {0};
+        double m_PA {0}, m_Overlap {10};
         QString m_JobsDirectory;
+        QString m_SequenceFile;
+        QString m_OutputDirectory;
+        QString m_TargetName;
+        int m_FocusEveryN { 0 };
+        int m_AlignEveryN { 0 };
+        bool m_IsTrackChecked { false };
+        bool m_IsFocusChecked { false };
+        bool m_IsAlignChecked { false };
+        bool m_IsGuideChecked { false };
 };
 }
