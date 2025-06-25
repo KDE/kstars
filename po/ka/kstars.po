@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-23 01:57+0000\n"
+"POT-Creation-Date: 2025-06-25 02:03+0000\n"
 "PO-Revision-Date: 2025-04-26 09:16+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -582,7 +582,7 @@ msgstr "გაუქმება"
 #: ekos/align/opsastrometryindexfiles.cpp:736
 #: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
-#: ekos/manager.cpp:1245 ekos/manager.cpp:1260 ekos/manager.cpp:1276
+#: ekos/manager.cpp:1260 ekos/manager.cpp:1275 ekos/manager.cpp:1291
 #: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
@@ -593,7 +593,7 @@ msgstr "შეცდომა"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:654
-#: ekos/scheduler/framingassistantui.cpp:788
+#: ekos/scheduler/framingassistantui.cpp:812
 #, kde-format
 msgid "Sorry"
 msgstr "უკაცრავად"
@@ -774,10 +774,10 @@ msgstr "%1-ზე unpack_thumb-ის შეცდომა: %2"
 msgid "Cannot write %s %1: %2"
 msgstr "ჩაწერის შეცდომა %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:186
-#: ekos/scheduler/framingassistantui.cpp:201
-#: ekos/scheduler/framingassistantui.cpp:874
-#: ekos/scheduler/framingassistantui.cpp:893 skyobjects/ksplanetbase.h:60
+#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:185
+#: ekos/scheduler/framingassistantui.cpp:200
+#: ekos/scheduler/framingassistantui.cpp:898
+#: ekos/scheduler/framingassistantui.cpp:917 skyobjects/ksplanetbase.h:60
 #, kde-format
 msgid "unnamed"
 msgstr "უსახელო"
@@ -2024,7 +2024,7 @@ msgstr "მდგომარეობა:"
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:788 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:803 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1616
 #: ekos/scheduler/scheduler.cpp:2268 ekos/scheduler/scheduler.cpp:2493
 #: ekos/scheduler/scheduler.cpp:2501 ekos/scheduler/scheduler.cpp:2511
@@ -2898,7 +2898,7 @@ msgstr "ტიპის მიბმა"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:321
+#: ekos/capture/cameraprocess.cpp:2455 ekos/capture/capturecountswidget.cpp:321
 #: fitsviewer/fitsviewer.cpp:749 fitsviewer/fitsviewer.cpp:750
 #, kde-format
 msgid "Preview"
@@ -6101,8 +6101,8 @@ msgstr ""
 msgid "Error: lost connection to filter wheel."
 msgstr ""
 
-#: ekos/align/align.cpp:1512 ekos/capture/cameraprocess.cpp:213
-#: ekos/capture/cameraprocess.cpp:631 ekos/focus/focus.cpp:5725
+#: ekos/align/align.cpp:1512 ekos/capture/cameraprocess.cpp:216
+#: ekos/capture/cameraprocess.cpp:634 ekos/focus/focus.cpp:5725
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6285,7 +6285,7 @@ msgstr "ამომხსნელი გაითიშა %1 წამის 
 
 #: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4136
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2068 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2083 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3688
 #, kde-format
@@ -6390,8 +6390,8 @@ msgstr ""
 msgid "Capture error. Aborting..."
 msgstr "გადაღების შეცდომა. გაუქმება..."
 
-#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1626
-#: ekos/capture/cameraprocess.cpp:2185
+#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1629
+#: ekos/capture/cameraprocess.cpp:2190
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6491,7 +6491,7 @@ msgstr "%1 ფაილსი ჩაწერის შეცდომა"
 
 #: ekos/align/align.cpp:3980 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:347
-#: ekos/capture/cameraprocess.cpp:2595 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2600 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3160
 #: ekos/scheduler/schedulerprocess.cpp:3507
 #: ekos/scheduler/schedulerprocess.cpp:4899
@@ -6574,7 +6574,7 @@ msgstr "ჩატვირთვა და მიბრუნება...."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
 #: ekos/align/polaralignmentassistant.ui:826 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:231
+#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:246
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -7110,7 +7110,7 @@ msgid "Open Ekos Alignment List"
 msgstr ""
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:346
-#: ekos/capture/cameraprocess.cpp:2594 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2599 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3506
 #: ekos/scheduler/schedulerprocess.cpp:4918
 #, kde-format
@@ -9819,7 +9819,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:146 ekos/manager.cpp:237 ekos/manager.cpp:796
+#: ekos/manager.cpp:149 ekos/manager.cpp:252 ekos/manager.cpp:811
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -9866,7 +9866,7 @@ msgid "Slew"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:336
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:351
 #, kde-format
 msgid "Setup"
 msgstr "მორგება"
@@ -9981,7 +9981,7 @@ msgstr "ვერ გამოვიტანე დროებითი გა
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2303 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2216 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2231 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:490
 #, kde-format
@@ -9990,7 +9990,7 @@ msgstr "ფოკუსი"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2172
+#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2187
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:498
 #, kde-format
@@ -10002,7 +10002,7 @@ msgstr "სწორება"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2305 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2437
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2452
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:494
 #, kde-format
@@ -10018,7 +10018,7 @@ msgstr "გადაბრუნება"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2307 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2362 ekos/manager.ui:778
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2377 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
 msgstr "მიმაგრება"
@@ -11885,8 +11885,8 @@ msgid "Log Ekos Scheduler module activity"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:341
-#: ekos/scheduler/framingassistantui.cpp:679
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:356
+#: ekos/scheduler/framingassistantui.cpp:703
 #, kde-format
 msgid "Scheduler"
 msgstr "დამგეგმავი"
@@ -12058,7 +12058,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2487
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2502
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -13847,7 +13847,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2463
+#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2468
 #: ekos/guide/guide.cpp:70
 #, kde-format
 msgid "Calibration"
@@ -14484,7 +14484,7 @@ msgstr "ექსპოზიციის დრო წამებში ერ
 msgid "Exposure time in seconds for individual images"
 msgstr "ექსპოზიციის დრო წამებში თითოეული გამოსახულებისთვის"
 
-#: ekos/capture/camera_config.cpp:987 ekos/scheduler/framingassistant.cpp:220
+#: ekos/capture/camera_config.cpp:987
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
@@ -14611,7 +14611,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr ""
 
-#: ekos/capture/camera_jobs.cpp:183 ekos/capture/cameraprocess.cpp:2715
+#: ekos/capture/camera_jobs.cpp:183 ekos/capture/cameraprocess.cpp:2720
 #, kde-format
 msgid "Reset job status"
 msgstr ""
@@ -14665,309 +14665,309 @@ msgid_plural "%1 dark flats jobs were created."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/capture/cameraprocess.cpp:214 ekos/capture/cameraprocess.cpp:632
+#: ekos/capture/cameraprocess.cpp:217 ekos/capture/cameraprocess.cpp:635
 #, kde-format
 msgid "Image Transfer"
 msgstr "გამოსახულების გადაცემა"
 
-#: ekos/capture/cameraprocess.cpp:235
+#: ekos/capture/cameraprocess.cpp:238
 #, kde-format
 msgid "Sequence resumed."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:271
+#: ekos/capture/cameraprocess.cpp:274
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:285
+#: ekos/capture/cameraprocess.cpp:288
 #, kde-format
 msgid "No new job created."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:308 ekos/capture/cameraprocess.cpp:884
+#: ekos/capture/cameraprocess.cpp:311 ekos/capture/cameraprocess.cpp:887
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:315
+#: ekos/capture/cameraprocess.cpp:318
 #, kde-format
 msgid "Starting framing..."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:347
+#: ekos/capture/cameraprocess.cpp:350
 #, kde-format
 msgid "CCD capture suspended"
 msgstr "ნშმ-ით გადაღება შეჩერებულია"
 
-#: ekos/capture/cameraprocess.cpp:352
+#: ekos/capture/cameraprocess.cpp:355
 #, kde-format
 msgid "CCD capture complete"
 msgstr "CCD გადაღება დასრულდა"
 
-#: ekos/capture/cameraprocess.cpp:357
+#: ekos/capture/cameraprocess.cpp:360
 #, kde-format
 msgid "Framing stopped"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:357 ekos/capture/cameraprocess.cpp:362
+#: ekos/capture/cameraprocess.cpp:360 ekos/capture/cameraprocess.cpp:365
 #, kde-format
 msgid "CCD capture stopped"
 msgstr "ნშმ-ით გადაღება გაჩერებულია"
 
-#: ekos/capture/cameraprocess.cpp:440
+#: ekos/capture/cameraprocess.cpp:443
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:447
+#: ekos/capture/cameraprocess.cpp:450
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:460
+#: ekos/capture/cameraprocess.cpp:463
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:485
+#: ekos/capture/cameraprocess.cpp:488
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:486
+#: ekos/capture/cameraprocess.cpp:489
 #, kde-format
 msgid "Display preview"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:570
+#: ekos/capture/cameraprocess.cpp:573
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:585
+#: ekos/capture/cameraprocess.cpp:588
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:598
+#: ekos/capture/cameraprocess.cpp:601
 #, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:830
+#: ekos/capture/cameraprocess.cpp:833
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:874
+#: ekos/capture/cameraprocess.cpp:877
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:879
+#: ekos/capture/cameraprocess.cpp:882
 #, kde-format
 msgid "Failed to set binning."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1039
+#: ekos/capture/cameraprocess.cpp:1042
 #, kde-format
 msgid "file saved to %1"
 msgstr "ფაილი შენახულია %1-ში"
 
-#: ekos/capture/cameraprocess.cpp:1049
+#: ekos/capture/cameraprocess.cpp:1052
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1051
+#: ekos/capture/cameraprocess.cpp:1054
 #, kde-format
 msgid "Image Write Failed"
 msgstr "გამოსახულების ჩაწერის შეცდომა"
 
-#: ekos/capture/cameraprocess.cpp:1276
+#: ekos/capture/cameraprocess.cpp:1279
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1302
+#: ekos/capture/cameraprocess.cpp:1305
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1332
+#: ekos/capture/cameraprocess.cpp:1335
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1398
+#: ekos/capture/cameraprocess.cpp:1401
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1455
+#: ekos/capture/cameraprocess.cpp:1458
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "შეცდომა: მშნ-სთან კავშირის შეცდომა."
 
-#: ekos/capture/cameraprocess.cpp:1483
+#: ekos/capture/cameraprocess.cpp:1486
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1618 ekos/capture/cameraprocess.cpp:2177
+#: ekos/capture/cameraprocess.cpp:1621 ekos/capture/cameraprocess.cpp:2182
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1718
+#: ekos/capture/cameraprocess.cpp:1721
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1784
+#: ekos/capture/cameraprocess.cpp:1787
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1821
+#: ekos/capture/cameraprocess.cpp:1824
 #, kde-format
 msgid "Captured %1"
 msgstr "გადაღებულია %1"
 
-#: ekos/capture/cameraprocess.cpp:1827
+#: ekos/capture/cameraprocess.cpp:1830
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1868
+#: ekos/capture/cameraprocess.cpp:1873
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "გაშვებულია ჩაწერის სკრიპტი: %1"
 
-#: ekos/capture/cameraprocess.cpp:1883
+#: ekos/capture/cameraprocess.cpp:1888
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1894
+#: ekos/capture/cameraprocess.cpp:1899
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1906
+#: ekos/capture/cameraprocess.cpp:1911
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1916
+#: ekos/capture/cameraprocess.cpp:1921
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1921
+#: ekos/capture/cameraprocess.cpp:1926
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2107 ekos/focus/focus.cpp:5777
+#: ekos/capture/cameraprocess.cpp:2112 ekos/focus/focus.cpp:5777
 #: ekos/focus/focus.cpp:5801
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2114
+#: ekos/capture/cameraprocess.cpp:2119
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2132 ekos/focus/focus.cpp:5782
+#: ekos/capture/cameraprocess.cpp:2137 ekos/focus/focus.cpp:5782
 #: ekos/guide/guide.cpp:1010
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2158
+#: ekos/capture/cameraprocess.cpp:2163
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "ექსპოზიციის მოლოდინის ვადა ამოიწურა. შეწყვეტა..."
 
-#: ekos/capture/cameraprocess.cpp:2236
+#: ekos/capture/cameraprocess.cpp:2241
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2247
+#: ekos/capture/cameraprocess.cpp:2252
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2269
+#: ekos/capture/cameraprocess.cpp:2274
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2298
+#: ekos/capture/cameraprocess.cpp:2303
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2306
+#: ekos/capture/cameraprocess.cpp:2311
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2447
+#: ekos/capture/cameraprocess.cpp:2452
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1-ის ხედი"
 
-#: ekos/capture/cameraprocess.cpp:2458 ekos/capture/cameraprocess.cpp:2460
+#: ekos/capture/cameraprocess.cpp:2463 ekos/capture/cameraprocess.cpp:2465
 #, kde-format
 msgid "Flat Calibration"
 msgstr "ბრტყელი კალიბრაცია"
 
-#: ekos/capture/cameraprocess.cpp:2664
+#: ekos/capture/cameraprocess.cpp:2669
 #, kde-format
 msgid "Sequence paused."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2714
+#: ekos/capture/cameraprocess.cpp:2719
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2728
+#: ekos/capture/cameraprocess.cpp:2733
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2858
+#: ekos/capture/cameraprocess.cpp:2969
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2859
+#: ekos/capture/cameraprocess.cpp:2970
 #, kde-format
 msgid "Driver Restart"
 msgstr "დრაივერის გადატვირთვა"
 
-#: ekos/capture/cameraprocess.cpp:3006 ekos/capture/sequencejobstate.cpp:41
+#: ekos/capture/cameraprocess.cpp:3117 ekos/capture/sequencejobstate.cpp:41
 #, kde-format
 msgid "Capture operations timed out after %1 seconds."
 msgstr "ჩაჭერის ოპერაციის მოლოდინის ვადა ამოიწურა %1 წამის შემდეგ."
@@ -22524,97 +22524,97 @@ msgstr ""
 msgid "Use dedicated Guiding Chip for Guiding"
 msgstr ""
 
-#: ekos/manager.cpp:232
+#: ekos/manager.cpp:247
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr ""
 
-#: ekos/manager.cpp:242
+#: ekos/manager.cpp:257
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr ""
 
-#: ekos/manager.cpp:265
+#: ekos/manager.cpp:280
 #, kde-format
 msgid "Logging"
 msgstr "ჩაწერა"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:376 ekos/opsekos.ui:174
+#: ekos/manager.cpp:391 ekos/opsekos.ui:174
 #, kde-format
 msgid "Analyze"
 msgstr "&ანალიზი"
 
-#: ekos/manager.cpp:391
+#: ekos/manager.cpp:406
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
 msgstr ""
 
-#: ekos/manager.cpp:405
+#: ekos/manager.cpp:420
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
 msgstr ""
 
-#: ekos/manager.cpp:414
+#: ekos/manager.cpp:429
 #, kde-format
 msgid "Extension '%1' aborting"
 msgstr ""
 
-#: ekos/manager.cpp:424
+#: ekos/manager.cpp:439
 #, kde-format
 msgid "Extension '%1' start requested"
 msgstr ""
 
-#: ekos/manager.cpp:429
+#: ekos/manager.cpp:444
 #, kde-format
 msgid "Extension '%1' started"
 msgstr ""
 
-#: ekos/manager.cpp:437
+#: ekos/manager.cpp:452
 #, kde-format
 msgid "Extension '%1' stop requested"
 msgstr ""
 
-#: ekos/manager.cpp:442
+#: ekos/manager.cpp:457
 #, kde-format
 msgid "Extension '%1' stopped"
 msgstr "გაფართოება '%1' გაჩერდა"
 
-#: ekos/manager.cpp:458
+#: ekos/manager.cpp:473
 #, kde-format
 msgid "Extension '%1': %2"
 msgstr ""
 
-#: ekos/manager.cpp:817
+#: ekos/manager.cpp:832
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:952 ekos/manager.cpp:977
+#: ekos/manager.cpp:967 ekos/manager.cpp:992
 #, kde-format
 msgid "Ekos requires at least one Camera to operate."
 msgstr ""
 
-#: ekos/manager.cpp:1040
+#: ekos/manager.cpp:1055
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
 "camera from connecting to Ekos. Do you want to quit PTP Camera now?"
 msgstr ""
 
-#: ekos/manager.cpp:1041
+#: ekos/manager.cpp:1056
 #, kde-format
 msgid "PTP Camera"
 msgstr "PTP კამერა"
 
-#: ekos/manager.cpp:1055
+#: ekos/manager.cpp:1070
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "INDI-ის სერვისების გაშვება..."
 
-#: ekos/manager.cpp:1086
+#: ekos/manager.cpp:1101
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -22622,80 +22622,80 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1088 indi/opsindi.ui:248
+#: ekos/manager.cpp:1103 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "INDI სერვერი"
 
-#: ekos/manager.cpp:1103
+#: ekos/manager.cpp:1118
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr ""
 
-#: ekos/manager.cpp:1123
+#: ekos/manager.cpp:1138
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr ""
 
-#: ekos/manager.cpp:1127
+#: ekos/manager.cpp:1142
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:1140
+#: ekos/manager.cpp:1155
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:1160
+#: ekos/manager.cpp:1175
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr ""
 
-#: ekos/manager.cpp:1197
+#: ekos/manager.cpp:1212
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "INDI-ის სერვისები გაშვებულია პორტზე %1."
 
-#: ekos/manager.cpp:1200
+#: ekos/manager.cpp:1215
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "INDI-ის სერვისები გაშვებულია პორტზე %1. შეგიძლიათ მიუერთდეთ."
 
-#: ekos/manager.cpp:1205
+#: ekos/manager.cpp:1220
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
 "Waiting for devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1236
+#: ekos/manager.cpp:1251
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "ლოკალურ INDI სერვერთან (%1) მიერთების შეცდომა: %2"
 
-#: ekos/manager.cpp:1238
+#: ekos/manager.cpp:1253
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "INDI სერვერთან (%1) მიერთების შეცდომა: %2"
 
-#: ekos/manager.cpp:1251
+#: ekos/manager.cpp:1266
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "ლოკალურ INDI სერვერთან (%1) მიერთება გაწყდა: %2"
 
-#: ekos/manager.cpp:1253
+#: ekos/manager.cpp:1268
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "დაშორებულ INDI სერვერთან (%1) მიერთება გაწყდა: %2"
 
-#: ekos/manager.cpp:1316
+#: ekos/manager.cpp:1331
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1318
+#: ekos/manager.cpp:1333
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -22703,7 +22703,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1346
+#: ekos/manager.cpp:1361
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -22711,13 +22711,13 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1350 ekos/manager.cpp:1358 ekos/manager.cpp:1391
-#: ekos/manager.cpp:1399
+#: ekos/manager.cpp:1365 ekos/manager.cpp:1373 ekos/manager.cpp:1406
+#: ekos/manager.cpp:1414
 #, kde-format
 msgid "Ekos startup error"
 msgstr ""
 
-#: ekos/manager.cpp:1354
+#: ekos/manager.cpp:1369
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -22725,7 +22725,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1387
+#: ekos/manager.cpp:1402
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -22733,7 +22733,7 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1395
+#: ekos/manager.cpp:1410
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -22741,151 +22741,151 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1453
+#: ekos/manager.cpp:1468
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1464
+#: ekos/manager.cpp:1479
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1503
+#: ekos/manager.cpp:1518
 #, kde-format
 msgid "INDI services stopped."
 msgstr ""
 
-#: ekos/manager.cpp:1563
+#: ekos/manager.cpp:1578
 #, kde-format
 msgid "Remote devices established."
 msgstr ""
 
-#: ekos/manager.cpp:1565
+#: ekos/manager.cpp:1580
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1629
+#: ekos/manager.cpp:1644
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1636
+#: ekos/manager.cpp:1651
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 გაითიშა."
 
-#: ekos/manager.cpp:1657 ekos/manager.cpp:1666 ekos/manager.cpp:1699
+#: ekos/manager.cpp:1672 ekos/manager.cpp:1681 ekos/manager.cpp:1714
 #: indi/indistd.cpp:716
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 ონლაინაა."
 
-#: ekos/manager.cpp:1674
+#: ekos/manager.cpp:1689
 #, kde-format
 msgid "%1 filter is online."
 msgstr "%1 ფილტრი ონლაინაა."
 
-#: ekos/manager.cpp:1683
+#: ekos/manager.cpp:1698
 #, kde-format
 msgid "%1 focuser is online."
 msgstr ""
 
-#: ekos/manager.cpp:1690
+#: ekos/manager.cpp:1705
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "%1 შემომბრუნებელი ონლაინაა."
 
-#: ekos/manager.cpp:1706
+#: ekos/manager.cpp:1721
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "%1 ამინდი ონლაინაა."
 
-#: ekos/manager.cpp:1713
+#: ekos/manager.cpp:1728
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "%1 GPS ონლაინაა."
 
-#: ekos/manager.cpp:1722
+#: ekos/manager.cpp:1737
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "%1 მტვრის ქუდი ონლაინაა."
 
-#: ekos/manager.cpp:1729
+#: ekos/manager.cpp:1744
 #, kde-format
 msgid "%1 Light box is online."
 msgstr ""
 
-#: ekos/manager.cpp:1881
+#: ekos/manager.cpp:1896
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 გათიშულია."
 
-#: ekos/manager.cpp:2120
+#: ekos/manager.cpp:2135
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "ნშმ"
 
-#: ekos/manager.cpp:2504
+#: ekos/manager.cpp:2519
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2693
+#: ekos/manager.cpp:2708
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr ""
 
-#: ekos/manager.cpp:2694
+#: ekos/manager.cpp:2709
 #, kde-format
 msgid "Confirm Delete"
 msgstr "დაადასტურეთ წაშლა"
 
-#: ekos/manager.cpp:2746
+#: ekos/manager.cpp:2761
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2748
+#: ekos/manager.cpp:2763
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:3021
+#: ekos/manager.cpp:3036
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3029
+#: ekos/manager.cpp:3044
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3057
+#: ekos/manager.cpp:3072
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3069
+#: ekos/manager.cpp:3084
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3794
+#: ekos/manager.cpp:3809
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:3801
+#: ekos/manager.cpp:3816
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:3808
+#: ekos/manager.cpp:3823
 #, kde-format
 msgid "Received external preview file"
 msgstr ""
@@ -24998,22 +24998,8 @@ msgid ""
 "Select Devices"
 msgstr ""
 
-#: ekos/scheduler/framingassistant.cpp:538
-#: ekos/scheduler/framingassistantui.cpp:562
-#, kde-format
-msgid " Scheduler job"
-msgid_plural " Scheduler jobs"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ekos/scheduler/framingassistant.cpp:540
-#: ekos/scheduler/framingassistantui.cpp:564
-#, kde-format
-msgid " (first only)"
-msgstr " (მხოლოდ პირველი)"
-
 #. i18n: ectx: property (windowTitle), widget (QDialog, FramingAssistant)
-#: ekos/scheduler/framingassistant.ui:14 ekos/scheduler/mosaicplanner.cpp:31
+#: ekos/scheduler/framingassistant.ui:14
 #, kde-format
 msgid "Mosaic Planner"
 msgstr ""
@@ -25697,40 +25683,52 @@ msgstr ""
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:238 fitsviewer/fitsview.cpp:749
+#: ekos/scheduler/framingassistantui.cpp:237 fitsviewer/fitsview.cpp:749
 #, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr "%1%"
 
-#: ekos/scheduler/framingassistantui.cpp:713 ekos/scheduler/scheduler.cpp:784
+#: ekos/scheduler/framingassistantui.cpp:589
+#, kde-format
+msgid " Scheduler job"
+msgid_plural " Scheduler jobs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ekos/scheduler/framingassistantui.cpp:591
+#, kde-format
+msgid " (first only)"
+msgstr " (მხოლოდ პირველი)"
+
+#: ekos/scheduler/framingassistantui.cpp:737 ekos/scheduler/scheduler.cpp:784
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:715 ekos/scheduler/scheduler.cpp:786
+#: ekos/scheduler/framingassistantui.cpp:739 ekos/scheduler/scheduler.cpp:786
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:727
+#: ekos/scheduler/framingassistantui.cpp:751
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "აირჩიეთ Mosaic-ის შემოტანა"
 
-#: ekos/scheduler/framingassistantui.cpp:729
+#: ekos/scheduler/framingassistantui.cpp:753
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:788
+#: ekos/scheduler/framingassistantui.cpp:812
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:867
+#: ekos/scheduler/framingassistantui.cpp:891
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
