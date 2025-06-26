@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-25 02:03+0000\n"
-"PO-Revision-Date: 2025-06-18 15:09+0200\n"
+"PO-Revision-Date: 2025-06-25 12:08+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -84984,7 +84984,7 @@ msgstr "Geef %1 op in het invoerbestand."
 #: tools/modcalcsidtime.cpp:362 tools/modcalcvizequinox.cpp:137
 #, kde-format
 msgid "Results of Sidereal time calculation"
-msgstr "Resultaten van de berekening van de sterretijd"
+msgstr "Resultaten van de berekening van de sterrentijd"
 
 #. i18n: ectx: property (text), widget (QLabel, SiderealTimeLabel)
 #: tools/modcalcsidtime.ui:90
