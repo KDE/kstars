@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-25 02:03+0000\n"
-"PO-Revision-Date: 2025-06-18 13:58+0200\n"
+"PO-Revision-Date: 2025-06-26 20:11+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -344,7 +344,7 @@ msgstr "S'està esperant la resposta del servidor…"
 #, kde-format
 msgctxt "use field-of-view for binoculars"
 msgid "7x35 Binoculars"
-msgstr "Prismàtic 7x35"
+msgstr "Prismàtics 7x35"
 
 #: auxiliary/fov.cpp:41 kstarslite/skyitems/fovitem.cpp:14
 #, kde-format
@@ -39279,7 +39279,7 @@ msgstr "Disponibilitat de telescopi"
 #: kstars.kcfg:1795
 #, kde-format
 msgid "Availability of binoculars"
-msgstr "Disponibilitat del prismàtic"
+msgstr "Disponibilitat de prismàtics"
 
 #. i18n: ectx: label, entry (BinocularsAperture), group (WISettings)
 #: kstars.kcfg:1799
@@ -72918,7 +72918,7 @@ msgstr "Latitud: "
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:307
 #, kde-kuit-format
 msgid "Longitude: "
-msgstr "Longitud: "
+msgstr "Llargària: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:323
 #, kde-kuit-format
@@ -79425,7 +79425,7 @@ msgstr ""
 #: options/opsimageoverlay.ui:74
 #, kde-format
 msgid "Center SkyMap on selection"
-msgstr "Centra el mapa celeste en la selecció"
+msgstr "Centra el mapa celeste a la selecció"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
 #: options/opsimageoverlay.ui:84
@@ -82529,7 +82529,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>KStars té una potent eina Planificador d'observacions\n"
+"\t\t<p>KStars té una potent eina «Planificador d'observacions»\n"
 "\t\t\t  («Ctrl+L»). El planificador us ajuda a mantindre una\n"
 "\t\t\t  llista de desitjos d'objectes que vos agradaria\n"
 "\t\t\t  observar, i després seleccionar alguns d'estos\n"
@@ -83252,7 +83252,7 @@ msgstr ""
 "Hi ha dues maneres d'emprar este camp: \n"
 "\n"
 "1. Senzillament escrivint el nom d'un objecte conegut i prémer el botó "
-"«Traça» (o prement «Intro»). S'afegirà a la traça una corba d'altitud en "
+"«Traça» (o prement «Retorn»). S'afegirà a la traça una corba d'altitud en "
 "funció del temps i les seues coordenades es mostraran davall.\n"
 "\n"
 "2. Escriviu una etiqueta amb el nom personalitzat de l'objecte. També "
@@ -88827,7 +88827,7 @@ msgstr "Afig un telescopi nou"
 #: tools/whatsinteresting/wiequipsettings.ui:186
 #, kde-format
 msgid "Binoculars"
-msgstr "Prismàtic"
+msgstr "Prismàtics"
 
 #. i18n: ectx: property (text), widget (QLabel, binoApertureText)
 #: tools/whatsinteresting/wiequipsettings.ui:199
