@@ -1873,26 +1873,26 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
         switch (objectType)
         {
-                // Stars
+            // Stars
             case SkyObject::STAR:
             case SkyObject::CATALOG_STAR:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
                 break;
-                // Planets & Moon
+            // Planets & Moon
             case SkyObject::PLANET:
             case SkyObject::MOON:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
                 break;
-                // Comets & Asteroids
+            // Comets & Asteroids
             case SkyObject::COMET:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
                 break;
             case SkyObject::ASTEROID:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
                 break;
-                // Clusters
+            // Clusters
             case SkyObject::OPEN_CLUSTER:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::OPEN_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
@@ -1901,7 +1901,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GLOBULAR_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
                 break;
-                // Nebuale
+            // Nebuale
             case SkyObject::GASEOUS_NEBULA:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GASEOUS_NEBULA, objectMaxMagnitude));
                 isDSO = true;
@@ -2966,9 +2966,13 @@ bool Message::parseArgument(QVariant::Type type, const QVariant &arg, QGenericAr
 #else
         case QVariant::Size:
 #endif
-            types.size = arg.toSize();
-            genericArg = Q_ARG(QSize, types.size);
-            return true;
+        {
+            QJsonObject obj = arg.toJsonObject();
+            types.size = QSize(obj["width"].toInt(), obj["height"].toInt());
+        }
+        genericArg = Q_ARG(QSize, types.size);
+        return true;
+
         default:
             break;
     }
