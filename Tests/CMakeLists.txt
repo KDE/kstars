@@ -8,9 +8,9 @@ include_directories(
     ${kstars_SOURCE_DIR}/datahandlers
     )
 
-if(STELLARSOLVER_FOUND)
+if(StellarSolver_FOUND)
 include_directories(${STELLARSOLVER_INCLUDE_DIR})
-endif(STELLARSOLVER_FOUND)
+endif(StellarSolver_FOUND)
 
 if(WCSLIB_FOUND)
   include_directories( ${WCSLIB_INCLUDE_DIR} )
@@ -54,6 +54,13 @@ SET( TEST_KSLITE_LIBRARIES
         KStarsLiteLib
 )
 
+if(StellarSolver_FOUND)
+    SET( TEST_LIBRARIES
+            ${TEST_LIBRARIES}
+            StellarSolver::stellarsolver
+    )
+endif(StellarSolver_FOUND)
+
 add_subdirectory(auxiliary)
 add_subdirectory(tools)
 add_subdirectory(skyobjects)
@@ -79,10 +86,6 @@ add_subdirectory(internalguide)
 endif(NOT WIN32)
 ENDIF(INDI_FOUND)
 ENDIF(CFITSIO_FOUND)
-
-if(STELLARSOLVER_FOUND)
-    include_directories(${STELLARSOLVER_INCLUDE_DIR})
-endif(STELLARSOLVER_FOUND)
 
 IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
     IF (BUILD_KSTARS_LITE)

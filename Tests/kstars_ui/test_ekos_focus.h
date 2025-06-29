@@ -104,7 +104,7 @@
     QTRY_VERIFY_WITH_TIMEOUT(!captureB->isEnabled(), 5000); \
     QVERIFY(stopFocusB->isEnabled()); \
     QTest::qWait(ceil(exposure)*(averaged)*1000); \
-    QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 20000 + exposure*averaged*1000/5); \
+    QTRY_VERIFY_WITH_TIMEOUT(captureB->isEnabled(), 20000 + (int)((exposure*averaged*1000)/5)); \
     QVERIFY(!stopFocusB->isEnabled()); } while (false)
 /** @} */
 

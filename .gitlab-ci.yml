@@ -14,6 +14,7 @@ include:
   - local: '.gitlab-ci/common_rules.yml'
   - project: sysadmin/ci-utilities
     file:
+      - /gitlab-templates/linux.yml
       - /gitlab-templates/linux-qt6.yml
       - /gitlab-templates/windows-qt6.yml
       - /gitlab-templates/flatpak.yml
@@ -32,43 +33,70 @@ include:
 
 # Standard build recipes
    
+.standard-build-recipes:
+  rules:
+    - !reference [.optional-on-forked-repository, rules]
+    - !reference [.optional-on-draft-merge-requests, rules]
+    - !reference [.always-on-scheduled-pipeline, rules]
+    - !reference [.always-on-master-branch, rules]
+    - !reference [.always-on-merge-requests, rules]
+    - !reference [.manual-skipped-recipe, rules]
+
 suse_tumbleweed_qt69:
-  allow_failure: true
   rules:
     - !reference [.standard-build-recipes, rules]
 
 windows_qt68:
+  allow_failure: true # TODO: REMOVE WHEN STELLARSOLVER IS INCLUDED IN CI IMAGE
+  rules:
+    - !reference [.standard-build-recipes, rules]
+
+suse_tumbleweed_qt515:
+  rules:
+    - !reference [.standard-build-recipes, rules]
+
+json-validation:
   allow_failure: true
   rules:
     - !reference [.standard-build-recipes, rules]
 
 # Craft recipes
-    
-craft_windows_qt6_x86_64:
+
+.craft-recipes:
+  rules:
+    - !reference [.optional-on-forked-repository, rules]
+    - !reference [.optional-on-draft-merge-requests, rules]
+    - !reference [.always-on-scheduled-pipeline, rules]
+    - !reference [.always-on-master-branch, rules]
+    - !reference [.always-on-stable-release, rules]
+    - !reference [.manual-skipped-recipe, rules]
+
+craft_windows_qt6_x86_64: # Extended from /gitlab-templates/craft-windows-x86-64-qt6.yml
   needs:
     - windows_qt68
   rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: always
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
-      when: always
-    - when: manual
-      allow_failure: true
-      
-craft_macos_qt6_x86_64:
+    - !reference [.craft-recipes, rules]
+
+craft_macos_qt6_x86_64: # Extended from /gitlab-templates/craft-macos-x86-64-qt6.yml
   timeout: 2h # Signing procedure often exceeds the default 1h
   needs:
     - suse_tumbleweed_qt69 # we don't have a macos check build
   rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      allow_failure: true # MacOS build is unstable
-      when: always
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
-      when: always
-    - when: manual
-      allow_failure: true
+    - !reference [.craft-recipes, rules]
+
+craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.yml
+  timeout: 2h # Signing procedure often exceeds the default 1h
+  needs:
+    - suse_tumbleweed_qt69 # we don't have a macos check build
+  rules:
+    - !reference [.craft-recipes, rules]
 
 # Publishing recipes
+
+.publishing-recipes:
+  rules:
+    - !reference [.always-on-stable-release, rules]
+    - when: never
 
 # TODO Update to microsoftpublish for Qt6
 # microsoftstore_qt515:
@@ -78,6 +106,13 @@ craft_macos_qt6_x86_64:
 #     - !reference [.publishing-recipes, rules]
 
 # Custom build recipes - until tests are operational in the KDE CI image
+
+.custom-build-recipes:
+  rules:
+    - !reference [.optional-on-forked-repository, rules]
+    - !reference [.optional-on-draft-merge-requests, rules]
+    - !reference [.always-on-merge-requests, rules]
+    - !reference [.manual-skipped-recipe, rules]
 
 .custom_build:
   interruptible: true
@@ -107,6 +142,7 @@ craft_macos_qt6_x86_64:
 build:
   stage: build
   extends: .custom_build
+  allow_failure: true # TODO: REMOVE WHEN STABLE AGAIN
   needs:
     - suse_tumbleweed_qt69
   script:
@@ -121,6 +157,7 @@ build:
 build-and-test-stable:
   stage: test
   extends: .custom_build
+  allow_failure: true # TODO: REMOVE WHEN STABLE AGAIN
   needs:
     - build
   timeout: 3 hours

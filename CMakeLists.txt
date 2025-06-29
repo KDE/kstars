@@ -13,16 +13,20 @@ set (KSTARS_BUILD_RELEASE "Beta")
 set (CMAKE_CXX_STANDARD 17)
 
 # Option to choose between Qt5 and Qt6
+option(BUILD_WITH_QT6 "Build using Qt6" Off)
 option(BUILD_QT5 "Build using Qt5" On)
+
+if(BUILD_WITH_QT6)
+    set(BUILD_QT5 Off)
+endif(BUILD_WITH_QT6)
 
 if(BUILD_QT5)
     set(QT_MIN_VERSION 5.12.7)
     set(KF5_MIN_VERSION 5.68.0)
 else()
-    set(QT_MIN_VERSION 6.2.4)
-    set(KF5_MIN_VERSION 5.68.0)
+    set(QT_MIN_VERSION 6.6.0)
+    set(KF6_MIN_VERSION 6.6.0)
 endif(BUILD_QT5)
-
 
 # Build KStars Lite with -DBUILD_KSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
@@ -242,7 +246,7 @@ MACRO_BOOL_TO_01(INDI_FOUND HAVE_INDI)
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "https://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
 
 if (NOT ANDROID)
-    find_package(StellarSolver REQUIRED 2.2)
+    find_package(StellarSolver REQUIRED 2.6)
 endif(NOT ANDROID)
 MACRO_BOOL_TO_01(StellarSolver_FOUND HAVE_STELLARSOLVER)
 
