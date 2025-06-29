@@ -902,6 +902,19 @@ void Manager::start()
                 auto drv = driversList.value(driver);
                 if (!drv.isNull())
                 {
+                    bool isDuplicate = false;
+                    for (auto &existingDriver : managedDrivers)
+                    {
+                        if (checkUniqueBinaryDriver(existingDriver, drv))
+                        {
+                            isDuplicate = true;
+                            break;
+                        }
+                    }
+
+                    if (isDuplicate)
+                        continue;
+
                     if (it.key() == KSTARS_CCD)
                         haveCamera = true;
                     managedDrivers.append(drv->clone());
