@@ -25,6 +25,12 @@ void MeridianFlipState::setResumeAlignmentAfterFlip(bool resume)
     m_resumeAlignmentAfterFlip = resume;
 }
 
+void MeridianFlipState::setResumeGuidingAfterFlip(bool resume)
+{
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Setting resume guiding after flip to" << (resume ? "true" : "false");
+    m_resumeGuidingAfterFlip = resume;
+}
+
 QString MeridianFlipState::MFStageString(MFStage stage)
 {
     switch(stage)
