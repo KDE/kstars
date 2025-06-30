@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-25 02:03+0000\n"
+"POT-Creation-Date: 2025-06-30 02:02+0000\n"
 "PO-Revision-Date: 2025-04-11 22:27+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -584,7 +584,7 @@ msgstr "Отказ"
 #: ekos/align/opsastrometryindexfiles.cpp:736
 #: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
-#: ekos/manager.cpp:1260 ekos/manager.cpp:1275 ekos/manager.cpp:1291
+#: ekos/manager.cpp:1273 ekos/manager.cpp:1288 ekos/manager.cpp:1304
 #: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
@@ -6500,7 +6500,7 @@ msgstr "Решаването е прекъснато след %1 секунди.
 
 #: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4136
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2083 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2096 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3688
 #, kde-format
@@ -10551,7 +10551,7 @@ msgstr "Не може да се покаже временния файл на и
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2303 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2231 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2244 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:490
 #, kde-format
@@ -10560,7 +10560,7 @@ msgstr "Фокус"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2187
+#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2200
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:498
 #, kde-format
@@ -10572,7 +10572,7 @@ msgstr "Подравняване"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2305 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2452
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2465
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:494
 #, kde-format
@@ -10588,7 +10588,7 @@ msgstr "Обръщане"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2307 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2377 ekos/manager.ui:778
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2390 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
 msgstr "Монтиране"
@@ -12861,7 +12861,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2502
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2515
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -24790,13 +24790,13 @@ msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:967 ekos/manager.cpp:992
+#: ekos/manager.cpp:980 ekos/manager.cpp:1005
 #, fuzzy, kde-format
 #| msgid "Ekos requires at least one CCD or Guider to operate."
 msgid "Ekos requires at least one Camera to operate."
 msgstr "Ekos изисква поне един CCD или гид модул, за да работи."
 
-#: ekos/manager.cpp:1055
+#: ekos/manager.cpp:1068
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -24805,17 +24805,17 @@ msgstr ""
 "Ekos е открила, че PTP камера е стартирана и може да попречи на камера Canon "
 "или Nikon да се свърже с Ekos. Искате ли да прекратите PTP камера сега?"
 
-#: ekos/manager.cpp:1056
+#: ekos/manager.cpp:1069
 #, kde-format
 msgid "PTP Camera"
 msgstr "Камера PTP"
 
-#: ekos/manager.cpp:1070
+#: ekos/manager.cpp:1083
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Стартиране на INDI услуги..."
 
-#: ekos/manager.cpp:1101
+#: ekos/manager.cpp:1114
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -24825,47 +24825,47 @@ msgstr ""
 "изключите съществуващата инстанция, преди да стартирате нова?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1103 indi/opsindi.ui:248
+#: ekos/manager.cpp:1116 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "Сървър на INDI"
 
-#: ekos/manager.cpp:1118
+#: ekos/manager.cpp:1131
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "Свързване към отдалечен INDI сървър на %1 на порт %2"
 
-#: ekos/manager.cpp:1138
+#: ekos/manager.cpp:1151
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Неуспешно стартиране на профил в отдалечен INDI уеб мениджър."
 
-#: ekos/manager.cpp:1142
+#: ekos/manager.cpp:1155
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Стартиране на профил на отдалечения INDI уеб мениджър..."
 
-#: ekos/manager.cpp:1155
+#: ekos/manager.cpp:1168
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Установява се комуникация с отдалечен INDI уеб мениджър..."
 
-#: ekos/manager.cpp:1175
+#: ekos/manager.cpp:1188
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr "Предупреждение: Уеб мениджърът на INDI не е онлайн."
 
-#: ekos/manager.cpp:1212
+#: ekos/manager.cpp:1225
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "INDI услугите стартираха на порт %1."
 
-#: ekos/manager.cpp:1215
+#: ekos/manager.cpp:1228
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Услугите INDI са стартирани на порт %1. Моля, свържете устройствата."
 
-#: ekos/manager.cpp:1220
+#: ekos/manager.cpp:1233
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -24874,27 +24874,27 @@ msgstr ""
 "Стартиране на услугите на INDI. Връзката с отдалечения INDI сървър %1:%2 е "
 "успешна. Изчакваме устройства..."
 
-#: ekos/manager.cpp:1251
+#: ekos/manager.cpp:1264
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Неуспешно свързване с локален INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1253
+#: ekos/manager.cpp:1266
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Неуспешно свързване с отдалечен INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1266
+#: ekos/manager.cpp:1279
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Загубена връзка с локалния INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1268
+#: ekos/manager.cpp:1281
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Загубена връзка с отдалечен INDI сървър %1:%2"
 
-#: ekos/manager.cpp:1331
+#: ekos/manager.cpp:1344
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -24902,7 +24902,7 @@ msgstr ""
 "Не успя да се свърже с %1. Моля, уверете се, че устройството е свързано и "
 "включено."
 
-#: ekos/manager.cpp:1333
+#: ekos/manager.cpp:1346
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -24913,7 +24913,7 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че всяко устройство е свързано и включено."
 
-#: ekos/manager.cpp:1361
+#: ekos/manager.cpp:1374
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -24924,13 +24924,13 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че устройството е свързано и включено."
 
-#: ekos/manager.cpp:1365 ekos/manager.cpp:1373 ekos/manager.cpp:1406
-#: ekos/manager.cpp:1414
+#: ekos/manager.cpp:1378 ekos/manager.cpp:1386 ekos/manager.cpp:1419
+#: ekos/manager.cpp:1427
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Грешка при стартиране на Ekos"
 
-#: ekos/manager.cpp:1369
+#: ekos/manager.cpp:1382
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -24941,7 +24941,7 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че всяко устройство е свързано и включено."
 
-#: ekos/manager.cpp:1402
+#: ekos/manager.cpp:1415
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -24952,7 +24952,7 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че устройството е свързано и включено."
 
-#: ekos/manager.cpp:1410
+#: ekos/manager.cpp:1423
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -24963,32 +24963,32 @@ msgstr ""
 "%1\n"
 "Моля, уверете се, че всяко устройство е свързано и включено."
 
-#: ekos/manager.cpp:1468
+#: ekos/manager.cpp:1481
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Свързване на INDI устройства..."
 
-#: ekos/manager.cpp:1479
+#: ekos/manager.cpp:1492
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Прекъсване на INDI устройствата..."
 
-#: ekos/manager.cpp:1518
+#: ekos/manager.cpp:1531
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Услугите на INDI са спрени."
 
-#: ekos/manager.cpp:1578
+#: ekos/manager.cpp:1591
 #, kde-format
 msgid "Remote devices established."
 msgstr "Установени са отдалечени устройства."
 
-#: ekos/manager.cpp:1580
+#: ekos/manager.cpp:1593
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Установени са отдалечени устройства. Моля, свържете устройствата."
 
-#: ekos/manager.cpp:1644
+#: ekos/manager.cpp:1657
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -24997,119 +24997,119 @@ msgstr ""
 "%1 не успя да се свърже.\n"
 "Моля, уверете се, че устройството е свързано и включено."
 
-#: ekos/manager.cpp:1651
+#: ekos/manager.cpp:1664
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 е разкачен."
 
-#: ekos/manager.cpp:1672 ekos/manager.cpp:1681 ekos/manager.cpp:1714
+#: ekos/manager.cpp:1685 ekos/manager.cpp:1694 ekos/manager.cpp:1727
 #: indi/indistd.cpp:716
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 е достъпен."
 
-#: ekos/manager.cpp:1689
+#: ekos/manager.cpp:1702
 #, kde-format
 msgid "%1 filter is online."
 msgstr "%1 филтър е онлайн."
 
-#: ekos/manager.cpp:1698
+#: ekos/manager.cpp:1711
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "%1 фокусер е достъпен."
 
-#: ekos/manager.cpp:1705
+#: ekos/manager.cpp:1718
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "Ротатор %1 е онлайн."
 
-#: ekos/manager.cpp:1721
+#: ekos/manager.cpp:1734
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "%1 Времето е онлайн."
 
-#: ekos/manager.cpp:1728
+#: ekos/manager.cpp:1741
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "%1 GPS е онлайн."
 
-#: ekos/manager.cpp:1737
+#: ekos/manager.cpp:1750
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "%1 Защитната капачка е онлайн."
 
-#: ekos/manager.cpp:1744
+#: ekos/manager.cpp:1757
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "%1 Светлинен източник е онлайн."
 
-#: ekos/manager.cpp:1896
+#: ekos/manager.cpp:1909
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 е недостъпен."
 
-#: ekos/manager.cpp:2135
+#: ekos/manager.cpp:2148
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2519
+#: ekos/manager.cpp:2532
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Портът на гид модула от %1 е готов."
 
-#: ekos/manager.cpp:2708
+#: ekos/manager.cpp:2721
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Сигурни ли сте, че искате да изтриете профила?"
 
-#: ekos/manager.cpp:2709
+#: ekos/manager.cpp:2722
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Потвърждение за изтриване"
 
-#: ekos/manager.cpp:2761
+#: ekos/manager.cpp:2774
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Местоположението е актуализирано на %1."
 
-#: ekos/manager.cpp:2763
+#: ekos/manager.cpp:2776
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Не успя да актуализира местоположението до %1. Градът не е намерен."
 
-#: ekos/manager.cpp:3036
+#: ekos/manager.cpp:3049
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Включване на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:3044
+#: ekos/manager.cpp:3057
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Изключване на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:3072
+#: ekos/manager.cpp:3085
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Повторно активиране на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:3084
+#: ekos/manager.cpp:3097
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Повторно деактивиране на регистрирането на грешки за %1..."
 
-#: ekos/manager.cpp:3809
+#: ekos/manager.cpp:3822
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Източникът на визуализация е зададен като външен"
 
-#: ekos/manager.cpp:3816
+#: ekos/manager.cpp:3829
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Възстановяване на източника на визуализация към вътрешен"
 
-#: ekos/manager.cpp:3823
+#: ekos/manager.cpp:3836
 #, kde-format
 msgid "Received external preview file"
 msgstr "Получен файл за външен преглед"
@@ -25300,65 +25300,65 @@ msgstr "Насочваща звезда"
 msgid "guide star"
 msgstr "насочваща звезда"
 
-#: ekos/manager/meridianflipstate.cpp:133
+#: ekos/manager/meridianflipstate.cpp:139
 #, kde-format
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "Меридианното обръщане е неактивно (няма свързан телескоп)"
 
-#: ekos/manager/meridianflipstate.cpp:140
+#: ekos/manager/meridianflipstate.cpp:146
 #, kde-format
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "Меридианното обръщане е неактивно (не е поискано обръщане)"
 
-#: ekos/manager/meridianflipstate.cpp:147
-#: ekos/manager/meridianflipstate.cpp:548
+#: ekos/manager/meridianflipstate.cpp:153
+#: ekos/manager/meridianflipstate.cpp:554
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Меридианното обръщане е неактивно (системата е паркирана)"
 
-#: ekos/manager/meridianflipstate.cpp:153
+#: ekos/manager/meridianflipstate.cpp:159
 #, kde-format
 msgid "Meridian flip inactive (no target set)"
 msgstr "Меридианното обръщане е неактивно (няма зададена цел)"
 
-#: ekos/manager/meridianflipstate.cpp:192
+#: ekos/manager/meridianflipstate.cpp:198
 #, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "Обръщането на меридиана е неактивно (завъртване след меридиан)"
 
-#: ekos/manager/meridianflipstate.cpp:208
+#: ekos/manager/meridianflipstate.cpp:214
 #, kde-format
 msgid "Meridian flip in %1"
 msgstr "Обръщане на меридиана в %1"
 
-#: ekos/manager/meridianflipstate.cpp:259
+#: ekos/manager/meridianflipstate.cpp:265
 #, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
 "Приема се, че обръщането на меридиана е завършено, но страната на статива е "
 "неизвестна. "
 
-#: ekos/manager/meridianflipstate.cpp:283
+#: ekos/manager/meridianflipstate.cpp:289
 #, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr "обръщането на меридиан е неуспешно, повторен опит след 4 минути"
 
-#: ekos/manager/meridianflipstate.cpp:287
+#: ekos/manager/meridianflipstate.cpp:293
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr "Обръщането на меридиана е неуспешно, забавянето е твърде дълго"
 
-#: ekos/manager/meridianflipstate.cpp:294
+#: ekos/manager/meridianflipstate.cpp:300
 #, kde-format
 msgid "Meridian flip completed OK."
 msgstr "Обръщането на меридиана завърши успешно."
 
-#: ekos/manager/meridianflipstate.cpp:370
+#: ekos/manager/meridianflipstate.cpp:376
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr "Телескопът завърши обръщането на меридиана."
 
-#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1118
+#: ekos/manager/meridianflipstate.cpp:431 ekos/observatory/observatory.cpp:1118
 #: ekos/observatory/observatory.cpp:1129
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -25366,27 +25366,27 @@ msgstr "Телескопът завърши обръщането на мерид
 msgid "Status: inactive"
 msgstr "Статус: неактивен"
 
-#: ekos/manager/meridianflipstate.cpp:429
+#: ekos/manager/meridianflipstate.cpp:435
 #, kde-format
 msgid "Meridian flip planned..."
 msgstr "Планиран меридианно обръщане..."
 
-#: ekos/manager/meridianflipstate.cpp:433
+#: ekos/manager/meridianflipstate.cpp:439
 #, kde-format
 msgid "Meridian flip waiting..."
 msgstr "Меридианно обръщане в изчакване..."
 
-#: ekos/manager/meridianflipstate.cpp:437
+#: ekos/manager/meridianflipstate.cpp:443
 #, kde-format
 msgid "Meridian flip ready to start..."
 msgstr "Меридианното обръщане е готово за стартиране..."
 
-#: ekos/manager/meridianflipstate.cpp:441
+#: ekos/manager/meridianflipstate.cpp:447
 #, kde-format
 msgid "Meridian flip running..."
 msgstr "Извършва се меридианно обръщане..."
 
-#: ekos/manager/meridianflipstate.cpp:445
+#: ekos/manager/meridianflipstate.cpp:451
 #, kde-format
 msgid "Meridian flip completed."
 msgstr "Обръщането на меридиана е завършено."

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-25 02:03+0000\n"
+"POT-Creation-Date: 2025-06-30 02:02+0000\n"
 "PO-Revision-Date: 2024-08-14 00:39+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi.pub@gmail.com>\n"
 "Language-Team: fa\n"
@@ -823,7 +823,7 @@ msgstr "لغو"
 #: ekos/align/opsastrometryindexfiles.cpp:736
 #: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
-#: ekos/manager.cpp:1260 ekos/manager.cpp:1275 ekos/manager.cpp:1291
+#: ekos/manager.cpp:1273 ekos/manager.cpp:1288 ekos/manager.cpp:1304
 #: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
@@ -6968,7 +6968,7 @@ msgstr "پرونده FITS ذخیره‌شده در %1"
 
 #: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4136
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2083 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2096 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3688
 #, kde-format
@@ -10896,7 +10896,7 @@ msgstr "پرونده را نتوانست حذف کند: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2303 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2231 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2244 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:490
 #, kde-format
@@ -10905,7 +10905,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2187
+#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2200
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:498
 #, fuzzy, kde-format
@@ -10918,7 +10918,7 @@ msgstr "تمرکز بر: "
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2305 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2452
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2465
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:494
 #, fuzzy, kde-format
@@ -10937,7 +10937,7 @@ msgstr "فرفیلد"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2307 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2377 ekos/manager.ui:778
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2390 ekos/manager.ui:778
 #, fuzzy, kde-format
 #| msgid "Count:"
 msgid "Mount"
@@ -13130,7 +13130,7 @@ msgstr "بارگذاری اشیاء آسمان"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2502
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2515
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -24407,31 +24407,31 @@ msgctxt "@title:window"
 msgid "Ekos"
 msgstr "تمرکز بر: "
 
-#: ekos/manager.cpp:967 ekos/manager.cpp:992
+#: ekos/manager.cpp:980 ekos/manager.cpp:1005
 #, kde-format
 msgid "Ekos requires at least one Camera to operate."
 msgstr ""
 
-#: ekos/manager.cpp:1055
+#: ekos/manager.cpp:1068
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
 "camera from connecting to Ekos. Do you want to quit PTP Camera now?"
 msgstr ""
 
-#: ekos/manager.cpp:1056
+#: ekos/manager.cpp:1069
 #, fuzzy, kde-format
 #| msgid "Camera"
 msgid "PTP Camera"
 msgstr "دوربین"
 
-#: ekos/manager.cpp:1070
+#: ekos/manager.cpp:1083
 #, fuzzy, kde-format
 #| msgid "Connect or Disconnect an INDI device."
 msgid "Starting INDI services..."
 msgstr "اتصال یا عدم اتصال یک دستگاه INDI."
 
-#: ekos/manager.cpp:1101
+#: ekos/manager.cpp:1114
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -24439,89 +24439,89 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1103 indi/opsindi.ui:248
+#: ekos/manager.cpp:1116 indi/opsindi.ui:248
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "INDI Server"
 msgstr "کارساز"
 
-#: ekos/manager.cpp:1118
+#: ekos/manager.cpp:1131
 #, fuzzy, kde-format
 #| msgid "Connection to INDI host at %1 on port %2 failed."
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "خرابی در اتصال میزبان INDI در %1 در درگاه %2."
 
-#: ekos/manager.cpp:1138
+#: ekos/manager.cpp:1151
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "کارساز INDI را نمی‌توان آغاز کرد. خطای درگاه."
 
-#: ekos/manager.cpp:1142
+#: ekos/manager.cpp:1155
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:1155
+#: ekos/manager.cpp:1168
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "کارساز INDI را نمی‌توان آغاز کرد. خطای درگاه."
 
-#: ekos/manager.cpp:1175
+#: ekos/manager.cpp:1188
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr ""
 
-#: ekos/manager.cpp:1212
+#: ekos/manager.cpp:1225
 #, fuzzy, kde-format
 #| msgid "Server Port"
 msgid "INDI services started on port %1."
 msgstr "درگاه کارساز"
 
-#: ekos/manager.cpp:1215
+#: ekos/manager.cpp:1228
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1220
+#: ekos/manager.cpp:1233
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
 "Waiting for devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1251
+#: ekos/manager.cpp:1264
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "کارساز INDI را نمی‌توان آغاز کرد. خطای درگاه."
 
-#: ekos/manager.cpp:1253
+#: ekos/manager.cpp:1266
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "کارساز INDI را نمی‌توان آغاز کرد. خطای درگاه."
 
-#: ekos/manager.cpp:1266
+#: ekos/manager.cpp:1279
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "اتصال"
 
-#: ekos/manager.cpp:1268
+#: ekos/manager.cpp:1281
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "کارساز INDI را نمی‌توان آغاز کرد. خطای درگاه."
 
-#: ekos/manager.cpp:1331
+#: ekos/manager.cpp:1344
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1333
+#: ekos/manager.cpp:1346
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -24529,7 +24529,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1361
+#: ekos/manager.cpp:1374
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -24537,13 +24537,13 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1365 ekos/manager.cpp:1373 ekos/manager.cpp:1406
-#: ekos/manager.cpp:1414
+#: ekos/manager.cpp:1378 ekos/manager.cpp:1386 ekos/manager.cpp:1419
+#: ekos/manager.cpp:1427
 #, fuzzy, kde-format
 msgid "Ekos startup error"
 msgstr "بارگذاری اشیاء آسمان"
 
-#: ekos/manager.cpp:1369
+#: ekos/manager.cpp:1382
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -24551,7 +24551,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1402
+#: ekos/manager.cpp:1415
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -24559,7 +24559,7 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1410
+#: ekos/manager.cpp:1423
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -24567,164 +24567,164 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1468
+#: ekos/manager.cpp:1481
 #, fuzzy, kde-format
 #| msgid "Connect or Disconnect an INDI device."
 msgid "Connecting INDI devices..."
 msgstr "اتصال یا عدم اتصال یک دستگاه INDI."
 
-#: ekos/manager.cpp:1479
+#: ekos/manager.cpp:1492
 #, fuzzy, kde-format
 #| msgid "Connect or Disconnect an INDI device."
 msgid "Disconnecting INDI devices..."
 msgstr "اتصال یا عدم اتصال یک دستگاه INDI."
 
-#: ekos/manager.cpp:1518
+#: ekos/manager.cpp:1531
 #, kde-format
 msgid "INDI services stopped."
 msgstr ""
 
-#: ekos/manager.cpp:1578
+#: ekos/manager.cpp:1591
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Remote devices established."
 msgstr "کارساز"
 
-#: ekos/manager.cpp:1580
+#: ekos/manager.cpp:1593
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1644
+#: ekos/manager.cpp:1657
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1651
+#: ekos/manager.cpp:1664
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "%1 is disconnected."
 msgstr "قطع ارتباط"
 
-#: ekos/manager.cpp:1672 ekos/manager.cpp:1681 ekos/manager.cpp:1714
+#: ekos/manager.cpp:1685 ekos/manager.cpp:1694 ekos/manager.cpp:1727
 #: indi/indistd.cpp:716
 #, kde-format
 msgid "%1 is online."
 msgstr "%1، برخط است."
 
-#: ekos/manager.cpp:1689
+#: ekos/manager.cpp:1702
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 filter is online."
 msgstr "%1، برخط است."
 
-#: ekos/manager.cpp:1698
+#: ekos/manager.cpp:1711
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 focuser is online."
 msgstr "%1، برخط است."
 
-#: ekos/manager.cpp:1705
+#: ekos/manager.cpp:1718
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Rotator %1 is online."
 msgstr "%1، برخط است."
 
-#: ekos/manager.cpp:1721
+#: ekos/manager.cpp:1734
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Weather is online."
 msgstr "%1، برخط است."
 
-#: ekos/manager.cpp:1728
+#: ekos/manager.cpp:1741
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 GPS is online."
 msgstr "%1، برخط است."
 
-#: ekos/manager.cpp:1737
+#: ekos/manager.cpp:1750
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Dust cap is online."
 msgstr "%1، برخط است."
 
-#: ekos/manager.cpp:1744
+#: ekos/manager.cpp:1757
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Light box is online."
 msgstr "%1، برخط است."
 
-#: ekos/manager.cpp:1896
+#: ekos/manager.cpp:1909
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 is offline."
 msgstr "%1، برخط است."
 
-#: ekos/manager.cpp:2135
+#: ekos/manager.cpp:2148
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr ""
 
-#: ekos/manager.cpp:2519
+#: ekos/manager.cpp:2532
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2708
+#: ekos/manager.cpp:2721
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete the profile?"
 msgstr "مطمئن هستید که می‌خواهید %1 کارخواه را حذف کنید؟"
 
-#: ekos/manager.cpp:2709
+#: ekos/manager.cpp:2722
 #, fuzzy, kde-format
 msgid "Confirm Delete"
 msgstr "خطای حذف پرونده"
 
-#: ekos/manager.cpp:2761
+#: ekos/manager.cpp:2774
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2763
+#: ekos/manager.cpp:2776
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:3036
+#: ekos/manager.cpp:3049
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3044
+#: ekos/manager.cpp:3057
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3072
+#: ekos/manager.cpp:3085
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3084
+#: ekos/manager.cpp:3097
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3809
+#: ekos/manager.cpp:3822
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:3816
+#: ekos/manager.cpp:3829
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:3823
+#: ekos/manager.cpp:3836
 #, kde-format
 msgid "Received external preview file"
 msgstr ""
@@ -24940,71 +24940,71 @@ msgstr "راهنماییها"
 msgid "guide star"
 msgstr "راهنماییها"
 
-#: ekos/manager/meridianflipstate.cpp:133
+#: ekos/manager/meridianflipstate.cpp:139
 #, fuzzy, kde-format
 #| msgid "Status"
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "وضعیت"
 
-#: ekos/manager/meridianflipstate.cpp:140
+#: ekos/manager/meridianflipstate.cpp:146
 #, fuzzy, kde-format
 #| msgid "Status"
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "وضعیت"
 
-#: ekos/manager/meridianflipstate.cpp:147
-#: ekos/manager/meridianflipstate.cpp:548
+#: ekos/manager/meridianflipstate.cpp:153
+#: ekos/manager/meridianflipstate.cpp:554
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip inactive (parked)"
 msgstr "نمایش &خودکار FITS به محض گیراندازی‌"
 
-#: ekos/manager/meridianflipstate.cpp:153
+#: ekos/manager/meridianflipstate.cpp:159
 #, fuzzy, kde-format
 #| msgid "Status"
 msgid "Meridian flip inactive (no target set)"
 msgstr "وضعیت"
 
-#: ekos/manager/meridianflipstate.cpp:192
+#: ekos/manager/meridianflipstate.cpp:198
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "نمایش &خودکار FITS به محض گیراندازی‌"
 
-#: ekos/manager/meridianflipstate.cpp:208
+#: ekos/manager/meridianflipstate.cpp:214
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip in %1"
 msgstr "نمایش &خودکار FITS به محض گیراندازی‌"
 
-#: ekos/manager/meridianflipstate.cpp:259
+#: ekos/manager/meridianflipstate.cpp:265
 #, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
 
-#: ekos/manager/meridianflipstate.cpp:283
+#: ekos/manager/meridianflipstate.cpp:289
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr "نمایش &خودکار FITS به محض گیراندازی‌"
 
-#: ekos/manager/meridianflipstate.cpp:287
+#: ekos/manager/meridianflipstate.cpp:293
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr ""
 
-#: ekos/manager/meridianflipstate.cpp:294
+#: ekos/manager/meridianflipstate.cpp:300
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip completed OK."
 msgstr "نمایش &خودکار FITS به محض گیراندازی‌"
 
-#: ekos/manager/meridianflipstate.cpp:370
+#: ekos/manager/meridianflipstate.cpp:376
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr ""
 
-#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1118
+#: ekos/manager/meridianflipstate.cpp:431 ekos/observatory/observatory.cpp:1118
 #: ekos/observatory/observatory.cpp:1129
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -25013,31 +25013,31 @@ msgstr ""
 msgid "Status: inactive"
 msgstr "وضعیت"
 
-#: ekos/manager/meridianflipstate.cpp:429
+#: ekos/manager/meridianflipstate.cpp:435
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip planned..."
 msgstr "نمایش &خودکار FITS به محض گیراندازی‌"
 
-#: ekos/manager/meridianflipstate.cpp:433
+#: ekos/manager/meridianflipstate.cpp:439
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip waiting..."
 msgstr "نمایش &خودکار FITS به محض گیراندازی‌"
 
-#: ekos/manager/meridianflipstate.cpp:437
+#: ekos/manager/meridianflipstate.cpp:443
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip ready to start..."
 msgstr "نمایش &خودکار FITS به محض گیراندازی‌"
 
-#: ekos/manager/meridianflipstate.cpp:441
+#: ekos/manager/meridianflipstate.cpp:447
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip running..."
 msgstr "نمایش &خودکار FITS به محض گیراندازی‌"
 
-#: ekos/manager/meridianflipstate.cpp:445
+#: ekos/manager/meridianflipstate.cpp:451
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip completed."
