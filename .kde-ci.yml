@@ -10,7 +10,6 @@ Dependencies:
     'frameworks/ki18n': '@stable'
     'frameworks/kinit': '@stable'
     'frameworks/kplotting': '@stable'
-    'libs/stellarsolver': '@stable'
 
 - 'on': ['Linux/Qt5','Windows/Qt5']
   'require':
@@ -29,7 +28,6 @@ Dependencies:
     'frameworks/kguiaddons': '@stable-kf6'
     'frameworks/ki18n': '@stable-kf6'
     'frameworks/kplotting': '@stable-kf6'
-    'libs/stellarsolver': '@stable-kf6'
 
 - 'on': ['Linux/Qt6','Windows/Qt6']
   'require':
