@@ -298,6 +298,7 @@ if (INDI_FOUND)
             ekos/scheduler/opsscriptssettings.cpp
             ekos/scheduler/opsjobssettings.cpp
             ekos/scheduler/opsoffsetsettings.cpp
+            ekos/scheduler/schedulersettings.cpp
 
             # Focus
             ekos/focus/focus.cpp
