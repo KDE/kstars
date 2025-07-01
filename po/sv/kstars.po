@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-30 02:02+0000\n"
-"PO-Revision-Date: 2025-06-12 21:59+0200\n"
+"PO-Revision-Date: 2025-06-30 21:37+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -24400,10 +24400,9 @@ msgid "Ekos"
 msgstr "Ekos"
 
 #: ekos/manager.cpp:980 ekos/manager.cpp:1005
-#, fuzzy, kde-format
-#| msgid "Ekos requires at least one CCD or Guider to operate."
+#, kde-format
 msgid "Ekos requires at least one Camera to operate."
-msgstr "Ekos behöver minst en CCD eller guidningskamera för att fungera."
+msgstr "Ekos kräver minst en kamera för att fungera."
 
 #: ekos/manager.cpp:1068
 #, kde-format
@@ -26136,10 +26135,9 @@ msgstr ""
 "program</b>: %3<nobr/>"
 
 #: ekos/profileeditor.cpp:344
-#, fuzzy, kde-format
-#| msgid "Drivers:"
+#, kde-format
 msgid "Drivers"
-msgstr "Drivrutiner:"
+msgstr "Drivrutiner"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
@@ -26422,17 +26420,15 @@ msgstr "Välj enheter"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, driverSearchEdit)
 #: ekos/profileeditor.ui:422
-#, fuzzy, kde-format
-#| msgid "Driver Restart"
+#, kde-format
 msgid "Driver Search"
-msgstr "Starta om drivrutin"
+msgstr "Drivrutinsökning"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, profileSearchEdit)
 #: ekos/profileeditor.ui:546
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile Search"
-msgstr "Profil"
+msgstr "Profilsökning"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteDriversLabel)
 #: ekos/profileeditor.ui:595
