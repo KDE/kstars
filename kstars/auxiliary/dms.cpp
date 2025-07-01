@@ -284,7 +284,7 @@ const dms dms::deltaAngle(dms angle) const
         return dms(angleDiff);
 }
 
-const QString dms::toDMSString(const bool forceSign, const bool machineReadable, const bool highPrecision) const
+const QString dms::toDMSString(const bool forceSign, const bool machineReadable, const bool highPrecision, char machineReadableSeparator) const
 {
     QString dummy;
     char pm(' ');
@@ -316,9 +316,11 @@ const QString dms::toDMSString(const bool forceSign, const bool machineReadable,
         pm = '+';
 
     if (machineReadable)
-        return QString("%1%2:%3:%4").arg(pm)
+        return QString("%1%2%3%4%5%6").arg(pm)
                 .arg(dd, 2, 10, QChar('0'))
+                .arg(machineReadableSeparator)
                 .arg(dm, 2, 10, QChar('0'))
+                .arg(machineReadableSeparator)
                 .arg(ds, 2, 10, QChar('0'));
 
     if (highPrecision)
@@ -375,7 +377,7 @@ const QString dms::toDMSString(const bool forceSign, const bool machineReadable,
 #endif
 }
 
-const QString dms::toHMSString(const bool machineReadable, const bool highPrecision) const
+const QString dms::toHMSString(const bool machineReadable, const bool highPrecision, char machineReadableSeparator) const
 {
     QChar zero('0');
     dms angle;
@@ -393,9 +395,11 @@ const QString dms::toHMSString(const bool machineReadable, const bool highPrecis
     }
 
     if (machineReadable)
-        return QString("%1:%2:%3").arg(hh, 2, 10, zero)
-                                  .arg(hm, 2, 10, zero)
-                                  .arg(hs, 2, 10, zero);
+        return QString("%1%2%3%4%5").arg(hh, 2, 10, zero)
+                                    .arg(machineReadableSeparator)
+                                    .arg(hm, 2, 10, zero)
+                                    .arg(machineReadableSeparator)
+                                    .arg(hs, 2, 10, zero);
 
     if (highPrecision)
     {

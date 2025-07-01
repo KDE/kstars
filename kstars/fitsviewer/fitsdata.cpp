@@ -4854,11 +4854,10 @@ void FITSData::injectWCS(double orientation, double ra, double dec, double pixsc
     if (fptr)
     {
         char radec[16];
-        strcpy(radec, dms(ra).toHMSString(true).toStdString().c_str());
+        strcpy(radec, dms(ra).toHMSString(true, false, ' ').toStdString().c_str());
         fits_update_key(fptr, TSTRING, "OBJCTRA", radec, "Object RA", &status);
-        strcpy(radec, dms(dec).toDMSString(true).toStdString().c_str());
+        strcpy(radec, dms(dec).toDMSString(true, true, false, ' ').toStdString().c_str());
         fits_update_key(fptr, TSTRING, "OBJCTDEC", radec, "Object DEC", &status);
-
         int epoch = 2000;
 
         fits_update_key(fptr, TINT, "EQUINOX", &epoch, "Equinox", &status);
@@ -4912,8 +4911,9 @@ void FITSData::updateWCSHeaderData(const double orientation, const double ra, co
 {
 
 
-    updateRecordValue("OBJCTRA", dms(ra).toHMSString(true), "Object RA");
-    updateRecordValue("OBJCTDEC", dms(dec).toDMSString(true), "Object DEC");
+    updateRecordValue("OBJCTRA", dms(ra).toHMSString(true, false, ' '), "Object RA");
+    updateRecordValue("OBJCTDEC", dms(dec).toDMSString(true, true, false, ' '), "Object DEC");
+
     updateRecordValue("EQUINOX", 2000, "Equinox");
     updateRecordValue("CRVAL1", ra, "CRVAL1");
     updateRecordValue("CRVAL2", dec, "CRVAL2");

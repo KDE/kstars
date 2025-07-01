@@ -370,14 +370,14 @@ class dms
          * @param machineReadable uses a colon separator and produces +/-dd:mm:ss format instead
          * @param highPrecision adds milliseconds, if @c false the seconds will be shown as an integer
          */
-    const QString toDMSString(const bool forceSign = false, const bool machineReadable = false, const bool highPrecision=false) const;
+    const QString toDMSString(const bool forceSign = false, const bool machineReadable = false, const bool highPrecision=false, char machineReadableSeparator=':') const;
 
     /** @return a nicely-formatted string representation of the angle
          * in hours, minutes, and seconds.
          * @param machineReadable uses a colon separator and produces hh:mm:ss format instead
          * @param highPrecision adds milliseconds, if @c false the seconds will be shown as an integer
          */
-    const QString toHMSString(const bool machineReadable = false, const bool highPrecision=false) const;
+    const QString toHMSString(const bool machineReadable = false, const bool highPrecision=false, char machineReadableSeparator=':') const;
 
     /** PI is a const static member; it's public so that it can be used anywhere,
          * as long as dms.h is included.
