@@ -1177,7 +1177,7 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup,
     label = valuXMLAtt(ap);
 
     // Label is unique, so if we have the same label, we simply ignore
-    if (findDriverByLabel(label) != nullptr)
+    if (label.isEmpty() || findDriverByLabel(label) != nullptr)
         return true;
 
     ap = findXMLAtt(root, "manufacturer");
@@ -1574,6 +1574,9 @@ void DriverManager::saveHosts()
 
 QSharedPointer<DriverInfo> DriverManager::findDriverByName(const QString &name)
 {
+    if (name.isEmpty())
+        return nullptr;
+
     auto driver = std::find_if(driversList.begin(), driversList.end(), [name](auto & oneDriver)
     {
         return oneDriver->getName() == name;
@@ -1582,11 +1585,14 @@ QSharedPointer<DriverInfo> DriverManager::findDriverByName(const QString &name)
     if (driver != driversList.end())
         return *driver;
     else
-        return QSharedPointer<DriverInfo>();
+        return nullptr;
 }
 
 QSharedPointer<DriverInfo> DriverManager::findDriverByLabel(const QString &label)
 {
+    if (label.isEmpty())
+        return nullptr;
+
     auto driver = std::find_if(driversList.begin(), driversList.end(), [label](auto & oneDriver)
     {
         return oneDriver->getLabel() == label;
@@ -1595,11 +1601,14 @@ QSharedPointer<DriverInfo> DriverManager::findDriverByLabel(const QString &label
     if (driver != driversList.end())
         return *driver;
     else
-        return QSharedPointer<DriverInfo>();
+        return nullptr;
 }
 
 QSharedPointer<DriverInfo> DriverManager::findDriverByExec(const QString &exec)
 {
+    if (exec.isEmpty())
+        return nullptr;
+
     auto driver = std::find_if(driversList.begin(), driversList.end(), [exec](auto & oneDriver)
     {
         return oneDriver->getLabel() == exec;
@@ -1608,7 +1617,7 @@ QSharedPointer<DriverInfo> DriverManager::findDriverByExec(const QString &exec)
     if (driver != driversList.end())
         return *driver;
     else
-        return QSharedPointer<DriverInfo>();
+        return nullptr;
 }
 
 QString DriverManager::getUniqueDeviceLabel(const QString &label)

@@ -43,19 +43,18 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     ui->cameraWSpin->setValue(Options::cameraWidth());
     ui->cameraHSpin->setValue(Options::cameraHeight());
 
-    ui->positionAngleSpin->setValue(tiles->positionAngle());
-    ui->sequenceEdit->setText(tiles->sequenceFile());
-    ui->directoryEdit->setText(tiles->outputDirectory());
-    ui->targetEdit->setText(tiles->targetName());
-    ui->focusEvery->setValue(tiles->focusEveryN());
-    ui->alignEvery->setValue(tiles->alignEveryN());
-    ui->trackStepCheck->setChecked(tiles->isTrackChecked());
-    ui->focusStepCheck->setChecked(tiles->isFocusChecked());
-    ui->alignStepCheck->setChecked(tiles->isAlignChecked());
-    ui->guideStepCheck->setChecked(tiles->isGuideChecked());
-    ui->mosaicWSpin->setValue(tiles->gridSize().width());
-    ui->mosaicHSpin->setValue(tiles->gridSize().height());
-    ui->overlapSpin->setValue(tiles->overlap());
+    setPositionAngle(tiles->positionAngle());
+    setSequenceFile(tiles->sequenceFile());
+    setOutputDirectory(tiles->outputDirectory());
+    setTargetName(tiles->targetName());
+    setFocusEveryN(tiles->focusEveryN());
+    setAlignEveryN(tiles->alignEveryN());
+    setIsTrackChecked(tiles->isTrackChecked());
+    setIsFocusChecked(tiles->isFocusChecked());
+    setIsAlignChecked(tiles->isAlignChecked());
+    setIsGuideChecked(tiles->isGuideChecked());
+    setGridSize(tiles->gridSize());
+    setOverlap(tiles->overlap());
 
     ui->groupEdit->setText(tiles->group());
     QString completionVal, completionArg;
@@ -144,8 +143,8 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     connect(ui->nextToJobsB, &QPushButton::clicked, this, [this]()
     {
         ui->stackedWidget->setCurrentIndex(PAGE_CREATE_JOBS);
-        ui->createJobsB->setEnabled(!ui->targetEdit->text().isEmpty() && !ui->sequenceEdit->text().isEmpty() &&
-                                    !ui->directoryEdit->text().isEmpty());
+        ui->createJobsB->setEnabled(!m_TargetName.isEmpty() && !m_SequenceFile.isEmpty() &&
+                                    !m_OutputDirectory.isEmpty());
     });
 
     // Respond to sky map drag event that causes a shift in the ra and de coords of the center
@@ -185,12 +184,12 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
         auto sanitized = KSUtils::sanitize(SkyMap::Instance()->focusObject()->name());
         if (sanitized != i18n("unnamed"))
         {
-            ui->targetEdit->setText(sanitized);
+            setTargetName(sanitized);
 
             if (m_JobsDirectory.isEmpty())
-                ui->directoryEdit->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
+                setOutputDirectory(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
             else
-                ui->directoryEdit->setText(m_JobsDirectory + QDir::separator() + sanitized);
+                setOutputDirectory(m_JobsDirectory + QDir::separator() + sanitized);
         }
     }
 
@@ -202,12 +201,12 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
         {
             // Remove illegal characters that can be problematic
             sanitized = KSUtils::sanitize(sanitized);
-            ui->targetEdit->setText(sanitized);
+            setTargetName(sanitized);
 
             if (m_JobsDirectory.isEmpty())
-                ui->directoryEdit->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
+                setOutputDirectory(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
             else
-                ui->directoryEdit->setText(m_JobsDirectory + QDir::separator() + sanitized);
+                setOutputDirectory(m_JobsDirectory + QDir::separator() + sanitized);
         }
     });
 
@@ -271,6 +270,8 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
             &Ekos::FramingAssistantUI::calculateFOV);
     connect(ui->positionAngleSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
             &Ekos::FramingAssistantUI::calculateFOV);
+    connect(ui->positionAngleSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
+            &Ekos::FramingAssistantUI::positionAngleChanged);
 
     // Mosaic configuration
     // - Changing the target field dimensions changes the grid dimensions
@@ -286,6 +287,32 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
             &Ekos::FramingAssistantUI::updateTargetFOVFromGrid);
     connect(ui->mosaicHSpin, QOverload<int>::of(&QSpinBox::valueChanged), this,
             &Ekos::FramingAssistantUI::updateTargetFOVFromGrid);
+
+    // Emit property changes
+    connect(ui->mosaicWSpin, QOverload<int>::of(&QSpinBox::valueChanged), this,
+            [this](double value)
+    {
+        m_GridSize.setWidth(value);
+        emit gridSizeChanged(m_GridSize);
+    });
+    connect(ui->mosaicHSpin, QOverload<int>::of(&QSpinBox::valueChanged), this,
+            [this](double value)
+    {
+        m_GridSize.setHeight(value);
+        emit gridSizeChanged(m_GridSize);
+    });
+    connect(ui->overlapSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this,
+            &Ekos::FramingAssistantUI::setOverlap);
+
+    connect(ui->sequenceEdit, &QLineEdit::textChanged, this, &Ekos::FramingAssistantUI::setSequenceFile);
+    connect(ui->directoryEdit, &QLineEdit::textChanged, this, &Ekos::FramingAssistantUI::setOutputDirectory);
+    connect(ui->targetEdit, &QLineEdit::textChanged, this, &Ekos::FramingAssistantUI::setTargetName);
+    connect(ui->focusEvery, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::FramingAssistantUI::setFocusEveryN);
+    connect(ui->alignEvery, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::FramingAssistantUI::setAlignEveryN);
+    connect(ui->trackStepCheck, &QCheckBox::toggled, this, &Ekos::FramingAssistantUI::setIsTrackChecked);
+    connect(ui->focusStepCheck, &QCheckBox::toggled, this, &Ekos::FramingAssistantUI::setIsFocusChecked);
+    connect(ui->alignStepCheck, &QCheckBox::toggled, this, &Ekos::FramingAssistantUI::setIsAlignChecked);
+    connect(ui->guideStepCheck, &QCheckBox::toggled, this, &Ekos::FramingAssistantUI::setIsGuideChecked);
 
     // Lazy update for s-shape
     connect(ui->reverseOddRows, &QCheckBox::toggled, this, [&]()
@@ -512,7 +539,7 @@ void FramingAssistantUI::fetchINDIInformation()
                                   "org.kde.kstars.Ekos.Align",
                                   QDBusConnection::sessionBus());
 
-    QDBusReply<QList<double>> cameraReply = alignInterface.call("cameraInfo");
+    QDBusReply<QList<double >> cameraReply = alignInterface.call("cameraInfo");
     if (cameraReply.isValid())
     {
         QList<double> const values = cameraReply.value();
@@ -525,7 +552,7 @@ void FramingAssistantUI::fetchINDIInformation()
         ui->pixelHSizeSpin->setValue(m_PixelSize.height());
     }
 
-    QDBusReply<QList<double>> telescopeReply = alignInterface.call("telescopeInfo");
+    QDBusReply<QList<double >> telescopeReply = alignInterface.call("telescopeInfo");
     if (telescopeReply.isValid())
     {
         QList<double> const values = telescopeReply.value();
@@ -535,7 +562,7 @@ void FramingAssistantUI::fetchINDIInformation()
         ui->focalReducerSpin->setValue(m_FocalReducer);
     }
 
-    QDBusReply<QList<double>> solutionReply = alignInterface.call("getSolutionResult");
+    QDBusReply<QList<double >> solutionReply = alignInterface.call("getSolutionResult");
     if (solutionReply.isValid())
     {
         QList<double> const values = solutionReply.value();
@@ -596,19 +623,16 @@ void FramingAssistantUI::createJobs()
 {
     auto scheduler = Ekos::Manager::Instance()->schedulerModule();
     auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
-    auto sequence = ui->sequenceEdit->text();
-    auto outputDirectory = ui->directoryEdit->text();
-    auto target = ui->targetEdit->text();
     auto group = ui->groupEdit->text();
 
-    tiles->setTargetName(target);
+    tiles->setTargetName(m_TargetName);
     tiles->setGroup(group);
-    tiles->setOutputDirectory(outputDirectory);
-    tiles->setSequenceFile(sequence);
-    tiles->setFocusEveryN(ui->focusEvery->value());
-    tiles->setAlignEveryN(ui->alignEvery->value());
-    tiles->setStepChecks(ui->trackStepCheck->isChecked(), ui->focusStepCheck->isChecked(),
-                         ui->alignStepCheck->isChecked(), ui->guideStepCheck->isChecked());
+    tiles->setOutputDirectory(m_OutputDirectory);
+    tiles->setSequenceFile(m_SequenceFile);
+    tiles->setFocusEveryN(m_FocusEveryN);
+    tiles->setAlignEveryN(m_AlignEveryN);
+    tiles->setStepChecks(m_IsTrackChecked, m_IsFocusChecked,
+                         m_IsAlignChecked, m_IsGuideChecked);
 
     if (ui->sequenceCompletionR->isChecked())
         tiles->setCompletionCondition("FinishSequence", "");
@@ -637,23 +661,23 @@ void FramingAssistantUI::createJobs()
     for (auto oneTile : tiles->tiles())
     {
         batchCount++;
-        XMLEle *root = scheduler->process()->getSequenceJobRoot(sequence);
+        XMLEle *root = scheduler->process()->getSequenceJobRoot(m_SequenceFile);
         if (root == nullptr)
             return;
 
-        const auto oneTarget = QString("%1-Part_%2").arg(target).arg(batchCount);
-        if (scheduler->process()->createJobSequence(root, oneTarget, outputDirectory) == false)
+        const auto oneTarget = QString("%1-Part_%2").arg(m_TargetName).arg(batchCount);
+        if (scheduler->process()->createJobSequence(root, oneTarget, m_OutputDirectory) == false)
         {
             delXMLEle(root);
             return;
         }
 
         delXMLEle(root);
-        auto oneSequence = QString("%1/%2.esq").arg(outputDirectory, oneTarget);
+        auto oneSequence = QString("%1/%2.esq").arg(m_OutputDirectory, oneTarget);
 
         // First job should Always focus if possible
-        bool shouldFocus = ui->focusStepCheck->isChecked() && (batchCount == 1 || (batchCount % ui->focusEvery->value()) == 0);
-        bool shouldAlign = ui->alignStepCheck->isChecked() && (batchCount == 1 || (batchCount % ui->alignEvery->value()) == 0);
+        bool shouldFocus = m_IsFocusChecked && (batchCount == 1 || (batchCount % m_FocusEveryN) == 0);
+        bool shouldAlign = m_IsAlignChecked && (batchCount == 1 || (batchCount % m_AlignEveryN) == 0);
         QVariantMap settings =
         {
             {"nameEdit", oneTarget},
@@ -663,17 +687,17 @@ void FramingAssistantUI::createJobs()
             // Take care of standard range for position angle
             {"positionAngleSpin", KSUtils::rangePA(tiles->positionAngle())},
             {"sequenceEdit", oneSequence},
-            {"schedulerTrackStep", ui->trackStepCheck->isChecked()},
+            {"schedulerTrackStep", m_IsTrackChecked},
             {"schedulerFocusStep", shouldFocus},
             {"schedulerAlignStep", shouldAlign},
-            {"schedulerGuideStep", ui->guideStepCheck->isChecked()}
+            {"schedulerGuideStep", m_IsGuideChecked}
         };
 
         scheduler->setAllSettings(settings);
         scheduler->saveJob();
     }
 
-    auto schedulerListFile = QString("%1/%2.esl").arg(outputDirectory, target);
+    auto schedulerListFile = QString("%1/%2.esl").arg(m_OutputDirectory, m_TargetName);
     scheduler->process()->saveScheduler(QUrl::fromLocalFile(schedulerListFile));
     accept();
     Ekos::Manager::Instance()->activateModule(i18n("Scheduler"), true);
@@ -716,9 +740,9 @@ void FramingAssistantUI::selectSequence()
 
     if (!file.isEmpty())
     {
-        ui->sequenceEdit->setText(file);
-        ui->createJobsB->setEnabled(!ui->targetEdit->text().isEmpty() && !ui->sequenceEdit->text().isEmpty() &&
-                                    !ui->directoryEdit->text().isEmpty());
+        setSequenceFile(file);
+        ui->createJobsB->setEnabled(!m_TargetName.isEmpty() && !m_SequenceFile.isEmpty() &&
+                                    !m_OutputDirectory.isEmpty());
     }
 }
 
@@ -840,13 +864,13 @@ bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
     m_JobsDirectory = directory;
 
     // Set scheduler options.
-    ui->trackStepCheck->setChecked(track);
-    ui->focusStepCheck->setChecked(focus);
-    ui->alignStepCheck->setChecked(align);
-    ui->guideStepCheck->setChecked(guide);
+    setIsTrackChecked(track);
+    setIsFocusChecked(focus);
+    setIsAlignChecked(align);
+    setIsGuideChecked(guide);
 
-    ui->sequenceEdit->setText(sequence);
-    ui->targetEdit->setText(target);
+    setSequenceFile(sequence);
+    setTargetName(target);
 
     sanitizeTarget();
 
@@ -870,41 +894,161 @@ void FramingAssistantUI::selectDirectory()
     if (!m_JobsDirectory.isEmpty())
     {
         // If we already have a target specified, then append it to directory path.
-        QString sanitized = ui->targetEdit->text();
+        QString sanitized = m_TargetName;
         if (sanitized.isEmpty() == false && sanitized != i18n("unnamed"))
         {
             // Remove illegal characters that can be problematic
             sanitized = KSUtils::sanitize(sanitized);
-            ui->directoryEdit->setText(m_JobsDirectory + QDir::separator() + sanitized);
+            setOutputDirectory(m_JobsDirectory + QDir::separator() + sanitized);
 
         }
         else
-            ui->directoryEdit->setText(m_JobsDirectory);
+            setOutputDirectory(m_JobsDirectory);
 
 
-        ui->createJobsB->setEnabled(!ui->targetEdit->text().isEmpty() && !ui->sequenceEdit->text().isEmpty() &&
-                                    !ui->directoryEdit->text().isEmpty());
+        ui->createJobsB->setEnabled(!m_TargetName.isEmpty() && !m_SequenceFile.isEmpty() &&
+                                    !m_OutputDirectory.isEmpty());
     }
 }
 
 void FramingAssistantUI::sanitizeTarget()
 {
-    QString sanitized = ui->targetEdit->text();
+    QString sanitized = m_TargetName;
     if (sanitized != i18n("unnamed"))
     {
         // Remove illegal characters that can be problematic
         sanitized = KSUtils::sanitize(sanitized);
-        ui->targetEdit->blockSignals(true);
-        ui->targetEdit->setText(sanitized);
-        ui->targetEdit->blockSignals(false);
+        setTargetName(sanitized);
 
         if (m_JobsDirectory.isEmpty())
-            ui->directoryEdit->setText(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
+            setOutputDirectory(QDir::cleanPath(QDir::homePath() + QDir::separator() + sanitized));
         else
-            ui->directoryEdit->setText(m_JobsDirectory + QDir::separator() + sanitized);
+            setOutputDirectory(m_JobsDirectory + QDir::separator() + sanitized);
 
-        ui->createJobsB->setEnabled(!ui->targetEdit->text().isEmpty() && !ui->sequenceEdit->text().isEmpty() &&
-                                    !ui->directoryEdit->text().isEmpty());
+        ui->createJobsB->setEnabled(!m_TargetName.isEmpty() && !m_SequenceFile.isEmpty() &&
+                                    !m_OutputDirectory.isEmpty());
     }
 }
+
+void FramingAssistantUI::setGridSize(const QSize &value)
+{
+    if (m_GridSize == value)
+        return;
+
+    m_GridSize = value;
+    ui->mosaicWSpin->setValue(value.width());
+    ui->mosaicHSpin->setValue(value.height());
+    emit gridSizeChanged(m_GridSize);
+}
+
+void FramingAssistantUI::setOverlap(double value)
+{
+    if (qFuzzyCompare(m_Overlap, value))
+        return;
+
+    m_Overlap = value;
+    ui->overlapSpin->setValue(value);
+    emit overlapChanged(m_Overlap);
+}
+
+void FramingAssistantUI::setPositionAngle(double value)
+{
+    if (qFuzzyCompare(m_PA, value))
+        return;
+
+    m_PA = value;
+    ui->positionAngleSpin->setValue(value);
+    emit positionAngleChanged(m_PA);
+}
+
+void FramingAssistantUI::setSequenceFile(const QString &value)
+{
+    if (m_SequenceFile == value)
+        return;
+
+    m_SequenceFile = value;
+    ui->sequenceEdit->setText(value);
+    emit sequenceFileChanged(m_SequenceFile);
+}
+
+void FramingAssistantUI::setOutputDirectory(const QString &value)
+{
+    if (m_OutputDirectory == value)
+        return;
+
+    m_OutputDirectory = value;
+    ui->directoryEdit->setText(value);
+    emit outputDirectoryChanged(m_OutputDirectory);
+}
+
+void FramingAssistantUI::setTargetName(const QString &value)
+{
+    if (m_TargetName == value)
+        return;
+
+    m_TargetName = value;
+    ui->targetEdit->setText(value);
+    emit targetNameChanged(m_TargetName);
+}
+
+void FramingAssistantUI::setFocusEveryN(int value)
+{
+    if (m_FocusEveryN == value)
+        return;
+
+    m_FocusEveryN = value;
+    ui->focusEvery->setValue(value);
+    emit focusEveryNChanged(m_FocusEveryN);
+}
+
+void FramingAssistantUI::setAlignEveryN(int value)
+{
+    if (m_AlignEveryN == value)
+        return;
+
+    m_AlignEveryN = value;
+    ui->alignEvery->setValue(value);
+    emit alignEveryNChanged(m_AlignEveryN);
+}
+
+void FramingAssistantUI::setIsTrackChecked(bool value)
+{
+    if (m_IsTrackChecked == value)
+        return;
+
+    m_IsTrackChecked = value;
+    ui->trackStepCheck->setChecked(value);
+    emit isTrackCheckedChanged(m_IsTrackChecked);
+}
+
+void FramingAssistantUI::setIsFocusChecked(bool value)
+{
+    if (m_IsFocusChecked == value)
+        return;
+
+    m_IsFocusChecked = value;
+    ui->focusStepCheck->setChecked(value);
+    emit isFocusCheckedChanged(m_IsFocusChecked);
+}
+
+void FramingAssistantUI::setIsAlignChecked(bool value)
+{
+    if (m_IsAlignChecked == value)
+        return;
+
+    m_IsAlignChecked = value;
+    ui->alignStepCheck->setChecked(value);
+    emit isAlignCheckedChanged(m_IsAlignChecked);
+}
+
+void FramingAssistantUI::setIsGuideChecked(bool value)
+{
+    if (m_IsGuideChecked == value)
+        return;
+
+    m_IsGuideChecked = value;
+    ui->guideStepCheck->setChecked(value);
+    emit isGuideCheckedChanged(m_IsGuideChecked);
+}
+
 }

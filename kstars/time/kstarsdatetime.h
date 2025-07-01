@@ -8,6 +8,10 @@
 
 #include <QDateTime>
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QTimeZone>
+#endif
+
 #define J2000          2451545.0    //Julian Date for noon on Jan 1, 2000 (epoch J2000)
 #define B1950          2433282.4235 // Julian date for Jan 0.9235, 1950
 #define SIDEREALSECOND 1.002737909  //number of sidereal seconds in one solar second
@@ -110,7 +114,11 @@ class KStarsDateTime : public QDateTime
         inline KStarsDateTime addDays(int nd) const
         {
             KStarsDateTime kdt(djd() + static_cast<long double>(nd));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            kdt.setTimeZone(timeZone());
+#else
             kdt.setTimeSpec(timeSpec());
+#endif
             return kdt;
         }
 

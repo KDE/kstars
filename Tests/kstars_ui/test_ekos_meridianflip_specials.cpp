@@ -373,7 +373,7 @@ void TestEkosMeridianFlipSpecials::testCaptureRealignMF()
     QVERIFY(checkPostMFBehavior());
     // check if capturing starts right now
     QFETCH(double, exptime);
-    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_CAPTURING, 2 * exptime * 1000);
+    QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->getCaptureStatus() == Ekos::CAPTURE_CAPTURING, (int)(2 * exptime * 1000));
     qCInfo(KSTARS_EKOS_TEST()) << "Capturing started.";
     // check if an image has been captured
     m_CaptureHelper->expectedCaptureStates.enqueue(Ekos::CAPTURE_IMAGE_RECEIVED);

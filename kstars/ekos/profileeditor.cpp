@@ -508,14 +508,15 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     ui->INDIWebManagerCheck->setChecked(profile["use_web_manager"].toBool());
     ui->remoteDrivers->setText(profile["remote"].toString(ui->remoteDrivers->text()));
 
-    QStringList profileDrivers;
+    profileDriversModel->clear();
+
+    const QStringList reservedKeys = { "name", "auto_connect", "port_selector", "mode", "remote_host", "remote_port", "guiding", "remote_guiding_host", "remote_guiding_port", "use_web_manager", "remote"};
+
     for (const auto &key : profile.keys())
     {
-        if (key != "name" && key != "auto_connect" && key != "port_selector" && key != "mode" &&
-                key != "remote_host" && key != "remote_port" && key != "guiding" && key != "remote_guiding_host" &&
-                key != "remote_guiding_port" && key != "use_web_manager" && key != "remote")
+        if (!reservedKeys.contains(key))
         {
-            QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByName(profile[key].toString());
+            QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(profile[key].toString());
             if (driverInfo)
             {
                 QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), driverInfo->getLabel());

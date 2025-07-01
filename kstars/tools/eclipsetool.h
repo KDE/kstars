@@ -70,7 +70,11 @@ class EclipseModel : public QAbstractTableModel
 
     private slots:
         // reimplemented to clear the data
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        void resetInternalData() override
+#else
         void resetInternalData()
+#endif
         {
             m_eclipses.clear();
         }
@@ -130,8 +134,8 @@ class EclipseTool : public QFrame
     private:
         Ui::EclipseTool *ui;
 
-        QVector<std::pair<int, QString>> m_object1List;
-        QVector<std::pair<int, QString>> m_object2List;
+        QVector<std::pair<int, QString >> m_object1List;
+        QVector<std::pair<int, QString >> m_object2List;
 
         GeoLocation * m_geoLocation { nullptr };
         EclipseModel m_model;

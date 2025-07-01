@@ -43,7 +43,7 @@
 
 namespace EkosLive
 {
-Message::Message(Ekos::Manager *manager, QVector<QSharedPointer<NodeManager>> &nodeManagers):
+Message::Message(Ekos::Manager *manager, QVector<QSharedPointer<NodeManager >> &nodeManagers):
     m_Manager(manager), m_NodeManagers(nodeManagers), m_DSOManager(CatalogsDB::dso_db_path())
 {
     for (auto &nodeManager : m_NodeManagers)
@@ -1338,7 +1338,19 @@ void Message::sendSchedulerJobList(QJsonArray jobsList)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendSchedulerStatus(const QJsonObject &status)
 {
+    if (isConnected() == false)
+        return;
+
     sendResponse(commands[NEW_SCHEDULER_STATE], status);
+}
+
+void Message::sendMosaicTiles(const QJsonObject &tiles)
+{
+    if (isConnected() == false)
+        return;
+
+    m_DebouncedSend.start();
+    m_DebouncedMap[commands[NEW_MOSAIC_TILES]] = tiles.toVariantMap();
 }
 
 
@@ -1764,7 +1776,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
     {
         auto composite = KStarsData::Instance()->skyComposite();
         QStringList all;
-        QVector<QPair<QString, const SkyObject *>> allObjects;
+        QVector<QPair<QString, const SkyObject * >> allObjects;
         CatalogsDB::CatalogObjectList dsoObjects;
 
         allObjects.append(composite->objectLists(SkyObject::STAR));
@@ -1855,7 +1867,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
             // Add 1 day
             end = end.addDays(1);
 
-        QVector<QPair<QString, const SkyObject *>> allObjects;
+        QVector<QPair<QString, const SkyObject * >> allObjects;
         CatalogsDB::CatalogObjectList dsoObjects;
         bool isDSO = false;
 
@@ -1934,7 +1946,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
             return a.second->mag() < b.second->mag();
         });
 
-        QMutableVectorIterator<QPair<QString, const SkyObject *>> objectIterator(allObjects);
+        QMutableVectorIterator<QPair<QString, const SkyObject * >> objectIterator(allObjects);
 
         // Filter direction, if specified.
         if (objectDirection != All)
@@ -2745,7 +2757,7 @@ void Message::setPendingPropertiesEnabled(bool enabled)
 void Message::sendPendingProperties()
 {
     // Group properties by device to minimize device lookups
-    QMap<QString, QSet<QString>> deviceProperties;
+    QMap<QString, QSet<QString >> deviceProperties;
 
     // First pass - group by device
     for (const auto &pending : m_PendingProperties)
@@ -2841,7 +2853,7 @@ void Message::sendModuleState(const QString &name)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-QObject *Message::findObject(const QString &name)
+QObject * Message::findObject(const QString &name)
 {
     QObject *object {nullptr};
     // Check for manager itself
@@ -2875,8 +2887,8 @@ QObject *Message::findObject(const QString &name)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
-bool Message::parseArgument(QVariant::Type type, const QVariant &arg, QMetaMethodArgument &genericArg, SimpleTypes &types)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+bool Message::parseArgument(QMetaType::Type type, const QVariant &arg, QMetaMethodArgument &genericArg, SimpleTypes &types)
 #else
 bool Message::parseArgument(QVariant::Type type, const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types)
 #endif
@@ -2885,38 +2897,82 @@ bool Message::parseArgument(QVariant::Type type, const QVariant &arg, QGenericAr
 
     switch (type)
     {
-        case QVariant::Type::Int:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::Int:
+#else
+        case QVariant::Int:
+#endif
             types.number_integer = arg.toInt();
             genericArg = Q_ARG(int, types.number_integer);
             return true;
-        case QVariant::Type::UInt:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::UInt:
+#else
+        case QVariant::UInt:
+#endif
             types.number_unsigned_integer = arg.toUInt();
             genericArg = Q_ARG(uint, types.number_unsigned_integer);
             return true;
-        case QVariant::Type::LongLong:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::LongLong:
+#else
+        case QVariant::LongLong:
+#endif
             types.number_integer = arg.toLongLong();
             genericArg = Q_ARG(int, types.number_integer);
             return true;
-        case QVariant::Type::ULongLong:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::ULongLong:
+#else
+        case QVariant::ULongLong:
+#endif
             types.number_unsigned_integer = arg.toULongLong();
             genericArg = Q_ARG(uint, types.number_unsigned_integer);
             return true;
-        case QVariant::Type::Double:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::Double:
+#else
+        case QVariant::Double:
+#endif
             types.number_double = arg.toDouble();
             genericArg = Q_ARG(double, types.number_double);
             return true;
-        case QVariant::Type::Bool:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::Bool:
+#else
+        case QVariant::Bool:
+#endif
             types.boolean = arg.toBool();
             genericArg = Q_ARG(bool, types.boolean);
             return true;
-        case QVariant::Type::String:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::QString:
+#else
+        case QVariant::String:
+#endif
             types.text = arg.toString();
             genericArg = Q_ARG(QString, types.text);
             return true;
-        case QVariant::Type::Url:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::QUrl:
+#else
+        case QVariant::Url:
+#endif
             types.url = arg.toUrl();
             genericArg = Q_ARG(QUrl, types.url);
             return true;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case QMetaType::QSize:
+#else
+        case QVariant::Size:
+#endif
+        {
+            QJsonObject obj = arg.toJsonObject();
+            types.size = QSize(obj["width"].toInt(), obj["height"].toInt());
+        }
+        genericArg = Q_ARG(QSize, types.size);
+        return true;
+
         default:
             break;
     }
@@ -2954,8 +3010,13 @@ void Message::invokeMethod(QObject *context, const QJsonObject &payload)
             SimpleTypes genericType;
             argsList.append(genericArgument);
             typesList.append(genericType);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            if (parseArgument(static_cast<QMetaType::Type>(argObject["type"].toInt()), argObject["value"].toVariant(), argsList.back(),
+                              typesList.last()) == false)
+#else
             if (parseArgument(static_cast<QVariant::Type>(argObject["type"].toInt()), argObject["value"].toVariant(), argsList.back(),
                               typesList.last()) == false)
+#endif
             {
                 argsList.pop_back();
                 typesList.pop_back();

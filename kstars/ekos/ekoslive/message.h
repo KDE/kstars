@@ -25,7 +25,7 @@ class Message : public QObject
         Q_OBJECT
 
     public:
-        explicit Message(Ekos::Manager *manager, QVector<QSharedPointer<NodeManager>> &nodeManagers);
+        explicit Message(Ekos::Manager *manager, QVector<QSharedPointer<NodeManager >> &nodeManagers);
         virtual ~Message() = default;
 
         bool isConnected() const;
@@ -34,7 +34,7 @@ class Message : public QObject
         {
             QString device;
             QString name;
-            bool operator==(const PendingProperty &other) const
+            bool operator == (const PendingProperty &other) const
             {
                 return device == other.device && name == other.name;
             }
@@ -130,6 +130,8 @@ class Message : public QObject
         // Dialogs
         void sendDialog(const QJsonObject &message);
         void processDialogResponse(const QJsonObject &payload);
+
+        void sendMosaicTiles(const QJsonObject &tiles);
 
         // Process properties
         void processNewProperty(INDI::Property prop);
@@ -230,21 +232,22 @@ class Message : public QObject
             bool boolean;
             QString text;
             QUrl url;
+            QSize size;
         } SimpleTypes;
 
         QObject *findObject(const QString &name);
         void invokeMethod(QObject *context, const QJsonObject &payload);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
-        bool parseArgument(QVariant::Type type, const QVariant &arg, QMetaMethodArgument &genericArg, SimpleTypes &types);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        bool parseArgument(QMetaType::Type type, const QVariant &arg, QMetaMethodArgument &genericArg, SimpleTypes &types);
 #else
         bool parseArgument(QVariant::Type type, const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types);
 #endif
         Ekos::Manager *m_Manager { nullptr };
-        QVector<QSharedPointer<NodeManager>> m_NodeManagers;
+        QVector<QSharedPointer<NodeManager >> m_NodeManagers;
 
         bool m_sendBlobs { true};
 
-        QMap<QString, QSet<QString>> m_PropertySubscriptions;
+        QMap<QString, QSet<QString >> m_PropertySubscriptions;
         QLineF correctionVector;
         QRect m_BoundingRect;
         QSize m_ViewSize;

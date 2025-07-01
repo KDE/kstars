@@ -502,7 +502,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
         // - that group mnember is behind the selected job's iteration.
         if (nextJob && !nextJob->getGroup().isEmpty() && Options::greedyScheduling() && nextJob->getCompletedIterations() > 0)
         {
-            TEST_PRINT(stderr, "      Considering GROUPS (%d jobs) selected %s\n", jobs.size(), nextJob->getName().toLatin1().data());
+            TEST_PRINT(stderr, "      Considering GROUPS (%lld jobs) selected %s\n", jobs.size(), nextJob->getName().toLatin1().data());
             // Iterate through the jobs list, first finding the selected job, the looking at all jobs after that.
             bool foundSelectedJob = false;
             for (int i = 0; i < jobs.size(); ++i)

@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.10
 
 # Suitable for builds
 RUN apt update && apt -y install --no-install-recommends software-properties-common gpg-agent
@@ -10,24 +10,8 @@ RUN apt update && apt -y install --no-install-recommends \
       gettext \
       coreutils \
       cmake \
-      extra-cmake-modules \
-      qtbase5-dev \
-      qtdeclarative5-dev \
-      qtmultimedia5-dev \
-      qtpositioning5-dev \
-      libqt5websockets5-dev \
-      libqt5svg5-dev \
-      libqt5sql5-sqlite \
-      libkf5doctools-dev \
-      libkf5config-dev \
-      libkf5guiaddons-dev \
-      libkf5i18n-dev \
-      libkf5newstuff-dev \
-      libkf5notifications-dev \
-      libkf5xmlgui-dev \
-      libkf5plotting-dev \
-      libkf5crash-dev \
-      libkf5notifyconfig-dev \
+      extra-cmake-modules
+RUN apt update && apt -y install --no-install-recommends \
       libeigen3-dev \
       zlib1g-dev \
       libcfitsio-dev \
@@ -35,12 +19,30 @@ RUN apt update && apt -y install --no-install-recommends \
       wcslib-dev \
       libraw-dev \
       libgsl-dev \
-      phonon4qt5-backend-vlc \
-      qt5keychain-dev \
-      libqt5sql5-sqlite \
-      libqt5datavisualization5-dev \
-      qml-module-qtquick-controls \
       libsecret-1-dev
+RUN apt update && apt -y install --no-install-recommends \
+      qt6-base-dev \
+      qt6-declarative-dev \
+      qt6-multimedia-dev \
+      qt6-positioning-dev \
+      libqt6websockets6-dev \
+      libqt6svg6-dev \
+      libkf6doctools-dev \
+      libkf6config-dev \
+      libkf6guiaddons-dev \
+      libkf6i18n-dev \
+      libkf6newstuff-dev \
+      libkf6notifications-dev \
+      libkf6xmlgui-dev \
+      libkf6plotting-dev \
+      libkf6crash-dev \
+      libkf6notifyconfig-dev \
+      libqt6sql6-sqlite \
+      libqt6datavisualization6-dev
+RUN apt update && apt -y install --no-install-recommends \
+      phonon4qt6-backend-vlc \
+      qtkeychain-qt6-dev \
+      qml-module-qtquick-controls
 
 # Suitable for tests
 RUN apt update && add-apt-repository ppa:mutlaqja/ppa
@@ -62,10 +64,10 @@ RUN apt update && apt -y --no-install-recommends install \
       phd2 \
       xvfb
 
-# QT5 theme
-ENV QT_QPA_PLATFORMTHEME=qt5ct
-RUN apt update && apt -y --no-install-recommends install qt5ct
-RUN d=/root/.config/qt5ct ; mkdir -p "$d" && echo '[Appearance]\nicon_theme=breeze' > "$d/qt5ct.conf"
+# qt6 theme
+ENV QT_QPA_PLATFORMTHEME=qt6ct
+RUN apt update && apt -y --no-install-recommends install qt6ct
+RUN d=/root/.config/qt6ct ; mkdir -p "$d" && echo '[Appearance]\nicon_theme=breeze' > "$d/qt6ct.conf"
 
 # Ninja
 RUN apt update && apt -y --no-install-recommends install ninja-build
@@ -95,9 +97,8 @@ ADD http://data.astrometry.net/4200/index-4208.fits /root/.local/share/kstars/as
 ADD http://data.astrometry.net/4200/index-4209.fits /root/.local/share/kstars/astrometry/
 ADD http://data.astrometry.net/4200/index-4210.fits /root/.local/share/kstars/astrometry/
 
-# From https://invent.kde.org/sysadmin/ci-tooling/-/blob/master/system-images/suse-qt515/Dockerfile
+# From https://invent.kde.org/sysadmin/ci-tooling/-/blob/master/system-images/suse-qt615/Dockerfile
 RUN apt update && apt -y install dbus
 RUN dbus-uuidgen > /etc/machine-id
 
 CMD /bin/bash
-

@@ -479,3 +479,4 @@ KStars Development Mailing list
 kstars-devel@kde.org
 
 Send us ideas and feedback!
+

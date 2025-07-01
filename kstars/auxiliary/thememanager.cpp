@@ -129,6 +129,18 @@ void Manager::slotChangePalette()
 
     QString theme(currentThemeName());
 
+    // Do not set icon theme inside a flatpak
+    if (!KSUtils::isFlatpak())
+    {
+        IconTheme themeIconType = BREEZE_DARK_THEME;
+
+        if (theme == "Macintosh" || theme == "White Balance" || theme == "High Key" || (theme == "Default"
+                && currentDesktopdefaultTheme().contains("Dark") == false))
+            themeIconType = BREEZE_THEME;
+
+        setIconTheme(themeIconType);
+    }
+
     QString filename        = d->themeMap.value(theme);
     KSharedConfigPtr config = KSharedConfig::openConfig(filename);
     // hint for the style to synchronize the color scheme with the window manager/compositor
