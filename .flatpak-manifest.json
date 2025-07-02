@@ -1,44 +1,44 @@
 {
     "id": "org.kde.kstars",
-    "branch": "master",
+    "branch": "nightly",
     "runtime": "org.kde.Platform",
     "runtime-version": "6.9",
     "sdk": "org.kde.Sdk",
     "command": "kstars",
     "rename-icon": "kstars",
-    "tags": ["nightly"],
+    "tags": [
+        "nightly"
+    ],
     "desktop-file-name-suffix": " (Nightly)",
     "finish-args": [
-        "--share=ipc",
-        "--socket=x11",
-        "--socket=wayland",
-        "--socket=pulseaudio",
-        "--share=network",
         "--device=all",
-        "--filesystem=host",
-        "--system-talk-name=org.freedesktop.PolicyKit1",
-        "--system-talk-name=org.bluez",
-        "--talk-name=org.freedesktop.Notifications",
-        "--filesystem=xdg-run/dconf",
-        "--filesystem=~/.config/dconf:ro",
-        "--talk-name=ca.desrt.dconf",
-        "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--env=GSCDAT=/app/share/GSC",
-        "--filesystem=home",
-        "--talk-name=org.kde.*",
-        "--talk-name=org.freedesktop.DBus",
-        "--system-talk-name=org.freedesktop.DBus",
-        "--own-name=org.kde.*",
-        "--system-talk-name=org.freedesktop.UPower",
-        "--system-talk-name=org.freedesktop.login1",
-        "--system-talk-name=org.freedesktop.NetworkManager",
-        "--system-talk-name=org.freedesktop.UDisks2"
+        "--filesystem=xdg-documents",
+        "--filesystem=xdg-pictures",
+        "--filesystem=xdg-videos",
+        "--filesystem=~/.indi",
+        "--share=ipc",
+        "--share=network",
+        "--socket=fallback-x11",
+        "--socket=pulseaudio",
+        "--socket=wayland"
+    ],
+    "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/lib/*.a",
+        "/lib/*.la",
+        "/share/man"
     ],
     "modules": [
+        "shared-modules/libusb/libusb.json",
         {
             "name": "eigen",
             "buildsystem": "cmake-ninja",
             "builddir": true,
+            "cleanup": [
+                "*"
+            ],
             "sources": [
                 {
                     "type": "archive",
@@ -55,34 +55,60 @@
         },
         {
             "name": "gsl",
-            "buildsystem": "autotools",
             "sources": [
                 {
-                    "type": "git",
-                    "url": "git://git.savannah.gnu.org/gsl.git"
+                    "type": "archive",
+                    "url": "https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz",
+                    "sha256": "6a99eeed15632c6354895b1dd542ed5a855c0f15d9ad1326c6fe2b2c9e423190",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 1267,
+                        "stable-only": true,
+                        "url-template": "https://ftp.gnu.org/gnu/gsl/gsl-$version.tar.gz"
+                    }
                 }
             ]
         },
         {
             "name": "cfitsio",
+            "cleanup": [
+                "/bin/cookbook",
+                "/bin/smem",
+                "/bin/testprog"
+            ],
             "buildsystem": "cmake-ninja",
             "builddir": true,
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio-4.2.0.tar.gz",
-                    "sha256": "eba53d1b3f6e345632bb09a7b752ec7ced3d63ec5153a848380f3880c5d61889"
+                    "url": "https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio-4.6.2.tar.gz",
+                    "sha256": "66fd078cc0bea896b0d44b120d46d6805421a5361d3a5ad84d9f397b1b5de2cb",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 270,
+                        "stable-only": true,
+                        "url-template": "https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio-$version.tar.gz"
+                    }
                 }
             ]
         },
         {
             "name": "wcslib",
-            "buildsystem": "autotools",
+            "config-opts": [
+                "LIBS=-pthread -lcurl -lm",
+                "--without-pgplot"
+            ],
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://src.rrz.uni-hamburg.de/files/src/wcslib/wcslib-7.10.tar.bz2",
-                    "sha256": "1796b0979df950ba7eae1010b986134067187846892b8e9b3c42d30361c9d929"
+                    "url": "https://www.atnf.csiro.au/people/mcalabre/WCS/wcslib-8.4.tar.bz2",
+                    "sha256": "960b844426d14a8b53cdeed78258aa9288cded99a7732c0667c64fa6a50126dc",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 7693,
+                        "stable-only": true,
+                        "url-template": "https://www.atnf.csiro.au/people/mcalabre/WCS/wcslib-$version.tar.bz2"
+                    }
                 }
             ]
         },
@@ -90,11 +116,20 @@
             "name": "stellarsolver",
             "buildsystem": "cmake-ninja",
             "builddir": true,
-            "config-opts": ["-DUSE_QT5=OFF"],
+            "config-opts": [
+                "-DUSE_QT5=OFF"
+            ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://github.com/rlancaste/stellarsolver.git"
+                    "type": "archive",
+                    "url": "https://github.com/rlancaste/stellarsolver/archive/refs/tags/2.7.tar.gz",
+                    "sha256": "36ff495f325920b9a23b7c3f7453a99c8d405e0984d4b27da7568625cb6c76c9",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 242699,
+                        "stable-only": true,
+                        "url-template": "https://github.com/rlancaste/stellarsolver/archive/refs/tags/$version.tar.gz"
+                    }
                 }
             ]
         },
@@ -104,47 +139,62 @@
                 {
                     "type": "archive",
                     "url": "https://dist.schmorp.de/libev/Attic/libev-4.33.tar.gz",
-                    "sha256": "507eb7b8d1015fbec5b935f34ebed15bf346bed04a11ab82b8eee848c4205aea"
+                    "sha256": "507eb7b8d1015fbec5b935f34ebed15bf346bed04a11ab82b8eee848c4205aea",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 1605,
+                        "stable-only": true,
+                        "url-template": "https://dist.schmorp.de/libev/Attic/libev-$version.tar.gz"
+                    }
                 }
-            ],
-            "buildsystem": "autotools"
+            ]
         },
         {
             "name": "libnova",
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://netix.dl.sourceforge.net/project/libnova/libnova/v%200.15.0/libnova-0.15.0.tar.gz?viasf=1",
-                    "sha256": "7c5aa33e45a3e7118d77df05af7341e61784284f1e8d0d965307f1663f415bb1"
-                }
-            ],
-            "buildsystem": "simple",
-            "build-commands": [
-                "autoreconf -fi",
-                "./configure --prefix=/app",
-                "make",
-                "make install"
-            ]
-        },
-        {
-            "name": "libusb",
-            "buildsystem": "autotools",
-            "sources": [
+                    "url": "https://gitlab.com/libnova/libnova/-/archive/v0.16/libnova-v0.16.tar.gz",
+                    "sha256": "8b7a8dd0f06c17643d721eef3cee5239ecaeaba233c4994ff3bdd07bfa489b69",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 14947,
+                        "stable-only": true,
+                        "url-template": "https://gitlab.com/libnova/libnova/-/archive/v$version/libnova-v$version.tar.gz"
+                    }
+                },
                 {
-                    "type": "archive",
-                    "url": "https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2",
-                    "sha256": "12ce7a61fc9854d1d2a1ffe095f7b5fac19ddba095c259e6067a46500381b5a5"
+                    "type": "shell",
+                    "commands": [
+                        "autoreconf -vfi"
+                    ]
                 }
             ]
         },
         {
             "name": "libraw",
-            "buildsystem": "autotools",
+            "builddir": true,
+            "config-opts": [
+                "--disable-examples",
+                "--disable-static"
+            ],
             "sources": [
                 {
                     "type": "archive",
                     "url": "https://www.libraw.org/data/LibRaw-0.21.4.tar.gz",
-                    "sha256": "6be43f19397e43214ff56aab056bf3ff4925ca14012ce5a1538a172406a09e63"
+                    "sha256": "6be43f19397e43214ff56aab056bf3ff4925ca14012ce5a1538a172406a09e63",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 1709,
+                        "stable-only": true,
+                        "url-template": "https://www.libraw.org/data/LibRaw-$version.tar.gz"
+                    }
+                },
+                {
+                    "type": "shell",
+                    "commands": [
+                        "autoreconf -vfi"
+                    ]
                 }
             ]
         },
@@ -154,78 +204,83 @@
             "builddir": true,
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://git.launchpad.net/gsc"
+                    "type": "archive",
+                    "url": "https://github.com/ikarustechnologies/gsc/archive/refs/tags/1.0.0.tar.gz",
+                    "sha256": "00f3293f41cc0ae00690d466c733f1d8b27628e366d9994326a22305b026737f",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 378968,
+                        "stable-only": true,
+                        "url-template": "https://github.com/ikarustechnologies/gsc/archive/refs/tags/$version.tar.gz"
+                    }
                 }
             ]
         },
         {
             "name": "libXISF",
-            "buildsystem": "cmake",
+            "buildsystem": "cmake-ninja",
             "config-opts": [
                 "-DUSE_BUNDLED_ZLIB=OFF"
             ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://gitea.nouspiro.space/nou/libXISF.git",
-                    "branch": "ubuntu"
-                }
-            ]
-        },
-        {
-            "name": "indi",
-            "buildsystem": "cmake",
-            "config-opts": [
-                "-DINDI_INSTALL_UDEV_RULES=OFF"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://github.com/indilib/indi.git"
+                    "type": "archive",
+                    "url": "https://gitea.nouspiro.space/nou/libXISF/archive/v0.2.13.tar.gz",
+                    "sha256": "1703a8ac4c4f3469e0d4d7b7e7ebff8d6206e73ec97d2669227a1280202e1396",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 339928,
+                        "stable-only": true,
+                        "url-template": "https://gitea.nouspiro.space/nou/libXISF/archive/v$version.tar.gz"
+                    }
                 }
             ]
         },
         {
             "name": "libconfuse",
-            "buildsystem": "autotools",
             "sources": [
                 {
                     "type": "archive",
                     "url": "https://github.com/libconfuse/libconfuse/releases/download/v3.3/confuse-3.3.tar.xz",
-                    "sha256": "1dd50a0320e135a55025b23fcdbb3f0a81913b6d0b0a9df8cc2fdf3b3dc67010"
-                }
-            ]
-        },
-        {
-            "name": "libftdi1",
-            "buildsystem": "cmake",
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "git://developer.intra2net.com/libftdi"
+                    "sha256": "1dd50a0320e135a55025b23fcdbb3f0a81913b6d0b0a9df8cc2fdf3b3dc67010",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 1581,
+                        "stable-only": true,
+                        "url-template": "https://github.com/libconfuse/libconfuse/releases/download/$version/confuse-$version.tar.xz"
+                    }
                 }
             ]
         },
         {
             "name": "libdc1394",
-            "buildsystem": "autotools",
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://deac-riga.dl.sourceforge.net/project/libdc1394/libdc1394-2/2.2.6/libdc1394-2.2.6.tar.gz?viasf=1",
-                    "sha256": "2b905fc9aa4eec6bdcf6a2ae5f5ba021232739f5be047dec8fe8dd6049c10fed"
+                    "url": "https://downloads.sourceforge.net/project/libdc1394/libdc1394-2/2.2.6/libdc1394-2.2.6.tar.gz",
+                    "sha256": "2b905fc9aa4eec6bdcf6a2ae5f5ba021232739f5be047dec8fe8dd6049c10fed",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 1591,
+                        "stable-only": true,
+                        "url-template": "https://downloads.sourceforge.net/project/libdc1394/libdc1394-2/$version/libdc1394-$version.tar.gz"
+                    }
                 }
             ]
         },
         {
             "name": "libraw1394",
-            "buildsystem": "autotools",
             "sources": [
                 {
                     "type": "archive",
                     "url": "https://www.kernel.org/pub/linux/libs/ieee1394/libraw1394-2.1.2.tar.xz",
-                    "sha256": "03ccc69761d22c7deb1127fc301010dd13e70e44bb7134b8ff0d07590259a55e"
+                    "sha256": "03ccc69761d22c7deb1127fc301010dd13e70e44bb7134b8ff0d07590259a55e",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 1710,
+                        "stable-only": true,
+                        "url-template": "https://www.kernel.org/pub/linux/libs/ieee1394/libraw1394-$version.tar.xz"
+                    }
                 }
             ]
         },
@@ -239,54 +294,74 @@
                 {
                     "type": "archive",
                     "url": "https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.gz",
-                    "sha256": "dd3f1f0bb016edcc0b2d082e8229c822ad1d02223511997c80461481759b1ed2"
+                    "sha256": "dd3f1f0bb016edcc0b2d082e8229c822ad1d02223511997c80461481759b1ed2",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 880,
+                        "stable-only": true,
+                        "url-template": "https://github.com/libgd/libgd/releases/download/gd-$version/libgd-$version.tar.gz"
+                    }
                 }
             ]
         },
         {
             "name": "libgphoto",
-            "buildsystem": "meson",
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://github.com/gphoto/libgphoto2.git"
+                    "type": "archive",
+                    "url": "https://github.com/gphoto/libgphoto2/releases/download/v2.5.31/libgphoto2-2.5.31.tar.bz2",
+                    "sha256": "4f81c34c0b812bee67afd5f144940fbcbe01a2055586a6a1fa2d0626024a545b",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 12558,
+                        "stable-only": true,
+                        "url-template": "https://github.com/gphoto/libgphoto2/releases/download/v$version/libgphoto2-$version.tar.bz2"
+                    }
                 }
             ]
         },
         {
             "name": "limesuite",
-            "buildsystem": "cmake",
+            "buildsystem": "cmake-ninja",
             "builddir": true,
             "config-opts": [
-                "-DCMAKE_INSTALL_PREFIX=/app",
                 "-DCMAKE_BUILD_TYPE=Release"
             ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://github.com/myriadrf/LimeSuite.git"
-                }
-            ]
-        },
-        {
-            "name": "scons",
-            "buildsystem": "simple",
-            "build-commands": [
-                "export SETUPTOOLS_DISABLE_VERSIONED_EASY_INSTALL_SCRIPT=1",
-                "python3 setup.py install --prefix=/app --single-version-externally-managed --root=/",
-                "printf '#!/usr/bin/env python3\\nfrom SCons.Script import main\\nmain()\\n' > /app/bin/scons",
-                "chmod +x /app/bin/scons"
-            ],
-            "sources": [
-                {
                     "type": "archive",
-                    "url": "https://files.pythonhosted.org/packages/c8/c1/30176c76c1ef723fab62e5cdb15d3c972427a146cb6f868748613d7b25af/scons-4.9.1.tar.gz",
-                    "sha256": "bacac880ba2e86d6a156c116e2f8f2bfa82b257046f3ac2666c85c53c615c338"
+                    "url": "https://github.com/myriadrf/LimeSuite/archive/refs/tags/v23.11.0.tar.gz",
+                    "sha256": "fd8a448b92bc5ee4012f0ba58785f3c7e0a4d342b24e26275318802dfe00eb33",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 14710,
+                        "stable-only": true,
+                        "url-template": "https://github.com/myriadrf/LimeSuite/archive/refs/tags/$version.tar.gz"
+                    }
                 }
             ]
         },
         {
             "name": "gpsd",
+            "modules": [
+                {
+                    "name": "scons",
+                    "buildsystem": "simple",
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "http://download.sourceforge.net/scons/scons-3.1.2.tar.gz",
+                            "sha256": "7801f3f62f654528e272df780be10c0e9337e897650b62ddcee9f39fde13f8fb"
+                        }
+                    ],
+                    "build-commands": [
+                        "python3 setup.py install --prefix=/app"
+                    ],
+                    "cleanup": [
+                        "*"
+                    ]
+                }
+            ],
             "buildsystem": "simple",
             "builddir": true,
             "build-commands": [
@@ -300,27 +375,150 @@
                 {
                     "type": "archive",
                     "url": "https://download.savannah.gnu.org/releases/gpsd/gpsd-3.26.1.tar.gz",
-                    "sha256": "dc7e465968c1540e61bc57c7586d6a57a0047212a014efdad348f907bc2e0990"
+                    "sha256": "dc7e465968c1540e61bc57c7586d6a57a0047212a014efdad348f907bc2e0990",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 6846,
+                        "stable-only": true,
+                        "url-template": "https://download.savannah.gnu.org/releases/gpsd/gpsd-$version.tar.gz"
+                    }
                 }
             ]
         },
         {
             "name": "zeromq",
-            "buildsystem": "autotools",
             "sources": [
                 {
                     "type": "archive",
                     "url": "https://github.com/zeromq/libzmq/releases/download/v4.3.5/zeromq-4.3.5.tar.gz",
-                    "sha256": "6653ef5910f17954861fe72332e68b03ca6e4d9c7160eb3a8de5a5a913bfab43"
+                    "sha256": "6653ef5910f17954861fe72332e68b03ca6e4d9c7160eb3a8de5a5a913bfab43",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 16245,
+                        "stable-only": true,
+                        "url-template": "https://github.com/zeromq/libzmq/releases/download/$version/zeromq-$version.tar.gz"
+                    }
                 }
-            ],
+            ]
+        },
+        {
+            "name": "qt6-qtdatavis3d",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://invent.kde.org/qt/qt/qtdatavis3d/-/archive/v6.9.0/qtdatavis3d-v6.9.0.tar.gz",
+                    "sha256": "b504d5da10832eb6dfae85956c4ae0d3aa77d99d3be471e001cfcb8c828809a5",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 7927,
+                        "stable-only": true,
+                        "url-template": "https://invent.kde.org/qt/qt/qtdatavis3d/-/archive/v$version/qtdatavis3d-v$version.tar.gz"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "libsecret",
+            "buildsystem": "meson",
             "config-opts": [
-                "--prefix=/app"
+                "-Dvapi=false",
+                "-Dgtk_doc=false",
+                "-Dmanpage=false"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/libsecret/0.20/libsecret-0.20.5.tar.xz",
+                    "sha256": "3fb3ce340fcd7db54d87c893e69bfc2b1f6e4d4b279065ffe66dac9f0fd12b4d",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 13150,
+                        "stable-only": true,
+                        "url-template": "https://download.gnome.org/sources/libsecret/$version/libsecret-$version.tar.xz"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "qtkeychain",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "config-opts": [
+                "-DBUILD_WITH_QT6=ON"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/frankosterfeld/qtkeychain/archive/refs/tags/0.15.0.tar.gz",
+                    "sha256": "f4254dc8f0933b06d90672d683eab08ef770acd8336e44dfa030ce041dc2ca22",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 4138,
+                        "stable-only": true,
+                        "url-template": "https://github.com/frankosterfeld/qtkeychain/archive/refs/tags/$version.tar.gz"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "opencv",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "config-opts": [
+                "-DBUILD_LIST=core,imgproc,highgui,imgcodecs,videoio",
+                "-DBUILD_EXAMPLES=OFF",
+                "-DBUILD_TESTS=OFF",
+                "-DBUILD_PERF_TESTS=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/opencv/opencv/archive/4.11.0.tar.gz",
+                    "sha256": "9a7c11f924eff5f8d8070e297b322ee68b9227e003fd600d4b8122198091665f",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 6615,
+                        "stable-only": true,
+                        "url-template": "https://github.com/opencv/opencv/archive/$version.tar.gz"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "libftdi1",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/ikarustechnologies/libftdi/archive/refs/tags/v1.5.tar.gz",
+                    "sha256": "09b622f9e7fc40e68a15f9c4495d840dc646a974de2f64f68efad63532e88cae",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 14622,
+                        "stable-only": true,
+                        "url-template": "https://github.com/ikarustechnologies/libftdi/archive/refs/tags/v$version.tar.gz"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "indi",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DINDI_INSTALL_UDEV_RULES=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/indilib/indi.git"
+                }
             ]
         },
         {
             "name": "indi-3rd-party-libraries",
-            "buildsystem": "cmake",
+            "buildsystem": "cmake-ninja",
             "config-opts": [
                 "-DBUILD_LIBS=ON",
                 "-DINDI_INSTALL_UDEV_RULES=OFF",
@@ -336,10 +534,9 @@
         },
         {
             "name": "indi-3rd-party-drivers",
-            "buildsystem": "cmake",
+            "buildsystem": "cmake-ninja",
             "config-opts": [
                 "-DBUILD_LIBS=OFF",
-                "-DCMAKE_PREFIX_PATH=/app",
                 "-DINDI_INSTALL_UDEV_RULES=OFF",
                 "-DINDI_INSTALL_FIRMWARE=OFF"
             ],
@@ -361,7 +558,7 @@
             "sources": [
                 {
                     "type": "dir",
-                    "path": "."
+                    "path": "."                
                 }
             ]
         }
