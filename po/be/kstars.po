@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-02 02:00+0000\n"
+"POT-Creation-Date: 2025-07-03 08:10+0000\n"
 "PO-Revision-Date: 2007-06-25 11:21+0300\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -24644,18 +24644,18 @@ msgstr "Сервер"
 msgid "Internal"
 msgstr "Агульныя"
 
-#: ekos/profileeditor.cpp:684
+#: ekos/profileeditor.cpp:703
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:685
+#: ekos/profileeditor.cpp:704
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr ""
 
-#: ekos/profileeditor.cpp:749
+#: ekos/profileeditor.cpp:768
 #, fuzzy, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Скінуць вылучэнне"
