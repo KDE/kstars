@@ -6,6 +6,7 @@
 #pragma once
 
 #include "config-kstars.h"
+#include "version.h"
 
 #include <KXmlGuiWindow>
 #include <KLocalizedString>
@@ -91,9 +92,19 @@ class KStars : public KXmlGuiWindow
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars")
         Q_SCRIPTABLE Q_PROPERTY(QString colorScheme READ colorScheme WRITE loadColorScheme NOTIFY colorSchemeChanged)
+        Q_SCRIPTABLE Q_PROPERTY(QString version READ version)
+        Q_SCRIPTABLE Q_PROPERTY(QString release READ release)
 
     public:
         Q_SCRIPTABLE QString colorScheme() const;
+        Q_SCRIPTABLE QString version() const
+        {
+            return KSTARS_VERSION;
+        }
+        Q_SCRIPTABLE QString release() const
+        {
+            return KSTARS_BUILD_RELEASE;
+        }
 
     private:
         /**
@@ -157,7 +168,7 @@ class KStars : public KXmlGuiWindow
         const QSharedPointer<FITSViewer> &genericFITSViewer();
         const QSharedPointer<FITSViewer> &createFITSViewer();
         void clearAllViewers();
-        const QList<QSharedPointer<FITSViewer>> &getFITSViewers() const
+        const QList<QSharedPointer<FITSViewer >> &getFITSViewers() const
         {
             return m_FITSViewers;
         }
@@ -906,7 +917,7 @@ class KStars : public KXmlGuiWindow
         HorizonManager *m_HorizonManager { nullptr };
 #ifdef HAVE_CFITSIO
         QSharedPointer<FITSViewer> m_GenericFITSViewer;
-        QList<QSharedPointer<FITSViewer>> m_FITSViewers;
+        QList<QSharedPointer<FITSViewer >> m_FITSViewers;
 #endif
 
 #ifdef HAVE_INDI
