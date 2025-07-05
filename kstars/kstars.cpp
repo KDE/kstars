@@ -120,12 +120,12 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
                                       "    <array>\n"
                                       "        <string>" +
                                       QCoreApplication::applicationDirPath() +
-                                      "/dbus-daemon</string>\n"
-                                      "        <string>--nofork</string>\n"
-                                      "        <string>--config-file=" +
+        "/dbus-daemon</string>\n"
+        "        <string>--nofork</string>\n"
+        "        <string>--config-file=" +
                                       pluginsDir +
-                                      "/dbus/kstars.conf</string>\n"
-                                      "    </array>";
+        "/dbus/kstars.conf</string>\n"
+        "    </array>";
         pListText.replace(currentProgramArgs, newProgramArguments);
         QFile file2(saveDBusPlist);
         if (file2.open(QIODevice::WriteOnly))
@@ -703,7 +703,8 @@ const QSharedPointer<FITSViewer> &KStars::genericFITSViewer()
 void KStars::clearAllViewers()
 {
     for (auto &fv : m_FITSViewers)
-        fv->close();
+        if (fv)
+            fv->close();
 
     m_FITSViewers.clear();
 }
