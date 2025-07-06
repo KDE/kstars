@@ -117,7 +117,10 @@ bool MosaicTiles::fromXML(const QString &filename)
                         else if (!strcmp(subTag, "FinishSequence"))
                             setCompletionCondition(subTag);
                         else if (!strcmp(subTag, "FinishRepeat"))
-                            setCompletionCondition(subTag, pcdataXMLEle(subEP));
+                        {
+                            setCompletionCondition(subTag);
+                            setCompletionConditionArg(pcdataXMLEle(subEP));
+                        }
                         else if (!strcmp(subTag, "FinishSLoop"))
                             setCompletionCondition(subTag);
                         else if (!strcmp(subTag, "Sequence"))

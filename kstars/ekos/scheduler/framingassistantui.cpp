@@ -55,18 +55,18 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     setIsGuideChecked(tiles->isGuideChecked());
     setGridSize(tiles->gridSize());
     setOverlap(tiles->overlap());
+    setCompletionCondition(tiles->completionCondition());
+    setCompletionConditionArg(tiles->completionConditionArg());
 
     ui->groupEdit->setText(tiles->group());
-    QString completionVal, completionArg;
-    completionVal = tiles->completionCondition(&completionArg);
-    if (completionVal == "FinishSequence")
+    if (m_CompletionCondition == "FinishSequence")
         ui->sequenceCompletionR->setChecked(true);
-    else if (completionVal == "FinishRepeat")
+    else if (m_CompletionCondition == "FinishRepeat")
     {
         ui->repeatCompletionR->setChecked(true);
-        ui->repeatsSpin->setValue(completionArg.toInt());
+        ui->repeatsSpin->setValue(m_CompletionConditionArg.toInt());
     }
-    else if (completionVal == "FinishLoop")
+    else if (m_CompletionCondition == "FinishLoop")
         ui->loopCompletionR->setChecked(true);
 
     if (tiles->operationMode() == MosaicTiles::MODE_OPERATION)
@@ -313,6 +313,26 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     connect(ui->focusStepCheck, &QCheckBox::toggled, this, &Ekos::FramingAssistantUI::setIsFocusChecked);
     connect(ui->alignStepCheck, &QCheckBox::toggled, this, &Ekos::FramingAssistantUI::setIsAlignChecked);
     connect(ui->guideStepCheck, &QCheckBox::toggled, this, &Ekos::FramingAssistantUI::setIsGuideChecked);
+    connect(ui->sequenceCompletionR, &QRadioButton::toggled, this, [this](bool checked)
+    {
+        if (checked)
+            setCompletionCondition("FinishSequence");
+    });
+    connect(ui->loopCompletionR, &QRadioButton::toggled, this, [this](bool checked)
+    {
+        if (checked)
+            setCompletionCondition("FinishLoop");
+    });
+    connect(ui->repeatCompletionR, &QRadioButton::toggled, this, [this](bool checked)
+    {
+        if (checked)
+            setCompletionCondition("FinishRepeat");
+    });
+    connect(ui->repeatsSpin, QOverload<int>::of(&QSpinBox::valueChanged), this,
+            [this](int value)
+    {
+        setCompletionConditionArg(QString::number(value));
+    });
 
     // Lazy update for s-shape
     connect(ui->reverseOddRows, &QCheckBox::toggled, this, [&]()
@@ -633,28 +653,19 @@ void FramingAssistantUI::createJobs()
     tiles->setAlignEveryN(m_AlignEveryN);
     tiles->setStepChecks(m_IsTrackChecked, m_IsFocusChecked,
                          m_IsAlignChecked, m_IsGuideChecked);
-
-    if (ui->sequenceCompletionR->isChecked())
-        tiles->setCompletionCondition("FinishSequence", "");
-    else if (ui->loopCompletionR->isChecked())
-        tiles->setCompletionCondition("FinishLoop", "");
-    else if (ui->repeatCompletionR->isChecked())
-        tiles->setCompletionCondition("FinishRepeat", QString("%1").arg(ui->repeatsSpin->value()));
+    tiles->setCompletionCondition(m_CompletionCondition);
+    tiles->setCompletionConditionArg(m_CompletionConditionArg);
 
     tiles->setPositionAngle(ui->positionAngleSpin->value());
     // Start by removing any jobs.
     scheduler->process()->removeAllJobs();
 
-    QString completionVal, completionArg;
-
-    // Completion values are for all tiles.
-    completionVal = tiles->completionCondition(&completionArg);
     QJsonObject completionSettings;
-    if (completionVal == "FinishSequence")
+    if (m_CompletionCondition == "FinishSequence")
         completionSettings = {{"sequenceCheck", true}};
-    else if (completionVal == "FinishRepeat")
-        completionSettings = {{"repeatCheck", true}, {"repeatRuns", completionArg.toInt()}};
-    else if (completionVal == "FinishLoop")
+    else if (m_CompletionCondition == "FinishRepeat")
+        completionSettings = {{"repeatCheck", true}, {"repeatRuns", m_CompletionConditionArg}};
+    else if (m_CompletionCondition == "FinishLoop")
         completionSettings = {{"loopCheck", true}};
 
     int batchCount = 0;
@@ -868,6 +879,8 @@ bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
     setIsFocusChecked(focus);
     setIsAlignChecked(align);
     setIsGuideChecked(guide);
+    setCompletionCondition(payload["completionCondition"].toString());
+    setCompletionConditionArg(payload["completionConditionArg"].toString());
 
     setSequenceFile(sequence);
     setTargetName(target);
@@ -1049,6 +1062,24 @@ void FramingAssistantUI::setIsGuideChecked(bool value)
     m_IsGuideChecked = value;
     ui->guideStepCheck->setChecked(value);
     emit isGuideCheckedChanged(m_IsGuideChecked);
+}
+
+void FramingAssistantUI::setCompletionCondition(const QString &value)
+{
+    if (m_CompletionCondition == value)
+        return;
+
+    m_CompletionCondition = value;
+    emit completionConditionChanged(m_CompletionCondition);
+}
+
+void FramingAssistantUI::setCompletionConditionArg(const QString &value)
+{
+    if (m_CompletionConditionArg == value)
+        return;
+
+    m_CompletionConditionArg = value;
+    emit completionConditionArgChanged(m_CompletionConditionArg);
 }
 
 }
