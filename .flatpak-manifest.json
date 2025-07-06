@@ -1,6 +1,6 @@
 {
     "id": "org.kde.kstars",
-    "branch": "nightly",
+    "branch": "master",
     "runtime": "org.kde.Platform",
     "runtime-version": "6.9",
     "sdk": "org.kde.Sdk",
