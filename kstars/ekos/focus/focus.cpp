@@ -2697,64 +2697,67 @@ void Focus::setCurrentMeasure()
     if (lastHFR == INVALID_STAR_MEASURE)
         appendLogText(i18n("FITS received. No stars detected."));
 
-    // If we have a valid HFR value
-    if (!isStarMeasureStarBased() || currentHFR > 0)
+    if (isStarMeasureStarBased())
     {
-        // Check if we're done from polynomial fitting algorithm
-        if (m_FocusAlgorithm == FOCUS_POLYNOMIAL && isVShapeSolution)
+        // If we have a valid HFR value
+        if (currentHFR > 0)
         {
-            completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE);
-            return;
-        }
+            // Check if we're done from polynomial fitting algorithm
+            if (m_FocusAlgorithm == FOCUS_POLYNOMIAL && isVShapeSolution)
+            {
+                completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE);
+                return;
+            }
 
-        Edge selectedHFRStarHFR = m_ImageData->getSelectedHFRStar();
+            Edge selectedHFRStarHFR = m_ImageData->getSelectedHFRStar();
 
-        // Center tracking box around selected star (if it valid) either in:
-        // 1. Autofocus
-        // 2. CheckFocus (minimumHFRCheck)
-        // The starCenter _must_ already be defined, otherwise, we proceed until
-        // the latter half of the function searches for a star and define it.
-        if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0))
-        {
-            // Now we have star selected in the frame
-            starSelected = true;
-            starCenter.setX(qMax(0, static_cast<int>(selectedHFRStarHFR.x)));
-            starCenter.setY(qMax(0, static_cast<int>(selectedHFRStarHFR.y)));
+            // Center tracking box around selected star (if it valid) either in:
+            // 1. Autofocus
+            // 2. CheckFocus (minimumHFRCheck)
+            // The starCenter _must_ already be defined, otherwise, we proceed until
+            // the latter half of the function searches for a star and define it.
+            if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0))
+            {
+                // Now we have star selected in the frame
+                starSelected = true;
+                starCenter.setX(qMax(0, static_cast<int>(selectedHFRStarHFR.x)));
+                starCenter.setY(qMax(0, static_cast<int>(selectedHFRStarHFR.y)));
 
-            syncTrackingBoxPosition();
+                syncTrackingBoxPosition();
 
-            // Record the star information (X, Y, currentHFR)
-            QVector3D oneStar = starCenter;
-            oneStar.setZ(currentHFR);
-            starsHFR.append(oneStar);
+                // Record the star information (X, Y, currentHFR)
+                QVector3D oneStar = starCenter;
+                oneStar.setZ(currentHFR);
+                starsHFR.append(oneStar);
+            }
+            else
+            {
+                // Record the star information (X, Y, currentHFR)
+                QVector3D oneStar(starCenter.x(), starCenter.y(), currentHFR);
+                starsHFR.append(oneStar);
+            }
+
+            if (currentHFR > maxHFR)
+                maxHFR = currentHFR;
+
+            // Append point to the #Iterations vs #HFR chart in case of looping or in case in autofocus with a focus
+            // that does not support position feedback.
+
+            // If inAutoFocus is true without canAbsMove and without canRelMove, canTimerMove must be true.
+            // We'd only want to execute this if the focus linear algorithm is not being used, as that
+            // algorithm simulates a position-based system even for timer-based focusers.
+            if (inFocusLoop || (inAutoFocus && ! isPositionBased()))
+            {
+                int pos = plot_position.empty() ? 1 : plot_position.last() + 1;
+                addPlotPosition(pos, currentMeasure);
+            }
         }
         else
         {
-            // Record the star information (X, Y, currentHFR)
-            QVector3D oneStar(starCenter.x(), starCenter.y(), currentHFR);
+            // Let's record an invalid star result
+            QVector3D oneStar(starCenter.x(), starCenter.y(), INVALID_STAR_MEASURE);
             starsHFR.append(oneStar);
         }
-
-        if (currentHFR > maxHFR)
-            maxHFR = currentHFR;
-
-        // Append point to the #Iterations vs #HFR chart in case of looping or in case in autofocus with a focus
-        // that does not support position feedback.
-
-        // If inAutoFocus is true without canAbsMove and without canRelMove, canTimerMove must be true.
-        // We'd only want to execute this if the focus linear algorithm is not being used, as that
-        // algorithm simulates a position-based system even for timer-based focusers.
-        if (inFocusLoop || (inAutoFocus && ! isPositionBased()))
-        {
-            int pos = plot_position.empty() ? 1 : plot_position.last() + 1;
-            addPlotPosition(pos, currentMeasure);
-        }
-    }
-    else
-    {
-        // Let's record an invalid star result
-        QVector3D oneStar(starCenter.x(), starCenter.y(), INVALID_STAR_MEASURE);
-        starsHFR.append(oneStar);
     }
 
     // First check that we haven't already search for stars
