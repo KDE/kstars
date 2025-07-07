@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>516</width>
-    <height>445</height>
+    <width>578</width>
+    <height>529</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -724,7 +724,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -743,7 +743,7 @@
       <item row="0" column="1">
        <widget class="QDoubleSpinBox" name="focusTimeDilation">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -770,6 +770,9 @@
       </item>
       <item row="0" column="2">
        <widget class="QLabel" name="label_2">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -786,6 +789,9 @@
       </item>
       <item row="0" column="3">
        <widget class="QDoubleSpinBox" name="focusOutlierRejection">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -835,6 +841,9 @@
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="1" column="2">
        <widget class="QLabel" name="label_4">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -851,6 +860,9 @@
       </item>
       <item row="1" column="3">
        <widget class="QDoubleSpinBox" name="focusScanStepSizeFactor">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -873,6 +885,9 @@
       </item>
       <item row="0" column="0" colspan="2">
        <widget class="QCheckBox" name="focusScanAlwaysOn">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -892,6 +907,9 @@
       </item>
       <item row="0" column="2">
        <widget class="QLabel" name="label_3">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -905,6 +923,9 @@
       </item>
       <item row="0" column="3">
        <widget class="QSpinBox" name="focusScanDatapoints">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>

@@ -510,18 +510,37 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
 
     profileDriversModel->clear();
 
-    const QStringList reservedKeys = { "name", "auto_connect", "port_selector", "mode", "remote_host", "remote_port", "guiding", "remote_guiding_host", "remote_guiding_port", "use_web_manager", "remote"};
-
-    for (const auto &key : profile.keys())
+    // If we have drivers key, then it's just a list of all driver labels
+    if (profile.contains("drivers"))
     {
-        if (!reservedKeys.contains(key))
+        const auto driversList = profile["drivers"].toArray();
+        for (const auto &oneLabel : driversList)
         {
-            QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(profile[key].toString());
+            QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(oneLabel.toString());
             if (driverInfo)
             {
                 QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), driverInfo->getLabel());
                 item->setEditable(false);
                 profileDriversModel->appendRow(item);
+            }
+        }
+    }
+    // Otherwise fallback to old key:value system like mount: "Telescope Simulator", ccd: "CCD Simulator"..etc.
+    else
+    {
+        const QStringList reservedKeys = { "name", "auto_connect", "port_selector", "mode", "remote_host", "remote_port", "guiding", "remote_guiding_host", "remote_guiding_port", "use_web_manager", "remote"};
+
+        for (const auto &key : profile.keys())
+        {
+            if (!reservedKeys.contains(key))
+            {
+                QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(profile[key].toString());
+                if (driverInfo)
+                {
+                    QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), driverInfo->getLabel());
+                    item->setEditable(false);
+                    profileDriversModel->appendRow(item);
+                }
             }
         }
     }

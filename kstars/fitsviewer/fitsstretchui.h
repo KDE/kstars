@@ -28,6 +28,7 @@ class FITSStretchUI : public QWidget, public Ui::FITSStretchUI
         void setupHistoSlider();
         void setStretchUIValues(const StretchParams1Channel &params);
         void setupConnections();
+        void setupPresetText(bool enabled);
         void onHistoDoubleClick(QMouseEvent *event);
         void onHistoMouseMove(QMouseEvent *event);
 
@@ -39,5 +40,6 @@ class FITSStretchUI : public QWidget, public Ui::FITSStretchUI
         QCPItemLine *minCursor = nullptr;
         QCPItemLine *maxCursor = nullptr;
         QVector<QCPItemLine*> pixelCursors;
+        int m_StretchPresetNumber = 1;
 };
 

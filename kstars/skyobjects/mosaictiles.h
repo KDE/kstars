@@ -193,15 +193,21 @@ class MosaicTiles : public SkyObject
         {
             m_Group = value;
         }
-        const QString &completionCondition(QString *arg) const
+        const QString &completionCondition() const
         {
-            *arg = m_CompletionConditionArg;
             return m_CompletionCondition;
         }
-        void setCompletionCondition(const QString &value, const QString &arg = "")
+        void setCompletionCondition(const QString &value)
         {
             m_CompletionCondition = value;
-            m_CompletionConditionArg = arg;
+        }
+        const QString  &completionConditionArg() const
+        {
+            return m_CompletionConditionArg;
+        }
+        void setCompletionConditionArg(const QString &value)
+        {
+            m_CompletionConditionArg = value;
         }
 
         const QString &sequenceFile() const
@@ -268,7 +274,6 @@ class MosaicTiles : public SkyObject
         std::shared_ptr<OneTile> oneTile(int row, int col);
 
     private:
-
         // Overall properties
         double m_FocalLength {0};
         double m_FocalReducer {1};

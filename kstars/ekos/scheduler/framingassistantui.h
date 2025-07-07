@@ -43,6 +43,10 @@ class FramingAssistantUI : public QDialog
         Q_PROPERTY(bool isFocusChecked READ isFocusChecked WRITE setIsFocusChecked NOTIFY isFocusCheckedChanged)
         Q_PROPERTY(bool isAlignChecked READ isAlignChecked WRITE setIsAlignChecked NOTIFY isAlignCheckedChanged)
         Q_PROPERTY(bool isGuideChecked READ isGuideChecked WRITE setIsGuideChecked NOTIFY isGuideCheckedChanged)
+        Q_PROPERTY(QString completionCondition READ completionCondition WRITE setCompletionCondition NOTIFY
+                   completionConditionChanged)
+        Q_PROPERTY(QString completionConditionArg READ completionConditionArg WRITE setCompletionConditionArg NOTIFY
+                   completionConditionArgChanged)
     public:
 
         FramingAssistantUI();
@@ -133,6 +137,18 @@ class FramingAssistantUI : public QDialog
             return m_IsGuideChecked;
         }
 
+        Q_INVOKABLE void setCompletionCondition(const QString &value);
+        const QString &completionCondition() const
+        {
+            return m_CompletionCondition;
+        }
+
+        Q_INVOKABLE void setCompletionConditionArg(const QString &value);
+        const QString  &completionConditionArg() const
+        {
+            return m_CompletionConditionArg;
+        }
+
         Q_INVOKABLE void createJobs();
 
     protected:
@@ -196,6 +212,8 @@ class FramingAssistantUI : public QDialog
         void isFocusCheckedChanged(bool value);
         void isAlignCheckedChanged(bool value);
         void isGuideCheckedChanged(bool value);
+        void completionConditionChanged(const QString &value);
+        void completionConditionArgChanged(const QString &value);
 
     private:
 
@@ -226,5 +244,7 @@ class FramingAssistantUI : public QDialog
         bool m_IsFocusChecked { false };
         bool m_IsAlignChecked { false };
         bool m_IsGuideChecked { false };
+        QString m_CompletionCondition {"FinishSequence"};
+        QString m_CompletionConditionArg { "1" };
 };
 }

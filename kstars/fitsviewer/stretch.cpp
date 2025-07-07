@@ -8,6 +8,9 @@
 #include <fitsio.h>
 #include <math.h>
 #include <QtConcurrent>
+#include "Options.h"
+
+int Stretch::m_NumPresets = 7;
 
 namespace
 {
@@ -222,7 +225,7 @@ void stretchChannels(T *input_buffer, QImage *output_image,
 // See section 8.5.7 in above link  https://pixinsight.com/doc/docs/XISF-1.0-spec/XISF-1.0-spec.html
 template <typename T>
 void computeParamsOneChannel(T const *buffer, StretchParams1Channel *params,
-                             int inputRange, int height, int width)
+                             int inputRange, int height, int width, float B, float C)
 {
     // Find the median sample.
     constexpr int maxSamples = 500000;
@@ -248,13 +251,12 @@ void computeParamsOneChannel(T const *buffer, StretchParams1Channel *params,
     const bool upperHalf = normalizedMedian > 0.5;
 
     const float shadows = (upperHalf || MADN == 0) ? 0.0 :
-                          fmin(1.0, fmax(0.0, (normalizedMedian + -2.8 * MADN)));
+                          fmin(1.0, fmax(0.0, (normalizedMedian + -C * MADN)));
 
     const float highlights = (!upperHalf || MADN == 0) ? 1.0 :
-                             fmin(1.0, fmax(0.0, (normalizedMedian - -2.8 * MADN)));
+                             fmin(1.0, fmax(0.0, (normalizedMedian - -C * MADN)));
 
     float X, M;
-    constexpr float B = 0.25;
     if (!upperHalf)
     {
         X = normalizedMedian - shadows;
@@ -373,8 +375,48 @@ void Stretch::recalculateInputRange(uint8_t const *input)
     if (mx <= 1.01f) input_range = 1;
 }
 
-StretchParams Stretch::computeParams(uint8_t const *input)
+// If this changes, make sure m_NumPresets is set properly. Currently 7.
+void Stretch::setupStretchPreset(int preset)
 {
+    switch(preset)
+    {
+        case 1:
+        default:
+            m_stretchB = 0.25;
+            m_stretchC = 2.8;
+            break;
+        case 2:
+            m_stretchB = 0.25;
+            m_stretchC = 1.5;
+            break;
+        case 3:
+            m_stretchB = 0.125;
+            m_stretchC = 1.0;
+            break;
+        case 4:
+            m_stretchB = 0.125;
+            m_stretchC = 0.5;
+            break;
+        case 5:
+            m_stretchB = 0.125;
+            m_stretchC = 2.0;
+            break;
+        case 6:
+            m_stretchB = 0.125;
+            m_stretchC = 4.0;
+            break;
+        case 7:
+            m_stretchB = 0.25;
+            m_stretchC = 5.5;
+            break;
+
+    }
+}
+
+StretchParams Stretch::computeParams(uint8_t const *input, int preset)
+{
+    fprintf(stderr, "Computing autostretch with preset %d\n", preset);
+    setupStretchPreset(preset);
     recalculateInputRange(input);
     StretchParams result;
     for (int channel = 0; channel < image_channels; ++channel)
@@ -388,49 +430,49 @@ StretchParams Stretch::computeParams(uint8_t const *input)
             {
                 auto buffer = reinterpret_cast<uint8_t const*>(input);
                 computeParamsOneChannel(buffer + offset, params, input_range,
-                                        image_height, image_width);
+                                        image_height, image_width, m_stretchB, m_stretchC);
                 break;
             }
             case TSHORT:
             {
                 auto buffer = reinterpret_cast<short const*>(input);
                 computeParamsOneChannel(buffer + offset, params, input_range,
-                                        image_height, image_width);
+                                        image_height, image_width, m_stretchB, m_stretchC);
                 break;
             }
             case TUSHORT:
             {
                 auto buffer = reinterpret_cast<unsigned short const*>(input);
                 computeParamsOneChannel(buffer + offset, params, input_range,
-                                        image_height, image_width);
+                                        image_height, image_width, m_stretchB, m_stretchC);
                 break;
             }
             case TLONG:
             {
                 auto buffer = reinterpret_cast<long const*>(input);
                 computeParamsOneChannel(buffer + offset, params, input_range,
-                                        image_height, image_width);
+                                        image_height, image_width, m_stretchB, m_stretchC);
                 break;
             }
             case TFLOAT:
             {
                 auto buffer = reinterpret_cast<float const*>(input);
                 computeParamsOneChannel(buffer + offset, params, input_range,
-                                        image_height, image_width);
+                                        image_height, image_width, m_stretchB, m_stretchC);
                 break;
             }
             case TLONGLONG:
             {
                 auto buffer = reinterpret_cast<long long const*>(input);
                 computeParamsOneChannel(buffer + offset, params, input_range,
-                                        image_height, image_width);
+                                        image_height, image_width, m_stretchB, m_stretchC);
                 break;
             }
             case TDOUBLE:
             {
                 auto buffer = reinterpret_cast<double const*>(input);
                 computeParamsOneChannel(buffer + offset, params, input_range,
-                                        image_height, image_width);
+                                        image_height, image_width, m_stretchB, m_stretchC);
                 break;
             }
             default:

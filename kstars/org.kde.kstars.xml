@@ -2,6 +2,8 @@
 <node>
   <interface name="org.kde.kstars">
     <property name="colorScheme" type="s" access="readwrite"/>
+    <property name="version" type="s" access="read"/>
+    <property name="release" type="s" access="read"/>
     <method name="setRaDec">
       <arg name="ra" type="d" direction="in"/>
       <arg name="dec" type="d" direction="in"/>

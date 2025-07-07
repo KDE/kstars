@@ -65,8 +65,9 @@ class Stretch
 
         /**
          * @brief computeParams Automatically generates and sets stretch parameters from the image.
+         * @param preset Choose among several stretching variants that can be used.
          */
-        StretchParams computeParams(const uint8_t *input);
+        StretchParams computeParams(const uint8_t *input, int preset = 1);
 
         /**
          * @brief run run the stretch algorithm according to the params given
@@ -80,9 +81,28 @@ class Stretch
          */
         void run(uint8_t const *input, QImage *output_image, int sampling=1);
 
+        static int numPresets()
+        {
+            return m_NumPresets;
+        }
+        static int nextPreset(int preset)
+        {
+            preset++;
+            if (preset > m_NumPresets)
+                preset = 1;
+            return preset;
+        }
+
  private:
         // Adjusts input_range for float and double types.
         void recalculateInputRange(const uint8_t *input);
+
+        // Changes 2 stretch parameters depending on the preset.
+        void setupStretchPreset(int preset);
+
+        // This is the equivalent of preset 1.
+        float m_stretchB = 0.25;
+        float m_stretchC = 2.8;
 
         // Inputs.
         int image_width;
@@ -90,6 +110,8 @@ class Stretch
         int image_channels;
         int input_range;
         int dataType;
+
+        static int m_NumPresets;
   
         // Parameters.
         StretchParams params;
