@@ -415,7 +415,6 @@ void Stretch::setupStretchPreset(int preset)
 
 StretchParams Stretch::computeParams(uint8_t const *input, int preset)
 {
-    fprintf(stderr, "Computing autostretch with preset %d\n", preset);
     setupStretchPreset(preset);
     recalculateInputRange(input);
     StretchParams result;
