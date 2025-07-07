@@ -306,9 +306,9 @@ void PolarAlignmentAssistant::drawArrows(double azError, double altError)
     constexpr double minError = 20.0 / 3600.0;  // 20 arcsec
     double absError = fabs(altError);
 
-    // these constants are worked out so a 10' error gives a size of 100
+    // these constants are worked out so a 10' error gives a size of 50
     // and a 1' error gives a size of 20.
-    constexpr double largeErr = 10.0 / 60.0, smallErr = 1.0 / 60.0, largeSize = 100, smallSize = 20, c1 = 533.33, c2 = 11.111;
+    constexpr double largeErr = 10.0 / 60.0, smallErr = 1.0 / 60.0, largeSize = 50, smallSize = 20, c1 = 533.33, c2 = 11.111;
 
     int size = 0;
     if (absError > largeErr)

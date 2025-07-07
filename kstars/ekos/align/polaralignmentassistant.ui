@@ -466,72 +466,8 @@
         </spacer>
        </item>
        <item>
-        <layout class="QGridLayout" name="PAHErrorLines" rowstretch="0,0,0" columnstretch="0,0,0,0,0,0,0">
-         <item row="0" column="2" colspan="2" alignment="Qt::AlignHCenter">
-          <widget class="QLabel" name="arrowAlt">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="4" colspan="2" alignment="Qt::AlignHCenter">
-          <widget class="QLabel" name="arrowAz">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_PAHOrigErrorTotal">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Polar Alignment total error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
-           </property>
-           <property name="text">
-            <string>Measured Err:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLabel" name="PAHOrigErrorTotal">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Polar Alignment total error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
+        <layout class="QGridLayout" name="PAHErrorLines" rowstretch="0,0" columnstretch="0,0,0,0,0,0,0,0,1">
+         <item row="0" column="2">
           <widget class="QLabel" name="label_PAHOrigErrorAlt">
            <property name="minimumSize">
             <size>
@@ -556,8 +492,8 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="3">
-          <widget class="QLabel" name="PAHOrigErrorAlt">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_PAHOrigErrorTotal">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -571,37 +507,18 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Polar Alignment altitude error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="4">
-          <widget class="QLabel" name="label_PAHOrigErrorAz">
-           <property name="minimumSize">
-            <size>
-             <width>50</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>50</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Polar Alignment azimuth error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
+            <string>Polar Alignment total error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
            </property>
            <property name="text">
-            <string>Az:</string>
+            <string>Measured Err:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="1" column="5">
-          <widget class="QLabel" name="PAHOrigErrorAz">
+         <item row="0" column="1">
+          <widget class="QLabel" name="PAHOrigErrorTotal">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -615,24 +532,11 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Polar Alignment azimuth error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
+            <string>Polar Alignment total error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="6">
-          <spacer name="horizontalSpacer_origError">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="2" column="0">
+         <item row="1" column="0">
           <widget class="QLabel" name="label_PAHUpdatedErrorTotal">
            <property name="minimumSize">
             <size>
@@ -657,8 +561,21 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QLabel" name="PAHUpdatedErrorTotal">
+         <item row="1" column="8">
+          <spacer name="horizontalSpacer_updatedError">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="PAHOrigErrorAlt">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -672,12 +589,12 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Polar Alignment total error estimated after recent adjustments.</string>
+            <string>Polar Alignment altitude error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="2">
-          <widget class="QLabel" name="label_PAHUpdatedErrorAlt">
+         <item row="0" column="5">
+          <widget class="QLabel" name="label_PAHOrigErrorAz">
            <property name="minimumSize">
             <size>
              <width>50</width>
@@ -691,18 +608,18 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Polar Alignment altitude error estimated after recent adjustments.</string>
+            <string>Polar Alignment azimuth error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
            </property>
            <property name="text">
-            <string/>
+            <string>Az:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="2" column="3">
-          <widget class="QLabel" name="PAHUpdatedErrorAlt">
+         <item row="0" column="6">
+          <widget class="QLabel" name="PAHOrigErrorAz">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -711,16 +628,16 @@
            </property>
            <property name="maximumSize">
             <size>
-             <width>50</width>
+             <width>100</width>
              <height>16777215</height>
             </size>
            </property>
            <property name="toolTip">
-            <string>Polar Alignment altitude error estimated after recent adjustments.</string>
+            <string>Polar Alignment azimuth error measured by the 3 exposures at the start of the polar-alignment procedure.</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="4">
+         <item row="1" column="5">
           <widget class="QLabel" name="label_PAHUpdatedErrorAz">
            <property name="minimumSize">
             <size>
@@ -745,7 +662,80 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="5">
+         <item row="0" column="4" rowspan="2" alignment="Qt::AlignVCenter">
+          <widget class="QLabel" name="arrowAlt">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_PAHUpdatedErrorAlt">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Polar Alignment altitude error estimated after recent adjustments.</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLabel" name="PAHUpdatedErrorAlt">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Polar Alignment altitude error estimated after recent adjustments.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="PAHUpdatedErrorTotal">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Polar Alignment total error estimated after recent adjustments.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="6">
           <widget class="QLabel" name="PAHUpdatedErrorAz">
            <property name="minimumSize">
             <size>
@@ -764,8 +754,8 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="6">
-          <spacer name="horizontalSpacer_updatedError">
+         <item row="1" column="8">
+          <spacer name="horizontalSpacer_origError">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -776,6 +766,16 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="0" column="7" rowspan="2" alignment="Qt::AlignVCenter">
+          <widget class="QLabel" name="arrowAz">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
