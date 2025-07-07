@@ -7,13 +7,13 @@
 #include "fitsview.h"
 #include "fitsdata.h"
 #include "Options.h"
+#include "stretch.h"
 
 #include <KMessageBox>
 
 namespace
 {
 
-const char kAutoToolTip[] = "Automatically find stretch parameters";
 const char kStretchOffToolTip[] = "Stretch the image";
 const char kStretchOnToolTip[] = "Disable stretching of the image.";
 
@@ -62,6 +62,7 @@ void FITSStretchUI::setupButtons()
     stretchButton->setIcon(QIcon::fromTheme("transform-move"));
     toggleHistoButton->setIcon(QIcon::fromTheme("histogram-symbolic"));
     autoButton->setIcon(QIcon::fromTheme("tools-wizard"));
+    setupPresetText(true);
 }
 
 void FITSStretchUI::setupHistoPlot()
@@ -223,28 +224,36 @@ void FITSStretchUI::setStretchUIValues(const StretchParams1Channel &params)
     {
         stretchButton->setChecked(true);
         stretchButton->setToolTip(kStretchOnToolTip);
+
+        if (m_View->getAutoStretch())
+        {
+            setupPresetText(true);
+            autoButton->setEnabled(false);
+            autoButton->setIcon(QIcon());
+            autoButton->setIconSize(QSize(22, 22));
+            autoButton->setToolTip("");
+        }
+        else
+        {
+            autoButton->setEnabled(true);
+            autoButton->setIcon(QIcon::fromTheme("tools-wizard"));
+            autoButton->setIconSize(QSize(22, 22));
+            autoButton->setToolTip(i18n("Stretch using preset %1", m_StretchPresetNumber));
+            setupPresetText(false);
+        }
     }
     else
     {
         stretchButton->setChecked(false);
         stretchButton->setToolTip(kStretchOffToolTip);
-    }
 
-    // Only activate the auto button if stretching is on and auto-stretching is not set.
-    if (stretchActive && !m_View->getAutoStretch())
-    {
-        autoButton->setEnabled(true);
-        autoButton->setIcon(QIcon::fromTheme("tools-wizard"));
-        autoButton->setIconSize(QSize(22, 22));
-        autoButton->setToolTip(kAutoToolTip);
-    }
-    else
-    {
+        setupPresetText(false);
         autoButton->setEnabled(false);
         autoButton->setIcon(QIcon());
         autoButton->setIconSize(QSize(22, 22));
         autoButton->setToolTip("");
     }
+
     autoButton->setChecked(m_View->getAutoStretch());
 
     // Disable most of the UI if stretching is not active.
@@ -319,6 +328,8 @@ void FITSStretchUI::setupConnections()
 
     connect(stretchButton, &QPushButton::clicked, this, [ = ]()
     {
+        setupPresetText(!m_View->isImageStretched());
+
         // This will toggle whether we're currently stretching.
         m_View->setStretch(!m_View->isImageStretched());
     });
@@ -329,9 +340,22 @@ void FITSStretchUI::setupConnections()
         // If we're already using automatic parameters, don't do anything.
         // User can just move the sliders to take manual control.
         if (!m_View->getAutoStretch())
+        {
+            m_View->setAutoStretchPreset(m_StretchPresetNumber);
             m_View->setAutoStretchParams();
+        }
         else
             KMessageBox::information(this, "You are already using automatic stretching. To manually stretch, drag a slider.");
+        setStretchUIValues(m_View->getStretchParams().grey_red);
+    });
+
+    connect(stretchPreset, &QPushButton::clicked, this, [ = ]()
+    {
+        m_StretchPresetNumber = Stretch::nextPreset(m_StretchPresetNumber);
+        setupPresetText(true);
+
+        m_View->setAutoStretchPreset(m_StretchPresetNumber);
+        m_View->setAutoStretchParams();
         setStretchUIValues(m_View->getStretchParams().grey_red);
     });
 
@@ -356,6 +380,24 @@ void FITSStretchUI::setupConnections()
     });
 }
 
+void FITSStretchUI::setupPresetText(bool enabled)
+{
+    if (enabled)
+    {
+        stretchPreset->setEnabled(true);
+        const int next = Stretch::nextPreset(m_StretchPresetNumber);
+        stretchPreset->setToolTip(
+            i18n("Cycle through stretch presets. Current stretch: preset %1. "
+                 "Click for preset %2.", m_StretchPresetNumber, next));
+        stretchPreset->setText(QString("%1").arg(m_StretchPresetNumber));
+    }
+    else
+    {
+        stretchPreset->setEnabled(false);
+        stretchPreset->setToolTip("");
+        stretchPreset->setText("");
+    }
+}
 
 namespace
 {
@@ -451,6 +493,9 @@ void FITSStretchUI::generateHistogram()
         if (tUpper > histogramSize + 1) tUpper = histogramSize + 1;
         if (tLower != newRange.lower || tUpper != newRange.upper)
             histoPlot->xAxis->setRange(tLower, tUpper);
+
+        histoSlider->setMinimum(std::max(0.0, HISTO_SLIDER_MAX * tLower / histogramSize));
+        histoSlider->setMaximum(std::min((double)HISTO_SLIDER_MAX, HISTO_SLIDER_MAX * tUpper / histogramSize));
     });
 }
 

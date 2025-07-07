@@ -254,6 +254,9 @@ int ctk3SliderPrivate::pixelPosFromRangeValue( int val ) const
 // Draw slider at the bottom end of the range
 void ctk3SliderPrivate::drawMinimumSlider( QStylePainter* painter ) const
 {
+    if (m_MinimumPosition > q_ptr->maximum() || m_MinimumPosition < q_ptr->minimum() )
+        return;
+
     Q_Q(const ctk3Slider);
     QStyleOptionSlider option;
     q->initMinimumSliderStyleOption( &option );
@@ -279,6 +282,9 @@ void ctk3SliderPrivate::drawMinimumSlider( QStylePainter* painter ) const
 // Draw slider at the top end of the range
 void ctk3SliderPrivate::drawMaximumSlider( QStylePainter* painter ) const
 {
+    if (m_MaximumPosition > q_ptr->maximum() || m_MaximumPosition < q_ptr->minimum() )
+        return;
+
     Q_Q(const ctk3Slider);
     QStyleOptionSlider option;
     q->initMaximumSliderStyleOption( &option );
@@ -303,6 +309,9 @@ void ctk3SliderPrivate::drawMaximumSlider( QStylePainter* painter ) const
 // Draw the mid slider
 void ctk3SliderPrivate::drawMidSlider( QStylePainter* painter ) const
 {
+    if (m_MidPosition > q_ptr->maximum() || m_MidPosition < q_ptr->minimum() )
+        return;
+
     Q_Q(const ctk3Slider);
     QStyleOptionSlider option;
     q->initMidSliderStyleOption( &option );
@@ -471,12 +480,11 @@ void ctk3Slider::setValues(int l, int m, int u)
 {
     Q_D(ctk3Slider);
     sortLMU(l, m, u);
-    const int minValue =
-        qBound(this->minimum(), l, this->maximum());
-    const int maxValue =
-        qBound(this->minimum(), u, this->maximum());
-    const int midValue =
-        qBound(this->minimum(), m, this->maximum());
+
+    // Can't bound with this->minimum() or maximum() when the system is zoomed in.
+    const int minValue = l;
+    const int maxValue = u;
+    const int midValue = m;
 
     bool emitMinValChanged = (minValue != d->m_MinimumValue);
     bool emitMaxValChanged = (maxValue != d->m_MaximumValue);
@@ -590,12 +598,11 @@ void ctk3Slider::setPositions(int min, int mid, int max)
 {
     Q_D(ctk3Slider);
     sortLMU(min, mid, max);
-    const int minPosition =
-        qBound(this->minimum(), min, this->maximum());
-    const int maxPosition =
-        qBound(this->minimum(), max, this->maximum());
-    const int midPosition =
-        qBound(this->minimum(), mid, this->maximum());
+
+    // Can't bound with this->minimum() or maximum() when the system is zoomed in.
+    const int minPosition = min;
+    const int maxPosition = max;
+    const int midPosition = mid;
 
     bool emitMinPosChanged = (minPosition != d->m_MinimumPosition);
     bool emitMaxPosChanged = (maxPosition != d->m_MaximumPosition);
@@ -646,7 +653,6 @@ void ctk3Slider::onRangeChanged(int _minimum, int _maximum)
     Q_UNUSED(_minimum);
     Q_UNUSED(_maximum);
     Q_D(ctk3Slider);
-    this->setValues(d->m_MinimumValue, d->m_MidValue, d->m_MaximumValue);
 }
 
 // --------------------------------------------------------------------------
