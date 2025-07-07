@@ -23,6 +23,7 @@
 #include <KLocalizedString>
 #include <QFileDialog>
 #include <QtDBus/QDBusReply>
+#include "kstarsdata.h"
 
 namespace Ekos
 {
@@ -1080,6 +1081,17 @@ void FramingAssistantUI::setCompletionConditionArg(const QString &value)
 
     m_CompletionConditionArg = value;
     emit completionConditionArgChanged(m_CompletionConditionArg);
+}
+
+void FramingAssistantUI::setCenter(double ra0, double dec0)
+{
+    m_CenterPoint.setRA0(ra0 / 15.0);
+    m_CenterPoint.setDec0(dec0);
+
+    m_CenterPoint.updateCoordsNow(KStarsData::Instance()->updateNum());
+    ui->raBox->show(m_CenterPoint.ra0());
+    ui->decBox->show(m_CenterPoint.dec0());
+    m_DebounceTimer->start();
 }
 
 }

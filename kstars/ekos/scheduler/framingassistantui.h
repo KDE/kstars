@@ -151,6 +151,13 @@ class FramingAssistantUI : public QDialog
 
         Q_INVOKABLE void createJobs();
 
+        /**
+         * @brief setCenter Sets the center point of the framing assistant.
+         * @param ra0 Right Ascension in degrees.
+         * @param dec0 Declination in degrees.
+         */
+        Q_INVOKABLE void setCenter(double ra0, double dec0);
+
     protected:
         /// @brief Camera information validity checker.
         bool isEquipmentValid() const;
