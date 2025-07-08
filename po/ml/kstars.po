@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-07 01:55+0000\n"
+"POT-Creation-Date: 2025-07-08 01:59+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -611,7 +611,7 @@ msgstr ""
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:654
-#: ekos/scheduler/framingassistantui.cpp:823
+#: ekos/scheduler/framingassistantui.cpp:824
 #, kde-format
 msgid "Sorry"
 msgstr ""
@@ -817,10 +817,10 @@ msgstr ""
 msgid "Cannot write %s %1: %2"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:185
-#: ekos/scheduler/framingassistantui.cpp:200
-#: ekos/scheduler/framingassistantui.cpp:911
-#: ekos/scheduler/framingassistantui.cpp:930 skyobjects/ksplanetbase.h:60
+#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:186
+#: ekos/scheduler/framingassistantui.cpp:201
+#: ekos/scheduler/framingassistantui.cpp:912
+#: ekos/scheduler/framingassistantui.cpp:931 skyobjects/ksplanetbase.h:60
 #, fuzzy, kde-format
 msgid "unnamed"
 msgstr "ഖഗോളവസ്തുവിനെ തിരയല്‍"
@@ -4697,7 +4697,7 @@ msgstr "സമയ മേഖല ഉറപ്പിക്കുക: "
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorAz)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: dialogs/focusdialog.ui:151 ekos/align/polaralignmentassistant.ui:596
+#: dialogs/focusdialog.ui:151 ekos/align/polaralignmentassistant.ui:614
 #: ekos/capture/calibrationoptions.ui:73 tools/argsetaltaz.ui:30
 #: tools/modcalcplanets.ui:303
 #, kde-format
@@ -9994,26 +9994,10 @@ msgstr "ചന്ദ്ര മാപനം"
 msgid "Move Star & Calc Error"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorTotal)
-#. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:505
-#: ekos/align/polaralignmentassistant.ui:530
-#, kde-format
-msgid ""
-"Polar Alignment total error measured by the 3 exposures at the start of the "
-"polar-alignment procedure."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:508
-#, kde-format
-msgid "Measured Err:"
-msgstr ""
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorAlt)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorAlt)
-#: ekos/align/polaralignmentassistant.ui:549
-#: ekos/align/polaralignmentassistant.ui:574
+#: ekos/align/polaralignmentassistant.ui:485
+#: ekos/align/polaralignmentassistant.ui:592
 #, kde-format
 msgid ""
 "Polar Alignment altitude error measured by the 3 exposures at the start of "
@@ -10024,51 +10008,67 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/align/polaralignmentassistant.ui:552
+#: ekos/align/polaralignmentassistant.ui:488
 #: ekos/capture/calibrationoptions.ui:87 tools/argsetaltaz.ui:37
 #: tools/modcalcplanets.ui:296
 #, kde-format
 msgid "Alt:"
 msgstr "ഉയരം:"
 
+#. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorTotal)
+#. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorTotal)
+#: ekos/align/polaralignmentassistant.ui:510
+#: ekos/align/polaralignmentassistant.ui:535
+#, kde-format
+msgid ""
+"Polar Alignment total error measured by the 3 exposures at the start of the "
+"polar-alignment procedure."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorTotal)
+#: ekos/align/polaralignmentassistant.ui:513
+#, kde-format
+msgid "Measured Err:"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorTotal)
+#. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorTotal)
+#: ekos/align/polaralignmentassistant.ui:554
+#: ekos/align/polaralignmentassistant.ui:734
+#, kde-format
+msgid "Polar Alignment total error estimated after recent adjustments."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_PAHUpdatedErrorTotal)
+#: ekos/align/polaralignmentassistant.ui:557
+#, fuzzy, kde-format
+msgid "Updated Err:"
+msgstr "പുതിയ വിവരങ്ങള്‍ എന്നെ ഇന്റര്‍നെറ്റില്‍ കൂടി അറിയിക്കുക "
+
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHOrigErrorAz)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHOrigErrorAz)
-#: ekos/align/polaralignmentassistant.ui:593
-#: ekos/align/polaralignmentassistant.ui:618
+#: ekos/align/polaralignmentassistant.ui:611
+#: ekos/align/polaralignmentassistant.ui:636
 #, kde-format
 msgid ""
 "Polar Alignment azimuth error measured by the 3 exposures at the start of "
 "the polar-alignment procedure."
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorTotal)
-#. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:650
-#: ekos/align/polaralignmentassistant.ui:675
+#. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAz)
+#. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAz)
+#: ekos/align/polaralignmentassistant.ui:655
+#: ekos/align/polaralignmentassistant.ui:753
 #, kde-format
-msgid "Polar Alignment total error estimated after recent adjustments."
+msgid "Polar Alignment azimuth error estimated after recent adjustments."
 msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_PAHUpdatedErrorTotal)
-#: ekos/align/polaralignmentassistant.ui:653
-#, fuzzy, kde-format
-msgid "Updated Err:"
-msgstr "പുതിയ വിവരങ്ങള്‍ എന്നെ ഇന്റര്‍നെറ്റില്‍ കൂടി അറിയിക്കുക "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAlt)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAlt)
-#: ekos/align/polaralignmentassistant.ui:694
-#: ekos/align/polaralignmentassistant.ui:719
+#: ekos/align/polaralignmentassistant.ui:690
+#: ekos/align/polaralignmentassistant.ui:715
 #, kde-format
 msgid "Polar Alignment altitude error estimated after recent adjustments."
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAz)
-#. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAz)
-#: ekos/align/polaralignmentassistant.ui:738
-#: ekos/align/polaralignmentassistant.ui:763
-#, kde-format
-msgid "Polar Alignment azimuth error estimated after recent adjustments."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStartB)
@@ -12238,7 +12238,7 @@ msgstr "വിതരണ പട്ടിക"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:356
-#: ekos/scheduler/framingassistantui.cpp:714
+#: ekos/scheduler/framingassistantui.cpp:715
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Schedar"
@@ -26517,14 +26517,14 @@ msgstr ""
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:237 fitsviewer/fitsview.cpp:749
+#: ekos/scheduler/framingassistantui.cpp:238 fitsviewer/fitsview.cpp:749
 #, fuzzy, kde-format
 #| msgid "1"
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr "1"
 
-#: ekos/scheduler/framingassistantui.cpp:609
+#: ekos/scheduler/framingassistantui.cpp:610
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Schedar"
@@ -26533,40 +26533,40 @@ msgid_plural " Scheduler jobs"
 msgstr[0] "ഷെഡര്‍"
 msgstr[1] "ഷെഡര്‍"
 
-#: ekos/scheduler/framingassistantui.cpp:611
+#: ekos/scheduler/framingassistantui.cpp:612
 #, kde-format
 msgid " (first only)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:748 ekos/scheduler/scheduler.cpp:784
+#: ekos/scheduler/framingassistantui.cpp:749 ekos/scheduler/scheduler.cpp:784
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "ആവൃത്തി:"
 
-#: ekos/scheduler/framingassistantui.cpp:750 ekos/scheduler/scheduler.cpp:786
+#: ekos/scheduler/framingassistantui.cpp:751 ekos/scheduler/scheduler.cpp:786
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:762
+#: ekos/scheduler/framingassistantui.cpp:763
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "ഒരു അറ തെരഞ്ഞെടുക്കുക"
 
-#: ekos/scheduler/framingassistantui.cpp:764
+#: ekos/scheduler/framingassistantui.cpp:765
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:823
+#: ekos/scheduler/framingassistantui.cpp:824
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:904
+#: ekos/scheduler/framingassistantui.cpp:905
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
@@ -29286,6 +29286,18 @@ msgstr "ആര്‍ബര്‍ഗ്"
 msgid "KStars did not find any active mounts."
 msgstr ""
 
+#: fitsviewer/fitsstretchui.cpp:241
+#, fuzzy, kde-format
+msgid "Stretch using preset %1"
+msgstr "കൌണ്ട്ഡൌണ്‍ ഉപയോഗിക്കുക"
+
+#: fitsviewer/fitsstretchui.cpp:390
+#, kde-format
+msgid ""
+"Cycle through stretch presets. Current stretch: preset %1. Click for preset "
+"%2."
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, stretchButton)
 #: fitsviewer/fitsstretchui.ui:87
 #, kde-format
@@ -29344,6 +29356,12 @@ msgstr ""
 #, fuzzy, kde-format
 msgid "Automatically find stretch parameter."
 msgstr "വെബ്കാം ഡിവൈസ് സ്ട്രിങ് സൂചകം"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, stretchPreset)
+#: fitsviewer/fitsstretchui.ui:394
+#, kde-format
+msgid "Cycle through stretch presets."
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:63
 #, fuzzy, kde-format
