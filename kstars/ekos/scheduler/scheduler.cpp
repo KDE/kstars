@@ -202,8 +202,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     sortJobsB->setIcon(QIcon::fromTheme("transform-move-vertical"));
     sortJobsB->setToolTip(
         i18n("Reset state and sort observation jobs per altitude and movement in sky, using the start time of the first job.\n"
-             "This action sorts setting targets before rising targets, and may help scheduling when starting your observation.\n"
-             "Note the algorithm first calculates all altitudes using the same time, then evaluates jobs."));
+         "This action sorts setting targets before rising targets, and may help scheduling when starting your observation.\n"
+         "Note the algorithm first calculates all altitudes using the same time, then evaluates jobs."));
     sortJobsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
     mosaicB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -2581,5 +2581,24 @@ void Scheduler::refreshOpticalTrain()
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
     opticalTrainCombo->blockSignals(false);
 };
+
+void Scheduler::setFramingAssistantEnabled(bool enabled)
+{
+    // Only create if we don't have an instance already
+    auto instance = KStars::Instance()->findChild<FramingAssistantUI *>("FramingAssistant");
+    if (enabled)
+    {
+        if (instance == nullptr)
+        {
+            FramingAssistantUI *assistant = new FramingAssistantUI();
+            assistant->setAttribute(Qt::WA_DeleteOnClose, true);
+            assistant->show();
+        }
+        else
+            instance->show();
+    }
+    else if (instance)
+        instance->close();
+}
 
 }

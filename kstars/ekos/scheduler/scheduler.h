@@ -188,6 +188,11 @@ class Scheduler : public QWidget, public Ui::Scheduler
         QJsonObject getSchedulerSettings();
 
         /**
+         * @brief Toggle the Framing Assistant UI
+         */
+        Q_INVOKABLE void setFramingAssistantEnabled(bool enabled);
+
+        /**
         * @brief settleSettings Run this function after timeout from debounce timer to update database
         * and emit settingsChanged signal. This is required so we don't overload output.
         */
