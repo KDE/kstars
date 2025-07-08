@@ -60,15 +60,6 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     setCompletionConditionArg(tiles->completionConditionArg());
 
     ui->groupEdit->setText(tiles->group());
-    if (m_CompletionCondition == "FinishSequence")
-        ui->sequenceCompletionR->setChecked(true);
-    else if (m_CompletionCondition == "FinishRepeat")
-    {
-        ui->repeatCompletionR->setChecked(true);
-        ui->repeatsSpin->setValue(m_CompletionConditionArg.toInt());
-    }
-    else if (m_CompletionCondition == "FinishLoop")
-        ui->loopCompletionR->setChecked(true);
 
     if (tiles->operationMode() == MosaicTiles::MODE_OPERATION)
     {
@@ -1071,6 +1062,14 @@ void FramingAssistantUI::setCompletionCondition(const QString &value)
         return;
 
     m_CompletionCondition = value;
+
+    if (m_CompletionCondition == "FinishSequence")
+        ui->sequenceCompletionR->setChecked(true);
+    else if (m_CompletionCondition == "FinishRepeat")
+        ui->repeatCompletionR->setChecked(true);
+    else if (m_CompletionCondition == "FinishLoop")
+        ui->loopCompletionR->setChecked(true);
+
     emit completionConditionChanged(m_CompletionCondition);
 }
 
@@ -1080,6 +1079,10 @@ void FramingAssistantUI::setCompletionConditionArg(const QString &value)
         return;
 
     m_CompletionConditionArg = value;
+
+    if (m_CompletionCondition == "FinishRepeat")
+        ui->repeatsSpin->setValue(m_CompletionConditionArg.toInt());
+
     emit completionConditionArgChanged(m_CompletionConditionArg);
 }
 
