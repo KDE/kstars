@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1712873 $
+# Version: $Revision: 1712922 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-08 01:59+0000\n"
+"POT-Creation-Date: 2025-07-09 02:02+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -614,7 +614,7 @@ msgstr "Błąd"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:654
-#: ekos/scheduler/framingassistantui.cpp:824
+#: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
 msgstr "Wybacz"
@@ -795,10 +795,10 @@ msgstr "Nie można wypakować miniatury %1: %2"
 msgid "Cannot write %s %1: %2"
 msgstr "Nie można zapisać %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:186
-#: ekos/scheduler/framingassistantui.cpp:201
-#: ekos/scheduler/framingassistantui.cpp:912
-#: ekos/scheduler/framingassistantui.cpp:931 skyobjects/ksplanetbase.h:60
+#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:177
+#: ekos/scheduler/framingassistantui.cpp:192
+#: ekos/scheduler/framingassistantui.cpp:903
+#: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
 #, kde-format
 msgid "unnamed"
 msgstr "nienazwany"
@@ -12707,7 +12707,7 @@ msgstr "Rejestruj aktywność modułu planującego Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:356
-#: ekos/scheduler/framingassistantui.cpp:715
+#: ekos/scheduler/framingassistantui.cpp:706
 #, kde-format
 msgid "Scheduler"
 msgstr "Planowanie"
@@ -28527,7 +28527,7 @@ msgstr "Powtarzaj, aż do &zakończenia"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Utwórz zaplanowane zadania, aby wykonać plan mozaiki"
 
-#: ekos/scheduler/framingassistantui.cpp:238 fitsviewer/fitsview.cpp:749
+#: ekos/scheduler/framingassistantui.cpp:229 fitsviewer/fitsview.cpp:749
 #, fuzzy, kde-format
 #| msgctxt "Message shown in Ekos Mount module"
 #| msgid "%1"
@@ -28535,7 +28535,7 @@ msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr "%1"
 
-#: ekos/scheduler/framingassistantui.cpp:610
+#: ekos/scheduler/framingassistantui.cpp:601
 #, kde-format
 msgid " Scheduler job"
 msgid_plural " Scheduler jobs"
@@ -28543,39 +28543,39 @@ msgstr[0] "Zadanie planowania"
 msgstr[1] "Zadania planowania"
 msgstr[2] "Zadania planowania"
 
-#: ekos/scheduler/framingassistantui.cpp:612
+#: ekos/scheduler/framingassistantui.cpp:603
 #, kde-format
 msgid " (first only)"
 msgstr " (tylko pierwsza)"
 
-#: ekos/scheduler/framingassistantui.cpp:749 ekos/scheduler/scheduler.cpp:784
+#: ekos/scheduler/framingassistantui.cpp:740 ekos/scheduler/scheduler.cpp:784
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Wybór kolejki"
 
-#: ekos/scheduler/framingassistantui.cpp:751 ekos/scheduler/scheduler.cpp:786
+#: ekos/scheduler/framingassistantui.cpp:742 ekos/scheduler/scheduler.cpp:786
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Kolejka Ekos (*.esq)"
 
-#: ekos/scheduler/framingassistantui.cpp:763
+#: ekos/scheduler/framingassistantui.cpp:754
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "Wybierz import mozaiki"
 
-#: ekos/scheduler/framingassistantui.cpp:765
+#: ekos/scheduler/framingassistantui.cpp:756
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr "Telescopius CSV (*.csv)"
 
-#: ekos/scheduler/framingassistantui.cpp:824
+#: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr "Import musi zawierać współrzędne środka."
 
-#: ekos/scheduler/framingassistantui.cpp:905
+#: ekos/scheduler/framingassistantui.cpp:896
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"

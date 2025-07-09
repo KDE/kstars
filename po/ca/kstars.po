@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-08 01:59+0000\n"
-"PO-Revision-Date: 2025-06-29 10:19+0200\n"
+"POT-Creation-Date: 2025-07-09 02:02+0000\n"
+"PO-Revision-Date: 2025-07-08 10:10+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -607,7 +607,7 @@ msgstr "Error"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:654
-#: ekos/scheduler/framingassistantui.cpp:824
+#: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
 msgstr "Ho sento"
@@ -789,10 +789,10 @@ msgstr "No s'ha pogut fer el «unpack_thumb» de %1: %2"
 msgid "Cannot write %s %1: %2"
 msgstr "No s'ha pogut escriure %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:186
-#: ekos/scheduler/framingassistantui.cpp:201
-#: ekos/scheduler/framingassistantui.cpp:912
-#: ekos/scheduler/framingassistantui.cpp:931 skyobjects/ksplanetbase.h:60
+#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:177
+#: ekos/scheduler/framingassistantui.cpp:192
+#: ekos/scheduler/framingassistantui.cpp:903
+#: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
 #, kde-format
 msgid "unnamed"
 msgstr "sense nom"
@@ -12748,7 +12748,7 @@ msgstr "Registre d'activitat del mòdul programador de l'Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:356
-#: ekos/scheduler/framingassistantui.cpp:715
+#: ekos/scheduler/framingassistantui.cpp:706
 #, kde-format
 msgid "Scheduler"
 msgstr "Programador"
@@ -28200,52 +28200,52 @@ msgstr "Repeteix fins que &finalitzin"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Crea les tasques del programador per a executar el pla del mosaic"
 
-#: ekos/scheduler/framingassistantui.cpp:238 fitsviewer/fitsview.cpp:749
+#: ekos/scheduler/framingassistantui.cpp:229 fitsviewer/fitsview.cpp:749
 #, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr "%1%"
 
-#: ekos/scheduler/framingassistantui.cpp:610
+#: ekos/scheduler/framingassistantui.cpp:601
 #, kde-format
 msgid " Scheduler job"
 msgid_plural " Scheduler jobs"
 msgstr[0] " Tasca del programador"
 msgstr[1] "Tasques del programador"
 
-#: ekos/scheduler/framingassistantui.cpp:612
+#: ekos/scheduler/framingassistantui.cpp:603
 #, kde-format
 msgid " (first only)"
 msgstr " (només el primer)"
 
-#: ekos/scheduler/framingassistantui.cpp:749 ekos/scheduler/scheduler.cpp:784
+#: ekos/scheduler/framingassistantui.cpp:740 ekos/scheduler/scheduler.cpp:784
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Selecció d'una cua de seqüències"
 
-#: ekos/scheduler/framingassistantui.cpp:751 ekos/scheduler/scheduler.cpp:786
+#: ekos/scheduler/framingassistantui.cpp:742 ekos/scheduler/scheduler.cpp:786
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Cua de seqüències de l'Ekos (*.esq)"
 
-#: ekos/scheduler/framingassistantui.cpp:763
+#: ekos/scheduler/framingassistantui.cpp:754
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "Selecció del mosaic a importar"
 
-#: ekos/scheduler/framingassistantui.cpp:765
+#: ekos/scheduler/framingassistantui.cpp:756
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr "CSV del Telescopius (*.csv)"
 
-#: ekos/scheduler/framingassistantui.cpp:824
+#: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr "Cal que la importació contingui les coordenades del centre."
 
-#: ekos/scheduler/framingassistantui.cpp:905
+#: ekos/scheduler/framingassistantui.cpp:896
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
@@ -31207,10 +31207,9 @@ msgid "KStars did not find any active mounts."
 msgstr "El KStars no ha pogut trobar cap muntura activa."
 
 #: fitsviewer/fitsstretchui.cpp:241
-#, fuzzy, kde-format
-#| msgid "Stretch preview:"
+#, kde-format
 msgid "Stretch using preset %1"
-msgstr "Vista prèvia estirada:"
+msgstr "L'estirament fa servir la predefinició %1"
 
 #: fitsviewer/fitsstretchui.cpp:390
 #, kde-format
@@ -31218,6 +31217,8 @@ msgid ""
 "Cycle through stretch presets. Current stretch: preset %1. Click for preset "
 "%2."
 msgstr ""
+"Circula per les predefinicions d'estirament. Estirament actual: predefinit "
+"%1. Feu clic per al predefinit %2."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stretchButton)
 #: fitsviewer/fitsstretchui.ui:87
@@ -31281,7 +31282,7 @@ msgstr "Cerca automàticament el paràmetre d'estirament."
 #: fitsviewer/fitsstretchui.ui:394
 #, kde-format
 msgid "Cycle through stretch presets."
-msgstr ""
+msgstr "Circula entre els predefinits d'estirament."
 
 #: fitsviewer/fitstab.cpp:63
 #, kde-format
@@ -89635,45 +89636,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgid "Auxiliary #3"
-#~ msgstr "Auxiliar núm. 3"
-
-#~ msgid "Aux 3:"
-#~ msgstr "Aux. 3:"
-
-#~ msgid "Auxiliary #4"
-#~ msgstr "Auxiliar núm. 4"
-
-#~ msgid "Aux 4:"
-#~ msgstr "Aux. 4:"
-
-#~ msgid "Camera 2:"
-#~ msgstr "Càmera 2:"
-
-#~ msgid "Auxiliary #1"
-#~ msgstr "Auxiliar núm. 1"
-
-#~ msgid "Aux 1:"
-#~ msgstr "Aux. 1:"
-
-#~ msgid "Dome Controller"
-#~ msgstr "Control de la cúpula"
-
-#~ msgid "Dome:"
-#~ msgstr "Cúpula:"
-
-#~ msgid "AO:"
-#~ msgstr "OA:"
-
-#~ msgid "Auxiliary #2"
-#~ msgstr "Auxiliar núm. 2"
-
-#~ msgid "Aux 2:"
-#~ msgstr "Aux. 2:"
-
-#~ msgid "Camera 1:"
-#~ msgstr "Càmera 1:"
-
-#~ msgid "Weather Station"
-#~ msgstr "Estació meteorològica"

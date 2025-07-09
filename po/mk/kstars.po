@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-08 01:59+0000\n"
+"POT-Creation-Date: 2025-07-09 02:02+0000\n"
 "PO-Revision-Date: 2007-02-26 21:35+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -619,7 +619,7 @@ msgstr ""
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:654
-#: ekos/scheduler/framingassistantui.cpp:824
+#: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
 msgstr ""
@@ -825,10 +825,10 @@ msgstr ""
 msgid "Cannot write %s %1: %2"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:186
-#: ekos/scheduler/framingassistantui.cpp:201
-#: ekos/scheduler/framingassistantui.cpp:912
-#: ekos/scheduler/framingassistantui.cpp:931 skyobjects/ksplanetbase.h:60
+#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:177
+#: ekos/scheduler/framingassistantui.cpp:192
+#: ekos/scheduler/framingassistantui.cpp:903
+#: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
 #, kde-format
 msgid "unnamed"
 msgstr "неименувано"
@@ -12356,7 +12356,7 @@ msgstr "Кориснички ознаки"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:356
-#: ekos/scheduler/framingassistantui.cpp:715
+#: ekos/scheduler/framingassistantui.cpp:706
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Schuyler"
@@ -26741,13 +26741,13 @@ msgstr ""
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:238 fitsviewer/fitsview.cpp:749
+#: ekos/scheduler/framingassistantui.cpp:229 fitsviewer/fitsview.cpp:749
 #, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:610
+#: ekos/scheduler/framingassistantui.cpp:601
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Schuyler"
@@ -26757,12 +26757,12 @@ msgstr[0] "Schuyler"
 msgstr[1] "Schuyler"
 msgstr[2] "Schuyler"
 
-#: ekos/scheduler/framingassistantui.cpp:612
+#: ekos/scheduler/framingassistantui.cpp:603
 #, kde-format
 msgid " (first only)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:749 ekos/scheduler/scheduler.cpp:784
+#: ekos/scheduler/framingassistantui.cpp:740 ekos/scheduler/scheduler.cpp:784
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Spencer"
@@ -26770,28 +26770,28 @@ msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Spencer"
 
-#: ekos/scheduler/framingassistantui.cpp:751 ekos/scheduler/scheduler.cpp:786
+#: ekos/scheduler/framingassistantui.cpp:742 ekos/scheduler/scheduler.cpp:786
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:763
+#: ekos/scheduler/framingassistantui.cpp:754
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "Влезен избор"
 
-#: ekos/scheduler/framingassistantui.cpp:765
+#: ekos/scheduler/framingassistantui.cpp:756
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:824
+#: ekos/scheduler/framingassistantui.cpp:815
 #, fuzzy, kde-format
 msgid "Import must contain center coordinates."
 msgstr "Екваторијални координати"
 
-#: ekos/scheduler/framingassistantui.cpp:905
+#: ekos/scheduler/framingassistantui.cpp:896
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"

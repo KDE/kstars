@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-08 01:59+0000\n"
-"PO-Revision-Date: 2025-06-17 17:58+0100\n"
+"POT-Creation-Date: 2025-07-09 02:02+0000\n"
+"PO-Revision-Date: 2025-07-08 04:28+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -596,7 +596,7 @@ msgstr "Error"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:654
-#: ekos/scheduler/framingassistantui.cpp:824
+#: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
 msgstr "Lo sentimos"
@@ -778,10 +778,10 @@ msgstr "No se ha podido desempaquetar la miniatura de %1: %2"
 msgid "Cannot write %s %1: %2"
 msgstr "No se puede escribir %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:186
-#: ekos/scheduler/framingassistantui.cpp:201
-#: ekos/scheduler/framingassistantui.cpp:912
-#: ekos/scheduler/framingassistantui.cpp:931 skyobjects/ksplanetbase.h:60
+#: auxiliary/ksutils.cpp:1820 ekos/scheduler/framingassistantui.cpp:177
+#: ekos/scheduler/framingassistantui.cpp:192
+#: ekos/scheduler/framingassistantui.cpp:903
+#: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
 #, kde-format
 msgid "unnamed"
 msgstr "sin nombre"
@@ -12727,7 +12727,7 @@ msgstr "Registrar la actividad del módulo de planificación de Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:356
-#: ekos/scheduler/framingassistantui.cpp:715
+#: ekos/scheduler/framingassistantui.cpp:706
 #, kde-format
 msgid "Scheduler"
 msgstr "Planificador"
@@ -28182,52 +28182,52 @@ msgstr "Repetir &hasta que termine"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Crear trabajos del planificador para ejecutar el programa del mosaico"
 
-#: ekos/scheduler/framingassistantui.cpp:238 fitsviewer/fitsview.cpp:749
+#: ekos/scheduler/framingassistantui.cpp:229 fitsviewer/fitsview.cpp:749
 #, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr "%1 %"
 
-#: ekos/scheduler/framingassistantui.cpp:610
+#: ekos/scheduler/framingassistantui.cpp:601
 #, kde-format
 msgid " Scheduler job"
 msgid_plural " Scheduler jobs"
 msgstr[0] " Trabajo del planificador"
 msgstr[1] " Trabajos del planificador"
 
-#: ekos/scheduler/framingassistantui.cpp:612
+#: ekos/scheduler/framingassistantui.cpp:603
 #, kde-format
 msgid " (first only)"
 msgstr " (solo el primero)"
 
-#: ekos/scheduler/framingassistantui.cpp:749 ekos/scheduler/scheduler.cpp:784
+#: ekos/scheduler/framingassistantui.cpp:740 ekos/scheduler/scheduler.cpp:784
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Seleccionar cola de secuencias"
 
-#: ekos/scheduler/framingassistantui.cpp:751 ekos/scheduler/scheduler.cpp:786
+#: ekos/scheduler/framingassistantui.cpp:742 ekos/scheduler/scheduler.cpp:786
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Cola de secuencias Ekos (*.esq)"
 
-#: ekos/scheduler/framingassistantui.cpp:763
+#: ekos/scheduler/framingassistantui.cpp:754
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "Seleccione el mosaico a importar"
 
-#: ekos/scheduler/framingassistantui.cpp:765
+#: ekos/scheduler/framingassistantui.cpp:756
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr "CSV de Telescopius (*.csv)"
 
-#: ekos/scheduler/framingassistantui.cpp:824
+#: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr "La importación debe contener las coordenadas del centro."
 
-#: ekos/scheduler/framingassistantui.cpp:905
+#: ekos/scheduler/framingassistantui.cpp:896
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
@@ -31196,10 +31196,9 @@ msgid "KStars did not find any active mounts."
 msgstr "KStars no ha encontrado ninguna montura activa."
 
 #: fitsviewer/fitsstretchui.cpp:241
-#, fuzzy, kde-format
-#| msgid "Stretch preview:"
+#, kde-format
 msgid "Stretch using preset %1"
-msgstr "Estirar vista previa:"
+msgstr "Estirar usando el preajuste %1"
 
 #: fitsviewer/fitsstretchui.cpp:390
 #, kde-format
@@ -31207,6 +31206,8 @@ msgid ""
 "Cycle through stretch presets. Current stretch: preset %1. Click for preset "
 "%2."
 msgstr ""
+"Recorrer los preajustes de estiramiento. Estiramiento actual: preajuste %1. "
+"Pulse para preajuste %2."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stretchButton)
 #: fitsviewer/fitsstretchui.ui:87
@@ -31270,7 +31271,7 @@ msgstr "Encontrar automáticamente el parámetro de estiramiento."
 #: fitsviewer/fitsstretchui.ui:394
 #, kde-format
 msgid "Cycle through stretch presets."
-msgstr ""
+msgstr "Recorrer los preajustes de estiramiento."
 
 #: fitsviewer/fitstab.cpp:63
 #, kde-format
