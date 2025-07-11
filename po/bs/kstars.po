@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-09 02:02+0000\n"
+"POT-Creation-Date: 2025-07-11 01:58+0000\n"
 "PO-Revision-Date: 2015-01-30 09:02+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <lokal@lugbih.org>\n"
@@ -196,7 +196,7 @@ msgstr "Uočljivi sateliti"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:243
 #: data/qml/whatisinteresting/wiview.qml:255 dialogs/finddialog.cpp:48
-#: kstarsactions.cpp:1142 kstarslite/dialogs/finddialoglite.cpp:37
+#: kstarsactions.cpp:1136 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
 msgid "Satellites"
@@ -209,7 +209,7 @@ msgstr "Obilježja satelita"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:528
 #: data/qml/whatisinteresting/wiview.qml:540 dialogs/finddialog.cpp:47
-#: kstarsactions.cpp:1145 kstarslite/dialogs/finddialoglite.cpp:36
+#: kstarsactions.cpp:1139 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
 msgid "Supernovae"
@@ -493,14 +493,14 @@ msgid "Save Image"
 msgstr "Snimi sve slike"
 
 #: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3960
-#: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1350
+#: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1344
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Datoteka sa imenom '%1' već postoji. Da li da pišem preko nje?"
 
 #: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3963
-#: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1351
+#: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1345
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -620,7 +620,7 @@ msgstr "Odustani"
 #: ekos/manager.cpp:1275 ekos/manager.cpp:1290 ekos/manager.cpp:1306
 #: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
-#: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
+#: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
 #: skycomponents/imageoverlaycomponent.cpp:537
 #, kde-format
 msgid "Error"
@@ -3534,7 +3534,7 @@ msgid "Clone..."
 msgstr "Malone"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1160
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1154
 #, kde-format
 msgid "Colors"
 msgstr "Boje"
@@ -3850,7 +3850,7 @@ msgstr "Veze"
 msgid "Could not add the link."
 msgstr "Ne mogu skinuti datoteku."
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1187
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1181
 #, kde-format
 msgid "Advanced"
 msgstr "Napredno"
@@ -4517,7 +4517,7 @@ msgstr "Pozicija legende:"
 msgid "Any"
 msgstr "Bilo koji"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1139 kstarsinit.cpp:497
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1133 kstarsinit.cpp:497
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:100
@@ -6913,7 +6913,7 @@ msgstr "Nije moguće pisati u datoteku %1"
 #: ekos/scheduler/schedulerprocess.cpp:3508
 #: ekos/scheduler/schedulerprocess.cpp:4901
 #: ekos/scheduler/schedulerprocess.cpp:4921 indi/drivermanager.cpp:1549
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1399 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1393 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -12844,7 +12844,7 @@ msgid "Log INDI devices activity"
 msgstr "INDI uređaji su stali."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1171
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1165
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -12858,7 +12858,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:308
-#: kstarsactions.cpp:1165
+#: kstarsactions.cpp:1159
 #, fuzzy, kde-format
 #| msgid "FITS Open"
 msgid "FITS"
@@ -14326,7 +14326,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
-#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1931
+#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1925
 #: kstarsinit.cpp:863 kstarsinit.cpp:864 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -16430,7 +16430,7 @@ msgstr ""
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1175 kstarsinit.cpp:479
+#: kstarsactions.cpp:1169 kstarsinit.cpp:479
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -34328,18 +34328,18 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:352 kstarsactions.cpp:1617 skymap.cpp:463
+#: kstars.cpp:352 kstarsactions.cpp:1611 skymap.cpp:463
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "Zaustavi &praćenje"
 
-#: kstars.cpp:360 kstarsactions.cpp:1784 kstarsinit.cpp:271
+#: kstars.cpp:360 kstarsactions.cpp:1778 kstarsinit.cpp:271
 #, fuzzy, kde-format
 #| msgid "Switch to star globe view (Equatorial &Coordinates)"
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Prebaci na pogled zvjezdane kugle (Ekvatorialne &Koordinate)"
 
-#: kstars.cpp:361 kstarsactions.cpp:1765 kstarsinit.cpp:272
+#: kstars.cpp:361 kstarsactions.cpp:1759 kstarsinit.cpp:272
 #, fuzzy, kde-format
 #| msgid "Switch to horizonal view (Horizontal &Coordinates)"
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
@@ -77258,33 +77258,33 @@ msgid ""
 msgstr ""
 "Kada horizont je isključen, refrakcijski efekti su privremeno onemogućeni."
 
-#: kstarsactions.cpp:512
+#: kstarsactions.cpp:506
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr ""
 
-#: kstarsactions.cpp:520
+#: kstarsactions.cpp:514
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
 
-#: kstarsactions.cpp:530
+#: kstarsactions.cpp:524
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr ""
 
-#: kstarsactions.cpp:587
+#: kstarsactions.cpp:581
 #, kde-format
 msgid "Light Pollution Settings"
 msgstr "Postavke zagađenja svjetlom"
 
-#: kstarsactions.cpp:589
+#: kstarsactions.cpp:583
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr "Postavke opreme - Tip opreme i parametri"
 
-#: kstarsactions.cpp:698 kstarsactions.cpp:735 kstarsactions.cpp:778
-#: kstarsactions.cpp:817
+#: kstarsactions.cpp:692 kstarsactions.cpp:729 kstarsactions.cpp:772
+#: kstarsactions.cpp:811
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
@@ -77293,30 +77293,30 @@ msgstr ""
 "Nije bilo moguće pronaći INDI server. Molimo provjerite da je paket koji "
 "osigurava 'indiserver' instaliran."
 
-#: kstarsactions.cpp:752
+#: kstarsactions.cpp:746
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
 "cannot be used with Ekos. Do you still want to open INDI device manager?"
 msgstr ""
 
-#: kstarsactions.cpp:755
+#: kstarsactions.cpp:749
 #, fuzzy, kde-format
 #| msgid "Device Manager"
 msgid "INDI Device Manager"
 msgstr "Upravitelj uređajima"
 
-#: kstarsactions.cpp:1136
+#: kstarsactions.cpp:1130
 #, kde-format
 msgid "Catalogs"
 msgstr "Katalozi"
 
-#: kstarsactions.cpp:1148
+#: kstarsactions.cpp:1142
 #, kde-format
 msgid "Guides"
 msgstr "Vodilje"
 
-#: kstarsactions.cpp:1151
+#: kstarsactions.cpp:1145
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Terrassa"
@@ -77324,75 +77324,75 @@ msgid "Terrain"
 msgstr "Terrassa"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1154 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1148 options/opsimageoverlay.ui:202
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
 msgid "Image Overlays"
 msgstr "Podaci o slici"
 
-#: kstarsactions.cpp:1184
+#: kstarsactions.cpp:1178
 #, kde-format
 msgid "Xplanet"
 msgstr "Xplanet"
 
-#: kstarsactions.cpp:1190
+#: kstarsactions.cpp:1184
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Revelstoke"
 msgid "Developer"
 msgstr "Revelstoke"
 
-#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:281
+#: kstarsactions.cpp:1202 kstarsactions.cpp:2026 kstarsinit.cpp:281
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Terrassa"
 msgid "Hide Terrain"
 msgstr "Terrassa"
 
-#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:282
+#: kstarsactions.cpp:1202 kstarsactions.cpp:2026 kstarsinit.cpp:282
 #, fuzzy, kde-format
 #| msgid "Show details..."
 msgid "Show Terrain"
 msgstr "Prikaži detalje..."
 
-#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:286
+#: kstarsactions.cpp:1206 kstarsactions.cpp:2036 kstarsinit.cpp:286
 #, fuzzy, kde-format
 #| msgid "Polar Alignment"
 msgid "Hide Image Overlays"
 msgstr "Polarno poravnanje"
 
-#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:287
+#: kstarsactions.cpp:1206 kstarsactions.cpp:2036 kstarsinit.cpp:287
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show Image Overlays"
 msgstr "Pokaži satelite"
 
-#: kstarsactions.cpp:1336
+#: kstarsactions.cpp:1330
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Izvezi sliku"
 
-#: kstarsactions.cpp:1382 tools/scriptbuilder.cpp:795
+#: kstarsactions.cpp:1376 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "KStars Skripte (*.kstars)"
 
-#: kstarsactions.cpp:1390
+#: kstarsactions.cpp:1384
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Executing remote scripts is not supported."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: kstarsactions.cpp:1398 oal/execute.cpp:319 tools/observinglist.cpp:906
+#: kstarsactions.cpp:1392 oal/execute.cpp:319 tools/observinglist.cpp:906
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Ne mogu otvoriti datoteku %1"
 
-#: kstarsactions.cpp:1423
+#: kstarsactions.cpp:1417
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -77405,27 +77405,27 @@ msgstr ""
 "funkcionisati, i čak može da sadrže zlonamjerni kod. Želite li da je "
 "izvršite uopšte?"
 
-#: kstarsactions.cpp:1428
+#: kstarsactions.cpp:1422
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "Provjera skripte nije uspjela"
 
-#: kstarsactions.cpp:1428
+#: kstarsactions.cpp:1422
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Ipak izvrši"
 
-#: kstarsactions.cpp:1435
+#: kstarsactions.cpp:1429
 #, kde-format
 msgid "Running script: %1"
 msgstr "Pokretanje skripte: %1"
 
-#: kstarsactions.cpp:1453
+#: kstarsactions.cpp:1447
 #, kde-format
 msgid "Script finished."
 msgstr "Skripta gotova."
 
-#: kstarsactions.cpp:1465
+#: kstarsactions.cpp:1459
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -77436,68 +77436,68 @@ msgstr ""
 "koristi bijelu pozadinu. Želite li da se privremeno prebacite na ovu šemu "
 "boja radi štampanja?"
 
-#: kstarsactions.cpp:1470
+#: kstarsactions.cpp:1464
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "Preći na boje Zvjezdana mapa?"
 
-#: kstarsactions.cpp:1471
+#: kstarsactions.cpp:1465
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "Prebaci paletu boja"
 
-#: kstarsactions.cpp:1471
+#: kstarsactions.cpp:1465
 #, kde-format
 msgid "Do Not Switch"
 msgstr "Ne prebacuj"
 
-#: kstarsactions.cpp:1532
+#: kstarsactions.cpp:1526
 #, fuzzy, kde-format
 #| msgid "Run clock"
 msgid "Stop running clock in realtime"
 msgstr "Pokreni sat"
 
-#: kstarsactions.cpp:1550 kstarsinit.cpp:199
+#: kstarsactions.cpp:1544 kstarsinit.cpp:199
 #, fuzzy, kde-format
 #| msgid "Run clock"
 msgid "Run clock in realtime"
 msgstr "Pokreni sat"
 
-#: kstarsactions.cpp:1594 kstarsinit.cpp:244
+#: kstarsactions.cpp:1588 kstarsinit.cpp:244
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "Uključi &praćenje"
 
-#: kstarsactions.cpp:1708
+#: kstarsactions.cpp:1702
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "Prosječni FOV: %1 stepeni"
 
-#: kstarsactions.cpp:1713
+#: kstarsactions.cpp:1707
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "Prosječni FOV: %1 ugaonih minuta"
 
-#: kstarsactions.cpp:1719
+#: kstarsactions.cpp:1713
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "Prosječni FOV: %1 ugaonih sekundi"
 
-#: kstarsactions.cpp:1736
+#: kstarsactions.cpp:1730
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Unesite željeni ugao vidnog polja"
 
-#: kstarsactions.cpp:1737
+#: kstarsactions.cpp:1731
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Unesite ugao vidnog polja u stepenima: "
 
-#: kstarsactions.cpp:1768 kstarsinit.cpp:741
+#: kstarsactions.cpp:1762 kstarsinit.cpp:741
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "North"
@@ -77505,7 +77505,7 @@ msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Sjever"
 
-#: kstarsactions.cpp:1771 kstarsinit.cpp:750
+#: kstarsactions.cpp:1765 kstarsinit.cpp:750
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Norton"
@@ -77513,14 +77513,14 @@ msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Norton"
 
-#: kstarsactions.cpp:1787 kstarsinit.cpp:741
+#: kstarsactions.cpp:1781 kstarsinit.cpp:741
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "&Zenit"
 
-#: kstarsactions.cpp:1790 kstarsinit.cpp:750
+#: kstarsactions.cpp:1784 kstarsinit.cpp:750
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"

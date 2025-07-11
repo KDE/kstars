@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-09 02:02+0000\n"
+"POT-Creation-Date: 2025-07-11 01:58+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -209,7 +209,7 @@ msgstr "காலீலியன் செயற்கைக்கோள்(HST)
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:243
 #: data/qml/whatisinteresting/wiview.qml:255 dialogs/finddialog.cpp:48
-#: kstarsactions.cpp:1142 kstarslite/dialogs/finddialoglite.cpp:37
+#: kstarsactions.cpp:1136 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -226,7 +226,7 @@ msgstr "பாண்டலேரியா"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:528
 #: data/qml/whatisinteresting/wiview.qml:540 dialogs/finddialog.cpp:47
-#: kstarsactions.cpp:1145 kstarslite/dialogs/finddialoglite.cpp:36
+#: kstarsactions.cpp:1139 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Supernova Remnant"
@@ -519,14 +519,14 @@ msgid "Save Image"
 msgstr "&வான் படத்தை சேமி..."
 
 #: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3960
-#: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1350
+#: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1344
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr " \"%1\"  என பெயரிடப்பட்ட கோப்பு ஏற்கனவே உள்ளது .மேல் எழுத வேண்டுமா?"
 
 #: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3963
-#: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1351
+#: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1345
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -643,7 +643,7 @@ msgstr "கேன்ஸ்"
 #: ekos/manager.cpp:1275 ekos/manager.cpp:1290 ekos/manager.cpp:1306
 #: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
-#: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
+#: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
 #: skycomponents/imageoverlaycomponent.cpp:537
 #, kde-format
 msgid "Error"
@@ -3579,7 +3579,7 @@ msgid "Clone..."
 msgstr "மாலோன்"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1160
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1154
 #, kde-format
 msgid "Colors"
 msgstr "வண்ணங்கள்"
@@ -3901,7 +3901,7 @@ msgstr "இணைப்புகள்"
 msgid "Could not add the link."
 msgstr "கோப்பினை கீழிறக்கம் செய்ய இயலவில்லை."
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1187
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1181
 #, kde-format
 msgid "Advanced"
 msgstr "மேம்பட்ட"
@@ -4587,7 +4587,7 @@ msgstr "&சுட்டுதல் "
 msgid "Any"
 msgstr "ஏதாவது"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1139 kstarsinit.cpp:497
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1133 kstarsinit.cpp:497
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:100
@@ -6973,7 +6973,7 @@ msgstr "%1 கோப்பில் இருந்து FITS  தரவை ப
 #: ekos/scheduler/schedulerprocess.cpp:3508
 #: ekos/scheduler/schedulerprocess.cpp:4901
 #: ekos/scheduler/schedulerprocess.cpp:4921 indi/drivermanager.cpp:1549
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1399 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1393 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -12725,7 +12725,7 @@ msgid "Log INDI devices activity"
 msgstr "INDI கருவி %1 இல்லை."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1171
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1165
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -12739,7 +12739,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:308
-#: kstarsactions.cpp:1165
+#: kstarsactions.cpp:1159
 #, fuzzy, kde-format
 msgid "FITS"
 msgstr "FITS அளவுகோள்"
@@ -14171,7 +14171,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
-#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1931
+#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1925
 #: kstarsinit.cpp:863 kstarsinit.cpp:864 tools/obslistwizard.ui:183
 #, fuzzy, kde-format, kde-kuit-format
 msgid "None"
@@ -16200,7 +16200,7 @@ msgstr ""
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1175 kstarsinit.cpp:479
+#: kstarsactions.cpp:1169 kstarsinit.cpp:479
 #, kde-format
 msgid "Ekos"
 msgstr ""
@@ -33526,18 +33526,18 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "கே-ஸ்டார்ஸ்"
 
-#: kstars.cpp:352 kstarsactions.cpp:1617 skymap.cpp:463
+#: kstars.cpp:352 kstarsactions.cpp:1611 skymap.cpp:463
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "நிறுத்தல் &சுவடுபற்றல்"
 
-#: kstars.cpp:360 kstarsactions.cpp:1784 kstarsinit.cpp:271
+#: kstars.cpp:360 kstarsactions.cpp:1778 kstarsinit.cpp:271
 #, fuzzy, kde-format
 #| msgid "Equatorial &Coordinates"
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "மத்திய ஒருங்கிணைப்புகள்"
 
-#: kstars.cpp:361 kstarsactions.cpp:1765 kstarsinit.cpp:272
+#: kstars.cpp:361 kstarsactions.cpp:1759 kstarsinit.cpp:272
 #, fuzzy, kde-format
 #| msgid "Horizontal &Coordinates"
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
@@ -75139,64 +75139,64 @@ msgid ""
 "disabled."
 msgstr ""
 
-#: kstarsactions.cpp:512
+#: kstarsactions.cpp:506
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr ""
 
-#: kstarsactions.cpp:520
+#: kstarsactions.cpp:514
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
 
-#: kstarsactions.cpp:530
+#: kstarsactions.cpp:524
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr ""
 
-#: kstarsactions.cpp:587
+#: kstarsactions.cpp:581
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "Light Pollution Settings"
 msgstr "நடப்பு நிற அமைப்புகள்"
 
-#: kstarsactions.cpp:589
+#: kstarsactions.cpp:583
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr ""
 
-#: kstarsactions.cpp:698 kstarsactions.cpp:735 kstarsactions.cpp:778
-#: kstarsactions.cpp:817
+#: kstarsactions.cpp:692 kstarsactions.cpp:729 kstarsactions.cpp:772
+#: kstarsactions.cpp:811
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
 "'indiserver' binary is installed."
 msgstr ""
 
-#: kstarsactions.cpp:752
+#: kstarsactions.cpp:746
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
 "cannot be used with Ekos. Do you still want to open INDI device manager?"
 msgstr ""
 
-#: kstarsactions.cpp:755
+#: kstarsactions.cpp:749
 #, fuzzy, kde-format
 #| msgid "Device Manager"
 msgid "INDI Device Manager"
 msgstr "சாதன் மேலாளர்"
 
-#: kstarsactions.cpp:1136
+#: kstarsactions.cpp:1130
 #, kde-format
 msgid "Catalogs"
 msgstr "அட்டவணைகள்"
 
-#: kstarsactions.cpp:1148
+#: kstarsactions.cpp:1142
 #, kde-format
 msgid "Guides"
 msgstr "வழிகாட்டிகள்"
 
-#: kstarsactions.cpp:1151
+#: kstarsactions.cpp:1145
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Terrassa"
@@ -75204,73 +75204,73 @@ msgid "Terrain"
 msgstr "டர்ராசா"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1154 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1148 options/opsimageoverlay.ui:202
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Overlays"
 msgstr "படிமத்தின் வடிவம்"
 
-#: kstarsactions.cpp:1184
+#: kstarsactions.cpp:1178
 #, fuzzy, kde-format
 #| msgid "planet"
 msgid "Xplanet"
 msgstr "கோள்"
 
-#: kstarsactions.cpp:1190
+#: kstarsactions.cpp:1184
 #, kde-format
 msgid "Developer"
 msgstr ""
 
-#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:281
+#: kstarsactions.cpp:1202 kstarsactions.cpp:2026 kstarsinit.cpp:281
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Terrassa"
 msgid "Hide Terrain"
 msgstr "டர்ராசா"
 
-#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:282
+#: kstarsactions.cpp:1202 kstarsactions.cpp:2026 kstarsinit.cpp:282
 #, fuzzy, kde-format
 #| msgid "Details"
 msgid "Show Terrain"
 msgstr "விவரங்கள்"
 
-#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:286
+#: kstarsactions.cpp:1206 kstarsactions.cpp:2036 kstarsinit.cpp:286
 #, fuzzy, kde-format
 #| msgid "&Save Sky Image..."
 msgid "Hide Image Overlays"
 msgstr "&வான் படத்தை சேமி..."
 
-#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:287
+#: kstarsactions.cpp:1206 kstarsactions.cpp:2036 kstarsinit.cpp:287
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show Image Overlays"
 msgstr "விண்மீன் கூட்ட வரிகளை காட்ட வேண்டுமா?"
 
-#: kstarsactions.cpp:1336
+#: kstarsactions.cpp:1330
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "காஸ்டர்"
 
-#: kstarsactions.cpp:1382 tools/scriptbuilder.cpp:795
+#: kstarsactions.cpp:1376 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr ""
 
-#: kstarsactions.cpp:1390
+#: kstarsactions.cpp:1384
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Executing remote scripts is not supported."
 msgstr "முடிந்தது"
 
-#: kstarsactions.cpp:1398 oal/execute.cpp:319 tools/observinglist.cpp:906
+#: kstarsactions.cpp:1392 oal/execute.cpp:319 tools/observinglist.cpp:906
 #, kde-format
 msgid "Could not open file %1"
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை"
 
-#: kstarsactions.cpp:1423
+#: kstarsactions.cpp:1417
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -75279,29 +75279,29 @@ msgid ""
 "it anyway?"
 msgstr ""
 
-#: kstarsactions.cpp:1428
+#: kstarsactions.cpp:1422
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "குறுநிரல் சரிபார்த்தல் தோல்வியடைந்தது"
 
-#: kstarsactions.cpp:1428
+#: kstarsactions.cpp:1422
 #, kde-format
 msgid "Run Nevertheless"
 msgstr ""
 
-#: kstarsactions.cpp:1435
+#: kstarsactions.cpp:1429
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "Running script: %1"
 msgstr "உயர்வு நேரம்: %1"
 
-#: kstarsactions.cpp:1453
+#: kstarsactions.cpp:1447
 #, fuzzy, kde-format
 #| msgid "Script name:"
 msgid "Script finished."
 msgstr "சிறுநிரல் பெயர்:"
 
-#: kstarsactions.cpp:1465
+#: kstarsactions.cpp:1459
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -75312,77 +75312,77 @@ msgstr ""
 "உபயோகிப்பதன் மூலம் அச்சு மையை சேமிக்கலாம். நீங்கள் அச்சிட ஸ்டார் வரைபட வண்ணத்திட்டத்திற்கு "
 "மாற விரும்புகிறீர்களா?"
 
-#: kstarsactions.cpp:1470
+#: kstarsactions.cpp:1464
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "ஸ்டார் வரைபட வண்ணத்திற்கு மாற விருப்பமா?"
 
-#: kstarsactions.cpp:1471
+#: kstarsactions.cpp:1465
 #, fuzzy, kde-format
 msgid "Switch Color Scheme"
 msgstr "புதிய வண்ண வடிவமைப்பு"
 
-#: kstarsactions.cpp:1471
+#: kstarsactions.cpp:1465
 #, fuzzy, kde-format
 msgid "Do Not Switch"
 msgstr "பாகுபட இயலவில்லை"
 
-#: kstarsactions.cpp:1532
+#: kstarsactions.cpp:1526
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Hancock"
 msgid "Stop running clock in realtime"
 msgstr "ஹான்காக்"
 
-#: kstarsactions.cpp:1550 kstarsinit.cpp:199
+#: kstarsactions.cpp:1544 kstarsinit.cpp:199
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Hancock"
 msgid "Run clock in realtime"
 msgstr "ஹான்காக்"
 
-#: kstarsactions.cpp:1594 kstarsinit.cpp:244
+#: kstarsactions.cpp:1588 kstarsinit.cpp:244
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "ஈடுபடுத்தல் &சுவடுபற்றல்"
 
-#: kstarsactions.cpp:1708
+#: kstarsactions.cpp:1702
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr ""
 
-#: kstarsactions.cpp:1713
+#: kstarsactions.cpp:1707
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr ""
 
-#: kstarsactions.cpp:1719
+#: kstarsactions.cpp:1713
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr ""
 
-#: kstarsactions.cpp:1736
+#: kstarsactions.cpp:1730
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "விரும்பும் தோற்றங்கள் கோணத்தை உள்ளிடு"
 
-#: kstarsactions.cpp:1737
+#: kstarsactions.cpp:1731
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "ஒரு தோற்றங்கள் கோணத்தை டிகிரியில் உள்ளிடு"
 
-#: kstarsactions.cpp:1768 kstarsinit.cpp:741
+#: kstarsactions.cpp:1762 kstarsinit.cpp:741
 #, fuzzy, kde-format
 #| msgid "&North"
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "வடக்கு"
 
-#: kstarsactions.cpp:1771 kstarsinit.cpp:750
+#: kstarsactions.cpp:1765 kstarsinit.cpp:750
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Norton"
@@ -75390,14 +75390,14 @@ msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "நார்டான்"
 
-#: kstarsactions.cpp:1787 kstarsinit.cpp:741
+#: kstarsactions.cpp:1781 kstarsinit.cpp:741
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "உயரத்தின் முனை"
 
-#: kstarsactions.cpp:1790 kstarsinit.cpp:750
+#: kstarsactions.cpp:1784 kstarsinit.cpp:750
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
