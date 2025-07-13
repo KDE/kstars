@@ -23487,10 +23487,9 @@ msgid "Ekos"
 msgstr "Ekos"
 
 #: ekos/manager.cpp:982 ekos/manager.cpp:1007
-#, fuzzy, kde-format
-#| msgid "Ekos requires at least one CCD or Guider to operate."
+#, kde-format
 msgid "Ekos requires at least one Camera to operate."
-msgstr "Ekos 需要至少一个 CCD 或者导星器来执行操作。"
+msgstr ""
 
 #: ekos/manager.cpp:1070
 #, kde-format
@@ -25178,10 +25177,9 @@ msgstr ""
 "<nobr><b>标签l</b>: %1 &#9473; <b>驱动</b>: %2 &#9473; <b>Exec</b>: %3<nobr/>"
 
 #: ekos/profileeditor.cpp:344
-#, fuzzy, kde-format
-#| msgid "Drivers:"
+#, kde-format
 msgid "Drivers"
-msgstr "驱动:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
@@ -25453,17 +25451,15 @@ msgstr "选择设备"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, driverSearchEdit)
 #: ekos/profileeditor.ui:422
-#, fuzzy, kde-format
-#| msgid "Driver Restart"
+#, kde-format
 msgid "Driver Search"
-msgstr "重启设备"
+msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, profileSearchEdit)
 #: ekos/profileeditor.ui:546
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile Search"
-msgstr "项目"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteDriversLabel)
 #: ekos/profileeditor.ui:595
@@ -29497,10 +29493,9 @@ msgid "KStars did not find any active mounts."
 msgstr "KStars 未找到任何活动的支架。"
 
 #: fitsviewer/fitsstretchui.cpp:241
-#, fuzzy, kde-format
-#| msgid "Stretch preview:"
+#, kde-format
 msgid "Stretch using preset %1"
-msgstr "拉伸预览："
+msgstr ""
 
 #: fitsviewer/fitsstretchui.cpp:390
 #, kde-format
@@ -85857,45 +85852,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Auxiliary #3"
-#~ msgstr "辅助 #3"
-
-#~ msgid "Aux 3:"
-#~ msgstr "辅助 3："
-
-#~ msgid "Auxiliary #4"
-#~ msgstr "辅助 #4"
-
-#~ msgid "Aux 4:"
-#~ msgstr "辅助 4："
-
-#~ msgid "Camera 2:"
-#~ msgstr "相机2:"
-
-#~ msgid "Auxiliary #1"
-#~ msgstr "辅助 #1"
-
-#~ msgid "Aux 1:"
-#~ msgstr "辅助 1："
-
-#~ msgid "Dome Controller"
-#~ msgstr "圆顶控制器"
-
-#~ msgid "Dome:"
-#~ msgstr "圆顶："
-
-#~ msgid "AO:"
-#~ msgstr "AO:"
-
-#~ msgid "Auxiliary #2"
-#~ msgstr "辅助 #2"
-
-#~ msgid "Aux 2:"
-#~ msgstr "辅助 2："
-
-#~ msgid "Camera 1:"
-#~ msgstr "相机1:"
-
-#~ msgid "Weather Station"
-#~ msgstr "天气站"
