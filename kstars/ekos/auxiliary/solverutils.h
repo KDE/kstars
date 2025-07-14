@@ -7,6 +7,7 @@
 #pragma once
 
 #include <stellarsolver.h>
+#undef Const
 
 #include <QObject>
 #include <QString>
@@ -34,7 +35,7 @@ class SolverUtils : public QObject
                     SSolver::ProcessType type = SSolver::SOLVE);
         ~SolverUtils();
 
-        void runSolver(const QSharedPointer<FITSData> &data);
+        void runSolver(const QSharedPointer<FITSData> &data, const bool stack = false);
         void runSolver(const QString &filename);
         SolverUtils &useScale(bool useIt, double scaleLowArcsecPerPixel, double scaleHighArcsecPerPixel);
         SolverUtils &usePosition(bool useIt, double raDegrees, double decDegrees);
@@ -74,7 +75,7 @@ class SolverUtils : public QObject
         void solverDone();
         void solverTimeout();
         void executeSolver();
-        void prepareSolver();
+        void prepareSolver(const bool stack = false);
 
         std::unique_ptr<StellarSolver> m_StellarSolver;
 

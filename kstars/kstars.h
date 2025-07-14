@@ -166,7 +166,7 @@ class KStars : public KXmlGuiWindow
 #ifdef HAVE_CFITSIO
         //        void addFITSViewer(const QSharedPointer<FITSViewer> &fv);
         const QSharedPointer<FITSViewer> &genericFITSViewer();
-        const QSharedPointer<FITSViewer> &createFITSViewer();
+        const QSharedPointer<FITSViewer> &createFITSViewer(const bool forceCreate = false);
         void clearAllViewers();
         const QList<QSharedPointer<FITSViewer >> &getFITSViewers() const
         {
@@ -724,6 +724,9 @@ class KStars : public KXmlGuiWindow
         /** Open FITS image. */
         void slotOpenFITS();
         void slotBlink();
+
+        /** Open live stacking directory */
+        void slotStack();
 
         /** Action slot to save the sky image to a file.*/
         void slotExportImage();

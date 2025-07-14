@@ -45,13 +45,20 @@ class PlateSolve: public QDialog, public Ui::PlateSolveUI
         void extractImage(const QSharedPointer<FITSData> &imageData);
         void solveImage(const QSharedPointer<FITSData> &imageData);
         void solveImage(const QString &filename);
+        void plateSolveSub(const QSharedPointer<FITSData> &imageData, const double ra, const double dec,
+                           const double pixScale, const int index, const int healpix,
+                           const SSolver::ProcessType solveType);
 
     signals:
         void clicked();
         void extractorSuccess();
+        void subExtractorSuccess(const double medianHFR, const int numStars);
         void solverSuccess();
+        void subSolverSuccess();
         void extractorFailed();
+        void subExtractorFailed();
         void solverFailed();
+        void subSolverFailed();
         void auxClicked();
 
     private:
@@ -59,7 +66,9 @@ class PlateSolve: public QDialog, public Ui::PlateSolveUI
       void initSolverUI();
       void setupSolver(const QSharedPointer<FITSData> &imageData, bool extractOnly);
       void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
+      void subSolverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
       void extractorDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
+      void subExtractorDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
       void setupProfiles(int profileIndex);
       int getProfileIndex(int moduleIndex);
       void setProfileIndex(int moduleIndex, int profileIndex);

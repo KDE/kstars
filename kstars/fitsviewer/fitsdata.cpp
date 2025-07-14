@@ -156,6 +156,32 @@ FITSData::~FITSData()
         m_PackBuffer = nullptr;
         fptr = nullptr;
     }
+
+    // Live Stacking
+    if (m_StackImageBuffer != nullptr)
+    {
+        delete[] m_StackImageBuffer;
+        m_StackImageBuffer = nullptr;
+        m_StackImageBufferSize = 0;
+    }
+#ifdef HAVE_WCSLIB
+    if (m_StackWCSHandle != nullptr)
+    {
+        wcsvfree(&m_Stacknwcs, &m_StackWCSHandle);
+        m_StackWCSHandle = nullptr;
+        m_Stacknwcs = 0;
+    }
+#endif
+    if (m_Stackfptr != nullptr)
+    {
+        status = 0;
+        fits_flush_file(m_Stackfptr, &status);
+        status = 0;
+        fits_close_file(m_Stackfptr, &status);
+        m_Stackfptr = nullptr;
+    }
+    m_StackFITSWatcher.waitForFinished();
+    m_StackWatcher.waitForFinished();
 }
 
 void FITSData::loadCommon(const QString &inFilename)
@@ -195,6 +221,487 @@ QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
     return QtConcurrent::run(this, &FITSData::privateLoad, QByteArray());
 #endif
 }
+
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+bool FITSData::loadStack(const QString &inDir, const LiveStackData &params)
+{
+    m_StackDir = inDir;
+    m_Stack.reset(new FITSStack(this, params));
+    connect(m_Stack.get(), &FITSStack::stackChanged, this, [this]()
+    {
+        QByteArray buffer = m_Stack->getStackedImage();
+        loadFromBuffer(buffer);
+        emit dataChanged();
+        emit stackReady();
+    });
+
+    // Clear the work queue
+    m_StackQ.clear();
+
+    // Setup directory watcher on the stack directory
+    m_StackDirWatcher.reset(new FITSDirWatcher(this));
+    connect(m_StackDirWatcher.get(), &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
+
+    m_StackDirWatcher->watchDir(m_StackDir);
+    QStringList subs = m_StackDirWatcher->getCurrentFiles();
+
+    auto stackData = m_Stack->getStackData();
+
+    // Make sure the future watchers aren't still active
+    m_StackWatcher.waitForFinished();
+    m_StackFITSWatcher.waitForFinished();
+    connect(&m_StackWatcher, &QFutureWatcher<bool>::finished, this, &FITSData::stackProcessDone);
+    connect(&m_StackFITSWatcher, &QFutureWatcher<bool>::finished, this, &FITSData::stackFITSLoaded);
+
+    // Choose and alignment master if we can
+    m_AlignMasterChosen = true;
+    QString alignMaster = stackData.alignMaster;
+    if (alignMaster.isEmpty())
+    {
+        // No align master chosen so use the first sub
+        if (subs.size() > 0)
+            emit alignMasterChosen(subs[0]);
+        else
+            m_AlignMasterChosen = false;
+    }
+    else
+    {
+        // An alignment master has been specified so make this the first sub to be processed
+        int pos = subs.indexOf(alignMaster);
+        if (pos >= 0 && pos < subs.size())
+            // Align Master is in the directory of subs to be processed so remove it from its current position
+            subs.takeAt(pos);
+        subs.insert(0, alignMaster);
+    }
+
+    int subsToProcess = m_Stack->getStackData().numInMem;
+    for (int i = 0; i < subs.size(); i++)
+    {
+        // Process the first subsToProcess and put the rest on a Q for processing later
+        if (i < subsToProcess)
+            m_StackSubs.push_back(subs[i]);
+        else
+            m_StackQ.enqueue(subs[i]);
+    }
+
+    if (m_StackSubs.size() == 0)
+    {
+        // No subs in the selected directory
+        emit stackReady();
+        return true;
+    }
+
+    // Set the control variables
+    m_StackSubPos = -1;
+    m_Stack->setInitalStackDone(false);
+    m_Stack->setStackInProgress(true);
+    m_DarkLoaded = false;
+    m_FlatLoaded = false;
+    m_CancelRequest = false;
+    setStackSubSolution(0.0, 0.0, 0.0, -1, -1);
+    nextStackAction();
+    return true;
+}
+
+// Called when user requested to cancel the in-flight stacking operation
+void FITSData::cancelStack()
+{
+    // If there is a stack in progress then no file processing will be happening
+    m_CancelRequest = !m_Stack->getStackInProgress();
+
+    if (m_StackFITSWatcher.isRunning())
+    {
+        m_StackFITSWatcherCancel = true;
+        m_StackFITSWatcher.cancel();
+        qCDebug(KSTARS_FITS) << "Cancelling stack file loading thread...";
+    }
+
+    if (m_StackWatcher.isRunning())
+    {
+        m_StackWatcherCancel = true;
+        m_StackWatcher.cancel();
+        qCDebug(KSTARS_FITS) << "Cancelling stacking threads...";
+    }
+}
+
+// Monitor progress of the user's cancel stack request. When all 3 phases are done
+// update other objects
+void FITSData::checkCancelStack()
+{
+    if (!m_CancelRequest && !m_StackFITSWatcherCancel && !m_StackWatcherCancel)
+    {
+        qCDebug(KSTARS_FITS) << "Cancel stack request completed";
+
+        // Stop watching for more files
+        disconnect(m_StackDirWatcher.get(), &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
+        m_StackDirWatcher->stopWatching();
+
+        // Reset the image to noimage
+        m_Stack->resetStackedImage();
+
+        // Drain any subs in the work Q
+        m_StackQ.clear();
+
+        emit stackReady();
+    }
+}
+
+// Called when 1 (or more) new files added to the watched stack directory
+void FITSData::newStackSubs(const QStringList &newFiles)
+{
+    for (const QString &file : newFiles)
+    {
+        qCDebug(KSTARS_FITS) << file;
+        m_StackQ.enqueue(file);
+    }
+    incrementalStack();
+}
+
+// Add 1 or more new subs to an existing stack
+void FITSData::incrementalStack()
+{
+    // Check whether a user cancel request has been received
+    if (m_CancelRequest)
+    {
+        m_CancelRequest = false;
+        checkCancelStack();
+        return;
+    }
+
+    if (m_StackQ.isEmpty())
+        // Nothing to do
+        return;
+
+    // If processing of other subs is still in progress we must wait for it to complete
+    bool hasUnprocessedSubs = !m_StackSubs.empty() && m_StackSubPos < m_StackSubs.size();
+    if (m_Stack->getStackInProgress() || hasUnprocessedSubs)
+        return;
+
+    m_Stack->setStackInProgress(true);
+    emit stackInProgress();
+    int subsToProcess = m_Stack->getStackData().numInMem;
+    m_StackSubs.clear();
+    m_StackSubPos = -1;
+    for (int i = 0; i < subsToProcess; i++)
+    {
+        m_StackSubs.push_back(m_StackQ.dequeue());
+        if (m_StackQ.isEmpty())
+            break;
+    }
+    nextStackAction();
+}
+
+QFuture<bool> FITSData::loadStackBuffer()
+{
+    m_Extension = "fits";
+    QByteArray buffer = m_Stack->getStackedImage();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return QtConcurrent::run(&FITSData::loadFromBuffer, this, buffer);
+#else
+    return QtConcurrent::run(this, &FITSData::loadFromBuffer, buffer);
+#endif
+}
+
+bool FITSData::processNextSub(QString &sub)
+{
+    m_Stack->setupNextSub();
+    m_StackFITSAsync = stackFITSSub;
+    qCDebug(KSTARS_FITS) << "Loading sub" << sub;
+
+    // Lambda to load the sub in the background
+    QFuture<bool> future = QtConcurrent::run([this, sub]() -> bool
+    {
+        bool ok = stackLoadFITSImage(sub, false);
+        if (!ok)
+            qCDebug(KSTARS_FITS) << QString("Unable to load sub %1").arg(sub);
+        else
+        {
+            if (m_StackSubIndex <= 0)
+            {
+                // 1st time solving, or solving had a problem so use WCS from sub header
+                if ((ok = stackLoadWCS()))
+                    setStackSubSolution(m_StackWCSHandle->crval[0], m_StackWCSHandle->crval[1],
+                                        std::fabs(m_StackWCSHandle->cdelt[0]) * 3600.0, -1, -1);
+            }
+
+            if (ok)
+                ok = m_Stack->addSub((void *) m_StackImageBuffer, m_StackStatistics.cvType,
+                                     m_StackStatistics.stats.width, m_StackStatistics.stats.height,
+                                     m_StackStatistics.stats.bytesPerPixel);
+        }
+        return ok;
+    });
+
+    m_StackFITSWatcher.setFuture(future);
+    return true;
+}
+
+void FITSData::processMasters()
+{
+    // Dark
+    if (!m_DarkLoaded)
+    {
+        QString dark = m_Stack->getStackData().masterDark;
+        if (dark.isEmpty())
+            m_DarkLoaded = true;
+        else
+        {
+            m_StackFITSAsync = stackFITSDark;
+            qCDebug(KSTARS_FITS) << "Loading master dark" << dark;
+
+            // Lambda to load the dark in the background
+            QFuture<bool> future = QtConcurrent::run([this, dark]() -> bool
+            {
+                bool load = stackLoadFITSImage(dark, false);
+                if (!load)
+                    qCDebug(KSTARS_FITS) << QString("Unable to load master dark");
+                else
+                {
+                    int width = m_StackStatistics.stats.width;
+                    int height = m_StackStatistics.stats.height;
+                    int bytesPerPixel = m_StackStatistics.stats.bytesPerPixel;
+                    int cvType = m_StackStatistics.cvType;
+                    m_Stack->addMaster(true, (void *) m_StackImageBuffer, width, height, bytesPerPixel, cvType);
+                }
+                return load;
+            });
+
+            m_StackFITSWatcher.setFuture(future);
+            return;
+        }
+    }
+
+    // Flat
+    if (!m_FlatLoaded)
+    {
+        QString flat = m_Stack->getStackData().masterFlat;
+        if (flat.isEmpty())
+            m_FlatLoaded = true;
+        else
+        {
+            m_StackFITSAsync = stackFITSFlat;
+            qCDebug(KSTARS_FITS) << "Loading master flat" << flat;
+
+            // Lambda to load the dark in the background
+            QFuture<bool> future = QtConcurrent::run([this, flat]() -> bool
+            {
+                bool load = stackLoadFITSImage(flat, false);
+                if (!load)
+                    qCDebug(KSTARS_FITS) << QString("Unable to load master flat");
+                else
+                {
+                    int width = m_StackStatistics.stats.width;
+                    int height = m_StackStatistics.stats.height;
+                    int bytesPerPixel = m_StackStatistics.stats.bytesPerPixel;
+                    int cvType = m_StackStatistics.cvType;
+                    m_Stack->addMaster(false, (void *) m_StackImageBuffer, width, height, bytesPerPixel, cvType);
+                }
+                return load;
+            });
+
+            m_StackFITSWatcher.setFuture(future);
+            return;
+        }
+    }
+    nextStackAction();
+}
+
+// Callback when a FITS file has been asynchronously loaded. This happens when:
+// 1. A new sub is loaded
+// 2. A dark or flat master is loaded
+// This function checks the result and takes the next action
+void FITSData::stackFITSLoaded()
+{
+    StackFITSAsyncType action = m_StackFITSAsync;
+    m_StackFITSAsync = stackFITSNone;
+
+    // Check for user cancel request
+    if (m_StackFITSWatcher.isCanceled())
+    {
+        qCDebug(KSTARS_FITS) << "Cancelled stack file loading thread";
+        m_StackFITSWatcherCancel = false;
+        checkCancelStack();
+        return;
+    }
+
+    switch (action)
+    {
+        case stackFITSDark:
+            m_DarkLoaded = true;
+            processMasters();
+            break;
+
+        case stackFITSFlat:
+            m_FlatLoaded = true;
+            processMasters();
+            break;
+
+        case stackFITSSub:
+            if (m_StackFITSWatcher.result())
+                // Next step in the chain is to plate solve
+                emit plateSolveSub(m_StackSubRa, m_StackSubDec, m_StackSubPixscale, m_StackSubIndex,
+                                   m_StackSubHealpix, m_Stack->getStackData().weighting);
+            else
+            {
+                // Something has gone wrong with this sub so mark it failed and move to the next action
+                m_Stack->addSubFailed();
+                emit stackUpdateStats(false, m_StackSubPos, m_StackDirWatcher->getCurrentFiles().size(),
+                                      m_Stack->getMeanSubSNR(), m_Stack->getMinSubSNR(), m_Stack->getMaxSubSNR());
+                nextStackAction();
+            }
+            break;
+        default:
+            qCDebug(KSTARS_FITS) << QString("%1 Unknown m_StackFITSAsync %2").arg(__FUNCTION__).arg(m_StackFITSAsync);
+    }
+}
+
+// Update plate solving status
+void FITSData::solverDone(const bool timedOut, const bool success, const double hfr, const int numStars)
+{
+    bool ok = m_Stack->solverDone(m_StackWCSHandle, timedOut, success, hfr, numStars);
+
+    emit stackUpdateStats(ok, m_StackSubPos, m_StackDirWatcher->getCurrentFiles().size(), m_Stack->getMeanSubSNR(),
+                          m_Stack->getMinSubSNR(), m_Stack->getMaxSubSNR());
+    nextStackAction();
+}
+
+// Current stack action is complete so do next action... either process next sub or stack
+void FITSData::nextStackAction()
+{
+    bool done = false;
+    while (!done)
+    {
+        // Check whether a user cancel request has been received
+        if (m_CancelRequest)
+        {
+            m_CancelRequest = false;
+            checkCancelStack();
+            return;
+        }
+
+        m_StackSubPos++;
+        if (m_StackSubs.size() > m_StackSubPos)
+            done = processNextSub(m_StackSubs[m_StackSubPos]);
+        else
+        {
+            // All subs have been processed so load calibration masters (if any)
+            done = true;
+            if (!m_DarkLoaded || !m_FlatLoaded)
+            {
+                processMasters();
+                return;
+            }
+
+            // If we haven't already chosen an alignment master use the first sub
+            if (!m_AlignMasterChosen)
+            {
+                m_AlignMasterChosen = true;
+                emit alignMasterChosen(m_StackSubs[0]);
+            }
+
+            // Stack... either an initial stack or add 1 or more subs to an existing stack
+            QFuture<bool> future;
+            if (m_Stack->getInitialStackDone())
+            {
+                qCDebug(KSTARS_FITS) << "Starting incremental stack...";
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                future = QtConcurrent::run(&FITSStack::stackn, m_Stack.get());
+#else
+                future = QtConcurrent::run(m_Stack.get(), &FITSStack::stackn);
+#endif
+            }
+            else
+            {
+                qCDebug(KSTARS_FITS) << "Starting initial stack...";
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                future = QtConcurrent::run(&FITSStack::stack, m_Stack.get());
+#else
+                future = QtConcurrent::run(m_Stack.get(), &FITSStack::stack);
+#endif
+            }
+            m_StackWatcher.setFuture(future);
+            return;
+        }
+    }
+}
+
+// Callback when an asynchronous stacking operation completes. This happens on:
+// 1. Initial stack
+// 2. Incremental stack
+void FITSData::stackProcessDone()
+{
+    m_Stack->setStackInProgress(false);
+
+    if (m_StackWatcher.isCanceled())
+    {
+        qCDebug(KSTARS_FITS) << "Stacking threads cancelled";
+        m_StackWatcherCancel = false;
+        checkCancelStack();
+    }
+    else
+    {
+        if (!m_StackWatcher.result())
+           qCDebug(KSTARS_FITS) << QString("Stacking operation failed");
+
+        emit stackReady();
+    }
+}
+
+void FITSData::stackSetupWCS()
+{
+    if (m_WCSHandle != nullptr)
+    {
+        wcsvfree(&m_nwcs, &m_WCSHandle);
+        m_nwcs = 0;
+        m_WCSHandle = nullptr;
+    }
+
+    if (!m_Stack)
+    {
+        qCDebug(KSTARS_FITS) << QString("%1 called by no m_Stack").arg(__FUNCTION__);
+        return;
+    }
+
+    struct wcsprm * wcsRef = m_Stack->getWCSRef();
+
+    // Take a deep copy of the WCS state
+    m_WCSHandle = new struct wcsprm;
+    m_WCSHandle->flag = -1; // Allocate space
+    int status = 0;
+    if ((status = wcssub(1, wcsRef, 0x0, 0x0, m_WCSHandle)) != 0)
+    {
+        qCDebug(KSTARS_FITS) << QString("%1 wcssub error processing %1 %2").arg(__FUNCTION__).arg(status)
+                                            .arg(wcs_errmsg[status]);
+        return;
+    }
+    if ((status = wcsset(m_WCSHandle)) != 0)
+    {
+        qCDebug(KSTARS_FITS) << QString("%1 wcsset error processing %1 %2").arg(__FUNCTION__).arg(status)
+                                            .arg(wcs_errmsg[status]);
+        return;
+    }
+
+    // Setup headers based on the solution
+    double ra = m_WCSHandle->crval[0];
+    double dec = m_WCSHandle->crval[1];
+
+    if (m_WCSHandle->cdelt && m_WCSHandle->crota)
+    {
+        double pixscale = fabs(m_WCSHandle->cdelt[0]) * 3600.0;
+        double orientation = 360.0 - m_WCSHandle->crota[0];
+        if (orientation > 360.0)
+            orientation -= 360.0;
+        bool eastToTheRight = (m_WCSHandle->cdelt[0] > 0.0);
+
+        injectWCS(orientation, ra, dec, pixscale, eastToTheRight);
+    }
+
+    m_ObjectsSearched = false;
+    m_CatObjectsSearched = false;
+    m_WCSState = Success;
+    HasWCS = true;
+}
+#endif // #if !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
 
 namespace
 {
@@ -421,7 +928,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const bool isCompressed)
 
     // Channels always set to #1 if we are not required to process 3D Cubes
     // Or if mode is not FITS_NORMAL (guide, focus..etc)
-    if ( (m_Mode != FITS_NORMAL && m_Mode != FITS_CALIBRATE) || !Options::auto3DCube())
+    if ( (m_Mode != FITS_NORMAL && m_Mode != FITS_CALIBRATE && m_Mode != FITS_LIVESTACKING) || !Options::auto3DCube())
         m_Statistics.channels = 1;
 
     m_ImageBufferSize = m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel;
@@ -477,11 +984,278 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const bool isCompressed)
 
     if (m_Mode == FITS_NORMAL || m_Mode == FITS_ALIGN)
         loadWCS();
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+    else if (m_Mode == FITS_LIVESTACKING)
+        stackSetupWCS();
+#endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
 
     starsSearched = false;
 
     return true;
 }
+
+// Load a FITS image temporarily for stacking so no need to setup all the global
+// variables required for a "normal" load
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
+{
+    int status = 0, anynull = 0;
+
+    // We're done with the previous file now so we can close it, discarding changes
+    if (m_Stackfptr != nullptr)
+    {
+        fits_close_file(m_Stackfptr, &status);
+        if (status != 0)
+            qCDebug(KSTARS_FITS) << QString("Error %1 closing file %2").arg(fitsErrorToString(status)).arg(filename);
+        m_Stackfptr = nullptr;
+        status = 0;
+    }
+
+    QFileInfo info(filename);
+    QString extension = info.completeSuffix().toLower();
+
+    if (extension.contains(".fz") || isCompressed)
+    {
+        fpstate fpvar;
+        fp_init (&fpvar);
+        bool rc = false;
+
+        QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(
+                                                              QRegularExpression("[-{}]")));
+
+        rc = fp_unpack_file_to_fits(filename.toLocal8Bit().data(), &m_Stackfptr, fpvar) == 0;
+        if (rc)
+            filename = uncompressedFile;
+        else
+        {
+            qCDebug(KSTARS_FITS) << QString("Failed to unpack compressed fits file %1").arg(filename);
+            return false;
+        }
+    }
+    else
+    {
+        // Use open diskfile as it does not use extended file names which has problems opening
+        // files with [ ] or ( ) in their names.
+        if (fits_open_diskfile(&m_Stackfptr, filename.toLocal8Bit(), READONLY, &status))
+        {
+            qCDebug(KSTARS_FITS) << QString("Error %1 opening fits file %2").arg(fitsErrorToString(status)).arg(filename);
+            return false;
+        }
+    }
+
+    if (fits_movabs_hdu(m_Stackfptr, 1, IMAGE_HDU, &status))
+    {
+        qCDebug(KSTARS_FITS) << QString("Error %1 locating image HDU in %2").arg(fitsErrorToString(status)).arg(filename);
+        return false;
+    }
+
+    int FITSBITPIX;
+    long naxes[3];
+    if (fits_get_img_param(m_Stackfptr, 3, &FITSBITPIX, &m_StackStatistics.stats.ndim, naxes, &status))
+    {
+        qCDebug(KSTARS_FITS) << QString("Error %1 getting image params for %2").arg(fitsErrorToString(status)).arg(filename);
+        return false;
+    }
+
+    // Reload if it is transparently compressed.
+    if ((fits_is_compressed_image(m_Stackfptr, &status) || m_StackStatistics.stats.ndim <= 0) && !isCompressed)
+    {
+        qCDebug(KSTARS_FITS) << "Image is compressed. Reloading...";
+        return stackLoadFITSImage(filename, true);
+    }
+
+    if (m_StackStatistics.stats.ndim < 2)
+    {
+        qCDebug(KSTARS_FITS) << QString("1D FITS image %1 detected. These are not supported").arg(filename);
+        return false;
+    }
+
+    if (m_StackStatistics.stats.ndim < 3)
+        naxes[2] = 1;
+
+    if (naxes[0] == 0 || naxes[1] == 0)
+    {
+        qCDebug(KSTARS_FITS) << QString("Image %1 has invalid dimensions %2x%3")
+                                    .arg(filename).arg(naxes[0]).arg(naxes[1]);
+        return false;
+    }
+
+    m_StackStatistics.stats.width               = naxes[0];
+    m_StackStatistics.stats.height              = naxes[1];
+    m_StackStatistics.stats.channels            = naxes[2];
+    m_StackStatistics.stats.samples_per_channel = m_StackStatistics.stats.width * m_StackStatistics.stats.height;
+
+    switch (FITSBITPIX)
+    {
+        case BYTE_IMG:
+            m_StackStatistics.stats.dataType      = TBYTE;
+            m_StackStatistics.stats.bytesPerPixel = sizeof(uint8_t);
+            m_StackStatistics.cvType              = CV_MAKETYPE(CV_8U, m_StackStatistics.stats.channels);
+            break;
+        case SHORT_IMG:
+            // Process a signed short image as unsigned
+            m_StackStatistics.stats.dataType      = TUSHORT;
+            m_StackStatistics.stats.bytesPerPixel = sizeof(int16_t);
+            m_StackStatistics.cvType              = CV_MAKETYPE(CV_16U, m_StackStatistics.stats.channels);
+            break;
+        case USHORT_IMG:
+            m_StackStatistics.stats.dataType      = TUSHORT;
+            m_StackStatistics.stats.bytesPerPixel = sizeof(uint16_t);
+            m_StackStatistics.cvType              = CV_MAKETYPE(CV_16U, m_StackStatistics.stats.channels);
+            break;
+        case LONG_IMG:
+            // Process a signed long image as unsigned
+            m_StackStatistics.stats.dataType      = TULONG;
+            m_StackStatistics.stats.bytesPerPixel = sizeof(int32_t);
+            m_StackStatistics.cvType              = -1;
+            qCDebug(KSTARS_FITS) << "OpenCV does not support unsigned long datatype";
+            return false;
+        case ULONG_IMG:
+            m_StackStatistics.stats.dataType      = TULONG;
+            m_StackStatistics.stats.bytesPerPixel = sizeof(uint32_t);
+            m_StackStatistics.cvType              = -1;
+            qCDebug(KSTARS_FITS) << "OpenCV does not support unsigned long datatype";
+            return false;
+        case FLOAT_IMG:
+            m_StackStatistics.stats.dataType      = TFLOAT;
+            m_StackStatistics.stats.bytesPerPixel = sizeof(float);
+            m_StackStatistics.cvType              = CV_MAKETYPE(CV_32F, m_StackStatistics.stats.channels);
+            break;
+        case LONGLONG_IMG:
+            m_StackStatistics.stats.dataType      = TLONGLONG;
+            m_StackStatistics.stats.bytesPerPixel = sizeof(int64_t);
+            m_StackStatistics.cvType              = -1;
+            qCDebug(KSTARS_FITS) << "OpenCV does not support long long datatype";
+            return false;
+        case DOUBLE_IMG:
+            m_StackStatistics.stats.dataType      = TDOUBLE;
+            m_StackStatistics.stats.bytesPerPixel = sizeof(double);
+            m_StackStatistics.cvType              = CV_MAKETYPE(CV_64F, m_StackStatistics.stats.channels);
+            break;
+        default:
+            m_StackStatistics.cvType              = -1;
+            qCDebug(KSTARS_FITS) << QString("File %1 has bit depth %2 This is not supported")
+                                        .arg(filename).arg(FITSBITPIX);
+            return false;
+    }
+
+    uint32_t stackImageBufferSize = m_StackStatistics.stats.samples_per_channel * m_StackStatistics.stats.channels *
+                                    m_StackStatistics.stats.bytesPerPixel;
+    if (stackImageBufferSize != m_StackImageBufferSize)
+    {
+        if (m_StackImageBuffer != nullptr)
+            delete[] m_StackImageBuffer;
+        m_StackImageBuffer = new uint8_t[stackImageBufferSize];
+
+        if (m_StackImageBuffer != nullptr)
+            m_StackImageBufferSize = stackImageBufferSize;
+        else
+        {
+            qCDebug(KSTARS_FITS) << "FITSData: Not enough memory for stack_image_buffer channel. Requested: "
+                                 << stackImageBufferSize << " bytes.";
+            m_StackImageBufferSize = 0;
+            return false;
+        }
+    }
+
+    long nelements = m_StackStatistics.stats.samples_per_channel * m_StackStatistics.stats.channels;
+    if (fits_read_img(m_Stackfptr, m_StackStatistics.stats.dataType, 1, nelements, nullptr, m_StackImageBuffer, &anynull, &status))
+    {
+        qCDebug(KSTARS_FITS) << QString("Error %1 reading image: %2").arg(fitsErrorToString(status)).arg(filename);
+        return false;
+    }
+
+    if (!parseHeader(true))
+    {
+        qCDebug(KSTARS_FITS) << QString("Error parsing FITS header in %1").arg(filename);
+        return false;
+    }
+
+    // Debayer if necessary
+    BayerParams bayerParams;
+    bayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
+    bayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
+    bayerParams.offsetX = bayerParams.offsetY = 0;
+
+    if (naxes[2] == 1 && m_StackStatistics.stats.channels == 1 && Options::autoDebayer() &&
+                                             stackCheckDebayer(bayerParams))
+    {
+        if (m_StackStatistics.stats.dataType == TUSHORT)
+            stackDebayer<uint16_t>(bayerParams);
+        else if (m_StackStatistics.stats.dataType == TBYTE)
+            stackDebayer<uint8_t>(bayerParams);
+        else
+            qCDebug(KSTARS_FITS) << QString("Unsupported bit depth for debayering: %1 bytes per pixel")
+                                        .arg(m_StackStatistics.stats.bytesPerPixel);
+    }
+    return true;
+}
+
+bool FITSData::stackLoadWCS()
+{
+    if (m_StackWCSHandle != nullptr)
+    {
+        wcsvfree(&m_Stacknwcs, &m_StackWCSHandle);
+        m_Stacknwcs = 0;
+        m_StackWCSHandle = nullptr;
+    }
+
+    // Get the FITS header in a format to do WCS processing...
+    int status = 0, nreject = 0, nkeyrec = 1;
+    QByteArray header_str;
+
+    for(auto &fitsKeyword : m_StackHeaderRecords)
+    {
+        QByteArray rec;
+        rec.append(fitsKeyword.key.leftJustified(8, ' ').toLatin1());
+        rec.append("= ");
+        rec.append(fitsKeyword.value.toByteArray());
+        rec.append(" / ");
+        rec.append(fitsKeyword.comment.toLatin1());
+        header_str.append(rec.leftJustified(80, ' ', true));
+        nkeyrec++;
+    }
+    header_str.append(QByteArray("END").leftJustified(80));
+
+    // Do the WCS processing...
+    if ((status = wcspih(header_str.data(), nkeyrec, WCSHDR_all, 0, &nreject, &m_Stacknwcs, &m_StackWCSHandle)) != 0)
+    {
+        wcsvfree(&m_Stacknwcs, &m_StackWCSHandle);
+        m_StackWCSHandle = nullptr;
+        m_Stacknwcs = 0;
+        qCDebug(KSTARS_FITS) << QString("Error %1 getting WCS header")
+                                    .arg(fitsErrorToString(status));
+        return false;
+    }
+
+    if (m_StackWCSHandle == nullptr)
+    {
+        qCDebug(KSTARS_FITS) << QString("No world coordinate systems found");
+        return false;
+    }
+
+    // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
+    if (m_StackWCSHandle->crpix[0] == 0)
+    {
+        wcsvfree(&m_Stacknwcs, &m_StackWCSHandle);
+        m_StackWCSHandle = nullptr;
+        m_Stacknwcs = 0;
+        qCDebug(KSTARS_FITS) << QString("No world coordinate systems found (check)");
+        return false;
+    }
+
+    cdfix(m_StackWCSHandle);
+    if ((status = wcsset(m_StackWCSHandle)) != 0)
+    {
+        wcsvfree(&m_Stacknwcs, &m_StackWCSHandle);
+        m_StackWCSHandle = nullptr;
+        m_Stacknwcs = 0;
+        qCDebug(KSTARS_FITS) << QString("wcsset error %1").arg(wcs_errmsg[status]);
+        return false;
+    }
+    return true;
+}
+#endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
 
 bool FITSData::loadXISFImage(const QByteArray &buffer)
 {
@@ -1012,10 +1786,8 @@ bool FITSData::saveImage(const QString &newFilename)
 
     /* close current file */
     if (fptr && fits_close_file(fptr, &status))
-    {
-        m_LastError = i18n("Failed to close file: %1", fitsErrorToString(status));
-        return false;
-    }
+        // We can continue if the close fails, e.g. on a memory file
+        status = 0;
 
     /* Create a new File, overwriting existing*/
     if (fits_create_file(&new_fptr, QString("!%1").arg(newFilename).toLocal8Bit(), &status))
@@ -1939,19 +2711,19 @@ void FITSData::setMinMax(double newMin, double newMax, uint8_t channel)
     m_Statistics.max[channel] = newMax;
 }
 
-bool FITSData::parseHeader()
+bool FITSData::parseHeader(const bool stack)
 {
     char * header = nullptr;
     int status = 0, nkeys = 0;
 
-    if (fits_hdr2str(fptr, 0, nullptr, 0, &header, &nkeys, &status))
+    if (fits_hdr2str(stack ? m_Stackfptr : fptr, 0, nullptr, 0, &header, &nkeys, &status))
     {
         fits_report_error(stderr, status);
         free(header);
         return false;
     }
 
-    m_HeaderRecords.clear();
+    stack ? m_StackHeaderRecords.clear() : m_HeaderRecords.clear();
     QString recordList = QString(header);
 
     for (int i = 0; i < nkeys; i++)
@@ -1990,7 +2762,7 @@ bool FITSData::parseHeader()
             }
         }
 
-        m_HeaderRecords.append(oneRecord);
+        stack ? m_StackHeaderRecords.append(oneRecord) : m_HeaderRecords.append(oneRecord);
     }
 
     free(header);
@@ -2013,14 +2785,15 @@ bool FITSData::getRecordValue(const QString &key, QVariant &value) const
     return false;
 }
 
-void FITSData::updateRecordValue(const QString &key, QVariant value, const QString &comment)
+void FITSData::updateRecordValue(const QString &key, QVariant value, const QString &comment, const bool stack)
 {
-    auto result = std::find_if(m_HeaderRecords.begin(), m_HeaderRecords.end(), [&key](const Record & oneRecord)
+    auto &headerRecords = (stack) ? m_StackHeaderRecords : m_HeaderRecords;
+    auto result = std::find_if(headerRecords.begin(), headerRecords.end(), [&key](const Record & oneRecord)
     {
         return (oneRecord.key == key && oneRecord.value.isValid());
     });
 
-    if (result != m_HeaderRecords.end())
+    if (result != headerRecords.end())
     {
         (*result).value = value;
     }
@@ -2029,9 +2802,9 @@ void FITSData::updateRecordValue(const QString &key, QVariant value, const QStri
         // Add item as penultimate entry (END is usually the last one).
         FITSData::Record record = {key, value.toString(), comment};
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-        m_HeaderRecords.insert(std::max(0LL, m_HeaderRecords.size() - 1), record);
+        headerRecords.insert(std::max(0LL, headerRecords.size() - 1), record);
 #else
-        m_HeaderRecords.insert(std::max(0, m_HeaderRecords.size() - 1), record);
+        headerRecords.insert(std::max(0, headerRecords.size() - 1), record);
 #endif
     }
 }
@@ -4346,6 +5119,95 @@ bool FITSData::checkDebayer()
     return true;
 }
 
+// Check whether a stack sub needs debayering
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+bool FITSData::stackCheckDebayer(BayerParams bayerParams)
+{
+    int status = 0;
+    char bayerPattern[64], roworder[64];
+
+    // Let's search for BAYERPAT keyword, if it's not found we return as there is no bayer pattern in this image
+    if (fits_read_keyword(m_Stackfptr, "BAYERPAT", bayerPattern, nullptr, &status))
+        return false;
+
+    if (m_StackStatistics.stats.dataType != TUSHORT && m_StackStatistics.stats.dataType != TBYTE)
+    {
+        qCDebug(KSTARS_FITS) << QString("Only 8 and 16 bit bayered images supported. Continuing as greyscale...");
+        return false;
+    }
+    QString pattern(bayerPattern);
+    pattern = pattern.remove('\'').trimmed();
+
+    QString order(roworder);
+    order = order.remove('\'').trimmed();
+
+    if (order == "BOTTOM-UP" && !(m_StackStatistics.stats.height % 2))
+    {
+        if (pattern == "RGGB")
+            pattern = "GBRG";
+        else if (pattern == "GBRG")
+            pattern = "RGGB";
+        else if (pattern == "GRBG")
+            pattern = "BGGR";
+        else if (pattern == "BGGR")
+            pattern = "GRBG";
+        else return false;
+    }
+
+    if (pattern == "RGGB")
+        bayerParams.filter = DC1394_COLOR_FILTER_RGGB;
+    else if (pattern == "GBRG")
+        bayerParams.filter = DC1394_COLOR_FILTER_GBRG;
+    else if (pattern == "GRBG")
+        bayerParams.filter = DC1394_COLOR_FILTER_GRBG;
+    else if (pattern == "BGGR")
+        bayerParams.filter = DC1394_COLOR_FILTER_BGGR;
+    else
+    {
+        qCDebug(KSTARS_FITS) << QString("Unsupported bayer pattern %1.").arg(pattern);
+        return false;
+    }
+
+    fits_read_key(m_Stackfptr, TINT, "XBAYROFF", &bayerParams.offsetX, nullptr, &status);
+    fits_read_key(m_Stackfptr, TINT, "YBAYROFF", &bayerParams.offsetY, nullptr, &status);
+
+    if (bayerParams.offsetX == 1)
+    {
+        // This may leave odd values in the 0th column if the color filter is not there
+        // in the sensor, but otherwise should process the offset correctly.
+        // Only offsets of 0 or 1 are implemented in debayer_8bit() and debayer_16bit().
+        switch (bayerParams.filter)
+        {
+            case DC1394_COLOR_FILTER_RGGB:
+                bayerParams.filter = DC1394_COLOR_FILTER_GRBG;
+                pattern = "GRBG";
+                break;
+            case DC1394_COLOR_FILTER_GBRG:
+                bayerParams.filter = DC1394_COLOR_FILTER_BGGR;
+                pattern = "BGGR";
+                break;
+            case DC1394_COLOR_FILTER_GRBG:
+                bayerParams.filter = DC1394_COLOR_FILTER_RGGB;
+                pattern = "RGGB";
+                break;
+            case DC1394_COLOR_FILTER_BGGR:
+                bayerParams.filter = DC1394_COLOR_FILTER_GBRG;
+                pattern = "GBRG";
+                break;
+        }
+        bayerParams.offsetX = 0;
+    }
+    if (bayerParams.offsetX != 0 || bayerParams.offsetY > 1 || bayerParams.offsetY < 0)
+    {
+        qCDebug(KSTARS_FITS) << QString("Unsupported bayer offsets %1 %2.").arg(bayerParams.offsetX).arg(bayerParams.offsetY);
+        return false;
+    }
+    if (m_Stack)
+        m_Stack->setBayerPattern(pattern, bayerParams.offsetX, bayerParams.offsetY);
+    return true;
+}
+#endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
+
 void FITSData::getBayerParams(BayerParams * param)
 {
     param->method  = debayerParams.method;
@@ -4478,7 +5340,7 @@ bool FITSData::debayer_8bit()
     // TODO Maybe all should be treated the same
     // Doing single channel saves lots of memory though for non-essential
     // frames
-    m_Statistics.channels = (m_Mode == FITS_NORMAL || m_Mode == FITS_CALIBRATE) ? 3 : 1;
+    m_Statistics.channels = (m_Mode == FITS_NORMAL || m_Mode == FITS_CALIBRATE || m_Mode == FITS_LIVESTACKING) ? 3 : 1;
     m_Statistics.dataType = TBYTE;
     delete[] destinationBuffer;
     return true;
@@ -4567,11 +5429,114 @@ bool FITSData::debayer_16bit()
         *bBuff++ = bayer_destination_buffer[i + 2];
     }
 
-    m_Statistics.channels = (m_Mode == FITS_NORMAL || m_Mode == FITS_CALIBRATE) ? 3 : 1;
+    m_Statistics.channels = (m_Mode == FITS_NORMAL || m_Mode == FITS_CALIBRATE || m_Mode == FITS_LIVESTACKING) ? 3 : 1;
     m_Statistics.dataType = TUSHORT;
     delete[] destinationBuffer;
     return true;
 }
+
+// Template function to handle both 8-bit and 16-bit debayering
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+template <typename T>
+bool FITSData::stackDebayer(BayerParams &bayerParams)
+{
+    //static_assert(std::is_same_v<T, uint8_t> || std::is_same_v<T, uint16_t>,
+    //              "Template parameter must be uint8_t or uint16_t");
+
+    dc1394error_t error_code;
+    uint32_t rgb_size = m_StackStatistics.stats.samples_per_channel * 3 * m_StackStatistics.stats.bytesPerPixel;
+    uint8_t *destinationBuffer = nullptr;
+
+    try
+    {
+        destinationBuffer = new uint8_t[rgb_size];
+    }
+    catch (const std::bad_alloc &e)
+    {
+        qCDebug(KSTARS_FITS) << QString("Unable to allocate memory for temporary bayer buffer: %1").arg(e.what());
+        return false;
+    }
+
+    auto * bayer_source_buffer = reinterpret_cast<T *>(m_StackImageBuffer);
+    auto * bayer_destination_buffer = reinterpret_cast<T *>(destinationBuffer);
+
+    if (bayer_destination_buffer == nullptr)
+    {
+        qCDebug(KSTARS_FITS) << QString("Unable to allocate memory for temporary bayer buffer");
+        return false;
+    }
+
+    int ds1394_height = m_StackStatistics.stats.height;
+    auto dc1394_source = bayer_source_buffer;
+
+    if (bayerParams.offsetY == 1)
+    {
+        dc1394_source += m_StackStatistics.stats.width;
+        ds1394_height--;
+    }
+
+    // Call appropriate debayering function based on template type
+    if constexpr (std::is_same_v<T, uint16_t>)
+    {
+        error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer,
+                                                 m_StackStatistics.stats.width, ds1394_height,
+                                                 bayerParams.filter, bayerParams.method, 16);
+    }
+    else // uint8_t
+    {
+        error_code = dc1394_bayer_decoding_8bit(dc1394_source, bayer_destination_buffer,
+                                                m_StackStatistics.stats.width, ds1394_height,
+                                                bayerParams.filter, bayerParams.method);
+    }
+
+    if (error_code != DC1394_SUCCESS)
+    {
+        qCDebug(KSTARS_FITS) << QString("Debayer failed %1").arg(error_code);
+        delete[] destinationBuffer;
+        return false;
+    }
+
+    if (m_StackImageBufferSize != rgb_size)
+    {
+        delete[] m_StackImageBuffer;
+        try
+        {
+            m_StackImageBuffer = new uint8_t[rgb_size];
+        }
+        catch (const std::bad_alloc &e)
+        {
+            qCDebug(KSTARS_FITS) << QString("Unable to allocate memory for temporary bayer buffer: %1").arg(error_code);
+            delete[] destinationBuffer;
+            return false;
+        }
+        m_StackImageBufferSize = rgb_size;
+    }
+
+    auto bayered_buffer = reinterpret_cast<T *>(m_StackImageBuffer);
+
+    // Data in R1G1B1, we need to copy them into 3 layers for FITS
+    T * rBuff = bayered_buffer;
+    T * gBuff = bayered_buffer + (m_StackStatistics.stats.width * m_StackStatistics.stats.height);
+    T * bBuff = bayered_buffer + (m_StackStatistics.stats.width * m_StackStatistics.stats.height * 2);
+
+    int imax = m_StackStatistics.stats.samples_per_channel * 3 - 3;
+    for (int i = 0; i <= imax; i += 3)
+    {
+        *rBuff++ = bayer_destination_buffer[i];
+        *gBuff++ = bayer_destination_buffer[i + 1];
+        *bBuff++ = bayer_destination_buffer[i + 2];
+    }
+
+    // Now we've debayered update the channels from 1 to 3
+    int type = CV_MAT_DEPTH(m_StackStatistics.cvType);
+    int channels = 3;
+    m_StackStatistics.stats.channels = 3;
+    m_StackStatistics.cvType = CV_MAKETYPE(type, channels);
+
+    delete[] destinationBuffer;
+    return true;
+}
+#endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
 
 void FITSData::logOOMError(uint32_t requiredMemory)
 {
@@ -4905,40 +5870,53 @@ void FITSData::injectWCS(double orientation, double ra, double dec, double pixsc
     m_WCSState = Idle;
 }
 
+void FITSData::injectStackWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight)
+{
+    updateWCSHeaderData(orientation, ra, dec, pixscale, eastToTheRight, true);
+}
+
+void FITSData::setStackSubSolution(const double ra, const double dec, const double pixscale, const int index, const int healpix)
+{
+    m_StackSubRa = ra;
+    m_StackSubDec = dec;
+    m_StackSubPixscale = pixscale;
+    m_StackSubIndex = index;
+    m_StackSubHealpix = healpix;
+}
+
 // Update header records based on plate solver solution
 void FITSData::updateWCSHeaderData(const double orientation, const double ra, const double dec, const double pixscale,
-                                   const bool eastToTheRight)
+                                   const bool eastToTheRight, const bool stack)
 {
+    updateRecordValue("OBJCTRA", dms(ra).toHMSString(true, false, ' '), "Object RA", stack);
+    updateRecordValue("OBJCTDEC", dms(dec).toDMSString(true, true, false, ' '), "Object DEC", stack);
+    updateRecordValue("EQUINOX", 2000, "Equinox", stack);
+    updateRecordValue("CRVAL1", ra, "CRVAL1", stack);
+    updateRecordValue("CRVAL2", dec, "CRVAL2", stack);
 
+    updateRecordValue("RADECSYS", "'FK5'", "RADECSYS", stack);
+    updateRecordValue("CTYPE1", "'RA---TAN'", "CTYPE1", stack);
+    updateRecordValue("CTYPE2", "'DEC--TAN'", "CTYPE2", stack);
 
-    updateRecordValue("OBJCTRA", dms(ra).toHMSString(true, false, ' '), "Object RA");
-    updateRecordValue("OBJCTDEC", dms(dec).toDMSString(true, true, false, ' '), "Object DEC");
-
-    updateRecordValue("EQUINOX", 2000, "Equinox");
-    updateRecordValue("CRVAL1", ra, "CRVAL1");
-    updateRecordValue("CRVAL2", dec, "CRVAL2");
-
-    updateRecordValue("RADECSYS", "'FK5'", "RADECSYS");
-    updateRecordValue("CTYPE1", "'RA---TAN'", "CTYPE1");
-    updateRecordValue("CTYPE2", "'DEC--TAN'", "CTYPE2");
-
-    updateRecordValue("CRPIX1", m_Statistics.width / 2.0, "CRPIX1");
-    updateRecordValue("CRPIX2", m_Statistics.height / 2.0, "CRPIX2");
+    auto width = stack ? getStackStatistics().width : m_Statistics.width;
+    auto height = stack ? getStackStatistics().height : m_Statistics.height;
+    updateRecordValue("CRPIX1", width / 2.0, "CRPIX1", stack);
+    updateRecordValue("CRPIX2", height / 2.0, "CRPIX2", stack);
 
     double secpix1 = eastToTheRight ? pixscale : -pixscale;
     double secpix2 = pixscale;
 
     double degpix1 = secpix1 / 3600.0;
     double degpix2 = secpix2 / 3600.0;
-    updateRecordValue("CDELT1", degpix1, "CDELT1");
-    updateRecordValue("CDELT2", degpix2, "CDELT2");
+    updateRecordValue("CDELT1", degpix1, "CDELT1", stack);
+    updateRecordValue("CDELT2", degpix2, "CDELT2", stack);
 
     // Rotation is CW, we need to convert it to CCW per CROTA1 definition
     double rotation = 360 - orientation;
     if (rotation > 360)
         rotation -= 360;
-    updateRecordValue("CROTA1", rotation, "CROTA1");
-    updateRecordValue("CROTA2", rotation, "CROTA2");
+    updateRecordValue("CROTA1", rotation, "CROTA1", stack);
+    updateRecordValue("CROTA2", rotation, "CROTA2", stack);
 }
 
 bool FITSData::contains(const QPointF &point) const

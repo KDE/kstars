@@ -18,6 +18,7 @@
 #include <QFileDialog>
 #include <QSettings>
 #include <stellarsolver.h>
+#undef Const
 
 namespace Ekos
 {

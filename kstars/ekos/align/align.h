@@ -30,6 +30,7 @@
 #endif
 
 #include <stellarsolver.h>
+#undef Const
 #include <memory>
 
 class QProgressIndicator;

@@ -404,6 +404,112 @@ void FITSView::loadFile(const QString &inFilename)
     fitsWatcher.setFuture(m_ImageData->loadFromFile(inFilename));
 }
 
+// Initialise the stack, displaying the noimage image - signalled from FitsTab
+void FITSView::initStack()
+{
+    if (floatingToolBar != nullptr)
+    {
+        floatingToolBar->setVisible(true);
+    }
+
+    filterStack.clear();
+    filterStack.push(FITS_NONE);
+    if (filter != FITS_NONE)
+        filterStack.push(filter);
+
+    m_ImageData.reset(new FITSData(mode), &QObject::deleteLater);
+
+    QString noImage = ":/images/noimage.png";
+    fitsWatcher.setFuture(m_ImageData->loadFromFile(noImage));
+}
+
+void FITSView::loadStack(const QString &inDir, const LiveStackData &params)
+{
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+    if (floatingToolBar != nullptr)
+        floatingToolBar->setVisible(true);
+
+    bool setBayerParams = false;
+    BayerParams param;
+    if ((m_ImageData != nullptr) && m_ImageData->hasDebayer())
+    {
+        setBayerParams = true;
+        m_ImageData->getBayerParams(&param);
+    }
+
+    filterStack.clear();
+    filterStack.push(FITS_NONE);
+    if (filter != FITS_NONE)
+        filterStack.push(filter);
+
+    m_ImageData.reset(new FITSData(mode), &QObject::deleteLater);
+
+    if (setBayerParams)
+        m_ImageData->setBayerParams(&param);
+
+    connect(m_ImageData.data(), &FITSData::plateSolveSub, this, [this](const double ra, const double dec,
+                    const double pixScale, const int index, const int healpix, const LiveStackFrameWeighting weighting)
+    {
+        emit plateSolveSub(ra, dec, pixScale, index, healpix, weighting);
+    });
+
+    connect(m_ImageData.data(), &FITSData::alignMasterChosen, this, [this](const QString alignMaster)
+    {
+        emit alignMasterChosen(alignMaster);
+    });
+
+    connect(m_ImageData.data(), &FITSData::stackInProgress, this, [this]()
+    {
+        emit stackInProgress();
+    });
+
+    connect(m_ImageData.data(), &FITSData::stackReady, this, [this]()
+    {
+        auto stack = m_ImageData->stack();
+        if(stack && !stack->isStackedImageEmpty())
+        {
+            emit updateStackSNR(m_ImageData->stack()->getStackSNR());
+            fitsWatcher.setFuture(m_ImageData->loadStackBuffer());
+        }
+        else
+            fitsWatcher.setFuture(m_ImageData->loadFromFile(":/images/noimage.png"));
+        emit resetStack();
+    });
+
+    connect(m_ImageData.data(), &FITSData::stackUpdateStats, this, [this](const bool ok, const int sub,
+                                                                          const int total, const double meanSNR, const double minSNR, const double maxSNR)
+    {
+        emit stackUpdateStats(ok, sub, total, meanSNR, minSNR, maxSNR);
+    });
+
+    m_ImageData->loadStack(inDir, params);
+#else
+    Q_UNUSED(inDir);
+#endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
+}
+
+void FITSView::cancelStack()
+{
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+    m_ImageData->cancelStack();
+#endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
+}
+// Called when post processing controls in Fitstab changed by the user
+void FITSView::redoPostProcessStack(const LiveStackPPData &ppParams)
+{
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+    auto stack = m_ImageData->stack();
+    if (stack)
+    {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QFuture<void> future = QtConcurrent::run(&FITSStack::redoPostProcessStack, stack.get(), ppParams);
+#else
+        QFuture<void> future = QtConcurrent::run(stack.get(), &FITSStack::redoPostProcessStack, ppParams);
+#endif
+    }
+#endif
+}
+
 void FITSView::clearData()
 {
     if (!noImageLabel)
@@ -533,6 +639,11 @@ bool FITSView::processData()
         m_PreviewSampling = m_AdaptiveSampling;
     }
 
+    // For livestacking the noimage is displayed first each time a stack is started
+    // or if there are no subs to stack... so treat these situations as a first load
+    if (mode == FITS_LIVESTACKING && m_ImageData->filename() == ":/images/noimage.png")
+        firstLoad = true;
+
     // Rescale to fits window on first load
     if (firstLoad)
     {
@@ -544,7 +655,8 @@ bool FITSView::processData()
             return false;
         }
 
-        firstLoad = false;
+        if (mode != FITS_LIVESTACKING || m_ImageData->filename() != ":/images/noimage.png")
+            firstLoad = false;
     }
     else
     {
@@ -558,7 +670,7 @@ bool FITSView::processData()
     setAlignment(Qt::AlignCenter);
 
     // Load WCS data now if selected and image contains valid WCS header
-    if ((mode == FITS_NORMAL || mode == FITS_ALIGN) &&
+    if ((mode == FITS_NORMAL || mode == FITS_ALIGN || mode == FITS_LIVESTACKING) &&
             m_ImageData->hasWCS() && m_ImageData->getWCSState() == FITSData::Idle &&
             Options::autoWCS() &&
             !wcsWatcher.isRunning())
@@ -615,6 +727,12 @@ void FITSView::loadInFrame()
         emit loaded();
     else
         emit failed(m_LastError);
+
+    // If stack has just been processed, plate solve and check for more subs...
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+    if (mode == FITS_LIVESTACKING && m_ImageData->stack())
+        m_ImageData->incrementalStack();
+#endif
 }
 
 bool FITSView::saveImage(const QString &newFilename)
@@ -2205,7 +2323,7 @@ void FITSView::toggleStarProfile()
     {
         //The tracking box is already on for Guide and Focus Views, but off for Normal and Align views.
         //So for Normal and Align views, we need to set up the tracking box.
-        if(mode == FITS_NORMAL || mode == FITS_ALIGN)
+        if(mode == FITS_NORMAL || mode == FITS_ALIGN || mode == FITS_LIVESTACKING)
         {
             setCursorMode(selectCursor);
             connect(this, SIGNAL(trackingStarSelected(int, int)), this, SLOT(move3DTrackingBox(int, int)));
@@ -2221,7 +2339,7 @@ void FITSView::toggleStarProfile()
     {
         //This shuts down the tracking box for Normal and Align Views
         //It doesn't touch Guide and Focus Views because they still need a tracking box
-        if(mode == FITS_NORMAL || mode == FITS_ALIGN)
+        if(mode == FITS_NORMAL || mode == FITS_ALIGN || mode == FITS_LIVESTACKING)
         {
             if(getCursorMode() == selectCursor)
                 setCursorMode(dragCursor);
@@ -2271,7 +2389,7 @@ void FITSView::viewStarProfile()
         //This is the end of the band-aid
 
         connect(starProfileWidget, SIGNAL(rejected()), this, SLOT(toggleStarProfile()));
-        if(mode == FITS_ALIGN || mode == FITS_NORMAL)
+        if(mode == FITS_ALIGN || mode == FITS_NORMAL || mode == FITS_LIVESTACKING)
         {
             starProfileWidget->enableTrackingBox(true);
             m_ImageData->setStarAlgorithm(ALGORITHM_CENTROID);
@@ -2666,7 +2784,7 @@ void FITSView::createFloatingToolBar()
     toggleProfileAction->setCheckable(true);
 #endif
 
-    if (mode == FITS_NORMAL || mode == FITS_ALIGN)
+    if (mode == FITS_NORMAL || mode == FITS_ALIGN || mode == FITS_LIVESTACKING)
     {
         floatingToolBar->addSeparator();
 

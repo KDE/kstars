@@ -435,10 +435,16 @@ if (CFITSIO_FOUND)
         fitsviewer/platesolve.cpp
         fitsviewer/fitsdebayer.cpp
         fitsviewer/opsfits.cpp
+        fitsviewer/fitsdirwatcher.cpp
+        fitsviewer/fitsmemmonitor.cpp
         )
 
     if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)
         set(fits_SRCS ${fits_SRCS} fitsviewer/starprofileviewer.cpp)
+    endif()
+
+    if (OpenCV_FOUND AND WCSLIB_FOUND)
+        set(fits_SRCS ${fits_SRCS} fitsviewer/fitsstack.cpp)
     endif()
 
     set (fits2_SRCS
@@ -464,6 +470,7 @@ if (CFITSIO_FOUND)
         fitsviewer/fitsheaderdialog.ui
         fitsviewer/statform.ui
         fitsviewer/platesolve.ui
+        fitsviewer/livestacking.ui
         fitsviewer/catalogobject.ui
         fitsviewer/catalogobjecttypefilter.ui
         fitsviewer/fitsdebayer.ui
@@ -1501,7 +1508,7 @@ endif()
 #endif( OPENGL_FOUND )
 
 if (OpenCV_FOUND)
-    target_link_libraries(KStarsLib opencv_highgui opencv_imgcodecs)
+    target_link_libraries(KStarsLib ${OpenCV_LIBS})
 endif()
 
 set (KSTARS_APP_SRCS

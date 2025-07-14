@@ -16,6 +16,7 @@
 #include "kspaths.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
 #include <stellarsolver.h>
+#undef Const
 #endif
 
 OpsFITS::OpsFITS() : QFrame(KStars::Instance())

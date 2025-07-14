@@ -18,7 +18,7 @@
 #define kde_translate ki18n
 #endif
 
-typedef enum { FITS_NORMAL, FITS_FOCUS, FITS_GUIDE, FITS_CALIBRATE, FITS_ALIGN, FITS_UNKNOWN } FITSMode;
+typedef enum { FITS_NORMAL, FITS_FOCUS, FITS_GUIDE, FITS_CALIBRATE, FITS_ALIGN, FITS_LIVESTACKING, FITS_UNKNOWN } FITSMode;
 
 // Focus States
 #if KI18N_VERSION >= QT_VERSION_CHECK(5, 89, 0)
@@ -32,6 +32,7 @@ static const QList<KLocalizedString> FITSModes =
     kde_translate("Guide"),
     kde_translate("Calibrate"),
     kde_translate("Align"),
+    kde_translate("Live Stacking"),
     kde_translate("Unknown")
 };
 
@@ -303,3 +304,35 @@ static CatObjType catObjTypes[MAX_CAT_OBJ_TYPES] =
     {0, "?", "", "Unknown", "Object of Unknown Nature", ""},
     {0, "reg", "", "Region", "Region defined in the Sky", ""}
 };
+
+// Live Stacking
+typedef enum { LS_ALIGNMENT_PLATE_SOLVE } LiveStackAlignMethod;
+typedef enum { LS_DOWNSCALE_NONE, LS_DOWNSCALE_2X, LS_DOWNSCALE_3X, LS_DOWNSCALE_4X } LiveStackDownscale;
+typedef enum { LS_STACKING_EQUAL, LS_STACKING_HFR, LS_STACKING_NUM_STARS } LiveStackFrameWeighting;
+typedef enum { LS_STACKING_REJ_NONE, LS_STACKING_REJ_SIGMA, LS_STACKING_REJ_WINDSOR } LiveStackRejection;
+
+typedef struct
+{
+    double deconvAmt;
+    double PSFSigma;
+    double denoiseAmt;
+    double sharpenAmt;
+    int sharpenKernal;
+    double sharpenSigma;
+} LiveStackPPData;
+
+typedef struct
+{
+    QString masterDark;
+    QString masterFlat;
+    QString alignMaster;
+    LiveStackAlignMethod alignMethod;
+    int numInMem;
+    LiveStackDownscale downscale;
+    LiveStackFrameWeighting weighting;
+    LiveStackRejection rejection;
+    double lowSigma;
+    double highSigma;
+    double windsorCutoff;
+    LiveStackPPData postProcessing;
+} LiveStackData;

@@ -10,6 +10,7 @@
 
 #include "guide.h"
 #include "stellarsolver.h"
+#undef Const
 #include "parameters.h"
 
 class KConfigDialog;

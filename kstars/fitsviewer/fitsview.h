@@ -65,6 +65,29 @@ class FITSView : public QScrollArea
         void loadFile(const QString &inFilename);
 
         /**
+         * @brief Initialise a stack of FITS files
+         */
+        void initStack();
+
+        /**
+         * @brief Loads a stack of FITS files and displays in a FITSView frame
+         * @param inDir directory of FITS files
+         * @param params are the stacking parameters
+         */
+        void loadStack(const QString &inDir, const LiveStackData &params);
+
+        /**
+         * @brief User request to cancel stacking operation
+         */
+        void cancelStack();
+
+        /**
+         * @brief Redo post processing on an existing stack, e.g. noise, sharpen
+         * @param Post Processing Parameters
+         */
+        void redoPostProcessStack(const LiveStackPPData &ppParams);
+
+        /**
          * @brief loadFITSFromData Takes ownership of the FITSData instance passed in and displays it in a FITSView frame
          * @param data pointer to FITSData objects
          */
@@ -517,6 +540,14 @@ class FITSView : public QScrollArea
         void catReset();
         void catHighlightChanged(const int highlight);
         void headerChanged();
+        void plateSolveSub(const double ra, const double dec, const double pixScale, const int index,
+                           const int healpix, const LiveStackFrameWeighting &weighting);
+        void stackInProgress();
+        void alignMasterChosen(const QString &alignMaster);
+        void stackUpdateStats(const bool ok, const int sub, const int total, const double meanSNR, const double minSNR,
+                              const double maxSNR);
+        void updateStackSNR(const double SNR);
+        void resetStack();
 
         friend class FITSLabel;
 };

@@ -325,11 +325,11 @@ endif()
 ## OpenCV
 # Disable OpenCV on Windows until KDE's Craft fixes the OpenCV package.
 if (NOT WIN32)
-find_package(OpenCV COMPONENTS highgui imgcodecs)
+find_package(OpenCV COMPONENTS core highgui imgcodecs calib3d photo)
 MACRO_BOOL_TO_01(OpenCV_FOUND HAVE_OPENCV)
 if (OpenCV_FOUND)
     set_package_properties(OpenCV PROPERTIES DESCRIPTION "OpenCV library" URL "https://opencv.org" TYPE OPTIONAL PURPOSE "Standard library of image processing functions.")
-    include_directories(${OpenCV_INCLUDE_DIR})
+    include_directories(SYSTEM ${OpenCV_INCLUDE_DIR})
 endif()
 endif()
 

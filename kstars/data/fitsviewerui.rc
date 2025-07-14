@@ -4,7 +4,8 @@
 <MenuBar noMerge="1">
 <Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="file_open" />
-		<Action name="blink" />
+                <Action name="blink" />
+                <Action name="stack_directory" />
                 <Action name="file_save"/>
                 <Action name="file_save_as"/>
                 <Separator/>

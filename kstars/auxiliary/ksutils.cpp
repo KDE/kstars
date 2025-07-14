@@ -40,6 +40,7 @@
 
 #ifdef HAVE_STELLARSOLVER
 #include <stellarsolver.h>
+#undef Const
 #endif
 
 namespace KSUtils

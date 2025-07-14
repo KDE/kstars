@@ -14,6 +14,7 @@
 
 #include <math.h>
 #include <stellarsolver.h>
+#undef Const
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include <QTime>
 

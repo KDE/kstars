@@ -14,6 +14,7 @@
 #include "Options.h"
 
 #include <stellarsolver.h>
+#undef Const
 #include <KConfigDialog>
 #include <QProcess>
 

@@ -8,6 +8,7 @@
 #include "stellarsolverprofile.h"
 
 #include <stellarsolver.h>
+#undef Const
 #include <KLocalizedString>
 
 namespace Ekos

@@ -33,12 +33,14 @@
 #include <fitsio.h>
 
 #include <QFuture>
+#include <QFutureWatcher>
 #include <QObject>
 #include <QRect>
 #include <QVariant>
 #include <QTemporaryFile>
 #include <QNetworkReply>
 #include <QTimer>
+#include <QQueue>
 
 #ifndef KSTARS_LITE
 #include <kxmlguiwindow.h>
@@ -48,6 +50,10 @@
 #endif
 
 #include "fitsskyobject.h"
+#include "fitsdirwatcher.h"
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+#include "fitsstack.h"
+#endif
 
 class QProgressDialog;
 
@@ -264,7 +270,7 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
         // FITS Record
         bool getRecordValue(const QString &key, QVariant &value) const;
-        void updateRecordValue(const QString &key, QVariant value, const QString &comment);
+        void updateRecordValue(const QString &key, QVariant value, const QString &comment, const bool stack = false);
         const QList<Record> &getRecords() const
         {
             return m_HeaderRecords;
@@ -656,6 +662,105 @@ class FITSData : public QObject
 
         static bool readableFilename(const QString &filename);
 
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Live Stacking Functions
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+
+
+        /**
+         * @brief Get the live stack object pointer
+         * @return Live Stack pointer
+         */
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+        const QSharedPointer<FITSStack> stack() const
+        {
+            return m_Stack;
+        }
+#endif
+        /**
+         * @brief Get the live stacking image buffer
+         * @return Live Stacking image buffer
+         */
+        uint8_t const *getStackImageBuffer() const
+        {
+            return m_StackImageBuffer;
+        }
+        /**
+         * @brief Get the live stacking image statistics
+         * @return Live Stacking image statistics
+         */
+        FITSImage::Statistic const &getStackStatistics() const
+        {
+            return m_StackStatistics.stats;
+        }
+
+        /**
+         * @brief Initialise FITSData for a stack.
+         * @param inDirectory Inital directory path
+         * @return success.
+         */
+
+        /**
+         * @brief Load and stack directory of FITS files.
+         * @param inDirectory Path to directory of FITS files
+         * @param params are stacking parameters
+         * @return success (or not)
+         */
+        bool loadStack(const QString &inDirectory, const LiveStackData &params);
+
+        /**
+         * @brief User request to cancel stacking operation
+         */
+        void cancelStack();
+
+        /**
+         * @brief Load stack from buffer
+         * @return A QFuture that can be watched until the async operation is complete.
+         */
+        QFuture<bool> loadStackBuffer();
+
+        /**
+         * @brief Solver results are in so take the next action
+         * @param whether the solver timed out or not
+         * @param success status
+         * @param median hfr
+         * @param number of stars
+         */
+        void solverDone(const bool timedOut, const bool success, const double hfr, const int numStars);
+
+        /**
+         * @brief Process new subs into an existing stack
+         */
+        void incrementalStack();
+
+        /**
+         * @brief Load WCS for a FITS file sub loaded during Live Stacking
+         * @return success
+         */
+        bool stackLoadWCS();
+
+        /**
+         * @brief injectStackWCS to inject a plate solved solution to WCS
+         * @param orientation Solver orientation, degrees E of N.
+         * @param ra J2000 Right Ascension
+         * @param dec J2000 Declination
+         * @param pixscale Pixel scale in arcsecs per pixe
+         * @param eastToTheRight if true, then when the image is rotated so that north is up, then east would be to the right on the image.
+         */
+        void injectStackWCS(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
+
+        /**
+         * @brief setStackSubSolution saves the last plate solve sub solution for use with the next sub solution
+         * @param ra J2000 Right Ascension
+         * @param dec J2000 Declination
+         * @param pixscale Pixel scale in arcsecs per pixel
+         * @param indexUsed is the index file used
+         * @param healpixUsed is the index file used
+         */
+        void setStackSubSolution(const double ra, const double dec, const double pixscale, const int index, const int healpix);
+
     signals:
         void converted(QImage);
 
@@ -688,8 +793,46 @@ class FITSData : public QObject
          */
         void catalogQueryFailed(const QString text);
 
+        /**
+         * @brief Signal FITSView then FITSTab to plate solve the current image sub
+         */
+        void plateSolveSub(const double ra, const double dec, const double pixScale, const int index,
+                           const int healpix, const LiveStackFrameWeighting &weighting);
+
+        /**
+         * @brief Signal FITSView->FITSTab->FITSViewer that a stacking process is in operation
+         */
+        void stackInProgress();
+
+        /**
+         * @brief Signal FITSView then FITSTab that an align master sub has been chosen
+         */
+        void alignMasterChosen(const QString &alignMaster);
+
+        /**
+         * @brief Signal FITSView the stack is ready to load
+         */
+        void stackReady();
+
+        /**
+         * @brief update FITSTab on progress
+         * @param ok whether sub being processed was successful or not
+         * @param sub just processed
+         * @param total number of subs
+         */
+        void stackUpdateStats(const bool ok, const int sub, const int total, const double meanSNR, const double minSNR,
+                              const double maxSNR);
+
     public slots:
         void makeRoiBuffer(QRect roi);
+
+        /**
+         * @brief Called when 1 (or more) new files added to the watched stack directory
+         * @param list of files added to directory
+         */
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+        void newStackSubs(const QStringList &newFiles);
+#endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
 
     private:
         void loadCommon(const QString &inFilename);
@@ -726,7 +869,7 @@ class FITSData : public QObject
              * @param eastToTheRight if true, then when the image is rotated so that north is up, then east would be to the right on the image.
              */
         void updateWCSHeaderData(const double orientation, const double ra, const double dec, const double pixscale,
-                                 const bool eastToTheRight);
+                                 const bool eastToTheRight, const bool stack = false);
 
         /**
              * @brief Setup WCS parameters for non-FITS files so plate solved solutions can be used with catalog functionality.
@@ -738,7 +881,7 @@ class FITSData : public QObject
         void logOOMError(uint32_t requiredMemory = 0);
 
         // FITS Record
-        bool parseHeader();
+        bool parseHeader(const bool stack = false);
         //int getFITSRecord(QString &recordList, int &nkeys);
 
         // Templated functions
@@ -831,6 +974,73 @@ class FITSData : public QObject
          */
         bool addCatObject(const int num, const QString name, const QString type, const QString coord, const double dist,
                           const double magnitude, const QString sizeStr);
+
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Private Live Stacking Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /**
+         * @brief Process master files for stacking
+         */
+        void processMasters();
+
+        /**
+         * @brief Async callback when a stack FITS file load has completed
+         */
+        void stackFITSLoaded();
+
+        /**
+         * @brief A quicker version of loadFITSImage used by Live Stacking
+         * @param filename to open
+         * @param buffer
+         * @param isCompressed
+         * @return success
+         */
+        bool stackLoadFITSImage(QString filename, const bool isCompressed);
+
+        /**
+         * @brief stackCheckDebayer checks whether a stack sub needs to be debayered
+         *        this routine doesn't affect the object variables used by checkDebayer()
+         * @param if debayering is successful, bayerParams contains the appropriate params
+         * @return success
+         */
+        bool stackCheckDebayer(BayerParams bayerParams);
+
+        /**
+         * @brief stackDebayer debayers a stack sub
+         * @param if debayering is successful, debayerParams contains the appropriate params
+         * @return success
+         */
+        template <typename T>
+        bool stackDebayer(BayerParams &bayerParams);
+
+        /**
+         * @brief Work out the next stacking action and start it off
+         */
+        void nextStackAction();
+
+        /**
+         * @brief Process the next sub
+         * @param sub to process
+         * @return success
+         */
+        bool processNextSub(QString &sub);
+
+        /**
+         * @brief Callback to handle an asynchronous stacking operation completion
+         */
+        void stackProcessDone();
+
+        /**
+         * @brief Setup WCS for the image stack based on the master sub WCS
+         */
+        void stackSetupWCS();
+
+        /**
+         * @brief Manage the user cancel stack request within FITSData
+         */
+        void checkCancelStack();
 
         /// Pointer to CFITSIO FITS file struct
         fitsfile *fptr { nullptr };
@@ -952,4 +1162,47 @@ class FITSData : public QObject
         bool m_CatUpdateTable { false };
         QPoint m_CatROIPt { -1, -1 };
         int m_CatROIRadius { -1 };
+
+        // Live Stacking
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+        QSharedPointer<FITSStack> m_Stack;
+#endif
+        QList<QString> m_StackSubs;
+        int m_StackSubPos { -1 };
+        QString m_StackDir;
+        QSharedPointer<FITSDirWatcher> m_StackDirWatcher;
+        QQueue<QString> m_StackQ;
+        bool m_AlignMasterChosen { false };
+        bool m_DarkLoaded { false };
+        bool m_FlatLoaded { false };
+        uint8_t *m_StackImageBuffer { nullptr };
+        uint32_t m_StackImageBufferSize { 0 };
+        typedef struct
+        {
+            FITSImage::Statistic stats;
+            int cvType;
+        } StackStatistics;
+        StackStatistics m_StackStatistics;
+        struct wcsprm *m_StackWCSHandle { nullptr };
+        int m_Stacknwcs {0};
+        fitsfile *m_Stackfptr { nullptr };
+        QList<Record> m_StackHeaderRecords;
+        QFutureWatcher<bool> m_StackWatcher;
+        QFutureWatcher<bool> m_StackFITSWatcher;
+        typedef enum
+        {
+            stackFITSNone,
+            stackFITSDark,
+            stackFITSFlat,
+            stackFITSSub
+        } StackFITSAsyncType;
+        StackFITSAsyncType m_StackFITSAsync { stackFITSNone };
+        bool m_CancelRequest { false };
+        bool m_StackWatcherCancel { false };
+        bool m_StackFITSWatcherCancel { false };
+        double m_StackSubRa { 0.0 };
+        double m_StackSubDec { 0.0 };
+        double m_StackSubPixscale { 0.0 };
+        int m_StackSubIndex { 0 };
+        int m_StackSubHealpix { 0 };
 };

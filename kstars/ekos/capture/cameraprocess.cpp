@@ -1850,7 +1850,7 @@ IPState CameraProcess::updateImageMetadataAction(QSharedPointer<FITSData> imageD
         qCDebug(KSTARS_EKOS_CAPTURE) << "Captured frame metadata: filename =" << filename << ", type =" << metadata["type"].toInt()
                                      << "exposure =" <<  metadata["exposure"].toDouble() << "filter =" << metadata["filter"].toString() << "width =" <<
                                      metadata["width"].toInt() << "height =" << metadata["height"].toInt() << "hfr =" << metadata["hfr"].toDouble() <<
-                 "starCount =" << metadata["starCount"].toInt() << "median =" << metadata["median"].toInt() << "eccentricity =" <<
+                                     "starCount =" << metadata["starCount"].toInt() << "median =" << metadata["median"].toInt() << "eccentricity =" <<
                                      metadata["eccentricity"].toDouble();
 
         emit captureComplete(metadata);
@@ -2504,7 +2504,7 @@ void CameraProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const 
                     {
                         emit newView(tabs[tabIndex]->getView());
                         tabs[tabIndex]->disconnect(this);
-                        connect(tabs[tabIndex].get(), &FITSTab::updated, this, [this]
+                        connect(tabs[tabIndex], &FITSTab::updated, this, [this]
                         {
                             auto tab = qobject_cast<FITSTab *>(sender());
                             emit newView(tab->getView());

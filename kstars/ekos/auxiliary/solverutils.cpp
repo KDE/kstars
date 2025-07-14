@@ -69,12 +69,15 @@ void SolverUtils::getSolutionHealpix(int *indexUsed, int *healpixUsed) const
 }
 
 
-void SolverUtils::prepareSolver()
+void SolverUtils::prepareSolver(const bool stack)
 {
     if (m_StellarSolver->isRunning())
         m_StellarSolver->abort();
     m_StellarSolver->setProperty("ProcessType", m_Type);
-    m_StellarSolver->loadNewImageBuffer(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
+    if (stack)
+        m_StellarSolver->loadNewImageBuffer(m_ImageData->getStackStatistics(), m_ImageData->getStackImageBuffer());
+    else
+        m_StellarSolver->loadNewImageBuffer(m_ImageData->getStatistics(), m_ImageData->getImageBuffer());
     m_StellarSolver->setProperty("ExtractorType", Options::solveSextractorType());
     m_StellarSolver->setProperty("SolverType", Options::solverType());
     connect(m_StellarSolver.get(), &StellarSolver::finished, this, &SolverUtils::solverDone, Qt::UniqueConnection);
@@ -147,7 +150,7 @@ void SolverUtils::prepareSolver()
     patchMultiAlgorithm(m_StellarSolver.get());
 }
 
-void SolverUtils::runSolver(const QSharedPointer<FITSData> &data)
+void SolverUtils::runSolver(const QSharedPointer<FITSData> &data, const bool stack)
 {
     // Limit the time the solver can run.
     m_SolverTimer.setSingleShot(true);
@@ -158,7 +161,7 @@ void SolverUtils::runSolver(const QSharedPointer<FITSData> &data)
     m_StartTime = QDateTime::currentMSecsSinceEpoch();
 
     m_ImageData = data;
-    prepareSolver();
+    prepareSolver(stack);
     m_StellarSolver->start();
 }
 
