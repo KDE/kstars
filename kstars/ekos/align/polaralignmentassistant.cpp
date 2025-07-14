@@ -308,7 +308,7 @@ void PolarAlignmentAssistant::drawArrows(double azError, double altError)
 
     // these constants are worked out so a 10' error gives a size of 50
     // and a 1' error gives a size of 20.
-    constexpr double largeErr = 10.0 / 60.0, smallErr = 1.0 / 60.0, largeSize = 50, smallSize = 20, c1 = 533.33, c2 = 11.111;
+    constexpr double largeErr = 10.0 / 60.0, smallErr = 1.0 / 60.0, largeSize = 50, smallSize = 20, c1 = 200, c2 = 100 / 6;
 
     int size = 0;
     if (absError > largeErr)
