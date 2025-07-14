@@ -3759,7 +3759,7 @@ void Manager::createFilterManager(ISD::FilterWheel *device)
     auto name = device->getDeviceName();
     if (m_FilterManagers.contains(name) == false)
     {
-        QSharedPointer<FilterManager> newFM(new FilterManager(this));
+        QSharedPointer<FilterManager> newFM(new FilterManager());
         newFM->setFilterWheel(device);
         m_FilterManagers.insert(name, std::move(newFM));
     }
