@@ -935,23 +935,27 @@ void FITSViewer::blink()
     }
     QString tabName = QString("%1/%2 %3")
                       .arg(1).arg(allImages.size()).arg(QFileInfo(allImages[0]).fileName());
-    connect(tab, &FITSTab::failed, this, [ this ](const QString & errorMessage)
+    connect(tab, &FITSTab::failed, this, [ this, tab ](const QString & errorMessage)
     {
         Q_UNUSED(errorMessage);
-        QObject::sender()->disconnect(this);
+        if (tab)
+            tab->disconnect(this);
         QApplication::restoreOverrideCursor();
         led.setColor(Qt::red);
         m_BlinkBusy = false;
-    }, Qt::UniqueConnection);
+    });
 
-    connect(tab, &FITSTab::loaded, this, [ = ]()
+    connect(tab, &FITSTab::loaded, this, [ this, tab, imageName, tabIndex, tabName ]()
     {
-        QObject::sender()->disconnect(this);
-        addFITSCommon(m_Tabs.last(), imageName, FITS_NORMAL, "");
-        //fitsTabWidget->tabBar()->setTabTextColor(tabIndex, Qt::red);
-        fitsTabWidget->setTabText(tabIndex, tabName);
+        if (tab)
+        {
+            tab->disconnect(this);
+            addFITSCommon(m_Tabs.last(), imageName, FITS_NORMAL, "");
+            //fitsTabWidget->tabBar()->setTabTextColor(tabIndex, Qt::red);
+            fitsTabWidget->setTabText(tabIndex, tabName);
+        }
         m_BlinkBusy = false;
-    }, Qt::UniqueConnection);
+    });
 
     actionCollection()->action("next_blink")->setEnabled(allImages.size() > 1);
     actionCollection()->action("previous_blink")->setEnabled(allImages.size() > 1);
@@ -990,22 +994,26 @@ void FITSViewer::changeBlink(bool increment)
     QString tabName = QString("%1/%2 %3")
                       .arg(blinkIndex + 1).arg(filenames.size()).arg(QFileInfo(nextFilename).fileName());
     tab->disconnect(this);
-    connect(tab, &FITSTab::failed, this, [ this, nextFilename ](const QString & errorMessage)
+    connect(tab, &FITSTab::failed, this, [ this, tab, nextFilename ](const QString & errorMessage)
     {
         Q_UNUSED(errorMessage);
-        QObject::sender()->disconnect(this);
+        if (tab)
+            tab->disconnect(this);
         QApplication::restoreOverrideCursor();
         led.setColor(Qt::red);
         m_BlinkBusy = false;
-    }, Qt::UniqueConnection);
+    });
 
-    connect(tab, &FITSTab::loaded, this, [ = ]()
+    connect(tab, &FITSTab::loaded, this, [ this, tab, nextFilename, tabIndex, tabName ]()
     {
-        QObject::sender()->disconnect(this);
-        updateFITSCommon(tab, QUrl::fromLocalFile(nextFilename));
-        fitsTabWidget->setTabText(tabIndex, tabName);
+        if (tab)
+        {
+            tab->disconnect(this);
+            updateFITSCommon(tab, QUrl::fromLocalFile(nextFilename));
+            fitsTabWidget->setTabText(tabIndex, tabName);
+        }
         m_BlinkBusy = false;
-    }, Qt::UniqueConnection);
+    });
 
     tab->setBlinkUpto(blinkIndex);
     tab->loadFile(QUrl::fromLocalFile(nextFilename), FITS_NORMAL, FITS_NONE);
@@ -1067,21 +1075,25 @@ void FITSViewer::stack()
 
     m_Tabs.push_back(tab);
     QString tabName = QString("Stack");
-    connect(tab, &FITSTab::failed, this, [ this ](const QString & errorMessage)
+    connect(tab, &FITSTab::failed, this, [ this, tab ](const QString & errorMessage)
     {
         Q_UNUSED(errorMessage);
-        QObject::sender()->disconnect(this);
+        if (tab)
+            tab->disconnect(this);
         led.setColor(Qt::red);
         m_StackBusy = false;
-    }, Qt::UniqueConnection);
+    });
 
-    connect(tab, &FITSTab::loaded, this, [ = ]()
+    connect(tab, &FITSTab::loaded, this, [ this, tab, imageName, tabName ]()
     {
-        QObject::sender()->disconnect(this);
-        addFITSCommon(tab, imageName, FITS_LIVESTACKING, tabName);
-        fitsID++;
+        if (tab)
+        {
+            tab->disconnect(this);
+            addFITSCommon(tab, imageName, FITS_LIVESTACKING, tabName);
+            fitsID++;
+        }
         m_StackBusy = false;
-    }, Qt::UniqueConnection);
+    });
 
     tab->initStack(topDir, FITS_LIVESTACKING, FITS_NONE);
 }
@@ -1095,29 +1107,34 @@ void FITSViewer::restack(const QString dir, const int tabUID)
     led.setColor(Qt::yellow);
     updateStatusBar(i18n("Stacking..."), FITS_MESSAGE);
     QString tabName = i18n("Watching %1", dir);
-    connect(tab, &FITSTab::failed, this, [ this ](const QString & errorMessage)
+    connect(tab, &FITSTab::failed, this, [ this, tab ](const QString & errorMessage)
     {
         Q_UNUSED(errorMessage);
-        QObject::sender()->disconnect(this);
-        led.setColor(Qt::red);
-        updateStatusBar(i18n("Stacking Failed"), FITS_MESSAGE);
-    }, Qt::UniqueConnection);
+        if (tab)
+        {
+            tab->disconnect(this);
+            led.setColor(Qt::red);
+            updateStatusBar(i18n("Stacking Failed"), FITS_MESSAGE);
+        }
+    });
 
-    connect(tab, &FITSTab::loaded, this, [ = ]()
+    connect(tab, &FITSTab::loaded, this, [ this, tab, imageName, tabName ]()
     {
         // There doesn't seem to be a way in a lambda to just disconnect the loaded signal which if not
         // disconnected results in fitsviewer crashing. So disconnect all and reset the other signals
-        QObject::sender()->disconnect(this);
-        connect(tab, &FITSTab::newStatus, this, &FITSViewer::updateStatusBar);
-        connect(tab, &FITSTab::changeStatus, this, &FITSViewer::updateTabStatus);
-        connect(tab, &FITSTab::debayerToggled, this, &FITSViewer::setDebayerAction);
-        connect(tab->getView().get(), &FITSView::actionUpdated, this, &FITSViewer::updateAction);
-        connect(tab->getView().get(), &FITSView::wcsToggled, this, &FITSViewer::updateWCSFunctions);
-        connect(tab->getView().get(), &FITSView::starProfileWindowClosed, this, &FITSViewer::starProfileButtonOff);
-        updateFITSCommon(tab, imageName, tabName);
-
-        updateStatusBar(i18n("Stacking Complete"), FITS_MESSAGE);
-    }, Qt::UniqueConnection);
+        if (tab)
+        {
+            tab->disconnect(this);
+            connect(tab, &FITSTab::newStatus, this, &FITSViewer::updateStatusBar);
+            connect(tab, &FITSTab::changeStatus, this, &FITSViewer::updateTabStatus);
+            connect(tab, &FITSTab::debayerToggled, this, &FITSViewer::setDebayerAction);
+            connect(tab->getView().get(), &FITSView::actionUpdated, this, &FITSViewer::updateAction);
+            connect(tab->getView().get(), &FITSView::wcsToggled, this, &FITSViewer::updateWCSFunctions);
+            connect(tab->getView().get(), &FITSView::starProfileWindowClosed, this, &FITSViewer::starProfileButtonOff);
+            updateFITSCommon(tab, imageName, tabName);
+            updateStatusBar(i18n("Stacking Complete"), FITS_MESSAGE);
+        }
+    });
 }
 
 void FITSViewer::saveFile()
