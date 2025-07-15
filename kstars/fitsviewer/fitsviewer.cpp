@@ -927,11 +927,11 @@ void FITSViewer::blink()
     QPointer<FITSTab> tab(new FITSTab(this));
 
     int tabIndex = m_Tabs.size();
-    if (allImages.size() > 1)
+    if (allImages.size() > 0)
     {
         m_Tabs.push_back(tab);
         tab->initBlink(allImages);
-        tab->setBlinkUpto(1);
+        tab->setBlinkUpto(0);
     }
     QString tabName = QString("%1/%2 %3")
                       .arg(1).arg(allImages.size()).arg(QFileInfo(allImages[0]).fileName());
