@@ -80,6 +80,10 @@ class FITSStarDetector : public QObject
          */
         //void configure(QStandardItemModel const &settings);
 
+        /** @brief Abort an in-flight star detection
+         */
+        virtual void abort() {};
+
     protected:
         FITSData *m_ImageData {nullptr};
         QVariantMap m_Settings;

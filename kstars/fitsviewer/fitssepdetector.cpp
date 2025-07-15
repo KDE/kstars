@@ -18,17 +18,7 @@
 
 #include <memory>
 #include <math.h>
-#include <QPointer>
 #include <QtConcurrent>
-
-#ifdef HAVE_STELLARSOLVER
-#include "ekos/auxiliary/stellarsolverprofileeditor.h"
-#include <stellarsolver.h>
-#undef Const
-#else
-#include <cstring>
-#include "sep/sep.h"
-#endif
 
 //void FITSSEPDetector::configure(const QString &param, const QVariant &value)
 //{
@@ -75,8 +65,8 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
 
     int optionsProfileIndex = getValue("optionsProfileIndex", -1).toInt();
     Ekos::ProfileGroup group = static_cast<Ekos::ProfileGroup>(getValue("optionsProfileGroup", 1).toInt());
-    QScopedPointer<StellarSolver, QScopedPointerDeleteLater> solver(new StellarSolver(m_ImageData->getStatistics(),
-            m_ImageData->getImageBuffer()));
+    m_Solver.reset(new StellarSolver(m_ImageData->getStatistics(), m_ImageData->getImageBuffer()));
+
     QString filename = "";
     QPointer<FITSData> image(m_ImageData);
     switch(group)
@@ -121,34 +111,34 @@ bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)
     {
         auto params = optionsList[optionsProfileIndex];
         params.partition = Options::stellarSolverPartition();
-        solver->setParameters(params);
+        m_Solver->setParameters(params);
         qCDebug(KSTARS_FITS) << "Sextract with: " << optionsList[optionsProfileIndex].listName;
     }
     else
     {
         auto params = SSolver::Parameters();  // This is default
         params.partition = Options::stellarSolverPartition();
-        solver->setParameters(params);
+        m_Solver->setParameters(params);
     }
 
     QList<FITSImage::Star> stars;
     const bool runHFR = group != Ekos::AlignProfiles;
 
-    solver->setLogLevel(SSolver::LOG_NONE);
-    solver->setSSLogLevel(SSolver::LOG_OFF);
+    m_Solver->setLogLevel(SSolver::LOG_NONE);
+    m_Solver->setSSLogLevel(SSolver::LOG_OFF);
 
     if (boundary.isValid())
-        solver->extract(runHFR, boundary);
+        m_Solver->extract(runHFR, boundary);
     else
-        solver->extract(runHFR);
+        m_Solver->extract(runHFR);
 
-    stars = solver->getStarList();
+    stars = m_Solver->getStarList();
 
     // If m_ImageData goes out of scope, also return.
     if (stars.empty() || image.isNull())
         return false;
 
-    auto bg = solver->getBackground();
+    auto bg = m_Solver->getBackground();
 
     skyBG.mean = bg.global;
     skyBG.sigma = bg.globalrms;
@@ -217,6 +207,12 @@ void FITSSEPDetector::getFloatBuffer(float * buffer, int x, int y, int w, int h,
             *floatPtr++ = rawBuffer[offset + x1];
         }
     }
+}
+
+void FITSSEPDetector::abort()
+{
+    if (m_Solver)
+        m_Solver->abort();
 }
 
 SkyBackground::SkyBackground(double mean_, double sigma_, double numPixels_)

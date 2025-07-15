@@ -67,6 +67,7 @@
 #define MINIMUM_PULSE_TIMER        32
 #define MAX_RECAPTURE_RETRIES      3
 #define MINIMUM_POLY_SOLUTIONS     2
+#define MAX_STAR_DETECT_FAILS      5
 
 namespace Ekos
 {
@@ -1499,7 +1500,18 @@ void Focus::checkStopFocus(bool abort)
     if (m_starDetectInProgress)
     {
         stopFocusB->setEnabled(false);
-        appendLogText(i18n("Star detection in progress, retrying in 1s..."));
+        if (++m_starDetectFailCounter <= MAX_STAR_DETECT_FAILS)
+            // Give star detection a few seconds complete
+            appendLogText(i18n("Star detection in progress, retrying in 1s..."));
+        else
+        {
+            // Star detection is long running so for some reason so force an abort
+            appendLogText(i18n("Star detection still in progress, aborting..."));
+            if (m_ImageData)
+                m_ImageData->abortStarDetection();
+            m_starDetectInProgress = false;
+            m_starDetectFailCounter = 0;
+        }
         QTimer::singleShot(1000, this, [ &, abort]()
         {
             checkStopFocus(abort);

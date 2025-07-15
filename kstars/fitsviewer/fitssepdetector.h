@@ -13,6 +13,17 @@
 #include "fitsstardetector.h"
 #include "skybackground.h"
 
+#ifdef HAVE_STELLARSOLVER
+#include "ekos/auxiliary/stellarsolverprofileeditor.h"
+#include <stellarsolver.h>
+#undef Const
+#else
+#include <cstring>
+#include "sep/sep.h"
+#endif
+#include <QPointer>
+
+
 class FITSSEPDetector : public FITSStarDetector
 {
         Q_OBJECT
@@ -28,6 +39,8 @@ class FITSSEPDetector : public FITSStarDetector
         /** @brief Find sources in the parent FITS data file as well as background sky information.
          */
         bool findSourcesAndBackground(QRect const &boundary = QRect());
+
+        void abort() override;
 
     protected:
         /** @internal Consolidate a float data buffer from FITS data.
@@ -47,5 +60,7 @@ class FITSSEPDetector : public FITSStarDetector
         //        int deblendNThresh = 32;
         //        double deblendMincont = 0.005;
         //        bool radiusIsBoundary = true;
+
+        QScopedPointer<StellarSolver, QScopedPointerDeleteLater> m_Solver;
 };
 
