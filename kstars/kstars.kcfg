@@ -1838,7 +1838,7 @@
       <default>0.0</default>
    </entry>
    <entry name="fitsLSSharpenKernal" type="UInt">
-      <label>Live Stacking sharpening kernal size</label>
+      <label>Live Stacking sharpening kernel size</label>
       <default>3</default>
    </entry>
    <entry name="fitsLSSharpenSigma" type="Double">

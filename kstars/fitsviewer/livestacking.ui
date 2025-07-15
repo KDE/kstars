@@ -737,7 +737,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sharpen kernal size.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sharpen kernel size.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="minimum">
          <number>1</number>
@@ -819,7 +819,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Kernal:</string>
+         <string>Kernel:</string>
         </property>
         <property name="buddy">
          <cstring>SharpenKernal</cstring>
@@ -1101,7 +1101,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Number of subs sucessfully processed / failed / total</string>
+         <string>Number of subs successfully processed / failed / total</string>
         </property>
         <property name="text">
          <string>0 / 0 / 0</string>
