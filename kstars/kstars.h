@@ -91,9 +91,10 @@ class KStars : public KXmlGuiWindow
 {
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars")
-        Q_SCRIPTABLE Q_PROPERTY(QString colorScheme READ colorScheme WRITE loadColorScheme NOTIFY colorSchemeChanged)
-        Q_SCRIPTABLE Q_PROPERTY(QString version READ version)
-        Q_SCRIPTABLE Q_PROPERTY(QString release READ release)
+
+        Q_PROPERTY(QString colorScheme READ colorScheme WRITE loadColorScheme NOTIFY colorSchemeChanged)
+        Q_PROPERTY(QString version READ version)
+        Q_PROPERTY(QString release READ release)
 
     public:
         Q_SCRIPTABLE QString colorScheme() const;
