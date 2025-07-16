@@ -98,6 +98,8 @@ class FITSViewer : public KXmlGuiWindow
         void closeEvent(QCloseEvent *) override;
         void hideEvent(QHideEvent *) override;
         void showEvent(QShowEvent *) override;
+        bool eventFilter(QObject *watched, QEvent *event) override;
+
 
     public slots:
         void changeAlwaysOnTop(Qt::ApplicationState state);

@@ -10,14 +10,9 @@
 #include "fitsdata.h"
 #include <fits_debug.h>
 #include "fitscommon.h"
-#include "ekos/auxiliary/stellarsolverprofile.h"
-#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "ekos/auxiliary/solverutils.h"
-#include "auxiliary/kspaths.h"
 #include "kstars.h"
-#include "Options.h"
 #include "../auxiliary/robuststatistics.h"
-#include "../auxiliary/gslhelpers.h"
 
 #include <wcshdr.h>
 #include <fitsio.h>
