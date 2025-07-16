@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-15 02:03+0000\n"
-"PO-Revision-Date: 2025-07-08 06:31+0200\n"
+"POT-Creation-Date: 2025-07-16 02:30+0000\n"
+"PO-Revision-Date: 2025-07-15 07:46+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -3891,7 +3891,7 @@ msgstr "0,0 pc"
 #: ekos/capture/camera_device.cpp:907 ekos/capture/camera_device.cpp:949
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
-#: ekos/focus/focus.cpp:447 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:597
+#: ekos/focus/focus.cpp:448 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:597
 #: ekos/guide/guide.ui:721 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
@@ -6311,7 +6311,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Napaka: povezava s kolesom s filtri izgubljena."
 
 #: ekos/align/align.cpp:1512 ekos/capture/cameraprocess.cpp:216
-#: ekos/capture/cameraprocess.cpp:634 ekos/focus/focus.cpp:5729
+#: ekos/capture/cameraprocess.cpp:634 ekos/focus/focus.cpp:5741
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6351,13 +6351,13 @@ msgstr ""
 "Ni odkritega daljinskega gonilnika za astrometrijo, preklapljanje  "
 "naStellarSolver."
 
-#: ekos/align/align.cpp:1652 ekos/focus/focus.cpp:1758
+#: ekos/align/align.cpp:1652 ekos/focus/focus.cpp:1770
 #, kde-format
 msgid "Capturing image..."
 msgstr "Zajemanje slike…"
 
 #: ekos/align/align.cpp:1742 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2908
+#: ekos/focus/focus.cpp:2920
 #, kde-format
 msgid "Image received."
 msgstr "Slika prejeta."
@@ -6502,7 +6502,7 @@ msgid "Refresh is complete."
 msgstr "Osvežitev je končana."
 
 #: ekos/align/align.cpp:2588 ekos/auxiliary/darklibrary.cpp:1413
-#: ekos/focus/focus.cpp:1485
+#: ekos/focus/focus.cpp:1486
 #, kde-format
 msgid "Capture aborted."
 msgstr "Zajem prekinjen."
@@ -6675,7 +6675,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (ločne sek)"
 
 #: ekos/align/align.cpp:3654 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5610
+#: ekos/focus/focus.cpp:5622
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Operacija filtra ni uspela."
@@ -6802,7 +6802,7 @@ msgstr "Naloži sliko FITS in reši. Obrni montažo na osrednje koordinate slike
 #: ekos/align/align.ui:136
 #, kde-format
 msgid "Load && Slew..."
-msgstr "Naloži in obrni …"
+msgstr "Naloži in obrni…"
 
 #. i18n: ectx: property (text), widget (QPushButton, stopB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStopB)
@@ -15788,7 +15788,7 @@ msgid ""
 "Please check folder, filename & permissions."
 msgstr ""
 "Pisanja slike v %1 ni uspelo\n"
-"Preverite mapo, ime datoteke & dovoljenja."
+"Preverite mapo, ime datoteke in dovoljenja."
 
 #: ekos/capture/cameraprocess.cpp:1054
 #, kde-format
@@ -15881,8 +15881,8 @@ msgstr "Skript pred opravilom se je končal s kodo %1."
 msgid "Post job script finished with code %1."
 msgstr "Skript po opravilu se je končal s kodo %1."
 
-#: ekos/capture/cameraprocess.cpp:2112 ekos/focus/focus.cpp:5781
-#: ekos/focus/focus.cpp:5805
+#: ekos/capture/cameraprocess.cpp:2112 ekos/focus/focus.cpp:5793
+#: ekos/focus/focus.cpp:5817
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Čas za osvetlitev je potekel. Prekinjanje…"
@@ -15894,7 +15894,7 @@ msgstr ""
 "Časovna omejitev osvetljevanja. Zaznana so bila več kot 3, gonilnik bo znova "
 "zagnan."
 
-#: ekos/capture/cameraprocess.cpp:2137 ekos/focus/focus.cpp:5786
+#: ekos/capture/cameraprocess.cpp:2137 ekos/focus/focus.cpp:5798
 #: ekos/guide/guide.cpp:1010
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -18860,12 +18860,12 @@ msgstr ""
 msgid " nm"
 msgstr " nm"
 
-#: ekos/focus/focus.cpp:116
+#: ekos/focus/focus.cpp:117
 #, kde-format
 msgid "Idle."
 msgstr "Nedejavno."
 
-#: ekos/focus/focus.cpp:133
+#: ekos/focus/focus.cpp:134
 #, kde-format
 msgid "Focus Options Profile Editor"
 msgstr "Urejevalnik profilov nastavitev ostrenja"
@@ -18874,199 +18874,205 @@ msgstr "Urejevalnik profilov nastavitev ostrenja"
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, analyzeGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
-#: ekos/focus/focus.cpp:192 ekos/guide/opscalibration.ui:34
+#: ekos/focus/focus.cpp:193 ekos/guide/opscalibration.ui:34
 #: ekos/guide/opsgpg.ui:93 ekos/opsekos.ui:195 options/opsimageoverlay.ui:38
 #, kde-format
 msgid "Settings"
 msgstr "Nastavitve"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
-#: ekos/focus/focus.cpp:192 ekos/focus/opsfocussettings.ui:14
+#: ekos/focus/focus.cpp:193 ekos/focus/opsfocussettings.ui:14
 #, kde-format
 msgid "Focus Settings"
 msgstr "Nastavitve fokusa"
 
-#: ekos/focus/focus.cpp:196
+#: ekos/focus/focus.cpp:197
 #, kde-format
 msgid "Process"
 msgstr "Postopek"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusProcess)
-#: ekos/focus/focus.cpp:196 ekos/focus/opsfocusprocess.ui:14
+#: ekos/focus/focus.cpp:197 ekos/focus/opsfocusprocess.ui:14
 #, kde-format
 msgid "Focus Process"
 msgstr "Postopek fokusiranja"
 
-#: ekos/focus/focus.cpp:200
+#: ekos/focus/focus.cpp:201
 #, kde-format
 msgid "Mechanics"
 msgstr "Mehanika"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusMechanics)
-#: ekos/focus/focus.cpp:200 ekos/focus/opsfocusmechanics.ui:14
+#: ekos/focus/focus.cpp:201 ekos/focus/opsfocusmechanics.ui:14
 #, kde-format
 msgid "Focus Mechanics"
 msgstr "Mehanika fokusiranja"
 
-#: ekos/focus/focus.cpp:922
+#: ekos/focus/focus.cpp:923
 #, kde-format
 msgid "Finally found temperature source %1"
 msgstr "Končno najden vir temperature %1"
 
-#: ekos/focus/focus.cpp:1014
+#: ekos/focus/focus.cpp:1015
 #, kde-format
 msgid "No Focuser connected."
 msgstr "Ni povezanega fokuserja."
 
-#: ekos/focus/focus.cpp:1021 ekos/focus/focus.cpp:4746
+#: ekos/focus/focus.cpp:1022 ekos/focus/focus.cpp:4758
 #, kde-format
 msgid "No CCD connected."
 msgstr "Ni povezanega CCD-ja."
 
-#: ekos/focus/focus.cpp:1028
+#: ekos/focus/focus.cpp:1029
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 "Začetni korak pulza je prenizek. Povečaj velikost koraka na %1 ali več…"
 
-#: ekos/focus/focus.cpp:1039
+#: ekos/focus/focus.cpp:1040
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr "Samodejno fokusiranje se že izvaja, zahtevek za začetek zavržen."
 
-#: ekos/focus/focus.cpp:1046
+#: ekos/focus/focus.cpp:1047
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr "Izdelava odmikov že poteka. Samodejno fokusiranje zavrnjeno."
 
-#: ekos/focus/focus.cpp:1054
+#: ekos/focus/focus.cpp:1055
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "V zanki fokusiranja. Samodejno fokusiranje zavrnjeno."
 
-#: ekos/focus/focus.cpp:1061 ekos/focus/focus.cpp:5121
-#: ekos/focus/focus.cpp:5396
+#: ekos/focus/focus.cpp:1062 ekos/focus/focus.cpp:5133
+#: ekos/focus/focus.cpp:5408
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Prilagodi fokus"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1061 ekos/focus/focus.cpp:5123
-#: ekos/focus/focus.cpp:5396 ekos/focus/opsfocussettings.ui:483
+#: ekos/focus/focus.cpp:1062 ekos/focus/focus.cpp:5135
+#: ekos/focus/focus.cpp:5408 ekos/focus/opsfocussettings.ui:483
 #: ekos/focus/opsfocussettings.ui:563
 #, kde-format
 msgid "Adaptive Focus"
 msgstr "Prilagodljivi fokus"
 
-#: ekos/focus/focus.cpp:1064
+#: ekos/focus/focus.cpp:1065
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Zahteva za začetek samodejnega fokusiranja – Čakanje 10s za %1 do zaključka."
 
-#: ekos/focus/focus.cpp:1072
+#: ekos/focus/focus.cpp:1073
 #, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
 msgstr "Zavračanje zahteve za začetek samodejnega fokusiranja - %1 v teku."
 
-#: ekos/focus/focus.cpp:1092
+#: ekos/focus/focus.cpp:1093
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
 msgstr "Zahtevek za samodejni fokus [%1] optimiziran navzven."
 
-#: ekos/focus/focus.cpp:1249
+#: ekos/focus/focus.cpp:1250
 #, kde-format
 msgid "Autofocus starting..."
 msgstr "Samodejno fokusiranje se zaganja…"
 
-#: ekos/focus/focus.cpp:1263
+#: ekos/focus/focus.cpp:1264
 #, kde-format
 msgid "Autofocus operation started"
 msgstr "Samodejno fokusiranje je zagnano"
 
-#: ekos/focus/focus.cpp:1490
+#: ekos/focus/focus.cpp:1491
 #, kde-format
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Poteka zajemanje, ponoven poskus čez 1s…"
 
-#: ekos/focus/focus.cpp:1502
+#: ekos/focus/focus.cpp:1505
 #, kde-format
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "Odkrivanje zvezd v teku, ponovni poskus čez 1 s..."
 
-#: ekos/focus/focus.cpp:1546
+#: ekos/focus/focus.cpp:1509
+#, fuzzy, kde-format
+#| msgid "Star detection in progress, retrying in 1s..."
+msgid "Star detection still in progress, aborting..."
+msgstr "Odkrivanje zvezd v teku, ponovni poskus čez 1 s..."
+
+#: ekos/focus/focus.cpp:1558
 #, kde-format
 msgid "Autofocus aborted."
 msgstr "Samodejno fokusiranje prekinjeno."
 
-#: ekos/focus/focus.cpp:1650
+#: ekos/focus/focus.cpp:1662
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr "Napaka: Ni zaznane nobene kamere."
 
-#: ekos/focus/focus.cpp:1657
+#: ekos/focus/focus.cpp:1669
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Napaka: Izgubljena povezava s kamero."
 
-#: ekos/focus/focus.cpp:1678
+#: ekos/focus/focus.cpp:1690
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Napaka: Ni zaznanega nobenega kolesa s filtri."
 
-#: ekos/focus/focus.cpp:1684
+#: ekos/focus/focus.cpp:1696
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Napaka: Izgubljena povezava s kolesom s filtri."
 
-#: ekos/focus/focus.cpp:1802
+#: ekos/focus/focus.cpp:1814
 #, kde-format
 msgid "At minimum focus position %1..."
 msgstr "Na najmanjši legi fokusiranja %1…"
 
-#: ekos/focus/focus.cpp:1817
+#: ekos/focus/focus.cpp:1829
 #, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "Premikanje na najmanjši položaj ostrenja %1…"
 
-#: ekos/focus/focus.cpp:1826
+#: ekos/focus/focus.cpp:1838
 #, kde-format
 msgid "At maximum focus position %1..."
 msgstr "Na največjem položaju fokusiranja %1…"
 
-#: ekos/focus/focus.cpp:1842
+#: ekos/focus/focus.cpp:1854
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "Premikanje na največji položaj fokusiranja %1…"
 
-#: ekos/focus/focus.cpp:1869
+#: ekos/focus/focus.cpp:1881
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Napaka: Ni zaznanega nobenega fokuserja."
 
-#: ekos/focus/focus.cpp:1876
+#: ekos/focus/focus.cpp:1888
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Napaka: Izgubljena povezava s fokuserjem."
 
-#: ekos/focus/focus.cpp:1890
+#: ekos/focus/focus.cpp:1902
 #, kde-format
 msgid "outward"
 msgstr "navzven"
 
-#: ekos/focus/focus.cpp:1890
+#: ekos/focus/focus.cpp:1902
 #, kde-format
 msgid "inward"
 msgstr "navznoter"
 
-#: ekos/focus/focus.cpp:1907
+#: ekos/focus/focus.cpp:1919
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Fokusiranje %2 po %1 korakih…"
 
-#: ekos/focus/focus.cpp:1913
+#: ekos/focus/focus.cpp:1925
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
@@ -19075,58 +19081,58 @@ msgstr[1] "Fokusiranje %2 z %1 korakom…"
 msgstr[2] "Fokusiranje %2 z %1 korakoma…"
 msgstr[3] "Fokusiranje %2 z %1 koraki…"
 
-#: ekos/focus/focus.cpp:1919
+#: ekos/focus/focus.cpp:1931
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Fokusiranje %2 po %1 ms…"
 
-#: ekos/focus/focus.cpp:1954
+#: ekos/focus/focus.cpp:1966
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Fokuser se še vedno ne odziva. Prekinjanje …"
 
-#: ekos/focus/focus.cpp:1961
+#: ekos/focus/focus.cpp:1973
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Čas za premik fokusa je potekel (%1). Ponovno zaganjanje gonilnika fokusa %2"
 
-#: ekos/focus/focus.cpp:1972
+#: ekos/focus/focus.cpp:1984
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Čas za premik fokusa je potekel (%1). Fokusiranje na %2 korake…"
 
-#: ekos/focus/focus.cpp:2018
+#: ekos/focus/focus.cpp:2030
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Poskus ponovne vzpostavitve povezave s fokuserjem: %1"
 
-#: ekos/focus/focus.cpp:2027
+#: ekos/focus/focus.cpp:2039
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Fokuserja ni mogoče ponovno povezati: %1. Prekinitev …"
 
-#: ekos/focus/focus.cpp:2085 ekos/focus/focus.cpp:2092
+#: ekos/focus/focus.cpp:2097 ekos/focus/focus.cpp:2104
 #, kde-format
 msgid "Detection complete."
 msgstr "Zaznavanje končano."
 
-#: ekos/focus/focus.cpp:2364
+#: ekos/focus/focus.cpp:2376
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Zaznavanje virov…"
 
-#: ekos/focus/focus.cpp:2473
+#: ekos/focus/focus.cpp:2485
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Opravilo samodejnega fokusiranja se je uspešno zaključilo"
 
-#: ekos/focus/focus.cpp:2487
+#: ekos/focus/focus.cpp:2499
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Operacija samodejnega fokusiranja je spodletela"
 
-#: ekos/focus/focus.cpp:2555
+#: ekos/focus/focus.cpp:2567
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
@@ -19135,164 +19141,164 @@ msgstr[1] "Samodejno fokusiranje zaključeno po %1 ponovitvi."
 msgstr[2] "Samodejno fokusiranje zaključeno po %1 ponovitvah."
 msgstr[3] "Samodejno fokusiranje zaključeno po %1 ponovitvah."
 
-#: ekos/focus/focus.cpp:2641
+#: ekos/focus/focus.cpp:2653
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "Poravnavanje za %1s..."
 
-#: ekos/focus/focus.cpp:2649
+#: ekos/focus/focus.cpp:2661
 #, kde-format
 msgid "Settling complete."
 msgstr "Poravnava zaključena."
 
-#: ekos/focus/focus.cpp:2662
+#: ekos/focus/focus.cpp:2674
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Samodejno fokusiranje ni uspelo, pomikanje nazaj na izvorni položaj fokusa "
 "%1."
 
-#: ekos/focus/focus.cpp:2699
+#: ekos/focus/focus.cpp:2711
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "Prejeta slika FITS. Zaznane ni bilo nobene zvezde."
 
-#: ekos/focus/focus.cpp:2970
+#: ekos/focus/focus.cpp:2982
 #, kde-format
 msgid "Capture complete. Select a region of interest."
 msgstr "Zajem končan. Izberite regijo, ki vas zanima."
 
-#: ekos/focus/focus.cpp:3011
+#: ekos/focus/focus.cpp:3023
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Ni bilo mogoče samodejno izbrati zvezde. Izberite jo ročno."
 
-#: ekos/focus/focus.cpp:3105
+#: ekos/focus/focus.cpp:3117
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Zajemanje zaključeno. Izberite zvezdo, ki naj bo v žarišču."
 
-#: ekos/focus/focus.cpp:3136
+#: ekos/focus/focus.cpp:3148
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 "Med preizkušanjem PPT ni bilo zaznane nobene zvezde. Ponovno zajemanje…"
 
-#: ekos/focus/focus.cpp:3156
+#: ekos/focus/focus.cpp:3168
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "PPT %1 > omejitev %2"
 
-#: ekos/focus/focus.cpp:3281
+#: ekos/focus/focus.cpp:3293
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "Samodejno ostrenje je spodletelo: preseženo največje število ponovitev %1"
 
-#: ekos/focus/focus.cpp:3292 ekos/focus/focus.cpp:3554
-#: ekos/focus/focus.cpp:4150
+#: ekos/focus/focus.cpp:3304 ekos/focus/focus.cpp:3566
+#: ekos/focus/focus.cpp:4162
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Zaznane ni bilo nobene zvezde. Ponovno zajemanje…"
 
-#: ekos/focus/focus.cpp:3298 ekos/focus/focus.cpp:4156
+#: ekos/focus/focus.cpp:3310 ekos/focus/focus.cpp:4168
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Ni bilo mogoče zaznati nobene zvezde na položaju %1. Se nadaljuje …"
 
-#: ekos/focus/focus.cpp:3304 ekos/focus/focus.cpp:4162
+#: ekos/focus/focus.cpp:3316 ekos/focus/focus.cpp:4174
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "Ni bilo mogoče zaznati nobene zvezde. Ponastavite posnetek in poskusite "
 "znova."
 
-#: ekos/focus/focus.cpp:3491
+#: ekos/focus/focus.cpp:3503
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Zagon inšpektorja aberacije za %1 je spodletel…"
 
-#: ekos/focus/focus.cpp:3511
+#: ekos/focus/focus.cpp:3523
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Zaganjanje inšpektorja aberacije za %1…"
 
-#: ekos/focus/focus.cpp:3537
+#: ekos/focus/focus.cpp:3549
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Začenjanje preiskovanja za začetni položaj fokuserja."
 
-#: ekos/focus/focus.cpp:3538
+#: ekos/focus/focus.cpp:3550
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Preiskovanje za začetni položaj …"
 
-#: ekos/focus/focus.cpp:3560
+#: ekos/focus/focus.cpp:3572
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Ni bilo mogoče zaznati nobene zvezde. Prekinjanje…"
 
-#: ekos/focus/focus.cpp:3569
+#: ekos/focus/focus.cpp:3581
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr ""
 "Preiskovanje za začetni položaj: preseženo največje število ponovitev %1"
 
-#: ekos/focus/focus.cpp:3587
+#: ekos/focus/focus.cpp:3599
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Preiskovanje za začetni položaj %1/%2"
 
-#: ekos/focus/focus.cpp:3601
+#: ekos/focus/focus.cpp:3613
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Brez najmanjše vrednosti preiskovanja – širjenje iskanja…"
 
-#: ekos/focus/focus.cpp:3614
+#: ekos/focus/focus.cpp:3626
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Položaj začetka pregledovanja %1 najden"
 
-#: ekos/focus/focus.cpp:3615
+#: ekos/focus/focus.cpp:3627
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Položaj začetka pregledovanja %1 najden"
 
-#: ekos/focus/focus.cpp:3684
+#: ekos/focus/focus.cpp:3696
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Preverjanje prileganja krivulje je spodletelo; R2=%1 focusR2Limit=%2 ponovno "
 "poskušanje…"
 
-#: ekos/focus/focus.cpp:3686
+#: ekos/focus/focus.cpp:3698
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Meja=%2"
 
-#: ekos/focus/focus.cpp:3694
+#: ekos/focus/focus.cpp:3706
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Preverjanje prileganja krivulje je znova spodletelo; R2=%1 focusR2Limit=%2 "
 "vendar se nadaljuje…"
 
-#: ekos/focus/focus.cpp:3704
+#: ekos/focus/focus.cpp:3716
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Linearni algoritem samodejnega fokusiranja prekinjen: %1"
 
-#: ekos/focus/focus.cpp:3739
+#: ekos/focus/focus.cpp:3751
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "Prejeta slika FITS. PPT %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3741
+#: ekos/focus/focus.cpp:3753
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "Prejeta slika FITS. PPT %1 @ %2."
 
-#: ekos/focus/focus.cpp:3802
+#: ekos/focus/focus.cpp:3814
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -19301,26 +19307,26 @@ msgstr ""
 "Sprememba PPT je premajhna. Poskusite povečati velikost koraka ali zmanjšati "
 "toleranco."
 
-#: ekos/focus/focus.cpp:3809
+#: ekos/focus/focus.cpp:3821
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "V posnetku ni bilo mogoče zaznati zvezde v žarišču. Zajemite in izberite "
 "zvezdo v žarišču."
 
-#: ekos/focus/focus.cpp:3914
+#: ekos/focus/focus.cpp:3926
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Najdena polinomska rešitev @ %1"
 
-#: ekos/focus/focus.cpp:3978
+#: ekos/focus/focus.cpp:3990
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Fokuser se ne more premakniti naprej, dosežene so omejitve naprave. "
 "Samodejno fokusiranje je prekinjeno."
 
-#: ekos/focus/focus.cpp:3989
+#: ekos/focus/focus.cpp:4001
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -19328,131 +19334,131 @@ msgstr ""
 "Nestabilna nihanja. Poskusite povečati začetno velikost koraka ali trajanje "
 "osvetlitve."
 
-#: ekos/focus/focus.cpp:3999
+#: ekos/focus/focus.cpp:4011
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Prišlo je do blokade. Poskusite znova z drugačnimi nastavitvami."
 
-#: ekos/focus/focus.cpp:4028
+#: ekos/focus/focus.cpp:4040
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "Dosežena največja omejitev potovanja. Samodejno fokusiranje je prekinjeno."
 
-#: ekos/focus/focus.cpp:4135
+#: ekos/focus/focus.cpp:4147
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "Prejeta slika FITS. PPT %1. Delta (%2%), najm. PPT (%3)"
 
-#: ekos/focus/focus.cpp:4139
+#: ekos/focus/focus.cpp:4151
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 "Samodejno ostrenje ni uspelo. Poskusite prilagoditi vrednost tolerance."
 
-#: ekos/focus/focus.cpp:4253 ekos/focus/focus.cpp:4276
-#: ekos/focus/focus.cpp:4461 ekos/focus/focus.cpp:4554
-#: ekos/focus/focus.cpp:4636 ekos/focus/focus.cpp:4721
+#: ekos/focus/focus.cpp:4265 ekos/focus/focus.cpp:4288
+#: ekos/focus/focus.cpp:4473 ekos/focus/focus.cpp:4566
+#: ekos/focus/focus.cpp:4648 ekos/focus/focus.cpp:4733
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Napaka fokuserja. Preverite ploščo INDI."
 
-#: ekos/focus/focus.cpp:4337 ekos/focus/focus.cpp:4477
+#: ekos/focus/focus.cpp:4349 ekos/focus/focus.cpp:4489
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Simuliranje napake komunikacije s fokuserjem…"
 
-#: ekos/focus/focus.cpp:4438 ekos/focus/focus.cpp:4535
-#: ekos/focus/focus.cpp:4617 ekos/focus/focus.cpp:4658
+#: ekos/focus/focus.cpp:4450 ekos/focus/focus.cpp:4547
+#: ekos/focus/focus.cpp:4629 ekos/focus/focus.cpp:4670
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Ponovni zagon samodejnega fokusiranja…"
 
-#: ekos/focus/focus.cpp:4762
+#: ekos/focus/focus.cpp:4774
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Začenjanje neprekinjene osvetlitve …"
 
-#: ekos/focus/focus.cpp:5091
+#: ekos/focus/focus.cpp:5103
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Onemogočanje samodejnega izbiranja zvezde, ker je bil okvir za izbor zvezde "
 "ročno premaknjen."
 
-#: ekos/focus/focus.cpp:5097
+#: ekos/focus/focus.cpp:5109
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Izbrana zvezda v žarišču."
 
-#: ekos/focus/focus.cpp:5099
+#: ekos/focus/focus.cpp:5111
 #, kde-format
 msgid "Region of interest is selected."
 msgstr "Izbrana je regija interesa."
 
-#: ekos/focus/focus.cpp:5119
+#: ekos/focus/focus.cpp:5131
 #, kde-format
 msgid "Autofocus"
 msgstr "Samodejni fokus"
 
-#: ekos/focus/focus.cpp:5127
+#: ekos/focus/focus.cpp:5139
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr "Preveri zahtevo fokusa - Čakanje 10 sekund, da se %1 dokonča."
 
-#: ekos/focus/focus.cpp:5135
+#: ekos/focus/focus.cpp:5147
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Zavračanje zahteve fokusa - %1 v teku."
 
-#: ekos/focus/focus.cpp:5148
+#: ekos/focus/focus.cpp:5160
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr "Preverjanje fokusa prezrto - Mera zvezde mora sloneti na zvezdi"
 
-#: ekos/focus/focus.cpp:5153
+#: ekos/focus/focus.cpp:5165
 #, kde-format
 msgid "Capturing to check HFR..."
 msgstr "Zajemanje za preverjanje PPT…"
 
-#: ekos/focus/focus.cpp:5283
+#: ekos/focus/focus.cpp:5295
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Izbrane ni bilo nobene zvezde. Uporabljam zadnjo znano pozicijo…"
 
-#: ekos/focus/focus.cpp:5289
+#: ekos/focus/focus.cpp:5301
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Izbrane ni bilo nobene zvezde. Prekinjanje…"
 
-#: ekos/focus/focus.cpp:5300
+#: ekos/focus/focus.cpp:5312
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Fokuser je že pri %1 …"
 
-#: ekos/focus/focus.cpp:5399
+#: ekos/focus/focus.cpp:5411
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr "Prilagodi zahtevo za fokus - Čakanje 10 sekund, da se %1 dokonča."
 
-#: ekos/focus/focus.cpp:5433
+#: ekos/focus/focus.cpp:5445
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Okvir fokusa"
 
-#: ekos/focus/focus.cpp:5829
+#: ekos/focus/focus.cpp:5841
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Slike ni bilo mogoče shraniti. Prekinjanje…"
 
-#: ekos/focus/focus.cpp:5844 ekos/focus/focus.cpp:5869
+#: ekos/focus/focus.cpp:5856 ekos/focus/focus.cpp:5881
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Napaka osvetlitve. Prekinjanje…"
 
-#: ekos/focus/focus.cpp:6161
+#: ekos/focus/focus.cpp:6173
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -30539,50 +30545,50 @@ msgstr "Ni bilo mogoče posodobiti zgodovine: %1"
 msgid "Failed to write image: %1"
 msgstr "Ni bilo mogoče napisati slike: %1"
 
-#: fitsviewer/fitsdata.cpp:3662 fitsviewer/fitsdata.cpp:3673
-#: fitsviewer/fitsdata.cpp:3710 fitsviewer/fitsdata.cpp:3746
-#: fitsviewer/fitsdata.cpp:3880
+#: fitsviewer/fitsdata.cpp:3669 fitsviewer/fitsdata.cpp:3680
+#: fitsviewer/fitsdata.cpp:3717 fitsviewer/fitsdata.cpp:3753
+#: fitsviewer/fitsdata.cpp:3887
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Svetovni koordinatni sistem ni bil najden."
 
-#: fitsviewer/fitsdata.cpp:4055 fitsviewer/fitsdata.cpp:4163
+#: fitsviewer/fitsdata.cpp:4062 fitsviewer/fitsdata.cpp:4170
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Napaka pri poizvedbi Simbad"
 
-#: fitsviewer/fitsdata.cpp:4072
+#: fitsviewer/fitsdata.cpp:4079
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Časovna omejitev poizvedbe Simbad je potekla"
 
-#: fitsviewer/fitsdata.cpp:5049
+#: fitsviewer/fitsdata.cpp:5056
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Podprte so samo 8- in 16-bitne slike z bayerjevo matriko."
 
-#: fitsviewer/fitsdata.cpp:5082
+#: fitsviewer/fitsdata.cpp:5089
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Nepodprt bayerjev vzorec %1."
 
-#: fitsviewer/fitsdata.cpp:5113
+#: fitsviewer/fitsdata.cpp:5120
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Nepodprti bayerjevi odmiki %1 %2."
 
-#: fitsviewer/fitsdata.cpp:5270 fitsviewer/fitsdata.cpp:5317
-#: fitsviewer/fitsdata.cpp:5362 fitsviewer/fitsdata.cpp:5409
+#: fitsviewer/fitsdata.cpp:5277 fitsviewer/fitsdata.cpp:5324
+#: fitsviewer/fitsdata.cpp:5369 fitsviewer/fitsdata.cpp:5416
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Ni mogoče dodeliti pomnilnika za začasni bayerjev medpomnilnik: %1"
 
-#: fitsviewer/fitsdata.cpp:5280 fitsviewer/fitsdata.cpp:5372
+#: fitsviewer/fitsdata.cpp:5287 fitsviewer/fitsdata.cpp:5379
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Ni mogoče dodeliti pomnilnika za začasni bayerjev medpomnilnik."
 
-#: fitsviewer/fitsdata.cpp:5300 fitsviewer/fitsdata.cpp:5392
+#: fitsviewer/fitsdata.cpp:5307 fitsviewer/fitsdata.cpp:5399
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Interpretiranje bayerjeve matrike je spodletelo (%1)"
@@ -30790,12 +30796,12 @@ msgstr "KStars ni našel nobene aktivne montaže."
 #: fitsviewer/fitsmemmonitor.cpp:72 fitsviewer/fitsmemmonitor.cpp:202
 #, kde-format
 msgid "RAM: -- / --"
-msgstr ""
+msgstr "RAM: -- / --"
 
 #: fitsviewer/fitsmemmonitor.cpp:80
 #, kde-format
 msgid "Double-click to toggle text display"
-msgstr ""
+msgstr "Dvokliknite za preklop prikaza besedila"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -30902,10 +30908,9 @@ msgid "Catalog Objects"
 msgstr "Katalog objektov"
 
 #: fitsviewer/fitstab.cpp:154
-#, fuzzy, kde-format
-#| msgid "%1 is tracking."
+#, kde-format
 msgid "Live Stacking"
-msgstr "%1 sledi."
+msgstr "Živo zlaganje"
 
 #: fitsviewer/fitstab.cpp:167
 #, kde-format
@@ -31041,38 +31046,33 @@ msgid "Object major coordinate size in arcsmins"
 msgstr "Velikost glavne koordinate objekta v ločnih minutah"
 
 #: fitsviewer/fitstab.cpp:896
-#, fuzzy, kde-format
-#| msgid "RA"
+#, kde-format
 msgid "RAM"
-msgstr "RA"
+msgstr "RAM"
 
 #: fitsviewer/fitstab.cpp:1015
-#, fuzzy, kde-format
-#| msgid "KStars Data Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
-msgstr "Mapa s podatki KStars"
+msgstr "Imenik sklada"
 
 #: fitsviewer/fitstab.cpp:1040
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
-msgstr "Poravnava na severnico"
+msgstr "Izberite podstran poravnave"
 
 #: fitsviewer/fitstab.cpp:1054
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Dark"
-msgstr "Glavni posnetek teme:"
+msgstr "Izberi glavni posnetek teme"
 
 #: fitsviewer/fitstab.cpp:1068
-#, fuzzy, kde-format
-#| msgid "Select Baud rate"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Flat"
-msgstr "Izberite hitrost v baudih"
+msgstr "Izberite glavni posnetek površine"
 
 #: fitsviewer/fitstab.cpp:1170 fitsviewer/fitstab.cpp:1174
 #, kde-format
@@ -31397,28 +31397,24 @@ msgid "Open Image"
 msgstr "Odpri sliko"
 
 #: fitsviewer/fitsviewer.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Extracting..."
+#, kde-format
 msgid "Stacking..."
-msgstr "Ekstrahiranje…"
+msgstr "Zlaganje na sklad..."
 
 #: fitsviewer/fitsviewer.cpp:1109
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "Watching %1"
-msgstr "Nalaganje %1"
+msgstr "Opazovanje %1"
 
 #: fitsviewer/fitsviewer.cpp:1117
-#, fuzzy, kde-format
-#| msgid "Syncing failed."
+#, kde-format
 msgid "Stacking Failed"
-msgstr "Usklajevanje ni uspelo."
+msgstr "Zlaganje na sklad ni uspelo"
 
 #: fitsviewer/fitsviewer.cpp:1135
-#, fuzzy, kde-format
-#| msgid "Settling complete."
+#, kde-format
 msgid "Stacking Complete"
-msgstr "Poravnava zaključena."
+msgstr "Zlaganje na sklad zaključeno"
 
 #: fitsviewer/fitsviewer.cpp:1409
 #, kde-format
@@ -31497,36 +31493,31 @@ msgstr "Obdelava %1…"
 
 #. i18n: ectx: property (text), widget (QLabel, masterFlatLabel)
 #: fitsviewer/livestacking.ui:86
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Flat:"
-msgstr "Glavni posnetek teme:"
+msgstr "Glavni posnetek površine:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:191
-#, fuzzy, kde-format
-#| msgid "Tracking"
+#, kde-format
 msgid "Stacking"
-msgstr "Sledenje"
+msgstr "Zlaganje na sklad"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #: fitsviewer/livestacking.ui:221
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of High Sigma to be used in pixel rejection.</"
 "p></body></html>"
 msgstr ""
-"<html><body><p>Velikost podsličice za omejitev zajemanja v pikslih.</p></"
-"body></html>"
+"<html><head/><body><p>Vrednost visoke sigme, ki naj se uporabi pri zavrnitvi "
+"slikovnih pik.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
 #: fitsviewer/livestacking.ui:240
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Low Sigma:"
-msgstr "Sigma:"
+msgstr "Nizka Sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #: fitsviewer/livestacking.ui:262
@@ -31538,39 +31529,40 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Največje število podsličic, ki so shranjene v "
+"pomnilniku medobdelavo. Večja kot je vrednost, boljša je kakovost postopka "
+"zlaganja na sklad, vendar za ceno daljšega časa obdelave in porabljenega "
+"pomnilnika.</p><p><br/></p><p>Procesi, kot je sigma izrezovanje, bodo "
+"uporabili to število podsličic za izračun statistike za uporabo na vseh "
+"podsličicah.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:290
-#, fuzzy, kde-format
-#| msgid "Memory:"
+#, kde-format
 msgid "In Memory Subs:"
-msgstr "Pomnilnik:"
+msgstr "Podsličic v pomnilniku:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:306
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "High Sigma:"
-msgstr "Sigma:"
+msgstr "Visoka Sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #: fitsviewer/livestacking.ui:328
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of Low Sigma to be used in pixel rejection.</p></"
 "body></html>"
 msgstr ""
-"<html><body><p>Velikost podsličice za omejitev zajemanja v pikslih.</p></"
-"body></html>"
+"<html><head/><body><p>Vrednost nizke sigme, ki naj se uporabi pri zavrnitvi "
+"slikovnih pik.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:353
-#, fuzzy, kde-format
-#| msgid "Downsample"
+#, kde-format
 msgid "Downscale:"
-msgstr "Zmanjšaj vzorec"
+msgstr "Zmanjšaj:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:363
@@ -31581,12 +31573,17 @@ msgid ""
 "Subs and masters are downscaled 3x3.</p><p>- 4x4. Subs and masters are "
 "downscaled 4x4.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Zmanjšanje velikosti slik:</p><p>- Brez. Ni "
+"uporabljenega zmanjšanja.</p><p>- 2x2.  Podsličice in glavne slike so "
+"zmanjšane na 2x2.</p><p>- 3x3. Podsličice in glavne slike so zmanjšane na "
+"3x3.</p><p>- 4x4. Podsličice in glavne slike so zmanjšane na 4x4.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:380
 #, kde-format
 msgid "3x3"
-msgstr ""
+msgstr "3x3"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:405
@@ -31597,27 +31594,28 @@ msgid ""
 "Num Stars. Frames are weighted by the number of stars detected in the frame."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Uteževanje okvirjev:</p><p>- Enako. Vsi okvirji "
+"imajoenako težo.</p><p>- HFR. Okvirji so uteženi z 1 / povprečni HFR.</p><p>-"
+"Število zvezd. Okvirji so uteženi s številom zvezd, zaznanih v okvirju.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:409
-#, fuzzy, kde-format
-#| msgid "Equalize"
+#, kde-format
 msgid "Equal"
-msgstr "Uravnaj"
+msgstr "Enako"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:433
-#, fuzzy, kde-format
-#| msgid "Image height:"
+#, kde-format
 msgid "Frame Weight:"
-msgstr "Višina slike:"
+msgstr "Teža okvirja:"
 
 #. i18n: ectx: property (text), widget (QLabel, pixelRejLabel)
 #: fitsviewer/livestacking.ui:449
-#, fuzzy, kde-format
-#| msgid "Source Extraction Method"
+#, kde-format
 msgid "Rejection Method:"
-msgstr "Način pridobivanja vira"
+msgstr "Metoda zavračanja:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:471
@@ -31628,62 +31626,63 @@ msgid ""
 "Winsorized Sigma Clipping. Winsorized version of sigma clipping</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Algoritem za zavračanje slikovnih pik:</p><p>- Brez. "
+"Zavrnitev ni uporabljena.</p><p>- Obrez glede na Sigmo. Oddaljene slikovne "
+"pike so zavrnjene.</p><p>- Winsorizirani obrez sigme. Winsorizirana "
+"različica obreza sigme</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:486
-#, fuzzy, kde-format
-#| msgid "Show Clipping"
+#, kde-format
 msgid "Sigma Clipping"
-msgstr "Pokaži porezavo"
+msgstr "Obrez sigme"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:491
 #, kde-format
 msgid "Winsorized SC"
-msgstr ""
+msgstr "Winsoriziran obrez Sigme"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:511
 #, kde-format
 msgid "Winsor Cutoff:"
-msgstr ""
+msgstr "Winsoriziran obrez:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #: fitsviewer/livestacking.ui:533
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Winsorization cutoff in units of sigma to be used in "
 "pixel rejection.</p></body></html>"
-msgstr "<html><head/><body><p>Preostali čas do zaključka</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Vrednost obreza winsorizacije v enotah sigma, ki se "
+"uporablja pri zavračanju slikovnih pik.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:663
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Sub:"
-msgstr "Glavni posnetek teme:"
+msgstr "Glavni podposnetek:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #: fitsviewer/livestacking.ui:682
-#, fuzzy, kde-format
-#| msgid "Processing"
+#, kde-format
 msgid "Post Processing"
-msgstr "V obdelavi"
+msgstr "Naknadna obdelava"
 
 #. i18n: ectx: property (text), widget (QLabel, DenoiseLabel)
 #: fitsviewer/livestacking.ui:718
-#, fuzzy, kde-format
-#| msgid "Denoise"
+#, kde-format
 msgid "Denoise Amount:"
-msgstr "Odstrani šum"
+msgstr "Vrednost odstranjevanja šuma:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:740
 #, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
-msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
-msgstr "<html><head/><body><p>Velikost koraka:</p></body></html>"
+#| msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
+msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
+msgstr "<html><head/><body><p>Velikost jedra ostrenja.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
 #: fitsviewer/livestacking.ui:768
@@ -31694,172 +31693,163 @@ msgid ""
 "amount) of the original image.</p><p>Set to 0 to switch deconvolution off.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Količina Wienerjeve dekonvolucije, ki jo je treba "
+"uporabiti v območju od 0 do 1. Funkcija zmeša to količino dekonvoluirane "
+"slike z (1 - količino) izvirne slike.</p><p>Nastavite na 0, da izklopite "
+"dekonvolucijo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DenoiseAmt)
 #: fitsviewer/livestacking.ui:793
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of denoise to apply. Larger values apply more "
 "denoising.</p><p>Set to 0 to skip denoising</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Število sličic, ki jih je treba zajeti na vsakem "
-"položaju fokuserja.</p></body></html>"
+"<html><head/><body><p>Količina odpravljanja šuma, ki jo je treba uporabiti. "
+"Večje vrednosti vplivajo na večjo stopnjo odpravljanja šuma.</p><p>Nastavite "
+"na 0, da preskočite odpravljanje šuma</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:822
 #, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Vernal"
-msgid "Kernal:"
-msgstr "Vernal"
+#| msgid "Kernal:"
+msgid "Kernel:"
+msgstr "Jedrno:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:844
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Sharpen Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma ostrenja:"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:866
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "PSF Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
 #: fitsviewer/livestacking.ui:888
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
-msgstr "<html><head/><body><p>Velikost koraka:</p></body></html>"
+msgstr "<html><head/><body><p>Sigma ostrenja.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
 #: fitsviewer/livestacking.ui:913
 #, kde-format
 msgid "Sharpen Amount:"
-msgstr ""
+msgstr "Vrednost ostrenja:"
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
 #: fitsviewer/livestacking.ui:935
 #, kde-format
 msgid "Deconv Amount:"
-msgstr ""
+msgstr "Vrednost dekonvolucije:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
 #: fitsviewer/livestacking.ui:957
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>PSF Sigma to use for Deconvolution</p></body></html>"
-msgstr "<html><head/><body><p>Preostali čas do zaključka</p></body></html>"
+msgstr ""
+"<html><head/><body><p>PSF Sigma za uporabo pri dekonvoluciji</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
 #: fitsviewer/livestacking.ui:982
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of sharpening to apply. Larger values apply "
 "more sharpening.</p><p>Set to 0 to skip sharpening.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Vsili vrednost temperature pred zajemanjem slike</p></"
+"<html><head/><body><p>Količina ostrenja, ki naj se uporabi. Večje vrednosti "
+"pomenijo večjo ostrino.</p><p>Nastavite na 0, da preskočite ostrenje.</p></"
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1011
 #, kde-format
 msgid "Rerun the post processing using the selected parameters"
-msgstr ""
+msgstr "Ponovno zaženite naknadno obdelavo z izbranimi parametri"
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1014
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Reprocess"
-msgstr "Postopek"
+msgstr "Ponovni postopek"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1082
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Stack Directory:"
-msgstr "Mapa:"
+msgstr "Imenik sklada:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1104
-#, kde-format
-msgid "Number of subs sucessfully processed / failed / total"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Number of subs sucessfully processed / failed / total"
+msgid "Number of subs successfully processed / failed / total"
+msgstr "Število podsličic uspešno obdelanih / neuspešnih / skupaj"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1107 fitsviewer/livestacking.ui:1148
 #, kde-format
 msgid "0 / 0 / 0"
-msgstr ""
+msgstr "0 / 0 / 0"
 
 #. i18n: ectx: property (text), widget (QLabel, NumberSubsLabel)
 #: fitsviewer/livestacking.ui:1126
 #, kde-format
 msgid "Proc / Fail / Total:"
-msgstr ""
+msgstr "Obd / Neusp / Skupaj:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1145
 #, kde-format
 msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
-msgstr ""
+msgstr "Razmerje signal šum Max / Min / Povprečje obdelanih podsličic"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1186
 #, kde-format
 msgid "SNR Av / Min / Max:"
-msgstr ""
+msgstr "RSŠ Povp / Min / Max:"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:1199
-#, fuzzy, kde-format
-#| msgid "Image Save"
+#, kde-format
 msgid "Image SNR:"
-msgstr "Shranjevanje slike"
+msgstr "RSŠ slike:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
 #: fitsviewer/livestacking.ui:1215
 #, kde-format
 msgid "The signal-to-noise ratio of the final image"
-msgstr ""
+msgstr "Razmerje signal šum končne slike"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StartB)
 #: fitsviewer/livestacking.ui:1237
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Starts watching the Stack Directory and runs stacking."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Počisti vse nedavne podatke o vodniku.</p></body></"
-"html>"
+"<html><head/><body><p>Začne opazovati imenik sklada in izvede zlaganje na "
+"sklad.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1269
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
-msgstr "<html><head/><body><p>Izbriši trenutni posnetek</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Shrani žive parametre skladalnika</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1272
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Settings"
+#, kde-format
 msgid "Save Settings"
-msgstr "Nastavitve slike"
+msgstr "Shrani nastavitve"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -34459,7 +34449,7 @@ msgstr "Sledi satelitu"
 #: kspopupmenu.cpp:687
 #, kde-format
 msgid "Goto && Set As Parking Position"
-msgstr "Goto && Nastavi kot parkirni položaj"
+msgstr "Goto in Nastavi kot parkirni položaj"
 
 #: kspopupmenu.cpp:694
 #, kde-format
@@ -38630,97 +38620,98 @@ msgstr "Polmer na položaju (stopinje) za uporabo z reševanjem Fitsviewer."
 #: kstars.kcfg:1785
 #, kde-format
 msgid "Live Stacking master dark"
-msgstr ""
+msgstr "Glavna slika teme živega skladalnika"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterFlat), group (FITSViewer)
 #: kstars.kcfg:1789
 #, kde-format
 msgid "Live Stacking master flat"
-msgstr ""
+msgstr "Glavna slika površine živega skladalnika"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1793
 #, kde-format
 msgid "Live Stacking alignment method"
-msgstr ""
+msgstr "Metoda poravnavanja živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSNumInMem), group (FITSViewer)
 #: kstars.kcfg:1797
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
-msgstr ""
+msgstr "Največje število podsličic hranjeno v pomnilniku"
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
 #: kstars.kcfg:1801
 #, kde-format
 msgid "Live Stacking downscale factor"
-msgstr ""
+msgstr "Faktor pomanjševanja živega skladalnika"
 
 #. i18n: ectx: whatsthis, entry (fitsLSWeighting), group (FITSViewer)
 #: kstars.kcfg:1805
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr ""
+msgstr "Uteževanje podsličic živega skladalnika"
 
 #. i18n: ectx: whatsthis, entry (fitsLSRejection), group (FITSViewer)
 #: kstars.kcfg:1809
 #, kde-format
 msgid "Live Stacking pixel rejection mechanism"
-msgstr ""
+msgstr "Mehanizem zavračanja slikovnih pik živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1813
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
-msgstr ""
+msgstr "Kriterij zavračanja slikovnih pik nizke sigme živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1817
 #, kde-format
 msgid "Live Stacking high sigma pixel rejection criteria"
-msgstr ""
+msgstr "Kriterij zavračanja slikovnih pik visoke sigme živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSWinsorCutoff), group (FITSViewer)
 #: kstars.kcfg:1821
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr ""
+msgstr "Obrez windzor sigme živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1825
 #, kde-format
 msgid "Live Stacking deconvolution amount"
-msgstr ""
+msgstr "Vrednost dekonvolucije živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSPSFSigma), group (FITSViewer)
 #: kstars.kcfg:1829
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr ""
+msgstr "FSF sigme za uporabo pri dekonvoluciji živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1833
 #, kde-format
 msgid "Live Stacking denoise amount"
-msgstr ""
+msgstr "Vrednost odstranjevanja šuma živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSSharpenAmt), group (FITSViewer)
 #: kstars.kcfg:1837
 #, kde-format
 msgid "Live Stacking sharpen amount"
-msgstr ""
+msgstr "Vrednost ostrenja živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1841
-#, kde-format
-msgid "Live Stacking sharpening kernal size"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Live Stacking sharpening kernal size"
+msgid "Live Stacking sharpening kernel size"
+msgstr "Vrednost velikosti jedra živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1845
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr ""
+msgstr "Sigma ostrenja živega skladalnika"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1851
@@ -40184,13 +40175,13 @@ msgstr "Možnosti profila za sekstrakcijo pri fokusiranju."
 #: kstars.kcfg:2667
 #, kde-format
 msgid "Internal or External Sextractor to compute subs HFR."
-msgstr "Notranji ali zunanji sextractor za izračun podmnožic PPT."
+msgstr "Notranji ali zunanji sextractor za izračun podsličic PPT."
 
 #. i18n: ectx: label, entry (HFROptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2671
 #, kde-format
 msgid "Options Profile for Sextraction to compute subs HFR"
-msgstr "Možnosti profila za sekstraksijo za izračun podmnožic PPT"
+msgstr "Možnosti profila za sekstraksijo za izračun podsličic HFR"
 
 #. i18n: ectx: label, entry (GuideSextractorType), group (StellarSolver)
 #: kstars.kcfg:2675
@@ -40299,7 +40290,7 @@ msgstr "Privzet ISO kamere v načinu poravnave"
 #: kstars.kcfg:2735
 #, kde-format
 msgid "Take a dark frame and subtract it before running astrometry operation."
-msgstr "Pred opravilom astrometry zajemi posnetek teme in ga odštej."
+msgstr "Pred opravilom astrometrije zajemi posnetek teme in ga odštej."
 
 #. i18n: ectx: label, entry (AlignFilter), group (Align)
 #: kstars.kcfg:2739
@@ -40819,7 +40810,7 @@ msgstr "Zajemi posnetek teme za slike samodejnega vodnika."
 #: kstars.kcfg:3030
 #, kde-format
 msgid "Subframe guide image around selected region"
-msgstr "Ustvari podposnetek slike vodenja okoli vodilnega območja"
+msgstr "Ustvari podposnetek slike vodenja okoli izbranega območja"
 
 #. i18n: ectx: label, entry (DitherPixels), group (Guide)
 #: kstars.kcfg:3034
@@ -70923,13 +70914,12 @@ msgstr "Prejme nove podatke"
 #: kstarsinit.cpp:155
 #, kde-format
 msgid "Open Image(s)..."
-msgstr "Odpri slike …"
+msgstr "Odpri slike…"
 
 #: kstarsinit.cpp:164
-#, fuzzy, kde-format
-#| msgid "%1 is tracking."
+#, kde-format
 msgid "Live Stacking..."
-msgstr "%1 sledi."
+msgstr "Živo zlaganje na sklad..."
 
 #: kstarsinit.cpp:170
 #, kde-format
@@ -76545,7 +76535,7 @@ msgstr "Joseph McGee"
 #: main.cpp:189
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
-msgstr "Kalkulator podekspozicijei na podlagi dela Dr. Robina Gloverja"
+msgstr "Kalkulator podekspozicije na podlagi dela Dr. Robina Gloverja"
 
 #: main.cpp:199
 #, kde-format

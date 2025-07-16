@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-15 02:03+0000\n"
+"POT-Creation-Date: 2025-07-16 02:30+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -3971,7 +3971,7 @@ msgstr "0.0 pc"
 #: ekos/capture/camera_device.cpp:907 ekos/capture/camera_device.cpp:949
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
-#: ekos/focus/focus.cpp:447 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:597
+#: ekos/focus/focus.cpp:448 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:597
 #: ekos/guide/guide.ui:721 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
@@ -6377,7 +6377,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "ਕੁਨੈਕਸ਼ਨ"
 
 #: ekos/align/align.cpp:1512 ekos/capture/cameraprocess.cpp:216
-#: ekos/capture/cameraprocess.cpp:634 ekos/focus/focus.cpp:5729
+#: ekos/capture/cameraprocess.cpp:634 ekos/focus/focus.cpp:5741
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6413,14 +6413,14 @@ msgstr "...ਆਟੋ-ਫੋਕਸ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1652 ekos/focus/focus.cpp:1758
+#: ekos/align/align.cpp:1652 ekos/focus/focus.cpp:1770
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing image..."
 msgstr "...ਚਿੱਤਰ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 
 #: ekos/align/align.cpp:1742 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2908
+#: ekos/focus/focus.cpp:2920
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Image received."
@@ -6565,7 +6565,7 @@ msgid "Refresh is complete."
 msgstr "%1 ਆਨਲਾਈਨ ਹੈ।"
 
 #: ekos/align/align.cpp:2588 ekos/auxiliary/darklibrary.cpp:1413
-#: ekos/focus/focus.cpp:1485
+#: ekos/focus/focus.cpp:1486
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
@@ -6754,7 +6754,7 @@ msgid "dDE (arcsec)"
 msgstr "ਸਕਿੰਟ"
 
 #: ekos/align/align.cpp:3654 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5610
+#: ekos/focus/focus.cpp:5622
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Filter operation failed."
@@ -15846,8 +15846,8 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2112 ekos/focus/focus.cpp:5781
-#: ekos/focus/focus.cpp:5805
+#: ekos/capture/cameraprocess.cpp:2112 ekos/focus/focus.cpp:5793
+#: ekos/focus/focus.cpp:5817
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Aborting..."
@@ -15858,7 +15858,7 @@ msgstr "ਸਕਿੰਟਾਂ ਵਿੱਚ ਦੇਰੀ"
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2137 ekos/focus/focus.cpp:5786
+#: ekos/capture/cameraprocess.cpp:2137 ekos/focus/focus.cpp:5798
 #: ekos/guide/guide.cpp:1010
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
@@ -18871,12 +18871,12 @@ msgstr "ਤਾਰੇ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 msgid " nm"
 msgstr "ਮਿਮੀ"
 
-#: ekos/focus/focus.cpp:116
+#: ekos/focus/focus.cpp:117
 #, kde-format
 msgid "Idle."
 msgstr "ਬੇਕਾਰ।"
 
-#: ekos/focus/focus.cpp:133
+#: ekos/focus/focus.cpp:134
 #, fuzzy, kde-format
 #| msgid "Select Filenames"
 msgid "Focus Options Profile Editor"
@@ -18886,7 +18886,7 @@ msgstr "ਫਾਇਲ-ਨਾਂ ਚੁਣੋ"
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, analyzeGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
-#: ekos/focus/focus.cpp:192 ekos/guide/opscalibration.ui:34
+#: ekos/focus/focus.cpp:193 ekos/guide/opscalibration.ui:34
 #: ekos/guide/opsgpg.ui:93 ekos/opsekos.ui:195 options/opsimageoverlay.ui:38
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -18895,77 +18895,77 @@ msgid "Settings"
 msgstr "ਸੈਟਿੰਗ"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
-#: ekos/focus/focus.cpp:192 ekos/focus/opsfocussettings.ui:14
+#: ekos/focus/focus.cpp:193 ekos/focus/opsfocussettings.ui:14
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Focus Settings"
 msgstr "ਸੈਟਿੰਗ"
 
-#: ekos/focus/focus.cpp:196
+#: ekos/focus/focus.cpp:197
 #, fuzzy, kde-format
 #| msgid "Running..."
 msgid "Process"
 msgstr "...ਚੱਲ ਰਿਹਾ ਹੈ"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusProcess)
-#: ekos/focus/focus.cpp:196 ekos/focus/opsfocusprocess.ui:14
+#: ekos/focus/focus.cpp:197 ekos/focus/opsfocusprocess.ui:14
 #, fuzzy, kde-format
 msgid "Focus Process"
 msgstr "ਖਿੱਤੇ"
 
-#: ekos/focus/focus.cpp:200
+#: ekos/focus/focus.cpp:201
 #, fuzzy, kde-format
 msgid "Mechanics"
 msgstr "ਬੁੱਡਾਪੈਸਟ"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusMechanics)
-#: ekos/focus/focus.cpp:200 ekos/focus/opsfocusmechanics.ui:14
+#: ekos/focus/focus.cpp:201 ekos/focus/opsfocusmechanics.ui:14
 #, fuzzy, kde-format
 msgid "Focus Mechanics"
 msgstr "ਬੁੱਡਾਪੈਸਟ"
 
-#: ekos/focus/focus.cpp:922
+#: ekos/focus/focus.cpp:923
 #, fuzzy, kde-format
 #| msgid "Filter:"
 msgid "Finally found temperature source %1"
 msgstr "ਫਿਲਟਰ:"
 
-#: ekos/focus/focus.cpp:1014
+#: ekos/focus/focus.cpp:1015
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "No Focuser connected."
 msgstr "ਬੰਦ ਕਰੋ"
 
-#: ekos/focus/focus.cpp:1021 ekos/focus/focus.cpp:4746
+#: ekos/focus/focus.cpp:1022 ekos/focus/focus.cpp:4758
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "No CCD connected."
 msgstr "ਬੰਦ ਕਰੋ"
 
-#: ekos/focus/focus.cpp:1028
+#: ekos/focus/focus.cpp:1029
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1039
+#: ekos/focus/focus.cpp:1040
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1046
+#: ekos/focus/focus.cpp:1047
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1054
+#: ekos/focus/focus.cpp:1055
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1061 ekos/focus/focus.cpp:5121
-#: ekos/focus/focus.cpp:5396
+#: ekos/focus/focus.cpp:1062 ekos/focus/focus.cpp:5133
+#: ekos/focus/focus.cpp:5408
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Adjust Focus"
@@ -18973,140 +18973,146 @@ msgstr "ਤਾਰੇ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1061 ekos/focus/focus.cpp:5123
-#: ekos/focus/focus.cpp:5396 ekos/focus/opsfocussettings.ui:483
+#: ekos/focus/focus.cpp:1062 ekos/focus/focus.cpp:5135
+#: ekos/focus/focus.cpp:5408 ekos/focus/opsfocussettings.ui:483
 #: ekos/focus/opsfocussettings.ui:563
 #, fuzzy, kde-format
 #| msgid "Advanced"
 msgid "Adaptive Focus"
 msgstr "ਤਕਨੀਕੀ"
 
-#: ekos/focus/focus.cpp:1064
+#: ekos/focus/focus.cpp:1065
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1072
+#: ekos/focus/focus.cpp:1073
 #, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1092
+#: ekos/focus/focus.cpp:1093
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1249
+#: ekos/focus/focus.cpp:1250
 #, fuzzy, kde-format
 #| msgid "Advanced"
 msgid "Autofocus starting..."
 msgstr "ਤਕਨੀਕੀ"
 
-#: ekos/focus/focus.cpp:1263
+#: ekos/focus/focus.cpp:1264
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation started"
 msgstr "ਆਟੋ-ਫੋਕਸ ਚੋਣਾਂ"
 
-#: ekos/focus/focus.cpp:1490
+#: ekos/focus/focus.cpp:1491
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capture in progress, retrying in 1s..."
 msgstr "...ਆਟੋ-ਫੋਕਸ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ekos/focus/focus.cpp:1502
+#: ekos/focus/focus.cpp:1505
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "...ਆਟੋ-ਫੋਕਸ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ekos/focus/focus.cpp:1546
+#: ekos/focus/focus.cpp:1509
+#, fuzzy, kde-format
+#| msgid "Autofocus in progress..."
+msgid "Star detection still in progress, aborting..."
+msgstr "...ਆਟੋ-ਫੋਕਸ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+
+#: ekos/focus/focus.cpp:1558
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus aborted."
 msgstr "ਆਟੋ-ਫੋਕਸ ਚੋਣਾਂ"
 
-#: ekos/focus/focus.cpp:1650
+#: ekos/focus/focus.cpp:1662
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1657
+#: ekos/focus/focus.cpp:1669
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Camera."
 msgstr "ਕੁਨੈਕਸ਼ਨ"
 
-#: ekos/focus/focus.cpp:1678
+#: ekos/focus/focus.cpp:1690
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1684
+#: ekos/focus/focus.cpp:1696
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "ਕੁਨੈਕਸ਼ਨ"
 
-#: ekos/focus/focus.cpp:1802
+#: ekos/focus/focus.cpp:1814
 #, fuzzy, kde-format
 #| msgctxt "use 'night vision' color scheme"
 #| msgid "Night Vision"
 msgid "At minimum focus position %1..."
 msgstr "ਰਾਤ ਦਿੱਖ"
 
-#: ekos/focus/focus.cpp:1817
+#: ekos/focus/focus.cpp:1829
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Moving to minimum focus position %1..."
 msgstr "...ਚਿੱਤਰ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 
-#: ekos/focus/focus.cpp:1826
+#: ekos/focus/focus.cpp:1838
 #, fuzzy, kde-format
 #| msgctxt "use 'night vision' color scheme"
 #| msgid "Night Vision"
 msgid "At maximum focus position %1..."
 msgstr "ਰਾਤ ਦਿੱਖ"
 
-#: ekos/focus/focus.cpp:1842
+#: ekos/focus/focus.cpp:1854
 #, fuzzy, kde-format
 #| msgctxt "use 'night vision' color scheme"
 #| msgid "Night Vision"
 msgid "Moving to maximum focus position %1..."
 msgstr "ਰਾਤ ਦਿੱਖ"
 
-#: ekos/focus/focus.cpp:1869
+#: ekos/focus/focus.cpp:1881
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1876
+#: ekos/focus/focus.cpp:1888
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Focuser."
 msgstr "ਕੁਨੈਕਸ਼ਨ"
 
-#: ekos/focus/focus.cpp:1890
+#: ekos/focus/focus.cpp:1902
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "outward"
 msgstr "ਸੀਵਾਰਡ"
 
-#: ekos/focus/focus.cpp:1890
+#: ekos/focus/focus.cpp:1902
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "inward"
 msgstr "ਸੀਵਾਰਡ"
 
-#: ekos/focus/focus.cpp:1907
+#: ekos/focus/focus.cpp:1919
 #, fuzzy, kde-format
 #| msgid "Running..."
 msgid "Focusing %2 by %1 steps..."
 msgstr "...ਚੱਲ ਰਿਹਾ ਹੈ"
 
-#: ekos/focus/focus.cpp:1913
+#: ekos/focus/focus.cpp:1925
 #, fuzzy, kde-format
 #| msgid "Running..."
 msgid "Focusing %2 by %1 step..."
@@ -19114,65 +19120,65 @@ msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "...ਚੱਲ ਰਿਹਾ ਹੈ"
 msgstr[1] "...ਚੱਲ ਰਿਹਾ ਹੈ"
 
-#: ekos/focus/focus.cpp:1919
+#: ekos/focus/focus.cpp:1931
 #, fuzzy, kde-format
 #| msgid "Running..."
 msgid "Focusing %2 by %1 ms..."
 msgstr "...ਚੱਲ ਰਿਹਾ ਹੈ"
 
-#: ekos/focus/focus.cpp:1954
+#: ekos/focus/focus.cpp:1966
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Focuser is still timing out. Aborting..."
 msgstr "ਸਕਿੰਟਾਂ ਵਿੱਚ ਦੇਰੀ"
 
-#: ekos/focus/focus.cpp:1961
+#: ekos/focus/focus.cpp:1973
 #, fuzzy, kde-format
 #| msgid "Running..."
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "...ਚੱਲ ਰਿਹਾ ਹੈ"
 
-#: ekos/focus/focus.cpp:1972
+#: ekos/focus/focus.cpp:1984
 #, fuzzy, kde-format
 #| msgid "Running..."
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "...ਚੱਲ ਰਿਹਾ ਹੈ"
 
-#: ekos/focus/focus.cpp:2018
+#: ekos/focus/focus.cpp:2030
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2027
+#: ekos/focus/focus.cpp:2039
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "ਚਿੱਤਰ ਲਵੋ"
 
-#: ekos/focus/focus.cpp:2085 ekos/focus/focus.cpp:2092
+#: ekos/focus/focus.cpp:2097 ekos/focus/focus.cpp:2104
 #, fuzzy, kde-format
 msgid "Detection complete."
 msgstr "% ਮੁਕੰਮਲ"
 
-#: ekos/focus/focus.cpp:2364
+#: ekos/focus/focus.cpp:2376
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Detecting sources..."
 msgstr "ਨਵਾਂ ਡਾਟਾ ਡਾਊਨਲੋਡ..."
 
-#: ekos/focus/focus.cpp:2473
+#: ekos/focus/focus.cpp:2485
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Autofocus operation completed successfully"
 msgstr "ਟੈਲੀਸਕੋਪ ਸਹਾਇਕ ਠੀਕ ਤਰ੍ਹਾਂ ਪੂਰਾ ਕੀਤਾ ਗਿਆ।"
 
-#: ekos/focus/focus.cpp:2487
+#: ekos/focus/focus.cpp:2499
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation failed"
 msgstr "ਆਟੋ-ਫੋਕਸ ਚੋਣਾਂ"
 
-#: ekos/focus/focus.cpp:2555
+#: ekos/focus/focus.cpp:2567
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Focus procedure completed after %1 iteration."
@@ -19180,324 +19186,324 @@ msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "ਆਟੋ-ਫੋਕਸ ਚੋਣਾਂ"
 msgstr[1] "ਆਟੋ-ਫੋਕਸ ਚੋਣਾਂ"
 
-#: ekos/focus/focus.cpp:2641
+#: ekos/focus/focus.cpp:2653
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Settling for %1s..."
 msgstr "ਸੈਟਿੰਗ"
 
-#: ekos/focus/focus.cpp:2649
+#: ekos/focus/focus.cpp:2661
 #, fuzzy, kde-format
 msgid "Settling complete."
 msgstr "% ਮੁਕੰਮਲ"
 
-#: ekos/focus/focus.cpp:2662
+#: ekos/focus/focus.cpp:2674
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2699
+#: ekos/focus/focus.cpp:2711
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2970
+#: ekos/focus/focus.cpp:2982
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Capture complete. Select a region of interest."
 msgstr "ਧੁਰਾ ਗਰਿੱਡ ਬਦਲੋ"
 
-#: ekos/focus/focus.cpp:3011
+#: ekos/focus/focus.cpp:3023
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3105
+#: ekos/focus/focus.cpp:3117
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Capture complete. Select a star to focus."
 msgstr "ਧੁਰਾ ਗਰਿੱਡ ਬਦਲੋ"
 
-#: ekos/focus/focus.cpp:3136
+#: ekos/focus/focus.cpp:3148
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3156
+#: ekos/focus/focus.cpp:3168
 #, fuzzy, kde-format
 #| msgid "HFR:"
 msgid "HFR %1 > Limit %2"
 msgstr "HFR:"
 
-#: ekos/focus/focus.cpp:3281
+#: ekos/focus/focus.cpp:3293
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "ਆਟੋ-ਫੋਕਸ ਚੋਣਾਂ"
 
-#: ekos/focus/focus.cpp:3292 ekos/focus/focus.cpp:3554
-#: ekos/focus/focus.cpp:4150
+#: ekos/focus/focus.cpp:3304 ekos/focus/focus.cpp:3566
+#: ekos/focus/focus.cpp:4162
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3298 ekos/focus/focus.cpp:4156
+#: ekos/focus/focus.cpp:3310 ekos/focus/focus.cpp:4168
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "ਫਾਇਲ਼ %1 ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ।"
 
-#: ekos/focus/focus.cpp:3304 ekos/focus/focus.cpp:4162
+#: ekos/focus/focus.cpp:3316 ekos/focus/focus.cpp:4174
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3491
+#: ekos/focus/focus.cpp:3503
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3511
+#: ekos/focus/focus.cpp:3523
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3537
+#: ekos/focus/focus.cpp:3549
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Starting scan for initial focuser position."
 msgstr "...ਚਿੱਤਰ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 
-#: ekos/focus/focus.cpp:3538
+#: ekos/focus/focus.cpp:3550
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Scanning for starting position..."
 msgstr "...ਆਟੋ-ਫੋਕਸ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ekos/focus/focus.cpp:3560
+#: ekos/focus/focus.cpp:3572
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to detect any stars. Aborting..."
 msgstr "ਫਾਇਲ਼ %1 ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ।"
 
-#: ekos/focus/focus.cpp:3569
+#: ekos/focus/focus.cpp:3581
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "ਆਟੋ-ਫੋਕਸ ਚੋਣਾਂ"
 
-#: ekos/focus/focus.cpp:3587
+#: ekos/focus/focus.cpp:3599
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3601
+#: ekos/focus/focus.cpp:3613
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3614
+#: ekos/focus/focus.cpp:3626
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3615
+#: ekos/focus/focus.cpp:3627
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3684
+#: ekos/focus/focus.cpp:3696
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3686
+#: ekos/focus/focus.cpp:3698
 #, fuzzy, kde-format
 #| msgid "HFR:"
 msgid "R2=%1 < Limit=%2"
 msgstr "HFR:"
 
-#: ekos/focus/focus.cpp:3694
+#: ekos/focus/focus.cpp:3706
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3704
+#: ekos/focus/focus.cpp:3716
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3739
+#: ekos/focus/focus.cpp:3751
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3741
+#: ekos/focus/focus.cpp:3753
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3802
+#: ekos/focus/focus.cpp:3814
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3809
+#: ekos/focus/focus.cpp:3821
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3914
+#: ekos/focus/focus.cpp:3926
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3978
+#: ekos/focus/focus.cpp:3990
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3989
+#: ekos/focus/focus.cpp:4001
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3999
+#: ekos/focus/focus.cpp:4011
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4028
+#: ekos/focus/focus.cpp:4040
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4135
+#: ekos/focus/focus.cpp:4147
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:4139
+#: ekos/focus/focus.cpp:4151
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4253 ekos/focus/focus.cpp:4276
-#: ekos/focus/focus.cpp:4461 ekos/focus/focus.cpp:4554
-#: ekos/focus/focus.cpp:4636 ekos/focus/focus.cpp:4721
+#: ekos/focus/focus.cpp:4265 ekos/focus/focus.cpp:4288
+#: ekos/focus/focus.cpp:4473 ekos/focus/focus.cpp:4566
+#: ekos/focus/focus.cpp:4648 ekos/focus/focus.cpp:4733
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4337 ekos/focus/focus.cpp:4477
+#: ekos/focus/focus.cpp:4349 ekos/focus/focus.cpp:4489
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Simulate focuser comms failure..."
 msgstr "ਆਟੋ-ਫੋਕਸ ਚੋਣਾਂ"
 
-#: ekos/focus/focus.cpp:4438 ekos/focus/focus.cpp:4535
-#: ekos/focus/focus.cpp:4617 ekos/focus/focus.cpp:4658
+#: ekos/focus/focus.cpp:4450 ekos/focus/focus.cpp:4547
+#: ekos/focus/focus.cpp:4629 ekos/focus/focus.cpp:4670
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Restarting autofocus process..."
 msgstr "...ਆਟੋ-ਫੋਕਸ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: ekos/focus/focus.cpp:4762
+#: ekos/focus/focus.cpp:4774
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Starting continuous exposure..."
 msgstr "ਸ਼ੁਰੂ:"
 
-#: ekos/focus/focus.cpp:5091
+#: ekos/focus/focus.cpp:5103
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5097
+#: ekos/focus/focus.cpp:5109
 #, fuzzy, kde-format
 #| msgid "No Object Selected"
 msgid "Focus star is selected."
 msgstr "ਕੋਈ ਆਬਜੈਕਟ ਨਹੀਂ ਚੁਣੀ"
 
-#: ekos/focus/focus.cpp:5099
+#: ekos/focus/focus.cpp:5111
 #, fuzzy, kde-format
 #| msgid "No Object Selected"
 msgid "Region of interest is selected."
 msgstr "ਕੋਈ ਆਬਜੈਕਟ ਨਹੀਂ ਚੁਣੀ"
 
-#: ekos/focus/focus.cpp:5119
+#: ekos/focus/focus.cpp:5131
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Autofocus"
 msgstr "ਤਾਰੇ"
 
-#: ekos/focus/focus.cpp:5127
+#: ekos/focus/focus.cpp:5139
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5135
+#: ekos/focus/focus.cpp:5147
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5148
+#: ekos/focus/focus.cpp:5160
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 
-#: ekos/focus/focus.cpp:5153
+#: ekos/focus/focus.cpp:5165
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing to check HFR..."
 msgstr "...ਚਿੱਤਰ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 
-#: ekos/focus/focus.cpp:5283
+#: ekos/focus/focus.cpp:5295
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5289
+#: ekos/focus/focus.cpp:5301
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5300
+#: ekos/focus/focus.cpp:5312
 #, fuzzy, kde-format
 #| msgid "Running..."
 msgid "Focuser already at %1..."
 msgstr "...ਚੱਲ ਰਿਹਾ ਹੈ"
 
-#: ekos/focus/focus.cpp:5399
+#: ekos/focus/focus.cpp:5411
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5433
+#: ekos/focus/focus.cpp:5445
 #, fuzzy, kde-format
 #| msgid "Local Time"
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "ਲੋਕਲ ਸਮਾਂ"
 
-#: ekos/focus/focus.cpp:5829
+#: ekos/focus/focus.cpp:5841
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to save image. Aborting..."
 msgstr "ਫਾਇਲ਼ %1 ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ।"
 
-#: ekos/focus/focus.cpp:5844 ekos/focus/focus.cpp:5869
+#: ekos/focus/focus.cpp:5856 ekos/focus/focus.cpp:5881
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure failure. Aborting..."
 msgstr "ਸਕਿੰਟਾਂ ਵਿੱਚ ਦੇਰੀ"
 
-#: ekos/focus/focus.cpp:6161
+#: ekos/focus/focus.cpp:6173
 #, fuzzy, kde-format
 #| msgid "Remove Label"
 msgctxt "@title:window"
@@ -30181,52 +30187,52 @@ msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 msgid "Failed to write image: %1"
 msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 
-#: fitsviewer/fitsdata.cpp:3662 fitsviewer/fitsdata.cpp:3673
-#: fitsviewer/fitsdata.cpp:3710 fitsviewer/fitsdata.cpp:3746
-#: fitsviewer/fitsdata.cpp:3880
+#: fitsviewer/fitsdata.cpp:3669 fitsviewer/fitsdata.cpp:3680
+#: fitsviewer/fitsdata.cpp:3717 fitsviewer/fitsdata.cpp:3753
+#: fitsviewer/fitsdata.cpp:3887
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:4055 fitsviewer/fitsdata.cpp:4163
+#: fitsviewer/fitsdata.cpp:4062 fitsviewer/fitsdata.cpp:4170
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error querying Simbad"
 msgstr "ਗਲਤੀ: %1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮਰੱਥ"
 
-#: fitsviewer/fitsdata.cpp:4072
+#: fitsviewer/fitsdata.cpp:4079
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Simbad query timed out"
 msgstr "ਤਾਰੇ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 
-#: fitsviewer/fitsdata.cpp:5049
+#: fitsviewer/fitsdata.cpp:5056
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5082
+#: fitsviewer/fitsdata.cpp:5089
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5113
+#: fitsviewer/fitsdata.cpp:5120
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5270 fitsviewer/fitsdata.cpp:5317
-#: fitsviewer/fitsdata.cpp:5362 fitsviewer/fitsdata.cpp:5409
+#: fitsviewer/fitsdata.cpp:5277 fitsviewer/fitsdata.cpp:5324
+#: fitsviewer/fitsdata.cpp:5369 fitsviewer/fitsdata.cpp:5416
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5280 fitsviewer/fitsdata.cpp:5372
+#: fitsviewer/fitsdata.cpp:5287 fitsviewer/fitsdata.cpp:5379
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5300 fitsviewer/fitsdata.cpp:5392
+#: fitsviewer/fitsdata.cpp:5307 fitsviewer/fitsdata.cpp:5399
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
@@ -31380,7 +31386,7 @@ msgstr "ਬੋਈਲੀ"
 #: fitsviewer/livestacking.ui:740
 #, fuzzy, kde-format
 #| msgid "Loading stars"
-msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
+msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
 msgstr "ਤਾਰੇ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
@@ -31407,7 +31413,7 @@ msgstr "ਤਾਰੇ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 #, fuzzy, kde-format
 #| msgctxt "City in Utah USA"
 #| msgid "Vernal"
-msgid "Kernal:"
+msgid "Kernel:"
 msgstr "ਵੀਰਨਾਲ"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
@@ -31483,7 +31489,7 @@ msgstr "FITS ਸੰਭਾਲੋ"
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1104
 #, kde-format
-msgid "Number of subs sucessfully processed / failed / total"
+msgid "Number of subs successfully processed / failed / total"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
@@ -38328,9 +38334,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1841
-#, kde-format
-msgid "Live Stacking sharpening kernal size"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Autofocus in progress..."
+msgid "Live Stacking sharpening kernel size"
+msgstr "...ਆਟੋ-ਫੋਕਸ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1845

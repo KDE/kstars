@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-15 02:03+0000\n"
-"PO-Revision-Date: 2025-07-08 10:10+0200\n"
+"POT-Creation-Date: 2025-07-16 02:30+0000\n"
+"PO-Revision-Date: 2025-07-15 13:53+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3896,7 +3896,7 @@ msgstr "0,0 pc"
 #: ekos/capture/camera_device.cpp:907 ekos/capture/camera_device.cpp:949
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
-#: ekos/focus/focus.cpp:447 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:597
+#: ekos/focus/focus.cpp:448 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:597
 #: ekos/guide/guide.ui:721 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
@@ -6333,7 +6333,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Error: s'ha perdut la connexió amb la roda de filtres."
 
 #: ekos/align/align.cpp:1512 ekos/capture/cameraprocess.cpp:216
-#: ekos/capture/cameraprocess.cpp:634 ekos/focus/focus.cpp:5729
+#: ekos/capture/cameraprocess.cpp:634 ekos/focus/focus.cpp:5741
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6377,13 +6377,13 @@ msgstr ""
 "No s'ha detectat cap controlador remot d'astrometria, es canvia a "
 "l'StellarSolver."
 
-#: ekos/align/align.cpp:1652 ekos/focus/focus.cpp:1758
+#: ekos/align/align.cpp:1652 ekos/focus/focus.cpp:1770
 #, kde-format
 msgid "Capturing image..."
 msgstr "S'està capturant una imatge..."
 
 #: ekos/align/align.cpp:1742 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2908
+#: ekos/focus/focus.cpp:2920
 #, kde-format
 msgid "Image received."
 msgstr "Imatge rebuda."
@@ -6528,7 +6528,7 @@ msgid "Refresh is complete."
 msgstr "Ha finalitzat l'actualització."
 
 #: ekos/align/align.cpp:2588 ekos/auxiliary/darklibrary.cpp:1413
-#: ekos/focus/focus.cpp:1485
+#: ekos/focus/focus.cpp:1486
 #, kde-format
 msgid "Capture aborted."
 msgstr "Captura interrompuda."
@@ -6708,7 +6708,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (seg. d'arc)"
 
 #: ekos/align/align.cpp:3654 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5610
+#: ekos/focus/focus.cpp:5622
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Ha fallat l'operació del filtre."
@@ -16067,8 +16067,8 @@ msgstr "L'script %1 anterior a la tasca ha finalitzat amb el codi %1."
 msgid "Post job script finished with code %1."
 msgstr "L'script %1 posterior a la tasca ha finalitzat amb el codi %1."
 
-#: ekos/capture/cameraprocess.cpp:2112 ekos/focus/focus.cpp:5781
-#: ekos/focus/focus.cpp:5805
+#: ekos/capture/cameraprocess.cpp:2112 ekos/focus/focus.cpp:5793
+#: ekos/focus/focus.cpp:5817
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "S'ha excedit el temps d'exposició. S'interromp..."
@@ -16080,7 +16080,7 @@ msgstr ""
 "S'ha excedit el temps d'exposició. S'han detectat més de 3, es reiniciarà el "
 "controlador."
 
-#: ekos/capture/cameraprocess.cpp:2137 ekos/focus/focus.cpp:5786
+#: ekos/capture/cameraprocess.cpp:2137 ekos/focus/focus.cpp:5798
 #: ekos/guide/guide.cpp:1010
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -19125,12 +19125,12 @@ msgstr ""
 msgid " nm"
 msgstr " nm"
 
-#: ekos/focus/focus.cpp:116
+#: ekos/focus/focus.cpp:117
 #, kde-format
 msgid "Idle."
 msgstr "En espera."
 
-#: ekos/focus/focus.cpp:133
+#: ekos/focus/focus.cpp:134
 #, kde-format
 msgid "Focus Options Profile Editor"
 msgstr "Editor de perfils d'opcions de l'enfocament"
@@ -19139,56 +19139,56 @@ msgstr "Editor de perfils d'opcions de l'enfocament"
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, analyzeGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
-#: ekos/focus/focus.cpp:192 ekos/guide/opscalibration.ui:34
+#: ekos/focus/focus.cpp:193 ekos/guide/opscalibration.ui:34
 #: ekos/guide/opsgpg.ui:93 ekos/opsekos.ui:195 options/opsimageoverlay.ui:38
 #, kde-format
 msgid "Settings"
 msgstr "Arranjament"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
-#: ekos/focus/focus.cpp:192 ekos/focus/opsfocussettings.ui:14
+#: ekos/focus/focus.cpp:193 ekos/focus/opsfocussettings.ui:14
 #, kde-format
 msgid "Focus Settings"
 msgstr "Paràmetres d'enfocament"
 
-#: ekos/focus/focus.cpp:196
+#: ekos/focus/focus.cpp:197
 #, kde-format
 msgid "Process"
 msgstr "Processament"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusProcess)
-#: ekos/focus/focus.cpp:196 ekos/focus/opsfocusprocess.ui:14
+#: ekos/focus/focus.cpp:197 ekos/focus/opsfocusprocess.ui:14
 #, kde-format
 msgid "Focus Process"
 msgstr "Procés d'enfocament"
 
-#: ekos/focus/focus.cpp:200
+#: ekos/focus/focus.cpp:201
 #, kde-format
 msgid "Mechanics"
 msgstr "Mecànica"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusMechanics)
-#: ekos/focus/focus.cpp:200 ekos/focus/opsfocusmechanics.ui:14
+#: ekos/focus/focus.cpp:201 ekos/focus/opsfocusmechanics.ui:14
 #, kde-format
 msgid "Focus Mechanics"
 msgstr "Mecànica de l'enfocament"
 
-#: ekos/focus/focus.cpp:922
+#: ekos/focus/focus.cpp:923
 #, kde-format
 msgid "Finally found temperature source %1"
 msgstr "Finalment s'ha trobat la font de temperatura %1"
 
-#: ekos/focus/focus.cpp:1014
+#: ekos/focus/focus.cpp:1015
 #, kde-format
 msgid "No Focuser connected."
 msgstr "No s'ha connectat cap enfocador."
 
-#: ekos/focus/focus.cpp:1021 ekos/focus/focus.cpp:4746
+#: ekos/focus/focus.cpp:1022 ekos/focus/focus.cpp:4758
 #, kde-format
 msgid "No CCD connected."
 msgstr "No s'ha connectat cap CCD."
 
-#: ekos/focus/focus.cpp:1028
+#: ekos/focus/focus.cpp:1029
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
@@ -19196,209 +19196,215 @@ msgstr ""
 "El pas del pols inicial és massa baix. Augmenteu la mida del pas a %1 o "
 "més..."
 
-#: ekos/focus/focus.cpp:1039
+#: ekos/focus/focus.cpp:1040
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 "Ja s'està executant l'enfocament automàtic, es descarta la sol·licitud "
 "d'inici."
 
-#: ekos/focus/focus.cpp:1046
+#: ekos/focus/focus.cpp:1047
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr ""
 "Ja s'està executant la construcció de desplaçaments. S'ha rebutjat "
 "l'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:1054
+#: ekos/focus/focus.cpp:1055
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "Bucle d'enfocament. S'ha rebutjat l'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:1061 ekos/focus/focus.cpp:5121
-#: ekos/focus/focus.cpp:5396
+#: ekos/focus/focus.cpp:1062 ekos/focus/focus.cpp:5133
+#: ekos/focus/focus.cpp:5408
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Enfocament d'ajust"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1061 ekos/focus/focus.cpp:5123
-#: ekos/focus/focus.cpp:5396 ekos/focus/opsfocussettings.ui:483
+#: ekos/focus/focus.cpp:1062 ekos/focus/focus.cpp:5135
+#: ekos/focus/focus.cpp:5408 ekos/focus/opsfocussettings.ui:483
 #: ekos/focus/opsfocussettings.ui:563
 #, kde-format
 msgid "Adaptive Focus"
 msgstr "Enfocament adaptatiu"
 
-#: ekos/focus/focus.cpp:1064
+#: ekos/focus/focus.cpp:1065
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Sol·licitud d'inici d'enfocament automàtic - S'esperen 10 s fins a completar "
 "%1."
 
-#: ekos/focus/focus.cpp:1072
+#: ekos/focus/focus.cpp:1073
 #, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
 msgstr ""
 "Es descarta la sol·licitud d'inici d'enfocament automàtic - %1 en curs."
 
-#: ekos/focus/focus.cpp:1092
+#: ekos/focus/focus.cpp:1093
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
 msgstr "Sol·licitud d'enfocament automàtic [%1] optimitzada."
 
-#: ekos/focus/focus.cpp:1249
+#: ekos/focus/focus.cpp:1250
 #, kde-format
 msgid "Autofocus starting..."
 msgstr "S'està iniciant l'enfocament automàtic..."
 
-#: ekos/focus/focus.cpp:1263
+#: ekos/focus/focus.cpp:1264
 #, kde-format
 msgid "Autofocus operation started"
 msgstr "S'ha iniciat l'operació d'enfocament automàtic"
 
-#: ekos/focus/focus.cpp:1490
+#: ekos/focus/focus.cpp:1491
 #, kde-format
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Captura en curs, es tornarà a intentar en 1 s..."
 
-#: ekos/focus/focus.cpp:1502
+#: ekos/focus/focus.cpp:1505
 #, kde-format
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "Detecció d'estrelles en curs, es tornarà a intentar en 1 s..."
 
-#: ekos/focus/focus.cpp:1546
+#: ekos/focus/focus.cpp:1509
+#, fuzzy, kde-format
+#| msgid "Star detection in progress, retrying in 1s..."
+msgid "Star detection still in progress, aborting..."
+msgstr "Detecció d'estrelles en curs, es tornarà a intentar en 1 s..."
+
+#: ekos/focus/focus.cpp:1558
 #, kde-format
 msgid "Autofocus aborted."
 msgstr "S'ha interromput l'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:1650
+#: ekos/focus/focus.cpp:1662
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr "Error: No s'ha detectat cap càmera."
 
-#: ekos/focus/focus.cpp:1657
+#: ekos/focus/focus.cpp:1669
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Error: S'ha perdut la connexió amb la càmera."
 
-#: ekos/focus/focus.cpp:1678
+#: ekos/focus/focus.cpp:1690
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Error: No s'ha detectat cap roda de filtres."
 
-#: ekos/focus/focus.cpp:1684
+#: ekos/focus/focus.cpp:1696
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Error: S'ha perdut la connexió amb la roda de filtres."
 
-#: ekos/focus/focus.cpp:1802
+#: ekos/focus/focus.cpp:1814
 #, kde-format
 msgid "At minimum focus position %1..."
 msgstr "A la posició d'enfocament mínima %1..."
 
-#: ekos/focus/focus.cpp:1817
+#: ekos/focus/focus.cpp:1829
 #, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "S'està movent a la posició d'enfocament mínima %1..."
 
-#: ekos/focus/focus.cpp:1826
+#: ekos/focus/focus.cpp:1838
 #, kde-format
 msgid "At maximum focus position %1..."
 msgstr "A la posició d'enfocament màxima %1..."
 
-#: ekos/focus/focus.cpp:1842
+#: ekos/focus/focus.cpp:1854
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "S'està movent a la posició d'enfocament màxima %1..."
 
-#: ekos/focus/focus.cpp:1869
+#: ekos/focus/focus.cpp:1881
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Error: No s'ha detectat cap enfocador."
 
-#: ekos/focus/focus.cpp:1876
+#: ekos/focus/focus.cpp:1888
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Error: S'ha perdut la connexió amb l'enfocador."
 
-#: ekos/focus/focus.cpp:1890
+#: ekos/focus/focus.cpp:1902
 #, kde-format
 msgid "outward"
 msgstr "enfora"
 
-#: ekos/focus/focus.cpp:1890
+#: ekos/focus/focus.cpp:1902
 #, kde-format
 msgid "inward"
 msgstr "endins"
 
-#: ekos/focus/focus.cpp:1907
+#: ekos/focus/focus.cpp:1919
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Enfocant %2 a %1 passos..."
 
-#: ekos/focus/focus.cpp:1913
+#: ekos/focus/focus.cpp:1925
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Enfocant %2 a %1 pas..."
 msgstr[1] "Enfocant %2 a %1 passos..."
 
-#: ekos/focus/focus.cpp:1919
+#: ekos/focus/focus.cpp:1931
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Enfocant %2 a %1 ms..."
 
-#: ekos/focus/focus.cpp:1954
+#: ekos/focus/focus.cpp:1966
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "L'enfocador encara està vençut. S'interromp..."
 
-#: ekos/focus/focus.cpp:1961
+#: ekos/focus/focus.cpp:1973
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "El moviment de l'enfocament ha excedit el temps (%1). S'està reiniciant el "
 "controlador de l'enfocador %2"
 
-#: ekos/focus/focus.cpp:1972
+#: ekos/focus/focus.cpp:1984
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "El moviment de l'enfocament ha excedit el temps (%1). Enfocant a %2 passos..."
 
-#: ekos/focus/focus.cpp:2018
+#: ekos/focus/focus.cpp:2030
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "S'intentarà tornar a connectar a l'enfocador: %1"
 
-#: ekos/focus/focus.cpp:2027
+#: ekos/focus/focus.cpp:2039
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "No s'ha pogut tornar a connectar amb l'enfocador: %1. S'interromp..."
 
-#: ekos/focus/focus.cpp:2085 ekos/focus/focus.cpp:2092
+#: ekos/focus/focus.cpp:2097 ekos/focus/focus.cpp:2104
 #, kde-format
 msgid "Detection complete."
 msgstr "Detecció completada."
 
-#: ekos/focus/focus.cpp:2364
+#: ekos/focus/focus.cpp:2376
 #, kde-format
 msgid "Detecting sources..."
 msgstr "S'estan detectant les fonts..."
 
-#: ekos/focus/focus.cpp:2473
+#: ekos/focus/focus.cpp:2485
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "L'operació d'enfocament automàtic s'ha completat correctament"
 
-#: ekos/focus/focus.cpp:2487
+#: ekos/focus/focus.cpp:2499
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Ha fallat l'operació d'enfocament automàtic"
 
-#: ekos/focus/focus.cpp:2555
+#: ekos/focus/focus.cpp:2567
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
@@ -19406,166 +19412,166 @@ msgstr[0] "S'ha completat el procediment d'enfocament després d'%1 iteració."
 msgstr[1] ""
 "S'ha completat el procediment d'enfocament després de %1 iteracions."
 
-#: ekos/focus/focus.cpp:2641
+#: ekos/focus/focus.cpp:2653
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "S'està fent el posicionament durant %1 s..."
 
-#: ekos/focus/focus.cpp:2649
+#: ekos/focus/focus.cpp:2661
 #, kde-format
 msgid "Settling complete."
 msgstr "Posicionament completat."
 
-#: ekos/focus/focus.cpp:2662
+#: ekos/focus/focus.cpp:2674
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Ha fallat l'enfocament automàtic, està retornant a la posició inicial de "
 "l'enfocament %1."
 
-#: ekos/focus/focus.cpp:2699
+#: ekos/focus/focus.cpp:2711
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS rebut. No s'ha detectat cap estrella."
 
-#: ekos/focus/focus.cpp:2970
+#: ekos/focus/focus.cpp:2982
 #, kde-format
 msgid "Capture complete. Select a region of interest."
 msgstr "S'ha completat la captura. Seleccioneu una regió d'interès."
 
-#: ekos/focus/focus.cpp:3011
+#: ekos/focus/focus.cpp:3023
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 "No s'ha pogut seleccionar automàticament cap estrella. Seleccioneu-ne una "
 "manualment."
 
-#: ekos/focus/focus.cpp:3105
+#: ekos/focus/focus.cpp:3117
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "S'ha completat la captura. Seleccioneu l'estrella a enfocar."
 
-#: ekos/focus/focus.cpp:3136
+#: ekos/focus/focus.cpp:3148
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "No s'han detectat estrelles en provar l'HFR. Es tornarà a capturar..."
 
-#: ekos/focus/focus.cpp:3156
+#: ekos/focus/focus.cpp:3168
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "HFR %1 > Límit %2"
 
-#: ekos/focus/focus.cpp:3281
+#: ekos/focus/focus.cpp:3293
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "Ha fallat l'enfocament automàtic: ha excedit el nombre màxim d'iteracions %1"
 
-#: ekos/focus/focus.cpp:3292 ekos/focus/focus.cpp:3554
-#: ekos/focus/focus.cpp:4150
+#: ekos/focus/focus.cpp:3304 ekos/focus/focus.cpp:3566
+#: ekos/focus/focus.cpp:4162
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "No s'han detectat estrelles. S'està tornant a capturar..."
 
-#: ekos/focus/focus.cpp:3298 ekos/focus/focus.cpp:4156
+#: ekos/focus/focus.cpp:3310 ekos/focus/focus.cpp:4168
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr ""
 "Ha fallat en detectar qualsevol estrella en la posició %1. S'està "
 "continuant..."
 
-#: ekos/focus/focus.cpp:3304 ekos/focus/focus.cpp:4162
+#: ekos/focus/focus.cpp:3316 ekos/focus/focus.cpp:4174
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "Ha fallat en detectar les estrelles. Reinicieu el fotograma i torneu-ho a "
 "intentar."
 
-#: ekos/focus/focus.cpp:3491
+#: ekos/focus/focus.cpp:3503
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "No s'ha pogut llançar l'execució %1 de l'inspector d'aberracions..."
 
-#: ekos/focus/focus.cpp:3511
+#: ekos/focus/focus.cpp:3523
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Es llança l'execució %1 de l'inspector d'aberracions..."
 
-#: ekos/focus/focus.cpp:3537
+#: ekos/focus/focus.cpp:3549
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "S'està iniciant l'escaneig per a la posició inicial de l'enfocador."
 
-#: ekos/focus/focus.cpp:3538
+#: ekos/focus/focus.cpp:3550
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "S'està escanejant per a la posició d'inici..."
 
-#: ekos/focus/focus.cpp:3560
+#: ekos/focus/focus.cpp:3572
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Ha fallat en detectar qualsevol estrella. S'interromp..."
 
-#: ekos/focus/focus.cpp:3569
+#: ekos/focus/focus.cpp:3581
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Posició d'inici d'escaneig: ha excedit el nombre màxim d'iteracions %1"
 
-#: ekos/focus/focus.cpp:3587
+#: ekos/focus/focus.cpp:3599
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "S'està escanejant per a la posició d'inici %1/%2"
 
-#: ekos/focus/focus.cpp:3601
+#: ekos/focus/focus.cpp:3613
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "No hi ha cap mínim d'escaneig - s'està ampliant la cerca..."
 
-#: ekos/focus/focus.cpp:3614
+#: ekos/focus/focus.cpp:3626
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "S'ha trobat la posició d'inici d'escaneig %1"
 
-#: ekos/focus/focus.cpp:3615
+#: ekos/focus/focus.cpp:3627
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "S'ha trobat la posició d'inici d'escaneig %1"
 
-#: ekos/focus/focus.cpp:3684
+#: ekos/focus/focus.cpp:3696
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Ha fallat la comprovació d'ajust de la corba R2=%1 focusR2Limit=%2. S'està "
 "tornant a intentar..."
 
-#: ekos/focus/focus.cpp:3686
+#: ekos/focus/focus.cpp:3698
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Límit=%2"
 
-#: ekos/focus/focus.cpp:3694
+#: ekos/focus/focus.cpp:3706
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Ha tornat a fallar la comprovació d'ajust de la corba R2=%1 focusR2Limit=%2, "
 "però es continua..."
 
-#: ekos/focus/focus.cpp:3704
+#: ekos/focus/focus.cpp:3716
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "S'ha interromput l'algorisme lineal d'enfocament automàtic: %1"
 
-#: ekos/focus/focus.cpp:3739
+#: ekos/focus/focus.cpp:3751
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS rebut. HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3741
+#: ekos/focus/focus.cpp:3753
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS rebut. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3802
+#: ekos/focus/focus.cpp:3814
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -19574,26 +19580,26 @@ msgstr ""
 "El canvi a HFR és massa petit. Proveu d'incrementar la mida del pas o a "
 "disminuir la tolerància."
 
-#: ekos/focus/focus.cpp:3809
+#: ekos/focus/focus.cpp:3821
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Ha fallat en detectar una estrella a enfocar en el fotograma. Captureu i "
 "seleccioneu una estrella a enfocar."
 
-#: ekos/focus/focus.cpp:3914
+#: ekos/focus/focus.cpp:3926
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "S'ha trobat la solució polinòmica @ %1"
 
-#: ekos/focus/focus.cpp:3978
+#: ekos/focus/focus.cpp:3990
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "L'enfocador no pot anar més enllà, s'ha arribat al límit del dispositiu. "
 "S'ha interromput l'enfocament automàtic."
 
-#: ekos/focus/focus.cpp:3989
+#: ekos/focus/focus.cpp:4001
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -19601,24 +19607,24 @@ msgstr ""
 "Fluctuacions inestables. Intenteu incrementar la mida del pas inicial o el "
 "temps d'exposició."
 
-#: ekos/focus/focus.cpp:3999
+#: ekos/focus/focus.cpp:4011
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "S'ha arribat a un punt mort. Proveu-ho amb una configuració diferent."
 
-#: ekos/focus/focus.cpp:4028
+#: ekos/focus/focus.cpp:4040
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "S'ha arribat al límit màxim del recorregut. S'ha interromput l'enfocament "
 "automàtic."
 
-#: ekos/focus/focus.cpp:4135
+#: ekos/focus/focus.cpp:4147
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS rebut. HFR %1. Delta (%2%) HFR mínim (%3)"
 
-#: ekos/focus/focus.cpp:4139
+#: ekos/focus/focus.cpp:4151
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -19626,112 +19632,112 @@ msgstr ""
 "L'enfocament automàtic no ha aconseguit enfocar. Proveu d'ajustar el valor "
 "de la tolerància."
 
-#: ekos/focus/focus.cpp:4253 ekos/focus/focus.cpp:4276
-#: ekos/focus/focus.cpp:4461 ekos/focus/focus.cpp:4554
-#: ekos/focus/focus.cpp:4636 ekos/focus/focus.cpp:4721
+#: ekos/focus/focus.cpp:4265 ekos/focus/focus.cpp:4288
+#: ekos/focus/focus.cpp:4473 ekos/focus/focus.cpp:4566
+#: ekos/focus/focus.cpp:4648 ekos/focus/focus.cpp:4733
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Error de l'enfocador, comproveu el plafó de l'INDI."
 
-#: ekos/focus/focus.cpp:4337 ekos/focus/focus.cpp:4477
+#: ekos/focus/focus.cpp:4349 ekos/focus/focus.cpp:4489
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Simula una fallada de les comunicacions amb l'enfocador..."
 
-#: ekos/focus/focus.cpp:4438 ekos/focus/focus.cpp:4535
-#: ekos/focus/focus.cpp:4617 ekos/focus/focus.cpp:4658
+#: ekos/focus/focus.cpp:4450 ekos/focus/focus.cpp:4547
+#: ekos/focus/focus.cpp:4629 ekos/focus/focus.cpp:4670
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "S'està reiniciant el procés d'enfocament automàtic..."
 
-#: ekos/focus/focus.cpp:4762
+#: ekos/focus/focus.cpp:4774
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "S'està iniciant l'exposició contínua..."
 
-#: ekos/focus/focus.cpp:5091
+#: ekos/focus/focus.cpp:5103
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "S'ha desactivat la selecció automàtica d'estrella, ja que la casella de "
 "selecció d'estrella s'ha mogut manualment."
 
-#: ekos/focus/focus.cpp:5097
+#: ekos/focus/focus.cpp:5109
 #, kde-format
 msgid "Focus star is selected."
 msgstr "S'ha seleccionat l'estrella a enfocar."
 
-#: ekos/focus/focus.cpp:5099
+#: ekos/focus/focus.cpp:5111
 #, kde-format
 msgid "Region of interest is selected."
 msgstr "S'ha seleccionat a regió d'interès."
 
-#: ekos/focus/focus.cpp:5119
+#: ekos/focus/focus.cpp:5131
 #, kde-format
 msgid "Autofocus"
 msgstr "Enfocament automàtic"
 
-#: ekos/focus/focus.cpp:5127
+#: ekos/focus/focus.cpp:5139
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Sol·licitud de comprovació d'enfocament - S'esperen 10 s fins a completar %1."
 
-#: ekos/focus/focus.cpp:5135
+#: ekos/focus/focus.cpp:5147
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Es descarta la sol·licitud de comprovació d'enfocament - %1 en curs."
 
-#: ekos/focus/focus.cpp:5148
+#: ekos/focus/focus.cpp:5160
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 "S'ha ignorat la comprovació d'enfocament - La mesura d'estrelles cal que "
 "estigui basada en estrella"
 
-#: ekos/focus/focus.cpp:5153
+#: ekos/focus/focus.cpp:5165
 #, kde-format
 msgid "Capturing to check HFR..."
 msgstr "S'està capturant per a la comprovació HFR..."
 
-#: ekos/focus/focus.cpp:5283
+#: ekos/focus/focus.cpp:5295
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 "No s'ha seleccionat cap estrella. S'està emprant l'última posició coneguda..."
 
-#: ekos/focus/focus.cpp:5289
+#: ekos/focus/focus.cpp:5301
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "No s'ha seleccionat cap estrella. S'interromp..."
 
-#: ekos/focus/focus.cpp:5300
+#: ekos/focus/focus.cpp:5312
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "L'enfocador ja és a %1..."
 
-#: ekos/focus/focus.cpp:5399
+#: ekos/focus/focus.cpp:5411
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr "Sol·licitud d'ajust d'enfocament - S'esperen 10 s per a completar %1."
 
-#: ekos/focus/focus.cpp:5433
+#: ekos/focus/focus.cpp:5445
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Enquadrat de l'enfocament"
 
-#: ekos/focus/focus.cpp:5829
+#: ekos/focus/focus.cpp:5841
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Ha fallat en desar la imatge. S'interromp..."
 
-#: ekos/focus/focus.cpp:5844 ekos/focus/focus.cpp:5869
+#: ekos/focus/focus.cpp:5856 ekos/focus/focus.cpp:5881
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Fallada de l'exposició. S'interromp..."
 
-#: ekos/focus/focus.cpp:6161
+#: ekos/focus/focus.cpp:6173
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -30966,56 +30972,56 @@ msgstr "Ha fallat en actualitzar l'historial: %1"
 msgid "Failed to write image: %1"
 msgstr "Ha fallat en escriure la imatge: %1"
 
-#: fitsviewer/fitsdata.cpp:3662 fitsviewer/fitsdata.cpp:3673
-#: fitsviewer/fitsdata.cpp:3710 fitsviewer/fitsdata.cpp:3746
-#: fitsviewer/fitsdata.cpp:3880
+#: fitsviewer/fitsdata.cpp:3669 fitsviewer/fitsdata.cpp:3680
+#: fitsviewer/fitsdata.cpp:3717 fitsviewer/fitsdata.cpp:3753
+#: fitsviewer/fitsdata.cpp:3887
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "No s'ha trobat cap sistema de coordenades mundial."
 
-#: fitsviewer/fitsdata.cpp:4055 fitsviewer/fitsdata.cpp:4163
+#: fitsviewer/fitsdata.cpp:4062 fitsviewer/fitsdata.cpp:4170
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Error en consultar el Simbad"
 
-#: fitsviewer/fitsdata.cpp:4072
+#: fitsviewer/fitsdata.cpp:4079
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "La consulta del Simbad ha excedit el temps límit"
 
-#: fitsviewer/fitsdata.cpp:5049
+#: fitsviewer/fitsdata.cpp:5056
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 "Només es permeten imatges de 8 i 16 bits construïdes amb el filtre mosaic de "
 "Bayer."
 
-#: fitsviewer/fitsdata.cpp:5082
+#: fitsviewer/fitsdata.cpp:5089
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Patró de Bayer no implementat %1."
 
-#: fitsviewer/fitsdata.cpp:5113
+#: fitsviewer/fitsdata.cpp:5120
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Desplaçaments del filtre mosaic de Bayer no implementats %1 %2."
 
-#: fitsviewer/fitsdata.cpp:5270 fitsviewer/fitsdata.cpp:5317
-#: fitsviewer/fitsdata.cpp:5362 fitsviewer/fitsdata.cpp:5409
+#: fitsviewer/fitsdata.cpp:5277 fitsviewer/fitsdata.cpp:5324
+#: fitsviewer/fitsdata.cpp:5369 fitsviewer/fitsdata.cpp:5416
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 "No s'ha pogut reservar la memòria intermèdia temporal per al filtre mosaic "
 "de Bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:5280 fitsviewer/fitsdata.cpp:5372
+#: fitsviewer/fitsdata.cpp:5287 fitsviewer/fitsdata.cpp:5379
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 "No s'ha pogut reservar la memòria intermèdia temporal per al filtre mosaic "
 "de Bayer."
 
-#: fitsviewer/fitsdata.cpp:5300 fitsviewer/fitsdata.cpp:5392
+#: fitsviewer/fitsdata.cpp:5307 fitsviewer/fitsdata.cpp:5399
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "La reconstrucció des de Bayer ha fallat (%1)"
@@ -31223,12 +31229,12 @@ msgstr "El KStars no ha pogut trobar cap muntura activa."
 #: fitsviewer/fitsmemmonitor.cpp:72 fitsviewer/fitsmemmonitor.cpp:202
 #, kde-format
 msgid "RAM: -- / --"
-msgstr ""
+msgstr "RAM: -- / --"
 
 #: fitsviewer/fitsmemmonitor.cpp:80
 #, kde-format
 msgid "Double-click to toggle text display"
-msgstr ""
+msgstr "Doble clic per commutar la visualització del text"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -31336,10 +31342,9 @@ msgid "Catalog Objects"
 msgstr "Objectes del catàleg"
 
 #: fitsviewer/fitstab.cpp:154
-#, fuzzy, kde-format
-#| msgid "%1 is tracking."
+#, kde-format
 msgid "Live Stacking"
-msgstr "%1 està fent el seguiment."
+msgstr "Apilament en directe"
 
 #: fitsviewer/fitstab.cpp:167
 #, kde-format
@@ -31477,38 +31482,33 @@ msgid "Object major coordinate size in arcsmins"
 msgstr "Mida de la coordenada major de l'objecte en minuts d'arc"
 
 #: fitsviewer/fitstab.cpp:896
-#, fuzzy, kde-format
-#| msgid "RA"
+#, kde-format
 msgid "RAM"
-msgstr "AR"
+msgstr "RAM"
 
 #: fitsviewer/fitstab.cpp:1015
-#, fuzzy, kde-format
-#| msgid "KStars Data Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
-msgstr "Directori de dades del KStars"
+msgstr "Directori d'apilament"
 
 #: fitsviewer/fitstab.cpp:1040
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
-msgstr "Alineació polar"
+msgstr "Selecció de subsolució d'alineació"
 
 #: fitsviewer/fitstab.cpp:1054
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Dark"
-msgstr "Fotograma fosc mestre:"
+msgstr "Selecció de fotograma fosc mestre"
 
 #: fitsviewer/fitstab.cpp:1068
-#, fuzzy, kde-format
-#| msgid "Select Baud rate"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Flat"
-msgstr "Seleccioneu la velocitat en bauds"
+msgstr "Selecció de fotograma pla mestre"
 
 #: fitsviewer/fitstab.cpp:1170 fitsviewer/fitstab.cpp:1174
 #, kde-format
@@ -31832,28 +31832,24 @@ msgid "Open Image"
 msgstr "Obertura d'una imatge"
 
 #: fitsviewer/fitsviewer.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Extracting..."
+#, kde-format
 msgid "Stacking..."
-msgstr "S'està extraient..."
+msgstr "S'està apilant..."
 
 #: fitsviewer/fitsviewer.cpp:1109
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "Watching %1"
-msgstr "S'està carregant %1"
+msgstr "S'està controlant %1"
 
 #: fitsviewer/fitsviewer.cpp:1117
-#, fuzzy, kde-format
-#| msgid "Syncing failed."
+#, kde-format
 msgid "Stacking Failed"
-msgstr "Ha fallat la sincronització."
+msgstr "Ha fallat l'apilament"
 
 #: fitsviewer/fitsviewer.cpp:1135
-#, fuzzy, kde-format
-#| msgid "Settling complete."
+#, kde-format
 msgid "Stacking Complete"
-msgstr "Posicionament completat."
+msgstr "Apilament completat"
 
 #: fitsviewer/fitsviewer.cpp:1409
 #, kde-format
@@ -31932,34 +31928,31 @@ msgstr "S'està processant %1..."
 
 #. i18n: ectx: property (text), widget (QLabel, masterFlatLabel)
 #: fitsviewer/livestacking.ui:86
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Flat:"
-msgstr "Fotograma fosc mestre:"
+msgstr "Fotograma pla mestre:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:191
-#, fuzzy, kde-format
-#| msgid "Tracking"
+#, kde-format
 msgid "Stacking"
-msgstr "Seguiment"
+msgstr "Apilament"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #: fitsviewer/livestacking.ui:221
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of High Sigma to be used in pixel rejection.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Mida del submarc en píxels.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Valor de la sigma alta que s'utilitzarà en el rebuig "
+"dels píxels.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
 #: fitsviewer/livestacking.ui:240
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Low Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma baixa:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #: fitsviewer/livestacking.ui:262
@@ -31971,37 +31964,40 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>El nombre màxim de subsolucions que es mantenen a la "
+"memòria mentre es processa. Com més gran sigui el valor, millor serà la "
+"qualitat del procés d'apilament, però a costa de més temps de processament i "
+"memòria utilitzada.</p><p><br/></p><p>Processos com el retallat de la sigma "
+"utilitzarà aquest nombre de subsolucions per calcular estadístiques a "
+"utilitzar en totes les subsolucions.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:290
-#, fuzzy, kde-format
-#| msgid "Memory:"
+#, kde-format
 msgid "In Memory Subs:"
-msgstr "Memòria:"
+msgstr "Subsolucions en memòria:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:306
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "High Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma alta:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #: fitsviewer/livestacking.ui:328
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of Low Sigma to be used in pixel rejection.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Mida del submarc en píxels.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Valor de la sigma baixa que s'utilitzarà en el rebuig "
+"dels píxels.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:353
-#, fuzzy, kde-format
-#| msgid "Downsample"
+#, kde-format
 msgid "Downscale:"
-msgstr "Submostratge"
+msgstr "Reducció d'escala:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:363
@@ -32012,13 +32008,19 @@ msgid ""
 "Subs and masters are downscaled 3x3.</p><p>- 4x4. Subs and masters are "
 "downscaled 4x4.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Reducció d'escala de les imatges:</p><p>- Cap. No "
+"s'aplica cap reducció.</p><p>- 2x2. Les subsolucions i els mestres es "
+"redueixen d'escala a 2x2.</p><p>- 3x3. Les subsolucions i els mestres es "
+"redueixen d'escala a 3x3.</p><p>- 4x4. Les subsolucions i els mestres es "
+"redueixen d'escala a 4x4.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:380
 #, kde-format
 msgid "3x3"
-msgstr ""
+msgstr "3x3"
 
+# skip-rule: barb-igual
 #. i18n: ectx: property (toolTip), widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:405
 #, kde-format
@@ -32028,27 +32030,28 @@ msgid ""
 "Num Stars. Frames are weighted by the number of stars detected in the frame."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Ponderació de fotogrames:</p><p>- Igual. Tots els "
+"fotogrames tenen el mateix pes.</p><p>- HFR. Els fotogrames es ponderen amb "
+"1 / HFR mitjana.</p><p>- Nombre d'estrelles. Els fotogrames es ponderen pel "
+"nombre d'estrelles detectades en el fotograma.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:409
-#, fuzzy, kde-format
-#| msgid "Equalize"
+#, kde-format
 msgid "Equal"
-msgstr "Equalitza"
+msgstr "Igual"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:433
-#, fuzzy, kde-format
-#| msgid "Image height:"
+#, kde-format
 msgid "Frame Weight:"
-msgstr "Alçada de la imatge:"
+msgstr "Alçada del fotograma:"
 
 #. i18n: ectx: property (text), widget (QLabel, pixelRejLabel)
 #: fitsviewer/livestacking.ui:449
-#, fuzzy, kde-format
-#| msgid "Source Extraction Method"
+#, kde-format
 msgid "Rejection Method:"
-msgstr "Mètode d'extracció de fonts"
+msgstr "Mètode de rebuig:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:471
@@ -32059,63 +32062,63 @@ msgid ""
 "Winsorized Sigma Clipping. Winsorized version of sigma clipping</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Algorisme de rebuig de píxels:</p><p>- Cap. No "
+"s'aplica cap rebuig.</p><p>- Retallat de la sigma. Es rebutgen els píxels "
+"atípics.</p><p>- Retallat winsoritzat de la sigma. Versió winsoritzada del "
+"retallat de la sigma</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:486
-#, fuzzy, kde-format
-#| msgid "Show Clipping"
+#, kde-format
 msgid "Sigma Clipping"
-msgstr "Mostra el retallat"
+msgstr "Retallat de la sigma"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:491
 #, kde-format
 msgid "Winsorized SC"
-msgstr ""
+msgstr "SC winsoritzat"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:511
 #, kde-format
 msgid "Winsor Cutoff:"
-msgstr ""
+msgstr "Retall winsor:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #: fitsviewer/livestacking.ui:533
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Winsorization cutoff in units of sigma to be used in "
 "pixel rejection.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Temps romanent per a la compleció</p></body></html>"
+"<html><head/><body><p>Retall de la winsorització en unitats de sigma que "
+"s'utilitzaran en el rebuig de píxels.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:663
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Sub:"
-msgstr "Fotograma fosc mestre:"
+msgstr "Subsolució mestre:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #: fitsviewer/livestacking.ui:682
-#, fuzzy, kde-format
-#| msgid "Processing"
+#, kde-format
 msgid "Post Processing"
-msgstr "Processament"
+msgstr "Postprocessament"
 
 #. i18n: ectx: property (text), widget (QLabel, DenoiseLabel)
 #: fitsviewer/livestacking.ui:718
-#, fuzzy, kde-format
-#| msgid "Denoise"
+#, kde-format
 msgid "Denoise Amount:"
-msgstr "Reducció del soroll"
+msgstr "Quantitat de reducció de soroll:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:740
 #, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
-msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
-msgstr "<html><head/><body><p>Mida del pas:</p></body></html>"
+#| msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
+msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
+msgstr "<html><head/><body><p>Mida del nucli d'agudització:</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
 #: fitsviewer/livestacking.ui:768
@@ -32126,173 +32129,167 @@ msgid ""
 "amount) of the original image.</p><p>Set to 0 to switch deconvolution off.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Quantitat de desconvolució de Wiener per aplicar en "
+"l'interval de 0 a 1. La característica combina aquesta quantitat de la "
+"imatge desconvolutada amb (1 - quantitat) de la imatge original.</"
+"p><p>Establiu-ho a 0 per a desactivar la desconvolució.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DenoiseAmt)
 #: fitsviewer/livestacking.ui:793
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of denoise to apply. Larger values apply more "
 "denoising.</p><p>Set to 0 to skip denoising</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nombre de fotogrames a capturar en cada posició de "
-"l'enfocador.</p></body></html>"
+"<html><head/><body><p>Quantitat de reducció de soroll a aplicar. Els valors "
+"més grans apliquen més reducció de soroll.</p><p>Establiu-ho a 0 per a "
+"ometre la reducció de soroll</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:822
 #, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Vernal"
-msgid "Kernal:"
-msgstr "Vernal"
+#| msgid "Kernal:"
+msgid "Kernel:"
+msgstr "Kernel:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:844
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Sharpen Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma d'agudització:"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:866
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "PSF Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
 #: fitsviewer/livestacking.ui:888
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
-msgstr "<html><head/><body><p>Mida del pas:</p></body></html>"
+msgstr "<html><head/><body><p>Sigma d'agudització.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
 #: fitsviewer/livestacking.ui:913
 #, kde-format
 msgid "Sharpen Amount:"
-msgstr ""
+msgstr "Quantitat d'agudització:"
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
 #: fitsviewer/livestacking.ui:935
 #, kde-format
 msgid "Deconv Amount:"
-msgstr ""
+msgstr "Quantitat de desconvolució:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
 #: fitsviewer/livestacking.ui:957
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>PSF Sigma to use for Deconvolution</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Temps romanent per a la compleció</p></body></html>"
+"<html><head/><body><p>Sigma PSF a utilitzar en la desconvolució</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
 #: fitsviewer/livestacking.ui:982
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of sharpening to apply. Larger values apply "
 "more sharpening.</p><p>Set to 0 to skip sharpening.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Força el valor de la temperatura abans de capturar una "
-"imatge</p></body></html>"
+"<html><head/><body><p>Quantitat d'agudització a aplicar. Els valors més "
+"grans apliquen més agudització.</p><p>Establiu-ho a 0 per a ometre "
+"l'agudització.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1011
 #, kde-format
 msgid "Rerun the post processing using the selected parameters"
 msgstr ""
+"Torna a executar el postprocessament utilitzant els paràmetres seleccionats"
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1014
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Reprocess"
-msgstr "Processament"
+msgstr "Reprocessament"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1082
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Stack Directory:"
-msgstr "Directori:"
+msgstr "Directori d'apilament:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1104
-#, kde-format
-msgid "Number of subs sucessfully processed / failed / total"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Number of subs sucessfully processed / failed / total"
+msgid "Number of subs successfully processed / failed / total"
+msgstr "Nombre de subsolucions correctament processades / fallides / totals"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1107 fitsviewer/livestacking.ui:1148
 #, kde-format
 msgid "0 / 0 / 0"
-msgstr ""
+msgstr "0 / 0 / 0"
 
 #. i18n: ectx: property (text), widget (QLabel, NumberSubsLabel)
 #: fitsviewer/livestacking.ui:1126
 #, kde-format
 msgid "Proc / Fail / Total:"
-msgstr ""
+msgstr "Proc. / Fall. / Total:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1145
 #, kde-format
 msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
 msgstr ""
+"Relació de senyal a soroll Màx. / Mín. / Mitjana de les subsolucions "
+"processades"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1186
 #, kde-format
 msgid "SNR Av / Min / Max:"
-msgstr ""
+msgstr "SNR Mit. / Mín. / Màx.:"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:1199
-#, fuzzy, kde-format
-#| msgid "Image Save"
+#, kde-format
 msgid "Image SNR:"
-msgstr "Desament de la imatge"
+msgstr "SNR de la imatge:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
 #: fitsviewer/livestacking.ui:1215
 #, kde-format
 msgid "The signal-to-noise ratio of the final image"
-msgstr ""
+msgstr "Relació de senyal a soroll de la imatge final"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StartB)
 #: fitsviewer/livestacking.ui:1237
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Starts watching the Stack Directory and runs stacking."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Neteja totes les dades recents del guiatge.</p></"
-"body></html>"
+"<html><head/><body><p>Comença controlant el directori de la pila i executa "
+"l'apilament.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1269
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
-msgstr "<html><head/><body><p>Suprimeix el fotograma actual</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Desa els paràmetres d'apilament en directe</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1272
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Settings"
+#, kde-format
 msgid "Save Settings"
-msgstr "Configuració de la imatge"
+msgstr "Desa la configuració"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -39323,97 +39320,99 @@ msgstr ""
 #: kstars.kcfg:1785
 #, kde-format
 msgid "Live Stacking master dark"
-msgstr ""
+msgstr "Fotograma fosc mestre de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterFlat), group (FITSViewer)
 #: kstars.kcfg:1789
 #, kde-format
 msgid "Live Stacking master flat"
-msgstr ""
+msgstr "Fotograma pla mestre de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1793
 #, kde-format
 msgid "Live Stacking alignment method"
-msgstr ""
+msgstr "Mètode d'alineació de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSNumInMem), group (FITSViewer)
 #: kstars.kcfg:1797
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
 msgstr ""
+"Nombre màxim de subsolucions a mantenir en memòria de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
 #: kstars.kcfg:1801
 #, kde-format
 msgid "Live Stacking downscale factor"
-msgstr ""
+msgstr "Factor de reducció d'escala de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSWeighting), group (FITSViewer)
 #: kstars.kcfg:1805
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr ""
+msgstr "Ponderació de subsolucions de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSRejection), group (FITSViewer)
 #: kstars.kcfg:1809
 #, kde-format
 msgid "Live Stacking pixel rejection mechanism"
-msgstr ""
+msgstr "Mecanisme de rebuig de píxels de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1813
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
-msgstr ""
+msgstr "Criteri de rebuig de píxels de sigma baixa de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1817
 #, kde-format
 msgid "Live Stacking high sigma pixel rejection criteria"
-msgstr ""
+msgstr "Criteri de rebuig de píxels de sigma alta de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSWinsorCutoff), group (FITSViewer)
 #: kstars.kcfg:1821
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr ""
+msgstr "Retall winsor de retallat de la sigma de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1825
 #, kde-format
 msgid "Live Stacking deconvolution amount"
-msgstr ""
+msgstr "Quantitat de desconvolució de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSPSFSigma), group (FITSViewer)
 #: kstars.kcfg:1829
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr ""
+msgstr "Sigma PSF a aplicar a la desconvolució de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1833
 #, kde-format
 msgid "Live Stacking denoise amount"
-msgstr ""
+msgstr "Quantitat de reducció de soroll de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSSharpenAmt), group (FITSViewer)
 #: kstars.kcfg:1837
 #, kde-format
 msgid "Live Stacking sharpen amount"
-msgstr ""
+msgstr "Quantitat d'agudització de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1841
-#, kde-format
-msgid "Live Stacking sharpening kernal size"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Live Stacking sharpening kernal size"
+msgid "Live Stacking sharpening kernel size"
+msgstr "Mida del nucli d'agudització de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1845
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr ""
+msgstr "Sigma d'agudització de l'apilament en directe"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1851
@@ -71802,10 +71801,9 @@ msgid "Open Image(s)..."
 msgstr "Obre una/es imatge/s..."
 
 #: kstarsinit.cpp:164
-#, fuzzy, kde-format
-#| msgid "%1 is tracking."
+#, kde-format
 msgid "Live Stacking..."
-msgstr "%1 està fent el seguiment."
+msgstr "Apilament en directe..."
 
 #: kstarsinit.cpp:170
 #, kde-format
@@ -90192,6 +90190,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgid "Failed to close file: %1"
-#~ msgstr "Ha fallat en tancar el fitxer: %1"
