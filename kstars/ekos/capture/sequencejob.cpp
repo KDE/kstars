@@ -163,12 +163,29 @@ const QVariant SequenceJob::getRemoteDirectory() const
 
 QStringList SequenceJob::frameTypes() const
 {
+    // Define the standard frame types in the correct order
+    QStringList standardTypes = {"Light", "Dark", "Bias", "Flat", "Video"};
+
     if (!devices->getActiveCamera())
-        return QStringList({"Light", "Bias", "Dark", "Flat"});
+        return standardTypes;
 
     ISD::CameraChip *tChip = devices->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD);
+    QStringList types = tChip->getFrameTypes();
+    if (devices->getActiveCamera()->hasVideoStream())
+        types.append(CAPTURE_TYPE_VIDEO);
 
-    return tChip->getFrameTypes();
+    // If camera doesn't provide frame types or returns empty list, use standard types
+    if (types.isEmpty())
+        return standardTypes;
+
+    // Ensure all standard types are available, adding any missing ones
+    for (const QString &standardType : standardTypes)
+    {
+        if (!types.contains(standardType))
+            types.append(standardType);
+    }
+
+    return types;
 }
 
 QStringList SequenceJob::filterLabels() const
@@ -1004,7 +1021,17 @@ void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
                   << cLocale.toString(getTargetTemperature()) << "</Temperature>" << Qt::endl;
     if (getTargetFilter() >= 0)
         outstream << "<Filter>" << getCoreProperty(SequenceJob::SJ_Filter).toString() << "</Filter>" << Qt::endl;
-    outstream << "<Type>" << frameTypes()[getFrameType()] << "</Type>" << Qt::endl;
+
+    // Safely get frame type name with bounds checking
+    const QStringList frameTypesList = frameTypes();
+    const int frameTypeIndex = static_cast<int>(getFrameType());
+    QString frameTypeName;
+    if (frameTypeIndex >= 0 && frameTypeIndex < frameTypesList.size())
+        frameTypeName = frameTypesList[frameTypeIndex];
+    else
+        frameTypeName = "Unknown";
+
+    outstream << "<Type>" << frameTypeName << "</Type>" << Qt::endl;
     outstream << "<Count>" << cLocale.toString(getCoreProperty(SequenceJob::SJ_Count).toInt()) << "</Count>" << Qt::endl;
     // ms to seconds
     outstream << "<Delay>" << cLocale.toString(getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000.0) << "</Delay>" <<
