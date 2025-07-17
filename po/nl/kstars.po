@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-16 02:30+0000\n"
-"PO-Revision-Date: 2025-07-15 10:04+0200\n"
+"POT-Creation-Date: 2025-07-17 01:56+0000\n"
+"PO-Revision-Date: 2025-07-16 11:19+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -2976,7 +2976,7 @@ msgstr "Type van mapping"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
 #: ekos/capture/cameraprocess.cpp:2455 ekos/capture/capturecountswidget.cpp:321
-#: fitsviewer/fitsviewer.cpp:751 fitsviewer/fitsviewer.cpp:752
+#: fitsviewer/fitsviewer.cpp:794 fitsviewer/fitsviewer.cpp:795
 #, kde-format
 msgid "Preview"
 msgstr "Voorbeeldweergave"
@@ -10527,7 +10527,7 @@ msgstr "Kan tijdelijk afbeeldingsbestand niet tonen: %1"
 #: ekos/analyze/analyze.cpp:2303 ekos/auxiliary/opslogs.ui:370
 #: ekos/manager.cpp:2246 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
-#: fitsviewer/fitsviewer.cpp:492
+#: fitsviewer/fitsviewer.cpp:535
 #, kde-format
 msgid "Focus"
 msgstr "Scherpstellen"
@@ -10536,7 +10536,7 @@ msgstr "Scherpstellen"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2202
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
-#: fitsviewer/fitsviewer.cpp:500
+#: fitsviewer/fitsviewer.cpp:543
 #, kde-format
 msgid "Align"
 msgstr "Uitlijnen"
@@ -10548,7 +10548,7 @@ msgstr "Uitlijnen"
 #: ekos/analyze/analyze.cpp:2305 ekos/auxiliary/opslogs.ui:120
 #: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2467
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
-#: fitsviewer/fitsviewer.cpp:496
+#: fitsviewer/fitsviewer.cpp:539
 #, kde-format
 msgid "Guide"
 msgstr "Volger"
@@ -10787,7 +10787,7 @@ msgstr "Laatste"
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
 #: ekos/analyze/analyze.ui:289 fitsviewer/fitstab.cpp:142
-#: fitsviewer/fitsviewer.cpp:182 fitsviewer/solveInfo.ui:14
+#: fitsviewer/fitsviewer.cpp:184 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
 msgid "Statistics"
@@ -19049,10 +19049,9 @@ msgid "Star detection in progress, retrying in 1s..."
 msgstr "Detectie van ster is gaande, wordt opnieuw geprobeerd na 1s..."
 
 #: ekos/focus/focus.cpp:1509
-#, fuzzy, kde-format
-#| msgid "Star detection in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection still in progress, aborting..."
-msgstr "Detectie van ster is gaande, wordt opnieuw geprobeerd na 1s..."
+msgstr "Detectie van ster is gaande, wordt afgebroken..."
 
 #: ekos/focus/focus.cpp:1558
 #, kde-format
@@ -30386,7 +30385,7 @@ msgstr "Taak '%1' %2x%3\" %4"
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
 #: fitsviewer/catalogobject.ui:14 fitsviewer/fitsheaderdialog.ui:14
-#: fitsviewer/fitstab.cpp:161 fitsviewer/fitsviewer.cpp:147
+#: fitsviewer/fitstab.cpp:161 fitsviewer/fitsviewer.cpp:149
 #, kde-format
 msgid "FITS Header"
 msgstr "FITS-header"
@@ -30725,8 +30724,8 @@ msgid "Y Offset:"
 msgstr "Y Offset:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:528
-#: fitsviewer/fitsviewer.cpp:1744
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:571
+#: fitsviewer/fitsviewer.cpp:1785
 #, kde-format
 msgid "Ready."
 msgstr "Gereed."
@@ -30788,7 +30787,7 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
 #: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:158
-#: fitsviewer/fitsviewer.cpp:123
+#: fitsviewer/fitsviewer.cpp:125
 #, kde-format
 msgid "Histogram"
 msgstr "Histogram"
@@ -31009,7 +31008,7 @@ msgstr "Type label"
 msgid "Distance"
 msgstr "Afstand"
 
-#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1515
+#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1556
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, kde-format, kde-kuit-format
 msgid "Size"
@@ -31132,6 +31131,22 @@ msgstr "Afbeelding opslaan"
 msgid "File saved to %1"
 msgstr "Bestand opgeslagen in %1"
 
+#: fitsviewer/fitstab.cpp:1303
+#, kde-format
+msgid "Watching %1"
+msgstr "%1 bekijken"
+
+#: fitsviewer/fitstab.cpp:1439
+#, fuzzy, kde-format
+#| msgid "Watching %1"
+msgid "(%1) Watching %2"
+msgstr "%1 bekijken"
+
+#: fitsviewer/fitstab.cpp:1441
+#, kde-format
+msgid "(%1) %2"
+msgstr ""
+
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, kde-format
 msgid "Rescaling image failed."
@@ -31184,12 +31199,12 @@ msgstr "Passend zoomen"
 msgid "Toggle Stretch"
 msgstr "Uitrekken aan/uit"
 
-#: fitsviewer/fitsview.cpp:2768 fitsviewer/fitsviewer.cpp:222
+#: fitsviewer/fitsview.cpp:2768 fitsviewer/fitsviewer.cpp:224
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Draadkruis tonen"
 
-#: fitsviewer/fitsview.cpp:2772 fitsviewer/fitsviewer.cpp:235
+#: fitsviewer/fitsview.cpp:2772 fitsviewer/fitsviewer.cpp:237
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Pixel roosterlijnen tonen"
@@ -31204,14 +31219,14 @@ msgstr "Sterren in afbeelding detecteren"
 msgid "View Star Profile..."
 msgstr "Profiel van ster bekijken..."
 
-#: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:241
-#: fitsviewer/fitsviewer.cpp:1432
+#: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:243
+#: fitsviewer/fitsviewer.cpp:1473
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Equatoriale roosterlijnen tonen"
 
-#: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:248
-#: fitsviewer/fitsviewer.cpp:1434
+#: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:250
+#: fitsviewer/fitsviewer.cpp:1475
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Objecten in afbeelding tonen"
@@ -31221,7 +31236,7 @@ msgstr "Objecten in afbeelding tonen"
 msgid "Center Telescope"
 msgstr "Telescoop centreren"
 
-#: fitsviewer/fitsview.cpp:2811 fitsviewer/fitsviewer.cpp:255
+#: fitsviewer/fitsview.cpp:2811 fitsviewer/fitsviewer.cpp:257
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "HiPS-overlegvel tonen"
@@ -31257,47 +31272,47 @@ msgstr "Mediaan"
 msgid "Gaussian blur"
 msgstr "Gaussisch vervagen"
 
-#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:106
+#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:108
 #, kde-format
 msgid "Rotate Right"
 msgstr "Draaien naar rechts"
 
-#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:110
+#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:112
 #, kde-format
 msgid "Rotate Left"
 msgstr "Draaien naar links"
 
-#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:114
+#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:116
 #, kde-format
 msgid "Flip Horizontal"
 msgstr "Horizontaal omklappen"
 
-#: fitsviewer/fitsviewer.cpp:45 fitsviewer/fitsviewer.cpp:119
+#: fitsviewer/fitsviewer.cpp:45 fitsviewer/fitsviewer.cpp:121
 #, kde-format
 msgid "Flip Vertical"
 msgstr "Verticaal omklappen"
 
-#: fitsviewer/fitsviewer.cpp:134 kstarsinit.cpp:159
+#: fitsviewer/fitsviewer.cpp:136 kstarsinit.cpp:159
 #, kde-format
 msgid "Open/Blink Directory"
 msgstr "Map openen/laten knipperen"
 
-#: fitsviewer/fitsviewer.cpp:153
+#: fitsviewer/fitsviewer.cpp:155
 #, kde-format
 msgid "Debayer..."
 msgstr "Ontbayeren..."
 
-#: fitsviewer/fitsviewer.cpp:188
+#: fitsviewer/fitsviewer.cpp:190
 #, kde-format
 msgid "&Selection Statistics"
 msgstr "&Selectiestatistieken"
 
-#: fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsviewer.cpp:231
 #, kde-format
 msgid "Show Clipping"
 msgstr "Afsnijden tonen"
 
-#: fitsviewer/fitsviewer.cpp:262 fitsviewer/fitsviewer.cpp:1443
+#: fitsviewer/fitsviewer.cpp:264 fitsviewer/fitsviewer.cpp:1484
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31306,160 +31321,171 @@ msgstr ""
 "Telescoop centreren\n"
 "*Geen telescoop gevonden*"
 
-#: fitsviewer/fitsviewer.cpp:269
+#: fitsviewer/fitsviewer.cpp:271
 #, kde-format
 msgid "Zoom To Fit"
 msgstr "Passend zoomen"
 
-#: fitsviewer/fitsviewer.cpp:274
+#: fitsviewer/fitsviewer.cpp:276
 #, kde-format
 msgid "Fit Page to Zoom"
 msgstr "Pagina passend maken aan zoom"
 
-#: fitsviewer/fitsviewer.cpp:279
+#: fitsviewer/fitsviewer.cpp:281
 #, kde-format
 msgid "Next Tab"
 msgstr "Volgend tabblad"
 
-#: fitsviewer/fitsviewer.cpp:284
+#: fitsviewer/fitsviewer.cpp:286
 #, kde-format
 msgid "Previous Tab"
 msgstr "Vorig tabblad"
 
-#: fitsviewer/fitsviewer.cpp:289
+#: fitsviewer/fitsviewer.cpp:291
 #, kde-format
 msgid "Next Blink Image"
 msgstr "Volgende knipperende afbeelding"
 
-#: fitsviewer/fitsviewer.cpp:294
+#: fitsviewer/fitsviewer.cpp:296
 #, kde-format
 msgid "Previous Blink Image"
 msgstr "Vorige knipperende afbeelding"
 
-#: fitsviewer/fitsviewer.cpp:299
+#: fitsviewer/fitsviewer.cpp:301
 #, kde-format
 msgid "Zoom all tabs in"
 msgstr "Alle tabbladen inzoomen"
 
-#: fitsviewer/fitsviewer.cpp:304
+#: fitsviewer/fitsviewer.cpp:306
 #, kde-format
 msgid "Zoom all tabs out"
 msgstr "Alle tabbladen uitzoomen"
 
-#: fitsviewer/fitsviewer.cpp:309 fitsviewer/fitsviewer.cpp:1717
+#: fitsviewer/fitsviewer.cpp:311 fitsviewer/fitsviewer.cpp:1758
 #, kde-format
 msgid "Mark Stars"
 msgstr "Sterren merken"
 
-#: fitsviewer/fitsviewer.cpp:317 fitsviewer/fitsviewer.cpp:858
-#: fitsviewer/fitsviewer.cpp:1680
+#: fitsviewer/fitsviewer.cpp:319 fitsviewer/fitsviewer.cpp:901
+#: fitsviewer/fitsviewer.cpp:1721
 #, kde-format
 msgid "View 3D Graph"
 msgstr "3D-grafiek bekijken"
 
-#: fitsviewer/fitsviewer.cpp:337
+#: fitsviewer/fitsviewer.cpp:339
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "Hulpmiddel van KStars voor het bekijken van FITS-afbeeldingen"
 
-#: fitsviewer/fitsviewer.cpp:434
+#: fitsviewer/fitsviewer.cpp:388
+#, fuzzy, kde-format
+#| msgid "Change Date..."
+msgid "Change Tab Title"
+msgstr "De datum veranderen..."
+
+#: fitsviewer/fitsviewer.cpp:389
+#, kde-format
+msgid "New title for tab '%1':"
+msgstr ""
+
+#: fitsviewer/fitsviewer.cpp:474
 #, kde-format
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "HFR:%2 Ecc:%3 %1 ster."
 msgstr[1] "HFR:%2 Ecc:%3 %1 sterren."
 
-#: fitsviewer/fitsviewer.cpp:440
+#: fitsviewer/fitsviewer.cpp:480
 #, kde-format
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "HFR:%2, %1 ster."
 msgstr[1] "HFR:%2, %1 sterren."
 
-#: fitsviewer/fitsviewer.cpp:703
+#: fitsviewer/fitsviewer.cpp:531
+#, kde-format
+msgid "Right click to change tab title."
+msgstr ""
+
+#: fitsviewer/fitsviewer.cpp:746
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr "Kan tabblad met UID %1 niet in de FITS-viewer vinden"
 
-#: fitsviewer/fitsviewer.cpp:840
+#: fitsviewer/fitsviewer.cpp:883
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr "huidige weergave 3D-grafiek"
 
-#: fitsviewer/fitsviewer.cpp:841 fitsviewer/fitsviewer.cpp:1588
+#: fitsviewer/fitsviewer.cpp:884 fitsviewer/fitsviewer.cpp:1629
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Draadkruis"
 
-#: fitsviewer/fitsviewer.cpp:842 fitsviewer/fitsviewer.cpp:1602
+#: fitsviewer/fitsviewer.cpp:885 fitsviewer/fitsviewer.cpp:1643
 #, kde-format
 msgid "Clipping"
 msgstr "Afsnijden"
 
-#: fitsviewer/fitsviewer.cpp:843 fitsviewer/fitsviewer.cpp:1615
+#: fitsviewer/fitsviewer.cpp:886 fitsviewer/fitsviewer.cpp:1656
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Equatoriale roosterlijnen"
 
-#: fitsviewer/fitsviewer.cpp:844 fitsviewer/fitsviewer.cpp:1654
+#: fitsviewer/fitsviewer.cpp:887 fitsviewer/fitsviewer.cpp:1695
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objecten in afbeelding"
 
-#: fitsviewer/fitsviewer.cpp:845 fitsviewer/fitsviewer.cpp:1667
+#: fitsviewer/fitsviewer.cpp:888 fitsviewer/fitsviewer.cpp:1708
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Pixel roosterlijnen"
 
-#: fitsviewer/fitsviewer.cpp:846 fitsviewer/fitsviewer.cpp:1628
+#: fitsviewer/fitsviewer.cpp:889 fitsviewer/fitsviewer.cpp:1669
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "HIPS-overlegvel"
 
-#: fitsviewer/fitsviewer.cpp:898
+#: fitsviewer/fitsviewer.cpp:941
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Bovenste map laten knipperen"
 
-#: fitsviewer/fitsviewer.cpp:1034
+#: fitsviewer/fitsviewer.cpp:1077
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Afbeelding openen"
 
-#: fitsviewer/fitsviewer.cpp:1108
+#: fitsviewer/fitsviewer.cpp:1150
 #, kde-format
 msgid "Stacking..."
 msgstr "Stapelen..."
 
-#: fitsviewer/fitsviewer.cpp:1109
-#, kde-format
-msgid "Watching %1"
-msgstr "%1 bekijken"
-
-#: fitsviewer/fitsviewer.cpp:1117
+#: fitsviewer/fitsviewer.cpp:1158
 #, kde-format
 msgid "Stacking Failed"
 msgstr "Stapelen is mislukt"
 
-#: fitsviewer/fitsviewer.cpp:1135
+#: fitsviewer/fitsviewer.cpp:1176
 #, kde-format
 msgid "Stacking Complete"
 msgstr "Stapelen is voltooid"
 
-#: fitsviewer/fitsviewer.cpp:1409
+#: fitsviewer/fitsviewer.cpp:1450
 #, kde-format
 msgid "Hide %1"
 msgstr "%1 verbergen"
 
-#: fitsviewer/fitsviewer.cpp:1414
+#: fitsviewer/fitsviewer.cpp:1455
 #, kde-format
 msgid "Show %1"
 msgstr "%1 tonen"
 
-#: fitsviewer/fitsviewer.cpp:1438
+#: fitsviewer/fitsviewer.cpp:1479
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31468,7 +31494,7 @@ msgstr ""
 "Telescoop centreren\n"
 "*Gereed*"
 
-#: fitsviewer/fitsviewer.cpp:1450
+#: fitsviewer/fitsviewer.cpp:1491
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -31477,7 +31503,7 @@ msgstr ""
 "Equatoriale roosterlijnen tonen\n"
 "*Geen WCS-info*"
 
-#: fitsviewer/fitsviewer.cpp:1452
+#: fitsviewer/fitsviewer.cpp:1493
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31486,7 +31512,7 @@ msgstr ""
 "Telescoop centreren\n"
 "*Geen WCS-info*"
 
-#: fitsviewer/fitsviewer.cpp:1454
+#: fitsviewer/fitsviewer.cpp:1495
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -31495,31 +31521,31 @@ msgstr ""
 "Objecten in afbeelding tonen\n"
 "*Geen WCS-info*"
 
-#: fitsviewer/fitsviewer.cpp:1486 fitsviewer/fitsviewer.cpp:1641
+#: fitsviewer/fitsviewer.cpp:1527 fitsviewer/fitsviewer.cpp:1682
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Rechthoek voor selectie"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1523 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1564 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Width"
 msgstr "Breedte"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1524 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1565 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Height"
 msgstr "Hoogte"
 
-#: fitsviewer/fitsviewer.cpp:1722
+#: fitsviewer/fitsviewer.cpp:1763
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Sterren niet markeren"
 
-#: fitsviewer/fitsviewer.cpp:1738
+#: fitsviewer/fitsviewer.cpp:1779
 #, kde-format
 msgid "Processing %1..."
 msgstr "%1 verwerken..."
@@ -31562,37 +31588,40 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Het maximale aantal subs gehouden in geheugen tijdens "
+"verwerking. Hoe groter de waarde, hoe beter de kwaliteit van het "
+"stapelingsproces, maar ten koste van meer verwerkingstijd en geheugengebruik."
+"</p><p><br/></p><p>Processen zoals sigma afkappen zal deze hoeveelheid subs "
+"gebruiken om statistieken te berekenen om op alle subs te gebruiken.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:290
-#, fuzzy, kde-format
-#| msgid "Memory:"
+#, kde-format
 msgid "In Memory Subs:"
-msgstr "Geheugen:"
+msgstr "Subs in geheugen:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:306
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "High Sigma:"
-msgstr "Sigma:"
+msgstr "Hoge sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #: fitsviewer/livestacking.ui:328
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of Low Sigma to be used in pixel rejection.</p></"
 "body></html>"
-msgstr "<html><body><p>Grootte van het subframe in pixels.</p></body></html>"
+msgstr ""
+"<html><body><p>Waarde van lage sigma te gebruiken in afwijzen van pixels.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:353
-#, fuzzy, kde-format
-#| msgid "Downsample"
+#, kde-format
 msgid "Downscale:"
-msgstr "Downsample"
+msgstr "Afschaling:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:363
@@ -31603,12 +31632,16 @@ msgid ""
 "Subs and masters are downscaled 3x3.</p><p>- 4x4. Subs and masters are "
 "downscaled 4x4.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Afbeeldingen afschalen:</p><p>- Geen. Geen afschaling "
+"toegepast.</p><p>- 2x2. Subs en masters worden 2x2 afgeschaald.</p><p>- 3x3. "
+"Subs en masters worden 3x3 afgeschaald.</p><p>- 4x4. Subs en masters worden "
+"4x4 afgeschaald.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:380
-#, fuzzy, kde-format
+#, kde-format
 msgid "3x3"
-msgstr "x"
+msgstr "3x3"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:405
@@ -31619,27 +31652,28 @@ msgid ""
 "Num Stars. Frames are weighted by the number of stars detected in the frame."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Afwegen van frames:</p><p>- Gelijk. Alle frames hebben "
+"hetzelfde gewicht.</p><p>- HFR. Frames worden gewogen met 1 / gemiddelde HFR."
+"</p><p>- Aantal sterren. Frames worden gewogen met het aantal sterren "
+"gedetecteerd in het frame.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:409
-#, fuzzy, kde-format
-#| msgid "Equalize"
+#, kde-format
 msgid "Equal"
-msgstr "gelijkAan"
+msgstr "Gelijk"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:433
-#, fuzzy, kde-format
-#| msgid "Image height:"
+#, kde-format
 msgid "Frame Weight:"
-msgstr "Hoogte van de afbeelding:"
+msgstr "Framegewicht:"
 
 #. i18n: ectx: property (text), widget (QLabel, pixelRejLabel)
 #: fitsviewer/livestacking.ui:449
-#, fuzzy, kde-format
-#| msgid "Source Extraction Method"
+#, kde-format
 msgid "Rejection Method:"
-msgstr "Methode bronextractie"
+msgstr "Afwijsmethode:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:471
@@ -31650,62 +31684,62 @@ msgid ""
 "Winsorized Sigma Clipping. Winsorized version of sigma clipping</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Afwijsalgoritme van pixels:</p><p>- Geen. Er wordt "
+"geen afwijzen toegepast.</p><p>- Afkappen op sigma. Buitenliggende pixels "
+"worden afgewezen.</p><p>- Afkappen op sigma methode Winsor. Versie van "
+"methode Winsor voor afkappen op sigma</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:486
-#, fuzzy, kde-format
-#| msgid "Show Clipping"
+#, kde-format
 msgid "Sigma Clipping"
-msgstr "Afsnijden tonen"
+msgstr "Sigma afsnijden"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:491
 #, kde-format
 msgid "Winsorized SC"
-msgstr ""
+msgstr "Methode Winsor SC"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:511
 #, kde-format
 msgid "Winsor Cutoff:"
-msgstr ""
+msgstr "Afkappen methode Winsor:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #: fitsviewer/livestacking.ui:533
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Winsorization cutoff in units of sigma to be used in "
 "pixel rejection.</p></body></html>"
-msgstr "<html><head/><body><p>Resterende tijd tot voltooiing</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Afkappen met methode Winsor in eenheden van sigma te "
+"gebruiken in afwijzen van pixels.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:663
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Sub:"
-msgstr "Hoofddonker:"
+msgstr "Master Sub:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #: fitsviewer/livestacking.ui:682
-#, fuzzy, kde-format
-#| msgid "Processing"
+#, kde-format
 msgid "Post Processing"
 msgstr "Nabewerking"
 
 #. i18n: ectx: property (text), widget (QLabel, DenoiseLabel)
 #: fitsviewer/livestacking.ui:718
-#, fuzzy, kde-format
-#| msgid "Denoise"
+#, kde-format
 msgid "Denoise Amount:"
-msgstr "Van ruis ontdoen"
+msgstr "Hoeveelheid van ruis ontdoen:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:740
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
-msgstr "<html><head/><body><p>Stapgrootte:</p></body></html>"
+msgstr "<html><head/><body><p>Kernelgrootte verscherpen:</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
 #: fitsviewer/livestacking.ui:768
@@ -31716,166 +31750,156 @@ msgid ""
 "amount) of the original image.</p><p>Set to 0 to switch deconvolution off.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Hoeveelheid van Weense deconvolutie toe te passen in "
+"se reeks van 0 tot 1. De functie mengt deze hoeveelheid van de op de "
+"afbeelding toegepaste deconvolutie met (1 - hoeveelheid) van de originele "
+"afbeelding.</p><p>Zet op 0 om deconvolutie uit te schakelen.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DenoiseAmt)
 #: fitsviewer/livestacking.ui:793
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of denoise to apply. Larger values apply more "
 "denoising.</p><p>Set to 0 to skip denoising</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Aantal op te nemen frames op elke focuserpositie.</p></"
-"body></html>"
+"<html><head/><body><p>Hoeveelheid toe te passen ruis verwijderen. Grotere "
+"waarden passen meer verwijderen van ruis toe.</p><p>Zet op 0 om verwijderen "
+"van ruis over te slaan.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:822
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Vernal"
+#, kde-format
 msgid "Kernel:"
-msgstr "Vernal"
+msgstr "Kernel:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:844
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Sharpen Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma van verscherpen:"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:866
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "PSF Sigma:"
-msgstr "Sigma:"
+msgstr "PSF Sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
 #: fitsviewer/livestacking.ui:888
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
-msgstr "<html><head/><body><p>Stapgrootte:</p></body></html>"
+msgstr "<html><head/><body><p>Sigma van verscherpen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
 #: fitsviewer/livestacking.ui:913
 #, kde-format
 msgid "Sharpen Amount:"
-msgstr ""
+msgstr "Hoeveelheid verscherpen:"
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
 #: fitsviewer/livestacking.ui:935
 #, kde-format
 msgid "Deconv Amount:"
-msgstr ""
+msgstr "Hoeveelheid deconvolutie:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
 #: fitsviewer/livestacking.ui:957
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>PSF Sigma to use for Deconvolution</p></body></html>"
-msgstr "<html><head/><body><p>Resterende tijd tot voltooiing</p></body></html>"
+msgstr ""
+"<html><head/><body><p>PSF Sigma te gebruiken voor deconvolutie</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
 #: fitsviewer/livestacking.ui:982
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of sharpening to apply. Larger values apply "
 "more sharpening.</p><p>Set to 0 to skip sharpening.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Temperatuurwaarde forceren vóór het vastleggen van een "
-"afbeelding</p></body></html>"
+"<html><head/><body><p>Hoeveelheid toe te passen verscherping. Grotere "
+"waarden passen meer verscherping toe.</p><p>Zet op 0 om verscherpen over te "
+"slaan.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1011
 #, kde-format
 msgid "Rerun the post processing using the selected parameters"
-msgstr ""
+msgstr "Voer de nabewerking opnieuw uit met de geselecteerde parameters"
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1014
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Reprocess"
-msgstr "Proces"
+msgstr "Verwerk opnieuw"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1082
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Stack Directory:"
-msgstr "Map:"
+msgstr "Stapelmap:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1104
 #, kde-format
 msgid "Number of subs successfully processed / failed / total"
-msgstr ""
+msgstr "Aantal subs met succes verwerkt / mislukt / totaal"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1107 fitsviewer/livestacking.ui:1148
 #, kde-format
 msgid "0 / 0 / 0"
-msgstr ""
+msgstr "0 / 0 / 0"
 
 #. i18n: ectx: property (text), widget (QLabel, NumberSubsLabel)
 #: fitsviewer/livestacking.ui:1126
 #, kde-format
 msgid "Proc / Fail / Total:"
-msgstr ""
+msgstr "Verw / Misl / Totaal:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1145
 #, kde-format
 msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
 msgstr ""
+"Signaal-tot-ruis (STR) verhouding Max / Min / Gem van de verwerkte subs"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1186
 #, kde-format
 msgid "SNR Av / Min / Max:"
-msgstr ""
+msgstr "SNR Gem / Min / Max:"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:1199
-#, fuzzy, kde-format
-#| msgid "Image Save"
+#, kde-format
 msgid "Image SNR:"
-msgstr "Afbeelding opslaan"
+msgstr "STR van afbeelding:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
 #: fitsviewer/livestacking.ui:1215
 #, kde-format
 msgid "The signal-to-noise ratio of the final image"
-msgstr ""
+msgstr "De signaal-tot-ruis verhouding van de uiteindelijke afbeelding"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StartB)
 #: fitsviewer/livestacking.ui:1237
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Starts watching the Stack Directory and runs stacking."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Alle recente volggegevens wissen..</p></body></html>"
+"<html><head/><body><p>Start bewaken van de Stapelmap en voert stapelen uit.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1269
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>General Focus Settings parameters.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Algemene Instellingenparameters voor focus.</p></"
-"body></html>"
+msgstr "<html><head/><body><p>Live Stapelparameters opslaan</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1272
@@ -32524,12 +32548,12 @@ msgstr "Afsnijmaximum voor weglaten uitschieters en heldere sterren."
 #: fitsviewer/starprofileviewer.cpp:84
 #, kde-format
 msgid "Enable or Disable the Max Value Cutoff"
-msgstr "Maximum afsnijwaarde aan of uit"
+msgstr "Maximum afkapwaarde aan of uit"
 
 #: fitsviewer/starprofileviewer.cpp:85
 #, kde-format
 msgid "Toggle Cutoff"
-msgstr "Afsnijwaarde aan/uit"
+msgstr "Afkapwaarde aan/uit"
 
 #: fitsviewer/starprofileviewer.cpp:89
 #, kde-format
@@ -38769,99 +38793,97 @@ msgstr "Te gebruiken straal in positie (graden) voor oplossen met Fitsviewer."
 #: kstars.kcfg:1785
 #, kde-format
 msgid "Live Stacking master dark"
-msgstr ""
+msgstr "Live stapelen van master donker"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterFlat), group (FITSViewer)
 #: kstars.kcfg:1789
 #, kde-format
 msgid "Live Stacking master flat"
-msgstr ""
+msgstr "Live stapelen van master vlak"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1793
-#, fuzzy, kde-format
-#| msgid "Restarting alignment point %1"
+#, kde-format
 msgid "Live Stacking alignment method"
-msgstr "Uitlijnpunt %1 wordt herstart"
+msgstr "Live stapelen met uitlijnmethode"
 
 #. i18n: ectx: label, entry (fitsLSNumInMem), group (FITSViewer)
 #: kstars.kcfg:1797
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
-msgstr ""
+msgstr "Live stapelen max aantal subs te houden in geheugen"
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
 #: kstars.kcfg:1801
 #, kde-format
 msgid "Live Stacking downscale factor"
-msgstr ""
+msgstr "Live stapelen afschaalfactor"
 
 #. i18n: ectx: whatsthis, entry (fitsLSWeighting), group (FITSViewer)
 #: kstars.kcfg:1805
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr ""
+msgstr "Live stapelen wegen van subs"
 
 #. i18n: ectx: whatsthis, entry (fitsLSRejection), group (FITSViewer)
 #: kstars.kcfg:1809
 #, kde-format
 msgid "Live Stacking pixel rejection mechanism"
-msgstr ""
+msgstr "Live stapelen mechanisme van afwijzen van pixels"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1813
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
-msgstr ""
+msgstr "Live stapelen lage sigma criteria voor afwijzen van pixels"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1817
 #, kde-format
 msgid "Live Stacking high sigma pixel rejection criteria"
-msgstr ""
+msgstr "Live stapelen hoge sigma criteria voor afwijzen van pixels"
 
 #. i18n: ectx: label, entry (fitsLSWinsorCutoff), group (FITSViewer)
 #: kstars.kcfg:1821
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr ""
+msgstr "Live stapelen met sigma afkappen met Windzor-afkap"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1825
 #, kde-format
 msgid "Live Stacking deconvolution amount"
-msgstr ""
+msgstr "Live stapelen hoeveelheid deconvolutie"
 
 #. i18n: ectx: label, entry (fitsLSPSFSigma), group (FITSViewer)
 #: kstars.kcfg:1829
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr ""
+msgstr "Live stapelen PSF-sigma toe te passen op deconvolutie"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1833
 #, kde-format
 msgid "Live Stacking denoise amount"
-msgstr ""
+msgstr "Live stapelen hoeveelheid van ruis verwijderen"
 
 #. i18n: ectx: label, entry (fitsLSSharpenAmt), group (FITSViewer)
 #: kstars.kcfg:1837
 #, kde-format
 msgid "Live Stacking sharpen amount"
-msgstr ""
+msgstr "Live stapelen hoeveelheid verscherpen"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1841
-#, fuzzy, kde-format
-#| msgid "Restarting alignment point %1"
+#, kde-format
 msgid "Live Stacking sharpening kernel size"
-msgstr "Uitlijnpunt %1 wordt herstart"
+msgstr "Live stapelen grootte van kernel bij verscherpen"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1845
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr ""
+msgstr "Live stapelen sigma van verscherpen"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1851
@@ -71088,10 +71110,9 @@ msgid "Open Image(s)..."
 msgstr "Afbeelding(en) openen..."
 
 #: kstarsinit.cpp:164
-#, fuzzy, kde-format
-#| msgid "%1 is tracking."
+#, kde-format
 msgid "Live Stacking..."
-msgstr "%1 volgt."
+msgstr "Live stapelen..."
 
 #: kstarsinit.cpp:170
 #, kde-format

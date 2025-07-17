@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-16 02:30+0000\n"
-"PO-Revision-Date: 2025-07-15 07:46+0200\n"
+"POT-Creation-Date: 2025-07-17 01:56+0000\n"
+"PO-Revision-Date: 2025-07-16 08:52+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -49,7 +49,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Lokalize 25.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2993,7 +2993,7 @@ msgstr "Vrsta preslikave"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
 #: ekos/capture/cameraprocess.cpp:2455 ekos/capture/capturecountswidget.cpp:321
-#: fitsviewer/fitsviewer.cpp:751 fitsviewer/fitsviewer.cpp:752
+#: fitsviewer/fitsviewer.cpp:794 fitsviewer/fitsviewer.cpp:795
 #, kde-format
 msgid "Preview"
 msgstr "Predogled"
@@ -10520,7 +10520,7 @@ msgstr "Začasne slikovne datoteke ni moč prikazati: %1"
 #: ekos/analyze/analyze.cpp:2303 ekos/auxiliary/opslogs.ui:370
 #: ekos/manager.cpp:2246 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
-#: fitsviewer/fitsviewer.cpp:492
+#: fitsviewer/fitsviewer.cpp:535
 #, kde-format
 msgid "Focus"
 msgstr "Fokus"
@@ -10529,7 +10529,7 @@ msgstr "Fokus"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2202
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
-#: fitsviewer/fitsviewer.cpp:500
+#: fitsviewer/fitsviewer.cpp:543
 #, kde-format
 msgid "Align"
 msgstr "Poravnavanje"
@@ -10541,7 +10541,7 @@ msgstr "Poravnavanje"
 #: ekos/analyze/analyze.cpp:2305 ekos/auxiliary/opslogs.ui:120
 #: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2467
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
-#: fitsviewer/fitsviewer.cpp:496
+#: fitsviewer/fitsviewer.cpp:539
 #, kde-format
 msgid "Guide"
 msgstr "Vodenje"
@@ -10777,7 +10777,7 @@ msgstr "Najnovejše"
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
 #: ekos/analyze/analyze.ui:289 fitsviewer/fitstab.cpp:142
-#: fitsviewer/fitsviewer.cpp:182 fitsviewer/solveInfo.ui:14
+#: fitsviewer/fitsviewer.cpp:184 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
 msgid "Statistics"
@@ -18997,10 +18997,9 @@ msgid "Star detection in progress, retrying in 1s..."
 msgstr "Odkrivanje zvezd v teku, ponovni poskus čez 1 s..."
 
 #: ekos/focus/focus.cpp:1509
-#, fuzzy, kde-format
-#| msgid "Star detection in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection still in progress, aborting..."
-msgstr "Odkrivanje zvezd v teku, ponovni poskus čez 1 s..."
+msgstr "Odkrivanje zvezd še vedno v teku, prekinjanje..."
 
 #: ekos/focus/focus.cpp:1558
 #, kde-format
@@ -30349,7 +30348,7 @@ msgstr "Opravilo '%1' %2x%3\" %4"
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
 #: fitsviewer/catalogobject.ui:14 fitsviewer/fitsheaderdialog.ui:14
-#: fitsviewer/fitstab.cpp:161 fitsviewer/fitsviewer.cpp:147
+#: fitsviewer/fitstab.cpp:161 fitsviewer/fitsviewer.cpp:149
 #, kde-format
 msgid "FITS Header"
 msgstr "Glava FITS"
@@ -30688,8 +30687,8 @@ msgid "Y Offset:"
 msgstr "Odmik Y:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:528
-#: fitsviewer/fitsviewer.cpp:1744
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:571
+#: fitsviewer/fitsviewer.cpp:1785
 #, kde-format
 msgid "Ready."
 msgstr "Pripravljeno."
@@ -30751,7 +30750,7 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
 #: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:158
-#: fitsviewer/fitsviewer.cpp:123
+#: fitsviewer/fitsviewer.cpp:125
 #, kde-format
 msgid "Histogram"
 msgstr "Histogram"
@@ -30972,7 +30971,7 @@ msgstr "Oznaka vrste"
 msgid "Distance"
 msgstr "Razdalja"
 
-#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1515
+#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1556
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, kde-format, kde-kuit-format
 msgid "Size"
@@ -31095,6 +31094,22 @@ msgstr "Shranjevanje slike"
 msgid "File saved to %1"
 msgstr "Datoteka shranjena v %1"
 
+#: fitsviewer/fitstab.cpp:1303
+#, kde-format
+msgid "Watching %1"
+msgstr "Opazovanje %1"
+
+#: fitsviewer/fitstab.cpp:1439
+#, fuzzy, kde-format
+#| msgid "Watching %1"
+msgid "(%1) Watching %2"
+msgstr "Opazovanje %1"
+
+#: fitsviewer/fitstab.cpp:1441
+#, kde-format
+msgid "(%1) %2"
+msgstr ""
+
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, kde-format
 msgid "Rescaling image failed."
@@ -31147,12 +31162,12 @@ msgstr "Prilagodi velikost oknu"
 msgid "Toggle Stretch"
 msgstr "Preklopi razteg"
 
-#: fitsviewer/fitsview.cpp:2768 fitsviewer/fitsviewer.cpp:222
+#: fitsviewer/fitsview.cpp:2768 fitsviewer/fitsviewer.cpp:224
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Pokaži nitne križe"
 
-#: fitsviewer/fitsview.cpp:2772 fitsviewer/fitsviewer.cpp:235
+#: fitsviewer/fitsview.cpp:2772 fitsviewer/fitsviewer.cpp:237
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Pokaži mrežo slikovnih točk"
@@ -31167,14 +31182,14 @@ msgstr "Zaznaj zvezde na sliki"
 msgid "View Star Profile..."
 msgstr "Pokaži profil zvezde..."
 
-#: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:241
-#: fitsviewer/fitsviewer.cpp:1432
+#: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:243
+#: fitsviewer/fitsviewer.cpp:1473
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Pokaži ekvatorialno mrežo"
 
-#: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:248
-#: fitsviewer/fitsviewer.cpp:1434
+#: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:250
+#: fitsviewer/fitsviewer.cpp:1475
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Pokaži objekte v sliki"
@@ -31184,7 +31199,7 @@ msgstr "Pokaži objekte v sliki"
 msgid "Center Telescope"
 msgstr "Usredini teleskop"
 
-#: fitsviewer/fitsview.cpp:2811 fitsviewer/fitsviewer.cpp:255
+#: fitsviewer/fitsview.cpp:2811 fitsviewer/fitsviewer.cpp:257
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "Pokaži plast HiPS"
@@ -31220,47 +31235,47 @@ msgstr "Mediana"
 msgid "Gaussian blur"
 msgstr "Gaussova zabrisanost"
 
-#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:106
+#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:108
 #, kde-format
 msgid "Rotate Right"
 msgstr "Zavrti v desno"
 
-#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:110
+#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:112
 #, kde-format
 msgid "Rotate Left"
 msgstr "Zavrti v levo"
 
-#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:114
+#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:116
 #, kde-format
 msgid "Flip Horizontal"
 msgstr "Zrcali vodoravno"
 
-#: fitsviewer/fitsviewer.cpp:45 fitsviewer/fitsviewer.cpp:119
+#: fitsviewer/fitsviewer.cpp:45 fitsviewer/fitsviewer.cpp:121
 #, kde-format
 msgid "Flip Vertical"
 msgstr "Zrcali navpično"
 
-#: fitsviewer/fitsviewer.cpp:134 kstarsinit.cpp:159
+#: fitsviewer/fitsviewer.cpp:136 kstarsinit.cpp:159
 #, kde-format
 msgid "Open/Blink Directory"
 msgstr "Odpri/Bliskni imenik"
 
-#: fitsviewer/fitsviewer.cpp:153
+#: fitsviewer/fitsviewer.cpp:155
 #, kde-format
 msgid "Debayer..."
 msgstr "Interpretiranje bayerjeve matrike…"
 
-#: fitsviewer/fitsviewer.cpp:188
+#: fitsviewer/fitsviewer.cpp:190
 #, kde-format
 msgid "&Selection Statistics"
 msgstr "&Statistika izbora"
 
-#: fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsviewer.cpp:231
 #, kde-format
 msgid "Show Clipping"
 msgstr "Pokaži porezavo"
 
-#: fitsviewer/fitsviewer.cpp:262 fitsviewer/fitsviewer.cpp:1443
+#: fitsviewer/fitsviewer.cpp:264 fitsviewer/fitsviewer.cpp:1484
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31269,64 +31284,75 @@ msgstr ""
 "Usredini teleskop\n"
 "*Ni zaznanih teleskopov*"
 
-#: fitsviewer/fitsviewer.cpp:269
+#: fitsviewer/fitsviewer.cpp:271
 #, kde-format
 msgid "Zoom To Fit"
 msgstr "Prilagodi velikost"
 
-#: fitsviewer/fitsviewer.cpp:274
+#: fitsviewer/fitsviewer.cpp:276
 #, kde-format
 msgid "Fit Page to Zoom"
 msgstr "Prilagodi stran povečavi"
 
-#: fitsviewer/fitsviewer.cpp:279
+#: fitsviewer/fitsviewer.cpp:281
 #, kde-format
 msgid "Next Tab"
 msgstr "Naslednji zavihek"
 
-#: fitsviewer/fitsviewer.cpp:284
+#: fitsviewer/fitsviewer.cpp:286
 #, kde-format
 msgid "Previous Tab"
 msgstr "Prejšnji zavihek"
 
-#: fitsviewer/fitsviewer.cpp:289
+#: fitsviewer/fitsviewer.cpp:291
 #, kde-format
 msgid "Next Blink Image"
 msgstr "Naslednji utrip slike"
 
-#: fitsviewer/fitsviewer.cpp:294
+#: fitsviewer/fitsviewer.cpp:296
 #, kde-format
 msgid "Previous Blink Image"
 msgstr "Prejšnji utrip slike"
 
-#: fitsviewer/fitsviewer.cpp:299
+#: fitsviewer/fitsviewer.cpp:301
 #, kde-format
 msgid "Zoom all tabs in"
 msgstr "Približaj vse zavihke"
 
-#: fitsviewer/fitsviewer.cpp:304
+#: fitsviewer/fitsviewer.cpp:306
 #, kde-format
 msgid "Zoom all tabs out"
 msgstr "Oddalji vse zavihke"
 
-#: fitsviewer/fitsviewer.cpp:309 fitsviewer/fitsviewer.cpp:1717
+#: fitsviewer/fitsviewer.cpp:311 fitsviewer/fitsviewer.cpp:1758
 #, kde-format
 msgid "Mark Stars"
 msgstr "Označi zvezde"
 
-#: fitsviewer/fitsviewer.cpp:317 fitsviewer/fitsviewer.cpp:858
-#: fitsviewer/fitsviewer.cpp:1680
+#: fitsviewer/fitsviewer.cpp:319 fitsviewer/fitsviewer.cpp:901
+#: fitsviewer/fitsviewer.cpp:1721
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Ogled 3D-grafa"
 
-#: fitsviewer/fitsviewer.cpp:337
+#: fitsviewer/fitsviewer.cpp:339
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "Pregledovalnik FITS za KStars"
 
-#: fitsviewer/fitsviewer.cpp:434
+#: fitsviewer/fitsviewer.cpp:388
+#, fuzzy, kde-format
+#| msgid "Change Date..."
+msgid "Change Tab Title"
+msgstr "Spremeni datum…"
+
+#: fitsviewer/fitsviewer.cpp:389
+#, kde-format
+msgid "New title for tab '%1':"
+msgstr ""
+
+#: fitsviewer/fitsviewer.cpp:474
 #, kde-format
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
@@ -31335,7 +31361,7 @@ msgstr[1] "HFR=%2 Ecc=%3 %1 zvezda."
 msgstr[2] "HFR=%2 Ecc=%3 %1 zvezdi."
 msgstr[3] "HFR=%2 Ecc=%3 %1 zvezde."
 
-#: fitsviewer/fitsviewer.cpp:440
+#: fitsviewer/fitsviewer.cpp:480
 #, kde-format
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
@@ -31344,89 +31370,89 @@ msgstr[1] "HFR:%2, %1 zvezda."
 msgstr[2] "HFR:%2, %1 zvezdi."
 msgstr[3] "HFR:%2, %1 zvezde."
 
-#: fitsviewer/fitsviewer.cpp:703
+#: fitsviewer/fitsviewer.cpp:531
+#, kde-format
+msgid "Right click to change tab title."
+msgstr ""
+
+#: fitsviewer/fitsviewer.cpp:746
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr "V pregledovalniku FITS ni mogoče najti zavihka z UID %1"
 
-#: fitsviewer/fitsviewer.cpp:840
+#: fitsviewer/fitsviewer.cpp:883
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr "Trenutni ogled 3D-grafa"
 
-#: fitsviewer/fitsviewer.cpp:841 fitsviewer/fitsviewer.cpp:1588
+#: fitsviewer/fitsviewer.cpp:884 fitsviewer/fitsviewer.cpp:1629
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Namerilni križ"
 
-#: fitsviewer/fitsviewer.cpp:842 fitsviewer/fitsviewer.cpp:1602
+#: fitsviewer/fitsviewer.cpp:885 fitsviewer/fitsviewer.cpp:1643
 #, kde-format
 msgid "Clipping"
 msgstr "Porezava"
 
-#: fitsviewer/fitsviewer.cpp:843 fitsviewer/fitsviewer.cpp:1615
+#: fitsviewer/fitsviewer.cpp:886 fitsviewer/fitsviewer.cpp:1656
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Ekvatorialna mreža"
 
-#: fitsviewer/fitsviewer.cpp:844 fitsviewer/fitsviewer.cpp:1654
+#: fitsviewer/fitsviewer.cpp:887 fitsviewer/fitsviewer.cpp:1695
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objekti na sliki"
 
-#: fitsviewer/fitsviewer.cpp:845 fitsviewer/fitsviewer.cpp:1667
+#: fitsviewer/fitsviewer.cpp:888 fitsviewer/fitsviewer.cpp:1708
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Mreža slikovnih točk"
 
-#: fitsviewer/fitsviewer.cpp:846 fitsviewer/fitsviewer.cpp:1628
+#: fitsviewer/fitsviewer.cpp:889 fitsviewer/fitsviewer.cpp:1669
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "Prekrivanje HiPS"
 
-#: fitsviewer/fitsviewer.cpp:898
+#: fitsviewer/fitsviewer.cpp:941
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Bliskaj vrhnji imenik"
 
-#: fitsviewer/fitsviewer.cpp:1034
+#: fitsviewer/fitsviewer.cpp:1077
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Odpri sliko"
 
-#: fitsviewer/fitsviewer.cpp:1108
+#: fitsviewer/fitsviewer.cpp:1150
 #, kde-format
 msgid "Stacking..."
 msgstr "Zlaganje na sklad..."
 
-#: fitsviewer/fitsviewer.cpp:1109
-#, kde-format
-msgid "Watching %1"
-msgstr "Opazovanje %1"
-
-#: fitsviewer/fitsviewer.cpp:1117
+#: fitsviewer/fitsviewer.cpp:1158
 #, kde-format
 msgid "Stacking Failed"
 msgstr "Zlaganje na sklad ni uspelo"
 
-#: fitsviewer/fitsviewer.cpp:1135
+#: fitsviewer/fitsviewer.cpp:1176
 #, kde-format
 msgid "Stacking Complete"
 msgstr "Zlaganje na sklad zaključeno"
 
-#: fitsviewer/fitsviewer.cpp:1409
+#: fitsviewer/fitsviewer.cpp:1450
 #, kde-format
 msgid "Hide %1"
 msgstr "Skrij %1"
 
-#: fitsviewer/fitsviewer.cpp:1414
+#: fitsviewer/fitsviewer.cpp:1455
 #, kde-format
 msgid "Show %1"
 msgstr "Pokaži %1"
 
-#: fitsviewer/fitsviewer.cpp:1438
+#: fitsviewer/fitsviewer.cpp:1479
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31435,7 +31461,7 @@ msgstr ""
 "Usredini teleskop\n"
 "*Pripravljen*"
 
-#: fitsviewer/fitsviewer.cpp:1450
+#: fitsviewer/fitsviewer.cpp:1491
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -31444,7 +31470,7 @@ msgstr ""
 "Pokaži ekvatorialno mrežo\n"
 "*Ni podatkov WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1452
+#: fitsviewer/fitsviewer.cpp:1493
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31453,7 +31479,7 @@ msgstr ""
 "Usredini teleskop\n"
 "*Ni podatkov WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1454
+#: fitsviewer/fitsviewer.cpp:1495
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -31462,31 +31488,31 @@ msgstr ""
 "Pokaži objekte v sliki\n"
 "*Ni podatkov WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1486 fitsviewer/fitsviewer.cpp:1641
+#: fitsviewer/fitsviewer.cpp:1527 fitsviewer/fitsviewer.cpp:1682
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Pravokotnik izbire"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1523 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1564 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Width"
 msgstr "Širina"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1524 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1565 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Height"
 msgstr "Višina"
 
-#: fitsviewer/fitsviewer.cpp:1722
+#: fitsviewer/fitsviewer.cpp:1763
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Odstrani oznake zvezd"
 
-#: fitsviewer/fitsviewer.cpp:1738
+#: fitsviewer/fitsviewer.cpp:1779
 #, kde-format
 msgid "Processing %1..."
 msgstr "Obdelava %1…"
@@ -31679,8 +31705,7 @@ msgstr "Vrednost odstranjevanja šuma:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:740
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
 msgstr "<html><head/><body><p>Velikost jedra ostrenja.</p></body></html>"
 
@@ -31711,10 +31736,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:822
-#, fuzzy, kde-format
-#| msgid "Kernal:"
+#, kde-format
 msgid "Kernel:"
-msgstr "Jedrno:"
+msgstr "Jedro:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:844
@@ -31786,8 +31810,7 @@ msgstr "Imenik sklada:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1104
-#, fuzzy, kde-format
-#| msgid "Number of subs sucessfully processed / failed / total"
+#, kde-format
 msgid "Number of subs successfully processed / failed / total"
 msgstr "Število podsličic uspešno obdelanih / neuspešnih / skupaj"
 
@@ -38702,10 +38725,9 @@ msgstr "Vrednost ostrenja živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1841
-#, fuzzy, kde-format
-#| msgid "Live Stacking sharpening kernal size"
+#, kde-format
 msgid "Live Stacking sharpening kernel size"
-msgstr "Vrednost velikosti jedra živega skladalnika"
+msgstr "Velikosti jedra živega skladalnika"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1845

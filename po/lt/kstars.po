@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-16 02:30+0000\n"
+"POT-Creation-Date: 2025-07-17 01:56+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -3056,7 +3056,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
 #: ekos/capture/cameraprocess.cpp:2455 ekos/capture/capturecountswidget.cpp:321
-#: fitsviewer/fitsviewer.cpp:751 fitsviewer/fitsviewer.cpp:752
+#: fitsviewer/fitsviewer.cpp:794 fitsviewer/fitsviewer.cpp:795
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "Preview"
@@ -10674,7 +10674,7 @@ msgstr "Nepavyksta pašalinti failo: %1"
 #: ekos/analyze/analyze.cpp:2303 ekos/auxiliary/opslogs.ui:370
 #: ekos/manager.cpp:2246 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
-#: fitsviewer/fitsviewer.cpp:492
+#: fitsviewer/fitsviewer.cpp:535
 #, fuzzy, kde-format
 msgid "Focus"
 msgstr "Fokusas"
@@ -10683,7 +10683,7 @@ msgstr "Fokusas"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2202
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
-#: fitsviewer/fitsviewer.cpp:500
+#: fitsviewer/fitsviewer.cpp:543
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Align"
@@ -10696,7 +10696,7 @@ msgstr "Lygiavimas"
 #: ekos/analyze/analyze.cpp:2305 ekos/auxiliary/opslogs.ui:120
 #: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2467
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
-#: fitsviewer/fitsviewer.cpp:496
+#: fitsviewer/fitsviewer.cpp:539
 #, kde-format
 msgid "Guide"
 msgstr "Orientyras"
@@ -10944,7 +10944,7 @@ msgstr ""
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
 #: ekos/analyze/analyze.ui:289 fitsviewer/fitstab.cpp:142
-#: fitsviewer/fitsviewer.cpp:182 fitsviewer/solveInfo.ui:14
+#: fitsviewer/fitsviewer.cpp:184 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
 msgid "Statistics"
@@ -30083,7 +30083,7 @@ msgstr ""
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
 #: fitsviewer/catalogobject.ui:14 fitsviewer/fitsheaderdialog.ui:14
-#: fitsviewer/fitstab.cpp:161 fitsviewer/fitsviewer.cpp:147
+#: fitsviewer/fitstab.cpp:161 fitsviewer/fitsviewer.cpp:149
 #, kde-format
 msgid "FITS Header"
 msgstr "FITS antraštė"
@@ -30460,8 +30460,8 @@ msgid "Y Offset:"
 msgstr "Poslinkis"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:528
-#: fitsviewer/fitsviewer.cpp:1744
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:571
+#: fitsviewer/fitsviewer.cpp:1785
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Aladin"
@@ -30521,7 +30521,7 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
 #: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:158
-#: fitsviewer/fitsviewer.cpp:123
+#: fitsviewer/fitsviewer.cpp:125
 #, kde-format
 msgid "Histogram"
 msgstr "Histograma"
@@ -30762,7 +30762,7 @@ msgstr "Pavadinimas"
 msgid "Distance"
 msgstr "Atstumas:"
 
-#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1515
+#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1556
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
@@ -30896,6 +30896,23 @@ msgstr "Paveikslo duomenys"
 msgid "File saved to %1"
 msgstr "FITS failas įrašytas į %1"
 
+#: fitsviewer/fitstab.cpp:1303
+#, fuzzy, kde-format
+#| msgid "Loading %1"
+msgid "Watching %1"
+msgstr "Įkeliama %1"
+
+#: fitsviewer/fitstab.cpp:1439
+#, fuzzy, kde-format
+#| msgid "Loading %1"
+msgid "(%1) Watching %2"
+msgstr "Įkeliama %1"
+
+#: fitsviewer/fitstab.cpp:1441
+#, kde-format
+msgid "(%1) %2"
+msgstr ""
+
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
@@ -30954,13 +30971,13 @@ msgstr ""
 msgid "Toggle Stretch"
 msgstr "Automatinė skalė"
 
-#: fitsviewer/fitsview.cpp:2768 fitsviewer/fitsviewer.cpp:222
+#: fitsviewer/fitsview.cpp:2768 fitsviewer/fitsviewer.cpp:224
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Show Cross Hairs"
 msgstr "Taikiklis"
 
-#: fitsviewer/fitsview.cpp:2772 fitsviewer/fitsviewer.cpp:235
+#: fitsviewer/fitsview.cpp:2772 fitsviewer/fitsviewer.cpp:237
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show Pixel Gridlines"
@@ -30978,15 +30995,15 @@ msgstr "Atverti FITS..."
 msgid "View Star Profile..."
 msgstr "Naudoti lankų failą"
 
-#: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:241
-#: fitsviewer/fitsviewer.cpp:1432
+#: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:243
+#: fitsviewer/fitsviewer.cpp:1473
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "Pusiaujinės koordinatės"
 
-#: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:248
-#: fitsviewer/fitsviewer.cpp:1434
+#: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:250
+#: fitsviewer/fitsviewer.cpp:1475
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
@@ -30998,7 +31015,7 @@ msgstr "Rodyti objektus"
 msgid "Center Telescope"
 msgstr "Nukreipti teleskopą"
 
-#: fitsviewer/fitsview.cpp:2811 fitsviewer/fitsviewer.cpp:255
+#: fitsviewer/fitsview.cpp:2811 fitsviewer/fitsviewer.cpp:257
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show HiPS Overlay"
@@ -31036,123 +31053,134 @@ msgstr "Mičiganas"
 msgid "Gaussian blur"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:106
+#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:108
 #, fuzzy, kde-format
 #| msgid "Bottom right"
 msgid "Rotate Right"
 msgstr "Sukti į dešinę"
 
-#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:110
+#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:112
 #, fuzzy, kde-format
 msgid "Rotate Left"
 msgstr "Sukti į kairę"
 
-#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:114
+#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:116
 #, fuzzy, kde-format
 #| msgid "Horizontal "
 msgid "Flip Horizontal"
 msgstr "Horizontaliosios "
 
-#: fitsviewer/fitsviewer.cpp:45 fitsviewer/fitsviewer.cpp:119
+#: fitsviewer/fitsviewer.cpp:45 fitsviewer/fitsviewer.cpp:121
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
 msgid "Flip Vertical"
 msgstr "Regimieji spinduliai"
 
-#: fitsviewer/fitsviewer.cpp:134 kstarsinit.cpp:159
+#: fitsviewer/fitsviewer.cpp:136 kstarsinit.cpp:159
 #, fuzzy, kde-format
 #| msgid "Directory:"
 msgid "Open/Blink Directory"
 msgstr "Aplankas:"
 
-#: fitsviewer/fitsviewer.cpp:153
+#: fitsviewer/fitsviewer.cpp:155
 #, kde-format
 msgid "Debayer..."
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:188
+#: fitsviewer/fitsviewer.cpp:190
 #, fuzzy, kde-format
 #| msgid "Statistics"
 msgid "&Selection Statistics"
 msgstr "Statistika"
 
-#: fitsviewer/fitsviewer.cpp:229
+#: fitsviewer/fitsviewer.cpp:231
 #, fuzzy, kde-format
 #| msgid "Show print dialog"
 msgid "Show Clipping"
 msgstr "Rodyti spausdinimo dialogą"
 
-#: fitsviewer/fitsviewer.cpp:262 fitsviewer/fitsviewer.cpp:1443
+#: fitsviewer/fitsviewer.cpp:264 fitsviewer/fitsviewer.cpp:1484
 #, kde-format
 msgid ""
 "Center Telescope\n"
 "*No Telescopes Detected*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:269
+#: fitsviewer/fitsviewer.cpp:271
 #, kde-format
 msgid "Zoom To Fit"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:274
+#: fitsviewer/fitsviewer.cpp:276
 #, kde-format
 msgid "Fit Page to Zoom"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:279
+#: fitsviewer/fitsviewer.cpp:281
 #, fuzzy, kde-format
 #| msgid "Next >"
 msgid "Next Tab"
 msgstr "Toliau >"
 
-#: fitsviewer/fitsviewer.cpp:284
+#: fitsviewer/fitsviewer.cpp:286
 #, fuzzy, kde-format
 msgid "Previous Tab"
 msgstr "Ankstesni metai"
 
-#: fitsviewer/fitsviewer.cpp:289
+#: fitsviewer/fitsviewer.cpp:291
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Next Blink Image"
 msgstr "Rodyti objektus"
 
-#: fitsviewer/fitsviewer.cpp:294
+#: fitsviewer/fitsviewer.cpp:296
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "Previous Blink Image"
 msgstr "Peržiūros piešinys"
 
-#: fitsviewer/fitsviewer.cpp:299
+#: fitsviewer/fitsviewer.cpp:301
 #, kde-format
 msgid "Zoom all tabs in"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:304
+#: fitsviewer/fitsviewer.cpp:306
 #, kde-format
 msgid "Zoom all tabs out"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:309 fitsviewer/fitsviewer.cpp:1717
+#: fitsviewer/fitsviewer.cpp:311 fitsviewer/fitsviewer.cpp:1758
 #, fuzzy, kde-format
 #| msgid "Markers"
 msgid "Mark Stars"
 msgstr "Žymekliai"
 
-#: fitsviewer/fitsviewer.cpp:317 fitsviewer/fitsviewer.cpp:858
-#: fitsviewer/fitsviewer.cpp:1680
+#: fitsviewer/fitsviewer.cpp:319 fitsviewer/fitsviewer.cpp:901
+#: fitsviewer/fitsviewer.cpp:1721
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:337
+#: fitsviewer/fitsviewer.cpp:339
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "Jus sveikina KStars FITS žiūryklė"
 
-#: fitsviewer/fitsviewer.cpp:434
+#: fitsviewer/fitsviewer.cpp:388
+#, fuzzy, kde-format
+#| msgid "Change Date..."
+msgid "Change Tab Title"
+msgstr "Keisti datą..."
+
+#: fitsviewer/fitsviewer.cpp:389
+#, kde-format
+msgid "New title for tab '%1':"
+msgstr ""
+
+#: fitsviewer/fitsviewer.cpp:474
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2 Ecc:%3 %1 star."
@@ -31162,7 +31190,7 @@ msgstr[1] "žvaigždė"
 msgstr[2] "žvaigždė"
 msgstr[3] "žvaigždė"
 
-#: fitsviewer/fitsviewer.cpp:440
+#: fitsviewer/fitsviewer.cpp:480
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "HFR:%2, %1 star."
@@ -31172,102 +31200,101 @@ msgstr[1] "žvaigždė"
 msgstr[2] "žvaigždė"
 msgstr[3] "žvaigždė"
 
-#: fitsviewer/fitsviewer.cpp:703
+#: fitsviewer/fitsviewer.cpp:531
+#, kde-format
+msgid "Right click to change tab title."
+msgstr ""
+
+#: fitsviewer/fitsviewer.cpp:746
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:840
+#: fitsviewer/fitsviewer.cpp:883
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:841 fitsviewer/fitsviewer.cpp:1588
+#: fitsviewer/fitsviewer.cpp:884 fitsviewer/fitsviewer.cpp:1629
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Cross Hairs"
 msgstr "Taikiklis"
 
-#: fitsviewer/fitsviewer.cpp:842 fitsviewer/fitsviewer.cpp:1602
+#: fitsviewer/fitsviewer.cpp:885 fitsviewer/fitsviewer.cpp:1643
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "Filipinai"
 
-#: fitsviewer/fitsviewer.cpp:843 fitsviewer/fitsviewer.cpp:1615
+#: fitsviewer/fitsviewer.cpp:886 fitsviewer/fitsviewer.cpp:1656
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Equatorial Gridlines"
 msgstr "Pusiaujinės koordinatės"
 
-#: fitsviewer/fitsviewer.cpp:844 fitsviewer/fitsviewer.cpp:1654
+#: fitsviewer/fitsviewer.cpp:887 fitsviewer/fitsviewer.cpp:1695
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Objects in Image"
 msgstr "Rodyti objektus"
 
-#: fitsviewer/fitsviewer.cpp:845 fitsviewer/fitsviewer.cpp:1667
+#: fitsviewer/fitsviewer.cpp:888 fitsviewer/fitsviewer.cpp:1708
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Pixel Gridlines"
 msgstr "Rodyti žvaigždynų linijas?"
 
-#: fitsviewer/fitsviewer.cpp:846 fitsviewer/fitsviewer.cpp:1628
+#: fitsviewer/fitsviewer.cpp:889 fitsviewer/fitsviewer.cpp:1669
 #, kde-format
 msgid "HiPS Overlay"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:898
+#: fitsviewer/fitsviewer.cpp:941
 #, fuzzy, kde-format
 #| msgid "Directory:"
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Aplankas:"
 
-#: fitsviewer/fitsviewer.cpp:1034
+#: fitsviewer/fitsviewer.cpp:1077
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Atverti FITS..."
 
-#: fitsviewer/fitsviewer.cpp:1108
+#: fitsviewer/fitsviewer.cpp:1150
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Stacking..."
 msgstr "Laukiama..."
 
-#: fitsviewer/fitsviewer.cpp:1109
-#, fuzzy, kde-format
-#| msgid "Loading %1"
-msgid "Watching %1"
-msgstr "Įkeliama %1"
-
-#: fitsviewer/fitsviewer.cpp:1117
+#: fitsviewer/fitsviewer.cpp:1158
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Stacking Failed"
 msgstr "%1 prisijungęs."
 
-#: fitsviewer/fitsviewer.cpp:1135
+#: fitsviewer/fitsviewer.cpp:1176
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Stacking Complete"
 msgstr "baigta"
 
-#: fitsviewer/fitsviewer.cpp:1409
+#: fitsviewer/fitsviewer.cpp:1450
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1414
+#: fitsviewer/fitsviewer.cpp:1455
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "Rodyti"
 
-#: fitsviewer/fitsviewer.cpp:1438
+#: fitsviewer/fitsviewer.cpp:1479
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid ""
@@ -31275,14 +31302,14 @@ msgid ""
 "*Ready*"
 msgstr "Nukreipti teleskopą"
 
-#: fitsviewer/fitsviewer.cpp:1450
+#: fitsviewer/fitsviewer.cpp:1491
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1452
+#: fitsviewer/fitsviewer.cpp:1493
 #, fuzzy, kde-format
 #| msgid "Center in Scope"
 msgid ""
@@ -31290,21 +31317,21 @@ msgid ""
 "*No WCS Info*"
 msgstr "Nukreipti teleskopą"
 
-#: fitsviewer/fitsviewer.cpp:1454
+#: fitsviewer/fitsviewer.cpp:1495
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1486 fitsviewer/fitsviewer.cpp:1641
+#: fitsviewer/fitsviewer.cpp:1527 fitsviewer/fitsviewer.cpp:1682
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Selection Rectangle"
 msgstr "Parinkite žvaigždę"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1523 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1564 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -31313,7 +31340,7 @@ msgid "Width"
 msgstr "Plotis"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1524 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1565 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -31321,13 +31348,13 @@ msgstr "Plotis"
 msgid "Height"
 msgstr "Aukštis"
 
-#: fitsviewer/fitsviewer.cpp:1722
+#: fitsviewer/fitsviewer.cpp:1763
 #, fuzzy, kde-format
 #| msgid "Markers"
 msgid "Unmark Stars"
 msgstr "Žymekliai"
 
-#: fitsviewer/fitsviewer.cpp:1738
+#: fitsviewer/fitsviewer.cpp:1779
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Processing %1..."
