@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-17 01:56+0000\n"
-"PO-Revision-Date: 2025-07-16 11:19+0200\n"
+"PO-Revision-Date: 2025-07-17 12:35+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -31137,15 +31137,14 @@ msgid "Watching %1"
 msgstr "%1 bekijken"
 
 #: fitsviewer/fitstab.cpp:1439
-#, fuzzy, kde-format
-#| msgid "Watching %1"
+#, kde-format
 msgid "(%1) Watching %2"
-msgstr "%1 bekijken"
+msgstr "%1 Bekijken van %2"
 
 #: fitsviewer/fitstab.cpp:1441
 #, kde-format
 msgid "(%1) %2"
-msgstr ""
+msgstr "(%1) %2"
 
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, kde-format
@@ -31379,15 +31378,14 @@ msgid "KStars FITS Viewer"
 msgstr "Hulpmiddel van KStars voor het bekijken van FITS-afbeeldingen"
 
 #: fitsviewer/fitsviewer.cpp:388
-#, fuzzy, kde-format
-#| msgid "Change Date..."
+#, kde-format
 msgid "Change Tab Title"
-msgstr "De datum veranderen..."
+msgstr "Titel van tabblad wijzigen"
 
 #: fitsviewer/fitsviewer.cpp:389
 #, kde-format
 msgid "New title for tab '%1':"
-msgstr ""
+msgstr "Nieuwe titel voor tabblad '%1':"
 
 #: fitsviewer/fitsviewer.cpp:474
 #, kde-format
@@ -31406,7 +31404,7 @@ msgstr[1] "HFR:%2, %1 sterren."
 #: fitsviewer/fitsviewer.cpp:531
 #, kde-format
 msgid "Right click to change tab title."
-msgstr ""
+msgstr "Klik rechts om titel van tabblad te wijzigen."
 
 #: fitsviewer/fitsviewer.cpp:746
 #, kde-format

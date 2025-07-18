@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-17 01:56+0000\n"
-"PO-Revision-Date: 2025-07-08 13:34+0300\n"
+"PO-Revision-Date: 2025-07-17 22:54+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -19011,10 +19011,9 @@ msgid "Star detection in progress, retrying in 1s..."
 msgstr "Yıldız algılaması sürüyor, 1 saniye içinde yeniden denenecek…"
 
 #: ekos/focus/focus.cpp:1509
-#, fuzzy, kde-format
-#| msgid "Star detection in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection still in progress, aborting..."
-msgstr "Yıldız algılaması sürüyor, 1 saniye içinde yeniden denenecek…"
+msgstr "Yıldız algılaması hâlâ sürüyor, durduruluyor…"
 
 #: ekos/focus/focus.cpp:1558
 #, kde-format
@@ -30770,12 +30769,12 @@ msgstr "K Yıldızlar etkin bir kaide bulamadı."
 #: fitsviewer/fitsmemmonitor.cpp:72 fitsviewer/fitsmemmonitor.cpp:202
 #, kde-format
 msgid "RAM: -- / --"
-msgstr ""
+msgstr "RAM: —/—"
 
 #: fitsviewer/fitsmemmonitor.cpp:80
 #, kde-format
 msgid "Double-click to toggle text display"
-msgstr ""
+msgstr "Metin görüntüsünü açıp kapatmak için çift tıklayın"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -30882,10 +30881,9 @@ msgid "Catalog Objects"
 msgstr "Katalog Nesneleri"
 
 #: fitsviewer/fitstab.cpp:154
-#, fuzzy, kde-format
-#| msgid "%1 is tracking."
+#, kde-format
 msgid "Live Stacking"
-msgstr "%1 izliyor…"
+msgstr "Canlı Yığma"
 
 #: fitsviewer/fitstab.cpp:167
 #, kde-format
@@ -31023,38 +31021,33 @@ msgid "Object major coordinate size in arcsmins"
 msgstr "Yaydakika olarak nesne majör koordinatı"
 
 #: fitsviewer/fitstab.cpp:896
-#, fuzzy, kde-format
-#| msgid "RA"
+#, kde-format
 msgid "RAM"
-msgstr "RA"
+msgstr "RAM"
 
 #: fitsviewer/fitstab.cpp:1015
-#, fuzzy, kde-format
-#| msgid "KStars Data Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
-msgstr "K Yıldızlar Veri Dizini"
+msgstr "Yığın Dizini"
 
 #: fitsviewer/fitstab.cpp:1040
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
-msgstr "Kutupsal Hizalama"
+msgstr "Hizalama İkâmesi Seç"
 
 #: fitsviewer/fitstab.cpp:1054
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Dark"
-msgstr "Ana karanlık:"
+msgstr "Ana Karanlık Seç"
 
 #: fitsviewer/fitstab.cpp:1068
-#, fuzzy, kde-format
-#| msgid "Select Baud rate"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Flat"
-msgstr "Baud Hızını Seç"
+msgstr "Ana Düz Seç"
 
 #: fitsviewer/fitstab.cpp:1170 fitsviewer/fitstab.cpp:1174
 #, kde-format
@@ -31078,21 +31071,19 @@ msgid "File saved to %1"
 msgstr "Dosya %1 konumuna kaydedildi"
 
 #: fitsviewer/fitstab.cpp:1303
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "Watching %1"
-msgstr "%1 yükleniyor…"
+msgstr "%1 izleniyor…"
 
 #: fitsviewer/fitstab.cpp:1439
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "(%1) Watching %2"
-msgstr "%1 yükleniyor…"
+msgstr "(%1) %2 izleniyor…"
 
 #: fitsviewer/fitstab.cpp:1441
 #, kde-format
 msgid "(%1) %2"
-msgstr ""
+msgstr "(%1) %2"
 
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, kde-format
@@ -31327,15 +31318,14 @@ msgid "KStars FITS Viewer"
 msgstr "K Yıldızlar FITS Görüntüleyicisi"
 
 #: fitsviewer/fitsviewer.cpp:388
-#, fuzzy, kde-format
-#| msgid "Change Date..."
+#, kde-format
 msgid "Change Tab Title"
-msgstr "Tarihi Değiştir…"
+msgstr "Sekme Başlığını Değiştir"
 
 #: fitsviewer/fitsviewer.cpp:389
 #, kde-format
 msgid "New title for tab '%1':"
-msgstr ""
+msgstr "“%1” sekmesi için yeni başlık:"
 
 #: fitsviewer/fitsviewer.cpp:474
 #, kde-format
@@ -31354,7 +31344,7 @@ msgstr[1] "HFR:%2, %1 yıldız."
 #: fitsviewer/fitsviewer.cpp:531
 #, kde-format
 msgid "Right click to change tab title."
-msgstr ""
+msgstr "Sekme başlığını değiştirmek için çift tıklayın."
 
 #: fitsviewer/fitsviewer.cpp:746
 #, kde-format
@@ -31409,22 +31399,19 @@ msgid "Open Image"
 msgstr "Görsel Aç"
 
 #: fitsviewer/fitsviewer.cpp:1150
-#, fuzzy, kde-format
-#| msgid "Extracting..."
+#, kde-format
 msgid "Stacking..."
-msgstr "Çıkarılıyor…"
+msgstr "Yığılıyor…"
 
 #: fitsviewer/fitsviewer.cpp:1158
-#, fuzzy, kde-format
-#| msgid "Syncing failed."
+#, kde-format
 msgid "Stacking Failed"
-msgstr "Eşzamanlama başarısız oldu."
+msgstr "Yığma Başarısız"
 
 #: fitsviewer/fitsviewer.cpp:1176
-#, fuzzy, kde-format
-#| msgid "Settling complete."
+#, kde-format
 msgid "Stacking Complete"
-msgstr "Yerleşim tamamlandı."
+msgstr "Yığma Tamamlandı"
 
 #: fitsviewer/fitsviewer.cpp:1450
 #, kde-format
@@ -31503,17 +31490,15 @@ msgstr "%1 işleniyor…"
 
 #. i18n: ectx: property (text), widget (QLabel, masterFlatLabel)
 #: fitsviewer/livestacking.ui:86
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Flat:"
-msgstr "Ana karanlık:"
+msgstr "Ana düz:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:191
-#, fuzzy, kde-format
-#| msgid "Tracking"
+#, kde-format
 msgid "Stacking"
-msgstr "İzleniyor"
+msgstr "Yığma"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #: fitsviewer/livestacking.ui:221
@@ -31528,10 +31513,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
 #: fitsviewer/livestacking.ui:240
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Low Sigma:"
-msgstr "Sigma:"
+msgstr "Düşük sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #: fitsviewer/livestacking.ui:262
@@ -31543,20 +31527,23 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>İşleme sırasında bellekte tutulacak en çok ikâme "
+"sayısı. Değer ne kadar büyük olursa yığma işleminin kalitesi daha yüksek "
+"olur; ancak bu, daha çok bellek ve işleme süresi alır.</p><p><br/></"
+"p><p>Sigma kırpması gibi işlemler, tüm ikâmeler üzerindeki istatistikleri "
+"hesaplamak için bu kadar çok sayıda ikâme kullanacaktır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:290
-#, fuzzy, kde-format
-#| msgid "Memory:"
+#, kde-format
 msgid "In Memory Subs:"
-msgstr "Bellek:"
+msgstr "Bellek ikâmelerinde:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:306
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "High Sigma:"
-msgstr "Sigma:"
+msgstr "Yüksek sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #: fitsviewer/livestacking.ui:328
@@ -31571,10 +31558,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:353
-#, fuzzy, kde-format
-#| msgid "Downsample"
+#, kde-format
 msgid "Downscale:"
-msgstr "Altörnekle"
+msgstr "Aşağı ölçekle:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:363
@@ -31585,12 +31571,17 @@ msgid ""
 "Subs and masters are downscaled 3x3.</p><p>- 4x4. Subs and masters are "
 "downscaled 4x4.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Görselleri aşağı ölçekle:</p><p>— Yok. Herhangi bir "
+"aşağı ölçekleme uygulanmaz.</p><p>— 2 × 2. İkâmeler ve ana ögeler 2 × 2 "
+"olarak aşağı ölçeklenir.</p><p>— 3 × 3. İkâmeler ve ana ögeler 3 × 3 olarak "
+"aşağı ölçeklenir.</p><p>— 4 × 4. İkâmeler ve ana ögeler 4 × 4 olarak aşağı "
+"ölçeklenir.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:380
 #, kde-format
 msgid "3x3"
-msgstr ""
+msgstr "3 × 3"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:405
@@ -31604,24 +31595,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:409
-#, fuzzy, kde-format
-#| msgid "Equalize"
+#, kde-format
 msgid "Equal"
-msgstr "Eşitle"
+msgstr "Eşit"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:433
-#, fuzzy, kde-format
-#| msgid "Image height:"
+#, kde-format
 msgid "Frame Weight:"
-msgstr "Görsel yüksekliği:"
+msgstr "Kare ağırlığı:"
 
 #. i18n: ectx: property (text), widget (QLabel, pixelRejLabel)
 #: fitsviewer/livestacking.ui:449
-#, fuzzy, kde-format
-#| msgid "Source Extraction Method"
+#, kde-format
 msgid "Rejection Method:"
-msgstr "Kaynak Çıkarma Yöntemi"
+msgstr "Reddetme yöntemi:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:471
@@ -31635,10 +31623,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:486
-#, fuzzy, kde-format
-#| msgid "Show Clipping"
+#, kde-format
 msgid "Sigma Clipping"
-msgstr "Kırpmayı Göster"
+msgstr "Sigma kırpması"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:491
@@ -31663,24 +31650,21 @@ msgstr "<html><head/><body><p>Tamamlanmaya kalan zaman</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:663
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Sub:"
-msgstr "Ana karanlık:"
+msgstr "Ana ikâme:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #: fitsviewer/livestacking.ui:682
-#, fuzzy, kde-format
-#| msgid "Processing"
+#, kde-format
 msgid "Post Processing"
-msgstr "İşleniyor"
+msgstr "Son İşleme"
 
 #. i18n: ectx: property (text), widget (QLabel, DenoiseLabel)
 #: fitsviewer/livestacking.ui:718
-#, fuzzy, kde-format
-#| msgid "Denoise"
+#, kde-format
 msgid "Denoise Amount:"
-msgstr "Gürültüyü kaldır"
+msgstr "Gürültü kaldırma miktarı:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:740
@@ -31714,25 +31698,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:822
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Vernal"
+#, kde-format
 msgid "Kernel:"
-msgstr "Vernal"
+msgstr "Çekirdek:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:844
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Sharpen Sigma:"
-msgstr "Sigma:"
+msgstr "Sigmayı keskinleştir:"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:866
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "PSF Sigma:"
-msgstr "Sigma:"
+msgstr "PSF sigması:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
 #: fitsviewer/livestacking.ui:888
@@ -31782,17 +31762,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1014
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Reprocess"
-msgstr "Süreç"
+msgstr "Yeniden İşle"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1082
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Stack Directory:"
-msgstr "Dizin:"
+msgstr "Yığın dizini:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1104
@@ -31827,10 +31805,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:1199
-#, fuzzy, kde-format
-#| msgid "Image Save"
+#, kde-format
 msgid "Image SNR:"
-msgstr "Görseli Kaydet"
+msgstr "Görsel SNR’si:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
 #: fitsviewer/livestacking.ui:1215
@@ -31859,11 +31836,9 @@ msgstr "<html><head/><body><p>Geçerli kareyi sil</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1272
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Settings"
+#, kde-format
 msgid "Save Settings"
-msgstr "Görsel Ayarları"
+msgstr "Ayarları Kaydet"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -71064,10 +71039,9 @@ msgid "Open Image(s)..."
 msgstr "Görseller Aç…"
 
 #: kstarsinit.cpp:164
-#, fuzzy, kde-format
-#| msgid "%1 is tracking."
+#, kde-format
 msgid "Live Stacking..."
-msgstr "%1 izliyor…"
+msgstr "Canlı Yığma…"
 
 #: kstarsinit.cpp:170
 #, kde-format

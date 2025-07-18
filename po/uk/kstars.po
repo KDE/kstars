@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-17 01:56+0000\n"
-"PO-Revision-Date: 2025-07-16 17:52+0300\n"
+"PO-Revision-Date: 2025-07-17 08:14+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -31441,15 +31441,14 @@ msgid "Watching %1"
 msgstr "Спостереження за %1"
 
 #: fitsviewer/fitstab.cpp:1439
-#, fuzzy, kde-format
-#| msgid "Watching %1"
+#, kde-format
 msgid "(%1) Watching %2"
-msgstr "Спостереження за %1"
+msgstr "(%1) Спостереження за %2"
 
 #: fitsviewer/fitstab.cpp:1441
 #, kde-format
 msgid "(%1) %2"
-msgstr ""
+msgstr "(%1) %2"
 
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, kde-format
@@ -31685,15 +31684,14 @@ msgid "KStars FITS Viewer"
 msgstr "Переглядач FITS для KStars."
 
 #: fitsviewer/fitsviewer.cpp:388
-#, fuzzy, kde-format
-#| msgid "Change Date..."
+#, kde-format
 msgid "Change Tab Title"
-msgstr "Змінити дату…"
+msgstr "Змінити заголовок вкладки"
 
 #: fitsviewer/fitsviewer.cpp:389
 #, kde-format
 msgid "New title for tab '%1':"
-msgstr ""
+msgstr "Новий заголовок для вкладки «%1»:"
 
 #: fitsviewer/fitsviewer.cpp:474
 #, kde-format
@@ -31716,7 +31714,7 @@ msgstr[3] "РПП:%2, %1 зірка."
 #: fitsviewer/fitsviewer.cpp:531
 #, kde-format
 msgid "Right click to change tab title."
-msgstr ""
+msgstr "Клацніть правою кнопкою миші, щоб змінити заголовок вкладки."
 
 #: fitsviewer/fitsviewer.cpp:746
 #, kde-format

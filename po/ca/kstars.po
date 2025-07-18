@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-17 01:56+0000\n"
-"PO-Revision-Date: 2025-07-16 09:37+0200\n"
+"PO-Revision-Date: 2025-07-17 10:21+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -31536,15 +31536,14 @@ msgid "Watching %1"
 msgstr "S'està controlant %1"
 
 #: fitsviewer/fitstab.cpp:1439
-#, fuzzy, kde-format
-#| msgid "Watching %1"
+#, kde-format
 msgid "(%1) Watching %2"
-msgstr "S'està controlant %1"
+msgstr "(%1) S'està controlant %2"
 
 #: fitsviewer/fitstab.cpp:1441
 #, kde-format
 msgid "(%1) %2"
-msgstr ""
+msgstr "(%1) %2"
 
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, kde-format
@@ -31780,15 +31779,14 @@ msgid "KStars FITS Viewer"
 msgstr "Visualitzador de FITS del KStars"
 
 #: fitsviewer/fitsviewer.cpp:388
-#, fuzzy, kde-format
-#| msgid "Change Date..."
+#, kde-format
 msgid "Change Tab Title"
-msgstr "Canvia la data..."
+msgstr "Canvia el títol de la pestanya"
 
 #: fitsviewer/fitsviewer.cpp:389
 #, kde-format
 msgid "New title for tab '%1':"
-msgstr ""
+msgstr "Títol nou de la pestanya «%1»:"
 
 #: fitsviewer/fitsviewer.cpp:474
 #, kde-format
@@ -31807,7 +31805,7 @@ msgstr[1] "HFR:%2, %1 estrelles."
 #: fitsviewer/fitsviewer.cpp:531
 #, kde-format
 msgid "Right click to change tab title."
-msgstr ""
+msgstr "Clic dret per a canviar el títol de la pestanya."
 
 #: fitsviewer/fitsviewer.cpp:746
 #, kde-format
