@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>170</width>
-    <height>107</height>
+    <width>325</width>
+    <height>194</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -36,8 +36,13 @@
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
          <widget class="QCheckBox" name="kcfg_SaveFocusImages">
+          <property name="font">
+           <font>
+            <strikeout>true</strikeout>
+           </font>
+          </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save autofocus frames. Only enable to troubleshoot autofocus by examining frames. This can consume a lot of storage space.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Option replaced by the &lt;span style=&quot; font-weight:600;&quot;&gt;max. focus frame&lt;/span&gt; option in the Focus options.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Save Focus Images</string>

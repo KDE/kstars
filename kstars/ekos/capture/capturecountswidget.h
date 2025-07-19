@@ -78,7 +78,7 @@ private:
      * @param job currently active job
      * @param devicename name of the used camera device
      */
-    void updateJobProgress(CaptureProcessOverlay::FrameData data, const QString &devicename);
+    void updateJobProgress(CaptureHistory::FrameData data, const QString &devicename);
 
     /**
      * @brief enable / disable display widgets
@@ -130,5 +130,5 @@ private:
     void refreshImageCounts(const QString &trainname);
 
     // cache frame data
-    QMap<QString, CaptureProcessOverlay::FrameData> m_currentFrame;
+    QMap<QString, CaptureHistory::FrameData> m_currentFrame;
 };

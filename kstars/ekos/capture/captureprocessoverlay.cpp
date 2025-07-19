@@ -30,7 +30,7 @@ void CaptureProcessOverlay::refresh()
     displayTargetStatistics();
 }
 
-bool CaptureProcessOverlay::addFrameData(FrameData data, const QString &devicename)
+bool CaptureProcessOverlay::addFrameData(CaptureHistory::FrameData data, const QString &devicename)
 {
     if (m_captureHistory[devicename].addFrame(data) == false)
         return false;
@@ -48,7 +48,7 @@ void CaptureProcessOverlay::updateFrameData()
         return;
     }
     frameDataWidget->setVisible(true);
-    const FrameData currentFrame = captureHistory().currentFrame();
+    const CaptureHistory::FrameData currentFrame = captureHistory().currentFrame();
     frameTypeLabel->setText(QString("%1 %2").arg(CCDFrameTypeNames[currentFrame.frameType]).arg(currentFrame.filterName));
     exposureValue->setText(QString("%1 sec").arg(currentFrame.exptime, 0, 'f',
                            currentFrame.exptime < 1 ? 2 : currentFrame.exptime < 5 ? 1 : 0));
@@ -94,7 +94,7 @@ void CaptureProcessOverlay::updateFrameData()
 void CaptureProcessOverlay::updateTargetDistance(double targetDiff)
 {
     // since the history is read only, we need to delete the last one and add it again.
-    FrameData lastFrame = captureHistory().getFrame(captureHistory().size() - 1);
+    CaptureHistory::FrameData lastFrame = captureHistory().getFrame(captureHistory().size() - 1);
     lastFrame.targetdrift = targetDiff;
     captureHistory().deleteFrame(captureHistory().size() - 1);
     captureHistory().addFrame(lastFrame);
@@ -185,123 +185,3 @@ void CaptureProcessOverlay::setCurrentTrainName(const QString &trainname)
     refresh();
 }
 
-bool CaptureProcessOverlay::CaptureHistory::addFrame(CaptureProcessOverlay::FrameData data)
-{
-    // check if the file already exists in the history
-    for (QList<FrameData>::iterator it = m_history.begin(); it != m_history.end(); it++)
-        if (it->filename == data.filename)
-            // already exists, ignore
-            return false;
-    // history is clean, simply append
-    m_history.append(data);
-    m_position = m_history.size() - 1;
-    countNewFrame(data.target, data.frameType, data.filterName, data.exptime);
-    return true;
-}
-
-bool CaptureProcessOverlay::CaptureHistory::deleteFrame(int pos)
-{
-    if (m_history.size() != 0 && pos < m_history.size())
-    {
-        m_history.removeAt(pos);
-        // adapt the current position if the deleted frame was deleted before it or itself
-        if (m_position >= pos)
-            m_position -= 1;
-        // ensure staying in range
-        if (m_position < 0 && m_history.size() > 0)
-            m_position = 0;
-        else if (m_position >= m_history.size())
-            m_position = m_history.size() - 1;
-        // update statistics, since one file is missing
-        updateTargetStatistics();
-        return true;
-    }
-    else
-        return false;
-}
-
-void CaptureProcessOverlay::CaptureHistory::reset()
-{
-    m_position = -1;
-    m_history.clear();
-}
-
-bool CaptureProcessOverlay::CaptureHistory::forward()
-{
-    if (m_position < m_history.size() - 1)
-    {
-        m_position++;
-        return true;
-    }
-    else
-        return false;
-}
-
-bool CaptureProcessOverlay::CaptureHistory::backward()
-{
-    if (m_position > 0)
-    {
-        m_position--;
-        return true;
-    }
-    else
-        return false;
-}
-
-void CaptureProcessOverlay::CaptureHistory::updateTargetStatistics()
-{
-    statistics.clear();
-    QList<FrameData> new_history;
-    // iterate over all entries in the history to update the statistics
-    for (QList<FrameData>::iterator list_it = m_history.begin(); list_it != m_history.end(); list_it++)
-    {
-        // if the corresponding file exists, add it to the statistics
-        if (QFile(list_it->filename).exists())
-        {
-            countNewFrame(list_it->target, list_it->frameType, list_it->filterName, list_it->exptime);
-            new_history.append(*list_it);
-        }
-    }
-    // switch history lists
-    m_history.clear();
-    m_history = new_history;
-
-    // check if the position is correct, if not move to the last element
-    if (m_position >= m_history.size())
-        m_position = m_history.size() - 1;
-}
-
-void CaptureProcessOverlay::CaptureHistory::countNewFrame(QString target, CCDFrameType frameType, QString filter,
-        double exptime)
-{
-    // create search key
-    QPair<CCDFrameType, QString> key(frameType, filter);
-    // due to the equality problem with double, we use a milliseconds for exposure time
-    int exptime_r = int(exptime * 1000);
-    // create new target map if missing
-    if (statistics.contains(target) == false)
-        statistics.insert(target, CaptureProcessOverlay::FrameStatistics());
-    // create new filter list if missing
-    if (statistics[target].contains(key) == false)
-        statistics[target].insert(key, QList<QPair<int, int>*>());
-
-    QPair<int, int>* count = nullptr;
-    QList<QPair<int, int>*> *counts = &statistics[target][key];
-    for (QList<QPair<int, int>*>::iterator it = counts->begin(); it != counts->end(); it++)
-    {
-        // search for matching exposure time
-        if ((*it)->first == exptime_r)
-        {
-            count = *it;
-            break;
-        }
-    }
-    // nothing found, initialize
-    if (count == nullptr)
-    {
-        count = new QPair<int, int>(exptime_r, 0);
-        counts->append(count);
-    }
-    // increase the counter
-    count->second = count->second + 1;
-}

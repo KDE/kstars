@@ -271,6 +271,26 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="4">
+       <widget class="QSpinBox" name="maxFocusFrameFiles">
+        <property name="toolTip">
+         <string>Upper limit how many focus frames should be kept on disk. Set to -1 to allow arbitrary many files.</string>
+        </property>
+        <property name="minimum">
+         <number>-1</number>
+        </property>
+        <property name="maximum">
+         <number>9999</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2" colspan="2" alignment="Qt::AlignRight">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Max. Stored Frames:</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -402,7 +422,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
+      <item row="2" column="2" alignment="Qt::AlignRight">
        <widget class="QLabel" name="focusSpacerLabel">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">

@@ -298,7 +298,7 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool is
     }
 }
 
-void CaptureCountsWidget::updateJobProgress(CaptureProcessOverlay::FrameData data, const QString &trainname)
+void CaptureCountsWidget::updateJobProgress(CaptureHistory::FrameData data, const QString &trainname)
 {
     m_currentFrame[trainname] = data;
 

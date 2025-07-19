@@ -114,7 +114,7 @@ private:
     Ekos::Mount *m_mountModule = nullptr;
 
     // cache frame data
-    QMap<QString, CaptureProcessOverlay::FrameData> m_currentFrame;
+    QMap<QString, CaptureHistory::FrameData> m_currentFrame;
 
     // known train names
     QList<QString> m_trainNames;

@@ -138,6 +138,7 @@ if (INDI_FOUND)
             ekos/capture/capturepreviewwidget.ui
             ekos/capture/capturecountswidget.ui
             ekos/capture/captureprocessoverlay.ui
+            ekos/capture/capturehistorynavigation.ui
             ekos/capture/dslrinfo.ui
             ekos/capture/rotatorsettings.ui
             ekos/capture/customproperties.ui
@@ -242,6 +243,7 @@ if (INDI_FOUND)
 
             # Capture
             ekos/capture/capture.cpp
+            ekos/capture/capturehistory.cpp
             ekos/capture/capturemodulestate.cpp
             ekos/capture/cameraprocess.cpp
             ekos/capture/camerastate.cpp
@@ -252,6 +254,7 @@ if (INDI_FOUND)
             ekos/capture/camera_device.cpp
             ekos/capture/camera_jobs.cpp
             ekos/capture/capturepreviewwidget.cpp
+            ekos/capture/capturehistorynavigation.cpp
             ekos/capture/capturecountswidget.cpp
             ekos/capture/captureprocessoverlay.cpp
             ekos/capture/refocusstate.cpp
@@ -303,6 +306,7 @@ if (INDI_FOUND)
             # Focus
             ekos/focus/focus.cpp
             ekos/focus/focusmodule.cpp
+            ekos/focus/focusfitsview.cpp
             ekos/focus/focushfrvplot.cpp
             ekos/focus/focusprofileplot.cpp
             ekos/focus/focusalgorithms.cpp

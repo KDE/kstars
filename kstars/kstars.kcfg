@@ -206,9 +206,10 @@
          <whatsthis>Show the INDI window when starting EKOS.</whatsthis>
          <default>true</default>
       </entry>
-      <entry name="SaveFocusImages" type="Bool">
-         <label>Save autofocus images on disk?</label>
-         <default>false</default>
+      <entry name="maxFocusFrameFiles" type="Int">
+         <label>Limit for saved focus frames</label>
+         <whatsthis>Upper limit how many focus frames should be kept on disk.</whatsthis>
+         <default>0</default>
       </entry>
       <entry name="messageNotificationINDI" type="Bool">
          <label>INDI message notifications</label>

@@ -177,7 +177,7 @@ void CapturePreviewWidget::deleteCurrentFrame()
 
     // make sure that the history does not change inbetween
     int pos = m_overlay->currentPosition();
-    CaptureProcessOverlay::FrameData current = m_overlay->getFrame(pos);
+    CaptureHistory::FrameData current = m_overlay->getFrame(pos);
     QFile *file = new QFile(current.filename);
 
     // prepare a warning dialog

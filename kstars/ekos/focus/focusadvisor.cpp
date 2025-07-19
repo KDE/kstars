@@ -156,8 +156,9 @@ bool FocusAdvisor::start()
     if (!m_focus)
         return false;
 
-    if (m_focus->inFocusLoop || m_focus->inAdjustFocus || m_focus->inAutoFocus || m_focus->inBuildOffsets || m_focus->inAFOptimise ||
-        m_focus->inScanStartPos || inFocusAdvisor())
+    if (m_focus->inFocusLoop || m_focus->inAdjustFocus || m_focus->inAutoFocus || m_focus->inBuildOffsets
+            || m_focus->inAFOptimise ||
+            m_focus->inScanStartPos || inFocusAdvisor())
     {
         m_focus->appendLogText(i18n("Focus Advisor: another focus action in progress. Please try again."));
         return false;
@@ -536,7 +537,7 @@ QString FocusAdvisor::getFocusFramePrefix()
     else if (inFocusAdvisor() && m_inPreAFAdj)
         prefix = "_ca_" + QString("%1_%2").arg(m_preAFRunNum).arg(m_focus->absIterations + 1);
     else if (inFocusAdvisor() && m_focus->inScanStartPos)
-        prefix = "_ssp_" + QString("%1_%2").arg(m_focus->m_AFRun).arg(m_focus->absIterations + 1);
+        prefix = "_ssp_" + QString("%1_%2").arg(m_focus->lastAFRun()).arg(m_focus->absIterations + 1);
     return prefix;
 }
 
@@ -698,8 +699,8 @@ void FocusAdvisor::initFindStars(const int startPos)
 void FocusAdvisor::findStars()
 {
     // Plot the datapoint
-    emit m_focus->newHFRPlotPosition(static_cast<double>(m_focus->currentPosition), m_focus->currentMeasure,
-                                     std::pow(m_focus->currentWeight, -0.5), false, m_jumpSize, true);
+    emit m_focus->newHFRPlotPosition(static_cast<double>(m_focus->currentPosition), m_focus->getLastMeasure(),
+                                     std::pow(m_focus->getLastWeight(), -0.5), false, m_jumpSize, true);
 
     int offset = 0;
     bool starsExist = starsFound();
@@ -773,7 +774,7 @@ void FocusAdvisor::findStars()
 
     // Log the results
     m_position.push_back(m_focus->currentPosition);
-    m_measure.push_back(m_focus->currentMeasure);
+    m_measure.push_back(m_focus->getLastMeasure());
 
     // Now check if we have any stars
     if (starsExist)
@@ -947,7 +948,7 @@ void FocusAdvisor::findStars()
 
 bool FocusAdvisor::starsFound()
 {
-    return (m_focus->currentMeasure != INVALID_STAR_MEASURE && m_focus->currentNumStars > FIND_STARS_MIN_STARS);
+    return (m_focus->getLastMeasure() != INVALID_STAR_MEASURE && m_focus->getLastNumStars() > FIND_STARS_MIN_STARS);
 
 }
 
@@ -1037,7 +1038,7 @@ void FocusAdvisor::preAFAdj()
     {
         // If we have stars, persist the results for later analysis
         m_position.push_back(m_focus->currentPosition);
-        m_measure.push_back(m_focus->currentMeasure);
+        m_measure.push_back(m_focus->getLastMeasure());
 
         if (m_preAFNoStarsOut && (m_position.size() == 0))
         {
@@ -1062,8 +1063,8 @@ void FocusAdvisor::preAFAdj()
         }
     }
 
-    emit m_focus->newHFRPlotPosition(static_cast<double>(m_focus->currentPosition), m_focus->currentMeasure,
-                                     std::pow(m_focus->currentWeight, -0.5), false, step, true);
+    emit m_focus->newHFRPlotPosition(static_cast<double>(m_focus->currentPosition), m_focus->getLastMeasure(),
+                                     std::pow(m_focus->getLastWeight(), -0.5), false, step, true);
 
     // See if we need to extend the sweep
     if (m_focus->currentPosition - step < m_preAFInner && starsExist)

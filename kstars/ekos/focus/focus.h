@@ -8,9 +8,12 @@
 
 #include "ui_focus.h"
 #include "focusfourierpower.h"
+#include "focusfitsview.h"
 #include "ekos/ekos.h"
 #include "parameters.h"
 #include "ekos/auxiliary/filtermanager.h"
+#include "ekos/capture/capturehistory.h"
+#include "ekos/capture/capturehistorynavigation.h"
 
 #include "indi/indicamera.h"
 #include "indi/indifocuser.h"
@@ -129,7 +132,7 @@ class Focus : public QWidget, public Ui::Focus
              */
         Q_SCRIPTABLE double getHFR()
         {
-            return currentHFR;
+            return m_FocusView->lastFrame().hfr;
         }
 
         /** DBUS interface function.
@@ -249,6 +252,14 @@ class Focus : public QWidget, public Ui::Focus
             return m_opsDialogName;
         }
 
+        /**
+         * @brief Capture history of the current focuser
+         */
+        CaptureHistory &captureHistory(int run)
+        {
+            return m_FocusView->captureHistory(run);
+        }
+
 public slots:
 
         /** \addtogroup FocusDBusInterface
@@ -364,6 +375,13 @@ public slots:
         void clearDataPoints();
 
         /**
+         * @brief clearCurrentRun Remove the entire frame sequence from the capture history
+         * @param deleteFiles delete captured focus frames
+         * @param useTrash use trash when deleting
+         */
+        void clearCurrentRun(bool deleteFiles, bool useTrash);
+
+        /**
              * @brief focusStarSelected The user selected a focus star, save its coordinates and subframe it if subframing is enabled.
              * @param x X coordinate
              * @param y Y coordinate
@@ -451,8 +469,18 @@ public slots:
          */
         void adaptiveFocus();
 
+        // ******************* history navigation ********************* //
+        void showFirstFrame();
+        void showLastFrame();
+        void showPreviousFrame();
+        void showNextFrame();
+        void showPreviousAFRun();
+        void showNextAFRun();
+
+
     protected:
         void addPlotPosition(int pos, double hfr, bool plot = true);
+        void showEvent(QShowEvent *event) override;
 
     private slots:
         /**
@@ -481,9 +509,13 @@ public slots:
         void setVideoStreamEnabled(bool enabled);
 
         void starDetectionFinished();
-        void setCurrentMeasure();
+        void updateMeasurements();
         void startAbIns();
         void manualStart();
+
+        void clearDataRequested();
+
+        void resetHFRPlot();
 
     signals:
         void newLog(const QString &text);
@@ -743,6 +775,12 @@ public slots:
         void updateButtonColors(QPushButton *button, bool shift, bool ctrl);
 
         /**
+         * @brief updateNavigationButtons Update the measured values display and enable
+         *        navigation buttons if the position in the history is appropriate
+         */
+        void refreshMeasuresDisplay();
+
+        /**
          * @brief returns whether the Aberration Inspector can be used or not
          * @return can / cant be started
          */
@@ -841,10 +879,9 @@ public slots:
         void analyzeSources();
 
         /** @internal Add a new star measure (HFR, FWHM, etc) for the current focuser position.
-         * @param newMeasure is the new measure (e.g. HFR, FWHM, etc) to consider for the current focuser position.
          * @return true if a new sample is required, else false.
          */
-        bool appendMeasure(double newMeasure);
+        bool appendMeasure();
 
         /**
          * @brief completeAutofocusProcedure finishes off autofocus and emits a message for other modules.
@@ -923,8 +960,28 @@ public slots:
 
         /**
          * @brief Save the focus frame for later dubugging
+         * @return file name of the frame
          */
-        void saveFocusFrame();
+        QString saveFocusFrame();
+
+        /**
+         * @brief showHistoryNavigation Show the navigation overlay
+         */
+        void refreshHistoryNavigation(bool enable, bool force = false);
+
+        /**
+         * @brief focusFramePath Path where the saved focus frames are located
+         * @return
+         */
+        QString focusFramePath();
+
+        /**
+         * @brief enforceMaxFilesRecursive Enforce keeping a maximal amount of files
+         * @param path directory that is used for the recursive search
+         * @param maxCount maximal number of files
+         * @return number of files removed
+         */
+        int enforceMaxFilesRecursive(const QString &path, int maxCount);
 
         /**
          * @brief Initialise donut processing
@@ -966,6 +1023,51 @@ public slots:
          * @return true means do not run AF (previous run only just completed)
          */
         bool checkAFOptimisation(const AutofocusReason autofocusReason);
+
+        /**
+         * @brief Retrieve the currently selected frame
+         */
+        const CaptureHistory::FrameData currentFrame() {return m_FocusView->currentFrame();}
+
+        /**
+         * @brief Retrieve the last captured frame
+         */
+        const CaptureHistory::FrameData lastFrame() {return m_FocusView->lastFrame();}
+
+        /**
+         * @brief lastAFRun ID of the last autofocus run
+         */
+        int lastAFRun(){return m_FocusView->lastAFRun();};
+
+        /******************************************
+         * Accessors to the last focusing measurements
+         ******************************************/
+
+         /**
+         * @brief getLastNumStars Determine the last measured number of stars
+         */
+        double getLastNumStars() {return m_FocusView->lastFrame().numStars;}
+        /**
+         * @brief getLastMeasure Determine the last measured value
+         */
+        double getLastMeasure() {return  m_FocusView->lastFrame().measure;}
+        /**
+         * @brief getLastWeight Determine the last weight value
+         */
+        double getLastWeight() {return  m_FocusView->lastFrame().weight;}
+
+        /**
+         * @brief calculateCurrentHFR calculate the HFR from the current frame, taking into
+         *        account which setting are used for focusing
+         */
+        double calculateCurrentHFR();
+
+        /**
+         * @brief calculateCurrentMeasureAndWeight Calculate the current measure and its weight, depending on
+         *        the selected measurement function.
+         * @return the measured data setof the current frame
+         */
+        CaptureHistory::FrameData calculateCurrentMeasureAndWeight();
 
         /// Focuser device needed for focus operation
         ISD::Focuser *m_Focuser { nullptr };
@@ -1014,17 +1116,9 @@ public slots:
         Mathematics::RobustStatistics::ScaleCalculation m_ScaleCalc { Mathematics::RobustStatistics::SCALE_SESTIMATOR };
 
         /******************************************
-         * "Measure" variables, HFR, FWHM, numStars
+         * Current "Measure" variables (HFR, FWHM and number of stars are part of the capture history)
          ******************************************/
 
-        /// Current HFR value just fetched from FITS file
-        double currentHFR { INVALID_STAR_MEASURE };
-        double currentFWHM { INVALID_STAR_MEASURE };
-        double currentNumStars { INVALID_STAR_MEASURE };
-        double currentFourierPower { INVALID_STAR_MEASURE };
-        double currentBlurriness { INVALID_STAR_MEASURE };
-        double currentMeasure { INVALID_STAR_MEASURE };
-        double currentWeight { 0 };
         /// Last HFR value recorded
         double lastHFR { 0 };
         /// If (currentHFR > deltaHFR) we start the autofocus process.
@@ -1088,6 +1182,7 @@ public slots:
         /// Keep track of what we're doing right now
         bool inAutoFocus { false };
         bool inFocusLoop { false };
+        bool inSingleCaptureMode { false };
         bool inScanStartPos { false };
         //bool inSequenceFocus { false };
         /// Keep track of request to retry or abort an AutoFocus run after focus position has been reset
@@ -1128,10 +1223,10 @@ public slots:
         AutofocusReason m_AutofocusReason = AutofocusReason::FOCUS_NONE;
         // Extra information about m_AutofocusReason
         QString m_AutofocusReasonInfo;
-        // Autofocus run number - to help with debugging logs
-        int m_AFRun = 0;
         // Rerun flag indicating a rerun due to AF failing
         bool m_AFRerun = false;
+        // move to trash or delete finally
+        bool m_permanentlyDelete {false};
 
         ITextVectorProperty *filterName { nullptr };
         INumberVectorProperty *filterSlot { nullptr };
@@ -1185,7 +1280,7 @@ public slots:
         QVector3D rememberStarCenter;
 
         /// Focus Frame
-        QSharedPointer<FITSView> m_FocusView;
+        QSharedPointer<FocusFITSView> m_FocusView;
 
         /// Star Select Timer
         QTimer waitStarSelectTimer;
