@@ -153,8 +153,9 @@ class Camera : public QWidget, public Ui::Camera
          * 1. If paused, then resume sequence.
          * 2. If idle or completed, then start sequence.
          * 3. Otherwise, abort current sequence.
+         * @param delay delay before capturing starts in ms
          */
-        void toggleSequence();
+        void toggleSequence(int delay = 0);
 
         /**
           * Toggle video streaming if supported by the device.

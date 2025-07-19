@@ -501,6 +501,11 @@ class CameraState: public QObject
             return m_guideDeviationTimer;
         }
 
+        QTimer &getGuideSettleTimer()
+        {
+            return m_guideSettleTimer;
+        }
+
         QTime &imageCountDown()
         {
             return m_imageCountDown;
@@ -1018,6 +1023,8 @@ signals:
         uint m_SpikesDetected { 0 };
         // Timer for guiding recovery
         QTimer m_guideDeviationTimer;
+        // Timer for settling after guiding start
+        QTimer m_guideSettleTimer;
         // Capture timeout timer
         QTimer m_captureTimeout;
         uint8_t m_CaptureTimeoutCounter { 0 };

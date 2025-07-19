@@ -339,6 +339,7 @@ void CameraProcess::stopCapturing(CaptureState targetState)
 
     state()->getCaptureTimeout().stop();
     state()->getCaptureDelayTimer().stop();
+    state()->getGuideSettleTimer().stop();
     if (activeJob() != nullptr)
     {
         if (activeJob()->getStatus() == JOB_BUSY)

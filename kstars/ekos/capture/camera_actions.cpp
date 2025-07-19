@@ -66,13 +66,16 @@ void Camera::pause()
     updateStartButtons(false, true);
 }
 
-void Camera::toggleSequence()
+void Camera::toggleSequence(int delay)
 {
     const CaptureState capturestate = state()->getCaptureState();
     if (capturestate == CAPTURE_PAUSE_PLANNED || capturestate == CAPTURE_PAUSED)
         updateStartButtons(true, false);
 
-    process()->toggleSequence();
+    state()->getGuideDeviationTimer().singleShot(delay, this, [this]()
+    {
+        process()->toggleSequence();
+    });
 }
 
 void Camera::capturePreview()
