@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-17 01:56+0000\n"
-"PO-Revision-Date: 2025-07-10 17:21+0200\n"
+"PO-Revision-Date: 2025-07-18 19:10+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -19501,10 +19501,9 @@ msgid "Star detection in progress, retrying in 1s..."
 msgstr "La detecció d'estreles està en curs, es tornarà a intentar en 1 segon…"
 
 #: ekos/focus/focus.cpp:1509
-#, fuzzy, kde-format
-#| msgid "Star detection in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection still in progress, aborting..."
-msgstr "La detecció d'estreles està en curs, es tornarà a intentar en 1 segon…"
+msgstr "La detecció d'estreles està en curs, s'està interrompent…"
 
 #: ekos/focus/focus.cpp:1558
 #, kde-format
@@ -20936,7 +20935,7 @@ msgstr ""
 "moviments de l'enfocador cap enfora durant una execució d'enfocament "
 "automàtic. Açò és a més de qualsevol reacció proporcionada pel controlador "
 "del dispositiu i establida en el camp «Compensació de rebot del "
-"controlador:». Establiu-lo a 0 per a desactivar.</p><p>Si s'establix, l'«EA "
+"controlador:». Establiu-la a 0 per a desactivar.</p><p>Si s'establix, l'«EA "
 "excessiu:» s'aplicarà a tots els moviments d'enfocament iniciats pel mòdul "
 "«Enfocament».</p><p>Normalment s'establix el «Rebot» o l'«EA excessiu:» de "
 "l'enfocador.</p></body></html>"
@@ -21052,7 +21051,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Per a enfocadors amb compensació del rebot, la "
 "quantitat de rebot que s'aplicarà en invertir la direcció del moviment. "
-"Establiu-lo a 0 per a desactivar-ho.</p><p>Normalment s'establix el «Rebot» "
+"Establiu-la a 0 per a desactivar-ho.</p><p>Normalment s'establix el «Rebot» "
 "o l'«EA excessiu:» de l'enfocador.</p><p>Este camp establix el rebot de "
 "l'enfocador d'INDI i es pot establir ací o en el Quadro de control INDI.</"
 "p></body></html>"
@@ -31577,12 +31576,12 @@ msgstr "KStars no ha pogut trobar cap muntura activa."
 #: fitsviewer/fitsmemmonitor.cpp:72 fitsviewer/fitsmemmonitor.cpp:202
 #, kde-format
 msgid "RAM: -- / --"
-msgstr ""
+msgstr "RAM: -- / --"
 
 #: fitsviewer/fitsmemmonitor.cpp:80
 #, kde-format
 msgid "Double-click to toggle text display"
-msgstr ""
+msgstr "Doble clic per a canviar la visualització del text"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -31690,10 +31689,9 @@ msgid "Catalog Objects"
 msgstr "Objectes del catàleg"
 
 #: fitsviewer/fitstab.cpp:154
-#, fuzzy, kde-format
-#| msgid "%1 is tracking."
+#, kde-format
 msgid "Live Stacking"
-msgstr "%1 està fent el seguiment."
+msgstr "Apilament en directe"
 
 #: fitsviewer/fitstab.cpp:167
 #, kde-format
@@ -31832,38 +31830,33 @@ msgid "Object major coordinate size in arcsmins"
 msgstr "Mida de la coordenada major de l'objecte en minuts d'arc"
 
 #: fitsviewer/fitstab.cpp:896
-#, fuzzy, kde-format
-#| msgid "RA"
+#, kde-format
 msgid "RAM"
-msgstr "AR"
+msgstr "RAM"
 
 #: fitsviewer/fitstab.cpp:1015
-#, fuzzy, kde-format
-#| msgid "KStars Data Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
-msgstr "Directori de dades de KStars"
+msgstr "Directori d'apilament"
 
 #: fitsviewer/fitstab.cpp:1040
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
-msgstr "Alineació polar"
+msgstr "Seleccioneu la subsolució de l'alineació"
 
 #: fitsviewer/fitstab.cpp:1054
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Dark"
-msgstr "Fotograma fosc mestre:"
+msgstr "Seleccioneu el fotograma fosc mestre"
 
 #: fitsviewer/fitstab.cpp:1068
-#, fuzzy, kde-format
-#| msgid "Select Baud rate"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Flat"
-msgstr "Seleccioneu la velocitat en bauds"
+msgstr "Seleccioneu el fotograma pla mestre"
 
 #: fitsviewer/fitstab.cpp:1170 fitsviewer/fitstab.cpp:1174
 #, kde-format
@@ -31887,21 +31880,19 @@ msgid "File saved to %1"
 msgstr "El fitxer s'ha guardat a %1"
 
 #: fitsviewer/fitstab.cpp:1303
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "Watching %1"
-msgstr "S'està carregant %1"
+msgstr "S'està controlant %1"
 
 #: fitsviewer/fitstab.cpp:1439
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "(%1) Watching %2"
-msgstr "S'està carregant %1"
+msgstr "(%1) S'està controlant %2"
 
 #: fitsviewer/fitstab.cpp:1441
 #, kde-format
 msgid "(%1) %2"
-msgstr ""
+msgstr "(%1) %2"
 
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, kde-format
@@ -32137,15 +32128,14 @@ msgid "KStars FITS Viewer"
 msgstr "Visor de FITS de KStars"
 
 #: fitsviewer/fitsviewer.cpp:388
-#, fuzzy, kde-format
-#| msgid "Change Date..."
+#, kde-format
 msgid "Change Tab Title"
-msgstr "Canvia la data…"
+msgstr "Canvia el títol de la pestanya"
 
 #: fitsviewer/fitsviewer.cpp:389
 #, kde-format
 msgid "New title for tab '%1':"
-msgstr ""
+msgstr "Títol nou de la pestanya «%1»:"
 
 #: fitsviewer/fitsviewer.cpp:474
 #, kde-format
@@ -32164,7 +32154,7 @@ msgstr[1] "HFR:%2, %1 estreles."
 #: fitsviewer/fitsviewer.cpp:531
 #, kde-format
 msgid "Right click to change tab title."
-msgstr ""
+msgstr "Clic dret per a canviar el títol de la pestanya."
 
 #: fitsviewer/fitsviewer.cpp:746
 #, kde-format
@@ -32219,22 +32209,19 @@ msgid "Open Image"
 msgstr "Obriu una imatge"
 
 #: fitsviewer/fitsviewer.cpp:1150
-#, fuzzy, kde-format
-#| msgid "Extracting..."
+#, kde-format
 msgid "Stacking..."
-msgstr "S'està extraent…"
+msgstr "S'està apilant…"
 
 #: fitsviewer/fitsviewer.cpp:1158
-#, fuzzy, kde-format
-#| msgid "Syncing failed."
+#, kde-format
 msgid "Stacking Failed"
-msgstr "No s'ha pogut sincronitzar."
+msgstr "No s'ha pogut fer l'apilament"
 
 #: fitsviewer/fitsviewer.cpp:1176
-#, fuzzy, kde-format
-#| msgid "Settling complete."
+#, kde-format
 msgid "Stacking Complete"
-msgstr "S'ha completat el posicionament."
+msgstr "S'ha completat l'apilament."
 
 #: fitsviewer/fitsviewer.cpp:1450
 #, kde-format
@@ -32313,34 +32300,31 @@ msgstr "S'està processant %1…"
 
 #. i18n: ectx: property (text), widget (QLabel, masterFlatLabel)
 #: fitsviewer/livestacking.ui:86
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Flat:"
-msgstr "Fotograma fosc mestre:"
+msgstr "Fotograma pla mestre:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:191
-#, fuzzy, kde-format
-#| msgid "Tracking"
+#, kde-format
 msgid "Stacking"
-msgstr "Seguiment"
+msgstr "Apilament"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #: fitsviewer/livestacking.ui:221
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of High Sigma to be used in pixel rejection.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Mida del submarc en píxels.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Valor de la sigma alta que s'utilitzarà en el rebuig "
+"dels píxels.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
 #: fitsviewer/livestacking.ui:240
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Low Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma baixa:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #: fitsviewer/livestacking.ui:262
@@ -32352,37 +32336,40 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>El nombre màxim de subsolucions que es mantenen a la "
+"memòria mentre es processa. Com més gran siga el valor, millor serà la "
+"qualitat del procés d'apilament, però a costa de més temps de processament i "
+"memòria utilitzada.</p><p><br/></p><p>Processos com el retallat de la sigma "
+"utilitzarà este nombre de subsolucions per a calcular les estadístiques que "
+"s'utilitzaran en totes les subsolucions.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:290
-#, fuzzy, kde-format
-#| msgid "Memory:"
+#, kde-format
 msgid "In Memory Subs:"
-msgstr "Memòria:"
+msgstr "Subsolucions a la memòria:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:306
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "High Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma alta:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #: fitsviewer/livestacking.ui:328
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of Low Sigma to be used in pixel rejection.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Mida del submarc en píxels.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Valor de la sigma baixa que s'utilitzarà en el rebuig "
+"dels píxels.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:353
-#, fuzzy, kde-format
-#| msgid "Downsample"
+#, kde-format
 msgid "Downscale:"
-msgstr "Submostratge"
+msgstr "Reducció de l'escala:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:363
@@ -32393,12 +32380,17 @@ msgid ""
 "Subs and masters are downscaled 3x3.</p><p>- 4x4. Subs and masters are "
 "downscaled 4x4.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Reducció de l'escala de les imatges:</p><p>- Cap. No "
+"s'aplicarà cap reducció.</p><p>- 2x2. Les subsolucions i els mestres es "
+"reduiran d'escala a 2x2.</p><p>- 3x3. Les subsolucions i els mestres es "
+"reduiran d'escala a 3x3.</p><p>- 4x4. Les subsolucions i els mestres es "
+"reduiran d'escala a 4x4.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:380
 #, kde-format
 msgid "3x3"
-msgstr ""
+msgstr "3x3"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:405
@@ -32409,27 +32401,28 @@ msgid ""
 "Num Stars. Frames are weighted by the number of stars detected in the frame."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Ponderació dels fotogrames:</p><p>- Igual. Tots els "
+"fotogrames tindran el mateix pes.</p><p>- HFR. Els fotogrames es ponderaran "
+"amb 1 / HFR mitjana.</p><p>- Nombre d'estreles. Els fotogrames es ponderaran "
+"pel nombre d'estreles detectades al fotograma.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:409
-#, fuzzy, kde-format
-#| msgid "Equalize"
+#, kde-format
 msgid "Equal"
-msgstr "Equalitza"
+msgstr "Igual"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:433
-#, fuzzy, kde-format
-#| msgid "Image height:"
+#, kde-format
 msgid "Frame Weight:"
-msgstr "Alçària de la imatge:"
+msgstr "Alçària del fotograma:"
 
 #. i18n: ectx: property (text), widget (QLabel, pixelRejLabel)
 #: fitsviewer/livestacking.ui:449
-#, fuzzy, kde-format
-#| msgid "Source Extraction Method"
+#, kde-format
 msgid "Rejection Method:"
-msgstr "Mètode d'extracció de fonts"
+msgstr "Mètode de rebuig:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:471
@@ -32440,64 +32433,63 @@ msgid ""
 "Winsorized Sigma Clipping. Winsorized version of sigma clipping</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Algorisme de rebuig de píxels:</p><p>- Cap. No "
+"s'aplicarà cap rebuig.</p><p>- Retallat de la sigma. Es rebutjaran els "
+"píxels atípics.</p><p>- Retallat winsoritzat de la sigma. Versió "
+"winsoritzada del retallat de la sigma.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:486
-#, fuzzy, kde-format
-#| msgid "Show Clipping"
+#, kde-format
 msgid "Sigma Clipping"
-msgstr "Mostra el retallat"
+msgstr "Retallat de la sigma"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:491
 #, kde-format
 msgid "Winsorized SC"
-msgstr ""
+msgstr "SC winsoritzat"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:511
 #, kde-format
 msgid "Winsor Cutoff:"
-msgstr ""
+msgstr "Retall winsor:"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #: fitsviewer/livestacking.ui:533
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Winsorization cutoff in units of sigma to be used in "
 "pixel rejection.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Temps romanent per a la compleció.</p></body></html>"
+"<html><head/><body><p>Retall de la winsorització en unitats de sigma que "
+"s'utilitzaran en el rebuig dels píxels.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:663
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Sub:"
-msgstr "Fotograma fosc mestre:"
+msgstr "Subsolució mestre:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #: fitsviewer/livestacking.ui:682
-#, fuzzy, kde-format
-#| msgid "Processing"
+#, kde-format
 msgid "Post Processing"
-msgstr "Processament"
+msgstr "Postprocessament"
 
 #. i18n: ectx: property (text), widget (QLabel, DenoiseLabel)
 #: fitsviewer/livestacking.ui:718
-#, fuzzy, kde-format
-#| msgid "Denoise"
+#, kde-format
 msgid "Denoise Amount:"
-msgstr "Reducció del soroll"
+msgstr "Quantitat de reducció del soroll:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:740
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
-msgstr "<html><head/><body><p>Mida del pas:</p></body></html>"
+msgstr "<html><head/><body><p>Mida del nucli d'agudització.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
 #: fitsviewer/livestacking.ui:768
@@ -32508,174 +32500,166 @@ msgid ""
 "amount) of the original image.</p><p>Set to 0 to switch deconvolution off.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Quantitat de desconvolució de Wiener que s'aplicarà a "
+"l'interval de 0 fins a 1. La característica combina esta quantitat de la "
+"imatge desconvolutada amb (1 - quantitat) de la imatge original.</"
+"p><p>Establiu-la a 0 per a desactivar-la.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DenoiseAmt)
 #: fitsviewer/livestacking.ui:793
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of denoise to apply. Larger values apply more "
 "denoising.</p><p>Set to 0 to skip denoising</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nombre de fotogrames que es capturaran en cada posició "
-"de l'enfocador.</p></body></html>"
+"<html><head/><body><p>Quantitat de reducció del soroll que s'aplicarà. Els "
+"valors més grans aplicaran més reducció del soroll.</p><p>Establiu-la a 0 "
+"per a ometre-la.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:822
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Vernal"
+#, kde-format
 msgid "Kernel:"
-msgstr "Vernal"
+msgstr "Nucli:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:844
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Sharpen Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma de l'agudització:"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:866
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "PSF Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
 #: fitsviewer/livestacking.ui:888
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
-msgstr "<html><head/><body><p>Mida del pas:</p></body></html>"
+msgstr "<html><head/><body><p>Sigma de l'agudització.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
 #: fitsviewer/livestacking.ui:913
 #, kde-format
 msgid "Sharpen Amount:"
-msgstr ""
+msgstr "Quantitat d'agudització:"
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
 #: fitsviewer/livestacking.ui:935
 #, kde-format
 msgid "Deconv Amount:"
-msgstr ""
+msgstr "Quantitat de desconvolució:"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
 #: fitsviewer/livestacking.ui:957
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>PSF Sigma to use for Deconvolution</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Temps romanent per a la compleció.</p></body></html>"
+"<html><head/><body><p>Sigma PSF que s'utilitzarà a la desconvolució</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
 #: fitsviewer/livestacking.ui:982
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of sharpening to apply. Larger values apply "
 "more sharpening.</p><p>Set to 0 to skip sharpening.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Força el valor de la temperatura abans de capturar una "
-"imatge.</p></body></html>"
+"<html><head/><body><p>Quantitat d'agudització que s'aplicarà. Els valors més "
+"grans aplicaran més agudització.</p><p>Establiu-la a 0 per a ometre-la.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1011
 #, kde-format
 msgid "Rerun the post processing using the selected parameters"
 msgstr ""
+"Torna a executar el postprocessament utilitzant els paràmetres seleccionats"
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1014
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Reprocess"
-msgstr "Processament"
+msgstr "Reprocessament"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1082
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Stack Directory:"
-msgstr "Directori:"
+msgstr "Directori d'apilament:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1104
 #, kde-format
 msgid "Number of subs successfully processed / failed / total"
-msgstr ""
+msgstr "Nombre de subsolucions processades correctament / fallides / totals"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1107 fitsviewer/livestacking.ui:1148
 #, kde-format
 msgid "0 / 0 / 0"
-msgstr ""
+msgstr "0 / 0 / 0"
 
 #. i18n: ectx: property (text), widget (QLabel, NumberSubsLabel)
 #: fitsviewer/livestacking.ui:1126
 #, kde-format
 msgid "Proc / Fail / Total:"
-msgstr ""
+msgstr "Proc. / Fall. / Total:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1145
 #, kde-format
 msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
 msgstr ""
+"Relació de senyal a soroll Màx. / Mín. / Mitjana de les subsolucions "
+"processades"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1186
 #, kde-format
 msgid "SNR Av / Min / Max:"
-msgstr ""
+msgstr "SNR Mit. / Mín. / Màx.:"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:1199
-#, fuzzy, kde-format
-#| msgid "Image Save"
+#, kde-format
 msgid "Image SNR:"
-msgstr "Guardeu la imatge"
+msgstr "SNR de la imatge:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
 #: fitsviewer/livestacking.ui:1215
 #, kde-format
 msgid "The signal-to-noise ratio of the final image"
-msgstr ""
+msgstr "Relació de senyal a soroll de la imatge final"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StartB)
 #: fitsviewer/livestacking.ui:1237
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Starts watching the Stack Directory and runs stacking."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Neteja totes les dades recents del guiatge.</p></"
-"body></html>"
+"<html><head/><body><p>Comença controlant el directori de la pila i executa "
+"l'apilament.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1269
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
-msgstr "<html><head/><body><p>Suprimix el fotograma actual.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Guarda els paràmetres de l'apilament en directe</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1272
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Settings"
+#, kde-format
 msgid "Save Settings"
-msgstr "Configureu la imatge"
+msgstr "Guarda la configuració"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -39780,97 +39764,99 @@ msgstr ""
 #: kstars.kcfg:1785
 #, kde-format
 msgid "Live Stacking master dark"
-msgstr ""
+msgstr "Fotograma fosc mestre de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterFlat), group (FITSViewer)
 #: kstars.kcfg:1789
 #, kde-format
 msgid "Live Stacking master flat"
-msgstr ""
+msgstr "Fotograma pla mestre de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1793
 #, kde-format
 msgid "Live Stacking alignment method"
-msgstr ""
+msgstr "Mètode d'alineació de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSNumInMem), group (FITSViewer)
 #: kstars.kcfg:1797
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
 msgstr ""
+"Nombre màxim de subsolucions que es mantindran a la memòria de l'apilament "
+"en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
 #: kstars.kcfg:1801
 #, kde-format
 msgid "Live Stacking downscale factor"
-msgstr ""
+msgstr "Factor de reducció de l'escala de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSWeighting), group (FITSViewer)
 #: kstars.kcfg:1805
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr ""
+msgstr "Ponderació de les subsolucions de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSRejection), group (FITSViewer)
 #: kstars.kcfg:1809
 #, kde-format
 msgid "Live Stacking pixel rejection mechanism"
-msgstr ""
+msgstr "Mecanisme de rebuig dels píxels de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1813
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
-msgstr ""
+msgstr "Criteri de rebuig dels píxels de sigma baixa de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1817
 #, kde-format
 msgid "Live Stacking high sigma pixel rejection criteria"
-msgstr ""
+msgstr "Criteri de rebuig dels píxels de sigma alta de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSWinsorCutoff), group (FITSViewer)
 #: kstars.kcfg:1821
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr ""
+msgstr "Retall winsor del retallat de la sigma de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1825
 #, kde-format
 msgid "Live Stacking deconvolution amount"
-msgstr ""
+msgstr "Quantitat de desconvolució de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSPSFSigma), group (FITSViewer)
 #: kstars.kcfg:1829
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr ""
+msgstr "Sigma PSF que s'aplicarà a la desconvolució de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1833
 #, kde-format
 msgid "Live Stacking denoise amount"
-msgstr ""
+msgstr "Quantitat de reducció del soroll de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSSharpenAmt), group (FITSViewer)
 #: kstars.kcfg:1837
 #, kde-format
 msgid "Live Stacking sharpen amount"
-msgstr ""
+msgstr "Quantitat d'agudització de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1841
 #, kde-format
 msgid "Live Stacking sharpening kernel size"
-msgstr ""
+msgstr "Mida del nucli d'agudització de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1845
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr ""
+msgstr "Sigma d'agudització de l'apilament en directe"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1851
@@ -43017,7 +43003,7 @@ msgstr "Nom de fitxer de terreny."
 #: kstars.kcfg:3630
 #, kde-format
 msgid "Terrain source filename."
-msgstr "Nom de fitxer de la font del terreny."
+msgstr "Nom del fitxer font del terreny."
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAz), group (Terrain)
 #: kstars.kcfg:3634
@@ -72329,10 +72315,9 @@ msgid "Open Image(s)..."
 msgstr "Obri algunes imatges…"
 
 #: kstarsinit.cpp:164
-#, fuzzy, kde-format
-#| msgid "%1 is tracking."
+#, kde-format
 msgid "Live Stacking..."
-msgstr "%1 està fent el seguiment."
+msgstr "Apilament en directe…"
 
 #: kstarsinit.cpp:170
 #, kde-format
@@ -90872,6 +90857,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Failed to close file: %1"
-#~ msgstr "No s'ha pogut tancar el fitxer: %1"

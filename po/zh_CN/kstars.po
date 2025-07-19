@@ -30054,10 +30054,9 @@ msgid "KStars FITS Viewer"
 msgstr "KStars FITS 查看器"
 
 #: fitsviewer/fitsviewer.cpp:388
-#, fuzzy, kde-format
-#| msgid "Change Date..."
+#, kde-format
 msgid "Change Tab Title"
-msgstr "更改日期..."
+msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:389
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-17 01:56+0000\n"
-"PO-Revision-Date: 2025-07-16 00:17+0100\n"
+"PO-Revision-Date: 2025-07-18 17:21+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -6337,7 +6337,7 @@ msgstr ""
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 msgstr ""
-"No se puede capturar mientras la exposición CCD está en proceso. Se vuelve a "
+"No se puede capturar mientras la exposición CCD está en curso. Se vuelve a "
 "intentar en %1 segundos…"
 
 #: ekos/align/align.cpp:1565
@@ -11957,7 +11957,7 @@ msgstr ""
 #: ekos/focus/focusadvisor.cpp:971 ekos/focus/focusadvisor.cpp:1268
 #, kde-format
 msgid "In progress..."
-msgstr "En proceso…"
+msgstr "En curso…"
 
 #: ekos/auxiliary/darklibrary.cpp:1371
 #, kde-format
@@ -16431,7 +16431,7 @@ msgstr "Ekos"
 #: ekos/capture/capturecountswidget.ui:371
 #, kde-format
 msgid "Progress of the currently active capture."
-msgstr "Avance de la captura activa."
+msgstr "Curso de la captura activa."
 
 #. i18n: ectx: property (text), widget (QLabel, gr_frameDetailsLabel)
 #. i18n: ectx: property (text), widget (QLabel, frameDetailsLabel)
@@ -17849,7 +17849,7 @@ msgstr "<comentario>"
 #: ekos/ekos.h:139
 #, kde-format
 msgid "In Progress"
-msgstr "En proceso"
+msgstr "En curso"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
 #: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1621
@@ -19231,18 +19231,17 @@ msgstr "La operación de enfoque automático se ha iniciado"
 #: ekos/focus/focus.cpp:1491
 #, kde-format
 msgid "Capture in progress, retrying in 1s..."
-msgstr "Captura en marcha. Se vuelve a intentar en 1 segundo…"
+msgstr "Captura en curso. Se vuelve a intentar en 1 segundo…"
 
 #: ekos/focus/focus.cpp:1505
 #, kde-format
 msgid "Star detection in progress, retrying in 1s..."
-msgstr "Detección de estrellas en marcha. Se vuelve a intentar en 1 segundo…"
+msgstr "Detección de estrellas en curso. Se vuelve a intentar en 1 segundo…"
 
 #: ekos/focus/focus.cpp:1509
-#, fuzzy, kde-format
-#| msgid "Star detection in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection still in progress, aborting..."
-msgstr "Detección de estrellas en marcha. Se vuelve a intentar en 1 segundo…"
+msgstr "La detección de estrellas sigue en curso. Interrumpiendo…"
 
 #: ekos/focus/focus.cpp:1558
 #, kde-format
@@ -21710,7 +21709,7 @@ msgstr " px"
 #: ekos/focus/opsfocussettings.ui:232
 #, kde-format
 msgid "Suspend Guiding while autofocus in progress"
-msgstr "Suspender el guiado cuando el enfoque automático esté funcionando"
+msgstr "Suspender el guiado cuando el enfoque automático esté en curso"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusSuspendGuiding)
 #: ekos/focus/opsfocussettings.ui:235
@@ -22450,12 +22449,12 @@ msgstr "Guiado automático suspendido."
 #: ekos/guide/guide.cpp:1718
 #, kde-format
 msgid "Manual dithering in progress."
-msgstr "Desvío manual en proceso."
+msgstr "Desvío manual en curso."
 
 #: ekos/guide/guide.cpp:1722
 #, kde-format
 msgid "Dithering in progress."
-msgstr "Desvío en proceso."
+msgstr "Desvío en curso."
 
 #: ekos/guide/guide.cpp:1726
 #, kde-format
@@ -24731,7 +24730,7 @@ msgstr "Ekos - Perfil %1"
 #: ekos/manager.cpp:257
 #, kde-format
 msgid "Connection in progress. Click to abort."
-msgstr "Conexión en progreso. Pulse para interrumpir."
+msgstr "Conexión en curso. Pulse para interrumpir."
 
 #: ekos/manager.cpp:280
 #, kde-format
@@ -29247,7 +29246,7 @@ msgstr ""
 "hayan completado todos los trabajos. Esta opción solo está disponible cuando "
 "<span style=\" font-weight:700;\">no</span> está seleccionada la opción de "
 "del planificador de Ekos <span style=\" font-weight:700;\">Recordar el "
-"avance de los trabajos</span>.</p></body></html>"
+"avance del trabajo</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerRepeatEverything)
 #: ekos/scheduler/scheduler.ui:1304
@@ -30009,12 +30008,12 @@ msgstr "Trabajo de Ekos (%1) - Captura iniciada"
 #: ekos/scheduler/schedulerprocess.cpp:1228
 #, kde-format
 msgid "Job '%1' capture is in progress (batch #%2)..."
-msgstr "La captura del trabajo «%1» está en proceso (lote #%2)…"
+msgstr "La captura del trabajo «%1» está en curso (lote #%2)…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1231
 #, kde-format
 msgid "Job '%1' capture is in progress..."
-msgstr "La captura del trabajo «%1» está en proceso…"
+msgstr "La captura del trabajo «%1» está en curso…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1338
 #, kde-format
@@ -30469,7 +30468,7 @@ msgstr "Reiniciando el proceso de alineación de %1…"
 #: ekos/scheduler/schedulerprocess.cpp:3788
 #, kde-format
 msgid "Job '%1' guiding is in progress."
-msgstr "El guiado del trabajo «%1» está en proceso."
+msgstr "El guiado del trabajo «%1» está en curso."
 
 #: ekos/scheduler/schedulerprocess.cpp:3800
 #, kde-format
@@ -30675,7 +30674,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:4363
 #, kde-format
 msgid "Parking mount in progress..."
-msgstr "Aparcamiento de la montura en proceso…"
+msgstr "Aparcamiento de la montura en curso…"
 
 #: ekos/scheduler/schedulerprocess.cpp:4377
 #, kde-format
@@ -31354,7 +31353,7 @@ msgstr "%1 / %2 objetos de Simbad cargados"
 #: fitsviewer/fitstab.cpp:614
 #, kde-format
 msgid "Simbad query in progress..."
-msgstr "Consulta de Simbad en proceso…"
+msgstr "Consulta de Simbad en curso…"
 
 #: fitsviewer/fitstab.cpp:776
 #, kde-format
@@ -31476,18 +31475,16 @@ msgid "RAM"
 msgstr "RAM"
 
 #: fitsviewer/fitstab.cpp:1015
-#, fuzzy, kde-format
-#| msgid "KStars Data Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
-msgstr "Directorio de datos de KStars"
+msgstr "Directorio de apilamiento"
 
 #: fitsviewer/fitstab.cpp:1040
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
-msgstr "Alineación polar"
+msgstr "Seleccionar copia de alineación"
 
 #: fitsviewer/fitstab.cpp:1054
 #, kde-format
@@ -31523,21 +31520,19 @@ msgid "File saved to %1"
 msgstr "Archivo guardado en %1"
 
 #: fitsviewer/fitstab.cpp:1303
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "Watching %1"
-msgstr "Cargando %1"
+msgstr "Observando %1"
 
 #: fitsviewer/fitstab.cpp:1439
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "(%1) Watching %2"
-msgstr "Cargando %1"
+msgstr "(%1) Observando %2"
 
 #: fitsviewer/fitstab.cpp:1441
 #, kde-format
 msgid "(%1) %2"
-msgstr ""
+msgstr "(%1) %2"
 
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, kde-format
@@ -31771,15 +31766,14 @@ msgid "KStars FITS Viewer"
 msgstr "Visor FITS de KStars"
 
 #: fitsviewer/fitsviewer.cpp:388
-#, fuzzy, kde-format
-#| msgid "Change Date..."
+#, kde-format
 msgid "Change Tab Title"
-msgstr "Cambiar fecha…"
+msgstr "Cambiar titulo de pestaña"
 
 #: fitsviewer/fitsviewer.cpp:389
 #, kde-format
 msgid "New title for tab '%1':"
-msgstr ""
+msgstr "Nuevo título para la pestaña «%1»:"
 
 #: fitsviewer/fitsviewer.cpp:474
 #, kde-format
@@ -31798,7 +31792,7 @@ msgstr[1] "HFR:%2, %1 estrellas."
 #: fitsviewer/fitsviewer.cpp:531
 #, kde-format
 msgid "Right click to change tab title."
-msgstr ""
+msgstr "Clic derecho para cambiar el título de la pestaña."
 
 #: fitsviewer/fitsviewer.cpp:746
 #, kde-format
@@ -31966,10 +31960,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
 #: fitsviewer/livestacking.ui:240
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Low Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma baja:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #: fitsviewer/livestacking.ui:262
@@ -31981,20 +31974,24 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>El máximo número de copias que se conservan en memoria "
+"durante el proceso. Un número alto produce mejor calidad del proceso de "
+"apilamiento, a costa de un mayor tiempo de proceso y uso de memoria.</"
+"p><p><br/></p><p>Algunos procesos, como el recorte de sigma, usarán todas "
+"estas copias para calcular las estadísticas que se usarán en todas las "
+"copias.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:290
-#, fuzzy, kde-format
-#| msgid "Memory:"
+#, kde-format
 msgid "In Memory Subs:"
-msgstr "Memoria:"
+msgstr "Copias en memoria:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:306
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "High Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma alta:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #: fitsviewer/livestacking.ui:328
@@ -32008,10 +32005,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:353
-#, fuzzy, kde-format
-#| msgid "Downsample"
+#, kde-format
 msgid "Downscale:"
-msgstr "Submuestreo"
+msgstr "Reducir escala:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:363
@@ -32022,6 +32018,11 @@ msgid ""
 "Subs and masters are downscaled 3x3.</p><p>- 4x4. Subs and masters are "
 "downscaled 4x4.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Reducir escala de imágenes:</p><p>- Ninguna: no se "
+"aplica ningún tipo de reducción de escala.</p><p>- 2x2: las copias y los "
+"originales se reducen a 2x2.</p><p>- 3x3: las copias y los originales se "
+"reducen a 3x3.</p><p>- 4x4: las copias y los originales se reducen a 4x4.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:380
@@ -32038,20 +32039,22 @@ msgid ""
 "Num Stars. Frames are weighted by the number of stars detected in the frame."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Ponderación de fotogramas:</p><p>- Iguales: todos los "
+"fotogramas tienen el mismo peso.</p><p>- HFR: los fotogramas se ponderan "
+"usando 1 / HFR media.</p><p>Número de estrellas: los fotogramas se ponderan "
+"según el número de estrellas detectadas en ellos.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:409
-#, fuzzy, kde-format
-#| msgid "Equalize"
+#, kde-format
 msgid "Equal"
-msgstr "Ecualizar"
+msgstr "Iguales"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:433
-#, fuzzy, kde-format
-#| msgid "Image height:"
+#, kde-format
 msgid "Frame Weight:"
-msgstr "Altura de la imagen:"
+msgstr "Peso de fotogramas:"
 
 #. i18n: ectx: property (text), widget (QLabel, pixelRejLabel)
 #: fitsviewer/livestacking.ui:449
@@ -32070,27 +32073,26 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Algoritmo de rechazo de píxeles:</p><p>- Ninguno: no "
 "se aplica ningún rechazo.</p><p>- Recorte sigma: los píxeles que caen fuera "
-"se rechazan.</p><p>Recorte de sigma winsorizado: versión winsorizada del "
+"se rechazan.</p><p>Recorte sigma winsorizado: versión winsorizada del "
 "recorte sigma.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:486
-#, fuzzy, kde-format
-#| msgid "Show Clipping"
+#, kde-format
 msgid "Sigma Clipping"
-msgstr "Mostrar recorte"
+msgstr "Recorte sigma"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:491
 #, kde-format
 msgid "Winsorized SC"
-msgstr ""
+msgstr "RS winsorizado"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:511
 #, kde-format
 msgid "Winsor Cutoff:"
-msgstr ""
+msgstr "Corte winsor:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #: fitsviewer/livestacking.ui:533
@@ -32104,31 +32106,27 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:663
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Sub:"
-msgstr "Patrón oscuro:"
+msgstr "Copia original:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #: fitsviewer/livestacking.ui:682
-#, fuzzy, kde-format
-#| msgid "Processing"
+#, kde-format
 msgid "Post Processing"
-msgstr "Procesando"
+msgstr "Posprocesamiento"
 
 #. i18n: ectx: property (text), widget (QLabel, DenoiseLabel)
 #: fitsviewer/livestacking.ui:718
-#, fuzzy, kde-format
-#| msgid "Denoise"
+#, kde-format
 msgid "Denoise Amount:"
-msgstr "Eliminar ruido"
+msgstr "Cantidad de eliminación de ruido:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:740
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
-msgstr "<html><head/><body><p>Tamaño del paso:</p></body></html>"
+msgstr "<html><head/><body><p>Tamaño del kernel de enfoque:</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
 #: fitsviewer/livestacking.ui:768
@@ -32139,88 +32137,83 @@ msgid ""
 "amount) of the original image.</p><p>Set to 0 to switch deconvolution off.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Cantidad de deconvolución de Wiener que se debe "
+"aplicar en el intervalo de 00 a 1. Esta función mezcla esta cantidad de la "
+"imagen deconvolucionada con (1 - cantidad) de la imagen original.</p><p>Use "
+"el valor 0 para desactivar la deconvolución.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DenoiseAmt)
 #: fitsviewer/livestacking.ui:793
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of denoise to apply. Larger values apply more "
 "denoising.</p><p>Set to 0 to skip denoising</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Número de fotogramas que se deben capturar en cada "
-"posición del enfocador.</p></body></html>"
+"<html><head/><body><p>Cantidad de eliminación de ruido que se debe aplicar. "
+"Los valores altos aplicarán más eliminación de ruido.</p><p>Asigne el valor "
+"0 para no aplicar eliminación de ruido.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:822
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Vernal"
+#, kde-format
 msgid "Kernel:"
-msgstr "Vernal"
+msgstr "Kernel:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:844
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Sharpen Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma de enfoque:"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:866
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "PSF Sigma:"
-msgstr "Sigma:"
+msgstr "Sigma de PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
 #: fitsviewer/livestacking.ui:888
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
-msgstr "<html><head/><body><p>Tamaño del paso:</p></body></html>"
+msgstr "<html><head/><body><p>Sigma de enfoque:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
 #: fitsviewer/livestacking.ui:913
 #, kde-format
 msgid "Sharpen Amount:"
-msgstr ""
+msgstr "Cantidad de enfoque:"
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
 #: fitsviewer/livestacking.ui:935
 #, kde-format
 msgid "Deconv Amount:"
-msgstr ""
+msgstr "Cantidad de deconvolución:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
 #: fitsviewer/livestacking.ui:957
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>PSF Sigma to use for Deconvolution</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tiempo restante para la finalización</p></body></html>"
+"<html><head/><body><p>Sigma de PSF que se usar en la deconvolución</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
 #: fitsviewer/livestacking.ui:982
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of sharpening to apply. Larger values apply "
 "more sharpening.</p><p>Set to 0 to skip sharpening.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Forzar el valor de la temperatura antes de capturar "
-"una imagen</p></body></html>"
+"<html><head/><body><p>Cantidad de enfoque que se debe aplicar. Los valores "
+"mayores aplican más enfoque.</p><p>Use el valor 0 para no aplicar enfoque.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1011
 #, kde-format
 msgid "Rerun the post processing using the selected parameters"
-msgstr ""
+msgstr "Volver a ejecutar el posprocesamiento con los parámetros seleccionados"
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1014
@@ -32238,7 +32231,7 @@ msgstr "Directorio de apilamiento:"
 #: fitsviewer/livestacking.ui:1104
 #, kde-format
 msgid "Number of subs successfully processed / failed / total"
-msgstr ""
+msgstr "Número de copias procesadas correctamente / fallidas / total"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
@@ -32251,59 +32244,56 @@ msgstr "0 / 0 / 0"
 #: fitsviewer/livestacking.ui:1126
 #, kde-format
 msgid "Proc / Fail / Total:"
-msgstr ""
+msgstr "Procesadas / fallidas / total:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1145
 #, kde-format
 msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
 msgstr ""
+"Máx. / mín. / media de la relación señal/ruido de las copias procesadas"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1186
 #, kde-format
 msgid "SNR Av / Min / Max:"
-msgstr ""
+msgstr "Relación S/R media / mín. / máx.:"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:1199
-#, fuzzy, kde-format
-#| msgid "Image Save"
+#, kde-format
 msgid "Image SNR:"
-msgstr "Guardar la imagen"
+msgstr "Relación S/R de la imagen:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
 #: fitsviewer/livestacking.ui:1215
 #, kde-format
 msgid "The signal-to-noise ratio of the final image"
-msgstr ""
+msgstr "La relación señal/ruido de la imagen final"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StartB)
 #: fitsviewer/livestacking.ui:1237
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Starts watching the Stack Directory and runs stacking."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Borrar todos los datos de guiado recientes.</p></"
-"body></html>"
+"<html><head/><body><p>Inicia la observación del directorio de apilamiento y "
+"ejecuta el apilamiento.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1269
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
-msgstr "<html><head/><body><p>Borrar el fotograma actual</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Guardar los parámetros del apilador en vivo</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1272
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Settings"
+#, kde-format
 msgid "Save Settings"
-msgstr "Preferencias de la imagen"
+msgstr "Guardar preferencias"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -33812,12 +33802,12 @@ msgstr "Desaparcando"
 #: indi/indidome.cpp:121
 #, kde-format
 msgid "Dome parking is in progress"
-msgstr "El aparcamiento de la cúpula está en proceso"
+msgstr "El aparcamiento de la cúpula está en curso"
 
 #: indi/indidome.cpp:134
 #, kde-format
 msgid "Dome unparking is in progress"
-msgstr "El desaparcamiento de la cúpula está en proceso"
+msgstr "El desaparcamiento de la cúpula está en curso"
 
 #: indi/indidome.cpp:147
 #, kde-format
@@ -33832,12 +33822,12 @@ msgstr "Cúpula desaparcada"
 #: indi/indidome.cpp:246
 #, kde-format
 msgid "Shutter closing is in progress"
-msgstr "El cierre del obturador está en proceso"
+msgstr "El cierre del obturador está en curso"
 
 #: indi/indidome.cpp:255
 #, kde-format
 msgid "Shutter opening is in progress"
-msgstr "La apertura del obturador está en proceso"
+msgstr "La apertura del obturador está en curso"
 
 #: indi/indidome.cpp:264
 #, kde-format
@@ -33922,12 +33912,12 @@ msgstr "El aparcamiento de la montura ha fallado"
 #: indi/indimount.cpp:461
 #, kde-format
 msgid "Mount parking is in progress"
-msgstr "El aparcamiento de la montura está en proceso"
+msgstr "El aparcamiento de la montura está en curso"
 
 #: indi/indimount.cpp:469
 #, kde-format
 msgid "Mount unparking is in progress"
-msgstr "El desaparcamiento de la montura está en proceso"
+msgstr "El desaparcamiento de la montura está en curso"
 
 #: indi/indimount.cpp:476
 #, kde-format
@@ -39263,18 +39253,19 @@ msgstr "Método de alineación del apilamiento en vivo"
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
 msgstr ""
+"Máximo número de copias de apilamiento en vivo que se mantienen en memoria"
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
 #: kstars.kcfg:1801
 #, kde-format
 msgid "Live Stacking downscale factor"
-msgstr "Factor de reducción de tamaño del apilamiento en vivo"
+msgstr "Factor de reducción de escala del apilamiento en vivo"
 
 #. i18n: ectx: whatsthis, entry (fitsLSWeighting), group (FITSViewer)
 #: kstars.kcfg:1805
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr ""
+msgstr "Ponderación de copias de apilamiento en vivo"
 
 #. i18n: ectx: whatsthis, entry (fitsLSRejection), group (FITSViewer)
 #: kstars.kcfg:1809
@@ -39298,44 +39289,43 @@ msgstr "Criterio de rechazo de píxeles de sigma alto del apilamiento en vivo"
 #: kstars.kcfg:1821
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr ""
+msgstr "Corte winsor para el recorte de sigma del apilamiento en vivo"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1825
 #, kde-format
 msgid "Live Stacking deconvolution amount"
-msgstr ""
+msgstr "Cantidad de deconvolución del apilamiento en vivo"
 
 #. i18n: ectx: label, entry (fitsLSPSFSigma), group (FITSViewer)
 #: kstars.kcfg:1829
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr ""
+msgstr "Sigma de PSF de apilamiento en vivo que se aplica en la deconvolución"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1833
 #, kde-format
 msgid "Live Stacking denoise amount"
-msgstr ""
+msgstr "Cantidad de eliminación de ruido del apilamiento en vivo"
 
 #. i18n: ectx: label, entry (fitsLSSharpenAmt), group (FITSViewer)
 #: kstars.kcfg:1837
 #, kde-format
 msgid "Live Stacking sharpen amount"
-msgstr ""
+msgstr "Cantidad de enfoque del apilamiento en vivo"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1841
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Live Stacking sharpening kernel size"
-msgstr "Método de alineación del apilamiento en vivo"
+msgstr "Tamaño del kernel de enfoque del apilamiento en vivo"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1845
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr ""
+msgstr "Sigma de enfoque del apilamiento en vivo"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1851
@@ -40302,7 +40292,7 @@ msgstr "Seleccionar automáticamente la estrella a enfocar."
 #: kstars.kcfg:2365
 #, kde-format
 msgid "Suspend guiding while autofocus in progress."
-msgstr "Suspender el guiado cuando el enfoque automático está funcionando."
+msgstr "Suspender el guiado cuando el enfoque automático está en curso."
 
 #. i18n: ectx: whatsthis, entry (FocusGuideSettleTime), group (Focus)
 #: kstars.kcfg:2369
@@ -40865,13 +40855,15 @@ msgstr "Perfil de opciones para extracción de estrellas al enfocar."
 #: kstars.kcfg:2667
 #, kde-format
 msgid "Internal or External Sextractor to compute subs HFR."
-msgstr "SExtractor interno o externo para calcular HFR."
+msgstr "SExtractor interno o externo para calcular la HFR de las copias."
 
 #. i18n: ectx: label, entry (HFROptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2671
 #, kde-format
 msgid "Options Profile for Sextraction to compute subs HFR"
-msgstr "Perfil de opciones para extracción de estrellas al calcular HFR."
+msgstr ""
+"Perfil de opciones para extracción de estrellas al calcular la HFR de las "
+"copias."
 
 #. i18n: ectx: label, entry (GuideSextractorType), group (StellarSolver)
 #: kstars.kcfg:2675

@@ -28526,10 +28526,9 @@ msgid "Object major coordinate size in arcsmins"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:896
-#, fuzzy, kde-format
-#| msgid "RA"
+#, kde-format
 msgid "RAM"
-msgstr "RA"
+msgstr "RAM"
 
 #: fitsviewer/fitstab.cpp:1015
 #, fuzzy, kde-format
@@ -28595,7 +28594,7 @@ msgstr "Načítání %1"
 #: fitsviewer/fitstab.cpp:1441
 #, kde-format
 msgid "(%1) %2"
-msgstr ""
+msgstr "(%1) %2"
 
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, kde-format
@@ -29084,7 +29083,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:380
 #, kde-format
 msgid "3x3"
-msgstr ""
+msgstr "3x3"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:405
@@ -29098,10 +29097,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:409
-#, fuzzy, kde-format
-#| msgid "Equalize"
+#, kde-format
 msgid "Equal"
-msgstr "Vyrovnat"
+msgstr "Totéž, co v protilehlém panelu"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:433
@@ -29164,10 +29162,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #: fitsviewer/livestacking.ui:682
-#, fuzzy, kde-format
-#| msgid "Processing"
+#, kde-format
 msgid "Post Processing"
-msgstr "Zpracování"
+msgstr "Zpracování po načtení"
 
 #. i18n: ectx: property (text), widget (QLabel, DenoiseLabel)
 #: fitsviewer/livestacking.ui:718
@@ -29203,11 +29200,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:822
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Vernal"
+#, kde-format
 msgid "Kernel:"
-msgstr "Vernal"
+msgstr "Jádro:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:844
@@ -29342,11 +29337,9 @@ msgstr "<html><head/><body><p>Přiblížit pro osu X.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1272
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Settings"
+#, kde-format
 msgid "Save Settings"
-msgstr "Nastavení obrázku"
+msgstr "Uložit nastavení"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
