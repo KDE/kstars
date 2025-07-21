@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-20 02:01+0000\n"
-"PO-Revision-Date: 2025-07-18 17:21+0100\n"
+"PO-Revision-Date: 2025-07-20 11:51+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -16574,25 +16574,21 @@ msgstr "<Nombre de archivo>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyPreviousRunB)
 #: ekos/capture/capturehistorynavigation.ui:65
-#, fuzzy, kde-format
-#| msgid "Previous Year"
+#, kde-format
 msgid "Previous autofocus run"
-msgstr "Año anterior"
+msgstr "Anterior ejecución de enfoque automático"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyFirstB)
 #: ekos/capture/capturehistorynavigation.ui:85
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Focus Frame"
+#, kde-format
 msgid "First focusing frame"
-msgstr "Fotograma de enfoque"
+msgstr "Primer fotograma de enfoque"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyBackwardB)
 #: ekos/capture/capturehistorynavigation.ui:105
-#, fuzzy, kde-format
-#| msgid "Previous Blink Image"
+#, kde-format
 msgid "Previous focusing frame"
-msgstr "Instantánea anterior"
+msgstr "Anterior fotograma de enfoque"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, iterOut)
 #: ekos/capture/capturehistorynavigation.ui:125
@@ -16604,21 +16600,19 @@ msgstr "<html><body><p>Repetición del enfocador.</p></body></html>"
 #: ekos/capture/capturehistorynavigation.ui:135
 #, kde-format
 msgid "Next focusing frame"
-msgstr ""
+msgstr "Siguiente fotograma de enfoque"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyLastB)
 #: ekos/capture/capturehistorynavigation.ui:155
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Last focusing frame"
-msgstr "Último enfoque automático"
+msgstr "Último fotograma de enfoque"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyNextRunB)
 #: ekos/capture/capturehistorynavigation.ui:175
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Next autofocus run"
-msgstr "Último enfoque automático"
+msgstr "Siguiente ejecución de enfoque automático"
 
 #: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
@@ -19208,13 +19202,12 @@ msgstr "Finalmente se ha encontrado la fuente de temperatura %1"
 #: ekos/focus/focus.cpp:1079
 #, kde-format
 msgid "Delete the corresponding focus frames?"
-msgstr ""
+msgstr "¿Borrar los correspondientes fotogramas de enfoque?"
 
 #: ekos/focus/focus.cpp:1079
-#, fuzzy, kde-format
-#| msgid "Filter focus offset"
+#, kde-format
 msgid "Delete focus frames?"
-msgstr "Desplazamiento de enfoque de filtros"
+msgstr "¿Borrar fotogramas de enfoque?"
 
 #: ekos/focus/focus.cpp:1098
 #, kde-format
@@ -20005,10 +19998,9 @@ msgstr "Curva-V"
 
 #. i18n: ectx: property (text), widget (QLabel, starsLabel)
 #: ekos/focus/focus.ui:1047
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "Stars:"
-msgstr "Estrellas"
+msgstr "Estrellas:"
 
 #. i18n: ectx: property (text), widget (QLabel, hfrLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
@@ -20019,10 +20011,9 @@ msgstr "HFR:"
 
 #. i18n: ectx: property (text), widget (QLabel, fwhmLabel)
 #: ekos/focus/focus.ui:1075
-#, fuzzy, kde-format
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM:"
-msgstr "FWHM"
+msgstr "FWHM:"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:1108
@@ -21784,12 +21775,14 @@ msgid ""
 "Upper limit how many focus frames should be kept on disk. Set to -1 to allow "
 "arbitrary many files."
 msgstr ""
+"Límite superior del número de fotogramas de enfoque que se deben guardar en "
+"el disco. Use el valor -1 para permitir cualquier número de archivos."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocussettings.ui:290
 #, kde-format
 msgid "Max. Stored Frames:"
-msgstr ""
+msgstr "Máx. de fotogramas guardados:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:315
@@ -35456,13 +35449,15 @@ msgstr "Mostrar la ventana de INDI al iniciar EKOS."
 #: kstars.kcfg:210
 #, kde-format
 msgid "Limit for saved focus frames"
-msgstr ""
+msgstr "Límite de fotogramas de enfoque guardados"
 
 #. i18n: ectx: whatsthis, entry (maxFocusFrameFiles), group (indi)
 #: kstars.kcfg:211
 #, kde-format
 msgid "Upper limit how many focus frames should be kept on disk."
 msgstr ""
+"Límite superior del número de fotogramas de enfoque que se deben guardar en "
+"el disco."
 
 #. i18n: ectx: label, entry (messageNotificationINDI), group (indi)
 #: kstars.kcfg:215
@@ -78873,17 +78868,14 @@ msgstr "Opciones de desarrollador"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Welcome to StellarMate <span style=\" font-"
-#| "weight:600;\">Serial Port Assistant</span> tool.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Option replaced by the <span style=\" font-weight:600;"
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bienvenido a la herramienta del <span style=\" font-"
-"weight:600;\">asistente del puerto serie</span> de StellarMate.</p></body></"
-"html>"
+"<html><head/><body><p>Opción sustituida por la opción <span style=\" font-"
+"weight:600;\">Máx. fotogramas de enfoque</span> en las opciones de «Enfoque»."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:48
@@ -90030,46 +90022,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Valor promedio de HFR del último fotograma.</p></"
-#~ "body></html>"
-
-#~ msgid "  FWHM:"
-#~ msgstr "  FWHM:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Averaged FWHM value from the last frame.</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Valor promedio de la FWHM del último fotograma.</"
-#~ "p></body></html>"
-
-#~ msgid "  Stars:"
-#~ msgstr "  Estrellas:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Número de estrellas encontradas en el último "
-#~ "fotograma.</p></body></html>"
-
-#~ msgid "  Iter:"
-#~ msgstr "  Iter:"
-
-#~ msgid "Save autofocus images on disk?"
-#~ msgstr "¿Guardar imágenes de enfoque automático en el disco?"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Save autofocus frames. Only enable to troubleshoot "
-#~ "autofocus by examining frames. This can consume a lot of storage space.</"
-#~ "p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Guardar fotogramas de enfoque automático. Actívelo "
-#~ "solo para solucionar problemas de enfoque automático examinando "
-#~ "fotogramas. Esto puede consumir bastante espacio de almacenamiento.</p></"
-#~ "body></html>"

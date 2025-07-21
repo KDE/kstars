@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-20 02:01+0000\n"
-"PO-Revision-Date: 2025-07-18 19:10+0200\n"
+"PO-Revision-Date: 2025-07-20 21:21+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -16787,25 +16787,21 @@ msgstr "<nom del fitxer>"
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyPreviousRunB)
 #: ekos/capture/capturehistorynavigation.ui:65
-#, fuzzy, kde-format
-#| msgid "Previous Year"
+#, kde-format
 msgid "Previous autofocus run"
-msgstr "L'any anterior."
+msgstr "Execució anterior de l'enfocament automàtic"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyFirstB)
 #: ekos/capture/capturehistorynavigation.ui:85
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Focus Frame"
+#, kde-format
 msgid "First focusing frame"
-msgstr "Enquadrat de l'enfocament"
+msgstr "Primer fotograma de l'enfocament"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyBackwardB)
 #: ekos/capture/capturehistorynavigation.ui:105
-#, fuzzy, kde-format
-#| msgid "Previous Blink Image"
+#, kde-format
 msgid "Previous focusing frame"
-msgstr "Fes parpelleig en la imatge anterior"
+msgstr "Fotograma anterior de l'enfocament"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, iterOut)
 #: ekos/capture/capturehistorynavigation.ui:125
@@ -16817,21 +16813,19 @@ msgstr "<html><body><p>Iteració de l'enfocador.</p></body></html>"
 #: ekos/capture/capturehistorynavigation.ui:135
 #, kde-format
 msgid "Next focusing frame"
-msgstr ""
+msgstr "Fotograma següent de l'enfocament"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyLastB)
 #: ekos/capture/capturehistorynavigation.ui:155
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Last focusing frame"
-msgstr "Últim enfocament automàtic"
+msgstr "Últim fotograma de l'enfocament"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyNextRunB)
 #: ekos/capture/capturehistorynavigation.ui:175
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Next autofocus run"
-msgstr "Últim enfocament automàtic"
+msgstr "Execució següent de l'enfocament automàtic"
 
 #: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
@@ -19470,14 +19464,13 @@ msgstr "Finalment s'ha trobat la font de temperatura %1"
 #: ekos/focus/focus.cpp:1079
 #, kde-format
 msgid "Delete the corresponding focus frames?"
-msgstr ""
+msgstr "Voleu suprimir els fotogrames d'enfocament corresponents?"
 
 # skip-rule: punctuation-period-no
 #: ekos/focus/focus.cpp:1079
-#, fuzzy, kde-format
-#| msgid "Filter focus offset"
+#, kde-format
 msgid "Delete focus frames?"
-msgstr "Desplaçament de l'enfocament dels filtres."
+msgstr "Voleu suprimir els fotogrames d'enfocament?"
 
 #: ekos/focus/focus.cpp:1098
 #, kde-format
@@ -20279,10 +20272,9 @@ msgstr "Corba V"
 
 #. i18n: ectx: property (text), widget (QLabel, starsLabel)
 #: ekos/focus/focus.ui:1047
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "Stars:"
-msgstr "Estreles"
+msgstr "Estreles:"
 
 #. i18n: ectx: property (text), widget (QLabel, hfrLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
@@ -20293,10 +20285,9 @@ msgstr "HFR:"
 
 #. i18n: ectx: property (text), widget (QLabel, fwhmLabel)
 #: ekos/focus/focus.ui:1075
-#, fuzzy, kde-format
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM:"
-msgstr "FWHM"
+msgstr "FWHM:"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:1108
@@ -22075,12 +22066,14 @@ msgid ""
 "Upper limit how many focus frames should be kept on disk. Set to -1 to allow "
 "arbitrary many files."
 msgstr ""
+"Límit superior de quants fotogrames d'enfocament s'han de mantindre al disc. "
+"Establiu-la a -1 per a permetre molts fitxers arbitraris."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocussettings.ui:290
 #, kde-format
 msgid "Max. Stored Frames:"
-msgstr ""
+msgstr "Màx. de fotogrames emmagatzemats:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:315
@@ -35901,13 +35894,14 @@ msgstr "Mostra la finestra INDI quan s'inicia l'EKOS."
 #: kstars.kcfg:210
 #, kde-format
 msgid "Limit for saved focus frames"
-msgstr ""
+msgstr "Límit de fotogrames d'enfocament guardats"
 
 #. i18n: ectx: whatsthis, entry (maxFocusFrameFiles), group (indi)
 #: kstars.kcfg:211
 #, kde-format
 msgid "Upper limit how many focus frames should be kept on disk."
 msgstr ""
+"Límit superior de quants fotogrames d'enfocament s'han de mantindre al disc."
 
 #. i18n: ectx: label, entry (messageNotificationINDI), group (indi)
 #: kstars.kcfg:215
@@ -79584,17 +79578,14 @@ msgstr "Opcions del desenvolupador"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Welcome to StellarMate <span style=\" font-"
-#| "weight:600;\">Serial Port Assistant</span> tool.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Option replaced by the <span style=\" font-weight:600;"
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Us donem la benvinguda a l'eina «<span style=\"font-"
-"weight:600;\">Assistent del port sèrie</span>» de StellarMate.</p></body></"
-"html>"
+"<html><head/><body><p>Opció substituïda per l'opció <span style=\"font-"
+"weight:600;\">màx. de fotogrames d'enfocament</span> a les opcions "
+"d'enfocament.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:48
@@ -90906,47 +90897,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Valor de la mitjana d'HFR de l'últim fotograma.</"
-#~ "p></body></html>"
-
-#~ msgid "  FWHM:"
-#~ msgstr "  FWHM:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Averaged FWHM value from the last frame.</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Valor de la mitjana de la FWHM de l'últim fotograma."
-#~ "</p></body></html>"
-
-#~ msgid "  Stars:"
-#~ msgstr "  Estreles:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Nombre d'estreles trobades en l'últim fotograma.</"
-#~ "p></body></html>"
-
-#~ msgid "  Iter:"
-#~ msgstr "  Iter:"
-
-#~ msgid "Save autofocus images on disk?"
-#~ msgstr ""
-#~ "Voleu que es guarden les imatges de l'enfocament automàtic en el disc?"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Save autofocus frames. Only enable to troubleshoot "
-#~ "autofocus by examining frames. This can consume a lot of storage space.</"
-#~ "p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Guardarà els fotogrames de l'enfocament automàtic. "
-#~ "Seleccioneu-la només per a solucionar problemes de l'enfocament automàtic "
-#~ "examinant els fotogrames. Pot consumir molt espai d'emmagatzematge.</p></"
-#~ "body></html>"

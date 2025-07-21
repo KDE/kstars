@@ -6,13 +6,13 @@
 # Albert Astals Cid <aacid@kde.org>, 2004.
 # David Gil, <al016950@yahoo.es>, 2004.
 # Orestes Mas Casals <orestes@tsc.upc.edu>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
-# Josep M. Ferrer <txemaq@gmail.com>, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
+# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-20 02:01+0000\n"
-"PO-Revision-Date: 2025-07-17 10:21+0200\n"
+"PO-Revision-Date: 2025-07-20 14:46+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 25.04.3\n"
 
 # Diccionari de termes astronòmics:
 # https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
@@ -16593,25 +16593,21 @@ msgstr "<nom del fitxer>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyPreviousRunB)
 #: ekos/capture/capturehistorynavigation.ui:65
-#, fuzzy, kde-format
-#| msgid "Previous Year"
+#, kde-format
 msgid "Previous autofocus run"
-msgstr "Any anterior"
+msgstr "Execució anterior d'enfocament automàtic"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyFirstB)
 #: ekos/capture/capturehistorynavigation.ui:85
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Focus Frame"
+#, kde-format
 msgid "First focusing frame"
-msgstr "Enquadrat de l'enfocament"
+msgstr "Primer fotograma d'enfocament"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyBackwardB)
 #: ekos/capture/capturehistorynavigation.ui:105
-#, fuzzy, kde-format
-#| msgid "Previous Blink Image"
+#, kde-format
 msgid "Previous focusing frame"
-msgstr "Imatge anterior a comparar"
+msgstr "Fotograma d'enfocament anterior"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, iterOut)
 #: ekos/capture/capturehistorynavigation.ui:125
@@ -16623,21 +16619,19 @@ msgstr "<html><body><p>Iteració de l'enfocador.</p></body></html>"
 #: ekos/capture/capturehistorynavigation.ui:135
 #, kde-format
 msgid "Next focusing frame"
-msgstr ""
+msgstr "Fotograma d'enfocament següent"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyLastB)
 #: ekos/capture/capturehistorynavigation.ui:155
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Last focusing frame"
-msgstr "Darrer enfocament automàtic"
+msgstr "Últim fotograma d'enfocament"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyNextRunB)
 #: ekos/capture/capturehistorynavigation.ui:175
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Next autofocus run"
-msgstr "Darrer enfocament automàtic"
+msgstr "Execució següent d'enfocament automàtic"
 
 #: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
@@ -19236,13 +19230,12 @@ msgstr "Finalment s'ha trobat la font de temperatura %1"
 #: ekos/focus/focus.cpp:1079
 #, kde-format
 msgid "Delete the corresponding focus frames?"
-msgstr ""
+msgstr "Suprimeixo els fotogrames d'enfocament corresponents?"
 
 #: ekos/focus/focus.cpp:1079
-#, fuzzy, kde-format
-#| msgid "Filter focus offset"
+#, kde-format
 msgid "Delete focus frames?"
-msgstr "Desplaçament de l'enfocament dels filtres"
+msgstr "Suprimeixo els fotogrames d'enfocament?"
 
 #: ekos/focus/focus.cpp:1098
 #, kde-format
@@ -20029,10 +20022,9 @@ msgstr "Corba V"
 
 #. i18n: ectx: property (text), widget (QLabel, starsLabel)
 #: ekos/focus/focus.ui:1047
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "Stars:"
-msgstr "Estrelles"
+msgstr "Estrelles:"
 
 #. i18n: ectx: property (text), widget (QLabel, hfrLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
@@ -20043,10 +20035,9 @@ msgstr "HFR:"
 
 #. i18n: ectx: property (text), widget (QLabel, fwhmLabel)
 #: ekos/focus/focus.ui:1075
-#, fuzzy, kde-format
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM:"
-msgstr "FWHM"
+msgstr "FWHM:"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:1108
@@ -21809,12 +21800,14 @@ msgid ""
 "Upper limit how many focus frames should be kept on disk. Set to -1 to allow "
 "arbitrary many files."
 msgstr ""
+"Límit superior de quants fotogrames d'enfocament s'han de mantenir al disc. "
+"Establiu-ho a -1 per a permetre molts fitxers arbitraris."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocussettings.ui:290
 #, kde-format
 msgid "Max. Stored Frames:"
-msgstr ""
+msgstr "Màx. de fotogrames emmagatzemats:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:315
@@ -35518,13 +35511,14 @@ msgstr "Mostra la finestra de l'INDI en iniciar l'EKOS."
 #: kstars.kcfg:210
 #, kde-format
 msgid "Limit for saved focus frames"
-msgstr ""
+msgstr "Límit dels fotogrames d'enfocament desats"
 
 #. i18n: ectx: whatsthis, entry (maxFocusFrameFiles), group (indi)
 #: kstars.kcfg:211
 #, kde-format
 msgid "Upper limit how many focus frames should be kept on disk."
 msgstr ""
+"Límit superior de quants fotogrames d'enfocament s'han de mantenir al disc."
 
 #. i18n: ectx: label, entry (messageNotificationINDI), group (indi)
 #: kstars.kcfg:215
@@ -79064,17 +79058,14 @@ msgstr "Opcions de desenvolupament"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Welcome to StellarMate <span style=\" font-"
-#| "weight:600;\">Serial Port Assistant</span> tool.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Option replaced by the <span style=\" font-weight:600;"
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Us donem la benvinguda a l'eina <span style=\" font-"
-"weight:600;\">Assistent del port en sèrie</span> del StellarMate.</p></"
-"body></html>"
+"<html><head/><body><p>Opció substituïda per l'opció <span style=\" font-"
+"weight:600;\">màx. de fotogrames d'enfocament</span> a les opcions "
+"d'enfocament.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:48

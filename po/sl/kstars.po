@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-20 02:01+0000\n"
-"PO-Revision-Date: 2025-07-17 06:31+0200\n"
+"PO-Revision-Date: 2025-07-20 08:16+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -16385,25 +16385,21 @@ msgstr "<Imedatoteke>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyPreviousRunB)
 #: ekos/capture/capturehistorynavigation.ui:65
-#, fuzzy, kde-format
-#| msgid "Previous Year"
+#, kde-format
 msgid "Previous autofocus run"
-msgstr "Prejšnje leto"
+msgstr "Prejšnji tek samodejnega fokusiranja"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyFirstB)
 #: ekos/capture/capturehistorynavigation.ui:85
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Focus Frame"
+#, kde-format
 msgid "First focusing frame"
-msgstr "Okvir fokusa"
+msgstr "Prvi okvir fokusiranja"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyBackwardB)
 #: ekos/capture/capturehistorynavigation.ui:105
-#, fuzzy, kde-format
-#| msgid "Previous Blink Image"
+#, kde-format
 msgid "Previous focusing frame"
-msgstr "Prejšnji utrip slike"
+msgstr "Prejšnji okvir fokusiranja"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, iterOut)
 #: ekos/capture/capturehistorynavigation.ui:125
@@ -16415,21 +16411,19 @@ msgstr "<html><body><p>Ponovitev fokuserja.</p></body></html>"
 #: ekos/capture/capturehistorynavigation.ui:135
 #, kde-format
 msgid "Next focusing frame"
-msgstr ""
+msgstr "Naslednji okvir fokusiranja"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyLastB)
 #: ekos/capture/capturehistorynavigation.ui:155
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Last focusing frame"
-msgstr "Zadnji samodejni fokus"
+msgstr "Zadnji okvir fokusiranja"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyNextRunB)
 #: ekos/capture/capturehistorynavigation.ui:175
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Next autofocus run"
-msgstr "Zadnji samodejni fokus"
+msgstr "Naslednji tek fokusiranja"
 
 #: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
@@ -18971,13 +18965,12 @@ msgstr "Končno najden vir temperature %1"
 #: ekos/focus/focus.cpp:1079
 #, kde-format
 msgid "Delete the corresponding focus frames?"
-msgstr ""
+msgstr "Naj zbrišem ustrezne okvirje fokusiranja?"
 
 #: ekos/focus/focus.cpp:1079
-#, fuzzy, kde-format
-#| msgid "Filter focus offset"
+#, kde-format
 msgid "Delete focus frames?"
-msgstr "Filter odmika fokusa"
+msgstr "Naj zbrišem okvirje fokusiranja?"
 
 #: ekos/focus/focus.cpp:1098
 #, kde-format
@@ -19749,24 +19742,22 @@ msgstr "V-krivulja"
 
 #. i18n: ectx: property (text), widget (QLabel, starsLabel)
 #: ekos/focus/focus.ui:1047
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "Stars:"
-msgstr "Zvezde"
+msgstr "Zvezde:"
 
 #. i18n: ectx: property (text), widget (QLabel, hfrLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/focus/focus.ui:1061 ekos/manager/focusprogresswidget.ui:165
 #, kde-format
 msgid "HFR:"
-msgstr "PPT:"
+msgstr "HFR:"
 
 #. i18n: ectx: property (text), widget (QLabel, fwhmLabel)
 #: ekos/focus/focus.ui:1075
-#, fuzzy, kde-format
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM:"
-msgstr "PŠPM"
+msgstr "FWHM:"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:1108
@@ -21503,12 +21494,14 @@ msgid ""
 "Upper limit how many focus frames should be kept on disk. Set to -1 to allow "
 "arbitrary many files."
 msgstr ""
+"Zgornja omejitev števila okvirjev fokusiranja, ki naj bodo shranjeni na "
+"disku. Nastavite na -1, da omogočite poljubno število datotek."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocussettings.ui:290
 #, kde-format
 msgid "Max. Stored Frames:"
-msgstr ""
+msgstr "Največje število shranjenih okvirjev:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:315
@@ -34988,13 +34981,13 @@ msgstr "Pokaži okno INDI ob zagonu EKOS."
 #: kstars.kcfg:210
 #, kde-format
 msgid "Limit for saved focus frames"
-msgstr ""
+msgstr "Omejitev shranjenih okvirjev fokusiranja"
 
 #. i18n: ectx: whatsthis, entry (maxFocusFrameFiles), group (indi)
 #: kstars.kcfg:211
 #, kde-format
 msgid "Upper limit how many focus frames should be kept on disk."
-msgstr ""
+msgstr "Zgornja meja koliko okvirjev fokusiranja naj bo shranjenih na disku."
 
 #. i18n: ectx: label, entry (messageNotificationINDI), group (indi)
 #: kstars.kcfg:215
@@ -78110,16 +78103,14 @@ msgstr "Možnosti razvijalca"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Welcome to StellarMate <span style=\" font-"
-#| "weight:600;\">Serial Port Assistant</span> tool.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Option replaced by the <span style=\" font-weight:600;"
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dobrodošli v orodje StellarMate<span style=\" font-"
-"weight:600;\">Pomočnik za zaporedna vrata</span>.</p></body></html>"
+"<html><head/><body><p>Možnost zamenjana z <span style=\" font-weight:600;"
+"\">največjim okvirjem za fokusiranje</span> v možnostih fokusiranja.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:48
