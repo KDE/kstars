@@ -15834,25 +15834,21 @@ msgstr "<Filename>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyPreviousRunB)
 #: ekos/capture/capturehistorynavigation.ui:65
-#, fuzzy, kde-format
-#| msgid "Previous Year"
+#, kde-format
 msgid "Previous autofocus run"
-msgstr "前一年"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyFirstB)
 #: ekos/capture/capturehistorynavigation.ui:85
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Focus Frame"
+#, kde-format
 msgid "First focusing frame"
-msgstr "对焦帧"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyBackwardB)
 #: ekos/capture/capturehistorynavigation.ui:105
-#, fuzzy, kde-format
-#| msgid "Previous Blink Image"
+#, kde-format
 msgid "Previous focusing frame"
-msgstr "上一张 Blink 图片"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, iterOut)
 #: ekos/capture/capturehistorynavigation.ui:125
@@ -15868,17 +15864,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyLastB)
 #: ekos/capture/capturehistorynavigation.ui:155
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Last focusing frame"
-msgstr "上次自动对焦"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyNextRunB)
 #: ekos/capture/capturehistorynavigation.ui:175
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Next autofocus run"
-msgstr "上次自动对焦"
+msgstr ""
 
 #: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
@@ -18348,10 +18342,9 @@ msgid "Delete the corresponding focus frames?"
 msgstr ""
 
 #: ekos/focus/focus.cpp:1079
-#, fuzzy, kde-format
-#| msgid "Filter focus offset"
+#, kde-format
 msgid "Delete focus frames?"
-msgstr "滤镜对焦偏移量"
+msgstr ""
 
 #: ekos/focus/focus.cpp:1098
 #, kde-format
@@ -19079,10 +19072,9 @@ msgstr "V-曲线"
 
 #. i18n: ectx: property (text), widget (QLabel, starsLabel)
 #: ekos/focus/focus.ui:1047
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "Stars:"
-msgstr "恒星"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, hfrLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
@@ -19093,10 +19085,9 @@ msgstr "HFR："
 
 #. i18n: ectx: property (text), widget (QLabel, fwhmLabel)
 #: ekos/focus/focus.ui:1075
-#, fuzzy, kde-format
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM:"
-msgstr "半峰宽高"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:1108
@@ -76165,16 +76156,11 @@ msgstr "开发者选项"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Welcome to StellarMate <span style=\" font-"
-#| "weight:600;\">Serial Port Assistant</span> tool.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Option replaced by the <span style=\" font-weight:600;"
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>欢迎使用 StellarMate <span style=\" font-weight:600;\">"
-"串行端口助手</span>。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:48
@@ -86434,38 +86420,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
-#~ "html>"
-#~ msgstr "<html><head/><body><p>上一帧的 HFR 平均值。</p></body></html>"
-
-#~ msgid "  FWHM:"
-#~ msgstr "  FWHM:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Averaged FWHM value from the last frame.</p></"
-#~ "body></html>"
-#~ msgstr "<html><head/><body><p>上一帧的 FWHM 平均值。</p></body></html>"
-
-#~ msgid "  Stars:"
-#~ msgstr "  星:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#~ "body></html>"
-#~ msgstr "<html><head/><body><p>上一帧里找到的星点数。</p></body></html>"
-
-#~ msgid "  Iter:"
-#~ msgstr "  Iter:"
-
-#~ msgid "Save autofocus images on disk?"
-#~ msgstr "保存自动对焦图像到磁盘上吗？"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Save autofocus frames. Only enable to troubleshoot "
-#~ "autofocus by examining frames. This can consume a lot of storage space.</"
-#~ "p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>保存对焦图像。仅当需要通过检查图像来排除自动焦点故障"
-#~ "时启用。因为这可能消耗大量存储空间。</p></body></html>"

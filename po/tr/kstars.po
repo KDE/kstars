@@ -16,15 +16,15 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-20 02:01+0000\n"
-"PO-Revision-Date: 2025-07-17 22:54+0300\n"
-"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
+"PO-Revision-Date: 2025-07-21 21:15+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.04.2\n"
+"X-Generator: Lokalize 25.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -16385,25 +16385,21 @@ msgstr "<dosya adı>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyPreviousRunB)
 #: ekos/capture/capturehistorynavigation.ui:65
-#, fuzzy, kde-format
-#| msgid "Previous Year"
+#, kde-format
 msgid "Previous autofocus run"
-msgstr "Önceki Yıl"
+msgstr "Önceki kendiliğinden odak çalışması"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyFirstB)
 #: ekos/capture/capturehistorynavigation.ui:85
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Focus Frame"
+#, kde-format
 msgid "First focusing frame"
-msgstr "Odak Karesi"
+msgstr "İlk odaklama karesi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyBackwardB)
 #: ekos/capture/capturehistorynavigation.ui:105
-#, fuzzy, kde-format
-#| msgid "Previous Blink Image"
+#, kde-format
 msgid "Previous focusing frame"
-msgstr "Önceki Blink Görseli"
+msgstr "Önceki odaklama karesi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, iterOut)
 #: ekos/capture/capturehistorynavigation.ui:125
@@ -16415,21 +16411,19 @@ msgstr "<html><body><p>Odaklayıcı yinelemesi.</p></body></html>"
 #: ekos/capture/capturehistorynavigation.ui:135
 #, kde-format
 msgid "Next focusing frame"
-msgstr ""
+msgstr "Sonraki odaklama karesi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyLastB)
 #: ekos/capture/capturehistorynavigation.ui:155
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Last focusing frame"
-msgstr "Son kendiliğinden odaklanma"
+msgstr "Son odaklama karesi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyNextRunB)
 #: ekos/capture/capturehistorynavigation.ui:175
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Next autofocus run"
-msgstr "Son kendiliğinden odaklanma"
+msgstr "Sonraki kendiliğinden odak çalışması"
 
 #: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
@@ -18982,13 +18976,12 @@ msgstr "En sonunda %1 sıcaklık kaynağı bulundu"
 #: ekos/focus/focus.cpp:1079
 #, kde-format
 msgid "Delete the corresponding focus frames?"
-msgstr ""
+msgstr "İlgili odak kareleri silinsin mi?"
 
 #: ekos/focus/focus.cpp:1079
-#, fuzzy, kde-format
-#| msgid "Filter focus offset"
+#, kde-format
 msgid "Delete focus frames?"
-msgstr "Odak ofsetini süz"
+msgstr "Odak Karelerini Sil?"
 
 #: ekos/focus/focus.cpp:1098
 #, kde-format
@@ -19757,10 +19750,9 @@ msgstr "V Eğrisi"
 
 #. i18n: ectx: property (text), widget (QLabel, starsLabel)
 #: ekos/focus/focus.ui:1047
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "Stars:"
-msgstr "Yıldızlar"
+msgstr "Yıldızlar:"
 
 #. i18n: ectx: property (text), widget (QLabel, hfrLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
@@ -19771,10 +19763,9 @@ msgstr "HFR:"
 
 #. i18n: ectx: property (text), widget (QLabel, fwhmLabel)
 #: ekos/focus/focus.ui:1075
-#, fuzzy, kde-format
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM:"
-msgstr "FWHM"
+msgstr "FWHM:"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:1108
@@ -21505,12 +21496,14 @@ msgid ""
 "Upper limit how many focus frames should be kept on disk. Set to -1 to allow "
 "arbitrary many files."
 msgstr ""
+"Diskte tutulacak odak karelerinin üst sınırı. İstediğiniz sayıda dosyaya "
+"izin vermek için −1 olarak ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocussettings.ui:290
 #, kde-format
 msgid "Max. Stored Frames:"
-msgstr ""
+msgstr "En çok depolanan kare:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:315
@@ -31544,14 +31537,13 @@ msgstr "Yığma"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #: fitsviewer/livestacking.ui:221
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of High Sigma to be used in pixel rejection.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Alt karenin piksel türünden boyutu.</p></body></html>"
+"<html><head/><body><p>Piksel reddinde kullanılacak yüksek sigma değeri.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
 #: fitsviewer/livestacking.ui:240
@@ -31589,14 +31581,13 @@ msgstr "Yüksek sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #: fitsviewer/livestacking.ui:328
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of Low Sigma to be used in pixel rejection.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Alt karenin piksel türünden boyutu.</p></body></html>"
+"<html><head/><body><p>Piksel reddinde kullanılacak düşük sigma değeri.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:353
@@ -31634,6 +31625,10 @@ msgid ""
 "Num Stars. Frames are weighted by the number of stars detected in the frame."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kare tartma:</p><p>— Eşit. Tüm karelerin ağırlığı "
+"birbirlerine eşittir.</p><p>— HFR. Kareler 1 / Ortalama HFR olarak tartılır."
+"</p><p>— Yıldızların sayısı. Kareler, karede algılanan yıldızların sayısıyla "
+"tartılırlar.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:409
@@ -31662,6 +31657,10 @@ msgid ""
 "Winsorized Sigma Clipping. Winsorized version of sigma clipping</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Piksel reddi algoritması:</p><p>— Yok. Bir ret "
+"uygulanmaz.</p><p>— Sigma kırpması. Dış hattaki pikseller reddedilirler.</"
+"p><p>— Winsorlaştırılmış sigma kırpması. Sigma kırpmasının Winsorlaştırılmış "
+"hali.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:486
@@ -31673,22 +31672,23 @@ msgstr "Sigma kırpması"
 #: fitsviewer/livestacking.ui:491
 #, kde-format
 msgid "Winsorized SC"
-msgstr ""
+msgstr "Winsorlaştırılmış sigma kırpması"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:511
 #, kde-format
 msgid "Winsor Cutoff:"
-msgstr ""
+msgstr "Winsor kesimi:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #: fitsviewer/livestacking.ui:533
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Winsorization cutoff in units of sigma to be used in "
 "pixel rejection.</p></body></html>"
-msgstr "<html><head/><body><p>Tamamlanmaya kalan zaman</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Piksel reddinde kullanılacak sigma birimi türünden "
+"Winsorlaştırılmış kesme değeri.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:663
@@ -31710,10 +31710,10 @@ msgstr "Gürültü kaldırma miktarı:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:740
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
-msgstr "<html><head/><body><p>Adım boyutu:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Çekirdek boyutunu keskinleştirin.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
 #: fitsviewer/livestacking.ui:768
@@ -31724,19 +31724,21 @@ msgid ""
 "amount) of the original image.</p><p>Set to 0 to switch deconvolution off.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Uygulanacak Wiener Dekonvolüsyon Miktarı 0 ile 1 "
+"aralığındadır. Özellik, dekonvolüsyona uğramış görselin bu miktarını özgün "
+"görselin (1 - miktar) miktarıyla harmanlar.</p><p>Dekonvolüsyonu kapatmak "
+"için 0’a ayarlayın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DenoiseAmt)
 #: fitsviewer/livestacking.ui:793
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of denoise to apply. Larger values apply more "
 "denoising.</p><p>Set to 0 to skip denoising</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Her odaklayıcı konumunda yakalanacak kare sayısı.</p></"
-"body></html>"
+"<html><head/><body><p>Uygulanacak gürültü giderme miktarı. Daha büyük "
+"değerler daha fazla gürültü giderme uygular.</p><p>Gürültü gidermeyi atlamak "
+"için 0’a ayarlayın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:822
@@ -31758,49 +31760,47 @@ msgstr "PSF sigması:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
 #: fitsviewer/livestacking.ui:888
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
-msgstr "<html><head/><body><p>Adım boyutu:</p></body></html>"
+msgstr "<html><head/><body><p>Sigmayı keskinleştirin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
 #: fitsviewer/livestacking.ui:913
 #, kde-format
 msgid "Sharpen Amount:"
-msgstr ""
+msgstr "Keskinleştirme miktarı:"
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
 #: fitsviewer/livestacking.ui:935
 #, kde-format
 msgid "Deconv Amount:"
-msgstr ""
+msgstr "Dekonvolüsyon miktarı:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
 #: fitsviewer/livestacking.ui:957
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>PSF Sigma to use for Deconvolution</p></body></html>"
-msgstr "<html><head/><body><p>Tamamlanmaya kalan zaman</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Dekonvolüsyon için kullanılacak PSF sigması.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
 #: fitsviewer/livestacking.ui:982
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of sharpening to apply. Larger values apply "
 "more sharpening.</p><p>Set to 0 to skip sharpening.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görseli yakalamadan önce sıcaklık değerini zorunlu "
-"kıl</p></body></html>"
+"<html><head/><body><p>Uygulanacak keskinleştirme miktarı. Daha büyük "
+"değerler daha fazla keskinleştirme uygular.</p><p>Keskinleştirmeyi atlamak "
+"için 0’a ayarlayın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1011
 #, kde-format
 msgid "Rerun the post processing using the selected parameters"
-msgstr ""
+msgstr "Seçili parametreleri kullanarak son işlemi yeniden çalıştır"
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1014
@@ -31818,32 +31818,33 @@ msgstr "Yığın dizini:"
 #: fitsviewer/livestacking.ui:1104
 #, kde-format
 msgid "Number of subs successfully processed / failed / total"
-msgstr ""
+msgstr "Başarıyla işlenen / başarısız olan / toplam abonelik sayısı"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1107 fitsviewer/livestacking.ui:1148
 #, kde-format
 msgid "0 / 0 / 0"
-msgstr ""
+msgstr "0 / 0 / 0"
 
 #. i18n: ectx: property (text), widget (QLabel, NumberSubsLabel)
 #: fitsviewer/livestacking.ui:1126
 #, kde-format
 msgid "Proc / Fail / Total:"
-msgstr ""
+msgstr "İşlenen / Başarısız / Toplam:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1145
 #, kde-format
 msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
 msgstr ""
+"En büyük işlenen alt sinyallerin sinyal–gürültü oranı / En küçük / Ortalama"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1186
 #, kde-format
 msgid "SNR Av / Min / Max:"
-msgstr ""
+msgstr "S–G Ort. / En k / En b.:"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:1199
@@ -31855,26 +31856,25 @@ msgstr "Görsel SNR’si:"
 #: fitsviewer/livestacking.ui:1215
 #, kde-format
 msgid "The signal-to-noise ratio of the final image"
-msgstr ""
+msgstr "Son görselin sinyal–gürültü oranı"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StartB)
 #: fitsviewer/livestacking.ui:1237
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Starts watching the Stack Directory and runs stacking."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tüm son kullanılan kılavuz verisini temizleyin.</p></"
-"body></html>"
+"<html><head/><body><p>Yığın dizinini izlemeye başlar ve yığma işlemini "
+"çalıştırır.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1269
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
-msgstr "<html><head/><body><p>Geçerli kareyi sil</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Canlı yığıcı parametrelerini kaydedin.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1272
@@ -34970,13 +34970,13 @@ msgstr "Ekos’u başlatırken INDI penceresini gösterin."
 #: kstars.kcfg:210
 #, kde-format
 msgid "Limit for saved focus frames"
-msgstr ""
+msgstr "Kayıtlı odak kareleri için olan sınır"
 
 #. i18n: ectx: whatsthis, entry (maxFocusFrameFiles), group (indi)
 #: kstars.kcfg:211
 #, kde-format
 msgid "Upper limit how many focus frames should be kept on disk."
-msgstr ""
+msgstr "Diskte tutulması gereken odak karesi üst sınırı."
 
 #. i18n: ectx: label, entry (messageNotificationINDI), group (indi)
 #: kstars.kcfg:215
@@ -38770,97 +38770,97 @@ msgstr ""
 #: kstars.kcfg:1786
 #, kde-format
 msgid "Live Stacking master dark"
-msgstr ""
+msgstr "Canlı Yığma — ana karanlık"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterFlat), group (FITSViewer)
 #: kstars.kcfg:1790
 #, kde-format
 msgid "Live Stacking master flat"
-msgstr ""
+msgstr "Canlı Yığma — ana düz"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1794
 #, kde-format
 msgid "Live Stacking alignment method"
-msgstr ""
+msgstr "Canlı Yığma — hizalama yöntemi"
 
 #. i18n: ectx: label, entry (fitsLSNumInMem), group (FITSViewer)
 #: kstars.kcfg:1798
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
-msgstr ""
+msgstr "Canlı Yığma — bellekte tutulacak en çok ikâme sayısı"
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
 #: kstars.kcfg:1802
 #, kde-format
 msgid "Live Stacking downscale factor"
-msgstr ""
+msgstr "Canlı Yığma — aşağı ölçekleme çarpanı"
 
 #. i18n: ectx: whatsthis, entry (fitsLSWeighting), group (FITSViewer)
 #: kstars.kcfg:1806
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr ""
+msgstr "Canlı Yığma — ikâme tartımı"
 
 #. i18n: ectx: whatsthis, entry (fitsLSRejection), group (FITSViewer)
 #: kstars.kcfg:1810
 #, kde-format
 msgid "Live Stacking pixel rejection mechanism"
-msgstr ""
+msgstr "Canlı Yığma — piksel reddi mekanizması"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1814
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
-msgstr ""
+msgstr "Canlı Yığma — düşük sigma piksel reddi ölçütü"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1818
 #, kde-format
 msgid "Live Stacking high sigma pixel rejection criteria"
-msgstr ""
+msgstr "Canlı Yığma — yüksek sigma piksel reddi ölçütü"
 
 #. i18n: ectx: label, entry (fitsLSWinsorCutoff), group (FITSViewer)
 #: kstars.kcfg:1822
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr ""
+msgstr "Canlı Yığma — Windsor kesimi sigma kırpması"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1826
 #, kde-format
 msgid "Live Stacking deconvolution amount"
-msgstr ""
+msgstr "Canlı Yığma — dekonvolüsyon miktarı"
 
 #. i18n: ectx: label, entry (fitsLSPSFSigma), group (FITSViewer)
 #: kstars.kcfg:1830
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr ""
+msgstr "Canlı Yığma — dekonvolüsyonda uygulanacak PSF sigması"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1834
 #, kde-format
 msgid "Live Stacking denoise amount"
-msgstr ""
+msgstr "Canlı Yığma — gürültü giderme miktarı"
 
 #. i18n: ectx: label, entry (fitsLSSharpenAmt), group (FITSViewer)
 #: kstars.kcfg:1838
 #, kde-format
 msgid "Live Stacking sharpen amount"
-msgstr ""
+msgstr "Canlı Yığma — keskinleştirme miktarı"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1842
 #, kde-format
 msgid "Live Stacking sharpening kernel size"
-msgstr ""
+msgstr "Canlı Yığma — çekirdek boyutunu keskinleştirme"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1846
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr ""
+msgstr "Canlı Yığma — sigma keskinleştirmesi"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1852
@@ -78222,16 +78222,14 @@ msgstr "Geliştirici Seçenekleri"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Welcome to StellarMate <span style=\" font-"
-#| "weight:600;\">Serial Port Assistant</span> tool.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Option replaced by the <span style=\" font-weight:600;"
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>StellarMate <span style=\" font-weight:600;\">Seri "
-"Kapı Yardımcısı</span> aracına hoş geldiniz.</p></body></html>"
+"<html><head/><body><p>Odak seçeneklerinde <span style=\" font-weight:600;"
+"\">en çok odak karesi</span> seçeneğiyle değiştirilen seçenek.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:48
