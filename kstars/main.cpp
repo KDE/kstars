@@ -19,6 +19,7 @@
 #include "kstars.h"
 #include "skymap.h"
 #endif
+#include "fitsviewer/fitsviewer.h"
 
 #if !defined(KSTARS_LITE)
 #include <KAboutData>
@@ -202,6 +203,7 @@ int main(int argc, char *argv[])
     parser.addOption(QCommandLineOption("height", i18n("Height of sky image."), "value"));
     parser.addOption(QCommandLineOption("date", i18n("Date and time."), "string"));
     parser.addOption(QCommandLineOption("paused", i18n("Start with clock paused.")));
+    parser.addOption(QCommandLineOption("live-stacker", i18n("Run Live Stacker standalone mode")));
 
     // urls to open
     parser.addPositionalArgument(QStringLiteral("urls"), i18n("FITS file(s) to open."),
@@ -209,6 +211,16 @@ int main(int argc, char *argv[])
 
     parser.process(app);
     aboutData.processCommandLine(&parser);
+
+    if (parser.isSet("live-stacker"))
+    {
+        if (!KStars::launchLiveStackerStandalone())
+        {
+            qCritical() << "Failed to initialize Live Stacker";
+            return 1;
+        }
+        return app.exec();
+    }
 
     if (parser.isSet("dump"))
     {

@@ -1322,8 +1322,39 @@ void KStars::slotBlink()
 void KStars::slotStack()
 {
 #if defined(HAVE_WCSLIB) && defined(HAVE_CFITSIO) && defined(HAVE_OPENCV)
-    auto fv = createFITSViewer();
-    fv->stack();
+    if (Options::liveStackerOwnProcess())
+    {
+        // Fire up Live Stacker as a separate process
+        QString currentExecutablePath = QCoreApplication::applicationFilePath();
+        QStringList args = { "--live-stacker" };
+        QProcess *liveStacker = new QProcess(this);
+        liveStacker->setProgram(currentExecutablePath);
+        liveStacker->setArguments(args);
+        liveStacker->start();
+        if (liveStacker->waitForStarted(1000))
+        {
+            qCDebug(KSTARS) << "Live Stacker process started with PID:" << liveStacker->processId();
+            m_liveStackerProcesses.append(liveStacker);
+
+            // Listen for Live Stacker terminating and do admin to remove from the list of Live Stackers
+            connect(liveStacker, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this,
+                    [this, liveStacker](int, QProcess::ExitStatus)
+            {
+                m_liveStackerProcesses.removeAll(liveStacker);
+                liveStacker->deleteLater();
+            });
+        }
+        else
+        {
+            qCDebug(KSTARS) << "Failed to start Live Stacker process.";
+            liveStacker->deleteLater();
+        }
+    }
+    else
+    {
+        auto fv = createFITSViewer();
+        fv->stack();
+    }
 #endif
 }
 
@@ -2161,6 +2192,23 @@ void KStars::slotAboutToQuit()
     quit->waitForFinished(1000);
     delete quit;
 #endif
+
+    // Stop any separate Live Stacker processes
+    for (QProcess *liveStacker : std::as_const(m_liveStackerProcesses))
+    {
+        if (liveStacker->state() != QProcess::NotRunning)
+        {
+            qCDebug(KSTARS) << "Terminating Live Stacker PID:" << liveStacker->processId();
+            liveStacker->terminate();
+            if (!liveStacker->waitForFinished(3000))
+            {
+                qCDebug(KSTARS) << "Killing Live Stacker PID:" << liveStacker->processId();
+                liveStacker->kill();
+            }
+        }
+        liveStacker->deleteLater();
+    }
+    m_liveStackerProcesses.clear();
 }
 
 void KStars::slotShowPositionBar(SkyPoint *p)

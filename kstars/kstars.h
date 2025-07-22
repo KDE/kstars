@@ -18,6 +18,7 @@
 #ifdef HAVE_CFITSIO
 #include <QPointer>
 #endif
+#include <QProcess>
 
 // forward declaration is enough. We only need pointers
 class QActionGroup;
@@ -114,10 +115,12 @@ class KStars : public KXmlGuiWindow
              * initialization.
              * @param startClockRunning should the clock be running on startup?
              * @param startDateString date (in string representation) to start running from.
+             * @param liveStacker - set when Live Stacker is started as a separate process.
              *
              * @todo Refer to documentation on date format.
              */
-        explicit KStars(bool doSplash, bool startClockRunning = true, const QString &startDateString = QString());
+        explicit KStars(bool doSplash, bool startClockRunning = true, const QString &startDateString = QString(),
+                        const bool liveStacker = false);
 
     public:
         /**
@@ -125,10 +128,18 @@ class KStars : public KXmlGuiWindow
              * @param doSplash
              * @param clockrunning
              * @param startDateString
+             * @param liveStacker - set when Live Stacker is started as a separate process.
              * @note See KStars::KStars for details on parameters
              * @return a pointer to the instance
              */
-        static KStars *createInstance(bool doSplash, bool clockrunning = true, const QString &startDateString = QString());
+        static KStars *createInstance(bool doSplash, bool clockrunning = true, const QString &startDateString = QString(),
+                                      const bool liveStacker = false);
+
+        /**
+             * @short Launches the Live Stacker in standalone mode.
+             * @return pointer to the instance
+             */
+        static bool launchLiveStackerStandalone();
 
         /** @return a pointer to the instance of this class */
         inline static KStars *Instance()
@@ -970,4 +981,7 @@ class KStars : public KXmlGuiWindow
         OpsXplanet *opsxplanet { nullptr };
 
         friend class TestArtificialHorizon;
+
+        // Live stacker
+        QList<QProcess *> m_liveStackerProcesses;
 };

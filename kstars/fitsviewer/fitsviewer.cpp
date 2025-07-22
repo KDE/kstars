@@ -45,7 +45,8 @@ QList<KLocalizedString> FITSViewer::filterTypes = {ki18n("Auto Stretch"), ki18n(
                                                    ki18n("Flip Vertical")
                                                   };
 
-FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
+FITSViewer::FITSViewer(QWidget *parent, Mode mode) : KXmlGuiWindow(parent), m_Mode(mode)
+
 {
 #ifdef Q_OS_MACOS
     if (Options::independentWindowFITS())
@@ -135,6 +136,16 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_O | Qt::AltModifier));
     action->setText(i18n("Open/Blink Directory"));
     connect(action, &QAction::triggered, this, &FITSViewer::blink);
+
+#if defined(HAVE_CFITSIO) && defined(HAVE_WCSLIB) && defined(HAVE_OPENCV)
+    if (m_Mode == Mode::LiveStacking)
+    {
+        action = actionCollection()->addAction("live_stacker");
+        actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_K | Qt::SHIFT));
+        action->setText(i18n("Live Stacker..."));
+        connect(action, &QAction::triggered, this, &FITSViewer::stack);
+    }
+#endif
 
     saveFileAction = KStandardAction::save(this, &FITSViewer::saveFile, actionCollection());
     saveFileAction->setIcon(QIcon::fromTheme("document-save"));
@@ -336,7 +347,9 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     /* Create GUI */
     createGUI("fitsviewerui.rc");
 
-    setWindowTitle(i18nc("@title:window", "KStars FITS Viewer"));
+    QString title = (m_Mode == Mode::LiveStacking) ? i18nc("@title:window", "KStars Live Stacker") :
+                                                     i18nc("@title:window", "KStars FITS Viewer");
+    setWindowTitle(title);
 
     /* initially resize in accord with KDE rules */
     show();
@@ -349,6 +362,9 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     }
     else
         resize(INITIAL_W, INITIAL_H);
+
+    if (m_Mode == Mode::LiveStacking)
+        stack();
 }
 
 void FITSViewer::changeAlwaysOnTop(Qt::ApplicationState state)
@@ -430,6 +446,9 @@ void FITSViewer::closeEvent(QCloseEvent * /*event*/)
     }
 
     emit terminated();
+
+    if (m_Mode == Mode::LiveStacking)
+        qApp->quit();
 }
 
 void FITSViewer::hideEvent(QHideEvent * /*event*/)
@@ -1136,7 +1155,6 @@ void FITSViewer::stack()
         }
         m_StackBusy = false;
     });
-
     tab->initStack(topDir, FITS_LIVESTACKING, FITS_NONE);
 }
 

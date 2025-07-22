@@ -55,6 +55,13 @@ class FITSViewer : public KXmlGuiWindow
         Q_OBJECT
 
     public:
+        enum class Mode
+        {
+            Full,
+            LiveStacking
+        };
+
+        explicit FITSViewer(QWidget *parent = nullptr, Mode mode = Mode::Full);
         /** Constructor. */
         explicit FITSViewer(QWidget *parent);
         ~FITSViewer() override;
@@ -181,7 +188,9 @@ class FITSViewer : public KXmlGuiWindow
         static bool m_BlinkBusy;
 
         // Live Stacking
+        Mode m_Mode { Mode::Full };
         bool m_StackBusy { false };
+        void createLiveStackingOnly();
 
     signals:
         void trackingStarSelected(int x, int y);

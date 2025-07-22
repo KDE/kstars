@@ -27,6 +27,11 @@ FITSStack::~FITSStack()
 {
     tidyUpInitalStack(nullptr);
     tidyUpRunningStack();
+    if (m_WCSStackImage)
+    {
+        wcsfree(m_WCSStackImage);
+        m_WCSStackImage = nullptr;
+    }
 }
 
 void FITSStack::setStackInProgress(bool inProgress)
@@ -108,7 +113,7 @@ bool FITSStack::addSub(void * imageBuffer, const int cvType, const int width, co
             return false;
         }
 
-        // Convert Mat
+        // Convert Mat to float and downscale if required
         cv::Mat newImage;
         if (!convertMat(image, newImage))
             return false;
@@ -188,8 +193,7 @@ void FITSStack::addMaster(const bool dark, void * imageBuffer, const int width, 
             return;
         }
 
-        // Take a deep copy of the passed in image. Note this ensures the Mat is contiguous
-        // Convert Mat
+        // Convert Mat to float and downscale if required
         cv::Mat imageClone;
         if (!convertMat(image, imageClone))
             return;
@@ -263,7 +267,7 @@ bool FITSStack::convertMat(const cv::Mat &input, cv::Mat &output)
         if (m_StackData.downscale != LS_DOWNSCALE_NONE)
         {
             // Downscale image (if required). Less data = faster...
-            int downscaleFactor = getDownscaleFactor(m_StackData.downscale);
+            double downscaleFactor = getDownscaleFactor();
 
             cv::Mat downsizedImage;
             int newWidth = output.cols / downscaleFactor;
@@ -281,15 +285,15 @@ bool FITSStack::convertMat(const cv::Mat &input, cv::Mat &output)
     }
 }
 
-int FITSStack::getDownscaleFactor(LiveStackDownscale downscale)
+double FITSStack::getDownscaleFactor()
 {
-    int factor = 1;
-    if (downscale == LS_DOWNSCALE_2X)
-        factor = 2;
-    else if (downscale == LS_DOWNSCALE_3X)
-        factor = 3;
-    else if (downscale == LS_DOWNSCALE_4X)
-        factor = 4;
+    double factor = 1.0;
+    if (m_StackData.downscale == LS_DOWNSCALE_2X)
+        factor = 2.0;
+    else if (m_StackData.downscale == LS_DOWNSCALE_3X)
+        factor = 3.0;
+    else if (m_StackData.downscale == LS_DOWNSCALE_4X)
+        factor = 4.0;
     return factor;
 }
 
@@ -431,9 +435,10 @@ bool FITSStack::stack()
 
             if (m_InitialStackRef < 0)
             {
-                // First image is the reference to which others are aligned
+                // First image ise reference  thto which others are aligned
                 m_InitialStackRef = i;
                 m_StackImageData[i].isAligned = true;
+                setWCSStackImage(m_StackImageData[i].wcsprm);
             }
             else if (!m_StackImageData[i].isAligned)
             {
@@ -586,8 +591,7 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
         // If we are downscaling the image we need to adjust the warp matrix which is calculated from the un-downscaled images
         if (m_StackData.downscale != LS_DOWNSCALE_NONE)
         {
-            int downscale = getDownscaleFactor(m_StackData.downscale);
-            double scale = 1.0 / static_cast<double>(downscale);
+            double scale = 1.0 / getDownscaleFactor();
             cv::Mat S = (cv::Mat_<double>(3,3) <<
                          scale, 0,     0,
                          0,     scale, 0,
@@ -597,8 +601,8 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
             warp = S * warp * S_inv;
         }
         // Uncomment to display warp matrix - useless for debugging alignment issues
-        //cv::Ptr<cv::Formatter> fmt = cv::Formatter::get(cv::Formatter::FMT_DEFAULT);
-        //std::cout << fmt->format(warp) << std::endl;
+        cv::Ptr<cv::Formatter> fmt = cv::Formatter::get(cv::Formatter::FMT_DEFAULT);
+        std::cout << fmt->format(warp) << std::endl;
         return true;
     }
     catch (const cv::Exception &ex)
@@ -1068,6 +1072,54 @@ cv::Mat FITSStack::stacknSubsSigmaClipping(const QVector<float> &weights)
         QString s1 = ex.what();
         qCDebug(KSTARS_FITS) << QString("openCV exception %1 called from %2").arg(s1).arg(__FUNCTION__);
         return m_StackedImage32F;
+    }
+}
+
+void FITSStack::setWCSStackImage(const struct wcsprm *wcs)
+{
+    if (!wcs)
+        return;
+
+    if (m_WCSStackImage != nullptr)
+    {
+        wcsfree(m_WCSStackImage);
+        delete m_WCSStackImage;
+        m_WCSStackImage = nullptr;
+    }
+
+    m_WCSStackImage = new struct wcsprm;
+    m_WCSStackImage->flag = -1;
+
+    // Deep copy the original WCS structure
+    int status = 0;
+    if ((status = wcssub(1, wcs, 0x0, 0x0, m_WCSStackImage)) != 0)
+    {
+        qCDebug(KSTARS_FITS) << QString("%1 wcssub error processing %2").arg(__FUNCTION__).arg(status)
+                                    .arg(wcs_errmsg[status]);
+        delete m_WCSStackImage;
+        m_WCSStackImage = nullptr;
+        return;
+    }
+
+    // If the stacked image is downscaled, adjust CRPIX and CDELT
+    if (m_StackData.downscale != LS_DOWNSCALE_NONE)
+    {
+        double downscale = getDownscaleFactor();
+
+        m_WCSStackImage->cdelt[0] *= downscale;
+        m_WCSStackImage->cdelt[1] *= downscale;
+
+        m_WCSStackImage->crpix[0] /= downscale;
+        m_WCSStackImage->crpix[1] /= downscale;
+    }
+
+    if ((status = wcsset(m_WCSStackImage)) != 0)
+    {
+        qCDebug(KSTARS_FITS) << QString("%1 wcsset error processing %2").arg(__FUNCTION__).arg(status)
+                                            .arg(wcs_errmsg[status]);
+        delete m_WCSStackImage;
+        m_WCSStackImage = nullptr;
+        return;
     }
 }
 
