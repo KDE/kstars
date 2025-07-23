@@ -129,7 +129,7 @@
           <item>
            <widget class="QCheckBox" name="kcfg_liveStackerOwnProcess">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run Live Stacker as a separate prcess.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Run Live Stacker as a separate process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Live Stacker own process</string>
