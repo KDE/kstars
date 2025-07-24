@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-23 01:59+0000\n"
+"POT-Creation-Date: 2025-07-24 02:02+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -31196,7 +31196,7 @@ msgstr ""
 #: fitsviewer/opsfits.ui:132
 #, kde-format
 msgid ""
-"<html><head/><body><p>Run Live Stacker as a separate prcess.</p></body></"
+"<html><head/><body><p>Run Live Stacker as a separate process.</p></body></"
 "html>"
 msgstr ""
 

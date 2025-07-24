@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-23 01:59+0000\n"
-"PO-Revision-Date: 2025-07-20 14:31+0200\n"
+"POT-Creation-Date: 2025-07-24 02:02+0000\n"
+"PO-Revision-Date: 2025-07-23 12:33+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -31330,10 +31330,9 @@ msgid "Open/Blink Directory"
 msgstr "Map openen/laten knipperen"
 
 #: fitsviewer/fitsviewer.cpp:145 kstarsinit.cpp:164
-#, fuzzy, kde-format
-#| msgid "Live Stacking..."
+#, kde-format
 msgid "Live Stacker..."
-msgstr "Live stapelen..."
+msgstr "Live stapelaar..."
 
 #: fitsviewer/fitsviewer.cpp:166
 #, kde-format
@@ -31411,11 +31410,10 @@ msgid "View 3D Graph"
 msgstr "3D-grafiek bekijken"
 
 #: fitsviewer/fitsviewer.cpp:350 kstars.cpp:65
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker"
-msgstr "KStars Lite"
+msgstr "Live stapelaar van KStars"
 
 #: fitsviewer/fitsviewer.cpp:351
 #, kde-format
@@ -32047,17 +32045,21 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_liveStackerOwnProcess)
 #: fitsviewer/opsfits.ui:132
 #, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
+#| msgid ""
+#| "<html><head/><body><p>Run Live Stacker as a separate prcess.</p></body></"
+#| "html>"
 msgid ""
-"<html><head/><body><p>Run Live Stacker as a separate prcess.</p></body></"
+"<html><head/><body><p>Run Live Stacker as a separate process.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Live Stapelparameters opslaan</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Live Stapelaar uitvoeren als een apart proces</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_liveStackerOwnProcess)
 #: fitsviewer/opsfits.ui:135
 #, kde-format
 msgid "Live Stacker own process"
-msgstr ""
+msgstr "Eigen proces van Live stapelaar"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:144
@@ -34601,16 +34603,14 @@ msgid "KStars"
 msgstr "KStars"
 
 #: kstars.cpp:291
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgid "KStars Live Stacker"
-msgstr "KStars Lite"
+msgstr "Live stapelaar van KStars"
 
 #: kstars.cpp:292
-#, fuzzy, kde-format
-#| msgid "(c), The KStars Team"
+#, kde-format
 msgid "© 2025 KStars Team"
-msgstr "(c), Het team van KStars"
+msgstr "© 2025 Het team van KStars"
 
 #: kstars.cpp:416 kstarsactions.cpp:1650 skymap.cpp:463
 #, kde-format
@@ -38734,7 +38734,7 @@ msgstr ""
 #: kstars.kcfg:1701
 #, kde-format
 msgid "Run Live Stacker as a separate process"
-msgstr ""
+msgstr "Live stapelaar uitvoeren als een apart proces"
 
 #. i18n: ectx: label, entry (AutoDebayer), group (FITSViewer)
 #: kstars.kcfg:1705
@@ -76841,10 +76841,9 @@ msgid "Start with clock paused."
 msgstr "Starten met gestopte klok."
 
 #: main.cpp:206
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Run Live Stacker standalone mode"
-msgstr "Live stapelen met uitlijnmethode"
+msgstr "Live stapelaar als een alleenstaand proces uitvoeren"
 
 #: main.cpp:209
 #, kde-format

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-23 01:59+0000\n"
-"PO-Revision-Date: 2025-07-20 21:21+0200\n"
+"POT-Creation-Date: 2025-07-24 02:02+0000\n"
+"PO-Revision-Date: 2025-07-23 21:31+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -7270,7 +7270,7 @@ msgid ""
 "for alignment. </p><p>If you want to use a certain (fixed) filter for "
 "alignment, leave unchecked and select the filter manually.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si se selecciona, s'utilitzarà el filtre seleccionat "
+"<html><head/><body><p>Si està marcada, s'utilitzarà el filtre seleccionat "
 "per a l'alineació.</p><p>Si voleu utilitzar un filtre (fix) determinat, "
 "deixeu-la sense marcar i seleccioneu el filtre manualment.</p></body></html>"
 
@@ -11025,7 +11025,7 @@ msgid ""
 "the time at the right-side of the plot.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>El nombre de segons des de l'inici del registre fins "
-"al cursor de les estadístiques. Si no hi ha cap cursor i s'ha seleccionat "
+"al cursor de les estadístiques. Si no hi ha cap cursor i s'ha marcat "
 "l'última, llavors serà el temps a la banda dreta del traçat.</p></body></"
 "html>"
 
@@ -11038,8 +11038,8 @@ msgid ""
 "right-side of the plot.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>L'hora del rellotge per al cursor del traçat de les "
-"estadístiques. Si no hi ha cap cursor i s'ha seleccionat l'última, aleshores "
-"serà l'hora del rellotge a la banda dreta del traçat.</p></body></html>"
+"estadístiques. Si no hi ha cap cursor i s'ha marcat l'última, aleshores serà "
+"l'hora del rellotge a la banda dreta del traçat.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, zoomOutB)
 #: ekos/analyze/analyze.ui:373
@@ -15767,7 +15767,7 @@ msgstr "S'ha rebut la imatge capturada"
 #: ekos/capture/camera_actions.cpp:192
 #, kde-format
 msgid "Capturing %1 x %2-second %3 video..."
-msgstr "Es capturarà el vídeo %3  de %1 x %2 segons…"
+msgstr "Es capturarà el vídeo %3 de %1 x %2 segons…"
 
 #: ekos/capture/camera_actions.cpp:198
 #, kde-format
@@ -21214,7 +21214,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Seleccioneu-la per a utilitzar la desviació estàndard "
 "HFR o FWHM de l'estrela com a ponderació a l'algorisme d'ajust de la corba. "
-"Si no se selecciona, tots els punts de dades tindran la mateixa ponderació. "
+"Si es desmarca, tots els punts de dades tindran la mateixa ponderació. "
 "Actualment, només estarà disponible quan s'utilitza «Camp "
 "complet» (múltiples estreles) i un «Ajust de la corba» d'«Hipèrbola» o de "
 "«Paràbola» davall l'algorisme «Lineal d'1 pas». Esta característica és "
@@ -21978,8 +21978,8 @@ msgstr ""
 "utilitze una sola estrela (nota: «Camp complet» utilitza múltiples "
 "estreles). En este mode, la casella de selecció «Selecció automàtica de "
 "l'estrela» s'activarà per a permetre que Ekos seleccione una estrela (quan "
-"està seleccionada) o per a permetre que l'usuari la seleccione manualment en "
-"el visor de FITS (quan no està seleccionada).</p></body></html>"
+"està marcada) o per a permetre que l'usuari la seleccione manualment en el "
+"visor de FITS (quan està desmarcada).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/opsfocussettings.ui:150
@@ -22868,9 +22868,8 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 "Per a rebre les imatges de PHD2 diferents de la imatge de l'estrela guia, "
-"cal que «Submarc» estiga desseleccionada. Desseleccioneu-la ara per a "
-"activar les captures d'imatge. La podreu tornar a seleccionar abans del "
-"guiatge."
+"cal que «Submarc» estiga desmarcada. Desmarqueu-la ara per a activar les "
+"captures d'imatge. La podreu tornar a seleccionar abans del guiatge."
 
 #: ekos/guide/guide.cpp:3310
 #, kde-format
@@ -23886,7 +23885,7 @@ msgid ""
 "previously been done and the guide camera has not been rotated or re-"
 "installed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si se selecciona, sempre es tornarà a calibrar quan "
+"<html><head/><body><p>Si està marcada, sempre es tornarà a calibrar quan "
 "s'inicie el guiatge. Sovint no cal fer-ho perquè abans s'ha efectuat un "
 "calibratge de bona qualitat i la càmera guia no s'ha girat o reinstal·lat.</"
 "p></body></html>"
@@ -23911,8 +23910,7 @@ msgstr ""
 "Açò només funciona en els costats oposats del meridià si es pot determinar "
 "automàticament el costat del moll a partir de la muntura. L'opció de dalt, "
 "«Reinicia el calibratge del guiatge després de cada orientació de la "
-"muntura», per a intentar açò cal que estiga desseleccionada.</p></body></"
-"html>"
+"muntura», per a intentar açò cal que estiga desmarcada.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
@@ -24053,7 +24051,7 @@ msgid ""
 "dither amount is random anyway. It is necessary when 2-D dither is required "
 "but guiding is only done in one axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si se selecciona, es generarà aleatòriament el nombre "
+"<html><head/><body><p>Si està marcada, es generarà aleatòriament el nombre "
 "de tramats, s'enviaran els polsos, però no es forçarà el nombre resultant de "
 "tramats de píxels, així que només s'enviarà un pols de tramat. Açò és més "
 "ràpid i està recomanat, ja que de totes maneres el nombre de tramats és "
@@ -24073,7 +24071,7 @@ msgid ""
 "<html><head/><body><p>If checked, autoguiding is aborted when dithering "
 "fails. Otherwise, guiding resumes normally.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si se selecciona, el guiatge automàtic s'interromprà "
+"<html><head/><body><p>Si està marcada, el guiatge automàtic s'interromprà "
 "quan falle el tramat. En cas contrari, el guiatge es reprendrà amb "
 "normalitat.</p></body></html>"
 
@@ -24243,7 +24241,7 @@ msgid ""
 "If checked, the GPG estimates the mount's major period. Otherwise, it uses "
 "the entry above."
 msgstr ""
-"Si se selecciona, GPG estimarà el període més gran de la muntura. Altrament, "
+"Si està marcada, GPG estimarà el període més gran de la muntura. Altrament, "
 "utilitzarà l'entrada de més amunt."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs1a)
@@ -24972,7 +24970,7 @@ msgid ""
 "meant for user's to improve logging and can be viewed with phd2logview.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Si se selecciona i s'executa el sistema de guiatge "
+"<html><head/><body><p>Si està marcada i s'executa el sistema de guiatge "
 "intern, es guardarà un fitxer de registre en el directori predeterminat del "
 "registre. Este no és un registre de depuració, està destinat per a millorar "
 "la gravació de l'usuari i es pot veure amb «phd2logview».</p></body></html>"
@@ -26821,7 +26819,7 @@ msgstr "Orientació de les icones:"
 #, kde-format
 msgid "Ekos modules icons are placed on the top of pages"
 msgstr ""
-"Les icones del mòdul «Ekos» se situen en la part superior de les pàgines."
+"Les icones dels mòduls d'Ekos se situen en la part superior de les pàgines."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_EkosTopIcons)
 #: ekos/opsekos.ui:107
@@ -28221,9 +28219,9 @@ msgid ""
 "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
 "moves minimally between jobs (S-shape).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Quan se selecciona, s'ordenaran les tessel·les del "
-"mosaic de manera que es minimitzen els moviments de la muntura entre les "
-"tasques (forma S).</p></body></html>"
+"<html><head/><body><p>Quan es marca, s'ordenaran les tessel·les del mosaic "
+"de manera que es minimitzen els moviments de la muntura entre les tasques "
+"(forma S).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseOddRows)
 #: ekos/scheduler/framingassistant.ui:905
@@ -28805,8 +28803,8 @@ msgid ""
 "<html><head/><body><p>When checked the scheduler tries to run lower priority "
 "jobs when no higher priority job can run. Recommended.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Quan se selecciona, el programador intentarà executar "
-"les tasques de prioritat més baixa quan no es puga executar cap tasca de "
+"<html><head/><body><p>Quan es marca, el programador intentarà executar les "
+"tasques de prioritat més baixa quan no es puga executar cap tasca de "
 "prioritat més alta. Recomanat.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
@@ -32081,10 +32079,9 @@ msgid "Open/Blink Directory"
 msgstr "Obri un directori i fes parpelleig"
 
 #: fitsviewer/fitsviewer.cpp:145 kstarsinit.cpp:164
-#, fuzzy, kde-format
-#| msgid "Live Stacking..."
+#, kde-format
 msgid "Live Stacker..."
-msgstr "Apilament en directe…"
+msgstr "Apilador en directe…"
 
 #: fitsviewer/fitsviewer.cpp:166
 #, kde-format
@@ -32163,11 +32160,10 @@ msgid "View 3D Graph"
 msgstr "Visualitza el gràfic en 3D"
 
 #: fitsviewer/fitsviewer.cpp:350 kstars.cpp:65
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker"
-msgstr "KStars Lite"
+msgstr "Apilador en directe de KStars"
 
 #: fitsviewer/fitsviewer.cpp:351
 #, kde-format
@@ -32700,7 +32696,7 @@ msgstr ""
 #, kde-format
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Guarda els paràmetres de l'apilament en directe</p></"
+"<html><head/><body><p>Guarda els paràmetres de l'«Apilador en directe».</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
@@ -32808,19 +32804,21 @@ msgstr "Fa que la finestra del visor de FITS siga independent de KStars."
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_liveStackerOwnProcess)
 #: fitsviewer/opsfits.ui:132
 #, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
+#| msgid ""
+#| "<html><head/><body><p>Run Live Stacker as a separate prcess.</p></body></"
+#| "html>"
 msgid ""
-"<html><head/><body><p>Run Live Stacker as a separate prcess.</p></body></"
+"<html><head/><body><p>Run Live Stacker as a separate process.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Guarda els paràmetres de l'apilament en directe</p></"
-"body></html>"
+"<html><head/><body><p>Executa l'apilador en directe com un procés separat.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_liveStackerOwnProcess)
 #: fitsviewer/opsfits.ui:135
 #, kde-format
 msgid "Live Stacker own process"
-msgstr ""
+msgstr "Procés propi de l'apilador en directe"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:144
@@ -33027,7 +33025,7 @@ msgstr "WCS automàtic"
 msgid ""
 "Process 3D (RGB) FITS images. If unchecked, only first channel is processed."
 msgstr ""
-"Processa les imatges FITS en 3D (RGB). Si no se selecciona, només es "
+"Processa les imatges FITS en 3D (RGB). Si està desmarcada, només es "
 "processarà el primer canal."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Auto3DCube)
@@ -35424,16 +35422,14 @@ msgid "KStars"
 msgstr "KStars"
 
 #: kstars.cpp:291
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgid "KStars Live Stacker"
-msgstr "KStars Lite"
+msgstr "Apilador en directe de KStars"
 
 #: kstars.cpp:292
-#, fuzzy, kde-format
-#| msgid "(c), The KStars Team"
+#, kde-format
 msgid "© 2025 KStars Team"
-msgstr "(c), L'equip de KStars"
+msgstr "(c) 2025 L'equip de KStars"
 
 #: kstars.cpp:416 kstarsactions.cpp:1650 skymap.cpp:463
 #, kde-format
@@ -36977,7 +36973,7 @@ msgstr "Voleu simular les hores diürnes?"
 #: kstars.kcfg:622
 #, kde-format
 msgid "If checked, sky will be bright during the daytime."
-msgstr "Si se selecciona, el cel serà brillant durant les hores diürnes."
+msgstr "Si està marcada, el cel serà brillant durant les hores diürnes."
 
 #. i18n: ectx: label, entry (ShowOther), group (View)
 #: kstars.kcfg:626
@@ -39199,7 +39195,7 @@ msgstr "Fitxer ARC"
 #, kde-format
 msgid "If checked, use an arc file to be plotted against the background stars."
 msgstr ""
-"Si se selecciona, s'utilitzarà un fitxer ARC que es dibuixarà superposat en "
+"Si està marcada, s'utilitzarà un fitxer ARC que es dibuixarà superposat en "
 "el fons estrelat."
 
 #. i18n: ectx: label, entry (XplanetArcFilePath), group (Xplanet)
@@ -39227,7 +39223,7 @@ msgstr "Fitxer de configuració"
 #: kstars.kcfg:1498
 #, kde-format
 msgid "If checked, use a config file."
-msgstr "Si se selecciona, s'utilitzarà un fitxer de configuració."
+msgstr "Si està marcada, s'utilitzarà un fitxer de configuració."
 
 #. i18n: ectx: label, entry (XplanetConfigFilePath), group (Xplanet)
 #: kstars.kcfg:1502
@@ -39252,7 +39248,7 @@ msgstr "Utilitza CDV de KStars"
 #: kstars.kcfg:1508 xplanet/opsxplanet.ui:239
 #, kde-format
 msgid "If checked, use kstars's FOV."
-msgstr "Si se selecciona, s'utilitzarà CDV de KStars."
+msgstr "Si està marcada, s'utilitzarà CDV de KStars."
 
 #. i18n: ectx: label, entry (XplanetMarkerFile), group (Xplanet)
 #: kstars.kcfg:1512
@@ -39265,7 +39261,7 @@ msgstr "Utilitza un fitxer de marcadors"
 #: kstars.kcfg:1513 xplanet/opsxplanet.ui:810
 #, kde-format
 msgid "If checked, use the specified marker file."
-msgstr "Si se selecciona, s'utilitzarà el fitxer de marcadors especificat."
+msgstr "Si està marcada, s'utilitzarà el fitxer de marcadors especificat."
 
 #. i18n: ectx: label, entry (XplanetMarkerFilePath), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetMarkerFilePath)
@@ -39296,8 +39292,8 @@ msgstr "Escriu els marcadors de límit"
 msgid ""
 "If checked, write coordinates of the bounding box for each marker in a file."
 msgstr ""
-"Si se selecciona, s'escriuran en un fitxer les coordenades del contenidor "
-"per a cada marcador."
+"Si està marcada, s'escriuran en un fitxer les coordenades del contenidor per "
+"a cada marcador."
 
 #. i18n: ectx: label, entry (XplanetMarkerBoundsPath), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetMarkerBoundsPath)
@@ -39326,7 +39322,7 @@ msgstr "Mapa estel·lar"
 #, kde-format
 msgid "If checked, use star map file to draw the background stars."
 msgstr ""
-"Si se selecciona, s'utilitzarà un mapa estel·lar en fitxer per a dibuixar el "
+"Si està marcada, s'utilitzarà un mapa estel·lar en fitxer per a dibuixar el "
 "fons estrelat."
 
 #. i18n: ectx: label, entry (XplanetStarmapPath), group (Xplanet)
@@ -39706,7 +39702,7 @@ msgstr ""
 #: kstars.kcfg:1701
 #, kde-format
 msgid "Run Live Stacker as a separate process"
-msgstr ""
+msgstr "Executa l'apilador en directe com un procés separat"
 
 #. i18n: ectx: label, entry (AutoDebayer), group (FITSViewer)
 #: kstars.kcfg:1705
@@ -41134,8 +41130,8 @@ msgstr ""
 msgid ""
 "Number of datapoints to use during scan when focusScanStartPos is checked."
 msgstr ""
-"Nombre de punts de dades que s'utilitzaran durant l'exploració quan se "
-"seleccione «Explora per a la posició inicial»."
+"Nombre de punts de dades que s'utilitzaran durant l'exploració quan es "
+"marque «Explora per a la posició inicial»."
 
 #. i18n: ectx: label, entry (focusScanStepSizeFactor), group (Focus)
 #: kstars.kcfg:2482
@@ -41145,7 +41141,7 @@ msgid ""
 "checked."
 msgstr ""
 "Factor que s'aplicarà a la «Mida del pas inicial» durant l'exploració quan "
-"se seleccione «Explora per a la posició inicial» de l'enfocament."
+"es marque «Explora per a la posició inicial» de l'enfocament."
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:2486
@@ -41705,9 +41701,8 @@ msgid ""
 "Do not sanitize FITS. This option should only be checked if astrometry.net "
 "version is 0.67 or earlier. Uncheck for any versions greater than 0.67."
 msgstr ""
-"No saneja FITS. Esta opció només s'ha de seleccionar si la versió "
-"d'«astrometry.net» és 0.67 o anterior. Desseleccioneu-la per a versions "
-"superiors."
+"No saneja FITS. Esta opció només s'ha de marcar si la versió d'«astrometry."
+"net» és 0.67 o anterior. Desseleccioneu-la per a versions superiors."
 
 #. i18n: ectx: label, entry (AstrometryUseResort), group (Align)
 #: kstars.kcfg:2787
@@ -73604,7 +73599,7 @@ msgstr "Latitud: "
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:307
 #, kde-kuit-format
 msgid "Longitude: "
-msgstr "Llargària: "
+msgstr "Longitud: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:323
 #, kde-kuit-format
@@ -78098,15 +78093,14 @@ msgid "Start with clock paused."
 msgstr "Comença amb el rellotge parat."
 
 #: main.cpp:206
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Run Live Stacker standalone mode"
-msgstr "Mètode d'alineació de l'apilament en directe"
+msgstr "Executa l'apilador en directe en mode autònom"
 
 #: main.cpp:209
 #, kde-format
 msgid "FITS file(s) to open."
-msgstr "Els fitxers FITS  que s'obriran."
+msgstr "Els fitxers FITS que s'obriran."
 
 #: main.cpp:255 printing/foveditordialog.cpp:176
 #, kde-format
@@ -78635,8 +78629,8 @@ msgid ""
 "Looks like you have not listed out your observers / equipment. Please hit "
 "Ctrl + 0 and Ctrl + 1 to fix this situation and come back here."
 msgstr ""
-"Pareix com si no heu llistat els observadors i equip. Premeu «Ctrl+0» i «Ctrl"
-"+1» per a esmenar esta situació i torneu ací."
+"Pareix com si no heu llistat els observadors i l'equip. Premeu «Ctrl+0» i "
+"«Ctrl+1» per a esmenar esta situació i torneu ací."
 
 #. i18n: ectx: property (text), widget (QPushButton, NextButton)
 #: oal/execute.ui:474
@@ -83533,8 +83527,8 @@ msgid ""
 msgstr ""
 "\t\t<p>Podeu dissenyar-vos els vostres propis símbols del camp de visió "
 "(CDV)\n"
-"\t\t\tutilitzant l'Editor de CDV del menú «Configuració -> Símbols de CDV». "
-"Podeu establir la mida angular,\n"
+"\t\t\tutilitzant l'«Editor de CDV» des del menú «Configuració -> Símbols de "
+"CDV». Podeu establir la mida angular,\n"
 "\t\t\tla forma i el color dels vostres símbols nous.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -83555,7 +83549,7 @@ msgstr ""
 "símbol de camp de visió (CDV o FOV) que coincidisca amb la mida del sensor "
 "de la càmera. Llavors podreu ajustar l'orientació del símbol de CDV perquè "
 "coincidisca amb l'orientació de la càmera, per a veure que s'ajusta dins el "
-"camp per a l'obtenció de les imatges. Es pot accedir a l'Editor de CDV des "
+"camp per a l'obtenció de les imatges. Es pot accedir a l'«Editor de CDV» des "
 "del menú «Configuració -> Símbols de CDV».\n"
 "\t\t</p>\n"
 "\t\n"

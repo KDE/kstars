@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1714011 $
+# Version: $Revision: 1714077 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-23 01:59+0000\n"
+"POT-Creation-Date: 2025-07-24 02:02+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -32846,7 +32846,7 @@ msgstr "Uczyń okno przeglądarki FITS niezależnym od głównego okna KStars."
 #| msgid ""
 #| "<html><head/><body><p>General Focus Settings parameters.</p></body></html>"
 msgid ""
-"<html><head/><body><p>Run Live Stacker as a separate prcess.</p></body></"
+"<html><head/><body><p>Run Live Stacker as a separate process.</p></body></"
 "html>"
 msgstr "<html><head/><body><p>Ogólne ustawienia ostrości.</p></body></html>"
 

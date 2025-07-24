@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-23 01:59+0000\n"
+"POT-Creation-Date: 2025-07-24 02:02+0000\n"
 "PO-Revision-Date: 2025-01-22 18:47+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -31090,7 +31090,7 @@ msgstr "اجعل نافذة عارض صور FITS مستقلة عن برنامج 
 #: fitsviewer/opsfits.ui:132
 #, fuzzy, kde-format
 msgid ""
-"<html><head/><body><p>Run Live Stacker as a separate prcess.</p></body></"
+"<html><head/><body><p>Run Live Stacker as a separate process.</p></body></"
 "html>"
 msgstr "حدّد بوصة دَخْل ملفّ."
 

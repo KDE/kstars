@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-23 01:59+0000\n"
+"POT-Creation-Date: 2025-07-24 02:02+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -30010,10 +30010,9 @@ msgid "Open/Blink Directory"
 msgstr "Open/Blink 目录"
 
 #: fitsviewer/fitsviewer.cpp:145 kstarsinit.cpp:164
-#, fuzzy, kde-format
-#| msgid "Live Video..."
+#, kde-format
 msgid "Live Stacker..."
-msgstr "实时视频..."
+msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:166
 #, kde-format
@@ -30091,11 +30090,10 @@ msgid "View 3D Graph"
 msgstr "查看 3D 图像"
 
 #: fitsviewer/fitsviewer.cpp:350 kstars.cpp:65
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker"
-msgstr "KStars Lite"
+msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:351
 #, kde-format
@@ -30685,7 +30683,7 @@ msgstr "使 FITS 查看器窗口从 KStars 独立出来"
 #| "<html><head/><body><p>Run HFR check after this many sub-frames.</p></"
 #| "body></html>"
 msgid ""
-"<html><head/><body><p>Run Live Stacker as a separate prcess.</p></body></"
+"<html><head/><body><p>Run Live Stacker as a separate process.</p></body></"
 "html>"
 msgstr ""
 "<html><head/><body><p>每这么多 sub-frame 后运行 HFR 检查。</p></body></html>"
@@ -33162,16 +33160,14 @@ msgid "KStars"
 msgstr "KStars"
 
 #: kstars.cpp:291
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgid "KStars Live Stacker"
-msgstr "KStars Lite"
+msgstr ""
 
 #: kstars.cpp:292
-#, fuzzy, kde-format
-#| msgid "(c), The KStars Team"
+#, kde-format
 msgid "© 2025 KStars Team"
-msgstr "(c), The KStars Team"
+msgstr ""
 
 #: kstars.cpp:416 kstarsactions.cpp:1650 skymap.cpp:463
 #, kde-format
