@@ -416,7 +416,8 @@ bool FITSData::processNextSub(QString &sub)
             qCDebug(KSTARS_FITS) << QString("Unable to load sub %1").arg(sub);
         else
         {
-            if (m_StackSubIndex <= 0)
+            bool plateSolving = (m_Stack->getStackData().alignMethod == LS_ALIGNMENT_PLATE_SOLVE);
+            if (plateSolving && m_StackSubIndex <= 0)
             {
                 // 1st time solving, or solving had a problem so use WCS from sub header
                 if ((ok = stackLoadWCS()))
@@ -524,6 +525,7 @@ void FITSData::stackFITSLoaded()
         return;
     }
 
+    bool plateSolving = (m_Stack->getStackData().alignMethod == LS_ALIGNMENT_PLATE_SOLVE);
     switch (action)
     {
         case stackFITSDark:
@@ -538,17 +540,27 @@ void FITSData::stackFITSLoaded()
 
         case stackFITSSub:
             if (m_StackFITSWatcher.result())
-                // Next step in the chain is to plate solve
-                emit plateSolveSub(m_StackSubRa, m_StackSubDec, m_StackSubPixscale, m_StackSubIndex,
-                                   m_StackSubHealpix, m_Stack->getStackData().weighting);
+            {
+                if (plateSolving)
+                {
+                    // Next step in the chain is to plate solve
+                    emit plateSolveSub(m_StackSubRa, m_StackSubDec, m_StackSubPixscale, m_StackSubIndex,
+                                       m_StackSubHealpix, m_Stack->getStackData().weighting);
+                    return;
+                }
+                // We're not plate solving so update sub status to good and emit stats
+                m_Stack->addSubStatus(true);
+                emit stackUpdateStats(true, m_StackSubPos, m_StackDirWatcher->getCurrentFiles().size(), m_Stack->getMeanSubSNR(),
+                                      m_Stack->getMinSubSNR(), m_Stack->getMaxSubSNR());
+            }
             else
             {
                 // Something has gone wrong with this sub so mark it failed and move to the next action
-                m_Stack->addSubFailed();
+                m_Stack->addSubStatus(false);
                 emit stackUpdateStats(false, m_StackSubPos, m_StackDirWatcher->getCurrentFiles().size(),
                                       m_Stack->getMeanSubSNR(), m_Stack->getMinSubSNR(), m_Stack->getMaxSubSNR());
-                nextStackAction();
             }
+            nextStackAction();
             break;
         default:
             qCDebug(KSTARS_FITS) << QString("%1 Unknown m_StackFITSAsync %2").arg(__FUNCTION__).arg(m_StackFITSAsync);
@@ -998,7 +1010,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const bool isCompressed)
     if (m_Mode == FITS_NORMAL || m_Mode == FITS_ALIGN)
         loadWCS();
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
-    else if (m_Mode == FITS_LIVESTACKING)
+    else if (m_Mode == FITS_LIVESTACKING && m_Stack->getStackData().alignMethod == LS_ALIGNMENT_PLATE_SOLVE)
         stackSetupWCS();
 #endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
 

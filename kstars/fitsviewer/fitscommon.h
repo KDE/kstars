@@ -306,7 +306,7 @@ static CatObjType catObjTypes[MAX_CAT_OBJ_TYPES] =
 };
 
 // Live Stacking
-typedef enum { LS_ALIGNMENT_PLATE_SOLVE } LiveStackAlignMethod;
+typedef enum { LS_ALIGNMENT_PLATE_SOLVE, LS_ALIGNMENT_NONE } LiveStackAlignMethod;
 typedef enum { LS_DOWNSCALE_NONE, LS_DOWNSCALE_2X, LS_DOWNSCALE_3X, LS_DOWNSCALE_4X } LiveStackDownscale;
 typedef enum { LS_STACKING_EQUAL, LS_STACKING_HFR, LS_STACKING_NUM_STARS } LiveStackFrameWeighting;
 typedef enum { LS_STACKING_REJ_NONE, LS_STACKING_REJ_SIGMA, LS_STACKING_REJ_WINDSOR } LiveStackRejection;

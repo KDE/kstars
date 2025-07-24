@@ -93,9 +93,10 @@ class FITSStack : public QObject
         bool solverDone(const wcsprm * wcsHandle, const bool timedOut, const bool success, const double hfr, const int numStars);
 
         /**
-         * @brief Perform admin within FITSStack for case where we couldn't add an image.
+         * @brief Update the sub datastructure's status.
+         * @param OK (or not)
          */
-        void addSubFailed();
+        void addSubStatus(const bool ok);
 
         /**
          * @brief Perform an initial stack
@@ -227,7 +228,7 @@ class FITSStack : public QObject
             CALIBRATION_FAILED,
             ALIGNMENT_FAILED,
             OK
-        } Status;
+        } StackSubStatus;
 
         /**
          * @brief Check that a new image is consistent with previous images in size, datatype, etc
@@ -412,7 +413,7 @@ class FITSStack : public QObject
         typedef struct
         {
             cv::Mat image;
-            Status status;
+            StackSubStatus status;
             bool isCalibrated;
             bool isAligned;
             struct wcsprm * wcsprm;

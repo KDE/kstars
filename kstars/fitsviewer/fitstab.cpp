@@ -1052,7 +1052,7 @@ void FITSTab::selectLiveStackMasterDark()
 {
     QString selectedFilter;
     QString file = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Select Master Dark"),
-                   m_CurrentStackDir, "FITS (*.fits *.fits.gz *.fit);;XISF (*.xisf)", &selectedFilter);
+                                m_CurrentStackDir, "FITS (*.fits *.fits.gz *.fit);;XISF (*.xisf)", &selectedFilter);
     if (!file.isNull())
     {
         QUrl sequenceURL = QUrl::fromLocalFile(file);
