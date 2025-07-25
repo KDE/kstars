@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-24 02:02+0000\n"
+"POT-Creation-Date: 2025-07-25 02:00+0000\n"
 "PO-Revision-Date: 2025-03-30 23:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -754,7 +754,7 @@ msgstr "Eraro de Legado de Dosiero de Astrometrio."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Interna Astrometria Agorda Dosiera Skriba Eraro."
 
-#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:1557
+#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:1569
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -5527,7 +5527,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:784
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:850
 #: ekos/guide/manualpulse.ui:119 ekos/guide/manualpulse.ui:133
-#: fitsviewer/livestacking.ui:1218 tools/modcalcangdist.ui:353
+#: fitsviewer/livestacking.ui:1250 tools/modcalcangdist.ui:353
 #, kde-format
 msgid "0"
 msgstr "0"
@@ -10191,7 +10191,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHRefreshAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, AlignMethod)
-#: ekos/align/polaralignmentassistant.ui:422 fitsviewer/livestacking.ui:586
+#: ekos/align/polaralignmentassistant.ui:422 fitsviewer/livestacking.ui:601
 #, kde-format
 msgid "Plate Solve"
 msgstr "Pletsolvi"
@@ -10300,7 +10300,7 @@ msgstr "Polar Alignment alteca eraro taksita post lastatempaj alĝustigoj."
 #: ekos/manager.cpp:149 ekos/manager.cpp:252 ekos/manager.cpp:813
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
-#: fitsviewer/livestacking.ui:1240 kstarslite/qml/indi/INDIControlPanel.qml:166
+#: fitsviewer/livestacking.ui:1272 kstarslite/qml/indi/INDIControlPanel.qml:166
 #, kde-format, kde-kuit-format
 msgid "Start"
 msgstr "Komenci"
@@ -11923,14 +11923,14 @@ msgstr "1x1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin2Check)
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
-#: ekos/auxiliary/darklibrary.ui:304 fitsviewer/livestacking.ui:375
+#: ekos/auxiliary/darklibrary.ui:304 fitsviewer/livestacking.ui:387
 #, kde-format
 msgid "2x2"
 msgstr "2x2"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin4Check)
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
-#: ekos/auxiliary/darklibrary.ui:314 fitsviewer/livestacking.ui:385
+#: ekos/auxiliary/darklibrary.ui:314 fitsviewer/livestacking.ui:397
 #, kde-format
 msgid "4x4"
 msgstr "4x4"
@@ -12016,7 +12016,7 @@ msgstr "Difektaj Mapoj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, masterDarkLabel)
-#: ekos/auxiliary/darklibrary.ui:621 fitsviewer/livestacking.ui:140
+#: ekos/auxiliary/darklibrary.ui:621 fitsviewer/livestacking.ui:146
 #, kde-format
 msgid "Master Dark:"
 msgstr "Majstro Dark:"
@@ -12737,7 +12737,7 @@ msgstr "Protokoli Ekos Alignment modulo aktiveco"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlignmentLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, AlignmentGroupBox)
 #: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:452
-#: fitsviewer/livestacking.ui:555
+#: fitsviewer/livestacking.ui:567
 #, kde-format
 msgid "Alignment"
 msgstr "Vicigo"
@@ -14124,13 +14124,15 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #. i18n: ectx: property (currentText), widget (QComboBox, Rejection)
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
+#. i18n: ectx: property (text), item, widget (QComboBox, AlignMethod)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
-#: fitsviewer/livestacking.ui:366 fitsviewer/livestacking.ui:370
-#: fitsviewer/livestacking.ui:474 fitsviewer/livestacking.ui:481
-#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1964
-#: kstarsinit.cpp:869 kstarsinit.cpp:870 tools/obslistwizard.ui:183
+#: fitsviewer/livestacking.ui:378 fitsviewer/livestacking.ui:382
+#: fitsviewer/livestacking.ui:486 fitsviewer/livestacking.ui:493
+#: fitsviewer/livestacking.ui:606 indi/drivermanager.cpp:1341
+#: indi/indidriver.cpp:735 kstarsactions.cpp:1964 kstarsinit.cpp:869
+#: kstarsinit.cpp:870 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
 msgstr "Neniu"
@@ -18040,7 +18042,7 @@ msgid "Delta (μm)"
 msgstr "Delta (μm)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
-#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/livestacking.ui:419
+#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/livestacking.ui:431
 #, kde-format
 msgid "Num Stars"
 msgstr "Nombro Steloj"
@@ -20750,7 +20752,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: ekos/focus/opsfocusprocess.ui:259 fitsviewer/livestacking.ui:414
+#: ekos/focus/opsfocusprocess.ui:259 fitsviewer/livestacking.ui:426
 #: fitsviewer/statform.ui:81
 #, kde-format
 msgid "HFR"
@@ -30332,187 +30334,187 @@ msgstr "Priskribo de Objekta Tipo"
 msgid "Object Type Comments"
 msgstr "Objekt-Tipaj Komentoj"
 
-#: fitsviewer/fitsdata.cpp:790
+#: fitsviewer/fitsdata.cpp:802
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Eraro legante taŭgas bufron: %1."
 
-#: fitsviewer/fitsdata.cpp:803
+#: fitsviewer/fitsdata.cpp:815
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Malsukcesis malpaki kunpremitajn agordojn"
 
-#: fitsviewer/fitsdata.cpp:819
+#: fitsviewer/fitsdata.cpp:831
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Eraro dum la malfermo taŭgas dosieron %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:832
+#: fitsviewer/fitsdata.cpp:844
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Eraro legante taŭgas bufron: %1"
 
-#: fitsviewer/fitsdata.cpp:844
+#: fitsviewer/fitsdata.cpp:856
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Ne eblis trovi bildon HDU: %1"
 
-#: fitsviewer/fitsdata.cpp:851
+#: fitsviewer/fitsdata.cpp:863
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "FITS-dosiera eraro de malfermado (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:865
+#: fitsviewer/fitsdata.cpp:877
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "Bildoj 1D FITS ne estas subtenataj en KStars."
 
-#: fitsviewer/fitsdata.cpp:911 fitsviewer/fitsdata.cpp:1409
+#: fitsviewer/fitsdata.cpp:923 fitsviewer/fitsdata.cpp:1421
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Bitoprofundo %1 ne estas subtenata."
 
-#: fitsviewer/fitsdata.cpp:921
+#: fitsviewer/fitsdata.cpp:933
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Bildo havas nevalidajn dimensiojn %1x%2"
 
-#: fitsviewer/fitsdata.cpp:966
+#: fitsviewer/fitsdata.cpp:978
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Eraro legante bildon: %1"
 
-#: fitsviewer/fitsdata.cpp:1308
+#: fitsviewer/fitsdata.cpp:1320
 #, kde-format
 msgid "File contain no images"
 msgstr "Dosiero ne enhavas bildojn"
 
-#: fitsviewer/fitsdata.cpp:1337
+#: fitsviewer/fitsdata.cpp:1349
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Specimena formato %1 ne estas subtenata."
 
-#: fitsviewer/fitsdata.cpp:1372
+#: fitsviewer/fitsdata.cpp:1384
 #, kde-format
 msgid "XISF file open error: "
 msgstr "XISF eraro dum dosiermalfermado: "
 
-#: fitsviewer/fitsdata.cpp:1424
+#: fitsviewer/fitsdata.cpp:1436
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Eraro konservante XISF-bildon"
 
-#: fitsviewer/fitsdata.cpp:1516 fitsviewer/fitsdata.cpp:1632
+#: fitsviewer/fitsdata.cpp:1528 fitsviewer/fitsdata.cpp:1644
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSDatumoj: Ne sufiĉa memoro por image_buffer-kanalo. Petita: %1 bajtoj"
 
-#: fitsviewer/fitsdata.cpp:1571
+#: fitsviewer/fitsdata.cpp:1583
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Ne povas malfermi dosieron %1: %2"
 
-#: fitsviewer/fitsdata.cpp:1584
+#: fitsviewer/fitsdata.cpp:1596
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Ne povas malfermi bufron: %1"
 
-#: fitsviewer/fitsdata.cpp:1595
+#: fitsviewer/fitsdata.cpp:1607
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Ne povas malpakigi_thumb: %1"
 
-#: fitsviewer/fitsdata.cpp:1602
+#: fitsviewer/fitsdata.cpp:1614
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Ne povas dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:1610
+#: fitsviewer/fitsdata.cpp:1622
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Ne povas ŝargi en memoron: %1"
 
-#: fitsviewer/fitsdata.cpp:1757
+#: fitsviewer/fitsdata.cpp:1769
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Konservado de kunpremitaj dosieroj ne estas subtenata."
 
-#: fitsviewer/fitsdata.cpp:1822
+#: fitsviewer/fitsdata.cpp:1834
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Malsukcesis krei dosieron: %1"
 
-#: fitsviewer/fitsdata.cpp:1837
+#: fitsviewer/fitsdata.cpp:1849
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Malsukcesis krei bildon: %1"
 
-#: fitsviewer/fitsdata.cpp:1846 fitsviewer/fitsdata.cpp:1853
+#: fitsviewer/fitsdata.cpp:1858 fitsviewer/fitsdata.cpp:1865
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Malsukcesis ĝisdatigi ŝlosilon: %1"
 
-#: fitsviewer/fitsdata.cpp:1954
+#: fitsviewer/fitsdata.cpp:1966
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Malsukcesis ĝisdatigi daton: %1"
 
-#: fitsviewer/fitsdata.cpp:1963
+#: fitsviewer/fitsdata.cpp:1975
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Malsukcesis ĝisdatigi historion: %1"
 
-#: fitsviewer/fitsdata.cpp:1985
+#: fitsviewer/fitsdata.cpp:1997
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Malsukcesis skribi bildon: %1"
 
-#: fitsviewer/fitsdata.cpp:3708 fitsviewer/fitsdata.cpp:3719
-#: fitsviewer/fitsdata.cpp:3756 fitsviewer/fitsdata.cpp:3792
-#: fitsviewer/fitsdata.cpp:3926
+#: fitsviewer/fitsdata.cpp:3720 fitsviewer/fitsdata.cpp:3731
+#: fitsviewer/fitsdata.cpp:3768 fitsviewer/fitsdata.cpp:3804
+#: fitsviewer/fitsdata.cpp:3938
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Neniuj mondaj koordinatsistemoj trovitaj."
 
-#: fitsviewer/fitsdata.cpp:4101 fitsviewer/fitsdata.cpp:4209
+#: fitsviewer/fitsdata.cpp:4113 fitsviewer/fitsdata.cpp:4221
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Eraro dum pridemando de Simbad"
 
-#: fitsviewer/fitsdata.cpp:4118
+#: fitsviewer/fitsdata.cpp:4130
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Simbad-demando eksvalidiĝis"
 
-#: fitsviewer/fitsdata.cpp:5095
+#: fitsviewer/fitsdata.cpp:5107
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Nur 8 kaj 16 bitoj bayeritaj bildoj subtenataj."
 
-#: fitsviewer/fitsdata.cpp:5128
+#: fitsviewer/fitsdata.cpp:5140
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Nesubtenata bayer-ŝablono %1."
 
-#: fitsviewer/fitsdata.cpp:5159
+#: fitsviewer/fitsdata.cpp:5171
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Nesubtenata bayer kompensas %1 %2."
 
-#: fitsviewer/fitsdata.cpp:5316 fitsviewer/fitsdata.cpp:5363
-#: fitsviewer/fitsdata.cpp:5408 fitsviewer/fitsdata.cpp:5455
+#: fitsviewer/fitsdata.cpp:5328 fitsviewer/fitsdata.cpp:5375
+#: fitsviewer/fitsdata.cpp:5420 fitsviewer/fitsdata.cpp:5467
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Ne eblas atribui memoron por provizora bayer-bufro: %1"
 
-#: fitsviewer/fitsdata.cpp:5326 fitsviewer/fitsdata.cpp:5418
+#: fitsviewer/fitsdata.cpp:5338 fitsviewer/fitsdata.cpp:5430
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Ne eblas atribui memoron por provizora bayer-bufro."
 
-#: fitsviewer/fitsdata.cpp:5346 fitsviewer/fitsdata.cpp:5438
+#: fitsviewer/fitsdata.cpp:5358 fitsviewer/fitsdata.cpp:5450
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Debayer malsukcesis (%1)"
@@ -30564,7 +30566,7 @@ msgstr "BGGR"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, alignLabel)
-#: fitsviewer/fitsdebayer.ui:53 fitsviewer/livestacking.ui:641
+#: fitsviewer/fitsdebayer.ui:53 fitsviewer/livestacking.ui:667
 #, kde-format
 msgid "Method:"
 msgstr "Metodo:"
@@ -31467,15 +31469,49 @@ msgstr "Prilaboranta %1..."
 msgid "Master Flat:"
 msgstr "Majstro Dark:"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, MasterFlatB)
+#: fitsviewer/livestacking.ui:102
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+msgid ""
+"<html><head/><body><p>File chooser dialog for Master Flat</p></body></html>"
+msgstr "<html><head/><body><p>Reduktila aŭ Barlowa faktoro.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
+#: fitsviewer/livestacking.ui:121
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+msgid ""
+"<html><head/><body><p>The Master Flat to use to calibrate lights.</p></"
+"body></html>"
+msgstr "<html><head/><body><p>Krei novan optikan trajnon.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDark)
+#: fitsviewer/livestacking.ui:162
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+msgid ""
+"<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
+"body></html>"
+msgstr "<html><head/><body><p>Krei novan optikan trajnon.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, MasterDarkB)
+#: fitsviewer/livestacking.ui:181
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+msgid ""
+"<html><head/><body><p>File chooser dialog for Master Dark</p></body></html>"
+msgstr "<html><head/><body><p>Reduktila aŭ Barlowa faktoro.</p></body></html>"
+
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
-#: fitsviewer/livestacking.ui:191
+#: fitsviewer/livestacking.ui:203
 #, fuzzy, kde-format
 #| msgid "Tracking"
 msgid "Stacking"
 msgstr "Spurado"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
-#: fitsviewer/livestacking.ui:221
+#: fitsviewer/livestacking.ui:233
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
@@ -31487,14 +31523,14 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
-#: fitsviewer/livestacking.ui:240
+#: fitsviewer/livestacking.ui:252
 #, fuzzy, kde-format
 #| msgid "Sigma:"
 msgid "Low Sigma:"
 msgstr "Sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
-#: fitsviewer/livestacking.ui:262
+#: fitsviewer/livestacking.ui:274
 #, kde-format
 msgid ""
 "<html><head/><body><p>The maximum number of subs held in memory whilst "
@@ -31505,21 +31541,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
-#: fitsviewer/livestacking.ui:290
+#: fitsviewer/livestacking.ui:302
 #, fuzzy, kde-format
 #| msgid "Memory:"
 msgid "In Memory Subs:"
 msgstr "Memoro:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
-#: fitsviewer/livestacking.ui:306
+#: fitsviewer/livestacking.ui:318
 #, fuzzy, kde-format
 #| msgid "Sigma:"
 msgid "High Sigma:"
 msgstr "Sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
-#: fitsviewer/livestacking.ui:328
+#: fitsviewer/livestacking.ui:340
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
@@ -31531,14 +31567,14 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
-#: fitsviewer/livestacking.ui:353
+#: fitsviewer/livestacking.ui:365
 #, fuzzy, kde-format
 #| msgid "Downsample"
 msgid "Downscale:"
 msgstr "Redukti bildgrandon"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
-#: fitsviewer/livestacking.ui:363
+#: fitsviewer/livestacking.ui:375
 #, kde-format
 msgid ""
 "<html><head/><body><p>Downscale images:</p><p>- None. No downscaling "
@@ -31548,13 +31584,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
-#: fitsviewer/livestacking.ui:380
+#: fitsviewer/livestacking.ui:392
 #, kde-format
 msgid "3x3"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Weighting)
-#: fitsviewer/livestacking.ui:405
+#: fitsviewer/livestacking.ui:417
 #, kde-format
 msgid ""
 "<html><head/><body><p>Frame weighting:</p><p>- Equal. All frames have the "
@@ -31564,28 +31600,28 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
-#: fitsviewer/livestacking.ui:409
+#: fitsviewer/livestacking.ui:421
 #, fuzzy, kde-format
 #| msgid "Equalize"
 msgid "Equal"
 msgstr "Egaligi"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
-#: fitsviewer/livestacking.ui:433
+#: fitsviewer/livestacking.ui:445
 #, fuzzy, kde-format
 #| msgid "Image height:"
 msgid "Frame Weight:"
 msgstr "Alteco de bildo:"
 
 #. i18n: ectx: property (text), widget (QLabel, pixelRejLabel)
-#: fitsviewer/livestacking.ui:449
+#: fitsviewer/livestacking.ui:461
 #, fuzzy, kde-format
 #| msgid "Source Extraction Method"
 msgid "Rejection Method:"
 msgstr "Fonta Eltira Metodo"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
-#: fitsviewer/livestacking.ui:471
+#: fitsviewer/livestacking.ui:483
 #, kde-format
 msgid ""
 "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No rejection "
@@ -31595,26 +31631,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
-#: fitsviewer/livestacking.ui:486
+#: fitsviewer/livestacking.ui:498
 #, fuzzy, kde-format
 #| msgid "Show Clipping"
 msgid "Sigma Clipping"
 msgstr "Montri Tondadon"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
-#: fitsviewer/livestacking.ui:491
+#: fitsviewer/livestacking.ui:503
 #, kde-format
 msgid "Winsorized SC"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
-#: fitsviewer/livestacking.ui:511
+#: fitsviewer/livestacking.ui:523
 #, kde-format
 msgid "Winsor Cutoff:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
-#: fitsviewer/livestacking.ui:533
+#: fitsviewer/livestacking.ui:545
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
 msgid ""
@@ -31622,36 +31658,70 @@ msgid ""
 "pixel rejection.</p></body></html>"
 msgstr "<html><head/><body><p>Restanta tempo ĝis kompletigo</p></body></html>"
 
+#. i18n: ectx: property (toolTip), widget (QComboBox, AlignMethod)
+#: fitsviewer/livestacking.ui:597
+#, kde-format
+msgid ""
+"<html><head/><body><p>Alignment Method:</p><p>- None. No alignment is "
+"performed. Useful for stacking darks and flats.</p><p>- Plate Solve. Subs "
+"will be plate solved in order to align them prior to stacking.</p></body></"
+"html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLineEdit, AlignMaster)
+#: fitsviewer/livestacking.ui:626
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Plot the number of stars detected in the guide "
+#| "images.</p></body></html>"
+msgid ""
+"<html><head/><body><p>The sub to use as reference to align all other subs.</"
+"p></body></html>"
+msgstr ""
+"<html><head/><body><p>Desegni la nombron da steloj detektitaj en la "
+"gvidbildoj.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, AlignMasterB)
+#: fitsviewer/livestacking.ui:642
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+msgid ""
+"<html><head/><body><p>File chooser dialog for Alignment Master</p></body></"
+"html>"
+msgstr ""
+"<html><head/><body><p>Malplenigi la historion de datumoj de sensilo</p></"
+"body></html>"
+
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
-#: fitsviewer/livestacking.ui:663
+#: fitsviewer/livestacking.ui:689
 #, fuzzy, kde-format
 #| msgid "Master Dark:"
 msgid "Master Sub:"
 msgstr "Majstro Dark:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
-#: fitsviewer/livestacking.ui:682
+#: fitsviewer/livestacking.ui:708
 #, fuzzy, kde-format
 #| msgid "Processing"
 msgid "Post Processing"
 msgstr "Prilaborado"
 
 #. i18n: ectx: property (text), widget (QLabel, DenoiseLabel)
-#: fitsviewer/livestacking.ui:718
+#: fitsviewer/livestacking.ui:744
 #, fuzzy, kde-format
 #| msgid "Denoise"
 msgid "Denoise Amount:"
 msgstr "Denoise"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
-#: fitsviewer/livestacking.ui:740
+#: fitsviewer/livestacking.ui:766
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Step size:</p></body></html>"
-msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
+msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
 msgstr "<html><head/><body><p>Paŝa grandeco:</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
-#: fitsviewer/livestacking.ui:768
+#: fitsviewer/livestacking.ui:794
 #, kde-format
 msgid ""
 "<html><head/><body><p>Amount of Wiener Deconvolution to apply in the range 0 "
@@ -31661,7 +31731,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DenoiseAmt)
-#: fitsviewer/livestacking.ui:793
+#: fitsviewer/livestacking.ui:819
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Number of frames to capture at each focuser "
@@ -31674,7 +31744,7 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
-#: fitsviewer/livestacking.ui:822
+#: fitsviewer/livestacking.ui:848
 #, fuzzy, kde-format
 #| msgctxt "City in Utah USA"
 #| msgid "Vernal"
@@ -31682,40 +31752,40 @@ msgid "Kernel:"
 msgstr "Vernal"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
-#: fitsviewer/livestacking.ui:844
+#: fitsviewer/livestacking.ui:870
 #, fuzzy, kde-format
 #| msgid "Sigma:"
 msgid "Sharpen Sigma:"
 msgstr "Sigma:"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
-#: fitsviewer/livestacking.ui:866
+#: fitsviewer/livestacking.ui:892
 #, fuzzy, kde-format
 #| msgid "Sigma:"
 msgid "PSF Sigma:"
 msgstr "Sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
-#: fitsviewer/livestacking.ui:888
+#: fitsviewer/livestacking.ui:914
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Step size:</p></body></html>"
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
 msgstr "<html><head/><body><p>Paŝa grandeco:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
-#: fitsviewer/livestacking.ui:913
+#: fitsviewer/livestacking.ui:939
 #, kde-format
 msgid "Sharpen Amount:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
-#: fitsviewer/livestacking.ui:935
+#: fitsviewer/livestacking.ui:961
 #, kde-format
 msgid "Deconv Amount:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
-#: fitsviewer/livestacking.ui:957
+#: fitsviewer/livestacking.ui:983
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
 msgid ""
@@ -31723,7 +31793,7 @@ msgid ""
 msgstr "<html><head/><body><p>Restanta tempo ĝis kompletigo</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
-#: fitsviewer/livestacking.ui:982
+#: fitsviewer/livestacking.ui:1008
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Enforce temperature value before capturing an "
@@ -31736,71 +31806,87 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ReprocessB)
-#: fitsviewer/livestacking.ui:1011
+#: fitsviewer/livestacking.ui:1037
 #, kde-format
 msgid "Rerun the post processing using the selected parameters"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
-#: fitsviewer/livestacking.ui:1014
+#: fitsviewer/livestacking.ui:1040
 #, fuzzy, kde-format
 #| msgid "Process"
 msgid "Reprocess"
 msgstr "Procezo"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, StackDirB)
+#: fitsviewer/livestacking.ui:1086
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+msgid "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
+msgstr "<html><head/><body><p>Kameradeŝova angulo</p></body></html>"
+
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
-#: fitsviewer/livestacking.ui:1082
+#: fitsviewer/livestacking.ui:1111
 #, fuzzy, kde-format
 #| msgid "Directory:"
 msgid "Stack Directory:"
 msgstr "Dosierujo:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
-#: fitsviewer/livestacking.ui:1104
+#: fitsviewer/livestacking.ui:1133
 #, kde-format
 msgid "Number of subs successfully processed / failed / total"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
-#: fitsviewer/livestacking.ui:1107 fitsviewer/livestacking.ui:1148
+#: fitsviewer/livestacking.ui:1136 fitsviewer/livestacking.ui:1177
 #, kde-format
 msgid "0 / 0 / 0"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, NumberSubsLabel)
-#: fitsviewer/livestacking.ui:1126
+#: fitsviewer/livestacking.ui:1155
 #, kde-format
 msgid "Proc / Fail / Total:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
-#: fitsviewer/livestacking.ui:1145
+#: fitsviewer/livestacking.ui:1174
 #, kde-format
 msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
 msgstr ""
 
+#. i18n: ectx: property (toolTip), widget (QLineEdit, Stack)
+#: fitsviewer/livestacking.ui:1196
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+msgid ""
+"<html><head/><body><p>The directory containing files to stack</p></body></"
+"html>"
+msgstr "<html><head/><body><p>Restanta tempo ĝis kompletigo</p></body></html>"
+
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
-#: fitsviewer/livestacking.ui:1186
+#: fitsviewer/livestacking.ui:1218
 #, kde-format
 msgid "SNR Av / Min / Max:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
-#: fitsviewer/livestacking.ui:1199
+#: fitsviewer/livestacking.ui:1231
 #, fuzzy, kde-format
 #| msgid "Image Save"
 msgid "Image SNR:"
 msgstr "Konservi bildon"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
-#: fitsviewer/livestacking.ui:1215
+#: fitsviewer/livestacking.ui:1247
 #, kde-format
 msgid "The signal-to-noise ratio of the final image"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StartB)
-#: fitsviewer/livestacking.ui:1237
+#: fitsviewer/livestacking.ui:1269
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
@@ -31811,15 +31897,22 @@ msgstr ""
 "<html><head/><body><p>Forviŝi ĉiujn lastatempajn gvidajn datumojn.</p></"
 "body></html>"
 
+#. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
+#: fitsviewer/livestacking.ui:1285
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p><br/></p></body></html>"
+msgid "<html><head/><body><p>Memory monitor</p></body></html>"
+msgstr "<html><head/><body><p><br/></p></body></html>"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
-#: fitsviewer/livestacking.ui:1269
+#: fitsviewer/livestacking.ui:1304
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
 msgstr "<html><head/><body><p>Forigi nunan kadron</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
-#: fitsviewer/livestacking.ui:1272
+#: fitsviewer/livestacking.ui:1307
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Settings"

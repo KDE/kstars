@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-24 02:02+0000\n"
+"POT-Creation-Date: 2025-07-25 02:00+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -780,7 +780,7 @@ msgstr ""
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:1557
+#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:1569
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -5688,7 +5688,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:784
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:850
 #: ekos/guide/manualpulse.ui:119 ekos/guide/manualpulse.ui:133
-#: fitsviewer/livestacking.ui:1218 tools/modcalcangdist.ui:353
+#: fitsviewer/livestacking.ui:1250 tools/modcalcangdist.ui:353
 #, kde-format
 msgid "0"
 msgstr ""
@@ -10281,7 +10281,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHRefreshAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, AlignMethod)
-#: ekos/align/polaralignmentassistant.ui:422 fitsviewer/livestacking.ui:586
+#: ekos/align/polaralignmentassistant.ui:422 fitsviewer/livestacking.ui:601
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid "Plate Solve"
@@ -10387,7 +10387,7 @@ msgstr ""
 #: ekos/manager.cpp:149 ekos/manager.cpp:252 ekos/manager.cpp:813
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
-#: fitsviewer/livestacking.ui:1240 kstarslite/qml/indi/INDIControlPanel.qml:166
+#: fitsviewer/livestacking.ui:1272 kstarslite/qml/indi/INDIControlPanel.qml:166
 #, kde-format, kde-kuit-format
 msgid "Start"
 msgstr "Sākt"
@@ -11958,14 +11958,14 @@ msgstr "x"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin2Check)
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
-#: ekos/auxiliary/darklibrary.ui:304 fitsviewer/livestacking.ui:375
+#: ekos/auxiliary/darklibrary.ui:304 fitsviewer/livestacking.ui:387
 #, kde-format
 msgid "2x2"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin4Check)
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
-#: ekos/auxiliary/darklibrary.ui:314 fitsviewer/livestacking.ui:385
+#: ekos/auxiliary/darklibrary.ui:314 fitsviewer/livestacking.ui:397
 #, kde-format
 msgid "4x4"
 msgstr ""
@@ -12055,7 +12055,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, masterDarkLabel)
-#: ekos/auxiliary/darklibrary.ui:621 fitsviewer/livestacking.ui:140
+#: ekos/auxiliary/darklibrary.ui:621 fitsviewer/livestacking.ui:146
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Western sahara"
@@ -12818,7 +12818,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlignmentLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, AlignmentGroupBox)
 #: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:452
-#: fitsviewer/livestacking.ui:555
+#: fitsviewer/livestacking.ui:567
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Alignment"
@@ -14178,13 +14178,15 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #. i18n: ectx: property (currentText), widget (QComboBox, Rejection)
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
+#. i18n: ectx: property (text), item, widget (QComboBox, AlignMethod)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
-#: fitsviewer/livestacking.ui:366 fitsviewer/livestacking.ui:370
-#: fitsviewer/livestacking.ui:474 fitsviewer/livestacking.ui:481
-#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1964
-#: kstarsinit.cpp:869 kstarsinit.cpp:870 tools/obslistwizard.ui:183
+#: fitsviewer/livestacking.ui:378 fitsviewer/livestacking.ui:382
+#: fitsviewer/livestacking.ui:486 fitsviewer/livestacking.ui:493
+#: fitsviewer/livestacking.ui:606 indi/drivermanager.cpp:1341
+#: indi/indidriver.cpp:735 kstarsactions.cpp:1964 kstarsinit.cpp:869
+#: kstarsinit.cpp:870 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
 msgstr "Nav"
@@ -18204,7 +18206,7 @@ msgid "Delta (μm)"
 msgstr "Delta ,\""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
-#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/livestacking.ui:419
+#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/livestacking.ui:431
 #, fuzzy, kde-format
 #| msgid "Mark Stars"
 msgid "Num Stars"
@@ -20869,7 +20871,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: ekos/focus/opsfocusprocess.ui:259 fitsviewer/livestacking.ui:414
+#: ekos/focus/opsfocusprocess.ui:259 fitsviewer/livestacking.ui:426
 #: fitsviewer/statform.ui:81
 #, kde-format
 msgid "HFR"
@@ -30126,209 +30128,209 @@ msgstr "Apraksts"
 msgid "Object Type Comments"
 msgstr "Objekta tips"
 
-#: fitsviewer/fitsdata.cpp:790
+#: fitsviewer/fitsdata.cpp:802
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1."
 msgstr "Kļūda: neizdevās saglabāt attēlu: %1 "
 
-#: fitsviewer/fitsdata.cpp:803
+#: fitsviewer/fitsdata.cpp:815
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:819
+#: fitsviewer/fitsdata.cpp:831
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error opening fits file %1 : %2"
 msgstr "Kļūda: neizdevās saglabāt attēlu: %1 "
 
-#: fitsviewer/fitsdata.cpp:832
+#: fitsviewer/fitsdata.cpp:844
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1"
 msgstr "Kļūda: neizdevās saglabāt attēlu: %1 "
 
-#: fitsviewer/fitsdata.cpp:844
+#: fitsviewer/fitsdata.cpp:856
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Could not locate image HDU: %1"
 msgstr "Neizdevās atvērt failu %1."
 
-#: fitsviewer/fitsdata.cpp:851
+#: fitsviewer/fitsdata.cpp:863
 #, fuzzy, kde-format
 #| msgid "FITS file open error (fits_get_img_param): %1"
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "FITS faila atvēršanas kļūda (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:865
+#: fitsviewer/fitsdata.cpp:877
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:911 fitsviewer/fitsdata.cpp:1409
+#: fitsviewer/fitsdata.cpp:923 fitsviewer/fitsdata.cpp:1421
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:921
+#: fitsviewer/fitsdata.cpp:933
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:966
+#: fitsviewer/fitsdata.cpp:978
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading image: %1"
 msgstr "Kļūda: neizdevās saglabāt attēlu: %1 "
 
-#: fitsviewer/fitsdata.cpp:1308
+#: fitsviewer/fitsdata.cpp:1320
 #, fuzzy, kde-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Daily Solar Images"
 msgid "File contain no images"
 msgstr "Ikdienas saules attēli"
 
-#: fitsviewer/fitsdata.cpp:1337
+#: fitsviewer/fitsdata.cpp:1349
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Sample format %1 is not supported."
 msgstr "Autofokusa opcijas"
 
-#: fitsviewer/fitsdata.cpp:1372
+#: fitsviewer/fitsdata.cpp:1384
 #, fuzzy, kde-format
 #| msgid "Write Error"
 msgid "XISF file open error: "
 msgstr "Rakstīšanas kļūda"
 
-#: fitsviewer/fitsdata.cpp:1424
+#: fitsviewer/fitsdata.cpp:1436
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error saving XISF image"
 msgstr "Kļūda: neizdevās saglabāt attēlu: %1 "
 
-#: fitsviewer/fitsdata.cpp:1516 fitsviewer/fitsdata.cpp:1632
+#: fitsviewer/fitsdata.cpp:1528 fitsviewer/fitsdata.cpp:1644
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1571
+#: fitsviewer/fitsdata.cpp:1583
 #, fuzzy, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Nevaru Atvērt Failu"
 
-#: fitsviewer/fitsdata.cpp:1584
+#: fitsviewer/fitsdata.cpp:1596
 #, fuzzy, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Nevaru Atvērt Failu"
 
-#: fitsviewer/fitsdata.cpp:1595
+#: fitsviewer/fitsdata.cpp:1607
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1602
+#: fitsviewer/fitsdata.cpp:1614
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot dcraw_process: %1"
 msgstr "Neizdevās rakstīt uz lietotāja žurnāla failu"
 
-#: fitsviewer/fitsdata.cpp:1610
+#: fitsviewer/fitsdata.cpp:1622
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1757
+#: fitsviewer/fitsdata.cpp:1769
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Saving compressed files is not supported."
 msgstr "Autofokusa opcijas"
 
-#: fitsviewer/fitsdata.cpp:1822
+#: fitsviewer/fitsdata.cpp:1834
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to create file: %1"
 msgstr "Neizdevās atvērt failu %1."
 
-#: fitsviewer/fitsdata.cpp:1837
+#: fitsviewer/fitsdata.cpp:1849
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Failed to create image: %1"
 msgstr "Neizdevās saglabāt attēlu: %1 "
 
-#: fitsviewer/fitsdata.cpp:1846 fitsviewer/fitsdata.cpp:1853
+#: fitsviewer/fitsdata.cpp:1858 fitsviewer/fitsdata.cpp:1865
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to update key: %1"
 msgstr "Neizdevās atvērt failu %1."
 
-#: fitsviewer/fitsdata.cpp:1954
+#: fitsviewer/fitsdata.cpp:1966
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Failed to update date: %1"
 msgstr "Neizdevās saglabāt attēlu: %1 "
 
-#: fitsviewer/fitsdata.cpp:1963
+#: fitsviewer/fitsdata.cpp:1975
 #, fuzzy, kde-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Daily Solar Images"
 msgid "Failed to update history: %1"
 msgstr "Ikdienas saules attēli"
 
-#: fitsviewer/fitsdata.cpp:1985
+#: fitsviewer/fitsdata.cpp:1997
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Failed to write image: %1"
 msgstr "Neizdevās saglabāt attēlu: %1 "
 
-#: fitsviewer/fitsdata.cpp:3708 fitsviewer/fitsdata.cpp:3719
-#: fitsviewer/fitsdata.cpp:3756 fitsviewer/fitsdata.cpp:3792
-#: fitsviewer/fitsdata.cpp:3926
+#: fitsviewer/fitsdata.cpp:3720 fitsviewer/fitsdata.cpp:3731
+#: fitsviewer/fitsdata.cpp:3768 fitsviewer/fitsdata.cpp:3804
+#: fitsviewer/fitsdata.cpp:3938
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:4101 fitsviewer/fitsdata.cpp:4209
+#: fitsviewer/fitsdata.cpp:4113 fitsviewer/fitsdata.cpp:4221
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error querying Simbad"
 msgstr "Kļūda: neizdevās saglabāt attēlu: %1 "
 
-#: fitsviewer/fitsdata.cpp:4118
+#: fitsviewer/fitsdata.cpp:4130
 #, fuzzy, kde-format
 #| msgid "%1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Simbad query timed out"
 msgstr "Atrasta %1 zvaigzne."
 
-#: fitsviewer/fitsdata.cpp:5095
+#: fitsviewer/fitsdata.cpp:5107
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5128
+#: fitsviewer/fitsdata.cpp:5140
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5159
+#: fitsviewer/fitsdata.cpp:5171
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5316 fitsviewer/fitsdata.cpp:5363
-#: fitsviewer/fitsdata.cpp:5408 fitsviewer/fitsdata.cpp:5455
+#: fitsviewer/fitsdata.cpp:5328 fitsviewer/fitsdata.cpp:5375
+#: fitsviewer/fitsdata.cpp:5420 fitsviewer/fitsdata.cpp:5467
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5326 fitsviewer/fitsdata.cpp:5418
+#: fitsviewer/fitsdata.cpp:5338 fitsviewer/fitsdata.cpp:5430
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5346 fitsviewer/fitsdata.cpp:5438
+#: fitsviewer/fitsdata.cpp:5358 fitsviewer/fitsdata.cpp:5450
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
@@ -30385,7 +30387,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, alignLabel)
-#: fitsviewer/fitsdebayer.ui:53 fitsviewer/livestacking.ui:641
+#: fitsviewer/fitsdebayer.ui:53 fitsviewer/livestacking.ui:667
 #, kde-format
 msgid "Method:"
 msgstr ""
@@ -31371,15 +31373,49 @@ msgstr "Fokuss"
 msgid "Master Flat:"
 msgstr "Rietumsahāra"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, MasterFlatB)
+#: fitsviewer/livestacking.ui:102
+#, fuzzy, kde-format
+#| msgid "The maximum solar distance for drawing comets."
+msgid ""
+"<html><head/><body><p>File chooser dialog for Master Flat</p></body></html>"
+msgstr "Maksimālais solārais attālums komētu attēlošanai."
+
+#. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
+#: fitsviewer/livestacking.ui:121
+#, fuzzy, kde-format
+#| msgid "The maximum solar distance for drawing comets."
+msgid ""
+"<html><head/><body><p>The Master Flat to use to calibrate lights.</p></"
+"body></html>"
+msgstr "Maksimālais solārais attālums komētu attēlošanai."
+
+#. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDark)
+#: fitsviewer/livestacking.ui:162
+#, fuzzy, kde-format
+#| msgid "The maximum solar distance for drawing comets."
+msgid ""
+"<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
+"body></html>"
+msgstr "Maksimālais solārais attālums komētu attēlošanai."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, MasterDarkB)
+#: fitsviewer/livestacking.ui:181
+#, fuzzy, kde-format
+#| msgid "The maximum solar distance for drawing comets."
+msgid ""
+"<html><head/><body><p>File chooser dialog for Master Dark</p></body></html>"
+msgstr "Maksimālais solārais attālums komētu attēlošanai."
+
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
-#: fitsviewer/livestacking.ui:191
+#: fitsviewer/livestacking.ui:203
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Stacking"
 msgstr "Celiņš"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
-#: fitsviewer/livestacking.ui:221
+#: fitsviewer/livestacking.ui:233
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid ""
@@ -31388,14 +31424,14 @@ msgid ""
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
-#: fitsviewer/livestacking.ui:240
+#: fitsviewer/livestacking.ui:252
 #, fuzzy, kde-format
 #| msgid "sigma"
 msgid "Low Sigma:"
 msgstr "sigma"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
-#: fitsviewer/livestacking.ui:262
+#: fitsviewer/livestacking.ui:274
 #, kde-format
 msgid ""
 "<html><head/><body><p>The maximum number of subs held in memory whilst "
@@ -31406,20 +31442,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
-#: fitsviewer/livestacking.ui:290
+#: fitsviewer/livestacking.ui:302
 #, kde-format
 msgid "In Memory Subs:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
-#: fitsviewer/livestacking.ui:306
+#: fitsviewer/livestacking.ui:318
 #, fuzzy, kde-format
 #| msgid "sigma"
 msgid "High Sigma:"
 msgstr "sigma"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
-#: fitsviewer/livestacking.ui:328
+#: fitsviewer/livestacking.ui:340
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid ""
@@ -31428,14 +31464,14 @@ msgid ""
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
-#: fitsviewer/livestacking.ui:353
+#: fitsviewer/livestacking.ui:365
 #, fuzzy, kde-format
 #| msgid "Delete All Images"
 msgid "Downscale:"
 msgstr "Dzēst visus attēlus"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
-#: fitsviewer/livestacking.ui:363
+#: fitsviewer/livestacking.ui:375
 #, kde-format
 msgid ""
 "<html><head/><body><p>Downscale images:</p><p>- None. No downscaling "
@@ -31445,13 +31481,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
-#: fitsviewer/livestacking.ui:380
+#: fitsviewer/livestacking.ui:392
 #, kde-format
 msgid "3x3"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Weighting)
-#: fitsviewer/livestacking.ui:405
+#: fitsviewer/livestacking.ui:417
 #, kde-format
 msgid ""
 "<html><head/><body><p>Frame weighting:</p><p>- Equal. All frames have the "
@@ -31461,28 +31497,28 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
-#: fitsviewer/livestacking.ui:409
+#: fitsviewer/livestacking.ui:421
 #, fuzzy, kde-format
 #| msgid "Equator"
 msgid "Equal"
 msgstr "Ekvators"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
-#: fitsviewer/livestacking.ui:433
+#: fitsviewer/livestacking.ui:445
 #, fuzzy, kde-format
 #| msgid "Frame:"
 msgid "Frame Weight:"
 msgstr "Kadrs:"
 
 #. i18n: ectx: property (text), widget (QLabel, pixelRejLabel)
-#: fitsviewer/livestacking.ui:449
+#: fitsviewer/livestacking.ui:461
 #, fuzzy, kde-format
 #| msgid "Separation"
 msgid "Rejection Method:"
 msgstr "Atdalīšana"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
-#: fitsviewer/livestacking.ui:471
+#: fitsviewer/livestacking.ui:483
 #, kde-format
 msgid ""
 "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No rejection "
@@ -31492,7 +31528,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
-#: fitsviewer/livestacking.ui:486
+#: fitsviewer/livestacking.ui:498
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Philippines"
@@ -31500,19 +31536,19 @@ msgid "Sigma Clipping"
 msgstr "Filipīnas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
-#: fitsviewer/livestacking.ui:491
+#: fitsviewer/livestacking.ui:503
 #, kde-format
 msgid "Winsorized SC"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
-#: fitsviewer/livestacking.ui:511
+#: fitsviewer/livestacking.ui:523
 #, kde-format
 msgid "Winsor Cutoff:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
-#: fitsviewer/livestacking.ui:533
+#: fitsviewer/livestacking.ui:545
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid ""
@@ -31520,8 +31556,36 @@ msgid ""
 "pixel rejection.</p></body></html>"
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
+#. i18n: ectx: property (toolTip), widget (QComboBox, AlignMethod)
+#: fitsviewer/livestacking.ui:597
+#, kde-format
+msgid ""
+"<html><head/><body><p>Alignment Method:</p><p>- None. No alignment is "
+"performed. Useful for stacking darks and flats.</p><p>- Plate Solve. Subs "
+"will be plate solved in order to align them prior to stacking.</p></body></"
+"html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLineEdit, AlignMaster)
+#: fitsviewer/livestacking.ui:626
+#, fuzzy, kde-format
+#| msgid "The maximum solar distance for drawing comets."
+msgid ""
+"<html><head/><body><p>The sub to use as reference to align all other subs.</"
+"p></body></html>"
+msgstr "Maksimālais solārais attālums komētu attēlošanai."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, AlignMasterB)
+#: fitsviewer/livestacking.ui:642
+#, fuzzy, kde-format
+#| msgid "The maximum solar distance for drawing comets."
+msgid ""
+"<html><head/><body><p>File chooser dialog for Alignment Master</p></body></"
+"html>"
+msgstr "Maksimālais solārais attālums komētu attēlošanai."
+
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
-#: fitsviewer/livestacking.ui:663
+#: fitsviewer/livestacking.ui:689
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Western sahara"
@@ -31529,28 +31593,28 @@ msgid "Master Sub:"
 msgstr "Rietumsahāra"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
-#: fitsviewer/livestacking.ui:682
+#: fitsviewer/livestacking.ui:708
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Post Processing"
 msgstr "Fokuss"
 
 #. i18n: ectx: property (text), widget (QLabel, DenoiseLabel)
-#: fitsviewer/livestacking.ui:718
+#: fitsviewer/livestacking.ui:744
 #, fuzzy, kde-format
 #| msgid "Choose City"
 msgid "Denoise Amount:"
 msgstr "Izvēlēties Pilsētu"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
-#: fitsviewer/livestacking.ui:740
+#: fitsviewer/livestacking.ui:766
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
-msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
+msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
-#: fitsviewer/livestacking.ui:768
+#: fitsviewer/livestacking.ui:794
 #, kde-format
 msgid ""
 "<html><head/><body><p>Amount of Wiener Deconvolution to apply in the range 0 "
@@ -31560,7 +31624,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DenoiseAmt)
-#: fitsviewer/livestacking.ui:793
+#: fitsviewer/livestacking.ui:819
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid ""
@@ -31569,47 +31633,47 @@ msgid ""
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
-#: fitsviewer/livestacking.ui:822
+#: fitsviewer/livestacking.ui:848
 #, fuzzy, kde-format
 #| msgid "Interval:"
 msgid "Kernel:"
 msgstr "Intervāls:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
-#: fitsviewer/livestacking.ui:844
+#: fitsviewer/livestacking.ui:870
 #, fuzzy, kde-format
 #| msgid "sigma"
 msgid "Sharpen Sigma:"
 msgstr "sigma"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
-#: fitsviewer/livestacking.ui:866
+#: fitsviewer/livestacking.ui:892
 #, fuzzy, kde-format
 #| msgid "sigma"
 msgid "PSF Sigma:"
 msgstr "sigma"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
-#: fitsviewer/livestacking.ui:888
+#: fitsviewer/livestacking.ui:914
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
-#: fitsviewer/livestacking.ui:913
+#: fitsviewer/livestacking.ui:939
 #, kde-format
 msgid "Sharpen Amount:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
-#: fitsviewer/livestacking.ui:935
+#: fitsviewer/livestacking.ui:961
 #, kde-format
 msgid "Deconv Amount:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
-#: fitsviewer/livestacking.ui:957
+#: fitsviewer/livestacking.ui:983
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid ""
@@ -31617,7 +31681,7 @@ msgid ""
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
-#: fitsviewer/livestacking.ui:982
+#: fitsviewer/livestacking.ui:1008
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid ""
@@ -31626,20 +31690,27 @@ msgid ""
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ReprocessB)
-#: fitsviewer/livestacking.ui:1011
+#: fitsviewer/livestacking.ui:1037
 #, kde-format
 msgid "Rerun the post processing using the selected parameters"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
-#: fitsviewer/livestacking.ui:1014
+#: fitsviewer/livestacking.ui:1040
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Reprocess"
 msgstr "Fokuss"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, StackDirB)
+#: fitsviewer/livestacking.ui:1086
+#, fuzzy, kde-format
+#| msgid "The maximum solar distance for drawing comets."
+msgid "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
+msgstr "Maksimālais solārais attālums komētu attēlošanai."
+
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
-#: fitsviewer/livestacking.ui:1082
+#: fitsviewer/livestacking.ui:1111
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Direction"
@@ -31647,38 +31718,47 @@ msgid "Stack Directory:"
 msgstr "Virziens"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
-#: fitsviewer/livestacking.ui:1104
+#: fitsviewer/livestacking.ui:1133
 #, kde-format
 msgid "Number of subs successfully processed / failed / total"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
-#: fitsviewer/livestacking.ui:1107 fitsviewer/livestacking.ui:1148
+#: fitsviewer/livestacking.ui:1136 fitsviewer/livestacking.ui:1177
 #, kde-format
 msgid "0 / 0 / 0"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, NumberSubsLabel)
-#: fitsviewer/livestacking.ui:1126
+#: fitsviewer/livestacking.ui:1155
 #, kde-format
 msgid "Proc / Fail / Total:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
-#: fitsviewer/livestacking.ui:1145
+#: fitsviewer/livestacking.ui:1174
 #, kde-format
 msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
 msgstr ""
 
+#. i18n: ectx: property (toolTip), widget (QLineEdit, Stack)
+#: fitsviewer/livestacking.ui:1196
+#, fuzzy, kde-format
+#| msgid "The maximum solar distance for drawing comets."
+msgid ""
+"<html><head/><body><p>The directory containing files to stack</p></body></"
+"html>"
+msgstr "Maksimālais solārais attālums komētu attēlošanai."
+
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
-#: fitsviewer/livestacking.ui:1186
+#: fitsviewer/livestacking.ui:1218
 #, kde-format
 msgid "SNR Av / Min / Max:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
-#: fitsviewer/livestacking.ui:1199
+#: fitsviewer/livestacking.ui:1231
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
@@ -31686,13 +31766,13 @@ msgid "Image SNR:"
 msgstr "Attēla dati"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
-#: fitsviewer/livestacking.ui:1215
+#: fitsviewer/livestacking.ui:1247
 #, kde-format
 msgid "The signal-to-noise ratio of the final image"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StartB)
-#: fitsviewer/livestacking.ui:1237
+#: fitsviewer/livestacking.ui:1269
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid ""
@@ -31700,15 +31780,22 @@ msgid ""
 "</p></body></html>"
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
+#. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
+#: fitsviewer/livestacking.ui:1285
+#, fuzzy, kde-format
+#| msgid "The maximum solar distance for drawing comets."
+msgid "<html><head/><body><p>Memory monitor</p></body></html>"
+msgstr "Maksimālais solārais attālums komētu attēlošanai."
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
-#: fitsviewer/livestacking.ui:1269
+#: fitsviewer/livestacking.ui:1304
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
-#: fitsviewer/livestacking.ui:1272
+#: fitsviewer/livestacking.ui:1307
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Settings"
