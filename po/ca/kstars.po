@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-25 02:00+0000\n"
-"PO-Revision-Date: 2025-07-24 22:21+0200\n"
+"PO-Revision-Date: 2025-07-25 13:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6937,8 +6937,9 @@ msgid ""
 "below the accuracy threshold"
 msgstr ""
 "El llindar de la precisió en segons d'arc entre les coordenades de la "
-"solució i l'objectiu. La placa del solucionador s'ha d'executar repetidament "
-"fins que les coordenades de la solució estan dins el llindar de la precisió"
+"solució i l'objectiu. El solucionador de plaques s'ha d'executar "
+"repetidament fins que les coordenades de la solució estan dins el llindar de "
+"la precisió"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignSettlingTime)
@@ -32007,37 +32008,41 @@ msgstr "Fotograma pla mestre:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterFlatB)
 #: fitsviewer/livestacking.ui:102
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Flat</p></body></html>"
-msgstr "<html><head/><body><p>Factor del reductor o barlow.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Diàleg selector de fitxer de fotograma pla mestre</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
 #: fitsviewer/livestacking.ui:121
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Flat to use to calibrate lights.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Crea un tren òptic nou.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>El fotograma pla mestre que es farà servir per a "
+"calibrar els fotogrames de llum.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDark)
 #: fitsviewer/livestacking.ui:162
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Crea un tren òptic nou.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>El fotograma fosc mestre que es farà servir per a "
+"calibrar els fotogrames de llum.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterDarkB)
 #: fitsviewer/livestacking.ui:181
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark</p></body></html>"
-msgstr "<html><head/><body><p>Factor del reductor o barlow.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Diàleg selector de fitxer de fotograma fosc mestre</"
+"p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:203
@@ -32211,29 +32216,29 @@ msgid ""
 "will be plate solved in order to align them prior to stacking.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Mètode d'alineació:</p><p>- Cap. No s'executa cap "
+"alineació. Útil per a apilar fotogrames foscos i plans.</p><p>- Solucionador "
+"de plaques. Les subsolucions se solucionaran les plaques per tal d'alinear-"
+"les abans de l'apilament.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AlignMaster)
 #: fitsviewer/livestacking.ui:626
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the guide "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The sub to use as reference to align all other subs.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça el nombre d'estrelles detectades a les imatges "
-"guia.</p></body></html>"
+"<html><head/><body><p>Les subsolucions a utilitzar com a referència per a "
+"alinear totes les altres subsolucions.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AlignMasterB)
 #: fitsviewer/livestacking.ui:642
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Alignment Master</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Neteja l'historial de les dades del sensor.</p></"
+"<html><head/><body><p>Diàleg selector de fitxer del mestre d'alineació</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
@@ -32256,8 +32261,7 @@ msgstr "Quantitat de reducció de soroll:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:766
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
 msgstr "<html><head/><body><p>Mida del nucli d'agudització.</p></body></html>"
 
@@ -32357,11 +32361,11 @@ msgstr "Reprocessament"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StackDirB)
 #: fitsviewer/livestacking.ui:1086
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Angle de desplaçament de la càmera</p></body></html>"
+"<html><head/><body><p>Diàleg selector del directori d'apilament</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1111
@@ -32398,13 +32402,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Stack)
 #: fitsviewer/livestacking.ui:1196
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The directory containing files to stack</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Temps romanent per a la compleció</p></body></html>"
+"<html><head/><body><p>El directori que conté els fitxers a apilar</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1218
@@ -32436,10 +32440,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:1285
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Memory monitor</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Monitor de memòria</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1304

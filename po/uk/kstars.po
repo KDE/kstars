@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-25 02:00+0000\n"
-"PO-Revision-Date: 2025-07-23 15:46+0300\n"
+"PO-Revision-Date: 2025-07-25 11:22+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -31912,41 +31912,41 @@ msgstr "Основний плоский кадр:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterFlatB)
 #: fitsviewer/livestacking.ui:102
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Flat</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Коефіцієнт зменшувача або лінзи Барлоу.</p></body></"
-"html>"
+"<html><head/><body><p>Вікно вибору файлів для основного кадру плоского поля</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
 #: fitsviewer/livestacking.ui:121
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Flat to use to calibrate lights.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Створити оптичний тракт.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Основний плоский кадр для калібрування освітлення.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDark)
 #: fitsviewer/livestacking.ui:162
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Створити оптичний тракт.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Основний темний кадр для калібрування освітлення.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterDarkB)
 #: fitsviewer/livestacking.ui:181
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Коефіцієнт зменшувача або лінзи Барлоу.</p></body></"
-"html>"
+"<html><head/><body><p>Вікно вибору файлів для основного темного кадру</p></"
+"body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:203
@@ -32119,28 +32119,30 @@ msgid ""
 "will be plate solved in order to align them prior to stacking.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Спосіб вирівнювання:</p><p>- Немає. Без виконання "
+"вирівнювання. Корисно для стосування темних кадрів та кадрів плоского поля.</"
+"p><p>- Розв'язання знімків. Підкадри буде прив'язано до координат з метою "
+"вирівнювання до включення до стосу.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AlignMaster)
 #: fitsviewer/livestacking.ui:626
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the guide "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The sub to use as reference to align all other subs.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Накреслити кількість зірок, які виявлено на "
-"зображеннях наведення.</p></body></html>"
+"<html><head/><body><p>Підкадр — еталон для вирівнювання інших підкадрів.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AlignMasterB)
 #: fitsviewer/livestacking.ui:642
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Alignment Master</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Вилучити журнал даних датчика</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Вікно вибору файлів для основного кадру вирівнювання</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:689
@@ -32162,8 +32164,7 @@ msgstr "Величина усування шуму:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:766
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Розмір ядра збільшення різкості.</p></body></html>"
@@ -32263,10 +32264,9 @@ msgstr "Переобробка"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StackDirB)
 #: fitsviewer/livestacking.ui:1086
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
-msgstr "<html><head/><body><p>Кут зсуву камери</p></body></html>"
+msgstr "<html><head/><body><p>Вікно вибору каталогу стосу</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1111
@@ -32302,12 +32302,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Stack)
 #: fitsviewer/livestacking.ui:1196
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The directory containing files to stack</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Час, який лишився до виконання</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Каталог, у якому зберігаються файли для стосування</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1218
@@ -32339,10 +32340,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:1285
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Memory monitor</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Спостереження за пам'яттю</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1304

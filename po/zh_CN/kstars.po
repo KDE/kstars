@@ -30280,37 +30280,33 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterFlatB)
 #: fitsviewer/livestacking.ui:102
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Flat</p></body></html>"
-msgstr "<html><head/><body><p>减焦镜或者巴罗镜因子。 </p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
 #: fitsviewer/livestacking.ui:121
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Flat to use to calibrate lights.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>创建新的 Optical train.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDark)
 #: fitsviewer/livestacking.ui:162
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>创建新的 Optical train.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterDarkB)
 #: fitsviewer/livestacking.ui:181
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark</p></body></html>"
-msgstr "<html><head/><body><p>减焦镜或者巴罗镜因子。 </p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:203
@@ -30461,23 +30457,19 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AlignMaster)
 #: fitsviewer/livestacking.ui:626
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the guide "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The sub to use as reference to align all other subs.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>绘制导星图像中检测到的星数。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AlignMasterB)
 #: fitsviewer/livestacking.ui:642
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Alignment Master</p></body></"
 "html>"
-msgstr "<html><head/><body><p>清除传感器数据历史</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:689
@@ -30499,10 +30491,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:766
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
-msgstr "<html><head/><body><p>步长:</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
 #: fitsviewer/livestacking.ui:794
@@ -30587,10 +30578,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StackDirB)
 #: fitsviewer/livestacking.ui:1086
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
-msgstr "<html><head/><body><p>相机偏移角度</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1111
@@ -30625,12 +30615,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Stack)
 #: fitsviewer/livestacking.ui:1196
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The directory containing files to stack</p></body></"
 "html>"
-msgstr "<html><head/><body><p>完成前的剩余时间</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1218
@@ -30660,10 +30649,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:1285
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Memory monitor</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1304

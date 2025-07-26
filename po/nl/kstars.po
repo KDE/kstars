@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-25 02:00+0000\n"
-"PO-Revision-Date: 2025-07-24 10:13+0200\n"
+"PO-Revision-Date: 2025-07-25 10:51+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -31602,39 +31602,41 @@ msgstr "Hoofdvlak:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterFlatB)
 #: fitsviewer/livestacking.ui:102
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Flat</p></body></html>"
-msgstr "<html><head/><body><p>Reductie of barlowfactor</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Dialoog met bestandenkiezer voor Master Flat</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
 #: fitsviewer/livestacking.ui:121
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Flat to use to calibrate lights.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Maak een nieuwe optische trein aan.</p></body></html>"
+"<html><head/><body><p>De te gebruiken Master Flat voor het kalibreren van "
+"lichten.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDark)
 #: fitsviewer/livestacking.ui:162
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Maak een nieuwe optische trein aan.</p></body></html>"
+"<html><head/><body><p>De te gebruiken Master Dark voor het kalibreren van "
+"lichten.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterDarkB)
 #: fitsviewer/livestacking.ui:181
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark</p></body></html>"
-msgstr "<html><head/><body><p>Reductie of barlowfactor</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Dialoog met bestandenkiezer voor Master Dark</p></"
+"body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:203
@@ -31806,29 +31808,30 @@ msgid ""
 "will be plate solved in order to align them prior to stacking.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Uitlijnmethode:</p><p>- Geen. Er wordt geen uitlijning "
+"uitgevoerd. Nuttig voor stapelen van darks en flats.</p><p>- Plaat-oplossen. "
+"Subs zullen plaat opgelost worden om ze uit te lijnen alvorens te stapelen.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AlignMaster)
 #: fitsviewer/livestacking.ui:626
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the guide "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The sub to use as reference to align all other subs.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Het aantal plotten van de sterren in de "
-"volgafbeeldingen.</p></body></html>"
+"<html><head/><body><p>De te gebruiken sub al referentie voor uitlijnen van "
+"alle andere subs.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AlignMasterB)
 #: fitsviewer/livestacking.ui:642
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Alignment Master</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Geschiedenis sensorgegevens wissen..</p></body></html>"
+"<html><head/><body><p>Dialoog met bestandenkiezer voor Master Uitlijnen</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:689
@@ -31850,8 +31853,7 @@ msgstr "Hoeveelheid van ruis ontdoen:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:766
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
 msgstr "<html><head/><body><p>Kernelgrootte verscherpen:</p></body></html>"
 
@@ -31951,10 +31953,11 @@ msgstr "Verwerk opnieuw"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StackDirB)
 #: fitsviewer/livestacking.ui:1086
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
-msgstr "<html><head/><body><p>Offsethoek van de camera</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Dialoog met bestandenkiezer voor stapel</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1111
@@ -31990,12 +31993,12 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Stack)
 #: fitsviewer/livestacking.ui:1196
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The directory containing files to stack</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Resterende tijd tot voltooiing</p></body></html>"
+msgstr ""
+"<html><head/><body><p>De map met te stapelen bestanden</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1218
@@ -32027,10 +32030,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:1285
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Memory monitor</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Geheugenmonitor</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1304
