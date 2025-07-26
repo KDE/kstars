@@ -93,8 +93,17 @@ sudo apt-get -y install build-essential cmake git libstellarsolver-dev libxisf-d
 ```
 
 Fedora
+
+Note: the current version of stellarsolver included in fedora is QT6 based and doesn't include the QT5 libs needed for kstars. Instead build the last
+QT5 based version of stellarsolver after installing other dependencies.
+
 ```
-yum install cfitsio-devel eigen3-devel stellarsolver-devel cmake extra-cmake-modules.noarch xisf-devel kf5-kconfig-devel kf5-kdbusaddons-devel kf5-kdoctools-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kiconthemes-devel kf5-kinit-devel kf5-kio-devel kf5-kjobwidgets-devel kf5-knewstuff-devel kf5-kplotting-devel kf5-ktexteditor-devel kf5-kwidgetsaddons-devel kf5-kwindowsystem-devel kf5-kxmlgui-devel libindi-devel libindi-static qt5-qtdeclarative-devel qt5-qtmultimedia-devel qt5-qtdatavis3d-devel qt5-qtsvg-devel wcslib-devel xplanet zlib-devel
+sudo dnf install -y cfitsio-devel eigen3-devel cmake extra-cmake-modules.noarch libXISF-devel kf5-kconfig-devel kf5-kdbusaddons-devel kf5-kdoctools-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kiconthemes-devel kf5-kinit-devel kf5-kio-devel kf5-kjobwidgets-devel kf5-knewstuff-devel kf5-kplotting-devel kf5-ktexteditor-devel kf5-kwidgetsaddons-devel kf5-kwindowsystem-devel kf5-kxmlgui-devel libindi-devel libindi-static qt5-qtdeclarative-devel qt5-qtmultimedia-devel qt5-qtdatavis3d-devel qt5-qtsvg-devel wcslib-devel xplanet zlib-devel qt5-qtwebsockets-devel kf5-kcrash-devel kf5-knotifications-devel gsl-devel libnoval-devel libcurl-devel
+
+cd /tmp
+git clone --branch 2.6 https://github.com/rlancaste/stellarsolver.git
+cd stellarsolver/linux-scripts/
+./installStellarSolverLibraryQt5.sh 
 ```
 
 3. Compiling
