@@ -1120,6 +1120,11 @@ void FITSViewer::stack()
         return;
     m_StackBusy = true;
 
+    setWindowTitle(i18nc("@title:window", "KStars Live Stacker (BETA)"));
+    qCDebug(KSTARS_FITS) << "OpenCV Optimized: " << cv::useOptimized();
+    qCDebug(KSTARS_FITS) << QString("Live Stacker running openCV on %1 threads. SIMD Features enabled: %2")
+                                .arg(cv::getNumThreads()).arg(QString::fromStdString(cv::getCPUFeaturesLine()));
+
     QString topDir = QDir::homePath();
     QString filePath = lastURL.path();
     if (filePath.isEmpty())
@@ -1159,7 +1164,7 @@ void FITSViewer::stack()
 }
 
 // Called when a stacking operation is in motion...
-void FITSViewer::restack(const QString dir, const int tabUID)
+void FITSViewer::restack(const int tabUID)
 {
     auto tab = fitsMap.value(tabUID);
     const QUrl imageName;

@@ -17,6 +17,44 @@
 #include <wcshdr.h>
 #include <fitsio.h>
 
+/**
+ * @file fitsstack.cpp
+ * @brief Implementation of the FITSStack class used in the KStars Live Stacker module.
+ *
+ * This file implements the logic for live stacking of FITS images in real time. It supports
+ * frame-by-frame processing, calibration, alignment, integration, and optional post-processing.
+ *
+ * ### Core Responsibilities:
+ * - Stack initialization upon first frame or reset
+ * - Memory-efficient accumulation of subs using OpenCV
+ * - Plate-solve-based alignment using WCS transformations and OpenCV warping
+ * - Optional calibration using user-supplied master dark and/or flat frames
+ * - Incremental stacking updates as new frames are added from the watched directory
+ * - Post-processing (Wiener deconvolution, unsharp mask, denoising) after stacking
+ * - Management of metadata (e.g. WCS headers, image size/type consistency, SNR tracking)
+ *
+ * ### Integration Points:
+ * - Receives FITS frames from FITSDirWatcher or FITSViewer via addSub()
+ * - Emits stackChanged() signal whenever a new stack is generated
+ * - Works with SolverUtils for plate solving and alignment
+ * - Outputs stacked images through getStackedImage() and FITS buffer access
+ *
+ * ### Stack Lifecycle:
+ * 1. Initial stack is built from a fixed-size chunk of frames
+ * 2. Once the initial stack is complete, subsequent frames are incrementally added
+ * 3. Stacking continues live as new subs appear in the monitored folder
+ * 4. When stacking completes (or pauses), the result can be post-processed and saved
+ *
+ * ### File Overview:
+ * - Image consistency checks: checkSub(), convertMat(), convertToCV()
+ * - Calibration: calibrateSub(), addMaster()
+ * - Alignment: calcWarpMatrix(), solverDone()
+ * - Stacking logic: stack(), stackn(), stackSubs(), stackSubsSigmaClipping()
+ * - Post-processing: postProcessImage(), wienerDeconvolution()
+ * - SNR and PSF utilities: getSNR(), calculatePSF()
+ * - Stack management: setupRunningStack(), updateRunningStack(), tidyUpInitialStack()
+ */
+
 FITSStack::FITSStack(FITSData *parent, LiveStackData params) : QObject(parent)
 {
     m_Data = parent;
@@ -152,7 +190,7 @@ void FITSStack::addMaster(const bool dark, void * imageBuffer, const int width, 
         if (dark)
             m_MasterDark.release();
         else
-            m_MasterFlat.release();
+            m_MasterFlatInv.release();
 
         int channels = CV_MAT_CN(cvType);
 
@@ -220,11 +258,9 @@ void FITSStack::addMaster(const bool dark, void * imageBuffer, const int width, 
         }
         else
         {
-            m_MasterFlat = imageClone;
-
             // Scale the flat down using the median value (note that this also takes care of normalised flats 0-1
             std::vector<cv::Mat> channels;
-            cv::split(m_MasterFlat, channels);
+            cv::split(imageClone, channels);
 
             for (unsigned int c = 0; c < channels.size(); c++)
             {
@@ -244,7 +280,10 @@ void FITSStack::addMaster(const bool dark, void * imageBuffer, const int width, 
                     cv::max(channels[c], 0.1f, channels[c]);
                 }
             }
-            cv::merge(channels, m_MasterFlat);
+            cv::merge(channels, imageClone);
+            // Store the inverse of the flat so we can then multiply it with the sub because
+            // multiply is faster than divide in openCV
+            cv::divide(1.0f, imageClone, m_MasterFlatInv);
         }
     }
     catch (const cv::Exception &ex)
@@ -414,7 +453,11 @@ bool FITSStack::stack()
 {
     try
     {
-        for(int i = 0; i < m_StackImageData.size(); i++)
+        QElapsedTimer timer;
+        timer.start();
+        int numSubs = m_StackImageData.size();
+
+        for(int i = 0; i < numSubs; i++)
         {
             // Ignore any bad subs
             if (m_StackImageData[i].status != OK)
@@ -477,6 +520,7 @@ bool FITSStack::stack()
             convertMatToFITS(m_StackedImage32F);
         }
 
+        qCDebug(KSTARS_FITS) << QString("Stacked %1 subs in %2 ms").arg(numSubs).arg(timer.elapsed());
         return true;
     }
     catch (const cv::Exception &ex)
@@ -492,7 +536,11 @@ bool FITSStack::stackn()
 {
     try
     {
-        for(int i = 0; i < m_StackImageData.size(); i++)
+        QElapsedTimer timer;
+        timer.start();
+        int numSubs = m_StackImageData.size();
+
+        for(int i = 0; i < numSubs; i++)
         {
             // Ignore any bad subs
             if (m_StackImageData[i].status != OK)
@@ -535,6 +583,7 @@ bool FITSStack::stackn()
             convertMatToFITS(finalImage);
         }
         updateRunningStack(m_StackImageData.size(), totalWeight);
+        qCDebug(KSTARS_FITS) << QString("Stacked %1 subs in %2 ms").arg(numSubs).arg(timer.elapsed());
     }
     catch (const cv::Exception &ex)
     {
@@ -606,8 +655,8 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
             warp = S * warp * S_inv;
         }
         // Uncomment to display warp matrix - useless for debugging alignment issues
-        cv::Ptr<cv::Formatter> fmt = cv::Formatter::get(cv::Formatter::FMT_DEFAULT);
-        std::cout << fmt->format(warp) << std::endl;
+        //cv::Ptr<cv::Formatter> fmt = cv::Formatter::get(cv::Formatter::FMT_DEFAULT);
+        //std::cout << fmt->format(warp) << std::endl;
         return true;
     }
     catch (const cv::Exception &ex)
@@ -629,13 +678,13 @@ bool FITSStack::calibrateSub(cv::Mat &sub)
         // Dark subtraction (make sure no negative pixels)
         if (!m_MasterDark.empty())
         {
-            sub -= m_MasterDark;
+            cv::subtract(sub, m_MasterDark, sub);
             cv::max(sub, 0.0f, sub);
         }
 
         // Flat calibration
-        if (!m_MasterFlat.empty())
-            sub /= m_MasterFlat;
+        if (!m_MasterFlatInv.empty())
+            sub = sub.mul(m_MasterFlatInv);
         return true;
     }
     catch (const cv::Exception &ex)
@@ -674,23 +723,36 @@ bool FITSStack::stackSubs(const bool initial, float &totalWeight, cv::Mat &stack
         {
             // Add the pixels weighted per sub based on user setting. Then divide by the total weight
             // If its an initial stack then just use the subs, if not then include the existing partial stack
+            int start;
             if (initial)
             {
-                totalWeight = 0.0;
-                stack = cv::Mat::zeros(m_StackImageData[0].image.rows, m_StackImageData[0].image.cols, m_CVType);
+                totalWeight = weights[0];
+                stack = m_StackImageData[0].image;
+                start = 1;
             }
             else
             {
                 totalWeight = m_RunningStackImageData.totalWeight;
                 stack = m_StackedImage32F * totalWeight;
+                start = 0;
             }
 
-            for (int sub = 0; sub < m_StackImageData.size(); sub++)
+            cv::Mat temp;
+            for (int sub = start; sub < m_StackImageData.size(); sub++)
             {
-                stack += m_StackImageData[sub].image * weights[sub];
+                if (m_StackData.weighting == LS_STACKING_EQUAL)
+                    // No need to multiply by 1 for equal weighting
+                    cv::add(stack, m_StackImageData[sub].image, stack);
+                else
+                {
+                    cv::multiply(m_StackImageData[sub].image, weights[sub], temp, 1.0, m_CVType);
+                    cv::add(stack, temp, stack);
+                }
+                //stack += m_StackImageData[sub].image * weights[sub];
                 totalWeight += weights[sub];
             }
-            stack /= totalWeight;
+            cv::multiply(stack, 1.0 / totalWeight, stack, 1.0, m_CVType);
+            //stack /= totalWeight;
         }
         return true;
     }
@@ -740,6 +802,9 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
 {
     try
     {
+        QElapsedTimer timer;
+        timer.start();
+
         if (m_StackImageData.size() != weights.size())
         {
             qCDebug(KSTARS_FITS) << QString("Inconsistent subs and weights in %1").arg(__FUNCTION__);
@@ -907,6 +972,7 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
                 }
             }
         }
+        qCDebug(KSTARS_FITS) << QString("Sigma clipping completed in %1 ms").arg(timer.elapsed());
         return finalImage;
     }
     catch (const cv::Exception &ex)

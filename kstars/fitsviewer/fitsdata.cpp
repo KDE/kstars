@@ -544,6 +544,7 @@ void FITSData::stackFITSLoaded()
                 if (plateSolving)
                 {
                     // Next step in the chain is to plate solve
+                    qCDebug(KSTARS_FITS) << "Starting to plate solve sub...";
                     emit plateSolveSub(m_StackSubRa, m_StackSubDec, m_StackSubPixscale, m_StackSubIndex,
                                        m_StackSubHealpix, m_Stack->getStackData().weighting);
                     return;
@@ -556,6 +557,7 @@ void FITSData::stackFITSLoaded()
             else
             {
                 // Something has gone wrong with this sub so mark it failed and move to the next action
+                qCDebug(KSTARS_FITS) << "Failed to process sub.";
                 m_Stack->addSubStatus(false);
                 emit stackUpdateStats(false, m_StackSubPos, m_StackDirWatcher->getCurrentFiles().size(),
                                       m_Stack->getMeanSubSNR(), m_Stack->getMinSubSNR(), m_Stack->getMaxSubSNR());
@@ -570,6 +572,7 @@ void FITSData::stackFITSLoaded()
 // Update plate solving status
 void FITSData::solverDone(const bool timedOut, const bool success, const double hfr, const int numStars)
 {
+    qCDebug(KSTARS_FITS) << "Plate solve complete";
     bool ok = m_Stack->solverDone(m_StackWCSHandle, timedOut, success, hfr, numStars);
 
     emit stackUpdateStats(ok, m_StackSubPos, m_StackDirWatcher->getCurrentFiles().size(), m_Stack->getMeanSubSNR(),

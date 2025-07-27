@@ -29,23 +29,57 @@ class StellarSolverProfileEditor;
 }
 
 /**
- * @brief The FITSStack class for Live Stacking within the Fitsviewer
- *        The functionality is as follows:
- *        1. A directory is selected and any subs already in the directory are stacked
- *          a) Each sub may be calibrated with a dark and / or a flat
- *          b) A reference frame is chosen as master for alignment.
- *          c) All subs are aligned to the master by plate solving each subs and using
- *             WCS for alignment.
- *          d) Subs are stacked. Modes are basic addition of pixel values or more complex
- *             statistical processing like sigma clipping or winsorized sigma clipping
- *          e) Basic post-processing options such as sharpening and denoising are offered
- *        2. The stack is displayed in the FITSViewer.
- *        3. As new subs are added to the directory these are detected by FitsDirWatcher
- *        4. The new sub(s) are added to the already existing stack.
- *        5. The new stack is post-processed and displayed.
+ * @class FITSStack
+ * @brief Live stacking engine for real-time astrophotography image integration.
  *
- * @author John Evans
+ * This class provides the core functionality for the KStars Live Stacker, enabling
+ * real-time stacking of incoming FITS frames (from a camera or image sequence)
+ * to improve signal-to-noise ratio and build up a final integrated image.
+ *
+ * ### Overview:
+ * - **Start Up**: Live Stacker is selected from SkyMap. Depending on FITS options, either
+ *   a new FITSViewer window is started, or a new tab in an existing FITSViewer window is started.
+ *   Again controlled by FITS options, Live Stacker can be started as a separate process (as
+ *   opposed to just being a window with the KStars process).
+ *
+ * - **Initialization**: The Live Stacker is initialized with stack parameters and
+ *   image dimensions when the first frame arrives. Output format and stack state
+ *   are set up accordingly.
+ *
+ * - **Directory Watcher**: FITSDirWatcher reads files in the selected directory. These are
+ *   stacked. In addition, the directory is watched for new files when are incrementally
+ *   stacked.
+ *
+ * - **Frame Input**: New frames are received via addImage(). Each frame is loaded to memory.
+ *
+ * - **Alignment**: An alignment master is selected and all frames aligned to the master.
+ *   Plate solving is used for alignment. WCS is used to workout the transformation from the
+ *   existing sub to the aligned sub and openCV functions warp the sub based on the
+ *   transformation.
+ *
+ * - **Calibration Support**: Master darks and flats can be optionally applied before stacking.
+ *   Flats and darks may be stacked separately and saved as masters to be applied during
+ *   live stacking of light frames.
+ *
+ * - **Stacking**: Stacking is performed in chunks. When there are enough subs for the initial
+ *   stack, these are stacked and intermediate results calculated for use in subsequent stacks.
+ *   If there are not enough subs for a full initial stack, then whatever is available is stacked
+ *   and displayed. Once a full initial stack is complete, memory for the initial subs is released,
+ *   intermediate results calculated and the stackk displayed. The system may or may not have more
+ *   subs available for stacking, in which case a running stack is performed on the next chunk of
+ *   subs. These are added to the existing stack, intermediate results updated and the stack
+ *   displayed. The system then repeats until all subs have been processed, then waits for new
+ *   subs to arrives and adds these to the stack.
+ *
+ * - **Live Output**: The integrated stack is updated after new subs are added.
+ *
+ * - **Post Processing**: Optionally, simple routines for deconvolution, unsharp mask and
+ *   denoise may be applied to the stacked image to enhance its visual appearance.
+ *
+ * The class works closely with FITSData, FITSView, FITSViewer, FITSDirWatcher and the Live
+ * Stack UI controller. Plate solving is done in FITSTab and StellarSolver.
  */
+
 class FITSStack : public QObject
 {
         Q_OBJECT
@@ -446,7 +480,7 @@ class FITSStack : public QObject
 
         // Calibration
         cv::Mat m_MasterDark;
-        cv::Mat m_MasterFlat;
+        cv::Mat m_MasterFlatInv;
 
         // Aligning
         int m_InitialStackRef = -1;

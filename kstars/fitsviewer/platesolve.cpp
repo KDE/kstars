@@ -290,6 +290,9 @@ void PlateSolve::plateSolveSub(const QSharedPointer<FITSData> &imageData, const 
         upperPixScale = pixScale * 1.05;
     }
 
+    // Limit the timeout in case of plate solving failure
+    parameters.solverTimeLimit = std::min(parameters.solverTimeLimit, 20);
+
     m_Solver.reset(new SolverUtils(parameters, parameters.solverTimeLimit, solveType), &QObject::deleteLater);
 
     if (solveType == SSolver::EXTRACT || solveType == SSolver::EXTRACT_WITH_HFR)
