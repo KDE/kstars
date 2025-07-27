@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-25 02:00+0000\n"
-"PO-Revision-Date: 2025-07-23 21:31+0200\n"
+"PO-Revision-Date: 2025-07-26 22:30+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -731,12 +731,12 @@ msgid ""
 msgstr ""
 "La ubicació dels fitxers d'índex de l'astrometria:\n"
 " %1 \n"
-" no existix. Voleu crear el directori?"
+" no existix. Voleu crear la carpeta?"
 
 #: auxiliary/ksutils.cpp:1349
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
-msgstr "Voleu crear el directori per als fitxers d'índex de l'astrometria?"
+msgstr "Voleu crear la carpeta per als fitxers d'índex de l'astrometria?"
 
 #: auxiliary/ksutils.cpp:1354
 #, kde-format
@@ -751,7 +751,7 @@ msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
 msgstr ""
-"El directori predeterminat per als fitxers d'índex de l'astrometria no "
+"La carpeta predeterminada per als fitxers d'índex de l'astrometria no "
 "existix i no s'ha pogut crear."
 
 #: auxiliary/ksutils.cpp:1380 auxiliary/ksutils.cpp:1536
@@ -766,8 +766,8 @@ msgstr ""
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
-"S'ha produït un error mentre s'escrivia en el fitxer de configuració intern "
-"de l'astrometria."
+"S'ha produït un error mentre s'escrivia al fitxer de configuració intern de "
+"l'astrometria."
 
 #: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:1569
 #, kde-format
@@ -832,7 +832,7 @@ msgstr "Fet"
 #, kde-format
 msgid "There was no default data directory found in the app bundle."
 msgstr ""
-"No s'ha trobat cap directori de dades predeterminat en el paquet de "
+"No s'ha trobat cap carpeta de dades predeterminada en el paquet de "
 "l'aplicació."
 
 #: auxiliary/kswizard.cpp:280
@@ -841,14 +841,14 @@ msgid ""
 "There was a problem creating the data directory ~/Library/Application "
 "Support/."
 msgstr ""
-"Hi ha hagut un problema en crear el directori de dades ~/Library/Application "
-"Support/."
+"Hi ha hagut un problema quan es creava la carpeta de dades ~/Library/"
+"Application Support/."
 
 # skip-rule: k-Alt-1
 #: auxiliary/kswizard.cpp:386
 #, kde-format
 msgid "File write error."
-msgstr "S'ha produït un error mentre s'escrivia en el fitxer."
+msgstr "S'ha produït un error mentre s'escrivia al fitxer."
 
 #: auxiliary/kswizard.cpp:398
 #, kde-format
@@ -1693,7 +1693,7 @@ msgstr "No s'ha pogut adjuntar el fitxer d'eixida.<br>%1"
 #: catalogsdb/catalogsdb.cpp:776
 #, kde-format
 msgid "Could not copy catalog to output file.<br>%1"
-msgstr "No s'ha pogut copiar el catàleg en el fitxer d'eixida.<br>%1"
+msgstr "No s'ha pogut copiar el catàleg al fitxer d'eixida.<br>%1"
 
 #: catalogsdb/catalogsdb.cpp:780
 #, kde-format
@@ -2652,7 +2652,7 @@ msgstr "CSV"
 #: dialogs/addcatdialog.ui:311
 #, kde-format
 msgid "Space Delimited"
-msgstr "Delimitat en l'espai"
+msgstr "Delimitat a l'espai"
 
 #. i18n: ectx: property (text), widget (QPushButton, PreviewButton)
 #: dialogs/addcatdialog.ui:324
@@ -6015,13 +6015,13 @@ msgstr "Premeu este botó per a eliminar de la llista la vista ressaltada."
 #: dialogs/wizdata.ui:61
 #, kde-format
 msgid "KStars Data Directory"
-msgstr "Directori de dades de KStars"
+msgstr "Carpeta de dades de KStars"
 
 #. i18n: ectx: property (text), widget (QLabel, foundFeedback1)
 #: dialogs/wizdata.ui:68
 #, kde-format
 msgid "The KStars Data Directory called kstars should be located at:"
-msgstr "El directori de dades de KStars anomenat «kstars» estarà situat a:"
+msgstr "La carpeta de dades de KStars anomenada «kstars» estarà situada a:"
 
 #. i18n: ectx: property (text), widget (QLabel, dataPath)
 #: dialogs/wizdata.ui:83
@@ -6038,22 +6038,22 @@ msgid ""
 "KStars directory already some place else, you can exit KStars and copy it to "
 "that location yourself."
 msgstr ""
-"No s'ha trobat el directori de dades. Podeu clicar damunt del botó de davall "
-"per a copiar un directori de dades predeterminat de KStars a la ubicació "
-"correcta, o si ja en teniu un en un altre lloc, podeu eixir de KStars i "
-"copiar-lo en esta ubicació vós mateix."
+"No s'ha trobat la carpeta de dades. Podeu clicar damunt del botó de davall "
+"per a copiar una carpeta de dades predeterminada de KStars a la ubicació "
+"correcta, o si ja en teniu una en un altre lloc, podeu eixir de KStars i "
+"copiar-la en esta ubicació vós mateix."
 
 #. i18n: ectx: property (text), widget (QPushButton, copyKStarsData)
 #: dialogs/wizdata.ui:112
 #, kde-format
 msgid "Copy KStars Data Directory"
-msgstr "Copia el directori de dades de KStars"
+msgstr "Copia la carpeta de dades de KStars"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/wizdata.ui:119
 #, kde-format
 msgid "Optional Files for the Data directory:"
-msgstr "Fitxers opcionals per al directori de dades:"
+msgstr "Fitxers opcionals per a la carpeta de dades:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/wizdata.ui:137
@@ -6172,11 +6172,11 @@ msgid ""
 "solving, and learning to use KStars. Just click the button to install or "
 "unzip the zip file and place the gsc folder in the data directory."
 msgstr ""
-"Quan l'instal·leu en el directori de dades s'activarà el simulador de CCD de "
-"KStars per a fer imatges realistes. És útil per a seqüències de proves, "
+"Quan l'instal·leu en la carpeta de dades s'activarà el simulador de CCD de "
+"KStars per a prendre imatges realistes. És útil per a seqüències de proves, "
 "resolució de plaques i per a aprendre a utilitzar KStars. Només cal clicar "
 "damunt del botó per a instal·lar o descomprimir el fitxer ZIP i situar la "
-"carpeta «gsc» en el directori de les dades."
+"carpeta «gsc» en la carpeta de dades."
 
 #. i18n: ectx: property (text), widget (QLabel, DownloadTitle)
 #: dialogs/wizdownload.ui:61
@@ -6447,9 +6447,9 @@ msgid ""
 "directories.  Please download some index files or add the correct directory "
 "to the list."
 msgstr ""
-"No s'ha trobat cap fitxer d'índex en els directoris de fitxers d'índex "
-"especificats. Descarregueu els fitxers d'índex o afegiu el directori "
-"correcte a la llista."
+"No s'ha trobat cap fitxer d'índex en les carpetes de fitxers d'índex "
+"especificades. Baixeu els fitxers d'índex o afegiu la carpeta correcta a la "
+"llista."
 
 #: ekos/align/align.cpp:1942
 #, kde-format
@@ -6471,8 +6471,7 @@ msgstr ""
 #: ekos/align/align.cpp:1987
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
-msgstr ""
-"La imatge carregada es va prendre en el costat del moll («PierSide») %1"
+msgstr "La imatge carregada es va prendre al costat del moll («PierSide») %1"
 
 #: ekos/align/align.cpp:2112
 #, kde-format
@@ -6715,7 +6714,7 @@ msgstr ""
 #: ekos/align/align.cpp:3302
 #, kde-format
 msgid "Capture error. Aborting..."
-msgstr "S'ha produït un error en la captura. S'interromp…"
+msgstr "Error en la captura. S'interromp…"
 
 #: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1629
 #: ekos/capture/cameraprocess.cpp:2190
@@ -7164,7 +7163,7 @@ msgstr "Agrupament:"
 #: ekos/align/align.ui:583 ekos/focus/focus.ui:660 ekos/guide/guide.ui:166
 #, kde-format
 msgid "Show in FITS Viewer..."
-msgstr "Mostra en el visor de FITS…"
+msgstr "Mostra en el «Visor de FITS»…"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
@@ -7177,7 +7176,7 @@ msgid ""
 "in the Dark Library tool in the capture module.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Resta el fotograma fosc. Es creen fotogrames foscos o "
-"mapes de defectes en l'eina «Biblioteca fosca» al mòdul «Captura».</p></"
+"mapes de defectes en l'eina «Biblioteca fosca» en el mòdul «Captura».</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
@@ -7955,7 +7954,7 @@ msgid ""
 "remove the flags.  The flags will not be saved."
 msgstr ""
 "Mostra els punts d'alineació en el mapa celeste com a indicadors. Quan s'hi "
-"clique una altra vegada, s'eliminaran. Els indicadors no es guarden."
+"clique una altra vegada, s'eliminaran. Els indicadors no es guardaran."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startAlignB)
 #: ekos/align/mountmodel.ui:570
@@ -8721,7 +8720,7 @@ msgstr "No s'ha configurat cap directori de fitxers d'índex."
 #: ekos/align/opsastrometryindexfiles.cpp:647
 #, kde-format
 msgid "No writable index file directory found."
-msgstr "No s'ha trobat un directori de fitxers d'índex on s'hi puga escriure."
+msgstr "No s'ha trobat una carpeta de fitxers d'índex on s'hi puga escriure."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
 #: ekos/align/opsastrometryindexfiles.cpp:715
@@ -8734,25 +8733,24 @@ msgstr "No s'ha pogut connectar amb el servidor d'índex de l'astrometria."
 msgid ""
 "Downloads Disabled, this is not a directory, it is a list of all index files."
 msgstr ""
-"Les baixades estan inhabilitades, no és cap directori, sinó una llista de "
-"tots els fitxers d'índex."
+"Les baixades estan desactivades, no és cap carpeta, sinó una llista de tots "
+"els fitxers d'índex."
 
 #: ekos/align/opsastrometryindexfiles.cpp:278
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
-msgstr ""
-"Les baixades estan habilitades, el directori existix i s'hi pot escriure."
+msgstr "Les baixades estan activades, la carpeta existix i s'hi pot escriure."
 
 #: ekos/align/opsastrometryindexfiles.cpp:280
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
 msgstr ""
-"Les baixades estan inhabilitades, problema de permisos amb el directori."
+"Les baixades estan desactivades, un problema de permisos amb la carpeta."
 
 #: ekos/align/opsastrometryindexfiles.cpp:282
 #, kde-format
 msgid "Downloads Disabled, directory does not exist."
-msgstr "Les baixades estan inhabilitades, el directori no existix."
+msgstr "Les baixades estan desactivades, la carpeta no existix."
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/align/opsastrometryindexfiles.cpp:331
@@ -8790,7 +8788,7 @@ msgstr "S'ha cancel·lat la baixada de %1."
 #: ekos/align/opsastrometryindexfiles.cpp:565
 #, kde-format
 msgid "File Write Error"
-msgstr "S'ha produït un error mentre s'escrivia en el fitxer"
+msgstr "S'ha produït un error mentre s'escrivia al fitxer"
 
 #: ekos/align/opsastrometryindexfiles.cpp:579
 #, kde-format
@@ -8809,8 +8807,8 @@ msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
 msgstr ""
-"El directori seleccionat per als fitxers d'índex de l'astrometria no "
-"existix. Creeu-lo o trieu-ne un altre."
+"La carpeta seleccionada per als fitxers d'índex de l'astrometria no existix. "
+"Creeu-la o trieu-ne una altra."
 
 #: ekos/align/opsastrometryindexfiles.cpp:669
 #, kde-format
@@ -8818,8 +8816,8 @@ msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
 "download it to this directory as well?"
 msgstr ""
-"El fitxer %1 ja existix en un altre directori. Segur que també el voleu "
-"baixar a este directori?"
+"El fitxer %1 ja existix en una altra carpeta. Segur que també el voleu "
+"baixar a esta carpeta?"
 
 #: ekos/align/opsastrometryindexfiles.cpp:671
 #, kde-format
@@ -8937,7 +8935,7 @@ msgstr "Detalls de la carpeta:"
 #: ekos/align/opsastrometryindexfiles.ui:253
 #, kde-format
 msgid "Add a folder where index files are stored"
-msgstr "Afig una carpeta a on s'emmagatzemen els fitxers d'índex."
+msgstr "Afig una carpeta a on s'emmagatzemaran els fitxers d'índex."
 
 #. i18n: ectx: property (text), widget (QPushButton, addIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, zoomInB)
@@ -10043,7 +10041,7 @@ msgid ""
 "mode."
 msgstr ""
 "Avís: No es dibuixaran les línies de la quadrícula equatorial, ja que està "
-"en el mode de recursos limitats."
+"en el mode recursos limitats."
 
 #: ekos/align/polaralignmentassistant.cpp:772
 #, kde-format
@@ -12418,7 +12416,7 @@ msgstr "Restablix"
 #: ekos/auxiliary/darklibrary.ui:1008
 #, kde-format
 msgid "Detect hot and cold pixels within the aggressiveness threshold."
-msgstr "S'han detectat píxels cremats i freds en el llindar d'agressivitat."
+msgstr "S'han detectat píxels cremats i freds al llindar d'agressivitat."
 
 #. i18n: ectx: property (text), widget (QPushButton, generateMapB)
 #: ekos/auxiliary/darklibrary.ui:1011
@@ -12525,7 +12523,7 @@ msgstr "Obri la carpeta a on s'emmagatzemen els fotogrames foscos."
 #: ekos/auxiliary/darklibrary.ui:1171
 #, kde-format
 msgid "Darks Folder"
-msgstr "Carpeta de fotogrames foscos"
+msgstr "Carpeta dels fotogrames foscos"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearExpiredB)
 #: ekos/auxiliary/darklibrary.ui:1195
@@ -12734,7 +12732,7 @@ msgstr ""
 #: ekos/auxiliary/filtersettings.ui:117
 #, kde-format
 msgid "Capture flats at the same focus as lights"
-msgstr "Captura fotogrames plans amb el mateix enfocament que els de llum"
+msgstr "Captura fotogrames plans amb el mateix enfocament que els de llums"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:30 ekos/ekos.h:71 ekos/ekos.h:199
 #, kde-format
@@ -13156,7 +13154,7 @@ msgstr "Missatges d'INDI en la &barra d'estat"
 #: ekos/auxiliary/opslogs.ui:463
 #, kde-format
 msgid "Open Logs Directory..."
-msgstr "Obri el directori del registre…"
+msgstr "Obri la carpeta del registre…"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:140
 #, kde-format
@@ -13557,7 +13555,7 @@ msgstr ""
 "Assigna el nom permanent basant-se en el port físic al qual està connectat "
 "el dispositiu en StellarMate. Açò és útil per a distingir entre dos "
 "adaptadors USB idèntics. Perquè funcione, cal que el dispositiu <b>sempre</"
-"b> es connecte en el mateix port."
+"b> es connecte al mateix port."
 
 #: ekos/auxiliary/serialportassistant.cpp:165
 #, kde-format
@@ -13660,7 +13658,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Esta eina hauria d'assignar noms <span style=\"font-"
 "style:italic;\">permanents</span> als dispositius <span style=\"font-"
-"weight:600;\">sèrie a USB</span> de manera que siga més fàcil connectar-los "
+"weight:600;\">sèrie a USB</span>, de manera que siga més fàcil connectar-los "
 "en el futur.</p><p><br/></p><p>Cliqueu damunt <span style=\"font-weight:600;"
 "\">Següent</span> per a continuar.</p></body></html>"
 
@@ -13790,7 +13788,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofile.cpp:243
 #, kde-format
 msgid "Default. Set for typical HFR estimation."
-msgstr "Predeterminada. Establiu-ho per a l'estimació HFR típica."
+msgstr "Predeterminada. Establiu-la per a l'estimació HFR típica."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:263
 #, kde-format
@@ -14426,8 +14424,8 @@ msgid ""
 msgstr ""
 "El nombre d'estreles que es mantindran inicialment en la llista. Este filtre "
 "està basat en la mida de les estreles. Principalment és útil per a accelerar "
-"l'extracció d'estreles amb HFR, com en l'enfocament, el guiatge i el "
-"monitoratge HFR."
+"l'extracció d'estreles amb HFR, com a l'enfocament, el guiatge i el vigilant "
+"d'HFR."
 
 #. i18n: ectx: property (text), widget (QLineEdit, initialKeep)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:860
@@ -14542,8 +14540,8 @@ msgid ""
 "Only search in indexes within 'radius' of the field center given by RA and "
 "DEC"
 msgstr ""
-"Només busca en els índexs en el «radi» del camp centrat indicat per l'AR i "
-"la Dec."
+"Només busca en els índexs dintre del «radi» del camp centrat indicat per "
+"l'AR i la Dec."
 
 #. i18n: ectx: property (text), widget (QLineEdit, radius)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:982
@@ -14777,7 +14775,7 @@ msgid ""
 "When shooting flats on sky that can change intensity. Will use simpler "
 "exposure calculation."
 msgstr ""
-"Quan es prenen plans del cel en els que pot canviar la intensitat. "
+"Quan es prenen plans del cel als que es pot canviar la intensitat. "
 "S'utilitzarà un càlcul més senzill de l'exposició."
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationSkyFlats)
@@ -15264,7 +15262,7 @@ msgstr "Objectiu"
 #, kde-format
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Directori base local per a les captures.</p></body></"
+"<html><head/><body><p>Carpeta base local per a les captures.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
@@ -15272,7 +15270,7 @@ msgstr ""
 #: ekos/capture/camera.ui:1766 indi/recordingoptions.ui:94
 #, kde-format
 msgid "Directory:"
-msgstr "Directori:"
+msgstr "Carpeta:"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
@@ -15328,7 +15326,7 @@ msgstr ""
 "0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\"font-weight:600;\">Localment</span>: Les imatges capturades "
-"es guarden localment al disc en el directori especificat més amunt.</li><li "
+"es guarden localment al disc en la carpeta especificada més amunt.</li><li "
 "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">Remotament</span>: En connectar amb un dispositiu remot, "
@@ -15339,10 +15337,9 @@ msgstr ""
 "capturades es guarden en l'ordinador remot <span style=\"font-weight:600;"
 "\">i</span> també al disc local.</li></ol><p>En seleccionar <span style="
 "\"font-style:italic;\">Remotament</span> o <span style=\"font-style:italic;"
-"\">Ambdós</span>, cal especificar el directori remot a on es guardaran les "
-"imatges remotes. De manera predeterminada, totes les imatges capturades es "
-"guarden <span style=\"font-style:italic;\">Localment</span>.</p></body></"
-"html>"
+"\">Ambdós</span>, cal especificar la carpeta remota a on es guardaran les "
+"imatges. De manera predeterminada, totes les imatges capturades es guarden "
+"<span style=\"font-style:italic;\">Localment</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/camera.ui:1836
@@ -15529,8 +15526,8 @@ msgid ""
 "When storing images on remote devices, specify the directory where captured "
 "images are saved to."
 msgstr ""
-"En emmagatzemar les imatges en el dispositiu remot, especifica el directori "
-"a on es guardaran les imatges capturades."
+"En emmagatzemar les imatges en el dispositiu remot, especifica la carpeta a "
+"on es guardaran les imatges capturades."
 
 #. i18n: ectx: property (text), widget (QLabel, remoteLabel)
 #. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
@@ -15851,19 +15848,19 @@ msgstr "Temps d'exposició en segons per a les imatges individuals"
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
-msgstr "Directori FITS per a guardar"
+msgstr "Carpeta FITS per a guardar"
 
 #: ekos/capture/camera_config.cpp:1029
 #, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr ""
-"Cal establir el directori local o remot per als modes «Remot» i «Ambdós»."
+"Cal establir la carpeta local o remota per als modes «Remot» i «Ambdós»."
 
 #: ekos/capture/camera_config.cpp:1035
 #, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr ""
-"Cal establir el directori local o el remot per als modes «Local» i «Ambdós»."
+"Cal establir la carpeta local o remota per als modes «Local» i «Ambdós»."
 
 #: ekos/capture/camera_config.cpp:1163
 #, kde-format
@@ -16113,7 +16110,7 @@ msgstr ""
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 "No hi ha cap vista disponible per a les vistes prèvies. Voleu que s'active "
-"el visor de FITS?"
+"el «Visor de FITS»?"
 
 #: ekos/capture/cameraprocess.cpp:489
 #, kde-format
@@ -16206,7 +16203,7 @@ msgstr "S'ha produït un error: S'ha perdut la connexió amb CCD."
 #: ekos/capture/cameraprocess.cpp:1486
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
-msgstr "No s'han pogut calcular els nivells de l'ADU en les imatges no FITS."
+msgstr "No s'han pogut calcular els nivells de l'ADU a les imatges no FITS."
 
 #: ekos/capture/cameraprocess.cpp:1621 ekos/capture/cameraprocess.cpp:2182
 #, kde-format
@@ -16964,11 +16961,11 @@ msgid ""
 "span> to record the property values.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Seleccioneu les propietats personalitzades que s'han "
-"d'establir quan s'execute la tasca en seqüència en el mode de treball per "
-"lots. Una vegada establit el valor de la propietat en el tauler de control "
-"INDI, afegiu-lo a la secció <span style=\"font-weight:600;\">Propietats de "
-"la tasca</span>. Cliqueu damunt <span style=\"font-weight:600;\">Aplica</"
-"span> per a enregistrar els valors de la propietat.</p></body></html>"
+"d'establir quan s'execute la tasca en seqüència en el mode treball per lots. "
+"Una vegada establit el valor de la propietat en el tauler de control INDI, "
+"afegiu-lo a la secció <span style=\"font-weight:600;\">Propietats de la "
+"tasca</span>. Cliqueu damunt <span style=\"font-weight:600;\">Aplica</span> "
+"per a enregistrar els valors de la propietat.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/customproperties.ui:34
@@ -17203,8 +17200,7 @@ msgstr "9"
 #, kde-format
 msgid "Select read mode on cameras with multiple read modes."
 msgstr ""
-"Se selecciona el mode de lectura en les càmeres amb múltiples modes de "
-"lectura."
+"Se selecciona el mode lectura en les càmeres amb múltiples modes de lectura."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
@@ -17429,8 +17425,8 @@ msgstr ""
 "right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\"font-weight:600;\">Fix</span>: Este algorisme "
-"permet a l'usuari especificar un HFR fix que s'utilitzarà en la comprovació."
-"</li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"permet a l'usuari especificar un HFR fix que s'utilitzarà a la comprovació.</"
+"li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">Mesura relativa</span>: Este algorisme arreplega els punts de "
 "dades des de l'enfocament automàtic i des de les comprovacions d'HFR, manté "
@@ -20955,11 +20951,11 @@ msgstr ""
 "<html><head/><body><p>Proporciona el rebot excessiu en marques per als "
 "moviments de l'enfocador cap enfora durant una execució d'enfocament "
 "automàtic. Açò és a més de qualsevol reacció proporcionada pel controlador "
-"del dispositiu i establida en el camp «Compensació de rebot del "
-"controlador:». Establiu-la a 0 per a desactivar.</p><p>Si s'establix, l'«EA "
-"excessiu:» s'aplicarà a tots els moviments d'enfocament iniciats pel mòdul "
-"«Enfocament».</p><p>Normalment s'establix el «Rebot» o l'«EA excessiu:» de "
-"l'enfocador.</p></body></html>"
+"del dispositiu i establida al camp «Compensació de rebot del controlador:». "
+"Establiu-la a 0 per a desactivar.</p><p>Si s'establix, l'«EA excessiu:» "
+"s'aplicarà a tots els moviments d'enfocament iniciats pel mòdul «Enfocament»."
+"</p><p>Normalment s'establix el «Rebot» o l'«EA excessiu:» de l'enfocador.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: ekos/focus/opsfocusmechanics.ui:251
@@ -21074,7 +21070,7 @@ msgstr ""
 "quantitat de rebot que s'aplicarà en invertir la direcció del moviment. "
 "Establiu-la a 0 per a desactivar-ho.</p><p>Normalment s'establix el «Rebot» "
 "o l'«EA excessiu:» de l'enfocador.</p><p>Este camp establix el rebot de "
-"l'enfocador d'INDI i es pot establir ací o en el Quadro de control INDI.</"
+"l'enfocador d'INDI i es pot establir ací o en el «Quadro de control INDI».</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, speedupShiftLabel)
@@ -21340,7 +21336,7 @@ msgstr ""
 "style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">HFR</span>: «Half Flux Radius» (Radi de semiflux). Utilitza un "
-"algorisme per a calcular el radi d'un cercle centrat en el centroide de "
+"algorisme per a calcular el radi d'un cercle centrat al centroide de "
 "l'estrela que encapsula la meitat del flux de l'estrela.</li><ul style="
 "\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right: 0px; -qt-"
 "list-indent:1;\"><li style=\"margin-top:0px; margin-bottom:12px; margin-"
@@ -21359,14 +21355,14 @@ msgstr ""
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">Fourier</span>: Càlcul de la potència de Fourier. "
 "Utilitza l'aproximació de la potència de la transformada de Fourier "
-"desenvolupada per Tan i Schulz a «https://arxiv.org/pdf/2201.12466.pdf». A "
+"desenvolupada per Tan i Schulz a «https://arxiv.org/pdf/2201.12466.pdf». En "
 "l'enfocament òptim, la potència en l'espai de freqüències -resultat de la "
 "transformada de Fourier- serà un màxim. </li><li style=\"margin-top:0px; "
 "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\"><span style=\"font-weight:600;\">Fourier</span>: Càlcul "
 "de la potència de Fourier. Utilitza l'aproximació de la potència de la "
 "transformada de Fourier Power desenvolupada per en Tan i Schulz a «https://"
-"arxiv.org/pdf/2201.12466.pdf». A l'enfocament òptim, la potència a l'espai "
+"arxiv.org/pdf/2201.12466.pdf». En l'enfocament òptim, la potència en l'espai "
 "de freqüències (resultat de la transformada de Fourier) serà un màxim.</"
 "li><li style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
@@ -21578,8 +21574,8 @@ msgstr ""
 "l'enfocador per passos discrets inicialment decidits per la mida del pas. "
 "Una vegada s'ha calculat el pendent d'una corba, es calcularan més mides de "
 "pas per a arribar fins a una solució òptima. L'algorisme es pararà quan HFR "
-"mesurat es trobe dins del percentatge de tolerància d'HFR mínim registrat en "
-"el procediment.</li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
+"mesurat es trobe dins del percentatge de tolerància d'HFR mínim registrat al "
+"procediment.</li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">Polinomi</span>: comença amb el mètode iteratiu. "
 "En creuar a l'altre costat de la corba V, es calcularan els coeficients "
@@ -21981,7 +21977,7 @@ msgstr ""
 "estreles). En este mode, la casella de selecció «Selecció automàtica de "
 "l'estrela» s'activarà per a permetre que Ekos seleccione una estrela (quan "
 "està marcada) o per a permetre que l'usuari la seleccione manualment en el "
-"visor de FITS (quan està desmarcada).</p></body></html>"
+"«Visor de FITS» (quan està desmarcada).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/opsfocussettings.ui:150
@@ -22068,8 +22064,8 @@ msgid ""
 "Upper limit how many focus frames should be kept on disk. Set to -1 to allow "
 "arbitrary many files."
 msgstr ""
-"Límit superior de quants fotogrames d'enfocament s'han de mantindre al disc. "
-"Establiu-la a -1 per a permetre molts fitxers arbitraris."
+"Límit superior de quants fotogrames d'enfocament s'han de mantindre en el "
+"disc. Establiu-la a -1 per a permetre molts fitxers arbitraris."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocussettings.ui:290
@@ -22558,7 +22554,7 @@ msgstr "PHD2: S'ha netejat el calibratge"
 #: ekos/guide/externalguide/phd2.cpp:927
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
-msgstr "PHD2: El mode de guiatge Dec s'ha establit a: %1"
+msgstr "PHD2: El mode guiatge Dec s'ha establit a: %1"
 
 #: ekos/guide/externalguide/phd2.cpp:937
 #, kde-format
@@ -24161,8 +24157,8 @@ msgstr ""
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
 msgstr ""
-"Activa GPG a la pestanya «Guia», utilitzant el desplegable de l'algorisme de "
-"guiatge de l'AR"
+"Activa GPG en la pestanya «Guia», utilitzant el desplegable de l'algorisme "
+"de guiatge de l'AR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -24336,7 +24332,7 @@ msgstr ""
 "          text-indent:0px;\">Interacció harmònica entre els engranatges de "
 "tot el tren,</li><li style=\"\n"
 "          margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Canvi en la\n"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Canvi a la\n"
 "          càrrega per la gravetat,</li><li style=\"margin-top:12px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px;\n"
 "          -qt-block-indent:0; text-indent:0px;\">Variacions tèrmiques.</li></"
@@ -24482,7 +24478,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Variància del senyal del nucli\n"
 "          d'abast proper.</p><p><br/></p><p>Quant canvia el soroll d'abast "
-"proper en l'escala de llargària de \n"
+"proper a l'escala de llargària de \n"
 "          curt termini.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas5a)
@@ -24616,7 +24612,7 @@ msgstr ""
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\"font-weight:600;\">GPG</span>: (Només l'AR) L'algorisme GPG "
 "intenta predir els errors periòdics i les derivacions lineals. Utilitza "
-"agressivitat, uns paràmetres mínims i màxims d'ací i més paràmetres a la "
+"agressivitat, uns paràmetres mínims i màxims d'ací i més paràmetres en la "
 "pestanya «GPG» separada. La histèresi i el guany integral no s'apliquen.</"
 "li></ul></body></html>"
 
@@ -24674,8 +24670,8 @@ msgstr ""
 "block-indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">GPG</"
 "span>: L'algorisme GPG intenta predir els errors periòdics i les derivacions "
 "lineals. Utilitza agressivitat, uns paràmetres mínims i màxims d'ací i més "
-"paràmetres a la pestanya «GPG» separada. La histèresi i el guany integral no "
-"s'apliquen.</li></ul></body></html>"
+"paràmetres en la pestanya «GPG» separada. La histèresi i el guany integral "
+"no s'apliquen.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
@@ -24973,7 +24969,7 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Si està marcada i s'executa el sistema de guiatge "
-"intern, es guardarà un fitxer de registre en el directori predeterminat del "
+"intern, es guardarà un fitxer de registre en la carpeta predeterminada del "
 "registre. Este no és un registre de depuració, està destinat per a millorar "
 "la gravació de l'usuari i es pot veure amb «phd2logview».</p></body></html>"
 
@@ -26016,7 +26012,7 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Habilita o inhabilita el límit d'angle horari de la "
-"muntura. Una vegada habilitat, Ekos controlarà l'angle horari de la muntura "
+"muntura. Una vegada habilitat, Ekos vigilarà l'angle horari de la muntura "
 "mentre s'orienta o seguix. Si la muntura s'orienta o seguix passat este "
 "límit mentre el costat del moll està en un estat que no ho permet, "
 "s'ordenarà que es pare i es desactivarà el seguiment. Requerix una muntura "
@@ -26044,7 +26040,7 @@ msgid ""
 "stop and tracking will be turned off.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Habilita o inhabilita els límits de l'interval per al "
-"recorregut de la muntura. Una vegada habilitat, Ekos controlarà l'altitud de "
+"recorregut de la muntura. Una vegada habilitat, Ekos vigilarà l'altitud de "
 "la muntura mentre s'orienta o seguix. Si la muntura orienta o seguix per "
 "davall o per damunt del límit, s'ordenarà que es pare i el seguiment es "
 "desactivarà.</p></body></html>"
@@ -26425,7 +26421,7 @@ msgstr "Posició relativa en la qual s'ha de moure la cúpula."
 #: ekos/observatory/observatory.ui:217
 #, kde-format
 msgid "Move the dome for the given degrees and direction."
-msgstr "Mou la cúpula en els graus i en la direcció indicada."
+msgstr "Mou la cúpula en els graus i la direcció indicada."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionMoveRelButton)
 #: ekos/observatory/observatory.ui:228
@@ -26782,7 +26778,7 @@ msgstr "Cal tornar a iniciar KStars perquè este canvi tinga efecte."
 #, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
 msgstr ""
-"Establix un directori base alternatiu per a les imatges capturades del "
+"Establix una carpeta base alternativa per a les imatges capturades pel "
 "procés «Analitza»"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
@@ -26883,14 +26879,14 @@ msgstr "Reinicia el procés d'«Analitza» quan es reinicie Ekos"
 #: ekos/opsekos.ui:228
 #, kde-format
 msgid "Alternative Image Directory: "
-msgstr "Directori d'imatges alternatiu: "
+msgstr "Carpeta d'imatges alternativa: "
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, analyzeAlternativeDirectoryB)
 #: ekos/opsekos.ui:247
 #, kde-format
 msgid "Set the alternative image directory for Analyze"
-msgstr "Establix un directori d'imatges alternatiu per al procés d'«Analitza»."
+msgstr "Establix una carpeta d'imatges alternativa per al procés «Analitza»."
 
 #: ekos/profileeditor.cpp:51
 #, kde-format
@@ -27242,9 +27238,9 @@ msgid ""
 "port defaults to 7624.<br/>Remote INDI drivers must be already running for "
 "the connection to succeed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Afegiu controladors remots d'INDI a la cadena amb el "
-"servidor INDI local configurat per a este perfil. Formateu este camp com una "
-"llista separada per comes de noms de controlador entre cometes, un nom "
+"<html><head/><body><p>Afegiu ls controladors remots d'INDI a la cadena amb "
+"el servidor INDI local configurat per a este perfil. Formateu este camp com "
+"una llista separada per comes de noms de controlador entre cometes, un nom "
 "d'amfitrió o adreça i un port opcional:</p><p><span style=\"font-weight:600;"
 "\">&quot;ZWO ASI120MC&quot;@192.168.1.50:8000</span><br/>Connecta amb la "
 "càmera anomenada en 192.168.1.50, port 8000.</p><p><span style=\"font-"
@@ -27762,7 +27758,7 @@ msgid ""
 "the two, the WatchDog driver goes into safe mode and executes a shutdown "
 "procedure to protect your equipment.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Utilitza el controlador WatchDog d'INDI. Controla la "
+"<html><head/><body><p>Utilitza el controlador WatchDog d'INDI. Vigila la "
 "connexió entre l'equip remot i Ekos. Si la comunicació entre els dos es "
 "perd, el controlador WatchDog entra en mode segur i executa un procediment "
 "de tancament per a protegir l'equip.</p></body></html>"
@@ -28474,7 +28470,7 @@ msgstr "Enfoca cada"
 #: ekos/scheduler/framingassistant.ui:1423
 #, kde-format
 msgid "Directory to save sequence images"
-msgstr "Directori a on es guardaran les imatges de la seqüència."
+msgstr "Carpeta a on es guardaran les imatges de la seqüència."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #: ekos/scheduler/framingassistant.ui:1429
@@ -28483,8 +28479,8 @@ msgid ""
 "<html><head/><body><p>Directory: <span style=\" color:#ff0000;\">*</span></"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Directori: <span style=\"color:#ff0000;\">*</span></"
-"p></body></html>"
+"<html><head/><body><p>Carpeta: <span style=\"color:#ff0000;\">*</span></p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignEvery)
 #: ekos/scheduler/framingassistant.ui:1436
@@ -28640,7 +28636,7 @@ msgstr "Cal que la importació continga les coordenades del centre."
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
-msgstr "Seleccioneu el directori de tasques"
+msgstr "Seleccioneu la carpeta de tasques"
 
 #: ekos/scheduler/greedyscheduler.cpp:96
 #, kde-format
@@ -29379,7 +29375,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:2405
 #, kde-format
 msgid "Scheduler is in sleep mode"
-msgstr "El programador està en el mode de repòs"
+msgstr "El programador es troba en el mode de repòs"
 
 #: ekos/scheduler/scheduler.cpp:2469
 #, kde-format
@@ -31146,7 +31142,7 @@ msgid ""
 "procedures currently set in its sequence will not occur."
 msgstr ""
 "Avís: la tasca «%1» té inhabilitat el pas de l'enfocament, no es faran els "
-"procediments periòdics i/o HFR actualment establits en la seua seqüència."
+"procediments periòdics i/o HFR actualment establits a la seua seqüència."
 
 #: ekos/scheduler/schedulerutils.cpp:473
 #, kde-format
@@ -31873,7 +31869,7 @@ msgstr "RAM"
 #, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
-msgstr "Directori d'apilament"
+msgstr "Carpeta d'apilament"
 
 #: fitsviewer/fitstab.cpp:1040
 #, kde-format
@@ -32078,7 +32074,7 @@ msgstr "Invertix verticalment"
 #: fitsviewer/fitsviewer.cpp:137 kstarsinit.cpp:159
 #, kde-format
 msgid "Open/Blink Directory"
-msgstr "Obri un directori i fes parpelleig"
+msgstr "Obri una carpeta i fes parpelleig"
 
 #: fitsviewer/fitsviewer.cpp:145 kstarsinit.cpp:164
 #, kde-format
@@ -32205,7 +32201,7 @@ msgstr "Clic dret per a canviar el títol de la pestanya."
 #: fitsviewer/fitsviewer.cpp:765
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
-msgstr "No s'ha pogut trobar la pestanya amb l'UID %1 en el visor de FITS"
+msgstr "No s'ha pogut trobar la pestanya amb l'UID %1 en el «Visor de FITS»"
 
 #: fitsviewer/fitsviewer.cpp:902
 #, kde-format
@@ -32246,7 +32242,7 @@ msgstr "Superposició de HiPS"
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
-msgstr "Fes parpelleig en el directori superior"
+msgstr "Fes parpelleig en la carpeta superior"
 
 #: fitsviewer/fitsviewer.cpp:1096
 #, kde-format
@@ -32353,38 +32349,42 @@ msgstr "Fotograma pla mestre:"
 # Nota: https://ca.wikipedia.org/wiki/Lent_de_Barlow
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterFlatB)
 #: fitsviewer/livestacking.ui:102
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Flat</p></body></html>"
-msgstr "<html><head/><body><p>Factor del reductor o Barlow.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Diàleg del selector de fitxers per al fotograma pla "
+"mestre.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
 #: fitsviewer/livestacking.ui:121
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Flat to use to calibrate lights.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Crea un tren òptic nou.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>El fotograma pla mestre que s'utilitzarà per a "
+"calibrar les llums.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDark)
 #: fitsviewer/livestacking.ui:162
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Crea un tren òptic nou.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>El fotograma fosc mestre que s'utilitzarà per a "
+"calibrar els de llums.</p></body></html>"
 
 # Nota: https://ca.wikipedia.org/wiki/Lent_de_Barlow
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterDarkB)
 #: fitsviewer/livestacking.ui:181
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark</p></body></html>"
-msgstr "<html><head/><body><p>Factor del reductor o Barlow.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Diàleg del selector de fitxers per al fotograma fosc "
+"mestre.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:203
@@ -32418,7 +32418,7 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>El nombre màxim de subsolucions que es mantenen a la "
+"<html><head/><body><p>El nombre màxim de subsolucions que es mantenen en la "
 "memòria mentre es processa. Com més gran siga el valor, millor serà la "
 "qualitat del procés d'apilament, però a costa de més temps de processament i "
 "memòria utilitzada.</p><p><br/></p><p>Processos com el retallat de la sigma "
@@ -32429,7 +32429,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:302
 #, kde-format
 msgid "In Memory Subs:"
-msgstr "Subsolucions a la memòria:"
+msgstr "Subsolucions en la memòria:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:318
@@ -32486,7 +32486,7 @@ msgstr ""
 "<html><head/><body><p>Ponderació dels fotogrames:</p><p>- Igual. Tots els "
 "fotogrames tindran el mateix pes.</p><p>- HFR. Els fotogrames es ponderaran "
 "amb 1 / HFR mitjana.</p><p>- Nombre d'estreles. Els fotogrames es ponderaran "
-"pel nombre d'estreles detectades al fotograma.</p></body></html>"
+"pel nombre d'estreles detectades en el fotograma.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:421
@@ -32558,30 +32558,30 @@ msgid ""
 "will be plate solved in order to align them prior to stacking.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Mètode d'alineació:</p><p>- Cap. No s'executarà cap "
+"alineació. Útil per a apilar els fotogrames foscos i plans.</p><p>- "
+"Solucionador de plaques. Les subsolucions resoldran les plaques per tal "
+"d'alinear-les abans de l'apilament.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AlignMaster)
 #: fitsviewer/livestacking.ui:626
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the guide "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The sub to use as reference to align all other subs.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça el nombre d'estreles detectades en les imatges "
-"guia.</p></body></html>"
+"<html><head/><body><p>Les subsolucions que s'utilitzaran com a referència "
+"per a alinear totes les altres subsolucions.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AlignMasterB)
 #: fitsviewer/livestacking.ui:642
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Alignment Master</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Neteja l'historial de les dades del sensor.</p></"
-"body></html>"
+"<html><head/><body><p>Diàleg del selector de fitxers per al fotograma mestre "
+"d'alineació.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:689
@@ -32603,8 +32603,7 @@ msgstr "Quantitat de reducció del soroll:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:766
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Sharpen kernel size.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
 msgstr "<html><head/><body><p>Mida del nucli d'agudització.</p></body></html>"
 
@@ -32676,7 +32675,7 @@ msgstr "Quantitat de desconvolució:"
 msgid ""
 "<html><head/><body><p>PSF Sigma to use for Deconvolution</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sigma PSF que s'utilitzarà a la desconvolució</p></"
+"<html><head/><body><p>Sigma PSF que s'utilitzarà en la desconvolució</p></"
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
@@ -32705,17 +32704,17 @@ msgstr "Reprocessament"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StackDirB)
 #: fitsviewer/livestacking.ui:1086
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Angle de desplaçament de la càmera.</p></body></html>"
+"<html><head/><body><p>Diàleg del selector de la carpeta d'apilament.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1111
 #, kde-format
 msgid "Stack Directory:"
-msgstr "Directori d'apilament:"
+msgstr "Carpeta d'apilament:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1133
@@ -32747,13 +32746,13 @@ msgstr ""
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Stack)
 #: fitsviewer/livestacking.ui:1196
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The directory containing files to stack</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Temps romanent per a la compleció.</p></body></html>"
+"<html><head/><body><p>La carpeta que conté els fitxers que s'apilaran.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1218
@@ -32780,15 +32779,14 @@ msgid ""
 "<html><head/><body><p>Starts watching the Stack Directory and runs stacking."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Comença controlant el directori de la pila i executa "
+"<html><head/><body><p>Comença controlant la carpeta de la pila i executarà "
 "l'apilament.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:1285
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Memory monitor</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Vigilant de la memòria.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1304
@@ -32820,13 +32818,13 @@ msgstr "Aspecte i comportament"
 #: fitsviewer/opsfits.ui:51
 #, kde-format
 msgid "Automatically display received images in the FITS Viewer"
-msgstr "Mostra automàticament les imatges rebudes en el visor de FITS."
+msgstr "Mostra automàticament les imatges rebudes en el «Visor de FITS»."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useFITSViewer)
 #: fitsviewer/opsfits.ui:54
 #, kde-format
 msgid "Use FITS viewer"
-msgstr "Utilitza el visor de FITS"
+msgstr "Utilitza el «Visor de FITS»"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_singlePreviewFITS)
 #. i18n: ectx: whatsthis, entry (singlePreviewFITS), group (FITSViewer)
@@ -32884,7 +32882,7 @@ msgstr "Obri una finestra única"
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image"
 msgstr ""
-"Porta la finestra del visor de FITS al primer pla quan es rep una imatge "
+"Porta la finestra del «Visor de FITS» al primer pla quan es rep una imatge "
 "nova."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_focusFITSOnNewImage)
@@ -32898,14 +32896,11 @@ msgstr "Enfoca en rebre una imatge"
 #: fitsviewer/opsfits.ui:122
 #, kde-format
 msgid "Make FITS Viewer window independent from KStars"
-msgstr "Fa que la finestra del visor de FITS siga independent de KStars."
+msgstr "Fa que la finestra del «Visor de FITS» siga independent de KStars."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_liveStackerOwnProcess)
 #: fitsviewer/opsfits.ui:132
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Run Live Stacker as a separate prcess.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Run Live Stacker as a separate process.</p></body></"
 "html>"
@@ -33027,7 +33022,7 @@ msgstr "Processament"
 #, kde-format
 msgid "Always apply auto stretch to images in FITS Viewer"
 msgstr ""
-"Aplica sempre l'estirament automàtic a les imatges en el visor de FITS."
+"Aplica sempre l'estirament automàtic a les imatges en el «Visor de FITS»."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoStretch)
 #: fitsviewer/opsfits.ui:364
@@ -33055,7 +33050,7 @@ msgid ""
 "\"><span style=\" font-weight:600;\">3D Cube</span>: RGB images will not be "
 "processed. Only grayscale images are shown.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Activeu el mode de recursos limitats per a apagar "
+"<html><head/><body><p>Activeu el mode recursos limitats per a apagar "
 "qualsevol operació intensiva de recursos:</p><ul style=\"margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-list-indent:1;"
 "\"><li style=\"margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
@@ -33079,7 +33074,7 @@ msgstr ""
 #: fitsviewer/opsfits.ui:374
 #, kde-format
 msgid "Limited resources mode"
-msgstr "Mode de recursos limitats"
+msgstr "Mode recursos limitats"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoDebayer)
@@ -33241,7 +33236,7 @@ msgstr "Partició de StellarSolver"
 #: fitsviewer/platesolve.cpp:80
 #, kde-format
 msgid "FITS Viewer Solver Profiles Editor"
-msgstr "Editor de perfils del solucionador del visor de FITS"
+msgstr "Editor de perfils del solucionador del «Visor de FITS»"
 
 #: fitsviewer/platesolve.cpp:224
 #, kde-format
@@ -33555,8 +33550,7 @@ msgstr ""
 #: fitsviewer/starprofileviewer.cpp:150
 #, kde-format
 msgid "Shows the x, y coordinates of star centers in the frame"
-msgstr ""
-"Mostra les coordenades x, y dels centres de les estreles en el fotograma"
+msgstr "Mostra les coordenades x, y del centre de les estreles en el fotograma"
 
 #: fitsviewer/starprofileviewer.cpp:154
 #, kde-format
@@ -33566,8 +33560,7 @@ msgstr "Mostra HFR de les estreles en el fotograma"
 #: fitsviewer/starprofileviewer.cpp:168
 #, kde-format
 msgid "Shows the peak values of star centers in the frame"
-msgstr ""
-"Mostra els pics dels valors dels centres de les estreles en el fotograma"
+msgstr "Mostra els pics dels valors del centre de les estreles en el fotograma"
 
 #: fitsviewer/starprofileviewer.cpp:172
 #, kde-format
@@ -34162,7 +34155,7 @@ msgid ""
 "Unable to find INDI drivers directory: %1\n"
 "Please make sure to set the correct path in KStars configuration"
 msgstr ""
-"No s'ha pogut trobar el directori de controladors d'INDI: %1\n"
+"No s'ha pogut trobar la carpeta de controladors d'INDI: %1\n"
 "Assegureu-vos d'establir el camí correcte en la configuració de KStars"
 
 #: indi/drivermanager.cpp:1052 indi/indidriver.cpp:528
@@ -34581,13 +34574,13 @@ msgstr "Cal tornar a iniciar KStars perquè este canvi tinga efecte."
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Default Directory"
-msgstr "Directori predeterminat de FITS"
+msgstr "Carpeta predeterminada de FITS "
 
 #: indi/opsindi.cpp:94
 #, kde-format
 msgctxt "@title:window"
 msgid "INDI Drivers Directory"
-msgstr "Directori de controladors d'INDI"
+msgstr "Carpeta dels controladors d'INDI"
 
 #: indi/opsindi.cpp:122
 #, kde-format
@@ -34633,14 +34626,14 @@ msgstr "Els controladors d'INDI són interns al paquet de l'aplicació."
 #: indi/opsindi.ui:105
 #, kde-format
 msgid "INDI drivers XML directory:"
-msgstr "Directori XML de controladors d'INDI:"
+msgstr "Carpeta XML dels controladors d'INDI:"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_indiDriversDir)
 #: indi/opsindi.ui:112
 #, kde-format
 msgid "Path to the INDI drivers XML directory"
-msgstr "Camí cap al directori XML de controladors d'INDI."
+msgstr "Camí cap a la carpeta XML dels controladors d'INDI."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QLabel, fitsLabel)
@@ -34655,7 +34648,7 @@ msgstr ""
 #: indi/opsindi.ui:160
 #, kde-format
 msgid "Default FITS directory:"
-msgstr "Directori FITS predeterminat:"
+msgstr "Carpeta predeterminada de FITS:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:222
@@ -34790,13 +34783,13 @@ msgid ""
 "</body></html>"
 msgstr ""
 "<html><head/><body>\n"
-"<p>Establix el nom del directori <b>remot</b> de vídeo SER. Si el servidor "
-"INDI s'està executant localment, llavors es podrà seleccionar un directori "
+"<p>Establix el nom de la carpeta <b>remota</b> del vídeo SER. Si el servidor "
+"INDI s'està executant localment, llavors es podrà seleccionar una carpeta "
 "local. En cas contrari, si esteu connectant amb un servidor INDI remot, "
-"llavors el directori caldrà que siga vàlid en el sistema de fitxers remot a "
-"on es guardarà.</p>\n"
-"<p>Els directoris de gravació poden contindre diversos patrons per a fer-los "
-"més dinàmics:</p>\n"
+"llavors la carpeta caldrà que siga vàlida al sistema de fitxers remot a on "
+"es guardarà.</p>\n"
+"<p>Les carpetes de gravació poden contindre alguns patrons per a fer-les més "
+"dinàmiques:</p>\n"
 "<ul>\n"
 "<li><b>_D_</b> per a la data en AAAA-MM-DD.</li>\n"
 "<li><b>_H_</b> per a l'hora en HH:MM:SS.</li>\n"
@@ -35044,7 +35037,7 @@ msgstr "Mitjana dels FPS."
 #, kde-format
 msgctxt "@title:window"
 msgid "SER Record Directory"
-msgstr "Directori de gravació SER"
+msgstr "Carpeta de gravació SER"
 
 #: indi/streamwg.cpp:105
 #, kde-format
@@ -36043,7 +36036,8 @@ msgstr "Límit de fotogrames d'enfocament guardats"
 #, kde-format
 msgid "Upper limit how many focus frames should be kept on disk."
 msgstr ""
-"Límit superior de quants fotogrames d'enfocament s'han de mantindre al disc."
+"Límit superior de quants fotogrames d'enfocament s'han de mantindre en el "
+"disc."
 
 #. i18n: ectx: label, entry (messageNotificationINDI), group (indi)
 #: kstars.kcfg:215
@@ -36075,7 +36069,7 @@ msgstr ""
 #: kstars.kcfg:232
 #, kde-format
 msgid "FITS Default directory"
-msgstr "Directori predeterminat de FITS"
+msgstr "Carpeta predeterminada de FITS"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (fitsDir), group (indi)
@@ -36145,7 +36139,7 @@ msgstr "El servidor INDI és intern o extern?"
 #: kstars.kcfg:261 kstars.kcfg:262
 #, kde-format
 msgid "PATH to indi drivers directory"
-msgstr "Camí cap al directori de controladors d'INDI"
+msgstr "Camí cap a la carpeta dels controladors d'INDI"
 
 #. i18n: ectx: label, entry (indiDriversAreInternal), group (indi)
 #: kstars.kcfg:266
@@ -36598,14 +36592,16 @@ msgstr ""
 #: kstars.kcfg:446
 #, kde-format
 msgid "Hide extra objects while moving?"
-msgstr "Voleu que s'oculten els objectes extres mentre s'està movent el mapa?"
+msgstr ""
+"Voleu que s'oculten els objectes addicionals mentre s'està movent el mapa?"
 
 #. i18n: ectx: whatsthis, entry (HideOther), group (View)
 #: kstars.kcfg:447
 #, kde-format
 msgid "Toggle whether extra objects are hidden while the display is in motion."
 msgstr ""
-"Canvia quan s'ocultaran els objectes extres mentre el mapa està en moviment."
+"Canvia quan s'ocultaran els objectes addicionals mentre el mapa està en "
+"moviment."
 
 #. i18n: ectx: label, entry (HidePlanets), group (View)
 #: kstars.kcfg:451
@@ -37079,7 +37075,8 @@ msgstr "Si està marcada, el cel serà brillant durant les hores diürnes."
 #, kde-format
 msgid "Draw extra deep-sky objects in the sky map?"
 msgstr ""
-"Voleu que es dibuixen els objectes extres del cel profund en el mapa celeste?"
+"Voleu que es dibuixen els objectes addicionals del cel profund en el mapa "
+"celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowOther), group (View)
 #: kstars.kcfg:627
@@ -37665,7 +37662,7 @@ msgstr ""
 "Seleccioneu-la si utilitzeu el vostre ull a l'ocular en un telescopi "
 "newtonià muntat en altazimutal. Açò té en compte el fet que l'observador "
 "roman dret mentre el telescopi es mou cap amunt i cap avall, de manera que "
-"l'orientació del mapa celeste farà un seguiment del que es veja en l'ocular "
+"l'orientació del mapa celeste farà un seguiment del que es veja a l'ocular "
 "una vegada estiga configurat correctament. Seleccioneu la mà de la correcció "
 "segons en quin costat del telescopi apareix l'ocular en mirar des de la part "
 "posterior del telescopi."
@@ -38451,7 +38448,7 @@ msgstr "El nom de l'esquema de color"
 #: kstars.kcfg:1158
 #, kde-format
 msgid "Mode for rendering stars"
-msgstr "Mode de renderitzat de les estreles"
+msgstr "Mode renderitzat de les estreles"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: whatsthis, entry (StarColorMode), group (Colors)
@@ -38647,13 +38644,13 @@ msgstr ""
 #: kstars.kcfg:1235
 #, kde-format
 msgid "Color of objects with extra links available"
-msgstr "El color dels objectes amb enllaços extres disponibles"
+msgstr "El color dels objectes amb enllaços addicionals disponibles"
 
 #. i18n: ectx: whatsthis, entry (SpecialObjectColor), group (Colors)
 #: kstars.kcfg:1236
 #, kde-format
 msgid "The color for objects which have extra URL links available."
-msgstr "El color dels objectes que tenen disponibles enllaços URL extres."
+msgstr "El color dels objectes que tenen disponibles enllaços URL addicionals."
 
 #. i18n: ectx: label, entry (HorizonColor), group (Colors)
 #: kstars.kcfg:1240
@@ -39744,7 +39741,7 @@ msgstr "Geometria de la finestra de FITS, codificada com una matriu de bytes"
 #: kstars.kcfg:1674
 #, kde-format
 msgid "Display every image captured in a FITS Viewer window."
-msgstr "Mostra cada imatge capturada en una finestra del visor de FITS."
+msgstr "Mostra cada imatge capturada en una finestra del «Visor de FITS»."
 
 #. i18n: ectx: label, entry (singlePreviewFITS), group (FITSViewer)
 #: kstars.kcfg:1678
@@ -39787,14 +39784,14 @@ msgstr "Mostra totes les imatges FITS obertes en una única finestra del visor."
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image."
 msgstr ""
-"Porta la finestra del visor de FITS al primer pla en rebre una imatge nova."
+"Porta la finestra del «Visor de FITS» al primer pla en rebre una imatge nova."
 
 #. i18n: ectx: label, entry (independentWindowFITS), group (FITSViewer)
 #: kstars.kcfg:1697
 #, kde-format
 msgid "Make FITS Viewer window independent of KStars main window"
 msgstr ""
-"Fes que la finestra del visor de FITS siga independent de la finestra "
+"Fes que la finestra del «Visor de FITS» siga independent de la finestra "
 "principal de KStars"
 
 #. i18n: ectx: label, entry (liveStackerOwnProcess), group (FITSViewer)
@@ -39903,7 +39900,7 @@ msgid ""
 "FITS Viewer Solver"
 msgstr ""
 "JSON emmagatzema l'assignació dels índexs de perfil als perfils de mòduls "
-"per al solucionador del visor de FITS"
+"per al solucionador del «Visor de FITS»"
 
 #. i18n: ectx: label, entry (FitsCatalog), group (FITSViewer)
 #: kstars.kcfg:1761
@@ -39915,7 +39912,7 @@ msgstr "El catàleg des del qual s'obtindran els objectes que es mostraran."
 #: kstars.kcfg:1765
 #, kde-format
 msgid "Whether to display object names on the FITS Viewer or not."
-msgstr "Si s'han de mostrar els noms dels objectes en el visor de FITS o no."
+msgstr "Si s'han de mostrar els noms dels objectes en el «Visor de FITS» o no."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1770
@@ -39973,7 +39970,7 @@ msgstr "Mètode d'alineació de l'apilament en directe"
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
 msgstr ""
-"Nombre màxim de subsolucions que es mantindran a la memòria de l'apilament "
+"Nombre màxim de subsolucions que es mantindran en la memòria de l'apilament "
 "en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
@@ -40240,7 +40237,7 @@ msgstr "Activa els límits d'altitud de la muntura."
 #: kstars.kcfg:2000
 #, kde-format
 msgid "Restrict altitude limits to tracking mode only."
-msgstr "Restringix els límits d'altitud només al mode de seguiment."
+msgstr "Restringix els límits d'altitud només en el mode seguiment."
 
 #. i18n: ectx: label, entry (ConfirmBelowHorizon), group (Mount)
 #: kstars.kcfg:2004
@@ -40567,7 +40564,7 @@ msgstr "Quan es prenen plans del cel amb una intensitat canviant."
 #: kstars.kcfg:2143
 #, kde-format
 msgid "ORed list of calibration pre-actions."
-msgstr "Llista ORed d'accions prèvies al calibratge."
+msgstr "Llista ORed d'accions prèvies en el calibratge."
 
 #. i18n: ectx: label, entry (CalibrationFlatDurationIndex), group (Capture)
 #: kstars.kcfg:2147
@@ -40673,8 +40670,8 @@ msgstr ""
 #, kde-format
 msgid "Perform auto stretch on captured images in FITS Viewer."
 msgstr ""
-"Realitza l'estirament automàtic en les imatges capturades en el visor de "
-"FITS."
+"Realitza l'estirament automàtic en les imatges capturades en el «Visor de "
+"FITS»."
 
 #. i18n: ectx: label, entry (Clipping64KValue), group (Capture)
 #: kstars.kcfg:2203
@@ -40682,7 +40679,7 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
-"Valor mínim dels píxels marcats com a retallats en el visor de FITS per a "
+"Valor mínim dels píxels marcats com a retallats en el «Visor de FITS» per a "
 "les imatges de 16 bits."
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
@@ -40691,7 +40688,7 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
-"Valor mínim dels píxels marcats com a retallats en el visor de FITS per a "
+"Valor mínim dels píxels marcats com a retallats en el «Visor de FITS» per a "
 "les imatges de 8 bits."
 
 #. i18n: ectx: label, entry (AdaptiveSampling), group (Capture)
@@ -40716,7 +40713,7 @@ msgstr ""
 #, kde-format
 msgid "Display every captured DSLR image in the Image Viewer window."
 msgstr ""
-"Mostra cada imatge de la rèflex digital capturada en la finestra del visor "
+"Mostra cada imatge capturada per la rèflex digital en la finestra del visor "
 "d'imatges."
 
 #. i18n: ectx: label, entry (ForceDSLRPresets), group (Capture)
@@ -40734,7 +40731,7 @@ msgstr ""
 #: kstars.kcfg:2228
 #, kde-format
 msgid "Path to capture directory to save images."
-msgstr "Camí cap al directori de les captures a on es guardaran les imatges."
+msgstr "Camí cap a la carpeta de les captures a on es guardaran les imatges."
 
 #. i18n: ectx: label, entry (PlaceholderFormat), group (Capture)
 #: kstars.kcfg:2231
@@ -40747,8 +40744,7 @@ msgstr "Com donar format al nom de fitxer de la imatge capturada."
 #, kde-format
 msgid "Path to remote capture directory to save images."
 msgstr ""
-"Camí cap al directori remot de les captures a on s'han de guardar les "
-"imatges."
+"Camí cap a la carpeta remota de les captures a on es guardaran les imatges."
 
 #. i18n: ectx: label, entry (ManualCoverTimeout), group (Capture)
 #: kstars.kcfg:2238
@@ -40866,7 +40862,7 @@ msgstr "Agrupament de la càmera («binning») predeterminat"
 #, kde-format
 msgid "Set binning of camera while in focus mode."
 msgstr ""
-"Establix l'agrupament de la càmera mentre s'està en el mode d'enfocament."
+"Establix l'agrupament de la càmera mentre s'està en el mode enfocament."
 
 #. i18n: ectx: label, entry (FocusGain), group (Focus)
 #: kstars.kcfg:2305
@@ -41201,7 +41197,7 @@ msgstr ""
 msgid ""
 "Aggressiveness factor to apply to outlier rejection when using Donut Buster."
 msgstr ""
-"Factor d'agressivitat que s'aplicarà en el rebuig de valors atípics quan "
+"Factor d'agressivitat que s'aplicarà al rebuig de valors atípics quan "
 "s'empre la reducció de dònuts."
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
@@ -41548,28 +41544,29 @@ msgstr "Tema «Gràfic en 3D» en l'Inspector d'aberracions."
 #, kde-format
 msgid "Aberration Inspector 3D graphic show labels."
 msgstr ""
-"Mostra les etiquetes en el «Gràfic en 3D» en l'Inspector d'aberracions."
+"Mostra les etiquetes en el «Gràfic en 3D» de l'«Inspector d'aberracions»."
 
 #. i18n: ectx: label, entry (abInsSensor), group (Focus)
 #: kstars.kcfg:2650
 #, kde-format
 msgid "Aberration Inspector 3D graphic show sensor."
-msgstr "Mostra els sensors en el «Gràfic en 3D» en l'Inspector d'aberracions."
+msgstr ""
+"Mostra els sensors en el «Gràfic en 3D» de l'«Inspector d'aberracions»."
 
 #. i18n: ectx: label, entry (abInsPetzvalWire), group (Focus)
 #: kstars.kcfg:2654
 #, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval wire."
 msgstr ""
-"Mostra el fil de Petzval en el «Gràfic en 3D» en l'Inspector d'aberracions."
+"Mostra el fil de Petzval en el «Gràfic en 3D» de l'«Inspector d'aberracions»."
 
 #. i18n: ectx: label, entry (abInsPetzvalSurface), group (Focus)
 #: kstars.kcfg:2658
 #, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval surface."
 msgstr ""
-"Mostra la superfície de Petzval en el «Gràfic en 3D» en l'Inspector "
-"d'aberracions."
+"Mostra la superfície de Petzval en el «Gràfic en 3D» de l'«Inspector "
+"d'aberracions»."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2664
@@ -41719,7 +41716,7 @@ msgstr "Filtre predeterminat de la roda de filtres en el mode alineació"
 #: kstars.kcfg:2747
 #, kde-format
 msgid "Use currently selected filter in alignment mode."
-msgstr "Utilitza el filtre seleccionat en el mode d'alineació."
+msgstr "Utilitza el filtre seleccionat en el mode alineació."
 
 #. i18n: ectx: whatsthis, entry (AstrometryUseRotator), group (Align)
 #: kstars.kcfg:2751
@@ -42114,7 +42111,7 @@ msgstr "Nom de l'amfitrió del servei PHD2 extern"
 #: kstars.kcfg:2947
 #, kde-format
 msgid "PHD2 Event Monitoring Port"
-msgstr "Port de monitoratge d'esdeveniments de PHD2"
+msgstr "Port per a vigilar els esdeveniments de PHD2"
 
 #. i18n: ectx: label, entry (LinGuiderHost), group (Guide)
 #: kstars.kcfg:2951
@@ -42126,7 +42123,7 @@ msgstr "Nom de l'amfitrió del servei «lin_guider» extern"
 #: kstars.kcfg:2955
 #, kde-format
 msgid "Lin_guider Event Monitoring Port"
-msgstr "Port de monitoratge d'esdeveniments de «lin_guider»"
+msgstr "Port per a vigilar els esdeveniments de «lin_guider»"
 
 #. i18n: ectx: label, entry (CalibrationPulseDuration), group (Guide)
 #: kstars.kcfg:2959
@@ -42256,7 +42253,7 @@ msgid ""
 "How many pixels to move between subsequent exposures under auto dithering "
 "mode."
 msgstr ""
-"Quants de píxels cal moure's entre exposicions successives en el mode de "
+"Quants de píxels cal moure's entre exposicions successives en el mode "
 "tramatge automàtic."
 
 #. i18n: ectx: label, entry (DitherFrames), group (Guide)
@@ -42921,8 +42918,8 @@ msgstr ""
 #, kde-format
 msgid "Alternative directory to use for searching for analyze image files."
 msgstr ""
-"Directori alternatiu que s'utilitza per a buscar fitxers d'imatge en el "
-"procés «Analitza»."
+"Carpeta alternativa que s'emprarà per a buscar fitxers d'imatge en el procés "
+"«Analitza»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3486
@@ -43341,7 +43338,7 @@ msgstr "Dimensió màxima per a les imatges en la superposició d'imatges."
 #, kde-format
 msgid "Image overlay plate-solving timeout."
 msgstr ""
-"Temps d'espera per a la resolució de plaques en la superposició d'imatges."
+"Temps d'espera per a la resolució de plaques a la superposició d'imatges."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3702
@@ -43355,7 +43352,7 @@ msgstr ""
 #, kde-format
 msgid "Image overlay default plate-solving scale."
 msgstr ""
-"Escala predeterminada per a la resolució de plaques en la superposició "
+"Escala predeterminada per a la resolució de plaques a la superposició "
 "d'imatges."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
@@ -43364,7 +43361,7 @@ msgstr ""
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
 "Escala predeterminada (en segons d'arc/píxels) per a la resolució de plaques "
-"en la superposició d'imatges."
+"a la superposició d'imatges."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
 #: kstars.kcfg:3713
@@ -71654,7 +71651,7 @@ msgstr "Busca i salvament (SARSAT)"
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Disaster Monitoring"
-msgstr "Seguiment de desastres"
+msgstr "Vigilar els desastres"
 
 #: kstars_i18n.cpp:4801
 #, kde-kuit-format
@@ -73093,7 +73090,7 @@ msgstr "Visor de FITS"
 #: kstarsinit.cpp:658
 #, kde-format
 msgid "Toggle FITS Viewer"
-msgstr "Mostra o oculta el visor de FITS"
+msgstr "Mostra o oculta el «Visor de FITS»"
 
 #: kstarsinit.cpp:662
 #, kde-format
@@ -73199,7 +73196,7 @@ msgid ""
 "eye view."
 msgstr ""
 "Seleccioneu-la per a una vista del mapa celeste estant dret, on el nord (en "
-"el mode de coordenades equatorials) o el zenit (en el mode de coordenades "
+"el mode coordenades equatorials) o el zenit (en el mode coordenades "
 "horitzontals) estaran verticalment cap amunt. Esta seria l'elecció natural "
 "per a un instrument de visió de busca d'imatges o a simple vista estant dret."
 
@@ -73213,7 +73210,7 @@ msgid ""
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
 "Seleccioneu-la per a una vista invertida del mapa celeste, on el nord (en el "
-"mode de coordenades equatorials) o el zenit (en el mode de coordenades "
+"mode coordenades equatorials) o el zenit (en el mode coordenades "
 "horitzontals) estaran verticalment cap avall. Esta seria l'elecció natural "
 "per a un instrument de visió de busca d'imatges invertit, refractor o de "
 "Cassegrain sense prisma erector o un de Dobson."
@@ -73698,7 +73695,7 @@ msgstr "Latitud: "
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:307
 #, kde-kuit-format
 msgid "Longitude: "
-msgstr "Longitud: "
+msgstr "Llargària: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:323
 #, kde-kuit-format
@@ -77823,8 +77820,8 @@ msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
 "program now."
 msgstr ""
-"Sense un directori de dades de KStars, KStars no pot funcionar. Ara el "
-"programa es tancarà."
+"Sense una carpeta de dades de KStars, KStars no podrà funcionar. Ara es "
+"tancarà el programa."
 
 #: main.cpp:111
 #, kde-format
@@ -77887,7 +77884,7 @@ msgstr "Robert Lancaster"
 #: main.cpp:129
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
-msgstr "Millores en el visor de FITS i Ekos. Adaptació de KStars a OSX"
+msgstr "Millores al «Visor de FITS» i Ekos. Adaptació de KStars a OSX"
 
 #: main.cpp:131
 #, kde-format
@@ -78076,7 +78073,7 @@ msgstr "Utkarsh Simha"
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
-"Millores en l'execució del pla d'observació, saltador entre estreles, etc."
+"Millores a l'execució del pla d'observació, saltador entre estreles, etc."
 
 #: main.cpp:179
 #, kde-format
@@ -78148,7 +78145,7 @@ msgstr "Tony Schriber"
 #: main.cpp:189
 #, kde-format
 msgid "Rotator Dialog improvements"
-msgstr "Millores en el diàleg del rotor"
+msgstr "Millores al diàleg del rotor"
 
 #: main.cpp:190
 #, kde-format
@@ -79595,14 +79592,14 @@ msgstr "Opac"
 #: options/opscolors.ui:125
 #, kde-format
 msgid "Star color mode:"
-msgstr "Mode de color de les estreles:"
+msgstr "Mode color de les estreles:"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_StarColorMode)
 #: options/opscolors.ui:135
 #, kde-format
 msgid "Set the star color mode"
-msgstr "Establix el mode de color de les estreles."
+msgstr "Establix el mode color de les estreles."
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, kcfg_StarColorMode)
 #: options/opscolors.ui:138
@@ -79640,9 +79637,9 @@ msgid ""
 "saturation level of the star's colors.  A higher value means more intense "
 "colors."
 msgstr ""
-"Quan utilitzeu el mode de color realista de les estreles, esta opció "
-"establirà el nivell de saturació dels colors de les estreles. Un valor més "
-"alt significa colors més intensos."
+"Quan utilitzeu el mode color realista de les estreles, esta opció establirà "
+"el nivell de saturació dels colors de les estreles. Un valor més alt "
+"significa colors més intensos."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: options/opscolors.ui:186
@@ -79726,7 +79723,7 @@ msgid ""
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Opció substituïda per l'opció <span style=\"font-"
-"weight:600;\">màx. de fotogrames d'enfocament</span> a les opcions "
+"weight:600;\">màx. de fotogrames d'enfocament</span> en les opcions "
 "d'enfocament.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
@@ -80104,7 +80101,7 @@ msgid ""
 "and every 20 degrees in Declination."
 msgstr ""
 "Si se selecciona, es dibuixarà una quadrícula de línies cada 2 hores en "
-"ascensió recta i cada 20 graus en la declinació."
+"l'ascensió recta i cada 20 graus en la declinació."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:316
@@ -80208,7 +80205,7 @@ msgstr ""
 #: options/opsimageoverlay.ui:74
 #, kde-format
 msgid "Center SkyMap on selection"
-msgstr "Centra el mapa celeste a la selecció"
+msgstr "Centra el mapa celeste en la selecció"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
 #: options/opsimageoverlay.ui:84
@@ -80240,14 +80237,14 @@ msgid ""
 "Open overlay directory. Copy or move images to this directory to process "
 "them."
 msgstr ""
-"Obri el directori de superposicions. Per a processar-les, copieu o moveu les "
-"imatges cap a este directori."
+"Obri la carpeta de les superposicions. Per a processar-les, copieu o moveu "
+"les imatges cap a esta carpeta."
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:156
 #, kde-format
 msgid "Overlay Directory..."
-msgstr "Directori de superposicions…"
+msgstr "Carpeta de les superposicions…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:175
@@ -80257,8 +80254,8 @@ msgid ""
 "have been added there, and remove overlays that are no longer there.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Actualitza a partir del directori de superposicions. "
-"Afig les superposicions que s'han afegit i elimina les que ja no hi són.</"
+"<html><head/><body><p>Actualitza a partir de la carpeta de les "
+"superposicions. Afig les que s'han afegit i elimina les que ja no hi són.</"
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
@@ -81488,8 +81485,8 @@ msgstr ""
 "<p>En el mètode manual de captura del camp de visió, l'usuari centra el mapa "
 "celeste en un punt d'interés i aleshores captura instantànies de fragments "
 "del cel dins del símbol de CDV actiu.</p>\n"
-"<p>Quan esteu en el mode de captura del camp de visió, premeu <b>Re Pàg</b> "
-"i <b>Av Pàg</b> per a canviar entre els símbols de CDV. Podeu capturar les "
+"<p>Quan esteu en el mode captura del camp de visió, premeu <b>Re Pàg</b> i "
+"<b>Av Pàg</b> per a canviar entre els símbols de CDV. Podeu capturar les "
 "instantànies prement la tecla <b>K</b>. En acabar, premeu la tecla "
 "<b>Escape</b> per tal de retornar a l'Assistent d'impressió.</p>\n"
 "<p>Premeu <b>Següent</b> quan hàgeu finalitzat.</p>"
@@ -81907,7 +81904,7 @@ msgstr "S'ha emmagatzemat l'estat «D'acord» per a %1."
 #: skycomponents/imageoverlaycomponent.cpp:395
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr "S'està actualitzant a partir del directori: %1"
+msgstr "S'està actualitzant a partir de la carpeta: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:444
 #, kde-format
@@ -82820,9 +82817,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>KStars té un mode de pantalla completa; podeu canviar entre modes "
+"\t\t<p>KStars té un mode pantalla completa; podeu canviar entre modes "
 "emprant\n"
-"\t\t\tel botó «Mode de pantalla completa» de la barra d'eines, o bé prement "
+"\t\t\tel botó «Mode pantalla completa» de la barra d'eines, o bé prement "
 "«Ctrl+Majús+F».\n"
 "\t\t</p>\n"
 "\t\n"
@@ -82878,9 +82875,9 @@ msgid ""
 msgstr ""
 "\t\t<p>Les tecles 0-9 centraran el mapa en algun dels cossos principals del "
 "sistema solar.\n"
-"\t\t\tEl 0 correspon al Sol, el 3 en la Lluna, i així successivament la "
-"resta de cossos ordenats\n"
-"\t\t\tper la seua distància al Sol.\n"
+"\t\t\tEl 0 correspon al Sol, el 3 a la Lluna, i així successivament la resta "
+"de cossos ordenats\n"
+"\t\t\tper la seua distància del Sol.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -83145,7 +83142,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Els objectes del cel profund amb un color especial (predeterminat\n"
-"\t\t\tés el roig) disposen d'enllaços URL extres disponibles en el seu\n"
+"\t\t\tés el roig) disposen d'enllaços URL addicionals disponibles en el seu\n"
 "\t\t\tmenú contextual.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -83255,7 +83252,7 @@ msgstr ""
 "\t\t\ta un servidor de l'Associació Americana d'Observadors d'Estreles "
 "Variables, i \n"
 "\t\t\tconstruïx una corba de lluminositat per a les més de 6.000 estreles \n"
-"\t\t\tvariables que es monitoren diàriament.\n"
+"\t\t\tvariables que es vigilen diàriament.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -83743,8 +83740,8 @@ msgid ""
 msgstr ""
 "\t\t<p>Podeu simular la famosa prova experimental de la relativitat general "
 "en KStars -- KStars pot calcular la curvatura de la llum de l'estrela al "
-"voltant del sol. Senzillament, centreu en el sol, feu zoom en el mapa "
-"celeste i canvieu les correccions prement la «r» en el teclat.\n"
+"voltant del sol. Senzillament, centreu en el Sol, feu zoom al mapa celeste i "
+"canvieu les correccions prement la tecla «R».\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -83788,7 +83785,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>El gran grup de cúmul i nebuloses en el pol sud celeste són objectes\n"
+"\t\t<p>El gran grup de cúmul i nebuloses al pol sud celeste són objectes\n"
 "\t\t\tdel Gran Núvol de Magallanes, el qual és una galàxia nana en òrbita\n"
 "\t\t\tal voltant de la Via Làctia.\n"
 "\t\t</p>\n"
@@ -83827,9 +83824,9 @@ msgid ""
 msgstr ""
 "\t\t<p>De tant en tant, els planetes pareixen parar-se, i temporalment "
 "canvien la seua direcció de moviment a través del cel nocturn. Açò s'anomena "
-"moviment retrògrad. El podeu simular en KStars afegint una traça a un "
-"planeta exterior i deixant que el rellotge de la simulació avance de pressa "
-"(a 1 dia sideri o així).\n"
+"moviment retrògrad. El podeu simular a KStars afegint una traça a un planeta "
+"exterior i deixant que el rellotge de la simulació avance de pressa (a 1 dia "
+"sideri o així).\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -83938,8 +83935,8 @@ msgid ""
 msgstr ""
 "\t\t<p>Edwin Hubble va fer els primers amidaments que mostraven que les "
 "galàxies distants s'allunyen de nosaltres a velocitats molt grans. Esta va "
-"ser una prova precoç de l'expansió de l'univers. Apreneu-ne més en el "
-"projecte AstroInfo en el manual de KStars (Ajuda -> Manual de KStars).\n"
+"ser una prova precoç de l'expansió de l'univers. Apreneu-ne més al projecte "
+"AstroInfo en el manual de KStars (Ajuda -> Manual de KStars).\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -83958,7 +83955,7 @@ msgstr ""
 "mirar-lo directament sinó mirar la regió al seu voltant! Esta tècnica, "
 "anomenada «visió apartada» («averted vision» en anglés), funciona gràcies a "
 "la manera en què els bastonets de la retina, els quals són sensibles a la "
-"llum tènue, estan situats en la retina dels nostres ulls.\n"
+"llum tènue, estan situats a la retina dels nostres ulls.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -86483,7 +86480,7 @@ msgstr "graus E del N"
 #: tools/modcalcvizequinox.ui:258 tools/modcalcvlsr.ui:453
 #, kde-format
 msgid "Batch Mode"
-msgstr "Mode de treball per lots"
+msgstr "Mode treball per lots"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
@@ -86745,13 +86742,13 @@ msgstr "Gibosa creixent (75%)"
 #: tools/modcalcdaylength.ui:784
 #, kde-format
 msgid "Batch mode"
-msgstr "Mode de treball per lots"
+msgstr "Mode treball per lots"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/modcalcdaylength.ui:843
 #, kde-format
 msgid "Specify Dates for the Calculation in the Input File"
-msgstr "Especifica les dates per al càlcul en el fitxer d'entrada"
+msgstr "Especifica les dates per al càlcul al fitxer d'entrada"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: tools/modcalcdaylength.ui:852 tools/modcalcjd.ui:171
@@ -87245,7 +87242,7 @@ msgstr "1 Gen 2007 00:00"
 #: tools/modcalcvizequinox.ui:264
 #, kde-format
 msgid "Specify Years for the Calculation in the Input File"
-msgstr "Especifica els anys per al càlcul en el fitxer d'entrada"
+msgstr "Especifica els anys per al càlcul al fitxer d'entrada"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/modcalcvlsr.ui:116
@@ -88544,8 +88541,8 @@ msgid ""
 "Point the display at the specified RA/Dec coordinates.  RA is expressed in "
 "Hours; Dec is expressed in Degrees."
 msgstr ""
-"Apunta la vista cap a les coordenades en l'AR/Dec especificades. L'AR "
-"s'expressa en hores, la Dec s'expressa en graus."
+"Apunta la vista cap a les coordenades AR/Dec especificades. L'AR s'expressa "
+"en hores, la Dec s'expressa en graus."
 
 #: tools/scriptbuilder.cpp:195
 #, kde-format
@@ -89114,7 +89111,7 @@ msgstr "Magnitud de l'asteroide més feble que s'ha d'etiquetar en el mapa"
 #, kde-format
 msgid "comets nearer to the Sun than this (in AU) are labeled on map"
 msgstr ""
-"Els cometes més pròxims al Sol que açò (en UA) seran etiquetats en el mapa"
+"Els cometes més pròxims al Sol que açò (en UA) seran etiquetats al mapa"
 
 #: tools/scriptbuilder.cpp:814
 #, kde-format
@@ -89381,7 +89378,7 @@ msgid ""
 "If a function is highlighted in the Function Browser, this area will show "
 "some brief documentation about the function."
 msgstr ""
-"Si es ressalta una funció en el navegador de funcions, esta àrea mostrarà "
+"Si es ressalta una funció en el «Navegador de funcions», esta àrea mostrarà "
 "una breu nota informativa sobre la mateixa."
 
 # skip-rule: punctuation-period-no
@@ -90638,9 +90635,9 @@ msgid ""
 "enhancement.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Si se selecciona, Xplanet utilitzarà un fitxer FIFO en "
-"el directori /tmp per a guardar temporalment la imatge d'Xplanet per a "
-"KStars per a carregar-la i actualitzar la vista. Si no se selecciona, en "
-"realitat Xplanet guardarà els fitxers en la carpeta d'Xplanet del directori "
+"la carpeta /tmp per a guardar temporalment la imatge d'Xplanet per a KStars, "
+"per a que puga carregar-la i actualitzar la vista. Si no se selecciona, en "
+"realitat Xplanet guardarà els fitxers en la carpeta d'Xplanet de la carpeta "
 "de dades de KStars. L'ús d'un fitxer FIFO hauria d'evitar lectures i "
 "escriptures excessives al disc dur i pot oferir una millora en el rendiment."
 "</p></body></html>"
