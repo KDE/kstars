@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-25 02:00+0000\n"
+"POT-Creation-Date: 2025-07-28 01:55+0000\n"
 "PO-Revision-Date: 2024-11-21 20:29+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -784,7 +784,7 @@ msgstr ""
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:1569
+#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:1572
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -3014,7 +3014,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2455 ekos/capture/capturecountswidget.cpp:321
+#: ekos/capture/cameraprocess.cpp:2456 ekos/capture/capturecountswidget.cpp:321
 #: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:814
 #, kde-format
 msgid "Preview"
@@ -6424,7 +6424,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Yhteys"
 
 #: ekos/align/align.cpp:1512 ekos/capture/cameraprocess.cpp:216
-#: ekos/capture/cameraprocess.cpp:634 ekos/focus/focus.cpp:6013
+#: ekos/capture/cameraprocess.cpp:635 ekos/focus/focus.cpp:6013
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6737,8 +6737,8 @@ msgstr "Valitse tulostiedoston kentät"
 msgid "Capture error. Aborting..."
 msgstr "Ota kuva"
 
-#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1629
-#: ekos/capture/cameraprocess.cpp:2190
+#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1630
+#: ekos/capture/cameraprocess.cpp:2191
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6848,7 +6848,7 @@ msgstr "Tiedostoon %1 ei voitu kirjoittaa"
 
 #: ekos/align/align.cpp:3980 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:347
-#: ekos/capture/cameraprocess.cpp:2600 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3160
 #: ekos/scheduler/schedulerprocess.cpp:3508
 #: ekos/scheduler/schedulerprocess.cpp:4901
@@ -7517,7 +7517,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Avaa havaintoluettelo"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:346
-#: ekos/capture/cameraprocess.cpp:2599 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2600 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3507
 #: ekos/scheduler/schedulerprocess.cpp:4920
 #, kde-format
@@ -10395,7 +10395,7 @@ msgstr "Kaappaa"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:330
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:333
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
 #: skycomponents/imageoverlaycomponent.cpp:728
@@ -12535,7 +12535,7 @@ msgstr "valmis"
 msgid "Aligning..."
 msgstr "Kohdistettu: "
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera_actions.cpp:213
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera_actions.cpp:216
 #, kde-format
 msgid "Calibrating..."
 msgstr "Kalibroidaan…"
@@ -14721,7 +14721,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
-#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2468
+#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2469
 #: ekos/guide/guide.cpp:70 fitsviewer/livestacking.ui:53
 #, kde-format
 msgid "Calibration"
@@ -15217,7 +15217,7 @@ msgid "Total remaining:"
 msgstr "Lataa kuva"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.ui:2679 ekos/capture/camera_actions.cpp:142
+#: ekos/capture/camera.ui:2679 ekos/capture/camera_actions.cpp:145
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Expose (-/-):"
@@ -15301,73 +15301,73 @@ msgstr "Tiedostoa %1 ei saatu avattua"
 msgid "Save As..."
 msgstr "Tallenna nimellä…"
 
-#: ekos/capture/camera_actions.cpp:113
+#: ekos/capture/camera_actions.cpp:116
 #, fuzzy, kde-format
 #| msgctxt "City in Massachusetts USA"
 #| msgid "Framingham"
 msgid "Framing..."
 msgstr "Framingham"
 
-#: ekos/capture/camera_actions.cpp:124
+#: ekos/capture/camera_actions.cpp:127
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence"
 msgid "Captured image received"
 msgstr "Ota kuvasarja"
 
-#: ekos/capture/camera_actions.cpp:192
+#: ekos/capture/camera_actions.cpp:195
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing %1 x %2-second %3 video..."
 msgstr "Ladataan kuvia..."
 
-#: ekos/capture/camera_actions.cpp:198
+#: ekos/capture/camera_actions.cpp:201
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing %1-second %2 image..."
 msgstr "Ladataan kuvia..."
 
-#: ekos/capture/camera_actions.cpp:280
+#: ekos/capture/camera_actions.cpp:283
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Stop Sequence"
 msgstr "Taajuus:"
 
-#: ekos/capture/camera_actions.cpp:286
+#: ekos/capture/camera_actions.cpp:289
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resume Sequence"
 msgstr "Taajuus:"
 
-#: ekos/capture/camera_actions.cpp:316
+#: ekos/capture/camera_actions.cpp:319
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting temperature to %1 °C..."
 msgstr "Asettaa CCD-kennon lämpötilan."
 
-#: ekos/capture/camera_actions.cpp:317
+#: ekos/capture/camera_actions.cpp:320
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set Temp to %1 °C..."
 msgstr "Asettaa CCD-kennon lämpötilan."
 
-#: ekos/capture/camera_actions.cpp:321
+#: ekos/capture/camera_actions.cpp:324
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Ladataan tähtiä"
 
-#: ekos/capture/camera_actions.cpp:322
+#: ekos/capture/camera_actions.cpp:325
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/camera_actions.cpp:326
+#: ekos/capture/camera_actions.cpp:329
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Asettaa CCD-kennon lämpötilan."
 
-#: ekos/capture/camera_actions.cpp:327
+#: ekos/capture/camera_actions.cpp:330
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Camera to %1 deg..."
@@ -15542,7 +15542,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Haluatko varmasti nollata kaikkien töiden tilan?"
 
-#: ekos/capture/camera_jobs.cpp:183 ekos/capture/cameraprocess.cpp:2720
+#: ekos/capture/camera_jobs.cpp:183 ekos/capture/cameraprocess.cpp:2721
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
@@ -15600,7 +15600,7 @@ msgid_plural "%1 dark flats jobs were created."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/capture/cameraprocess.cpp:217 ekos/capture/cameraprocess.cpp:635
+#: ekos/capture/cameraprocess.cpp:217 ekos/capture/cameraprocess.cpp:636
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Transfer"
@@ -15623,7 +15623,7 @@ msgstr ""
 msgid "No new job created."
 msgstr "valmis"
 
-#: ekos/capture/cameraprocess.cpp:311 ekos/capture/cameraprocess.cpp:887
+#: ekos/capture/cameraprocess.cpp:311 ekos/capture/cameraprocess.cpp:888
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
@@ -15635,275 +15635,275 @@ msgstr ""
 msgid "Starting framing..."
 msgstr "Farmington"
 
-#: ekos/capture/cameraprocess.cpp:350
+#: ekos/capture/cameraprocess.cpp:351
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture suspended"
 msgstr "Supernovajäänne"
 
-#: ekos/capture/cameraprocess.cpp:355
+#: ekos/capture/cameraprocess.cpp:356
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "CCD capture complete"
 msgstr "Ota kuva"
 
-#: ekos/capture/cameraprocess.cpp:360
+#: ekos/capture/cameraprocess.cpp:361
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "INDUS"
 msgid "Framing stopped"
 msgstr "INTIAANI"
 
-#: ekos/capture/cameraprocess.cpp:360 ekos/capture/cameraprocess.cpp:365
+#: ekos/capture/cameraprocess.cpp:361 ekos/capture/cameraprocess.cpp:366
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "CCD capture stopped"
 msgstr "Ota kuva"
 
-#: ekos/capture/cameraprocess.cpp:443
+#: ekos/capture/cameraprocess.cpp:444
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:450
+#: ekos/capture/cameraprocess.cpp:451
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:463
+#: ekos/capture/cameraprocess.cpp:464
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:488
+#: ekos/capture/cameraprocess.cpp:489
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:489
+#: ekos/capture/cameraprocess.cpp:490
 #, fuzzy, kde-format
 msgid "Display preview"
 msgstr "Vaihtaa näyttötyökalurivin näytön"
 
-#: ekos/capture/cameraprocess.cpp:573
+#: ekos/capture/cameraprocess.cpp:574
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:588
+#: ekos/capture/cameraprocess.cpp:589
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:601
+#: ekos/capture/cameraprocess.cpp:602
 #, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:833
+#: ekos/capture/cameraprocess.cpp:834
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding resumed."
 msgstr "Ladataan tähtiä"
 
-#: ekos/capture/cameraprocess.cpp:877
+#: ekos/capture/cameraprocess.cpp:878
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to set sub frame."
 msgstr "Kuvan lataus epäonnistui"
 
-#: ekos/capture/cameraprocess.cpp:882
+#: ekos/capture/cameraprocess.cpp:883
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to set binning."
 msgstr "Kuvan lataus epäonnistui"
 
-#: ekos/capture/cameraprocess.cpp:1042
+#: ekos/capture/cameraprocess.cpp:1043
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "file saved to %1"
 msgstr "Tallennettu tiedostoon %1"
 
-#: ekos/capture/cameraprocess.cpp:1052
+#: ekos/capture/cameraprocess.cpp:1053
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1054
+#: ekos/capture/cameraprocess.cpp:1055
 #, kde-format
 msgid "Image Write Failed"
 msgstr "Kuvan kirjoittaminen epäonnistui"
 
-#: ekos/capture/cameraprocess.cpp:1279
+#: ekos/capture/cameraprocess.cpp:1280
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "Aineistotiedosto tallennettu kohteeseen %1"
 
-#: ekos/capture/cameraprocess.cpp:1305
+#: ekos/capture/cameraprocess.cpp:1306
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding suspended."
 msgstr "Ladataan tähtiä"
 
-#: ekos/capture/cameraprocess.cpp:1335
+#: ekos/capture/cameraprocess.cpp:1336
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1401
+#: ekos/capture/cameraprocess.cpp:1402
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture sequence completed"
 msgstr "Supernovajäänne"
 
-#: ekos/capture/cameraprocess.cpp:1458
+#: ekos/capture/cameraprocess.cpp:1459
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to CCD."
 msgstr "Yhteys"
 
-#: ekos/capture/cameraprocess.cpp:1486
+#: ekos/capture/cameraprocess.cpp:1487
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1621 ekos/capture/cameraprocess.cpp:2182
+#: ekos/capture/cameraprocess.cpp:1622 ekos/capture/cameraprocess.cpp:2183
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1721
+#: ekos/capture/cameraprocess.cpp:1722
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1787
+#: ekos/capture/cameraprocess.cpp:1788
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1824
+#: ekos/capture/cameraprocess.cpp:1825
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Captured %1"
 msgstr "Kaappaa"
 
-#: ekos/capture/cameraprocess.cpp:1830
+#: ekos/capture/cameraprocess.cpp:1831
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1873
+#: ekos/capture/cameraprocess.cpp:1874
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "Suoritetaan komentosarjaa: %1"
 
-#: ekos/capture/cameraprocess.cpp:1888
+#: ekos/capture/cameraprocess.cpp:1889
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1899
+#: ekos/capture/cameraprocess.cpp:1900
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1911
+#: ekos/capture/cameraprocess.cpp:1912
 #, fuzzy, kde-format
 msgid "Processing meridian flip..."
 msgstr "Näytä FITS automaattisesti valotuksen jälkeen"
 
-#: ekos/capture/cameraprocess.cpp:1921
+#: ekos/capture/cameraprocess.cpp:1922
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1926
+#: ekos/capture/cameraprocess.cpp:1927
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2112 ekos/focus/focus.cpp:6065
+#: ekos/capture/cameraprocess.cpp:2113 ekos/focus/focus.cpp:6065
 #: ekos/focus/focus.cpp:6089
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
 
-#: ekos/capture/cameraprocess.cpp:2119
+#: ekos/capture/cameraprocess.cpp:2120
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2137 ekos/focus/focus.cpp:6070
+#: ekos/capture/cameraprocess.cpp:2138 ekos/focus/focus.cpp:6070
 #: ekos/guide/guide.cpp:1010
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
 
-#: ekos/capture/cameraprocess.cpp:2163
+#: ekos/capture/cameraprocess.cpp:2164
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
 
-#: ekos/capture/cameraprocess.cpp:2241
+#: ekos/capture/cameraprocess.cpp:2242
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2252
+#: ekos/capture/cameraprocess.cpp:2253
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2274
+#: ekos/capture/cameraprocess.cpp:2275
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2303
+#: ekos/capture/cameraprocess.cpp:2304
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2311
+#: ekos/capture/cameraprocess.cpp:2312
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2452
+#: ekos/capture/cameraprocess.cpp:2453
 #, kde-format
 msgid "%1 Preview"
 msgstr "Esikatselu – %1"
 
-#: ekos/capture/cameraprocess.cpp:2463 ekos/capture/cameraprocess.cpp:2465
+#: ekos/capture/cameraprocess.cpp:2464 ekos/capture/cameraprocess.cpp:2466
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Flat Calibration"
 msgstr "Kalibrointi"
 
-#: ekos/capture/cameraprocess.cpp:2669
+#: ekos/capture/cameraprocess.cpp:2670
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "Taajuus:"
 
-#: ekos/capture/cameraprocess.cpp:2719
+#: ekos/capture/cameraprocess.cpp:2720
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -15911,25 +15911,25 @@ msgid ""
 "restart capturing?"
 msgstr "Haluatko varmasti poistaa linkin %1?"
 
-#: ekos/capture/cameraprocess.cpp:2733
+#: ekos/capture/cameraprocess.cpp:2734
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2969
+#: ekos/capture/cameraprocess.cpp:2970
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Haluatko varmasti poistaa asiakkaan %1?"
 
-#: ekos/capture/cameraprocess.cpp:2970
+#: ekos/capture/cameraprocess.cpp:2971
 #, kde-format
 msgid "Driver Restart"
 msgstr "Ajurin uudelleenkäynnistys"
 
-#: ekos/capture/cameraprocess.cpp:3117 ekos/capture/sequencejobstate.cpp:41
+#: ekos/capture/cameraprocess.cpp:3118 ekos/capture/sequencejobstate.cpp:41
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Capture operations timed out after %1 seconds."
@@ -16386,7 +16386,7 @@ msgstr "Automaattikohdistus:"
 msgid "Next autofocus run"
 msgstr "Automaattikohdistus:"
 
-#: ekos/capture/capturemodulestate.cpp:403
+#: ekos/capture/capturemodulestate.cpp:404
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -29957,204 +29957,204 @@ msgstr "Kuvaus"
 msgid "Object Type Comments"
 msgstr "Objektin tyyppi"
 
-#: fitsviewer/fitsdata.cpp:802
+#: fitsviewer/fitsdata.cpp:805
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error reading fits buffer: %1."
 msgstr "Virhe luettaessa kuvaa: %1"
 
-#: fitsviewer/fitsdata.cpp:815
+#: fitsviewer/fitsdata.cpp:818
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:831
+#: fitsviewer/fitsdata.cpp:834
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error opening fits file %1 : %2"
 msgstr "Virhe luettaessa kuvaa: %1"
 
-#: fitsviewer/fitsdata.cpp:844
+#: fitsviewer/fitsdata.cpp:847
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error reading fits buffer: %1"
 msgstr "Virhe luettaessa kuvaa: %1"
 
-#: fitsviewer/fitsdata.cpp:856
+#: fitsviewer/fitsdata.cpp:859
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Could not locate image HDU: %1"
 msgstr "Tiedostoa %1 ei saatu avattua."
 
-#: fitsviewer/fitsdata.cpp:863
+#: fitsviewer/fitsdata.cpp:866
 #, fuzzy, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "FITS-tiedosto tallennettu kohteeseen %1"
 
-#: fitsviewer/fitsdata.cpp:877
+#: fitsviewer/fitsdata.cpp:880
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:923 fitsviewer/fitsdata.cpp:1421
+#: fitsviewer/fitsdata.cpp:926 fitsviewer/fitsdata.cpp:1424
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:933
+#: fitsviewer/fitsdata.cpp:936
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:978
+#: fitsviewer/fitsdata.cpp:981
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Virhe luettaessa kuvaa: %1"
 
-#: fitsviewer/fitsdata.cpp:1320
+#: fitsviewer/fitsdata.cpp:1323
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "File contain no images"
 msgstr "Kuvan lataus epäonnistui"
 
-#: fitsviewer/fitsdata.cpp:1349
+#: fitsviewer/fitsdata.cpp:1352
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Sample format %1 is not supported."
 msgstr "valmis"
 
-#: fitsviewer/fitsdata.cpp:1384
+#: fitsviewer/fitsdata.cpp:1387
 #, kde-format
 msgid "XISF file open error: "
 msgstr "XISF-tiedoston avausvirhe: "
 
-#: fitsviewer/fitsdata.cpp:1436
+#: fitsviewer/fitsdata.cpp:1439
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Virhe tallennettaessa XISF-kuvaa"
 
-#: fitsviewer/fitsdata.cpp:1528 fitsviewer/fitsdata.cpp:1644
+#: fitsviewer/fitsdata.cpp:1531 fitsviewer/fitsdata.cpp:1647
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1583
+#: fitsviewer/fitsdata.cpp:1586
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open file %1: %2"
 msgstr "Tiedostoa %1 ei saatu avattua"
 
-#: fitsviewer/fitsdata.cpp:1596
+#: fitsviewer/fitsdata.cpp:1599
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open buffer: %1"
 msgstr "Tiedostoa %1 ei saatu avattua"
 
-#: fitsviewer/fitsdata.cpp:1607
+#: fitsviewer/fitsdata.cpp:1610
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1614
+#: fitsviewer/fitsdata.cpp:1617
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot dcraw_process: %1"
 msgstr "Käyttäjän lokiin ei voi kirjoittaa"
 
-#: fitsviewer/fitsdata.cpp:1622
+#: fitsviewer/fitsdata.cpp:1625
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1769
+#: fitsviewer/fitsdata.cpp:1772
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Saving compressed files is not supported."
 msgstr "valmis"
 
-#: fitsviewer/fitsdata.cpp:1834
+#: fitsviewer/fitsdata.cpp:1837
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to create file: %1"
 msgstr "Tiedostoa %1 ei saatu avattua."
 
-#: fitsviewer/fitsdata.cpp:1849
+#: fitsviewer/fitsdata.cpp:1852
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to create image: %1"
 msgstr "Kuvan %1 tallennus epäonnistui"
 
-#: fitsviewer/fitsdata.cpp:1858 fitsviewer/fitsdata.cpp:1865
+#: fitsviewer/fitsdata.cpp:1861 fitsviewer/fitsdata.cpp:1868
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to update key: %1"
 msgstr "Kuvan lataus epäonnistui"
 
-#: fitsviewer/fitsdata.cpp:1966
+#: fitsviewer/fitsdata.cpp:1969
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to update date: %1"
 msgstr "Kuvan %1 tallennus epäonnistui"
 
-#: fitsviewer/fitsdata.cpp:1975
+#: fitsviewer/fitsdata.cpp:1978
 #, fuzzy, kde-format
 #| msgid "Failed to edit city"
 msgid "Failed to update history: %1"
 msgstr "Kaupungin muokkaaminen epäonnistui"
 
-#: fitsviewer/fitsdata.cpp:1997
+#: fitsviewer/fitsdata.cpp:2000
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to write image: %1"
 msgstr "Kuvan %1 tallennus epäonnistui"
 
-#: fitsviewer/fitsdata.cpp:3720 fitsviewer/fitsdata.cpp:3731
-#: fitsviewer/fitsdata.cpp:3768 fitsviewer/fitsdata.cpp:3804
-#: fitsviewer/fitsdata.cpp:3938
+#: fitsviewer/fitsdata.cpp:3723 fitsviewer/fitsdata.cpp:3734
+#: fitsviewer/fitsdata.cpp:3771 fitsviewer/fitsdata.cpp:3807
+#: fitsviewer/fitsdata.cpp:3941
 #, fuzzy, kde-format
 msgid "No world coordinate systems found."
 msgstr "Horisontaaliset koordinaatit"
 
-#: fitsviewer/fitsdata.cpp:4113 fitsviewer/fitsdata.cpp:4221
+#: fitsviewer/fitsdata.cpp:4116 fitsviewer/fitsdata.cpp:4224
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error querying Simbad"
 msgstr "Virhe luettaessa kuvaa: %1"
 
-#: fitsviewer/fitsdata.cpp:4130
+#: fitsviewer/fitsdata.cpp:4133
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Simbad query timed out"
 msgstr "Ladataan tähtiä"
 
-#: fitsviewer/fitsdata.cpp:5107
+#: fitsviewer/fitsdata.cpp:5110
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5140
+#: fitsviewer/fitsdata.cpp:5143
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5171
+#: fitsviewer/fitsdata.cpp:5174
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5328 fitsviewer/fitsdata.cpp:5375
-#: fitsviewer/fitsdata.cpp:5420 fitsviewer/fitsdata.cpp:5467
+#: fitsviewer/fitsdata.cpp:5331 fitsviewer/fitsdata.cpp:5378
+#: fitsviewer/fitsdata.cpp:5423 fitsviewer/fitsdata.cpp:5470
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5338 fitsviewer/fitsdata.cpp:5430
+#: fitsviewer/fitsdata.cpp:5341 fitsviewer/fitsdata.cpp:5433
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5358 fitsviewer/fitsdata.cpp:5450
+#: fitsviewer/fitsdata.cpp:5361 fitsviewer/fitsdata.cpp:5453
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
@@ -30258,7 +30258,7 @@ msgstr "Y-siirtymä:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:590
-#: fitsviewer/fitsviewer.cpp:1803
+#: fitsviewer/fitsviewer.cpp:1808
 #, kde-format
 msgid "Ready."
 msgstr "Valmis."
@@ -30558,7 +30558,7 @@ msgstr "Tekstiselite"
 msgid "Distance"
 msgstr "Etäisyys"
 
-#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1574
+#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1579
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, kde-format, kde-kuit-format
 msgid "Size"
@@ -30693,13 +30693,13 @@ msgstr "Tallennettu tiedostoon %1"
 msgid "Watching %1"
 msgstr "Ladataan %1"
 
-#: fitsviewer/fitstab.cpp:1439
+#: fitsviewer/fitstab.cpp:1441
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "(%1) Watching %2"
 msgstr "Ladataan %1"
 
-#: fitsviewer/fitstab.cpp:1441
+#: fitsviewer/fitstab.cpp:1443
 #, kde-format
 msgid "(%1) %2"
 msgstr ""
@@ -30782,14 +30782,14 @@ msgid "View Star Profile..."
 msgstr "Arrecife"
 
 #: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:254
-#: fitsviewer/fitsviewer.cpp:1491
+#: fitsviewer/fitsviewer.cpp:1496
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "Ekvatoriaaliset koordinaatit"
 
 #: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:261
-#: fitsviewer/fitsviewer.cpp:1493
+#: fitsviewer/fitsviewer.cpp:1498
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
@@ -30885,7 +30885,7 @@ msgstr "&Valintatilastot"
 msgid "Show Clipping"
 msgstr "Näytä rajaus"
 
-#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1502
+#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1507
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30934,13 +30934,13 @@ msgstr ""
 msgid "Zoom all tabs out"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1776
+#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1781
 #, kde-format
 msgid "Mark Stars"
 msgstr "Merkitse tähdet"
 
 #: fitsviewer/fitsviewer.cpp:330 fitsviewer/fitsviewer.cpp:920
-#: fitsviewer/fitsviewer.cpp:1739
+#: fitsviewer/fitsviewer.cpp:1744
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
@@ -31001,36 +31001,36 @@ msgstr ""
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1647
+#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1652
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Ristikko"
 
-#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1661
+#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1666
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "Filippiinit"
 
-#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1674
+#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1679
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Equatorial Gridlines"
 msgstr "Ekvatoriaaliset koordinaatit"
 
-#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1713
+#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1718
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Objects in Image"
 msgstr "Näytä kohteet"
 
-#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1726
+#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1731
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Kuvapisteruudukot"
 
-#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1687
+#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1692
 #, kde-format
 msgid "HiPS Overlay"
 msgstr ""
@@ -31048,35 +31048,42 @@ msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Avaa kuva"
 
-#: fitsviewer/fitsviewer.cpp:1168
+#: fitsviewer/fitsviewer.cpp:1123
+#, fuzzy, kde-format
+#| msgid "KStars Lite"
+msgctxt "@title:window"
+msgid "KStars Live Stacker (BETA)"
+msgstr "KStars Lite"
+
+#: fitsviewer/fitsviewer.cpp:1173
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Stacking..."
 msgstr "Puretaan…"
 
-#: fitsviewer/fitsviewer.cpp:1176
+#: fitsviewer/fitsviewer.cpp:1181
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Stacking Failed"
 msgstr "%1 on kytketty."
 
-#: fitsviewer/fitsviewer.cpp:1194
+#: fitsviewer/fitsviewer.cpp:1199
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Stacking Complete"
 msgstr "valmis"
 
-#: fitsviewer/fitsviewer.cpp:1468
+#: fitsviewer/fitsviewer.cpp:1473
 #, kde-format
 msgid "Hide %1"
 msgstr "Piilota %1"
 
-#: fitsviewer/fitsviewer.cpp:1473
+#: fitsviewer/fitsviewer.cpp:1478
 #, kde-format
 msgid "Show %1"
 msgstr "Näytä %1"
 
-#: fitsviewer/fitsviewer.cpp:1497
+#: fitsviewer/fitsviewer.cpp:1502
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31085,14 +31092,14 @@ msgstr ""
 "Keskitä kaukoputki\n"
 "*Valmis*"
 
-#: fitsviewer/fitsviewer.cpp:1509
+#: fitsviewer/fitsviewer.cpp:1514
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1511
+#: fitsviewer/fitsviewer.cpp:1516
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31101,38 +31108,38 @@ msgstr ""
 "Keskitä kaukoputki\n"
 "*Ei WCS-tietoa*"
 
-#: fitsviewer/fitsviewer.cpp:1513
+#: fitsviewer/fitsviewer.cpp:1518
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1545 fitsviewer/fitsviewer.cpp:1700
+#: fitsviewer/fitsviewer.cpp:1550 fitsviewer/fitsviewer.cpp:1705
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Valintanelikulmio"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1582 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1587 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Width"
 msgstr "Leveys"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1583 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1588 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Height"
 msgstr "Korkeus"
 
-#: fitsviewer/fitsviewer.cpp:1781
+#: fitsviewer/fitsviewer.cpp:1786
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Poista tähtimerkinnät"
 
-#: fitsviewer/fitsviewer.cpp:1797
+#: fitsviewer/fitsviewer.cpp:1802
 #, kde-format
 msgid "Processing %1..."
 msgstr "Käsitellään: %1…"
@@ -31986,41 +31993,41 @@ msgstr "Puretaan…"
 msgid "Solving..."
 msgstr "Ratkaistaan…"
 
-#: fitsviewer/platesolve.cpp:316
+#: fitsviewer/platesolve.cpp:319
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Extractor timed out: %1s"
 msgstr "Ladataan tähtiä"
 
-#: fitsviewer/platesolve.cpp:326
+#: fitsviewer/platesolve.cpp:329
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Extractor failed: %1s"
 msgstr "Selvittäjän kuvakenttä"
 
-#: fitsviewer/platesolve.cpp:336
+#: fitsviewer/platesolve.cpp:339
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:417
+#: fitsviewer/platesolve.cpp:420
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Solver timed out: %1s"
 msgstr "Ladataan tähtiä"
 
-#: fitsviewer/platesolve.cpp:423
+#: fitsviewer/platesolve.cpp:426
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Solver failed: %1s"
 msgstr "Selvittäjän kuvakenttä"
 
-#: fitsviewer/platesolve.cpp:661
+#: fitsviewer/platesolve.cpp:664
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:662
+#: fitsviewer/platesolve.cpp:665
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""

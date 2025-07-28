@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-25 02:00+0000\n"
+"POT-Creation-Date: 2025-07-28 01:55+0000\n"
 "PO-Revision-Date: 2025-03-30 23:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -754,7 +754,7 @@ msgstr "Eraro de Legado de Dosiero de Astrometrio."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Interna Astrometria Agorda Dosiera Skriba Eraro."
 
-#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:1569
+#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:1572
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -2955,7 +2955,7 @@ msgstr "Tipomapado"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2455 ekos/capture/capturecountswidget.cpp:321
+#: ekos/capture/cameraprocess.cpp:2456 ekos/capture/capturecountswidget.cpp:321
 #: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:814
 #, kde-format
 msgid "Preview"
@@ -6277,7 +6277,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Eraro: perdita konekto al filtrila rado."
 
 #: ekos/align/align.cpp:1512 ekos/capture/cameraprocess.cpp:216
-#: ekos/capture/cameraprocess.cpp:634 ekos/focus/focus.cpp:6013
+#: ekos/capture/cameraprocess.cpp:635 ekos/focus/focus.cpp:6013
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6588,8 +6588,8 @@ msgstr "Monda Koordinata Sistemo (WCS) estas malŝaltita."
 msgid "Capture error. Aborting..."
 msgstr "Kapta eraro. Abortante..."
 
-#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1629
-#: ekos/capture/cameraprocess.cpp:2190
+#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1630
+#: ekos/capture/cameraprocess.cpp:2191
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Rekomencante kaptoprovon #%1"
@@ -6689,7 +6689,7 @@ msgstr "Ne eblas skribi al dosiero %1"
 
 #: ekos/align/align.cpp:3980 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:347
-#: ekos/capture/cameraprocess.cpp:2600 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3160
 #: ekos/scheduler/schedulerprocess.cpp:3508
 #: ekos/scheduler/schedulerprocess.cpp:4901
@@ -7334,7 +7334,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Malfermi Ekos-Vicigoliston"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:346
-#: ekos/capture/cameraprocess.cpp:2599 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2600 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3507
 #: ekos/scheduler/schedulerprocess.cpp:4920
 #, kde-format
@@ -10325,7 +10325,7 @@ msgstr "Kapto"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:330
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:333
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
 #: skycomponents/imageoverlaycomponent.cpp:728
@@ -12492,7 +12492,7 @@ msgstr "Ŝanĝo de filtrilo..."
 msgid "Aligning..."
 msgstr "Vicigante..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera_actions.cpp:213
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera_actions.cpp:216
 #, kde-format
 msgid "Calibrating..."
 msgstr "Kalibrado..."
@@ -14688,7 +14688,7 @@ msgstr "Mallumaj kaj Plataj kadroj aŭtomataj kalibraj elektebloj"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
-#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2468
+#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2469
 #: ekos/guide/guide.cpp:70 fitsviewer/livestacking.ui:53
 #, kde-format
 msgid "Calibration"
@@ -15261,7 +15261,7 @@ msgid "Total remaining:"
 msgstr "Totalo restanta:"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.ui:2679 ekos/capture/camera_actions.cpp:142
+#: ekos/capture/camera.ui:2679 ekos/capture/camera_actions.cpp:145
 #, kde-format
 msgid "Expose (-/-):"
 msgstr "Eksponi (-/-):"
@@ -15338,62 +15338,62 @@ msgstr "Konservi al nova sekvencodosiero"
 msgid "Save As..."
 msgstr "Konservi kiel..."
 
-#: ekos/capture/camera_actions.cpp:113
+#: ekos/capture/camera_actions.cpp:116
 #, kde-format
 msgid "Framing..."
 msgstr "Enkadrigo..."
 
-#: ekos/capture/camera_actions.cpp:124
+#: ekos/capture/camera_actions.cpp:127
 #, kde-format
 msgid "Captured image received"
 msgstr "Kaptita bildo ricevita"
 
-#: ekos/capture/camera_actions.cpp:192
+#: ekos/capture/camera_actions.cpp:195
 #, kde-format
 msgid "Capturing %1 x %2-second %3 video..."
 msgstr "Kaptante %1 x %2-sekundan filmeton %3..."
 
-#: ekos/capture/camera_actions.cpp:198
+#: ekos/capture/camera_actions.cpp:201
 #, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "Kaptante %1-sekundan %2 bildon..."
 
-#: ekos/capture/camera_actions.cpp:280
+#: ekos/capture/camera_actions.cpp:283
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Haltigi Sekvencon"
 
-#: ekos/capture/camera_actions.cpp:286
+#: ekos/capture/camera_actions.cpp:289
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Repreni Sekvencon"
 
-#: ekos/capture/camera_actions.cpp:316
+#: ekos/capture/camera_actions.cpp:319
 #, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "Agordante temperaturon al %1 °C..."
 
-#: ekos/capture/camera_actions.cpp:317
+#: ekos/capture/camera_actions.cpp:320
 #, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "Meti Temp al %1 °C..."
 
-#: ekos/capture/camera_actions.cpp:321
+#: ekos/capture/camera_actions.cpp:324
 #, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Atendante gvidan drivon sub %1\"..."
 
-#: ekos/capture/camera_actions.cpp:322
+#: ekos/capture/camera_actions.cpp:325
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr "Atendi Gvidilon < %1\"..."
 
-#: ekos/capture/camera_actions.cpp:326
+#: ekos/capture/camera_actions.cpp:329
 #, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Metante kameraon al %1 gradoj E de N..."
 
-#: ekos/capture/camera_actions.cpp:327
+#: ekos/capture/camera_actions.cpp:330
 #, kde-format
 msgid "Set Camera to %1 deg..."
 msgstr "Meti kameraon al %1 grad..."
@@ -15562,7 +15562,7 @@ msgstr "Ŝanĝoj de la tasko #%1 aplikitaj."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Ĉu vi certas, ke vi volas restarigi la staton de ĉiuj taskoj?"
 
-#: ekos/capture/camera_jobs.cpp:183 ekos/capture/cameraprocess.cpp:2720
+#: ekos/capture/camera_jobs.cpp:183 ekos/capture/cameraprocess.cpp:2721
 #, kde-format
 msgid "Reset job status"
 msgstr "Restarigi taskstatuson"
@@ -15616,7 +15616,7 @@ msgid_plural "%1 dark flats jobs were created."
 msgstr[0] "Unu dark-flats tasko estis kreita."
 msgstr[1] "%1 dark-flats taskoj estis kreitaj."
 
-#: ekos/capture/cameraprocess.cpp:217 ekos/capture/cameraprocess.cpp:635
+#: ekos/capture/cameraprocess.cpp:217 ekos/capture/cameraprocess.cpp:636
 #, kde-format
 msgid "Image Transfer"
 msgstr "Bilda Transdono"
@@ -15638,7 +15638,7 @@ msgstr ""
 msgid "No new job created."
 msgstr "Neniu nova labortaskoj kreita."
 
-#: ekos/capture/cameraprocess.cpp:311 ekos/capture/cameraprocess.cpp:887
+#: ekos/capture/cameraprocess.cpp:311 ekos/capture/cameraprocess.cpp:888
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr "Ne povas kapti dum fokusa modulo estas okupata."
@@ -15648,52 +15648,52 @@ msgstr "Ne povas kapti dum fokusa modulo estas okupata."
 msgid "Starting framing..."
 msgstr "Komencante kadradon..."
 
-#: ekos/capture/cameraprocess.cpp:350
+#: ekos/capture/cameraprocess.cpp:351
 #, kde-format
 msgid "CCD capture suspended"
 msgstr "CCD-kapto suspendita"
 
-#: ekos/capture/cameraprocess.cpp:355
+#: ekos/capture/cameraprocess.cpp:356
 #, kde-format
 msgid "CCD capture complete"
 msgstr "CCD-kapto kompleta"
 
-#: ekos/capture/cameraprocess.cpp:360
+#: ekos/capture/cameraprocess.cpp:361
 #, kde-format
 msgid "Framing stopped"
 msgstr "Kadrigo haltita"
 
-#: ekos/capture/cameraprocess.cpp:360 ekos/capture/cameraprocess.cpp:365
+#: ekos/capture/cameraprocess.cpp:361 ekos/capture/cameraprocess.cpp:366
 #, kde-format
 msgid "CCD capture stopped"
 msgstr "CCD-kapto ĉesis"
 
-#: ekos/capture/cameraprocess.cpp:443
+#: ekos/capture/cameraprocess.cpp:444
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr "Paŭzi nur eblas dum kadra kaptado funkcias."
 
-#: ekos/capture/cameraprocess.cpp:450
+#: ekos/capture/cameraprocess.cpp:451
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr "Sekvenco estos paŭzita post kiam nuna ekspozicio estas kompleta."
 
-#: ekos/capture/cameraprocess.cpp:463
+#: ekos/capture/cameraprocess.cpp:464
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr "Neniu fotilo detektita. Kontrolu agordojn de ĉeno kaj konekto."
 
-#: ekos/capture/cameraprocess.cpp:488
+#: ekos/capture/cameraprocess.cpp:489
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr "Neniu vido disponebla por antaŭprezentoj. Ĉu ebligi FITS-rigardilon?"
 
-#: ekos/capture/cameraprocess.cpp:489
+#: ekos/capture/cameraprocess.cpp:490
 #, kde-format
 msgid "Display preview"
 msgstr "Montri antaŭrigardon"
 
-#: ekos/capture/cameraprocess.cpp:573
+#: ekos/capture/cameraprocess.cpp:574
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
@@ -15702,7 +15702,7 @@ msgstr ""
 "Ijobo postulas %1-sekundan %2 bildojn, havas jam %3/%4 kaptojn kaj ne "
 "bezonas ruliĝi."
 
-#: ekos/capture/cameraprocess.cpp:588
+#: ekos/capture/cameraprocess.cpp:589
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
@@ -15711,32 +15711,32 @@ msgstr ""
 "Tasko postulas %1-sekundan %2 bildojn, havas %3/%4 kadrojn kaptitajn kaj "
 "estos prilaborita."
 
-#: ekos/capture/cameraprocess.cpp:601
+#: ekos/capture/cameraprocess.cpp:602
 #, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
 msgstr "Laboro postulas %1 x %2-sekunda %3 video kaj estos prilaborita."
 
-#: ekos/capture/cameraprocess.cpp:833
+#: ekos/capture/cameraprocess.cpp:834
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "Aŭtogvidado rekomenciĝis."
 
-#: ekos/capture/cameraprocess.cpp:877
+#: ekos/capture/cameraprocess.cpp:878
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Malsukcesis agordi subkadron."
 
-#: ekos/capture/cameraprocess.cpp:882
+#: ekos/capture/cameraprocess.cpp:883
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Malsukcesis agordi binning."
 
-#: ekos/capture/cameraprocess.cpp:1042
+#: ekos/capture/cameraprocess.cpp:1043
 #, kde-format
 msgid "file saved to %1"
 msgstr "dosiero konservita al %1"
 
-#: ekos/capture/cameraprocess.cpp:1052
+#: ekos/capture/cameraprocess.cpp:1053
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -15745,120 +15745,120 @@ msgstr ""
 "Malsukcesis skribado de bildo al %1\n"
 "Bonvolu kontroli dosierujon, dosiernomon kaj permesojn."
 
-#: ekos/capture/cameraprocess.cpp:1054
+#: ekos/capture/cameraprocess.cpp:1055
 #, kde-format
 msgid "Image Write Failed"
 msgstr "Bilda Skribo Malsukcesis"
 
-#: ekos/capture/cameraprocess.cpp:1279
+#: ekos/capture/cameraprocess.cpp:1280
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Fora bildo konservita al %1"
 
-#: ekos/capture/cameraprocess.cpp:1305
+#: ekos/capture/cameraprocess.cpp:1306
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Aŭtogvidado ĉesigita."
 
-#: ekos/capture/cameraprocess.cpp:1335
+#: ekos/capture/cameraprocess.cpp:1336
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Averto: Kalibrado procezo estis antaŭtempe ĉesigita."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1401
+#: ekos/capture/cameraprocess.cpp:1402
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "CCD-kapta sekvenco finiĝis"
 
-#: ekos/capture/cameraprocess.cpp:1458
+#: ekos/capture/cameraprocess.cpp:1459
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Eraro: Perdita konekto al CCD."
 
-#: ekos/capture/cameraprocess.cpp:1486
+#: ekos/capture/cameraprocess.cpp:1487
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Ne povas kalkuli ADU-nivelojn en ne-FITS-bildoj."
 
-#: ekos/capture/cameraprocess.cpp:1621 ekos/capture/cameraprocess.cpp:2182
+#: ekos/capture/cameraprocess.cpp:1622 ekos/capture/cameraprocess.cpp:2183
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "Kaptado malsukcesis. Kontrolu INDI-Kontrolpanelon por detaloj."
 
-#: ekos/capture/cameraprocess.cpp:1721
+#: ekos/capture/cameraprocess.cpp:1722
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Elŝuta Tempo: %1 s, Nova Elŝuta Tempotakso: %2 s."
 
-#: ekos/capture/cameraprocess.cpp:1787
+#: ekos/capture/cameraprocess.cpp:1788
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Ricevita bildo %1 el %2."
 
-#: ekos/capture/cameraprocess.cpp:1824
+#: ekos/capture/cameraprocess.cpp:1825
 #, kde-format
 msgid "Captured %1"
 msgstr "Kaptita %1"
 
-#: ekos/capture/cameraprocess.cpp:1830
+#: ekos/capture/cameraprocess.cpp:1831
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "AVERTO: ceteraj kaj eble nekonataj anstataŭiloj %1 en %2"
 
-#: ekos/capture/cameraprocess.cpp:1873
+#: ekos/capture/cameraprocess.cpp:1874
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Efektivigante kaptoskripton %1"
 
-#: ekos/capture/cameraprocess.cpp:1888
+#: ekos/capture/cameraprocess.cpp:1889
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Antaŭkapta skripto finiĝis kun kodo %1."
 
-#: ekos/capture/cameraprocess.cpp:1899
+#: ekos/capture/cameraprocess.cpp:1900
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Post-kapta skripto finiĝis kun kodo %1."
 
-#: ekos/capture/cameraprocess.cpp:1911
+#: ekos/capture/cameraprocess.cpp:1912
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Prilaborado de meridiano renverso..."
 
-#: ekos/capture/cameraprocess.cpp:1921
+#: ekos/capture/cameraprocess.cpp:1922
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Antaŭtaska skripto finiĝis kun kodo %1."
 
-#: ekos/capture/cameraprocess.cpp:1926
+#: ekos/capture/cameraprocess.cpp:1927
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Posttaska skripto finiĝis kun kodo %1."
 
-#: ekos/capture/cameraprocess.cpp:2112 ekos/focus/focus.cpp:6065
+#: ekos/capture/cameraprocess.cpp:2113 ekos/focus/focus.cpp:6065
 #: ekos/focus/focus.cpp:6089
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Templimo de elmeto. Abortante..."
 
-#: ekos/capture/cameraprocess.cpp:2119
+#: ekos/capture/cameraprocess.cpp:2120
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr "Templimo de elmeto. Pli ol 3 estis detektitaj, restartigos pelilon."
 
-#: ekos/capture/cameraprocess.cpp:2137 ekos/focus/focus.cpp:6070
+#: ekos/capture/cameraprocess.cpp:2138 ekos/focus/focus.cpp:6070
 #: ekos/guide/guide.cpp:1010
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Templimo de elmeto. Rekomencante ekspozicion..."
 
-#: ekos/capture/cameraprocess.cpp:2163
+#: ekos/capture/cameraprocess.cpp:2164
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Templimo de elmeto. Tro da. Ĉesigante..."
 
-#: ekos/capture/cameraprocess.cpp:2241
+#: ekos/capture/cameraprocess.cpp:2242
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -15867,17 +15867,17 @@ msgstr ""
 "Plata calibrado malsukcesis. Kaptita bildo estas nur %1-bita dum petita ADU "
 "estas %2."
 
-#: ekos/capture/cameraprocess.cpp:2252
+#: ekos/capture/cameraprocess.cpp:2253
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Nuna bildo estas saturita (%1). La sekva ekspozicio estas %2 sekundoj."
 
-#: ekos/capture/cameraprocess.cpp:2274
+#: ekos/capture/cameraprocess.cpp:2275
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Nuna ADU %1 ene de la celita ADU-toleremo intervalo."
 
-#: ekos/capture/cameraprocess.cpp:2303
+#: ekos/capture/cameraprocess.cpp:2304
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -15886,27 +15886,27 @@ msgstr ""
 "Ne eblas kalkuli optimumajn eksponajn agordojn, bonvolu kapti la ebenaĵojn "
 "permane."
 
-#: ekos/capture/cameraprocess.cpp:2311
+#: ekos/capture/cameraprocess.cpp:2312
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Nuna ADU estas %1 La sekva ekspozicio estas %2 sekundoj."
 
-#: ekos/capture/cameraprocess.cpp:2452
+#: ekos/capture/cameraprocess.cpp:2453
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Antaŭrigardo"
 
-#: ekos/capture/cameraprocess.cpp:2463 ekos/capture/cameraprocess.cpp:2465
+#: ekos/capture/cameraprocess.cpp:2464 ekos/capture/cameraprocess.cpp:2466
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Plata Kalibrado"
 
-#: ekos/capture/cameraprocess.cpp:2669
+#: ekos/capture/cameraprocess.cpp:2670
 #, kde-format
 msgid "Sequence paused."
 msgstr "Sekvenco paŭzita."
 
-#: ekos/capture/cameraprocess.cpp:2719
+#: ekos/capture/cameraprocess.cpp:2720
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15915,7 +15915,7 @@ msgstr ""
 "Ĉiuj taskoj estas kompletaj. Ĉu vi volas restarigi la staton de ĉiuj taskoj "
 "kaj rekomenci kaptado?"
 
-#: ekos/capture/cameraprocess.cpp:2733
+#: ekos/capture/cameraprocess.cpp:2734
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -15924,17 +15924,17 @@ msgstr ""
 "Averto: elekteblo \"Ĉiam Restarigi Sekvencon Kiam Komencante\" estas "
 "ebligita kaj restarigas la sinsekvon."
 
-#: ekos/capture/cameraprocess.cpp:2969
+#: ekos/capture/cameraprocess.cpp:2970
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Ĉu vi certas, ke vi volas rekomenci %1 fotilpelilon?"
 
-#: ekos/capture/cameraprocess.cpp:2970
+#: ekos/capture/cameraprocess.cpp:2971
 #, kde-format
 msgid "Driver Restart"
 msgstr "Restarto de Pelilo"
 
-#: ekos/capture/cameraprocess.cpp:3117 ekos/capture/sequencejobstate.cpp:41
+#: ekos/capture/cameraprocess.cpp:3118 ekos/capture/sequencejobstate.cpp:41
 #, kde-format
 msgid "Capture operations timed out after %1 seconds."
 msgstr "Kapt-operacioj eltempiĝis post %1 sekundoj."
@@ -16374,7 +16374,7 @@ msgstr "Lasta Aŭtomata fokuso"
 msgid "Next autofocus run"
 msgstr "Lasta Aŭtomata fokuso"
 
-#: ekos/capture/capturemodulestate.cpp:403
+#: ekos/capture/capturemodulestate.cpp:404
 #, kde-format
 msgid "Dithering..."
 msgstr "Malklariĝo..."
@@ -30334,187 +30334,187 @@ msgstr "Priskribo de Objekta Tipo"
 msgid "Object Type Comments"
 msgstr "Objekt-Tipaj Komentoj"
 
-#: fitsviewer/fitsdata.cpp:802
+#: fitsviewer/fitsdata.cpp:805
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Eraro legante taŭgas bufron: %1."
 
-#: fitsviewer/fitsdata.cpp:815
+#: fitsviewer/fitsdata.cpp:818
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Malsukcesis malpaki kunpremitajn agordojn"
 
-#: fitsviewer/fitsdata.cpp:831
+#: fitsviewer/fitsdata.cpp:834
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Eraro dum la malfermo taŭgas dosieron %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:844
+#: fitsviewer/fitsdata.cpp:847
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Eraro legante taŭgas bufron: %1"
 
-#: fitsviewer/fitsdata.cpp:856
+#: fitsviewer/fitsdata.cpp:859
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Ne eblis trovi bildon HDU: %1"
 
-#: fitsviewer/fitsdata.cpp:863
+#: fitsviewer/fitsdata.cpp:866
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "FITS-dosiera eraro de malfermado (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:877
+#: fitsviewer/fitsdata.cpp:880
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "Bildoj 1D FITS ne estas subtenataj en KStars."
 
-#: fitsviewer/fitsdata.cpp:923 fitsviewer/fitsdata.cpp:1421
+#: fitsviewer/fitsdata.cpp:926 fitsviewer/fitsdata.cpp:1424
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Bitoprofundo %1 ne estas subtenata."
 
-#: fitsviewer/fitsdata.cpp:933
+#: fitsviewer/fitsdata.cpp:936
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Bildo havas nevalidajn dimensiojn %1x%2"
 
-#: fitsviewer/fitsdata.cpp:978
+#: fitsviewer/fitsdata.cpp:981
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Eraro legante bildon: %1"
 
-#: fitsviewer/fitsdata.cpp:1320
+#: fitsviewer/fitsdata.cpp:1323
 #, kde-format
 msgid "File contain no images"
 msgstr "Dosiero ne enhavas bildojn"
 
-#: fitsviewer/fitsdata.cpp:1349
+#: fitsviewer/fitsdata.cpp:1352
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Specimena formato %1 ne estas subtenata."
 
-#: fitsviewer/fitsdata.cpp:1384
+#: fitsviewer/fitsdata.cpp:1387
 #, kde-format
 msgid "XISF file open error: "
 msgstr "XISF eraro dum dosiermalfermado: "
 
-#: fitsviewer/fitsdata.cpp:1436
+#: fitsviewer/fitsdata.cpp:1439
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Eraro konservante XISF-bildon"
 
-#: fitsviewer/fitsdata.cpp:1528 fitsviewer/fitsdata.cpp:1644
+#: fitsviewer/fitsdata.cpp:1531 fitsviewer/fitsdata.cpp:1647
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSDatumoj: Ne sufiĉa memoro por image_buffer-kanalo. Petita: %1 bajtoj"
 
-#: fitsviewer/fitsdata.cpp:1583
+#: fitsviewer/fitsdata.cpp:1586
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Ne povas malfermi dosieron %1: %2"
 
-#: fitsviewer/fitsdata.cpp:1596
+#: fitsviewer/fitsdata.cpp:1599
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Ne povas malfermi bufron: %1"
 
-#: fitsviewer/fitsdata.cpp:1607
+#: fitsviewer/fitsdata.cpp:1610
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Ne povas malpakigi_thumb: %1"
 
-#: fitsviewer/fitsdata.cpp:1614
+#: fitsviewer/fitsdata.cpp:1617
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Ne povas dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:1622
+#: fitsviewer/fitsdata.cpp:1625
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Ne povas ŝargi en memoron: %1"
 
-#: fitsviewer/fitsdata.cpp:1769
+#: fitsviewer/fitsdata.cpp:1772
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Konservado de kunpremitaj dosieroj ne estas subtenata."
 
-#: fitsviewer/fitsdata.cpp:1834
+#: fitsviewer/fitsdata.cpp:1837
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Malsukcesis krei dosieron: %1"
 
-#: fitsviewer/fitsdata.cpp:1849
+#: fitsviewer/fitsdata.cpp:1852
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Malsukcesis krei bildon: %1"
 
-#: fitsviewer/fitsdata.cpp:1858 fitsviewer/fitsdata.cpp:1865
+#: fitsviewer/fitsdata.cpp:1861 fitsviewer/fitsdata.cpp:1868
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Malsukcesis ĝisdatigi ŝlosilon: %1"
 
-#: fitsviewer/fitsdata.cpp:1966
+#: fitsviewer/fitsdata.cpp:1969
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Malsukcesis ĝisdatigi daton: %1"
 
-#: fitsviewer/fitsdata.cpp:1975
+#: fitsviewer/fitsdata.cpp:1978
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Malsukcesis ĝisdatigi historion: %1"
 
-#: fitsviewer/fitsdata.cpp:1997
+#: fitsviewer/fitsdata.cpp:2000
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Malsukcesis skribi bildon: %1"
 
-#: fitsviewer/fitsdata.cpp:3720 fitsviewer/fitsdata.cpp:3731
-#: fitsviewer/fitsdata.cpp:3768 fitsviewer/fitsdata.cpp:3804
-#: fitsviewer/fitsdata.cpp:3938
+#: fitsviewer/fitsdata.cpp:3723 fitsviewer/fitsdata.cpp:3734
+#: fitsviewer/fitsdata.cpp:3771 fitsviewer/fitsdata.cpp:3807
+#: fitsviewer/fitsdata.cpp:3941
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Neniuj mondaj koordinatsistemoj trovitaj."
 
-#: fitsviewer/fitsdata.cpp:4113 fitsviewer/fitsdata.cpp:4221
+#: fitsviewer/fitsdata.cpp:4116 fitsviewer/fitsdata.cpp:4224
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Eraro dum pridemando de Simbad"
 
-#: fitsviewer/fitsdata.cpp:4130
+#: fitsviewer/fitsdata.cpp:4133
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Simbad-demando eksvalidiĝis"
 
-#: fitsviewer/fitsdata.cpp:5107
+#: fitsviewer/fitsdata.cpp:5110
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Nur 8 kaj 16 bitoj bayeritaj bildoj subtenataj."
 
-#: fitsviewer/fitsdata.cpp:5140
+#: fitsviewer/fitsdata.cpp:5143
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Nesubtenata bayer-ŝablono %1."
 
-#: fitsviewer/fitsdata.cpp:5171
+#: fitsviewer/fitsdata.cpp:5174
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Nesubtenata bayer kompensas %1 %2."
 
-#: fitsviewer/fitsdata.cpp:5328 fitsviewer/fitsdata.cpp:5375
-#: fitsviewer/fitsdata.cpp:5420 fitsviewer/fitsdata.cpp:5467
+#: fitsviewer/fitsdata.cpp:5331 fitsviewer/fitsdata.cpp:5378
+#: fitsviewer/fitsdata.cpp:5423 fitsviewer/fitsdata.cpp:5470
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Ne eblas atribui memoron por provizora bayer-bufro: %1"
 
-#: fitsviewer/fitsdata.cpp:5338 fitsviewer/fitsdata.cpp:5430
+#: fitsviewer/fitsdata.cpp:5341 fitsviewer/fitsdata.cpp:5433
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Ne eblas atribui memoron por provizora bayer-bufro."
 
-#: fitsviewer/fitsdata.cpp:5358 fitsviewer/fitsdata.cpp:5450
+#: fitsviewer/fitsdata.cpp:5361 fitsviewer/fitsdata.cpp:5453
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Debayer malsukcesis (%1)"
@@ -30615,7 +30615,7 @@ msgstr "Y Deŝovo:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:590
-#: fitsviewer/fitsviewer.cpp:1803
+#: fitsviewer/fitsviewer.cpp:1808
 #, kde-format
 msgid "Ready."
 msgstr "Preta."
@@ -30898,7 +30898,7 @@ msgstr "Tip-Etikedo"
 msgid "Distance"
 msgstr "Distanco"
 
-#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1574
+#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1579
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, kde-format, kde-kuit-format
 msgid "Size"
@@ -31032,13 +31032,13 @@ msgstr "Dosiero konservita al %1"
 msgid "Watching %1"
 msgstr "Ŝargante %1"
 
-#: fitsviewer/fitstab.cpp:1439
+#: fitsviewer/fitstab.cpp:1441
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "(%1) Watching %2"
 msgstr "Ŝargante %1"
 
-#: fitsviewer/fitstab.cpp:1441
+#: fitsviewer/fitstab.cpp:1443
 #, kde-format
 msgid "(%1) %2"
 msgstr ""
@@ -31116,13 +31116,13 @@ msgid "View Star Profile..."
 msgstr "Rigardi Stelan Profilon..."
 
 #: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:254
-#: fitsviewer/fitsviewer.cpp:1491
+#: fitsviewer/fitsviewer.cpp:1496
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Montri Ekvatorajn Kradliniojn"
 
 #: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:261
-#: fitsviewer/fitsviewer.cpp:1493
+#: fitsviewer/fitsviewer.cpp:1498
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Montri Objektojn en Bildo"
@@ -31214,7 +31214,7 @@ msgstr "Elekta &Statistiko"
 msgid "Show Clipping"
 msgstr "Montri Tondadon"
 
-#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1502
+#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1507
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31263,13 +31263,13 @@ msgstr "Zomi ĉiujn langetojn"
 msgid "Zoom all tabs out"
 msgstr "Malzomi ĉiujn langetojn"
 
-#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1776
+#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1781
 #, kde-format
 msgid "Mark Stars"
 msgstr "Marki Stelojn"
 
 #: fitsviewer/fitsviewer.cpp:330 fitsviewer/fitsviewer.cpp:920
-#: fitsviewer/fitsviewer.cpp:1739
+#: fitsviewer/fitsviewer.cpp:1744
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Rigardi 3D-Grafikon"
@@ -31327,32 +31327,32 @@ msgstr "Ne povas trovi langeton kun UID %1 en la FITS-Vidilo"
 msgid "currentView 3D Graph"
 msgstr "currentView 3D Graph"
 
-#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1647
+#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1652
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Kruchaloj"
 
-#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1661
+#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1666
 #, kde-format
 msgid "Clipping"
 msgstr "Tondado"
 
-#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1674
+#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1679
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Ekvatoraj Kradlinioj"
 
-#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1713
+#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1718
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objektoj en Bildo"
 
-#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1726
+#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1731
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Rastrumeraj Kradlinioj"
 
-#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1687
+#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1692
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "HiPS-supermeto"
@@ -31369,35 +31369,42 @@ msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Malfermi Bildon"
 
-#: fitsviewer/fitsviewer.cpp:1168
+#: fitsviewer/fitsviewer.cpp:1123
+#, fuzzy, kde-format
+#| msgid "KStars Lite"
+msgctxt "@title:window"
+msgid "KStars Live Stacker (BETA)"
+msgstr "KStars Lite"
+
+#: fitsviewer/fitsviewer.cpp:1173
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Stacking..."
 msgstr "Ĉerpante..."
 
-#: fitsviewer/fitsviewer.cpp:1176
+#: fitsviewer/fitsviewer.cpp:1181
 #, fuzzy, kde-format
 #| msgid "Syncing failed."
 msgid "Stacking Failed"
 msgstr "Sinkronigado malsukcesis."
 
-#: fitsviewer/fitsviewer.cpp:1194
+#: fitsviewer/fitsviewer.cpp:1199
 #, fuzzy, kde-format
 #| msgid "Settling complete."
 msgid "Stacking Complete"
 msgstr "Aranĝo kompleta."
 
-#: fitsviewer/fitsviewer.cpp:1468
+#: fitsviewer/fitsviewer.cpp:1473
 #, kde-format
 msgid "Hide %1"
 msgstr "Kaŝi %1"
 
-#: fitsviewer/fitsviewer.cpp:1473
+#: fitsviewer/fitsviewer.cpp:1478
 #, kde-format
 msgid "Show %1"
 msgstr "Montri %1"
 
-#: fitsviewer/fitsviewer.cpp:1497
+#: fitsviewer/fitsviewer.cpp:1502
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31406,7 +31413,7 @@ msgstr ""
 "Centra Teleskopo\n"
 "*Preta*"
 
-#: fitsviewer/fitsviewer.cpp:1509
+#: fitsviewer/fitsviewer.cpp:1514
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -31415,7 +31422,7 @@ msgstr ""
 "Montri ekvatorajn kradliniojn\n"
 "*Neniu WCS-informo*"
 
-#: fitsviewer/fitsviewer.cpp:1511
+#: fitsviewer/fitsviewer.cpp:1516
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31424,7 +31431,7 @@ msgstr ""
 "Centra Teleskopo\n"
 "*Neniu WCS-Informo*"
 
-#: fitsviewer/fitsviewer.cpp:1513
+#: fitsviewer/fitsviewer.cpp:1518
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -31433,31 +31440,31 @@ msgstr ""
 "Montri Objektojn en Bildo\n"
 "*Neniu WCS-Informo*"
 
-#: fitsviewer/fitsviewer.cpp:1545 fitsviewer/fitsviewer.cpp:1700
+#: fitsviewer/fitsviewer.cpp:1550 fitsviewer/fitsviewer.cpp:1705
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Elekta Ortangulo"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1582 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1587 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Width"
 msgstr "Larĝo"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1583 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1588 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Height"
 msgstr "Alteco"
 
-#: fitsviewer/fitsviewer.cpp:1781
+#: fitsviewer/fitsviewer.cpp:1786
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Malmarki Stelojn"
 
-#: fitsviewer/fitsviewer.cpp:1797
+#: fitsviewer/fitsviewer.cpp:1802
 #, kde-format
 msgid "Processing %1..."
 msgstr "Prilaboranta %1..."
@@ -32348,37 +32355,37 @@ msgstr "Ĉerpante..."
 msgid "Solving..."
 msgstr "Solvante..."
 
-#: fitsviewer/platesolve.cpp:316
+#: fitsviewer/platesolve.cpp:319
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Ekstraktilo eltempiĝis: %1s"
 
-#: fitsviewer/platesolve.cpp:326
+#: fitsviewer/platesolve.cpp:329
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Ekstraktilo malsukcesis: %1s"
 
-#: fitsviewer/platesolve.cpp:336
+#: fitsviewer/platesolve.cpp:339
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Ĉerpis %1 stelojn (%2 nefiltritaj) en %3s"
 
-#: fitsviewer/platesolve.cpp:417
+#: fitsviewer/platesolve.cpp:420
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Solvanto eltempiĝis: %1s"
 
-#: fitsviewer/platesolve.cpp:423
+#: fitsviewer/platesolve.cpp:426
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Solvanto malsukcesis: %1s"
 
-#: fitsviewer/platesolve.cpp:661
+#: fitsviewer/platesolve.cpp:664
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr "Averto! Ĉi tiu ilo nur subtenas la internan StellarSolver-solvilon."
 
-#: fitsviewer/platesolve.cpp:662
+#: fitsviewer/platesolve.cpp:665
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Ŝanĝi al tiu en la Ekos-Align elekteblomenuo."
