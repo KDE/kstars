@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-28 01:55+0000\n"
-"PO-Revision-Date: 2025-07-25 06:55+0200\n"
+"PO-Revision-Date: 2025-07-28 06:12+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -31472,12 +31472,10 @@ msgid "Open Image"
 msgstr "Odpri sliko"
 
 #: fitsviewer/fitsviewer.cpp:1123
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "KStars Live Stacker"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker (BETA)"
-msgstr "KStars Live Stacker"
+msgstr "KStars Live Stacker (BETA)"
 
 #: fitsviewer/fitsviewer.cpp:1173
 #, kde-format

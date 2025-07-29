@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-28 01:55+0000\n"
-"PO-Revision-Date: 2025-07-25 11:22+0300\n"
+"PO-Revision-Date: 2025-07-28 08:11+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -31815,12 +31815,10 @@ msgid "Open Image"
 msgstr "Відкрити зображення"
 
 #: fitsviewer/fitsviewer.cpp:1123
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "KStars Live Stacker"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker (BETA)"
-msgstr "Інтерактивний стосувальник KStars"
+msgstr "Інтерактивний стосувальник KStars (тестовий)"
 
 #: fitsviewer/fitsviewer.cpp:1173
 #, kde-format
