@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-28 01:55+0000\n"
-"PO-Revision-Date: 2025-07-28 10:40+0200\n"
+"PO-Revision-Date: 2025-07-29 13:42+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -73334,7 +73334,7 @@ msgstr "AP lokale tijd"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "AP sidereal time"
-msgstr "AP sterretijd"
+msgstr "AP sterrentijd"
 
 #: libindi_strings.cpp:13
 #, kde-kuit-format
@@ -75800,13 +75800,13 @@ msgstr "Sluitersnelheid"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Sidereal Time"
-msgstr "Sterretijd"
+msgstr "Sterrentijd"
 
 #: libindi_strings.cpp:428
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Sidereal time"
-msgstr "Sterretijd"
+msgstr "Sterrentijd"
 
 #: libindi_strings.cpp:429
 #, kde-kuit-format
@@ -82658,7 +82658,7 @@ msgstr "Hoogte vs. tijd"
 #: tools/altvstime.cpp:93
 #, kde-format
 msgid "Local Sidereal Time"
-msgstr "Lokale Sterretijd"
+msgstr "Lokale Sterrentijd"
 
 #: tools/altvstime.cpp:97 tools/observinglist.cpp:123
 #, kde-format
@@ -83300,7 +83300,7 @@ msgstr "Juliaanse dag"
 #: tools/astrocalc.cpp:149 tools/modcalcsidtime.ui:14
 #, kde-format
 msgid "Sidereal Time"
-msgstr "Sterretijd"
+msgstr "Sterrentijd"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcDayLengthDlg)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
@@ -85726,7 +85726,7 @@ msgstr "lokale tijd"
 #: tools/modcalcsidtime.cpp:150
 #, kde-format
 msgid "sidereal time"
-msgstr "Sterretijd"
+msgstr "sterrentijd"
 
 #: tools/modcalcsidtime.cpp:153
 #, kde-format
@@ -85762,13 +85762,13 @@ msgstr "Resultaten van de berekening van de sterrentijd"
 #: tools/modcalcsidtime.ui:90
 #, kde-format
 msgid "Sidereal time:"
-msgstr "Sterretijd:"
+msgstr "Sterrentijd:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ComputeComboBatch)
 #: tools/modcalcsidtime.ui:162
 #, kde-format
 msgid "Compute sidereal time"
-msgstr "Sterretijd berekenen"
+msgstr "Sterrentijd berekenen"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ComputeComboBatch)
 #: tools/modcalcsidtime.ui:167

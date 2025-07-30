@@ -1,7 +1,7 @@
 # Translation for kstars.po to Basque/Euskara (eu).
-# Copyright (C) 2019-2022, This file is copyright:
+# Copyright (C) 2019-2025 This file is copyright:
 # This file is distributed under the same license as the kstars package.
-# SPDX-FileCopyrightText: 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2024, 2025 KDE euskaratzeko proiektuaren arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Ion Gaztañaga <ion_g_m@hotmail.com>, 2005.
@@ -9,21 +9,21 @@
 # Ion Gaztañaga <igaztanaga@gmail.com>, 2005.
 # marcos <marcos@euskalgnu.org>, 2006, 2007.
 # Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2009.
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2011, 2019, 2022, 2023.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2011, 2019, 2022, 2023, 2025.
 # Jon Intxaurbe <joinzar@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-28 01:55+0000\n"
-"PO-Revision-Date: 2024-04-04 13:25+0200\n"
+"PO-Revision-Date: 2025-07-29 14:41+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 25.04.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -43,10 +43,9 @@ msgid "Sky"
 msgstr "Zerua"
 
 #: auxiliary/colorscheme.cpp:30
-#, fuzzy, kde-format
-#| msgid "Use marker file"
+#, kde-format
 msgid "Sky Daytime"
-msgstr "Erabili markatzailearen fitxategia"
+msgstr "Zerua egunez"
 
 #: auxiliary/colorscheme.cpp:31
 #, kde-format
@@ -259,10 +258,9 @@ msgid "HiPS Grid"
 msgstr "HiPS sareta"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
-#| msgid "Calculator"
+#, kde-format
 msgid "Dome Slit"
-msgstr "Kalkulagailua"
+msgstr "Kupularen artega"
 
 #: auxiliary/colorscheme.cpp:71
 #, kde-format
@@ -513,7 +511,7 @@ msgstr "Itxaron DSS irudia jaitsi bitartean..."
 #, kde-format
 msgctxt "%2 is the value, % is the percent sign"
 msgid "%1 (%2%)"
-msgstr ""
+msgstr "%1 (%%2)"
 
 #: auxiliary/ksmessagebox.cpp:132
 #, kde-format
@@ -840,33 +838,28 @@ msgid "Data folder permissions error."
 msgstr "Datuen karpetaren baimen akatsa."
 
 #: auxiliary/skymapview.cpp:54
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Set the sky-map view to zenith up"
 msgid "Zenith Up"
-msgstr "&Zenita"
+msgstr "Zenita gora"
 
 #: auxiliary/skymapview.cpp:63
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Set the sky-map view to zenith down"
 msgid "Zenith Down"
-msgstr "&Zenita"
+msgstr "Zenita behera"
 
 #: auxiliary/skymapview.cpp:72
-#, fuzzy, kde-format
-#| msgid "&North"
+#, kde-format
 msgctxt "Set the sky-map view to north up"
 msgid "North Up"
-msgstr "&Iparra"
+msgstr "Iparraldea gora"
 
 #: auxiliary/skymapview.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Norton"
+#, kde-format
 msgctxt "Set the sky-map view to north down"
 msgid "North Down"
-msgstr "Norton"
+msgstr "Iparraldea behera"
 
 #: auxiliary/skymapview.cpp:91
 #, kde-format
@@ -1018,7 +1011,7 @@ msgstr "Koadro txikien hautatzailea"
 #: tools/eclipsetool.ui:183
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%%p"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: auxiliary/thumbnailpicker.ui:72
@@ -1314,7 +1307,7 @@ msgstr "Umbriel"
 #: auxiliary/xplanetimageviewer.cpp:213
 #, kde-format
 msgid "Ariel"
-msgstr ""
+msgstr "Ariel"
 
 #: auxiliary/xplanetimageviewer.cpp:213
 #, kde-format
@@ -1350,7 +1343,7 @@ msgstr "Neptuno"
 #: auxiliary/xplanetimageviewer.cpp:215
 #, kde-format
 msgid "Triton"
-msgstr ""
+msgstr "Triton"
 
 #: auxiliary/xplanetimageviewer.cpp:226
 #, kde-format
@@ -1388,11 +1381,14 @@ msgid ""
 "XPlanet Latitude, Longitude, and object radius in %. This is only valid when "
 "viewing the object from the same object"
 msgstr ""
+"XPlanet(ar)en latitudea, longitudea, eta objektuaren erradioa %tan. Honek "
+"objektua objektu beretik ikustean bakarrik balio du"
 
 #: auxiliary/xplanetimageviewer.cpp:259
 #, kde-format
 msgid "Reset XPlanet Location to the location specified in the XPlanet Options"
 msgstr ""
+"Berrezarri XPlanet(ar)en kokapena XPlanet aukeretan zehaztutako kokapenera"
 
 #: auxiliary/xplanetimageviewer.cpp:269
 #, kde-format
@@ -1554,17 +1550,18 @@ msgstr "segundoak"
 #: auxiliary/xplanetimageviewer.cpp:449
 #, kde-format
 msgid "Lets you change the units for the timestep in the animation"
-msgstr ""
+msgstr "Animazioan denbora-urratserako unitatea aldatzeko aukera ematen dizu"
 
 #: auxiliary/xplanetimageviewer.cpp:462
 #, kde-format
 msgid "Lets you run the animation"
-msgstr ""
+msgstr "Animazio exekutatzeko aukera ematen dizu"
 
 #: auxiliary/xplanetimageviewer.cpp:471
 #, kde-format
 msgid "Resets the animation to 0 timesteps from the current XPlanet Time"
 msgstr ""
+"Animazioa XPlanet(ar)en uneko ordutik 0 denbora-urratsera berrezartzen du"
 
 #: auxiliary/xplanetimageviewer.cpp:542
 #, kde-format
@@ -2046,10 +2043,9 @@ msgstr ""
 # WUT: What's Up Tonight
 # ZBGG: Ze Berri Gaur Gauean
 #: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:475
-#, fuzzy, kde-format, kde-kuit-format
-#| msgid "What's up Tonight..."
+#, kde-format, kde-kuit-format
 msgid "What's Interesting..."
-msgstr "Ze berri gaur gauean..."
+msgstr "Interesgarria dena..."
 
 #: data/qml/whatisinteresting/wiview.qml:127
 #, kde-kuit-format
@@ -2221,10 +2217,9 @@ msgstr "Zamatzen..."
 # WUT: What's Up Tonight
 # ZBGG: Ze Berri Gaur Gauean
 #: data/qml/whatisinteresting/wiview.qml:1595
-#, fuzzy, kde-kuit-format
-#| msgid "What's up Tonight..."
+#, kde-kuit-format
 msgid "Explanation of the What's Interesting Panel"
-msgstr "Ze berri gaur gauean..."
+msgstr "Interesgarria dena... panelaren azalpena"
 
 #: data/qml/whatisinteresting/wiview.qml:1610
 #, kde-kuit-format
@@ -4387,10 +4382,9 @@ msgid "(nothing)"
 msgstr "(ezer ez)"
 
 #: dialogs/finddialog.cpp:491
-#, fuzzy, kde-format
-#| msgid "Search the Internet for %1"
+#, kde-format
 msgid "Searching the internet for \"%1\""
-msgstr "Bilatu %1 Internetean"
+msgstr "Interneten \"%1\" bilatzen"
 
 #: dialogs/finddialog.cpp:499
 #, kde-format
@@ -4430,7 +4424,7 @@ msgstr "Iragazi motaren arabera: "
 #: dialogs/finddialog.ui:170
 #, kde-format
 msgid "Search the Internet for (nothing)"
-msgstr ""
+msgstr "Bilatu Interneten (ezer ez)"
 
 #: dialogs/focusdialog.cpp:43
 #, kde-format
@@ -5629,10 +5623,9 @@ msgstr "Forma:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, NewView)
 #: dialogs/newview.ui:14
-#, fuzzy, kde-format
-#| msgid "Add/Edit DSO"
+#, kde-format
 msgid "Add / Edit View"
-msgstr "Gehitu/Editatu DSO"
+msgstr "Gehitu/Editatu ikuspegia"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, viewNameLineEdit)
 #: dialogs/newview.ui:29
@@ -5642,11 +5635,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newview.ui:47
-#, fuzzy, kde-format
-#| msgctxt "City in Ontario Canada"
-#| msgid "Mount Forest"
+#, kde-format
 msgid "Mount Type:"
-msgstr "Mount Forest"
+msgstr "Muntaia-mota:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #. i18n: ectx: property (text), widget (QCheckBox, EquatorialCheckBatch)
@@ -5657,10 +5648,9 @@ msgstr "Ekuatoriala"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeComboBox)
 #: dialogs/newview.ui:63
-#, fuzzy, kde-format
-#| msgid "Azimuth"
+#, kde-format
 msgid "Altazimuth"
-msgstr "Azimuta"
+msgstr "Altazimut"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/newview.ui:86
@@ -5690,16 +5680,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/newview.ui:129
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "View Type:"
-msgstr "Mota:"
+msgstr "Ikuspegi mota:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, invertedMirroredViewType)
 #: dialogs/newview.ui:136
 #, kde-format
 msgid "Mirrored on the vertical axis (i.e. inverted and mirrored)"
-msgstr ""
+msgstr "Ardatz bertikalean ispilatuta (adib. alderantzikatuta eta ispilatuta)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/newview.ui:154
@@ -5756,10 +5745,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
 #: dialogs/newview.ui:303
-#, fuzzy, kde-format
-#| msgid "Density of stars in the field of view"
+#, kde-format
 msgid "Also set the field of view"
-msgstr "Izarren dentsitatea ikus-eremuan"
+msgstr "Ikus-eremua ere ezarri"
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -5791,28 +5779,24 @@ msgstr "Orain"
 #, kde-format
 msgctxt "@title:window"
 msgid "Manage Sky Map Views"
-msgstr ""
+msgstr "Kudeatu zeruko maparen ikuspegiak"
 
 #: dialogs/viewsdialog.cpp:198
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Edit Link"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit View"
-msgstr "Editatu esteka"
+msgstr "Editatu ikuspegia"
 
 #: dialogs/viewsdialog.cpp:202
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgctxt "@title:window"
 msgid "New View"
-msgstr "&Ikusi"
+msgstr "Ikuspegi berria"
 
 #: dialogs/viewsdialog.cpp:321
-#, fuzzy, kde-format
-#| msgid "Long Name:"
+#, kde-format
 msgid "Conflicting View Name"
-msgstr "Izen-luzea:"
+msgstr "Ikuspegi izen gatazkaduna"
 
 #: dialogs/viewsdialog.cpp:322
 #, kde-format
@@ -5820,67 +5804,58 @@ msgid ""
 "There already exists a view with the name you attempted to use. Please "
 "choose a different name for this view."
 msgstr ""
+"Jada badago erabili nahi izan duzun izena duen ikuspegi bat. Mesedez, "
+"aukeratu ikuspegirako beste izen bat."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ViewsDialog)
 #: dialogs/viewsdialog.ui:14
 #, kde-format
 msgid "Edit Sky Map Views"
-msgstr ""
+msgstr "Editatu zeruko maparen ikuspegiak"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:65
-#, fuzzy, kde-format
-#| msgid "Update view"
+#, kde-format
 msgid "Add a new view"
-msgstr "Eguneratu ikuspegia"
+msgstr "Gehitu ikuspegi berri bat"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "Add a new field-of-view (FOV) symbol to the list.  You can define the "
-#| "size, shape, and color of the new symbol."
+#, kde-format
 msgid ""
 "Add a new View to the list.  You can define the parity, orientation and "
 "other parameters."
 msgstr ""
-"Gehitu ikus-eremu (FOV) sinbolo berri bat zerrendara. Sinbolo berriaren "
-"tamaina, forma eta kolorea defini dezakezu."
+"Gehitu ikuspegi berri bat zerrendara. Parekotasuna, orientazioa eta beste "
+"parametro batzuk definitu ditzakezu.."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:94
-#, fuzzy, kde-format
-#| msgid "Modify the highlighted FOV symbol"
+#, kde-format
 msgid "Modify the highlighted View"
-msgstr "Aldatu nabarmendutako FOV sinboloa"
+msgstr "Aldatu nabarmendutako ikuspegia"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, EditButton)
 #: dialogs/viewsdialog.ui:97
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to modify the highlighted FOV symbol.  You can change "
-#| "its size, shape and color."
+#, kde-format
 msgid ""
 "Press this button to modify the highlighted View.  You can change its "
 "parameters."
 msgstr ""
-"Sakatu botoi hau nabarmendutako FOV sinboloa aldatzeko. Bere tamaina, forma "
-"eta kolorea alda ditzakezu."
+"Sakatu botoi hau nabarmendutako ikuspegia aldatzeko. Bere parametroak aldatu "
+"ditzakezu."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:107
-#, fuzzy, kde-format
-#| msgid "Remove highlighted FOV symbol"
+#, kde-format
 msgid "Remove highlighted View"
-msgstr "Kendu nabarmendutako FOV sinboloa"
+msgstr "Kendu nabarmendutako ikuspegia"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: dialogs/viewsdialog.ui:110
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to remove the highlighted FOV symbol from the list."
+#, kde-format
 msgid "Press this button to remove the highlighted View from the list."
-msgstr "Sakatu botoi hau nabarmendutako sinboloa zerrendatik kentzeko."
+msgstr "Sakatu botoi hau zerrendatik nabarmendutako ikuspegia kentzeko."
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeTitle)
 #: dialogs/wizdata.ui:61
@@ -5898,7 +5873,7 @@ msgstr ""
 #: dialogs/wizdata.ui:83
 #, kde-format
 msgid "~/Library/Application Support/kstars"
-msgstr ""
+msgstr "~/Library/Application Support/kstars"
 
 #. i18n: ectx: property (text), widget (QLabel, foundFeedback2)
 #: dialogs/wizdata.ui:102
@@ -5920,7 +5895,7 @@ msgstr "KStars Data Directory kopiatu"
 #: dialogs/wizdata.ui:119
 #, kde-format
 msgid "Optional Files for the Data directory:"
-msgstr ""
+msgstr "Datuen direktoriorako aukerako fitxategiak:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/wizdata.ui:137
@@ -5931,6 +5906,10 @@ msgid ""
 "decoration: underline; color:#0000ff;\">Guide Star Catalog</span></a> (305 "
 "MB)</p></body></html>"
 msgstr ""
+"<html><head/><body><p>GSC: <a href=\"https://drive.google.com/file/"
+"d/0B_ivMJINsdQ8cDhNcU5ESkZMZ0E/view?usp=sharing\"><span style=\" text-"
+"decoration: underline; color:#0000ff;\">Guide Star Catalog</span></a> (305 "
+"MB)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, installGSC)
 #: dialogs/wizdata.ui:150
@@ -6817,10 +6796,9 @@ msgstr "Seattle"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/align/align.ui:337
-#, fuzzy, kde-format
-#| msgid "Accuracy"
+#, kde-format
 msgid "Accuracy:"
-msgstr "Zehaztasuna"
+msgstr "Zehaztasuna:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, solutionCoordinatesGroupBox)
 #: ekos/align/align.ui:347
@@ -6849,7 +6827,7 @@ msgstr ""
 #: ekos/align/align.ui:395
 #, kde-format
 msgid "Err:"
-msgstr ""
+msgstr "Err:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, pixScaleOut)
@@ -6862,7 +6840,7 @@ msgstr "Irudiaren eskala, arcsecs/pixel"
 #: ekos/align/align.ui:425
 #, kde-format
 msgid "Pix:"
-msgstr ""
+msgstr "Pix:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_10)
 #: ekos/align/align.ui:439
@@ -7672,17 +7650,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: ekos/align/mountmodel.ui:448
-#, fuzzy, kde-format
-#| msgid "RA (2000.0):"
+#, kde-format
 msgid "RA (J2000)"
-msgstr "IZ (2000.0):"
+msgstr "RA (J2000)"
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: ekos/align/mountmodel.ui:453
-#, fuzzy, kde-format
-#| msgid "Dec (2000.0):"
+#, kde-format
 msgid "DEC (J2000)"
-msgstr "Dek (2000.0):"
+msgstr "DEC (J2000)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadAlignB)
 #: ekos/align/mountmodel.ui:491
@@ -8398,41 +8374,42 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #, kde-format
 msgid "No index file directories configured."
-msgstr ""
+msgstr "Ez da indize-fitxategien direktoriorik konfiguratu."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:647
 #, kde-format
 msgid "No writable index file directory found."
-msgstr ""
+msgstr "Ez da aurkitu indize-fitxategien direktorio idazgarririk."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
 #: ekos/align/opsastrometryindexfiles.cpp:715
-#, fuzzy, kde-format
-#| msgid "Cannot start INDI server: port error."
+#, kde-format
 msgid "Could not contact Astrometry Index Server."
-msgstr "Ezin da INDI zerbitzaria abiatu: ataka errorea."
+msgstr "Ezin izan da Astrometria indize zerbitzariarekin harremanean jarri."
 
 #: ekos/align/opsastrometryindexfiles.cpp:268
 #, kde-format
 msgid ""
 "Downloads Disabled, this is not a directory, it is a list of all index files."
 msgstr ""
+"Zama-jaitsierak ezgaituta, hau ez da direktorio bat, indize-fitxategi "
+"zerrenda bat da."
 
 #: ekos/align/opsastrometryindexfiles.cpp:278
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
-msgstr ""
+msgstr "Zama-jaitsierak gaituta, direktorioa existitzen da eta idazgarria da."
 
 #: ekos/align/opsastrometryindexfiles.cpp:280
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
-msgstr ""
+msgstr "Zama-jaitsiera ezgaituta, direktorio baimenen arazoa."
 
 #: ekos/align/opsastrometryindexfiles.cpp:282
 #, kde-format
 msgid "Downloads Disabled, directory does not exist."
-msgstr ""
+msgstr "Zama-jaitsierak ezgaituta, direktorioa ez da existitzen."
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: ekos/align/opsastrometryindexfiles.cpp:331
@@ -8441,7 +8418,7 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.ui:93
 #, kde-format
 msgid "Required"
-msgstr ""
+msgstr "Beharrezkoa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: ekos/align/opsastrometryindexfiles.cpp:349
@@ -8450,7 +8427,7 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.ui:147
 #, kde-format
 msgid "Recommended"
-msgstr ""
+msgstr "Gomendatua"
 
 #: ekos/align/opsastrometryindexfiles.cpp:512
 #, kde-format
@@ -8458,24 +8435,23 @@ msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
 "accessible, or you are not connected."
 msgstr ""
+"Zama-jaisteko denbora-muga bete da. Zure sarea ez da behar bezain azkarra, "
+"fitxategia ez dago eskuragarri, edo ez zaude konektatuta."
 
 #: ekos/align/opsastrometryindexfiles.cpp:530
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
+#, kde-format
 msgid "%1 download cancelled."
-msgstr "Editatu esteka..."
+msgstr "%1 zama-jaitsiera bertan behera utzi da."
 
 #: ekos/align/opsastrometryindexfiles.cpp:565
-#, fuzzy, kde-format
-#| msgid "Write Error"
+#, kde-format
 msgid "File Write Error"
-msgstr "Idazteko akatsa"
+msgstr "Fitxategi idazteko errorea"
 
 #: ekos/align/opsastrometryindexfiles.cpp:579
-#, fuzzy, kde-format
-#| msgid "completed"
+#, kde-format
 msgid "%1 download complete."
-msgstr "osatuta"
+msgstr "%1 zama-jaitsiera osatu da."
 
 #: ekos/align/opsastrometryindexfiles.cpp:585
 #: ekos/align/opsastrometryindexfiles.cpp:746
@@ -8504,27 +8480,24 @@ msgid ""
 msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:671
-#, fuzzy, kde-format
-#| msgid "Select Filenames"
+#, kde-format
 msgid "Install File(s)"
-msgstr "Hautatu fitxategi-izenak"
+msgstr "Instalatu fitxategia(k)"
 
 #: ekos/align/opsastrometryindexfiles.cpp:721
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Are you sure you want to delete these index files? %1"
-msgstr "Ziur zaude %1 bezeroa kendu nahi duzula?"
+msgstr "Ziur zaude indize-fitxategi hauek ezabatu nahi dituzula? %1"
 
 #: ekos/align/opsastrometryindexfiles.cpp:722
-#, fuzzy, kde-format
-#| msgid "Select Filenames"
+#, kde-format
 msgid "Delete File(s)"
-msgstr "Hautatu fitxategi-izenak"
+msgstr "Ezabatu fitxategia(k)"
 
 #: ekos/align/opsastrometryindexfiles.cpp:736
 #, kde-format
 msgid "File Delete Error"
-msgstr ""
+msgstr "Fitxategia ezabatzeko errorea"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: ekos/align/opsastrometryindexfiles.ui:41
@@ -8582,10 +8555,9 @@ msgstr "Erabili zehaztutako konfigurazioaren fitxategia"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/align/opsastrometryindexfiles.ui:231
-#, fuzzy, kde-format
-#| msgid "Invalid Save Location"
+#, kde-format
 msgid "Index Files Location: "
-msgstr "Gordetzeko kokaleku baliogabea"
+msgstr "Indize-fitxategien kokalekua: "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_31)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_28)
@@ -8599,17 +8571,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: ekos/align/opsastrometryindexfiles.ui:241
-#, fuzzy, kde-format
-#| msgctxt "Show Detailed Information Dialog"
-#| msgid "Details"
+#, kde-format
 msgid "Folder Details:"
-msgstr "Xehetasunak"
+msgstr "Karpetaren xehetasunak:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addIndexFileDirectory)
 #: ekos/align/opsastrometryindexfiles.ui:253
 #, kde-format
 msgid "Add a folder where index files are stored"
-msgstr ""
+msgstr "Gehitu indize-fitxategiak gordeta dauden direktorio bat"
 
 #. i18n: ectx: property (text), widget (QPushButton, addIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, zoomInB)
@@ -8624,14 +8594,13 @@ msgstr ""
 #: kstarslite/qml/indi/modules/MotionControl.qml:294
 #, kde-format, kde-kuit-format
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeIndexFileDirectory)
 #: ekos/align/opsastrometryindexfiles.ui:263
-#, fuzzy, kde-format
-#| msgid "Use the specified configuration file"
+#, kde-format
 msgid "Remove an index files location"
-msgstr "Erabili zehaztutako konfigurazioaren fitxategia"
+msgstr "Kendu indize-fitxategien kokaleku bat"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, zoomOutB)
@@ -8641,10 +8610,9 @@ msgstr "Erabili zehaztutako konfigurazioaren fitxategia"
 #: ekos/align/opsastrometryindexfiles.ui:266 ekos/analyze/analyze.ui:376
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:235 ekos/guide/guide.ui:314
 #: ekos/guide/guide.ui:466 kstarslite/qml/indi/modules/MotionControl.qml:264
-#, fuzzy, kde-format, kde-kuit-format
-#| msgid "--"
+#, kde-format, kde-kuit-format
 msgid "-"
-msgstr "--"
+msgstr "-"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, openIndexFileDirectory)
 #: ekos/align/opsastrometryindexfiles.ui:273
@@ -8661,17 +8629,15 @@ msgstr ""
 #: ekos/observatory/observatory.cpp:416 ekos/observatory/observatory.cpp:459
 #: ekos/observatory/observatory.cpp:463 ekos/observatory/observatory.cpp:574
 #: ekos/observatory/observatory.ui:673
-#, fuzzy, kde-format
-#| msgid "FITS Open"
+#, kde-format
 msgid "Open"
-msgstr "FITS irekita"
+msgstr "Ireki"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/align/opsastrometryindexfiles.ui:295
-#, fuzzy, kde-format
-#| msgid "Set the target CCD chip temperature."
+#, kde-format
 msgid "Current CCD FOV: "
-msgstr "Ezarri helburuko CCD txiparen tenperatura."
+msgstr "Uneko CCD FOV: "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_24)
 #: ekos/align/opsastrometryindexfiles.ui:302
@@ -8681,40 +8647,39 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #: ekos/align/opsastrometryindexfiles.ui:305
-#, fuzzy, kde-format
-#| msgid "Invalid File"
+#, kde-format
 msgid "Index Files URL:"
-msgstr "Fitxategi baliogabea"
+msgstr "Indize-fitxategien URL:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, indexURL)
 #: ekos/align/opsastrometryindexfiles.ui:315
 #, kde-format
 msgid "http://data.astrometry.net/"
-msgstr ""
+msgstr "http://data.astrometry.net/"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
 #: ekos/align/opsastrometryindexfiles.ui:350
 #, kde-format
 msgid "index-5200-*.fits"
-msgstr ""
+msgstr "index-5200-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/align/opsastrometryindexfiles.ui:357
 #, kde-format
 msgid "170' - 240'"
-msgstr ""
+msgstr "170' - 240'"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4210)
 #: ekos/align/opsastrometryindexfiles.ui:426
 #, kde-format
 msgid "index-4210.fits"
-msgstr ""
+msgstr "index-4210.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/align/opsastrometryindexfiles.ui:438
 #, kde-format
 msgid "60' - 85'"
-msgstr ""
+msgstr "60' - 85'"
 
 #. i18n: ectx: property (text), widget (QLabel, index_4210_perc)
 #. i18n: ectx: property (text), widget (QLabel, index_4212_perc)
@@ -8746,26 +8711,25 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.ui:488
 #, kde-format
 msgid "(615 M)"
-msgstr ""
+msgstr "(615 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_65)
 #: ekos/align/opsastrometryindexfiles.ui:495
 #, kde-format
 msgid "(24 M)"
-msgstr ""
+msgstr "(24 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/align/opsastrometryindexfiles.ui:507
 #, kde-format
 msgid "120' - 170'"
-msgstr ""
+msgstr "120' - 170'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/align/opsastrometryindexfiles.ui:619
-#, fuzzy, kde-format
-#| msgid "Import Catalog"
+#, kde-format
 msgid "Tycho2/Gaia Catalog"
-msgstr "Inportatu katalogoa"
+msgstr "Tycho2/Gaia katalogoa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_52)
 #. i18n: ectx: property (text), widget (QLabel, label_75)
@@ -8773,37 +8737,37 @@ msgstr "Inportatu katalogoa"
 #: ekos/align/opsastrometryindexfiles.ui:3658
 #, kde-format
 msgid "(2.5 G)"
-msgstr ""
+msgstr "(2,5 G)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4112)
 #: ekos/align/opsastrometryindexfiles.ui:698
 #, kde-format
 msgid "index-4112.fits"
-msgstr ""
+msgstr "index-4112.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5203)
 #: ekos/align/opsastrometryindexfiles.ui:767
 #, kde-format
 msgid "index-5203-*.fits"
-msgstr ""
+msgstr "index-5203-*.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4213)
 #: ekos/align/opsastrometryindexfiles.ui:836
 #, kde-format
 msgid "index-4213.fits"
-msgstr ""
+msgstr "index-4213.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4219)
 #: ekos/align/opsastrometryindexfiles.ui:843
 #, kde-format
 msgid "index-4219.fits"
-msgstr ""
+msgstr "index-4219.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4200)
 #: ekos/align/opsastrometryindexfiles.ui:850
 #, kde-format
 msgid "index-4200-*.fits"
-msgstr ""
+msgstr "index-4200-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_76)
 #. i18n: ectx: property (text), widget (QLabel, label_54)
@@ -8811,55 +8775,55 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.ui:2706
 #, kde-format
 msgid "(8.8 G)"
-msgstr ""
+msgstr "(8,8 G)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_58)
 #: ekos/align/opsastrometryindexfiles.ui:864
 #, kde-format
 msgid "(242 K)"
-msgstr ""
+msgstr "(242 K)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4217)
 #: ekos/align/opsastrometryindexfiles.ui:967
 #, kde-format
 msgid "index-4217.fits"
-msgstr ""
+msgstr "index-4217.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_63)
 #: ekos/align/opsastrometryindexfiles.ui:974
 #, kde-format
 msgid "(5.1 M)"
-msgstr ""
+msgstr "(5,1 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_45)
 #: ekos/align/opsastrometryindexfiles.ui:981
 #, kde-format
 msgid "(20 M)"
-msgstr ""
+msgstr "(20 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_67)
 #: ekos/align/opsastrometryindexfiles.ui:1050
 #, kde-format
 msgid "(90 M)"
-msgstr ""
+msgstr "(90 M)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4215)
 #: ekos/align/opsastrometryindexfiles.ui:1057
 #, kde-format
 msgid "index-4215.fits"
-msgstr ""
+msgstr "index-4215.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/align/opsastrometryindexfiles.ui:1131
 #, kde-format
 msgid "42' - 60'"
-msgstr ""
+msgstr "42' - 60'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/align/opsastrometryindexfiles.ui:1186
 #, kde-format
 msgid "16' - 22'"
-msgstr ""
+msgstr "16' - 22'"
 
 #. i18n: ectx: property (text), widget (QLabel, index_4206_info)
 #. i18n: ectx: property (text), widget (QLabel, index_4202_info)
@@ -8893,25 +8857,25 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.ui:4500
 #, kde-format
 msgid "info"
-msgstr ""
+msgstr "info"
 
 #. i18n: ectx: property (text), widget (QLabel, label_68)
 #: ekos/align/opsastrometryindexfiles.ui:1236
 #, kde-format
 msgid "(157 M)"
-msgstr ""
+msgstr "(157 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsastrometryindexfiles.ui:1248
 #, kde-format
 msgid "4.0' - 5.6'"
-msgstr ""
+msgstr "4,0' - 5,6'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_38)
 #: ekos/align/opsastrometryindexfiles.ui:1298
 #, kde-format
 msgid "(208 K)"
-msgstr ""
+msgstr "(208 K)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_55)
 #. i18n: ectx: property (text), widget (QLabel, label_78)
@@ -8919,7 +8883,7 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.ui:2334
 #, kde-format
 msgid "(13.6 G)"
-msgstr ""
+msgstr "(13,6 G)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_74)
 #. i18n: ectx: property (text), widget (QLabel, label_51)
@@ -8927,45 +8891,43 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.ui:3400
 #, kde-format
 msgid "(1.2 G)"
-msgstr ""
+msgstr "(1,2 G)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4115)
 #: ekos/align/opsastrometryindexfiles.ui:1319
 #, kde-format
 msgid "index-4115.fits"
-msgstr ""
+msgstr "index-4115.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #: ekos/align/opsastrometryindexfiles.ui:1326
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Markab"
+#, kde-format
 msgid "SkyMark"
-msgstr "Markab"
+msgstr "SkyMark"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4206)
 #: ekos/align/opsastrometryindexfiles.ui:1333
 #, kde-format
 msgid "index-4206-*.fits"
-msgstr ""
+msgstr "index-4206-*.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4218)
 #: ekos/align/opsastrometryindexfiles.ui:1340
 #, kde-format
 msgid "index-4218.fits"
-msgstr ""
+msgstr "index-4218.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_50)
 #: ekos/align/opsastrometryindexfiles.ui:1347
 #, kde-format
 msgid "(624 M)"
-msgstr ""
+msgstr "(624 M)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4201)
 #: ekos/align/opsastrometryindexfiles.ui:1485
 #, kde-format
 msgid "index-4201-*.fits"
-msgstr ""
+msgstr "index-4201-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_53)
 #. i18n: ectx: property (text), widget (QLabel, label_77)
@@ -8973,225 +8935,223 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.ui:3707
 #, kde-format
 msgid "(4.8 G)"
-msgstr ""
+msgstr "(4,8 G)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4108)
 #: ekos/align/opsastrometryindexfiles.ui:1499
 #, kde-format
 msgid "index-4108.fits"
-msgstr ""
+msgstr "index-4108.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4208)
 #: ekos/align/opsastrometryindexfiles.ui:1506
 #, kde-format
 msgid "index-4208.fits"
-msgstr ""
+msgstr "index-4208.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4207)
 #: ekos/align/opsastrometryindexfiles.ui:1513
 #, kde-format
 msgid "index-4207-*.fits"
-msgstr ""
+msgstr "index-4207-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_40)
 #: ekos/align/opsastrometryindexfiles.ui:1706
 #, kde-format
 msgid "(582 K)"
-msgstr ""
+msgstr "(582 K)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4110)
 #: ekos/align/opsastrometryindexfiles.ui:1809
 #, kde-format
 msgid "index-4110.fits"
-msgstr ""
+msgstr "index-4110.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4109)
 #: ekos/align/opsastrometryindexfiles.ui:1816
 #, kde-format
 msgid "index-4109.fits"
-msgstr ""
+msgstr "index-4109.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4212)
 #: ekos/align/opsastrometryindexfiles.ui:1823
 #, kde-format
 msgid "index-4212.fits"
-msgstr ""
+msgstr "index-4212.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_60)
 #: ekos/align/opsastrometryindexfiles.ui:1830
 #, kde-format
 msgid "(723 K)"
-msgstr ""
+msgstr "(723 K)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4203)
 #: ekos/align/opsastrometryindexfiles.ui:1837
 #, kde-format
 msgid "index-4203-*.fits"
-msgstr ""
+msgstr "index-4203-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
 #: ekos/align/opsastrometryindexfiles.ui:2030
 #, kde-format
 msgid "(160 K)"
-msgstr ""
+msgstr "(160 K)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsastrometryindexfiles.ui:2042
 #, kde-format
 msgid "2.0' - 2.8'"
-msgstr ""
+msgstr "2,0' - 2,8'"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4209)
 #: ekos/align/opsastrometryindexfiles.ui:2092
 #, kde-format
 msgid "index-4209.fits"
-msgstr ""
+msgstr "index-4209.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4205)
 #: ekos/align/opsastrometryindexfiles.ui:2106
 #, kde-format
 msgid "index-4205-*.fits"
-msgstr ""
+msgstr "index-4205-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/align/opsastrometryindexfiles.ui:2113
 #, kde-format
 msgid "(332 K)"
-msgstr ""
+msgstr "(332 K)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4214)
 #: ekos/align/opsastrometryindexfiles.ui:2182
 #, kde-format
 msgid "index-4214.fits"
-msgstr ""
+msgstr "index-4214.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4107)
 #: ekos/align/opsastrometryindexfiles.ui:2189
 #, kde-format
 msgid "index-4107.fits"
-msgstr ""
+msgstr "index-4107.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4114)
 #: ekos/align/opsastrometryindexfiles.ui:2258
 #, kde-format
 msgid "index-4114.fits"
-msgstr ""
+msgstr "index-4114.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_44)
 #: ekos/align/opsastrometryindexfiles.ui:2265
 #, kde-format
 msgid "(7.6 M)"
-msgstr ""
+msgstr "(7,6 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/align/opsastrometryindexfiles.ui:2277
 #, kde-format
 msgid "5.6' - 8.0'"
-msgstr ""
+msgstr "5,6' - 8,0'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_43)
 #: ekos/align/opsastrometryindexfiles.ui:2327
 #, kde-format
 msgid "(4 M)"
-msgstr ""
+msgstr "(4 M)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5206)
 #: ekos/align/opsastrometryindexfiles.ui:2437
 #, kde-format
 msgid "index-5206-*.fits"
-msgstr ""
+msgstr "index-5206-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/align/opsastrometryindexfiles.ui:2444
 #, kde-format
 msgid "240' - 340'"
-msgstr ""
+msgstr "240' - 340'"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4117)
 #: ekos/align/opsastrometryindexfiles.ui:2575
 #, kde-format
 msgid "index-4117.fits"
-msgstr ""
+msgstr "index-4117.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/align/opsastrometryindexfiles.ui:2656
 #, kde-format
 msgid "11' - 16'"
-msgstr ""
+msgstr "11' - 16'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/align/opsastrometryindexfiles.ui:2718
 #, kde-format
 msgid "30' - 42'"
-msgstr ""
+msgstr "30' - 42'"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4119)
 #: ekos/align/opsastrometryindexfiles.ui:2768
 #, kde-format
 msgid "index-4119.fits"
-msgstr ""
+msgstr "index-4119.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/align/opsastrometryindexfiles.ui:2780
 #, kde-format
 msgid "2.8' - 4.0'"
-msgstr ""
+msgstr "2,8' - 4,0'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_61)
 #: ekos/align/opsastrometryindexfiles.ui:2830
 #, kde-format
 msgid "(1.3 M)"
-msgstr ""
+msgstr "(1,3 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_49)
 #: ekos/align/opsastrometryindexfiles.ui:2878
 #, kde-format
 msgid "(312 M)"
-msgstr ""
+msgstr "(312 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_69)
 #: ekos/align/opsastrometryindexfiles.ui:2885
-#, fuzzy, kde-format
-#| msgid "Diameter:"
+#, kde-format
 msgid "Diameters"
-msgstr "Diametroa:"
+msgstr "Diametroak"
 
 #. i18n: ectx: property (text), widget (QLabel, label_48)
 #: ekos/align/opsastrometryindexfiles.ui:2892
 #, kde-format
 msgid "(156 M)"
-msgstr ""
+msgstr "(156 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: ekos/align/opsastrometryindexfiles.ui:2899
-#, fuzzy, kde-format
-#| msgid "arcminutes"
+#, kde-format
 msgid "(arcminutes)"
-msgstr "arku-minutuak"
+msgstr "(arku-minutuak)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_47)
 #: ekos/align/opsastrometryindexfiles.ui:2906
 #, kde-format
 msgid "(78 M)"
-msgstr ""
+msgstr "(78 M)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4211)
 #: ekos/align/opsastrometryindexfiles.ui:2913
 #, kde-format
 msgid "index-4211.fits"
-msgstr ""
+msgstr "index-4211.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4216)
 #: ekos/align/opsastrometryindexfiles.ui:2982
 #, kde-format
 msgid "index-4216.fits"
-msgstr ""
+msgstr "index-4216.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/align/opsastrometryindexfiles.ui:3175
 #, kde-format
 msgid "340' - 480'"
-msgstr ""
+msgstr "340' - 480'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_134)
 #. i18n: ectx: property (text), widget (QLabel, label_135)
@@ -9205,61 +9165,61 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.ui:3192
 #, kde-format
 msgid "index-4202-*.fits"
-msgstr ""
+msgstr "index-4202-*.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4111)
 #: ekos/align/opsastrometryindexfiles.ui:3199
 #, kde-format
 msgid "index-4111.fits"
-msgstr ""
+msgstr "index-4111.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/align/opsastrometryindexfiles.ui:3206
 #, kde-format
 msgid "1000' - 1400'"
-msgstr ""
+msgstr "1000' - 1400'"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4113)
 #: ekos/align/opsastrometryindexfiles.ui:3227
 #, kde-format
 msgid "index-4113.fits"
-msgstr ""
+msgstr "index-4113.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/align/opsastrometryindexfiles.ui:3234
 #, kde-format
 msgid "1400' - 2000'"
-msgstr ""
+msgstr "1400' - 2000'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsastrometryindexfiles.ui:3241
 #, kde-format
 msgid "680' - 1000'"
-msgstr ""
+msgstr "680' - 1000'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_29)
 #: ekos/align/opsastrometryindexfiles.ui:3248
 #, kde-format
 msgid "(129 K)"
-msgstr ""
+msgstr "(129 K)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_46)
 #: ekos/align/opsastrometryindexfiles.ui:3324
 #, kde-format
 msgid "(39 M)"
-msgstr ""
+msgstr "(39 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_57)
 #: ekos/align/opsastrometryindexfiles.ui:3393
 #, kde-format
 msgid "(183 K)"
-msgstr ""
+msgstr "(183 K)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/align/opsastrometryindexfiles.ui:3412
 #, kde-format
 msgid "8' - 11'"
-msgstr ""
+msgstr "8' - 11'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: ekos/align/opsastrometryindexfiles.ui:3462
@@ -9272,109 +9232,109 @@ msgstr "&Izarren katalogoak"
 #: ekos/align/opsastrometryindexfiles.ui:3472
 #, kde-format
 msgid "index-5205-*.fits"
-msgstr ""
+msgstr "index-5205-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_59)
 #: ekos/align/opsastrometryindexfiles.ui:3479
 #, kde-format
 msgid "(399 K)"
-msgstr ""
+msgstr "(399 K)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/align/opsastrometryindexfiles.ui:3520
 #, kde-format
 msgid "480' - 680'"
-msgstr ""
+msgstr "480' - 680'"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4116)
 #: ekos/align/opsastrometryindexfiles.ui:3589
 #, kde-format
 msgid "index-4116.fits"
-msgstr ""
+msgstr "index-4116.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4118)
 #: ekos/align/opsastrometryindexfiles.ui:3665
 #, kde-format
 msgid "index-4118.fits"
-msgstr ""
+msgstr "index-4118.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5204)
 #: ekos/align/opsastrometryindexfiles.ui:3672
 #, kde-format
 msgid "index-5204-*.fits"
-msgstr ""
+msgstr "index-5204-*.fits"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5201)
 #: ekos/align/opsastrometryindexfiles.ui:3679
 #, kde-format
 msgid "index-5201-*.fits"
-msgstr ""
+msgstr "index-5201-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_64)
 #: ekos/align/opsastrometryindexfiles.ui:3686
 #, kde-format
 msgid "(9.7 M)"
-msgstr ""
+msgstr "(9,7 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_41)
 #: ekos/align/opsastrometryindexfiles.ui:3693
 #, kde-format
 msgid "(1 M)"
-msgstr ""
+msgstr "(1 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_72)
 #: ekos/align/opsastrometryindexfiles.ui:3700
 #, kde-format
 msgid "(310 M)"
-msgstr ""
+msgstr "(310 M)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_4204)
 #: ekos/align/opsastrometryindexfiles.ui:3714
 #, kde-format
 msgid "index-4204-*.fits"
-msgstr ""
+msgstr "index-4204-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/align/opsastrometryindexfiles.ui:3726
 #, kde-format
 msgid "85' - 120'"
-msgstr ""
+msgstr "85' - 120'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_42)
 #: ekos/align/opsastrometryindexfiles.ui:3872
 #, kde-format
 msgid "(2.1 M)"
-msgstr ""
+msgstr "(2,1 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_66)
 #: ekos/align/opsastrometryindexfiles.ui:3879
 #, kde-format
 msgid "(47 M)"
-msgstr ""
+msgstr "(47 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_62)
 #: ekos/align/opsastrometryindexfiles.ui:3948
 #, kde-format
 msgid "(2.6 M)"
-msgstr ""
+msgstr "(2,6 M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_56)
 #: ekos/align/opsastrometryindexfiles.ui:3955
 #, kde-format
 msgid "(141 K)"
-msgstr ""
+msgstr "(141 K)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5202)
 #: ekos/align/opsastrometryindexfiles.ui:3962
 #, kde-format
 msgid "index-5202-*.fits"
-msgstr ""
+msgstr "index-5202-*.fits"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/align/opsastrometryindexfiles.ui:3974
 #, kde-format
 msgid "22' - 30'"
-msgstr ""
+msgstr "22' - 30'"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: ekos/align/opsprograms.ui:17
@@ -9398,36 +9358,33 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:32
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Linux Default"
-msgstr "Lehenetsia"
+msgstr "Linuxerako lehenetsia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:37
 #, kde-format
 msgid "Linux KStars Internal "
-msgstr ""
+msgstr "Linux KStars barnekoa"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:42
 #, kde-format
 msgid "Mac Homebrew"
-msgstr ""
+msgstr "Mac Homebrew"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:47
-#, fuzzy, kde-format
-#| msgid "Window size: "
+#, kde-format
 msgid "Windows ANSVR"
-msgstr "Leihoaren tamaina:"
+msgstr "Windows ANSVR"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:52
-#, fuzzy, kde-format
-#| msgid "Window title"
+#, kde-format
 msgid "Windows Cygwin"
-msgstr "Leihoaren titulua"
+msgstr "Windows Cygwin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/align/opsprograms.ui:63
@@ -34550,10 +34507,9 @@ msgstr "Planeta txikiak"
 # WUT: What's Up Tonight
 # ZBGG: Ze Berri Gaur Gauean
 #: kspopupmenu.cpp:443
-#, fuzzy, kde-format
-#| msgid "What's up Tonight..."
+#, kde-format
 msgid "View in What's Interesting"
-msgstr "Ze berri gaur gauean..."
+msgstr "Ikusi \"Interesgarria dena\"n"
 
 #: kspopupmenu.cpp:456
 #, fuzzy, kde-format
@@ -78173,19 +78129,17 @@ msgstr "Erakutsi/Ezkutatu supernova"
 # WUT: What's Up Tonight
 # ZBGG: Ze Berri Gaur Gauean
 #: kstarsinit.cpp:640
-#, fuzzy, kde-format
-#| msgid "What's up Tonight..."
+#, kde-format
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
-msgstr "Ze berri gaur gauean..."
+msgstr "Interesgarria dena"
 
 # WUT: What's Up Tonight
 # ZBGG: Ze Berri Gaur Gauean
 #: kstarsinit.cpp:642
-#, fuzzy, kde-format
-#| msgid "What's up Tonight..."
+#, kde-format
 msgid "Toggle What's Interesting"
-msgstr "Ze berri gaur gauean..."
+msgstr "Txandakatu Interesgarria dena"
 
 #: kstarsinit.cpp:647
 #, fuzzy, kde-format
@@ -94646,7 +94600,7 @@ msgstr "Zehaztu pantaila mugitzean objektuak ezkutatuko diren ala ez"
 #: tools/scriptbuilder.cpp:599
 #, kde-format
 msgid "Timestep threshold (in seconds) for hiding objects"
-msgstr "Objektuak ezkutatzeko denbora-pausoaren muga (segundutan)"
+msgstr "Objektuak ezkutatzeko denbora-urrats atalasea (segundotan)"
 
 #: tools/scriptbuilder.cpp:599 tools/scriptbuilder.cpp:638
 #: tools/scriptbuilder.cpp:641 tools/scriptbuilder.cpp:706
@@ -96086,12 +96040,12 @@ msgstr "urte"
 #: widgets/timestepbox.cpp:22
 #, kde-format
 msgid "Adjust time step"
-msgstr "Doitu denbora-pausoa"
+msgstr "Doitu denbora-urratsa"
 
 #: widgets/timestepbox.cpp:23
 #, kde-format
 msgid "Adjust time step units"
-msgstr "Doitu denbora-pausoaren unitateak"
+msgstr "Doitu denbora-urratsaren unitateak"
 
 #: widgets/timestepbox.cpp:26
 #, kde-format
@@ -96115,11 +96069,11 @@ msgstr ""
 "atzerantz ibili araziko dute.\n"
 "\n"
 "Bi gorantz/behera botoi pare daude. Ezkerreko pareak eskuragarri dauden "
-"denbora-pausoen sekuentzian zehar ziklo bat eginez ibiliko da. Denbora-pauso "
-"kopuru handia dagoenez, eskuineko pareak hurrengo altuago/bauxago denbora "
-"unitatera joko du. Adibidez, denbora-eskala \"1 min\" bada, eskuineko "
-"gorantz botoiak \"1 ordu\" eskalara eramango zaitu, eta eskuineko beherantz "
-"boroiak aldiz, \"1 seg\"-ra."
+"denbora-pausoen sekuentzian zehar ziklo bat eginez ibiliko da. Denbora-"
+"urrats kopuru handia dagoenez, eskuineko pareak hurrengo altuago/bauxago "
+"denbora unitatera joko du. Adibidez, denbora-eskala \"1 min\" bada, "
+"eskuineko gorantz botoiak \"1 ordu\" eskalara eramango zaitu, eta eskuineko "
+"beherantz boroiak aldiz, \"1 seg\"-ra."
 
 #: widgets/timeunitbox.cpp:29
 #, kde-format
