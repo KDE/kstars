@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-07-28 01:55+0000\n"
-"PO-Revision-Date: 2025-07-29 20:07+0200\n"
+"PO-Revision-Date: 2025-07-30 16:02+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -18948,12 +18948,12 @@ msgstr "Hittade slutligen temperaturkälla %1"
 #: ekos/focus/focus.cpp:1079
 #, kde-format
 msgid "Delete the corresponding focus frames?"
-msgstr "Ta bort motsvarande fokuseringsbildrutor?"
+msgstr "Ta bort motsvarande fokuseringsbilder?"
 
 #: ekos/focus/focus.cpp:1079
 #, kde-format
 msgid "Delete focus frames?"
-msgstr "Ta bort fokuseringsbildrutor?"
+msgstr "Ta bort fokuseringsbilder?"
 
 #: ekos/focus/focus.cpp:1098
 #, kde-format
@@ -19485,7 +19485,7 @@ msgstr "Begäran om justering av fokus: Väntar 10 s på att %1 ska bli färdig.
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
-msgstr "Fokusbild"
+msgstr "Fokuseringsbild"
 
 #: ekos/focus/focus.cpp:6113
 #, kde-format
@@ -21469,8 +21469,8 @@ msgid ""
 "Upper limit how many focus frames should be kept on disk. Set to -1 to allow "
 "arbitrary many files."
 msgstr ""
-"Övre gräns för hur många fokuseringsbildrutor som ska sparas på disken. "
-"Ställ in till -1 för att tillåta godtyckligt antal filer."
+"Övre gräns för hur många fokuseringsbilder som ska sparas på disken. Ställ "
+"in till -1 för att tillåta godtyckligt antal filer."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocussettings.ui:290
@@ -30851,7 +30851,7 @@ msgstr "Katalogobjekt"
 #: fitsviewer/fitstab.cpp:154
 #, kde-format
 msgid "Live Stacking"
-msgstr ""
+msgstr "Realtidsstapling"
 
 #: fitsviewer/fitstab.cpp:167
 #, kde-format
@@ -30995,25 +30995,25 @@ msgstr "Minne"
 #, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
-msgstr ""
+msgstr "Staplingskatalog"
 
 #: fitsviewer/fitstab.cpp:1040
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
-msgstr ""
+msgstr "Välj inriktningsdel"
 
 #: fitsviewer/fitstab.cpp:1054
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Master Dark"
-msgstr ""
+msgstr "Välj mörk huvudbild"
 
 #: fitsviewer/fitstab.cpp:1068
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Master Flat"
-msgstr ""
+msgstr "Välj plan huvudbild"
 
 #: fitsviewer/fitstab.cpp:1170 fitsviewer/fitstab.cpp:1174
 #, kde-format
@@ -31039,12 +31039,12 @@ msgstr "Fil sparad till %1"
 #: fitsviewer/fitstab.cpp:1303
 #, kde-format
 msgid "Watching %1"
-msgstr ""
+msgstr "Betraktar %1"
 
 #: fitsviewer/fitstab.cpp:1441
 #, kde-format
 msgid "(%1) Watching %2"
-msgstr ""
+msgstr "(%1) Betraktar %2"
 
 #: fitsviewer/fitstab.cpp:1443
 #, kde-format
@@ -31204,7 +31204,7 @@ msgstr "Öppna/blinkningskatalog"
 #: fitsviewer/fitsviewer.cpp:145 kstarsinit.cpp:164
 #, kde-format
 msgid "Live Stacker..."
-msgstr ""
+msgstr "Realtidsstapling..."
 
 #: fitsviewer/fitsviewer.cpp:166
 #, kde-format
@@ -31285,7 +31285,7 @@ msgstr "Visa tredimensionellt diagram"
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker"
-msgstr ""
+msgstr "Kstars realtidsstapling"
 
 #: fitsviewer/fitsviewer.cpp:351
 #, kde-format
@@ -31378,22 +31378,22 @@ msgstr "Öppna bild"
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker (BETA)"
-msgstr ""
+msgstr "Kstars realtidsstapling (beta)"
 
 #: fitsviewer/fitsviewer.cpp:1173
 #, kde-format
 msgid "Stacking..."
-msgstr ""
+msgstr "Stapling..."
 
 #: fitsviewer/fitsviewer.cpp:1181
 #, kde-format
 msgid "Stacking Failed"
-msgstr ""
+msgstr "Stapling misslyckades"
 
 #: fitsviewer/fitsviewer.cpp:1199
 #, kde-format
 msgid "Stacking Complete"
-msgstr ""
+msgstr "Stapling färdig"
 
 #: fitsviewer/fitsviewer.cpp:1473
 #, kde-format
@@ -31474,7 +31474,7 @@ msgstr "Behandlar %1..."
 #: fitsviewer/livestacking.ui:86
 #, kde-format
 msgid "Master Flat:"
-msgstr ""
+msgstr "Plan huvudbild:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterFlatB)
 #: fitsviewer/livestacking.ui:102
@@ -31482,6 +31482,7 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Flat</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Filväljardialog för plan huvudbild</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
 #: fitsviewer/livestacking.ui:121
@@ -31490,6 +31491,8 @@ msgid ""
 "<html><head/><body><p>The Master Flat to use to calibrate lights.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Plan huvudbild att använda för att kalibrera ljus.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDark)
 #: fitsviewer/livestacking.ui:162
@@ -31498,6 +31501,8 @@ msgid ""
 "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Mörk huvudbild att använda för att kalibrera ljus.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterDarkB)
 #: fitsviewer/livestacking.ui:181
@@ -31505,12 +31510,13 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Filväljardialog för mörk huvudbild</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:203
 #, kde-format
 msgid "Stacking"
-msgstr ""
+msgstr "Stapling"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #: fitsviewer/livestacking.ui:233
@@ -31519,12 +31525,14 @@ msgid ""
 "<html><head/><body><p>Value of High Sigma to be used in pixel rejection.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Värdet på höga sigma att använda för att förkasta "
+"bildpunkter.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
 #: fitsviewer/livestacking.ui:252
 #, kde-format
 msgid "Low Sigma:"
-msgstr ""
+msgstr "Låga sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #: fitsviewer/livestacking.ui:274
@@ -31536,18 +31544,24 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Det maximala antalet delbilder som lagras i minnet "
+"under bearbetning. Ju större värde, desto bättre kvalitet på "
+"staplingsprocessen, men på bekostnad av mer bearbetningstid och "
+"minnesanvändning.</p><p><br/></p><p>Processer som sigmaklippning använder så "
+"här många delbilder för att beräkna statistik som ska användas på alla "
+"delbilder.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:302
 #, kde-format
 msgid "In Memory Subs:"
-msgstr ""
+msgstr "Delbilder i minne:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:318
 #, kde-format
 msgid "High Sigma:"
-msgstr ""
+msgstr "Höga sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #: fitsviewer/livestacking.ui:340
@@ -31556,6 +31570,8 @@ msgid ""
 "<html><head/><body><p>Value of Low Sigma to be used in pixel rejection.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Värdet på låga sigma att använda för att förkasta "
+"bildpunkter.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:365
@@ -31572,6 +31588,10 @@ msgid ""
 "Subs and masters are downscaled 3x3.</p><p>- 4x4. Subs and masters are "
 "downscaled 4x4.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Skala ner bilder:</p><p>- Ingen. Ingen nedskalning "
+"utförs.</p><p>- 2 x 2. Delbilder och huvudbild skalas ner med 2 x 2.</p><p>- "
+"3 x 3. Delbilder och huvudbild skalas ner med 3 x 3.</p><p>- 4 x 4. "
+"Delbilder och huvudbild skalas ner med 4 x 4.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:392
@@ -31588,6 +31608,10 @@ msgid ""
 "Num Stars. Frames are weighted by the number of stars detected in the frame."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Bildviktning:</p><p>- Lika. Alla bildrutor har samma "
+"vikt.</p><p>- HFR. Bilder viktas med 1 / HFR-medelvärde.</p><p>- Antal "
+"stjärnor. Bildrutor viktas med antal stjärnor detekterade i bildrutan.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:421
@@ -31599,7 +31623,7 @@ msgstr "Lika"
 #: fitsviewer/livestacking.ui:445
 #, kde-format
 msgid "Frame Weight:"
-msgstr "Bildvikt:"
+msgstr "Bildviktning:"
 
 #. i18n: ectx: property (text), widget (QLabel, pixelRejLabel)
 #: fitsviewer/livestacking.ui:461
@@ -31616,24 +31640,28 @@ msgid ""
 "Winsorized Sigma Clipping. Winsorized version of sigma clipping</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Algoritm för bildpunktsavvisning:</p><p>- Ingen. Ingen "
+"avvisning utförs.</p><p>- Sigmaklippning. Utliggande bildpunkter avvisas.</"
+"p><p>- Winsoriserad sigmaklippning. Winsoriserad version of sigmaklippning</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:498
 #, kde-format
 msgid "Sigma Clipping"
-msgstr ""
+msgstr "Sigmaklippning"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:503
 #, kde-format
 msgid "Winsorized SC"
-msgstr ""
+msgstr "Winsoriserad SK"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:523
 #, kde-format
 msgid "Winsor Cutoff:"
-msgstr ""
+msgstr "Winsorgränsvärde:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #: fitsviewer/livestacking.ui:545
@@ -31642,6 +31670,8 @@ msgid ""
 "<html><head/><body><p>Winsorization cutoff in units of sigma to be used in "
 "pixel rejection.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Gränsvärde för Winsorisering i sigmaenheter att "
+"användas vid bildpunktsavvisning.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, AlignMethod)
 #: fitsviewer/livestacking.ui:597
@@ -31652,6 +31682,10 @@ msgid ""
 "will be plate solved in order to align them prior to stacking.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Inriktningsmetod:</p><p>- Ingen. Ingen inriktning "
+"utförs. Användbart för att stapla mörka och plana bilder.</p><p>- Analys av "
+"astrobilder. Delbilder analyseras för att rikta in dem innan stapling.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AlignMaster)
 #: fitsviewer/livestacking.ui:626
@@ -31660,6 +31694,8 @@ msgid ""
 "<html><head/><body><p>The sub to use as reference to align all other subs.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Delbilden att använda för att rikta in alla andra "
+"delbilder.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AlignMasterB)
 #: fitsviewer/livestacking.ui:642
@@ -31668,12 +31704,14 @@ msgid ""
 "<html><head/><body><p>File chooser dialog for Alignment Master</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Filväljardialog för inriktningshuvudbild</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:689
 #, kde-format
 msgid "Master Sub:"
-msgstr ""
+msgstr "Huvuddel:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #: fitsviewer/livestacking.ui:708
@@ -31691,7 +31729,7 @@ msgstr "Brusreduceringsvärde:"
 #: fitsviewer/livestacking.ui:766
 #, kde-format
 msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Skärpningskärnstorlek.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
 #: fitsviewer/livestacking.ui:794
@@ -31702,6 +31740,10 @@ msgid ""
 "amount) of the original image.</p><p>Set to 0 to switch deconvolution off.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Värdet på Wiener-avfaltning att införa i intervallet 0 "
+"till 1. Funktionen blandar den avfaltade bildens värde med originalbildens "
+"(1 - värde).</p><p>Ställ in till 0 för att stänga av avfaltning.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DenoiseAmt)
 #: fitsviewer/livestacking.ui:819
@@ -31710,6 +31752,9 @@ msgid ""
 "<html><head/><body><p>Amount of denoise to apply. Larger values apply more "
 "denoising.</p><p>Set to 0 to skip denoising</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Värdet på brusreducering att använda. Större värden "
+"ger högre brusreducering.</p><p>Ställ in till 0 för att hoppa över "
+"brusreducering</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:848
@@ -31721,31 +31766,31 @@ msgstr "Kärna:"
 #: fitsviewer/livestacking.ui:870
 #, kde-format
 msgid "Sharpen Sigma:"
-msgstr ""
+msgstr "Skärpningssigma:"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:892
 #, kde-format
 msgid "PSF Sigma:"
-msgstr ""
+msgstr "PSF-sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
 #: fitsviewer/livestacking.ui:914
 #, kde-format
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Skärpningssigma.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
 #: fitsviewer/livestacking.ui:939
 #, kde-format
 msgid "Sharpen Amount:"
-msgstr ""
+msgstr "Skärpningsvärde:"
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
 #: fitsviewer/livestacking.ui:961
 #, kde-format
 msgid "Deconv Amount:"
-msgstr ""
+msgstr "Avfaltningsvärde:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
 #: fitsviewer/livestacking.ui:983
@@ -31753,6 +31798,7 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>PSF Sigma to use for Deconvolution</p></body></html>"
 msgstr ""
+"<html><head/><body><p>PSF-sigma att använda för avfaltning</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
 #: fitsviewer/livestacking.ui:1008
@@ -31761,6 +31807,9 @@ msgid ""
 "<html><head/><body><p>Amount of sharpening to apply. Larger values apply "
 "more sharpening.</p><p>Set to 0 to skip sharpening.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Värdet på skärpning att använda. Större värden ger "
+"högre skärpning.</p><p>Ställ in till 0 för att hoppa över skärpning.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1037
@@ -31779,18 +31828,19 @@ msgstr "Behandla om"
 #, kde-format
 msgid "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Katalogväljardialogruta för stapling</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1111
 #, kde-format
 msgid "Stack Directory:"
-msgstr ""
+msgstr "Staplingskatalog:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1133
 #, kde-format
 msgid "Number of subs successfully processed / failed / total"
-msgstr ""
+msgstr "Antal lyckade behandlade delbilder / misslyckade / totalt"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
@@ -31803,13 +31853,13 @@ msgstr "0 / 0 / 0"
 #: fitsviewer/livestacking.ui:1155
 #, kde-format
 msgid "Proc / Fail / Total:"
-msgstr ""
+msgstr "Behandlade / Misslyckade / Totalt:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1174
 #, kde-format
 msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
-msgstr ""
+msgstr "Signal-brusförhållande max / min / medel av behandlade delbilder"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Stack)
 #: fitsviewer/livestacking.ui:1196
@@ -31818,12 +31868,14 @@ msgid ""
 "<html><head/><body><p>The directory containing files to stack</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Katalogen som innehåller filer att stapla</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1218
 #, kde-format
 msgid "SNR Av / Min / Max:"
-msgstr ""
+msgstr "Signal-brus medel / min / max:"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:1231
@@ -31844,18 +31896,21 @@ msgid ""
 "<html><head/><body><p>Starts watching the Stack Directory and runs stacking."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Börjar betrakta stapllingskatalogen och utför stapling."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:1285
 #, kde-format
 msgid "<html><head/><body><p>Memory monitor</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Minnesövervakning</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1304
 #, kde-format
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Spara realtidsstaplingsparametrar</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1307
@@ -31961,12 +32016,14 @@ msgid ""
 "<html><head/><body><p>Run Live Stacker as a separate process.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Kör realtidsstapling som en separat process.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_liveStackerOwnProcess)
 #: fitsviewer/opsfits.ui:135
 #, kde-format
 msgid "Live Stacker own process"
-msgstr ""
+msgstr "Realtidsstapling egen process"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:144
@@ -34503,7 +34560,7 @@ msgstr "Kstars"
 #: kstars.cpp:291
 #, kde-format
 msgid "KStars Live Stacker"
-msgstr ""
+msgstr "Kstars realtidsstapling"
 
 #: kstars.cpp:292
 #, kde-format
@@ -34972,13 +35029,13 @@ msgstr "Visa INDI-fönstret när EKOS startas"
 #: kstars.kcfg:210
 #, kde-format
 msgid "Limit for saved focus frames"
-msgstr ""
+msgstr "Gräns för sparade fokuseringsbilder"
 
 #. i18n: ectx: whatsthis, entry (maxFocusFrameFiles), group (indi)
 #: kstars.kcfg:211
 #, kde-format
 msgid "Upper limit how many focus frames should be kept on disk."
-msgstr ""
+msgstr "Övre gräns för hur många fokuseringsbilder som ska sparas på disken."
 
 #. i18n: ectx: label, entry (messageNotificationINDI), group (indi)
 #: kstars.kcfg:215
@@ -38527,7 +38584,7 @@ msgstr "Gör FITS-visningens fönster oberoende av Kstars huvudfönster"
 #: kstars.kcfg:1701
 #, kde-format
 msgid "Run Live Stacker as a separate process"
-msgstr ""
+msgstr "Kör realtidsstapling som en separat process"
 
 #. i18n: ectx: label, entry (AutoDebayer), group (FITSViewer)
 #: kstars.kcfg:1705
@@ -38675,97 +38732,97 @@ msgstr "Positionsradie (grader) att använda vid lösning med FITS-visning."
 #: kstars.kcfg:1790
 #, kde-format
 msgid "Live Stacking master dark"
-msgstr ""
+msgstr "Mörk huvudbild för realtidsstapling"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterFlat), group (FITSViewer)
 #: kstars.kcfg:1794
 #, kde-format
 msgid "Live Stacking master flat"
-msgstr ""
+msgstr "Plan huvudbild för realtidsstapling"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1798
 #, kde-format
 msgid "Live Stacking alignment method"
-msgstr ""
+msgstr "Inriktningsmetod för realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSNumInMem), group (FITSViewer)
 #: kstars.kcfg:1802
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
-msgstr ""
+msgstr "Maximalt antal delbilder att hålla i minne för realtidsstapling"
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
 #: kstars.kcfg:1806
 #, kde-format
 msgid "Live Stacking downscale factor"
-msgstr ""
+msgstr "Nerskalningsfaktor för realtidsstapling"
 
 #. i18n: ectx: whatsthis, entry (fitsLSWeighting), group (FITSViewer)
 #: kstars.kcfg:1810
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr ""
+msgstr "Delviktning för realtidsstapling"
 
 #. i18n: ectx: whatsthis, entry (fitsLSRejection), group (FITSViewer)
 #: kstars.kcfg:1814
 #, kde-format
 msgid "Live Stacking pixel rejection mechanism"
-msgstr ""
+msgstr "Bildpunktsavvisningsmekanism för realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1818
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
-msgstr ""
+msgstr "Låg sigma bildpunktsavvisningskriterier för realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1822
 #, kde-format
 msgid "Live Stacking high sigma pixel rejection criteria"
-msgstr ""
+msgstr "Hög sigma bildpunktsavvisningskriterier för realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSWinsorCutoff), group (FITSViewer)
 #: kstars.kcfg:1826
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr ""
+msgstr "Sigma Windzor-klippningsgräns för realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1830
 #, kde-format
 msgid "Live Stacking deconvolution amount"
-msgstr ""
+msgstr "Avfaltningsvärde för realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSPSFSigma), group (FITSViewer)
 #: kstars.kcfg:1834
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr ""
+msgstr "PSF-sigma att använda i avfaltning för realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1838
 #, kde-format
 msgid "Live Stacking denoise amount"
-msgstr ""
+msgstr "Brusreduceringsvärde för realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSSharpenAmt), group (FITSViewer)
 #: kstars.kcfg:1842
 #, kde-format
 msgid "Live Stacking sharpen amount"
-msgstr ""
+msgstr "Skärpningsvärde för realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1846
 #, kde-format
 msgid "Live Stacking sharpening kernel size"
-msgstr ""
+msgstr "Skärpningskärnstorlek för realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1850
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr ""
+msgstr "Skärpningssigma för realtidsstapling"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1856
@@ -76606,7 +76663,7 @@ msgstr "Starta med stillastående klocka."
 #: main.cpp:206
 #, kde-format
 msgid "Run Live Stacker standalone mode"
-msgstr ""
+msgstr "Kör realtidsstapling i fristående läge"
 
 #: main.cpp:209
 #, kde-format
@@ -78090,6 +78147,8 @@ msgid ""
 "<html><head/><body><p>Option replaced by the <span style=\" font-weight:600;"
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Alternativ ersatt av <span style=\" font-weight:600;"
+"\">max. fokuseringsbild</span> i fokuseringsinställningarna.</"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:48
