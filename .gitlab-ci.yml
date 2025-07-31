@@ -47,11 +47,12 @@ suse_tumbleweed_qt69:
     - !reference [.standard-build-recipes, rules]
 
 windows_qt68:
-  allow_failure: true # TODO: REMOVE WHEN STELLARSOLVER IS INCLUDED IN CI IMAGE
+  allow_failure: true # TODO: REMOVE WHEN STELLARSOLVER QT6 IS INCLUDED IN CI IMAGE
   rules:
     - !reference [.standard-build-recipes, rules]
 
 suse_tumbleweed_qt515:
+  allow_failure: true # TODO: REMOVE WHEN STELLARSOLVER QT5 IS INCLUDED IN CI IMAGE
   rules:
     - !reference [.standard-build-recipes, rules]
 
