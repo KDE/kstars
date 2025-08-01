@@ -124,7 +124,7 @@ craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.y
 
 .custom_build:
   interruptible: true
-  image: tallfurryman/kstars-ci:latest
+  image: tallfurryman/kstars-ci:0.15-qt6
   variables:
     CCACHE_BASEDIR: "$CI_PROJECT_DIR"
     QT_TEST_TIMEOUT_FUNCTION: "600"
