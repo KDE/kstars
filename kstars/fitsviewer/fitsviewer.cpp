@@ -1116,6 +1116,7 @@ void FITSViewer::openFile()
 // Launch the Live Stacking functionality...
 void FITSViewer::stack()
 {
+#if defined(HAVE_CFITSIO) && defined(HAVE_WCSLIB) && defined(HAVE_OPENCV)
     if (m_StackBusy)
         return;
     m_StackBusy = true;
@@ -1161,6 +1162,7 @@ void FITSViewer::stack()
         m_StackBusy = false;
     });
     tab->initStack(topDir, FITS_LIVESTACKING, FITS_NONE);
+#endif // defined(HAVE_CFITSIO) && defined(HAVE_WCSLIB) && defined(HAVE_OPENCV)
 }
 
 // Called when a stacking operation is in motion...
