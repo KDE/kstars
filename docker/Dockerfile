@@ -19,7 +19,8 @@ RUN apt update && apt -y install --no-install-recommends \
       wcslib-dev \
       libraw-dev \
       libgsl-dev \
-      libsecret-1-dev
+      libsecret-1-dev \
+      libopencv-dev
 RUN apt update && apt -y install --no-install-recommends \
       qt6-base-dev \
       qt6-declarative-dev \
