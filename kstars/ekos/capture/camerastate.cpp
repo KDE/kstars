@@ -41,7 +41,7 @@ CameraState::CameraState(QObject *parent): QObject{parent}
     init();
 }
 
-QList<QSharedPointer<SequenceJob>> &CameraState::allJobs()
+QList<QSharedPointer<SequenceJob >> &CameraState::allJobs()
 {
     return m_sequenceQueue->allJobs();
 }
@@ -505,6 +505,9 @@ void CameraState::updateMeridianFlipStage(const MeridianFlipState::MFStage &stag
 
             getMeridianFlipState()->processFlipCompleted();
 
+            // Reset alignment retries here, after the flip is completed.
+            resetAlignmentRetries();
+
             // if the capturing has been paused before the flip, reset the state to paused, otherwise to idle
             setCaptureState(m_ContinueAction == CAPTURE_CONTINUE_ACTION_NONE ? CAPTURE_IDLE : CAPTURE_PAUSED);
             break;
@@ -680,7 +683,7 @@ void CameraState::updateFocusState(FocusState state)
     if (state != m_FocusState)
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" <<
                                      Ekos::getFocusStatusString(m_FocusState) <<
-                                     "to" << Ekos::getFocusStatusString(state);
+        "to" << Ekos::getFocusStatusString(state);
     setFocusState(state);
 
     // Do not process if meridian flip in progress
@@ -906,7 +909,6 @@ bool CameraState::checkAlignmentAfterFlip()
     {
         appendLogText(i18n("Performing post flip re-alignment..."));
 
-        resetAlignmentRetries();
         setCaptureState(CAPTURE_ALIGNING);
 
         getMeridianFlipState()->updateMeridianFlipStage(MeridianFlipState::MF_ALIGNING);
@@ -1514,6 +1516,9 @@ void CameraState::setAlignState(AlignState value)
                     // Do not set back the stage to MF_COMPLETED here,
                     // as it causes repeated "Meridian flip completed" messages on alignment failures.
                     // The stage should remain MF_ALIGNING for the retry.
+
+                    // Reset capture state to allow re-entry into alignment
+                    setCaptureState(CAPTURE_PROGRESS);
                 }
             }
             break;
