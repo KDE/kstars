@@ -398,7 +398,8 @@ bool CaptureCountsWidget::isCaptureActive(const QString &trainname)
     return (state == Ekos::CAPTURE_PROGRESS ||
             state == Ekos::CAPTURE_CAPTURING ||
             state == Ekos::CAPTURE_PAUSE_PLANNED ||
-            state == Ekos::CAPTURE_IMAGE_RECEIVED);
+            state == Ekos::CAPTURE_IMAGE_RECEIVED ||
+            state == Ekos::CAPTURE_DITHERING);
 }
 
 
