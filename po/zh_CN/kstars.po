@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-28 01:55+0000\n"
+"POT-Creation-Date: 2025-08-02 01:57+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -17886,82 +17886,87 @@ msgstr ""
 "color='%1'><table><tr><td>瓦片: </td><td>%2 (%3)</td></tr><tr><td>位置:  </"
 "td><td>%4</td></tr><tr><td>变量:  </td><td>%5</td></tr></table></font>"
 
-#: ekos/focus/adaptivefocus.cpp:152
+#: ekos/focus/adaptivefocus.cpp:153
 #, kde-format
 msgid "Adaptive Focus: No movement (below threshold)"
 msgstr "自适应对焦：无移动（低于阈值）"
 
-#: ekos/focus/adaptivefocus.cpp:163
+#: ekos/focus/adaptivefocus.cpp:164
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr "自适应焦点暂停。总移动量将超过最大行程限制"
 
-#: ekos/focus/adaptivefocus.cpp:171
+#: ekos/focus/adaptivefocus.cpp:172
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 msgstr "自适应焦点暂停。总移动量将超过自适应限制"
 
-#: ekos/focus/adaptivefocus.cpp:179
+#: ekos/focus/adaptivefocus.cpp:180
 #, kde-format
 msgid "Adaptive Focus: Moving from %1 to %2 (TempΔ %3"
 msgstr "自适应对焦从 %1 移动到 %2 (TempΔ %3"
 
-#: ekos/focus/adaptivefocus.cpp:181
+#: ekos/focus/adaptivefocus.cpp:182
 #, kde-format
 msgid "; AltΔ %1"
 msgstr "; AltΔ %1"
 
-#: ekos/focus/adaptivefocus.cpp:182
+#: ekos/focus/adaptivefocus.cpp:183
 #, kde-format
 msgid "; Pos Error %1)"
 msgstr "; Pos Error %1)"
 
-#: ekos/focus/adaptivefocus.cpp:197
+#: ekos/focus/adaptivefocus.cpp:198
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
 msgstr "自适应对焦无法移动电调"
 
-#: ekos/focus/adaptivefocus.cpp:369
+#: ekos/focus/adaptivefocus.cpp:352
+#, kde-format
+msgid "Moving %1 offset outward"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:392
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr "自适应起点，上次 AF 解过超过最大行程，忽略"
 
-#: ekos/focus/adaptivefocus.cpp:377
+#: ekos/focus/adaptivefocus.cpp:402
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr "自适应起点，不存在温度源"
 
-#: ekos/focus/adaptivefocus.cpp:379
+#: ekos/focus/adaptivefocus.cpp:404
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr "自适应起点，不存在温度源于上次的 AF 解"
 
-#: ekos/focus/adaptivefocus.cpp:386
+#: ekos/focus/adaptivefocus.cpp:411
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr "自适应起点，温度差非常大，忽略"
 
-#: ekos/focus/adaptivefocus.cpp:398
+#: ekos/focus/adaptivefocus.cpp:423
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr "自适应起点，不存在高度角记录于上次的 AF 解"
 
-#: ekos/focus/adaptivefocus.cpp:400
+#: ekos/focus/adaptivefocus.cpp:425
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr "自适应起点，高度角差非常大，忽略"
 
-#: ekos/focus/adaptivefocus.cpp:410
+#: ekos/focus/adaptivefocus.cpp:435
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr "自适应起点, 目标位置在最大行程之外, 忽略"
 
-#: ekos/focus/adaptivefocus.cpp:418
+#: ekos/focus/adaptivefocus.cpp:445
 #, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "自适应起点 [%1] 不允许过度移动"
 
-#: ekos/focus/adaptivefocus.cpp:432
+#: ekos/focus/adaptivefocus.cpp:460
 #, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "调整起始点 [%1] 从 %2 到 %3"
@@ -29446,7 +29451,7 @@ msgstr "Y 偏移量："
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:590
-#: fitsviewer/fitsviewer.cpp:1808
+#: fitsviewer/fitsviewer.cpp:1810
 #, kde-format
 msgid "Ready."
 msgstr "就绪。"
@@ -29725,7 +29730,7 @@ msgstr "类型标签"
 msgid "Distance"
 msgstr "距离"
 
-#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1579
+#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1581
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, kde-format, kde-kuit-format
 msgid "Size"
@@ -29934,13 +29939,13 @@ msgid "View Star Profile..."
 msgstr "查看星点资料..."
 
 #: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:254
-#: fitsviewer/fitsviewer.cpp:1496
+#: fitsviewer/fitsviewer.cpp:1498
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "显示赤道网格线"
 
 #: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:261
-#: fitsviewer/fitsviewer.cpp:1498
+#: fitsviewer/fitsviewer.cpp:1500
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "使用图像来显示对象"
@@ -30031,7 +30036,7 @@ msgstr "&选区统计"
 msgid "Show Clipping"
 msgstr "显示裁剪"
 
-#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1507
+#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1509
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30080,13 +30085,13 @@ msgstr " 放大所有标签"
 msgid "Zoom all tabs out"
 msgstr "缩小所有标签"
 
-#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1781
+#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1783
 #, kde-format
 msgid "Mark Stars"
 msgstr "标记星点"
 
 #: fitsviewer/fitsviewer.cpp:330 fitsviewer/fitsviewer.cpp:920
-#: fitsviewer/fitsviewer.cpp:1744
+#: fitsviewer/fitsviewer.cpp:1746
 #, kde-format
 msgid "View 3D Graph"
 msgstr "查看 3D 图像"
@@ -30140,32 +30145,32 @@ msgstr "FITS 查看器中找不到 UID 为%1 的标签"
 msgid "currentView 3D Graph"
 msgstr "当前视图的 3D 图形"
 
-#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1652
+#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1654
 #, kde-format
 msgid "Cross Hairs"
 msgstr "交叉线"
 
-#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1666
+#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1668
 #, kde-format
 msgid "Clipping"
 msgstr "裁剪"
 
-#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1679
+#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1681
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "赤道网格线"
 
-#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1718
+#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1720
 #, kde-format
 msgid "Objects in Image"
 msgstr "图像中的天体"
 
-#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1731
+#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1733
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "像素网格线"
 
-#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1692
+#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1694
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "HiPS 图层"
@@ -30182,38 +30187,38 @@ msgctxt "@title:window"
 msgid "Open Image"
 msgstr "打开图像"
 
-#: fitsviewer/fitsviewer.cpp:1123
+#: fitsviewer/fitsviewer.cpp:1124
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker (BETA)"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1173
+#: fitsviewer/fitsviewer.cpp:1175
 #, kde-format
 msgid "Stacking..."
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1181
+#: fitsviewer/fitsviewer.cpp:1183
 #, kde-format
 msgid "Stacking Failed"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1199
+#: fitsviewer/fitsviewer.cpp:1201
 #, kde-format
 msgid "Stacking Complete"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1473
+#: fitsviewer/fitsviewer.cpp:1475
 #, kde-format
 msgid "Hide %1"
 msgstr "隐藏 %1"
 
-#: fitsviewer/fitsviewer.cpp:1478
+#: fitsviewer/fitsviewer.cpp:1480
 #, kde-format
 msgid "Show %1"
 msgstr "显示%1"
 
-#: fitsviewer/fitsviewer.cpp:1502
+#: fitsviewer/fitsviewer.cpp:1504
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30222,7 +30227,7 @@ msgstr ""
 "居中望远镜\n"
 "* 就绪 *"
 
-#: fitsviewer/fitsviewer.cpp:1514
+#: fitsviewer/fitsviewer.cpp:1516
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -30231,7 +30236,7 @@ msgstr ""
 "显示网格线赤道\n"
 "* 没有 WCS 信息 *"
 
-#: fitsviewer/fitsviewer.cpp:1516
+#: fitsviewer/fitsviewer.cpp:1518
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30240,7 +30245,7 @@ msgstr ""
 "居中望远镜\n"
 "* 无 WCS 信息 *"
 
-#: fitsviewer/fitsviewer.cpp:1518
+#: fitsviewer/fitsviewer.cpp:1520
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -30249,31 +30254,31 @@ msgstr ""
 "使用图像显示对象\n"
 "* 没有 WCS 信息 *"
 
-#: fitsviewer/fitsviewer.cpp:1550 fitsviewer/fitsviewer.cpp:1705
+#: fitsviewer/fitsviewer.cpp:1552 fitsviewer/fitsviewer.cpp:1707
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "选区矩形"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1587 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1589 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Width"
 msgstr "宽"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1588 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1590 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Height"
 msgstr "高"
 
-#: fitsviewer/fitsviewer.cpp:1786
+#: fitsviewer/fitsviewer.cpp:1788
 #, kde-format
 msgid "Unmark Stars"
 msgstr "取消标记星点"
 
-#: fitsviewer/fitsviewer.cpp:1802
+#: fitsviewer/fitsviewer.cpp:1804
 #, kde-format
 msgid "Processing %1..."
 msgstr "正在处理 %1..."

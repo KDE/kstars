@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-28 01:55+0000\n"
+"POT-Creation-Date: 2025-08-02 01:57+0000\n"
 "PO-Revision-Date: 2025-07-29 13:42+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -18544,91 +18544,96 @@ msgstr ""
 "color='%1'><table><tr><td>Tegel: </td><td>%2 (%3)</td></tr><tr><td>Pos:  </"
 "td><td>%4</td></tr><tr><td>Waarde:  </td><td>%5</td></tr></table></font>"
 
-#: ekos/focus/adaptivefocus.cpp:152
+#: ekos/focus/adaptivefocus.cpp:153
 #, kde-format
 msgid "Adaptive Focus: No movement (below threshold)"
 msgstr "Aanpassend focusseren: geen verplaatsing (onder drempel)"
 
-#: ekos/focus/adaptivefocus.cpp:163
+#: ekos/focus/adaptivefocus.cpp:164
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
 "Aanpassend focusseren onderbroken. Totale verplaatsing zou maximale "
 "bewegingslimiet overschrijden"
 
-#: ekos/focus/adaptivefocus.cpp:171
+#: ekos/focus/adaptivefocus.cpp:172
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 msgstr ""
 "Aanpassend focusseren onderbroken. Totale verplaatsing zou maximale "
 "aanpassingslimiet overschrijden"
 
-#: ekos/focus/adaptivefocus.cpp:179
+#: ekos/focus/adaptivefocus.cpp:180
 #, kde-format
 msgid "Adaptive Focus: Moving from %1 to %2 (TempΔ %3"
 msgstr "Aanpassend focusseren: verplaatsen van %1 naar %2 (TempΔ %3"
 
-#: ekos/focus/adaptivefocus.cpp:181
+#: ekos/focus/adaptivefocus.cpp:182
 #, kde-format
 msgid "; AltΔ %1"
 msgstr "; HoogteΔ %1"
 
-#: ekos/focus/adaptivefocus.cpp:182
+#: ekos/focus/adaptivefocus.cpp:183
 #, kde-format
 msgid "; Pos Error %1)"
 msgstr "; Pos fout %1)"
 
-#: ekos/focus/adaptivefocus.cpp:197
+#: ekos/focus/adaptivefocus.cpp:198
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
 msgstr "Aanpassend focusseren niet in staat focus aan te passen"
 
-#: ekos/focus/adaptivefocus.cpp:369
+#: ekos/focus/adaptivefocus.cpp:352
+#, kde-format
+msgid "Moving %1 offset outward"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:392
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 "Aanpasbaar startpunt, laatste AF oplossing buiten maximale verplaatsing, "
 "wordt genegeerd"
 
-#: ekos/focus/adaptivefocus.cpp:377
+#: ekos/focus/adaptivefocus.cpp:402
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr "Aanpasbaar startpunt, geen temperatuurbron beschikbaar"
 
-#: ekos/focus/adaptivefocus.cpp:379
+#: ekos/focus/adaptivefocus.cpp:404
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr "Aanpasbaar startpunt, geen temperatuur voor laatste AF oplossing"
 
-#: ekos/focus/adaptivefocus.cpp:386
+#: ekos/focus/adaptivefocus.cpp:411
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
 "Aanpasbaar startpunt, erg groot verschil in temperatuur, wordt genegeerd"
 
-#: ekos/focus/adaptivefocus.cpp:398
+#: ekos/focus/adaptivefocus.cpp:423
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr "Aanpasbaar startpunt, geen hoogte opgeslagen voor laatste AF oplossing"
 
-#: ekos/focus/adaptivefocus.cpp:400
+#: ekos/focus/adaptivefocus.cpp:425
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr "Aanpasbaar startpunt, erg groot verschil in hoogte, wordt genegeerd"
 
-#: ekos/focus/adaptivefocus.cpp:410
+#: ekos/focus/adaptivefocus.cpp:435
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 "Aanpasbaar startpunt, doelpositie buiten maximale verplaatsing, wordt "
 "genegeerd"
 
-#: ekos/focus/adaptivefocus.cpp:418
+#: ekos/focus/adaptivefocus.cpp:445
 #, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "Aanpasbaar startpunt [%1] grote verplaatsing niet toegestaan"
 
-#: ekos/focus/adaptivefocus.cpp:432
+#: ekos/focus/adaptivefocus.cpp:460
 #, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Startpunt aanpassen [%1] van %2 tot %3"
@@ -30760,7 +30765,7 @@ msgstr "Y Offset:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:590
-#: fitsviewer/fitsviewer.cpp:1808
+#: fitsviewer/fitsviewer.cpp:1810
 #, kde-format
 msgid "Ready."
 msgstr "Gereed."
@@ -31043,7 +31048,7 @@ msgstr "Type label"
 msgid "Distance"
 msgstr "Afstand"
 
-#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1579
+#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1581
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, kde-format, kde-kuit-format
 msgid "Size"
@@ -31254,13 +31259,13 @@ msgid "View Star Profile..."
 msgstr "Profiel van ster bekijken..."
 
 #: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:254
-#: fitsviewer/fitsviewer.cpp:1496
+#: fitsviewer/fitsviewer.cpp:1498
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Equatoriale roosterlijnen tonen"
 
 #: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:261
-#: fitsviewer/fitsviewer.cpp:1498
+#: fitsviewer/fitsviewer.cpp:1500
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Objecten in afbeelding tonen"
@@ -31351,7 +31356,7 @@ msgstr "&Selectiestatistieken"
 msgid "Show Clipping"
 msgstr "Afsnijden tonen"
 
-#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1507
+#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1509
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31400,13 +31405,13 @@ msgstr "Alle tabbladen inzoomen"
 msgid "Zoom all tabs out"
 msgstr "Alle tabbladen uitzoomen"
 
-#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1781
+#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1783
 #, kde-format
 msgid "Mark Stars"
 msgstr "Sterren merken"
 
 #: fitsviewer/fitsviewer.cpp:330 fitsviewer/fitsviewer.cpp:920
-#: fitsviewer/fitsviewer.cpp:1744
+#: fitsviewer/fitsviewer.cpp:1746
 #, kde-format
 msgid "View 3D Graph"
 msgstr "3D-grafiek bekijken"
@@ -31462,32 +31467,32 @@ msgstr "Kan tabblad met UID %1 niet in de FITS-viewer vinden"
 msgid "currentView 3D Graph"
 msgstr "huidige weergave 3D-grafiek"
 
-#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1652
+#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1654
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Draadkruis"
 
-#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1666
+#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1668
 #, kde-format
 msgid "Clipping"
 msgstr "Afsnijden"
 
-#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1679
+#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1681
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Equatoriale roosterlijnen"
 
-#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1718
+#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1720
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objecten in afbeelding"
 
-#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1731
+#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1733
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Pixel roosterlijnen"
 
-#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1692
+#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1694
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "HIPS-overlegvel"
@@ -31504,38 +31509,38 @@ msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Afbeelding openen"
 
-#: fitsviewer/fitsviewer.cpp:1123
+#: fitsviewer/fitsviewer.cpp:1124
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker (BETA)"
 msgstr "Live stapelaar (BETA) van KStars"
 
-#: fitsviewer/fitsviewer.cpp:1173
+#: fitsviewer/fitsviewer.cpp:1175
 #, kde-format
 msgid "Stacking..."
 msgstr "Stapelen..."
 
-#: fitsviewer/fitsviewer.cpp:1181
+#: fitsviewer/fitsviewer.cpp:1183
 #, kde-format
 msgid "Stacking Failed"
 msgstr "Stapelen is mislukt"
 
-#: fitsviewer/fitsviewer.cpp:1199
+#: fitsviewer/fitsviewer.cpp:1201
 #, kde-format
 msgid "Stacking Complete"
 msgstr "Stapelen is voltooid"
 
-#: fitsviewer/fitsviewer.cpp:1473
+#: fitsviewer/fitsviewer.cpp:1475
 #, kde-format
 msgid "Hide %1"
 msgstr "%1 verbergen"
 
-#: fitsviewer/fitsviewer.cpp:1478
+#: fitsviewer/fitsviewer.cpp:1480
 #, kde-format
 msgid "Show %1"
 msgstr "%1 tonen"
 
-#: fitsviewer/fitsviewer.cpp:1502
+#: fitsviewer/fitsviewer.cpp:1504
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31544,7 +31549,7 @@ msgstr ""
 "Telescoop centreren\n"
 "*Gereed*"
 
-#: fitsviewer/fitsviewer.cpp:1514
+#: fitsviewer/fitsviewer.cpp:1516
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -31553,7 +31558,7 @@ msgstr ""
 "Equatoriale roosterlijnen tonen\n"
 "*Geen WCS-info*"
 
-#: fitsviewer/fitsviewer.cpp:1516
+#: fitsviewer/fitsviewer.cpp:1518
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31562,7 +31567,7 @@ msgstr ""
 "Telescoop centreren\n"
 "*Geen WCS-info*"
 
-#: fitsviewer/fitsviewer.cpp:1518
+#: fitsviewer/fitsviewer.cpp:1520
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -31571,31 +31576,31 @@ msgstr ""
 "Objecten in afbeelding tonen\n"
 "*Geen WCS-info*"
 
-#: fitsviewer/fitsviewer.cpp:1550 fitsviewer/fitsviewer.cpp:1705
+#: fitsviewer/fitsviewer.cpp:1552 fitsviewer/fitsviewer.cpp:1707
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Rechthoek voor selectie"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1587 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1589 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Width"
 msgstr "Breedte"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1588 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1590 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Height"
 msgstr "Hoogte"
 
-#: fitsviewer/fitsviewer.cpp:1786
+#: fitsviewer/fitsviewer.cpp:1788
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Sterren niet markeren"
 
-#: fitsviewer/fitsviewer.cpp:1802
+#: fitsviewer/fitsviewer.cpp:1804
 #, kde-format
 msgid "Processing %1..."
 msgstr "%1 verwerken..."

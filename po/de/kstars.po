@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-28 01:55+0000\n"
+"POT-Creation-Date: 2025-08-02 01:57+0000\n"
 "PO-Revision-Date: 2025-05-16 22:45+0200\n"
 "Last-Translator: Alois Spitzbart <spitz234@hotmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -18795,84 +18795,89 @@ msgid ""
 "td><td>%4</td></tr><tr><td>Val:  </td><td>%5</td></tr></table></font>"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:152
+#: ekos/focus/adaptivefocus.cpp:153
 #, kde-format
 msgid "Adaptive Focus: No movement (below threshold)"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:163
+#: ekos/focus/adaptivefocus.cpp:164
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:171
+#: ekos/focus/adaptivefocus.cpp:172
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:179
+#: ekos/focus/adaptivefocus.cpp:180
 #, kde-format
 msgid "Adaptive Focus: Moving from %1 to %2 (TempΔ %3"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:181
+#: ekos/focus/adaptivefocus.cpp:182
 #, kde-format
 msgid "; AltΔ %1"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:182
+#: ekos/focus/adaptivefocus.cpp:183
 #, fuzzy, kde-format
 #| msgid "PHD2 Error: %1"
 msgid "; Pos Error %1)"
 msgstr "PHD2-Fehler: %1"
 
-#: ekos/focus/adaptivefocus.cpp:197
+#: ekos/focus/adaptivefocus.cpp:198
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:369
+#: ekos/focus/adaptivefocus.cpp:352
+#, kde-format
+msgid "Moving %1 offset outward"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:392
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:377
+#: ekos/focus/adaptivefocus.cpp:402
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:379
+#: ekos/focus/adaptivefocus.cpp:404
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:386
+#: ekos/focus/adaptivefocus.cpp:411
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:398
+#: ekos/focus/adaptivefocus.cpp:423
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:400
+#: ekos/focus/adaptivefocus.cpp:425
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:410
+#: ekos/focus/adaptivefocus.cpp:435
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 
-#: ekos/focus/adaptivefocus.cpp:418
+#: ekos/focus/adaptivefocus.cpp:445
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "Planetenname"
 
-#: ekos/focus/adaptivefocus.cpp:432
+#: ekos/focus/adaptivefocus.cpp:460
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Adapting start point [%1] from %2 to %3"
@@ -31365,7 +31370,7 @@ msgstr "Y-Versatz:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:590
-#: fitsviewer/fitsviewer.cpp:1808
+#: fitsviewer/fitsviewer.cpp:1810
 #, kde-format
 msgid "Ready."
 msgstr "Bereit."
@@ -31668,7 +31673,7 @@ msgstr "Textfeld"
 msgid "Distance"
 msgstr "Entfernung"
 
-#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1579
+#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1581
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, kde-format, kde-kuit-format
 msgid "Size"
@@ -31902,14 +31907,14 @@ msgid "View Star Profile..."
 msgstr "Arc-Datei"
 
 #: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:254
-#: fitsviewer/fitsviewer.cpp:1496
+#: fitsviewer/fitsviewer.cpp:1498
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "Äquatoriale Koordinaten"
 
 #: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:261
-#: fitsviewer/fitsviewer.cpp:1498
+#: fitsviewer/fitsviewer.cpp:1500
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
@@ -32009,7 +32014,7 @@ msgstr "Statistik"
 msgid "Show Clipping"
 msgstr "Druckdialog anzeigen"
 
-#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1507
+#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1509
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -32061,13 +32066,13 @@ msgstr "Vergrößern"
 msgid "Zoom all tabs out"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1781
+#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1783
 #, kde-format
 msgid "Mark Stars"
 msgstr "Sterne markieren"
 
 #: fitsviewer/fitsviewer.cpp:330 fitsviewer/fitsviewer.cpp:920
-#: fitsviewer/fitsviewer.cpp:1744
+#: fitsviewer/fitsviewer.cpp:1746
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
@@ -32128,38 +32133,38 @@ msgstr ""
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1652
+#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1654
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Cross Hairs"
 msgstr "Fadenkreuz"
 
-#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1666
+#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1668
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "Philippinen"
 
-#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1679
+#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1681
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Equatorial Gridlines"
 msgstr "Äquatoriale Koordinaten"
 
-#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1718
+#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1720
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Objects in Image"
 msgstr "Objekte zeigen"
 
-#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1731
+#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1733
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Pixel Gridlines"
 msgstr "Satelliten anzeigen"
 
-#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1692
+#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1694
 #, fuzzy, kde-format
 #| msgid "Polar Alignment"
 msgid "HiPS Overlay"
@@ -32179,43 +32184,43 @@ msgctxt "@title:window"
 msgid "Open Image"
 msgstr "FITS-Bild öffnen"
 
-#: fitsviewer/fitsviewer.cpp:1123
+#: fitsviewer/fitsviewer.cpp:1124
 #, fuzzy, kde-format
 #| msgid "KStars Lite"
 msgctxt "@title:window"
 msgid "KStars Live Stacker (BETA)"
 msgstr "KStars Lite"
 
-#: fitsviewer/fitsviewer.cpp:1173
+#: fitsviewer/fitsviewer.cpp:1175
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Stacking..."
 msgstr "Warten ..."
 
-#: fitsviewer/fitsviewer.cpp:1181
+#: fitsviewer/fitsviewer.cpp:1183
 #, fuzzy, kde-format
 #| msgid "Syncing failed."
 msgid "Stacking Failed"
 msgstr "Abgleich fehlgeschlagen."
 
-#: fitsviewer/fitsviewer.cpp:1199
+#: fitsviewer/fitsviewer.cpp:1201
 #, fuzzy, kde-format
 #| msgid "Align complete"
 msgid "Stacking Complete"
 msgstr "Ausrichtung beendet"
 
-#: fitsviewer/fitsviewer.cpp:1473
+#: fitsviewer/fitsviewer.cpp:1475
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1478
+#: fitsviewer/fitsviewer.cpp:1480
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "Anzeigen"
 
-#: fitsviewer/fitsviewer.cpp:1502
+#: fitsviewer/fitsviewer.cpp:1504
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid ""
@@ -32223,14 +32228,14 @@ msgid ""
 "*Ready*"
 msgstr "Im Teleskop zentrieren"
 
-#: fitsviewer/fitsviewer.cpp:1514
+#: fitsviewer/fitsviewer.cpp:1516
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1516
+#: fitsviewer/fitsviewer.cpp:1518
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid ""
@@ -32238,21 +32243,21 @@ msgid ""
 "*No WCS Info*"
 msgstr "Im Teleskop zentrieren"
 
-#: fitsviewer/fitsviewer.cpp:1518
+#: fitsviewer/fitsviewer.cpp:1520
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1550 fitsviewer/fitsviewer.cpp:1705
+#: fitsviewer/fitsviewer.cpp:1552 fitsviewer/fitsviewer.cpp:1707
 #, fuzzy, kde-format
 #| msgid "Selecting star"
 msgid "Selection Rectangle"
 msgstr "Stern auswählen"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1587 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1589 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -32261,7 +32266,7 @@ msgid "Width"
 msgstr "Breite"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1588 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1590 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -32269,12 +32274,12 @@ msgstr "Breite"
 msgid "Height"
 msgstr "Höhe"
 
-#: fitsviewer/fitsviewer.cpp:1786
+#: fitsviewer/fitsviewer.cpp:1788
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Markierung der Sterne entfernen"
 
-#: fitsviewer/fitsviewer.cpp:1802
+#: fitsviewer/fitsviewer.cpp:1804
 #, kde-format
 msgid "Processing %1..."
 msgstr "%1 in Bearbeitung ..."

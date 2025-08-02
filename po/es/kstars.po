@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-28 01:55+0000\n"
+"POT-Creation-Date: 2025-08-02 01:57+0000\n"
 "PO-Revision-Date: 2025-07-28 12:24+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -18725,93 +18725,98 @@ msgstr ""
 "color='%1'><table><tr><td>Cuadrícula: </td><td>%2 (%3)</td></tr><tr><td>Pos: "
 "</td><td>%4</td></tr><tr><td>Val: </td><td>%5</td></tr></table></font>"
 
-#: ekos/focus/adaptivefocus.cpp:152
+#: ekos/focus/adaptivefocus.cpp:153
 #, kde-format
 msgid "Adaptive Focus: No movement (below threshold)"
 msgstr "Enfoque adaptativo: Sin movimientos (por debajo del umbral)"
 
-#: ekos/focus/adaptivefocus.cpp:163
+#: ekos/focus/adaptivefocus.cpp:164
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
 "Enfoque adaptativo suspendido. El movimiento total excedería el límite "
 "máximo del recorrido."
 
-#: ekos/focus/adaptivefocus.cpp:171
+#: ekos/focus/adaptivefocus.cpp:172
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 msgstr ""
 "Enfoque adaptativo suspendido. El movimiento total excedería el límite "
 "adaptativo."
 
-#: ekos/focus/adaptivefocus.cpp:179
+#: ekos/focus/adaptivefocus.cpp:180
 #, kde-format
 msgid "Adaptive Focus: Moving from %1 to %2 (TempΔ %3"
 msgstr "Enfoque adaptativo: Moviendo de %1 a %2 (TempΔ %3"
 
-#: ekos/focus/adaptivefocus.cpp:181
+#: ekos/focus/adaptivefocus.cpp:182
 #, kde-format
 msgid "; AltΔ %1"
 msgstr "; AltΔ %1"
 
-#: ekos/focus/adaptivefocus.cpp:182
+#: ekos/focus/adaptivefocus.cpp:183
 #, kde-format
 msgid "; Pos Error %1)"
 msgstr "; Error de posición %1)"
 
-#: ekos/focus/adaptivefocus.cpp:197
+#: ekos/focus/adaptivefocus.cpp:198
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
 msgstr "El enfoque adaptativo no puede mover el enfocador"
 
-#: ekos/focus/adaptivefocus.cpp:369
+#: ekos/focus/adaptivefocus.cpp:352
+#, kde-format
+msgid "Moving %1 offset outward"
+msgstr ""
+
+#: ekos/focus/adaptivefocus.cpp:392
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
 "Punto de inicio adaptativo; última solución de AF fuera del recorrido "
 "máximo; se ignora"
 
-#: ekos/focus/adaptivefocus.cpp:377
+#: ekos/focus/adaptivefocus.cpp:402
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
 msgstr "Punto de inicio adaptativo; ninguna fuente de temperatura disponible"
 
-#: ekos/focus/adaptivefocus.cpp:379
+#: ekos/focus/adaptivefocus.cpp:404
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
 "Punto de inicio adaptativo; ninguna temperatura para la última solución de AF"
 
-#: ekos/focus/adaptivefocus.cpp:386
+#: ekos/focus/adaptivefocus.cpp:411
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr "Punto de inicio adaptativo; delta de temperatura muy grande; se ignora"
 
-#: ekos/focus/adaptivefocus.cpp:398
+#: ekos/focus/adaptivefocus.cpp:423
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
 "Punto de inicio adaptativo; ninguna altitud grabada para la última solución "
 "de AF"
 
-#: ekos/focus/adaptivefocus.cpp:400
+#: ekos/focus/adaptivefocus.cpp:425
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr "Punto de inicio adaptativo; delta de altitud muy grande; se ignora"
 
-#: ekos/focus/adaptivefocus.cpp:410
+#: ekos/focus/adaptivefocus.cpp:435
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
 "Punto de inicio adaptativo; posición de destino fuera del recorrido máximo; "
 "se ignora"
 
-#: ekos/focus/adaptivefocus.cpp:418
+#: ekos/focus/adaptivefocus.cpp:445
 #, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
 msgstr "Punto de inicio adaptativo [%1] movimiento excesivo no permitido"
 
-#: ekos/focus/adaptivefocus.cpp:432
+#: ekos/focus/adaptivefocus.cpp:460
 #, kde-format
 msgid "Adapting start point [%1] from %2 to %3"
 msgstr "Adaptando punto de inicio [%1] de %2 a %3"
@@ -31145,7 +31150,7 @@ msgstr "Desplazamiento Y:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:590
-#: fitsviewer/fitsviewer.cpp:1808
+#: fitsviewer/fitsviewer.cpp:1810
 #, kde-format
 msgid "Ready."
 msgstr "Preparado."
@@ -31429,7 +31434,7 @@ msgstr "Etiqueta del tipo"
 msgid "Distance"
 msgstr "Distancia"
 
-#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1579
+#: fitsviewer/fitstab.cpp:786 fitsviewer/fitsviewer.cpp:1581
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, kde-format, kde-kuit-format
 msgid "Size"
@@ -31642,13 +31647,13 @@ msgid "View Star Profile..."
 msgstr "Ver el perfil de estrellas…"
 
 #: fitsviewer/fitsview.cpp:2793 fitsviewer/fitsviewer.cpp:254
-#: fitsviewer/fitsviewer.cpp:1496
+#: fitsviewer/fitsviewer.cpp:1498
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostrar cuadrícula ecuatorial"
 
 #: fitsviewer/fitsview.cpp:2799 fitsviewer/fitsviewer.cpp:261
-#: fitsviewer/fitsviewer.cpp:1498
+#: fitsviewer/fitsviewer.cpp:1500
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Mostrar los objetos de la imagen"
@@ -31739,7 +31744,7 @@ msgstr "Estadísticas de la &selección"
 msgid "Show Clipping"
 msgstr "Mostrar recorte"
 
-#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1507
+#: fitsviewer/fitsviewer.cpp:275 fitsviewer/fitsviewer.cpp:1509
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31788,13 +31793,13 @@ msgstr "Ampliar todas las pestañas"
 msgid "Zoom all tabs out"
 msgstr "Reducir todas las pestañas"
 
-#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1781
+#: fitsviewer/fitsviewer.cpp:322 fitsviewer/fitsviewer.cpp:1783
 #, kde-format
 msgid "Mark Stars"
 msgstr "Marcar estrellas"
 
 #: fitsviewer/fitsviewer.cpp:330 fitsviewer/fitsviewer.cpp:920
-#: fitsviewer/fitsviewer.cpp:1744
+#: fitsviewer/fitsviewer.cpp:1746
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Ver gráfico 3D"
@@ -31850,32 +31855,32 @@ msgstr "No se ha encontrado la pestaña con UID %1 en el visor FITS"
 msgid "currentView 3D Graph"
 msgstr "Gráfico 3D de la vista actual"
 
-#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1652
+#: fitsviewer/fitsviewer.cpp:903 fitsviewer/fitsviewer.cpp:1654
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Cruceta"
 
-#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1666
+#: fitsviewer/fitsviewer.cpp:904 fitsviewer/fitsviewer.cpp:1668
 #, kde-format
 msgid "Clipping"
 msgstr "Recorte"
 
-#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1679
+#: fitsviewer/fitsviewer.cpp:905 fitsviewer/fitsviewer.cpp:1681
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Cuadrícula ecuatorial"
 
-#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1718
+#: fitsviewer/fitsviewer.cpp:906 fitsviewer/fitsviewer.cpp:1720
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objetos en la imagen"
 
-#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1731
+#: fitsviewer/fitsviewer.cpp:907 fitsviewer/fitsviewer.cpp:1733
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Cuadrícula de píxeles"
 
-#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1692
+#: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1694
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "Capa HiPS"
@@ -31892,38 +31897,38 @@ msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Abrir imagen"
 
-#: fitsviewer/fitsviewer.cpp:1123
+#: fitsviewer/fitsviewer.cpp:1124
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker (BETA)"
 msgstr "Apilador en vivo de KStars (Beta)"
 
-#: fitsviewer/fitsviewer.cpp:1173
+#: fitsviewer/fitsviewer.cpp:1175
 #, kde-format
 msgid "Stacking..."
 msgstr "Apilando…"
 
-#: fitsviewer/fitsviewer.cpp:1181
+#: fitsviewer/fitsviewer.cpp:1183
 #, kde-format
 msgid "Stacking Failed"
 msgstr "El apilamiento ha fallado"
 
-#: fitsviewer/fitsviewer.cpp:1199
+#: fitsviewer/fitsviewer.cpp:1201
 #, kde-format
 msgid "Stacking Complete"
 msgstr "Apilamiento completado"
 
-#: fitsviewer/fitsviewer.cpp:1473
+#: fitsviewer/fitsviewer.cpp:1475
 #, kde-format
 msgid "Hide %1"
 msgstr "Ocultar %1"
 
-#: fitsviewer/fitsviewer.cpp:1478
+#: fitsviewer/fitsviewer.cpp:1480
 #, kde-format
 msgid "Show %1"
 msgstr "Mostrar %1"
 
-#: fitsviewer/fitsviewer.cpp:1502
+#: fitsviewer/fitsviewer.cpp:1504
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31932,7 +31937,7 @@ msgstr ""
 "Centrar telescopio\n"
 "*Preparado*"
 
-#: fitsviewer/fitsviewer.cpp:1514
+#: fitsviewer/fitsviewer.cpp:1516
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -31941,7 +31946,7 @@ msgstr ""
 "Mostrar cuadrícula ecuatorial\n"
 "*No hay información WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1516
+#: fitsviewer/fitsviewer.cpp:1518
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -31950,7 +31955,7 @@ msgstr ""
 "Centrar telescopio\n"
 "*No hay información WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1518
+#: fitsviewer/fitsviewer.cpp:1520
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -31959,31 +31964,31 @@ msgstr ""
 "Mostrar objetos en la imagen\n"
 "*No hay información WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1550 fitsviewer/fitsviewer.cpp:1705
+#: fitsviewer/fitsviewer.cpp:1552 fitsviewer/fitsviewer.cpp:1707
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Rectángulo de selección"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1587 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1589 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Width"
 msgstr "Anchura"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1588 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1590 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:67
 #, kde-format
 msgid "Height"
 msgstr "Altura"
 
-#: fitsviewer/fitsviewer.cpp:1786
+#: fitsviewer/fitsviewer.cpp:1788
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Desmarcar estrellas"
 
-#: fitsviewer/fitsviewer.cpp:1802
+#: fitsviewer/fitsviewer.cpp:1804
 #, kde-format
 msgid "Processing %1..."
 msgstr "Procesando %1…"
