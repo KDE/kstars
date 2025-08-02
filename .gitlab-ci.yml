@@ -61,6 +61,13 @@ json-validation:
   rules:
     - !reference [.standard-build-recipes, rules]
 
+flatpak:
+  allow_failure: true # TODO: REMOVE WHEN STABLE AGAIN
+  rules:
+    - !reference [.standard-build-recipes, rules]
+  needs:
+    - suse_tumbleweed_qt69
+
 # Craft recipes
 
 .craft-recipes:

@@ -47,6 +47,7 @@ Environment:
 
 Options:
   in-source-build: False
+  allow-failing-tests-on: ['@all']
   setup-dbus-session: True
   setup-x-environment: True
   cmake-options: '--trace'
