@@ -64,6 +64,14 @@ void SequenceEditor::showEvent(QShowEvent* event)
     m_camera->onStandAloneShow(event);
 }
 
+bool SequenceEditor::loadSequenceQueue(const QString &fileURL, QString targetName)
+{
+    if (m_camera.isNull())
+        return false;
+    else
+        return m_camera->loadSequenceQueue(fileURL, targetName);
+}
+
 void SequenceEditor::initStandAlone()
 {
     QSharedPointer<Camera> mainCam = m_camera;

@@ -202,8 +202,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     sortJobsB->setIcon(QIcon::fromTheme("transform-move-vertical"));
     sortJobsB->setToolTip(
         i18n("Reset state and sort observation jobs per altitude and movement in sky, using the start time of the first job.\n"
-         "This action sorts setting targets before rising targets, and may help scheduling when starting your observation.\n"
-         "Note the algorithm first calculates all altitudes using the same time, then evaluates jobs."));
+             "This action sorts setting targets before rising targets, and may help scheduling when starting your observation.\n"
+             "Note the algorithm first calculates all altitudes using the same time, then evaluates jobs."));
     sortJobsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
     mosaicB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -408,7 +408,16 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
         if (!m_SequenceEditor)
             m_SequenceEditor.reset(new SequenceEditor(this));
 
+        // show the editor first to ensure that the widgets are filled correctly
         m_SequenceEditor->show();
+        // load the capture sequence of the currently selected job
+        int pos = moduleState()->currentPosition();
+        if (pos >= 0 && pos < moduleState()->jobs().count())
+        {
+            QString filename = sequenceEdit->text();
+            m_SequenceEditor->loadSequenceQueue(filename);
+        }
+
         m_SequenceEditor->raise();
     });
 

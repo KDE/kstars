@@ -25,6 +25,8 @@ class SequenceEditor : public QDialog, public Ui::SequenceEditorUI
 
     void showEvent(QShowEvent* event) override;
 
+    bool loadSequenceQueue(const QString &fileURL, QString targetName = "");
+
     public slots:
 
     signals:
