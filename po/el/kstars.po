@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-02 01:57+0000\n"
+"POT-Creation-Date: 2025-08-03 02:00+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -434,7 +434,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:386
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera_jobs.cpp:410
-#: ekos/scheduler/scheduler.cpp:2103
+#: ekos/scheduler/scheduler.cpp:2112
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:699
@@ -616,7 +616,7 @@ msgstr "Ακύρωση"
 #: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1275 ekos/manager.cpp:1290 ekos/manager.cpp:1306
-#: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
+#: ekos/scheduler/scheduler.cpp:1632 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
 #: skycomponents/imageoverlaycomponent.cpp:537
@@ -2131,9 +2131,9 @@ msgstr "Κατάσταση"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:805 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1616
-#: ekos/scheduler/scheduler.cpp:2268 ekos/scheduler/scheduler.cpp:2493
-#: ekos/scheduler/scheduler.cpp:2501 ekos/scheduler/scheduler.cpp:2511
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1625
+#: ekos/scheduler/scheduler.cpp:2277 ekos/scheduler/scheduler.cpp:2502
+#: ekos/scheduler/scheduler.cpp:2510 ekos/scheduler/scheduler.cpp:2520
 #: ekos/scheduler/scheduler.ui:1340 indi/indidome.cpp:21
 #: indi/indidustcap.cpp:17 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
@@ -2497,8 +2497,8 @@ msgid "Check if magnitude is unknown"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1624
-#: ekos/scheduler/scheduler.cpp:2283 fitsviewer/fitshistogram.cpp:781
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1633
+#: ekos/scheduler/scheduler.cpp:2292 fitsviewer/fitshistogram.cpp:781
 #: fitsviewer/fitshistogramcommand.cpp:267 indi/indigroup.cpp:30
 #: skycomponents/constellationboundarylines.cpp:293
 #: skyobjects/skyobject.cpp:435
@@ -2753,8 +2753,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3971
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
-#: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2003
-#: ekos/scheduler/scheduler.cpp:2113 fitsviewer/fitstab.cpp:1217
+#: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
+#: ekos/scheduler/scheduler.cpp:2122 fitsviewer/fitstab.cpp:1217
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -4037,7 +4037,7 @@ msgstr "0.0 pc"
 #: ekos/capture/camera_device.cpp:907 ekos/capture/camera_device.cpp:949
 #: ekos/capture/capturehistorynavigation.ui:128
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
-#: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
+#: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:457 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
 #: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:597
 #: ekos/guide/guide.ui:721 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
@@ -6961,7 +6961,7 @@ msgstr "Καθαρισμός όλων των ιχνών τροχιάς"
 #: ekos/align/align.cpp:3970 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
 #: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
-#: ekos/scheduler/scheduler.cpp:2002 ekos/scheduler/scheduler.cpp:2112
+#: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
 #: fitsviewer/fitstab.cpp:1216 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -10724,7 +10724,7 @@ msgid "Parking"
 msgstr "Πέκινγκ"
 
 #: ekos/analyze/analyze.cpp:134 ekos/analyze/analyze.cpp:153 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:2269 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:2278 indi/indimount.cpp:30
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Slew"
@@ -10859,7 +10859,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:3483 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/scheduler.cpp:1622
+#: ekos/scheduler/scheduler.cpp:1631
 #, fuzzy, kde-format
 #| msgid "Abort"
 msgid "Aborted"
@@ -10878,7 +10878,7 @@ msgid "Disconnected"
 msgstr "Αποσύνδεση"
 
 #: ekos/analyze/analyze.cpp:3489 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2282
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2291
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capturing"
@@ -10928,7 +10928,7 @@ msgstr "Βαθμονόμηση"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3505 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:2280
+#: ekos/scheduler/scheduler.cpp:2289
 #, kde-format
 msgid "Guiding"
 msgstr "Οδήγηση"
@@ -11848,7 +11848,7 @@ msgstr "Φίλτρο"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
 #: ekos/auxiliary/filtermanager.cpp:124 ekos/capture/camera.ui:2337
-#: ekos/scheduler/scheduler.cpp:448
+#: ekos/scheduler/scheduler.cpp:457
 #, fuzzy, kde-format
 msgid "Offset"
 msgstr "Διαφορά από UT:"
@@ -13058,7 +13058,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlignmentLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, AlignmentGroupBox)
-#: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:452
+#: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:461
 #: fitsviewer/livestacking.ui:567
 #, fuzzy, kde-format
 #| msgid "Align"
@@ -15063,7 +15063,7 @@ msgstr "Παρατηρητής"
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
 #: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:612
-#: ekos/scheduler/scheduler.cpp:460
+#: ekos/scheduler/scheduler.cpp:469
 #, fuzzy, kde-format
 #| msgid "Script name:"
 msgid "Scripts"
@@ -15896,7 +15896,7 @@ msgstr "Επαναφορά θέσης"
 msgid "Editing job #%1..."
 msgstr "Επεξεργασία δεσμού..."
 
-#: ekos/capture/camera_jobs.cpp:239 ekos/scheduler/scheduler.cpp:1348
+#: ekos/capture/camera_jobs.cpp:239 ekos/scheduler/scheduler.cpp:1357
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
@@ -16342,142 +16342,142 @@ msgstr "Ντομ Κρικ"
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:604
+#: ekos/capture/camerastate.cpp:607
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:617
+#: ekos/capture/camerastate.cpp:620
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/capture/camerastate.cpp:637
+#: ekos/capture/camerastate.cpp:640
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Η αυτόματη οδήγηση διακόπηκε."
 
-#: ekos/capture/camerastate.cpp:646
+#: ekos/capture/camerastate.cpp:649
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Η αυτόματη οδήγηση διακόπηκε."
 
-#: ekos/capture/camerastate.cpp:653
+#: ekos/capture/camerastate.cpp:656
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/capture/camerastate.cpp:675
+#: ekos/capture/camerastate.cpp:678
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Adaptive focus complete."
 msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 
-#: ekos/capture/camerastate.cpp:699
+#: ekos/capture/camerastate.cpp:702
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:735
+#: ekos/capture/camerastate.cpp:738
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Focus complete. Resuming in %1 seconds..."
 msgstr "Η αυτόματη οδήγηση ξεκίνησε."
 
-#: ekos/capture/camerastate.cpp:758
+#: ekos/capture/camerastate.cpp:761
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:762
+#: ekos/capture/camerastate.cpp:765
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Simulator Settings"
 msgid "Limit: %1 mins"
 msgstr "Ρυθμίσεις εξομοίωσης"
 
-#: ekos/capture/camerastate.cpp:907
+#: ekos/capture/camerastate.cpp:910
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:925
+#: ekos/capture/camerastate.cpp:927
 #, fuzzy, kde-format
 #| msgid "Guiding rate,x15\"/sec"
 msgid "Guide module timed out."
 msgstr "Ρυθμός οδήγησης,x15\"/δευτερόλεπτο"
 
-#: ekos/capture/camerastate.cpp:957
+#: ekos/capture/camerastate.cpp:959
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:966
+#: ekos/capture/camerastate.cpp:968
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:988
+#: ekos/capture/camerastate.cpp:990
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/capture/camerastate.cpp:1002
+#: ekos/capture/camerastate.cpp:1004
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1016
+#: ekos/capture/camerastate.cpp:1018
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1043
+#: ekos/capture/camerastate.cpp:1045
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1090
+#: ekos/capture/camerastate.cpp:1092
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1094
+#: ekos/capture/camerastate.cpp:1096
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1109
+#: ekos/capture/camerastate.cpp:1111
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1489
+#: ekos/capture/camerastate.cpp:1491
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Post flip re-alignment completed successfully."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/capture/camerastate.cpp:1508
+#: ekos/capture/camerastate.cpp:1510
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Post-flip alignment failed."
 msgstr "Στοίχιση"
 
-#: ekos/capture/camerastate.cpp:1513
+#: ekos/capture/camerastate.cpp:1515
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Post-flip alignment failed. Retrying..."
@@ -18003,7 +18003,7 @@ msgstr "Τρέχον σενάριο"
 msgid "Post-job script:"
 msgstr "Δοκιμή σεναρίου"
 
-#: ekos/capture/sequenceeditor.cpp:101
+#: ekos/capture/sequenceeditor.cpp:109
 #, kde-format
 msgid ""
 "<b><font color=\"red\">Please run the Capture tab connected to INDI with "
@@ -18011,7 +18011,7 @@ msgid ""
 "Editor. </font></b><p>"
 msgstr ""
 
-#: ekos/capture/sequenceeditor.cpp:105
+#: ekos/capture/sequenceeditor.cpp:113
 #, kde-format
 msgid ""
 "<b>Using camera and filterwheel attributes from Capture session started at "
@@ -18042,7 +18042,7 @@ msgid "In Progress"
 msgstr "Σε εξέλιξη"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1621
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1630
 #, kde-format
 msgid "Complete"
 msgstr "Ολοκληρώθηκε"
@@ -18212,7 +18212,7 @@ msgstr "Άλλο"
 msgid "Image Received"
 msgstr "Σύλληψη εικόνας..."
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2272
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2281
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus in"
@@ -18249,7 +18249,7 @@ msgstr "Ορισμός της θερμοκρασίας του τσιπ CCD."
 msgid "Setting Rotator"
 msgstr "Επιλογή αστέρα εκκίνησης:"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2275
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2284
 #, fuzzy, kde-format
 #| msgid "Running..."
 msgid "Aligning"
@@ -18309,7 +18309,7 @@ msgstr "Αναίρεση εστίασης"
 msgid "Startup"
 msgstr "Εκκίνηση"
 
-#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1619
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1628
 #, fuzzy, kde-format
 #| msgid "Running..."
 msgid "Running"
@@ -26722,7 +26722,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2417
+#: ekos/scheduler/scheduler.cpp:2426
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Stop Scheduler"
@@ -28595,14 +28595,14 @@ msgstr[1] "Σκένταρ"
 msgid " (first only)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:740 ekos/scheduler/scheduler.cpp:784
+#: ekos/scheduler/framingassistantui.cpp:740 ekos/scheduler/scheduler.cpp:793
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Ουρά ακολουθίας"
 
-#: ekos/scheduler/framingassistantui.cpp:742 ekos/scheduler/scheduler.cpp:786
+#: ekos/scheduler/framingassistantui.cpp:742 ekos/scheduler/scheduler.cpp:795
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Ekos Sequence Queue (*.esq)"
@@ -29003,7 +29003,7 @@ msgid ""
 "before completion.\n"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:181 ekos/scheduler/scheduler.cpp:1750
+#: ekos/scheduler/scheduler.cpp:181 ekos/scheduler/scheduler.cpp:1759
 #, kde-format
 msgid ""
 "Count of captures stored for the job, based on its sequence job.\n"
@@ -29046,7 +29046,7 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:381 ekos/scheduler/scheduler.cpp:2229
+#: ekos/scheduler/scheduler.cpp:381 ekos/scheduler/scheduler.cpp:2238
 #: ekos/scheduler/schedulerprocess.cpp:3594
 #, kde-format
 msgid ""
@@ -29054,86 +29054,86 @@ msgid ""
 "the Greedy algorithm."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:456
+#: ekos/scheduler/scheduler.cpp:465
 #, kde-format
 msgid "Jobs"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:658
+#: ekos/scheduler/scheduler.cpp:667
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "Άνοιγμα FITS..."
 
-#: ekos/scheduler/scheduler.cpp:708
+#: ekos/scheduler/scheduler.cpp:717
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:727
+#: ekos/scheduler/scheduler.cpp:736
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:760
+#: ekos/scheduler/scheduler.cpp:769
 #, fuzzy, kde-format
 #| msgid "End date invalid."
 msgid "Warning: RA value %1 is invalid."
 msgstr "Μη έγκυρη ημερομηνία τέλους."
 
-#: ekos/scheduler/scheduler.cpp:763
+#: ekos/scheduler/scheduler.cpp:772
 #, fuzzy, kde-format
 #| msgid "End date invalid."
 msgid "Warning: DEC value %1 is invalid."
 msgstr "Μη έγκυρη ημερομηνία τέλους."
 
-#: ekos/scheduler/scheduler.cpp:794
+#: ekos/scheduler/scheduler.cpp:803
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "Επιλογή ενός αστέρα"
 
-#: ekos/scheduler/scheduler.cpp:796 ekos/scheduler/scheduler.cpp:811
+#: ekos/scheduler/scheduler.cpp:805 ekos/scheduler/scheduler.cpp:820
 #, fuzzy, kde-format
 #| msgid "Script Data"
 msgid "Script (*)"
 msgstr "Δεδομένα σεναρίου"
 
-#: ekos/scheduler/scheduler.cpp:809
+#: ekos/scheduler/scheduler.cpp:818
 #, fuzzy, kde-format
 #| msgid "Select a category:"
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Επιλέξτε μια κατηγορία:"
 
-#: ekos/scheduler/scheduler.cpp:875
+#: ekos/scheduler/scheduler.cpp:884
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Warning: Target name is required."
 msgstr "Προφανείς συντεταγμένες:"
 
-#: ekos/scheduler/scheduler.cpp:881
+#: ekos/scheduler/scheduler.cpp:890
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Warning: Sequence file is required."
 msgstr "Ουρά ακολουθίας"
 
-#: ekos/scheduler/scheduler.cpp:888
+#: ekos/scheduler/scheduler.cpp:897
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Warning: Target coordinates are required."
 msgstr "Προφανείς συντεταγμένες:"
 
-#: ekos/scheduler/scheduler.cpp:1036
+#: ekos/scheduler/scheduler.cpp:1045
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
 "may consider the same storage for captures."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1044
+#: ekos/scheduler/scheduler.cpp:1053
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -29141,181 +29141,181 @@ msgid ""
 "disable option 'Remember job progress')"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1052
+#: ekos/scheduler/scheduler.cpp:1061
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1237
+#: ekos/scheduler/scheduler.cpp:1246
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1 %2 %3"
 msgstr "%1, %2 και %3"
 
-#: ekos/scheduler/scheduler.cpp:1320
+#: ekos/scheduler/scheduler.cpp:1329
 #, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1342
+#: ekos/scheduler/scheduler.cpp:1351
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1617
+#: ekos/scheduler/scheduler.cpp:1626
 #, kde-format
 msgid "Evaluating"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1618
+#: ekos/scheduler/scheduler.cpp:1627
 #, fuzzy, kde-format
 #| msgid "Scheduled Time"
 msgid "Scheduled"
 msgstr "Προγραμματισμένη ώρα"
 
-#: ekos/scheduler/scheduler.cpp:1620
+#: ekos/scheduler/scheduler.cpp:1629
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid"
 msgstr "Μη έγκυρο URL"
 
-#: ekos/scheduler/scheduler.cpp:1902
+#: ekos/scheduler/scheduler.cpp:1911
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler pause planned..."
 msgstr "Το αρχείο FITS αποθηκεύτηκε στο %1"
 
-#: ekos/scheduler/scheduler.cpp:1906
+#: ekos/scheduler/scheduler.cpp:1915
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Schedar"
 msgid "Resume Scheduler"
 msgstr "Σκένταρ"
 
-#: ekos/scheduler/scheduler.cpp:1921
+#: ekos/scheduler/scheduler.cpp:1930
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1951
+#: ekos/scheduler/scheduler.cpp:1960
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler aborted."
 msgstr "Το αρχείο FITS αποθηκεύτηκε στο %1"
 
-#: ekos/scheduler/scheduler.cpp:1960
+#: ekos/scheduler/scheduler.cpp:1969
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1968 ekos/scheduler/scheduler.ui:1212
+#: ekos/scheduler/scheduler.cpp:1977 ekos/scheduler/scheduler.ui:1212
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Start Scheduler"
 msgstr "&Έναρξη ακολουθίας "
 
-#: ekos/scheduler/scheduler.cpp:1991
+#: ekos/scheduler/scheduler.cpp:2000
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Ουρά ακολουθίας"
 
-#: ekos/scheduler/scheduler.cpp:2084
+#: ekos/scheduler/scheduler.cpp:2093
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Ουρά ακολουθίας"
 
-#: ekos/scheduler/scheduler.cpp:2103
+#: ekos/scheduler/scheduler.cpp:2112
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to save scheduler list"
 msgstr "Αποτυχία καθορισμού συνένωσης εικονοστοιχείων (binning)"
 
-#: ekos/scheduler/scheduler.cpp:2247
+#: ekos/scheduler/scheduler.cpp:2256
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2270
+#: ekos/scheduler/scheduler.cpp:2279
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Slew complete"
 msgstr "ολοκληρώθηκαν"
 
-#: ekos/scheduler/scheduler.cpp:2274
+#: ekos/scheduler/scheduler.cpp:2283
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus complete"
 msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 
-#: ekos/scheduler/scheduler.cpp:2276
+#: ekos/scheduler/scheduler.cpp:2285
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Align complete"
 msgstr "ολοκληρώθηκαν"
 
-#: ekos/scheduler/scheduler.cpp:2277
+#: ekos/scheduler/scheduler.cpp:2286
 #, fuzzy, kde-format
 #| msgid "Opposition"
 msgid "Repositioning"
 msgstr "Αντίθεση"
 
-#: ekos/scheduler/scheduler.cpp:2278
+#: ekos/scheduler/scheduler.cpp:2287
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Repositioning complete"
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/scheduler/scheduler.cpp:2281
+#: ekos/scheduler/scheduler.cpp:2290
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Guiding complete"
 msgstr "ολοκληρώθηκαν"
 
-#: ekos/scheduler/scheduler.cpp:2348
+#: ekos/scheduler/scheduler.cpp:2357
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2352
+#: ekos/scheduler/scheduler.cpp:2361
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2356
+#: ekos/scheduler/scheduler.cpp:2365
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2374
+#: ekos/scheduler/scheduler.cpp:2383
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2383
+#: ekos/scheduler/scheduler.cpp:2392
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2405
+#: ekos/scheduler/scheduler.cpp:2414
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler is in sleep mode"
 msgstr "Το αρχείο FITS αποθηκεύτηκε στο %1"
 
-#: ekos/scheduler/scheduler.cpp:2469
+#: ekos/scheduler/scheduler.cpp:2478
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Manual startup procedure completed successfully."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/scheduler/scheduler.cpp:2473
+#: ekos/scheduler/scheduler.cpp:2482
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""

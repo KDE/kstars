@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-02 01:57+0000\n"
-"PO-Revision-Date: 2025-07-28 11:00+0300\n"
+"POT-Creation-Date: 2025-08-03 02:00+0000\n"
+"PO-Revision-Date: 2025-08-02 17:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -423,7 +423,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:386
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera_jobs.cpp:410
-#: ekos/scheduler/scheduler.cpp:2103
+#: ekos/scheduler/scheduler.cpp:2112
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:699
@@ -593,7 +593,7 @@ msgstr "İptal"
 #: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1275 ekos/manager.cpp:1290 ekos/manager.cpp:1306
-#: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
+#: ekos/scheduler/scheduler.cpp:1632 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
 #: skycomponents/imageoverlaycomponent.cpp:537
@@ -2048,9 +2048,9 @@ msgstr "Durum:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:805 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1616
-#: ekos/scheduler/scheduler.cpp:2268 ekos/scheduler/scheduler.cpp:2493
-#: ekos/scheduler/scheduler.cpp:2501 ekos/scheduler/scheduler.cpp:2511
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1625
+#: ekos/scheduler/scheduler.cpp:2277 ekos/scheduler/scheduler.cpp:2502
+#: ekos/scheduler/scheduler.cpp:2510 ekos/scheduler/scheduler.cpp:2520
 #: ekos/scheduler/scheduler.ui:1340 indi/indidome.cpp:21
 #: indi/indidustcap.cpp:17 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
@@ -2425,8 +2425,8 @@ msgid "Check if magnitude is unknown"
 msgstr "Büyüklük bilinmiyorsa işaretleyin"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1624
-#: ekos/scheduler/scheduler.cpp:2283 fitsviewer/fitshistogram.cpp:781
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1633
+#: ekos/scheduler/scheduler.cpp:2292 fitsviewer/fitshistogram.cpp:781
 #: fitsviewer/fitshistogramcommand.cpp:267 indi/indigroup.cpp:30
 #: skycomponents/constellationboundarylines.cpp:293
 #: skyobjects/skyobject.cpp:435
@@ -2673,8 +2673,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3971
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
-#: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2003
-#: ekos/scheduler/scheduler.cpp:2113 fitsviewer/fitstab.cpp:1217
+#: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
+#: ekos/scheduler/scheduler.cpp:2122 fitsviewer/fitstab.cpp:1217
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -3872,7 +3872,7 @@ msgstr "0,0 pc"
 #: ekos/capture/camera_device.cpp:907 ekos/capture/camera_device.cpp:949
 #: ekos/capture/capturehistorynavigation.ui:128
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
-#: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
+#: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:457 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
 #: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:597
 #: ekos/guide/guide.ui:721 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
@@ -6692,7 +6692,7 @@ msgstr "Çözüm Noktalarını Dışa Aktar"
 #: ekos/align/align.cpp:3970 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
 #: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
-#: ekos/scheduler/scheduler.cpp:2002 ekos/scheduler/scheduler.cpp:2112
+#: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
 #: fitsviewer/fitstab.cpp:1216 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -10449,7 +10449,7 @@ msgid "Parking"
 msgstr "Park ediliyor"
 
 #: ekos/analyze/analyze.cpp:134 ekos/analyze/analyze.cpp:153 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:2269 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:2278 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr "Çevriliyor"
@@ -10580,7 +10580,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:3483 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/scheduler.cpp:1622
+#: ekos/scheduler/scheduler.cpp:1631
 #, kde-format
 msgid "Aborted"
 msgstr "İptal edildi"
@@ -10596,7 +10596,7 @@ msgid "Disconnected"
 msgstr "Bağlantı kesildi"
 
 #: ekos/analyze/analyze.cpp:3489 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2282
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2291
 #, kde-format
 msgid "Capturing"
 msgstr "Yakalanıyor"
@@ -10638,7 +10638,7 @@ msgstr "Kalibre edildi"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3505 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:2280
+#: ekos/scheduler/scheduler.cpp:2289
 #, kde-format
 msgid "Guiding"
 msgstr "Kılavuzluk yapılıyor"
@@ -11615,7 +11615,7 @@ msgstr "Süzgeç"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
 #: ekos/auxiliary/filtermanager.cpp:124 ekos/capture/camera.ui:2337
-#: ekos/scheduler/scheduler.cpp:448
+#: ekos/scheduler/scheduler.cpp:457
 #, kde-format
 msgid "Offset"
 msgstr "Ofset"
@@ -12783,7 +12783,7 @@ msgstr "Ekos hizalama modülü etkinliğini günlükle"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlignmentLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, AlignmentGroupBox)
-#: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:452
+#: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:461
 #: fitsviewer/livestacking.ui:567
 #, kde-format
 msgid "Alignment"
@@ -14799,7 +14799,7 @@ msgstr "Sekans betiklerini yönet"
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
 #: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:612
-#: ekos/scheduler/scheduler.cpp:460
+#: ekos/scheduler/scheduler.cpp:469
 #, kde-format
 msgid "Scripts"
 msgstr "Betikler"
@@ -15626,7 +15626,7 @@ msgstr "İş durumunu sıfırla"
 msgid "Editing job #%1..."
 msgstr "№%1. iş düzenleniyor…"
 
-#: ekos/capture/camera_jobs.cpp:239 ekos/scheduler/scheduler.cpp:1348
+#: ekos/capture/camera_jobs.cpp:239 ekos/scheduler/scheduler.cpp:1357
 #, kde-format
 msgid "Apply job changes."
 msgstr "İş değişikliklerini uygulayın."
@@ -16050,98 +16050,98 @@ msgstr "Toz kapağı park edilmemiş."
 msgid "Meridian flip is successfully completed"
 msgstr "Meridyen geçişi başarıyla tamamlandı"
 
-#: ekos/capture/camerastate.cpp:604
+#: ekos/capture/camerastate.cpp:607
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Döndürme sonrası yeniden kalibrasyon ve kılavuzluk yapılıyor…"
 
-#: ekos/capture/camerastate.cpp:617
+#: ekos/capture/camerastate.cpp:620
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Meridyen geçişi sonrası kalibrasyonu hatası. Yeniden başlatılıyor…"
 
-#: ekos/capture/camerastate.cpp:637
+#: ekos/capture/camerastate.cpp:640
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr ""
 "Kendiliğinden kılavuzluk durduruldu. Kendiliğinden odaklamanın bitmesi "
 "bekleniyor…"
 
-#: ekos/capture/camerastate.cpp:646
+#: ekos/capture/camerastate.cpp:649
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Kendiliğinden kılavuzluk durduruldu. İptal ediliyor…"
 
-#: ekos/capture/camerastate.cpp:653
+#: ekos/capture/camerastate.cpp:656
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Meridyen geçişi sonrası kalibrasyonu hatası. İptal ediliyor…"
 
-#: ekos/capture/camerastate.cpp:675
+#: ekos/capture/camerastate.cpp:678
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr "Uyarlanır odak tamamlandı."
 
-#: ekos/capture/camerastate.cpp:699
+#: ekos/capture/camerastate.cpp:702
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Kendiliğinden odaklama başarısız oldu. Pozlama iptal ediliyor…"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:735
+#: ekos/capture/camerastate.cpp:738
 #, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
 msgstr "Odak tamamlandı. %1 saniye içinde sürdürülüyor…"
 
-#: ekos/capture/camerastate.cpp:758
+#: ekos/capture/camerastate.cpp:761
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr "Sınır: %1 °C"
 
-#: ekos/capture/camerastate.cpp:762
+#: ekos/capture/camerastate.cpp:765
 #, kde-format
 msgid "Limit: %1 mins"
 msgstr "Sınır: %1 dakika"
 
-#: ekos/capture/camerastate.cpp:907
+#: ekos/capture/camerastate.cpp:910
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Döndürme sonrası yeniden hizalama yapılıyor…"
 
-#: ekos/capture/camerastate.cpp:925
+#: ekos/capture/camerastate.cpp:927
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Kılavuz modülü zaman aşımına uğradı."
 
-#: ekos/capture/camerastate.cpp:957
+#: ekos/capture/camerastate.cpp:959
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "Başlangıç kılavuzluk sapması %1, %2 yaysaniye sınır değerinin altında"
 
-#: ekos/capture/camerastate.cpp:966
+#: ekos/capture/camerastate.cpp:968
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "Başlangıç kılavuzluk sapması %1, %2 yaysaniye sınır değerini aştı"
 
-#: ekos/capture/camerastate.cpp:988
+#: ekos/capture/camerastate.cpp:990
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Meridyen geçişi sonrası kalibrasyonu başarıyla tamamlandı."
 
-#: ekos/capture/camerastate.cpp:1002
+#: ekos/capture/camerastate.cpp:1004
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "%1 yakalama başlangıcındaki kılavuzluk sapması %2 yaysaniye sınırını aştı."
 
-#: ekos/capture/camerastate.cpp:1016
+#: ekos/capture/camerastate.cpp:1018
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "%1 yakalama başlangıcındaki kılavuzluk sapması %2 yaysaniye değerinin "
 "altında."
 
-#: ekos/capture/camerastate.cpp:1043
+#: ekos/capture/camerastate.cpp:1045
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16150,7 +16150,7 @@ msgstr ""
 "%1 kılavuzluk sapması ardışık %4 örnek için %2 yaysaniyelik sınır değerini "
 "aştı, pozlama askıya alındı ve kılavuz %3 saniyeye kadar bekleniyor."
 
-#: ekos/capture/camerastate.cpp:1090
+#: ekos/capture/camerastate.cpp:1092
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16159,7 +16159,7 @@ msgstr ""
 "%1 kılavuzluk sapması artık %2 yaysaniyelik sınır değerinden daha düşük, "
 "pozlama sürdürülüyor."
 
-#: ekos/capture/camerastate.cpp:1094
+#: ekos/capture/camerastate.cpp:1096
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16168,22 +16168,22 @@ msgstr ""
 "%1 kılavuzluk sapması artık %2 yaysaniyelik sınır değerinden daha düşük, "
 "pozlama %3 saniye içinde sürdürülecek."
 
-#: ekos/capture/camerastate.cpp:1109
+#: ekos/capture/camerastate.cpp:1111
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "%1 kılavuzluk sapması hâlâ %2 yaysaniyelik sınır değerinden yüksek."
 
-#: ekos/capture/camerastate.cpp:1489
+#: ekos/capture/camerastate.cpp:1491
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Geçiş sonrası yeniden hizalaması başarıyla tamamlandı."
 
-#: ekos/capture/camerastate.cpp:1508
+#: ekos/capture/camerastate.cpp:1510
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Geçiş sonrası hizalaması başarısız oldu."
 
-#: ekos/capture/camerastate.cpp:1513
+#: ekos/capture/camerastate.cpp:1515
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Geçiş sonrası hizalaması başarısız oldu. Yeniden deneniyor…"
@@ -17647,7 +17647,7 @@ msgstr "Yakalama sonrası betiği:"
 msgid "Post-job script:"
 msgstr "İş sonrası betiği:"
 
-#: ekos/capture/sequenceeditor.cpp:101
+#: ekos/capture/sequenceeditor.cpp:109
 #, kde-format
 msgid ""
 "<b><font color=\"red\">Please run the Capture tab connected to INDI with "
@@ -17658,7 +17658,7 @@ msgstr ""
 "INDI’ye bağlı Yakalama sekmesini istediğiniz kamerayla/süzgeç bankasıyla en "
 "az bir kez çalıştırın.</font></b><p>"
 
-#: ekos/capture/sequenceeditor.cpp:105
+#: ekos/capture/sequenceeditor.cpp:113
 #, kde-format
 msgid ""
 "<b>Using camera and filterwheel attributes from Capture session started at "
@@ -17691,7 +17691,7 @@ msgid "In Progress"
 msgstr "Sürüyor"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1621
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1630
 #, kde-format
 msgid "Complete"
 msgstr "Tamamlandı"
@@ -17847,7 +17847,7 @@ msgstr "Bekleniyor"
 msgid "Image Received"
 msgstr "Görsel Alındı"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2272
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2281
 #, kde-format
 msgid "Focusing"
 msgstr "Odaklanıyor"
@@ -17877,7 +17877,7 @@ msgstr "Sıcaklık Ayarlanıyor"
 msgid "Setting Rotator"
 msgstr "Döndürücü Ayarlanıyor"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2275
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2284
 #, kde-format
 msgid "Aligning"
 msgstr "Hizalanıyor"
@@ -17928,7 +17928,7 @@ msgstr "Odak Ofseti"
 msgid "Startup"
 msgstr "Başlangıç"
 
-#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1619
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1628
 #, kde-format
 msgid "Running"
 msgstr "Çalışıyor"
@@ -18545,7 +18545,7 @@ msgstr "Uyarlanır odak, odaklayıcıyı hareket ettiremiyor"
 #: ekos/focus/adaptivefocus.cpp:352
 #, kde-format
 msgid "Moving %1 offset outward"
-msgstr ""
+msgstr "%1 ofset dışa taşınıyor"
 
 #: ekos/focus/adaptivefocus.cpp:392
 #, kde-format
@@ -25979,7 +25979,7 @@ msgstr "Kepengi kapat"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2417
+#: ekos/scheduler/scheduler.cpp:2426
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Zamanlayıcıyı durdur"
@@ -27895,13 +27895,13 @@ msgstr[1] " zamanlayıcı işi"
 msgid " (first only)"
 msgstr " (yalnızca ilk)"
 
-#: ekos/scheduler/framingassistantui.cpp:740 ekos/scheduler/scheduler.cpp:784
+#: ekos/scheduler/framingassistantui.cpp:740 ekos/scheduler/scheduler.cpp:793
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Sekans Kuyruğu Seç"
 
-#: ekos/scheduler/framingassistantui.cpp:742 ekos/scheduler/scheduler.cpp:786
+#: ekos/scheduler/framingassistantui.cpp:742 ekos/scheduler/scheduler.cpp:795
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Ekos sekans kuyruğu (*.esq)"
@@ -28352,7 +28352,7 @@ msgstr ""
 "belirtebilirsiniz. Bir uyarı sembolü, işin bitişindeki yüksekliğin, işin "
 "tamamlanmasından önce durdurulmasına neden olabileceğini belirtir.\n"
 
-#: ekos/scheduler/scheduler.cpp:181 ekos/scheduler/scheduler.cpp:1750
+#: ekos/scheduler/scheduler.cpp:181 ekos/scheduler/scheduler.cpp:1759
 #, kde-format
 msgid ""
 "Count of captures stored for the job, based on its sequence job.\n"
@@ -28406,7 +28406,7 @@ msgstr ""
 "Algoritmanın önce aynı süreyi kullanarak tüm yükseklikleri hesapladığını, "
 "ardından işleri değerlendirdiğini unutmayın."
 
-#: ekos/scheduler/scheduler.cpp:381 ekos/scheduler/scheduler.cpp:2229
+#: ekos/scheduler/scheduler.cpp:381 ekos/scheduler/scheduler.cpp:2238
 #: ekos/scheduler/schedulerprocess.cpp:3594
 #, kde-format
 msgid ""
@@ -28416,70 +28416,70 @@ msgstr ""
 "Uyarı: Klasik zamanlayıcı algoritması kullanımdan kaldırıldı. Sizi Açgözlü "
 "algoritmaya geçiriyorum."
 
-#: ekos/scheduler/scheduler.cpp:456
+#: ekos/scheduler/scheduler.cpp:465
 #, kde-format
 msgid "Jobs"
 msgstr "İşler"
 
-#: ekos/scheduler/scheduler.cpp:658
+#: ekos/scheduler/scheduler.cpp:667
 #, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "FITS/XISF Görseli Seç"
 
-#: ekos/scheduler/scheduler.cpp:708
+#: ekos/scheduler/scheduler.cpp:717
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr "FITS üstbilgisi: OBJCTRA bulunamıyor (%1)."
 
-#: ekos/scheduler/scheduler.cpp:727
+#: ekos/scheduler/scheduler.cpp:736
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr "FITS üstbilgisi: OBJCTDEC bulunamıyor (%1)."
 
-#: ekos/scheduler/scheduler.cpp:760
+#: ekos/scheduler/scheduler.cpp:769
 #, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "Uyarı: RA değeri %1 geçersiz."
 
-#: ekos/scheduler/scheduler.cpp:763
+#: ekos/scheduler/scheduler.cpp:772
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "Uyarı: DEC değeri %1 geçersiz."
 
-#: ekos/scheduler/scheduler.cpp:794
+#: ekos/scheduler/scheduler.cpp:803
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "Başlangıç Betiği Seç"
 
-#: ekos/scheduler/scheduler.cpp:796 ekos/scheduler/scheduler.cpp:811
+#: ekos/scheduler/scheduler.cpp:805 ekos/scheduler/scheduler.cpp:820
 #, kde-format
 msgid "Script (*)"
 msgstr "Betik (*)"
 
-#: ekos/scheduler/scheduler.cpp:809
+#: ekos/scheduler/scheduler.cpp:818
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Kapatma Betiği Seç"
 
-#: ekos/scheduler/scheduler.cpp:875
+#: ekos/scheduler/scheduler.cpp:884
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr "Uyarı: Hedef adı gerekiyor."
 
-#: ekos/scheduler/scheduler.cpp:881
+#: ekos/scheduler/scheduler.cpp:890
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr "Uyarı: Sekans dosyası gerekiyor."
 
-#: ekos/scheduler/scheduler.cpp:888
+#: ekos/scheduler/scheduler.cpp:897
 #, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "Uyarı: Hedef koordinatları gerekiyor."
 
-#: ekos/scheduler/scheduler.cpp:1036
+#: ekos/scheduler/scheduler.cpp:1045
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
@@ -28488,7 +28488,7 @@ msgstr ""
 "Uyarı: %2. sütundaki “%1” işinin, %3. satırda yinelenmiş bir hedefi var; "
 "zamanlayıcı, yakalamalar için aynı depolamayı kullanmayı düşünebilir."
 
-#: ekos/scheduler/scheduler.cpp:1044
+#: ekos/scheduler/scheduler.cpp:1053
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -28500,91 +28500,91 @@ msgstr ""
 "tamamlayacaklar (veya “İş ilerlemesini anımsa” seçeneğini devre dışı "
 "bırakın)."
 
-#: ekos/scheduler/scheduler.cpp:1052
+#: ekos/scheduler/scheduler.cpp:1061
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr "Yinelenmişlere bakma işi atlandı."
 
-#: ekos/scheduler/scheduler.cpp:1237
+#: ekos/scheduler/scheduler.cpp:1246
 #, kde-format
 msgid "%1 %2 %3"
 msgstr "%1 %2 %3"
 
-#: ekos/scheduler/scheduler.cpp:1320
+#: ekos/scheduler/scheduler.cpp:1329
 #, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
 msgstr "İş №%1 düzenlemesi iptal edildi; özgün değere sıfırlanıyor."
 
-#: ekos/scheduler/scheduler.cpp:1342
+#: ekos/scheduler/scheduler.cpp:1351
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 "Gözlem listesinde yeni bir iş oluşturmak için düzenleme alanlarını kullanın."
 
-#: ekos/scheduler/scheduler.cpp:1617
+#: ekos/scheduler/scheduler.cpp:1626
 #, kde-format
 msgid "Evaluating"
 msgstr "Değerlendiriliyor"
 
-#: ekos/scheduler/scheduler.cpp:1618
+#: ekos/scheduler/scheduler.cpp:1627
 #, kde-format
 msgid "Scheduled"
 msgstr "Zamanlanan"
 
-#: ekos/scheduler/scheduler.cpp:1620
+#: ekos/scheduler/scheduler.cpp:1629
 #, kde-format
 msgid "Invalid"
 msgstr "Geçersiz"
 
-#: ekos/scheduler/scheduler.cpp:1902
+#: ekos/scheduler/scheduler.cpp:1911
 #, kde-format
 msgid "Scheduler pause planned..."
 msgstr "Zamanlayıcı duraklaması planlandı…"
 
-#: ekos/scheduler/scheduler.cpp:1906
+#: ekos/scheduler/scheduler.cpp:1915
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "Zamanlayıcıyı Sürdür"
 
-#: ekos/scheduler/scheduler.cpp:1921
+#: ekos/scheduler/scheduler.cpp:1930
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "Gözlemevi kapanma sürecinde…"
 
-#: ekos/scheduler/scheduler.cpp:1951
+#: ekos/scheduler/scheduler.cpp:1960
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "Zamanlayıcı iptal edildi."
 
-#: ekos/scheduler/scheduler.cpp:1960
+#: ekos/scheduler/scheduler.cpp:1969
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr "Sonraki iş hazır olana dek zamanlayıcı kapanma sürecinde…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1968 ekos/scheduler/scheduler.ui:1212
+#: ekos/scheduler/scheduler.cpp:1977 ekos/scheduler/scheduler.ui:1212
 #, kde-format
 msgid "Start Scheduler"
 msgstr "Zamanlayıcıyı Başlat"
 
-#: ekos/scheduler/scheduler.cpp:1991
+#: ekos/scheduler/scheduler.cpp:2000
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Ekos Zamanlayıcısı Listesini Aç"
 
-#: ekos/scheduler/scheduler.cpp:2084
+#: ekos/scheduler/scheduler.cpp:2093
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Ekos Zamanlayıcısı Listesini Kaydet"
 
-#: ekos/scheduler/scheduler.cpp:2103
+#: ekos/scheduler/scheduler.cpp:2112
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "Zamanlayıcı listesi kaydedilemedi"
 
-#: ekos/scheduler/scheduler.cpp:2247
+#: ekos/scheduler/scheduler.cpp:2256
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
@@ -28594,72 +28594,72 @@ msgstr ""
 "çalışmasına neden olabilir. Bu, ekipmanınızda geri dönüşü olmayan hasara "
 "neden olabilir!"
 
-#: ekos/scheduler/scheduler.cpp:2270
+#: ekos/scheduler/scheduler.cpp:2279
 #, kde-format
 msgid "Slew complete"
 msgstr "Çevirme tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:2274
+#: ekos/scheduler/scheduler.cpp:2283
 #, kde-format
 msgid "Focus complete"
 msgstr "Odaklanma tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:2276
+#: ekos/scheduler/scheduler.cpp:2285
 #, kde-format
 msgid "Align complete"
 msgstr "Hizalama tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:2277
+#: ekos/scheduler/scheduler.cpp:2286
 #, kde-format
 msgid "Repositioning"
 msgstr "Yeniden konumlanıyor…"
 
-#: ekos/scheduler/scheduler.cpp:2278
+#: ekos/scheduler/scheduler.cpp:2287
 #, kde-format
 msgid "Repositioning complete"
 msgstr "Yeniden konumlama tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:2281
+#: ekos/scheduler/scheduler.cpp:2290
 #, kde-format
 msgid "Guiding complete"
 msgstr "Kılavuzluk tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:2348
+#: ekos/scheduler/scheduler.cpp:2357
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Hava koşulları iyi."
 
-#: ekos/scheduler/scheduler.cpp:2352
+#: ekos/scheduler/scheduler.cpp:2361
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Uyarı: Hava koşulları UYARI safhasında."
 
-#: ekos/scheduler/scheduler.cpp:2356
+#: ekos/scheduler/scheduler.cpp:2365
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Dikkat: Hava koşulları TEHLİKE safhasında!"
 
-#: ekos/scheduler/scheduler.cpp:2374
+#: ekos/scheduler/scheduler.cpp:2383
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Hava koşulları uyarı safhasında"
 
-#: ekos/scheduler/scheduler.cpp:2383
+#: ekos/scheduler/scheduler.cpp:2392
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr "Hava koşulları kritik. Gözlemevi yakında kapanacak"
 
-#: ekos/scheduler/scheduler.cpp:2405
+#: ekos/scheduler/scheduler.cpp:2414
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Zamanlayıcı uyku kipinde"
 
-#: ekos/scheduler/scheduler.cpp:2469
+#: ekos/scheduler/scheduler.cpp:2478
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Elle başlangıç prosedürü başarıyla tamamlandı."
 
-#: ekos/scheduler/scheduler.cpp:2473
+#: ekos/scheduler/scheduler.cpp:2482
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "Elle başlangıç prosedürü hatalardan dolayı sonlandırıldı."
