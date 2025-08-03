@@ -149,7 +149,14 @@ void Message::onTextReceived(const QString &message)
         // If client is connected, make sure clock is ticking
         if (payload["state"].toBool(false))
         {
-            qCInfo(KSTARS_EKOS) << "EkosLive client is connected.";
+            qCInfo(KSTARS_EKOS) << "EkosLive client is connected:" << node->url().toDisplayString();
+
+            // Need to update client state in the matching node manager.
+            for (auto &nodeManager : m_NodeManagers)
+            {
+                if (nodeManager->message() == node)
+                    nodeManager->media()->setClientState(true);
+            }
 
             // If the clock is PAUSED, run it now and sync time as well.
             if (KStarsData::Instance()->clock()->isActive() == false)
@@ -165,7 +172,14 @@ void Message::onTextReceived(const QString &message)
         // then we pause here as well to save power.
         else
         {
-            qCInfo(KSTARS_EKOS) << "EkosLive client is disconnected.";
+            qCInfo(KSTARS_EKOS) << "EkosLive client is disconnected:" << node->url().toDisplayString();
+
+            // Need to update client state in the matching node manager.
+            for (auto &nodeManager : m_NodeManagers)
+            {
+                if (nodeManager->message() == node)
+                    nodeManager->media()->setClientState(false);
+            }
             // It was started with paused state, so let's pause IF Ekos is not running
             if (KStars::Instance()->isStartedWithClockRunning() == false && m_Manager->ekosStatus() == Ekos::CommunicationStatus::Idle)
             {

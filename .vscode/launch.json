@@ -8,7 +8,7 @@
       "name": "Debug KStars",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/bin/kstars",
+      "program": "${workspaceFolder}/build/kstars/kstars",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${fileDirname}",
