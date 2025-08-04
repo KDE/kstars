@@ -130,6 +130,7 @@ craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.y
     QT_TEST_TIMEOUT_FUNCTION: "600"
     QT_QPA_PLATFORM: "eglfs"
     CCACHE_DIR: "$CI_PROJECT_DIR/.ccache"
+    STELLARSOLVER_TAG: "2.7"
   cache:
     key: "CCACHE-DB-$CI_PROJECT_ID"
     paths: [ "${CCACHE_DIR}" ]
@@ -141,8 +142,11 @@ craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.y
     - add-apt-repository --remove ppa:mutlaqja/ppa
     - add-apt-repository ppa:mutlaqja/ppa
     - apt update
-    - apt -y --no-install-recommends install libindi1 libindi-dev libindi-data indi-bin xplanet gsc phd2 libstellarsolver libstellarsolver-dev libcurl4-openssl-dev
-    - mkdir -p kstars-build
+    - apt -y --no-install-recommends install libindi1 libindi-dev libindi-data indi-bin xplanet gsc phd2 libcurl4-openssl-dev git
+    - git clone --branch=$STELLARSOLVER_TAG https://github.com/rlancaste/stellarsolver.git
+    - mkdir stellarsolver-build && cd stellarsolver-build
+    - cmake -GNinja -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo -DUSE_QT5=OFF ../stellarsolver && ninja -j8 all install
+    - cd ../ && mkdir -p kstars-build
   after_script:
     - ccache -s
 
@@ -150,7 +154,6 @@ craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.y
 build:
   stage: build
   extends: .custom_build
-  allow_failure: true # TODO: REMOVE WHEN STABLE AGAIN
   needs:
     - suse_tumbleweed_qt69
   script:
