@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-03 02:00+0000\n"
+"POT-Creation-Date: 2025-08-04 02:12+0000\n"
 "PO-Revision-Date: 2007-06-25 11:21+0300\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -17193,12 +17193,12 @@ msgstr "Joliet"
 msgid "Offline"
 msgstr "Joliet"
 
-#: ekos/ekoslive/message.cpp:761
+#: ekos/ekoslive/message.cpp:775
 #, fuzzy, kde-format
 msgid "target"
 msgstr "Гішпанія"
 
-#: ekos/ekoslive/message.cpp:1043
+#: ekos/ekoslive/message.cpp:1057
 #, fuzzy, kde-format
 #| msgid "Show webpage about "
 msgid "Mosaic import failed."

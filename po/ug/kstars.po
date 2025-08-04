@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-03 02:00+0000\n"
+"POT-Creation-Date: 2025-08-04 02:12+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -18080,14 +18080,14 @@ msgstr "مولىنې"
 msgid "Offline"
 msgstr "مولىنې"
 
-#: ekos/ekoslive/message.cpp:761
+#: ekos/ekoslive/message.cpp:775
 #, fuzzy, kde-format
 #| msgctxt "City in Newfoundland Canada"
 #| msgid "Argentia"
 msgid "target"
 msgstr "ئارگېنتىيە"
 
-#: ekos/ekoslive/message.cpp:1043
+#: ekos/ekoslive/message.cpp:1057
 #, fuzzy, kde-format
 #| msgctxt "Satellite group name"
 #| msgid "Other"

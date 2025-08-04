@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-03 02:00+0000\n"
-"PO-Revision-Date: 2025-01-22 18:47+0400\n"
+"POT-Creation-Date: 2025-08-04 02:12+0000\n"
+"PO-Revision-Date: 2025-08-03 14:52+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -364,7 +364,7 @@ msgstr "30 م في 1.3سم"
 #: auxiliary/fov.cpp:193
 #, kde-format
 msgid "No FOV"
-msgstr "بدون رمز للرؤية"
+msgstr "دون رمز للرؤية"
 
 #: auxiliary/imageexporter.cpp:40 auxiliary/imageexporter.cpp:41
 #, kde-format
@@ -4477,7 +4477,7 @@ msgstr "ابحث عن مدينة"
 #: dialogs/finddialog.ui:109
 #, kde-format
 msgid "Clear History"
-msgstr "امسح التّأريخ"
+msgstr "امحُ التّأريخ"
 
 #. i18n: ectx: property (text), widget (QLabel, FilterTypeLabel)
 #: dialogs/finddialog.ui:148
@@ -5051,7 +5051,7 @@ msgstr "احصل على الموقع"
 #: dialogs/locationdialog.ui:516
 #, kde-format
 msgid "&Clear Fields"
-msgstr "امسح جميع الحقول"
+msgstr "ا&محُ الحقول"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddCityButton)
 #: dialogs/locationdialog.ui:545
@@ -11927,7 +11927,7 @@ msgstr "أزل  سطراً من قاعدة المعلومات واحذف الإ�
 #: ekos/auxiliary/darklibrary.ui:1095
 #, kde-format
 msgid "Clear Row"
-msgstr "امسح السطر"
+msgstr "امحُ السطر"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #. i18n: ectx: label, entry (MaxDarkTemperatureDiff), group (DarkLibrary)
@@ -17564,13 +17564,13 @@ msgstr "متصل"
 msgid "Offline"
 msgstr "غير متّصل"
 
-#: ekos/ekoslive/message.cpp:761
+#: ekos/ekoslive/message.cpp:775
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "target"
 msgstr "الهدف"
 
-#: ekos/ekoslive/message.cpp:1043
+#: ekos/ekoslive/message.cpp:1057
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -19306,7 +19306,7 @@ msgstr "منظومة الأجهزة"
 #: tools/modcalcgeod.ui:160
 #, kde-format
 msgid "Clear"
-msgstr "امسح"
+msgstr "امحُ"
 
 #: ekos/focus/focusadvisor.cpp:81 ekos/focus/focusadvisor.cpp:82
 #, fuzzy, kde-format
@@ -77979,7 +77979,7 @@ msgstr "اجعل خط المسار يختفي تدريجياً مع لون ال�
 #: options/opssolarsystem.ui:657
 #, kde-format
 msgid "Clear all orbit trails"
-msgstr "امسح كل خطوط المسارات المدارية"
+msgstr "امحُ كل خطوط المسارات المدارية"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, ClearAllTrails)
 #: options/opssolarsystem.ui:660
@@ -77993,7 +77993,7 @@ msgstr "ضغط إلى مسح الكل أيار مرفق إلى نظام يمين
 #: options/opssolarsystem.ui:663
 #, kde-format
 msgid "Remove All Trails"
-msgstr "امسح كل خطوط المسارات"
+msgstr "امحُ كل خطوط المسارات"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: options/opssolarsystem.ui:688
@@ -80781,14 +80781,14 @@ msgstr "ارسم"
 #: tools/altvstime.ui:148
 #, kde-format
 msgid "Clear Fields"
-msgstr "امسح الحقول"
+msgstr "امحُ الحقول"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearButton)
 #. i18n: ectx: property (text), widget (QPushButton, clearListB)
 #: tools/altvstime.ui:190 tools/observinglist.ui:375
 #, kde-format
 msgid "Clear List"
-msgstr "امسح القائمة"
+msgstr "امحُ القائمة"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: tools/altvstime.ui:197
@@ -81856,7 +81856,7 @@ msgstr "أزل النقطة"
 #: tools/horizonmanager.ui:296
 #, kde-format
 msgid "Clear all points"
-msgstr "امسح جميع النقاط"
+msgstr "امحُ جميع النقاط"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPointsB)
 #: tools/horizonmanager.ui:353
@@ -84169,7 +84169,7 @@ msgstr "هل تريد حذف العميل %1؟"
 #: tools/observinglist.cpp:962
 #, kde-format
 msgid "Clear all?"
-msgstr "امسح الكلّ؟"
+msgstr "امحُ الكلّ؟"
 
 #: tools/observinglist.cpp:995
 #, fuzzy, kde-format
@@ -84711,7 +84711,7 @@ msgstr "اختر جميع العناصر في القائمة"
 #: tools/obslistwizard.ui:180
 #, kde-format
 msgid "Clear all selected items in the list"
-msgstr "امسح جميع الخيارات من القائمة"
+msgstr "امحُ جميع الخيارات من القائمة"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DeepSkyButton)
 #: tools/obslistwizard.ui:190

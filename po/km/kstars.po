@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-03 02:00+0000\n"
+"POT-Creation-Date: 2025-08-04 02:12+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -16880,12 +16880,12 @@ msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 msgid "Offline"
 msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
-#: ekos/ekoslive/message.cpp:761
+#: ekos/ekoslive/message.cpp:775
 #, fuzzy, kde-format
 msgid "target"
 msgstr "ច្រក"
 
-#: ekos/ekoslive/message.cpp:1043
+#: ekos/ekoslive/message.cpp:1057
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "រក្សា​ទុក"

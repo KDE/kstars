@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-03 02:00+0000\n"
-"PO-Revision-Date: 2025-07-12 20:45+0200\n"
+"POT-Creation-Date: 2025-08-04 02:12+0000\n"
+"PO-Revision-Date: 2025-08-02 17:50+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -18255,12 +18255,12 @@ msgstr "In linea"
 msgid "Offline"
 msgstr "Non in linea"
 
-#: ekos/ekoslive/message.cpp:761
+#: ekos/ekoslive/message.cpp:775
 #, kde-format
 msgid "target"
 msgstr "destinazione"
 
-#: ekos/ekoslive/message.cpp:1043
+#: ekos/ekoslive/message.cpp:1057
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Importazione del mosaico non riuscita."
@@ -19207,14 +19207,12 @@ msgstr "Sorgente temperatura %1 definitivamente trovata"
 #: ekos/focus/focus.cpp:1079
 #, kde-format
 msgid "Delete the corresponding focus frames?"
-msgstr ""
+msgstr "Eliminare i fotogrammi di messa a fuoco corrispondenti?"
 
 #: ekos/focus/focus.cpp:1079
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter Count"
+#, kde-format
 msgid "Delete focus frames?"
-msgstr "Numero filtri"
+msgstr "Eliminare i fotogrammi di messa a fuoco?"
 
 #: ekos/focus/focus.cpp:1098
 #, kde-format
@@ -19311,10 +19309,9 @@ msgid "Star detection in progress, retrying in 1s..."
 msgstr "Rilevamento stelle in corso, nuovo tentativo in 1s..."
 
 #: ekos/focus/focus.cpp:1690
-#, fuzzy, kde-format
-#| msgid "Star detection in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection still in progress, aborting..."
-msgstr "Rilevamento stelle in corso, nuovo tentativo in 1s..."
+msgstr "Rilevamento stelle ancora in corso, interruzione..."
 
 #: ekos/focus/focus.cpp:1739
 #, kde-format
@@ -19995,10 +19992,9 @@ msgstr "Curva-V"
 
 #. i18n: ectx: property (text), widget (QLabel, starsLabel)
 #: ekos/focus/focus.ui:1047
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "Stars:"
-msgstr "Stelle"
+msgstr "Stelle:"
 
 #. i18n: ectx: property (text), widget (QLabel, hfrLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
@@ -20009,10 +20005,9 @@ msgstr "HFR:"
 
 #. i18n: ectx: property (text), widget (QLabel, fwhmLabel)
 #: ekos/focus/focus.ui:1075
-#, fuzzy, kde-format
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM:"
-msgstr "FWHM"
+msgstr "FWHM:"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:1108
@@ -31246,7 +31241,7 @@ msgstr ""
 #: fitsviewer/fitsmemmonitor.cpp:80
 #, kde-format
 msgid "Double-click to toggle text display"
-msgstr ""
+msgstr "Doppio clic per attivare/disattivare la visualizzazione del testo"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -31501,11 +31496,10 @@ msgid "RAM"
 msgstr "AR"
 
 #: fitsviewer/fitstab.cpp:1015
-#, fuzzy, kde-format
-#| msgid "Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
-msgstr "Cartella"
+msgstr "Cartella della pila"
 
 #: fitsviewer/fitstab.cpp:1040
 #, fuzzy, kde-format
@@ -31515,18 +31509,16 @@ msgid "Select Alignment Sub"
 msgstr "Allineamento pianificatore"
 
 #: fitsviewer/fitstab.cpp:1054
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Dark"
-msgstr "Master dark:"
+msgstr "Seleziona Master dark"
 
 #: fitsviewer/fitstab.cpp:1068
-#, fuzzy, kde-format
-#| msgid "Select Baud rate"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Flat"
-msgstr "Seleziona velocità in baud"
+msgstr "Seleziona Master flat"
 
 #: fitsviewer/fitstab.cpp:1170 fitsviewer/fitstab.cpp:1174
 #, kde-format
@@ -31550,21 +31542,19 @@ msgid "File saved to %1"
 msgstr "File salvato in %1"
 
 #: fitsviewer/fitstab.cpp:1303
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "Watching %1"
-msgstr "Caricamento di %1"
+msgstr "Osservazione di %1"
 
 #: fitsviewer/fitstab.cpp:1441
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "(%1) Watching %2"
-msgstr "Caricamento di %1"
+msgstr "(%1) Osservazione di %2"
 
 #: fitsviewer/fitstab.cpp:1443
 #, kde-format
 msgid "(%1) %2"
-msgstr ""
+msgstr "(%1) %2"
 
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, kde-format
@@ -31800,11 +31790,10 @@ msgid "View 3D Graph"
 msgstr "Visualizza grafico 3D"
 
 #: fitsviewer/fitsviewer.cpp:350 kstars.cpp:65
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker"
-msgstr "KStars Lite"
+msgstr "Live Stacker di KStars"
 
 #: fitsviewer/fitsviewer.cpp:351
 #, kde-format
@@ -31813,15 +31802,14 @@ msgid "KStars FITS Viewer"
 msgstr "Visore FITS di KStars"
 
 #: fitsviewer/fitsviewer.cpp:404
-#, fuzzy, kde-format
-#| msgid "Change Date..."
+#, kde-format
 msgid "Change Tab Title"
-msgstr "Cambia data..."
+msgstr "Cambia titolo scheda"
 
 #: fitsviewer/fitsviewer.cpp:405
 #, kde-format
 msgid "New title for tab '%1':"
-msgstr ""
+msgstr "Nuovo titolo della scheda «%1»:"
 
 #: fitsviewer/fitsviewer.cpp:493
 #, kde-format
@@ -31840,7 +31828,7 @@ msgstr[1] "HFR=%2, %1 stelle."
 #: fitsviewer/fitsviewer.cpp:550
 #, kde-format
 msgid "Right click to change tab title."
-msgstr ""
+msgstr "Clic col destro per cambiare il titolo della scheda."
 
 #: fitsviewer/fitsviewer.cpp:765
 #, kde-format
@@ -31895,11 +31883,10 @@ msgid "Open Image"
 msgstr "Apri immagine"
 
 #: fitsviewer/fitsviewer.cpp:1124
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker (BETA)"
-msgstr "KStars Lite"
+msgstr "Live Stacker di KStars (BETA)"
 
 #: fitsviewer/fitsviewer.cpp:1175
 #, fuzzy, kde-format
@@ -31996,10 +31983,9 @@ msgstr "Elaborazione di %1..."
 
 #. i18n: ectx: property (text), widget (QLabel, masterFlatLabel)
 #: fitsviewer/livestacking.ui:86
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Flat:"
-msgstr "Master dark:"
+msgstr "Master flat:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterFlatB)
 #: fitsviewer/livestacking.ui:102
@@ -32098,10 +32084,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:365
-#, fuzzy, kde-format
-#| msgid "Downsample"
+#, kde-format
 msgid "Downscale:"
-msgstr "Sottocampiona"
+msgstr "Sottocampiona:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:375
@@ -32117,7 +32102,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:392
 #, kde-format
 msgid "3x3"
-msgstr ""
+msgstr "3x3"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:417
@@ -32131,10 +32116,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:421
-#, fuzzy, kde-format
-#| msgid "Equalize"
+#, kde-format
 msgid "Equal"
-msgstr "Equalizza"
+msgstr "Uguale"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:445
@@ -32232,17 +32216,15 @@ msgstr "Master dark:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #: fitsviewer/livestacking.ui:708
-#, fuzzy, kde-format
-#| msgid "Processing"
+#, kde-format
 msgid "Post Processing"
-msgstr "Elaborazione"
+msgstr "Post-elaborazione"
 
 #. i18n: ectx: property (text), widget (QLabel, DenoiseLabel)
 #: fitsviewer/livestacking.ui:744
-#, fuzzy, kde-format
-#| msgid "Denoise"
+#, kde-format
 msgid "Denoise Amount:"
-msgstr "Riduci rumore"
+msgstr "Quantità di riduzione rumore"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:766
@@ -32276,11 +32258,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:848
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Vernal"
+#, kde-format
 msgid "Kernel:"
-msgstr "Vernal"
+msgstr "Kernel:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:870
@@ -32345,10 +32325,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1040
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Reprocess"
-msgstr "Processo"
+msgstr "Rielabora"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StackDirB)
 #: fitsviewer/livestacking.ui:1086
@@ -32361,10 +32340,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1111
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Stack Directory:"
-msgstr "Cartella:"
+msgstr "Cartella della pila:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1133
@@ -32377,7 +32355,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:1136 fitsviewer/livestacking.ui:1177
 #, kde-format
 msgid "0 / 0 / 0"
-msgstr ""
+msgstr "0 / 0 / 0"
 
 #. i18n: ectx: property (text), widget (QLabel, NumberSubsLabel)
 #: fitsviewer/livestacking.ui:1155
@@ -32393,13 +32371,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Stack)
 #: fitsviewer/livestacking.ui:1196
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The directory containing files to stack</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Tempo restante per il completamento</p></body></html>"
+"<html><head/><body><p>La cartella che contiene i file da impilare</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1218
@@ -32433,25 +32411,22 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:1285
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Memory monitor</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Monitor della memoria</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1304
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
-msgstr "<html><head/><body><p>Elimina frame corrente</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Salva i parametri del Live Stacker</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1307
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Settings"
+#, kde-format
 msgid "Save Settings"
-msgstr "Impostazioni delle immagini"
+msgstr "Salva impostazioni"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -35117,16 +35092,14 @@ msgid "KStars"
 msgstr "KStars"
 
 #: kstars.cpp:291
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgid "KStars Live Stacker"
-msgstr "KStars Lite"
+msgstr "Live Stacker di KStars"
 
 #: kstars.cpp:292
-#, fuzzy, kde-format
-#| msgid "(c), The KStars Team"
+#, kde-format
 msgid "© 2025 KStars Team"
-msgstr "©, il team di KStars"
+msgstr "© 2025 Il team di KStars"
 
 #: kstars.cpp:416 kstarsactions.cpp:1650 skymap.cpp:463
 #, kde-format
