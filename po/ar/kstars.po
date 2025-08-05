@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-04 02:12+0000\n"
-"PO-Revision-Date: 2025-08-03 14:52+0400\n"
+"PO-Revision-Date: 2025-08-04 18:33+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -276,7 +276,7 @@ msgstr "ملصق صورة فيتس"
 #, kde-format
 msgctxt "use default color scheme"
 msgid "Default Colors"
-msgstr "الألوان الافتراضية"
+msgstr "الألوان المبدئية"
 
 #: auxiliary/colorscheme.cpp:140 kstarsdata.cpp:1073 options/opscolors.cpp:59
 #: tools/scriptbuilder.cpp:742
@@ -2190,7 +2190,7 @@ msgstr "اجعل الجرم في وسط الخريطة \n"
 #: data/qml/whatisinteresting/wiview.qml:1030
 #, kde-kuit-format
 msgid " Auto     Track   "
-msgstr " تلقائي     تتبّع   "
+msgstr " آليّ     تتبّع   "
 
 #: data/qml/whatisinteresting/wiview.qml:1066
 #, kde-kuit-format
@@ -3083,7 +3083,7 @@ msgstr "Riverside"
 #: dialogs/catalogdetails.ui:135 dialogs/catalogeditform.ui:93
 #, kde-format
 msgid "Maintainer:"
-msgstr "المصين:"
+msgstr "الصائن:"
 
 #. i18n: ectx: property (text), widget (QLabel, maintainer)
 #: dialogs/catalogdetails.ui:142
@@ -3301,7 +3301,7 @@ msgstr "الرخصة"
 #: dialogs/catalogsdbui.cpp:27
 #, kde-format
 msgid "Maintainer"
-msgstr "المصين"
+msgstr "الصائن"
 
 #. i18n: ectx: property (text), widget (QPushButton, activateButton)
 #. i18n: ectx: property (text), widget (QPushButton, slavingEnableButton)
@@ -12428,7 +12428,7 @@ msgstr ""
 #: ekos/auxiliary/opslogs.ui:235 options/opsadvanced.ui:320
 #, kde-format
 msgid "Defaul&t"
-msgstr "الافتراضي"
+msgstr "المبدئي"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIDomeLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, domeBox)
@@ -25213,7 +25213,7 @@ msgstr "حدّد بوصة دَخْل ملفّ."
 #: fitsviewer/fitshistogramcommand.cpp:253
 #, kde-format
 msgid "Auto Scale"
-msgstr "تحجيم تلقائي"
+msgstr "تحجيم آليّ"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearGraphHistory)
 #: ekos/observatory/observatory.ui:859
@@ -25551,7 +25551,7 @@ msgstr ""
 #: ekos/profileeditor.ui:68
 #, kde-format
 msgid "Auto Connect"
-msgstr "اتصال تلقائي"
+msgstr "اتصال آليّ"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, portSelectorCheck)
 #: ekos/profileeditor.ui:88
@@ -26147,7 +26147,7 @@ msgstr "stellarmate.local"
 #: ekos/profilewizard.ui:711
 #, kde-format
 msgid "Auto Detect"
-msgstr "تعرُّف تلقائي"
+msgstr "تعرُّف آليّ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/profilewizard.ui:789
@@ -30328,7 +30328,7 @@ msgstr "أظهر شبكة HiPS"
 #: fitsviewer/fitsviewer.cpp:43
 #, kde-format
 msgid "Auto Stretch"
-msgstr "التوسيع التلقائي لنطاق التباين"
+msgstr "التوسيع الآليّ لنطاق التباين"
 
 #: fitsviewer/fitsviewer.cpp:43
 #, kde-format
@@ -31301,13 +31301,13 @@ msgstr "المعالجة"
 #: fitsviewer/opsfits.ui:361
 #, kde-format
 msgid "Always apply auto stretch to images in FITS Viewer"
-msgstr "دائماً طبق التوسيع التلقائي لنطاق التباين في الصورة"
+msgstr "دائماً طبق التوسيع الآليّ لنطاق التباين في الصورة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoStretch)
 #: fitsviewer/opsfits.ui:364
 #, kde-format
 msgid "Auto stretch"
-msgstr "التوسيع التلقائي لنطاق التباين"
+msgstr "التوسيع الآليّ لنطاق التباين"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_LimitedResourcesMode)
 #: fitsviewer/opsfits.ui:371
@@ -31373,7 +31373,7 @@ msgstr "نمط الموارد المحدودة"
 #: fitsviewer/opsfits.ui:381
 #, kde-format
 msgid "Automatically debayer captured image if it contains a bayer pattern"
-msgstr "ابن الألوان الكاملة للصورة الملتقطة تلقائياً إذا كانت تحوي نمط البناء"
+msgstr "ابن الألوان الكاملة للصورة الملتقطة آليّاً إذا كانت تحوي نمط البناء"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoDebayer)
 #: fitsviewer/opsfits.ui:384
@@ -31392,7 +31392,7 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p> حمّل بيانات نظام الإحداثيات العالمي (WCS) عند فتح ملف "
-"FITS.</p><p><span style=\" font-weight:600;\">تحذير: فعّل هذا الخيار فقط في "
+"FITS.</p><p><span style=\" font-weight:600;\">تحذير: مكّن هذا الخيار فقط في "
 "الحواسيب ذات المعالجات السريعة جداً إذ أنها قد تقود إلى نتائج غير متوقعة تؤدي "
 "إلى التوقف في الأنظمة البطيئة.</span></p></body></html>"
 
@@ -32892,7 +32892,7 @@ msgstr "حدد مجلد حفظ صور FITS الجديدة عند التقاطه�
 #: indi/opsindi.ui:160
 #, kde-format
 msgid "Default FITS directory:"
-msgstr "دليل FITS الافتراضي:"
+msgstr "دليل FITS المبدئي:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:222
@@ -38322,8 +38322,7 @@ msgstr ""
 #: kstars.kcfg:2195
 #, kde-format
 msgid "Perform auto stretch on captured images in FITS Viewer."
-msgstr ""
-"قم بالتوسيع التلقائي لنطاق التباين لصور FITS الملتقطة في عارض صور FITS."
+msgstr "قم بالتوسيع الآليّ لنطاق التباين لصور FITS الملتقطة في عارض صور FITS."
 
 #. i18n: ectx: label, entry (Clipping64KValue), group (Capture)
 #: kstars.kcfg:2203
@@ -44696,7 +44695,7 @@ msgstr "الحمبرا"
 #, kde-kuit-format
 msgctxt "City in Northern Territory Australia"
 msgid "Alice Springs"
-msgstr "ينابيع آليس"
+msgstr "ينابيع آليّس"
 
 #: kstars_i18n.cpp:764
 #, kde-kuit-format
@@ -69868,7 +69867,7 @@ msgstr "حدد الإحداثيات يدوياً ..."
 #: kstarsinit.cpp:266
 #, kde-format
 msgid "&Default Zoom"
-msgstr "حقل الرؤية الافتراضي"
+msgstr "حقل الرؤية المبدئي"
 
 #: kstarsinit.cpp:269
 #, kde-format
@@ -70609,7 +70608,7 @@ msgstr "الموقع الحالي اسفل الأفق"
 msgid ""
 "The initial position is below the horizon.\n"
 "Would you like to reset to the default position?"
-msgstr "هل تريد ان تعود الى الموقع الافتراضي؟"
+msgstr "هل تريد ان تعود الى الموقع المبدئي؟"
 
 #: kstarsinit.cpp:1053
 #, fuzzy, kde-format
@@ -75179,7 +75178,7 @@ msgstr ""
 #: main.cpp:122
 #, kde-format
 msgid "Current Maintainer"
-msgstr "المصين الحاليّ"
+msgstr "الصائن الحاليّ"
 
 #: main.cpp:126
 #, kde-format
@@ -76185,7 +76184,7 @@ msgstr "صور DSS"
 #: options/opsadvanced.ui:122
 #, kde-format
 msgid "Default DSS image size:"
-msgstr "حجم صور DSS الافتراضي:"
+msgstr "حجم صور DSS المبدئي:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opsadvanced.ui:170
@@ -77256,7 +77255,7 @@ msgstr "إستعمل أفقي تنسيق نظام?"
 #: options/opsguides.ui:268
 #, kde-format
 msgid "Automatically select coordinate grid"
-msgstr "اختر شبكة الإحداثيات تلقائياً"
+msgstr "اختر شبكة الإحداثيات آليّاً"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowFlags)
 #: options/opsguides.ui:278
@@ -83214,7 +83213,7 @@ msgstr "الوقت والتاريخ المستهدف"
 #: tools/modcalcapcoord.ui:195
 #, kde-format
 msgid "Reset to Now"
-msgstr "أعد الوقت إلى الآن"
+msgstr "صفّر إلى الآن"
 
 #. i18n: ectx: property (text), widget (QLabel, timeLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, utCheckBatch)
@@ -84895,7 +84894,7 @@ msgstr ""
 "بالأجرام التي يمكن رصدها في تاريخ معيّن (ومن موقع معيّن).  لفرز قائمتك بهذه "
 "الطريقة، علّم على المربع الصغير تحت، ثم اختر التاريخ المرغوب.  إذا تركت هذا "
 "المربع من دون تعليم، فإن القائمة ستحوي الأجرام بغض النظر عن كونها قابلة "
-"للرصد (هذا هو الاختيار الافتراضي).  بإمكانك أيضاً تغيير موقعك الجغرافي لتحديد "
+"للرصد (هذا هو الاختيار المبدئي).  بإمكانك أيضاً تغيير موقعك الجغرافي لتحديد "
 "إذا كانت الأجرام قابلة للرصد حسب الموقع.</p><p></p><p>عند الانتهاء، اضغط "
 "<span style=\" font-weight:600;\">التالي</span> للاستمرار.</p><p></p></"
 "body></html>"
@@ -85153,7 +85152,7 @@ msgstr "خفض عرض تكبير المستوى."
 #: tools/scriptbuilder.cpp:200
 #, kde-format
 msgid "Set the display Zoom Level to its default value."
-msgstr "غير حجم ساحة العرض الى الحالة الافتراضية"
+msgstr "غير حجم ساحة العرض الى الحالة المبدئية"
 
 #: tools/scriptbuilder.cpp:202
 #, kde-format
@@ -85613,7 +85612,7 @@ msgstr "صحح لانكسار الضوء في الغلاف الجوي؟"
 #: tools/scriptbuilder.cpp:657
 #, kde-format
 msgid "Automatically attach name label to centered object?"
-msgstr "هل ألصق التسمية إلى مركز الجرم آليا؟"
+msgstr "هل ألصق التسمية إلى مركز الجرم آليّا؟"
 
 #: tools/scriptbuilder.cpp:660
 #, fuzzy, kde-format
@@ -86393,7 +86392,7 @@ msgid ""
 msgstr ""
 "أداة \"السماء هذه الليلة\" تعرض لك كل الأجرام التي تكون ظاهرة فوق الأفق بين "
 "مغيب الشمس حتى منتصف الليل باختيار (\"نصف الليل الأول\") وهذا هو الاختيار "
-"الافتراضي.  يمكنك أيضاً عرض الأجرام التي تكون ظاهرة بين منتصف الليل إلى الفجر "
+"المبدئي.  يمكنك أيضاً عرض الأجرام التي تكون ظاهرة بين منتصف الليل إلى الفجر "
 "باختيار (\"نصف الليل الأخير\")، أو كل الأجرام التي تكون ظاهرة فوق الأفق بين "
 "مغيب الشمس وطلوعها باختيار  (\"أي وقت من الليل\")"
 
