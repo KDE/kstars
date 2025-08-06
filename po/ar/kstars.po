@@ -17526,7 +17526,7 @@ msgstr "أوقف الخدمة"
 #: ekos/ekoslive/ekoslivedialog.ui:82
 #, kde-format
 msgid "Password:"
-msgstr "كلمة السّرّ:"
+msgstr "كلمة السر:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rememberCredentialsCheck)
 #: ekos/ekoslive/ekoslivedialog.ui:99
