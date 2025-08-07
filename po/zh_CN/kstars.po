@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-04 02:12+0000\n"
+"POT-Creation-Date: 2025-08-07 19:47+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -581,7 +581,7 @@ msgstr "取消"
 #: ekos/align/opsastrometryindexfiles.cpp:736
 #: ekos/align/opsastrometryindexfiles.cpp:746 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
-#: ekos/manager.cpp:1275 ekos/manager.cpp:1290 ekos/manager.cpp:1306
+#: ekos/manager.cpp:1276 ekos/manager.cpp:1291 ekos/manager.cpp:1307
 #: ekos/scheduler/scheduler.cpp:1632 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
@@ -2015,7 +2015,7 @@ msgstr "状态："
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:805 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:806 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1625
 #: ekos/scheduler/scheduler.cpp:2277 ekos/scheduler/scheduler.cpp:2502
 #: ekos/scheduler/scheduler.cpp:2510 ekos/scheduler/scheduler.cpp:2520
@@ -6364,7 +6364,7 @@ msgstr "解析中止，用时 %1 秒。"
 
 #: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4136
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2098 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2105 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3689
 #, kde-format
@@ -10056,7 +10056,7 @@ msgstr "在最近调节后的极轴高度角误差。"
 #. i18n: ectx: property (text), widget (QPushButton, StartB)
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:149 ekos/manager.cpp:252 ekos/manager.cpp:813
+#: ekos/manager.cpp:149 ekos/manager.cpp:252 ekos/manager.cpp:814
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: fitsviewer/livestacking.ui:1272 kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -10218,7 +10218,7 @@ msgstr "无法显示临时图像文件： %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2303 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2246 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2253 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:554
 #, kde-format
@@ -10227,7 +10227,7 @@ msgstr "对焦"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2202
+#: ekos/analyze/analyze.cpp:2304 ekos/manager.cpp:2209
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:562
 #, kde-format
@@ -10239,7 +10239,7 @@ msgstr "对准"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2305 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2467
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2474
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:558
 #, kde-format
@@ -10255,7 +10255,7 @@ msgstr "翻转"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2307 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2392 ekos/manager.ui:778
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2399 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
 msgstr "支架"
@@ -12397,7 +12397,7 @@ msgstr "<html><head/><body><p>记录 Ekos Observatory 模块活动</p></body></h
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2517
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2524
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -23547,18 +23547,18 @@ msgstr "扩展 '%1' 已停止"
 msgid "Extension '%1': %2"
 msgstr "扩展 '%1': %2"
 
-#: ekos/manager.cpp:834
+#: ekos/manager.cpp:835
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:982 ekos/manager.cpp:1007
+#: ekos/manager.cpp:983 ekos/manager.cpp:1008
 #, kde-format
 msgid "Ekos requires at least one Camera to operate."
 msgstr ""
 
-#: ekos/manager.cpp:1070
+#: ekos/manager.cpp:1071
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -23567,17 +23567,17 @@ msgstr ""
 "Ekos 检测到 PTP 相机正在运行，并且可能会阻止佳能或尼康的相机连接到 Ekos 。您"
 "想现在退出 PTP 相机吗？"
 
-#: ekos/manager.cpp:1071
+#: ekos/manager.cpp:1072
 #, kde-format
 msgid "PTP Camera"
 msgstr "PTP 相机"
 
-#: ekos/manager.cpp:1085
+#: ekos/manager.cpp:1086
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "启动 INDI 服务..."
 
-#: ekos/manager.cpp:1116
+#: ekos/manager.cpp:1117
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -23586,80 +23586,80 @@ msgstr ""
 "Ekos 检测到一个 INDI 服务器实例正在运行。您希望在启动新实例前先关闭它吗？"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1118 indi/opsindi.ui:248
+#: ekos/manager.cpp:1119 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "INDI 服务器"
 
-#: ekos/manager.cpp:1133
+#: ekos/manager.cpp:1134
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "正在连接远程 INDI 服务器 %1 的端口 %2 ..."
 
-#: ekos/manager.cpp:1153
+#: ekos/manager.cpp:1154
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "在远程 INDI 网页管理器上启动配置文件失败。"
 
-#: ekos/manager.cpp:1157
+#: ekos/manager.cpp:1158
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "正在远程 INDI 网页管理器启动配置文件..."
 
-#: ekos/manager.cpp:1170
+#: ekos/manager.cpp:1171
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "正在与远程 INDI 网页管理器建立通信..."
 
-#: ekos/manager.cpp:1190
+#: ekos/manager.cpp:1191
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr "警告：INDI Web 管理器未在线。"
 
-#: ekos/manager.cpp:1227
+#: ekos/manager.cpp:1228
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "INDI 服务在端口 %1 启动。"
 
-#: ekos/manager.cpp:1230
+#: ekos/manager.cpp:1231
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "INDI 服务在端口 %1 启动。请连接设备。"
 
-#: ekos/manager.cpp:1235
+#: ekos/manager.cpp:1236
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
 "Waiting for devices..."
 msgstr "INDI 服务已启动。连接到 INDI 远程服务器 %1:%2 成功。等待设备..."
 
-#: ekos/manager.cpp:1266
+#: ekos/manager.cpp:1267
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "无法连接到本地 INDI  服务器 %1:%2"
 
-#: ekos/manager.cpp:1268
+#: ekos/manager.cpp:1269
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "无法连接到远程 INDI  服务器 %1:%2"
 
-#: ekos/manager.cpp:1281
+#: ekos/manager.cpp:1282
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "断开与本地INDI服务器%1:%2 的连接"
 
-#: ekos/manager.cpp:1283
+#: ekos/manager.cpp:1284
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "断开与远程服务器 %1:%2 的连接"
 
-#: ekos/manager.cpp:1346
+#: ekos/manager.cpp:1347
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr "未能连接到 %1。请确认设备已连接且开启电源。"
 
-#: ekos/manager.cpp:1348
+#: ekos/manager.cpp:1349
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -23670,7 +23670,7 @@ msgstr ""
 "%1\n"
 "请确认每个设备都连上且开启电源。"
 
-#: ekos/manager.cpp:1376
+#: ekos/manager.cpp:1377
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -23678,13 +23678,13 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr "无法创建：%1 请确保设备已连接并通电。"
 
-#: ekos/manager.cpp:1380 ekos/manager.cpp:1388 ekos/manager.cpp:1421
-#: ekos/manager.cpp:1429
+#: ekos/manager.cpp:1381 ekos/manager.cpp:1389 ekos/manager.cpp:1422
+#: ekos/manager.cpp:1430
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Ekos 启动错误"
 
-#: ekos/manager.cpp:1384
+#: ekos/manager.cpp:1385
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -23692,7 +23692,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr "无法创建以下设备：%1 请确保每台设备已连接并通电。"
 
-#: ekos/manager.cpp:1417
+#: ekos/manager.cpp:1418
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -23700,7 +23700,7 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr "无法远程创建：%1 请确保设备已连接并通电。"
 
-#: ekos/manager.cpp:1425
+#: ekos/manager.cpp:1426
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -23708,32 +23708,32 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr "无法远程创建以下设备：%1 请确保每台设备已连接并通电。"
 
-#: ekos/manager.cpp:1483
+#: ekos/manager.cpp:1484
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "连接 INDI 设备..."
 
-#: ekos/manager.cpp:1494
+#: ekos/manager.cpp:1495
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "断开 INDI 设备..."
 
-#: ekos/manager.cpp:1533
+#: ekos/manager.cpp:1534
 #, kde-format
 msgid "INDI services stopped."
 msgstr "INDI 服务已停止。"
 
-#: ekos/manager.cpp:1593
+#: ekos/manager.cpp:1594
 #, kde-format
 msgid "Remote devices established."
 msgstr "远程设备创建成功。"
 
-#: ekos/manager.cpp:1595
+#: ekos/manager.cpp:1596
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "远程设备已建立。请连接设备。"
 
-#: ekos/manager.cpp:1659
+#: ekos/manager.cpp:1660
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -23742,119 +23742,119 @@ msgstr ""
 "%1 连接失败。\n"
 "请确保设备已连接并开启。"
 
-#: ekos/manager.cpp:1666
+#: ekos/manager.cpp:1667
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 已断开连接。"
 
-#: ekos/manager.cpp:1687 ekos/manager.cpp:1696 ekos/manager.cpp:1729
+#: ekos/manager.cpp:1688 ekos/manager.cpp:1697 ekos/manager.cpp:1730
 #: indi/indistd.cpp:716
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 在线。"
 
-#: ekos/manager.cpp:1704
+#: ekos/manager.cpp:1705
 #, kde-format
 msgid "%1 filter is online."
 msgstr "%1 滤镜在线。"
 
-#: ekos/manager.cpp:1713
+#: ekos/manager.cpp:1714
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "%1 调焦器在线。"
 
-#: ekos/manager.cpp:1720
+#: ekos/manager.cpp:1721
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "旋像器 %1 在线中。"
 
-#: ekos/manager.cpp:1736
+#: ekos/manager.cpp:1737
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "%1 Weather 已上线。"
 
-#: ekos/manager.cpp:1743
+#: ekos/manager.cpp:1744
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "%1 GPS 在线中。"
 
-#: ekos/manager.cpp:1752
+#: ekos/manager.cpp:1753
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "%1 防尘盖已上线。"
 
-#: ekos/manager.cpp:1759
+#: ekos/manager.cpp:1760
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "%1 灯箱已上线。"
 
-#: ekos/manager.cpp:1911
+#: ekos/manager.cpp:1918
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 离线。"
 
-#: ekos/manager.cpp:2150
+#: ekos/manager.cpp:2157
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2534
+#: ekos/manager.cpp:2541
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "端口 %1 的导星器已就绪。"
 
-#: ekos/manager.cpp:2723
+#: ekos/manager.cpp:2730
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "您确定要删除此配置文件吗？"
 
-#: ekos/manager.cpp:2724
+#: ekos/manager.cpp:2731
 #, kde-format
 msgid "Confirm Delete"
 msgstr "确认删除"
 
-#: ekos/manager.cpp:2776
+#: ekos/manager.cpp:2783
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "站址更新至 %1。"
 
-#: ekos/manager.cpp:2778
+#: ekos/manager.cpp:2785
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "更新站址至 %1 失败。未能找到城市。"
 
-#: ekos/manager.cpp:3051
+#: ekos/manager.cpp:3058
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "为%1启用调试日志记录"
 
-#: ekos/manager.cpp:3059
+#: ekos/manager.cpp:3066
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "为%1禁用调试日志"
 
-#: ekos/manager.cpp:3087
+#: ekos/manager.cpp:3094
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "为%1重新启用调试日志"
 
-#: ekos/manager.cpp:3099
+#: ekos/manager.cpp:3106
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "为%1重新禁用调试日志"
 
-#: ekos/manager.cpp:3824
+#: ekos/manager.cpp:3835
 #, kde-format
 msgid "Preview source set to external"
 msgstr "预览源设置为外部"
 
-#: ekos/manager.cpp:3831
+#: ekos/manager.cpp:3842
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "预览源重置为内部"
 
-#: ekos/manager.cpp:3838
+#: ekos/manager.cpp:3849
 #, kde-format
 msgid "Received external preview file"
 msgstr "收到外部预览文件"
