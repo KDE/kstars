@@ -607,6 +607,7 @@ class Manager : public QDialog, public Ui::Manager
         // Used by the help button.
         bool checkIfPageExists(const QString &urlString);
         QNetworkAccessManager m_networkManager;
+        QSet<QString> m_syncedDevices;
 
         friend class EkosLive::Client;
         friend class EkosLive::Message;
