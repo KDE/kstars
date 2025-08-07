@@ -42,7 +42,10 @@ Build-Depends: cmake,
                libcurl4-gnutls-dev,
                libopencv-dev,
                libopencv-imgproc-dev,
-               libopencv-highgui-dev
+               libopencv-highgui-dev,
+               libopencv-calib3d-dev,
+               libopencv-imgcodecs-dev,
+               libopencv-photo-dev
 Standards-Version: 3.9.3
 Homepage: http://edu.kde.org/
 

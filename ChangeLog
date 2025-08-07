@@ -4,6 +4,98 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.7.8
+
+966e771ff 2025-08-07 Jasem Mutlaq         Fix modules not getting created due to sync devices mismatch                                                                                          
+f5ca7ce46 2025-08-03 Jasem Mutlaq         Fix ekoslive client not to prevent from sending unnecessary media messages                                                                            
+82d766373 2025-08-01 Jasem Mutlaq         reset capture state to CAPTURE_PROGRESS to allow aligntment retries to continue. Only reset counter after MF is completed.                            
+8e808928f 2025-08-02 Kristen McWilliam    ci: require passing tests on all platforms                                                                                                            
+4569798e1 2025-08-02 Jasem Mutlaq         Capture widget should not reset when dithering is active                                                                                              
+790729548 2025-08-02 Wolfgang Reissenberger Editor loads current job's sequence                                                                                                                   
+a56994d22 2025-08-01 John Evans           Live Stacker fix compiler directive issue with MR1530                                                                                                 
+2833dd4b3 2025-08-01 Jasem Mutlaq         Use better Sun texture that fills the whole FOV.                                                                                                      
+3abeef52a 2025-08-01 Wolfgang Reissenberger Use the static filter offset if adaptive start position is not used                                                                                   
+adc84ab1e 2025-07-31 Eric Dejouhanet      chore(ci): relax suse-st515 until we fix stellarsolver dep.                                                                                           
+3c3a44d1c 2025-07-27 John Evans           Live Stacking Improved Debug and Performance Improvements                                                                                             
+655ea26a3 2025-07-20 Wolfgang Reissenberger Consider guiding settle value when starting after paused                                                                                              
+de203ff31 2025-07-24 John Evans           Live Stacking Darks and Flats                                                                                                                         
+ead7f976b 2025-07-23 Josep M. Ferrer      Fix minor typo (prcess -> process)                                                                                                                    
+1e6aa820c 2025-07-22 John Evans           Optionally run Live Stacker as a separate process                                                                                                     
+796e6da58 2025-07-19 Wolfgang Reissenberger Draft: Focus history navigation                                                                                                                       
+a7e456f98 2025-07-16 Hy Murveit           Add stack size to tab name, allow configurable tab names.                                                                                             
+387407817 2025-07-16 Wolfgang Reissenberger Bug fix for handling videos in capture sequence files                                                                                                 
+3bc9b2f1d 2025-07-16 Hy Murveit           Update QT macros in kstars.h                                                                                                                          
+471f3e207 2025-07-15 Yuri Chornoivan      Fix typos in messages                                                                                                                                 
+0d01ffc2f 2025-07-15 John Evans           Focus: Terminate long running star detection when user aborts Autofocus                                                                               
+d0d0b7ffc 2025-07-15 John Evans           Fix Blink skipping a frame on the first advancement                                                                                                   
+96f0211a3 2025-07-14 Wolfgang Reissenberger PAA arrow size calculation corrected                                                                                                                  
+606987cce 2025-07-14 John Evans           Live Stacking Qt6 connect statement bug fix                                                                                                           
+a59bad1e6 2025-07-14 John Evans           Live Stacking                                                                                                                                         
+56aae653c 2025-07-14 Hy Murveit           Remove QSharedPointer/parent conflict in manager                                                                                                      
+8acb7ad39 2025-07-08 Jasem Mutlaq         Move the framing assistant toggle to scheduler                                                                                                        
+1d6287955 2025-07-08 Jasem Mutlaq         Update completition and completionarg in GUI                                                                                                          
+458dcf16b 2025-07-07 Wolfgang Reissenberger PAA arrow location optimized                                                                                                                          
+a75ab9b95 2025-07-06 Hy Murveit           Remove printout                                                                                                                                       
+6336d46a0 2025-07-07 Jasem Mutlaq         Add setCenter invokable method                                                                                                                        
+22f54a490 2025-07-07 Marco Gulino         Merge remote-tracking branch 'origin/master' into fix/fitsdata_wcs_keys                                                                               
+f6887bbfb 2025-07-07 Hy Murveit           Improve fitsviewer stretch sliders, add stretch presets.                                                                                              
+60e33f76a 2025-07-06 John Evans           Focus incorrectly moves ROI to top left of image on non-star based focus measures                                                                     
+81b43f6da 2025-06-30 Nicolas Fella        Remove stellarsolver from .kde-ci.yml                                                                                                                 
+ecd8e705d 2025-07-06 John Evans           Fix timeDilation widget greyed out                                                                                                                    
+09003c1a4 2025-07-06 Jasem Mutlaq         completionCondition and completionConditionArg added to property system                                                                               
+9028d3116 2025-07-06 Jasem Mutlaq         Change branch to master                                                                                                                               
+bee05abc7 2025-07-05 Jasem Mutlaq         Add libusb.json required for flatpak                                                                                                                  
+8319a05e9 2025-07-05 Jasem Mutlaq         Expose version and release type via DBus                                                                                                              
+cd774bbf8 2025-07-05 Jasem Mutlaq         Add additional check to prevent from some rare crashes in case the pointer is no longer valid.                                                        
+9382ebf69 2025-07-03 Jasem Mutlaq         Support new method for setting all drivers                                                                                                            
+417391e5e 2025-07-02 Jasem Mutlaq         Upddate manifest after flathub changes                                                                                                                
+c012e32ac 2025-07-01 Marco Gulino         Merge remote-tracking branch 'origin/master' into fix/fitsdata_wcs_keys                                                                               
+33461efcf 2025-07-01 Marco Gulino         Use space separated format for fits OBJCRA/DEC                                                                                                        
+bfd39734f 2025-07-01 Wolfgang Reissenberger Bug fix for optical train instance handling                                                                                                           
+e7469a704 2025-06-30 Jasem Mutlaq         Separate scheduler settings to its own file                                                                                                           
+3d0268559 2025-06-30 Eric Dejouhanet      feat: qt6 support.                                                                                                                                    
+d53baf60c 2025-06-29 Jasem Mutlaq         Skip duplicate binaries when adding managed drivers in local mode                                                                                     
+a0e6c636c 2025-06-29 Jasem Mutlaq         Log if guiding should be resumed after meridian flip                                                                                                  
+ee1a2ffd9 2025-06-29 Jasem Mutlaq         Fix QSize argument parse from QJsonObject                                                                                                             
+30293b01e 2025-06-29 Jasem Mutlaq         Only apply icon theme if not inside a flatpak                                                                                                         
+d834d7cc2 2025-06-28 Ben Cooksley         Cut off previous error                                                                                                                                
+2cec0c14d 2025-06-24 Jasem Mutlaq         Send useful JSON payload to post capture and post job scripts                                                                                         
+93ab80507 2025-06-24 Jasem Mutlaq         Make framing assistant class consistent in how it uses member variables as the single source of truth instead of relying on a mix of member and ui d..
+49e09e764 2025-06-24 Jasem Mutlaq         Fix format warning                                                                                                                                    
+21b2b5d7e 2025-06-24 Jasem Mutlaq         Fix compile error                                                                                                                                     
+e4c10f82f 2025-06-24 Jasem Mutlaq         Remove obsolete files                                                                                                                                 
+ad997c97d 2025-06-22 Jasem Mutlaq         Protect against duplicate drivers                                                                                                                     
+ada5febdc 2025-06-22 Jasem Mutlaq         Fix warnings                                                                                                                                          
+3a537daf4 2025-06-21 Marco Gulino         Fix: use  human readable (HMS/DMS) values for OBJCTRA/OBJCTDEC                                                                                        
+ee9db8875 2025-06-17 Jasem Mutlaq         INDI Sync                                                                                                                                             
+0ebcc1cd6 2025-06-17 Jasem Mutlaq         Fix missing -D                                                                                                                                        
+4999fee9a 2025-06-17 Jasem Mutlaq         Improve stretch                                                                                                                                       
+34b63ccd7 2025-06-17 Jasem Mutlaq         Fix toJSON and always add by label                                                                                                                    
+92316516e 2025-06-17 Jasem Mutlaq         Remove deleted file                                                                                                                                   
+5cdc1e417 2025-06-16 Jasem Mutlaq         Add new profiles feature                                                                                                                              
+0c204f3a4 2025-06-16 Jasem Mutlaq         Also handle unknown server error                                                                                                                      
+bd14d9915 2025-06-15 Jasem Mutlaq         Update version                                                                                                                                        
+737125a49 2025-06-13 Jasem Mutlaq         Remove Qt5 and build with Qt6                                                                                                                         
+a20372fa4 2025-06-13 Jasem Mutlaq         Applly partial Qt6 support from Eric MR                                                                                                               
+654c82092 2025-06-13 Jasem Mutlaq         Use qt6 for CI and fix flatpak manifest                                                                                                               
+a7e382dc2 2025-06-13 Jasem Mutlaq         Add flatpak manifest and fix theme in flatpak. Fix warnings for deprecated functions                                                                  
+778bd76f0 2025-06-11 Jasem Mutlaq         Improve reconnection logic                                                                                                                            
+af85c7f1f 2025-06-10 Jasem Mutlaq         INDI driver sync                                                                                                                                      
+e7c36a7c3 2025-05-27 Jasem Mutlaq         Break the huge camera file into smaller files                                                                                                         
+fa421dac1 2025-06-10 Jasem Mutlaq         Always use KLocalizedString in such situation otherwise the application will fail to switch other languages.                                          
+ee91db949 2025-06-09 Jasem Mutlaq         On auth error, set reauthenticating to false.                                                                                                         
+58c191fbe 2025-06-06 Hy Murveit           Call abort when guide state is settle                                                                                                                 
+daabcffe5 2025-06-04 Hy Murveit           PAA--new test and update algorithm improvement                                                                                                        
+8b566531c 2025-06-04 Jasem Mutlaq         Starting 3.7.8 development cycle                                                                                                                      
+d6f86e3aa 2025-06-04 Jasem Mutlaq         Merge remote-tracking branch 'upstream/stable-3.7.7'                                                                                                  
+ad4375260 2025-06-03 Jasem Mutlaq         Disable OpenCV on Windows until Craft fixes the package                                                                                               
+60c2d747c 2025-06-01 Jasem Mutlaq         Fix a regression introduced by 8efc2c112035b89241a07f3bb3f9923fe3688396 with hopefully a better fix                                                   
+ff329cbb5 2025-06-01 Jasem Mutlaq         Ok now try to use system own OpenCV CMake exports                                                                                                     
+7968dd8b0 2025-06-01 Jasem Mutlaq         Test if this FindOpenCV can work on Windows in Craft                                                                                                  
+b7ae8d50b 2025-05-31 Jasem Mutlaq         Do not reconnect if we explicitly disconnected                                                                                                        
+ce62fbd78 2025-05-31 Jasem Mutlaq         Proactively reconnect all managers.                                                                                                                   
+fb9e10684 2025-05-31 Jasem Mutlaq         Remove docs as they are maintained in a separate repo now. 3.7.7 release                                                                              
+
 3.7.7
 
 5b0460403 2025-05-31 Jasem Mutlaq         More logging                                                                                                                                          
