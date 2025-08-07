@@ -1012,7 +1012,7 @@ void Manager::start()
             return;
         }
 
-        m_DriverDevicesCount = m_CurrentProfile->drivers.count();
+        m_DriverDevicesCount = m_CurrentProfile->count();
     }
 
 
@@ -1115,7 +1115,7 @@ void Manager::start()
             });
 
             KSMessageBox::Instance()->questionYesNo(i18n("Ekos detected an instance of INDI server running. Do you wish to "
-                                                    "shut down the existing instance before starting a new one?"),
+                                                         "shut down the existing instance before starting a new one?"),
                                                     i18n("INDI Server"), 5);
         }
         else

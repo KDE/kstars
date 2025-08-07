@@ -160,7 +160,7 @@ QJsonObject ProfileInfo::toJson() const
     json["remote"] = remotedrivers;
 
     QJsonObject driversObject;
-    QMapIterator<DeviceFamily, QList<QString>> i(drivers);
+    QMapIterator<DeviceFamily, QList<QString >> i(drivers);
     while (i.hasNext())
     {
         i.next();
@@ -174,4 +174,22 @@ QJsonObject ProfileInfo::toJson() const
     json["drivers"] = driversObject;
 
     return json;
+}
+
+int ProfileInfo::count() const
+{
+    int totalDrivers = 0;
+    QMapIterator<DeviceFamily, QList<QString >> i(drivers);
+    while (i.hasNext())
+    {
+        i.next();
+        totalDrivers += i.value().count();
+    }
+
+    if (!remotedrivers.isEmpty())
+    {
+        totalDrivers += remotedrivers.split(",", Qt::SkipEmptyParts).count();
+    }
+
+    return totalDrivers;
 }
