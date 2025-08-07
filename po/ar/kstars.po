@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-04 02:12+0000\n"
-"PO-Revision-Date: 2025-08-04 18:33+0400\n"
+"PO-Revision-Date: 2025-08-06 18:30+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -118,7 +118,7 @@ msgstr "الخط الكسوفي"
 #: projections/equirectangularprojector.cpp:170 projections/projector.cpp:317
 #, kde-format, kde-kuit-format
 msgid "Horizon"
-msgstr "الافق"
+msgstr "الأفق"
 
 #: auxiliary/colorscheme.cpp:46
 #, kde-format
@@ -188,7 +188,7 @@ msgstr "مسار تتبع النجوم"
 #: auxiliary/colorscheme.cpp:59
 #, kde-format
 msgid "Visible Satellites"
-msgstr "الاقمار المرئية"
+msgstr "الأقمار المرئية"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:243
 #: data/qml/whatisinteresting/wiview.qml:255 dialogs/finddialog.cpp:48
@@ -201,7 +201,7 @@ msgstr "الأقمار الصناعية"
 #: auxiliary/colorscheme.cpp:61
 #, kde-format
 msgid "Satellites Labels"
-msgstr "ملصق الاقمار الصناعية"
+msgstr "ملصق الأقمار الصناعية"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:528
 #: data/qml/whatisinteresting/wiview.qml:540 dialogs/finddialog.cpp:47
@@ -228,7 +228,7 @@ msgstr "الكويكبات"
 #: skycomponents/artificialhorizoncomponent.cpp:142
 #, kde-format
 msgid "Artificial Horizon"
-msgstr "الافق الصناعي"
+msgstr "الأفق الصناعي"
 
 #: auxiliary/colorscheme.cpp:65
 #, kde-format
@@ -369,7 +369,7 @@ msgstr "دون رمز للرؤية"
 #: auxiliary/imageexporter.cpp:40 auxiliary/imageexporter.cpp:41
 #, kde-format
 msgid "KStars Exported Sky Image"
-msgstr "تم تصدير صورة نجوم ك"
+msgstr "صدر نجوم ك صورة السماء"
 
 #: auxiliary/imageexporter.cpp:162
 #, kde-format
@@ -380,13 +380,13 @@ msgstr "خطأ: لم تحفظ الصورة: %1"
 #: auxiliary/xplanetimageviewer.cpp:1250
 #, kde-format
 msgid "Saved image to %1"
-msgstr "تم حقظ الصورة الى %1"
+msgstr "حفظ الصورة إلى %1"
 
 #: auxiliary/imageexporter.cpp:229 printing/foveditordialog.cpp:197
 #: tools/scriptbuilder.cpp:920
 #, kde-format
 msgid "Could not upload image to remote location: %1"
-msgstr "لم يمكن تحميل الصورة الى موقع بعيد: %1"
+msgstr "لم يمكن تحميل الصورة إلى موقع بعيد: %1"
 
 #: auxiliary/imageexporter.cpp:236
 #, kde-format
@@ -410,7 +410,7 @@ msgid ""
 "Reverse colors of the image. This is useful to enhance contrast at times. "
 "This affects only the display and not the saving."
 msgstr ""
-"اعكس الألوان في الصورة. هذا قد يساعد في زيادة التباين. وهذا الامر فقط ينطبق "
+"اعكس الألوان في الصورة. هذا قد يساعد في زيادة التباين. وهذا الأمر فقط ينطبق "
 "على الصورة المعروضة وليس حفظ الصورة"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddScope)
@@ -435,7 +435,7 @@ msgstr "احفظ الصورة إلى قرص"
 #: auxiliary/imageviewer.cpp:176
 #, kde-format
 msgid "Remove temporary file %1 from disk?"
-msgstr "ازالة الملف المؤقت %1 من القرص الصلب"
+msgstr "إزاله الملف المؤقت %1 من القرص الصلب"
 
 #: auxiliary/imageviewer.cpp:177
 #, kde-format
@@ -452,7 +452,7 @@ msgstr "تحميل"
 #: auxiliary/imageviewer.cpp:195
 #, kde-format
 msgid "Please wait while image is being downloaded..."
-msgstr "الرجاء الانتظار بينما يتم تحميل الصورة..."
+msgstr "الرجاء الانتظار بينما تحميل الصورة..."
 
 #: auxiliary/imageviewer.cpp:223
 #, kde-format
@@ -488,7 +488,7 @@ msgstr "الكتابة فوق الملف؟"
 #: auxiliary/imageviewer.cpp:346
 #, kde-format
 msgid "Saving of the image %1 failed."
-msgstr "حفط الصورة %1 فشل!"
+msgstr "حفظ الصورة %1 فشل!"
 
 #: auxiliary/ksdssdownloader.cpp:200 auxiliary/ksdssdownloader.cpp:228
 #, kde-format
@@ -498,7 +498,7 @@ msgstr "حمل دي-اس-اس"
 #: auxiliary/ksdssdownloader.cpp:201 auxiliary/ksdssdownloader.cpp:229
 #, kde-format
 msgid "Please wait while DSS image is being downloaded..."
-msgstr "الرجاء الانتظار ريثما يتم تحميل صورة DSS"
+msgstr "الرجاء الانتظار ريثما يحمل صورة DSS…"
 
 #: auxiliary/ksfilereader.cpp:98 tools/modcalcdaylength.cpp:208
 #: tools/wutdialog.cpp:239
@@ -601,7 +601,7 @@ msgstr "خطأ"
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
-msgstr "اسف"
+msgstr "آسف"
 
 #. i18n: ectx: property (title), widget (QGroupBox, catalogInfo)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
@@ -2015,7 +2015,7 @@ msgstr "الحقبة:"
 #: data/qml/mount/mountbox.qml:1006 ekos/mount/mounttargetwidget.ui:208
 #, kde-format, kde-kuit-format
 msgid "GOTO"
-msgstr "الانتقال الى"
+msgstr "الانتقال إلى"
 
 #. i18n: ectx: property (text), widget (QPushButton, syncButtonObject)
 #: data/qml/mount/mountbox.qml:1019 ekos/mount/mounttargetwidget.ui:215
@@ -2205,7 +2205,7 @@ msgstr "معلومات الجرم"
 #: data/qml/whatisinteresting/wiview.qml:1096
 #, kde-kuit-format
 msgid "Wikipedia Infotext"
-msgstr "صفحة ويكيبيديا"
+msgstr "صفحة ويكيبديا"
 
 #: data/qml/whatisinteresting/wiview.qml:1319
 #, kde-kuit-format
@@ -2642,8 +2642,8 @@ msgid ""
 "The URL is not valid. Would you like to open a browser window\n"
 "to the Google search engine?"
 msgstr ""
-"الرابط غير صحيح. هل تريد ان تفتح نافذة متصفح الانترنت\n"
-"للبحث من خلال جوجل؟"
+"الرابط غير صحيح. هل تريد أن تفتح نافذة متصفح الأنترنت\n"
+"للبحث من خلال غوغل؟"
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3971
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
@@ -2658,10 +2658,11 @@ msgstr "الرابط غير صحيح"
 #: dialogs/addlinkdialog.cpp:61
 #, kde-format
 msgid "Browse Google"
-msgstr "افتح جوجل للبحث"
+msgstr "افتح غوغل للبحث"
 
 #: dialogs/addlinkdialog.cpp:62
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Do Not Browse"
 msgid "Do Not Browse"
 msgstr "لاتفتح المتصفح"
 
@@ -3291,7 +3292,7 @@ msgstr "Mutare"
 #: dialogs/catalogsdbui.cpp:27 indi/drivermanager.ui:76
 #, kde-format
 msgid "Version"
-msgstr "الاصدار"
+msgstr "الإصدار"
 
 #: dialogs/catalogsdbui.cpp:27
 #, kde-format
@@ -3677,7 +3678,7 @@ msgstr "لا يغرب"
 #: printing/detailstable.cpp:629 tools/observinglist.cpp:191
 #, kde-format
 msgid "Never rises"
-msgstr "لا يشرق ابدا"
+msgstr "لا يشرق أبدا"
 
 #: dialogs/detaildialog.cpp:668 dialogs/detaildialog.cpp:669
 #: ekos/observatory/observatory.cpp:143
@@ -4501,7 +4502,7 @@ msgstr "حدد الإحداثيات يدوياً"
 #: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
-msgstr "قمية زاوية الصّعود محصورة بين 0.0 و 24.0"
+msgstr "قيمة زاوية الصّعود محصورة بين 0.0 و 24.0"
 
 #: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:188
 #, kde-format
@@ -4512,7 +4513,7 @@ msgstr "قيمة زاوية الميلان محصورة بين -90.0 و 90.0"
 #: tools/flagmanager.cpp:191
 #, kde-format
 msgid "Invalid Coordinate Data"
-msgstr "الاحداثيات غير صحيحة"
+msgstr "الإحداثيات غير صحيحة"
 
 #: dialogs/focusdialog.cpp:141
 #, fuzzy, kde-format
@@ -4860,7 +4861,7 @@ msgstr "خطأ: المعطى تردد اكثر من مرة"
 #: dialogs/locationdialog.cpp:315
 #, kde-format
 msgid "All fields (except province) must be filled to add this location."
-msgstr "يجب تعبئة جميع الحقول (باستثناء المقاطعة) لاضافة هذا الموقع."
+msgstr "يجب تعبئة جميع الحقول (باستثناء المقاطعة) لإضافة هذا الموقع."
 
 #: dialogs/locationdialog.cpp:316
 #, kde-format
@@ -4875,7 +4876,7 @@ msgstr "لم يمكن معالجة الاحداثيات."
 #: dialogs/locationdialog.cpp:322
 #, kde-format
 msgid "Bad Coordinates"
-msgstr "احداثيات غير صالحة"
+msgstr "إحداثيات غير صالحة"
 
 #: dialogs/locationdialog.cpp:327
 #, kde-format
@@ -4895,17 +4896,17 @@ msgstr "قوانين التوقيت الصيفي"
 #: dialogs/locationdialog.cpp:621
 #, kde-format
 msgid "Cannot add new location -- city name blank"
-msgstr "لايمكن إضافة الموقع الجديد - حقل اسم المدينة فارغ"
+msgstr "لا يمكن إضافة الموقع الجديد - حقل اسم المدينة فارغ"
 
 #: dialogs/locationdialog.cpp:625
 #, kde-format
 msgid "Cannot add new location -- country name blank"
-msgstr "لايمكن إضافة الموقع الجديد - حقل اسم البلد فارغ"
+msgstr "لا يمكن إضافة الموقع الجديد - حقل اسم البلد فارغ"
 
 #: dialogs/locationdialog.cpp:629
 #, kde-format
 msgid "Cannot add new location -- invalid latitude / longitude"
-msgstr "لايمكن إضافة الموقع الجديد - خط العرض/الطول غير مقبول"
+msgstr "لا يمكن إضافة الموقع الجديد - خط العرض/الطول غير مقبول"
 
 #: dialogs/locationdialog.cpp:633
 #, fuzzy, kde-format
@@ -4934,7 +4935,7 @@ msgstr "بحث بأسماء البلدان"
 #: dialogs/locationdialog.ui:146
 #, kde-format
 msgid "City filter:"
-msgstr "بحث باسماء المدن"
+msgstr "بحث بأسماء المدن"
 
 #. i18n: ectx: property (text), widget (QLabel, ProvinceFiltLabel)
 #: dialogs/locationdialog.ui:159
@@ -5102,7 +5103,7 @@ msgid ""
 "The name of the field-of-view (FOV) symbol.  This name appears in the FOV "
 "menu and in the \"Edit FOV Symbols\" tool."
 msgstr ""
-"اسم حقل العرض (ح.ع.). هذا الاسم يظهر في قائمة حقل العرض , وأيضا في اداة "
+"اسم حقل العرض (ح.ع.). هذا الاسم يظهر في قائمة حقل العرض , وأيضا في أداة "
 "\"حرر رموز حقول العرض\"."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
@@ -5213,7 +5214,7 @@ msgid ""
 msgstr ""
 "ادخل حقل العرض للعدسة في وحدات الدقائق القوسية.\n"
 "\n"
-"هذه احدى المعطيات المطلوبة لتحديد حقل العرض (ح.ع.) والذي سيطابق حقل العرض "
+"هذه إحدى المعطيات المطلوبة لتحديد حقل العرض (ح.ع.) والذي سيطابق حقل العرض "
 "لعدسة التلسكوب."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2_2_2)
@@ -5247,7 +5248,7 @@ msgstr ""
 #: dialogs/newfov.ui:415 dialogs/newfov.ui:629 dialogs/newfov.ui:799
 #, kde-format
 msgid "Compute field-of-view from above data fields"
-msgstr "احسب حقل العرض من الحقول في الاعلى"
+msgstr "احسب حقل العرض من الحقول في الأعلى"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, ComputeEyeFOV)
 #: dialogs/newfov.ui:420
@@ -5362,10 +5363,10 @@ msgid ""
 "This is one of the data fields required for defining a field-of-view (FOV) "
 "symbol which matches the field-of-view of a camera mounted on a telescope."
 msgstr ""
-"ادخل حجم رقاقة CCD او الفيلم السلبي.\n"
+"ادخل حجم رقاقة CCD أو الفيلم السلبي.\n"
 "\n"
-"هذه احدى الحقول المطلوبة لتحديد حقل العرض (ح.ع.) والذي سيطابق حقل العرض لدى "
-"الكامرة الموصلة للتلسكوب.."
+"هذه إحدى الحقول المطلوبة لتحديد حقل العرض (ح.ع.) والذي سيطابق حقل العرض لدى "
+"الكاميرة الموصلة للتلسكوب.."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2_3_2)
 #: dialogs/newfov.ui:590
@@ -5498,7 +5499,7 @@ msgstr "احسب HPBW"
 #: dialogs/newfov.ui:1061 ekos/align/opsalign.ui:319
 #, kde-format
 msgid "arcmin"
-msgstr "‎دقيقة قوسية‎"
+msgstr "‎دقيقة قوسية"
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel)
 #: dialogs/newfov.ui:1041
@@ -7050,7 +7051,7 @@ msgstr "بصري"
 #: fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
 #, kde-format
 msgid "Filter:"
-msgstr "المرشح (الفلتر):"
+msgstr "المرشح:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, alignISO)
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureISOS)
@@ -7082,7 +7083,7 @@ msgstr "الحالي اللّون خصائص"
 #: ekos/capture/camera.ui:799 ekos/focus/focus.ui:854
 #, kde-format
 msgid "ISO:"
-msgstr "آيزو:"
+msgstr "ايزو:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:741
@@ -7515,7 +7516,7 @@ msgstr "حدّد بوصة دَخْل ملفّ."
 #: ekos/align/mountmodel.ui:133
 #, kde-format
 msgid "Minimum Alt:"
-msgstr "الارتفاع الادنى:"
+msgstr "الارتفاع الأدنى:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, minAltBox)
 #: ekos/align/mountmodel.ui:140
@@ -10579,7 +10580,7 @@ msgstr ""
 #: fitsviewer/statform.ui:14
 #, kde-format
 msgid "Statistics"
-msgstr "احصائيات"
+msgstr "إحصائيات"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, prevSessionB)
 #: ekos/analyze/analyze.ui:315
@@ -11315,7 +11316,7 @@ msgstr "أتريد حقًّا الإلغاء؟"
 #: fitsviewer/catalogobject.ui:63 oal/equipmentwriter.ui:912
 #, kde-format
 msgid "Filter"
-msgstr "المرشح (الفلتر)"
+msgstr "المرشح "
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
@@ -12422,7 +12423,7 @@ msgid ""
 "Log debug messages to default output device used by the platform (e.g. "
 "Standard Error)"
 msgstr ""
-"سجّل رسائل التصحيح إلى جهاز المخرجات الستخدم بالمنصة (مثلاً، الخطأ القياسي)"
+"سجّل رسائل التصحيح إلى جهاز المخرجات المستخدم بالمنصة (مثلاً، الخطأ القياسي)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_LogToDefault)
 #: ekos/auxiliary/opslogs.ui:235 options/opsadvanced.ui:320
@@ -12470,7 +12471,7 @@ msgstr "جي‌بي‌إس"
 #: ekos/auxiliary/opslogs.ui:305
 #, kde-format
 msgid "Log Ekos Alignment module activity"
-msgstr "سجّل نشاطات وحدة ضبط الاستقامةفي إيكوس"
+msgstr "سجّل نشاطات وحدة ضبط الاستقامة في إيكوس"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlignmentLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, AlignmentGroupBox)
@@ -16787,7 +16788,7 @@ msgid ""
 "point. When the temperature threshold is below this value, the temperature "
 "set point request is deemed successful."
 msgstr ""
-"أعلى فرق مقبول بين درجة الحرارة المطلوبة والمقاسة. عندما يكون حد درجة "
+"أعلى فرق مقبول بين درجة الحرارة المطلوبة و المُقاسة. عندما يكون حد درجة "
 "الحرارة أقل من هذه القيمة يعتبر أن طلب القيمة المعينة لدرجة الحرارة قد تحقق "
 "بنجاح. "
 
@@ -25381,7 +25382,7 @@ msgstr "وقت تحميل إعدادات الجهاز:"
 #: ekos/opsekos.ui:65
 #, kde-format
 msgid "Ne&ver"
-msgstr "لاتحمل أبداً"
+msgstr "البتة"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_loadConfigOnConnection)
 #: ekos/opsekos.ui:75
@@ -32798,7 +32799,7 @@ msgstr "احصل على الموقع"
 #: indi/indistd.cpp:655
 #, kde-format
 msgid "Data file saved to %1"
-msgstr "تم حفظ الى الملف %1"
+msgstr "حفظ ملف البيانات إلى %1"
 
 #: indi/indiwebmanager.cpp:245
 #, fuzzy, kde-format
@@ -40837,7 +40838,7 @@ msgstr "مضخة الهواء"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "APUS"
-msgstr "‎‎طائر الفردوس‎‎"
+msgstr "طائر الفردوس"
 
 #: kstars_i18n.cpp:6 kstars_i18n.cpp:566
 #, kde-kuit-format
@@ -40849,13 +40850,13 @@ msgstr "الدلو"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "AQUILA"
-msgstr "‎‎العقاب‎‎"
+msgstr "العقاب"
 
 #: kstars_i18n.cpp:8 kstars_i18n.cpp:568
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "ARA"
-msgstr "‎‎المجمرة‎‎"
+msgstr "المجمرة"
 
 #: kstars_i18n.cpp:9 kstars_i18n.cpp:569
 #, kde-kuit-format
@@ -40867,7 +40868,7 @@ msgstr "الحمل"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "AURIGA"
-msgstr "‎‎ممسك الأعنة‎‎"
+msgstr "ممسك الأعنة"
 
 #: kstars_i18n.cpp:11 kstars_i18n.cpp:571
 #, kde-kuit-format
@@ -69250,7 +69251,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Astronomy and Astrophysics"
-msgstr "الفلك والفيزياء الفلكيةة"
+msgstr "الفلك والفيزياء الفلكية"
 
 #: kstars_i18n.cpp:4853
 #, kde-kuit-format
@@ -69512,7 +69513,7 @@ msgstr "غيّر نسق الألوان"
 #: kstarsactions.cpp:1504
 #, kde-format
 msgid "Do Not Switch"
-msgstr "لاتغيّر"
+msgstr "لا تغير"
 
 #: kstarsactions.cpp:1565
 #, fuzzy, kde-format
@@ -69675,7 +69676,7 @@ msgstr "الملف غير صحيح: %1"
 #: kstarsdata.cpp:1159
 #, kde-format
 msgid "Could not set time: %1 / %2 / %3 ; %4:%5:%6"
-msgstr "لم يمكن تغير الوقت الى: %1 / %2 / %3 ; %4:%5:%6"
+msgstr "لم يمكن تغير الوقت إلى: %1 / %2 / %3 ; %4:%5:%6"
 
 #: kstarsdata.cpp:1488
 #, kde-format
@@ -69932,7 +69933,7 @@ msgstr "أظهر مربع معلومات مركز الشاشة"
 #, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
-msgstr "آظهر مربع معلومات الموقع"
+msgstr "أطهر مربع معلومات الموقع"
 
 #: kstarsinit.cpp:344
 #, kde-format
@@ -70118,7 +70119,7 @@ msgstr "إدارة الراصدين ..."
 #: kstarsinit.cpp:519
 #, kde-format
 msgid "Artificial Horizon..."
-msgstr "الافق الصناعي..."
+msgstr "الأفق الصناعي..."
 
 #: kstarsinit.cpp:523
 #, kde-format
@@ -70138,7 +70139,7 @@ msgstr "ساحر التلسكوب..."
 #: kstarsinit.cpp:539
 #, kde-format
 msgid "Device Manager..."
-msgstr "مدير الاجهزة..."
+msgstr "مدير الأجهزة..."
 
 #: kstarsinit.cpp:562
 #, kde-format
@@ -70330,18 +70331,18 @@ msgstr "إظهار/إخفاء المستعرات العظيمة"
 #, kde-format
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
-msgstr "اكتشف اجرام مثيرة"
+msgstr "اكتشف أجرام مثيرة"
 
 #: kstarsinit.cpp:642
 #, kde-format
 msgid "Toggle What's Interesting"
-msgstr "اكتشف اجرام مثيرة"
+msgstr "اكتشف أجرام مثيرة"
 
 #: kstarsinit.cpp:647
 #, kde-format
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
-msgstr "ايكوس"
+msgstr "إيكوس"
 
 #: kstarsinit.cpp:649
 #, kde-format
@@ -70590,7 +70591,7 @@ msgstr "إعدادات HiPS ..."
 #: kstarsinit.cpp:898
 #, kde-format
 msgid " Welcome to KStars "
-msgstr "مرحبا الى نجوم ك"
+msgstr "مرحبا إلى نجوم ك"
 
 #: kstarsinit.cpp:995 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
 #: widgets/infoboxwidget.cpp:111
@@ -70608,7 +70609,7 @@ msgstr "الموقع الحالي اسفل الأفق"
 msgid ""
 "The initial position is below the horizon.\n"
 "Would you like to reset to the default position?"
-msgstr "هل تريد ان تعود الى الموقع المبدئي؟"
+msgstr "هل تريد أن تعود إلى الموقع المبدئي؟"
 
 #: kstarsinit.cpp:1053
 #, fuzzy, kde-format
@@ -71636,7 +71637,7 @@ msgstr "خطوط الكوكبات"
 #: kstarslite/qml/modules/TopMenu.qml:196 tools/scriptbuilder.cpp:580
 #, kde-format, kde-kuit-format
 msgid "Constellation Names"
-msgstr "اسامي الابراج"
+msgstr "أسماء الأبراج"
 
 #: kstarslite/qml/modules/TopMenu.qml:206
 #, kde-kuit-format
@@ -71791,7 +71792,7 @@ msgstr "ش.غرب"
 #: kstarssplash.cpp:18
 #, kde-format
 msgid "Welcome to KStars. Please stand by while loading..."
-msgstr "مرحبا بك الى نجوم ك. الرجاء الانتظار خلال التحميل..."
+msgstr "مرحبا بك إلى نجوم ك. الرجاء الانتظار خلال التحميل..."
 
 #: libindi_strings.cpp:1
 #, kde-kuit-format
@@ -73007,7 +73008,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "GOTO"
-msgstr "الانتقال الى"
+msgstr "الانتقال إلى"
 
 #: libindi_strings.cpp:205
 #, kde-kuit-format
@@ -73073,7 +73074,7 @@ msgstr "الموضع الجغرافي"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Goto"
-msgstr "الانتقال الى"
+msgstr "الانتقال إلى"
 
 #: libindi_strings.cpp:217
 #, kde-kuit-format
@@ -73449,7 +73450,7 @@ msgstr "منخفض"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Luminance"
-msgstr "استضواء"
+msgstr "النصوع"
 
 #: libindi_strings.cpp:279
 #, kde-kuit-format
@@ -74885,7 +74886,7 @@ msgstr "الزهرة"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Version"
-msgstr "الاصدار"
+msgstr "الإصدار"
 
 #: libindi_strings.cpp:515
 #, fuzzy, kde-kuit-format
@@ -75506,7 +75507,7 @@ msgstr ""
 #: main.cpp:255 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
-msgstr "نوع الملف %1 غير معروف , سوف يتم استخدام PNG."
+msgstr "لا يمكن تحيل نسق الصورة من نوع %1،  سوف يفترض أنه PNG."
 
 #: main.cpp:313
 #, fuzzy, kde-format
@@ -75517,7 +75518,7 @@ msgstr ""
 #: main.cpp:344
 #, kde-format
 msgid "Script executed."
-msgstr "تم تنفيذ النص البرمجي."
+msgstr "نُفذ سكربت."
 
 #: main.cpp:348
 #, kde-format
@@ -75825,7 +75826,7 @@ msgstr "احفظ المرشح"
 #: oal/execute.cpp:37
 #, kde-format
 msgid "End Session"
-msgstr "أنهاء تنفيذ حصة الرصد"
+msgstr "أنهِ الجلسة"
 
 #: oal/execute.cpp:39
 #, kde-format
@@ -76084,7 +76085,7 @@ msgstr "اسم العائلة:"
 #: oal/observeradd.ui:73
 #, kde-format
 msgid "Contact:"
-msgstr "الإتصال:"
+msgstr "الاتصال:"
 
 #: options/opsadvanced.cpp:127
 #, fuzzy, kde-format
@@ -76131,9 +76132,9 @@ msgid ""
 "Note that this correction is only applied when using the Horizontal "
 "coordinate system."
 msgstr ""
-"الغلاف الجوي يكسر اشعة الضوء العابرة فيه , تماما مثل العدسة. اذا تم اختيار "
-"هذا البند , فإنه سوف يتم تفعيل \"انكسار الغلاف الجوي\" في خارطة السماء. "
-"انتبه الى ان هذه العملية فقط تنطبق على نظام الاحذاثيات الافقية."
+"الغلاف الجوي يكسر أشعة الضوء العابرة فيه , تماما مثل العدسة. إذا خترت هذا "
+"البند، فإنه سوف يُفعل \"انكسار الغلاف الجوي\" في خارطة السماء. انتبه إلى أن "
+"هذه العملية فقط تنطبق على نظام الإحداثيات الأفقية."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseRefraction)
 #: options/opsadvanced.ui:71
@@ -76338,9 +76339,9 @@ msgid ""
 "\"slew\" to the new position.  Otherwise, the display will center on the new "
 "position instantaneously."
 msgstr ""
-"اذا تم اختيار هذا البند , فإن تغيير نقطة التركيز سوف تظهر حركة \"دوران\" حتى "
-"الوصول للمكان الجديد. وان لم يتم اختيار هذا البند , فإن العرض سوف يتحول الى "
-"النقطة الجديدة في لحظة واحدة."
+"إذا خترت هذا البند، فإن تغيير نقطة التركيز سوف تظهر حركة \"دوران\" حتى "
+"الوصول للمكان الجديد. وان لم تختار هذا البند فإن العرض سوف يتحول إلى النقطة "
+"الجديدة في لحظة واحدة."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseAnimatedSlewing)
 #: options/opsadvanced.ui:596
@@ -76365,7 +76366,7 @@ msgstr "اخفي الاجسام عند التحريك"
 #: options/opsadvanced.ui:649
 #, kde-format
 msgid "Do not draw all objects while the map is moving?"
-msgstr "لا ترسم كل الاجسام عند تحرك الخارطة"
+msgstr "لا ترسم كل الأجسام عند تحرك الخارطة"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideOnSlew)
 #: options/opsadvanced.ui:652
@@ -76383,7 +76384,7 @@ msgstr ""
 #: options/opsadvanced.ui:655
 #, kde-format
 msgid "Hide objects while moving"
-msgstr "اخفي الاجسام عند التحريك"
+msgstr "اخفي الأجسام عند التحريك"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabelHideTimeStep)
 #: options/opsadvanced.ui:667
@@ -76396,7 +76397,7 @@ msgstr "ايضا اخفي اذا كان مقياس الوقت اكثر من:"
 #: options/opsadvanced.ui:670
 #, kde-format
 msgid "Also hide if time step larger than:"
-msgstr "ايضا اخفي اذا كان مقياس الوقت اكثر من:"
+msgstr "أيضا اخف إذا كان مقياس الوقت اكثر من:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideStars)
 #: options/opsadvanced.ui:680
@@ -76477,7 +76478,7 @@ msgstr "إذا مؤكّد تنسيق مخفي خريطة هو بوصة حركة.
 #: options/opsadvanced.ui:753
 #, kde-format
 msgid "Coordinate grids"
-msgstr "شبكة الاحداثيات"
+msgstr "شبكة الإحداثيات"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideCBounds)
 #: options/opsadvanced.ui:766
@@ -76658,7 +76659,7 @@ msgstr ""
 #: options/opscatalog.ui:620
 #, kde-format
 msgid "Resolve names not known to KStars using online services"
-msgstr "استعن بخدمات الإنترنت عند عدم تعرف برنامج نجوم ك على الاسماء."
+msgstr "استعن بخدمات الإنترنت عند عدم تعرف برنامج نجوم ك على الأسماء."
 
 #. i18n: ectx: property (toolTip), widget (MagnitudeSpinBox, kcfg_MagLimitDrawDeepSkyZoomOut)
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMagDeepSkyZoomOut)
@@ -76776,7 +76777,7 @@ msgid ""
 "Scheme cannot be removed."
 msgstr ""
 "لم يكن بالإمكان فتح ملف دليل أنساق الألوان.\n"
-"لايمكن حذف النسق."
+"لا يمكن حذف النسق."
 
 #: options/opscolors.cpp:295
 #, kde-format
@@ -77635,7 +77636,7 @@ msgstr "إذا مؤكّد الاسم مرفق إلى الأحد و قمر"
 #: options/opssolarsystem.ui:101
 #, kde-format
 msgid "Use name labels"
-msgstr "استخدم طوابع الاسماء"
+msgstr "استخدم طوابع الأسماء"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAllPlanets)
 #: options/opssolarsystem.ui:108
@@ -77859,7 +77860,7 @@ msgstr "إذا مؤكّد الأحد الاسم مرفق مذنبات بوصة �
 #: options/opssolarsystem.ui:432
 #, kde-format
 msgid "Show names of comets within:"
-msgstr "اعرض اسماء المذنبات الاسطع من:"
+msgstr "اعرض أسماء المذنبات الأسطع من:"
 
 #. i18n: ectx: property (whatsThis), widget (MagnitudeSpinBox, kcfg_MagLimitAsteroid)
 #: options/opssolarsystem.ui:450
@@ -78702,8 +78703,8 @@ msgid ""
 msgstr ""
 "<p>اختر الجرم المرصود. يمكنك اختياره من قائمة الأجرام، بالضغط على زر <b>اختر "
 "الجرم من القائمة</b> أو بالتأشير عليه في خارطة السماء بالضغط على <b>أشر على "
-"الجرم في الخارطة السماوية</b>. عندما يتم تحديد مكان الجرم ، اضغط عليه بزر "
-"الفأرة الأيمن واضغط على <b>اختر هذا الجرم</b> من القائمة المصاحبة.</p>\n"
+"الجرم في الخارطة السماوية</b>. عندما يُحدد مكان الجرم ، اضغط عليه بزر الفأرة "
+"الأيمن واضغط على <b>اختر هذا الجرم</b> من القائمة المصاحبة.</p>\n"
 "<p>وعند الانتهاء اضغط على زر <b>التالي</b>.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, selectedObjLabel)
@@ -78891,7 +78892,7 @@ msgstr "إستعمل لاتيني برج"
 #: skycomponents/flagcomponent.cpp:31
 #, kde-format
 msgid "No icon"
-msgstr "لايوجد أيقونات"
+msgstr "لا يوجد أيقونات"
 
 #: skycomponents/horizoncomponent.cpp:28
 #, fuzzy, kde-format
@@ -79362,43 +79363,43 @@ msgstr "‏بدر تام‏"
 #, kde-format
 msgctxt "moon phase, 0 percent illuminated"
 msgid "New moon"
-msgstr "‏محاق‏"
+msgstr "‏محاق"
 
 #: skyobjects/ksmoon.cpp:301
 #, kde-format
 msgctxt "moon phase, half-illuminated and growing"
 msgid "First quarter"
-msgstr "‏‎تربيع أول‏"
+msgstr "‏‎تربيع أول"
 
 #: skyobjects/ksmoon.cpp:303
 #, kde-format
 msgctxt "moon phase, half-illuminated and shrinking"
 msgid "Third quarter"
-msgstr "‏تربيع ثالث‏"
+msgstr "‏تربيع ثالث"
 
 #: skyobjects/ksmoon.cpp:308
 #, kde-format
 msgctxt "moon phase between new moon and 1st quarter"
 msgid "Waxing crescent"
-msgstr "‏هلال متزايد‎‏"
+msgstr "‏هلال متزايد"
 
 #: skyobjects/ksmoon.cpp:310
 #, kde-format
 msgctxt "moon phase between 1st quarter and full moon"
 msgid "Waxing gibbous"
-msgstr "‏أحدب متزايد‎‏"
+msgstr "‏أحدب متزايد"
 
 #: skyobjects/ksmoon.cpp:312
 #, kde-format
 msgctxt "moon phase between full moon and 3rd quarter"
 msgid "Waning gibbous"
-msgstr "‏أحدب متناقص‎‏"
+msgstr "‏أحدب متناقص"
 
 #: skyobjects/ksmoon.cpp:314
 #, kde-format
 msgctxt "moon phase between 3rd quarter and new moon"
 msgid "Waning crescent"
-msgstr "‏هلال متناقص‎‏"
+msgstr "‏هلال متناقص"
 
 #: skyobjects/ksmoon.cpp:317
 #, kde-format
@@ -79551,7 +79552,7 @@ msgstr "اعرض صورة تلسكوب هابل"
 #: skyobjects/skyobject.cpp:451
 #, kde-format
 msgid "%1: Hubble Space Telescope, operated by STScI for NASA [public domain]"
-msgstr "%1: تلسكوب هوبل الفضائي, تم تشغيله بواسطة STScI لـ NASA [نطاق عام]"
+msgstr "%1: تلسكوب هوبل الفضائي، مُشغل بواسطة STScI لـ NASA [نطاق عام]"
 
 #: skyobjects/skyobject.cpp:455
 #, fuzzy, kde-format
@@ -79573,7 +79574,7 @@ msgstr "SEDS اعرض صورة"
 #: skyobjects/skyobject.cpp:463
 #, kde-format
 msgid "%1: SEDS, http://www.seds.org [free for non-commercial use]"
-msgstr "%1: SEDS, http://www.seds.org [مجاناً للإستعمال غير التّجاري]"
+msgstr "%1: SEDS, http://www.seds.org [مجاناً للاستعمال غير التّجاري]"
 
 #: skyobjects/skyobject.cpp:467
 #, kde-format
@@ -79586,7 +79587,7 @@ msgid ""
 "%1: Advanced Observing Program at Kitt Peak National Observatory [free for "
 "non-commercial use; no physical reproductions]"
 msgstr ""
-"%1: البرنامج الملاحِظ المتقدّم في Kitt Peak المرصد الوطني [مجاناً للإستعمال غير "
+"%1: البرنامج الملاحِظ المتقدّم في Kitt Peak المرصد الوطني [مجاناً للاستعمال غير "
 "التّجاري؛ لا إعادة إنتاج طبيعية]"
 
 #: skyobjects/skyobject.cpp:475
@@ -79600,7 +79601,7 @@ msgid ""
 "%1: National Optical Astronomy Observatories and AURA [free for non-"
 "commercial use]"
 msgstr ""
-"%1: مراصد علم الفلك البصرية الوطنية و AURA [مجاناً للإستخدام غير التجاري]"
+"%1: مراصد علم الفلك البصرية الوطنية و AURA [مجاناً للاستخدام غير التجاري]"
 
 #: skyobjects/skyobject.cpp:484
 #, kde-format
@@ -79608,8 +79609,8 @@ msgid ""
 "%1: Very Large Telescope, operated by the European Southern Observatory "
 "[free for non-commercial use; no reproductions]"
 msgstr ""
-"%1: منظار كبير جداً، تم تشغيله بواسطة المرصد الجنوبي الأوروبي [مجاناً "
-"للإستعمال غير التّجاري؛ لا إعادة إنتاج]"
+"%1: منظار كبير جداً، مُشغل بواسطة المرصد الجنوبي الأوروبي [مجاناً للاستعمال غير "
+"التّجاري؛ لا إعادة إنتاج]"
 
 #: skyobjects/skyobject.cpp:490
 #, kde-format
@@ -80713,7 +80714,7 @@ msgstr "اطبع ..."
 #: tools/altvstime.cpp:160
 #, kde-format
 msgid "Print the Altitude vs. time plot"
-msgstr "اطبع رسمة الارتفاع مقابلالوقت"
+msgstr "اطبع رسمة الارتفاع مقابل الوقت"
 
 #: tools/altvstime.cpp:580 tools/altvstime.cpp:874
 #, kde-format
@@ -80757,9 +80758,9 @@ msgstr ""
 "هنالك طريقتان لاستخدام هذه الحقل:  \n"
 "\n"
 "1. ببساطة اكتب اسم الكائن المعروف ثم اضغط على زر \"Plot\" (أو اضغط Enter).  "
-"ارتفاع الجسم vs. منحنى الوقت سَيُضاف إلى الخريطة, وسيتم عرض نظرائه أسفل.\n"
+"ارتفاع الجسم vs. منحنى الوقت سَيُضاف إلى الخريطة, وسيُعرض نظرائه أسفل.\n"
 "\n"
-"2. إطبعْ علامة اسم للجسم المخصص.  وستحتاج أيضاً لتحديد RA و Dec نظائر الجسم, "
+"2. اكتب علامة اسم للجسم المخصص.  وستحتاج أيضاً لتحديد RA و Dec نظائر الجسم، "
 "ثم اضغط على زر \"الخريطة\" لإضافة منحناه إلى الخريطة."
 
 #. i18n: ectx: property (text), widget (QPushButton, browseButton)
@@ -80986,11 +80987,17 @@ msgstr "اتجاه:"
 #: tools/arglooktoward.ui:37
 #, kde-format
 msgid "Target object or direction"
-msgstr "الجسم او الاتجاه"
+msgstr "الجسم أو الاتجاه"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, FocusEdit)
 #: tools/arglooktoward.ui:40
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Select a direction or object to center on.  The combo box provides a list "
+#| "of known directions including cardinal compass points on the horizon, as "
+#| "well as the Zenith.  You may also enter the name of a known object here, "
+#| "or select an object from the list of known objects by pressing the "
+#| "\"Object\" button."
 msgid ""
 "Select a direction or object to center on.  The combo box provides a list of "
 "known directions including cardinal compass points on the horizon, as well "
@@ -81114,7 +81121,7 @@ msgstr "ابحث عن مدينة…"
 #: tools/argsettrack.ui:30
 #, kde-format
 msgid "Toggle Tracking on/off"
-msgstr "شغل/اوقف التعقّب"
+msgstr "شغل/أوقف التعقّب"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, CheckTrack)
 #: tools/argsettrack.ui:35
@@ -81130,14 +81137,14 @@ msgid ""
 "centered.  As time passes, the sky will then appear to drift by (due to the "
 "rotation of the Earth)."
 msgstr ""
-"اذا تم اختيار هذا البند , فإن السماء سوف تظل مركرة على الموقع الحالي او "
-"الجسم الحالي مع مرور الوقت. هذا يسمى \"تتبع\". يتم تفعيل التتبع عند تركيز اي "
-"جسم في خارطة السماوية. لذلك , عند استخدامك لـ \"انظر الى\" مع اسم جسم , فلا "
-"داعي لتفعيل التتبع حيث ان تفعيله اوتوماتيكي في هذا المثال.\n"
+"إذا اخترت هذا، فإن السماء سوف تظل مركزة على الموقع الحالي أو الجسم الحالي مع "
+"مرور الوقت. هذا يسمى \"تتبع\". يُفعّل التتبع عند تركيز اي جسم في خارطة "
+"السماوية. لذلك , عند استخدامك لـ \"انظر إلى\" مع اسم جسم , فلا داعي لتفعيل "
+"التتبع حيث أن تفعيله آلي في هذا المثال.\n"
 "\n"
-"اذا لم يتم اختيار هذا البند , فإن التتبع سيبطل جبراً , حتى عند تركيز الاجسام. "
-"مع مرور الوقت , سوف تلاحظ ان السماء بدأت بالدوران , وهذا يرجع الى دوران "
-"الارض حول نفسها."
+"إذا لم تختار هذا، فإن التتبع سيبطل جبراً حتى عند تركيز الأجسام. مع مرور "
+"الوقت، سوف تلاحظ أن السماء بدأت بالدوران، وهذا يرجع إلى دوران الأرض حول "
+"نفسها."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/argwaitfor.ui:30
@@ -81149,7 +81156,7 @@ msgstr "<font color=\"#00007f\"> ثانية:</font>"
 #: tools/argwaitfor.ui:37
 #, kde-format
 msgid "Pause delay in seconds"
-msgstr "مدة الايقاف (ثواني)"
+msgstr "مدة الإيقاف (ثواني)"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, DelayBox)
 #: tools/argwaitfor.ui:40
@@ -81158,7 +81165,7 @@ msgid ""
 "Enter the number of seconds that the script should pause before executing "
 "the remaining commands."
 msgstr ""
-"إدخل عددَ الثّواني التي يَجب أَنْ يَتوقّف النص عندها قبل تَنفيذ الأوامر الباقية."
+"أدخل عددَ الثّواني التي يَجب أَنْ يَتوقّف النص عندها قبل تَنفيذ الأوامر الباقية."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/argwaitforkey.ui:30
@@ -81465,7 +81472,7 @@ msgid ""
 "Maximum separation entered is not a valid angle. Use the What's this help "
 "feature for information on how to enter a valid angle"
 msgstr ""
-"البعد الأقصى المدخل ليس زاوية مقبولة. استخدم ميزة ماهذا لمعلومات حول كيفية "
+"البعد الأقصى المدخل ليس زاوية مقبولة. استخدم ميزة ما هذا لمعلومات حول كيفية "
 "إدخال قيمة زاوية صحيحة"
 
 #: tools/conjunctions.cpp:265
@@ -82985,7 +82992,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Jupiter Moons Tool"
-msgstr "اداة اقمار المشتري"
+msgstr "أداة أقمار المشتري"
 
 #: tools/jmoontool.cpp:87
 #, kde-format
@@ -83041,12 +83048,12 @@ msgstr "اختر الجرم ..."
 #: tools/modcalcangdist.cpp:98
 #, kde-format
 msgid "First position: %1"
-msgstr "الموضع الأول‏:%1‏"
+msgstr "الموضع الأول:%1‏"
 
 #: tools/modcalcangdist.cpp:104
 #, kde-format
 msgid "Second position: %1"
-msgstr "الموضع الثاني‏:%1‏"
+msgstr "الموضع الثاني:%1‏"
 
 #. i18n: ectx: property (title), widget (QGroupBox, FirstPositionBox)
 #: tools/modcalcangdist.cpp:115 tools/modcalcangdist.ui:62
@@ -83123,7 +83130,7 @@ msgstr "مدخلات بواسطة ملف  "
 #: tools/modcalcangdist.ui:428 tools/modcalcapcoord.ui:449
 #, kde-format
 msgid "Select Fields in Input File"
-msgstr "اختر الحقول في ملف الادخال"
+msgstr "اختر الحقول في ملف الإدخال"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ra0CheckBatch)
 #: tools/modcalcangdist.ui:466
@@ -83416,7 +83423,7 @@ msgstr "الإحداثيات الاستوائية"
 #: tools/modcalcgalcoord.ui:96
 #, kde-format
 msgid "Galactic Coordinates"
-msgstr "احداثيات مجرية"
+msgstr "إحداثيات مجرية"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
@@ -83510,7 +83517,7 @@ msgstr "حوّل"
 #: tools/modcalcgeod.ui:193
 #, kde-format
 msgid "Cartesian Coordinates"
-msgstr "الاحداثيات الديكارتية"
+msgstr "الإحداثيات الديكارتية"
 
 #. i18n: ectx: property (text), widget (QLabel, XCartLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, XGeoCheckBatch)
@@ -83537,7 +83544,7 @@ msgstr "ع (كم)‏:"
 #: tools/modcalcgeod.ui:238
 #, kde-format
 msgid "Geographic Coordinates"
-msgstr "احداثيات جغرافية"
+msgstr "إحداثيات جغرافية"
 
 #. i18n: ectx: property (text), widget (QLabel, AltGeoLabel)
 #: tools/modcalcgeod.ui:250
@@ -83777,7 +83784,7 @@ msgstr "احسب الوقت القياسي"
 #: tools/modcalcsidtime.ui:209 tools/modcalcsidtime.ui:242
 #, kde-format
 msgid "Read from input file"
-msgstr "إقرأ من ملف المدخلات"
+msgstr "اقرأ من ملف المدخلات"
 
 #. i18n: ectx: property (text), widget (QLabel, HelpLabel)
 #: tools/modcalcsidtime.ui:271
@@ -84080,12 +84087,12 @@ msgstr ""
 #: tools/observinglist.cpp:603
 #, kde-format
 msgid "No image info available."
-msgstr "لاتوجد بيانات متاحة للصورة"
+msgstr "لا توجد بيانات متاحة للصورة"
 
 #: tools/observinglist.cpp:611
 #, kde-format
 msgid "No image available. Click on the placeholder image to download one."
-msgstr "لاتوجد صورة. اضغط على المربع المحجوزللصورة لتحميلها."
+msgstr "لا توجد صورة. اضغط على المربع المحجوز للصورة لتحميلها."
 
 #: tools/observinglist.cpp:625
 #, kde-format
@@ -84278,7 +84285,7 @@ msgstr "لا تجرّب"
 #: tools/observinglist.cpp:1195
 #, kde-format
 msgid "Please wait while adding objects..."
-msgstr "الرجاء الانتظار ريثما يتم إضافة الأجرام للقائمة ..."
+msgstr "الرجاء الانتظار ريثما يضيف الأجرام..."
 
 #: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
 #: tools/observinglist.cpp:1356
@@ -84433,7 +84440,7 @@ msgid ""
 "The list wizard helps you construct observing lists based on filtering by "
 "object type, position on the sky, and magnitude."
 msgstr ""
-"مرشد تجهيز قائمة الرصد يساعد في بناء القائمة بناءاً على اختيار الأجرام حسب "
+"مرشد تجهيز قائمة الرصد يساعد في بناء القائمة بناءً على اختيار الأجرام حسب "
 "نوعها أو موقعها في السماء أو قدر سطوعها."
 
 #. i18n: ectx: property (text), widget (QPushButton, WizardButton)
@@ -84510,7 +84517,7 @@ msgstr "اختر جرماً لعرض معلوماته هنا"
 #: tools/observinglist.ui:597
 #, kde-format
 msgid "(No Image)"
-msgstr "(لاتوجد صورة)"
+msgstr "(لا توجد صورة)"
 
 #. i18n: ectx: property (text), widget (QLabel, dssMetadataLabel)
 #: tools/observinglist.ui:621
@@ -84648,7 +84655,7 @@ msgstr "الدائرة المحددة غير صالحة، اختيار المن�
 #, kde-format
 msgid "Your observing list currently has 1 object"
 msgid_plural "Your observing list currently has %1 objects"
-msgstr[0] "قائمتك الرصدية لاتحوي أي جرم حاليا، %1 جرم."
+msgstr[0] "قائمتك الرصدية لا تحوي أي جرم حاليا، %1 جرم."
 msgstr[1] "قائمتك الرصدية تحوي %1 جرماً واحداً."
 msgstr[2] "قائمتك الرصدية تحوي %1 جرمين اثنين."
 msgstr[3] "قائمتك الرصدية تحوي %1 أجرام."
@@ -84996,7 +85003,7 @@ msgstr "ضمّن الأجرام التي لايعرف قدر سطوعها"
 #: tools/obslistwizard.ui:1035
 #, kde-format
 msgid "Your observing list currently has 0 objects."
-msgstr "قائمتك الرصدية لاتحوي أي جرم حالياً."
+msgstr "قائمتك الرصدية لا تحوي أي جرم حالياً."
 
 #. i18n: ectx: property (text), widget (QPushButton, updateButton)
 #: tools/obslistwizard.ui:1042
@@ -85152,7 +85159,7 @@ msgstr "خفض عرض تكبير المستوى."
 #: tools/scriptbuilder.cpp:200
 #, kde-format
 msgid "Set the display Zoom Level to its default value."
-msgstr "غير حجم ساحة العرض الى الحالة المبدئية"
+msgstr "غير حجم ساحة العرض إلى الحالة المبدئية"
 
 #: tools/scriptbuilder.cpp:202
 #, kde-format
@@ -85162,7 +85169,7 @@ msgstr "حدد حجم ساحة العرض يدويا"
 #: tools/scriptbuilder.cpp:204
 #, kde-format
 msgid "Set the system clock to the specified Local Time."
-msgstr "غير ساعة النظام الى الوقت المحلي."
+msgstr "غير ساعة النظام إلى الوقت المحلي."
 
 #: tools/scriptbuilder.cpp:207
 #, fuzzy, kde-format
@@ -85181,12 +85188,12 @@ msgstr ""
 #: tools/scriptbuilder.cpp:213
 #, kde-format
 msgid "Set whether the display is tracking the current location."
-msgstr "حدد اذا ما كان جهاز العرض يتعقب الموقع الحالي"
+msgstr "حدد إذا ما كان جهاز العرض يتعقب الموقع الحالي"
 
 #: tools/scriptbuilder.cpp:215
 #, kde-format
 msgid "Change view option named %1 to value %2."
-msgstr "غير اسم خيار العرض من %1 الى %2."
+msgstr "غير اسم خيار العرض من %1 إلى %2."
 
 #: tools/scriptbuilder.cpp:218
 #, fuzzy, kde-format
@@ -85322,87 +85329,87 @@ msgstr "شريط الأدوات"
 #: tools/scriptbuilder.cpp:439
 #, kde-format
 msgid "Toggle display of main toolbar"
-msgstr "رجح عرض شريط الادوات الرئيسي"
+msgstr "بدّل عرض شريط الأدوات الرئيسي"
 
 #: tools/scriptbuilder.cpp:442
 #, kde-format
 msgid "Toggle display of view toolbar"
-msgstr "رجح عرض شريط ادوات العرض"
+msgstr "بدّل عرض شريط أدوات العرض"
 
 #: tools/scriptbuilder.cpp:450
 #, kde-format
 msgid "Show Objects"
-msgstr "اعرض اجسام"
+msgstr "اعرض أجسام"
 
 #: tools/scriptbuilder.cpp:451
 #, kde-format
 msgid "Toggle display of Stars"
-msgstr "رجّح عرض النجوم"
+msgstr "بدّل عرض النجوم"
 
 #: tools/scriptbuilder.cpp:454
 #, kde-format
 msgid "Toggle display of all deep-sky objects"
-msgstr "رجّح عرض الاجسام السماوية البعيدة"
+msgstr "بدّل عرض الأجسام السماوية البعيدة"
 
 #: tools/scriptbuilder.cpp:461
 #, kde-format
 msgid "Toggle display of all solar system bodies"
-msgstr "رجح عرض جميع اجسام المجموعة الشمسية"
+msgstr "بدّل عرض جميع أجسام المجموعة الشمسية"
 
 #: tools/scriptbuilder.cpp:464
 #, kde-format
 msgid "Toggle display of Sun"
-msgstr "رجح عرض الشمس"
+msgstr "بدّل عرض الشمس"
 
 #: tools/scriptbuilder.cpp:467
 #, kde-format
 msgid "Toggle display of Moon"
-msgstr "رجح عرض القمر"
+msgstr "بدّل عرض القمر"
 
 #: tools/scriptbuilder.cpp:470
 #, kde-format
 msgid "Toggle display of Mercury"
-msgstr "رجح عرض عطارد"
+msgstr "بدّل عرض عطارد"
 
 #: tools/scriptbuilder.cpp:473
 #, kde-format
 msgid "Toggle display of Venus"
-msgstr "رجح عرض الزهرة"
+msgstr "بدّل عرض الزهرة"
 
 #: tools/scriptbuilder.cpp:476
 #, kde-format
 msgid "Toggle display of Mars"
-msgstr "رجح عرض المريخ"
+msgstr "بدّل عرض المريخ"
 
 #: tools/scriptbuilder.cpp:479
 #, kde-format
 msgid "Toggle display of Jupiter"
-msgstr "رجح عرض المشتري"
+msgstr "بدّل عرض المشتري"
 
 #: tools/scriptbuilder.cpp:482
 #, kde-format
 msgid "Toggle display of Saturn"
-msgstr "رجح عرض زحل"
+msgstr "بدّل عرض زحل"
 
 #: tools/scriptbuilder.cpp:485
 #, kde-format
 msgid "Toggle display of Uranus"
-msgstr "رجح عرض اورانوس"
+msgstr "بدّل عرض أورانوس"
 
 #: tools/scriptbuilder.cpp:488
 #, kde-format
 msgid "Toggle display of Neptune"
-msgstr "رجح عرض نبتون"
+msgstr "بدّل عرض نبتون"
 
 #: tools/scriptbuilder.cpp:494
 #, kde-format
 msgid "Toggle display of Asteroids"
-msgstr "رجح عرض الكويكبات"
+msgstr "بدّل عرض الكويكبات"
 
 #: tools/scriptbuilder.cpp:497
 #, kde-format
 msgid "Toggle display of Comets"
-msgstr "رجح عرض المذنبات"
+msgstr "بدّل عرض المذنبات"
 
 #: tools/scriptbuilder.cpp:517
 #, kde-format
@@ -85412,7 +85419,7 @@ msgstr "اعرض آخر"
 #: tools/scriptbuilder.cpp:518
 #, kde-format
 msgid "Toggle display of constellation lines"
-msgstr "رجّح عرض خطوط الأبراج"
+msgstr "بدّل عرض خطوط الأبراج"
 
 #: tools/scriptbuilder.cpp:521
 #, fuzzy, kde-format
@@ -85422,77 +85429,77 @@ msgstr "تبديل عرض من برج"
 #: tools/scriptbuilder.cpp:524
 #, kde-format
 msgid "Toggle display of constellation names"
-msgstr "رجّح عرض أسامي الأبراج"
+msgstr "بدّل عرض أسماء الأبراج"
 
 #: tools/scriptbuilder.cpp:527
 #, kde-format
 msgid "Toggle display of Milky Way"
-msgstr "رجّح عرض درب التبانة"
+msgstr "بدّل عرض درب التبانة"
 
 #: tools/scriptbuilder.cpp:530
 #, kde-format
 msgid "Toggle display of the coordinate grid"
-msgstr "رجّح عرض شبكة الاحداثيات"
+msgstr "بدّل عرض شبكة الإحداثيات"
 
 #: tools/scriptbuilder.cpp:533
 #, kde-format
 msgid "Toggle display of the celestial equator"
-msgstr "رجح عرض خط الاستواء السماوي"
+msgstr "بدّل عرض خط الاستواء السماوي"
 
 #: tools/scriptbuilder.cpp:536
 #, kde-format
 msgid "Toggle display of the ecliptic"
-msgstr "رجح عرض مسار الشمس"
+msgstr "بدّل عرض مسار الشمس"
 
 #: tools/scriptbuilder.cpp:539
 #, kde-format
 msgid "Toggle display of the horizon line"
-msgstr "رجح عرض خط الافق"
+msgstr "بدّل عرض خط الأفق"
 
 #: tools/scriptbuilder.cpp:542
 #, kde-format
 msgid "Toggle display of the opaque ground"
-msgstr "رجح عرض الارض القاتمة"
+msgstr "رجح عرض الأرض القاتمة"
 
 #: tools/scriptbuilder.cpp:545
 #, kde-format
 msgid "Toggle display of star name labels"
-msgstr "رجح عرض الطوابع لاسامي النجوم"
+msgstr "بدّل عرض ملصقات أسماء النجوم"
 
 #: tools/scriptbuilder.cpp:548
 #, kde-format
 msgid "Toggle display of star magnitude labels"
-msgstr "رجح عرض الطوابع لبريق النجوم"
+msgstr "بدّل عرض تسميات قوة النجوم"
 
 #: tools/scriptbuilder.cpp:551
 #, kde-format
 msgid "Toggle display of asteroid name labels"
-msgstr "رجح عرض الطوابع لاسامي الكويكبات"
+msgstr "بدّل عرض ملصقات أسماء الكويكبات"
 
 #: tools/scriptbuilder.cpp:554
 #, kde-format
 msgid "Toggle display of comet name labels"
-msgstr "رجح عرض الطوابع لاسامي المذنبات"
+msgstr "بدّل عرض ملصقات أسماء المذنبات"
 
 #: tools/scriptbuilder.cpp:557
 #, kde-format
 msgid "Toggle display of planet name labels"
-msgstr "رجح عرض الطوابع لاسامي الكواكب"
+msgstr "بدّل عرض ملصقات أسماء الكواكب"
 
 #: tools/scriptbuilder.cpp:560
 #, kde-format
 msgid "Toggle display of planet images"
-msgstr "رجح عرض صور الكواكب"
+msgstr "بدّل عرض صور الكواكب"
 
 #: tools/scriptbuilder.cpp:581
 #, kde-format
 msgid "Show Latin constellation names"
-msgstr "اعرض اسامي الابراج اللاتينية"
+msgstr "اعرض أسماء الأبراج اللاتينية"
 
 #: tools/scriptbuilder.cpp:584
 #, kde-format
 msgid "Show constellation names in local language"
-msgstr "اعرض اسامي الابراج في اللغة المحلية"
+msgstr "اعرض أسماء الأبراج في اللغة المحلية"
 
 #: tools/scriptbuilder.cpp:587
 #, kde-format
@@ -85507,45 +85514,46 @@ msgstr "اخفي العناصر"
 #: tools/scriptbuilder.cpp:596
 #, kde-format
 msgid "Toggle whether objects hidden while slewing display"
-msgstr "رجح اذا ما كانت الاجسام مختفية خلال تحريك العرض"
+msgstr "بدّل إذا ما كانت الأجسام مختفية خلال تحريك العرض"
 
 #: tools/scriptbuilder.cpp:599
 #, kde-format
 msgid "Timestep threshold (in seconds) for hiding objects"
-msgstr "مقياس الوقت (ثواني) لاخفاء الاجسام"
+msgstr "مقياس الوقت (ثواني) لإخفاء الأجسام"
 
 #: tools/scriptbuilder.cpp:599 tools/scriptbuilder.cpp:638
 #: tools/scriptbuilder.cpp:641 tools/scriptbuilder.cpp:706
 #: tools/scriptbuilder.cpp:709 tools/scriptbuilder.cpp:712
 #: tools/scriptbuilder.cpp:716 tools/scriptbuilder.cpp:720
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "double"
 msgid "double"
 msgstr "double"
 
 #: tools/scriptbuilder.cpp:602
 #, kde-format
 msgid "Hide faint stars while slewing?"
-msgstr "اخفاء النجوم الخافتة خلال التحريك؟"
+msgstr "إخفاء النجوم الخافتة خلال التحريك؟"
 
 #: tools/scriptbuilder.cpp:605
 #, kde-format
 msgid "Hide solar system bodies while slewing?"
-msgstr "اخفاء اجسام المجموعة الشمسية خلال التحريك؟"
+msgstr "إخفاء أجسام المجموعة الشمسية خلال التحريك؟"
 
 #: tools/scriptbuilder.cpp:608
 #, kde-format
 msgid "Hide Milky Way while slewing?"
-msgstr "اخفاء درب التبانة خلال التحريك؟"
+msgstr "إخفاء درب التبانة خلال التحريك؟"
 
 #: tools/scriptbuilder.cpp:611
 #, kde-format
 msgid "Hide constellation names while slewing?"
-msgstr "اخفاء اسامي الابراج خلال التحريك؟"
+msgstr "إخفاء أسماء الأبراج خلال التحريك؟"
 
 #: tools/scriptbuilder.cpp:614
 #, kde-format
 msgid "Hide constellation lines while slewing?"
-msgstr "اخفاء خطوط الأبراج خلال التحريك؟"
+msgstr "إخفاء خطوط الأبراج خلال التحريك؟"
 
 #: tools/scriptbuilder.cpp:617
 #, fuzzy, kde-format
@@ -85555,7 +85563,7 @@ msgstr "إخفاء برج بينما?"
 #: tools/scriptbuilder.cpp:620
 #, kde-format
 msgid "Hide coordinate grid while slewing?"
-msgstr "اخفاء شبكة الاحداثيات خلال التحريك؟"
+msgstr "إخفاء شبكة الإحداثيات خلال التحريك؟"
 
 #: tools/scriptbuilder.cpp:634
 #, fuzzy, kde-format
@@ -85565,7 +85573,7 @@ msgstr "خيارات"
 #: tools/scriptbuilder.cpp:635
 #, kde-format
 msgid "Use Horizontal coordinates? (otherwise, use Equatorial)"
-msgstr "استخدم نطام احداثيات افقي؟ (او استخدم نظام احداثيات استوائي)"
+msgstr "استخدم نظام إحداثيات افقي؟ (أو استخدم نظام إحداثيات استوائي)"
 
 #: tools/scriptbuilder.cpp:638
 #, kde-format
@@ -85585,7 +85593,8 @@ msgid ""
 msgstr "انتقِ شكل لـ رمز مربع دائرة خطا التّقاطع نقطة الهدف"
 
 #: tools/scriptbuilder.cpp:645
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "int"
 msgid "int"
 msgstr "int"
 
@@ -85595,7 +85604,8 @@ msgid "Select color for the FOV symbol"
 msgstr "انتقِ اللّون لـ رمز"
 
 #: tools/scriptbuilder.cpp:648
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "string"
 msgid "string"
 msgstr "سلسلة"
 
@@ -85622,7 +85632,7 @@ msgstr "إرفاق مؤقت الاسم شارة الماوس كائن?"
 #: tools/scriptbuilder.cpp:667
 #, kde-format
 msgid "Planet trails fade to sky color? (otherwise color is constant)"
-msgstr "هل تريد ان تبهت آثار الكواكب للون السماء؟ (او فإن اللون يبقى كما هو)"
+msgstr "هل تريد أن تبهت آثار الكواكب للون السماء؟ (أو فإن اللون يبقى كما هو)"
 
 #. i18n( "magnitude of faintest star drawn on map when zoomed in" ) << i18n( "double" );
 #. new QTreeWidgetItem( opsLimit, fields );
@@ -85664,17 +85674,17 @@ msgstr "بريق اخفت كويكب مع طابع للاسم على الخري�
 #: tools/scriptbuilder.cpp:719
 #, kde-format
 msgid "comets nearer to the Sun than this (in AU) are labeled on map"
-msgstr "المذنبات الاقرب الى الشمس من هذا (وحدات فلكية) سترسم مع طوابع للاسامي"
+msgstr "المذنبات الأقرب إلى الشمس من هذا (وحدات فلكية) سترسم مع طوابع للأسماء"
 
 #: tools/scriptbuilder.cpp:814
 #, kde-format
 msgid "Could not download remote file."
-msgstr "لم يمكن انزال الملف البعيد"
+msgstr "لم يمكن إنزال الملف البعيد"
 
 #: tools/scriptbuilder.cpp:814
 #, kde-format
 msgid "Download Error"
-msgstr "خطأ في الانزال"
+msgstr "خطأ في التنزيل"
 
 #: tools/scriptbuilder.cpp:946
 #, kde-format
@@ -85686,7 +85696,7 @@ msgstr "هل تريد حفظ التغييرات في البرنامج النصي
 msgid ""
 "The current script has unsaved changes.  Would you like to save before "
 "closing it?"
-msgstr "في البرنامج النصي تغييرات لم تحفظ.. هل تريد ان تحفظه قبل اغلاقه؟"
+msgstr "في البرنامج النصي تغييرات لم تحفظ.. هل تريد أن تحفظه قبل إغلاقه؟"
 
 #: tools/scriptbuilder.cpp:1109
 #, kde-format
@@ -85764,7 +85774,7 @@ msgstr "احفظ الحالي برنامج نصي إذا برنامج نصي ل�
 #: tools/scriptbuilder.ui:169
 #, kde-format
 msgid "Save Script As..."
-msgstr "احفط البرنامج النصي كـ ..."
+msgstr "احفظ البرنامج النصي كـ ..."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveAsButton)
 #: tools/scriptbuilder.ui:172
@@ -86092,7 +86102,7 @@ msgstr "نتائج الاستدلال بالنجوم"
 #: tools/whatsinteresting/skyobjitem.cpp:114
 #, kde-kuit-format
 msgid "NOT VISIBLE: About %1 degrees below the %2 horizon"
-msgstr "لايمكن رؤيته: تقريباً %1 درجة تحت %2 الأفق"
+msgstr "لا يمكن رؤيته: تقريباً %1 درجة تحت %2 الأفق"
 
 #: tools/whatsinteresting/skyobjitem.cpp:119
 #, kde-kuit-format
@@ -86154,7 +86164,7 @@ msgid ""
 "represents an <b>excellent dark-sky site</b>, while <b>9</b> represents a "
 "<b>brilliantly lit inner-city sky</b>.</p>"
 msgstr ""
-"<p>ماهو مقدار التلوث الضوئي في سمائك؟ قيّم ظروف السماء عندك من 1 إلى 9 بناءاً "
+"<p>ماهو مقدار التلوث الضوئي في سمائك؟ قيّم ظروف السماء عندك من 1 إلى 9 بناءً "
 "على <b>مقياس بورتل للسماء المعتمة</b>. القيمة  <b>1</b> تعني <b>موقعاً متميزاً "
 "سماؤه معتمة</b>، بينما <b>9</b> تعني <b>سماء وسط المدينة حيث الإضاءة قوية "
 "جداً</b>.</p>"
@@ -86906,7 +86916,7 @@ msgstr ""
 #, kde-format
 msgctxt "Map projection method"
 msgid "No projection"
-msgstr "لا اسقاط"
+msgstr "لا إسقاط"
 
 #: xplanet/opsxplanet.cpp:32
 #, fuzzy, kde-format
