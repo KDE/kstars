@@ -90,12 +90,9 @@ craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.y
     - !reference [.always-on-stable-release, rules]
     - when: never
 
-# TODO Update to microsoftpublish for Qt6
-# microsoftstore_qt515:
-#   needs:
-#     - craft_windows_qt515_x86_64
-#   rules:
-#     - !reference [.publishing-recipes, rules]
+microsoftstore_qt6:
+   rules:
+     - !reference [.publishing-recipes, rules]
 
 # Custom build recipes - until tests are operational in the KDE CI image
 
