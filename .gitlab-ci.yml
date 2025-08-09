@@ -57,7 +57,6 @@ suse_tumbleweed_qt515:
     - !reference [.standard-build-recipes, rules]
 
 json-validation:
-  allow_failure: true
   rules:
     - !reference [.standard-build-recipes, rules]
 
