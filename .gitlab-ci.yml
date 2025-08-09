@@ -24,13 +24,6 @@ include:
       - /gitlab-templates/craft-macos-arm64-qt6.yml
 
 # Jobs
-
-# Android CI is not ready yet
-# android_qt515:
-#   rules:
-#     - when: manual
-#       allow_failure: true
-
 # Standard build recipes
    
 .standard-build-recipes:
