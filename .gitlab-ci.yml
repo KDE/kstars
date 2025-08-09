@@ -2,14 +2,6 @@
 # It uses both KDE CI and custom image until tests are stabilised in the KDE CI image
 # Build dependencies for the custom image are packaged into image definition 'docker/Dockerfile'
 
-stages:
-  - build
-  - test
-  #- test-unstable
-  - validate
-  - deploy
-  - publish
-
 include:
   - local: '.gitlab-ci/common_rules.yml'
   - project: sysadmin/ci-utilities
