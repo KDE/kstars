@@ -40,7 +40,6 @@ endif(BUILD_QT5)
 
 SET( TEST_LIBRARIES
         ${TEST_LIBRARIES}
-        LibKSDataHandlers
         htmesh
         ${ZLIB_LIBRARIES}
         KStarsLib
@@ -48,7 +47,6 @@ SET( TEST_LIBRARIES
 
 SET( TEST_KSLITE_LIBRARIES
         ${TEST_KSLITE_LIBRARIES}
-        LibKSDataHandlers
         htmesh
         ${ZLIB_LIBRARIES}
         KStarsLiteLib
