@@ -34,12 +34,6 @@
 
 #include <QFileDialog>
 
-// Include the split source files here
-#include "camera_actions.cpp"
-#include "camera_config.cpp"
-#include "camera_device.cpp"
-#include "camera_jobs.cpp"
-
 namespace Ekos
 {
 
