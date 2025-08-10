@@ -1561,11 +1561,13 @@ if(APPLE)
     endif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files)
 
     set(KSTARS_APP "${CMAKE_BINARY_DIR}/bin/KStars.app")
+    message(STATUS "Copying needed files into KStars App Directory: ${KSTARS_APP}")
     execute_process(COMMAND ${CMAKE_COMMAND}
-                    -DBUNDLED_DATA_LOCATION=${CMAKE_BINARY_DIR}/bin/KStars.app/Contents/Resources
+                    -DBUNDLED_DATA_LOCATION=${KSTARS_APP}/Contents/Resources
                     ${CMAKE_CURRENT_SOURCE_DIR}/data
                     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/kstars/data")
-    execute_process(COMMAND ${CMAKE_COMMAND} --build . --target install
+    execute_process(COMMAND -E env DATA_INSTALL_DIR=${KSTARS_APP}/Contents/Resources
+                    ${CMAKE_COMMAND} --build . --target install
                     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/kstars/data")
     file(COPY
         "${CMAKE_CURRENT_SOURCE_DIR}/data/qml"
@@ -1579,9 +1581,15 @@ if(APPLE)
     file(COPY
         "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/gsc"
         DESTINATION "${KSTARS_APP}/Contents/MacOS/")
-    file(COPY
-        "${CMAKE_CURRENT_SOURCE_DIR}/kstars.notifyrc"
-        DESTINATION "${KSTARS_APP}/Contents/Resources/knotifications5/")
+    if(BUILD_QT5)
+      file(COPY
+          "${CMAKE_CURRENT_SOURCE_DIR}/kstars.notifyrc"
+          DESTINATION "${KSTARS_APP}/Contents/Resources/knotifications5/")
+    else(BUILD_QT5)
+      file(COPY
+          "${CMAKE_CURRENT_SOURCE_DIR}/kstars.notifyrc"
+          DESTINATION "${KSTARS_APP}/Contents/Resources/knotifications6/")
+    endif(BUILD_QT5)
     file(COPY
         "${CMAKE_CURRENT_SOURCE_DIR}/kstars.kcfg"
         DESTINATION "${KSTARS_APP}/Contents/Resources/")
@@ -1654,13 +1662,14 @@ if(APPLE)
         list(FILTER CAMLIBS EXCLUDE REGEX "dSYM$")
         file(COPY ${CAMLIBS} DESTINATION "${KSTARS_APP}/Contents/Resources/DriverSupport/gphoto/CAMLIBS/")
     endif(NOT INDI_SERVER)
-
-    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/phonon/FrameworksForVLC.zip"
-        WORKING_DIRECTORY "${KSTARS_APP}/Contents/")
-    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/phonon/backend.zip"
-        WORKING_DIRECTORY "${KSTARS_APP}/Contents/Plugins/")
-    execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/phonon/vlc.zip"
-        WORKING_DIRECTORY "${KSTARS_APP}/Contents/Plugins/")
+    if(BUILD_QT5)
+      execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/phonon/FrameworksForVLC.zip"
+          WORKING_DIRECTORY "${KSTARS_APP}/Contents/")
+      execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/phonon/backend.zip"
+          WORKING_DIRECTORY "${KSTARS_APP}/Contents/Plugins/")
+      execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/phonon/vlc.zip"
+          WORKING_DIRECTORY "${KSTARS_APP}/Contents/Plugins/")
+    endif(BUILD_QT5)
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/xplanet-data.zip"
         WORKING_DIRECTORY "${KSTARS_APP}/Contents/Resources/kstars/")
     execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "tar" "xvz" "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/sounds.zip"
@@ -1673,6 +1682,11 @@ if(APPLE)
         MACOSX_BUNDLE TRUE
         MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/macosbundle.plist.in"
     )
+    # This last one is for ediing purposes.  Craft puts KStars.app in ${CMAKE_BINARY_DIR}/bin and building wihtout craft places it in ${CMAKE_BINARY_DIR}/kstars
+    file(COPY
+      "${KSTARS_APP}"
+      DESTINATION "${CMAKE_BINARY_DIR}/kstars/")
+    message(STATUS "Finished copying files")
 endif(APPLE)
 
 if (BUILD_PYKSTARS)

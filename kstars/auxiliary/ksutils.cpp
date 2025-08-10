@@ -1306,6 +1306,7 @@ bool setupMacKStarsIfNeeded() // This method will return false if the KStars dat
     //This will copy the locale folder, the notifications folder, and the sounds folder and any missing files in them to Application Support if needed.
     copyResourcesFolderFromAppBundle("locale");
     copyResourcesFolderFromAppBundle("knotifications5");
+    copyResourcesFolderFromAppBundle("knotifications6");
     copyResourcesFolderFromAppBundle("sounds");
 
     //This will copy the KStars data directory
