@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 19:47+0000\n"
+"POT-Creation-Date: 2025-08-11 02:01+0000\n"
 "PO-Revision-Date: 2025-06-21 12:07+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -714,7 +714,7 @@ msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1346
+#: auxiliary/ksutils.cpp:1347
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -725,17 +725,17 @@ msgstr ""
 " %1 \n"
 " non existe. Quere crear o directorio?"
 
-#: auxiliary/ksutils.cpp:1349
+#: auxiliary/ksutils.cpp:1350
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "Crear o directorio do ficheiro de índice de astrometría?"
 
-#: auxiliary/ksutils.cpp:1354
+#: auxiliary/ksutils.cpp:1355
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr "Creouse o lugar do ficheiro de índice de astrometría predeterminado."
 
-#: auxiliary/ksutils.cpp:1359
+#: auxiliary/ksutils.cpp:1360
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
@@ -744,19 +744,19 @@ msgstr ""
 "O directorio de ficheiros de índice de astrometría predeterminado non existe "
 "e non puido crearse."
 
-#: auxiliary/ksutils.cpp:1380 auxiliary/ksutils.cpp:1536
-#: auxiliary/ksutils.cpp:1601
+#: auxiliary/ksutils.cpp:1381 auxiliary/ksutils.cpp:1537
+#: auxiliary/ksutils.cpp:1602
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "Erro de lectura do ficheiro de configuración de astrometría."
 
-#: auxiliary/ksutils.cpp:1394 auxiliary/ksutils.cpp:1579
-#: auxiliary/ksutils.cpp:1621
+#: auxiliary/ksutils.cpp:1395 auxiliary/ksutils.cpp:1580
+#: auxiliary/ksutils.cpp:1622
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Erro de escritura do ficheiro de configuración de astrometría interno."
 
-#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:1572
+#: auxiliary/ksutils.cpp:1668 fitsviewer/fitsdata.cpp:1572
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -765,22 +765,22 @@ msgstr ""
 "Non é posíbel atopar os executábeis «dcraw» e «cjpeg». Instáleos para "
 "converter de CR2 e NEF a JPEG."
 
-#: auxiliary/ksutils.cpp:1678
+#: auxiliary/ksutils.cpp:1679
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "Non é posíbel abrir %1: %2"
 
-#: auxiliary/ksutils.cpp:1686
+#: auxiliary/ksutils.cpp:1687
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "Non é posíbel desempaquetar a miniatura %1: %2"
 
-#: auxiliary/ksutils.cpp:1697
+#: auxiliary/ksutils.cpp:1698
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "Non é posíbel escribir %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1821 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1822 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -6683,18 +6683,18 @@ msgstr "dδ (segundos de arco)"
 msgid "Filter operation failed."
 msgstr "A operación de filtro fallou."
 
-#: ekos/align/align.cpp:3666 ekos/capture/camera.cpp:585
+#: ekos/align/align.cpp:3666 ekos/capture/camera.cpp:579
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Cambiando o desprazamento do foco en %1 pasos…"
 
 #: ekos/align/align.cpp:3673 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:590
+#: ekos/capture/camera.cpp:584
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Cambiando o filtro a %1…"
 
-#: ekos/align/align.cpp:3678 ekos/capture/camera.cpp:595
+#: ekos/align/align.cpp:3678 ekos/capture/camera.cpp:589
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Enfoque automático co cambio de filtro…"
@@ -14544,46 +14544,46 @@ msgstr ""
 msgid "Sky flats"
 msgstr "Planos celestes"
 
-#: ekos/capture/camera.cpp:78 ekos/capture/camera.cpp:80
+#: ekos/capture/camera.cpp:72 ekos/capture/camera.cpp:74
 #, kde-format
 msgid "Capture Sequence Editor: %1"
 msgstr "Editor de secuencias de captura: %1"
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/camera.cpp:89 ekos/capture/camera.ui:2768
+#: ekos/capture/camera.cpp:83 ekos/capture/camera.ui:2768
 #, kde-format
 msgid "sec"
 msgstr "s"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/capture/camera.cpp:90 ekos/capture/limits.ui:180
+#: ekos/capture/camera.cpp:84 ekos/capture/limits.ui:180
 #: ekos/guide/opsdither.ui:170 ekos/scheduler/opsalignmentsettings.ui:82
 #, kde-format
 msgid "frames"
 msgstr "fotogramas"
 
-#: ekos/capture/camera.cpp:139 ekos/capture/camera_jobs.cpp:258
+#: ekos/capture/camera.cpp:133 ekos/capture/camera_jobs.cpp:258
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Engadir a tarefa á fila da secuencia"
 
-#: ekos/capture/camera.cpp:140 ekos/capture/camera_jobs.cpp:259
+#: ekos/capture/camera.cpp:134 ekos/capture/camera_jobs.cpp:259
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Retirar a tarefa da fila da secuencia"
 
-#: ekos/capture/camera.cpp:505
+#: ekos/capture/camera.cpp:499
 #, kde-format
 msgid "Downloading..."
 msgstr "Descargando…"
 
-#: ekos/capture/camera.cpp:602
+#: ekos/capture/camera.cpp:596
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Púxose o filtro %1."
 
-#: ekos/capture/camera.cpp:627
+#: ekos/capture/camera.cpp:621
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
@@ -14592,7 +14592,7 @@ msgstr ""
 "Aviso: seleccionouse o enfoque en secuencia pero o proceso de enfoque "
 "automático non se iniciou."
 
-#: ekos/capture/camera.cpp:630
+#: ekos/capture/camera.cpp:624
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
@@ -35057,34 +35057,34 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:290 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:109
+#: kstars.cpp:294 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:109
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:291
+#: kstars.cpp:295
 #, fuzzy, kde-format
 #| msgid "KStars Lite"
 msgid "KStars Live Stacker"
 msgstr "KStars Lite"
 
-#: kstars.cpp:292
+#: kstars.cpp:296
 #, fuzzy, kde-format
 #| msgid "(c), The KStars Team"
 msgid "© 2025 KStars Team"
 msgstr "© Equipo de KStars"
 
-#: kstars.cpp:416 kstarsactions.cpp:1650 skymap.cpp:463
+#: kstars.cpp:420 kstarsactions.cpp:1650 skymap.cpp:463
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "&Parar de seguir"
 
-#: kstars.cpp:424 kstarsactions.cpp:1817 kstarsinit.cpp:277
+#: kstars.cpp:428 kstarsactions.cpp:1817 kstarsinit.cpp:277
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Pasar á vista da esfera celeste (&coordenadas ecuatoriais)"
 
-#: kstars.cpp:425 kstarsactions.cpp:1798 kstarsinit.cpp:278
+#: kstars.cpp:429 kstarsactions.cpp:1798 kstarsinit.cpp:278
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Pasar á vista horizontal (&coordenadas horizontais)"

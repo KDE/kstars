@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 19:47+0000\n"
+"POT-Creation-Date: 2025-08-11 02:01+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -707,7 +707,7 @@ msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1346
+#: auxiliary/ksutils.cpp:1347
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -718,58 +718,58 @@ msgstr ""
 " %1 \n"
 " 不存在。您想要新建该目录吗？"
 
-#: auxiliary/ksutils.cpp:1349
+#: auxiliary/ksutils.cpp:1350
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "创建 Astrometry 索引文件目录？"
 
-#: auxiliary/ksutils.cpp:1354
+#: auxiliary/ksutils.cpp:1355
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr "默认的 Astrometry 索引文件位置已创建。"
 
-#: auxiliary/ksutils.cpp:1359
+#: auxiliary/ksutils.cpp:1360
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
 msgstr "默认的 Astrometry 索引文件目录不存在，无法创建。"
 
-#: auxiliary/ksutils.cpp:1380 auxiliary/ksutils.cpp:1536
-#: auxiliary/ksutils.cpp:1601
+#: auxiliary/ksutils.cpp:1381 auxiliary/ksutils.cpp:1537
+#: auxiliary/ksutils.cpp:1602
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "Astrometry 配置文件读取错误。"
 
-#: auxiliary/ksutils.cpp:1394 auxiliary/ksutils.cpp:1579
-#: auxiliary/ksutils.cpp:1621
+#: auxiliary/ksutils.cpp:1395 auxiliary/ksutils.cpp:1580
+#: auxiliary/ksutils.cpp:1622
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "内部 Astrometry 配置文件写错误。"
 
-#: auxiliary/ksutils.cpp:1667 fitsviewer/fitsdata.cpp:1572
+#: auxiliary/ksutils.cpp:1668 fitsviewer/fitsdata.cpp:1572
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr "无法找到 dcraw 与 cjped。请安装相应的工具来进行 CR2 至 JPEG 的转换。"
 
-#: auxiliary/ksutils.cpp:1678
+#: auxiliary/ksutils.cpp:1679
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "无法打开 %1：%2"
 
-#: auxiliary/ksutils.cpp:1686
+#: auxiliary/ksutils.cpp:1687
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "无法解压缩略图 %1: %2"
 
-#: auxiliary/ksutils.cpp:1697
+#: auxiliary/ksutils.cpp:1698
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "无法写入 %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1821 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1822 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -6523,18 +6523,18 @@ msgstr "赤纬误差(角秒)"
 msgid "Filter operation failed."
 msgstr "滤镜操作失败。"
 
-#: ekos/align/align.cpp:3666 ekos/capture/camera.cpp:585
+#: ekos/align/align.cpp:3666 ekos/capture/camera.cpp:579
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "更改焦点偏移 %1 步..."
 
 #: ekos/align/align.cpp:3673 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:590
+#: ekos/capture/camera.cpp:584
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "更改滤镜至 %1..."
 
-#: ekos/align/align.cpp:3678 ekos/capture/camera.cpp:595
+#: ekos/align/align.cpp:3678 ekos/capture/camera.cpp:589
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "更换滤镜后自动对焦..."
@@ -13977,53 +13977,53 @@ msgstr "拍摄平场时，天空亮度或变化。将会适用简单的曝光计
 msgid "Sky flats"
 msgstr "天空平场"
 
-#: ekos/capture/camera.cpp:78 ekos/capture/camera.cpp:80
+#: ekos/capture/camera.cpp:72 ekos/capture/camera.cpp:74
 #, kde-format
 msgid "Capture Sequence Editor: %1"
 msgstr "拍摄序列编辑器：%1"
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/camera.cpp:89 ekos/capture/camera.ui:2768
+#: ekos/capture/camera.cpp:83 ekos/capture/camera.ui:2768
 #, kde-format
 msgid "sec"
 msgstr "秒"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/capture/camera.cpp:90 ekos/capture/limits.ui:180
+#: ekos/capture/camera.cpp:84 ekos/capture/limits.ui:180
 #: ekos/guide/opsdither.ui:170 ekos/scheduler/opsalignmentsettings.ui:82
 #, kde-format
 msgid "frames"
 msgstr "帧"
 
-#: ekos/capture/camera.cpp:139 ekos/capture/camera_jobs.cpp:258
+#: ekos/capture/camera.cpp:133 ekos/capture/camera_jobs.cpp:258
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "将作业添加到序列队列"
 
-#: ekos/capture/camera.cpp:140 ekos/capture/camera_jobs.cpp:259
+#: ekos/capture/camera.cpp:134 ekos/capture/camera_jobs.cpp:259
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "从序列队列中删除作业"
 
-#: ekos/capture/camera.cpp:505
+#: ekos/capture/camera.cpp:499
 #, kde-format
 msgid "Downloading..."
 msgstr "下载中..."
 
-#: ekos/capture/camera.cpp:602
+#: ekos/capture/camera.cpp:596
 #, kde-format
 msgid "Filter set to %1."
 msgstr "设置过滤器为 %1。"
 
-#: ekos/capture/camera.cpp:627
+#: ekos/capture/camera.cpp:621
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr "警告：选择了 in-sequence 对焦，但自动对焦进程尚未启动"
 
-#: ekos/capture/camera.cpp:630
+#: ekos/capture/camera.cpp:624
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
@@ -33239,32 +33239,32 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:290 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:109
+#: kstars.cpp:294 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:109
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:291
+#: kstars.cpp:295
 #, kde-format
 msgid "KStars Live Stacker"
 msgstr ""
 
-#: kstars.cpp:292
+#: kstars.cpp:296
 #, kde-format
 msgid "© 2025 KStars Team"
 msgstr ""
 
-#: kstars.cpp:416 kstarsactions.cpp:1650 skymap.cpp:463
+#: kstars.cpp:420 kstarsactions.cpp:1650 skymap.cpp:463
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "停止跟踪(&T)"
 
-#: kstars.cpp:424 kstarsactions.cpp:1817 kstarsinit.cpp:277
+#: kstars.cpp:428 kstarsactions.cpp:1817 kstarsinit.cpp:277
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "切换天球仪视角（赤道坐标）(&C)"
 
-#: kstars.cpp:425 kstarsactions.cpp:1798 kstarsinit.cpp:278
+#: kstars.cpp:429 kstarsactions.cpp:1798 kstarsinit.cpp:278
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "切换至水平视角（地平坐标）(&C)"
