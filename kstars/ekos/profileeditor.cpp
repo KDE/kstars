@@ -502,7 +502,7 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     ui->remoteMode->setChecked(profile["mode"].toString() == "remote");
     ui->remoteHost->setText(profile["remote_host"].toString("localhost"));
     ui->remotePort->setText(profile["remote_port"].toString("7624"));
-    ui->guideTypeCombo->setCurrentText(profile["guiding"].toString(i18n("Internal")));
+    ui->guideTypeCombo->setCurrentIndex(profile["guiding"].toInt(0));
     ui->externalGuideHost->setText(profile["remote_guiding_host"].toString(("localhost")));
     ui->externalGuidePort->setText(profile["remote_guiding_port"].toString("4400"));
     ui->INDIWebManagerCheck->setChecked(profile["use_web_manager"].toBool());
