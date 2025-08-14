@@ -963,6 +963,7 @@ set(kstars_extra_SRCS
     #to minimize number of indef KSTARS_LITE
     skypainter.cpp    
     auxiliary/screencapture.cpp    
+    auxiliary/minimizewidget.cpp
     )
 
 SET(kstars_extra_kstars_SRCS
