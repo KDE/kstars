@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-11 02:01+0000\n"
+"POT-Creation-Date: 2025-08-14 02:10+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -26487,13 +26487,6 @@ msgstr ""
 msgid "Drivers"
 msgstr "Meghajtó:"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
-#, fuzzy, kde-format
-#| msgid "Interval:"
-msgid "Internal"
-msgstr "Időköz:"
-
 #: ekos/profileeditor.cpp:703
 #, fuzzy, kde-format
 msgctxt "@title:window"
@@ -26668,6 +26661,13 @@ msgstr ""
 #| msgid "Local"
 msgid "&Local"
 msgstr "Helyi"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
+#: ekos/profileeditor.ui:254
+#, fuzzy, kde-format
+#| msgid "Interval:"
+msgid "Internal"
+msgstr "Időköz:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)

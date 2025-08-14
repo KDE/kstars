@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-11 02:01+0000\n"
+"POT-Creation-Date: 2025-08-14 02:10+0000\n"
 "PO-Revision-Date: 2022-07-31 23:14+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -25185,12 +25185,6 @@ msgstr ""
 msgid "Drivers"
 msgstr "Əks sıralama"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
-#, kde-format
-msgid "Internal"
-msgstr ""
-
 #: ekos/profileeditor.cpp:703
 #, kde-format
 msgctxt "@title:window"
@@ -25350,6 +25344,12 @@ msgstr ""
 #: ekos/profileeditor.ui:237
 #, kde-format
 msgid "&Local"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
+#: ekos/profileeditor.ui:254
+#, kde-format
+msgid "Internal"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)

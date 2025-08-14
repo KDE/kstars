@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-11 02:01+0000\n"
+"POT-Creation-Date: 2025-08-14 02:10+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -26061,13 +26061,6 @@ msgstr ""
 msgid "Drivers"
 msgstr "ਡਰਾਇਵਰ:"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
-#, fuzzy, kde-format
-#| msgid "Interval:"
-msgid "Internal"
-msgstr "ਅੰਤਰਾਲ:"
-
 #: ekos/profileeditor.cpp:703
 #, kde-format
 msgctxt "@title:window"
@@ -26237,6 +26230,13 @@ msgstr ""
 #| msgid "Local"
 msgid "&Local"
 msgstr "ਸਥਾਨਿਕ"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
+#: ekos/profileeditor.ui:254
+#, fuzzy, kde-format
+#| msgid "Interval:"
+msgid "Internal"
+msgstr "ਅੰਤਰਾਲ:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)

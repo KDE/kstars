@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-11 02:01+0000\n"
+"POT-Creation-Date: 2025-08-14 02:10+0000\n"
 "PO-Revision-Date: 2025-03-30 23:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -26210,12 +26210,6 @@ msgstr "<nobr><b>Etikedo</b>: %1 ━ <b>Pelilo</b>: %2 ━ <b>Rulo</b>: %3<nobr/
 msgid "Drivers"
 msgstr "Peliloj:"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
-#, kde-format
-msgid "Internal"
-msgstr "Interna"
-
 #: ekos/profileeditor.cpp:703
 #, kde-format
 msgctxt "@title:window"
@@ -26396,6 +26390,12 @@ msgstr "8624"
 #, kde-format
 msgid "&Local"
 msgstr "&Loka"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
+#: ekos/profileeditor.ui:254
+#, kde-format
+msgid "Internal"
+msgstr "Interna"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)

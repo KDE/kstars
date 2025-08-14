@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-11 02:01+0000\n"
+"POT-Creation-Date: 2025-08-14 02:10+0000\n"
 "PO-Revision-Date: 2014-04-26 16:29+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -27394,13 +27394,6 @@ msgstr ""
 msgid "Drivers"
 msgstr "Driver:"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
-#, fuzzy, kde-format
-#| msgid "Interval:"
-msgid "Internal"
-msgstr "Interval:"
-
 #: ekos/profileeditor.cpp:703
 #, fuzzy, kde-format
 #| msgid "Artwork"
@@ -27576,6 +27569,13 @@ msgstr ""
 #| msgid "Local"
 msgid "&Local"
 msgstr "Lokal"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
+#: ekos/profileeditor.ui:254
+#, fuzzy, kde-format
+#| msgid "Interval:"
+msgid "Internal"
+msgstr "Interval:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-11 02:01+0000\n"
+"POT-Creation-Date: 2025-08-14 02:10+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -25108,13 +25108,6 @@ msgstr ""
 msgid "Drivers"
 msgstr "Dir:"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
-#, fuzzy, kde-format
-#| msgid "General"
-msgid "Internal"
-msgstr "സാധാരണ"
-
 #: ekos/profileeditor.cpp:703
 #, kde-format
 msgctxt "@title:window"
@@ -25280,6 +25273,13 @@ msgstr ""
 #, fuzzy, kde-format
 msgid "&Local"
 msgstr "ലോക്കല്‍ സ്ക്രിപ്റ്റ്: "
+
+#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
+#: ekos/profileeditor.ui:254
+#, fuzzy, kde-format
+#| msgid "General"
+msgid "Internal"
+msgstr "സാധാരണ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)

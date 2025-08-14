@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-11 02:01+0000\n"
-"PO-Revision-Date: 2025-08-06 18:30+0400\n"
+"POT-Creation-Date: 2025-08-14 02:10+0000\n"
+"PO-Revision-Date: 2025-08-13 18:36+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -25510,12 +25510,6 @@ msgstr ""
 msgid "Drivers"
 msgstr "السواق:"
 
-#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:505 ekos/profileeditor.ui:254
-#, kde-format
-msgid "Internal"
-msgstr "داخلي"
-
 #: ekos/profileeditor.cpp:703
 #, kde-format
 msgctxt "@title:window"
@@ -25681,6 +25675,12 @@ msgstr "8624"
 #, kde-format
 msgid "&Local"
 msgstr "محلي"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
+#: ekos/profileeditor.ui:254
+#, kde-format
+msgid "Internal"
+msgstr "داخلي"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #. i18n: ectx: property (text), widget (QRadioButton, usePHD2R)
@@ -31119,9 +31119,7 @@ msgstr "مرحبا إلى نجوم ك المستعرض"
 msgid ""
 "Display all captured FITS images in a single tab instead of multiple tabs "
 "per image."
-msgstr ""
-"اعرض جميع صور FITS الملتقطة في علامة تبويب واحدة عوضاً عن عدة علامات تبويب "
-"لكل صورة."
+msgstr "اعرض جميع صور FITS الملتقطة في لسان واحد عوضاً عن عدة ألسنة لكل صورة."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singlePreviewFITS)
 #: fitsviewer/opsfits.ui:70
@@ -68437,7 +68435,7 @@ msgstr "‎‎المغرز‎‎"
 #, kde-kuit-format
 msgctxt "star name"
 msgid "Chertan"
-msgstr "‎‎الزبرة ، الخراتان 2‎‎"
+msgstr "‎‎الزبرة، الخراتان 2‎‎"
 
 #: kstars_i18n.cpp:4718
 #, kde-kuit-format
@@ -78703,7 +78701,7 @@ msgid ""
 msgstr ""
 "<p>اختر الجرم المرصود. يمكنك اختياره من قائمة الأجرام، بالضغط على زر <b>اختر "
 "الجرم من القائمة</b> أو بالتأشير عليه في خارطة السماء بالضغط على <b>أشر على "
-"الجرم في الخارطة السماوية</b>. عندما يُحدد مكان الجرم ، اضغط عليه بزر الفأرة "
+"الجرم في الخارطة السماوية</b>. عندما يُحدد مكان الجرم، اضغط عليه بزر الفأرة "
 "الأيمن واضغط على <b>اختر هذا الجرم</b> من القائمة المصاحبة.</p>\n"
 "<p>وعند الانتهاء اضغط على زر <b>التالي</b>.</p>"
 
@@ -86091,7 +86089,7 @@ msgid ""
 "smaller FOV or changing the source point"
 msgstr ""
 "خوارزمية الاستدلال بالنجوم فشلت. إذا كنت تحاول الاستدلال على نجم أو جرم "
-"بعيد ، حاول استخدام حقل رؤية صغير أو غيّر نقطة المنشأ"
+"بعيد، حاول استخدام حقل رؤية صغير أو غيّر نقطة المنشأ"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, StarHopperDialog)
 #: tools/starhopperdialog.ui:14
