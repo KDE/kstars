@@ -354,7 +354,7 @@ class SchedulerProcess : public QObject, public ModuleLogger
             return m_moduleState;
         }
 
-        QPointer<Ekos::GreedyScheduler> m_GreedyScheduler { nullptr };
+        QPointer<Ekos::GreedyScheduler> m_GreedyScheduler;
         QPointer<GreedyScheduler> &getGreedyScheduler()
         {
             return m_GreedyScheduler;

@@ -317,7 +317,7 @@ class Camera : public ConcreteDevice
         INumber *offsetN { nullptr };
         IPerm offsetPerm { IP_RO };
 
-        QPointer<ImageViewer> m_ImageViewerWindow { nullptr };
+        QPointer<ImageViewer> m_ImageViewerWindow;
 
         QDateTime m_LastNotificationTS;
 

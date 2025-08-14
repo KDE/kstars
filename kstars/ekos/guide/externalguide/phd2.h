@@ -242,7 +242,7 @@ class PHD2 : public GuideInterface
 
         PHD2ResultType takeRequestFromList(const QJsonObject &response);
 
-        QPointer<QTcpSocket> tcpSocket { nullptr };
+        QPointer<QTcpSocket> tcpSocket;
         int nextRpcId { 1 };
 
         QHash<QString, PHD2Event> events;                     // maps event name to event type

@@ -188,6 +188,6 @@ protected slots:
 
     #ifdef HAVE_GEOCLUE_2
     QNetworkAccessManager *nam { nullptr };
-    QPointer<QGeoPositionInfoSource> source { nullptr };
+    QPointer<QGeoPositionInfoSource> source;
     #endif
 };

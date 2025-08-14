@@ -226,8 +226,8 @@ QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
 bool FITSData::loadStack(const QString &inDir, const LiveStackData &params)
 {
     m_StackDir = inDir;
-    m_Stack = new FITSStack(this, params);
-    connect(m_Stack, &FITSStack::stackChanged, this, [this]()
+    m_Stack.reset(new FITSStack(nullptr, params));
+    connect(m_Stack.get(), &FITSStack::stackChanged, this, [this]()
     {
         QByteArray buffer = m_Stack->getStackedImage();
         loadFromBuffer(buffer);
@@ -239,8 +239,8 @@ bool FITSData::loadStack(const QString &inDir, const LiveStackData &params)
     m_StackQ.clear();
 
     // Setup directory watcher on the stack directory
-    m_StackDirWatcher = new FITSDirWatcher(this);
-    connect(m_StackDirWatcher, &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
+    m_StackDirWatcher.reset(new FITSDirWatcher(nullptr));
+    connect(m_StackDirWatcher.get(), &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
 
     m_StackDirWatcher->watchDir(m_StackDir);
     QStringList subs = m_StackDirWatcher->getCurrentFiles();
@@ -333,7 +333,7 @@ void FITSData::checkCancelStack()
         qCDebug(KSTARS_FITS) << "Cancel stack request completed";
 
         // Stop watching for more files
-        disconnect(m_StackDirWatcher, &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
+        disconnect(m_StackDirWatcher.get(), &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
         m_StackDirWatcher->stopWatching();
 
         // Reset the image to noimage
@@ -620,18 +620,18 @@ void FITSData::nextStackAction()
             {
                 qCDebug(KSTARS_FITS) << "Starting incremental stack...";
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-                future = QtConcurrent::run(&FITSStack::stackn, m_Stack);
+                future = QtConcurrent::run(&FITSStack::stackn, m_Stack.get());
 #else
-                future = QtConcurrent::run(m_Stack, &FITSStack::stackn);
+                future = QtConcurrent::run(m_Stack.get(), &FITSStack::stackn);
 #endif
             }
             else
             {
                 qCDebug(KSTARS_FITS) << "Starting initial stack...";
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-                future = QtConcurrent::run(&FITSStack::stack, m_Stack);
+                future = QtConcurrent::run(&FITSStack::stack, m_Stack.get());
 #else
-                future = QtConcurrent::run(m_Stack, &FITSStack::stack);
+                future = QtConcurrent::run(m_Stack.get(), &FITSStack::stack);
 #endif
             }
             m_StackWatcher.setFuture(future);
@@ -4107,8 +4107,8 @@ bool FITSData::findSimbadObjectsInImage(SkyPoint searchCenter, double radius)
     simbadURL.setQuery(simbadQuery);
     qCDebug(KSTARS_FITS) << "Simbad query:" << simbadURL;
 
-    m_NetworkAccessManager = new QNetworkAccessManager(this);
-    connect(m_NetworkAccessManager, &QNetworkAccessManager::finished, this, &FITSData::simbadResponseReady);
+    m_NetworkAccessManager.reset(new QNetworkAccessManager(nullptr));
+    connect(m_NetworkAccessManager.get(), &QNetworkAccessManager::finished, this, &FITSData::simbadResponseReady);
     QNetworkReply *response = m_NetworkAccessManager->get(QNetworkRequest(simbadURL));
     if (response->error() != QNetworkReply::NoError)
     {

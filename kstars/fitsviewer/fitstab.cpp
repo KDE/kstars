@@ -137,7 +137,7 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
                 stat.statsTable->setSpan(i, 0, 1, 3);
         }
 
-        connect(m_PlateSolve, &PlateSolve::clicked, this, &FITSTab::extractImage);
+        connect(m_PlateSolve.data(), &PlateSolve::clicked, this, &FITSTab::extractImage);
 
         fitsTools->addItem(statWidget, i18n("Statistics"));
         fitsTools->addItem(m_PlateSolve, i18n("Plate Solving"));
@@ -1268,26 +1268,26 @@ void FITSTab::setAutoStretch()
 
 void FITSTab::extractImage()
 {
-    connect(m_PlateSolve, &PlateSolve::extractorSuccess, this, [this]()
+    connect(m_PlateSolve.data(), &PlateSolve::extractorSuccess, this, [this]()
     {
         m_View->updateFrame();
         m_PlateSolve->solveImage(m_View->imageData());
     });
-    connect(m_PlateSolve, &PlateSolve::extractorFailed, this, [this]()
+    connect(m_PlateSolve.data(), &PlateSolve::extractorFailed, this, [this]()
     {
-        disconnect(m_PlateSolve);
+        disconnect(m_PlateSolve.data());
     });
-    connect(m_PlateSolve, &PlateSolve::solverFailed, this, [this]()
+    connect(m_PlateSolve.data(), &PlateSolve::solverFailed, this, [this]()
     {
-        disconnect(m_PlateSolve);
+        disconnect(m_PlateSolve.data());
     });
-    connect(m_PlateSolve, &PlateSolve::solverSuccess, this, [this]()
+    connect(m_PlateSolve.data(), &PlateSolve::solverSuccess, this, [this]()
     {
         m_View->syncWCSState();
         if (m_View->areObjectsShown())
             // Requery Objects based on new plate solved solution
             m_View->imageData()->searchObjects();
-        disconnect(m_PlateSolve);
+        disconnect(m_PlateSolve.data());
     });
     m_PlateSolve->extractImage(m_View->imageData());
 }
@@ -1333,35 +1333,35 @@ void FITSTab::liveStack()
 void FITSTab::plateSolveSub(const double ra, const double dec, const double pixScale, const int index,
                             const int healpix, const LiveStackFrameWeighting &weighting)
 {
-    connect(m_PlateSolve, &PlateSolve::subExtractorSuccess, this, [this, ra, dec, pixScale, index, healpix]
+    connect(m_PlateSolve.data(), &PlateSolve::subExtractorSuccess, this, [this, ra, dec, pixScale, index, healpix]
             (double medianHFR, int numStars)
     {
-        disconnect(m_PlateSolve, &PlateSolve::subExtractorSuccess, nullptr, nullptr);
-        disconnect(m_PlateSolve, &PlateSolve::subExtractorFailed, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subExtractorSuccess, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subExtractorFailed, nullptr, nullptr);
         m_StackMedianHFR = medianHFR;
         m_StackNumStars = numStars;
         qCDebug(KSTARS_FITS) << "Star extraction complete, plate solving starting...";
         m_PlateSolve->plateSolveSub(m_View->imageData(), ra, dec, pixScale, index, healpix, SSolver::SOLVE);
     });
-    connect(m_PlateSolve, &PlateSolve::subExtractorFailed, this, [this]()
+    connect(m_PlateSolve.data(), &PlateSolve::subExtractorFailed, this, [this]()
     {
-        disconnect(m_PlateSolve, &PlateSolve::subExtractorSuccess, nullptr, nullptr);
-        disconnect(m_PlateSolve, &PlateSolve::subExtractorFailed, nullptr, nullptr);
-        disconnect(m_PlateSolve, &PlateSolve::subSolverSuccess, nullptr, nullptr);
-        disconnect(m_PlateSolve, &PlateSolve::subSolverFailed, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subExtractorSuccess, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subExtractorFailed, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subSolverSuccess, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subSolverFailed, nullptr, nullptr);
         const bool timedOut = false;
         const bool success = false;
         m_View->imageData()->solverDone(timedOut, success, m_StackMedianHFR, m_StackNumStars);
     });
-    connect(m_PlateSolve, &PlateSolve::subSolverFailed, this, [this, ra, dec, pixScale]()
+    connect(m_PlateSolve.data(), &PlateSolve::subSolverFailed, this, [this, ra, dec, pixScale]()
     {
-        disconnect(m_PlateSolve, &PlateSolve::subExtractorSuccess, nullptr, nullptr);
-        disconnect(m_PlateSolve, &PlateSolve::subExtractorFailed, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subExtractorSuccess, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subExtractorFailed, nullptr, nullptr);
         if (m_StackExtendedPlateSolve)
         {
             // Failed to plate solve on extended criteria so just fail
-            disconnect(m_PlateSolve, &PlateSolve::subSolverSuccess, nullptr, nullptr);
-            disconnect(m_PlateSolve, &PlateSolve::subSolverFailed, nullptr, nullptr);
+            disconnect(m_PlateSolve.data(), &PlateSolve::subSolverSuccess, nullptr, nullptr);
+            disconnect(m_PlateSolve.data(), &PlateSolve::subSolverFailed, nullptr, nullptr);
             const bool timedOut = false;
             const bool success = false;
             m_View->imageData()->solverDone(timedOut, success, m_StackMedianHFR, m_StackNumStars);
@@ -1374,12 +1374,12 @@ void FITSTab::plateSolveSub(const double ra, const double dec, const double pixS
             m_PlateSolve->plateSolveSub(m_View->imageData(), ra, dec, pixScale, -1, -1, SSolver::SOLVE);
         }
     });
-    connect(m_PlateSolve, &PlateSolve::subSolverSuccess, this, [this]()
+    connect(m_PlateSolve.data(), &PlateSolve::subSolverSuccess, this, [this]()
     {
-        disconnect(m_PlateSolve, &PlateSolve::subExtractorSuccess, nullptr, nullptr);
-        disconnect(m_PlateSolve, &PlateSolve::subExtractorFailed, nullptr, nullptr);
-        disconnect(m_PlateSolve, &PlateSolve::subSolverSuccess, nullptr, nullptr);
-        disconnect(m_PlateSolve, &PlateSolve::subSolverFailed, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subExtractorSuccess, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subExtractorFailed, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subSolverSuccess, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::subSolverFailed, nullptr, nullptr);
         const bool timedOut = false;
         const bool success = true;
         m_View->imageData()->solverDone(timedOut, success, m_StackMedianHFR, m_StackNumStars);

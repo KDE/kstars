@@ -296,9 +296,8 @@ protected:
         bool m_JobsGenerated {false};        
         QString m_DefectMapFilename, m_MasterDarkFrameFilename;        
         QSharedPointer<DarkView> m_DarkView;
-        QPointer<QStatusBar> m_StatusBar { nullptr };
-        QPointer<QLabel> m_StatusLabel { nullptr };
-        QPointer<QLabel> m_FileLabel { nullptr };
+        QPointer<QStatusBar> m_StatusBar;
+        QPointer<QLabel> m_StatusLabel, m_FileLabel;
         QSharedPointer<DefectMap> m_CurrentDefectMap;
         QSharedPointer<FITSData> m_CurrentDarkFrame;
         QFutureWatcher<bool> m_DarkFrameFutureWatcher;

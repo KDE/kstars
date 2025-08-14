@@ -245,8 +245,8 @@ protected:
     bool m_InitialLoad = true;
 
     CatalogsDB::DBManager m_manager;
-    QPointer<QStandardItemModel> m_CatalogModel { nullptr };
-    QPointer<CatalogFilter> m_CatalogSortModel { nullptr };
+    QPointer<QStandardItemModel> m_CatalogModel;
+    QPointer<CatalogFilter> m_CatalogSortModel;
 
     QFuture<void> m_LoadCatalogs;
     QFutureWatcher<void> *m_LoadCatalogsWatcher;
@@ -254,7 +254,7 @@ protected:
     QHash<QString, CatalogObject> m_CatalogHash;
     QPixmap m_NoImagePixmap;
 
-    QPointer<ImagingPlannerPopup> m_PopupMenu { nullptr };
+    QPointer<ImagingPlannerPopup> m_PopupMenu;
 
     double m_MinMoon = 30.0;
     double m_MaxMoonAltitude = 90.0;
@@ -269,8 +269,8 @@ protected:
 
     QMap<QString, CatalogImageInfo> m_CatalogImageInfoMap;
 
-    QPointer<PlateSolve> m_PlateSolve { nullptr };
-    QPointer<ScreenCapture> m_CaptureWidget { nullptr };
+    QPointer<PlateSolve> m_PlateSolve;
+    QPointer<ScreenCapture> m_CaptureWidget;
     QString m_ScreenShotFilename;
     QImage m_ScreenShotImage;
     void extractImage();

@@ -1122,6 +1122,8 @@ void ImagingPlanner::initialize()
 
     // Connects the threaded catalog loader to the UI.
     connect(this, &ImagingPlanner::popupSorry, this, &ImagingPlanner::sorry);
+    m_PopupMenu = nullptr;
+    m_CaptureWidget = nullptr;
 
     // Setup the Table Views
     m_CatalogModel = new QStandardItemModel(0, LAST_COLUMN);
@@ -1452,8 +1454,8 @@ void ImagingPlanner::initialize()
     m_PlateSolve = new PlateSolve(this);
     m_PlateSolve->enableAuxButton("Retake screenshot",
                                   "Retake the screenshot of the object if you're having issues solving.");
-    connect(m_PlateSolve.get(), &PlateSolve::clicked, this, &ImagingPlanner::extractImage, Qt::UniqueConnection);
-    connect(m_PlateSolve.get(), &PlateSolve::auxClicked, this, [this]()
+    connect(m_PlateSolve.data(), &PlateSolve::clicked, this, &ImagingPlanner::extractImage, Qt::UniqueConnection);
+    connect(m_PlateSolve.data(), &PlateSolve::auxClicked, this, [this]()
     {
         m_PlateSolve->abort();
         takeScreenshot();
@@ -3922,7 +3924,7 @@ void ImagingPlanner::sorry(const QString &message)
 
 void ImagingPlanner::captureRegion(const QImage &screenshot)
 {
-    if (m_PlateSolve.get()) disconnect(m_PlateSolve.get());
+    if (m_PlateSolve.data()) disconnect(m_PlateSolve.data());
 
     // This code to convert the screenshot to a FITSData is, of course, convoluted.
     // TODO: improve it.
@@ -3935,7 +3937,7 @@ void ImagingPlanner::captureRegion(const QImage &screenshot)
     this->raise();
     this->activateWindow();
 
-    if (!m_PlateSolve.get())
+    if (!m_PlateSolve.data())
         m_PlateSolve = new PlateSolve(this);
 
     m_PlateSolve->setImageDisplay(m_ScreenShotImage);
@@ -3992,21 +3994,21 @@ void ImagingPlanner::takeScreenshot()
     {
         // Don't remember the cancel response.
         KMessageBox::enableMessage(messageID);
-        disconnect(m_CaptureWidget);
+        disconnect(m_CaptureWidget.data());
         m_CaptureWidget.clear();
         this->raise();
         this->activateWindow();
         return;
     }
 
-    if (m_CaptureWidget) disconnect(m_CaptureWidget);
+    if (m_CaptureWidget.data()) disconnect(m_CaptureWidget.data());
     m_CaptureWidget = new ScreenCapture(this);
-    QObject::connect(m_CaptureWidget, &ScreenCapture::areaSelected,
+    QObject::connect(m_CaptureWidget.data(), &ScreenCapture::areaSelected,
                      this, &ImagingPlanner::captureRegion, Qt::UniqueConnection);
-    disconnect(m_CaptureWidget, &ScreenCapture::aborted, nullptr, nullptr);
-    QObject::connect(m_CaptureWidget, &ScreenCapture::aborted, this, [this]()
+    disconnect(m_CaptureWidget.data(), &ScreenCapture::aborted, nullptr, nullptr);
+    QObject::connect(m_CaptureWidget.data(), &ScreenCapture::aborted, this, [this]()
     {
-        disconnect(m_CaptureWidget);
+        disconnect(m_CaptureWidget.data());
         m_CaptureWidget.clear();
         this->raise();
         this->activateWindow();
@@ -4016,15 +4018,15 @@ void ImagingPlanner::takeScreenshot()
 
 void ImagingPlanner::extractImage()
 {
-    disconnect(m_PlateSolve.get(), &PlateSolve::solverFailed, nullptr, nullptr);
-    connect(m_PlateSolve.get(), &PlateSolve::solverFailed, this, [this]()
+    disconnect(m_PlateSolve.data(), &PlateSolve::solverFailed, nullptr, nullptr);
+    connect(m_PlateSolve.data(), &PlateSolve::solverFailed, this, [this]()
     {
-        disconnect(m_PlateSolve.get());
+        disconnect(m_PlateSolve.data());
     });
-    disconnect(m_PlateSolve.get(), &PlateSolve::solverSuccess, nullptr, nullptr);
-    connect(m_PlateSolve.get(), &PlateSolve::solverSuccess, this, [this]()
+    disconnect(m_PlateSolve.data(), &PlateSolve::solverSuccess, nullptr, nullptr);
+    connect(m_PlateSolve.data(), &PlateSolve::solverSuccess, this, [this]()
     {
-        disconnect(m_PlateSolve.get());
+        disconnect(m_PlateSolve.data());
         const FITSImage::Solution &solution = m_PlateSolve->solution();
         ImageOverlay overlay;
         overlay.m_Orientation = solution.orientation;

@@ -502,7 +502,7 @@ void FITSView::redoPostProcessStack(const LiveStackPPData &ppParams)
     if (stack)
     {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-        QFuture<void> future = QtConcurrent::run(&FITSStack::redoPostProcessStack, stack, ppParams);
+        QFuture<void> future = QtConcurrent::run(&FITSStack::redoPostProcessStack, stack.get(), ppParams);
 #else
         QFuture<void> future = QtConcurrent::run(stack.get(), &FITSStack::redoPostProcessStack, ppParams);
 #endif

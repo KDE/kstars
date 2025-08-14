@@ -677,7 +677,7 @@ class FITSData : public QObject
          * @return Live Stack pointer
          */
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
-        const QPointer<FITSStack> stack() const
+        const QSharedPointer<FITSStack> stack() const
         {
             return m_Stack;
         }
@@ -1159,7 +1159,7 @@ class FITSData : public QObject
         QPoint roiCenter;
 
         // Catalog Objects
-        QPointer<QNetworkAccessManager> m_NetworkAccessManager { nullptr };
+        QSharedPointer<QNetworkAccessManager> m_NetworkAccessManager;
         QTimer m_CatQueryTimer;
         bool m_CatQueryInProgress { false };
         bool m_CatUpdateTable { false };
@@ -1168,12 +1168,12 @@ class FITSData : public QObject
 
         // Live Stacking
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
-        QPointer<FITSStack> m_Stack { nullptr };
+        QSharedPointer<FITSStack> m_Stack;
 #endif
         QList<QString> m_StackSubs;
         int m_StackSubPos { -1 };
         QString m_StackDir;
-        QPointer<FITSDirWatcher> m_StackDirWatcher { nullptr };
+        QSharedPointer<FITSDirWatcher> m_StackDirWatcher;
         QQueue<QString> m_StackQ;
         bool m_AlignMasterChosen { false };
         bool m_DarkLoaded { false };

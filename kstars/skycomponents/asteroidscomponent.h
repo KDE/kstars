@@ -51,5 +51,5 @@ class AsteroidsComponent : public QObject, public SolarSystemListComponent,
     private:
         void loadDataFromText() override;
 
-        QPointer<FileDownloader> downloadJob { nullptr };
+        QPointer<FileDownloader> downloadJob;
 };

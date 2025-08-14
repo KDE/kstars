@@ -98,7 +98,7 @@ class NodeManager : public QObject
         QUrl m_ServiceURL, m_WebsocketURL;
         QString m_Username, m_Password;
 
-        QPointer<QNetworkAccessManager> m_NetworkManager { nullptr };
+        QPointer<QNetworkAccessManager> m_NetworkManager;
         QMap<Channels, Node*> m_Nodes;
 
         // Retry every 5 seconds in case remote server is down
