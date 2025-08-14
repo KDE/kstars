@@ -193,28 +193,28 @@ class FITSTab : public QWidget
         /** Ask user whether he wants to save changes and save if he do. */
 
         /// The FITSTools Toolbox
-        QPointer<QToolBox> fitsTools;
+        QPointer<QToolBox> fitsTools { nullptr };
         /// The Splitter for th FITSTools Toolbox
-        QPointer<QSplitter> fitsSplitter;
+        QPointer<QSplitter> fitsSplitter { nullptr };
         /// The FITS Header Panel
-        QPointer<QDialog> fitsHeaderDialog;
+        QPointer<QDialog> fitsHeaderDialog { nullptr };
         Ui::fitsHeaderDialog header;
         /// The Statistics Panel
-        QPointer<QDialog> statWidget;
+        QPointer<QDialog> statWidget { nullptr };
         Ui::statForm stat;
         /// The Live Stacking UI
-        QPointer<QDialog> m_LiveStackingWidget;
+        QPointer<QDialog> m_LiveStackingWidget { nullptr };
         Ui::LiveStackingUI m_LiveStackingUI;
         /// Catalog Object UI
-        QPointer<QDialog> m_CatalogObjectWidget;
+        QPointer<QDialog> m_CatalogObjectWidget { nullptr };
         Ui::CatalogObjectUI m_CatalogObjectUI;
-        QPointer<QDialog> m_CatObjTypeFilterDialog;
+        QPointer<QDialog> m_CatObjTypeFilterDialog { nullptr };
         Ui::CatalogObjectTypeFilterUI m_CatObjTypeFilterUI;
         /// FITS Histogram
-        QPointer<FITSHistogramEditor> m_HistogramEditor;
-        QPointer<FITSViewer> viewer;
+        QPointer<FITSHistogramEditor> m_HistogramEditor { nullptr };
+        QPointer<FITSViewer> viewer { nullptr };
 
-        QPointer<QListWidget> recentImages;
+        QPointer<QListWidget> recentImages { nullptr };
 
         /// FITS image object
         QSharedPointer<FITSView> m_View;
@@ -279,7 +279,7 @@ class FITSTab : public QWidget
         QList<QString> m_BlinkFilenames;
         int m_BlinkIndex { 0 };
 
-        QSharedPointer<PlateSolve> m_PlateSolve;
+        QPointer<PlateSolve> m_PlateSolve { nullptr };
 
         // Live Stacking
         void plateSolveSub(const double ra, const double dec, const double pixScale, const int index,

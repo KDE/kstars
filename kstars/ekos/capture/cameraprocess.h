@@ -740,7 +740,7 @@ class CameraProcess : public QObject
     private:
         QSharedPointer<CameraState> m_State;
         QSharedPointer<CaptureDeviceAdaptor> m_DeviceAdaptor;
-        QPointer<DarkProcessor> m_DarkProcessor;
+        QPointer<DarkProcessor> m_DarkProcessor { nullptr };
         QSharedPointer<FITSViewer> m_FITSViewerWindow;
         QSharedPointer<StreamWG> m_VideoWindow;
         FitsvViewerTabIDs m_fitsvViewerTabIDs = {-1, -1, -1, -1, -1};

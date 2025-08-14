@@ -357,7 +357,7 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
 
         // Help popup
         std::unique_ptr<Ui::focusAdvisorHelpDialog> m_helpUI;
-        QPointer<QDialog> m_helpDialog;
+        QPointer<QDialog> m_helpDialog { nullptr };
 
         // Buttons
         QPushButton *m_runButton;

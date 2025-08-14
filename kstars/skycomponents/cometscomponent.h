@@ -48,5 +48,5 @@ class CometsComponent : public QObject, public SolarSystemListComponent
     private:
         void loadData();
 
-        QPointer<FileDownloader> downloadJob;
+        QPointer<FileDownloader> downloadJob { nullptr };
 };

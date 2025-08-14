@@ -679,17 +679,17 @@ class Guide : public QWidget, public Ui::Guide
         //bool autoCalibrateGuide { false };
 
         // Pointers of guider processes
-        QPointer<InternalGuider> internalGuider;
-        QPointer<PHD2> phd2Guider;
-        QPointer<LinGuider> linGuider;
+        QPointer<InternalGuider> internalGuider { nullptr };
+        QPointer<PHD2> phd2Guider { nullptr };
+        QPointer<LinGuider> linGuider { nullptr };
         QSharedPointer<FITSViewer> fv;
         QSharedPointer<FITSData> m_ImageData;
 
         // Dark Processor
-        QPointer<DarkProcessor> m_DarkProcessor;
+        QPointer<DarkProcessor> m_DarkProcessor { nullptr };
 
         // Manual Pulse Dialog
-        QPointer<ManualPulse> m_ManaulPulse;
+        QPointer<ManualPulse> m_ManaulPulse { nullptr };
 
         double primaryFL = -1, primaryAperture = -1, guideFL = -1, guideAperture = -1;
         ISD::Mount::Status m_MountStatus { ISD::Mount::MOUNT_IDLE };

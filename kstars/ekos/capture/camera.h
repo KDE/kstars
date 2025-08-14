@@ -813,10 +813,10 @@ class Camera : public QWidget, public Ui::Camera
         // ////////////////////////////////////////////////////////////////////
         QSharedPointer<FilterManager> m_FilterManager;
         std::unique_ptr<Ui::Limits> m_LimitsUI;
-        QPointer<QDialog> m_LimitsDialog;
+        QPointer<QDialog> m_LimitsDialog { nullptr };
         std::unique_ptr<Ui::Calibration> m_CalibrationUI;
-        QPointer<QDialog> m_CalibrationDialog;
-        QPointer<ScriptsManager> m_scriptsManager;
+        QPointer<QDialog> m_CalibrationDialog { nullptr };
+        QPointer<ScriptsManager> m_scriptsManager { nullptr };
         QSharedPointer<RotatorSettings> m_RotatorControlPanel;
         std::unique_ptr<DSLRInfo> m_DSLRInfoDialog;
 

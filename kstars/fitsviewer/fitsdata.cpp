@@ -226,8 +226,8 @@ QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
 bool FITSData::loadStack(const QString &inDir, const LiveStackData &params)
 {
     m_StackDir = inDir;
-    m_Stack.reset(new FITSStack(this, params));
-    connect(m_Stack.get(), &FITSStack::stackChanged, this, [this]()
+    m_Stack = new FITSStack(this, params);
+    connect(m_Stack, &FITSStack::stackChanged, this, [this]()
     {
         QByteArray buffer = m_Stack->getStackedImage();
         loadFromBuffer(buffer);
@@ -239,8 +239,8 @@ bool FITSData::loadStack(const QString &inDir, const LiveStackData &params)
     m_StackQ.clear();
 
     // Setup directory watcher on the stack directory
-    m_StackDirWatcher.reset(new FITSDirWatcher(this));
-    connect(m_StackDirWatcher.get(), &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
+    m_StackDirWatcher = new FITSDirWatcher(this);
+    connect(m_StackDirWatcher, &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
 
     m_StackDirWatcher->watchDir(m_StackDir);
     QStringList subs = m_StackDirWatcher->getCurrentFiles();
@@ -333,7 +333,7 @@ void FITSData::checkCancelStack()
         qCDebug(KSTARS_FITS) << "Cancel stack request completed";
 
         // Stop watching for more files
-        disconnect(m_StackDirWatcher.get(), &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
+        disconnect(m_StackDirWatcher, &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
         m_StackDirWatcher->stopWatching();
 
         // Reset the image to noimage
@@ -620,18 +620,18 @@ void FITSData::nextStackAction()
             {
                 qCDebug(KSTARS_FITS) << "Starting incremental stack...";
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-                future = QtConcurrent::run(&FITSStack::stackn, m_Stack.get());
+                future = QtConcurrent::run(&FITSStack::stackn, m_Stack);
 #else
-                future = QtConcurrent::run(m_Stack.get(), &FITSStack::stackn);
+                future = QtConcurrent::run(m_Stack, &FITSStack::stackn);
 #endif
             }
             else
             {
                 qCDebug(KSTARS_FITS) << "Starting initial stack...";
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-                future = QtConcurrent::run(&FITSStack::stack, m_Stack.get());
+                future = QtConcurrent::run(&FITSStack::stack, m_Stack);
 #else
-                future = QtConcurrent::run(m_Stack.get(), &FITSStack::stack);
+                future = QtConcurrent::run(m_Stack, &FITSStack::stack);
 #endif
             }
             m_StackWatcher.setFuture(future);
@@ -656,7 +656,7 @@ void FITSData::stackProcessDone()
     else
     {
         if (!m_StackWatcher.result())
-           qCDebug(KSTARS_FITS) << QString("Stacking operation failed");
+            qCDebug(KSTARS_FITS) << QString("Stacking operation failed");
 
         emit stackReady();
     }
@@ -691,7 +691,7 @@ void FITSData::stackSetupWCS()
     if ((status = wcssub(1, wcsRef, 0x0, 0x0, m_WCSHandle)) != 0)
     {
         qCDebug(KSTARS_FITS) << QString("%1 wcssub error processing %1 %2").arg(__FUNCTION__).arg(status)
-                                            .arg(wcs_errmsg[status]);
+                             .arg(wcs_errmsg[status]);
         delete m_WCSHandle;
         m_WCSHandle = nullptr;
         return;
@@ -699,7 +699,7 @@ void FITSData::stackSetupWCS()
     if ((status = wcsset(m_WCSHandle)) != 0)
     {
         qCDebug(KSTARS_FITS) << QString("%1 wcsset error processing %1 %2").arg(__FUNCTION__).arg(status)
-                                            .arg(wcs_errmsg[status]);
+                             .arg(wcs_errmsg[status]);
         wcsvfree(&m_nwcs, &m_WCSHandle);
         m_nwcs = 0;
         m_WCSHandle = nullptr;
@@ -1049,7 +1049,7 @@ bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
         bool rc = false;
 
         QString uncompressedFile = QDir::tempPath() + QString("/%1").arg(QUuid::createUuid().toString().remove(
-                                                              QRegularExpression("[-{}]")));
+                                       QRegularExpression("[-{}]")));
 
         rc = fp_unpack_file_to_fits(filename.toLocal8Bit().data(), &m_Stackfptr, fpvar) == 0;
         if (rc)
@@ -1104,7 +1104,7 @@ bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
     if (naxes[0] == 0 || naxes[1] == 0)
     {
         qCDebug(KSTARS_FITS) << QString("Image %1 has invalid dimensions %2x%3")
-                                    .arg(filename).arg(naxes[0]).arg(naxes[1]);
+                             .arg(filename).arg(naxes[0]).arg(naxes[1]);
         return false;
     }
 
@@ -1163,7 +1163,7 @@ bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
         default:
             m_StackStatistics.cvType              = -1;
             qCDebug(KSTARS_FITS) << QString("File %1 has bit depth %2 This is not supported")
-                                        .arg(filename).arg(FITSBITPIX);
+                                 .arg(filename).arg(FITSBITPIX);
             return false;
     }
 
@@ -1187,7 +1187,8 @@ bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
     }
 
     long nelements = m_StackStatistics.stats.samples_per_channel * m_StackStatistics.stats.channels;
-    if (fits_read_img(m_Stackfptr, m_StackStatistics.stats.dataType, 1, nelements, nullptr, m_StackImageBuffer, &anynull, &status))
+    if (fits_read_img(m_Stackfptr, m_StackStatistics.stats.dataType, 1, nelements, nullptr, m_StackImageBuffer, &anynull,
+                      &status))
     {
         qCDebug(KSTARS_FITS) << QString("Error %1 reading image: %2").arg(fitsErrorToString(status)).arg(filename);
         return false;
@@ -1206,7 +1207,7 @@ bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
     bayerParams.offsetX = bayerParams.offsetY = 0;
 
     if (naxes[2] == 1 && m_StackStatistics.stats.channels == 1 && Options::autoDebayer() &&
-                                             stackCheckDebayer(bayerParams))
+            stackCheckDebayer(bayerParams))
     {
         if (m_StackStatistics.stats.dataType == TUSHORT)
             stackDebayer<uint16_t>(bayerParams);
@@ -1214,7 +1215,7 @@ bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
             stackDebayer<uint8_t>(bayerParams);
         else
             qCDebug(KSTARS_FITS) << QString("Unsupported bit depth for debayering: %1 bytes per pixel")
-                                        .arg(m_StackStatistics.stats.bytesPerPixel);
+                                 .arg(m_StackStatistics.stats.bytesPerPixel);
     }
     return true;
 }
@@ -1266,7 +1267,7 @@ bool FITSData::stackLoadWCS()
         m_StackWCSHandle = nullptr;
         m_Stacknwcs = 0;
         qCDebug(KSTARS_FITS) << QString("Error %1 getting WCS header")
-                                    .arg(fitsErrorToString(status));
+                             .arg(fitsErrorToString(status));
         return false;
     }
 
@@ -1927,26 +1928,26 @@ bool FITSData::saveImage(const QString &newFilename)
 
         // Handle common WCS numeric keywords explicitly to ensure they are saved correctly
         if (key == "CRPIX1" || key == "CRPIX2" ||
-            key == "CRVAL1" || key == "CRVAL2" ||
-            key == "CDELT1" || key == "CDELT2" ||
-            key == "CROTA1" || key == "CROTA2")
+                key == "CRVAL1" || key == "CRVAL2" ||
+                key == "CDELT1" || key == "CDELT2" ||
+                key == "CROTA1" || key == "CROTA2")
         {
             double number = value.toDouble();
             fits_write_key(fptr, TDOUBLE, key.toLatin1().constData(), &number, comment, &status);
         }
         else
         {
-           switch (value.type())
-           {
-               case QVariant::Int:
-               {
-                   int number = value.toInt();
-                   fits_write_key(fptr, TINT, key.toLatin1().constData(), &number, comment, &status);
-               }
-               break;
+            switch (value.type())
+            {
+                case QVariant::Int:
+                {
+                    int number = value.toInt();
+                    fits_write_key(fptr, TINT, key.toLatin1().constData(), &number, comment, &status);
+                }
+                break;
 
-               case QVariant::Double:
-               {
+                case QVariant::Double:
+                {
                     double number = value.toDouble();
                     fits_write_key(fptr, TDOUBLE, key.toLatin1().constData(), &number, comment, &status);
                 }
@@ -4106,8 +4107,8 @@ bool FITSData::findSimbadObjectsInImage(SkyPoint searchCenter, double radius)
     simbadURL.setQuery(simbadQuery);
     qCDebug(KSTARS_FITS) << "Simbad query:" << simbadURL;
 
-    m_NetworkAccessManager.reset(new QNetworkAccessManager(this));
-    connect(m_NetworkAccessManager.get(), &QNetworkAccessManager::finished, this, &FITSData::simbadResponseReady);
+    m_NetworkAccessManager = new QNetworkAccessManager(this);
+    connect(m_NetworkAccessManager, &QNetworkAccessManager::finished, this, &FITSData::simbadResponseReady);
     QNetworkReply *response = m_NetworkAccessManager->get(QNetworkRequest(simbadURL));
     if (response->error() != QNetworkReply::NoError)
     {
@@ -5540,8 +5541,8 @@ bool FITSData::stackDebayer(BayerParams &bayerParams)
     if constexpr (std::is_same_v<T, uint16_t>)
     {
         error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer,
-                                                 m_StackStatistics.stats.width, ds1394_height,
-                                                 bayerParams.filter, bayerParams.method, 16);
+                     m_StackStatistics.stats.width, ds1394_height,
+                     bayerParams.filter, bayerParams.method, 16);
     }
     else // uint8_t
     {
@@ -5936,7 +5937,8 @@ void FITSData::injectStackWCS(double orientation, double ra, double dec, double 
     updateWCSHeaderData(orientation, ra, dec, pixscale, eastToTheRight, true);
 }
 
-void FITSData::setStackSubSolution(const double ra, const double dec, const double pixscale, const int index, const int healpix)
+void FITSData::setStackSubSolution(const double ra, const double dec, const double pixscale, const int index,
+                                   const int healpix)
 {
     m_StackSubRa = ra;
     m_StackSubDec = dec;

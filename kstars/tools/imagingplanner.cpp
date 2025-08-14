@@ -1449,7 +1449,7 @@ void ImagingPlanner::initialize()
     // the event filter isn't called until initialize is complete.
     installEventFilters();
 
-    m_PlateSolve.reset(new PlateSolve(this));
+    m_PlateSolve = new PlateSolve(this);
     m_PlateSolve->enableAuxButton("Retake screenshot",
                                   "Retake the screenshot of the object if you're having issues solving.");
     connect(m_PlateSolve.get(), &PlateSolve::clicked, this, &ImagingPlanner::extractImage, Qt::UniqueConnection);
@@ -3936,7 +3936,7 @@ void ImagingPlanner::captureRegion(const QImage &screenshot)
     this->activateWindow();
 
     if (!m_PlateSolve.get())
-        m_PlateSolve.reset(new PlateSolve(this));
+        m_PlateSolve = new PlateSolve(this);
 
     m_PlateSolve->setImageDisplay(m_ScreenShotImage);
     if (currentCatalogObject())
@@ -3992,22 +3992,22 @@ void ImagingPlanner::takeScreenshot()
     {
         // Don't remember the cancel response.
         KMessageBox::enableMessage(messageID);
-        disconnect(m_CaptureWidget.get());
-        m_CaptureWidget.reset();
+        disconnect(m_CaptureWidget);
+        m_CaptureWidget.clear();
         this->raise();
         this->activateWindow();
         return;
     }
 
-    if (m_CaptureWidget.get()) disconnect(m_CaptureWidget.get());
-    m_CaptureWidget.reset(new ScreenCapture());
-    QObject::connect(m_CaptureWidget.get(), &ScreenCapture::areaSelected,
+    if (m_CaptureWidget) disconnect(m_CaptureWidget);
+    m_CaptureWidget = new ScreenCapture(this);
+    QObject::connect(m_CaptureWidget, &ScreenCapture::areaSelected,
                      this, &ImagingPlanner::captureRegion, Qt::UniqueConnection);
-    disconnect(m_CaptureWidget.get(), &ScreenCapture::aborted, nullptr, nullptr);
-    QObject::connect(m_CaptureWidget.get(), &ScreenCapture::aborted, this, [this]()
+    disconnect(m_CaptureWidget, &ScreenCapture::aborted, nullptr, nullptr);
+    QObject::connect(m_CaptureWidget, &ScreenCapture::aborted, this, [this]()
     {
-        disconnect(m_CaptureWidget.get());
-        m_CaptureWidget.reset();
+        disconnect(m_CaptureWidget);
+        m_CaptureWidget.clear();
         this->raise();
         this->activateWindow();
     });

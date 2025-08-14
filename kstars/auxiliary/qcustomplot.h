@@ -788,7 +788,7 @@ protected:
   // property members:
   bool mVisible;
   QCustomPlot *mParentPlot;
-  QPointer<QCPLayerable> mParentLayerable;
+  QPointer<QCPLayerable> mParentLayerable { nullptr };
   QCPLayer *mLayer;
   bool mAntialiased;
   
@@ -3566,7 +3566,7 @@ protected:
   bool mAntialiasedFill, mAntialiasedScatters;
   QPen mPen;
   QBrush mBrush;
-  QPointer<QCPAxis> mKeyAxis, mValueAxis;
+  QPointer<QCPAxis> mKeyAxis { nullptr }, mValueAxis { nullptr };
   QCP::SelectionType mSelectable;
   QCPDataSelection mSelection;
   QCPSelectionDecorator *mSelectionDecorator;
@@ -3695,8 +3695,8 @@ public:
 protected:
   // property members:
   PositionType mPositionTypeX, mPositionTypeY;
-  QPointer<QCPAxis> mKeyAxis, mValueAxis;
-  QPointer<QCPAxisRect> mAxisRect;
+  QPointer<QCPAxis> mKeyAxis { nullptr }, mValueAxis { nullptr };
+  QPointer<QCPAxisRect> mAxisRect { nullptr };
   double mKey, mValue;
   QCPItemAnchor *mParentAnchorX, *mParentAnchorY;
   
@@ -3752,7 +3752,7 @@ signals:
 protected:
   // property members:
   bool mClipToAxisRect;
-  QPointer<QCPAxisRect> mClipAxisRect;
+  QPointer<QCPAxisRect> mClipAxisRect { nullptr };
   QList<QCPItemPosition*> mPositions;
   QList<QCPItemAnchor*> mAnchors;
   bool mSelectable, mSelected;
@@ -3995,8 +3995,8 @@ protected:
   QList<QSharedPointer<QCPAbstractPaintBuffer> > mPaintBuffers;
   QPoint mMousePressPos;
   bool mMouseHasMoved;
-  QPointer<QCPLayerable> mMouseEventLayerable;
-  QPointer<QCPLayerable> mMouseSignalLayerable;
+  QPointer<QCPLayerable> mMouseEventLayerable { nullptr };
+  QPointer<QCPLayerable> mMouseSignalLayerable { nullptr };
   QVariant mMouseEventLayerableDetails;
   QVariant mMouseSignalLayerableDetails;
   bool mReplotting;
@@ -5009,8 +5009,8 @@ protected:
   Qt::AspectRatioMode mBackgroundScaledMode;
   QCPLayoutInset *mInsetLayout;
   Qt::Orientations mRangeDrag, mRangeZoom;
-  QList<QPointer<QCPAxis> > mRangeDragHorzAxis, mRangeDragVertAxis;
-  QList<QPointer<QCPAxis> > mRangeZoomHorzAxis, mRangeZoomVertAxis;
+  QList<QPointer<QCPAxis> > mRangeDragHorzAxis { nullptr }, mRangeDragVertAxis { nullptr };
+  QList<QPointer<QCPAxis> > mRangeZoomHorzAxis { nullptr }, mRangeZoomVertAxis { nullptr };
   double mRangeZoomFactorHorz, mRangeZoomFactorVert;
   
   // non-property members:
@@ -5436,8 +5436,8 @@ protected:
   int mBarWidth;
   
   // non-property members:
-  QPointer<QCPColorScaleAxisRectPrivate> mAxisRect;
-  QPointer<QCPAxis> mColorAxis;
+  QPointer<QCPColorScaleAxisRectPrivate> mAxisRect { nullptr };
+  QPointer<QCPAxis> mColorAxis { nullptr };
   
   // reimplemented virtual methods:
   virtual void applyDefaultAntialiasingHint(QCPPainter *painter) const Q_DECL_OVERRIDE;
@@ -5551,7 +5551,7 @@ protected:
   LineStyle mLineStyle;
   QCPScatterStyle mScatterStyle;
   int mScatterSkip;
-  QPointer<QCPGraph> mChannelFillGraph;
+  QPointer<QCPGraph> mChannelFillGraph { nullptr };
   bool mAdaptiveSampling;
   
   // reimplemented virtual methods:
@@ -5877,7 +5877,7 @@ protected:
   QCPBarsGroup *mBarsGroup;
   double mBaseValue;
   double mStackingGap;
-  QPointer<QCPBars> mBarBelow, mBarAbove;
+  QPointer<QCPBars> mBarBelow { nullptr }, mBarAbove { nullptr };
   
   // reimplemented virtual methods:
   virtual void draw(QCPPainter *painter) Q_DECL_OVERRIDE;
@@ -6131,7 +6131,7 @@ protected:
   QCPColorGradient mGradient;
   bool mInterpolate;
   bool mTightBoundary;
-  QPointer<QCPColorScale> mColorScale;
+  QPointer<QCPColorScale> mColorScale { nullptr };
   
   // non-property members:
   QImage mMapImage, mUndersampledMapImage;
@@ -6389,7 +6389,7 @@ public:
 protected:
   // property members:
   QSharedPointer<QCPErrorBarsDataContainer> mDataContainer;
-  QPointer<QCPAbstractPlottable> mDataPlottable;
+  QPointer<QCPAbstractPlottable> mDataPlottable { nullptr };
   ErrorType mErrorType;
   double mWhiskerWidth;
   double mSymbolGap;
@@ -7583,7 +7583,7 @@ protected:
   
   // non-property members:
   QCPPolarAxisAngular *mParentAxis;
-  QPointer<QCPPolarAxisRadial> mRadialAxis;
+  QPointer<QCPPolarAxisRadial> mRadialAxis { nullptr };
   
   // reimplemented virtual methods:
   virtual void applyDefaultAntialiasingHint(QCPPainter *painter) const Q_DECL_OVERRIDE;
@@ -7724,8 +7724,8 @@ protected:
   QPen mPen;
   QBrush mBrush;
   bool mPeriodic;
-  QPointer<QCPPolarAxisAngular> mKeyAxis;
-  QPointer<QCPPolarAxisRadial> mValueAxis;
+  QPointer<QCPPolarAxisAngular> mKeyAxis { nullptr };
+  QPointer<QCPPolarAxisRadial> mValueAxis { nullptr };
   QCP::SelectionType mSelectable;
   QCPDataSelection mSelection;
   //QCPSelectionDecorator *mSelectionDecorator;

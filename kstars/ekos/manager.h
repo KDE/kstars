@@ -599,7 +599,7 @@ class Manager : public QDialog, public Ui::Manager
         QMap<QString, QSharedPointer<RotatorSettings >> m_RotatorControllers;
 
         // Logs
-        QPointer<OpsLogs> opsLogs;
+        QPointer<OpsLogs> opsLogs { nullptr };
 
         // E.g. Setup, Scheduler, and Analyze.
         int numPermanentTabs { 0 };

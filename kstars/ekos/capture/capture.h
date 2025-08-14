@@ -806,7 +806,7 @@ public slots:
         // overall state
         QSharedPointer<CaptureModuleState> m_moduleState;
 
-        QPointer<QDBusInterface> mountInterface;
+        QPointer<QDBusInterface> mountInterface { nullptr };
 
         QStringList m_LogText;
 

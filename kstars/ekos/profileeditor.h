@@ -84,7 +84,7 @@ class ProfileEditor : public QDialog
         QStandardItemModel *driversModel { nullptr };
         QStandardItemModel *profileDriversModel { nullptr };
 
-        QPointer<QProgressDialog> m_ProgressDialog;
+        QPointer<QProgressDialog> m_ProgressDialog  { nullptr };
         QNetworkAccessManager m_Manager;
         QList<QNetworkReply*> m_Replies;
 

@@ -66,9 +66,9 @@ class INDI_G: public QScrollArea
         // Parent device
         INDI_D *dp {nullptr};
         // Properties container
-        QPointer<QFrame> m_PropertiesContainer;
+        QPointer<QFrame> m_PropertiesContainer { nullptr };
         // Properties layout
-        QPointer<QVBoxLayout> m_PropertiesLayout;
+        QPointer<QVBoxLayout> m_PropertiesLayout { nullptr };
         // Vertical spacer
         QSpacerItem *m_VerticalSpacer {nullptr};
         QList<INDI_P *> m_PropertiesList;

@@ -335,18 +335,18 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         int m_FocusAbsPosition { -1 };
 
         // Delegates
-        QPointer<ComboDelegate> lockDelegate;
-        QPointer<NotEditableDelegate> noEditDelegate;
-        QPointer<DoubleDelegate> exposureDelegate;
-        QPointer<IntegerDelegate> offsetDelegate;
-        QPointer<ToggleDelegate> useAutoFocusDelegate;
-        QPointer<IntegerDelegate> lastAFSolutionDelegate;
-        QPointer<DoubleDelegate> lastAFTempDelegate;
-        QPointer<DoubleDelegate> lastAFAltDelegate;
-        QPointer<DatetimeDelegate> lastAFDTDelegate;
-        QPointer<DoubleDelegate> ticksPerTempDelegate;
-        QPointer<DoubleDelegate> ticksPerAltDelegate;
-        QPointer<IntegerDelegate> wavelengthDelegate;
+        QPointer<ComboDelegate> lockDelegate { nullptr };
+        QPointer<NotEditableDelegate> noEditDelegate { nullptr };
+        QPointer<DoubleDelegate> exposureDelegate { nullptr };
+        QPointer<IntegerDelegate> offsetDelegate { nullptr };
+        QPointer<ToggleDelegate> useAutoFocusDelegate { nullptr };
+        QPointer<IntegerDelegate> lastAFSolutionDelegate { nullptr };
+        QPointer<DoubleDelegate> lastAFTempDelegate { nullptr };
+        QPointer<DoubleDelegate> lastAFAltDelegate { nullptr };
+        QPointer<DatetimeDelegate> lastAFDTDelegate { nullptr };
+        QPointer<DoubleDelegate> ticksPerTempDelegate { nullptr };
+        QPointer<DoubleDelegate> ticksPerAltDelegate { nullptr };
+        QPointer<IntegerDelegate> wavelengthDelegate { nullptr };
 
         // Policies
         FilterPolicy m_Policy = { ALL_POLICIES };

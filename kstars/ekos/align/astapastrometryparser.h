@@ -45,6 +45,6 @@ class ASTAPAstrometryParser : public AstrometryParser
     private:
         Align *align { nullptr };
         QTime solverTimer;
-        QPointer<QProcess> solver;
+        QPointer<QProcess> solver { nullptr };
 };
 }

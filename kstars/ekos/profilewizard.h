@@ -63,7 +63,7 @@ class ProfileWizard : public QDialog, public Ui::ProfileWizard
         GuiderType useGuiderType = INTERNAL_GUIDER;
 
         QString profileName, host, port;
-        QPointer<QProgressDialog> stellarMateDetectDialog;
+        QPointer<QProgressDialog> stellarMateDetectDialog { nullptr };
 
         friend class Ekos::Manager;
 };

@@ -75,9 +75,9 @@ class KSMessageBox: public QMessageBox
         QJsonObject createMessageObject();
         KSMessageBox();
 
-        QPointer<QRoundProgressBar> m_ProgressIndicator;
-        QPointer<QLabel> m_ProgressLabel;
-        QPointer<QHBoxLayout> m_ProgressLayout;
+        QPointer<QRoundProgressBar> m_ProgressIndicator { nullptr };
+        QPointer<QLabel> m_ProgressLabel { nullptr };
+        QPointer<QHBoxLayout> m_ProgressLayout { nullptr };
 
         QTimer m_ProgressTimer;
 };

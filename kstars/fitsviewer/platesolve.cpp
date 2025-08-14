@@ -14,9 +14,9 @@
 #include "skymap.h"
 #include <fits_debug.h>
 
-QPointer<Ekos::StellarSolverProfileEditor> PlateSolve::m_ProfileEditor;
-QPointer<KConfigDialog> PlateSolve::m_EditorDialog;
-QPointer<KPageWidgetItem> PlateSolve::m_ProfileEditorPage;
+QPointer<Ekos::StellarSolverProfileEditor> PlateSolve::m_ProfileEditor = nullptr;
+QPointer<KConfigDialog> PlateSolve::m_EditorDialog = nullptr;
+QPointer<KPageWidgetItem> PlateSolve::m_ProfileEditorPage = nullptr;
 
 namespace
 {
@@ -272,7 +272,7 @@ void PlateSolve::plateSolveSub(const QSharedPointer<FITSData> &imageData, const 
         m_Solver->abort();
 
     auto parameters = getSSolverParametersList(static_cast<Ekos::ProfileGroup>(Options::fitsSolverModule())).at(
-        kcfg_FitsSolverProfile->currentIndex());
+                          kcfg_FitsSolverProfile->currentIndex());
 
     double lowerPixScale, upperPixScale;
     if (index == -1)
@@ -398,7 +398,10 @@ void PlateSolve::subExtractorDone(bool timedOut, bool success, const FITSImage::
         std::vector<FITSImage::Star> stars(starList.constBegin(), starList.constEnd());
         // Use nth_element to get the median HFR
         std::nth_element(stars.begin(), stars.begin() + stars.size() / 2, stars.end(),
-                         [](const FITSImage::Star &a, const FITSImage::Star &b) { return a.HFR < b.HFR; });
+                         [](const FITSImage::Star & a, const FITSImage::Star & b)
+        {
+            return a.HFR < b.HFR;
+        });
         FITSImage::Star medianStar = stars[stars.size() / 2];
         medianHFR = medianStar.HFR;
     }

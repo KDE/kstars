@@ -44,6 +44,6 @@ class CustomDrivers : public QDialog, public Ui::CustomDrivers
     const QList<QSharedPointer<DriverInfo>> &m_DriversList;
 
     QSqlDatabase userdb;
-    QPointer<QSqlTableModel> model;
+    QPointer<QSqlTableModel> model { nullptr };
 };
 

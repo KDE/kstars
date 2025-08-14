@@ -89,8 +89,8 @@ class Client : public QDialog, public Ui::EkosLiveDialog
         QProgressIndicator *pi { nullptr };
         QVector<QSharedPointer<NodeManager >> m_NodeManagers;
 
-        QPointer<Message> m_Message;
-        QPointer<Media> m_Media;
-        QPointer<Cloud> m_Cloud;
+        QPointer<Message> m_Message { nullptr };
+        QPointer<Media> m_Media { nullptr };
+        QPointer<Cloud> m_Cloud { nullptr };
 };
 }

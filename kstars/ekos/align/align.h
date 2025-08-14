@@ -932,7 +932,7 @@ class Align : public QWidget, public Ui::Align
         ManualRotator *m_ManualRotator {nullptr};
 
         // Dark Processor
-        QPointer<DarkProcessor> m_DarkProcessor;
+        QPointer<DarkProcessor> m_DarkProcessor { nullptr };
 
         // Filter Manager
         QSharedPointer<FilterManager> m_FilterManager;

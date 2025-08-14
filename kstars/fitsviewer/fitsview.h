@@ -414,9 +414,9 @@ class FITSView : public QScrollArea
         void updateFrameSmallImage();
         bool drawHFR(QPainter * painter, const QString &hfr, int x, int y);
 
-        QPointer<QLabel> noImageLabel;
+        QPointer<QLabel> noImageLabel { nullptr };
         QPixmap noImage;
-        QPointer<FITSLabel> m_ImageFrame;
+        QPointer<FITSLabel> m_ImageFrame { nullptr };
         QVector<QPointF> eqGridPoints;
 
         /// Current width due to zoom
@@ -512,7 +512,7 @@ class FITSView : public QScrollArea
 
         //Star Profile Viewer
 #ifdef HAVE_DATAVISUALIZATION
-        QPointer<StarProfileViewer> starProfileWidget;
+        QPointer<StarProfileViewer> starProfileWidget { nullptr };
 #endif
 
         // Stretching preset.

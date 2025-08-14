@@ -1371,7 +1371,7 @@ public slots:
         QVariantMap m_GlobalSettings;
 
         // Dark Processor
-        QPointer<DarkProcessor> m_DarkProcessor;
+        QPointer<DarkProcessor> m_DarkProcessor { nullptr };
 
         QSharedPointer<FilterManager> m_FilterManager;
 
@@ -1392,22 +1392,22 @@ public slots:
 
         // Settings popup
         //std::unique_ptr<Ui::Settings> m_SettingsUI;
-        //QPointer<QDialog> m_SettingsDialog;
+        //QPointer<QDialog> m_SettingsDialog { nullptr };
         OpsFocusSettings *m_OpsFocusSettings { nullptr };
 
         // Process popup
         //std::unique_ptr<Ui::Process> m_ProcessUI;
-        //QPointer<QDialog> m_ProcessDialog;
+        //QPointer<QDialog> m_ProcessDialog { nullptr };
         OpsFocusProcess *m_OpsFocusProcess { nullptr };
 
         // Mechanics popup
         //std::unique_ptr<Ui::Mechanics> m_MechanicsUI;
-        //QPointer<QDialog> m_MechanicsDialog;
+        //QPointer<QDialog> m_MechanicsDialog { nullptr };
         OpsFocusMechanics *m_OpsFocusMechanics { nullptr };
 
         // CFZ popup
         std::unique_ptr<Ui::focusCFZDialog> m_CFZUI;
-        QPointer<QDialog> m_CFZDialog;
+        QPointer<QDialog> m_CFZDialog { nullptr };
 
         // CFZ
         double m_cfzSteps = 0.0f;

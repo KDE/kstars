@@ -178,7 +178,7 @@ class DriverManager : public QDialog
         QList<ServerManager *> servers;
         QList<ClientManager *> clients;
         QStringList driversStringList;
-        QPointer<CustomDrivers> m_CustomDrivers;
+        QPointer<CustomDrivers> m_CustomDrivers { nullptr };
 
     public slots:
         void resizeDeviceColumn();

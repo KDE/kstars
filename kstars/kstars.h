@@ -936,7 +936,7 @@ class KStars : public KXmlGuiWindow
 #endif
 
 #ifdef HAVE_INDI
-        QPointer<Ekos::Manager> m_EkosManager;
+        QPointer<Ekos::Manager> m_EkosManager { nullptr };
 #endif
 
         AddDeepSkyObject *m_addDSODialog { nullptr };

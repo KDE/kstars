@@ -122,7 +122,11 @@ class CameraChip
         QStringList getISOList() const;
 
     private:
-        QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage, alignImage;
+        QPointer<FITSView> normalImage { nullptr };
+        QPointer<FITSView> focusImage { nullptr };
+        QPointer<FITSView> guideImage { nullptr };
+        QPointer<FITSView> calibrationImage { nullptr };
+        QPointer<FITSView> alignImage { nullptr };
         QSharedPointer<FITSData> imageData { nullptr };
         FITSMode captureMode { FITS_NORMAL };
         FITSScale captureFilter { FITS_NONE };
