@@ -577,7 +577,8 @@ bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, 
     if (m_LeadJob != nullptr)
         return m_LeadJob->satisfiesAltitudeConstraint(azimuth, altitude, altitudeReason, margin);
     if (margin) *margin = 90;
-    if (Options::enableAltitudeLimits())
+    // N.B. Only check if enabled and Minimum Altitude limit is small than maximum altitude limit
+    if (Options::enableAltitudeLimits() && Options::minimumAltLimit() < Options::maximumAltLimit())
     {
         // Check the mount's altitude constraints.
         if (margin)
