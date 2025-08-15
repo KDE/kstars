@@ -2484,10 +2484,19 @@ void SchedulerProcess::selectActiveJob(const QList<SchedulerJob *> &jobs)
 
     /* If there are no jobs left to run in the filtered list, stop evaluation */
     ErrorHandlingStrategy strategy = static_cast<ErrorHandlingStrategy>(Options::errorHandlingStrategy());
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "selectActiveJob: Evaluating jobs. Total jobs:" << jobs.count();
+    for (const auto& job : jobs)
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "  Job:" << job->getName() << "State:" << SchedulerJob::jobStatusString(
+                                           job->getState()) << "Stage:" << SchedulerJob::jobStageString(job->getStage());
+    }
+
     if (jobs.isEmpty() || std::all_of(jobs.begin(), jobs.end(), neither_scheduled_nor_aborted))
     {
         appendLogText(i18n("No jobs left in the scheduler queue after evaluating."));
         moduleState()->setActiveJob(nullptr);
+        qCDebug(KSTARS_EKOS_SCHEDULER) <<
+        "selectActiveJob: No jobs left or all are neither scheduled nor aborted. Setting active job to nullptr.";
         return;
     }
     /* If there are only aborted jobs that can run, reschedule those and let Scheduler restart one loop */
@@ -2510,8 +2519,14 @@ void SchedulerProcess::selectActiveJob(const QList<SchedulerJob *> &jobs)
     {
         appendLogText(i18n("No jobs scheduled."));
         moduleState()->setActiveJob(nullptr);
+        qCDebug(KSTARS_EKOS_SCHEDULER) <<
+        "selectActiveJob: GreedyScheduler returned no scheduled job. Setting active job to nullptr.";
         return;
     }
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "selectActiveJob: Scheduled job:" << scheduledJob->getName() << "State:" <<
+                                   SchedulerJob::jobStatusString(scheduledJob->getState()) << "Stage:" << SchedulerJob::jobStageString(
+                                       scheduledJob->getStage());
+
     if (activeJob() != nullptr && scheduledJob != activeJob())
     {
         // Changing lead, therefore abort all follower jobs that are still running
@@ -2542,31 +2557,56 @@ void SchedulerProcess::startJobEvaluation()
 
 void SchedulerProcess::evaluateJobs(bool evaluateOnly)
 {
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "evaluateJobs: Starting evaluation. evaluateOnly:" << evaluateOnly;
     for (auto job : moduleState()->jobs())
         job->clearCache();
 
     /* Don't evaluate if list is empty */
     if (moduleState()->jobs().isEmpty())
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "evaluateJobs: Job list is empty. Skipping evaluation.";
         return;
+    }
     /* Start by refreshing the number of captures already present - unneeded if not remembering job progress */
     if (Options::rememberJobProgress())
         updateCompletedJobsCount();
 
     moduleState()->calculateDawnDusk();
 
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "evaluateJobs: Before scheduling jobs with GreedyScheduler.";
+    for (const auto& job : moduleState()->jobs())
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "  Job:" << job->getName() << "State:" << SchedulerJob::jobStatusString(
+                                           job->getState()) << "Stage:" << SchedulerJob::jobStageString(job->getStage());
+    }
+
     getGreedyScheduler()->scheduleJobs(moduleState()->jobs(), SchedulerModuleState::getLocalTime(),
                                        moduleState()->capturedFramesCount(), this);
+
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "evaluateJobs: After scheduling jobs with GreedyScheduler.";
+    for (const auto& job : moduleState()->jobs())
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "  Job:" << job->getName() << "State:" << SchedulerJob::jobStatusString(
+                                           job->getState()) << "Stage:" << SchedulerJob::jobStageString(job->getStage());
+    }
 
     // schedule or job states might have been changed, update the table
 
     if (!evaluateOnly && moduleState()->schedulerState() == SCHEDULER_RUNNING)
+    {
         // At this step, we finished evaluating jobs.
         // We select the first job that has to be run, per schedule.
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "evaluateJobs: Scheduler is running and not evaluateOnly. Selecting active job.";
         selectActiveJob(moduleState()->jobs());
+    }
     else
+    {
         qCInfo(KSTARS_EKOS_SCHEDULER) << "Ekos finished evaluating jobs, no job selection required.";
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "evaluateJobs: evaluateOnly is" << evaluateOnly << "or scheduler is not running.";
+    }
 
     emit jobsUpdated(moduleState()->getJSONJobs());
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "evaluateJobs: Finished evaluation.";
 }
 
 bool SchedulerProcess::checkStatus()
