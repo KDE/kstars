@@ -47,7 +47,6 @@ void Node::connectServer()
         query.addQueryItem("remoteToken", m_AuthResponse["remoteToken"].toString());
     if (m_AuthResponse.contains("machine_id"))
         query.addQueryItem("machine_id", m_AuthResponse["machine_id"].toString());
-    query.addQueryItem("cloudEnabled", Options::ekosLiveCloud() ? "true" : "false");
     query.addQueryItem("email", m_AuthResponse["email"].toString());
     query.addQueryItem("from_date", m_AuthResponse["from_date"].toString());
     query.addQueryItem("to_date", m_AuthResponse["to_date"].toString());
@@ -62,7 +61,7 @@ void Node::connectServer()
     if (m_Name == "message" || m_Name == "Message")   // Log more details for message node
     {
         qCDebug(KSTARS_EKOS) << "Node(" << m_Name << "): About to open websocket. Request URL:" << requestURL.toDisplayString() <<
-                             "Is valid:" << requestURL.isValid();
+                                "Is valid:" << requestURL.isValid();
         qCDebug(KSTARS_EKOS) << "Node(" << m_Name << "): Auth Token used:" << m_AuthResponse["token"].toString().left(
                                  10) << "..."; // Log part of token
     }

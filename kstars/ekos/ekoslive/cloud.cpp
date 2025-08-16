@@ -21,7 +21,7 @@
 namespace EkosLive
 {
 
-Cloud::Cloud(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &nodeManagers):
+Cloud::Cloud(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager >> &nodeManagers):
     m_Manager(manager), m_NodeManagers(nodeManagers)
 {
     for (auto &nodeManager : m_NodeManagers)
@@ -35,7 +35,6 @@ Cloud::Cloud(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &node
     }
 
     connect(this, &Cloud::newImage, this, &Cloud::uploadImage);
-    connect(Options::self(), &Options::EkosLiveCloudChanged, this, &Cloud::updateOptions);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -106,10 +105,6 @@ void Cloud::onTextReceived(const QString &message)
             auto value = oneOption[QStringLiteral("value")].toVariant();
 
             Options::self()->setProperty(name, value);
-
-            // Special case
-            if (name == "ekosLiveCloud")
-                updateOptions();
         }
 
         Options::self()->save();
@@ -211,29 +206,6 @@ void Cloud::uploadImage(const QByteArray &image)
             continue;
 
         nodeManager->cloud()->sendBinaryMessage(image);
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-void Cloud::updateOptions()
-{
-    // In case cloud storage is toggled, inform cloud
-    // websocket channel of this change.
-    QJsonObject payload = {{"name", "ekosLiveCloud"}, {"value", Options::ekosLiveCloud()}};
-    QJsonObject message =
-    {
-        {"type",  commands[OPTION_SET]},
-        {"payload", payload}
-    };
-
-    for (auto &nodeManager : m_NodeManagers)
-    {
-        if (nodeManager->cloud() == nullptr)
-            continue;
-
-        nodeManager->cloud()->sendTextMessage(QJsonDocument(message).toJson(QJsonDocument::Compact));
     }
 }
 

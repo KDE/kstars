@@ -23,7 +23,7 @@ class Cloud : public QObject
         Q_OBJECT
 
     public:
-        explicit Cloud(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &nodeManagers);
+        explicit Cloud(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager >> &nodeManagers);
         virtual ~Cloud() = default;
 
         bool isConnected() const;
@@ -38,9 +38,6 @@ class Cloud : public QObject
         void globalLogoutTriggered(const QUrl &url);
         void newImage(const QByteArray &image);
 
-    public slots:
-        void updateOptions();
-
     private slots:
         // Connection
         void onConnected();
@@ -54,7 +51,7 @@ class Cloud : public QObject
         void dispatch(const QSharedPointer<FITSData> &data, const QString &uuid);
 
         Ekos::Manager * m_Manager { nullptr };
-        QVector<QSharedPointer<NodeManager>> m_NodeManagers;
+        QVector<QSharedPointer<NodeManager >> m_NodeManagers;
 
         QString extension;
         QStringList temporaryFiles;
