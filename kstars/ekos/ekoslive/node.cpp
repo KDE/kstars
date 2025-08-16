@@ -112,13 +112,23 @@ void Node::onError(QAbstractSocket::SocketError error)
     onDisconnected();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Node::sendEvent(const QString &command, const QJsonObject &payload)
+{
+    if (m_isConnected == false)
+        return;
+
+    m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Node::sendResponse(const QString &command, const QJsonObject &payload)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_ClientState == false)
         return;
 
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
@@ -129,7 +139,7 @@ void Node::sendResponse(const QString &command, const QJsonObject &payload)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Node::sendResponse(const QString &command, const QJsonArray &payload)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_ClientState == false)
         return;
 
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
@@ -140,7 +150,7 @@ void Node::sendResponse(const QString &command, const QJsonArray &payload)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Node::sendResponse(const QString &command, const QString &payload)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_ClientState == false)
         return;
 
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
@@ -151,7 +161,7 @@ void Node::sendResponse(const QString &command, const QString &payload)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Node::sendResponse(const QString &command, bool payload)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_ClientState == false)
         return;
 
     m_WebSocket.sendTextMessage(QJsonDocument({{"type", command}, {"payload", payload}}).toJson(QJsonDocument::Compact));
@@ -162,7 +172,7 @@ void Node::sendResponse(const QString &command, bool payload)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Node::sendTextMessage(const QString &message)
 {
-    if (m_isConnected == false)
+    if (m_isConnected == false || m_ClientState == false)
         return;
     m_WebSocket.sendTextMessage(message);
 }
