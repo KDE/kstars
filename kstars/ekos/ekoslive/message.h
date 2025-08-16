@@ -221,6 +221,7 @@ class Message : public QObject
         void sendResponse(const QString &command, const QJsonArray &payload);
         void sendResponse(const QString &command, const QString &payload);
         void sendResponse(const QString &command, bool payload);
+        void sendEvent(const QString &command, const QJsonObject &payload);
 
         void sendPendingProperties();
 
