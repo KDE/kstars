@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 02:01+0000\n"
+"POT-Creation-Date: 2025-08-17 01:59+0000\n"
 "PO-Revision-Date: 2009-07-28 20:12+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -17490,24 +17490,24 @@ msgstr "Moline"
 msgid "Offline"
 msgstr "Moline"
 
-#: ekos/ekoslive/message.cpp:775
+#: ekos/ekoslive/message.cpp:781
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sargent"
 msgid "target"
 msgstr "Sargent"
 
-#: ekos/ekoslive/message.cpp:1057
+#: ekos/ekoslive/message.cpp:1063
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "Vistun myndarinnar %1 mistókst!"
 
-#: ekos/ekoslive/nodemanager.cpp:222
+#: ekos/ekoslive/nodemanager.cpp:227
 #, fuzzy, kde-format
 msgid "Error authenticating with EkosLive server: %1"
 msgstr "Gat ekki vistað mynd: %1 "
 
-#: ekos/ekoslive/nodemanager.cpp:235
+#: ekos/ekoslive/nodemanager.cpp:240
 #, fuzzy, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Gat ekki vistað mynd: %1 "

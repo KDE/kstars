@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 02:01+0000\n"
+"POT-Creation-Date: 2025-08-17 01:59+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -18080,27 +18080,27 @@ msgstr "مولىنې"
 msgid "Offline"
 msgstr "مولىنې"
 
-#: ekos/ekoslive/message.cpp:775
+#: ekos/ekoslive/message.cpp:781
 #, fuzzy, kde-format
 #| msgctxt "City in Newfoundland Canada"
 #| msgid "Argentia"
 msgid "target"
 msgstr "ئارگېنتىيە"
 
-#: ekos/ekoslive/message.cpp:1057
+#: ekos/ekoslive/message.cpp:1063
 #, fuzzy, kde-format
 #| msgctxt "Satellite group name"
 #| msgid "Other"
 msgid "Mosaic import failed."
 msgstr "باشقا"
 
-#: ekos/ekoslive/nodemanager.cpp:222
+#: ekos/ekoslive/nodemanager.cpp:227
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Error authenticating with EkosLive server: %1"
 msgstr "ھۆججەت ‹%1› نى ئاچالمىدى."
 
-#: ekos/ekoslive/nodemanager.cpp:235
+#: ekos/ekoslive/nodemanager.cpp:240
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Error parsing server response: %1"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars VERSION\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 02:01+0000\n"
+"POT-Creation-Date: 2025-08-17 01:59+0000\n"
 "PO-Revision-Date: 2002-11-07 11:31+0200\n"
 "Last-Translator: WEB-Translator <http://kde.af.org.za>\n"
 "Language-Team: AFRIKAANS <AF@lia.org.za>\n"
@@ -17174,22 +17174,22 @@ msgstr "Bereken"
 msgid "Offline"
 msgstr "Bereken"
 
-#: ekos/ekoslive/message.cpp:775
+#: ekos/ekoslive/message.cpp:781
 #, fuzzy, kde-format
 msgid "target"
 msgstr "Leon"
 
-#: ekos/ekoslive/message.cpp:1057
+#: ekos/ekoslive/message.cpp:1063
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "Stooring van die beeld %1 gevaal!"
 
-#: ekos/ekoslive/nodemanager.cpp:222
+#: ekos/ekoslive/nodemanager.cpp:227
 #, fuzzy, kde-format
 msgid "Error authenticating with EkosLive server: %1"
 msgstr "Kon nie Open Lêer"
 
-#: ekos/ekoslive/nodemanager.cpp:235
+#: ekos/ekoslive/nodemanager.cpp:240
 #, fuzzy, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Kon nie Open Lêer"

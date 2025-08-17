@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 02:01+0000\n"
+"POT-Creation-Date: 2025-08-17 01:59+0000\n"
 "PO-Revision-Date: 2025-08-14 13:12+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -17620,25 +17620,25 @@ msgstr "متصل"
 msgid "Offline"
 msgstr "غير متّصل"
 
-#: ekos/ekoslive/message.cpp:775
+#: ekos/ekoslive/message.cpp:781
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "target"
 msgstr "الهدف"
 
-#: ekos/ekoslive/message.cpp:1057
+#: ekos/ekoslive/message.cpp:1063
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
 msgstr "حفط الصورة %1 فشل!"
 
-#: ekos/ekoslive/nodemanager.cpp:222
+#: ekos/ekoslive/nodemanager.cpp:227
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error authenticating with EkosLive server: %1"
 msgstr "خطأ: لم يتم حفظ الصورة: %1"
 
-#: ekos/ekoslive/nodemanager.cpp:235
+#: ekos/ekoslive/nodemanager.cpp:240
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error parsing server response: %1"

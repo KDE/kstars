@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 02:01+0000\n"
+"POT-Creation-Date: 2025-08-17 01:59+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -17472,24 +17472,24 @@ msgstr "ആല്‍പൈന്‍"
 msgid "Offline"
 msgstr "ആല്‍പൈന്‍"
 
-#: ekos/ekoslive/message.cpp:775
+#: ekos/ekoslive/message.cpp:781
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Argentia"
 msgid "target"
 msgstr "അര്‍ജെന്റിയ"
 
-#: ekos/ekoslive/message.cpp:1057
+#: ekos/ekoslive/message.cpp:1063
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: ekos/ekoslive/nodemanager.cpp:222
+#: ekos/ekoslive/nodemanager.cpp:227
 #, fuzzy, kde-format
 msgid "Error authenticating with EkosLive server: %1"
 msgstr "URL തുറക്കുവാന്‍ സാധ്യമായില്ല"
 
-#: ekos/ekoslive/nodemanager.cpp:235
+#: ekos/ekoslive/nodemanager.cpp:240
 #, fuzzy, kde-format
 msgid "Error parsing server response: %1"
 msgstr "URL തുറക്കുവാന്‍ സാധ്യമായില്ല"

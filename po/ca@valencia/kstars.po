@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 02:01+0000\n"
-"PO-Revision-Date: 2025-08-02 12:30+0200\n"
+"POT-Creation-Date: 2025-08-17 01:59+0000\n"
+"PO-Revision-Date: 2025-08-16 23:39+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2452,7 +2452,7 @@ msgstr "Magnitud aparent:"
 #: dialogs/addcatalogobject.ui:110
 #, kde-format
 msgid "Check if magnitude is unknown"
-msgstr "Seleccioneu-la si es desconeix la magnitud."
+msgstr "Trieu-la si es desconeix la magnitud."
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1633
@@ -2967,7 +2967,7 @@ msgstr ","
 #: dialogs/catalogcsvimport.ui:151
 #, kde-format
 msgid "Select/Read..."
-msgstr "Selecciona i llig…"
+msgstr "Tria i llig…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/catalogcsvimport.ui:158
@@ -5702,7 +5702,7 @@ msgstr "Permet escollir un color per al símbol del camp de visió."
 #: dialogs/newfov.ui:1229
 #, kde-format
 msgid "Select a color for the field-of-view (FOV) symbol."
-msgstr "Seleccioneu un color per al símbol del camp de visió (CDV)."
+msgstr "Trieu un color per al símbol del camp de visió (CDV)."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, ShapeBox)
@@ -6917,14 +6917,13 @@ msgstr "Para"
 #: ekos/align/align.ui:160
 #, kde-format
 msgid "Select which action to perform after the captured image is solved"
-msgstr ""
-"Seleccioneu quina acció realitzar una vegada es resolga la imatge capturada."
+msgstr "Trieu quina acció realitzar una vegada es resolga la imatge capturada."
 
 #. i18n: ectx: property (statusTip), widget (QGroupBox, gotoBox)
 #: ekos/align/align.ui:163
 #, kde-format
 msgid "Select what action to take once a solution is found."
-msgstr "Seleccioneu quina acció es prendrà una vegada es trobe la solució."
+msgstr "Trieu quina acció es prendrà una vegada es trobe la solució."
 
 #. i18n: ectx: property (title), widget (QGroupBox, gotoBox)
 #: ekos/align/align.ui:166
@@ -7271,7 +7270,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Si està marcada, s'utilitzarà el filtre seleccionat "
 "per a l'alineació.</p><p>Si voleu utilitzar un filtre (fix) determinat, "
-"deixeu-la sense marcar i seleccioneu el filtre manualment.</p></body></html>"
+"deixeu-la sense marcar i trieu el filtre manualment.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:744
@@ -7651,7 +7650,7 @@ msgid ""
 "</ul>\n"
 "</body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu els tipus d'objectes/punts afegits per "
+"<html><head/><body><p>Trieu els tipus d'objectes/punts afegits per "
 "l'assistent:</p><p><span style=\"font-weight:600;\">Nota:</span> Totes les "
 "opcions excepte «Dec fixa» comencen amb una quadrícula de punts AR/Dec.</p>\n"
 "<ul>\n"
@@ -7778,8 +7777,8 @@ msgid ""
 msgstr ""
 "El nombre de punts que generarà l'assistent. Si este nombre és inferior a 5, "
 "els generarà amb la mateixa Dec. Després d'açò, es distribuiran uniformement "
-"sobre l'AR i la Dec. Cal tindre en compte que si se selecciona una «Dec "
-"fixa», tots els punts seran a la mateixa Dec."
+"sobre l'AR i la Dec. Cal tindre en compte que si es tria una «Dec fixa», "
+"tots els punts seran a la mateixa Dec."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:219
@@ -7801,8 +7800,7 @@ msgid ""
 "location.  If you select a star, it will be added to the table below."
 msgstr ""
 "Estos són els noms comuns de les estreles anomenades que es veuen actualment "
-"al vostre emplaçament. Si seleccioneu una estrela, s'afegirà a la taula de "
-"davall."
+"al vostre emplaçament. Si trieu una estrela, s'afegirà a la taula de davall."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/align/mountmodel.ui:270
@@ -7818,8 +7816,8 @@ msgid ""
 "your location.  If you select a star, it will be added to the table below."
 msgstr ""
 "Estos són els noms grecs de les estreles més brillants que es veuen "
-"actualment al vostre emplaçament. Si seleccioneu una estrela, s'afegirà a la "
-"taula de davall."
+"actualment al vostre emplaçament. Si trieu una estrela, s'afegirà a la taula "
+"de davall."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/align/mountmodel.ui:293
@@ -8061,7 +8059,7 @@ msgid ""
 "is a concern, consider using 'Internal SEP' instead of 'Builtin Method of "
 "Solver'.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"center\">Selecciona el mètode de resolució de "
+"<html><head/><body><p align=\"center\">Tria el mètode de resolució de "
 "plaques amb la biblioteca StellarSolver</p><ul><li>L'opció «SEP intern» "
 "utilitza la construcció interna de StellarSolver d'Astrometry.net i no "
 "requerix programes externs.</li><li>L'«Astrometria local» utilitza una "
@@ -8123,8 +8121,7 @@ msgstr "Perfil d'opcions:"
 #, kde-format
 msgid "Selects the Options Profile to use for Plate Solving"
 msgstr ""
-"Selecciona el perfil d'opcions que s'utilitzarà per a la resolució de "
-"plaques."
+"Tria el perfil d'opcions que s'utilitzarà per a la resolució de plaques."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSolverProfile)
@@ -8293,7 +8290,7 @@ msgstr "Mantín l'angle de posició"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select ASTAP executable"
-msgstr "Seleccioneu l'executable ASTAP"
+msgstr "Trieu l'executable ASTAP"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, Options)
@@ -9737,7 +9734,7 @@ msgstr ""
 #: ekos/align/opsprograms.ui:27
 #, kde-format
 msgid "Select to load one of the default sets"
-msgstr "Selecciona carregar un dels conjunts predeterminats"
+msgstr "Tria carregar un dels conjunts predeterminats"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:32
@@ -9979,7 +9976,7 @@ msgstr "Tercera resolució"
 #: ekos/align/polaralignmentassistant.cpp:40
 #, kde-format
 msgid "Select Star"
-msgstr "Seleccioneu una estrela"
+msgstr "Trieu una estrela"
 
 #: ekos/align/polaralignmentassistant.cpp:41
 #, kde-format
@@ -10191,8 +10188,8 @@ msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
 "<i>refresh</i> to begin adjustments.</p>"
 msgstr ""
-"<p>Trieu el temps d'exposició i seleccioneu un mètode d'ajust. Després "
-"cliqueu damunt <i>Actualitza</i> per a començar els ajustos.</p>"
+"<p>Trieu el temps d'exposició i trieu un mètode d'ajust. Després cliqueu "
+"damunt <i>Actualitza</i> per a començar els ajustos.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1265
 #, kde-format
@@ -10202,12 +10199,11 @@ msgid ""
 "in and select a bright star</i> to reposition the correction vector. Use the "
 "<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
 msgstr ""
-"<p>Trieu el temps d'exposició i seleccioneu un mètode d'ajust. Després "
-"cliqueu damunt <i>Actualitza</i> per a començar.</p><p>El triangle de "
-"correcció es traça damunt. <i>Amplieu i seleccioneu una estrela brillant</i> "
-"per a tornar a posicionar el vector de correcció. Utilitzeu el mètode "
-"<i>Estrela en moviment i error de càlcul</i> per a estimar l'error romanent."
-"</p>"
+"<p>Trieu el temps d'exposició i trieu un mètode d'ajust. Després cliqueu "
+"damunt <i>Actualitza</i> per a començar.</p><p>El triangle de correcció es "
+"traça damunt. <i>Amplieu i trieu una estrela brillant</i> per a tornar a "
+"posicionar el vector de correcció. Utilitzeu el mètode <i>Estrela en "
+"moviment i error de càlcul</i> per a estimar l'error romanent.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1268
 #, kde-format
@@ -10269,7 +10265,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Poseu la muntura equatorial, siga (a) en la posició "
 "inicial apuntada cap al pol celeste, o siga (b) apuntada qualsevol punt "
-"idealment prop del meridià. Seleccioneu la <span style=\"font-weight:600;"
+"idealment prop del meridià. Trieu la <span style=\"font-weight:600;"
 "\">direcció</span> i la <span style=\"font-weight:600;\">velocitat de la "
 "muntura</span> i després cliqueu damunt <span style=\"font-weight:600;"
 "\">Inicia</span> per a començar amb el procés d'alineació polar.</p></body></"
@@ -10414,9 +10410,9 @@ msgid ""
 "attempts to track the star being moved and estimates the current alignment "
 "error when it can.</li></ul><p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu l'algorisme de correcció de l'alineació "
-"polar:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
-"margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-"
+"<html><head/><body><p>Trieu l'algorisme de correcció de l'alineació polar:</"
+"p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\"font-weight:600;\">Resol la placa</span>: "
 "Utilitza la resolució de plaques per a seguir quin és l'error d'alineació "
@@ -10694,7 +10690,7 @@ msgstr "Llig des d'un fitxer"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select input file"
-msgstr "Seleccioneu el fitxer d'entrada"
+msgstr "Trieu el fitxer d'entrada"
 
 #: ekos/analyze/analyze.cpp:675
 #, kde-format
@@ -10936,7 +10932,7 @@ msgid ""
 "<html><head/><body><p>Select the input for the plots. This can be the "
 "current Ekos session, or it can be read from a file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu l'entrada per als traçats. Esta pot ser la "
+"<html><head/><body><p>Trieu l'entrada per als traçats. Esta pot ser la "
 "sessió actual d'Ekos o es pot llegir des d'un fitxer.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fullWidthCB)
@@ -11898,8 +11894,7 @@ msgstr ""
 #, kde-format
 msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr ""
-"Guarda. Seleccioneu-la per a guardar el desplaçament nou per al filtre "
-"associat."
+"Guarda. Trieu-la per a guardar el desplaçament nou per al filtre associat."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:376
 #, kde-format
@@ -12003,8 +11998,8 @@ msgid ""
 "<html><head/><body><p>Check to apply Adaptive focus to Autofocus runs.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a aplicar l'enfocament adaptatiu a "
-"una execució d'enfocament automàtic.</p></body></html>"
+"<html><head/><body><p>Trieu-la per a aplicar l'enfocament adaptatiu a una "
+"execució d'enfocament automàtic.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, buildOffsetsAdaptFocus)
 #: ekos/auxiliary/buildfilteroffsets.ui:48
@@ -13236,8 +13231,8 @@ msgid ""
 "optical elements, tap the <span style=\" font-weight:600;\">Telescope &amp; "
 "Lens</span> button.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu l'instrument de visió o la lent emprada en "
-"el tren òptic. Esta és una selecció requerida en tots els trens.</p><p>Per a "
+"<html><head/><body><p>Trieu l'instrument de visió o la lent emprada en el "
+"tren òptic. Esta és una selecció requerida en tots els trens.</p><p>Per a "
 "afegir, editar o suprimir elements òptics, premeu el botó <span style=\"font-"
 "weight:600;\">Telescopis i lents</span>.</p></body></html>"
 
@@ -13258,8 +13253,8 @@ msgid ""
 "Select which mount to use. Typically, all optical trains in the same profile "
 "use the same mount."
 msgstr ""
-"Seleccioneu quina muntura s'utilitzarà. Normalment, tots els trens òptics "
-"del mateix perfil empren la mateixa muntura."
+"Trieu quina muntura s'utilitzarà. Normalment, tots els trens òptics del "
+"mateix perfil empren la mateixa muntura."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:183
@@ -13268,9 +13263,9 @@ msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.  "
 "This is a required selection in all trains.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu la càmera per a l'obtenció d'imatges per a "
-"este tren òptic. Esta és una selecció requerida en tots els trens.</p></"
-"body></html>"
+"<html><head/><body><p>Trieu la càmera per a l'obtenció d'imatges per a este "
+"tren òptic. Esta és una selecció requerida en tots els trens.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:186
@@ -13307,13 +13302,13 @@ msgid ""
 "span>: If the value is over 1.0x, then it is considered a barlow element "
 "(focal length is increased by this factor).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu si s'utilitza algun reductor o Barlow en "
-"el tren.</p><p><span style=\"font-weight:600;\">Reductor:</span> Si el valor "
-"és menor que 1,0x, este element es considerarà com un reductor (es "
-"disminuirà la distància focal degut a este factor).</p><p><span style=\"font-"
-"weight:600;\">Barlow:</span> Si el valor és més gran que 1,0x, llavors es "
-"considerarà un Barlow (s'incrementarà la distància focal degut a este "
-"factor).</p></body></html>"
+"<html><head/><body><p>Trieu si s'utilitza algun reductor o Barlow en el tren."
+"</p><p><span style=\"font-weight:600;\">Reductor:</span> Si el valor és "
+"menor que 1,0x, este element es considerarà com un reductor (es disminuirà "
+"la distància focal degut a este factor).</p><p><span style=\"font-weight:600;"
+"\">Barlow:</span> Si el valor és més gran que 1,0x, llavors es considerarà "
+"un Barlow (s'incrementarà la distància focal degut a este factor).</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:232
@@ -13343,9 +13338,8 @@ msgid ""
 "<html><head/><body><p>Select a filter wheel.</p><p>This could be a dedicated "
 "filter wheel or part of a camera driver.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu una roda de filtres.</p><p>Podria ser una "
-"roda de filtres dedicada o part d'un controlador de la càmera.</p></body></"
-"html>"
+"<html><head/><body><p>Trieu una roda de filtres.</p><p>Podria ser una roda "
+"de filtres dedicada o part d'un controlador de la càmera.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #: ekos/auxiliary/opticaltrains.ui:278
@@ -13368,17 +13362,17 @@ msgid ""
 "guider interface device (like Shoestring GPUSB) then select it as the Guider."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu el dispositiu que rebrà els polsos de "
-"correcció per al guiatge. Este pot ser un dels dispositius següents:</"
-"p><p><span style=\"font-weight:600;\">Muntura</span>: Si la muntura pot "
-"rebre els polsos de correcció del guiatge, el millor és seleccionar-lo de "
-"manera que els polsos s'envien directament cap a la muntura. Esta és l'opció "
-"recomanada.</p><p><span style=\"font-weight:600;\">ST4</span>: Si utilitzeu "
-"un cable ST4 entre la càmera guia i la muntura, haureu de seleccionar la "
-"càmera guia com a Sistema de guiatge.</p><p><span style=\"font-weight:600;"
-"\">Sistema de guiatge dedicat</span>: Si utilitzeu un dispositiu en la "
-"interfície del sistema de guiatge dedicat (com Shoestring GPUSB), llavors "
-"seleccioneu-lo com a Sistema de guiatge.</p></body></html>"
+"<html><head/><body><p>Trieu el dispositiu que rebrà els polsos de correcció "
+"per al guiatge. Este pot ser un dels dispositius següents:</p><p><span style="
+"\"font-weight:600;\">Muntura</span>: Si la muntura pot rebre els polsos de "
+"correcció del guiatge, el millor és seleccionar-lo de manera que els polsos "
+"s'envien directament cap a la muntura. Esta és l'opció recomanada.</"
+"p><p><span style=\"font-weight:600;\">ST4</span>: Si utilitzeu un cable ST4 "
+"entre la càmera guia i la muntura, haureu de seleccionar la càmera guia com "
+"a Sistema de guiatge.</p><p><span style=\"font-weight:600;\">Sistema de "
+"guiatge dedicat</span>: Si utilitzeu un dispositiu en la interfície del "
+"sistema de guiatge dedicat (com Shoestring GPUSB), llavors seleccioneu-lo "
+"com a Sistema de guiatge.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:301
@@ -13443,7 +13437,7 @@ msgstr "Sèrie"
 msgid ""
 "Select <b>Serial</b> if your device is connected via Serial to USB adapter."
 msgstr ""
-"Seleccioneu <b>Sèrie</b> si el dispositiu està connectat amb l'adaptador USB "
+"Trieu <b>Sèrie</b> si el dispositiu està connectat amb l'adaptador USB "
 "mitjançant sèrie."
 
 #: ekos/auxiliary/portselector.cpp:77
@@ -13455,18 +13449,18 @@ msgstr "Xarxa"
 #, kde-format
 msgid "Select <b>Network</b> if your device is connected via Ethernet or WiFi."
 msgstr ""
-"Seleccioneu <b>Xarxa</b> si el dispositiu està connectat mitjançant Ethernet "
-"o Wi-Fi."
+"Trieu <b>Xarxa</b> si el dispositiu està connectat mitjançant Ethernet o Wi-"
+"Fi."
 
 #: ekos/auxiliary/portselector.cpp:96
 #, kde-format
 msgid "Select Serial port"
-msgstr "Seleccioneu el port sèrie"
+msgstr "Trieu el port sèrie"
 
 #: ekos/auxiliary/portselector.cpp:126
 #, kde-format
 msgid "Select Baud rate"
-msgstr "Seleccioneu la velocitat en bauds"
+msgstr "Trieu la velocitat en bauds"
 
 #: ekos/auxiliary/portselector.cpp:143
 #, kde-format
@@ -13811,7 +13805,7 @@ msgstr "Perfils d'opcions"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:64
 #, kde-format
 msgid "Selects the profile group that the editor is working with"
-msgstr "Selecciona el grup del perfil amb el qual està treballant l'editor."
+msgstr "Tria el grup del perfil amb el qual està treballant l'editor."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:71
@@ -14660,8 +14654,8 @@ msgid ""
 "<html><head/><body><p>Select which actions to perform before a Bias/Dark/"
 "Flat frame is captured.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu quines accions es portaran a terme abans "
-"de capturar un fotograma Biaix, Fosc o Pla.</p></body></html>"
+"<html><head/><body><p>Trieu quines accions es portaran a terme abans de "
+"capturar un fotograma Biaix, Fosc o Pla.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:40
@@ -15321,25 +15315,25 @@ msgid ""
 "where the remote images are saved to. By default, all captured images are "
 "saved <span style=\" font-style:italic;\">Locally</span>.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Selecciona com es pugen les imatges capturades:</p><ol "
-"style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right: "
-"0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\"font-weight:600;\">Localment</span>: Les imatges capturades "
-"es guarden localment al disc en la carpeta especificada més amunt.</li><li "
+"<html><head/><body><p>Tria com es pugen les imatges capturades:</p><ol style="
+"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right: 0px; -qt-"
+"list-indent:1;\"><li style=\"margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\"font-weight:600;\">Localment</span>: Les imatges capturades es "
+"guarden localment al disc en la carpeta especificada més amunt.</li><li "
 "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
-"weight:600;\">Remotament</span>: En connectar amb un dispositiu remot, "
-"seleccioneu esta opció per a guardar les imatges només al dispositiu remot. "
-"No es puja cap imatge a Ekos.</li><li style=\"margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\"font-weight:600;\">Ambdós</span>: Les imatges "
-"capturades es guarden en l'ordinador remot <span style=\"font-weight:600;"
-"\">i</span> també al disc local.</li></ol><p>En seleccionar <span style="
-"\"font-style:italic;\">Remotament</span> o <span style=\"font-style:italic;"
-"\">Ambdós</span>, cal especificar la carpeta remota a on es guardaran les "
-"imatges. De manera predeterminada, totes les imatges capturades es guarden "
-"<span style=\"font-style:italic;\">Localment</span>.</p></body></html>"
+"weight:600;\">Remotament</span>: En connectar amb un dispositiu remot, trieu "
+"esta opció per a guardar les imatges només al dispositiu remot. No es puja "
+"cap imatge a Ekos.</li><li style=\"margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\"font-weight:600;\">Ambdós</span>: Les imatges capturades es "
+"guarden en l'ordinador remot <span style=\"font-weight:600;\">i</span> també "
+"al disc local.</li></ol><p>En seleccionar <span style=\"font-style:italic;"
+"\">Remotament</span> o <span style=\"font-style:italic;\">Ambdós</span>, cal "
+"especificar la carpeta remota a on es guardaran les imatges. De manera "
+"predeterminada, totes les imatges capturades es guarden <span style=\"font-"
+"style:italic;\">Localment</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/camera.ui:1836
@@ -15549,12 +15543,11 @@ msgstr "Cua en seqüència"
 msgid "Reset status of all jobs"
 msgstr "Restablix l'estat de totes les tasques."
 
-# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
 #: ekos/capture/camera.ui:2159
 #, kde-format
 msgid "Select Observer..."
-msgstr "Seleccioneu l'observador…"
+msgstr "Tria l'observador…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
 #: ekos/capture/camera.ui:2200
@@ -15866,7 +15859,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
-msgstr "Seleccioneu l'observador actual"
+msgstr "Trieu l'observador actual"
 
 #: ekos/capture/camera_config.cpp:1165
 #, kde-format
@@ -16960,7 +16953,7 @@ msgid ""
 "Properties</span> section. Click <span style=\" font-weight:600;\">Apply</"
 "span> to record the property values.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu les propietats personalitzades que s'han "
+"<html><head/><body><p>Trieu les propietats personalitzades que s'han "
 "d'establir quan s'execute la tasca en seqüència en el mode Treball per lots. "
 "Una vegada establit el valor de la propietat en el tauler de control INDI, "
 "afegiu-lo a la secció <span style=\"font-weight:600;\">Propietats de la "
@@ -17312,7 +17305,7 @@ msgstr "Baixada de les dades de les càmeres"
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
 #, kde-format
 msgid "Select all cameras you wish to use:"
-msgstr "Seleccioneu totes les càmeres que voleu utilitzar:"
+msgstr "Trieu totes les càmeres que voleu utilitzar:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, Limits)
 #: ekos/capture/limits.ui:14
@@ -17459,8 +17452,8 @@ msgid ""
 "temperature since last focus exceeded this value.  Reference temperature is "
 "reset at each Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a forçar un enfocament automàtic "
-"quan el canvi de temperatura des de l'últim enfocament supere este valor. La "
+"<html><head/><body><p>Trieu-la per a forçar un enfocament automàtic quan el "
+"canvi de temperatura des de l'últim enfocament supere este valor. La "
 "temperatura de referència es restablirà a cada enfocament automàtic.</p></"
 "body></html>"
 
@@ -17477,8 +17470,8 @@ msgid ""
 "<html><head/><body><p>Check to force an Autofocus after a Meridian Flip.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a forçar un enfocament automàtic "
-"després d'una inversió del meridià.</p></body></html>"
+"<html><head/><body><p>Trieu-la per a forçar un enfocament automàtic després "
+"d'una inversió del meridià.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, refocusAfterMeridianFlip)
 #: ekos/capture/limits.ui:275 ekos/capture/refocusstate.cpp:68
@@ -17493,9 +17486,9 @@ msgid ""
 "<html><head/><body><p>Check to force an Autofocus every N minutes.  Timer is "
 "reset at each Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a forçar un enfocament automàtic "
-"cada N minuts. El temporitzador es restablirà a cada enfocament automàtic.</"
-"p></body></html>"
+"<html><head/><body><p>Trieu-la per a forçar un enfocament automàtic cada N "
+"minuts. El temporitzador es restablirà a cada enfocament automàtic.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceRefocusEveryN)
 #: ekos/capture/limits.ui:288
@@ -17510,9 +17503,9 @@ msgid ""
 "<html><head/><body><p>Check to perform an HFR Check between Subframes.  The "
 "Check may result in an Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a realitzar una comprovació d'HFR "
-"entre els submarcs. La comprovació pot resultar en un enfocament automàtic.</"
-"p></body></html>"
+"<html><head/><body><p>Trieu-la per a realitzar una comprovació d'HFR entre "
+"els submarcs. La comprovació pot resultar en un enfocament automàtic.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceAutofocusHFR)
 #: ekos/capture/limits.ui:301
@@ -18429,7 +18422,7 @@ msgstr "Parada"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
-msgstr "Seleccioneu els servidors EkosLive"
+msgstr "Trieu els servidors EkosLive"
 
 #: ekos/ekoslive/ekosliveclient.cpp:482
 #, kde-format
@@ -18505,22 +18498,22 @@ msgstr "Connectat"
 msgid "Offline"
 msgstr "Desconnectat"
 
-#: ekos/ekoslive/message.cpp:775
+#: ekos/ekoslive/message.cpp:781
 #, kde-format
 msgid "target"
 msgstr "Objectiu"
 
-#: ekos/ekoslive/message.cpp:1057
+#: ekos/ekoslive/message.cpp:1063
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Ha fallat la importació del mosaic."
 
-#: ekos/ekoslive/nodemanager.cpp:222
+#: ekos/ekoslive/nodemanager.cpp:227
 #, kde-format
 msgid "Error authenticating with EkosLive server: %1"
 msgstr "S'ha produït un error d'autenticació amb el servidor EkosLive: %1"
 
-#: ekos/ekoslive/nodemanager.cpp:235
+#: ekos/ekoslive/nodemanager.cpp:240
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr ""
@@ -18601,7 +18594,7 @@ msgstr "Nombre mín. i màx. d'estreles detectades en l'execució de l'enfocamen
 #: ekos/focus/aberrationinspector.cpp:105
 #, kde-format
 msgid "Check to exclude row from calculations"
-msgstr "Seleccioneu-la per a excloure la fila dels càlculs"
+msgstr "Trieu-la per a excloure la fila dels càlculs"
 
 #: ekos/focus/aberrationinspector.cpp:565
 #: ekos/focus/aberrationinspector.cpp:582
@@ -18634,8 +18627,8 @@ msgstr "Inspector d'aberracions"
 msgid ""
 "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a mostrar les etiquetes en el "
-"gràfic.</p></body></html>"
+"<html><head/><body><p>Trieu-la per a mostrar les etiquetes en el gràfic.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowLabels)
 #. i18n: ectx: property (text), widget (QCheckBox, abInsLabels)
@@ -18660,7 +18653,7 @@ msgid ""
 "</p><p>- All displays all 9 tiles.</p><p>- Centre and outer corners.</p><p>- "
 "Centre and inner diamond.<br/></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu la combinació de tessel·les del mosaic que "
+"<html><head/><body><p>Trieu la combinació de tessel·les del mosaic que "
 "s'utilitzaran per a l'anàlisi:</p><p>- Tot mostra les 9 tessel·les.</p><p>- "
 "Centre i cantons exteriors.</p><p>- Centre i diamant interior.<br/></p></"
 "body></html>"
@@ -18691,7 +18684,7 @@ msgid ""
 "<html><head/><body><p>Check to show the Critical Focus Zone on the graph.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a mostrar la «Zona crítica de "
+"<html><head/><body><p>Trieu-la per a mostrar la «Zona crítica de "
 "l'enfocament» en el gràfic.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowCFZ)
@@ -18817,8 +18810,8 @@ msgid ""
 "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu el tema de color del «Gràfic en 3D».</p></"
-"body></html>"
+"<html><head/><body><p>Trieu el tema de color del «Gràfic en 3D».</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:372
@@ -18875,16 +18868,15 @@ msgid ""
 "<html><head/><body><p>Check to display mosaic tile sensor labels.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a mostrar les etiquetes del sensor "
-"en les tessel·les del mosaic.</p></body></html>"
+"<html><head/><body><p>Trieu-la per a mostrar les etiquetes del sensor en les "
+"tessel·les del mosaic.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:428
 #, kde-format
 msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a mostrar el sensor.</p></body></"
-"html>"
+"<html><head/><body><p>Trieu-la per a mostrar el sensor.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSensor)
 #: ekos/focus/aberrationinspector.ui:431
@@ -18899,8 +18891,8 @@ msgid ""
 "<html><head/><body><p>Check to display the Petzval surface mesh.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a visualitzar la malla de la "
-"superfície de Petzval.</p></body></html>"
+"<html><head/><body><p>Trieu-la per a visualitzar la malla de la superfície "
+"de Petzval.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalWire)
 #: ekos/focus/aberrationinspector.ui:444
@@ -18914,8 +18906,8 @@ msgstr "Fil de Petzval"
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a visualitzar la superfície de "
-"Petzval.</p></body></html>"
+"<html><head/><body><p>Trieu-la per a visualitzar la superfície de Petzval.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalSurface)
 #: ekos/focus/aberrationinspector.ui:457
@@ -18931,8 +18923,8 @@ msgid ""
 "<html><head/><body><p>Check to set 3D Graphic in Simulation Mode</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a establir el «Gràfic en 3D» en el "
-"mode Simulació.</p></body></html>"
+"<html><head/><body><p>Trieu-la per a establir el «Gràfic en 3D» en el mode "
+"Simulació.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSimMode)
 #: ekos/focus/aberrationinspector.ui:473
@@ -19109,7 +19101,7 @@ msgid ""
 "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
 "successful Autofocus run.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a visualitzar la ZCE en la corba V "
+"<html><head/><body><p>Trieu-la per a visualitzar la ZCE en la corba V "
 "després d'una execució correcta de l'enfocament automàtic.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
@@ -19329,7 +19321,7 @@ msgid ""
 "super;\">2. </span>A.  See http://www.goldastro.com/goldfocus/ncfz.php for "
 "more details.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu l'algorisme de la «Zona crítica de "
+"<html><head/><body><p>Trieu l'algorisme de la «Zona crítica de "
 "l'enfocament» (ZCE):</p><ul style=\"margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
@@ -19734,19 +19726,19 @@ msgstr "S'ha rebut FITS. No s'ha detectat cap estrela."
 #: ekos/focus/focus.cpp:3172
 #, kde-format
 msgid "Capture complete. Select a region of interest."
-msgstr "S'ha completat la captura. Seleccioneu una regió d'interés."
+msgstr "S'ha completat la captura. Trieu una regió d'interés."
 
 #: ekos/focus/focus.cpp:3213
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
-"No s'ha pogut seleccionar automàticament cap estrela. Seleccioneu-ne una "
+"No s'ha pogut seleccionar automàticament cap estrela. Trieu-ne una "
 "manualment."
 
 #: ekos/focus/focus.cpp:3307
 #, kde-format
 msgid "Capture complete. Select a star to focus."
-msgstr "S'ha completat la captura. Seleccioneu l'estrela que s'enfocarà."
+msgstr "S'ha completat la captura. Trieu l'estrela que s'enfocarà."
 
 #: ekos/focus/focus.cpp:3338
 #, kde-format
@@ -19883,7 +19875,7 @@ msgstr ""
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "No s'ha pogut detectar en el fotograma una estrela que s'haja d'enfocar. "
-"Captureu i seleccioneu una estrela que s'haja d'enfocar."
+"Captureu i trieu una estrela que s'haja d'enfocar."
 
 #: ekos/focus/focus.cpp:4136
 #, kde-format
@@ -20258,7 +20250,7 @@ msgid ""
 "<html><head/><body><p>Check to force an ad-hoc In-Sequence Autofocus at the "
 "completion of the current subframe.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a forçar una seqüència exprés de "
+"<html><head/><body><p>Trieu-la per a forçar una seqüència exprés de "
 "l'enfocament automàtic en completar el submarc actual.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, forceInSeqAF)
@@ -20839,17 +20831,17 @@ msgid ""
 "this walk must be started close to focus to be effective but is predictable "
 "in the number of steps taken.</p><p><br/></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu el tipus de camí que ha de prendre "
-"l'enfocador quan s'utilitze <span style=\"font-weight:600;\">lineal d'1 pas</"
-"span>. Per a <span style=\"font-weight:600;\">Lineal</span> només hi ha "
-"disponible <span style=\"font-weight:600;\">Clàssic</span>.</p><p>Clàssic "
-"<span style=\"font-weight:600;\">Clàssic</span>: L'enfocador ix «Múltiples "
-"passos cap enfora:» passos, pren un fotograma i després avança a través de "
-"l'enfocament a una mida de pas constant prenent i analitzant els fotogrames "
-"a cada pas. El punt exacte en el qual es para el pas depén de les dades, de "
-"manera que este camí tolera el començar més lluny de l'enfocament, però a "
-"costa de passos addicionals.</p><p><span style=\"font-weight:600;\">Passos "
-"fixos</span>: L'enfocador avança la meitat del «Nombre de passos», pren un "
+"<html><head/><body><p>Trieu el tipus de camí que ha de prendre l'enfocador "
+"quan s'utilitze <span style=\"font-weight:600;\">lineal d'1 pas</span>. Per "
+"a <span style=\"font-weight:600;\">Lineal</span> només hi ha disponible "
+"<span style=\"font-weight:600;\">Clàssic</span>.</p><p>Clàssic <span style="
+"\"font-weight:600;\">Clàssic</span>: L'enfocador ix «Múltiples passos cap "
+"enfora:» passos, pren un fotograma i després avança a través de l'enfocament "
+"a una mida de pas constant prenent i analitzant els fotogrames a cada pas. "
+"El punt exacte en el qual es para el pas depén de les dades, de manera que "
+"este camí tolera el començar més lluny de l'enfocament, però a costa de "
+"passos addicionals.</p><p><span style=\"font-weight:600;\">Passos fixos</"
+"span>: L'enfocador avança la meitat del «Nombre de passos», pren un "
 "fotograma i després avança exactament el «Nombre de passos». Este camí ha de "
 "començar prop de l'enfocament per a ser efectiu, però és previsible en el "
 "nombre de passos que es prenen.</p><p><span style=\"font-weight:600;"
@@ -21215,13 +21207,12 @@ msgid ""
 "Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the "
 "Linear 1 Pass algorithm. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a utilitzar la desviació estàndard "
-"HFR o FWHM de l'estrela com a ponderació a l'algorisme d'ajust de la corba. "
-"Si es desmarca, tots els punts de dades tindran la mateixa ponderació. "
-"Actualment, només estarà disponible quan s'utilitza «Camp "
-"complet» (múltiples estreles) i un «Ajust de la corba» d'«Hipèrbola» o de "
-"«Paràbola» davall l'algorisme «Lineal d'1 pas». Esta característica és "
-"experimental.</p></body></html>"
+"<html><head/><body><p>Trieu-la per a utilitzar la desviació estàndard HFR o "
+"FWHM de l'estrela com a ponderació a l'algorisme d'ajust de la corba. Si es "
+"desmarca, tots els punts de dades tindran la mateixa ponderació. Actualment, "
+"només estarà disponible quan s'utilitza «Camp complet» (múltiples estreles) "
+"i un «Ajust de la corba» d'«Hipèrbola» o de «Paràbola» davall l'algorisme "
+"«Lineal d'1 pas». Esta característica és experimental.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/opsfocusprocess.ui:218
@@ -21249,9 +21240,9 @@ msgid ""
 "parabola to the data points. This is currently only available for the Linear "
 "1 Pass Algorithm.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu el tipus de corba que s'ajustarà a les "
-"dades:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
-"margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; margin-"
+"<html><head/><body><p>Trieu el tipus de corba que s'ajustarà a les dades:</"
+"p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\"font-weight:600;\">Quadràtica</span>: Utilitza "
 "un ajust polinòmic de grau 2. Esta és l'opció predeterminada i l'única per a "
@@ -21335,63 +21326,63 @@ msgid ""
 "planetary.  This is an experimental feature that requires openCV to be "
 "installed.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu la mesura que s'utilitzarà per a ajustar "
-"una corba per al lineal d'1 pas:</p><ul style=\"margin-top:0px; margin-"
-"bottom: 0px; margin-left:0px; margin-right:0px; -qt-list-indent:1;\"><li "
+"<html><head/><body><p>Trieu la mesura que s'utilitzarà per a ajustar una "
+"corba per al lineal d'1 pas:</p><ul style=\"margin-top:0px; margin-bottom: "
+"0px; margin-left:0px; margin-right:0px; -qt-list-indent:1;\"><li style="
+"\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">HFR</"
+"span>: «Half Flux Radius» (Radi de semiflux). Utilitza un algorisme per a "
+"calcular el radi d'un cercle centrat al centroide de l'estrela que encapsula "
+"la meitat del flux de l'estrela.</li><ul style=\"margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right: 0px; -qt-list-indent:1;\"><li "
 "style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
-"weight:600;\">HFR</span>: «Half Flux Radius» (Radi de semiflux). Utilitza un "
-"algorisme per a calcular el radi d'un cercle centrat al centroide de "
-"l'estrela que encapsula la meitat del flux de l'estrela.</li><ul style="
-"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right: 0px; -qt-"
-"list-indent:1;\"><li style=\"margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">HFR ajustada</span>: «Adjusted Half Flux "
-"Radius» (Radi de semiflux ajustat). Normalitza HFR per a la intensitat dels "
-"pics.</li></ul><li style=\"margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">FWHM</span>: «Full Width Half Maximum» (amplària "
-"total a la meitat del màxim). La corba, ajusta un PSF a cada centroide "
-"d'estrela i utilitza la corba per a calcular la FWHM.</li><li style=\"margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Nombre "
-"d'estreles</span>: El nombre d'estreles detectades en l'enfocament òptim "
-"serà un màxim.</li><li style=\"margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">Fourier</span>: Càlcul de la potència de Fourier. "
-"Utilitza l'aproximació de la potència de la transformada de Fourier "
-"desenvolupada per Tan i Schulz a «https://arxiv.org/pdf/2201.12466.pdf». En "
-"l'enfocament òptim, la potència en l'espai de freqüències -resultat de la "
-"transformada de Fourier- serà un màxim. </li><li style=\"margin-top:0px; "
+"weight:600;\">HFR ajustada</span>: «Adjusted Half Flux Radius» (Radi de "
+"semiflux ajustat). Normalitza HFR per a la intensitat dels pics.</li></"
+"ul><li style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
+"weight:600;\">FWHM</span>: «Full Width Half Maximum» (amplària total a la "
+"meitat del màxim). La corba, ajusta un PSF a cada centroide d'estrela i "
+"utilitza la corba per a calcular la FWHM.</li><li style=\"margin-top:0px; "
 "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\"font-weight:600;\">Fourier</span>: Càlcul "
-"de la potència de Fourier. Utilitza l'aproximació de la potència de la "
-"transformada de Fourier Power desenvolupada per en Tan i Schulz a «https://"
-"arxiv.org/pdf/2201.12466.pdf». En l'enfocament òptim, la potència en l'espai "
-"de freqüències (resultat de la transformada de Fourier) serà un màxim.</"
+"text-indent:0px;\"><span style=\"font-weight:600;\">Nombre d'estreles</"
+"span>: El nombre d'estreles detectades en l'enfocament òptim serà un màxim.</"
 "li><li style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
-"weight:600;\">DesvEstànd</span>: Utilitza la variància / mitjana dels píxels "
-"de la imatge. Està destinada als camps d'estreles. Esta és una "
+"weight:600;\">Fourier</span>: Càlcul de la potència de Fourier. Utilitza "
+"l'aproximació de la potència de la transformada de Fourier desenvolupada per "
+"Tan i Schulz a «https://arxiv.org/pdf/2201.12466.pdf». En l'enfocament "
+"òptim, la potència en l'espai de freqüències -resultat de la transformada de "
+"Fourier- serà un màxim. </li><li style=\"margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\"font-weight:600;\">Fourier</span>: Càlcul de la potència de "
+"Fourier. Utilitza l'aproximació de la potència de la transformada de Fourier "
+"Power desenvolupada per en Tan i Schulz a «https://arxiv.org/pdf/2201.12466."
+"pdf». En l'enfocament òptim, la potència en l'espai de freqüències (resultat "
+"de la transformada de Fourier) serà un màxim.</li><li style=\"margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">DesvEstànd</"
+"span>: Utilitza la variància / mitjana dels píxels de la imatge. Està "
+"destinada als camps d'estreles. Esta és una característica experimental que "
+"requerix la instal·lació d'openCV.</li><li style=\"margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\"font-weight:600;\">Sobel</span>: Utilitza "
+"l'algorisme de detecció de vores de Sobel. Està pensat per a camps sense "
+"estreles, p. ex., solar, d'alguna lluna o planetaris. Esta és una "
 "característica experimental que requerix la instal·lació d'openCV.</li><li "
 "style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
-"weight:600;\">Sobel</span>: Utilitza l'algorisme de detecció de vores de "
-"Sobel. Està pensat per a camps sense estreles, p. ex., solar, d'alguna lluna "
+"weight:600;\">De Laplace</span> Utilitza l'algoritme de detecció de vores de "
+"Laplace. Està pensat per a camps sense estreles, p. ex., solar, d'alguna "
+"lluna o planetaris. Esta és una característica experimental que requerix la "
+"instal·lació d'openCV.</li></ul><ul style=\"margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-list-indent:1;\"><li "
+"style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
+"weight:600;\">Canny</span>: Utilitza l'algorisme de detecció de vores de "
+"Canny. Està pensat per a camps sense estreles, p. ex., solar, d'alguna lluna "
 "o planetaris. Esta és una característica experimental que requerix la "
-"instal·lació d'openCV.</li><li style=\"margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\"font-weight:600;\">De Laplace</span> Utilitza l'algoritme "
-"de detecció de vores de Laplace. Està pensat per a camps sense estreles, p. "
-"ex., solar, d'alguna lluna o planetaris. Esta és una característica "
-"experimental que requerix la instal·lació d'openCV.</li></ul><ul style="
-"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"list-indent:1;\"><li style=\"margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">Canny</span>: Utilitza l'algorisme de detecció de "
-"vores de Canny. Està pensat per a camps sense estreles, p. ex., solar, "
-"d'alguna lluna o planetaris. Esta és una característica experimental que "
-"requerix la instal·lació d'openCV.</li></ul></body></html>"
+"instal·lació d'openCV.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
@@ -21571,8 +21562,8 @@ msgid ""
 "doing a 2nd pass,  moves straight to the minimum HFR value calculated.  Use "
 "Curve Fit of Hyperbola or Parabola.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu l'algorisme del procés d'enfocament:</"
-"p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"<html><head/><body><p>Trieu l'algorisme del procés d'enfocament:</p><ul "
+"style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\"font-weight:600;\">Iteratiu</span>: mou "
@@ -21771,8 +21762,8 @@ msgid ""
 "telescopes with a central obstruction that create donut shaped stars when "
 "defocused.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a activar la funcionalitat reducció "
-"de dònuts. S'utilitza en telescopis amb una obstrucció central que crea "
+"<html><head/><body><p>Trieu-la per a activar la funcionalitat reducció de "
+"dònuts. S'utilitza en telescopis amb una obstrucció central que crea "
 "estreles en forma de dònut quan estan desenfocades.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
@@ -21828,7 +21819,7 @@ msgid ""
 "<html><head/><body><p>Check to scan for a start position. The algorithm will "
 "look for a minimum data point using Num Datapoints.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a explorar una posició inicial. "
+"<html><head/><body><p>Trieu-la per a explorar una posició inicial. "
 "L'algorisme buscarà un punt de dades mínim mitjançant el «Nombre de punts de "
 "dades:».</p></body></html>"
 
@@ -21861,7 +21852,7 @@ msgid ""
 "Check to always run Scan for Start Position, uncheck to only run after a "
 "failed Autofocus."
 msgstr ""
-"Seleccioneu-la per a executar sempre un escaneig per a la posició inicial, "
+"Trieu-la per a executar sempre un escaneig per a la posició inicial, "
 "desmarqueu-la per a executar-ho només després d'un enfocament automàtic "
 "fallit."
 
@@ -21894,11 +21885,11 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu «Camp complet» per a permetre que "
-"l'enfocament utilitze múltiples estreles (nota: «Submarc» utilitza una sola "
-"estrela). En este mode, Ekos seleccionarà automàticament múltiples estreles "
-"durant l'enfocament automàtic i, per exemple, l'enfocament farà una mitjana "
-"d'HFR de totes les estreles detectades.</p></body></html>"
+"<html><head/><body><p>Trieu «Camp complet» per a permetre que l'enfocament "
+"utilitze múltiples estreles (nota: «Submarc» utilitza una sola estrela). En "
+"este mode, Ekos seleccionarà automàticament múltiples estreles durant "
+"l'enfocament automàtic i, per exemple, l'enfocament farà una mitjana d'HFR "
+"de totes les estreles detectades.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/opsfocussettings.ui:38
@@ -21947,9 +21938,9 @@ msgid ""
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Esta opció només estarà activa quan seleccioneu "
-"«Submarc». Seleccioneu-la per a permetre que Ekos seleccione una sola "
-"estrela per a l'enfocament. Desseleccioneu-la per a permetre que l'usuari "
-"seleccione l'estrela que s'utilitzarà en el visor de FITS.</p></body></html>"
+"«Submarc». Trieu-la per a permetre que Ekos seleccione una sola estrela per "
+"a l'enfocament. Desseleccioneu-la per a permetre que l'usuari seleccione "
+"l'estrela que s'utilitzarà en el visor de FITS.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:112
@@ -21977,12 +21968,12 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu «Submarc» per a fer que l'enfocament "
-"utilitze una sola estrela (nota: «Camp complet» utilitza múltiples "
-"estreles). En este mode, la casella de selecció «Selecció automàtica de "
-"l'estrela» s'activarà per a permetre que Ekos seleccione una estrela (quan "
-"està marcada) o per a permetre que l'usuari la seleccione manualment en el "
-"«Visor de FITS» (quan està desmarcada).</p></body></html>"
+"<html><head/><body><p>Trieu «Submarc» per a fer que l'enfocament utilitze "
+"una sola estrela (nota: «Camp complet» utilitza múltiples estreles). En este "
+"mode, la casella de selecció «Selecció automàtica de l'estrela» s'activarà "
+"per a permetre que Ekos seleccione una estrela (quan està marcada) o per a "
+"permetre que l'usuari la seleccione manualment en el «Visor de FITS» (quan "
+"està desmarcada).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/opsfocussettings.ui:150
@@ -22840,7 +22831,7 @@ msgstr "No s'ha pogut seleccionar una estrela automàtica."
 #: ekos/guide/guide.cpp:2605
 #, kde-format
 msgid "Select a guide star to calibrate."
-msgstr "Seleccioneu una estrela guia que s'haja de calibrar."
+msgstr "Trieu una estrela guia que s'haja de calibrar."
 
 #: ekos/guide/guide.cpp:2867
 #, kde-format
@@ -22893,7 +22884,7 @@ msgid ""
 "note: 'SEP Multi Star' does  <span style=\" font-weight:600;\">always</span> "
 "use 'auto star' detection.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Selecciona automàticament l'estrela de calibratge. <br/"
+"<html><head/><body><p>Tria automàticament l'estrela de calibratge. <br/"
 ">Nota: «SEP amb múltiples estreles» <span style=\"font-weight:600;\">sempre</"
 "span> utilitza la detecció «Estrela automàtica».</p></body></html>"
 
@@ -22931,7 +22922,7 @@ msgstr ""
 "per a PHD2, rebre la imatge de l'estrela guia en lloc del fotograma complet "
 "d'imatge. Per al sistema de guiatge intern, abans de seleccionar esta opció, "
 "<span style=\"font-weight:600;\">primer</span> cal capturar una imatge i "
-"seleccionar una estrela guia. Desseleccioneu-la per a tornar a prendre un "
+"triar una estrela guia. Desseleccioneu-la per a tornar a prendre un "
 "fotograma complet.<br/> Nota: «SEP amb múltiples estreles» <span style="
 "\"font-weight:600;\">no pot</span> utilitzar un submarc.</p></body></html>"
 
@@ -23345,7 +23336,7 @@ msgid ""
 "<html><head/><body><p>Check to display the latest guide data and autoscroll "
 "the graph.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a visualitzar les últimes dades de "
+"<html><head/><body><p>Trieu-la per a visualitzar les últimes dades de "
 "guiatge amb desplaçament automàtic del gràfic.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, latestCheck)
@@ -23804,7 +23795,7 @@ msgstr "Dos eixos"
 #, kde-format
 msgid "Automatically select the square size based on the selected star width."
 msgstr ""
-"Selecciona automàticament la mida del requadro basant-se en l'amplària de "
+"Tria automàticament la mida del requadro basant-se en l'amplària de "
 "l'estrela seleccionada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideAutoSquareSizeEnabled)
@@ -24594,8 +24585,8 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Selecciona els algorismes dels polsos de guiatge per a "
-"l'AR i de la Dec.</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
+"<html><head/><body><p>Tria els algorismes dels polsos de guiatge per a l'AR "
+"i de la Dec.</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-"
 "top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block- "
 "indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Estàndard</"
@@ -24652,9 +24643,9 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Selecciona els algorismes dels polsos de guiatge per a "
-"l'AR.</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
-"margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-"
+"<html><head/><body><p>Tria els algorismes dels polsos de guiatge per a l'AR."
+"</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block- indent:0; text-"
 "indent:0px;\"><span style=\"font-weight:600;\">Estàndard</span>: L'algorisme "
 "tradicional de guiatge proporcional. Calcula un pols per a corregir la "
@@ -24724,8 +24715,8 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Selecciona els algorismes dels polsos de guiatge per a "
-"la Dec.</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"<html><head/><body><p>Tria els algorismes dels polsos de guiatge per a la "
+"Dec.</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
 "margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block- indent:0; text-"
 "indent:0px;\"><span style=\"font-weight:600;\">Estàndard</span>: L'algorisme "
@@ -25481,7 +25472,7 @@ msgstr "S'ha rebut un fitxer extern de vista prèvia"
 #: ekos/manager.ui:108
 #, kde-format
 msgid "1. Select Profile"
-msgstr "1. Seleccioneu el perfil"
+msgstr "1. Trieu el perfil"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
@@ -26554,9 +26545,8 @@ msgid ""
 "<html><head/><body><p>If selected, the dome needs to be unparked for the "
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si se selecciona, caldrà desaparcar la cúpula per a "
-"que l'estat de l'observatori esdevinga &quot;PREPARAT&quot;.</p></body></"
-"html>"
+"<html><head/><body><p>Si es tria, caldrà desaparcar la cúpula per a que "
+"l'estat de l'observatori esdevinga &quot;PREPARAT&quot;.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useShutterCB)
 #: ekos/observatory/observatory.ui:729
@@ -26565,8 +26555,8 @@ msgid ""
 "<html><head/><body><p>If selected, the shutter needs to be open for the "
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si se selecciona, caldrà obrir l'obturador per a que "
-"l'estat de l'observatori esdevinga &quot;PREPARAT&quot;.</p></body></html>"
+"<html><head/><body><p>Si es tria, caldrà obrir l'obturador per a que l'estat "
+"de l'observatori esdevinga &quot;PREPARAT&quot;.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useWeatherCB)
 #: ekos/observatory/observatory.ui:739
@@ -26575,9 +26565,9 @@ msgid ""
 "<html><head/><body><p>If selected, the weather needs to be OK for the "
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si se selecciona, caldrà que la meteorologia siga bona "
-"per a que l'estat de l'observatori esdevinga &quot;PREPARAT&quot;.</p></"
-"body></html>"
+"<html><head/><body><p>Si es tria, caldrà que la meteorologia siga bona per a "
+"que l'estat de l'observatori esdevinga &quot;PREPARAT&quot;.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, statusReadyButton)
 #: ekos/observatory/observatory.ui:770
@@ -26592,7 +26582,7 @@ msgid ""
 "</ul>\n"
 "</body></html>"
 msgstr ""
-"<html><head/><body><p>Estat de l'observatori. Seleccioneu els elements de "
+"<html><head/><body><p>Estat de l'observatori. Trieu els elements de "
 "l'observatori que són rellevants per a l'estat:</p>\n"
 "<ul>\n"
 "<li><b>Cúpula</b>: sense aparcar &rarr; preparada.</li>\n"
@@ -27138,8 +27128,8 @@ msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Selecciona quin connector haurà d'utilitzar el mòdul "
-"«Guia».</p></body></html>"
+"<html><head/><body><p>Tria quin connector haurà d'utilitzar el mòdul «Guia»."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
 #: ekos/profileeditor.ui:275
@@ -27210,7 +27200,7 @@ msgstr "7624"
 #: ekos/profileeditor.ui:394
 #, kde-format
 msgid "Select Devices"
-msgstr "Selecciona els dispositius"
+msgstr "Tria els dispositius"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, driverSearchEdit)
 #: ekos/profileeditor.ui:422
@@ -27303,46 +27293,46 @@ msgstr ""
 #: ekos/profilescript.cpp:75
 #, kde-format
 msgid "Select script to execute before starting the driver"
-msgstr "Seleccioneu l'script que s'executarà abans d'iniciar el controlador"
+msgstr "Trieu l'script que s'executarà abans d'iniciar el controlador"
 
 #: ekos/profilescript.cpp:84
 #, kde-format
 msgid "Select script to execute after starting the driver"
-msgstr "Seleccioneu l'script que s'executarà després d'iniciar el controlador"
+msgstr "Trieu l'script que s'executarà després d'iniciar el controlador"
 
 #: ekos/profilescript.cpp:93
 #, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "Seleccioneu l'script que s'executarà abans de parar el controlador"
+msgstr "Trieu l'script que s'executarà abans de parar el controlador"
 
 #: ekos/profilescript.cpp:102
 #, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "Seleccioneu l'script que s'executarà després de parar el controlador"
+msgstr "Trieu l'script que s'executarà després de parar el controlador"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Startup Script"
-msgstr "Seleccioneu l'script d'inici anterior al controlador"
+msgstr "Trieu l'script d'inici anterior al controlador"
 
 #: ekos/profilescript.cpp:175
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Startup Script"
-msgstr "Seleccioneu l'script d'inici posterior al controlador"
+msgstr "Trieu l'script d'inici posterior al controlador"
 
 #: ekos/profilescript.cpp:181
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "Seleccioneu l'script de parada anterior al controlador"
+msgstr "Trieu l'script de parada anterior al controlador"
 
 #: ekos/profilescript.cpp:187
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "Seleccioneu l'script de parada posterior al controlador"
+msgstr "Trieu l'script de parada posterior al controlador"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -27650,8 +27640,8 @@ msgstr ""
 "servidor INDI extern pot ser el <a href=\"http://www.cloudmakers.eu/"
 "indigoserver/\"><span style=\"text-decoration:underline; color:#007af4;"
 "\">servidor INDI per a OSX</span></a> o un servidor INDI llançat localment "
-"de manera manual. Si no esteu segur, seleccioneu el servidor INDI intern.</"
-"p></body></html>"
+"de manera manual. Si no esteu segur, trieu el servidor INDI intern.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/profilewizard.ui:915
@@ -27787,12 +27777,12 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Si heu planificat utilitzar SkySafari per a vigilar i "
-"controlar la muntura, seleccioneu esta casella per a iniciar el servidor "
-"SkySafari d'INDI. Podeu connectar SkySafari amb este servidor i vos hauria "
-"de permetre connectar i controlar la muntura. Per a més detalls, reviseu la "
-"<a href=\"https://indilib.org/devices/telescopes/skysafari.html\"><span "
-"style=\"text-decoration:underline; color:#007af4;\">documentació de "
-"SkySafari d'INDI.</span></a></p></body></html>"
+"controlar la muntura, trieu esta casella per a iniciar el servidor SkySafari "
+"d'INDI. Podeu connectar SkySafari amb este servidor i vos hauria de permetre "
+"connectar i controlar la muntura. Per a més detalls, reviseu la <a href="
+"\"https://indilib.org/devices/telescopes/skysafari.html\"><span style=\"text-"
+"decoration:underline; color:#007af4;\">documentació de SkySafari d'INDI.</"
+"span></a></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useSkySafariCheck)
 #: ekos/profilewizard.ui:1084
@@ -27982,13 +27972,13 @@ msgstr "Va fins a la pàgina de selecció de la quadrícula."
 #: ekos/scheduler/framingassistant.ui:1681
 #, kde-format
 msgid "Select Grid"
-msgstr "Selecciona la quadrícula"
+msgstr "Tria la quadrícula"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fovGroup)
 #: ekos/scheduler/framingassistant.ui:392
 #, kde-format
 msgid "↓ Select Grid"
-msgstr "↓ Selecció de la quadrícula"
+msgstr "↓ Trieu la quadrícula"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, overlapLabel)
@@ -28416,8 +28406,7 @@ msgstr ""
 #, kde-format
 msgid "Select which steps to execute before starting the capture process."
 msgstr ""
-"Selecciona els passos que s'executaran abans de començar el procés de "
-"captura."
+"Tria els passos que s'executaran abans de començar el procés de captura."
 
 #. i18n: ectx: property (text), widget (QLabel, alignEveryLabel)
 #: ekos/scheduler/framingassistant.ui:1308
@@ -28522,9 +28511,9 @@ msgid ""
 "or <span style=\" font-style:italic;\">repeat until terminated</span> "
 "completion conditions. Otherwise leave empty.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Seleccioneu un nom de grup. És útil "
-"si voleu que les tasques de mosaic es repetisquen juntes: assigneu-lis un "
-"nom de grup i doneu-lis les condicions de compleció <span style=\"font-style:"
+"<html><head/><body><p align=\"justify\">Trieu un nom de grup. És útil si "
+"voleu que les tasques de mosaic es repetisquen juntes: assigneu-lis un nom "
+"de grup i doneu-lis les condicions de compleció <span style=\"font-style:"
 "italic;\">Repetix N (N=2 o més)</span> o <span style=\"font-style:italic;"
 "\">Repetix fins que es finalitze</span>. En cas contrari, deixeu-ho en blanc."
 "</p></body></html>"
@@ -28614,7 +28603,7 @@ msgstr " (només el primer)"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
-msgstr "Seleccioneu una cua en seqüència"
+msgstr "Trieu una cua en seqüència"
 
 #: ekos/scheduler/framingassistantui.cpp:742 ekos/scheduler/scheduler.cpp:795
 #, kde-format
@@ -28625,7 +28614,7 @@ msgstr "Cua en seqüència d'Ekos (*.esq)"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
-msgstr "Seleccioneu el mosaic que s'ha d'importar"
+msgstr "Trieu el mosaic que s'ha d'importar"
 
 #: ekos/scheduler/framingassistantui.cpp:756
 #, kde-format
@@ -28641,7 +28630,7 @@ msgstr "Cal que la importació continga les coordenades del centre."
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
-msgstr "Seleccioneu la carpeta de tasques"
+msgstr "Trieu la carpeta de tasques"
 
 #: ekos/scheduler/greedyscheduler.cpp:96
 #, kde-format
@@ -28993,8 +28982,8 @@ msgid ""
 "this option so that no disconnection errors are generated.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Si l'script de tancament finalitza el servidor INDI, "
-"seleccioneu esta opció per tal de no generar errors de desconnexió.</p></"
-"body></html>"
+"trieu esta opció per tal de no generar errors de desconnexió.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
 #: ekos/scheduler/opsscriptssettings.ui:61
@@ -29148,7 +29137,7 @@ msgstr "Tasques"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
-msgstr "Seleccioneu una imatge FITS o XISF"
+msgstr "Trieu una imatge FITS o XISF"
 
 #: ekos/scheduler/scheduler.cpp:717
 #, kde-format
@@ -29174,7 +29163,7 @@ msgstr "Avís: el valor %1 de la Dec no és vàlid."
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Startup Script"
-msgstr "Seleccioneu l'script d'inici"
+msgstr "Trieu l'script d'inici"
 
 #: ekos/scheduler/scheduler.cpp:805 ekos/scheduler/scheduler.cpp:820
 #, kde-format
@@ -29185,7 +29174,7 @@ msgstr "Script (*)"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
-msgstr "Seleccioneu l'script de tancament"
+msgstr "Trieu l'script de tancament"
 
 #: ekos/scheduler/scheduler.cpp:884
 #, kde-format
@@ -29396,7 +29385,7 @@ msgstr "El procediment d'inici manual ha finalitzat a causa d'errors."
 #: ekos/scheduler/scheduler.ui:38
 #, kde-format
 msgid "Object && Sequence Selection"
-msgstr "Seleccioneu l'objecte i seqüència"
+msgstr "Trieu l'objecte i seqüència"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FITSLabel)
 #: ekos/scheduler/scheduler.ui:146
@@ -29422,7 +29411,7 @@ msgid ""
 "Select the tasks to run at the start of each scheduler job. Executed in "
 "order, left to right."
 msgstr ""
-"Seleccioneu les tasques que s'executaran al començament de cada tasca del "
+"Trieu les tasques que s'executaran al començament de cada tasca del "
 "programador. S'executaran en ordre, d'esquerra a dreta."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerTrackStep)
@@ -29500,8 +29489,8 @@ msgid ""
 "conditions. Otherwise leave empty. Only applies to the Greedy scheduler "
 "algorithm.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Seleccioneu un nom de grup. És útil "
-"si voleu que diverses tasques es repetisquen juntes: assigneu-lis un nom de "
+"<html><head/><body><p align=\"justify\">Trieu un nom de grup. És útil si "
+"voleu que diverses tasques es repetisquen juntes: assigneu-lis un nom de "
 "grup i doneu-lis les condicions de la compleció <i>Repetix N (N=2 o més)</i> "
 "o <i>Repetix fins que es finalitze</i>. En cas contrari, deixeu-ho en blanc. "
 "Només s'aplicarà a l'algorisme «Voraç» del programador.</p></body></html>"
@@ -29515,10 +29504,10 @@ msgid ""
 "combination with the first job above having a target defined."
 "<p><p><b>WARNING</b>: This feature is experimental!</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Definiu l'objectiu de la tasca o seleccioneu <span "
-"style=\"font-style:italic\">Seguidor</span> si la tasca s'ha d'executar com "
-"a una tasca amb múltiples càmeres en combinació amb la primera tasca de dalt "
-"que tinga definida un objectiu.<p><p><b>AVÍS</b>: Esta característica és "
+"<html><head/><body><p>Definiu l'objectiu de la tasca o trieu <span style="
+"\"font-style:italic\">Seguidor</span> si la tasca s'ha d'executar com a una "
+"tasca amb múltiples càmeres en combinació amb la primera tasca de dalt que "
+"tinga definida un objectiu.<p><p><b>AVÍS</b>: Esta característica és "
 "experimental!</p></body></html>"
 
 # skip-rule: punctuation-period-no
@@ -29999,10 +29988,10 @@ msgid ""
 "scope), if selected, are executed.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Procediment d'inici que s'executarà una única vegada "
-"abans d'iniciar Ekos. Si se selecciona, l'script s'executarà <span style="
-"\"font-weight:600; text-decoration:underline;\">abans</span> que s'executen "
-"els procediments d'inici (p. ex., desaparcar l'instrument de visió).</p></"
-"body></html>"
+"abans d'iniciar Ekos. Si es tria, l'script s'executarà <span style=\"font-"
+"weight:600; text-decoration:underline;\">abans</span> que s'executen els "
+"procediments d'inici (p. ex., desaparcar l'instrument de visió).</p></body></"
+"html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroupBox)
 #: ekos/scheduler/scheduler.ui:2002
@@ -30821,7 +30810,7 @@ msgstr "Avís: el nom del tren %2 no existix, se selecciona «%1»."
 #: ekos/scheduler/schedulerprocess.cpp:3612
 #, kde-format
 msgid "Select optical train"
-msgstr "Selecciona el tren òptic"
+msgstr "Tria el tren òptic"
 
 #: ekos/scheduler/schedulerprocess.cpp:3609
 #, kde-format
@@ -30830,7 +30819,7 @@ msgid ""
 "name manually."
 msgstr ""
 "Avís: no hi ha disponible cap nom de tren per a la tasca del programador, "
-"seleccioneu-lo manualment."
+"trieu-lo manualment."
 
 #: ekos/scheduler/schedulerprocess.cpp:3763
 #, kde-format
@@ -31880,19 +31869,19 @@ msgstr "Carpeta d'apilament"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
-msgstr "Seleccioneu la subsolució de l'alineació"
+msgstr "Trieu la subsolució de l'alineació"
 
 #: fitsviewer/fitstab.cpp:1054
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Master Dark"
-msgstr "Seleccioneu el fotograma fosc mestre"
+msgstr "Trieu el fotograma fosc mestre"
 
 #: fitsviewer/fitstab.cpp:1068
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Master Flat"
-msgstr "Seleccioneu el fotograma pla mestre"
+msgstr "Trieu el fotograma pla mestre"
 
 #: fitsviewer/fitstab.cpp:1170 fitsviewer/fitstab.cpp:1174
 #, kde-format
@@ -33114,9 +33103,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Carrega automàticament les dades del Sistema de "
 "Coordenades Mundials «World-Coordinate-System» (WCS) en obrir un fitxer FITS."
-"</p><p><span style=\"font-weight:600;\">Avís: Seleccioneu esta opció només "
-"en màquines molt ràpides, ja que pot portar a un comportament impredictible "
-"que provoque fallades en màquines lentes.</span></p></body></html>"
+"</p><p><span style=\"font-weight:600;\">Avís: Trieu esta opció només en "
+"màquines molt ràpides, ja que pot portar a un comportament impredictible que "
+"provoque fallades en màquines lentes.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoWCS)
 #: fitsviewer/opsfits.ui:397
@@ -33165,11 +33154,11 @@ msgid ""
 "Querying external catalogs can be slow on slow machines.</span></p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu un catàleg a utilitzar-lo per a "
-"identificar els objectes en la imatge. El valor predeterminat és el mapa "
-"celeste intern. Els catàlegs externs requerixen WCS i accés a Internet.</"
-"p><p><span style=\"font-weight:600;\">Avís: La consulta de catàlegs externs "
-"pot ser lenta en màquines lentes.</span></p></body></html>"
+"<html><head/><body><p>Trieu un catàleg a utilitzar-lo per a identificar els "
+"objectes en la imatge. El valor predeterminat és el mapa celeste intern. Els "
+"catàlegs externs requerixen WCS i accés a Internet.</p><p><span style=\"font-"
+"weight:600;\">Avís: La consulta de catàlegs externs pot ser lenta en "
+"màquines lentes.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: fitsviewer/opsfits.ui:432
@@ -33376,8 +33365,7 @@ msgstr "Fitxer d'índex"
 #, kde-format
 msgid "Selects the Options Profile to use for plate solving"
 msgstr ""
-"Selecciona el perfil d'opcions que s'utilitzarà per a la resolució de "
-"plaques."
+"Tria el perfil d'opcions que s'utilitzarà per a la resolució de plaques."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
@@ -33387,8 +33375,8 @@ msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
 "solving"
 msgstr ""
-"Selecciona el mòdul des del qual es prendrà el perfil d'opcions que "
-"s'utilitzarà per a la resolució de plaques."
+"Tria el mòdul des del qual es prendrà el perfil d'opcions que s'utilitzarà "
+"per a la resolució de plaques."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
@@ -33618,7 +33606,7 @@ msgstr "Iso. dre."
 #: fitsviewer/starprofileviewer.cpp:190
 #, kde-format
 msgid "Selected"
-msgstr "Seleccionat"
+msgstr "Triat"
 
 #: fitsviewer/starprofileviewer.cpp:198
 #, kde-format
@@ -33629,12 +33617,12 @@ msgstr ""
 #: fitsviewer/starprofileviewer.cpp:221
 #, kde-format
 msgid "Selects the Vertical Value"
-msgstr "Selecciona el valor vertical"
+msgstr "Tria el valor vertical"
 
 #: fitsviewer/starprofileviewer.cpp:223
 #, kde-format
 msgid "Selects the Horizontal Value"
-msgstr "Selecciona el valor horitzontal"
+msgstr "Tria el valor horitzontal"
 
 #: fitsviewer/starprofileviewer.cpp:225
 #, kde-format
@@ -33961,7 +33949,7 @@ msgstr ""
 #: indi/collimationOptions.ui:231
 #, kde-format
 msgid "Select color for the Element"
-msgstr "Selecciona el color per a l'element."
+msgstr "Tria el color per a l'element."
 
 #. i18n: ectx: property (text), widget (QLabel, offsetYLabel)
 #. i18n: ectx: property (text), widget (QLabel, sizeYLabel)
@@ -33974,7 +33962,7 @@ msgstr "Y"
 #: indi/collimationOptions.ui:293
 #, kde-format
 msgid "Select a color for the Collimation Overlay Element."
-msgstr "Selecciona un color per a l'element de superposició de col·limació."
+msgstr "Tria un color per a l'element de superposició de col·limació."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:310
@@ -34016,15 +34004,14 @@ msgstr "Vincula les mides de X i Y"
 #: indi/collimationOptions.ui:424
 #, kde-format
 msgid "Select the type of Collimation Overlay Element"
-msgstr "Selecciona el tipus d'element de superposició de col·limació."
+msgstr "Tria el tipus d'element de superposició de col·limació."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, countLabel)
 #: indi/collimationOptions.ui:437
 #, kde-format
 msgid "Select number of occurrences of the object type within this element"
-msgstr ""
-"Selecciona el nombre d'ocurrències del tipus d'objecte dins d'este element."
+msgstr "Tria el nombre d'ocurrències del tipus d'objecte dins d'este element."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
 #: indi/collimationOptions.ui:459
@@ -34115,9 +34102,9 @@ msgid ""
 "style=\" font-weight:600;\"> Add.</span></p></body></html>"
 msgstr ""
 "<html><head/><body><p>Per a crear un <span style=\"font-weight:600;\">àlies</"
-"span> d'un controlador existent, seleccioneu-ne un i després només canvieu "
-"l'<span style=\"font-weight:600;\">etiqueta </span> i premeu <span style="
-"\"font-weight:600;\">Afig</span>.</p></body></html>"
+"span> d'un controlador existent, trieu-ne un i després només canvieu l'<span "
+"style=\"font-weight:600;\">etiqueta </span> i premeu <span style=\"font-"
+"weight:600;\">Afig</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/customdrivers.ui:246
@@ -34312,9 +34299,9 @@ msgid ""
 "No INDI devices currently running. To run devices, please select devices "
 "from the Device Manager in the devices menu."
 msgstr ""
-"Actualment no hi ha cap dispositiu INDI en marxa. Per a iniciar-los, "
-"seleccioneu-los des del Gestor de dispositius amb l'element de menú «Dades -"
-"> Dispositius»."
+"Actualment no hi ha cap dispositiu INDI en marxa. Per a iniciar-los, trieu-"
+"los des del Gestor de dispositius amb l'element de menú «Dades -> "
+"Dispositius»."
 
 #: indi/indicamera.cpp:463
 #, kde-format
@@ -35122,8 +35109,8 @@ msgid ""
 msgstr ""
 "<h3>1. Model de telescopi</h3>\n"
 "\n"
-"Seleccioneu el vostre model de telescopi des de la llista. Després de fer-"
-"ho, cliqueu damunt «Següent»."
+"Trieu el vostre model de telescopi des de la llista. Després de fer-ho, "
+"cliqueu damunt «Següent»."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: indi/telescopewizard.ui:274
@@ -35135,8 +35122,7 @@ msgid ""
 msgstr ""
 "<b>Consell</b>\n"
 "<br>Alguns telescopis que no són Meade reconeixen un subconjunt del conjunt "
-"d'ordres LX200. Seleccioneu <tt>LX200 bàsic</tt> per a controlar estos "
-"dispositius."
+"d'ordres LX200. Trieu <tt>LX200 bàsic</tt> per a controlar estos dispositius."
 
 #. i18n: ectx: property (text), widget (QLabel, telescopePageInfo)
 #: indi/telescopewizard.ui:313
@@ -35398,7 +35384,7 @@ msgstr "supernova"
 #: kspopupmenu.cpp:367
 #, kde-format
 msgid "Select this object"
-msgstr "Selecciona este objecte"
+msgstr "Tria este objecte"
 
 #: kspopupmenu.cpp:391 tools/obslistpopupmenu.cpp:49
 #, kde-format
@@ -35605,8 +35591,8 @@ msgstr "El rètol informatiu del temps es troba en estat «ocult»?"
 #, kde-format
 msgid "If true, the Time InfoBox will show only its top line of data."
 msgstr ""
-"Si se selecciona, el rètol informatiu del temps mostrarà només la primera "
-"línia de dades."
+"Si es tria, el rètol informatiu del temps mostrarà només la primera línia de "
+"dades."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (ShadeFocusBox), group (GUI)
@@ -35621,8 +35607,8 @@ msgstr "El rètol informatiu de l'enfocament es troba en estat «ocult»?"
 #, kde-format
 msgid "If true, the Focus InfoBox will show only its top line of data."
 msgstr ""
-"Si se selecciona, el rètol informatiu de l'enfocament mostrarà només la "
-"primera línia de dades."
+"Si es tria, el rètol informatiu de l'enfocament mostrarà només la primera "
+"línia de dades."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (ShadeGeoBox), group (GUI)
@@ -35639,8 +35625,8 @@ msgstr ""
 msgid ""
 "If true, the Geographic Location InfoBox will show only its top line of data."
 msgstr ""
-"Si se selecciona, el rètol informatiu de l'emplaçament geogràfic mostrarà "
-"només la primera línia de dades."
+"Si es tria, el rètol informatiu de l'emplaçament geogràfic mostrarà només la "
+"primera línia de dades."
 
 # skip-rule: kct-box
 #. i18n: ectx: label, entry (ShowInfoBoxes), group (GUI)
@@ -36350,7 +36336,7 @@ msgid ""
 "If true, focus changes will cause the sky to visibly spin to the new "
 "position. Otherwise, the display will \"snap\" instantly to the new position."
 msgstr ""
-"Si se selecciona, en canviar l'enfocament es produirà una animació de «gir» "
+"Si es tria, en canviar l'enfocament es produirà una animació de «gir» "
 "visible en el cel fins a la posició nova. Altrament la pantalla se centrarà "
 "sobre la posició nova de manera instantània."
 
@@ -36367,8 +36353,8 @@ msgid ""
 "If true, clicking on the skymap will select the closest object and "
 "highlights it."
 msgstr ""
-"Si se selecciona, clicant damunt del mapa celeste se seleccionarà i es "
-"ressaltarà l'objecte més proper."
+"Si es tria, clicant damunt del mapa celeste se seleccionarà i es ressaltarà "
+"l'objecte més proper."
 
 #. i18n: ectx: label, entry (DefaultCursor), group (View)
 #: kstars.kcfg:376
@@ -36412,8 +36398,8 @@ msgid ""
 "If true, trails attached to solar system bodies will fade into the "
 "background sky color."
 msgstr ""
-"Si se selecciona, les traces dels cossos del sistema solar es fondran amb el "
-"color de fons del cel."
+"Si es tria, les traces dels cossos del sistema solar es fondran amb el color "
+"de fons del cel."
 
 #. i18n: ectx: label, entry (FocusRA), group (View)
 #: kstars.kcfg:391
@@ -37647,8 +37633,8 @@ msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
-"Seleccioneu-la si voleu que el mapa celeste s'emmiralle d'esquerra a dreta, "
-"p. ex., perquè coincidisca amb la vista a través d'un prisma erecte."
+"Trieu-la si voleu que el mapa celeste s'emmiralle d'esquerra a dreta, p. "
+"ex., perquè coincidisca amb la vista a través d'un prisma erecte."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:833
@@ -37670,13 +37656,13 @@ msgid ""
 "the telescope the eyepiece appears when looking from the back of the "
 "telescope"
 msgstr ""
-"Seleccioneu-la si utilitzeu el vostre ull a l'ocular en un telescopi "
-"newtonià muntat en altazimutal. Açò té en compte el fet que l'observador "
-"roman dret mentre el telescopi es mou cap amunt i cap avall, de manera que "
-"l'orientació del mapa celeste farà un seguiment del que es veja a l'ocular "
-"una vegada estiga configurat correctament. Trieu la mà de la correcció "
-"segons en quin costat del telescopi apareix l'ocular en mirar des de la part "
-"posterior del telescopi."
+"Trieu-la si utilitzeu el vostre ull a l'ocular en un telescopi newtonià "
+"muntat en altazimutal. Açò té en compte el fet que l'observador roman dret "
+"mentre el telescopi es mou cap amunt i cap avall, de manera que l'orientació "
+"del mapa celeste farà un seguiment del que es veja a l'ocular una vegada "
+"estiga configurat correctament. Trieu la mà de la correcció segons en quin "
+"costat del telescopi apareix l'ocular en mirar des de la part posterior del "
+"telescopi."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:840
@@ -37906,8 +37892,8 @@ msgid ""
 "If true, long names (common names) for deep-sky objects are shown in the "
 "labels."
 msgstr ""
-"Si se selecciona, es mostraran noms llargs (noms comuns) en les etiquetes "
-"dels objectes en el cel profund."
+"Si es tria, es mostraran noms llargs (noms comuns) en les etiquetes dels "
+"objectes en el cel profund."
 
 #. i18n: ectx: label, entry (LabelFontScaling), group (View)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_XplanetFontSize)
@@ -38405,16 +38391,15 @@ msgid ""
 "the observing list consider objects present in the hole as unfit for "
 "observation."
 msgstr ""
-"Seleccioneu-la si utilitzeu un telescopi de Dobson gran. L'ordenació de "
-"l'altitud actual en percentatge és una manera senzilla de determinar quins "
-"objectes estan ben situats per a l'observació. Tanmateix, en utilitzar un "
-"telescopi de Dobson gran, els objectes propers al zenit seran difícils "
-"d'observar. Com que ací el seguiment correspon a una rotació de l'azimut, és "
-"contraintuïtiu i requerix que l'observador moga l'escala amb freqüència. La "
-"regió al voltant del zenit a on açò és especialment frustrant s'anomena el "
-"forat de Dobson. Esta casella de selecció fa que la llista d'observacions "
-"considere els objectes presents en el forat com a inadequats per a "
-"l'observació."
+"Trieu-la si utilitzeu un telescopi de Dobson gran. L'ordenació de l'altitud "
+"actual en percentatge és una manera senzilla de determinar quins objectes "
+"estan ben situats per a l'observació. Tanmateix, en utilitzar un telescopi "
+"de Dobson gran, els objectes propers al zenit seran difícils d'observar. Com "
+"que ací el seguiment correspon a una rotació de l'azimut, és contraintuïtiu "
+"i requerix que l'observador moga l'escala amb freqüència. La regió al "
+"voltant del zenit a on açò és especialment frustrant s'anomena el forat de "
+"Dobson. Esta casella de selecció fa que la llista d'observacions considere "
+"els objectes presents en el forat com a inadequats per a l'observació."
 
 #. i18n: ectx: label, entry (ObsListHoleSize), group (ObservingList)
 #: kstars.kcfg:1142
@@ -39487,8 +39472,8 @@ msgid ""
 "If selected, satellites will be draw like stars, otherwise, draw satellites "
 "as small colored square."
 msgstr ""
-"Si se selecciona, els satèl·lits es dibuixaran igual que les estreles. "
-"Altrament es dibuixaran com a petits quadrats de color."
+"Si es tria, els satèl·lits es dibuixaran igual que les estreles. Altrament "
+"es dibuixaran com a petits quadrats de color."
 
 #. i18n: ectx: label, entry (ShowSatellitesLabels), group (Satellites)
 #: kstars.kcfg:1564
@@ -39549,13 +39534,12 @@ msgid ""
 "free. There are known bugs in the rendering of stars when this recomputation "
 "is avoided."
 msgstr ""
-"Seleccionar esta opció farà que es recalculen les coordenades equatorials "
-"actuals a partir de les coordenades del catàleg (p. ex., s'aplicaran "
-"correccions de precessió, nutació i aberració) cada vegada que es redibuixe "
-"el mapa. Açò alentix el processat, sobretot quan hi ha moltes estreles que "
-"s'han de manipular, però és més probable que estiga lliure d'errors. Quan "
-"s'evita este recàlcul hi haurà errors coneguts en la renderització de les "
-"estreles."
+"Triar esta opció farà que es recalculen les coordenades equatorials actuals "
+"a partir de les coordenades del catàleg (p. ex., s'aplicaran correccions de "
+"precessió, nutació i aberració) cada vegada que es redibuixe el mapa. Açò "
+"alentix el processat, sobretot quan hi ha moltes estreles que s'han de "
+"manipular, però és més probable que estiga lliure d'errors. Quan s'evita "
+"este recàlcul hi haurà errors coneguts en la renderització de les estreles."
 
 #. i18n: ectx: label, entry (DefaultDSSImageSize), group (General)
 #: kstars.kcfg:1585
@@ -41023,7 +41007,7 @@ msgstr "Espai entre els elements del mosaic per al filtre de mosaic."
 #: kstars.kcfg:2366
 #, kde-format
 msgid "Automatically select a star to focus."
-msgstr "Selecciona automàticament l'estrela que s'enfocarà."
+msgstr "Tria automàticament l'estrela que s'enfocarà."
 
 #. i18n: ectx: label, entry (FocusSuspendGuiding), group (Focus)
 #: kstars.kcfg:2370
@@ -41818,8 +41802,8 @@ msgid ""
 "Check this option if your image does not have much nebulosity. If it does "
 "have strong nebulosity, uncheck it."
 msgstr ""
-"Seleccioneu esta opció si la imatge no té molta nebulositat. Si té una "
-"nebulositat forta, desseleccioneu-la."
+"Trieu esta opció si la imatge no té molta nebulositat. Si té una nebulositat "
+"forta, desseleccioneu-la."
 
 #. i18n: ectx: label, entry (AstrometryUseNoVerify), group (Align)
 #: kstars.kcfg:2791
@@ -42162,8 +42146,7 @@ msgstr "Agrupament del guiatge."
 #: kstars.kcfg:2975
 #, kde-format
 msgid "Automatically select calibration star and perform calibration."
-msgstr ""
-"Selecciona automàticament l'estrela de calibratge i realitza el calibratge."
+msgstr "Tria automàticament l'estrela de calibratge i realitza el calibratge."
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
 #: kstars.kcfg:2979
@@ -73206,8 +73189,8 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
-"Seleccioneu-la per a una vista del mapa celeste estant dret, on el nord (en "
-"el mode Coordenades equatorials) o el zenit (en el mode Coordenades "
+"Trieu-la per a una vista del mapa celeste estant dret, on el nord (en el "
+"mode Coordenades equatorials) o el zenit (en el mode Coordenades "
 "horitzontals) estaran verticalment cap amunt. Esta seria l'elecció natural "
 "per a un instrument de visió de busca d'imatges o a simple vista estant dret."
 
@@ -73220,11 +73203,11 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
-"Seleccioneu-la per a una vista invertida del mapa celeste, on el nord (en el "
-"mode Coordenades equatorials) o el zenit (en el mode Coordenades "
-"horitzontals) estaran verticalment cap avall. Esta seria l'elecció natural "
-"per a un instrument de visió de busca d'imatges invertit, refractor o de "
-"Cassegrain sense prisma erector o un de Dobson."
+"Trieu-la per a una vista invertida del mapa celeste, on el nord (en el mode "
+"Coordenades equatorials) o el zenit (en el mode Coordenades horitzontals) "
+"estaran verticalment cap avall. Esta seria l'elecció natural per a un "
+"instrument de visió de busca d'imatges invertit, refractor o de Cassegrain "
+"sense prisma erector o un de Dobson."
 
 #: kstarsinit.cpp:765
 #, kde-format
@@ -73259,8 +73242,8 @@ msgid ""
 "Select this if you are using a camera on the telescope, or have the sky map "
 "display mounted on your telescope"
 msgstr ""
-"Seleccioneu-la si esteu emprant una càmera en el telescopi, o si teniu "
-"muntada la pantalla del mapa celeste en el telescopi."
+"Trieu-la si esteu emprant una càmera en el telescopi, o si teniu muntada la "
+"pantalla del mapa celeste en el telescopi."
 
 #: kstarsinit.cpp:786
 #, kde-format
@@ -73281,13 +73264,13 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
-"Seleccioneu-la si esteu observant visualment amb un telescopi de Dobson en "
-"el qual l'enfocador apareix en el costat esquerre quan mireu cap amunt amb "
-"el tub del telescopi. Esta característica corregirà l'orientació del mapa "
-"celeste per a tindre en compte que l'observador roman dret mentre el "
-"telescopi es mou cap amunt i cap avall, a diferència d'una càmera que "
-"giraria amb el telescopi. Normalment té sentit combinar açò amb l'orientació "
-"«Zenit cap avall»."
+"Trieu-la si esteu observant visualment amb un telescopi de Dobson en el qual "
+"l'enfocador apareix en el costat esquerre quan mireu cap amunt amb el tub "
+"del telescopi. Esta característica corregirà l'orientació del mapa celeste "
+"per a tindre en compte que l'observador roman dret mentre el telescopi es "
+"mou cap amunt i cap avall, a diferència d'una càmera que giraria amb el "
+"telescopi. Normalment té sentit combinar açò amb l'orientació «Zenit cap "
+"avall»."
 
 #: kstarsinit.cpp:796
 #, kde-format
@@ -73308,13 +73291,12 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
-"Seleccioneu-la si esteu observant visualment amb un telescopi de Dobson en "
-"el qual l'enfocador apareix en el costat dret quan mireu cap amunt amb el "
-"tub del telescopi. Esta característica corregirà l'orientació del mapa "
-"celeste per a tindre en compte que l'observador roman dret mentre el "
-"telescopi es mou cap amunt i cap avall, a diferència d'una càmera que "
-"giraria amb el telescopi. Normalment té sentit combinar açò amb l'orientació "
-"«Zenit cap avall»."
+"Trieu-la si esteu observant visualment amb un telescopi de Dobson en el qual "
+"l'enfocador apareix en el costat dret quan mireu cap amunt amb el tub del "
+"telescopi. Esta característica corregirà l'orientació del mapa celeste per a "
+"tindre en compte que l'observador roman dret mentre el telescopi es mou cap "
+"amunt i cap avall, a diferència d'una càmera que giraria amb el telescopi. "
+"Normalment té sentit combinar açò amb l'orientació «Zenit cap avall»."
 
 #: kstarsinit.cpp:824
 #, kde-format
@@ -76993,13 +76975,13 @@ msgstr "S'està veent"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Select item..."
-msgstr "Selecciona un element…"
+msgstr "Tria un element…"
 
 #: libindi_strings.cpp:418
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Select"
-msgstr "Selecciona"
+msgstr "Tria"
 
 #: libindi_strings.cpp:419
 #, kde-kuit-format
@@ -78846,9 +78828,9 @@ msgid ""
 "Note that this correction is only applied when using the Horizontal "
 "coordinate system."
 msgstr ""
-"L'atmosfera desvia els raigs de llum que la travessen, com una lent. Si se "
-"selecciona, esta «refracció atmosfèrica» serà simulada en el mapa celeste. "
-"Cal tindre present que esta correcció tan sols s'aplicarà quan s'empre el "
+"L'atmosfera desvia els raigs de llum que la travessen, com una lent. Si es "
+"tria, esta «refracció atmosfèrica» serà simulada en el mapa celeste. Cal "
+"tindre present que esta correcció tan sols s'aplicarà quan s'empre el "
 "sistema de coordenades horitzontals."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseRefraction)
@@ -78970,9 +78952,9 @@ msgid ""
 "is centered in the display.  You can attach a more persistent label to any "
 "object using the right-click popup menu."
 msgstr ""
-"Si se selecciona, s'adjuntarà temporalment una etiqueta de nom a un objecte "
-"mentre se centra en la pantalla. Podeu adjuntar una etiqueta més persistent "
-"a qualsevol objecte emprant el menú emergent del botó dret del ratolí."
+"Si es tria, s'adjuntarà temporalment una etiqueta de nom a un objecte mentre "
+"se centra en la pantalla. Podeu adjuntar una etiqueta més persistent a "
+"qualsevol objecte emprant el menú emergent del botó dret del ratolí."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseAutoLabel)
 #: options/opsadvanced.ui:472
@@ -78996,7 +78978,7 @@ msgstr "Voleu que es mostren imatges incloses en el cel?"
 #: options/opsadvanced.ui:537
 #, kde-format
 msgid "If checked, inline images will be shown on the skymap."
-msgstr "Si se selecciona, es mostraran imatges incloses en el mapa celeste."
+msgstr "Si es tria, es mostraran imatges incloses en el mapa celeste."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowInlineImages)
 #: options/opsadvanced.ui:540
@@ -79021,7 +79003,7 @@ msgstr "Creu"
 #: options/opsadvanced.ui:566
 #, kde-format
 msgid "Select this for smoother (but slower) graphics"
-msgstr "Seleccioneu-la per a fruir d'uns gràfics més suaus (però més lents)."
+msgstr "Trieu-la per a fruir d'uns gràfics més suaus (però més lents)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseAntialias)
 #: options/opsadvanced.ui:569
@@ -79056,9 +79038,9 @@ msgid ""
 "\"slew\" to the new position.  Otherwise, the display will center on the new "
 "position instantaneously."
 msgstr ""
-"Si se selecciona, en canviar la posició d'enfocament es produirà una "
-"animació de l'«orientació» fins a la posició nova. Altrament la pantalla se "
-"centrarà sobre la posició nova instantàniament."
+"Si es tria, en canviar la posició d'enfocament es produirà una animació de "
+"l'«orientació» fins a la posició nova. Altrament la pantalla se centrarà "
+"sobre la posició nova instantàniament."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseAnimatedSlewing)
 #: options/opsadvanced.ui:596
@@ -79093,9 +79075,8 @@ msgid ""
 "some of the objects while the display is in motion."
 msgstr ""
 "Quan el mapa està en moviment, l'animació suau pot veure's compromesa si el "
-"programa ha de dibuixar molts objectes en el mapa. Seleccioneu este element "
-"per a ocultar temporalment alguns objectes mentre la pantalla està en "
-"moviment."
+"programa ha de dibuixar molts objectes en el mapa. Trieu este element per a "
+"ocultar temporalment alguns objectes mentre la pantalla està en moviment."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideOnSlew)
 #: options/opsadvanced.ui:655
@@ -79123,7 +79104,7 @@ msgstr "Oculta també si el pas temporal és més gran que:"
 msgid ""
 "If checked, then fainter stars will be hidden when the map is in motion."
 msgstr ""
-"Si se selecciona, s'ocultaran les estreles més febles quan el mapa estiga en "
+"Si es tria, s'ocultaran les estreles més febles quan el mapa estiga en "
 "moviment."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideStars)
@@ -79155,8 +79136,8 @@ msgid ""
 "If checked, then all solar system bodies will be hidden when the map is in "
 "motion."
 msgstr ""
-"Si se selecciona, s'ocultaran els cossos del sistema solar quan el mapa "
-"estiga en moviment."
+"Si es tria, s'ocultaran els cossos del sistema solar quan el mapa estiga en "
+"moviment."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HidePlanets)
 #. i18n: ectx: property (text), widget (QPushButton, SolarSystemButton)
@@ -79185,7 +79166,7 @@ msgid ""
 "If checked, then constellation lines will be hidden when the map is in "
 "motion."
 msgstr ""
-"Si se selecciona, s'ocultaran les línies de les constel·lacions quan el mapa "
+"Si es tria, s'ocultaran les línies de les constel·lacions quan el mapa "
 "estiga en moviment."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideCLines)
@@ -79201,8 +79182,8 @@ msgid ""
 "If checked, then the coordinate grids will be hidden when the map is in "
 "motion."
 msgstr ""
-"Si se selecciona, s'ocultarà la quadrícula de coordenades quan el mapa "
-"estiga en moviment."
+"Si es tria, s'ocultarà la quadrícula de coordenades quan el mapa estiga en "
+"moviment."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideGrids)
 #: options/opsadvanced.ui:753
@@ -79223,8 +79204,8 @@ msgid ""
 "If checked, then constellation names will be hidden when the map is in "
 "motion."
 msgstr ""
-"Si se selecciona, s'ocultaran els noms de les constel·lacions quan el mapa "
-"estiga en moviment."
+"Si es tria, s'ocultaran els noms de les constel·lacions quan el mapa estiga "
+"en moviment."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideCNames)
 #: options/opsadvanced.ui:779
@@ -79386,10 +79367,10 @@ msgid ""
 "The objects acquired in this manner are stored under a catalog that is "
 "called user, and it can be edited using the \"Manage DSO Catalogs\" feature."
 msgstr ""
-"Si se selecciona esta casella de selecció, quan s'introduïsca un nom "
-"d'objecte desconegut per KStars en el diàleg «Busca», KStars contactarà amb "
-"els serveis en línia (com «CDS Sesame») per a aprendre sobre l'objecte i "
-"després afegir-lo a la base de dades.\n"
+"Si es tria esta casella de selecció, quan s'introduïsca un nom d'objecte "
+"desconegut per KStars en el diàleg «Busca», KStars contactarà amb els "
+"serveis en línia (com «CDS Sesame») per a aprendre sobre l'objecte i després "
+"afegir-lo a la base de dades.\n"
 "Els objectes obtinguts d'esta manera s'emmagatzemaran davall un catàleg que "
 "anomena l'usuari i que es pot editar utilitzant la característica «Gestiona "
 "els catàlegs DSO»."
@@ -79752,9 +79733,8 @@ msgid ""
 "space.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Guardarà els fotogrames del sistema de guiatge intern. "
-"Seleccioneu-la només per a solucionar problemes del sistema de guiatge "
-"examinant els fotogrames. Pot consumir molt espai d'emmagatzematge.</p></"
-"body></html>"
+"Trieu-la només per a solucionar problemes del sistema de guiatge examinant "
+"els fotogrames. Pot consumir molt espai d'emmagatzematge.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveGuideImages)
 #: options/opsdeveloper.ui:58
@@ -79770,9 +79750,9 @@ msgid ""
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Guardarà els fotogrames de l'alineació interna. "
-"Seleccioneu-la només per a solucionar problemes d'alineació examinant els "
-"fotogrames. Pot consumir espai d'emmagatzematge addicional.</p></body></html>"
+"<html><head/><body><p>Guardarà els fotogrames de l'alineació interna. Trieu-"
+"la només per a solucionar problemes d'alineació examinant els fotogrames. "
+"Pot consumir espai d'emmagatzematge addicional.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:68
@@ -79788,9 +79768,9 @@ msgid ""
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Guardarà les imatges quan falle l'alineació. "
-"Seleccioneu-la només per a solucionar problemes d'alineació examinant els "
-"fotogrames. Pot consumir espai d'emmagatzematge addicional.</p></body></html>"
+"<html><head/><body><p>Guardarà les imatges quan falle l'alineació. Trieu-la "
+"només per a solucionar problemes d'alineació examinant els fotogrames. Pot "
+"consumir espai d'emmagatzematge addicional.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:78
@@ -79828,7 +79808,7 @@ msgstr "Voleu que es mostren les línies de les constel·lacions?"
 #, kde-format
 msgid "If checked, constellation lines will be drawn on the sky map."
 msgstr ""
-"Si se selecciona, es dibuixaran les línies de les constel·lacions en el mapa "
+"Si es tria, es dibuixaran les línies de les constel·lacions en el mapa "
 "celeste."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCLines)
@@ -79887,8 +79867,7 @@ msgstr "Voleu que es dibuixen els noms de les constel·lacions?"
 #, kde-format
 msgid "If checked, constellation names will be drawn on the sky map."
 msgstr ""
-"Si se selecciona, es dibuixaran els noms de les constel·lacions en el mapa "
-"celeste."
+"Si es tria, es dibuixaran els noms de les constel·lacions en el mapa celeste."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCNames)
 #: options/opsguides.ui:94
@@ -79915,8 +79894,8 @@ msgstr "Utilitza els noms en llatí de les constel·lacions."
 #, kde-format
 msgid "Select this to use Latin constellation names on the sky map"
 msgstr ""
-"Seleccioneu-la per a utilitzar els noms en llatí de les constel·lacions en "
-"el mapa celeste."
+"Trieu-la per a utilitzar els noms en llatí de les constel·lacions en el mapa "
+"celeste."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_UseLatinConstellNames)
 #: options/opsguides.ui:133
@@ -79938,8 +79917,8 @@ msgstr "Utilitza els noms traduïts de les constel·lacions."
 msgid ""
 "Select this to use constellation names from your locality (if available)"
 msgstr ""
-"Seleccioneu-la per a utilitzar els noms traduïts de les constel·lacions (si "
-"estan disponibles)."
+"Trieu-la per a utilitzar els noms traduïts de les constel·lacions (si estan "
+"disponibles)."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_UseLocalConstellNames)
 #: options/opsguides.ui:149
@@ -79962,7 +79941,7 @@ msgid ""
 "Select this to use abbreviations from the International Astronomical Union "
 "as constellation labels"
 msgstr ""
-"Seleccioneu-la per a utilitzar les abreviatures de la Unió astronòmica "
+"Trieu-la per a utilitzar les abreviatures de la Unió astronòmica "
 "internacional (IAU) com a etiquetes per a les constel·lacions."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_UseAbbrevConstellNames)
@@ -79985,10 +79964,10 @@ msgid ""
 "great circle on the sky that the Sun appears to follow over the course of "
 "one year.  All other solar system bodies roughly follow the ecliptic as well."
 msgstr ""
-"Si se selecciona, es dibuixarà l'eclíptica en el mapa celeste. L'eclíptica "
-"és un cercle més gran en el cel que el Sol aparenta seguir durant el "
-"transcurs d'un any. La resta de cossos del sistema solar també seguixen "
-"aproximadament l'eclíptica."
+"Si es tria, es dibuixarà l'eclíptica en el mapa celeste. L'eclíptica és un "
+"cercle més gran en el cel que el Sol aparenta seguir durant el transcurs "
+"d'un any. La resta de cossos del sistema solar també seguixen aproximadament "
+"l'eclíptica."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FillMilkyWay)
 #: options/opsguides.ui:214
@@ -80003,8 +79982,8 @@ msgid ""
 "If checked, the Milky Way contour will be shown filled.  Otherwise, only the "
 "outline will be drawn."
 msgstr ""
-"Si se selecciona, el contorn de la Via Làctia es mostrarà farcit. Altrament, "
-"només es dibuixarà la vora."
+"Si es tria, el contorn de la Via Làctia es mostrarà farcit. Altrament, només "
+"es dibuixarà la vora."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FillMilkyWay)
 #: options/opsguides.ui:220
@@ -80024,8 +80003,8 @@ msgstr "Voleu que es dibuixe l'horitzó?"
 msgid ""
 "If checked, a line representing the local horizon will be drawn on the map."
 msgstr ""
-"Si se selecciona, es dibuixarà una línia representant l'horitzó local en el "
-"mapa celeste."
+"Si es tria, es dibuixarà una línia representant l'horitzó local en el mapa "
+"celeste."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowHorizon)
 #: options/opsguides.ui:236
@@ -80046,8 +80025,8 @@ msgstr "Voleu que es dibuixe el contorn de la Via Làctia?"
 msgid ""
 "If checked, a contour representing the Milky Way will be drawn on the sky map"
 msgstr ""
-"Si se selecciona, es dibuixarà un contorn en el mapa celeste representant la "
-"Via Làctia."
+"Si es tria, es dibuixarà un contorn en el mapa celeste representant la Via "
+"Làctia."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowMilkyWay)
 #: options/opsguides.ui:252
@@ -80062,14 +80041,14 @@ msgid ""
 "If checked, coordinate grids will automatically change according to active "
 "coordinate system."
 msgstr ""
-"Si se selecciona, les quadrícules de coordenades canviaran automàticament en "
+"Si es tria, les quadrícules de coordenades canviaran automàticament en "
 "funció del sistema de coordenades actiu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoSelectGrid)
 #: options/opsguides.ui:268
 #, kde-format
 msgid "Automatically select coordinate grid"
-msgstr "Selecciona automàticament la quadrícula de coordenades"
+msgstr "Tria automàticament la quadrícula de coordenades"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowFlags)
 #: options/opsguides.ui:278
@@ -80082,7 +80061,7 @@ msgstr "Voleu que es dibuixen els indicadors?"
 #: options/opsguides.ui:281
 #, kde-format
 msgid "If checked, flags will be drawn on the sky map"
-msgstr "Si se selecciona, es dibuixaran els indicadors en el mapa celeste."
+msgstr "Si es tria, es dibuixaran els indicadors en el mapa celeste."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SimulateDaytime)
@@ -80090,7 +80069,7 @@ msgstr "Si se selecciona, es dibuixaran els indicadors en el mapa celeste."
 #: options/opsguides.ui:294 options/opsguides.ui:297
 #, kde-format
 msgid "If checked, sky will be bright during the daytime"
-msgstr "Si se selecciona, el cel serà brillant durant les hores diürnes."
+msgstr "Si es tria, el cel serà brillant durant les hores diürnes."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:300
@@ -80111,8 +80090,8 @@ msgid ""
 "If checked, a grid of lines will be drawn every 2 hours in Right Ascension "
 "and every 20 degrees in Declination."
 msgstr ""
-"Si se selecciona, es dibuixarà una quadrícula de línies cada 2 hores en "
-"l'ascensió recta i cada 20 graus en la declinació."
+"Si es tria, es dibuixarà una quadrícula de línies cada 2 hores en l'ascensió "
+"recta i cada 20 graus en la declinació."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:316
@@ -80133,8 +80112,8 @@ msgid ""
 "If checked, a grid of lines will be drawn every 30 degrees in Azimuth and "
 "every 20 degrees in Altitude."
 msgstr ""
-"Si se selecciona, es dibuixarà una quadrícula de línies cada 30 graus "
-"d'azimut i cada 20 graus d'altitud."
+"Si es tria, es dibuixarà una quadrícula de línies cada 30 graus d'azimut i "
+"cada 20 graus d'altitud."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowHorizontalGrid)
 #: options/opsguides.ui:332
@@ -80156,9 +80135,9 @@ msgid ""
 "ground beneath you.  Note that the ground is never drawn when using the "
 "Equatorial coordinate system."
 msgstr ""
-"Si se selecciona, l'àrea per davall de l'horitzó s'omplirà per a simular el "
-"terra davall els vostres peus. Cal tindre present que el terra no es "
-"dibuixarà mai quan s'empre el sistema de coordenades equatorials."
+"Si es tria, l'àrea per davall de l'horitzó s'omplirà per a simular el terra "
+"davall els vostres peus. Cal tindre present que el terra no es dibuixarà mai "
+"quan s'empre el sistema de coordenades equatorials."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowGround)
 #: options/opsguides.ui:348
@@ -80176,7 +80155,7 @@ msgstr "Voleu que es dibuixe l'equador celeste?"
 #: options/opsguides.ui:361
 #, kde-format
 msgid "If checked, the celestial equator will be drawn in the sky map."
-msgstr "Si se selecciona, es dibuixarà l'equador celeste en el mapa celeste."
+msgstr "Si es tria, es dibuixarà l'equador celeste en el mapa celeste."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowEquator)
 #: options/opsguides.ui:364
@@ -80312,7 +80291,7 @@ msgstr ""
 #, kde-format
 msgid "Selects the Options Profile (from Align) to use for Plate Solving"
 msgstr ""
-"Selecciona el perfil d'opcions (des de l'alineació) per a utilitzar-lo en la "
+"Tria el perfil d'opcions (des de l'alineació) per a utilitzar-lo en la "
 "resolució de plaques."
 
 # skip-rule: punctuation-period-no
@@ -80437,7 +80416,7 @@ msgstr "Voleu que es dibuixe Saturn?"
 #: options/opssolarsystem.ui:53
 #, kde-format
 msgid "If checked, Saturn will be drawn on the map."
-msgstr "Si se selecciona, es dibuixarà Saturn en el mapa."
+msgstr "Si es tria, es dibuixarà Saturn en el mapa."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowPlanetImages)
 #: options/opssolarsystem.ui:66
@@ -80453,8 +80432,8 @@ msgid ""
 "If checked, then the planets, the Sun and the Moon will be shown as bitmap "
 "images on the map"
 msgstr ""
-"Si se selecciona, es mostraran els planetes, el Sol i la Lluna en el mapa "
-"com a imatges de mapa de píxels."
+"Si es tria, es mostraran els planetes, el Sol i la Lluna en el mapa com a "
+"imatges de mapa de píxels."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPlanetImages)
 #: options/opssolarsystem.ui:72
@@ -80472,7 +80451,7 @@ msgstr "Voleu que es dibuixe Mart?"
 #: options/opssolarsystem.ui:82
 #, kde-format
 msgid "If checked, Mars will be drawn on the map."
-msgstr "Si se selecciona, es dibuixarà Mart en el mapa."
+msgstr "Si es tria, es dibuixarà Mart en el mapa."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowPlanetNames)
 #: options/opssolarsystem.ui:95
@@ -80489,8 +80468,8 @@ msgstr ""
 msgid ""
 "If checked, name labels will be attached to the planets, the Sun and the Moon"
 msgstr ""
-"Si se selecciona, s'adjuntaran les etiquetes de nom als planetes, el Sol i "
-"la Lluna."
+"Si es tria, s'adjuntaran les etiquetes de nom als planetes, el Sol i la "
+"Lluna."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowPlanetNames)
 #: options/opssolarsystem.ui:101
@@ -80503,7 +80482,7 @@ msgstr "Utilitza etiquetes de nom"
 #: options/opssolarsystem.ui:108
 #, kde-format
 msgid "Select all major bodies"
-msgstr "Selecciona tots els cossos principals."
+msgstr "Tria tots els cossos principals."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (whatsThis), widget (QPushButton, showAllPlanets)
@@ -80519,7 +80498,7 @@ msgstr ""
 #: options/opssolarsystem.ui:114
 #, kde-format
 msgid "Select All"
-msgstr "Selecciona-ho tot"
+msgstr "Tria-ho tot"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, showNonePlanets)
@@ -80555,7 +80534,7 @@ msgstr "Voleu que es dibuixe Venus?"
 #: options/opssolarsystem.ui:137
 #, kde-format
 msgid "If checked, Venus will be drawn on the map."
-msgstr "Si se selecciona, es dibuixarà Venus en el mapa."
+msgstr "Si es tria, es dibuixarà Venus en el mapa."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowSun)
 #: options/opssolarsystem.ui:152
@@ -80567,7 +80546,7 @@ msgstr "Voleu que es dibuixe el Sol?"
 #: options/opssolarsystem.ui:155
 #, kde-format
 msgid "If checked, the Sun will be drawn on the map."
-msgstr "Si se selecciona, es dibuixarà el Sol en el mapa."
+msgstr "Si es tria, es dibuixarà el Sol en el mapa."
 
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
@@ -80598,7 +80577,7 @@ msgstr "Voleu que es dibuixe Júpiter?"
 #: options/opssolarsystem.ui:199
 #, kde-format
 msgid "If checked, Jupiter will be drawn on the map."
-msgstr "Si se selecciona, es dibuixarà Júpiter en el mapa."
+msgstr "Si es tria, es dibuixarà Júpiter en el mapa."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMoon)
 #: options/opssolarsystem.ui:214
@@ -80610,7 +80589,7 @@ msgstr "Voleu que es dibuixe la Lluna?"
 #: options/opssolarsystem.ui:217
 #, kde-format
 msgid "If checked, the Moon will be drawn on the map."
-msgstr "Si se selecciona, es dibuixarà la Lluna en el mapa."
+msgstr "Si es tria, es dibuixarà la Lluna en el mapa."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:237
@@ -80634,7 +80613,7 @@ msgstr "Voleu que es dibuixe Mercuri?"
 #: options/opssolarsystem.ui:261
 #, kde-format
 msgid "If checked, Mercury will be drawn on the map."
-msgstr "Si se selecciona, es dibuixarà Mercuri en el mapa."
+msgstr "Si es tria, es dibuixarà Mercuri en el mapa."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowNeptune)
 #: options/opssolarsystem.ui:274
@@ -80646,7 +80625,7 @@ msgstr "Voleu que es dibuixe Neptú?"
 #: options/opssolarsystem.ui:277
 #, kde-format
 msgid "If checked, Neptune will be drawn on the map."
-msgstr "Si se selecciona, es dibuixarà Neptú en el mapa."
+msgstr "Si es tria, es dibuixarà Neptú en el mapa."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowUranus)
 #: options/opssolarsystem.ui:306
@@ -80658,7 +80637,7 @@ msgstr "Voleu que es dibuixe Urà?"
 #: options/opssolarsystem.ui:309
 #, kde-format
 msgid "If checked, Uranus will be drawn on the map."
-msgstr "Si se selecciona, es dibuixarà Urà en el mapa."
+msgstr "Si es tria, es dibuixarà Urà en el mapa."
 
 #. i18n: ectx: property (title), widget (QGroupBox, MinorBodiesBox)
 #: options/opssolarsystem.ui:343
@@ -80683,7 +80662,7 @@ msgstr "Voleu que es dibuixen els asteroides?"
 #: options/opssolarsystem.ui:361
 #, kde-format
 msgid "If checked, asteroids will be drawn on the map"
-msgstr "Si se selecciona, es dibuixaran els asteroides en el mapa."
+msgstr "Si es tria, es dibuixaran els asteroides en el mapa."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowComets)
 #: options/opssolarsystem.ui:374
@@ -80696,7 +80675,7 @@ msgstr "Voleu que es dibuixen els cometes?"
 #: options/opssolarsystem.ui:377
 #, kde-format
 msgid "If checked, comets will be drawn on the map"
-msgstr "Si se selecciona, es dibuixaran els cometes en el mapa."
+msgstr "Si es tria, es dibuixaran els cometes en el mapa."
 
 #. i18n: ectx: property (text), widget (QLabel, MagLimitAsteroidDownloadWarning)
 #: options/opssolarsystem.ui:409
@@ -80726,9 +80705,9 @@ msgid ""
 "vary in brightness in their orbits, so a faint magnitude is not effective in "
 "this case."
 msgstr ""
-"Si se selecciona, els cometes a prop del Sol tindran etiquetes de nom "
-"adjuntes. Els cometes varien en brillantor en les seues òrbites, de manera "
-"que una magnitud feble no serà efectiva en este cas."
+"Si es tria, els cometes a prop del Sol tindran etiquetes de nom adjuntes. "
+"Els cometes varien en brillantor en les seues òrbites, de manera que una "
+"magnitud feble no serà efectiva en este cas."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCometNames)
 #: options/opssolarsystem.ui:432
@@ -80780,7 +80759,7 @@ msgstr "Voleu que s'adjunten les etiquetes de nom als asteroides?"
 #: options/opssolarsystem.ui:528
 #, kde-format
 msgid "If checked, then name labels will be attached to asteroids"
-msgstr "Si se selecciona, s'adjuntaran etiquetes de nom als asteroides."
+msgstr "Si es tria, s'adjuntaran etiquetes de nom als asteroides."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAsteroidNames)
 #: options/opssolarsystem.ui:531
@@ -80826,8 +80805,8 @@ msgid ""
 "If checked then any solar system body will have a temporary trail attached "
 "while it is centered in the display."
 msgstr ""
-"Si se selecciona qualsevol cos del sistema solar, este tindrà adjuntada una "
-"traça temporal mentre romanga centrat en la pantalla."
+"Si es tria qualsevol cos del sistema solar, este tindrà adjuntada una traça "
+"temporal mentre romanga centrat en la pantalla."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseAutoTrail)
 #: options/opssolarsystem.ui:613
@@ -80848,8 +80827,8 @@ msgid ""
 "If checked, the color of the planet trail will be blended into the "
 "background sky color."
 msgstr ""
-"Si se selecciona, el color de les traces dels planetes es fusionarà amb el "
-"color de fons del cel."
+"Si es tria, el color de les traces dels planetes es fusionarà amb el color "
+"de fons del cel."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadePlanetTrails)
 #: options/opssolarsystem.ui:631
@@ -81325,7 +81304,7 @@ msgstr "Subtítol:"
 #: printing/pwizchartcontents.ui:77
 #, kde-format
 msgid "Select Additional Finder Chart Contents"
-msgstr "Seleccioneu el contingut addicional per al diagrama de busca"
+msgstr "Trieu el contingut addicional per al diagrama de busca"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizchartcontents.ui:100
@@ -81537,7 +81516,7 @@ msgstr "Trieu l'estrela inicial:"
 #: printing/pwizfovsh.ui:138 printing/pwizobjectselection.ui:136
 #, kde-format
 msgid "Select object from list"
-msgstr "Seleccioneu un objecte d'una llista"
+msgstr "Trieu un objecte d'una llista"
 
 #. i18n: ectx: property (text), widget (QPushButton, pointButton)
 #: printing/pwizfovsh.ui:158 printing/pwizobjectselection.ui:156
@@ -81582,8 +81561,8 @@ msgid ""
 "<p>Once you have selected field of view capture method, press <b>Next</b>.</"
 "p>"
 msgstr ""
-"<p>Seleccioneu el mètode de captura del camp de visió. Hi ha dos mètodes: "
-"manual i basat en els salts entre estreles.</p>\n"
+"<p>Trieu el mètode de captura del camp de visió. Hi ha dos mètodes: manual i "
+"basat en els salts entre estreles.</p>\n"
 "<p>En el <b>mètode manual</b> navegueu pel mapa celeste per a trobar els "
 "objectes d'interés i tot seguit captureu múltiples representacions del camp "
 "de visió.</p>\n"
@@ -81616,7 +81595,7 @@ msgstr ""
 #: printing/pwizobjectselection.ui:71
 #, kde-format
 msgid "Select Sky Object"
-msgstr "Selecciona un objecte celeste"
+msgstr "Tria un objecte celeste"
 
 #. i18n: ectx: property (text), widget (QLabel, stepText)
 #: printing/pwizobjectselection.ui:95
@@ -81629,12 +81608,12 @@ msgid ""
 "context menu.</p>\n"
 "<p>When done, press <b>Next</b> button.</p>"
 msgstr ""
-"<p>Seleccioneu l'objecte celeste que s'observarà. Podeu seleccionar-lo des "
-"d'una llista d'objectes clicant damunt del botó <b>Selecciona un objecte de "
-"la llista</b> o bé directament des del mapa celeste prement <b>Apunta cap a "
-"un objecte del mapa celeste</b>. Una vegada s'haja localitzat l'objecte, "
-"cliqueu-hi amb el botó dret del ratolí i seleccioneu l'opció <b>Selecciona "
-"este objecte</b> des del menú contextual.</p>\n"
+"<p>Trieu l'objecte celeste que s'observarà. Podeu seleccionar-lo des d'una "
+"llista d'objectes clicant damunt del botó <b>Tria un objecte de la llista</"
+"b> o bé directament des del mapa celeste prement <b>Apunta cap a un objecte "
+"del mapa celeste</b>. Una vegada s'haja localitzat l'objecte, cliqueu-hi amb "
+"el botó dret del ratolí i trieu l'opció <b>Tria este objecte</b> des del "
+"menú contextual.</p>\n"
 "<p>En acabar, premeu el botó <b>Següent</b>.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, selectedObjLabel)
@@ -83493,8 +83472,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Per a afegir els vostres URL personalitzats d'imatges/informació\n"
-"\t\t\ta qualsevol objecte, seleccioneu «Afig un enllaç…» des del menú "
-"contextual.\n"
+"\t\t\ta qualsevol objecte, trieu «Afig un enllaç…» des del menú contextual.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -83890,7 +83868,7 @@ msgstr ""
 "utilitzant la «paral·laxi». La idea està explicada en el projecte AstroInfo. "
 "KStars mostra les distàncies a moltes estreles en el diàleg «Detalls». Per a "
 "accedir a esta informació, senzillament cliqueu amb el botó dret damunt de "
-"l'estrela i seleccioneu «Detalls» en el menú emergent.\n"
+"l'estrela i trieu «Detalls» en el menú emergent.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -84172,7 +84150,7 @@ msgid ""
 "Select an option from this list to set its value.  You may also select the "
 "option using an organized Tree List using the \"Browse Tree...\" button."
 msgstr ""
-"Seleccioneu una opció d'esta llista per a establir el seu valor. També podeu "
+"Trieu una opció d'esta llista per a establir el seu valor. També podeu "
 "seleccionar l'opció emprant una llista organitzada en arbre emprant el botó "
 "«Navega per l'arbre…»."
 
@@ -84255,7 +84233,7 @@ msgstr "Alçària de la imatge:"
 #: tools/argfindobject.ui:41 tools/arglooktoward.ui:110
 #, kde-format
 msgid "Select object from a list"
-msgstr "Seleccioneu un objecte des d'una llista."
+msgstr "Trieu un objecte des d'una llista."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, FindButton)
 #: tools/argfindobject.ui:44 tools/arglooktoward.ui:113
@@ -84298,11 +84276,11 @@ msgid ""
 "select an object from the list of known objects by pressing the \"Object\" "
 "button."
 msgstr ""
-"Seleccioneu una direcció o objecte sobre el qual centrar-vos. El quadro "
-"combinat proporciona un llistat de direccions conegudes incloent els punts "
-"cardinals de la rosa dels vents en l'horitzó, així com el zenit. També podeu "
-"introduir ací el nom d'un objecte conegut o seleccionar-ne un des de la "
-"llista d'objectes coneguts prement damunt del botó «Objecte»."
+"Trieu una direcció o objecte sobre el qual centrar-vos. El quadro combinat "
+"proporciona un llistat de direccions conegudes incloent els punts cardinals "
+"de la rosa dels vents en l'horitzó, així com el zenit. També podeu introduir "
+"ací el nom d'un objecte conegut o triar-ne un des de la llista d'objectes "
+"coneguts prement damunt del botó «Objecte»."
 
 #. i18n: ectx: property (text), widget (QCheckBox, UsePrintDialog)
 #: tools/argprintimage.ui:22
@@ -84433,11 +84411,11 @@ msgid ""
 "centered.  As time passes, the sky will then appear to drift by (due to the "
 "rotation of the Earth)."
 msgstr ""
-"Si se selecciona, el cel romandrà centrat sobre la seua posició o objecte "
-"actual mentre passa el temps. Este comportament s'anomena «Seguiment». Cal "
-"tindre present que el seguiment comença automàticament sempre que se centra "
-"un objecte al punt d'enfocament. D'esta manera, si utilitzeu «lookToward» "
-"amb el nom d'un objecte, no necessitareu activar el seguiment. \n"
+"Si es tria, el cel romandrà centrat sobre la seua posició o objecte actual "
+"mentre passa el temps. Este comportament s'anomena «Seguiment». Cal tindre "
+"present que el seguiment comença automàticament sempre que se centra un "
+"objecte al punt d'enfocament. D'esta manera, si utilitzeu «lookToward» amb "
+"el nom d'un objecte, no necessitareu activar el seguiment. \n"
 "\n"
 "Si no se selecciona, el seguiment restarà inactiu, fins i tot si un objecte "
 "està centrat en l'objectiu. El cel pareixerà desplaçar-se a mesura que passa "
@@ -85173,7 +85151,7 @@ msgstr "Neteja tots els punts."
 #: tools/horizonmanager.ui:353
 #, kde-format
 msgid "Select points from the sky map"
-msgstr "Seleccioneu els punts des del mapa celeste."
+msgstr "Trieu els punts des del mapa celeste."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/horizonmanager.ui:400
@@ -85236,22 +85214,22 @@ msgstr ""
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\">Afegiu manualment els punts, o amb preferència "
 "seleccionant-los en el mapa celeste després de clicar damunt del botó <span "
-"style=\"font-style:italic;\">Seleccioneu els punts</span>.</li></ul><li "
-"style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Habiliteu una regió <span "
-"style=\"font-style:italic;\">marcant el seu quadro</span>.</li><li style="
+"style=\"font-style:italic;\">Trieu els punts</span>.</li></ul><li style="
 "\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\">En seleccionar una regió es mostren els "
-"seus punts en el mapa celeste.</li><li style=\"margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">En acabar, cliqueu damunt <span style=\"font-style:italic;"
-"\">Aplica</span>.</li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Definir "
-"regions és més fàcil si s'utilitza conjuntament amb la característica de "
-"fons del terreny.</li><li style=\"margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Podeu "
-"exportar (i després importar) regions utilitzant els botons d'exportar o "
-"importar regions.</li></ul></body></html>"
+"block-indent:0; text-indent:0px;\">Habiliteu una regió <span style=\"font-"
+"style:italic;\">marcant el seu quadro</span>.</li><li style=\"margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">En seleccionar una regió es mostren els seus "
+"punts en el mapa celeste.</li><li style=\"margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">En "
+"acabar, cliqueu damunt <span style=\"font-style:italic;\">Aplica</span>.</"
+"li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Definir regions és més "
+"fàcil si s'utilitza conjuntament amb la característica de fons del terreny.</"
+"li><li style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Podeu exportar (i després "
+"importar) regions utilitzant els botons d'exportar o importar regions.</li></"
+"ul></body></html>"
 
 # skip-rule: k-Alt-1
 #: tools/imagingplanner.cpp:85
@@ -85612,7 +85590,7 @@ msgstr "Nom de l'objecte"
 #: tools/imagingplanner.ui:214
 #, kde-format
 msgid "Select an Object"
-msgstr "Selecciona un objecte"
+msgstr "Tria un objecte"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backOneDay)
 #: tools/imagingplanner.ui:302
@@ -85820,7 +85798,7 @@ msgstr ""
 #: tools/imagingplanner.ui:1242 tools/imagingplanner.ui:1579
 #, kde-format
 msgid "Select a button to search for the selected object on the internet."
-msgstr "Seleccioneu un botó per a buscar l'objecte seleccionat a Internet."
+msgstr "Trieu un botó per a buscar l'objecte seleccionat a Internet."
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel2)
@@ -85995,10 +85973,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, PlanetaryCB)
 #: tools/imagingplanner.ui:1872
-#, fuzzy, kde-format
-#| msgid "N"
+#, kde-format
 msgid "PN"
-msgstr "N"
+msgstr "NP"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, SupernovaRemnantCB)
 #: tools/imagingplanner.ui:1879
@@ -86042,8 +86019,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, DarkNebulaCB)
 #: tools/imagingplanner.ui:1917
-#, fuzzy, kde-format
-#| msgid "Dark Neb"
+#, kde-format
 msgid "DarkNeb"
 msgstr "Neb. fosca"
 
@@ -86153,9 +86129,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:2021
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Load"
+#, kde-format
 msgid "Load"
 msgstr "Carrega"
 
@@ -86244,10 +86218,9 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2102
-#, fuzzy, kde-format
-#| msgid "Keyword"
+#, kde-format
 msgid "keyword"
-msgstr "Paraula clau"
+msgstr "paraula clau"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)
@@ -86382,7 +86355,7 @@ msgstr "Coordenades equatorials (J2000)"
 #: tools/modcalcvlsr.ui:160
 #, kde-format
 msgid "Select Object..."
-msgstr "Selecciona un objecte…"
+msgstr "Tria un objecte…"
 
 #: tools/modcalcangdist.cpp:98
 #, kde-format
@@ -86470,7 +86443,7 @@ msgstr "Mode treball per lots"
 #: tools/modcalcangdist.ui:428 tools/modcalcapcoord.ui:449
 #, kde-format
 msgid "Select Fields in Input File"
-msgstr "Selecciona els camps en el fitxer d'entrada"
+msgstr "Tria els camps en el fitxer d'entrada"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ra0CheckBatch)
 #: tools/modcalcangdist.ui:466
@@ -86772,7 +86745,7 @@ msgstr "Coordenades galàctiques"
 #: tools/modcalcplanets.ui:515 tools/modcalcvlsr.ui:465
 #, kde-format
 msgid "Select Parameters in Input File"
-msgstr "Selecciona els paràmetres en el fitxer d'entrada"
+msgstr "Tria els paràmetres en el fitxer d'entrada"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, epochCheckBatch)
@@ -86788,7 +86761,7 @@ msgid ""
 "If checked, value will be read from input file. If not, value will be read "
 "from adjacent box"
 msgstr ""
-"Si se selecciona, el valor es llegirà des del fitxer d'entrada. Si no se "
+"Si es tria, el valor es llegirà des del fitxer d'entrada. Si no se "
 "selecciona, el valor es llegirà des del quadro adjacent."
 
 # No és un punt decimal, és una convenció de l'època:
@@ -86817,7 +86790,7 @@ msgstr "Lat. Gal.:"
 #: tools/modcalcvlsr.ui:656
 #, kde-format
 msgid "Select Parameters for Output File"
-msgstr "Selecciona els paràmetres per al fitxer d'eixida"
+msgstr "Tria els paràmetres per al fitxer d'eixida"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_7)
@@ -86826,13 +86799,13 @@ msgstr "Selecciona els paràmetres per al fitxer d'eixida"
 #: tools/modcalcplanets.ui:867 tools/modcalcvlsr.ui:688
 #, kde-format
 msgid "Select Filenames"
-msgstr "Selecciona els noms dels fitxers"
+msgstr "Tria els noms dels fitxers"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/modcalcgeod.ui:51
 #, kde-format
 msgid "Select Input Coordinates"
-msgstr "Selecciona les coordenades d'entrada"
+msgstr "Tria les coordenades d'entrada"
 
 #. i18n: ectx: property (text), widget (QRadioButton, cartRadio)
 #: tools/modcalcgeod.ui:71
@@ -86850,7 +86823,7 @@ msgstr "Emplaçament geogràfic"
 #: tools/modcalcgeod.ui:93
 #, kde-format
 msgid "Select Ellipsoid Model"
-msgstr "Selecciona el model el·lipsoidal"
+msgstr "Tria el model el·lipsoidal"
 
 #. i18n: ectx: property (text), widget (QPushButton, Compute)
 #: tools/modcalcgeod.ui:137
@@ -87027,7 +87000,7 @@ msgstr "Coordenades eclíptiques geocèntriques"
 #: tools/modcalcplanets.ui:762
 #, kde-format
 msgid "Select Coordinate System for Output File"
-msgstr "Seleccioneu el sistema de coordenades per al fitxer d'eixida"
+msgstr "Trieu el sistema de coordenades per al fitxer d'eixida"
 
 #. i18n: ectx: property (text), widget (QCheckBox, HelioEclCheckBatch)
 #: tools/modcalcplanets.ui:783
@@ -87894,7 +87867,7 @@ msgstr "Temps programat"
 #: tools/observinglist.ui:545
 #, kde-format
 msgid "Select an Object to View Information here"
-msgstr "Seleccioneu ací un objecte per a veure la informació"
+msgstr "Trieu ací un objecte per a veure la informació"
 
 #. i18n: ectx: property (text), widget (QLabel, ImagePreview)
 #: tools/observinglist.ui:597
@@ -88082,7 +88055,7 @@ msgid ""
 "p><p>When you are finished, press the <span style=\" font-weight:600;"
 "\">Next</span> button.</p></body></html>"
 msgstr ""
-"<html><head></head><body><p>Selecciona objectes per tipus</p><p></"
+"<html><head></head><body><p>Tria els objectes per tipus</p><p></"
 "p><p>Ressalteu els tipus d'objectes que voleu incloure en la vostra llista "
 "d'observacions en el quadro de davall. Podeu ressaltar més d'un element de "
 "la llista. Podeu emprar els botons de la dreta per a escollir ràpidament "
@@ -88142,9 +88115,9 @@ msgid ""
 "selection below, and press <span style=\" font-weight:600;\">Next</span>.</"
 "p></body></html>"
 msgstr ""
-"<html><head></head><body><p>Selecciona per regió</p><p></p><p>A continuació, "
-"podeu limitar la vostra llista d'objectes a només aquells que ocupen una "
-"regió específica del cel. Hi ha tres maneres d'especificar la regió per a la "
+"<html><head></head><body><p>Tria per regió</p><p></p><p>A continuació, podeu "
+"limitar la vostra llista d'objectes a només aquells que ocupen una regió "
+"específica del cel. Hi ha tres maneres d'especificar la regió per a la "
 "vostra llista: per <span style=\"font-weight:600;\">constel·lació</span>, "
 "especificant una <span style=\"font-weight:600;\">regió rectangular</span>, "
 "o bé especificant una <span style=\"font-weight:600;\">regió circular</"
@@ -88194,12 +88167,12 @@ msgid ""
 "finished, press <span style=\" font-weight:600;\">Next</span> to continue.</"
 "p></body></html>"
 msgstr ""
-"<html><head></head><body><p>Selecciona objectes en una o més "
-"constel·lacions</p><p></p><p>En la llista de davall, ressalteu les "
-"constel·lacions que voleu emprar per a la vostra llista d'observacions. "
-"Només els objectes que ocupen les constel·lacions seleccionades s'inclouran "
-"en la llista.</p><p></p><p>Quan hàgeu finalitzat, premeu <span style=\"font-"
-"weight:600;\">Següent</span> per a continuar.</p></body></html>"
+"<html><head></head><body><p>Tria els objectes en una o més constel·lacions</"
+"p><p></p><p>En la llista de davall, ressalteu les constel·lacions que voleu "
+"emprar per a la vostra llista d'observacions. Només els objectes que ocupen "
+"les constel·lacions seleccionades s'inclouran en la llista.</p><p></"
+"p><p>Quan hàgeu finalitzat, premeu <span style=\"font-weight:600;\">Següent</"
+"span> per a continuar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, RectangularRegionText)
 #: tools/obslistwizard.ui:428
@@ -88212,7 +88185,7 @@ msgid ""
 "that define the region.</p><p></p><p>When you are finished, press <span "
 "style=\" font-weight:600;\">Next</span> to continue.</p></body></html>"
 msgstr ""
-"<html><head></head><body><p>Selecciona objectes en una regió rectangular</"
+"<html><head></head><body><p>Tria els objectes en una regió rectangular</"
 "p><p></p><p>En esta pàgina podeu limitar la vostra llista d'observacions a "
 "aquells objectes que ocupen una regió rectangular particular del cel. "
 "Especifiqueu la regió rectangular seleccionant els límits d'ascensió recta "
@@ -88251,13 +88224,13 @@ msgid ""
 "p><p></p><p>When you are finished, press <span style=\" font-weight:600;"
 "\">Next</span> to continue.</p></body></html>"
 msgstr ""
-"<html><head></head><body><p>Selecciona objectes en una regió circular</"
-"p><p></p><p>En esta pàgina podeu limitar la vostra llista d'observacions a "
-"aquells objectes que ocupen una regió circular particular del cel. "
-"Especifiqueu la regió circular seleccionant les coordenades d'ascensió recta "
-"(AR) i declinació (Dec) del centre del cercle, i la mida del radi del "
-"cercle, en graus.</p><p></p><p>Quan hàgeu finalitzat, premeu <span style="
-"\"font-weight:600;\">Següent</span> per a continuar.</p></body></html>"
+"<html><head></head><body><p>Tria els objectes en una regió circular</p><p></"
+"p><p>En esta pàgina podeu limitar la vostra llista d'observacions a aquells "
+"objectes que ocupen una regió circular particular del cel. Especifiqueu la "
+"regió circular seleccionant les coordenades d'ascensió recta (AR) i "
+"declinació (Dec) del centre del cercle, i la mida del radi del cercle, en "
+"graus.</p><p></p><p>Quan hàgeu finalitzat, premeu <span style=\"font-"
+"weight:600;\">Següent</span> per a continuar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, CenterRALabel)
 #: tools/obslistwizard.ui:603
@@ -88292,11 +88265,11 @@ msgid ""
 "<span style=\" font-weight:600;\">Next</span> to continue.</p><p></p></"
 "body></html>"
 msgstr ""
-"<html><head></head><body><p>Selecciona objectes observables en una data:</"
+"<html><head></head><body><p>Tria els objectes observables en una data:</"
 "p><p></p><p>En esta pàgina podeu limitar la vostra llista d'observacions a "
 "només aquells objectes que es poden observar en una data particular (i des "
 "d'un emplaçament particular sobre la Terra). Per a filtrar la vostra llista "
-"d'esta manera, seleccioneu la casella de selecció de davall i trieu la data "
+"d'esta manera, trieu la casella de selecció de davall i trieu la data "
 "desitjada. Si deixeu desseleccionada esta casella, la vostra llista inclourà "
 "objectes sense tindre en compte si són o no observables (este és el "
 "comportament predeterminat). També podeu canviar l'emplaçament geogràfic "
@@ -88338,7 +88311,7 @@ msgstr "Altitud màx.:"
 #: tools/obslistwizard.ui:813
 #, kde-format
 msgid "Select objects which are observable on:"
-msgstr "Seleccioneu els objectes observables a:"
+msgstr "Trieu els objectes observables a:"
 
 #. i18n: ectx: property (text), widget (QLabel, MagnitudeText)
 #: tools/obslistwizard.ui:892
@@ -88357,8 +88330,8 @@ msgid ""
 "Observing List tool will be populated with the objects you have specified "
 "here.</p><p><br/></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Selecciona objectes brillants</p><p>En esta pàgina "
-"podeu limitar la vostra llista d'observacions a només aquells objectes més "
+"<html><head/><body><p>Tria els objectes brillants</p><p>En esta pàgina podeu "
+"limitar la vostra llista d'observacions a només aquells objectes més "
 "brillants que una magnitud donada. Aneu amb compte amb esta selecció, perquè "
 "KStars no té definida una magnitud per a cadascun dels objectes de la seua "
 "base de dades. Cal que indiqueu si voleu incloure o no objectes de magnitud "
@@ -88994,7 +88967,7 @@ msgstr "Establix el factor d'apropament"
 #: tools/scriptbuilder.cpp:641
 #, kde-format
 msgid "Select angular size for the FOV symbol (in arcmin)"
-msgstr "Selecciona la mida angular per al símbol de CDV (en min. d'arc)"
+msgstr "Tria la mida angular per al símbol de CDV (en min. d'arc)"
 
 #: tools/scriptbuilder.cpp:644
 #, kde-format
@@ -89013,7 +88986,7 @@ msgstr "int"
 #: tools/scriptbuilder.cpp:648
 #, kde-format
 msgid "Select color for the FOV symbol"
-msgstr "Selecciona un color per al símbol de CDV"
+msgstr "Tria un color per al símbol de CDV"
 
 #: tools/scriptbuilder.cpp:648
 #, kde-format
@@ -89036,7 +89009,7 @@ msgstr "Voleu que es faça la correcció per a la refracció atmosfèrica?"
 #, kde-format
 msgid "Automatically attach name label to centered object?"
 msgstr ""
-"Voleu que s'adjunte automàticament una etiqueta de nom a l'objecte centrat?"
+"Voleu que s'adjunte automàticament l'etiqueta de nom a l'objecte centrat?"
 
 #: tools/scriptbuilder.cpp:660
 #, kde-format
@@ -89559,7 +89532,7 @@ msgstr "Visible actualment: Aproximadament %1 graus sobre l'horitzó %2"
 #: tools/whatsinteresting/wiequipsettings.ui:50
 #, kde-format
 msgid "Select telescope from list to use or add a new telescope"
-msgstr "Seleccioneu un telescopi des de la llista o afegiu-ne un de nou"
+msgstr "Trieu un telescopi des de la llista o afegiu-ne un de nou"
 
 #. i18n: ectx: property (title), widget (QGroupBox, scopeDetailsBox)
 #: tools/whatsinteresting/wiequipsettings.ui:82
@@ -90507,19 +90480,19 @@ msgstr "Els fitxers FIFO no són admesos sobre Windows"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Config File"
-msgstr "Seleccioneu el fitxer de configuració d'Xplanet"
+msgstr "Trieu el fitxer de configuració d'Xplanet"
 
 #: xplanet/opsxplanet.cpp:231
 #, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Star Map File"
-msgstr "Seleccioneu el fitxer de mapa estel·lar d'Xplanet"
+msgstr "Trieu el fitxer de mapa estel·lar d'Xplanet"
 
 #: xplanet/opsxplanet.cpp:244
 #, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Arc File"
-msgstr "Seleccioneu el fitxer ARC d'Xplanet"
+msgstr "Trieu el fitxer ARC d'Xplanet"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_xplanetIsInternal)
@@ -90617,8 +90590,8 @@ msgid ""
 "save the hard disk from excessive reads/writes and may offer a performance "
 "enhancement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si se selecciona, Xplanet utilitzarà un fitxer FIFO en "
-"la carpeta /tmp per a guardar temporalment la imatge d'Xplanet per a KStars, "
+"<html><head/><body><p>Si es tria, Xplanet utilitzarà un fitxer FIFO en la "
+"carpeta /tmp per a guardar temporalment la imatge d'Xplanet per a KStars, "
 "per a que puga carregar-la i actualitzar la vista. Si no se selecciona, en "
 "realitat Xplanet guardarà els fitxers en la carpeta d'Xplanet de la carpeta "
 "de dades de KStars. L'ús d'un fitxer FIFO hauria d'evitar lectures i "
@@ -90850,7 +90823,7 @@ msgstr "Si voleu que es mostre l'etiqueta."
 #: xplanet/opsxplanet.ui:781
 #, kde-format
 msgid "If checked, display a label in the upper right corner."
-msgstr "Si se selecciona, es mostrarà una etiqueta en el cantó superior dret."
+msgstr "Si es tria, es mostrarà una etiqueta en el cantó superior dret."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetLabel)
 #: xplanet/opsxplanet.ui:784
@@ -90987,7 +90960,7 @@ msgstr "Si voleu que s'utilitze un fons."
 #: xplanet/opsxplanet.ui:1021
 #, kde-format
 msgid "If checked, use a file or a color as background."
-msgstr "Si se selecciona, s'utilitzarà un fitxer o color com a fons."
+msgstr "Si es tria, s'utilitzarà un fitxer o color com a fons."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetBackgroundImage)
 #: xplanet/opsxplanet.ui:1033
@@ -91019,30 +90992,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Minimize the altitude vs time graph."
-#~ msgstr "Minimitza el gràfic «Altitud en funció del temps»."
-
-#~ msgid "Maximize the altitude vs time graph."
-#~ msgstr "Maximitza el gràfic «Altitud en funció de temps»."
-
-#~ msgid "Minimize the Astrobin search details section"
-#~ msgstr "Minimitza la secció detalls de la busca en Astrobin"
-
-#~ msgid "Maximize the Astrobin search details section"
-#~ msgstr "Es maximitzarà la secció detalls de la busca en Astrobin."
-
-#~ msgid "Minimize the Filters section"
-#~ msgstr "Es minimitzarà la secció «Filtres»."
-
-#~ msgid "Load Imaged"
-#~ msgstr "Carrega les imatges obtingudes"
-
-#~ msgid "Enter keyword here"
-#~ msgstr "Introduïu ací una paraula clau"
-
-#~ msgid "Minimize the image section"
-#~ msgstr "Minimitza la secció d'imatges"
-
-#~ msgid "Maximize the image section"
-#~ msgstr "Maximitza la secció d'imatges"
