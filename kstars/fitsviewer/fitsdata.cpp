@@ -2857,7 +2857,7 @@ void FITSData::updateRecordValue(const QString &key, QVariant value, const QStri
         // Add item as penultimate entry (END is usually the last one).
         FITSData::Record record = {key, value.toString(), comment};
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-        headerRecords.insert(std::max(0LL, headerRecords.size() - 1), record);
+        headerRecords.insert(std::max((qsizetype)0, headerRecords.size() - 1), record);
 #else
         headerRecords.insert(std::max(0, headerRecords.size() - 1), record);
 #endif
