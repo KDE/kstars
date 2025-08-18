@@ -9996,7 +9996,7 @@ msgstr "جغرافي خط الطول بوصة درجات."
 #: ekos/align/polaralignmentassistant.ui:155
 #, kde-format
 msgid "Speed:"
-msgstr "السّرعة:"
+msgstr "السرعة:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHMountSpeed)
 #: ekos/align/polaralignmentassistant.ui:162
