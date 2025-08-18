@@ -48,3 +48,6 @@
 
 /* Define if you have OpenCV */
 #cmakedefine HAVE_OPENCV 1
+
+/* Define if you have Sentry */
+#cmakedefine HAVE_SENTRY 1

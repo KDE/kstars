@@ -26,6 +26,11 @@
 #include <KCrash>
 #endif
 
+#include "config-kstars.h"
+#if defined(HAVE_SENTRY) && !defined(KSTARS_LITE) && !defined(ANDROID)
+#include <sentry.h>
+#endif
+
 #include <ki18n_version.h>
 #if KI18N_VERSION >= QT_VERSION_CHECK(5, 89, 0)
 #include <KLazyLocalizedString>
@@ -73,6 +78,31 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
 
+#if defined(HAVE_SENTRY) && !defined(KSTARS_LITE) && !defined(ANDROID)
+    // Initialize Sentry for crash reporting
+    sentry_options_t *options = sentry_options_new();
+    sentry_options_set_dsn(options, "https://dd7f240ee9134b979acadff30efc873c@crash-reports.kde.org/73");
+    sentry_options_set_release(options, KSTARS_VERSION);
+    sentry_options_set_environment(options, KSTARS_BUILD_RELEASE);
+
+    // Set additional context
+    sentry_options_set_auto_session_tracking(options, true);
+
+    if (sentry_init(options) != 0)
+    {
+        qCWarning(KSTARS) << "Failed to initialize Sentry crash reporting";
+    }
+    else
+    {
+        qCDebug(KSTARS) << "Sentry crash reporting initialized";
+
+        // Set user context
+        sentry_set_tag("application", "kstars");
+        sentry_set_tag("version", KSTARS_VERSION);
+        sentry_set_tag("build_release", KSTARS_BUILD_RELEASE);
+    }
+#endif
+
 #ifdef Q_OS_MACOS
     //Note, this function will return true on OS X if the data directories are good to go.  If not, quit with error code 1!
     if (!KSUtils::setupMacKStarsIfNeeded())
@@ -109,14 +139,14 @@ int main(int argc, char *argv[])
         "kstars", i18n("KStars"), versionString, description.toString(), KAboutLicense::GPL,
         "2001-" + QString::number(QDate::currentDate().year()) +
         i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) "
-         "2014-2017 Max Planck Society"),
+             "2014-2017 Max Planck Society"),
         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2\n\n%3",
               KSTARS_BUILD_TS,
               KSTARS_BUILD_RELEASE == QLatin1String("Beta") ?
-    "Pre-release beta snapshot. Do not use in production." :
-    "Stable release.",
+              "Pre-release beta snapshot. Do not use in production." :
+              "Stable release.",
               notice.toString()),
-    "https://edu.kde.org/kstars");
+        "https://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"),
                         "jharris@30doradus.org", "http://www.30doradus.org");
     aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"),
@@ -405,5 +435,11 @@ int main(int argc, char *argv[])
 
     app.exec();
 #endif
+
+#if defined(HAVE_SENTRY) && !defined(KSTARS_LITE) && !defined(ANDROID)
+    // Cleanup Sentry
+    sentry_close();
+#endif
+
     return 0;
 }

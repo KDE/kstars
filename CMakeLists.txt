@@ -32,6 +32,13 @@ option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
 # Build the Python bindings for the SkyMesh indexation
 option(BUILD_PYKSTARS "Build SkyMesh Python Bindings" OFF)
 
+# Enable Sentry crash reporting (desktop only)
+if(NOT ANDROID AND NOT BUILD_KSTARS_LITE)
+    option(ENABLE_SENTRY "Enable Sentry crash reporting" ON)
+else()
+    set(ENABLE_SENTRY OFF)
+endif()
+
 # KStars Timestap build
 string(TIMESTAMP KSTARS_BUILD_TS UTC)
 
@@ -334,6 +341,52 @@ endif()
 ## OpenGL
 find_package(OpenGL)
 set_package_properties(OpenGL PROPERTIES DESCRIPTION "Open Graphics Library" URL "https://www.opengl.org/" TYPE OPTIONAL PURPOSE "Support for hardware rendering in KStars.")
+
+## Sentry
+if(ENABLE_SENTRY)
+    include(FetchContent)
+    
+    # Fetch Sentry Native SDK
+    FetchContent_Declare(
+        sentry
+        GIT_REPOSITORY https://github.com/getsentry/sentry-native.git
+        GIT_TAG        0.10.0  # Use the latest stable version
+        GIT_SHALLOW    TRUE
+    )
+    
+    # Configure Sentry build options
+    set(SENTRY_BUILD_TESTS OFF CACHE BOOL "Build sentry tests")
+    set(SENTRY_BUILD_EXAMPLES OFF CACHE BOOL "Build sentry examples")
+    
+    FetchContent_MakeAvailable(sentry)
+    
+    if(TARGET sentry)
+        # Ensure Sentry uses appropriate standards
+        set_target_properties(sentry PROPERTIES
+            CXX_STANDARD 17
+            CXX_STANDARD_REQUIRED ON
+        )
+        target_compile_options(sentry PRIVATE $<$<COMPILE_LANGUAGE:C>:-std=c11>)
+        
+        # Fix linker issues with Crashpad on newer GNU linkers
+        if(LINUX AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+            target_link_libraries(sentry PRIVATE "-Wl,--warn-execstack")
+            target_link_libraries(sentry PRIVATE "-Wl,--no-warn-rwx-segments")
+            target_link_libraries(sentry PRIVATE "-Wl,--no-fatal-warnings")
+        endif()
+        
+        set(HAVE_SENTRY TRUE)
+        message(STATUS "Sentry Native SDK fetched and configured with Crashpad backend - crash reporting enabled")
+    else()
+        message(WARNING "Failed to fetch Sentry Native SDK - crash reporting disabled")
+        set(ENABLE_SENTRY OFF)
+        set(HAVE_SENTRY FALSE)
+    endif()
+else()
+    set(HAVE_SENTRY FALSE)
+endif()
+MACRO_BOOL_TO_01(HAVE_SENTRY HAVE_SENTRY)
+set_package_properties(sentry PROPERTIES DESCRIPTION "Sentry crash reporting SDK" URL "https://sentry.io" TYPE OPTIONAL PURPOSE "Provides crash reporting and error tracking for KStars.")
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
