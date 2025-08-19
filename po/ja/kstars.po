@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-17 01:59+0000\n"
+"POT-Creation-Date: 2025-08-19 02:24+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -663,7 +663,7 @@ msgstr ""
 msgid "Info"
 msgstr "情報ボックス"
 
-#: auxiliary/ksutils.cpp:163
+#: auxiliary/ksutils.cpp:168
 #, fuzzy, kde-format
 #| msgctxt "North"
 #| msgid "N"
@@ -671,7 +671,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "N"
 msgstr "北"
 
-#: auxiliary/ksutils.cpp:164
+#: auxiliary/ksutils.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "Northeast"
 #| msgid "NE"
@@ -679,7 +679,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNE"
 msgstr "北東"
 
-#: auxiliary/ksutils.cpp:165
+#: auxiliary/ksutils.cpp:170
 #, fuzzy, kde-format
 #| msgctxt "Northeast"
 #| msgid "NE"
@@ -687,7 +687,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NE"
 msgstr "北東"
 
-#: auxiliary/ksutils.cpp:166
+#: auxiliary/ksutils.cpp:171
 #, fuzzy, kde-format
 #| msgctxt "Northeast"
 #| msgid "NE"
@@ -695,7 +695,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ENE"
 msgstr "北東"
 
-#: auxiliary/ksutils.cpp:167
+#: auxiliary/ksutils.cpp:172
 #, fuzzy, kde-format
 #| msgctxt "East"
 #| msgid "E"
@@ -703,7 +703,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "E"
 msgstr "東"
 
-#: auxiliary/ksutils.cpp:168
+#: auxiliary/ksutils.cpp:173
 #, fuzzy, kde-format
 #| msgctxt "Southeast"
 #| msgid "SE"
@@ -711,7 +711,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ESE"
 msgstr "南東"
 
-#: auxiliary/ksutils.cpp:169
+#: auxiliary/ksutils.cpp:174
 #, fuzzy, kde-format
 #| msgctxt "Southeast"
 #| msgid "SE"
@@ -719,7 +719,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SE"
 msgstr "南東"
 
-#: auxiliary/ksutils.cpp:170
+#: auxiliary/ksutils.cpp:175
 #, fuzzy, kde-format
 #| msgctxt "Southeast"
 #| msgid "SE"
@@ -727,7 +727,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSE"
 msgstr "南東"
 
-#: auxiliary/ksutils.cpp:171
+#: auxiliary/ksutils.cpp:176
 #, fuzzy, kde-format
 #| msgctxt "South"
 #| msgid "S"
@@ -735,7 +735,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "S"
 msgstr "南"
 
-#: auxiliary/ksutils.cpp:172
+#: auxiliary/ksutils.cpp:177
 #, fuzzy, kde-format
 #| msgctxt "Southwest"
 #| msgid "SW"
@@ -743,7 +743,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSW"
 msgstr "南西"
 
-#: auxiliary/ksutils.cpp:173
+#: auxiliary/ksutils.cpp:178
 #, fuzzy, kde-format
 #| msgctxt "Southwest"
 #| msgid "SW"
@@ -751,7 +751,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SW"
 msgstr "南西"
 
-#: auxiliary/ksutils.cpp:174
+#: auxiliary/ksutils.cpp:179
 #, fuzzy, kde-format
 #| msgctxt "Southwest"
 #| msgid "SW"
@@ -759,7 +759,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WSW"
 msgstr "南西"
 
-#: auxiliary/ksutils.cpp:175
+#: auxiliary/ksutils.cpp:180
 #, fuzzy, kde-format
 #| msgctxt "West"
 #| msgid "W"
@@ -767,7 +767,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "W"
 msgstr "西"
 
-#: auxiliary/ksutils.cpp:176
+#: auxiliary/ksutils.cpp:181
 #, fuzzy, kde-format
 #| msgctxt "Northwest"
 #| msgid "NW"
@@ -775,7 +775,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WNW"
 msgstr "北西"
 
-#: auxiliary/ksutils.cpp:177
+#: auxiliary/ksutils.cpp:182
 #, fuzzy, kde-format
 #| msgctxt "Northwest"
 #| msgid "NW"
@@ -783,7 +783,7 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NW"
 msgstr "北西"
 
-#: auxiliary/ksutils.cpp:178
+#: auxiliary/ksutils.cpp:183
 #, fuzzy, kde-format
 #| msgctxt "Northwest"
 #| msgid "NW"
@@ -791,13 +791,13 @@ msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNW"
 msgstr "北西"
 
-#: auxiliary/ksutils.cpp:179
+#: auxiliary/ksutils.cpp:184
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1347
+#: auxiliary/ksutils.cpp:1354
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -805,62 +805,62 @@ msgid ""
 " does not exist.  Do you want to make the directory?"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1350
+#: auxiliary/ksutils.cpp:1357
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1355
+#: auxiliary/ksutils.cpp:1362
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "The Default Astrometry Index File Location was created."
 msgstr "指定した設定ファイルを使います"
 
-#: auxiliary/ksutils.cpp:1360
+#: auxiliary/ksutils.cpp:1367
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1381 auxiliary/ksutils.cpp:1537
-#: auxiliary/ksutils.cpp:1602
+#: auxiliary/ksutils.cpp:1388 auxiliary/ksutils.cpp:1544
+#: auxiliary/ksutils.cpp:1609
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Astrometry Configuration File Read Error."
 msgstr "指定した設定ファイルを使います"
 
-#: auxiliary/ksutils.cpp:1395 auxiliary/ksutils.cpp:1580
-#: auxiliary/ksutils.cpp:1622
+#: auxiliary/ksutils.cpp:1402 auxiliary/ksutils.cpp:1587
+#: auxiliary/ksutils.cpp:1629
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "指定した設定ファイルを使います"
 
-#: auxiliary/ksutils.cpp:1668 fitsviewer/fitsdata.cpp:1573
+#: auxiliary/ksutils.cpp:1675 fitsviewer/fitsdata.cpp:1573
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1679
+#: auxiliary/ksutils.cpp:1686
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1 for reading"
 msgid "Cannot open %1: %2"
 msgstr "ファイル <filename>%1</filename> を読み込みのために開けません"
 
-#: auxiliary/ksutils.cpp:1687
+#: auxiliary/ksutils.cpp:1694
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1698
+#: auxiliary/ksutils.cpp:1705
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1822 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1829 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60

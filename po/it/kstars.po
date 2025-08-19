@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-17 01:59+0000\n"
-"PO-Revision-Date: 2025-08-07 13:17+0200\n"
+"POT-Creation-Date: 2025-08-19 02:24+0000\n"
+"PO-Revision-Date: 2025-08-15 20:24+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -620,109 +620,109 @@ msgstr "Spiacente"
 msgid "Info"
 msgstr "Informazioni"
 
-#: auxiliary/ksutils.cpp:163
+#: auxiliary/ksutils.cpp:168
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "N"
 msgstr "N"
 
-#: auxiliary/ksutils.cpp:164
+#: auxiliary/ksutils.cpp:169
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNE"
 msgstr "NNE"
 
-#: auxiliary/ksutils.cpp:165
+#: auxiliary/ksutils.cpp:170
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NE"
 msgstr "NE"
 
-#: auxiliary/ksutils.cpp:166
+#: auxiliary/ksutils.cpp:171
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ENE"
 msgstr "ENE"
 
-#: auxiliary/ksutils.cpp:167
+#: auxiliary/ksutils.cpp:172
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "E"
 msgstr "E"
 
-#: auxiliary/ksutils.cpp:168
+#: auxiliary/ksutils.cpp:173
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ESE"
 msgstr "ESE"
 
-#: auxiliary/ksutils.cpp:169
+#: auxiliary/ksutils.cpp:174
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SE"
 msgstr "SE"
 
-#: auxiliary/ksutils.cpp:170
+#: auxiliary/ksutils.cpp:175
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSE"
 msgstr "SSE"
 
-#: auxiliary/ksutils.cpp:171
+#: auxiliary/ksutils.cpp:176
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "S"
 msgstr "S"
 
-#: auxiliary/ksutils.cpp:172
+#: auxiliary/ksutils.cpp:177
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSW"
 msgstr "SSO"
 
-#: auxiliary/ksutils.cpp:173
+#: auxiliary/ksutils.cpp:178
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SW"
 msgstr "SO"
 
-#: auxiliary/ksutils.cpp:174
+#: auxiliary/ksutils.cpp:179
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WSW"
 msgstr "OSO"
 
-#: auxiliary/ksutils.cpp:175
+#: auxiliary/ksutils.cpp:180
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "W"
 msgstr "O"
 
-#: auxiliary/ksutils.cpp:176
+#: auxiliary/ksutils.cpp:181
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WNW"
 msgstr "ONO"
 
-#: auxiliary/ksutils.cpp:177
+#: auxiliary/ksutils.cpp:182
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NW"
 msgstr "NO"
 
-#: auxiliary/ksutils.cpp:178
+#: auxiliary/ksutils.cpp:183
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNW"
 msgstr "NNO"
 
-#: auxiliary/ksutils.cpp:179
+#: auxiliary/ksutils.cpp:184
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1347
+#: auxiliary/ksutils.cpp:1354
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -733,18 +733,18 @@ msgstr ""
 " %1 \n"
 "non esiste. Vuoi creare la cartella?"
 
-#: auxiliary/ksutils.cpp:1350
+#: auxiliary/ksutils.cpp:1357
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "Creare la cartella del file indice di astrometria?"
 
-#: auxiliary/ksutils.cpp:1355
+#: auxiliary/ksutils.cpp:1362
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr ""
 "La posizione predefinita del file indice di astrometria è stata creata."
 
-#: auxiliary/ksutils.cpp:1360
+#: auxiliary/ksutils.cpp:1367
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
@@ -753,19 +753,19 @@ msgstr ""
 "La cartella del file indice di astrometria non esiste e non è stato "
 "possibile crearla."
 
-#: auxiliary/ksutils.cpp:1381 auxiliary/ksutils.cpp:1537
-#: auxiliary/ksutils.cpp:1602
+#: auxiliary/ksutils.cpp:1388 auxiliary/ksutils.cpp:1544
+#: auxiliary/ksutils.cpp:1609
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "Errore di lettura del file di configurazione di astrometria."
 
-#: auxiliary/ksutils.cpp:1395 auxiliary/ksutils.cpp:1580
-#: auxiliary/ksutils.cpp:1622
+#: auxiliary/ksutils.cpp:1402 auxiliary/ksutils.cpp:1587
+#: auxiliary/ksutils.cpp:1629
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Errore di scrittura interno del file di configurazione di astrometria."
 
-#: auxiliary/ksutils.cpp:1668 fitsviewer/fitsdata.cpp:1573
+#: auxiliary/ksutils.cpp:1675 fitsviewer/fitsdata.cpp:1573
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -774,22 +774,22 @@ msgstr ""
 "Impossibile trovare dcraw e cjpeg. Installa i programmi richiesti per "
 "convertire i file CR2/NEF in JPEG."
 
-#: auxiliary/ksutils.cpp:1679
+#: auxiliary/ksutils.cpp:1686
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "Impossibile aprire %1: %2"
 
-#: auxiliary/ksutils.cpp:1687
+#: auxiliary/ksutils.cpp:1694
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "Impossibile eseguire unpack_thumb %1: %2"
 
-#: auxiliary/ksutils.cpp:1698
+#: auxiliary/ksutils.cpp:1705
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "Impossibile scrivere %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1822 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1829 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -18756,7 +18756,7 @@ msgstr "Messa a fuoco adattiva non in grado di spostare il focheggiatore"
 #: ekos/focus/adaptivefocus.cpp:352
 #, kde-format
 msgid "Moving %1 offset outward"
-msgstr ""
+msgstr "Spostamento dell'offset di %1 verso l'esterno"
 
 #: ekos/focus/adaptivefocus.cpp:392
 #, kde-format
@@ -21398,10 +21398,9 @@ msgstr "Dimensione del nocciolo:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusGaussianSigmaLabel)
 #: ekos/focus/opsfocusprocess.ui:531
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Sigma:"
-msgstr "Sigma:"
+msgstr "Deviazione standard (σ):"
 
 #. i18n: ectx: property (text), widget (QLabel, focusMultiRowAverageLabel)
 #: ekos/focus/opsfocusprocess.ui:547
@@ -21439,9 +21438,9 @@ msgid ""
 "<html><head/><body><p>The gaussian blur sigma value. Used for blurring the "
 "image before for instance the Bahtinov edge detection.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Il valore sigma del nocciolo della sfocatura gaussiana "
-"Utilizzato per sfocare l'immagine prima, per esempio, del rilevamento dei "
-"bordi Bahtinov.</p></body></html>"
+"<html><head/><body><p>Il valore della deviazione standard della sfocatura "
+"gaussiana. Utilizzato per sfocare l'immagine prima, per esempio, del "
+"rilevamento dei bordi Bahtinov.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTolerance)
 #: ekos/focus/opsfocusprocess.ui:663
@@ -31884,22 +31883,19 @@ msgid "KStars Live Stacker (BETA)"
 msgstr "Live Stacker di KStars (BETA)"
 
 #: fitsviewer/fitsviewer.cpp:1175
-#, fuzzy, kde-format
-#| msgid "Extracting..."
+#, kde-format
 msgid "Stacking..."
-msgstr "Estrazione..."
+msgstr "Stacking in corso..."
 
 #: fitsviewer/fitsviewer.cpp:1183
-#, fuzzy, kde-format
-#| msgid "Syncing failed."
+#, kde-format
 msgid "Stacking Failed"
-msgstr "Sincronizzazione non riuscita."
+msgstr "Stacking non riuscito."
 
 #: fitsviewer/fitsviewer.cpp:1201
-#, fuzzy, kde-format
-#| msgid "Settling complete."
+#, kde-format
 msgid "Stacking Complete"
-msgstr "Stabilizzazione completata."
+msgstr "Stacking completato."
 
 #: fitsviewer/fitsviewer.cpp:1475
 #, kde-format
@@ -32022,28 +32018,25 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:203
-#, fuzzy, kde-format
-#| msgid "Tracking"
+#, kde-format
 msgid "Stacking"
-msgstr "Inseguimento"
+msgstr "Stacking"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #: fitsviewer/livestacking.ui:233
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of High Sigma to be used in pixel rejection.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dimensione del subframe in pixel.</p></body></html>"
+"<html><head/><body><p>Valore alto della deviazione standard da utilizzare "
+"nello scarto dei pixel.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
 #: fitsviewer/livestacking.ui:252
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Low Sigma:"
-msgstr "Sigma:"
+msgstr "Soglia inferiore a sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #: fitsviewer/livestacking.ui:274
@@ -32055,6 +32048,11 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Numero massimo di sub mantenuti in memoria durante "
+"l'elaborazione. Più alto è il valore, migliore è la qualità del processo di "
+"sovrapposizione, con maggiore utilizzo però di tempo e memoria.</p><p><br/></"
+"p><p>I processi come il taglio a sigma utilizzerà questo numero di sub per "
+"calcolare la statistica da utilizzare su tutti i sub.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:302
@@ -32064,21 +32062,19 @@ msgstr "Sub in memoria:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:318
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "High Sigma:"
-msgstr "Sigma:"
+msgstr "Soglia superiore a sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #: fitsviewer/livestacking.ui:340
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of Low Sigma to be used in pixel rejection.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Dimensione del subframe in pixel.</p></body></html>"
+"<html><head/><body><p>Valore della soglia inferiore a sigma (deviazione "
+"standard) da utilizzare nello scarto dei pixel.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:365
@@ -32147,35 +32143,38 @@ msgid ""
 "Winsorized Sigma Clipping. Winsorized version of sigma clipping</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Algoritmo di scarto dei pixel:</p><p>- Nessuno. Non "
+"viene applicato alcuno scarto.</p><p>- Taglio a sigma. I pixel con anomalie "
+"vengono scartati.</p><p>- Taglio a sigma winsorizzato. Versione winsorizzata "
+"del taglio a sigma.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:498
-#, fuzzy, kde-format
-#| msgid "Show Clipping"
+#, kde-format
 msgid "Sigma Clipping"
-msgstr "Mostra clipping"
+msgstr "Taglio a sigma"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:503
 #, kde-format
 msgid "Winsorized SC"
-msgstr ""
+msgstr "TS winsorizzato"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:523
 #, kde-format
 msgid "Winsor Cutoff:"
-msgstr ""
+msgstr "Soglia Winsor:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #: fitsviewer/livestacking.ui:545
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Winsorization cutoff in units of sigma to be used in "
 "pixel rejection.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tempo restante per il completamento</p></body></html>"
+"<html><head/><body><p>Soglia di winsorizzazione in unità di deviazione "
+"standard (sigma) da utilizzare nello scarto dei pixel.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, AlignMethod)
 #: fitsviewer/livestacking.ui:597
@@ -32186,6 +32185,10 @@ msgid ""
 "will be plate solved in order to align them prior to stacking.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Metodo di allineamento:</p><p>- Nessuno. Nessun "
+"allineamento eseguito. Utile per impilare dark e flat.</p><p>- Risoluzione "
+"astrometrica. I sub saranno risolti astrometricamente per allinearli prima "
+"dello stacking.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AlignMaster)
 #: fitsviewer/livestacking.ui:626
@@ -32199,14 +32202,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AlignMasterB)
 #: fitsviewer/livestacking.ui:642
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Alignment Master</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Cancella la cronologia dei dati del sensore</p></"
-"body></html>"
+"<html><head/><body><p>Finestra di dialogo di scelta file per il master di "
+"allineamento</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:689
@@ -32228,10 +32230,10 @@ msgstr "Quantità di riduzione rumore"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:766
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
-msgstr "<html><head/><body><p>Dimensione del passo:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Dimensione del kernel di nitidezza.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
 #: fitsviewer/livestacking.ui:794
@@ -32242,19 +32244,21 @@ msgid ""
 "amount) of the original image.</p><p>Set to 0 to switch deconvolution off.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Quantità di deconvoluzione di Wiener da applicare "
+"nell'intervallo da 0 a 1. L'opzione mescola questa quantità dell'immagine "
+"con deconvoluzione con (1 - quantità) dell'immagine originale.</p><p>Imposta "
+"a 0 per disattivare la deconvoluzione.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DenoiseAmt)
 #: fitsviewer/livestacking.ui:819
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of denoise to apply. Larger values apply more "
 "denoising.</p><p>Set to 0 to skip denoising</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Numero di fotogrammi da acquisire a ciascuna posizione "
-"del focheggiatore.</p></body></html>"
+"<html><head/><body><p>Quantità di riduzione rumore da applicare. Valori più "
+"alti applicano più riduzione.</p><p>Imposta a 0 per saltare la riduzione "
+"rumore.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:848
@@ -32264,29 +32268,29 @@ msgstr "Kernel:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:870
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Sharpen Sigma:"
-msgstr "Sigma:"
+msgstr "Deviazione standard (σ) della nitidezza:"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:892
 #, kde-format
 msgid "PSF Sigma:"
-msgstr "Sigma della PSF:"
+msgstr "Deviazione standard della PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
 #: fitsviewer/livestacking.ui:914
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
-msgstr "<html><head/><body><p>Dimensione del passo:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Deviazione standard (sigma) della nitidezza.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
 #: fitsviewer/livestacking.ui:939
 #, kde-format
 msgid "Sharpen Amount:"
-msgstr ""
+msgstr "Quantità di nitidezza:"
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
 #: fitsviewer/livestacking.ui:961
@@ -32296,12 +32300,12 @@ msgstr "Quantità di deconvoluzione:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
 #: fitsviewer/livestacking.ui:983
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>PSF Sigma to use for Deconvolution</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tempo restante per il completamento</p></body></html>"
+"<html><head/><body><p>Deviazione standard (sigma) della PSF da usare per la "
+"deconvoluzione.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
 #: fitsviewer/livestacking.ui:1008
@@ -32318,8 +32322,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:1037
 #, kde-format
 msgid "Rerun the post processing using the selected parameters"
-msgstr ""
-"Esegui di nuovo la post-elaborazione utilizzando i parametri selezionati"
+msgstr "Riesegui la post-elaborazione utilizzando i parametri selezionati"
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1040
@@ -32332,14 +32335,14 @@ msgstr "Rielabora"
 #, kde-format
 msgid "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Finestra di dialogo di scelta della cartella della "
-"pila</p></body></html>"
+"<html><head/><body><p>Finestra di dialogo di scelta della cartella dello "
+"stack</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1111
 #, kde-format
 msgid "Stack Directory:"
-msgstr "Cartella della pila:"
+msgstr "Cartella dello stack:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1133
@@ -32373,8 +32376,8 @@ msgid ""
 "<html><head/><body><p>The directory containing files to stack</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>La cartella che contiene i file da impilare</p></"
-"body></html>"
+"<html><head/><body><p>La cartella che contiene i file per il live stacking</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1218
@@ -32401,8 +32404,8 @@ msgid ""
 "<html><head/><body><p>Starts watching the Stack Directory and runs stacking."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Avvia il monitoraggio della cartella della pila ed "
-"esegue l'impilamento.</p></body></html>"
+"<html><head/><body><p>Avvia il monitoraggio della cartella dello stack ed "
+"esegue lo stacking.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:1285
@@ -35570,7 +35573,7 @@ msgstr "Mostra la finestra INDI all'avvio di EKOS."
 #: kstars.kcfg:210
 #, kde-format
 msgid "Limit for saved focus frames"
-msgstr ""
+msgstr "Limite per i fotogrammi di messa a fuoco salvati"
 
 #. i18n: ectx: whatsthis, entry (maxFocusFrameFiles), group (indi)
 #: kstars.kcfg:211
@@ -39465,19 +39468,21 @@ msgstr "Live Stacking - meccanismo di scarto dei pixel"
 #: kstars.kcfg:1818
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
-msgstr "Live Stacking - criteri di scarto dei pixel con sigma basso"
+msgstr ""
+"Live Stacking - criteri di scarto dei pixel con soglia inferiore a sigma"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1822
 #, kde-format
 msgid "Live Stacking high sigma pixel rejection criteria"
-msgstr "Live Stacking - criteri di scarto dei pixel con sigma alto"
+msgstr ""
+"Live Stacking - criteri di scarto dei pixel con soglia superiore a sigma"
 
 #. i18n: ectx: label, entry (fitsLSWinsorCutoff), group (FITSViewer)
 #: kstars.kcfg:1826
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr ""
+msgstr "Live Stacking - soglia di winsorizzazione del taglio a sigma"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1830
@@ -39489,7 +39494,7 @@ msgstr "Live Stacking - quantità di deconvoluzione"
 #: kstars.kcfg:1834
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr ""
+msgstr "Live Stacking - sigma della PSF da applicare nella deconvoluzione"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1838
@@ -39513,7 +39518,7 @@ msgstr "Live Stacking - dimensione kernel di aumento nitidezza"
 #: kstars.kcfg:1850
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr ""
+msgstr "Live Stacking - deviazione standard nell'applicazione della nitidezza"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1856
@@ -40613,10 +40618,9 @@ msgstr "Numero di righe da combinare nel calcolo della media Bahtinov."
 
 #. i18n: ectx: label, entry (FocusGaussianSigma), group (Focus)
 #: kstars.kcfg:2446
-#, fuzzy, kde-format
-#| msgid "Gaussian blur sigma value."
+#, kde-format
 msgid "Gaussian blur sigma value."
-msgstr "Valore sigma del nocciolo della sfocatura gaussiana."
+msgstr "Valore sigma della sfocatura gaussiana."
 
 #. i18n: ectx: label, entry (FocusThreshold), group (Focus)
 #: kstars.kcfg:2450
@@ -81905,10 +81909,9 @@ msgid "rho"
 msgstr "ro"
 
 #: skyobjects/starobject.cpp:598
-#, fuzzy, kde-format
-#| msgid "sigma"
+#, kde-format
 msgid "sigma"
-msgstr "sigma"
+msgstr "deviazione standard (σ)"
 
 #: skyobjects/starobject.cpp:599
 #, kde-format
@@ -85230,10 +85233,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, DarkNebulaCB)
 #: tools/imagingplanner.ui:1917
-#, fuzzy, kde-format
-#| msgid "Dark Neb"
+#, kde-format
 msgid "DarkNeb"
-msgstr "Neb oscura"
+msgstr "NebOscura"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OtherCB)
 #: tools/imagingplanner.ui:1924
@@ -85340,9 +85342,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:2021
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Load"
+#, kde-format
 msgid "Load"
 msgstr "Carica"
 
@@ -85431,10 +85431,9 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2102
-#, fuzzy, kde-format
-#| msgid "Keyword"
+#, kde-format
 msgid "keyword"
-msgstr "Parola chiave"
+msgstr "parola chiave"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)

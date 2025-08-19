@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-17 01:59+0000\n"
+"POT-Creation-Date: 2025-08-19 02:24+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -1783,109 +1783,109 @@ msgstr "Desculpe"
 msgid "Info"
 msgstr "Informação"
 
-#: auxiliary/ksutils.cpp:163
+#: auxiliary/ksutils.cpp:168
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "N"
 msgstr "N"
 
-#: auxiliary/ksutils.cpp:164
+#: auxiliary/ksutils.cpp:169
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNE"
 msgstr "NNE"
 
-#: auxiliary/ksutils.cpp:165
+#: auxiliary/ksutils.cpp:170
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NE"
 msgstr "NE"
 
-#: auxiliary/ksutils.cpp:166
+#: auxiliary/ksutils.cpp:171
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ENE"
 msgstr "ENE"
 
-#: auxiliary/ksutils.cpp:167
+#: auxiliary/ksutils.cpp:172
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "E"
 msgstr "E"
 
-#: auxiliary/ksutils.cpp:168
+#: auxiliary/ksutils.cpp:173
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ESE"
 msgstr "ESE"
 
-#: auxiliary/ksutils.cpp:169
+#: auxiliary/ksutils.cpp:174
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SE"
 msgstr "SE"
 
-#: auxiliary/ksutils.cpp:170
+#: auxiliary/ksutils.cpp:175
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSE"
 msgstr "SSE"
 
-#: auxiliary/ksutils.cpp:171
+#: auxiliary/ksutils.cpp:176
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "S"
 msgstr "S"
 
-#: auxiliary/ksutils.cpp:172
+#: auxiliary/ksutils.cpp:177
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSW"
 msgstr "SSO"
 
-#: auxiliary/ksutils.cpp:173
+#: auxiliary/ksutils.cpp:178
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SW"
 msgstr "SO"
 
-#: auxiliary/ksutils.cpp:174
+#: auxiliary/ksutils.cpp:179
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WSW"
 msgstr "OSO"
 
-#: auxiliary/ksutils.cpp:175
+#: auxiliary/ksutils.cpp:180
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "W"
 msgstr "O"
 
-#: auxiliary/ksutils.cpp:176
+#: auxiliary/ksutils.cpp:181
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WNW"
 msgstr "ONO"
 
-#: auxiliary/ksutils.cpp:177
+#: auxiliary/ksutils.cpp:182
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NW"
 msgstr "NO"
 
-#: auxiliary/ksutils.cpp:178
+#: auxiliary/ksutils.cpp:183
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNW"
 msgstr "NNO"
 
-#: auxiliary/ksutils.cpp:179
+#: auxiliary/ksutils.cpp:184
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1347
+#: auxiliary/ksutils.cpp:1354
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -1896,17 +1896,17 @@ msgstr ""
 " %1\n"
 "  não existe. Deseja criar a pasta?"
 
-#: auxiliary/ksutils.cpp:1350
+#: auxiliary/ksutils.cpp:1357
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "Criar a Pasta de Ficheiros do Índice do Astrometry?"
 
-#: auxiliary/ksutils.cpp:1355
+#: auxiliary/ksutils.cpp:1362
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr "Foi criada a Pasta Predefinida de Ficheiros do Índice do Astrometry."
 
-#: auxiliary/ksutils.cpp:1360
+#: auxiliary/ksutils.cpp:1367
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
@@ -1915,19 +1915,19 @@ msgstr ""
 "A Pasta Predefinida de Ficheiros de Índice do Astrometry não existe e não "
 "foi possível criá-la."
 
-#: auxiliary/ksutils.cpp:1381 auxiliary/ksutils.cpp:1537
-#: auxiliary/ksutils.cpp:1602
+#: auxiliary/ksutils.cpp:1388 auxiliary/ksutils.cpp:1544
+#: auxiliary/ksutils.cpp:1609
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "Erro de Leitura do Ficheiro de Configuração do Astrometry."
 
-#: auxiliary/ksutils.cpp:1395 auxiliary/ksutils.cpp:1580
-#: auxiliary/ksutils.cpp:1622
+#: auxiliary/ksutils.cpp:1402 auxiliary/ksutils.cpp:1587
+#: auxiliary/ksutils.cpp:1629
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Erro de Escrita do Ficheiro de Configuração do Astrometry Interno."
 
-#: auxiliary/ksutils.cpp:1668 fitsviewer/fitsdata.cpp:1573
+#: auxiliary/ksutils.cpp:1675 fitsviewer/fitsdata.cpp:1573
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -1936,22 +1936,22 @@ msgstr ""
 "Não foi possível encontrar o 'dcraw' e o 'cjpeg'. Instale por favor as "
 "seguintes ferramentas para converter o CR2/NEF para JPEG."
 
-#: auxiliary/ksutils.cpp:1679
+#: auxiliary/ksutils.cpp:1686
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "Não é possível aceder ao %1: %2"
 
-#: auxiliary/ksutils.cpp:1687
+#: auxiliary/ksutils.cpp:1694
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "Não é possível invocar o 'unpack_thumb' de %1: %2"
 
-#: auxiliary/ksutils.cpp:1698
+#: auxiliary/ksutils.cpp:1705
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "Não é possível gravar o %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1822 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1829 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
