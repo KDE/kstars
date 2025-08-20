@@ -361,7 +361,7 @@ SampleStatistics ComputeSampleStatistics(std::vector<double> data,
         double trimAmount = 0.25,
         const size_t stride = 1);
 
-[[using gnu : pure]]
+//[[using gnu : pure]]
 constexpr double ConvertScaleToWeight(const ScaleCalculation scaleMethod, double scale)
 {
     // If the passed in scale is zero or near zero return a very small weight rather than infinity.
