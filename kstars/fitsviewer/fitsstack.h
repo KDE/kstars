@@ -6,12 +6,29 @@
 
 #pragma once
 
+// Include Windows-specific headers first with protective macros
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#undef NOMINMAX  // Remove after windows.h
+#endif
+
 #include "fitscommon.h"
 #include "ekos/auxiliary/solverutils.h"
 #include <fits_debug.h>
-
 #include <QObject>
 #include <QPointer>
+
+// Include OpenCV headers after Windows headers
+#ifdef _WIN32
+#pragma push_macro("NOMINMAX")
+#define NOMINMAX
+#endif
 
 #include "opencv2/opencv.hpp"
 #include "opencv2/imgcodecs.hpp"
@@ -19,9 +36,12 @@
 #include "opencv2/calib3d.hpp"
 #include "opencv2/photo.hpp"
 
+#ifdef _WIN32
+#pragma pop_macro("NOMINMAX")
+#endif
+
 #include <wcs.h>
 #include <fitsio.h>
-
 
 namespace Ekos
 {
