@@ -352,6 +352,7 @@ if(ENABLE_SENTRY)
         GIT_REPOSITORY https://github.com/getsentry/sentry-native.git
         GIT_TAG        0.10.0  # Use the latest stable version
         GIT_SHALLOW    TRUE
+        CMAKE_ARGS     -DSENTRY_BACKEND=crashpad
     )
     
     # Configure Sentry build options

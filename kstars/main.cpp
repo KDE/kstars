@@ -23,7 +23,7 @@
 
 #if !defined(KSTARS_LITE)
 #include <KAboutData>
-#include <KCrash>
+//#include <KCrash>
 #endif
 
 #include "config-kstars.h"
@@ -84,6 +84,8 @@ int main(int argc, char *argv[])
     sentry_options_set_dsn(options, "https://dd7f240ee9134b979acadff30efc873c@crash-reports.kde.org/73");
     sentry_options_set_release(options, KSTARS_VERSION);
     sentry_options_set_environment(options, KSTARS_BUILD_RELEASE);
+    sentry_options_set_crashpad_wait_for_upload(options, true);
+    sentry_options_set_debug(options, 1);
 
     // Set additional context
     sentry_options_set_auto_session_tracking(options, true);
@@ -132,21 +134,21 @@ int main(int argc, char *argv[])
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::TempLocation));
 
-    KCrash::initialize();
+    //KCrash::initialize();
     QString versionString =
         QString("%1 %2").arg(KSTARS_VERSION).arg(KSTARS_BUILD_RELEASE);
     KAboutData aboutData(
         "kstars", i18n("KStars"), versionString, description.toString(), KAboutLicense::GPL,
         "2001-" + QString::number(QDate::currentDate().year()) +
         i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) "
-             "2014-2017 Max Planck Society"),
+         "2014-2017 Max Planck Society"),
         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2\n\n%3",
               KSTARS_BUILD_TS,
               KSTARS_BUILD_RELEASE == QLatin1String("Beta") ?
-              "Pre-release beta snapshot. Do not use in production." :
-              "Stable release.",
+    "Pre-release beta snapshot. Do not use in production." :
+    "Stable release.",
               notice.toString()),
-        "https://edu.kde.org/kstars");
+    "https://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"),
                         "jharris@30doradus.org", "http://www.30doradus.org");
     aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"),

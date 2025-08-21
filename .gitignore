@@ -33,6 +33,7 @@ build_kstarslite/android_libs_src/libnova/build/*
 
 CMakeLists.txt.user
 
+**/.sentry-native/
 .flatpak-builder
 build
 repo

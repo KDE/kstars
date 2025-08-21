@@ -1372,7 +1372,7 @@ IF (NOT ANDROID)
         )
     else()
         target_link_libraries(KStarsLib
-            KF6::Crash
+            # KF6::Crash
             KF6::I18n
             KF6::XmlGui
             KF6::NewStuffWidgets
