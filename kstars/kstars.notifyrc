@@ -1778,7 +1778,7 @@ Comment[x-test]=xxMount manual motion completedxx
 Comment[zh_CN]=赤道仪手动运动完毕
 [Event/IndiServerMessage]
 Name=INDI Server Message
-Name[ar]=رسالة خادوم INDI
+Name[ar]=رسالة خادم INDI
 Name[bg]=Съобщение на сървъра INDI
 Name[ca]=Missatge del servidor INDI
 Name[ca@valencia]=Missatge del servidor INDI
@@ -1805,7 +1805,7 @@ Name[uk]=Повідомлення сервера INDI
 Name[x-test]=xxINDI Server Messagexx
 Name[zh_CN]=INDI 服务器消息
 Comment=INDI Server Message (it must be enabled in INDI section of Settings)
-Comment[ar]=رسالة خادوم INDI (يجب تفعيلها من قسم INDI في الإعدادات)
+Comment[ar]=رسالة خادم INDI (يجب تفعيلها من قسم INDI في الإعدادات)
 Comment[bg]=Съобщение на сървъра INDI (трябва да бъде разрешено в раздел "Настройки" на INDI)
 Comment[ca]=Missatge del servidor INDI (ha d'estar activat a la secció INDI de l'arranjament)
 Comment[ca@valencia]=Missatge del servidor INDI (ha d'estar activat en la secció INDI de la configuració)
