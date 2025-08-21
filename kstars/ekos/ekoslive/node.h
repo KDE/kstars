@@ -78,6 +78,7 @@ class Node : public QObject
         bool m_isConnected { false };
         bool m_ClientState { false };
         bool m_sendBlobs { true};
+        bool m_isConnectingOrDisconnecting { false };
 
         QMap<int, bool> m_Options;
 
