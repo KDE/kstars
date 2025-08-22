@@ -1,5 +1,5 @@
 ########### install files ###############
 
-install( FILES info_url.dat DESTINATION  ${DATA_INSTALL_DIR}/kstars/nds
+install( FILES info_url.dat DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/nds
 )
 
