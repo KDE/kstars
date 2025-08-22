@@ -1564,11 +1564,15 @@ if(APPLE)
     message(STATUS "Copying needed files into KStars App Directory: ${KSTARS_APP}")
     execute_process(COMMAND ${CMAKE_COMMAND}
                     -DBUNDLED_DATA_LOCATION=${KSTARS_APP}/Contents/Resources
+                    -DDATA_INSTALL_DIR=${KSTARS_APP}/Contents/Resources
                     ${CMAKE_CURRENT_SOURCE_DIR}/data
-                    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/kstars/data")
-    execute_process(COMMAND -E env DATA_INSTALL_DIR=${KSTARS_APP}/Contents/Resources
-                    ${CMAKE_COMMAND} --build . --target install
-                    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/kstars/data")
+                    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/kstars/data"
+                    RESULT_VARIABLE configureOutput)
+    message(STATUS "Data Directory Configure output: ${configureOutput}")
+    execute_process(COMMAND ${CMAKE_COMMAND} --build . --target install
+                    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/kstars/data"
+                    RESULT_VARIABLE installOutput)
+    message(STATUS "Data Directory Installation output: ${installOutput}")
     file(COPY
         "${CMAKE_CURRENT_SOURCE_DIR}/data/qml"
         DESTINATION "${KSTARS_APP}/Contents/Resources/kstars/")
