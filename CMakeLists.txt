@@ -18,9 +18,11 @@ option(BUILD_QT5 "Build using Qt5" On)
 if(BUILD_QT5)
     set(QT_MIN_VERSION 5.12.7)
     set(KF5_MIN_VERSION 5.68.0)
+    set(QT_MAJOR_VERSION 5)
 else()
     set(QT_MIN_VERSION 6.6.0)
     set(KF6_MIN_VERSION 6.6.0)
+    set(QT_MAJOR_VERSION 6)
 endif(BUILD_QT5)
 
 # Build KStars Lite with -DBUILD_KSTARS_LITE=ON
