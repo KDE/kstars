@@ -6,6 +6,8 @@
 # Compiled Dynamic libraries
 *.so
 
+# Sentry
+**/.sentry-native/
 # Compiled Static libraries
 *.lai
 *.la
