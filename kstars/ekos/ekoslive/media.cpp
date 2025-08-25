@@ -396,6 +396,10 @@ void Media::upload(const QSharedPointer<FITSView> &view, const QString &uuid)
     buffer.open(QIODevice::WriteOnly);
 
     const QSharedPointer<FITSData> imageData = view->imageData();
+
+    if (!imageData)
+        return;
+
     QString resolution = QString("%1x%2").arg(imageData->width()).arg(imageData->height());
     QString sizeBytes = KFormat().formatByteSize(imageData->size());
     QVariant xbin(1), ybin(1), exposure(0), focal_length(0), gain(0), pixel_size(0), aperture(0);
