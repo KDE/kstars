@@ -13,9 +13,10 @@ set (KSTARS_BUILD_RELEASE "Stable")
 set (CMAKE_CXX_STANDARD 17)
 
 # Option to choose between Qt5 and Qt6
-option(BUILD_QT5 "Build using Qt5" On)
+# This is used by KDE CI
+option(BUILD_WITH_QT6 "Build using Qt6" OFF)
 
-if(BUILD_QT5)
+if(NOT BUILD_WITH_QT6)
     set(QT_MIN_VERSION 5.12.7)
     set(KF5_MIN_VERSION 5.68.0)
     set(QT_MAJOR_VERSION 5)
@@ -23,7 +24,7 @@ else()
     set(QT_MIN_VERSION 6.6.0)
     set(KF6_MIN_VERSION 6.6.0)
     set(QT_MAJOR_VERSION 6)
-endif(BUILD_QT5)
+endif()
 
 # Build KStars Lite with -DBUILD_KSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
@@ -71,7 +72,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE
 include(ExternalProject)
 include(ECMInstallIcons)
 include(ECMAddAppIcon)
-if(BUILD_QT5)
+if(NOT BUILD_WITH_QT6)
     include(KDEInstallDirs)
 else()
     include(KDEInstallDirs6)
@@ -115,11 +116,11 @@ if(BUILD_KSTARS_LITE)
         find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Qml Quick QuickControls2 Xml Svg Sql Network Positioning PositioningQuick Concurrent WebSockets ${QT_EXTRA_COMPONENTS})
     endif()
 else()
-    if(BUILD_QT5)
+    if(NOT BUILD_WITH_QT6)
         find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport Concurrent WebSockets)
     else()
         find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg SvgWidgets Network PrintSupport Concurrent WebSockets DBus)
-    endif(BUILD_QT5)
+    endif(NOT BUILD_WITH_QT6)
 endif()
 
 # Load the frameworks we need
@@ -138,7 +139,7 @@ if(BUILD_KSTARS_LITE)
         find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Auth Config Crash WidgetsAddons NewStuff I18n KIO XmlGui Plotting Notifications)
     endif()
 else(BUILD_KSTARS_LITE)
-    if(BUILD_QT5)
+    if(NOT BUILD_WITH_QT6)
        # Find Optional package NotifyConfig for desktop notifications
        find_package(KF5 ${KF5_MIN_VERSION} COMPONENTS NotifyConfig)
        MACRO_BOOL_TO_01(KF5NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
@@ -174,7 +175,7 @@ else(BUILD_KSTARS_LITE)
           Notifications
         )
        set(KFX_VERSION ${KF6_VERSION})
-    endif(BUILD_QT5)
+    endif(NOT BUILD_WITH_QT6)
 endif(BUILD_KSTARS_LITE)
 
 ## Eigen3 Library
@@ -294,7 +295,7 @@ find_package(Xplanet)
 set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all the major planets and most satellites" URL "http://xplanet.sourceforge.net" TYPE RUNTIME PURPOSE "Gives KStars support for xplanet.")
 
 # Qt5/6 Data Visualization
-if (BUILD_QT5)
+if (NOT BUILD_WITH_QT6)
    find_package(Qt5DataVisualization)
    MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
 else()
@@ -312,7 +313,7 @@ MACRO_BOOL_TO_01(LibXISF_FOUND HAVE_XISF)
 #set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE RUNTIME PURPOSE "Support for plate solving in KStars.")
 
 ## Key Chain
-if (BUILD_QT5)
+if (NOT BUILD_WITH_QT6)
    find_package(Qt5Keychain)
    MACRO_BOOL_TO_01(Qt5Keychain_FOUND HAVE_KEYCHAIN)
 else()
@@ -516,7 +517,7 @@ IF (NOT ANDROID)
     ENDIF()
     # Make it possible to use the po files fetched by the fetch-translations step    
     ki18n_install(po)
-    if (BUILD_QT5)
+    if (NOT BUILD_WITH_QT6)
         find_package(KF5DocTools CONFIG)
     else()
         find_package(KF6DocTools CONFIG)

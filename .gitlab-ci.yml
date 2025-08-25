@@ -136,7 +136,7 @@ build:
     - suse_tumbleweed_qt69
   script:
     - cd kstars-build
-    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=OFF -DBUILD_DOC=OFF -DBUILD_QT5=OFF ..
+    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=OFF -DBUILD_DOC=OFF -DBUILD_WITH_QT6=ON ..
     - ninja -j8 all install
 
 # Run the full validation in one step, stable tests that must not fail
@@ -154,7 +154,7 @@ build-and-test-stable:
     BUILD_TESTING: "ON"
   script:
     - cd kstars-build
-    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=ON -DBUILD_QT5=OFF ..
+    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=ON -DBUILD_WITH_QT6=ON ..
     - ninja -j8 all install
     - rm -rf Testing
     - mkdir -p /var/run/dbus
