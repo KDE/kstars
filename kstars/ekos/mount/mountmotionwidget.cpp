@@ -135,9 +135,10 @@ MountMotionWidget::MountMotionWidget(QWidget *parent)
 /////////////////////////////////////////////////////////////////////////////////////////
 void MountMotionWidget::syncSpeedInfo(INDI::PropertySwitch svp)
 {
-    if (svp.isValid())
+    int index = svp.isValid() ? svp.findOnSwitchIndex() : -1;
+
+    if (index >= 0)
     {
-        int index = svp.findOnSwitchIndex();
         speedSliderObject->setEnabled(true);
         speedSliderObject->setMaximum(svp.count() - 1);
         speedSliderObject->setValue(index);
