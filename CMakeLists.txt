@@ -324,7 +324,6 @@ endif()
 
 ## OpenCV
 # Disable OpenCV on Windows until KDE's Craft fixes the OpenCV package.
-if (NOT WIN32)
 find_package(OpenCV COMPONENTS core imgcodecs calib3d photo)
 MACRO_BOOL_TO_01(OpenCV_FOUND HAVE_OPENCV)
 if (OpenCV_FOUND)
