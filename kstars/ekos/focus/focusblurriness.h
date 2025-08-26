@@ -27,8 +27,7 @@ namespace Ekos
 // FOCUS_STAR_LAPLASSIAN - This measure uses the Laplassian openCV algorithm. The measure is mean ^ 2.
 // FOCUS_STAR_CANNY      - This measure uses the Canny openCV algorithm. The measure is mean.
 //
-// This class uses openCV to perform calculations on the images. Set the debug = true flag to have openCV display
-// intermediate images for debugging.
+// This class uses openCV to perform calculations on the images.
 
 using namespace cv;
 
@@ -107,16 +106,10 @@ class FocusBlurriness
                     qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 Unable to process image in openCV").arg(__FUNCTION__);
                     return;
                 }
-                if (debug)
-                    cv::imshow("Original image", img);
 
                 // Convert colour images to greyscale
                 if (img.channels() != 1)
-                {
                     cv::cvtColor(img, img, cv::COLOR_BGR2GRAY);
-                    if (debug)
-                        cv::imshow("Greyscale image", img);
-                }
 
                 // Now see if there are restrictions on the image size such as an ROI or a mask
                 if (tile >= 0 || roi != QRect())
@@ -135,8 +128,6 @@ class FocusBlurriness
                         qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 Unable to process ROI image in openCV").arg(__FUNCTION__);
                         return;
                     }
-                    if (debug)
-                        cv::imshow("ROI", img);
                 }
                 else if (mask)
                 {
@@ -151,11 +142,7 @@ class FocusBlurriness
                 double min;
                 // Denoise (blur) the image for better edge detection
                 if (denoise)
-                {
                     cv::GaussianBlur(img, img, Size(9, 9), 0, 0, BORDER_DEFAULT);
-                    if (debug)
-                        cv::imshow("Denoised image", img);
-                }
 
                 switch (starMeasure)
                 {
@@ -178,20 +165,11 @@ class FocusBlurriness
                         cv::convertScaleAbs(sobely, abs_grad_y, 255 / m_maxY, 0);
 
                         cv::addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, result);
-                        if (debug)
-                        {
-                            cv::imshow("Sobel X", sobelx);
-                            cv::imshow("Sobel Y", sobely);
-                            cv::imshow("abs_grad_x", abs_grad_x);
-                            cv::imshow("abs_grad_y", abs_grad_y);
-                        }
                         cv::meanStdDev(result, mean, sigma);
                         *blurriness = sigma.val[0] * sigma.val[0] / mean.val[0];
                         break;
                     case Focus::FOCUS_STAR_LAPLASSIAN:
                         cv::Laplacian(img, result, CV_64F, 3);
-                        if (debug)
-                            cv::imshow("Laplassian", result);
                         if (m_maxX < 0.0)
                             cv::minMaxIdx(result, &min, &m_maxX);
                         cv::convertScaleAbs(result, result, 255.0 / m_maxX, 0);
@@ -205,25 +183,12 @@ class FocusBlurriness
                         cv::convertScaleAbs(img, img, 255.0 / m_maxX, 0);
                         // The hysteresis variables min=100 and max=3*min seem to work OK
                         cv::Canny(img, result, 100, 300, 5, false);
-                        if (debug)
-                        {
-                            cv::imshow("8bit image", img);
-                            cv::imshow("Canny", result);
-                        }
                         cv::meanStdDev(result, mean, sigma);
                         *blurriness = mean.val[0];
                         break;
                     default:
                         qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 called with unknown star measure %2").arg(__FUNCTION__).arg(starMeasure);
                         break;
-                }
-                if (debug)
-                {
-                    cv::imshow("result", result);
-                    cv::equalizeHist(result, result);
-                    cv::imshow("equalized result", result);
-                    cv::waitKey();
-                    cv::destroyAllWindows();
                 }
             }
             catch (const cv::Exception &ex)
@@ -239,6 +204,5 @@ class FocusBlurriness
 
         double m_maxX = -1.0;
         double m_maxY = -1.0;
-        bool debug = false; // JEE Remove for production
 };
 }

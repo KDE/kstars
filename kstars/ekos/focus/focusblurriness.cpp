@@ -118,10 +118,5 @@ void FocusBlurriness::applyRingMaskToImage(cv::Mat &img, const int width, const 
     cv::Mat res;
     img.copyTo(res, cvMask);
     img = res;
-    if (debug)
-    {
-        cv::imshow("Mask", cvMask);
-        cv::imshow("Image with mask", img);
-    }
 }
 }  // namespace
