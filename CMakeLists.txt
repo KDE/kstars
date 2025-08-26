@@ -34,7 +34,7 @@ option(BUILD_PYKSTARS "Build SkyMesh Python Bindings" OFF)
 
 # Enable Sentry crash reporting (desktop only)
 if(NOT ANDROID AND NOT BUILD_KSTARS_LITE)
-    option(ENABLE_SENTRY "Enable Sentry crash reporting" ON)
+    option(ENABLE_SENTRY "Enable Sentry crash reporting" OFF)
 else()
     set(ENABLE_SENTRY OFF)
 endif()
