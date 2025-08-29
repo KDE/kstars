@@ -35,6 +35,7 @@ CMakeLists.txt.user
 
 .flatpak-builder
 build
+repo
 moc_*.cpp
 kstars/ui_*.h
 kstars/version.h

@@ -44,7 +44,8 @@ Build-Depends: cmake,
                libopencv-imgproc-dev,
                libopencv-calib3d-dev,
                libopencv-imgcodecs-dev,
-               libopencv-photo-dev
+               libopencv-photo-dev,
+               libopencv-video-dev
 Standards-Version: 3.9.3
 Homepage: http://edu.kde.org/
 
