@@ -27,6 +27,8 @@ include:
     - !reference [.always-on-merge-requests, rules]
     - !reference [.manual-skipped-recipe, rules]
 
+# These jobs are automatically defined by the included templates
+# We just need to override their rules - no need to extend anything
 suse_tumbleweed_qt69:
   rules:
     - !reference [.standard-build-recipes, rules]
@@ -37,6 +39,7 @@ windows_qt68:
     - !reference [.standard-build-recipes, rules]
 
 suse_tumbleweed_qt515:
+  # This job is likely defined by linux.yml template (Qt5 build)
   allow_failure: true # TODO: REMOVE WHEN STELLARSOLVER QT5 IS INCLUDED IN CI IMAGE
   rules:
     - !reference [.standard-build-recipes, rules]
@@ -63,6 +66,7 @@ flatpak:
     - !reference [.always-on-stable-release, rules]
     - !reference [.manual-skipped-recipe, rules]
 
+# These craft jobs are also automatically defined by the included templates
 craft_windows_qt6_x86_64: # Extended from /gitlab-templates/craft-windows-x86-64-qt6.yml
   needs:
     - windows_qt68
@@ -91,8 +95,10 @@ craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.y
     - when: never
 
 microsoftstore_qt6:
-   rules:
-     - !reference [.publishing-recipes, rules]
+  needs:
+    - craft_windows_qt6_x86_64  # Wait for Windows craft job to complete
+  rules:
+    - !reference [.publishing-recipes, rules]
 
 # Custom build recipes - until tests are operational in the KDE CI image
 
