@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-19 02:24+0000\n"
-"PO-Revision-Date: 2025-08-16 23:39+0200\n"
+"PO-Revision-Date: 2025-08-30 12:15+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -12832,7 +12832,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Activeu els registres per a diagnosticar problemes amb "
 "Ekos o INDI. Si el vostre sistema té recursos limitats, &pex;, una Raspberry "
-"Pi amb una targeta SD, activeu només els registres necessaris per a ajudar a "
+"Pi amb una targeta SD, activeu només els registres necessaris per ajudar a "
 "diagnosticar problemes concrets i desactiveu-los quan ja no siguen "
 "necessaris. Els registres consumixen recursos i poden alentir el sistema.</"
 "p></body></html>"
@@ -27566,8 +27566,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p><span style=\"font-weight:600;\">Consell</span>: <span "
 "style=\"font-style:italic;\">El gestor web d'INDI</span> és un servei que "
-"s'executa en dispositius remots per a ajudar-vos a iniciar i parar els "
-"serveis INDI de forma remota.</p></body></html>"
+"s'executa en dispositius remots per ajudar-vos a iniciar i parar els serveis "
+"INDI de forma remota.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/profilewizard.ui:679
@@ -32875,15 +32875,14 @@ msgstr ""
 msgid "Single window open"
 msgstr "Obri una finestra única"
 
-# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_focusFITSOnNewImage)
 #: fitsviewer/opsfits.ui:112
 #, kde-format
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image"
 msgstr ""
-"Porta la finestra del «Visor de FITS» al primer pla quan es rep una imatge "
-"nova."
+"Porta la finestra del «Visor de FITS» al primer pla quan es reba una imatge "
+"nova"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_focusFITSOnNewImage)
 #: fitsviewer/opsfits.ui:115
@@ -39779,7 +39778,8 @@ msgstr "Mostra totes les imatges FITS obertes en una única finestra del visor."
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image."
 msgstr ""
-"Porta la finestra del «Visor de FITS» al primer pla en rebre una imatge nova."
+"Porta la finestra del «Visor de FITS» al primer pla quan es reba una imatge "
+"nova."
 
 #. i18n: ectx: label, entry (independentWindowFITS), group (FITSViewer)
 #: kstars.kcfg:1697
@@ -83398,7 +83398,7 @@ msgstr ""
 "«Guarda la imatge del cel»\n"
 "\t\t\tdel menú Fitxer, o bé prement «Ctrl+I». A més, podeu executar KStars "
 "des d'un\n"
-"\t\t\tindicatiu d'ordres amb l'argument «--dump» per a guardar en el disc "
+"\t\t\tindicador d'ordres amb l'argument «--dump» per a guardar en el disc "
 "una imatge\n"
 "\t\t\tdel cel sense necessitat d'obrir la finestra del programa. Açò es pot "
 "utilitzar\n"
