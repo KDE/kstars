@@ -6220,9 +6220,9 @@ msgid ""
 "by the name of your city, province, and country.</p><p>Once you have "
 "selected a City, press <b>Next</b>.</p>"
 msgstr ""
-"<p>Trieu de la llista una ciutat prop del vostre emplaçament. Podeu filtrar "
-"la llista pel nom de la vostra ciutat, província o país.</p><p>Una vegada "
-"hàgeu escollit una ciutat, premeu <b>Següent</b>.</p>"
+"<p>Trieu la llista una ciutat prop del vostre emplaçament. Podeu filtrar la "
+"llista pel nom de la vostra ciutat, província o país.</p><p>Una vegada hàgeu "
+"escollit una ciutat, premeu <b>Següent</b>.</p>"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, CityFilter)
@@ -80498,7 +80498,7 @@ msgstr ""
 #: options/opssolarsystem.ui:114
 #, kde-format
 msgid "Select All"
-msgstr "Tria-ho tot"
+msgstr "Selecciona-ho tot"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, showNonePlanets)
