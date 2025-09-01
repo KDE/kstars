@@ -371,8 +371,8 @@ void Mount::processSwitch(INDI::Property prop)
 
     if (manualMotionChanged)
     {
-        auto NSCurrentMotion = getSwitch("TELESCOPE_MOTION_NS")->getState();
-        auto WECurrentMotion = getSwitch("TELESCOPE_MOTION_WE")->getState();
+        auto NSCurrentMotion = getSwitch("TELESCOPE_MOTION_NS").getState();
+        auto WECurrentMotion = getSwitch("TELESCOPE_MOTION_WE").getState();
         inCustomParking = false;
         inManualMotion = (NSCurrentMotion == IPS_BUSY || WECurrentMotion == IPS_BUSY);
     }
@@ -392,8 +392,8 @@ void Mount::processText(INDI::Property prop)
             }
             else
             {
-                auto trajStart = trajWindow->findWidgetByName("SAT_PASS_WINDOW_START");
-                auto trajEnd = trajWindow->findWidgetByName("SAT_PASS_WINDOW_END");
+                auto trajStart = trajWindow.findWidgetByName("SAT_PASS_WINDOW_START");
+                auto trajEnd = trajWindow.findWidgetByName("SAT_PASS_WINDOW_END");
 
                 if (!trajStart || !trajEnd)
                 {
@@ -421,10 +421,10 @@ void Mount::processText(INDI::Property prop)
             }
             else
             {
-                auto trackSwitch = trackSwitchV->findWidgetByName("SAT_TRACK");
+                auto trackSwitch = trackSwitchV.findWidgetByName("SAT_TRACK");
                 if (trackSwitch)
                 {
-                    trackSwitchV->reset();
+                    trackSwitchV.reset();
                     trackSwitch->setState(ISS_ON);
 
                     sendNewProperty(trackSwitchV);
@@ -442,10 +442,10 @@ void Mount::updateParkStatus()
     if (!svp)
         return;
 
-    auto sp = svp->findWidgetByName("PARK");
+    auto sp = svp.findWidgetByName("PARK");
     if (sp)
     {
-        if (svp->getState() == IPS_ALERT)
+        if (svp.getState() == IPS_ALERT)
         {
             // First, inform everyone watch this that an error occurred.
             emit newParkStatus(PARK_ERROR);
@@ -455,7 +455,7 @@ void Mount::updateParkStatus()
             KSNotification::event(QLatin1String("MountParkingFailed"), i18n("Mount parking failed"), KSNotification::Mount,
                                   KSNotification::Alert);
         }
-        else if (svp->getState() == IPS_BUSY && sp->s == ISS_ON && m_ParkStatus != PARK_PARKING)
+        else if (svp.getState() == IPS_BUSY && sp->getState() == ISS_ON && m_ParkStatus != PARK_PARKING)
         {
             m_ParkStatus = PARK_PARKING;
             KSNotification::event(QLatin1String("MountParking"), i18n("Mount parking is in progress"), KSNotification::Mount);
@@ -463,14 +463,14 @@ void Mount::updateParkStatus()
 
             emit newParkStatus(m_ParkStatus);
         }
-        else if (svp->getState() == IPS_BUSY && sp->getState() == ISS_OFF && m_ParkStatus != PARK_UNPARKING)
+        else if (svp.getState() == IPS_BUSY && sp->getState() == ISS_OFF && m_ParkStatus != PARK_UNPARKING)
         {
             m_ParkStatus = PARK_UNPARKING;
             KSNotification::event(QLatin1String("MountUnParking"), i18n("Mount unparking is in progress"), KSNotification::Mount);
 
             emit newParkStatus(m_ParkStatus);
         }
-        else if (svp->getState() == IPS_OK && sp->getState() == ISS_ON && m_ParkStatus != PARK_PARKED)
+        else if (svp.getState() == IPS_OK && sp->getState() == ISS_ON && m_ParkStatus != PARK_PARKED)
         {
             m_ParkStatus = PARK_PARKED;
             KSNotification::event(QLatin1String("MountParked"), i18n("Mount parked"), KSNotification::Mount);
@@ -488,7 +488,7 @@ void Mount::updateParkStatus()
             emit newTarget(currentCoords);
             emit newTargetName(QString());
         }
-        else if ( (svp->getState() == IPS_OK || svp->getState() == IPS_IDLE) && sp->getState() == ISS_OFF
+        else if ( (svp.getState() == IPS_OK || svp.getState() == IPS_IDLE) && sp->getState() == ISS_OFF
                   && m_ParkStatus != PARK_UNPARKED)
         {
             m_ParkStatus = PARK_UNPARKED;
@@ -521,9 +521,7 @@ bool Mount::canPark()
     if (!parkSP)
         return false;
 
-    auto parkSW = parkSP->findWidgetByName("PARK");
-
-    return (parkSW != nullptr);
+    return parkSP.findWidgetByName("PARK") != nullptr;
 }
 
 bool Mount::isSlewing()
@@ -533,7 +531,7 @@ bool Mount::isSlewing()
     if (!EqProp)
         return false;
 
-    return (EqProp->getState() == IPS_BUSY);
+    return (EqProp.getState() == IPS_BUSY);
 }
 
 bool Mount::isInMotion()
@@ -556,44 +554,34 @@ bool Mount::doPulse(GuideDirection dir, int msecs)
 {
     auto raPulse  = getNumber("TELESCOPE_TIMED_GUIDE_WE");
     auto decPulse = getNumber("TELESCOPE_TIMED_GUIDE_NS");
-    INDI::PropertyView<INumber> *npulse   = nullptr;
-    INDI::WidgetView<INumber>   *dirPulse = nullptr;
-
     if (!raPulse || !decPulse)
         return false;
 
     switch (dir)
     {
         case RA_INC_DIR:
-            npulse = raPulse;
-            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_W");
+            raPulse.findWidgetByName("TIMED_GUIDE_W")->setValue(msecs);
+            sendNewProperty(raPulse);
             break;
 
         case RA_DEC_DIR:
-            npulse = raPulse;
-            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_E");
+            raPulse.findWidgetByName("TIMED_GUIDE_E")->setValue(msecs);
+            sendNewProperty(raPulse);
             break;
 
         case DEC_INC_DIR:
-            npulse = decPulse;
-            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_N");
+            decPulse.findWidgetByName("TIMED_GUIDE_N")->setValue(msecs);
+            sendNewProperty(decPulse);
             break;
 
         case DEC_DEC_DIR:
-            npulse = decPulse;
-            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_S");
+            decPulse.findWidgetByName("TIMED_GUIDE_S")->setValue(msecs);
+            sendNewProperty(decPulse);
             break;
 
         default:
             return false;
     }
-
-    if (!dirPulse)
-        return false;
-
-    dirPulse->setValue(msecs);
-
-    sendNewProperty(npulse);
 
     return true;
 }
@@ -910,20 +898,20 @@ bool Mount::Slew(SkyPoint * ScopeTarget, bool flip)
     if (!motionSP)
         return false;
 
-    auto slewSW = flip ? motionSP->findWidgetByName("FLIP") : motionSP->findWidgetByName("TRACK");
+    auto slewSW = flip ? motionSP.findWidgetByName("FLIP") : motionSP.findWidgetByName("TRACK");
 
     if (flip && (!slewSW))
-        slewSW = motionSP->findWidgetByName("TRACK");
+        slewSW = motionSP.findWidgetByName("TRACK");
 
     if (!slewSW)
-        slewSW = motionSP->findWidgetByName("SLEW");
+        slewSW = motionSP.findWidgetByName("SLEW");
 
     if (!slewSW)
         return false;
 
     if (slewSW->getState() != ISS_ON)
     {
-        motionSP->reset();
+        motionSP.reset();
         slewSW->setState(ISS_ON);
         sendNewProperty(motionSP);
 
@@ -950,14 +938,14 @@ bool Mount::Sync(SkyPoint * ScopeTarget)
     if (!motionSP)
         return false;
 
-    auto syncSW = motionSP->findWidgetByName("SYNC");
+    auto syncSW = motionSP.findWidgetByName("SYNC");
 
     if (!syncSW)
         return false;
 
     if (syncSW->getState() != ISS_ON)
     {
-        motionSP->reset();
+        motionSP.reset();
         syncSW->setState(ISS_ON);
         sendNewProperty(motionSP);
 
@@ -974,7 +962,7 @@ bool Mount::abort()
     if (!motionSP)
         return false;
 
-    auto abortSW = motionSP->findWidgetByName("ABORT");
+    auto abortSW = motionSP.findWidgetByName("ABORT");
 
     if (!abortSW)
         return false;
@@ -996,14 +984,14 @@ bool Mount::park()
     if (!parkSP)
         return false;
 
-    auto parkSW = parkSP->findWidgetByName("PARK");
+    auto parkSW = parkSP.findWidgetByName("PARK");
 
     if (!parkSW)
         return false;
 
     qCDebug(KSTARS_INDI) << "ISD:Telescope: Parking..." << Qt::endl;
 
-    parkSP->reset();
+    parkSP.reset();
     parkSW->setState(ISS_ON);
     sendNewProperty(parkSP);
 
@@ -1017,14 +1005,14 @@ bool Mount::unpark()
     if (!parkSP)
         return false;
 
-    auto parkSW = parkSP->findWidgetByName("UNPARK");
+    auto parkSW = parkSP.findWidgetByName("UNPARK");
 
     if (!parkSW)
         return false;
 
     qCDebug(KSTARS_INDI) << "ISD:Telescope: UnParking..." << Qt::endl;
 
-    parkSP->reset();
+    parkSP.reset();
     parkSW->setState(ISS_ON);
     sendNewProperty(parkSP);
 
@@ -1041,11 +1029,11 @@ bool Mount::getEqCoords(double * ra, double * dec)
             return false;
     }
 
-    auto RAEle = EqProp->findWidgetByName("RA");
+    auto RAEle = EqProp.findWidgetByName("RA");
     if (!RAEle)
         return false;
 
-    auto DecEle = EqProp->findWidgetByName("DEC");
+    auto DecEle = EqProp.findWidgetByName("DEC");
     if (!DecEle)
         return false;
 
@@ -1062,8 +1050,8 @@ bool Mount::MoveNS(VerticalMotion dir, MotionCommand cmd)
     if (!motionSP)
         return false;
 
-    auto motionNorth = motionSP->findWidgetByName("MOTION_NORTH");
-    auto motionSouth = motionSP->findWidgetByName("MOTION_SOUTH");
+    auto motionNorth = motionSP.findWidgetByName("MOTION_NORTH");
+    auto motionSouth = motionSP.findWidgetByName("MOTION_SOUTH");
 
     if (!motionNorth || !motionSouth)
         return false;
@@ -1075,7 +1063,7 @@ bool Mount::MoveNS(VerticalMotion dir, MotionCommand cmd)
     if (dir == MOTION_SOUTH && motionSouth->getState() == ((cmd == MOTION_START) ? ISS_ON : ISS_OFF))
         return true;
 
-    motionSP->reset();
+    motionSP.reset();
 
     if (cmd == MOTION_START)
     {
@@ -1097,7 +1085,7 @@ bool Mount::StopWE()
     if (!motionSP)
         return false;
 
-    motionSP->reset();
+    motionSP.reset();
 
     sendNewProperty(motionSP);
 
@@ -1111,7 +1099,7 @@ bool Mount::StopNS()
     if (!motionSP)
         return false;
 
-    motionSP->reset();
+    motionSP.reset();
 
     sendNewProperty(motionSP);
 
@@ -1125,8 +1113,8 @@ bool Mount::MoveWE(HorizontalMotion dir, MotionCommand cmd)
     if (!motionSP)
         return false;
 
-    auto motionWest = motionSP->findWidgetByName("MOTION_WEST");
-    auto motionEast = motionSP->findWidgetByName("MOTION_EAST");
+    auto motionWest = motionSP.findWidgetByName("MOTION_WEST");
+    auto motionEast = motionSP.findWidgetByName("MOTION_EAST");
 
     if (!motionWest || !motionEast)
         return false;
@@ -1138,7 +1126,7 @@ bool Mount::MoveWE(HorizontalMotion dir, MotionCommand cmd)
     if (dir == MOTION_EAST && motionEast->getState() == ((cmd == MOTION_START) ? ISS_ON : ISS_OFF))
         return true;
 
-    motionSP->reset();
+    motionSP.reset();
 
     if (cmd == MOTION_START)
     {
@@ -1160,14 +1148,14 @@ bool Mount::setSlewRate(int index)
     if (!slewRateSP)
         return false;
 
-    if (index < 0 || index > slewRateSP->count())
+    if (index < 0 || index > static_cast<int>(slewRateSP.count()))
         return false;
-    else if (slewRateSP->findOnSwitchIndex() == index)
+    else if (slewRateSP.findOnSwitchIndex() == index)
         return true;
 
-    slewRateSP->reset();
+    slewRateSP.reset();
 
-    slewRateSP->at(index)->setState(ISS_ON);
+    slewRateSP[index].setState(ISS_ON);
 
     sendNewProperty(slewRateSP);
 
@@ -1183,7 +1171,7 @@ int Mount::getSlewRate() const
     if (!slewRateSP)
         return -1;
 
-    return slewRateSP->findOnSwitchIndex();
+    return slewRateSP.findOnSwitchIndex();
 }
 
 void Mount::setAltLimits(double minAltitude, double maxAltitude, bool trackingOnly)
@@ -1201,7 +1189,7 @@ bool Mount::setAlignmentModelEnabled(bool enable)
     auto alignSwitch = getSwitch("ALIGNMENT_SUBSYSTEM_ACTIVE");
     if (alignSwitch)
     {
-        alignSwitch->at(0)->setState(enable ? ISS_ON : ISS_OFF);
+        alignSwitch[0].setState(enable ? ISS_ON : ISS_OFF);
         sendNewProperty(alignSwitch);
         wasExecuted = true;
     }
@@ -1210,13 +1198,13 @@ bool Mount::setAlignmentModelEnabled(bool enable)
     alignSwitch = getSwitch("ALIGNMODE");
     if (alignSwitch)
     {
-        alignSwitch->reset();
+        alignSwitch.reset();
         // For now, always set alignment mode to NSTAR on enable.
         if (enable)
-            alignSwitch->at(2)->setState(ISS_ON);
+            alignSwitch[2].setState(ISS_ON);
         // Otherwise, set to NO ALIGN
         else
-            alignSwitch->at(0)->setState(ISS_ON);
+            alignSwitch[0].setState(ISS_ON);
 
         sendNewProperty(alignSwitch);
         wasExecuted = true;
@@ -1234,7 +1222,7 @@ bool Mount::setSatelliteTLEandTrack(QString tle, const KStarsDateTime satPassSta
         return false;
     }
 
-    auto tleText = tleTextVec->findWidgetByName("TLE");
+    auto tleText = tleTextVec.findWidgetByName("TLE");
     if (!tleText)
         return false;
 
@@ -1255,11 +1243,11 @@ bool Mount::clearParking()
     if (!parkSwitch)
         return false;
 
-    auto clearParkSW = parkSwitch->findWidgetByName("PARK_PURGE_DATA");
+    auto clearParkSW = parkSwitch.findWidgetByName("PARK_PURGE_DATA");
     if (!clearParkSW)
         return false;
 
-    parkSwitch->reset();
+    parkSwitch.reset();
     clearParkSW->setState(ISS_ON);
 
     sendNewProperty(parkSwitch);
@@ -1275,11 +1263,11 @@ bool Mount::clearAlignmentModel()
     auto commitSwitch = getSwitch("ALIGNMENT_POINTSET_COMMIT");
     if (clearSwitch && commitSwitch)
     {
-        clearSwitch->reset();
+        clearSwitch.reset();
         // ALIGNMENT_POINTSET_ACTION.CLEAR
-        clearSwitch->at(4)->setState(ISS_ON);
+        clearSwitch[4].setState(ISS_ON);
         sendNewProperty(clearSwitch);
-        commitSwitch->at(0)->setState(ISS_ON);
+        commitSwitch[0].setState(ISS_ON);
         sendNewProperty(commitSwitch);
         wasExecuted = true;
     }
@@ -1289,8 +1277,8 @@ bool Mount::clearAlignmentModel()
     if (clearSwitch)
     {
         // ALIGNLISTCLEAR
-        clearSwitch->reset();
-        clearSwitch->at(1)->setState(ISS_ON);
+        clearSwitch.reset();
+        clearSwitch[1].setState(ISS_ON);
         sendNewProperty(clearSwitch);
         wasExecuted = true;
     }
@@ -1301,10 +1289,10 @@ bool Mount::clearAlignmentModel()
 Mount::Status Mount::status()
 {
     auto EqProp = getNumber("EQUATORIAL_EOD_COORD");
-    if (EqProp == nullptr)
+    if (!EqProp.isValid())
     {
         EqProp = getNumber("EQUATORIAL_COORD");
-        if (EqProp == nullptr)
+        if (!EqProp.isValid())
             return MOUNT_ERROR;
     }
 
@@ -1330,18 +1318,18 @@ QString Mount::getManualMotionString() const
     auto movementSP = getSwitch("TELESCOPE_MOTION_NS");
     if (movementSP)
     {
-        if (movementSP->at(MOTION_NORTH)->getState() == ISS_ON)
+        if (movementSP[MOTION_NORTH].getState() == ISS_ON)
             NSMotion = 'N';
-        else if (movementSP->at(MOTION_SOUTH)->getState() == ISS_ON)
+        else if (movementSP[MOTION_SOUTH].getState() == ISS_ON)
             NSMotion = 'S';
     }
 
     movementSP = getSwitch("TELESCOPE_MOTION_WE");
     if (movementSP)
     {
-        if (movementSP->at(MOTION_WEST)->getState() == ISS_ON)
+        if (movementSP[MOTION_WEST].getState() == ISS_ON)
             WEMotion = 'W';
-        else if (movementSP->at(MOTION_EAST)->getState() == ISS_ON)
+        else if (movementSP[MOTION_EAST].getState() == ISS_ON)
             WEMotion = 'E';
     }
 
@@ -1354,8 +1342,8 @@ bool Mount::setTrackEnabled(bool enable)
     if (!trackSP)
         return false;
 
-    auto trackON  = trackSP->findWidgetByName("TRACK_ON");
-    auto trackOFF = trackSP->findWidgetByName("TRACK_OFF");
+    auto trackON  = trackSP.findWidgetByName("TRACK_ON");
+    auto trackOFF = trackSP.findWidgetByName("TRACK_OFF");
 
     if (!trackON || !trackOFF)
         return false;
@@ -1379,11 +1367,11 @@ bool Mount::setTrackMode(uint8_t index)
     if (!trackModeSP)
         return false;
 
-    if (index >= trackModeSP->nsp)
+    if (index >= trackModeSP.count())
         return false;
 
-    trackModeSP->reset();
-    trackModeSP->at(index)->setState(ISS_ON);
+    trackModeSP.reset();
+    trackModeSP[index].setState(ISS_ON);
 
     sendNewProperty(trackModeSP);
 
@@ -1396,7 +1384,7 @@ bool Mount::getTrackMode(uint8_t &index)
     if (!trackModeSP)
         return false;
 
-    index = trackModeSP->findOnSwitchIndex();
+    index = trackModeSP.findOnSwitchIndex();
 
     return true;
 }
@@ -1407,8 +1395,8 @@ bool Mount::setCustomTrackRate(double raRate, double deRate)
     if (!trackRateNP)
         return false;
 
-    auto raRateN = trackRateNP->findWidgetByName("TRACK_RATE_RA");
-    auto deRateN = trackRateNP->findWidgetByName("TRACK_RATE_DE");
+    auto raRateN = trackRateNP.findWidgetByName("TRACK_RATE_RA");
+    auto deRateN = trackRateNP.findWidgetByName("TRACK_RATE_DE");
 
     if (!raRateN || !deRateN)
         return false;
@@ -1427,8 +1415,8 @@ bool Mount::getCustomTrackRate(double &raRate, double &deRate)
     if (!trackRateNP)
         return false;
 
-    auto raRateN = trackRateNP->findWidgetByName("TRACK_RATE_RA");
-    auto deRateN = trackRateNP->findWidgetByName("TRACK_RATE_DE");
+    auto raRateN = trackRateNP.findWidgetByName("TRACK_RATE_RA");
+    auto deRateN = trackRateNP.findWidgetByName("TRACK_RATE_DE");
 
     if (!raRateN || !deRateN)
         return false;
@@ -1446,17 +1434,17 @@ bool Mount::sendParkingOptionCommand(ParkOptionCommand command)
     if (!parkOptionsSP)
         return false;
 
-    parkOptionsSP->reset();
-    parkOptionsSP->at(command)->setState(ISS_ON);
+    parkOptionsSP.reset();
+    parkOptionsSP[command].setState(ISS_ON);
     sendNewProperty(parkOptionsSP);
 
     return true;
 }
 
-Mount::Status Mount::status(INumberVectorProperty * nvp)
+Mount::Status Mount::status(INDI::Property nvp)
 {
     Status newMountStatus = MOUNT_ERROR;
-    switch (nvp->s)
+    switch (nvp.getState())
     {
         case IPS_IDLE:
             if (inManualMotion)
@@ -1490,7 +1478,7 @@ Mount::Status Mount::status(INumberVectorProperty * nvp)
             else
             {
                 auto parkSP = getSwitch("TELESCOPE_PARK");
-                if (parkSP && parkSP->getState() == IPS_BUSY)
+                if (parkSP && parkSP.getState() == IPS_BUSY)
                     newMountStatus = MOUNT_PARKING;
                 else
                     newMountStatus = MOUNT_SLEWING;
@@ -1552,7 +1540,7 @@ bool Mount::isReversed(INDI_EQ_AXIS axis)
     if (!reversed)
         return false;
 
-    return reversed->at(axis == AXIS_DE ? 0 : 1)->getState() == ISS_ON;
+    return reversed[axis == AXIS_DE ? 0 : 1].getState() == ISS_ON;
 }
 
 bool Mount::setReversedEnabled(INDI_EQ_AXIS axis, bool enabled)
@@ -1561,7 +1549,7 @@ bool Mount::setReversedEnabled(INDI_EQ_AXIS axis, bool enabled)
     if (!reversed)
         return false;
 
-    reversed->at(axis == AXIS_DE ? 0 : 1)->setState(enabled ? ISS_ON : ISS_OFF);
+    reversed[axis == AXIS_DE ? 0 : 1].setState(enabled ? ISS_ON : ISS_OFF);
     sendNewProperty(reversed);
     return true;
 }

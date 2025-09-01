@@ -158,7 +158,7 @@ class Mount : public ConcreteDevice
             return m_ParkStatus;
         }
 
-        Status status(INumberVectorProperty *nvp);
+        Status status(INDI::Property nvp);
         Status status();
         const QString statusString(Status status, bool translated = true) const;
 
