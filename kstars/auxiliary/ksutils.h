@@ -24,6 +24,11 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <unordered_map>
+#include <deque> // For std::deque
+#include <mutex> // For std::mutex
+#include <condition_variable> // For std::condition_variable
+#include <atomic> // For std::atomic
+#include <thread> // For std::thread
 
 #include "config-kstars.h"
 // N.B. DO not remove, it is required for compilation.
@@ -52,6 +57,18 @@ class StarObject;
 
 namespace KSUtils
 {
+
+struct LogEntry
+{
+    QtMsgType type;
+    QByteArray categoryData;
+    QByteArray fileData;
+    QByteArray functionData;
+    int line;
+    int version;
+    QString msg;
+};
+
 // Quick checks whether hardware is limited or not
 // right now the only check is architecture. arm processors are limited while x86 are sufficient
 bool isHardwareLimited();
@@ -211,10 +228,18 @@ QString constGenetiveToAbbrev(const QString &genetive_);
 class Logging
 {
     public:
+
+        static void writeLogEntry(QtMsgType type, const QMessageLogContext & context, const QString & msg);
+
         /**
                  * Store all logs into the specified file
                  */
         static void UseFile();
+
+        /**
+                 * Stop the logging thread and ensure all messages are processed.
+                 */
+        static void Shutdown();
 
         /**
                  * Output logs to stdout
@@ -243,6 +268,13 @@ class Logging
 
     private:
         static QString _filename;
+        static std::deque<LogEntry> s_logQueue;
+        static std::mutex s_queueMutex;
+        static std::condition_variable s_condition;
+        static std::atomic<bool> s_running;
+        static std::thread s_loggingThread;
+
+        static void processLogEntries();
 
         static void Disabled(QtMsgType type, const QMessageLogContext & context,
                              const QString & msg);
@@ -289,12 +321,12 @@ class JPLParser
         {
             return m_data;
         }
-        const std::unordered_map<QString, int> &fieldMap() const
+        const std::unordered_map < QString, int > &fieldMap() const
         {
             return m_field_map;
         }
 
-        template <typename Lambda>
+        template < typename Lambda >
         void for_each(const Lambda & fct)
         {
             for (const auto &item : m_data)
@@ -309,7 +341,7 @@ class JPLParser
     private:
         QJsonDocument m_doc;
         QJsonArray m_data;
-        std::unordered_map<QString, int> m_field_map;
+        std::unordered_map < QString, int > m_field_map;
 };
 // TODO: Implement Datatypes//Maps for kind, datafields, filters...
 
@@ -318,7 +350,7 @@ class MPCParser
     public:
         MPCParser(const QString & path);
 
-        template <typename Lambda>
+        template < typename Lambda >
         void for_each(const Lambda & fct)
         {
             for (const auto &item : m_data)
@@ -343,7 +375,7 @@ class MPCParser
  *@return The query string.
  */
 QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields,
-                             const QVector<JPLFilter> &filters);
+                             const QVector < JPLFilter > &filters);
 
 /**
  * @brief RAWToJPEG Convert raw image (e.g. CR2) using libraw to a JPEG image

@@ -162,8 +162,11 @@ void MountMotionWidget::updateSpeedInfo(INDI::PropertySwitch svp)
     if (svp.isValid())
     {
         auto index = svp.findOnSwitchIndex();
-        speedSliderObject->setProperty("value", index);
-        speedLabelObject->setProperty("text", i18nc(libindi_strings_context, svp[index].getLabel()));
+        if (index >= 0 && index < static_cast<int>(svp.count()))
+        {
+            speedSliderObject->setProperty("value", index);
+            speedLabelObject->setProperty("text", i18nc(libindi_strings_context, svp[index].getLabel()));
+        }
     }
 }
 

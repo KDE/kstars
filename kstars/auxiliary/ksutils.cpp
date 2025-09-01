@@ -39,6 +39,7 @@
 #include <QLoggingCategory>
 #include <QMutex>
 #include <QMutexLocker>
+#include <thread>
 
 #ifdef HAVE_STELLARSOLVER
 #include <stellarsolver.h>
@@ -933,6 +934,36 @@ QString constGenetiveToAbbrev(const QString &genetive_)
 }
 
 QString Logging::_filename;
+std::deque<LogEntry> Logging::s_logQueue;
+std::mutex Logging::s_queueMutex;
+std::condition_variable Logging::s_condition;
+std::atomic<bool> Logging::s_running(false);
+std::thread Logging::s_loggingThread;
+
+void Logging::processLogEntries()
+{
+    while (s_running || !s_logQueue.empty())
+    {
+        std::unique_lock<std::mutex> lock(s_queueMutex);
+        s_condition.wait(lock, [] { return !s_logQueue.empty() || !s_running; });
+
+        if (!s_running && s_logQueue.empty())
+        {
+            break;
+        }
+
+        LogEntry entry = s_logQueue.front();
+        s_logQueue.pop_front();
+        lock.unlock();
+
+        QMessageLogContext context(entry.fileData.constData(),
+                                   entry.line,
+                                   entry.functionData.constData(),
+                                   entry.categoryData.constData());
+        context.version = entry.version;
+        writeLogEntry(entry.type, context, entry.msg);
+    }
+}
 
 void Logging::UseFile()
 {
@@ -953,6 +984,12 @@ void Logging::UseFile()
         file.close();
     }
 
+    if (!s_running)
+    {
+        s_running = true;
+        s_loggingThread = std::thread(processLogEntries);
+    }
+
     qSetMessagePattern("[%{time yyyy-MM-dd h:mm:ss.zzz t} "
                        "%{if-debug}DEBG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{"
                        "endif}%{if-critical}CRIT%{endif}%{if-fatal}FATL%{endif}] "
@@ -960,9 +997,18 @@ void Logging::UseFile()
     qInstallMessageHandler(File);
 }
 
-void Logging::File(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void Logging::Shutdown()
 {
-    // Lock mutex for thread-safe file access. This fixes occasional locks in Qt6
+    s_running = false;
+    s_condition.notify_one(); // Notify the logging thread to wake up and exit
+    if (s_loggingThread.joinable())
+    {
+        s_loggingThread.join();
+    }
+}
+
+void Logging::writeLogEntry(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
     QMutexLocker locker(&s_logMutex);
     QFile file(_filename);
     if (file.open(QFile::Append | QIODevice::Text))
@@ -970,6 +1016,24 @@ void Logging::File(QtMsgType type, const QMessageLogContext &context, const QStr
         QTextStream stream(&file);
         Write(stream, type, context, msg);
     }
+}
+
+void Logging::File(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    LogEntry entry;
+    entry.type = type;
+    entry.categoryData = context.category ? QByteArray(context.category) : QByteArray();
+    entry.fileData = context.file ? QByteArray(context.file) : QByteArray();
+    entry.functionData = context.function ? QByteArray(context.function) : QByteArray();
+    entry.line = context.line;
+    entry.version = context.version;
+    entry.msg = msg;
+
+    {
+        std::lock_guard<std::mutex> lock(s_queueMutex);
+        s_logQueue.push_back(entry);
+    }
+    s_condition.notify_one();
 }
 
 void Logging::UseStdout()
@@ -984,20 +1048,49 @@ void Logging::UseStdout()
 void Logging::Stdout(QtMsgType type, const QMessageLogContext &context,
                      const QString &msg)
 {
-    QTextStream stream(stdout, QIODevice::WriteOnly);
-    Write(stream, type, context, msg);
+    LogEntry entry;
+    entry.type = type;
+    entry.categoryData = context.category ? QByteArray(context.category) : QByteArray();
+    entry.fileData = context.file ? QByteArray(context.file) : QByteArray();
+    entry.functionData = context.function ? QByteArray(context.function) : QByteArray();
+    entry.line = context.line;
+    entry.version = context.version;
+    entry.msg = msg;
+
+    {
+        std::lock_guard<std::mutex> lock(s_queueMutex);
+        s_logQueue.push_back(entry);
+    }
+    s_condition.notify_one();
 }
 
 void Logging::UseStderr()
 {
+    if (!s_running)
+    {
+        s_running = true;
+        s_loggingThread = std::thread(processLogEntries);
+    }
     qInstallMessageHandler(Stderr);
 }
 
 void Logging::Stderr(QtMsgType type, const QMessageLogContext &context,
                      const QString &msg)
 {
-    QTextStream stream(stderr, QIODevice::WriteOnly);
-    Write(stream, type, context, msg);
+    LogEntry entry;
+    entry.type = type;
+    entry.categoryData = context.category ? QByteArray(context.category) : QByteArray();
+    entry.fileData = context.file ? QByteArray(context.file) : QByteArray();
+    entry.functionData = context.function ? QByteArray(context.function) : QByteArray();
+    entry.line = context.line;
+    entry.version = context.version;
+    entry.msg = msg;
+
+    {
+        std::lock_guard<std::mutex> lock(s_queueMutex);
+        s_logQueue.push_back(entry);
+    }
+    s_condition.notify_one();
 }
 
 void Logging::Write(QTextStream &stream, QtMsgType type,
@@ -1352,7 +1445,7 @@ bool configureAstrometry()
         if (KMessageBox::warningContinueCancel(
                     nullptr,
                     i18n("The selected Astrometry Index File Location:\n %1 \n does not "
-                         "exist.  Do you want to make the directory?",
+             "exist.  Do you want to make the directory?",
                          defaultAstrometryDataDir),
                     i18n("Make Astrometry Index File Directory?")) == KMessageBox::Continue)
         {
@@ -1365,7 +1458,7 @@ bool configureAstrometry()
             {
                 KSNotification::sorry(
                     i18n("The Default Astrometry Index File Directory does not exist and "
-                         "was not able to be created."));
+                     "was not able to be created."));
             }
         }
         else

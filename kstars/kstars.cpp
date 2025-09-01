@@ -95,15 +95,15 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate, const boo
 #ifdef Q_OS_MACOS
     if (!liveStacker)
     {
-        #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-            qputenv("QT_MEDIA_BACKEND", "darwin");
-        #else
-            QString vlcPlugins = QDir(QCoreApplication::applicationDirPath() + "/../PlugIns/vlc").absolutePath();
-            qputenv("VLC_PLUGIN_PATH", vlcPlugins.toLatin1());
-            QString phonon_backend_path = QDir(QCoreApplication::applicationDirPath() +
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        qputenv("QT_MEDIA_BACKEND", "darwin");
+#else
+        QString vlcPlugins = QDir(QCoreApplication::applicationDirPath() + "/../PlugIns/vlc").absolutePath();
+        qputenv("VLC_PLUGIN_PATH", vlcPlugins.toLatin1());
+        QString phonon_backend_path = QDir(QCoreApplication::applicationDirPath() +
                                            "/../PlugIns/phonon4qt5_backend/phonon_vlc.so").absolutePath();
-            qputenv("PHONON_BACKEND", phonon_backend_path.toLatin1());
-        #endif
+        qputenv("PHONON_BACKEND", phonon_backend_path.toLatin1());
+#endif
 
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
         QString path            = env.value("PATH", "");
@@ -134,7 +134,7 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate, const boo
             "/dbus-daemon</string>\n"
             "        <string>--nofork</string>\n"
             "        <string>--config-file=" +
-                                      pluginsDir +
+                                          pluginsDir +
             "/dbus/kstars.conf</string>\n"
             "    </array>";
             pListText.replace(currentProgramArgs, newProgramArguments);
@@ -393,6 +393,9 @@ void KStars::releaseResources()
 
     QSqlDatabase::removeDatabase("userdb");
     QSqlDatabase::removeDatabase("skydb");
+
+    // Shutdown the logging thread
+    KSUtils::Logging::Shutdown();
 }
 
 void KStars::clearCachedFindDialog()
@@ -757,7 +760,7 @@ const QSharedPointer<FITSViewer> &KStars::genericFITSViewer()
     if (m_GenericFITSViewer.isNull())
     {
         m_GenericFITSViewer.reset(new FITSViewer(Options::independentWindowFITS() ? nullptr : this,
-                                                 FITSViewer::Mode::Full), &QObject::deleteLater);
+                                  FITSViewer::Mode::Full), &QObject::deleteLater);
         connect(m_GenericFITSViewer.get(), &FITSViewer::terminated, this, [this]()
         {
             m_FITSViewers.removeOne(m_GenericFITSViewer);
