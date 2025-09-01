@@ -16,6 +16,8 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "indi/indistd.h"
+#include "indi/indimount.h"
+#include "ekos/analyze/analyze.h"
 #include "skymapcomposite.h"
 #include "mosaiccomponent.h"
 #include "mosaictiles.h"
@@ -4078,10 +4080,11 @@ void SchedulerProcess::setFocusStatus(FocusState status, const QString &trainnam
 
 void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
 {
-    if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr)
+    if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr || status == m_lastMountStatus)
         return;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Mount State changed to" << status;
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Mount State changed to" << ISD::Mount::getMountStatusString(status);
+    m_lastMountStatus = status;
 
     /* If current job is scheduled and has not started yet, wait */
     if (SCHEDJOB_SCHEDULED == activeJob()->getState())
@@ -4093,7 +4096,6 @@ void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
         case SCHEDSTAGE_SLEWING:
         {
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Slewing stage...";
-
             if (status == ISD::Mount::MOUNT_TRACKING)
             {
                 appendLogText(i18n("Job '%1' slew is complete.", activeJob()->getName()));

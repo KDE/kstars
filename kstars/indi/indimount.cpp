@@ -1509,6 +1509,37 @@ Mount::Status Mount::status(INumberVectorProperty * nvp)
     return newMountStatus;
 }
 
+const QString Mount::getMountStatusString(Mount::Status status, bool translated)
+{
+    switch (status)
+    {
+        case ISD::Mount::MOUNT_MOVING:
+            // This is a static function, so it cannot call getManualMotionString()
+            // For now, just return the translated/untranslated string.
+            return translated ? mountStates[status].toString() : mountStates[status].untranslatedText();
+        default:
+            return translated ? mountStates[status].toString() : mountStates[status].untranslatedText();
+    }
+}
+
+ISD::Mount::Status Mount::toMountStatus(const QString &str)
+{
+    if (str == ki18n("Idle").toString())
+        return ISD::Mount::MOUNT_IDLE;
+    else if (str == ki18n("Parked").toString())
+        return ISD::Mount::MOUNT_PARKED;
+    else if (str == ki18n("Parking").toString())
+        return ISD::Mount::MOUNT_PARKING;
+    else if (str == ki18n("Slewing").toString())
+        return ISD::Mount::MOUNT_SLEWING;
+    else if (str == ki18n("Moving").toString())
+        return ISD::Mount::MOUNT_MOVING;
+    else if (str == ki18n("Tracking").toString())
+        return ISD::Mount::MOUNT_TRACKING;
+    else
+        return ISD::Mount::MOUNT_ERROR;
+}
+
 const dms Mount::hourAngle() const
 {
     dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
@@ -1578,4 +1609,3 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Mount::PierS
     dest = static_cast<ISD::Mount::PierSide>(a);
     return argument;
 }
-

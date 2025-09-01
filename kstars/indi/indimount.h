@@ -41,12 +41,12 @@ class Mount : public ConcreteDevice
         {
             switch (ps)
             {
-            case ISD::Mount::PierSide::PIER_EAST:
-                return "Pier Side: East (pointing West)";
-            case ISD::Mount::PierSide::PIER_WEST:
-                return "Pier Side: West (pointing East)";
-            default:
-                return "Pier Side: Unknown";
+                case ISD::Mount::PierSide::PIER_EAST:
+                    return "Pier Side: East (pointing West)";
+                case ISD::Mount::PierSide::PIER_WEST:
+                    return "Pier Side: West (pointing East)";
+                default:
+                    return "Pier Side: Unknown";
             }
         }
 
@@ -63,8 +63,9 @@ class Mount : public ConcreteDevice
         typedef enum { PARK_OPTION_CURRENT, PARK_OPTION_DEFAULT, PARK_OPTION_WRITE_DATA } ParkOptionCommand;
         typedef enum { TRACK_SIDEREAL, TRACK_SOLAR, TRACK_LUNAR, TRACK_CUSTOM } TrackModes;
 
-
         static const QList<KLocalizedString> mountStates;
+        static const QString getMountStatusString(Status status, bool translated = true);
+        static ISD::Mount::Status toMountStatus(const QString &str);
 
         void registerProperty(INDI::Property prop) override;
         void processSwitch(INDI::Property prop) override;
@@ -79,8 +80,8 @@ class Mount : public ConcreteDevice
         }
 
         // Slew
-        bool Slew(SkyPoint *ScopeTarget, bool flip=false);
-        bool Slew(double ra, double dec, bool flip=false);
+        bool Slew(SkyPoint *ScopeTarget, bool flip = false);
+        bool Slew(double ra, double dec, bool flip = false);
         bool canGoto()
         {
             return m_canGoto;

@@ -840,5 +840,8 @@ class SchedulerProcess : public QObject, public ModuleLogger
          * @param followersOnly if true and train name is empty, do not abort the lead, but all its followers
          */
         void stopCapturing(QString train = "", bool followersOnly = false);
+
+    private:
+        ISD::Mount::Status m_lastMountStatus = ISD::Mount::MOUNT_IDLE;
 };
 } // Ekos namespace

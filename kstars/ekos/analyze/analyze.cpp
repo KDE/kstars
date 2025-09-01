@@ -118,47 +118,6 @@ bool fileExists(const QString &path)
     return info.exists() && info.isFile();
 }
 
-// Utilities to go between a mount status and a string.
-// Move to inditelescope.h/cpp?
-const QString mountStatusString(ISD::Mount::Status status)
-{
-    switch (status)
-    {
-        case ISD::Mount::MOUNT_IDLE:
-            return i18n("Idle");
-        case ISD::Mount::MOUNT_PARKED:
-            return i18n("Parked");
-        case ISD::Mount::MOUNT_PARKING:
-            return i18n("Parking");
-        case ISD::Mount::MOUNT_SLEWING:
-            return i18n("Slewing");
-        case ISD::Mount::MOUNT_MOVING:
-            return i18n("Moving");
-        case ISD::Mount::MOUNT_TRACKING:
-            return i18n("Tracking");
-        case ISD::Mount::MOUNT_ERROR:
-            return i18n("Error");
-    }
-    return i18n("Error");
-}
-
-ISD::Mount::Status toMountStatus(const QString &str)
-{
-    if (str == i18n("Idle"))
-        return ISD::Mount::MOUNT_IDLE;
-    else if (str == i18n("Parked"))
-        return ISD::Mount::MOUNT_PARKED;
-    else if (str == i18n("Parking"))
-        return ISD::Mount::MOUNT_PARKING;
-    else if (str == i18n("Slewing"))
-        return ISD::Mount::MOUNT_SLEWING;
-    else if (str == i18n("Moving"))
-        return ISD::Mount::MOUNT_MOVING;
-    else if (str == i18n("Tracking"))
-        return ISD::Mount::MOUNT_TRACKING;
-    else
-        return ISD::Mount::MOUNT_ERROR;
-}
 
 // Returns the stripe color used when drawing the capture timeline for various filters.
 // TODO: Not sure how to internationalize this.
@@ -392,7 +351,7 @@ class RmsFilter
 bool Analyze::eventFilter(QObject *obj, QEvent *ev)
 {
     // Quit if click wasn't on a QLineEdit.
-    if (qobject_cast<QLineEdit*>(obj) == nullptr)
+    if (qobject_cast<QLineEdit * >(obj) == nullptr)
         return false;
 
     // This filter only applies to single or double clicks.
@@ -1660,7 +1619,7 @@ void Analyze::mountSessionClicked(MountSession &c, bool doubleClick)
     Q_UNUSED(doubleClick);
     highlightTimelineItem(c);
 
-    c.setupTable("Mount", mountStatusString(c.state), clockTime(c.start),
+    c.setupTable("Mount", ISD::Mount::getMountStatusString(c.state), clockTime(c.start),
                  clockTime(c.isTemporary() ? c.start : c.end), detailsTable);
 }
 
@@ -2597,9 +2556,9 @@ void Analyze::initStatsPlot()
         if (show && !Options::autoHFR())
             KSNotification::info(
                 i18n("The \"Auto Compute HFR\" option in the KStars "
-                     "FITS options menu is not set. You won't get HFR values "
-                     "without it. Once you set it, newly captured images "
-                     "will have their HFRs computed."));
+                 "FITS options menu is not set. You won't get HFR values "
+                 "without it. Once you set it, newly captured images "
+                 "will have their HFRs computed."));
     });
 
     shortName = "#SubStars";
@@ -2613,9 +2572,9 @@ void Analyze::initStatsPlot()
         if (show && !Options::autoHFR())
             KSNotification::info(
                 i18n("The \"Auto Compute HFR\" option in the KStars "
-                     "FITS options menu is not set. You won't get # stars in capture image values "
-                     "without it. Once you set it, newly captured images "
-                     "will have their stars detected."));
+                 "FITS options menu is not set. You won't get # stars in capture image values "
+                 "without it. Once you set it, newly captured images "
+                 "will have their stars detected."));
     });
 
     shortName = "median";
@@ -3835,7 +3794,7 @@ const QBrush mountBrush(ISD::Mount::Status state)
 // MOUNT_IDLE, MOUNT_MOVING, MOUNT_SLEWING, MOUNT_TRACKING, MOUNT_PARKING, MOUNT_PARKED, MOUNT_ERROR
 void Analyze::mountState(ISD::Mount::Status state)
 {
-    QString statusString = mountStatusString(state);
+    QString statusString = ISD::Mount::getMountStatusString(state);
     saveMessage("MountState", statusString);
     if (runtimeDisplay)
         processMountState(logTime(), statusString);
@@ -3843,7 +3802,7 @@ void Analyze::mountState(ISD::Mount::Status state)
 
 void Analyze::processMountState(double time, const QString &statusString, bool batchMode)
 {
-    ISD::Mount::Status state = toMountStatus(statusString);
+    ISD::Mount::Status state = ISD::Mount::toMountStatus(statusString);
     if (mountStateStartedTime >= 0 && lastMountState != ISD::Mount::MOUNT_IDLE)
     {
         addSession(mountStateStartedTime, time, MOUNT_Y, mountBrush(lastMountState));
