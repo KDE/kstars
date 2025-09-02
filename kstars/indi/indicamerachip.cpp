@@ -76,210 +76,155 @@ void CameraChip::setImageView(FITSView *image, FITSMode imageType)
 
 bool CameraChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH)
 {
-    INumberVectorProperty *frameProp = nullptr;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_FRAME") : m_Camera->getNumber("GUIDER_FRAME");
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            frameProp = m_Camera->getNumber("CCD_FRAME");
-            break;
-
-        case GUIDE_CCD:
-            frameProp = m_Camera->getNumber("GUIDER_FRAME");
-            break;
-    }
-
-    if (frameProp == nullptr)
+    if (!nvp)
         return false;
 
-    INumber *arg = IUFindNumber(frameProp, "X");
+    auto x = nvp.findWidgetByName("X");
 
-    if (arg == nullptr)
+    if (x == nullptr)
         return false;
 
     if (minX)
-        *minX = arg->min;
+        *minX = x->getMin();
     if (maxX)
-        *maxX = arg->max;
+        *maxX = x->getMax();
 
-    arg = IUFindNumber(frameProp, "Y");
+    auto y = nvp.findWidgetByName("Y");
 
-    if (arg == nullptr)
+    if (y == nullptr)
         return false;
 
     if (minY)
-        *minY = arg->min;
+        *minY = y->getMin();
     if (maxY)
-        *maxY = arg->max;
+        *maxY = y->getMax();
 
-    arg = IUFindNumber(frameProp, "WIDTH");
+    auto width = nvp.findWidgetByName("WIDTH");
 
-    if (arg == nullptr)
+    if (width == nullptr)
         return false;
 
     if (minW)
-        *minW = arg->min;
+        *minW = width->getMin();
     if (maxW)
-        *maxW = arg->max;
+        *maxW = width->getMax();
 
-    arg = IUFindNumber(frameProp, "HEIGHT");
+    auto height = nvp.findWidgetByName("HEIGHT");
 
-    if (arg == nullptr)
+    if (height == nullptr)
         return false;
 
     if (minH)
-        *minH = arg->min;
+        *minH = height->getMin();
     if (maxH)
-        *maxH = arg->max;
+        *maxH = height->getMax();
 
     return true;
 }
 
 bool CameraChip::setImageInfo(uint16_t width, uint16_t height, double pixelX, double pixelY, uint8_t bitdepth)
 {
-    INumberVectorProperty *ccdInfoProp = nullptr;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_INFO") : m_Camera->getNumber("GUIDER_INFO");
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            ccdInfoProp = m_Camera->getNumber("CCD_INFO");
-            break;
-
-        case GUIDE_CCD:
-            ccdInfoProp = m_Camera->getNumber("GUIDER_INFO");
-            break;
-    }
-
-    if (ccdInfoProp == nullptr)
+    if (!nvp)
         return false;
 
-    ccdInfoProp->np[0].value = width;
-    ccdInfoProp->np[1].value = height;
-    ccdInfoProp->np[2].value = std::hypotf(pixelX, pixelY);
-    ccdInfoProp->np[3].value = pixelX;
-    ccdInfoProp->np[4].value = pixelY;
-    ccdInfoProp->np[5].value = bitdepth;
+    nvp[0].setValue(width);
+    nvp[1].setValue(height);
+    nvp[2].setValue(std::hypotf(pixelX, pixelY));
+    nvp[3].setValue(pixelX);
+    nvp[4].setValue(pixelY);
+    nvp[5].setValue(bitdepth);
 
-    m_Camera->sendNewProperty(ccdInfoProp);
+    m_Camera->sendNewProperty(nvp);
 
     return true;
 }
 
 bool CameraChip::getImageInfo(uint16_t &width, uint16_t &height, double &pixelX, double &pixelY, uint8_t &bitdepth)
 {
-    INumberVectorProperty *ccdInfoProp = nullptr;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_INFO") : m_Camera->getNumber("GUIDER_INFO");
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            ccdInfoProp = m_Camera->getNumber("CCD_INFO");
-            break;
-
-        case GUIDE_CCD:
-            ccdInfoProp = m_Camera->getNumber("GUIDER_INFO");
-            break;
-    }
-
-    if (ccdInfoProp == nullptr)
+    if (!nvp)
         return false;
 
-    width    = ccdInfoProp->np[0].value;
-    height   = ccdInfoProp->np[1].value;
-    pixelX   = ccdInfoProp->np[2].value;
-    pixelY   = ccdInfoProp->np[3].value;
-    bitdepth = ccdInfoProp->np[5].value;
+    width    = nvp[0].getValue();
+    height   = nvp[1].getValue();
+    pixelX   = nvp[2].getValue();
+    pixelY   = nvp[3].getValue();
+    bitdepth = nvp[5].getValue();
 
     return true;
 }
 
 bool CameraChip::getBayerInfo(uint16_t &offsetX, uint16_t &offsetY, QString &pattern)
 {
-    ITextVectorProperty * bayerTP = m_Camera->getText("CCD_CFA");
-    if (!bayerTP)
+    INDI::PropertyText tvp = m_Camera->getText("CCD_CFA");
+    if (!tvp)
         return false;
 
-    offsetX = QString(bayerTP->tp[0].text).toInt();
-    offsetY = QString(bayerTP->tp[1].text).toInt();
-    pattern = QString(bayerTP->tp[2].text);
+    offsetX = QString(tvp[0].getText()).toInt();
+    offsetY = QString(tvp[1].getText()).toInt();
+    pattern = QString(tvp[2].getText());
 
     return true;
 }
 
 bool CameraChip::getFrame(int *x, int *y, int *w, int *h)
 {
-    INumberVectorProperty *frameProp = nullptr;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_FRAME") : m_Camera->getNumber("GUIDER_FRAME");
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            frameProp = m_Camera->getNumber("CCD_FRAME");
-            break;
-
-        case GUIDE_CCD:
-            frameProp = m_Camera->getNumber("GUIDER_FRAME");
-            break;
-    }
-
-    if (frameProp == nullptr)
+    if (!nvp)
         return false;
 
-    INumber *arg = IUFindNumber(frameProp, "X");
+    auto X = nvp.findWidgetByName("X");
 
-    if (arg == nullptr)
+    if (X == nullptr)
+        return false;
+    *x = X->getValue();
+
+    auto Y = nvp.findWidgetByName("Y");
+
+    if (Y == nullptr)
+        return false;
+    *y = Y->getValue();
+
+    auto width = nvp.findWidgetByName("WIDTH");
+
+    if (width == nullptr)
+        return false;
+    *w = width->getValue();
+
+    auto height = nvp.findWidgetByName("HEIGHT");
+
+    if (height == nullptr)
         return false;
 
-    *x = arg->value;
-
-    arg = IUFindNumber(frameProp, "Y");
-    if (arg == nullptr)
-        return false;
-
-    *y = arg->value;
-
-    arg = IUFindNumber(frameProp, "WIDTH");
-    if (arg == nullptr)
-        return false;
-
-    *w = arg->value;
-
-    arg = IUFindNumber(frameProp, "HEIGHT");
-    if (arg == nullptr)
-        return false;
-
-    *h = arg->value;
+    *h = height->getValue();
 
     return true;
 }
 
 bool CameraChip::resetFrame()
 {
-    INumberVectorProperty *frameProp = nullptr;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_FRAME") : m_Camera->getNumber("GUIDER_FRAME");
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            frameProp = m_Camera->getNumber("CCD_FRAME");
-            break;
-
-        case GUIDE_CCD:
-            frameProp = m_Camera->getNumber("GUIDER_FRAME");
-            break;
-    }
-
-    if (frameProp == nullptr)
+    if (!nvp)
         return false;
 
-    INumber *xarg = IUFindNumber(frameProp, "X");
-    INumber *yarg = IUFindNumber(frameProp, "Y");
-    INumber *warg = IUFindNumber(frameProp, "WIDTH");
-    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+    auto xarg = nvp.findWidgetByName("X");
+    auto yarg = nvp.findWidgetByName("Y");
+    auto warg = nvp.findWidgetByName("WIDTH");
+    auto harg = nvp.findWidgetByName("HEIGHT");
 
     if (xarg && yarg && warg && harg)
     {
-        if (!std::fabs(xarg->value - xarg->min) &&
-                !std::fabs(yarg->value - yarg->min) &&
-                !std::fabs(warg->value - warg->max) &&
-                !std::fabs(harg->value - harg->max))
+        if (!std::fabs(xarg->getValue() - xarg->getMin()) &&
+                !std::fabs(yarg->getValue() - yarg->getMin()) &&
+                !std::fabs(warg->getValue() - warg->getMax()) &&
+                !std::fabs(harg->getValue() - harg->getMax()))
             return false;
 
         xarg->value = xarg->min;
@@ -287,7 +232,7 @@ bool CameraChip::resetFrame()
         warg->value = warg->max;
         harg->value = harg->max;
 
-        m_Camera->sendNewProperty(frameProp);
+        m_Camera->sendNewProperty(nvp);
         return true;
     }
 
@@ -296,42 +241,31 @@ bool CameraChip::resetFrame()
 
 bool CameraChip::setFrame(int x, int y, int w, int h, bool force)
 {
-    INumberVectorProperty *frameProp = nullptr;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_FRAME") : m_Camera->getNumber("GUIDER_FRAME");
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            frameProp = m_Camera->getNumber("CCD_FRAME");
-            break;
-
-        case GUIDE_CCD:
-            frameProp = m_Camera->getNumber("GUIDER_FRAME");
-            break;
-    }
-
-    if (frameProp == nullptr)
+    if (!nvp)
         return false;
 
-    INumber *xarg = IUFindNumber(frameProp, "X");
-    INumber *yarg = IUFindNumber(frameProp, "Y");
-    INumber *warg = IUFindNumber(frameProp, "WIDTH");
-    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+    auto xarg = nvp.findWidgetByName("X");
+    auto yarg = nvp.findWidgetByName("Y");
+    auto warg = nvp.findWidgetByName("WIDTH");
+    auto harg = nvp.findWidgetByName("HEIGHT");
 
     if (xarg && yarg && warg && harg)
     {
         if (!force &&
-                !std::fabs(xarg->value - x) &&
-                !std::fabs(yarg->value - y) &&
-                !std::fabs(warg->value - w) &&
-                !std::fabs(harg->value - h))
+                !std::fabs(xarg->getValue() - x) &&
+                !std::fabs(yarg->getValue() - y) &&
+                !std::fabs(warg->getValue() - w) &&
+                !std::fabs(harg->getValue() - h))
             return true;
 
-        xarg->value = x;
-        yarg->value = y;
-        warg->value = w;
-        harg->value = h;
+        xarg->setValue(x);
+        yarg->setValue(y);
+        warg->setValue(w);
+        harg->setValue(h);
 
-        m_Camera->sendNewProperty(frameProp);
+        m_Camera->sendNewProperty(nvp);
         return true;
     }
 
@@ -340,21 +274,9 @@ bool CameraChip::setFrame(int x, int y, int w, int h, bool force)
 
 bool CameraChip::capture(double exposure)
 {
-    //qCDebug(KSTARS_INDI) << "IndiCCD: capture()" << (type==PRIMARY_CCD?"CCD":"Guide");
-    INumberVectorProperty *expProp = nullptr;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_EXPOSURE") : m_Camera->getNumber("GUIDER_EXPOSURE");
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            expProp = m_Camera->getNumber("CCD_EXPOSURE");
-            break;
-
-        case GUIDE_CCD:
-            expProp = m_Camera->getNumber("GUIDER_EXPOSURE");
-            break;
-    }
-
-    if (expProp == nullptr)
+    if (!nvp)
         return false;
 
     // If we have exposure presets, let's limit the exposure value
@@ -390,49 +312,30 @@ bool CameraChip::capture(double exposure)
 
     // clone the INumberVectorProperty, to avoid modifications to the same
     // property from two threads
-    INumber n;
-    strcpy(n.name, expProp->np[0].name);
-    n.value = exposure;
-
-    std::unique_ptr<INumberVectorProperty> newExpProp(new INumberVectorProperty());
-    strncpy(newExpProp->device, expProp->device, MAXINDIDEVICE);
-    strncpy(newExpProp->name, expProp->name, MAXINDINAME);
-    strncpy(newExpProp->label, expProp->label, MAXINDILABEL);
-    newExpProp->np = &n;
-    newExpProp->nnp = 1;
-
-    m_Camera->sendNewProperty(newExpProp.get());
-
+    INDI::PropertyNumber newExposure(nvp);
+    nvp[0].setValue(exposure);
+    m_Camera->sendNewProperty(newExposure);
     return true;
 }
 
 bool CameraChip::abortExposure()
 {
     if (!m_Camera) return false;
-    ISwitchVectorProperty *abortProp = nullptr;
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            abortProp = m_Camera->getSwitch("CCD_ABORT_EXPOSURE");
-            break;
+    INDI::PropertySwitch svp = (m_Type == PRIMARY_CCD) ? m_Camera->getSwitch("CCD_ABORT_EXPOSURE") : m_Camera->getSwitch("GUIDER_ABORT_EXPOSURE");
 
-        case GUIDE_CCD:
-            abortProp = m_Camera->getSwitch("GUIDER_ABORT_EXPOSURE");
-            break;
-    }
-
-    if (abortProp == nullptr)
+    if (!svp)
         return false;
 
-    ISwitch *abort = IUFindSwitch(abortProp, "ABORT");
 
-    if (abort == nullptr)
+    auto sp = svp.findWidgetByName("ABORT");
+
+    if (sp == nullptr)
         return false;
 
-    abort->s = ISS_ON;
+    sp->setState(ISS_ON);
 
-    m_Camera->sendNewProperty(abortProp);
+    m_Camera->sendNewProperty(svp);
 
     return true;
 }
@@ -526,23 +429,13 @@ QStringList CameraChip::getISOList() const
 bool CameraChip::isCapturing()
 {
     if (!m_Camera) return false;
-    INumberVectorProperty *expProp = nullptr;
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            expProp = m_Camera->getNumber("CCD_EXPOSURE");
-            break;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_EXPOSURE") : m_Camera->getNumber("GUIDER_EXPOSURE");
 
-        case GUIDE_CCD:
-            expProp = m_Camera->getNumber("GUIDER_EXPOSURE");
-            break;
-    }
-
-    if (expProp == nullptr)
+    if (!nvp)
         return false;
 
-    return (expProp->s == IPS_BUSY);
+    return (nvp.getState() == IPS_BUSY);
 }
 
 bool CameraChip::setFrameType(const QString &name)
@@ -568,25 +461,20 @@ bool CameraChip::setFrameType(const QString &name)
 
 bool CameraChip::setFrameType(CCDFrameType fType)
 {
-    ISwitchVectorProperty *frameProp = nullptr;
-
-    if (m_Type == PRIMARY_CCD)
-        frameProp = m_Camera->getSwitch("CCD_FRAME_TYPE");
-    else
-        frameProp = m_Camera->getSwitch("GUIDER_FRAME_TYPE");
-    if (frameProp == nullptr)
+    INDI::PropertySwitch svp = (m_Type == PRIMARY_CCD) ? m_Camera->getSwitch("CCD_FRAME_TYPE") : m_Camera->getSwitch("GUIDER_FRAME_TYPE");
+    if (!svp)
         return false;
 
-    ISwitch *ccdFrame = nullptr;
+    INDI::WidgetViewSwitch *ccdFrame = nullptr;
 
     if (fType == FRAME_LIGHT)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_LIGHT");
+        ccdFrame = svp.findWidgetByName("FRAME_LIGHT");
     else if (fType == FRAME_DARK)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_DARK");
+        ccdFrame = svp.findWidgetByName("FRAME_DARK");
     else if (fType == FRAME_BIAS)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_BIAS");
+        ccdFrame = svp.findWidgetByName("FRAME_BIAS");
     else if (fType == FRAME_FLAT)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_FLAT");
+        ccdFrame = svp.findWidgetByName("FRAME_FLAT");
 
     if (ccdFrame == nullptr)
         return false;
@@ -597,30 +485,25 @@ bool CameraChip::setFrameType(CCDFrameType fType)
     if (fType != FRAME_LIGHT)
         captureMode = FITS_CALIBRATE;
 
-    IUResetSwitch(frameProp);
+    svp.reset();
     ccdFrame->s = ISS_ON;
 
-    m_Camera->sendNewProperty(frameProp);
+    m_Camera->sendNewProperty(svp);
 
     return true;
 }
 
 CCDFrameType CameraChip::getFrameType()
 {
-    CCDFrameType fType               = FRAME_LIGHT;
-    ISwitchVectorProperty *frameProp = nullptr;
+    CCDFrameType fType = FRAME_LIGHT;
+    INDI::PropertySwitch svp = (m_Type == PRIMARY_CCD) ? m_Camera->getSwitch("CCD_FRAME_TYPE") : m_Camera->getSwitch("GUIDER_FRAME_TYPE");
 
-    if (m_Type == PRIMARY_CCD)
-        frameProp = m_Camera->getSwitch("CCD_FRAME_TYPE");
-    else
-        frameProp = m_Camera->getSwitch("GUIDER_FRAME_TYPE");
-
-    if (frameProp == nullptr)
+    if (!svp)
         return fType;
 
-    ISwitch *ccdFrame = nullptr;
+    INDI::WidgetViewSwitch *ccdFrame = nullptr;
 
-    ccdFrame = IUFindOnSwitch(frameProp);
+    ccdFrame = svp.findOnSwitch();
 
     if (ccdFrame == nullptr)
     {
@@ -628,13 +511,13 @@ CCDFrameType CameraChip::getFrameType()
         return fType;
     }
 
-    if (!strcmp(ccdFrame->name, "FRAME_LIGHT"))
+    if (ccdFrame->getName() == "FRAME_LIGHT")
         fType = FRAME_LIGHT;
-    else if (!strcmp(ccdFrame->name, "FRAME_DARK"))
+    else if (ccdFrame->getName() == "FRAME_DARK")
         fType = FRAME_DARK;
-    else if (!strcmp(ccdFrame->name, "FRAME_FLAT"))
+    else if (ccdFrame->getName() == "FRAME_FLAT")
         fType = FRAME_FLAT;
-    else if (!strcmp(ccdFrame->name, "FRAME_BIAS"))
+    else if (ccdFrame->getName() == "FRAME_BIAS")
         fType = FRAME_BIAS;
 
     return fType;
@@ -659,32 +542,20 @@ bool CameraChip::setBinning(CCDBinType binType)
 
 CCDBinType CameraChip::getBinning()
 {
-    CCDBinType binType             = SINGLE_BIN;
-    INumberVectorProperty *binProp = nullptr;
+    CCDBinType binType = SINGLE_BIN;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") : m_Camera->getNumber("GUIDER_BINNING");
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            binProp = m_Camera->getNumber("CCD_BINNING");
-            break;
-
-        case GUIDE_CCD:
-            binProp = m_Camera->getNumber("GUIDER_BINNING");
-            break;
-    }
-
-    if (binProp == nullptr)
+    if (!nvp)
         return binType;
 
-    INumber *horBin = nullptr, *verBin = nullptr;
 
-    horBin = IUFindNumber(binProp, "HOR_BIN");
-    verBin = IUFindNumber(binProp, "VER_BIN");
+    auto horBin = nvp.findWidgetByName("HOR_BIN");
+    auto verBin = nvp.findWidgetByName("VER_BIN");
 
     if (!horBin || !verBin)
         return binType;
 
-    switch (static_cast<int>(horBin->value))
+    switch (static_cast<int>(horBin->getValue()))
     {
         case 2:
             binType = DOUBLE_BIN;
@@ -707,33 +578,20 @@ CCDBinType CameraChip::getBinning()
 
 bool CameraChip::getBinning(int *bin_x, int *bin_y)
 {
-    INumberVectorProperty *binProp = nullptr;
     *bin_x = *bin_y = 1;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") : m_Camera->getNumber("GUIDER_BINNING");
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            binProp = m_Camera->getNumber("CCD_BINNING");
-            break;
-
-        case GUIDE_CCD:
-            binProp = m_Camera->getNumber("GUIDER_BINNING");
-            break;
-    }
-
-    if (binProp == nullptr)
+    if (!nvp)
         return false;
 
-    INumber *horBin = nullptr, *verBin = nullptr;
-
-    horBin = IUFindNumber(binProp, "HOR_BIN");
-    verBin = IUFindNumber(binProp, "VER_BIN");
+    auto horBin = nvp.findWidgetByName("HOR_BIN");
+    auto verBin = nvp.findWidgetByName("VER_BIN");
 
     if (!horBin || !verBin)
         return false;
 
-    *bin_x = horBin->value;
-    *bin_y = verBin->value;
+    *bin_x = horBin->getValue();
+    *bin_y = verBin->getValue();
 
     return true;
 }
@@ -743,72 +601,47 @@ bool CameraChip::getMaxBin(int *max_xbin, int *max_ybin)
     if (!max_xbin || !max_ybin)
         return false;
 
-    INumberVectorProperty *binProp = nullptr;
-
     *max_xbin = *max_ybin = 1;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") : m_Camera->getNumber("GUIDER_BINNING");
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            binProp = m_Camera->getNumber("CCD_BINNING");
-            break;
-
-        case GUIDE_CCD:
-            binProp = m_Camera->getNumber("GUIDER_BINNING");
-            break;
-    }
-
-    if (binProp == nullptr)
+    if (!nvp)
         return false;
 
-    INumber *horBin = nullptr, *verBin = nullptr;
-
-    horBin = IUFindNumber(binProp, "HOR_BIN");
-    verBin = IUFindNumber(binProp, "VER_BIN");
+    auto horBin = nvp.findWidgetByName("HOR_BIN");
+    auto verBin = nvp.findWidgetByName("VER_BIN");
 
     if (!horBin || !verBin)
         return false;
 
-    *max_xbin = horBin->max;
-    *max_ybin = verBin->max;
+    *max_xbin = horBin->getMax();
+    *max_ybin = verBin->getMax();
 
     return true;
 }
 
 bool CameraChip::setBinning(int bin_x, int bin_y)
 {
-    INumberVectorProperty *binProp = nullptr;
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") : m_Camera->getNumber("GUIDER_BINNING");
 
-    switch (m_Type)
-    {
-        case PRIMARY_CCD:
-            binProp = m_Camera->getNumber("CCD_BINNING");
-            break;
-
-        case GUIDE_CCD:
-            binProp = m_Camera->getNumber("GUIDER_BINNING");
-            break;
-    }
-
-    if (binProp == nullptr)
+    if (!nvp)
         return false;
 
-    INumber *horBin = IUFindNumber(binProp, "HOR_BIN");
-    INumber *verBin = IUFindNumber(binProp, "VER_BIN");
+    auto horBin = nvp.findWidgetByName("HOR_BIN");
+    auto verBin = nvp.findWidgetByName("VER_BIN");
 
     if (!horBin || !verBin)
         return false;
 
-    if (!std::fabs(horBin->value - bin_x) && !std::fabs(verBin->value - bin_y))
+    if (!std::fabs(horBin->getValue() - bin_x) && !std::fabs(verBin->getValue() - bin_y))
         return true;
 
-    if (bin_x > horBin->max || bin_y > verBin->max)
+    if (bin_x > horBin->getMax() || bin_y > verBin->getMax())
         return false;
 
-    horBin->value = bin_x;
-    verBin->value = bin_y;
+    horBin->setValue(bin_x);
+    verBin->setValue(bin_y);
 
-    m_Camera->sendNewProperty(binProp);
+    m_Camera->sendNewProperty(nvp);
 
     return true;
 }
