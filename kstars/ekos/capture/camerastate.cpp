@@ -683,7 +683,7 @@ void CameraState::updateFocusState(FocusState state)
     if (state != m_FocusState)
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" <<
                                      Ekos::getFocusStatusString(m_FocusState) <<
-        "to" << Ekos::getFocusStatusString(state);
+                                     "to" << Ekos::getFocusStatusString(state);
     setFocusState(state);
 
     // Do not process if meridian flip in progress
@@ -893,8 +893,6 @@ bool CameraState::checkAlignmentAfterFlip()
     // if no meridian flip has completed, we do not touch guiding
     if (getMeridianFlipState()->getMeridianFlipStage() < MeridianFlipState::MF_COMPLETED)
     {
-        qCDebug(KSTARS_EKOS_CAPTURE) << "checkAlignmentAfterFlip too early, meridian flip stage =" <<
-                                     getMeridianFlipState()->getMeridianFlipStage();
         return false;
     }
     // If we do not need to align then we're done

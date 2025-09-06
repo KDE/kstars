@@ -177,7 +177,7 @@ PHD2::PHD2()
 
     // Periodic app state polling
     appStateTimer = new QTimer(this);
-    connect(appStateTimer, &QTimer::timeout, this, [=]()
+    connect(appStateTimer, &QTimer::timeout, this, [ = ]()
     {
         requestAppState();
     });
@@ -423,7 +423,10 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
 
             // guiding stopped during dithering
             if (state == PHD2::STOPPED)
+            {
+                isDitherActive = false;
                 return;
+            }
 
             bool error = false;
 

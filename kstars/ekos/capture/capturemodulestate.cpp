@@ -209,7 +209,6 @@ void CaptureModuleState::setActiveAction(int cameraID, CaptureWorkflowActionType
 
 void CaptureModuleState::handleActionRequest(int cameraID, CaptureWorkflowActionType action)
 {
-    qCDebug(KSTARS_EKOS_CAPTURE) << "Handling" << action << "request for camera" << cameraID;
     switch(action)
     {
         case CAPTURE_ACTION_DITHER_REQUEST:
