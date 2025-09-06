@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-02 02:21+0000\n"
+"POT-Creation-Date: 2025-09-06 01:58+0000\n"
 "PO-Revision-Date: 2020-05-14 11:43+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -16108,50 +16108,50 @@ msgstr ""
 msgid "Limit: %1 mins"
 msgstr "Piirangu seadistused"
 
-#: ekos/capture/camerastate.cpp:910
+#: ekos/capture/camerastate.cpp:908
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:927
+#: ekos/capture/camerastate.cpp:925
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Gideerimismooduli ajaületus."
 
-#: ekos/capture/camerastate.cpp:959
+#: ekos/capture/camerastate.cpp:957
 #, fuzzy, kde-format
 #| msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "Gideerimishälve %1 on endiselt suurem kui piirangu väärtus %2 kaaresekundit."
 
-#: ekos/capture/camerastate.cpp:968
+#: ekos/capture/camerastate.cpp:966
 #, fuzzy, kde-format
 #| msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "Gideerimishälve %1 on endiselt suurem kui piirangu väärtus %2 kaaresekundit."
 
-#: ekos/capture/camerastate.cpp:990
+#: ekos/capture/camerastate.cpp:988
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1004
+#: ekos/capture/camerastate.cpp:1002
 #, fuzzy, kde-format
 #| msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "Gideerimishälve %1 on endiselt suurem kui piirangu väärtus %2 kaaresekundit."
 
-#: ekos/capture/camerastate.cpp:1018
+#: ekos/capture/camerastate.cpp:1016
 #, fuzzy, kde-format
 #| msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Gideerimishälve %1 on endiselt suurem kui piirangu väärtus %2 kaaresekundit."
 
-#: ekos/capture/camerastate.cpp:1045
+#: ekos/capture/camerastate.cpp:1043
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 exceeded limit value of %2 arcsecs, suspending "
@@ -16163,7 +16163,7 @@ msgstr ""
 "Gideerimishälve %1 ületas piirangu väärtuse %2 kaaresekundit, säritusest "
 "loobutakse ja oodatakse gideerija järel %3 sekundit."
 
-#: ekos/capture/camerastate.cpp:1092
+#: ekos/capture/camerastate.cpp:1090
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16172,7 +16172,7 @@ msgstr ""
 "Gideerimishälve %1 on nüüd väiksem kui piirangu väärtus %2 kaaresekundit, "
 "säritusega alustatakse uuesti."
 
-#: ekos/capture/camerastate.cpp:1096
+#: ekos/capture/camerastate.cpp:1094
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16181,23 +16181,23 @@ msgstr ""
 "Gideerimishälve %1 on nüüd väiksem kui piirangu väärtus %2 kaaresekundit, "
 "säritusega alustatakse uuesti %3 sekundi pärast."
 
-#: ekos/capture/camerastate.cpp:1111
+#: ekos/capture/camerastate.cpp:1109
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "Gideerimishälve %1 on endiselt suurem kui piirangu väärtus %2 kaaresekundit."
 
-#: ekos/capture/camerastate.cpp:1491
+#: ekos/capture/camerastate.cpp:1489
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1510
+#: ekos/capture/camerastate.cpp:1508
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1515
+#: ekos/capture/camerastate.cpp:1513
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr ""
@@ -16456,7 +16456,7 @@ msgstr "Automaatne fokuseerimine:"
 msgid "Next autofocus run"
 msgstr "Automaatne fokuseerimine:"
 
-#: ekos/capture/capturemodulestate.cpp:404
+#: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
 msgid "Dithering..."
 msgstr "Pseudotoonimine..."
@@ -21873,187 +21873,187 @@ msgstr ""
 msgid "PHD2: SettleDone."
 msgstr "PHD2: täht valitud."
 
-#: ekos/guide/externalguide/phd2.cpp:433
+#: ekos/guide/externalguide/phd2.cpp:436
 #, kde-format
 msgid "PHD2: Settling failed (%1)."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:452
+#: ekos/guide/externalguide/phd2.cpp:455
 #, kde-format
 msgid "PHD2: There was a dithering error, but continue guiding."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:461
+#: ekos/guide/externalguide/phd2.cpp:464
 #, kde-format
 msgid "PHD2: Settling failed, aborted."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:467
+#: ekos/guide/externalguide/phd2.cpp:470
 #, kde-format
 msgid "PHD2: Settling complete, Guiding Started."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:496
+#: ekos/guide/externalguide/phd2.cpp:499
 #, fuzzy, kde-format
 #| msgid "PHD2: Star found, guiding resumed."
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "PHD2: täht leiti üles, gideerimist jätkatakse."
 
-#: ekos/guide/externalguide/phd2.cpp:642
+#: ekos/guide/externalguide/phd2.cpp:645
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr "PHD2 %1: %2"
 
-#: ekos/guide/externalguide/phd2.cpp:696
+#: ekos/guide/externalguide/phd2.cpp:699
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:701
+#: ekos/guide/externalguide/phd2.cpp:704
 #, kde-format
 msgid "PHD2: Guiding Stopped."
 msgstr "PHD2: gideerimine peatatud."
 
-#: ekos/guide/externalguide/phd2.cpp:720
+#: ekos/guide/externalguide/phd2.cpp:723
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:731
+#: ekos/guide/externalguide/phd2.cpp:734
 #, kde-format
 msgid "PHD2: Star Selected."
 msgstr "PHD2: täht valitud."
 
-#: ekos/guide/externalguide/phd2.cpp:740
+#: ekos/guide/externalguide/phd2.cpp:743
 #, fuzzy, kde-format
 #| msgid "PHD2: Guiding Started."
 msgid "PHD2: Guiding...waiting for settle..."
 msgstr "PHD2: alustati gideerimist."
 
-#: ekos/guide/externalguide/phd2.cpp:744
+#: ekos/guide/externalguide/phd2.cpp:747
 #, fuzzy, kde-format
 #| msgid "Dithering successful"
 msgid "PHD2: Dithering successful."
 msgstr "Pseudotoonimine oli edukas"
 
-#: ekos/guide/externalguide/phd2.cpp:750
+#: ekos/guide/externalguide/phd2.cpp:753
 #, fuzzy, kde-format
 #| msgid "PHD2: Guiding is already running."
 msgid "PHD2: Guiding running."
 msgstr "PHD2: gideerimine juba käib."
 
-#: ekos/guide/externalguide/phd2.cpp:761
+#: ekos/guide/externalguide/phd2.cpp:764
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:767
+#: ekos/guide/externalguide/phd2.cpp:770
 #, fuzzy, kde-format
 #| msgid "PHD2: Star Lost. Trying to reacquire."
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr "PHD2: täht kadus ära. Püütakse uuesti leida."
 
-#: ekos/guide/externalguide/phd2.cpp:773
+#: ekos/guide/externalguide/phd2.cpp:776
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:779
+#: ekos/guide/externalguide/phd2.cpp:782
 #, fuzzy, kde-format
 #| msgid "PHD2: Guiding Paused."
 msgid "PHD2: Guiding paused."
 msgstr "PHD2: gideerimine peatati."
 
-#: ekos/guide/externalguide/phd2.cpp:784
+#: ekos/guide/externalguide/phd2.cpp:787
 #, fuzzy, kde-format
 #| msgid "PHD2: Calibration Failed (%1)."
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "PHD2: kalibreerimine nurjus (%1)."
 
-#: ekos/guide/externalguide/phd2.cpp:793
+#: ekos/guide/externalguide/phd2.cpp:796
 #, fuzzy, kde-format
 #| msgid "PHD2: Calibration Started."
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "PHD2: alustati kalibreerimist."
 
-#: ekos/guide/externalguide/phd2.cpp:797
+#: ekos/guide/externalguide/phd2.cpp:800
 #, fuzzy, kde-format
 #| msgid "PHD2: Guiding Resumed."
 msgid "PHD2: Looping Exposures."
 msgstr "PHD2: gideerimine taastatud."
 
-#: ekos/guide/externalguide/phd2.cpp:803
+#: ekos/guide/externalguide/phd2.cpp:806
 #, fuzzy, kde-format
 #| msgid "PHD2: Guiding Started."
 msgid "PHD2: Dithering started."
 msgstr "PHD2: alustati gideerimist."
 
-#: ekos/guide/externalguide/phd2.cpp:831
+#: ekos/guide/externalguide/phd2.cpp:834
 #, fuzzy, kde-format
 #| msgid "Calibration is cleared."
 msgid "PHD2: Calibration is cleared"
 msgstr "Kalibreerimine on puhastatud."
 
-#: ekos/guide/externalguide/phd2.cpp:927
+#: ekos/guide/externalguide/phd2.cpp:930
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:937
+#: ekos/guide/externalguide/phd2.cpp:940
 #, kde-format
 msgid "PHD2: Exposure Time set to: "
 msgstr "PHD2: säriajaks määrati:"
 
-#: ekos/guide/externalguide/phd2.cpp:945
+#: ekos/guide/externalguide/phd2.cpp:948
 #, kde-format
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: kehtivad säriajad: automaatne,"
 
-#: ekos/guide/externalguide/phd2.cpp:976
+#: ekos/guide/externalguide/phd2.cpp:979
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:978
+#: ekos/guide/externalguide/phd2.cpp:981
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:1093
+#: ekos/guide/externalguide/phd2.cpp:1096
 #, fuzzy, kde-format
 #| msgid "PHD2 Error: %1"
 msgid "PHD2 Error: unhandled '%1'"
 msgstr "PHD2 tõrge: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:1229
-#: ekos/guide/externalguide/phd2.cpp:1247
-#: ekos/guide/externalguide/phd2.cpp:1400
-#: ekos/guide/externalguide/phd2.cpp:1516
-#: ekos/guide/externalguide/phd2.cpp:1543
-#: ekos/guide/externalguide/phd2.cpp:1572
+#: ekos/guide/externalguide/phd2.cpp:1232
+#: ekos/guide/externalguide/phd2.cpp:1250
+#: ekos/guide/externalguide/phd2.cpp:1403
+#: ekos/guide/externalguide/phd2.cpp:1519
+#: ekos/guide/externalguide/phd2.cpp:1546
+#: ekos/guide/externalguide/phd2.cpp:1575
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr "PHD2 tõrge: seadmeid pole ühendatud."
 
-#: ekos/guide/externalguide/phd2.cpp:1387
+#: ekos/guide/externalguide/phd2.cpp:1390
 #, kde-format
 msgid "PHD2: Guiding is already running."
 msgstr "PHD2: gideerimine juba käib."
 
-#: ekos/guide/externalguide/phd2.cpp:1394
+#: ekos/guide/externalguide/phd2.cpp:1397
 #, fuzzy, kde-format
 #| msgid "PHD2: Guiding is already running."
 msgid "PHD2: Guiding is paused, resuming..."
 msgstr "PHD2: gideerimine juba käib."
 
-#: ekos/guide/externalguide/phd2.cpp:1456
+#: ekos/guide/externalguide/phd2.cpp:1459
 #, kde-format
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "PHD2: varustuse ühendamine ..."
 
-#: ekos/guide/externalguide/phd2.cpp:1458
+#: ekos/guide/externalguide/phd2.cpp:1461
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: varustuse lahtiühendamine ..."

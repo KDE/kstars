@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-02 02:21+0000\n"
+"POT-Creation-Date: 2025-09-06 01:58+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -15531,42 +15531,42 @@ msgstr "约束: %1 ° C"
 msgid "Limit: %1 mins"
 msgstr "约束: %1 分钟"
 
-#: ekos/capture/camerastate.cpp:910
+#: ekos/capture/camerastate.cpp:908
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "正在执行翻转后重新对齐..."
 
-#: ekos/capture/camerastate.cpp:927
+#: ekos/capture/camerastate.cpp:925
 #, kde-format
 msgid "Guide module timed out."
 msgstr "导星模块超时。"
 
-#: ekos/capture/camerastate.cpp:959
+#: ekos/capture/camerastate.cpp:957
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "初始导星偏差 %1 低于极限值 %2 角秒"
 
-#: ekos/capture/camerastate.cpp:968
+#: ekos/capture/camerastate.cpp:966
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "初始导星偏差 %1 超过极限值 %2 角秒"
 
-#: ekos/capture/camerastate.cpp:990
+#: ekos/capture/camerastate.cpp:988
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "过中天翻转校准成功完成。"
 
-#: ekos/capture/camerastate.cpp:1004
+#: ekos/capture/camerastate.cpp:1002
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr "初始导星偏差在拍摄启动时 %1 超过极限值 %2 角秒"
 
-#: ekos/capture/camerastate.cpp:1018
+#: ekos/capture/camerastate.cpp:1016
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr "初始导星偏差在拍摄启动时 %1 低于极限值 %2 角秒"
 
-#: ekos/capture/camerastate.cpp:1045
+#: ekos/capture/camerastate.cpp:1043
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -15575,36 +15575,36 @@ msgstr ""
 "导星偏差 %1 超过了 %2 角秒的限值在 %4 的连续样本中，暂停曝光并等待导星 %3 "
 "秒。"
 
-#: ekos/capture/camerastate.cpp:1092
+#: ekos/capture/camerastate.cpp:1090
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr "导星偏离 %1 小于 %2 角秒的限定值，重新开始曝光。"
 
-#: ekos/capture/camerastate.cpp:1096
+#: ekos/capture/camerastate.cpp:1094
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr "导星偏离 %1 小于 %2 角秒的限定值，%3 秒后重新开始曝光。"
 
-#: ekos/capture/camerastate.cpp:1111
+#: ekos/capture/camerastate.cpp:1109
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "导星偏差 %1 仍高于限制值 %2 角秒。"
 
-#: ekos/capture/camerastate.cpp:1491
+#: ekos/capture/camerastate.cpp:1489
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "翻转后重新对准成功。"
 
-#: ekos/capture/camerastate.cpp:1510
+#: ekos/capture/camerastate.cpp:1508
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "翻转后对准失败。"
 
-#: ekos/capture/camerastate.cpp:1515
+#: ekos/capture/camerastate.cpp:1513
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "翻转后对准失败。正在重试..."
@@ -15841,7 +15841,7 @@ msgstr ""
 msgid "Next autofocus run"
 msgstr ""
 
-#: ekos/capture/capturemodulestate.cpp:404
+#: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
 msgid "Dithering..."
 msgstr "像素偏移..."
@@ -21046,174 +21046,174 @@ msgstr "翻转校准数据。"
 msgid "PHD2: SettleDone."
 msgstr "PHD2：安定完成。"
 
-#: ekos/guide/externalguide/phd2.cpp:433
+#: ekos/guide/externalguide/phd2.cpp:436
 #, kde-format
 msgid "PHD2: Settling failed (%1)."
 msgstr "PHD2： 安定失败 (%1)。"
 
-#: ekos/guide/externalguide/phd2.cpp:452
+#: ekos/guide/externalguide/phd2.cpp:455
 #, kde-format
 msgid "PHD2: There was a dithering error, but continue guiding."
 msgstr "PHD2: 有一个像素偏移错误, 但继续导星。"
 
-#: ekos/guide/externalguide/phd2.cpp:461
+#: ekos/guide/externalguide/phd2.cpp:464
 #, kde-format
 msgid "PHD2: Settling failed, aborted."
 msgstr "PHD2： 安定失败，已中止。"
 
-#: ekos/guide/externalguide/phd2.cpp:467
+#: ekos/guide/externalguide/phd2.cpp:470
 #, kde-format
 msgid "PHD2: Settling complete, Guiding Started."
 msgstr "PHD2： 安定完成，导星已开始。"
 
-#: ekos/guide/externalguide/phd2.cpp:496
+#: ekos/guide/externalguide/phd2.cpp:499
 #, kde-format
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "PHD2: 找到被导星，导星恢复。"
 
-#: ekos/guide/externalguide/phd2.cpp:642
+#: ekos/guide/externalguide/phd2.cpp:645
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr "PHD2 %1: %2"
 
-#: ekos/guide/externalguide/phd2.cpp:696
+#: ekos/guide/externalguide/phd2.cpp:699
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr "PHD2： 循环曝光停止。"
 
-#: ekos/guide/externalguide/phd2.cpp:701
+#: ekos/guide/externalguide/phd2.cpp:704
 #, kde-format
 msgid "PHD2: Guiding Stopped."
 msgstr "PHD2： 导星停止。"
 
-#: ekos/guide/externalguide/phd2.cpp:720
+#: ekos/guide/externalguide/phd2.cpp:723
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr "PHD2： 锁定位置设置成功。"
 
-#: ekos/guide/externalguide/phd2.cpp:731
+#: ekos/guide/externalguide/phd2.cpp:734
 #, kde-format
 msgid "PHD2: Star Selected."
 msgstr "PHD2： 已选择被导星。"
 
-#: ekos/guide/externalguide/phd2.cpp:740
+#: ekos/guide/externalguide/phd2.cpp:743
 #, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
 msgstr "PHD2: 导星中... 等待安定..."
 
-#: ekos/guide/externalguide/phd2.cpp:744
+#: ekos/guide/externalguide/phd2.cpp:747
 #, kde-format
 msgid "PHD2: Dithering successful."
 msgstr "PHD2: 抖动成功。"
 
-#: ekos/guide/externalguide/phd2.cpp:750
+#: ekos/guide/externalguide/phd2.cpp:753
 #, kde-format
 msgid "PHD2: Guiding running."
 msgstr "PHD2： 导星运行中。"
 
-#: ekos/guide/externalguide/phd2.cpp:761
+#: ekos/guide/externalguide/phd2.cpp:764
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr "PHD2： 锁定位置丢失，继续校准。"
 
-#: ekos/guide/externalguide/phd2.cpp:767
+#: ekos/guide/externalguide/phd2.cpp:770
 #, kde-format
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr "PHD2: 被导星丢失,，试图为%1s重新获取。"
 
-#: ekos/guide/externalguide/phd2.cpp:773
+#: ekos/guide/externalguide/phd2.cpp:776
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr "PHD2： 锁定位置丢失。"
 
-#: ekos/guide/externalguide/phd2.cpp:779
+#: ekos/guide/externalguide/phd2.cpp:782
 #, kde-format
 msgid "PHD2: Guiding paused."
 msgstr "PHD2： 导星暂停。"
 
-#: ekos/guide/externalguide/phd2.cpp:784
+#: ekos/guide/externalguide/phd2.cpp:787
 #, kde-format
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "PHD2： 校准中，%1s后超时。"
 
-#: ekos/guide/externalguide/phd2.cpp:793
+#: ekos/guide/externalguide/phd2.cpp:796
 #, kde-format
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "PHD2： 校准已失败，转为循环拍摄。"
 
-#: ekos/guide/externalguide/phd2.cpp:797
+#: ekos/guide/externalguide/phd2.cpp:800
 #, kde-format
 msgid "PHD2: Looping Exposures."
 msgstr "PHD2： 循环曝光中。"
 
-#: ekos/guide/externalguide/phd2.cpp:803
+#: ekos/guide/externalguide/phd2.cpp:806
 #, kde-format
 msgid "PHD2: Dithering started."
 msgstr "PHD2：抖动已开始。"
 
-#: ekos/guide/externalguide/phd2.cpp:831
+#: ekos/guide/externalguide/phd2.cpp:834
 #, kde-format
 msgid "PHD2: Calibration is cleared"
 msgstr "PHD2： 校准已清除"
 
-#: ekos/guide/externalguide/phd2.cpp:927
+#: ekos/guide/externalguide/phd2.cpp:930
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr "PHD2： DEC 导星模式设置为： %1"
 
-#: ekos/guide/externalguide/phd2.cpp:937
+#: ekos/guide/externalguide/phd2.cpp:940
 #, kde-format
 msgid "PHD2: Exposure Time set to: "
 msgstr "PHD2: 曝光时间设置为: "
 
-#: ekos/guide/externalguide/phd2.cpp:945
+#: ekos/guide/externalguide/phd2.cpp:948
 #, kde-format
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: 有效曝光时间: 自动， "
 
-#: ekos/guide/externalguide/phd2.cpp:976
+#: ekos/guide/externalguide/phd2.cpp:979
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr "PHD2: 请在 PHD2 中设置 CCD 和望远镜参数, 像素缩放无效。"
 
-#: ekos/guide/externalguide/phd2.cpp:978
+#: ekos/guide/externalguide/phd2.cpp:981
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr "PHD2： 像素尺寸为 %1 弧秒/像素"
 
-#: ekos/guide/externalguide/phd2.cpp:1093
+#: ekos/guide/externalguide/phd2.cpp:1096
 #, kde-format
 msgid "PHD2 Error: unhandled '%1'"
 msgstr "PHD2 错误：未能处理的“%1”"
 
-#: ekos/guide/externalguide/phd2.cpp:1229
-#: ekos/guide/externalguide/phd2.cpp:1247
-#: ekos/guide/externalguide/phd2.cpp:1400
-#: ekos/guide/externalguide/phd2.cpp:1516
-#: ekos/guide/externalguide/phd2.cpp:1543
-#: ekos/guide/externalguide/phd2.cpp:1572
+#: ekos/guide/externalguide/phd2.cpp:1232
+#: ekos/guide/externalguide/phd2.cpp:1250
+#: ekos/guide/externalguide/phd2.cpp:1403
+#: ekos/guide/externalguide/phd2.cpp:1519
+#: ekos/guide/externalguide/phd2.cpp:1546
+#: ekos/guide/externalguide/phd2.cpp:1575
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr "PHD2 错误： 设备未连接。"
 
-#: ekos/guide/externalguide/phd2.cpp:1387
+#: ekos/guide/externalguide/phd2.cpp:1390
 #, kde-format
 msgid "PHD2: Guiding is already running."
 msgstr "PHD2： 导星已在运行。"
 
-#: ekos/guide/externalguide/phd2.cpp:1394
+#: ekos/guide/externalguide/phd2.cpp:1397
 #, kde-format
 msgid "PHD2: Guiding is paused, resuming..."
 msgstr "PHD2： 导星已暂停，正在恢复..."
 
-#: ekos/guide/externalguide/phd2.cpp:1456
+#: ekos/guide/externalguide/phd2.cpp:1459
 #, kde-format
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "PHD2: 连接设备..."
 
-#: ekos/guide/externalguide/phd2.cpp:1458
+#: ekos/guide/externalguide/phd2.cpp:1461
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: 断开设备..."
