@@ -4080,10 +4080,13 @@ void SchedulerProcess::setFocusStatus(FocusState status, const QString &trainnam
 
 void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
 {
-    if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr || status == m_lastMountStatus)
+    if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr)
         return;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Mount State changed to" << ISD::Mount::getMountStatusString(status);
+    // avoid log flooding
+    if (m_lastMountStatus != status)
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Mount State changed to" << ISD::Mount::getMountStatusString(status);
+
     m_lastMountStatus = status;
 
     /* If current job is scheduled and has not started yet, wait */
