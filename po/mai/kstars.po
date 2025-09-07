@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-06 01:58+0000\n"
+"POT-Creation-Date: 2025-09-07 01:58+0000\n"
 "PO-Revision-Date: 2009-04-22 00:00+0530\n"
 "Last-Translator: Sangeeta Kumari <sangeeta09@gmail.com>\n"
 "Language-Team: Maithili <maithili.sf.net>\n"
@@ -6904,7 +6904,7 @@ msgstr ""
 #: ekos/align/align.cpp:3979 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:3201
-#: ekos/scheduler/schedulerprocess.cpp:4942
+#: ekos/scheduler/schedulerprocess.cpp:4945
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Unable to write to file %1"
@@ -6915,8 +6915,8 @@ msgstr "फाइल %1 खोलि नहि सकल"
 #: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3202
 #: ekos/scheduler/schedulerprocess.cpp:3550
-#: ekos/scheduler/schedulerprocess.cpp:4943
-#: ekos/scheduler/schedulerprocess.cpp:4963 indi/drivermanager.cpp:1549
+#: ekos/scheduler/schedulerprocess.cpp:4946
+#: ekos/scheduler/schedulerprocess.cpp:4966 indi/drivermanager.cpp:1549
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1432 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -7596,7 +7596,7 @@ msgstr "आन"
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:346
 #: ekos/capture/cameraprocess.cpp:2600 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3549
-#: ekos/scheduler/schedulerprocess.cpp:4962
+#: ekos/scheduler/schedulerprocess.cpp:4965
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Unable to open file %1"
@@ -25112,7 +25112,7 @@ msgstr "क्लाएँट"
 msgid "Failed to clear Alignment Model."
 msgstr "आन"
 
-#: ekos/mount/mount.cpp:1272 ekos/scheduler/schedulerprocess.cpp:4372
+#: ekos/mount/mount.cpp:1272 ekos/scheduler/schedulerprocess.cpp:4375
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
@@ -29997,162 +29997,162 @@ msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr "क्लाएँट"
 
-#: ekos/scheduler/schedulerprocess.cpp:4101
+#: ekos/scheduler/schedulerprocess.cpp:4104
 #, fuzzy, kde-format
 #| msgid "Computer"
 msgid "Job '%1' slew is complete."
 msgstr "कम्प्यूटर"
 
-#: ekos/scheduler/schedulerprocess.cpp:4107
+#: ekos/scheduler/schedulerprocess.cpp:4110
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4113
+#: ekos/scheduler/schedulerprocess.cpp:4116
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "क्लाएँट"
 
-#: ekos/scheduler/schedulerprocess.cpp:4126
+#: ekos/scheduler/schedulerprocess.cpp:4129
 #, fuzzy, kde-format
 #| msgid "Computer"
 msgid "Job '%1' repositioning is complete."
 msgstr "कम्प्यूटर"
 
-#: ekos/scheduler/schedulerprocess.cpp:4132
+#: ekos/scheduler/schedulerprocess.cpp:4135
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4138
+#: ekos/scheduler/schedulerprocess.cpp:4141
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "क्लाएँट"
 
-#: ekos/scheduler/schedulerprocess.cpp:4152
-#: ekos/scheduler/schedulerprocess.cpp:4163
+#: ekos/scheduler/schedulerprocess.cpp:4155
+#: ekos/scheduler/schedulerprocess.cpp:4166
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4192
+#: ekos/scheduler/schedulerprocess.cpp:4195
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Weather has improved. Resuming operations."
 msgstr "फाइल %1 खोलि नहि सकल"
 
-#: ekos/scheduler/schedulerprocess.cpp:4202
+#: ekos/scheduler/schedulerprocess.cpp:4205
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4229
+#: ekos/scheduler/schedulerprocess.cpp:4232
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4251
+#: ekos/scheduler/schedulerprocess.cpp:4254
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Manual shutdown procedure completed successfully."
 msgstr "निर्देशाँक"
 
-#: ekos/scheduler/schedulerprocess.cpp:4257
+#: ekos/scheduler/schedulerprocess.cpp:4260
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4272
+#: ekos/scheduler/schedulerprocess.cpp:4275
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4295
+#: ekos/scheduler/schedulerprocess.cpp:4298
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Parking Cap..."
 msgstr "स्कोप"
 
-#: ekos/scheduler/schedulerprocess.cpp:4301
+#: ekos/scheduler/schedulerprocess.cpp:4304
 #, kde-format
 msgid "Cap already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4310
+#: ekos/scheduler/schedulerprocess.cpp:4313
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4332
+#: ekos/scheduler/schedulerprocess.cpp:4335
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Unparking cap..."
 msgstr "स्कोप"
 
-#: ekos/scheduler/schedulerprocess.cpp:4338
+#: ekos/scheduler/schedulerprocess.cpp:4341
 #, kde-format
 msgid "Cap already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4347
+#: ekos/scheduler/schedulerprocess.cpp:4350
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4405
+#: ekos/scheduler/schedulerprocess.cpp:4408
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Parking mount in progress..."
 msgstr "स्कोप"
 
-#: ekos/scheduler/schedulerprocess.cpp:4419
+#: ekos/scheduler/schedulerprocess.cpp:4422
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4445
+#: ekos/scheduler/schedulerprocess.cpp:4448
 #, kde-format
 msgid "Mount already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4565
+#: ekos/scheduler/schedulerprocess.cpp:4568
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4588
+#: ekos/scheduler/schedulerprocess.cpp:4591
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Parking dome..."
 msgstr "स्कोप"
 
-#: ekos/scheduler/schedulerprocess.cpp:4594
+#: ekos/scheduler/schedulerprocess.cpp:4597
 #, kde-format
 msgid "Dome already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4604
+#: ekos/scheduler/schedulerprocess.cpp:4607
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4624
+#: ekos/scheduler/schedulerprocess.cpp:4627
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Unparking dome..."
 msgstr "स्कोप"
 
-#: ekos/scheduler/schedulerprocess.cpp:4630
+#: ekos/scheduler/schedulerprocess.cpp:4633
 #, kde-format
 msgid "Dome already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4711
+#: ekos/scheduler/schedulerprocess.cpp:4714
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid ""
@@ -30160,17 +30160,17 @@ msgid ""
 "ready..."
 msgstr "क्लाएँट"
 
-#: ekos/scheduler/schedulerprocess.cpp:5001
+#: ekos/scheduler/schedulerprocess.cpp:5004
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:5006
+#: ekos/scheduler/schedulerprocess.cpp:5009
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:5067
+#: ekos/scheduler/schedulerprocess.cpp:5070
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."

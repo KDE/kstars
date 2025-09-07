@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-06 01:58+0000\n"
+"POT-Creation-Date: 2025-09-07 01:58+0000\n"
 "PO-Revision-Date: 2025-08-15 13:21+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -6744,7 +6744,7 @@ msgstr "URL no válido: %1"
 #: ekos/align/align.cpp:3979 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:3201
-#: ekos/scheduler/schedulerprocess.cpp:4942
+#: ekos/scheduler/schedulerprocess.cpp:4945
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "No se puede escribir en el archivo %1 "
@@ -6754,8 +6754,8 @@ msgstr "No se puede escribir en el archivo %1 "
 #: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3202
 #: ekos/scheduler/schedulerprocess.cpp:3550
-#: ekos/scheduler/schedulerprocess.cpp:4943
-#: ekos/scheduler/schedulerprocess.cpp:4963 indi/drivermanager.cpp:1549
+#: ekos/scheduler/schedulerprocess.cpp:4946
+#: ekos/scheduler/schedulerprocess.cpp:4966 indi/drivermanager.cpp:1549
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1432 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -7410,7 +7410,7 @@ msgstr "Abrir lista de alineación de Ekos"
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:346
 #: ekos/capture/cameraprocess.cpp:2600 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3549
-#: ekos/scheduler/schedulerprocess.cpp:4962
+#: ekos/scheduler/schedulerprocess.cpp:4965
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "No se puede abrir el archivo %1"
@@ -25501,7 +25501,7 @@ msgstr "Modelo de alineación borrado."
 msgid "Failed to clear Alignment Model."
 msgstr "Ha ocurrido un error al borrar el modelo de alineación."
 
-#: ekos/mount/mount.cpp:1272 ekos/scheduler/schedulerprocess.cpp:4372
+#: ekos/mount/mount.cpp:1272 ekos/scheduler/schedulerprocess.cpp:4375
 #, kde-format
 msgid "Mount already parked."
 msgstr "La montura ya está aparcada."
@@ -30585,30 +30585,30 @@ msgstr ""
 "Advertencia: el procedimiento de enfoque del trabajo «%1» en el tren «%2» ha "
 "fallado. Se marca como interrumpido."
 
-#: ekos/scheduler/schedulerprocess.cpp:4101
+#: ekos/scheduler/schedulerprocess.cpp:4104
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "El desplazamiento del trabajo «%1» se ha completado."
 
-#: ekos/scheduler/schedulerprocess.cpp:4107
+#: ekos/scheduler/schedulerprocess.cpp:4110
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 "Advertencia: el desplazamiento del trabajo «%1» ha fallado. Se marca como "
 "terminado debido a errores."
 
-#: ekos/scheduler/schedulerprocess.cpp:4113
+#: ekos/scheduler/schedulerprocess.cpp:4116
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr ""
 "Advertencia: el trabajo «%1» no ha encontrado desplazamiento. Se reinicia."
 
-#: ekos/scheduler/schedulerprocess.cpp:4126
+#: ekos/scheduler/schedulerprocess.cpp:4129
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "El reposicionamiento del trabajo «%1» se ha completado."
 
-#: ekos/scheduler/schedulerprocess.cpp:4132
+#: ekos/scheduler/schedulerprocess.cpp:4135
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
@@ -30616,14 +30616,14 @@ msgstr ""
 "Advertencia: el reposicionamiento del trabajo «%1» ha fallado. Se marca como "
 "terminado debido a errores."
 
-#: ekos/scheduler/schedulerprocess.cpp:4138
+#: ekos/scheduler/schedulerprocess.cpp:4141
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr ""
 "Advertencia: el trabajo «%1» no ha encontrado reposicionamiento. Reiniciando."
 
-#: ekos/scheduler/schedulerprocess.cpp:4152
-#: ekos/scheduler/schedulerprocess.cpp:4163
+#: ekos/scheduler/schedulerprocess.cpp:4155
+#: ekos/scheduler/schedulerprocess.cpp:4166
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
@@ -30631,20 +30631,20 @@ msgstr ""
 "Advertencia: la montura está aparcada mientras el planificador del trabajo "
 "«%1» está activo. Interrumpiendo…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4192
+#: ekos/scheduler/schedulerprocess.cpp:4195
 #, kde-format
 msgid "Weather has improved. Resuming operations."
 msgstr ""
 "Las condiciones meteorológicas han mejorado. Se reanudan las operaciones."
 
-#: ekos/scheduler/schedulerprocess.cpp:4202
+#: ekos/scheduler/schedulerprocess.cpp:4205
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
 "Alerta meteorológica detectada. Iniciando procedimiento de apagado suave en "
 "%1 segundos."
 
-#: ekos/scheduler/schedulerprocess.cpp:4229
+#: ekos/scheduler/schedulerprocess.cpp:4232
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
@@ -30652,104 +30652,104 @@ msgstr ""
 "Observatorio programado para un apagado suave hasta que mejoren las "
 "condiciones meteorológicas o hasta %1."
 
-#: ekos/scheduler/schedulerprocess.cpp:4251
+#: ekos/scheduler/schedulerprocess.cpp:4254
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "El procedimiento de apagado manual ha finalizado con éxito."
 
-#: ekos/scheduler/schedulerprocess.cpp:4257
+#: ekos/scheduler/schedulerprocess.cpp:4260
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "El procedimiento de apagado manual ha terminado debido a errores."
 
-#: ekos/scheduler/schedulerprocess.cpp:4272
+#: ekos/scheduler/schedulerprocess.cpp:4275
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 "Se ha solicitado aparcar la cubierta antipolvo, pero no se han detectado "
 "cubiertas antipolvo."
 
-#: ekos/scheduler/schedulerprocess.cpp:4295
+#: ekos/scheduler/schedulerprocess.cpp:4298
 #, kde-format
 msgid "Parking Cap..."
 msgstr "Aparcando la tapa…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4301
+#: ekos/scheduler/schedulerprocess.cpp:4304
 #, kde-format
 msgid "Cap already parked."
 msgstr "La tapa ya está aparcada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4310
+#: ekos/scheduler/schedulerprocess.cpp:4313
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 "Se ha solicitado desaparcar la cubierta antipolvo, pero no se han detectado "
 "cubiertas antipolvo."
 
-#: ekos/scheduler/schedulerprocess.cpp:4332
+#: ekos/scheduler/schedulerprocess.cpp:4335
 #, kde-format
 msgid "Unparking cap..."
 msgstr "Desaparcando la tapa…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4338
+#: ekos/scheduler/schedulerprocess.cpp:4341
 #, kde-format
 msgid "Cap already unparked."
 msgstr "La tapa ya está desaparcada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4347
+#: ekos/scheduler/schedulerprocess.cpp:4350
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
 "Se ha solicitado aparcar la montura, pero no se han detectado monturas."
 
-#: ekos/scheduler/schedulerprocess.cpp:4405
+#: ekos/scheduler/schedulerprocess.cpp:4408
 #, kde-format
 msgid "Parking mount in progress..."
 msgstr "Aparcamiento de la montura en curso…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4419
+#: ekos/scheduler/schedulerprocess.cpp:4422
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 "Se ha solicitado desaparcar la montura, pero no se han detectado monturas."
 
-#: ekos/scheduler/schedulerprocess.cpp:4445
+#: ekos/scheduler/schedulerprocess.cpp:4448
 #, kde-format
 msgid "Mount already unparked."
 msgstr "La montura ya está desaparcada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4565
+#: ekos/scheduler/schedulerprocess.cpp:4568
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr "Se ha solicitado aparcar la cúpula, pero no se han detectado cúpulas."
 
-#: ekos/scheduler/schedulerprocess.cpp:4588
+#: ekos/scheduler/schedulerprocess.cpp:4591
 #, kde-format
 msgid "Parking dome..."
 msgstr "Aparcando la cúpula…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4594
+#: ekos/scheduler/schedulerprocess.cpp:4597
 #, kde-format
 msgid "Dome already parked."
 msgstr "La cúpula ya está aparcada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4604
+#: ekos/scheduler/schedulerprocess.cpp:4607
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 "Se ha solicitado desaparcar la cúpula, pero no se han detectado cúpulas."
 
-#: ekos/scheduler/schedulerprocess.cpp:4624
+#: ekos/scheduler/schedulerprocess.cpp:4627
 #, kde-format
 msgid "Unparking dome..."
 msgstr "Desaparcando la cúpula…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4630
+#: ekos/scheduler/schedulerprocess.cpp:4633
 #, kde-format
 msgid "Dome already unparked."
 msgstr "La cúpula ya está desaparcada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4711
+#: ekos/scheduler/schedulerprocess.cpp:4714
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -30758,17 +30758,17 @@ msgstr ""
 "En reposo durante %1 en la actualización del reloj de la simulación hasta "
 "que el siguiente trabajo de observación esté preparado…"
 
-#: ekos/scheduler/schedulerprocess.cpp:5001
+#: ekos/scheduler/schedulerprocess.cpp:5004
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "Ha fallado el guion de arranque. Interrumpiendo…"
 
-#: ekos/scheduler/schedulerprocess.cpp:5006
+#: ekos/scheduler/schedulerprocess.cpp:5009
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "El guion de apagado ha fallado. Interrumpiendo…"
 
-#: ekos/scheduler/schedulerprocess.cpp:5067
+#: ekos/scheduler/schedulerprocess.cpp:5070
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
