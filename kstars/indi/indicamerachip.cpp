@@ -380,7 +380,7 @@ int CameraChip::getISOIndex() const
     if (!isoProp)
         return -1;
 
-    return isoProp->findOnSwitchIndex();
+    return isoProp.findOnSwitchIndex();
 }
 
 bool CameraChip::getISOValue(QString &value) const
@@ -403,8 +403,8 @@ bool CameraChip::setISOIndex(int value)
     if (!isoProp)
         return false;
 
-    isoProp->reset();
-    isoProp->at(value)->setState(ISS_ON);
+    isoProp.reset();
+    isoProp[value].setState(ISS_ON);
 
     m_Camera->sendNewProperty(isoProp);
 
@@ -420,7 +420,7 @@ QStringList CameraChip::getISOList() const
     if (!isoProp)
         return isoList;
 
-    for (const auto &it : *isoProp)
+    for (auto it : isoProp)
         isoList << it.getLabel();
 
     return isoList;
@@ -511,13 +511,13 @@ CCDFrameType CameraChip::getFrameType()
         return fType;
     }
 
-    if (ccdFrame->getName() == "FRAME_LIGHT")
+    if (ccdFrame->isNameMatch("FRAME_LIGHT"))
         fType = FRAME_LIGHT;
-    else if (ccdFrame->getName() == "FRAME_DARK")
+    else if (ccdFrame->isNameMatch("FRAME_DARK"))
         fType = FRAME_DARK;
-    else if (ccdFrame->getName() == "FRAME_FLAT")
+    else if (ccdFrame->isNameMatch("FRAME_FLAT"))
         fType = FRAME_FLAT;
-    else if (ccdFrame->getName() == "FRAME_BIAS")
+    else if (ccdFrame->isNameMatch("FRAME_BIAS"))
         fType = FRAME_BIAS;
 
     return fType;
