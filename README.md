@@ -66,7 +66,7 @@ To build and develop KStars, several packages may be required from your distribu
     * GNU Make, GCC -- Essential tools for building
     * cmake -- buildsystem used by KDE
     * Qt Library > 5.12.0
-    * Several KDE Frameworks: KConfig, KDocTools, KGuiAddons, KWidgetsAddons, KNewStuff, KI18n, KInit, KIO, KXmlGui, KPlotting, KIconThemes
+    * Several KDE Frameworks: KConfig, KGuiAddons, KWidgetsAddons, KNewStuff, KI18n, KInit, KIO, KXmlGui, KPlotting, KIconThemes
     * eigen -- linear algebra library
     * zlib -- compression library
     * StellarSolver -- see [https://github.com/rlancaste/stellarsolver](https://github.com/rlancaste/stellarsolver)
@@ -89,7 +89,7 @@ Debian/Ubuntu
 The apt-add-respository command is needed for the apt-get's libstellarsolver-dev. Alternatively, you can skip the apt-add-repository, remove the libstellarsolver-dev from the apt-get, and build & install stellarsolver from https://github.com/rlancaste/stellarsolver.
 ```
 sudo apt-add-repository ppa:mutlaqja/ppa
-sudo apt-get -y install build-essential cmake git libstellarsolver-dev libxisf-dev libeigen3-dev libcfitsio-dev zlib1g-dev libindi-dev extra-cmake-modules libkf5plotting-dev libqt5svg5-dev libkf5xmlgui-dev libkf5kio-dev kinit-dev libkf5newstuff-dev libkf5doctools-dev libkf5notifications-dev qtdeclarative5-dev libkf5crash-dev gettext libnova-dev libgsl-dev libraw-dev libkf5notifyconfig-dev wcslib-dev libqt5websockets5-dev xplanet xplanet-images qt5keychain-dev libsecret-1-dev breeze-icon-theme libqt5datavisualization5-dev
+sudo apt-get -y install build-essential cmake git libstellarsolver-dev libxisf-dev libeigen3-dev libcfitsio-dev zlib1g-dev libindi-dev extra-cmake-modules libkf5plotting-dev libqt5svg5-dev libkf5xmlgui-dev libkf5kio-dev kinit-dev libkf5newstuff-dev libkf5notifications-dev qtdeclarative5-dev libkf5crash-dev gettext libnova-dev libgsl-dev libraw-dev libkf5notifyconfig-dev wcslib-dev libqt5websockets5-dev xplanet xplanet-images qt5keychain-dev libsecret-1-dev breeze-icon-theme libqt5datavisualization5-dev
 ```
 
 Fedora
@@ -98,7 +98,7 @@ Note: the current version of stellarsolver included in fedora is QT6 based and d
 QT5 based version of stellarsolver after installing other dependencies.
 
 ```
-sudo dnf install -y cfitsio-devel eigen3-devel cmake extra-cmake-modules.noarch libXISF-devel kf5-kconfig-devel kf5-kdbusaddons-devel kf5-kdoctools-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kiconthemes-devel kf5-kinit-devel kf5-kio-devel kf5-kjobwidgets-devel kf5-knewstuff-devel kf5-kplotting-devel kf5-ktexteditor-devel kf5-kwidgetsaddons-devel kf5-kwindowsystem-devel kf5-kxmlgui-devel libindi-devel libindi-static qt5-qtdeclarative-devel qt5-qtmultimedia-devel qt5-qtdatavis3d-devel qt5-qtsvg-devel wcslib-devel xplanet zlib-devel qt5-qtwebsockets-devel kf5-kcrash-devel kf5-knotifications-devel gsl-devel libnoval-devel libcurl-devel
+sudo dnf install -y cfitsio-devel eigen3-devel cmake extra-cmake-modules.noarch libXISF-devel kf5-kconfig-devel kf5-kdbusaddons-devel kf5-kguiaddons-devel kf5-ki18n-devel kf5-kiconthemes-devel kf5-kinit-devel kf5-kio-devel kf5-kjobwidgets-devel kf5-knewstuff-devel kf5-kplotting-devel kf5-ktexteditor-devel kf5-kwidgetsaddons-devel kf5-kwindowsystem-devel kf5-kxmlgui-devel libindi-devel libindi-static qt5-qtdeclarative-devel qt5-qtmultimedia-devel qt5-qtdatavis3d-devel qt5-qtsvg-devel wcslib-devel xplanet zlib-devel qt5-qtwebsockets-devel kf5-kcrash-devel kf5-knotifications-devel gsl-devel libnoval-devel libcurl-devel
 
 cd /tmp
 git clone --branch 2.6 https://github.com/rlancaste/stellarsolver.git

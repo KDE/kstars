@@ -15,7 +15,6 @@ Dependencies:
   'require':
     'frameworks/breeze-icons': '@stable'
     'frameworks/kcrash': '@stable'
-    'frameworks/kdoctools': '@stable'
     'frameworks/knewstuff': '@stable'
     'frameworks/knotifications': '@stable'
     'frameworks/knotifyconfig': '@stable'
@@ -33,7 +32,6 @@ Dependencies:
   'require':
     'frameworks/breeze-icons': '@stable-kf6'
     'frameworks/kcrash': '@stable-kf6'
-    'frameworks/kdoctools': '@stable-kf6'
     'frameworks/knewstuff': '@stable-kf6'
     'frameworks/knotifications': '@stable-kf6'
     'frameworks/knotifyconfig': '@stable-kf6'

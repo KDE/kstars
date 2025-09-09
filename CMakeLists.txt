@@ -155,7 +155,6 @@ else(BUILD_KSTARS_LITE)
        find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
          Config
          Crash
-         DocTools
          WidgetsAddons
          NewStuff
          I18n
@@ -173,7 +172,6 @@ else(BUILD_KSTARS_LITE)
         find_package(KF6 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
           Config
           Crash
-          DocTools
           WidgetsAddons
           NewStuff
           I18n
@@ -530,17 +528,7 @@ IF (NOT ANDROID)
     enable_testing(true)
     add_subdirectory(Tests)
     ENDIF()
-    # Make it possible to use the po files fetched by the fetch-translations step    
     ki18n_install(po)
-    if (NOT BUILD_WITH_QT6)
-        find_package(KF5DocTools CONFIG)
-    else()
-        find_package(KF6DocTools CONFIG)
-    endif()
-    if(KF5DocTools_FOUND OR KF6DocTools_FOUND)
-        kdoctools_install(po)
-    endif()
-
 ENDIF ()
 
 if(NOT APPLE) #This is not used on MacOS
