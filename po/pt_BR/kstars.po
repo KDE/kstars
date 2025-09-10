@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-07 01:58+0000\n"
-"PO-Revision-Date: 2025-09-08 15:27-0300\n"
+"PO-Revision-Date: 2025-09-09 10:27-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -13221,23 +13221,22 @@ msgid "Reset train"
 msgstr "Redefinir trem"
 
 #: ekos/auxiliary/portselector.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "Region/state in Russia"
-#| msgid "Siberia"
+#, kde-format
 msgid "Serial"
-msgstr "Sibéria"
+msgstr "Serial"
 
 #: ekos/auxiliary/portselector.cpp:66
 #, kde-format
 msgid ""
 "Select <b>Serial</b> if your device is connected via Serial to USB adapter."
 msgstr ""
+"Selecione <b>Serial</b> se o seu dispositivo estiver conectado via adaptador "
+"Serial para USB."
 
 #: ekos/auxiliary/portselector.cpp:77
-#, fuzzy, kde-format
-#| msgid "Artwork"
+#, kde-format
 msgid "Network"
-msgstr "Arte"
+msgstr "Rede"
 
 #: ekos/auxiliary/portselector.cpp:79
 #, kde-format
@@ -13245,21 +13244,19 @@ msgid "Select <b>Network</b> if your device is connected via Ethernet or WiFi."
 msgstr ""
 
 #: ekos/auxiliary/portselector.cpp:96
-#, fuzzy, kde-format
-#| msgid "Auto Select Star"
+#, kde-format
 msgid "Select Serial port"
-msgstr "Seleção automática de estrelas"
+msgstr "Selecionar a porta serial"
 
 #: ekos/auxiliary/portselector.cpp:126
-#, fuzzy, kde-format
-#| msgid "Select a category:"
+#, kde-format
 msgid "Select Baud rate"
-msgstr "Escolha uma categoria:"
+msgstr "Selecionar a taxa de transmissão"
 
 #: ekos/auxiliary/portselector.cpp:143
 #, kde-format
 msgid "Host name or IP address."
-msgstr ""
+msgstr "Nome do Host ou endereço de IP."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
@@ -13291,18 +13288,15 @@ msgid "Disconnect"
 msgstr "Desconectar"
 
 #: ekos/auxiliary/portselector.cpp:368
-#, fuzzy, kde-format
-#| msgid "Connect"
+#, kde-format
 msgid "Connect All"
-msgstr "Conectar"
+msgstr "Conectar tudo"
 
 #: ekos/auxiliary/portselector.cpp:381
-#, fuzzy, kde-format
-#| msgctxt "City in Florida USA"
-#| msgid "Port Salerno"
+#, kde-format
 msgctxt "@title:window"
 msgid "Port Selector"
-msgstr "Port Salerno"
+msgstr "Seletor de porta"
 
 #: ekos/auxiliary/serialportassistant.cpp:92
 #, kde-format
@@ -13311,30 +13305,29 @@ msgid ""
 "device from stellarmate then replug it after 1 second. Click on the <b>Start "
 "Scan</b> to begin this procedure."
 msgstr ""
+"Para atribuir uma designação permanente ao dispositivo, você precisa "
+"desconectá-lo do StellarMate e reconectá-lo após 1 segundo. Clique em "
+"<b>Iniciar escaneamento</b> para iniciar este procedimento."
 
 #: ekos/auxiliary/serialportassistant.cpp:98
-#, fuzzy, kde-format
-#| msgid "&Start Sequence"
+#, kde-format
 msgid "Start Scan"
-msgstr "Iniciar a &sequência"
+msgstr "Iniciar escaneamento"
 
 #: ekos/auxiliary/serialportassistant.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "City in Alaska USA"
-#| msgid "Homer"
+#, kde-format
 msgid "Home"
-msgstr "Homer"
+msgstr "Início"
 
 #: ekos/auxiliary/serialportassistant.cpp:107
-#, fuzzy, kde-format
-#| msgid "Device"
+#, kde-format
 msgid "Skip Device"
-msgstr "Dispositivo"
+msgstr "Pular dispositivo"
 
 #: ekos/auxiliary/serialportassistant.cpp:124
 #, kde-format
 msgid "Physical Port Mapping"
-msgstr ""
+msgstr "Mapeamento de porta física"
 
 #: ekos/auxiliary/serialportassistant.cpp:127
 #, kde-format
@@ -13344,65 +13337,62 @@ msgid ""
 "adapters. The device must <b>always</b> be plugged into the same port for "
 "this to work."
 msgstr ""
+"Atribua o nome permanente com base na porta física à qual o dispositivo está "
+"conectado no StellarMate. Isso é útil para distinguir entre dois adaptadores "
+"USB idênticos. O dispositivo deve <b>sempre</b> estar conectado à mesma "
+"porta para que isso funcione."
 
 #: ekos/auxiliary/serialportassistant.cpp:165
 #, kde-format
 msgid "Standby, Scanning..."
-msgstr ""
+msgstr "Em espera, escaneando..."
 
 #: ekos/auxiliary/serialportassistant.cpp:203
 #, kde-format
 msgctxt "Vendor ID"
 msgid "VID"
-msgstr ""
+msgstr "VID"
 
 #: ekos/auxiliary/serialportassistant.cpp:204
 #, kde-format
 msgctxt "Product ID"
 msgid "PID"
-msgstr ""
+msgstr "PID"
 
 #: ekos/auxiliary/serialportassistant.cpp:205
-#, fuzzy, kde-format
-#| msgid "Links"
+#, kde-format
 msgid "Link"
-msgstr "Links"
+msgstr "Link"
 
 #: ekos/auxiliary/serialportassistant.cpp:206
-#, fuzzy, kde-format
-#| msgctxt "Region/state in Russia"
-#| msgid "Siberia"
+#, kde-format
 msgid "Serial #"
-msgstr "Sibéria"
+msgstr "Serial #"
 
 #: ekos/auxiliary/serialportassistant.cpp:207
 #, kde-format
 msgid "Hardware Port?"
-msgstr ""
+msgstr "Porta de hardware?"
 
 #: ekos/auxiliary/serialportassistant.cpp:264
-#, fuzzy, kde-format
-#| msgid "&Start Sequence"
+#, kde-format
 msgid "Start Scanning"
-msgstr "Iniciar a &sequência"
+msgstr "Iniciar escaneamento"
 
 #: ekos/auxiliary/serialportassistant.cpp:291
-#, fuzzy, kde-format
-#| msgid "Ekos failed to start."
+#, kde-format
 msgid "Failed to scan devices."
-msgstr "Não foi possível iniciar o Ekos."
+msgstr "Falha ao escanear dispositivos."
 
 #: ekos/auxiliary/serialportassistant.cpp:300
 #: ekos/auxiliary/serialportassistant.cpp:311
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to detect focus star in frame. Capture and select a focus star."
+#, kde-format
 msgid ""
 "Failed to detect any devices. Please make sure device is powered and "
 "connected to StellarMate via USB."
 msgstr ""
-"Não foi possível detectar a estrela de focagem na imagem. Capture e "
-"selecione uma estrela de focagem."
+"Falha ao detectar qualquer dispositivo. Certifique-se de que o dispositivo "
+"esteja ligado e conectado ao StellarMate via USB."
 
 #: ekos/auxiliary/serialportassistant.cpp:350
 #, kde-format
@@ -13410,34 +13400,34 @@ msgid ""
 "Duplicate devices detected. You must remove one mapping or enable hardware "
 "slot mapping."
 msgstr ""
+"Dispositivos duplicados detectados. Você deve remover um mapeamento ou "
+"habilitar o mapeamento de slots de hardware."
 
 #: ekos/auxiliary/serialportassistant.cpp:369
-#, fuzzy, kde-format
-#| msgid "Mosaic file %1 saved successfully."
+#, kde-format
 msgid "Mapping is successful."
-msgstr "O arquivo de mosaico %1 foi salvo com sucesso."
+msgstr "O mapeamento foi bem-sucedido."
 
 #: ekos/auxiliary/serialportassistant.cpp:384
-#, fuzzy, kde-format
-#| msgid "Date, time and location: "
+#, kde-format
 msgid "Failed to add a new rule."
-msgstr "Data, hora e localização: "
+msgstr "Falha ao adicionar uma nova regra."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SerialPortAssistant)
 #: ekos/auxiliary/serialportassistant.ui:14
-#, fuzzy, kde-format
-#| msgid "Polar Alignment Measurement"
+#, kde-format
 msgid "Serial Port Assistant"
-msgstr "Medida do Alinhamento Polar"
+msgstr "Assistente de porta serial"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/auxiliary/serialportassistant.ui:81
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Welcome to StellarMate <span style=\" font-weight:600;"
 "\">Serial Port Assistant</span> tool.</p></body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Bem-vindo à ferramenta StellarMate <span style=\" font-"
+"weight:600;\">Assistente de Porta Serial</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/serialportassistant.ui:88
@@ -13449,27 +13439,29 @@ msgid ""
 "future.</p><p><br/></p><p>Click <span style=\" font-weight:600;\">Next</"
 "span> to continue.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Esta ferramenta atribuirá <span style=\" font-style:"
+"italic;\">nomes permanentes</span> aos seus dispositivos <span style=\" font-"
+"weight:600;\">Serial para USB</span> para que seja mais fácil conectá-los no "
+"futuro.</p><p><br/></p><p>Clique em <span style=\" font-weight:600;"
+"\">Avançar</span> para continuar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/auxiliary/serialportassistant.ui:113
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Limiting Mag"
+#, kde-format
 msgid "Existing Mapping"
-msgstr "Mag. Limite"
+msgstr "Mapeamento existente"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearRuleB)
 #: ekos/auxiliary/serialportassistant.ui:136
-#, fuzzy, kde-format
-#| msgid "Remove profile"
+#, kde-format
 msgid "Remove rule"
-msgstr "Remover perfil"
+msgstr "Remover regra"
 
 #. i18n: ectx: property (text), widget (QCheckBox, displayOnStartupC)
 #: ekos/auxiliary/serialportassistant.ui:182
 #, kde-format
 msgid "Display on detecting unmapped ports"
-msgstr ""
+msgstr "Exibir na detecção de portas não mapeadas"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextB)
 #: ekos/auxiliary/serialportassistant.ui:205 indi/telescopewizard.ui:97
@@ -13479,16 +13471,15 @@ msgstr "&Próximo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/auxiliary/serialportassistant.ui:237
-#, fuzzy, kde-format
-#| msgid "Astrometry alignment completed successfully"
+#, kde-format
 msgid "All devices are successfully mapped."
-msgstr "O alinhamento do Astrometry foi concluído com sucesso"
+msgstr "Todos os dispositivos foram mapeados com sucesso."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/auxiliary/serialportassistant.ui:244
 #, kde-format
 msgid "You can now connect to your equipment."
-msgstr ""
+msgstr "Agora você pode se conectar ao seu equipamento."
 
 #. i18n: ectx: property (text), widget (QPushButton, closeB)
 #. i18n: ectx: property (text), widget (QPushButton, shutterClosed)
@@ -13505,47 +13496,46 @@ msgstr "Fechar"
 #: ekos/auxiliary/stellarsolverprofile.cpp:136
 #, kde-format
 msgid "Profile for the source extraction of all the stars in an image."
-msgstr ""
+msgstr "Perfil para extração da fonte de todas as estrelas em uma imagem."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:38
 #: ekos/auxiliary/stellarsolverprofile.cpp:145
 #, kde-format
 msgid "Profile optimized for source extraction of smaller stars."
-msgstr ""
+msgstr "Perfil otimizado para extração de fontes de estrelas menores."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:50
 #: ekos/auxiliary/stellarsolverprofile.cpp:157
 #, kde-format
 msgid "Profile optimized for source extraction of medium sized stars."
-msgstr ""
+msgstr "Perfil otimizado para extração de fonte de estrelas de tamanho médio."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:65
 #: ekos/auxiliary/stellarsolverprofile.cpp:172
 #, kde-format
 msgid "Profile optimized for source extraction of larger stars."
-msgstr ""
+msgstr "Perfil otimizado para extração de fontes de estrelas maiores."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:83
-#, fuzzy, kde-format
-#| msgid "Default Focuser star selection box size"
+#, kde-format
 msgid "Default focus star-extraction."
-msgstr "Tamanho da caixa de seleção do focalizador de estrelas padrão"
+msgstr "Extração de estrelas com foco padrão."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:103
 #, kde-format
 msgid "Profile optimized for source extraction of stars including Donuts."
-msgstr ""
+msgstr "Perfil otimizado para extração de fonte de estrelas, incluindo Donuts."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:124
-#, fuzzy, kde-format
-#| msgid "Default Focuser star selection box size"
+#, kde-format
 msgid "Default guider star-extraction."
-msgstr "Tamanho da caixa de seleção do focalizador de estrelas padrão"
+msgstr "Extração de estrela guia padrão."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:192
 #, kde-format
 msgid "Default profile. Generic and not optimized for any specific purpose."
 msgstr ""
+"Perfil padrão. Genérico e não otimizado para nenhuma finalidade específica."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:199
 #, kde-format
@@ -13553,85 +13543,78 @@ msgid ""
 "Profile intended for Plate Solving telescopic sized images in a single CPU "
 "Thread"
 msgstr ""
+"Perfil destinado à resolução de placas com imagens telescópicas em uma única "
+"thread de CPU"
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:212
 #, kde-format
 msgid "Profile intended for Plate Solving camera lens sized images"
 msgstr ""
+"Perfil destinado a imagens do tamanho de lentes de câmera de resolução de "
+"placas"
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:224
 #, kde-format
 msgid "Profile intended for Plate Solving telescopic sized images"
-msgstr ""
+msgstr "Perfil destinado à resolução de placas de imagens telescópicas"
 
 # Raio do Meio-Fluxo (RMF)
 #: ekos/auxiliary/stellarsolverprofile.cpp:243
-#, fuzzy, kde-format
-#| msgid "Default maximum permittable HFR deviation"
+#, kde-format
 msgid "Default. Set for typical HFR estimation."
-msgstr "Desvio máximo do RMF permitido por padrão"
+msgstr "Padrão. Definido para estimativa típica de HFR."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:263
 #, kde-format
 msgid "Set for typical HFR estimation on big stars."
-msgstr ""
+msgstr "Definido para estimativa típica de HFR em estrelas grandes."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:282
 #, kde-format
 msgid "Set for HFR estimation on most stars."
-msgstr ""
+msgstr "Definido para estimativa de HFR na maioria das estrelas."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:32
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Options Profiles"
-msgstr "Perfil"
+msgstr "Perfis de opções"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:64
 #, kde-format
 msgid "Selects the profile group that the editor is working with"
-msgstr ""
+msgstr "Seleciona o grupo de perfil com o qual o editor está trabalhando"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:71
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgid "Alignment Profiles"
-msgstr "Alinhamento Polar"
+msgstr "Perfis de alinhamento"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:76
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Focus SEP Profiles"
-msgstr "Perfil"
+msgstr "Perfis de foco do SEP"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:81
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Guide SEP Profiles"
-msgstr "Perfil"
+msgstr "Perfis de guia do SEP"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:86
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "HFR SEP Profiles"
-msgstr "Perfil"
+msgstr "Perfis de HFR do SEP"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, reloadProfiles)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:106
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Offset in minutes to start imaging before or after "
-#| "culmination time.</p></body></html>"
+#, kde-format
 msgid "Reloads the options profiles from the saved file"
-msgstr ""
-"<html><head/><body><p>Desvio em minutos para começar a registrar a imagem, "
-"antes ou depois do tempo de culminar.</p></body></html>"
+msgstr "Recarregar os perfis de opções do arquivo salvo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadBackups)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:128
@@ -13640,6 +13623,8 @@ msgid ""
 "Loads an alternate or backup file of profiles you saved somewhere else on "
 "your computer into and replaces all profiles in this group"
 msgstr ""
+"Carrega um arquivo alternativo ou de backup de perfis que você salvou em "
+"outro lugar do seu computador e substitui todos os perfis neste grupo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveBackups)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:150
@@ -13648,6 +13633,8 @@ msgid ""
 "Saves your current set of profiles in this group somewhere else on your "
 "computer"
 msgstr ""
+"Salva seu conjunto atual de perfis neste grupo em algum outro lugar no seu "
+"computador"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadDefaults)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:172
@@ -13656,24 +13643,29 @@ msgid ""
 "Loads the default set of profiles, clearing any modifications or custom "
 "profiles."
 msgstr ""
+"Carrega o conjunto padrão de perfis, limpando quaisquer modificações ou "
+"perfis personalizados."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, optionsProfile)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:188
 #, kde-format
 msgid "This lets you select which options profile you want to load and edit."
 msgstr ""
+"Isso permite que você selecione quais opções de perfil deseja carregar e "
+"editar."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addOptionProfile)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:210
 #, kde-format
 msgid "This allows you to add a new Options Profile and give it a name"
 msgstr ""
+"Isso permite que você adicione um novo perfil de opções e dê um nome a ele"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeOptionProfile)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:232
 #, kde-format
 msgid "This allows you to remove the currently selected options profile"
-msgstr ""
+msgstr "Isso permite que você remova o perfil de opções selecionado atualmente"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveProfile)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:260
@@ -13682,6 +13674,8 @@ msgid ""
 "Saves this single profile to a separate file on your computer so that you "
 "can back it up or sent it to someone else."
 msgstr ""
+"Salva este perfil único em um arquivo separado no seu computador para que "
+"você possa fazer backup dele ou enviá-lo para outra pessoa."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, openProfile)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:282
@@ -13690,6 +13684,8 @@ msgid ""
 "Opens a profile from a file on your computer and loads it into this profile "
 "group"
 msgstr ""
+"Abre um perfil de um arquivo no seu computador e o carrega neste grupo de "
+"perfis."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copyProfile)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:304
@@ -13698,26 +13694,26 @@ msgid ""
 "Copies the current options profile so that you can either make a duplicate "
 "in this profile group or copy it into another profile group"
 msgstr ""
+"Copia o perfil de opções atual para que você possa fazer uma duplicata neste "
+"grupo de perfis ou copiá-lo para outro grupo de perfis"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, description)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:322
-#, fuzzy, kde-format
-#| msgid "No Description found for selected sky-object"
+#, kde-format
 msgid "Description of the selected profile"
-msgstr "Não foi encontrada nenhuma descrição para o objeto selecionado"
+msgstr "Descrição do perfil selecionado"
 
 #. i18n: ectx: property (title), widget (QGroupBox, sextractorOptions)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:332
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Sextractor Parameters"
-msgstr "Parâmetros de entrada"
+msgstr "Parâmetros do Sextractor"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, r_min)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:353
 #, kde-format
 msgid "The minimum radius for stars for flux calculations."
-msgstr ""
+msgstr "O raio mínimo das estrelas para cálculos de fluxo."
 
 #. i18n: ectx: property (text), widget (QLineEdit, r_min)
 #. i18n: ectx: property (text), widget (QLineEdit, kron_fact)
@@ -13725,7 +13721,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:406
 #, kde-format
 msgid "3.5"
-msgstr ""
+msgstr "3.5"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, fwhm)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:363
@@ -13734,6 +13730,8 @@ msgid ""
 "A variable to store the fwhm in pixels used to generate the convolution "
 "filter for star detection."
 msgstr ""
+"Uma variável para armazenar o fwhm em pixels usada para gerar o filtro de "
+"convolução para detecção de estrelas."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:376
@@ -13742,13 +13740,14 @@ msgid ""
 "This is the 'zero' magnitude used for setting the magnitude scale for the "
 "stars in the image during sextraction."
 msgstr ""
+"Esta é a magnitude 'zero' usada para definir a escala de magnitude das "
+"estrelas na imagem durante a sextração."
 
 #. i18n: ectx: property (text), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:379
-#, fuzzy, kde-format
-#| msgid "0"
+#, kde-format
 msgid "20"
-msgstr "0"
+msgstr "20"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, deblend_contrast)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:386
@@ -13757,6 +13756,8 @@ msgid ""
 "The percentage of flux a separate peak must have to be considered a separate "
 "object."
 msgstr ""
+"A porcentagem de fluxo de um pico separado que deve ser considerada um "
+"objeto separado."
 
 #. i18n: ectx: property (text), widget (QLineEdit, deblend_contrast)
 #. i18n: ectx: property (text), widget (QLineEdit, clean_param)
@@ -13769,11 +13770,9 @@ msgstr "1"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:396
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Main Control"
+#, kde-format
 msgid "Min Cont."
-msgstr "Controle principal"
+msgstr "Cont. mín"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kron_fact)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:403
@@ -13781,27 +13780,25 @@ msgstr "Controle principal"
 msgid ""
 "This sets the Kron Factor for use with the kron radius for flux calculations."
 msgstr ""
+"Isso define o Fator Kron para uso com o raio kron para cálculos de fluxo."
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:413
-#, fuzzy, kde-format
-#| msgid "Factor:"
+#, kde-format
 msgid "Kron Factor"
-msgstr "Fator:"
+msgstr "Fator Kron"
 
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:420
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FWHM"
+#, kde-format
 msgid "Conv FWHM"
-msgstr "FWHM"
+msgstr "FWHM Conv"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:427
 #, kde-format
 msgid "magzero"
-msgstr ""
+msgstr "magzero"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, convFilter)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:434
@@ -13817,6 +13814,16 @@ msgid ""
 "extended, low brightness objects.  Note: The \"Custom\" filter selection is "
 "meant for testing purposes and should only be used by developers"
 msgstr ""
+"O tipo de filtro de  convolução que o SEP aplicará à imagem antes da "
+"extração de estrelas. Esses filtros são comparáveis ​​aos filtros incluídos em "
+"uma instalação do SExtractor, mas aqui você tem a flexibilidade de alterar o "
+"FWHM. O filtro padrão é o mais rápido, mas NÃO muda com a configuração do "
+"FWHM e, portanto, é melhor para estrelas pequenas. O filtro gaussiano é "
+"melhor para a detecção de objetos fracos. O filtro chapéu mexicano é bom em "
+"campos estelares lotados ou nas proximidades de nebulosas. O filtro cartola "
+"é bom para objetos extensos e de baixo brilho. Observação: a seleção do "
+"filtro \"Personalizado\" destina-se a fins de teste e deve ser usada apenas "
+"por desenvolvedores."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, convFilter)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:446
@@ -13829,39 +13836,34 @@ msgstr "Personalizado"
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:451
 #: ekos/focus/opsfocusprocess.ui:100 ekos/focus/opsfocusprocess.ui:247
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Russia"
+#, kde-format
 msgid "Gaussian"
-msgstr "Rússia"
+msgstr "Gaussiano"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, convFilter)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:456
-#, fuzzy, kde-format
-#| msgctxt "City in Alberta Canada"
-#| msgid "Medicine Hat"
+#, kde-format
 msgid "Mexican Hat"
-msgstr "Medicine Hat"
+msgstr "Chapéu mexicano"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, convFilter)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:461
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Top Hat"
-msgstr "Superior esquerdo"
+msgstr "Cartola"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, deblend_thresh)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:469
 #, kde-format
 msgid "The number of thresholds the intensity range is divided up into."
-msgstr ""
+msgstr "O número de limites em que o intervalo de intensidade é dividido."
 
 #. i18n: ectx: property (text), widget (QLineEdit, deblend_thresh)
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:472 ekos/guide/guide.ui:522
 #, kde-format
 msgid "32"
-msgstr ""
+msgstr "32"
 
 #. i18n: ectx: property (text), widget (QLabel, label_38)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:485
@@ -13870,12 +13872,14 @@ msgid ""
 "<a href = \"https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html\" "
 ">Extraction Params</a>"
 msgstr ""
+"<a href = \"https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html\" "
+">Parâmetros de extração</a>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:495
 #, kde-format
 msgid "r_min"
-msgstr ""
+msgstr "r_min"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, apertureShape)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:502
@@ -13884,22 +13888,21 @@ msgid ""
 "Whether to use the SEP_SUM_ELLIPSE method or the SEP_SUM_CIRCLE method or "
 "automatically choose.  NOTE: Circle is usually better at the moment"
 msgstr ""
+"Se deve usar o método SEP_SUM_ELLIPSE ou o método SEP_SUM_CIRCLE ou escolher "
+"automaticamente. NOTA: Círculo geralmente é melhor no momento"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, apertureShape)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:509
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Auto"
+#, kde-format
 msgctxt "Aperture Shape"
 msgid "Auto"
 msgstr "Automático"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, apertureShape)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:519
-#, fuzzy, kde-format
-#| msgid "Ecliptic"
+#, kde-format
 msgid "Ellipse"
-msgstr "Eclíptica"
+msgstr "Elipse"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:527
@@ -13908,14 +13911,14 @@ msgid ""
 "<a href=\"https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html"
 "\">Deblending Params</a>"
 msgstr ""
+"<a href=\"https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html"
+"\">Parâmetros de desmesclagem</a>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:537
-#, fuzzy, kde-format
-#| msgctxt "City in New Jersey USA"
-#| msgid "Freehold"
+#, kde-format
 msgid "Thresh"
-msgstr "Freehold"
+msgstr "Limite"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:550
@@ -13924,20 +13927,20 @@ msgid ""
 "<a href = \"https://sep.readthedocs.io/en/v1.0.x/api/sep.sum_ellipse.html"
 "\">Photometry Params</a>"
 msgstr ""
+"<a href = \"https://sep.readthedocs.io/en/v1.0.x/api/sep.sum_ellipse.html"
+"\">Parâmetros de fotometria</a>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:560
-#, fuzzy, kde-format
-#| msgid "Confirm Delete"
+#, kde-format
 msgid "Conv Filter"
-msgstr "Confirmar exclusão"
+msgstr "Filtro Conv"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:567
-#, fuzzy, kde-format
-#| msgid "Shape:"
+#, kde-format
 msgid "Shape"
-msgstr "Formato:"
+msgstr "Forma"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cleanCheckBox)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:574
@@ -13945,39 +13948,38 @@ msgstr "Formato:"
 msgid ""
 "Attempts to 'clean' the image to remove artifacts caused by bright objects"
 msgstr ""
+"Tenta 'limpar' a imagem para remover artefatos causados ​​por objetos "
+"brilhantes"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cleanCheckBox)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:577
-#, fuzzy, kde-format
-#| msgid "Clear"
+#, kde-format
 msgid "Clean?"
-msgstr "Limpar"
+msgstr "Limpar?"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, clean_param)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:587
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Comet tracking parameters"
+#, kde-format
 msgid " The cleaning parameter"
-msgstr "Parâmetros de seguimento do cometa"
+msgstr " O parâmetro de limpeza"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:597
 #, kde-format
 msgid "Sub Pix"
-msgstr ""
+msgstr "Sub Pix"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, subpix)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:604
 #, kde-format
 msgid "The subpixel sampling factor for star extraction"
-msgstr ""
+msgstr "O fator de amostragem de subpixel para extração de estrelas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:614
 #, kde-format
 msgid "Min Area"
-msgstr ""
+msgstr "Área Mín"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, minarea)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:621
@@ -13986,48 +13988,47 @@ msgid ""
 "This is the minimum area in pixels for a star detection, smaller stars are "
 "ignored."
 msgstr ""
+"Esta é a área mínima em pixels para detecção de estrelas. Estrelas menores "
+"são ignoradas."
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:631
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "UTC Offset"
+#, kde-format
 msgid "Thresh Offset"
-msgstr "Deslocamento do UTC"
+msgstr "Desloc Lim"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, threshOffset)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:638
 #, kde-format
 msgid "Add this offset to the detection threshold"
-msgstr ""
+msgstr "Adiciona este deslocamento ao limite de detecção"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:648
-#, fuzzy, kde-format
-#| msgctxt "the star is a multiple star"
-#| msgid "multiple"
+#, kde-format
 msgid "Thresh Multiple"
-msgstr "múltipla"
+msgstr "Múltiplo Lim"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, threshMultiple)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:655
 #, kde-format
 msgid ""
 "Add the multiple times the rms background level to the detection threshold."
-msgstr ""
+msgstr "Adiciona várias vezes o nível de fundo rms ao limite de detecção."
 
 #. i18n: ectx: property (text), widget (QLineEdit, threshMultiple)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:658
-#, fuzzy, kde-format
-#| msgid "0"
+#, kde-format
 msgid "2.0"
-msgstr "0"
+msgstr "2.0"
 
 #. i18n: ectx: property (title), widget (QGroupBox, starFilterOptions)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:668
 #, kde-format
 msgid "Star Filtering Parameters (Make these settings 0 to disable them)"
 msgstr ""
+"Parâmetros de filtragem de estrelas (defina essas configurações como 0 para "
+"desativá-las)"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, maxEllipse)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:689
@@ -14037,26 +14038,27 @@ msgid ""
 "include (a/b), this will allow you to exclude elliptical sources like "
 "galaxies or badly distorted stars."
 msgstr ""
+"A proporção máxima entre os semi-eixos maior e menor para estrelas inclui (a/"
+"b), o que permitirá que você exclua fontes elípticas como galáxias ou "
+"estrelas muito distorcidas."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, brightestPercent)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:699
 #, kde-format
 msgid "The percentage of brightest stars to remove from the list"
-msgstr ""
+msgstr "A porcentagem de estrelas mais brilhantes a serem removidas da lista"
 
 #. i18n: ectx: property (text), widget (QLabel, label_41)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:709
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Disable"
+#, kde-format
 msgid "Cut Dimmest"
-msgstr "Desabilitar"
+msgstr "Cortar mais fracas"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, dimmestPercent)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:716
 #, kde-format
 msgid "The percentage of dimmest stars to remove from the list"
-msgstr ""
+msgstr "A porcentagem de estrelas mais fracas a serem removidas da lista"
 
 #. i18n: ectx: property (text), widget (QLabel, label_52)
 #. i18n: ectx: property (text), widget (QLabel, label_51)
@@ -14074,13 +14076,13 @@ msgstr "%"
 #, kde-format
 msgid "Remove all stars above a certain threshold percentage of saturation"
 msgstr ""
+"Remover todas as estrelas acima de uma certa porcentagem limite de saturação"
 
 #. i18n: ectx: property (text), widget (QLabel, label_46)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:743
-#, fuzzy, kde-format
-#| msgid "AO Limits"
+#, kde-format
 msgid "Sat. Limit"
-msgstr "Limites da OA"
+msgstr "Limite Sat."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, minSize)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:750
@@ -14089,27 +14091,26 @@ msgid ""
 "The minimum size of stars to include in the final list in pixels based on "
 "semi-major and semi-minor axes"
 msgstr ""
+"O tamanho mínimo das estrelas a serem incluídas na lista final em pixels com "
+"base nos eixos semi-maior e semi-menor"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:760
-#, fuzzy, kde-format
-#| msgid "Ecliptic"
+#, kde-format
 msgid "Max Ellipse"
-msgstr "Eclíptica"
+msgstr "Elipse Máx"
 
 #. i18n: ectx: property (text), widget (QLabel, label_56)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:767
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Min Size"
-msgstr "Tamanho da fonte"
+msgstr "Tamanho Mín"
 
 #. i18n: ectx: property (text), widget (QLabel, label_43)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:774
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Max Size"
-msgstr "Passo:"
+msgstr "Tamanho Máx"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, maxSize)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:781
@@ -14118,35 +14119,34 @@ msgid ""
 "The maximum size of stars to include in the final list in pixels based on "
 "semi-major and semi-minor axes"
 msgstr ""
+"O tamanho máximo das estrelas a serem incluídas na lista final em pixels com "
+"base nos eixos semi-maior e semi-menor"
 
 #. i18n: ectx: property (text), widget (QLabel, label_57)
 #. i18n: ectx: property (text), widget (QLabel, label_49)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:791
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:826
-#, fuzzy, kde-format
-#| msgid " x "
+#, kde-format
 msgid "px"
-msgstr " x "
+msgstr "px"
 
 #. i18n: ectx: property (text), widget (QLabel, label_40)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:805
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Brightest"
+#, kde-format
 msgid "Cut Brightest"
-msgstr "Brilhante"
+msgstr "Cortar mais brilhante"
 
 #. i18n: ectx: property (text), widget (QLabel, label_53)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:833
 #, kde-format
 msgid "a/b"
-msgstr ""
+msgstr "a/b"
 
 #. i18n: ectx: property (text), widget (QLabel, label_54)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:840
 #, kde-format
 msgid "Keep #"
-msgstr ""
+msgstr "Manter #"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, keepNum)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:847
@@ -14156,6 +14156,9 @@ msgid ""
 "parameter is based on magnitude and is most useful to speed up plate "
 "solving, such as in the Align Module."
 msgstr ""
+"O número de estrelas a serem mantidas na lista após a extração. Este "
+"parâmetro é baseado na magnitude e é mais útil para acelerar a resolução de "
+"placas, como no módulo de alinhamento."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, initialKeep)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:857
@@ -14165,35 +14168,33 @@ msgid ""
 "the size of the stars.  It is primarily useful for speeding up star "
 "extraction with HFR such as in Focus, Guide, and HFR monitoring."
 msgstr ""
+"O número de estrelas a serem mantidas na lista inicialmente. Este filtro é "
+"baseado no tamanho das estrelas. É útil principalmente para acelerar a "
+"extração de estrelas com HFR, como em monitoramentos de Foco, Guia e HFR."
 
 #. i18n: ectx: property (text), widget (QLineEdit, initialKeep)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:860
-#, fuzzy, kde-format
-#| msgid "0.0"
+#, kde-format
 msgid "500"
-msgstr "0.0"
+msgstr "500"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:867
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "InitialKeep"
-msgstr "Passo:"
+msgstr "ManterInicial"
 
 #. i18n: ectx: property (title), widget (QGroupBox, astrometryOptions)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:884
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Astrometry Parameters"
-msgstr "Parâmetros de entrada"
+msgstr "Parâmetros de astrometria"
 
 #. i18n: ectx: property (text), widget (QLabel, label_29)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:905
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Maximum travel"
+#, kde-format
 msgid "Maximum time"
-msgstr "Trajeto máximo"
+msgstr "Tempo máximo"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, downsample)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:912
@@ -14202,13 +14203,14 @@ msgid ""
 "Factor to use for downsampling the image before SEP for plate solving.  Can "
 "speed it up."
 msgstr ""
+"Fator a ser usado para reduzir a resolução da imagem antes do SEP para "
+"resolução de placas. Pode acelerar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:932
-#, fuzzy, kde-format
-#| msgid "Download all Images"
+#, kde-format
 msgid "DownSample"
-msgstr "Baixar todas as imagens"
+msgstr "ReduzAmostra"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, multiAlgo)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:939
@@ -14217,6 +14219,8 @@ msgid ""
 "Algorithm for running multiple threads on possibly multiple cores to solve "
 "faster"
 msgstr ""
+"Algoritmo para executar múltiplas threads em possivelmente múltiplos núcleos "
+"para resolver mais rápido"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #. i18n: ectx: property (currentText), widget (QComboBox, abInsSelection)
@@ -14240,22 +14244,19 @@ msgstr "Nenhum"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:951
-#, fuzzy, kde-format
-#| msgid "Auto Scale"
+#, kde-format
 msgid "MultiScales"
-msgstr "Escala automática"
+msgstr "MultiEscalas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:956
 #, kde-format
 msgid "MultiDepths"
-msgstr ""
+msgstr "MultiProf"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, multiAlgo)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:961
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Auto"
+#, kde-format
 msgid "Auto"
 msgstr "Automático"
 
@@ -14266,14 +14267,14 @@ msgid ""
 "If no scale estimate is given, this is the limit on the maximum field width "
 "in degrees."
 msgstr ""
+"Se nenhuma estimativa de escala for fornecida, este é o limite da largura "
+"máxima do campo em graus."
 
 #. i18n: ectx: property (text), widget (QLineEdit, maxWidth)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:972
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "12x"
+#, kde-format
 msgid "180"
-msgstr "12x"
+msgstr "180"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, radius)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:979
@@ -14282,13 +14283,14 @@ msgid ""
 "Only search in indexes within 'radius' of the field center given by RA and "
 "DEC"
 msgstr ""
+"Pesquisar somente em índices dentro do 'raio' do centro do campo dado por AR "
+"e DEC"
 
 #. i18n: ectx: property (text), widget (QLineEdit, radius)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:982
-#, fuzzy, kde-format
-#| msgid "5"
+#, kde-format
 msgid "15"
-msgstr "5"
+msgstr "15"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, resort)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:989
@@ -14297,14 +14299,14 @@ msgid ""
 "Whether to resort the stars based on magnitude. NOTE: This is REQUIRED to be "
 "true for the filters above"
 msgstr ""
+"Se as estrelas devem ser reordenadas com base na magnitude. NOTA: Isso é "
+"OBRIGATÓRIO para os filtros acima"
 
 #. i18n: ectx: property (text), widget (QCheckBox, resort)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:992
-#, fuzzy, kde-format
-#| msgctxt "City in Alberta Canada"
-#| msgid "Consort"
+#, kde-format
 msgid "Resort"
-msgstr "Consort"
+msgstr "Reordenar"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, minWidth)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:999
@@ -14313,64 +14315,58 @@ msgid ""
 "If no scale estimate is given, this is the limit on the minimum field width "
 "in degrees."
 msgstr ""
+"Se nenhuma estimativa de escala for fornecida, este é o limite da largura "
+"mínima do campo em graus."
 
 #. i18n: ectx: property (text), widget (QLineEdit, minWidth)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1002
-#, fuzzy, kde-format
-#| msgid "0.0"
+#, kde-format
 msgid "0.1"
-msgstr "0.0"
+msgstr "0.1"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1009
-#, fuzzy, kde-format
-#| msgid "in degrees"
+#, kde-format
 msgid "Min Degree Width"
-msgstr "em graus"
+msgstr "Largura Grau Mín"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1016
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Parallel Algorithm"
-msgstr "Algoritmo"
+msgstr "Algoritmo Paralelo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1023
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Width"
+#, kde-format
 msgid "Max Degree Width"
-msgstr "Largura"
+msgstr "Largura Grau Máx"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, solverTimeLimit)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1030
-#, fuzzy, kde-format
-#| msgid "Pause script execution for specified number of seconds."
+#, kde-format
 msgid "Give up solving after the specified number of seconds of CPU time"
-msgstr "Pausa a execução do script pelo número de segundos especificado."
+msgstr ""
+"Desiste de resolver após o número especificado de segundos de tempo de CPU"
 
 #. i18n: ectx: property (text), widget (QLineEdit, solverTimeLimit)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1033
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "600x"
+#, kde-format
 msgid "600"
-msgstr "600x"
+msgstr "600"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, autoDownsample)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1040
-#, fuzzy, kde-format
-#| msgid "Automatically calibrate selected axes."
+#, kde-format
 msgid "Automatically Downsamples the image based on the image size"
-msgstr "Calibrar automaticamente os eixos selecionados."
+msgstr ""
+"Reduz automaticamente a resolução da imagem com base no tamanho da imagem"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoDownsample)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1043
-#, fuzzy, kde-format
-#| msgid "Download all Images"
+#, kde-format
 msgid "Auto DownSample"
-msgstr "Baixar todas as imagens"
+msgstr "Redução automática da amostragem"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, inParallel)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1053
@@ -14380,12 +14376,16 @@ msgid ""
 "the indices you are using take less than 2 GB of space, and you have at "
 "least as much physical memory as indices, you want this enabled."
 msgstr ""
+"Verificar os índices em paralelo carregando-os simultaneamente na memória? "
+"Se os índices que você está usando ocupam menos de 2 GB de espaço e você tem "
+"pelo menos tanta memória física quanto os índices, você quer que isso seja "
+"habilitado."
 
 #. i18n: ectx: property (text), widget (QCheckBox, inParallel)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1056
 #, kde-format
 msgid "Load all Indexes in Memory"
-msgstr ""
+msgstr "Carregar todos os índices na memória"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, Calibration)
 #: ekos/capture/calibrationoptions.ui:14
@@ -14395,23 +14395,19 @@ msgstr "Opções de calibração"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Offset in minutes to start imaging before or after "
-#| "culmination time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select which actions to perform before a Bias/Dark/"
 "Flat frame is captured.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desvio em minutos para começar a registrar a imagem, "
-"antes ou depois do tempo de culminar.</p></body></html>"
+"<html><head/><body><p>Selecione quais ações executar antes que um quadro "
+"Bias/Escuro/Plano seja capturado.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:40
-#, fuzzy, kde-format
-#| msgid "Calibration Options"
+#, kde-format
 msgid "Calibration Pre-Actions"
-msgstr "Opções de calibração"
+msgstr "Pré-ações de calibração"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, captureCalibrationWall)
 #: ekos/capture/calibrationoptions.ui:63
@@ -14425,17 +14421,16 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationWall)
 #: ekos/capture/calibrationoptions.ui:66
-#, fuzzy, kde-format
-#| msgid "Wall"
+#, kde-format
 msgid "Goto Wall"
-msgstr "Parede"
+msgstr "Ir para parede"
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationParkMount)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerParkMount)
 #: ekos/capture/calibrationoptions.ui:103 ekos/scheduler/scheduler.ui:2253
 #, kde-format
 msgid "Park Mount"
-msgstr "Bloquear a montagem"
+msgstr "Estacionar a montagem"
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationParkDome)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertDomeCB)
@@ -14445,7 +14440,7 @@ msgstr "Bloquear a montagem"
 #: ekos/observatory/observatory.ui:1079 ekos/scheduler/scheduler.ui:2275
 #, kde-format
 msgid "Park Dome"
-msgstr "Bloquear a cúpula"
+msgstr "Estacionar a cúpula"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/capture/calibrationoptions.ui:133
@@ -14495,14 +14490,17 @@ msgid ""
 "the tolerance was set to 100, then frames with ADU values f 9900 and 10100 "
 "shall be accepted.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Aceita valores de ADU que estejam dentro desta faixa "
+"em torno do alvo de ADU desejado. Por exemplo, se o valor de ADU foi "
+"definido como 10000 e a tolerância foi definida como 100, então quadros com "
+"valores de ADU entre 9900 e 10100 serão aceitos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, focusCFZToleranceLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusToleranceLabel)
 #: ekos/capture/calibrationoptions.ui:201 ekos/focus/cfz.ui:65
 #: ekos/focus/opsfocusprocess.ui:647
-#, fuzzy, kde-format
-#| msgid "Tolerance:"
+#, kde-format
 msgid "Tolerance:"
 msgstr "Tolerância:"
 
@@ -14513,35 +14511,33 @@ msgid ""
 "When shooting flats on sky that can change intensity. Will use simpler "
 "exposure calculation."
 msgstr ""
+"Ao fotografar planos no céu, que podem mudar de intensidade, usaremos um "
+"cálculo de exposição mais simples."
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationSkyFlats)
 #: ekos/capture/calibrationoptions.ui:229
-#, fuzzy, kde-format
-#| msgid "JPEG Quality"
+#, kde-format
 msgid "Sky flats"
-msgstr "Qualidade JPEG"
+msgstr "Planos celestes"
 
 #: ekos/capture/camera.cpp:72 ekos/capture/camera.cpp:74
 #, kde-format
 msgid "Capture Sequence Editor: %1"
-msgstr ""
+msgstr "Editor de sequência de captura: %1"
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
 #: ekos/capture/camera.cpp:83 ekos/capture/camera.ui:2768
-#, fuzzy, kde-format
-#| msgctxt "second"
-#| msgid "sec"
+#, kde-format
 msgid "sec"
-msgstr "s"
+msgstr "seg"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/capture/camera.cpp:84 ekos/capture/limits.ui:180
 #: ekos/guide/opsdither.ui:170 ekos/scheduler/opsalignmentsettings.ui:82
-#, fuzzy, kde-format
-#| msgid "Frame:"
+#, kde-format
 msgid "frames"
-msgstr "Quadro:"
+msgstr "quadros"
 
 #: ekos/capture/camera.cpp:133 ekos/capture/camera_jobs.cpp:258
 #, kde-format
@@ -14559,10 +14555,9 @@ msgid "Downloading..."
 msgstr "Baixando..."
 
 #: ekos/capture/camera.cpp:596
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Filter set to %1."
-msgstr "Arquivo salvo em %1"
+msgstr "Filtro definido como %1."
 
 #: ekos/capture/camera.cpp:621
 #, kde-format
@@ -14570,6 +14565,8 @@ msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
+"Aviso: o foco em sequência foi selecionado, mas o processo de foco "
+"automático não foi iniciado."
 
 #: ekos/capture/camera.cpp:624
 #, kde-format
@@ -14577,34 +14574,32 @@ msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
+"Aviso: a verificação delta de temperatura foi selecionada, mas o processo de "
+"foco automático não foi iniciado."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
 #: ekos/capture/camera.ui:160
 #, kde-format
 msgid "Restart camera driver"
-msgstr ""
+msgstr "Reiniciar controlador da câmera"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearConfigurationB)
 #: ekos/capture/camera.ui:191
-#, fuzzy, kde-format
-#| msgid "Never load device configuration?"
+#, kde-format
 msgid "Clear camera configuration"
-msgstr "Nunca carregar a configuração do dispositivo?"
+msgstr "Limpar configuração da câmera"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
 #: ekos/capture/camera.ui:222
-#, fuzzy, kde-format
-#| msgid "Reset CCD frame values to default values"
+#, kde-format
 msgid "Reset CCD frame & size values to default values"
-msgstr "Restaurar os valores padrão da imagem do CCD"
+msgstr "Redefinir os valores de tamanho e quadro do CCD para os valores padrão"
 
 #. i18n: ectx: property (title), widget (QGroupBox, CaptureSettingsGroup)
 #: ekos/capture/camera.ui:258
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-format
 msgid "Capture Settings"
-msgstr "Configurações do simulador"
+msgstr "Configurações de captura"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
 #: ekos/capture/camera.ui:279
@@ -14614,38 +14609,34 @@ msgstr "Compartimentação horizontal e vertical"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureFormatS)
 #: ekos/capture/camera.ui:297
-#, fuzzy, kde-format
-#| msgid "Image captured..."
+#, kde-format
 msgid "Image capture format"
-msgstr "Imagem capturada..."
+msgstr "Formato de captura da imagem"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureEncodingS)
 #: ekos/capture/camera.ui:304
-#, fuzzy, kde-format
-#| msgid "Image Format"
+#, kde-format
 msgid "Image transfer format"
-msgstr "Formato da imagem"
+msgstr "Formato de transferência da imagem"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/capture/camera.ui:313
 #, kde-format
 msgid "Native"
-msgstr ""
+msgstr "Nativo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #: ekos/capture/camera.ui:323 ekos/capture/camera.ui:1868
-#, fuzzy, kde-format
-#| msgid "Date format:"
+#, kde-format
 msgid "Format:"
-msgstr "Formato de data:"
+msgstr "Formato:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
 #: ekos/capture/camera.ui:407
-#, fuzzy, kde-format
-#| msgid "City filter:"
+#, kde-format
 msgid "Edit filter names"
-msgstr "Filtro de cidade:"
+msgstr "Editar nomes de filtro"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_15)
 #: ekos/capture/camera.ui:439
@@ -14655,10 +14646,9 @@ msgstr "L:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOnB)
 #: ekos/capture/camera.ui:513
-#, fuzzy, kde-format
-#| msgid "Turn off CCD cooler."
+#, kde-format
 msgid "Turn cooler on"
-msgstr "Desliga o ventilador do CCD."
+msgstr "Ligar o ventilador"
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOnB)
 #: ekos/capture/camera.ui:524
@@ -14668,17 +14658,14 @@ msgstr "Ligado"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOffB)
 #: ekos/capture/camera.ui:555
-#, fuzzy, kde-format
-#| msgid "Turn off CCD cooler."
+#, kde-format
 msgid "Turn cooler off"
-msgstr "Desliga o ventilador do CCD."
+msgstr "Desligar o ventilador"
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOffB)
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: ekos/capture/camera.ui:566 kstars.kcfg:837
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Off"
+#, kde-format
 msgid "Off"
 msgstr "Desligado"
 
