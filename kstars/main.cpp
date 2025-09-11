@@ -23,7 +23,6 @@
 
 #if !defined(KSTARS_LITE)
 #include <KAboutData>
-//#include <KCrash>
 #endif
 
 #include "config-kstars.h"
@@ -134,7 +133,6 @@ int main(int argc, char *argv[])
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::TempLocation));
 
-    //KCrash::initialize();
     QString versionString =
         QString("%1 %2").arg(KSTARS_VERSION).arg(KSTARS_BUILD_RELEASE);
     KAboutData aboutData(

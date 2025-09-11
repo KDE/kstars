@@ -23,7 +23,6 @@
 #endif
 
 #include <KActionCollection>
-#include <KCrash>
 #include <Options.h>
 
 #include <QFuture>
@@ -91,7 +90,6 @@ void prepare_tests()
     KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
     KSPaths::writableLocation(QStandardPaths::AppConfigLocation);
     KSPaths::writableLocation(QStandardPaths::CacheLocation);
-    KCrash::initialize();
 
     // Explicitly provide the RC file from the main app resources, not the user-customized one
     KStars::setResourceFile(":/kxmlgui5/kstars/kstarsui.rc");

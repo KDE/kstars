@@ -20,7 +20,6 @@
 
 #include <KActionCollection>
 #include <KTipDialog>
-#include <KCrash/KCrash>
 
 #include <QFuture>
 #include <QtConcurrentRun>
@@ -119,7 +118,8 @@ void TestEkos::testSimulatorProfile()
 
 #if QT_VERSION >= 0x050800
     QEXPECT_FAIL("", "Ekos resets the simulation clock when starting a profile.", Continue);
-    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch()/1000.0), TestKStarsStartup::m_InitialConditions.dateTime.toSecsSinceEpoch());
+    QCOMPARE(llround(KStars::Instance()->data()->clock()->utc().toLocalTime().toMSecsSinceEpoch() / 1000.0),
+             TestKStarsStartup::m_InitialConditions.dateTime.toSecsSinceEpoch());
 #endif
 
     QEXPECT_FAIL("", "Ekos resumes the simulation clock when starting a profile.", Continue);
