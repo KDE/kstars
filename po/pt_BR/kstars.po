@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-07 01:58+0000\n"
-"PO-Revision-Date: 2025-09-09 10:27-0300\n"
+"PO-Revision-Date: 2025-09-10 08:07-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -2996,7 +2996,7 @@ msgstr "Mapeamento de tipo"
 #: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:814
 #, kde-format
 msgid "Preview"
-msgstr "Visualização"
+msgstr "Pré-visualização"
 
 #: dialogs/catalogdetails.cpp:29
 #, kde-format
@@ -4281,7 +4281,7 @@ msgstr "Azimute no nascimento:"
 #: dialogs/exportimagedialog.cpp:48
 #, kde-format
 msgid "Preview image"
-msgstr "Visualização da imagem"
+msgstr "Pré-visualização da imagem"
 
 #: dialogs/exportimagedialog.cpp:57
 #, kde-format
@@ -5831,13 +5831,13 @@ msgstr ""
 #: dialogs/newview.ui:259
 #, kde-format
 msgid "(Preview shows view down a Newtonian's tube)"
-msgstr "(A prévia mostra uma vista de um tubo newtoniano)"
+msgstr "(A pré-visualização mostra uma vista de um tubo newtoniano)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: dialogs/newview.ui:269
 #, kde-format
 msgid "(Preview shows view of the back of an SCT)"
-msgstr "(A prévia mostra a vista traseira de um SCT)"
+msgstr "(A pré-visualização mostra a vista traseira de um SCT)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, disableErectObserverCheckBox)
 #: dialogs/newview.ui:281
@@ -13242,6 +13242,8 @@ msgstr "Rede"
 #, kde-format
 msgid "Select <b>Network</b> if your device is connected via Ethernet or WiFi."
 msgstr ""
+"Selecione <b>Rede</b> se o seu dispositivo estiver conectado via Ethernet ou "
+"WiFi."
 
 #: ekos/auxiliary/portselector.cpp:96
 #, kde-format
@@ -14677,10 +14679,9 @@ msgstr "Compartimentação horizontal"
 
 #. i18n: ectx: property (text), widget (QLabel, captureBinYLabel)
 #: ekos/capture/camera.ui:624
-#, fuzzy, kde-format
-#| msgid "FOV:"
+#, kde-format
 msgid "V:"
-msgstr "CDV:"
+msgstr "V:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureBinVN)
 #: ekos/capture/camera.ui:637
@@ -14698,7 +14699,7 @@ msgstr "Quadro:"
 #: ekos/capture/camera.ui:681
 #, kde-format
 msgid "Cooler:"
-msgstr ""
+msgstr "Ventilador:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_13)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -14720,97 +14721,80 @@ msgstr "Y:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
 #: ekos/capture/camera.ui:840
-#, fuzzy, kde-format
-#| msgid "Current Script"
+#, kde-format
 msgid "Current camera gain"
-msgstr "Script atual"
+msgstr "Ganho da câmera atual"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #: ekos/capture/camera.ui:862
-#, fuzzy, kde-format
-#| msgid "Never load device configuration?"
+#, kde-format
 msgid "Target camera gain"
-msgstr "Nunca carregar a configuração do dispositivo?"
+msgstr "Ganho da câmera alvo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/camera.ui:880 ekos/capture/rotatorsettings.ui:400
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "UTC Offset"
+#, kde-format
 msgid "Camera Offset"
-msgstr "Deslocamento do UTC"
+msgstr "Deslocamento da câmera"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, offsetLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/capture/camera.ui:886 ekos/capture/captureprocessoverlay.ui:154
 #: indi/collimationOptions.ui:332 oal/equipmentwriter.ui:1026
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Offset"
+#, kde-format
 msgid "Offset:"
-msgstr "Deslocamento"
+msgstr "Deslocamento:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
 #: ekos/capture/camera.ui:904
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "UTC Offset"
+#, kde-format
 msgid "Current camera offset"
-msgstr "Deslocamento do UTC"
+msgstr "Deslocamento de câmera atual"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
 #: ekos/capture/camera.ui:926
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "UTC Offset"
+#, kde-format
 msgid "Target camera offset"
-msgstr "Deslocamento do UTC"
+msgstr "Deslocamento de câmera alvo"
 
 #. i18n: ectx: property (text), widget (QLabel, darksLibraryLabel)
 #: ekos/capture/camera.ui:970
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Library"
+#, kde-format
 msgid "Dark Lib."
-msgstr "Biblioteca"
+msgstr "Biblioteca escura"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
 #: ekos/capture/camera.ui:1029 ekos/capture/rotatorsettings.ui:20
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motion Control"
+#, kde-format
 msgid "Rotator Control"
-msgstr "Controle do movimento"
+msgstr "Controle do rotador"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCalculationLabel)
 #: ekos/capture/camera.ui:1053
 #, kde-format
 msgid "Exp. Calc."
-msgstr ""
+msgstr "Calc. Exp."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, darkLibraryB)
 #: ekos/capture/camera.ui:1075
-#, fuzzy, kde-format
-#| msgid "Clear dark library"
+#, kde-format
 msgid "Create and manage Dark Library"
-msgstr "Limpar a biblioteca escura"
+msgstr "Criar e gerenciar a biblioteca escura"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exposureCalcB)
 #: ekos/capture/camera.ui:1112
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Exposure calculator</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+msgstr "<html><head/><body><p>Calculadora de exposição</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, calibrationB)
 #: ekos/capture/camera.ui:1152
 #, kde-format
 msgid "Dark & Flat frames automatic calibration options"
-msgstr ""
+msgstr "Opções de calibração automática de quadros escuros e planos"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
@@ -14822,40 +14806,37 @@ msgstr "Calibração"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
 #: ekos/capture/camera.ui:1207
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Generate Dark Flats after adding Flat frames to the "
 "sequence queue.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+"<html><head/><body><p>Gerar planos escuros após adicionar quadros planos à "
+"fila de sequências.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, darksFlatsLabel)
 #: ekos/capture/camera.ui:1231
-#, fuzzy, kde-format
-#| msgid "Use Dark Frame"
+#, kde-format
 msgid "Dark Flats"
-msgstr "Usar a imagem escura"
+msgstr "Planos escuros"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customValuesB)
 #: ekos/capture/camera.ui:1259
 #, kde-format
 msgid "Manage INDI sequence properties"
-msgstr ""
+msgstr "Gerenciar propriedades de sequência INDI"
 
 #. i18n: ectx: property (text), widget (QLabel, customValuesLabel)
 #: ekos/capture/camera.ui:1283
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom Val."
-msgstr "Personalizado"
+msgstr "Val. personalizado"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
 #: ekos/capture/camera.ui:1299
-#, fuzzy, kde-format
-#| msgid "Configure Hidden Objects"
+#, kde-format
 msgid "Configure Guide & Focus limits"
-msgstr "Configurar objetos ocultos"
+msgstr "Configurar limites de foco e guia"
 
 #. i18n: ectx: property (text), widget (QLabel, limitsLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
@@ -14867,33 +14848,29 @@ msgstr "Limites"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scriptManagerB)
 #: ekos/capture/camera.ui:1345
-#, fuzzy, kde-format
-#| msgid "Manage Observers"
+#, kde-format
 msgid "Manage sequence scripts"
-msgstr "Gerenciar observadores"
+msgstr "Gerenciar scripts de sequência"
 
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
 #: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:612
 #: ekos/scheduler/scheduler.cpp:469
-#, fuzzy, kde-format
-#| msgid "Script:"
+#, kde-format
 msgid "Scripts"
-msgstr "Script:"
+msgstr "Scripts"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
 #: ekos/capture/camera.ui:1418
-#, fuzzy, kde-format
-#| msgid "Set CCD temperature"
+#, kde-format
 msgid "Current CCD temperature"
-msgstr "Definir a temperatura do CCD"
+msgstr "Temperatura do CCD atual"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraTemperatureN)
 #: ekos/capture/camera.ui:1452
-#, fuzzy, kde-format
-#| msgid "Set CCD temperature"
+#, kde-format
 msgid "Desired CCD temperature"
-msgstr "Definir a temperatura do CCD"
+msgstr "Temperatura do CCD desejada"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cameraTemperatureS)
 #: ekos/capture/camera.ui:1480
@@ -14919,18 +14896,15 @@ msgstr "Definir a temperatura do CCD"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
 #: ekos/capture/camera.ui:1551
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Temperature K"
+#, kde-format
 msgid "Temperature regulation"
-msgstr "Temperatura (K)"
+msgstr "Regulação de temperatura"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_8)
 #: ekos/capture/camera.ui:1613
-#, fuzzy, kde-format
-#| msgid "Delay in seconds between consecutive images"
+#, kde-format
 msgid "Delay in seconds before capturing an image"
-msgstr "Atraso em segundos entre imagens consecutivas"
+msgstr "Atraso em segundos antes de capturar uma imagem"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_8)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -14941,72 +14915,62 @@ msgstr "Atraso:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, videoDurationSB)
 #: ekos/capture/camera.ui:1658
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Duration of the video sequence (in seconds or number "
 "of frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+"<html><head/><body><p>Duração da sequência de vídeo (em segundos ou número "
+"de quadros).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, videoDurationUnitCB)
 #: ekos/capture/camera.ui:1674
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Units of the video duration (seconds or number of "
 "frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Forçar o valor da temperatura antes de capturar uma "
-"imagem</p></body></html>"
+"<html><head/><body><p>Unidades de duração do vídeo (segundos ou número de "
+"quadros).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/camera.ui:1701
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-format
 msgid "File Settings"
-msgstr "Configurações do simulador"
+msgstr "Configurações de arquivo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/camera.ui:1729
-#, fuzzy, kde-format
-#| msgid "Local"
+#, kde-format
 msgid "Locally"
-msgstr "Local"
+msgstr "Localmente"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/camera.ui:1734
-#, fuzzy, kde-format
-#| msgid "Re&mote"
+#, kde-format
 msgid "Remotely"
-msgstr "Re&moto"
+msgstr "Remotamente"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
 #: ekos/capture/camera.ui:1739
 #, kde-format
 msgid "Both"
-msgstr ""
+msgstr "Ambos"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (title), widget (QGroupBox, targetGroup)
 #: ekos/capture/camera.ui:1750 ekos/mount/mount.ui:374
 #: ekos/mount/mountcontrolpanel.ui:58 ekos/scheduler/scheduler.cpp:127
-#, fuzzy, kde-format
-#| msgid "Target:"
+#, kde-format
 msgid "Target"
-msgstr "Destino:"
+msgstr "Alvo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
 #: ekos/capture/camera.ui:1760
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+msgstr "<html><head/><body><p>Pasta de captura local base</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -15017,10 +14981,9 @@ msgstr "Pasta:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
 #: ekos/capture/camera.ui:1791
-#, fuzzy, kde-format
-#| msgid "Use the specified configuration file"
+#, kde-format
 msgid "Reset placeholder format to default"
-msgstr "Usar o arquivo de configuração especificado"
+msgstr "Redefinir o formato do espaço reservado para o padrão"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/camera.ui:1810
@@ -15030,12 +14993,15 @@ msgid ""
 "is available to be used in the filename Format via the %t or %type "
 "placeholder tag.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Alvo é o nome do objeto alvo.</p><p>Ele está "
+"disponível para ser usado no formato de nome de arquivo por meio da etiqueta "
+"de espaço reservado %t ou %type.</p></body></html>"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
 #: ekos/capture/camera.ui:1826
 #, kde-format
 msgid "/home/pi"
-msgstr ""
+msgstr "/home/pi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/capture/camera.ui:1833
@@ -15060,29 +15026,47 @@ msgid ""
 "where the remote images are saved to. By default, all captured images are "
 "saved <span style=\" font-style:italic;\">Locally</span>.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Selecione como as imagens capturadas serão carregadas:"
+"</p><ol style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><spanstyle=\" font-weight:600;\">Localmente</span>: As "
+"imagens capturadas são salvas localmente no disco, no diretório especificado "
+"acima.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Remotamente</span>: Ao conectar-se a um dispositivo remoto, "
+"selecione esta opção para salvar imagens somente no dispositivo remoto. "
+"Nenhuma imagem é carregada no Ekos.</li><li style=\"margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Ambos</span>: As imagens "
+"capturadas são salvas no computador remoto <span style=\" font-weight:600;"
+"\">e</span> também no disco local.</li></ol><p>Ao selecionar <span style=\" "
+"font-style:italic;\">Remotamente</span> ou <span style=\" font-style:italic;"
+"\">Ambos</span>, você deve especificar a pasta remota onde as imagens "
+"remotas serão salvas. Por padrão, todas as imagens capturadas são salvas "
+"<span style=\" font-style:italic;\">localmente</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/camera.ui:1836
-#, fuzzy, kde-format
-#| msgid "Save"
+#, kde-format
 msgid "Save:"
-msgstr "Salvar"
+msgstr "Salvar:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/camera.ui:1846
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of digits used to append the sequence number to "
 "the filename.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+"<html><head/><body><p>Número de dígitos usados ​​para anexar o número de "
+"sequência ao nome do arquivo.</p></body></html>"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/camera.ui:1849
 #, no-c-format, kde-format
 msgid "_%s"
-msgstr ""
+msgstr "_%s"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, formatLabel)
 #: ekos/capture/camera.ui:1865
@@ -15162,6 +15146,79 @@ msgid ""
 "in the filename portion of the format, not in the path definition.</li></"
 "ul></body></html>"
 msgstr ""
+"<html><head/><body><p>O formato é usado para definir os nomes dos arquivos "
+"de imagem pelo uso de etiquetas de espaço reservado.</p><ul style=\"margin-"
+"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Espaço "
+"reservado<span style=\" font-weight:704;\"> %f</span> ou <span style=\" font-"
+"weight:704;\">%filename</span>: O nome do arquivo .esq, sem extensão.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Espaço Reservado<span "
+"style=\" font-weight:704;\"> %D</span> ou <span style=\" font-weight:704;\">"
+"%Datetime</span>: A hora e a data atuais <span style=\" font-weight:704;"
+"\">em que o arquivo foi salvo.</span></li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Espaço reservado<span style=\" font-weight:704;\"> %T</"
+"span> ou <span style=\" font-weight:704;\">%Type</span>: O tipo de quadro, "
+"por exemplo: 'Claro', 'Viés', 'Escuro', 'Plano'...</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Espaço reservado<span style=\" font-weight:704;"
+"\"> %e</span> ou <span style=\" font-weight:704;\">%exposure</span>: A "
+"duração da exposição em segundos, com '_secs' como sufixo.</li><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Espaço "
+"reservado<span style=\" font-weight:704;\"> %E</span> ou <span style=\" font-"
+"weight:704;\">%exp</span>: A duração da exposição em segundos como um número "
+"simples, sem nenhuma unidade como sufixo.</li></ul><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Espaço reservado<span style=\" font-weight:704;"
+"\"> %F</span> ou <span style=\" font-weight:704;\">%Filter</span>: O nome do "
+"filtro ativo.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Espaço "
+"reservado<span style=\" font-weight:704;\"> %t</span> ou <span style=\" font-"
+"weight:704;\">%target</span>: O nome do alvo.</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Espaço reservado <span style=\" font-weight:600;"
+"\">%C</span> ou <span style=\" font-weight:600;\">%temperature</span>: A "
+"temperatura da câmera no momento da captura.</li><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom :0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Espaço "
+"reservado <span style=\" font-weight:600;\">%B</span> ou <span style=\" font-"
+"weight:600;\">%bin</span>: O agrupamento configurado para captura.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Espaço reservado <span "
+"style=\" font-weight:600;\">%G</span> ou <span style=\" font-weight:600;\">"
+"%gain</span>: O ganho configurado para captura.</li></ul><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Espaço reservado <span style=\" font-weight:600;"
+"\">%O</span> ou <span style=\" font-weight:600;\">%offset</span>: O "
+"deslocamento configurado para captura.</li><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"\"><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Espaço reservado <span "
+"style=\" font-weight:600;\">%I</span> ou <span style=\" font-weight:600;\">"
+"%iso</span>: O valor ISO (somente DSLRs).</li></ul><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Espaço reservado <span style=\" font-weight:600;"
+"\">%P</span>ou <span style=\" font-weight:600;\">%pierside</span>: O lado do "
+"píer da montagem atual.</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Espaço reservado<span style=\" font-weight:704;\"> %s*</span> ou <span "
+"style=\" font-weight:704;\">%sequence</span>: O identificador da sequência "
+"de imagens, onde * é o número de dígitos usados ​​(1-9). <span style=\" font-"
+"weight:704;\">Esta etiqueta é obrigatória e deve ser o último elemento no "
+"formato.</span></li></ul><p>Texto arbitrário também pode ser incluído na "
+"string de formato, <span style=\" font-weight:704;\">exceto os caracteres % "
+"e \\.</span> O caractere de caminho / pode ser usado para definir diretórios "
+"arbitrários.</p><p>Observações:</p><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0px;\">Use a etiqueta %Datetime apenas na parte "
+"do nome do arquivo do formato, não na definição do caminho.</li></ul></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
 #: ekos/capture/camera.ui:1900
@@ -15170,14 +15227,15 @@ msgid ""
 "When storing images on remote devices, specify the directory where captured "
 "images are saved to."
 msgstr ""
+"Ao armazenar imagens em dispositivos remotos, especifique a pasta onde as "
+"imagens capturadas serão salvas."
 
 #. i18n: ectx: property (text), widget (QLabel, remoteLabel)
 #. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
 #: ekos/capture/camera.ui:1903 ekos/profileeditor.ui:598
-#, fuzzy, kde-format
-#| msgid "Re&mote"
+#, kde-format
 msgid "Remote:"
-msgstr "Re&moto"
+msgstr "Remoto:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, sequenceBox)
 #: ekos/capture/camera.ui:1950
@@ -15193,31 +15251,27 @@ msgstr "Reiniciar o status de todas as tarefas"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
 #: ekos/capture/camera.ui:2159
-#, fuzzy, kde-format
-#| msgid "Observer"
+#, kde-format
 msgid "Select Observer..."
-msgstr "Observador"
+msgstr "Selecionar observador..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
 #: ekos/capture/camera.ui:2200
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Load Capture Sequence from File..."
-msgstr "A sequência de captura do CCD foi concluída"
+msgstr "Carregar sequência de captura do arquivo..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
 #: ekos/capture/camera.ui:2234
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Save Capture Sequence..."
-msgstr "A sequência de captura do CCD foi concluída"
+msgstr "Salvar sequência de captura..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
 #: ekos/capture/camera.ui:2268
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Save Capture Sequence As..."
-msgstr "A sequência de captura do CCD foi concluída"
+msgstr "Salvar sequência de captura como..."
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
@@ -15254,13 +15308,11 @@ msgstr "Grupo"
 #: ekos/capture/camera.ui:2332
 #, kde-format
 msgid "ISO/Gain"
-msgstr ""
+msgstr "ISO/Ganho"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel)
 #: ekos/capture/camera.ui:2358
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Video"
+#, kde-format
 msgid "Video"
 msgstr "Vídeo"
 
@@ -15269,67 +15321,60 @@ msgstr "Vídeo"
 #: ekos/capture/camera.ui:2388 ekos/guide/guide.ui:247
 #, kde-format
 msgid "Loop"
-msgstr ""
+msgstr "Repetição"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopB)
 #: ekos/capture/camera.ui:2410
-#, fuzzy, kde-format
-#| msgid "Starting on:"
+#, kde-format
 msgid "Start Framing (Looping)..."
-msgstr "Inicializando em:"
+msgstr "Iniciar enquadramento (repetição)..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
 #: ekos/capture/camera.ui:2450
-#, fuzzy, kde-format
-#| msgid "&Start Sequence"
+#, kde-format
 msgid "Start Sequence"
-msgstr "Iniciar a &sequência"
+msgstr "Iniciar sequência"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
 #: ekos/capture/camera.ui:2478 ekos/focus/focus.ui:685
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Video"
+#, kde-format
 msgid "Live Video..."
-msgstr "Vídeo"
+msgstr "Vídeo ao vivo..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
 #: ekos/capture/camera.ui:2547
-#, fuzzy, kde-format
-#| msgid "Image received."
+#, kde-format
 msgid "Capture a Preview..."
-msgstr "Imagem recebida."
+msgstr "Capturar uma pré-visualização..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, darkB)
 #: ekos/capture/camera.ui:2593
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Automatically apply dark subtraction on preview images "
 "if a suitable dark frame is available.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+"<html><head/><body><p>Aplicar subtração escura automaticamente em imagens de "
+"pré-visualização se um quadro escuro adequado estiver disponível.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
 #: ekos/capture/camera.ui:2624
-#, fuzzy, kde-format
-#| msgid "Sequence:"
+#, kde-format
 msgid "Pause Sequence"
-msgstr "Sequência:"
+msgstr "Pausar sequência"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/capture/camera.ui:2667
-#, fuzzy, kde-format
-#| msgid "Load Image"
+#, kde-format
 msgid "Total remaining:"
-msgstr "Carregar imagem"
+msgstr "Total restante:"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
 #: ekos/capture/camera.ui:2679 ekos/capture/camera_actions.cpp:145
-#, fuzzy, kde-format
-#| msgid "Expose:"
+#, kde-format
 msgid "Expose (-/-):"
-msgstr "Exposição:"
+msgstr "Exposição (-/-):"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, jobRemainingTime)
@@ -15348,28 +15393,25 @@ msgstr "Exposição:"
 #: ekos/capture/capturecountswidget.ui:565
 #, kde-format
 msgid "--:--:--"
-msgstr ""
+msgstr "--:--:--"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #: ekos/capture/camera.ui:2730
-#, fuzzy, kde-format
-#| msgid "<b>Port:</b>"
+#, kde-format
 msgid "<b>Progress</b>"
-msgstr "<b>Porta:</b>"
+msgstr "<b>Progresso</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
 #: ekos/capture/camera.ui:2758
-#, fuzzy, kde-format
-#| msgid "Download"
+#, kde-format
 msgid "Avg. Download:"
-msgstr "Baixar"
+msgstr "Download médio:"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
 #: ekos/capture/camera.ui:2792
-#, fuzzy, kde-format
-#| msgid "Target:"
+#, kde-format
 msgid "Target drift:"
-msgstr "Destino:"
+msgstr "Deriva alvo:"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftUnit)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
@@ -15383,109 +15425,93 @@ msgstr "\""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqLoadB)
 #: ekos/capture/camera.ui:2859
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Load a new sequence file"
-msgstr "A sequência de captura do CCD foi concluída"
+msgstr "Carregar um novo arquivo de sequência"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqLoadB)
 #: ekos/capture/camera.ui:2862
-#, fuzzy, kde-format
-#| msgid "Downloading..."
+#, kde-format
 msgid "Load..."
-msgstr "Baixando..."
+msgstr "Carregar..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqSaveAsB)
 #: ekos/capture/camera.ui:2881
-#, fuzzy, kde-format
-#| msgid "Unable to open file %1"
+#, kde-format
 msgid "Save to a new sequence file"
-msgstr "Não foi possível abrir o arquivo %1"
+msgstr "Salvar para um novo arquivo de sequência"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqSaveAsB)
 #. i18n: ectx: property (text), widget (QPushButton, AddPreset)
 #: ekos/capture/camera.ui:2884 options/opscolors.ui:217
 #, kde-format
 msgid "Save As..."
-msgstr "Salvar como"
+msgstr "Salvar como..."
 
 #: ekos/capture/camera_actions.cpp:116
-#, fuzzy, kde-format
-#| msgctxt "City in Massachusetts USA"
-#| msgid "Framingham"
+#, kde-format
 msgid "Framing..."
-msgstr "Framingham"
+msgstr "Enquadrando..."
 
 #: ekos/capture/camera_actions.cpp:127
-#, fuzzy, kde-format
-#| msgid "Image received."
+#, kde-format
 msgid "Captured image received"
-msgstr "Imagem recebida."
+msgstr "Imagem capturada recebida"
 
 #: ekos/capture/camera_actions.cpp:195
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "Capturing %1 x %2-second %3 video..."
-msgstr "Capturando imagens..."
+msgstr "Capturando %1 x %2-segundos %3 vídeo..."
 
 #: ekos/capture/camera_actions.cpp:201
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "Capturing %1-second %2 image..."
-msgstr "Capturando imagens..."
+msgstr "Capturando %1-segundos %2 imagem..."
 
 #: ekos/capture/camera_actions.cpp:283
-#, fuzzy, kde-format
-#| msgid "&Start Sequence"
+#, kde-format
 msgid "Stop Sequence"
-msgstr "Iniciar a &sequência"
+msgstr "Parar sequência"
 
 #: ekos/capture/camera_actions.cpp:289
-#, fuzzy, kde-format
-#| msgid "Sequence:"
+#, kde-format
 msgid "Resume Sequence"
-msgstr "Sequência:"
+msgstr "Retomar sequência"
 
 #: ekos/capture/camera_actions.cpp:319
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 C..."
+#, kde-format
 msgid "Setting temperature to %1 °C..."
-msgstr "Definindo a temperatura para %1 C..."
+msgstr "Definindo a temperatura para %1 °C..."
 
 #: ekos/capture/camera_actions.cpp:320
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 C..."
+#, kde-format
 msgid "Set Temp to %1 °C..."
-msgstr "Definindo a temperatura para %1 C..."
+msgstr "Definir Temp para %1 °C..."
 
 #: ekos/capture/camera_actions.cpp:324
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding Resumed."
+#, kde-format
 msgid "Waiting for guide drift below %1\"..."
-msgstr "PHD2: Guia retomada."
+msgstr "Aguardando deriva do guia abaixo de %1\"..."
 
 #: ekos/capture/camera_actions.cpp:325
 #, kde-format
 msgid "Wait for Guider < %1\"..."
-msgstr ""
+msgstr "Esperar guia < %1\"..."
 
 #: ekos/capture/camera_actions.cpp:329
-#, fuzzy, kde-format
-#| msgid "Setting temperature to %1 C..."
+#, kde-format
 msgid "Setting camera to %1 degrees E of N..."
-msgstr "Definindo a temperatura para %1 C..."
+msgstr "Configurando a câmera para %1 graus E de N..."
 
 #: ekos/capture/camera_actions.cpp:330
-#, fuzzy, kde-format
-#| msgid "Set Location..."
+#, kde-format
 msgid "Set Camera to %1 deg..."
-msgstr "Configurar localização..."
+msgstr "Configurar câmera para %1 graus..."
 
 #: ekos/capture/camera_config.cpp:957
-#, fuzzy, kde-format
-#| msgid "Duration of night for selected date"
+#, kde-format
 msgid "Duration of the video sequence"
-msgstr "Duração da noite para a data selecionada"
+msgstr "Duração da sequência de vídeo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
@@ -15498,10 +15524,9 @@ msgstr "Número de imagens a capturar"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
 #: ekos/capture/camera_config.cpp:958 indi/recordingoptions.ui:40
-#, fuzzy, kde-format
-#| msgid "Duration"
+#, kde-format
 msgid "Duration:"
-msgstr "Duração"
+msgstr "Duração:"
 
 #: ekos/capture/camera_config.cpp:959
 #, fuzzy, kde-format
