@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-07 01:58+0000\n"
+"POT-Creation-Date: 2025-09-12 01:57+0000\n"
 "PO-Revision-Date: 2014-04-26 16:29+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -36079,7 +36079,7 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:294 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:109
+#: kstars.cpp:294 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
@@ -85300,14 +85300,14 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "warm"
 msgstr "varm"
 
-#: main.cpp:80
+#: main.cpp:111
 #, kde-format
 msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
 "program now."
 msgstr ""
 
-#: main.cpp:111
+#: main.cpp:141
 #, kde-format
 msgid ""
 " (c), The KStars Team\n"
@@ -85315,7 +85315,7 @@ msgid ""
 "The Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"
 msgstr ""
 
-#: main.cpp:113
+#: main.cpp:143
 #, kde-format
 msgctxt "Build number followed by copyright notice"
 msgid ""
@@ -85326,394 +85326,394 @@ msgid ""
 "%3"
 msgstr ""
 
-#: main.cpp:120
+#: main.cpp:150
 #, kde-format
 msgid "Jason Harris"
 msgstr "Jason Harris"
 
-#: main.cpp:120
+#: main.cpp:150
 #, kde-format
 msgid "Original Author"
 msgstr ""
 
-#: main.cpp:122
+#: main.cpp:152
 #, kde-format
 msgid "Jasem Mutlaq"
 msgstr "Jasem Mutlaq"
 
-#: main.cpp:122
+#: main.cpp:152
 #, fuzzy, kde-format
 #| msgctxt "Region/state in France"
 #| msgid "Charente-Maritime"
 msgid "Current Maintainer"
 msgstr "Charente-Maritime"
 
-#: main.cpp:126
+#: main.cpp:156
 #, kde-format
 msgid "Akarsh Simha"
 msgstr "Akarsh Simha"
 
-#: main.cpp:128
+#: main.cpp:158
 #, fuzzy, kde-format
 #| msgctxt "City in New Hampshire USA"
 #| msgid "Lancaster"
 msgid "Robert Lancaster"
 msgstr "Lancaster"
 
-#: main.cpp:129
+#: main.cpp:159
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:131
+#: main.cpp:161
 #, kde-format
 msgid "Eric Dejouhanet"
 msgstr ""
 
-#: main.cpp:132
+#: main.cpp:162
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Ekos Scheduler Improvements"
 msgstr "Sekvenskø"
 
-#: main.cpp:133
+#: main.cpp:163
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr ""
 
-#: main.cpp:135
+#: main.cpp:165
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "Sekvenskø"
 
-#: main.cpp:136
+#: main.cpp:166
 #, kde-format
 msgid "Hy Murveit"
 msgstr ""
 
-#: main.cpp:137
+#: main.cpp:167
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "FITS, Focus, Guide Improvements"
 msgstr "Sekvenskø"
 
-#: main.cpp:138
+#: main.cpp:168
 #, fuzzy, kde-format
 #| msgctxt "City in Colorado USA"
 #| msgid "Mount Evans Obs."
 msgid "John Evans"
 msgstr "Mount Evans Obs."
 
-#: main.cpp:139
+#: main.cpp:169
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Focus algorithms"
 msgstr "Gemte FITS-filen i %1"
 
-#: main.cpp:142
+#: main.cpp:172
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr ""
 
-#: main.cpp:144
+#: main.cpp:174
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr ""
 
-#: main.cpp:145
+#: main.cpp:175
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr ""
 
-#: main.cpp:145
+#: main.cpp:175
 #, fuzzy, kde-format
 #| msgid "KStars"
 msgid "KStars Lite"
 msgstr "KStars"
 
-#: main.cpp:147
+#: main.cpp:177
 #, kde-format
 msgid "James Bowlin"
 msgstr "James Bowlin"
 
-#: main.cpp:148
+#: main.cpp:178
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Pablo de Vicente"
 
-#: main.cpp:149
+#: main.cpp:179
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Thomas Kabelmann"
 
-#: main.cpp:150
+#: main.cpp:180
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Heiko Evermann"
 
-#: main.cpp:152
+#: main.cpp:182
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Carsten Niehaus"
 
-#: main.cpp:153
+#: main.cpp:183
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Mark Hollomon"
 
-#: main.cpp:154
+#: main.cpp:184
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr "Alexey Khudyakov"
 
-#: main.cpp:155
+#: main.cpp:185
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr "M&eacute;d&eacute;ric Boquien"
 
-#: main.cpp:157
+#: main.cpp:187
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr "J&eacute;r&ocirc;me Sonrier"
 
-#: main.cpp:159
+#: main.cpp:189
 #, kde-format
 msgid "Prakash Mohan"
 msgstr "Prakash Mohan"
 
-#: main.cpp:160
+#: main.cpp:190
 #, kde-format
 msgid "Victor Cărbune"
 msgstr "Victor Cărbune"
 
-#: main.cpp:161
+#: main.cpp:191
 #, kde-format
 msgid "Henry de Valence"
 msgstr "Henry de Valence"
 
-#: main.cpp:162
+#: main.cpp:192
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr "Samikshan Bairagya"
 
-#: main.cpp:164
+#: main.cpp:194
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr "Rafał Kułaga"
 
-#: main.cpp:165
+#: main.cpp:195
 #, kde-format
 msgid "Rishab Arora"
 msgstr "Rishab Arora"
 
-#: main.cpp:169
+#: main.cpp:199
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr "Valery Kharitonov"
 
-#: main.cpp:170
+#: main.cpp:200
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 "Konverterede etiketter med tekniske begreber til links til dokumentationen"
 
-#: main.cpp:171
+#: main.cpp:201
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr "Ana-Maria Constantin"
 
-#: main.cpp:172
+#: main.cpp:202
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr "Teknisk dokumentation om astronomi og KStars"
 
-#: main.cpp:173
+#: main.cpp:203
 #, kde-format
 msgid "Andrew Stepanenko"
 msgstr "Andrew Stepanenko"
 
-#: main.cpp:174
+#: main.cpp:204
 #, kde-format
 msgid "Guiding code based on lin_guider"
 msgstr "Kode til guiding baseret på lin_guider"
 
-#: main.cpp:175
+#: main.cpp:205
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr "Nuno Pinheiro"
 
-#: main.cpp:175
+#: main.cpp:205
 #, kde-format
 msgid "Artwork"
 msgstr "Grafik"
 
-#: main.cpp:177
+#: main.cpp:207
 #, fuzzy, kde-format
 #| msgid "Akarsh Simha"
 msgid "Utkarsh Simha"
 msgstr "Akarsh Simha"
 
-#: main.cpp:178
+#: main.cpp:208
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
 
-#: main.cpp:179
+#: main.cpp:209
 #, fuzzy, kde-format
 #| msgctxt "City in Newfoundland Canada"
 #| msgid "Daniel's Harbour"
 msgid "Daniel Holler"
 msgstr "Daniel's Harbour"
 
-#: main.cpp:180
+#: main.cpp:210
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr ""
 
-#: main.cpp:182
+#: main.cpp:212
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "St. Lucia"
 msgid "Stephane Lucas"
 msgstr "Sankt Lucia"
 
-#: main.cpp:183
+#: main.cpp:213
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:184
+#: main.cpp:214
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr ""
 
-#: main.cpp:185
+#: main.cpp:215
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr ""
 
-#: main.cpp:186
+#: main.cpp:216
 #, kde-format
 msgid "Jamie Smith"
 msgstr ""
 
-#: main.cpp:186
+#: main.cpp:216
 #, kde-format
 msgid "KStars OSX Port."
 msgstr ""
 
-#: main.cpp:187
+#: main.cpp:217
 #, fuzzy, kde-format
 #| msgid "Count"
 msgid "Patrick Molenaar"
 msgstr "Antal"
 
-#: main.cpp:187
+#: main.cpp:217
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr ""
 
-#: main.cpp:188
+#: main.cpp:218
 #, kde-format
 msgid "Philipp Auersperg-Castell"
 msgstr ""
 
-#: main.cpp:188
+#: main.cpp:218
 #, fuzzy, kde-format
 #| msgid "Supernovae"
 msgid "Supernovae daily updates"
 msgstr "Supernovaer"
 
-#: main.cpp:189
+#: main.cpp:219
 #, kde-format
 msgid "Tony Schriber"
 msgstr ""
 
-#: main.cpp:189
+#: main.cpp:219
 #, kde-format
 msgid "Rotator Dialog improvements"
 msgstr ""
 
-#: main.cpp:190
+#: main.cpp:220
 #, kde-format
 msgid "Joseph McGee"
 msgstr ""
 
-#: main.cpp:190
+#: main.cpp:220
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 
-#: main.cpp:200
+#: main.cpp:230
 #, fuzzy, kde-format
 #| msgid "Dump sky image to file"
 msgid "Dump sky image to file."
 msgstr "Gem stjernekortet i en fil"
 
-#: main.cpp:201
+#: main.cpp:231
 #, fuzzy, kde-format
 #| msgid "Script to execute"
 msgid "Script to execute."
 msgstr "Script der skal udføres"
 
-#: main.cpp:202
+#: main.cpp:232
 #, fuzzy, kde-format
 #| msgid "Width of sky image"
 msgid "Width of sky image."
 msgstr "Stjernekortets bredde"
 
-#: main.cpp:203
+#: main.cpp:233
 #, fuzzy, kde-format
 #| msgid "Height of sky image"
 msgid "Height of sky image."
 msgstr "Stjernekortets højde"
 
-#: main.cpp:204
+#: main.cpp:234
 #, fuzzy, kde-format
 #| msgid "Date and time"
 msgid "Date and time."
 msgstr "Dato og klokkeslæt"
 
-#: main.cpp:205
+#: main.cpp:235
 #, fuzzy, kde-format
 #| msgid "Start with clock paused"
 msgid "Start with clock paused."
 msgstr "Start med ur der holder pause"
 
-#: main.cpp:206
+#: main.cpp:236
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Run Live Stacker standalone mode"
 msgstr "Autofokusering i gang..."
 
-#: main.cpp:209
+#: main.cpp:239
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr ""
 
-#: main.cpp:255 printing/foveditordialog.cpp:176
+#: main.cpp:285 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "Kunne ikke fortolke billedformat i %1; antager PNG."
 
-#: main.cpp:313
+#: main.cpp:343
 #, fuzzy, kde-format
 #| msgid "Using CPU date/time instead."
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr "Bruger dato og klokkeslæt fra hardwareklokken i stedet."
 
-#: main.cpp:344
+#: main.cpp:374
 #, kde-format
 msgid "Script executed."
 msgstr "Scriptet er udført."
 
-#: main.cpp:348
+#: main.cpp:378
 #, kde-format
 msgid "Could not execute script."
 msgstr "Kunne ikke køre scriptet."
 
-#: main.cpp:372
+#: main.cpp:402
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Bruger dato og klokkeslæt fra hardwareklokken i stedet."
