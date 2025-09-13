@@ -33,6 +33,11 @@
             <arg name="RA" type="d" direction="in"/>
             <arg name="DEC" type="d" direction="in"/>
         </method>
+        <method name="sync">
+            <arg type="b" direction="out"/>
+            <arg name="RA" type="d" direction="in"/>
+            <arg name="DEC" type="d" direction="in"/>
+        </method>
         <method name="gotoTarget">
             <arg type="b" direction="out"/>
             <arg name="target" type="s" direction="in"/>
