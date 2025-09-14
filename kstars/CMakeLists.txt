@@ -1556,7 +1556,7 @@ if(APPLE)
     message(STATUS "Copying needed files into KStars App Directory: ${KSTARS_APP}")
     execute_process(COMMAND ${CMAKE_COMMAND}
                     -DBUNDLED_DATA_LOCATION=${KSTARS_APP}/Contents/Resources
-                    -DDATA_INSTALL_DIR=${KSTARS_APP}/Contents/Resources
+                    -DKDE_INSTALL_DATADIR=${KSTARS_APP}/Contents/Resources
                     ${CMAKE_CURRENT_SOURCE_DIR}/data
                     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/kstars/data"
                     RESULT_VARIABLE configureOutput)
