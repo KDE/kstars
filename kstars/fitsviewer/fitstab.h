@@ -289,11 +289,12 @@ class FITSTab : public QWidget
         void stackUpdateStats(const bool ok, const int sub, const int total, const double meanSNR, const double minSNR,
                               const double maxSNR);
         void updateStackSNR(const double SNR);
-        void resetStack();
+        void resetStack(const bool cancelled);
         void saveSettings();
         void initSettings();
         LiveStackData getAllSettings();
         LiveStackPPData getPPSettings();
+        void redoPostProcessing();
 
         int m_LiveStackingItem { 0 };
         bool m_StackExtracted { false };
@@ -301,6 +302,7 @@ class FITSTab : public QWidget
         QString m_CurrentStackDir;
         QString m_TabName;
         bool m_StackStarted { false };
+        bool m_StackCancelled { false };
         int m_StackSubsTotal { 0 };
         int m_StackSubsProcessed { 0 };
         int m_StackSubsFailed { 0 };

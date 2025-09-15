@@ -814,8 +814,9 @@ class FITSData : public QObject
 
         /**
          * @brief Signal FITSView the stack is ready to load
+         * @param whether the stacking operation has been cancelled
          */
-        void stackReady();
+        void stackReady(const bool cancelled = false);
 
         /**
          * @brief update FITSTab on progress
@@ -1200,9 +1201,9 @@ class FITSData : public QObject
             stackFITSSub
         } StackFITSAsyncType;
         StackFITSAsyncType m_StackFITSAsync { stackFITSNone };
-        bool m_CancelRequest { false };
-        bool m_StackWatcherCancel { false };
-        bool m_StackFITSWatcherCancel { false };
+        bool m_CancelRequest { false }; // Overall control variable for cancelling a stack operation
+        bool m_StackWatcherCancel { false }; // Control variable to cancel background thread stack operation
+        bool m_StackFITSWatcherCancel { false }; // Control variable to cancel background thread FITS Load operation
         double m_StackSubRa { 0.0 };
         double m_StackSubDec { 0.0 };
         double m_StackSubPixscale { 0.0 };

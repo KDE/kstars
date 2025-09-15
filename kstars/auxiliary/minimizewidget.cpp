@@ -52,7 +52,7 @@ void MinimizeWidget::setupUI(bool initiallyMinimized, void(*setOption)(bool))
         m_MinimizedWidget = new QWidget(this);
         auto minimizedLayout = new QHBoxLayout(m_MinimizedWidget);
         minimizedLayout->addWidget(m_MaximizeButton, 0, Qt::AlignTop);
-        minimizedLayout->addWidget(minimizedWidget);
+        minimizedLayout->addWidget(minimizedWidget, 0, Qt::AlignTop);
         minimizedLayout->addStretch();
         m_MinimizedWidget->setVisible(m_isMinimized);
         m_mainLayout->addWidget(m_MinimizedWidget);
@@ -60,7 +60,7 @@ void MinimizeWidget::setupUI(bool initiallyMinimized, void(*setOption)(bool))
         m_MaximizedWidget = new QWidget(this);
         auto maximizedLayout = new QHBoxLayout(m_MaximizedWidget);
         maximizedLayout->addWidget(m_MinimizeButton, 0, Qt::AlignTop);
-        maximizedLayout->addWidget(maximizedWidget);
+        maximizedLayout->addWidget(maximizedWidget, 1, Qt::AlignTop);
         maximizedLayout->addStretch();
         m_MaximizedWidget->setVisible(!m_isMinimized);
         m_mainLayout->addWidget(m_MaximizedWidget);
@@ -98,8 +98,8 @@ void MinimizeWidget::minimize()
 {
     if (m_MinimizedWidget == nullptr || m_MaximizedWidget == nullptr)
         return;
-    m_MinimizedWidget->setVisible(true);
     m_MaximizedWidget->setVisible(false);
+    m_MinimizedWidget->setVisible(true);
     m_isMinimized = true;
     emit changed(true);
 }

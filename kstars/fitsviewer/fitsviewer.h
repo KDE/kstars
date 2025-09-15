@@ -116,6 +116,7 @@ class FITSViewer : public KXmlGuiWindow
         void previousBlink();
         void stack();
         void restack(const int tabUID);
+        void stackCancelled(const int tabUID);
         void saveFile();
         void saveFileAs();
         void copyFITS();

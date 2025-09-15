@@ -547,7 +547,7 @@ class FITSView : public QScrollArea
         void stackUpdateStats(const bool ok, const int sub, const int total, const double meanSNR, const double minSNR,
                               const double maxSNR);
         void updateStackSNR(const double SNR);
-        void resetStack();
+        void resetStack(const bool cancelled);
 
         friend class FITSLabel;
 };

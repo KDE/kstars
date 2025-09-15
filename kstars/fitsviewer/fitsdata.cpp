@@ -297,7 +297,7 @@ bool FITSData::loadStack(const QString &inDir, const LiveStackData &params)
     m_Stack->setStackInProgress(true);
     m_DarkLoaded = false;
     m_FlatLoaded = false;
-    m_CancelRequest = false;
+    m_CancelRequest = m_StackFITSWatcherCancel = m_StackWatcherCancel = false;
     setStackSubSolution(0.0, 0.0, 0.0, -1, -1);
     nextStackAction();
     return true;
@@ -306,8 +306,14 @@ bool FITSData::loadStack(const QString &inDir, const LiveStackData &params)
 // Called when user requested to cancel the in-flight stacking operation
 void FITSData::cancelStack()
 {
+    // Stop watching the stack directory so no new files will be processed...
+    disconnect(m_StackDirWatcher.get(), &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
+    m_StackDirWatcher->stopWatching();
+
     // If there is a stack in progress then no file processing will be happening
-    m_CancelRequest = !m_Stack->getStackInProgress();
+    m_CancelRequest = m_Stack->getStackInProgress();
+    if (m_CancelRequest)
+        qCDebug(KSTARS_FITS) << "Cancelling in-flight stacking operation...";
 
     if (m_StackFITSWatcher.isRunning())
     {
@@ -322,9 +328,11 @@ void FITSData::cancelStack()
         m_StackWatcher.cancel();
         qCDebug(KSTARS_FITS) << "Cancelling stacking threads...";
     }
+
+    checkCancelStack();
 }
 
-// Monitor progress of the user's cancel stack request. When all 3 phases are done
+// Monitor progress of the user's cancel stack request. When all phases are done
 // update other objects
 void FITSData::checkCancelStack()
 {
@@ -332,17 +340,10 @@ void FITSData::checkCancelStack()
     {
         qCDebug(KSTARS_FITS) << "Cancel stack request completed";
 
-        // Stop watching for more files
-        disconnect(m_StackDirWatcher.get(), &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
-        m_StackDirWatcher->stopWatching();
-
-        // Reset the image to noimage
-        m_Stack->resetStackedImage();
-
         // Drain any subs in the work Q
         m_StackQ.clear();
 
-        emit stackReady();
+        emit stackReady(true);
     }
 }
 
@@ -517,10 +518,19 @@ void FITSData::stackFITSLoaded()
     m_StackFITSAsync = stackFITSNone;
 
     // Check for user cancel request
-    if (m_StackFITSWatcher.isCanceled())
+    if (m_CancelRequest || m_StackFITSWatcher.isCanceled())
     {
-        qCDebug(KSTARS_FITS) << "Cancelled stack file loading thread";
-        m_StackFITSWatcherCancel = false;
+        if (m_CancelRequest)
+        {
+            qCDebug(KSTARS_FITS) << "In-flight stacking operation cancelled";
+            m_CancelRequest = false;
+        }
+
+        if (m_StackFITSWatcher.isCanceled())
+        {
+            qCDebug(KSTARS_FITS) << "Cancelled stack file loading thread";
+            m_StackFITSWatcherCancel = false;
+        }
         checkCancelStack();
         return;
     }
@@ -647,10 +657,19 @@ void FITSData::stackProcessDone()
 {
     m_Stack->setStackInProgress(false);
 
-    if (m_StackWatcher.isCanceled())
+    // Check for an in-flight cancel request
+    if (m_CancelRequest || m_StackWatcher.isCanceled())
     {
-        qCDebug(KSTARS_FITS) << "Stacking threads cancelled";
-        m_StackWatcherCancel = false;
+        if (m_CancelRequest)
+        {
+            qCDebug(KSTARS_FITS) << "In-flight stacking operation cancelled";
+            m_CancelRequest = false;
+        }
+        if (m_StackWatcher.isCanceled())
+        {
+            qCDebug(KSTARS_FITS) << "Stacking threads cancelled";
+            m_StackWatcherCancel = false;
+        }
         checkCancelStack();
     }
     else

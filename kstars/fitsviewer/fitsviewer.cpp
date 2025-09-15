@@ -1203,6 +1203,19 @@ void FITSViewer::restack(const int tabUID)
     });
 }
 
+// Called when a stacking operation is cancelled by the user
+void FITSViewer::stackCancelled(const int tabUID)
+{
+    auto tab = fitsMap.value(tabUID);
+    const QUrl imageName;
+
+    led.setColor(Qt::red);
+    updateStatusBar(i18n("Stacking Stopped"), FITS_MESSAGE);
+    int tabIndex = fitsTabWidget->indexOf(tab);
+    if (tabIndex >= 0)
+        fitsTabWidget->setTabText(tabIndex, tab->getTabTitle());
+}
+
 void FITSViewer::saveFile()
 {
     m_Tabs[fitsTabWidget->currentIndex()]->saveFile();

@@ -32,6 +32,9 @@
 #include <QDialog>
 
 constexpr int CAT_OBJ_SORT_ROLE = Qt::UserRole + 1;
+const QString TEXT_START = i18n("Start");
+const QString TEXT_STOP = i18n("Stop");
+const QString TEXT_STOPPING = i18n("Stopping...");
 
 FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
 {
@@ -151,6 +154,11 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
         if (mode == FITS_LIVESTACKING)
         {
             m_LiveStackingUI.setupUi(m_LiveStackingWidget);
+            m_LiveStackingUI.GeneralMinimizeWidget->setupUI(Options::fitsLSHideGeneral(), &Options::setFitsLSHideGeneral);
+            m_LiveStackingUI.CalibrationMinimizeWidget->setupUI(Options::fitsLSHideCalibration(), &Options::setFitsLSHideCalibration);
+            m_LiveStackingUI.AlignmentMinimizeWidget->setupUI(Options::fitsLSHideAlignment(), &Options::setFitsLSHideAlignment);
+            m_LiveStackingUI.StackingMinimizeWidget->setupUI(Options::fitsLSHideStacking(), &Options::setFitsLSHideStacking);
+            m_LiveStackingUI.PostProcMinimizeWidget->setupUI(Options::fitsLSHidePostProc(), &Options::setFitsLSHidePostProc);
             m_LiveStackingItem = fitsTools->addItem(m_LiveStackingWidget, i18n("Live Stacking"));
             initLiveStacking();
         }
@@ -907,23 +915,11 @@ void FITSTab::initLiveStacking()
     connect(m_LiveStackingUI.StackDirB, &QPushButton::clicked, this, &FITSTab::selectLiveStack);
     connect(m_LiveStackingUI.StartB, &QPushButton::clicked, this, &FITSTab::liveStack);
     connect(m_LiveStackingUI.SaveB, &QPushButton::clicked, this, &FITSTab::saveSettings);
-    connect(m_LiveStackingUI.ReprocessB, &QPushButton::clicked, this, [this]
-    {
-        if(m_View && m_View->imageData() && m_View->imageData()->stack())
-        {
-            if (!m_View->imageData()->stack()->isStackedImageEmpty())
-            {
-                m_LiveStackingUI.ReprocessB->setEnabled(false);
-                m_LiveStackingUI.StartB->setEnabled(false);
-                viewer->restack(getUID());
-                m_View->redoPostProcessStack(getPPSettings());
-            }
-        }
-    });
-
+    connect(m_LiveStackingUI.ReprocessB, &QPushButton::clicked, this, &FITSTab::redoPostProcessing);
     connect(m_LiveStackingUI.MasterDarkB, &QPushButton::clicked, this, &FITSTab::selectLiveStackMasterDark);
     connect(m_LiveStackingUI.MasterFlatB, &QPushButton::clicked, this, &FITSTab::selectLiveStackMasterFlat);
     connect(m_LiveStackingUI.AlignMasterB, &QPushButton::clicked, this, &FITSTab::selectLiveStackAlignSub);
+    connect(m_LiveStackingUI.PostProcGroupBox, &QGroupBox::toggled, this, &FITSTab::redoPostProcessing);
 
     // Other connections used by Live Stacking
     connect(m_View.get(), &FITSView::plateSolveSub, this, &FITSTab::plateSolveSub);
@@ -947,6 +943,7 @@ void FITSTab::initSettings()
     m_LiveStackingUI.LowSigma->setValue(Options::fitsLSLowSigma());
     m_LiveStackingUI.HighSigma->setValue(Options::fitsLSHighSigma());
     m_LiveStackingUI.WinsorCutoff->setValue(Options::fitsLSWinsorCutoff());
+    m_LiveStackingUI.PostProcGroupBox->setChecked(Options::fitsLSPostProc());
     m_LiveStackingUI.DeconvAmt->setValue(Options::fitsLSDeconvAmt());
     m_LiveStackingUI.PSFSigma->setValue(Options::fitsLSPSFSigma());
     m_LiveStackingUI.DenoiseAmt->setValue(Options::fitsLSDenoiseAmt());
@@ -967,6 +964,7 @@ void FITSTab::saveSettings()
     Options::setFitsLSLowSigma(m_LiveStackingUI.LowSigma->value());
     Options::setFitsLSHighSigma(m_LiveStackingUI.HighSigma->value());
     Options::setFitsLSWinsorCutoff(m_LiveStackingUI.WinsorCutoff->value());
+    Options::setFitsLSPostProc(m_LiveStackingUI.PostProcGroupBox->isChecked());
     Options::setFitsLSDeconvAmt(m_LiveStackingUI.DeconvAmt->value());
     Options::setFitsLSPSFSigma(m_LiveStackingUI.PSFSigma->value());
     Options::setFitsLSDenoiseAmt(m_LiveStackingUI.DenoiseAmt->value());
@@ -999,6 +997,7 @@ LiveStackData FITSTab::getAllSettings()
 LiveStackPPData FITSTab::getPPSettings()
 {
     LiveStackPPData data;
+    data.postProcess = m_LiveStackingUI.PostProcGroupBox->isChecked();
     data.deconvAmt = m_LiveStackingUI.DeconvAmt->value();
     data.PSFSigma = m_LiveStackingUI.PSFSigma->value();
     data.denoiseAmt = m_LiveStackingUI.DenoiseAmt->value();
@@ -1006,6 +1005,16 @@ LiveStackPPData FITSTab::getPPSettings()
     data.sharpenKernal = m_LiveStackingUI.SharpenKernal->value();
     data.sharpenSigma = m_LiveStackingUI.SharpenSigma->value();
     return data;
+}
+
+void FITSTab::redoPostProcessing()
+{
+    if(m_View && m_View->imageData() && m_View->imageData()->stack())
+    {
+        m_LiveStackingUI.PostProcGroupBox->setEnabled(false);
+        viewer->restack(getUID());
+        m_View->redoPostProcessStack(getPPSettings());
+    }
 }
 
 void FITSTab::selectLiveStack()
@@ -1296,14 +1305,16 @@ void FITSTab::extractImage()
 void FITSTab::liveStack()
 {
     QString text = m_LiveStackingUI.StartB->text().remove('&');
-    if (text == "Start")
+    if (text == TEXT_START)
     {
         m_StackStarted = true;
-        if (getTabName().isEmpty())
+        m_StackCancelled = false;
+        if (m_LiveStackingUI.Stack->text() != m_liveStackDir)
             setTabName(i18n("Watching %1", m_liveStackDir));
         // Start the stack process
-        m_LiveStackingUI.StartB->setText("Cancel");
-        m_LiveStackingUI.ReprocessB->setEnabled(false);
+        m_LiveStackingUI.StartB->setText(TEXT_STOP);
+        m_LiveStackingUI.StartB->setEnabled(true);
+        m_LiveStackingUI.PostProcGroupBox->setEnabled(false);
 
         m_liveStackDir = m_LiveStackingUI.Stack->text();
         m_CurrentStackDir = m_liveStackDir;
@@ -1316,11 +1327,11 @@ void FITSTab::liveStack()
         viewer->restack(getUID());
         m_View->loadStack(m_liveStackDir, getAllSettings());
     }
-    else if (text == QString("Cancel"))
+    else if (text == TEXT_STOP)
     {
-        m_LiveStackingUI.StartB->setText("Cancelling...");
+        m_LiveStackingUI.StartB->setText(TEXT_STOPPING);
         m_LiveStackingUI.StartB->setEnabled(false);
-        m_LiveStackingUI.ReprocessB->setEnabled(false);
+        m_LiveStackingUI.PostProcGroupBox->setEnabled(false);
         m_View->cancelStack();
     }
 }
@@ -1408,8 +1419,7 @@ void FITSTab::plateSolveSub(const double ra, const double dec, const double pixS
 
 void FITSTab::stackInProgress()
 {
-    m_LiveStackingUI.StartB->setEnabled(false);
-    m_LiveStackingUI.ReprocessB->setEnabled(false);
+    m_LiveStackingUI.PostProcGroupBox->setEnabled(false);
     viewer->restack(getUID());
 }
 
@@ -1436,11 +1446,19 @@ QString FITSTab::getTabTitle() const
     if (!m_StackStarted && !m_TabName.isEmpty())
         title = m_TabName;
     else if (m_StackStarted && m_TabName.isEmpty())
+    {
         // This won't happen as when m_StackStarted is set to true, it also sets m_TabName.
         // See liveStack().
-        title = i18n("(%1) Watching %2", m_StackSubsProcessed, m_liveStackDir);
+        QString start = (m_StackCancelled) ? i18n("Stopped Watching (%1)", m_StackSubsProcessed) :
+                                             i18n("(%1) Watching", m_StackSubsProcessed);
+        title = i18n("%1 %2", start, m_liveStackDir);
+    }
     else if (m_StackStarted && !m_TabName.isEmpty())
-        title = i18n("(%1) %2", m_StackSubsProcessed, m_TabName);
+    {
+        QString start = (m_StackCancelled) ? i18n("Stopped (%1)", m_StackSubsProcessed) :
+                                             i18n("(%1)", m_StackSubsProcessed);
+        title = i18n("%1 %2", start, m_TabName);
+    }
     return title;
 }
 
@@ -1449,10 +1467,21 @@ void FITSTab::updateStackSNR(const double SNR)
     m_LiveStackingUI.ImageSNR->setText(QString("%1").arg(SNR, 0, 'f', 2));
 }
 
-void FITSTab::resetStack()
+void FITSTab::resetStack(const bool cancelled)
 {
-    m_LiveStackingUI.StartB->setText("Start");
-    m_LiveStackingUI.StartB->setEnabled(true);
-    m_LiveStackingUI.ReprocessB->setText("Reprocess");
-    m_LiveStackingUI.ReprocessB->setEnabled(true);
+    if (cancelled)
+    {
+        // Cancel request has been actioned
+        m_LiveStackingUI.StartB->setText(TEXT_START);
+        m_LiveStackingUI.StartB->setEnabled(true);
+        m_LiveStackingUI.PostProcGroupBox->setEnabled(true);
+        m_StackCancelled = true;
+        viewer->stackCancelled(getUID());
+    }
+    else if (m_StackSubsTotal <= m_StackSubsProcessed + m_StackSubsFailed)
+    {
+        // If stacking is complete make action buttons active
+        m_LiveStackingUI.StartB->setEnabled(true);
+        m_LiveStackingUI.PostProcGroupBox->setEnabled(true);
+    }
 }

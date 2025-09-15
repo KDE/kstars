@@ -313,6 +313,7 @@ typedef enum { LS_STACKING_REJ_NONE, LS_STACKING_REJ_SIGMA, LS_STACKING_REJ_WIND
 
 typedef struct
 {
+    bool postProcess;
     double deconvAmt;
     double PSFSigma;
     double denoiseAmt;

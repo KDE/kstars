@@ -1198,6 +1198,9 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
 {
     try
     {
+        if (!m_StackData.postProcessing.postProcess)
+            return image32F;
+
         cv::Mat finalImage;
         // Firstly perform deconvolution (if requested). Calculate psf then use this for deconvolution
         cv::Mat image;
@@ -1299,7 +1302,10 @@ cv::Mat FITSStack::calculatePSF(const cv::Mat &image, int patchSize)
     try
     {
         cv::Mat psf;
-        QList<Edge *> starCenters = m_Data->getStarCenters();
+        QList<Edge *> starCenters;
+        if (m_Data)
+            starCenters = m_Data->getStarCenters();
+
         if (starCenters.size() <= 0)
         {
             // Create 1D Gaussian kernel, then make it 2D - note this is normalised
@@ -1520,16 +1526,21 @@ cv::Mat FITSStack::wienerDeconvolution(const cv::Mat &image, const cv::Mat &psf)
 
 void FITSStack::redoPostProcessStack(const LiveStackPPData &ppParams)
 {
-    if (m_StackedImage32F.empty())
-        // Nothing to do if there is no image to operate on
-        return;
-
     // Get the current user options for post processing
     m_StackData.postProcessing = ppParams;
 
-    cv::Mat finalImage = postProcessImage(m_StackedImage32F);
-    m_StackSNR = getSNR(finalImage);
-    convertMatToFITS(finalImage);
+    if (getStackInProgress())
+    {
+        qCDebug(KSTARS_FITS) << QString("Request to Reprocess Post Processing ignored because stacking operation in flight");
+        return;
+    }
+
+    if (!m_StackedImage32F.empty())
+    {
+        cv::Mat finalImage = postProcessImage(m_StackedImage32F);
+        m_StackSNR = getSNR(finalImage);
+        convertMatToFITS(finalImage);
+    }
     emit stackChanged();
 }
 
