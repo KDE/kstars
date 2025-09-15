@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-12 01:57+0000\n"
-"PO-Revision-Date: 2025-09-13 14:38-0300\n"
+"PO-Revision-Date: 2025-09-14 15:40-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -19101,7 +19101,7 @@ msgstr "Nenhum CCD conectado."
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
-"O passo do impulso inicial é muito baixo. Aumente o tamanho do passo para %1 "
+"O passo do pulso inicial é muito baixo. Aumente o tamanho do passo para %1 "
 "ou mais..."
 
 #: ekos/focus/focus.cpp:1123
@@ -22506,24 +22506,21 @@ msgstr "Guia na direção oeste"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, externalConnectB)
 #: ekos/guide/guide.ui:326
-#, fuzzy, kde-format
-#| msgid "Connection to the guide CCD is lost."
+#, kde-format
 msgid "Connect to external guiding application."
-msgstr "A conexão ao CCD da guia. foi perdida."
+msgstr "Conecte-se ao aplicativo de guiamento externo."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECGuideEnabled)
 #: ekos/guide/guide.ui:336
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Declination axis"
+#, kde-format
 msgid "Guide Declination Axis"
-msgstr "Eixo da declinação"
+msgstr "Eixo da declinação do guia"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, externalDisconnectB)
 #: ekos/guide/guide.ui:388
 #, kde-format
 msgid "Disconnect from external guiding application."
-msgstr ""
+msgstr "Desconecte do aplicativo de orientação externo."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #: ekos/guide/guide.ui:398
@@ -22537,49 +22534,45 @@ msgstr "Aplicar o filtro à imagem após a captura para a melhorá-la"
 msgid ""
 "Guide camera binning. It is recommended to set binning to 2x2 or higher."
 msgstr ""
+"Guia de compartimentação de câmeras. Recomenda-se definir a compartimentação "
+"como 2x2 ou superior."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rAGuideEnabled)
 #: ekos/guide/guide.ui:418
-#, fuzzy, kde-format
-#| msgid "Right Ascension"
+#, kde-format
 msgid "Guide Right Ascention Axis"
-msgstr "Ascensão reta"
+msgstr "Guia eixo de ascensão reta"
 
 #. i18n: ectx: property (text), widget (QLabel, l_9)
 #: ekos/guide/guide.ui:431
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Direction"
+#, kde-format
 msgid "Directions:"
-msgstr "Direção"
+msgstr "Direções:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideDelay)
 #: ekos/guide/guide.ui:438
-#, fuzzy, kde-format
-#| msgid "Wait for this key to be pressed"
+#, kde-format
 msgid "Delay next guide exposure this many seconds after a pulse is sent"
-msgstr "Aguardar até que esta tecla seja pressionada"
+msgstr ""
+"Atrase a próxima exposição do guia estes segundos após o envio de um pulso"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, northDECGuideEnabled)
 #: ekos/guide/guide.ui:453
 #, kde-format
 msgid "North Direction Guiding"
-msgstr ""
+msgstr "Guia na direção norte"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, southDECGuideEnabled)
 #: ekos/guide/guide.ui:463
-#, fuzzy, kde-format
-#| msgid "Suspend Guiding"
+#, kde-format
 msgid "South Direction Guiding"
-msgstr "Suspender a guia"
+msgstr "Guia na direção sul"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, manualPulseB)
 #: ekos/guide/guide.ui:475
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Manual Blue"
+#, kde-format
 msgid "Manual Pulse..."
-msgstr "Azul manual"
+msgstr "Pulso manual..."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, guideSquareSize)
 #: ekos/guide/guide.ui:508
@@ -22588,63 +22581,54 @@ msgid ""
 "Guide star tracking box size. Box size must be set in accordance to the "
 "selected star size."
 msgstr ""
+"Tamanho da caixa de rastreamento da estrela-guia. O tamanho da caixa deve "
+"ser definido de acordo com o tamanho da estrela selecionada."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
 #: ekos/guide/guide.ui:512
 #, kde-format
 msgid "8"
-msgstr ""
+msgstr "8"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
 #: ekos/guide/guide.ui:517
-#, fuzzy, kde-format
-#| msgid "1"
+#, kde-format
 msgid "16"
-msgstr "1"
+msgstr "16"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
 #: ekos/guide/guide.ui:527
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "64x"
+#, kde-format
 msgid "64"
-msgstr "64x"
+msgstr "64"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideSquareSize)
 #: ekos/guide/guide.ui:532
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "12x"
+#, kde-format
 msgid "128"
-msgstr "12x"
+msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideShowFrame)
 #: ekos/guide/guide.ui:543
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guider Image"
+#, kde-format
 msgid "Toggle the Guider Image..."
-msgstr "Imagem da guia"
+msgstr "Alternar a imagem da guia..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
-#, fuzzy, kde-format
-#| msgid "Site Info"
+#, kde-format
 msgid "Scope / Lens Info"
-msgstr "Informações do site"
+msgstr "Informações do Escopo / Lente"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FOV)
 #: ekos/guide/guide.ui:594
-#, fuzzy, kde-format
-#| msgid "Field of View:"
+#, kde-format
 msgid "Field of View (arcmin)"
-msgstr "Campo de visão:"
+msgstr "Campo de visão (minutos de arco)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Aperture)
 #: ekos/guide/guide.ui:648
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Aperture (mm)"
+#, kde-format
 msgid "Aperture (mm)"
 msgstr "Abertura (mm)"
 
@@ -22658,231 +22642,218 @@ msgstr "Distância focal (mm)"
 #: ekos/guide/guide.ui:718
 #, kde-format
 msgid "Reducer"
-msgstr ""
+msgstr "Redutor"
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroup)
 #: ekos/guide/guide.ui:766
-#, fuzzy, kde-format
-#| msgid "Site Info"
+#, kde-format
 msgid "Guide Info"
-msgstr "Informações do site"
+msgstr "Informações do guia"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17)
 #: ekos/guide/guide.ui:792
-#, fuzzy, kde-format
-#| msgid "Focal Length (mm)"
+#, kde-format
 msgid "Pulse length (ms):"
-msgstr "Distância focal (mm)"
+msgstr "Comprimento do pulso (ms)"
 
 #. i18n: ectx: property (text), widget (QLabel, l_16)
 #: ekos/guide/guide.ui:799
-#, fuzzy, kde-format
-#| msgid "Guiding Deviation <"
+#, kde-format
 msgid "Guiding delta \":"
-msgstr "Desvio guia <"
+msgstr "Desvio do guia \":"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseRA)
 #: ekos/guide/guide.ui:811
 #, kde-format
 msgid "Generated RA pulse"
-msgstr ""
+msgstr "Gerado pulso AR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_PulseDEC)
 #: ekos/guide/guide.ui:824
 #, kde-format
 msgid "Generated DEC pulse"
-msgstr ""
+msgstr "Gerado pulso DEC"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaRA)
 #: ekos/guide/guide.ui:844
 #, kde-format
 msgid "Immediate Guiding RA deviation in arcseconds"
-msgstr ""
+msgstr "Desvio de AR de orientação imediata em segundos de arco"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaDEC)
 #: ekos/guide/guide.ui:857
 #, kde-format
 msgid "Immediate Guiding DEC deviation in arcseconds"
-msgstr ""
+msgstr "Desvio DEC de orientação imediata em segundos de arco"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_17b)
 #: ekos/guide/guide.ui:872
-#, fuzzy, kde-format
-#| msgid "RA Guide Error"
+#, kde-format
 msgid "Guiding RMS error"
-msgstr "Erro da Guia da AR"
+msgstr "Erro do guia RMS"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17b)
 #: ekos/guide/guide.ui:875
 #, kde-format
 msgid "RMS\" (RA/DEC):"
-msgstr ""
+msgstr "RMS\" (AR/DEC):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrRA)
 #: ekos/guide/guide.ui:887
-#, fuzzy, kde-format
-#| msgid "RA Guide Error"
+#, kde-format
 msgid "Guiding RA RMS error"
-msgstr "Erro da Guia da AR"
+msgstr "Erro RMS do guia da AR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_ErrDEC)
 #: ekos/guide/guide.ui:900
-#, fuzzy, kde-format
-#| msgid "RA Guide Error"
+#, kde-format
 msgid "Guiding DEC RMS error"
-msgstr "Erro da Guia da AR"
+msgstr "Erro RMS do guia da DEC"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/guide/guide.ui:915
-#, fuzzy, kde-format
-#| msgid "Control:"
+#, kde-format
 msgid "Total RMS\":"
-msgstr "Controle:"
+msgstr "RMS total\":"
 
 #. i18n: ectx: property (text), widget (QLabel, l_TotalRMS)
 #. i18n: ectx: property (text), widget (QLabel, l_SNR)
 #: ekos/guide/guide.ui:925 ekos/guide/guide.ui:945
 #, kde-format
 msgid "xxx"
-msgstr ""
+msgstr "xxx"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7b)
 #: ekos/guide/guide.ui:935
-#, fuzzy, kde-format
-#| msgid "Guider:"
+#, kde-format
 msgid "Guide SNR:"
-msgstr "Guia:"
+msgstr "Guia SNR:"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, correctionSlider)
 #: ekos/guide/guide.ui:1117
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Offset in minutes to start imaging before or after "
-#| "culmination time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Drag the slider to adjust the scale of the Corrections "
 "Graphs relative to the scale of the drift graphs.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desvio em minutos para começar a registrar a imagem, "
-"antes ou depois do tempo de culminar.</p></body></html>"
+"<html><head/><body><p>Arraste o controle deslizante para ajustar a escala "
+"dos gráficos de correções em relação à escala dos gráficos de desvio.</p></"
+"body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1164
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Mario"
+#, kde-format
 msgid "Mount Drift"
-msgstr "Mount Mario"
+msgstr "Deriva da montagem"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1199
-#, fuzzy, kde-format
-#| msgid "Calibration"
+#, kde-format
 msgid "Calibration Plot"
-msgstr "Calibração"
+msgstr "Gráfico de calibração"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rADisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1255
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display the RA graph in the Drift Graphics plot.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Exibir o gráfico AR no gráfico de deriva.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rADisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1258
-#, fuzzy, kde-format
-#| msgid "RA"
+#, kde-format
 msgid "RA "
-msgstr "AR"
+msgstr "AR "
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1268
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display the RA Corrections graph in the Drift Graphics "
 "plot.</p></body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Exibir o gráfico de correções de AR no gráfico de "
+"deriva.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
 #. i18n: ectx: property (text), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1271 ekos/guide/guide.ui:1304
 #, kde-format
 msgid "Corr"
-msgstr ""
+msgstr "Corr"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dEDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1288
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display DEC graph in the Drift Graphics plot.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Exibir gráfico DEC no gráfico de deriva.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1301
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display the DEC Corrections graph in the Drift "
 "Graphics plot.</p></body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Exibir o gráfico de correções DEC no gráfico de deriva."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, sNRDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1321
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display SNR graph in the Drift Graphics plot.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Exibir gráfico SNR no gráfico de deriva.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, sNRDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1324
-#, fuzzy, kde-format
-#| msgctxt "Half Flux Radius"
-#| msgid "SNR:"
+#, kde-format
 msgid "SNR"
-msgstr "RSR:"
+msgstr "SNR"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rMSDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1334
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display RMS graph in the Drift Graphics plot.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Exibir gráfico RMS no gráfico de deriva.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rMSDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1337
 #, kde-format
 msgid "RMS"
-msgstr ""
+msgstr "RMS"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomInXB)
 #: ekos/guide/guide.ui:1378
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr "<html><head/><body><p>Ampliar para o eixo X.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomOutXB)
 #: ekos/guide/guide.ui:1407
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr "<html><head/><body><p>Reduzir para o eixo X.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/guide/guide.ui:1433
-#, fuzzy, kde-format
-#| msgid "Track"
+#, kde-format
 msgid "Trace:"
-msgstr "Rastrear"
+msgstr "Rastrear:"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, guideSlider)
 #: ekos/guide/guide.ui:1440
@@ -22893,22 +22864,27 @@ msgid ""
 "right will set the guide plots to display the latest guide data and "
 "autoscroll the graph.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Arraste o controle deslizante para rolar pelo "
+"histórico do guia enquanto exibe os pontos de erro de AR e DEC em ambos os "
+"gráficos. Arrastar para a extrema direita configurará os gráficos do guia "
+"para exibir os dados mais recentes e rolagem automática do gráfico.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, latestCheck)
 #: ekos/guide/guide.ui:1456
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the latest guide data and autoscroll "
 "the graph.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+"<html><head/><body><p>Marque para exibir os dados mais recentes do guia e "
+"rolar automaticamente o gráfico.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, latestCheck)
 #: ekos/guide/guide.ui:1459
 #, kde-format
 msgid "Max "
-msgstr ""
+msgstr "Máx "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideAutoScaleGraphB)
 #: ekos/guide/guide.ui:1479
@@ -22919,24 +22895,29 @@ msgid ""
 "them (with the exception of the time axis in the drift graphics).</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Ajuste a escala automática de ambos os Gráficos Guia "
+"para a escala padrão. Se algum ponto estiver localizado fora desse "
+"intervalo, a visualização será expandida para incluí-lo (com exceção do eixo "
+"temporal nos gráficos de deriva).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideSaveDataB)
 #: ekos/guide/guide.ui:1501
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Export the guide data from the current session to a "
 "CSV file readable by a spreadsheet program.</p></body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Exportar os dados do guia da sessão atual para um "
+"arquivo CSV legível por um programa de planilha.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideDataClearB)
 #: ekos/guide/guide.ui:1523
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+"<html><head/><body><p>Limpar todos os dados recentes do guia.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guiderAccuracyThreshold)
 #: ekos/guide/guide.ui:1539
@@ -22946,20 +22927,19 @@ msgid ""
 "The number represents the radius of the green concentric circle in "
 "arcseconds.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Defina a precisão de orientação desejada no Gráfico de "
+"Desvio. O número representa o raio do círculo concêntrico verde em segundos "
+"de arco.</p></body></html>"
 
 #: ekos/guide/guidedriftgraph.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "RA (arcmin)"
+#, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr "AR (arcmin)"
+msgstr "Deriva de DE da montagem (segundos de arco)"
 
 #: ekos/guide/guidedriftgraph.cpp:78
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "RA (arcmin)"
+#, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr "AR (arcmin)"
+msgstr "Deriva de AR da montagem (segundos de arco)"
 
 #: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
 #: ekos/guide/guidedriftgraph.cpp:723
@@ -22972,6 +22952,9 @@ msgid ""
 "tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</td></"
 "tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
 msgstr ""
+"<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>AR:   </td><td>%2 \"</td></"
+"tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</td></"
+"tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
 
 #: ekos/guide/guidedriftgraph.cpp:265 ekos/guide/guidedriftgraph.cpp:664
 #: ekos/guide/guidedriftgraph.cpp:739
@@ -22986,6 +22969,10 @@ msgid ""
 "tr><tr><td>SNR:   </td><td>%5 \"</td></tr><tr><td>RA Pulse:   </td><td>%6 "
 "ms</td></tr><tr><td>DE Pulse:   </td><td>%7 ms</td></tr></table>"
 msgstr ""
+"<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>AR:   </td><td>%2 \"</td></"
+"tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</td></"
+"tr><tr><td>SNR:   </td><td>%5 \"</td></tr><tr><td>Pulso AR:   </td><td>%6 "
+"ms</td></tr><tr><td>Pulso DE:   </td><td>%7 ms</td></tr></table>"
 
 #: ekos/guide/guidedriftgraph.cpp:304 ekos/guide/guidetargetplot.cpp:203
 #: kstarslite/skyitems/horizonitem.cpp:29
@@ -23017,70 +23004,58 @@ msgstr "O"
 #, kde-format
 msgctxt "East"
 msgid "E"
-msgstr "E"
+msgstr "L"
 
 #: ekos/guide/guidedriftgraph.cpp:479
-#, fuzzy, kde-format
-#| msgid "Import Catalog"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guide Data"
-msgstr "Importar catálogo"
+msgstr "Exportar dados do guia"
 
 #. i18n: ectx: property (text), widget (QLabel, preparingStateLabel)
 #: ekos/guide/guidestatewidget.ui:51
-#, fuzzy, kde-format
-#| msgid "Separation"
+#, kde-format
 msgid "Prep"
-msgstr "Separação"
+msgstr "Prep"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:178
-#, fuzzy, kde-format
-#| msgid "GUIDE_RA drifting forward..."
+#, kde-format
 msgid "RA drifting forward..."
-msgstr "Deslocando a GUIA-AR para frente..."
+msgstr "Deslocando a AR para frente..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:182
-#, fuzzy, kde-format
-#| msgid "Guider:"
+#, kde-format
 msgid "Guide Star found."
-msgstr "Guia:"
+msgstr "Estrela guia encontrada."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:243
-#, fuzzy, kde-format
-#| msgid "GUIDE_RA drifting reverse..."
+#, kde-format
 msgid "RA drifting reverse..."
-msgstr "Deslocando a GUIA-AR para trás..."
+msgstr "Deslocando a AR para trás..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:249
 #: ekos/guide/internalguide/calibrationprocess.cpp:388
 #: ekos/guide/internalguide/calibrationprocess.cpp:608
-#, fuzzy, kde-format
-#| msgid "Calibration rejected. Star drift is too short."
+#, kde-format
 msgid ""
 "Calibration rejected. Star drift is too short. Check for mount, cable, or "
 "backlash problems."
-msgstr "Calibração rejeitada. O desvio inicial é muito curto."
+msgstr ""
+"Calibração rejeitada. O desvio da estrela é muito curto. Verifique se há "
+"problemas de montagem, cabo ou folga."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:252
-#, fuzzy, kde-format
-#| msgid "%1 calibration failed!"
+#, kde-format
 msgid "Calibration Failed: Drift too short."
-msgstr "Falha na calibração de %1!"
+msgstr "Falha na calibração: desvio muito curto."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:339
-#, fuzzy, kde-format
-#| msgid "%1 calibration failed!"
+#, kde-format
 msgid "Calibration Failed: couldn't reach start."
-msgstr "Falha na calibração de %1!"
+msgstr "Falha na calibração: não foi possível iniciar."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:340
-#, fuzzy, kde-format
-#| msgid ""
-#| "GUIDE_RA: Scope cannot reach the start point after %1 iteration. Possible "
-#| "mount or drive problems..."
-#| msgid_plural ""
-#| "GUIDE_RA: Scope cannot reach the start point after %1 iterations. "
-#| "Possible mount or drive problems..."
+#, kde-format
 msgid ""
 "Guide RA: Scope cannot reach the start point after %1 iteration. Possible "
 "mount or backlash problems..."
@@ -23088,62 +23063,49 @@ msgid_plural ""
 "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible "
 "mount or backlash problems..."
 msgstr[0] ""
-"GUIA-AR: O telescópio não consegue atingir o ponto inicial após %1 iteração. "
-"Pode existir um problema de montagem ou condução..."
+"Guia AR: O telescópio não consegue atingir o ponto inicial após %1 iteração. "
+"Pode existir um problema de montagem ou folga..."
 msgstr[1] ""
-"GUIA-AR: O telescópio não consegue atingir o ponto inicial após %1 "
-"iterações. Pode existir um problema de montagem ou condução..."
+"Guia AR: O telescópio não consegue atingir o ponto inicial após %1 "
+"iterações. Pode existir um problema de montagem ou folga..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:359
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Backlash"
+#, kde-format
 msgid "DEC backlash..."
-msgstr "Folga"
+msgstr "Folga de DEC..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:372
 #: ekos/guide/internalguide/calibrationprocess.cpp:425
-#, fuzzy, kde-format
-#| msgid "GUIDE_DEC drifting forward..."
+#, kde-format
 msgid "DEC drifting forward..."
-msgstr "Deslocando a GUIA-DEC para frente..."
+msgstr "Deslocando a DEC para frente..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:391
 #: ekos/guide/internalguide/calibrationprocess.cpp:609
-#, fuzzy, kde-format
-#| msgid "%1 calibration failed!"
+#, kde-format
 msgid "Calibration Failed: drift too short."
-msgstr "Falha na calibração de %1!"
+msgstr "Falha na calibração: desvio muito curto."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:411
 #: ekos/guide/internalguide/calibrationprocess.cpp:428
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrating DEC Backlash"
-msgstr "Calibrando"
+msgstr "Calibrando folga do DEC"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:475
-#, fuzzy, kde-format
-#| msgid "GUIDE_DEC drifting reverse..."
+#, kde-format
 msgid "DEC drifting reverse..."
-msgstr "Deslocando a GUIA-DEC para trás..."
+msgstr "Deslocando a DEC para trás..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:485
 #: ekos/guide/internalguide/calibrationprocess.cpp:573
-#, fuzzy, kde-format
-#| msgid "%1 calibration failed!"
+#, kde-format
 msgid "Calibration Failed: couldn't reach start point."
-msgstr "Falha na calibração de %1!"
+msgstr "Falha na calibração: não foi possível atingir o ponto inicial."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:486
 #: ekos/guide/internalguide/calibrationprocess.cpp:575
-#, fuzzy, kde-format
-#| msgid ""
-#| "GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\n"
-#| "Possible mount or drive problems..."
-#| msgid_plural ""
-#| "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\n"
-#| "Possible mount or drive problems..."
+#, kde-format
 msgid ""
 "Guide DEC: Scope cannot reach the start point after %1 iteration.\n"
 "Possible mount or backlash problems..."
@@ -23151,23 +23113,23 @@ msgid_plural ""
 "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\n"
 "Possible mount or backlash problems..."
 msgstr[0] ""
-"GUIA-DEC: O telescópio não consegue atingir o ponto inicial após %1 "
+"Guia DEC: O telescópio não consegue atingir o ponto inicial após %1 "
 "iteração.\n"
-"Pode existir um problema de montagem ou condução..."
+"Pode existir um problema de montagem ou folga..."
 msgstr[1] ""
-"GUIA-AR: O telescópio não consegue atingir o ponto inicial após %1 "
+"Guia DEC: O telescópio não consegue atingir o ponto inicial após %1 "
 "iterações.\n"
-"Pode existir um problema de montagem ou condução..."
+"Pode existir um problema de montagem ou folga..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:595
 #, kde-format
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
-msgstr ""
+msgstr "Direção DEC invertida (AR-DEC agora é sistema CCW padrão)."
 
 #: ekos/guide/internalguide/gmath.cpp:511
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
-msgstr ""
+msgstr "Pulso longo limitado de %1ms a %2ms"
 
 #: ekos/guide/internalguide/internalguider.cpp:540
 #, kde-format
@@ -23175,12 +23137,13 @@ msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
+"Aviso: Falha no pontilhamento. O guia automático continuará conforme "
+"definido nas opções em caso de falha no pontilhamento."
 
 #: ekos/guide/internalguide/internalguider.cpp:610
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Warning: Manual Dithering failed."
-msgstr "Dithering..."
+msgstr "Aviso: Falha no pontilhamento manual."
 
 #: ekos/guide/internalguide/internalguider.cpp:679
 #, kde-format
@@ -23189,16 +23152,14 @@ msgstr ""
 "Faltam %1 informações. Defina os valores no painel de controle do INDI."
 
 #: ekos/guide/internalguide/internalguider.cpp:680
-#, fuzzy, kde-format
-#| msgid "Information"
+#, kde-format
 msgid "Missing Information"
-msgstr "Informações"
+msgstr "Informações faltando"
 
 #: ekos/guide/internalguide/internalguider.cpp:705
-#, fuzzy, kde-format
-#| msgid "Guiding calibration failed with errors"
+#, kde-format
 msgid "Guiding calibration restored"
-msgstr "A calibração da guia foi concluída com erros"
+msgstr "A calibração da guia foi restaurada"
 
 #: ekos/guide/internalguide/internalguider.cpp:757
 #, kde-format
@@ -23210,16 +23171,14 @@ msgstr ""
 "reduzir a duração do impulso."
 
 #: ekos/guide/internalguide/internalguider.cpp:760
-#, fuzzy, kde-format
-#| msgid "Guider:"
+#, kde-format
 msgid "Guide Star lost."
-msgstr "Guia:"
+msgstr "Estrela guia perdida:"
 
 #: ekos/guide/internalguide/internalguider.cpp:792
-#, fuzzy, kde-format
-#| msgid "Guiding calibration failed with errors"
+#, kde-format
 msgid "Guiding calibration failed"
-msgstr "A calibração da guia foi concluída com erros"
+msgstr "A calibração da guia falhou"
 
 #: ekos/guide/internalguide/internalguider.cpp:799
 #, kde-format
@@ -23227,10 +23186,9 @@ msgid "Guiding calibration completed successfully"
 msgstr "A calibração da guia foi concluída com sucesso"
 
 #: ekos/guide/internalguide/internalguider.cpp:1131
-#, fuzzy, kde-format
-#| msgid "Lost track of the guide star. Aborting guiding..."
+#, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
-msgstr "Perdeu-se o trajeto da estrela-guia. Cancelando o acompanhamento..."
+msgstr "Perdeu-se o trajeto da estrela guia. Procurando por estrelas guia..."
 
 #: ekos/guide/internalguide/internalguider.cpp:1133
 #, kde-format
@@ -23238,10 +23196,10 @@ msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Valor limiar Delta RMS excedido. Procurando estrelas-guia..."
 
 #: ekos/guide/internalguide/internalguider.cpp:1317
-#, fuzzy, kde-format
-#| msgid "Failed to set sub frame."
+#, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
-msgstr "Não foi possível definir a subimagem."
+msgstr ""
+"Não foi possível encontrar nenhuma estrela-guia adequada. Cancelando..."
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
 #: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:785
@@ -23252,82 +23210,71 @@ msgstr "Magnitude"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualPulse)
 #: ekos/guide/manualpulse.ui:14
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Manual Blue"
+#, kde-format
 msgid "Manual Pulse"
-msgstr "Azul manual"
+msgstr "Pulso manual"
 
 #. i18n: ectx: property (text), widget (QPushButton, northPulseB)
 #: ekos/guide/manualpulse.ui:37
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgid "North / DE+"
-msgstr "Norte"
+msgstr "Norte / DE+"
 
 #. i18n: ectx: property (text), widget (QPushButton, eastPulseB)
 #: ekos/guide/manualpulse.ui:46
 #, kde-format
 msgid "East / RA+"
-msgstr ""
+msgstr "Leste / AR+"
 
 #. i18n: ectx: property (text), widget (QPushButton, westPulseB)
 #: ekos/guide/manualpulse.ui:66
 #, kde-format
 msgid "West / RA-"
-msgstr ""
+msgstr "Oeste / AR-"
 
 #. i18n: ectx: property (text), widget (QPushButton, southPulseB)
 #: ekos/guide/manualpulse.ui:75
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "South"
+#, kde-format
 msgid "South / DE-"
-msgstr "Sul"
+msgstr "Sul / DE-"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_29)
 #: ekos/guide/manualpulse.ui:86 ekos/guide/opscalibration.ui:60
 #, kde-format
 msgid "Pulse:"
-msgstr "Impulso:"
+msgstr "Pulso:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, pulseDuration)
 #: ekos/guide/manualpulse.ui:93
-#, fuzzy, kde-format
-#| msgid "m"
+#, kde-format
 msgid " ms"
-msgstr "m"
+msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/manualpulse.ui:112
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "RA Offset\":"
-msgstr "Deslocamento X:"
+msgstr "Deslocamento AR\":"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/guide/manualpulse.ui:126
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "DE Offset\":"
-msgstr "Deslocamento X:"
+msgstr "Deslocamento DE\":"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
 #: ekos/guide/opscalibration.ui:57 ekos/guide/opscalibration.ui:83
-#, fuzzy, kde-format
-#| msgid "Initial declination:"
+#, kde-format
 msgid "Initial pulse size for calibration."
-msgstr "Declinação inicial:"
+msgstr "Tamanho de pulso inicial para calibração."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_AutoModeIterations)
 #: ekos/guide/opscalibration.ui:67
-#, fuzzy, kde-format
-#| msgid "Maximum number of iterations reached. Solver failed."
+#, kde-format
 msgid "Maximum number of iterations calibration should use per phase."
-msgstr "Foi atingido o número máximo de iterações. A resolução falhou."
+msgstr "Número máximo de iterações que a calibração deve usar por fase."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/guide/opscalibration.ui:102
@@ -23336,13 +23283,14 @@ msgid ""
 "Maximum number of iterations calibration should use per phase. It may use "
 "fewer (if max move is reached)."
 msgstr ""
+"Número máximo de iterações que a calibração deve usar por fase. Pode usar "
+"menos (se o movimento máximo for atingido)."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/opscalibration.ui:105
-#, fuzzy, kde-format
-#| msgid "Rotation:"
+#, kde-format
 msgid "Max Iterations:"
-msgstr "Rotação:"
+msgstr "Máximo de iterações:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label1)
 #: ekos/guide/opscalibration.ui:112
@@ -23352,20 +23300,22 @@ msgid ""
 "amount, it will finish the calibration phase.  It may move less if  max "
 "iterations is reached."
 msgstr ""
+"Número máximo de pixels que a calibração deve mover. Ao exceder esse valor, "
+"a fase de calibração será concluída. Pode mover menos se o máximo de "
+"iterações for atingido."
 
 #. i18n: ectx: property (text), widget (QLabel, label1)
 #: ekos/guide/opscalibration.ui:115
 #, kde-format
 msgid "Max move (px):"
-msgstr ""
+msgstr "Movimento máximo (px):"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationMaxMove)
 #. i18n: ectx: label, entry (CalibrationMaxMove), group (Guide)
 #: ekos/guide/opscalibration.ui:122 kstars.kcfg:2963
-#, fuzzy, kde-format
-#| msgid "Maximum number of iterations reached. Solver failed."
+#, kde-format
 msgid "Maximum number of pixels the calibration should move (approximate)."
-msgstr "Foi atingido o número máximo de iterações. A resolução falhou."
+msgstr "Número máximo de pixels que a calibração deve mover (aproximado)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TwoAxisEnabled)
 #: ekos/guide/opscalibration.ui:143
@@ -23390,31 +23340,27 @@ msgstr "Tamanho automático do quadrado"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opscalibration.ui:169
-#, fuzzy, kde-format
-#| msgid "reticle-X"
+#, kde-format
 msgid "Reticle"
-msgstr "retículo-X"
+msgstr "Retículo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_26)
 #: ekos/guide/opscalibration.ui:175
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "X position of the guide star"
-msgstr "Posição da caixa de informações de tempo."
+msgstr "Posição X da estrela guia"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_27)
 #: ekos/guide/opscalibration.ui:192
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "Y position of the guide star"
-msgstr "Posição da caixa de informações de tempo."
+msgstr "Posição Y da estrela guia"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/guide/opscalibration.ui:223
-#, fuzzy, kde-format
-#| msgid "Calibrate"
+#, kde-format
 msgid "Calibrated Values"
-msgstr "Calibrar"
+msgstr "Valores de calibração"
 
 #. i18n: ectx: property (text), widget (QLabel, ra_cal_degrees)
 #. i18n: ectx: property (text), widget (QLabel, ra_cal_mspp)
@@ -23425,37 +23371,36 @@ msgstr "Calibrar"
 #: kstarslite/qml/indi/INDIControlPanel.qml:96
 #, kde-format, kde-kuit-format
 msgid "xxxx"
-msgstr ""
+msgstr "xxxx"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/guide/opscalibration.ui:287 ekos/guide/opscalibration.ui:358
-#, fuzzy, kde-format
-#| msgid "arcsecs"
+#, kde-format
 msgid "ms/arcsec"
-msgstr "arco-segundos"
+msgstr "ms/arcseg"
 
 #. i18n: ectx: property (text), widget (QLabel, dec_cal_degrees_unit)
 #: ekos/guide/opscalibration.ui:332
 #, kde-format
 msgid "degrees (swapped)"
-msgstr ""
+msgstr "graus (trocados)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
 #: ekos/guide/opscalibration.ui:366
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Remove the effect of DEC backlash when calibrating "
 "guider.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+"<html><head/><body><p>Remove o efeito da folga do DEC ao calibrar a guia.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
 #: ekos/guide/opscalibration.ui:372
 #, kde-format
 msgid "Remove DEC backlash in guide calibration"
-msgstr ""
+msgstr "Remover folga DEC na calibração da guia"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:379
@@ -23466,12 +23411,16 @@ msgid ""
 "previously been done and the guide camera has not been rotated or re-"
 "installed.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Se marcado, sempre recalibre ao iniciar a guia. Isso "
+"geralmente não é necessário quando uma calibração de boa qualidade foi "
+"realizada anteriormente e a câmera guia não foi girada ou reinstalada.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:385
 #, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
-msgstr ""
+msgstr "Redefinir a calibração da guia após cada movimento de montagem"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
@@ -23482,27 +23431,31 @@ msgid ""
 "automatically determined from your mount. The \"Reset Guide on Slew\" option "
 "above must be unchecked for this to be attempted.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Armazena e tenta reutilizar calibrações. Isso só "
+"funciona em lados opostos do meridiano se o lado do píer puder ser "
+"determinado automaticamente a partir da sua montagem. A opção \"Redefinir "
+"guia ao girar\" acima deve estar desmarcada para que isso seja tentado.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
 #, kde-format
 msgid "Store and reuse guide calibration when possible."
-msgstr ""
+msgstr "Armazenar e reutilizar a guia de calibração quando possível."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:405
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Do not permit jobs to be scheduled or executed past "
-#| "this many minutes before dawn.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When re-using a calibration, reverse the DEC angle if "
 "the current pier side differs from the one at calibration. This only applies "
 "when re-using calibrations. The value you need is a property of your mount "
 "that should be researched. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Não permitir o agendamento ou execução de tarefas "
-"neste período, em minutos, antes do amanhecer.</p></body></html>"
+"<html><head/><body><p>Ao reutilizar uma calibração, inverta o ângulo DEC se "
+"o lado atual do píer for diferente daquele na calibração. Isso se aplica "
+"apenas ao reutilizar calibrações. O valor que você precisa é uma propriedade "
+"da sua montagem que deve ser pesquisada. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
@@ -23510,12 +23463,14 @@ msgstr ""
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
+"Inverta os pulsos da guia DEC ao mudar o lado do píer e reutilizar a "
+"calibração."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
 #, kde-format
 msgid "Number of pixels to move the guiding square in a random direction."
-msgstr ""
+msgstr "Número de pixels para mover o quadrado guia em uma direção aleatória."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherSettle)
@@ -23525,58 +23480,59 @@ msgstr ""
 msgid ""
 "After dither is successful, wait for this many seconds before proceeding."
 msgstr ""
+"Após o pontilhamento ser bem-sucedido, aguarde esse número de segundos antes "
+"de prosseguir."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/guide/opsdither.ui:65
-#, fuzzy, kde-format
-#| msgctxt "City in Washington USA"
-#| msgid "Seattle"
+#, kde-format
 msgid "Settle"
-msgstr "Seattle"
+msgstr "Assentamento"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/guide/opsdither.ui:82
-#, fuzzy, kde-format
-#| msgctxt "City in New Jersey USA"
-#| msgid "Freehold"
+#, kde-format
 msgid "PHD2 Dither Threshold"
-msgstr "Freehold"
+msgstr "Limite de pontilhamento PHD2"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherTimeout)
 #: ekos/guide/opsdither.ui:89
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum allowable distance for dithering to be "
 "considered settled (PHD2 only).</p></body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Distância máxima permitida para que o pontilhamento "
+"seja considerado resolvido (somente PHD2).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/opsdither.ui:99
 #, kde-format
 msgid "Move locked guiding square location after frame capture"
 msgstr ""
+"Mover a localização do quadrado de guia bloqueado após a captura do quadro"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherThreshold)
 #: ekos/guide/opsdither.ui:116
-#, fuzzy, kde-format
-#| msgid "The maximum solar distance for drawing comets."
+#, kde-format
 msgid ""
 "Maximum allowable distance for guiding to be considered settled (PHD2 only)."
-msgstr "A distância solar máxima para desenhar os cometas."
+msgstr ""
+"Distância máxima permitida para guiar para ser considerada estabelecida "
+"(somente PHD2)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/guide/opsdither.ui:140
 #, kde-format
 msgid "PHD2 Dither Timeout"
-msgstr ""
+msgstr "Tempo limite de pontilhamento PHD2"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherFrames)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_15)
 #: ekos/guide/opsdither.ui:157 ekos/guide/opsdither.ui:177
 #, kde-format
 msgid "Dither after this many captured frames in the CCD module"
-msgstr ""
+msgstr "Pontilhamento após muitos quadros capturados no módulo CCD"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/guide/opsdither.ui:180 fitsviewer/fitshistogram.cpp:431
@@ -23588,19 +23544,19 @@ msgstr "Frequência"
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherMaxIterations)
 #: ekos/guide/opsdither.ui:187 ekos/guide/opsdither.ui:197
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum dithering iteration attempts before giving up</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Tentativas máximas de iteração de pontilhamento antes "
+"de desistir</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/guide/opsdither.ui:190
-#, fuzzy, kde-format
-#| msgid "Rotation:"
+#, kde-format
 msgid "Max. Iterations"
-msgstr "Rotação:"
+msgstr "Máximo de iterações"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherWithOnePulse)
 #: ekos/guide/opsdither.ui:212
@@ -23612,45 +23568,50 @@ msgid ""
 "dither amount is random anyway. It is necessary when 2-D dither is required "
 "but guiding is only done in one axis.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Se marcado, a quantidade de pontilhamento é gerada "
+"aleatoriamente, pulsos são enviados, mas a quantidade de dithering de pixel "
+"resultante não é aplicada, então apenas um pulso de pontilhamento é enviado. "
+"Isso é mais rápido e recomendado, pois a quantidade de pontilhamento é "
+"aleatória de qualquer forma. É necessário quando o pontilhamento 2D é "
+"necessário, mas a orientação é feita apenas em um eixo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherWithOnePulse)
 #: ekos/guide/opsdither.ui:215
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Manual Red"
+#, kde-format
 msgid "One Pulse Dither"
-msgstr "Vermelho manual"
+msgstr "Pontilhamento de um pulso"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherFailAbortsAutoGuide)
 #: ekos/guide/opsdither.ui:222
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked, autoguiding is aborted when dithering "
 "fails. Otherwise, guiding resumes normally.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+"<html><head/><body><p>Se marcado, a guia automática será cancelada quando o "
+"pontilhamento falha. Caso contrário, a guia será retomada normalmente.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherFailAbortsAutoGuide)
 #: ekos/guide/opsdither.ui:225
 #, kde-format
 msgid "Abort Autoguide on failure"
-msgstr ""
+msgstr "Cancelar guia automática ao falhar"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherNoGuiding)
 #: ekos/guide/opsdither.ui:234
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Perform dithering when not guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+"<html><head/><body><p>Execute o pontilhamento quando não estiver guiando.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherNoGuiding)
 #: ekos/guide/opsdither.ui:237
 #, kde-format
 msgid "Non-Guide Dither Pulse"
-msgstr ""
+msgstr "Pulso de pontilhamento não guiado"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherNoGuidingPulse)
 #: ekos/guide/opsdither.ui:244
@@ -23658,13 +23619,14 @@ msgstr ""
 msgid ""
 "Pulse length in milliseconds to command mount motion in a random direction"
 msgstr ""
+"Comprimento do pulso em milissegundos para comandar o movimento da montagem "
+"em uma direção aleatória"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/guide/opsdither.ui:260
-#, fuzzy, kde-format
-#| msgid "m"
+#, kde-format
 msgid "ms"
-msgstr "m"
+msgstr "ms"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/opsgpg.ui:64
@@ -23688,12 +23650,32 @@ msgid ""
 "much <br/>better to set it yourself and uncheck <span style=\" font-"
 "weight:600; color:#8ae234;\">Estimate Period.</span></p><hr/></body></html>"
 msgstr ""
+"<html><head/><body><p><a href=\"https://ieeexplore.ieee.org/"
+"document/7105398\"><span style=\" text-decoration: underline; color:#007af4;"
+"\">O Guia de Processo Gaussiano</span></a>, <span style=\" font-style:italic;"
+"\">(c) 2014-2017 Max Planck Society</span>, é usado apenas para guiar AR. A "
+"maioria dos parâmetros <br/>pode permanecer em seus padrões. <span style=\" "
+"font-weight:600; color:#8ae234;\">Habilite GPG</span> com a caixa de seleção "
+"abaixo. Ele pode ser usado com todos os algoritmos de detecção de estrelas "
+"guia,<br/>mas foi testado na maioria e é recomendado com o <span style=\" "
+"font-weight:600; color:#8ae234;\">SEP MultiStar</span>. Ela combina uma "
+"correção reativa, cuja agressividade é controlada por <span style=\" font-"
+"weight:600; color:#8ae234;\">Controle de ganho</span> e <span style=\" font-"
+"weight:600; color:#8ae234;\">Movimento mínimo</span>, com uma correção "
+"preditiva, controlada por <span style=\" font-weight:600; color:#8ae234;"
+"\">Predição de ganho</span>.</p><p>O parâmetro mais importante é o <span "
+"style=\" font-weight:600; color:#8ae234;\">Período principal</span>. Se você "
+"puder determiná-lo para sua montagem, é muito <br/>melhor defini-lo você "
+"mesmo e desmarcar <span style=\" font-weight:600; color:#8ae234;\">Período "
+"estimado.</span></p><hr/></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpg0)
 #: ekos/guide/opsgpg.ui:81
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
 msgstr ""
+"Habilite o GPG na aba Guia, usando o menu suspenso do algoritmo de guiamento "
+"AR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -23707,12 +23689,18 @@ msgid ""
 "the worse periodic error of your mount, the greater the ratio between guide "
 "exposure and dark guiding interval."
 msgstr ""
+"Tempo máximo entre a emissão de correções preditivas durante a captura de "
+"imagens guia. Isso pode ser da ordem de 1 segundo ou menos, com a exposição "
+"guia muito mais longa. Os valores exatos e a proporção entre eles dependerão "
+"muito da sua montagem e das condições ambientais; mas, geralmente, quanto "
+"pior o erro periódico da sua montagem, maior será a proporção entre a "
+"exposição guia e o intervalo de guia no escuro."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/guide/opsgpg.ui:122
 #, kde-format
 msgid "Dark guiding interval"
-msgstr ""
+msgstr "Intervalo de guia no escuro"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgs0a)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGPeriod)
@@ -23721,27 +23709,27 @@ msgstr ""
 msgid ""
 "The length in seconds of the mount's major period (that's being corrected)."
 msgstr ""
+"A duração em segundos do período principal da montagem (que está sendo "
+"corrigido)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs0a)
 #: ekos/guide/opsgpg.ui:139
-#, fuzzy, kde-format
-#| msgid "Period:"
+#, kde-format
 msgid "Major Period"
-msgstr "Período:"
+msgstr "Período principal"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgs2a)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGpWeight)
 #: ekos/guide/opsgpg.ui:146 ekos/guide/opsgpg.ui:264
 #, kde-format
 msgid "The fraction of its prediction the GPG uses to move the mount."
-msgstr ""
+msgstr "A fração de sua previsão que o GPG usa para mover a montaria."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs2a)
 #: ekos/guide/opsgpg.ui:149
-#, fuzzy, kde-format
-#| msgid "Projection"
+#, kde-format
 msgid "Prediction Gain"
-msgstr "Projeção"
+msgstr "Predição de ganho"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgsDarkGuiding)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GPGDarkGuiding)
@@ -23749,12 +23737,13 @@ msgstr "Projeção"
 #, kde-format
 msgid "Enable predictive corrections during acquisition of guide camera images"
 msgstr ""
+"Habilitar correções preditivas durante a aquisição de imagens da câmera guia"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgsDarkGuiding)
 #: ekos/guide/opsgpg.ui:159
 #, kde-format
 msgid "Intra-frame dark guiding"
-msgstr ""
+msgstr "Guia escuro intra-quadro"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgs1a)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GPGEstimatePeriod)
@@ -23764,20 +23753,20 @@ msgid ""
 "If checked, the GPG estimates the mount's major period. Otherwise, it uses "
 "the entry above."
 msgstr ""
+"Se marcada, o GPG estima o período principal da montagem. Caso contrário, "
+"ele usa a entrada acima."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs1a)
 #: ekos/guide/opsgpg.ui:189
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Absolute Position"
+#, kde-format
 msgid "Estimate Period"
-msgstr "Posição absoluta"
+msgstr "Período estimado"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/guide/opsgpg.ui:208
 #, kde-format
 msgid "Uses RA \"Aggressiveness\" from Guide controls"
-msgstr ""
+msgstr "Usa AR \"Agressividade\" dos controles da Guia"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgs4a)
 #: ekos/guide/opsgpg.ui:222
@@ -23786,46 +23775,40 @@ msgid ""
 "The min-move parameter the GPG uses to move the mount when it uses its "
 "backoff proportional guider."
 msgstr ""
+"O parâmetro de movimento mínimo que o GPG usa para mover a montagem quando "
+"usa seu guiador proporcional de recuo."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs4a)
 #: ekos/guide/opsgpg.ui:225
-#, fuzzy, kde-format
-#| msgid "Minimum pulse"
+#, kde-format
 msgid "Minimum Move"
-msgstr "Impulso mínimo"
+msgstr "Movimento mínimo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/guide/opsgpg.ui:237
 #, kde-format
 msgid "Uses RA \"Min error\" from Guide controls"
-msgstr ""
+msgstr "Usa o \"Mínimo erro\" de AR dos controles do guiador"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgs3a)
 #: ekos/guide/opsgpg.ui:254
-#, fuzzy, kde-format
-#| msgid ""
-#| "Lost track of the guide star. Try increasing the square size and check "
-#| "the mount."
+#, kde-format
 msgid ""
 "The fraction of the guide-star drift that the GPG uses to move the mount."
 msgstr ""
-"Perdeu-se o trajeto da estrela-guia. Tente aumentar o tamanho do quadrado e "
-"verifique a montagem."
+"A fração do desvio da estrela guia que o GPG usa para mover a montagem."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs3a)
 #: ekos/guide/opsgpg.ui:257
-#, fuzzy, kde-format
-#| msgid "Control"
+#, kde-format
 msgid "Control Gain"
-msgstr "Controle"
+msgstr "Controle de ganho"
 
 #. i18n: ectx: property (title), widget (QGroupBox, expertGroupBox)
 #: ekos/guide/opsgpg.ui:308
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-format
 msgid "Expert Settings"
-msgstr "Configurações do simulador"
+msgstr "Configurações de especialista"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas0a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGSE0KLengthScale)
@@ -23850,13 +23833,29 @@ msgid ""
 "ul><p>This should probably be several\n"
 "          times larger than the major period.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Escala de comprimento do kernel de longo alcance em "
+"segundos.</p><p>Este \n"
+"          parâmetro considera o desvio de longo prazo no erro periódico, na "
+"escala de vários períodos principais. Isso pode ser devido a, por\n"
+"          exemplo:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent:\n"
+"          1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0;\n"
+"          text-indent:0px;\">Interação harmônica entre as engrenagens em "
+"todo o conjunto de engrenagens,</li><li style=\"\n"
+"          margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Mudança na\n"
+"          carga devido à gravidade,</li><li style=\" margin-top:12px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px;\n"
+"          -qt-block-indent:0; text-indent:0px;\">Variações térmicas.</li></"
+"ul><p>Isso provavelmente deve ser várias\n"
+"          vezes maior que o período principal.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas0a)
 #: ekos/guide/opsgpg.ui:345
-#, fuzzy, kde-format
-#| msgid "Logarithmic Scale"
+#, kde-format
 msgid "Long-range Length Scale"
-msgstr "Escala logarítmica"
+msgstr "Escala de comprimento de longo alcance"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas1a)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGSE0KSignalVariance)
@@ -23869,12 +23868,17 @@ msgid ""
 "variance means a larger change in error, on\n"
 "          average.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Variação do sinal do kernel de longo alcance.</"
+"p><p>Isso descreve o quanto\n"
+"          o erro muda ao longo da escala de tempo de longo prazo. Uma "
+"variância maior significa uma mudança maior no erro,\n"
+"          em média.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas1a)
 #: ekos/guide/opsgpg.ui:385
 #, kde-format
 msgid "Long-range Variance"
-msgstr ""
+msgstr "Variância de longo alcance"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas2a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGPKLengthScale)
@@ -23889,12 +23893,21 @@ msgid ""
 "          components; a shorter length-scale means it has more.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Escala de comprimento do Kernel Periódico, em segundos."
+"</p><p>Isso \n"
+"          descreve a rapidez com que o erro muda dentro de um único período. "
+"Pode ser considerado o comprimento de onda do componente de ruído\n"
+"          acima do qual o ruído se torna imprevisível. Uma escala de "
+"comprimento maior significa que o erro previsível tem menos componentes de "
+"alta frequência;\n"
+"          uma escala de comprimento menor significa que ele tem mais.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas2a)
 #: ekos/guide/opsgpg.ui:423
 #, kde-format
 msgid "Periodic Length Scale"
-msgstr ""
+msgstr "Escala de comprimento periódico"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas3a)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGPKSignalVariance)
@@ -23906,14 +23919,16 @@ msgid ""
 "          much the error changes during the periodic length scale.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Variação periódica do sinal do kernel.</p><p>Isso "
+"descreve o quanto\n"
+"          o erro muda durante a escala de comprimento periódico.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas3a)
 #: ekos/guide/opsgpg.ui:457
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Periodic Error"
+#, kde-format
 msgid "Periodic Variance"
-msgstr "Erro periódico"
+msgstr "Variância periódica"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas4a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGSE1KLengthScale)
@@ -23939,12 +23954,29 @@ msgid ""
 "indent:0; text-indent:0px;\">Swinging or dragging\n"
 "          cables.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Escala de comprimento do kernel de curto alcance em \n"
+"segundos.</p><p>Esta é uma medida da escala do ruído de curto prazo não "
+"periódico, causado por fatores como\n"
+":</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent:\n"
+"1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0;\n"
+"text-indent:0px;\">Grão na engrenagem,</li><li style=\" margin-top:12px; "
+"margin-bottom:12px;\n"
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Rajadas de vento,</li><li style=\"\n"
+"margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0;\n"
+"text-indent:0px;\">Vibrações estruturais, como passos ou tráfego,</li><li "
+"style=\" margin-top:12px;\n"
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Balanços ou arrastamento de cabos.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas4a)
 #: ekos/guide/opsgpg.ui:500
 #, kde-format
 msgid "Short-range Length Scale"
-msgstr ""
+msgstr "Escala de comprimento de curto alcance"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas5a)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGSE1KSignalVariance)
@@ -23956,26 +23988,28 @@ msgid ""
 "in the short-term length\n"
 "          scale.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Variação do sinal do kernel de curto alcance.</"
+"p><p><br/></p><p>Quanto o ruído de curto alcance muda na escala de "
+"comprimento de curto prazo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas5a)
 #: ekos/guide/opsgpg.ui:541
 #, kde-format
 msgid "Short-range Variance"
-msgstr ""
+msgstr "Variância de curto alcance"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas6a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGPointsForApproximation)
 #: ekos/guide/opsgpg.ui:573 ekos/guide/opsgpg.ui:583
 #, kde-format
 msgid "Number of points used in the Gaussian Process approximation"
-msgstr ""
+msgstr "Número de pontos usados ​​na aproximação do Processo Gaussiano"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas6a)
 #: ekos/guide/opsgpg.ui:576
-#, fuzzy, kde-format
-#| msgid "Clear all points"
+#, kde-format
 msgid "Approximation Points"
-msgstr "Limpar todos os pontos"
+msgstr "Pontos de aproximação"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas7a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGMinPeriodsForInference)
@@ -23985,12 +24019,15 @@ msgid ""
 "The min number of periods that must be sampled before prediction is fully "
 "used. Before that, it is mixed with the control/proportional guider."
 msgstr ""
+"O número mínimo de períodos que devem ser amostrados antes que a predição "
+"seja totalmente utilizada. Antes disso, ele é misturado ao guia de controle/"
+"proporcional."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas7a)
 #: ekos/guide/opsgpg.ui:606
 #, kde-format
 msgid "Num Periods for Inference"
-msgstr ""
+msgstr "Número de períodos para inferência"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas8a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGMinPeriodsForPeriodEstimate)
@@ -24000,38 +24037,37 @@ msgid ""
 "The min number of periods that must be sampled before GPG fully estimates "
 "the period."
 msgstr ""
+"O número mínimo de períodos que devem ser amostrados antes que o GPG estime "
+"completamente o período."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas8a)
 #: ekos/guide/opsgpg.ui:633
 #, kde-format
 msgid "Num Periods for Period Estimate"
-msgstr ""
+msgstr "Número de períodos para estimativa de período"
 
 #: ekos/guide/opsguide.cpp:52
-#, fuzzy, kde-format
-#| msgid "Profile Editor"
+#, kde-format
 msgid "Guide Options Profile Editor"
-msgstr "Editor de perfis"
+msgstr "Editor de perfil de opções da guia"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroup)
 #: ekos/guide/opsguide.ui:32
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Control Parameters"
-msgstr "Parâmetros de entrada"
+msgstr "Parâmetros de controle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:70
 #, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr ""
+msgstr "O algoritmo que calcula os pulsos de correção de guia."
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "Algoritmo"
+msgstr "Algoritmo de guia"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
@@ -24063,6 +24099,31 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Selecione os algoritmos de pulso guia para AR e DEC.</"
+"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Padrão</span>: O algoritmo "
+"de guia proporcional tradicional. Ele calcula um pulso para corrigir o "
+"desvio de guia calculado. O parâmetro de agressividade decide qual proporção "
+"do erro será corrigida. Erros menores que MinError não serão corrigidos. A "
+"resposta máxima limita a maior correção. O parâmetro de histerese não é "
+"utilizado.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Histerese</span>: A histerese é como o algoritmo "
+"padrão, mas pondera a correção anterior de acordo com o parâmetro de "
+"histerese.  O ganho integral não se aplica.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Linear</span>: Este é "
+"semelhante ao algoritmo PHD2 Lowpass2. Ele calcula os pulsos de erro com "
+"base em um breve histórico de erros recentes. Isso pode ser aplicável a "
+"montagens muito estáveis. Histerese e ganho integral não se aplicam.</li><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">GPG</span>: (Somente RA) O algoritmo GPG tenta prever erros "
+"periódicos e desvios lineares. Ele usa os parâmetros de agressividade, "
+"mínimo e máximo aqui, e mais parâmetros na aba GPG separada. Histerese e "
+"ganho integral não se aplicam.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
@@ -24094,33 +24155,53 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Selecione os algoritmos de pulso guia para AR.</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><spanstyle=\" font-weight:600;\">Padrão</span>: O algoritmo de guia "
+"proporcional tradicional. Ele calcula um pulso para corrigir o desvio de "
+"guia calculado. O parâmetro de agressividade decide qual proporção do erro é "
+"corrigida. Erros menores que MinError não serão corrigidos. A resposta "
+"máxima limita a maior correção. O parâmetro de histerese não é utilizado.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Histerese</span>: A histerese é como o algoritmo padrão, mas "
+"pondera a correção anterior de acordo com o parâmetro de histerese. O ganho "
+"integral não se aplica.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Linear</span>: Este é semelhante ao "
+"algoritmo PHD2 Lowpass2. Ele calcula os pulsos de erro com base em um breve "
+"histórico de erros recentes. Isso pode ser aplicável a montagens muito "
+"estáveis. Histerese e ganho integral não se aplicam.</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">GPG</span>: O "
+"algoritmo GPG tenta prever erros periódicos e desvios lineares. Ele usa os "
+"parâmetros de agressividade, mínimo e máximo aqui, e mais parâmetros na aba "
+"GPG separada. Histerese e ganho integral não se aplicam.</li></ul></body></"
+"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Santander"
+#, kde-format
 msgid "Standard"
-msgstr "Santander"
+msgstr "Padrão"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asterism"
+#, kde-format
 msgid "Hysteresis"
-msgstr "Asterismo"
+msgstr "Histerese"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "NGC"
+#, kde-format
 msgid "GPG"
-msgstr "NGC"
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
@@ -24146,6 +24227,25 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Selecione os algoritmos de pulso guia para DEC.</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Padrão</span>: O algoritmo de guia "
+"proporcional tradicional. Ele calcula um pulso para corrigir o desvio de "
+"guia calculado. O parâmetro de agressividade decide qual proporção do erro "
+"será corrigida. Erros menores que MinError não serão corrigidos. A resposta "
+"máxima limita a maior correção. O parâmetro de histerese não é usado.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Histerese</span>: A histerese é como o algoritmo padrão, mas "
+"pondera a correção anterior de acordo com o parâmetro de histerese. O ganho "
+"integral não se aplica.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Linear</span>: Este é semelhante ao "
+"algoritmo PHD2 Lowpass2. Ele calcula os pulsos de erro com baseem um breve "
+"histórico de erros recentes. Isso pode ser aplicável a montagens muito "
+"estáveis. Histerese e ganho integral não se aplicam.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAIntegralGain)
@@ -24160,6 +24260,11 @@ msgid ""
 "effect) and only use this if necessary. (Only applies to the standard "
 "algorithm.)</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Isso adiciona um termo de correção com base na média "
+"dos últimos 50 desvios do guia. Por exemplo, se o desvio for "
+"consistentemente negativo, isso tentará compensar. É melhor começar com 0,0 "
+"(sem efeito) e usar isso somente se necessário. (Aplica-se apenas ao "
+"algoritmo padrão.)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
@@ -33803,10 +33908,9 @@ msgid "Invalid port entry: %1"
 msgstr "Entrada de porta inválida: %1"
 
 #: indi/drivermanager.cpp:829
-#, fuzzy, kde-format
-#| msgid "Connect"
+#, kde-format
 msgid "Connected to INDI server"
-msgstr "Conectar"
+msgstr "Conectado ao servidor INDI"
 
 #: indi/drivermanager.cpp:1021 indi/indidriver.cpp:487
 #, fuzzy, kde-format, kde-kuit-format
@@ -73577,10 +73681,9 @@ msgid "Could not connect to the server"
 msgstr "Não foi possível conectar ao servidor INDI remoto!"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:235
-#, fuzzy, kde-kuit-format
-#| msgid "Connect"
+#, kde-kuit-format
 msgid "Connected to %1"
-msgstr "Conectar"
+msgstr "Conectado a %1"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:252
 #, fuzzy, kde-kuit-format
@@ -77557,13 +77660,13 @@ msgstr "Oeste/Este"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "White Balance Mode"
-msgstr "Modo do balanceamento de branco"
+msgstr "Modo do balanço de branco"
 
 #: libindi_strings.cpp:529
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "White Balance"
-msgstr "Balanceamento de branco"
+msgstr "Balanço de branco"
 
 #: libindi_strings.cpp:530
 #, kde-kuit-format

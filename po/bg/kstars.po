@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-12 01:57+0000\n"
-"PO-Revision-Date: 2025-04-11 22:27+0200\n"
+"PO-Revision-Date: 2025-09-14 15:11+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6214,12 +6214,13 @@ msgid "Mount does not support syncing."
 msgstr "Монтирането не поддържа синхронизиране."
 
 #: ekos/align/align.cpp:1049
-#, fuzzy, kde-format
-#| msgid "Effective telescope focal length is updated to %1 mm."
+#, kde-format
 msgid ""
 "Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
 "%4 Pitch: %5 FOVW: %6)."
-msgstr "Ефективното фокусно разстояние на телескопа се актуализира до %1 mm."
+msgstr ""
+"Ефективното фокусно разстояние на телескопа е актуализирано на %1 мм (FL: %2 "
+"Редуктор: %3 W: %4 Наклон: %5 FOVW: %6)."
 
 #: ekos/align/align.cpp:1097
 #, kde-format
@@ -10174,10 +10175,9 @@ msgstr "Скорост:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, pAHMountSpeed)
 #: ekos/align/polaralignmentassistant.ui:162
-#, fuzzy, kde-format
-#| msgid "Mount already parked."
+#, kde-format
 msgid "Mount slew speed"
-msgstr "Монтировката вече е паркиран."
+msgstr "Скорост на завъртване на монтировката"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:172
@@ -16475,25 +16475,21 @@ msgstr "<име на файл>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyPreviousRunB)
 #: ekos/capture/capturehistorynavigation.ui:65
-#, fuzzy, kde-format
-#| msgid "Previous Year"
+#, kde-format
 msgid "Previous autofocus run"
-msgstr "Предходна година"
+msgstr "Предишно автоматично фокусиране"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyFirstB)
 #: ekos/capture/capturehistorynavigation.ui:85
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Focus Frame"
+#, kde-format
 msgid "First focusing frame"
-msgstr "Фокусна рамка"
+msgstr "Първа рамка за фокусиране"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyBackwardB)
 #: ekos/capture/capturehistorynavigation.ui:105
-#, fuzzy, kde-format
-#| msgid "Previous Blink Image"
+#, kde-format
 msgid "Previous focusing frame"
-msgstr "Предишно Blink изображение"
+msgstr "Предишна рамка за фокусиране"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, iterOut)
 #: ekos/capture/capturehistorynavigation.ui:125
@@ -16505,21 +16501,19 @@ msgstr "<html><body><p>Итерация на фокуса.</p></body></html>"
 #: ekos/capture/capturehistorynavigation.ui:135
 #, kde-format
 msgid "Next focusing frame"
-msgstr ""
+msgstr "Следваща фокусираща рамка"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyLastB)
 #: ekos/capture/capturehistorynavigation.ui:155
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Last focusing frame"
-msgstr "Последно автофокусиране"
+msgstr "Последен кадър за фокусиране"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyNextRunB)
 #: ekos/capture/capturehistorynavigation.ui:175
-#, fuzzy, kde-format
-#| msgid "Last Autofocus"
+#, kde-format
 msgid "Next autofocus run"
-msgstr "Последно автофокусиране"
+msgstr "Следващо автоматично фокусиране"
 
 #: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
@@ -17893,40 +17887,34 @@ msgid "Light box on."
 msgstr "Включена е светлинната кутия."
 
 #: ekos/capture/sequencejobstate.cpp:892
-#, fuzzy, kde-format
-#| msgid "Dust cap error."
+#, kde-format
 msgid "Dust cap error occurred."
-msgstr "Грешка в противопраховата капачка."
+msgstr "Възникна грешка в капачката за прах."
 
 #: ekos/capture/sequencejobstate.cpp:896
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap is idle."
-msgstr "%1 Защитната капачка е онлайн."
+msgstr "Капачката за прах е в покой."
 
 #: ekos/capture/sequencejobstate.cpp:899
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust cap is parked."
-msgstr "Противопрахова капачка е паркирана."
+msgstr "Прахозащитната капачка е паркирана."
 
 #: ekos/capture/sequencejobstate.cpp:902
-#, fuzzy, kde-format
-#| msgid "%1 is parking..."
+#, kde-format
 msgid "Dust cap is parking..."
-msgstr "%1 се паркира..."
+msgstr "Прахозащитната капачка е паркирана..."
 
 #: ekos/capture/sequencejobstate.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 is unparking..."
+#, kde-format
 msgid "Dust cap is unparking..."
-msgstr "%1 се освобождава..."
+msgstr "Капачката за прах се откопчава..."
 
 #: ekos/capture/sequencejobstate.cpp:908
-#, fuzzy, kde-format
-#| msgid "Dust cap unparked."
+#, kde-format
 msgid "Dust cap status unknown."
-msgstr "Противопраховият капак е разпаркиран."
+msgstr "Състоянието на капачката за прах е неизвестно."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -18175,10 +18163,9 @@ msgid "Mosaic import failed."
 msgstr "Неуспешно импортиране на мозайка."
 
 #: ekos/ekoslive/nodemanager.cpp:227
-#, fuzzy, kde-format
-#| msgid "Error authentication with Ekos Live server: %1"
+#, kde-format
 msgid "Error authenticating with EkosLive server: %1"
-msgstr "Грешка при удостоверяване на автентичността със сървъра Ekos Live: %1"
+msgstr "Грешка при удостоверяване със сървъра EkosLive: %1"
 
 #: ekos/ekoslive/nodemanager.cpp:240
 #, kde-format
@@ -18673,7 +18660,7 @@ msgstr "Адаптивният фокус не може да премести ф
 #: ekos/focus/adaptivefocus.cpp:352
 #, kde-format
 msgid "Moving %1 offset outward"
-msgstr ""
+msgstr "Преместване на %1 отместване навън"
 
 #: ekos/focus/adaptivefocus.cpp:392
 #, kde-format
@@ -19115,13 +19102,12 @@ msgstr "Най-накрая намерен източник на темпера�
 #: ekos/focus/focus.cpp:1079
 #, kde-format
 msgid "Delete the corresponding focus frames?"
-msgstr ""
+msgstr "Да се изтрият ли съответните рамки за фокусиране?"
 
 #: ekos/focus/focus.cpp:1079
-#, fuzzy, kde-format
-#| msgid "Filter focus offset"
+#, kde-format
 msgid "Delete focus frames?"
-msgstr "Отместване на фокуса на филтъра:"
+msgstr "Изтриване на рамките за фокусиране?"
 
 #: ekos/focus/focus.cpp:1098
 #, kde-format
@@ -19215,10 +19201,9 @@ msgid "Star detection in progress, retrying in 1s..."
 msgstr "Извършва се разпознаване на звезди, повторен опит след 1секунда..."
 
 #: ekos/focus/focus.cpp:1690
-#, fuzzy, kde-format
-#| msgid "Star detection in progress, retrying in 1s..."
+#, kde-format
 msgid "Star detection still in progress, aborting..."
-msgstr "Извършва се разпознаване на звезди, повторен опит след 1секунда..."
+msgstr "Детекцията на звезди все още е в ход, прекъсва се..."
 
 #: ekos/focus/focus.cpp:1739
 #, kde-format
@@ -19747,31 +19732,28 @@ msgstr "Спиране на движението на фокусера"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:407
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Out. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Фокусиране навън.</p><p>За SCT това е обикновено е CW."
-"</p></body></html>"
+"<html><head/><body><p>Фокусиране извън фокуса. Използвайте клавишите Shift и "
+"Ctrl за ускоряване на движението. Факторите се конфигурират в механичните "
+"опции на фокусера.</p><p>За SCT това обикновено е CW.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:439
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus In. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CCW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Фокусиране навътре.</p><p>За SCT това е обикновено е "
-"CCW.</p></body></html>"
+"<html><head/><body><p>Фокусиране. Използвайте клавишите Shift и Ctrl за "
+"ускоряване на движението. Факторите се конфигурират в механичните опции на "
+"фокусера.</p><p>За SCT това обикновено е обратно на часовниковата стрелка.</"
+"p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
 #: ekos/focus/focus.ui:471
@@ -19905,10 +19887,9 @@ msgstr "V-крива"
 
 #. i18n: ectx: property (text), widget (QLabel, starsLabel)
 #: ekos/focus/focus.ui:1047
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "Stars:"
-msgstr "Звезди"
+msgstr "Звезди:"
 
 #. i18n: ectx: property (text), widget (QLabel, hfrLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
@@ -19919,10 +19900,9 @@ msgstr "HFR:"
 
 #. i18n: ectx: property (text), widget (QLabel, fwhmLabel)
 #: ekos/focus/focus.ui:1075
-#, fuzzy, kde-format
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM:"
-msgstr "FWHM"
+msgstr "FWHM:"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:1108
@@ -20709,30 +20689,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedupShiftLabel)
 #: ekos/focus/opsfocusmechanics.ui:514
-#, fuzzy, kde-format
-#| msgid "Red Shift:"
+#, kde-format
 msgid "Speedup (Shift)"
-msgstr "Изместване в червено:"
+msgstr "Ускорение (Shift)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedupCtrlLabel)
 #: ekos/focus/opsfocusmechanics.ui:521
-#, fuzzy, kde-format
-#| msgid "Speedup options"
+#, kde-format
 msgid "Speedup (Ctrl)"
-msgstr "Параметри за ускоряване"
+msgstr "Ускорение (Ctrl)"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupShift)
 #: ekos/focus/opsfocusmechanics.ui:528
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the shift key "
 "is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Брой звезди, намерени в последния кадър.</p></body></"
-"html>"
+"<html><head/><body><p>Множител за движения на ръчно фокусиране при натиснат "
+"клавиш Shift.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupShift)
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupCtrl)
@@ -20747,16 +20722,13 @@ msgstr " x"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupCtrl)
 #: ekos/focus/opsfocusmechanics.ui:547
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the control "
 "key is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Брой звезди, намерени в последния кадър.</p></body></"
-"html>"
+"<html><head/><body><p>Множител за движения на ръчно фокусиране при натискане "
+"на клавиша Control.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:34
@@ -21695,12 +21667,14 @@ msgid ""
 "Upper limit how many focus frames should be kept on disk. Set to -1 to allow "
 "arbitrary many files."
 msgstr ""
+"Горна граница за броя на фокусните рамки, които трябва да се съхраняват на "
+"диска. Задайте на -1, за да разрешите произволен брой файлове."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocussettings.ui:290
 #, kde-format
 msgid "Max. Stored Frames:"
-msgstr ""
+msgstr "Макс. съхранени кадри:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:315
@@ -22123,10 +22097,9 @@ msgid "PHD2: Dithering successful."
 msgstr "Успешно дитериране на PHD2."
 
 #: ekos/guide/externalguide/phd2.cpp:753
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding running."
-msgstr "PHD2: Гидирането вече в в ход."
+msgstr "PHD2: Насочващо бягане."
 
 #: ekos/guide/externalguide/phd2.cpp:764
 #, kde-format
@@ -22223,10 +22196,9 @@ msgid "PHD2: Guiding is already running."
 msgstr "PHD2: Гидирането вече в в ход."
 
 #: ekos/guide/externalguide/phd2.cpp:1397
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding is paused, resuming..."
-msgstr "PHD2: Гидирането вече в в ход."
+msgstr "PHD2: Насочването е на пауза, възобновява се..."
 
 #: ekos/guide/externalguide/phd2.cpp:1459
 #, kde-format
@@ -22375,10 +22347,9 @@ msgid "Guiding resumed."
 msgstr "Гидирането е подновено."
 
 #: ekos/guide/guide.cpp:1692
-#, fuzzy, kde-format
-#| msgid "Autoguiding resumed."
+#, kde-format
 msgid "Autoguiding running."
-msgstr "Автонасочването е възобновено."
+msgstr "Автонасочването работи."
 
 #: ekos/guide/guide.cpp:1704
 #, kde-format
@@ -22680,10 +22651,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideShowFrame)
 #: ekos/guide/guide.ui:543
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Toggle the Guider Image..."
-msgstr "Записване на изображения от гидирането"
+msgstr "Превключване на изображението на водача..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
@@ -22813,11 +22783,9 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1164
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Mario"
+#, kde-format
 msgid "Mount Drift"
-msgstr "Монте Марио"
+msgstr "Маунт Дрифт"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1199
@@ -23005,16 +22973,14 @@ msgstr ""
 "секунди.</p></body></html>"
 
 #: ekos/guide/guidedriftgraph.cpp:77
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr "изместване (дъг/сек)"
+msgstr "Дрифт на планината DE (дъгова секунда)"
 
 #: ekos/guide/guidedriftgraph.cpp:78
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr "изместване (дъг/сек)"
+msgstr "Дрифт на планината RA (дъгова секунда)"
 
 #: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
 #: ekos/guide/guidedriftgraph.cpp:723
@@ -23204,7 +23170,7 @@ msgstr "DEC посоката е обърната (RA-DEC вече е станд�
 #: ekos/guide/internalguide/gmath.cpp:511
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
-msgstr ""
+msgstr "Ограничен дълъг импулс от %1ms до %2ms"
 
 #: ekos/guide/internalguide/internalguider.cpp:540
 #, kde-format
@@ -23760,6 +23726,8 @@ msgstr ""
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
 msgstr ""
+"Активирайте GPG в раздела „Ръководство“, като използвате падащото меню "
+"„Алгоритъм за насочване на RA“."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -24147,47 +24115,19 @@ msgstr "Параметри за управление"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "The algorithm that tracks guide stars and determines the guide deviation."
+#, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr ""
-"Алгоритъмът, който проследява водещите звезди и определя отклонението на "
-"гидирането."
+msgstr "Алгоритъмът, който изчислява импулсите за корекция на насочването."
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "Алгоритъм"
+msgstr "Насочващ алгоритъм"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA and DEC.</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
@@ -24215,63 +24155,36 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Метод за откриване на звезди:</p><ul style=\"margin-"
-"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
+"<html><head/><body><p>Изберете алгоритмите за насочващи импулси за RA и DEC."
+"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Стандартен</span>: "
+"Традиционният пропорционален алгоритъм за насочване. Той изчислява импулс, "
+"за да коригира изчисленото отклонение на насочването. Параметърът за "
+"агресивност определя каква част от грешката се коригира. Грешки, по-малки от "
+"MinError, няма да бъдат коригирани. Максималният отговор ограничава най-"
+"голямата корекция. Параметърът хистерезис не се използва.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Хистерезис</span>: Хистерезисът е като стандартния алгоритъм, но претегля "
+"предишната корекция според параметъра хистерезис. Интегралното усилване не "
+"се прилага.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-"ефективен метод за откриване на източници, базиран на Source Extractor "
-"(Bertin and Arnouts 1996; Bertin 2016). Вижте <a href=\"https://joss.theoj."
-"org/papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-"underline; color:#0000ff;\">SEP: Source Extractor като библиотека</span></a> "
-"в списанието Journal of Open Source Software.</li><li style=\" margin-"
-"top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Центроид</"
-"span>: откриване на източника въз основа на оценка на масата на звездата "
-"около пиковете на сигнала.</li><li style=\" margin-top:12px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Градиент</span>: откриване "
-"на единичен източник на базата на филтъра на Собел. При първоначален анализ "
-"или анализ на цялото поле вместо този метод ще се използва SEP.</li><li "
-"style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Праг</span>: откриване на единичен източник въз основа на "
-"стойностите на пикселите. При първоначален анализ или анализ на цялото поле "
-"вместо този метод ще се използва SEP.</li></ul></body></html>"
+"style=\" font-weight:600;\">Линеен</span>: Това е подобно на алгоритъма PHD2 "
+"Lowpass2. Той изчислява импулсите на грешки въз основа на кратка история на "
+"скорошни грешки. Това може да е приложимо за много стабилни монтажи. "
+"Хистерезисът и интегралното усилване не се прилагат.</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">GPG</span>: "
+"(Само за RA) Алгоритъмът GPG се опитва да предвиди периодична грешка и "
+"линейни отклонения. Тук той използва параметрите за агресивност, минимум и "
+"максимум, а други параметри са в отделен раздел GPG. Хистерезисът и "
+"интегралното усилване не се прилагат.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated,  further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage Tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method.  Upon "
-#| "crossing to the other side of the V-Curve,  polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes.  The algorithm can be slow, but it is more "
-#| "resilient to backlash.  Start with the focuser positioned near good "
-#| "focus.  Set Initial Step Size and Max Travel for the desired sampling "
-#| "interval and range around start focus position.  Tolerance should be "
-#| "around 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Linear 1 Pass</span>: Starts like <span style="
-#| "\" font-weight:600;\">Linear</span> but after completing the 1st pass, "
-#| "instead of doing a 2nd pass,  moves straight to the minimum HFR value "
-#| "calculated.  Use Curve Fit of Hyperbola or Parabola.</li></ul></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
@@ -24299,83 +24212,58 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Изберете алгоритъм на процеса на фокусиране:</p><ul "
-"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Итеративен</span>: Премества фокусера "
-"на дискретни стъпки, първоначално определени от размера на стъпката. След "
-"като се изчисли наклонът на кривата, се изчисляват допълнителни размери на "
-"стъпките, за да се достигне оптимално решение. Алгоритъмът спира, когато "
-"измерената HFR е в рамките на процентно допустимо отклонение от минималната "
-"HFR, записана в процедурата.</li><li style=\" margin-top:0px; margin-"
+"<html><head/><body><p>Изберете алгоритмите за насочващи импулси за RA.</"
+"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Полиномен</span>: Започва с "
-"итеративен метод.  При преминаване към другата страна на V-образната крива "
-"се изчисляват коефициентите на полиномно напасване заедно с възможното "
-"минимално решение. Този алгоритъм може да бъде по-бърз от чисто итеративния "
-"подход при наличие на добър набор от данни.</li><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-weight:600;\">Линеен</span>: "
-"Образците се фокусират навътре по редовен начин, като се използват 2 "
-"обработки.  Алгоритъмът може да бъде бавен, но е по-устойчив на отклонения.  "
-"Започнете с фокусер, разположен близо до добър фокус.  Задайте Размер на "
-"началната стъпка и Максимално разстояние за желания интервал на вземане на "
-"проби и обхват около началната позиция на фокуса.  Толерансът трябва да е "
-"около 5 %.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"indent:0px;\"><span style=\" font-weight:600;\">Стандартен</span>: "
+"Традиционният пропорционален алгоритъм за насочване. Той изчислява импулс, "
+"за да коригира изчисленото отклонение на насочването. Параметърът за "
+"агресивност определя каква част от грешката се коригира. Грешки, по-малки от "
+"MinError, няма да бъдат коригирани. Максималният отговор ограничава най-"
+"голямата корекция. Параметърът хистерезис не се използва.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Хистерезис</span>: Хистерезисът е като стандартния алгоритъм, но претегля "
+"предишната корекция според параметъра хистерезис. Интегралното усилване не "
+"се прилага.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Първо линейно обработване</span>: Започва като "
-"<span style=\" font-weight:600;\">линейния метод,</span> но след приключване "
-"на първата обработка, вместо да направи втора, преминава направо към "
-"минималната изчислена стойност на HFR.  Използва се  крива на хипербола или "
-"парабола.</li></ul></body></html>"
+"style=\" font-weight:600;\">Линеен</span>: Това е подобно на алгоритъма PHD2 "
+"Lowpass2. Той изчислява импулсите на грешки въз основа на кратка история на "
+"скорошни грешки. Това може да е приложимо за много стабилни монтажи. "
+"Хистерезисът и интегралното усилване не се прилагат.</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">GPG</span>: "
+"Алгоритъмът GPG се опитва да предвиди периодична грешка и линейни "
+"отклонения. Той използва параметрите за агресивност, минимум и максимум тук, "
+"както и други параметри в отделния раздел GPG. Хистерезисът и интегралното "
+"усилване не се прилагат.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Santander"
+#, kde-format
 msgid "Standard"
-msgstr "Сантандер"
+msgstr "Стандартно"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asterism"
+#, kde-format
 msgid "Hysteresis"
-msgstr "Астеризъм"
+msgstr "Хистерезис"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
-#, fuzzy, kde-format
-#| msgid "GPS"
+#, kde-format
 msgid "GPG"
-msgstr "GPS"
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2. This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for DEC.</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -24397,34 +24285,33 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Изберете вида на кривата, която да се адаптира към "
-"данните:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
-"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-weight:600;\">Квадратични</span>: "
-"Използва се полиномно съответствие от 2 степен. В момента това е опцията по "
-"подразбиране и в момента е единствената опция за всички алгоритми, с "
-"изключение на единично линейно обработване .</li><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Хипербола</"
-"span>: Поставя хипербола на точките с данни. Понастоящем това е налично само "
-"за алгоритъма единично линейно обработване.</li><li style=\" margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-weight:600;\"> Парабола</span>: "
-"Поставя парабола върху точките с данни. Понастоящем това е налично само за "
-"линейния алгоритъма единично линейно обработване.</li></ul></body></html>"
+"<html><head/><body><p>Изберете алгоритмите за насочващи импулси за DEC.</"
+"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Стандартен</span>: "
+"Традиционният пропорционален алгоритъм за насочване. Той изчислява импулс, "
+"за да коригира изчисленото отклонение на насочването. Параметърът за "
+"агресивност определя каква част от грешката се коригира. Грешки, по-малки от "
+"MinError, няма да бъдат коригирани. Максималният отговор ограничава най-"
+"голямата корекция. Параметърът хистерезис не се използва.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Хистерезис</span>: Хистерезисът е като стандартния алгоритъм, но претегля "
+"предишната корекция според параметъра хистерезис. Интегралното усилване не "
+"се прилага.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Линеен</span>: Това е подобно на алгоритъма PHD2 "
+"Lowpass2. Той изчислява импулсите на грешки въз основа на кратка история на "
+"скорошни грешки. Това може да е приложимо за много стабилни монтажи. "
+"Хистерезисът и интегралното усилване не се прилагат.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAIntegralGain)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECIntegralGain)
 #: ekos/guide/opsguide.ui:150 ekos/guide/opsguide.ui:254
 #: ekos/guide/opsguide.ui:283
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This adds a correction term based on the average of "
-#| "the past 50 guide deviations. For example, if the deviation is "
-#| "consistently negative, this will attempt to compensate. Best to start "
-#| "with 0.0 (no effect) and only use this if necessary.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This adds a correction term based on the average of "
 "the past 50 guide deviations. For example, if the deviation is consistently "
@@ -24432,18 +24319,17 @@ msgid ""
 "effect) and only use this if necessary. (Only applies to the standard "
 "algorithm.)</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Това добавя корекционен срок, базиран на средната "
-"стойност на последните 50 отклонения в гидирането. Например, ако "
-"отклонението е постоянно отрицателно, ще се направи опит за компенсация. Най-"
-"добре е да започнете с 0,0 (без ефект) и да използвате това само при "
-"необходимост.</p></body></html>"
+"<html><head/><body><p>Това добавя корекционен член, базиран на средната "
+"стойност на последните 50 водещи отклонения. Например, ако отклонението е "
+"постоянно отрицателно, това ще се опита да компенсира. Най-добре е да "
+"започнете с 0,0 (без ефект) и да използвате това само ако е необходимо. "
+"(Отнася се само за стандартния алгоритъм.)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
-#, fuzzy, kde-format
-#| msgid "Integral gain (0-1.0)"
+#, kde-format
 msgid "Integral gain (deprecated)"
-msgstr "Интегрално усилване (0-1,0)"
+msgstr "Интегрално усилване (отхвърлено)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_11)
 #: ekos/guide/opsguide.ui:176
@@ -24506,39 +24392,33 @@ msgstr "Минимална грешка (дъгови секунди)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Размер на разделителя между плочките.</p></body></html>"
+"<html><head/><body><p>Задава параметъра хистерезис (важи само за алгоритъма "
+"за хистерезис).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Размер на разделителя между плочките.</p></body></html>"
+"<html><head/><body><p>Задава параметъра за хистерезис на RA (важи само за "
+"алгоритъма за хистерезис).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Размер на разделителя между плочките.</p></body></html>"
+"<html><head/><body><p>Задава параметъра за хистерезис на DEC (важи само за "
+"алгоритъма за хистерезис).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -24641,11 +24521,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:567
-#, fuzzy, kde-format
-#| msgid "Invent Multi-Star Guide Star (experimental)"
+#, kde-format
 msgid "Invent Multi-Star Guide Star"
-msgstr ""
-"Определяне на звезда при насочване чрез множество звезди (експериментално)"
+msgstr "Изобретете многозвездна пътеводна звезда"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:577
@@ -24709,10 +24587,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:640
-#, fuzzy, kde-format
-#| msgid "Star detection algorithm"
+#, kde-format
 msgid "Star Detection Algorithm"
-msgstr "Алгоритъм за откриване на звезда"
+msgstr "Алгоритъм за откриване на звезди"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_MinDetectionsSEPMultistar)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
@@ -24833,10 +24710,9 @@ msgid "Ekos"
 msgstr "Ekos"
 
 #: ekos/manager.cpp:983 ekos/manager.cpp:1008
-#, fuzzy, kde-format
-#| msgid "Ekos requires at least one CCD or Guider to operate."
+#, kde-format
 msgid "Ekos requires at least one Camera to operate."
-msgstr "Ekos изисква поне един CCD или гид модул, за да работи."
+msgstr "Ekos изисква поне една камера, за да работи."
 
 #: ekos/manager.cpp:1071
 #, kde-format
@@ -26617,10 +26493,9 @@ msgstr ""
 "%3<nobr/>"
 
 #: ekos/profileeditor.cpp:344
-#, fuzzy, kde-format
-#| msgid "Drivers:"
+#, kde-format
 msgid "Drivers"
-msgstr "Драйвери:"
+msgstr "Драйвери"
 
 #: ekos/profileeditor.cpp:703
 #, kde-format
@@ -26902,17 +26777,15 @@ msgstr "Избор на устройства"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, driverSearchEdit)
 #: ekos/profileeditor.ui:422
-#, fuzzy, kde-format
-#| msgid "Driver Restart"
+#, kde-format
 msgid "Driver Search"
-msgstr "Презареждане на драйвера"
+msgstr "Търсене на шофьор"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, profileSearchEdit)
 #: ekos/profileeditor.ui:546
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile Search"
-msgstr "Профил"
+msgstr "Търсене в профил"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteDriversLabel)
 #: ekos/profileeditor.ui:595
@@ -26971,26 +26844,22 @@ msgstr ""
 "изпълни скриптът след драйвера."
 
 #: ekos/profilescript.cpp:56
-#, fuzzy, kde-format
-#| msgid "Delay this many seconds before executing pre driver script."
+#, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
 msgstr ""
-"Забавяне с толкова секунди, преди изпълнение на предварителен скрипт на "
-"драйвера."
+"Забавяне с толкова секунди след изпълнение на скрипта за спиране на драйвера "
+"преди спиране на драйвера."
 
 #: ekos/profilescript.cpp:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
 msgstr ""
-"Забавяне с толкова секунди след стартирането на драйвера, преди да се "
-"изпълни скриптът след драйвера."
+"Забавяне с толкова секунди след спиране на драйвера, преди изпълнение на "
+"скрипта за спрян драйвер."
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -27003,16 +26872,14 @@ msgid "Select script to execute after starting the driver"
 msgstr "Изберете скрипт, който да се изпълни след стартиране на драйвера"
 
 #: ekos/profilescript.cpp:93
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "Изберете скрипт, който да се изпълни преди стартиране на драйвера"
+msgstr "Изберете скрипт, който да се изпълни преди спиране на драйвера"
 
 #: ekos/profilescript.cpp:102
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "Изберете скрипт, който да се изпълни след стартиране на драйвера"
+msgstr "Изберете скрипт, който да се изпълни след спиране на драйвера"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -27027,20 +26894,16 @@ msgid "Select Post Driver Startup Script"
 msgstr "Избор на скрипт за изпълнение след зареждане на драйвер"
 
 #: ekos/profilescript.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Pre Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "Избор на скрипт за изпълнение преди зареждане на драйвер"
+msgstr "Изберете скрипт за предварително спиране на драйвера"
 
 #: ekos/profilescript.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "Избор на скрипт за изпълнение след зареждане на драйвер"
+msgstr "Изберете скрипт за спиране на драйвера след публикуване"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -27048,34 +26911,29 @@ msgid "Profile Scripts Editor"
 msgstr "Редактор на скриптове за профили"
 
 #: ekos/profilescriptdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Driver:"
+#, kde-format
 msgid "Driver"
-msgstr "Драйвер:"
+msgstr "Драйвер"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "Рестартиране"
+msgstr "Преди старт"
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "Звезда за фокусиране"
+msgstr "Начало на публикацията"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
 msgid "Pre stop"
-msgstr ""
+msgstr "Предварително спиране"
 
 #: ekos/profilescriptdialog.cpp:35
-#, fuzzy, kde-format
-#| msgid "Ekos stopped."
+#, kde-format
 msgid "Post stop"
-msgstr "Ekos е спрян."
+msgstr "След стопиране"
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -28334,37 +28192,41 @@ msgstr "Избор на каталог на задания"
 msgid ""
 "Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
 msgstr ""
+"За съжаление, няма задачи, които да се изпълняват през следващите 3 дни. "
+"Всички задачи са завършени."
 
 #: ekos/scheduler/greedyscheduler.cpp:98
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
 msgstr ""
+"За съжаление, няма задачи, които да се изпълняват през следващите 3 дни. "
+"Задача %1 е завършена."
 
 #: ekos/scheduler/greedyscheduler.cpp:111
-#, fuzzy, kde-format
-#| msgid "Job '%1' is complete."
+#, kde-format
 msgid "(%1) Job %2: has completed."
-msgstr "Заданието \"%1\" е завършено."
+msgstr "(%1) Задача %2: е завършена."
 
 #: ekos/scheduler/greedyscheduler.cpp:115
 #, kde-format
 msgid "(%1) Job %2: cannot run because: %3"
-msgstr ""
+msgstr "(%1) Задание %2: не може да се изпълни, защото: %3"
 
 #: ekos/scheduler/greedyscheduler.cpp:119
 #, kde-format
 msgid "******************** Now ********************"
-msgstr ""
+msgstr "********************Сега ********************"
 
 #: ekos/scheduler/greedyscheduler.cpp:121
 #, kde-format
 msgid "*****************In %1 Hours******************"
-msgstr ""
+msgstr "*****************След %1 часа******************"
 
 #: ekos/scheduler/greedyscheduler.cpp:123
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days."
 msgstr ""
+"За съжаление, няма задачи, които да се изпълняват през следващите 3 дни."
 
 #: ekos/scheduler/greedyscheduler.cpp:217
 #, kde-format
@@ -28619,30 +28481,26 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:140
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "Предупреждение за времето"
+msgstr "Гратисен период за метеорологични условия"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/scheduler/opsoffsetsettings.ui:160
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Wait this many seconds after autofocus completes "
-#| "before resuming guiding.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds when detecting weather alert "
 "before starting observatory shutdown.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Изчакайте толкова секунди, след като автофокусът "
-"завърши, преди да възобновите гидирането.</p></body></html>"
+"<html><head/><body><p>Изчакайте толкова секунди, когато засечете "
+"предупреждение за метеорологично време, преди да започнете изключването на "
+"обсерваторията.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/opsoffsetsettings.ui:163
-#, fuzzy, kde-format
-#| msgid "Weather Alert"
+#, kde-format
 msgid "Weather Alert  Shutdown Delay:"
-msgstr "Предупреждение за времето"
+msgstr "Забавяне на изключването на предупреждението за времето:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -28697,21 +28555,15 @@ msgid "Follower"
 msgstr "Следване"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields.\n"
-#| "Shift click to view a job's altitude tonight."
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
 "Double click to edit a job with the left-hand fields.\n"
 msgstr ""
-"Списък с планирани задачи.\n"
-"Щракнете, за да изберете задача от списъка.\n"
-"Щракнете два пъти, за да я редактирате в полетата от ляво.\n"
-"Щракнете с Shift, за да видите надморската височина на задачата тази вечер."
+"Списък на планирани задачи.\n"
+"Кликнете, за да изберете задача от списъка.\n"
+"Щракнете двукратно, за да редактирате задачата с полетата отляво.\n"
 
 #: ekos/scheduler/scheduler.cpp:164
 #, kde-format
@@ -29224,10 +29076,9 @@ msgstr "Профил на устройство Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copyMountTargetB)
 #: ekos/scheduler/scheduler.ui:652
-#, fuzzy, kde-format
-#| msgid "Update coordinates to the current telescope position"
+#, kde-format
 msgid "Fill coordinates with current mount position."
-msgstr "Актуализиране на координатите до текущата позиция на телескопа"
+msgstr "Попълнете координатите с текущата позиция на монтиране."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, trainLabel)
 #: ekos/scheduler/scheduler.ui:667
@@ -29440,10 +29291,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAltitude)
 #: ekos/scheduler/scheduler.ui:1671
-#, fuzzy, kde-format
-#| msgid "Min. Altitude:"
+#, kde-format
 msgid "Min. Altitude: "
-msgstr "Минимална височина:"
+msgstr "Мин. надморска височина:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerAltitudeValue)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
@@ -29474,14 +29324,13 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonSeparation)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
 #: ekos/scheduler/scheduler.ui:1731 ekos/scheduler/scheduler.ui:1750
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The target must be at least this far from the moon.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Изчистване на хронологията на данните от сензора</p></"
-"body></html>"
+"<html><head/><body><p>Целта трябва да е поне на това разстояние от Луната.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonSeparation)
 #: ekos/scheduler/scheduler.ui:1734
@@ -29492,22 +29341,19 @@ msgstr "Луна мин. септ.:"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonAltitude)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonAltitudeMaxValue)
 #: ekos/scheduler/scheduler.ui:1782 ekos/scheduler/scheduler.ui:1792
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The moon must be lower than this altitude.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Показване на стойността на часовия ъгъл на "
-"монтировката.</p></body></html>"
+"<html><head/><body><p>Луната трябва да е по-ниско от тази височина.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonAltitude)
 #: ekos/scheduler/scheduler.ui:1785
-#, fuzzy, kde-format
-#| msgid "Moon  >: "
+#, kde-format
 msgid "Moon max alt:"
-msgstr "Луна  >: "
+msgstr "Максимална височина на Луната:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerTwilight)
 #: ekos/scheduler/scheduler.ui:1817
@@ -29524,10 +29370,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTwilight)
 #: ekos/scheduler/scheduler.ui:1820
-#, fuzzy, kde-format
-#| msgid "Twilight:"
+#, kde-format
 msgid "Twilight"
-msgstr "Полумрак:"
+msgstr "Здрач"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nightTime)
 #: ekos/scheduler/scheduler.ui:1833
@@ -29792,11 +29637,9 @@ msgid "Cap"
 msgstr "Капачка"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
-#, fuzzy, kde-format
-#| msgctxt "City in Georgia USA"
-#| msgid "Morrow"
+#, kde-format
 msgid "Tomorrow"
-msgstr "Мороу"
+msgstr "Утре"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
@@ -29804,10 +29647,9 @@ msgid "Day After Tomorrow"
 msgstr "Вдругиден"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:193
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Tonight"
-msgstr "Горе вдясно"
+msgstr "Тази вечер"
 
 #: ekos/scheduler/schedulerjob.cpp:339
 #, kde-format
@@ -29956,9 +29798,7 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:689
 #: ekos/scheduler/schedulerprocess.cpp:699
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
 msgstr "Внимание"
 
@@ -30619,10 +30459,9 @@ msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] Задание (%1) - Заснемането завърши"
 
 #: ekos/scheduler/schedulerprocess.cpp:4050
-#, fuzzy, kde-format
-#| msgid "Job '%1' focusing is complete."
+#, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
-msgstr "Фокусирането на задание \"%1\" е завършено."
+msgstr "Задача „%1“ фокусиране на влак „%2“ е завършена."
 
 #: ekos/scheduler/schedulerprocess.cpp:4062
 #, kde-format
@@ -30630,19 +30469,17 @@ msgid "Warning: job '%1' focusing failed."
 msgstr "Предупреждение: неуспешно фокусиране на задание \"%1\"."
 
 #: ekos/scheduler/schedulerprocess.cpp:4066
-#, fuzzy, kde-format
-#| msgid "Job '%1' is restarting its focusing procedure."
+#, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
-msgstr "Задачата \"%1\" рестартира процедурата за фокусиране."
+msgstr "Задание „%1“ за влак „%2“ рестартира процедурата си за фокусиране."
 
 #: ekos/scheduler/schedulerprocess.cpp:4071
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' focusing procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr ""
-"Предупреждение: процедурата за фокусиране на задание \"%1\" е неуспешна, "
-"маркирането е прекратено."
+"Предупреждение: задание „%1“ във влак „%2“ е неуспешно, маркирането е "
+"прекратено."
 
 #: ekos/scheduler/schedulerprocess.cpp:4104
 #, kde-format
@@ -30692,18 +30529,16 @@ msgstr ""
 "'%1'. Прекъсване."
 
 #: ekos/scheduler/schedulerprocess.cpp:4195
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Weather has improved. Resuming operations."
-msgstr "Паркирането на купола е неуспешно. Рестартиране на операцията..."
+msgstr "Метеорологичните условия  се подобриха. Възобновяване на дейността."
 
 #: ekos/scheduler/schedulerprocess.cpp:4205
-#, fuzzy, kde-format
-#| msgid "Weather alert detected. Starting soft shutdown procedure."
+#, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
-"Открито е предупреждение за лошо време. Стартиране на процедура за плавно "
-"изключване."
+"Открито е предупреждение за времето. Процедурата за меко изключване започва "
+"след %1 секунди."
 
 #: ekos/scheduler/schedulerprocess.cpp:4232
 #, kde-format
@@ -31299,18 +31134,17 @@ msgstr "KStars не намери никакви активни монтиров�
 #: fitsviewer/fitsmemmonitor.cpp:72 fitsviewer/fitsmemmonitor.cpp:202
 #, kde-format
 msgid "RAM: -- / --"
-msgstr ""
+msgstr "RAM: -- / --"
 
 #: fitsviewer/fitsmemmonitor.cpp:80
 #, kde-format
 msgid "Double-click to toggle text display"
-msgstr ""
+msgstr "Двукратно кликване за превключване на показването на текст"
 
 #: fitsviewer/fitsstretchui.cpp:241
-#, fuzzy, kde-format
-#| msgid "Stretch preview:"
+#, kde-format
 msgid "Stretch using preset %1"
-msgstr "Преглед на разтягане:"
+msgstr "Разтягане с помощта на предварително зададена настройка %1"
 
 #: fitsviewer/fitsstretchui.cpp:390
 #, kde-format
@@ -31318,6 +31152,9 @@ msgid ""
 "Cycle through stretch presets. Current stretch: preset %1. Click for preset "
 "%2."
 msgstr ""
+"Превъртане през предварително зададени настройки за разтягане. Текущо "
+"разтягане: предварително зададена настройка %1. Кликнете за предварително "
+"зададена настройка %2."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stretchButton)
 #: fitsviewer/fitsstretchui.ui:87
@@ -31380,7 +31217,7 @@ msgstr "Автоматично намиране на параметъра за �
 #: fitsviewer/fitsstretchui.ui:394
 #, kde-format
 msgid "Cycle through stretch presets."
-msgstr ""
+msgstr "Преминаване през предварително зададени настройки за разтягане."
 
 #: fitsviewer/fitstab.cpp:65
 #, kde-format
@@ -31408,10 +31245,9 @@ msgid "Catalog Objects"
 msgstr "Каталожни обекти"
 
 #: fitsviewer/fitstab.cpp:154
-#, fuzzy, kde-format
-#| msgid "%1 is tracking."
+#, kde-format
 msgid "Live Stacking"
-msgstr "%1 проследява."
+msgstr "Подреждане на живо"
 
 #: fitsviewer/fitstab.cpp:167
 #, kde-format
@@ -31549,38 +31385,33 @@ msgid "Object major coordinate size in arcsmins"
 msgstr "Размер на основната координата на обекта в дъгови минути"
 
 #: fitsviewer/fitstab.cpp:896
-#, fuzzy, kde-format
-#| msgid "RA"
+#, kde-format
 msgid "RAM"
-msgstr "RA"
+msgstr "RAM"
 
 #: fitsviewer/fitstab.cpp:1015
-#, fuzzy, kde-format
-#| msgid "KStars Data Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
-msgstr "Директорията с данни на KStars"
+msgstr "Директория на стека"
 
 #: fitsviewer/fitstab.cpp:1040
-#, fuzzy, kde-format
-#| msgid "Scheduler Alignment"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
-msgstr "Подравняване на планиране"
+msgstr "Изберете подравняване"
 
 #: fitsviewer/fitstab.cpp:1054
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Dark"
-msgstr "Основен тъмен кадър:"
+msgstr "Изберете Master Dark"
 
 #: fitsviewer/fitstab.cpp:1068
-#, fuzzy, kde-format
-#| msgid "Select Baud rate"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Master Flat"
-msgstr "Избор на скорост на предаване"
+msgstr "Изберете главен апартамент"
 
 #: fitsviewer/fitstab.cpp:1170 fitsviewer/fitstab.cpp:1174
 #, kde-format
@@ -31604,21 +31435,19 @@ msgid "File saved to %1"
 msgstr "Файлът е записан в %1"
 
 #: fitsviewer/fitstab.cpp:1303
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "Watching %1"
-msgstr "Зареждане %1"
+msgstr "Гледане на %1"
 
 #: fitsviewer/fitstab.cpp:1441
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "(%1) Watching %2"
-msgstr "Зареждане %1"
+msgstr "(%1) Гледане на %2"
 
 #: fitsviewer/fitstab.cpp:1443
 #, kde-format
 msgid "(%1) %2"
-msgstr ""
+msgstr "(%1) %2"
 
 #: fitsviewer/fitsview.cpp:654 fitsviewer/fitsview.cpp:665
 #, kde-format
@@ -31773,10 +31602,9 @@ msgid "Open/Blink Directory"
 msgstr "Отваряне на папка Blink"
 
 #: fitsviewer/fitsviewer.cpp:145 kstarsinit.cpp:164
-#, fuzzy, kde-format
-#| msgid "%1 is tracking."
+#, kde-format
 msgid "Live Stacker..."
-msgstr "%1 проследява."
+msgstr "Живо подреждащо устройство..."
 
 #: fitsviewer/fitsviewer.cpp:166
 #, kde-format
@@ -31854,11 +31682,10 @@ msgid "View 3D Graph"
 msgstr "Преглед на 3D графика"
 
 #: fitsviewer/fitsviewer.cpp:350 kstars.cpp:65
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker"
-msgstr "KStars Lite"
+msgstr "KStars Live Stacker"
 
 #: fitsviewer/fitsviewer.cpp:351
 #, kde-format
@@ -31867,15 +31694,14 @@ msgid "KStars FITS Viewer"
 msgstr "Програма за преглед на FITS за KStars."
 
 #: fitsviewer/fitsviewer.cpp:404
-#, fuzzy, kde-format
-#| msgid "Change Date..."
+#, kde-format
 msgid "Change Tab Title"
-msgstr "Промяна на дата..."
+msgstr "Промяна на заглавието на раздела"
 
 #: fitsviewer/fitsviewer.cpp:405
 #, kde-format
 msgid "New title for tab '%1':"
-msgstr ""
+msgstr "Ново заглавие за раздел „%1“:"
 
 #: fitsviewer/fitsviewer.cpp:493
 #, kde-format
@@ -31894,7 +31720,7 @@ msgstr[1] "HFR:%2, %1 stars."
 #: fitsviewer/fitsviewer.cpp:550
 #, kde-format
 msgid "Right click to change tab title."
-msgstr ""
+msgstr "Щракнете с десния бутон, за да промените заглавието на раздела."
 
 #: fitsviewer/fitsviewer.cpp:765
 #, kde-format
@@ -31949,29 +31775,25 @@ msgid "Open Image"
 msgstr "Отваряне на изображение"
 
 #: fitsviewer/fitsviewer.cpp:1124
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker (BETA)"
-msgstr "KStars Lite"
+msgstr "KStars Live Stacker (БЕТА)"
 
 #: fitsviewer/fitsviewer.cpp:1175
-#, fuzzy, kde-format
-#| msgid "Extracting..."
+#, kde-format
 msgid "Stacking..."
-msgstr "Извличане..."
+msgstr "Подреждане..."
 
 #: fitsviewer/fitsviewer.cpp:1183
-#, fuzzy, kde-format
-#| msgid "Syncing failed."
+#, kde-format
 msgid "Stacking Failed"
-msgstr "Синхронизирането е неуспешно."
+msgstr "Подреждането не беше успешно"
 
 #: fitsviewer/fitsviewer.cpp:1201
-#, fuzzy, kde-format
-#| msgid "Settling complete."
+#, kde-format
 msgid "Stacking Complete"
-msgstr "Установяването е завършено."
+msgstr "Подреждането е завършено"
 
 #: fitsviewer/fitsviewer.cpp:1475
 #, kde-format
@@ -32050,68 +31872,69 @@ msgstr "Обработка на %1..."
 
 #. i18n: ectx: property (text), widget (QLabel, masterFlatLabel)
 #: fitsviewer/livestacking.ui:86
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Flat:"
-msgstr "Основен тъмен кадър:"
+msgstr "Главен апартамент:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterFlatB)
 #: fitsviewer/livestacking.ui:102
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Flat</p></body></html>"
-msgstr "<html><head/><body><p>Редуктор или фактор на Барлоу.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Диалогов прозорец за избор на файлове за Master Flat</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
 #: fitsviewer/livestacking.ui:121
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Flat to use to calibrate lights.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Създайте нова оптична система</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Главната плоска повърхност, която се използва за "
+"калибриране на светлини.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDark)
 #: fitsviewer/livestacking.ui:162
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Създайте нова оптична система</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Майсторът на тъмнината, който да използвате за "
+"калибриране на светлините.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MasterDarkB)
 #: fitsviewer/livestacking.ui:181
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark</p></body></html>"
-msgstr "<html><head/><body><p>Редуктор или фактор на Барлоу.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Диалогов прозорец за избор на файлове за Master Dark</"
+"p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:203
-#, fuzzy, kde-format
-#| msgid "Tracking"
+#, kde-format
 msgid "Stacking"
-msgstr "Проследяване"
+msgstr "Подреждане"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #: fitsviewer/livestacking.ui:233
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of High Sigma to be used in pixel rejection.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Размер на подкадъра в пиксели.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Стойност на High Sigma, която ще се използва при "
+"потискане на пикселите.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
 #: fitsviewer/livestacking.ui:252
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Low Sigma:"
-msgstr "Сигма:"
+msgstr "Ниска сигма:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #: fitsviewer/livestacking.ui:274
@@ -32123,37 +31946,40 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Максималният брой подгрупи, съхранявани в паметта по "
+"време на обработка. Колкото по-голяма е стойността, толкова по-добро е "
+"качеството на процеса на наслагване, но за сметка на повече време за "
+"обработка и използвана памет.</p><p><br/></p><p>Процеси като сигма-клипинг "
+"ще използват този брой подгрупи, за да изчислят статистика, която да се "
+"използва за всички подгрупи.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:302
-#, fuzzy, kde-format
-#| msgid "Memory:"
+#, kde-format
 msgid "In Memory Subs:"
-msgstr "Памет:"
+msgstr "Подзаглавия в паметта:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:318
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "High Sigma:"
-msgstr "Сигма:"
+msgstr "Висока сигма:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #: fitsviewer/livestacking.ui:340
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Value of Low Sigma to be used in pixel rejection.</p></"
 "body></html>"
-msgstr "<html><head/><body><p>Размер на подкадъра в пиксели.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Стойност на ниската сигма, която ще се използва при "
+"потискане на пикселите.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:365
-#, fuzzy, kde-format
-#| msgid "DownSample"
+#, kde-format
 msgid "Downscale:"
-msgstr "Намаляване на дискретизацията"
+msgstr "Намаляване на мащаба:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:375
@@ -32164,12 +31990,17 @@ msgid ""
 "Subs and masters are downscaled 3x3.</p><p>- 4x4. Subs and masters are "
 "downscaled 4x4.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Намаляване на мащаба на изображенията:</p><p>- Няма. "
+"Не е приложено намаляване на мащаба.</p><p>- 2x2. Субфилмите и мастер "
+"изображенията са намалени 2x2.</p><p>- 3x3. Субфилмите и мастер "
+"изображенията са намалени 3x3.</p><p>- 4x4. Субфилмите и мастер "
+"изображенията са намалени 4x4.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:392
 #, kde-format
 msgid "3x3"
-msgstr ""
+msgstr "3x3"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:417
@@ -32180,27 +32011,28 @@ msgid ""
 "Num Stars. Frames are weighted by the number of stars detected in the frame."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Претегляне на кадрите:</p><p>- Равно. Всички кадри "
+"имат еднакво тегло.</p><p>- HFR. Кадрите се претеглят с 1 / Среден HFR.</"
+"p><p>- Брой звезди. Кадрите се претеглят по броя на звездите, открити в "
+"кадъра.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:421
-#, fuzzy, kde-format
-#| msgid "Equalize"
+#, kde-format
 msgid "Equal"
-msgstr "Изравняване"
+msgstr "Равен"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:445
-#, fuzzy, kde-format
-#| msgid "Image height:"
+#, kde-format
 msgid "Frame Weight:"
-msgstr "Височина на изображението:"
+msgstr "Тежест на рамката:"
 
 #. i18n: ectx: property (text), widget (QLabel, pixelRejLabel)
 #: fitsviewer/livestacking.ui:461
-#, fuzzy, kde-format
-#| msgid "Source Extraction Method"
+#, kde-format
 msgid "Rejection Method:"
-msgstr "Метод за извличане на източника"
+msgstr "Метод на отхвърляне:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:483
@@ -32211,34 +32043,38 @@ msgid ""
 "Winsorized Sigma Clipping. Winsorized version of sigma clipping</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Алгоритъм за отхвърляне на пиксели:</p><p>- Няма. Не "
+"се прилага отхвърляне.</p><p>- Сигма изрязване. Отдалечените пиксели се "
+"отхвърлят.</p><p>- Winsorized Sigma Clipping. Winsorized версия на сигма "
+"изрязването</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:498
-#, fuzzy, kde-format
-#| msgid "Show Clipping"
+#, kde-format
 msgid "Sigma Clipping"
-msgstr "Показване на изрязване"
+msgstr "Сигма Клипинг"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Rejection)
 #: fitsviewer/livestacking.ui:503
 #, kde-format
 msgid "Winsorized SC"
-msgstr ""
+msgstr "Winsorized SC"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:523
 #, kde-format
 msgid "Winsor Cutoff:"
-msgstr ""
+msgstr "Прекъсване на Уинсор:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #: fitsviewer/livestacking.ui:545
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Winsorization cutoff in units of sigma to be used in "
 "pixel rejection.</p></body></html>"
-msgstr "<html><head/><body><p>Оставащо време до завършване</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Гранична стойност на винсоризацията в сигма единици, "
+"която ще се използва при отхвърляне на пиксели.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, AlignMethod)
 #: fitsviewer/livestacking.ui:597
@@ -32249,58 +32085,55 @@ msgid ""
 "will be plate solved in order to align them prior to stacking.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Метод на подравняване:</p><p>- Няма. Не се извършва "
+"подравняване. Полезно за подреждане на тъмни и плоски елементи.</p><p>- "
+"Решаване на плоча. Субтитрите ще бъдат решени на плоча, за да се подравнят "
+"преди подреждане.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AlignMaster)
 #: fitsviewer/livestacking.ui:626
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the guide "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The sub to use as reference to align all other subs.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>\fПоказване на броя на звездите, открити в гид "
-"изображенията.</p></body></html>"
+"<html><head/><body><p>Подразделът, който да се използва като отправна точка "
+"за подравняване на всички останали подразделители.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AlignMasterB)
 #: fitsviewer/livestacking.ui:642
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Alignment Master</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Изчистване на хронологията на данните от сензора</p></"
-"body></html>"
+"<html><head/><body><p>Диалогов прозорец за избор на файл за Alignment "
+"Master</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:689
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Sub:"
-msgstr "Основен тъмен кадър:"
+msgstr "Главен подчинен:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #: fitsviewer/livestacking.ui:708
-#, fuzzy, kde-format
-#| msgid "Processing"
+#, kde-format
 msgid "Post Processing"
-msgstr "Обработване"
+msgstr "Пост обработка"
 
 #. i18n: ectx: property (text), widget (QLabel, DenoiseLabel)
 #: fitsviewer/livestacking.ui:744
-#, fuzzy, kde-format
-#| msgid "Denoise"
+#, kde-format
 msgid "Denoise Amount:"
-msgstr "Denoise"
+msgstr "Количество за премахване на шум:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, SharpenKernal)
 #: fitsviewer/livestacking.ui:766
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
-msgstr "<html><head/><body><p>Размер на стъпката:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Увеличаване на размера на ядрото.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
 #: fitsviewer/livestacking.ui:794
@@ -32311,196 +32144,185 @@ msgid ""
 "amount) of the original image.</p><p>Set to 0 to switch deconvolution off.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Количество на Винерова деконволюция, което да се "
+"приложи в диапазона от 0 до 1. Функцията смесва това количество от "
+"деконволюираното изображение с (1 - количество) от оригиналното изображение."
+"</p><p>Задайте на 0, за да изключите деконволюцията.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DenoiseAmt)
 #: fitsviewer/livestacking.ui:819
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of denoise to apply. Larger values apply more "
 "denoising.</p><p>Set to 0 to skip denoising</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Брой кадри за заснемане при всяка една позиция на "
-"фокусера.</p></body></html>"
+"<html><head/><body><p>Количество на шумопотискане, което да се приложи. По-"
+"големите стойности прилагат по-голямо шумопотискане.</p><p>Задайте на 0, за "
+"да пропуснете шумопотискането</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:848
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Vernal"
+#, kde-format
 msgid "Kernel:"
-msgstr "Вернал"
+msgstr "Ядро:"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:870
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "Sharpen Sigma:"
-msgstr "Сигма:"
+msgstr "Изостряне на Сигма:"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:892
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "PSF Sigma:"
-msgstr "Сигма:"
+msgstr "PSF Сигма:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
 #: fitsviewer/livestacking.ui:914
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
-msgstr "<html><head/><body><p>Размер на стъпката:</p></body></html>"
+msgstr "<html><head/><body><p>Изостряне на сигмата.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
 #: fitsviewer/livestacking.ui:939
 #, kde-format
 msgid "Sharpen Amount:"
-msgstr ""
+msgstr "Количество на заточване:"
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
 #: fitsviewer/livestacking.ui:961
 #, kde-format
 msgid "Deconv Amount:"
-msgstr ""
+msgstr "Сума на деконверсията:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
 #: fitsviewer/livestacking.ui:983
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>PSF Sigma to use for Deconvolution</p></body></html>"
-msgstr "<html><head/><body><p>Оставащо време до завършване</p></body></html>"
+msgstr "<html><head/><body><p>PSF Sigma за деконволюция</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
 #: fitsviewer/livestacking.ui:1008
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Amount of sharpening to apply. Larger values apply "
 "more sharpening.</p><p>Set to 0 to skip sharpening.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Налагане на стойност на температурата преди заснемане "
-"на изображение</p></body></html>"
+"<html><head/><body><p>Степен на изостряне, която да се приложи. По-големите "
+"стойности прилагат по-голямо изостряне.</p><p>Задайте на 0, за да пропуснете "
+"изострянето.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1037
 #, kde-format
 msgid "Rerun the post processing using the selected parameters"
-msgstr ""
+msgstr "Повторете последващата обработка, използвайки избраните параметри"
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:1040
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Reprocess"
-msgstr "Процес"
+msgstr "Преработка"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StackDirB)
 #: fitsviewer/livestacking.ui:1086
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
 msgstr ""
-"<html><head/><body><p>\fЪгъл на отместване на камерата</p></body></html>"
+"<html><head/><body><p>Диалогов прозорец за избор на директория в стека</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, stackLabel)
 #: fitsviewer/livestacking.ui:1111
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Stack Directory:"
-msgstr "Директория:"
+msgstr "Директория на стека:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:1133
 #, kde-format
 msgid "Number of subs successfully processed / failed / total"
-msgstr ""
+msgstr "Брой успешно обработени / неуспешно обработени / общо абонаменти"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1136 fitsviewer/livestacking.ui:1177
 #, kde-format
 msgid "0 / 0 / 0"
-msgstr ""
+msgstr "0 / 0 / 0"
 
 #. i18n: ectx: property (text), widget (QLabel, NumberSubsLabel)
 #: fitsviewer/livestacking.ui:1155
 #, kde-format
 msgid "Proc / Fail / Total:"
-msgstr ""
+msgstr "Процес / Неуспех / Общо:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:1174
 #, kde-format
 msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
 msgstr ""
+"Съотношение сигнал/шум Макс / Мин / Средна стойност на обработените суб"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Stack)
 #: fitsviewer/livestacking.ui:1196
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Remaining time to completion</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The directory containing files to stack</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Оставащо време до завършване</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Директорията, съдържаща файловете за подреждане</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:1218
 #, kde-format
 msgid "SNR Av / Min / Max:"
-msgstr ""
+msgstr "SNR средно / мин / макс:"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:1231
-#, fuzzy, kde-format
-#| msgid "Image Save"
+#, kde-format
 msgid "Image SNR:"
-msgstr "Записване на изображението"
+msgstr "SNR на изображението:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
 #: fitsviewer/livestacking.ui:1247
 #, kde-format
 msgid "The signal-to-noise ratio of the final image"
-msgstr ""
+msgstr "Съотношението сигнал/шум на крайното изображение"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, StartB)
 #: fitsviewer/livestacking.ui:1269
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Starts watching the Stack Directory and runs stacking."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Изчистване на последните данни от гидирането.</p></"
-"body></html>"
+"<html><head/><body><p>Започва наблюдение на директорията Stack и изпълнява "
+"натрупване.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:1285
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Memory monitor</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Монитор на паметта</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1304
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
-msgstr "<html><head/><body><p>Изтриване на текущия кадър</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Запазване на параметрите на Live Stacker</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, SaveB)
 #: fitsviewer/livestacking.ui:1307
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Settings"
+#, kde-format
 msgid "Save Settings"
-msgstr "Изображение"
+msgstr "Запазване на настройките"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -32598,18 +32420,19 @@ msgstr "Прозорец на FITS визуализатора отделен о�
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_liveStackerOwnProcess)
 #: fitsviewer/opsfits.ui:132
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Run Live Stacker as a separate process.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Изтриване на текущия кадър</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Стартирайте Live Stacker като отделен процес.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_liveStackerOwnProcess)
 #: fitsviewer/opsfits.ui:135
 #, kde-format
 msgid "Live Stacker own process"
-msgstr ""
+msgstr "Собствен процес на Live Stacker"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:144
@@ -32991,11 +32814,9 @@ msgstr "Ориентиране от изображение, като се изп
 
 #. i18n: ectx: property (text), widget (QPushButton, auxButton)
 #: fitsviewer/platesolve.ui:63
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Acrux"
+#, kde-format
 msgid "Aux"
-msgstr "Акрукс"
+msgstr "Допълнително"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:120
@@ -34082,28 +33903,24 @@ msgid "Modify Host"
 msgstr "Редактиране на сървър"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "Противопрахова капачка е паркирана."
+msgstr "Прахозащитната капачка е паркирана"
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "Противопрахова капачка е паркирана."
+msgstr "Прахозащитната капачка е откачена"
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "%1 is parking..."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "%1 се паркира..."
+msgstr "Прахозащитната капачка е в режим на паркиране"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "%1 is unparking..."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "%1 се освобождава..."
+msgstr "Прахозащитната капачка се отпаркира"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -34577,18 +34394,14 @@ msgid "Post driver startup script failed with exit code: %1"
 msgstr "Скриптът за стартиране на драйвера се провали с код за изход: %1"
 
 #: indi/servermanager.cpp:319
-#, fuzzy, kde-format
-#| msgid "Pre driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
-msgstr ""
-"Скриптът за предварително стартиране на драйвера се провали с код за изход: "
-"%1"
+msgstr "Скриптът преди изключване на драйвера е неуспешен с код за изход: %1"
 
 #: indi/servermanager.cpp:377
-#, fuzzy, kde-format
-#| msgid "Post driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
-msgstr "Скриптът за стартиране на драйвера се провали с код за изход: %1"
+msgstr "Скриптът след изключване на драйвера е неуспешен с код за изход: %1"
 
 #: indi/servermanager.cpp:521
 #, kde-format
@@ -35176,16 +34989,14 @@ msgid "KStars"
 msgstr "KStars"
 
 #: kstars.cpp:295
-#, fuzzy, kde-format
-#| msgid "KStars Lite"
+#, kde-format
 msgid "KStars Live Stacker"
-msgstr "KStars Lite"
+msgstr "KStars Live Stacker"
 
 #: kstars.cpp:296
-#, fuzzy, kde-format
-#| msgid "(c), The KStars Team"
+#, kde-format
 msgid "© 2025 KStars Team"
-msgstr "(c), Екипът на KStars"
+msgstr "© 2025 Екип на KStars"
 
 #: kstars.cpp:423 kstarsactions.cpp:1650 skymap.cpp:463
 #, kde-format
@@ -35464,7 +35275,7 @@ msgstr "Височина на основния прозорец, в пиксел
 #: kstars.kcfg:113
 #, kde-format
 msgid "Geometry of main window, encoded byte array"
-msgstr ""
+msgstr "Геометрия на главния прозорец, кодиран байтов масив"
 
 #. i18n: ectx: label, entry (RunStartupWizard), group (GUI)
 #: kstars.kcfg:117
@@ -35598,7 +35409,7 @@ msgstr "Височина на прозореца INDI"
 #: kstars.kcfg:179
 #, kde-format
 msgid "Geometry of INDI window, encoded byte array"
-msgstr ""
+msgstr "Геометрия на INDI прозореца, кодиран байтов масив"
 
 #. i18n: ectx: label, entry (useGeographicUpdate), group (indi)
 #: kstars.kcfg:183
@@ -35666,13 +35477,15 @@ msgstr "Показване на прозорец на INDI при стартир
 #: kstars.kcfg:210
 #, kde-format
 msgid "Limit for saved focus frames"
-msgstr ""
+msgstr "Ограничение за запазени рамки за фокусиране"
 
 #. i18n: ectx: whatsthis, entry (maxFocusFrameFiles), group (indi)
 #: kstars.kcfg:211
 #, kde-format
 msgid "Upper limit how many focus frames should be kept on disk."
 msgstr ""
+"Горна граница за броя на фокусните рамки, които трябва да се съхраняват на "
+"диска."
 
 #. i18n: ectx: label, entry (messageNotificationINDI), group (indi)
 #: kstars.kcfg:215
@@ -37682,14 +37495,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerMaxMoonAltitude), group (ImagingPlanner)
 #: kstars.kcfg:1014
-#, fuzzy, kde-format
-#| msgid "For imaging hours calculation, object must be above this altitude."
+#, kde-format
 msgid ""
 "For imaging hours calculation, the moon must have an altitude lower than "
 "this."
 msgstr ""
-"За изчисляване на часовете за изображения обектът трябва да е над тази "
-"надморска височина."
+"За изчисляване на часовете за заснемане, луната трябва да е на по-ниска "
+"височина от тази."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowPicked), group (ImagingPlanner)
 #: kstars.kcfg:1018
@@ -39274,7 +39086,7 @@ msgstr "Да се запазват ли неуспешните изображе�
 #: kstars.kcfg:1648
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup."
-msgstr ""
+msgstr "Не синхронизирайте с реално време при стартиране на Ekos."
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1652
@@ -39304,7 +39116,7 @@ msgstr "Регистриране на дейността на модула за 
 #: kstars.kcfg:1670
 #, kde-format
 msgid "Geometry of FITS window, encoded byte array"
-msgstr ""
+msgstr "Геометрия на FITS прозореца, кодиран байтов масив"
 
 #. i18n: ectx: label, entry (useFITSViewer), group (FITSViewer)
 #: kstars.kcfg:1674
@@ -39371,7 +39183,7 @@ msgstr ""
 #: kstars.kcfg:1701
 #, kde-format
 msgid "Run Live Stacker as a separate process"
-msgstr ""
+msgstr "Стартирайте Live Stacker като отделен процес"
 
 #. i18n: ectx: label, entry (AutoDebayer), group (FITSViewer)
 #: kstars.kcfg:1705
@@ -39521,97 +39333,97 @@ msgstr ""
 #: kstars.kcfg:1790
 #, kde-format
 msgid "Live Stacking master dark"
-msgstr ""
+msgstr "На живо Stacking майстор тъмен"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterFlat), group (FITSViewer)
 #: kstars.kcfg:1794
 #, kde-format
 msgid "Live Stacking master flat"
-msgstr ""
+msgstr "Live Stacking мастер плосък"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1798
 #, kde-format
 msgid "Live Stacking alignment method"
-msgstr ""
+msgstr "Метод за подравняване на живо"
 
 #. i18n: ectx: label, entry (fitsLSNumInMem), group (FITSViewer)
 #: kstars.kcfg:1802
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
-msgstr ""
+msgstr "Live Stacking - максимален брой абонати, които да се запазят в паметта"
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
 #: kstars.kcfg:1806
 #, kde-format
 msgid "Live Stacking downscale factor"
-msgstr ""
+msgstr "Коефициент на намаляване на мащаба на Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSWeighting), group (FITSViewer)
 #: kstars.kcfg:1810
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr ""
+msgstr "Под-тегло на Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSRejection), group (FITSViewer)
 #: kstars.kcfg:1814
 #, kde-format
 msgid "Live Stacking pixel rejection mechanism"
-msgstr ""
+msgstr "Механизъм за отхвърляне на пиксели в реално време"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1818
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
-msgstr ""
+msgstr "Критерии за отхвърляне на ниски сигма пиксели при Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1822
 #, kde-format
 msgid "Live Stacking high sigma pixel rejection criteria"
-msgstr ""
+msgstr "Критерии за отхвърляне на високи сигма пиксели при Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSWinsorCutoff), group (FITSViewer)
 #: kstars.kcfg:1826
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr ""
+msgstr "Live Stacking sigma clipping windzor cutoff"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1830
 #, kde-format
 msgid "Live Stacking deconvolution amount"
-msgstr ""
+msgstr "Количество деконволюция на Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSPSFSigma), group (FITSViewer)
 #: kstars.kcfg:1834
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr ""
+msgstr "Сигма на живо наслагване PSF, която да се приложи при деконволюция"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1838
 #, kde-format
 msgid "Live Stacking denoise amount"
-msgstr ""
+msgstr "Количество на потискане на шума при Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSSharpenAmt), group (FITSViewer)
 #: kstars.kcfg:1842
 #, kde-format
 msgid "Live Stacking sharpen amount"
-msgstr ""
+msgstr "Степен на изостряне при наслагване на живо"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1846
 #, kde-format
 msgid "Live Stacking sharpening kernel size"
-msgstr ""
+msgstr "Размер на ядрото, заточващ се на живо подреждане"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1850
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr ""
+msgstr "Live Stacking sharpening sigma"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1856
@@ -39659,7 +39471,7 @@ msgstr "Височина на прозореца Ekos"
 #: kstars.kcfg:1886
 #, kde-format
 msgid "Geometry of Ekos window, encoded byte array"
-msgstr ""
+msgstr "Геометрия на прозореца на Ekos, кодиран байтов масив"
 
 #. i18n: ectx: label, entry (EkosLeftIcons), group (Ekos)
 #: kstars.kcfg:1894
@@ -41634,6 +41446,8 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
+"Кой алгоритъм да се използва за изчисляване на водещите импулси за RA (0 "
+"стандартен, 1 хистерезис, 2 линеен, 3 GPG)."
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2939
@@ -41642,6 +41456,8 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
+"Кой алгоритъм да се използва за изчисляване на водещите импулси за DEC (0 "
+"стандартен, 1 хистерезис, 2 линеен)."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:2943
@@ -41698,10 +41514,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
 #: kstars.kcfg:2979
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display guiding frames."
-msgstr "Показване на наслагвания на изображения."
+msgstr "Показване на водещи рамки."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:2987
@@ -41956,6 +41771,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for RA internal guiding with that value."
 msgstr ""
+"Ако > 0, използвайте хистерезисен водач за вътрешно насочване на RA с тази "
+"стойност."
 
 #. i18n: ectx: label, entry (DECHysteresis), group (Guide)
 #: kstars.kcfg:3214
@@ -41963,6 +41780,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for DEC internal guiding with that value."
 msgstr ""
+"Ако > 0, използвайте хистерезисния насочващ механизъм за вътрешно насочване "
+"на DEC с тази стойност."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:3220
@@ -42330,12 +42149,11 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
 #: kstars.kcfg:3417
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job moon separation constraints."
+#, kde-format
 msgid "Default scheduler checkbox for job moon separation constraint."
 msgstr ""
-"Подразбиращо се поле за отметка на планиращия модул за ограниченията от "
-"лунното отстояние на обекта в задачата."
+"Отметка за квадратче за планиране по подразбиране за ограничение за "
+"разделяне на луната на заданието."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparationValue), group (Scheduler)
 #: kstars.kcfg:3421
@@ -42347,49 +42165,43 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitude), group (Scheduler)
 #: kstars.kcfg:3425
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job altitude constraints."
+#, kde-format
 msgid "Default scheduler checkbox for job moon altitude constraint."
 msgstr ""
-"Подразбиращо се поле за отметка на планиращия модул за ограниченията на "
-"височината на задачата."
+"Отметка за квадратче по подразбиране в планировчика за ограничение на "
+"височината на луната за задача."
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitudeMaxValue), group (Scheduler)
 #: kstars.kcfg:3429
-#, fuzzy, kde-format
-#| msgid "Default scheduler job altitude constraint."
+#, kde-format
 msgid "Default scheduler job moon altitude constraint."
-msgstr "Ограничение на височината на планираната задача по подразбиране."
+msgstr ""
+"Ограничение за височина на луната по подразбиране в задачата за планиране."
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3433
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job weather constraints."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
 msgstr ""
-"Поле за отметка по подразбиране в планиращия модул за метеорологични  "
-"ограничения в задачата."
+"Отметка за квадратче за планиране по подразбиране за ограничения върху "
+"времето."
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3437
-#, fuzzy, kde-format
-#| msgid "How many dithering attempts to undertake before giving up."
+#, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
 msgstr ""
-"Колко опити за дитериране трябва да се предприемат, преди да се откаже "
-"процедурата."
+"Изчакайте толкова минути, за да се подобри времето, преди да се откажете."
 
 #. i18n: ectx: label, entry (SchedulerWeatherShutdownDelay), group (Scheduler)
 #: kstars.kcfg:3441
-#, fuzzy, kde-format
-#| msgid ""
-#| "Wait this many seconds after guiding is resumed before starting capture."
+#, kde-format
 msgid ""
 "Wait this many seconds when detecting weather alert before starting "
 "observatory shutdown."
 msgstr ""
-"Изчакване на този брой секунди след възобновяване на гидирането, преди да "
-"започне заснемането."
+"Изчакайте толкова секунди, когато засечете предупреждение за времето, преди "
+"да започнете изключването на обсерваторията."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3445
@@ -71695,10 +71507,9 @@ msgid "Do Not Switch"
 msgstr "Без превключване"
 
 #: kstarsactions.cpp:1565
-#, fuzzy, kde-format
-#| msgid "Run clock in realtime"
+#, kde-format
 msgid "Stop running clock in realtime"
-msgstr "Пускане на часовника в реално време"
+msgstr "Спиране на часовника в реално време"
 
 #: kstarsactions.cpp:1583 kstarsinit.cpp:205
 #, kde-format
@@ -77623,7 +77434,7 @@ msgstr "Стартиране с часовник на пауза."
 #: main.cpp:236
 #, kde-format
 msgid "Run Live Stacker standalone mode"
-msgstr ""
+msgstr "Изпълняване на Live Stacker в самостоятелен режим"
 
 #: main.cpp:239
 #, kde-format
@@ -77935,10 +77746,9 @@ msgstr "Температура на фокусиране:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: oal/equipmentwriter.ui:1206
-#, fuzzy, kde-format
-#| msgid "Focus alt:"
+#, kde-format
 msgid "Focus DT:"
-msgstr "Височина на фокусиране:"
+msgstr "Фокус ДТ:"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, f_FocusDatetime)
 #: oal/equipmentwriter.ui:1250
@@ -79123,17 +78933,14 @@ msgstr "Разширени настройки за разработчици"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Welcome to StellarMate <span style=\" font-"
-#| "weight:600;\">Serial Port Assistant</span> tool.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Option replaced by the <span style=\" font-weight:600;"
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Добре дошли в инструмента <span style=\" font-"
-"weight:600;\">Помощник за сериен порт</span> на StellarMate.</p></body></"
-"html>"
+"<html><head/><body><p>Опцията е заменена с опцията <span style=\" font-"
+"weight:600;\">максимален кадър на фокуса</span> в опциите за фокус.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:48
@@ -79206,12 +79013,16 @@ msgid ""
 "This could cause issues for real imaging runs, but can be useful in "
 "reproducing/debugging issues.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Не синхронизирайте със системния часовник, когато Ekos "
+"е стартиран. Това може да причини проблеми при реални изпълнения на образи, "
+"но може да бъде полезно при възпроизвеждане/отстраняване на грешки.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSyncToRealTime)
 #: options/opsdeveloper.ui:88
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
-msgstr ""
+msgstr "Не синхронизирайте с реално време при стартиране на Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
@@ -84569,17 +84380,15 @@ msgid "Updating tables..."
 msgstr "Таблиците се актуализират..."
 
 #: tools/imagingplanner.cpp:2395
-#, fuzzy, kde-format
-#| msgid ""
-#| "You need to load a catalog to start using this tool.\n"
-#| "See Data -> Download New Data..."
+#, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "Use the Load Catalog button if you have one.\n"
 "See Data -> Download New Data if not..."
 msgstr ""
 "Трябва да заредите каталог, за да започнете да използвате този инструмент.\n"
-"Вижте Данни -> Изтегляне на нови данни..."
+"Използвайте бутона „Зареждане на каталог“, ако имате такъв.\n"
+"Вижте Данни -> Изтегляне на нови данни, ако не..."
 
 #: tools/imagingplanner.cpp:2398
 #, kde-format
@@ -84602,17 +84411,16 @@ msgid "Load a Catalog."
 msgstr "Зареждане на  каталог."
 
 #: tools/imagingplanner.cpp:2578
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
-msgstr "Потърсете в онлайн сайта на професор Селигман за NGC/IC изображения."
+msgstr "Потърсете изображения на NGC в онлайн сайта на професор Селигман."
 
 #: tools/imagingplanner.cpp:2583
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
-msgstr "Потърсете в онлайн сайта на професор Селигман за NGC/IC изображения."
+msgstr ""
+"Потърсете информация за IC обектите в онлайн сайта на професор Селигман."
 
 #: tools/imagingplanner.cpp:2589
 #, kde-format
@@ -84765,15 +84573,13 @@ msgid "%1/%2: Adding %3"
 msgstr "%1/%2: Добавяне на %3"
 
 #: tools/imagingplanner.cpp:3984
-#, fuzzy, kde-format
-#| msgid "OK"
+#, kde-format
 msgctxt "@action:button"
 msgid "OK"
 msgstr "Добре"
 
 #: tools/imagingplanner.cpp:3985
-#, fuzzy, kde-format
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Отказ"
@@ -84853,17 +84659,15 @@ msgstr "За разработване на каталог"
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelDownsampleButton)
 #: tools/imagingplanner.ui:463
-#, fuzzy, kde-format
-#| msgid "DownSample"
+#, kde-format
 msgid "Downsample"
-msgstr "Намаляване на дискретизацията"
+msgstr "Намаляване на семплирането"
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelCheckTargetsButton)
 #: tools/imagingplanner.ui:485
-#, fuzzy, kde-format
-#| msgid "Check URL"
+#, kde-format
 msgid "Check"
-msgstr "Проверка на адрес"
+msgstr "Проверка"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesEditButton)
 #: tools/imagingplanner.ui:707
@@ -84968,43 +84772,36 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minMoonLabel)
 #: tools/imagingplanner.ui:1122
-#, fuzzy, kde-format
-#| msgid "Moon"
+#, kde-format
 msgid "Moon:"
-msgstr "Луна"
+msgstr "Луна:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minMoon)
 #: tools/imagingplanner.ui:1141
-#, fuzzy, kde-format
-#| msgid ""
-#| "For imaging hours calculation, object must be at least this far from the "
-#| "moon."
+#, kde-format
 msgid ""
 "<html><head/><body><p>For imaging hours calculations object must be at least "
 "this far from the moon.</p></body></html>"
 msgstr ""
-"За изчисляване на часовете за изображения обектът трябва да е поне на това "
-"разстояние от Луната."
+"<html><head/><body><p>За изчисления на часовете за заснемане обектът трябва "
+"да е поне на това разстояние от Луната.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minMoon)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1144 tools/imagingplanner.ui:1163
-#, fuzzy, kde-format
-#| msgid "°C"
+#, kde-format
 msgid "°"
-msgstr "°C"
+msgstr "°"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1160
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>For imaging hours calculations the moon must be lower "
 "than this altitude.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Показване на стойността на часовия ъгъл на "
-"монтировката.</p></body></html>"
+"<html><head/><body><p>За изчисляване на часовете за заснемане, луната трябва "
+"да е по-ниско от тази височина.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel2)
@@ -85181,10 +84978,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, PlanetaryCB)
 #: tools/imagingplanner.ui:1872
-#, fuzzy, kde-format
-#| msgid "N"
+#, kde-format
 msgid "PN"
-msgstr "С"
+msgstr "PN"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, SupernovaRemnantCB)
 #: tools/imagingplanner.ui:1879
@@ -85228,10 +85024,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, DarkNebulaCB)
 #: tools/imagingplanner.ui:1917
-#, fuzzy, kde-format
-#| msgid "Dark Neb"
+#, kde-format
 msgid "DarkNeb"
-msgstr "Тъмно Неб"
+msgstr "DarkNeb"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OtherCB)
 #: tools/imagingplanner.ui:1924
@@ -85338,9 +85133,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:2021
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Load"
+#, kde-format
 msgid "Load"
 msgstr "Зареждане"
 
@@ -85429,10 +85222,9 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2102
-#, fuzzy, kde-format
-#| msgid "Keyword"
+#, kde-format
 msgid "keyword"
-msgstr "Ключова дума"
+msgstr "ключова дума"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)
@@ -85495,16 +85287,14 @@ msgstr "Независим прозорец"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Start solving immediately after taking a screenshot, "
 "instead of waiting for the Solve button to be pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Брой звезди, намерени в последния кадър.</p></body></"
-"html>"
+"<html><head/><body><p>Започване на решаването веднага след като се направи "
+"екранна снимка, вместо да се чака натискането на бутона „Решаване“.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:40
@@ -90341,13 +90131,6 @@ msgstr "Задаване на цвета на фона."
 
 #~ msgid "Min Moon º"
 #~ msgstr "Мин Луна º"
-
-#, fuzzy
-#~| msgid "Reverse DEC on pier-side change when reusing calibration."
-#~ msgid "Accept reversed DEC on pier-side change reusing calibration."
-#~ msgstr ""
-#~ "Обръщане на DEC при смяна на страната на статива при повторно използване "
-#~ "на калибриране."
 
 #~ msgid "Scheduler Offset"
 #~ msgstr "Отместване на планиране"
