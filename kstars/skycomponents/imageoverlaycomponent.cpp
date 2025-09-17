@@ -478,10 +478,27 @@ void ImageOverlayComponent::addTemporaryImageOverlay(const ImageOverlay &overlay
     m_TemporaryOverlays.push_back(overlay);
 }
 
+namespace
+{
+QSharedPointer<QImage> getQImage(const QString &filename)
+{
+    QSharedPointer<QImage> tempImage;
+    QString suffix = QFileInfo(filename).suffix().toLower();
+
+#ifdef HAVE_CFITSIO
+    if (suffix == "fits" || suffix == "fit" || suffix == "fts")
+        tempImage.reset(new QImage(FITSData::FITSToImage(filename)));
+    else
+#endif
+        tempImage.reset(new QImage(filename));
+    return tempImage;
+}
+}
+
 QImage *ImageOverlayComponent::loadImageFile (const QString &fullFilename, bool mirror)
 {
-    QSharedPointer<QImage> tempImage(new QImage(fullFilename));
-    if (tempImage.get() == nullptr) return nullptr;
+    QSharedPointer<QImage> tempImage = getQImage(fullFilename);
+    if (tempImage.get() == nullptr || tempImage->isNull()) return nullptr;
     int scaleWidth = std::min(tempImage->width(), Options::imageOverlayMaxDimension());
     QImage *processedImg = new QImage;
     if (mirror)
@@ -512,7 +529,6 @@ bool ImageOverlayComponent::loadImageFile()
     }
     return updatedSomething;
 }
-
 
 // Copies the info in m_Overlays into m_ImageOverlayTable UI.
 void ImageOverlayComponent::initializeGui()
@@ -785,7 +801,7 @@ void ImageOverlayComponent::startSolving()
             return;
         }
 
-        auto img = new QImage(filename);
+        auto img = getQImage(filename);
         m_Overlays[row].m_Width = img->width();
         m_Overlays[row].m_Height = img->height();
         solveImage(filename);
