@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-16 02:03+0000\n"
-"PO-Revision-Date: 2025-08-15 08:59+0300\n"
+"POT-Creation-Date: 2025-09-17 01:55+0000\n"
+"PO-Revision-Date: 2025-09-16 10:24+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -589,7 +589,7 @@ msgstr "Скасувати"
 #: ekos/scheduler/scheduler.cpp:1632 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Error"
 msgstr "Помилка"
@@ -10435,8 +10435,8 @@ msgstr "Захоплення"
 #: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:333
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
-#: skycomponents/imageoverlaycomponent.cpp:728
-#: skycomponents/imageoverlaycomponent.cpp:808
+#: skycomponents/imageoverlaycomponent.cpp:744
+#: skycomponents/imageoverlaycomponent.cpp:824
 #, kde-format
 msgid "Solve"
 msgstr "Розв'язати"
@@ -16330,8 +16330,8 @@ msgstr "Припинити захоплення"
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:472 ekos/focus/focusmodule.cpp:676
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
-#: skycomponents/imageoverlaycomponent.cpp:604
-#: skycomponents/imageoverlaycomponent.cpp:734
+#: skycomponents/imageoverlaycomponent.cpp:620
+#: skycomponents/imageoverlaycomponent.cpp:750
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
 #, kde-format
 msgid "Abort"
@@ -31256,10 +31256,9 @@ msgid "Cycle through stretch presets."
 msgstr "Циклічний перехід шаблонами розтягування."
 
 #: fitsviewer/fitstab.cpp:37
-#, fuzzy, kde-format
-#| msgid "Stopping"
+#, kde-format
 msgid "Stopping..."
-msgstr "Зупиняємо"
+msgstr "Зупиняємо…"
 
 #: fitsviewer/fitstab.cpp:68
 #, kde-format
@@ -31484,35 +31483,29 @@ msgid "Watching %1"
 msgstr "Спостереження за %1"
 
 #: fitsviewer/fitstab.cpp:1452
-#, fuzzy, kde-format
-#| msgid "Watching %1"
+#, kde-format
 msgid "Stopped Watching (%1)"
-msgstr "Спостереження за %1"
+msgstr "Припинено спостереження (%1)"
 
 #: fitsviewer/fitstab.cpp:1453
-#, fuzzy, kde-format
-#| msgid "(%1) Watching %2"
+#, kde-format
 msgid "(%1) Watching"
-msgstr "(%1) Спостереження за %2"
+msgstr "(%1) Спостереження"
 
 #: fitsviewer/fitstab.cpp:1454 fitsviewer/fitstab.cpp:1460
-#, fuzzy, kde-format
-#| msgctxt "integrated flux value"
-#| msgid "%1 %2"
+#, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
 #: fitsviewer/fitstab.cpp:1458
-#, fuzzy, kde-format
-#| msgid "Stopped"
+#, kde-format
 msgid "Stopped (%1)"
-msgstr "Зупинено"
+msgstr "Зупинено (%1)"
 
 #: fitsviewer/fitstab.cpp:1459
-#, fuzzy, kde-format
-#| msgid "(%1) %2"
+#, kde-format
 msgid "(%1)"
-msgstr "(%1) %2"
+msgstr "(%1)"
 
 #: fitsviewer/fitsview.cpp:658 fitsviewer/fitsview.cpp:669
 #, kde-format
@@ -31865,10 +31858,9 @@ msgid "Stacking Complete"
 msgstr "Стосування завершено"
 
 #: fitsviewer/fitsviewer.cpp:1213
-#, fuzzy, kde-format
-#| msgid "Stacking Complete"
+#, kde-format
 msgid "Stacking Stopped"
-msgstr "Стосування завершено"
+msgstr "Стосування зупинено"
 
 #: fitsviewer/fitsviewer.cpp:1488
 #, kde-format
@@ -31997,13 +31989,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:250
-#, fuzzy, kde-format
-#| msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Signal-to-noise ratio Max / Min / Mean of the "
 "processed subs</p></body></html>"
 msgstr ""
-"Макс./Мін./Сер. співвідношення сигналу до шуму для оброблених підкадрів"
+"<html><head/><body><p>Макс./Мін./Сер. співвідношення сигналу до шуму для "
+"оброблених підкадрів</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:253
@@ -32050,18 +32042,19 @@ msgstr "Зберегти параметри"
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:369
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Memory monitor</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Memory monitor. Double click to toggle text on / off.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Спостереження за пам'яттю</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Спостереження за пам'яттю. Двічі клацніть, щоб "
+"увімкнути або вимкнути текст.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, GeneralProcMinimized)
 #: fitsviewer/livestacking.ui:379
 #, kde-format
 msgid "Configure general options in this section."
-msgstr ""
+msgstr "Налаштуйте загальні параметри у цьому розділі."
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, PostProcMinimized)
@@ -32113,10 +32106,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:571
-#, fuzzy, kde-format
-#| msgid "Kernel:"
+#, kde-format
 msgid "  Kernel:"
-msgstr "Ядро:"
+msgstr "  Ядро:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenSigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
@@ -32143,10 +32135,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:621
-#, fuzzy, kde-format
-#| msgid "PSF Sigma:"
+#, kde-format
 msgid "  PSF Sigma:"
-msgstr "σ PSF:"
+msgstr "   σ PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
@@ -32188,7 +32179,7 @@ msgstr "Переобробка"
 #: fitsviewer/livestacking.ui:785
 #, kde-format
 msgid "Configure post-processing options in this section."
-msgstr ""
+msgstr "Налаштуйте параметри остаточної обробки у цьому розділі."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, masterFlatLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
@@ -32240,7 +32231,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:981
 #, kde-format
 msgid "Configure calibration options in this section."
-msgstr ""
+msgstr "Налаштуйте параметри калібрування у цьому розділі."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, AlignMethod)
 #. i18n: ectx: property (toolTip), widget (QLabel, alignLabel)
@@ -32279,14 +32270,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:1149
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The sub to use as reference to align all other subs."
-#| "</p></body></html>"
+#, kde-format
 msgid "The sub to use as reference to align all other subs."
-msgstr ""
-"<html><head/><body><p>Підкадр — еталон для вирівнювання інших підкадрів.</"
-"p></body></html>"
+msgstr "Підкадр — еталон для вирівнювання інших підкадрів."
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:1152
@@ -32298,7 +32284,7 @@ msgstr "Основний підкадр:"
 #: fitsviewer/livestacking.ui:1165
 #, kde-format
 msgid "Configure alignment options in this section."
-msgstr ""
+msgstr "Налаштуйте параметри вирівнювання у цьому розділі."
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:1208
@@ -32355,13 +32341,7 @@ msgstr "Нижня σ:"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #. i18n: ectx: property (toolTip), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:1297 fitsviewer/livestacking.ui:1325
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The maximum number of subs held in memory whilst "
-#| "processing. The larger the value, the better the quality of the stacking "
-#| "process, but at the cost of more processing time and memory used.</"
-#| "p><p><br/></p><p>Processes such as sigma clipping will use this many subs "
-#| "to calculate statistics to use on all subs.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The maximum number of subs held in memory whilst "
 "processing. The larger the value, the better the quality of the stacking "
@@ -32371,10 +32351,10 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Максимальна кількість підкадрів, які слід утримувати у "
 "пам'яті під час обробки. Більше значення — краща якість процедури "
-"стосування, але більший час обробки та більше використання пам'яті.</"
-"p><p><br/></p><p>У процедурах, зокрема сигма-обрізанні, буде використано цю "
-"кількість підкадрів для обчислення статистичних даних, які буде використано "
-"для усіх підкадрів.</p></body></html>"
+"стосування, але більший час обробки та більше використання пам'яті.</p><p>У "
+"процедурах, зокрема сигма-обрізанні, буде використано цю кількість підкадрів "
+"для обчислення статистичних даних, які буде використано для усіх підкадрів.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:1328
@@ -32406,10 +32386,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:1403
-#, fuzzy, kde-format
-#| msgid "Downscale:"
+#, kde-format
 msgid "  Downscale: "
-msgstr "Зменшення масштабу:"
+msgstr "  Зменшення масштабу: "
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:1442
@@ -32440,10 +32419,9 @@ msgstr "Рівномірна"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:1504
-#, fuzzy, kde-format
-#| msgid "Frame Weight:"
+#, kde-format
 msgid "  Frame Weight: "
-msgstr "Вага кадру:"
+msgstr "  Вага кадру: "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, pixelRejLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
@@ -32491,16 +32469,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:1594
-#, fuzzy, kde-format
-#| msgid "Winsor Cutoff:"
+#, kde-format
 msgid "  Winsor Cutoff: "
-msgstr "Обрізання Вінзора:"
+msgstr "  Обрізання Вінзора: "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1632
 #, kde-format
 msgid "Configure stacking options in this section."
-msgstr ""
+msgstr "Налаштуйте параметри стосування у цьому розділі."
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -39411,36 +39388,37 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideGeneral), group (FITSViewer)
 #: kstars.kcfg:1790
-#, fuzzy, kde-format
-#| msgid "Live Stacking denoise amount"
+#, kde-format
 msgid "Live Stacking Minimise General Options Widget"
-msgstr "Величина усування шуму для інтерактивного стосування"
+msgstr "Віджет загальних параметрів мінімізації при інтерактивному стосуванні"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideCalibration), group (FITSViewer)
 #: kstars.kcfg:1794
 #, kde-format
 msgid "Live Stacking Minimise Calibration Options Widget"
 msgstr ""
+"Віджет параметрів калібрування мінімізації при інтерактивному стосуванні"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideAlignment), group (FITSViewer)
 #: kstars.kcfg:1798
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Live Stacking Minimise Alignment Options Widget"
-msgstr "Спосіб вирівнювання при інтерактивному стосуванні"
+msgstr ""
+"Віджет параметрів вирівнювання мінімізації при інтерактивному стосуванні"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideStacking), group (FITSViewer)
 #: kstars.kcfg:1802
-#, fuzzy, kde-format
-#| msgid "Live Stacking denoise amount"
+#, kde-format
 msgid "Live Stacking Minimise Stacking Options Widget"
-msgstr "Величина усування шуму для інтерактивного стосування"
+msgstr "Віджет параметрів стосування мінімізації при інтерактивному стосуванні"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHidePostProc), group (FITSViewer)
 #: kstars.kcfg:1806
 #, kde-format
 msgid "Live Stacking Minimise Post-Processing Options Widget"
 msgstr ""
+"Віджет параметрів остаточної обробки мінімізації при інтерактивному "
+"стосуванні"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterDark), group (FITSViewer)
 #: kstars.kcfg:1810
@@ -39507,10 +39485,9 @@ msgstr "Сигма вінзор-обрізання для інтерактивн
 
 #. i18n: ectx: whatsthis, entry (fitsLSPostProc), group (FITSViewer)
 #: kstars.kcfg:1850
-#, fuzzy, kde-format
-#| msgid "Live Stacking sharpening sigma"
+#, kde-format
 msgid "Live Stacking Post Processing switch"
-msgstr "Сигма збільшення різкості для інтерактивного стосування"
+msgstr "Перемикач остаточної обробки при інтерактивному стосуванні"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1854
@@ -81178,8 +81155,8 @@ msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr "%1 накладок (%2 нових, %3 вилучених), %4 розв'язано"
 
 #: skycomponents/imageoverlaycomponent.cpp:446
-#: skycomponents/imageoverlaycomponent.cpp:574
-#: skycomponents/imageoverlaycomponent.cpp:870
+#: skycomponents/imageoverlaycomponent.cpp:590
+#: skycomponents/imageoverlaycomponent.cpp:886
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr "Зображення-накладки. %1 зображень, %2 доступно."
@@ -81194,92 +81171,92 @@ msgstr "Завантаження файлів зображень…"
 msgid "%1 image files loaded."
 msgstr "Завантажено %1 файлів зображень."
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Unprocessed"
 msgstr "Не оброблено"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Bad File"
 msgstr "Пошкоджений файл"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Solve Failed"
 msgstr "Не вдалося розв'язати"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "OK"
 msgstr "Гаразд"
 
-#: skycomponents/imageoverlaycomponent.cpp:560
+#: skycomponents/imageoverlaycomponent.cpp:576
 #, kde-format
 msgid "West-Right"
 msgstr "Захід-Праворуч"
 
-#: skycomponents/imageoverlaycomponent.cpp:561
+#: skycomponents/imageoverlaycomponent.cpp:577
 #, kde-format
 msgid "East-Right"
 msgstr "Схід-Праворуч"
 
-#: skycomponents/imageoverlaycomponent.cpp:622
+#: skycomponents/imageoverlaycomponent.cpp:638
 #, kde-format
 msgid "Solving: %1. %2 in queue."
 msgstr "Розв'язування: %1. %2 у черзі."
 
-#: skycomponents/imageoverlaycomponent.cpp:624
+#: skycomponents/imageoverlaycomponent.cpp:640
 #, kde-format
 msgid "Solving: %1."
 msgstr "Розв'язування: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:689
+#: skycomponents/imageoverlaycomponent.cpp:705
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr "Неможливо показати %1. Пластину не розв'язано."
 
-#: skycomponents/imageoverlaycomponent.cpp:694
+#: skycomponents/imageoverlaycomponent.cpp:710
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr "Неможливо показати %1. Зображення не завантажено."
 
-#: skycomponents/imageoverlaycomponent.cpp:727
+#: skycomponents/imageoverlaycomponent.cpp:743
 #, kde-format
 msgid "Solving aborted."
 msgstr "Розв'язування перервано."
 
-#: skycomponents/imageoverlaycomponent.cpp:762
+#: skycomponents/imageoverlaycomponent.cpp:778
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr "Пропускаємо вже розв'язане: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:781
+#: skycomponents/imageoverlaycomponent.cpp:797
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr "%1 вже розв'язано. Пропускаємо."
 
-#: skycomponents/imageoverlaycomponent.cpp:799
+#: skycomponents/imageoverlaycomponent.cpp:815
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
 msgstr "Перезавантажуємо дані. Зображення-накладки тимчасово вимкнено."
 
-#: skycomponents/imageoverlaycomponent.cpp:818
+#: skycomponents/imageoverlaycomponent.cpp:834
 #, kde-format
 msgid "Solver timed out in %1s"
 msgstr "Перевищення часу очікування на розв'язок, %1 с"
 
-#: skycomponents/imageoverlaycomponent.cpp:824
+#: skycomponents/imageoverlaycomponent.cpp:840
 #, kde-format
 msgid "Solver failed in %1s"
 msgstr "Помилка розв'язувача, %1 с"
 
-#: skycomponents/imageoverlaycomponent.cpp:837
+#: skycomponents/imageoverlaycomponent.cpp:853
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr "Успішне розв'язання за %1 с: ПС %2 Схил %3 Масш %4 Кут %5"
 
-#: skycomponents/imageoverlaycomponent.cpp:869
+#: skycomponents/imageoverlaycomponent.cpp:885
 #, kde-format
 msgid "Done solving. %1 available."
 msgstr "Розв'язування виконано. Доступне %1."

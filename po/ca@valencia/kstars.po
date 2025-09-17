@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-16 02:03+0000\n"
+"POT-Creation-Date: 2025-09-17 01:55+0000\n"
 "PO-Revision-Date: 2025-08-30 12:15+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -599,7 +599,7 @@ msgstr "Cancel·la"
 #: ekos/scheduler/scheduler.cpp:1632 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Error"
 msgstr "S'ha produït un error"
@@ -10580,8 +10580,8 @@ msgstr "Captura"
 #: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:333
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
-#: skycomponents/imageoverlaycomponent.cpp:728
-#: skycomponents/imageoverlaycomponent.cpp:808
+#: skycomponents/imageoverlaycomponent.cpp:744
+#: skycomponents/imageoverlaycomponent.cpp:824
 #, kde-format
 msgid "Solve"
 msgstr "Resol"
@@ -16568,8 +16568,8 @@ msgstr "Para la captura"
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:472 ekos/focus/focusmodule.cpp:676
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
-#: skycomponents/imageoverlaycomponent.cpp:604
-#: skycomponents/imageoverlaycomponent.cpp:734
+#: skycomponents/imageoverlaycomponent.cpp:620
+#: skycomponents/imageoverlaycomponent.cpp:750
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
 #, kde-format
 msgid "Abort"
@@ -82081,8 +82081,8 @@ msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr "%1 superposicions (%2 noves, %3 suprimides) %4 resoltes"
 
 #: skycomponents/imageoverlaycomponent.cpp:446
-#: skycomponents/imageoverlaycomponent.cpp:574
-#: skycomponents/imageoverlaycomponent.cpp:870
+#: skycomponents/imageoverlaycomponent.cpp:590
+#: skycomponents/imageoverlaycomponent.cpp:886
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr "Superposició d'imatges.  %1 imatges, %2 disponibles."
@@ -82097,94 +82097,94 @@ msgstr "S'estan carregant els fitxers d'imatge…"
 msgid "%1 image files loaded."
 msgstr "S'han carregat %1 fitxers d'imatge."
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Unprocessed"
 msgstr "Sense processar"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Bad File"
 msgstr "Fitxer incorrecte"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Solve Failed"
 msgstr "La resolució ha fallat"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "OK"
 msgstr "D'acord"
 
-#: skycomponents/imageoverlaycomponent.cpp:560
+#: skycomponents/imageoverlaycomponent.cpp:576
 #, kde-format
 msgid "West-Right"
 msgstr "Oest-Dreta"
 
-#: skycomponents/imageoverlaycomponent.cpp:561
+#: skycomponents/imageoverlaycomponent.cpp:577
 #, kde-format
 msgid "East-Right"
 msgstr "Est-Dreta"
 
-#: skycomponents/imageoverlaycomponent.cpp:622
+#: skycomponents/imageoverlaycomponent.cpp:638
 #, kde-format
 msgid "Solving: %1. %2 in queue."
 msgstr "S'està resolent: %1. %2 en la cua."
 
-#: skycomponents/imageoverlaycomponent.cpp:624
+#: skycomponents/imageoverlaycomponent.cpp:640
 #, kde-format
 msgid "Solving: %1."
 msgstr "S'està resolent: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:689
+#: skycomponents/imageoverlaycomponent.cpp:705
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr "No es pot mostrar %1. No s'ha resolt la placa."
 
-#: skycomponents/imageoverlaycomponent.cpp:694
+#: skycomponents/imageoverlaycomponent.cpp:710
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr "No es pot mostrar %1. No s'ha carregat la imatge."
 
-#: skycomponents/imageoverlaycomponent.cpp:727
+#: skycomponents/imageoverlaycomponent.cpp:743
 #, kde-format
 msgid "Solving aborted."
 msgstr "S'ha interromput la resolució."
 
-#: skycomponents/imageoverlaycomponent.cpp:762
+#: skycomponents/imageoverlaycomponent.cpp:778
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr "S'ometen les ja resoltes: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:781
+#: skycomponents/imageoverlaycomponent.cpp:797
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr "%1 ja resolta. S'omet."
 
-#: skycomponents/imageoverlaycomponent.cpp:799
+#: skycomponents/imageoverlaycomponent.cpp:815
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
 msgstr ""
 "S'està tornant a carregar. Les superposicions d'imatges estan desactivades "
 "temporalment."
 
-#: skycomponents/imageoverlaycomponent.cpp:818
+#: skycomponents/imageoverlaycomponent.cpp:834
 #, kde-format
 msgid "Solver timed out in %1s"
 msgstr "Temps límit del solucionador en %1 s"
 
-#: skycomponents/imageoverlaycomponent.cpp:824
+#: skycomponents/imageoverlaycomponent.cpp:840
 #, kde-format
 msgid "Solver failed in %1s"
 msgstr "El solucionador ha fallat en %1 s"
 
-#: skycomponents/imageoverlaycomponent.cpp:837
+#: skycomponents/imageoverlaycomponent.cpp:853
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr "El solucionador ha finalitzat en %1 s: AR %2 Dec %3 Escala %4 Angle %5"
 
-#: skycomponents/imageoverlaycomponent.cpp:869
+#: skycomponents/imageoverlaycomponent.cpp:885
 #, kde-format
 msgid "Done solving. %1 available."
 msgstr "Resolució feta. N'hi ha %1 disponibles."

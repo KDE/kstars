@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-16 02:03+0000\n"
+"POT-Creation-Date: 2025-09-17 01:55+0000\n"
 "PO-Revision-Date: 2025-08-15 13:21+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -588,7 +588,7 @@ msgstr "Cancelar"
 #: ekos/scheduler/scheduler.cpp:1632 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Error"
 msgstr "Error"
@@ -10469,8 +10469,8 @@ msgstr "Capturar"
 #: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:333
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
-#: skycomponents/imageoverlaycomponent.cpp:728
-#: skycomponents/imageoverlaycomponent.cpp:808
+#: skycomponents/imageoverlaycomponent.cpp:744
+#: skycomponents/imageoverlaycomponent.cpp:824
 #, kde-format
 msgid "Solve"
 msgstr "Identificar"
@@ -16368,8 +16368,8 @@ msgstr "Detener la captura"
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:472 ekos/focus/focusmodule.cpp:676
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
-#: skycomponents/imageoverlaycomponent.cpp:604
-#: skycomponents/imageoverlaycomponent.cpp:734
+#: skycomponents/imageoverlaycomponent.cpp:620
+#: skycomponents/imageoverlaycomponent.cpp:750
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
 #, kde-format
 msgid "Abort"
@@ -81363,8 +81363,8 @@ msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr "%1 capas (%2 nuevas, %3 borradas) %4 resueltas"
 
 #: skycomponents/imageoverlaycomponent.cpp:446
-#: skycomponents/imageoverlaycomponent.cpp:574
-#: skycomponents/imageoverlaycomponent.cpp:870
+#: skycomponents/imageoverlaycomponent.cpp:590
+#: skycomponents/imageoverlaycomponent.cpp:886
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr "Capas de imágenes. %1 imágenes, %2 disponibles."
@@ -81379,92 +81379,92 @@ msgstr "Cargando archivos de imágenes…"
 msgid "%1 image files loaded."
 msgstr "%1 archivos de imágenes cargados."
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Unprocessed"
 msgstr "Sin procesar"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Bad File"
 msgstr "Archivo incorrecto"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Solve Failed"
 msgstr "La resolución ha fallado"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "OK"
 msgstr "Aceptar"
 
-#: skycomponents/imageoverlaycomponent.cpp:560
+#: skycomponents/imageoverlaycomponent.cpp:576
 #, kde-format
 msgid "West-Right"
 msgstr "Oeste-Derecha"
 
-#: skycomponents/imageoverlaycomponent.cpp:561
+#: skycomponents/imageoverlaycomponent.cpp:577
 #, kde-format
 msgid "East-Right"
 msgstr "Este-Derecha"
 
-#: skycomponents/imageoverlaycomponent.cpp:622
+#: skycomponents/imageoverlaycomponent.cpp:638
 #, kde-format
 msgid "Solving: %1. %2 in queue."
 msgstr "Resolviendo: %1. %2 en cola."
 
-#: skycomponents/imageoverlaycomponent.cpp:624
+#: skycomponents/imageoverlaycomponent.cpp:640
 #, kde-format
 msgid "Solving: %1."
 msgstr "Resolviendo: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:689
+#: skycomponents/imageoverlaycomponent.cpp:705
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr "No se puede mostrar %1. No se ha resuelto ninguna placa."
 
-#: skycomponents/imageoverlaycomponent.cpp:694
+#: skycomponents/imageoverlaycomponent.cpp:710
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr "No se puede mostrar %1. No se ha cargado ninguna imagen."
 
-#: skycomponents/imageoverlaycomponent.cpp:727
+#: skycomponents/imageoverlaycomponent.cpp:743
 #, kde-format
 msgid "Solving aborted."
 msgstr "Resolución interrumpida."
 
-#: skycomponents/imageoverlaycomponent.cpp:762
+#: skycomponents/imageoverlaycomponent.cpp:778
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr "Omitiendo ya resuelta: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:781
+#: skycomponents/imageoverlaycomponent.cpp:797
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr "%1 ya se ha resuelto. Se omite."
 
-#: skycomponents/imageoverlaycomponent.cpp:799
+#: skycomponents/imageoverlaycomponent.cpp:815
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
 msgstr "Volviendo a cargar. Capas de imágenes desactivadas temporalmente."
 
-#: skycomponents/imageoverlaycomponent.cpp:818
+#: skycomponents/imageoverlaycomponent.cpp:834
 #, kde-format
 msgid "Solver timed out in %1s"
 msgstr "Se ha agotado el tiempo de espera del sistema de resolución en %1 s"
 
-#: skycomponents/imageoverlaycomponent.cpp:824
+#: skycomponents/imageoverlaycomponent.cpp:840
 #, kde-format
 msgid "Solver failed in %1s"
 msgstr "El sistema de resolución ha fallado en %1 s"
 
-#: skycomponents/imageoverlaycomponent.cpp:837
+#: skycomponents/imageoverlaycomponent.cpp:853
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr "Resolución correcta en %1 s: AR %2 DEC %3 Escala %4 Ángulo %5"
 
-#: skycomponents/imageoverlaycomponent.cpp:869
+#: skycomponents/imageoverlaycomponent.cpp:885
 #, kde-format
 msgid "Done solving. %1 available."
 msgstr "Resolución terminada. %1 disponible."

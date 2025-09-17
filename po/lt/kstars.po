@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-16 02:03+0000\n"
+"POT-Creation-Date: 2025-09-17 01:55+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -621,7 +621,7 @@ msgstr "Atsisakyti"
 #: ekos/scheduler/scheduler.cpp:1632 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Error"
 msgstr "Klaida"
@@ -10534,8 +10534,8 @@ msgstr "Įrašyti"
 #: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:333
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
-#: skycomponents/imageoverlaycomponent.cpp:728
-#: skycomponents/imageoverlaycomponent.cpp:808
+#: skycomponents/imageoverlaycomponent.cpp:744
+#: skycomponents/imageoverlaycomponent.cpp:824
 #, fuzzy, kde-format
 msgid "Solve"
 msgstr "Sprendikas"
@@ -16321,8 +16321,8 @@ msgstr "Nebe&sekti"
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:472 ekos/focus/focusmodule.cpp:676
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
-#: skycomponents/imageoverlaycomponent.cpp:604
-#: skycomponents/imageoverlaycomponent.cpp:734
+#: skycomponents/imageoverlaycomponent.cpp:620
+#: skycomponents/imageoverlaycomponent.cpp:750
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
 #, kde-format
 msgid "Abort"
@@ -84897,8 +84897,8 @@ msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:446
-#: skycomponents/imageoverlaycomponent.cpp:574
-#: skycomponents/imageoverlaycomponent.cpp:870
+#: skycomponents/imageoverlaycomponent.cpp:590
+#: skycomponents/imageoverlaycomponent.cpp:886
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr ""
@@ -84914,103 +84914,103 @@ msgstr "Įkeliami paveikslai..."
 msgid "%1 image files loaded."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Unprocessed"
 msgstr "Automatizuotas režimas"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, fuzzy, kde-format
 #| msgid "&File"
 msgid "Bad File"
 msgstr "&Failas"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solve Failed"
 msgstr "Nerodyti regos lauko"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, fuzzy, kde-format
 #| msgid "&OK"
 msgid "OK"
 msgstr "&Tinka"
 
-#: skycomponents/imageoverlaycomponent.cpp:560
+#: skycomponents/imageoverlaycomponent.cpp:576
 #, fuzzy, kde-format
 #| msgid "Height:"
 msgid "West-Right"
 msgstr "Lengvas"
 
-#: skycomponents/imageoverlaycomponent.cpp:561
+#: skycomponents/imageoverlaycomponent.cpp:577
 #, fuzzy, kde-format
 #| msgid "Bottom right"
 msgid "East-Right"
 msgstr "Sukti į dešinę"
 
-#: skycomponents/imageoverlaycomponent.cpp:622
+#: skycomponents/imageoverlaycomponent.cpp:638
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Solving: %1. %2 in queue."
 msgstr "Automatizuotas režimas"
 
-#: skycomponents/imageoverlaycomponent.cpp:624
+#: skycomponents/imageoverlaycomponent.cpp:640
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Solving: %1."
 msgstr "Automatizuotas režimas"
 
-#: skycomponents/imageoverlaycomponent.cpp:689
+#: skycomponents/imageoverlaycomponent.cpp:705
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:694
+#: skycomponents/imageoverlaycomponent.cpp:710
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:727
+#: skycomponents/imageoverlaycomponent.cpp:743
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Solving aborted."
 msgstr "Įkeliamos žvaigždės"
 
-#: skycomponents/imageoverlaycomponent.cpp:762
+#: skycomponents/imageoverlaycomponent.cpp:778
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:781
+#: skycomponents/imageoverlaycomponent.cpp:797
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:799
+#: skycomponents/imageoverlaycomponent.cpp:815
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:818
+#: skycomponents/imageoverlaycomponent.cpp:834
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Solver timed out in %1s"
 msgstr "Įkeliamos žvaigždės"
 
-#: skycomponents/imageoverlaycomponent.cpp:824
+#: skycomponents/imageoverlaycomponent.cpp:840
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver failed in %1s"
 msgstr "Nerodyti regos lauko"
 
-#: skycomponents/imageoverlaycomponent.cpp:837
+#: skycomponents/imageoverlaycomponent.cpp:853
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:869
+#: skycomponents/imageoverlaycomponent.cpp:885
 #, kde-format
 msgid "Done solving. %1 available."
 msgstr ""

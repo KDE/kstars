@@ -14,15 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-16 02:03+0000\n"
-"PO-Revision-Date: 2025-08-15 23:07+0200\n"
+"POT-Creation-Date: 2025-09-17 01:55+0000\n"
+"PO-Revision-Date: 2025-09-16 15:25+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -595,7 +595,7 @@ msgstr "Annuleren"
 #: ekos/scheduler/scheduler.cpp:1632 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Error"
 msgstr "Fout"
@@ -10398,8 +10398,8 @@ msgstr "Opnemen"
 #: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:333
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
-#: skycomponents/imageoverlaycomponent.cpp:728
-#: skycomponents/imageoverlaycomponent.cpp:808
+#: skycomponents/imageoverlaycomponent.cpp:744
+#: skycomponents/imageoverlaycomponent.cpp:824
 #, kde-format
 msgid "Solve"
 msgstr "Oplossen"
@@ -16212,8 +16212,8 @@ msgstr "Stop met opnemen"
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:472 ekos/focus/focusmodule.cpp:676
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
-#: skycomponents/imageoverlaycomponent.cpp:604
-#: skycomponents/imageoverlaycomponent.cpp:734
+#: skycomponents/imageoverlaycomponent.cpp:620
+#: skycomponents/imageoverlaycomponent.cpp:750
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
 #, kde-format
 msgid "Abort"
@@ -30954,10 +30954,9 @@ msgid "Cycle through stretch presets."
 msgstr "Loop door voorinstellingen voor uitrekken."
 
 #: fitsviewer/fitstab.cpp:37
-#, fuzzy, kde-format
-#| msgid "Stopping"
+#, kde-format
 msgid "Stopping..."
-msgstr "Bezig met stoppen"
+msgstr "Bezig met stoppen..."
 
 #: fitsviewer/fitstab.cpp:68
 #, kde-format
@@ -31180,35 +31179,29 @@ msgid "Watching %1"
 msgstr "%1 bekijken"
 
 #: fitsviewer/fitstab.cpp:1452
-#, fuzzy, kde-format
-#| msgid "Watching %1"
+#, kde-format
 msgid "Stopped Watching (%1)"
-msgstr "%1 bekijken"
+msgstr "Bekijken is gestopt (%1)"
 
 #: fitsviewer/fitstab.cpp:1453
-#, fuzzy, kde-format
-#| msgid "(%1) Watching %2"
+#, kde-format
 msgid "(%1) Watching"
-msgstr "%1 Bekijken van %2"
+msgstr "(%1) Bekijken"
 
 #: fitsviewer/fitstab.cpp:1454 fitsviewer/fitstab.cpp:1460
-#, fuzzy, kde-format
-#| msgctxt "integrated flux value"
-#| msgid "%1 %2"
+#, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
 #: fitsviewer/fitstab.cpp:1458
-#, fuzzy, kde-format
-#| msgid "Stopped"
+#, kde-format
 msgid "Stopped (%1)"
-msgstr "Gestopt"
+msgstr "Gestopt (%1)"
 
 #: fitsviewer/fitstab.cpp:1459
-#, fuzzy, kde-format
-#| msgid "(%1) %2"
+#, kde-format
 msgid "(%1)"
-msgstr "(%1) %2"
+msgstr "(%1)"
 
 #: fitsviewer/fitsview.cpp:658 fitsviewer/fitsview.cpp:669
 #, kde-format
@@ -31555,10 +31548,9 @@ msgid "Stacking Complete"
 msgstr "Stapelen is voltooid"
 
 #: fitsviewer/fitsviewer.cpp:1213
-#, fuzzy, kde-format
-#| msgid "Stacking Complete"
+#, kde-format
 msgid "Stacking Stopped"
-msgstr "Stapelen is voltooid"
+msgstr "Stapelen is gestopt"
 
 #: fitsviewer/fitsviewer.cpp:1488
 #, kde-format
@@ -31688,13 +31680,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:250
-#, fuzzy, kde-format
-#| msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Signal-to-noise ratio Max / Min / Mean of the "
 "processed subs</p></body></html>"
 msgstr ""
-"Signaal-tot-ruis (STR) verhouding Max / Min / Gem van de verwerkte subs"
+"<html><head/><body><p>Signaal-tot-ruis (STR) verhouding Max / Min / Gem van "
+"de verwerkte subs</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:253
@@ -31739,18 +31731,19 @@ msgstr "Instellingen opslaan"
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:369
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Memory monitor</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Memory monitor. Double click to toggle text on / off.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Geheugenmonitor</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Geheugenmonitor. Dubbel klik om tekst aan / uit te "
+"schakelen.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, GeneralProcMinimized)
 #: fitsviewer/livestacking.ui:379
 #, kde-format
 msgid "Configure general options in this section."
-msgstr ""
+msgstr "Algemene opties in deze sectie configureren."
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, PostProcMinimized)
@@ -31802,10 +31795,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:571
-#, fuzzy, kde-format
-#| msgid "Kernel:"
+#, kde-format
 msgid "  Kernel:"
-msgstr "Kernel:"
+msgstr "  Kernel:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenSigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
@@ -31832,10 +31824,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:621
-#, fuzzy, kde-format
-#| msgid "PSF Sigma:"
+#, kde-format
 msgid "  PSF Sigma:"
-msgstr "PSF Sigma:"
+msgstr "  PSF Sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
@@ -31877,7 +31868,7 @@ msgstr "Verwerk opnieuw"
 #: fitsviewer/livestacking.ui:785
 #, kde-format
 msgid "Configure post-processing options in this section."
-msgstr ""
+msgstr "Opties voor nabewerking in deze sectie configureren."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, masterFlatLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
@@ -31929,7 +31920,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:981
 #, kde-format
 msgid "Configure calibration options in this section."
-msgstr ""
+msgstr "Opties voor kalibratie in deze sectie configureren."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, AlignMethod)
 #. i18n: ectx: property (toolTip), widget (QLabel, alignLabel)
@@ -31968,14 +31959,10 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:1149
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The sub to use as reference to align all other subs."
-#| "</p></body></html>"
+#, kde-format
 msgid "The sub to use as reference to align all other subs."
 msgstr ""
-"<html><head/><body><p>De te gebruiken sub al referentie voor uitlijnen van "
-"alle andere subs.</p></body></html>"
+"De te gebruiken sub als referentie voor uitlijnen van alle andere subs."
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:1152
@@ -31987,7 +31974,7 @@ msgstr "Master Sub:"
 #: fitsviewer/livestacking.ui:1165
 #, kde-format
 msgid "Configure alignment options in this section."
-msgstr ""
+msgstr "Opties voor uitlijnen in deze sectie configureren."
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:1208
@@ -32044,13 +32031,7 @@ msgstr "Laag sigma:"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #. i18n: ectx: property (toolTip), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:1297 fitsviewer/livestacking.ui:1325
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The maximum number of subs held in memory whilst "
-#| "processing. The larger the value, the better the quality of the stacking "
-#| "process, but at the cost of more processing time and memory used.</"
-#| "p><p><br/></p><p>Processes such as sigma clipping will use this many subs "
-#| "to calculate statistics to use on all subs.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The maximum number of subs held in memory whilst "
 "processing. The larger the value, the better the quality of the stacking "
@@ -32061,9 +32042,8 @@ msgstr ""
 "<html><head/><body><p>Het maximale aantal subs gehouden in geheugen tijdens "
 "verwerking. Hoe groter de waarde, hoe beter de kwaliteit van het "
 "stapelingsproces, maar ten koste van meer verwerkingstijd en geheugengebruik."
-"</p><p><br/></p><p>Processen zoals sigma afkappen zal deze hoeveelheid subs "
-"gebruiken om statistieken te berekenen om op alle subs te gebruiken.</p></"
-"body></html>"
+"</p><p>Processen zoals sigma afkappen zal deze hoeveelheid subs gebruiken om "
+"statistieken te berekenen om op alle subs te gebruiken.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:1328
@@ -32094,10 +32074,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:1403
-#, fuzzy, kde-format
-#| msgid "Downscale:"
+#, kde-format
 msgid "  Downscale: "
-msgstr "Afschaling:"
+msgstr "  Afschaling: "
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:1442
@@ -32128,10 +32107,9 @@ msgstr "Gelijk"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:1504
-#, fuzzy, kde-format
-#| msgid "Frame Weight:"
+#, kde-format
 msgid "  Frame Weight: "
-msgstr "Framegewicht:"
+msgstr "  Framegewicht: "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, pixelRejLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
@@ -32179,16 +32157,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:1594
-#, fuzzy, kde-format
-#| msgid "Winsor Cutoff:"
+#, kde-format
 msgid "  Winsor Cutoff: "
-msgstr "Afkappen methode Winsor:"
+msgstr "  Afkappen methode Winsor: "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1632
 #, kde-format
 msgid "Configure stacking options in this section."
-msgstr ""
+msgstr "Opties voor stapelen in deze sectie configureren."
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -39122,36 +39099,33 @@ msgstr "Te gebruiken straal in positie (graden) voor oplossen met Fitsviewer."
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideGeneral), group (FITSViewer)
 #: kstars.kcfg:1790
-#, fuzzy, kde-format
-#| msgid "Live Stacking denoise amount"
+#, kde-format
 msgid "Live Stacking Minimise General Options Widget"
-msgstr "Live stapelen hoeveelheid van ruis verwijderen"
+msgstr "Live stapelen minimaliseert widget voor algemene opties"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideCalibration), group (FITSViewer)
 #: kstars.kcfg:1794
 #, kde-format
 msgid "Live Stacking Minimise Calibration Options Widget"
-msgstr ""
+msgstr "Live stapelen minimaliseert widget voor opties voor kalibratie"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideAlignment), group (FITSViewer)
 #: kstars.kcfg:1798
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Live Stacking Minimise Alignment Options Widget"
-msgstr "Live stapelen met uitlijnmethode"
+msgstr "Live stapelen minimaliseert widget voor opties voor uitlijnen"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideStacking), group (FITSViewer)
 #: kstars.kcfg:1802
-#, fuzzy, kde-format
-#| msgid "Live Stacking denoise amount"
+#, kde-format
 msgid "Live Stacking Minimise Stacking Options Widget"
-msgstr "Live stapelen hoeveelheid van ruis verwijderen"
+msgstr "Live stapelen minimaliseert widget voor opties voor stapelen"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHidePostProc), group (FITSViewer)
 #: kstars.kcfg:1806
 #, kde-format
 msgid "Live Stacking Minimise Post-Processing Options Widget"
-msgstr ""
+msgstr "Live stapelen minimaliseert widget voor opties voor nabewerking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterDark), group (FITSViewer)
 #: kstars.kcfg:1810
@@ -39215,10 +39189,9 @@ msgstr "Live stapelen met sigma afkappen met Windzor-afkap"
 
 #. i18n: ectx: whatsthis, entry (fitsLSPostProc), group (FITSViewer)
 #: kstars.kcfg:1850
-#, fuzzy, kde-format
-#| msgid "Live Stacking sharpening sigma"
+#, kde-format
 msgid "Live Stacking Post Processing switch"
-msgstr "Live stapelen sigma van verscherpen"
+msgstr "Schakelaar voor live stapelen van nabewerking"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1854
@@ -80770,8 +80743,8 @@ msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr "%1 overlays (%2 nieuw, %3 verwijderd) %4 opgelost"
 
 #: skycomponents/imageoverlaycomponent.cpp:446
-#: skycomponents/imageoverlaycomponent.cpp:574
-#: skycomponents/imageoverlaycomponent.cpp:870
+#: skycomponents/imageoverlaycomponent.cpp:590
+#: skycomponents/imageoverlaycomponent.cpp:886
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr "Overlays van afbeelding.  %1 afbeeldingen, %2 beschikbaar."
@@ -80786,92 +80759,92 @@ msgstr "Afbeeldingsbestanden laden..."
 msgid "%1 image files loaded."
 msgstr "%1 afbeeldingsbestanden geladen."
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Unprocessed"
 msgstr "Niet verwerkt"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Bad File"
 msgstr "Onleesbaar bestand"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "Solve Failed"
 msgstr "Oplossen mislukt"
 
-#: skycomponents/imageoverlaycomponent.cpp:537
+#: skycomponents/imageoverlaycomponent.cpp:553
 #, kde-format
 msgid "OK"
 msgstr "OK"
 
-#: skycomponents/imageoverlaycomponent.cpp:560
+#: skycomponents/imageoverlaycomponent.cpp:576
 #, kde-format
 msgid "West-Right"
 msgstr "West-rechts"
 
-#: skycomponents/imageoverlaycomponent.cpp:561
+#: skycomponents/imageoverlaycomponent.cpp:577
 #, kde-format
 msgid "East-Right"
 msgstr "Oost-rechts"
 
-#: skycomponents/imageoverlaycomponent.cpp:622
+#: skycomponents/imageoverlaycomponent.cpp:638
 #, kde-format
 msgid "Solving: %1. %2 in queue."
 msgstr "Oplossen: %1. %2 in wachtrij."
 
-#: skycomponents/imageoverlaycomponent.cpp:624
+#: skycomponents/imageoverlaycomponent.cpp:640
 #, kde-format
 msgid "Solving: %1."
 msgstr "Oplossen: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:689
+#: skycomponents/imageoverlaycomponent.cpp:705
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr "Kan %1 niet tonen. Niet plaat-opgelost."
 
-#: skycomponents/imageoverlaycomponent.cpp:694
+#: skycomponents/imageoverlaycomponent.cpp:710
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr "Kan %1 niet tonen. Afbeelding niet geladen."
 
-#: skycomponents/imageoverlaycomponent.cpp:727
+#: skycomponents/imageoverlaycomponent.cpp:743
 #, kde-format
 msgid "Solving aborted."
 msgstr "Oplossen afgebroken."
 
-#: skycomponents/imageoverlaycomponent.cpp:762
+#: skycomponents/imageoverlaycomponent.cpp:778
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr "Overslaan, al opgelost: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:781
+#: skycomponents/imageoverlaycomponent.cpp:797
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr "%1 is al opgelost. Overslaan."
 
-#: skycomponents/imageoverlaycomponent.cpp:799
+#: skycomponents/imageoverlaycomponent.cpp:815
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
 msgstr "Opnieuw laden. Overlay-afbeeldingen tijdelijk uitgeschakeld."
 
-#: skycomponents/imageoverlaycomponent.cpp:818
+#: skycomponents/imageoverlaycomponent.cpp:834
 #, kde-format
 msgid "Solver timed out in %1s"
 msgstr "Tijd voor oplossen is verlopen na %1s"
 
-#: skycomponents/imageoverlaycomponent.cpp:824
+#: skycomponents/imageoverlaycomponent.cpp:840
 #, kde-format
 msgid "Solver failed in %1s"
 msgstr "Oplossen is mislukt na %1s"
 
-#: skycomponents/imageoverlaycomponent.cpp:837
+#: skycomponents/imageoverlaycomponent.cpp:853
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr "Succes van oplosser in %1s: RK %2 DEC %3 Schaal %4 hoek %5"
 
-#: skycomponents/imageoverlaycomponent.cpp:869
+#: skycomponents/imageoverlaycomponent.cpp:885
 #, kde-format
 msgid "Done solving. %1 available."
 msgstr "Oplossen voltooid. %1 beschikbaar."
