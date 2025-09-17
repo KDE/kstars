@@ -1558,7 +1558,7 @@ bool Align::captureAndSolve(bool initialCall)
             case 0:// Set start time & start angle and estimate rotator time frame during first timeout
             {
                 auto absAngle = 0;
-                if ((absAngle = m_Rotator->getNumber("ABS_ROTATOR_ANGLE")->at(0)->getValue()))
+                if ((absAngle = m_Rotator->getNumber("ABS_ROTATOR_ANGLE")[0].getValue()))
                 {
                     RotatorUtils::Instance()->startTimeFrame(absAngle);
                     m_estimateRotatorTimeFrame = true;
@@ -2182,7 +2182,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         auto ccdRotation = m_Camera->getNumber("CCD_ROTATION");
         if (ccdRotation)
         {
-            auto rotation = ccdRotation->findWidgetByName("CCD_ROTATION_VALUE");
+            auto rotation = ccdRotation.findWidgetByName("CCD_ROTATION_VALUE");
             if (rotation)
             {
                 auto clientManager = m_Camera->getDriverInfo()->getClientManager();
@@ -2248,7 +2248,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             if (auto absAngle = m_Rotator->getNumber("ABS_ROTATOR_ANGLE"))
                 // if (absAngle && std::isnan(m_TargetPositionAngle) == true)
             {
-                sRawAngle = absAngle->at(0)->getValue();
+                sRawAngle = absAngle[0].getValue();
                 double OffsetAngle = RotatorUtils::Instance()->calcOffsetAngle(sRawAngle, solverPA);
                 RotatorUtils::Instance()->updateOffset(OffsetAngle);
                 // Debug info
@@ -2256,7 +2256,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 auto reverseProperty = m_Rotator->getSwitch("ROTATOR_REVERSE");
                 if (reverseProperty)
                 {
-                    if (reverseProperty->at(0)->getState() == ISS_ON)
+                    if (reverseProperty[0].getState() == ISS_ON)
                         reverseStatus = "Reversed Direction";
                     else
                         reverseStatus = "Normal Direction";
@@ -2278,6 +2278,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         {"de", SolverDecOut->text()},
         {"dRA", m_TargetDiffRA},
         {"dDE", m_TargetDiffDE},
+        {"dAZ", m_TargetDiffAZ},
+        {"dAL", m_TargetDiffAL},
         {"targetDiff", m_TargetDiffTotal},
         {"pix", pixscale},
         {"PA", solverPA},
@@ -3263,8 +3265,8 @@ void Align::setWCSEnabled(bool enable)
     if (!wcsControl)
         return;
 
-    auto wcs_enable  = wcsControl->findWidgetByName("WCS_ENABLE");
-    auto wcs_disable = wcsControl->findWidgetByName("WCS_DISABLE");
+    auto wcs_enable  = wcsControl.findWidgetByName("WCS_ENABLE");
+    auto wcs_disable = wcsControl.findWidgetByName("WCS_DISABLE");
 
     if (!wcs_enable || !wcs_disable)
         return;
@@ -3272,7 +3274,7 @@ void Align::setWCSEnabled(bool enable)
     if ((wcs_enable->getState() == ISS_ON && enable) || (wcs_disable->getState() == ISS_ON && !enable))
         return;
 
-    wcsControl->reset();
+    wcsControl.reset();
     if (enable)
     {
         appendLogText(i18n("World Coordinate System (WCS) is enabled."));
@@ -3843,6 +3845,13 @@ void Align::setTargetPositionAngle(double value)
 
 void Align::calculateAlignTargetDiff()
 {
+    // Normal align: Target coords are destinations coords
+    // JM 2025.09.17: Calculate anyway, we don't need to take any actions.
+    m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;  // arcsec
+    m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;  // arcsec
+    m_TargetDiffAZ = (m_AlignCoord.az().deltaAngle(m_TargetCoord.az())).Degrees() * 3600;  // arcsec
+    m_TargetDiffAL = (m_AlignCoord.alt().deltaAngle(m_TargetCoord.alt())).Degrees() * 3600;  // arcsec
+
     if (matchPAHStage(PAA::PAH_FIRST_CAPTURE) ||
             matchPAHStage(PAA::PAH_SECOND_CAPTURE) ||
             matchPAHStage(PAA::PAH_THIRD_CAPTURE) ||
@@ -3853,15 +3862,13 @@ void Align::calculateAlignTargetDiff()
             syncR->isChecked())
         return;
 
-    if (!Options::astrometryDifferentialSlewing()) // Normal align: Target coords are destinations coords
-    {
-        m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;  // arcsec
-        m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;  // arcsec
-    }
-    else // Differential slewing: Target coords are new position coords
+    // Differential slewing: Target coords are new position coords
+    if (Options::astrometryDifferentialSlewing())
     {
         m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_DestinationCoord.ra())).Degrees() * 3600;  // arcsec
         m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_DestinationCoord.dec())).Degrees() * 3600;  // arcsec
+        m_TargetDiffAZ = (m_AlignCoord.az().deltaAngle(m_DestinationCoord.az())).Degrees() * 3600;  // arcsec
+        m_TargetDiffAL = (m_AlignCoord.alt().deltaAngle(m_DestinationCoord.alt())).Degrees() * 3600;  // arcsec
         qCDebug(KSTARS_EKOS_ALIGN) << "Differential slew - Solution RA:" << m_AlignCoord.ra().toHMSString()
                                    << " DE:" << m_AlignCoord.dec().toDMSString();
         qCDebug(KSTARS_EKOS_ALIGN) << "Differential slew - Destination RA:" << m_DestinationCoord.ra().toHMSString()

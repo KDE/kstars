@@ -800,6 +800,8 @@ class Align : public QWidget, public Ui::Align
         double m_TargetDiffTotal { 1e6 };
         double m_TargetDiffRA { 1e6 };
         double m_TargetDiffDE { 1e6 };
+        double m_TargetDiffAZ { 1e6 };
+        double m_TargetDiffAL { 1e6 };
 
         /// Progress icon if the solver is running
         std::unique_ptr<QProgressIndicator> pi;
