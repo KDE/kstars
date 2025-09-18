@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-17 01:55+0000\n"
-"PO-Revision-Date: 2025-08-15 13:21+0100\n"
+"POT-Creation-Date: 2025-09-18 02:00+0000\n"
+"PO-Revision-Date: 2025-09-16 13:22+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -469,14 +469,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Guardar imagen"
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3960
+#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3967
 #: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1383
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Ya existe un archivo llamado «%1». ¿Sobrescribir?"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3963
+#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3970
 #: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1384
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -2679,7 +2679,7 @@ msgstr ""
 "El URL no es válido. ¿Quiere abrir una ventana del navegador\n"
 "con el buscador Google?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3971
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3978
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
@@ -6281,7 +6281,7 @@ msgstr ""
 "montura y vuelva a probar."
 
 #: ekos/align/align.cpp:1430 ekos/align/align.cpp:1462
-#: ekos/align/align.cpp:2436
+#: ekos/align/align.cpp:2438
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "La alineación de Astrometry ha fallado"
@@ -6361,7 +6361,7 @@ msgstr ""
 "No se puede capturar mientras el rotador está ocupado: se vuelve a intentar "
 "en %1 segundos…"
 
-#: ekos/align/align.cpp:1598 ekos/align/align.cpp:3078
+#: ekos/align/align.cpp:1598 ekos/align/align.cpp:3080
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
@@ -6452,48 +6452,48 @@ msgstr ""
 msgid "Camera position angle is %1 degrees."
 msgstr "El ángulo de posición de la cámara es de %1 grados."
 
-#: ekos/align/align.cpp:2291 ekos/align/align.cpp:2722
+#: ekos/align/align.cpp:2293 ekos/align/align.cpp:2724
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "La alineación de Astrometry se ha completado con éxito"
 
-#: ekos/align/align.cpp:2313
+#: ekos/align/align.cpp:2315
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 "Se ha alcanzado el número máximo de iteraciones. El sistema de "
 "identificación ha fallado."
 
-#: ekos/align/align.cpp:2342
+#: ekos/align/align.cpp:2344
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr "El objetivo está dentro de un intervalo aceptable."
 
-#: ekos/align/align.cpp:2404
+#: ekos/align/align.cpp:2406
 #, kde-format
 msgid "Saving failed solver image to %1"
 msgstr "Guardando la imagen del sistema de identificación que ha fallado en %1"
 
-#: ekos/align/align.cpp:2413
+#: ekos/align/align.cpp:2415
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr ""
 "El sistema de identificación ha fallado. Se vuelve a intentar sin "
 "restricción de escala."
 
-#: ekos/align/align.cpp:2423
+#: ekos/align/align.cpp:2425
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr ""
 "El sistema de identificación ha fallado. Se vuelve a intentar sin "
 "restricción de posición."
 
-#: ekos/align/align.cpp:2431
+#: ekos/align/align.cpp:2433
 #, kde-format
 msgid "Solver Failed."
 msgstr "El sistema de identificación ha fallado."
 
-#: ekos/align/align.cpp:2434
+#: ekos/align/align.cpp:2436
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6506,39 +6506,39 @@ msgstr ""
 "«Configuración -> Registros» para obtener información detallada sobre el "
 "fallo."
 
-#: ekos/align/align.cpp:2493
+#: ekos/align/align.cpp:2495
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Fijando el ángulo de posición de la cámara a %1 grados…"
 
-#: ekos/align/align.cpp:2500
+#: ekos/align/align.cpp:2502
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 "El ángulo de posición de la cámara está dentro de un intervalo aceptable."
 
-#: ekos/align/align.cpp:2514
+#: ekos/align/align.cpp:2516
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "La AP actual es %1; la AP del objetivo es %2; diferencia: %3"
 
-#: ekos/align/align.cpp:2581
+#: ekos/align/align.cpp:2583
 #, kde-format
 msgid "Refresh is complete."
 msgstr "La actualización se ha completado."
 
-#: ekos/align/align.cpp:2588 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/align/align.cpp:2590 ekos/auxiliary/darklibrary.cpp:1413
 #: ekos/focus/focus.cpp:1667
 #, kde-format
 msgid "Capture aborted."
 msgstr "Captura interrumpida."
 
-#: ekos/align/align.cpp:2594
+#: ekos/align/align.cpp:2596
 #, kde-format
 msgid "Solver aborted after %1 seconds."
 msgstr "Sistema de identificación interrumpido tras %1 segundos."
 
-#: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4095
+#: ekos/align/align.cpp:2639 ekos/analyze/analyze.cpp:4095
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2105 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
@@ -6548,53 +6548,53 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2693
+#: ekos/align/align.cpp:2695
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 "La montura ha completado el desplazamiento cerca del polo celeste. Vuelva a "
 "capturar para verificarlo."
 
-#: ekos/align/align.cpp:2716
+#: ekos/align/align.cpp:2718
 #, kde-format
 msgid "Mount is synced to solution coordinates."
 msgstr "La montura se ha sincronizado con las coordenadas de la solución."
 
-#: ekos/align/align.cpp:2752 ekos/align/align.cpp:2770
-#: ekos/align/align.cpp:3382 ekos/align/align.cpp:4104
+#: ekos/align/align.cpp:2754 ekos/align/align.cpp:2772
+#: ekos/align/align.cpp:3384 ekos/align/align.cpp:4111
 #: ekos/align/polaralignmentassistant.cpp:654
 #, kde-format
 msgid "Settling..."
 msgstr "Estabilizando…"
 
-#: ekos/align/align.cpp:2760
+#: ekos/align/align.cpp:2762
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Desplazamiento completado. No se ha conseguido la precisión del objetivo. Se "
 "vuelve a ejecutar el sistema de identificación…"
 
-#: ekos/align/align.cpp:2762
+#: ekos/align/align.cpp:2764
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Desplazamiento completado. Resolviendo el punto de alineación…"
 
-#: ekos/align/align.cpp:2805 ekos/align/align.cpp:2956
+#: ekos/align/align.cpp:2807 ekos/align/align.cpp:2958
 #, kde-format
 msgid "Syncing failed."
 msgstr "Sincronización fallida."
 
-#: ekos/align/align.cpp:2807
+#: ekos/align/align.cpp:2809
 #, kde-format
 msgid "Slewing failed."
 msgstr "El desplazamiento ha fallado."
 
-#: ekos/align/align.cpp:2851
+#: ekos/align/align.cpp:2853
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "El rotador ha alcanzado el ángulo de posición de la cámara."
 
-#: ekos/align/align.cpp:2864
+#: ekos/align/align.cpp:2866
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -6603,22 +6603,22 @@ msgstr ""
 "El rotador no ha podido alcanzar el ángulo de posición solicitado "
 "(desviación de %1 minutos de arco)."
 
-#: ekos/align/align.cpp:2902
+#: ekos/align/align.cpp:2904
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Se ha detectado movimiento. Se suspende el proceso de resolución…"
 
-#: ekos/align/align.cpp:2950
+#: ekos/align/align.cpp:2952
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Sincronizando con la AR (%1) y la DEC (%2)"
 
-#: ekos/align/align.cpp:2974
+#: ekos/align/align.cpp:2976
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Moviendo hasta las coordenadas de destino: AR (%1) DEC (%2)."
 
-#: ekos/align/align.cpp:2979
+#: ekos/align/align.cpp:2981
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -6627,114 +6627,114 @@ msgstr ""
 "Se ha rechazado el movimiento hasta las coordenadas de destino: AR (%1) DEC "
 "(%2). (Consulte la notificación)"
 
-#: ekos/align/align.cpp:2998
+#: ekos/align/align.cpp:3000
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr "Trabajo de Ekos (%1) - Telescopio sincronizado"
 
-#: ekos/align/align.cpp:3047
+#: ekos/align/align.cpp:3049
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Cargar imagen"
 
-#: ekos/align/align.cpp:3278
+#: ekos/align/align.cpp:3280
 #, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "El sistema de coordenadas mundial (WCS) está activado."
 
-#: ekos/align/align.cpp:3283
+#: ekos/align/align.cpp:3285
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "El sistema de coordenadas mundial (WCS) está desactivado."
 
-#: ekos/align/align.cpp:3302
+#: ekos/align/align.cpp:3304
 #, kde-format
 msgid "Capture error. Aborting..."
 msgstr "Error de captura. Interrumpiendo…"
 
-#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1630
+#: ekos/align/align.cpp:3309 ekos/capture/cameraprocess.cpp:1630
 #: ekos/capture/cameraprocess.cpp:2191
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Reiniciando intento de captura #%1"
 
-#: ekos/align/align.cpp:3433
+#: ekos/align/align.cpp:3435
 #, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Alinear fotograma"
 
-#: ekos/align/align.cpp:3508
+#: ekos/align/align.cpp:3510
 #, kde-format
 msgid "StellarSolver Options"
 msgstr "Opciones de StellarSolver"
 
-#: ekos/align/align.cpp:3513
+#: ekos/align/align.cpp:3515
 #, kde-format
 msgid "External & Online Programs"
 msgstr "Programas externos y en línea"
 
-#: ekos/align/align.cpp:3517
+#: ekos/align/align.cpp:3519
 #, kde-format
 msgid "Scale & Position"
 msgstr "Escala y posición"
 
-#: ekos/align/align.cpp:3521
+#: ekos/align/align.cpp:3523
 #, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "Editor de perfiles de opciones de alineación"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3540 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3542 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Archivos de índice:"
 
-#: ekos/align/align.cpp:3605 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3607 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
 msgstr "dAR (segundos de arco)"
 
-#: ekos/align/align.cpp:3606 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3608 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
 msgstr "dDE (segundos de arco)"
 
-#: ekos/align/align.cpp:3654 ekos/capture/camera_config.cpp:717
+#: ekos/align/align.cpp:3656 ekos/capture/camera_config.cpp:717
 #: ekos/focus/focus.cpp:5894
 #, kde-format
 msgid "Filter operation failed."
 msgstr "La operación de filtrado ha fallado."
 
-#: ekos/align/align.cpp:3666 ekos/capture/camera.cpp:579
+#: ekos/align/align.cpp:3668 ekos/capture/camera.cpp:579
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Cambiando el desplazamiento de enfoque en %1 pasos…"
 
-#: ekos/align/align.cpp:3673 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3675 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/camera.cpp:584
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Cambiando el filtro a %1…"
 
-#: ekos/align/align.cpp:3678 ekos/capture/camera.cpp:589
+#: ekos/align/align.cpp:3680 ekos/capture/camera.cpp:589
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Enfoque automático al cambiar filtros…"
 
-#: ekos/align/align.cpp:3799
+#: ekos/align/align.cpp:3801
 #, kde-format
 msgid "Invalid FOV."
 msgstr "Campo de visión no válido."
 
-#: ekos/align/align.cpp:3947
+#: ekos/align/align.cpp:3954
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Exportar los puntos de la solución"
 
-#: ekos/align/align.cpp:3970 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:3977 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
 #: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
@@ -6744,7 +6744,7 @@ msgstr "Exportar los puntos de la solución"
 msgid "Invalid URL: %1"
 msgstr "URL no válido: %1"
 
-#: ekos/align/align.cpp:3979 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:3986 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:3201
 #: ekos/scheduler/schedulerprocess.cpp:4945
@@ -6752,7 +6752,7 @@ msgstr "URL no válido: %1"
 msgid "Unable to write to file %1"
 msgstr "No se puede escribir en el archivo %1 "
 
-#: ekos/align/align.cpp:3980 ekos/align/mountmodel.cpp:286
+#: ekos/align/align.cpp:3987 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:347
 #: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3202
@@ -6772,27 +6772,27 @@ msgstr "No se puede escribir en el archivo %1 "
 msgid "Could Not Open File"
 msgstr "Imposible abrir el archivo"
 
-#: ekos/align/align.cpp:4001
+#: ekos/align/align.cpp:4008
 #, kde-format
 msgid "Error in table structure."
 msgstr "Error en estructura de tabla."
 
-#: ekos/align/align.cpp:4010
+#: ekos/align/align.cpp:4017
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Puntos de la solución guardados como: %1"
 
-#: ekos/align/align.cpp:4027
+#: ekos/align/align.cpp:4034
 #, kde-format
 msgid "Polar Alignment"
 msgstr "Alineación polar"
 
-#: ekos/align/align.cpp:4581
+#: ekos/align/align.cpp:4588
 #, kde-format
 msgid "Capture timed out."
 msgstr "Se ha agotado el tiempo de la captura."
 
-#: ekos/align/align.cpp:4590
+#: ekos/align/align.cpp:4597
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -31340,10 +31340,9 @@ msgid "Cycle through stretch presets."
 msgstr "Recorrer los preajustes de estiramiento."
 
 #: fitsviewer/fitstab.cpp:37
-#, fuzzy, kde-format
-#| msgid "Stopping"
+#, kde-format
 msgid "Stopping..."
-msgstr "Deteniendo"
+msgstr "Deteniendo…"
 
 #: fitsviewer/fitstab.cpp:68
 #, kde-format
@@ -31568,35 +31567,29 @@ msgid "Watching %1"
 msgstr "Observando %1"
 
 #: fitsviewer/fitstab.cpp:1452
-#, fuzzy, kde-format
-#| msgid "Watching %1"
+#, kde-format
 msgid "Stopped Watching (%1)"
-msgstr "Observando %1"
+msgstr "Observación detenida (%1)"
 
 #: fitsviewer/fitstab.cpp:1453
-#, fuzzy, kde-format
-#| msgid "(%1) Watching %2"
+#, kde-format
 msgid "(%1) Watching"
-msgstr "(%1) Observando %2"
+msgstr "(%1) Observando"
 
 #: fitsviewer/fitstab.cpp:1454 fitsviewer/fitstab.cpp:1460
-#, fuzzy, kde-format
-#| msgctxt "integrated flux value"
-#| msgid "%1 %2"
+#, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
 #: fitsviewer/fitstab.cpp:1458
-#, fuzzy, kde-format
-#| msgid "Stopped"
+#, kde-format
 msgid "Stopped (%1)"
-msgstr "Detenido"
+msgstr "Detenido (%1)"
 
 #: fitsviewer/fitstab.cpp:1459
-#, fuzzy, kde-format
-#| msgid "(%1) %2"
+#, kde-format
 msgid "(%1)"
-msgstr "(%1) %2"
+msgstr "(%1)"
 
 #: fitsviewer/fitsview.cpp:658 fitsviewer/fitsview.cpp:669
 #, kde-format
@@ -31943,10 +31936,9 @@ msgid "Stacking Complete"
 msgstr "Apilamiento completado"
 
 #: fitsviewer/fitsviewer.cpp:1213
-#, fuzzy, kde-format
-#| msgid "Stacking Complete"
+#, kde-format
 msgid "Stacking Stopped"
-msgstr "Apilamiento completado"
+msgstr "Apilamiento detenido"
 
 #: fitsviewer/fitsviewer.cpp:1488
 #, kde-format
@@ -32077,13 +32069,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:250
-#, fuzzy, kde-format
-#| msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Signal-to-noise ratio Max / Min / Mean of the "
 "processed subs</p></body></html>"
 msgstr ""
-"Máx. / mín. / media de la relación señal/ruido de las copias procesadas"
+"<html><head/><body><p>Máx. / mín. / media de la relación señal/ruido de las "
+"copias procesadas</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:253
@@ -32130,18 +32122,19 @@ msgstr "Guardar preferencias"
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:369
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Memory monitor</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Memory monitor. Double click to toggle text on / off.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Monitor de la memoria</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Monitor de la memoria. Doble clic para conmutar la "
+"visualización de texto.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, GeneralProcMinimized)
 #: fitsviewer/livestacking.ui:379
 #, kde-format
 msgid "Configure general options in this section."
-msgstr ""
+msgstr "Configure las opciones generales en esta sección."
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, PostProcMinimized)
@@ -32192,10 +32185,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:571
-#, fuzzy, kde-format
-#| msgid "Kernel:"
+#, kde-format
 msgid "  Kernel:"
-msgstr "Kernel:"
+msgstr "  Kernel:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenSigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
@@ -32222,10 +32214,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:621
-#, fuzzy, kde-format
-#| msgid "PSF Sigma:"
+#, kde-format
 msgid "  PSF Sigma:"
-msgstr "Sigma de PSF:"
+msgstr "  Sigma de PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
@@ -32267,7 +32258,7 @@ msgstr "Reprocesar"
 #: fitsviewer/livestacking.ui:785
 #, kde-format
 msgid "Configure post-processing options in this section."
-msgstr ""
+msgstr "Configure las opciones de posprocesamiento en esta sección."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, masterFlatLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
@@ -32319,7 +32310,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:981
 #, kde-format
 msgid "Configure calibration options in this section."
-msgstr ""
+msgstr "Configure las opciones de calibración en esta sección."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, AlignMethod)
 #. i18n: ectx: property (toolTip), widget (QLabel, alignLabel)
@@ -32358,14 +32349,10 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:1149
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The sub to use as reference to align all other subs."
-#| "</p></body></html>"
+#, kde-format
 msgid "The sub to use as reference to align all other subs."
 msgstr ""
-"<html><head/><body><p>La copia que se debe usar como referencia para alinear "
-"el resto de copias.</p></body></html>"
+"La copia que se debe usar como referencia para alinear el resto de copias."
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:1152
@@ -32377,7 +32364,7 @@ msgstr "Copia original:"
 #: fitsviewer/livestacking.ui:1165
 #, kde-format
 msgid "Configure alignment options in this section."
-msgstr ""
+msgstr "Configure las opciones de alineación en esta sección."
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:1208
@@ -32434,13 +32421,7 @@ msgstr "Sigma baja:"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #. i18n: ectx: property (toolTip), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:1297 fitsviewer/livestacking.ui:1325
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The maximum number of subs held in memory whilst "
-#| "processing. The larger the value, the better the quality of the stacking "
-#| "process, but at the cost of more processing time and memory used.</"
-#| "p><p><br/></p><p>Processes such as sigma clipping will use this many subs "
-#| "to calculate statistics to use on all subs.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The maximum number of subs held in memory whilst "
 "processing. The larger the value, the better the quality of the stacking "
@@ -32451,9 +32432,9 @@ msgstr ""
 "<html><head/><body><p>El máximo número de copias que se conservan en memoria "
 "durante el proceso. Un número alto produce mejor calidad del proceso de "
 "apilamiento, a costa de un mayor tiempo de proceso y uso de memoria.</"
-"p><p><br/></p><p>Algunos procesos, como el recorte de sigma, usarán todas "
-"estas copias para calcular las estadísticas que se usarán en todas las "
-"copias.</p></body></html>"
+"p><p>Algunos procesos, como el recorte de sigma, usarán todas estas copias "
+"para calcular las estadísticas que se usarán en todas las copias.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:1328
@@ -32485,10 +32466,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:1403
-#, fuzzy, kde-format
-#| msgid "Downscale:"
+#, kde-format
 msgid "  Downscale: "
-msgstr "Reducir escala:"
+msgstr "  Reducir escala: "
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:1442
@@ -32519,10 +32499,9 @@ msgstr "Iguales"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:1504
-#, fuzzy, kde-format
-#| msgid "Frame Weight:"
+#, kde-format
 msgid "  Frame Weight: "
-msgstr "Peso de fotogramas:"
+msgstr "  Peso de fotogramas: "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, pixelRejLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
@@ -32570,16 +32549,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:1594
-#, fuzzy, kde-format
-#| msgid "Winsor Cutoff:"
+#, kde-format
 msgid "  Winsor Cutoff: "
-msgstr "Corte winsor:"
+msgstr "  Corte winsor: "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1632
 #, kde-format
 msgid "Configure stacking options in this section."
-msgstr ""
+msgstr "Configure las opciones de apilamiento en esta sección."
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -39568,36 +39546,35 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideGeneral), group (FITSViewer)
 #: kstars.kcfg:1790
-#, fuzzy, kde-format
-#| msgid "Live Stacking denoise amount"
+#, kde-format
 msgid "Live Stacking Minimise General Options Widget"
-msgstr "Cantidad de eliminación de ruido del apilamiento en vivo"
+msgstr "Panel para minimizar las opciones generales del apilamiento en vivo"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideCalibration), group (FITSViewer)
 #: kstars.kcfg:1794
 #, kde-format
 msgid "Live Stacking Minimise Calibration Options Widget"
 msgstr ""
+"Panel para minimizar las opciones de calibración del apilamiento en vivo"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideAlignment), group (FITSViewer)
 #: kstars.kcfg:1798
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Live Stacking Minimise Alignment Options Widget"
-msgstr "Método de alineación del apilamiento en vivo"
+msgstr "Panel para minimizar las opciones alineación del apilamiento en vivo"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideStacking), group (FITSViewer)
 #: kstars.kcfg:1802
-#, fuzzy, kde-format
-#| msgid "Live Stacking denoise amount"
+#, kde-format
 msgid "Live Stacking Minimise Stacking Options Widget"
-msgstr "Cantidad de eliminación de ruido del apilamiento en vivo"
+msgstr "Panel para minimizar las opciones del apilamiento en vivo"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHidePostProc), group (FITSViewer)
 #: kstars.kcfg:1806
 #, kde-format
 msgid "Live Stacking Minimise Post-Processing Options Widget"
 msgstr ""
+"Panel para minimizar las opciones de posprocesamiento del apilamiento en vivo"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterDark), group (FITSViewer)
 #: kstars.kcfg:1810
@@ -39662,10 +39639,9 @@ msgstr "Corte winsor para el recorte de sigma del apilamiento en vivo"
 
 #. i18n: ectx: whatsthis, entry (fitsLSPostProc), group (FITSViewer)
 #: kstars.kcfg:1850
-#, fuzzy, kde-format
-#| msgid "Live Stacking sharpening sigma"
+#, kde-format
 msgid "Live Stacking Post Processing switch"
-msgstr "Sigma de enfoque del apilamiento en vivo"
+msgstr "Interruptor de posprocesamiento del apilamiento en vivo"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1854

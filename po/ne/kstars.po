@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-17 01:55+0000\n"
+"POT-Creation-Date: 2025-09-18 02:00+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -503,14 +503,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "आकाशे छवि बचत गर्नुहोस्..."
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3960
+#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3967
 #: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1383
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "\"%1\" नामकरण गरिएको फाइल पहिल्यै अवस्थित छ । यसलाई अधिलेखन गर्नुहुन्छ ?"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3963
+#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3970
 #: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1384
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -2802,7 +2802,7 @@ msgstr ""
 "यूआरएल वैध छैन । तपाईँ गुगल खोजी इन्जिनमा ब्राउजर सञ्झ्याल\n"
 "खोल्न चाहनुहुन्छ ?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3971
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3978
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
@@ -6601,7 +6601,7 @@ msgid "Mount coordinates are invalid. Check mount connection and try again."
 msgstr "टेलिस्कोप %1 अफलाइन छ । कृपया जडान गर्नुहोस् र फेरि पुन: प्रयास गर्नुहोस् ।"
 
 #: ekos/align/align.cpp:1430 ekos/align/align.cpp:1462
-#: ekos/align/align.cpp:2436
+#: ekos/align/align.cpp:2438
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr ""
@@ -6682,7 +6682,7 @@ msgstr "स्काइ वस्तुहरू लोड गर्दै"
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr "स्काइ वस्तुहरू लोड गर्दै"
 
-#: ekos/align/align.cpp:1598 ekos/align/align.cpp:3078
+#: ekos/align/align.cpp:1598 ekos/align/align.cpp:3080
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
@@ -6768,45 +6768,45 @@ msgstr "आकाशे नक्सामा टेलिस्कोप स्
 msgid "Camera position angle is %1 degrees."
 msgstr "लक्षित सीसीडी चिप तापक्रम सेट गर्नुहोस् ।"
 
-#: ekos/align/align.cpp:2291 ekos/align/align.cpp:2722
+#: ekos/align/align.cpp:2293 ekos/align/align.cpp:2724
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Astrometry alignment completed successfully"
 msgstr "आगत समन्वयहरू चयन गर्नुहोस्"
 
-#: ekos/align/align.cpp:2313
+#: ekos/align/align.cpp:2315
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2342
+#: ekos/align/align.cpp:2344
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2404
+#: ekos/align/align.cpp:2406
 #, fuzzy, kde-format
 #| msgid "Save the image to disk"
 msgid "Saving failed solver image to %1"
 msgstr "डिस्कमा छवि बचत गर्नुहोस्"
 
-#: ekos/align/align.cpp:2413
+#: ekos/align/align.cpp:2415
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr ""
 
-#: ekos/align/align.cpp:2423
+#: ekos/align/align.cpp:2425
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr ""
 
-#: ekos/align/align.cpp:2431
+#: ekos/align/align.cpp:2433
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver Failed."
 msgstr "FOV छैन"
 
-#: ekos/align/align.cpp:2434
+#: ekos/align/align.cpp:2436
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6814,42 +6814,42 @@ msgid ""
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
 
-#: ekos/align/align.cpp:2493
+#: ekos/align/align.cpp:2495
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "लक्षित सीसीडी चिप तापक्रम सेट गर्नुहोस् ।"
 
-#: ekos/align/align.cpp:2500
+#: ekos/align/align.cpp:2502
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2514
+#: ekos/align/align.cpp:2516
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align.cpp:2581
+#: ekos/align/align.cpp:2583
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Refresh is complete."
 msgstr "%1 अनलाइन छ ।"
 
-#: ekos/align/align.cpp:2588 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/align/align.cpp:2590 ekos/auxiliary/darklibrary.cpp:1413
 #: ekos/focus/focus.cpp:1667
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
 msgstr "छवि ग्रहण गर्नुहोस्"
 
-#: ekos/align/align.cpp:2594
+#: ekos/align/align.cpp:2596
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Solver aborted after %1 seconds."
 msgstr "%1 मा FITS फाइल बचत गरियो"
 
-#: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4095
+#: ekos/align/align.cpp:2639 ekos/analyze/analyze.cpp:4095
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2105 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
@@ -6859,80 +6859,80 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr ""
 
-#: ekos/align/align.cpp:2693
+#: ekos/align/align.cpp:2695
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 
-#: ekos/align/align.cpp:2716
+#: ekos/align/align.cpp:2718
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "Mount is synced to solution coordinates."
 msgstr "आकाशे नक्सामा टेलिस्कोप स्थिति प्रदर्शन गर्नुहोस्"
 
-#: ekos/align/align.cpp:2752 ekos/align/align.cpp:2770
-#: ekos/align/align.cpp:3382 ekos/align/align.cpp:4104
+#: ekos/align/align.cpp:2754 ekos/align/align.cpp:2772
+#: ekos/align/align.cpp:3384 ekos/align/align.cpp:4111
 #: ekos/align/polaralignmentassistant.cpp:654
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling..."
 msgstr "सेटिङहरू"
 
-#: ekos/align/align.cpp:2760
+#: ekos/align/align.cpp:2762
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align.cpp:2762
+#: ekos/align/align.cpp:2764
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align.cpp:2805 ekos/align/align.cpp:2956
+#: ekos/align/align.cpp:2807 ekos/align/align.cpp:2958
 #, kde-format
 msgid "Syncing failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2807
+#: ekos/align/align.cpp:2809
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Slewing failed."
 msgstr "अन्य"
 
-#: ekos/align/align.cpp:2851
+#: ekos/align/align.cpp:2853
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached camera position angle."
 msgstr "स्थिति कोण"
 
-#: ekos/align/align.cpp:2864
+#: ekos/align/align.cpp:2866
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align.cpp:2902
+#: ekos/align/align.cpp:2904
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Slew detected, suspend solving..."
 msgstr "फारमिङटन"
 
-#: ekos/align/align.cpp:2950
+#: ekos/align/align.cpp:2952
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "आगत समन्वयहरू चयन गर्नुहोस्"
 
-#: ekos/align/align.cpp:2974
+#: ekos/align/align.cpp:2976
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "आगत समन्वयहरू चयन गर्नुहोस्"
 
-#: ekos/align/align.cpp:2979
+#: ekos/align/align.cpp:2981
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid ""
@@ -6940,92 +6940,92 @@ msgid ""
 "notification)"
 msgstr "आगत समन्वयहरू चयन गर्नुहोस्"
 
-#: ekos/align/align.cpp:2998
+#: ekos/align/align.cpp:3000
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr ""
 
-#: ekos/align/align.cpp:3047
+#: ekos/align/align.cpp:3049
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "छवि यूआरएल लोड गर्दै"
 
-#: ekos/align/align.cpp:3278
+#: ekos/align/align.cpp:3280
 #, fuzzy, kde-format
 #| msgid "Select Coordinate System for Output File"
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "निर्गत फाइलका लागि समन्वय प्रणाली चयन गर्नुहोस्"
 
-#: ekos/align/align.cpp:3283
+#: ekos/align/align.cpp:3285
 #, fuzzy, kde-format
 #| msgid "Select Coordinate System for Output File"
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "निर्गत फाइलका लागि समन्वय प्रणाली चयन गर्नुहोस्"
 
-#: ekos/align/align.cpp:3302
+#: ekos/align/align.cpp:3304
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture error. Aborting..."
 msgstr "छवि ग्रहण गर्नुहोस्"
 
-#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1630
+#: ekos/align/align.cpp:3309 ekos/capture/cameraprocess.cpp:1630
 #: ekos/capture/cameraprocess.cpp:2191
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3433
+#: ekos/align/align.cpp:3435
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "फोकस गरिएको: "
 
-#: ekos/align/align.cpp:3508
+#: ekos/align/align.cpp:3510
 #, fuzzy, kde-format
 #| msgid "Constellation Name Options"
 msgid "StellarSolver Options"
 msgstr "तारामण्डल नाम विकल्प"
 
-#: ekos/align/align.cpp:3513
+#: ekos/align/align.cpp:3515
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3517
+#: ekos/align/align.cpp:3519
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Scale & Position"
 msgstr "स्थिति रिसेट गर्नुहोस्"
 
-#: ekos/align/align.cpp:3521
+#: ekos/align/align.cpp:3523
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Align Options Profiles Editor"
 msgstr "थम्बनेल सम्पादक"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3540 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3542 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 #| msgid "Invalid File"
 msgid "Index Files"
 msgstr "अवैध फाइल"
 
-#: ekos/align/align.cpp:3605 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3607 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgid "arcmin"
 msgid "dRA (arcsec)"
 msgstr "आर्कमिनेट"
 
-#: ekos/align/align.cpp:3606 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3608 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "arcsecs"
 msgid "dDE (arcsec)"
 msgstr "आर्कसेक"
 
-#: ekos/align/align.cpp:3654 ekos/capture/camera_config.cpp:717
+#: ekos/align/align.cpp:3656 ekos/capture/camera_config.cpp:717
 #: ekos/focus/focus.cpp:5894
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -7033,37 +7033,37 @@ msgstr "आर्कसेक"
 msgid "Filter operation failed."
 msgstr "कालियन्टे"
 
-#: ekos/align/align.cpp:3666 ekos/capture/camera.cpp:579
+#: ekos/align/align.cpp:3668 ekos/capture/camera.cpp:579
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3673 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3675 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/camera.cpp:584
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3678 ekos/capture/camera.cpp:589
+#: ekos/align/align.cpp:3680 ekos/capture/camera.cpp:589
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
 msgstr "पूरा भएको"
 
-#: ekos/align/align.cpp:3799
+#: ekos/align/align.cpp:3801
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid FOV."
 msgstr "अवैध यूआरएल"
 
-#: ekos/align/align.cpp:3947
+#: ekos/align/align.cpp:3954
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "सबै कक्ष मार्ग खाली गर्नुहोस्"
 
-#: ekos/align/align.cpp:3970 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:3977 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
 #: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
@@ -7073,7 +7073,7 @@ msgstr "सबै कक्ष मार्ग खाली गर्नुह�
 msgid "Invalid URL: %1"
 msgstr "अवैध यूआरएल: %1"
 
-#: ekos/align/align.cpp:3979 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:3986 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:3201
 #: ekos/scheduler/schedulerprocess.cpp:4945
@@ -7082,7 +7082,7 @@ msgstr "अवैध यूआरएल: %1"
 msgid "Unable to write to file %1"
 msgstr "छवि बचत गर्न असक्षम भयो: %1 "
 
-#: ekos/align/align.cpp:3980 ekos/align/mountmodel.cpp:286
+#: ekos/align/align.cpp:3987 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:347
 #: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3202
@@ -7102,31 +7102,31 @@ msgstr "छवि बचत गर्न असक्षम भयो: %1 "
 msgid "Could Not Open File"
 msgstr "फाइल खोल्न सकेन"
 
-#: ekos/align/align.cpp:4001
+#: ekos/align/align.cpp:4008
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "रेखामा त्रुटि"
 
-#: ekos/align/align.cpp:4010
+#: ekos/align/align.cpp:4017
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "तेर्सो समकक्ष"
 
-#: ekos/align/align.cpp:4027
+#: ekos/align/align.cpp:4034
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Polar Alignment"
 msgstr "फोकस गरिएको: "
 
-#: ekos/align/align.cpp:4581
+#: ekos/align/align.cpp:4588
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "छवि ग्रहण गर्नुहोस्"
 
-#: ekos/align/align.cpp:4590
+#: ekos/align/align.cpp:4597
 #, fuzzy, kde-format
 #| msgid "Loading sky objects"
 msgid "Capturing still running, Retrying in %1 seconds..."

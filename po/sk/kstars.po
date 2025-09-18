@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-17 01:55+0000\n"
+"POT-Creation-Date: 2025-09-18 02:00+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -485,14 +485,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Uložiť obrázok"
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3960
+#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3967
 #: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1383
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Súbor s názvom \"%1\" už existuje. Chcete ho prepísať?"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3963
+#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3970
 #: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1384
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -2725,7 +2725,7 @@ msgstr ""
 "URL nie je platné. Chcete otvoriť vyhľadávač Google\n"
 "  v okno prehliadača?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3971
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3978
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
@@ -6434,7 +6434,7 @@ msgid "Mount coordinates are invalid. Check mount connection and try again."
 msgstr "Ďalekohľad %1 je odpojený. Pripojte ho a pokúste sa znovu."
 
 #: ekos/align/align.cpp:1430 ekos/align/align.cpp:1462
-#: ekos/align/align.cpp:2436
+#: ekos/align/align.cpp:2438
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "Astrometrické zarovnanie zlyhalo"
@@ -6514,7 +6514,7 @@ msgstr "Prebieha automatické ostrenie..."
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr "Prebieha automatické ostrenie..."
 
-#: ekos/align/align.cpp:1598 ekos/align/align.cpp:3078
+#: ekos/align/align.cpp:1598 ekos/align/align.cpp:3080
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
@@ -6606,46 +6606,46 @@ msgstr "Cieľ je medzi %1 stupňami cieľových súradníc."
 msgid "Camera position angle is %1 degrees."
 msgstr "Nastavujem teplotu na %1 C..."
 
-#: ekos/align/align.cpp:2291 ekos/align/align.cpp:2722
+#: ekos/align/align.cpp:2293 ekos/align/align.cpp:2724
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Astrometrické zarovnanie ukončené úspešne"
 
-#: ekos/align/align.cpp:2313
+#: ekos/align/align.cpp:2315
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr "Dosiahol sa maximálny počet iterácií. Riešiteľ zlyhal."
 
-#: ekos/align/align.cpp:2342
+#: ekos/align/align.cpp:2344
 #, fuzzy, kde-format
 #| msgid "Target is within acceptable range. Astrometric solver is successful."
 msgid "Target is within acceptable range."
 msgstr "Cieľ je v akceptovanom rozsahu. Astrometrický riešiteľ je úspešný."
 
-#: ekos/align/align.cpp:2404
+#: ekos/align/align.cpp:2406
 #, fuzzy, kde-format
 #| msgid "Saved image to %1"
 msgid "Saving failed solver image to %1"
 msgstr "Obrázok uložený do %1"
 
-#: ekos/align/align.cpp:2413
+#: ekos/align/align.cpp:2415
 #, fuzzy, kde-format
 #| msgid "Solver failed. Try again."
 msgid "Solver failed. Retrying without scale constraint."
 msgstr "Riešiteľ zlyhal. Skúsiť znova."
 
-#: ekos/align/align.cpp:2423
+#: ekos/align/align.cpp:2425
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr ""
 
-#: ekos/align/align.cpp:2431
+#: ekos/align/align.cpp:2433
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Solver Failed."
 msgstr "Riešiteľ FOV"
 
-#: ekos/align/align.cpp:2434
+#: ekos/align/align.cpp:2436
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6653,43 +6653,43 @@ msgid ""
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
 
-#: ekos/align/align.cpp:2493
+#: ekos/align/align.cpp:2495
 #, fuzzy, kde-format
 #| msgid "Setting temperature to %1 C..."
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Nastavujem teplotu na %1 C..."
 
-#: ekos/align/align.cpp:2500
+#: ekos/align/align.cpp:2502
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2514
+#: ekos/align/align.cpp:2516
 #, fuzzy, kde-format
 #| msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Aktuálne ADU je %1 Ďalšia expozícia je %2 sekúnd."
 
-#: ekos/align/align.cpp:2581
+#: ekos/align/align.cpp:2583
 #, fuzzy, kde-format
 #| msgid "%1 slew is complete."
 msgid "Refresh is complete."
 msgstr "Otočenie %1 hotové."
 
-#: ekos/align/align.cpp:2588 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/align/align.cpp:2590 ekos/auxiliary/darklibrary.cpp:1413
 #: ekos/focus/focus.cpp:1667
 #, kde-format
 msgid "Capture aborted."
 msgstr "Zachytenie predčasne ukončené."
 
-#: ekos/align/align.cpp:2594
+#: ekos/align/align.cpp:2596
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 second."
 #| msgid_plural "Solver aborted after %1 seconds"
 msgid "Solver aborted after %1 seconds."
 msgstr "Riešiteľ predčasne ukončený po %1 sekunde."
 
-#: ekos/align/align.cpp:2637 ekos/analyze/analyze.cpp:4095
+#: ekos/align/align.cpp:2639 ekos/analyze/analyze.cpp:4095
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2105 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
@@ -6699,78 +6699,78 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2693
+#: ekos/align/align.cpp:2695
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 
-#: ekos/align/align.cpp:2716
+#: ekos/align/align.cpp:2718
 #, fuzzy, kde-format
 #| msgid "Target is within acceptable range. Astrometric solver is successful."
 msgid "Mount is synced to solution coordinates."
 msgstr "Cieľ je v akceptovanom rozsahu. Astrometrický riešiteľ je úspešný."
 
-#: ekos/align/align.cpp:2752 ekos/align/align.cpp:2770
-#: ekos/align/align.cpp:3382 ekos/align/align.cpp:4104
+#: ekos/align/align.cpp:2754 ekos/align/align.cpp:2772
+#: ekos/align/align.cpp:3384 ekos/align/align.cpp:4111
 #: ekos/align/polaralignmentassistant.cpp:654
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Settling..."
 msgstr "settling"
 
-#: ekos/align/align.cpp:2760
+#: ekos/align/align.cpp:2762
 #, fuzzy, kde-format
 #| msgid "Target accuracy is not met, running solver again..."
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr "Nedosiahla sa cieľová presnosť, spúšťam riešenie znovu..."
 
-#: ekos/align/align.cpp:2762
+#: ekos/align/align.cpp:2764
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align.cpp:2805 ekos/align/align.cpp:2956
+#: ekos/align/align.cpp:2807 ekos/align/align.cpp:2958
 #, kde-format
 msgid "Syncing failed."
 msgstr "Synchronizácia zlyhala."
 
-#: ekos/align/align.cpp:2807
+#: ekos/align/align.cpp:2809
 #, fuzzy, kde-format
 #| msgid "Dithering"
 msgid "Slewing failed."
 msgstr "Rozptyľovanie"
 
-#: ekos/align/align.cpp:2851
+#: ekos/align/align.cpp:2853
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached camera position angle."
 msgstr "Pozičný uhol"
 
-#: ekos/align/align.cpp:2864
+#: ekos/align/align.cpp:2866
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align.cpp:2902
+#: ekos/align/align.cpp:2904
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "Slew detected, suspend solving..."
 msgstr "Nezistené žiadne hviezdy, zachytávanie ešte raz..."
 
-#: ekos/align/align.cpp:2950
+#: ekos/align/align.cpp:2952
 #, fuzzy, kde-format
 #| msgid "Syncing to RA (%1) DEC (%2) is successful."
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Synchronizácia na RA (%1) DEC (%2) je úspešná."
 
-#: ekos/align/align.cpp:2974
+#: ekos/align/align.cpp:2976
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Otáčanie na cieľové súradnice: RA (%1) DEC (%2)."
 
-#: ekos/align/align.cpp:2979
+#: ekos/align/align.cpp:2981
 #, fuzzy, kde-format
 #| msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgid ""
@@ -6778,130 +6778,130 @@ msgid ""
 "notification)"
 msgstr "Otáčanie na cieľové súradnice: RA (%1) DEC (%2)."
 
-#: ekos/align/align.cpp:2998
+#: ekos/align/align.cpp:3000
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr ""
 
-#: ekos/align/align.cpp:3047
+#: ekos/align/align.cpp:3049
 #, fuzzy, kde-format
 #| msgid "Load Image"
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Načítať obrázok"
 
-#: ekos/align/align.cpp:3278
+#: ekos/align/align.cpp:3280
 #, fuzzy, kde-format
 #| msgid "World Coordinate System (WCS) is disabled."
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "World Coordinate System (WCS) je zakázaný."
 
-#: ekos/align/align.cpp:3283
+#: ekos/align/align.cpp:3285
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "World Coordinate System (WCS) je zakázaný."
 
-#: ekos/align/align.cpp:3302
+#: ekos/align/align.cpp:3304
 #, fuzzy, kde-format
 #| msgid "Capture error! Aborting..."
 msgid "Capture error. Aborting..."
 msgstr "Chyba zachytenia! Prerušujem..."
 
-#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1630
+#: ekos/align/align.cpp:3309 ekos/capture/cameraprocess.cpp:1630
 #: ekos/capture/cameraprocess.cpp:2191
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Pokus o reštartovanie #%1"
 
-#: ekos/align/align.cpp:3433
+#: ekos/align/align.cpp:3435
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Zarovnanie"
 
-#: ekos/align/align.cpp:3508
+#: ekos/align/align.cpp:3510
 #, fuzzy, kde-format
 #| msgid "Plate Solver Options"
 msgid "StellarSolver Options"
 msgstr "Možnosti riešenia dosky"
 
-#: ekos/align/align.cpp:3513
+#: ekos/align/align.cpp:3515
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3517
+#: ekos/align/align.cpp:3519
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Scale & Position"
 msgstr "Resetovať polohu"
 
-#: ekos/align/align.cpp:3521
+#: ekos/align/align.cpp:3523
 #, fuzzy, kde-format
 #| msgid "Profile Editor"
 msgid "Align Options Profiles Editor"
 msgstr "Editor profilov"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3540 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3542 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 #| msgid "Input File:"
 msgid "Index Files"
 msgstr "Vstupný súbor:"
 
-#: ekos/align/align.cpp:3605 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3607 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "RA (arcmin)"
 msgid "dRA (arcsec)"
 msgstr "RA (uhlové minúty)"
 
-#: ekos/align/align.cpp:3606 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3608 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "arcsec"
 msgid "dDE (arcsec)"
 msgstr "arcsec"
 
-#: ekos/align/align.cpp:3654 ekos/capture/camera_config.cpp:717
+#: ekos/align/align.cpp:3656 ekos/capture/camera_config.cpp:717
 #: ekos/focus/focus.cpp:5894
 #, fuzzy, kde-format
 #| msgid "%1 calibration failed!"
 msgid "Filter operation failed."
 msgstr "Kalibrácia %1 zlyhala!"
 
-#: ekos/align/align.cpp:3666 ekos/capture/camera.cpp:579
+#: ekos/align/align.cpp:3668 ekos/capture/camera.cpp:579
 #, fuzzy, kde-format
 #| msgid "Changing filter to %1..."
 msgid "Changing focus offset by %1 steps..."
 msgstr "Mením filter na %1..."
 
-#: ekos/align/align.cpp:3673 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3675 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/camera.cpp:584
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Mením filter na %1..."
 
-#: ekos/align/align.cpp:3678 ekos/capture/camera.cpp:589
+#: ekos/align/align.cpp:3680 ekos/capture/camera.cpp:589
 #, fuzzy, kde-format
 #| msgid "Autofocus on Filter Change"
 msgid "Auto focus on filter change..."
 msgstr "Automaticky zamerať pri zmene filtra"
 
-#: ekos/align/align.cpp:3799
+#: ekos/align/align.cpp:3801
 #, fuzzy, kde-format
 #| msgid "Invalid"
 msgid "Invalid FOV."
 msgstr "Neplatné"
 
-#: ekos/align/align.cpp:3947
+#: ekos/align/align.cpp:3954
 #, fuzzy, kde-format
 #| msgid "Clear all points"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Vyčistiť všetky body"
 
-#: ekos/align/align.cpp:3970 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:3977 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
 #: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
@@ -6911,7 +6911,7 @@ msgstr "Vyčistiť všetky body"
 msgid "Invalid URL: %1"
 msgstr "Neplatné URL: %1"
 
-#: ekos/align/align.cpp:3979 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:3986 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:3201
 #: ekos/scheduler/schedulerprocess.cpp:4945
@@ -6919,7 +6919,7 @@ msgstr "Neplatné URL: %1"
 msgid "Unable to write to file %1"
 msgstr "Nemôžem zapisovať do súboru %1"
 
-#: ekos/align/align.cpp:3980 ekos/align/mountmodel.cpp:286
+#: ekos/align/align.cpp:3987 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:347
 #: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3202
@@ -6939,31 +6939,31 @@ msgstr "Nemôžem zapisovať do súboru %1"
 msgid "Could Not Open File"
 msgstr "Nepodarilo sa otvoriť súbor"
 
-#: ekos/align/align.cpp:4001
+#: ekos/align/align.cpp:4008
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "Chyba na riadkoch"
 
-#: ekos/align/align.cpp:4010
+#: ekos/align/align.cpp:4017
 #, fuzzy, kde-format
 #| msgid "Solution Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "Výsledné súradnice"
 
-#: ekos/align/align.cpp:4027
+#: ekos/align/align.cpp:4034
 #, fuzzy, kde-format
 #| msgid "Polar Alignment Measurement"
 msgid "Polar Alignment"
 msgstr "Meranie polárneho vyrovnania"
 
-#: ekos/align/align.cpp:4581
+#: ekos/align/align.cpp:4588
 #, fuzzy, kde-format
 #| msgid "Capture failed."
 msgid "Capture timed out."
 msgstr "Zachytenie zhyhalo."
 
-#: ekos/align/align.cpp:4590
+#: ekos/align/align.cpp:4597
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capturing still running, Retrying in %1 seconds..."
