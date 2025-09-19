@@ -663,6 +663,13 @@ StarObject *StarComponent::findByHDIndex(int HDnum)
     return nullptr;
 }
 
+SkyObject *StarComponent::findByName(const QString &name, bool exact)
+{
+    if (name.startsWith("HD"))
+        return findByHDIndex(name.split(" ")[1].toInt());
+    return ListComponent::findByName(name, exact);
+}
+
 // This uses the main star index for looking up nearby stars but then
 // filters out objects with the generic name "star".  We could easily
 // build an index for just the named stars which would make this go
