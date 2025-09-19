@@ -3849,6 +3849,9 @@ void Align::calculateAlignTargetDiff()
     // JM 2025.09.17: Calculate anyway, we don't need to take any actions.
     m_TargetDiffRA = (m_AlignCoord.ra().deltaAngle(m_TargetCoord.ra())).Degrees() * 3600;  // arcsec
     m_TargetDiffDE = (m_AlignCoord.dec().deltaAngle(m_TargetCoord.dec())).Degrees() * 3600;  // arcsec
+
+    // Must update target coordinate horizontal coordinates.
+    m_TargetCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
     m_TargetDiffAZ = (m_AlignCoord.az().deltaAngle(m_TargetCoord.az())).Degrees() * 3600;  // arcsec
     m_TargetDiffAL = (m_AlignCoord.alt().deltaAngle(m_TargetCoord.alt())).Degrees() * 3600;  // arcsec
 
