@@ -45,7 +45,7 @@ class OpsEkos;
 /**
  * @class Manager
  * @short Primary class to handle all Ekos modules.
- * The Ekos Manager class manages startup and shutdown of INDI devices and registeration of devices within Ekos Modules. Ekos module consist of \ref Ekos::Mount, \ref Ekos::Capture, \ref Ekos::Focus, \ref Ekos::Guide, and \ref Ekos::Align modules.
+ * The Ekos Manager class manages startup and shutdown of INDI devices and registration of devices within Ekos Modules. Ekos module consist of \ref Ekos::Mount, \ref Ekos::Capture, \ref Ekos::Focus, \ref Ekos::Guide, and \ref Ekos::Align modules.
  * \defgroup EkosDBusInterface "Ekos DBus Interface" provides high level functions to control devices and Ekos modules for a total robotic operation:
  * <ul>
  * <li>\ref CaptureDBusInterface "Capture Module DBus Interface"</li>

@@ -321,7 +321,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         Q_INVOKABLE bool modifyJob(int index = -1);
 
         /**
-         * @brief updateSchedulerURL Update scheduler URL after succesful loading a new file.
+         * @brief updateSchedulerURL Update scheduler URL after successful loading a new file.
          */
         void updateSchedulerURL(const QString &fileURL);
 
@@ -406,7 +406,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         /**
          * @brief load Open a file dialog to select an ESL file, and load its contents.
          * @param clearQueue Clear the queue before loading, or append ESL contents to queue.
-         * @param filename If not empty, this file will be used instead of poping up a dialog.
+         * @param filename If not empty, this file will be used instead of popping up a dialog.
          */
         Q_INVOKABLE bool load(bool clearQueue, const QString &filename = QString());
 

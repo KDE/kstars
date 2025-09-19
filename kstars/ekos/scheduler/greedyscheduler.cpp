@@ -331,7 +331,7 @@ QDateTime firstPossibleStart(const SchedulerJob *job, const QDateTime &now,
 // Consider all jobs marked as JOB_EVALUATION/ABORT/ERROR. Assume ordered by highest priority first.
 // - Find the job with the earliest start time (given constraints like altitude, twilight, ...)
 //   that can run for at least 10 minutes before a higher priority job.
-// - START_AT jobs are given the highest priority, whereever on the list they may be,
+// - START_AT jobs are given the highest priority, wherever on the list they may be,
 //   as long as they can start near their designated start times.
 // - Compute a schedule for the next 2 days, if fullSchedule is true, otherwise
 //   just look for the next job.
@@ -806,7 +806,7 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
                     completedIterations +=
                         1 + (workDone[selectedJob] - originalSecsLeftIteration[selectedJob]) / selectedJob->getEstimatedTimePerRepeat();
                 TEST_PRINT(stderr, "%d   %s\n", __LINE__,
-                           QString("  work sets interations=%1").arg(completedIterations).toLatin1().data());
+                           QString("  work sets iterations=%1").arg(completedIterations).toLatin1().data());
                 selectedJob->setCompletedIterations(completedIterations);
             }
         }

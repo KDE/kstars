@@ -1678,7 +1678,8 @@ if(APPLE)
         MACOSX_BUNDLE TRUE
         MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/kstars-mac-files/macosbundle.plist.in"
     )
-    # This last one is for ediing purposes.  Craft puts KStars.app in ${CMAKE_BINARY_DIR}/bin and building wihtout craft places it in ${CMAKE_BINARY_DIR}/kstars
+    # This last one is for editing purposes. Craft puts KStars.app in ${CMAKE_BINARY_DIR}/bin
+    # and building without craft places it in ${CMAKE_BINARY_DIR}/kstars
     file(COPY
       "${KSTARS_APP}"
       DESTINATION "${CMAKE_BINARY_DIR}/kstars/")

@@ -122,7 +122,7 @@ StellarSolverProfileEditor::StellarSolverProfileEditor(QWidget *parent, ProfileG
         optionsList.removeAt(item);
         if(optionsProfile->count() > 0)
         {
-            if(item > optionsList.count() - 1) //So that it doesn't try to set the new list to a nonexistant one
+            if(item > optionsList.count() - 1) //So that it doesn't try to set the new list to a nonexistent one
                 item--;
             openOptionsProfileNum = item;
             loadOptionsProfileIgnoreOldSettings(item); //Because the old one no longer exists

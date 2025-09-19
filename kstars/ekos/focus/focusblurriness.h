@@ -60,7 +60,7 @@ class FocusBlurriness
         /**
              * @brief Apply Ring Mask to Image
              * @param img is the image
-             * @oaram width of image
+             * @param width of image
              * @param height of image
              * @param ringMask
              */

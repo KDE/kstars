@@ -90,11 +90,11 @@ private:
      */
     void reset();
 
-    // informations about the current frame
+    // information about the current frame
     void setFrameInfo(const QString frametype, const QString filter = "", const double exptime = -1, const int xBin = -1, const int yBin = -1, const double gain = -1);
 
     /**
-     * @brief showCurrentCameraInfo Display the capturing status informations for the selected camera device
+     * @brief showCurrentCameraInfo Display the capturing status information for the selected camera device
      */
     void showCurrentCameraInfo();
     /**

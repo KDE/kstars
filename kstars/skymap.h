@@ -722,7 +722,7 @@ class SkyMap : public QGraphicsView
         dms determineSkyRotation();
 
         /**
-         * @short Strart xplanet.
+         * @short Start xplanet.
          * @param outputFile Output file path.
          */
         void startXplanet(const QString &outputFile = "");

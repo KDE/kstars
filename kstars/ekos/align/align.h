@@ -70,7 +70,7 @@ class ManualRotator;
  * is supported in order to align the solved images to a particular orientation in the sky. The manual rotation assistant is an interactive
  * tool that helps the user to arrive at the desired framing.
  * Align module provide Polar Align Helper tool which enables easy-to-follow polar alignment procedure given wide FOVs (> 1.5 degrees)
- * Legacy polar aligment is deprecated.
+ * Legacy polar alignment is deprecated.
  *@author Jasem Mutlaq
  *@version 2.0
  */
@@ -927,7 +927,7 @@ class Align : public QWidget, public Ui::Align
         static constexpr uint16_t DELAY_THRESHOLD_NOTIFY { 3000 };
 
         // Mount Model
-        // N.B. We do not need to use "smart pointer" here as the object memroy
+        // N.B. We do not need to use "smart pointer" here as the object memory
         // is taken care of by the Qt framework.
         MountModel *m_MountModel {nullptr};
         PolarAlignmentAssistant *m_PolarAlignmentAssistant {nullptr};

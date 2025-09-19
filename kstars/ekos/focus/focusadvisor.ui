@@ -63,7 +63,7 @@
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>Check to have Focus Advisor search for stars. If you are close enough to Focus to see stars in the Focus frame then this step is not neccessary.</string>
+         <string>Check to have Focus Advisor search for stars. If you are close enough to Focus to see stars in the Focus frame then this step is not necessary.</string>
         </property>
         <property name="text">
          <string>Find Stars</string>

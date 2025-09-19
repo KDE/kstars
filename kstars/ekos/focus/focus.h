@@ -754,7 +754,7 @@ public slots:
         // Linear final updates to the curve
         void plotLinearFinalUpdates();
 
-        // Launch the Aberation Inspector popup
+        // Launch the Aberration Inspector popup
         void startAberrationInspector();
 
         // Get the curve fitting goal based on how the algorithm is progressing
@@ -915,7 +915,7 @@ public slots:
         void refreshOpticalTrain(const int id);
 
         /**
-         * @brief set member valiables for the scope attached to the current Optical Train
+         * @brief set member variables for the scope attached to the current Optical Train
          * @param Optical Train scope parameters
          * @param Optical Train reducer
          */
@@ -1162,7 +1162,7 @@ public slots:
          * Misc. variables
          ****************************/
 
-        /// Are we tring to abort Autofocus?
+        /// Are we trying to abort Autofocus?
         bool m_abortInProgress { false };
         /// Are we in the process of capturing an image?
         bool m_captureInProgress { false };

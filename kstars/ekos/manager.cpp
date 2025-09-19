@@ -3723,7 +3723,7 @@ void Manager::setDeviceReady()
         if (m_ekosStatus != Ekos::Success)
             return;
     }
-    // Some device (e.g. Toupcam) can take some time after conncting to full define
+    // Some device (e.g. Toupcam) can take some time after connecting to fully define
     // all their properties, so we need to wait until all properties are defined before
     // we issue a load config
     else if (device && Options::neverLoadConfig() == false)

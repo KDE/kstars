@@ -24,7 +24,7 @@ rotations between the images.
 addPoint(image) is called by the polar alignment UI after it takes and
 solves each of its three images. The solutions are store in SkyPoints (see below)
 and are processed so that the sky positions correspond to "what's in the sky
-now" and "at this geographic localtion".
+now" and "at this geographic location".
 
 Addpoint() samples the location of a particular pixel in its image.
 
@@ -37,7 +37,7 @@ it to match the Earth's real polar axes. Ekos has two techniques to do that. In 
 Ekos takes a series of "refresh images".  The user looks at the images and their
 associated analyses and adjusts the mount's altitude and azimuth knobs.
 
-In the first scheme, the user identifies a refrence star on the image. Ekos draws a triangle
+In the first scheme, the user identifies a reference star on the image. Ekos draws a triangle
 over the image, and user attempts to "move the star" along two sides of that triangle.
 
 In the 2nd scheme, the system plate-solves the refresh images, telling the user which direction
@@ -467,7 +467,7 @@ void PolarAlign::setMaxPixelSearchRange(double degrees)
 // from the original call to findCorrectedPixel. This calls findCorrectedPixel several hundred times
 // but is not too costly (about .1s on a RPi4).  One could write a method that more directly estimates
 // the error given the current position, but it might not be applicable to our use-case as
-// we are constrained to move along paths detemined by a user adjusting an altitude knob and then
+// we are constrained to move along paths determined by a user adjusting an altitude knob and then
 // an azimuth adjustment. These corrections are likely not the most direct path to solve the axis error.
 bool PolarAlign::pixelError(const QSharedPointer<FITSData> &image, const QPointF &pixel, const QPointF &pixel2,
                             double *azError, double *altError)

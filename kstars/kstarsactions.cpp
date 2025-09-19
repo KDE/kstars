@@ -441,7 +441,7 @@ void KStars::updateLocationFromWizard(const GeoLocation &geo)
     // reset next dst change time
     data()->setNextDSTChange(data()->geo()->tzrule()->nextDSTChange());
 
-    // reset local sideral time
+    // reset local sidereal time
     data()->syncLST();
 
     // Make sure Numbers, Moon, planets, and sky objects are updated immediately
@@ -1061,7 +1061,7 @@ void KStars::slotGeoLocator()
             // reset next dst change time
             data()->setNextDSTChange(newLocation->tzrule()->nextDSTChange());
 
-            // reset local sideral time
+            // reset local sidereal time
             data()->syncLST();
 
             // Make sure Numbers, Moon, planets, and sky objects are updated immediately

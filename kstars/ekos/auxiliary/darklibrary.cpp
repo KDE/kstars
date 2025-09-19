@@ -685,7 +685,7 @@ void DarkLibrary::clearAll()
 
     }
 
-    // Refesh db entries for other cameras
+    // Refresh db entries for other cameras
     refreshFromDB();
     reloadDarksFromDatabase();
 }

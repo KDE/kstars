@@ -829,7 +829,7 @@ bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time,
         return m_LeadJob->runsDuringAstronomicalNightTime(time, nextPossibleSuccess);
 
     // We call this very frequently in the Greedy Algorithm, and the calls
-    // below are expensive. Almost all the calls are redundent (e.g. if it's not nighttime
+    // below are expensive. Almost all the calls are redundant (e.g. if it's not nighttime
     // now, it's not nighttime in 10 minutes). So, cache the answer and return it if the next
     // call is for a time between this time and the next dawn/dusk (whichever is sooner).
 
@@ -876,7 +876,7 @@ bool SchedulerJob::runsDuringAstronomicalNightTimeInternal(const QDateTime &time
     QDateTime nDawn = nextDawn, nDusk = nextDusk;
     if (time.isValid())
     {
-        // Can't rely on the pre-computed dawn/dusk if we're giving it an arbitary time.
+        // Can't rely on the pre-computed dawn/dusk if we're giving it an arbitrary time.
         SchedulerModuleState::calculateDawnDusk(time, nDawn, nDusk);
         t = time;
     }

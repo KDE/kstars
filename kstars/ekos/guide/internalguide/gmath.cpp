@@ -504,7 +504,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         }
 
     }
-    // Limit the pulse length in case of rediculous values.
+    // Limit the pulse length in case of ridiculous values.
     constexpr int MAX_PULSE_MILLISECONDS = 5000;
     if (pulseLength > MAX_PULSE_MILLISECONDS)
     {

@@ -99,7 +99,7 @@ class GuideLog
         QFile logFile;
         QString logFileName;
 
-        // Message indeces and timers.
+        // Message indices and timers.
         int guideIndex = 1;
         int calibrationIndex = 1;
         QElapsedTimer timer;

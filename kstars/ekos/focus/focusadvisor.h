@@ -23,7 +23,7 @@ namespace Ekos
 // - Parameter setup -   FocusAdvisor recommends a setup using well tried combinations including Linear 1 Pass
 //                       Hperbolic curve fitting and HFR measure. A help dialog displays the current and proposed parameter
 //                       settings.
-// - Find stars -        Searches the range of travel of the focuser to find some stars. If the user knows roughtly where they
+// - Find stars -        Searches the range of travel of the focuser to find some stars. If the user knows roughly where they
 //                       are then set the focuser to this position and Find Stars will search around this area first.
 // - Coarse adjustment - This tool will attempt to adjust parameters (step size and backlash) in order get a reasonable V-curve
 //                       without curve fitting. This is a preparatory step before running Autofocus to make sure parameters are

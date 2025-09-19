@@ -115,17 +115,17 @@ ExposureCalculatorDialog::ExposureCalculatorDialog(QWidget *parent,
             bandwidth of 300, (roughly the bandwidth of a typical luminance filter).
 
             The filter compensation factor that will be applied to light pollution will be the filter bandwidth (from the UI) / 300.
-            This means that a typical luminance filter would produce a "nuetral" compensation of 1.0 (300 / 300).
+            This means that a typical luminance filter would produce a "neutral" compensation of 1.0 (300 / 300).
 
-            But the user interface will allow selection of wider bands for true "unfiltered" exposure calculations.  Example: by selecting a
-            bandwith of 360, the light pollution compensation will 1.2, calculated as (360 / 300).  This is to recognize that light pollution
-            may be entering the IR and UV range of an unfiltered camera sensor.
+            But the user interface will allow selection of wider bands for true "unfiltered" exposure calculations.  Example: by selecting
+            a bandwidth of 360, the light pollution compensation will 1.2, calculated as (360 / 300).  This is to recognize that light
+            pollution may be entering the IR and UV range of an unfiltered camera sensor.
 
             A Luminance filter may only pass 300nm, so the filter compensaton value would be 1.0 (300 / 300)
             An RGB filter may only pass 100nm, so the filter compensaton value would be 0.3333 = (100 / 300)
             An SHO filter may only pass 3nm, so the filter compensaton value would be 0.0100 = (3 / 300)
 
-            Filters will reduce bandwidth, but also slightly reduce tranmission within the range that they "pass".
+            Filters will reduce bandwidth, but also slightly reduce transmission within the range that they "pass".
             The values stated are only for demonstration and testing purposes, further research is needed.
 
         */
@@ -925,7 +925,7 @@ void ExposureCalculatorDialog::calculateSubExposure(double aNoiseTolerance, doub
 void ExposureCalculatorDialog::refreshCameraSelector(Ui::ExposureCalculatorDialog *ui,
         QStringList availableCameraFileNames, const QString aPreferredCameraId)
 {
-    // Present the aCameraId in a way that hopfully matches the cameraId from the driver
+    // Present the aCameraId in a way that hopefully matches the cameraId from the driver
     // but set the full path in the combo box data as a QVariant
     // Retrievable as:
     // QString filePath = ui->imagingCameraSelector->itemData(index).toString();
@@ -935,7 +935,7 @@ void ExposureCalculatorDialog::refreshCameraSelector(Ui::ExposureCalculatorDialo
 
     /*
      *  2023-10-05 Added sorting to the filelist, but the full path is included in this
-     *  list, and since camera data can come from either the applicaton folder, or a user local folder
+     *  list, and since camera data can come from either the application folder, or a user local folder
      *  the sort result can produce two groupings of sorted camera ids.
      *  In Linux, files from the user local folder will appear first in the QCombo.
     */

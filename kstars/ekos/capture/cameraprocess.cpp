@@ -1499,7 +1499,7 @@ void CameraProcess::captureImage()
         if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
             activeCamera()->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
     }
-    // If batch mode, ensure upload mode mathces the active job target.
+    // If batch mode, ensure upload mode matches the active job target.
     else
     {
         if (activeCamera()->getUploadMode() != activeJob()->getUploadMode())
@@ -2338,8 +2338,8 @@ double CameraProcess::calculateFlatExpTime(double currentADU)
     double targetADU    = activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble();
     std::vector<double> coeff;
 
-    // limit number of points to two so it can calibrate in intesity changing enviroment like shoting flats
-    // at dawn/sunrise sky
+    // limit number of points to two so it can calibrate in intensely changing environment like
+    // shooting flats at dawn/sunrise sky
     if(activeJob()->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool() && ExpRaw.size() > 2)
     {
         int remove = ExpRaw.size() - 2;

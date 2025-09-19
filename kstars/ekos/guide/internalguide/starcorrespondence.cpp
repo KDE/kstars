@@ -436,7 +436,7 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
 }
 
 // Compute the alpha cooeficient for a simple IIR filter used in adaptOffsets()
-// that causes the offsets to be, roughtly, the moving average of the last timeConstant samples.
+// that causes the offsets to be, roughly, the moving average of the last timeConstant samples.
 // See the discussion here:
 // https://dsp.stackexchange.com/questions/378/what-is-the-best-first-order-iir-ar-filter-approximation-to-a-moving-average-f
 void StarCorrespondence::initializeAdaptation()

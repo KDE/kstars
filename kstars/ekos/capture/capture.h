@@ -82,8 +82,8 @@ class ScriptsManager;
  *
  * Controlling the capturing execution is a complex process, that is controlled by
  * these classes:
- * - this class, that controll the UI and is the interface for all DBUS functions
- * - {@see CameraState} holds all state informations
+ * - this class, that controls the UI and is the interface for all DBUS functions
+ * - {@see CameraState} holds all state information
  * - {@see CameraProcess} holds the business logic that controls the process
  * For ore details about the capturing execution process, please visit {@see CameraProcess}.
  *
@@ -435,7 +435,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief setDome Set dome device
          * @param device pointer to dome device
-         * @return true if successfull, false otherewise.
+         * @return true if successful, false otherwise.
          */
         bool setDome(ISD::Dome *device);
 

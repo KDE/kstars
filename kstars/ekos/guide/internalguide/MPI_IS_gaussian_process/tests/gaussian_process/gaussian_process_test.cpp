@@ -222,7 +222,7 @@ TEST_F(GPTest, squareDistanceTest)
               (b, a).transpose());
 
     // Test that two identical Matrices give the same result
-    // (wether they are the same object or not)
+    // (whether they are the same object or not)
     EXPECT_EQ(math_tools::squareDistance(a, Eigen::MatrixXd(a)),
               math_tools::squareDistance(a, a));
     EXPECT_EQ(math_tools::squareDistance(a), math_tools::squareDistance(

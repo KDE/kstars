@@ -306,7 +306,7 @@ void AberrationInspectorPlot::redrawCurve(bool useTile[NUM_TILES])
         // Only display legend entries for displayed graphs
         this->legend->item(i)->setVisible(useTile[i]);
 
-        // Show / hide the focus point and text labels appopriate to the selected curves
+        // Show / hide the focus point and text labels appropriate to the selected curves
         if (focusPoint[i])
             focusPoint[i]->setVisible(useTile[i]);
         if (m_labelItems[i])

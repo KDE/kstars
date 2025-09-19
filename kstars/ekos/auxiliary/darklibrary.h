@@ -57,7 +57,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         static void Release();
 
         /**
-         * @brief findDarkFrame Search for a dark frame that matches the passed paramters.
+         * @brief findDarkFrame Search for a dark frame that matches the passed parameters.
          * @param targetChip Camera chip pointer to lookup for relevant information (binning, ROI..etc).
          * @param duration Duration is second to match it against the database.
          * @param darkData If a frame is found, load it from disk and store it in a shared FITSData pointer.
@@ -66,7 +66,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         bool findDarkFrame(ISD::CameraChip *targetChip, double duration, QSharedPointer<FITSData> &darkData);
 
         /**
-         * @brief findDefectMap Search for a defect map that matches the passed paramters.
+         * @brief findDefectMap Search for a defect map that matches the passed parameters.
          * @param targetChip Camera chip pointer to lookup for relevant information (binning, ROI..etc).
          * @param duration Duration is second to match it against the database.
          * @param defectMap If a frame is found, load it from disk and store it in a shared DefectMap pointer.
@@ -180,7 +180,7 @@ protected:
         template <typename T>  void generateMasterFrameInternal(const QSharedPointer<FITSData> &data, const QJsonObject &metadata);
 
         /**
-         * @brief aggregateHelper Calls tempelated aggregate function with the appropiate data type.
+         * @brief aggregateHelper Calls templated aggregate function with the appropriate data type.
          * @param data Dark frame data to pass on to aggregate function.
          */
         void aggregate(const QSharedPointer<FITSData> &data);

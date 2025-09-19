@@ -55,7 +55,7 @@ void FileUtilityCameraDataDialog::refreshCameraList()
         ui->availableRemoteCameraList->addItem(availableCameraId);
     }
 
-    // Pre-select the value for aPreferredCameraId, (which should be the active camera device id)
+    // Preselect the value for aPreferredCameraId, (which should be the active camera device id)
     QList<QListWidgetItem *> items = ui->availableRemoteCameraList->findItems(aPreferredCameraId, Qt::MatchExactly);
     if (items.size() > 0)
     {

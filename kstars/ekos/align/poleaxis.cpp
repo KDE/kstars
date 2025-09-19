@@ -18,7 +18,7 @@ For each SkyPoint sp, it finds its corresponding x,y,z coordinates,
 which are points on a unit sphere.  Those 3 coordinates define a plane.
 That plane intesects the sphere, and the intersection of a plane and a
 sphere is a circle. The center of that circle would be the axis of rotation
-defined by the origial 3 points.  So, finding the normal to the plane,
+defined by the original 3 points.  So, finding the normal to the plane,
 and pointing in that (normal) direction from the center of the sphere
 (the origin) gives the axis of rotation of the mount.
 

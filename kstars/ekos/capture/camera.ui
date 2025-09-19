@@ -1807,7 +1807,7 @@ font-weight:bold;
           <item row="0" column="0">
            <widget class="QLabel" name="textLabel1_7">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Target is the name of the targetted object.&lt;/p&gt;&lt;p&gt;It is available to be used in the filename Format via the %t or %type placeholder tag.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Target is the name of the targeted object.&lt;/p&gt;&lt;p&gt;It is available to be used in the filename Format via the %t or %type placeholder tag.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="whatsThis">
              <string/>

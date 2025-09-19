@@ -6,7 +6,7 @@
 */
 
 /******************************************************************************************************
-* In 'rotatorGauge' and 'paGauge' all angles are displayed in viewing direction and positiv CCW.
+* In 'rotatorGauge' and 'paGauge' all angles are displayed in viewing direction and positive CCW.
 *******************************************************************************************************/
 
 #include "rotatorsettings.h"

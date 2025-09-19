@@ -58,7 +58,7 @@ class DarkProcessor;
  *      time and wait until the INDI state changes from busy to OK
  *    - start the download timer to measure download times
  *    - listen to the event {@see ISD::Camera::newImage} and start processing the FITS image
- *      as soon as it has been recieved
+ *      as soon as it has been received
  * 6. Process received image
  *    - update the FITS image meta data {@see #updateImageMetadataAction()}
  *    - update time calculation and counters and execute post capture script ({@see imageCapturingCompleted()})
@@ -329,7 +329,7 @@ class CameraProcess : public QObject
          *     to focusing, since @startFocusIfRequired() might change its value over time
          *  7. Resume guiding if it was suspended (@see Capture::resumeGuiding())
          *
-         * @return IPS_OK iff no task is pending, IPS_BUSY otherwise (or IPS_ALERT if a problem occured)
+         * @return IPS_OK iff no task is pending, IPS_BUSY otherwise (or IPS_ALERT if a problem occurred)
          */
         IPState checkLightFramePendingTasks();
 
@@ -373,7 +373,7 @@ class CameraProcess : public QObject
          * Checks of pending preparations depends upon the frame type:
          *
          * - For light frames, pending preparations like focusing, dithering etc. needs
-         *   to be checked before each single frame capture. efore starting to capture the next light frame,
+         *   to be checked before each single frame capture. Before starting to capture the next light frame,
          *   checkLightFramePendingTasks() is called to check if all pending preparation tasks have
          *   been completed successfully. As soon as this is the case, the sequence timer
          *   #seqTimer is started to wait the configured delay and starts capturing the next image.

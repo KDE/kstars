@@ -813,7 +813,7 @@ class SchedulerJob
         // This class is used to cache the results computed in getNextPossibleStartTime()
         // which is called repeatedly by the Greedy scheduler.
         // The cache would need to be cleared if something changes that would affect the
-        // start time of jobs (geography, altitide constraints) so it is reset at the start
+        // start time of jobs (geography, altitude constraints) so it is reset at the start
         // of all schedule calculations--which does not impact its effectiveness.
         class StartTimeCache
         {

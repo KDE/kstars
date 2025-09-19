@@ -515,7 +515,7 @@ class Camera : public QWidget, public Ui::Camera
 
         /**
          * @brief updateCCDTemperature Update CCD temperature in capture module.
-         * @param value Temperature in celcius.
+         * @param value Temperature in celsius.
          */
         void updateCCDTemperature(double value);
 
@@ -795,7 +795,7 @@ class Camera : public QWidget, public Ui::Camera
         void checkUploadMode(int index);
 
         /**
-         * @brief updateJobTableCountCell Update the job counter in the job table of a sigle job
+         * @brief updateJobTableCountCell Update the job counter in the job table of a single job
          */
         void updateJobTableCountCell(const QSharedPointer<SequenceJob> &job, QTableWidgetItem *countCell);
 

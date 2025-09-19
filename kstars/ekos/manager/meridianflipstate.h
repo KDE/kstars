@@ -16,7 +16,7 @@
 #include "indi/indimount.h"
 
 /**
- * @brief A meridian flip is executed by issueing a scope motion to the target.
+ * @brief A meridian flip is executed by issuing a scope motion to the target.
  *
  * Essentially, the meridian flip relies upon that the mount hardware selects the
  * pier side of the scope on the appropriate side depending whether the scope points east
@@ -162,7 +162,7 @@ class MeridianFlipState : public QObject
         }
 
         /**
-         * @brief Check if a meridian flip is ready to start, running or some post flip actions are not comleted.
+         * @brief Check if a meridian flip is ready to start, running or some post flip actions are not completed.
          */
         inline bool checkMeridianFlipActive()
         {
@@ -309,13 +309,13 @@ class MeridianFlipState : public QObject
         double flipDelayHrs = 0.0;      // delays the next flip attempt if it fails
 
         /**
-         * @brief Internal method for changing the mount meridian flip state. From extermal, use {@see updateMFMountState()}
+         * @brief Internal method for changing the mount meridian flip state. From external, use {@see updateMFMountState()}
          */
         void setMeridianFlipMountState(MeridianFlipMountState newMeridianFlipMountState);
 
         /**
          * @brief Check if a meridian flip if necessary.
-         * @param lst local sideral time
+         * @param lst local sidereal time
          */
         bool checkMeridianFlip(dms lst);
 

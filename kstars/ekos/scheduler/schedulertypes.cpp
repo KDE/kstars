@@ -63,7 +63,7 @@ QString startupStateString(StartupState state)
         case STARTUP_UNPARK_CAP:
             return "Startup remove cap";
         case STARTUP_UNPARKING_CAP:
-            return "Starup removing cap";
+            return "Startup removing cap";
         case STARTUP_ERROR:
             return "Startup error";
         case STARTUP_COMPLETE:

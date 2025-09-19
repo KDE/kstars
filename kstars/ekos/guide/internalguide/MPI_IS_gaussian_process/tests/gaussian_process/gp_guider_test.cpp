@@ -34,7 +34,7 @@ class GPGTest : public ::testing::Test
         static const double DefaultLengthScaleSE1Ker; // length-scale of the short-range SE-kernel
         static const double DefaultSignalVarianceSE1Ker; // signal variance of the short range SE-kernel
 
-        static const double DefaultPeriodLengthsForPeriodEstimation; // minimal number of period lengts for PL estimation
+        static const double DefaultPeriodLengthsForPeriodEstimation; // minimal number of period lengths for PL estimation
         static const int    DefaultNumPointsForApproximation; // number of points used in the GP approximation
         static const double DefaultPredictionGain; // amount of GP prediction to blend in
 
@@ -82,7 +82,7 @@ const double GPGTest::DefaultSignalVariancePerKer          = 10.0; // signal var
 const double GPGTest::DefaultLengthScaleSE1Ker             = 5.0; // length-scale of the short-range SE-kernel
 const double GPGTest::DefaultSignalVarianceSE1Ker          = 1.0; // signal variance of the short range SE-kernel
 
-const double GPGTest::DefaultPeriodLengthsForPeriodEstimation = 2.0; // minimal number of period lengts for PL estimation
+const double GPGTest::DefaultPeriodLengthsForPeriodEstimation = 2.0; // minimal number of period lengths for PL estimation
 const int GPGTest::DefaultNumPointsForApproximation        = 100; // number of points used in the GP approximation
 const double GPGTest::DefaultPredictionGain                = 1.0; // amount of GP prediction to blend in
 

@@ -2910,7 +2910,7 @@ QObject * Message::findObject(const QString &name)
     }
 
     // Finally KStars
-    // N.B. This does not include indepdent objects with their parent set to null (e.g. FITSViewer)
+    // N.B. This does not include independent objects with their parent set to null (e.g. FITSViewer)
     object = KStars::Instance()->findChild<QObject *>(name);
     return object;
 }

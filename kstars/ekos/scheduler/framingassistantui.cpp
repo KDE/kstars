@@ -342,7 +342,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     connect(ui->alignEvery, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::FramingAssistantUI::rewordStepEvery);
     connect(ui->focusEvery, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::FramingAssistantUI::rewordStepEvery);
 
-    // Get INDI Information, if avaialble.
+    // Get INDI Information, if available.
     if (tiles->operationMode() == MosaicTiles::MODE_PLANNING)
         fetchINDIInformation();
 
@@ -834,7 +834,7 @@ bool FramingAssistantUI::parseMosaicCSV(const QString &filename)
 
 bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
 {
-    // CSV should contain postion angle, ra/de of each panel, and center coordinates.
+    // CSV should contain position angle, ra/de of each panel, and center coordinates.
     auto csv      = payload["csv"].toString();
     // Full path to sequence file to be used for imaging.
     auto sequence = payload["sequence"].toString();
@@ -856,7 +856,7 @@ bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
     csvFile.write(csv.toUtf8());
     csvFile.close();
 
-    // Delete debounce timer since we update all parameters programatically at once
+    // Delete debounce timer since we update all parameters programmatically at once
     m_DebounceTimer->disconnect();
 
     if (parseMosaicCSV(csvFile.fileName()) == false)
@@ -879,7 +879,7 @@ bool FramingAssistantUI::importMosaic(const QJsonObject &payload)
 
     sanitizeTarget();
 
-    // If create job is still disabled, then some configuation is missing or wrong.
+    // If create job is still disabled, then some configuration is missing or wrong.
     if (ui->createJobsB->isEnabled() == false)
         return false;
 

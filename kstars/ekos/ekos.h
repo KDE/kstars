@@ -147,7 +147,7 @@ typedef enum
     ALIGN_COMPLETE,             /**< Alignment successfully completed. No operations pending. */
     ALIGN_FAILED,               /**< Alignment failed. No operations pending. */
     ALIGN_ABORTED,              /**< Alignment aborted by user or agent. */
-    ALIGN_PROGRESS,             /**< Alignment operation in progress. This include capture and sovling. */
+    ALIGN_PROGRESS,             /**< Alignment operation in progress. This includes capture and solving. */
     ALIGN_SUCCESSFUL,           /**< Alignment Astrometry solver successfully solved the image. */
     ALIGN_SYNCING,              /**< Syncing mount to solution coordinates. */
     ALIGN_SLEWING,              /**< Slewing mount to target coordinates.  */

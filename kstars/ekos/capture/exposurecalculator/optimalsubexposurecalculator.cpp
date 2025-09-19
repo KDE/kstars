@@ -22,18 +22,18 @@ namespace OptimalExposure
  *  exposure times over the range of gain read-noise pairs.
  *      This method would be called when changes are made to:
  *          Camera selection, Focal Ratio, Sky Quality, Filter Compensation, or Noise Tolerance
- *      This method will return an obect (CameraExposureEnvelope) containing (for ui presentation)
+ *      This method will return an object (CameraExposureEnvelope) containing (for ui presentation)
  *          lightPollutionElectronBaseRate, lightPollutionForOpticFocalRatio,
  *          a vector of gain sub-exposure pairs, and int values the max and min exposure time.
- *      This method is intented to be used to present the graphical display of exposures for the camera,
- *      based on a specifc SQM.  The SQM can be adjusted in the UI, and an this method will be used to refresh ui.
+ *      This method is intended to be used to present the graphical display of exposures for the camera,
+ *      based on a specific SQM.  The SQM can be adjusted in the UI, and an this method will be used to refresh ui.
  *
  *  2) A method for a calculation of an exposure time (OptimalExposureDetail) at a specific gain.
- *      This method is intented to be used to present a specific exposure calculation, and
+ *      This method is intended to be used to present a specific exposure calculation, and
  *      resulting shot and stack noise information.  This method will interpolate for a
  *      read-noise value (between camera gain read-noise pairs), and will be called when
  *      a change is made to selected Gain on the UI.
- *      This method will return an object that conains:
+ *      This method will return an object that contains:
  *          Precise Exposure Time in (interpolated), Shot pollution electrons, Exposure shot noise, Exposure total noise
  *          a Vector for stacks of 1 to n hours, which includes Exposure Count, Stack Total Time, Stack total noise
  *
@@ -42,17 +42,17 @@ namespace OptimalExposure
 /*
  *
  * More work is needed for the calculation of effect of a Filter on exposure noise and time.
- * Original effort (in Java) used an estimage of the spectrum bandwidth passed by a filter. For
+ * Original effort (in Java) used an estimate of the spectrum bandwidth passed by a filter. For
  * example: on broadband filters for a one shot color camera:
- *      Optolong l-Pro apprears to pass about 165 nanometers.
- *      Optolong l-Enhance apprears to pass only about 33 nanometers.
+ *      Optolong l-Pro appears to pass about 165 nanometers.
+ *      Optolong l-Enhance appears to pass only about 33 nanometers.
  *
- * In this code the filter compensation has is applied as a reducer of the calulation of the
+ * In this code the filter compensation has is applied as a reducer of the calculation of the
  * light pollution rate for the optic. For example, the filter compensation to the light pollution
  * would be 165 / 300 for an l-Pro filter.
  *
  * But this filter compensatoin approach is imprecise & and does not reflect reality. It might
- * be better to analyze a filter for its ability to block the distinct emmission lines found
+ * be better to analyze a filter for its ability to block the distinct emission lines found
  * in light pollution:
  *
  *      Hg	435.8, 546.1, 577, 578.1
@@ -227,7 +227,7 @@ double OptimalSubExposureCalculator::calculateLightPollutionElectronBaseRate(dou
     // Conversion curve fitted from Dr Glover data
     double base = std::stod("1.25286030612621E+27");
     double power = (double) -19.3234809465887;
-    // New version of Dr Glover's function calculates the Electron rate at thet pixel level
+    // New version of Dr Glover's function calculates the Electron rate at that pixel level
 	// and requires pixel size in microns and QE of sensor.
     // double baseV2 = 1009110388.7838
     // Calculation of an initial electron rate will
@@ -310,7 +310,7 @@ OptimalExposure::OptimalExposureDetail OptimalSubExposureCalculator::calculateSu
 {
     /*
         This method calculates some details for a sub-exposure. It will interpolate between
-        points in the camera read-noise table, to find a reasonable appoximation of the read-noise
+        points in the camera read-noise table, to find a reasonable approximation of the read-noise
         for a non-listed gain value.
     */
 

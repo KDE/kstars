@@ -29,7 +29,7 @@ constexpr double INEPSFTOL = 1e-5;
 //
 // Levensberg-Marquart (LM)
 // ------------------------
-// The Levensberg-Marquart algorithm is a non-linear least-squares solver and thus suitable for mnay
+// The Levensberg-Marquart algorithm is a non-linear least-squares solver and thus suitable for many
 // different equations. The basic is idea is to adjust the equation y = f(x,P) so that the computed
 // y values are as close as possible to the y values of the datapoints provided, so that the resultant
 // curve fits the data as best as it can. P is a set of parameters that are varied by the solver in order
@@ -2517,7 +2517,7 @@ bool CurveFitting::minMax2DGaussian(double expected, double minPosition, double 
     // We need to check that the solution found is in the correct form.
     // Check 1: The gaussian max/min (=c) lies within the bounds of the focuser (and is > 0)
     // Check 2: At the max/min position (=c), the value of f(x) (which is the HFR) given by a + b is > 0
-    // Check 3: For a maximun: we have a "u" shaped curve, not an "n" shape. b > 0.
+    // Check 3: For a maximum: we have a "u" shaped curve, not an "n" shape. b > 0.
     //                minimum: we have an "n" shaped curve, not a "U" shape. b < 0;
     if ((c >= minPosition) && (c <= maxPosition) && (a + b > 0.0) &&
             ((optDir == OPTIMISATION_MINIMISE && b < 0.0) || (optDir == OPTIMISATION_MAXIMISE && b > 0.0)))

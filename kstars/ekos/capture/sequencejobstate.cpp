@@ -452,7 +452,7 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
             m_CameraState->getDustCapState() == CAP_PARKING ||
             m_CameraState->getDustCapState() == CAP_UNPARKING)
         return IPS_BUSY;
-    // error occured
+    // error occurred
     if (m_CameraState->getDustCapState() == CAP_ERROR)
         return IPS_ALERT;
 

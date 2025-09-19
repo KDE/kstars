@@ -79,7 +79,7 @@ class SchedulerUtils
         /**
          * @brief processJobInfo a utility used by loadSequenceQueue() to help it read a capture sequence file
          * @param root the filename
-         * @param schedJob the SchedulerJob is modified accoring to the contents of the sequence queue
+         * @param schedJob the SchedulerJob is modified according to the contents of the sequence queue
          * @return a capture sequence
          */
         static QSharedPointer<SequenceJob> processSequenceJobInfo(XMLEle *root, SchedulerJob *schedJob);

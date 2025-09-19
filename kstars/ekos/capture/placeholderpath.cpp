@@ -414,7 +414,7 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         {
             replacement = generateReplacement(pathPropertyMap, PP_PIERSIDE, glob || gettingSignature);
         }
-        // Disable for now %d & %p tags to simplfy
+        // Disable for now %d & %p tags to simplify
         //        else if ((match.captured("name") == "directory") || (match.captured("name") == "d") ||
         //                 (match.captured("name") == "path") || (match.captured("name") == "p"))
         //        {

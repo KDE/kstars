@@ -55,7 +55,7 @@ Using the plate solve correction scheme:
          // The signs of the error indicate the correction direction
          processRefreshCoords(coords, currentTime, &azError, &altError);
  9b) The user uses the GEM azimuth and altitude adjustments to move the telescope.
-      positive altitude error: reduce altitide.
+      positive altitude error: reduce altitude.
       positive azimuth error: point telescope more to the left.
  *********************************************************************/
 
@@ -146,7 +146,7 @@ class PolarAlign
                                 QPointF *corrected, double azError, double altError);
 
         // Internal utility used by the public pixelError, which iterates at different
-        // resolutions passed in to this method. As the resoltion can be coarse, actualPixel
+        // resolutions passed in to this method. As the resolution can be coarse, actualPixel
         // is the one used (as opposed to pixel2) for the error returned.
         void pixelError(const QSharedPointer<FITSData> &image, const QPointF &pixel, const QPointF &pixel2,
                         double minAz, double maxAz, double azInc,

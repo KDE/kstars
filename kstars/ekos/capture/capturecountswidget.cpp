@@ -302,7 +302,7 @@ void CaptureCountsWidget::updateJobProgress(CaptureHistory::FrameData data, cons
 {
     m_currentFrame[trainname] = data;
 
-    // display informations if they come frome the currently selected camera device
+    // display information if it comes from the currently selected camera device
     if (trainname == m_currentTrainName)
         showCurrentCameraInfo();
 }

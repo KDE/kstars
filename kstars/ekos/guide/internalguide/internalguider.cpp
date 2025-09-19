@@ -133,7 +133,7 @@ bool InternalGuider::guide()
 
 /**
  * @brief InternalGuider::abort Abort all internal guider operations.
- * This includes calibration, dithering, guiding, capturing, and reaquiring.
+ * This includes calibration, dithering, guiding, capturing, and reacquiring.
  * The state is set to IDLE or ABORTED depending on the current state since
  * ABORTED can lead to different behavior by external actors than IDLE
  * @return True if abort succeeds, false otherwise.
@@ -242,7 +242,7 @@ bool InternalGuider::ditherXY(double x, double y)
 
     // Find out how many "jumps" we need to perform in order to get to target.
     // The current limit is now 1/4 of the box size to make sure the star stays within detection
-    // threashold inside the window.
+    // threshold inside the window.
     double oneJump = (guideBoxSize / 4.0);
     double targetX = cur_x, targetY = cur_y;
     int xSign = (x >= cur_x) ? 1 : -1;
@@ -396,7 +396,7 @@ bool InternalGuider::dither(double pixels)
     {
         pmath->setTargetPosition(star_position.x, star_position.y);
 
-        // In one-pulse dithering we want the target to be whereever we end up
+        // In one-pulse dithering we want the target to be wherever we end up
         // after the pulse. So, the first guide frame should not send any pulses
         // and should reset the reticle to the position it finds.
         if (Options::ditherWithOnePulse())
@@ -1012,7 +1012,7 @@ bool InternalGuider::processGuiding()
     if (isPoorGuiding(out))
         return true;
 
-    // This is an old guide computaion that should be ignored.
+    // This is an old guide computation that should be ignored.
     // One-pulse-dither sends out its own pulse signal.
     if ((state == GUIDE_DITHERING_SETTLE || state == GUIDE_DITHERING) && Options::ditherWithOnePulse())
         return true;
@@ -1035,7 +1035,7 @@ bool InternalGuider::processGuiding()
     // but not the other dithering possibilities (error, success).
     // Not sure if they should be included above, so conservatively not changing the
     // code, but don't think they should broadcast the newAxisDelta which might
-    // interrup a capture.
+    // interrupt a capture.
     if (state < GUIDE_DITHERING)
         // out->delta[] is saved as STAR drift in the camera sensor coordinate system in
         // gmath->processAxis(). To get these values in the RADEC system they have to be negated.
@@ -1326,7 +1326,7 @@ bool InternalGuider::reacquire()
 void InternalGuider::fillGuideInfo(GuideLog::GuideInfo * info)
 {
     // NOTE: just using the X values, phd2logview assumes x & y the same.
-    // pixel scale in arc-sec / pixel. The 2nd and 3rd values seem redundent, but are
+    // pixel scale in arc-sec / pixel. The 2nd and 3rd values seem redundant, but are
     // in the phd2 logs.
     info->pixelScale = (206.26481 * this->ccdPixelSizeX * this->subBinX) / this->mountFocalLength;
     info->binning = this->subBinX;

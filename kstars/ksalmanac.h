@@ -44,7 +44,7 @@ class KSAlmanac
          *@param utc_midnight and local_midnight are the midnight date and time to consider as beginning of the day at the geo_ location, either UTC or local.
          *@note The time must be the local time midnight of the day the almanac is required for, so that
          *      resulting ephemerides are calculated around that time.
-         *@note These functions are not merged into a single timespec-aware one for backwards compatilibity.
+         *@note These functions are not merged into a single timespec-aware one for backwards compatibility.
          */
     /** @{ */
     void setDate(const KStarsDateTime &utc_midnight);

@@ -54,7 +54,7 @@ class StarCorrespondence
             return references.size();
         }
 
-        // Return a reference to the ith reference star. Caller's responsiblity
+        // Return a reference to the ith reference star. Caller's responsibility
         // to make sure i >= 0 && i < references.size();
         // Recompute the reference coordinates as we may adapt them.
         Edge reference(int i) const
@@ -121,8 +121,8 @@ class StarCorrespondence
         // When the guide star is missing, but star correspondence was successful, use the positions
         // of the stars that were found to create a virtual guide star--inferring a guide star position
         // using the offsets from the (unfound) guide star to the stars that were found.
-        // Offsets are offsets that were created for a new "substitude guide star".
-        // StarMap is the map made for that substitude by findInternal().
+        // Offsets are offsets that were created for a new "substitute guide star".
+        // StarMap is the map made for that substitute by findInternal().
         // Offset is the offset from the original guide star to that substitute guide star.
         Edge inventStarPosition(const QList<Edge> &stars, const QVector<int> &starMap,
                                 const QVector<Offsets> &offsets, const Offsets &offset) const;

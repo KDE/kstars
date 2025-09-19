@@ -395,7 +395,7 @@ QString SequenceJob::setCameraDeviceProperties()
                 roi.height(),
                 currentBinX != binning.x()) == false)
         {
-            qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set ROI to " << "x =" << roi.x() << ", y =" << roi.y() << ", widht =" <<
+            qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set ROI to " << "x =" << roi.x() << ", y =" << roi.y() << ", width =" <<
                                              roi.width() << "height =" << roi.height();
             setStatus(JOB_ERROR);
             emit captureStarted(CAPTURE_FRAME_ERROR);

@@ -272,7 +272,7 @@ double GaussianProcessGuider::result(double input, double SNR, double time_step,
      * Dithering behaves differently from pausing. During dithering, the mount
      * is moved and thus we can assume that we applied the perfect control, but
      * we cannot trust the measurement. Once dithering has settled, we can trust
-     * the measurement again and we can pretend nothing has happend.
+     * the measurement again and we can pretend nothing has happened.
      */
     double hyst_percentage = 0.0;
     double period_length;
@@ -334,7 +334,7 @@ double GaussianProcessGuider::result(double input, double SNR, double time_step,
         {
             prediction_point = std::chrono::duration<double>(std::chrono::system_clock::now() - start_time_).count();
         }
-        // the point of highest precision shoud be between now and the next step
+        // the point of highest precision should be between now and the next step
         UpdateGP(prediction_point + 0.5 * time_step);
 
         // the prediction should end after one time step

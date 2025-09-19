@@ -49,12 +49,12 @@ namespace Ekos
 //
 // BFO can take a while to complete. For example if 5 AF runs are requested on 8 filters and AF takes, say 2 mins per
 // run, then BFO will take over an hour. During this time environmental conditions such as temperature and altitude
-// could change the focus point. For this reaons, it it possible Adapt each focus run back to the temp and alt applicable
+// could change the focus point. For these reasons, it's possible to Adapt each focus run back to the temp and alt applicable
 // during the first AF run for more accurate calculation of the offsets. If Adapt Focus is checked, then the adapted
 // vales are used in calculations; if not checked then the raw (unadapted) values are used. The toggle can be used at
 // any time. The tooltip on each AF run provides a tabular explanation of the adaptations and how the raw value is
 // changed to the adapted value. In order to use Adapt Focus, the ticks per temperature and ticks per altitude fields
-// in the Fillter Settings popup need to be filled in appropriately for each filter being processed.
+// in the Filter Settings popup need to be filled in appropriately for each filter being processed.
 //
 // If AF fails then the user is prompted to retry or abort the processing.
 //
@@ -616,7 +616,7 @@ void BuildFilterOffsets::loadPosition(const bool checked, const int row, const i
 
         QStandardItem *posItem = new QStandardItem(QString::number(pos));
         const QString toolTip =
-            i18nc("Graphics tooltip; colume 1 is a header, column 2 is focus position, column 3 is temperature in °C, colunm 4 is altitude in °Alt"
+            i18nc("Graphics tooltip; column 1 is a header, column 2 is focus position, column 3 is temperature in °C, column 4 is altitude in °Alt"
                   "Row 1 is the headers, row 2 is the measured position, row 3 are the adaptations for temperature and altitude, row 4 is adapted position",
                   "<head><style>"
                   "  th, td, caption {white-space: nowrap; padding-left: 5px; padding-right: 5px;}"
@@ -809,7 +809,7 @@ void BuildFilterOffsets::calculateAFAverage(const int row, const int col)
     m_BFOModel.setItem(row, getColumn(BFO_AVERAGE), averageItem);
 }
 
-// calculateOffset updates new offsets when AF averages have been calculated. There are 2 posibilities:
+// calculateOffset updates new offsets when AF averages have been calculated. There are 2 possibilities:
 // 1. The updated row is the reference filter in the list so update the offset of other filters
 // 2. The updated row is another filter in which case just update its offset
 void BuildFilterOffsets::calculateOffset(const int row)

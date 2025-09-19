@@ -349,7 +349,7 @@ void GuideDriftGraph::zoomX(int zoomLevel)
     double key = (guideElapsedTimer.isValid() || guideTimer.isValid()
                   || guideTimer.isNull()) ? 0 : guideElapsedTimer.elapsed() / 1000.0;
 
-    // The # of seconds displayd on the x-axis of the drift-graph for the various zoom levels.
+    // The # of seconds displayed on the x-axis of the drift-graph for the various zoom levels.
     static std::vector<int> zoomLevels = {15, 30, 60, 120, 300, 900, 1800, 3600, 7200, 14400};
 
     zoomLevel = std::max(0, zoomLevel);

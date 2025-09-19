@@ -786,7 +786,7 @@ void FocusAdvisor::findStars()
             m_findStarsRange = true;
 
             // If stars found first position we don't know where we are in the zone so explore both ends
-            // Otherwise we know where 1 boundary is so we only need to expore the other
+            // Otherwise we know where 1 boundary is so we only need to explore the other
             if (m_position.size() > 1)
             {
                 if (m_position.last() < m_position[m_position.size() - 2])

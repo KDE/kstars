@@ -16,7 +16,7 @@
 
 #include "kstars_debug.h"
 /*
- * DNS port and mutlicast addresses
+ * DNS port and multicast addresses
  */
 const quint16 MDNS_PORT = 5353;
 const QHostAddress IPV6_ADDRESS = QHostAddress ("FF02::FB");

@@ -420,7 +420,7 @@ void Ekos::CaptureDeviceAdaptor::updateFilterPosition()
     {
         qCritical(KSTARS_EKOS_CAPTURE) << "Filter manager is not initialized yet. Filter wheel missing from train?";
         KSNotification::event(QLatin1String("CaptureFailed"),
-                              i18n("Filter manager is not initilized yet. Filter wheel missing from train?"), KSNotification::Capture,
+                              i18n("Filter manager is not initialized yet. Filter wheel missing from train?"), KSNotification::Capture,
                               KSNotification::Alert);
         emit filterIdChanged(-1);
     }

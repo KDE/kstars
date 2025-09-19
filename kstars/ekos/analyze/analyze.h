@@ -283,7 +283,7 @@ class Analyze : public QWidget, public Ui::Analyze
         void checkForMissingSchedulerJobEnd(double time);
         void processTargetDistance(double time, double targetDistance, bool batchMode = false);
 
-        // Plotting primatives.
+        // Plotting primitives.
         void replot(bool adjustSlider = true);
         void zoomIn();
         void zoomOut();

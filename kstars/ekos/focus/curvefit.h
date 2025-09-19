@@ -21,7 +21,7 @@ namespace Ekos
 // Several curves are provided:
 // For lines: hyperbola, parabola
 // For surfaces: gaussian, plane
-// For compatibility with existing Ekos functionality a Quadratic option using the exising Ekos linear
+// For compatibility with existing Ekos functionality a Quadratic option using the existing Ekos linear
 // least squares solver (again provided by GSL) is supported. The Quadratic and Parabola curves are
 // the same thing mathematically but Parabola uses the non-linear least squares LM solver whilst Quadratic
 // uses the original Ekos linear least squares solver.
@@ -29,7 +29,7 @@ namespace Ekos
 // Users of CurveFitting operate on focuser position and HFR. Within CurveFitting the curve uses the more
 // usual mathematical notation of x, y
 //
-// Furture releases may migrate all curve fitting to the LM solver.
+// Future releases may migrate all curve fitting to the LM solver.
 class CurveFitting
 {
     public:
@@ -45,7 +45,7 @@ class CurveFitting
             double weight;       // the measurement weight, e.g. inverse variance
         };
 
-        struct DataPointT        // This is the data strcture passed into GSL LM routines
+        struct DataPointT        // This is the data structure passed into GSL LM routines
         {
             bool useWeights;     // Are we fitting the curve with or without weights
             QVector<DataPT> dps; // Vector of DataPT
@@ -68,7 +68,7 @@ class CurveFitting
             double weight;       // the measurement weight, e.g. inverse variance
         };
 
-        struct DataPoint3DT      // This is the data strcture passed into GSL LM routines
+        struct DataPoint3DT      // This is the data structure passed into GSL LM routines
         {
             bool useWeights;     // Are we fitting the curve with or without weights
             QVector<DataPT3D> dps; // Vector of DataPT3D

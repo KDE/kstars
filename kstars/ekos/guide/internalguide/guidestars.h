@@ -123,7 +123,7 @@ private:
                           const QRect *roi = nullptr,
                           QList<double> *outputScores = nullptr,
                           QList<double> *minDistances = nullptr);
-        // The interface to the SEP star detection algoritms.
+        // The interface to the SEP star detection algorithms.
         int findAllSEPStars(const QSharedPointer<FITSData> &imageData, QList<Edge*> *sepStars, int num);
 
         // Convert from input image coordinates to output RA and DEC coordinates.

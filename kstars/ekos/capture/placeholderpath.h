@@ -76,7 +76,7 @@ class PlaceholderPath
         QString constructPrefix(const QSharedPointer<SequenceJob> &job, const QString &imagePrefix);
 
         /**
-         * @brief generateFilename performs the data for tag substituion in the filename
+         * @brief generateFilename performs the data for tag substitution in the filename
          * @param sequence job to be processed
          * @param targetName name of the celestial target
          * @param local Generate local filename, otherwise, generate remote filename
@@ -94,7 +94,7 @@ class PlaceholderPath
                                  const bool glob = false, const bool gettingSignature = false);
 
         /**
-         * @brief generateFilename performs the data for tag substituion in the filename
+         * @brief generateFilename performs the data for tag substitution in the filename
          * @param sequence job to be processed
          * @param local Generate local filename, otherwise, generate remote filename
          * @param batch_mode if true dateTime tag is returned with placeholders

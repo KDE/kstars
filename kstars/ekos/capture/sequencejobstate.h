@@ -23,7 +23,7 @@ typedef enum
 {
     JOB_IDLE,     /* Initial state, nothing happens. */
     JOB_BUSY,     /* Job is running.                 */
-    JOB_ERROR,    /* Error occured, unresolved.      */
+    JOB_ERROR,    /* Error occurred, unresolved.     */
     JOB_ABORTED,  /* Job stopped before completion.  */
     JOB_DONE      /* Job completed.                  */
 } JOBStatus;
@@ -81,11 +81,11 @@ class SequenceJobState: public QObject
             WP_TRACKING_OFF    /* wall position reached, tracking off  */
         } ScopeWallPositionStatus;
 
-        typedef enum      /* synching the focuser to the focus position */
+        typedef enum      /* syncing the focuser to the focus position */
         {
-            FS_NONE,      /* not started                                */
-            FS_BUSY,      /* running                                    */
-            FS_COMPLETED  /* completed                                  */
+            FS_NONE,      /* not started                               */
+            FS_BUSY,      /* running                                   */
+            FS_COMPLETED  /* completed                                 */
         } FlatSyncStatus;
 
         SequenceJobState(const QSharedPointer<CameraState> &sharedState);

@@ -498,7 +498,7 @@ QString OpticalTrainManager::addOpticalTrain(uint8_t index, const QString &name)
     // Any other trains
     else if (index > 0)
     {
-        // For 2nd train and beyond, we get the N camera appropiate for this train if one exist.
+        // For 2nd train and beyond, we get the N camera appropriate for this train if one exist.
         // We add + 1 because first element in combobox is "--"
         auto cameraIndex = index + 1;
         if (cameraComboBox->count() >= cameraIndex)
@@ -1126,7 +1126,7 @@ ISD::Guider *OpticalTrainManager::getGuider(const QString &name)
 ////////////////////////////////////////////////////////////////////////////
 ISD::AdaptiveOptics *OpticalTrainManager::getAdaptiveOptics(const QString &name)
 {
-    // FIXME not implmeneted yet.
+    // FIXME not implemented yet.
     // Need to add to database later
     for (auto &oneTrain : m_OpticalTrains)
     {

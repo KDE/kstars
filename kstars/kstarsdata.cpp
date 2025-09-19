@@ -348,7 +348,7 @@ void KStarsData::changeDateTime(const KStarsDateTime &newDate)
     clock()->setUTC(newDate);
 
     LTime = geo()->UTtoLT(ut());
-    //set local sideral time
+    //set local sidereal time
     syncLST();
 
     //Make sure Numbers, Moon, planets, and sky objects are updated immediately

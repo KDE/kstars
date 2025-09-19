@@ -6,7 +6,7 @@
 
 This documentation describes how the KDE Invent infrastructure is producing KStars/Ekos binaries.
 
-## Continous Integration
+## Continuous Integration
 
 The KStars build recipe is based on `cmake`, see file `INSTALL` for manual build instructions. The `cmake` recipe is described
 in multiple files (`CMakeLists.txt`) in the tree, and requires build dependencies, some of which are mandatory and some others optional.
@@ -59,7 +59,7 @@ dependencies *at the time of the build*. While inherently unstable due to the la
 this allowed testing against nightly builds, mainly INDI nightly builds.
 
 The jobs are named `build` and `build-and-test-stable` in `.gitlab-ci.yml`. They are separate builds but use caching
-to speed up the second build. Although this separation is unecessary, this allows contributors to retrieve build artifacts
+to speed up the second build. Although this separation is unnecessary, this allows contributors to retrieve build artifacts
 while the tests, quite lengthy, run in the background.
 
 As of 2025/03, that build runs outside of the KDE Invent infrastructure on an aging system available from a volunteer contributor in best-effort.
@@ -73,7 +73,7 @@ The job is named `cppcheck` in `.gitlab-ci.yml`.
 
 ## Continuous Deployment
 
-The jobs pertaining to deployment are trigged by pushes in specific branches of the KStars repository, declared in YAML files
+The jobs pertaining to deployment are triggered by pushes in specific branches of the KStars repository, declared in YAML files
 (in the CI utilities repository)[https://invent.kde.org/sysadmin/ci-utilities/-/tree/master/signing?ref_type=heads].
 
 Those jobs use (the tool "Craft")[https://community.kde.org/Craft] for building releases.

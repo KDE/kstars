@@ -91,7 +91,7 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
         void setupConnections();
         // Setup the dialog GUI
         void setupGUI();
-        // Function to initialise resources for the build filter offsers dialog
+        // Function to initialise resources for the build filter offsets dialog
         void initBuildFilterOffsets();
         // Setup the table widget
         void setupBuildFilterOffsetsTable();

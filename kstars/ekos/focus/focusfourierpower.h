@@ -39,7 +39,7 @@ namespace Ekos
 // then to subtracted from each frequency to leave the power contribution of just the stars.
 //
 // I have found better results by background subtracting the frame before fourier transforming
-// which is the same thing as all thats left to FFT is an image of the stars. Currently
+// which is the same thing as all that's left to FFT is an image of the stars. Currently
 // fitsviewer will have procvessed the image prior to this routine being called so background
 // information is available here.
 //
@@ -50,7 +50,7 @@ namespace Ekos
 //
 // Currently just the first channel (if there is more than 1) is used by this routine. It would
 // be possible to use all channels or offer the user a choice of which channel(s) to use. If
-// this were to be done it would make sense to synchonise this functionality with fitsviwer
+// this were to be done it would make sense to synchronise this functionality with fitsviwer
 // functionality on HFR, FWHM, etc.
 
 class FocusFourierPower

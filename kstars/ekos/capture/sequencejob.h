@@ -114,7 +114,7 @@ class SequenceJob : public QObject
         ~SequenceJob() = default;
 
         ////////////////////////////////////////////////////////////////////////
-        /// Capture Fuctions
+        /// Capture Functions
         ////////////////////////////////////////////////////////////////////////
         /**
          * @brief startCapturing Initialize the camera and start capturing

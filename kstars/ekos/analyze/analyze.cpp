@@ -183,7 +183,7 @@ QString findFilename(const QString &filename)
 {
     const QString &alternateDirectory = Options::analyzeAlternativeDirectoryName();
 
-    // Try the origial full path.
+    // Try the original full path.
     QFileInfo info(filename);
     if (info.exists() && info.isFile())
         return filename;

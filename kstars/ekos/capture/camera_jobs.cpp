@@ -351,7 +351,7 @@ bool Camera::loadSequenceQueue(const QString &fileURL, QString targetName)
     state()->clearCapturedFramesMap();
     clearSequenceQueue();
 
-    // !m_standAlone so the stand-alone editor doesn't influence a live capture sesion.
+    // !m_standAlone so the stand-alone editor doesn't influence a live capture session.
     const bool result = process()->loadSequenceQueue(fileURL, targetName, !m_standAlone);
     // cancel if loading fails
     if (result == false)
@@ -404,7 +404,7 @@ void Camera::saveSequenceQueue()
 
     if (state()->sequenceURL().isValid())
     {
-        // !m_standAlone so the stand-alone editor doesn't influence a live capture sesion.
+        // !m_standAlone so the stand-alone editor doesn't influence a live capture session.
         if ((process()->saveSequenceQueue(state()->sequenceURL().toLocalFile(), !m_standAlone)) == false)
         {
             KSNotification::error(i18n("Failed to save sequence queue"), i18n("Save"));

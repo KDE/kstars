@@ -29,7 +29,7 @@
 // 2. Use the tool to help with adjustment of Backfocus and / or tilt with a device such as a PhotonCage or Octopi. In this mode, use of the
 //    tool will be iterative. Run the tool, look at the output, make an adjustment for Backfocus and / or tilt, rerun the tool and compare
 //    the new output. Make a further adjustment and repeat until happy with the output. For this reason, each time Aberration Inspector is
-//    run, a new Aberration Inspector Dialog (with incrementing Run number) is launched allowing comparision of results.
+//    run, a new Aberration Inspector Dialog (with incrementing Run number) is launched allowing comparison of results.
 //
 // To invoke Aberration Inspector:
 // 1. Setup focus to give the consistently good focus results. Point to a part of the sky with lots of stars.
@@ -259,7 +259,7 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
         /**
          * @brief calculates average of 3 tile values
          * @param tiles to average
-         * @param retured tile average
+         * @param average tile average
          * @return success = true
          */
         bool avTiles(int tiles[3], double &average);
@@ -268,7 +268,7 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
          * @brief set exclude tiles vector
          * @param row
          * @param checked
-         * @param tile selection
+         * @param tileSelection
          */
         void setExcludeTile(int row, bool checked, TileSelection tileSelection);
 
@@ -349,7 +349,7 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
         QVector<bool> m_fit;
         QVector<double> m_R2;
 
-        // Analysis - the folowing members are in microns
+        // Analysis - the following members are in microns
         double m_backfocus = 0.0;
         QVector<double> m_deltas;
         double m_LRMicrons = 0.0;

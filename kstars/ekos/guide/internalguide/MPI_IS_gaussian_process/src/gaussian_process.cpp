@@ -307,7 +307,7 @@ void GP::inferSD(const Eigen::VectorXd &data_loc,
             data_var_ = Eigen::Map<Eigen::VectorXd>(var_arr.data(), n, 1);
         }
     }
-    else // we can use all points and don't neet to select
+    else // we can use all points and don't need to select
     {
         data_loc_ = data_loc;
         data_out_ = data_out;

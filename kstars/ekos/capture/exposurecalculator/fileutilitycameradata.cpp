@@ -699,7 +699,7 @@ int OptimalExposure::FileUtilityCameraData::writeCameraDataFile(OptimalExposure:
 //    OptimalExposure::ImagingCameraData *anImagingCameraData;
 
 //    // This QHY camera has selectable read modes, with distinct read-noise data.
-//    // The indi driver may provide a "Read Mode" selectoin on the indi panel.
+//    // The indi driver may provide a "Read Mode" selection on the indi panel.
 //    // The xml data files are revised to handle multiple read-modes for a camera
 //    // in a single file.
 

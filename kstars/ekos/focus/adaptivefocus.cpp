@@ -360,7 +360,7 @@ int AdaptiveFocus::adaptStartPosition(int currentPosition, QString &AFfilter)
 
     // In these cases, we use the static values:
     // 1. Adapt start option disabled
-    // 2. not using Linear1Pass algoritm
+    // 2. not using Linear1Pass algorithm
     if (!m_focus->m_OpsFocusSettings->focusAdaptStart->isChecked() || m_focus->m_FocusAlgorithm != Focus::FOCUS_LINEAR1PASS)
     {
         if (staticPosition != currentPosition)

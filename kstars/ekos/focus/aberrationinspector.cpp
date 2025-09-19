@@ -171,7 +171,7 @@ void AberrationInspector::onStateChanged(int state)
 }
 
 // Called when table cell has been changed
-// This is a production support debug feature that is contolled by ABINS_DEBUG flag
+// This is a production support debug feature that is controlled by ABINS_DEBUG flag
 // For normal use table editing is disabled and this function not called.
 void AberrationInspector::onCellChanged(int row, int column)
 {
@@ -612,7 +612,7 @@ bool AberrationInspector::calcBackfocusDelta(TileSelection tileSelection, double
     switch(tileSelection)
     {
         case TileSelection::TILES_ALL:
-            // Use all useable tiles weighted by their distance from the centre
+            // Use all usable tiles weighted by their distance from the centre
             for (int i = 0; i < NUM_TILES; i++)
             {
                 if (i == TILE_CM)
@@ -919,7 +919,7 @@ void AberrationInspector::updateGraphic(TileSelection tileSelection)
     bool ok = m_resultsOK;
 
     if (ok)
-        // Display thw sensor
+        // Display the sensor
         ok = processSensor();
 
     if (ok)
@@ -979,7 +979,7 @@ bool AberrationInspector::processSensor()
                 QVector3D tileCentre = QVector3D(getXYTileCentre(static_cast<Ekos::tileID>(tile)),
                                                  getBSDelta(static_cast<Ekos::tileID>(tile)));
                 plane.push_back(tileCentre.x(), tileCentre.y(), tileCentre.z());
-                // Update the graph range to accomodate the data
+                // Update the graph range to accommodate the data
                 m_maxX = std::max(m_maxX, tileCentre.x());
                 m_maxY = std::max(m_maxY, tileCentre.y());
                 m_maxZ = std::max(m_maxZ, tileCentre.z());
@@ -1099,7 +1099,7 @@ bool AberrationInspector::processPetzval(TileSelection tileSelection)
     m_maxX = std::max(m_maxX, static_cast<float>(m_data.sensorWidth));
     m_maxY = std::max(m_maxY, static_cast<float>(m_data.sensorHeight));
 
-    // Seems like the x values in the data row need to be increasing / descreasing for the dataProxy to work
+    // Seems like the x values in the data row need to be increasing / decreasing for the dataProxy to work
     for (int j = -10; j < 11; j++)
     {
         auto *newRow = new QSurfaceDataRow;
@@ -1129,7 +1129,7 @@ QVector2D AberrationInspector::getXYTileCentre(tileID tile)
     const double halfTS = m_data.tileWidth * m_data.pixelSize / 2.0;
 
     // Focus calculates the average star position in each tile and passes this to Aberration Inspector as
-    // an x, y offset from the center of the tile. If stars are homogenously distributed then the offset would
+    // an x, y offset from the center of the tile. If stars are homogeneously distributed then the offset would
     // be 0, 0. If they aren't, then offset represents how much to add to the tile centre.
     // A user option (abInsOptCentres) specifies whether to use the offsets.
     double xOffset = 0.0;

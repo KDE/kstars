@@ -55,7 +55,7 @@ class DarkProcessor : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         /**
-        * @brief subtractHelper Calls tempelated subtract function
+        * @brief subtractHelper Calls templated subtract function
         * @param darkData passes dark frame data to templerated subtract function.
         * @param lightData passes list frame data to templerated subtract function.
         * @param offsetX passes offsetX to templerated subtract function.

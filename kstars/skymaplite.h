@@ -279,7 +279,7 @@ class SkyMapLite : public QQuickItem
              * @short creates QImage from text and converts it to QSGTexture
              * @param text the text string
              * @param color text color
-             * @param zoomFont if true zoom-dependent font from SkyLabeler will be used else standart
+             * @param zoomFont if true zoom-dependent font from SkyLabeler will be used else standard
              * font is used
              * @return QSGTexture with text
              * @note font size is set in SkyLabeler::SkyLabeler() by initializing m_stdFont with default font
@@ -430,7 +430,7 @@ class SkyMapLite : public QQuickItem
         void setSlewing(bool newSlewing);
 
         /**
-             * @short sets whether SkyMapLite is centered on an object and locked(olny pinch-to-zoom is available)
+             * @short sets whether SkyMapLite is centered on an object and locked (only pinch-to-zoom is available)
              */
         void setCenterLocked(bool centerLocked);
 

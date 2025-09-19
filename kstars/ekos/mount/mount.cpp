@@ -436,7 +436,7 @@ void Mount::syncTelescopeInfo()
         return;
 
     auto svp = m_Mount->getSwitch("TELESCOPE_SLEW_RATE");
-    // sync speed info on the UI and tht separate mount control
+    // sync speed info on the UI and the separate mount control
     mountMotion->syncSpeedInfo(svp);
     m_ControlPanel->mountMotion->syncSpeedInfo(svp);
 

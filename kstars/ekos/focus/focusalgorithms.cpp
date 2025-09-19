@@ -110,7 +110,7 @@ class LinearFocusAlgorithm : public FocusAlgorithmInterface
         int getNextStepSize();
 
         // Called when we've found a solution, e.g. the HFR value is within tolerance of the desired value.
-        // It it returns true, then it's decided tht we should try one more sample for a possible improvement.
+        // It it returns true, then it's decided that we should try one more sample for a possible improvement.
         // If it returns false, then "play it safe" and use the current position as the solution.
         bool setupPendingSolution(int position);
 
@@ -935,7 +935,7 @@ int LinearFocusAlgorithm::getNextStepSize()
             }
             else
             {
-                // Evem number of steps
+                // Even number of steps
                 lower = (params.numSteps - 4) / 2;
                 upper = (params.numSteps - lower);
             }
@@ -1004,7 +1004,7 @@ int LinearFocusAlgorithm::completeIteration(int step, bool foundFit, double minP
     }
     else if (numSteps > params.maxIterations)
     {
-        // Fail. Exceeded our alloted number of iterations.
+        // Fail. Exceeded our allotted number of iterations.
         done = true;
         doneString = i18n("Too many steps.");
         failCode = Ekos::FOCUS_FAIL_MAX_ITERS;
@@ -1100,7 +1100,7 @@ bool LinearFocusAlgorithm::setupPendingSolution(int position)
         qCDebug(KSTARS_EKOS_FOCUS)
                 << QString("Linear: %1: Position(%2) & HFR(%3) -- Pass1: %4 %5, solution pending, got worse, retrying")
                 .arg(length).arg(position).arg(thisValue, 0, 'f', 3).arg(firstPassBestPosition).arg(firstPassBestValue, 0, 'f', 3);
-        // Try this poisition again.
+        // Try this position again.
         retryNumber++;
         return true;
     }
@@ -1217,7 +1217,7 @@ int LinearFocusAlgorithm::finishFirstPass(int position, double value)
             }
 
             // If there are any outliers then try to improve the curve fit by removing these
-            // datapoints and reruning the curve fitting process. Note that this may not improve
+            // datapoints and rerunning the curve fitting process. Note that this may not improve
             // the fit so we need to be prepared to reinstate the original solution.
             QVector<double> currentCoefficients;
             if (outliers > 0 && params.curveFitting->getCurveParams(params.curveFit, currentCoefficients))
