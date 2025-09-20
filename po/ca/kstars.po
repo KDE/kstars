@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-18 02:00+0000\n"
+"POT-Creation-Date: 2025-09-20 02:01+0000\n"
 "PO-Revision-Date: 2025-09-16 12:16+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -480,14 +480,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Desament de la imatge"
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3967
+#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3970
 #: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1383
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Ja existeix un fitxer anomenat «%1». Voleu sobreescriure'l?"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3970
+#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3973
 #: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1384
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -2695,7 +2695,7 @@ msgstr ""
 "L'URL no és vàlid. Voleu obrir una finestra del navegador\n"
 "cap al cercador Google?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3978
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3981
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
@@ -6568,7 +6568,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr "La muntura s'ha sincronitzat amb les coordenades de la solució."
 
 #: ekos/align/align.cpp:2754 ekos/align/align.cpp:2772
-#: ekos/align/align.cpp:3384 ekos/align/align.cpp:4111
+#: ekos/align/align.cpp:3384 ekos/align/align.cpp:4114
 #: ekos/align/polaralignmentassistant.cpp:654
 #, kde-format
 msgid "Settling..."
@@ -6741,13 +6741,13 @@ msgstr "Enfocament automàtic en el canvi de filtre..."
 msgid "Invalid FOV."
 msgstr "CDV no vàlid."
 
-#: ekos/align/align.cpp:3954
+#: ekos/align/align.cpp:3957
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Exportació dels punts de la solució"
 
-#: ekos/align/align.cpp:3977 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:3980 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
 #: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
@@ -6757,7 +6757,7 @@ msgstr "Exportació dels punts de la solució"
 msgid "Invalid URL: %1"
 msgstr "URL no vàlid: %1"
 
-#: ekos/align/align.cpp:3986 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:3989 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:3201
 #: ekos/scheduler/schedulerprocess.cpp:4945
@@ -6765,7 +6765,7 @@ msgstr "URL no vàlid: %1"
 msgid "Unable to write to file %1"
 msgstr "No es pot escriure al fitxer %1"
 
-#: ekos/align/align.cpp:3987 ekos/align/mountmodel.cpp:286
+#: ekos/align/align.cpp:3990 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:347
 #: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3202
@@ -6785,27 +6785,27 @@ msgstr "No es pot escriure al fitxer %1"
 msgid "Could Not Open File"
 msgstr "No es pot obrir el fitxer"
 
-#: ekos/align/align.cpp:4008
+#: ekos/align/align.cpp:4011
 #, kde-format
 msgid "Error in table structure."
 msgstr "Error a l'estructura de la taula."
 
-#: ekos/align/align.cpp:4017
+#: ekos/align/align.cpp:4020
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Els punts de la solució s'han desat com: %1"
 
-#: ekos/align/align.cpp:4034
+#: ekos/align/align.cpp:4037
 #, kde-format
 msgid "Polar Alignment"
 msgstr "Alineació polar"
 
-#: ekos/align/align.cpp:4588
+#: ekos/align/align.cpp:4591
 #, kde-format
 msgid "Capture timed out."
 msgstr "La captura ha excedit el temps."
 
-#: ekos/align/align.cpp:4597
+#: ekos/align/align.cpp:4600
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -11835,10 +11835,25 @@ msgid "(ΔAlt=%1)"
 msgstr "(ΔAlt=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:621
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "Graphics tooltip; colume 1 is a header, column 2 is focus position, "
+#| "column 3 is temperature in °C, colunm 4 is altitude in °AltRow 1 is the "
+#| "headers, row 2 is the measured position, row 3 are the adaptations for "
+#| "temperature and altitude, row 4 is adapted position"
+#| msgid ""
+#| "<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
+#| "padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
+#| "caption { text-align: center; vertical-align: top; font-weight: bold; "
+#| "margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
+#| "align=top>Adapt Focus Explainer</caption><tr><th></th><th>Position</"
+#| "th><th>Temperature (°C)</th><th>Altitude (°Alt)</th></tr><tr><th>Measured "
+#| "Pos</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></tr><tr><th>Adaptations</"
+#| "th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
+#| "td></tr></table></body>"
 msgctxt ""
-"Graphics tooltip; colume 1 is a header, column 2 is focus position, column 3 "
-"is temperature in °C, colunm 4 is altitude in °AltRow 1 is the headers, row "
+"Graphics tooltip; column 1 is a header, column 2 is focus position, column 3 "
+"is temperature in °C, column 4 is altitude in °AltRow 1 is the headers, row "
 "2 is the measured position, row 3 are the adaptations for temperature and "
 "altitude, row 4 is adapted position"
 msgid ""
@@ -15084,11 +15099,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/camera.ui:1810
-#, no-c-format, kde-format
+#, fuzzy, no-c-format, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Target is the name of the targetted object.</"
+#| "p><p>It is available to be used in the filename Format via the %t or "
+#| "%type placeholder tag.</p></body></html>"
 msgid ""
-"<html><head/><body><p>Target is the name of the targetted object.</p><p>It "
-"is available to be used in the filename Format via the %t or %type "
-"placeholder tag.</p></body></html>"
+"<html><head/><body><p>Target is the name of the targeted object.</p><p>It is "
+"available to be used in the filename Format via the %t or %type placeholder "
+"tag.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>L'objectiu és el nom de l'objecte de destinació.</"
 "p><p>Està disponible per a ser utilitzat en el format del nom de fitxer "
@@ -16532,8 +16551,10 @@ msgstr ""
 "Commuta la pantalla al mode gràfic de visualització del nombre de captures."
 
 #: ekos/capture/capturedeviceadaptor.cpp:423
-#, kde-format
-msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
+#, fuzzy, kde-format
+#| msgid ""
+#| "Filter manager is not initilized yet. Filter wheel missing from train?"
+msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr ""
 "El gestor de filtres encara no està inicialitzat. Falta el filtre de la roda "
 "del tren?"
@@ -20386,10 +20407,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:66
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Check to have Focus Advisor search for stars. If you are close enough to "
+#| "Focus to see stars in the Focus frame then this step is not neccessary."
 msgid ""
 "Check to have Focus Advisor search for stars. If you are close enough to "
-"Focus to see stars in the Focus frame then this step is not neccessary."
+"Focus to see stars in the Focus frame then this step is not necessary."
 msgstr ""
 "Marqueu-ho perquè l'assessor d'enfocament cerqui estrelles. Si esteu prou a "
 "prop del focus per a veure les estrelles en el marc del focus, aquest pas no "
