@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-20 02:01+0000\n"
-"PO-Revision-Date: 2025-09-16 13:22+0100\n"
+"PO-Revision-Date: 2025-09-20 22:16+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -11811,22 +11811,7 @@ msgid "(ΔAlt=%1)"
 msgstr "(ΔAlt=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:621
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Graphics tooltip; colume 1 is a header, column 2 is focus position, "
-#| "column 3 is temperature in °C, colunm 4 is altitude in °AltRow 1 is the "
-#| "headers, row 2 is the measured position, row 3 are the adaptations for "
-#| "temperature and altitude, row 4 is adapted position"
-#| msgid ""
-#| "<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
-#| "padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
-#| "caption { text-align: center; vertical-align: top; font-weight: bold; "
-#| "margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
-#| "align=top>Adapt Focus Explainer</caption><tr><th></th><th>Position</"
-#| "th><th>Temperature (°C)</th><th>Altitude (°Alt)</th></tr><tr><th>Measured "
-#| "Pos</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></tr><tr><th>Adaptations</"
-#| "th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
-#| "td></tr></table></body>"
+#, kde-format
 msgctxt ""
 "Graphics tooltip; column 1 is a header, column 2 is focus position, column 3 "
 "is temperature in °C, column 4 is altitude in °AltRow 1 is the headers, row "
@@ -15062,11 +15047,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/camera.ui:1810
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target is the name of the targetted object.</"
-#| "p><p>It is available to be used in the filename Format via the %t or "
-#| "%type placeholder tag.</p></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Target is the name of the targeted object.</p><p>It is "
 "available to be used in the filename Format via the %t or %type placeholder "
@@ -16530,9 +16511,7 @@ msgstr ""
 "Cambiar la pantalla al modo gráfico del visor de contadores de captura."
 
 #: ekos/capture/capturedeviceadaptor.cpp:423
-#, fuzzy, kde-format
-#| msgid ""
-#| "Filter manager is not initilized yet. Filter wheel missing from train?"
+#, kde-format
 msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr ""
 "Todavía no se ha inicializado el gestor de filtros. ¿Falta la rueda de "
@@ -17415,7 +17394,7 @@ msgstr ""
 "<html><head/><body><p>Duración mínima de una inversión de meridiano en "
 "segundos. Aumente este valor si Ekos informa de que ha fallado una inversión "
 "de meridiano porque no ha cambiado el lado de la columna. Una buena "
-"estimación para este valor es al menos el 50% de la duración típica de una "
+"estimación para este valor es al menos el 50 % de la duración típica de una "
 "inversión de meridiano.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
@@ -19598,7 +19577,7 @@ msgstr "Algoritmo de enfoque automático lineal interrumpido: %1"
 #: ekos/focus/focus.cpp:3960
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
-msgstr "FITS recibido. HFR %1 @ %2. Delta (%3%)"
+msgstr "FITS recibido. HFR %1 @ %2. Delta (%3 %)"
 
 #: ekos/focus/focus.cpp:3962
 #, kde-format
@@ -19658,7 +19637,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:4367
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
-msgstr "FITS recibido. HFR %1. Delta (%2%) HFR mín. (%3)"
+msgstr "FITS recibido. HFR %1. Delta (%2 %) HFR mín. (%3)"
 
 #: ekos/focus/focus.cpp:4371
 #, kde-format
@@ -20380,10 +20359,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:66
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to have Focus Advisor search for stars. If you are close enough to "
-#| "Focus to see stars in the Focus frame then this step is not neccessary."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor search for stars. If you are close enough to "
 "Focus to see stars in the Focus frame then this step is not necessary."
@@ -21309,7 +21285,7 @@ msgstr ""
 "con el enfocador posicionado cerca de un buen foco. Defina el tamaño del "
 "paso inicial y el recorrido máximo para el intervalo de muestreo deseado y "
 "extiéndalo alrededor de la posición inicial de enfoque. La tolerancia debe "
-"ser alrededor del 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"ser alrededor del 5 %.</li><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\"><span style=\" font-weight:600;\">Lineal de 1 paso</span>: Empieza como "
 "<span style=\" font-weight:600;\">Lineal</span> pero, tras completar el "
@@ -21898,7 +21874,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Diámetro del círculo exterior que se debe excluir del "
 "enfoque. El diámetro se indica como porcentaje de la diagonal de la imagen. "
-"Use 100% para incluir los bordes exteriores del sensor.</p></body></html>"
+"Use 100 % para incluir los bordes exteriores del sensor.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
 #: ekos/focus/opsfocussettings.ui:530
@@ -32964,8 +32940,8 @@ msgstr "Calcular la HFR automáticamente"
 msgid ""
 "When computing the HFR, run it quickly by only looking at 25% of the image."
 msgstr ""
-"Al calcular la HFR, ejecutarla rápidamente teniendo en cuenta solo el 25% de "
-"la imagen."
+"Al calcular la HFR, ejecutarla rápidamente teniendo en cuenta solo el 25 % "
+"de la imagen."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_QuickHFR)
 #: fitsviewer/opsfits.ui:471
@@ -39450,7 +39426,7 @@ msgid ""
 "Compute the HFRs of normal images quickly by looking at the center 25% only."
 msgstr ""
 "Calcular las HFR de las imágenes normales de forma rápida teniendo en cuenta "
-"solo el 25% de su zona central."
+"solo el 25 % de su zona central."
 
 #. i18n: ectx: label, entry (AutoWCS), group (FITSViewer)
 #: kstars.kcfg:1725
@@ -40623,8 +40599,8 @@ msgid ""
 "may also have an inherent filter."
 msgstr ""
 "Durante el enfoque de campo completo, las estrellas que estén dentro de este "
-"porcentaje del fotograma se excluyen del cálculo de HFR (por omisión, el "
-"0%). Los algoritmos de detección también pueden tener un filtro inherente."
+"porcentaje del fotograma se excluyen del cálculo de HFR (por omisión, el 0 "
+"%). Los algoritmos de detección también pueden tener un filtro inherente."
 
 #. i18n: ectx: label, entry (FocusFullFieldOuterRadius), group (Focus)
 #: kstars.kcfg:2377
@@ -40641,8 +40617,8 @@ msgid ""
 "algorithms may also have an inherent filter."
 msgstr ""
 "Durante el enfoque de campo completo, las estrellas que estén fuera de este "
-"porcentaje del fotograma se excluyen del cálculo de HFR (por omisión, el "
-"100%). Los algoritmos de detección también pueden tener un filtro inherente."
+"porcentaje del fotograma se excluyen del cálculo de HFR (por omisión, el 100 "
+"%). Los algoritmos de detección también pueden tener un filtro inherente."
 
 #. i18n: ectx: label, entry (FocusMosaicTileWidth), group (Focus)
 #: kstars.kcfg:2382
@@ -86108,7 +86084,7 @@ msgstr "Fase:"
 #: tools/modcalcdaylength.ui:736
 #, no-c-format, kde-format
 msgid "Waxing gibbous (75%)"
-msgstr "Gibosa creciente (75%)"
+msgstr "Gibosa creciente (75 %)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: tools/modcalcdaylength.ui:784
@@ -88861,7 +88837,7 @@ msgstr "triángulo equilátero"
 #: tools/starhopper.cpp:340
 #, kde-format
 msgid " within %1% of FOV of the marked star"
-msgstr " dentro del %1% del campo de visión de la estrella marcada"
+msgstr " dentro del %1 % del campo de visión de la estrella marcada"
 
 #: tools/starhopperdialog.cpp:64
 #, kde-format
@@ -89320,7 +89296,7 @@ msgstr "Muestra la fracción iluminada de La Luna para la fecha seleccionada."
 #: tools/wutdialog.ui:333
 #, no-c-format, kde-format
 msgid "Moon illum: 42%"
-msgstr "Ilum. de la Luna: 42%"
+msgstr "Ilum. de la Luna: 42 %"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel15)
 #: tools/wutdialog.ui:356

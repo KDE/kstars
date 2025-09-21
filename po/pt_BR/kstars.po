@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-20 02:01+0000\n"
-"PO-Revision-Date: 2025-09-19 08:26-0300\n"
+"PO-Revision-Date: 2025-09-20 11:44-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -11776,22 +11776,7 @@ msgid "(ΔAlt=%1)"
 msgstr "(ΔAlt=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:621
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Graphics tooltip; colume 1 is a header, column 2 is focus position, "
-#| "column 3 is temperature in °C, colunm 4 is altitude in °AltRow 1 is the "
-#| "headers, row 2 is the measured position, row 3 are the adaptations for "
-#| "temperature and altitude, row 4 is adapted position"
-#| msgid ""
-#| "<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
-#| "padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
-#| "caption { text-align: center; vertical-align: top; font-weight: bold; "
-#| "margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
-#| "align=top>Adapt Focus Explainer</caption><tr><th></th><th>Position</"
-#| "th><th>Temperature (°C)</th><th>Altitude (°Alt)</th></tr><tr><th>Measured "
-#| "Pos</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></tr><tr><th>Adaptations</"
-#| "th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
-#| "td></tr></table></body>"
+#, kde-format
 msgctxt ""
 "Graphics tooltip; column 1 is a header, column 2 is focus position, column 3 "
 "is temperature in °C, column 4 is altitude in °AltRow 1 is the headers, row "
@@ -15010,11 +14995,7 @@ msgstr "Redefinir o formato do espaço reservado para o padrão"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/camera.ui:1810
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target is the name of the targetted object.</"
-#| "p><p>It is available to be used in the filename Format via the %t or "
-#| "%type placeholder tag.</p></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Target is the name of the targeted object.</p><p>It is "
 "available to be used in the filename Format via the %t or %type placeholder "
@@ -16452,9 +16433,7 @@ msgstr ""
 "Alterna a exibição para o modo gráfico de exibição de contagens de captura."
 
 #: ekos/capture/capturedeviceadaptor.cpp:423
-#, fuzzy, kde-format
-#| msgid ""
-#| "Filter manager is not initilized yet. Filter wheel missing from train?"
+#, kde-format
 msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr ""
 "O gerenciador de filtros ainda não foi inicializado. A roda do filtro está "
@@ -20271,10 +20250,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:66
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to have Focus Advisor search for stars. If you are close enough to "
-#| "Focus to see stars in the Focus frame then this step is not neccessary."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor search for stars. If you are close enough to "
 "Focus to see stars in the Focus frame then this step is not necessary."
@@ -40772,161 +40748,167 @@ msgstr "O comprimento de onda em nm a ser usado no algoritmo Ouro."
 #: kstars.kcfg:2591
 #, kde-format
 msgid "Telescope aperture in mm to use in CFZ calcs."
-msgstr ""
+msgstr "Abertura do telescópio em mm para uso em cálculos CFZ."
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2595
 #, kde-format
 msgid "The f# to use in the CFZ algo."
-msgstr ""
+msgstr "O f# a ser usado no algoritmo CFZ."
 
 #. i18n: ectx: whatsthis, entry (focusCFZSeeing), group (Focus)
 #: kstars.kcfg:2599
 #, kde-format
 msgid "The total seeing in arc-secs to use in the CFZ algo."
-msgstr ""
+msgstr "A visão total em segundos de arco para usar no algoritmo CFZ."
 
 #. i18n: ectx: whatsthis, entry (focusCFZStepSize), group (Focus)
 #: kstars.kcfg:2603
-#, fuzzy, kde-format
-#| msgid "Camera pixel size width in micrometers."
+#, kde-format
 msgid "The size of a focuser tick in micrometers."
-msgstr "A largura de um pixel da câmera, em micrômetros."
+msgstr "O tamanho de um tique do focalizador em micrômetros."
 
 #. i18n: ectx: whatsthis, entry (focusAdvHelpOnlyChanges), group (Focus)
 #: kstars.kcfg:2608
 #, kde-format
 msgid "Focus Advisor Help shows only changes."
-msgstr ""
+msgstr "A ajuda do conselheiro de foco mostra apenas alterações."
 
 #. i18n: ectx: whatsthis, entry (focusAdvUpdateParams), group (Focus)
 #: kstars.kcfg:2612
 #, kde-format
 msgid "Whether to run the Focus Advisor Update Parameters function."
 msgstr ""
+"Se deve ou não executar a função de atualizar parâmetros do conselheiro de "
+"foco."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFindStars), group (Focus)
 #: kstars.kcfg:2616
 #, kde-format
 msgid "Whether to run the Focus Advisor Find Stars function."
 msgstr ""
+"Se deve ou não executar a função de encontrar estrelas do conselheiro de "
+"foco."
 
 #. i18n: ectx: whatsthis, entry (focusAdvCourseAdj), group (Focus)
 #: kstars.kcfg:2620
 #, kde-format
 msgid "Whether to run the Focus Advisor Course Adjustment function."
 msgstr ""
+"Se deve ou não executar a função de ajuste de curso do conselheiro de foco."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFineAdj), group (Focus)
 #: kstars.kcfg:2624
 #, kde-format
 msgid "Whether to run the Focus Advisor Fine Adjustment function."
 msgstr ""
+"Se deve ou não executar a função de ajuste fino do conselheiro de foco."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2629
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Position of FocusSplitter."
-msgstr "Ângulo da posição"
+msgstr "Posição do FocusSplitter."
 
 #. i18n: ectx: label, entry (rightLayout), group (Focus)
 #: kstars.kcfg:2632
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "Position of rightLayout."
-msgstr "Posição da caixa de informações de tempo."
+msgstr "Posição do rightLayout."
 
 #. i18n: ectx: whatsthis, entry (adaptFocusBFO), group (Focus)
 #: kstars.kcfg:2635
 #, kde-format
 msgid "Whether to use Adaptive Focus in the Build Filter Offsets utility."
 msgstr ""
+"Se deve ou não usar o foco adaptativo no utilitário deslocamentos do filtro "
+"de construção."
 
 #. i18n: ectx: whatsthis, entry (abInsTileSelection), group (Focus)
 #: kstars.kcfg:2640
 #, kde-format
 msgid "Which set of tiles to use in Aberration Inspector."
-msgstr ""
+msgstr "Qual conjunto de peças usar no inspetor de aberração."
 
 #. i18n: ectx: label, entry (abInsShowLabels), group (Focus)
 #: kstars.kcfg:2644
 #, kde-format
 msgid "Show Max Min labels on Aberration Inspector graph."
-msgstr ""
+msgstr "Mostrar rótulos de Máx. Mín. no gráfico do inspetor de aberrações."
 
 #. i18n: ectx: label, entry (abInsShowCFZ), group (Focus)
 #: kstars.kcfg:2648
 #, kde-format
 msgid "Show Critical Focus Zone on Aberration Inspector graph."
-msgstr ""
+msgstr "Mostrar zona de foco crítica no gráfico do inspetor de aberrações."
 
 #. i18n: ectx: label, entry (abInsOptCentres), group (Focus)
 #: kstars.kcfg:2652
 #, kde-format
 msgid "Whether to optimise tile centres used in Aberration Inspector calcs."
 msgstr ""
+"Se deve otimizar os centros dos blocos usados ​​nos cálculos do inspetor de "
+"aberração."
 
 #. i18n: ectx: label, entry (abInsHSplitter), group (Focus)
 #: kstars.kcfg:2656
 #, kde-format
 msgid "Position of HSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Posição de HSplitter no inspetor de aberração."
 
 #. i18n: ectx: label, entry (abInsVSplitter), group (Focus)
 #: kstars.kcfg:2659
 #, kde-format
 msgid "Position of VSplitter in Aberration Inspector."
-msgstr ""
+msgstr "Posição de VSplitter no inspetor de aberração."
 
 #. i18n: ectx: whatsthis, entry (abInsSelection), group (Focus)
 #: kstars.kcfg:2662
 #, kde-format
 msgid "Aberration Inspector 3D graphic selection mode."
-msgstr ""
+msgstr "Modo de seleção do gráfico 3D do inspetor de aberração."
 
 #. i18n: ectx: whatsthis, entry (abInsTheme), group (Focus)
 #: kstars.kcfg:2666
 #, kde-format
 msgid "Aberration Inspector 3D graphic theme."
-msgstr ""
+msgstr "Tema do gráfico 3D do inspetor de aberração."
 
 #. i18n: ectx: label, entry (abInsLabels), group (Focus)
 #: kstars.kcfg:2670
 #, kde-format
 msgid "Aberration Inspector 3D graphic show labels."
-msgstr ""
+msgstr "O gráfico 3D do inspetor de aberração mostra rótulos."
 
 #. i18n: ectx: label, entry (abInsSensor), group (Focus)
 #: kstars.kcfg:2674
 #, kde-format
 msgid "Aberration Inspector 3D graphic show sensor."
-msgstr ""
+msgstr "O gráfico 3D do inspetor de aberração mostra o sensor."
 
 #. i18n: ectx: label, entry (abInsPetzvalWire), group (Focus)
 #: kstars.kcfg:2678
 #, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval wire."
-msgstr ""
+msgstr "O gráfico 3D do inspetor de aberração mostra o fio de Petzval."
 
 #. i18n: ectx: label, entry (abInsPetzvalSurface), group (Focus)
 #: kstars.kcfg:2682
 #, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval surface."
-msgstr ""
+msgstr "O gráfico 3D do inspetor de aberração mostra a superfície de Petzval."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2688
-#, fuzzy, kde-format
-#| msgid "Options passed to the astrometry solver."
+#, kde-format
 msgid "Internal or External Sextractor for Focusing."
-msgstr "Opções passadas ao sistema de resolução 'astrometry'."
+msgstr "Sextractor interno ou externo para foco."
 
 #. i18n: ectx: label, entry (FocusOptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2692
 #, kde-format
 msgid "Options Profile for Sextraction when Focusing."
-msgstr ""
+msgstr "Perfil de opções para o Sextraction ao focar."
 
 #. i18n: ectx: label, entry (HFRSextractorType), group (StellarSolver)
 #: kstars.kcfg:2696
@@ -40938,33 +40920,31 @@ msgstr "Sextractor interno ou externo para calcular subs RMF."
 #: kstars.kcfg:2700
 #, kde-format
 msgid "Options Profile for Sextraction to compute subs HFR"
-msgstr "Perfil de opções para extração para calcular subs RMF"
+msgstr "Perfil de opções para o Sextraction para calcular subs RMF"
 
 #. i18n: ectx: label, entry (GuideSextractorType), group (StellarSolver)
 #: kstars.kcfg:2704
-#, fuzzy, kde-format
-#| msgid "Options passed to the astrometry solver."
+#, kde-format
 msgid "Internal or External Sextractor for Guiding."
-msgstr "Opções passadas ao sistema de resolução 'astrometry'."
+msgstr "Sextractor interno ou externo para o guia."
 
 #. i18n: ectx: label, entry (GuideOptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2708
 #, kde-format
 msgid "Options Profile for Sextraction when Guiding."
-msgstr ""
+msgstr "Perfil de opções para o Sextraction ao guiar."
 
 #. i18n: ectx: label, entry (SolveSextractorType), group (StellarSolver)
 #: kstars.kcfg:2712
-#, fuzzy, kde-format
-#| msgid "Options passed to the astrometry solver."
+#, kde-format
 msgid "Internal, External, or BuiltIn Sextractor for Solving."
-msgstr "Opções passadas ao sistema de resolução 'astrometry'."
+msgstr "Sextractor interno ou externo para a solução."
 
 #. i18n: ectx: label, entry (SolverMode), group (StellarSolver)
 #: kstars.kcfg:2716
 #, kde-format
 msgid "Local (0) or Remote (1) solver."
-msgstr ""
+msgstr "Solucionador local (0) ou remoto (1)."
 
 #. i18n: ectx: label, entry (SolverType), group (StellarSolver)
 #: kstars.kcfg:2720
@@ -40973,42 +40953,46 @@ msgid ""
 "Local solving method. 0 for Internal Solver. 1 for Local Astrometry. 2 for "
 "Local ASTAP. 3 for Online Astrometry."
 msgstr ""
+"Método de solução local. 0 para solucionador interno. 1 para astrometria "
+"local. 2 paraASTAP local. 3 para astrometria online."
 
 #. i18n: ectx: label, entry (SolveOptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2724
 #, kde-format
 msgid "Options Profile for Solving."
-msgstr ""
+msgstr "Perfil de opções para o solucionador."
 
 #. i18n: ectx: label, entry (LoggerLevel), group (StellarSolver)
 #: kstars.kcfg:2728
 #, kde-format
 msgid "Level of verbosity in the log."
-msgstr ""
+msgstr "Nível de verbosidade no registro."
 
 #. i18n: ectx: label, entry (AstrometryLogToFile), group (StellarSolver)
 #: kstars.kcfg:2732
 #, kde-format
 msgid "Whether to log to a file instead."
-msgstr ""
+msgstr "Se deve ou não efetuar log em um arquivo."
 
 #. i18n: ectx: label, entry (AstrometryLogFilepath), group (StellarSolver)
 #: kstars.kcfg:2736
 #, kde-format
 msgid "Path of the log file to save astrometry logging to."
-msgstr ""
+msgstr "Caminho do arquivo de log para salvar o registro de astrometria."
 
 #. i18n: ectx: label, entry (AstrometryIndexFolderList), group (StellarSolver)
 #: kstars.kcfg:2740
 #, kde-format
 msgid "List of index folder paths."
-msgstr ""
+msgstr "Lista de caminhos de pastas de índice."
 
 #. i18n: ectx: whatsthis, entry (AstrometryIndexFolderList), group (StellarSolver)
 #: kstars.kcfg:2741
 #, kde-format
 msgid "List of folders in which astrometry Index Files can be found."
 msgstr ""
+"Lista de pastas nas quais os arquivos de índice de astrometria podem ser "
+"encontrados."
 
 #. i18n: ectx: label, entry (AlignExposure), group (Align)
 #: kstars.kcfg:2747
@@ -41018,61 +41002,56 @@ msgstr "Valor de exposição padrão do alinhamento"
 
 #. i18n: ectx: whatsthis, entry (AlignExposure), group (Align)
 #: kstars.kcfg:2748
-#, fuzzy, kde-format
-#| msgid ""
-#| "Specifies exposure value of CCD in seconds when performing plate solving."
+#, kde-format
 msgid ""
 "Specifies exposure value of camera in seconds when performing plate solving."
 msgstr ""
-"Indica o valor de exposição do CCD em segundos ao efetuar a resolução do "
+"Indica o valor de exposição da câmera em segundos ao efetuar a resolução do "
 "prato."
 
 #. i18n: ectx: label, entry (AlignBinning), group (Align)
 #: kstars.kcfg:2752
-#, fuzzy, kde-format
-#| msgid "Default CCD Y binning while in alignment mode"
+#, kde-format
 msgid "Default camera binning in alignment mode"
-msgstr "Divisão Y padrão do CCD no modo de alinhamento"
+msgstr "Compartimentação padrão da câmera no modo de alinhamento"
 
 #. i18n: ectx: label, entry (AlignGain), group (Align)
 #: kstars.kcfg:2756
-#, fuzzy, kde-format
-#| msgid "Default CCD Y binning while in alignment mode"
+#, kde-format
 msgid "Default camera gain in alignment mode"
-msgstr "Divisão Y padrão do CCD no modo de alinhamento"
+msgstr "Ganho padrão da câmera no modo de alinhamento"
 
 #. i18n: ectx: label, entry (AlignISO), group (Align)
 #: kstars.kcfg:2760
-#, fuzzy, kde-format
-#| msgid "Default CCD Y binning while in alignment mode"
+#, kde-format
 msgid "Default camera ISO in alignment mode"
-msgstr "Divisão Y padrão do CCD no modo de alinhamento"
+msgstr "ISO padrão da câmera no modo de alinhamento"
 
 #. i18n: ectx: label, entry (AlignDarkFrame), group (Align)
 #: kstars.kcfg:2764
 #, kde-format
 msgid "Take a dark frame and subtract it before running astrometry operation."
 msgstr ""
+"Pegar um quadro escuro e subtraí-lo antes de executar a operação de "
+"astrometria."
 
 #. i18n: ectx: label, entry (AlignFilter), group (Align)
 #: kstars.kcfg:2768
-#, fuzzy, kde-format
-#| msgid "Default CCD Y binning while in alignment mode"
+#, kde-format
 msgid "Default filter wheel filter in alignment mode"
-msgstr "Divisão Y padrão do CCD no modo de alinhamento"
+msgstr "Filtro padrão da roda de filtro no modo de alinhamento"
 
 #. i18n: ectx: label, entry (AlignUseCurrentFilter), group (Align)
 #: kstars.kcfg:2771
-#, fuzzy, kde-format
-#| msgid "Default CCD Y binning while in alignment mode"
+#, kde-format
 msgid "Use currently selected filter in alignment mode."
-msgstr "Divisão Y padrão do CCD no modo de alinhamento"
+msgstr "Usar o filtro atualmente selecionado no modo de alinhamento"
 
 #. i18n: ectx: whatsthis, entry (AstrometryUseRotator), group (Align)
 #: kstars.kcfg:2775
 #, kde-format
 msgid "Use rotator when performing load and slew."
-msgstr ""
+msgstr "Usar o rotador ao executar o carregamento e rotação."
 
 #. i18n: ectx: whatsthis, entry (AstrometryRotatorThreshold), group (Align)
 #: kstars.kcfg:2779
@@ -41081,12 +41060,14 @@ msgid ""
 "Threshold between measured and FITS position angles in arcminutes to "
 "consider the load and slew operation successful."
 msgstr ""
+"Limite entre os ângulos medidos e os ângulos de posição FITS em minutos de "
+"arco para considerar a operação de carregamento e rotação bem-sucedida."
 
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
 #: kstars.kcfg:2783
 #, kde-format
 msgid "PA 180° rotation for rotator is accepted after mount flip."
-msgstr ""
+msgstr "A rotação de 180° PA do rotador é aceita após a inversão da montagem."
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
 #: kstars.kcfg:2787
@@ -41113,6 +41094,8 @@ msgid ""
 "Do not use Sync when Slew to Target is selected. Use differential slewing to "
 "correct for discrepancies."
 msgstr ""
+"Não utilize a sincronização quando a opção \"Giro para o alvo\" estiver "
+"selecionada. Utilize o giro diferencial para corrigir discrepâncias."
 
 #. i18n: ectx: label, entry (AlignAccuracyThreshold), group (Align)
 #: kstars.kcfg:2799
@@ -41120,8 +41103,8 @@ msgstr ""
 msgid ""
 "Accuracy threshold in arcseconds between solution and target coordinates."
 msgstr ""
-"O limite de precisão, em arcsegundos, entre a solução e as coordenadas do "
-"alvo."
+"O limite de precisão, em segundos de arco, entre a solução e as coordenadas "
+"do alvo."
 
 #. i18n: ectx: label, entry (AlignSettlingTime), group (Align)
 #: kstars.kcfg:2803
@@ -41130,6 +41113,8 @@ msgid ""
 "Time to wait in milliseconds after telescope slewing is complete before "
 "starting the next capture."
 msgstr ""
+"Tempo de espera em milissegundos após a conclusão do giro do telescópio "
+"antes de iniciar a próxima captura."
 
 #. i18n: ectx: label, entry (AstrometryUseNoFITS2FITS), group (Align)
 #: kstars.kcfg:2807
@@ -41138,6 +41123,9 @@ msgid ""
 "Do not sanitize FITS. This option should only be checked if astrometry.net "
 "version is 0.67 or earlier. Uncheck for any versions greater than 0.67."
 msgstr ""
+"Não higienizar o FITS. Esta opção só deve ser marcada se a versão do "
+"astrometry.net for 0.67 ou anterior. Desmarque para versões posteriores a "
+"0.67."
 
 #. i18n: ectx: label, entry (AstrometryUseResort), group (Align)
 #: kstars.kcfg:2811
@@ -41146,6 +41134,8 @@ msgid ""
 "Check this option if your image does not have much nebulosity. If it does "
 "have strong nebulosity, uncheck it."
 msgstr ""
+"Marque esta opção se a sua imagem não tiver muita nebulosidade. Se tiver "
+"muita nebulosidade, desmarque-a."
 
 #. i18n: ectx: label, entry (AstrometryUseNoVerify), group (Align)
 #: kstars.kcfg:2815
@@ -41155,20 +41145,20 @@ msgid ""
 "before blindly trying to solve the image. It is recommended to keep it "
 "checked."
 msgstr ""
+"Isso impedirá que o solucionador examine um Cabeçalho WCS já existente antes "
+"de tentar resolver a imagem às cegas. Recomenda-se mantê-lo marcado."
 
 #. i18n: ectx: label, entry (AstrometryImageScaleLow), group (Align)
 #: kstars.kcfg:2823
-#, fuzzy, kde-format
-#| msgid "Lower right corner"
+#, kde-format
 msgid "Lower image scale."
-msgstr "Canto inferior direito"
+msgstr "Escala de imagem menor."
 
 #. i18n: ectx: label, entry (AstrometryImageScaleHigh), group (Align)
 #: kstars.kcfg:2826
-#, fuzzy, kde-format
-#| msgid "Use images"
+#, kde-format
 msgid "Upper image scale."
-msgstr "Usar imagens"
+msgstr "Escala de imagem maior."
 
 #. i18n: ectx: label, entry (AstrometryAutoUpdateImageScale), group (Align)
 #: kstars.kcfg:2829
@@ -41176,6 +41166,8 @@ msgstr "Usar imagens"
 msgid ""
 "Automatically update image scale when CCD or Mount parameters are updated."
 msgstr ""
+"Atualizar automaticamente a escala da imagem quando os parâmetros CCD ou de "
+"montagem forem atualizados."
 
 #. i18n: ectx: label, entry (AstrometryImageScaleUnits), group (Align)
 #: kstars.kcfg:2833
@@ -41183,32 +41175,28 @@ msgstr ""
 msgid ""
 "Image scale units in arcminutes (aw), degrees (dw), or arcsec per pixel (app)"
 msgstr ""
+"Unidades de escala de imagem em minutos de arco (aw), graus (dw) ou segundos "
+"de arco por pixel (app)"
 
 #. i18n: ectx: label, entry (AstrometryUseDownsample), group (Align)
 #: kstars.kcfg:2837
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum telescope altitude limit. If the telescope "
-#| "is above this limit, it will be commanded to stop.</p></body></html>"
+#, kde-format
 msgid "Downsample the image to shrink its size and speed up the solver."
 msgstr ""
-"<html><head/><body><p>O limite máximo de altitude do telescópio. Se o "
-"telescópio estiver acima desse limite, será obrigado a parar.</p></body></"
-"html>"
+"Reduza a resolução da imagem para reduzir seu tamanho e acelerar o "
+"solucionador."
 
 #. i18n: ectx: label, entry (AstrometryDownsample), group (Align)
 #: kstars.kcfg:2841
-#, fuzzy, kde-format
-#| msgid "Download all Images"
+#, kde-format
 msgid "Downsample factor"
-msgstr "Baixar todas as imagens"
+msgstr "Fator de redução da imagem"
 
 #. i18n: ectx: label, entry (AstrometryAutoDownsample), group (Align)
 #: kstars.kcfg:2845
-#, fuzzy, kde-format
-#| msgid "Automatically calibrate selected axes."
+#, kde-format
 msgid "Automatically downsample based on image size."
-msgstr "Calibrar automaticamente os eixos selecionados."
+msgstr "Reduzir automaticamente baseado no tamanho da imagem."
 
 #. i18n: ectx: label, entry (AstrometryPositionRA), group (Align)
 #: kstars.kcfg:2853
@@ -41216,37 +41204,37 @@ msgstr "Calibrar automaticamente os eixos selecionados."
 msgid ""
 "User supplied Right Ascension value in degrees to be passed to the solver."
 msgstr ""
+"Valor de Ascensão Reta fornecido pelo usuário em graus a ser passado ao "
+"solucionador."
 
 #. i18n: ectx: label, entry (AstrometryPositionDE), group (Align)
 #: kstars.kcfg:2856
 #, kde-format
 msgid "User supplied declination value in degrees to be passed to the solver."
 msgstr ""
+"Valor de declinação fornecido pelo usuário em graus a ser passado ao "
+"solucionador."
 
 #. i18n: ectx: label, entry (AstrometryAutoUpdatePosition), group (Align)
 #: kstars.kcfg:2859
-#, fuzzy, kde-format
-#| msgid ""
-#| "Automatically update the solver's RA & Declination coordinates after "
-#| "telescope slew is completed."
+#, kde-format
 msgid ""
 "Automatically update position coordinates when mounts completes slewing."
 msgstr ""
-"Atualiza automaticamente as coordenadas de pesquisa de AR e Declinação do "
-"módulo de resolução, após terminar o deslocamento do telescópio."
+"Atualizar automaticamente as coordenadas de posição quando as montagens "
+"concluem o giro."
 
 #. i18n: ectx: label, entry (AstrometryDetectParity), group (Align)
 #: kstars.kcfg:2867
 #, kde-format
 msgid "Detect parity and reuse it to speed up solver."
-msgstr ""
+msgstr "Detectar a paridade e reutilizá-la para acelerar o solucionador."
 
 #. i18n: ectx: label, entry (AstrometryCustomOptions), group (Align)
 #: kstars.kcfg:2871
-#, fuzzy, kde-format
-#| msgid "Additional options to be the solver"
+#, kde-format
 msgid "Additional optional astrometry.net options"
-msgstr "Opções adicionais da resolução"
+msgstr "Opções adicionais opcionais do astrometry.net"
 
 #. i18n: ectx: label, entry (AstrometrySolverBinary), group (Align)
 #: kstars.kcfg:2874
@@ -41288,14 +41276,13 @@ msgstr "Caminho para a localização do arquivo do astrometry.net."
 #: kstars.kcfg:2890
 #, kde-format
 msgid "Path to the Sextractor executable."
-msgstr ""
+msgstr "Caminho para o executável do Sextractor."
 
 #. i18n: ectx: whatsthis, entry (WatneyBinary), group (Align)
 #: kstars.kcfg:2895
-#, fuzzy, kde-format
-#| msgid "Path to astrometry.net solver location."
+#, kde-format
 msgid "Path to the Watney Solver executable."
-msgstr "Caminho para localização do solucionador do astrometry.net."
+msgstr "Caminho para o executável do solucionador Watney."
 
 #. i18n: ectx: label, entry (AstrometryAPIKey), group (Align)
 #: kstars.kcfg:2899
@@ -41331,52 +41318,47 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AstrometryTimeout), group (Align)
 #: kstars.kcfg:2912
-#, fuzzy, kde-format
-#| msgid "Upload complete. Waiting for astrometry.net solver to complete..."
+#, kde-format
 msgid "Timeout in seconds to wait for astrometry solver to complete."
 msgstr ""
-"O envio foi concluído. Aguardando a conclusão da resolução do astrometry."
-"net..."
+"Tempo limite em segundos para aguardar a conclusão do solucionador de "
+"astrometria."
 
 #. i18n: ectx: label, entry (PAHMountSpeed), group (Align)
 #: kstars.kcfg:2916
-#, fuzzy, kde-format
-#| msgid "Automatically park telescope once all sequence jobs are completed"
+#, kde-format
 msgid "Speed to set mount in Polar Alignment Assistant Tool."
 msgstr ""
-"Bloqueia automaticamente o telescópio quando todas as tarefas de sequência "
-"forem concluídas"
+"Velocidade para definir a montagem na ferramenta do assistente de "
+"alinhamento polar."
 
 #. i18n: ectx: label, entry (PAHRotaion), group (Align)
 #: kstars.kcfg:2919
-#, fuzzy, kde-format
-#| msgid "Processing solution for polar alignment..."
+#, kde-format
 msgid "Rotate mount by this many degrees during polar alignment."
-msgstr "Processando a solução para o alinhamento polar..."
+msgstr "Gire a montagem esta quantidade de graus durante o alinhamento polar."
 
 #. i18n: ectx: label, entry (PAHRefreshAlgorithm), group (Align)
 #: kstars.kcfg:2923
 #, kde-format
 msgid "The algorithm used for polar-align refresh."
-msgstr ""
+msgstr "O algoritmo usado para atualização de alinhamento polar."
 
 #. i18n: ectx: label, entry (PAHDirection), group (Align)
 #: kstars.kcfg:2926
-#, fuzzy, kde-format
-#| msgid "Processing solution for polar alignment..."
+#, kde-format
 msgid "Mount rotation direction during polar alignment."
-msgstr "Processando a solução para o alinhamento polar..."
+msgstr "Direção de rotação da montagem durante o alinhamento polar."
 
 #. i18n: ectx: label, entry (PAHAutoPark), group (Align)
 #: kstars.kcfg:2929
-#, fuzzy, kde-format
-#| msgid "Automatically park telescope once all sequence jobs are completed"
+#, kde-format
 msgid ""
 "Automatically park the mount after Polar Alignment Assistant Tool is "
 "complete."
 msgstr ""
-"Bloqueia automaticamente o telescópio quando todas as tarefas de sequência "
-"forem concluídas"
+"Bloquear o suporte automaticamente após a conclusão da ferramenta do "
+"assistente de alinhamento polar."
 
 #. i18n: ectx: label, entry (PAHManualSlew), group (Align)
 #: kstars.kcfg:2933
@@ -41384,13 +41366,14 @@ msgstr ""
 msgid ""
 "User should manually rotate the mount about its axis during polar alignment."
 msgstr ""
+"O usuário deve girar manualmente a montagem em torno de seu eixo durante o "
+"alinhamento polar."
 
 #. i18n: ectx: label, entry (PAHExposure), group (Align)
 #: kstars.kcfg:2937
-#, fuzzy, kde-format
-#| msgid "Guider exposure duration in seconds."
+#, kde-format
 msgid "Polar Alignment Assistant exposure duration in seconds."
-msgstr "A duração da exposição da guia em segundos."
+msgstr "Duração da exposição do assistente de alinhamento polar em segundos."
 
 #. i18n: ectx: label, entry (GuideExposure), group (Guide)
 #: kstars.kcfg:2943
@@ -41400,10 +41383,9 @@ msgstr "A duração da exposição da guia em segundos."
 
 #. i18n: ectx: label, entry (GuideDelay), group (Guide)
 #: kstars.kcfg:2947
-#, fuzzy, kde-format
-#| msgid "Guider exposure duration in seconds."
+#, kde-format
 msgid "Delay next exposure by this many seconds."
-msgstr "A duração da exposição da guia em segundos."
+msgstr "Atrase a próxima exposição esta quantidade de segundos."
 
 #. i18n: ectx: label, entry (GuiderType), group (Guide)
 #: kstars.kcfg:2951
@@ -41412,6 +41394,8 @@ msgid ""
 "Which guider process to utilize for guiding (0 Internal Guider, 1 PHD2, 2 "
 "lin_guider)"
 msgstr ""
+"Qual processo de guia utilizar para guiamento (0 Guia interno, 1 PHD2, "
+"2lin_guider)"
 
 #. i18n: ectx: label, entry (GuideAlgorithm), group (Guide)
 #: kstars.kcfg:2955
@@ -41420,6 +41404,8 @@ msgid ""
 "Which Algorithm to use track guide square (0 smart, 1 SEP, 2 fast, 3 "
 "threshold, 4 no threshold, 5 SEP multistar)."
 msgstr ""
+"Qual algoritmo usar para rastrear o quadrado guia (0 inteligente, 1 SEP, 2 "
+"rápido, 3 limite, 4 sem limite, 5 SEP multiestrela)."
 
 #. i18n: ectx: label, entry (RAGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2959
@@ -41428,6 +41414,8 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
+"Qual algoritmo usar para calcular pulsos de guia para AR (0 padrão, 1 "
+"histerese, 2 linear, 3 GPG)."
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2963
@@ -41436,12 +41424,14 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
+"Qual algoritmo usar para calcular pulsos de guia para DEC (0 padrão, 1 "
+"histerese, 2 linear)."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:2967
 #, kde-format
 msgid "Host name of external PHD2 service"
-msgstr ""
+msgstr "Nome do host do serviço PHD2 externo"
 
 #. i18n: ectx: label, entry (PHD2Port), group (Guide)
 #: kstars.kcfg:2971
@@ -41453,14 +41443,13 @@ msgstr "Porta de monitoramento de eventos do PHD2"
 #: kstars.kcfg:2975
 #, kde-format
 msgid "Host name of external lin_guider service"
-msgstr ""
+msgstr "Nome do host do serviço lin_guider externo"
 
 #. i18n: ectx: label, entry (LinGuiderPort), group (Guide)
 #: kstars.kcfg:2979
-#, fuzzy, kde-format
-#| msgid "PHD2 Event Monitoring Port"
+#, kde-format
 msgid "Lin_guider Event Monitoring Port"
-msgstr "Porta de monitoramento de eventos do PHD2"
+msgstr "Porta de monitoramento de eventos do Lin_guider"
 
 #. i18n: ectx: label, entry (CalibrationPulseDuration), group (Guide)
 #: kstars.kcfg:2983
@@ -41476,14 +41465,13 @@ msgstr ""
 #: kstars.kcfg:2991
 #, kde-format
 msgid "Guide square size selection in pixels."
-msgstr ""
+msgstr "Seleção do tamanho do quadrado do guia em pixels."
 
 #. i18n: ectx: label, entry (GuideBinning), group (Guide)
 #: kstars.kcfg:2995
-#, fuzzy, kde-format
-#| msgid "Failed to set binning."
+#, kde-format
 msgid "Guide binning."
-msgstr "Não foi possível definir a compartimentação."
+msgstr "Compartimentação do guia."
 
 #. i18n: ectx: label, entry (GuideAutoStar), group (Guide)
 #: kstars.kcfg:2999
@@ -41496,7 +41484,7 @@ msgstr ""
 #: kstars.kcfg:3003
 #, kde-format
 msgid "Display guiding frames."
-msgstr ""
+msgstr "Exibir quadros de guiamento."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:3011
@@ -41509,18 +41497,22 @@ msgstr "Número de iterações de modo automático para o processo de calibraç�
 #, kde-format
 msgid "When star tracking is lost, wait this many seconds before aborting."
 msgstr ""
+"Quando o rastreamento de estrelas for perdido, aguarde esta quantidade de "
+"segundos antes de cancelar."
 
 #. i18n: ectx: label, entry (GuideCalibrationTimeout), group (Guide)
 #: kstars.kcfg:3019
 #, kde-format
 msgid "When calibration starts, wait this many seconds before aborting."
 msgstr ""
+"Quando a calibração começar, aguarde esta quantidade de segundos antes de "
+"cancelar."
 
 #. i18n: ectx: label, entry (GuideMaxDeltaRMS), group (Guide)
 #: kstars.kcfg:3023
 #, kde-format
 msgid "Maximum delta RMS permitted while guiding before aborting."
-msgstr ""
+msgstr "Delta RMS máximo permitido durante o guiamento antes do cancelamento."
 
 #. i18n: ectx: label, entry (GuideMaxHFR), group (Guide)
 #: kstars.kcfg:3027
@@ -41532,13 +41524,14 @@ msgstr "RMF máximo permitido para estrela-guia SEP MultiStar."
 #: kstars.kcfg:3035
 #, kde-format
 msgid "Maximum number of SEP MultiStar number of stars used as references."
-msgstr ""
+msgstr "Número máximo de estrelas SEP MultiStar usadas como referências."
 
 #. i18n: ectx: label, entry (AlwaysInventGuideStar), group (Guide)
 #: kstars.kcfg:3039
 #, kde-format
 msgid "Invent a guide star position from the multi-star references."
 msgstr ""
+"Inventar uma posição de estrela guia a partir das referências multi-estrelas."
 
 #. i18n: ectx: label, entry (TwoAxisEnabled), group (Guide)
 #: kstars.kcfg:3043
@@ -41552,14 +41545,13 @@ msgstr "Usar ambos os eixos para efetuar a calibração."
 msgid ""
 "Use the guider chip for guiding from cameras that have a dedicated guider "
 "chip."
-msgstr ""
+msgstr "Usar o chip guia para guiar câmeras que tenham um chip guia dedicado."
 
 #. i18n: ectx: label, entry (SaveGuideLog), group (Guide)
 #: kstars.kcfg:3051
-#, fuzzy, kde-format
-#| msgid "Automatically select the calibration star."
+#, kde-format
 msgid "Automatically save internal guider user logs."
-msgstr "Selecionar automaticamente a estrela de calibração."
+msgstr "Salvar automaticamente os logs internos do usuário do guia."
 
 #. i18n: ectx: label, entry (GuideDarkFrame), group (Guide)
 #: kstars.kcfg:3055
@@ -41569,10 +41561,9 @@ msgstr "Retirar a imagem escura para as imagens da guia automática."
 
 #. i18n: ectx: label, entry (GuideSubframe), group (Guide)
 #: kstars.kcfg:3059
-#, fuzzy, kde-format
-#| msgid "Subframe the image around the guide star"
+#, kde-format
 msgid "Subframe guide image around selected region"
-msgstr "Submoldura da imagem em torno da estrela-guia"
+msgstr "Imagem guia do sub-quadro ao redor da região selecionada"
 
 #. i18n: ectx: label, entry (DitherPixels), group (Guide)
 #: kstars.kcfg:3063
@@ -41588,44 +41579,38 @@ msgstr ""
 #: kstars.kcfg:3067
 #, kde-format
 msgid "Dither after this many frames."
-msgstr ""
+msgstr "Pontilhar após esta quantidade de quadros."
 
 #. i18n: ectx: label, entry (DitherThreshold), group (Guide)
 #: kstars.kcfg:3075
 #, kde-format
 msgid "Maximum distance (pixels) for guiding to be considered settled."
-msgstr ""
+msgstr "Distância máxima (pixels) para guiar para ser considerada assentado."
 
 #. i18n: ectx: label, entry (DitherTimeout), group (Guide)
 #: kstars.kcfg:3079
 #, kde-format
 msgid "Time limit (seconds) on dithering to settle down."
-msgstr ""
+msgstr "Limite de tempo (segundos) no pontilhamento para assentar."
 
 #. i18n: ectx: label, entry (DitherMaxIterations), group (Guide)
 #: kstars.kcfg:3083
 #, kde-format
 msgid "How many dithering attempts to undertake before giving up."
-msgstr ""
+msgstr "Quantas tentativas de pontilhamento fazer antes de desistir."
 
 #. i18n: ectx: label, entry (DitherNoGuidingPulse), group (Guide)
 #: kstars.kcfg:3087
-#, fuzzy, kde-format
-#| msgid ""
-#| "Pulse duration in milliseconds used for guiding pulses during calibration "
-#| "stage."
+#, kde-format
 msgid "Pulse length in milliseconds used for non-guiding dither."
 msgstr ""
-"A duração em milissegundos do impulso usado para os impulsos guia durante o "
-"estágio de calibração."
+"Comprimento de pulso em milissegundos usado para pontilhamento não guia."
 
 #. i18n: ectx: label, entry (DitherFailAbortsAutoGuide), group (Guide)
 #: kstars.kcfg:3091
-#, fuzzy, kde-format
-#| msgid "Dithering failed. Autoguiding aborted."
+#, kde-format
 msgid "If dithering fails then abort autoguide."
-msgstr ""
-"Ocorreu uma falha no efeito dithering. A guia automática foi interrompida."
+msgstr "Se o pontilhamento falhar, interrompa o guia automático."
 
 #. i18n: ectx: label, entry (DitherWithOnePulse), group (Guide)
 #: kstars.kcfg:3095
@@ -41637,19 +41622,24 @@ msgid ""
 "is necessary when 2-D dither is required but guiding is only done in one "
 "axis."
 msgstr ""
+"A quantidade de pontilhamento é gerada aleatoriamente, pulsos são enviados, "
+"mas a quantidade de pontilhamento de pixels resultante não é aplicada, então "
+"apenas um pulso de pontilhamento é enviado. Isso é mais rápido e "
+"recomendado, pois a quantidade de pontilhamento é aleatória de qualquer "
+"maneira. É necessário quando o pontilhamento 2D é necessário, mas a "
+"orientação é feita apenas em um eixo."
 
 #. i18n: ectx: label, entry (DitherEnabled), group (Guide)
 #: kstars.kcfg:3099
 #, kde-format
 msgid "Use Auto Dithering when guiding."
-msgstr "Usar o dithering automático ao guiar."
+msgstr "Usar o pontilhamento automático ao guiar."
 
 #. i18n: ectx: label, entry (DitherNoGuiding), group (Guide)
 #: kstars.kcfg:3103
-#, fuzzy, kde-format
-#| msgid "Use Auto Dithering when guiding."
+#, kde-format
 msgid "Perform dithering even when not guiding."
-msgstr "Usar o dithering automático ao guiar."
+msgstr "Executar o pontilhamento mesmo quando não estiver guiando."
 
 #. i18n: ectx: label, entry (RAGuideEnabled), group (Guide)
 #: kstars.kcfg:3107
@@ -41665,73 +41655,69 @@ msgstr "Ativar a guia automática nos eixos da DEC."
 
 #. i18n: ectx: label, entry (NorthDECGuideEnabled), group (Guide)
 #: kstars.kcfg:3115
-#, fuzzy, kde-format
-#| msgid "Enable autoguiding in the DEC axis."
+#, kde-format
 msgid "Enable North autoguiding in the DEC axis."
-msgstr "Ativar a guia automática nos eixos da DEC."
+msgstr "Ativar a guia automática Norte nos eixos da DEC."
 
 #. i18n: ectx: label, entry (SouthDECGuideEnabled), group (Guide)
 #: kstars.kcfg:3119
-#, fuzzy, kde-format
-#| msgid "Enable autoguiding in the DEC axis."
+#, kde-format
 msgid "Enable South autoguiding in the DEC axis."
-msgstr "Ativar a guia automática nos eixos da DEC."
+msgstr "Ativar a guia automática Sul nos eixos da DEC."
 
 #. i18n: ectx: label, entry (EastRAGuideEnabled), group (Guide)
 #: kstars.kcfg:3123
-#, fuzzy, kde-format
-#| msgid "Enable autoguiding in the RA axis."
+#, kde-format
 msgid "Enable East autoguiding in the RA axis."
-msgstr "Ativar a guia automática nos eixos da AR."
+msgstr "Ativar a guia automática Leste nos eixos da AR."
 
 #. i18n: ectx: label, entry (WestRAGuideEnabled), group (Guide)
 #: kstars.kcfg:3127
-#, fuzzy, kde-format
-#| msgid "Enable autoguiding in the RA axis."
+#, kde-format
 msgid "Enable West autoguiding in the RA axis."
-msgstr "Ativar a guia automática nos eixos da AR."
+msgstr "Ativar a guia automática Oeste nos eixos da AR."
 
 #. i18n: ectx: label, entry (GuiderAccuracyThreshold), group (Guide)
 #: kstars.kcfg:3206
 #, kde-format
 msgid "Accuracy threshold for the Guide Graphs."
-msgstr ""
+msgstr "Limite de precisão para os gráficos de guia."
 
 #. i18n: ectx: label, entry (RADisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:3210
 #, kde-format
 msgid "Display the RA Plot on the Guide Drift Graphics."
-msgstr ""
+msgstr "Exibir o gráfico AR nos gráficos de desvio de guia."
 
 #. i18n: ectx: label, entry (DEDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:3214
 #, kde-format
 msgid "Display the DEC Plot on the Guide Drift Graphics."
-msgstr ""
+msgstr "Exibir o gráfico DEC nos gráficos de desvio de guia."
 
 #. i18n: ectx: label, entry (RACorrDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:3218
 #, kde-format
 msgid "Display the RA Corrections Plot on the Guide Drift Graphics."
-msgstr ""
+msgstr "Exibir o gráfico de correções de AR nos gráficos de desvio de guia."
 
 #. i18n: ectx: label, entry (DECorrDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:3222
 #, kde-format
 msgid "Display the DEC Corrections Plot on the Guide Drift Graphics."
-msgstr ""
+msgstr "Exibir o gráfico de correções de DEC nos gráficos de desvio de guia."
 
 #. i18n: ectx: label, entry (SNRDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:3226
 #, kde-format
 msgid "Display the SNR Plot on the Guide Drift Graphics."
-msgstr ""
+msgstr "Exibir o gráfico SNR nos gráficos de desvio de guia."
 
 #. i18n: ectx: label, entry (RMSDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:3230
 #, kde-format
 msgid "Display the RMS Error Plot on the Guide Drift Graphics."
-msgstr ""
+msgstr "Exibir o gráfico de erro RMS nos gráficos de desvio de guia."
 
 #. i18n: ectx: label, entry (RAHysteresis), group (Guide)
 #: kstars.kcfg:3234
@@ -41739,6 +41725,7 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for RA internal guiding with that value."
 msgstr ""
+"Se > 0, use o guia de histerese para orientação interna de AR com esse valor."
 
 #. i18n: ectx: label, entry (DECHysteresis), group (Guide)
 #: kstars.kcfg:3238
@@ -41746,20 +41733,20 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for DEC internal guiding with that value."
 msgstr ""
+"Se > 0, use o guia de histerese para orientação interna de DEC com esse "
+"valor."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:3244
-#, fuzzy, kde-format
-#| msgid "Scheduler is awake."
+#, kde-format
 msgid "Scheduler algorithm"
-msgstr "O agendador está ativo."
+msgstr "Algoritmo do agendador"
 
 #. i18n: ectx: whatsthis, entry (SchedulerLogging), group (Scheduler)
 #: kstars.kcfg:3248
-#, fuzzy, kde-format
-#| msgid "Log Ekos Focus Module activity."
+#, kde-format
 msgid "Log Ekos Scheduler Module activity."
-msgstr "Registra a atividade do Módulo de Focagem do Ekos."
+msgstr "Registre a atividade do módulo de agendador do Ekos."
 
 #. i18n: ectx: label, entry (StopEkosAfterShutdown), group (Scheduler)
 #: kstars.kcfg:3252
@@ -41767,12 +41754,16 @@ msgstr "Registra a atividade do Módulo de Focagem do Ekos."
 msgid ""
 "After shutdown procedure is successfully executed, shutdown INDI and Ekos."
 msgstr ""
+"Após o procedimento de desligamento ser executado com sucesso, desligue o "
+"INDI e o Ekos."
 
 #. i18n: ectx: label, entry (AlwaysExecuteStartupScript), group (Scheduler)
 #: kstars.kcfg:3256
 #, kde-format
 msgid "Always execute startup script regardless of Ekos status."
 msgstr ""
+"Sempre execute o script de inicialização, independentemente do status do "
+"Ekos."
 
 #. i18n: ectx: label, entry (ShutdownScriptTerminatesINDI), group (Scheduler)
 #: kstars.kcfg:3260
@@ -41780,68 +41771,65 @@ msgstr ""
 msgid ""
 "Whether shutdown script, if exists, terminates INDI server in the process."
 msgstr ""
+"Se o script de desligamento, se existir, encerra o servidor INDI no processo."
 
 #. i18n: ectx: label, entry (PreemptiveShutdown), group (Scheduler)
 #: kstars.kcfg:3264
-#, fuzzy, kde-format
-#| msgid "Perform pre-emptive strike if no jobs are due for a number of hours."
+#, kde-format
 msgid "Perform pre-emptive shutdown if no jobs are due for a number of hours."
 msgstr ""
-"Efetuar uma ação preventiva se não existirem tarefas concluídas durante um "
-"determinado número de horas."
+"Efetuar um desligamento preventivo se não existirem tarefas concluídas "
+"durante um determinado número de horas."
 
 #. i18n: ectx: label, entry (ResetMountModelOnAlignFail), group (Scheduler)
 #: kstars.kcfg:3268
 #, kde-format
 msgid "Reset mount model in case of alignment failure."
-msgstr ""
+msgstr "Redefinir modelo de montagem em caso de falha de alinhamento."
 
 #. i18n: ectx: label, entry (ResetMountModelBeforeJob), group (Scheduler)
 #: kstars.kcfg:3272
-#, fuzzy, kde-format
-#| msgid "Telescope completed the meridian flip."
+#, kde-format
 msgid "Reset mount model before starting each job."
-msgstr "O telescópio concluiu a inversão do meridiano."
+msgstr "Redefina o modelo de montagem antes de iniciar cada tarefa."
 
 #. i18n: ectx: label, entry (ResetGuideCalibration), group (Scheduler)
 #: kstars.kcfg:3276
-#, fuzzy, kde-format
-#| msgid "Telescope completed the meridian flip."
+#, kde-format
 msgid "Always Reset guiding calibration before starting each job."
-msgstr "O telescópio concluiu a inversão do meridiano."
+msgstr ""
+"Sempre redefinir a calibração de orientação antes de iniciar cada tarefa."
 
 #. i18n: ectx: label, entry (ForceAlignmentBeforeJob), group (Scheduler)
 #: kstars.kcfg:3280
-#, fuzzy, kde-format
-#| msgid "Telescope completed the meridian flip."
+#, kde-format
 msgid "Force alignment before starting or restarting each job."
-msgstr "O telescópio concluiu a inversão do meridiano."
+msgstr "Forçar o alinhamento antes de iniciar ou reiniciar cada tarefa."
 
 #. i18n: ectx: label, entry (ReuseGuideCalibration), group (Scheduler)
 #: kstars.kcfg:3284
-#, fuzzy, kde-format
-#| msgid "Telescope completed the meridian flip."
+#, kde-format
 msgid "Guider may re-use guiding calibration if one is available."
-msgstr "O telescópio concluiu a inversão do meridiano."
+msgstr ""
+"O guiador pode reutilizar a calibração de guia se houver uma disponível."
 
 #. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
 #: kstars.kcfg:3288
 #, kde-format
 msgid "Reverse DEC on pier-side change when reusing calibration."
-msgstr ""
+msgstr "Reverter DEC na alteração do lado do píer ao reutilizar a calibração."
 
 #. i18n: ectx: label, entry (GuideCalibrationBacklash), group (Scheduler)
 #: kstars.kcfg:3292
 #, kde-format
 msgid "Remove DEC backlash when calibrating guider."
-msgstr ""
+msgstr "Remover a folga do DEC ao calibrar o guia."
 
 #. i18n: ectx: label, entry (SerializedCalibration), group (Scheduler)
 #: kstars.kcfg:3296
-#, fuzzy, kde-format
-#| msgid "PHD2: Calibration Started."
+#, kde-format
 msgid "Last Calibration serialized."
-msgstr "PHD2: Calibração iniciada."
+msgstr "Última calibração serializada."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3299
@@ -41850,6 +41838,8 @@ msgid ""
 "If guiding calibration fails, run alignment process again before proceeding "
 "to recalibration."
 msgstr ""
+"Se a calibração de guia falhar, execute o processo de alinhamento novamente "
+"antes de prosseguir com a recalibração."
 
 #. i18n: ectx: label, entry (PreemptiveShutdownTime), group (Scheduler)
 #: kstars.kcfg:3303
@@ -41863,16 +41853,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (RememberJobProgress), group (Scheduler)
 #: kstars.kcfg:3307
-#, fuzzy, kde-format
-#| msgid ""
-#| "When loading a sequence file,  resume the sequence starting from the last "
-#| "captured image, if any."
+#, kde-format
 msgid ""
 "When processing a scheduled job, resume the sequence starting from the last "
 "image present in storage."
 msgstr ""
-"Ao carregar um arquivo de sequência, continuar a sequência da última imagem "
-"capturada, se existir."
+"Ao processar uma tarefa agendada, retome a sequência a partir da última "
+"imagem presente no armazenamento."
 
 #. i18n: ectx: label, entry (GreedyScheduling), group (Scheduler)
 #: kstars.kcfg:3311
@@ -41881,6 +41868,8 @@ msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
 "priority job can run. Recommended."
 msgstr ""
+"Quando verdadeiro, o agendador tenta executar tarefas de menor prioridade "
+"quando nenhuma tarefa de maior prioridade puder ser executada. Recomendado."
 
 #. i18n: ectx: label, entry (LeadTime), group (Scheduler)
 #: kstars.kcfg:3315
@@ -41905,6 +41894,8 @@ msgid ""
 "Offset astronomical dawn by this many hours to relax twilight restriction "
 "when using narrowband filters."
 msgstr ""
+"Desloque o amanhecer astronômico esta quantidade de horas para relaxar a "
+"restrição do crepúsculo ao usar filtros de banda estreita."
 
 #. i18n: ectx: label, entry (DuskOffset), group (Scheduler)
 #: kstars.kcfg:3327
@@ -41913,6 +41904,8 @@ msgid ""
 "Offset astronomical dusk by this many hours to relax twilight restriction "
 "when using narrowband filters."
 msgstr ""
+"Compensar o crepúsculo astronômico esta quantidade de horas para relaxar a "
+"restrição do crepúsculo ao usar filtros de banda estreita."
 
 #. i18n: ectx: label, entry (TelescopeFocalLength), group (Scheduler)
 #: kstars.kcfg:3331
@@ -41922,11 +41915,9 @@ msgstr "Distância focal do telescópio, em milímetros."
 
 #. i18n: ectx: label, entry (TelescopeFocalReducer), group (Scheduler)
 #: kstars.kcfg:3335
-#, fuzzy, kde-format
-#| msgctxt "City in Florida USA"
-#| msgid "Boca Raton"
+#, kde-format
 msgid "Focal Reducer ratio"
-msgstr "Boca Raton"
+msgstr "Proporção do redutor focal"
 
 #. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
 #: kstars.kcfg:3339
@@ -41962,7 +41953,7 @@ msgstr "Ângulo de posição da câmera com relação ao norte."
 #: kstars.kcfg:3359
 #, kde-format
 msgid "Strategy how to react, when a job aborts or steps into an error."
-msgstr ""
+msgstr "Estratégia de como reagir quando uma tarefa é cancelada ou gera erro."
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategyDelay), group (Scheduler)
 #: kstars.kcfg:3363
@@ -41971,210 +41962,234 @@ msgid ""
 "Delay in minutes how long the scheduler should pause before restarting an "
 "aborted job or a job that ran into an error."
 msgstr ""
+"Atraso em minutos de quanto tempo o agendador deve pausar antes de reiniciar "
+"uma tarefa cancelada ou uma tarefa que apresentou erro."
 
 #. i18n: ectx: label, entry (RescheduleErrors), group (Scheduler)
 #: kstars.kcfg:3367
 #, kde-format
 msgid "Re-schedule jobs that ran into errors."
-msgstr ""
+msgstr "Re-agendar as tarefas que apresentaram erros."
 
 #. i18n: ectx: label, entry (SchedulerParkDome), group (Scheduler)
 #: kstars.kcfg:3379
 #, kde-format
 msgid "Default scheduler checkbox for parking dome on shutdown."
 msgstr ""
+"Caixa de seleção do agendador padrão para bloqueio da cúpula no desligamento."
 
 #. i18n: ectx: label, entry (SchedulerParkMount), group (Scheduler)
 #: kstars.kcfg:3383
 #, kde-format
 msgid "Default scheduler checkbox for parking mount on shutdown."
 msgstr ""
+"Caixa de seleção do agendador padrão para bloqueio da montagem no "
+"desligamento."
 
 #. i18n: ectx: label, entry (SchedulerCloseDustCover), group (Scheduler)
 #: kstars.kcfg:3387
 #, kde-format
 msgid "Default scheduler checkbox for closing dust cover on shutdown."
 msgstr ""
+"Caixa de seleção do agendador padrão para fechar a tampa anti-poeira no "
+"desligamento."
 
 #. i18n: ectx: label, entry (SchedulerWarmCCD), group (Scheduler)
 #: kstars.kcfg:3391
 #, kde-format
 msgid "Default scheduler checkbox for warming the CCD on shutdown."
 msgstr ""
+"Caixa de seleção do agendador padrão para aquecer o CCD no desligamento."
 
 #. i18n: ectx: label, entry (SchedulerUnparkDome), group (Scheduler)
 #: kstars.kcfg:3395
 #, kde-format
 msgid "Default scheduler checkbox for unparking dome on startup."
 msgstr ""
+"Caixa de seleção do agendador padrão para desbloquear a cúpula na "
+"inicialização."
 
 #. i18n: ectx: label, entry (SchedulerUnparkMount), group (Scheduler)
 #: kstars.kcfg:3399
 #, kde-format
 msgid "Default scheduler checkbox for unparking mount on startup."
 msgstr ""
+"Caixa de seleção do agendador padrão para desbloquear a montagem na "
+"inicialização."
 
 #. i18n: ectx: label, entry (SchedulerOpenDustCover), group (Scheduler)
 #: kstars.kcfg:3403
 #, kde-format
 msgid "Default scheduler checkbox for opening dust cover on startup."
 msgstr ""
+"Caixa de seleção do agendador padrão para abrir a tampa anti-poeira na "
+"inicialização."
 
 #. i18n: ectx: label, entry (SchedulerTrackStep), group (Scheduler)
 #: kstars.kcfg:3407
 #, kde-format
 msgid "Default scheduler checkbox for starting mount tracking on job startup."
 msgstr ""
+"Caixa de seleção do agendador padrão para iniciar o rastreamento de montagem "
+"na inicialização da tarefa."
 
 #. i18n: ectx: label, entry (SchedulerStartupScript), group (Scheduler)
 #: kstars.kcfg:3411
 #, kde-format
 msgid "Execute this script when starting the scheduler."
-msgstr ""
+msgstr "Executar este script ao iniciar o agendador."
 
 #. i18n: ectx: label, entry (SchedulerShutdownScript), group (Scheduler)
 #: kstars.kcfg:3414
 #, kde-format
 msgid "Execute this script when shutting down the scheduler."
-msgstr ""
+msgstr "Executar este script ao desligar o agendador."
 
 #. i18n: ectx: label, entry (SchedulerFocusStep), group (Scheduler)
 #: kstars.kcfg:3417
 #, kde-format
 msgid "Default scheduler checkbox for running autofocus on job startup."
 msgstr ""
+"Caixa de seleção do agendador padrão para executar o foco automático na "
+"inicialização da tarefa."
 
 #. i18n: ectx: label, entry (SchedulerGuideStep), group (Scheduler)
 #: kstars.kcfg:3421
 #, kde-format
 msgid "Default scheduler checkbox for starting guiding on job startup."
 msgstr ""
+"Caixa de seleção do agendador padrão para iniciar o guiamento na "
+"inicialização da tarefa."
 
 #. i18n: ectx: label, entry (SchedulerAlignStep), group (Scheduler)
 #: kstars.kcfg:3425
 #, kde-format
 msgid "Default scheduler checkbox for aligning on job startup."
 msgstr ""
+"Caixa de seleção do agendador padrão para alinhamento na inicialização da "
+"tarefa."
 
 #. i18n: ectx: label, entry (SchedulerAltitude), group (Scheduler)
 #: kstars.kcfg:3429
 #, kde-format
 msgid "Default scheduler checkbox for job altitude constraints."
 msgstr ""
+"Caixa de seleção do agendador padrão para restrições de altitude da tarefa."
 
 #. i18n: ectx: label, entry (SchedulerAltitudeValue), group (Scheduler)
 #: kstars.kcfg:3433
-#, fuzzy, kde-format
-#| msgid "Default maximum mount altitude limit."
+#, kde-format
 msgid "Default scheduler job altitude constraint."
-msgstr "Limite máximo de altitude da montagem padrão."
+msgstr "Restrição de altitude da tarefa do agendador padrão."
 
 #. i18n: ectx: label, entry (SchedulerHorizon), group (Scheduler)
 #: kstars.kcfg:3437
-#, fuzzy, kde-format
-#| msgid "The color for the artificial horizon region."
+#, kde-format
 msgid "Default scheduler checkbox for job artificial horizon constraints."
-msgstr "A cor da região do horizonte artificial."
+msgstr ""
+"Caixa de seleção do agendador padrão para restrições de horizonte artificial "
+"da tarefa."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
 #: kstars.kcfg:3441
-#, fuzzy, kde-format
-#| msgid "The color for the artificial horizon region."
+#, kde-format
 msgid "Default scheduler checkbox for job moon separation constraint."
-msgstr "A cor da região do horizonte artificial."
+msgstr ""
+"Caixa de seleção do agendador padrão para restrição de separação de tarefas."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparationValue), group (Scheduler)
 #: kstars.kcfg:3445
 #, kde-format
 msgid "Default scheduler job moon separation constraint."
-msgstr ""
+msgstr "Restrição de separação de tarefas do agendador padrão."
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitude), group (Scheduler)
 #: kstars.kcfg:3449
-#, fuzzy, kde-format
-#| msgid "Default maximum mount altitude limit."
+#, kde-format
 msgid "Default scheduler checkbox for job moon altitude constraint."
-msgstr "Limite máximo de altitude da montagem padrão."
+msgstr ""
+"Caixa de seleção do agendador padrão para restrição de altitude lunar da "
+"tarefa."
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitudeMaxValue), group (Scheduler)
 #: kstars.kcfg:3453
-#, fuzzy, kde-format
-#| msgid "Default maximum mount altitude limit."
+#, kde-format
 msgid "Default scheduler job moon altitude constraint."
-msgstr "Limite máximo de altitude da montagem padrão."
+msgstr "Restrição de altitude lunar do agendador padrão."
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3457
-#, fuzzy, kde-format
-#| msgid "Default maximum mount altitude limit."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
-msgstr "Limite máximo de altitude da montagem padrão."
+msgstr "Caixa de seleção do agendador padrão para restrições climáticas."
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3461
 #, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
-msgstr ""
+msgstr "Espere esse tempo todo para que o tempo melhore antes de desistir."
 
 #. i18n: ectx: label, entry (SchedulerWeatherShutdownDelay), group (Scheduler)
 #: kstars.kcfg:3465
-#, fuzzy, kde-format
-#| msgid "Delay in seconds between consecutive images"
+#, kde-format
 msgid ""
 "Wait this many seconds when detecting weather alert before starting "
 "observatory shutdown."
-msgstr "Atraso em segundos entre imagens consecutivas"
+msgstr ""
+"Aguarde esse número de segundos ao detectar um alerta meteorológico antes de "
+"iniciar o desligamento do observatório."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3469
 #, kde-format
 msgid "Default scheduler checkbox for job twilight constraints."
 msgstr ""
+"Caixa de seleção do agendador padrão para restrições de crepúsculo de "
+"tarefas."
 
 #. i18n: ectx: label, entry (SchedulerCompleteSequences), group (Scheduler)
 #: kstars.kcfg:3473
-#, fuzzy, kde-format
-#| msgid "The observation job is completed when the sequence is complete."
+#, kde-format
 msgid "Scheduler is complete once all sequences are complete."
-msgstr "A tarefa de observação termina quando a sequência for concluída."
+msgstr ""
+"O agendador estará completo quando todas as sequências estiverem concluídas."
 
 #. i18n: ectx: label, entry (SchedulerRepeatEverything), group (Scheduler)
 #: kstars.kcfg:3477
-#, fuzzy, kde-format
-#| msgid "The observation job is completed when the sequence is complete."
+#, kde-format
 msgid "Restart all scheduler jobs when all scheduler jobs have completed."
-msgstr "A tarefa de observação termina quando a sequência for concluída."
+msgstr ""
+"Reiniciar todos os trabalhos do agendador quando todos eles forem concluídos."
 
 #. i18n: ectx: label, entry (SchedulerRepeatSequences), group (Scheduler)
 #: kstars.kcfg:3481
 #, kde-format
 msgid "Restart sequences as soon as all sequences have been completed."
-msgstr ""
+msgstr "Reiniciar as sequências assim que todas elas forem concluídas."
 
 #. i18n: ectx: label, entry (SchedulerUntilTerminated), group (Scheduler)
 #: kstars.kcfg:3485
-#, fuzzy, kde-format
-#| msgid "Loop until ter&minated"
+#, kde-format
 msgid "Restart sequences until manually terminated."
-msgstr "Reiniciar até ter&minar"
+msgstr "Reiniciar as sequências até que sejam finalizadas manualmente."
 
 #. i18n: ectx: label, entry (SchedulerUntil), group (Scheduler)
 #: kstars.kcfg:3489
 #, kde-format
 msgid "Loop sequences until specific time is up."
-msgstr ""
+msgstr "Repetir as sequências até que o tempo específico acabe."
 
 #. i18n: ectx: label, entry (SchedulerUntilValue), group (Scheduler)
 #: kstars.kcfg:3493
 #, kde-format
 msgid "Time when scheduler should stop repeating sequences."
-msgstr ""
+msgstr "Horário em que o agendador deve parar de repetir sequências."
 
 #. i18n: ectx: label, entry (SchedulerExecutionSequencesLimit), group (Scheduler)
 #: kstars.kcfg:3496
 #, kde-format
 msgid "Limit how many times the scheduler should execute all sequences."
-msgstr ""
+msgstr "Limitar quantas vezes o agendador deve executar todas as sequências."
 
 #. i18n: ectx: label, entry (AnalyzeRestartWithEkos), group (Analyze)
 #: kstars.kcfg:3502
@@ -42184,12 +42199,16 @@ msgid ""
 "analyze file will be created and written to, and the graphs in Analyze will "
 "only show the new session."
 msgstr ""
+"Se o Analyze estiver em execução e o Ekos for desconectado e reconectado, um "
+"novo arquivo .analyze será criado e gravado, e os gráficos no Analyze "
+"mostrarão apenas a nova sessão."
 
 #. i18n: ectx: label, entry (AnalyzeAlternativeDirectoryName), group (Analyze)
 #: kstars.kcfg:3506
 #, kde-format
 msgid "Alternative directory to use for searching for analyze image files."
 msgstr ""
+"Pasta alternativa para usar na busca de arquivos de imagem para análise."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3510
@@ -42204,6 +42223,8 @@ msgid ""
 "Display number of stars detected in the capture on the Analyze Statistics "
 "Plot."
 msgstr ""
+"Exibir o número de estrelas detectadas na captura no gráfico de estatísticas "
+"do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMedian), group (Analyze)
 #: kstars.kcfg:3518
@@ -42211,6 +42232,8 @@ msgstr ""
 msgid ""
 "Display median sample value for the capture on the Analyze Statistics Plot."
 msgstr ""
+"Exibir o valor mediano da amostra para a captura no gráfico de estatísticas "
+"do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeEccentricity), group (Analyze)
 #: kstars.kcfg:3522
@@ -42219,73 +42242,74 @@ msgid ""
 "Display the median eccentricity for the stars in the capture on the Analyze "
 "Statistics Plot."
 msgstr ""
+"Exibir a excentricidade mediana das estrelas na captura no gráfico de "
+"estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTemperature), group (Analyze)
 #: kstars.kcfg:3526
 #, kde-format
 msgid "Display the ambient temperature on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir a temperatura ambiente no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (FocusPosition), group (Analyze)
 #: kstars.kcfg:3530
-#, fuzzy, kde-format
-#| msgid "Display the focus InfoBox?"
+#, kde-format
 msgid "Display the autofocus solution position."
-msgstr "Exibir a caixa de informações de foco?"
+msgstr "Exibir a posição da solução de foco automático."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumStars), group (Analyze)
 #: kstars.kcfg:3534
 #, kde-format
 msgid "Display NumStars on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir NumStars no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSkyBg), group (Analyze)
 #: kstars.kcfg:3538
 #, kde-format
 msgid "Display SkyBackground on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir SkyBackground no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSNR), group (Analyze)
 #: kstars.kcfg:3542
 #, kde-format
 msgid "Display SNR on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir SNR no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRA), group (Analyze)
 #: kstars.kcfg:3546
 #, kde-format
 msgid "Display RA on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir AR no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDEC), group (Analyze)
 #: kstars.kcfg:3550
 #, kde-format
 msgid "Display DEC on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir DEC no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRAp), group (Analyze)
 #: kstars.kcfg:3554
 #, kde-format
 msgid "Display RA Pulses on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir pulsos de AR no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDECp), group (Analyze)
 #: kstars.kcfg:3558
 #, kde-format
 msgid "Display DEC Pulses on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir puslsos de DEC no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDrift), group (Analyze)
 #: kstars.kcfg:3562
 #, kde-format
 msgid "Display Drift on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir deriva no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMS), group (Analyze)
 #: kstars.kcfg:3566
 #, kde-format
 msgid "Display RMS Error on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir erro RMS no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTargetDistance), group (Analyze)
 #: kstars.kcfg:3570
@@ -42294,72 +42318,78 @@ msgid ""
 "Display the arc-seconds distance between the target position and the plate-"
 "solved captured image on the Analyze plot."
 msgstr ""
+"Exibir a distância em segundos de arco entre a posição alvo e a imagem "
+"capturada resolvida na placa no gráfico do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMSC), group (Analyze)
 #: kstars.kcfg:3574
 #, kde-format
 msgid "Display RMS Error (during capture) on the Analyze Statistics Plot."
 msgstr ""
+"Exibir erro RMS (durante a captura) no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountRA), group (Analyze)
 #: kstars.kcfg:3578
 #, kde-format
 msgid "Display Mount RA on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir AR da montagem no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountDEC), group (Analyze)
 #: kstars.kcfg:3582
 #, kde-format
 msgid "Display Mount DEC on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir DEC da montagem no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountHA), group (Analyze)
 #: kstars.kcfg:3586
 #, kde-format
 msgid "Display Mount Hour Angle on the Analyze Statistics Plot."
 msgstr ""
+"Exibir ângulo horário da montagem no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAz), group (Analyze)
 #: kstars.kcfg:3590
 #, kde-format
 msgid "Display Azimuth on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir azimute no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAlt), group (Analyze)
 #: kstars.kcfg:3594
 #, kde-format
 msgid "Display Altitude on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir altitude no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzePierSide), group (Analyze)
 #: kstars.kcfg:3598
 #, kde-format
 msgid "Display PierSide on the Analyze Statistics Plot."
-msgstr ""
+msgstr "Exibir PierSide no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
 #: kstars.kcfg:3602
 #, kde-format
 msgid "Stored Y-axis upper and lower limits for the Analyze Stats Plot."
 msgstr ""
+"Limites superior e inferior do eixo Y armazenados parano gráfico de "
+"estatísticas do Analyze."
 
 #. i18n: ectx: label, entry (LastServer), group (INDI Lite)
 #: kstars.kcfg:3607
 #, kde-format
 msgid "The address of last used server"
-msgstr ""
+msgstr "O endereço do último servidor usado"
 
 #. i18n: ectx: label, entry (LastServerPort), group (INDI Lite)
 #: kstars.kcfg:3610
 #, kde-format
 msgid "The port of last used server"
-msgstr ""
+msgstr "A porta do último servidor usado"
 
 #. i18n: ectx: label, entry (LastWebManagerPort), group (INDI Lite)
 #: kstars.kcfg:3614
 #, kde-format
 msgid "The port of last used Web Manager"
-msgstr ""
+msgstr "A porta do último gerenciador web usado"
 
 #. i18n: ectx: label, entry (HIPSMemoryCache), group (HIPS)
 #: kstars.kcfg:3620
@@ -42398,7 +42428,7 @@ msgstr "Mostrar grade HiPS no mapa celeste."
 #: kstars.kcfg:3640
 #, kde-format
 msgid "Redraw HiPS while panning."
-msgstr ""
+msgstr "Redesenhar o HiPS durante o deslocamento."
 
 #. i18n: ectx: label, entry (ShowHIPS), group (HIPS)
 #: kstars.kcfg:3644
@@ -42416,133 +42446,131 @@ msgstr "Alternar entre as fontes HIPS que estão desenhadas no mapa celeste."
 #: kstars.kcfg:3649
 #, kde-format
 msgid "Use offline storage to load HiPS?"
-msgstr ""
+msgstr "Usar armazenamento offline para carregar o HiPS?"
 
 #. i18n: ectx: label, entry (HIPSOfflinePath), group (HIPS)
 #: kstars.kcfg:3653
 #, kde-format
 msgid "HIPS offline full path."
-msgstr ""
+msgstr "Caminho completo do offline do HIPS."
 
 #. i18n: ectx: label, entry (TerrainSource), group (Terrain)
 #: kstars.kcfg:3658
-#, fuzzy, kde-format
-#| msgid "Invalid Filename"
+#, kde-format
 msgid "Terrain Filename."
-msgstr "Nome de arquivo inválido"
+msgstr "Nome de arquivo do terreno."
 
 #. i18n: ectx: whatsthis, entry (TerrainSource), group (Terrain)
 #: kstars.kcfg:3659
 #, kde-format
 msgid "Terrain source filename."
-msgstr ""
+msgstr "Nome de arquivo da fonte do terreno."
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAz), group (Terrain)
 #: kstars.kcfg:3663
 #, kde-format
 msgid "Terrain Azimuth Correction."
-msgstr ""
+msgstr "Correção de azimute do terreno."
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAz), group (Terrain)
 #: kstars.kcfg:3664
 #, kde-format
 msgid "Terrain source azimuth correction."
-msgstr ""
+msgstr "Correção de azimute da fonte do terreno."
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAlt), group (Terrain)
 #: kstars.kcfg:3668
 #, kde-format
 msgid "Terrain Altitude Correction."
-msgstr ""
+msgstr "Correção de altitude do terreno."
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAlt), group (Terrain)
 #: kstars.kcfg:3669
 #, kde-format
 msgid "Terrain source altitude correction."
-msgstr ""
+msgstr "Correção de altitude da fonte do terreno."
 
 #. i18n: ectx: label, entry (TerrainDownsampling), group (Terrain)
 #: kstars.kcfg:3673
-#, fuzzy, kde-format
-#| msgid "Download all Images"
+#, kde-format
 msgid "Terrain Downsampling"
-msgstr "Baixar todas as imagens"
+msgstr "Redução da amostragem do terreno"
 
 #. i18n: ectx: whatsthis, entry (TerrainDownsampling), group (Terrain)
 #: kstars.kcfg:3674
 #, kde-format
 msgid "Speed quality tradeoff for rendering the terrain image."
 msgstr ""
+"Compensação entre velocidade e qualidade na renderização da imagem do "
+"terreno."
 
 #. i18n: ectx: label, entry (TerrainPanning), group (Terrain)
 #: kstars.kcfg:3678
 #, kde-format
 msgid "Terrain While panning."
-msgstr ""
+msgstr "Terreno durante o deslocamento."
 
 #. i18n: ectx: whatsthis, entry (TerrainPanning), group (Terrain)
 #: kstars.kcfg:3679
 #, kde-format
 msgid "Redraw terrain while panning."
-msgstr ""
+msgstr "Redesenhar o terreno durante o deslocamento."
 
 #. i18n: ectx: label, entry (ShowTerrain), group (Terrain)
 #: kstars.kcfg:3683
-#, fuzzy, kde-format
-#| msgid "Draw Saturn?"
+#, kde-format
 msgid "Draw terrain"
-msgstr "Desenhar Saturno?"
+msgstr "Desenhar o terreno"
 
 #. i18n: ectx: whatsthis, entry (ShowTerrain), group (Terrain)
 #: kstars.kcfg:3684
-#, fuzzy, kde-format
-#| msgid "Toggle whether the Sun is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether the terrain is drawn in the sky map."
-msgstr "Se marcada, o Sol é desenhado no mapa celeste."
+msgstr "Se marcada, o terreno é desenhado no mapa celeste."
 
 #. i18n: ectx: label, entry (TerrainSkipSpeedup), group (Terrain)
 #: kstars.kcfg:3688
 #, kde-format
 msgid "Terrain Skip Speedup"
-msgstr ""
+msgstr "Aceleração de salto de terreno"
 
 #. i18n: ectx: whatsthis, entry (TerrainSkipSpeedup), group (Terrain)
 #. i18n: ectx: whatsthis, entry (TerrainTransparencySpeedup), group (Terrain)
 #: kstars.kcfg:3689 kstars.kcfg:3694
 #, kde-format
 msgid "Enable a one of the terrain drawing speedups."
-msgstr ""
+msgstr "Habilite uma das acelerações de desenho de terreno."
 
 #. i18n: ectx: label, entry (TerrainTransparencySpeedup), group (Terrain)
 #: kstars.kcfg:3693
 #, kde-format
 msgid "Terrain Transparency Speedup."
-msgstr ""
+msgstr "Aceleração de transparência de terreno"
 
 #. i18n: ectx: label, entry (TerrainSmoothPixels), group (Terrain)
 #: kstars.kcfg:3698
 #, kde-format
 msgid "Terrain Smooth Pixels."
-msgstr ""
+msgstr "Pixels de suavização do terreno."
 
 #. i18n: ectx: whatsthis, entry (TerrainSmoothPixels), group (Terrain)
 #: kstars.kcfg:3699
 #, kde-format
 msgid "Smooth pixels for a more pleasant, but slower rendering."
 msgstr ""
+"Pixels de suavização para uma renderização mais agradável, mas mais lenta."
 
 #. i18n: ectx: label, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3705
 #, kde-format
 msgid "Display Image Overlays."
-msgstr ""
+msgstr "Exibir sobreposições da imagem."
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
 #: kstars.kcfg:3706
-#, fuzzy, kde-format
-#| msgid "Toggle whether Pluto is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether to display image overlays."
-msgstr "Se marcada, Plutão é desenhado no mapa celeste."
+msgstr "Alterne se deseja exibir sobreposições da imagem."
 
 #. i18n: ectx: label, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
 #. i18n: ectx: whatsthis, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
@@ -42550,13 +42578,13 @@ msgstr "Se marcada, Plutão é desenhado no mapa celeste."
 #: kstars.kcfg:3710 kstars.kcfg:3711 options/opsimageoverlay.ui:81
 #, kde-format
 msgid "Display Image Overlays below catalogs."
-msgstr ""
+msgstr "Exibir sobreposições da imagem abaixo dos catálogos."
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3715
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
-msgstr ""
+msgstr "Centralizar o SkyMap sobre a sobreposição de imagem selecionada."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3716
@@ -42565,75 +42593,76 @@ msgid ""
 "Center SkyMap over the selected overlay image in the image overlay table (if "
 "it's solved)."
 msgstr ""
+"Centralizar o SkyMap sobre a imagem de sobreposição selecionada na tabela de "
+"sobreposição de imagens (se o problema estiver resolvido)."
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3720
-#, fuzzy, kde-format
-#| msgid "Image has invalid dimensions %1x%2"
+#, kde-format
 msgid "Image overlay max dimension"
-msgstr "A imagem tem dimensões inválidas %1x%2"
+msgstr "Dimensão máxima da sobreposição da imagem"
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
 #: kstars.kcfg:3721
-#, fuzzy, kde-format
-#| msgid "Maximum distance for comet names"
+#, kde-format
 msgid "Maximum dimension for image overlay images."
-msgstr "Distância máxima para os nomes dos cometas"
+msgstr "Dimensão máxima para imagens de sobreposição."
 
 #. i18n: ectx: label, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3725
 #, kde-format
 msgid "Image overlay plate-solving timeout."
-msgstr ""
+msgstr "Tempo limite de solução da placa de sobreposição de imagem."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
 #: kstars.kcfg:3726
 #, kde-format
 msgid "Timeout for plate-solving an image overlay."
-msgstr ""
+msgstr "Tempo limite para solução de placa de uma sobreposição de imagem."
 
 #. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3730
 #, kde-format
 msgid "Image overlay default plate-solving scale."
-msgstr ""
+msgstr "Escala de solução de placa padrão da sobreposição de imagem."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
 #: kstars.kcfg:3731
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
+"Escala padrão (segundos de arco/pixel) para solução de placas de "
+"sobreposição de imagens."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
 #: kstars.kcfg:3737
-#, fuzzy, kde-format
-#| msgid "Default align module CCD."
+#, kde-format
 msgid "Default observatory module weather source."
-msgstr "O CCD do módulo de alinhamento padrão."
+msgstr "Fonte meteorológica do módulo de observatório padrão."
 
 #. i18n: ectx: label, entry (warningActionsActive), group (Observatory)
 #: kstars.kcfg:3740
 #, kde-format
 msgid "Will be reacted upon warnings?"
-msgstr ""
+msgstr "Haverá reação aos avisos?"
 
 #. i18n: ectx: label, entry (alertActionsActive), group (Observatory)
 #: kstars.kcfg:3744
 #, kde-format
 msgid "Will be reacted upon alerts?"
-msgstr ""
+msgstr "Haverá reação aos alertas?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseDome), group (Observatory)
 #: kstars.kcfg:3748
 #, kde-format
 msgid "Shall the dome being closed when a weather warning occurs?"
-msgstr ""
+msgstr "A cúpula deve ser fechada quando ocorrer um alerta meteorológico?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseShutter), group (Observatory)
 #: kstars.kcfg:3752
 #, kde-format
 msgid "Shall the shutter being closed when a weather warning occurs?"
-msgstr ""
+msgstr "O obturador deve ser fechado quando ocorrer um alerta meteorológico?"
 
 #. i18n: ectx: label, entry (weatherWarningStopScheduler), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertCloseShutter), group (Observatory)
@@ -42641,57 +42670,58 @@ msgstr ""
 #: kstars.kcfg:3756 kstars.kcfg:3768 kstars.kcfg:3772
 #, kde-format
 msgid "Shall the shutter being closed when a weather alert occurs?"
-msgstr ""
+msgstr "O obturador deve ser fechado quando ocorrer um aviso meteorológico?"
 
 #. i18n: ectx: label, entry (weatherWarningDelay), group (Observatory)
 #: kstars.kcfg:3760
 #, kde-format
 msgid "Delay for reacting upon a weather warning."
-msgstr ""
+msgstr "Atraso na reação a um alerta meteorológico."
 
 #. i18n: ectx: label, entry (weatherAlertCloseDome), group (Observatory)
 #: kstars.kcfg:3764
 #, kde-format
 msgid "Shall the dome being closed when a weather alert occurs?"
-msgstr ""
+msgstr "A cúpula deve ser fechada quando ocorrer um alerta meteorológico?"
 
 #. i18n: ectx: label, entry (weatherAlertDelay), group (Observatory)
 #: kstars.kcfg:3776
 #, kde-format
 msgid "Delay for reacting upon a weather alert."
-msgstr ""
+msgstr "Atraso na reação a um alerta meteorológico."
 
 #. i18n: ectx: label, entry (observatoryStatusUseDome), group (Observatory)
 #: kstars.kcfg:3780
 #, kde-format
 msgid "Dome status relevant for the Observatory status."
-msgstr ""
+msgstr "Status da cúpula relevante para o status do Observatório."
 
 #. i18n: ectx: label, entry (observatoryStatusUseShutter), group (Observatory)
 #: kstars.kcfg:3784
 #, kde-format
 msgid "Shutter status relevant for the Observatory status."
-msgstr ""
+msgstr "Status do obturador relevante para o status do Observatório."
 
 #. i18n: ectx: label, entry (observatoryStatusUseWeather), group (Observatory)
 #: kstars.kcfg:3788
 #, kde-format
 msgid "Weather status relevant for the Observatory status."
-msgstr ""
+msgstr "Status meteorológico relevante para o status do Observatório."
 
 # Manter as aspas simples para melhor visibilidade. (Alvarenga)
 #. i18n: ectx: label, entry (weatherAutoScaleValues), group (Observatory)
 #: kstars.kcfg:3792
-#, fuzzy, kde-format
-#| msgid "Set the color named %1 to the value %2."
+#, kde-format
 msgid "Scale the sensor graph value axis to the values range."
-msgstr "Configura a cor chamada '%1' para o valor '%2'."
+msgstr ""
+"Ajustar a escala do eixo de valor do gráfico do sensor para o intervalo de "
+"valores."
 
 #. i18n: ectx: label, entry (ASTAPExecutable), group (ASTAP)
 #: kstars.kcfg:3798
 #, kde-format
 msgid "Full path to the ASTAP executable."
-msgstr ""
+msgstr "Caminho completo para o executável do ASTAP."
 
 #. i18n: ectx: label, entry (ASTAPDownSample), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPDownSampleValue), group (ASTAP)
@@ -42701,6 +42731,8 @@ msgid ""
 "Down sample prior to solving. Also called binning. A value 0 will result in "
 "auto selection downsampling."
 msgstr ""
+"Redução da amostragem antes da solução. Também chamado de compartimentação. "
+"Um valor 0 resultará em redução da amostragem por seleção automática."
 
 #. i18n: ectx: label, entry (ASTAPSearchRadius), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPSearchRadiusValue), group (ASTAP)
@@ -42710,31 +42742,33 @@ msgid ""
 "The program will search in a square spiral around the start position up to "
 "this radius."
 msgstr ""
+"O programa pesquisará em uma espiral quadrada ao redor da posição inicial "
+"até este raio."
 
 #. i18n: ectx: label, entry (ASTAPUpdateFITS), group (ASTAP)
 #: kstars.kcfg:3818
-#, fuzzy, kde-format
-#| msgid "Update the table and the plot for the new date and location."
+#, kde-format
 msgid "Update the fits header with the found solution."
-msgstr "Atualizar a tabela e o gráfico para a nova data e localização."
+msgstr "Atualizar o cabeçalho fits com a solução encontrada."
 
 #. i18n: ectx: label, entry (ASTAPLargeSearchWindow), group (ASTAP)
 #: kstars.kcfg:3822
 #, kde-format
 msgid "Increase search window size."
-msgstr ""
+msgstr "Aumentar o tamanho da janela de pesquisa."
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyAuto), group (Mosaic)
 #: kstars.kcfg:3828
 #, kde-format
 msgid "Manage the mosaic panel transparency level automatically."
 msgstr ""
+"Gerenciar o nível de transparência do painel de mosaico automaticamente."
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyLevel), group (Mosaic)
 #: kstars.kcfg:3832
 #, kde-format
 msgid "Control mosaic panel transparency level."
-msgstr ""
+msgstr "Controlar o nível de transparência do painel de mosaico."
 
 #: kstars_i18n.cpp:2
 #, kde-kuit-format
@@ -45944,222 +45978,193 @@ msgstr "FUNGASIA"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "C Western (sternenkarten.com)"
-msgstr ""
+msgstr "C Western (sternenkarten.com)"
 
 #: kstars_i18n.cpp:638
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "SERPENS CAPUT"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SERPENS"
-msgstr "CABEÇA DA SERPENTE"
+msgstr "SERPENTES"
 
 #: kstars_i18n.cpp:651
-#, fuzzy, kde-kuit-format
-#| msgid "Asterism"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "C Asterisms"
-msgstr "Asterismo"
+msgstr "Asterismo C"
 
 #: kstars_i18n.cpp:652
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "TRIANGLE"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SPRING TRIANGLE"
-msgstr "TRIÂNGULO"
+msgstr "TRIÂNGULO DA PRIMAVERA"
 
 #: kstars_i18n.cpp:653
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "DIAMOND OF VIRGO"
-msgstr ""
+msgstr "DIAMANTE DA VIRGEM"
 
 #: kstars_i18n.cpp:654
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "TRIANGLE"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SUMMER TRIANGLE"
-msgstr "TRIÂNGULO"
+msgstr "TRIÂNGULO DE VERÃO"
 
 #: kstars_i18n.cpp:655
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "GREAT SQUARE OF PEGASUS"
-msgstr ""
+msgstr "GRANDE QUADRADO DE PÉGASO"
 
 #: kstars_i18n.cpp:656
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "TRIANGLE"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "WINTER TRIANGLE"
-msgstr "TRIÂNGULO"
+msgstr "TRIÂNGULO DE INVERNO"
 
 #: kstars_i18n.cpp:657
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "WINTER HEXAGON"
-msgstr ""
+msgstr "HEXÁGONO DE INVERNO"
 
 #: kstars_i18n.cpp:658
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "WOMAN'S BED"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "ORION'S BELT"
-msgstr "CAMA DE MULHER"
+msgstr "CINTURÃO DE ORION"
 
 #: kstars_i18n.cpp:659
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "TEAPOT"
-msgstr ""
+msgstr "BULE DE CHÁ"
 
 #: kstars_i18n.cpp:660
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "DIPPER"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "BIG DIPPER"
-msgstr "CONCHA"
+msgstr "GRANDE CONCHA"
 
 #: kstars_i18n.cpp:661
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "NORTHERN DIPPER"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "LITTLE DIPPER"
-msgstr "CONCHA DO NORTE"
+msgstr "PEQUENA CONCHA"
 
 #: kstars_i18n.cpp:662
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "CASSIOPEIA"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "CASSIOPEIA W"
-msgstr "CASSIOPEIA"
+msgstr "CASSIOPEIA W"
 
 #: kstars_i18n.cpp:663
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "MAUI'S FISHHOOK"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "FISH HOOK"
-msgstr "ANZOL DE MAUI"
+msgstr "ANZOL DE PEIXE"
 
 #: kstars_i18n.cpp:664
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "NORTHERN RIVER"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "NORTHERN CROSS"
-msgstr "RIO DO NORTE"
+msgstr "CRUZ DO NORTE"
 
 #: kstars_i18n.cpp:665
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SICKLE"
-msgstr ""
+msgstr "FOICE"
 
 #: kstars_i18n.cpp:666
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "SOUTHERN RIVER"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "SOUTHERN CROSS"
-msgstr "RIO DO SUL"
+msgstr "CRUZ DO SUL"
 
 #: kstars_i18n.cpp:667
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "FALSE CROSS"
-msgstr ""
+msgstr "CRUZ FALSA"
 
 #: kstars_i18n.cpp:668
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "DIAMOND CROSS"
-msgstr ""
+msgstr "CRUZ DE DIAMANTE"
 
 #: kstars_i18n.cpp:669
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "COAT HANGER"
-msgstr ""
+msgstr "CABIDE"
 
 #: kstars_i18n.cpp:670
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "KEMBLE'S CASCADE"
-msgstr ""
+msgstr "CASCATA DE KEMBLE"
 
 #: kstars_i18n.cpp:671
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "HYADES"
-msgstr ""
+msgstr "HÍADES"
 
 #: kstars_i18n.cpp:672
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "CEPHEUS"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "CEPHEUS HOUSE"
-msgstr "CEFEU"
+msgstr "CASA DE CEFEU"
 
 #: kstars_i18n.cpp:673
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "WHETSTONE"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "KEYSTONE"
-msgstr "ESMERIL"
+msgstr "PEDRA ANGULAR"
 
 #: kstars_i18n.cpp:674
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "LOZENGE"
-msgstr ""
+msgstr "LOSANGO"
 
 #: kstars_i18n.cpp:676
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "JOB'S COFFIN"
-msgstr ""
+msgstr "COFRE DE JOB"
 
 #: kstars_i18n.cpp:677
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "PONIATOWSKI'S BULL"
-msgstr ""
+msgstr "TOURO DE PONIATOVII"
 
 #: kstars_i18n.cpp:678
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "CIRCLET"
-msgstr ""
+msgstr "CÍRCULO"
 
 #: kstars_i18n.cpp:679
-#, fuzzy, kde-kuit-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "AQUARIUS"
+#, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "Y OF AQUARIUS"
-msgstr "AQUÁRIO"
+msgstr "Y DE AQUÁRIO"
 
 #: kstars_i18n.cpp:680
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "WHALE'S HEAD"
-msgstr ""
+msgstr "CABEÇA DE BALEIA"
 
 #: kstars_i18n.cpp:681
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "THE SAIL"
-msgstr ""
+msgstr "A VELA"
 
 #: kstars_i18n.cpp:686 kstars_i18n.cpp:698
 #, kde-kuit-format
@@ -46234,11 +46239,10 @@ msgid "Tongan"
 msgstr "Tongan"
 
 #: kstars_i18n.cpp:699
-#, fuzzy, kde-kuit-format
-#| msgid "Asterism"
+#, kde-kuit-format
 msgctxt "Sky Culture"
 msgid "Asterisms"
-msgstr "Asterismo"
+msgstr "Asterismos"
 
 #: kstars_i18n.cpp:700
 #, kde-kuit-format
@@ -46481,12 +46485,10 @@ msgid "Al Manamah"
 msgstr "Al Manamah"
 
 #: kstars_i18n.cpp:740
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Alicante"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
-msgstr "Alicante"
+msgstr "Alacante"
 
 #: kstars_i18n.cpp:741
 #, kde-kuit-format
@@ -46843,9 +46845,7 @@ msgid "Anderson AFB"
 msgstr "Anderson AFB"
 
 #: kstars_i18n.cpp:800
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Andong"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Andong"
 msgstr "Andong"
@@ -46995,12 +46995,10 @@ msgid "Archenhold"
 msgstr "Archenhold"
 
 #: kstars_i18n.cpp:825
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Alaska USA"
-#| msgid "Denali National Park"
+#, kde-kuit-format
 msgctxt "City in Utah USA"
 msgid "Arches National Park (IDS)"
-msgstr "Parque Nacional de Denali"
+msgstr "Parque Nacional dos Arcos (IDS)"
 
 #: kstars_i18n.cpp:826
 #, kde-kuit-format
@@ -47249,9 +47247,7 @@ msgid "Athens"
 msgstr "Athens"
 
 #: kstars_i18n.cpp:867
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Greece"
-#| msgid "Athens"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Athens"
 msgstr "Atenas"
@@ -47524,7 +47520,7 @@ msgstr "Bali"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Balmorhea SP (Toyahvale)"
-msgstr ""
+msgstr "Parque Estadual Balmorhea (Toyahvale)"
 
 #: kstars_i18n.cpp:913
 #, kde-kuit-format
@@ -48136,13 +48132,13 @@ msgstr "Observatório Solar de Big Bear"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Big Bend Ranch SP (Marfa) IDS"
-msgstr ""
+msgstr "Parque Estadual Big Bend Ranch (Marfa) IDS"
 
 #: kstars_i18n.cpp:1015
 #, kde-kuit-format
 msgctxt "City in Florida USA"
 msgid "Big Cypress National Preserve (Ochopee) IDS"
-msgstr ""
+msgstr "Reserva Nacional Big Cypress (Ochopee) IDS"
 
 #: kstars_i18n.cpp:1016
 #, kde-kuit-format
@@ -48268,7 +48264,7 @@ msgstr "Black Birch"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Black Gap WMA (Marathon) IDS"
-msgstr ""
+msgstr "Área de Gestão da Vida Selvagem Black Gap (Marathon) IDS"
 
 #: kstars_i18n.cpp:1037
 #, kde-kuit-format
@@ -48286,7 +48282,7 @@ msgstr "Blackwell"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Blanco SP (Blanco)"
-msgstr ""
+msgstr "Parque Estadual Blanco (Blanco)"
 
 #: kstars_i18n.cpp:1040
 #, kde-kuit-format
@@ -48379,9 +48375,7 @@ msgid "Bodo"
 msgstr "Bodo"
 
 #: kstars_i18n.cpp:1055
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk Korea"
-#| msgid "Boeun"
+#, kde-kuit-format
 msgctxt "City in Chungbuk South Korea"
 msgid "Boeun"
 msgstr "Boeun"
@@ -48654,7 +48648,7 @@ msgstr "Braunschweig"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Brazos Bend SP (Needville)"
-msgstr ""
+msgstr "Parque Estadual Brazos Bend (Needville)"
 
 #: kstars_i18n.cpp:1101
 #, kde-kuit-format
@@ -48864,12 +48858,10 @@ msgstr "Briansk"
 #, kde-kuit-format
 msgctxt "City in Utah USA"
 msgid "Bryce Canyon National Park (Tropic) IDS"
-msgstr ""
+msgstr "Parque Nacional Bryce Canyon (Tropic) IDS"
 
 #: kstars_i18n.cpp:1136
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Buan"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Buan"
 msgstr "Buan"
@@ -49025,9 +49017,7 @@ msgid "Burwash"
 msgstr "Burwash"
 
 #: kstars_i18n.cpp:1162
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Busan"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Busan"
 msgstr "Busan"
@@ -49045,9 +49035,7 @@ msgid "Butterworth"
 msgstr "Butterworth"
 
 #: kstars_i18n.cpp:1165
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungnam Korea"
-#| msgid "Buyeo"
+#, kde-kuit-format
 msgctxt "City in Chungnam South Korea"
 msgid "Buyeo"
 msgstr "Buyeo"
@@ -49290,7 +49278,7 @@ msgstr "Cidade do Cabo"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Caprock Canyon SP (Quitaque)"
-msgstr ""
+msgstr "Parque Estadual Caprock Canyon (Quitaque)"
 
 #: kstars_i18n.cpp:1206
 #, kde-kuit-format
@@ -49425,12 +49413,10 @@ msgid "Casselman"
 msgstr "Casselman"
 
 #: kstars_i18n.cpp:1228
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Castellon de la Plana"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Castelló de la Plana"
-msgstr "Castellon de la Plana"
+msgstr "Castelló de la Plana"
 
 #: kstars_i18n.cpp:1229
 #, kde-kuit-format
@@ -49553,12 +49539,10 @@ msgid "Chandler"
 msgstr "Chandler"
 
 #: kstars_i18n.cpp:1249
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gangwon"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Changwon"
-msgstr "Gangwon"
+msgstr "Changwon"
 
 #: kstars_i18n.cpp:1250
 #, kde-kuit-format
@@ -49669,17 +49653,13 @@ msgid "Chennai"
 msgstr "Chennai"
 
 #: kstars_i18n.cpp:1268
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk Korea"
-#| msgid "Cheongju"
+#, kde-kuit-format
 msgctxt "City in Chungbuk South Korea"
 msgid "Cheongju"
 msgstr "Cheongju"
 
 #: kstars_i18n.cpp:1269
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Cheorwon"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Cheorwon"
 msgstr "Cheorwon"
@@ -49901,25 +49881,19 @@ msgid "Chula Vista"
 msgstr "Chula Vista"
 
 #: kstars_i18n.cpp:1306
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Chuncheon"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Chuncheon"
 msgstr "Chuncheon"
 
 #: kstars_i18n.cpp:1307
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk Korea"
-#| msgid "Chungju"
+#, kde-kuit-format
 msgctxt "City in Chungbuk South Korea"
 msgid "Chungju"
 msgstr "Chungju"
 
 #: kstars_i18n.cpp:1308
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Chupungryeong"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Chupungryeong"
 msgstr "Chupungryeong"
@@ -49943,12 +49917,10 @@ msgid "Chuuk"
 msgstr "Chuuk"
 
 #: kstars_i18n.cpp:1312
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Ch'ongjin"
+#, kde-kuit-format
 msgctxt "City in Hambuk North Korea"
 msgid "Chŏngjin"
-msgstr "Chongjin"
+msgstr "Chŏngjin"
 
 #: kstars_i18n.cpp:1313
 #, kde-kuit-format
@@ -50236,7 +50208,7 @@ msgstr "Colon"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Colorado Bend SP (Bend)"
-msgstr ""
+msgstr "Parque Estadual Colorado Bend (Bend)"
 
 #: kstars_i18n.cpp:1361
 #, kde-kuit-format
@@ -50374,7 +50346,7 @@ msgstr "Copenhague"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Copper Breaks SP (Quanah) IDS"
-msgstr ""
+msgstr "Parque Estadual Copper Breaks (Quanah) IDS"
 
 #: kstars_i18n.cpp:1384
 #, kde-kuit-format
@@ -50641,25 +50613,19 @@ msgid "Dacca"
 msgstr "Dacca"
 
 #: kstars_i18n.cpp:1428
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Daegu"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Daegu"
 msgstr "Daegu"
 
 #: kstars_i18n.cpp:1429
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Daegwallyeong"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Daegwallyeong"
 msgstr "Daegwallyeong"
 
 #: kstars_i18n.cpp:1430
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Daejeon"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Daejeon"
 msgstr "Daejeon"
@@ -50737,9 +50703,7 @@ msgid "Danville"
 msgstr "Danville"
 
 #: kstars_i18n.cpp:1443
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in South Korea"
-#| msgid "Danyang"
+#, kde-kuit-format
 msgctxt "City in Chungbuk South Korea"
 msgid "Danyang"
 msgstr "Danyang"
@@ -50790,7 +50754,7 @@ msgstr "Davidson"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Davis Mountains SP (Fort Davis) IDS"
-msgstr ""
+msgstr "Parque Nacional Montanhas Davis (Fort Davis) IDS"
 
 #: kstars_i18n.cpp:1452
 #, kde-kuit-format
@@ -51012,7 +50976,7 @@ msgstr "Devils Lake"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Devils River State Natural Area (Del Rio) IDS"
-msgstr ""
+msgstr "Área Natural Estadual Rio Devils (Del Rio) IDS"
 
 #: kstars_i18n.cpp:1489
 #, kde-kuit-format
@@ -51135,9 +51099,7 @@ msgid "Doha"
 msgstr "Doha"
 
 #: kstars_i18n.cpp:1509
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyengnam Korea"
-#| msgid "Dokdo"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Dokdo"
 msgstr "Dokdo"
@@ -51173,17 +51135,13 @@ msgid "Donets'k"
 msgstr "Donets'k"
 
 #: kstars_i18n.cpp:1515
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeonggi Korea"
-#| msgid "Dongducheon"
+#, kde-kuit-format
 msgctxt "City in Gyeonggi South Korea"
 msgid "Dongducheon"
 msgstr "Dongducheon"
 
 #: kstars_i18n.cpp:1516
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Donghae"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Donghae"
 msgstr "Donghae"
@@ -51765,9 +51723,7 @@ msgid "Elkhart"
 msgstr "Elkhart"
 
 #: kstars_i18n.cpp:1613
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Indiana USA"
-#| msgid "Elkhart"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Elkhart"
 msgstr "Elkhart"
@@ -51815,11 +51771,10 @@ msgid "Elverson"
 msgstr "Elverson"
 
 #: kstars_i18n.cpp:1621
-#, fuzzy, kde-kuit-format
-#| msgid "Exp"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Elx"
-msgstr "Exp"
+msgstr "Elx"
 
 #: kstars_i18n.cpp:1622
 #, kde-kuit-format
@@ -51837,7 +51792,7 @@ msgstr "Emerson"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Enchanted Rock State Natural Area (Fredricksburg) IDS"
-msgstr ""
+msgstr "Área Natural Estadual Rocha Encantada (Fredricksburg) IDS"
 
 #: kstars_i18n.cpp:1625
 #, kde-kuit-format
@@ -52302,9 +52257,7 @@ msgid "Forestville"
 msgstr "Forestville"
 
 #: kstars_i18n.cpp:1702
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Italy"
-#| msgid "Forli`"
+#, kde-kuit-format
 msgctxt "City in Italy"
 msgid "Forlì"
 msgstr "Forlì"
@@ -52760,17 +52713,13 @@ msgid "Gander"
 msgstr "Gander"
 
 #: kstars_i18n.cpp:1778
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Incheon Korea"
-#| msgid "Ganghwa"
+#, kde-kuit-format
 msgctxt "City in Incheon South Korea"
 msgid "Ganghwa"
 msgstr "Ganghwa"
 
 #: kstars_i18n.cpp:1779
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Gangneung"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Gangneung"
 msgstr "Gangneung"
@@ -52902,17 +52851,13 @@ msgid "Genoa"
 msgstr "Gênova"
 
 #: kstars_i18n.cpp:1801
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Geochang"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Geochang"
 msgstr "Geochang"
 
 #: kstars_i18n.cpp:1802
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Geoje"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Geoje"
 msgstr "Geoje"
@@ -52954,12 +52899,10 @@ msgid "Geraldton"
 msgstr "Geraldton"
 
 #: kstars_i18n.cpp:1809
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungnam Korea"
-#| msgid "Geomsan"
+#, kde-kuit-format
 msgctxt "City in Chungnam South Korea"
 msgid "Geumsan"
-msgstr "Geomsan"
+msgstr "Geumsan"
 
 #: kstars_i18n.cpp:1810
 #, kde-kuit-format
@@ -53004,12 +52947,10 @@ msgid "Gimli"
 msgstr "Gimli"
 
 #: kstars_i18n.cpp:1817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Gerona"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Girona"
-msgstr "Gerona"
+msgstr "Girona"
 
 #: kstars_i18n.cpp:1818
 #, kde-kuit-format
@@ -53108,9 +53049,7 @@ msgid "Gogama"
 msgstr "Gogama"
 
 #: kstars_i18n.cpp:1834
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Goheung"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Goheung"
 msgstr "Goheung"
@@ -53524,17 +53463,13 @@ msgid "Gull Bay"
 msgstr "Gull Bay"
 
 #: kstars_i18n.cpp:1903
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Gumi"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Gumi"
 msgstr "Gumi"
 
 #: kstars_i18n.cpp:1904
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Gunsan"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Gunsan"
 msgstr "Gunsan"
@@ -53558,9 +53493,7 @@ msgid "Guysborough"
 msgstr "Guysborough"
 
 #: kstars_i18n.cpp:1908
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Gwangju"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Gwangju"
 msgstr "Gwangju"
@@ -53614,17 +53547,13 @@ msgid "Haderslev"
 msgstr "Haderslev"
 
 #: kstars_i18n.cpp:1917
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Hadong"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Hadong"
 msgstr "Hadong"
 
 #: kstars_i18n.cpp:1918
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Haenam"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Haenam"
 msgstr "Haenam"
@@ -53792,9 +53721,7 @@ msgid "Hao"
 msgstr "Hao"
 
 #: kstars_i18n.cpp:1946
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Hapcheon"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Hapcheon"
 msgstr "Hapcheon"
@@ -54076,9 +54003,7 @@ msgid "Herstmonceux"
 msgstr "Herstmonceux"
 
 #: kstars_i18n.cpp:1993
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Heuksando"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Heuksando"
 msgstr "Heuksando"
@@ -54165,7 +54090,7 @@ msgstr "Hilo"
 #, kde-kuit-format
 msgctxt "City in Bavaria Germany"
 msgid "Hilpoltstein"
-msgstr ""
+msgstr "Hilpoltstein"
 
 #: kstars_i18n.cpp:2008
 #, kde-kuit-format
@@ -54282,9 +54207,7 @@ msgid "Hong Kong"
 msgstr "Hong Kong"
 
 #: kstars_i18n.cpp:2027
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Hongcheon"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Hongcheon"
 msgstr "Hongcheon"
@@ -54488,12 +54411,10 @@ msgid "Hyltebruk"
 msgstr "Hyltebruk"
 
 #: kstars_i18n.cpp:2061
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Hungnam"
+#, kde-kuit-format
 msgctxt "City in Hamnam North Korea"
 msgid "Hŭngnam"
-msgstr "Hungnam"
+msgstr "Hŭngnam"
 
 #: kstars_i18n.cpp:2062
 #, kde-kuit-format
@@ -54502,9 +54423,7 @@ msgid "Ibadan"
 msgstr "Ibadan"
 
 #: kstars_i18n.cpp:2063
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeonggi Korea"
-#| msgid "Icheon"
+#, kde-kuit-format
 msgctxt "City in Gyeonggi South Korea"
 msgid "Icheon"
 msgstr "Icheon"
@@ -54528,17 +54447,13 @@ msgid "Ile-a-la-Crosse"
 msgstr "Ile-a-la-Crosse"
 
 #: kstars_i18n.cpp:2067
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Imsil"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Imsil"
 msgstr "Imsil"
 
 #: kstars_i18n.cpp:2068
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Incheon"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Incheon"
 msgstr "Incheon"
@@ -54778,17 +54693,13 @@ msgid "Janesville"
 msgstr "Janesville"
 
 #: kstars_i18n.cpp:2108
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Jangheung"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Jangheung"
 msgstr "Jangheung"
 
 #: kstars_i18n.cpp:2109
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Jangsu"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Jangsu"
 msgstr "Jangsu"
@@ -54812,9 +54723,7 @@ msgid "Jaén"
 msgstr "Jaén"
 
 #: kstars_i18n.cpp:2113
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk Korea"
-#| msgid "Jecheon"
+#, kde-kuit-format
 msgctxt "City in Chungbuk South Korea"
 msgid "Jecheon"
 msgstr "Jecheon"
@@ -54832,9 +54741,7 @@ msgid "Jefferson City"
 msgstr "Jefferson City"
 
 #: kstars_i18n.cpp:2116
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Jeju"
+#, kde-kuit-format
 msgctxt "City in Jeju South Korea"
 msgid "Jeju"
 msgstr "Jeju"
@@ -54852,17 +54759,13 @@ msgid "Jensen Beach"
 msgstr "Jensen Beach"
 
 #: kstars_i18n.cpp:2119
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Jeongeup"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Jeongeup"
 msgstr "Jeongeup"
 
 #: kstars_i18n.cpp:2120
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Jeonju"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Jeonju"
 msgstr "Jeonju"
@@ -54892,9 +54795,7 @@ msgid "Jinja"
 msgstr "Jinja"
 
 #: kstars_i18n.cpp:2125
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Jinju"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Jinju"
 msgstr "Jinju"
@@ -55002,12 +54903,10 @@ msgid "Kaena Point"
 msgstr "Kaena Point"
 
 #: kstars_i18n.cpp:2143
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Kaesong"
+#, kde-kuit-format
 msgctxt "City in North Korea"
 msgid "Kaesŏng"
-msgstr "Kaesong"
+msgstr "Kaesŏng"
 
 #: kstars_i18n.cpp:2144
 #, kde-kuit-format
@@ -55439,7 +55338,7 @@ msgstr "Khmel'nyts'kyi"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Kickapoo Cavern  SP (Bracketville)"
-msgstr ""
+msgstr "Parque Estadual Caverna Kickapoo (Bracketville)"
 
 #: kstars_i18n.cpp:2216
 #, kde-kuit-format
@@ -55484,9 +55383,7 @@ msgid "Kimball"
 msgstr "Kimball"
 
 #: kstars_i18n.cpp:2223
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Kimch'aek"
+#, kde-kuit-format
 msgctxt "City in Hambuk North Korea"
 msgid "Kimchaek"
 msgstr "Kimchaek"
@@ -56743,7 +56640,7 @@ msgstr "Llano del Hato"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Lleida"
-msgstr ""
+msgstr "Lleida"
 
 #: kstars_i18n.cpp:2433
 #, kde-kuit-format
@@ -56869,7 +56766,7 @@ msgstr "Los Angeles"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Lost Maples State Natural Area (Vanderpool)"
-msgstr ""
+msgstr "Área Natural Estadual de Lost Maples (Vanderpool)"
 
 #: kstars_i18n.cpp:2454
 #, kde-kuit-format
@@ -57046,9 +56943,7 @@ msgid "Lübeck"
 msgstr "Lübeck"
 
 #: kstars_i18n.cpp:2483
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Pyungbuk Korea"
-#| msgid "Maando"
+#, kde-kuit-format
 msgctxt "City in Pyŏngbuk North Korea"
 msgid "Maando"
 msgstr "Maando"
@@ -57420,9 +57315,7 @@ msgid "Maputo"
 msgstr "Maputo"
 
 #: kstars_i18n.cpp:2545
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeju Korea"
-#| msgid "Marado"
+#, kde-kuit-format
 msgctxt "City in Jeju South Korea"
 msgid "Marado"
 msgstr "Marado"
@@ -58322,9 +58215,7 @@ msgid "Mirnyi"
 msgstr "Mirnyi"
 
 #: kstars_i18n.cpp:2695
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Miryang"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Miryang"
 msgstr "Miryang"
@@ -58420,9 +58311,7 @@ msgid "Mogadishu"
 msgstr "Mogadíscio"
 
 #: kstars_i18n.cpp:2711
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Mokpo"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Mokpo"
 msgstr "Mokpo"
@@ -58824,9 +58713,7 @@ msgid "Moville"
 msgstr "Moville"
 
 #: kstars_i18n.cpp:2778
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Muan"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Muan"
 msgstr "Muan"
@@ -58856,9 +58743,7 @@ msgid "Muncy"
 msgstr "Muncy"
 
 #: kstars_i18n.cpp:2783
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Mungyeong"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Mungyeong"
 msgstr "Mungyeong"
@@ -59062,9 +58947,7 @@ msgid "Nal'chik"
 msgstr "Nal'chik"
 
 #: kstars_i18n.cpp:2817
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Namhae"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Namhae"
 msgstr "Namhae"
@@ -59094,9 +58977,7 @@ msgid "Nampula"
 msgstr "Nampula"
 
 #: kstars_i18n.cpp:2822
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonbuk Korea"
-#| msgid "Namwon"
+#, kde-kuit-format
 msgctxt "City in Jeonbuk South Korea"
 msgid "Namwon"
 msgstr "Namwon"
@@ -59222,12 +59103,10 @@ msgid "Ndola"
 msgstr "Ndola"
 
 #: kstars_i18n.cpp:2843
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungbuk Korea"
-#| msgid "Jecheon"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Neches"
-msgstr "Jecheon"
+msgstr "Neches"
 
 #: kstars_i18n.cpp:2844
 #, kde-kuit-format
@@ -60382,12 +60261,10 @@ msgid "Palermo"
 msgstr "Palermo"
 
 #: kstars_i18n.cpp:3036
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Nebraska USA"
-#| msgid "Valentine"
+#, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Palestine"
-msgstr "Valentine"
+msgstr "Palestina"
 
 #: kstars_i18n.cpp:3037
 #, kde-kuit-format
@@ -60990,9 +60867,7 @@ msgid "Podor"
 msgstr "Podor"
 
 #: kstars_i18n.cpp:3137
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Pohang"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Pohang"
 msgstr "Pohang"
@@ -61316,9 +61191,7 @@ msgid "Požega"
 msgstr "Požega"
 
 #: kstars_i18n.cpp:3191
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Czech Republic"
-#| msgid "Prague"
+#, kde-kuit-format
 msgctxt "City in Czechia"
 msgid "Prague"
 msgstr "Praga"
@@ -61348,9 +61221,7 @@ msgid "Preston"
 msgstr "Preston"
 
 #: kstars_i18n.cpp:3196
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Preston"
+#, kde-kuit-format
 msgctxt "City in Lancashire United Kingdom"
 msgid "Preston"
 msgstr "Preston"
@@ -61530,9 +61401,7 @@ msgid "Puyallup"
 msgstr "Puyallup"
 
 #: kstars_i18n.cpp:3226
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "P'yongyang"
+#, kde-kuit-format
 msgctxt "City in North Korea"
 msgid "Pyongyang"
 msgstr "Pyongyang"
@@ -62732,9 +62601,7 @@ msgid "San Sebastián de la Gomera"
 msgstr "San Sebastián de la Gomera"
 
 #: kstars_i18n.cpp:3426
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Sancheong"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Sancheong"
 msgstr "Sancheong"
@@ -63067,7 +62934,7 @@ msgstr "Selter"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Seminole Canyon SP (Comstock)"
-msgstr ""
+msgstr "Parque Estadual Seminole Canyon (Comstock)"
 
 #: kstars_i18n.cpp:3482
 #, kde-kuit-format
@@ -63076,33 +62943,25 @@ msgid "Senneterre"
 msgstr "Senneterre"
 
 #: kstars_i18n.cpp:3483
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeju Korea"
-#| msgid "Seogwipo"
+#, kde-kuit-format
 msgctxt "City in Jeju South Korea"
 msgid "Seogwipo"
 msgstr "Seogwipo"
 
 #: kstars_i18n.cpp:3484
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeju Korea"
-#| msgid "Seongsanpo"
+#, kde-kuit-format
 msgctxt "City in Jeju South Korea"
 msgid "Seongsanpo"
 msgstr "Seongsanpo"
 
 #: kstars_i18n.cpp:3485
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Chungnam Korea"
-#| msgid "Seosan"
+#, kde-kuit-format
 msgctxt "City in Chungnam South Korea"
 msgid "Seosan"
 msgstr "Seosan"
 
 #: kstars_i18n.cpp:3486
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Seoul"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Seoul"
 msgstr "Seul"
@@ -63135,7 +62994,7 @@ msgstr "Seward"
 #, kde-kuit-format
 msgctxt "City in Madina Saudi Arabia"
 msgid "Sewerqia"
-msgstr ""
+msgstr "Sewerqia"
 
 #: kstars_i18n.cpp:3492
 #, kde-kuit-format
@@ -63366,9 +63225,7 @@ msgid "Singapore"
 msgstr "Singapura"
 
 #: kstars_i18n.cpp:3530
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Sinuiju"
+#, kde-kuit-format
 msgctxt "City in Pyŏngbuk North Korea"
 msgid "Sinuiju"
 msgstr "Sinuiju"
@@ -63485,7 +63342,7 @@ msgstr "Slidell"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "Slocum"
-msgstr ""
+msgstr "Slocum"
 
 #: kstars_i18n.cpp:3550
 #, kde-kuit-format
@@ -63548,9 +63405,7 @@ msgid "Sofia"
 msgstr "Sófia"
 
 #: kstars_i18n.cpp:3560
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Sokcho"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Sokcho"
 msgstr "Sokcho"
@@ -63661,7 +63516,7 @@ msgstr "South Kauai VORTAC"
 #, kde-kuit-format
 msgctxt "City in Texas USA"
 msgid "South Llano River SP (Llano) IDS"
-msgstr ""
+msgstr "Parque Estadual Tio South Llano (Llano) IDS"
 
 #: kstars_i18n.cpp:3579
 #, kde-kuit-format
@@ -64192,9 +64047,7 @@ msgid "Sun Valley"
 msgstr "Sun Valley"
 
 #: kstars_i18n.cpp:3667
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Suncheon"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Suncheon"
 msgstr "Suncheon"
@@ -64254,9 +64107,7 @@ msgid "Suure-Jaani"
 msgstr "Suure-Jaani"
 
 #: kstars_i18n.cpp:3677
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeonggi Korea"
-#| msgid "Suwon"
+#, kde-kuit-format
 msgctxt "City in Gyeonggi South Korea"
 msgid "Suwon"
 msgstr "Suwon"
@@ -64382,9 +64233,7 @@ msgid "Tadoussac"
 msgstr "Tadoussac"
 
 #: kstars_i18n.cpp:3698
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Taebaek"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Taebaek"
 msgstr "Taebaek"
@@ -64846,9 +64695,7 @@ msgid "Tomsk"
 msgstr "Tomsk"
 
 #: kstars_i18n.cpp:3775
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongnam Korea"
-#| msgid "Tongyeong"
+#, kde-kuit-format
 msgctxt "City in Gyeongnam South Korea"
 msgid "Tongyeong"
 msgstr "Tongyeong"
@@ -65184,9 +65031,7 @@ msgid "Ufa"
 msgstr "Ufa"
 
 #: kstars_i18n.cpp:3831
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Uiseong"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Uiseong"
 msgstr "Uiseong"
@@ -65210,17 +65055,13 @@ msgid "Ulan-Ude"
 msgstr "Ulan-Ude"
 
 #: kstars_i18n.cpp:3835
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Uljin"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Uljin"
 msgstr "Uljin"
 
 #: kstars_i18n.cpp:3836
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Ulleungdo"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Ulleungdo"
 msgstr "Ulleungdo"
@@ -65232,9 +65073,7 @@ msgid "Ulm"
 msgstr "Ulm"
 
 #: kstars_i18n.cpp:3838
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Ulsan"
+#, kde-kuit-format
 msgctxt "City in South Korea"
 msgid "Ulsan"
 msgstr "Ulsan"
@@ -65444,9 +65283,7 @@ msgid "Valverde"
 msgstr "Valverde"
 
 #: kstars_i18n.cpp:3873
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Valéncia"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "València"
 msgstr "Valência"
@@ -65932,9 +65769,7 @@ msgid "Wandering River"
 msgstr "Wandering River"
 
 #: kstars_i18n.cpp:3954
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Wando"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Wando"
 msgstr "Wando"
@@ -66558,17 +66393,13 @@ msgid "Wolseley"
 msgstr "Wolseley"
 
 #: kstars_i18n.cpp:4058
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Wonju"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Wonju"
 msgstr "Wonju"
 
 #: kstars_i18n.cpp:4059
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Wonsan"
+#, kde-kuit-format
 msgctxt "City in Kangwon North Korea"
 msgid "Wonsan"
 msgstr "Wonsan"
@@ -66700,9 +66531,7 @@ msgid "Yamoussoukro"
 msgstr "Yamoussoukro"
 
 #: kstars_i18n.cpp:4081
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeonggi Korea"
-#| msgid "Yangpyeong"
+#, kde-kuit-format
 msgctxt "City in Gyeonggi South Korea"
 msgid "Yangpyeong"
 msgstr "Yangpyeong"
@@ -66756,41 +66585,31 @@ msgid "Yellowknife"
 msgstr "Yellowknife"
 
 #: kstars_i18n.cpp:4090
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Yeongcheon"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Yeongcheon"
 msgstr "Yeongcheon"
 
 #: kstars_i18n.cpp:4091
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Yeongdeok"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Yeongdeok"
 msgstr "Yeongdeok"
 
 #: kstars_i18n.cpp:4092
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Yeongju"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Yeongju"
 msgstr "Yeongju"
 
 #: kstars_i18n.cpp:4093
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gangwon Korea"
-#| msgid "Yeongwol"
+#, kde-kuit-format
 msgctxt "City in Gangwon South Korea"
 msgid "Yeongwol"
 msgstr "Yeongwol"
 
 #: kstars_i18n.cpp:4094
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Jeonnam Korea"
-#| msgid "Yeosu"
+#, kde-kuit-format
 msgctxt "City in Jeonnam South Korea"
 msgid "Yeosu"
 msgstr "Yeosu"
@@ -66862,9 +66681,7 @@ msgid "Yuma"
 msgstr "Yuma"
 
 #: kstars_i18n.cpp:4106
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Hambuk Korea"
-#| msgid "Yupojin"
+#, kde-kuit-format
 msgctxt "City in Hambuk North Korea"
 msgid "Yupojin"
 msgstr "Yupojin"
@@ -67080,12 +66897,10 @@ msgid "Bas-Rhin"
 msgstr "Bas-Rhin"
 
 #: kstars_i18n.cpp:4142
-#, fuzzy, kde-kuit-format
-#| msgctxt "the star is a variable star"
-#| msgid "variable"
+#, kde-kuit-format
 msgctxt "Region/state in Germany"
 msgid "Bavaria"
-msgstr "variável"
+msgstr "Baviera"
 
 #: kstars_i18n.cpp:4143
 #, kde-kuit-format
@@ -67172,17 +66987,13 @@ msgid "Christmas Island"
 msgstr "Ilha Christmas"
 
 #: kstars_i18n.cpp:4157
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Chungbuk"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Chungbuk"
 msgstr "Chungbuk"
 
 #: kstars_i18n.cpp:4158
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Chungnam"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Chungnam"
 msgstr "Chungnam"
@@ -67296,9 +67107,7 @@ msgid "Fyn"
 msgstr "Fyn"
 
 #: kstars_i18n.cpp:4177
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gangwon"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Gangwon"
 msgstr "Gangwon"
@@ -67340,25 +67149,19 @@ msgid "Guernsey"
 msgstr "Guernsey"
 
 #: kstars_i18n.cpp:4184
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gyeongbuk"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Gyeongbuk"
 msgstr "Gyeongbuk"
 
 #: kstars_i18n.cpp:4185
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gyeonggi"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Gyeonggi"
 msgstr "Gyeonggi"
 
 #: kstars_i18n.cpp:4186
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gyeongnam"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Gyeongnam"
 msgstr "Gyeongnam"
@@ -67376,9 +67179,7 @@ msgid "Hajdú-Bihar"
 msgstr "Hajdú-Bihar"
 
 #: kstars_i18n.cpp:4189
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Hambuk"
+#, kde-kuit-format
 msgctxt "Region/state in North Korea"
 msgid "Hambuk"
 msgstr "Hambuk"
@@ -67387,7 +67188,7 @@ msgstr "Hambuk"
 #, kde-kuit-format
 msgctxt "Region/state in North Korea"
 msgid "Hamnam"
-msgstr ""
+msgstr "Hamnam"
 
 #: kstars_i18n.cpp:4191
 #, kde-kuit-format
@@ -67474,9 +67275,7 @@ msgid "Illinois"
 msgstr "Illinois"
 
 #: kstars_i18n.cpp:4205
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Incheon"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Incheon"
 msgstr "Incheon"
@@ -67506,25 +67305,19 @@ msgid "Isère"
 msgstr "Isère"
 
 #: kstars_i18n.cpp:4210
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Korea"
-#| msgid "Jeju"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Jeju"
 msgstr "Jeju"
 
 #: kstars_i18n.cpp:4211
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Jeonbuk"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Jeonbuk"
 msgstr "Jeonbuk"
 
 #: kstars_i18n.cpp:4212
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Jeonnam"
+#, kde-kuit-format
 msgctxt "Region/state in South Korea"
 msgid "Jeonnam"
 msgstr "Jeonnam"
@@ -67542,12 +67335,10 @@ msgid "Jász-Nagykun-Szolnok"
 msgstr "Jász-Nagykun-Szolnok"
 
 #: kstars_i18n.cpp:4215
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Gangwon"
+#, kde-kuit-format
 msgctxt "Region/state in North Korea"
 msgid "Kangwon"
-msgstr "Gangwon"
+msgstr "Kangwon"
 
 #: kstars_i18n.cpp:4216
 #, kde-kuit-format
@@ -67574,12 +67365,10 @@ msgid "Komárom-Esztergom"
 msgstr "Komárom-Esztergom"
 
 #: kstars_i18n.cpp:4220
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in New Hampshire USA"
-#| msgid "Lancaster"
+#, kde-kuit-format
 msgctxt "Region/state in United Kingdom"
 msgid "Lancashire"
-msgstr "Lancaster"
+msgstr "Lancashire"
 
 #: kstars_i18n.cpp:4221
 #, kde-kuit-format
@@ -67630,12 +67419,10 @@ msgid "Madeira"
 msgstr "Madeira"
 
 #: kstars_i18n.cpp:4229
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Alabama USA"
-#| msgid "Madison"
+#, kde-kuit-format
 msgctxt "Region/state in Saudi Arabia"
 msgid "Madina"
-msgstr "Madison"
+msgstr "Medina"
 
 #: kstars_i18n.cpp:4230
 #, kde-kuit-format
@@ -67950,9 +67737,7 @@ msgid "Pyrénées atlantiques"
 msgstr "Pirineus Atlânticos"
 
 #: kstars_i18n.cpp:4282
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Korea"
-#| msgid "Pyungbuk"
+#, kde-kuit-format
 msgctxt "Region/state in North Korea"
 msgid "Pyŏngbuk"
 msgstr "Pyungbuk"
@@ -68469,12 +68254,10 @@ msgid "Cyprus"
 msgstr "Chipre"
 
 #: kstars_i18n.cpp:4368
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Italy"
-#| msgid "Ischia"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Czechia"
-msgstr "Ísquia"
+msgstr "República Tcheca"
 
 #: kstars_i18n.cpp:4369
 #, kde-kuit-format
@@ -68951,12 +68734,10 @@ msgid "Nigeria"
 msgstr "Nigéria"
 
 #: kstars_i18n.cpp:4448
-#, fuzzy, kde-kuit-format
-#| msgctxt "Country name"
-#| msgid "South Korea"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "North Korea"
-msgstr "Coreia do Sul"
+msgstr "Coreia do Norte"
 
 #: kstars_i18n.cpp:4449
 #, kde-kuit-format
@@ -69553,12 +69334,10 @@ msgid "Comet Shoemaker-Levy 9"
 msgstr "Cometa Shoemaker-Levy 9"
 
 #: kstars_i18n.cpp:4548
-#, fuzzy, kde-kuit-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "Comet Shoemaker-Levy 9"
+#, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Comet Shoemaker–Levy 9 Wikipedia page"
-msgstr "Cometa Shoemaker-Levy 9"
+msgstr "Página da Wikipedia do Cometa Shoemaker-Levy 9"
 
 #: kstars_i18n.cpp:4549
 #, kde-kuit-format
@@ -69567,12 +69346,10 @@ msgid "Daily Solar Images"
 msgstr "Imagens solares diárias"
 
 #: kstars_i18n.cpp:4550
-#, fuzzy, kde-kuit-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "Total Eclipse Image"
+#, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Eclipse page"
-msgstr "Imagem de eclipse total"
+msgstr "Página de eclipse da NASA"
 
 #: kstars_i18n.cpp:4551
 #, kde-kuit-format
@@ -69581,31 +69358,28 @@ msgid "NASA Mars Missions"
 msgstr "Missões a Marte da NASA"
 
 #: kstars_i18n.cpp:4552
-#, fuzzy, kde-kuit-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "NASA Mars Missions"
+#, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Science Mariner missions"
-msgstr "Missões a Marte da NASA"
+msgstr "Missões Science Mariner da NASA"
 
 #: kstars_i18n.cpp:4553
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Solar System Exploration Page"
-msgstr ""
+msgstr "Página de exploração do sistema solar da NASA"
 
 #: kstars_i18n.cpp:4554
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Sun-Earth Days page"
-msgstr ""
+msgstr "Página dos dias Sol-Terra da NASA"
 
 #: kstars_i18n.cpp:4555
-#, fuzzy, kde-kuit-format
-#| msgid "Minor Planets"
+#, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Nine Planets Page"
-msgstr "Planetas menores"
+msgstr "Página dos nove planetas"
 
 #: kstars_i18n.cpp:4556
 #, kde-kuit-format
@@ -70586,12 +70360,10 @@ msgid "Asmidiske"
 msgstr "Asmidiske"
 
 #: kstars_i18n.cpp:4719
-#, fuzzy, kde-kuit-format
-#| msgctxt "star name"
-#| msgid "Seginus"
+#, kde-kuit-format
 msgctxt "star name"
 msgid "Segin"
-msgstr "Seginus"
+msgstr "Segin"
 
 #: kstars_i18n.cpp:4720
 #, kde-kuit-format
@@ -71474,17 +71246,17 @@ msgstr ""
 #: kstarsactions.cpp:506
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
-msgstr ""
+msgstr "O catálogo \"%1\" está corrompido."
 
 #: kstarsactions.cpp:514
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
-msgstr ""
+msgstr "O catálogo \"%1\" está corrompido.<br>Esperado id=%2, mas obtido id=%3"
 
 #: kstarsactions.cpp:524
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
-msgstr ""
+msgstr "Não foi possível importar o catálogo \"%1\"<br>%2"
 
 #: kstarsactions.cpp:581
 #, kde-format
