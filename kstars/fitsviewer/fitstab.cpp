@@ -1009,12 +1009,14 @@ LiveStackPPData FITSTab::getPPSettings()
 
 void FITSTab::redoPostProcessing()
 {
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
     if(m_View && m_View->imageData() && m_View->imageData()->stack())
     {
         m_LiveStackingUI.PostProcGroupBox->setEnabled(false);
         viewer->restack(getUID());
         m_View->redoPostProcessStack(getPPSettings());
     }
+#endif // !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
 }
 
 void FITSTab::selectLiveStack()
