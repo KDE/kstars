@@ -26,7 +26,7 @@ class dms;
  *point number representing the year, with the fractional part representing the date and time
  *(with poor time resolution; typically the Epoch is only taken to the hundredths place, which is
  *a few days).
- *@note Local time and Local sideral time are not handled here.  Because they depend on the
+ *@note Local time and Local sidereal time are not handled here.  Because they depend on the
  *geographic location, they are part of the GeoLocation class.
  *@note The default timespec is UTC unless the passed value has different timespec value.
  *@sa GeoLocation::GSTtoLST()

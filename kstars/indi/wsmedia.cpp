@@ -51,7 +51,7 @@ void WSMedia::onConnected()
 
 void WSMedia::onDisconnected()
 {
-    qCInfo(KSTARS_INDI) << "Disonnected from media Websocket server.";
+    qCInfo(KSTARS_INDI) << "Disconnected from media Websocket server.";
     m_isConnected = false;
 
     disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &WSMedia::onTextReceived);

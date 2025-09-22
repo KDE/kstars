@@ -17,7 +17,7 @@ class QSGSimpleTextureNode;
 /** @class PlanetMoonsNode
  *
  * A SkyNode derived class used as a container for displaying a planet with its moons (if any). Unlike
- * PlanetMoons derived from SkyComponent PlanetMoonsNode represents both planet and moons. Ths PlanetNode
+ * PlanetMoons derived from SkyComponent PlanetMoonsNode represents both planet and moons. This PlanetNode
  * shouldn't be instantiated outside of this class (exception is AsteroidsItem). Although all SkyNodes
  * are "movable" objects (they change transform matrix to move across the SkyMapLite) this class is
  * just a container that provides z-order for moons and planets that change their positions on their own.

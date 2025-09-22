@@ -35,7 +35,7 @@
  * When it is convenient `TrixelCache::prune()` may be called, which
  * clears the least recently used elements (by default initializing them)
  * until the number of elements does not exceed the cache size. This is
- * expensive relative to setting an elment which has almost no cost.
+ * expensive relative to setting an element which has almost no cost.
  *
  * \tparam content The content type to use. Most likely a QList,
  * `std::vector or std::list.`
@@ -46,9 +46,9 @@
  *
  * ~~~~~~~~{cpp}
  * TrixelCache<std::vector<int>> cache(100, 10);
- * auto& element = chache[0];
+ * auto& element = cache[0];
  *
- * if(!elmenent.is_set())
+ * if(!element.is_set())
  *   elment = std::vector<int> {1, 2, 3, 4};
  *
  * std::cout << cache[0].data(); // {1, 2, 3, 4}
@@ -69,7 +69,7 @@ class TrixelCache
     class element
     {
       public:
-        /** @return wether the element contains a cached object */
+        /** @return whether the element contains a cached object */
         bool is_set() { return _set; }
 
         /** @return the data held by element */
@@ -180,7 +180,7 @@ class TrixelCache
         return _used_indices;
     };
 
-    /** @return wether the cache is just a wrapped vector */
+    /** @return whether the cache is just a wrapped vector */
     bool noop() const { return _noop; }
 
     /** Clear the cache without changing it's size. */

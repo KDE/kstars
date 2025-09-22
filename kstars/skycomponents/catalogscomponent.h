@@ -26,7 +26,7 @@ class SkyMap;
  *
  * The component doesn't follow the traditional list approach and
  * loads it's skyobjects into an LRU cache (`TrixelCache`). For
- * puproses of compatiblility with object search etc. some of the
+ * purposes of compatibility with object search etc. some of the
  * brightest objects are loaded into `m_static_objects` and registered
  * within the component system. Furthermore, if some part of the code
  * demands a pointer to a CatalogObject, it will be allocated into
@@ -82,7 +82,7 @@ class CatalogsComponent : public SkyComponent
          * name. \sa `CatalogsDB::DBManager::find_object_by_name` for
          * details.
          *
-         * If multiple objects match, the one with the hightest magnitude is
+         * If multiple objects match, the one with the highest magnitude is
          * returned.
          *
          * \return a pointer to the SkyObject whose name matches the argument, or
@@ -116,7 +116,7 @@ class CatalogsComponent : public SkyComponent
         };
 
         /**
-         * Wether to show the DSOs.
+         * Whether to show the DSOs.
          */
         bool selected() override
         {
@@ -158,7 +158,7 @@ class CatalogsComponent : public SkyComponent
          *
          * Because some `KStars` internal code requires pointers to SkyObjects
          * and this component doesn't hold its objects, we have create a space to
-         * to own the objets that we create in methods like `findByName`. Thus it
+         * to own the objects that we create in methods like `findByName`. Thus it
          * is expected that this list won't hold many objects and doesn't have to
          * be emptied at runtime. The objects in this map are not drawn and have
          * to be updated manually.

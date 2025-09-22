@@ -12,7 +12,7 @@
 /**
  * @class EquirectangularProjector
  *
- * Implememntation of <a href="https://en.wikipedia.org/wiki/Equirectangular_projection">Equirectangular projection</a>
+ * Implementation of <a href="https://en.wikipedia.org/wiki/Equirectangular_projection">Equirectangular projection</a>
  *
  */
 class EquirectangularProjector : public Projector

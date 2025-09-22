@@ -85,7 +85,7 @@ ApplicationWindow {
                 text: stackView.currentItem.title
 
                 font.pixelSize: 20
-                width: parent.width - backButton.width - toolRow.spacing //To allow ellision of the text
+                width: parent.width - backButton.width - toolRow.spacing //To allow elision of the text
 
                 elide: Label.ElideRight
                 wrapMode: Label.Wrap

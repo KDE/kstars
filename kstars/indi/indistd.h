@@ -203,7 +203,7 @@ class GenericDevice : public GDInterface
         /** @brief Send new Switch command to server */
         void sendNewSwitch(INDI::Property prop);
 
-        // Convinence functions
+        // Convnience functions
         ISD::Mount *getMount();
         ISD::Camera *getCamera();
         ISD::Guider *getGuider();

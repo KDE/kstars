@@ -26,7 +26,7 @@ class LINKAGE SkipList
     Key findMAX(const Key searchKey) const;
     /// search element with key NLT searchKey
     Key findMIN(const Key searchKey) const;
-    /* ITERATOR SUPPRT */
+    /* ITERATOR SUPPORT */
     void reset() { iter = myHeader->getElement(0); }
     int step()
     {

@@ -66,7 +66,7 @@ CatalogsDBUI::~CatalogsDBUI()
 
 QWidget *centered_check_box_widget(bool checked)
 {
-    auto *pWidget   = new QWidget{}; // no parent as receiver takes posession
+    auto *pWidget   = new QWidget{}; // no parent as receiver takes possession
     auto *pLayout   = new QHBoxLayout(pWidget);
     auto *pCheckBox = new QCheckBox(pWidget);
 

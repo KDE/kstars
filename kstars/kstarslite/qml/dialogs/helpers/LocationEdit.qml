@@ -19,14 +19,14 @@ KSPage {
     property string loadingText //Text used in location loading popup
     property string fetchingCoordinatesLoading: xi18n("Please, wait while we are fetching coordinates")
 
-    property bool fetchingName: false // true when we are fetchingN name of location
+    property bool fetchingName: false // true when we are fetching name of location
     property bool addAutomatically: false //true if user wants add location automatically without manually editing the fields
 
     signal locationFetched(var _lat, var _lng) //emitted when location is fetched in auto mode
-    signal locNameFetched(var _city, var _region, var _country) //emitted when location nane is fetched or was failed to fetch in auto mode
+    signal locNameFetched(var _city, var _region, var _country) //emitted when location name is fetched or failed to fetch in auto mode
 
-    /*This function sets coordinates from GPS automatically, without asking user to fill information
-    about location */
+    // This function sets coordinates from GPS automatically, without asking user to fill information
+    // about location
     function setAutomaticallyFromGPS() {
         addAutomatically = true
         positionSource.stop()

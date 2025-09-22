@@ -36,7 +36,7 @@ class ServerManager;
  * on the driver and device or devices it is capabale of running.</li>
  * <li>Client DriverInfos: Users can add a new host/port combo in the Device Manager in order to connect to
  * to local or remote INDI servers.</li>
- * <li>Generated DriverInfos: DriverInfo can be created programatically to connect to local or remote INDI server with unknown
+ * <li>Generated DriverInfos: DriverInfo can be created programmatically to connect to local or remote INDI server with unknown
  * number of actual drivers/devices at the server side.</li>
  * </ol>
  *

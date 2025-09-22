@@ -739,12 +739,12 @@ bool Mount::sendCoords(SkyPoint * ScopeTarget)
     };
 
     // Helper function that first checks for the selected target object whether the
-    // tracking modes have to be adapted (special cases moon and sun), explicitely warns before
-    // slewing to the sun and finally (independant whether there exists a target object
+    // tracking modes have to be adapted (special cases moon and sun), explicitly warns before
+    // slewing to the sun and finally (independent whether there exists a target object
     // for the target coordinates) calls sendToMountDevice
     auto checkObjectAndSend = [ = ]()
     {
-        // Search within 0.1 degrees indepdent of zoom level.
+        // Search within 0.1 degrees independent of zoom level.
         double maxrad = 0.1;
         currentObject = KStarsData::Instance()->skyComposite()->objectNearest(ScopeTarget, maxrad);
         if (currentObject)

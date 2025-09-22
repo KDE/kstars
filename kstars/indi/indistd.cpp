@@ -227,7 +227,7 @@ void GenericDevice::registerProperty(INDI::Property prop)
     else if (name == "SYSTEM_PORTS")
     {
         // Check if our current port is set to one of the system ports. This indicates that the port
-        // is not mapped yet to a permenant designation
+        // is not mapped yet to a permanent designation
         auto svp = prop.getSwitch();
         auto port = m_BaseDevice.getText("DEVICE_PORT");
         if (svp && port)
@@ -462,7 +462,7 @@ void GenericDevice::processText(INDI::Property prop)
             m_DriverInterface = static_cast<uint32_t>(atoi(tp->getText()));
             emit interfaceDefined();
 
-            // If devices were already created but we receieved an update to DRIVER_INTERFACE
+            // If devices were already created but we received an update to DRIVER_INTERFACE
             // then we need to re-generate the concrete devices to account for the change.
             if (m_ConcreteDevices.isEmpty() == false)
             {
@@ -530,7 +530,7 @@ void GenericDevice::processText(INDI::Property prop)
         if (geo->tzrule())
             utcOffset -= geo->tzrule()->deltaTZ();
 
-        // TZ0 is the timezone WTIHOUT any DST offsets. Above, we take INDI UTC Offset (with DST already included)
+        // TZ0 is the timezone WITHOUT any DST offsets. Above, we take INDI UTC Offset (with DST already included)
         // and subtract from it the deltaTZ from the current TZ rule.
         geo->setTZ0(utcOffset);
     }

@@ -201,7 +201,7 @@ class Mount : public ConcreteDevice
          * @short Tracks satellite on provided TLE, initial epoch for trajectory calculation and window in minutes
          *
          * This function needs a Two-Line-Element and a time window in the form of an initial point and a
-         * number of minutes on which the trajectory should start. The function was developed wiht the lx200
+         * number of minutes on which the trajectory should start. The function was developed with the lx200
          * in mind. If the trajectory has already started, the current time and a window of 1min are sufficient.
          *
          * @param tle Two-line-element.
@@ -236,7 +236,7 @@ class Mount : public ConcreteDevice
          * @brief Send the coordinates to the mount's INDI driver. Due to the INDI implementation, this
          * function is shared for syncing, slewing and other (partly scope specific) functions like the
          * setting parking position. The interpretation of the coordinates depends in the setting of other
-         * INDI switches for slewing, synching, tracking etc.
+         * INDI switches for slewing, syncing, tracking etc.
          * @param ScopeTarget target coordinates
          * @return true if sending the coordinates succeeded
          */

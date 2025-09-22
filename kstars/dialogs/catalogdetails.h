@@ -23,7 +23,7 @@ class CatalogDetails;
  * A dialog that shows catalog information and provides facilities to
  * edit catalog meta information and manage its contents (if the catalog
  * is mutable). It holds its own instance of `CatalogsDB::DBManager` and
- * can thus be instanciated with minimal dependencies on other parts of
+ * can thus be instantiated with minimal dependencies on other parts of
  * KStars.
  *
  * The dialog displays the 100 most visible objects matching the

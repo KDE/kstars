@@ -312,7 +312,7 @@ class GeoLocation
              *
              * @param vtopo[] Topocentric velocity. The resultant velocity is available
              *        in this array.
-             * @param gt Greenwich sideral time for which we want to compute the topocentric velocity.
+             * @param gt Greenwich sidereal time for which we want to compute the topocentric velocity.
              */
         void TopocentricVelocity(double vtopo[], const dms &gt);
 

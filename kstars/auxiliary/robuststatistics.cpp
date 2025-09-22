@@ -11,7 +11,7 @@ namespace Mathematics::RobustStatistics
 {
 using namespace Mathematics::GSLHelpers;
 
-// int64 code is currently deactiovated by GSLHELPERS_INT64. It doesn't compile on Mac becuase it
+// int64 code is currently deactiovated by GSLHELPERS_INT64. It doesn't compile on Mac because it
 // won't cast a long long * to a long * even though they are both 64bit pointers.
 // On 32bit systems this would be an issue because they are not the same.
 // If the int64 versions are required in future then this "problem" will need to

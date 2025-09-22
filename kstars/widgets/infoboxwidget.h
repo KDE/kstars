@@ -62,7 +62,7 @@ class InfoBoxWidget : public QWidget
 
     /** Check whether box is shaded. In this case only one line is shown. */
     bool shaded() const { return m_shaded; }
-    /** Get stickyness status of */
+    /** Get stickiness status of */
     int sticky() const { return m_anchor; }
 
     /** Adjust widget's position */

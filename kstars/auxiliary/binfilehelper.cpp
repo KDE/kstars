@@ -104,7 +104,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader()
     ASCII_text[124] = '\0';
     headerText      = ASCII_text;
 
-    // Find out endianess from reading "KS" 0x4B53 in the binary file which was encoded on a little endian machine
+    // Find out endianness from reading "KS" 0x4B53 in the binary file which was encoded on a little endian machine
     // Therefore, in the binary file it is written as 53 4B (little endian as least significant byte is stored first),
     // and when read on a little endian machine then it results in 0x4B53 (least significant byte is stored first in memory),
     // whereas a big endian machine would read it as 0x534B (most significant byte is stored first in memory).

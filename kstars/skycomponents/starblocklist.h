@@ -75,7 +75,7 @@ class StarBlockList
     inline long getStarCount() const { return nStars; }
 
     /**
-     * @short  Returns the total number of blocks in theis StarBlockList
+     * @short  Returns the total number of blocks in this StarBlockList
      * @return Number of blocks in this StarBlockList
      */
     inline int getBlockCount() const { return nBlocks; }

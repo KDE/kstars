@@ -18,7 +18,7 @@ class KConfigDialog;
  * to modify display of the major object catalogs in KStars:
  * @li Hipparcos/Tycho Star Catalog
  *
- * DSO catalog control is deffered to `CatacalogsDBUI`.
+ * DSO catalog control is deferred to `CatacalogsDBUI`.
  *
  * @short Catalog page of the Options window.
  * @author Jason Harris

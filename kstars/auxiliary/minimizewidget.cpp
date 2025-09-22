@@ -71,7 +71,7 @@ void MinimizeWidget::setupUI(bool initiallyMinimized, void(*setOption)(bool))
     else
     {
         fprintf(stderr, "missing a child\n");
-        qDebug() << "MinimizeWidget: WARNING: Could not find both a mimimized and maximized widget cchild.";
+        qDebug() << "MinimizeWidget: WARNING: Could not find both a minimized and maximized widget child.";
     }
 
     setMinimized(initiallyMinimized);

@@ -47,7 +47,7 @@ class KSMessageBox: public QMessageBox
         void transient(const QString &message, const QString &title);
 
         /**
-         * @brief selectResponse Programatically select one the buttons in the dialog.
+         * @brief selectResponse Programmatically select one the buttons in the dialog.
          * @param button text of button to click
          * @return True if button is found and clicked, false otherwise.
          */

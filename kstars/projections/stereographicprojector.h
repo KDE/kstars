@@ -12,7 +12,7 @@
 /**
  * @class StereographicProjector
  *
- * Implememntation of <a href="https://en.wikipedia.org/wiki/Stereographic_projection">Stereographic projection</a>
+ * Implementation of <a href="https://en.wikipedia.org/wiki/Stereographic_projection">Stereographic projection</a>
  *
  */
 class StereographicProjector : public Projector

@@ -20,7 +20,7 @@
 //           LOCATION_TRIMMEDMEAN   - discard a specified fraction of high/low values before calculating the mean
 //           LOCATION_GASTWIRTH     - use the Gastwirth estimator based on combining different quantiles
 //                                    see https://www.gnu.org/software/gsl/doc/html/statistics.html#gastwirth-estimator
-//           LOCATION_SIGMACLIPPING - single step sigma clipping routine to sigma clip outliers fron the
+//           LOCATION_SIGMACLIPPING - single step sigma clipping routine to sigma clip outliers from the
 //                                    input data and calculate the mean from the remaining data
 //
 // Scale:    SCALE_VARIANCE         - variance

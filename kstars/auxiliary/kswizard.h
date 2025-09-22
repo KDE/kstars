@@ -128,7 +128,7 @@ class KSWizard : public QDialog
          */
         void initGeoPage();
 
-        /** @short set enabled/disable state of Next/Prev buttins based on current page */
+        /** @short set enabled/disable state of Next/Prev buttons based on current page */
         void setButtonsEnabled();
 
 #ifdef Q_OS_MACOS

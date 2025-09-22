@@ -27,7 +27,7 @@ class CatalogCSVImport;
  * Custom Conversion Logic
  *
  * This requires some template magic to give the parser information
- * wether to use degrees or hours.
+ * whether to use degrees or hours.
  */
 enum coord_unit
 {

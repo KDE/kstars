@@ -49,7 +49,7 @@ class ImageLabel : public QFrame
  * save these files. For other formats, like PNG, this is not so important
  * because they can directly saved by QImage.
  *
- * The download-slave works asynchron so the parent-widget can be used at
+ * The download-slave works asynchronously so the parent-widget can be used at
  * this time. The save-slave works synchronously, but this is not important
  * because the files are at this time local saved and this works not so long.
  */

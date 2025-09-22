@@ -45,7 +45,7 @@ enum ColumnIndex
     NUM_COLUMNS
 };
 
-// These needs to be syncronized with enum Status and initializeGui::StatusNames().
+// These needs to be synchronized with enum Status and initializeGui::StatusNames().
 constexpr int UNPROCESSED_INDEX = 0;
 constexpr int OK_INDEX = 4;
 

@@ -141,7 +141,7 @@ class KSUserDB
          * @brief Updates the passed reference of observer_list with all observers
          * The original content of the list is cleared.
          *
-         * @return true if database read was successfull, false otherwise.
+         * @return true if database read was successful, false otherwise.
          **/
         bool GetAllObservers(QList<OAL::Observer *> &observer_list);
 #endif

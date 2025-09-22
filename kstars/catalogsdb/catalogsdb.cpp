@@ -53,7 +53,7 @@ std::pair<bool, QString> migrate_db(const int version, QSqlDatabase &db,
     if (prefix.size() > 0)
         prefix += ".";
 
-    // we have to add the timestamp collumn to the catalogs
+    // we have to add the timestamp column to the catalogs
     if (version < 2)
     {
         QSqlQuery add_ts{ db };

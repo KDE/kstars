@@ -13,7 +13,7 @@
  *
  * -- James B. Bowlin
  *
- * We may transition to the use of smart pointers whereever possible. Gathering
+ * We may transition to the use of smart pointers wherever possible. Gathering
  * syntactic sugar here, takes the pain of it away.
  *
  * Conventions:

@@ -41,7 +41,7 @@
   every visible trixel than the same object can be drawn repeatedly if
   it is covered by more than one trixel and if more than one of its
   covering trixels is visible.  This is not a rare event.  It is
-  a very common occurence and if left unchecked, it would destroy much of
+  a very common occurrence and if left unchecked, it would destroy much of
   the efficiency we gained by implementing the index in the first place.
 
   Fortunately, there is an easy solution to prevent any given object from
@@ -388,7 +388,7 @@
     they use match the *ListIndex file they subclass.
 
     \subsubsection ConstellationBoundaryPoly ConstellationBoundaryPoly class
-    Originally this was a subclass of LineListIndex but everthing is
+    Originally this was a subclass of LineListIndex but everything is
     different about it so now it (and PolyListIndex) is in a class by
     themselves.  Same with PolyList which used to be a subclass of
     LineList.  Here are the differences:

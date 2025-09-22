@@ -54,7 +54,7 @@ class Weather : public ConcreteDevice
         }
         /**
          * @brief jsondata Used for DBus
-         * @return Weahter data in JSON Format
+         * @return Weather data in JSON Format
          */
         QByteArray jsonData() const
         {

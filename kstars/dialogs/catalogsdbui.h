@@ -32,7 +32,7 @@ class CatalogsDBUI : public QDialog
 
   private slots:
     /**
-     * Activates the apropriate buttons.
+     * Activates the appropriate buttons.
      */
     void row_selected(int row, int);
 
@@ -71,7 +71,7 @@ class CatalogsDBUI : public QDialog
      * Creates a new catalog based on \p `catalog` by prompting for the
      * relevant details.
      *
-     * returns wether a catalog was created and the id of the created catalog
+     * returns whether a catalog was created and the id of the created catalog
      */
     std::pair<bool, int> create_new_catalog(const CatalogsDB::Catalog &catalog);
 
@@ -88,7 +88,7 @@ class CatalogsDBUI : public QDialog
     void show_color_editor();
 
     /**
-     * Dublicate the selected catalog, inserting it as a new catalog
+     * Duplicate the selected catalog, inserting it as a new catalog
      * and prompt for meta-data edit.
      */
     void dublicate_catalog();
@@ -117,7 +117,7 @@ class CatalogsDBUI : public QDialog
      */
     const std::pair<bool, CatalogsDB::Catalog> get_selected_catalog();
 
-    /** Remeber the directory where we last loaded a catalog from */
+    /** Remember the directory where we last loaded a catalog from */
     QString m_last_dir;
 };
 

@@ -462,7 +462,7 @@ void DeviceManager::checkMsg(XMLEle *root, INDI_D *dp)
         doMsg(root, dp);
 }
 
-/* display valu of message and timestamp in dp's scrolled area, if any, else general.
+/* display value of message and timestamp in dp's scrolled area, if any, else general.
  * prefix our time stamp if not included.
  * N.B. don't put carriage control in msg, we take care of that.
  */

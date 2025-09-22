@@ -93,7 +93,7 @@ class ConcreteDevice : public GDInterface
             return m_DBusObjectPath;
         }
 
-        // No implmenetation by default
+        // No implementation by default
         virtual void registerProperty(INDI::Property) override {}
         virtual void removeProperty(INDI::Property) override {}
         virtual void updateProperty(INDI::Property prop) override;
@@ -123,7 +123,7 @@ class ConcreteDevice : public GDInterface
         void Connected();
         void Disconnected();
 
-        // Registeration
+        // Registration
         void propertyDefined(INDI::Property prop);
         void propertyUpdated(INDI::Property prop);
         void propertyDeleted(INDI::Property prop);

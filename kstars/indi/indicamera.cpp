@@ -603,7 +603,7 @@ bool Camera::saveCurrentImage(QString &filename)
             fileWriteThread.waitForFinished();
         }
 
-        // Wait until the file is written before overwritting the filename.
+        // Wait until the file is written before overwriting the filename.
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         fileWriteThread = QtConcurrent::run(&ISD::Camera::WriteImageFileInternal, this, filename, fileWriteBuffer,
                                             fileWriteBufferSize);

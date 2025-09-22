@@ -79,7 +79,7 @@ class MapCanvas : public QFrame
          */
     void mousePressEvent(QMouseEvent *e) override;
 
-    /**Convert geo co-ordinates to a scaled position on the map*/
+    /**Convert geo coordinates to a scaled position on the map*/
     void convertAndScale(QPoint &o, GeoLocation &g);
 
   private:

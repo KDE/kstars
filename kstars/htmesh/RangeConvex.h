@@ -168,7 +168,7 @@ class LINKAGE RangeConvex
     size_t addlevel_;                  // additional levels to calculate
     ValueVectorUint64 *plist_;         // list of partial node ids
   private:
-    // Disallow copying and assignemnt
+    // Disallow copying and assignment
     RangeConvex(const RangeConvex &);
     RangeConvex &operator=(const RangeConvex &);
 };

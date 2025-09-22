@@ -608,7 +608,7 @@ void ServerManager::connectScriptDriver(const QSharedPointer<DriverInfo> &driver
             manager->connectDevice(property.getDeviceName());
     });
     manager->establishConnection();
-    // Destory after 5 seconds in all cases
+    // Destroy after 5 seconds in all cases
     QTimer::singleShot(5000, this, [manager]()
     {
         manager->disconnect();

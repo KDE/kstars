@@ -511,7 +511,7 @@ bool LocationDialogLite::setLocation(const QString &fullName)
         // reset next dst change time
         data->setNextDSTChange(geo->tzrule()->nextDSTChange());
 
-        // reset local sideral time
+        // reset local sidereal time
         data->syncLST();
 
         // Make sure Numbers, Moon, planets, and sky objects are updated immediately

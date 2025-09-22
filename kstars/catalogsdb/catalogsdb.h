@@ -70,12 +70,12 @@ struct Catalog
     QString description = "";
 
     /**
-     * Wether the catalog is mutable.
+     * Whether the catalog is mutable.
      */
     bool mut = false;
 
     /**
-     * Wether the catalog is enabled.
+     * Whether the catalog is enabled.
      */
     bool enabled = false;
 
@@ -227,7 +227,7 @@ class DBManager
     const QString &db_file_name() const { return m_db_file; };
 
     /**
-     * @return wether the catalog with the \p id has been found and
+     * @return whether the catalog with the \p id has been found and
      * the catalog.
      *
      * @todo use std::optional when transitioning to c++17
@@ -275,7 +275,7 @@ class DBManager
      * fields in all enabled catalogs for \p `name` and then return a new
      * instance of `CatalogObject` sourced from the master catalog.
      *
-     * \param limit Upper limit to the quanitity of results. `-1` means "no
+     * \param limit Upper limit to the quantity of results. `-1` means "no
      * limit"
      * \param exactMatchOnly If true, the supplied name must match exactly
      *
@@ -306,9 +306,9 @@ class DBManager
      * order_by ...`.
      *
      * To be used if performance does not matter (much).
-     * \p order_by can be ommitted.
+     * \p order_by can be omitted.
      *
-     * \return wether the query was successful, an error message if
+     * \return whether the query was successful, an error message if
      * any and a list of matching objects
      */
     std::tuple<bool, const QString, CatalogObjectList>
@@ -316,7 +316,7 @@ class DBManager
                          const int limit = -1);
 
     /**
-     * \brief Get an object by \p `oid`. Optinally a \p `catalog_id` can be speicfied.
+     * \brief Get an object by \p `oid`. Optionally a \p `catalog_id` can be specified.
      *
      * \returns if the object was found and the object itself
      */
@@ -359,7 +359,7 @@ class DBManager
 
     /**
      * \brief Enable or disable a catalog.
-     * \return `true` in case of succes, `false` and an error message in case
+     * \return `true` in case of success, `false` and an error message in case
      * of an error
      *
      * This will recreate the master table.
@@ -368,7 +368,7 @@ class DBManager
 
     /**
      * \brief remove a catalog
-     * \return `true` in case of succes, `false` and an error message
+     * \return `true` in case of success, `false` and an error message
      * in case of an error
      *
      * This will recreate the master table.
@@ -379,7 +379,7 @@ class DBManager
      * Add a `CatalogObject` to a table with \p `catalog_id`. For the rest of
      * the arguments see `CatalogObject::CatalogObject`.
      *
-     * \returns wether the operation was successful and if not, an error
+     * \returns whether the operation was successful and if not, an error
      * message
      */
     std::pair<bool, QString> add_object(const int catalog_id, const SkyObject::TYPE t,
@@ -394,7 +394,7 @@ class DBManager
      * Add the \p `object` to a table with \p `catalog_id`. For the
      * rest of the arguments see `CatalogObject::CatalogObject`.
      *
-     * \returns wether the operation was successful and if not, an
+     * \returns whether the operation was successful and if not, an
      * error message
      */
     std::pair<bool, QString> add_object(const int catalog_id, const CatalogObject &obj);
@@ -403,7 +403,7 @@ class DBManager
      * Add the \p `objects` to a table with \p `catalog_id`. For the
      * rest of the arguments see `CatalogObject::CatalogObject`.
      *
-     * \returns wether the operation was successful and if not, an
+     * \returns whether the operation was successful and if not, an
      * error message
      */
     std::pair<bool, QString> add_objects(const int catalog_id,
@@ -415,7 +415,7 @@ class DBManager
      *
      * Refreshes the master catalog.
      *
-     * \returns wether the operation was successful and if not, an
+     * \returns whether the operation was successful and if not, an
      * error message
      */
     std::pair<bool, QString> remove_object(const int catalog_id,
@@ -431,7 +431,7 @@ class DBManager
      * values, but otherwise the dump format is equal to the internal
      * database format.
      *
-     * \returns wether the operation was successful and if not, an error
+     * \returns whether the operation was successful and if not, an error
      * message
      */
     std::pair<bool, QString> dump_catalog(int catalog_id, QString file_path);
@@ -445,7 +445,7 @@ class DBManager
      * `CatalogsDB::application_id` and the pragma `user_version` to match
      * the database format version.
      *
-     * \returns wether the operation was successful and if not, an error
+     * \returns whether the operation was successful and if not, an error
      * message
      */
     std::pair<bool, QString> import_catalog(const QString &file_path,
@@ -474,7 +474,7 @@ class DBManager
     std::pair<bool, QString> register_catalog(const Catalog &cat);
 
     /**
-     * Update the metatadata \p `catalog`.
+     * Update the metadata \p `catalog`.
      *
      * The updated fields are: title, author, source, description.
      *
@@ -508,7 +508,7 @@ class DBManager
      * Compiles the master catalog by merging the individual catalogs based
      * on `oid` and precedence and creates an index by (trixel, magnitude) on
      * the master table. **Caution** you may want to call
-     * `update_catalog_views` beforhand.
+     * `update_catalog_views` beforehand.
      *
      * @return true in case of success, false in case of an error
      */
@@ -539,7 +539,7 @@ class DBManager
     CatalogColorMap get_catalog_colors(const int id);
 
     /** Saves the configures colors of the catalog with id \p id in \p
-     * colors into the database.  \returns wether the insertion was
+     * colors into the database.  \returns whether the insertion was
      * possible and an error message if not.
      */
     std::pair<bool, QString> insert_catalog_colors(const int id,
@@ -560,7 +560,7 @@ class DBManager
 
     //@{
     /**
-     * Some performance criticall sql queries are prepared stored as memebers.
+     * Some performance critical sql queries are prepared stored as members.
      * When using those queries `m_mutex` should be locked!
      *
      * \sa prepare_queries
@@ -659,7 +659,7 @@ class DBManager
     CatalogObjectList fetch_objects(QSqlQuery &query) const;
 
     /**
-     * Internal implementation to forcably remove a catalog (even the
+     * Internal implementation to forcibly remove a catalog (even the
      * user catalog, use with caution!)
      */
     std::pair<bool, QString> remove_catalog_force(const int id);

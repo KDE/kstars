@@ -1202,7 +1202,7 @@ void Logging::SyncFilterRules()
 QString getDefaultPath(const QString &option)
 {
     // We support running within Snaps, Flatpaks, and AppImage
-    // The path should accomodate the differences between the different
+    // The path should accommodate the differences between the different
     // packaging solutions
     QString snap   = QProcessEnvironment::systemEnvironment().value("SNAP");
     QString appimg = QProcessEnvironment::systemEnvironment().value("APPDIR");
@@ -1657,7 +1657,7 @@ bool addAstrometryDataDir(const QString &dataDir)
                 }
                 else
                 {
-                    //Do not keep adding the other add_paths because they just got added in the seciton above.
+                    //Do not keep adding the other add_paths because they just got added in the section above.
                 }
             }
             else

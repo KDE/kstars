@@ -12,7 +12,7 @@
 /**
  * @class LambertProjector
  *
- * Implememntation of <a href="https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection">Lambert azimuthal equal-area projection</a>
+ * Implementation of <a href="https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection">Lambert azimuthal equal-area projection</a>
  *
  */
 class LambertProjector : public Projector

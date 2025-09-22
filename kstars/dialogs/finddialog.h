@@ -55,7 +55,7 @@ class FindDialog : public QDialog
 
     /**
      * @brief exec overrides base's QDialog::exec() to provide a parent widget.
-     * @param parent is the widget to position the FindDialog instance againt.
+     * @param parent is the widget to position the FindDialog instance against.
      * @return QDialog::exec() result.
      */
     int execWithParent(QWidget* parent = nullptr);

@@ -35,7 +35,7 @@ const std::vector<std::pair<QString, std::tuple<QString, QString, bool>>> fields
 
 QWidget *type_selector_widget()
 {
-    auto *pWidget = new QWidget{}; // no parent as receiver takes posession
+    auto *pWidget = new QWidget{}; // no parent as receiver takes possession
     auto *pLayout = new QHBoxLayout(pWidget);
     auto *pCombo  = new QComboBox{};
 

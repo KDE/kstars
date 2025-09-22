@@ -313,7 +313,7 @@ void appendGreatCirclePoints(double az1, double alt1, double az2, double alt2, L
 // Draws a polygon, where one of the sides is az1,alt1 --> az2,alt2 (except that's implemented as series
 // of connected line segments along a great circle).
 // It figures out the opposite side depending on the type of the constraint for this entity
-// (horizon line or ceiling) and the other contraints that are enabled.
+// (horizon line or ceiling) and the other constraints that are enabled.
 bool ArtificialHorizon::computePolygon(int entity, double az1, double alt1, double az2, double alt2,
                                        double sampling, LineList *region)
 {
@@ -755,7 +755,7 @@ const ArtificialHorizonEntity *ArtificialHorizon::getConstraintAbove(double azim
     return entity;
 }
 
-// Estimate the horizon contraint to .1 degrees.
+// Estimate the horizon constraint to .1 degrees.
 // This significantly speeds up computation.
 constexpr int PRECOMPUTED_RESOLUTION = 10;
 
