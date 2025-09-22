@@ -1452,6 +1452,7 @@ void ImagingPlanner::initialize()
     installEventFilters();
 
     m_PlateSolve = new PlateSolve(this);
+    m_PlateSolve->disableOverlay();  // Sharing the aux button.
     m_PlateSolve->enableAuxButton("Retake screenshot",
                                   "Retake the screenshot of the object if you're having issues solving.");
     connect(m_PlateSolve.data(), &PlateSolve::clicked, this, &ImagingPlanner::extractImage, Qt::UniqueConnection);

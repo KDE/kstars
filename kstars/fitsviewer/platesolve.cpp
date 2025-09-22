@@ -13,6 +13,10 @@
 #include "fitsdata.h"
 #include "skymap.h"
 #include <fits_debug.h>
+#include "imageoverlaycomponent.h"
+#include "skymapcomposite.h"
+#include "kstars.h"
+#include "stretch.h"
 
 QPointer<Ekos::StellarSolverProfileEditor> PlateSolve::m_ProfileEditor = nullptr;
 QPointer<KConfigDialog> PlateSolve::m_EditorDialog = nullptr;
@@ -92,6 +96,8 @@ void PlateSolve::setup()
     });
     connect(SolveButton, &QPushButton::clicked, this, [this]()
     {
+        if (!m_overlayDisabled)
+            disableAuxButton();
         if (m_Solver.get() && m_Solver->isRunning())
         {
             SolveButton->setText(i18n("Aborting..."));
@@ -466,6 +472,13 @@ void PlateSolve::solverDone(bool timedOut, bool success, const FITSImage::Soluti
         FitsSolverEstDec->show(dms(solution.dec));
 
         Solution2->setText(result);
+
+        if (!m_overlayDisabled)
+        {
+            enableAuxButton("Overlay on SkyMap",
+                            "Temporarily overlay the image on the SkyMap. The overlay is not permanent, but just lasts for this KStars instance.");
+            connect(this, &PlateSolve::auxClicked, this, &PlateSolve::overlayImage, Qt::UniqueConnection);
+        }
         emit solverSuccess();
     }
 }
@@ -506,6 +519,88 @@ void PlateSolve::subSolverDone(bool timedOut, bool success, const FITSImage::Sol
     m_imageData->stackLoadWCS();
     emit subSolverSuccess();
 #endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
+}
+
+void PlateSolve::centerOnSkymap()
+{
+    m_SolvedObject.reset(new SkyObject(SkyObject::TYPE_UNKNOWN, dms(m_Solution.ra), dms(m_Solution.dec)));
+
+    // Set up the Alt/Az coordinates that SkyMap needs.
+    auto geo = KStarsData::Instance()->geo();
+    KStarsDateTime time = KStarsData::Instance()->clock()->utc();
+    dms lst = geo->GSTtoLST(time.gst());
+    m_SolvedObject->EquatorialToHorizontal(&lst, geo->lat());
+
+    // Doing this to avoid the pop-up warning that an object is below the ground.
+    bool keepGround = Options::showGround();
+    bool keepAnimatedSlew = Options::useAnimatedSlewing();
+    Options::setShowGround(false);
+    Options::setUseAnimatedSlewing(false);
+
+    SkyMap::Instance()->setClickedObject(m_SolvedObject.get());
+    SkyMap::Instance()->setFocusObject(m_SolvedObject.get());
+    SkyMap::Instance()->setClickedPoint(m_SolvedObject.get());
+    SkyMap::Instance()->slotCenter();
+
+    Options::setShowGround(keepGround);
+    Options::setUseAnimatedSlewing(keepAnimatedSlew);
+}
+
+void PlateSolve::overlayImage()
+{
+    if (m_imageData.isNull()) return;
+    const FITSImage::Solution &solution = m_Solution;
+    ImageOverlay overlay;
+    overlay.m_Orientation = solution.orientation;
+    overlay.m_RA = solution.ra;
+    overlay.m_DEC = solution.dec;
+    overlay.m_ArcsecPerPixel = solution.pixscale;
+    overlay.m_EastToTheRight = solution.parity;
+    overlay.m_Status = ImageOverlay::AVAILABLE;
+
+    QSharedPointer<QImage> tempImage;
+    if (kcfg_FitsSolverLinear->isChecked() )
+    {
+        Stretch stretch(static_cast<int>(m_imageData->width()),
+                        static_cast<int>(m_imageData->height()),
+                        m_imageData->channels(), m_imageData->dataType());
+
+        StretchParams tempParams = stretch.computeParams(m_imageData->getImageBuffer(), 1);
+        stretch.setParams(tempParams);
+        if (m_imageData->channels() == 1)
+        {
+            tempImage.reset(new QImage(m_imageData->width(), m_imageData->height(), QImage::Format_Indexed8));
+            tempImage->setColorCount(256);
+            for (int i = 0; i < 256; i++)
+                tempImage->setColor(i, qRgb(i, i, i));
+        }
+        else
+        {
+            tempImage.reset(new QImage(m_imageData->width(), m_imageData->height(), QImage::Format_RGB32));
+        }
+        stretch.run(m_imageData->getImageBuffer(), tempImage.get(), 1);
+    }
+    else
+    {
+        tempImage.reset(new QImage(m_imageData->filename()));
+    }
+
+    const bool mirror = !solution.parity;
+    const int scaleWidth = std::min((int) m_imageData->width(), Options::imageOverlayMaxDimension());
+    QImage *processedImg = new QImage;
+    if (mirror)
+        *processedImg = tempImage->mirrored(true, false).scaledToWidth(scaleWidth); // It's reflected horizontally.
+    else
+        *processedImg = tempImage->scaledToWidth(scaleWidth);
+    overlay.m_Img.reset(processedImg);
+    overlay.m_Width = processedImg->width();
+    overlay.m_Height = processedImg->height();
+    KStarsData::Instance()->skyComposite()->imageOverlay()->show();
+    overlay.m_ArcsecPerPixel = overlay.m_ArcsecPerPixel * m_imageData->width() / scaleWidth;
+    KStarsData::Instance()->skyComposite()->imageOverlay()->addTemporaryImageOverlay(overlay);
+    centerOnSkymap();
+    KStars::Instance()->activateWindow();
+    KStars::Instance()->raise();
 }
 
 // Each module can default to its own profile index. These two methods retrieves and saves

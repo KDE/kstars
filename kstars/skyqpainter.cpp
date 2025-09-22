@@ -309,11 +309,11 @@ void SkyQPainter::initStarImages()
 
         if (Options::starColorMode() == 0)
         {
-            #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
             float h, s, v, a;
-            #else
+#else
             qreal h, s, v, a;
-            #endif
+#endif
             p.setRenderHint(QPainter::Antialiasing, false);
             QColor starColor = ColorMap[color];
             starColor.getHsvF(&h, &s, &v, &a);
@@ -875,9 +875,6 @@ bool SkyQPainter::drawTerrain(bool useCache)
 bool SkyQPainter::drawImageOverlay(const QList<ImageOverlay> *imageOverlays, bool useCache)
 {
     Q_UNUSED(useCache);
-    if (!Options::showImageOverlays())
-        return false;
-
     constexpr int minDisplayDimension = 5;
 
     // Convert the RA/DEC from j2000 to jNow and add in az/alt computations.
