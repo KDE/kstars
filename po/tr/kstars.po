@@ -16,15 +16,15 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-20 02:01+0000\n"
-"PO-Revision-Date: 2025-09-16 06:15+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
-"Language-Team: Turkish <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2025-09-21 19:01+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
+"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.07.70\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -11706,22 +11706,7 @@ msgid "(ΔAlt=%1)"
 msgstr "(ΔAlt=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:621
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Graphics tooltip; colume 1 is a header, column 2 is focus position, "
-#| "column 3 is temperature in °C, colunm 4 is altitude in °AltRow 1 is the "
-#| "headers, row 2 is the measured position, row 3 are the adaptations for "
-#| "temperature and altitude, row 4 is adapted position"
-#| msgid ""
-#| "<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
-#| "padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
-#| "caption { text-align: center; vertical-align: top; font-weight: bold; "
-#| "margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
-#| "align=top>Adapt Focus Explainer</caption><tr><th></th><th>Position</"
-#| "th><th>Temperature (°C)</th><th>Altitude (°Alt)</th></tr><tr><th>Measured "
-#| "Pos</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></tr><tr><th>Adaptations</"
-#| "th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
-#| "td></tr></table></body>"
+#, kde-format
 msgctxt ""
 "Graphics tooltip; column 1 is a header, column 2 is focus position, column 3 "
 "is temperature in °C, column 4 is altitude in °AltRow 1 is the headers, row "
@@ -14917,11 +14902,7 @@ msgstr "Yer tutucu biçimini öntanımlıya sıfırla"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/camera.ui:1810
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target is the name of the targetted object.</"
-#| "p><p>It is available to be used in the filename Format via the %t or "
-#| "%type placeholder tag.</p></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Target is the name of the targeted object.</p><p>It is "
 "available to be used in the filename Format via the %t or %type placeholder "
@@ -16342,9 +16323,7 @@ msgid "Switch display to the graphical mode of capture counts display."
 msgstr "Yakalama sayısını grafiksel olarak görüntüle"
 
 #: ekos/capture/capturedeviceadaptor.cpp:423
-#, fuzzy, kde-format
-#| msgid ""
-#| "Filter manager is not initilized yet. Filter wheel missing from train?"
+#, kde-format
 msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr ""
 "Süzgeç yöneticisi henüz ilklendirilmedi. Katarda süzgeç tekerleği mi eksik?"
@@ -20116,10 +20095,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:66
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to have Focus Advisor search for stars. If you are close enough to "
-#| "Focus to see stars in the Focus frame then this step is not neccessary."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor search for stars. If you are close enough to "
 "Focus to see stars in the Focus frame then this step is not necessary."

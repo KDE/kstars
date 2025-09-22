@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-20 02:01+0000\n"
-"PO-Revision-Date: 2025-09-20 11:44-0300\n"
+"PO-Revision-Date: 2025-09-21 16:53-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -29490,7 +29490,7 @@ msgstr "Desbloquear a montagem"
 #: ekos/scheduler/scheduler.ui:2078
 #, kde-format
 msgid "Open dust cover"
-msgstr "Abre a tampa anti-pó"
+msgstr "Abre a tampa anti-poeira"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerOpenDustCover)
 #: ekos/scheduler/scheduler.ui:2081
@@ -29542,7 +29542,7 @@ msgstr "Aquecer o CCD"
 #: ekos/scheduler/scheduler.ui:2228
 #, kde-format
 msgid "Close dust cover"
-msgstr "Fecha a tampa anti-pó"
+msgstr "Fecha a tampa anti-poeira"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerCloseDustCover)
 #: ekos/scheduler/scheduler.ui:2231
@@ -71284,12 +71284,14 @@ msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
 "cannot be used with Ekos. Do you still want to open INDI device manager?"
 msgstr ""
+"O gerenciador de dispositivos INDI deve ser usado apenas por usuários "
+"técnicos avançados. Ele não pode ser usado com o Ekos. Você ainda deseja "
+"abrir o gerenciador de dispositivos INDI?"
 
 #: kstarsactions.cpp:749
-#, fuzzy, kde-format
-#| msgid "Device Manager"
+#, kde-format
 msgid "INDI Device Manager"
-msgstr "Gerenciador de dispositivos"
+msgstr "Gerenciador de dispositivos INDI"
 
 #: kstarsactions.cpp:1130
 #, kde-format
@@ -71302,18 +71304,15 @@ msgid "Guides"
 msgstr "Guias"
 
 #: kstarsactions.cpp:1145
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Terrassa"
+#, kde-format
 msgid "Terrain"
-msgstr "Terrassa"
+msgstr "Terreno"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
 #: kstarsactions.cpp:1148 options/opsimageoverlay.ui:202
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "Image Overlays"
-msgstr "Sobreposição"
+msgstr "Sobreposições de imagem"
 
 #: kstarsactions.cpp:1178
 #, kde-format
@@ -71321,40 +71320,32 @@ msgid "Xplanet"
 msgstr "Xplanet"
 
 #: kstarsactions.cpp:1184
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Revelstoke"
+#, kde-format
 msgid "Developer"
-msgstr "Revelstoke"
+msgstr "Desenvolvedor"
 
 #: kstarsactions.cpp:1202 kstarsactions.cpp:2065 kstarsinit.cpp:287
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Terrassa"
+#, kde-format
 msgid "Hide Terrain"
-msgstr "Terrassa"
+msgstr "Ocultar terreno"
 
 #: kstarsactions.cpp:1202 kstarsactions.cpp:2065 kstarsinit.cpp:288
-#, fuzzy, kde-format
-#| msgid "Show details..."
+#, kde-format
 msgid "Show Terrain"
-msgstr "Mostrar detalhes..."
+msgstr "Mostrar terreno"
 
 #: kstarsactions.cpp:1206 kstarsactions.cpp:2075 kstarsinit.cpp:292
-#, fuzzy, kde-format
-#| msgid "HiPS All Sky Overlay"
+#, kde-format
 msgid "Hide Image Overlays"
-msgstr "Toda a sobreposição celeste HiPS"
+msgstr "Ocultar sobreposições de imagem"
 
 #: kstarsactions.cpp:1206 kstarsactions.cpp:2075 kstarsinit.cpp:293
-#, fuzzy, kde-format
-#| msgid "Show HiPS Grid"
+#, kde-format
 msgid "Show Image Overlays"
-msgstr "Mostrar grade HiPS"
+msgstr "Mostrar sobreposições de imagem"
 
 #: kstarsactions.cpp:1369
-#, fuzzy, kde-format
-#| msgid "Export Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Exportar imagem"
@@ -71436,16 +71427,14 @@ msgid "Do Not Switch"
 msgstr "Não mudar"
 
 #: kstarsactions.cpp:1565
-#, fuzzy, kde-format
-#| msgid "Run clock"
+#, kde-format
 msgid "Stop running clock in realtime"
-msgstr "Executar o relógio"
+msgstr "Parar a execução do relógio em tempo real"
 
 #: kstarsactions.cpp:1583 kstarsinit.cpp:205
-#, fuzzy, kde-format
-#| msgid "Run clock"
+#, kde-format
 msgid "Run clock in realtime"
-msgstr "Executar o relógio"
+msgstr "Executar o relógio em tempo real"
 
 #: kstarsactions.cpp:1627 kstarsinit.cpp:250
 #, kde-format
@@ -71482,38 +71471,31 @@ msgid "Enter a field-of-view angle in degrees: "
 msgstr "Digite um ângulo do campo de visão em graus: "
 
 #: kstarsactions.cpp:1801 kstarsinit.cpp:747
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
-msgstr "Norte"
+msgstr "Norte para &cima"
 
 #: kstarsactions.cpp:1804 kstarsinit.cpp:756
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Norton"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
-msgstr "Norton"
+msgstr "Norte para &baixo"
 
 #: kstarsactions.cpp:1820 kstarsinit.cpp:747
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
-msgstr "&Zênite"
+msgstr "&Zênite para cima"
 
 #: kstarsactions.cpp:1823 kstarsinit.cpp:756
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
-msgstr "&Zênite"
+msgstr "Zênite &para baixo"
 
 #: kstarsdata.cpp:50
-#, fuzzy, kde-format
-#| msgid "Critical File Not Found: %1"
+#, kde-format
 msgid "Critical File not Found: %1"
 msgstr "Arquivo crítico não encontrado: %1"
 
@@ -71549,22 +71531,23 @@ msgstr "Lendo as regras de fuso-horário"
 #, kde-format
 msgid "Upgrade existing user city db to support geographic elevation."
 msgstr ""
+"Atualizar o banco de dados de cidades do usuário existente para suportar "
+"elevação geográfica."
 
 #: kstarsdata.cpp:163
 #, kde-format
 msgid "Adding \"Elevation\" column to city table."
-msgstr ""
+msgstr "Adicionar a coluna \"Elevação\" à tabela de cidade."
 
 #: kstarsdata.cpp:177
 #, kde-format
 msgid "City table already contains \"Elevation\"."
-msgstr ""
+msgstr "A tabela de cidade já contém \"Elevação\"."
 
 #: kstarsdata.cpp:182
-#, fuzzy, kde-format
-#| msgid "This city already exists in the database."
+#, kde-format
 msgid "City table missing from database."
-msgstr "Esta cidade já existe no banco de dados."
+msgstr "A tabela de cidade não existe no banco de dados."
 
 #: kstarsdata.cpp:188
 #, kde-format
@@ -71595,12 +71578,17 @@ msgid ""
 "file may get truncated if KStars writes to the file later. Press Cancel to "
 "instead abort now and manually fix the problem. "
 msgstr ""
+"O arquivo de log de notas do usuário %1 está mal formatado na abertura da "
+"entrada começando em %2. O KStars ainda pode ser executado sem ler "
+"completamente este arquivo. Pressione Continuar para executar o KStars com a "
+"leitura parcial bem-sucedida. O arquivo pode ser truncado se o KStars gravar "
+"nele posteriormente. Pressione Cancelar para cancelar agora e corrigir o "
+"problema manualmente."
 
 #: kstarsdata.cpp:814
-#, fuzzy, kde-format
-#| msgid "Invalid file: %1"
+#, kde-format
 msgid "Malformed file %1"
-msgstr "Arquivo inválido: %1"
+msgstr "Arquivo mal formado: %1"
 
 #: kstarsdata.cpp:1159
 #, kde-format
@@ -71633,7 +71621,7 @@ msgstr ""
 #: kstarsdata.cpp:1670 kstarsdata.cpp:1692
 #, kde-format
 msgid "Userdata at index %1 does not exist."
-msgstr ""
+msgstr "Dados do usuário no índice %1 não existem."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
 #: kstarsdbus.cpp:78 tools/arglooktoward.ui:92
@@ -71690,8 +71678,7 @@ msgid "northwest"
 msgstr "noroeste"
 
 #: kstarsdbus.cpp:1027
-#, fuzzy, kde-format
-#| msgid "Print Sky"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print Sky"
 msgstr "Imprimir o céu"
@@ -71707,10 +71694,9 @@ msgid "Downloads new data"
 msgstr "Baixa novos dados"
 
 #: kstarsinit.cpp:155
-#, fuzzy, kde-format
-#| msgid "Open FITS..."
+#, kde-format
 msgid "Open Image(s)..."
-msgstr "Abrir FITS..."
+msgstr "Abrir imagem(ns)..."
 
 #: kstarsinit.cpp:170
 #, kde-format
@@ -71723,12 +71709,10 @@ msgid "&Run Script..."
 msgstr "&Executar script..."
 
 #: kstarsinit.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "start Printing Wizard"
-#| msgid "Printing &Wizard"
+#, kde-format
 msgctxt "start Printing Wizard"
 msgid "Printing &Wizard..."
-msgstr "&Assistente de impressão"
+msgstr "&Assistente de impressão..."
 
 #: kstarsinit.cpp:190
 #, kde-format
@@ -71747,28 +71731,24 @@ msgid "Stop &Clock"
 msgstr "Parar &relógio"
 
 #: kstarsinit.cpp:225
-#, fuzzy, kde-format
-#| msgid "Run clock"
+#, kde-format
 msgid "Resume Clock"
-msgstr "Executar o relógio"
+msgstr "Retomar relógio"
 
 #: kstarsinit.cpp:225
-#, fuzzy, kde-format
-#| msgid "Stop &Clock"
+#, kde-format
 msgid "Stop Clock"
-msgstr "Parar &relógio"
+msgstr "Parar relógio"
 
 #: kstarsinit.cpp:231
-#, fuzzy, kde-format
-#| msgid "Advance one step forward in time"
+#, kde-format
 msgid "Advance One Step Forward in Time"
-msgstr "Avance um período no tempo"
+msgstr "Avançar um passo para frente no tempo"
 
 #: kstarsinit.cpp:235
-#, fuzzy, kde-format
-#| msgid "Advance one step backward in time"
+#, kde-format
 msgid "Advance One Step Backward in Time"
-msgstr "Recue um período no tempo"
+msgstr "Avançar um passo para trás no tempo"
 
 #: kstarsinit.cpp:240
 #, kde-format
@@ -71819,7 +71799,7 @@ msgstr "&Ampliação para tamanho angular..."
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
-msgstr ""
+msgstr "Visualização espelhada"
 
 #: kstarsinit.cpp:297
 #, kde-format
@@ -71936,10 +71916,9 @@ msgid "&FOV Symbols"
 msgstr "Símbolos &CDV"
 
 #: kstarsinit.cpp:392
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgid "&Views"
-msgstr "E&xibir"
+msgstr "&Visualizações"
 
 #: kstarsinit.cpp:400
 #, kde-format
@@ -71947,10 +71926,9 @@ msgid "HiPS All Sky Overlay"
 msgstr "Toda a sobreposição celeste HiPS"
 
 #: kstarsinit.cpp:407
-#, fuzzy, kde-format
-#| msgid "Skymap Options"
+#, kde-format
 msgid "Skymap Orientation"
-msgstr "Opções do mapa celeste"
+msgstr "Orientação do mapa celeste"
 
 #: kstarsinit.cpp:413
 #, kde-format
@@ -71964,33 +71942,27 @@ msgid "Startup Wizard..."
 msgstr "Assistente de inicialização..."
 
 #: kstarsinit.cpp:435
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Deep Sky Catalogs"
+#, kde-format
 msgid "Manage DSO Catalogs"
-msgstr "Catálogos do espaço profundo"
+msgstr "Gerenciar catálogos DSO"
 
 #: kstarsinit.cpp:439
-#, fuzzy, kde-format
-#| msgid "Update comets orbital elements"
+#, kde-format
 msgid "Update Comets Orbital Elements"
 msgstr "Atualizar os elementos orbitais dos cometas"
 
 #: kstarsinit.cpp:441
-#, fuzzy, kde-format
-#| msgid "Update asteroids orbital elements"
+#, kde-format
 msgid "Update Asteroids Orbital Elements"
 msgstr "Atualizar os elementos orbitais dos asteroides"
 
 #: kstarsinit.cpp:443
-#, fuzzy, kde-format
-#| msgid "Update Recent Supernovae data"
+#, kde-format
 msgid "Update Recent Supernovae Data"
 msgstr "Atualizar os dados das supernovas recentes"
 
 #: kstarsinit.cpp:445
-#, fuzzy, kde-format
-#| msgid "Update satellites orbital elements"
+#, kde-format
 msgid "Update Satellites Orbital Elements"
 msgstr "Atualizar os elementos orbitais dos satélites"
 
@@ -72005,10 +71977,9 @@ msgid "Observation Planner"
 msgstr "Planejador de observação"
 
 #: kstarsinit.cpp:463
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgid "Imaging Planner"
-msgstr "Planejador de observação"
+msgstr "Planejador de imagem"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:467 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -72064,16 +72035,14 @@ msgid "Artificial Horizon..."
 msgstr "Horizonte artificial..."
 
 #: kstarsinit.cpp:523
-#, fuzzy, kde-format
-#| msgid "Execute the session Plan..."
+#, kde-format
 msgid "Execute the Session Plan..."
 msgstr "Executar o plano da sessão..."
 
 #: kstarsinit.cpp:527
-#, fuzzy, kde-format
-#| msgid "Hour angle:"
+#, kde-format
 msgid "Polaris Hour Angle..."
-msgstr "Ângulo horário:"
+msgstr "Ângulo horário polar..."
 
 #: kstarsinit.cpp:534
 #, kde-format
@@ -72272,17 +72241,15 @@ msgid "Toggle supernovae"
 msgstr "Exibir/ocultar supernovas"
 
 #: kstarsinit.cpp:640
-#, fuzzy, kde-format
-#| msgid "What's Interesting..."
+#, kde-format
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
-msgstr "O que há de interessante..."
+msgstr "O que há de interessante"
 
 #: kstarsinit.cpp:642
-#, fuzzy, kde-format
-#| msgid "What's Interesting..."
+#, kde-format
 msgid "Toggle What's Interesting"
-msgstr "O que há de interessante..."
+msgstr "Alternar O que há de interessante"
 
 #: kstarsinit.cpp:647
 #, kde-format
@@ -72318,11 +72285,10 @@ msgid "Toggle FITS Viewer"
 msgstr "Alterna o Visualizador FITS"
 
 #: kstarsinit.cpp:662
-#, fuzzy, kde-format
-#| msgid "Solver FOV"
+#, kde-format
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
-msgstr "CDV da resolução"
+msgstr "CDV do sensor"
 
 #: kstarsinit.cpp:664
 #, kde-format
@@ -72330,92 +72296,77 @@ msgid "Toggle Sensor FOV"
 msgstr "Alternar o sensor CDV"
 
 #: kstarsinit.cpp:669
-#, fuzzy, kde-format
-#| msgid "Mosaic FOV:"
+#, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
-msgstr "CDV em mosaico:"
+msgstr "Painel em mosaico"
 
 #: kstarsinit.cpp:671
-#, fuzzy, kde-format
-#| msgid "Toggle INDI Control Panel"
+#, kde-format
 msgid "Toggle Mosaic Panel"
-msgstr "Alterna o painel de controle do INDI"
+msgstr "Alternar painel em mosaico"
 
 #: kstarsinit.cpp:676
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Movement Control"
+#, kde-format
 msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
-msgstr "Controle do movimento"
+msgstr "Controle da montagem"
 
 #: kstarsinit.cpp:678
-#, fuzzy, kde-format
-#| msgid "Toggle INDI Control Panel"
+#, kde-format
 msgid "Toggle Mount Control Panel"
-msgstr "Alterna o painel de controle do INDI"
+msgstr "Alternar controle da montagem"
 
 #: kstarsinit.cpp:682
-#, fuzzy, kde-format
-#| msgid "Center in Telescope"
+#, kde-format
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
-msgstr "Centralizar no telescópio"
+msgstr "Centro do telescópio"
 
 #: kstarsinit.cpp:684
-#, fuzzy, kde-format
-#| msgid "Radio Telescope diameter:"
+#, kde-format
 msgid "Toggle Lock Telescope Center"
-msgstr "Diâmetro do rádio telescópio:"
+msgstr "Alternar bloqueio do centro do telescópio"
 
 #: kstarsinit.cpp:688
-#, fuzzy, kde-format
-#| msgid "Radio Telescope diameter:"
+#, kde-format
 msgid "Toggle Telescope Tracking"
-msgstr "Diâmetro do rádio telescópio:"
+msgstr "Alternar rastreamento do telescópio"
 
 #: kstarsinit.cpp:692
-#, fuzzy, kde-format
-#| msgid "Slew map to object"
+#, kde-format
 msgid "Slew telescope to the focused object"
-msgstr "Deslizar o mapa para o objeto"
+msgstr "Move o telescópio para o objeto focado"
 
 #: kstarsinit.cpp:696
-#, fuzzy, kde-format
-#| msgid "Slew map to object"
+#, kde-format
 msgid "Sync telescope to the focused object"
-msgstr "Deslizar o mapa para o objeto"
+msgstr "Sincroniza o telescópio para o objeto focado"
 
 #: kstarsinit.cpp:700
-#, fuzzy, kde-format
-#| msgid "Telescope"
+#, kde-format
 msgid "Abort telescope motions"
-msgstr "Telescópio"
+msgstr "Cancelar movimentos do telescópio"
 
 #: kstarsinit.cpp:705
-#, fuzzy, kde-format
-#| msgid "Primary Telescope"
+#, kde-format
 msgid "Park telescope"
-msgstr "Telescópio primário"
+msgstr "Bloquear telescópio"
 
 #: kstarsinit.cpp:709
-#, fuzzy, kde-format
-#| msgid "Center in Telescope"
+#, kde-format
 msgid "Unpark telescope"
-msgstr "Centralizar no telescópio"
+msgstr "Desbloquear telescópio"
 
 #: kstarsinit.cpp:715
-#, fuzzy, kde-format
-#| msgid "Synchronize the telescope to the solution coordinates"
+#, kde-format
 msgid "Slew the telescope to the mouse pointer position"
-msgstr "Sincronizar o telescópio para as coordenadas da solução"
+msgstr "Mover o telescópio para a posição do ponteiro do mouse"
 
 #: kstarsinit.cpp:718
-#, fuzzy, kde-format
-#| msgid "Synchronize the telescope to the solution coordinates"
+#, kde-format
 msgid "Sync the telescope to the mouse pointer position"
-msgstr "Sincronizar o telescópio para as coordenadas da solução"
+msgstr "Sincronizar o telescópio para a posição do ponteiro do mouse"
 
 #: kstarsinit.cpp:725
 #, kde-format
@@ -72436,6 +72387,10 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
+"Selecione esta opção para uma visão ereta do mapa celeste, onde o norte (no "
+"modo Coordenadas Equatoriais) ou o zênite (no modo Coordenadas Horizontais) "
+"estão verticalmente para cima. Esta seria a escolha natural para uma luneta "
+"buscadora de imagem ereta ou visão a olho nu."
 
 #: kstarsinit.cpp:760
 #, kde-format
@@ -72446,15 +72401,18 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
+"Selecione esta opção para uma visão invertida do mapa celeste, onde o norte "
+"(no modo Coordenadas Equatoriais) ou o zênite (no modo Coordenadas "
+"Horizontais) estão verticalmente para baixo. Esta seria a escolha natural "
+"para uma luneta buscadora de imagem invertida, um prisma refrator/cassegrain "
+"sem prisma eretor ou um Dobsoniano."
 
 #: kstarsinit.cpp:765
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Library"
+#, kde-format
 msgctxt ""
 "Orientation of the sky map is arbitrary as it has been adjusted by the user"
 msgid "Arbitrary"
-msgstr "Biblioteca"
+msgstr "Arbitrário"
 
 #: kstarsinit.cpp:769
 #, kde-format
@@ -72464,14 +72422,15 @@ msgid ""
 "using Shift + Drag mouse action, to inform you that the orientation is "
 "arbitrary"
 msgstr ""
+"Este modo é selecionado automaticamente se você girar manualmente o mapa "
+"celeste usando Shift + Arrastar a ação do mouse, para informá-lo de que a "
+"orientação é arbitrária"
 
 #: kstarsinit.cpp:776
-#, fuzzy, kde-format
-#| msgctxt "Map projection method"
-#| msgid "No projection"
+#, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
-msgstr "Sem projeção"
+msgstr "Sem correção"
 
 #: kstarsinit.cpp:780
 #, kde-format
@@ -72480,15 +72439,16 @@ msgid ""
 "Select this if you are using a camera on the telescope, or have the sky map "
 "display mounted on your telescope"
 msgstr ""
+"Selecione esta opção se estiver usando uma câmera no telescópio ou se tiver "
+"o mapa celeste montado no seu telescópio"
 
 #: kstarsinit.cpp:786
-#, fuzzy, kde-format
-#| msgid "Target object or direction"
+#, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
 "telescope"
 msgid "Erect observer correction, left-handed"
-msgstr "Objeto ou direção alvo"
+msgstr "Correção do observador ereto, canhoto"
 
 #: kstarsinit.cpp:790
 #, kde-format
@@ -72501,15 +72461,21 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
+"Selecione esta opção se estiver observando visualmente usando um telescópio "
+"Dobsoniano, que tem o focalizador aparecendo no lado esquerdo ao olhar para "
+"cima no tubo do telescópio. Este recurso corrigirá a orientação do mapa "
+"celeste para levar em conta o observador permanecer ereto enquanto o "
+"telescópio se move para cima e para baixo, diferentemente de uma câmera que "
+"giraria com o telescópio. Normalmente, faz sentido combinar isso com a "
+"orientação do zênite para baixo."
 
 #: kstarsinit.cpp:796
-#, fuzzy, kde-format
-#| msgid "Target object or direction"
+#, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
 "telescope"
 msgid "Erect observer correction, right-handed"
-msgstr "Objeto ou direção alvo"
+msgstr "Correção do observador ereto, destro"
 
 #: kstarsinit.cpp:800
 #, kde-format
@@ -72522,20 +72488,24 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
+"Selecione esta opção se estiver observando visualmente usando um telescópio "
+"Dobsoniano, que tem o focalizador aparecendo no lado direito ao olhar para "
+"cima no tubo do telescópio. Este recurso corrigirá a orientação do mapa "
+"celeste para levar em conta o observador permanecer ereto enquanto o "
+"telescópio se move para cima e para baixo, diferentemente de uma câmera que "
+"giraria com o telescópio. Normalmente, faz sentido combinar isso com a "
+"orientação do zênite para baixo."
 
 #: kstarsinit.cpp:824
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Library"
+#, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
-msgstr "Biblioteca"
+msgstr "Arbitrário"
 
 #: kstarsinit.cpp:827
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
+#, kde-format
 msgid "Edit Views..."
-msgstr "Editar link..."
+msgstr "Editar visualizações..."
 
 #: kstarsinit.cpp:854
 #, kde-format
@@ -72585,29 +72555,27 @@ msgstr "Não reiniciar"
 #: kstarsinit.cpp:1119
 #, kde-format
 msgid "&Themes"
-msgstr ""
+msgstr "&Temas"
 
 #: kstarslite.cpp:115
-#, fuzzy, kde-format
-#| msgid "Version"
+#, kde-format
 msgid "Version: %1"
-msgstr "Versão"
+msgstr "Versão: %1"
 
 #: kstarslite.cpp:116
 #, kde-format
 msgid "Build: %1"
-msgstr ""
+msgstr "Compilação: %1"
 
 #: kstarslite.cpp:117
-#, fuzzy, kde-format
-#| msgid "(c) 2001-2015, The KStars Team"
+#, kde-format
 msgid "(c), The KStars Team"
-msgstr "(c) 2001-2015, equipe do KStars"
+msgstr "(c), A equipe do KStars"
 
 #: kstarslite.cpp:118
 #, kde-format
 msgid "License: GPLv2"
-msgstr ""
+msgstr "Licença: GPLv2"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #: kstarslite/dialogs/detaildialoglite.cpp:135 skyobjects/kspluto.cpp:26
@@ -72622,17 +72590,14 @@ msgid "Dec (%1):"
 msgstr "Dec (%1):"
 
 #: kstarslite/dialogs/finddialoglite.cpp:188
-#, fuzzy, kde-format
-#| msgid "Complete."
+#, kde-format
 msgid "Not Implemented."
-msgstr "Concluído."
+msgstr "Não implementado."
 
 #: kstarslite/qml/dialogs/AboutDialog.qml:16
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Djibouti"
-#| msgid "Djibouti"
+#, kde-kuit-format
 msgid "About"
-msgstr "Djibuti"
+msgstr "Sobre"
 
 #: kstarslite/qml/dialogs/AboutDialog.qml:37
 #, kde-kuit-format
@@ -72640,94 +72605,79 @@ msgid "Desktop Planetarium"
 msgstr "Planetário no ambiente de trabalho"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:148
-#, fuzzy, kde-kuit-format
-#| msgid "B - V index:"
+#, kde-kuit-format
 msgid "B - V Index"
-msgstr "Índice B - V:"
+msgstr "Índice B - V"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:158
-#, fuzzy, kde-kuit-format
-#| msgid "Illumination:"
+#, kde-kuit-format
 msgid "Illumination"
-msgstr "Iluminação:"
+msgstr "Iluminação"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:163
-#, fuzzy, kde-kuit-format
-#| msgid "Perihelion:"
+#, kde-kuit-format
 msgid "Perihelion"
-msgstr "Perihélio:"
+msgstr "Perihélio"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:168
-#, fuzzy, kde-kuit-format
-#| msgid "Orbit ID"
+#, kde-kuit-format
 msgid "OrbitID"
 msgstr "ID da órbita"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:178
-#, fuzzy, kde-kuit-format
-#| msgid "Diameter:"
+#, kde-kuit-format
 msgid "Diameter"
-msgstr "Diâmetro:"
+msgstr "Diâmetro"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:183
-#, fuzzy, kde-kuit-format
-#| msgid "Rotation period:"
+#, kde-kuit-format
 msgid "Rotation period"
-msgstr "Período de rotação:"
+msgstr "Período de rotação"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:188
-#, fuzzy, kde-kuit-format
-#| msgid "Earth MOID:"
+#, kde-kuit-format
 msgid "EarthMOID"
-msgstr "MOID da Terra:"
+msgstr "MOID da Terra"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:193
-#, fuzzy, kde-kuit-format
-#| msgid "Orbit class:"
+#, kde-kuit-format
 msgid "OrbitClass"
-msgstr "Classe da órbita:"
+msgstr "Classe da órbita"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:198
-#, fuzzy, kde-kuit-format
-#| msgid "Albedo:"
+#, kde-kuit-format
 msgid "Albedo"
-msgstr "Albedo:"
+msgstr "Albedo"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:203
-#, fuzzy, kde-kuit-format
-#| msgid "Dimensions:"
+#, kde-kuit-format
 msgid "Dimensions"
-msgstr "Dimensões:"
+msgstr "Dimensões"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:208
-#, fuzzy, kde-kuit-format
-#| msgid "Period:"
+#, kde-kuit-format
 msgid "Period"
-msgstr "Período:"
+msgstr "Período"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:254
-#, fuzzy, kde-kuit-format
-#| msgid "RA (J2000.0):"
+#, kde-kuit-format
 msgid "RA (J2000.0)"
-msgstr "AR (J2000.0):"
+msgstr "AR (J2000.0)"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:259
-#, fuzzy, kde-kuit-format
-#| msgid "Dec (J2000.0):"
+#, kde-kuit-format
 msgid "Dec (J2000.0)"
-msgstr "Dec (J2000.0):"
+msgstr "Dec (J2000.0)"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:274
-#, fuzzy, kde-kuit-format
-#| msgid "Hour angle:"
+#, kde-kuit-format
 msgid "Hour angle"
-msgstr "Ângulo horário:"
+msgstr "Ângulo horário"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:279
-#, fuzzy, kde-kuit-format
-#| msgid "Airmass:"
+#, kde-kuit-format
 msgid "Airmass"
-msgstr "Massa do ar:"
+msgstr "Massa do ar"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:292
 #, kde-kuit-format
@@ -72735,10 +72685,9 @@ msgid "Rise time"
 msgstr "Hora de nascimento"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:297
-#, fuzzy, kde-kuit-format
-#| msgid "Transit time:"
+#, kde-kuit-format
 msgid "Transit time"
-msgstr "Tempo de trânsito:"
+msgstr "Tempo de trânsito"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:302
 #, kde-kuit-format
@@ -72751,64 +72700,54 @@ msgid "Azimuth at rise"
 msgstr "Azimute no nascimento"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:312
-#, fuzzy, kde-kuit-format
-#| msgid "Azimuth at set:"
+#, kde-kuit-format
 msgid "Azimuth at transit"
-msgstr "Azimute no ocaso:"
+msgstr "Azimute no trânsito"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:317
-#, fuzzy, kde-kuit-format
-#| msgid "Azimuth at set:"
+#, kde-kuit-format
 msgid "Azimuth at set"
-msgstr "Azimute no ocaso:"
+msgstr "Azimute no ocaso"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:421
-#, fuzzy, kde-kuit-format
-#| msgid "Add Link..."
+#, kde-kuit-format
 msgid "Add Link"
-msgstr "Adicionar link..."
+msgstr "Adicionar link"
 
 #: kstarslite/qml/dialogs/FindDialog.qml:14
-#, fuzzy, kde-kuit-format
-#| msgid "Find Object"
+#, kde-kuit-format
 msgid "Find an Object"
-msgstr "Procurar objeto"
+msgstr "Procurar um objeto"
 
 #: kstarslite/qml/dialogs/FindDialog.qml:37
-#, fuzzy, kde-kuit-format
-#| msgid "Filter by name:"
+#, kde-kuit-format
 msgid "Filter by name: "
-msgstr "Filtrar por nome:"
+msgstr "Filtrar por nome: "
 
 #: kstarslite/qml/dialogs/FindDialog.qml:54
-#, fuzzy, kde-kuit-format
-#| msgid "Filter by type:"
+#, kde-kuit-format
 msgid "Filter by type: "
-msgstr "Filtrar por tipo:"
+msgstr "Filtrar por tipo: "
 
 #: kstarslite/qml/dialogs/FindDialog.qml:100
-#, fuzzy, kde-kuit-format
-#| msgid "Read from input file"
+#, kde-kuit-format
 msgid "Search in internet"
-msgstr "Ler do arquivo de entrada"
+msgstr "Procurar na internet"
 
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:13
-#, fuzzy, kde-kuit-format
-#| msgid "Edit Link"
+#, kde-kuit-format
 msgid "%1 - Edit Link"
-msgstr "Editar Link"
+msgstr "%1 - Editar link"
 
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:13
-#, fuzzy, kde-kuit-format
-#| msgid "Add Link..."
+#, kde-kuit-format
 msgid "%1 - Add a Link"
-msgstr "Adicionar link..."
+msgstr "%1 - Adicionar um link"
 
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:77
-#, fuzzy, kde-kuit-format
-#| msgid "URL:"
+#, kde-kuit-format
 msgid "URL"
-msgstr "URL:"
+msgstr "URL"
 
 #. i18n: ectx: property (text), widget (QPushButton, addButton)
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
@@ -72820,37 +72759,32 @@ msgstr "Adicionar"
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:91
 #, kde-kuit-format
 msgid "Please, fill in URL and Description"
-msgstr ""
+msgstr "Por favor, preencha a URL e a descrição"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:13
-#, fuzzy, kde-kuit-format
-#| msgid "set location"
+#, kde-kuit-format
 msgid "Edit location"
-msgstr "configurar localização"
+msgstr "Editar localização"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:13
-#, fuzzy, kde-kuit-format
-#| msgid "set location"
+#, kde-kuit-format
 msgid "View location"
-msgstr "configurar localização"
+msgstr "Visualizar localização"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:13
-#, fuzzy, kde-kuit-format
-#| msgid "location"
+#, kde-kuit-format
 msgid "Add location"
-msgstr "localização"
+msgstr "Adicionar localização"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:20
-#, fuzzy, kde-kuit-format
-#| msgid "Please wait while re-indexing stars..."
+#, kde-kuit-format
 msgid "Please, wait while we are fetching coordinates"
-msgstr "Aguarde enquanto o catálogo de estrelas é refeito..."
+msgstr "Please, wait while we are fetching coordinates"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:58
-#, fuzzy, kde-kuit-format
-#| msgid "Default"
+#, kde-kuit-format
 msgid "Default city"
-msgstr "Padrão"
+msgstr "Cidade padrão"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:59
 #, kde-kuit-format
@@ -72858,11 +72792,9 @@ msgid "Default province"
 msgstr "Província padrão"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:60
-#, fuzzy, kde-kuit-format
-#| msgctxt "use default color scheme"
-#| msgid "Default Colors"
+#, kde-kuit-format
 msgid "Default country"
-msgstr "Cores padrão"
+msgstr "País padrão"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:62
 #, kde-kuit-format
@@ -72870,27 +72802,26 @@ msgid ""
 "Could not fetch location name (check your Internet connection). Added with "
 "default name"
 msgstr ""
+"Não foi possível obter o nome da localização (verifique sua conexão com a "
+"Internet). Adicionado com nome padrão"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:66
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:96
-#, fuzzy, kde-kuit-format
-#| msgid "Date, time and location: "
+#, kde-kuit-format
 msgid "Failed to set location"
-msgstr "Data, hora e localização: "
+msgstr "Falhou ao definir a localização"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:71
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:100
-#, fuzzy, kde-kuit-format
-#| msgid "set location"
+#, kde-kuit-format
 msgid "Successfully set your location"
-msgstr "configurar localização"
+msgstr "Sua localização foi definida com sucesso"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:73
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:102
-#, fuzzy, kde-kuit-format
-#| msgid "Could not export image"
+#, kde-kuit-format
 msgid "Could not set your location"
-msgstr "Não foi possível exportar a imagem"
+msgstr "Não foi possível definir sua localização"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:76
 #, kde-kuit-format
@@ -72898,6 +72829,8 @@ msgid ""
 "Could not fetch location name (check your Internet connection). Set default "
 "name"
 msgstr ""
+"Não foi possível obter o nome do local (verifique sua conexão com a "
+"Internet). Definir nome padrão"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:148
 #, kde-kuit-format
@@ -72905,215 +72838,188 @@ msgid ""
 "No location service (GPS, cellular service, etc.) is available.\n"
 "Please, switch on the location service, and retry"
 msgstr ""
+"Nenhum serviço de localização (GPS, serviço de celular, etc.) está "
+"disponível. Por favor, ative o serviço de localização e tente novamente."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:150
 #, kde-kuit-format
 msgid "Unknown error occurred. Please contact the application developer."
 msgstr ""
+"Ocorreu um erro desconhecido. Entre em contato com o desenvolvedor do "
+"aplicativo."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:160
-#, fuzzy, kde-kuit-format
-#| msgid "Solver failed. Try again."
+#, kde-kuit-format
 msgid "Timeout occurred. Try again."
-msgstr "Ocorreu uma falha na resolução. Tente novamente."
+msgstr "Tempo limite atingido. Tente novamente."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:175
-#, fuzzy, kde-kuit-format
-#| msgid "Random latitude and longitude"
+#, kde-kuit-format
 msgid "Found your longitude and altitude"
-msgstr "Latitude e longitude aleatórias"
+msgstr "Encontrado para sua latitude e longitude"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:185
-#, fuzzy, kde-kuit-format
-#| msgid "Please wait while re-indexing stars..."
+#, kde-kuit-format
 msgid "Please, wait while we are retrieving location name"
-msgstr "Aguarde enquanto o catálogo de estrelas é refeito..."
+msgstr "Por favor, aguarde enquanto recuperamos o nome do local"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:247
-#, fuzzy, kde-kuit-format
-#| msgid "City:"
+#, kde-kuit-format
 msgid "City: "
-msgstr "Cidade:"
+msgstr "Cidade: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:260
-#, fuzzy, kde-kuit-format
-#| msgid "Province:"
+#, kde-kuit-format
 msgid "Province: "
-msgstr "Província:"
+msgstr "Província: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:273
-#, fuzzy, kde-kuit-format
-#| msgid "Country:"
+#, kde-kuit-format
 msgid "Country: "
-msgstr "País:"
+msgstr "País: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:294
-#, fuzzy, kde-kuit-format
-#| msgid "Latitude:"
+#, kde-kuit-format
 msgid "Latitude: "
-msgstr "Latitude:"
+msgstr "Latitude: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:307
-#, fuzzy, kde-kuit-format
-#| msgid "Longitude:"
+#, kde-kuit-format
 msgid "Longitude: "
-msgstr "Longitude:"
+msgstr "Longitude: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:323
-#, fuzzy, kde-kuit-format
-#| msgid "UT offset:"
+#, kde-kuit-format
 msgid "UT offset: "
-msgstr "Deslocamento da hora universal:"
+msgstr "Deslocamento da hora universal: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:334
-#, fuzzy, kde-kuit-format
-#| msgid "DST rule:"
+#, kde-kuit-format
 msgid "DST rule: "
-msgstr "Regra de DST (horário de verão):"
+msgstr "Regra de DST (horário de verão): "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:352
 #: kstarslite/qml/dialogs/LocationDialog.qml:139
 #, kde-kuit-format
 msgid "Set from GPS"
-msgstr ""
+msgstr "Definir a partir do GPS"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:378
-#, fuzzy, kde-kuit-format
-#| msgid " and longitude "
+#, kde-kuit-format
 msgid "Please, fill in the city"
-msgstr " e longitude "
+msgstr "Por favor, preencha a cidade"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:381
-#, fuzzy, kde-kuit-format
-#| msgid " and longitude "
+#, kde-kuit-format
 msgid "Please, fill in the country"
-msgstr " e longitude "
+msgstr "Por favor, preencha o país"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:384
-#, fuzzy, kde-kuit-format
-#| msgid " and longitude "
+#, kde-kuit-format
 msgid "Please, fill in the latitude"
-msgstr " e longitude "
+msgstr "Por favor, preencha a latitude"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:387
-#, fuzzy, kde-kuit-format
-#| msgid " and longitude "
+#, kde-kuit-format
 msgid "Please, fill in the longitude"
-msgstr " e longitude "
+msgstr "Por favor, preencha a longitude"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:392
 #, kde-kuit-format
 msgid "Either the longitude or the latitude values are not valid"
-msgstr ""
+msgstr "Os valores de longitude ou latitude não são válidos"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:398
 #, kde-kuit-format
 msgid ""
 "This location already exists. Change either the city, the province or the "
 "country"
-msgstr ""
+msgstr "Este local já existe. Altere a cidade, a província ou o país"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:414
-#, fuzzy, kde-kuit-format
-#| msgid "Date, time and location: "
+#, kde-kuit-format
 msgid "Failed to add location"
-msgstr "Data, hora e localização: "
+msgstr "Falhou ao adicionar a localização"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:417
-#, fuzzy, kde-kuit-format
-#| msgid "set location"
+#, kde-kuit-format
 msgid "Added new location - %1"
-msgstr "configurar localização"
+msgstr "Nova localização adicionada - %1"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:423
-#, fuzzy, kde-kuit-format
-#| msgid "Failed to set binning."
+#, kde-kuit-format
 msgid "Failed to edit city"
-msgstr "Não foi possível definir a compartimentação."
+msgstr "Falhou ao editar a cidade"
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:14
-#, fuzzy, kde-kuit-format
-#| msgid "set location"
+#, kde-kuit-format
 msgid "Set Geolocation"
-msgstr "configurar localização"
+msgstr "Definir geolocalização"
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:39
-#, fuzzy, kde-kuit-format
-#| msgid "Set Location..."
+#, kde-kuit-format
 msgid "Current Location: "
-msgstr "Configurar localização..."
+msgstr "Localização atual: "
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:63
-#, fuzzy, kde-kuit-format
-#| msgid "City filter:"
+#, kde-kuit-format
 msgid "City filter: "
-msgstr "Filtro de cidade:"
+msgstr "Filtro de cidade: "
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:78
-#, fuzzy, kde-kuit-format
-#| msgid "Province filter:"
+#, kde-kuit-format
 msgid "Province filter: "
-msgstr "Filtro de província:"
+msgstr "Filtro de província: "
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:94
-#, fuzzy, kde-kuit-format
-#| msgid "Country filter:"
+#, kde-kuit-format
 msgid "Country filter: "
-msgstr "Filtro de país:"
+msgstr "Filtro de país: "
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:127
-#, fuzzy, kde-kuit-format
-#| msgid "location"
+#, kde-kuit-format
 msgid "Add Location"
-msgstr "localização"
+msgstr "Adicionar localização"
 
 #: kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml:36
-#, fuzzy, kde-kuit-format
-#| msgid "View Resource"
+#, kde-kuit-format
 msgid "View resource"
 msgstr "Visualizar recurso"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:58
-#, fuzzy, kde-kuit-format
-#| msgid "set location"
+#, kde-kuit-format
 msgid "Set as my location"
-msgstr "configurar localização"
+msgstr "Definir como minha localização"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:61
-#, fuzzy, kde-kuit-format
-#| msgid "set location"
+#, kde-kuit-format
 msgid "Set %1 as the current location"
-msgstr "configurar localização"
+msgstr "Definir %1 como a localização atual"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:63
-#, fuzzy, kde-kuit-format
-#| msgid "Could not export image"
+#, kde-kuit-format
 msgid "Could not set as the current location"
-msgstr "Não foi possível exportar a imagem"
+msgstr "Não foi possível definir como localização atual"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:70
-#, fuzzy, kde-kuit-format
-#| msgid "&View"
+#, kde-kuit-format
 msgid "View"
-msgstr "E&xibir"
+msgstr "Visualizar"
 
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:85
-#, fuzzy, kde-kuit-format
-#| msgid "set location"
+#, kde-kuit-format
 msgid "Deleted location %1"
-msgstr "configurar localização"
+msgstr "Excluir localização %1"
 
 #: kstarslite/qml/indi/ImagePreview.qml:15
-#, fuzzy, kde-kuit-format
-#| msgid "Preview of %1"
+#, kde-kuit-format
 msgid "Image Preview - %1"
-msgstr "Pré-visualização de %1"
+msgstr "Pré-visualização da imagem - %1"
 
 #: kstarslite/qml/indi/ImagePreview.qml:36
-#, fuzzy, kde-kuit-format
-#| msgid "Save Script As..."
+#, kde-kuit-format
 msgid "Save As"
-msgstr "Salvar script como..."
+msgstr "Salvar como"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:15
 #, kde-kuit-format
@@ -73121,46 +73027,39 @@ msgid "INDI Control Panel"
 msgstr "Painel de controle do INDI"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:58
-#, fuzzy, kde-kuit-format
-#| msgid "Enter author's name"
+#, kde-kuit-format
 msgid "IP Address or Hostname"
-msgstr "Digite o nome do autor"
+msgstr "Endereço IP ou nome do Host"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:69
 #, kde-kuit-format
 msgid "xxx.xxx.xxx.xxx"
-msgstr ""
+msgstr "xxx.xxx.xxx.xxx"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:85
-#, fuzzy, kde-kuit-format
-#| msgid "Device Manager"
+#, kde-kuit-format
 msgid "Web Manager Port"
-msgstr "Gerenciador de dispositivos"
+msgstr "Porta do gerenciador Web"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:111
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "GPS Status"
+#, kde-kuit-format
 msgid "Get Status"
-msgstr "Estado do GPS"
+msgstr "Obter estado"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:132
-#, fuzzy, kde-kuit-format
-#| msgid "Remove profile"
+#, kde-kuit-format
 msgid "Active Profile:"
-msgstr "Remover perfil"
+msgstr "Perfil ativo:"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:160
-#, fuzzy, kde-kuit-format
-#| msgid "Profile:"
+#, kde-kuit-format
 msgid "Profile: %1"
-msgstr "Perfil:"
+msgstr "Perfil: %1"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:177
-#, fuzzy, kde-kuit-format
-#| msgid "Remove profile"
+#, kde-kuit-format
 msgid "Manage Profiles"
-msgstr "Remover perfil"
+msgstr "Gerenciar perfis"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:186
 #, kde-kuit-format
@@ -73168,21 +73067,19 @@ msgid "Server Port"
 msgstr "Porta do servidor"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:197
-#, fuzzy, kde-kuit-format
-#| msgid "INDI Server Start Port"
+#, kde-kuit-format
 msgid "INDI Server Port"
-msgstr "Porta inicial do servidor INDI"
+msgstr "Porta do servidor INDI"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:217
 #, kde-kuit-format
 msgid "Successfully connected to the server"
-msgstr ""
+msgstr "Conectado ao servidor com sucesso"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:219
-#, fuzzy, kde-kuit-format
-#| msgid "Failed to connect to remote INDI server!"
+#, kde-kuit-format
 msgid "Could not connect to the server"
-msgstr "Não foi possível conectar ao servidor INDI remoto!"
+msgstr "Não foi possível conectar ao servidor"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:235
 #, kde-kuit-format
@@ -73190,445 +73087,363 @@ msgid "Connected to %1"
 msgstr "Conectado a %1"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:252
-#, fuzzy, kde-kuit-format
-#| msgid "Select Devices"
+#, kde-kuit-format
 msgid "Available Devices"
-msgstr "Selecionar dispositivos"
+msgstr "Dispositivos disponíveis"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:298
-#, fuzzy, kde-kuit-format
-#| msgid "Disconnect PHD2"
+#, kde-kuit-format
 msgid "Disconnect INDI"
-msgstr "Desconectar PHD2"
+msgstr "INDI desconectado"
 
 #: kstarslite/qml/indi/modules/MotionControl.qml:62
-#, fuzzy, kde-kuit-format
-#| msgctxt "Abbreviated cardinal / intercardinal etc. direction"
-#| msgid "NW"
+#, kde-kuit-format
 msgid "NW"
 msgstr "NO"
 
 #: kstarslite/qml/indi/modules/MotionControl.qml:104
-#, fuzzy, kde-kuit-format
-#| msgctxt "Abbreviated cardinal / intercardinal etc. direction"
-#| msgid "NE"
+#, kde-kuit-format
 msgid "NE"
 msgstr "NE"
 
 #: kstarslite/qml/indi/modules/MotionControl.qml:166
-#, fuzzy, kde-kuit-format
-#| msgctxt "Abbreviated cardinal / intercardinal etc. direction"
-#| msgid "E"
+#, kde-kuit-format
 msgid "E"
 msgstr "L"
 
 #: kstarslite/qml/indi/modules/MotionControl.qml:192
-#, fuzzy, kde-kuit-format
-#| msgctxt "Abbreviated cardinal / intercardinal etc. direction"
-#| msgid "SW"
+#, kde-kuit-format
 msgid "SW"
 msgstr "SO"
 
 #: kstarslite/qml/indi/modules/MotionControl.qml:201
-#, fuzzy, kde-kuit-format
-#| msgctxt "Abbreviated cardinal / intercardinal etc. direction"
-#| msgid "S"
+#, kde-kuit-format
 msgid "S"
 msgstr "S"
 
 #: kstarslite/qml/indi/modules/MotionControl.qml:234
-#, fuzzy, kde-kuit-format
-#| msgctxt "Abbreviated cardinal / intercardinal etc. direction"
-#| msgid "SE"
+#, kde-kuit-format
 msgid "SE"
 msgstr "SE"
 
 #: kstarslite/qml/indi/modules/MotionControl.qml:271
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Slew rate"
+#, kde-kuit-format
 msgid "Slew rate: "
-msgstr "Taxa de deslocamento"
+msgstr "Taxa de deslocamento: "
 
 #: kstarslite/qml/main.qml:430
-#, fuzzy, kde-kuit-format
-#| msgid "Projection"
+#, kde-kuit-format
 msgid "Projection systems"
-msgstr "Projeção"
+msgstr "Sistemas de projeção"
 
 #: kstarslite/qml/main.qml:431
-#, fuzzy, kde-kuit-format
-#| msgid "C&olor Schemes"
+#, kde-kuit-format
 msgid "Color Schemes"
-msgstr "Esquemas de &cor"
+msgstr "Esquemas de cor"
 
 #: kstarslite/qml/main.qml:432
-#, fuzzy, kde-kuit-format
-#| msgid "&FOV Symbols"
+#, kde-kuit-format
 msgid "FOV Symbols"
-msgstr "Símbolos &CDV"
+msgstr "Símbolos de CDV"
 
 #: kstarslite/qml/modules/helpers/TelescopeControl.qml:28
 #: kstarslite/qml/modules/menus/ContextMenu.qml:136
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Sync"
+#, kde-kuit-format
 msgid "Sync"
 msgstr "Sincronizar"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:162
-#, fuzzy, kde-format
-#| msgid "secs"
+#, kde-format
 msgid "0 secs"
-msgstr "segundos"
+msgstr "0 segundos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:163
-#, fuzzy, kde-format
-#| msgid "secs"
+#, kde-format
 msgid "0.1 secs"
-msgstr "segundos"
+msgstr "0,1 segundos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:164
-#, fuzzy, kde-format
-#| msgid "secs"
+#, kde-format
 msgid "0.25 secs"
-msgstr "segundos"
+msgstr "0,25 segundos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:165
-#, fuzzy, kde-format
-#| msgid "secs"
+#, kde-format
 msgid "0.5 secs"
-msgstr "segundos"
+msgstr "0,5 segundos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:166
-#, fuzzy, kde-format
-#| msgctxt "A planet sets from the horizon"
-#| msgid "%1 sets"
+#, kde-format
 msgid "1 sec"
-msgstr "%1 está se pondo"
+msgstr "1 segundo"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:167
-#, fuzzy, kde-format
-#| msgid "secs"
+#, kde-format
 msgid "2 secs"
-msgstr "segundos"
+msgstr "2 segundos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:168
-#, fuzzy, kde-format
-#| msgid "secs"
+#, kde-format
 msgid "5 secs"
-msgstr "segundos"
+msgstr "5 segundos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:169
-#, fuzzy, kde-format
-#| msgid "secs"
+#, kde-format
 msgid "10 secs"
-msgstr "segundos"
+msgstr "10 segundos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:170
-#, fuzzy, kde-format
-#| msgid "secs"
+#, kde-format
 msgid "20 secs"
-msgstr "segundos"
+msgstr "20 segundos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:171
-#, fuzzy, kde-format
-#| msgid "secs"
+#, kde-format
 msgid "30 secs"
-msgstr "segundos"
+msgstr "30 segundos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:172
 #, kde-format
 msgid "1 min"
-msgstr ""
+msgstr "1 minuto"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:173
-#, fuzzy, kde-format
-#| msgctxt "minutes"
-#| msgid "mins"
+#, kde-format
 msgid "2 mins"
-msgstr "mins"
+msgstr "2 minutos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:174
-#, fuzzy, kde-format
-#| msgctxt "minutes"
-#| msgid "mins"
+#, kde-format
 msgid "5 mins"
-msgstr "mins"
+msgstr "5 minutos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:175
-#, fuzzy, kde-format
-#| msgctxt "minutes"
-#| msgid "mins"
+#, kde-format
 msgid "10 mins"
-msgstr "mins"
+msgstr "10 minutos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:176
-#, fuzzy, kde-format
-#| msgctxt "minutes"
-#| msgid "mins"
+#, kde-format
 msgid "15 mins"
-msgstr "mins"
+msgstr "15 minutos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:177
-#, fuzzy, kde-format
-#| msgctxt "minutes"
-#| msgid "mins"
+#, kde-format
 msgid "30 mins"
-msgstr "mins"
+msgstr "30 minutos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:178
-#, fuzzy, kde-format
-#| msgid "hour"
+#, kde-format
 msgid "1 hour"
-msgstr "hora"
+msgstr "1 hora"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:179
 #, kde-format
 msgid "2 hrs"
-msgstr ""
+msgstr "2 horas"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:180
 #, kde-format
 msgid "3 hrs"
-msgstr ""
+msgstr "3 horas"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:181
 #, kde-format
 msgid "6 hrs"
-msgstr ""
+msgstr "6 horas"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:182
 #, kde-format
 msgid "12 hrs"
-msgstr ""
+msgstr "12 horas"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:184
-#, fuzzy, kde-format
-#| msgid "days"
+#, kde-format
 msgid "0 days"
-msgstr "dias"
+msgstr "0 dias"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:186
-#, fuzzy, kde-format
-#| msgctxt "sidereal day"
-#| msgid "sid day"
+#, kde-format
 msgid "1 sid day"
-msgstr "dia sideral"
+msgstr "1 dia sideral"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:187
-#, fuzzy, kde-format
-#| msgctxt "sidereal day"
-#| msgid "sid day"
+#, kde-format
 msgid "1 day"
-msgstr "dia sideral"
+msgstr "1 dia"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:188
-#, fuzzy, kde-format
-#| msgid "days"
+#, kde-format
 msgid "2 days"
-msgstr "dias"
+msgstr "2 dias"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:189
-#, fuzzy, kde-format
-#| msgid "days"
+#, kde-format
 msgid "3 days"
-msgstr "dias"
+msgstr "3 dias"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:190
-#, fuzzy, kde-format
-#| msgid "days"
+#, kde-format
 msgid "5 days"
-msgstr "dias"
+msgstr "5 dias"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:191
-#, fuzzy, kde-format
-#| msgid "week"
+#, kde-format
 msgid "1 week"
-msgstr "semana"
+msgstr "1 semana"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:192
 #, kde-format
 msgid "2 wks"
-msgstr ""
+msgstr "2 semanas"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:193
 #, kde-format
 msgid "3 wks"
-msgstr ""
+msgstr "3 semanas"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:194
-#, fuzzy, kde-format
-#| msgid "month"
+#, kde-format
 msgid "1 month"
-msgstr "mês"
+msgstr "1 mês"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:195
-#, fuzzy, kde-format
-#| msgctxt "months"
-#| msgid "mths"
+#, kde-format
 msgid "2 mths"
-msgstr "meses"
+msgstr "2 meses"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:196
-#, fuzzy, kde-format
-#| msgctxt "months"
-#| msgid "mths"
+#, kde-format
 msgid "3 mths"
-msgstr "meses"
+msgstr "3 meses"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:197
-#, fuzzy, kde-format
-#| msgctxt "months"
-#| msgid "mths"
+#, kde-format
 msgid "4 mths"
-msgstr "meses"
+msgstr "4 meses"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:198
-#, fuzzy, kde-format
-#| msgctxt "months"
-#| msgid "mths"
+#, kde-format
 msgid "6 mths"
-msgstr "meses"
+msgstr "6 meses"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:199
-#, fuzzy, kde-format
-#| msgctxt "months"
-#| msgid "mths"
+#, kde-format
 msgid "9 mths"
-msgstr "meses"
+msgstr "9 meses"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:200
-#, fuzzy, kde-format
-#| msgid "year"
+#, kde-format
 msgid "1 year"
-msgstr "ano"
+msgstr "1 ano"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:201
 #, kde-format
 msgid "2 yrs"
-msgstr ""
+msgstr "2 anos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:202
 #, kde-format
 msgid "3 yrs"
-msgstr ""
+msgstr "3 anos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:203
 #, kde-format
 msgid "5 yrs"
-msgstr ""
+msgstr "5 anos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:204
 #, kde-format
 msgid "10 yrs"
-msgstr ""
+msgstr "10 anos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:205
 #, kde-format
 msgid "25 yrs"
-msgstr ""
+msgstr "25 anos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:206
 #, kde-format
 msgid "50 yrs"
-msgstr ""
+msgstr "50 anos"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:207
-#, fuzzy, kde-format
-#| msgid "1000 yards"
+#, kde-format
 msgid "100 yrs"
-msgstr "1000 jardas"
+msgstr "100 anos"
 
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:28
 #, kde-kuit-format
 msgid "%1 are toggled on"
-msgstr ""
+msgstr "%1 estão ligados"
 
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:30
-#, fuzzy, kde-kuit-format
-#| msgid "%1 is online."
+#, kde-kuit-format
 msgid "%1 is toggled on"
-msgstr "%1 está conectado."
+msgstr "%1 está ligado"
 
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:34
 #, kde-kuit-format
 msgid "%1 are toggled off"
-msgstr ""
+msgstr "%1 estão desligados"
 
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:36
-#, fuzzy, kde-kuit-format
-#| msgid "%1 is online."
+#, kde-kuit-format
 msgid "%1 is toggled off"
-msgstr "%1 está conectado."
+msgstr "%1 está desligado"
 
 #: kstarslite/qml/modules/menus/ContextMenu.qml:40
-#, fuzzy, kde-kuit-format
-#| msgid "Empty sky"
+#, kde-kuit-format
 msgid "Empty Sky"
 msgstr "Céu vazio"
 
 #: kstarslite/qml/modules/menus/ContextMenu.qml:61
-#, fuzzy, kde-kuit-format
-#| msgid "Center && Track"
+#, kde-kuit-format
 msgid "Center and Track"
 msgstr "Centralizar e rastrear"
 
 #: kstarslite/qml/modules/popups/ColorSchemePopup.qml:56
-#, fuzzy, kde-kuit-format
-#| msgctxt "use 'star chart' color scheme"
-#| msgid "Star Chart"
+#, kde-kuit-format
 msgid "Star Chart"
 msgstr "Gráfico de estrelas"
 
 #: kstarslite/qml/modules/popups/ColorSchemePopup.qml:57
-#, fuzzy, kde-kuit-format
-#| msgctxt "use 'night vision' color scheme"
-#| msgid "Night Vision"
+#, kde-kuit-format
 msgid "Night Vision"
 msgstr "Visão noturna"
 
 #: kstarslite/qml/modules/popups/ColorSchemePopup.qml:58
-#, fuzzy, kde-kuit-format
-#| msgctxt "use 'moonless night' color scheme"
-#| msgid "Moonless Night"
+#, kde-kuit-format
 msgid "Moonless Night"
-msgstr "Sem lua durante a noite"
+msgstr "Noite sem lua"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:34
 #, kde-kuit-format
 msgid "Lambert (Default)"
-msgstr ""
+msgstr "Lambert (Padrão)"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:35
-#, fuzzy, kde-kuit-format
-#| msgid "&Azimuthal Equidistant"
+#, kde-kuit-format
 msgid "Azimuthal Equidistant"
-msgstr "Equidistância de &azimute"
+msgstr "Equidistância azimutal"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:36
-#, fuzzy, kde-kuit-format
-#| msgctxt "Map projection method"
-#| msgid "Orthographic"
+#, kde-kuit-format
 msgid "Orthographic"
 msgstr "Ortográfico"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:37
-#, fuzzy, kde-kuit-format
-#| msgid "&Equirectangular"
+#, kde-kuit-format
 msgid "Equirectangular"
-msgstr "Cilíndrica &equidistante"
+msgstr "Cilíndrica equidistante"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:38
-#, fuzzy, kde-kuit-format
-#| msgid "&Stereographic"
+#, kde-kuit-format
 msgid "Stereographic"
-msgstr "E&stereográfico"
+msgstr "Estereográfico"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:39
-#, fuzzy, kde-kuit-format
-#| msgctxt "Map projection method"
-#| msgid "Gnomonic"
+#, kde-kuit-format
 msgid "Gnomonic"
 msgstr "Gnomônico"
 
@@ -73639,10 +73454,9 @@ msgid "Set Time"
 msgstr "Definir hora"
 
 #: kstarslite/qml/modules/TimePage.qml:233
-#, fuzzy, kde-kuit-format
-#| msgid "Year:"
+#, kde-kuit-format
 msgid "Year"
-msgstr "Ano:"
+msgstr "Ano"
 
 #: kstarslite/qml/modules/TimePage.qml:275 tools/calendarwidget.cpp:212
 #, kde-format, kde-kuit-format
@@ -73652,36 +73466,30 @@ msgstr "Mês"
 #: kstarslite/qml/modules/TimePage.qml:328
 #, kde-kuit-format
 msgid "Week"
-msgstr ""
+msgstr "Semana"
 
 #: kstarslite/qml/modules/TimePage.qml:374
-#, fuzzy, kde-kuit-format
-#| msgid "day"
+#, kde-kuit-format
 msgid "Day"
-msgstr "dia"
+msgstr "Dia"
 
 #: kstarslite/qml/modules/TimePage.qml:448
-#, fuzzy, kde-kuit-format
-#| msgid "hours"
-#| msgid_plural "hrs"
+#, kde-kuit-format
 msgid "Hour"
-msgstr "horas"
+msgstr "Hora"
 
 #: kstarslite/qml/modules/TimePage.qml:479
-#, fuzzy, kde-kuit-format
-#| msgid "Min."
+#, kde-kuit-format
 msgid "Min."
 msgstr "Mín."
 
 #: kstarslite/qml/modules/TopMenu.qml:116
-#, fuzzy, kde-kuit-format
-#| msgid "Auto mode"
+#, kde-kuit-format
 msgid "Automatic mode"
 msgstr "Modo automático"
 
 #: kstarslite/qml/modules/TopMenu.qml:150
-#, fuzzy, kde-kuit-format
-#| msgid "Deep-sky Objects"
+#, kde-kuit-format
 msgid "DeepSky Objects"
 msgstr "Objetos do espaço profundo"
 
@@ -73702,8 +73510,7 @@ msgid "Constellation Art"
 msgstr "Imagens artísticas das constelações"
 
 #: kstarslite/qml/modules/TopMenu.qml:217
-#, fuzzy, kde-kuit-format
-#| msgid "Constellation Boundaries"
+#, kde-kuit-format
 msgid "Constellation Bounds"
 msgstr "Fronteiras da constelação"
 
@@ -73713,33 +73520,29 @@ msgid "Milky Way"
 msgstr "Via Láctea"
 
 #: kstarslite/qml/modules/TopMenu.qml:236
-#, fuzzy, kde-kuit-format
-#| msgid "Equatorial Coordinates"
+#, kde-kuit-format
 msgid "Equatorial Grid"
-msgstr "Coordenadas equatoriais"
+msgstr "Grade equatorial"
 
 #: kstarslite/qml/modules/TopMenu.qml:246
-#, fuzzy, kde-kuit-format
-#| msgid "Horizontal "
+#, kde-kuit-format
 msgid "Horizontal Grid"
-msgstr "Horizontal "
+msgstr "Grade horizontal"
 
 #: kstarslite/qml/modules/tutorial/TutorialExitPopup.qml:27
-#, fuzzy, kde-kuit-format
-#| msgid "Are you sure you want to delete the profile?"
+#, kde-kuit-format
 msgid "Are you sure you want to exit tutorial?"
-msgstr "Deseja realmente excluir este perfil?"
+msgstr "Você deseja realmente sair deste tutorial?"
 
 #: kstarslite/qml/modules/tutorial/TutorialPane.qml:45
 #, kde-kuit-format
 msgid "Exit"
-msgstr ""
+msgstr "Sair"
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:36
-#, fuzzy, kde-kuit-format
-#| msgid " Welcome to KStars "
+#, kde-kuit-format
 msgid "Welcome to KStars Lite"
-msgstr " Bem-vindo ao KStars "
+msgstr "Bem-vindo ao KStars Lite"
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:44
 #, kde-kuit-format
@@ -73747,24 +73550,23 @@ msgid ""
 "KStars Lite is a free, open source, cross-platform Astronomy Software "
 "designed for mobile devices."
 msgstr ""
+"O KStars Lite é um software de astronomia gratuito, de código aberto e "
+"multiplataforma, projetado para dispositivos móveis."
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:51
 #, kde-kuit-format
 msgid "A quick tutorial will introduce you to main functions of KStars Lite"
-msgstr ""
+msgstr "Um tutorial rápido apresentará as principais funções do KStars Lite"
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:66
-#, fuzzy, kde-kuit-format
-#| msgid "Start Autoguide"
+#, kde-kuit-format
 msgid "Start tutorial"
-msgstr "Iniciar o guia automático"
+msgstr "Iniciar o tutorial"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep1.qml:35
-#, fuzzy, kde-kuit-format
-#| msgctxt "Satellite group name"
-#| msgid "Globalstar"
+#, kde-kuit-format
 msgid "Global Drawer"
-msgstr "Globalstar"
+msgstr "Gaveta global"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep1.qml:36
 #, kde-kuit-format
@@ -73772,11 +73574,13 @@ msgid ""
 "By swiping from left to right on any page of KStars Lite you can access "
 "global drawer"
 msgstr ""
+"Deslizando da esquerda para a direita em qualquer página do KStars Lite, "
+"você pode acessar a gaveta global"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep2.qml:28
 #, kde-kuit-format
 msgid "Context Drawer"
-msgstr ""
+msgstr "Gaveta de contexto"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep2.qml:29
 #, kde-kuit-format
@@ -73784,12 +73588,14 @@ msgid ""
 "By swiping from right to left you can access context drawer with functions "
 "related to Sky Map. This menu is available only on Sky Map."
 msgstr ""
+"Deslizando da direita para a esquerda, você acessa a gaveta de contexto com "
+"funções relacionadas ao mapa celeste. Este menu está disponível apenas no "
+"mapa celeste."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep3.qml:30
-#, fuzzy, kde-kuit-format
-#| msgid "Top left"
+#, kde-kuit-format
 msgid "Top Menu"
-msgstr "Superior esquerdo"
+msgstr "Menu superior"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep3.qml:31
 #, kde-kuit-format
@@ -73797,12 +73603,13 @@ msgid ""
 "By tapping on this arrow you can access top menu from which you can control "
 "visibility of different sky objects"
 msgstr ""
+"Ao tocar nesta seta, você pode acessar o menu superior, de onde pode "
+"controlar a visibilidade de diferentes objetos do céu."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep4.qml:25
-#, fuzzy, kde-kuit-format
-#| msgid "Bottom left"
+#, kde-kuit-format
 msgid "Bottom Menu"
-msgstr "Inferior esquerdo"
+msgstr "Menu inferior"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep4.qml:26
 #, kde-kuit-format
@@ -73810,12 +73617,13 @@ msgid ""
 "By tapping on this arrow you can access bottom menu from which you can set "
 "time and start time simulation"
 msgstr ""
+"Ao tocar nesta seta, você pode acessar o menu inferior, onde pode definir a "
+"hora e iniciar a simulação."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep5.qml:18
-#, fuzzy, kde-kuit-format
-#| msgid "Set Location..."
+#, kde-kuit-format
 msgid "Set Location"
-msgstr "Configurar localização..."
+msgstr "Definir localização"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep5.qml:19
 #, kde-kuit-format
@@ -73824,6 +73632,9 @@ msgid ""
 "almost over. The last step to do is to set your location (you can do that "
 "either manually or from GPS). Click next to proceed."
 msgstr ""
+"Parabéns pelos seus primeiros passos no KStars Lite. Seu tutorial está quase "
+"no fim. O último passo é definir sua localização (você pode fazer isso "
+"manualmente ou pelo GPS). Clique em \"Avançar\" para prosseguir."
 
 #: kstarslite/skyitems/horizonitem.cpp:22
 #: skycomponents/horizoncomponent.cpp:111
@@ -73967,12 +73778,10 @@ msgid "Absolute Position"
 msgstr "Posição absoluta"
 
 #: libindi_strings.cpp:19
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Absolute Position"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Absolute"
-msgstr "Posição absoluta"
+msgstr "Absoluta"
 
 #: libindi_strings.cpp:20
 #, kde-kuit-format
@@ -73999,11 +73808,10 @@ msgid "Alignment"
 msgstr "Alinhamento"
 
 #: libindi_strings.cpp:24
-#, fuzzy, kde-kuit-format
-#| msgid "All"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "All"
-msgstr "Todos"
+msgstr "Tudo"
 
 #: libindi_strings.cpp:25
 #, kde-kuit-format
@@ -74054,11 +73862,10 @@ msgid "Atmosphere"
 msgstr "Atmosfera"
 
 #: libindi_strings.cpp:33
-#, fuzzy, kde-kuit-format
-#| msgid "Auto Star"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Auto Search"
-msgstr "Estrela automática"
+msgstr "Pesquisa automática"
 
 #: libindi_strings.cpp:34
 #, kde-kuit-format
@@ -74076,7 +73883,7 @@ msgstr "Auxiliar"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Average (1 sec.)"
-msgstr ""
+msgstr "Média (1 seg)"
 
 #: libindi_strings.cpp:37
 #, kde-kuit-format
@@ -74109,12 +73916,10 @@ msgid "Backlash"
 msgstr "Folga"
 
 #: libindi_strings.cpp:42
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Frame Rate"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Baud Rate"
-msgstr "Taxa de quadros"
+msgstr "Taxa de transmissão"
 
 #: libindi_strings.cpp:43
 #, kde-kuit-format
@@ -74144,7 +73949,7 @@ msgstr "Azul"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Both"
-msgstr ""
+msgstr "Ambos"
 
 #: libindi_strings.cpp:48
 #, kde-kuit-format
@@ -74159,11 +73964,10 @@ msgid "CCD Bias"
 msgstr "Ponderação do CCD"
 
 #: libindi_strings.cpp:50
-#, fuzzy, kde-kuit-format
-#| msgid "No FOV"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "CCD FOV"
-msgstr "Sem CDV"
+msgstr "CDV do CCD"
 
 #: libindi_strings.cpp:51
 #, kde-kuit-format
@@ -74250,8 +74054,7 @@ msgid "Centering"
 msgstr "Centralizando"
 
 #: libindi_strings.cpp:66
-#, fuzzy, kde-kuit-format
-#| msgid "Client"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Client"
 msgstr "Cliente"
@@ -74305,53 +74108,46 @@ msgid "Compression"
 msgstr "Compressão"
 
 #: libindi_strings.cpp:75
-#, fuzzy, kde-kuit-format
-#| msgid "config:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Config #1"
-msgstr "Configuração:"
+msgstr "Configuração #1"
 
 #: libindi_strings.cpp:76
-#, fuzzy, kde-kuit-format
-#| msgid "config:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Config #2"
-msgstr "Configuração:"
+msgstr "Configuração #2"
 
 #: libindi_strings.cpp:77
-#, fuzzy, kde-kuit-format
-#| msgid "config:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Config #3"
-msgstr "Configuração:"
+msgstr "Configuração #3"
 
 #: libindi_strings.cpp:78
-#, fuzzy, kde-kuit-format
-#| msgid "config:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Config #4"
-msgstr "Configuração:"
+msgstr "Configuração #4"
 
 #: libindi_strings.cpp:79
-#, fuzzy, kde-kuit-format
-#| msgid "config:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Config #5"
-msgstr "Configuração:"
+msgstr "Configuração #5"
 
 #: libindi_strings.cpp:80
-#, fuzzy, kde-kuit-format
-#| msgid "config:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Config #6"
-msgstr "Configuração:"
+msgstr "Configuração #6"
 
 #: libindi_strings.cpp:81
-#, fuzzy, kde-kuit-format
-#| msgid "Common Name"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Config Name"
-msgstr "Nome comum"
+msgstr "Nome da configuração"
 
 #: libindi_strings.cpp:82
 #, kde-kuit-format
@@ -74366,11 +74162,10 @@ msgid "Connect"
 msgstr "Conectar"
 
 #: libindi_strings.cpp:84
-#, fuzzy, kde-kuit-format
-#| msgid "Connection"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Connection Mode"
-msgstr "Conexão"
+msgstr "Modo de conexão"
 
 #: libindi_strings.cpp:85
 #, kde-kuit-format
@@ -74391,11 +74186,10 @@ msgid "Control"
 msgstr "Controle"
 
 #: libindi_strings.cpp:88
-#, fuzzy, kde-kuit-format
-#| msgid "Turn off CCD cooler."
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Cooler"
-msgstr "Desliga o ventilador do CCD."
+msgstr "Ventilador"
 
 #: libindi_strings.cpp:89
 #, kde-kuit-format
@@ -74404,25 +74198,22 @@ msgid "Count"
 msgstr "Quantidade"
 
 #: libindi_strings.cpp:90
-#, fuzzy, kde-kuit-format
-#| msgid "Current day"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Current"
-msgstr "Dia atual"
+msgstr "Atual"
 
 #: libindi_strings.cpp:91
-#, fuzzy, kde-kuit-format
-#| msgid "Custom"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Custom"
 msgstr "Personalizado"
 
 #: libindi_strings.cpp:92
-#, fuzzy, kde-kuit-format
-#| msgid "arcsec"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "DE (arcsecs/s)"
-msgstr "arcsegundos"
+msgstr "DE (arcsegs/s)"
 
 #: libindi_strings.cpp:93
 #, kde-kuit-format
@@ -74434,7 +74225,7 @@ msgstr "DEC (gg:mm:ss)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "DOME"
-msgstr ""
+msgstr "CÚPULA"
 
 #: libindi_strings.cpp:95
 #, kde-kuit-format
@@ -74515,17 +74306,16 @@ msgid "Diff. Eq."
 msgstr "Dif. Equatorial"
 
 #: libindi_strings.cpp:108
-#, fuzzy, kde-kuit-format
-#| msgid "Dir:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dir"
-msgstr "Pasta:"
+msgstr "Dir"
 
 #: libindi_strings.cpp:109
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dir."
-msgstr ""
+msgstr "Dir."
 
 #: libindi_strings.cpp:110 libindi_strings.cpp:111
 #, kde-kuit-format
@@ -74540,12 +74330,10 @@ msgid "Disable"
 msgstr "Desabilitar"
 
 #: libindi_strings.cpp:113
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Disable"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Disabled"
-msgstr "Desabilitar"
+msgstr "Desabilitado"
 
 #: libindi_strings.cpp:114
 #, kde-kuit-format
@@ -74557,15 +74345,13 @@ msgstr "Desconectar"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Divisor"
-msgstr ""
+msgstr "Divisor"
 
 #: libindi_strings.cpp:116
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "CCD Simulator"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dome Simulator"
-msgstr "Simulador do CCD"
+msgstr "Simulador de cúpula"
 
 #: libindi_strings.cpp:117
 #, kde-kuit-format
@@ -74574,31 +74360,28 @@ msgid "Dome control"
 msgstr "Controle da cúpula"
 
 #: libindi_strings.cpp:118
-#, fuzzy, kde-kuit-format
-#| msgid "Dome:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dome locks"
-msgstr "Cúpula:"
+msgstr "Bloqueio da cúpula"
 
 #: libindi_strings.cpp:119
-#, fuzzy, kde-kuit-format
-#| msgid "Dome parking error."
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dome parking policy"
-msgstr "Ocorreu um erro no bloqueio do Dome."
+msgstr "Política de bloqueio da cúpula"
 
 #: libindi_strings.cpp:120
-#, fuzzy, kde-kuit-format
-#| msgid "Dome parked"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dome parks"
-msgstr "Cúpula bloqueada"
+msgstr "Bloqueio da cúpula"
 
 #: libindi_strings.cpp:121
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Driver Info"
-msgstr "Informações do driver"
+msgstr "Informações do controlador"
 
 #: libindi_strings.cpp:122
 #, kde-kuit-format
@@ -74607,19 +74390,16 @@ msgid "Duration (s)"
 msgstr "Duração (s)"
 
 #: libindi_strings.cpp:123
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Duration (s)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Duration (sec)"
-msgstr "Duração (s)"
+msgstr "Duração (seg)"
 
 #: libindi_strings.cpp:124
-#, fuzzy, kde-kuit-format
-#| msgid "Dust Cover"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dust Cover"
-msgstr "Tampa anti-pó"
+msgstr "Tampa anti-poeira"
 
 #: libindi_strings.cpp:125
 #, kde-kuit-format
@@ -74640,9 +74420,7 @@ msgid "EQ PEC"
 msgstr "PEC equatorial"
 
 #: libindi_strings.cpp:128
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "East (msec)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "East (ms)"
 msgstr "Leste (ms)"
@@ -74657,7 +74435,7 @@ msgstr "Leste (ms)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "East (pointing west)"
-msgstr ""
+msgstr "Leste (apontando para oeste)"
 
 #: libindi_strings.cpp:131
 #, kde-kuit-format
@@ -74678,11 +74456,10 @@ msgid "East/West"
 msgstr "Leste/Oeste"
 
 #: libindi_strings.cpp:134
-#, fuzzy, kde-kuit-format
-#| msgid "Elevation (m):"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Elevation (m)"
-msgstr "Elevação (m):"
+msgstr "Elevação (m)"
 
 #: libindi_strings.cpp:135
 #, kde-kuit-format
@@ -74691,26 +74468,22 @@ msgid "Enable"
 msgstr "Habilitar"
 
 #: libindi_strings.cpp:136
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Enable"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Enabled"
-msgstr "Habilitar"
+msgstr "Habilitado"
 
 #: libindi_strings.cpp:137
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Encoder"
-msgstr ""
+msgstr "Codificador"
 
 #: libindi_strings.cpp:138
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "EQ PEC"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "EQ PE"
-msgstr "PEC equatorial"
+msgstr "PE equatorial"
 
 #: libindi_strings.cpp:139
 #, kde-kuit-format
@@ -74725,12 +74498,10 @@ msgid "Equatorial JNow"
 msgstr "JNow equatorial"
 
 #: libindi_strings.cpp:141
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Alberta Canada"
-#| msgid "Lethbridge"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Ethernet"
-msgstr "Lethbridge"
+msgstr "Ethernet"
 
 #: libindi_strings.cpp:142
 #, kde-kuit-format
@@ -74769,8 +74540,7 @@ msgid "Extrema"
 msgstr "Extrema"
 
 #: libindi_strings.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgid "FITS Header"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "FITS Header"
 msgstr "Cabeçalho FITS"
@@ -74866,12 +74636,10 @@ msgid "Filter Simulator"
 msgstr "Simulador do filtro"
 
 #: libindi_strings.cpp:164
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter Count"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter Slot"
-msgstr "Número de filtros"
+msgstr "Slot de filtro"
 
 #: libindi_strings.cpp:165
 #, kde-kuit-format
@@ -74886,65 +74654,52 @@ msgid "Filter"
 msgstr "Filtro"
 
 #: libindi_strings.cpp:167
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter #1"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#1"
-msgstr "Filtro #1"
+msgstr "Filtro#1"
 
 #: libindi_strings.cpp:168
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter #2"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#2"
-msgstr "Filtro #2"
+msgstr "Filtro#2"
 
 #: libindi_strings.cpp:169
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter #3"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#3"
-msgstr "Filtro #3"
+msgstr "Filtro#3"
 
 #: libindi_strings.cpp:170
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter #4"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#4"
-msgstr "Filtro #4"
+msgstr "Filtro#4"
 
 #: libindi_strings.cpp:171
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter #5"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#5"
-msgstr "Filtro #5"
+msgstr "Filtro#5"
 
 #: libindi_strings.cpp:172
-#, fuzzy, kde-kuit-format
-#| msgid "Filter"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#6"
-msgstr "Filtro"
+msgstr "Filtro#6"
 
 #: libindi_strings.cpp:173
-#, fuzzy, kde-kuit-format
-#| msgid "Filter"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#7"
-msgstr "Filtro"
+msgstr "Filtro#7"
 
 #: libindi_strings.cpp:174
-#, fuzzy, kde-kuit-format
-#| msgid "Filter"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#8"
-msgstr "Filtro"
+msgstr "Filtro#8"
 
 #: libindi_strings.cpp:175
 #, kde-kuit-format
@@ -75055,12 +74810,10 @@ msgid "Focusers"
 msgstr "Focalizadores"
 
 #: libindi_strings.cpp:194
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "NGC"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "FPS"
-msgstr "NGC"
+msgstr "FPS"
 
 #: libindi_strings.cpp:195
 #, kde-kuit-format
@@ -75069,20 +74822,16 @@ msgid "Frame Rate"
 msgstr "Taxa de quadros"
 
 #: libindi_strings.cpp:196
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FrameType"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frame Type"
 msgstr "Tipo de quadro"
 
 #: libindi_strings.cpp:197
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Frame Rate"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frame Values"
-msgstr "Taxa de quadros"
+msgstr "Valores de quadro"
 
 #: libindi_strings.cpp:198
 #, kde-kuit-format
@@ -75097,12 +74846,10 @@ msgid "FrameType"
 msgstr "Tipo de quadro"
 
 #: libindi_strings.cpp:200
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Frame"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frames"
-msgstr "Quadro"
+msgstr "Quadros"
 
 #: libindi_strings.cpp:201
 #, kde-kuit-format
@@ -75135,12 +74882,10 @@ msgid "GPS Power"
 msgstr "Potência do GPS"
 
 #: libindi_strings.cpp:206
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "CCD Simulator"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "GPS Simulator"
-msgstr "Simulador do CCD"
+msgstr "Simulador de GPS"
 
 #: libindi_strings.cpp:207
 #, kde-kuit-format
@@ -75155,12 +74900,10 @@ msgid "GPS System"
 msgstr "Sistema de GPS"
 
 #: libindi_strings.cpp:209
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "NGC"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "GPS"
-msgstr "NGC"
+msgstr "GPS"
 
 #: libindi_strings.cpp:210
 #, kde-kuit-format
@@ -75175,11 +74918,10 @@ msgid "Gamma"
 msgstr "Gama"
 
 #: libindi_strings.cpp:212
-#, fuzzy, kde-kuit-format
-#| msgid "General"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "General Info"
-msgstr "Geral"
+msgstr "Informações gerais"
 
 #: libindi_strings.cpp:213
 #, kde-kuit-format
@@ -75218,18 +74960,16 @@ msgid "Guide Abort"
 msgstr "Cancelar a guia"
 
 #: libindi_strings.cpp:220
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guide East/West"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide E/W"
-msgstr "Guiar para Este/Oeste"
+msgstr "Guiar para L/O"
 
 #: libindi_strings.cpp:221
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide East/West"
-msgstr "Guiar para Este/Oeste"
+msgstr "Guiar para Leste/Oeste"
 
 #: libindi_strings.cpp:222
 #, kde-kuit-format
@@ -75238,18 +74978,16 @@ msgid "Guide Head"
 msgstr "Cabeça da guia"
 
 #: libindi_strings.cpp:223
-#, fuzzy, kde-kuit-format
-#| msgid "Site Info"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide Info"
-msgstr "Informações do site"
+msgstr "Informações da guia"
 
 #: libindi_strings.cpp:224
-#, fuzzy, kde-kuit-format
-#| msgid "Guider:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide N/S"
-msgstr "Guia:"
+msgstr "Guiar para N/S"
 
 #: libindi_strings.cpp:225
 #, kde-kuit-format
@@ -75261,7 +74999,7 @@ msgstr "Guiar para Norte/Sul"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide West/East"
-msgstr "Guiar para Oeste/Este"
+msgstr "Guiar para Oeste/Leste"
 
 #: libindi_strings.cpp:227
 #, kde-kuit-format
@@ -75294,19 +75032,16 @@ msgid "Guider Focal Length (mm)"
 msgstr "Distância focal da guia (mm)"
 
 #: libindi_strings.cpp:232
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guide Head"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guider Head"
 msgstr "Cabeça da guia"
 
 #: libindi_strings.cpp:233
-#, fuzzy, kde-kuit-format
-#| msgid "Rapid Guide"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guider Head Rapid Guide"
-msgstr "Guia Rápida"
+msgstr "Guia rápido da cabeça da guia"
 
 #: libindi_strings.cpp:234
 #, kde-kuit-format
@@ -75315,11 +75050,10 @@ msgid "Guider Image"
 msgstr "Imagem da guia"
 
 #: libindi_strings.cpp:235
-#, fuzzy, kde-kuit-format
-#| msgid "Guiding"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guiding Rate"
-msgstr "Guia"
+msgstr "Taxa da guia"
 
 #: libindi_strings.cpp:236
 #, kde-kuit-format
@@ -75340,12 +75074,10 @@ msgid "HA H:M:S"
 msgstr "HA H:M:S"
 
 #: libindi_strings.cpp:239
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "H Alpha"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "H_Alpha"
-msgstr "H Alpha"
+msgstr "H_Alpha"
 
 #: libindi_strings.cpp:240
 #, kde-kuit-format
@@ -75408,11 +75140,10 @@ msgid "IC"
 msgstr "IC"
 
 #: libindi_strings.cpp:250
-#, fuzzy, kde-kuit-format
-#| msgid "Ignore"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Ignore dome"
-msgstr "Ignorar"
+msgstr "Ignorar cúpula"
 
 #: libindi_strings.cpp:251
 #, kde-kuit-format
@@ -75469,19 +75200,16 @@ msgid "Info"
 msgstr "Informações"
 
 #: libindi_strings.cpp:260
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Turkey"
-#| msgid "Istanbul"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Instant."
-msgstr "Istanbul"
+msgstr "Instantâneo."
 
 #: libindi_strings.cpp:261
-#, fuzzy, kde-kuit-format
-#| msgid "Interval:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Interface"
-msgstr "Intervalo:"
+msgstr "Interface"
 
 #: libindi_strings.cpp:262
 #, kde-kuit-format
@@ -75496,11 +75224,10 @@ msgid "Jupiter"
 msgstr "Júpiter"
 
 #: libindi_strings.cpp:264
-#, fuzzy, kde-kuit-format
-#| msgid "LSR"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "LPR"
-msgstr "LSR"
+msgstr "LPR"
 
 #: libindi_strings.cpp:265
 #, kde-kuit-format
@@ -75557,8 +75284,7 @@ msgid "Load"
 msgstr "Carregar"
 
 #: libindi_strings.cpp:274
-#, fuzzy, kde-kuit-format
-#| msgid "Local"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Local"
 msgstr "Local"
@@ -75585,7 +75311,7 @@ msgstr "Baixo"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Luminance"
-msgstr ""
+msgstr "Luminância"
 
 #: libindi_strings.cpp:279
 #, kde-kuit-format
@@ -75648,33 +75374,28 @@ msgid "Max"
 msgstr "Máx"
 
 #: libindi_strings.cpp:289
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Height"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Height"
-msgstr "Altura"
+msgstr "Altura máx."
 
 #: libindi_strings.cpp:290
-#, fuzzy, kde-kuit-format
-#| msgid "Position"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Position"
-msgstr "Posição"
+msgstr "Posição máx."
 
 #: libindi_strings.cpp:291
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Width"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Width"
-msgstr "Largura"
+msgstr "Largura máx."
 
 #: libindi_strings.cpp:292
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. travel"
-msgstr "Máx. trajeto"
+msgstr "Trajeto máx."
 
 #: libindi_strings.cpp:293
 #, kde-kuit-format
@@ -75737,20 +75458,16 @@ msgid "Motion Control"
 msgstr "Controle do movimento"
 
 #: libindi_strings.cpp:303
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motion"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Motion N/S"
-msgstr "Movimento"
+msgstr "Movimento N/S"
 
 #: libindi_strings.cpp:304
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motion"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Motion W/E"
-msgstr "Movimento"
+msgstr "Movimento O/L"
 
 #: libindi_strings.cpp:305
 #, kde-kuit-format
@@ -75837,9 +75554,7 @@ msgid "None"
 msgstr "Nenhum"
 
 #: libindi_strings.cpp:319
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North (msec)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "North (ms)"
 msgstr "Norte (ms)"
@@ -75890,7 +75605,7 @@ msgstr "DESLIGADO"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "OIII"
-msgstr ""
+msgstr "OIII"
 
 #: libindi_strings.cpp:328
 #, kde-kuit-format
@@ -75935,8 +75650,7 @@ msgid "Object"
 msgstr "Objeto"
 
 #: libindi_strings.cpp:335
-#, fuzzy, kde-kuit-format
-#| msgid "Observer"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Observer"
 msgstr "Observador"
@@ -75978,19 +75692,16 @@ msgid "Outdoor"
 msgstr "Exterior"
 
 #: libindi_strings.cpp:342
-#, fuzzy, kde-kuit-format
-#| msgid "arcminutes"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "PAE (arcminutes)"
-msgstr "arcminutos"
+msgstr "PAE (arco-minutos)"
 
 #: libindi_strings.cpp:343
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Oag Offset (arcminutes)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "PAE Drift (minutes)"
-msgstr "Deslocamento OAG (arco-minutos)"
+msgstr "Desvio PAE (minutos)"
 
 #: libindi_strings.cpp:344
 #, kde-kuit-format
@@ -76002,27 +75713,25 @@ msgstr "PE N/S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "PE W/E"
-msgstr "PE O/E"
+msgstr "PE O/L"
 
 #: libindi_strings.cpp:346
-#, fuzzy, kde-kuit-format
-#| msgid "Options"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Park Options"
-msgstr "Opções"
+msgstr "Opções de bloqueio"
 
 #: libindi_strings.cpp:347
-#, fuzzy, kde-kuit-format
-#| msgid "Position"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Park Position"
-msgstr "Posição"
+msgstr "Posição de bloqueio"
 
 #: libindi_strings.cpp:348
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Park Scope"
-msgstr "Bloquear o telescópio"
+msgstr "Escopo do bloqueio"
 
 #: libindi_strings.cpp:349
 #, kde-kuit-format
@@ -76031,19 +75740,16 @@ msgid "Park"
 msgstr "Bloquear"
 
 #: libindi_strings.cpp:350
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in China"
-#| msgid "Peking"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Parking"
-msgstr "Peking"
+msgstr "Bloqueando"
 
 #: libindi_strings.cpp:351
-#, fuzzy, kde-kuit-format
-#| msgid "Period:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Period (ms)"
-msgstr "Período:"
+msgstr "Período (ms)"
 
 #: libindi_strings.cpp:352
 #, kde-kuit-format
@@ -76058,12 +75764,10 @@ msgid "Philips Webcam"
 msgstr "WebCam da Philips"
 
 #: libindi_strings.cpp:354
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Nebraska USA"
-#| msgid "Pierce"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Pier Side"
-msgstr "Pierce"
+msgstr "Lado do píer"
 
 #: libindi_strings.cpp:355
 #, kde-kuit-format
@@ -76096,12 +75800,10 @@ msgid "Polar"
 msgstr "Polar"
 
 #: libindi_strings.cpp:360
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Montana USA"
-#| msgid "Billings"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Polling"
-msgstr "Billings"
+msgstr "Sondagem"
 
 #: libindi_strings.cpp:361
 #, kde-kuit-format
@@ -76128,11 +75830,10 @@ msgid "Power"
 msgstr "Potência"
 
 #: libindi_strings.cpp:365
-#, fuzzy, kde-kuit-format
-#| msgid "Prefix:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Prefix"
-msgstr "Prefixo:"
+msgstr "Prefixo"
 
 #: libindi_strings.cpp:366
 #, kde-kuit-format
@@ -76141,40 +75842,34 @@ msgid "Pressure hPa"
 msgstr "Pressão hPa"
 
 #: libindi_strings.cpp:367
-#, fuzzy, kde-kuit-format
-#| msgid "Preset: "
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Presets"
-msgstr "Predefinição: "
+msgstr "Predefinições"
 
 #: libindi_strings.cpp:368
-#, fuzzy, kde-kuit-format
-#| msgid "Preset: "
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Preset 1"
-msgstr "Predefinição: "
+msgstr "Predefinição 1"
 
 #: libindi_strings.cpp:369
-#, fuzzy, kde-kuit-format
-#| msgid "Preset: "
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Preset 2"
-msgstr "Predefinição: "
+msgstr "Predefinição 2"
 
 #: libindi_strings.cpp:370
-#, fuzzy, kde-kuit-format
-#| msgid "Preset: "
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Preset 3"
-msgstr "Predefinição: "
+msgstr "Predefinição 3"
 
 #: libindi_strings.cpp:371
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Iowa USA"
-#| msgid "Primghar"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Primary"
-msgstr "Primghar"
+msgstr "Primário"
 
 #: libindi_strings.cpp:372
 #, kde-kuit-format
@@ -76183,20 +75878,16 @@ msgid "Property"
 msgstr "Propriedade"
 
 #: libindi_strings.cpp:373
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Data"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Purge Data"
-msgstr "Dados da imagem"
+msgstr "Eliminar dados"
 
 #: libindi_strings.cpp:374
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Burgeo"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Purge"
-msgstr "Burgeo"
+msgstr "Eliminar"
 
 #: libindi_strings.cpp:375
 #, kde-kuit-format
@@ -76211,12 +75902,10 @@ msgid "RA (arcmin)"
 msgstr "AR (arcmin)"
 
 #: libindi_strings.cpp:377
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "RA (arcmin)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "RA (arcsecs/s)"
-msgstr "AR (arcmin)"
+msgstr "AR (arcsegs/s)"
 
 #: libindi_strings.cpp:378
 #, kde-kuit-format
@@ -76243,11 +75932,10 @@ msgid "Ra (hh:mm:ss)"
 msgstr "AR (hh:mm:ss)"
 
 #: libindi_strings.cpp:382
-#, fuzzy, kde-kuit-format
-#| msgid "Rapid Guide"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Rapid Guide"
-msgstr "Guia Rápida"
+msgstr "Guia rápido"
 
 #: libindi_strings.cpp:383
 #, kde-kuit-format
@@ -76262,50 +75950,46 @@ msgid "Raw"
 msgstr "Bruto"
 
 #: libindi_strings.cpp:385
-#, fuzzy, kde-kuit-format
-#| msgid "Plate Solver Options"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record (Duration)"
-msgstr "Opções de resolução do prato"
+msgstr "Gravação (Duração)"
 
 #: libindi_strings.cpp:386
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record (Frames)"
-msgstr ""
+msgstr "Gravação (Quadros)"
 
 #: libindi_strings.cpp:387
-#, fuzzy, kde-kuit-format
-#| msgid "Import File"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record File"
-msgstr "Importar arquivo"
+msgstr "Arquivo de gravação"
 
 #: libindi_strings.cpp:388
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record Off"
-msgstr ""
+msgstr "Gravação desligada"
 
 #: libindi_strings.cpp:389
-#, fuzzy, kde-kuit-format
-#| msgid "Plate Solver Options"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record On"
-msgstr "Opções de resolução do prato"
+msgstr "Gravação ligada"
 
 #: libindi_strings.cpp:390
-#, fuzzy, kde-kuit-format
-#| msgid "Plate Solver Options"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record Options"
-msgstr "Opções de resolução do prato"
+msgstr "Opções de gravação"
 
 #: libindi_strings.cpp:391
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Recorder"
-msgstr ""
+msgstr "Gravador"
 
 #: libindi_strings.cpp:392
 #, kde-kuit-format
@@ -76314,11 +75998,10 @@ msgid "Red"
 msgstr "Vermelho"
 
 #: libindi_strings.cpp:393
-#, fuzzy, kde-kuit-format
-#| msgid "Select Devices"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Refresh"
-msgstr "Selecionar dispositivos"
+msgstr "Atualizar"
 
 #: libindi_strings.cpp:394
 #, kde-kuit-format
@@ -76327,18 +76010,16 @@ msgid "Relative Position"
 msgstr "Posição relativa"
 
 #: libindi_strings.cpp:395
-#, fuzzy, kde-kuit-format
-#| msgid "Interactive Mode"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Relative"
-msgstr "Modo interativo"
+msgstr "Relativa"
 
 #: libindi_strings.cpp:396
-#, fuzzy, kde-kuit-format
-#| msgid "Reset"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Reset"
-msgstr "Reiniciar"
+msgstr "Redefinir"
 
 #: libindi_strings.cpp:397
 #, kde-kuit-format
@@ -76365,18 +76046,16 @@ msgid "Restore"
 msgstr "Restaurar"
 
 #: libindi_strings.cpp:401
-#, fuzzy, kde-kuit-format
-#| msgid "Longitude in degrees"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Rotation CW (degrees)"
-msgstr "Longitude em graus"
+msgstr "Rotação horária (graus)"
 
 #: libindi_strings.cpp:402
-#, fuzzy, kde-kuit-format
-#| msgid "Rotation:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Rotation"
-msgstr "Rotação:"
+msgstr "Rotação"
 
 #: libindi_strings.cpp:403
 #, kde-kuit-format
@@ -76388,13 +76067,13 @@ msgstr "SAO"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "SII"
-msgstr ""
+msgstr "SII"
 
 #: libindi_strings.cpp:405
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "SQM"
-msgstr ""
+msgstr "SQM"
 
 #: libindi_strings.cpp:406
 #, kde-kuit-format
@@ -76427,39 +76106,34 @@ msgid "Save"
 msgstr "Salvar"
 
 #: libindi_strings.cpp:411
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ports"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Scan Ports"
-msgstr "Portas"
+msgstr "Escanear portas"
 
 #: libindi_strings.cpp:412
-#, fuzzy, kde-kuit-format
-#| msgid "config:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Scope Configs"
-msgstr "Configuração:"
+msgstr "Configurações de escopo"
 
 #: libindi_strings.cpp:413
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Scope Location"
-msgstr "Localização do telescópio"
+msgstr "Localização do escopo"
 
 #: libindi_strings.cpp:414
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Site Name"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Scope Name"
-msgstr "Nome do local"
+msgstr "Nome do escopo"
 
 #: libindi_strings.cpp:415
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Scope Properties"
-msgstr "Propriedades do telescópio"
+msgstr "Propriedades do escopo"
 
 #: libindi_strings.cpp:416
 #, kde-kuit-format
@@ -76486,12 +76160,10 @@ msgid "Selenographic Sync"
 msgstr "Sincronização Selenográfica"
 
 #: libindi_strings.cpp:420
-#, fuzzy, kde-kuit-format
-#| msgctxt "Region/state in Russia"
-#| msgid "Siberia"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Serial"
-msgstr "Sibéria"
+msgstr "Serial"
 
 #: libindi_strings.cpp:421
 #, kde-kuit-format
@@ -76614,11 +76286,10 @@ msgid "Sky Glow (magnitudes)"
 msgstr "Brilho do céu (magnitude)"
 
 #: libindi_strings.cpp:441
-#, fuzzy, kde-kuit-format
-#| msgid "JPEG Quality"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Sky Quality"
-msgstr "Qualidade JPEG"
+msgstr "Qualidade de céu"
 
 #: libindi_strings.cpp:442
 #, kde-kuit-format
@@ -76633,19 +76304,16 @@ msgid "Slew Accuracy"
 msgstr "Precisão do deslocamento"
 
 #: libindi_strings.cpp:444
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Slew rate"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew Rate"
 msgstr "Taxa de deslocamento"
 
 #: libindi_strings.cpp:445
-#, fuzzy, kde-kuit-format
-#| msgid "S&lew to Target"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Slew Target"
-msgstr "Des&locar para o destino"
+msgstr "Deslocar para o destino"
 
 #: libindi_strings.cpp:446
 #, kde-kuit-format
@@ -76702,9 +76370,7 @@ msgid "Solar"
 msgstr "Solar"
 
 #: libindi_strings.cpp:455
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "South (msec)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "South (ms)"
 msgstr "Sul (ms)"
@@ -76746,11 +76412,10 @@ msgid "Step delay"
 msgstr "Atraso do passo"
 
 #: libindi_strings.cpp:462
-#, fuzzy, kde-kuit-format
-#| msgid "Steps:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Steps"
-msgstr "Passo:"
+msgstr "Passos"
 
 #: libindi_strings.cpp:463
 #, kde-kuit-format
@@ -76771,12 +76436,10 @@ msgid "Stream On"
 msgstr "Transmissão ligada"
 
 #: libindi_strings.cpp:466
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Stream On"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Streaming"
-msgstr "Transmissão ligada"
+msgstr "Transmitindo"
 
 #: libindi_strings.cpp:467
 #, kde-kuit-format
@@ -76857,12 +76520,10 @@ msgid "Temp."
 msgstr "Temp."
 
 #: libindi_strings.cpp:480
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "OTA Temperature (C)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Temperature (C)"
-msgstr "Temperatura ambiente (C)"
+msgstr "Temperatura (C)"
 
 #: libindi_strings.cpp:481
 #, kde-kuit-format
@@ -76871,12 +76532,10 @@ msgid "Temperature K"
 msgstr "Temperatura (K)"
 
 #: libindi_strings.cpp:482
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Temperature K"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Temperature"
-msgstr "Temperatura (K)"
+msgstr "Temperatura"
 
 #: libindi_strings.cpp:483
 #, kde-kuit-format
@@ -76933,12 +76592,10 @@ msgid "Track Mode"
 msgstr "Modo do seguimento"
 
 #: libindi_strings.cpp:492
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Track Mode"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Track Rates"
-msgstr "Modo do seguimento"
+msgstr "Taxas de seguimento"
 
 #: libindi_strings.cpp:493
 #, kde-kuit-format
@@ -76971,11 +76628,10 @@ msgid "Tracking mode"
 msgstr "Modo do seguimento"
 
 #: libindi_strings.cpp:498
-#, fuzzy, kde-kuit-format
-#| msgid "Track"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Tracking"
-msgstr "Rastrear"
+msgstr "Seguindo"
 
 #: libindi_strings.cpp:499
 #, kde-kuit-format
@@ -77008,18 +76664,16 @@ msgid "UTC"
 msgstr "UTC"
 
 #: libindi_strings.cpp:504
-#, fuzzy, kde-kuit-format
-#| msgid "UnPark"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "UnPark"
 msgstr "Desbloquear"
 
 #: libindi_strings.cpp:505
-#, fuzzy, kde-kuit-format
-#| msgid "Unknown"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Unknown"
-msgstr "Desconhecida"
+msgstr "Desconhecido"
 
 #: libindi_strings.cpp:506
 #, kde-kuit-format
@@ -77040,16 +76694,13 @@ msgid "Update"
 msgstr "Atualizar"
 
 #: libindi_strings.cpp:509
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Upload Settings"
-msgstr "Configurações do simulador"
+msgstr "Configurações de envio"
 
 #: libindi_strings.cpp:510
-#, fuzzy, kde-kuit-format
-#| msgid "Upload"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Upload"
 msgstr "Enviar"
@@ -77082,7 +76733,7 @@ msgstr "Versão"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Video Record"
-msgstr ""
+msgstr "Gravação de vídeo"
 
 #: libindi_strings.cpp:516
 #, kde-kuit-format
@@ -77103,8 +76754,7 @@ msgid "W/E Rate"
 msgstr "Taxa O/E"
 
 #: libindi_strings.cpp:519
-#, fuzzy, kde-kuit-format
-#| msgid "WCS"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "WCS"
 msgstr "WCS"
@@ -77122,9 +76772,7 @@ msgid "Webcam Name"
 msgstr "Nome da Webcam"
 
 #: libindi_strings.cpp:522
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "West (msec)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "West (ms)"
 msgstr "Oeste (ms)"
@@ -77139,7 +76787,7 @@ msgstr "Oeste (ms)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "West (pointing east)"
-msgstr ""
+msgstr "Oeste (apontando para leste)"
 
 #: libindi_strings.cpp:525
 #, kde-kuit-format
@@ -77184,11 +76832,10 @@ msgid "Width"
 msgstr "Largura"
 
 #: libindi_strings.cpp:532
-#, fuzzy, kde-kuit-format
-#| msgid "Script Data"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Write Data"
-msgstr "Dados do script"
+msgstr "Escrever dados"
 
 #: libindi_strings.cpp:533
 #, kde-kuit-format
@@ -77334,6 +76981,8 @@ msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
 "program now."
 msgstr ""
+"Sem uma pasta de Dados do KStars, o KStars não pode operar. Saindo do "
+"programa agora."
 
 #: main.cpp:141
 #, kde-format
@@ -77342,6 +76991,9 @@ msgid ""
 "\n"
 "The Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"
 msgstr ""
+" (c), A equipe do KStars\n"
+"\n"
+"O algoritmo guia do processo Gaussiano: (c) 2014-2017 Sociedade Max Planck"
 
 #: main.cpp:143
 #, kde-format
@@ -77353,6 +77005,11 @@ msgid ""
 "\n"
 "%3"
 msgstr ""
+"Compilação: %1\n"
+"\n"
+"%2\n"
+"\n"
+"%3"
 
 #: main.cpp:150
 #, kde-format
@@ -77380,83 +77037,74 @@ msgid "Akarsh Simha"
 msgstr "Akarsh Simha"
 
 #: main.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "City in New Hampshire USA"
-#| msgid "Lancaster"
+#, kde-format
 msgid "Robert Lancaster"
-msgstr "Lancaster"
+msgstr "Robert Lancaster"
 
 #: main.cpp:159
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
-msgstr ""
+msgstr "Melhorias no FITSViewer e no Ekos. Porte do KStars para o OSX"
 
 #: main.cpp:161
 #, kde-format
 msgid "Eric Dejouhanet"
-msgstr ""
+msgstr "Eric Dejouhanet"
 
 #: main.cpp:162
-#, fuzzy, kde-format
-#| msgid "Open Ekos Scheduler List"
+#, kde-format
 msgid "Ekos Scheduler Improvements"
-msgstr "Abrir a lista de agendamentos do Ekos"
+msgstr "Melhorias no agendador do Ekos"
 
 #: main.cpp:163
 #, kde-format
 msgid "Wolfgang Reissenberger"
-msgstr ""
+msgstr "Wolfgang Reissenberger"
 
 #: main.cpp:165
-#, fuzzy, kde-format
-#| msgid "Open Ekos Scheduler List"
+#, kde-format
 msgid "Ekos Scheduler & Observatory Improvements"
-msgstr "Abrir a lista de agendamentos do Ekos"
+msgstr "Melhorias no agendador do Ekos e Observatório"
 
 #: main.cpp:166
 #, kde-format
 msgid "Hy Murveit"
-msgstr ""
+msgstr "Hy Murveit"
 
 #: main.cpp:167
-#, fuzzy, kde-format
-#| msgid "Open Ekos Scheduler List"
+#, kde-format
 msgid "FITS, Focus, Guide Improvements"
-msgstr "Abrir a lista de agendamentos do Ekos"
+msgstr "Melhorias no guia, FITS, e foco"
 
 #: main.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "City in Colorado USA"
-#| msgid "Mount Evans Obs."
+#, kde-format
 msgid "John Evans"
-msgstr "Observatório do Monte Evans"
+msgstr "John Evans"
 
 #: main.cpp:169
-#, fuzzy, kde-format
-#| msgid "Scheduler is awake."
+#, kde-format
 msgid "Focus algorithms"
-msgstr "O agendador está ativo."
+msgstr "Algoritmos de foco"
 
 #: main.cpp:172
 #, kde-format
 msgid "Csaba Kertesz"
-msgstr ""
+msgstr "Csaba Kertesz"
 
 #: main.cpp:174
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
-msgstr ""
+msgstr "Lista de asteroides binários, banco de dados DSO e catálogos"
 
 #: main.cpp:175
 #, kde-format
 msgid "Artem Fedoskin"
-msgstr ""
+msgstr "Artem Fedoskin"
 
 #: main.cpp:175
-#, fuzzy, kde-format
-#| msgid "KStars"
+#, kde-format
 msgid "KStars Lite"
-msgstr "KStars"
+msgstr "KStars Lite"
 
 #: main.cpp:177
 #, kde-format
@@ -77600,114 +77248,106 @@ msgid "Stephane Lucas"
 msgstr "Stephane Lucas"
 
 #: main.cpp:213
-#, fuzzy, kde-format
-#| msgid "Extensive testing and suggestions for Ekos Scheduler."
+#, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
-msgstr "Testes exaustivos e sugestões para o Agendador do Ekos."
+msgstr ""
+"Testes exaustivos e sugestões para o Agendador do Ekos. Porte do KStars para "
+"o OSX"
 
 #: main.cpp:214
 #, kde-format
 msgid "Yuri Fabirovsky"
-msgstr ""
+msgstr "Yuri Fabirovsky"
 
 #: main.cpp:215
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
-msgstr ""
+msgstr "Tela inicial para o KStars regular e para o KStars Lite."
 
 #: main.cpp:216
 #, kde-format
 msgid "Jamie Smith"
-msgstr ""
+msgstr "Jamie Smith"
 
 #: main.cpp:216
 #, kde-format
 msgid "KStars OSX Port."
-msgstr ""
+msgstr "Porte do KStars para o OSX."
 
 #: main.cpp:217
-#, fuzzy, kde-format
-#| msgid "Park Mount"
+#, kde-format
 msgid "Patrick Molenaar"
-msgstr "Bloquear a montagem"
+msgstr "Patrick Molenaar"
 
 #: main.cpp:217
 #, kde-format
 msgid "Bahtinov Focus Assistant."
-msgstr ""
+msgstr "Assistente de foco Bahtinov."
 
 #: main.cpp:218
 #, kde-format
 msgid "Philipp Auersperg-Castell"
-msgstr ""
+msgstr "Philipp Auersperg-Castell"
 
 #: main.cpp:218
-#, fuzzy, kde-format
-#| msgid "Supernovae"
+#, kde-format
 msgid "Supernovae daily updates"
-msgstr "Supernovas"
+msgstr "Atualizações diárias de supernovas"
 
 #: main.cpp:219
 #, kde-format
 msgid "Tony Schriber"
-msgstr ""
+msgstr "Tony Schriber"
 
 #: main.cpp:219
 #, kde-format
 msgid "Rotator Dialog improvements"
-msgstr ""
+msgstr "Melhorias na janela do rotador"
 
 #: main.cpp:220
 #, kde-format
 msgid "Joseph McGee"
-msgstr ""
+msgstr "Joseph McGee"
 
 #: main.cpp:220
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
-msgstr ""
+msgstr "Calculadora de subexposição baseada no trabalho do Dr. Robin Glover"
 
 #: main.cpp:230
-#, fuzzy, kde-format
-#| msgid "Dump sky image to file"
+#, kde-format
 msgid "Dump sky image to file."
 msgstr "Descarregar imagem do céu em um arquivo"
 
 #: main.cpp:231
-#, fuzzy, kde-format
-#| msgid "Script to execute"
+#, kde-format
 msgid "Script to execute."
-msgstr "Script a ser executado"
+msgstr "Script a ser executado."
 
 #: main.cpp:232
-#, fuzzy, kde-format
-#| msgid "Width of sky image"
+#, kde-format
 msgid "Width of sky image."
-msgstr "Largura da imagem do céu"
+msgstr "Largura da imagem do céu."
 
 #: main.cpp:233
-#, fuzzy, kde-format
-#| msgid "Height of sky image"
+#, kde-format
 msgid "Height of sky image."
-msgstr "Altura da imagem do céu"
+msgstr "Altura da imagem do céu."
 
 #: main.cpp:234
-#, fuzzy, kde-format
-#| msgid "Date and time"
+#, kde-format
 msgid "Date and time."
-msgstr "Data e hora"
+msgstr "Data e hora."
 
 #: main.cpp:235
-#, fuzzy, kde-format
-#| msgid "Start with clock paused"
+#, kde-format
 msgid "Start with clock paused."
-msgstr "Iniciar com o relógio pausado"
+msgstr "Iniciar com o relógio pausado."
 
 #: main.cpp:236
-#, fuzzy, kde-format
-#| msgid "Restarting %1 alignment procedure..."
+#, kde-format
 msgid "Run Live Stacker standalone mode"
-msgstr "Reiniciando o processo de alinhamento de %1..."
+msgstr "Executar o modo autônomo do empilhamento ao vivo"
 
 #: main.cpp:239
 #, kde-format
@@ -77721,10 +77361,9 @@ msgstr ""
 "Não foi possível analisar o formato da imagem de %1; assumindo que é PNG."
 
 #: main.cpp:343
-#, fuzzy, kde-format
-#| msgid "Using CPU date/time instead."
+#, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
-msgstr "Usando data/hora da CPU."
+msgstr "A sequência de data fornecida é inválida: %1. Usando data/hora da CPU."
 
 #: main.cpp:374
 #, kde-format
@@ -77742,8 +77381,7 @@ msgid "Using CPU date/time instead."
 msgstr "Usando data/hora da CPU."
 
 #: oal/equipmentwriter.cpp:32
-#, fuzzy, kde-format
-#| msgid "Configure Equipment"
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Equipment"
 msgstr "Configurar equipamento"
@@ -77807,7 +77445,7 @@ msgstr "Cassegrain"
 #: oal/equipmentwriter.ui:114
 #, kde-format
 msgid "Ritchey-Chretien"
-msgstr ""
+msgstr "Ritchey-Chretien"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -77836,12 +77474,12 @@ msgstr "Fabricante:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, FocalLength)
 #: oal/equipmentwriter.ui:157
-#, fuzzy, kde-format
-#| msgid "Telescope focal length in millimeters."
+#, kde-format
 msgid ""
 "Official telescope focal length in millimeters without any reducers or "
 "barlows"
-msgstr "Distância focal do telescópio, em milímetros."
+msgstr ""
+"Distância focal oficial do telescópio em milímetros, sem redutores ou barlows"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
@@ -77852,25 +77490,21 @@ msgstr "Abertura:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddScope)
 #: oal/equipmentwriter.ui:288
-#, fuzzy, kde-format
-#| msgid "Failed to save telescope information."
+#, kde-format
 msgid "Save telescope information"
-msgstr "Não foi possível salvar as informações do telescópio."
+msgstr "Salvar informações do telescópio"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewScope)
 #: oal/equipmentwriter.ui:320
-#, fuzzy, kde-format
-#| msgid "Add new telescope"
+#, kde-format
 msgid "Clear data and add a new telescope"
-msgstr "Adicionar novo telescópio"
+msgstr "Limpar dados e adicionar um novo telescópio"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveScope)
 #: oal/equipmentwriter.ui:339
-#, fuzzy, kde-format
-#| msgctxt "Move the telescope to an object or location"
-#| msgid "Slew Telescope"
+#, kde-format
 msgid "Remove current telescope"
-msgstr "Deslocar o telescópio"
+msgstr "Remover o telescópio atual"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: oal/equipmentwriter.ui:369
@@ -77899,61 +77533,54 @@ msgstr "rad"
 #. i18n: ectx: attribute (title), widget (QWidget, DSLRLens)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: oal/equipmentwriter.ui:526 oal/equipmentwriter.ui:558
-#, fuzzy, kde-format
-#| msgid "Save Lens"
+#, kde-format
 msgid "DSLR Lens"
-msgstr "Salvar lente"
+msgstr "Lente DSLR"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #: oal/equipmentwriter.ui:591
-#, fuzzy, kde-format
-#| msgid "Focal Length:"
+#, kde-format
 msgid "Focal Length"
-msgstr "Distância focal:"
+msgstr "Distância focal"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
 #: oal/equipmentwriter.ui:605
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Lens Focal Ratio or F-Number</p></body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Razão focal da lente ou número F</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddDSLRLens)
 #: oal/equipmentwriter.ui:696
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Save DSLR lens information</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+"<html><head/><body><p>Salvar informações da lente DSLR</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewDSLRLens)
 #: oal/equipmentwriter.ui:728
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Clear data and add a new DSLR lens</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+"<html><head/><body><p>Limpar dados e adicionar uma nova lente DSLR</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveDSLRLens)
 #: oal/equipmentwriter.ui:747
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Remove current DSLR lens</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Horas de desligamento preventivo</p></body></html>"
+msgstr "<html><head/><body><p>Remover lente DSLR atual</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ScopeLens)
 #: oal/equipmentwriter.ui:771
-#, fuzzy, kde-format
-#| msgid "Save Lens"
+#, kde-format
 msgid "Barlow Lens"
-msgstr "Salvar lente"
+msgstr "Lentes Barlow"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: oal/equipmentwriter.ui:803
-#, fuzzy, kde-format
-#| msgid "Enter details of Barlow/Shapley lenses"
+#, kde-format
 msgid "Enter Details of Barlow/Shapley Lenses"
 msgstr "Insira os detalhes das lentes Barlow/Shapley"
 
@@ -77977,74 +77604,63 @@ msgstr "Salvar lente"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_18)
 #: oal/equipmentwriter.ui:1023
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter Count"
+#, kde-format
 msgid "Filter focus offset"
-msgstr "Número de filtros"
+msgstr "Deslocamento do foco de filtro"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: oal/equipmentwriter.ui:1052
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Absolute Position"
+#, kde-format
 msgid "Abs. position:"
-msgstr "Posição absoluta"
+msgstr "Posição absoluta:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: oal/equipmentwriter.ui:1072
-#, fuzzy, kde-format
-#| msgid "Focus Out"
+#, kde-format
 msgid "Focus alt:"
-msgstr "Desfocar"
+msgstr "Alt do foco:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: oal/equipmentwriter.ui:1095
-#, fuzzy, kde-format
-#| msgid "Ticks:"
+#, kde-format
 msgid "Ticks per C:"
-msgstr "Passos:"
+msgstr "Tiques por C:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: oal/equipmentwriter.ui:1112
-#, fuzzy, kde-format
-#| msgid "Ticks:"
+#, kde-format
 msgid "Ticks per Alt:"
-msgstr "Passos:"
+msgstr "Tiques por Alt:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: oal/equipmentwriter.ui:1136
-#, fuzzy, kde-format
-#| msgid "Start Focus"
+#, kde-format
 msgid "Auto focus:"
-msgstr "Iniciar o foco"
+msgstr "Foco automático:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: oal/equipmentwriter.ui:1150
-#, fuzzy, kde-format
-#| msgid "Filter:"
+#, kde-format
 msgid "Locked filter:"
-msgstr "Filtro:"
+msgstr "Filtro bloqueado:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: oal/equipmentwriter.ui:1183
-#, fuzzy, kde-format
-#| msgid "Focuser:"
+#, kde-format
 msgid "Focus temp:"
-msgstr "Focalizador:"
+msgstr "Temp do foco:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: oal/equipmentwriter.ui:1206
-#, fuzzy, kde-format
-#| msgid "Focus Out"
+#, kde-format
 msgid "Focus DT:"
-msgstr "Desfocar"
+msgstr "DT do foco:"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, f_FocusDatetime)
 #: oal/equipmentwriter.ui:1250
 #, kde-format
 msgid "yyyy-MM-dd hh:mm:ss"
-msgstr ""
+msgstr "aaaa-MM-dd hh:mm:ss"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
 #: oal/equipmentwriter.ui:1284
@@ -78063,11 +77679,10 @@ msgid "Save and End the current session"
 msgstr "Salvar e finalizar a sessão atual"
 
 #: oal/execute.cpp:45
-#, fuzzy, kde-format
-#| msgid "Execute Session"
+#, kde-format
 msgctxt "@title:window"
 msgid "Execute Session"
-msgstr "Executar a sessão"
+msgstr "Executar sessão"
 
 #: oal/execute.cpp:154 oal/execute.cpp:419
 #, kde-format
@@ -78095,8 +77710,7 @@ msgid "observation_"
 msgstr "observação_"
 
 #: oal/execute.cpp:306
-#, fuzzy, kde-format
-#| msgid "Save Session"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Session"
 msgstr "Salvar sessão"
@@ -78157,8 +77771,7 @@ msgstr "Exibir os detalhes do objeto:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #: oal/execute.ui:160
-#, fuzzy, kde-format
-#| msgid "Scheduled Time:"
+#, kde-format
 msgid "Scheduled time:"
 msgstr "Hora agendada:"
 
@@ -78181,8 +77794,7 @@ msgstr "Ascensão reta:"
 
 #. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget_4)
 #: oal/execute.ui:232
-#, fuzzy, kde-format
-#| msgid "Set observing notes for the object:"
+#, kde-format
 msgid "Set Observing Notes for the Object:"
 msgstr "Definir as notas de observação para o objeto:"
 
@@ -78249,10 +77861,7 @@ msgstr "(magnitude)"
 
 #. i18n: ectx: property (text), widget (QLabel, hintLabel)
 #: oal/execute.ui:443
-#, fuzzy, kde-format
-#| msgid ""
-#| "Looks like you haven't listed out your observers / equipment. Please hit "
-#| "Ctrl + 0 and Ctrl + 1 to fix this situation and come back here."
+#, kde-format
 msgid ""
 "Looks like you have not listed out your observers / equipment. Please hit "
 "Ctrl + 0 and Ctrl + 1 to fix this situation and come back here."
@@ -78297,8 +77906,7 @@ msgid "Overwrite"
 msgstr "Sobrescrever"
 
 #: oal/observeradd.cpp:24
-#, fuzzy, kde-format
-#| msgid "Manage Observers"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Observers"
 msgstr "Gerenciar observadores"
@@ -78313,23 +77921,20 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: oal/observeradd.ui:63
-#, fuzzy, kde-format
-#| msgid "Surname"
+#, kde-format
 msgid "Surname:"
-msgstr "Sobrenome"
+msgstr "Sobrenome:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: oal/observeradd.ui:73
-#, fuzzy, kde-format
-#| msgid "Contact"
+#, kde-format
 msgid "Contact:"
-msgstr "Contato"
+msgstr "Contato:"
 
 #: options/opsadvanced.cpp:127
-#, fuzzy, kde-format
-#| msgid "Capture complete. Select a star to focus."
+#, kde-format
 msgid "Purge complete. Please restart KStars."
-msgstr "Captura concluída. Selecione uma estrela para focar."
+msgstr "Eliminação concluída. Reinicie o KStars."
 
 #: options/opsadvanced.cpp:136
 #, kde-format
@@ -78337,12 +77942,13 @@ msgid ""
 "Warning! All KStars configuration is going to be purged. This cannot be "
 "reversed."
 msgstr ""
+"Aviso! Todas as configurações do KStars serão apagadas. Isso não pode ser "
+"revertido."
 
 #: options/opsadvanced.cpp:137
-#, fuzzy, kde-format
-#| msgid "Configuration"
+#, kde-format
 msgid "Clear Configuration"
-msgstr "Configuração"
+msgstr "Limpar configuração"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: options/opsadvanced.ui:36
@@ -78425,15 +78031,13 @@ msgstr "Imagens do DSS"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opsadvanced.ui:122
-#, fuzzy, kde-format
-#| msgid "Default DSS Image Size: "
+#, kde-format
 msgid "Default DSS image size:"
-msgstr "Tamanho padrão das imagens do DSS: "
+msgstr "Tamanho padrão das imagens do DSS:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opsadvanced.ui:170
-#, fuzzy, kde-format
-#| msgid "Padding around Deep Sky Objects:"
+#, kde-format
 msgid "Padding around deep sky objects:"
 msgstr "Preenchimento ao redor dos objetos do espaço profundo:"
 
@@ -78445,10 +78049,9 @@ msgstr "Saída de registro"
 
 #. i18n: ectx: property (text), widget (QPushButton, showLogsB)
 #: options/opsadvanced.ui:283
-#, fuzzy, kde-format
-#| msgid "Show &long names"
+#, kde-format
 msgid "Show Logs..."
-msgstr "Mostrar os &nomes compridos"
+msgstr "Mostrar registros..."
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_VerboseLogging)
 #: options/opsadvanced.ui:304
@@ -78460,7 +78063,7 @@ msgstr "Ativar o resultado descritivo da depuração"
 #: options/opsadvanced.ui:384
 #, kde-format
 msgid "Clear all KStars configuration and user database."
-msgstr ""
+msgstr "Limpa todas as configurações do KStars e o banco de dados do usuário."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: options/opsadvanced.ui:420
@@ -78473,13 +78076,14 @@ msgstr "Aparência e &comportamento"
 #, kde-format
 msgid "Adjust speed of zooming when scrolling in and out with the mouse wheel"
 msgstr ""
+"Ajustar a velocidade do zoom ao rolar para dentro e para fora com a roda do "
+"mouse"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opsadvanced.ui:434
-#, fuzzy, kde-format
-#| msgid "Zoom Scroll Speed:"
+#, kde-format
 msgid "Zoom scroll speed:"
-msgstr "Velociadade de rolagem de ampliação:"
+msgstr "Velocidade de rolagem de ampliação:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseAutoLabel)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseHoverLabel)
@@ -78515,40 +78119,33 @@ msgstr "Anexar nome temporário ao mover o mouse"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowInlineImages)
 #: options/opsadvanced.ui:534
-#, fuzzy, kde-format
-#| msgid "Draw planets as images in the sky map?"
+#, kde-format
 msgid "Show inline images on the sky?"
-msgstr "Desenhar os planetas como imagens no mapa celeste?"
+msgstr "Mostrar imagens em linha no céu?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowInlineImages)
 #: options/opsadvanced.ui:537
-#, fuzzy, kde-format
-#| msgid "If checked, flags will be drawn on the sky map"
+#, kde-format
 msgid "If checked, inline images will be shown on the skymap."
-msgstr "Se marcada, serão desenhadas bandeiras no mapa celeste"
+msgstr "Se marcada, as imagens em linha serão mostradas no mapa celeste."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowInlineImages)
 #: options/opsadvanced.ui:540
-#, fuzzy, kde-format
-#| msgid "Draw planets as images in the sky map?"
+#, kde-format
 msgid "Show inline images"
-msgstr "Desenhar os planetas como imagens no mapa celeste?"
+msgstr "Mostrar imagens em linha"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DefaultCursor)
 #: options/opsadvanced.ui:548
-#, fuzzy, kde-format
-#| msgctxt "City in Alaska USA"
-#| msgid "Barrow"
+#, kde-format
 msgid "Arrow"
-msgstr "Barrow"
+msgstr "Seta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DefaultCursor)
 #: options/opsadvanced.ui:553
-#, fuzzy, kde-format
-#| msgctxt "City in Wisconsin USA"
-#| msgid "La Crosse"
+#, kde-format
 msgid "Cross"
-msgstr "La Crosse"
+msgstr "Cruz"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseAntialias)
 #: options/opsadvanced.ui:566
@@ -78564,18 +78161,15 @@ msgstr "Usar desenho suavizado"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_LeftClickSelectsObject)
 #: options/opsadvanced.ui:576
-#, fuzzy, kde-format
-#| msgid "I wish to select objects:"
+#, kde-format
 msgid "Left click selects object"
-msgstr "Desejo selecionar os objetos:"
+msgstr "Clique-esquerdo seleciona objeto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: options/opsadvanced.ui:583
-#, fuzzy, kde-format
-#| msgctxt "use default color scheme"
-#| msgid "Default Colors"
+#, kde-format
 msgid "Default cursor:"
-msgstr "Cores padrão"
+msgstr "Cursor padrão:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseAnimatedSlewing)
 #: options/opsadvanced.ui:590
@@ -78605,14 +78199,13 @@ msgstr "Usar rotação animada"
 #: options/opsadvanced.ui:603
 #, kde-format
 msgid "Font size of sky map labels:"
-msgstr ""
+msgstr "Tamanho da fonte dos rótulos do mapa:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, hideObjectsWhileSlewing)
 #: options/opsadvanced.ui:628
-#, fuzzy, kde-format
-#| msgid "Hide objects while moving"
+#, kde-format
 msgid "Configure hidden objects while moving"
-msgstr "Ocultar os objetos enquanto se move"
+msgstr "Configurar objetos ocultos enquanto se move"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideOnSlew)
 #: options/opsadvanced.ui:649
@@ -78641,10 +78234,9 @@ msgstr "Ocultar os objetos enquanto se move"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabelHideTimeStep)
 #: options/opsadvanced.ui:667
-#, fuzzy, kde-format
-#| msgid "Also hide if time step larger than:"
+#, kde-format
 msgid "Hide objects only if time step is larger than threshold"
-msgstr "Também ocultar se o período de tempo for maior que:"
+msgstr "Ocultar objetos somente se o intervalo de tempo for maior que o limite"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelHideTimeStep)
 #: options/opsadvanced.ui:670
@@ -78663,10 +78255,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideStars)
 #: options/opsadvanced.ui:683
-#, fuzzy, kde-format
-#| msgid "Stars fainter than"
+#, kde-format
 msgid "Stars fainter than magnitude:"
-msgstr "Mostrar estrelas mais brilhantes que"
+msgstr "Estrelas mais fracas que a magnitude:"
 
 #. i18n: ectx: property (whatsThis), widget (MagnitudeSpinBox, kcfg_MagLimitHideStar)
 #: options/opsadvanced.ui:702
@@ -78701,10 +78292,9 @@ msgstr "Sistema solar"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideLabels)
 #: options/opsadvanced.ui:724
-#, fuzzy, kde-format
-#| msgid "Hide object name labels while moving?"
+#, kde-format
 msgid "Hide object labels while moving?"
-msgstr "Ocultar os rótulos de nome dos objetos enquanto se move?"
+msgstr "Ocultar os rótulos dos objetos enquanto se move?"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideLabels)
 #: options/opsadvanced.ui:727
@@ -78780,8 +78370,7 @@ msgstr "Rótulos/nomes da lista de observação"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_ObsListSymbol)
 #: options/opsadvanced.ui:851
-#, fuzzy, kde-format
-#| msgid "Sy&mbol"
+#, kde-format
 msgid "S&ymbol"
 msgstr "Sí&mbolo"
 
@@ -78793,10 +78382,9 @@ msgstr "Te&xto"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ObsListImageryOptions)
 #: options/opsadvanced.ui:877
-#, fuzzy, kde-format
-#| msgid "Reference Images:"
+#, kde-format
 msgid "Preferred Imagery"
-msgstr "Imagens de referência:"
+msgstr "Imagens preferidas"
 
 # Não traduzir. (Alvarenga)
 # https://en.wikipedia.org/wiki/Digitized_Sky_Survey
@@ -78808,18 +78396,15 @@ msgstr "Digiti&zed Sky Survey (DSS)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_ObsListPreferSDSS)
 #: options/opsadvanced.ui:914
-#, fuzzy, kde-format
-#| msgid "Sloan Digital Sky Sur&vey (SDSS)"
+#, kde-format
 msgid "Sloan &Digital Sky Survey (SDSS)"
-msgstr "Sloan Digital Sky Sur&vey (SDSS)"
+msgstr "Sloan &Digital Sky Survey (SDSS)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ObsListMiscOptions)
 #: options/opsadvanced.ui:924
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Other Miscellaneous"
+#, kde-format
 msgid "Miscellaneous"
-msgstr "Outros diversos"
+msgstr "Diversos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObsListDemoteHole)
 #: options/opsadvanced.ui:945
@@ -78828,25 +78413,24 @@ msgid ""
 "While sorting by percentage altitude, demote objects present in the "
 "Dobsonian hole"
 msgstr ""
+"Ao classificar por porcentagem de altitude, rebaixa os objetos presentes no "
+"buraco Dobsoniano"
 
 #. i18n: ectx: property (text), widget (QLabel, holeSizeLabel)
 #: options/opsadvanced.ui:976
-#, fuzzy, kde-format
-#| msgid "Longitude in degrees"
+#, kde-format
 msgid "Hole size in degrees:"
-msgstr "Longitude em graus"
+msgstr "Tamanho do buraco em graus:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowStars)
 #: options/opscatalog.ui:25
-#, fuzzy, kde-format
-#| msgid "&Star Catalogs"
+#, kde-format
 msgid "&Star catalogs"
 msgstr "Catálogos de e&strelas"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelStarDensity)
 #: options/opscatalog.ui:52
-#, fuzzy, kde-format
-#| msgid "Star Density:"
+#, kde-format
 msgid "Star density:"
 msgstr "Densidade de estrelas:"
 
@@ -78866,7 +78450,7 @@ msgstr "Mostrar a ma&gnitude"
 #: options/opscatalog.ui:149
 #, kde-format
 msgid "Display stars when HIPS is displayed"
-msgstr ""
+msgstr "Exibir estrelas quando HIPS for exibido"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelDensity)
 #. i18n: ectx: property (text), widget (QLabel, DeepSkyLabelDensityLabel)
@@ -78878,8 +78462,7 @@ msgstr "Densidade dos rótulos:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDeepSky)
 #: options/opscatalog.ui:277
-#, fuzzy, kde-format
-#| msgid "Deep-Sky Catalogs"
+#, kde-format
 msgid "Deep-sky catalogs"
 msgstr "Catálogos do espaço profundo"
 
@@ -78887,13 +78470,13 @@ msgstr "Catálogos do espaço profundo"
 #: options/opscatalog.ui:311
 #, kde-format
 msgid "DSO minimal zoom:"
-msgstr ""
+msgstr "Zoom mínimo do DSO:"
 
 #. i18n: ectx: property (text), widget (QLabel, DSOCacheLabel)
 #: options/opscatalog.ui:376
 #, kde-format
 msgid "DSO cache percentage:"
-msgstr ""
+msgstr "Percentagem de cache do DSO:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDeepSkyNames)
 #: options/opscatalog.ui:438
@@ -78915,11 +78498,9 @@ msgstr "Mostrar a ma&gnitude"
 
 #. i18n: ectx: property (text), widget (QPushButton, manageButton)
 #: options/opscatalog.ui:603
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Deep Sky Catalogs"
+#, kde-format
 msgid "Manage Deep Sky Catalogs..."
-msgstr "Catálogos do espaço profundo"
+msgstr "Gerenciar catálogos do espaço profundo..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResolveNamesOnline)
 #: options/opscatalog.ui:617
@@ -78931,24 +78512,27 @@ msgid ""
 "The objects acquired in this manner are stored under a catalog that is "
 "called user, and it can be edited using the \"Manage DSO Catalogs\" feature."
 msgstr ""
+"Se esta caixa de seleção estiver marcada, quando um nome de objeto "
+"desconhecido para o KStars for inserido na caixa de diálogo Localizar, o "
+"KStars entrará em contato com serviços online (como o CDS Sesame) para obter "
+"informações sobre o objeto e, em seguida, adicioná-lo ao banco de dados. Os "
+"objetos adquiridos dessa maneira são armazenados em um catálogo chamado de "
+"usuário, e ele pode ser editado usando o recurso \"Gerenciar catálogos DSO\"."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResolveNamesOnline)
 #: options/opscatalog.ui:620
 #, kde-format
 msgid "Resolve names not known to KStars using online services"
-msgstr ""
+msgstr "Resolver nomes desconhecidos do KStars usando serviços online"
 
 #. i18n: ectx: property (toolTip), widget (MagnitudeSpinBox, kcfg_MagLimitDrawDeepSkyZoomOut)
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMagDeepSkyZoomOut)
 #: options/opscatalog.ui:663 options/opscatalog.ui:673
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "out."
+#, kde-format
 msgid "Set the faint magnitude limit for deep-sky objects when zoomed out."
 msgstr ""
-"O limite de magnitude para desenhar os objetos do espaço profundo, quando "
-"totalmente reduzidos."
+"Define o limite de magnitude para objetos do espaço profundo, quando "
+"diminuídos."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMagDeepSkyZoomOut)
 #: options/opscatalog.ui:676
@@ -78958,14 +78542,11 @@ msgstr "Limite de visão diminuído:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMag4)
 #: options/opscatalog.ui:683
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "out."
+#, kde-format
 msgid "Set the faint magnitude limits for deep-sky objects when zoomed out."
 msgstr ""
-"O limite de magnitude para desenhar os objetos do espaço profundo, quando "
-"totalmente reduzidos."
+"Define os limites de magnitude para objetos do espaço profundo, quando "
+"reduzidos."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMag4)
 #. i18n: ectx: property (text), widget (QLabel, LabelMag3)
@@ -78984,14 +78565,11 @@ msgstr "mag"
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMag3)
 #: options/opscatalog.ui:693 options/opscatalog.ui:703
 #: options/opscatalog.ui:713
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "in."
+#, kde-format
 msgid "Set the faint magnitude limits for deep-sky objects when zoomed in."
 msgstr ""
-"O limite de magnitude para desenhar os objetos do espaço profundo, quando "
-"totalmente ampliados."
+"Define os limites de magnitude para objetos do espaço profundo, quando "
+"ampliados."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMagDeepSky)
 #: options/opscatalog.ui:696
@@ -79009,6 +78587,11 @@ msgid ""
 "Check this checkbox to show such objects which do not have known magnitudes "
 "in the database."
 msgstr ""
+"Muitos objetos não possuem magnitudes conhecidas nos bancos de dados.\n"
+"Eles geralmente tendem a ser tênues ou muito difusos, mas nem sempre é esse "
+"o caso.\n"
+"Marque esta caixa de seleção para mostrar os objetos que não possuem "
+"magnitudes conhecidas no banco de dados."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowUnknownMagObjects)
 #: options/opscatalog.ui:746
@@ -79256,92 +78839,81 @@ msgstr "Temas do aplicativo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: options/opsdeveloper.ui:34
-#, fuzzy, kde-format
-#| msgid "Plate Solver Options"
+#, kde-format
 msgid "Developer Options"
-msgstr "Opções de resolução do prato"
+msgstr "Opções de desenvolvedor"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:45
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Only evaluate jobs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Option replaced by the <span style=\" font-weight:600;"
 "\">max. focus frame</span> option in the Focus options.</p></body></html>"
-msgstr "<html><head/><body><p>Apenas avaliar as tarefas</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Opção substituída pela opção <span style=\" font-"
+"weight:600;\">quadro de foco máximo</span> nas opções de Foco.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:48
-#, fuzzy, kde-format
-#| msgid "Save Image"
+#, kde-format
 msgid "Save Focus Images"
-msgstr "Salvar imagem"
+msgstr "Salvar imagens de foco"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideImages)
 #: options/opsdeveloper.ui:55
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Do not permit jobs to be scheduled or executed past "
-#| "this many minutes before dawn.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Internal Guider frames. Only enable to "
 "troubleshoot guider by examining frames. This can consume a lot of storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Não permitir o agendamento ou execução de tarefas "
-"neste período, em minutos, antes do amanhecer.</p></body></html>"
+"<html><head/><body><p>Salvar quadros do guia interno. Habilite a solução de "
+"problemas do guia apenas examinando quadros. Isso pode consumir muito espaço "
+"de armazenamento.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveGuideImages)
 #: options/opsdeveloper.ui:58
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guider Image"
+#, kde-format
 msgid "Save Guider Images"
-msgstr "Imagem da guia"
+msgstr "Salvar imagens da guia"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Do not permit jobs to be scheduled or executed past "
-#| "this many minutes before dawn.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Internal Align frames. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Não permitir o agendamento ou execução de tarefas "
-"neste período, em minutos, antes do amanhecer.</p></body></html>"
+"<html><head/><body><p>Salvar quadros de alinhamento interno. Habilite apenas "
+"para solucionar problemas de alinhamento examinando quadros. Isso pode "
+"consumir algum espaço de armazenamento extra.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:68
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guider Image"
+#, kde-format
 msgid "Save Align Images"
-msgstr "Imagem da guia"
+msgstr "Salvar imagens de alinhamento"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:75
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Do not permit jobs to be scheduled or executed past "
-#| "this many minutes before dawn.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Align images where align failed. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Não permitir o agendamento ou execução de tarefas "
-"neste período, em minutos, antes do amanhecer.</p></body></html>"
+"<html><head/><body><p>Salva as imagens de alinhamento onde o alinhamento "
+"falhou. Habilite apenas para solucionar problemas de alinhamento examinando "
+"quadros. Isso pode consumir algum espaço de armazenamento extra.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:78
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guider Image"
+#, kde-format
 msgid "Save Failed Align Images"
-msgstr "Imagem da guia"
+msgstr "Salvar imagens de alinhamentos falhados"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DontSyncToRealTime)
 #: options/opsdeveloper.ui:85
@@ -79351,12 +78923,15 @@ msgid ""
 "This could cause issues for real imaging runs, but can be useful in "
 "reproducing/debugging issues.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Não sincroniza com o relógio do sistema quando o Ekos "
+"for iniciado. Isso pode causar problemas em execuções de imagens reais, mas "
+"pode ser útil em problemas de reprodução/depuração.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSyncToRealTime)
 #: options/opsdeveloper.ui:88
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
-msgstr ""
+msgstr "Não sincronizar com o tempo real na inicialização do Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
@@ -79403,8 +78978,7 @@ msgstr "&Fronteiras da constelação"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowConstellationArt)
 #: options/opsguides.ui:68
-#, fuzzy, kde-format
-#| msgid "Constellation Art"
+#, kde-format
 msgid "Constellation art"
 msgstr "Imagens artísticas das constelações"
 
@@ -79538,8 +79112,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FillMilkyWay)
 #: options/opsguides.ui:220
-#, fuzzy, kde-format
-#| msgid "Fill Milk&y Way"
+#, kde-format
 msgid "Fill milk&y way"
 msgstr "Preencher a Via &Láctea"
 
@@ -79581,8 +79154,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowMilkyWay)
 #: options/opsguides.ui:252
-#, fuzzy, kde-format
-#| msgid "Mil&ky Way"
+#, kde-format
 msgid "Mil&ky way"
 msgstr "&Via Láctea"
 
@@ -79715,23 +79287,20 @@ msgstr "E&quador celeste"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowLocalMeridian)
 #: options/opsguides.ui:374
-#, fuzzy, kde-format
-#| msgid "Local Meridian"
+#, kde-format
 msgid "Local meridian"
 msgstr "Meridiano local"
 
 #: options/opsimageoverlay.cpp:76
-#, fuzzy, kde-format
-#| msgid "Profile Editor"
+#, kde-format
 msgid "Image Overlay Align Options Profiles Editor"
-msgstr "Editor de perfis"
+msgstr "Editor de perfis de opções de alinhamento da sobreposição de imagem"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
-#, fuzzy, kde-format
-#| msgid "Show image of "
+#, kde-format
 msgid "Show image overlays"
-msgstr "Mostrar imagem de "
+msgstr "Mostrar sobreposições de imagem"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:71
@@ -79740,19 +79309,20 @@ msgid ""
 "Center SkyMap over the selected overlay image in the table below (if it's "
 "solved)."
 msgstr ""
+"Centralizar o mapa celeste sobre a imagem de sobreposição selecionada na "
+"tabela abaixo (se estiver solucionado)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
-#, fuzzy, kde-format
-#| msgid "Center in Telescope"
+#, kde-format
 msgid "Center SkyMap on selection"
-msgstr "Centralizar no telescópio"
+msgstr "Centralizar mapa celeste na seleção"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
 #: options/opsimageoverlay.ui:84
 #, kde-format
 msgid "Display Image Overlays below catalogs"
-msgstr ""
+msgstr "Exibir sobreposições da imagem abaixo dos catálogos"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
@@ -79762,14 +79332,14 @@ msgid ""
 "Maximum dimension for an image overlay image. (Larger images will be scaled "
 "down.)"
 msgstr ""
+"Dimensão máxima para uma sobreposição de imagem. (Imagens maiores serão "
+"reduzidas.)"
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:105
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Maximum travel"
+#, kde-format
 msgid "Maximum image dimension:"
-msgstr "Trajeto máximo"
+msgstr "Dimensão máxima da imagem:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:150
@@ -79778,27 +79348,26 @@ msgid ""
 "Open overlay directory. Copy or move images to this directory to process "
 "them."
 msgstr ""
+"Abra a pasta de sobreposição. Copie ou mova imagens para esta pasta para "
+"processá-las."
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:156
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Overlay Directory..."
-msgstr "Pasta:"
+msgstr "Pasta de sobreposição..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:175
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Refresh from the overlay directory. Add overlays that "
 "have been added there, and remove overlays that are no longer there.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Forçar o valor da temperatura antes de capturar uma "
-"imagem</p></body></html>"
+"<html><head/><body><p>Atualiza a partir da pasta de sobreposições. Adicione "
+"sobreposições que foram adicionadas lá e remova sobreposições que não estão "
+"mais lá.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:250
@@ -79819,24 +79388,37 @@ msgid ""
 "is OK, but you can manually change the status to something else, then plate-"
 "solving is enabled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Resolução de placa para a(s) imagem(ns) de "
+"sobreposição selecionada(s).</p><p>Usa o perfil de alinhamento selecionado à "
+"direita, mas não a escala nem a posição de alinhamento. Usará a escala "
+"padrão à direita (a-s/px), se nenhuma for fornecida na linha da tabela e na "
+"coluna de escala (0 significa sem restrição de escala). Não usará uma "
+"posição a menos que AR e DEC sejam inseridos na linha da tabela. Usa o tempo "
+"limite acima. Você pode selecionar várias linhas (com clique e Shift-clique) "
+"e ele tentará resolver todas elas.</p><p>A resolução de placa pode ser "
+"difícil. Você pode não conseguir resolver todas as suas imagens. Você pode "
+"tentar fornecer escalas e posições e experimentar perfis diferentes. Se não "
+"tiver sucesso, mas ainda quiser exibir uma imagem, você pode inserir AR, "
+"DEC, Escala e Orientação nas colunas apropriadas para a linha de seu "
+"interesse e, em seguida, definir manualmente a coluna Status como OK.</"
+"p><p>Você não pode refazer a resolução de placas de uma linha cujo status é "
+"OK, mas pode alterar manualmente o status para outro, e a resolução de "
+"placas será habilitada.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:266
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Offset in minutes to start imaging before or after "
-#| "culmination time.</p></body></html>"
+#, kde-format
 msgid "Selects the Options Profile (from Align) to use for Plate Solving"
 msgstr ""
-"<html><head/><body><p>Desvio em minutos para começar a registrar a imagem, "
-"antes ou depois do tempo de culminar.</p></body></html>"
+"Seleciona o perfil de opções (de alinhamento) a ser usado para solução de "
+"placas"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editAlignProfile)
 #: options/opsimageoverlay.ui:288
 #, kde-format
 msgid ""
 "Opens the currently selected Align Profile in the Options Profile Editor"
-msgstr ""
+msgstr "Abre o perfil de alinhamento selecionado no editor de perfil de opções"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_ImageOverlayDefaultScale)
@@ -79846,13 +79428,14 @@ msgid ""
 "Default arcsec/px scale to use in solving. 0 is none. Would use what's in "
 "table if there."
 msgstr ""
+"Escala padrão de arcsec/px a ser usada na resolução. 0 é zero. Usaria o que "
+"está na tabela se houver."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:307
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default a-s/px:"
-msgstr "Padrão"
+msgstr "a-s/px padrão:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -79860,17 +79443,17 @@ msgstr "Padrão"
 #, kde-format
 msgid "Timeout for plate-solving an overlay image (seconds)."
 msgstr ""
+"Tempo limite para resolução de placa de uma imagem de sobreposição "
+"(segundos)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:348
-#, fuzzy, kde-format
-#| msgid "Time:"
+#, kde-format
 msgid "Timeout:"
-msgstr "Hora:"
+msgstr "Tempo limite:"
 
 #: options/opssatellites.cpp:104
-#, fuzzy, kde-format
-#| msgid "Satellite name"
+#, kde-format
 msgid "Satellite Name"
 msgstr "Nome do satélite"
 
@@ -79881,8 +79464,7 @@ msgstr "Erro de cálculo da posição %1: %2."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: options/opssatellites.ui:19
-#, fuzzy, kde-format
-#| msgid "View options"
+#, kde-format
 msgid "View Options"
 msgstr "Opções de visualização"
 
@@ -79912,8 +79494,7 @@ msgstr "Desenhar os satélites como estrelas"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: options/opssatellites.ui:79
-#, fuzzy, kde-format
-#| msgid "List of satellites"
+#, kde-format
 msgid "List of Satellites"
 msgstr "Lista de satélites"
 
@@ -80076,22 +79657,21 @@ msgstr "Se marcada, o Sol será desenhado no mapa."
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Linear Scale"
+#, kde-format
 msgid "scale:"
-msgstr "Escala linear"
+msgstr "escala:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
 #, kde-format
 msgid "Scale of sun rendering."
-msgstr ""
+msgstr "Escala de renderização do sol."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
 #, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr ""
+msgstr "Aumenta o tamanho do Sol por este fator."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
@@ -80121,13 +79701,13 @@ msgstr "Se marcada, a Lua será desenhado no mapa."
 #: options/opssolarsystem.ui:237
 #, kde-format
 msgid "Scale of moon rendering."
-msgstr ""
+msgstr "Escala de renderização do lua."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
 #, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr ""
+msgstr "Aumenta o tamanho da lua por este fator."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258
@@ -80173,10 +79753,9 @@ msgstr "Planetas menores"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opssolarsystem.ui:351
-#, fuzzy, kde-format
-#| msgid "Show asteroids brighter than"
+#, kde-format
 msgid "Download asteroids brighter than:"
-msgstr "Mostrar asteroides mais brilhantes que"
+msgstr "Baixar asteroides mais brilhantes que:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowAsteroids)
 #: options/opssolarsystem.ui:358
@@ -80207,13 +79786,13 @@ msgstr "Se marcada, os cometas serão desenhados no mapa"
 #, kde-format
 msgid "This value might result in a big data file and reduced performance."
 msgstr ""
+"Esse valor pode resultar em um arquivo de dados grande e desempenho reduzido."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: options/opssolarsystem.ui:419
-#, fuzzy, kde-format
-#| msgid "Show asteroids brighter than"
+#, kde-format
 msgid "Show asteroids brighter than:"
-msgstr "Mostrar asteroides mais brilhantes que"
+msgstr "Mostrar asteroides mais brilhantes que:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCometNames)
 #: options/opssolarsystem.ui:426
@@ -80235,10 +79814,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCometNames)
 #: options/opssolarsystem.ui:432
-#, fuzzy, kde-format
-#| msgid "Show names of comets within"
+#, kde-format
 msgid "Show names of comets within:"
-msgstr "Mostrar nomes de cometas dentro de"
+msgstr "Mostrar nomes de cometas dentro de:"
 
 #. i18n: ectx: property (whatsThis), widget (MagnitudeSpinBox, kcfg_MagLimitAsteroid)
 #: options/opssolarsystem.ui:450
@@ -80290,24 +79868,21 @@ msgstr "Exibir nomes"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCometComas)
 #: options/opssolarsystem.ui:566
-#, fuzzy, kde-format
-#| msgid "Crosshairs"
+#, kde-format
 msgid "Show comet comas"
-msgstr "Mira"
+msgstr "Mostrar comas de cometas"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_OrbitalElementsAutoUpdate)
 #: options/opssolarsystem.ui:573
-#, fuzzy, kde-format
-#| msgid "Update recent supernovae list on startup?"
+#, kde-format
 msgid "Update orbital element from online sources on startup."
-msgstr "Atualizar a listas das supernovas recentes na inicialização?"
+msgstr "Atualizar elemento orbital de fontes online na inicialização."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_OrbitalElementsAutoUpdate)
 #: options/opssolarsystem.ui:576
-#, fuzzy, kde-format
-#| msgid "Asteroid"
+#, kde-format
 msgid "Auto online update"
-msgstr "Asteroide"
+msgstr "Atualização online automática"
 
 #. i18n: ectx: property (title), widget (QGroupBox, TrailsBox)
 #: options/opssolarsystem.ui:601
@@ -80390,8 +79965,7 @@ msgstr "Trilha de satélites da Terra"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: options/opssupernovae.ui:19
-#, fuzzy, kde-format
-#| msgid "Supernovae options"
+#, kde-format
 msgid "Supernovae Options"
 msgstr "Opções de supernovas"
 
@@ -80399,20 +79973,19 @@ msgstr "Opções de supernovas"
 #: options/opssupernovae.ui:27
 #, kde-format
 msgid "https://indilib.org/jdownloads/kstars/tns-daily.csv"
-msgstr ""
+msgstr "https://indilib.org/jdownloads/kstars/tns-daily.csv"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opssupernovae.ui:47
-#, fuzzy, kde-format
-#| msgid "Set the magnitude limit for supernova to show"
+#, kde-format
 msgid "Set the magnitude limit for supernova to show:"
-msgstr "Definir o limite de magnitude para exibir as supernovas"
+msgstr "Definir o limite de magnitude para exibir as supernovas:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_LimitSupernovaeByZoom)
 #: options/opssupernovae.ui:57
 #, kde-format
 msgid "Limit supernovae by zoom limit"
-msgstr ""
+msgstr "Limite de supernovas pelo limite de zoom"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSupernovae)
 #: options/opssupernovae.ui:83
@@ -80422,77 +79995,68 @@ msgstr "Mostrar supernovas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opssupernovae.ui:106
-#, fuzzy, kde-format
-#| msgid "Set the magnitude limit for supernova alerts"
+#, kde-format
 msgid "Set the magnitude limit for supernova alerts:"
-msgstr "Definir o limite de magnitude para os alertas de supernovas"
+msgstr "Definir o limite de magnitude para os alertas de supernovas:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: options/opssupernovae.ui:113
-#, fuzzy, kde-format
-#| msgid "Download"
+#, kde-format
 msgid "Download URL:"
-msgstr "Baixar"
+msgstr "Baixar URL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opssupernovae.ui:120
-#, fuzzy, kde-format
-#| msgid "days"
+#, kde-format
 msgid "Age (days):"
-msgstr "dias"
+msgstr "Idade (dias):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeHostOnly)
 #: options/opssupernovae.ui:137
 #, kde-format
 msgid "Show only SN with host galaxy given"
-msgstr ""
+msgstr "Mostrar apenas SN com galáxia hospedeira fornecida"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeClassifiedOnly)
 #: options/opssupernovae.ui:144
-#, fuzzy, kde-format
-#| msgid "Show supernovae"
+#, kde-format
 msgid "Show only classified Supernovae"
-msgstr "Mostrar supernovas"
+msgstr "Mostrar apenas supernovas classificadas"
 
 #: options/opsterrain.cpp:53
-#, fuzzy, kde-format
-#| msgid "Invalid Filename"
+#, kde-format
 msgctxt "@title:window"
 msgid "Terrain Image Filename"
-msgstr "Nome de arquivo inválido"
+msgstr "Nome de arquivo de imagem do terreno"
 
 #: options/opsterrain.cpp:54
 #, kde-format
 msgid "PNG Files (*.png)"
-msgstr ""
+msgstr "Arquivos PNG (*.png)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, TerrainBox)
 #: options/opsterrain.ui:23
-#, fuzzy, kde-format
-#| msgid "Solver iteration #%1"
+#, kde-format
 msgid "Source Options"
-msgstr "Iteração #%1 da resolução"
+msgstr "Opções de fonte"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowTerrain)
 #: options/opsterrain.ui:31
-#, fuzzy, kde-format
-#| msgid "Show Other"
+#, kde-format
 msgid "Show terrain"
-msgstr "Mostrar outro"
+msgstr "Mostrar terreno"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, terrainFileLabel)
 #: options/opsterrain.ui:46
-#, fuzzy, kde-format
-#| msgid "Specify the point size."
+#, kde-format
 msgid "Specify the terrain file to use."
-msgstr "Especifique o tamanho do ponto."
+msgstr "Especifica o arquivo de terreno a usar."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainFileLabel)
 #: options/opsterrain.ui:49
-#, fuzzy, kde-format
-#| msgid "Arc file:"
+#, kde-format
 msgid "Terrain file:"
-msgstr "Arquivo arc:"
+msgstr "Arquivo de terreno:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainSourceCorrectAzLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainSourceCorrectAz)
@@ -80500,38 +80064,40 @@ msgstr "Arquivo arc:"
 #, kde-format
 msgid "Rotate terrain in azimuth degrees so north is actually north"
 msgstr ""
+"Girar o terreno em graus de azimute para que o norte seja realmente o norte"
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAzLabel)
 #: options/opsterrain.ui:104
 #, kde-format
 msgid "Terrain image azimuth correction degrees:"
-msgstr ""
+msgstr "Graus de correção de azimute da imagem do terreno:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainSourceCorrectAltLabel)
 #: options/opsterrain.ui:159
 #, kde-format
 msgid "Rotate terrain in altitude degrees so horizon is at 0 degrees altitude"
 msgstr ""
+"Girar o terreno em graus de altitude para que o horizonte fique a 0 graus de "
+"altitude"
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAltLabel)
 #: options/opsterrain.ui:162
-#, fuzzy, kde-format
-#| msgid "Longitude in degrees"
+#, kde-format
 msgid "Terrain image altitude correction degrees:"
-msgstr "Longitude em graus"
+msgstr "Graus de correção de altitude da imagem do terreno:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainSourceCorrectAlt)
 #: options/opsterrain.ui:175
 #, kde-format
 msgid "Rotate terrain in altitude degrees so north is actually north"
 msgstr ""
+"Girar o terreno em graus de altitude para que o norte seja realmente o norte"
 
 #. i18n: ectx: property (title), widget (QGroupBox, TerrainSpeedupGroupBox_2)
 #: options/opsterrain.ui:214
-#, fuzzy, kde-format
-#| msgid "Supernovae options"
+#, kde-format
 msgid "Speedup options"
-msgstr "Opções de supernovas"
+msgstr "Opções de aceleração"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainDownsamplingLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainDownsampling)
@@ -80541,53 +80107,51 @@ msgid ""
 "Set the coarseness of the terrain image rendered. 1 is full resolution, but "
 "can be slow, 6 or more would be coarse resolution and fast."
 msgstr ""
+"Define a qualidade da imagem do terreno renderizada. 1 é resolução máxima, "
+"mas pode ser lento, 6 ou mais seria resolução grosseira e rápida."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainDownsamplingLabel)
 #: options/opsterrain.ui:231
-#, fuzzy, kde-format
-#| msgid "Download all Images"
+#, kde-format
 msgid "Terrain downsampling:"
-msgstr "Baixar todas as imagens"
+msgstr "Redução da amostragem do terreno:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TerrainPanning)
 #: options/opsterrain.ui:272
-#, fuzzy, kde-format
-#| msgid "Show Other"
+#, kde-format
 msgid "Show terrain while panning"
-msgstr "Mostrar outro"
+msgstr "Mostrar terreno durante o deslocamento"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_TerrainSmoothPixels)
 #: options/opsterrain.ui:279
 #, kde-format
 msgid "Creates a smoother image at the cost of some extra computation."
-msgstr ""
+msgstr "Criar uma imagem mais suave ao custo de algum cálculo extra."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TerrainSmoothPixels)
 #: options/opsterrain.ui:282
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Smooth pixels"
-msgstr "pixels"
+msgstr "Suavizar pixels"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_TerrainSkipSpeedup)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_TerrainTransparencySpeedup)
 #: options/opsterrain.ui:289 options/opsterrain.ui:299
 #, kde-format
 msgid "A speedup with minor image quality cost."
-msgstr ""
+msgstr "Uma aceleração com pequeno custo de qualidade de imagem."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TerrainSkipSpeedup)
 #: options/opsterrain.ui:292
 #, kde-format
 msgid "Skip pixels speedup"
-msgstr ""
+msgstr "Aceleração de pular pixels"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TerrainTransparencySpeedup)
 #: options/opsterrain.ui:302
-#, fuzzy, kde-format
-#| msgid "Transparent"
+#, kde-format
 msgid "Transparency speedup"
-msgstr "Transparente"
+msgstr "Aceleração de transparência"
 
 #: printing/detailstable.cpp:314
 #, kde-format
@@ -80610,8 +80174,7 @@ msgid "Date, time and location: "
 msgstr "Data, hora e localização: "
 
 #: printing/foveditordialog.cpp:28
-#, fuzzy, kde-format
-#| msgid "Field of View Snapshot Browser"
+#, kde-format
 msgctxt "@title:window"
 msgid "Field of View Snapshot Browser"
 msgstr "Navegador de imagens dos campos de visão"
@@ -80759,8 +80322,7 @@ msgid "Star hopper failed to find path"
 msgstr "O salto das estrelas não conseguiu encontrar o caminho"
 
 #: printing/printingwizard.cpp:403
-#, fuzzy, kde-format
-#| msgid "Printing Wizard"
+#, kde-format
 msgctxt "@title:window"
 msgid "Printing Wizard"
 msgstr "Assistente de impressão"
@@ -81149,8 +80711,7 @@ msgid "Selected object:"
 msgstr "Objeto selecionado:"
 
 #: printing/pwizprint.cpp:65
-#, fuzzy, kde-format
-#| msgid "Export"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export"
 msgstr "Exportar"
@@ -81196,10 +80757,9 @@ msgstr "Imprimir"
 
 #. i18n: ectx: property (text), widget (QPushButton, exportButton)
 #: printing/pwizprint.ui:216
-#, fuzzy, kde-format
-#| msgid "Export to file"
+#, kde-format
 msgid "Export to File..."
-msgstr "Exportar para arquivo"
+msgstr "Exportar para arquivo..."
 
 #. i18n: ectx: property (text), widget (QLabel, stepTitle)
 #: printing/pwizwelcome.ui:83
@@ -81225,23 +80785,19 @@ msgid "Loading asteroids"
 msgstr "Carregando os asteroides"
 
 #: skycomponents/asteroidscomponent.cpp:112
-#, fuzzy, kde-format
-#| msgid "Europa"
+#, kde-format
 msgctxt "Asteroid name (optional)"
 msgid "Europa"
 msgstr "Europa"
 
 #: skycomponents/asteroidscomponent.cpp:113
-#, fuzzy, kde-format
-#| msgid "Io"
+#, kde-format
 msgctxt "Asteroid name (optional)"
 msgid "Io"
 msgstr "Io"
 
 #: skycomponents/asteroidscomponent.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Asterope"
+#, kde-format
 msgctxt "Asteroid name (optional)"
 msgid "Asterope"
 msgstr "Asterope"
@@ -81252,16 +80808,14 @@ msgid " (Asteroid)"
 msgstr " (Asteroide)"
 
 #: skycomponents/asteroidscomponent.cpp:264
-#, fuzzy, kde-format
-#| msgid "Asteroid"
+#, kde-format
 msgid "Asteroid Update"
-msgstr "Asteroide"
+msgstr "Atualização de asteroide"
 
 #: skycomponents/asteroidscomponent.cpp:265
-#, fuzzy, kde-format
-#| msgid "Error downloading asteroids data: %1"
+#, kde-format
 msgid "Downloading asteroids updates..."
-msgstr "Erro ao baixar os dados dos asteroides %1"
+msgstr "Baixando atualizações de asteroides..."
 
 #: skycomponents/asteroidscomponent.cpp:340
 #: skycomponents/asteroidscomponent.cpp:341
@@ -81273,10 +80827,9 @@ msgstr "Erro ao baixar os dados dos asteroides %1"
 #: skycomponents/catalogscomponent.cpp:152
 #: skycomponents/catalogscomponent.cpp:368
 #: skycomponents/catalogscomponent.cpp:410
-#, fuzzy, kde-format
-#| msgid "Could not open the file %1 for writing."
+#, kde-format
 msgid "Could not load catalog objects in trixel: %1"
-msgstr "Não foi possível abrir o arquivo %1 para escrita."
+msgstr "Não foi possível carregar objetos de catálogo no trixel: %1"
 
 #: skycomponents/catalogscomponent.cpp:440
 #, kde-format
@@ -81284,21 +80837,21 @@ msgid ""
 "Import custom and internet resolved objects from the old DSO database into "
 "the new one?"
 msgstr ""
+"Importar objetos personalizados e resolvidos pela Internet do antigo banco "
+"de dados DSO para o novo?"
 
 #: skycomponents/catalogscomponent.cpp:451
 #: skycomponents/catalogscomponent.cpp:458
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not import the objects."
-msgstr "Não foi possível remover o arquivo %1"
+msgstr "Não foi possível importar os objetos."
 
 #: skycomponents/catalogscomponent.cpp:463
-#, fuzzy, kde-format
-#| msgid "Failed to connect to remote INDI server!"
+#, kde-format
 msgid "Successfully added %1 object to the user catalog."
 msgid_plural "Successfully added %1 objects to the user catalog."
-msgstr[0] "Não foi possível conectar ao servidor INDI remoto!"
-msgstr[1] "Não foi possível conectar ao servidor INDI remoto!"
+msgstr[0] "%1 objeto adicionado com sucesso ao catálogo do usuário."
+msgstr[1] "%1 objetos adicionados com sucesso ao catálogo do usuário."
 
 #: skycomponents/cometscomponent.cpp:83
 #, kde-format
@@ -81306,16 +80859,14 @@ msgid "Loading comets"
 msgstr "Carregando os cometas"
 
 #: skycomponents/cometscomponent.cpp:313
-#, fuzzy, kde-format
-#| msgid "Comets"
+#, kde-format
 msgid "Comets Update"
-msgstr "Cometas"
+msgstr "Atualização dos cometas"
 
 #: skycomponents/cometscomponent.cpp:314
-#, fuzzy, kde-format
-#| msgid "Downloading..."
+#, kde-format
 msgid "Downloading comets updates..."
-msgstr "Baixando..."
+msgstr "Baixando atualizações dos cometas..."
 
 #: skycomponents/constellationboundarylines.cpp:27
 #, kde-format
@@ -81348,202 +80899,198 @@ msgid "Creating horizon"
 msgstr "Criando horizonte"
 
 #: skycomponents/imageoverlaycomponent.cpp:64
-#, fuzzy, kde-format
-#| msgid "File name:"
+#, kde-format
 msgid "Filename"
-msgstr "Nome do arquivo:"
+msgstr "Nome do arquivo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1a)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
 #: skycomponents/imageoverlaycomponent.cpp:66 tools/modcalcsimple.ui:93
 #: tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Englee"
+#, kde-format
 msgid "Angle"
-msgstr "Englee"
+msgstr "Ângulo"
 
 #: skycomponents/imageoverlaycomponent.cpp:66
 #, kde-format
 msgid "A-S/px"
-msgstr ""
+msgstr "A-S/px"
 
 #: skycomponents/imageoverlaycomponent.cpp:67
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "EastRight"
-msgstr "Rotacionar à direita"
+msgstr "Leste-Direita"
 
 #: skycomponents/imageoverlaycomponent.cpp:167
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
 msgstr ""
+"Texto de AR inválido inserido para %1. Redefinir para o valor original."
 
 #: skycomponents/imageoverlaycomponent.cpp:181
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
 msgstr ""
+"Texto de DEC inválido inserido para %1. Redefinir para o valor original."
 
 #: skycomponents/imageoverlaycomponent.cpp:194
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
 msgstr ""
+"Texto de ângulo de orientação incorreta inserido para %1. Redefinir para o "
+"valor original."
 
 #: skycomponents/imageoverlaycomponent.cpp:205
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
 msgstr ""
+"Texto de ângulo de escala inválido inserido para %1. Redefinir para o valor "
+"original."
 
 #: skycomponents/imageoverlaycomponent.cpp:235
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
+"Não foi possível definir o status como OK. É necessário um valor de AR legal "
+"diferente de 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:246
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
+"Não foi possível definir o status como OK. É necessário um valor de DEC "
+"legal diferente de 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:257
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
+"Não foi possível definir o status como OK. É necessário um valor de "
+"orientação legal."
 
 #: skycomponents/imageoverlaycomponent.cpp:268
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
+"Não foi possível definir o status como OK. É necessário um valor de a-s/px "
+"legal diferente de 0."
 
 #: skycomponents/imageoverlaycomponent.cpp:298
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr ""
+msgstr "Armazenado o status de OK para %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:395
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr ""
+msgstr "Atualizando a partir da pasta: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:444
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
-msgstr ""
+msgstr "%1 sobreposições (%2 novas, %3 excluídas) %4 resolvidas"
 
 #: skycomponents/imageoverlaycomponent.cpp:446
 #: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:886
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
-msgstr ""
+msgstr "Sobreposições de imagens. %1 imagens, %2 disponíveis."
 
 #: skycomponents/imageoverlaycomponent.cpp:464
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading image files..."
-msgstr "Carregando imagens..."
+msgstr "Carregando arquivos de imagens..."
 
 #: skycomponents/imageoverlaycomponent.cpp:470
-#, fuzzy, kde-format
-#| msgid "Dark library files cleared."
+#, kde-format
 msgid "%1 image files loaded."
-msgstr "Os arquivos da biblioteca escura foram limpos."
+msgstr "%1 arquivos de imagens carregados."
 
 #: skycomponents/imageoverlaycomponent.cpp:553
-#, fuzzy, kde-format
-#| msgid "Processing..."
+#, kde-format
 msgid "Unprocessed"
-msgstr "Processando..."
+msgstr "Não processado"
 
 #: skycomponents/imageoverlaycomponent.cpp:553
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Bad File"
-msgstr "Arquivo"
+msgstr "Arquivo danificado"
 
 #: skycomponents/imageoverlaycomponent.cpp:553
-#, fuzzy, kde-format
-#| msgid "Solver FOV"
+#, kde-format
 msgid "Solve Failed"
-msgstr "CDV da resolução"
+msgstr "Solução falhou"
 
 #: skycomponents/imageoverlaycomponent.cpp:553
-#, fuzzy, kde-format
-#| msgid "&OK"
+#, kde-format
 msgid "OK"
-msgstr "&OK"
+msgstr "OK"
 
 #: skycomponents/imageoverlaycomponent.cpp:576
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "West-Right"
-msgstr "Claro"
+msgstr "Oeste-Direita"
 
 #: skycomponents/imageoverlaycomponent.cpp:577
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "East-Right"
-msgstr "Rotacionar à direita"
+msgstr "Leste-Direita"
 
 #: skycomponents/imageoverlaycomponent.cpp:638
-#, fuzzy, kde-format
-#| msgid "Solving %1 ..."
+#, kde-format
 msgid "Solving: %1. %2 in queue."
-msgstr "Resolvendo %1..."
+msgstr "Resolvendo: %1. %2 na fila."
 
 #: skycomponents/imageoverlaycomponent.cpp:640
-#, fuzzy, kde-format
-#| msgid "Solving %1 ..."
+#, kde-format
 msgid "Solving: %1."
-msgstr "Resolvendo %1..."
+msgstr "Resolvendo: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:705
 #, kde-format
 msgid "Can't show %1. Not plate solved."
-msgstr ""
+msgstr "Não foi possível mostrar %1. Placa não resolvida."
 
 #: skycomponents/imageoverlaycomponent.cpp:710
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr ""
+msgstr "Não foi possível mostrar %1. Imagem não carregada."
 
 #: skycomponents/imageoverlaycomponent.cpp:743
-#, fuzzy, kde-format
-#| msgid "Autoguiding started."
+#, kde-format
 msgid "Solving aborted."
-msgstr "Guia automática iniciada."
+msgstr "Solução interrompida."
 
 #: skycomponents/imageoverlaycomponent.cpp:778
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr ""
+msgstr "Pulando já solucionado: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:797
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr ""
+msgstr "%1 já solucionado. Pulando."
 
 #: skycomponents/imageoverlaycomponent.cpp:815
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
-msgstr ""
+msgstr "Recarregando. Sobreposições de imagens temporariamente desativadas."
 
 #: skycomponents/imageoverlaycomponent.cpp:834
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Solver timed out in %1s"
-msgstr "Expirou o tempo-limite da resolução."
+msgstr "Expirou o tempo-limite da solução em %1s"
 
 #: skycomponents/imageoverlaycomponent.cpp:840
-#, fuzzy, kde-format
-#| msgid "Solver FOV"
+#, kde-format
 msgid "Solver failed in %1s"
-msgstr "CDV da resolução"
+msgstr "Solucionador falhou em %1s"
 
 #: skycomponents/imageoverlaycomponent.cpp:853
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr ""
+msgstr "Sucesso do solucionador em %1s: AR %2 DEC %3 Escala %4 Ângulo %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:885
 #, fuzzy, kde-format
