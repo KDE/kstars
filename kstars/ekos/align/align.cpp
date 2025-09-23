@@ -1912,7 +1912,8 @@ void Align::startSolving()
         params.partition = Options::stellarSolverPartition();
         // Apply dynamic threshold
         params.threshold_bg_multiple = m_dynamicThreshold;
-        if (m_dynamicThreshold == 1)
+        // If dynamic threshold is enabled and set to 1, then we use the default conv filter of the solver
+        if (m_dynamicThreshold == 1 && Options::astrometryDynamicThreshold())
             params.convFilterType = CONV_DEFAULT;
         m_StellarSolver->setParameters(params);
 
@@ -1962,10 +1963,8 @@ void Align::startSolving()
             appendLogText(i18n("Solving with blind image position..."));
         }
 
-        bool useDynamicThreshold = Options::astrometryDynamicThreshold();
         if (useBlindDynamicThreshold == BLIND_ENGAGNED)
         {
-            useDynamicThreshold = true; // Ensure it's used if engaged
             useBlindDynamicThreshold = BLIND_USED;
             appendLogText(i18n("Solving with blind dynamic threshold..."));
         }
@@ -2311,7 +2310,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     if (Options::astrometryDynamicThreshold())
     {
         int numStarsFound = m_StellarSolver->getNumStarsFound();
-        auto newThreshold = std::min(std::max(1.0, numStarsFound < 100 ? m_dynamicThreshold / 2.0 : m_dynamicThreshold * 2.0),
+        auto newThreshold = std::min(std::max(1.0,
+                                              numStarsFound < DYNAMIC_THRESHOLD_STARS ? m_dynamicThreshold / 2.0 : m_dynamicThreshold * 2.0),
                                      64.0);
 
         if (newThreshold != m_dynamicThreshold)
@@ -2448,7 +2448,8 @@ void Align::solverFailed()
     if (Options::astrometryDynamicThreshold())
     {
         int numStarsFound = m_StellarSolver->getNumStarsFound();
-        auto newThreshold = std::min(std::max(1.0, numStarsFound < 100 ? m_dynamicThreshold / 2.0 : m_dynamicThreshold * 2.0),
+        auto newThreshold = std::min(std::max(1.0,
+                                              numStarsFound < DYNAMIC_THRESHOLD_STARS ? m_dynamicThreshold / 2.0 : m_dynamicThreshold * 2.0),
                                      64.0);
 
         if (newThreshold != m_dynamicThreshold)

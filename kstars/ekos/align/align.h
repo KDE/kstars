@@ -958,5 +958,6 @@ class Align : public QWidget, public Ui::Align
         double m_dynamicThreshold { 2.0 }; // Initialize with default from parameters.h
 
         void resetDynamicThreshold();
+        static constexpr double DYNAMIC_THRESHOLD_STARS {100};
 };
 }
