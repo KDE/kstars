@@ -2,7 +2,10 @@
   "cmake.configureArgs": [
     "-DBUILD_TESTING=OFF",
     "-DBUILD_WITH_QT6=ON",
-    "-DENABLE_SENTRY=ON"
+    "-DENABLE_SENTRY=ON",
+  ],
+  "cmake.buildArgs": [
+    "--parallel 4"
   ],
   "files.associations": {
     "*.js": "javascriptreact",

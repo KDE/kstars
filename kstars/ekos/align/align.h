@@ -765,7 +765,6 @@ class Align : public QWidget, public Ui::Align
         BlindState useBlindScale {BLIND_IDLE};
         /// Was solving with position off used?
         BlindState useBlindPosition {BLIND_IDLE};
-
         // FOV
         double m_CameraPixelWidth { -1 };
         double m_CameraPixelHeight { -1 };
@@ -953,5 +952,9 @@ class Align : public QWidget, public Ui::Align
         double m_ScaleUsed = 0;
         double m_RAUsed = 0;
         double m_DECUsed = 0;
+
+        double m_dynamicThreshold { 2.0 }; // Initialize with default from parameters.h
+
+        void resetDynamicThreshold();
 };
 }

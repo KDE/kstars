@@ -38,7 +38,7 @@
           "text": "skip file memory"
         }
       ],
-      "visualizerFile": "${workspaceFolder}/.vscode/qt5.natvis.xml",
+      "visualizerFile": "${workspaceFolder}/.vscode/qt6.natvis.xml",
       "showDisplayString": true
     },
     {

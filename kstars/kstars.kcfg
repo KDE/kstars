@@ -2845,6 +2845,10 @@
          <label>Automatically downsample based on image size.</label>
          <default>true</default>
       </entry>
+      <entry name="AstrometryDynamicThreshold" type="Bool">
+         <label>Adjust StellarSolver threshold dynamically based on source extractor detected stars to expedite solving.</label>
+         <default>false</default>
+      </entry>
       <entry name="AstrometryUsePosition" type="Bool">
          <label>Set estimated position to speed up astrometry solver as it does not have to search in other areas of the sky.</label>
          <default>true</default>

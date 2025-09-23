@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>519</width>
-    <height>309</height>
+    <height>333</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -62,7 +62,7 @@
          <string>Source Extraction Method</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignmentFlag::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -138,7 +138,7 @@
          <string>Solving Method</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignmentFlag::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -160,7 +160,7 @@
          <string>Options Profile:</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignmentFlag::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -224,16 +224,6 @@
       <property name="bottomMargin">
        <number>3</number>
       </property>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="kcfg_AstrometrySolverWCS">
-        <property name="toolTip">
-         <string>enable World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</string>
-        </property>
-        <property name="text">
-         <string>WCS</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="1">
        <widget class="QCheckBox" name="kcfg_AstrometrySolverOverlay">
         <property name="toolTip">
@@ -251,6 +241,26 @@
         </property>
         <property name="text">
          <string>Auto Park</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="kcfg_AstrometrySolverWCS">
+        <property name="toolTip">
+         <string>enable World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</string>
+        </property>
+        <property name="text">
+         <string>WCS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QCheckBox" name="kcfg_AstrometryDynamicThreshold">
+        <property name="toolTip">
+         <string>Adjust StellarSolver threshold dynamically based on source extractor detected stars to expedite solving.</string>
+        </property>
+        <property name="text">
+         <string>Dynamic Threshold</string>
         </property>
        </widget>
       </item>
@@ -366,7 +376,7 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>

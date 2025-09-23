@@ -245,6 +245,14 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
     m_StellarSolver.reset(new StellarSolver());
     connect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
 
+    // Initialize dynamic threshold after profiles are loaded
+    resetDynamicThreshold();
+
+    // Connect to options profile changes
+    connect(Options::self(), &Options::SolveOptionsProfileChanged, this,
+            &Ekos::Align::resetDynamicThreshold);
+
+
     setupPolarAlignmentAssistant();
     setupManualRotator();
     setuptDarkProcessor();
@@ -1902,6 +1910,10 @@ void Align::startSolving()
         }
 
         params.partition = Options::stellarSolverPartition();
+        // Apply dynamic threshold
+        params.threshold_bg_multiple = m_dynamicThreshold;
+        if (m_dynamicThreshold == 1)
+            params.convFilterType = CONV_DEFAULT;
         m_StellarSolver->setParameters(params);
 
         const SSolver::SolverType type = static_cast<SSolver::SolverType>(m_StellarSolver->property("SolverType").toInt());
@@ -2287,6 +2299,22 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     };
     emit newSolution(solution.toVariantMap());
 
+    // Adjust dynamic threshold if enabled
+    if (Options::astrometryDynamicThreshold())
+    {
+        int numStarsFound = m_StellarSolver->getNumStarsFound();
+        auto newThreshold = std::min(std::max(1.0, numStarsFound < 100 ? m_dynamicThreshold / 2.0 : m_dynamicThreshold * 2.0),
+                                     64.0);
+
+        if (newThreshold != m_dynamicThreshold)
+        {
+            m_dynamicThreshold = newThreshold;
+            appendLogText(i18n("Dynamic threshold adjusted to %1 (stars found: %2).",
+                               QString::number(m_dynamicThreshold, 'f', 2), numStarsFound));
+        }
+    }
+
+
     setState(ALIGN_SUCCESSFUL);
     emit newStatus(state);
     solverIterations = 0;
@@ -2407,6 +2435,22 @@ void Align::solverFailed()
         }
 
     }
+    
+    // Adjust dynamic threshold if enabled
+    if (Options::astrometryDynamicThreshold())
+    {
+        int numStarsFound = m_StellarSolver->getNumStarsFound();
+        auto newThreshold = std::min(std::max(1.0, numStarsFound < 100 ? m_dynamicThreshold / 2.0 : m_dynamicThreshold * 2.0),
+                                     64.0);
+
+        if (newThreshold != m_dynamicThreshold)
+        {
+            m_dynamicThreshold = newThreshold;
+            appendLogText(i18n("Dynamic threshold adjusted to %1 (stars found: %2).",
+                               QString::number(m_dynamicThreshold, 'f', 2), numStarsFound));
+        }
+    }
+
     if (state != ALIGN_ABORTED)
     {
         // Try to solve with scale turned off, if not turned off already
@@ -4613,4 +4657,24 @@ void Align::processCaptureTimeout()
         }
     }
 }
+
+void Align::resetDynamicThreshold()
+{
+    SSolver::Parameters params;
+    try
+    {
+        params = m_StellarSolverProfiles.at(Options::solveOptionsProfile());
+    }
+    catch (std::out_of_range const &)
+    {
+        params = m_StellarSolverProfiles[0];
+    }
+    auto newThreshold = params.threshold_bg_multiple;
+    if (newThreshold != m_dynamicThreshold)
+    {
+        m_dynamicThreshold = newThreshold;
+        qCInfo(KSTARS_EKOS_ALIGN) << "Dynamic threshold reset to" << QString::number(m_dynamicThreshold, 'f', 2);
+    }
+}
+
 }

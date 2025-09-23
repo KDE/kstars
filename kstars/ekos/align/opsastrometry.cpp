@@ -28,6 +28,7 @@ OpsAstrometry::OpsAstrometry(Align *parent) : QWidget(KStars::Instance())
     ra.setD(Options::astrometryPositionRA());
     de.setD(Options::astrometryPositionDE());
 
+    estRA->setUnits(dmsBox::HOURS);
     estRA->setText(ra.toHMSString());
     estDec->setText(de.toDMSString());
 
