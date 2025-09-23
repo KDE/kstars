@@ -1962,6 +1962,14 @@ void Align::startSolving()
             appendLogText(i18n("Solving with blind image position..."));
         }
 
+        bool useDynamicThreshold = Options::astrometryDynamicThreshold();
+        if (useBlindDynamicThreshold == BLIND_ENGAGNED)
+        {
+            useDynamicThreshold = true; // Ensure it's used if engaged
+            useBlindDynamicThreshold = BLIND_USED;
+            appendLogText(i18n("Solving with blind dynamic threshold..."));
+        }
+
         if (m_SolveFromFile)
         {
             FITSImage::Solution solution;
@@ -2435,7 +2443,7 @@ void Align::solverFailed()
         }
 
     }
-    
+
     // Adjust dynamic threshold if enabled
     if (Options::astrometryDynamicThreshold())
     {
@@ -2448,6 +2456,16 @@ void Align::solverFailed()
             m_dynamicThreshold = newThreshold;
             appendLogText(i18n("Dynamic threshold adjusted to %1 (stars found: %2).",
                                QString::number(m_dynamicThreshold, 'f', 2), numStarsFound));
+
+            // Try to solve with dynamic threshold engaged, if not engaged already
+            if (useBlindDynamicThreshold == BLIND_IDLE)
+            {
+                appendLogText(i18n("Solver failed. Retrying with blind dynamic threshold."));
+                useBlindDynamicThreshold = BLIND_ENGAGNED;
+                setAlignTableResult(ALIGN_RESULT_FAILED);
+                captureAndSolve(false);
+                return;
+            }
         }
     }
 
@@ -2495,6 +2513,7 @@ void Align::solverFailed()
     m_CaptureErrorCounter = 0;
     m_CaptureTimeoutCounter = 0;
     m_SlewErrorCounter = 0;
+    useBlindDynamicThreshold = BLIND_IDLE;
 
     setState(ALIGN_FAILED);
     emit newStatus(state);
