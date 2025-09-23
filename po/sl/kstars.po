@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-20 02:01+0000\n"
+"POT-Creation-Date: 2025-09-23 02:09+0000\n"
 "PO-Revision-Date: 2025-09-20 08:11+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -594,7 +594,7 @@ msgstr "Nadaljuj"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/platesolve.cpp:218 fitsviewer/platesolve.cpp:254
+#: fitsviewer/platesolve.cpp:224 fitsviewer/platesolve.cpp:260
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -623,7 +623,7 @@ msgstr "Prekliči"
 #: ekos/scheduler/scheduler.cpp:1632 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
-#: skycomponents/imageoverlaycomponent.cpp:553
+#: skycomponents/imageoverlaycomponent.cpp:556
 #, kde-format
 msgid "Error"
 msgstr "Napaka"
@@ -1096,7 +1096,7 @@ msgstr "Simulator Osončja XPlanet: %1"
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1541 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1542 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1173,8 +1173,8 @@ msgstr "Zemlja"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:85 tools/imagingplanner.cpp:1516
-#: tools/imagingplanner.cpp:3062 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:85 tools/imagingplanner.cpp:1517
+#: tools/imagingplanner.cpp:3063 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2693,7 +2693,7 @@ msgstr "URL ni veljaven. Ali naj v spletnem brskalniku odprem iskalnik Google?"
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
-#: ekos/scheduler/scheduler.cpp:2122 fitsviewer/fitstab.cpp:1226
+#: ekos/scheduler/scheduler.cpp:2122 fitsviewer/fitstab.cpp:1228
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2714,7 +2714,7 @@ msgstr "Ne brskaj"
 msgid "Show webpage about "
 msgstr "Prikaži spletno stran o "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3207
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3208
 #, kde-format
 msgid "object"
 msgstr "objekt"
@@ -6718,7 +6718,7 @@ msgstr "Izvozi točke rešitve"
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
 #: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
-#: fitsviewer/fitstab.cpp:1225 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:1227 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10389,11 +10389,11 @@ msgstr "Zajemi"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:333
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:339
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
-#: skycomponents/imageoverlaycomponent.cpp:350
-#: skycomponents/imageoverlaycomponent.cpp:744
-#: skycomponents/imageoverlaycomponent.cpp:824
+#: skycomponents/imageoverlaycomponent.cpp:353
+#: skycomponents/imageoverlaycomponent.cpp:747
+#: skycomponents/imageoverlaycomponent.cpp:827
 #, kde-format
 msgid "Solve"
 msgstr "Reši"
@@ -16185,8 +16185,8 @@ msgstr "Ustavi zajemanje"
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:472 ekos/focus/focusmodule.cpp:676
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
-#: skycomponents/imageoverlaycomponent.cpp:620
-#: skycomponents/imageoverlaycomponent.cpp:750
+#: skycomponents/imageoverlaycomponent.cpp:623
+#: skycomponents/imageoverlaycomponent.cpp:753
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
 #, kde-format
 msgid "Abort"
@@ -26042,8 +26042,8 @@ msgstr "Podrejanje aktivirano."
 msgid "Slaving deactivated."
 msgstr "Podrejanje deaktivirano."
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:97
-#: fitsviewer/platesolve.cpp:214 fitsviewer/platesolve.cpp:250
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:103
+#: fitsviewer/platesolve.cpp:220 fitsviewer/platesolve.cpp:256
 #, kde-format
 msgid "Aborting..."
 msgstr "Prekinjanje …"
@@ -31092,77 +31092,77 @@ msgstr "Velikost glavne koordinate objekta v ločnih minutah"
 msgid "RAM"
 msgstr "RAM"
 
-#: fitsviewer/fitstab.cpp:1024
+#: fitsviewer/fitstab.cpp:1026
 #, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
 msgstr "Imenik sklada"
 
-#: fitsviewer/fitstab.cpp:1049
+#: fitsviewer/fitstab.cpp:1051
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
 msgstr "Izberite podstran poravnave"
 
-#: fitsviewer/fitstab.cpp:1063
+#: fitsviewer/fitstab.cpp:1065
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Master Dark"
 msgstr "Izberi glavni posnetek teme"
 
-#: fitsviewer/fitstab.cpp:1077
+#: fitsviewer/fitstab.cpp:1079
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Master Flat"
 msgstr "Izberite glavni posnetek površine"
 
-#: fitsviewer/fitstab.cpp:1179 fitsviewer/fitstab.cpp:1183
+#: fitsviewer/fitstab.cpp:1181 fitsviewer/fitstab.cpp:1185
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Shrani FITS"
 
-#: fitsviewer/fitstab.cpp:1215
+#: fitsviewer/fitstab.cpp:1217
 #, kde-format
 msgid "Image save error: %1"
 msgstr "Napaka med shranjevanjem slike: %1"
 
-#: fitsviewer/fitstab.cpp:1215
+#: fitsviewer/fitstab.cpp:1217
 #, kde-format
 msgid "Image Save"
 msgstr "Shranjevanje slike"
 
-#: fitsviewer/fitstab.cpp:1219
+#: fitsviewer/fitstab.cpp:1221
 #, kde-format
 msgid "File saved to %1"
 msgstr "Datoteka shranjena v %1"
 
-#: fitsviewer/fitstab.cpp:1313
+#: fitsviewer/fitstab.cpp:1315
 #, kde-format
 msgid "Watching %1"
 msgstr "Opazovanje %1"
 
-#: fitsviewer/fitstab.cpp:1452
+#: fitsviewer/fitstab.cpp:1454
 #, kde-format
 msgid "Stopped Watching (%1)"
 msgstr "Ustavljeno opazovanje (%1)"
 
-#: fitsviewer/fitstab.cpp:1453
+#: fitsviewer/fitstab.cpp:1455
 #, kde-format
 msgid "(%1) Watching"
 msgstr "(%1) Opazovanje"
 
-#: fitsviewer/fitstab.cpp:1454 fitsviewer/fitstab.cpp:1460
+#: fitsviewer/fitstab.cpp:1456 fitsviewer/fitstab.cpp:1462
 #, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1458
+#: fitsviewer/fitstab.cpp:1460
 #, kde-format
 msgid "Stopped (%1)"
 msgstr "Zaustavljeno (%1)"
 
-#: fitsviewer/fitstab.cpp:1459
+#: fitsviewer/fitstab.cpp:1461
 #, kde-format
 msgid "(%1)"
 msgstr "(%1)"
@@ -32548,53 +32548,53 @@ msgstr ""
 msgid "StellarSolver partitioning"
 msgstr "Razdelitev StellarSolverja"
 
-#: fitsviewer/platesolve.cpp:80
+#: fitsviewer/platesolve.cpp:84
 #, kde-format
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "Urejevalnik profilov ogledovalnika FITS"
 
-#: fitsviewer/platesolve.cpp:224
+#: fitsviewer/platesolve.cpp:230
 #, kde-format
 msgid "Extracting..."
 msgstr "Ekstrahiranje…"
 
-#: fitsviewer/platesolve.cpp:258
+#: fitsviewer/platesolve.cpp:264
 #, kde-format
 msgid "Solving..."
 msgstr "Reševanje…"
 
-#: fitsviewer/platesolve.cpp:319
+#: fitsviewer/platesolve.cpp:325
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Časovna omejitev ekstraktorja je potekla: %1s"
 
-#: fitsviewer/platesolve.cpp:329
+#: fitsviewer/platesolve.cpp:335
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Ekstraktor ni uspel: %1s"
 
-#: fitsviewer/platesolve.cpp:339
+#: fitsviewer/platesolve.cpp:345
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Ekstrahiranih %1 zvezd (%2 nefiltriranih) v %3s"
 
-#: fitsviewer/platesolve.cpp:423
+#: fitsviewer/platesolve.cpp:429
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Časovna omejitev reševalnika je potekla: %1s"
 
-#: fitsviewer/platesolve.cpp:429
+#: fitsviewer/platesolve.cpp:435
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Reševalnik ni uspel: %1s"
 
-#: fitsviewer/platesolve.cpp:667
+#: fitsviewer/platesolve.cpp:762
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Opozorilo! To orodje podpira samo notranjega reševalnika StellarSolver."
 
-#: fitsviewer/platesolve.cpp:668
+#: fitsviewer/platesolve.cpp:763
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Spremenite na to nastavitev v meniju možnosti poravnave Ekosa."
@@ -80511,119 +80511,119 @@ msgstr ""
 msgid "Stored OK status for %1."
 msgstr "Shranjeno stanje »v redu« za %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:395
+#: skycomponents/imageoverlaycomponent.cpp:398
 #, kde-format
 msgid "Updating from directory: %1"
 msgstr "Posodabljanje iz mape: %1"
 
-#: skycomponents/imageoverlaycomponent.cpp:444
+#: skycomponents/imageoverlaycomponent.cpp:447
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr "%1 prekrivanih slik (%2 novih, %3 izbrisanih) %4 rešenih"
 
-#: skycomponents/imageoverlaycomponent.cpp:446
-#: skycomponents/imageoverlaycomponent.cpp:590
-#: skycomponents/imageoverlaycomponent.cpp:886
+#: skycomponents/imageoverlaycomponent.cpp:449
+#: skycomponents/imageoverlaycomponent.cpp:593
+#: skycomponents/imageoverlaycomponent.cpp:889
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr "Prekrivanje slik.  %1 slik, %2 na voljo."
 
-#: skycomponents/imageoverlaycomponent.cpp:464
+#: skycomponents/imageoverlaycomponent.cpp:467
 #, kde-format
 msgid "Loading image files..."
 msgstr "Nalaganje datotek slik…"
 
-#: skycomponents/imageoverlaycomponent.cpp:470
+#: skycomponents/imageoverlaycomponent.cpp:473
 #, kde-format
 msgid "%1 image files loaded."
 msgstr "%1 naložene slikovne datoteke."
 
-#: skycomponents/imageoverlaycomponent.cpp:553
+#: skycomponents/imageoverlaycomponent.cpp:556
 #, kde-format
 msgid "Unprocessed"
 msgstr "Neobdelano"
 
-#: skycomponents/imageoverlaycomponent.cpp:553
+#: skycomponents/imageoverlaycomponent.cpp:556
 #, kde-format
 msgid "Bad File"
 msgstr "Slaba datoteka"
 
-#: skycomponents/imageoverlaycomponent.cpp:553
+#: skycomponents/imageoverlaycomponent.cpp:556
 #, kde-format
 msgid "Solve Failed"
 msgstr "Reševalnik ni uspel"
 
-#: skycomponents/imageoverlaycomponent.cpp:553
+#: skycomponents/imageoverlaycomponent.cpp:556
 #, kde-format
 msgid "OK"
 msgstr "V redu"
 
-#: skycomponents/imageoverlaycomponent.cpp:576
+#: skycomponents/imageoverlaycomponent.cpp:579
 #, kde-format
 msgid "West-Right"
 msgstr "Zahodno-Desno"
 
-#: skycomponents/imageoverlaycomponent.cpp:577
+#: skycomponents/imageoverlaycomponent.cpp:580
 #, kde-format
 msgid "East-Right"
 msgstr "Vzhodno-Desno"
 
-#: skycomponents/imageoverlaycomponent.cpp:638
+#: skycomponents/imageoverlaycomponent.cpp:641
 #, kde-format
 msgid "Solving: %1. %2 in queue."
 msgstr "V reševanju: %1. %2 v čakalni vrsti."
 
-#: skycomponents/imageoverlaycomponent.cpp:640
+#: skycomponents/imageoverlaycomponent.cpp:643
 #, kde-format
 msgid "Solving: %1."
 msgstr "V reševanju: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:705
+#: skycomponents/imageoverlaycomponent.cpp:708
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr "Ni možno prikazati %1. Ni rešena plošča."
 
-#: skycomponents/imageoverlaycomponent.cpp:710
+#: skycomponents/imageoverlaycomponent.cpp:713
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr "Ni možno prikazati %1. Slika ni naložena."
 
-#: skycomponents/imageoverlaycomponent.cpp:743
+#: skycomponents/imageoverlaycomponent.cpp:746
 #, kde-format
 msgid "Solving aborted."
 msgstr "Reševanje prekinjeno."
 
-#: skycomponents/imageoverlaycomponent.cpp:778
+#: skycomponents/imageoverlaycomponent.cpp:781
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr "Preskakovanje že rešenega: %1."
 
-#: skycomponents/imageoverlaycomponent.cpp:797
+#: skycomponents/imageoverlaycomponent.cpp:800
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr "%1 je že rešen. Preskočeno."
 
-#: skycomponents/imageoverlaycomponent.cpp:815
+#: skycomponents/imageoverlaycomponent.cpp:818
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
 msgstr "Ponovno nalaganje. Prekrivanje slik je trenutno onemogočeno."
 
-#: skycomponents/imageoverlaycomponent.cpp:834
+#: skycomponents/imageoverlaycomponent.cpp:837
 #, kde-format
 msgid "Solver timed out in %1s"
 msgstr "Časovna omejitev za reševalnik je potekla v %1s"
 
-#: skycomponents/imageoverlaycomponent.cpp:840
+#: skycomponents/imageoverlaycomponent.cpp:843
 #, kde-format
 msgid "Solver failed in %1s"
 msgstr "Reševalnik ni uspel v %1s"
 
-#: skycomponents/imageoverlaycomponent.cpp:853
+#: skycomponents/imageoverlaycomponent.cpp:856
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr "Uspeh reševalnika v %1s: RA %2; DEC %3; Merilo %4; Kot %5"
 
-#: skycomponents/imageoverlaycomponent.cpp:885
+#: skycomponents/imageoverlaycomponent.cpp:888
 #, kde-format
 msgid "Done solving. %1 available."
 msgstr "Končano reševanje. %1 na voljo."
@@ -82649,8 +82649,8 @@ msgid "Object Set"
 msgstr "Objekt zahaja"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3079
-#: tools/imagingplanner.cpp:3090 tools/imagingplanner.cpp:3105
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3080
+#: tools/imagingplanner.cpp:3091 tools/imagingplanner.cpp:3106
 #, kde-format
 msgid "Transit"
 msgstr "Prehod"
@@ -83833,32 +83833,32 @@ msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 "Koordinate RA/DEC – kliknite glavo, da razvrstite naraščajoče/padajoče."
 
-#: tools/imagingplanner.cpp:1585
+#: tools/imagingplanner.cpp:1586
 #, kde-format
 msgid "No match for \"%1\""
 msgstr "Ni zadetka za '%1'"
 
-#: tools/imagingplanner.cpp:1649
+#: tools/imagingplanner.cpp:1650
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr "Odprite brskalnik s 1. povezavo v tej opombi: %1"
 
-#: tools/imagingplanner.cpp:1654
+#: tools/imagingplanner.cpp:1655
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr "Odprite brskalnik z 2. povezavo v tej opombi: %1"
 
-#: tools/imagingplanner.cpp:1659
+#: tools/imagingplanner.cpp:1660
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr "Odprite brskalnik s 3. povezavo v tej opombi: %1"
 
-#: tools/imagingplanner.cpp:1994
+#: tools/imagingplanner.cpp:1995
 #, kde-format
 msgid "Updating tables..."
 msgstr "Posodabljanje tabel ..."
 
-#: tools/imagingplanner.cpp:2395
+#: tools/imagingplanner.cpp:2396
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -83869,39 +83869,39 @@ msgstr ""
 "Uporabite gumb Naloži katalog, če ga imate.\n"
 "Glejte Podatki -> Prenesi nove podatke, če ne..."
 
-#: tools/imagingplanner.cpp:2398
+#: tools/imagingplanner.cpp:2399
 #, kde-format
 msgid "No Catalog!"
 msgstr "Ni kataloga!"
 
-#: tools/imagingplanner.cpp:2444
+#: tools/imagingplanner.cpp:2445
 #, kde-format
 msgid "Select an object."
 msgstr "Izberite predmet."
 
-#: tools/imagingplanner.cpp:2446
+#: tools/imagingplanner.cpp:2447
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr "Potrdite polje Filtri, da razkrijete predmete."
 
-#: tools/imagingplanner.cpp:2448
+#: tools/imagingplanner.cpp:2449
 #, kde-format
 msgid "Load a Catalog."
 msgstr "Naložite katalog."
 
-#: tools/imagingplanner.cpp:2578
+#: tools/imagingplanner.cpp:2579
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
 msgstr "Poišči slike NGC na spletnem mestu profesorja Seligmana."
 
-#: tools/imagingplanner.cpp:2583
+#: tools/imagingplanner.cpp:2584
 #, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
 msgstr ""
 "Poiščite spletno stran profesorja Seligmana za informacije o objektih IC."
 
-#: tools/imagingplanner.cpp:2589
+#: tools/imagingplanner.cpp:2590
 #, kde-format
 msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
@@ -83909,151 +83909,151 @@ msgid ""
 msgstr ""
 "Na spletnem mestu galaxymap.org poiščite informacije o objektih Sharpless2."
 
-#: tools/imagingplanner.cpp:2595
+#: tools/imagingplanner.cpp:2596
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr "Poiščite Nasino spletno mesto za informacije o Messierjevih objektih."
 
-#: tools/imagingplanner.cpp:2600
+#: tools/imagingplanner.cpp:2601
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr "Poiščite spletno mesto Emila Ivanova za informacije o objektih VDB."
 
-#: tools/imagingplanner.cpp:2743
+#: tools/imagingplanner.cpp:2744
 #, kde-format
 msgid "Loading Catalogs..."
 msgstr "Nalaganje katalogov ..."
 
-#: tools/imagingplanner.cpp:3068
+#: tools/imagingplanner.cpp:3069
 #, kde-format
 msgid "Transits"
 msgstr "Prehodi"
 
-#: tools/imagingplanner.cpp:3073 tools/imagingplanner.cpp:3077
+#: tools/imagingplanner.cpp:3074 tools/imagingplanner.cpp:3078
 #, kde-format
 msgid "Sets at"
 msgstr "Zaide ob"
 
-#: tools/imagingplanner.cpp:3084 tools/imagingplanner.cpp:3088
+#: tools/imagingplanner.cpp:3085 tools/imagingplanner.cpp:3089
 #, kde-format
 msgid "Rises at"
 msgstr "Vzide ob"
 
-#: tools/imagingplanner.cpp:3095 tools/imagingplanner.cpp:3101
+#: tools/imagingplanner.cpp:3096 tools/imagingplanner.cpp:3102
 #, kde-format
 msgid "Rises"
 msgstr "Vzide"
 
-#: tools/imagingplanner.cpp:3097 tools/imagingplanner.cpp:3103
+#: tools/imagingplanner.cpp:3098 tools/imagingplanner.cpp:3104
 #, kde-format
 msgid "Sets"
 msgstr "Zaide"
 
-#: tools/imagingplanner.cpp:3209 tools/imagingplanner.cpp:3465
+#: tools/imagingplanner.cpp:3210 tools/imagingplanner.cpp:3466
 #, kde-format
 msgid "objects"
 msgstr "objekti"
 
-#: tools/imagingplanner.cpp:3461
+#: tools/imagingplanner.cpp:3462
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 in %3 drugih objektov"
 
-#: tools/imagingplanner.cpp:3469 tools/imagingplanner.cpp:3473
+#: tools/imagingplanner.cpp:3470 tools/imagingplanner.cpp:3474
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr "Označi %1 kot NE poslikano"
 
-#: tools/imagingplanner.cpp:3470 tools/imagingplanner.cpp:3475
+#: tools/imagingplanner.cpp:3471 tools/imagingplanner.cpp:3476
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr "Označi %1 kot že poslikano"
 
-#: tools/imagingplanner.cpp:3479 tools/imagingplanner.cpp:3483
+#: tools/imagingplanner.cpp:3480 tools/imagingplanner.cpp:3484
 #, kde-format
 msgid "Un-pick %1"
 msgstr "Prekliči pobrano %1"
 
-#: tools/imagingplanner.cpp:3480 tools/imagingplanner.cpp:3485
+#: tools/imagingplanner.cpp:3481 tools/imagingplanner.cpp:3486
 #, kde-format
 msgid "Pick %1"
 msgstr "Poberi %1"
 
-#: tools/imagingplanner.cpp:3490 tools/imagingplanner.cpp:3495
+#: tools/imagingplanner.cpp:3491 tools/imagingplanner.cpp:3496
 #, kde-format
 msgid "Stop ignoring %1"
 msgstr "Prenehaj prezirati %1"
 
-#: tools/imagingplanner.cpp:3491 tools/imagingplanner.cpp:3497
+#: tools/imagingplanner.cpp:3492 tools/imagingplanner.cpp:3498
 #, kde-format
 msgid "Ignore %1"
 msgstr "Prezri %1"
 
-#: tools/imagingplanner.cpp:3500
+#: tools/imagingplanner.cpp:3501
 #, kde-format
 msgid "Center %1 on SkyMap"
 msgstr "Centriraj %1 na zvezdni karti"
 
-#: tools/imagingplanner.cpp:3502
+#: tools/imagingplanner.cpp:3503
 #, kde-format
 msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
 "SkyMap"
 msgstr "Posnemi sliko %1, jo reši in začasno postavi na zvezdno karto"
 
-#: tools/imagingplanner.cpp:3642
+#: tools/imagingplanner.cpp:3643
 #, kde-format
 msgid "Successfully marked %1 objects as read"
 msgstr "Uspešno označenih %1 predmetov kot prebranih"
 
-#: tools/imagingplanner.cpp:3644
+#: tools/imagingplanner.cpp:3645
 #, kde-format
 msgid "Empty file"
 msgstr "Prazna datoteka"
 
-#: tools/imagingplanner.cpp:3653
+#: tools/imagingplanner.cpp:3654
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "Označevanje vseh teh poslikanih objektov ni uspelo: %1"
 
-#: tools/imagingplanner.cpp:3655
+#: tools/imagingplanner.cpp:3656
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr "Označevanje %1 poslikanih objektov ni uspelo, vključno: %2"
 
-#: tools/imagingplanner.cpp:3657
+#: tools/imagingplanner.cpp:3658
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr "Uspešno označeno %1 poslikanih objektov. Neuspelo z %2: %3"
 
-#: tools/imagingplanner.cpp:3660
+#: tools/imagingplanner.cpp:3661
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 "Uspešno označeno %1 poslikanih objektov. Neuspelo z %2, vključno s temi: %3"
 
-#: tools/imagingplanner.cpp:3666 tools/imagingplanner.cpp:3916
+#: tools/imagingplanner.cpp:3667 tools/imagingplanner.cpp:3917
 #, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Žal, ni bilo mogoče odpreti datoteke: \"%1\""
 
-#: tools/imagingplanner.cpp:3780
+#: tools/imagingplanner.cpp:3781
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr "Žal, datoteka kataloga žal ne obstaja: »%1«"
 
-#: tools/imagingplanner.cpp:3901
+#: tools/imagingplanner.cpp:3902
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr "%1/%2: dodajanje %3"
 
-#: tools/imagingplanner.cpp:3984
+#: tools/imagingplanner.cpp:3985
 #, kde-format
 msgctxt "@action:button"
 msgid "OK"
 msgstr "V redu"
 
-#: tools/imagingplanner.cpp:3985
+#: tools/imagingplanner.cpp:3986
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"

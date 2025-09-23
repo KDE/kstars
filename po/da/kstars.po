@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-20 02:01+0000\n"
+"POT-Creation-Date: 2025-09-23 02:09+0000\n"
 "PO-Revision-Date: 2014-04-26 16:29+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -614,7 +614,7 @@ msgstr "Afbryd drejning"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/platesolve.cpp:218 fitsviewer/platesolve.cpp:254
+#: fitsviewer/platesolve.cpp:224 fitsviewer/platesolve.cpp:260
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -643,7 +643,7 @@ msgstr "Annullér"
 #: ekos/scheduler/scheduler.cpp:1632 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
 #: kstarsactions.cpp:505 kstarsactions.cpp:513 kstarsactions.cpp:523
-#: skycomponents/imageoverlaycomponent.cpp:553
+#: skycomponents/imageoverlaycomponent.cpp:556
 #, kde-format
 msgid "Error"
 msgstr "Fejl"
@@ -1130,7 +1130,7 @@ msgstr "Solsystemviser"
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1541 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1542 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1207,8 +1207,8 @@ msgstr "Jorden"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:85 tools/imagingplanner.cpp:1516
-#: tools/imagingplanner.cpp:3062 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:85 tools/imagingplanner.cpp:1517
+#: tools/imagingplanner.cpp:3063 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2777,7 +2777,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
-#: ekos/scheduler/scheduler.cpp:2122 fitsviewer/fitstab.cpp:1226
+#: ekos/scheduler/scheduler.cpp:2122 fitsviewer/fitstab.cpp:1228
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2798,7 +2798,7 @@ msgstr "Slå ikke op"
 msgid "Show webpage about "
 msgstr "Vis internetside om "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3207
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3208
 #, kde-format
 msgid "object"
 msgstr "objekt"
@@ -6974,7 +6974,7 @@ msgstr "Fjern spor efter alle objekter"
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
 #: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
-#: fitsviewer/fitstab.cpp:1225 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:1227 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10685,11 +10685,11 @@ msgstr "Optagelse"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:333
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:339
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
-#: skycomponents/imageoverlaycomponent.cpp:350
-#: skycomponents/imageoverlaycomponent.cpp:744
-#: skycomponents/imageoverlaycomponent.cpp:824
+#: skycomponents/imageoverlaycomponent.cpp:353
+#: skycomponents/imageoverlaycomponent.cpp:747
+#: skycomponents/imageoverlaycomponent.cpp:827
 #, fuzzy, kde-format
 #| msgid "solver:"
 msgid "Solve"
@@ -16655,8 +16655,8 @@ msgstr "St&op følgning"
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:472 ekos/focus/focusmodule.cpp:676
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
-#: skycomponents/imageoverlaycomponent.cpp:620
-#: skycomponents/imageoverlaycomponent.cpp:750
+#: skycomponents/imageoverlaycomponent.cpp:623
+#: skycomponents/imageoverlaycomponent.cpp:753
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
 #, kde-format
 msgid "Abort"
@@ -27170,8 +27170,8 @@ msgstr "Dithering..."
 msgid "Slaving deactivated."
 msgstr "Dithering..."
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:97
-#: fitsviewer/platesolve.cpp:214 fitsviewer/platesolve.cpp:250
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:103
+#: fitsviewer/platesolve.cpp:220 fitsviewer/platesolve.cpp:256
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Aborting..."
@@ -32264,21 +32264,21 @@ msgstr ""
 msgid "RAM"
 msgstr "RA"
 
-#: fitsviewer/fitstab.cpp:1024
+#: fitsviewer/fitstab.cpp:1026
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgctxt "@title:window"
 msgid "Stack Directory"
 msgstr "Standard-FITS-katalog:"
 
-#: fitsviewer/fitstab.cpp:1049
+#: fitsviewer/fitstab.cpp:1051
 #, fuzzy, kde-format
 #| msgid "Scheduled Time"
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
 msgstr "Skemalagt tidspunkt"
 
-#: fitsviewer/fitstab.cpp:1063
+#: fitsviewer/fitstab.cpp:1065
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Master alarm"
@@ -32286,71 +32286,71 @@ msgctxt "@title:window"
 msgid "Select Master Dark"
 msgstr "Hovedalarm"
 
-#: fitsviewer/fitstab.cpp:1077
+#: fitsviewer/fitstab.cpp:1079
 #, fuzzy, kde-format
 #| msgid "Select a category:"
 msgctxt "@title:window"
 msgid "Select Master Flat"
 msgstr "Vælg en kategori:"
 
-#: fitsviewer/fitstab.cpp:1179 fitsviewer/fitstab.cpp:1183
+#: fitsviewer/fitstab.cpp:1181 fitsviewer/fitstab.cpp:1185
 #, fuzzy, kde-format
 #| msgid "Save"
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Gem"
 
-#: fitsviewer/fitstab.cpp:1215
+#: fitsviewer/fitstab.cpp:1217
 #, fuzzy, kde-format
 #| msgid "FITS file save error: %1"
 msgid "Image save error: %1"
 msgstr "Fejl under gemning af FITS-fil: %1"
 
-#: fitsviewer/fitstab.cpp:1215
+#: fitsviewer/fitstab.cpp:1217
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
 msgid "Image Save"
 msgstr "Billeddata"
 
-#: fitsviewer/fitstab.cpp:1219
+#: fitsviewer/fitstab.cpp:1221
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "File saved to %1"
 msgstr "Gemte FITS-filen i %1"
 
-#: fitsviewer/fitstab.cpp:1313
+#: fitsviewer/fitstab.cpp:1315
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "Watching %1"
 msgstr "Indlæser %1"
 
-#: fitsviewer/fitstab.cpp:1452
+#: fitsviewer/fitstab.cpp:1454
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "Stopped Watching (%1)"
 msgstr "Indlæser %1"
 
-#: fitsviewer/fitstab.cpp:1453
+#: fitsviewer/fitstab.cpp:1455
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "(%1) Watching"
 msgstr "Indlæser %1"
 
-#: fitsviewer/fitstab.cpp:1454 fitsviewer/fitstab.cpp:1460
+#: fitsviewer/fitstab.cpp:1456 fitsviewer/fitstab.cpp:1462
 #, fuzzy, kde-format
 #| msgctxt "integrated flux value"
 #| msgid "%1 %2"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1458
+#: fitsviewer/fitstab.cpp:1460
 #, fuzzy, kde-format
 #| msgid "Stop"
 msgid "Stopped (%1)"
 msgstr "Stop"
 
-#: fitsviewer/fitstab.cpp:1459
+#: fitsviewer/fitstab.cpp:1461
 #, fuzzy, kde-format
 #| msgid "RA (%1):"
 msgid "(%1)"
@@ -33800,60 +33800,60 @@ msgstr ""
 msgid "StellarSolver partitioning"
 msgstr "Simulatorindstillinger"
 
-#: fitsviewer/platesolve.cpp:80
+#: fitsviewer/platesolve.cpp:84
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "Miniaturebillededitor"
 
-#: fitsviewer/platesolve.cpp:224
+#: fitsviewer/platesolve.cpp:230
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Extracting..."
 msgstr "Dithering..."
 
-#: fitsviewer/platesolve.cpp:258
+#: fitsviewer/platesolve.cpp:264
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Solving..."
 msgstr "Indstillinger"
 
-#: fitsviewer/platesolve.cpp:319
+#: fitsviewer/platesolve.cpp:325
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Extractor timed out: %1s"
 msgstr "Løseren havde tidsudløb."
 
-#: fitsviewer/platesolve.cpp:329
+#: fitsviewer/platesolve.cpp:335
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Extractor failed: %1s"
 msgstr "Intet synsfeltsymbol"
 
-#: fitsviewer/platesolve.cpp:339
+#: fitsviewer/platesolve.cpp:345
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:423
+#: fitsviewer/platesolve.cpp:429
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Solver timed out: %1s"
 msgstr "Løseren havde tidsudløb."
 
-#: fitsviewer/platesolve.cpp:429
+#: fitsviewer/platesolve.cpp:435
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver failed: %1s"
 msgstr "Intet synsfeltsymbol"
 
-#: fitsviewer/platesolve.cpp:667
+#: fitsviewer/platesolve.cpp:762
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:668
+#: fitsviewer/platesolve.cpp:763
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -89524,132 +89524,132 @@ msgstr ""
 msgid "Stored OK status for %1."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:395
+#: skycomponents/imageoverlaycomponent.cpp:398
 #, kde-format
 msgid "Updating from directory: %1"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:444
+#: skycomponents/imageoverlaycomponent.cpp:447
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:446
-#: skycomponents/imageoverlaycomponent.cpp:590
-#: skycomponents/imageoverlaycomponent.cpp:886
+#: skycomponents/imageoverlaycomponent.cpp:449
+#: skycomponents/imageoverlaycomponent.cpp:593
+#: skycomponents/imageoverlaycomponent.cpp:889
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:464
+#: skycomponents/imageoverlaycomponent.cpp:467
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Loading image files..."
 msgstr "Indlæser billeder..."
 
-#: skycomponents/imageoverlaycomponent.cpp:470
+#: skycomponents/imageoverlaycomponent.cpp:473
 #, kde-format
 msgid "%1 image files loaded."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:553
+#: skycomponents/imageoverlaycomponent.cpp:556
 #, fuzzy, kde-format
 #| msgid "Focusing..."
 msgid "Unprocessed"
 msgstr "Fokuserer..."
 
-#: skycomponents/imageoverlaycomponent.cpp:553
+#: skycomponents/imageoverlaycomponent.cpp:556
 #, fuzzy, kde-format
 #| msgid "&File"
 msgid "Bad File"
 msgstr "&Fil"
 
-#: skycomponents/imageoverlaycomponent.cpp:553
+#: skycomponents/imageoverlaycomponent.cpp:556
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solve Failed"
 msgstr "Intet synsfeltsymbol"
 
-#: skycomponents/imageoverlaycomponent.cpp:553
+#: skycomponents/imageoverlaycomponent.cpp:556
 #, fuzzy, kde-format
 #| msgid "&OK"
 msgid "OK"
 msgstr "&O.k."
 
-#: skycomponents/imageoverlaycomponent.cpp:576
+#: skycomponents/imageoverlaycomponent.cpp:579
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Light"
 msgid "West-Right"
 msgstr "Lys"
 
-#: skycomponents/imageoverlaycomponent.cpp:577
+#: skycomponents/imageoverlaycomponent.cpp:580
 #, fuzzy, kde-format
 #| msgid "Bottom right"
 msgid "East-Right"
 msgstr "Nederst højre"
 
-#: skycomponents/imageoverlaycomponent.cpp:638
+#: skycomponents/imageoverlaycomponent.cpp:641
 #, fuzzy, kde-format
 #| msgid "Focusing..."
 msgid "Solving: %1. %2 in queue."
 msgstr "Fokuserer..."
 
-#: skycomponents/imageoverlaycomponent.cpp:640
+#: skycomponents/imageoverlaycomponent.cpp:643
 #, fuzzy, kde-format
 #| msgid "Focusing..."
 msgid "Solving: %1."
 msgstr "Fokuserer..."
 
-#: skycomponents/imageoverlaycomponent.cpp:705
+#: skycomponents/imageoverlaycomponent.cpp:708
 #, kde-format
 msgid "Can't show %1. Not plate solved."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:710
+#: skycomponents/imageoverlaycomponent.cpp:713
 #, kde-format
 msgid "Can't show %1. Image not loaded."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:743
+#: skycomponents/imageoverlaycomponent.cpp:746
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Solving aborted."
 msgstr "Autoguiding startet."
 
-#: skycomponents/imageoverlaycomponent.cpp:778
+#: skycomponents/imageoverlaycomponent.cpp:781
 #, kde-format
 msgid "Skipping already solved: %1."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:797
+#: skycomponents/imageoverlaycomponent.cpp:800
 #, kde-format
 msgid "%1 already solved. Skipping."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:815
+#: skycomponents/imageoverlaycomponent.cpp:818
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:834
+#: skycomponents/imageoverlaycomponent.cpp:837
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Solver timed out in %1s"
 msgstr "Løseren havde tidsudløb."
 
-#: skycomponents/imageoverlaycomponent.cpp:840
+#: skycomponents/imageoverlaycomponent.cpp:843
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver failed in %1s"
 msgstr "Intet synsfeltsymbol"
 
-#: skycomponents/imageoverlaycomponent.cpp:853
+#: skycomponents/imageoverlaycomponent.cpp:856
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
 msgstr ""
 
-#: skycomponents/imageoverlaycomponent.cpp:885
+#: skycomponents/imageoverlaycomponent.cpp:888
 #, kde-format
 msgid "Done solving. %1 available."
 msgstr ""
@@ -91646,8 +91646,8 @@ msgid "Object Set"
 msgstr "Objekt"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3079
-#: tools/imagingplanner.cpp:3090 tools/imagingplanner.cpp:3105
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3080
+#: tools/imagingplanner.cpp:3091 tools/imagingplanner.cpp:3106
 #, fuzzy, kde-format
 #| msgid "Transit:"
 msgid "Transit"
@@ -92942,35 +92942,35 @@ msgstr ""
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1585
+#: tools/imagingplanner.cpp:1586
 #, fuzzy, kde-format
 #| msgctxt "%1 is a location on earth"
 #| msgid "Almanac for %1"
 msgid "No match for \"%1\""
 msgstr "Almanak for %1"
 
-#: tools/imagingplanner.cpp:1649
+#: tools/imagingplanner.cpp:1650
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1654
+#: tools/imagingplanner.cpp:1655
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1659
+#: tools/imagingplanner.cpp:1660
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1994
+#: tools/imagingplanner.cpp:1995
 #, fuzzy, kde-format
 #| msgid "Uploading file..."
 msgid "Updating tables..."
 msgstr "Uploader fil..."
 
-#: tools/imagingplanner.cpp:2395
+#: tools/imagingplanner.cpp:2396
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -92978,206 +92978,206 @@ msgid ""
 "See Data -> Download New Data if not..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2398
+#: tools/imagingplanner.cpp:2399
 #, fuzzy, kde-format
 #| msgid "Catalogs"
 msgid "No Catalog!"
 msgstr "Kataloger"
 
-#: tools/imagingplanner.cpp:2444
+#: tools/imagingplanner.cpp:2445
 #, fuzzy, kde-format
 #| msgid "Select object..."
 msgid "Select an object."
 msgstr "Vælg objekt..."
 
-#: tools/imagingplanner.cpp:2446
+#: tools/imagingplanner.cpp:2447
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2448
+#: tools/imagingplanner.cpp:2449
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Load a Catalog."
 msgstr "Indlæs katalog..."
 
-#: tools/imagingplanner.cpp:2578
+#: tools/imagingplanner.cpp:2579
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2583
+#: tools/imagingplanner.cpp:2584
 #, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2589
+#: tools/imagingplanner.cpp:2590
 #, kde-format
 msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2595
+#: tools/imagingplanner.cpp:2596
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2600
+#: tools/imagingplanner.cpp:2601
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2743
+#: tools/imagingplanner.cpp:2744
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Loading Catalogs..."
 msgstr "Indlæs katalog..."
 
-#: tools/imagingplanner.cpp:3068
+#: tools/imagingplanner.cpp:3069
 #, fuzzy, kde-format
 #| msgid "Transit:"
 msgid "Transits"
 msgstr "Kulmination:"
 
-#: tools/imagingplanner.cpp:3073 tools/imagingplanner.cpp:3077
+#: tools/imagingplanner.cpp:3074 tools/imagingplanner.cpp:3078
 #, fuzzy, kde-format
 #| msgid "Sets at: %1"
 msgid "Sets at"
 msgstr "Går ned: %1"
 
-#: tools/imagingplanner.cpp:3084 tools/imagingplanner.cpp:3088
+#: tools/imagingplanner.cpp:3085 tools/imagingplanner.cpp:3089
 #, fuzzy, kde-format
 #| msgid "Rises at: %1"
 msgid "Rises at"
 msgstr "Står op: %1"
 
-#: tools/imagingplanner.cpp:3095 tools/imagingplanner.cpp:3101
+#: tools/imagingplanner.cpp:3096 tools/imagingplanner.cpp:3102
 #, fuzzy, kde-format
 #| msgid "Rise:"
 msgid "Rises"
 msgstr "Solopgang:"
 
-#: tools/imagingplanner.cpp:3097 tools/imagingplanner.cpp:3103
+#: tools/imagingplanner.cpp:3098 tools/imagingplanner.cpp:3104
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3209 tools/imagingplanner.cpp:3465
+#: tools/imagingplanner.cpp:3210 tools/imagingplanner.cpp:3466
 #, fuzzy, kde-format
 #| msgid "object"
 msgid "objects"
 msgstr "objekt"
 
-#: tools/imagingplanner.cpp:3461
+#: tools/imagingplanner.cpp:3462
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 og %3"
 
-#: tools/imagingplanner.cpp:3469 tools/imagingplanner.cpp:3473
+#: tools/imagingplanner.cpp:3470 tools/imagingplanner.cpp:3474
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3470 tools/imagingplanner.cpp:3475
+#: tools/imagingplanner.cpp:3471 tools/imagingplanner.cpp:3476
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3479 tools/imagingplanner.cpp:3483
+#: tools/imagingplanner.cpp:3480 tools/imagingplanner.cpp:3484
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3480 tools/imagingplanner.cpp:3485
+#: tools/imagingplanner.cpp:3481 tools/imagingplanner.cpp:3486
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3490 tools/imagingplanner.cpp:3495
+#: tools/imagingplanner.cpp:3491 tools/imagingplanner.cpp:3496
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop ignoring %1"
 msgstr "St&op følgning"
 
-#: tools/imagingplanner.cpp:3491 tools/imagingplanner.cpp:3497
+#: tools/imagingplanner.cpp:3492 tools/imagingplanner.cpp:3498
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignore %1"
 msgstr "Ignorér"
 
-#: tools/imagingplanner.cpp:3500
+#: tools/imagingplanner.cpp:3501
 #, fuzzy, kde-format
 #| msgid "Center in Map"
 msgid "Center %1 on SkyMap"
 msgstr "Centrér i kort"
 
-#: tools/imagingplanner.cpp:3502
+#: tools/imagingplanner.cpp:3503
 #, kde-format
 msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
 "SkyMap"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3642
+#: tools/imagingplanner.cpp:3643
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Successfully marked %1 objects as read"
 msgstr "Navn på den netværksforbundne INDI-fokusererenhed."
 
-#: tools/imagingplanner.cpp:3644
+#: tools/imagingplanner.cpp:3645
 #, fuzzy, kde-format
 #| msgid "Input file:"
 msgid "Empty file"
 msgstr "Inputfil:"
 
-#: tools/imagingplanner.cpp:3653
+#: tools/imagingplanner.cpp:3654
 #, fuzzy, kde-format
 #| msgid "Add a name label to the object named %1."
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "Tilføj navneetiket til objektet kaldet %1."
 
-#: tools/imagingplanner.cpp:3655
+#: tools/imagingplanner.cpp:3656
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3657
+#: tools/imagingplanner.cpp:3658
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3660
+#: tools/imagingplanner.cpp:3661
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3666 tools/imagingplanner.cpp:3916
+#: tools/imagingplanner.cpp:3667 tools/imagingplanner.cpp:3917
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Kunne ikke åbne filen %1"
 
-#: tools/imagingplanner.cpp:3780
+#: tools/imagingplanner.cpp:3781
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3901
+#: tools/imagingplanner.cpp:3902
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3984
+#: tools/imagingplanner.cpp:3985
 #, fuzzy, kde-format
 #| msgid "&OK"
 msgctxt "@action:button"
 msgid "OK"
 msgstr "&O.k."
 
-#: tools/imagingplanner.cpp:3985
+#: tools/imagingplanner.cpp:3986
 #, fuzzy, kde-format
 #| msgid "Cancel"
 msgctxt "@action:button"
