@@ -6241,10 +6241,9 @@ msgid "Solving with blind image position..."
 msgstr "正在进行未知图像位置的解析..."
 
 #: ekos/align/align.cpp:1969
-#, fuzzy, kde-format
-#| msgid "Solving with blind image scale..."
+#, kde-format
 msgid "Solving with blind dynamic threshold..."
-msgstr "正在进行未知图像尺寸的解析..."
+msgstr ""
 
 #: ekos/align/align.cpp:2001
 #, kde-format
@@ -6319,10 +6318,9 @@ msgid "Saving failed solver image to %1"
 msgstr "保存失败的解析图像到 %1"
 
 #: ekos/align/align.cpp:2464
-#, fuzzy, kde-format
-#| msgid "Solver failed. Retrying without scale constraint."
+#, kde-format
 msgid "Solver failed. Retrying with blind dynamic threshold."
-msgstr "解析失败。正在重新尝试无尺度约束"
+msgstr ""
 
 #: ekos/align/align.cpp:2478
 #, kde-format
@@ -7867,10 +7865,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDynamicThreshold)
 #: ekos/align/opsalign.ui:263
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Dynamic Threshold"
-msgstr "阈值"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:285

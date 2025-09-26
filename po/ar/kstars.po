@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-25 02:03+0000\n"
-"PO-Revision-Date: 2025-08-20 21:48+0400\n"
+"PO-Revision-Date: 2025-09-25 16:39+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1015,7 +1015,7 @@ msgstr "الظفر القاطف"
 #: tools/eclipsetool.ui:183
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p٪"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: auxiliary/thumbnailpicker.ui:72
@@ -82491,19 +82491,16 @@ msgid "%1/%2: Adding %3"
 msgstr ""
 
 #: tools/imagingplanner.cpp:3985
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "HOOK"
+#, kde-format
 msgctxt "@action:button"
 msgid "OK"
-msgstr "‎‎خطاف‎‎"
+msgstr "حسنًا"
 
 #: tools/imagingplanner.cpp:3986
-#, fuzzy, kde-format
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
-msgstr "إلغاء"
+msgstr "ألغِ"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SearchB)
 #: tools/imagingplanner.ui:77
@@ -82588,10 +82585,9 @@ msgstr "معدل الاختزال"
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelCheckTargetsButton)
 #: tools/imagingplanner.ui:485
-#, fuzzy, kde-format
-#| msgid "Check URL"
+#, kde-format
 msgid "Check"
-msgstr "تحقق من الرابط"
+msgstr "تحقق"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesEditButton)
 #: tools/imagingplanner.ui:707
@@ -82710,10 +82706,9 @@ msgstr "حدّد بوصة دَخْل ملفّ."
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minMoon)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1144 tools/imagingplanner.ui:1163
-#, fuzzy, kde-format
-#| msgid "°C"
+#, kde-format
 msgid "°"
-msgstr "°س"
+msgstr "°"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1160
@@ -83032,9 +83027,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:2021
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Load"
+#, kde-format
 msgid "Load"
 msgstr "حمّل"
 
@@ -83109,10 +83102,9 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2102
-#, fuzzy, kde-format
-#| msgid "Keyword"
+#, kde-format
 msgid "keyword"
-msgstr "الكلمة المفتاح"
+msgstr "كلمة مفتاحية"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)

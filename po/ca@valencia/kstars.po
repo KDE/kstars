@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-25 02:03+0000\n"
-"PO-Revision-Date: 2025-08-30 12:15+0200\n"
+"PO-Revision-Date: 2025-09-25 09:56+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.3\n"
 "X-Accelerator-Marker: &\n"
 
 # Diccionari de termes astronòmics:
@@ -6455,18 +6455,17 @@ msgstr ""
 #: ekos/align/align.cpp:1955
 #, kde-format
 msgid "Solving with blind image scale..."
-msgstr "S'està resolent amb una escala d'imatge cega…"
+msgstr "S'està resolent amb una escala cega de la imatge…"
 
 #: ekos/align/align.cpp:1963
 #, kde-format
 msgid "Solving with blind image position..."
-msgstr "S'està resolent amb una posició d'imatge cega…"
+msgstr "S'està resolent amb una posició cega de la imatge…"
 
 #: ekos/align/align.cpp:1969
-#, fuzzy, kde-format
-#| msgid "Solving with blind image scale..."
+#, kde-format
 msgid "Solving with blind dynamic threshold..."
-msgstr "S'està resolent amb una escala d'imatge cega…"
+msgstr "S'està resolent amb un llindar dinàmic cec…"
 
 # Nota: https://ascom-standards.org/Help/Platform/html/T_ASCOM_DeviceInterface_PierSide.htm
 #: ekos/align/align.cpp:2001
@@ -6524,7 +6523,7 @@ msgstr "L'angle de posició de la càmera és de %1 graus."
 #: ekos/align/align.cpp:2320 ekos/align/align.cpp:2458
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
-msgstr ""
+msgstr "S'ha ajustat el llindar dinàmic a %1 (estreles trobades: %2)."
 
 #: ekos/align/align.cpp:2329 ekos/align/align.cpp:2788
 #, kde-format
@@ -6548,11 +6547,10 @@ msgid "Saving failed solver image to %1"
 msgstr "S'està guardant la imatge fallida del solucionador a %1"
 
 #: ekos/align/align.cpp:2464
-#, fuzzy, kde-format
-#| msgid "Solver failed. Retrying without scale constraint."
+#, kde-format
 msgid "Solver failed. Retrying with blind dynamic threshold."
 msgstr ""
-"El solucionador ha fallat. Es torna a intentar sense la restricció d'escala."
+"El solucionador ha fallat. Es torna a intentar amb un llindar dinàmic cec."
 
 #: ekos/align/align.cpp:2478
 #, kde-format
@@ -8215,13 +8213,14 @@ msgid ""
 "Adjust StellarSolver threshold dynamically based on source extractor "
 "detected stars to expedite solving."
 msgstr ""
+"Ajusta dinàmicament el llindar de StellarSolver en funció de les estreles "
+"detectades per l'extractor de fonts per a accelerar la solució."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDynamicThreshold)
 #: ekos/align/opsalign.ui:263
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Dynamic Threshold"
-msgstr "Llindar"
+msgstr "Llindar dinàmic"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:285
@@ -11955,22 +11954,7 @@ msgid "(ΔAlt=%1)"
 msgstr "(ΔAlt=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:621
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Graphics tooltip; colume 1 is a header, column 2 is focus position, "
-#| "column 3 is temperature in °C, colunm 4 is altitude in °AltRow 1 is the "
-#| "headers, row 2 is the measured position, row 3 are the adaptations for "
-#| "temperature and altitude, row 4 is adapted position"
-#| msgid ""
-#| "<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
-#| "padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
-#| "caption { text-align: center; vertical-align: top; font-weight: bold; "
-#| "margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
-#| "align=top>Adapt Focus Explainer</caption><tr><th></th><th>Position</"
-#| "th><th>Temperature (°C)</th><th>Altitude (°Alt)</th></tr><tr><th>Measured "
-#| "Pos</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></tr><tr><th>Adaptations</"
-#| "th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
-#| "td></tr></table></body>"
+#, kde-format
 msgctxt ""
 "Graphics tooltip; column 1 is a header, column 2 is focus position, column 3 "
 "is temperature in °C, column 4 is altitude in °AltRow 1 is the headers, row "
@@ -15296,11 +15280,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
 #: ekos/capture/camera.ui:1810
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Target is the name of the targetted object.</"
-#| "p><p>It is available to be used in the filename Format via the %t or "
-#| "%type placeholder tag.</p></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Target is the name of the targeted object.</p><p>It is "
 "available to be used in the filename Format via the %t or %type placeholder "
@@ -16766,9 +16746,7 @@ msgstr ""
 "Canvia la pantalla al mode gràfic de visualització del nombre de captures."
 
 #: ekos/capture/capturedeviceadaptor.cpp:423
-#, fuzzy, kde-format
-#| msgid ""
-#| "Filter manager is not initilized yet. Filter wheel missing from train?"
+#, kde-format
 msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr ""
 "El gestor de filtres encara no està inicialitzat. Falta la roda de filtres "
@@ -20681,10 +20659,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:66
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to have Focus Advisor search for stars. If you are close enough to "
-#| "Focus to see stars in the Focus frame then this step is not neccessary."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor search for stars. If you are close enough to "
 "Focus to see stars in the Focus frame then this step is not necessary."
@@ -31742,10 +31717,9 @@ msgid "Cycle through stretch presets."
 msgstr "Circula entre els predefinits de l'estirament."
 
 #: fitsviewer/fitstab.cpp:37
-#, fuzzy, kde-format
-#| msgid "Stopping"
+#, kde-format
 msgid "Stopping..."
-msgstr "S'està parant"
+msgstr "S'està parant…"
 
 #: fitsviewer/fitstab.cpp:68
 #, kde-format
@@ -31971,35 +31945,29 @@ msgid "Watching %1"
 msgstr "S'està controlant %1"
 
 #: fitsviewer/fitstab.cpp:1454
-#, fuzzy, kde-format
-#| msgid "Watching %1"
+#, kde-format
 msgid "Stopped Watching (%1)"
-msgstr "S'està controlant %1"
+msgstr "S'ha parat el control de %1"
 
 #: fitsviewer/fitstab.cpp:1455
-#, fuzzy, kde-format
-#| msgid "(%1) Watching %2"
+#, kde-format
 msgid "(%1) Watching"
-msgstr "(%1) S'està controlant %2"
+msgstr "(%1) S'està controlant"
 
 #: fitsviewer/fitstab.cpp:1456 fitsviewer/fitstab.cpp:1462
-#, fuzzy, kde-format
-#| msgctxt "integrated flux value"
-#| msgid "%1 %2"
+#, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
 #: fitsviewer/fitstab.cpp:1460
-#, fuzzy, kde-format
-#| msgid "Stopped"
+#, kde-format
 msgid "Stopped (%1)"
-msgstr "Parada"
+msgstr "Parada (%1)"
 
 #: fitsviewer/fitstab.cpp:1461
-#, fuzzy, kde-format
-#| msgid "(%1) %2"
+#, kde-format
 msgid "(%1)"
-msgstr "(%1) %2"
+msgstr "(%1)"
 
 #: fitsviewer/fitsview.cpp:658 fitsviewer/fitsview.cpp:669
 #, kde-format
@@ -32348,10 +32316,9 @@ msgid "Stacking Complete"
 msgstr "S'ha completat l'apilament."
 
 #: fitsviewer/fitsviewer.cpp:1213
-#, fuzzy, kde-format
-#| msgid "Stacking Complete"
+#, kde-format
 msgid "Stacking Stopped"
-msgstr "S'ha completat l'apilament."
+msgstr "S'ha parat l'apilament"
 
 #: fitsviewer/fitsviewer.cpp:1488
 #, kde-format
@@ -32484,14 +32451,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:250
-#, fuzzy, kde-format
-#| msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Signal-to-noise ratio Max / Min / Mean of the "
 "processed subs</p></body></html>"
 msgstr ""
-"Relació de senyal a soroll Màx. / Mín. / Mitjana de les subsolucions "
-"processades"
+"<html><head/><body><p>Relació de senyal a soroll Màx. / Mín. / Mitjana de "
+"les subsolucions processades.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:253
@@ -32538,18 +32504,19 @@ msgstr "Guarda la configuració"
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:369
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Memory monitor</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Memory monitor. Double click to toggle text on / off.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Vigilant de la memòria.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Vigilant de la memòria. Doble clic per a canviar el "
+"text visible o no.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, GeneralProcMinimized)
 #: fitsviewer/livestacking.ui:379
 #, kde-format
 msgid "Configure general options in this section."
-msgstr ""
+msgstr "En esta secció es configuren les opcions generals."
 
 #. i18n: ectx: property (title), widget (QGroupBox, PostProcGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, PostProcMinimized)
@@ -32600,10 +32567,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:571
-#, fuzzy, kde-format
-#| msgid "Kernel:"
+#, kde-format
 msgid "  Kernel:"
-msgstr "Nucli:"
+msgstr "  Nucli:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenSigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
@@ -32631,10 +32597,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:621
-#, fuzzy, kde-format
-#| msgid "PSF Sigma:"
+#, kde-format
 msgid "  PSF Sigma:"
-msgstr "Sigma PSF:"
+msgstr "  Sigma PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
@@ -32677,7 +32642,7 @@ msgstr "Reprocessament"
 #: fitsviewer/livestacking.ui:785
 #, kde-format
 msgid "Configure post-processing options in this section."
-msgstr ""
+msgstr "En esta secció es configuren les opcions del postprocessament."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, masterFlatLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
@@ -32731,7 +32696,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:981
 #, kde-format
 msgid "Configure calibration options in this section."
-msgstr ""
+msgstr "En esta secció es configuren les opcions del calibratge."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, AlignMethod)
 #. i18n: ectx: property (toolTip), widget (QLabel, alignLabel)
@@ -32770,14 +32735,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:1149
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The sub to use as reference to align all other subs."
-#| "</p></body></html>"
+#, kde-format
 msgid "The sub to use as reference to align all other subs."
 msgstr ""
-"<html><head/><body><p>Les subsolucions que s'utilitzaran com a referència "
-"per a alinear totes les altres subsolucions.</p></body></html>"
+"Les subsolucions que s'utilitzaran com a referència per a alinear totes les "
+"altres subsolucions."
 
 #. i18n: ectx: property (text), widget (QLabel, AlignMasterSubLabel)
 #: fitsviewer/livestacking.ui:1152
@@ -32789,7 +32751,7 @@ msgstr "Subsolució mestre:"
 #: fitsviewer/livestacking.ui:1165
 #, kde-format
 msgid "Configure alignment options in this section."
-msgstr ""
+msgstr "En esta secció es configuren les opcions de l'alineació."
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:1208
@@ -32846,13 +32808,7 @@ msgstr "Sigma baixa:"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
 #. i18n: ectx: property (toolTip), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:1297 fitsviewer/livestacking.ui:1325
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The maximum number of subs held in memory whilst "
-#| "processing. The larger the value, the better the quality of the stacking "
-#| "process, but at the cost of more processing time and memory used.</"
-#| "p><p><br/></p><p>Processes such as sigma clipping will use this many subs "
-#| "to calculate statistics to use on all subs.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The maximum number of subs held in memory whilst "
 "processing. The larger the value, the better the quality of the stacking "
@@ -32860,11 +32816,11 @@ msgid ""
 "p><p>Processes such as sigma clipping will use this many subs to calculate "
 "statistics to use on all subs.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>El nombre màxim de subsolucions que es mantenen en la "
-"memòria mentre es processa. Com més gran siga el valor, millor serà la "
+"<html><head/><body><p>El nombre màxim de subsolucions que es mantindran en "
+"la memòria mentre es processa. Com més gran siga el valor, millor serà la "
 "qualitat del procés d'apilament, però a costa de més temps de processament i "
-"memòria utilitzada.</p><p><br/></p><p>Processos com el retallat de la sigma "
-"utilitzarà este nombre de subsolucions per a calcular les estadístiques que "
+"memòria utilitzada.</p><p>Els processos com el retallat de la sigma "
+"utilitzaran este nombre de subsolucions per a calcular les estadístiques que "
 "s'utilitzaran en totes les subsolucions.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
@@ -32897,10 +32853,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:1403
-#, fuzzy, kde-format
-#| msgid "Downscale:"
+#, kde-format
 msgid "  Downscale: "
-msgstr "Reducció de l'escala:"
+msgstr "  Reducció de l'escala:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:1442
@@ -32931,10 +32886,9 @@ msgstr "Igual"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:1504
-#, fuzzy, kde-format
-#| msgid "Frame Weight:"
+#, kde-format
 msgid "  Frame Weight: "
-msgstr "Alçària del fotograma:"
+msgstr "  Ponderació dels fotogrames:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, pixelRejLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
@@ -32983,16 +32937,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:1594
-#, fuzzy, kde-format
-#| msgid "Winsor Cutoff:"
+#, kde-format
 msgid "  Winsor Cutoff: "
-msgstr "Retall winsor:"
+msgstr "  Retall winsor:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1632
 #, kde-format
 msgid "Configure stacking options in this section."
-msgstr ""
+msgstr "En esta secció es configuren les opcions de l'apilament."
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -40141,36 +40094,42 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideGeneral), group (FITSViewer)
 #: kstars.kcfg:1790
-#, fuzzy, kde-format
-#| msgid "Live Stacking denoise amount"
+#, kde-format
 msgid "Live Stacking Minimise General Options Widget"
-msgstr "Quantitat de reducció del soroll de l'apilament en directe"
+msgstr ""
+"Giny de les opcions generals per a la minimització de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideCalibration), group (FITSViewer)
 #: kstars.kcfg:1794
 #, kde-format
 msgid "Live Stacking Minimise Calibration Options Widget"
 msgstr ""
+"Giny de les opcions del calibratge per a la minimització de l'apilament en "
+"directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideAlignment), group (FITSViewer)
 #: kstars.kcfg:1798
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Live Stacking Minimise Alignment Options Widget"
-msgstr "Mètode d'alineació de l'apilament en directe"
+msgstr ""
+"Giny de les opcions de l'alineació per a la minimització de l'apilament en "
+"directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideStacking), group (FITSViewer)
 #: kstars.kcfg:1802
-#, fuzzy, kde-format
-#| msgid "Live Stacking denoise amount"
+#, kde-format
 msgid "Live Stacking Minimise Stacking Options Widget"
-msgstr "Quantitat de reducció del soroll de l'apilament en directe"
+msgstr ""
+"Giny de les opcions de l'apilament per a la minimització de l'apilament en "
+"directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHidePostProc), group (FITSViewer)
 #: kstars.kcfg:1806
 #, kde-format
 msgid "Live Stacking Minimise Post-Processing Options Widget"
 msgstr ""
+"Giny de les opcions del postprocessament per a la minimització de "
+"l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterDark), group (FITSViewer)
 #: kstars.kcfg:1810
@@ -40236,10 +40195,9 @@ msgstr "Retall winsor del retallat de la sigma de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSPostProc), group (FITSViewer)
 #: kstars.kcfg:1850
-#, fuzzy, kde-format
-#| msgid "Live Stacking sharpening sigma"
+#, kde-format
 msgid "Live Stacking Post Processing switch"
-msgstr "Sigma d'agudització de l'apilament en directe"
+msgstr "Commutador del postprocessament de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1854
@@ -42992,7 +42950,7 @@ msgstr ""
 #, kde-format
 msgid "Default scheduler checkbox for aligning on job startup."
 msgstr ""
-"Casella de selecció predeterminada del programador per a l'alineament quan "
+"Casella de selecció predeterminada del programador per a l'alineació quan "
 "s'inicie la tasca."
 
 #. i18n: ectx: label, entry (SchedulerAltitude), group (Scheduler)

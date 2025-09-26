@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-25 02:03+0000\n"
-"PO-Revision-Date: 2025-09-20 13:25+0200\n"
+"PO-Revision-Date: 2025-09-25 15:32+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6417,10 +6417,9 @@ msgid "Solving with blind image position..."
 msgstr "S'està solucionant amb una posició d'imatge cega..."
 
 #: ekos/align/align.cpp:1969
-#, fuzzy, kde-format
-#| msgid "Solving with blind image scale..."
+#, kde-format
 msgid "Solving with blind dynamic threshold..."
-msgstr "S'està solucionant amb una escala d'imatge cega..."
+msgstr "S'està resolent amb un llindar dinàmic cec..."
 
 #: ekos/align/align.cpp:2001
 #, kde-format
@@ -6476,7 +6475,7 @@ msgstr "L'angle de posició de la càmera són %1 graus."
 #: ekos/align/align.cpp:2320 ekos/align/align.cpp:2458
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
-msgstr ""
+msgstr "Llindar dinàmic ajustat a %1 (estrelles trobades: %2)."
 
 #: ekos/align/align.cpp:2329 ekos/align/align.cpp:2788
 #, kde-format
@@ -6499,10 +6498,9 @@ msgid "Saving failed solver image to %1"
 msgstr "La imatge que ha fallat del solucionador es desa a %1"
 
 #: ekos/align/align.cpp:2464
-#, fuzzy, kde-format
-#| msgid "Solver failed. Retrying without scale constraint."
+#, kde-format
 msgid "Solver failed. Retrying with blind dynamic threshold."
-msgstr "El solucionador ha fallat. Es reintenta sense restricció d'escala."
+msgstr "El solucionador ha fallat. Es reintenta amb el llindar dinàmic cec."
 
 #: ekos/align/align.cpp:2478
 #, kde-format
@@ -8151,13 +8149,14 @@ msgid ""
 "Adjust StellarSolver threshold dynamically based on source extractor "
 "detected stars to expedite solving."
 msgstr ""
+"Ajusta dinàmicament el llindar de l'StellarSolver basat en les estrelles "
+"detectades de l'extractor de font per a accelerar la resolució."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDynamicThreshold)
 #: ekos/align/opsalign.ui:263
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Dynamic Threshold"
-msgstr "Llindar"
+msgstr "Llindar dinàmic"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:285

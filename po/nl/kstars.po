@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-25 02:03+0000\n"
-"PO-Revision-Date: 2025-09-20 11:07+0200\n"
+"PO-Revision-Date: 2025-09-25 15:47+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6387,10 +6387,9 @@ msgid "Solving with blind image position..."
 msgstr "Met de blinde afbeeldingspositie oplossen..."
 
 #: ekos/align/align.cpp:1969
-#, fuzzy, kde-format
-#| msgid "Solving with blind image scale..."
+#, kde-format
 msgid "Solving with blind dynamic threshold..."
-msgstr "De blinde afbeeldingsschaal wordt opgelost..."
+msgstr "Met blinde dynamische drempel wordt opgelost..."
 
 #: ekos/align/align.cpp:2001
 #, kde-format
@@ -6445,7 +6444,7 @@ msgstr "Positiehoek van camera is op %1 graden."
 #: ekos/align/align.cpp:2320 ekos/align/align.cpp:2458
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
-msgstr ""
+msgstr "Dynamische drempel aangepast naar %1 (gevonden sterren: %2)."
 
 #: ekos/align/align.cpp:2329 ekos/align/align.cpp:2788
 #, kde-format
@@ -6469,11 +6468,10 @@ msgid "Saving failed solver image to %1"
 msgstr "Opslaan van oplosafbeelding naar %1 is mislukt"
 
 #: ekos/align/align.cpp:2464
-#, fuzzy, kde-format
-#| msgid "Solver failed. Retrying without scale constraint."
+#, kde-format
 msgid "Solver failed. Retrying with blind dynamic threshold."
 msgstr ""
-"Oplossen mislukt. Wordt opnieuw geprobeerd zonder beperking van schaal."
+"Oplossen mislukt. Wordt opnieuw geprobeerd met blinde dynamische drempel."
 
 #: ekos/align/align.cpp:2478
 #, kde-format
@@ -8091,13 +8089,14 @@ msgid ""
 "Adjust StellarSolver threshold dynamically based on source extractor "
 "detected stars to expedite solving."
 msgstr ""
+"Stellare oplosser drempel dynamisch gebaseerd op door bronextractor "
+"gedetecteerde sterren om oplossen te versnellen."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDynamicThreshold)
 #: ekos/align/opsalign.ui:263
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Dynamic Threshold"
-msgstr "Grenswaarde"
+msgstr "Dynamische drempelwaarde"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:285

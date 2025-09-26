@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-25 02:03+0000\n"
-"PO-Revision-Date: 2025-09-21 19:01+0300\n"
+"PO-Revision-Date: 2025-09-26 02:23+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Poedit 3.7\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4162,7 +4162,7 @@ msgstr "DE (J2000,0):"
 #: printing/detailstable.cpp:541 tools/modcalcaltaz.ui:313
 #, kde-format
 msgid "Azimuth:"
-msgstr "Güney açısı:"
+msgstr "Yanca:"
 
 #. i18n: ectx: property (text), widget (QLabel, AirmassLabel)
 #: dialogs/details_position.ui:371 printing/detailstable.cpp:559
@@ -4242,19 +4242,19 @@ msgstr "00:00"
 #: dialogs/details_position.ui:774 printing/detailstable.cpp:672
 #, kde-format
 msgid "Azimuth at set:"
-msgstr "Batış anında güney açısı:"
+msgstr "Batış anında yanca:"
 
 #. i18n: ectx: property (text), widget (QLabel, AltTransitLabel)
 #: dialogs/details_position.ui:790 printing/detailstable.cpp:668
 #, kde-format
 msgid "Altitude at transit:"
-msgstr "Geçiş anında güney açısı:"
+msgstr "Geçiş anında yanca:"
 
 #. i18n: ectx: property (text), widget (QLabel, AzRiseLabel)
 #: dialogs/details_position.ui:806 printing/detailstable.cpp:664
 #, kde-format
 msgid "Azimuth at rise:"
-msgstr "Doğuş anındaki güney açısı:"
+msgstr "Doğuş anındaki yanca:"
 
 #: dialogs/exportimagedialog.cpp:48
 #, kde-format
@@ -4514,7 +4514,7 @@ msgstr "Geçersiz Çığır Biçimi"
 #: dialogs/focusdialog.cpp:186
 #, kde-format
 msgid "The Azimuth value must be between 0.0 and 360.0."
-msgstr "Güney açışı değeri 0,0 ile 360,0 arasında olmalı."
+msgstr "Yanca değeri 0,0 ile 360,0 arasında olmalıdır."
 
 #: dialogs/focusdialog.cpp:188
 #, kde-format
@@ -4589,7 +4589,7 @@ msgstr "Az/Alt"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:264
 #, kde-format, kde-kuit-format
 msgid "Azimuth"
-msgstr "Güney açısı"
+msgstr "Yanca"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorAz)
@@ -6371,10 +6371,9 @@ msgid "Solving with blind image position..."
 msgstr "Kör görsel konumuyla çözülüyor…"
 
 #: ekos/align/align.cpp:1969
-#, fuzzy, kde-format
-#| msgid "Solving with blind image scale..."
+#, kde-format
 msgid "Solving with blind dynamic threshold..."
-msgstr "Kör görsel ölçeğiyle çözülüyor…"
+msgstr "Kör devingen eşikle çözülüyor…"
 
 #: ekos/align/align.cpp:2001
 #, kde-format
@@ -6428,7 +6427,7 @@ msgstr "Kamera konum açısı %1 derece."
 #: ekos/align/align.cpp:2320 ekos/align/align.cpp:2458
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
-msgstr ""
+msgstr "Devingen eşik %1 olarak ayarlandı (bulunan yıldız: %2)."
 
 #: ekos/align/align.cpp:2329 ekos/align/align.cpp:2788
 #, kde-format
@@ -6451,10 +6450,9 @@ msgid "Saving failed solver image to %1"
 msgstr "Başarısız çözücü görseli %1 konumuna kaydediliyor"
 
 #: ekos/align/align.cpp:2464
-#, fuzzy, kde-format
-#| msgid "Solver failed. Retrying without scale constraint."
+#, kde-format
 msgid "Solver failed. Retrying with blind dynamic threshold."
-msgstr "Çözücü başarısız oldu. Ölçek kısıtlaması olmadan yeniden deneniyor."
+msgstr "Çözücü başarısız oldu. Kör devingen eşikle yeniden deneniyor."
 
 #: ekos/align/align.cpp:2478
 #, kde-format
@@ -8071,13 +8069,14 @@ msgid ""
 "Adjust StellarSolver threshold dynamically based on source extractor "
 "detected stars to expedite solving."
 msgstr ""
+"Çözümü hızlandırmak için StellarSolver eşiğini kaynak çıkarıcı tarafından "
+"algılanan yıldızlara göre devingen olarak ayarlayın."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDynamicThreshold)
 #: ekos/align/opsalign.ui:263
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Dynamic Threshold"
-msgstr "Eşik"
+msgstr "Devingen eşik"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:285
@@ -10056,10 +10055,10 @@ msgid ""
 "movement. Consider using results after 2 images.  Click <i>Stop</i> when "
 "you're finished.</p>"
 msgstr ""
-"<p>Kutupsal hizalama hatasını azaltmak için kaidenin <i>Yükseklik ve Güney "
-"Açısı</i> düğmeleriyle oynayın.</p><p>Sabırlı olun, plaka çözümü düğme "
-"hareketinden etkilenebilir. Sonuçları 2 görselden sonra kullanmayı düşünün. "
-"İşiniz bittiğinde <i>Durdur</i> düğmesine tıklayın.</p>"
+"<p>Kutupsal hizalama hatasını azaltmak için kaidenin <i>Yükseklik ve Yanca</"
+"i> düğmeleriyle oynayın.</p><p>Sabırlı olun, plaka çözümü düğme hareketinden "
+"etkilenebilir. Sonuçları 2 görselden sonra kullanmayı düşünün. İşiniz "
+"bittiğinde <i>Durdur</i> düğmesine tıklayın.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1270
 #, kde-format
@@ -10071,9 +10070,8 @@ msgid ""
 msgstr ""
 "<p>Yıldızı sarı çizgi boyunca hareket ettirmek için kaidenin <i>Yükseklik</"
 "i> düğmesiyle oynayın, ardından seçili yıldız, artı işaretinde ortalanıncaya "
-"kadar onu yeşil çizgi boyunca hareket ettirmek için <i>Güney Açısı</i> "
-"düğmesini kullanın.</p><p>Yıldız ortalandığında <i>Durdur</i> düğmesine "
-"tıklayın.</p>"
+"kadar onu yeşil çizgi boyunca hareket ettirmek için <i>Yanca</i> düğmesini "
+"kullanın.</p><p>Yıldız ortalandığında <i>Durdur</i> düğmesine tıklayın.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1286
 #, kde-format
@@ -10193,7 +10191,7 @@ msgid ""
 "Start the refresh phase--where image captures loop while you adjust the "
 "altitude and azimuth knobs to correct polar alignment."
 msgstr ""
-"Siz kutup hizalamasını düzeltmek için yükseklik ve güney açısı düğmelerini "
+"Siz kutup hizalamasını düzeltmek için yükseklik ve yanca düğmelerini "
 "ayarlarken görselin döngüyü yakaladığı yenileme aşamasını başlatın."
 
 #. i18n: ectx: property (text), widget (QPushButton, PAHRefreshB)
@@ -10350,7 +10348,7 @@ msgid ""
 "the polar-alignment procedure."
 msgstr ""
 "Kutupsal hizalama prosedürünün başlangıcında 3 pozlamayla ölçülen kutup "
-"hizalaması güney açısı hatası."
+"hizalaması yanca hatası."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAz)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAz)
@@ -10358,8 +10356,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.ui:753
 #, kde-format
 msgid "Polar Alignment azimuth error estimated after recent adjustments."
-msgstr ""
-"Son ayarlamalardan sonra tahmin edilen kutup hizalaması güney açısı hatası."
+msgstr "Son ayarlamalardan sonra tahmin edilen kutup hizalaması yanca hatası."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAlt)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAlt)
@@ -11209,8 +11206,7 @@ msgid ""
 "<html><head/><body><p>Plot the telescope's azimuth (degrees).</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Teleskopun güney açısını (derece) çizin.</p></body></"
-"html>"
+"<html><head/><body><p>Teleskopun yancasını (derece) çizin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, azCB)
 #: ekos/analyze/analyze.ui:1037
@@ -11225,7 +11221,7 @@ msgid ""
 "<html><head/><body><p>The telescope's azimuth (degrees). Click here to view "
 "this axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Teleskopun güney açısı (derece). Bu ekseni sol eksen "
+"<html><head/><body><p>Teleskopun yancası (derece). Bu ekseni sol eksen "
 "değerlerinde görüntülemek için buraya tıklayın. Ekseni güncellemek için çift "
 "tıklayın.</p></body></html>"
 
@@ -14364,7 +14360,7 @@ msgid ""
 "Slew mount to the specified Azimuth/Altitude coordinates before taking flat "
 "field images"
 msgstr ""
-"Düz alan görselleri çekmeden önce kaideyi belirtilen Güney Açısı/Yükseklik "
+"Düz alan görselleri çekmeden önce kaideyi belirtilen Yanca/Yükseklik "
 "koordinatlarına döndür"
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationWall)
@@ -14709,7 +14705,7 @@ msgstr "Hedef kamera ofseti"
 #: ekos/capture/camera.ui:970
 #, kde-format
 msgid "Dark Lib."
-msgstr "Karanklık kitaplık"
+msgstr "Karanlık kitaplık"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
@@ -35008,7 +35004,7 @@ msgstr "Durum çubuğununun görüntülenmesini açar/kapatır."
 #: kstars.kcfg:86
 #, kde-format
 msgid "Display Alt/Az coordinates in the statusbar?"
-msgstr "Yükseklik/Güneyaçısı koordinatları durum çubuğunda görüntülensin mi?"
+msgstr "Yükseklik/Yanca koordinatları durum çubuğunda görüntülensin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowAltAzField), group (GUI)
 #: kstars.kcfg:87
@@ -36860,7 +36856,7 @@ msgid ""
 "the telescope the eyepiece appears when looking from the back of the "
 "telescope"
 msgstr ""
-"Altazimut kaideli bir Newton teleskopunda göz merceğinde gözünüzü "
+"Alt yanca kaideli bir Newton teleskopunda göz merceğinde gözünüzü "
 "kullanıyorsanız bunu etkinleştirin. Bu, gözlemcinin teleskop yukarı ve aşağı "
 "hareket ederken dik durması gerçeğini hesaba katar, böylece gökyüzü "
 "haritasının yönelimi, doğru şekilde ayarlandığında göz merceğinizde "
@@ -37550,7 +37546,7 @@ msgstr ""
 "yüksekliğine göre sıralama, hangi nesnelerin gözlem için iyi "
 "yerleştirildiğini belirlemenin kolay bir yoludur. Ancak, büyük bir Dobson "
 "teleskopu kullanıldığında, başucuna yakın nesneleri gözlemlemek zordur. "
-"Oradaki izleme, güney açısında bir dönüşe karşılık geldiğinden, hem sezgiye "
+"Oradaki izleme, yancada bir dönüşe karşılık geldiğinden, hem sezgiye "
 "aykırıdır hem de gözlemcinin merdiveni sık sık hareket ettirmesini "
 "gerektirir. Bunun özellikle sinir bozucu olduğu başucu etrafındaki bölgeye "
 "Dobson Deliği denir. Bu onay kutusu, gözlem listesinin delikte bulunan "
@@ -39717,7 +39713,7 @@ msgstr "Düz süresi seçeneği indeksi"
 #: kstars.kcfg:2175
 #, kde-format
 msgid "Azimuth of calibration wall location."
-msgstr "Kalibrasyon duvarı konumunun güney açısı"
+msgstr "Kalibrasyon duvarı konumunun yancası"
 
 #. i18n: ectx: label, entry (CalibrationWallAlt), group (Capture)
 #: kstars.kcfg:2179
@@ -42085,7 +42081,7 @@ msgstr "Analyze İstatistikleri Çizimi’nde kaide saat açısını görüntül
 #: kstars.kcfg:3594
 #, kde-format
 msgid "Display Azimuth on the Analyze Statistics Plot."
-msgstr "Analyze İstatistikleri Çizimi’nde güney açısını görüntüle"
+msgstr "Analyze İstatistikleri Çizimi’nde yancayı görüntüle"
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAlt), group (Analyze)
 #: kstars.kcfg:3598
@@ -42205,13 +42201,13 @@ msgstr "Arazi kaynak dosyası adı."
 #: kstars.kcfg:3667
 #, kde-format
 msgid "Terrain Azimuth Correction."
-msgstr "Arazi güney açısı düzeltmesi"
+msgstr "Arazi yancası düzeltmesi"
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAz), group (Terrain)
 #: kstars.kcfg:3668
 #, kde-format
 msgid "Terrain source azimuth correction."
-msgstr "Arazi kaynak güney açısı düzeltmesi."
+msgstr "Arazi kaynak yanca düzeltmesi."
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAlt), group (Terrain)
 #: kstars.kcfg:3672
@@ -71531,12 +71527,12 @@ msgstr "Yansıtılmış Görünüm"
 #: kstarsinit.cpp:297
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
-msgstr "&Lambert Güney Açısal Eşit Alanı"
+msgstr "&Lambert Yancasal Eşit Alanı"
 
 #: kstarsinit.cpp:300
 #, kde-format
 msgid "&Azimuthal Equidistant"
-msgstr "&Güney Açısal Eşit Uzaklık"
+msgstr "&Yancasal Eşit Uzaklık"
 
 #: kstarsinit.cpp:303
 #, kde-format
@@ -72420,17 +72416,17 @@ msgstr "Zamanı ayarla"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:307
 #, kde-kuit-format
 msgid "Azimuth at rise"
-msgstr "Doğuş anında güney açısı"
+msgstr "Doğuş anındaki yanca"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:312
 #, kde-kuit-format
 msgid "Azimuth at transit"
-msgstr "Geçiş anında güney açısı"
+msgstr "Geçiş anındaki yanca"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:317
 #, kde-kuit-format
 msgid "Azimuth at set"
-msgstr "Batış anında güney açısı"
+msgstr "Batış anındaki yanca"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:421
 #, kde-kuit-format
@@ -73147,7 +73143,7 @@ msgstr "Lambert (Öntanımlı)"
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:35
 #, kde-kuit-format
 msgid "Azimuthal Equidistant"
-msgstr "Güney Açısal Eşit Uzaklık"
+msgstr "Yancasal Eşit Uzaklık"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:36
 #, kde-kuit-format
@@ -78939,8 +78935,8 @@ msgid ""
 "If checked, a grid of lines will be drawn every 30 degrees in Azimuth and "
 "every 20 degrees in Altitude."
 msgstr ""
-"İşaretlenirse güney açısında her 30 derecede bir, yükseklikte ise her 20 "
-"derecede bir çizgilerden oluşan bir ızgara çizilir."
+"İşaretlenirse yancada her 30 derecede bir, yükseklikte ise her 20 derecede "
+"bir çizgilerden oluşan bir ızgara çizilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowHorizontalGrid)
 #: options/opsguides.ui:332
@@ -79756,13 +79752,13 @@ msgstr "Arazi dosyası:"
 #: options/opsterrain.ui:101 options/opsterrain.ui:117
 #, kde-format
 msgid "Rotate terrain in azimuth degrees so north is actually north"
-msgstr "Araziyi güney açısı kadar döndür, böylece kuzey gerçek kuzey olur"
+msgstr "Araziyi yanca kadar döndür, böylece kuzey, gerçek kuzey olur"
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAzLabel)
 #: options/opsterrain.ui:104
 #, kde-format
 msgid "Terrain image azimuth correction degrees:"
-msgstr "Güney açısı düzeltme derecesi türünden arazi görseli:"
+msgstr "Yanca düzeltme derecesi türünden arazi görseli:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainSourceCorrectAltLabel)
 #: options/opsterrain.ui:159
@@ -83236,14 +83232,13 @@ msgstr ""
 "koordinatlarının dönüşümü</LI><LI><B>Görünür:</B> Belirli bir çığırdan "
 "itibaren geçerli ekvator koordinatlarının hesaplanması</LI><LI><B>Ekliptik:</"
 "B> Tutulumsal/Ekvatoryal koordinatlarının dönüşümü</LI><LI><B>Yatay:</B> "
-"Dünya üzerinde belirli bir kaynak, zaman ve konum için güney açısı ve "
-"yüksekliğin hesaplanması</LI><LI><B>Basit:</B> Saat ve derece türünden "
-"açılar arasındaki dönüşüm</LI><LI><B>Açısal uzaklık:</B> Ekvator "
-"koordinatlarında konumları verilen iki nesne arasındaki açısal uzaklığın "
-"hesaplanması</LI><LI><B>Jeodezik koordinatlar:</B> Jeodezik/XYZ "
-"koordinatlarının dönüşümü</LI><LI><B>LSR hızı:</B> Bir kaynağın LSR hızından "
-"güneş merkezli, jeosentrik ve toposentrik radyal hızının hesaplanması</LI></"
-"UL></QT>"
+"Dünya üzerinde belirli bir kaynak, zaman ve konum için yanca ve yüksekliğin "
+"hesaplanması</LI><LI><B>Basit:</B> Saat ve derece türünden açılar arasındaki "
+"dönüşüm</LI><LI><B>Açısal uzaklık:</B> Ekvator koordinatlarında konumları "
+"verilen iki nesne arasındaki açısal uzaklığın hesaplanması</"
+"LI><LI><B>Jeodezik koordinatlar:</B> Jeodezik/XYZ koordinatlarının dönüşümü</"
+"LI><LI><B>LSR hızı:</B> Bir kaynağın LSR hızından güneş merkezli, jeosentrik "
+"ve toposentrik radyal hızının hesaplanması</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:93
 #, kde-format
@@ -85254,7 +85249,7 @@ msgstr "Gün uzunluğu:"
 #: tools/modcalcdaylength.ui:289
 #, kde-format
 msgid "Sunrise azimuth:"
-msgstr "Gündoğumu güney açısı:"
+msgstr "Gündoğumu yancası:"
 
 #. i18n: ectx: property (text), widget (QLabel, SunRiseLabel)
 #. i18n: ectx: property (text), widget (QLabel, MoonRiseLabel)
@@ -85273,7 +85268,7 @@ msgstr "Öğle zamanı:"
 #: tools/modcalcdaylength.ui:386
 #, kde-format
 msgid "Sunset azimuth:"
-msgstr "Günbatımı güney açısı:"
+msgstr "Günbatımı yancası:"
 
 #. i18n: ectx: property (text), widget (QLabel, MoonTransitAltLabel)
 #: tools/modcalcdaylength.ui:541
@@ -85285,7 +85280,7 @@ msgstr "Geçiş yüksekliği"
 #: tools/modcalcdaylength.ui:591
 #, kde-format
 msgid "Moon rise azimuth:"
-msgstr "Aydoğumu güneyaçısı:"
+msgstr "Aydoğumu yancası:"
 
 #. i18n: ectx: property (text), widget (QLabel, MoonTransitLabel)
 #: tools/modcalcdaylength.ui:667
@@ -85297,7 +85292,7 @@ msgstr "Geçiş:"
 #: tools/modcalcdaylength.ui:681
 #, kde-format
 msgid "Moon set azimuth:"
-msgstr "Aybatımı güney açısı:"
+msgstr "Aybatımı yancası:"
 
 #. i18n: ectx: property (text), widget (QLabel, LunarPhaseLabel)
 #: tools/modcalcdaylength.ui:721
@@ -88919,7 +88914,7 @@ msgstr "Eski"
 #, kde-format
 msgctxt "Map projection method"
 msgid "Azimuthal"
-msgstr "Güney Açısal"
+msgstr "Yancasal"
 
 #: xplanet/opsxplanet.cpp:34
 #, kde-format
@@ -89489,75 +89484,3 @@ msgstr "Arka plan rengi:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Arka plan rengini ayarlayın."
-
-#~ msgid "Minimize the altitude vs time graph."
-#~ msgstr "Yükseklik–Zaman grafiğini simge durumuna küçült"
-
-#~ msgid "Maximize the altitude vs time graph."
-#~ msgstr "Yükseklik–Zaman grafiğini ekranda kapla"
-
-#~ msgid "Minimize the Astrobin search details section"
-#~ msgstr ""
-#~ "Görselleme planlayıcısının Astrobin arama ayrıntıları bölümünü küçült"
-
-#~ msgid "Maximize the Astrobin search details section"
-#~ msgstr "Astrobin arama ayrıntıları bölümünü ekranda kapla"
-
-#~ msgid "Minimize the Filters section"
-#~ msgstr "Süzgeçler bölümünü simge durumuna küçült"
-
-#~ msgid "Load Imaged"
-#~ msgstr "Görsellenenleri Yükle"
-
-#~ msgid "Enter keyword here"
-#~ msgstr "Anahtar sözcüğü buraya gir…"
-
-#~ msgid "Minimize the image section"
-#~ msgstr "Görsel bölümünü simge durumuna küçült"
-
-#~ msgid "Maximize the image section"
-#~ msgstr "Görsel bölümünü ekranda kapla"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Son kareden ortalama HFR değeri.</p></body></html>"
-
-#~ msgid "  FWHM:"
-#~ msgstr "  FWHM:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Averaged FWHM value from the last frame.</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Son kareden ortalama FWHM değeri.</p></body></html>"
-
-#~ msgid "  Stars:"
-#~ msgstr "  Yıldızlar:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Son karede bulunan yıldızların sayısı.</p></body></"
-#~ "html>"
-
-#~ msgid "  Iter:"
-#~ msgstr "  Yineleme:"
-
-#~ msgid "Save autofocus images on disk?"
-#~ msgstr "Kendiliğinden odak görselleri diske kaydedilsin mi?"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Save autofocus frames. Only enable to troubleshoot "
-#~ "autofocus by examining frames. This can consume a lot of storage space.</"
-#~ "p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Kendiliğinden odaklama karelerini kaydedin. "
-#~ "Yalnızca kareleri inceleyerek kendiliğinden odaklama sorunlarını gidermek "
-#~ "için etkinleştirin. Bu, çok fazla depolama alanı tüketebilir.</p></body></"
-#~ "html>"
-
-#~ msgid "Failed to close file: %1"
-#~ msgstr "Dosya kapatılamadı: %1"
