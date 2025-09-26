@@ -182,7 +182,7 @@ void FindDialog::initSelection()
 
     if (ui->SearchBox->text().isEmpty())
     {
-        //Pre-select the first item
+        //Preselect the first item
         QModelIndex selectItem = sortModel->index(0, sortModel->filterKeyColumn(), QModelIndex());
         switch (ui->FilterType->currentIndex())
         {

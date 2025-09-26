@@ -168,7 +168,7 @@ void TestEkosMount::testMountCtrlCoordConversion()
     srand(1);
     int i;
 
-    // montecarlo test with cyclic coords trasforms among all coord types
+    // montecarlo test with cyclic coords transforms among all coord types
     for (i = 0; i < 10; i++)
     {
         // random coordinates: everywhere on the celestial sphere.

@@ -295,7 +295,7 @@ float StarHopper::cost(const SkyPoint *curr, const SkyPoint *next)
         if (localNeighbors.size() == 2)
         {
             patternName = i18n("triangle (of similar magnitudes)"); // any three stars form a triangle!
-            // Try to find triangles. Note that we assume that the standard Euclidian metric works on a sphere for small angles, i.e. the celestial sphere is nearly flat over our FOV.
+            // Try to find triangles. Note that we assume that the standard Euclidean metric works on a sphere for small angles, i.e. the celestial sphere is nearly flat over our FOV.
             StarObject *star1 = localNeighbors[0];
             double dRA1       = nextstar->ra().radians() - star1->ra().radians();
             double dDec1      = nextstar->dec().radians() - star1->dec().radians();

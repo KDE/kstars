@@ -372,7 +372,7 @@ void TestEkosCaptureWorkflow::testInitialGuidingLimitCapture()
 
     for (int i = 1; i <= 2; i++)
     {
-        // wait intially 5 seconds
+        // wait initially 5 seconds
         if (i == 1)
             QTest::qWait(5000);
 

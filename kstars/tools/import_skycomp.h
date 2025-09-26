@@ -24,7 +24,7 @@ namespace SkyComponentsImport
 /**
  * Get the skycomponent database from the specified path.
  *
- * \returns wether the database could be found and read and the
+ * \returns whether the database could be found and read and the
  * database itself.
  */
 std::pair<bool, QSqlDatabase> get_skycomp_db(const QString &path);
@@ -32,13 +32,13 @@ std::pair<bool, QSqlDatabase> get_skycomp_db(const QString &path);
 /**
  * Get the skycomponent database from the standard path.
  *
- * \returns wether the database could be found and read and the
+ * \returns whether the database could be found and read and the
  * database itself.
  */
 std::pair<bool, QSqlDatabase> get_skycomp_db();
 
 /**
- * \returns wether the operation succeeded, an error message and if it
+ * \returns whether the operation succeeded, an error message and if it
  * was successful the objects from the catalogs with \p ids.
  */
 std::tuple<bool, QString, CatalogsDB::CatalogObjectVector>

@@ -23,7 +23,7 @@
 //
 // Note that MockEkos uses a different path and interface than the actual
 // scheduler (to avoid name conflicts with the adaptor class) so it use it
-// the scheduler contstructor that takes path and interface needs to be used.
+// the scheduler constructor that takes path and interface needs to be used.
 // Scheduler scheduler("/MockKStars/MockEkos", "org.kde.mockkstars.MockEkos");
 
 namespace Ekos

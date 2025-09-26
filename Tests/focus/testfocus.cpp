@@ -333,7 +333,7 @@ void TestFocus::basicTest()
     std::unique_ptr<FocusAlgorithmInterface> focuserRetry2(focuser->Copy());
     int retry2Position = currentPosition;
 
-    // Try 2 scenarious from this position.
+    // Try 2 scenarios from this position.
 
     // 1. HFR is worse again compared to the best value above (1.04), give up.
     position = focuser->newMeasurement(retry2Position, 1.05, 1);

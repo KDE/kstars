@@ -129,7 +129,7 @@ class ObservingList : public QDialog
     void setSaveImagesButton();
 
     /** @short This is the declaration of the event filter function
-         * which is installed on the KImageFilePreview and the TabeView
+         * which is installed on the KImageFilePreview and the TableView
          */
     bool eventFilter(QObject *obj, QEvent *event) override;
 

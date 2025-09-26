@@ -661,7 +661,7 @@ bool downsampleImageFiles(const QString &baseDir, int maxHeight)
     return true;
 }
 
-// Seaches for all the occurances of the byte cc in the QByteArray, and replaces each
+// Searches for all the occurrences of the byte cc in the QByteArray, and replaces each
 // of them with the sequence of bytes in the QByteArray substitute.
 // There's probably a QByteArray method that does this.
 void replaceByteArrayChars(QByteArray &bInput, char cc, const QByteArray &substitute)
@@ -728,13 +728,13 @@ QString creativeCommonsString(const QString &astrobinAbbrev)
 QString creativeCommonsTooltipString(const QString &astrobinAbbrev)
 {
     if (astrobinAbbrev == "ACC")
-        return "Atribution Creative Commons";
+        return "Attribution Creative Commons";
     else if (astrobinAbbrev == "ASACC")
-        return "Atribution Share-Alike Creative Commons";
+        return "Attribution Share-Alike Creative Commons";
     else if (astrobinAbbrev == "ANCCC")
-        return "Atribution Non-Commercial Creative Commons";
+        return "Attribution Non-Commercial Creative Commons";
     else if (astrobinAbbrev == "ANCSACC")
-        return "Atribution Non-Commercial Share-Alike Creative Commons";
+        return "Attribution Non-Commercial Share-Alike Creative Commons";
     else return "";
 }
 
@@ -1015,7 +1015,7 @@ ImagingPlanner::ImagingPlanner() : QDialog(nullptr), m_networkManager(this), m_m
 
     if (Options::imagingPlannerIndependentWindow())
     {
-        // Removing the Dialog bit (but neet to add back the window bit) allows
+        // Removing the Dialog bit (but need to add back the window bit) allows
         // the window to go below other windows.
         setParent(nullptr, (windowFlags() & ~Qt::Dialog) | Qt::Window);
     }
@@ -1064,7 +1064,7 @@ void ImagingPlanner::setupFilter2Buttons(
     void(*setYesOption)(bool), void(*setNoOption)(bool), void(*setDontCareOption)(bool))
 {
 
-    // Use clicked, not toggled to avoid callbacks when the state is changed programatically.
+    // Use clicked, not toggled to avoid callbacks when the state is changed programmatically.
     connect(yes, &QCheckBox::clicked, [this, setYesOption, setNoOption, setDontCareOption, yes, no, dontCare](bool checked)
     {
         setupShowCallback(checked, setYesOption, setNoOption, setDontCareOption, yes, no, dontCare);
@@ -1111,7 +1111,7 @@ void ImagingPlanner::updateSortConstraints()
             ui->keywordCB->isChecked(), ui->keywordEdit->toPlainText().trimmed());
 }
 
-// Called once, at the first viewing of the tool, to initalize all the widgets.
+// Called once, at the first viewing of the tool, to initialize all the widgets.
 void ImagingPlanner::initialize()
 {
     if (KStarsData::Instance() == nullptr)
@@ -1585,7 +1585,7 @@ void ImagingPlanner::searchSlot()
     if (!scrollToName(name))
         KSNotification::sorry(i18n("No match for \"%1\"", origName));
 
-    // Still leaves around some </p> in the html unfortunaltely. Don't know how to remove that.
+    // Still leaves around some </p> in the html unfortunately. Don't know how to remove that.
     ui->SearchText->clear();
     ui->SearchText->setPlainText("");
 }
@@ -2493,7 +2493,7 @@ QUrl ImagingPlanner::getAstrobinUrl(const QString &target, bool requireAwards, b
 
     QByteArray b(myQuery.toLatin1().data());
 
-    // See quick pack implmentation in anonymous namespace above.
+    // See quick pack implementation in anonymous namespace above.
     QByteArray packed = pack(b);
 
     QByteArray compressed = qCompress(packed).remove(0, 4);
@@ -3439,7 +3439,7 @@ ImagingPlannerPopup::ImagingPlannerPopup() : QMenu(nullptr)
 }
 
 // The bools are pointers to we can have a 3-valued input parameter.
-// If the pointer is a nullptr, then we say, for example it is neigher imaged, not not imaged.
+// If the pointer is a nullptr, then we say, for example it is neither imaged, nor not imaged.
 // That is, really, some of the selection are imaged and some not imaged.
 // If the pointer does point to a bool, then the value of that bool tells you if all the selection
 // is (e.g.) imaged, or if all of it is not imaged.
@@ -3701,7 +3701,7 @@ void ImagingPlanner::loadCatalog(const QString &path)
 {
     removeEventFilters();
 
-    // This tool occassionally crashed when UI interactions happen during catalog loading.
+    // This tool occasionally crashed when UI interactions happen during catalog loading.
     // Don't know why, but disabling that, and re-enabling after load below.
     setEnabled(false);
     setFixedSize(this->width(), this->height());

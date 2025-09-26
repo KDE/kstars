@@ -185,7 +185,7 @@ SkyPoint TestEkosMeridianFlipState::findMFTestTarget(int secsToMF, bool upper)
     target.setAlt(alt);
     target.setAz(az);
 
-    // calculate local sideral time, converted to degrees, and observer's latitude
+    // calculate local sidereal time, converted to degrees, and observer's latitude
     const dms lst = KStarsData::Instance()->geo()->GSTtoLST(KStarsData::Instance()->clock()->utc().gst());
     const dms lat(KStarsData::Instance()->geo()->lat()->Degrees());
     // calculate JNow RA/DEC

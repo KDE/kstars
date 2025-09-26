@@ -367,7 +367,7 @@ void ConjunctionsTool::slotCompute(void)
             progressDlg.setValue(progress);
             progressDlg.setLabelText(i18n("Compute conjunction between %1 and %2", Object2->name(), object));
 
-            // Compute conjuction
+            // Compute conjunction
             Object1 = std::shared_ptr<SkyObject>(data->skyComposite()->findByName(object)->clone());
             ksc.setObject1(Object1);
             showConjunctions(ksc.findClosestApproach(startJD, stopJD),

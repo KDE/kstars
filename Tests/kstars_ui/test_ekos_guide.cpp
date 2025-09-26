@@ -294,7 +294,7 @@ void TestEkosGuide::testPHD2Calibration()
     QWARN("As of 202103 it is not possible to use the CCD Simulator at NCP because of jitter - skipping");
     if (false)
     {
-        // Run a calibration with the telescope pointing at NCP (default position) - Calibration is bound to fail bcause of RA
+        // Run a calibration with the telescope pointing at NCP (default position) - Calibration is bound to fail because of RA
         // Two options: PHD2 either fails to see movement, or just switches to looping without doing anything
         // KTRY_MOUNT_SYNC(90, false, -1);
         QTRY_VERIFY_WITH_TIMEOUT(guideB->isEnabled(), 500);

@@ -731,7 +731,7 @@ SkyPoint SkyPoint::catalogueCoord(long double jdf)
 {
     KSNumbers num(jdf);
 
-    // remove abberation
+    // remove aberration
     aberrate(&num, true);
 
     // remove nutation

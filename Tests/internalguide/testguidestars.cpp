@@ -190,7 +190,7 @@ void TestGuideStars::basicTest()
     CompareFloat(dRa, arcsecondsPerPixel);
     CompareFloat(dDec, 0);
 
-    // Similarly 2 pixels upward in y shoud increase DEC.
+    // Similarly 2 pixels upward in y should increase DEC.
     success = g.getDrift(1, 100, 68, &dRa, &dDec);
     QVERIFY(success);
     CompareFloat(dRa, 0);
@@ -298,7 +298,7 @@ void TestGuideStars::calibrationTest()
     CompareFloat(1.0 / arcsecondsPerPixel, cal.yPixelsPerArcsecond());
 
 
-    // These are not yet estimated iniside Calibrate() so for now, just set them.
+    // These are not yet estimated inside Calibrate() so for now, just set them.
     //double raRate = 5.5, decRate = 3.3;
     double raMillisecondsPerPixel = 5.5;
     double raMillisecondsPerArcsecond = raMillisecondsPerPixel / arcsecondsPerPixel;

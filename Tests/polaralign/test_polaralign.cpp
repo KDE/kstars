@@ -984,7 +984,7 @@ void TestPolarAlign::testRotate()
     QFETCH(double, azRotated);
     QFETCH(double, altRotated);
 
-    // PolarAlign is needed to specifiy the hemisphere, which specifies how the
+    // PolarAlign is needed to specify the hemisphere, which specifies how the
     // altitude rotation works (positive alt error causes opposite rotations in
     // the northern vs southern hemisphere.
     GeoLocation geo(dms(-122, 10), dms(37, 26, 30));

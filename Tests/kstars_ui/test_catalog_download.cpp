@@ -95,7 +95,7 @@ void TestCatalogDownload::testCatalogDownloadWhileUpdating()
             {
                 KTELL(step + "Failed to load XML providers!");
             }
-            KTELL(step + "Close the Download Dialog, accept all potentiel reinstalls");
+            KTELL(step + "Close the Download Dialog, accept all potential reinstalls");
             close_message_boxes.start();
             d->parentWidget()->close();
             done = true;

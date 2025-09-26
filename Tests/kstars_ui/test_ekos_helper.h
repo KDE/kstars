@@ -104,7 +104,7 @@ do {\
     } while (false)
 
 /** @brief Helper to retrieve a gadget from a certain module view.
- * @param module KStars module that holds the checkox
+ * @param module KStars module that holds the checkbox
  * @param klass is the class of the gadget to look for.
  * @param name is the gadget name to look for in the UI configuration.
  * @warning Fails the test if the gadget "name" of class "klass" does not exist in the Mount module
@@ -113,7 +113,7 @@ do {\
     QTRY_VERIFY2_WITH_TIMEOUT(name != nullptr, QString(#klass " '%1' does not exist and cannot be used").arg(#name).toStdString().c_str(), 10000)
 
 /** @brief Helper to retrieve a gadget from a certain module view (subroutine version).
- * @param module KStars module that holds the checkox
+ * @param module KStars module that holds the checkbox
  * @param klass is the class of the gadget to look for.
  * @param name is the gadget name to look for in the UI configuration.
  * @warning Fails the test if the gadget "name" of class "klass" does not exist in the Mount module
@@ -151,7 +151,7 @@ do {\
 
 
 /** @brief Helper to click a button from a certain module view.
- * @param module KStars module that holds the checkox
+ * @param module KStars module that holds the checkbox
  * @param button is the gadget name of the button to look for in the UI configuration.
  * @warning Fails the test if the button is not currently enabled.
  */
@@ -163,7 +163,7 @@ do {\
     QTest::qWait(200); } while(false)
 
 /** @brief Helper to click a button from a certain module view (subroutine version for KTRY_CLICK).
- * @param module KStars module that holds the checkox
+ * @param module KStars module that holds the checkbox
  * @param button is the gadget name of the button to look for in the UI configuration.
  * @warning Fails the test if the button is not currently enabled.
  */
@@ -176,7 +176,7 @@ do {\
         KTRY_VERIFY_WITH_TIMEOUT_SUB(success, 1000);} while(false)
 
 /** @brief Helper to set a checkbox and verify whether it succeeded
- * @param module KStars module that holds the checkox
+ * @param module KStars module that holds the checkbox
  * @param checkbox object name of the checkbox
  * @param value value the checkbox should be set
  */
@@ -184,7 +184,7 @@ do {\
     KTRY_GADGET(module, QCheckBox, checkbox); checkbox->setChecked(value); QVERIFY(checkbox->isChecked() == value)
 
 /** @brief Subroutine version of @see KTRY_SET_CHECKBOX
- * @param module KStars module that holds the checkox
+ * @param module KStars module that holds the checkbox
  * @param checkbox object name of the checkbox
  * @param value value the checkbox should be set
  */

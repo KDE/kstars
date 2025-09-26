@@ -109,7 +109,7 @@ QString TestEkosSchedulerHelper::getEsqContent(QVector<TestEkosSchedulerHelper::
 }
 
 // TODO: make a method that creates the below strings depending of a few
-// scheduler paramters we want to vary.
+// scheduler parameters we want to vary.
 
 bool TestEkosSchedulerHelper::writeSimpleSequenceFiles(const QString &eslContents, const QString &eslFile,
         const QString &esqContents,

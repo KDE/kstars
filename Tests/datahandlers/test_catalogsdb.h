@@ -504,7 +504,7 @@ class TestCatalogsDB_DBManager : public QObject
         const auto &simple = test_data.at(1);
         QCOMPARE(CatalogsDB::to_color_string(simple.second), simple.first);
 
-        // Check the behavour when a color specification is missing
+        // Check the behaviour when a color specification is missing
         QCOMPARE((CatalogsDB::parse_color_string("#008000;test.colors")),
                  (CatalogsDB::CatalogColorMap{ { "default", "#008000" } }));
 

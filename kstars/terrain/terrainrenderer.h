@@ -51,7 +51,7 @@ class TerrainRenderer : public QObject
         // The terrain image projection.
         QImage sourceImage;
 
-        // Save the input view and the computed image in case the image can be re-used.
+        // Save the input view and the computed image in case the image can be reused.
         ViewParams savedViewParams;
         double savedAz, savedAlt;
         QImage savedImage;

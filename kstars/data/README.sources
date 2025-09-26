@@ -5,7 +5,7 @@ Sky Cultures:
 =============
 
 Data for non-western sky cultures was obtained from Stellarium
-(http://www.stellarium.org) and incorporated into KStars by Jérôme
+(http://www.stellarium.org) and incorporated into KStars by Jï¿½rï¿½me
 Sonrier. Stellarium is licensed under the GNU General Public License
 v2 (or above), and is thus compatible with KStars. The following are
 the original sources for the sky culture data:
@@ -54,7 +54,7 @@ Tongan sky culture was contributed by Stellarium user : Dan Smale
 Tycho-2 Catalog
 ===============
 
-The Tycho-2 Catalog is by Erik Høg et al. The copy of Tycho-2 used in
+The Tycho-2 Catalog is by Erik Hï¿½g et al. The copy of Tycho-2 used in
 KStars was downloaded from the Astronomical Data Center, which was
 hosted on http://adc.astro.umd.edu
 
@@ -119,7 +119,7 @@ Snippet:
 Akarsh;
 
 I have no problem with you using the SAC data for the Kstars program.
-It was released with the rules that it is not sold as a seperate item.
+It was released with the rules that it is not sold as a separate item.
 
 -----------
 

@@ -269,7 +269,7 @@ class StarObject : public SkyObject
     QString labelString() const override;
 
     /**
-     * @return the pixel distance for offseting the star's name label
+     * @return the pixel distance for offsetting the star's name label
      * This takes the zoom level and the star's brightness into account.
      */
     double labelOffset() const override;

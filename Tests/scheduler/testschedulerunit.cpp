@@ -432,7 +432,7 @@ void TestSchedulerUnit::estimateJobTimeTest()
     bool hasAutoFocus = false;
     // The last arg is for logging. Use nullptr for testing.
     QVERIFY(Ekos::SchedulerUtils::loadSequenceQueue(seqFile9Filters, &job, jobs, hasAutoFocus, nullptr));
-    // 2. Get the signiture of the first job
+    // 2. Get the signature of the first job
     QSharedPointer<SequenceJob> &seqJob = jobs[0];
     seqJob->setCoreProperty(Ekos::SequenceJob::SJ_TargetName, job.getName());
     auto placeholderPath = Ekos::PlaceholderPath();

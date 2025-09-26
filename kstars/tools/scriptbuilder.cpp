@@ -1122,7 +1122,7 @@ void ScriptBuilder::readScript(QTextStream &istream)
 bool ScriptBuilder::parseFunction(const QString &fn_name, const QString &fn_args)
 {
     // clean up the string list first if needed
-    // We need to perform this in case we havea quoted string "NGC 3000" because this will counted
+    // We need to perform this in case we have a quoted string "NGC 3000" because this will counted
     // as two arguments, and it should be counted as one.
     //    bool foundQuote(false), quoteProcessed(false);
     //    QString cur, arg;

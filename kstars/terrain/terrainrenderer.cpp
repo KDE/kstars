@@ -182,7 +182,7 @@ class InterpArray
         }
 
     private:
-        // These are the indeces of the last rows and columns (in the downsampled sized space) that were filled.
+        // These are the indices of the last rows and columns (in the downsampled sized space) that were filled.
         // This is needed because the downsample factor might not be an even multiple of the image size.
         int lastDownsampledCol = 0;
         int lastDownsampledRow = 0;

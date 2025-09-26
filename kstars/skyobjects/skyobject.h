@@ -296,7 +296,7 @@ class SkyObject : public SkyPoint
          * recomputes set or rise UT times.
          * @param dt  target date/time
          * @param geo GeoLocation object
-         * @param rst Boolen. If true will compute rise time. If false
+         * @param rst Boolean. If true will compute rise time. If false
          * will compute set time.
          */
         dms riseSetTimeAz(const KStarsDateTime &dt, const GeoLocation *geo, bool rst) const;
@@ -359,7 +359,7 @@ class SkyObject : public SkyPoint
         QString messageFromTitle(const QString &imageTitle) const;
 
         /**
-         * @return the pixel distance for offseting the object's name label
+         * @return the pixel distance for offsetting the object's name label
          * @note overridden in StarObject, DeepSkyObject, KSPlanetBase
          */
         virtual double labelOffset() const;

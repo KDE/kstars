@@ -157,7 +157,7 @@ QTime SkyObject::riseSetTimeUT(const KStarsDateTime &dt, const GeoLocation *geo,
     if (exact)
     {
         // We iterate a second time (For the Moon the second iteration changes
-        // aprox. 1.5 arcmin the coordinates).
+        // approx. 1.5 arcmin the coordinates).
         dt0.setTime(UT);
         sp = recomputeCoords(dt0, geo);
         UT = auxRiseSetTimeUT(dt0, geo, &sp.ra(), &sp.dec(), riseT);
@@ -269,7 +269,7 @@ dms SkyObject::elevationCorrection(void) const
      * - 34 arcmin = 0.5667 degrees. This value changes if the observer
      * is above the horizon, or if the weather conditions change much.
      *
-     * For the sun we have to add half the angular sie of the body, since
+     * For the sun we have to add half the angular size of the body, since
      * the sunset is the time the upper limb of the sun disappears below
      * the horizon, and dawn, when the upper part of the limb appears
      * over the horizon. The angular size of the sun = angular size of the

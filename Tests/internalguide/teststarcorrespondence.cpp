@@ -193,7 +193,7 @@ void runAdaptationTest()
     // alpha = 1 / 25**0.865
     // x(1) = alpha * 151 + (1-alpha) * 150
     // y(1) = alpha * 48 + (1-alpha) * 50
-    // Of course, if the time constant or equation changes, this shuld be updated.
+    // Of course, if the time constant or equation changes, this should be updated.
     const double alpha = 1 / pow(25.0, 0.865);
     const double x1 = alpha * 151 + (1 - alpha) * 150;
     const double y1 = alpha * 48 + (1 - alpha) * 50;

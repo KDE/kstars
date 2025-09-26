@@ -359,7 +359,7 @@ void TestSkyPoint::testApparentCatalogue()
     QFETCH(double, RaOut);
     QFETCH(double, DecOut);
 
-    compare("J2000 to aparrent", RaOut, DecOut, sp.ra().Hours(), sp.dec().Degrees());
+    compare("J2000 to apparent", RaOut, DecOut, sp.ra().Hours(), sp.dec().Degrees());
 
     SkyPoint spn = SkyPoint(sp.ra(), sp.dec());
     qDebug() << "spn ra0 " << spn.ra0().Degrees() << ", dec0 " << spn.dec0().Degrees() <<

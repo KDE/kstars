@@ -152,7 +152,7 @@ void TestArtificialHorizon::artificialHorizonTest()
     QVERIFY(horizon.isVisible(-360.0 + 35.0, -90 + 1));
     QVERIFY(horizon.isVisible(-360.0 + 5.0, -90 + 1));
 
-    // Disable that horizon. All tests above shoud be visible.
+    // Disable that horizon. All tests above should be visible.
     horizon.findRegion("R1")->setEnabled(false);
     polygons.clear();
     horizon.drawPolygons(nullptr, &polygons);

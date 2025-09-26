@@ -141,12 +141,12 @@ class CatalogObject : public SkyObject
     int catalogId() const { return m_catalog_id; }
 
     /**
-     * @return the pixel distance for offseting the object's name label
+     * @return the pixel distance for offsetting the object's name label
      */
     double labelOffset() const override;
 
     /**
-     * Update the cooridnates and the horizontal coordinates if
+     * Update the coordinates and the horizontal coordinates if
      * updateID or updateNumID have changed (global).
      */
     void JITupdate();

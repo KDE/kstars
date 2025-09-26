@@ -43,7 +43,7 @@ OpsXplanet::OpsXplanet(KStars *_ks) : QFrame(_ks), ksw(_ks)
     kcfg_XplanetProjection->addItem(i18nc("Map projection method", "Rectangular"), "rectangular");
     kcfg_XplanetProjection->addItem(i18nc("Map projection method", "TSC"), "tsc");
 
-    // Enable/Disable somme widgets
+    // Enable/Disable some widgets
     connect(kcfg_XplanetConfigFile, SIGNAL(toggled(bool)), SLOT(slotConfigFileWidgets(bool)));
     connect(kcfg_XplanetStarmap, SIGNAL(toggled(bool)), SLOT(slotStarmapFileWidgets(bool)));
     connect(kcfg_XplanetArcFile, SIGNAL(toggled(bool)), SLOT(slotArcFileWidgets(bool)));

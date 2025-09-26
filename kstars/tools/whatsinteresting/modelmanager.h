@@ -76,10 +76,10 @@ class ModelManager : public QObject
 
     /**
      * Load objects from the dso db for the catalog with \p name can
-     * be used to retreive the object lists later.
+     * be used to retrieve the object lists later.
      *
      * This is implemented by searching the dso database for objects
-     * whichs name starts with a prefix to capture subsets of a catalog.
+     * whose name starts with a prefix to capture subsets of a catalog.
      */
     void loadCatalog(const QString &name);
 

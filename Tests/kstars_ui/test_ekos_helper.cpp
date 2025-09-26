@@ -65,7 +65,7 @@ void TestEkosHelper::fillProfile(bool *isDone)
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Mount selected.";
     }
 
-    // Selet the CCD device
+    // Select the CCD device
     if (m_CCDDevice != "")
     {
         KTRY_PROFILEEDITOR_GADGET(QComboBox, ccdCombo);
@@ -394,7 +394,7 @@ void TestEkosHelper::cleanupPHD2()
 void TestEkosHelper::prepareOpticalTrains()
 {
     Ekos::OpticalTrainManager *otm = Ekos::OpticalTrainManager::Instance();
-    // close window, we change everything programatically
+    // close window, we change everything programmatically
     otm->close();
     // setup train with main scope and camera
     QVariantMap primaryTrain = otm->getOpticalTrain(m_primaryTrain);

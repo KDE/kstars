@@ -107,7 +107,7 @@ void Execute::init()
 }
 void Execute::loadCurrentItems()
 {
-    //Set the current target, equipments and observer
+    //Set the current target, equipment and observer
     if (currentTarget)
         ui.Target->setCurrentRow(findIndexOfTarget(currentTarget->name()), QItemSelectionModel::SelectCurrent);
     else

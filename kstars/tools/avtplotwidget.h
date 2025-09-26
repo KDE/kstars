@@ -20,7 +20,7 @@ class KSAlmanac;
  * Alt=0 and draws the sky light blue for day times, and black for night times. The transition
  * between day and night is drawn with a gradient, and the position follows the actual
  * sunrise/sunset times of the given date/location. Also, this plot widget provides two
- * time axes (local time along the bottom, and local sideral time along the top). Finally, it
+ * time axes (local time along the bottom, and local sidereal time along the top). Finally, it
  * provides user interaction: on mouse click, it draws crosshairs at the mouse position with
  * labels for the time and altitude.
  *

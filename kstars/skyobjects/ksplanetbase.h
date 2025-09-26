@@ -208,7 +208,7 @@ class KSPlanetBase : public TrailObject
     /** @return true if the KSPlanet is one of the eight major planets */
     bool isMajorPlanet() const;
 
-    /** @return the pixel distance for offseting the object's name label */
+    /** @return the pixel distance for offsetting the object's name label */
     double labelOffset() const override;
 
   protected:

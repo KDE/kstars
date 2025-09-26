@@ -21,7 +21,7 @@
 //    select the source widget
 //    set pre-mount and pre-dome park options
 //    select a manual flat ADU value
-//    klick OK
+//    click OK
 // open the calibration dialog
 #define KTRY_SELECT_FLAT_METHOD(sourceWidget, preMountPark, preDomePark) do { \
     bool completed = false; \

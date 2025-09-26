@@ -184,7 +184,7 @@ int TestEkosSchedulerOps::timeTolerance(int seconds)
     return tolerance;
 }
 
-// Thos tests an empty scheduler job and makes sure dbus communications
+// This tests an empty scheduler job and makes sure dbus communications
 // work between the scheduler and the mock modules.
 void TestEkosSchedulerOps::testBasics()
 {
@@ -739,7 +739,7 @@ void TestEkosSchedulerOps::slewAndRun(SkyObject *object, const QDateTime &startU
 
     double delta = KStarsData::Instance()->ut().secsTo(startUTime);
     QVERIFY2(std::abs(delta) < timeTolerance(tolerance),
-             QString("Unexpected difference to job statup time: %1 secs (%2 vs %3) %4")
+             QString("Unexpected difference to job startup time: %1 secs (%2 vs %3) %4")
              .arg(delta).arg(KStarsData::Instance()->ut().toString("MM/dd hh:mm"))
              .arg(startUTime.toString("MM/dd hh:mm")).arg(label).toLocal8Bit());
 
@@ -948,7 +948,7 @@ void TestEkosSchedulerOps::testArtificialHorizonConstraints()
     // when the altitude of the running job is below the artificial horizon at the
     // target's azimuth.
     //
-    // This repeats testDawnShutdown() above, except that an artifical horizon
+    // This repeats testDawnShutdown() above, except that an artificial horizon
     // constraint is added so that the job doesn't reach dawn but rather is interrupted
     // at 3:19 local time. That's the time the azimuth reaches 175.
 
@@ -1219,7 +1219,7 @@ void TestEkosSchedulerOps::testGreedy()
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
 
     // Altair is scheduled with first priority, but doesn't clear constraints immediately.
-    // Deneb is also scheduled, but with twice as many captures.  Both start ASAP and run to comletion.
+    // Deneb is also scheduled, but with twice as many captures.  Both start ASAP and run to completion.
     // Deneb runs first, gets interrupted by Altair which runs to completion.
     // Then Deneb runs for the rest of the night, and also again the next evening before it comletes.
     loadGreedySchedule(true, "Altair", asapStartupCondition, finishCompletionCondition, dir, schedJob200x60, 30);
@@ -1911,10 +1911,10 @@ QString setupMessierFiles(QTemporaryDir &dir, const QString &eslFilename, const 
             return QString();
     }
 
-    // Copy the sequence file to the temp direcotry
+    // Copy the sequence file to the temp directory
     QFile::copy(esq, esqPath);
 
-    // Read and modify the esl file: chage __ESQ_FILE__ to the value of esqPath, and write it out to the temp directory.
+    // Read and modify the esl file: change __ESQ_FILE__ to the value of esqPath, and write it out to the temp directory.
     QFile eslFile(esl);
     if (!eslFile.open(QFile::ReadOnly | QFile::Text))
         return QString();
