@@ -330,6 +330,18 @@ void Client::onConnected()
         }
     }
 
+    // Save credentials if *any* manager connected.
+    if (rememberCredentialsCheck->isChecked())
+    {
+#ifdef HAVE_KEYCHAIN
+        QKeychain::WritePasswordJob *job = new QKeychain::WritePasswordJob(QLatin1String("kstars"));
+        job->setAutoDelete(true);
+        job->setKey(QLatin1String("ekoslive"));
+        job->setTextData(password->text());
+        job->start();
+#endif
+    }
+
     // Only update UI to fully connected state if all managers report connected
     // and if we weren't already in the fully connected state.
     if (allManagersConnected && !m_isConnected)
@@ -339,18 +351,7 @@ void Client::onConnected()
         connectB->setText(i18n("Disconnect"));
         connectionState->setPixmap(QIcon::fromTheme("state-ok").pixmap(QSize(64, 64)));
         selectServersB->setEnabled(false);
-
-        if (rememberCredentialsCheck->isChecked())
-        {
-#ifdef HAVE_KEYCHAIN
-            QKeychain::WritePasswordJob *job = new QKeychain::WritePasswordJob(QLatin1String("kstars"));
-            job->setAutoDelete(true);
-            job->setKey(QLatin1String("ekoslive"));
-            job->setTextData(password->text());
-            job->start();
-#endif
-        }
-        emit connected(); // Emit client connected signal
+        emit connected();
     }
 
     // Update individual manager status icons regardless
