@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars VERSION\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-25 02:03+0000\n"
+"POT-Creation-Date: 2025-09-27 02:01+0000\n"
 "PO-Revision-Date: 2002-11-07 11:31+0200\n"
 "Last-Translator: WEB-Translator <http://kde.af.org.za>\n"
 "Language-Team: AFRIKAANS <AF@lia.org.za>\n"
@@ -12652,7 +12652,7 @@ msgstr "Planeet"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:396
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:397
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12663,7 +12663,7 @@ msgstr "Bereken"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:339
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:351
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, fuzzy, kde-format, kde-kuit-format
@@ -17101,28 +17101,28 @@ msgstr "Stop Horlosie"
 msgid "Stopped"
 msgstr "Soek Voorwerp"
 
-#: ekos/ekoslive/ekosliveclient.cpp:480
+#: ekos/ekoslive/ekosliveclient.cpp:481
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Invoer Keuse"
 
-#: ekos/ekoslive/ekosliveclient.cpp:482
+#: ekos/ekoslive/ekosliveclient.cpp:483
 #, fuzzy, kde-format
 msgid "Observatory:"
 msgstr "Cary"
 
-#: ekos/ekoslive/ekosliveclient.cpp:483
+#: ekos/ekoslive/ekosliveclient.cpp:484
 #, fuzzy, kde-format
 msgid "Offline:"
 msgstr "Bereken"
 
-#: ekos/ekoslive/ekosliveclient.cpp:484
+#: ekos/ekoslive/ekosliveclient.cpp:485
 #, fuzzy, kde-format
 msgid "Online:"
 msgstr "Bereken"
 
-#: ekos/ekoslive/ekosliveclient.cpp:485
+#: ekos/ekoslive/ekosliveclient.cpp:486
 #, fuzzy, kde-format
 msgid "Machine ID:"
 msgstr "Manlik"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-25 02:03+0000\n"
+"POT-Creation-Date: 2025-09-27 02:01+0000\n"
 "PO-Revision-Date: 2025-09-25 09:56+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -13480,7 +13480,7 @@ msgstr "Port"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:396
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:397
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13491,7 +13491,7 @@ msgstr "Connecta"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:339
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:351
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -18428,28 +18428,28 @@ msgstr "S'està parant"
 msgid "Stopped"
 msgstr "Parada"
 
-#: ekos/ekoslive/ekosliveclient.cpp:480
+#: ekos/ekoslive/ekosliveclient.cpp:481
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Trieu els servidors EkosLive"
 
-#: ekos/ekoslive/ekosliveclient.cpp:482
+#: ekos/ekoslive/ekosliveclient.cpp:483
 #, kde-format
 msgid "Observatory:"
 msgstr "Observatori:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:483
+#: ekos/ekoslive/ekosliveclient.cpp:484
 #, kde-format
 msgid "Offline:"
 msgstr "Desconnectat:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:484
+#: ekos/ekoslive/ekosliveclient.cpp:485
 #, kde-format
 msgid "Online:"
 msgstr "Connectat:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:485
+#: ekos/ekoslive/ekosliveclient.cpp:486
 #, kde-format
 msgid "Machine ID:"
 msgstr "ID de la màquina:"

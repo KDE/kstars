@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-25 02:03+0000\n"
-"PO-Revision-Date: 2025-09-20 10:24+0200\n"
+"POT-Creation-Date: 2025-09-27 02:01+0000\n"
+"PO-Revision-Date: 2025-09-26 14:11+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -6351,10 +6351,9 @@ msgid "Solving with blind image position..."
 msgstr "Löser med blind bildposition..."
 
 #: ekos/align/align.cpp:1969
-#, fuzzy, kde-format
-#| msgid "Solving with blind image scale..."
+#, kde-format
 msgid "Solving with blind dynamic threshold..."
-msgstr "Löser med blind bildskalning..."
+msgstr "Löser med blind dynamisk tröskel..."
 
 #: ekos/align/align.cpp:2001
 #, kde-format
@@ -6410,7 +6409,7 @@ msgstr "Kamerans positionsvinkel är %1 grader."
 #: ekos/align/align.cpp:2320 ekos/align/align.cpp:2458
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
-msgstr ""
+msgstr "Dynamisk tröskel justerad till %1 (funna stjärnor: %2)."
 
 #: ekos/align/align.cpp:2329 ekos/align/align.cpp:2788
 #, kde-format
@@ -6433,10 +6432,9 @@ msgid "Saving failed solver image to %1"
 msgstr "Misslyckades sparade lösningsbild i %1"
 
 #: ekos/align/align.cpp:2464
-#, fuzzy, kde-format
-#| msgid "Solver failed. Retrying without scale constraint."
+#, kde-format
 msgid "Solver failed. Retrying with blind dynamic threshold."
-msgstr "Lösning misslyckades. Försöker igen utan skalningsbegränsning."
+msgstr "Lösning misslyckades. Försöker igen med blind dynamisk tröskel."
 
 #: ekos/align/align.cpp:2478
 #, kde-format
@@ -8054,13 +8052,14 @@ msgid ""
 "Adjust StellarSolver threshold dynamically based on source extractor "
 "detected stars to expedite solving."
 msgstr ""
+"Justera tröskeln i StellarSolver dynamiskt baserat på källextraheringens "
+"detekterade stjärnor för att snabba upp lösning."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDynamicThreshold)
 #: ekos/align/opsalign.ui:263
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Dynamic Threshold"
-msgstr "Tröskel"
+msgstr "Dynamisk tröskel"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:285
@@ -13190,7 +13189,7 @@ msgstr "Port"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:396
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:397
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13201,7 +13200,7 @@ msgstr "Anslut"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:339
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:351
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -17943,28 +17942,28 @@ msgstr "Stoppar"
 msgid "Stopped"
 msgstr "Stoppad"
 
-#: ekos/ekoslive/ekosliveclient.cpp:480
+#: ekos/ekoslive/ekosliveclient.cpp:481
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Välj Ekos Live-servrar"
 
-#: ekos/ekoslive/ekosliveclient.cpp:482
+#: ekos/ekoslive/ekosliveclient.cpp:483
 #, kde-format
 msgid "Observatory:"
 msgstr "Observatorium:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:483
+#: ekos/ekoslive/ekosliveclient.cpp:484
 #, kde-format
 msgid "Offline:"
 msgstr "Nerkopplad:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:484
+#: ekos/ekoslive/ekosliveclient.cpp:485
 #, kde-format
 msgid "Online:"
 msgstr "Uppkopplad:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:485
+#: ekos/ekoslive/ekosliveclient.cpp:486
 #, kde-format
 msgid "Machine ID:"
 msgstr "Maskinidentifikation:"
