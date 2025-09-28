@@ -2530,6 +2530,10 @@ bool KSUserDB::GetAllImageOverlays(QList<ImageOverlay> *imageOverlayList)
     overlays.setTable("imageOverlays");
     overlays.select();
 
+    const int maxNumOverlays = 10000;
+    while (overlays.canFetchMore() && overlays.rowCount() < maxNumOverlays)
+        overlays.fetchMore();
+
     for (int i = 0; i < overlays.rowCount(); ++i)
     {
         QSqlRecord record         = overlays.record(i);
