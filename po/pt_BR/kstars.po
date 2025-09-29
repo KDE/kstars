@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-27 02:01+0000\n"
-"PO-Revision-Date: 2025-09-25 17:57-0300\n"
+"PO-Revision-Date: 2025-09-28 16:05-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -1054,7 +1054,7 @@ msgstr "Desmarcar imagem"
 #, kde-format
 msgctxt "@title:window"
 msgid "XPlanet Solar System Simulator: %1"
-msgstr "Simulador de Sistema Solar XPlanet: %1"
+msgstr "Simulador de Sistema Solar do XPlanet: %1"
 
 #. i18n?
 #. i18nc("Asteroid name (optional)", "Pluto");
@@ -4233,7 +4233,7 @@ msgstr "Tempo de trânsito:"
 #: dialogs/details_position.ui:669 printing/detailstable.cpp:651
 #, kde-format
 msgid "Rise time:"
-msgstr "Hora de nascimento:"
+msgstr "Hora do nascimento:"
 
 #. i18n: ectx: property (text), widget (QLabel, TimeRise)
 #. i18n: ectx: property (text), widget (QLabel, TimeTransit)
@@ -4842,7 +4842,7 @@ msgstr "Configurar localização geográfica"
 #: dialogs/locationdialog.cpp:101 dialogs/locationdialog.ui:461
 #, kde-format
 msgid "DST rule:"
-msgstr "Regra de DST (horário de verão):"
+msgstr "Regra de horário de verão:"
 
 #: dialogs/locationdialog.cpp:146 dialogs/locationdialog.cpp:206
 #: dialogs/locationdialog.cpp:512
@@ -34780,7 +34780,7 @@ msgstr "Assistente de telescópio concluído com sucesso."
 #: kspopupmenu.cpp:87
 #, kde-format
 msgid "Rise time: %1"
-msgstr "Hora de nascimento: %1"
+msgstr "Hora do nascimento: %1"
 
 #: kspopupmenu.cpp:89
 #, kde-format
@@ -37202,7 +37202,7 @@ msgstr ""
 #: kstars.kcfg:881
 #, kde-format
 msgid "Show deep-sky objects of unknown magnitude"
-msgstr "Mostrar os objetos do espaço profundo de magnitude desconhecida"
+msgstr "Mostrar objetos do espaço profundo de magnitude desconhecida"
 
 #. i18n: ectx: whatsthis, entry (ShowUnknownMagObjects), group (View)
 #: kstars.kcfg:882
@@ -37509,8 +37509,8 @@ msgid ""
 "Show the objects that are marked picked (don't show those that are not "
 "picked)."
 msgstr ""
-"Mostrar os objetos que estão marcados como selecionados (não mostre aqueles "
-"que não foram selecionados)."
+"Mostrar objetos que estão marcados como selecionados (não mostre aqueles que "
+"não foram selecionados)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotPicked), group (ImagingPlanner)
 #: kstars.kcfg:1022
@@ -37519,8 +37519,8 @@ msgid ""
 "Show the objects that are not marked picked (don't show those that are "
 "picked)."
 msgstr ""
-"Mostrar os objetos que não estão marcados como selecionados (não mostre "
-"aqueles que estão selecionados)."
+"Mostrar objetos que não estão marcados como selecionados (não mostre aqueles "
+"que estão selecionados)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCarePicked), group (ImagingPlanner)
 #: kstars.kcfg:1026
@@ -37538,8 +37538,8 @@ msgid ""
 "Show the objects that have the keyword in their notes (and don't show those "
 "that don't)."
 msgstr ""
-"Mostrar os objetos que têm a palavra-chave em suas notas (e não mostrar "
-"aqueles que não têm)."
+"Mostrar objetos que têm a palavra-chave em suas notas (e não mostrar aqueles "
+"que não têm)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotKeyword), group (ImagingPlanner)
 #: kstars.kcfg:1034
@@ -37548,7 +37548,7 @@ msgid ""
 "Show the objects that don't have the keyword in their notes (and don't show "
 "those that do)."
 msgstr ""
-"Mostrar os objetos que não têm a palavra-chave em suas notas (e não mostrar "
+"Mostrar objetos que não têm a palavra-chave em suas notas (e não mostrar "
 "aqueles que têm)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareKeyword), group (ImagingPlanner)
@@ -37574,8 +37574,8 @@ msgid ""
 "Show the objects that are marked imaged (don't show those that are not "
 "marked imaged)."
 msgstr ""
-"Mostrar os objetos que estão marcados como imageados (não mostrar aqueles "
-"que não estão marcados como imageados)."
+"Mostrar objetos que estão marcados como imageados (não mostrar aqueles que "
+"não estão marcados como imageados)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotImaged), group (ImagingPlanner)
 #: kstars.kcfg:1050
@@ -37584,8 +37584,8 @@ msgid ""
 "Show the objects that are not marked imaged (don't show those that are "
 "marked imaged)."
 msgstr ""
-"Mostrar os objetos que não estão marcados como imageados (não mostrar "
-"aqueles que estão marcados como imageados)."
+"Mostrar objetos que não estão marcados como imageados (não mostrar aqueles "
+"que estão marcados como imageados)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareImaged), group (ImagingPlanner)
 #: kstars.kcfg:1054
@@ -37603,8 +37603,8 @@ msgid ""
 "Show the objects that have been added (and don't show those that have not "
 "been added)."
 msgstr ""
-"Mostrar os objetos que foram adicionados (e não mostrar aqueles que não "
-"foram adicionados)."
+"Mostrar objetos que foram adicionados (e não mostrar aqueles que não foram "
+"adicionados)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotAdded), group (ImagingPlanner)
 #: kstars.kcfg:1062
@@ -37613,8 +37613,8 @@ msgid ""
 "Show the objects that have not been added (and don't show those that have "
 "been added."
 msgstr ""
-"Mostrar os objetos que não foram adicionados (e não mostrar aqueles que "
-"foram adicionados)."
+"Mostrar objetos que não foram adicionados (e não mostrar aqueles que foram "
+"adicionados)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareAdded), group (ImagingPlanner)
 #: kstars.kcfg:1066
@@ -37631,7 +37631,7 @@ msgid ""
 "Show the objects that have been ignored (and don't show those that have not "
 "been ignored)."
 msgstr ""
-"Mostrar os objetos que foram ignorados (e não mostrar aqueles que não foram "
+"Mostrar objetos que foram ignorados (e não mostrar aqueles que não foram "
 "ignorados)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotIgnored), group (ImagingPlanner)
@@ -37641,7 +37641,7 @@ msgid ""
 "Show the objects that have not been ignored (and don't show those that have "
 "been ignored)."
 msgstr ""
-"Mostrar os objetos que não foram ignorados (e não mostrar aqueles que foram "
+"Mostrar objetos que não foram ignorados (e não mostrar aqueles que foram "
 "ignorados)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareIgnored), group (ImagingPlanner)
@@ -71947,7 +71947,7 @@ msgstr "&Sem lua durante a noite"
 #: kstarsinit.cpp:384
 #, kde-format
 msgid "&FOV Symbols"
-msgstr "Símbolos &CDV"
+msgstr "Símbolos de &CDV"
 
 #: kstarsinit.cpp:392
 #, kde-format
@@ -71968,7 +71968,7 @@ msgstr "Orientação do mapa celeste"
 #, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
-msgstr "&Geográfica..."
+msgstr "&Geografia..."
 
 #: kstarsinit.cpp:430
 #, kde-format
@@ -72029,7 +72029,7 @@ msgstr "O que acontece esta noite"
 #: kstarsinit.cpp:479
 #, kde-format
 msgid "XPlanet Solar System Simulator"
-msgstr "Simulador de Sistema Solar XPlanet"
+msgstr "Simulador de Sistema Solar do XPlanet"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
 #: kstarsinit.cpp:481 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
@@ -72544,7 +72544,7 @@ msgstr "Editar visualizações..."
 #: kstarsinit.cpp:854
 #, kde-format
 msgid "Edit FOV Symbols..."
-msgstr "Editar símbolos CDV..."
+msgstr "Editar símbolos de CDV..."
 
 #: kstarsinit.cpp:891
 #, kde-format
@@ -72930,7 +72930,7 @@ msgstr "Deslocamento da hora universal: "
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:334
 #, kde-kuit-format
 msgid "DST rule: "
-msgstr "Regra de DST (horário de verão): "
+msgstr "Regra de horário de verão: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:352
 #: kstarslite/qml/dialogs/LocationDialog.qml:139
@@ -79548,7 +79548,7 @@ msgstr "Atualizar os TLEs"
 #: options/opssolarsystem.ui:32
 #, kde-format
 msgid "Show solar system objects"
-msgstr "Mostrar os objetos do sistema solar"
+msgstr "Mostrar objetos do sistema solar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, MajorBodiesBox)
 #: options/opssolarsystem.ui:42
@@ -83720,7 +83720,7 @@ msgstr "Hora sideral"
 #: tools/astrocalc.cpp:150 tools/modcalcdaylength.ui:14 tools/wutdialog.ui:178
 #, kde-format
 msgid "Almanac"
-msgstr "Almanac"
+msgstr "Almanaque"
 
 #: tools/astrocalc.cpp:151
 #, kde-format
@@ -84516,22 +84516,22 @@ msgstr "Trânsitos"
 #: tools/imagingplanner.cpp:3074 tools/imagingplanner.cpp:3078
 #, kde-format
 msgid "Sets at"
-msgstr "Descende em"
+msgstr "Põe-se às"
 
 #: tools/imagingplanner.cpp:3085 tools/imagingplanner.cpp:3089
 #, kde-format
 msgid "Rises at"
-msgstr "Ascende em"
+msgstr "Nasce às"
 
 #: tools/imagingplanner.cpp:3096 tools/imagingplanner.cpp:3102
 #, kde-format
 msgid "Rises"
-msgstr "Ascende"
+msgstr "Nasce"
 
 #: tools/imagingplanner.cpp:3098 tools/imagingplanner.cpp:3104
 #, kde-format
 msgid "Sets"
-msgstr "Descende"
+msgstr "Põe-se"
 
 #: tools/imagingplanner.cpp:3210 tools/imagingplanner.cpp:3466
 #, kde-format
@@ -85665,7 +85665,7 @@ msgstr "Não se pôe"
 #, kde-format
 msgctxt "%1 is a location on earth"
 msgid "Almanac for %1"
-msgstr "Almanaque de %1"
+msgstr "Almanaque para %1"
 
 #: tools/modcalcdaylength.cpp:285
 #, kde-format
@@ -85878,7 +85878,7 @@ msgstr "Cartesiano"
 #: tools/modcalcgeod.ui:78
 #, kde-format
 msgid "Geographic"
-msgstr "Geográfica"
+msgstr "Geografia"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/modcalcgeod.ui:93
@@ -88682,7 +88682,7 @@ msgstr "não nasce"
 #, kde-format
 msgctxt "Sunset at time %1 on date %2"
 msgid "Sunset: %1 on %2"
-msgstr "Anoitecer: %1 em %2"
+msgstr "Pôr do sol: %1 em %2"
 
 #: tools/wutdialog.cpp:183
 #, kde-format
@@ -88718,12 +88718,12 @@ msgstr "Duração da noite: %1 minuto"
 #: tools/wutdialog.cpp:224
 #, kde-format
 msgid "Moon rises at: %1 on %2"
-msgstr "A Lua nasce às: %1 em %2"
+msgstr "Lua nasce às: %1 em %2"
 
 #: tools/wutdialog.cpp:232 tools/wutdialog.cpp:236
 #, kde-format
 msgid "Moon sets at: %1 on %2"
-msgstr "A Lua se põe às: %1 em %2"
+msgstr "Lua se põe às: %1 em %2"
 
 #: tools/wutdialog.cpp:498
 #, kde-format
@@ -88743,12 +88743,12 @@ msgstr "Nasce às: %1"
 #: tools/wutdialog.cpp:543
 #, kde-format
 msgid "Transits at: %1"
-msgstr "Hora de trânsito: %1"
+msgstr "Trânsito às: %1"
 
 #: tools/wutdialog.cpp:544
 #, kde-format
 msgid "Sets at: %1"
-msgstr "Hora do poente: %1"
+msgstr "Põe-se às: %1"
 
 #. i18n: ectx: property (text), widget (QLabel, DateLabel)
 #: tools/wutdialog.ui:36
@@ -88859,7 +88859,7 @@ msgstr "A qualquer hora hoje à noite"
 #: tools/wutdialog.ui:146
 #, kde-format
 msgid "Show objects brighter than magnitude:"
-msgstr "Mostrar os objetos mais brilhantes que:"
+msgstr "Mostrar objetos mais brilhantes que:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MoonRiseLabel)
 #: tools/wutdialog.ui:202
@@ -89012,7 +89012,7 @@ msgstr ""
 #: tools/wutdialog.ui:425
 #, kde-format
 msgid "Transits at:  03:45"
-msgstr "Hora de trânsito:  03:45"
+msgstr "Trânsito às:  03:45"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, ObjectSetLabel)
 #: tools/wutdialog.ui:435
