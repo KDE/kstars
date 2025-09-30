@@ -216,6 +216,8 @@ class Message : public QObject
         void dispatchDebounceQueue();
 
         KStarsDateTime getNextDawn();
+        QJsonObject getRiseSetAltitudeDataForDay(SkyObject *oneObject, const KStarsDateTime &ut, GeoLocation *geo,
+                const QDate &date);
 
         void sendResponse(const QString &command, const QJsonObject &payload);
         void sendResponse(const QString &command, const QJsonArray &payload);
@@ -244,20 +246,20 @@ class Message : public QObject
         bool parseArgument(QVariant::Type type, const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types);
 #endif
         Ekos::Manager *m_Manager { nullptr };
-        QVector<QSharedPointer<NodeManager >> m_NodeManagers;
+        QVector < QSharedPointer < NodeManager >> m_NodeManagers;
 
         bool m_sendBlobs { true};
 
-        QMap<QString, QSet<QString >> m_PropertySubscriptions;
+        QMap < QString, QSet < QString >> m_PropertySubscriptions;
         QLineF correctionVector;
         QRect m_BoundingRect;
         QSize m_ViewSize;
         double m_CurrentZoom {100};
 
-        QSet<PendingProperty> m_PendingProperties;
+        QSet < PendingProperty > m_PendingProperties;
         QTimer m_PendingPropertiesTimer;
         QTimer m_DebouncedSend;
-        QMap<QString, QVariantMap> m_DebouncedMap;
+        QMap < QString, QVariantMap > m_DebouncedMap;
 
         QDateTime m_ThrottleTS;
         CatalogsDB::DBManager m_DSOManager;

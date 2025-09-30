@@ -2244,11 +2244,9 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
         auto *geo = KStarsData::Instance()->geo();
         // UT
         QDateTime midnight = QDateTime(data->lt().date(), QTime());
-        KStarsDateTime ut  = geo->LTtoUT(KStarsDateTime(midnight));
+        KStarsDateTime ut = geo->LTtoUT(KStarsDateTime(midnight));
 
-        int DayOffset = 0;
-        if (data->lt().time().hour() > 12)
-            DayOffset = 1;
+        int daysToProcess = payload["days"].toInt(0);
 
         for (auto &oneName : objectNames)
         {
@@ -2256,58 +2254,24 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
             SkyObject *oneObject = data->skyComposite()->findByName(name, exact);
             if (oneObject)
             {
-                QJsonObject info;
-                //Prepare time/position variables
-                //true = use rise time
-                QTime riseTime = oneObject->riseSetTime(ut, geo, true);
+                // Get today's data using the helper function
+                QJsonObject todayInfo = getRiseSetAltitudeDataForDay(oneObject, ut, geo, data->lt().date());
+                todayInfo["name"] = exact ? name : oneObject->name();
 
-                //If transit time is before rise time, use transit time for tomorrow
-                QTime transitTime = oneObject->transitTime(ut, geo);
-                if (transitTime < riseTime)
-                    transitTime   = oneObject->transitTime(ut.addDays(1), geo);
-
-                //If set time is before rise time, use set time for tomorrow
-                //false = use set time
-                QTime setTime = oneObject->riseSetTime(ut, geo, false);
-                //false = use set time
-                if (setTime < riseTime)
-                    setTime  = oneObject->riseSetTime(ut.addDays(1), geo, false);
-
-                info["name"] = exact ? name : oneObject->name();
-                if (riseTime.isValid())
+                QJsonArray futureDaysArray;
+                for (int i = 1; i <= daysToProcess; ++i)
                 {
-                    info["rise"] = QString::asprintf("%02d:%02d", riseTime.hour(), riseTime.minute());
-                    info["set"] = QString::asprintf("%02d:%02d", setTime.hour(), setTime.minute());
-                }
-                else
-                {
-                    if (oneObject->alt().Degrees() > 0.0)
-                    {
-                        info["rise"] = "Circumpolar";
-                        info["set"] = "Circumpolar";
-                    }
-                    else
-                    {
-                        info["rise"] = "Never rises";
-                        info["set"] = "Never rises";
-                    }
+                    KStarsDateTime futureUt = ut.addDays(i);
+                    QDate futureDate = data->lt().date().addDays(i);
+                    futureDaysArray.append(getRiseSetAltitudeDataForDay(oneObject, futureUt, geo, futureDate));
                 }
 
-                info["transit"] = QString::asprintf("%02d:%02d", transitTime.hour(), transitTime.minute());
-
-                QJsonArray altitudes;
-                for (double h = -12.0; h <= 12.0; h += 0.5)
+                if (!futureDaysArray.isEmpty())
                 {
-                    double hour = h + (24.0 * DayOffset);
-                    KStarsDateTime offset = ut.addSecs(hour * 3600.0);
-                    CachingDms LST = geo->GSTtoLST(offset.gst());
-                    oneObject->EquatorialToHorizontal(&LST, geo->lat());
-                    altitudes.append(oneObject->alt().Degrees());
+                    todayInfo["days"] = futureDaysArray;
                 }
 
-                info["altitudes"] = altitudes;
-
-                objectsArray.append(info);
+                objectsArray.append(todayInfo);
             }
         }
 
@@ -2412,6 +2376,69 @@ KStarsDateTime Message::getNextDawn()
         nextDawn.addDays(1);
 
     return nextDawn;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QJsonObject Message::getRiseSetAltitudeDataForDay(SkyObject *oneObject, const KStarsDateTime &ut, GeoLocation *geo,
+        const QDate &date)
+{
+    QJsonObject info;
+    // Prepare time/position variables
+    // true = use rise time
+    QTime riseTime = oneObject->riseSetTime(ut, geo, true);
+
+    // If transit time is before rise time, use transit time for tomorrow
+    QTime transitTime = oneObject->transitTime(ut, geo);
+    if (transitTime < riseTime)
+        transitTime = oneObject->transitTime(ut.addDays(1), geo);
+
+    // If set time is before rise time, use set time for tomorrow
+    // false = use set time
+    QTime setTime = oneObject->riseSetTime(ut, geo, false);
+    // false = use set time
+    if (setTime < riseTime)
+        setTime = oneObject->riseSetTime(ut.addDays(1), geo, false);
+
+    info["date"] = date.toString("yyyy-MM-dd");
+    if (riseTime.isValid())
+    {
+        info["rise"] = QString::asprintf("%02d:%02d", riseTime.hour(), riseTime.minute());
+        info["set"] = QString::asprintf("%02d:%02d", setTime.hour(), setTime.minute());
+    }
+    else
+    {
+        if (oneObject->alt().Degrees() > 0.0)
+        {
+            info["rise"] = "Circumpolar";
+            info["set"] = "Circumpolar";
+        }
+        else
+        {
+            info["rise"] = "Never rises";
+            info["set"] = "Never rises";
+        }
+    }
+
+    info["transit"] = QString::asprintf("%02d:%02d", transitTime.hour(), transitTime.minute());
+
+    QJsonArray altitudes;
+    int DayOffset = 0;
+    if (ut.time().hour() > 12)
+        DayOffset = 1;
+
+    for (double h = -12.0; h <= 12.0; h += 0.5)
+    {
+        double hour = h + (24.0 * DayOffset);
+        KStarsDateTime offset = ut.addSecs(hour * 3600.0);
+        CachingDms LST = geo->GSTtoLST(offset.gst());
+        oneObject->EquatorialToHorizontal(&LST, geo->lat());
+        altitudes.append(oneObject->alt().Degrees());
+    }
+
+    info["altitudes"] = altitudes;
+    return info;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
