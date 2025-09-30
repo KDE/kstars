@@ -121,73 +121,85 @@ bool PolarAlign::addPoint(const QSharedPointer<FITSData> &image)
 
 namespace
 {
+
 // Calculates the smallest rotation angle around the Y axis (modeling a turn of the mount's altitude knob)
 // that corresponds to a rotation from "from" to "goal". Note--the rotation won't reach "goal", it would still need
 // another rotation around the Z axis (modeling a turn of the mount's azimuth knob).
 // Returns the angle in radians.
+// Gemini generated something close to this with this prompt.
+//   I have a geometry problem I need a solution for (with c++ code):
+//   I have two points on a unit sphere (x1, y1, z1) and (x2, y2, z2).
+//   I want to rotate the sphere so that x1,y1,z1 moves to x2,y2,z2,
+//   but I can only make rotations first around the Y axis and then around the Z axis.
+//   I want to make the smallest rotations possible. First solve for the rotation around
+//   the Y axis, then the rotation around the Z axis.
+// This function is just y-axis rotation part.
+// Here's a quick explanation. The function finds an intermediate point (after rotating around Y-axis,
+// before rotating around Z-axis). That point, since it has a Y-axis rotation from the "from" point,
+// shares the from point's y value. Similarly, that point, since it will be rotated around the Z-axis
+// to become the goal point, shares the goal point's z value.
+// So the intermediate point is (x_int, from.y(), goal.z()).
+// Since the point is on the unit circle, x_int^2 + from.y()^2 +goal.z()^2 = 1.0
+// So below just solves for x_int by solving that equation,
+// which has 2 solutions, +sqrt(radicand)  and -sqrt(radicand).
+// Now that we know the values for the intermediate point, we can find the Y rotation by projecting on the X-Z plane,
+// and can find the Z rotation by projecting on the X-Y plane. See the comment in the "Steps 2 & 3" loop.
 double findSmallestThetaY(const V3 &from, const V3 &goal, bool *ok)
 {
     *ok = false;
-    constexpr double tol = 1e-6;
-    const double x = from.x(), z = from.z();
-    const double z_prime = goal.z();
 
-    // If vectors are nearly identical, use small-angle approximation
-    if (fabs(z_prime - z) < tol && fabs(x) > tol)
-    {
-        *ok = true;
-        return (z - z_prime) / x;  // x cannot be 0.
-    }
-
-    // Otherwise, use the general solution
-    const double A = -x;
-    const double B = z;
-    const double C = z_prime;
-    const double D = sqrt(A * A + B * B);
-    if (fabs(C) > D + tol || D == 0)
+    double radicand = 1.0 - std::pow(from.y(), 2) - std::pow(goal.z(), 2);
+    if (radicand < -1e-9)   // Use a small tolerance for floating point errors
     {
         qCInfo(KSTARS_EKOS_ALIGN) << QString("PAA refresh: No solution: |C| > D");
         return 0;
     }
 
-    const double phi = atan2(B, A);  // range is -pi to pi
-    const double alpha = acos(C / D);  // range is 0 to pi
-    const double theta_y1 = phi + alpha;  // range is -pi to 2pi
-    const double theta_y2 = phi - alpha;  // range is -2pi to pi
+    // Ensure radicand is not negative due to precision errors
+    radicand = std::max(0.0, radicand);
 
-    // Find all equivalent angles in [-pi, pi)
-    const QList<double> allAngles =
+    double x_intermediate_1 = std::sqrt(radicand);
+    double x_intermediate_2 = -std::sqrt(radicand);
+
+    std::vector<std::pair<double, double>> solutions;
+    std::vector<double> x_intermediates = {x_intermediate_1, x_intermediate_2};
+
+    // --- Steps 2 & 3: Calculate angles for both possible solutions ---
+    for (double x_int : x_intermediates)
     {
-        theta_y1, theta_y2, theta_y1 - 2 * M_PI, theta_y2 - 2 * M_PI,
-        theta_y1 + 2 * M_PI, theta_y2 + 2 * M_PI
-    };
-    QList<double> angles;
-    for (const double angle : allAngles)
-    {
-        if (-M_PI <= angle && angle < M_PI)
-            angles.append(angle);
-    }
-    if (angles.empty())
-    {
-        qCInfo(KSTARS_EKOS_ALIGN) << QString("PAA refresh: No solution in [-pi, pi)");
-        return 0;
+        Eigen::Vector3d p_intermediate(x_int, from.y(), goal.z());
+
+        // Calculate Z-axis rotation angle. See below comment.
+        double theta_z = std::atan2(goal.y(), goal.x()) - std::atan2(p_intermediate.y(), p_intermediate.x());
+
+        // Calculate Y-axis rotation angle. This expression is simply the angle of the projection of
+        // intermediate point onto the X-Z plane, minus the angle of the projection onto the X-Z plane
+        // of the "from" point.
+        double theta_y = std::atan2(p_intermediate.x(), p_intermediate.z()) - std::atan2(from.x(), from.z());
+
+        // Normalize angles to the range [-pi, pi] to ensure we find the smallest rotation
+        // Could do this with a simple loop
+        // (e.g. "while (theta_z < -M_PI) theta_z += 2*M_PI; and the "> M_PI" loop")
+        // but AI recommends the below.
+        theta_z = std::atan2(std::sin(theta_z), std::cos(theta_z));
+        theta_y = std::atan2(std::sin(theta_y), std::cos(theta_y));
+
+        solutions.push_back({theta_y, theta_z});
     }
 
-    // Pick the angle with the smallest absolute value
-    double theta_y = angles[0];
-    for (int i = 1; i < angles.size(); ++i)
-    {
-        if (fabs(angles[i]) < fabs(theta_y))
-            theta_y = angles[i];
-    }
-
-    // If the vectors are nearly identical, the small-angle approximation is better
-    // So, if the angle is large, but the vectors are nearly identical, use the small-angle approximation
-    if (fabs(z_prime - z) < 0.01 && fabs(x) > tol && fabs(theta_y) > 0.1)
-        theta_y = (z - z_prime) / x;
+    // --- Step 4: Choose the solution with the smallest total rotation ---
+    double cost1 = std::abs(solutions[0].first) + std::abs(solutions[0].second);
+    double cost2 = std::abs(solutions[1].first) + std::abs(solutions[1].second);
 
     *ok = true;
-    return theta_y;
+    if (cost1 <= cost2)
+    {
+        return solutions[0].first;
+    }
+    else
+    {
+        return solutions[1].first;
+    }
 }
 
 V3 rotateAroundY(double theta_y, const V3 &vector)
