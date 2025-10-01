@@ -159,6 +159,7 @@ class Observatory : public QWidget, public Ui::Observatory
         void clearSensorDataHistory();
         void shutdownWeather();
         void setWeatherStatus(ISD::Weather::Status status);
+        void setWeatherDefaultSource();
 
         // sensor data graphs
         void mouseOverLine(QMouseEvent *event);

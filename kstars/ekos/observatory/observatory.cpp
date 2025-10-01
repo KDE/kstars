@@ -83,7 +83,7 @@ Observatory::Observatory()
         execute(m_AlertActions);
     });
 
-    connect(weatherSourceCombo, &QComboBox::currentTextChanged, this, &Observatory::setWeatherSource);
+    connect(weatherSourceCombo, &QComboBox::currentTextChanged, this, &Observatory::setWeatherDefaultSource);
 
     // initialize the weather sensor data group box
     sensorDataBoxLayout = new QGridLayout();
@@ -511,27 +511,28 @@ bool Observatory::addWeatherSource(ISD::Weather *device)
     for (auto &oneWeatherSource : m_WeatherSources)
         oneWeatherSource->disconnect(this);
 
-    // If default source is empty or matches current device then let's set the current weather source to it
-    auto defaultSource = Options::defaultObservatoryWeatherSource();
-    if (m_WeatherSource == nullptr || defaultSource.isEmpty() || device->getDeviceName() == defaultSource)
-        m_WeatherSource = device;
     m_WeatherSources.append(device);
+    QString deviceName = device->getDeviceName();
 
+    // Prevent populating the QComboBox list from setting the default
     weatherSourceCombo->blockSignals(true);
-    weatherSourceCombo->clear();
-    for (auto &oneSource : m_WeatherSources)
-        weatherSourceCombo->addItem(oneSource->getDeviceName());
-    if (defaultSource.isEmpty())
-        Options::setDefaultObservatoryWeatherSource(weatherSourceCombo->currentText());
-    else
-        weatherSourceCombo->setCurrentText(defaultSource);
+    // If first in list, init weather
+    if (weatherSourceCombo->count() == 0) {
+        weatherSourceCombo->addItem(deviceName);
+        weatherSourceCombo->setCurrentText(deviceName);
+        setWeatherSource(deviceName);
+    } else
+    // If default set currentText explicitly and init weather
+    if (deviceName == Options::defaultObservatoryWeatherSource()) {
+        weatherSourceCombo->addItem(deviceName);
+        weatherSourceCombo->setCurrentText(deviceName);
+        setWeatherSource(deviceName);
+    } else
+    // If just another source (not first and not default) don't set as current
+    if ((weatherSourceCombo->count() > 0) && !(deviceName == Options::defaultObservatoryWeatherSource())) {
+        weatherSourceCombo->addItem(deviceName);
+    }
     weatherSourceCombo->blockSignals(false);
-
-    initWeather();
-
-    // make invisible, since not implemented yet
-    weatherWarningSchedulerCB->setVisible(false);
-    weatherAlertSchedulerCB->setVisible(false);
 
     return true;
 }
@@ -605,7 +606,6 @@ void Observatory::initWeather()
 {
     enableWeather(true);
     weatherBox->setEnabled(true);
-    setWeatherSource(weatherSourceCombo->currentText());
 
     connect(m_WeatherSource, &ISD::Weather::newStatus, this, &Ekos::Observatory::setWeatherStatus);
     connect(m_WeatherSource, &ISD::Weather::newData, this, &Ekos::Observatory::newWeatherData);
@@ -1182,34 +1182,46 @@ void Observatory::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceR
 
 void Observatory::setWeatherSource(const QString &name)
 {
-    Options::setDefaultObservatoryWeatherSource(name);
-    for (auto &oneWeatherSource : m_WeatherSources)
-    {
-        if (oneWeatherSource->getDeviceName() == name)
+    // If requested name is in the comboBox list use it
+    if (weatherSourceCombo->findText(name) >= 0) {
+        for (auto &oneWeatherSource : m_WeatherSources)
         {
-            // Same source, ignore and return
-            if (m_WeatherSource == oneWeatherSource)
-                return;
-
-            if (m_WeatherSource)
-                m_WeatherSource->disconnect(this);
-
-            m_WeatherSource = oneWeatherSource;
-
-            // Must delete all the Buttons and Line-edits
-            for (auto &oneWidget : sensorDataWidgets)
+            if (oneWeatherSource->getDeviceName() == name)
             {
-                auto pair = oneWidget.second;
-                sensorDataBoxLayout->removeWidget(pair->first);
-                sensorDataBoxLayout->removeWidget(pair->second);
-                pair->first->deleteLater();
-                pair->second->deleteLater();
+                // Same source, ignore and return
+                if (m_WeatherSource == oneWeatherSource)
+                    return;
+
+                if (m_WeatherSource)
+                    m_WeatherSource->disconnect(this);
+
+                m_WeatherSource = oneWeatherSource;
+
+                // Must delete all the Buttons and Line-edits
+                for (auto &oneWidget : sensorDataWidgets)
+                {
+                    auto pair = oneWidget.second;
+                    sensorDataBoxLayout->removeWidget(pair->first);
+                    sensorDataBoxLayout->removeWidget(pair->second);
+                    pair->first->deleteLater();
+                    pair->second->deleteLater();
+                }
+                sensorDataWidgets.clear();
+                initWeather();
+                return;
             }
-            sensorDataWidgets.clear();
-            initWeather();
-            return;
         }
     }
+
+    // make invisible, since not implemented yet
+    weatherWarningSchedulerCB->setVisible(false);
+    weatherAlertSchedulerCB->setVisible(false);
+}
+
+void Observatory::setWeatherDefaultSource()
+{
+    Options::setDefaultObservatoryWeatherSource(weatherSourceCombo->currentText());
+    setWeatherSource(weatherSourceCombo->currentText());
 }
 
 }
