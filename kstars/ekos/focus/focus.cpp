@@ -748,7 +748,12 @@ void Focus::checkFocuser()
     if (!m_Focuser)
     {
         if (m_FilterManager)
+        {
+            // Add debug for filter offsets bug
             m_FilterManager->setFocusReady(false);
+            qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 m_Focuser=null setting FilterManager m_FocusReady=false")
+                                       .arg(__FUNCTION__);
+        }
         canAbsMove = canRelMove = canTimerMove = false;
         resetButtons();
         setFocusAlgorithm(static_cast<Algorithm> (m_OpsFocusProcess->focusAlgorithm->currentIndex()));
@@ -756,7 +761,14 @@ void Focus::checkFocuser()
     }
 
     if (m_FilterManager)
+    {
+        // Add debug for filter offsets bug
         m_FilterManager->setFocusReady(m_Focuser->isConnected());
+        QString focuser = m_Focuser->getDeviceName();
+        QString wheel = (m_FilterWheel) ? m_FilterWheel->getDeviceName() : QString("No Filter Wheel");
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 Focuser: %2 setting FilterManager m_FocusReady=%3 on wheel %4")
+                                   .arg(__FUNCTION__).arg(focuser).arg(m_Focuser->isConnected()).arg(wheel);
+    }
 
     hasDeviation = m_Focuser->hasDeviation();
 
