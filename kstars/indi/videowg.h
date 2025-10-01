@@ -45,11 +45,13 @@ class VideoWG : public QLabel
         void mousePressEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
         void mouseReleaseEvent(QMouseEvent *event) override;
+        void wheelEvent(QWheelEvent *event) override;
         void initOverlayModel();
 
     public slots:
         void modelChanged();
         void toggleOverlay();
+        void resetFrame();
 
     signals:
         void newSelection(QRect);
@@ -80,5 +82,10 @@ class VideoWG : public QLabel
         QStringList *typeValues = nullptr;
         QPainter *painter = nullptr;
         float scale;
+
+        // Zoom and pan when drawing colimation overlay
+        double drawScale = 1.0;
+        double drawOffsetX = 0;
+        double drawOffsetY = 0;
         void PaintOneItem (QString type, QPointF position, int sizeX, int sizeY, int thickness);
 };

@@ -116,6 +116,7 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
     resetFrameB->setIcon(QIcon::fromTheme("view-restore"));
 
     connect(resetFrameB, &QPushButton::clicked, this, &StreamWG::resetFrame);
+    connect(resetFrameB, &QPushButton::clicked, videoFrame, &VideoWG::resetFrame);
 
     recordB->setIcon(recordIcon);
 

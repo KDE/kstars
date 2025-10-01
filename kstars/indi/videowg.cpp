@@ -65,7 +65,17 @@ bool VideoWG::newFrame(IBLOB *bp)
 
     if (rc)
     {
-        kPix = QPixmap::fromImage(streamImage->scaled(size(), Qt::KeepAspectRatio));
+        if(overlayEnabled)
+        {
+            int offX = drawOffsetX + (streamImage->width() - streamImage->width() * drawScale) * 0.5;
+            int offY = drawOffsetY + (streamImage->height() - streamImage->height() * drawScale) * 0.5;
+            QImage tmp = streamImage->copy(offX, offY, streamImage->width() * drawScale, streamImage->height() * drawScale);
+            kPix = QPixmap::fromImage(tmp.scaled(size(), Qt::KeepAspectRatio));
+        }
+        else
+        {
+            kPix = QPixmap::fromImage(streamImage->scaled(size(), Qt::KeepAspectRatio));
+        }
 
         paintOverlay(kPix);
 
@@ -98,44 +108,75 @@ void VideoWG::setSize(uint16_t w, uint16_t h)
 void VideoWG::mousePressEvent(QMouseEvent *event)
 {
     origin = event->pos();
-    if (!rubberBand)
-        rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
-    rubberBand->setGeometry(QRect(origin, QSize()));
-    rubberBand->show();
+    if(event->button() == Qt::LeftButton)
+    {
+        if (!rubberBand)
+            rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
+        rubberBand->setGeometry(QRect(origin, QSize()));
+        rubberBand->show();
+    }
 }
 
 void VideoWG::mouseMoveEvent(QMouseEvent *event)
 {
-    rubberBand->setGeometry(QRect(origin, event->pos()).normalized());
+    if(rubberBand && rubberBand->isVisible())
+        rubberBand->setGeometry(QRect(origin, event->pos()).normalized());
+    else if(overlayEnabled)
+    {
+        QPoint diff = event->pos() - origin;
+        drawOffsetX -= diff.x() * static_cast<double>(streamImage->width()) / kPix.width() * drawScale;
+        drawOffsetY -= diff.y() * static_cast<double>(streamImage->height()) / kPix.height() * drawScale;
+        origin = event->pos();
+    }
 }
 
 void VideoWG::mouseReleaseEvent(QMouseEvent *event)
 {
-    rubberBand->hide();
-
-    if (event->button() == Qt::RightButton)
+    if(event->button() == Qt::LeftButton)
     {
-        emit newSelection(QRect());
-        return;
+        rubberBand->hide();
+
+        if (event->button() == Qt::RightButton)
+        {
+            emit newSelection(QRect());
+            return;
+        }
+
+        QRect rawSelection = rubberBand->geometry();
+        int pixmapX        = (width() - kPix.width()) / 2;
+        int pixmapY        = (height() - kPix.height()) / 2;
+
+        QRect finalSelection;
+
+        double scaleX = static_cast<double>(streamImage->width()) / kPix.width();
+        double scaleY = static_cast<double>(streamImage->height()) / kPix.height();
+
+        finalSelection.setX((rawSelection.x() - pixmapX) * scaleX);
+        finalSelection.setY((rawSelection.y() - pixmapY) * scaleY);
+        finalSelection.setWidth(rawSelection.width() * scaleX);
+        finalSelection.setHeight(rawSelection.height() * scaleY);
+
+        emit newSelection(finalSelection);
+        // determine selection, for example using QRect::intersects()
+        // and QRect::contains().
     }
+}
 
-    QRect rawSelection = rubberBand->geometry();
-    int pixmapX        = (width() - kPix.width()) / 2;
-    int pixmapY        = (height() - kPix.height()) / 2;
+void VideoWG::wheelEvent(QWheelEvent *event)
+{
+    if(overlayEnabled)
+    {
+        if(event->angleDelta().y() < 15.0)
+            drawScale *= 1.1;
+        if(event->angleDelta().y() > 15.0)
+            drawScale *= 0.9;
 
-    QRect finalSelection;
-
-    double scaleX = static_cast<double>(streamImage->width()) / kPix.width();
-    double scaleY = static_cast<double>(streamImage->height()) / kPix.height();
-
-    finalSelection.setX((rawSelection.x() - pixmapX) * scaleX);
-    finalSelection.setY((rawSelection.y() - pixmapY) * scaleY);
-    finalSelection.setWidth(rawSelection.width() * scaleX);
-    finalSelection.setHeight(rawSelection.height() * scaleY);
-
-    emit newSelection(finalSelection);
-    // determine selection, for example using QRect::intersects()
-    // and QRect::contains().
+        drawScale = std::min(drawScale, 1.0);
+    }
+    else
+    {
+        event->ignore();
+    }
 }
 
 bool VideoWG::debayer(const IBLOB *bp, const BayerParams &params)
@@ -194,22 +235,24 @@ void VideoWG::paintOverlay(QPixmap &imagePix)
     if (!overlayEnabled || m_EnabledOverlayElements.count() == 0) return;
 
     // Anchor - default to center of image
-    QPointF m_anchor (static_cast<float>(kPix.width() / 2), static_cast<float>(kPix.height()/2));
+    QPointF anchor(0, 0);
     scale = (static_cast<float>(kPix.width()) / static_cast<float>(streamW));
 
     // Apply any offset from (only) the first enabled anchor element
     bool foundAnchor = false;
     for (auto &oneElement : m_EnabledOverlayElements) {
         if (oneElement["Type"] == "Anchor" && !foundAnchor) {
-            m_anchor.setX(m_anchor.x() + oneElement["OffsetX"].toInt());
-            m_anchor.setY(m_anchor.y() + oneElement["OffsetY"].toInt());
+            anchor.setX(oneElement["OffsetX"].toInt());
+            anchor.setY(oneElement["OffsetY"].toInt());
             foundAnchor = true;
         }
     }
 
     painter->begin(&imagePix);
-    painter->translate(m_anchor);
-    painter->scale(scale, scale);
+    painter->translate(kPix.width() / 2.0, kPix.height() / 2.0);
+    painter->scale(scale / drawScale, scale / drawScale);
+    painter->translate(anchor);
+    painter->translate(-drawOffsetX, -drawOffsetY);
 
     for (auto &currentElement : m_EnabledOverlayElements) {
 
@@ -315,6 +358,13 @@ void VideoWG::toggleOverlay()
     } else if (overlayEnabled == true) {
         overlayEnabled = false;
     }
+}
+
+void VideoWG::resetFrame()
+{
+    drawOffsetX = 0;
+    drawOffsetY = 0;
+    drawScale = 1;
 }
 
 VideoWG::~VideoWG()
