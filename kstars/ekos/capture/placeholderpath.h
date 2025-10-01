@@ -37,6 +37,8 @@ class PlaceholderPath
             PP_ISO,        // uint
             PP_OFFSET,     // double
             PP_PIERSIDE,   // ISD::Mount::PierSide (int)
+            PP_HOSTNAME,   // QString
+            PP_CAMERA,     // QString
             PP_TEMPERATURE // double
         } PathProperty;
 

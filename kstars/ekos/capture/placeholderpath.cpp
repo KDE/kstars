@@ -11,6 +11,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QHostInfo>
 
 #include <cmath>
 #include <algorithm>
@@ -323,7 +324,7 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
 #if defined(Q_OS_WIN)
     re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|sequence|s))(?<level>\\d+)?)(?<sep>[_\\\\])?");
 #else
-    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|sequence|s))(?<level>\\d+)?)(?<sep>[_/])?");
+    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|hostname|H|cam|sequence|s))(?<level>\\d+)?)(?<sep>[_/])?");
 #endif
 
     while ((i = tempFormat.indexOf(re, i, &match)) != -1)
@@ -414,6 +415,14 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         {
             replacement = generateReplacement(pathPropertyMap, PP_PIERSIDE, glob || gettingSignature);
         }
+        else if (((match.captured("name") == "hostname") || (match.captured("name") == "H")))
+        {
+            replacement = KSUtils::sanitize(generateReplacement(pathPropertyMap, PP_HOSTNAME, glob || gettingSignature));
+        }
+        else if (match.captured("name") == "cam")
+        {
+            replacement = KSUtils::sanitize(generateReplacement(pathPropertyMap, PP_CAMERA, glob || gettingSignature));
+        }
         // Disable for now %d & %p tags to simplify
         //        else if ((match.captured("name") == "directory") || (match.captured("name") == "d") ||
         //                 (match.captured("name") == "path") || (match.captured("name") == "p"))
@@ -479,6 +488,8 @@ void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, QMap<P
     setPathProperty(pathPropertyMap, PP_BIN, job.getCoreProperty(SequenceJob::SJ_Binning));
     setPathProperty(pathPropertyMap, PP_PIERSIDE, QVariant(job.getPierSide()));
     setPathProperty(pathPropertyMap, PP_ISO, job.getCoreProperty(SequenceJob::SJ_ISO));
+    setPathProperty(pathPropertyMap, PP_HOSTNAME, QHostInfo::localHostName());
+    setPathProperty(pathPropertyMap, PP_CAMERA, job.getActiveCamera());
 
     // handle optional parameters
     if (job.getCoreProperty(SequenceJob::SJ_EnforceTemperature).toBool())
@@ -670,6 +681,8 @@ PlaceholderPath::PathPropertyType PlaceholderPath::propertyType(PathProperty pro
         case PP_TARGETNAME:
         case PP_FILTER:
         case PP_PIERSIDE:
+        case PP_HOSTNAME:
+        case PP_CAMERA:
             return PP_TYPE_STRING;
 
         case PP_DARKFLAT:

@@ -377,6 +377,11 @@ class SequenceJob : public QObject
             state->autoFocusReady = value;
         }
 
+        // ////////////////////////////////////////////////////////////////////////////
+        // Facade to devices
+        // ////////////////////////////////////////////////////////////////////////////
+        QString getActiveCamera() const;
+
         /**
          * @brief Central entry point to start all activities that are necessary
          *        before capturing may start. Signals {@see prepareComplete()} as soon as

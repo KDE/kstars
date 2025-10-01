@@ -571,6 +571,14 @@ void SequenceJob::setDome(ISD::Dome * dome)
     state->m_CameraState->hasDome = (dome != nullptr);
 }
 
+QString SequenceJob::getActiveCamera() const
+{
+    if (devices->getActiveCamera())
+        return devices->getActiveCamera()->getDeviceName();
+    else
+        return "";
+}
+
 double SequenceJob::currentTemperature() const
 {
     return devices->cameraTemperature();
