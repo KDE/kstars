@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-27 02:01+0000\n"
+"POT-Creation-Date: 2025-10-02 01:58+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -6121,7 +6121,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Perhubungan"
 
 #: ekos/align/align.cpp:1520 ekos/capture/cameraprocess.cpp:216
-#: ekos/capture/cameraprocess.cpp:635 ekos/focus/focus.cpp:6013
+#: ekos/capture/cameraprocess.cpp:635 ekos/focus/focus.cpp:6025
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6153,13 +6153,13 @@ msgstr "Padanan kurungan"
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1660 ekos/focus/focus.cpp:1951
+#: ekos/align/align.cpp:1660 ekos/focus/focus.cpp:1963
 #, fuzzy, kde-format
 msgid "Capturing image..."
 msgstr "imej boot"
 
 #: ekos/align/align.cpp:1750 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:3107
+#: ekos/focus/focus.cpp:3119
 #, fuzzy, kde-format
 msgid "Image received."
 msgstr "Memulakan proses perakaunan: "
@@ -6306,7 +6306,7 @@ msgid "Refresh is complete."
 msgstr "Mandriva Online"
 
 #: ekos/align/align.cpp:2654 ekos/auxiliary/darklibrary.cpp:1413
-#: ekos/focus/focus.cpp:1667
+#: ekos/focus/focus.cpp:1679
 #, fuzzy, kde-format
 msgid "Capture aborted."
 msgstr "Imej NFS"
@@ -6472,7 +6472,7 @@ msgid "dDE (arcsec)"
 msgstr "Bandar nama"
 
 #: ekos/align/align.cpp:3720 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5894
+#: ekos/focus/focus.cpp:5906
 #, fuzzy, kde-format
 msgid "Filter operation failed."
 msgstr "Bandar nama"
@@ -8429,7 +8429,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, shutterOpen)
 #: ekos/align/opsastrometryindexfiles.ui:276
 #: ekos/observatory/observatory.cpp:416 ekos/observatory/observatory.cpp:459
-#: ekos/observatory/observatory.cpp:463 ekos/observatory/observatory.cpp:574
+#: ekos/observatory/observatory.cpp:463 ekos/observatory/observatory.cpp:575
 #: ekos/observatory/observatory.ui:673
 #, fuzzy, kde-format
 msgid "Open"
@@ -11753,12 +11753,12 @@ msgstr ""
 msgid "Wavelength"
 msgstr "Panjang Katalaluan"
 
-#: ekos/auxiliary/filtermanager.cpp:574
+#: ekos/auxiliary/filtermanager.cpp:581
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:575
+#: ekos/auxiliary/filtermanager.cpp:582
 #, fuzzy, kde-format
 msgid "Confirm Filter"
 msgstr "ralat membuka fail"
@@ -12686,7 +12686,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, shutterClosed)
 #: ekos/auxiliary/serialportassistant.ui:264
 #: ekos/ekoslive/ekoslivedialog.ui:334 ekos/observatory/observatory.cpp:448
-#: ekos/observatory/observatory.cpp:453 ekos/observatory/observatory.cpp:576
+#: ekos/observatory/observatory.cpp:453 ekos/observatory/observatory.cpp:577
 #: ekos/observatory/observatory.ui:631 indi/guimanager.cpp:76
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:61
 #, fuzzy, kde-format, kde-kuit-format
@@ -14214,23 +14214,32 @@ msgid ""
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%P</span> "
 "or <span style=\" font-weight:600;\">%pierside</span>: The current mount's "
-"pier side.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">Placeholder<span style=\" font-weight:704;\"> %s*</span> or <span style="
-"\" font-weight:704;\">%sequence</span>: The image sequence identifier where "
-"* is the number of digits used (1-9). <span style=\" font-weight:704;\">This "
-"tag is mandatory and must be the last element in the format.</span></li></"
-"ul><p>Arbitrary text may also be included within the Format string, <span "
-"style=\" font-weight:704;\">except the % and \\ characters.</span> The / "
-"path character can be used to define arbitrary directories.</p><p>Notes:</"
-"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Tags are case sensitive in both their short and long forms.</"
-"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Only use the %Datetime tag "
-"in the filename portion of the format, not in the path definition.</li></"
-"ul></body></html>"
+"pier side.</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%H</span> "
+"or <span style=\" font-weight:600;\">%hostname</span>: The hostname running "
+"EKOS.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Placeholder <span style=\" font-weight:600;\">%cam</"
+"span>: The name of the active camera.</li></ul><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Placeholder<span style=\" font-weight:704;\"> %s*</span> "
+"or <span style=\" font-weight:704;\">%sequence</span>: The image sequence "
+"identifier where * is the number of digits used (1-9). <span style=\" font-"
+"weight:704;\">This tag is mandatory and must be the last element in the "
+"format.</span></li></ul><p>Arbitrary text may also be included within the "
+"Format string, <span style=\" font-weight:704;\">except the % and \\ "
+"characters.</span> The / path character can be used to define arbitrary "
+"directories.</p><p>Notes:</p><ul style=\"margin-top: 0px; margin-bottom: "
+"0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Tags are case sensitive in both their "
+"short and long forms.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Only use the %Datetime tag in the filename portion of the format, not in "
+"the path definition.</li></ul></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
@@ -14946,8 +14955,8 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2113 ekos/focus/focus.cpp:6065
-#: ekos/focus/focus.cpp:6089
+#: ekos/capture/cameraprocess.cpp:2113 ekos/focus/focus.cpp:6077
+#: ekos/focus/focus.cpp:6101
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Mula Kamera ialah inci saat."
@@ -14957,7 +14966,7 @@ msgstr "Mula Kamera ialah inci saat."
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2138 ekos/focus/focus.cpp:6070
+#: ekos/capture/cameraprocess.cpp:2138 ekos/focus/focus.cpp:6082
 #: ekos/guide/guide.cpp:1010
 #, fuzzy, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -15458,7 +15467,7 @@ msgstr "Memulakan VNC"
 msgid "Dithering..."
 msgstr "Lanjutan URL uketerangan atau"
 
-#: ekos/capture/capturepreviewwidget.cpp:185 ekos/focus/focus.cpp:1052
+#: ekos/capture/capturepreviewwidget.cpp:185 ekos/focus/focus.cpp:1064
 #, kde-format
 msgid "Delete directly, do not move to trash."
 msgstr ""
@@ -17803,540 +17812,540 @@ msgstr "Bandar nama"
 msgid "Focus Mechanics"
 msgstr "Bandar nama"
 
-#: ekos/focus/focus.cpp:932
+#: ekos/focus/focus.cpp:944
 #, fuzzy, kde-format
 msgid "Finally found temperature source %1"
 msgstr "Pada Ahli:"
 
-#: ekos/focus/focus.cpp:1079
+#: ekos/focus/focus.cpp:1091
 #, kde-format
 msgid "Delete the corresponding focus frames?"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1079
+#: ekos/focus/focus.cpp:1091
 #, fuzzy, kde-format
 msgid "Delete focus frames?"
 msgstr "Tapis"
 
-#: ekos/focus/focus.cpp:1098
+#: ekos/focus/focus.cpp:1110
 #, fuzzy, kde-format
 msgid "No Focuser connected."
 msgstr "s."
 
-#: ekos/focus/focus.cpp:1105 ekos/focus/focus.cpp:4978
+#: ekos/focus/focus.cpp:1117 ekos/focus/focus.cpp:4990
 #, fuzzy, kde-format
 msgid "No CCD connected."
 msgstr "s."
 
-#: ekos/focus/focus.cpp:1112
+#: ekos/focus/focus.cpp:1124
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1123
+#: ekos/focus/focus.cpp:1135
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1130
+#: ekos/focus/focus.cpp:1142
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1138
+#: ekos/focus/focus.cpp:1150
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1145 ekos/focus/focus.cpp:5405
-#: ekos/focus/focus.cpp:5680
+#: ekos/focus/focus.cpp:1157 ekos/focus/focus.cpp:5417
+#: ekos/focus/focus.cpp:5692
 #, fuzzy, kde-format
 msgid "Adjust Focus"
 msgstr "Memulakan VNC"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1145 ekos/focus/focus.cpp:5407
-#: ekos/focus/focus.cpp:5680 ekos/focus/opsfocussettings.ui:503
+#: ekos/focus/focus.cpp:1157 ekos/focus/focus.cpp:5419
+#: ekos/focus/focus.cpp:5692 ekos/focus/opsfocussettings.ui:503
 #: ekos/focus/opsfocussettings.ui:583
 #, fuzzy, kde-format
 #| msgid "Advanced"
 msgid "Adaptive Focus"
 msgstr "Lanjutan"
 
-#: ekos/focus/focus.cpp:1148
+#: ekos/focus/focus.cpp:1160
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1156
+#: ekos/focus/focus.cpp:1168
 #, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1176
+#: ekos/focus/focus.cpp:1188
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1337
+#: ekos/focus/focus.cpp:1349
 #, fuzzy, kde-format
 #| msgid "Advanced"
 msgid "Autofocus starting..."
 msgstr "Lanjutan"
 
-#: ekos/focus/focus.cpp:1351
+#: ekos/focus/focus.cpp:1363
 #, fuzzy, kde-format
 msgid "Autofocus operation started"
 msgstr "Kordinat Bulan"
 
-#: ekos/focus/focus.cpp:1503 ekos/focus/focus.cpp:2278
+#: ekos/focus/focus.cpp:1515 ekos/focus/focus.cpp:2290
 #, fuzzy, kde-format
 msgid "Detection complete."
 msgstr "Selesai"
 
-#: ekos/focus/focus.cpp:1672
+#: ekos/focus/focus.cpp:1684
 #, fuzzy, kde-format
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Padanan kurungan"
 
-#: ekos/focus/focus.cpp:1686
+#: ekos/focus/focus.cpp:1698
 #, fuzzy, kde-format
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "Padanan kurungan"
 
-#: ekos/focus/focus.cpp:1690
+#: ekos/focus/focus.cpp:1702
 #, fuzzy, kde-format
 msgid "Star detection still in progress, aborting..."
 msgstr "Padanan kurungan"
 
-#: ekos/focus/focus.cpp:1739
+#: ekos/focus/focus.cpp:1751
 #, fuzzy, kde-format
 msgid "Autofocus aborted."
 msgstr "Selesai"
 
-#: ekos/focus/focus.cpp:1843
+#: ekos/focus/focus.cpp:1855
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1850
+#: ekos/focus/focus.cpp:1862
 #, fuzzy, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Perhubungan"
 
-#: ekos/focus/focus.cpp:1871
+#: ekos/focus/focus.cpp:1883
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1877
+#: ekos/focus/focus.cpp:1889
 #, fuzzy, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Perhubungan"
 
-#: ekos/focus/focus.cpp:1995
+#: ekos/focus/focus.cpp:2007
 #, fuzzy, kde-format
 msgid "At minimum focus position %1..."
 msgstr "Peningkatan Kanan"
 
-#: ekos/focus/focus.cpp:2010
+#: ekos/focus/focus.cpp:2022
 #, fuzzy, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "imej boot"
 
-#: ekos/focus/focus.cpp:2019
+#: ekos/focus/focus.cpp:2031
 #, fuzzy, kde-format
 msgid "At maximum focus position %1..."
 msgstr "Peningkatan Kanan"
 
-#: ekos/focus/focus.cpp:2035
+#: ekos/focus/focus.cpp:2047
 #, fuzzy, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "Peningkatan Kanan"
 
-#: ekos/focus/focus.cpp:2062
+#: ekos/focus/focus.cpp:2074
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2069
+#: ekos/focus/focus.cpp:2081
 #, fuzzy, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Perhubungan"
 
-#: ekos/focus/focus.cpp:2083
+#: ekos/focus/focus.cpp:2095
 #, fuzzy, kde-format
 msgid "outward"
 msgstr "Bandar nama"
 
-#: ekos/focus/focus.cpp:2083
+#: ekos/focus/focus.cpp:2095
 #, fuzzy, kde-format
 msgid "inward"
 msgstr "Bandar nama"
 
-#: ekos/focus/focus.cpp:2100
+#: ekos/focus/focus.cpp:2112
 #, fuzzy, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Pada Ahli:"
 
-#: ekos/focus/focus.cpp:2106
+#: ekos/focus/focus.cpp:2118
 #, fuzzy, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Pada Ahli:"
 msgstr[1] "Pada Ahli:"
 
-#: ekos/focus/focus.cpp:2112
+#: ekos/focus/focus.cpp:2124
 #, fuzzy, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Pada Ahli:"
 
-#: ekos/focus/focus.cpp:2147
+#: ekos/focus/focus.cpp:2159
 #, fuzzy, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Mula Kamera ialah inci saat."
 
-#: ekos/focus/focus.cpp:2154
+#: ekos/focus/focus.cpp:2166
 #, fuzzy, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "Pada Ahli:"
 
-#: ekos/focus/focus.cpp:2165
+#: ekos/focus/focus.cpp:2177
 #, fuzzy, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Pada Ahli:"
 
-#: ekos/focus/focus.cpp:2211
+#: ekos/focus/focus.cpp:2223
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2220
+#: ekos/focus/focus.cpp:2232
 #, fuzzy, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Imej NFS"
 
-#: ekos/focus/focus.cpp:2481
+#: ekos/focus/focus.cpp:2493
 #, fuzzy, kde-format
 msgid "Detecting sources..."
 msgstr "Data LPD"
 
-#: ekos/focus/focus.cpp:2617
+#: ekos/focus/focus.cpp:2629
 #, fuzzy, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Kordinat Bulan"
 
-#: ekos/focus/focus.cpp:2631
+#: ekos/focus/focus.cpp:2643
 #, fuzzy, kde-format
 msgid "Autofocus operation failed"
 msgstr "Kordinat Bulan"
 
-#: ekos/focus/focus.cpp:2699
+#: ekos/focus/focus.cpp:2711
 #, fuzzy, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Selesai"
 msgstr[1] "Selesai"
 
-#: ekos/focus/focus.cpp:2785
+#: ekos/focus/focus.cpp:2797
 #, fuzzy, kde-format
 msgid "Settling for %1s..."
 msgstr "Bandar nama"
 
-#: ekos/focus/focus.cpp:2793
+#: ekos/focus/focus.cpp:2805
 #, fuzzy, kde-format
 msgid "Settling complete."
 msgstr "Selesai"
 
-#: ekos/focus/focus.cpp:2806
+#: ekos/focus/focus.cpp:2818
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2839
+#: ekos/focus/focus.cpp:2851
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3172
+#: ekos/focus/focus.cpp:3184
 #, fuzzy, kde-format
 msgid "Capture complete. Select a region of interest."
 msgstr "Tetap Sistem Koordinat Euclidean"
 
-#: ekos/focus/focus.cpp:3213
+#: ekos/focus/focus.cpp:3225
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3307
+#: ekos/focus/focus.cpp:3319
 #, fuzzy, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Tetap Sistem Koordinat Euclidean"
 
-#: ekos/focus/focus.cpp:3338
+#: ekos/focus/focus.cpp:3350
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3359
+#: ekos/focus/focus.cpp:3371
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "HFR %1 > Limit %2"
 msgstr "Terbenam matahari: %1"
 
-#: ekos/focus/focus.cpp:3501
+#: ekos/focus/focus.cpp:3513
 #, fuzzy, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Selesai"
 
-#: ekos/focus/focus.cpp:3512 ekos/focus/focus.cpp:3774
-#: ekos/focus/focus.cpp:4382
+#: ekos/focus/focus.cpp:3524 ekos/focus/focus.cpp:3786
+#: ekos/focus/focus.cpp:4394
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3518 ekos/focus/focus.cpp:4388
+#: ekos/focus/focus.cpp:3530 ekos/focus/focus.cpp:4400
 #, fuzzy, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Gagal untuk muatkan imej \"%1\"\n"
 
-#: ekos/focus/focus.cpp:3524 ekos/focus/focus.cpp:4394
+#: ekos/focus/focus.cpp:3536 ekos/focus/focus.cpp:4406
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3711
+#: ekos/focus/focus.cpp:3723
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3731
+#: ekos/focus/focus.cpp:3743
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3757
+#: ekos/focus/focus.cpp:3769
 #, fuzzy, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "imej boot"
 
-#: ekos/focus/focus.cpp:3758
+#: ekos/focus/focus.cpp:3770
 #, fuzzy, kde-format
 msgid "Scanning for starting position..."
 msgstr "tidak dapat membuka fail tetapan `%s': %s"
 
-#: ekos/focus/focus.cpp:3780
+#: ekos/focus/focus.cpp:3792
 #, fuzzy, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Gagal untuk muatkan imej \"%1\"\n"
 
-#: ekos/focus/focus.cpp:3789
+#: ekos/focus/focus.cpp:3801
 #, fuzzy, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Selesai"
 
-#: ekos/focus/focus.cpp:3808
+#: ekos/focus/focus.cpp:3820
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3822
+#: ekos/focus/focus.cpp:3834
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3835
+#: ekos/focus/focus.cpp:3847
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3836
+#: ekos/focus/focus.cpp:3848
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3905
+#: ekos/focus/focus.cpp:3917
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3907
+#: ekos/focus/focus.cpp:3919
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "R2=%1 < Limit=%2"
 msgstr "Terbenam matahari: %1"
 
-#: ekos/focus/focus.cpp:3915
+#: ekos/focus/focus.cpp:3927
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3925
+#: ekos/focus/focus.cpp:3937
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3960
+#: ekos/focus/focus.cpp:3972
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3962
+#: ekos/focus/focus.cpp:3974
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4023
+#: ekos/focus/focus.cpp:4035
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4030
+#: ekos/focus/focus.cpp:4042
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4136
+#: ekos/focus/focus.cpp:4148
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:4200
+#: ekos/focus/focus.cpp:4212
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4211
+#: ekos/focus/focus.cpp:4223
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4221
+#: ekos/focus/focus.cpp:4233
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4250
+#: ekos/focus/focus.cpp:4262
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4367
+#: ekos/focus/focus.cpp:4379
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:4371
+#: ekos/focus/focus.cpp:4383
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4485 ekos/focus/focus.cpp:4508
-#: ekos/focus/focus.cpp:4693 ekos/focus/focus.cpp:4786
-#: ekos/focus/focus.cpp:4868 ekos/focus/focus.cpp:4953
+#: ekos/focus/focus.cpp:4497 ekos/focus/focus.cpp:4520
+#: ekos/focus/focus.cpp:4705 ekos/focus/focus.cpp:4798
+#: ekos/focus/focus.cpp:4880 ekos/focus/focus.cpp:4965
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4569 ekos/focus/focus.cpp:4709
+#: ekos/focus/focus.cpp:4581 ekos/focus/focus.cpp:4721
 #, fuzzy, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Selesai"
 
-#: ekos/focus/focus.cpp:4670 ekos/focus/focus.cpp:4767
-#: ekos/focus/focus.cpp:4849 ekos/focus/focus.cpp:4890
+#: ekos/focus/focus.cpp:4682 ekos/focus/focus.cpp:4779
+#: ekos/focus/focus.cpp:4861 ekos/focus/focus.cpp:4902
 #, fuzzy, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Bandar nama"
 
-#: ekos/focus/focus.cpp:4994
+#: ekos/focus/focus.cpp:5006
 #, fuzzy, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Bandar nama"
 
-#: ekos/focus/focus.cpp:5375
+#: ekos/focus/focus.cpp:5387
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5381
+#: ekos/focus/focus.cpp:5393
 #, fuzzy, kde-format
 msgid "Focus star is selected."
 msgstr "Tiada Objek Dipilih"
 
-#: ekos/focus/focus.cpp:5383
+#: ekos/focus/focus.cpp:5395
 #, fuzzy, kde-format
 msgid "Region of interest is selected."
 msgstr "Tiada Objek Dipilih"
 
-#: ekos/focus/focus.cpp:5403
+#: ekos/focus/focus.cpp:5415
 #, fuzzy, kde-format
 msgid "Autofocus"
 msgstr "Memulakan VNC"
 
-#: ekos/focus/focus.cpp:5411
+#: ekos/focus/focus.cpp:5423
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5419
+#: ekos/focus/focus.cpp:5431
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5432
+#: ekos/focus/focus.cpp:5444
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 
-#: ekos/focus/focus.cpp:5437
+#: ekos/focus/focus.cpp:5449
 #, fuzzy, kde-format
 msgid "Capturing to check HFR..."
 msgstr "imej boot"
 
-#: ekos/focus/focus.cpp:5567
+#: ekos/focus/focus.cpp:5579
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5573
+#: ekos/focus/focus.cpp:5585
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5584
+#: ekos/focus/focus.cpp:5596
 #, fuzzy, kde-format
 msgid "Focuser already at %1..."
 msgstr "Pada Ahli:"
 
-#: ekos/focus/focus.cpp:5683
+#: ekos/focus/focus.cpp:5695
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5717
+#: ekos/focus/focus.cpp:5729
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Pada Ahli:"
 
-#: ekos/focus/focus.cpp:6113
+#: ekos/focus/focus.cpp:6125
 #, fuzzy, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Gagal untuk muatkan imej \"%1\"\n"
 
-#: ekos/focus/focus.cpp:6128 ekos/focus/focus.cpp:6153
+#: ekos/focus/focus.cpp:6140 ekos/focus/focus.cpp:6165
 #, fuzzy, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Mula Kamera ialah inci saat."
 
-#: ekos/focus/focus.cpp:6452
+#: ekos/focus/focus.cpp:6464
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -31758,12 +31767,12 @@ msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "Port tempatan:"
 
-#: indi/streamwg.cpp:344 indi/streamwg.cpp:391
+#: indi/streamwg.cpp:345 indi/streamwg.cpp:392
 #, fuzzy, kde-format
 msgid "Stop recording"
 msgstr "Henti $arahan"
 
-#: indi/streamwg.cpp:349 indi/streamwg.cpp:359
+#: indi/streamwg.cpp:350 indi/streamwg.cpp:360
 #, fuzzy, kde-format
 msgid "Start recording"
 msgstr "Bandar nama"
