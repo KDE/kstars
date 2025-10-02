@@ -4,6 +4,90 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.7.9
+
+8cd70e12b 2025-10-02 Jasem Mutlaq         INDI Sync
+3b71b2e6e 2025-10-01 Wolfgang Reissenberger Placeholders for camera and hostname added
+8e2d7b2e0 2025-10-01 Jasem Mutlaq         Send time formatted only in ISO
+64971d737 2025-10-01 Dušan Poizl          Add zoom and pan when using colimation overlay
+be9f74a65 2025-10-01 Ed Lee               Fixes observatory default weather source
+d77154f99 2025-10-01 John Evans           Add debug to help diagnose Filter Offsets bug
+24a44d934 2025-09-30 Jasem Mutlaq         Add capabilitiy to return additional days for riseset times
+4d8d1eed3 2025-09-30 Hy Murveit           Correct bug in paa calculation
+0cf2865df 2025-09-28 Jasem Mutlaq         Update README since few information was out of date. Add Qt6 instructions and how to install on Arch linux. Update documentation website.
+f6772eb95 2025-09-28 Hy Murveit           Bugfix: image overlays only fetched first 256 overlays from the database
+f121f9a30 2025-09-26 Kunda Ki             Fix various typos (cont.)
+09137df75 2025-09-26 Jasem Mutlaq         Fix an issue where EkosLive credentials were not saved unless all managers are connected which is not required
+6b4995449 2025-09-24 Jasem Mutlaq         Fix default settings
+d95ff263a 2025-09-23 Jasem Mutlaq         use DYNAMIC_THRESHOLD_STARS
+4bff7ba31 2025-09-23 Jasem Mutlaq         Behave similar to the other blind operations
+d5a6c780d 2025-09-23 Jasem Mutlaq         Initial work on dynamic threshold
+0335043c2 2025-09-22 John Evans           Live Stacker: Fix to compile directives for openSUSE (No OpenCV)
+d36fe40f9 2025-09-22 Kunda Ki             Fix various typos (cont.)
+4367e0f5e 2025-09-22 Hy Murveit           Add overlay button to fits solver
+a49c14080 2025-09-19 Kunda Ki             Fix various typos
+f4696df65 2025-09-19 Jasem Mutlaq         Fix searching for Henry-Draper deep sky stars in the star component.
+934e99d19 2025-09-19 Jasem Mutlaq         Update target horizontal coordinates before calculating diff
+bba5e95d5 2025-09-17 Jasem Mutlaq         Fix INDI properties pointer issue. Send dAZ and dAL in report
+70970cc73 2025-09-17 Hy Murveit           Make image overlays work with (stretched) fits files
+0738946e8 2025-09-15 John Evans           LiveStacker UI Refactor
+32c52a4af 2025-09-14 Jasem Mutlaq         Use KDE_INSTALL_DATADIR
+a92a86aba 2025-09-13 Jasem Mutlaq         Add missing Sync dbus function
+98a7f4c07 2025-09-09 Andreas Sturmlechner Drop obsolete KDocTools dependency
+b67c55e34 2025-09-11 Jasem Mutlaq         Remove KCrash from test files
+35b981f8e 2025-09-11 Jasem Mutlaq         Do not bundle sentry but link against the shared library instead
+4a47f73ea 2025-08-26 Jasem Mutlaq         Disable senty unless explicitly enabled by ENABLE_SENTRY flag
+64fe7d2fa 2025-08-21 Jasem Mutlaq         More work
+3090cdd7c 2025-08-18 Jasem Mutlaq         Initial sentry integration
+2896bb167 2025-09-07 Jasem Mutlaq         Minor fixes to INDI migration
+324fcd359 2025-09-02 Jasem Mutlaq         Migrate to new INDI properties
+3c6d67018 2025-09-06 Wolfgang Reissenberger Bug fix scheduler hanging after alignment
+e18d69b3e 2025-09-06 Wolfgang Reissenberger Bugfix PHD2 abort during dithering
+482ba4dbc 2025-09-01 Jasem Mutlaq         Migrate to modern INDI properties usage
+89020c0cf 2025-09-01 Jasem Mutlaq         Move mount status functions to INDI::Mount and update both scheduler and Analyze to utilize them
+19ebcd238 2025-09-01 Jasem Mutlaq         Use multithread logs to improve performance and reliability
+e11877787 2025-08-29 Jasem Mutlaq         Add missing opencv video component
+327337ba5 2025-08-29 Jasem Mutlaq         use Windows qt69
+c08b5e1e7 2025-08-29 Jasem Mutlaq         Update .gitlab-ci.yml file
+352a16cf0 2025-08-29 Jasem Mutlaq         GNU savannah is unreliable and causes many flatpak failures so switch to INDI library hosting.
+1748f52c1 2025-07-26 Kevin Hester         Update README with current build instructions for fedora
+1f0d1c03b 2025-08-18 Sertonix Norson      Fix build failure when qsizetype is not long long
+a9103dfb4 2025-08-26 Jasem Mutlaq         Fix cmake error
+207f9e882 2025-08-26 Jasem Mutlaq         Remove highgui from flatpak and debian dependencies
+6791a3feb 2025-08-26 John Evans           Remove OpenCV highgui component
+cd978feca 2025-08-25 Jasem Mutlaq         Fix crash due to invalid mount index
+c52f11908 2025-08-25 Jasem Mutlaq         Use a single flat BUILD_WITH_QT6 instead of BUILD_QT5 since BUILD_WITH_QT6 is used by KDE CI
+1661bc294 2025-08-25 Jasem Mutlaq         Check if imageData is valid
+74b40e26e 2025-08-22 Jasem Mutlaq         Need to use QT_MAJOR_VERSION as KDE EMC scripts use this value
+2283192bd 2025-08-22 Jasem Mutlaq         Bump versions
+4a538182f 2025-08-22 Jasem Mutlaq         BUILD_WITH_QT6 should not be used
+eda50f933 2025-08-22 Jasem Mutlaq         Need to move the includes before find_package(Qt6 ...) since this affects the share directory on Windows.
+787cff059 2025-08-21 Robert Lancaster     Fixing the MacOS Data Directory install commands to make them more reliable
+00b26e3e9 2025-08-21 Jasem Mutlaq         Do not reconnect while already in progress
+39b614e9b 2025-08-20 Jasem Mutlaq         Enable OpenCV for Windows
+14201572d 2025-08-18 Jasem Mutlaq         Possible fix for occasional internal locks in Qt6
+346eed0b8 2025-08-17 Jasem Mutlaq         Use client state for message channel as well with exception for notifications
+1876f0c09 2025-08-17 Jasem Mutlaq         remove obsolete messages from ekoslive
+4f1e8dfb0 2025-08-15 Jasem Mutlaq         Add one more sanity check
+995df92fe 2025-08-15 Jasem Mutlaq         Add more logging to job evaluation
+ac3c6dd96 2025-08-14 Hy Murveit           fix qt5 compile
+a2a296c46 2025-08-14 Hy Murveit           Fits34
+3ed744d4f 2025-08-14 Jasem Mutlaq         Update appdata as well
+c46ac1a96 2025-08-14 Hy Murveit           Create MinimizeWidget, refactor ImagingPlanner to use it.
+358afe11b 2025-08-14 Jasem Mutlaq         KStars 3.7.9 development release cycle
+25bbdfe30 2025-08-13 Jasem Mutlaq         guiding should use value not text
+d3678ea12 2025-08-11 Jasem Mutlaq         We no longer have docs to install
+0a4d97a05 2025-08-10 Jasem Mutlaq         INDI drivers sync
+e533b3d68 2025-08-10 Robert Lancaster     Fixing some kstars file installs for the qt6 build for macOS and changing the phonon backend
+ba20b07ad 2025-08-10 Ben Cooksley         Both KStarsLib and KStarsLiteLib link to LibKSDataHandlers. Stop double linking to them as this upsets MSVC
+5b5c46605 2025-08-10 Ben Cooksley         Port logic for Windows Store publishing to Qt 6
+d9778525f 2025-08-10 Ben Cooksley         We no longer need a custom stage order, re-inherit the default workflow staging
+363050b9f 2025-08-10 Ben Cooksley         Android Qt 5 is no longer a thing, remove this mention
+8bf49dd32 2025-08-10 Ben Cooksley         JSON schema validation passes, make this job mandatory again
+a75bd5a5b 2025-08-10 Ben Cooksley         Remove comments which are not valid JSON, how VSCode ingests this....
+65fc5a30d 2025-08-10 Ben Cooksley         Apply a core usage limit to KDE CI based jobs
+4da093916 2025-08-07 Jasem Mutlaq         use count method for accurate and necessary driver total
+
 3.7.8
 
 966e771ff 2025-08-07 Jasem Mutlaq         Fix modules not getting created due to sync devices mismatch                                                                                          
