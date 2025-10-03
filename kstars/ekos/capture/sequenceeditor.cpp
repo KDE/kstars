@@ -123,9 +123,9 @@ void SequenceEditor::onStandAloneShow()
     m_camera->loadSaveBox->setEnabled(true);
     m_camera->loadSaveBox->setVisible(true);
     connect(m_camera->esqSaveAsB, &QPushButton::clicked, m_camera.get(),
-            &Camera::saveSequenceQueueAs);
+            &Camera::saveSequenceQueueAs, Qt::UniqueConnection);
     connect(m_camera->esqLoadB, &QPushButton::clicked, m_camera.get(),
-            static_cast<void(Camera::*)()>(&Camera::loadSequenceQueue));
+            static_cast<void(Camera::*)()>(&Camera::loadSequenceQueue), Qt::UniqueConnection);
 
     m_camera->FilterPosCombo->clear();
     if (m_Settings.contains(KEY_FILTERS))
