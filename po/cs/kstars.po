@@ -7742,10 +7742,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDynamicThreshold)
 #: ekos/align/opsalign.ui:263
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Dynamic Threshold"
-msgstr "Práh"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_AstrometryUseRotator)
 #: ekos/align/opsalign.ui:285
@@ -28440,10 +28439,9 @@ msgid "Cycle through stretch presets."
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:37
-#, fuzzy, kde-format
-#| msgid "Stopping"
+#, kde-format
 msgid "Stopping..."
-msgstr "Zastavuji"
+msgstr "Zastavuji..."
 
 #: fitsviewer/fitstab.cpp:68
 #, kde-format
@@ -28670,23 +28668,19 @@ msgid "(%1) Watching"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:1456 fitsviewer/fitstab.cpp:1462
-#, fuzzy, kde-format
-#| msgctxt "integrated flux value"
-#| msgid "%1 %2"
+#, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
 #: fitsviewer/fitstab.cpp:1460
-#, fuzzy, kde-format
-#| msgid "Stopped"
+#, kde-format
 msgid "Stopped (%1)"
-msgstr "Zastaveno"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:1461
-#, fuzzy, kde-format
-#| msgid "(%1) %2"
+#, kde-format
 msgid "(%1)"
-msgstr "(%1) %2"
+msgstr "(%1)"
 
 #: fitsviewer/fitsview.cpp:658 fitsviewer/fitsview.cpp:669
 #, kde-format
@@ -29033,10 +29027,9 @@ msgid "Stacking Complete"
 msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:1213
-#, fuzzy, kde-format
-#| msgid "Stopped"
+#, kde-format
 msgid "Stacking Stopped"
-msgstr "Zastaveno"
+msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:1488
 #, kde-format
@@ -29154,14 +29147,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:250
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Signal-to-noise ratio Max / Min / Mean of the "
 "processed subs</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:253
@@ -29204,12 +29194,11 @@ msgstr "Uložit nastavení"
 
 #. i18n: ectx: property (toolTip), widget (FITSMemoryMonitor, MemMonitor)
 #: fitsviewer/livestacking.ui:369
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Memory monitor. Double click to toggle text on / off.</"
 "p></body></html>"
-msgstr "<html><head/><body><p>Oddálit pro osu X.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, GeneralProcMinimized)
 #: fitsviewer/livestacking.ui:379
@@ -29259,10 +29248,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:571
-#, fuzzy, kde-format
-#| msgid "Kernel:"
+#, kde-format
 msgid "  Kernel:"
-msgstr "Jádro:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenSigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
@@ -29287,10 +29275,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:621
-#, fuzzy, kde-format
-#| msgid "Sigma:"
+#, kde-format
 msgid "  PSF Sigma:"
-msgstr "Sigma:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
@@ -29528,10 +29515,9 @@ msgstr "Totéž, co v protilehlém panelu"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:1504
-#, fuzzy, kde-format
-#| msgid "Image height:"
+#, kde-format
 msgid "  Frame Weight: "
-msgstr "Výška obrázku:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, pixelRejLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, Rejection)
