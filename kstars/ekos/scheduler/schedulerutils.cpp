@@ -34,7 +34,7 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root, SchedulerJob *leadJob)
     QDateTime startupTime, completionTime;
     int completionRepeats = 0;
     bool enforceTwilight = false, enforceArtificialHorizon = false,
-         track = false, focus = false, align = false, guide = false;
+                                  track = false, focus = false, align = false, guide = false;
 
 
     XMLEle *ep, *subEP;
@@ -97,7 +97,6 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root, SchedulerJob *leadJob)
             {
                 if (!strcmp("MinimumAltitude", pcdataXMLEle(subEP)))
                 {
-                    Options::setEnableAltitudeLimits(true);
                     minimumAltitude = cLocale.toDouble(findXMLAttValu(subEP, "value"));
                 }
                 else if (!strcmp("MoonSeparation", pcdataXMLEle(subEP)))
