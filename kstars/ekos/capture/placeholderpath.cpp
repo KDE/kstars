@@ -417,11 +417,13 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         }
         else if (((match.captured("name") == "hostname") || (match.captured("name") == "H")))
         {
-            replacement = KSUtils::sanitize(generateReplacement(pathPropertyMap, PP_HOSTNAME, glob || gettingSignature));
+            replacement = KSUtils::sanitize(generateReplacement(pathPropertyMap, PP_HOSTNAME,
+                                            (glob || gettingSignature) && pathPropertyMap[PP_HOSTNAME].isValid() == false));
         }
         else if (match.captured("name") == "cam")
         {
-            replacement = KSUtils::sanitize(generateReplacement(pathPropertyMap, PP_CAMERA, glob || gettingSignature));
+            replacement = KSUtils::sanitize(generateReplacement(pathPropertyMap, PP_CAMERA,
+                                            (glob || gettingSignature) && pathPropertyMap[PP_CAMERA].isValid() == false));
         }
         // Disable for now %d & %p tags to simplify
         //        else if ((match.captured("name") == "directory") || (match.captured("name") == "d") ||
