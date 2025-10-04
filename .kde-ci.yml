@@ -40,9 +40,6 @@ Dependencies:
 #- 'on': ['Android']
 #  'require':
 
-Environment:
-  CMAKE_VERBOSE_MAKEFILE: "ON"
-
 Options:
   in-source-build: False
   core-usage-limit: 8
