@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-02 01:58+0000\n"
+"POT-Creation-Date: 2025-10-05 01:51+0000\n"
 "PO-Revision-Date: 2025-09-14 15:11+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -30813,12 +30813,12 @@ msgstr ""
 "Предупреждение: заданието \"%1\" има недостъпна последователност \"%2\", "
 "маркира се като невалидна."
 
-#: ekos/scheduler/schedulerutils.cpp:373
+#: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
 msgstr "Не може да се отвори файлът на опашката с последователност \"%1\""
 
-#: ekos/scheduler/schedulerutils.cpp:445
+#: ekos/scheduler/schedulerutils.cpp:444
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
@@ -30828,7 +30828,7 @@ msgstr ""
 "периодичните и/или HFR процедури, зададени в момента в нейната "
 "последователност, няма да се изпълнят."
 
-#: ekos/scheduler/schedulerutils.cpp:473
+#: ekos/scheduler/schedulerutils.cpp:472
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr "Задача \"%1\" %2x%3\" %4"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-02 01:58+0000\n"
+"POT-Creation-Date: 2025-10-05 01:51+0000\n"
 "PO-Revision-Date: 2024-10-08 14:43+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -27895,19 +27895,19 @@ msgstr ""
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
 
-#: ekos/scheduler/schedulerutils.cpp:373
+#: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
 msgstr ""
 
-#: ekos/scheduler/schedulerutils.cpp:445
+#: ekos/scheduler/schedulerutils.cpp:444
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
 "procedures currently set in its sequence will not occur."
 msgstr ""
 
-#: ekos/scheduler/schedulerutils.cpp:473
+#: ekos/scheduler/schedulerutils.cpp:472
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr ""

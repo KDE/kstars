@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-02 01:58+0000\n"
+"POT-Creation-Date: 2025-10-05 01:51+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -32558,12 +32558,12 @@ msgstr ""
 "Atenção: a tarefa '%1' tem uma sequência inacessível '%2', a marcar como "
 "inválida."
 
-#: ekos/scheduler/schedulerutils.cpp:373
+#: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
 msgstr "Não foi possível aceder ao ficheiro da fila de sequência '%1'"
 
-#: ekos/scheduler/schedulerutils.cpp:445
+#: ekos/scheduler/schedulerutils.cpp:444
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
@@ -32573,7 +32573,7 @@ msgstr ""
 "procedimentos periódicos e/ou HFR definidos de momento nesta sequência não "
 "irão ocorrer."
 
-#: ekos/scheduler/schedulerutils.cpp:473
+#: ekos/scheduler/schedulerutils.cpp:472
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr "Tarefa '%1' %2x%3\" %4"

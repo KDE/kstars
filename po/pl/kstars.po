@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1719473 $
+# Version: $Revision: 1719613 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-02 01:58+0000\n"
+"POT-Creation-Date: 2025-10-05 01:51+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -31206,12 +31206,12 @@ msgstr ""
 "Uwaga: zadanie '%1' ma niedostępny szereg czynności '%2', więc oznaczono je "
 "jako nieprawidłowe."
 
-#: ekos/scheduler/schedulerutils.cpp:373
+#: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
 msgstr "Nie można otworzyć pliku kolejki '%1'"
 
-#: ekos/scheduler/schedulerutils.cpp:445
+#: ekos/scheduler/schedulerutils.cpp:444
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
@@ -31220,7 +31220,7 @@ msgstr ""
 "Uwaga: w zadaniu '%1' wyłączono krok ogniskowania, czynności okresowe i/lub "
 "HFR obecnie ustawione w tej sekwencji nie nastąpią."
 
-#: ekos/scheduler/schedulerutils.cpp:473
+#: ekos/scheduler/schedulerutils.cpp:472
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr "Zadanie '%1' %2x%3\" %4"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-02 01:58+0000\n"
+"POT-Creation-Date: 2025-10-05 01:51+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -30146,20 +30146,20 @@ msgstr ""
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "Klientas"
 
-#: ekos/scheduler/schedulerutils.cpp:373
+#: ekos/scheduler/schedulerutils.cpp:372
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open sequence queue file '%1'"
 msgstr "Nepavyko atverti „%1“ failo."
 
-#: ekos/scheduler/schedulerutils.cpp:445
+#: ekos/scheduler/schedulerutils.cpp:444
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
 "procedures currently set in its sequence will not occur."
 msgstr ""
 
-#: ekos/scheduler/schedulerutils.cpp:473
+#: ekos/scheduler/schedulerutils.cpp:472
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr ""

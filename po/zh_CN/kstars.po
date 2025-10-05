@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-02 01:58+0000\n"
+"POT-Creation-Date: 2025-10-05 01:51+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -29194,12 +29194,12 @@ msgstr "关闭脚本失败，中止..."
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "警告：任务“%1”含不可访问序列“%2”，标记为无效。"
 
-#: ekos/scheduler/schedulerutils.cpp:373
+#: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
 msgstr "无法打开序列队列文件“%1”"
 
-#: ekos/scheduler/schedulerutils.cpp:445
+#: ekos/scheduler/schedulerutils.cpp:444
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
@@ -29207,7 +29207,7 @@ msgid ""
 msgstr ""
 "警告：作业 '%1' 已禁用其对焦步骤，将不会运行当前序列中定期和/或HFR 程序。"
 
-#: ekos/scheduler/schedulerutils.cpp:473
+#: ekos/scheduler/schedulerutils.cpp:472
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr "任务“%1”%2x%3\" %4"

@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-02 01:58+0000\n"
-"PO-Revision-Date: 2025-10-02 06:59-0300\n"
+"POT-Creation-Date: 2025-10-05 01:51+0000\n"
+"PO-Revision-Date: 2025-10-04 11:33-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -153,7 +153,7 @@ msgstr "Grade de coordenadas horizontais"
 #: auxiliary/colorscheme.cpp:50
 #, kde-format
 msgid "Info Box Text"
-msgstr "Caixas de informação"
+msgstr "Texto da caixa de informações"
 
 #: auxiliary/colorscheme.cpp:51
 #, kde-format
@@ -263,7 +263,7 @@ msgstr "CDV do sensor"
 #: auxiliary/colorscheme.cpp:69
 #, kde-format
 msgid "HiPS Grid"
-msgstr "Grade HiPS"
+msgstr "Grade dos HiPS"
 
 #: auxiliary/colorscheme.cpp:70
 #, kde-format
@@ -292,7 +292,7 @@ msgstr "Cores padrão"
 #, kde-format
 msgctxt "use 'star chart' color scheme"
 msgid "Star Chart"
-msgstr "Gráfico de estrelas"
+msgstr "Mapa estelar"
 
 #: auxiliary/colorscheme.cpp:142 kstarsdata.cpp:1075 options/opscolors.cpp:60
 #: tools/scriptbuilder.cpp:743
@@ -1884,7 +1884,7 @@ msgstr "&Configurações"
 #: data/kstarsui.rc:115
 #, kde-format
 msgid "&Info Boxes"
-msgstr "Caixas de &informação"
+msgstr "Caixas de &informações"
 
 #. i18n: ectx: Menu (statusbar)
 #: data/kstarsui.rc:123
@@ -3916,7 +3916,7 @@ msgstr "Catálogo:"
 #: dialogs/details_data.ui:507
 #, kde-format
 msgid "Add to Observing List"
-msgstr "Adicionar lista de observação"
+msgstr "Adicionar à lista de observação"
 
 #. i18n: ectx: property (text), widget (QPushButton, CenterButton)
 #: dialogs/details_data.ui:514 tools/flagmanager.ui:206
@@ -4221,13 +4221,13 @@ msgstr "Nascimento/ocaso/trânsito"
 #: dialogs/details_position.ui:637 printing/detailstable.cpp:660
 #, kde-format
 msgid "Set time:"
-msgstr "Definir hora:"
+msgstr "Hora do ocaso:"
 
 #. i18n: ectx: property (text), widget (QLabel, TimeTransitLabel)
 #: dialogs/details_position.ui:653 printing/detailstable.cpp:655
 #, kde-format
 msgid "Transit time:"
-msgstr "Tempo de trânsito:"
+msgstr "Hora do trânsito:"
 
 #. i18n: ectx: property (text), widget (QLabel, TimeRiseLabel)
 #: dialogs/details_position.ui:669 printing/detailstable.cpp:651
@@ -4396,7 +4396,7 @@ msgstr "Qualquer"
 #: tools/conjunctions.cpp:100
 #, kde-format, kde-kuit-format
 msgid "Solar System"
-msgstr "Sistema solar"
+msgstr "Sistema Solar"
 
 #: dialogs/finddialog.cpp:39 kstarslite/dialogs/finddialoglite.cpp:28
 #: tools/conjunctions.cpp:104
@@ -26989,8 +26989,8 @@ msgstr ""
 "\">Assistente de perfil do Ekos</span></p><p>O Ekos é a principal plataforma "
 "de controle e automação de observatórios. Com o Ekos, você pode capturar "
 "imagens e coletar dados científicos com facilidade. Este Assistente ajudará "
-"você a criar o perfil do seu equipamento. Você será solicitado a verificar "
-"algumas informações básicas.</p><p>Clique em <span style=\" font-weight:600;"
+"você a criar o perfil do seu equipamento. Você precisará verificar algumas "
+"informações básicas.</p><p>Clique em <span style=\" font-weight:600;"
 "\">próximo</span> para continuar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
@@ -30617,12 +30617,12 @@ msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
 "Aviso: a tarefa '%1' tem sequência inacessível '%2', marcando como inválida."
 
-#: ekos/scheduler/schedulerutils.cpp:373
+#: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
 msgstr "Não foi possível abrir o arquivo de fila de sequência '%1'"
 
-#: ekos/scheduler/schedulerutils.cpp:445
+#: ekos/scheduler/schedulerutils.cpp:444
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
@@ -30631,7 +30631,7 @@ msgstr ""
 "Aviso: A tarefa '%1' tem seu passo de foco desabilitado; os procedimentos "
 "periódicos e/ou RMF atualmente definidos em sua sequência não ocorrerão."
 
-#: ekos/scheduler/schedulerutils.cpp:473
+#: ekos/scheduler/schedulerutils.cpp:472
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr "Tarefa '%1' %2x%3\" %4"
@@ -31516,7 +31516,7 @@ msgstr "Centralizar telescópio"
 #: fitsviewer/fitsview.cpp:2815 fitsviewer/fitsviewer.cpp:268
 #, kde-format
 msgid "Show HiPS Overlay"
-msgstr "Mostrar sobreposição do HiPS"
+msgstr "Mostrar sobreposição dos HiPS"
 
 #: fitsviewer/fitsviewer.cpp:43
 #, kde-format
@@ -31733,7 +31733,7 @@ msgstr "Linhas de grade do pixel"
 #: fitsviewer/fitsviewer.cpp:908 fitsviewer/fitsviewer.cpp:1707
 #, kde-format
 msgid "HiPS Overlay"
-msgstr "Sobreposição do HiPS"
+msgstr "Sobreposição dos HiPS"
 
 #: fitsviewer/fitsviewer.cpp:960
 #, kde-format
@@ -32499,13 +32499,13 @@ msgstr "Processo próprio de empilhamento ao vivo"
 #: fitsviewer/opsfits.ui:144
 #, kde-format
 msgid "HiPS opacity:"
-msgstr "Opacidade do HiPS:"
+msgstr "Opacidade dos HiPS:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: fitsviewer/opsfits.ui:151
 #, kde-format
 msgid "HiPS offset:"
-msgstr "Deslocamento do HiPS:"
+msgstr "Deslocamento dos HiPS:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: fitsviewer/opsfits.ui:205
@@ -33305,29 +33305,29 @@ msgstr "Cache"
 #, kde-format
 msgctxt "@title:window"
 msgid "HiPS Offline Storage"
-msgstr "Armazenamento offline do HiPS"
+msgstr "Armazenamento offline dos HiPS"
 
 #: hips/opships.cpp:82
 #, kde-format
 msgid "HiPS Update"
-msgstr "Atualização do HiPS"
+msgstr "Atualização dos HiPS"
 
 #: hips/opships.cpp:82
 #, kde-format
 msgid "Downloading HiPS sources..."
-msgstr "Baixando fontes HiPS..."
+msgstr "Baixando fontes dos HiPS..."
 
 #: hips/opships.cpp:156
 #, kde-format
 msgid "Error downloading HiPS sources: %1"
-msgstr "Erro ao baixar fontes HiPS: %1"
+msgstr "Erro ao baixar fontes dos HiPS: %1"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_HIPSNetCache)
 #: hips/opshipscache.ui:42 hips/opshipscache.ui:52
 #, kde-format
 msgid "Cache space on hard disk used to store HiPS images."
-msgstr "Espaço de cache no disco rígido usado para armazenar imagens HiPS."
+msgstr "Espaço de cache no disco rígido usado para armazenar imagens dos HiPS."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: hips/opshipscache.ui:45
@@ -33347,7 +33347,7 @@ msgstr "MB"
 #: hips/opshipscache.ui:75 hips/opshipscache.ui:85
 #, kde-format
 msgid "Cache space in RAM used to store HiPS images."
-msgstr "Espaço de cache na RAM usado para armazenar imagens HiPS."
+msgstr "Espaço de cache na RAM usado para armazenar imagens dos HiPS."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: hips/opshipscache.ui:78
@@ -33362,7 +33362,7 @@ msgid ""
 "Do not download HiPS from Internet. Use DSS offline storage path to load all "
 "data."
 msgstr ""
-"Não baixe o HiPS da Internet. Use o caminho de armazenamento offline do DSS "
+"Não baixe os HiPS da Internet. Use o caminho de armazenamento offline do DSS "
 "para carregar todos os dados."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSUseOfflineSource)
@@ -33375,7 +33375,7 @@ msgstr "Fonte offline do DSS"
 #: hips/opshipsdisplay.ui:17
 #, kde-format
 msgid "Show HiPS grid"
-msgstr "Mostrar grade HiPS"
+msgstr "Mostrar grade dos HiPS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSPanning)
 #: hips/opshipsdisplay.ui:24
@@ -34953,7 +34953,7 @@ msgstr "Remover da lista de observação"
 #: kspopupmenu.cpp:419
 #, kde-format
 msgid "Add to Observing WishList"
-msgstr "Adicionar a lista de observação"
+msgstr "Adicionar à lista de observação"
 
 #: kspopupmenu.cpp:427
 #, kde-format
@@ -37865,7 +37865,7 @@ msgstr ""
 #: kstars.kcfg:1153 kstars.kcfg:1154
 #, kde-format
 msgid "The name of the color scheme"
-msgstr "O nome do esquema de cores"
+msgstr "O nome do esquema de cor"
 
 #. i18n: ectx: label, entry (StarColorMode), group (Colors)
 #: kstars.kcfg:1158
@@ -39259,19 +39259,19 @@ msgstr ""
 #: kstars.kcfg:1737
 #, kde-format
 msgid "HiPS overlay opacity"
-msgstr "Opacidade da sobreposição HiPS"
+msgstr "Opacidade da sobreposição dos HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetX), group (FITSViewer)
 #: kstars.kcfg:1741
 #, kde-format
 msgid "HiPS overlay X Offset"
-msgstr "Deslocamento X da sobreposição HiPS"
+msgstr "Deslocamento X da sobreposição dos HiPS"
 
 #. i18n: ectx: label, entry (HIPSOffsetY), group (FITSViewer)
 #: kstars.kcfg:1745
 #, kde-format
 msgid "HiPS overlay Y Offset"
-msgstr "Deslocamento Y da sobreposição HiPS"
+msgstr "Deslocamento Y da sobreposição dos HiPS"
 
 #. i18n: ectx: label, entry (FitsSolverProfile), group (FITSViewer)
 #: kstars.kcfg:1749
@@ -42472,25 +42472,25 @@ msgstr "Título do catálogo de fontes HIPS."
 #: kstars.kcfg:3636
 #, kde-format
 msgid "Use Bilinear interpolation when rendering HiPS images?"
-msgstr "Usar interpolação bilinear ao renderizar imagens HiPS?"
+msgstr "Usar interpolação bilinear ao renderizar imagens dos HiPS?"
 
 #. i18n: ectx: label, entry (HIPSShowGrid), group (HIPS)
 #: kstars.kcfg:3640
 #, kde-format
 msgid "Show HiPS grid on the sky map."
-msgstr "Mostrar grade HiPS no mapa celeste."
+msgstr "Mostrar grade dos HiPS no mapa celeste."
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
 #: kstars.kcfg:3644
 #, kde-format
 msgid "Redraw HiPS while panning."
-msgstr "Redesenhar o HiPS durante o deslocamento."
+msgstr "Redesenhar os HiPS durante o deslocamento."
 
 #. i18n: ectx: label, entry (ShowHIPS), group (HIPS)
 #: kstars.kcfg:3648
 #, kde-format
 msgid "Draw HiPS sources in the sky map?"
-msgstr "Desenhar fontes HiPS no mapa celeste?"
+msgstr "Desenhar fontes dos HiPS no mapa celeste?"
 
 #. i18n: ectx: whatsthis, entry (ShowHIPS), group (HIPS)
 #: kstars.kcfg:3649
@@ -42502,7 +42502,7 @@ msgstr "Alternar entre as fontes HIPS que estão desenhadas no mapa celeste."
 #: kstars.kcfg:3653
 #, kde-format
 msgid "Use offline storage to load HiPS?"
-msgstr "Usar armazenamento offline para carregar o HiPS?"
+msgstr "Usar armazenamento offline para carregar os HiPS?"
 
 #. i18n: ectx: label, entry (HIPSOfflinePath), group (HIPS)
 #: kstars.kcfg:3657
@@ -71463,14 +71463,14 @@ msgid ""
 "uses a white background. Would you like to temporarily switch to the Star "
 "Chart color scheme for printing?"
 msgstr ""
-"Você pode poupar tinta de impressora usando o esquema de cor \"Star Chart\", "
-"o qual usa um fundo branco. Você gostaria de mudar para o esquema de cor "
-"Star Chart para imprimir?"
+"Você pode poupar tinta de impressora usando o esquema de cor \"Mapa estelar"
+"\", que usa um fundo branco. Você gostaria de mudar para o esquema de cor "
+"Mapa estelar para imprimir?"
 
 #: kstarsactions.cpp:1503
 #, kde-format
 msgid "Switch to Star Chart Colors?"
-msgstr "Mudar para as cores Star Chart?"
+msgstr "Mudar para as cores de Mapa estelar?"
 
 #: kstarsactions.cpp:1504
 #, kde-format
@@ -71860,17 +71860,17 @@ msgstr "Visualização espelhada"
 #: kstarsinit.cpp:297
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
-msgstr "Equi-área do azimute de &Lambert"
+msgstr "Azimutal equivalente de &Lambert"
 
 #: kstarsinit.cpp:300
 #, kde-format
 msgid "&Azimuthal Equidistant"
-msgstr "Equidistância de &azimute"
+msgstr "&Azimutal equidistante"
 
 #: kstarsinit.cpp:303
 #, kde-format
 msgid "&Orthographic"
-msgstr "&Ortográfico"
+msgstr "&Ortográfica"
 
 #: kstarsinit.cpp:306
 #, kde-format
@@ -71880,12 +71880,12 @@ msgstr "Cilíndrica &equidistante"
 #: kstarsinit.cpp:309
 #, kde-format
 msgid "&Stereographic"
-msgstr "E&stereográfico"
+msgstr "E&stereográfica"
 
 #: kstarsinit.cpp:312
 #, kde-format
 msgid "&Gnomonic"
-msgstr "&Gnomônico"
+msgstr "&Gnomônica"
 
 #: kstarsinit.cpp:318
 #, kde-format
@@ -71929,7 +71929,7 @@ msgstr "Mostrar barra de status"
 #: kstarsinit.cpp:351
 #, kde-format
 msgid "Show Az/Alt Field"
-msgstr "Mostrar campo de Az/Alt"
+msgstr "Mostrar campo Az/Alt"
 
 #: kstarsinit.cpp:352
 #, kde-format
@@ -71954,7 +71954,7 @@ msgstr "&Clássico"
 #: kstarsinit.cpp:362
 #, kde-format
 msgid "&Star Chart"
-msgstr "&Gráfico de estrelas"
+msgstr "Mapa e&stelar"
 
 #: kstarsinit.cpp:363
 #, kde-format
@@ -71964,7 +71964,7 @@ msgstr "Visão &noturna"
 #: kstarsinit.cpp:364
 #, kde-format
 msgid "&Moonless Night"
-msgstr "&Sem lua durante a noite"
+msgstr "&Noite sem lua"
 
 #: kstarsinit.cpp:384
 #, kde-format
@@ -71979,7 +71979,7 @@ msgstr "&Visualizações"
 #: kstarsinit.cpp:400
 #, kde-format
 msgid "HiPS All Sky Overlay"
-msgstr "Toda a sobreposição celeste HiPS"
+msgstr "Todas as sobreposições dos HiPS no céu"
 
 #: kstarsinit.cpp:407
 #, kde-format
@@ -72157,7 +72157,7 @@ msgstr "Exibir/ocultar objetos do espaço profundo"
 #, kde-format
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
-msgstr "Sistema solar"
+msgstr "Sistema Solar"
 
 #: kstarsinit.cpp:590
 #, kde-format
@@ -72327,7 +72327,7 @@ msgstr "Painel de controle do INDI"
 #: kstarsinit.cpp:653
 #, kde-format
 msgid "Toggle INDI Control Panel"
-msgstr "Alterna o painel de controle do INDI"
+msgstr "Exibir/ocultar painel de controle do INDI"
 
 #: kstarsinit.cpp:656
 #, kde-format
@@ -72338,7 +72338,7 @@ msgstr "Visualizador FITS"
 #: kstarsinit.cpp:658
 #, kde-format
 msgid "Toggle FITS Viewer"
-msgstr "Alterna o Visualizador FITS"
+msgstr "Exibir/ocultar o visualizador FITS"
 
 #: kstarsinit.cpp:662
 #, kde-format
@@ -72349,7 +72349,7 @@ msgstr "CDV do sensor"
 #: kstarsinit.cpp:664
 #, kde-format
 msgid "Toggle Sensor FOV"
-msgstr "Alternar o sensor CDV"
+msgstr "Exibir/ocultar CDV do sensor"
 
 #: kstarsinit.cpp:669
 #, kde-format
@@ -72360,7 +72360,7 @@ msgstr "Painel em mosaico"
 #: kstarsinit.cpp:671
 #, kde-format
 msgid "Toggle Mosaic Panel"
-msgstr "Alternar painel em mosaico"
+msgstr "Exibir/ocultar painel em mosaico"
 
 #: kstarsinit.cpp:676
 #, kde-format
@@ -72382,7 +72382,7 @@ msgstr "Centro do telescópio"
 #: kstarsinit.cpp:684
 #, kde-format
 msgid "Toggle Lock Telescope Center"
-msgstr "Alternar bloqueio do centro do telescópio"
+msgstr "Bloquear/desbloquear centro do telescópio"
 
 #: kstarsinit.cpp:688
 #, kde-format
@@ -72748,7 +72748,7 @@ msgstr "Tempo de trânsito"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:302
 #, kde-kuit-format
 msgid "Set time"
-msgstr "Definir hora"
+msgstr "Hora do ocaso"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:307
 #, kde-kuit-format
@@ -73461,7 +73461,7 @@ msgstr "Centralizar e rastrear"
 #: kstarslite/qml/modules/popups/ColorSchemePopup.qml:56
 #, kde-kuit-format
 msgid "Star Chart"
-msgstr "Gráfico de estrelas"
+msgstr "Mapa estelar"
 
 #: kstarslite/qml/modules/popups/ColorSchemePopup.qml:57
 #, kde-kuit-format
@@ -73486,7 +73486,7 @@ msgstr "Equidistância azimutal"
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:36
 #, kde-kuit-format
 msgid "Orthographic"
-msgstr "Ortográfico"
+msgstr "Ortográfica"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:37
 #, kde-kuit-format
@@ -73496,12 +73496,12 @@ msgstr "Cilíndrica equidistante"
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:38
 #, kde-kuit-format
 msgid "Stereographic"
-msgstr "Estereográfico"
+msgstr "Estereográfica"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:39
 #, kde-kuit-format
 msgid "Gnomonic"
-msgstr "Gnomônico"
+msgstr "Gnomônica"
 
 #. i18n: ectx: property (text), widget (QPushButton, SetTime)
 #: kstarslite/qml/modules/TimePage.qml:13 tools/observinglist.ui:525
@@ -76417,7 +76417,7 @@ msgstr "Dispositivos de captura"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Solar System"
-msgstr "Sistema solar"
+msgstr "Sistema Solar"
 
 #: libindi_strings.cpp:454
 #, kde-kuit-format
@@ -78344,7 +78344,7 @@ msgstr ""
 #: options/opsadvanced.ui:717 tools/obslistwizard.ui:203
 #, kde-format
 msgid "Solar system"
-msgstr "Sistema solar"
+msgstr "Sistema Solar"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideLabels)
 #: options/opsadvanced.ui:724
@@ -78659,7 +78659,7 @@ msgstr "Mostrar objetos de magnitude desconhecida"
 #, kde-format
 msgctxt "use 'moonless night' color scheme"
 msgid "Moonless Night"
-msgstr "Sem lua durante a noite"
+msgstr "Noite sem lua"
 
 #: options/opscolors.cpp:87
 #, kde-format
@@ -78884,7 +78884,7 @@ msgid ""
 "Press this button to remove the highlighted color scheme.  This will only "
 "work on your custom color schemes."
 msgstr ""
-"Pressione este botão para remover o esquema de cores destacado. Isto somente "
+"Pressione este botão para remover o esquema de cor destacado. Isto somente "
 "funcionará com seus esquemas de cor personalizados."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -80545,7 +80545,7 @@ msgid ""
 "<p>Set basic field of view capture settings: color scheme, legend and FOV "
 "image shape, then click <b>Next</b> to proceed.</p>"
 msgstr ""
-"<p>Defina as opções básicas de captura do campo de visão: esquema de cores, "
+"<p>Defina as opções básicas de captura do campo de visão: esquema de cor, "
 "legendas e imagens do CDV, e depois clique em <b>Próximo</b> para continuar."
 "</p>"
 
@@ -80553,7 +80553,7 @@ msgstr ""
 #: printing/pwizfovconfig.ui:126
 #, kde-format
 msgid "Use \"Sky Chart\" color scheme"
-msgstr "Usar o esquema de cores da \"Carta Celeste\""
+msgstr "Usar o esquema de cor da \"Mapa estelar\""
 
 #. i18n: ectx: property (text), widget (QCheckBox, overrideShapeBox)
 #: printing/pwizfovconfig.ui:136
@@ -82360,8 +82360,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>A Astro Calculadora do KStars (Ctrl+C) fornece a você o acesso direto "
-"a \n"
+"\t\t<p>A Calculadora Astronômica do KStars (Ctrl+C) fornece a você o acesso "
+"direto a \n"
 "\t\t\tmuitos dos cálculos que o KStars executa em segundo plano.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -82497,7 +82497,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>A ferramenta visualizador do sistema solar (Ctrl+Y) mostra uma visão "
-"carregada do\n"
+"de cima do\n"
 "\t\t\tsistema solar, mostrando as posições dos principais planetas, para a "
 "data de \n"
 "\t\t\tsimulação atual.\n"
@@ -83424,7 +83424,7 @@ msgstr "Mostrar diálogo de impressão"
 #: tools/argprintimage.ui:29
 #, kde-format
 msgid "Use star chart colors"
-msgstr "Usar cores do gráfico das estrelas"
+msgstr "Usar cores de mapa estelar"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/argsetcolor.ui:30
@@ -83640,8 +83640,8 @@ msgid ""
 "position of any planet, from a given location on Earth at a given time</LI></"
 "UL></QT>"
 msgstr ""
-"<QT><H2>Astro Calculadora do KStars</H2><P>A Astro Calculadora do KStars "
-"contém muitos <B>módulos</b> que fazem uma variedade de cálculos "
+"<QT><H2>Calculadora Astronômica do KStars</H2><P>A Calculadora Astronômica "
+"do KStars contém muitos <B>módulos</b> que fazem uma variedade de cálculos "
 "relacionados à astronomia. Os módulos estão organizadas em diversas "
 "categorias: <UL><LI><B>Calculadoras de tempo: </B>Conversão entre sistemas "
 "de tempo, e previsão da hora de eventos celestes</LI><LI><B>Conversores de "
@@ -86909,7 +86909,7 @@ msgstr "Adicionar em lote"
 #: tools/observinglist.ui:404
 #, kde-format
 msgid "Wish List"
-msgstr "Lista de observações"
+msgstr "Lista de observação"
 
 #. i18n: ectx: attribute (title), widget (QWidget, Session)
 #: tools/observinglist.ui:451
@@ -87431,7 +87431,7 @@ msgstr "Nomes da opção"
 #, kde-format
 msgctxt "@title:window"
 msgid "Solar System Viewer"
-msgstr "Visualizador do sistema solar"
+msgstr "Visualizador do Sistema Solar"
 
 #: tools/planetviewer.cpp:58
 #, kde-format
@@ -87635,7 +87635,7 @@ msgstr "Configura a cor chamada '%1' para o valor '%2'."
 #: tools/scriptbuilder.cpp:223
 #, kde-format
 msgid "Load the color scheme specified by name."
-msgstr "Carrega o esquema de cores especificado pelo nome."
+msgstr "Carrega o esquema de cor especificado pelo nome."
 
 #: tools/scriptbuilder.cpp:226
 #, kde-format
@@ -87653,7 +87653,7 @@ msgid ""
 msgstr ""
 "Envia a imagem do céu para a impressora ou arquivo. Se '%1' for verdadeiro, "
 "será mostrada a janela de impressão, e se '%2' for verdadeiro, será usado o "
-"esquema de cores de Gráfico de Estrelas para a impressão."
+"esquema de cor de Mapa estelar para a impressão."
 
 #: tools/scriptbuilder.cpp:234
 #, kde-format
@@ -88834,7 +88834,7 @@ msgstr "Alterar localização..."
 #: tools/wutdialog.ui:105
 #, kde-format
 msgid "Show objects which are up:"
-msgstr "Mostrar objetos que estão acima:"
+msgstr "Mostrar objetos que estão acima do horizonte:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:121
@@ -89429,7 +89429,7 @@ msgstr "Bona"
 #, kde-format
 msgctxt "Map projection method"
 msgid "Gnomonic"
-msgstr "Gnomônico"
+msgstr "Gnomônica"
 
 #: xplanet/opsxplanet.cpp:36
 #, kde-format
@@ -89459,7 +89459,7 @@ msgstr "Mollweide"
 #, kde-format
 msgctxt "Map projection method"
 msgid "Orthographic"
-msgstr "Ortográfico"
+msgstr "Ortográfica"
 
 #: xplanet/opsxplanet.cpp:41
 #, kde-format

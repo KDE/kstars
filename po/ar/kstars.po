@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-02 01:58+0000\n"
+"POT-Creation-Date: 2025-10-05 01:51+0000\n"
 "PO-Revision-Date: 2025-09-30 21:05+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -29907,12 +29907,12 @@ msgstr "فشل برنامج إيقاف التشغيل النصي، إجهاض...
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "تحذير: للمهمة ”%1“ تسلسل «%2» لا يمكن الوصول إليه، اِجعله غير صالح."
 
-#: ekos/scheduler/schedulerutils.cpp:373
+#: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
 msgstr "لا أستطيع فتح ملف قائمة اِنتظار التسلسل ”%1“"
 
-#: ekos/scheduler/schedulerutils.cpp:445
+#: ekos/scheduler/schedulerutils.cpp:444
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
@@ -29921,7 +29921,7 @@ msgstr ""
 "تحذير: المهمة ”%1“ لديها خطوة التركيز مُعطَّلة، لن تحدث إجراءات دورية و/أو HFR "
 "المُعينة حاليًا في تسلسلها."
 
-#: ekos/scheduler/schedulerutils.cpp:473
+#: ekos/scheduler/schedulerutils.cpp:472
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr "المهمة ”%1“ %2x%3\" %4"

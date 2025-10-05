@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-02 01:58+0000\n"
+"POT-Creation-Date: 2025-10-05 01:51+0000\n"
 "PO-Revision-Date: 2025-10-02 12:19+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -30451,12 +30451,12 @@ msgstr "Script voor afsluiten doet het niet, wordt afgebroken..."
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "Waarschuwing: Taak '%1' bevat ontoegankelijke rij '%2', is ongeldig."
 
-#: ekos/scheduler/schedulerutils.cpp:373
+#: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
 msgstr "Bestand voor reeks %1 kon niet worden geopend."
 
-#: ekos/scheduler/schedulerutils.cpp:445
+#: ekos/scheduler/schedulerutils.cpp:444
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
@@ -30465,7 +30465,7 @@ msgstr ""
 "Waarschuwing: Van taak '%1' is de focusstap uitgeschakeld, periodieke en/of "
 "HFR- procedures die als vervolgstap zijn ingesteld worden niet gedaan."
 
-#: ekos/scheduler/schedulerutils.cpp:473
+#: ekos/scheduler/schedulerutils.cpp:472
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr "Taak '%1' %2x%3\" %4"
