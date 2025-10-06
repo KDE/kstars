@@ -917,6 +917,7 @@ Sound=KDE-KStars-Alert.ogg
 Action=Sound
 [Event/SchedulerSleeping]
 Name=Scheduler Sleeping
+Name[ar]=نوم المجدول
 Name[bg]=Планирането е приспано
 Name[ca]=El programador està en repòs
 Name[ca@valencia]=El programador està en repòs
