@@ -31,10 +31,12 @@
 #include <QUrl>
 #include <QDialog>
 
+#include <KLocalizedString>
+
 constexpr int CAT_OBJ_SORT_ROLE = Qt::UserRole + 1;
-const QString TEXT_START = i18n("Start");
-const QString TEXT_STOP = i18n("Stop");
-const QString TEXT_STOPPING = i18n("Stopping...");
+const auto TEXT_START = ki18n("Start");
+const auto TEXT_STOP = ki18n("Stop");
+const auto TEXT_STOPPING = ki18n("Stopping...");
 
 FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
 {
@@ -1307,14 +1309,14 @@ void FITSTab::extractImage()
 void FITSTab::liveStack()
 {
     QString text = m_LiveStackingUI.StartB->text().remove('&');
-    if (text == TEXT_START)
+    if (text == TEXT_START.toString())
     {
         m_StackStarted = true;
         m_StackCancelled = false;
         if (m_LiveStackingUI.Stack->text() != m_liveStackDir)
             setTabName(i18n("Watching %1", m_liveStackDir));
         // Start the stack process
-        m_LiveStackingUI.StartB->setText(TEXT_STOP);
+        m_LiveStackingUI.StartB->setText(TEXT_STOP.toString());
         m_LiveStackingUI.StartB->setEnabled(true);
         m_LiveStackingUI.PostProcGroupBox->setEnabled(false);
 
@@ -1329,9 +1331,9 @@ void FITSTab::liveStack()
         viewer->restack(getUID());
         m_View->loadStack(m_liveStackDir, getAllSettings());
     }
-    else if (text == TEXT_STOP)
+    else if (text == TEXT_STOP.toString())
     {
-        m_LiveStackingUI.StartB->setText(TEXT_STOPPING);
+        m_LiveStackingUI.StartB->setText(TEXT_STOPPING.toString());
         m_LiveStackingUI.StartB->setEnabled(false);
         m_LiveStackingUI.PostProcGroupBox->setEnabled(false);
         m_View->cancelStack();
@@ -1474,7 +1476,7 @@ void FITSTab::resetStack(const bool cancelled)
     if (cancelled)
     {
         // Cancel request has been actioned
-        m_LiveStackingUI.StartB->setText(TEXT_START);
+        m_LiveStackingUI.StartB->setText(TEXT_START.toString());
         m_LiveStackingUI.StartB->setEnabled(true);
         m_LiveStackingUI.PostProcGroupBox->setEnabled(true);
         m_StackCancelled = true;
