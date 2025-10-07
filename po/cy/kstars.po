@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-05 01:51+0000\n"
+"POT-Creation-Date: 2025-10-07 02:01+0000\n"
 "PO-Revision-Date: 2004-02-26 16:58+0000\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -2793,7 +2793,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
-#: ekos/scheduler/scheduler.cpp:2122 fitsviewer/fitstab.cpp:1228
+#: ekos/scheduler/scheduler.cpp:2122 fitsviewer/fitstab.cpp:1230
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -3265,7 +3265,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, object_group)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:458
-#: fitsviewer/fitstab.cpp:788
+#: fitsviewer/fitstab.cpp:790
 #, kde-format
 msgid "Object"
 msgstr "Gwrthrych"
@@ -4305,7 +4305,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, CoordTitle)
 #. i18n: ectx: property (text), widget (QRadioButton, coordinatesR)
 #: dialogs/details_position.ui:66 ekos/guide/manualdither.ui:55
-#: fitsviewer/fitstab.cpp:791 kstarslite/qml/dialogs/DetailsDialog.qml:236
+#: fitsviewer/fitstab.cpp:793 kstarslite/qml/dialogs/DetailsDialog.qml:236
 #: printing/detailstable.cpp:509
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Coordinates"
@@ -6881,7 +6881,7 @@ msgstr "Clear Lake City"
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
 #: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
-#: fitsviewer/fitstab.cpp:1227 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:1229 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -6990,7 +6990,7 @@ msgstr "Ychwanegu Catalog ..."
 #: ekos/align/polaralignmentassistant.ui:826 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:246
 #: ekos/observatory/observatorydomemodel.cpp:132
-#: ekos/observatory/observatorydomemodel.cpp:135 fitsviewer/fitstab.cpp:36
+#: ekos/observatory/observatorydomemodel.cpp:135 fitsviewer/fitstab.cpp:38
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
 #: kstarslite/qml/indi/modules/MotionControl.qml:146
 #, kde-format, kde-kuit-format
@@ -10405,7 +10405,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
 #: ekos/manager.cpp:149 ekos/manager.cpp:252 ekos/manager.cpp:814
 #: ekos/observatory/observatorydomemodel.cpp:132
-#: ekos/observatory/observatorydomemodel.cpp:135 fitsviewer/fitstab.cpp:35
+#: ekos/observatory/observatorydomemodel.cpp:135 fitsviewer/fitstab.cpp:37
 #: fitsviewer/livestacking.ui:328 kstarslite/qml/indi/INDIControlPanel.qml:166
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Start"
@@ -10810,7 +10810,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
-#: ekos/analyze/analyze.ui:289 fitsviewer/fitstab.cpp:145
+#: ekos/analyze/analyze.ui:289 fitsviewer/fitstab.cpp:147
 #: fitsviewer/fitsviewer.cpp:195 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
@@ -19691,7 +19691,7 @@ msgstr "Arrecife"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:1115 ekos/manager.ui:1079 fitsviewer/fitstab.cpp:178
+#: ekos/focus/focus.ui:1115 ekos/manager.ui:1079 fitsviewer/fitstab.cpp:180
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, fuzzy, kde-format
@@ -20144,7 +20144,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:43 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:432
+#: fitsviewer/fitstab.cpp:434
 #, kde-format
 msgid "Value"
 msgstr "Gwerth"
@@ -22766,7 +22766,7 @@ msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Methu cadw'r ddelwedd : %1 "
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
-#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:793
+#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:795
 #: kstarslite/qml/dialogs/DetailsDialog.qml:138
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Magnitude"
@@ -29722,7 +29722,7 @@ msgstr ""
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
 #: fitsviewer/catalogobject.ui:14 fitsviewer/fitsheaderdialog.ui:14
-#: fitsviewer/fitstab.cpp:169 fitsviewer/fitsviewer.cpp:160
+#: fitsviewer/fitstab.cpp:171 fitsviewer/fitsviewer.cpp:160
 #, kde-format
 msgid "FITS Header"
 msgstr ""
@@ -30148,7 +30148,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
-#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:166
+#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:168
 #: fitsviewer/fitsviewer.cpp:126
 #, kde-format
 msgid "Histogram"
@@ -30285,18 +30285,18 @@ msgstr "Toggle display of star name labels"
 msgid "Cycle through stretch presets."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:37
+#: fitsviewer/fitstab.cpp:39
 #, fuzzy, kde-format
 #| msgid "Stop Service"
 msgid "Stopping..."
 msgstr "Stopio Gwasanaeth"
 
-#: fitsviewer/fitstab.cpp:68
+#: fitsviewer/fitstab.cpp:70
 #, fuzzy, kde-format
 msgid "Save Changes to FITS?"
 msgstr "Constellation names:"
 
-#: fitsviewer/fitstab.cpp:69
+#: fitsviewer/fitstab.cpp:71
 #, kde-format
 msgid ""
 "The current FITS file has unsaved changes.  Would you like to save before "
@@ -30305,29 +30305,29 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, LiveStackingUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
-#: fitsviewer/fitstab.cpp:146 fitsviewer/livestacking.ui:26
+#: fitsviewer/fitstab.cpp:148 fitsviewer/livestacking.ui:26
 #: fitsviewer/platesolve.ui:14
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Plate Solving"
 msgstr "Gweinydd"
 
-#: fitsviewer/fitstab.cpp:150
+#: fitsviewer/fitstab.cpp:152
 #, fuzzy, kde-format
 msgid "Catalog Objects"
 msgstr "Constellation names:"
 
-#: fitsviewer/fitstab.cpp:162
+#: fitsviewer/fitstab.cpp:164
 #, fuzzy, kde-format
 msgid "Live Stacking"
 msgstr "Goose Creek"
 
-#: fitsviewer/fitstab.cpp:175
+#: fitsviewer/fitstab.cpp:177
 #, fuzzy, kde-format
 msgid "Recent Images"
 msgstr "Delwedd"
 
-#: fitsviewer/fitstab.cpp:444
+#: fitsviewer/fitstab.cpp:446
 #, fuzzy, kde-format
 #| msgctxt "First letter in 'Remove'"
 #| msgid "R"
@@ -30335,23 +30335,23 @@ msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:607
+#: fitsviewer/fitstab.cpp:609
 #, kde-format
 msgid "%1 / %2 Simbad objects loaded"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:622
+#: fitsviewer/fitstab.cpp:624
 #, fuzzy, kde-format
 msgid "Simbad query in progress..."
 msgstr "Dewis Dim"
 
-#: fitsviewer/fitstab.cpp:784
+#: fitsviewer/fitstab.cpp:786
 #, fuzzy, kde-format
 #| msgid "m"
 msgid "Num"
 msgstr "m"
 
-#: fitsviewer/fitstab.cpp:785
+#: fitsviewer/fitstab.cpp:787
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Portugal"
@@ -30361,7 +30361,7 @@ msgstr "Portiwgal"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad2)
-#: fitsviewer/fitstab.cpp:786 fitsviewer/opsfits.ui:445
+#: fitsviewer/fitstab.cpp:788 fitsviewer/opsfits.ui:445
 #: tools/imagingplanner.ui:1377 tools/imagingplanner.ui:1714
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
@@ -30369,65 +30369,65 @@ msgstr "Portiwgal"
 msgid "Simbad"
 msgstr "Simbad"
 
-#: fitsviewer/fitstab.cpp:787
+#: fitsviewer/fitstab.cpp:789
 #, fuzzy, kde-format
 #| msgctxt "Northeast"
 #| msgid "NE"
 msgid "NED"
 msgstr "Gogledd Ddwyrain"
 
-#: fitsviewer/fitstab.cpp:789
+#: fitsviewer/fitstab.cpp:791
 #, fuzzy, kde-format
 #| msgid "Type"
 msgid "Type Code"
 msgstr "Math"
 
-#: fitsviewer/fitstab.cpp:790
+#: fitsviewer/fitstab.cpp:792
 #, fuzzy, kde-format
 #| msgid "Label:"
 msgid "Type Label"
 msgstr "Label:"
 
-#: fitsviewer/fitstab.cpp:792 kstarslite/qml/dialogs/DetailsDialog.qml:143
+#: fitsviewer/fitstab.cpp:794 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Distance:"
 msgid "Distance"
 msgstr "Pellder:"
 
-#: fitsviewer/fitstab.cpp:794 fitsviewer/fitsviewer.cpp:1594
+#: fitsviewer/fitstab.cpp:796 fitsviewer/fitsviewer.cpp:1594
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
 msgstr "Maint:"
 
-#: fitsviewer/fitstab.cpp:799
+#: fitsviewer/fitstab.cpp:801
 #, kde-format
 msgid "Item reference number"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:800
+#: fitsviewer/fitstab.cpp:802
 #, fuzzy, kde-format
 msgid "Double click to launch CDS Portal browser"
 msgstr "Methu cadw'r ddelwedd : %1 "
 
-#: fitsviewer/fitstab.cpp:802
+#: fitsviewer/fitstab.cpp:804
 #, fuzzy, kde-format
 msgid "Double click to launch Simbad browser"
 msgstr "Methu cadw'r ddelwedd : %1 "
 
-#: fitsviewer/fitstab.cpp:803
+#: fitsviewer/fitstab.cpp:805
 #, fuzzy, kde-format
 msgid "Double click to launch NED browser"
 msgstr "Methu cadw'r ddelwedd : %1 "
 
-#: fitsviewer/fitstab.cpp:804
+#: fitsviewer/fitstab.cpp:806
 #, fuzzy, kde-format
 #| msgid "object"
 msgid "Catalog Object"
 msgstr "gwrthrych"
 
-#: fitsviewer/fitstab.cpp:806
+#: fitsviewer/fitstab.cpp:808
 #, kde-format
 msgid ""
 "Object Type Code. Double click to launch Object Type Filter.\n"
@@ -30435,7 +30435,7 @@ msgid ""
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:809
+#: fitsviewer/fitstab.cpp:811
 #, kde-format
 msgid ""
 "Object Type Label. Double click to launch Object Type Filter.\n"
@@ -30443,117 +30443,117 @@ msgid ""
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:811
+#: fitsviewer/fitstab.cpp:813
 #, fuzzy, kde-format
 msgid "Object coordinates"
 msgstr " Corinth"
 
-#: fitsviewer/fitstab.cpp:812
+#: fitsviewer/fitstab.cpp:814
 #, kde-format
 msgid "Object distance in arcmins from the search center"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:814
+#: fitsviewer/fitstab.cpp:816
 #, fuzzy, kde-format
 #| msgid "Show &name"
 msgid "Object V magnitude"
 msgstr "Dango&s enw"
 
-#: fitsviewer/fitstab.cpp:815
+#: fitsviewer/fitstab.cpp:817
 #, kde-format
 msgid "Object major coordinate size in arcsmins"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:904
+#: fitsviewer/fitstab.cpp:906
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "ARA"
 msgid "RAM"
 msgstr "ARA"
 
-#: fitsviewer/fitstab.cpp:1026
+#: fitsviewer/fitstab.cpp:1028
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
 msgstr "Cysylltiad"
 
-#: fitsviewer/fitstab.cpp:1051
+#: fitsviewer/fitstab.cpp:1053
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
 msgstr "Amser"
 
-#: fitsviewer/fitstab.cpp:1065
+#: fitsviewer/fitstab.cpp:1067
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Master Dark"
 msgstr "Iseldiroedd"
 
-#: fitsviewer/fitstab.cpp:1079
+#: fitsviewer/fitstab.cpp:1081
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Master Flat"
 msgstr "Dewis Dim"
 
-#: fitsviewer/fitstab.cpp:1181 fitsviewer/fitstab.cpp:1185
+#: fitsviewer/fitstab.cpp:1183 fitsviewer/fitstab.cpp:1187
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "C&adw"
 
-#: fitsviewer/fitstab.cpp:1217
+#: fitsviewer/fitstab.cpp:1219
 #, fuzzy, kde-format
 #| msgid "File saved."
 msgid "Image save error: %1"
 msgstr "Cadwyd y ffeil."
 
-#: fitsviewer/fitstab.cpp:1217
+#: fitsviewer/fitstab.cpp:1219
 #, fuzzy, kde-format
 msgid "Image Save"
 msgstr "Cysylltiad"
 
-#: fitsviewer/fitstab.cpp:1221
+#: fitsviewer/fitstab.cpp:1223
 #, fuzzy, kde-format
 #| msgid "File saved."
 msgid "File saved to %1"
 msgstr "Cadwyd y ffeil."
 
-#: fitsviewer/fitstab.cpp:1315
+#: fitsviewer/fitstab.cpp:1317
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lorain"
 msgid "Watching %1"
 msgstr "Lorain"
 
-#: fitsviewer/fitstab.cpp:1454
+#: fitsviewer/fitstab.cpp:1456
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lorain"
 msgid "Stopped Watching (%1)"
 msgstr "Lorain"
 
-#: fitsviewer/fitstab.cpp:1455
+#: fitsviewer/fitstab.cpp:1457
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Lorain"
 msgid "(%1) Watching"
 msgstr "Lorain"
 
-#: fitsviewer/fitstab.cpp:1456 fitsviewer/fitstab.cpp:1462
+#: fitsviewer/fitstab.cpp:1458 fitsviewer/fitstab.cpp:1464
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Haines"
 msgid "%1 %2"
 msgstr "Haines"
 
-#: fitsviewer/fitstab.cpp:1460
+#: fitsviewer/fitstab.cpp:1462
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "INDUS"
 msgid "Stopped (%1)"
 msgstr "INDUS"
 
-#: fitsviewer/fitstab.cpp:1461
+#: fitsviewer/fitstab.cpp:1463
 #, fuzzy, kde-format
 msgid "(%1)"
 msgstr "Rhag :"

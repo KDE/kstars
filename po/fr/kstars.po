@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.8\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-05 01:51+0000\n"
+"POT-Creation-Date: 2025-10-07 02:01+0000\n"
 "PO-Revision-Date: 2025-07-20 12:19+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -2705,7 +2705,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
-#: ekos/scheduler/scheduler.cpp:2122 fitsviewer/fitstab.cpp:1228
+#: ekos/scheduler/scheduler.cpp:2122 fitsviewer/fitstab.cpp:1230
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -3151,7 +3151,7 @@ msgstr "_lic"
 #. i18n: ectx: property (title), widget (QGroupBox, object_group)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:458
-#: fitsviewer/fitstab.cpp:788
+#: fitsviewer/fitstab.cpp:790
 #, kde-format
 msgid "Object"
 msgstr "Objet"
@@ -4122,7 +4122,7 @@ msgstr "Détails - Données de position"
 #. i18n: ectx: property (text), widget (QLabel, CoordTitle)
 #. i18n: ectx: property (text), widget (QRadioButton, coordinatesR)
 #: dialogs/details_position.ui:66 ekos/guide/manualdither.ui:55
-#: fitsviewer/fitstab.cpp:791 kstarslite/qml/dialogs/DetailsDialog.qml:236
+#: fitsviewer/fitstab.cpp:793 kstarslite/qml/dialogs/DetailsDialog.qml:236
 #: printing/detailstable.cpp:509
 #, kde-format, kde-kuit-format
 msgid "Coordinates"
@@ -6781,7 +6781,7 @@ msgstr "Exporter des points de solution"
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
 #: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
-#: fitsviewer/fitstab.cpp:1227 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:1229 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -6884,7 +6884,7 @@ msgstr "Charger && Pointer…"
 #: ekos/align/polaralignmentassistant.ui:826 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:246
 #: ekos/observatory/observatorydomemodel.cpp:132
-#: ekos/observatory/observatorydomemodel.cpp:135 fitsviewer/fitstab.cpp:36
+#: ekos/observatory/observatorydomemodel.cpp:135 fitsviewer/fitstab.cpp:38
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
 #: kstarslite/qml/indi/modules/MotionControl.qml:146
 #, kde-format, kde-kuit-format
@@ -10495,7 +10495,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
 #: ekos/manager.cpp:149 ekos/manager.cpp:252 ekos/manager.cpp:814
 #: ekos/observatory/observatorydomemodel.cpp:132
-#: ekos/observatory/observatorydomemodel.cpp:135 fitsviewer/fitstab.cpp:35
+#: ekos/observatory/observatorydomemodel.cpp:135 fitsviewer/fitstab.cpp:37
 #: fitsviewer/livestacking.ui:328 kstarslite/qml/indi/INDIControlPanel.qml:166
 #, kde-format, kde-kuit-format
 msgid "Start"
@@ -10887,7 +10887,7 @@ msgstr "Dernier"
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
-#: ekos/analyze/analyze.ui:289 fitsviewer/fitstab.cpp:145
+#: ekos/analyze/analyze.ui:289 fitsviewer/fitstab.cpp:147
 #: fitsviewer/fitsviewer.cpp:195 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
@@ -20190,7 +20190,7 @@ msgstr "Profil…"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:1115 ekos/manager.ui:1079 fitsviewer/fitstab.cpp:178
+#: ekos/focus/focus.ui:1115 ekos/manager.ui:1079 fitsviewer/fitstab.cpp:180
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -20647,7 +20647,7 @@ msgstr "La solution est en dehors de la course maximale."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:43 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:432
+#: fitsviewer/fitstab.cpp:434
 #, kde-format
 msgid "Value"
 msgstr "Valeur"
@@ -23549,7 +23549,7 @@ msgstr ""
 "cours…"
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
-#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:793
+#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:795
 #: kstarslite/qml/dialogs/DetailsDialog.qml:138
 #, kde-format, kde-kuit-format
 msgid "Magnitude"
@@ -31009,7 +31009,7 @@ msgstr "Tâche « %1 » %2 x %3\" %4"
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
 #: fitsviewer/catalogobject.ui:14 fitsviewer/fitsheaderdialog.ui:14
-#: fitsviewer/fitstab.cpp:169 fitsviewer/fitsviewer.cpp:160
+#: fitsviewer/fitstab.cpp:171 fitsviewer/fitsviewer.cpp:160
 #, kde-format
 msgid "FITS Header"
 msgstr "En-tête FITS"
@@ -31415,7 +31415,7 @@ msgstr ""
 "tr><tr><td>Fréquence « B » : </td><td>%4</td></tr></table>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
-#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:166
+#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:168
 #: fitsviewer/fitsviewer.cpp:126
 #, kde-format
 msgid "Histogram"
@@ -31545,18 +31545,18 @@ msgstr "Trouver automatiquement les paramètres de l'étirement."
 msgid "Cycle through stretch presets."
 msgstr "Parcourez les préréglages d'étirement."
 
-#: fitsviewer/fitstab.cpp:37
+#: fitsviewer/fitstab.cpp:39
 #, fuzzy, kde-format
 #| msgid "Stopping"
 msgid "Stopping..."
 msgstr "Arrêt"
 
-#: fitsviewer/fitstab.cpp:68
+#: fitsviewer/fitstab.cpp:70
 #, kde-format
 msgid "Save Changes to FITS?"
 msgstr "Enregistrer les changements dans le FITS ?"
 
-#: fitsviewer/fitstab.cpp:69
+#: fitsviewer/fitstab.cpp:71
 #, kde-format
 msgid ""
 "The current FITS file has unsaved changes.  Would you like to save before "
@@ -31567,49 +31567,49 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, LiveStackingUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
-#: fitsviewer/fitstab.cpp:146 fitsviewer/livestacking.ui:26
+#: fitsviewer/fitstab.cpp:148 fitsviewer/livestacking.ui:26
 #: fitsviewer/platesolve.ui:14
 #, kde-format
 msgid "Plate Solving"
 msgstr "Résolution"
 
-#: fitsviewer/fitstab.cpp:150
+#: fitsviewer/fitstab.cpp:152
 #, kde-format
 msgid "Catalog Objects"
 msgstr "Objets du catalogue"
 
-#: fitsviewer/fitstab.cpp:162
+#: fitsviewer/fitstab.cpp:164
 #, kde-format
 msgid "Live Stacking"
 msgstr "Empilement live"
 
-#: fitsviewer/fitstab.cpp:175
+#: fitsviewer/fitstab.cpp:177
 #, kde-format
 msgid "Recent Images"
 msgstr "Images récentes"
 
-#: fitsviewer/fitstab.cpp:444
+#: fitsviewer/fitstab.cpp:446
 #, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:607
+#: fitsviewer/fitstab.cpp:609
 #, kde-format
 msgid "%1 / %2 Simbad objects loaded"
 msgstr "%1/%2 fichiers d'images Simbad chargés"
 
-#: fitsviewer/fitstab.cpp:622
+#: fitsviewer/fitstab.cpp:624
 #, kde-format
 msgid "Simbad query in progress..."
 msgstr "Requête Simbad en cours…"
 
-#: fitsviewer/fitstab.cpp:784
+#: fitsviewer/fitstab.cpp:786
 #, kde-format
 msgid "Num"
 msgstr "Num"
 
-#: fitsviewer/fitstab.cpp:785
+#: fitsviewer/fitstab.cpp:787
 #, kde-format
 msgid "CDS Portal"
 msgstr "Portail CDS"
@@ -31617,64 +31617,64 @@ msgstr "Portail CDS"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad2)
-#: fitsviewer/fitstab.cpp:786 fitsviewer/opsfits.ui:445
+#: fitsviewer/fitstab.cpp:788 fitsviewer/opsfits.ui:445
 #: tools/imagingplanner.ui:1377 tools/imagingplanner.ui:1714
 #, kde-format
 msgid "Simbad"
 msgstr "Simbad"
 
-#: fitsviewer/fitstab.cpp:787
+#: fitsviewer/fitstab.cpp:789
 #, kde-format
 msgid "NED"
 msgstr "NED"
 
-#: fitsviewer/fitstab.cpp:789
+#: fitsviewer/fitstab.cpp:791
 #, kde-format
 msgid "Type Code"
 msgstr "Code du type"
 
-#: fitsviewer/fitstab.cpp:790
+#: fitsviewer/fitstab.cpp:792
 #, kde-format
 msgid "Type Label"
 msgstr "Étiquette du type"
 
-#: fitsviewer/fitstab.cpp:792 kstarslite/qml/dialogs/DetailsDialog.qml:143
+#: fitsviewer/fitstab.cpp:794 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-format, kde-kuit-format
 msgid "Distance"
 msgstr "Distance"
 
-#: fitsviewer/fitstab.cpp:794 fitsviewer/fitsviewer.cpp:1594
+#: fitsviewer/fitstab.cpp:796 fitsviewer/fitsviewer.cpp:1594
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Taille"
 
-#: fitsviewer/fitstab.cpp:799
+#: fitsviewer/fitstab.cpp:801
 #, kde-format
 msgid "Item reference number"
 msgstr "Numéro de référence de l'objet"
 
-#: fitsviewer/fitstab.cpp:800
+#: fitsviewer/fitstab.cpp:802
 #, kde-format
 msgid "Double click to launch CDS Portal browser"
 msgstr "Double clic pour lancer le navigateur du portail CDS"
 
-#: fitsviewer/fitstab.cpp:802
+#: fitsviewer/fitstab.cpp:804
 #, kde-format
 msgid "Double click to launch Simbad browser"
 msgstr "Double clic pour lancer le navigateur Simbad"
 
-#: fitsviewer/fitstab.cpp:803
+#: fitsviewer/fitstab.cpp:805
 #, kde-format
 msgid "Double click to launch NED browser"
 msgstr "Double clic pour lancer le navigateur NED"
 
-#: fitsviewer/fitstab.cpp:804
+#: fitsviewer/fitstab.cpp:806
 #, kde-format
 msgid "Catalog Object"
 msgstr "Objet du catalogue"
 
-#: fitsviewer/fitstab.cpp:806
+#: fitsviewer/fitstab.cpp:808
 #, kde-format
 msgid ""
 "Object Type Code. Double click to launch Object Type Filter.\n"
@@ -31685,7 +31685,7 @@ msgstr ""
 "\n"
 "Voir https://simbad.cds.unistra.fr/guide/otypes.htx pour davantage de détails"
 
-#: fitsviewer/fitstab.cpp:809
+#: fitsviewer/fitstab.cpp:811
 #, kde-format
 msgid ""
 "Object Type Label. Double click to launch Object Type Filter.\n"
@@ -31697,107 +31697,107 @@ msgstr ""
 "\n"
 "Voir https://simbad.cds.unistra.fr/guide/otypes.htx pour davantage de détails"
 
-#: fitsviewer/fitstab.cpp:811
+#: fitsviewer/fitstab.cpp:813
 #, kde-format
 msgid "Object coordinates"
 msgstr "Coordonnées de l'objet"
 
-#: fitsviewer/fitstab.cpp:812
+#: fitsviewer/fitstab.cpp:814
 #, kde-format
 msgid "Object distance in arcmins from the search center"
 msgstr "Distance de l'objet en minutes d'arc du centre de la recherche"
 
-#: fitsviewer/fitstab.cpp:814
+#: fitsviewer/fitstab.cpp:816
 #, kde-format
 msgid "Object V magnitude"
 msgstr "Magnitude V de l'objet"
 
-#: fitsviewer/fitstab.cpp:815
+#: fitsviewer/fitstab.cpp:817
 #, kde-format
 msgid "Object major coordinate size in arcsmins"
 msgstr "Taille de la coordonnée principale de l'objet en minutes d'arc"
 
-#: fitsviewer/fitstab.cpp:904
+#: fitsviewer/fitstab.cpp:906
 #, kde-format
 msgid "RAM"
 msgstr "RAM"
 
-#: fitsviewer/fitstab.cpp:1026
+#: fitsviewer/fitstab.cpp:1028
 #, kde-format
 msgctxt "@title:window"
 msgid "Stack Directory"
 msgstr "Dossier d'empilement"
 
-#: fitsviewer/fitstab.cpp:1051
+#: fitsviewer/fitstab.cpp:1053
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
 msgstr "Sélection de la pose d'alignement"
 
-#: fitsviewer/fitstab.cpp:1065
+#: fitsviewer/fitstab.cpp:1067
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Master Dark"
 msgstr "Sélection du master dark"
 
-#: fitsviewer/fitstab.cpp:1079
+#: fitsviewer/fitstab.cpp:1081
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Master Flat"
 msgstr "Sélection du master flat"
 
-#: fitsviewer/fitstab.cpp:1181 fitsviewer/fitstab.cpp:1185
+#: fitsviewer/fitstab.cpp:1183 fitsviewer/fitstab.cpp:1187
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Enregistrer FITS"
 
-#: fitsviewer/fitstab.cpp:1217
+#: fitsviewer/fitstab.cpp:1219
 #, kde-format
 msgid "Image save error: %1"
 msgstr "Erreur lors de l'enregistrement de l'image : %1"
 
-#: fitsviewer/fitstab.cpp:1217
+#: fitsviewer/fitstab.cpp:1219
 #, kde-format
 msgid "Image Save"
 msgstr "Enregistrement d'image"
 
-#: fitsviewer/fitstab.cpp:1221
+#: fitsviewer/fitstab.cpp:1223
 #, kde-format
 msgid "File saved to %1"
 msgstr "Fichier enregistré dans %1"
 
-#: fitsviewer/fitstab.cpp:1315
+#: fitsviewer/fitstab.cpp:1317
 #, kde-format
 msgid "Watching %1"
 msgstr "Suivi de %1"
 
-#: fitsviewer/fitstab.cpp:1454
+#: fitsviewer/fitstab.cpp:1456
 #, fuzzy, kde-format
 #| msgid "Watching %1"
 msgid "Stopped Watching (%1)"
 msgstr "Suivi de %1"
 
-#: fitsviewer/fitstab.cpp:1455
+#: fitsviewer/fitstab.cpp:1457
 #, fuzzy, kde-format
 #| msgid "(%1) Watching %2"
 msgid "(%1) Watching"
 msgstr "(%1) Suivi de %2"
 
-#: fitsviewer/fitstab.cpp:1456 fitsviewer/fitstab.cpp:1462
+#: fitsviewer/fitstab.cpp:1458 fitsviewer/fitstab.cpp:1464
 #, fuzzy, kde-format
 #| msgctxt "integrated flux value"
 #| msgid "%1 %2"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1460
+#: fitsviewer/fitstab.cpp:1462
 #, fuzzy, kde-format
 #| msgid "Stopped"
 msgid "Stopped (%1)"
 msgstr "Arrêté"
 
-#: fitsviewer/fitstab.cpp:1461
+#: fitsviewer/fitstab.cpp:1463
 #, fuzzy, kde-format
 #| msgid "(%1) %2"
 msgid "(%1)"
