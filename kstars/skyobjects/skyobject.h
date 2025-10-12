@@ -28,7 +28,7 @@ class KSPopupMenu;
 
 namespace
 {
-const auto emptyString = QStringLiteral();
+const auto emptyString = QStringLiteral("");
 const auto unnamedString = kde_translate("unnamed");
 const auto unnamedObjectString = kde_translate("unnamed object");
 const auto starString = kde_translate("star");

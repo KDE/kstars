@@ -19,6 +19,7 @@ endif ()
 if(MSVC)
     add_definitions(-D_USE_MATH_DEFINES=1)
     add_definitions(-DNOMINMAX)
+    add_definitions(/bigobj)
 endif()
 
 include(CheckCXXSymbolExists)
