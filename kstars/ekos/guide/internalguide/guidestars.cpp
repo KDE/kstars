@@ -17,6 +17,7 @@
 #undef Const
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include <QTime>
+#include <QElapsedTimer>
 
 #define DLOG if (false) qCDebug
 

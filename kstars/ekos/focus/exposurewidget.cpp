@@ -28,5 +28,5 @@ QString ExposureWidget::textFromValue(double value) const
         count++;
         v *= 10;
     }
-    return QWidget::locale().toString(value, u'f', std::max(3, count));
+    return QWidget::locale().toString(value, static_cast<char>(u'f'), std::max(3, count));
 }
