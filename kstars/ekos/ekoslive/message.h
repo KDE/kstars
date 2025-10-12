@@ -279,7 +279,7 @@ class Message : public QObject
 
 inline uint qHash(const Message::PendingProperty &key, uint seed = 0) noexcept
 {
-    return qHash(key.device, seed) ^ qHash(key.name, seed);
+    return static_cast < uint > (qHash(key.device, seed) ^ qHash(key.name, seed));
 }
 
 }
