@@ -3,7 +3,7 @@
 # Build dependencies for the custom image are packaged into image definition 'docker/Dockerfile'
 
 include:
-  - local: '.gitlab-ci/common_rules.yml'
+  - local: ".gitlab-ci/common_rules.yml"
   - project: sysadmin/ci-utilities
     file:
       - /gitlab-templates/linux.yml
@@ -17,7 +17,7 @@ include:
 
 # Jobs
 # Standard build recipes
-   
+
 .standard-build-recipes:
   rules:
     - !reference [.optional-on-forked-repository, rules]
@@ -29,11 +29,11 @@ include:
 
 # These jobs are automatically defined by the included templates
 # We just need to override their rules - no need to extend anything
-suse_tumbleweed_qt69:
+suse_tumbleweed_qt610:
   rules:
     - !reference [.standard-build-recipes, rules]
 
-windows_qt69:
+windows_qt610:
   allow_failure: true # TODO: REMOVE WHEN STELLARSOLVER QT6 IS INCLUDED IN CI IMAGE
   rules:
     - !reference [.standard-build-recipes, rules]
@@ -53,7 +53,7 @@ flatpak:
   rules:
     - !reference [.standard-build-recipes, rules]
   needs:
-    - suse_tumbleweed_qt69
+    - suse_tumbleweed_qt610
 
 # Craft recipes
 
@@ -69,21 +69,21 @@ flatpak:
 # These craft jobs are also automatically defined by the included templates
 craft_windows_qt6_x86_64: # Extended from /gitlab-templates/craft-windows-x86-64-qt6.yml
   needs:
-    - windows_qt69
+    - windows_qt610
   rules:
     - !reference [.craft-recipes, rules]
 
 craft_macos_qt6_x86_64: # Extended from /gitlab-templates/craft-macos-x86-64-qt6.yml
   timeout: 2h # Signing procedure often exceeds the default 1h
   needs:
-    - suse_tumbleweed_qt69 # we don't have a macos check build
+    - suse_tumbleweed_qt610 # we don't have a macos check build
   rules:
     - !reference [.craft-recipes, rules]
 
 craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.yml
   timeout: 2h # Signing procedure often exceeds the default 1h
   needs:
-    - suse_tumbleweed_qt69 # we don't have a macos check build
+    - suse_tumbleweed_qt610 # we don't have a macos check build
   rules:
     - !reference [.craft-recipes, rules]
 
@@ -96,7 +96,7 @@ craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.y
 
 microsoftstore_qt6:
   needs:
-    - craft_windows_qt6_x86_64  # Wait for Windows craft job to complete
+    - craft_windows_qt6_x86_64 # Wait for Windows craft job to complete
   rules:
     - !reference [.publishing-recipes, rules]
 
@@ -119,7 +119,7 @@ microsoftstore_qt6:
     CCACHE_DIR: "$CI_PROJECT_DIR/.ccache"
   cache:
     key: "CCACHE-DB-$CI_PROJECT_ID"
-    paths: [ "${CCACHE_DIR}" ]
+    paths: ["${CCACHE_DIR}"]
     when: always
   rules:
     - !reference [.custom-build-recipes, rules]
@@ -139,7 +139,7 @@ build:
   extends: .custom_build
   allow_failure: true # TODO: REMOVE WHEN STABLE AGAIN
   needs:
-    - suse_tumbleweed_qt69
+    - suse_tumbleweed_qt610
   script:
     - cd kstars-build
     - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=OFF -DBUILD_DOC=OFF -DBUILD_WITH_QT6=ON ..
@@ -176,5 +176,4 @@ build-and-test-stable:
     - ccache -s
   artifacts:
     reports:
-      junit:
-        ./junit_result.stable.xml
+      junit: ./junit_result.stable.xml
