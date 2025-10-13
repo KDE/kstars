@@ -17,9 +17,9 @@ if (NOT ANDROID)
 endif ()
 
 if(MSVC)
-    add_definitions(-D_USE_MATH_DEFINES=1)
-    add_definitions(-DNOMINMAX)
-    add_definitions(/bigobj)
+    add_compile_definitions(_USE_MATH_DEFINES=1)
+    add_compile_definitions(NOMINMAX)
+    add_compile_options(/bigobj)
 endif()
 
 include(CheckCXXSymbolExists)
