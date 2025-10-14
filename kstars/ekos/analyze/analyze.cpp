@@ -29,6 +29,10 @@
 #include <QDesktopServices>
 #include <QFileDialog>
 
+#include <QStyle>
+#include <QStyleOptionFrame>
+#include <QLineEdit>
+
 // Subclass QCPAxisTickerDateTime, so that times are offset from the start
 // of the log, instead of being offset from the UNIX 0-seconds time.
 class OffsetDateTimeTicker : public QCPAxisTickerDateTime
@@ -2063,6 +2067,42 @@ void Analyze::statsYZoomOut()
 
 namespace
 {
+
+bool textFits(const QString &string, QLineEdit *box)
+{
+    QFont styledFont = box->font();
+    QFontMetrics fm(styledFont);
+    QStyleOptionFrame opt;
+    opt.initFrom(box);
+    opt.rect = box->rect();
+    opt.lineWidth = box->style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, box);
+    opt.midLineWidth = 0;
+    opt.state |= QStyle::State_Sunken; // Line edits are typically drawn as a sunken frame
+    QRect contentsRect = box->style()->subElementRect(QStyle::SE_LineEditContents, &opt, box);
+    int availableContentWidth = contentsRect.width();
+    int textWidth = fm.horizontalAdvance(string);
+    return textWidth < (availableContentWidth - 1);
+}
+
+void fitText(const QString &string, QLineEdit *box)
+{
+    QFont origFont = box->font();
+    int origFontSize = origFont.pointSize();
+    float font = origFontSize;
+    while (font >= 5)
+    {
+        if (textFits(string, box))
+            break;
+        font -= 0.5;
+        // If there was a stylesheet for this box, we lose it here.
+        // I tried but couldn't figure out a way to append to the old style sheet
+        // in this loop, then restore the original stylesheet later.
+        // box->setStyleSheet(QString("%1;font-size: %2pt;").arg(origStyle).arg(font));
+        box->setStyleSheet(QString("font-size: %2pt;").arg(font, 0, 'f', 1));
+    }
+    box->setText(string);
+}
+
 // Pass in a function that converts the double graph value to a string
 // for the value box.
 template<typename Func>
@@ -2087,7 +2127,7 @@ void updateStat(double time, QLineEdit *valueBox, QCPGraph *graph, Func func, bo
                     break;
                 if (!qIsNaN(val))
                 {
-                    valueBox->setText(func(val));
+                    fitText(func(val), valueBox);
                     return;
                 }
                 index--;
@@ -2095,7 +2135,7 @@ void updateStat(double time, QLineEdit *valueBox, QCPGraph *graph, Func func, bo
             valueBox->clear();
         }
         else
-            valueBox->setText(func(foundVal));
+            fitText(func(foundVal), valueBox);
     }
     else valueBox->setDisabled(true);
 }
@@ -2556,9 +2596,9 @@ void Analyze::initStatsPlot()
         if (show && !Options::autoHFR())
             KSNotification::info(
                 i18n("The \"Auto Compute HFR\" option in the KStars "
-                 "FITS options menu is not set. You won't get HFR values "
-                 "without it. Once you set it, newly captured images "
-                 "will have their HFRs computed."));
+                     "FITS options menu is not set. You won't get HFR values "
+                     "without it. Once you set it, newly captured images "
+                     "will have their HFRs computed."));
     });
 
     shortName = "#SubStars";
@@ -2572,9 +2612,9 @@ void Analyze::initStatsPlot()
         if (show && !Options::autoHFR())
             KSNotification::info(
                 i18n("The \"Auto Compute HFR\" option in the KStars "
-                 "FITS options menu is not set. You won't get # stars in capture image values "
-                 "without it. Once you set it, newly captured images "
-                 "will have their stars detected."));
+                     "FITS options menu is not set. You won't get # stars in capture image values "
+                     "without it. Once you set it, newly captured images "
+                     "will have their stars detected."));
     });
 
     shortName = "median";
