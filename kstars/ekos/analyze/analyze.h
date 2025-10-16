@@ -480,6 +480,9 @@ class Analyze : public QWidget, public Ui::Analyze
         // the corresponding y-axis can be found.
         std::map<QObject*, YAxisInfo> yAxisMap;
 
+        // Holds the design font size for the stat QLineEdit.
+        std::map<QObject*, float> statsFontMap;
+
         // The .analyze log file being written.
         QString logFilename { "" };
         QSharedPointer<QFile> logFile;

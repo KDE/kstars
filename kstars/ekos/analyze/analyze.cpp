@@ -2084,21 +2084,26 @@ bool textFits(const QString &string, QLineEdit *box)
     return textWidth < (availableContentWidth - 1);
 }
 
-void fitText(const QString &string, QLineEdit *box)
+void fitText(const QString &string, QLineEdit *box, const std::map<QObject*, float> &fontMap)
 {
-    QFont origFont = box->font();
-    int origFontSize = origFont.pointSize();
-    float font = origFontSize;
+    float origFont = 9;
+    auto fVal = fontMap.find(box);
+    if (fVal != fontMap.end())
+        origFont = fVal->second;
+
+    float font = origFont;
+    box->setStyleSheet(QString("font-size: %1pt;").arg(font, 0, 'f', 1));
     while (font >= 5)
     {
         if (textFits(string, box))
             break;
+
         font -= 0.5;
         // If there was a stylesheet for this box, we lose it here.
         // I tried but couldn't figure out a way to append to the old style sheet
         // in this loop, then restore the original stylesheet later.
         // box->setStyleSheet(QString("%1;font-size: %2pt;").arg(origStyle).arg(font));
-        box->setStyleSheet(QString("font-size: %2pt;").arg(font, 0, 'f', 1));
+        box->setStyleSheet(QString("font-size: %1pt;").arg(font, 0, 'f', 1));
     }
     box->setText(string);
 }
@@ -2106,7 +2111,8 @@ void fitText(const QString &string, QLineEdit *box)
 // Pass in a function that converts the double graph value to a string
 // for the value box.
 template<typename Func>
-void updateStat(double time, QLineEdit *valueBox, QCPGraph *graph, Func func, bool useLastRealVal = false)
+void updateStat(double time, QLineEdit *valueBox, QCPGraph *graph, Func func, const std::map<QObject*, float> &fontMap,
+                bool useLastRealVal = false)
 {
     auto begin = graph->data()->findBegin(time);
     double timeDiffThreshold = 10000000.0;
@@ -2127,7 +2133,7 @@ void updateStat(double time, QLineEdit *valueBox, QCPGraph *graph, Func func, bo
                     break;
                 if (!qIsNaN(val))
                 {
-                    fitText(func(val), valueBox);
+                    fitText(func(val), valueBox, fontMap);
                     return;
                 }
                 index--;
@@ -2135,7 +2141,7 @@ void updateStat(double time, QLineEdit *valueBox, QCPGraph *graph, Func func, bo
             valueBox->clear();
         }
         else
-            fitText(func(foundVal), valueBox);
+            fitText(func(foundVal), valueBox, fontMap);
     }
     else valueBox->setDisabled(true);
 }
@@ -2151,21 +2157,21 @@ void Analyze::updateStatsValues()
     auto d1Fcn = [](double d) -> QString { return QString::number(d, 'f', 1); };
     // HFR, numCaptureStars, median & eccentricity are the only ones to use the last real value,
     // that is, it keeps those values from the last exposure.
-    updateStat(time, hfrOut, statsPlot->graph(HFR_GRAPH), d2Fcn, true);
-    updateStat(time, eccentricityOut, statsPlot->graph(ECCENTRICITY_GRAPH), d2Fcn, true);
-    updateStat(time, skyBgOut, statsPlot->graph(SKYBG_GRAPH), d1Fcn);
-    updateStat(time, snrOut, statsPlot->graph(SNR_GRAPH), d1Fcn);
-    updateStat(time, raOut, statsPlot->graph(RA_GRAPH), d2Fcn);
-    updateStat(time, decOut, statsPlot->graph(DEC_GRAPH), d2Fcn);
-    updateStat(time, driftOut, statsPlot->graph(DRIFT_GRAPH), d2Fcn);
-    updateStat(time, rmsOut, statsPlot->graph(RMS_GRAPH), d2Fcn);
-    updateStat(time, rmsCOut, statsPlot->graph(CAPTURE_RMS_GRAPH), d2Fcn);
-    updateStat(time, azOut, statsPlot->graph(AZ_GRAPH), d1Fcn);
-    updateStat(time, altOut, statsPlot->graph(ALT_GRAPH), d2Fcn);
-    updateStat(time, temperatureOut, statsPlot->graph(TEMPERATURE_GRAPH), d2Fcn);
+    updateStat(time, hfrOut, statsPlot->graph(HFR_GRAPH), d2Fcn, statsFontMap, true);
+    updateStat(time, eccentricityOut, statsPlot->graph(ECCENTRICITY_GRAPH), d2Fcn, statsFontMap, true);
+    updateStat(time, skyBgOut, statsPlot->graph(SKYBG_GRAPH), d1Fcn, statsFontMap);
+    updateStat(time, snrOut, statsPlot->graph(SNR_GRAPH), d1Fcn, statsFontMap);
+    updateStat(time, raOut, statsPlot->graph(RA_GRAPH), d2Fcn, statsFontMap);
+    updateStat(time, decOut, statsPlot->graph(DEC_GRAPH), d2Fcn, statsFontMap);
+    updateStat(time, driftOut, statsPlot->graph(DRIFT_GRAPH), d2Fcn, statsFontMap);
+    updateStat(time, rmsOut, statsPlot->graph(RMS_GRAPH), d2Fcn, statsFontMap);
+    updateStat(time, rmsCOut, statsPlot->graph(CAPTURE_RMS_GRAPH), d2Fcn, statsFontMap);
+    updateStat(time, azOut, statsPlot->graph(AZ_GRAPH), d1Fcn, statsFontMap);
+    updateStat(time, altOut, statsPlot->graph(ALT_GRAPH), d2Fcn, statsFontMap);
+    updateStat(time, temperatureOut, statsPlot->graph(TEMPERATURE_GRAPH), d2Fcn, statsFontMap);
 
     auto asFcn = [](double d) -> QString { return QString("%1\"").arg(d, 0, 'f', 0); };
-    updateStat(time, targetDistanceOut, statsPlot->graph(TARGET_DISTANCE_GRAPH), asFcn, true);
+    updateStat(time, targetDistanceOut, statsPlot->graph(TARGET_DISTANCE_GRAPH), asFcn, statsFontMap, true);
 
     auto hmsFcn = [](double d) -> QString
     {
@@ -2174,9 +2180,9 @@ void Analyze::updateStatsValues()
         return QString("%1:%2:%3").arg(ra.hour()).arg(ra.minute()).arg(ra.second());
         //return ra.toHMSString();
     };
-    updateStat(time, mountRaOut, statsPlot->graph(MOUNT_RA_GRAPH), hmsFcn);
+    updateStat(time, mountRaOut, statsPlot->graph(MOUNT_RA_GRAPH), hmsFcn, statsFontMap);
     auto dmsFcn = [](double d) -> QString { dms dec; dec.setD(d); return dec.toDMSString(); };
-    updateStat(time, mountDecOut, statsPlot->graph(MOUNT_DEC_GRAPH), dmsFcn);
+    updateStat(time, mountDecOut, statsPlot->graph(MOUNT_DEC_GRAPH), dmsFcn, statsFontMap);
     auto haFcn = [](double d) -> QString
     {
         dms ha;
@@ -2191,21 +2197,21 @@ void Analyze::updateStatsValues()
         return QString("%1%2:%3").arg(sgn).arg(ha.hour(), 2, 10, z)
         .arg(ha.minute(), 2, 10, z);
     };
-    updateStat(time, mountHaOut, statsPlot->graph(MOUNT_HA_GRAPH), haFcn);
+    updateStat(time, mountHaOut, statsPlot->graph(MOUNT_HA_GRAPH), haFcn, statsFontMap);
 
     auto intFcn = [](double d) -> QString { return QString::number(d, 'f', 0); };
-    updateStat(time, numStarsOut, statsPlot->graph(NUMSTARS_GRAPH), intFcn);
-    updateStat(time, raPulseOut, statsPlot->graph(RA_PULSE_GRAPH), intFcn);
-    updateStat(time, decPulseOut, statsPlot->graph(DEC_PULSE_GRAPH), intFcn);
-    updateStat(time, numCaptureStarsOut, statsPlot->graph(NUM_CAPTURE_STARS_GRAPH), intFcn, true);
-    updateStat(time, medianOut, statsPlot->graph(MEDIAN_GRAPH), intFcn, true);
-    updateStat(time, focusPositionOut, statsPlot->graph(FOCUS_POSITION_GRAPH), intFcn);
+    updateStat(time, numStarsOut, statsPlot->graph(NUMSTARS_GRAPH), intFcn, statsFontMap);
+    updateStat(time, raPulseOut, statsPlot->graph(RA_PULSE_GRAPH), intFcn, statsFontMap);
+    updateStat(time, decPulseOut, statsPlot->graph(DEC_PULSE_GRAPH), intFcn, statsFontMap);
+    updateStat(time, numCaptureStarsOut, statsPlot->graph(NUM_CAPTURE_STARS_GRAPH), intFcn, statsFontMap, true);
+    updateStat(time, medianOut, statsPlot->graph(MEDIAN_GRAPH), intFcn, statsFontMap, true);
+    updateStat(time, focusPositionOut, statsPlot->graph(FOCUS_POSITION_GRAPH), intFcn, statsFontMap);
 
     auto pierFcn = [](double d) -> QString
     {
         return d == 0.0 ? "W->E" : d == 1.0 ? "E->W" : "?";
     };
-    updateStat(time, pierSideOut, statsPlot->graph(PIER_SIDE_GRAPH), pierFcn);
+    updateStat(time, pierSideOut, statsPlot->graph(PIER_SIDE_GRAPH), pierFcn, statsFontMap);
 }
 
 void Analyze::initStatsCheckboxes()
@@ -2354,6 +2360,7 @@ int Analyze::initGraphAndCB(QCustomPlot * plot, QCPAxis * yAxis, QCPGraph::LineS
     {
         const bool autoAxis = YAxisInfo::isRescale(yAxis->range());
         updateYAxisMap(out, YAxisInfo(yAxis, yAxis->range(), autoAxis, num, plot, cb, name, shortName, color));
+        statsFontMap[out] = out->font().pointSizeF();
     }
     if (cb != nullptr)
     {
