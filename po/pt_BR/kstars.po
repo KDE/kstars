@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-15 01:57+0000\n"
-"PO-Revision-Date: 2025-10-15 10:47-0300\n"
+"POT-Creation-Date: 2025-10-17 02:31+0000\n"
+"PO-Revision-Date: 2025-10-16 07:34-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2062,7 +2062,7 @@ msgstr "Status:"
 #. i18n: ectx: property (text), widget (QLabel, guideStatus)
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
-#: ekos/analyze/analyze.cpp:3480 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:3487 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -6561,7 +6561,7 @@ msgstr "Captura cancelada."
 msgid "Solver aborted after %1 seconds."
 msgstr "O solucionador foi cancelado após %1 segundos."
 
-#: ekos/align/align.cpp:2703 ekos/analyze/analyze.cpp:4135
+#: ekos/align/align.cpp:2703 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2105 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
@@ -10457,7 +10457,7 @@ msgstr "Iniciar"
 #. i18n: ectx: property (text), widget (QLabel, captureLabel)
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:2301
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:2307
 #: ekos/auxiliary/opslogs.ui:285 ekos/capture/capturepreviewwidget.ui:67
 #: ekos/guide/guide.ui:137
 #, kde-format
@@ -10572,7 +10572,7 @@ msgstr "Não foi possível exibir o arquivo de imagem temporário: %1"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
-#: ekos/analyze/analyze.cpp:2302 ekos/auxiliary/opslogs.ui:370
+#: ekos/analyze/analyze.cpp:2308 ekos/auxiliary/opslogs.ui:370
 #: ekos/manager.cpp:2253 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:554
@@ -10582,7 +10582,7 @@ msgstr "Foco"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2303 ekos/manager.cpp:2209
+#: ekos/analyze/analyze.cpp:2309 ekos/manager.cpp:2209
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:562
 #, kde-format
@@ -10593,7 +10593,7 @@ msgstr "Alinhar"
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
-#: ekos/analyze/analyze.cpp:2304 ekos/auxiliary/opslogs.ui:120
+#: ekos/analyze/analyze.cpp:2310 ekos/auxiliary/opslogs.ui:120
 #: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2474
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:558
@@ -10601,7 +10601,7 @@ msgstr "Alinhar"
 msgid "Guide"
 msgstr "Guia"
 
-#: ekos/analyze/analyze.cpp:2305
+#: ekos/analyze/analyze.cpp:2311
 #, kde-format
 msgid "Flip"
 msgstr "Inverter"
@@ -10609,19 +10609,19 @@ msgstr "Inverter"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:2306 ekos/auxiliary/opslogs.ui:77
+#: ekos/analyze/analyze.cpp:2312 ekos/auxiliary/opslogs.ui:77
 #: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2399 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
 msgstr "Montar"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:2307 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:2313 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr "Trabalho"
 
-#: ekos/analyze/analyze.cpp:2598
+#: ekos/analyze/analyze.cpp:2605
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10632,7 +10632,7 @@ msgstr ""
 "está definida. Você não obterá valores de RMF sem ela. Após defini-la, as "
 "imagens recém-capturadas terão suas RMFs calculadas."
 
-#: ekos/analyze/analyze.cpp:2614
+#: ekos/analyze/analyze.cpp:2621
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10644,7 +10644,7 @@ msgstr ""
 "capturada sem ela. Após defini-la, as estrelas das imagens recém-capturadas "
 "serão detectadas."
 
-#: ekos/analyze/analyze.cpp:3482 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:3489 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1631
@@ -10652,97 +10652,97 @@ msgstr ""
 msgid "Aborted"
 msgstr "Cancelado"
 
-#: ekos/analyze/analyze.cpp:3484 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:3491 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "Conectado"
 
-#: ekos/analyze/analyze.cpp:3486 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:3493 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "Desconectado"
 
-#: ekos/analyze/analyze.cpp:3488 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:3495 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2291
 #, kde-format
 msgid "Capturing"
 msgstr "Capturando"
 
-#: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:3497 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr "Looping"
 
-#: ekos/analyze/analyze.cpp:3492 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:3499 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr "Subtraindo"
 
-#: ekos/analyze/analyze.cpp:3494 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:3501 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr "Subenquadramento"
 
-#: ekos/analyze/analyze.cpp:3496 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:3503 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "Selecionando estrela"
 
-#: ekos/analyze/analyze.cpp:3498 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:3505 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "Calibrando"
 
-#: ekos/analyze/analyze.cpp:3500 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:3507 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "Erro de calibração"
 
-#: ekos/analyze/analyze.cpp:3502 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:3509 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "Calibrado"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:3504 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:3511 ekos/ekos.h:32
 #: ekos/scheduler/scheduler.cpp:2289
 #, kde-format
 msgid "Guiding"
 msgstr "Guiando"
 
-#: ekos/analyze/analyze.cpp:3506 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:3513 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "Suspenso"
 
-#: ekos/analyze/analyze.cpp:3508 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:3515 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr "Readquirindo"
 
-#: ekos/analyze/analyze.cpp:3510 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:3517 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "Pontilhamento"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:3512 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:3519 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr "Pontilhamento manual"
 
-#: ekos/analyze/analyze.cpp:3514 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:3521 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr "Erro de pontilhamento"
 
-#: ekos/analyze/analyze.cpp:3516 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:3523 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr "Pontilhamento bem sucedido"
 
-#: ekos/analyze/analyze.cpp:3518 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:3525 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr "Acomodando-se"
@@ -18750,7 +18750,7 @@ msgstr "Adaptando o ponto inicial [%1] de %2 para %3"
 #: ekos/focus/cfz.ui:14
 #, kde-format
 msgid "Focus CFZ"
-msgstr "Foco CFZ"
+msgstr "ZFC do foco"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZTauLabel)
 #: ekos/focus/cfz.ui:87
@@ -18762,7 +18762,7 @@ msgstr "Tolerância (τ):"
 #: ekos/focus/cfz.ui:103
 #, kde-format
 msgid "<html><head/><body><p>CFZ:</p></body></html>"
-msgstr "<html><head/><body><p>CFZ:</p></body></html>"
+msgstr "<html><head/><body><p>ZFC:</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZApertureLabel)
 #: ekos/focus/cfz.ui:119
@@ -18777,7 +18777,7 @@ msgid ""
 "<html><head/><body><p>Check to display the CFZ on the V-curve after a "
 "successful Autofocus run.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marque para exibir o CFZ na curva em V após uma "
+"<html><head/><body><p>Marque para exibir a ZFC na curva em V após uma "
 "execução bem-sucedida do foco automático.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
@@ -18810,14 +18810,14 @@ msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>O CFZ da câmera (limite de resolução) no trem óptico "
+"<html><head/><body><p>A ZFC da câmera (limite de resolução) no trem óptico "
 "ativo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
 #: ekos/focus/cfz.ui:204
 #, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in μm.</p></body></html>"
-msgstr "<html><head/><body><p>O CFZ calculado em μm.</p></body></html>"
+msgstr "<html><head/><body><p>A ZFC calculado em μm.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTolerance)
 #: ekos/focus/cfz.ui:223
@@ -18828,7 +18828,7 @@ msgid ""
 "\">2</span></p></body></html>"
 msgstr ""
 "<html><head/><body><p>Define o valor de tolerância=t entre 0 e 1. Isso "
-"dimensiona o cálculo clássico de CFZ de 4,88 λ f<span style=\" vertical-"
+"dimensiona o cálculo clássico de ZFC de 4,88 λ f<span style=\" vertical-"
 "align:super;\">2</span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZFinal)
@@ -18838,7 +18838,7 @@ msgid ""
 "<html><head/><body><p>The Final CFZ is the greater of the calculated CFZ and "
 "camera CFZ.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>O CFZ final é o maior entre o CFZ calculado e o CFZ da "
+"<html><head/><body><p>A ZFC final é o maior entre a ZFC calculada e a ZFC da "
 "câmera.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
@@ -18851,7 +18851,7 @@ msgstr "<html><head/><body><p>Tamanho do passo:</p></body></html>"
 #: ekos/focus/cfz.ui:280
 #, kde-format
 msgid "CFZ camera:"
-msgstr "Câmera CFZ:"
+msgstr "ZFC da câmera:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZTau)
 #: ekos/focus/cfz.ui:296
@@ -18890,7 +18890,7 @@ msgstr " %"
 #: ekos/focus/cfz.ui:324
 #, kde-format
 msgid "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
-msgstr "<html><head/><body><p>O CFZ calculado em passos.</p></body></html>"
+msgstr "<html><head/><body><p>A ZFC calculada em passos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZFormula)
 #: ekos/focus/cfz.ui:340
@@ -18899,7 +18899,7 @@ msgid ""
 "<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>CFZ = 4.88 t λ f<span style=\" vertical-align:super;"
+"<html><head/><body><p>ZFC = 4.88 t λ f<span style=\" vertical-align:super;"
 "\">2</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCFZStepsLabel)
@@ -19014,7 +19014,7 @@ msgstr ""
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
 "qt-list-indent: 1;\"><li style=\"margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Ouro: </span>Usa a fórmula ZFC = 0,00225 √τ θ "
+"style=\" font-weight:600;\">Gold: </span>Usa a fórmula ZFC = 0,00225 √τ θ "
 "f<span style=\" vertical-align:super;\">2. </span>A. Consulte http://www."
 "goldastro.com/goldfocus/ncfz.php para mais detalhes.</li></ul></body></html>"
 
@@ -19036,7 +19036,7 @@ msgstr "Frente de onda"
 #: ekos/focus/cfz.ui:518
 #, kde-format
 msgid "Gold"
-msgstr "Ouro"
+msgstr "Gold"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusCFZFNumber)
 #: ekos/focus/cfz.ui:532
@@ -20479,14 +20479,14 @@ msgid ""
 "in the number of steps taken.</p><p><br/></p></body></html>"
 msgstr ""
 "<html><head/><body><p>Selecione o tipo de caminhada que o focalizador "
-"realizará ao usar <span style=\" font-weight:600;\">Linear 1 passo</span>. "
-"Para <span style=\" font-weight:600;\">Linear</span>, apenas <span style=\" "
-"font-weight:600;\">Clássico</span> está disponível.</p><p><span style=\" "
-"font-weight:600;\">Clássico</span>: O focalizador sai em &quot;Passo de "
-"saída múltiplo&quot; passos, pega um quadro e, em seguida, entra no foco em "
-"um tamanho de passo constante, tirando e analisando quadros a cada passo. O "
-"ponto exato em que a passagem para depende dos dados, portanto, esta "
-"caminhada tolera inícios mais distantes do foco, mas à custa de passos "
+"realizará ao usar <span style=\" font-weight:600;\">Linear de 1 passo</"
+"span>. Para <span style=\" font-weight:600;\">Linear</span>, apenas <span "
+"style=\" font-weight:600;\">Clássico</span> está disponível.</p><p><span "
+"style=\" font-weight:600;\">Clássico</span>: O focalizador sai em &quot;"
+"Passo de saída múltiplo&quot; passos, pega um quadro e, em seguida, entra no "
+"foco em um tamanho de passo constante, tirando e analisando quadros a cada "
+"passo. O ponto exato em que a passagem para depende dos dados, portanto, "
+"esta caminhada tolera inícios mais distantes do foco, mas à custa de passos "
 "extras.</p><p><span style=\" font-weight:600;\">Passos fixos</span>: O "
 "focalizador sai metade de \"Número de passos\", pega um quadro e, em "
 "seguida, avança exatamente \"Número de passos\". Esta caminhada deve ser "
@@ -20696,8 +20696,8 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>O número total de passos a serem usados ​​quando a "
-"caminhada é definida como um dos passos fixos e o algoritmo é Linear 1 passo."
-"</p></body></html>"
+"caminhada é definida como um dos passos fixos e o algoritmo é Linear de 1 "
+"passo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
 #: ekos/focus/opsfocusmechanics.ui:507
@@ -20839,8 +20839,8 @@ msgstr ""
 "execução de foco automático. O valor está entre 0 (sem ajuste) e 1 (ajuste "
 "perfeito). 0,8 é um bom começo. Se o mínimo não for atingido, o foco "
 "automático será executado novamente para tentar melhorar o R². Atualmente "
-"disponível apenas para o algoritmo Linear 1 passo ao usar um ajuste de curva "
-"de hipérbole ou parábola. </p></body></html>"
+"disponível apenas para o algoritmo Linear de 1 passo ao usar um ajuste de "
+"curva de hipérbole ou parábola. </p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/opsfocusprocess.ui:215
@@ -20856,7 +20856,7 @@ msgstr ""
 "FWHM como ponderação para o algoritmo de ajuste de curva. Se desmarcada, "
 "todos os pontos de dados recebem ponderação igual. Atualmente disponível "
 "apenas ao usar campo completo (múltiplas estrelas) e um ajuste de curva de "
-"hipérbole ou parábola no algoritmo Linear 1 passo.</p></body></html>"
+"hipérbole ou parábola no algoritmo Linear de 1 passo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/opsfocusprocess.ui:218
@@ -20890,16 +20890,16 @@ msgstr ""
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Quadrática</span>: Usa um "
 "ajuste polinomial de grau 2. Esta é atualmente a opção padrão e a única "
-"opção para todos os algoritmos, exceto o Linear 1 passo.</li><li style=\" "
+"opção para todos os algoritmos, exceto o Linear de 1 passo.</li><li style=\" "
 "margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
 "\">Hipérbole</span>: Ajusta uma hipérbole aos pontos de dados. Atualmente, "
-"isso está disponível apenas para o Algoritmo Linear 1 passo.</li><li style="
-"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Parábola</span>: Ajusta uma parábola aos pontos de dados. Atualmente, "
-"isso está disponível apenas para o Algoritmo Linear 1 passo.</li></ul></"
-"body></html>"
+"isso está disponível apenas para o Algoritmo Linear de 1 passo.</li><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Parábola</span>: Ajusta uma parábola aos pontos de dados. "
+"Atualmente, isso está disponível apenas para o Algoritmo Linear de 1 passo.</"
+"li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/opsfocusprocess.ui:232
@@ -20971,7 +20971,7 @@ msgid ""
 "installed.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>Selecione a medida a ser usada ao ajustar uma curva "
-"para Linear 1 passo:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"para Linear de 1 passo:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
 "margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
 "margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">RMF</"
@@ -21249,7 +21249,7 @@ msgstr "Linear"
 #: ekos/focus/opsfocusprocess.ui:395
 #, kde-format
 msgid "Linear 1 Pass"
-msgstr "Linear 1 passo"
+msgstr "Linear de 1 passo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/opsfocusprocess.ui:403
@@ -21677,7 +21677,7 @@ msgstr ""
 "filtro e as configurações de foco adaptativo são sempre respeitados.</"
 "p><p>Defina como zero para desativar este recurso.</p><p>NOTA: execuções "
 "iniciadas manualmente sempre serão realizadas.</p><p>Atualmente, este é um "
-"recurso experimental habilitado apenas para Linear e Linear 1 passo.</p></"
+"recurso experimental habilitado apenas para Linear e Linear de 1 passo.</p></"
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, maxFocusFrameFiles)
@@ -40706,7 +40706,7 @@ msgid ""
 "The total number of steps for a Fixed Steps or CFZ Shuffle Autofocus run."
 msgstr ""
 "O número total de passos para uma execução de passos fixos ou autofoco "
-"aleatório CFZ."
+"aleatório de ZFC."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2541
@@ -40763,51 +40763,52 @@ msgstr ""
 #: kstars.kcfg:2571
 #, kde-format
 msgid "The type of CFZ Algorithm to use."
-msgstr "O tipo de algoritmo CFZ a ser usado."
+msgstr "O tipo de algoritmo de ZFC a ser usado."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTolerance), group (Focus)
 #: kstars.kcfg:2575
 #, kde-format
 msgid "The user defined tolerance to use for Classic and Wavefront algos."
 msgstr ""
-"Tolerância definida pelo usuário para uso em algoritmos Clássico e Wavefront."
+"Tolerância definida pelo usuário para uso em algoritmos Clássico e Frente de "
+"Onda."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTau), group (Focus)
 #: kstars.kcfg:2579
 #, kde-format
 msgid "The user defined tolerance to use for the Gold algo."
-msgstr "Tolerância definida pelo usuário para uso no algoritmo Ouro."
+msgstr "Tolerância definida pelo usuário para uso no algoritmo Gold."
 
 #. i18n: ectx: whatsthis, entry (focusCFZDisplayVCurve), group (Focus)
 #: kstars.kcfg:2583
 #, kde-format
 msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
 msgstr ""
-"Se o CFZ deve ser exibido na curva V após uma execução de foco automático."
+"Se a ZFC deve ser exibida na curva V após uma execução de foco automático."
 
 #. i18n: ectx: whatsthis, entry (focusCFZWavelength), group (Focus)
 #: kstars.kcfg:2587
 #, kde-format
 msgid "The wavelength in nm to use in the Gold algo."
-msgstr "O comprimento de onda em nm a ser usado no algoritmo Ouro."
+msgstr "O comprimento de onda em nm a ser usado no algoritmo Gold."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAperture), group (Focus)
 #: kstars.kcfg:2591
 #, kde-format
 msgid "Telescope aperture in mm to use in CFZ calcs."
-msgstr "Abertura do telescópio em mm para uso em cálculos CFZ."
+msgstr "Abertura do telescópio em mm para uso em cálculos de ZFC."
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2595
 #, kde-format
 msgid "The f# to use in the CFZ algo."
-msgstr "O f# a ser usado no algoritmo CFZ."
+msgstr "O f# a ser usado no algoritmo de ZFC."
 
 #. i18n: ectx: whatsthis, entry (focusCFZSeeing), group (Focus)
 #: kstars.kcfg:2599
 #, kde-format
 msgid "The total seeing in arc-secs to use in the CFZ algo."
-msgstr "A visão total em segundos de arco para usar no algoritmo CFZ."
+msgstr "A visão total em segundos de arco para usar no algoritmo de ZFC."
 
 #. i18n: ectx: whatsthis, entry (focusCFZStepSize), group (Focus)
 #: kstars.kcfg:2603

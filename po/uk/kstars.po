@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-15 01:57+0000\n"
+"POT-Creation-Date: 2025-10-17 02:31+0000\n"
 "PO-Revision-Date: 2025-10-14 08:47+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -2034,7 +2034,7 @@ msgstr "Стан:"
 #. i18n: ectx: property (text), widget (QLabel, guideStatus)
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
-#: ekos/analyze/analyze.cpp:3480 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:3487 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -6521,7 +6521,7 @@ msgstr "Захоплення перервано."
 msgid "Solver aborted after %1 seconds."
 msgstr "Розв'язування перервано за %1 секунд."
 
-#: ekos/align/align.cpp:2703 ekos/analyze/analyze.cpp:4135
+#: ekos/align/align.cpp:2703 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2105 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
@@ -10453,7 +10453,7 @@ msgstr "Почати"
 #. i18n: ectx: property (text), widget (QLabel, captureLabel)
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
-#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:2301
+#: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:2307
 #: ekos/auxiliary/opslogs.ui:285 ekos/capture/capturepreviewwidget.ui:67
 #: ekos/guide/guide.ui:137
 #, kde-format
@@ -10568,7 +10568,7 @@ msgstr "Не вдалося показати тимчасовий файл зо�
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
-#: ekos/analyze/analyze.cpp:2302 ekos/auxiliary/opslogs.ui:370
+#: ekos/analyze/analyze.cpp:2308 ekos/auxiliary/opslogs.ui:370
 #: ekos/manager.cpp:2253 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:554
@@ -10578,7 +10578,7 @@ msgstr "Фокус"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2303 ekos/manager.cpp:2209
+#: ekos/analyze/analyze.cpp:2309 ekos/manager.cpp:2209
 #: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:240
 #: fitsviewer/fitsviewer.cpp:562
 #, kde-format
@@ -10589,7 +10589,7 @@ msgstr "Вирівнювання"
 #. i18n: ectx: property (text), widget (QPushButton, guideB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
-#: ekos/analyze/analyze.cpp:2304 ekos/auxiliary/opslogs.ui:120
+#: ekos/analyze/analyze.cpp:2310 ekos/auxiliary/opslogs.ui:120
 #: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2474
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:558
@@ -10597,7 +10597,7 @@ msgstr "Вирівнювання"
 msgid "Guide"
 msgstr "Наведення"
 
-#: ekos/analyze/analyze.cpp:2305
+#: ekos/analyze/analyze.cpp:2311
 #, kde-format
 msgid "Flip"
 msgstr "Перехід"
@@ -10605,19 +10605,19 @@ msgstr "Перехід"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/analyze/analyze.cpp:2306 ekos/auxiliary/opslogs.ui:77
+#: ekos/analyze/analyze.cpp:2312 ekos/auxiliary/opslogs.ui:77
 #: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2399 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
 msgstr "Лафет"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/analyze/analyze.cpp:2307 ekos/capture/capturecountswidget.ui:473
+#: ekos/analyze/analyze.cpp:2313 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
 msgstr "Завдання"
 
-#: ekos/analyze/analyze.cpp:2598
+#: ekos/analyze/analyze.cpp:2605
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10628,7 +10628,7 @@ msgstr ""
 "встановлено. Без цього ви не отримаєте значень РПП. Щойно значення буде "
 "встановлено, для новостворених зображень буде обчислено РПП."
 
-#: ekos/analyze/analyze.cpp:2614
+#: ekos/analyze/analyze.cpp:2621
 #, kde-format
 msgid ""
 "The \"Auto Compute HFR\" option in the KStars FITS options menu is not set. "
@@ -10640,7 +10640,7 @@ msgstr ""
 "зображенні. Щойно значення буде встановлено, для новостворених зображень "
 "буде обчислено кількість зірок."
 
-#: ekos/analyze/analyze.cpp:3482 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:3489 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1631
@@ -10648,97 +10648,97 @@ msgstr ""
 msgid "Aborted"
 msgstr "Перервано"
 
-#: ekos/analyze/analyze.cpp:3484 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:3491 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "З'єднано"
 
-#: ekos/analyze/analyze.cpp:3486 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:3493 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "Від'єднано"
 
-#: ekos/analyze/analyze.cpp:3488 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:3495 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2291
 #, kde-format
 msgid "Capturing"
 msgstr "Захоплення"
 
-#: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:3497 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr "Цикл"
 
-#: ekos/analyze/analyze.cpp:3492 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:3499 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr "Віднімаємо"
 
-#: ekos/analyze/analyze.cpp:3494 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:3501 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr "Формуємо підкадр"
 
-#: ekos/analyze/analyze.cpp:3496 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:3503 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "Вибираємо зірку"
 
-#: ekos/analyze/analyze.cpp:3498 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:3505 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "Калібруємо"
 
-#: ekos/analyze/analyze.cpp:3500 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:3507 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "Помилка калібрування"
 
-#: ekos/analyze/analyze.cpp:3502 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:3509 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "Калібровано"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:3504 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:3511 ekos/ekos.h:32
 #: ekos/scheduler/scheduler.cpp:2289
 #, kde-format
 msgid "Guiding"
 msgstr "Наведення"
 
-#: ekos/analyze/analyze.cpp:3506 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:3513 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "Призупинено"
 
-#: ekos/analyze/analyze.cpp:3508 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:3515 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr "Повторне отримання"
 
-#: ekos/analyze/analyze.cpp:3510 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:3517 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "Малий рух"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:3512 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:3519 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr "Малий рух вручну"
 
-#: ekos/analyze/analyze.cpp:3514 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:3521 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr "Помилка малого руху"
 
-#: ekos/analyze/analyze.cpp:3516 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:3523 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr "Успішний малий рух"
 
-#: ekos/analyze/analyze.cpp:3518 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:3525 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr "Встановлення"
