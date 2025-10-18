@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-17 02:31+0000\n"
-"PO-Revision-Date: 2025-10-16 07:34-0300\n"
+"PO-Revision-Date: 2025-10-17 09:37-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -19996,12 +19996,12 @@ msgstr "Tamanho do passo"
 #: ekos/focus/focusadvisor.cpp:97
 #, kde-format
 msgid "Overscan"
-msgstr "Varredura externa"
+msgstr "Varredura adicional"
 
 #: ekos/focus/focusadvisor.cpp:98
 #, kde-format
 msgid "AF Overscan"
-msgstr "Varredura externa de AF"
+msgstr "Varredura adicional de FA"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: ekos/focus/focusadvisor.cpp:101 fitsviewer/catalogobjecttypefilter.ui:77
@@ -20246,7 +20246,7 @@ msgstr ""
 msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
 msgstr ""
 "Proporção Máx/Mín: %1, Próximo tamanho de passo: %2, Próxima varredura "
-"externa: %3"
+"adicional: %3"
 
 #: ekos/focus/focusadvisor.cpp:1284
 #, kde-format
@@ -20258,7 +20258,7 @@ msgstr "Ajuste fino"
 msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
 msgstr ""
 "Proporção Máx/Mín: %1, R2: %2, Próximo tamanho de passo: %3, Próxima "
-"varredura externa: %4"
+"varredura adicional: %4"
 
 #: ekos/focus/focusadvisor.cpp:1399
 #, kde-format
@@ -20271,7 +20271,7 @@ msgid ""
 "Focus Advisor Result (%1): Run: %2 startPos: %3 stepSize: %4 overscan: %5"
 msgstr ""
 "Resultado do conselheiro de foco (%1): Execução: %2 posIni: %3 tamanhoPasso: "
-"%4 varredura externa: %5"
+"%4 varredura adicional: %5"
 
 #: ekos/focus/focusadvisor.cpp:1527
 #, kde-format
@@ -20434,7 +20434,7 @@ msgstr ""
 #: ekos/focus/opsfocusmechanics.ui:37
 #, kde-format
 msgid "AF Overscan:"
-msgstr "Varredura externa de AF:"
+msgstr "Varredura adicional de FA:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutSteps)
 #: ekos/focus/opsfocusmechanics.ui:56
@@ -20564,8 +20564,8 @@ msgid ""
 "Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Atraso entre a conclusão do movimento para fora de um "
-"Overscan e o início do movimento para dentro. Para a maioria dos "
+"<html><head/><body><p>Atraso entre a conclusão do movimento para fora de uma "
+"varredura adicional e o início do movimento para dentro. Para a maioria dos "
 "focalizadores, 0 s é suficiente.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
@@ -20591,14 +20591,14 @@ msgid ""
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Fornece uma varredura externa em tiques para "
+"<html><head/><body><p>Fornece uma varredura adicional em tiques para "
 "movimentos externos do focador durante uma execução de foco automático. Isso "
 "é adicional a qualquer folga do controlador fornecida pelo driver do "
 "dispositivo e definida no campo \"Folga do controlador\". Defina como 0 para "
-"desativar.</p><p>Se definido, o overscan de foco automático é aplicado a "
-"todos os movimentos do focador iniciados pelo módulo de Foco.</"
-"p><p>Normalmente, a folga do focador ou a varredura externa de AF são "
-"definidos.</p></body></html>"
+"desativar.</p><p>Se definida, a varredura adicional de foco automático é "
+"aplicada a todos os movimentos do focalizador iniciados pelo módulo de foco."
+"</p><p>Normalmente, a folga do focalizador ou a varredura adicional de FA "
+"são definidas.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: ekos/focus/opsfocusmechanics.ui:251
@@ -20685,7 +20685,7 @@ msgstr "Número de passos:"
 #: ekos/focus/opsfocusmechanics.ui:469
 #, kde-format
 msgid "AF Overscan Delay:"
-msgstr "Atraso de varredura externa de AF:"
+msgstr "Atraso de varredura adicional de FA:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/opsfocusmechanics.ui:485
@@ -20712,7 +20712,7 @@ msgstr ""
 "<html><head/><body><p>Para focalizadores com reconhecimento de folga, a "
 "quantidade de folga a ser aplicada ao inverter a direção do movimento. "
 "Defina como 0 para desativar.</p><p>Normalmente, a folga do focalizador ou a "
-"varredura externa de AF são definidos.</p><p>Este campo define a folga do "
+"varredura adicional de FA são definidas.</p><p>Este campo define a folga do "
 "focalizador Indi e pode ser definido aqui ou no painel de controle Indi.</"
 "p></body></html>"
 
@@ -40737,7 +40737,7 @@ msgstr "A quantidade de folga do controlador."
 #: kstars.kcfg:2554
 #, kde-format
 msgid "The amount of Autofocus Overscan."
-msgstr "A quantidade de varredura externa de foco automático."
+msgstr "A quantidade de varredura adicional de foco automático."
 
 #. i18n: ectx: whatsthis, entry (FocusOverscanDelay), group (Focus)
 #: kstars.kcfg:2558
@@ -40747,7 +40747,7 @@ msgid ""
 "focusers set 0s."
 msgstr ""
 "Atraso entre os movimentos de aproximação e aproximação de uma varredura "
-"externa de foco automático. Para a maioria dos focalizadores, defina 0s."
+"adicional de foco automático. Para a maioria dos focalizadores, defina 0s."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2566
