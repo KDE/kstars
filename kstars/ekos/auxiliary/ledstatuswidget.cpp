@@ -158,4 +158,29 @@ void LedStatusWidget::setStatus(QString text, Qt::GlobalColor color)
     statusLed->setColor(color);
 }
 
+void LedStatusWidget::setAlignState(AlignState status)
+{
+    switch (status)
+    {
+        case ALIGN_IDLE:
+            setStatus(Ekos::getAlignStatusString(status), Qt::gray);
+            break;
+        case ALIGN_PROGRESS:
+        case ALIGN_SYNCING:
+        case ALIGN_SLEWING:
+        case ALIGN_ROTATING:
+        case ALIGN_SUSPENDED:
+            setStatus(Ekos::getAlignStatusString(status), Qt::yellow);
+            break;
+        case ALIGN_COMPLETE:
+        case ALIGN_SUCCESSFUL:
+            setStatus(Ekos::getAlignStatusString(status), Qt::darkGreen);
+            break;
+        case ALIGN_FAILED:
+        case ALIGN_ABORTED:
+            setStatus(Ekos::getAlignStatusString(status), Qt::darkRed);
+            break;
+    }
+}
+
 }

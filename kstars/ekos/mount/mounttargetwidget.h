@@ -21,8 +21,10 @@ public:
 
     bool processCoords(dms &ra, dms &de);
 
-    // set target position and target name
-    void setTargetPosition(SkyPoint *target);
+    /**
+     * @brief setTargetPosition set the target position, coordinates in JNow
+     */
+    void setTargetPosition(SkyPoint *position);
     void setTargetName(const QString &name);
 
     // target coord conversions for displaying
@@ -35,6 +37,11 @@ public:
 
     void setJ2000Enabled(bool enabled);
 
+    SkyPoint *currentTarget()
+    {
+        return m_currentTarget;
+    }
+
 private:
     void processSlew();
     void processSync();
@@ -42,7 +49,7 @@ private:
     void updateTargetDisplay(int id = -1, SkyPoint *target = nullptr);
 
     bool updateTarget();
-    QSharedPointer<SkyPoint> currentTarget;
+    SkyPoint *m_currentTarget {nullptr};
     bool m_isJ2000 {false};
 
     /**
@@ -56,6 +63,7 @@ private:
 signals:
     void sync(double RA, double DE);
     void slew(double RA, double DE);
+    void newTarget();
 
 };
 

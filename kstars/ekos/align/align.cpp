@@ -24,6 +24,7 @@
 #include "polaralignmentassistant.h"
 #include "remoteastrometryparser.h"
 #include "manualrotator.h"
+#include "pushtoassistant.h"
 
 // FITS
 #include "fitsviewer/fitsdata.h"
@@ -254,6 +255,7 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
 
 
     setupPolarAlignmentAssistant();
+    setupPushToAssistant();
     setupManualRotator();
     setuptDarkProcessor();
     setupPlot();
@@ -269,6 +271,8 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
 
 Align::~Align()
 {
+    // disconnect all connections
+    disconnect(PushToAssistant::Instance(), nullptr, nullptr, nullptr);
     if (m_StellarSolver.get() != nullptr)
         disconnect(m_StellarSolver.get(), &StellarSolver::logOutput, this, &Align::appendLogText);
 
@@ -354,22 +358,22 @@ void Align::handlePointTooltip(QMouseEvent *event)
                 return;
             QToolTip::showText(event->globalPos(),
                                i18n("<table>"
-                 "<tr>"
-                 "<th colspan=\"2\">Object %1: %2</th>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>RA:</td><td>%3</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>DE:</td><td>%4</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>dRA:</td><td>%5</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>dDE:</td><td>%6</td>"
-                 "</tr>"
-                 "</table>",
+                                    "<tr>"
+                                    "<th colspan=\"2\">Object %1: %2</th>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>RA:</td><td>%3</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>DE:</td><td>%4</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dRA:</td><td>%5</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dDE:</td><td>%6</td>"
+                                    "</tr>"
+                                    "</table>",
                                     point + 1,
                                     solutionTable->item(point, 2)->text(),
                                     solutionTable->item(point, 0)->text(),
@@ -1552,7 +1556,7 @@ bool Align::captureAndSolve(bool initialCall)
     if (m_Dome && m_Dome->isMoving())
     {
         qCWarning(KSTARS_EKOS_ALIGN) << "Cannot capture while dome is in motion. Retrying in" <<  CAPTURE_RETRY_DELAY / 1000 <<
-                                        "seconds...";
+                                     "seconds...";
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return true;
     }
@@ -2294,6 +2298,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     {
         {"camera", m_Camera->getDeviceName()},
         {"ra", SolverRAOut->text()},
+        {"ra.Hours", m_AlignCoord.ra().Hours()},
+        {"de.Degrees", m_AlignCoord.dec().Degrees()},
         {"de", SolverDecOut->text()},
         {"dRA", m_TargetDiffRA},
         {"dDE", m_TargetDiffDE},
@@ -4032,7 +4038,7 @@ void Align::exportSolutionPoints()
     {
         int r = KMessageBox::warningContinueCancel(nullptr,
                 i18n("A file named \"%1\" already exists. "
-             "Overwrite it?",
+                     "Overwrite it?",
                      exportFile.fileName()),
                 i18n("Overwrite File?"), KStandardGuiItem::overwrite());
         if (r == KMessageBox::Cancel)
@@ -4099,6 +4105,21 @@ void Align::setupPolarAlignmentAssistant()
     connect(m_PolarAlignmentAssistant, &Ekos::PAA::newLog, this, &Ekos::Align::appendLogText);
 
     tabWidget->addTab(m_PolarAlignmentAssistant, i18n("Polar Alignment"));
+}
+
+void Align::setupPushToAssistant()
+{
+
+    // push-to assistant
+    PushToAssistant::Instance()->enableSolving(true);
+    connect(this, &Align::newStatus, PushToAssistant::Instance(), &PushToAssistant::setAlignState);
+    connect(this, &Align::newSolution, PushToAssistant::Instance(), &PushToAssistant::updateSolution);
+    connect(PushToAssistant::Instance(), &PushToAssistant::captureAndSolve, [this](bool initialCall)
+    {
+        setSolverAction(GOTO_SYNC);
+        captureAndSolve(initialCall);
+    });
+    connect(PushToAssistant::Instance(), &PushToAssistant::abort, this, &Align::abort);
 }
 
 void Align::setupManualRotator()

@@ -75,6 +75,7 @@
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
 #include "indi/indilistener.h"
+#include "ekos/align/pushtoassistant.h"
 #endif
 
 #ifdef HAVE_CFITSIO
@@ -512,7 +513,7 @@ void KStars::slotDownload()
                         QMessageBox::critical(
                             this, i18n("Error"),
                             i18n("The catalog \"%1\" is corrupt.<br>Expected id=%2 but "
-                             "got id=%3",
+                                 "got id=%3",
                                  entry.name(), id, meta.second.id));
                         continue;
                     }
@@ -744,11 +745,11 @@ void KStars::slotINDIDriver()
     if (KMessageBox::warningContinueCancel(
                 nullptr,
                 i18n("INDI Device Manager should only be used by advanced technical users. "
-         "It cannot be used with Ekos. Do you still want to open INDI device "
-         "manager?"),
+                     "It cannot be used with Ekos. Do you still want to open INDI device "
+                     "manager?"),
                 i18n("INDI Device Manager"), KStandardGuiItem::cont(),
                 KStandardGuiItem::cancel(),
-    "indi_device_manager_warning") == KMessageBox::Cancel)
+                "indi_device_manager_warning") == KMessageBox::Cancel)
         return;
 
     QString indiServerDir = Options::indiServer();
@@ -828,6 +829,13 @@ void KStars::slotEkos()
     }
 
 #endif
+#endif
+}
+
+void KStars::slotPushToAssistant()
+{
+#ifdef HAVE_INDI
+    Ekos::PushToAssistant::Instance()->show();
 #endif
 }
 
@@ -1496,8 +1504,8 @@ void KStars::slotPrint()
     {
         QString message =
             i18n("You can save printer ink by using the \"Star Chart\" "
-             "color scheme, which uses a white background. Would you like to "
-             "temporarily switch to the Star Chart color scheme for printing?");
+                 "color scheme, which uses a white background. Would you like to "
+                 "temporarily switch to the Star Chart color scheme for printing?");
 
         int answer = KMessageBox::warningContinueCancel(
                          nullptr, message, i18n("Switch to Star Chart Colors?"),

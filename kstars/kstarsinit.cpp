@@ -161,8 +161,8 @@ void KStars::initActions()
 
 #if defined(HAVE_WCSLIB) && defined(HAVE_OPENCV)
     actionCollection()->addAction("live_stacker", this, SLOT(slotStack()))
-        << i18n("Live Stacker...") << QIcon::fromTheme("folder-open")
-        << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_K);
+            << i18n("Live Stacker...") << QIcon::fromTheme("folder-open")
+            << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_K);
 #endif
 
 #endif
@@ -483,6 +483,10 @@ void KStars::initActions()
 #ifdef HAVE_INDI
     ka = actionCollection()->addAction("ekos", this, SLOT(slotEkos()))
          << i18n("Ekos") << QKeySequence(Qt::CTRL | Qt::Key_K);
+    ka->setShortcutContext(Qt::ApplicationShortcut);
+
+    ka = actionCollection()->addAction("pushToAssistant", this,
+                                       SLOT(slotPushToAssistant())) << i18n("Push-To Assistant") << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_G);
     ka->setShortcutContext(Qt::ApplicationShortcut);
 #endif
 

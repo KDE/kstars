@@ -72,6 +72,7 @@ class OpsXplanet;
 namespace Ekos
 {
 class Manager;
+class PushToAssistant;
 }
 
 #ifdef HAVE_CFITSIO
@@ -690,6 +691,9 @@ class KStars : public KXmlGuiWindow
 
         /** action slot: open Ekos panel */
         void slotEkos();
+
+        /** action slot: open push to assistant */
+        void slotPushToAssistant();
 
         /** action slot: Track with the telescope (INDI) */
         void slotINDITelescopeTrack();

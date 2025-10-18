@@ -47,21 +47,23 @@ MountTargetWidget::MountTargetWidget(QWidget *parent)
 bool MountTargetWidget::processCoords(dms &ra, dms &de)
 {
     // do nothing if no target is set
-    if (currentTarget.isNull())
+    if (m_currentTarget == nullptr)
         return false;
 
-    ra = currentTarget->ra();
-    de = currentTarget->dec();
+    ra = m_currentTarget->ra();
+    de = m_currentTarget->dec();
 
     return true;
 }
 
-void MountTargetWidget::setTargetPosition(SkyPoint *target)
+void MountTargetWidget::setTargetPosition(SkyPoint *position)
 {
     // we assume that JNow is set, update all other coordinates
-    updateJ2000Coordinates(target);
-    currentTarget.reset(target);
+    m_currentTarget = position;
+    updateJ2000Coordinates(currentTarget());
     updateTargetDisplay();
+    // send a signal that a new target is set
+    emit newTarget();
 }
 
 void MountTargetWidget::setTargetName(const QString &name)
@@ -232,8 +234,10 @@ void MountTargetWidget::findTarget()
             equatorialCheckObject->setProperty("checked", true);
 
             targetTextObject->setProperty("text", o->name());
-            currentTarget.reset(o);
+            m_currentTarget = o;
             updateTargetDisplay();
+            // send a signal that a new target is set
+            emit newTarget();
         }
     }
 
@@ -243,7 +247,7 @@ void MountTargetWidget::updateTargetDisplay(int id, SkyPoint *target)
 {
     // use current target if none is set
     if (target == nullptr)
-        target = currentTarget.get();
+        target = currentTarget();
     if (id < 0)
         id = coordinateButtonGroup->checkedId();
 
@@ -361,7 +365,7 @@ bool MountTargetWidget::updateTarget()
         currentCoords->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
     }
 
-    currentTarget.reset(currentCoords);
+    m_currentTarget = currentCoords;
     updateTargetDisplay();
     return true;
 }

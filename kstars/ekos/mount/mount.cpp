@@ -34,6 +34,7 @@
 #include "ekos/auxiliary/opticaltrainsettings.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/align/polaralignmentassistant.h"
+#include "ekos/align/pushtoassistant.h"
 
 #include "kstars.h"
 #include "skymapcomposite.h"
@@ -59,7 +60,7 @@ Mount::Mount()
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount", this);
     // Set up DBus interfaces
     QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
-        QDBusConnection::sessionBus(), this);
+            QDBusConnection::sessionBus(), this);
     qDBusRegisterMetaType<SkyPoint>();
 
     // Connecting DBus signals
@@ -168,6 +169,15 @@ Mount::Mount()
     connect(mountTarget, &MountTargetWidget::slew, this, &Mount::slew);
     connect(mountTarget, &MountTargetWidget::sync, this, &Mount::sync);
 
+    // connect to push-to assistant
+    connect(PushToAssistant::Instance(), &PushToAssistant::sync, this, &Mount::sync);
+    connect(this, &Mount::newTarget, [](SkyPoint & position)
+    {
+        PushToAssistant::Instance()->setTargetPosition(new SkyPoint(position));
+    });
+    connect(this, &Mount::newTargetName, PushToAssistant::Instance(), &PushToAssistant::setTargetName);
+    PushToAssistant::Instance()->enableMountPosition(true);
+
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
@@ -183,6 +193,8 @@ Mount::Mount()
 Mount::~Mount()
 {
     autoParkTimer.stop();
+    // disconnect all connections
+    disconnect(PushToAssistant::Instance(), nullptr, nullptr, nullptr);
 }
 
 void Mount::setupParkUI()
@@ -530,6 +542,7 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
     // forward the position to the position widget and control panel
     mountPosition->updateTelescopeCoords(position, ha);
     m_ControlPanel->mountPosition->updateTelescopeCoords(position, ha);
+    PushToAssistant::Instance()->updateTelescopeCoords(position);
 
     double currentAlt = telescopeCoord.altRefracted().Degrees();
 
@@ -593,10 +606,10 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         }
 
         qCDebug(KSTARS_EKOS_MOUNT) << "Ha: " << haHours <<
-                                      " haLimit " << haLimit <<
-                                      " " << ISD::Mount::pierSideStateString(m_Mount->pierSide()) <<
-                                      " haLimitReached " << (haLimitReached ? "true" : "false") <<
-                                      " lastHa " << m_LastHourAngle;
+                                   " haLimit " << haLimit <<
+                                   " " << ISD::Mount::pierSideStateString(m_Mount->pierSide()) <<
+                                   " haLimitReached " << (haLimitReached ? "true" : "false") <<
+                                   " lastHa " << m_LastHourAngle;
 
         // compare with last ha to avoid multiple calls
         if (haLimitReached && (rangeHA(haHours - m_LastHourAngle) >= 0 ) &&
@@ -926,6 +939,7 @@ void Mount::setJ2000Enabled(bool enabled)
 {
     m_ControlPanel->setJ2000Enabled(enabled);
     mountPosition->setJ2000Enabled(enabled);
+    PushToAssistant::Instance()->setJ2000Enabled(enabled);
 }
 
 bool Mount::gotoTarget(const QString &target)
@@ -950,6 +964,7 @@ void Mount::setTargetName(const QString &name)
 {
     mountTarget->setTargetName(name);
     m_ControlPanel->setTargetName(name);
+    PushToAssistant::Instance()->setTargetName(name);
 }
 
 bool Mount::syncTarget(const QString &target)
@@ -980,14 +995,15 @@ bool Mount::slew(double RA, double DEC)
     mf_state->setTargetPosition(targetPosition);
     mf_state->resetMeridianFlip();
 
-    m_ControlPanel->setTargetPosition(new SkyPoint(RA, DEC));
-    mountTarget->setTargetPosition(new SkyPoint(RA, DEC));
+    m_ControlPanel->setTargetPosition(targetPosition);
+    mountTarget->setTargetPosition(targetPosition);
+    PushToAssistant::Instance()->setTargetPosition(targetPosition);
 
     qCDebug(KSTARS_EKOS_MOUNT) << "Slewing to RA=" <<
                                targetPosition->ra().toHMSString() <<
-    "DEC=" << targetPosition->dec().toDMSString();
+                               "DEC=" << targetPosition->dec().toDMSString();
     qCDebug(KSTARS_EKOS_MOUNT) << "Initial HA " << initialHA() << ", flipDelayHrs " << mf_state->getFlipDelayHrs() <<
-                                  "MFStatus " << MeridianFlipState::meridianFlipStatusString(mf_state->getMeridianFlipMountState());
+                               "MFStatus " << MeridianFlipState::meridianFlipStatusString(mf_state->getMeridianFlipMountState());
 
     // start the slew
     return(m_Mount->Slew(targetPosition));

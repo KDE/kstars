@@ -720,6 +720,11 @@ class Align : public QWidget, public Ui::Align
          */
         void setupPolarAlignmentAssistant();
 
+        /**
+         * @brief setupPushToAssistant initialize the Push-To Assistant
+         */
+        void setupPushToAssistant();
+
         void setupRotatorControl();
 
         /**

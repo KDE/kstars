@@ -49,6 +49,7 @@
 #include "mosaictiles.h"
 #include "mount/meridianflipstatuswidget.h"
 #include "ekos/auxiliary/rotatorutils.h"
+#include "ekos/align/pushtoassistant.h"
 
 #include "ekoslive/ekosliveclient.h"
 #include "ekoslive/message.h"
@@ -1115,7 +1116,7 @@ void Manager::start()
             });
 
             KSMessageBox::Instance()->questionYesNo(i18n("Ekos detected an instance of INDI server running. Do you wish to "
-                                                         "shut down the existing instance before starting a new one?"),
+                                                    "shut down the existing instance before starting a new one?"),
                                                     i18n("INDI Server"), 5);
         }
         else

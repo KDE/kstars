@@ -34,6 +34,11 @@ public:
 
 public slots:
     /**
+     * @brief Handle new alignment state
+     */
+    void setAlignState(AlignState status);
+
+    /**
      * @brief Handle new capture state
      */
     void setCaptureState(CaptureState status);

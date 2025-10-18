@@ -20,10 +20,12 @@ class MountControlPanel : public QDialog, public Ui::MountControlPanel
     public:
         MountControlPanel(QWidget *parent = nullptr);
 
-        // set target position and target name
-        void setTargetPosition(SkyPoint *target)
+        /**
+         * @brief setTargetPosition set the target position, coordinates in JNow
+         */
+        void setTargetPosition(SkyPoint *position)
         {
-            mountTarget->setTargetPosition(target);
+            mountTarget->setTargetPosition(position);
         }
         void setTargetName(const QString &name)
         {
