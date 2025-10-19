@@ -41,6 +41,7 @@ class Node : public QObject
 
         void sendTextMessage(const QString &message);
         void sendBinaryMessage(const QByteArray &message);
+        void sendBinaryMessage(const QByteArray &message, bool bypassClientStateCheck);
         bool isConnected() const
         {
             return m_isConnected;

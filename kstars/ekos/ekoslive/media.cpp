@@ -48,9 +48,9 @@ Media::Media(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &node
         connect(nodeManager->media(), &Node::onBinaryReceived, this, &Media::onBinaryReceived);
     }
 
-    connect(this, &Media::newImage, this, [this](const QByteArray & image)
+    connect(this, &Media::newImage, this, [this](const QByteArray & image, const QString &uuid)
     {
-        uploadImage(image);
+        uploadImage(image, uuid);
     });
 }
 
@@ -205,7 +205,7 @@ void Media::onTextReceived(const QString &message)
                     centerImage.save(&buffer, "jpg", 90);
                     buffer.close();
 
-                    emit newImage(jpegData);
+                    emit newImage(jpegData, uuid);
                 }
             }
         }
@@ -265,7 +265,7 @@ void Media::onTextReceived(const QString &message)
             centerImage.save(&buffer, "jpg", 95);
             buffer.close();
 
-            emit newImage(jpegData);
+            emit newImage(jpegData, "skypoint_hips");
         }
     }
 }
@@ -463,7 +463,7 @@ void Media::upload(const QSharedPointer<FITSView> &view, const QString &uuid)
 
     buffer.close();
 
-    emit newImage(jpegData);
+    emit newImage(jpegData, uuid);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -537,7 +537,7 @@ void Media::upload(const QSharedPointer<FITSData> &data, const QImage &image, co
 
     buffer.close();
 
-    emit newImage(jpegData);
+    emit newImage(jpegData, uuid);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -637,7 +637,7 @@ void Media::sendUpdatedFrame(const QSharedPointer<FITSView> &view)
 
     scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);
     buffer.close();
-    emit newImage(jpegData);
+    emit newImage(jpegData, "+A");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -720,11 +720,14 @@ void Media::resetPolarView()
     m_Manager->alignModule()->zoomAlignView();
 }
 
-void Media::uploadImage(const QByteArray &image)
+void Media::uploadImage(const QByteArray &image, const QString &uuid)
 {
+    bool isPreviewImage = (uuid.isEmpty() || uuid[0] != '+');
+    bool shouldBypassClientStateCheck = isPreviewImage && Options::ekosLiveCloud();
+
     for (auto &nodeManager : m_NodeManagers)
     {
-        nodeManager->media()->sendBinaryMessage(image);
+        nodeManager->media()->sendBinaryMessage(image, shouldBypassClientStateCheck);
     }
 }
 
@@ -738,13 +741,13 @@ void Media::sendModuleFrame(const QSharedPointer<FITSView> &view)
     if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
         return;
 
-    if (qobject_cast<Ekos::Align*>(sender()) == m_Manager->alignModule())
+    if (qobject_cast<Ekos::Align * >(sender()) == m_Manager->alignModule())
         sendView(view, "+A");
-    else if (qobject_cast<Ekos::Focus*>(sender()) == m_Manager->focusModule()->mainFocuser())
+    else if (qobject_cast<Ekos::Focus * >(sender()) == m_Manager->focusModule()->mainFocuser())
         sendView(view, "+F");
-    else if (qobject_cast<Ekos::Guide*>(sender()) == m_Manager->guideModule())
+    else if (qobject_cast<Ekos::Guide * >(sender()) == m_Manager->guideModule())
         sendView(view, "+G");
-    else if (qobject_cast<Ekos::DarkLibrary*>(sender()) == Ekos::DarkLibrary::Instance())
+    else if (qobject_cast<Ekos::DarkLibrary * >(sender()) == Ekos::DarkLibrary::Instance())
         sendView(view, "+D");
 }
 }

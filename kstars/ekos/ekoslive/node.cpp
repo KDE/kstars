@@ -37,7 +37,8 @@ void Node::connectServer()
 {
     if (m_isConnectingOrDisconnecting)
     {
-        qCWarning(KSTARS_EKOS) << "Node(" << m_Name << "): connectServer() called while already connecting/disconnecting. Ignoring.";
+        qCWarning(KSTARS_EKOS) << "Node(" << m_Name <<
+                                  "): connectServer() called while already connecting/disconnecting. Ignoring.";
         return;
     }
 
@@ -68,7 +69,7 @@ void Node::connectServer()
     if (m_Name == "message" || m_Name == "Message")   // Log more details for message node
     {
         qCDebug(KSTARS_EKOS) << "Node(" << m_Name << "): About to open websocket. Request URL:" << requestURL.toDisplayString() <<
-                             "Is valid:" << requestURL.isValid();
+                                "Is valid:" << requestURL.isValid();
         qCDebug(KSTARS_EKOS) << "Node(" << m_Name << "): Auth Token used:" << m_AuthResponse["token"].toString().left(
                                  10) << "..."; // Log part of token
     }
@@ -82,7 +83,8 @@ void Node::disconnectServer()
 {
     if (m_isConnectingOrDisconnecting)
     {
-        qCWarning(KSTARS_EKOS) << "Node(" << m_Name << "): disconnectServer() called while already connecting/disconnecting. Ignoring.";
+        qCWarning(KSTARS_EKOS) << "Node(" << m_Name <<
+                                  "): disconnectServer() called while already connecting/disconnecting. Ignoring.";
         return;
     }
 
@@ -200,7 +202,12 @@ void Node::sendTextMessage(const QString &message)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Node::sendBinaryMessage(const QByteArray &message)
 {
-    if (m_isConnected == false || m_ClientState == false)
+    sendBinaryMessage(message, false);
+}
+
+void Node::sendBinaryMessage(const QByteArray &message, bool bypassClientStateCheck)
+{
+    if (m_isConnected == false || (m_ClientState == false && bypassClientStateCheck == false))
         return;
 
     m_WebSocket.sendBinaryMessage(message);

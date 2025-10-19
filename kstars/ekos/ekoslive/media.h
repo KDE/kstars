@@ -48,7 +48,7 @@ class Media : public QObject
         void globalLogoutTriggered(const QUrl &url);
 
         void newBoundingRect(QRect rect, QSize view, double currentZoom);
-        void newImage(const QByteArray &image);
+        void newImage(const QByteArray &image, const QString &uuid);
 
     public slots:
         // Capture
@@ -75,7 +75,7 @@ class Media : public QObject
         void onBinaryReceived(const QByteArray &message);
 
         // Metadata and Image upload
-        void uploadImage(const QByteArray &image);
+        void uploadImage(const QByteArray &image, const QString &uuid);
 
     private:
         void dispatch(const QSharedPointer<FITSData> &data, const QString &uuid);
