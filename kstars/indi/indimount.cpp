@@ -1507,11 +1507,6 @@ bool Mount::setHomeOperation(HomeAction action)
     return true;
 }
 
-bool Mount::isHomed() const
-{
-    return m_isHomed;
-}
-
 Mount::Status Mount::status(INDI::Property nvp)
 {
     Status newMountStatus = MOUNT_ERROR;
