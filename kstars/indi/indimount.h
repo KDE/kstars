@@ -62,6 +62,7 @@ class Mount : public ConcreteDevice
         } Status;
         typedef enum { PARK_OPTION_CURRENT, PARK_OPTION_DEFAULT, PARK_OPTION_WRITE_DATA } ParkOptionCommand;
         typedef enum { TRACK_SIDEREAL, TRACK_SOLAR, TRACK_LUNAR, TRACK_CUSTOM } TrackModes;
+        typedef enum { HOME_FIND, HOME_SET, HOME_GO } HomeAction;
 
         static const QList<KLocalizedString> mountStates;
         static const QString getMountStatusString(Status status, bool translated = true);
@@ -197,6 +198,33 @@ class Mount : public ConcreteDevice
             return m_canTrackSatellite;
         }
 
+        // Homing
+        bool canHome()
+        {
+            return m_canHomeFind || m_canHomeSet || m_canHomeGo;
+        }
+        bool canHomeFind()
+        {
+            return m_canHomeFind;
+        }
+        bool canHomeSet()
+        {
+            return m_canHomeSet;
+        }
+        bool canHomeGo()
+        {
+            return m_canHomeGo;
+        }
+        bool setHomeOperation(HomeAction action);
+        HomeAction getHomeOperation() const
+        {
+            return m_currentHomeOperation;
+        }
+        bool isHomed() const
+        {
+            return m_isHomed;
+        }
+
         /**
          * @short Tracks satellite on provided TLE, initial epoch for trajectory calculation and window in minutes
          *
@@ -302,6 +330,7 @@ class Mount : public ConcreteDevice
         void slewRateChanged(int rate);
         void pierSideChanged(PierSide side);
         void axisReversed(INDI_EQ_AXIS axis, bool reversed);
+        void newHomeStatus(IPState status);
 
     private:
         SkyPoint currentCoords;
@@ -340,6 +369,11 @@ class Mount : public ConcreteDevice
         bool m_hasSlewRates { false };
         bool m_isJ2000 { false };
         bool m_hasEquatorialCoordProperty { false };
+        bool m_canHomeFind { false };
+        bool m_canHomeSet { false };
+        bool m_canHomeGo { false };
+        HomeAction m_currentHomeOperation { HOME_FIND };
+        bool m_isHomed { false };
         QStringList m_slewRates;
 };
 }

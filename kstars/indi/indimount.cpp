@@ -181,6 +181,13 @@ void Mount::registerProperty(INDI::Property prop)
         m_isJ2000 = true;
         m_hasEquatorialCoordProperty = true;
     }
+    else if (prop.isNameMatch("TELESCOPE_HOME"))
+    {
+        auto svp = prop.getSwitch();
+        m_canHomeFind = svp->findWidgetByName("HOME_FIND") != nullptr;
+        m_canHomeSet  = svp->findWidgetByName("HOME_SET") != nullptr;
+        m_canHomeGo   = svp->findWidgetByName("HOME_GO") != nullptr;
+    }
 }
 
 void Mount::updateJ2000Coordinates(SkyPoint *coords)
@@ -367,6 +374,30 @@ void Mount::processSwitch(INDI::Property prop)
     {
         emit axisReversed(AXIS_DE, svp->at(0)->getState() == ISS_ON);
         emit axisReversed(AXIS_RA, svp->at(1)->getState() == ISS_ON);
+    }
+    else if (svp->isNameMatch("TELESCOPE_HOME"))
+    {
+        if (svp->getState() == IPS_BUSY)
+        {
+            m_isHomed = false;
+            KSNotification::event(QLatin1String("MountHoming"), i18n("Mount homing in progress"), KSNotification::Mount);
+        }
+        else if (svp->getState() == IPS_OK)
+        {
+            // Homing is complete if the last commanded operation was HOME_FIND or HOME_GO
+            if (m_currentHomeOperation == HOME_FIND || m_currentHomeOperation == HOME_GO)
+            {
+                m_isHomed = true;
+                KSNotification::event(QLatin1String("MountHomed"), i18n("Mount homed successfully"), KSNotification::Mount);
+            }
+        }
+        else if (svp->getState() == IPS_ALERT)
+        {
+            m_isHomed = false;
+            KSNotification::event(QLatin1String("MountHomingFailed"), i18n("Mount homing failed"), KSNotification::Mount,
+                                  KSNotification::Alert);
+        }
+        emit newHomeStatus(svp->getState());
     }
 
     if (manualMotionChanged)
@@ -1439,6 +1470,46 @@ bool Mount::sendParkingOptionCommand(ParkOptionCommand command)
     sendNewProperty(parkOptionsSP);
 
     return true;
+}
+
+bool Mount::setHomeOperation(HomeAction action)
+{
+    auto homeSP = getSwitch("TELESCOPE_HOME");
+
+    if (!homeSP)
+        return false;
+
+    auto element = "HOME_FIND";
+    switch (action)
+    {
+        case HOME_FIND:
+            element = "HOME_FIND";
+            break;
+        case HOME_SET:
+            element = "HOME_SET";
+            break;
+        case HOME_GO:
+            element = "HOME_GO";
+            break;
+    }
+
+    auto homeSW = homeSP.findWidgetByName(element);
+
+    if (!homeSW)
+        return false;
+
+    homeSP.reset();
+    homeSW->setState(ISS_ON);
+    sendNewProperty(homeSP);
+
+    m_currentHomeOperation = action;
+
+    return true;
+}
+
+bool Mount::isHomed() const
+{
+    return m_isHomed;
 }
 
 Mount::Status Mount::status(INDI::Property nvp)

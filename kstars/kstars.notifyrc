@@ -2054,3 +2054,15 @@ Name[tr]=Bilinen Sorun
 Name[uk]=Відома проблема
 Name[zh_CN]=已知问题
 Action=Popup
+[Event/MountHomed]
+Name=Mount Homed
+Comment=Mount homed successfully
+Action=None
+[Event/MountHomingFailed]
+Name=Mount Homing Failed
+Comment=Mount homing failed
+Action=None
+[Event/MountHoming]
+Name=Mount Homing
+Comment=Mount homing in progress
+Action=None
