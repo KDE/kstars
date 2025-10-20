@@ -22,6 +22,7 @@
 #include <QTime>
 
 #include <memory>
+#include <random>
 
 class QVector3D;
 class FITSData;
@@ -205,6 +206,10 @@ class InternalGuider : public GuideInterface
         double calibrationStartX = 0;
         double calibrationStartY = 0;
 
+        // Random numbers for dithering
+        std::random_device m_randomDevice;
+        std::default_random_engine m_generator;
+        std::uniform_real_distribution<double> m_randomAngle;
 
         bool isPoorGuiding(const cproc_out_params *out);
         void emitAxisPulse(const cproc_out_params *out);

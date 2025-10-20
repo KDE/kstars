@@ -35,6 +35,7 @@ using namespace std::chrono_literals;
 namespace Ekos
 {
 InternalGuider::InternalGuider()
+    : m_generator(m_randomDevice()), m_randomAngle(0.0, 360.0)
 {
     // Create math object
     pmath.reset(new cgmath());
@@ -437,11 +438,7 @@ bool InternalGuider::onePulseDither(double pixels)
     double ret_x, ret_y;
     pmath->getTargetPosition(&ret_x, &ret_y);
 
-    auto seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine generator(seed);
-    std::uniform_real_distribution<double> angleMagnitude(0, 360);
-
-    double angle  = angleMagnitude(generator) * dms::DegToRad;
+    double angle  = m_randomAngle(m_generator) * dms::DegToRad;
     double diff_x = pixels * cos(angle);
     double diff_y = pixels * sin(angle);
 
