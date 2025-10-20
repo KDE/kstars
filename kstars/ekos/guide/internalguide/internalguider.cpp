@@ -312,16 +312,9 @@ bool InternalGuider::dither(double pixels)
     {
         m_DitherRetries = 0;
 
-        auto seed = std::chrono::system_clock::now().time_since_epoch().count();
-        std::default_random_engine generator(seed);
-        std::uniform_real_distribution<double> angleMagnitude(0, 360);
-
-        double angle  = angleMagnitude(generator) * dms::DegToRad;
+        double angle  = m_randomAngle(m_generator) * dms::DegToRad;
         double diff_x = pixels * cos(angle);
         double diff_y = pixels * sin(angle);
-
-        if (pmath->getCalibration().declinationSwapEnabled())
-            diff_y *= -1;
 
         if (m_DitherOrigin.x() == 0 && m_DitherOrigin.y() == 0)
         {
@@ -330,7 +323,7 @@ bool InternalGuider::dither(double pixels)
         double totalXOffset = ret_x - m_DitherOrigin.x();
         double totalYOffset = ret_y - m_DitherOrigin.y();
 
-        // if we've dithered too far, and diff_x or diff_y is pushing us even further away, then change its direction.
+        // If we've dithered too far, and diff_x or diff_y is pushing us even further away, then change its direction.
         // Note: it is possible that we've dithered too far, but diff_x/y is pointing in the right direction.
         // Don't change it in that 2nd case.
         if (((diff_x + totalXOffset > MAX_DITHER_TRAVEL) && (diff_x > 0)) ||
@@ -442,8 +435,8 @@ bool InternalGuider::onePulseDither(double pixels)
     double diff_x = pixels * cos(angle);
     double diff_y = pixels * sin(angle);
 
-    if (pmath->getCalibration().declinationSwapEnabled())
-        diff_y *= -1;
+    qCDebug(KSTARS_EKOS_GUIDE) << QString("OPD:  orig angle %1 dX %2 dy %3")
+                               .arg(angle, 0, 'f', 0).arg(diff_x, 0, 'f', 1).arg(diff_y, 0, 'f', 1);
 
     if (m_DitherOrigin.x() == 0 && m_DitherOrigin.y() == 0)
     {
@@ -473,16 +466,15 @@ bool InternalGuider::onePulseDither(double pixels)
     }
 
     m_DitherTargetPosition = GuiderUtils::Vector(ret_x, ret_y, 0) + GuiderUtils::Vector(diff_x, diff_y, 0);
+    qCDebug(KSTARS_EKOS_GUIDE) << QString("OPD: ret %1 %2 + %3 %4 --> target %5 %6 (for offset %7 %8)")
+                               .arg(ret_x, 5, 'f', 1).arg(ret_y, 5, 'f', 1)
+                               .arg(diff_x, 3, 'f', 1).arg(diff_y, 3, 'f', 1)
+                               .arg(m_DitherTargetPosition.x, 5, 'f', 1).arg(m_DitherTargetPosition.y, 5, 'f', 1)
+                               .arg(totalXOffset + diff_x, 3, 'f', 1).arg(totalYOffset + diff_y, 3, 'f', 1);
 
-    qCDebug(KSTARS_EKOS_GUIDE)
-            << QString("OPD: Dithering by %1 pixels. Target:  %2,%3 Current: %4,%5 Move: %6,%7 Wander: %8,%9")
-            .arg(pixels, 3, 'f', 1)
-            .arg(m_DitherTargetPosition.x, 5, 'f', 1).arg(m_DitherTargetPosition.y, 5, 'f', 1)
-            .arg(ret_x, 5, 'f', 1).arg(ret_y, 5, 'f', 1)
-            .arg(diff_x, 4, 'f', 1).arg(diff_y, 4, 'f', 1)
-            .arg(totalXOffset + diff_x, 5, 'f', 1).arg(totalYOffset + diff_y, 5, 'f', 1);
     guideLog.ditherInfo(diff_x, diff_y, m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
+    // We set the target position here, but then we also set m_isFirstFrame, so this is probably meaningless
     pmath->setTargetPosition(m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
     if (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM)
@@ -497,7 +489,7 @@ bool InternalGuider::onePulseDither(double pixels)
     double raPulse = fabs(raDecMove.x * pmath->getCalibration().raPulseMillisecondsPerArcsecond());
     double decPulse = fabs(raDecMove.y * pmath->getCalibration().decPulseMillisecondsPerArcsecond());
     auto raDir = raDecMove.x > 0 ? RA_INC_DIR : RA_DEC_DIR;
-    auto decDir = raDecMove.y > 0 ? DEC_DEC_DIR : DEC_INC_DIR;
+    auto decDir = raDecMove.y < 0 ? DEC_DEC_DIR : DEC_INC_DIR;
 
     m_isFirstFrame = true;
 
@@ -505,8 +497,11 @@ bool InternalGuider::onePulseDither(double pixels)
     QString raDirString = raDir == RA_DEC_DIR ? "RA_DEC" : "RA_INC";
     QString decDirString = decDir == DEC_INC_DIR ? "DEC_INC" : "DEC_DEC";
 
-    qCDebug(KSTARS_EKOS_GUIDE) << "OnePulseDither RA: " << raPulse << "ms" << raDirString << " DEC: " << decPulse << "ms " <<
-                               decDirString;
+    qCDebug(KSTARS_EKOS_GUIDE) << QString("OPD: xy move %1 %2 --> raDec move %3 %4 pulses: %5 %6, %7 %8")
+                               .arg(xyMove.x, 3, 'f', 1).arg(xyMove.y, 3, 'f', 1)
+                               .arg(raDecMove.x, 3, 'f', 1).arg(raDecMove.y, 3, 'f', 1)
+                               .arg(raPulse, 0, 'f', 0).arg(raDirString)
+                               .arg(decPulse, 0, 'f', 0).arg(decDirString);
 
     // Don't capture because the single shot timer below will trigger a capture.
     emit newMultiPulse(raDir, raPulse, decDir, decPulse, DontCaptureAfterPulses);
