@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-19 02:01+0000\n"
+"POT-Creation-Date: 2025-10-20 02:01+0000\n"
 "PO-Revision-Date: 2010-01-28 23:11+0100\n"
 "Last-Translator: Marko Dimjasevic <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -1079,7 +1079,7 @@ msgstr "Preglednik faksova za X sustav prozora"
 #: data/qml/whatisinteresting/wiview.qml:146
 #: data/qml/whatisinteresting/wiview.qml:158 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:763 indi/indimount.cpp:778 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -2111,7 +2111,7 @@ msgstr "Stanje"
 #: ekos/scheduler/scheduler.cpp:2277 ekos/scheduler/scheduler.cpp:2502
 #: ekos/scheduler/scheduler.cpp:2510 ekos/scheduler/scheduler.cpp:2520
 #: ekos/scheduler/scheduler.ui:1340 indi/indidome.cpp:21
-#: indi/indidustcap.cpp:17 indi/indimount.cpp:30 indi/indimount.cpp:1515
+#: indi/indidustcap.cpp:17 indi/indimount.cpp:30 indi/indimount.cpp:1581
 #, kde-format, kde-kuit-format
 msgid "Idle"
 msgstr ""
@@ -10403,7 +10403,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
 #: ekos/align/pushtoassistant.ui:101
 #, fuzzy, kde-format
-msgid "Abort Soving"
+msgid "Abort Solving"
 msgstr "Kombinacija"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopSolvingB)
@@ -17604,7 +17604,7 @@ msgid "Syncing"
 msgstr ""
 
 #: ekos/ekos.h:140 ekos/scheduler/scheduler.cpp:2278 indi/indimount.cpp:30
-#: indi/indimount.cpp:1521
+#: indi/indimount.cpp:1587
 #, kde-format
 msgid "Slewing"
 msgstr ""
@@ -22321,69 +22321,69 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:540
+#: ekos/guide/internalguide/internalguider.cpp:537
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:610
+#: ekos/guide/internalguide/internalguider.cpp:607
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Manual Dithering failed."
 msgstr "Ostalo"
 
-#: ekos/guide/internalguide/internalguider.cpp:679
+#: ekos/guide/internalguide/internalguider.cpp:676
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:680
+#: ekos/guide/internalguide/internalguider.cpp:677
 #, fuzzy, kde-format
 msgid "Missing Information"
 msgstr "Neispravni podaci"
 
-#: ekos/guide/internalguide/internalguider.cpp:705
+#: ekos/guide/internalguide/internalguider.cpp:702
 #, fuzzy, kde-format
 msgid "Guiding calibration restored"
 msgstr "Dodatne opcije veličina"
 
-#: ekos/guide/internalguide/internalguider.cpp:757
+#: ekos/guide/internalguide/internalguider.cpp:754
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:760
+#: ekos/guide/internalguide/internalguider.cpp:757
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guide Star lost."
 msgstr "Vodiči"
 
-#: ekos/guide/internalguide/internalguider.cpp:792
+#: ekos/guide/internalguide/internalguider.cpp:789
 #, fuzzy, kde-format
 msgid "Guiding calibration failed"
 msgstr "Dodatne opcije veličina"
 
-#: ekos/guide/internalguide/internalguider.cpp:799
+#: ekos/guide/internalguide/internalguider.cpp:796
 #, fuzzy, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Dodatne opcije veličina"
 
-#: ekos/guide/internalguide/internalguider.cpp:1131
+#: ekos/guide/internalguide/internalguider.cpp:1128
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1133
+#: ekos/guide/internalguide/internalguider.cpp:1130
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1317
+#: ekos/guide/internalguide/internalguider.cpp:1314
 #, fuzzy, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr ""
@@ -24591,7 +24591,7 @@ msgstr "Parkes"
 
 #. i18n: ectx: property (text), widget (QLabel, trackingLabel)
 #: ekos/mount/mount.ui:783 indi/indidome.cpp:22 indi/indimount.cpp:31
-#: indi/indimount.cpp:1525
+#: indi/indimount.cpp:1591
 #, fuzzy, kde-format
 msgid "Tracking"
 msgstr "Staza"
@@ -24773,7 +24773,7 @@ msgstr "Boje"
 
 #: ekos/observatory/observatory.cpp:349 ekos/observatory/observatory.cpp:365
 #: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:31
-#: indi/indimount.cpp:1519
+#: indi/indimount.cpp:1585
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Peking"
@@ -24826,7 +24826,7 @@ msgid "Unparked"
 msgstr "Parkes"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
-#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1517
+#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Parkes"
@@ -32529,81 +32529,99 @@ msgstr "Nema dovoljno memorije za dovršavanje postupka…"
 msgid "INDI Server Message"
 msgstr "Poslužitelj"
 
-#: indi/indimount.cpp:30 indi/indimount.cpp:1523
+#: indi/indimount.cpp:30 indi/indimount.cpp:1589
 #, fuzzy, kde-format
 msgid "Moving"
 msgstr "Učitavanje upravljačkog programa %s..."
 
-#: indi/indimount.cpp:246
+#: indi/indimount.cpp:253
 #, fuzzy, kde-format
 msgid "Mount is slewing to target location"
 msgstr "Geografska lokacija"
 
-#: indi/indimount.cpp:261
+#: indi/indimount.cpp:268
 #, fuzzy, kde-format
 msgid "Mount arrived at target location"
 msgstr "Geografska lokacija"
 
-#: indi/indimount.cpp:334
+#: indi/indimount.cpp:341
 #, fuzzy, kde-format
 msgid "Mount motion was aborted"
 msgstr "Dodatne opcije veličina"
 
-#: indi/indimount.cpp:455
+#: indi/indimount.cpp:383
+#, fuzzy, kde-format
+#| msgid "Radiotelescope"
+msgid "Mount homing in progress"
+msgstr "Radio teleskop"
+
+#: indi/indimount.cpp:391
+#, fuzzy, kde-format
+msgid "Mount homed successfully"
+msgstr "Nebeske koordinate"
+
+#: indi/indimount.cpp:397
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Mount Ekar"
+msgid "Mount homing failed"
+msgstr "Mount Ekar"
+
+#: indi/indimount.cpp:486
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Mount Ekar"
 msgid "Mount parking failed"
 msgstr "Mount Ekar"
 
-#: indi/indimount.cpp:461
+#: indi/indimount.cpp:492
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Mount parking is in progress"
 msgstr "Radio teleskop"
 
-#: indi/indimount.cpp:469
+#: indi/indimount.cpp:500
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Mount unparking is in progress"
 msgstr "Radio teleskop"
 
-#: indi/indimount.cpp:476
+#: indi/indimount.cpp:507
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Mount Ekar"
 msgid "Mount parked"
 msgstr "Mount Ekar"
 
-#: indi/indimount.cpp:495
+#: indi/indimount.cpp:526
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Mount Ekar"
 msgid "Mount unparked"
 msgstr "Mount Ekar"
 
-#: indi/indimount.cpp:792
+#: indi/indimount.cpp:823
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr ""
 
-#: indi/indimount.cpp:793
+#: indi/indimount.cpp:824
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Corning"
 msgid "Sun Warning"
 msgstr "Corning"
 
-#: indi/indimount.cpp:811
+#: indi/indimount.cpp:842
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr ""
 
-#: indi/indimount.cpp:845
+#: indi/indimount.cpp:876
 #, fuzzy, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -32611,7 +32629,7 @@ msgstr ""
 "Zahtjevani položaj je ispod horizonta.\n"
 "Želite li ipak da odete dotle?"
 
-#: indi/indimount.cpp:846
+#: indi/indimount.cpp:877
 #, fuzzy, kde-format
 msgid "Telescope Motion"
 msgstr "Lokalni port: "

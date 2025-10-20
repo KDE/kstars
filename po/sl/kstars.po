@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-19 02:01+0000\n"
-"PO-Revision-Date: 2025-10-18 22:42+0200\n"
+"POT-Creation-Date: 2025-10-20 02:01+0000\n"
+"PO-Revision-Date: 2025-10-19 09:32+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -1086,7 +1086,7 @@ msgstr "Simulator Osončja XPlanet: %1"
 #: data/qml/whatisinteresting/wiview.qml:146
 #: data/qml/whatisinteresting/wiview.qml:158 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:763 indi/indimount.cpp:778 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -2078,7 +2078,7 @@ msgstr "Stanje:"
 #: ekos/scheduler/scheduler.cpp:2277 ekos/scheduler/scheduler.cpp:2502
 #: ekos/scheduler/scheduler.cpp:2510 ekos/scheduler/scheduler.cpp:2520
 #: ekos/scheduler/scheduler.ui:1340 indi/indidome.cpp:21
-#: indi/indidustcap.cpp:17 indi/indimount.cpp:30 indi/indimount.cpp:1515
+#: indi/indidustcap.cpp:17 indi/indimount.cpp:30 indi/indimount.cpp:1581
 #, kde-format, kde-kuit-format
 msgid "Idle"
 msgstr "Nedejaven"
@@ -7320,16 +7320,14 @@ msgid "Mount Model"
 msgstr "Model montaže"
 
 #: ekos/align/alignmentplot.cpp:158
-#, fuzzy, kde-format
-#| msgid "Azimuth at set"
+#, kde-format
 msgid "Azimuth diff (deg)"
-msgstr "Azimut ob zahodu"
+msgstr "Razlika azimutov (stopinje)"
 
 #: ekos/align/alignmentplot.cpp:159
-#, fuzzy, kde-format
-#| msgid "Latitude in degrees"
+#, kde-format
 msgid "Altitude diff (deg)"
-msgstr "Zemljepisna širina v stopinjah"
+msgstr "Razlika višin (stopinje)"
 
 #: ekos/align/alignview.cpp:170
 #, kde-format
@@ -10464,39 +10462,34 @@ msgid "Adjust"
 msgstr "Prilagodi"
 
 #: ekos/align/pushtoassistant.cpp:23
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Slew Target"
+#, kde-format
 msgid "Select Target"
-msgstr "Cilj obračanja"
+msgstr "Izberi cilj"
 
 #: ekos/align/pushtoassistant.cpp:24
 #, kde-format
 msgid "Select the target that you are aiming for."
-msgstr ""
+msgstr "Izberite cilj, h kateremu ciljate."
 
 #: ekos/align/pushtoassistant.cpp:94
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stop EKOS"
-msgstr "Zaustavi"
+msgstr "Zaustavi EKOS"
 
 #: ekos/align/pushtoassistant.cpp:100
-#, fuzzy, kde-format
-#| msgid "Start Scan"
+#, kde-format
 msgid "Start EKOS"
-msgstr "Začni pregled"
+msgstr "Začni EKOS"
 
 #: ekos/align/pushtoassistant.cpp:251
-#, fuzzy, kde-format
-#| msgid "Scale & Position"
+#, kde-format
 msgid "Solve Position"
-msgstr "Merilo in položaj"
+msgstr "Reši položaj"
 
 #: ekos/align/pushtoassistant.cpp:252
 #, kde-format
 msgid "Start plate solving the position you are currently aiming at."
-msgstr ""
+msgstr "Začetna plošča rešuje položaj na katerega trenutno ciljate."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:256 ekos/capture/capture.cpp:472
@@ -10509,58 +10502,19 @@ msgid "Abort"
 msgstr "Prekini"
 
 #: ekos/align/pushtoassistant.cpp:257
-#, fuzzy, kde-format
-#| msgid "Set %1 as the current location"
+#, kde-format
 msgid "Stop the current plate solving run."
-msgstr "Nastavi %1 kot trenutno lokacijo"
+msgstr "Ustavi trenutni postopek reševanja plošč."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PushToAssistant)
 #: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:489
-#, fuzzy, kde-format
-#| msgid "Serial Port Assistant"
+#, kde-format
 msgid "Push-To Assistant"
-msgstr "Pomočnik za zaporedna vrata"
+msgstr "Pomočnik za potiskanje"
 
 #. i18n: ectx: property (toolTip), widget (AlignmentPlot, targetPlot)
 #: ekos/align/pushtoassistant.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
-#| "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" "
-#| "font-style:italic;\">blocked</span> from view from your vantage point (e."
-#| "g. by tall trees or buildings). Regions can be areas above or below line "
-#| "segments that you enter. </p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; "
-#| "-qt-block-indent:0; text-indent:0px;\">To draw a <span style=\" font-"
-#| "weight:600;\">Region</span>, enter a list of <span style=\" font-"
-#| "weight:600;\">Points</span> (<span style=\" font-style:italic;\">minimum</"
-#| "span> 2) that outlines the top of a blocked area (the <span style=\" font-"
-#| "weight:600;\">blockage is below</span> the lines).</li><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Setting <span style=\" font-style:italic;\">ceiling/window mode</span> "
-#| "for a list of points instead sets the <span style=\" font-weight:600;"
-#| "\">blockage above</span> the lines.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Add the points manually, or preferably by selecting "
-#| "them from the Sky Map after clicking <span style=\" font-style:italic;"
-#| "\">Select Points</span> button. </li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Enable a region by <span style=\" font-style:italic;"
-#| "\">checking its box</span>. </li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Selecting a region displays its points on the SkyMap. </"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When done click "
-#| "<span style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Defining regions is easier when used in "
-#| "conjunction with the Terrain background feature.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">You can export (and later import) regions "
-#| "using the export/import region buttons.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Description</span></"
 "p><p>This assistant gives users of manual mounts (dobsons etc.) support "
@@ -10598,62 +10552,58 @@ msgid ""
 "finder scope is correctly configured and your telescope is roughly pointing "
 "to the target that you have selected.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Umetni horizont se uporablja za definiranje <span "
-"style=\" font-weight:600;\">Regij</span> na zvezdni karti, ki so <span style="
-"\" font-style:italic;\">blokirane</span> pred pogledom z vaše izhodiščne "
-"točke (npr. z visokimi drevesi ali zgradbami). Regije so lahko območja nad "
-"ali pod segmenti črt, ki jih vnesete. </p><ul style=\"margin-top: 0px; "
-"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-"\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Da bi narisali <span style="
-"\" font-weight:600;\">Regijo</span>, vnesite seznam <span style=\" font-"
-"weight:600;\">Točk</span> (<span style=\" font-style:italic;\">minimalno</"
-"span> 2) ki označujejo vrh blokiranega območja <span style=\" font-"
-"weight:600;\">blokada je pod</span> črtami).</li><ul style=\"margin-top: "
-"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">Nastavljanje <span style=\" font-style:italic;\">načina stropa/okna</"
-"span> zaseznam točk namesto nastavitve <span style=\" font-weight:600;"
-"\">blokade nad </span> črtami.</li><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Dodajte točke ročno ali še bolje z izbiro iz zvezdne karte po "
-"kliku gumba <span style=\" font-style:italic;\">Izberi točke</span>. </li></"
-"ul><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Omogočite regijo z<span "
-"style=\" font-style:italic;\">potrditvijo njenega okvirja</span>. </li><li "
+"<html><head/><body><p><span style=\" font-weight:600;\">Opis</span></p><p>Ta "
+"pomočnik uporabnikom ročnih montaž (Dobson itd.) pomaga pri iskanju ciljev z "
+"iskalom, opremljenim s kamero.</p><p><span style=\" font-weight:600;"
+"\">Priprava</span></p><p>Odprite EKOS, ustvarite profil s kamero po vaši "
+"izbiri, simulatorjem teleskopa kot montažo in dodajte iskalo kot nov "
+"teleskop.</p><p><span style=\" font-weight:600;\">Uporaba</span></p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Zaženi EKOS</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Postavi "
+"montažo čim bližje cilju</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Izberite cilj v iskalniku ciljev in pritisnite gumb »Izberi cilj«</li><li "
 "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Izbira regije prikaže "
-"njene točke na zvezdni karti. </li><li style=\" margin-top:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Pritisnite gumb »Reši "
+"položaj«. To zajame okvir skozi iskalo in reši sliko glede na zvezdne "
+"kataloge KStars.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Takoj ko "
+"reševanje plošče uspe, se prikaže razdalja do cilja. Puščice kažejo "
+"navodila, kako popraviti položaj montaže.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Premaknite nosilec v označeni položaj in ponovite "
+"reševanje.</li></ul><p><span style=\" font-weight:600;\">Namigi</span></"
+"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Ko ste kliknili <span style=\" font-style:italic;\">Uveljavi</"
-"span>.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Določanje regij je "
-"lažje, če se uporablja v povezavi s funkcijo ozadja terena..</li><li style="
-"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\">Regije lahko izvozite (in kasneje "
-"uvozite) z uporabo gumbov za izvoz/uvoz regij.</li></ul></body></html>"
+"indent:0px;\">Če pritisnete gumb »Ponovi« gumb, se bosta zajemanje in "
+"reševanje plošče ponovila po konfigurirani zakasnitvi.</li><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Če reševanje plošče ne uspe, preverite, "
+"ali je goriščna razdalja iskala pravilno nastavljena in ali je vaš teleskop "
+"približno usmerjen na izbrani cilj.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
 #: ekos/align/pushtoassistant.ui:101
 #, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Abort Motion"
-msgid "Abort Soving"
-msgstr "Prekini gibanje"
+#| msgid "Abort Soving"
+msgid "Abort Solving"
+msgstr "Prekini reševanje"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopSolvingB)
 #: ekos/align/pushtoassistant.ui:125
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "Repeat solving"
-msgstr "Reševanje plošče"
+msgstr "Ponovi reševanje"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, refreshIntervalSB)
 #: ekos/align/pushtoassistant.ui:148
 #, kde-format
 msgid "Interval after which solving is repeated"
-msgstr ""
+msgstr "Interval po katerem se reševanje ponovi"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, refreshIntervalSB)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMotionTimeout)
@@ -18143,7 +18093,7 @@ msgid "Syncing"
 msgstr "Usklajevanje"
 
 #: ekos/ekos.h:140 ekos/scheduler/scheduler.cpp:2278 indi/indimount.cpp:30
-#: indi/indimount.cpp:1521
+#: indi/indimount.cpp:1587
 #, kde-format
 msgid "Slewing"
 msgstr "Obračanje"
@@ -23231,7 +23181,7 @@ msgstr "Smer DEC obrnjena (RA-DEC je zdaj standardni sistem CCW)."
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Omejen dolg impulz od %1ms do %2ms"
 
-#: ekos/guide/internalguide/internalguider.cpp:540
+#: ekos/guide/internalguide/internalguider.cpp:537
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -23240,27 +23190,27 @@ msgstr ""
 "Opozorilo: Stresanje ni uspelo. Samovodenje se bo nadaljevalo, kot je "
 "nastavljeno v možnostihv primeru izpada stresanja."
 
-#: ekos/guide/internalguide/internalguider.cpp:610
+#: ekos/guide/internalguide/internalguider.cpp:607
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Opozorilo: Ročno stresanje ni uspelo."
 
-#: ekos/guide/internalguide/internalguider.cpp:679
+#: ekos/guide/internalguide/internalguider.cpp:676
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr "Podatki o %1 manjkajo. Vrednosti nastavite na nadzorni plošči INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:680
+#: ekos/guide/internalguide/internalguider.cpp:677
 #, kde-format
 msgid "Missing Information"
 msgstr "Manjkajo podatki"
 
-#: ekos/guide/internalguide/internalguider.cpp:705
+#: ekos/guide/internalguide/internalguider.cpp:702
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Umerjanje vodenja je obnovljeno"
 
-#: ekos/guide/internalguide/internalguider.cpp:757
+#: ekos/guide/internalguide/internalguider.cpp:754
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -23269,32 +23219,32 @@ msgstr ""
 "Sled za vodilno zvezdo se je izgubila. Poskusite povečati velikost kvadrata "
 "ali skrajšati trajanje pulza."
 
-#: ekos/guide/internalguide/internalguider.cpp:760
+#: ekos/guide/internalguide/internalguider.cpp:757
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Vodilna zvezda izgubljena."
 
-#: ekos/guide/internalguide/internalguider.cpp:792
+#: ekos/guide/internalguide/internalguider.cpp:789
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Umerjanje vodenja neuspelo"
 
-#: ekos/guide/internalguide/internalguider.cpp:799
+#: ekos/guide/internalguide/internalguider.cpp:796
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Umerjanje vodenja se je uspešno zaključilo"
 
-#: ekos/guide/internalguide/internalguider.cpp:1131
+#: ekos/guide/internalguide/internalguider.cpp:1128
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Sled za vodilno zvezdo se je izgubila. Iščem vodilne zvezde…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1133
+#: ekos/guide/internalguide/internalguider.cpp:1130
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Vrednost praga delta KKS je prekoračena. Iskanje vodilnih zvezd..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1317
+#: ekos/guide/internalguide/internalguider.cpp:1314
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Ni uspelo najti nobenih primernih vodilnih zvezd. Prekinitev…"
@@ -25688,7 +25638,7 @@ msgstr "Premakni s parkirišča"
 
 #. i18n: ectx: property (text), widget (QLabel, trackingLabel)
 #: ekos/mount/mount.ui:783 indi/indidome.cpp:22 indi/indimount.cpp:31
-#: indi/indimount.cpp:1525
+#: indi/indimount.cpp:1591
 #, kde-format
 msgid "Tracking"
 msgstr "Sledenje"
@@ -25856,7 +25806,7 @@ msgstr "Zapiranje"
 
 #: ekos/observatory/observatory.cpp:349 ekos/observatory/observatory.cpp:365
 #: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:31
-#: indi/indimount.cpp:1519
+#: indi/indimount.cpp:1585
 #, kde-format
 msgid "Parking"
 msgstr "Parkiranje"
@@ -25903,7 +25853,7 @@ msgid "Unparked"
 msgstr "Odparkirano"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
-#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1517
+#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583
 #, kde-format
 msgid "Parked"
 msgstr "Parkirano"
@@ -33979,52 +33929,70 @@ msgstr "Ni dovolj pomnilnika za datoteko %1"
 msgid "INDI Server Message"
 msgstr "Sporočilo strežnika INDI"
 
-#: indi/indimount.cpp:30 indi/indimount.cpp:1523
+#: indi/indimount.cpp:30 indi/indimount.cpp:1589
 #, kde-format
 msgid "Moving"
 msgstr "Premikanje"
 
-#: indi/indimount.cpp:246
+#: indi/indimount.cpp:253
 #, kde-format
 msgid "Mount is slewing to target location"
 msgstr "Montaže se obrača na ciljno lokacijo"
 
-#: indi/indimount.cpp:261
+#: indi/indimount.cpp:268
 #, kde-format
 msgid "Mount arrived at target location"
 msgstr "Montaža je prispela na ciljno lokacijo"
 
-#: indi/indimount.cpp:334
+#: indi/indimount.cpp:341
 #, kde-format
 msgid "Mount motion was aborted"
 msgstr "Premik montaže je bil prekinjen"
 
-#: indi/indimount.cpp:455
+#: indi/indimount.cpp:383
+#, fuzzy, kde-format
+#| msgid "Mount parking is in progress"
+msgid "Mount homing in progress"
+msgstr "Parkiranje montaže je v teku"
+
+#: indi/indimount.cpp:391
+#, fuzzy, kde-format
+#| msgid "Dithering completed successfully."
+msgid "Mount homed successfully"
+msgstr "Stresanje se je uspešno zaključilo."
+
+#: indi/indimount.cpp:397
+#, fuzzy, kde-format
+#| msgid "Mount parking failed"
+msgid "Mount homing failed"
+msgstr "Parkiranje montaže ni uspelo"
+
+#: indi/indimount.cpp:486
 #, kde-format
 msgid "Mount parking failed"
 msgstr "Parkiranje montaže ni uspelo"
 
-#: indi/indimount.cpp:461
+#: indi/indimount.cpp:492
 #, kde-format
 msgid "Mount parking is in progress"
 msgstr "Parkiranje montaže je v teku"
 
-#: indi/indimount.cpp:469
+#: indi/indimount.cpp:500
 #, kde-format
 msgid "Mount unparking is in progress"
 msgstr "Odparkiranje montaže je v teku"
 
-#: indi/indimount.cpp:476
+#: indi/indimount.cpp:507
 #, kde-format
 msgid "Mount parked"
 msgstr "Montaže parkirana"
 
-#: indi/indimount.cpp:495
+#: indi/indimount.cpp:526
 #, kde-format
 msgid "Mount unparked"
 msgstr "Montaže odparkirana"
 
-#: indi/indimount.cpp:792
+#: indi/indimount.cpp:823
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
@@ -34033,26 +34001,26 @@ msgstr ""
 "Opozorilo! Gledanje v Sonce brez ustrezne zaščite lahko povzroči "
 "nepopravljive poškodbe oči!"
 
-#: indi/indimount.cpp:793
+#: indi/indimount.cpp:824
 #, kde-format
 msgid "Sun Warning"
 msgstr "Opozorilo pred soncem"
 
-#: indi/indimount.cpp:811
+#: indi/indimount.cpp:842
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr "Zahtevana višina %1 je zunaj navedene omejitve višine (%2,%3)."
 
-#: indi/indimount.cpp:845
+#: indi/indimount.cpp:876
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
 msgstr ""
 "Zahtevana višina je pod obzorjem. Ali ste prepričani, da želite nadaljevati?"
 
-#: indi/indimount.cpp:846
+#: indi/indimount.cpp:877
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Premikanje teleskopa"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-19 02:01+0000\n"
+"POT-Creation-Date: 2025-10-20 02:01+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -1072,7 +1072,7 @@ msgstr "ਸੂਰਜ ਸਿਸਟਮ"
 #: data/qml/whatisinteresting/wiview.qml:146
 #: data/qml/whatisinteresting/wiview.qml:158 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:763 indi/indimount.cpp:778 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -2101,7 +2101,7 @@ msgstr "ਸਥਿਤੀ"
 #: ekos/scheduler/scheduler.cpp:2277 ekos/scheduler/scheduler.cpp:2502
 #: ekos/scheduler/scheduler.cpp:2510 ekos/scheduler/scheduler.cpp:2520
 #: ekos/scheduler/scheduler.ui:1340 indi/indidome.cpp:21
-#: indi/indidustcap.cpp:17 indi/indimount.cpp:30 indi/indimount.cpp:1515
+#: indi/indidustcap.cpp:17 indi/indimount.cpp:30 indi/indimount.cpp:1581
 #, kde-format, kde-kuit-format
 msgid "Idle"
 msgstr "ਬੇਕਾਰ"
@@ -10547,7 +10547,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "City in Alberta Canada"
 #| msgid "Coronation"
-msgid "Abort Soving"
+msgid "Abort Solving"
 msgstr "ਕਰੋਨੇਸ਼ਨ"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopSolvingB)
@@ -18071,7 +18071,7 @@ msgid "Syncing"
 msgstr ""
 
 #: ekos/ekos.h:140 ekos/scheduler/scheduler.cpp:2278 indi/indimount.cpp:30
-#: indi/indimount.cpp:1521
+#: indi/indimount.cpp:1587
 #, fuzzy, kde-format
 #| msgid "Scope"
 msgid "Slewing"
@@ -23045,73 +23045,73 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:540
+#: ekos/guide/internalguide/internalguider.cpp:537
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:610
+#: ekos/guide/internalguide/internalguider.cpp:607
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Manual Dithering failed."
 msgstr "ਹੋਰ"
 
-#: ekos/guide/internalguide/internalguider.cpp:679
+#: ekos/guide/internalguide/internalguider.cpp:676
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:680
+#: ekos/guide/internalguide/internalguider.cpp:677
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Missing Information"
 msgstr "ਜਾਣਕਾਰੀ"
 
-#: ekos/guide/internalguide/internalguider.cpp:705
+#: ekos/guide/internalguide/internalguider.cpp:702
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Guiding calibration restored"
 msgstr "ਕਲਾਂਈਟ"
 
-#: ekos/guide/internalguide/internalguider.cpp:757
+#: ekos/guide/internalguide/internalguider.cpp:754
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:760
+#: ekos/guide/internalguide/internalguider.cpp:757
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guide Star lost."
 msgstr "ਗਾਇਡਾਂ"
 
-#: ekos/guide/internalguide/internalguider.cpp:792
+#: ekos/guide/internalguide/internalguider.cpp:789
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Guiding calibration failed"
 msgstr "ਕਲਾਂਈਟ"
 
-#: ekos/guide/internalguide/internalguider.cpp:799
+#: ekos/guide/internalguide/internalguider.cpp:796
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Guiding calibration completed successfully"
 msgstr "ਟੈਲੀਸਕੋਪ ਸਹਾਇਕ ਠੀਕ ਤਰ੍ਹਾਂ ਪੂਰਾ ਕੀਤਾ ਗਿਆ।"
 
-#: ekos/guide/internalguide/internalguider.cpp:1131
+#: ekos/guide/internalguide/internalguider.cpp:1128
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1133
+#: ekos/guide/internalguide/internalguider.cpp:1130
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1317
+#: ekos/guide/internalguide/internalguider.cpp:1314
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to find any suitable guide stars. Aborting..."
@@ -25366,7 +25366,7 @@ msgstr "ਪਾਰਕ"
 
 #. i18n: ectx: property (text), widget (QLabel, trackingLabel)
 #: ekos/mount/mount.ui:783 indi/indidome.cpp:22 indi/indimount.cpp:31
-#: indi/indimount.cpp:1525
+#: indi/indimount.cpp:1591
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Tracking"
@@ -25552,7 +25552,7 @@ msgstr "ਬੰਦ ਕਰੋ"
 
 #: ekos/observatory/observatory.cpp:349 ekos/observatory/observatory.cpp:365
 #: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:31
-#: indi/indimount.cpp:1519
+#: indi/indimount.cpp:1585
 #, fuzzy, kde-format
 msgid "Parking"
 msgstr "ਬੀਜ਼ਿੰਗ"
@@ -25613,7 +25613,7 @@ msgid "Unparked"
 msgstr "ਪਾਰਕ"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
-#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1517
+#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583
 #, fuzzy, kde-format
 msgid "Parked"
 msgstr "ਪੈਰਿਸ"
@@ -33651,86 +33651,104 @@ msgstr "%1 ਲੋਡ ਕਰਨ ਲਈ ਲੋੜੀਦੀ ਮੈਮੈਰੀ ਨ�
 msgid "INDI Server Message"
 msgstr "ਸਰਵਰ"
 
-#: indi/indimount.cpp:30 indi/indimount.cpp:1523
+#: indi/indimount.cpp:30 indi/indimount.cpp:1589
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "Moving"
 msgstr "%1 ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: indi/indimount.cpp:246
+#: indi/indimount.cpp:253
 #, fuzzy, kde-format
 #| msgid "Date, time and location: "
 msgid "Mount is slewing to target location"
 msgstr "ਮਿਤੀ, ਸਮਾਂ ਅਤੇ ਟਿਕਾਣਾ: "
 
-#: indi/indimount.cpp:261
+#: indi/indimount.cpp:268
 #, fuzzy, kde-format
 #| msgid "Date, time and location: "
 msgid "Mount arrived at target location"
 msgstr "ਮਿਤੀ, ਸਮਾਂ ਅਤੇ ਟਿਕਾਣਾ: "
 
-#: indi/indimount.cpp:334
+#: indi/indimount.cpp:341
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Mount motion was aborted"
 msgstr "ਕਲਾਂਈਟ"
 
-#: indi/indimount.cpp:455
+#: indi/indimount.cpp:383
+#, fuzzy, kde-format
+#| msgid "Autofocus in progress..."
+msgid "Mount homing in progress"
+msgstr "...ਆਟੋ-ਫੋਕਸ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+
+#: indi/indimount.cpp:391
+#, fuzzy, kde-format
+#| msgid "Telescope Wizard completed successfully."
+msgid "Mount homed successfully"
+msgstr "ਟੈਲੀਸਕੋਪ ਸਹਾਇਕ ਠੀਕ ਤਰ੍ਹਾਂ ਪੂਰਾ ਕੀਤਾ ਗਿਆ।"
+
+#: indi/indimount.cpp:397
+#, fuzzy, kde-format
+#| msgid "Linear"
+msgid "Mount homing failed"
+msgstr "ਰੇਖਿਕ"
+
+#: indi/indimount.cpp:486
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgid "Mount parking failed"
 msgstr "ਰੇਖਿਕ"
 
-#: indi/indimount.cpp:461
+#: indi/indimount.cpp:492
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Mount parking is in progress"
 msgstr "...ਆਟੋ-ਫੋਕਸ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: indi/indimount.cpp:469
+#: indi/indimount.cpp:500
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Mount unparking is in progress"
 msgstr "...ਆਟੋ-ਫੋਕਸ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: indi/indimount.cpp:476
+#: indi/indimount.cpp:507
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgid "Mount parked"
 msgstr "ਰੇਖਿਕ"
 
-#: indi/indimount.cpp:495
+#: indi/indimount.cpp:526
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgid "Mount unparked"
 msgstr "ਰੇਖਿਕ"
 
-#: indi/indimount.cpp:792
+#: indi/indimount.cpp:823
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr ""
 
-#: indi/indimount.cpp:793
+#: indi/indimount.cpp:824
 #, fuzzy, kde-format
 msgid "Sun Warning"
 msgstr "ਜੋੜ"
 
-#: indi/indimount.cpp:811
+#: indi/indimount.cpp:842
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr ""
 
-#: indi/indimount.cpp:845
+#: indi/indimount.cpp:876
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
 msgstr ""
 
-#: indi/indimount.cpp:846
+#: indi/indimount.cpp:877
 #, fuzzy, kde-format
 msgid "Telescope Motion"
 msgstr "ਕੋਈ ਨਾ ਚੁਣੋ"

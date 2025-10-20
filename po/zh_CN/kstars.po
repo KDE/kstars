@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-19 02:01+0000\n"
+"POT-Creation-Date: 2025-10-20 02:01+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1041,7 +1041,7 @@ msgstr "XPlanet 太阳系模拟器: %1"
 #: data/qml/whatisinteresting/wiview.qml:146
 #: data/qml/whatisinteresting/wiview.qml:158 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:763 indi/indimount.cpp:778 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -2018,7 +2018,7 @@ msgstr "状态："
 #: ekos/scheduler/scheduler.cpp:2277 ekos/scheduler/scheduler.cpp:2502
 #: ekos/scheduler/scheduler.cpp:2510 ekos/scheduler/scheduler.cpp:2520
 #: ekos/scheduler/scheduler.ui:1340 indi/indidome.cpp:21
-#: indi/indidustcap.cpp:17 indi/indimount.cpp:30 indi/indimount.cpp:1515
+#: indi/indidustcap.cpp:17 indi/indimount.cpp:30 indi/indimount.cpp:1581
 #, kde-format, kde-kuit-format
 msgid "Idle"
 msgstr "空闲"
@@ -7143,16 +7143,14 @@ msgid "Mount Model"
 msgstr "赤道仪模型"
 
 #: ekos/align/alignmentplot.cpp:158
-#, fuzzy, kde-format
-#| msgid "Azimuth at set"
+#, kde-format
 msgid "Azimuth diff (deg)"
-msgstr "落下方位"
+msgstr ""
 
 #: ekos/align/alignmentplot.cpp:159
-#, fuzzy, kde-format
-#| msgid "Latitude in degrees"
+#, kde-format
 msgid "Altitude diff (deg)"
-msgstr "纬度(单位：度)"
+msgstr ""
 
 #: ekos/align/alignview.cpp:170
 #, kde-format
@@ -10158,11 +10156,9 @@ msgid "Adjust"
 msgstr "调整"
 
 #: ekos/align/pushtoassistant.cpp:23
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Slew Target"
+#, kde-format
 msgid "Select Target"
-msgstr "运动至目标"
+msgstr ""
 
 #: ekos/align/pushtoassistant.cpp:24
 #, kde-format
@@ -10170,22 +10166,19 @@ msgid "Select the target that you are aiming for."
 msgstr ""
 
 #: ekos/align/pushtoassistant.cpp:94
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stop EKOS"
-msgstr "停止"
+msgstr ""
 
 #: ekos/align/pushtoassistant.cpp:100
-#, fuzzy, kde-format
-#| msgid "Start Scan"
+#, kde-format
 msgid "Start EKOS"
-msgstr "开始扫描"
+msgstr ""
 
 #: ekos/align/pushtoassistant.cpp:251
-#, fuzzy, kde-format
-#| msgid "Scale & Position"
+#, kde-format
 msgid "Solve Position"
-msgstr "缩放和位置"
+msgstr ""
 
 #: ekos/align/pushtoassistant.cpp:252
 #, kde-format
@@ -10203,17 +10196,15 @@ msgid "Abort"
 msgstr "中止"
 
 #: ekos/align/pushtoassistant.cpp:257
-#, fuzzy, kde-format
-#| msgid "Set %1 as the current location"
+#, kde-format
 msgid "Stop the current plate solving run."
-msgstr "设置 %1 为当前位置"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PushToAssistant)
 #: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:489
-#, fuzzy, kde-format
-#| msgid "Serial Port Assistant"
+#, kde-format
 msgid "Push-To Assistant"
-msgstr "串行端口助理"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (AlignmentPlot, targetPlot)
 #: ekos/align/pushtoassistant.ui:60
@@ -10261,15 +10252,14 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Abort Motion"
-msgid "Abort Soving"
+msgid "Abort Solving"
 msgstr "中止动作"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopSolvingB)
 #: ekos/align/pushtoassistant.ui:125
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "Repeat solving"
-msgstr "平面解析"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, refreshIntervalSB)
 #: ekos/align/pushtoassistant.ui:148
@@ -17382,7 +17372,7 @@ msgid "Syncing"
 msgstr "正在同步"
 
 #: ekos/ekos.h:140 ekos/scheduler/scheduler.cpp:2278 indi/indimount.cpp:30
-#: indi/indimount.cpp:1521
+#: indi/indimount.cpp:1587
 #, kde-format
 msgid "Slewing"
 msgstr "旋转"
@@ -22222,66 +22212,66 @@ msgstr "赤纬方向反向（赤经-赤纬现在是一个标准的逆时针系�
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:540
+#: ekos/guide/internalguide/internalguider.cpp:537
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr "警告：抖动失败。如果抖动失败，自动导星应将按设定继续。"
 
-#: ekos/guide/internalguide/internalguider.cpp:610
+#: ekos/guide/internalguide/internalguider.cpp:607
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "警告: 手动抖动失败。"
 
-#: ekos/guide/internalguide/internalguider.cpp:679
+#: ekos/guide/internalguide/internalguider.cpp:676
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr "%1 信息丢失。请在 INDI 控制面板内设置相应的值。"
 
-#: ekos/guide/internalguide/internalguider.cpp:680
+#: ekos/guide/internalguide/internalguider.cpp:677
 #, kde-format
 msgid "Missing Information"
 msgstr "缺少的信息"
 
-#: ekos/guide/internalguide/internalguider.cpp:705
+#: ekos/guide/internalguide/internalguider.cpp:702
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "已复用导星校准"
 
-#: ekos/guide/internalguide/internalguider.cpp:757
+#: ekos/guide/internalguide/internalguider.cpp:754
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr "失去被导星的踪迹。请尝试增大方框尺寸或减小脉冲宽度。"
 
-#: ekos/guide/internalguide/internalguider.cpp:760
+#: ekos/guide/internalguide/internalguider.cpp:757
 #, kde-format
 msgid "Guide Star lost."
 msgstr "被导星已丢失。"
 
-#: ekos/guide/internalguide/internalguider.cpp:792
+#: ekos/guide/internalguide/internalguider.cpp:789
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "导星校准失败"
 
-#: ekos/guide/internalguide/internalguider.cpp:799
+#: ekos/guide/internalguide/internalguider.cpp:796
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "已成功完成导星校准"
 
-#: ekos/guide/internalguide/internalguider.cpp:1131
+#: ekos/guide/internalguide/internalguider.cpp:1128
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "丢失被导星。正在搜索被导星..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1133
+#: ekos/guide/internalguide/internalguider.cpp:1130
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Delta RMS 超出阈值。正在搜索被导星..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1317
+#: ekos/guide/internalguide/internalguider.cpp:1314
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "找不到合适的导星目标。正在中止..."
@@ -24537,7 +24527,7 @@ msgstr "启动"
 
 #. i18n: ectx: property (text), widget (QLabel, trackingLabel)
 #: ekos/mount/mount.ui:783 indi/indidome.cpp:22 indi/indimount.cpp:31
-#: indi/indimount.cpp:1525
+#: indi/indimount.cpp:1591
 #, kde-format
 msgid "Tracking"
 msgstr "跟踪"
@@ -24704,7 +24694,7 @@ msgstr "关闭中"
 
 #: ekos/observatory/observatory.cpp:349 ekos/observatory/observatory.cpp:365
 #: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:31
-#: indi/indimount.cpp:1519
+#: indi/indimount.cpp:1585
 #, kde-format
 msgid "Parking"
 msgstr "归位中"
@@ -24751,7 +24741,7 @@ msgid "Unparked"
 msgstr "已启动"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
-#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1517
+#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583
 #, kde-format
 msgid "Parked"
 msgstr "已归位"
@@ -32411,71 +32401,89 @@ msgstr "没有足够的内存用于文件 %1"
 msgid "INDI Server Message"
 msgstr "INDI 服务器消息"
 
-#: indi/indimount.cpp:30 indi/indimount.cpp:1523
+#: indi/indimount.cpp:30 indi/indimount.cpp:1589
 #, kde-format
 msgid "Moving"
 msgstr "移动中"
 
-#: indi/indimount.cpp:246
+#: indi/indimount.cpp:253
 #, kde-format
 msgid "Mount is slewing to target location"
 msgstr "赤道仪正在旋转到目标位置"
 
-#: indi/indimount.cpp:261
+#: indi/indimount.cpp:268
 #, kde-format
 msgid "Mount arrived at target location"
 msgstr "赤道仪到达目标位置"
 
-#: indi/indimount.cpp:334
+#: indi/indimount.cpp:341
 #, kde-format
 msgid "Mount motion was aborted"
 msgstr "赤道仪动作被中止"
 
-#: indi/indimount.cpp:455
+#: indi/indimount.cpp:383
+#, fuzzy, kde-format
+#| msgid "Mount parking is in progress"
+msgid "Mount homing in progress"
+msgstr "正在归位赤道仪"
+
+#: indi/indimount.cpp:391
+#, fuzzy, kde-format
+#| msgid "Dithering completed successfully."
+msgid "Mount homed successfully"
+msgstr "像素偏移成功完成。"
+
+#: indi/indimount.cpp:397
+#, fuzzy, kde-format
+#| msgid "Mount parking failed"
+msgid "Mount homing failed"
+msgstr "赤道仪归位失败"
+
+#: indi/indimount.cpp:486
 #, kde-format
 msgid "Mount parking failed"
 msgstr "赤道仪归位失败"
 
-#: indi/indimount.cpp:461
+#: indi/indimount.cpp:492
 #, kde-format
 msgid "Mount parking is in progress"
 msgstr "正在归位赤道仪"
 
-#: indi/indimount.cpp:469
+#: indi/indimount.cpp:500
 #, kde-format
 msgid "Mount unparking is in progress"
 msgstr "正在启动赤道仪"
 
-#: indi/indimount.cpp:476
+#: indi/indimount.cpp:507
 #, kde-format
 msgid "Mount parked"
 msgstr "赤道仪归位完毕"
 
-#: indi/indimount.cpp:495
+#: indi/indimount.cpp:526
 #, kde-format
 msgid "Mount unparked"
 msgstr "赤道仪启动完毕"
 
-#: indi/indimount.cpp:792
+#: indi/indimount.cpp:823
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr "警告！没有适当保护的情况下看太阳会不可逆转地伤害眼睛！"
 
-#: indi/indimount.cpp:793
+#: indi/indimount.cpp:824
 #, kde-format
 msgid "Sun Warning"
 msgstr "太阳警告"
 
-#: indi/indimount.cpp:811
+#: indi/indimount.cpp:842
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr "请求的高度角 %1 超出了指定的高度角限制 (%2,%3)。"
 
-#: indi/indimount.cpp:845
+#: indi/indimount.cpp:876
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -32483,7 +32491,7 @@ msgstr ""
 "请求的位置低于地平线。\n"
 "您仍然要前往该地点吗？"
 
-#: indi/indimount.cpp:846
+#: indi/indimount.cpp:877
 #, kde-format
 msgid "Telescope Motion"
 msgstr "望远镜动作"

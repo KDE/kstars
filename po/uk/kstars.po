@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-19 02:01+0000\n"
-"PO-Revision-Date: 2025-10-14 08:47+0300\n"
+"POT-Creation-Date: 2025-10-20 02:01+0000\n"
+"PO-Revision-Date: 2025-10-19 16:22+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1052,7 +1052,7 @@ msgstr "Імітатор Сонячної системи XPlanet: %1"
 #: data/qml/whatisinteresting/wiview.qml:146
 #: data/qml/whatisinteresting/wiview.qml:158 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:763 indi/indimount.cpp:778 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -2044,7 +2044,7 @@ msgstr "Стан:"
 #: ekos/scheduler/scheduler.cpp:2277 ekos/scheduler/scheduler.cpp:2502
 #: ekos/scheduler/scheduler.cpp:2510 ekos/scheduler/scheduler.cpp:2520
 #: ekos/scheduler/scheduler.ui:1340 indi/indidome.cpp:21
-#: indi/indidustcap.cpp:17 indi/indimount.cpp:30 indi/indimount.cpp:1515
+#: indi/indidustcap.cpp:17 indi/indimount.cpp:30 indi/indimount.cpp:1581
 #, kde-format, kde-kuit-format
 msgid "Idle"
 msgstr "Бездіяльність"
@@ -7320,16 +7320,14 @@ msgid "Mount Model"
 msgstr "Модель лафета"
 
 #: ekos/align/alignmentplot.cpp:158
-#, fuzzy, kde-format
-#| msgid "Azimuth at set"
+#, kde-format
 msgid "Azimuth diff (deg)"
-msgstr "Азимут під час заходу"
+msgstr "Різниця азимутів (у градусах)"
 
 #: ekos/align/alignmentplot.cpp:159
-#, fuzzy, kde-format
-#| msgid "Latitude in degrees"
+#, kde-format
 msgid "Altitude diff (deg)"
-msgstr "Широта, у градусах"
+msgstr "Різниця у висотах (у градусах)"
 
 #: ekos/align/alignview.cpp:170
 #, kde-format
@@ -10509,39 +10507,34 @@ msgid "Adjust"
 msgstr "Скоригувати"
 
 #: ekos/align/pushtoassistant.cpp:23
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Slew Target"
+#, kde-format
 msgid "Select Target"
-msgstr "Ціль повороту"
+msgstr "Вибір цілі"
 
 #: ekos/align/pushtoassistant.cpp:24
 #, kde-format
 msgid "Select the target that you are aiming for."
-msgstr ""
+msgstr "Виберіть вашу ціль для спрямовування."
 
 #: ekos/align/pushtoassistant.cpp:94
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stop EKOS"
-msgstr "Зупинити"
+msgstr "Зупинити EKOS"
 
 #: ekos/align/pushtoassistant.cpp:100
-#, fuzzy, kde-format
-#| msgid "Start Scan"
+#, kde-format
 msgid "Start EKOS"
-msgstr "Почати сканування"
+msgstr "Запустити EKOS"
 
 #: ekos/align/pushtoassistant.cpp:251
-#, fuzzy, kde-format
-#| msgid "Scale & Position"
+#, kde-format
 msgid "Solve Position"
-msgstr "Масштаб і позиція"
+msgstr "Визначити позицію"
 
 #: ekos/align/pushtoassistant.cpp:252
 #, kde-format
 msgid "Start plate solving the position you are currently aiming at."
-msgstr ""
+msgstr "Почати розв'язання знімка з позиції, куди зараз спрямовано телескоп."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:256 ekos/capture/capture.cpp:472
@@ -10554,58 +10547,19 @@ msgid "Abort"
 msgstr "Перервати"
 
 #: ekos/align/pushtoassistant.cpp:257
-#, fuzzy, kde-format
-#| msgid "Set %1 as the current location"
+#, kde-format
 msgid "Stop the current plate solving run."
-msgstr "Встановити %1 як поточне місце"
+msgstr "Зупинити поточне розв'язування знімка."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PushToAssistant)
 #: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:489
-#, fuzzy, kde-format
-#| msgid "Serial Port Assistant"
+#, kde-format
 msgid "Push-To Assistant"
-msgstr "Помічник для послідовних портів"
+msgstr "Помічник виштовхування"
 
 #. i18n: ectx: property (toolTip), widget (AlignmentPlot, targetPlot)
 #: ekos/align/pushtoassistant.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
-#| "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" "
-#| "font-style:italic;\">blocked</span> from view from your vantage point (e."
-#| "g. by tall trees or buildings). Regions can be areas above or below line "
-#| "segments that you enter. </p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; "
-#| "-qt-block-indent:0; text-indent:0px;\">To draw a <span style=\" font-"
-#| "weight:600;\">Region</span>, enter a list of <span style=\" font-"
-#| "weight:600;\">Points</span> (<span style=\" font-style:italic;\">minimum</"
-#| "span> 2) that outlines the top of a blocked area (the <span style=\" font-"
-#| "weight:600;\">blockage is below</span> the lines).</li><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Setting <span style=\" font-style:italic;\">ceiling/window mode</span> "
-#| "for a list of points instead sets the <span style=\" font-weight:600;"
-#| "\">blockage above</span> the lines.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Add the points manually, or preferably by selecting "
-#| "them from the Sky Map after clicking <span style=\" font-style:italic;"
-#| "\">Select Points</span> button. </li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Enable a region by <span style=\" font-style:italic;"
-#| "\">checking its box</span>. </li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Selecting a region displays its points on the SkyMap. </"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When done click "
-#| "<span style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Defining regions is easier when used in "
-#| "conjunction with the Terrain background feature.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">You can export (and later import) regions "
-#| "using the export/import region buttons.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Description</span></"
 "p><p>This assistant gives users of manual mounts (dobsons etc.) support "
@@ -10643,65 +10597,61 @@ msgid ""
 "finder scope is correctly configured and your telescope is roughly pointing "
 "to the target that you have selected.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Штучний горизонт використовують для визначення <span "
-"style=\" font-weight:600;\">областей</span> на карті неба, які <span style="
-"\" font-style:italic;\">заблоковано</span> для спостереження з точки "
-"перебування обладнання (наприклад, високими деревами або будинками). Області "
-"можуть перебувати над або під вказаними вами відрізками лінії. </p><ul style="
+"<html><head/><body><p><span style=\" font-weight:600;\">Опис</span></"
+"p><p>Цей помічник надає користувачам лафетів з ручним керуванням "
+"(добсонівських та інших) підтримку у пошуку цілей за допомогою пошукового "
+"телескопа, яким обладнано фотокамеру.</p><p><span style=\" font-weight:600;"
+"\">Приготування</span></p><p>Відкрийте EKOS, створіть профіль за допомогою "
+"вибраної камери, імітатором телескопа як лафетом і додайте ваш пошуковий "
+"телескоп як новий телескоп.</p><p><span style=\" font-weight:600;"
+"\">Користування</span></p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Запустіть EKOS</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Розташуйте ваш лафет так, щоб вид у телескоп "
+"був якомога ближчим до вашої цілі</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Виберіть ціль у пошуку цілей і натисніть кнопку &quot;Вибрати "
+"ціль&quot;</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Натисніть "
+"кнопку &quot;Визначити позицію&quot;. У відповідь програма створить знімок "
+"за допомогою вашого пошукового телескопа і розв'яже його за каталогом зірок "
+"KStars.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Щойно позицію буде "
+"успішно визначено, буде показано відстань до цілі. Стрілки показуватимуть "
+"напрямки виправлення позиції лафета.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Пересуньте лафет у вказану позицію і повторіть розв'язування.</"
+"li></ul><p><span style=\" font-weight:600;\">Підказки</span></p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
 "qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Щоб "
-"намалювати <span style=\" font-weight:600;\">область</span>, введіть список "
-"<span style=\" font-weight:600;\">точок</span> (<span style=\" font-style:"
-"italic;\">не менше</span> 2) точки мають обмежувати контур області згори "
-"(<span style=\" font-weight:600;\">заблокована область розташована</span> "
-"під лінією).</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\">Встановлення <span style=\" font-style:italic;"
-"\">режиму стелі/вікна</span> для списку точок визначає <span style=\" font-"
-"weight:600;\">блокування над</span> лінією.</li><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Додайте точки вручну або, бажано, вибором точок на карті "
-"неба у відповідь на натискання кнопки <span style=\" font-style:italic;"
-"\">Вибрати точки</span>. </li></ul><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Увімкнути область можна <span style=\" font-style:italic;"
-"\">позначенням її пункту</span>. </li><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Позначення пункту області призводить до показу її точок на "
-"карті неба. </li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Щойно "
-"точки буде вибрано, натисніть кнопку <span style=\" font-style:italic;"
-"\">Застосувати</span>.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">Визначення областей є простішим, якщо його поєднати із можливістю "
-"визначення ландшафту-тла.</li><li style=\" margin-top:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Якщо ви "
+"натиснете кнопку &quot;Повторити&quot;, знімання і розв'язання знімка буде "
+"повторено із налаштованою затримкою.</li><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Ви можете експортувати (і пізніше імпортувати) області за "
-"допомогою кнопок експортування та імпортування області.</li></ul></body></"
-"html>"
+"indent:0px;\">Якщо визначити позицію не вдасться, перевірте, чи правильно "
+"налаштовано фокусну відстань вашого пошукового телескопа, і чи спрямовано "
+"ваш телескоп приблизно на вибрану вами ціль.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
 #: ekos/align/pushtoassistant.ui:101
 #, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Abort Motion"
-msgid "Abort Soving"
-msgstr "Переривання руху"
+#| msgid "Abort Soving"
+msgid "Abort Solving"
+msgstr "Перервати розв'язування"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopSolvingB)
 #: ekos/align/pushtoassistant.ui:125
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "Repeat solving"
-msgstr "Розв'язання зображень"
+msgstr "Повторити розв'язування"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, refreshIntervalSB)
 #: ekos/align/pushtoassistant.ui:148
 #, kde-format
 msgid "Interval after which solving is repeated"
-msgstr ""
+msgstr "Інтервал між повторними спробами розв'язання"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, refreshIntervalSB)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMotionTimeout)
@@ -18318,7 +18268,7 @@ msgid "Syncing"
 msgstr "Синхронізація"
 
 #: ekos/ekos.h:140 ekos/scheduler/scheduler.cpp:2278 indi/indimount.cpp:30
-#: indi/indimount.cpp:1521
+#: indi/indimount.cpp:1587
 #, kde-format
 msgid "Slewing"
 msgstr "Обертання"
@@ -23473,7 +23423,7 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Обмежено довгу пульсацію у %1 мс до %2 мс"
 
-#: ekos/guide/internalguide/internalguider.cpp:540
+#: ekos/guide/internalguide/internalguider.cpp:537
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -23482,29 +23432,29 @@ msgstr ""
 "Попередження: спроба малого руху невдачі. Автоматичне наведення буде "
 "продовжено так, як це вказано у параметрах, якщо малий рух зазнав невдачі."
 
-#: ekos/guide/internalguide/internalguider.cpp:610
+#: ekos/guide/internalguide/internalguider.cpp:607
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Попередження: спроба малого руху вручну зазнала невдачі."
 
-#: ekos/guide/internalguide/internalguider.cpp:679
+#: ekos/guide/internalguide/internalguider.cpp:676
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Немає даних щодо %1. Будь ласка, встановіть значення на панелі керування "
 "INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:680
+#: ekos/guide/internalguide/internalguider.cpp:677
 #, kde-format
 msgid "Missing Information"
 msgstr "Недостатньо інформації"
 
-#: ekos/guide/internalguide/internalguider.cpp:705
+#: ekos/guide/internalguide/internalguider.cpp:702
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Відновлено калібрування наведення"
 
-#: ekos/guide/internalguide/internalguider.cpp:757
+#: ekos/guide/internalguide/internalguider.cpp:754
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -23513,33 +23463,33 @@ msgstr ""
 "Втрачено зірку для наведення. Спробуйте збільшити розмір квадрата або "
 "зменшити тривалість пульсації."
 
-#: ekos/guide/internalguide/internalguider.cpp:760
+#: ekos/guide/internalguide/internalguider.cpp:757
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Втрачено напрямну зірку."
 
-#: ekos/guide/internalguide/internalguider.cpp:792
+#: ekos/guide/internalguide/internalguider.cpp:789
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Не вдалося виконати калібрування наведення"
 
-#: ekos/guide/internalguide/internalguider.cpp:799
+#: ekos/guide/internalguide/internalguider.cpp:796
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Калібрування наведення успішно виконано"
 
-#: ekos/guide/internalguide/internalguider.cpp:1131
+#: ekos/guide/internalguide/internalguider.cpp:1128
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Втрачено зірку для наведення. Шукаємо інші зірки для наведення…."
 
-#: ekos/guide/internalguide/internalguider.cpp:1133
+#: ekos/guide/internalguide/internalguider.cpp:1130
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "Перевищено порогове значення для різниці СКВ. Шукаємо зірки для наведення…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1317
+#: ekos/guide/internalguide/internalguider.cpp:1314
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Не вдалося знайти прийнятні напрямні зірки. Перериваємо завдання."
@@ -25968,7 +25918,7 @@ msgstr "Розпарк."
 
 #. i18n: ectx: property (text), widget (QLabel, trackingLabel)
 #: ekos/mount/mount.ui:783 indi/indidome.cpp:22 indi/indimount.cpp:31
-#: indi/indimount.cpp:1525
+#: indi/indimount.cpp:1591
 #, kde-format
 msgid "Tracking"
 msgstr "Стеження"
@@ -26137,7 +26087,7 @@ msgstr "Закриваємо"
 
 #: ekos/observatory/observatory.cpp:349 ekos/observatory/observatory.cpp:365
 #: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:31
-#: indi/indimount.cpp:1519
+#: indi/indimount.cpp:1585
 #, kde-format
 msgid "Parking"
 msgstr "Паркування"
@@ -26184,7 +26134,7 @@ msgid "Unparked"
 msgstr "Знято з паркування"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
-#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1517
+#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583
 #, kde-format
 msgid "Parked"
 msgstr "Запарковано"
@@ -34342,52 +34292,70 @@ msgstr "Недостатньо пам'яті для файла %1"
 msgid "INDI Server Message"
 msgstr "Повідомлення сервера INDI"
 
-#: indi/indimount.cpp:30 indi/indimount.cpp:1523
+#: indi/indimount.cpp:30 indi/indimount.cpp:1589
 #, kde-format
 msgid "Moving"
 msgstr "Пересування"
 
-#: indi/indimount.cpp:246
+#: indi/indimount.cpp:253
 #, kde-format
 msgid "Mount is slewing to target location"
 msgstr "Лафет наводить телескоп на точку цілі"
 
-#: indi/indimount.cpp:261
+#: indi/indimount.cpp:268
 #, kde-format
 msgid "Mount arrived at target location"
 msgstr "Лафет навів телескоп на точку цілі"
 
-#: indi/indimount.cpp:334
+#: indi/indimount.cpp:341
 #, kde-format
 msgid "Mount motion was aborted"
 msgstr "Рух лафета було перервано"
 
-#: indi/indimount.cpp:455
+#: indi/indimount.cpp:383
+#, fuzzy, kde-format
+#| msgid "Mount parking is in progress"
+msgid "Mount homing in progress"
+msgstr "Виконуємо паркування лафета"
+
+#: indi/indimount.cpp:391
+#, fuzzy, kde-format
+#| msgid "Dithering completed successfully."
+msgid "Mount homed successfully"
+msgstr "Малий рух успішно завершено."
+
+#: indi/indimount.cpp:397
+#, fuzzy, kde-format
+#| msgid "Mount parking failed"
+msgid "Mount homing failed"
+msgstr "Не вдалося виконати паркування лафета"
+
+#: indi/indimount.cpp:486
 #, kde-format
 msgid "Mount parking failed"
 msgstr "Не вдалося виконати паркування лафета"
 
-#: indi/indimount.cpp:461
+#: indi/indimount.cpp:492
 #, kde-format
 msgid "Mount parking is in progress"
 msgstr "Виконуємо паркування лафета"
 
-#: indi/indimount.cpp:469
+#: indi/indimount.cpp:500
 #, kde-format
 msgid "Mount unparking is in progress"
 msgstr "Виконуємо зняття лафета з паркування"
 
-#: indi/indimount.cpp:476
+#: indi/indimount.cpp:507
 #, kde-format
 msgid "Mount parked"
 msgstr "Лафет запарковано"
 
-#: indi/indimount.cpp:495
+#: indi/indimount.cpp:526
 #, kde-format
 msgid "Mount unparked"
 msgstr "Лафет знято з паркування"
 
-#: indi/indimount.cpp:792
+#: indi/indimount.cpp:823
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
@@ -34396,12 +34364,12 @@ msgstr ""
 "Увага! Споглядання сонця без належного захисту очей може призвести до важкої "
 "очної травми!"
 
-#: indi/indimount.cpp:793
+#: indi/indimount.cpp:824
 #, kde-format
 msgid "Sun Warning"
 msgstr "Попередження щодо сонця"
 
-#: indi/indimount.cpp:811
+#: indi/indimount.cpp:842
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
@@ -34409,7 +34377,7 @@ msgid ""
 msgstr ""
 "Вказана висота, %1, перебуває за визначеними для висоти межами (%2, %3)."
 
-#: indi/indimount.cpp:845
+#: indi/indimount.cpp:876
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -34417,7 +34385,7 @@ msgstr ""
 "Вказана висота перебуває під горизонтом. Ви справді хочете спрямувати "
 "телескоп у землю?"
 
-#: indi/indimount.cpp:846
+#: indi/indimount.cpp:877
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Рух телескопа"
