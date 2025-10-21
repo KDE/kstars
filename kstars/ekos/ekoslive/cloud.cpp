@@ -152,6 +152,20 @@ void Cloud::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Cloud::dispatch(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
+    // Filename only without path
+    QString filepath = data->filename();
+    QString filenameOnly = QFileInfo(filepath).fileName();
+
+    // In case the data was not loaded from buffer (FITS Viewer was disabled)
+    // Try to load it from file.
+    if (data->width() == 0)
+    {
+        // Ignore empty and temporary files
+        if (filepath.isEmpty() || filepath.startsWith(QDir::tempPath()))
+            return;
+        data->loadFromFile(filepath).waitForFinished();
+    }
+
     // Send complete metadata
     // Add file name and size
     QJsonObject metadata;
@@ -161,11 +175,7 @@ void Cloud::dispatch(const QSharedPointer<FITSData> &data, const QString &uuid)
         if (oneRecord.key.isEmpty() || oneRecord.value.toString().isEmpty())
             continue;
         metadata.insert(oneRecord.key.toLower(), QJsonValue::fromVariant(oneRecord.value));
-    }
-
-    // Filename only without path
-    QString filepath = data->filename();
-    QString filenameOnly = QFileInfo(filepath).fileName();
+    }    
 
     // Add filename and size as wells
     metadata.insert("uuid", uuid);
