@@ -51,9 +51,15 @@ void SolverUtils::setHealpix(int indexToUse, int healpixToUse)
     m_HealpixToUse = healpixToUse;
 }
 
-void SolverUtils::abort()
+void SolverUtils::abort(bool wait)
 {
-    if (m_StellarSolver.get()) m_StellarSolver->abort();
+    if (m_StellarSolver.get())
+    {
+        if (wait)
+            m_StellarSolver->abortAndWait();
+        else
+            m_StellarSolver->abort();
+    }
 }
 
 bool SolverUtils::isRunning() const
@@ -131,9 +137,7 @@ void SolverUtils::prepareSolver(const bool stack)
     if (m_UseScale)
     {
         // Extend search scale from 80% to 120%
-        m_StellarSolver->setSearchScale(m_ScaleLowArcsecPerPixel * 0.8,
-                                        m_ScaleHighArcsecPerPixel * 1.2,
-                                        ARCSEC_PER_PIX);
+        m_StellarSolver->setSearchScale(m_ScaleLow * 0.8, m_ScaleHigh * 1.2, m_ScaleUnits);
     }
     else
         m_StellarSolver->setProperty("UseScale", false);
@@ -165,11 +169,12 @@ void SolverUtils::runSolver(const QSharedPointer<FITSData> &data, const bool sta
     m_StellarSolver->start();
 }
 
-SolverUtils &SolverUtils::useScale(bool useIt, double scaleLowArcsecPerPixel, double scaleHighArcsecPerPixel)
+SolverUtils &SolverUtils::useScale(bool useIt, double scaleLow, double scaleHigh, SSolver::ScaleUnits units)
 {
     m_UseScale = useIt;
-    m_ScaleLowArcsecPerPixel = scaleLowArcsecPerPixel;
-    m_ScaleHighArcsecPerPixel = scaleHighArcsecPerPixel;
+    m_ScaleLow = scaleLow;
+    m_ScaleHigh = scaleHigh;
+    m_ScaleUnits = units;
     return *this;
 }
 

@@ -37,10 +37,10 @@ class SolverUtils : public QObject
 
         void runSolver(const QSharedPointer<FITSData> &data, const bool stack = false);
         void runSolver(const QString &filename);
-        SolverUtils &useScale(bool useIt, double scaleLowArcsecPerPixel, double scaleHighArcsecPerPixel);
+        SolverUtils &useScale(bool useIt, double scaleLow, double scaleHigh, SSolver::ScaleUnits units = ARCSEC_PER_PIX);
         SolverUtils &usePosition(bool useIt, double raDegrees, double decDegrees);
         bool isRunning() const;
-        void abort();
+        void abort(bool wait = false);
 
         void setHealpix(int indexToUse = -1, int healpixToUse = -1);
         void getSolutionHealpix(int *indexUsed, int *healpixUsed) const;        
@@ -88,7 +88,8 @@ class SolverUtils : public QObject
         // Temporary file name in case of external solver.
         QString m_TemporaryFilename;
         QFutureWatcher<bool> m_Watcher;
-        double m_ScaleLowArcsecPerPixel {0}, m_ScaleHighArcsecPerPixel {0};
+        double m_ScaleLow {0}, m_ScaleHigh {0};
+        SSolver::ScaleUnits m_ScaleUnits { ARCSEC_PER_PIX };
 
         QSharedPointer<FITSData> m_ImageData;
 

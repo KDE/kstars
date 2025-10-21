@@ -41,6 +41,7 @@ class FOV;
 class StarObject;
 class ProfileInfo;
 class RotatorSettings;
+class SolverUtils;
 
 namespace Ekos
 {
@@ -486,7 +487,7 @@ class Align : public QWidget, public Ui::Align
              */
         void solverFinished(double orientation, double ra, double dec, double pixscale, bool eastToTheRight);
 
-        void solverComplete();
+        void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
 
         /**
              * @brief Process solver failure.
@@ -550,7 +551,7 @@ class Align : public QWidget, public Ui::Align
 
     private slots:
         // Solver timeout
-        void checkAlignmentTimeout();
+        void checkRemoteAlignmentTimeout();
         void setAlignTableResult(AlignResult result);
 
         // External View
@@ -812,11 +813,7 @@ class Align : public QWidget, public Ui::Align
         /// Progress icon if the solver is running
         std::unique_ptr<QProgressIndicator> pi;
 
-        /// Keep track of how long the solver is running
-        QElapsedTimer solverTimer;
-
-        // The StellarSolver
-        std::unique_ptr<StellarSolver> m_StellarSolver;
+        std::unique_ptr<SolverUtils> m_Solver;
         // StellarSolver Profiles
         QList<SSolver::Parameters> m_StellarSolverProfiles;
 
@@ -875,8 +872,9 @@ class Align : public QWidget, public Ui::Align
 
         QString dirPath;
 
-        // Timer
-        QTimer m_AlignTimer;
+        // Other timers
+        QTimer m_RemoteAlignTimer;
+        QElapsedTimer m_RemoteElapsedTimer;
         QTimer m_DebounceTimer;
 
         // Align Frame
