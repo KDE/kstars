@@ -712,6 +712,10 @@ void KStars::initActions()
     ka = actionCollection()->addAction("telescope_unpark", this, SLOT(slotINDITelescopeUnpark()))
          << i18n("Unpark telescope")
          << QIcon::fromTheme("flag-green");
+    telescopeGroup->addAction(ka);
+    ka = actionCollection()->addAction("telescope_home", this, SLOT(slotINDITelescopeHome()))
+         << i18n("Home Telescope")
+         << QIcon::fromTheme("go-home");
     ka->setShortcutContext(Qt::ApplicationShortcut);
     telescopeGroup->addAction(ka);
 

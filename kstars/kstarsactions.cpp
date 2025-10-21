@@ -1001,6 +1001,30 @@ void KStars::slotINDITelescopeUnpark()
 #endif
 }
 
+void KStars::slotINDITelescopeHome()
+{
+#ifdef HAVE_INDI
+    if (m_KStarsData == nullptr || INDIListener::Instance() == nullptr)
+        return;
+
+    for (auto &oneDevice : INDIListener::devices())
+    {
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
+            continue;
+
+        auto mount = oneDevice->getMount();
+        if (!mount || mount->isConnected() == false)
+
+           continue;
+
+	mount->setHomeOperation(ISD::Mount::HOME_GO);
+	return;
+    }
+#endif
+}
+
+
+
 void KStars::slotINDIDomePark()
 {
 #ifdef HAVE_INDI

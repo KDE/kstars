@@ -212,6 +212,7 @@
         <Action name="telescope_sync" />
         <Action name="telescope_park" />
         <Action name="telescope_unpark" />
+        <Action name="telescope_home" />
         <Action name="telescope_abort" />
 </ToolBar>
 
