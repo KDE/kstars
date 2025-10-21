@@ -370,6 +370,44 @@
              </property>
             </widget>
            </item>
+           <item row="1" column="4">
+            <widget class="QPushButton" name="MonitorB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Launch Live Stacker Monitor&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset theme="utilities-system-monitor"/>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="4">
+            <widget class="QPushButton" name="HelpB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Open web documentation.</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset theme="help-about"/>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -1674,7 +1712,9 @@
   <tabstop>Stack</tabstop>
   <tabstop>StackDirB</tabstop>
   <tabstop>StartB</tabstop>
+  <tabstop>MonitorB</tabstop>
   <tabstop>SaveB</tabstop>
+  <tabstop>HelpB</tabstop>
   <tabstop>MasterDark</tabstop>
   <tabstop>MasterDarkB</tabstop>
   <tabstop>MasterFlat</tabstop>

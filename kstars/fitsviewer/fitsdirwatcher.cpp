@@ -33,7 +33,13 @@ bool FITSDirWatcher::watchDir(const QString &path)
     // Store the current files in the directory - oldest first
     QStringList files = dir.entryList(m_NameFilters, m_FilterFlags, m_SortFlags);
     for (const QString &file : files)
-        m_CurrentFiles.push_front(dir.absoluteFilePath(file));
+    {
+        const QString fullPath = dir.absoluteFilePath(file);
+        m_CurrentFiles.push_back(fullPath);
+
+        if (!m_FileToID.contains(fullPath))
+            m_FileToID[fullPath] = m_NextID++;
+    }
 
     // Add the path to the watcher
     m_WatchedPath = path;
@@ -50,6 +56,18 @@ void FITSDirWatcher::stopWatching()
         m_CurrentFiles.clear();
         m_PendingFiles.clear();
     }
+}
+
+// Return the current list of files with their associated IDs
+const QList<QPair<QString, int>> FITSDirWatcher::getCurrentFiles() const
+{
+    QList<QPair<QString, int>> list;
+    for (const QString &file : m_CurrentFiles)
+    {
+        int id = m_FileToID.value(file, -1);
+        list.append(qMakePair(file, id));
+    }
+    return list;
 }
 
 // Something happened (e.g. new file) to the watched directory
@@ -100,12 +118,16 @@ void FITSDirWatcher::checkPendingFile(const QString &filePath)
     PendingFile pending = m_PendingFiles[filePath];
     QFileInfo fileInfo(filePath);
 
-    // Check if file still exists
-    if (!fileInfo.exists())
+    // Check if file still exists and is a file
+    if (!fileInfo.exists() || !fileInfo.isFile())
     {
         m_PendingFiles.remove(filePath);
         return;
     }
+
+    // Assign a new ID if it doesn't already have one
+    if (!m_FileToID.contains(filePath))
+        m_FileToID[filePath] = m_NextID++;
 
     // Check for timeout
     QDateTime now = QDateTime::currentDateTime();
@@ -141,7 +163,7 @@ void FITSDirWatcher::checkPendingFile(const QString &filePath)
         m_PendingFiles.remove(filePath);
         qCDebug(KSTARS_FITS) << QString("File %1 stabilized after %2s").arg(filePath)
                                     .arg(pending.firstDetected.msecsTo(now) / 1000.0);
-        emit newFilesDetected(QStringList() << filePath);
+        emit newFilesDetected(QDateTime::currentDateTime(), { qMakePair(filePath, m_FileToID[filePath]) });
     }
     else
     {

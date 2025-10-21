@@ -827,7 +827,28 @@ class FITSData : public QObject
         void stackUpdateStats(const bool ok, const int sub, const int total, const double meanSNR, const double minSNR,
                               const double maxSNR);
 
-    public slots:
+        /**
+         * @brief Initialise the Stack Monitor
+         * @param timestamp
+         * @param list of subframes
+         */
+        void initStackMon(QDateTime timestamp, const QList<QPair<QString, int>> &subs);
+
+        /**
+         * @brief Add 1 or more new subs to the Stack Monitor
+         * @param timestamp
+         * @param list of subframes with their IDs
+         */
+        void addStackMon(QDateTime timestamp, const QList<QPair<QString, int>> &subs);
+
+        /**
+         * @brief Update an existing sub in the Stack Monitor
+         * @param Vector of subs being updated
+         * @param vector of stats that contains update data fields
+         */
+        void updateStackMon(const QVector<QString> &subs, const QVector<LiveStackStageInfo> &infos);
+
+      public slots:
         void makeRoiBuffer(QRect roi);
 
         /**
@@ -835,7 +856,7 @@ class FITSData : public QObject
          * @param list of files added to directory
          */
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
-        void newStackSubs(const QStringList &newFiles);
+        void newStackSubs(QDateTime timestamp, const QList<QPair<QString, int>> &newFiles);
 #endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
 
     private:

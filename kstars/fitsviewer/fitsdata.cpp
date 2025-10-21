@@ -235,6 +235,9 @@ bool FITSData::loadStack(const QString &inDir, const LiveStackData &params)
         emit stackReady();
     });
 
+    // Stack Monitor - pass signal from FITSStack
+    connect(m_Stack.get(), &FITSStack::updateStackMon, this, &FITSData::updateStackMon);
+
     // Clear the work queue
     m_StackQ.clear();
 
@@ -243,7 +246,7 @@ bool FITSData::loadStack(const QString &inDir, const LiveStackData &params)
     connect(m_StackDirWatcher.get(), &FITSDirWatcher::newFilesDetected, this, &FITSData::newStackSubs);
 
     m_StackDirWatcher->watchDir(m_StackDir);
-    QStringList subs = m_StackDirWatcher->getCurrentFiles();
+    QList<QPair<QString, int>> subs = m_StackDirWatcher->getCurrentFiles();
 
     auto stackData = m_Stack->getStackData();
 
@@ -260,18 +263,30 @@ bool FITSData::loadStack(const QString &inDir, const LiveStackData &params)
     {
         // No align master chosen so use the first sub
         if (subs.size() > 0)
-            emit alignMasterChosen(subs[0]);
+            emit alignMasterChosen(subs[0].first);
         else
             m_AlignMasterChosen = false;
     }
     else
     {
         // An alignment master has been specified so make this the first sub to be processed
-        int pos = subs.indexOf(alignMaster);
+        int pos = -1;
+        int alignMasterID = -1;
+
+        for (int i = 0; i < subs.size(); i++)
+        {
+            if (subs[i].first == alignMaster)
+            {
+                pos = i;
+                alignMasterID = subs[i].second;
+                break;
+            }
+        }
         if (pos >= 0 && pos < subs.size())
-            // Align Master is in the directory of subs to be processed so remove it from its current position
+            // Remove the alignment master if present
             subs.takeAt(pos);
-        subs.insert(0, alignMaster);
+        // Add the alignment master - note if may not have been in the list of subs - this is allowed
+        subs.insert(0, qMakePair(alignMaster, alignMasterID));
     }
 
     int subsToProcess = m_Stack->getStackData().numInMem;
@@ -279,10 +294,13 @@ bool FITSData::loadStack(const QString &inDir, const LiveStackData &params)
     {
         // Process the first subsToProcess and put the rest on a Q for processing later
         if (i < subsToProcess)
-            m_StackSubs.push_back(subs[i]);
+            m_StackSubs.push_back(subs[i].first);
         else
-            m_StackQ.enqueue(subs[i]);
+            m_StackQ.enqueue(subs[i].first);
     }
+
+    // Now we have the subs in the directory, initialize the Stack Monitor
+    emit initStackMon(QDateTime::currentDateTime(), subs);
 
     if (m_StackSubs.size() == 0)
     {
@@ -348,13 +366,15 @@ void FITSData::checkCancelStack()
 }
 
 // Called when 1 (or more) new files added to the watched stack directory
-void FITSData::newStackSubs(const QStringList &newFiles)
+void FITSData::newStackSubs(QDateTime timestamp, const QList<QPair<QString, int>> &newFiles)
 {
-    for (const QString &file : newFiles)
+    for (const QPair<QString, int> &file : newFiles)
     {
-        qCDebug(KSTARS_FITS) << file;
-        m_StackQ.enqueue(file);
+        qCDebug(KSTARS_FITS) << file.first << "with ID" << file.second;
+        m_StackQ.enqueue(file.first);
     }
+    // Add the new files to the Stack Monitor
+    emit addStackMon(timestamp, newFiles);
     incrementalStack();
 }
 
@@ -405,13 +425,19 @@ QFuture<bool> FITSData::loadStackBuffer()
 
 bool FITSData::processNextSub(QString &sub)
 {
-    m_Stack->setupNextSub();
+    // Signal the Wait Load stage complete (i.e. we're now going to load the sub) to Stack Monitor
+    QVector<QString> subs { sub };
+    QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::WaitLoad, LSStatus::LSStatusOK) };
+    emit updateStackMon(subs, infos);
+
+    m_Stack->setupNextSub(sub);
     m_StackFITSAsync = stackFITSSub;
     qCDebug(KSTARS_FITS) << "Loading sub" << sub;
 
     // Lambda to load the sub in the background
     QFuture<bool> future = QtConcurrent::run([this, sub]() -> bool
     {
+        double snr = -1.0;
         bool ok = stackLoadFITSImage(sub, false);
         if (!ok)
             qCDebug(KSTARS_FITS) << QString("Unable to load sub %1").arg(sub);
@@ -429,8 +455,16 @@ bool FITSData::processNextSub(QString &sub)
             if (ok)
                 ok = m_Stack->addSub((void *) m_StackImageBuffer, m_StackStatistics.cvType,
                                      m_StackStatistics.stats.width, m_StackStatistics.stats.height,
-                                     m_StackStatistics.stats.bytesPerPixel);
+                                     m_StackStatistics.stats.bytesPerPixel, snr);
         }
+
+        // Signal the Loaded stage complete to Stack Monitor
+        QVariantMap extraData;
+        extraData.insert("snr", snr);
+        QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::Loaded,
+                                                    (ok) ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData) };
+        QVector<QString> subs { sub };
+        emit updateStackMon(subs, infos);
         return ok;
     });
 
@@ -587,6 +621,15 @@ void FITSData::solverDone(const bool timedOut, const bool success, const double 
 
     emit stackUpdateStats(ok, m_StackSubPos, m_StackDirWatcher->getCurrentFiles().size(), m_Stack->getMeanSubSNR(),
                           m_Stack->getMinSubSNR(), m_Stack->getMaxSubSNR());
+
+    // Signal the Plate Solved stage complete to Stack Monitor
+    QVariantMap extraData;
+    extraData.insert("numStars", numStars);
+    extraData.insert("hfr", hfr);
+    QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::PlateSolved,
+                                            (ok) ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData) };
+    QVector<QString> subs { m_StackSubs[m_StackSubPos] };
+    emit updateStackMon(subs, infos);
     nextStackAction();
 }
 

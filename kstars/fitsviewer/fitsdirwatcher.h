@@ -47,17 +47,15 @@ class FITSDirWatcher : public QObject
     void stopWatching();
 
     /**
-     * @brief Get the list of files in the watched directory
-     * @return list of files
+     * @brief Get the list of files in the watched directory with associated IDs
+     * @return list of (file, ID) pairs
      */
-    const QStringList getCurrentFiles() const
-    {
-        return m_CurrentFiles;
-    }
+    const QList<QPair<QString, int>> getCurrentFiles() const;
 
   signals:
     // Signal the list of new files added since the previous signal (or since the directory watching began)
-    void newFilesDetected(const QStringList &filePaths);
+  signals:
+    void newFilesDetected(QDateTime timestamp, const QList<QPair<QString, int>> &filesWithIDs);
 
   private slots:
     // Something changed in the watched directory, so process for any new files
@@ -85,5 +83,7 @@ class FITSDirWatcher : public QObject
     QStringList m_CurrentFiles;
     QStringList m_NameFilters { "*.fits", "*.fits.fz", "*.fit", "*.fts" };
     QDir::Filters m_FilterFlags = QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks;
-    QDir::SortFlags m_SortFlags = QDir::Time;
+    QDir::SortFlags m_SortFlags = QDir::Time | QDir::Reversed;
+    QMap<QString, int> m_FileToID;
+    int m_NextID { 1 };
 };

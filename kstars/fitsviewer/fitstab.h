@@ -8,6 +8,7 @@
 
 #include "fitscommon.h"
 #include "fitshistogrameditor.h"
+#include "fitsstackmonitor.h"
 
 #include <QUndoStack>
 #include <QSplitter>
@@ -264,6 +265,7 @@ class FITSTab : public QWidget
         void setupCatObjTypeFilter();
         void initLiveStacking();
         void selectLiveStack();
+        void launchLiveStackingHelp();
         void selectLiveStackMasterDark();
         void selectLiveStackMasterFlat();
         void selectLiveStackAlignSub();
@@ -297,7 +299,6 @@ class FITSTab : public QWidget
         void redoPostProcessing();
 
         int m_LiveStackingItem { 0 };
-        bool m_StackExtracted { false };
         QString m_liveStackDir;
         QString m_CurrentStackDir;
         QString m_TabName;
@@ -309,6 +310,9 @@ class FITSTab : public QWidget
         double m_StackMedianHFR { -1.0 };
         int m_StackNumStars { 0 };
         bool m_StackExtendedPlateSolve { false };
+
+        // Stack Monitor
+        StackMonitor *m_StackMonitor = nullptr;
 
     signals:
         void debayerToggled(bool);

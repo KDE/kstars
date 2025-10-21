@@ -915,6 +915,17 @@ void FITSTab::initLiveStacking()
 
     // Manage connections
     connect(m_LiveStackingUI.StackDirB, &QPushButton::clicked, this, &FITSTab::selectLiveStack);
+    connect(m_LiveStackingUI.HelpB, &QPushButton::clicked, this, &FITSTab::launchLiveStackingHelp);
+    connect(m_LiveStackingUI.MonitorB, &QPushButton::clicked, this, [this]()
+    {
+        if (auto stackMonitor = m_View ? m_View->getStackMon() : nullptr)
+        {
+            stackMonitor->show();
+            stackMonitor->raise();
+            stackMonitor->activateWindow();
+        }
+    });
+
     connect(m_LiveStackingUI.StartB, &QPushButton::clicked, this, &FITSTab::liveStack);
     connect(m_LiveStackingUI.SaveB, &QPushButton::clicked, this, &FITSTab::saveSettings);
     connect(m_LiveStackingUI.ReprocessB, &QPushButton::clicked, this, &FITSTab::redoPostProcessing);
@@ -973,6 +984,11 @@ void FITSTab::saveSettings()
     Options::setFitsLSSharpenAmt(m_LiveStackingUI.SharpenAmt->value());
     Options::setFitsLSSharpenKernal(m_LiveStackingUI.SharpenKernal->value());
     Options::setFitsLSSharpenSigma(m_LiveStackingUI.SharpenSigma->value());
+
+    // Live Stacking Monitor
+    if (m_View && m_View->getStackMon())
+        m_View->getStackMon()->saveSettings();
+
     // Write the options to disk
     Options::self()->save();
     qCDebug(KSTARS_FITS) << "Live Stacker settings saved";
@@ -1019,6 +1035,13 @@ void FITSTab::redoPostProcessing()
         m_View->redoPostProcessStack(getPPSettings());
     }
 #endif // !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+}
+
+void FITSTab::launchLiveStackingHelp()
+{
+    const QUrl url("https://kstars-docs.kde.org/en/user_manual/fits-viewer-livestacker.html");
+    if (!url.isEmpty())
+        QDesktopServices::openUrl(url);
 }
 
 void FITSTab::selectLiveStack()
@@ -1366,6 +1389,8 @@ void FITSTab::plateSolveSub(const double ra, const double dec, const double pixS
         disconnect(m_PlateSolve.data(), &PlateSolve::subSolverFailed, nullptr, nullptr);
         const bool timedOut = false;
         const bool success = false;
+        m_StackMedianHFR = -1.0;
+        m_StackNumStars = 0;
         m_View->imageData()->solverDone(timedOut, success, m_StackMedianHFR, m_StackNumStars);
     });
     connect(m_PlateSolve.data(), &PlateSolve::subSolverFailed, this, [this, ra, dec, pixScale]()
@@ -1402,20 +1427,13 @@ void FITSTab::plateSolveSub(const double ra, const double dec, const double pixS
 
     SSolver::ProcessType solveType;
 
-    if (!m_StackExtracted && (weighting == LS_STACKING_HFR || weighting == LS_STACKING_NUM_STARS))
-    {
-        // We need star details for later calculations so firstly extract stars
-        solveType = (weighting == LS_STACKING_HFR) ? SSolver::EXTRACT_WITH_HFR : SSolver::EXTRACT;
-        m_StackExtracted = true;
-    }
+    if (weighting == LS_STACKING_HFR)
+        solveType = SSolver::EXTRACT_WITH_HFR;
+    else if (weighting == LS_STACKING_NUM_STARS)
+        solveType = SSolver::EXTRACT;
     else
-    {
-        // No star details required (or we just extracted them) so now plate solve
         solveType = SSolver::SOLVE;
-        m_StackExtracted = false;
-    }
-    m_StackMedianHFR = -1.0;
-    m_StackNumStars = 0;
+
     m_StackExtendedPlateSolve = (index == -1);
     m_PlateSolve->plateSolveSub(m_View->imageData(), ra, dec, pixScale, index, healpix, solveType);
 }

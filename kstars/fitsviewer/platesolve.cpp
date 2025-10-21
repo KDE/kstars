@@ -398,7 +398,7 @@ void PlateSolve::subExtractorDone(bool timedOut, bool success, const FITSImage::
     const QList<FITSImage::Star> &starList = m_Solver->getStarList();
 
     // Get the median HFR
-    double medianHFR = 0.0;
+    double medianHFR = -1.0;
     if (starList.size() > 0)
     {
         std::vector<FITSImage::Star> stars(starList.constBegin(), starList.constEnd());

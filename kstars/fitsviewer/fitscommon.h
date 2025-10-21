@@ -7,6 +7,8 @@
 #pragma once
 
 #include <QString>
+#include <QDateTime>
+#include <QVariantMap>
 #include "dms.h"
 
 #include <ki18n_version.h>
@@ -337,3 +339,42 @@ typedef struct
     double windsorCutoff;
     LiveStackPPData postProcessing;
 } LiveStackData;
+
+enum class LSStage
+{
+    Start,         // File detected
+    WaitLoad,      // Wait to start loading sub
+    Loaded,        // File loaded into memory
+    PlateSolved,   // Plate solving completed
+    WaitStack,     // Wait for more subs for stacking to begin
+    Calibrated,    // Calibration completed
+    Aligned,       // Alignment completed
+    Stacked,       // Subframe stacked
+    Failed         // Terminal failure at any stage
+};
+
+enum class LSStatus
+{
+    LSStatusUninit, // Uninitiated
+    LSStatusOK,     // Status = good
+    LSStatusNA,     // Status = not applicable
+    LSStatusError   // Status = Error
+};
+
+struct LiveStackStageInfo
+{
+    int id;                // Unique subframe ID (e.g. filename or generated UID)
+    LSStage stage;         // Processing stage
+    QDateTime timestamp;   // When the stage completed
+    LSStatus status;       // Status
+    QVariantMap extraData; // Any relevant extra data
+
+    static LiveStackStageInfo fromNow(const int &id, const LSStage &stage, const LSStatus &status,
+                                      const QVariantMap &extra = {})
+    {
+        return LiveStackStageInfo { .id = id, .stage = stage, .timestamp = QDateTime::currentDateTime(),
+                                    .status = status, .extraData = extra };
+    }
+};
+
+Q_DECLARE_METATYPE(LiveStackStageInfo)

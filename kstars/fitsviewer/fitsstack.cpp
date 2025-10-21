@@ -95,9 +95,10 @@ void FITSStack::setBayerPattern(const QString pattern, const int offsetX, const 
 }
 
 // Setup the image data structure for later processing
-void FITSStack::setupNextSub()
+void FITSStack::setupNextSub(const QString &sub)
 {
     StackImageData imageData;
+    imageData.sub = sub;
     imageData.image = cv::Mat();
     imageData.status = PLATESOLVE_IN_PROGRESS;
     imageData.isCalibrated = false;
@@ -108,8 +109,10 @@ void FITSStack::setupNextSub()
     m_StackImageData.push_back(imageData);
 }
 
-bool FITSStack::addSub(void * imageBuffer, const int cvType, const int width, const int height, const int bytesPerPixel)
+bool FITSStack::addSub(void * imageBuffer, const int cvType, const int width, const int height,
+                       const int bytesPerPixel, double &snr)
 {
+    snr = -1;
     try
     {
         int channels = CV_MAT_CN(cvType);
@@ -160,7 +163,7 @@ bool FITSStack::addSub(void * imageBuffer, const int cvType, const int width, co
         if (!checkSub(newImage.cols, newImage.rows, bytesPerPixel, channels))
             return false;
 
-        double snr = getSNR(newImage);
+        snr = getSNR(newImage);
         if (snr > 0.0)
         {
             m_MaxSubSNR = std::max(m_MaxSubSNR, snr);
@@ -463,10 +466,16 @@ bool FITSStack::stack()
             if (m_StackImageData[i].status != OK)
                 continue;
 
+            // Signal the Wait Stack stage complete (waiting for enough subs to stack) to Stack Monitor
+            QVector<QString> subs { m_StackImageData[i].sub };
+            QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::WaitStack,
+                                                                            LSStatus::LSStatusOK) };
+            emit updateStackMon(subs, infos);
+
             // Calibrate sub
             if (!m_StackImageData[i].isCalibrated)
             {
-                if (calibrateSub(m_StackImageData[i].image))
+                if (calibrateSub(m_StackImageData[i].sub, m_StackImageData[i].image))
                     m_StackImageData[i].isCalibrated = true;
                 else
                 {
@@ -489,7 +498,8 @@ bool FITSStack::stack()
             {
                 // Align this image to the reference image
                 cv::Mat warp, warpedImage;
-                if (!calcWarpMatrix(m_StackImageData[m_InitialStackRef].wcsprm, m_StackImageData[i].wcsprm, warp))
+                bool ok = calcWarpMatrix(m_StackImageData[m_InitialStackRef].wcsprm, m_StackImageData[i].wcsprm, warp);
+                if (!ok)
                     m_StackImageData[i].status = ALIGNMENT_FAILED;
                 else
                 {
@@ -498,6 +508,18 @@ bool FITSStack::stack()
                     m_StackImageData[i].image = warpedImage;
                     m_StackImageData[i].isAligned = true;
                 }
+
+                // Signal the Alignment stage complete to Stack Monitor
+                double dx, dy, rotationDeg;
+                QVariantMap extraData;
+                decomposeWarpMatrix(warp, m_StackImageData[i].image.size(), dx, dy, rotationDeg);
+                extraData.insert("dx", dx);
+                extraData.insert("dy", dy);
+                extraData.insert("rotation", rotationDeg);
+                QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::Aligned,
+                                                    ok ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData) };
+                QVector<QString> subs { m_StackImageData[i].sub };
+                emit updateStackMon(subs, infos);
             }
         }
         // Stack the aligned subs
@@ -546,10 +568,16 @@ bool FITSStack::stackn()
             if (m_StackImageData[i].status != OK)
                 continue;
 
+            // Signal the Wait Stack stage complete (waiting for enough subs to stack) to Stack Monitor
+            QVector<QString> subs { m_StackImageData[i].sub };
+            QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::WaitStack,
+                                                                            LSStatus::LSStatusOK) };
+            emit updateStackMon(subs, infos);
+
             // Calibrate sub
             if (!m_StackImageData[i].isCalibrated)
             {
-                if (calibrateSub(m_StackImageData[i].image))
+                if (calibrateSub(m_StackImageData[i].sub, m_StackImageData[i].image))
                     m_StackImageData[i].isCalibrated = true;
                 else
                 {
@@ -563,14 +591,30 @@ bool FITSStack::stackn()
             if (m_StackData.alignMethod == LS_ALIGNMENT_NONE)
                 // No alignment needed so skip this stage
                 m_StackImageData[i].isAligned = true;
-            else if (!calcWarpMatrix(m_RunningStackImageData.ref_wcsprm, m_StackImageData[i].wcsprm, warp))
-                m_StackImageData[i].status = ALIGNMENT_FAILED;
             else
             {
-                cv::warpPerspective(m_StackImageData[i].image, warpedImage, warp, m_StackImageData[i].image.size(),
-                                    cv::INTER_LANCZOS4);
-                m_StackImageData[i].image = warpedImage;
-                m_StackImageData[i].isAligned = true;
+                bool ok = calcWarpMatrix(m_RunningStackImageData.ref_wcsprm, m_StackImageData[i].wcsprm, warp);
+                if (!ok)
+                    m_StackImageData[i].status = ALIGNMENT_FAILED;
+                else
+                {
+                    cv::warpPerspective(m_StackImageData[i].image, warpedImage, warp,
+                                        m_StackImageData[i].image.size(), cv::INTER_LANCZOS4);
+                    m_StackImageData[i].image = warpedImage;
+                    m_StackImageData[i].isAligned = true;
+                }
+
+                // Signal the Alignment stage complete to Stack Monitor
+                double dx, dy, rotationDeg;
+                QVariantMap extraData;
+                decomposeWarpMatrix(warp, m_StackImageData[i].image.size(), dx, dy, rotationDeg);
+                extraData.insert("dx", dx);
+                extraData.insert("dy", dy);
+                extraData.insert("rotation", rotationDeg);
+                QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::Aligned,
+                                                    ok ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData) };
+                QVector<QString> subs { m_StackImageData[i].sub };
+                emit updateStackMon(subs, infos);
             }
         }
         // Stack the aligned subs
@@ -667,9 +711,45 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
     }
 }
 
-// Calibrate the passed in sub with an associated Dark (if available) and / or Flat (if available)
-bool FITSStack::calibrateSub(cv::Mat &sub)
+// Extract useful information from the warp matrix for use by the Monitor
+// One complexity is that the translation elements need to be adjusted as openCV rotates
+// about the top left but its more intuitive to display results for a rotation about the
+// image center.
+void FITSStack::decomposeWarpMatrix(const cv::Mat &warp, const cv::Size &imageSize, double &dx, double &dy, double &rotationDeg)
 {
+    dx = dy = rotationDeg = 0.0;
+    if (warp.rows != 3 || warp.cols != 3)
+    {
+        qCDebug(KSTARS_FITS) << QString("Invalid warp matrix in %1").arg(__FUNCTION__);
+        return;
+    }
+
+    // Rotation
+    const double a = warp.at<double>(0, 0);
+    const double b = warp.at<double>(0, 1);
+    const double rotationRad = std::atan2(b, a);
+    rotationDeg = rotationRad * 180.0 / M_PI;
+
+    // Adjust translation to be relative to image center - openCV warps about top left
+    double tx = warp.at<double>(0,2);
+    double ty = warp.at<double>(1,2);
+
+    cv::Point2d center(imageSize.width/2.0, imageSize.height/2.0);
+
+    // The effective translation relative to the center
+    cv::Matx22d R(a, warp.at<double>(0,1), warp.at<double>(1,0), warp.at<double>(1,1));
+    cv::Point2d newCenter = R * center + cv::Point2d(tx, ty);
+    cv::Point2d delta = newCenter - center;
+
+    dx = delta.x;
+    dy = delta.y;
+}
+
+// Calibrate the passed in sub with an associated Dark (if available) and / or Flat (if available)
+bool FITSStack::calibrateSub(const QString &subname, cv::Mat &sub)
+{
+    bool ok = false;
+    int dark = -1, flat = -1;
     try
     {
         if (sub.empty())
@@ -680,24 +760,40 @@ bool FITSStack::calibrateSub(cv::Mat &sub)
         {
             cv::subtract(sub, m_MasterDark, sub);
             cv::max(sub, 0.0f, sub);
+            dark = 0;
         }
 
         // Flat calibration
         if (!m_MasterFlatInv.empty())
+        {
             sub = sub.mul(m_MasterFlatInv);
-        return true;
+            flat = 0;
+        }
+        ok = true;
     }
     catch (const cv::Exception &ex)
     {
+        dark = flat = 1;
         QString s1 = ex.what();
         qCDebug(KSTARS_FITS) << QString("openCV exception %1 called from %2").arg(s1).arg(__FUNCTION__);
     }
-    return false;
+
+    // Signal the Calibrated stage complete to Stack Monitor
+    QVariantMap extraData;
+    extraData.insert("dark", dark);
+    extraData.insert("flat", flat);
+    QVector<QString> subs { subname };
+    QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::Calibrated,
+                                        (ok) ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData) };
+    emit updateStackMon(subs, infos);
+    return ok;
 }
 
 // Stack the vector of subs
 bool FITSStack::stackSubs(const bool initial, float &totalWeight, cv::Mat &stack)
 {
+    bool ok = false;
+    QVector<float> weights;
     try
     {
         // Remove any bad subs so m_StackImageData just contains good data
@@ -710,7 +806,7 @@ bool FITSStack::stackSubs(const bool initial, float &totalWeight, cv::Mat &stack
         if (m_StackImageData.size() <= 0)
             return false;
 
-        QVector<float> weights = getWeights();
+        weights = getWeights();
 
         if (m_StackData.rejection == LS_STACKING_REJ_SIGMA || m_StackData.rejection == LS_STACKING_REJ_WINDSOR)
         {
@@ -752,16 +848,32 @@ bool FITSStack::stackSubs(const bool initial, float &totalWeight, cv::Mat &stack
                 totalWeight += weights[sub];
             }
             cv::multiply(stack, 1.0 / totalWeight, stack, 1.0, m_CVType);
-            //stack /= totalWeight;
         }
-        return true;
+        ok = true;
     }
     catch (const cv::Exception &ex)
     {
         QString s1 = ex.what();
         qCDebug(KSTARS_FITS) << QString("openCV exception %1 called from %2").arg(s1).arg(__FUNCTION__);
-        return false;
+        ok = false;
     }
+
+    // Signal the Stacking stage complete to Stack Monitor
+    if (m_StackImageData.size() > 0)
+    {
+        QVector<QString> subs;
+        QVector<LiveStackStageInfo> infos;
+        for (int sub = 0; sub < m_StackImageData.size(); sub++)
+        {
+            QVariantMap extraData;
+            extraData.insert("weight", weights[sub]);
+            subs << m_StackImageData[sub].sub;
+            infos << LiveStackStageInfo::fromNow(-1, LSStage::Stacked,
+                                                 ok ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData);
+        }
+        emit updateStackMon(subs, infos);
+    }
+    return ok;
 }
 
 // Get the weight for each sub for the stacking process

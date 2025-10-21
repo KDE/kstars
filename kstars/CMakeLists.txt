@@ -440,6 +440,7 @@ if (CFITSIO_FOUND)
         fitsviewer/opsfits.cpp
         fitsviewer/fitsdirwatcher.cpp
         fitsviewer/fitsmemmonitor.cpp
+        fitsviewer/fitsstackmonitor.cpp
         )
 
     if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)
@@ -474,6 +475,7 @@ if (CFITSIO_FOUND)
         fitsviewer/statform.ui
         fitsviewer/platesolve.ui
         fitsviewer/livestacking.ui
+        fitsviewer/livestackmonitor.ui
         fitsviewer/catalogobject.ui
         fitsviewer/catalogobjecttypefilter.ui
         fitsviewer/fitsdebayer.ui

@@ -418,6 +418,15 @@ void FITSView::initStack()
         filterStack.push(filter);
 
     m_ImageData.reset(new FITSData(mode), &QObject::deleteLater);
+    // Start the Stack Monitor - parenting it to the top level window
+    QWidget *topLevelWindow = this->window();
+    m_StackMonitor = new StackMonitor(topLevelWindow);
+    // Connect to auto-clear the pointer when the window closes
+    connect(m_StackMonitor, &QObject::destroyed, this, [this]()
+    {
+        m_StackMonitor = nullptr;
+    });
+    m_StackMonitor->hide();
 
     QString noImage = ":/images/noimage.png";
     fitsWatcher.setFuture(m_ImageData->loadFromFile(noImage));
@@ -443,6 +452,10 @@ void FITSView::loadStack(const QString &inDir, const LiveStackData &params)
         filterStack.push(filter);
 
     m_ImageData.reset(new FITSData(mode), &QObject::deleteLater);
+
+    // Reset the stack monitor
+    if (m_StackMonitor)
+        m_StackMonitor->clear();
 
     if (setBayerParams)
         m_ImageData->setBayerParams(&param);
@@ -485,6 +498,15 @@ void FITSView::loadStack(const QString &inDir, const LiveStackData &params)
     {
         emit stackUpdateStats(ok, sub, total, meanSNR, minSNR, maxSNR);
     });
+
+    // Register the metatypes for use in signals to Stack Monitor
+    qRegisterMetaType<QVector<QString>>();
+    qRegisterMetaType<QVector<LiveStackStageInfo>>("QVector<LiveStackStageInfo>");
+
+    // Stack Monitor signals
+    connect(m_ImageData.data(), &FITSData::initStackMon, m_StackMonitor, &StackMonitor::initialize);
+    connect(m_ImageData.data(), &FITSData::addStackMon, m_StackMonitor, &StackMonitor::addSubs);
+    connect(m_ImageData.data(), &FITSData::updateStackMon, m_StackMonitor, &StackMonitor::updateSubs);
 
     m_ImageData->loadStack(inDir, params);
 #else

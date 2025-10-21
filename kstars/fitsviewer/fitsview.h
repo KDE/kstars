@@ -8,6 +8,7 @@
 #pragma once
 
 #include "fitscommon.h"
+#include "fitsstackmonitor.h"
 #include "auxiliary/imagemask.h"
 
 #include <config-kstars.h>
@@ -86,6 +87,15 @@ class FITSView : public QScrollArea
          * @param Post Processing Parameters
          */
         void redoPostProcessStack(const LiveStackPPData &ppParams);
+
+        /**
+         * @brief Return a pointer to Stack Monitor
+         * @return pointer
+         */
+        StackMonitor *getStackMon() const
+        {
+            return m_StackMonitor;
+        }
 
         /**
          * @brief loadFITSFromData Takes ownership of the FITSData instance passed in and displays it in a FITSView frame
@@ -479,6 +489,7 @@ class FITSView : public QScrollArea
         QTimer m_UpdateFrameTimer;
 
         QStack<FITSScale> filterStack;
+        QPointer<StackMonitor> m_StackMonitor;
 
         // Tracking box
         bool trackingBoxEnabled { false };

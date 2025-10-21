@@ -20,7 +20,9 @@
 
 #include "fitscommon.h"
 #include "ekos/auxiliary/solverutils.h"
-#include <fits_debug.h>
+#include "fits_debug.h"
+#include "fitsstackmonitor.h"
+
 #include <QObject>
 #include <QPointer>
 
@@ -110,8 +112,9 @@ class FITSStack : public QObject
 
         /**
          * @brief Prepare FITSStack for the next image sub. Call before addSub.
+         * @param sub
          */
-        void setupNextSub();
+        void setupNextSub(const QString &sub);
 
         /**
          * @brief add an image sub to the stack.
@@ -120,9 +123,11 @@ class FITSStack : public QObject
          * @param width is image width
          * @param height is image height
          * @param bytesPerPixel
+         * @param snr (calculated and output)
          * @return success
          */
-        bool addSub(void *imageBuffer, const int cvType, const int width, const int height, const int bytesPerPixel);
+        bool addSub(void *imageBuffer, const int cvType, const int width, const int height,
+                    const int bytesPerPixel, double &snr);
 
         /**
          * @brief add a master dark or flat.
@@ -270,8 +275,18 @@ class FITSStack : public QObject
             return m_StackSNR;
         }
 
-    signals:
+      signals:
+        /**
+         * @brief Notification of an update to the stack
+         */
         void stackChanged();
+
+        /**
+         * @brief Update the Stack Monitor
+         * @param subs is a vector of subs to update
+         * @param info is a structure containing details of the update
+         */
+        void updateStackMon(const QVector<QString> &subs, const QVector<LiveStackStageInfo> &infos);
 
     public slots:
     private:      
@@ -342,6 +357,16 @@ class FITSStack : public QObject
         bool calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::Mat &warp);
 
         /**
+         * @brief Decompose the warp matrix into transation and rotation elements
+         * @param warp matrix
+         * @param image size
+         * @param dx x-translation
+         * @param dy y-translation
+         * @param rotationDeg (rotation angle in degrees)
+         */
+        void decomposeWarpMatrix(const cv::Mat &warp, const cv::Size &imageSize, double &dx, double &dy, double &rotationDeg);
+
+        /**
          * @brief Convert passed in Mat to FITS format
          * @param image
          * @return success (or not)
@@ -350,10 +375,11 @@ class FITSStack : public QObject
 
         /**
          * @brief Calibrate the passed in sub
+         * @param subname is the pathname of the sub
          * @param sub to be calibrated
          * @return success (or not)
          */
-        bool calibrateSub(cv::Mat &sub);
+        bool calibrateSub(const QString &subname, cv::Mat &sub);
 
         /**
          * @brief Stack the passed in vector of subs
@@ -466,6 +492,7 @@ class FITSStack : public QObject
 
         typedef struct
         {
+            QString sub;
             cv::Mat image;
             StackSubStatus status;
             bool isCalibrated;
