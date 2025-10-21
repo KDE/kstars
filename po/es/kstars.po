@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-20 02:01+0000\n"
-"PO-Revision-Date: 2025-10-15 17:07+0100\n"
+"POT-Creation-Date: 2025-10-21 01:57+0000\n"
+"PO-Revision-Date: 2025-10-20 19:37+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -7351,16 +7351,14 @@ msgid "Mount Model"
 msgstr "Modelo de montura"
 
 #: ekos/align/alignmentplot.cpp:158
-#, fuzzy, kde-format
-#| msgid "Azimuth at set"
+#, kde-format
 msgid "Azimuth diff (deg)"
-msgstr "Acimut en el ocaso"
+msgstr "Diferencia de acimut (grados)"
 
 #: ekos/align/alignmentplot.cpp:159
-#, fuzzy, kde-format
-#| msgid "Latitude in degrees"
+#, kde-format
 msgid "Altitude diff (deg)"
-msgstr "Latitud en grados"
+msgstr "Diferencia de altitud (grados)"
 
 #: ekos/align/alignview.cpp:170
 #, kde-format
@@ -10543,39 +10541,34 @@ msgid "Adjust"
 msgstr "Ajustar"
 
 #: ekos/align/pushtoassistant.cpp:23
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Slew Target"
+#, kde-format
 msgid "Select Target"
-msgstr "Rotar hasta el objetivo"
+msgstr "Seleccionar objetivo"
 
 #: ekos/align/pushtoassistant.cpp:24
 #, kde-format
 msgid "Select the target that you are aiming for."
-msgstr ""
+msgstr "Seleccionar el objetivo al que está apuntando."
 
 #: ekos/align/pushtoassistant.cpp:94
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stop EKOS"
-msgstr "Detener"
+msgstr "Detener EKOS"
 
 #: ekos/align/pushtoassistant.cpp:100
-#, fuzzy, kde-format
-#| msgid "Start Scan"
+#, kde-format
 msgid "Start EKOS"
-msgstr "Iniciar exploración"
+msgstr "Iniciar EKOS"
 
 #: ekos/align/pushtoassistant.cpp:251
-#, fuzzy, kde-format
-#| msgid "Scale & Position"
+#, kde-format
 msgid "Solve Position"
-msgstr "Escala y posición"
+msgstr "Resolver posición"
 
 #: ekos/align/pushtoassistant.cpp:252
 #, kde-format
 msgid "Start plate solving the position you are currently aiming at."
-msgstr ""
+msgstr "Empezar resolución de placa en la posición a la que está apuntando."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:256 ekos/capture/capture.cpp:472
@@ -10588,10 +10581,9 @@ msgid "Abort"
 msgstr "Interrumpir"
 
 #: ekos/align/pushtoassistant.cpp:257
-#, fuzzy, kde-format
-#| msgid "Set %1 as the current location"
+#, kde-format
 msgid "Stop the current plate solving run."
-msgstr "Definir %1 como la posición actual"
+msgstr "Detener la resolución de placa actual."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PushToAssistant)
 #: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:489
@@ -10602,44 +10594,7 @@ msgstr "Asistente de puerto serie"
 
 #. i18n: ectx: property (toolTip), widget (AlignmentPlot, targetPlot)
 #: ekos/align/pushtoassistant.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
-#| "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" "
-#| "font-style:italic;\">blocked</span> from view from your vantage point (e."
-#| "g. by tall trees or buildings). Regions can be areas above or below line "
-#| "segments that you enter. </p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; "
-#| "-qt-block-indent:0; text-indent:0px;\">To draw a <span style=\" font-"
-#| "weight:600;\">Region</span>, enter a list of <span style=\" font-"
-#| "weight:600;\">Points</span> (<span style=\" font-style:italic;\">minimum</"
-#| "span> 2) that outlines the top of a blocked area (the <span style=\" font-"
-#| "weight:600;\">blockage is below</span> the lines).</li><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Setting <span style=\" font-style:italic;\">ceiling/window mode</span> "
-#| "for a list of points instead sets the <span style=\" font-weight:600;"
-#| "\">blockage above</span> the lines.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Add the points manually, or preferably by selecting "
-#| "them from the Sky Map after clicking <span style=\" font-style:italic;"
-#| "\">Select Points</span> button. </li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Enable a region by <span style=\" font-style:italic;"
-#| "\">checking its box</span>. </li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Selecting a region displays its points on the SkyMap. </"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When done click "
-#| "<span style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Defining regions is easier when used in "
-#| "conjunction with the Terrain background feature.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">You can export (and later import) regions "
-#| "using the export/import region buttons.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Description</span></"
 "p><p>This assistant gives users of manual mounts (dobsons etc.) support "
@@ -10677,65 +10632,61 @@ msgid ""
 "finder scope is correctly configured and your telescope is roughly pointing "
 "to the target that you have selected.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>El horizonte artificial se usa para definir <span "
-"style=\" font-weight:600;\">zonas</span> del mapa del cielo que están <span "
-"style=\" font-style:italic;\">bloqueadas</span> a la vista desde el punto de "
-"observación (por ejemplo, por árboles altos o edificios). Las zonas pueden "
-"ser áreas por encima o por debajo de los segmentos de línea que introduzca.</"
-"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Para dibujar una <span style=\" font-weight:600;\">zona</"
-"span>, introduzca una línea de <span style=\" font-weight:600;\">puntos</"
-"span> (2 como <span style=\" font-style:italic;\">mínimo</span>) que "
-"delimita la parte superior del área bloqueada (el <span style=\" font-"
-"weight:600;\">bloqueo está debajo</span> de las líneas).</li><ul style="
+"<html><head/><body><p><span style=\" font-weight:600;\">Descripción</span></"
+"p><p>Este asistente ayuda a los usuarios de monturas manuales (dobson, etc.) "
+"para encontrar sus objetivos mediante un telescopio buscador equipado con "
+"una cámara.</p><p><span style=\" font-weight:600;\">Preparación</span></"
+"p><p>Abra EKOS, cree un perfil con la cámara de su elección, el «Simulador "
+"de telescopio» como montura y añada su telescopio buscador como nuevo "
+"telescopio.</p><p><span style=\" font-weight:600;\">Uso</span></p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
 "qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Si "
-"establece el <span style=\" font-style:italic;\">modo techo/ventana</span> "
-"para una lista de puntos, se define el <span style=\" font-weight:600;"
-"\">bloqueo por encima</span> de las líneas.</li><li style=\" margin-top:0px; "
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Inicie "
+"EKOS</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Posicione la "
+"montura tan cerca como le sea posible del objeto</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Seleccione el objeto en el buscador de objetos "
+"y pulse el botón «Seleccionar objeto».</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Añada los puntos a mano o, preferiblemente, "
-"seleccionándolos en el mapa del cielo tras pulsar el botón <span style=\" "
-"font-style:italic;\">Seleccionar puntos</span>. </li></ul><li style=\" "
-"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\">Active una zona <span style=\" font-style:"
-"italic;\">marcando su casilla</span>. </li><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Al seleccionar una zona se muestran sus puntos en el mapa "
-"del cielo.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Pulse "
-"<span style=\" font-style:italic;\">Aplicar</span> cuando termine.</li><li "
-"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">La definición de zonas "
-"resulta más fácil cuando se usa conjuntamente con la función de fondo del "
-"terreno.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Puede "
-"exportar (e importar posteriormente) zonas usando los botones exportar/"
-"importar zona.</li></ul></body></html>"
+"text-indent:0px;\">Pulse el botón «Resolver posición». Esto realiza una "
+"captura a través del telescopio buscador y resuelve la imagen usando los "
+"catálogos de estrellas de KStars.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Cuando termine la resolución de la placa se mostrará la "
+"distancia al objeto. Las flechas muestran las direcciones para corregir la "
+"posición de la montura.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Mueva la montura hasta la posición indicada y repita la resolución de "
+"placa.</li></ul><p><span style=\" font-weight:600;\">Consejos</span></p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Si "
+"pulsa el botón «Repetir», se repetirá la captura y la resolución de placa "
+"tras la demora que haya configurado.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Si la resolución de placa falla, compruebe que la distancia "
+"focal del telescopio buscador está configurada correctamente y que el "
+"telescopio esté apuntandoaproximadamente al objeto que ha seleccionado.</"
+"li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
 #: ekos/align/pushtoassistant.ui:101
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Abort Motion"
+#, kde-format
 msgid "Abort Solving"
-msgstr "Interrumpir movimiento"
+msgstr "Interrumpir resolución"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopSolvingB)
 #: ekos/align/pushtoassistant.ui:125
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "Repeat solving"
-msgstr "Resolución de placas"
+msgstr "Repetir resolución"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, refreshIntervalSB)
 #: ekos/align/pushtoassistant.ui:148
 #, kde-format
 msgid "Interval after which solving is repeated"
-msgstr ""
+msgstr "Intervalo para repetir la resolución"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, refreshIntervalSB)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMotionTimeout)
@@ -23525,7 +23476,7 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Pulso largo limitado de %1 ms a %2 ms"
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:532
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -23534,29 +23485,29 @@ msgstr ""
 "Advertencia: el desvío ha fallado. El guiado automático continuará según se "
 "haya indicado en las opciones en caso de que falle el desvío."
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:602
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Advertencia: El desvío manual ha fallado."
 
-#: ekos/guide/internalguide/internalguider.cpp:676
+#: ekos/guide/internalguide/internalguider.cpp:671
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Se ha perdido la información de %1. Fije los valores en el Panel de control "
 "de INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:677
+#: ekos/guide/internalguide/internalguider.cpp:672
 #, kde-format
 msgid "Missing Information"
 msgstr "Falta información"
 
-#: ekos/guide/internalguide/internalguider.cpp:702
+#: ekos/guide/internalguide/internalguider.cpp:697
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "La calibración de guiado se ha restaurado"
 
-#: ekos/guide/internalguide/internalguider.cpp:754
+#: ekos/guide/internalguide/internalguider.cpp:749
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -23565,32 +23516,32 @@ msgstr ""
 "Se ha perdido el rastro de la estrella guía. Pruebe a aumentar el tamaño del "
 "cuadrado o a reducir la duración del pulso."
 
-#: ekos/guide/internalguide/internalguider.cpp:757
+#: ekos/guide/internalguide/internalguider.cpp:752
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Se ha perdido la estrella guía."
 
-#: ekos/guide/internalguide/internalguider.cpp:789
+#: ekos/guide/internalguide/internalguider.cpp:784
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "La calibración de guiado ha fallado"
 
-#: ekos/guide/internalguide/internalguider.cpp:796
+#: ekos/guide/internalguide/internalguider.cpp:791
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "La calibración de guiado se ha completado con éxito"
 
-#: ekos/guide/internalguide/internalguider.cpp:1128
+#: ekos/guide/internalguide/internalguider.cpp:1123
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Se ha perdido el rastro de la estrella guía. Buscando estrellas guías…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1130
+#: ekos/guide/internalguide/internalguider.cpp:1125
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Se ha excedido el valor de umbral RMS delta. Buscando estrellas guías…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1314
+#: ekos/guide/internalguide/internalguider.cpp:1309
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "No se ha encontrado ninguna estrella guía adecuada. Interrumpiendo…"
@@ -34440,22 +34391,19 @@ msgid "Mount motion was aborted"
 msgstr "El movimiento de la montura se ha interrumpido"
 
 #: indi/indimount.cpp:383
-#, fuzzy, kde-format
-#| msgid "Mount parking is in progress"
+#, kde-format
 msgid "Mount homing in progress"
-msgstr "El aparcamiento de la montura está en curso"
+msgstr "La montura está volviendo a su posición inicial"
 
 #: indi/indimount.cpp:391
-#, fuzzy, kde-format
-#| msgid "Dithering completed successfully."
+#, kde-format
 msgid "Mount homed successfully"
-msgstr "El desvío se ha completado con éxito."
+msgstr "La montura ha vuelto a su posición inicial"
 
 #: indi/indimount.cpp:397
-#, fuzzy, kde-format
-#| msgid "Mount parking failed"
+#, kde-format
 msgid "Mount homing failed"
-msgstr "El aparcamiento de la montura ha fallado"
+msgstr "La vuelta de la montura a su posición inicial ha fallado"
 
 #: indi/indimount.cpp:486
 #, kde-format

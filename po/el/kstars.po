@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-20 02:01+0000\n"
+"POT-Creation-Date: 2025-10-21 01:57+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -23763,40 +23763,40 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:532
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:602
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Manual Dithering failed."
 msgstr "Άλλο"
 
-#: ekos/guide/internalguide/internalguider.cpp:676
+#: ekos/guide/internalguide/internalguider.cpp:671
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Η πληροφορία %1 λείπει. Παρακαλώ ορίστε τις τιμές στον πίνακα ελέγχου του "
 "INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:677
+#: ekos/guide/internalguide/internalguider.cpp:672
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Missing Information"
 msgstr "Πληροφορίες"
 
-#: ekos/guide/internalguide/internalguider.cpp:702
+#: ekos/guide/internalguide/internalguider.cpp:697
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Guiding calibration restored"
 msgstr "Βαθμονόμηση"
 
-#: ekos/guide/internalguide/internalguider.cpp:754
+#: ekos/guide/internalguide/internalguider.cpp:749
 #, fuzzy, kde-format
 #| msgid ""
 #| "Change in HFR is too small. Try increasing the step size or decreasing "
@@ -23808,25 +23808,25 @@ msgstr ""
 "Η αλλαγή του HFR είναι πολύ μικρή. Προσπαθήστε να αυξήσετε το μέγεθος του "
 "βήματος ή να μειώσετε την ανοχή."
 
-#: ekos/guide/internalguide/internalguider.cpp:757
+#: ekos/guide/internalguide/internalguider.cpp:752
 #, fuzzy, kde-format
 #| msgid "Guider"
 msgid "Guide Star lost."
 msgstr "Οδηγός"
 
-#: ekos/guide/internalguide/internalguider.cpp:789
+#: ekos/guide/internalguide/internalguider.cpp:784
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Guiding calibration failed"
 msgstr "Βαθμονόμηση"
 
-#: ekos/guide/internalguide/internalguider.cpp:796
+#: ekos/guide/internalguide/internalguider.cpp:791
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Guiding calibration completed successfully"
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/guide/internalguide/internalguider.cpp:1128
+#: ekos/guide/internalguide/internalguider.cpp:1123
 #, fuzzy, kde-format
 #| msgid ""
 #| "Change in HFR is too small. Try increasing the step size or decreasing "
@@ -23836,7 +23836,7 @@ msgstr ""
 "Η αλλαγή του HFR είναι πολύ μικρή. Προσπαθήστε να αυξήσετε το μέγεθος του "
 "βήματος ή να μειώσετε την ανοχή."
 
-#: ekos/guide/internalguide/internalguider.cpp:1130
+#: ekos/guide/internalguide/internalguider.cpp:1125
 #, fuzzy, kde-format
 #| msgid ""
 #| "Change in HFR is too small. Try increasing the step size or decreasing "
@@ -23846,7 +23846,7 @@ msgstr ""
 "Η αλλαγή του HFR είναι πολύ μικρή. Προσπαθήστε να αυξήσετε το μέγεθος του "
 "βήματος ή να μειώσετε την ανοχή."
 
-#: ekos/guide/internalguide/internalguider.cpp:1314
+#: ekos/guide/internalguide/internalguider.cpp:1309
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to find any suitable guide stars. Aborting..."

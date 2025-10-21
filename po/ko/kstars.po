@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-20 02:01+0000\n"
+"POT-Creation-Date: 2025-10-21 01:57+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -23216,76 +23216,76 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:532
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:602
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Manual Dithering failed."
 msgstr "기타"
 
-#: ekos/guide/internalguide/internalguider.cpp:676
+#: ekos/guide/internalguide/internalguider.cpp:671
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:677
+#: ekos/guide/internalguide/internalguider.cpp:672
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Missing Information"
 msgstr "정보"
 
-#: ekos/guide/internalguide/internalguider.cpp:702
+#: ekos/guide/internalguide/internalguider.cpp:697
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Guiding calibration restored"
 msgstr "Caliente"
 
-#: ekos/guide/internalguide/internalguider.cpp:754
+#: ekos/guide/internalguide/internalguider.cpp:749
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:757
+#: ekos/guide/internalguide/internalguider.cpp:752
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guide Star lost."
 msgstr "안내선"
 
-#: ekos/guide/internalguide/internalguider.cpp:789
+#: ekos/guide/internalguide/internalguider.cpp:784
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Guiding calibration failed"
 msgstr "Caliente"
 
-#: ekos/guide/internalguide/internalguider.cpp:796
+#: ekos/guide/internalguide/internalguider.cpp:791
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Guiding calibration completed successfully"
 msgstr "Caliente"
 
-#: ekos/guide/internalguide/internalguider.cpp:1128
+#: ekos/guide/internalguide/internalguider.cpp:1123
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1130
+#: ekos/guide/internalguide/internalguider.cpp:1125
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1314
+#: ekos/guide/internalguide/internalguider.cpp:1309
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to find any suitable guide stars. Aborting..."

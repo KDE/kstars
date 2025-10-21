@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-20 02:01+0000\n"
-"PO-Revision-Date: 2025-10-19 09:32+0200\n"
+"POT-Creation-Date: 2025-10-21 01:57+0000\n"
+"PO-Revision-Date: 2025-10-20 06:48+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -10588,8 +10588,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
 #: ekos/align/pushtoassistant.ui:101
-#, fuzzy, kde-format
-#| msgid "Abort Soving"
+#, kde-format
 msgid "Abort Solving"
 msgstr "Prekini reševanje"
 
@@ -23181,7 +23180,7 @@ msgstr "Smer DEC obrnjena (RA-DEC je zdaj standardni sistem CCW)."
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Omejen dolg impulz od %1ms do %2ms"
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:532
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -23190,27 +23189,27 @@ msgstr ""
 "Opozorilo: Stresanje ni uspelo. Samovodenje se bo nadaljevalo, kot je "
 "nastavljeno v možnostihv primeru izpada stresanja."
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:602
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Opozorilo: Ročno stresanje ni uspelo."
 
-#: ekos/guide/internalguide/internalguider.cpp:676
+#: ekos/guide/internalguide/internalguider.cpp:671
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr "Podatki o %1 manjkajo. Vrednosti nastavite na nadzorni plošči INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:677
+#: ekos/guide/internalguide/internalguider.cpp:672
 #, kde-format
 msgid "Missing Information"
 msgstr "Manjkajo podatki"
 
-#: ekos/guide/internalguide/internalguider.cpp:702
+#: ekos/guide/internalguide/internalguider.cpp:697
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Umerjanje vodenja je obnovljeno"
 
-#: ekos/guide/internalguide/internalguider.cpp:754
+#: ekos/guide/internalguide/internalguider.cpp:749
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -23219,32 +23218,32 @@ msgstr ""
 "Sled za vodilno zvezdo se je izgubila. Poskusite povečati velikost kvadrata "
 "ali skrajšati trajanje pulza."
 
-#: ekos/guide/internalguide/internalguider.cpp:757
+#: ekos/guide/internalguide/internalguider.cpp:752
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Vodilna zvezda izgubljena."
 
-#: ekos/guide/internalguide/internalguider.cpp:789
+#: ekos/guide/internalguide/internalguider.cpp:784
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Umerjanje vodenja neuspelo"
 
-#: ekos/guide/internalguide/internalguider.cpp:796
+#: ekos/guide/internalguide/internalguider.cpp:791
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Umerjanje vodenja se je uspešno zaključilo"
 
-#: ekos/guide/internalguide/internalguider.cpp:1128
+#: ekos/guide/internalguide/internalguider.cpp:1123
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Sled za vodilno zvezdo se je izgubila. Iščem vodilne zvezde…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1130
+#: ekos/guide/internalguide/internalguider.cpp:1125
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Vrednost praga delta KKS je prekoračena. Iskanje vodilnih zvezd..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1314
+#: ekos/guide/internalguide/internalguider.cpp:1309
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Ni uspelo najti nobenih primernih vodilnih zvezd. Prekinitev…"
@@ -33950,22 +33949,19 @@ msgid "Mount motion was aborted"
 msgstr "Premik montaže je bil prekinjen"
 
 #: indi/indimount.cpp:383
-#, fuzzy, kde-format
-#| msgid "Mount parking is in progress"
+#, kde-format
 msgid "Mount homing in progress"
-msgstr "Parkiranje montaže je v teku"
+msgstr "Udomljenje montaže je v teku"
 
 #: indi/indimount.cpp:391
-#, fuzzy, kde-format
-#| msgid "Dithering completed successfully."
+#, kde-format
 msgid "Mount homed successfully"
-msgstr "Stresanje se je uspešno zaključilo."
+msgstr "Montaža je uspešno doma"
 
 #: indi/indimount.cpp:397
-#, fuzzy, kde-format
-#| msgid "Mount parking failed"
+#, kde-format
 msgid "Mount homing failed"
-msgstr "Parkiranje montaže ni uspelo"
+msgstr "Udomljenje montaže ni uspelo"
 
 #: indi/indimount.cpp:486
 #, kde-format

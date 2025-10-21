@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-20 02:01+0000\n"
-"PO-Revision-Date: 2025-10-19 16:22+0300\n"
+"POT-Creation-Date: 2025-10-21 01:57+0000\n"
+"PO-Revision-Date: 2025-10-20 16:36+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -10636,8 +10636,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
 #: ekos/align/pushtoassistant.ui:101
-#, fuzzy, kde-format
-#| msgid "Abort Soving"
+#, kde-format
 msgid "Abort Solving"
 msgstr "Перервати розв'язування"
 
@@ -23423,7 +23422,7 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr "Обмежено довгу пульсацію у %1 мс до %2 мс"
 
-#: ekos/guide/internalguide/internalguider.cpp:537
+#: ekos/guide/internalguide/internalguider.cpp:532
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -23432,29 +23431,29 @@ msgstr ""
 "Попередження: спроба малого руху невдачі. Автоматичне наведення буде "
 "продовжено так, як це вказано у параметрах, якщо малий рух зазнав невдачі."
 
-#: ekos/guide/internalguide/internalguider.cpp:607
+#: ekos/guide/internalguide/internalguider.cpp:602
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Попередження: спроба малого руху вручну зазнала невдачі."
 
-#: ekos/guide/internalguide/internalguider.cpp:676
+#: ekos/guide/internalguide/internalguider.cpp:671
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Немає даних щодо %1. Будь ласка, встановіть значення на панелі керування "
 "INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:677
+#: ekos/guide/internalguide/internalguider.cpp:672
 #, kde-format
 msgid "Missing Information"
 msgstr "Недостатньо інформації"
 
-#: ekos/guide/internalguide/internalguider.cpp:702
+#: ekos/guide/internalguide/internalguider.cpp:697
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Відновлено калібрування наведення"
 
-#: ekos/guide/internalguide/internalguider.cpp:754
+#: ekos/guide/internalguide/internalguider.cpp:749
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -23463,33 +23462,33 @@ msgstr ""
 "Втрачено зірку для наведення. Спробуйте збільшити розмір квадрата або "
 "зменшити тривалість пульсації."
 
-#: ekos/guide/internalguide/internalguider.cpp:757
+#: ekos/guide/internalguide/internalguider.cpp:752
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Втрачено напрямну зірку."
 
-#: ekos/guide/internalguide/internalguider.cpp:789
+#: ekos/guide/internalguide/internalguider.cpp:784
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Не вдалося виконати калібрування наведення"
 
-#: ekos/guide/internalguide/internalguider.cpp:796
+#: ekos/guide/internalguide/internalguider.cpp:791
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Калібрування наведення успішно виконано"
 
-#: ekos/guide/internalguide/internalguider.cpp:1128
+#: ekos/guide/internalguide/internalguider.cpp:1123
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Втрачено зірку для наведення. Шукаємо інші зірки для наведення…."
 
-#: ekos/guide/internalguide/internalguider.cpp:1130
+#: ekos/guide/internalguide/internalguider.cpp:1125
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "Перевищено порогове значення для різниці СКВ. Шукаємо зірки для наведення…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1314
+#: ekos/guide/internalguide/internalguider.cpp:1309
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Не вдалося знайти прийнятні напрямні зірки. Перериваємо завдання."
@@ -34313,22 +34312,19 @@ msgid "Mount motion was aborted"
 msgstr "Рух лафета було перервано"
 
 #: indi/indimount.cpp:383
-#, fuzzy, kde-format
-#| msgid "Mount parking is in progress"
+#, kde-format
 msgid "Mount homing in progress"
-msgstr "Виконуємо паркування лафета"
+msgstr "Виконуємо повернення лафета у домашню позицію"
 
 #: indi/indimount.cpp:391
-#, fuzzy, kde-format
-#| msgid "Dithering completed successfully."
+#, kde-format
 msgid "Mount homed successfully"
-msgstr "Малий рух успішно завершено."
+msgstr "Лафет успішно повернуто у домашню позицію"
 
 #: indi/indimount.cpp:397
-#, fuzzy, kde-format
-#| msgid "Mount parking failed"
+#, kde-format
 msgid "Mount homing failed"
-msgstr "Не вдалося виконати паркування лафета"
+msgstr "Не вдалося повернути лафет у домашню позицію"
 
 #: indi/indimount.cpp:486
 #, kde-format
