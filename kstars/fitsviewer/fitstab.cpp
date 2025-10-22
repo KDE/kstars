@@ -1306,24 +1306,29 @@ void FITSTab::extractImage()
 {
     connect(m_PlateSolve.data(), &PlateSolve::extractorSuccess, this, [this]()
     {
+        disconnect(m_PlateSolve.data(), &PlateSolve::extractorSuccess, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::extractorFailed, nullptr, nullptr);
         m_View->updateFrame();
         m_PlateSolve->solveImage(m_View->imageData());
     });
     connect(m_PlateSolve.data(), &PlateSolve::extractorFailed, this, [this]()
     {
-        disconnect(m_PlateSolve.data());
+        disconnect(m_PlateSolve.data(), &PlateSolve::extractorSuccess, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::extractorFailed, nullptr, nullptr);
     });
     connect(m_PlateSolve.data(), &PlateSolve::solverFailed, this, [this]()
     {
-        disconnect(m_PlateSolve.data());
+        disconnect(m_PlateSolve.data(), &PlateSolve::solverSuccess, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::solverFailed, nullptr, nullptr);
     });
     connect(m_PlateSolve.data(), &PlateSolve::solverSuccess, this, [this]()
     {
+        disconnect(m_PlateSolve.data(), &PlateSolve::solverSuccess, nullptr, nullptr);
+        disconnect(m_PlateSolve.data(), &PlateSolve::solverFailed, nullptr, nullptr);
         m_View->syncWCSState();
         if (m_View->areObjectsShown())
             // Requery Objects based on new plate solved solution
             m_View->imageData()->searchObjects();
-        disconnect(m_PlateSolve.data());
     });
     m_PlateSolve->extractImage(m_View->imageData());
 }
@@ -1472,13 +1477,13 @@ QString FITSTab::getTabTitle() const
         // This won't happen as when m_StackStarted is set to true, it also sets m_TabName.
         // See liveStack().
         QString start = (m_StackCancelled) ? i18n("Stopped Watching (%1)", m_StackSubsProcessed) :
-                                             i18n("(%1) Watching", m_StackSubsProcessed);
+                        i18n("(%1) Watching", m_StackSubsProcessed);
         title = i18n("%1 %2", start, m_liveStackDir);
     }
     else if (m_StackStarted && !m_TabName.isEmpty())
     {
         QString start = (m_StackCancelled) ? i18n("Stopped (%1)", m_StackSubsProcessed) :
-                                             i18n("(%1)", m_StackSubsProcessed);
+                        i18n("(%1)", m_StackSubsProcessed);
         title = i18n("%1 %2", start, m_TabName);
     }
     return title;
