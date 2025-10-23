@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -29973,33 +29973,33 @@ msgstr "प्रतिमा"
 msgid "File saved to %1"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, fuzzy, kde-format
 msgid "Watching %1"
 msgstr "दाखल करत आहे..."
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, fuzzy, kde-format
 msgid "Stopped Watching (%1)"
 msgstr "दाखल करत आहे..."
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, fuzzy, kde-format
 msgid "(%1) Watching"
 msgstr "दाखल करत आहे..."
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, fuzzy, kde-format
 msgid "%1 %2"
 msgstr " व "
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, fuzzy, kde-format
 #| msgid "Stop"
 msgid "Stopped (%1)"
 msgstr "थांबा"
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, fuzzy, kde-format
 msgid "(%1)"
 msgstr "डिसें"

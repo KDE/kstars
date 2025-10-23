@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
 "PO-Revision-Date: 2024-07-27 13:28+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -32921,38 +32921,38 @@ msgstr "影像資料"
 msgid "File saved to %1"
 msgstr "檔案已儲存到 %1"
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "Watching %1"
 msgstr "載入 %1 中"
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "Stopped Watching (%1)"
 msgstr "載入 %1 中"
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "(%1) Watching"
 msgstr "載入 %1 中"
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, fuzzy, kde-format
 #| msgctxt "integrated flux value"
 #| msgid "%1 %2"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, fuzzy, kde-format
 #| msgid "Stop"
 msgid "Stopped (%1)"
 msgstr "停止"
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, fuzzy, kde-format
 #| msgid "RA (%1):"
 msgid "(%1)"

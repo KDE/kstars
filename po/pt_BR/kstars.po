@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
-"PO-Revision-Date: 2025-10-20 11:22-0300\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
+"PO-Revision-Date: 2025-10-22 10:38-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -2518,13 +2518,13 @@ msgstr "Fluxo:"
 #: dialogs/addcatalogobject.ui:212
 #, kde-format
 msgid "Position angle (°):"
-msgstr "Ângulo da posição (°):"
+msgstr "Ângulo de posição (°):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/addcatalogobject.ui:229
 #, kde-format
 msgid "Long name:"
-msgstr "Nome comprido:"
+msgstr "Nome longo:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, long_name)
 #: dialogs/addcatalogobject.ui:236
@@ -3264,7 +3264,7 @@ msgstr "Nome"
 #: dialogs/catalogobjectlistmodel.cpp:75
 #, kde-format
 msgid "Long Name"
-msgstr "Nome comprido"
+msgstr "Nome longo"
 
 #: dialogs/catalogobjectlistmodel.cpp:77
 #, kde-format
@@ -3284,7 +3284,7 @@ msgstr "Eixo menor"
 #: dialogs/catalogobjectlistmodel.cpp:83
 #, kde-format
 msgid "Position Angle"
-msgstr "Ângulo da posição"
+msgstr "Ângulo de posição"
 
 #: dialogs/catalogobjectlistmodel.cpp:85
 #, kde-format
@@ -6244,10 +6244,9 @@ msgid "Clear Solution Points"
 msgstr "Limpar pontos de solução"
 
 #: ekos/align/align.cpp:559
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Remote solver timed out."
-msgstr "Expirou o tempo-limite do solucionador."
+msgstr "Expirou o tempo-limite do solucionador remoto."
 
 #: ekos/align/align.cpp:851
 #, kde-format
@@ -6430,17 +6429,14 @@ msgid "Loaded image was taken on pierside %1"
 msgstr "A imagem carregada foi tirada no pierside %1"
 
 #: ekos/align/align.cpp:2062
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver timed out after %1 seconds."
-msgstr "O solucionador foi cancelado após %1 segundos."
+msgstr "O solucionador expirou tempo limite após %1 segundos."
 
 #: ekos/align/align.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Solver failed after %1 second."
-#| msgid_plural "Solver failed after %1 seconds."
+#, kde-format
 msgid "Solver failed after %1 seconds."
-msgstr "A resolução falhou após %1 segundo."
+msgstr "O solucionador falhou após %1 segundos."
 
 #: ekos/align/align.cpp:2087
 #, kde-format
@@ -6448,10 +6444,9 @@ msgid "Solver completed after %1 seconds."
 msgstr "A solução foi concluída após %1 segundos."
 
 #: ekos/align/align.cpp:2108
-#, fuzzy, kde-format
-#| msgid "Solver completed after %1 seconds."
+#, kde-format
 msgid "Remote solver completed after %1 seconds."
-msgstr "A solução foi concluída após %1 segundos."
+msgstr "A solução remota foi concluída após %1 segundos."
 
 #: ekos/align/align.cpp:2121
 #, kde-format
@@ -6578,10 +6573,9 @@ msgid "Capture aborted."
 msgstr "Captura cancelada."
 
 #: ekos/align/align.cpp:2640
-#, fuzzy, kde-format
-#| msgid "Solving aborted."
+#, kde-format
 msgid "Solver aborted."
-msgstr "Solução interrompida."
+msgstr "Solucionador interrompido."
 
 #: ekos/align/align.cpp:2682 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
@@ -17765,7 +17759,7 @@ msgstr "Preservar ângulo do rotador"
 #: ekos/capture/rotatorsettings.ui:217
 #, kde-format
 msgid "Preserve Position Angle"
-msgstr "Preservar ângulo da posição"
+msgstr "Preservar ângulo de posição"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:230
@@ -27899,7 +27893,7 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:823
 #, kde-format
 msgid "Position Angle:"
-msgstr "Ângulo da posição:"
+msgstr "Ângulo de posição:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, goRotateB)
 #: ekos/scheduler/framingassistant.ui:836
@@ -29157,7 +29151,7 @@ msgstr "Sequência:"
 #: ekos/scheduler/scheduler.ui:328
 #, kde-format
 msgid "Target Position Angle"
-msgstr "Ângulo da posição (AP) do alvo"
+msgstr "Ângulo de posição (AP) do alvo"
 
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverAngleLabel)
@@ -29207,7 +29201,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:566
 #, kde-format
 msgid "Position Angle in Degrees"
-msgstr "Ângulo da posição em graus"
+msgstr "Ângulo de posição em graus"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/scheduler/scheduler.ui:588
@@ -31264,40 +31258,34 @@ msgid "Double-click to toggle text display"
 msgstr "Clique duas vezes para alternar a exibição do texto"
 
 #: fitsviewer/fitsstackmonitor.h:96
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "%1 Failed to Load"
-msgstr "Falha ao carregar a imagem"
+msgstr "%1 falhou ao carregar"
 
 #: fitsviewer/fitsstackmonitor.h:97
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "%1 Failed Plate Solving"
-msgstr "Resolução de placas"
+msgstr "%1 Falhou na resolução de placas"
 
 #: fitsviewer/fitsstackmonitor.h:98
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "%1 Failed Waiting"
-msgstr "Configurações de arquivo"
+msgstr "%1 falhou na espera"
 
 #: fitsviewer/fitsstackmonitor.h:99
-#, fuzzy, kde-format
-#| msgid "Flat Calibration"
+#, kde-format
 msgid "%1 Failed Calibration"
-msgstr "Calibração de plano"
+msgstr "%1 falhou na calibração"
 
 #: fitsviewer/fitsstackmonitor.h:100
-#, fuzzy, kde-format
-#| msgid "Save Failed Align Images"
+#, kde-format
 msgid "%1 Failed Alignment"
-msgstr "Salvar imagens de alinhamentos falhados"
+msgstr "%1 falhou no alinhamento"
 
 #: fitsviewer/fitsstackmonitor.h:101
-#, fuzzy, kde-format
-#| msgid "Failed to edit city"
+#, kde-format
 msgid "%1 Failed to Stack"
-msgstr "Falhou ao editar a cidade"
+msgstr "%1 falhou no empilhamento"
 
 #: fitsviewer/fitsstackmonitor.h:120
 #, kde-format
@@ -31306,6 +31294,9 @@ msgid ""
 "%2 = OK\n"
 "%3 = Error"
 msgstr ""
+"%1 \n"
+"%2 = OK\n"
+"%3 = Erro"
 
 #: fitsviewer/fitsstackmonitor.h:123
 #, kde-format
@@ -31313,6 +31304,8 @@ msgid ""
 "%1 \n"
 "%2 = Not applicable"
 msgstr ""
+"%1 \n"
+"%2 = Não aplicável"
 
 #: fitsviewer/fitsstackmonitor.h:129
 #, kde-format
@@ -31327,6 +31320,15 @@ msgid ""
 "%8\n"
 "%9"
 msgstr ""
+"%1 \n"
+"%2\n"
+"%3 = Processado com sucesso\n"
+"%4\n"
+"%5\n"
+"%6\n"
+"%7\n"
+"%8\n"
+"%9"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -31627,32 +31629,32 @@ msgstr "Salvamento da imagem"
 msgid "File saved to %1"
 msgstr "Arquivo salvo em %1"
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, kde-format
 msgid "Watching %1"
 msgstr "Observando %1"
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, kde-format
 msgid "Stopped Watching (%1)"
 msgstr "Observação parada (%1)"
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, kde-format
 msgid "(%1) Watching"
 msgstr "(%1) Observando"
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, kde-format
 msgid "Stopped (%1)"
 msgstr "Parado (%1)"
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, kde-format
 msgid "(%1)"
 msgstr "(%1)"
@@ -32196,11 +32198,10 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MonitorB)
 #: fitsviewer/livestacking.ui:382
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Launch Live Stacker Monitor</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Salvar parâmetros do empilhamento ao vivo</p></body></"
+"<html><head/><body><p>Iniciar o monitor de empilhamento ao vivo</p></body></"
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, HelpB)
@@ -32639,29 +32640,25 @@ msgstr "Configure as opções de empilhamento nesta seção."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, StackMonitorDialog)
 #: fitsviewer/livestackmonitor.ui:26
-#, fuzzy, kde-format
-#| msgid "Live Stacking"
+#, kde-format
 msgid "Live Stacking Monitor"
-msgstr "Empilhamento ao vivo"
+msgstr "Monitor de empilhamento ao vivo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable highlighting of data changes</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Marque para mostrar rótulos no gráfico.</p></body></"
-"html>"
+"<html><head/><body><p>Marque para habilitar o realce de alterações de dados</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:63
-#, fuzzy, kde-format
-#| msgid "Highlights"
+#, kde-format
 msgid " Highlighting"
-msgstr "Tons claros"
+msgstr " Realce"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -35712,7 +35709,7 @@ msgstr ""
 #: kstars.kcfg:145
 #, kde-format
 msgid "Percentage of the sky to cache DSOs for."
-msgstr "Porcentagem do céu para armazenar em cache os DSOs."
+msgstr "Porcentagem do céu para armazenar em cache os OCPs."
 
 #. i18n: ectx: whatsthis, entry (DSOCachePercentage), group (Catalogs)
 #: kstars.kcfg:149
@@ -35723,9 +35720,9 @@ msgid ""
 "         will be cached. Turning this value up yields better\n"
 "         performance at the cost of memory."
 msgstr ""
-"Os DSOs são carregados de um banco de dados sqlite e\n"
+"Os OCPs são carregados de um banco de dados sqlite e\n"
 "         armazenados em cache na memória. Esta configuração regula a "
-"quantidade de DSOs\n"
+"quantidade de OCPs\n"
 "         que serão armazenados em cache. Aumentar este valor resulta em "
 "melhor\n"
 "         desempenho, mas com custo de memória."
@@ -35740,13 +35737,13 @@ msgstr "Nível mínimo de zoom para renderizar DeepSkyObjects."
 #: kstars.kcfg:161
 #, kde-format
 msgid "The filename of the DSO catalog."
-msgstr "O nome do arquivo do catálogo DSO."
+msgstr "O nome do arquivo do catálogo OCP."
 
 #. i18n: ectx: label, entry (DSODefaultCatalogFilename), group (Catalogs)
 #: kstars.kcfg:165
 #, kde-format
 msgid "The filename of the default DSO catalog (OpenNGC)."
-msgstr "O nome do arquivo do catálogo DSO padrão (OpenNGC)."
+msgstr "O nome do arquivo do catálogo OCP padrão (OpenNGC)."
 
 #. i18n: ectx: label, entry (INDIWindowWidth), group (indi)
 #: kstars.kcfg:171
@@ -39767,28 +39764,25 @@ msgstr "Sigma de nitidez do empilhamento ao vivo"
 #: kstars.kcfg:1878
 #, kde-format
 msgid "Geometry of Live Stacking Monitor window"
-msgstr ""
+msgstr "Geometria da janela do monitor de empilhamento ao vivo"
 
 #. i18n: ectx: label, entry (fitsLSMVisibleColumns), group (FITSViewer)
 #: kstars.kcfg:1882
-#, fuzzy, kde-format
-#| msgid "Live Stacking deconvolution amount"
+#, kde-format
 msgid "Live Stacking Monitor column visibility"
-msgstr "Quantidade de deconvolução do empilhamento ao vivo"
+msgstr "Visibilidade da coluna do monitor de empilhamento ao vivo"
 
 #. i18n: ectx: label, entry (fitsLSMColumnWidths), group (FITSViewer)
 #: kstars.kcfg:1886
-#, fuzzy, kde-format
-#| msgid "Live Stacking Post Processing switch"
+#, kde-format
 msgid "Live Stacking Monitor column widths"
-msgstr "Interruptor de pós-processamento do empilhamento ao vivo"
+msgstr "Larguras da coluna do monitor de empilhamento ao vivo"
 
 #. i18n: ectx: label, entry (fitsLSMHighlighting), group (FITSViewer)
 #: kstars.kcfg:1896
-#, fuzzy, kde-format
-#| msgid "Live Stacking sub weighting"
+#, kde-format
 msgid "Live Stacking Monitor highlighting."
-msgstr "Peso do sub do empilhamento ao vivo"
+msgstr "Realce do monitor de empilhamento ao vivo."
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1902
@@ -40075,19 +40069,19 @@ msgstr ""
 #: kstars.kcfg:2097
 #, kde-format
 msgid "Position angle multiplier"
-msgstr "Multiplicador do ângulo da posição"
+msgstr "Multiplicador do ângulo de posição"
 
 #. i18n: ectx: label, entry (PAOffset), group (Capture)
 #: kstars.kcfg:2101
 #, kde-format
 msgid "Position angle offset"
-msgstr "Deslocamento do ângulo da posição"
+msgstr "Deslocamento do ângulo de posição"
 
 #. i18n: ectx: label, entry (PAPierSide), group (Capture)
 #: kstars.kcfg:2105
 #, kde-format
 msgid "Position angle calibration pier side"
-msgstr "Lado do píer de calibração do ângulo da posição"
+msgstr "Lado do píer de calibração do ângulo de posição"
 
 #. i18n: ectx: label, entry (GuideDeviation), group (Capture)
 #: kstars.kcfg:2108
@@ -72319,7 +72313,7 @@ msgstr "Assistente de inicialização..."
 #: kstarsinit.cpp:435
 #, kde-format
 msgid "Manage DSO Catalogs"
-msgstr "Gerenciar catálogos DSO"
+msgstr "Gerenciar catálogos OCP"
 
 #: kstarsinit.cpp:439
 #, kde-format
@@ -77469,7 +77463,7 @@ msgstr "Csaba Kertesz"
 #: main.cpp:174
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
-msgstr "Lista de asteroides binários, banco de dados DSO e catálogos"
+msgstr "Lista de asteroides binários, banco de dados OCP e catálogos"
 
 #: main.cpp:175
 #, kde-format
@@ -78845,13 +78839,13 @@ msgstr "Catálogos do espaço profundo"
 #: options/opscatalog.ui:311
 #, kde-format
 msgid "DSO minimal zoom:"
-msgstr "Zoom mínimo do DSO:"
+msgstr "Zoom mínimo do OCP:"
 
 #. i18n: ectx: property (text), widget (QLabel, DSOCacheLabel)
 #: options/opscatalog.ui:376
 #, kde-format
 msgid "DSO cache percentage:"
-msgstr "Percentagem de cache do DSO:"
+msgstr "Percentagem de cache do OCP:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDeepSkyNames)
 #: options/opscatalog.ui:438
@@ -78892,7 +78886,7 @@ msgstr ""
 "KStars entrará em contato com serviços online (como o CDS Sesame) para obter "
 "informações sobre o objeto e, em seguida, adicioná-lo ao banco de dados. Os "
 "objetos adquiridos dessa maneira são armazenados em um catálogo chamado de "
-"usuário, e ele pode ser editado usando o recurso \"Gerenciar catálogos DSO\"."
+"usuário, e ele pode ser editado usando o recurso \"Gerenciar catálogos OCP\"."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResolveNamesOnline)
 #: options/opscatalog.ui:620
@@ -81213,7 +81207,7 @@ msgid ""
 "the new one?"
 msgstr ""
 "Importar objetos personalizados e resolvidos pela Internet do antigo banco "
-"de dados DSO para o novo?"
+"de dados OCP para o novo?"
 
 #: skycomponents/catalogscomponent.cpp:451
 #: skycomponents/catalogscomponent.cpp:458
@@ -81564,7 +81558,7 @@ msgstr "Atualização dos elementos orbitais dos satélites"
 #: skycomponents/skymapcomposite.cpp:127
 #, kde-format
 msgid "Failed to load the DSO database."
-msgstr "Falha ao carregar o banco de dados DSO."
+msgstr "Falha ao carregar o banco de dados OCP."
 
 #: skycomponents/skymapcomposite.cpp:135
 #, kde-format
@@ -81574,7 +81568,7 @@ msgid ""
 "to \"%2\""
 msgstr ""
 "Deseja recomeçar com um banco de dados vazio?\n"
-"Isso moverá o banco de dados DSO atual \"%1\"\n"
+"Isso moverá o banco de dados OCP atual \"%1\"\n"
 "para \"%2\""
 
 #: skycomponents/solarsystemcomposite.cpp:25
@@ -85818,7 +85812,7 @@ msgstr "Distância angular:"
 #: tools/modcalcangdist.ui:338
 #, kde-format
 msgid "Position angle:"
-msgstr "Ângulo da posição:"
+msgstr "Ângulo de posição:"
 
 #. i18n: ectx: property (text), widget (QLabel, AngDistLabel_3)
 #: tools/modcalcangdist.ui:363

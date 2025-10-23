@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
-"PO-Revision-Date: 2025-10-20 06:48+0200\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
+"PO-Revision-Date: 2025-10-22 10:07+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6225,10 +6225,9 @@ msgid "Clear Solution Points"
 msgstr "Počisti točke rešitve"
 
 #: ekos/align/align.cpp:559
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Remote solver timed out."
-msgstr "Časovna omejitev za reševalnik je potekla."
+msgstr "Časovna omejitev za oddaljeni reševalnik je potekla."
 
 #: ekos/align/align.cpp:851
 #, kde-format
@@ -6408,16 +6407,14 @@ msgid "Loaded image was taken on pierside %1"
 msgstr "Naložena slika je bila posneta na strani stojala %1"
 
 #: ekos/align/align.cpp:2062
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver timed out after %1 seconds."
-msgstr "Reševalnik je prekinil po %1 sekundah."
+msgstr "Reševalnik je potekel po %1 sekundah."
 
 #: ekos/align/align.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver failed after %1 seconds."
-msgstr "Reševalnik je prekinil po %1 sekundah."
+msgstr "Reševalnik je izpadel po %1 sekundah."
 
 #: ekos/align/align.cpp:2087
 #, kde-format
@@ -6425,10 +6422,9 @@ msgid "Solver completed after %1 seconds."
 msgstr "Reševalnik je zaključil po %1 sekundah."
 
 #: ekos/align/align.cpp:2108
-#, fuzzy, kde-format
-#| msgid "Solver completed after %1 seconds."
+#, kde-format
 msgid "Remote solver completed after %1 seconds."
-msgstr "Reševalnik je zaključil po %1 sekundah."
+msgstr "Oddaljeni reševalnik je zaključil po %1 sekundah."
 
 #: ekos/align/align.cpp:2121
 #, kde-format
@@ -6550,10 +6546,9 @@ msgid "Capture aborted."
 msgstr "Zajem prekinjen."
 
 #: ekos/align/align.cpp:2640
-#, fuzzy, kde-format
-#| msgid "Solving aborted."
+#, kde-format
 msgid "Solver aborted."
-msgstr "Reševanje prekinjeno."
+msgstr "Reševalnik prekinil."
 
 #: ekos/align/align.cpp:2682 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
@@ -31064,40 +31059,34 @@ msgid "Double-click to toggle text display"
 msgstr "Dvokliknite za preklop prikaza besedila"
 
 #: fitsviewer/fitsstackmonitor.h:96
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "%1 Failed to Load"
-msgstr "Ni mogoče naložiti slike"
+msgstr "%1 ni uspel naložiti"
 
 #: fitsviewer/fitsstackmonitor.h:97
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "%1 Failed Plate Solving"
-msgstr "Reševanje plošče"
+msgstr "%1 neuspešno reševanje plošče"
 
 #: fitsviewer/fitsstackmonitor.h:98
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "%1 Failed Waiting"
-msgstr "Nastavitve datoteke"
+msgstr "%1 neuspelo čakanje"
 
 #: fitsviewer/fitsstackmonitor.h:99
-#, fuzzy, kde-format
-#| msgid "Flat Calibration"
+#, kde-format
 msgid "%1 Failed Calibration"
-msgstr "Plosko umerjanje"
+msgstr "%1 neuspešno kalibriranje"
 
 #: fitsviewer/fitsstackmonitor.h:100
-#, fuzzy, kde-format
-#| msgid "Save Failed Align Images"
+#, kde-format
 msgid "%1 Failed Alignment"
-msgstr "Shrani slike neuspelih poravnav"
+msgstr "%1 neuspešno poravnavanje"
 
 #: fitsviewer/fitsstackmonitor.h:101
-#, fuzzy, kde-format
-#| msgid "Failed to edit city"
+#, kde-format
 msgid "%1 Failed to Stack"
-msgstr "Urejanje mesta ni uspelo"
+msgstr "%1 neuspešno skladanje"
 
 #: fitsviewer/fitsstackmonitor.h:120
 #, kde-format
@@ -31106,6 +31095,9 @@ msgid ""
 "%2 = OK\n"
 "%3 = Error"
 msgstr ""
+"%1 \n"
+"%2 = OK\n"
+"%3 = Napaka"
 
 #: fitsviewer/fitsstackmonitor.h:123
 #, kde-format
@@ -31113,6 +31105,8 @@ msgid ""
 "%1 \n"
 "%2 = Not applicable"
 msgstr ""
+"%1 \n"
+"%2 = Ni uporabno"
 
 #: fitsviewer/fitsstackmonitor.h:129
 #, kde-format
@@ -31127,6 +31121,15 @@ msgid ""
 "%8\n"
 "%9"
 msgstr ""
+"%1 \n"
+"%2\n"
+"%3 = Uspešno obdelano\n"
+"%4\n"
+"%5\n"
+"%6\n"
+"%7\n"
+"%8\n"
+"%9"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -31425,32 +31428,32 @@ msgstr "Shranjevanje slike"
 msgid "File saved to %1"
 msgstr "Datoteka shranjena v %1"
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, kde-format
 msgid "Watching %1"
 msgstr "Opazovanje %1"
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, kde-format
 msgid "Stopped Watching (%1)"
 msgstr "Ustavljeno opazovanje (%1)"
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, kde-format
 msgid "(%1) Watching"
 msgstr "(%1) Opazovanje"
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, kde-format
 msgid "Stopped (%1)"
 msgstr "Zaustavljeno (%1)"
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, kde-format
 msgid "(%1)"
 msgstr "(%1)"
@@ -31997,11 +32000,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MonitorB)
 #: fitsviewer/livestacking.ui:382
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Launch Live Stacker Monitor</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Shrani parametre za Live Stacker</p></body></html>"
+msgstr "<html><head/><body><p>Zaženi Live Stacker Monitor</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, HelpB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
@@ -32440,28 +32441,25 @@ msgstr "Konfigurirajte možnosti zlaganja v tem razdelku:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, StackMonitorDialog)
 #: fitsviewer/livestackmonitor.ui:26
-#, fuzzy, kde-format
-#| msgid "Live Stacking"
+#, kde-format
 msgid "Live Stacking Monitor"
-msgstr "Živo zlaganje"
+msgstr "Live Stacking Monitor"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable highlighting of data changes</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Odkljukajte za prikaz oznak na grafu.</p></body></html>"
+"<html><head/><body><p>Označite, če želite omogočiti označevanje sprememb "
+"podatkov</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:63
-#, fuzzy, kde-format
-#| msgid "Highlights"
+#, kde-format
 msgid " Highlighting"
-msgstr "Bleščave"
+msgstr " Označevanje"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -39294,160 +39292,157 @@ msgstr "Polmer na položaju (stopinje) za uporabo z reševanjem Fitsviewer."
 #: kstars.kcfg:1790
 #, kde-format
 msgid "Live Stacking Minimise General Options Widget"
-msgstr "Gradnik za minimizacijo splošne možnosti zlaganja v živo"
+msgstr "Gradnik za minimizacijo splošne možnosti za Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideCalibration), group (FITSViewer)
 #: kstars.kcfg:1794
 #, kde-format
 msgid "Live Stacking Minimise Calibration Options Widget"
-msgstr "Gradnik za minimizacijo možnosti kalibracije zlaganja v živo"
+msgstr "Gradnik za minimizacijo možnosti kalibracije za Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideAlignment), group (FITSViewer)
 #: kstars.kcfg:1798
 #, kde-format
 msgid "Live Stacking Minimise Alignment Options Widget"
-msgstr "Gradnik za minimizacijo možnosti poravnavanja zlaganja v živo"
+msgstr "Gradnik za minimizacijo možnosti poravnavanja za Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideStacking), group (FITSViewer)
 #: kstars.kcfg:1802
 #, kde-format
 msgid "Live Stacking Minimise Stacking Options Widget"
-msgstr "Gradnik za minimizacijo možnosti zlaganja v živo"
+msgstr "Gradnik za minimizacijo možnosti za Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHidePostProc), group (FITSViewer)
 #: kstars.kcfg:1806
 #, kde-format
 msgid "Live Stacking Minimise Post-Processing Options Widget"
-msgstr "Gradnik za minimizacijo naknadne obdelave zlaganja v živo"
+msgstr "Gradnik za minimizacijo naknadne obdelave za Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterDark), group (FITSViewer)
 #: kstars.kcfg:1810
 #, kde-format
 msgid "Live Stacking master dark"
-msgstr "Glavna slika teme živega skladalnika"
+msgstr "Glavna slika teme za Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterFlat), group (FITSViewer)
 #: kstars.kcfg:1814
 #, kde-format
 msgid "Live Stacking master flat"
-msgstr "Glavna slika površine živega skladalnika"
+msgstr "Glavna slika površine za Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1818
 #, kde-format
 msgid "Live Stacking alignment method"
-msgstr "Metoda poravnavanja živega skladalnika"
+msgstr "Metoda poravnavanja za Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSNumInMem), group (FITSViewer)
 #: kstars.kcfg:1822
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
-msgstr "Največje število podsličic hranjeno v pomnilniku"
+msgstr "Največje število podsličic hranjeno v pomnilniku za Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
 #: kstars.kcfg:1826
 #, kde-format
 msgid "Live Stacking downscale factor"
-msgstr "Faktor pomanjševanja živega skladalnika"
+msgstr "Faktor pomanjševanja za Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSWeighting), group (FITSViewer)
 #: kstars.kcfg:1830
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr "Uteževanje podsličic živega skladalnika"
+msgstr "Uteževanje podsličic za Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSRejection), group (FITSViewer)
 #: kstars.kcfg:1834
 #, kde-format
 msgid "Live Stacking pixel rejection mechanism"
-msgstr "Mehanizem zavračanja slikovnih pik živega skladalnika"
+msgstr "Mehanizem zavračanja slikovnih pik za Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1838
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
-msgstr "Kriterij zavračanja slikovnih pik nizke sigme živega skladalnika"
+msgstr "Kriterij zavračanja slikovnih pik nizke sigme za Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1842
 #, kde-format
 msgid "Live Stacking high sigma pixel rejection criteria"
-msgstr "Kriterij zavračanja slikovnih pik visoke sigme živega skladalnika"
+msgstr "Kriterij zavračanja slikovnih pik visoke sigme za Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSWinsorCutoff), group (FITSViewer)
 #: kstars.kcfg:1846
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr "Obrez windzor sigme živega skladalnika"
+msgstr "Obrez windzor sigme za Live Stacking"
 
 #. i18n: ectx: whatsthis, entry (fitsLSPostProc), group (FITSViewer)
 #: kstars.kcfg:1850
 #, kde-format
 msgid "Live Stacking Post Processing switch"
-msgstr "Stikalo za naknadno obdelavo v živo"
+msgstr "Stikalo za naknadno obdelavo v živo za Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1854
 #, kde-format
 msgid "Live Stacking deconvolution amount"
-msgstr "Vrednost dekonvolucije živega skladalnika"
+msgstr "Vrednost dekonvolucije za Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSPSFSigma), group (FITSViewer)
 #: kstars.kcfg:1858
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr "FSF sigme za uporabo pri dekonvoluciji živega skladalnika"
+msgstr "FSF sigme za uporabo pri dekonvoluciji za Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1862
 #, kde-format
 msgid "Live Stacking denoise amount"
-msgstr "Vrednost odstranjevanja šuma živega skladalnika"
+msgstr "Vrednost odstranjevanja šuma za Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSSharpenAmt), group (FITSViewer)
 #: kstars.kcfg:1866
 #, kde-format
 msgid "Live Stacking sharpen amount"
-msgstr "Vrednost ostrenja živega skladalnika"
+msgstr "Vrednost ostrenja za Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1870
 #, kde-format
 msgid "Live Stacking sharpening kernel size"
-msgstr "Velikosti jedra živega skladalnika"
+msgstr "Velikosti jedra za Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1874
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr "Sigma ostrenja živega skladalnika"
+msgstr "Sigma ostrenja za Live Stacking"
 
 #. i18n: ectx: label, entry (fitsLSMWindowGeometry), group (FITSViewer)
 #: kstars.kcfg:1878
 #, kde-format
 msgid "Geometry of Live Stacking Monitor window"
-msgstr ""
+msgstr "Geometrija okna za Live Stacking Monitor"
 
 #. i18n: ectx: label, entry (fitsLSMVisibleColumns), group (FITSViewer)
 #: kstars.kcfg:1882
-#, fuzzy, kde-format
-#| msgid "Live Stacking deconvolution amount"
+#, kde-format
 msgid "Live Stacking Monitor column visibility"
-msgstr "Vrednost dekonvolucije živega skladalnika"
+msgstr "Vidnost stolpca za Live Stacking Monitor "
 
 #. i18n: ectx: label, entry (fitsLSMColumnWidths), group (FITSViewer)
 #: kstars.kcfg:1886
-#, fuzzy, kde-format
-#| msgid "Live Stacking Post Processing switch"
+#, kde-format
 msgid "Live Stacking Monitor column widths"
-msgstr "Stikalo za naknadno obdelavo v živo"
+msgstr "Širine stolpca za Live Stacking Monitor"
 
 #. i18n: ectx: label, entry (fitsLSMHighlighting), group (FITSViewer)
 #: kstars.kcfg:1896
-#, fuzzy, kde-format
-#| msgid "Live Stacking sub weighting"
+#, kde-format
 msgid "Live Stacking Monitor highlighting."
-msgstr "Uteževanje podsličic živega skladalnika"
+msgstr "Označevanje za Live Stacking Monitor."
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1902

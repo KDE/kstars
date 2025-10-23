@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
 "PO-Revision-Date: 2007-06-25 11:21+0300\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -29442,36 +29442,36 @@ msgstr "Адрас:"
 msgid "File saved to %1"
 msgstr "Файл запісаны."
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid "Watching %1"
 msgstr "Панелі начыння"
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid "Stopped Watching (%1)"
 msgstr "Панелі начыння"
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid "(%1) Watching"
 msgstr "Панелі начыння"
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, fuzzy, kde-format
 msgid "%1 %2"
 msgstr "Гішпанія"
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, fuzzy, kde-format
 #| msgid "Toolbars"
 msgid "Stopped (%1)"
 msgstr "Панелі начыння"
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, kde-format
 msgid "(%1)"
 msgstr ""

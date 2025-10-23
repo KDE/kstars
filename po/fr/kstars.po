@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.8\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
 "PO-Revision-Date: 2025-07-20 12:19+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -32059,37 +32059,37 @@ msgstr "Enregistrement d'image"
 msgid "File saved to %1"
 msgstr "Fichier enregistré dans %1"
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, kde-format
 msgid "Watching %1"
 msgstr "Suivi de %1"
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, fuzzy, kde-format
 #| msgid "Watching %1"
 msgid "Stopped Watching (%1)"
 msgstr "Suivi de %1"
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, fuzzy, kde-format
 #| msgid "(%1) Watching %2"
 msgid "(%1) Watching"
 msgstr "(%1) Suivi de %2"
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, fuzzy, kde-format
 #| msgctxt "integrated flux value"
 #| msgid "%1 %2"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, fuzzy, kde-format
 #| msgid "Stopped"
 msgid "Stopped (%1)"
 msgstr "Arrêté"
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, fuzzy, kde-format
 #| msgid "(%1) %2"
 msgid "(%1)"

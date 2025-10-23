@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
-"PO-Revision-Date: 2025-10-20 09:45+0200\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
+"PO-Revision-Date: 2025-10-22 13:09+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6243,10 +6243,9 @@ msgid "Clear Solution Points"
 msgstr "Neteja els punts de la solució"
 
 #: ekos/align/align.cpp:559
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Remote solver timed out."
-msgstr "El solucionador ha excedit el temps límit."
+msgstr "El solucionador remot ha excedit el temps límit."
 
 #: ekos/align/align.cpp:851
 #, kde-format
@@ -6434,16 +6433,14 @@ msgid "Loaded image was taken on pierside %1"
 msgstr "La imatge carregada es va prendre en el costat del moll %1"
 
 #: ekos/align/align.cpp:2062
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver timed out after %1 seconds."
-msgstr "S'ha interromput el solucionador després de %1 segons."
+msgstr "El solucionador ha excedit el temps després de %1 segons."
 
 #: ekos/align/align.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver failed after %1 seconds."
-msgstr "S'ha interromput el solucionador després de %1 segons."
+msgstr "El solucionador ha fallat després de %1 segons."
 
 #: ekos/align/align.cpp:2087
 #, kde-format
@@ -6451,10 +6448,9 @@ msgid "Solver completed after %1 seconds."
 msgstr "S'ha completat el solucionador en %1 segons."
 
 #: ekos/align/align.cpp:2108
-#, fuzzy, kde-format
-#| msgid "Solver completed after %1 seconds."
+#, kde-format
 msgid "Remote solver completed after %1 seconds."
-msgstr "S'ha completat el solucionador en %1 segons."
+msgstr "S'ha completat el solucionador remot en %1 segons."
 
 #: ekos/align/align.cpp:2121
 #, kde-format
@@ -6576,10 +6572,9 @@ msgid "Capture aborted."
 msgstr "Captura interrompuda."
 
 #: ekos/align/align.cpp:2640
-#, fuzzy, kde-format
-#| msgid "Solving aborted."
+#, kde-format
 msgid "Solver aborted."
-msgstr "S'ha interromput la solució."
+msgstr "S'ha interromput el solucionador."
 
 #: ekos/align/align.cpp:2682 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
@@ -31498,40 +31493,34 @@ msgid "Double-click to toggle text display"
 msgstr "Doble clic per commutar la visualització del text"
 
 #: fitsviewer/fitsstackmonitor.h:96
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "%1 Failed to Load"
-msgstr "No s'ha pogut carregar la imatge"
+msgstr "%1 ha fallat en carregar"
 
 #: fitsviewer/fitsstackmonitor.h:97
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "%1 Failed Plate Solving"
-msgstr "Solució de plaques"
+msgstr "%1 ha fallat en solucionar la placa"
 
 #: fitsviewer/fitsstackmonitor.h:98
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "%1 Failed Waiting"
-msgstr "Configuració dels fitxers"
+msgstr "%1 ha fallat en esperar"
 
 #: fitsviewer/fitsstackmonitor.h:99
-#, fuzzy, kde-format
-#| msgid "Flat Calibration"
+#, kde-format
 msgid "%1 Failed Calibration"
-msgstr "Calibratge dels plans"
+msgstr "%1 ha fallat en el calibratge"
 
 #: fitsviewer/fitsstackmonitor.h:100
-#, fuzzy, kde-format
-#| msgid "Save Failed Align Images"
+#, kde-format
 msgid "%1 Failed Alignment"
-msgstr "Desa les imatges d'alineació fallida"
+msgstr "%1 ha fallat en l'alineació"
 
 #: fitsviewer/fitsstackmonitor.h:101
-#, fuzzy, kde-format
-#| msgid "Failed to edit city"
+#, kde-format
 msgid "%1 Failed to Stack"
-msgstr "Ha fallat en editar la ciutat"
+msgstr "%1 ha fallat en apilar"
 
 #: fitsviewer/fitsstackmonitor.h:120
 #, kde-format
@@ -31540,6 +31529,9 @@ msgid ""
 "%2 = OK\n"
 "%3 = Error"
 msgstr ""
+"%1 \n"
+"%2 = D'acord\n"
+"%3 = Error"
 
 #: fitsviewer/fitsstackmonitor.h:123
 #, kde-format
@@ -31547,6 +31539,8 @@ msgid ""
 "%1 \n"
 "%2 = Not applicable"
 msgstr ""
+"%1 \n"
+"%2 = No aplicable"
 
 #: fitsviewer/fitsstackmonitor.h:129
 #, kde-format
@@ -31561,6 +31555,15 @@ msgid ""
 "%8\n"
 "%9"
 msgstr ""
+"%1 \n"
+"%2\n"
+"%3 = Processat correctament\n"
+"%4\n"
+"%5\n"
+"%6\n"
+"%7\n"
+"%8\n"
+"%9"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -31862,32 +31865,32 @@ msgstr "Desament de la imatge"
 msgid "File saved to %1"
 msgstr "El fitxer s'ha desat a %1"
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, kde-format
 msgid "Watching %1"
 msgstr "S'està controlant %1"
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, kde-format
 msgid "Stopped Watching (%1)"
 msgstr "S'ha aturat el control de %1"
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, kde-format
 msgid "(%1) Watching"
 msgstr "(%1) S'està controlant"
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, kde-format
 msgid "Stopped (%1)"
 msgstr "Aturat (%1)"
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, kde-format
 msgid "(%1)"
 msgstr "(%1)"
@@ -32437,11 +32440,10 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MonitorB)
 #: fitsviewer/livestacking.ui:382
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Launch Live Stacker Monitor</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desa els paràmetres d'apilament en directe</p></body></"
+"<html><head/><body><p>Llança el monitor d'apilament en directe</p></body></"
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, HelpB)
@@ -32885,29 +32887,25 @@ msgstr "Configureu les d'apilament generals en aquesta secció."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, StackMonitorDialog)
 #: fitsviewer/livestackmonitor.ui:26
-#, fuzzy, kde-format
-#| msgid "Live Stacking"
+#, kde-format
 msgid "Live Stacking Monitor"
-msgstr "Apilament en directe"
+msgstr "Monitor d'apilament en directe"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable highlighting of data changes</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Marqueu-ho per a mostrar les etiquetes en el gràfic.</"
+"<html><head/><body><p>Marqueu-ho per a ressaltar els canvis de les dades</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:63
-#, fuzzy, kde-format
-#| msgid "Highlights"
+#, kde-format
 msgid " Highlighting"
-msgstr "Llums intenses"
+msgstr " Ressaltat"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -40138,28 +40136,25 @@ msgstr "Sigma d'agudització de l'apilament en directe"
 #: kstars.kcfg:1878
 #, kde-format
 msgid "Geometry of Live Stacking Monitor window"
-msgstr ""
+msgstr "Geometria de la finestra del monitor d'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSMVisibleColumns), group (FITSViewer)
 #: kstars.kcfg:1882
-#, fuzzy, kde-format
-#| msgid "Live Stacking deconvolution amount"
+#, kde-format
 msgid "Live Stacking Monitor column visibility"
-msgstr "Quantitat de desconvolució de l'apilament en directe"
+msgstr "Visibilitat de la columna del monitor d'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSMColumnWidths), group (FITSViewer)
 #: kstars.kcfg:1886
-#, fuzzy, kde-format
-#| msgid "Live Stacking Post Processing switch"
+#, kde-format
 msgid "Live Stacking Monitor column widths"
-msgstr "Commutador de postprocessament de l'apilament en directe"
+msgstr "Amplada de la columna del monitor d'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSMHighlighting), group (FITSViewer)
 #: kstars.kcfg:1896
-#, fuzzy, kde-format
-#| msgid "Live Stacking sub weighting"
+#, kde-format
 msgid "Live Stacking Monitor highlighting."
-msgstr "Ponderació de subsolucions de l'apilament en directe"
+msgstr "Ressaltat del monitor d'apilament en directe."
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1902

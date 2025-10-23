@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -6095,10 +6095,9 @@ msgid "Clear Solution Points"
 msgstr "清除解析点"
 
 #: ekos/align/align.cpp:559
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Remote solver timed out."
-msgstr "解析超时。"
+msgstr ""
 
 #: ekos/align/align.cpp:851
 #, kde-format
@@ -6258,16 +6257,14 @@ msgid "Loaded image was taken on pierside %1"
 msgstr "加载的图像被带到码头 %1"
 
 #: ekos/align/align.cpp:2062
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver timed out after %1 seconds."
-msgstr "解析中止，用时 %1 秒。"
+msgstr ""
 
 #: ekos/align/align.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver failed after %1 seconds."
-msgstr "解析中止，用时 %1 秒。"
+msgstr ""
 
 #: ekos/align/align.cpp:2087
 #, kde-format
@@ -6275,10 +6272,9 @@ msgid "Solver completed after %1 seconds."
 msgstr "解析成功，用时 %1 秒。"
 
 #: ekos/align/align.cpp:2108
-#, fuzzy, kde-format
-#| msgid "Solver completed after %1 seconds."
+#, kde-format
 msgid "Remote solver completed after %1 seconds."
-msgstr "解析成功，用时 %1 秒。"
+msgstr ""
 
 #: ekos/align/align.cpp:2121
 #, kde-format
@@ -6394,10 +6390,9 @@ msgid "Capture aborted."
 msgstr "拍摄已中止。"
 
 #: ekos/align/align.cpp:2640
-#, fuzzy, kde-format
-#| msgid "Solving aborted."
+#, kde-format
 msgid "Solver aborted."
-msgstr "解析已终止。"
+msgstr ""
 
 #: ekos/align/align.cpp:2682 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
@@ -29659,40 +29654,34 @@ msgid "Double-click to toggle text display"
 msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:96
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "%1 Failed to Load"
-msgstr "加载图像失败"
+msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:97
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "%1 Failed Plate Solving"
-msgstr "平面解析"
+msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:98
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "%1 Failed Waiting"
-msgstr "文件设置"
+msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:99
-#, fuzzy, kde-format
-#| msgid "Flat Calibration"
+#, kde-format
 msgid "%1 Failed Calibration"
-msgstr "平场校正"
+msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:100
-#, fuzzy, kde-format
-#| msgid "Save Failed Align Images"
+#, kde-format
 msgid "%1 Failed Alignment"
-msgstr "保存对齐图像失败"
+msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:101
-#, fuzzy, kde-format
-#| msgid "Failed to edit city"
+#, kde-format
 msgid "%1 Failed to Stack"
-msgstr "编辑城市失败"
+msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:120
 #, kde-format
@@ -30014,32 +30003,32 @@ msgstr "保存图像"
 msgid "File saved to %1"
 msgstr "文件保存到 %1"
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, kde-format
 msgid "Watching %1"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, kde-format
 msgid "Stopped Watching (%1)"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, kde-format
 msgid "(%1) Watching"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, kde-format
 msgid "%1 %2"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, kde-format
 msgid "Stopped (%1)"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, kde-format
 msgid "(%1)"
 msgstr ""
@@ -30570,10 +30559,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MonitorB)
 #: fitsviewer/livestacking.ui:382
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Launch Live Stacker Monitor</p></body></html>"
-msgstr "<html><head/><body><p>清除传感器数据历史</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, HelpB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
@@ -30959,20 +30947,17 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable highlighting of data changes</p></"
 "body></html>"
-msgstr "<html><head/><body><p>点击以在图表上显示标签。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:63
-#, fuzzy, kde-format
-#| msgid "Highlights"
+#, kde-format
 msgid " Highlighting"
-msgstr "高亮"
+msgstr ""
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format

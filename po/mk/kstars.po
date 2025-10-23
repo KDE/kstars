@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
 "PO-Revision-Date: 2007-02-26 21:35+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -30177,36 +30177,36 @@ msgstr "Датум && Време"
 msgid "File saved to %1"
 msgstr "Време на изгревање: %1"
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, fuzzy, kde-format
 msgid "Watching %1"
 msgstr "Вчитувам KStars..."
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, fuzzy, kde-format
 msgid "Stopped Watching (%1)"
 msgstr "Вчитувам KStars..."
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, fuzzy, kde-format
 msgid "(%1) Watching"
 msgstr "Вчитувам KStars..."
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Haines"
 msgid "%1 %2"
 msgstr "Haines"
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "INDUS"
 msgid "Stopped (%1)"
 msgstr "ИНДУС"
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, fuzzy, kde-format
 #| msgid "RA (%1):"
 msgid "(%1)"

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
-"PO-Revision-Date: 2025-10-19 20:41+0300\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
+"PO-Revision-Date: 2025-10-22 16:54+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6207,10 +6207,9 @@ msgid "Clear Solution Points"
 msgstr "Çözüm Noktalarını Temizle"
 
 #: ekos/align/align.cpp:559
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Remote solver timed out."
-msgstr "Çözücü zaman aşımına uğradı."
+msgstr "Uzak çözücü zaman aşımına uğradı."
 
 #: ekos/align/align.cpp:851
 #, kde-format
@@ -6388,27 +6387,24 @@ msgid "Loaded image was taken on pierside %1"
 msgstr "Yüklenen görsel %1 iskele yanında çekildi"
 
 #: ekos/align/align.cpp:2062
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver timed out after %1 seconds."
-msgstr "Çözücü %1 saniye ardından iptal edildi."
+msgstr "Çözücü %1 saniye ardından zaman aşımına uğradı."
 
 #: ekos/align/align.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver failed after %1 seconds."
-msgstr "Çözücü %1 saniye ardından iptal edildi."
+msgstr "Çözücü %1 saniye ardından başarısız oldu."
 
 #: ekos/align/align.cpp:2087
 #, kde-format
 msgid "Solver completed after %1 seconds."
-msgstr "Çözücüsü, %1 saniye içinde tamamladı."
+msgstr "Çözücü %1 saniye içinde tamamladı."
 
 #: ekos/align/align.cpp:2108
-#, fuzzy, kde-format
-#| msgid "Solver completed after %1 seconds."
+#, kde-format
 msgid "Remote solver completed after %1 seconds."
-msgstr "Çözücüsü, %1 saniye içinde tamamladı."
+msgstr "Uzak çözücü %1 saniye ardından tamamlandı."
 
 #: ekos/align/align.cpp:2121
 #, kde-format
@@ -6528,10 +6524,9 @@ msgid "Capture aborted."
 msgstr "Yakalama iptal edildi."
 
 #: ekos/align/align.cpp:2640
-#, fuzzy, kde-format
-#| msgid "Solving aborted."
+#, kde-format
 msgid "Solver aborted."
-msgstr "Çözüm iptal edildi."
+msgstr "Çözücü iptal edildi."
 
 #: ekos/align/align.cpp:2682 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
@@ -10592,8 +10587,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
 #: ekos/align/pushtoassistant.ui:101
-#, fuzzy, kde-format
-#| msgid "Abort Soving"
+#, kde-format
 msgid "Abort Solving"
 msgstr "Çözmeyi İptal Et"
 
@@ -31032,40 +31026,34 @@ msgid "Double-click to toggle text display"
 msgstr "Metin görüntüsünü açıp kapatmak için çift tıklayın"
 
 #: fitsviewer/fitsstackmonitor.h:96
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "%1 Failed to Load"
-msgstr "Görsel yüklenemedi"
+msgstr "%1 yüklenemedi"
 
 #: fitsviewer/fitsstackmonitor.h:97
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "%1 Failed Plate Solving"
-msgstr "Plaka Çözümü"
+msgstr "%1 plaka çözmesi başarısız"
 
 #: fitsviewer/fitsstackmonitor.h:98
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "%1 Failed Waiting"
-msgstr "Dosya Ayarları"
+msgstr "%1 bekleyemedi"
 
 #: fitsviewer/fitsstackmonitor.h:99
-#, fuzzy, kde-format
-#| msgid "Flat Calibration"
+#, kde-format
 msgid "%1 Failed Calibration"
-msgstr "Düz Kalibrasyon"
+msgstr "%1 kalibrasyonu başarısız"
 
 #: fitsviewer/fitsstackmonitor.h:100
-#, fuzzy, kde-format
-#| msgid "Save Failed Align Images"
+#, kde-format
 msgid "%1 Failed Alignment"
-msgstr "Başarısız hizalama görsellerini kaydet"
+msgstr "%1 hizalaması yapılamadı"
 
 #: fitsviewer/fitsstackmonitor.h:101
-#, fuzzy, kde-format
-#| msgid "Failed to edit city"
+#, kde-format
 msgid "%1 Failed to Stack"
-msgstr "Şehir düzenlenemedi"
+msgstr "%1 yığılamadı"
 
 #: fitsviewer/fitsstackmonitor.h:120
 #, kde-format
@@ -31074,6 +31062,9 @@ msgid ""
 "%2 = OK\n"
 "%3 = Error"
 msgstr ""
+"%1 \n"
+"%2 = Tamam\n"
+"%3 = Hata"
 
 #: fitsviewer/fitsstackmonitor.h:123
 #, kde-format
@@ -31081,6 +31072,8 @@ msgid ""
 "%1 \n"
 "%2 = Not applicable"
 msgstr ""
+"%1 \n"
+"%2 = Uygulanabilir değil"
 
 #: fitsviewer/fitsstackmonitor.h:129
 #, kde-format
@@ -31095,6 +31088,15 @@ msgid ""
 "%8\n"
 "%9"
 msgstr ""
+"%1 \n"
+"%2\n"
+"%3 = Başarıyla işlendi\n"
+"%4\n"
+"%5\n"
+"%6\n"
+"%7\n"
+"%8\n"
+"%9"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -31395,32 +31397,32 @@ msgstr "Görseli Kaydet"
 msgid "File saved to %1"
 msgstr "Dosya %1 konumuna kaydedildi"
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, kde-format
 msgid "Watching %1"
 msgstr "%1 izleniyor…"
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, kde-format
 msgid "Stopped Watching (%1)"
 msgstr "İzleme Durduruldu (%1)"
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, kde-format
 msgid "(%1) Watching"
 msgstr "(%1) İzleniyor"
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, kde-format
 msgid "Stopped (%1)"
 msgstr "Durduruldu (%1)"
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, kde-format
 msgid "(%1)"
 msgstr "(%1)"
@@ -31966,12 +31968,10 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MonitorB)
 #: fitsviewer/livestacking.ui:382
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Launch Live Stacker Monitor</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Canlı yığıcı parametrelerini kaydedin.</p></body></"
-"html>"
+"<html><head/><body><p>Canlı Yığma Monitörü’nü başlatın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, HelpB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
@@ -32409,29 +32409,25 @@ msgstr "Bu bölümdeki yığma seçeneklerini yapılandırın."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, StackMonitorDialog)
 #: fitsviewer/livestackmonitor.ui:26
-#, fuzzy, kde-format
-#| msgid "Live Stacking"
+#, kde-format
 msgid "Live Stacking Monitor"
-msgstr "Canlı Yığma"
+msgstr "Canlı Yığma Monitörü"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable highlighting of data changes</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Grafikteki etiketleri göstermek için işaretleyin.</p></"
-"body></html>"
+"<html><head/><body><p>Veri değişiklikleri vurgulamasını etkinleştirmek için "
+"işaretleyin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:63
-#, fuzzy, kde-format
-#| msgid "Highlights"
+#, kde-format
 msgid " Highlighting"
-msgstr "Vurgular"
+msgstr "Vurgula"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -34050,22 +34046,19 @@ msgid "Mount motion was aborted"
 msgstr "Kaide hareketi iptal edildi"
 
 #: indi/indimount.cpp:383
-#, fuzzy, kde-format
-#| msgid "Mount parking is in progress"
+#, kde-format
 msgid "Mount homing in progress"
-msgstr "Kaide parkı sürüyor…"
+msgstr "Kaidenin ana konuma dönüşü sürüyor…"
 
 #: indi/indimount.cpp:391
-#, fuzzy, kde-format
-#| msgid "Dithering completed successfully."
+#, kde-format
 msgid "Mount homed successfully"
-msgstr "Kıpırdatma başarıyla tamamlandı."
+msgstr "Kaide ana konuma başarıyla döndü"
 
 #: indi/indimount.cpp:397
-#, fuzzy, kde-format
-#| msgid "Mount parking failed"
+#, kde-format
 msgid "Mount homing failed"
-msgstr "Kaide parkı başarısız oldu"
+msgstr "Kaide ana konuma dönemedi"
 
 #: indi/indimount.cpp:486
 #, kde-format
@@ -39513,28 +39506,25 @@ msgstr "Canlı Yığma — sigma keskinleştirmesi"
 #: kstars.kcfg:1878
 #, kde-format
 msgid "Geometry of Live Stacking Monitor window"
-msgstr ""
+msgstr "Canlı Yığma Monitörü penceresinin geometrisi"
 
 #. i18n: ectx: label, entry (fitsLSMVisibleColumns), group (FITSViewer)
 #: kstars.kcfg:1882
-#, fuzzy, kde-format
-#| msgid "Live Stacking deconvolution amount"
+#, kde-format
 msgid "Live Stacking Monitor column visibility"
-msgstr "Canlı Yığma — dekonvolüsyon miktarı"
+msgstr "Canlı Yığma Monitörü sütunu görünürlüğü"
 
 #. i18n: ectx: label, entry (fitsLSMColumnWidths), group (FITSViewer)
 #: kstars.kcfg:1886
-#, fuzzy, kde-format
-#| msgid "Live Stacking Post Processing switch"
+#, kde-format
 msgid "Live Stacking Monitor column widths"
-msgstr "Canlı Yığma — Son İşleme Açma/Kapatma anahtarı"
+msgstr "Canlı Yığma Monitörü sütun genişlikleri"
 
 #. i18n: ectx: label, entry (fitsLSMHighlighting), group (FITSViewer)
 #: kstars.kcfg:1896
-#, fuzzy, kde-format
-#| msgid "Live Stacking sub weighting"
+#, kde-format
 msgid "Live Stacking Monitor highlighting."
-msgstr "Canlı Yığma — ikâme tartımı"
+msgstr "Canlı Yığma Monitörü vurgulaması"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1902

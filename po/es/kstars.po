@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
-"PO-Revision-Date: 2025-10-22 00:58+0100\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
+"PO-Revision-Date: 2025-10-23 00:13+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -6230,10 +6230,10 @@ msgid "Clear Solution Points"
 msgstr "Borrar puntos de la solución"
 
 #: ekos/align/align.cpp:559
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Remote solver timed out."
-msgstr "Se ha agotado el tiempo de espera del sistema de identificación."
+msgstr ""
+"Se ha agotado el tiempo de espera del sistema de identificación remoto."
 
 #: ekos/align/align.cpp:851
 #, kde-format
@@ -6418,16 +6418,15 @@ msgid "Loaded image was taken on pierside %1"
 msgstr "La imagen cargada se tomó en el lado %1 de la columna"
 
 #: ekos/align/align.cpp:2062
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver timed out after %1 seconds."
-msgstr "Sistema de identificación interrumpido tras %1 segundos."
+msgstr ""
+"El sistema de identificación se ha quedado sin tiempo tras %1 segundos."
 
 #: ekos/align/align.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver failed after %1 seconds."
-msgstr "Sistema de identificación interrumpido tras %1 segundos."
+msgstr "El sistema de identificación ha fallado tras %1 segundos."
 
 #: ekos/align/align.cpp:2087
 #, kde-format
@@ -6435,10 +6434,9 @@ msgid "Solver completed after %1 seconds."
 msgstr "Sistema de identificación completado tras %1 segundos."
 
 #: ekos/align/align.cpp:2108
-#, fuzzy, kde-format
-#| msgid "Solver completed after %1 seconds."
+#, kde-format
 msgid "Remote solver completed after %1 seconds."
-msgstr "Sistema de identificación completado tras %1 segundos."
+msgstr "Sistema de identificación remoto completado tras %1 segundos."
 
 #: ekos/align/align.cpp:2121
 #, kde-format
@@ -6571,10 +6569,9 @@ msgid "Capture aborted."
 msgstr "Captura interrumpida."
 
 #: ekos/align/align.cpp:2640
-#, fuzzy, kde-format
-#| msgid "Solving aborted."
+#, kde-format
 msgid "Solver aborted."
-msgstr "Resolución interrumpida."
+msgstr "Sistema de identificación interrumpido."
 
 #: ekos/align/align.cpp:2682 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
@@ -31483,40 +31480,34 @@ msgid "Double-click to toggle text display"
 msgstr "Doble clic para conmutar la visualización de texto"
 
 #: fitsviewer/fitsstackmonitor.h:96
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "%1 Failed to Load"
-msgstr "Fallo al cargar imagen"
+msgstr "La carga de %1 ha fallado"
 
 #: fitsviewer/fitsstackmonitor.h:97
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "%1 Failed Plate Solving"
-msgstr "Resolución de placas"
+msgstr "La resolución de placas de %1 ha fallado"
 
 #: fitsviewer/fitsstackmonitor.h:98
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "%1 Failed Waiting"
-msgstr "Preferencias de archivos"
+msgstr "La espera de %1 ha fallado"
 
 #: fitsviewer/fitsstackmonitor.h:99
-#, fuzzy, kde-format
-#| msgid "Flat Calibration"
+#, kde-format
 msgid "%1 Failed Calibration"
-msgstr "Calibración plana"
+msgstr "La calibración de %1 ha fallado"
 
 #: fitsviewer/fitsstackmonitor.h:100
-#, fuzzy, kde-format
-#| msgid "Save Failed Align Images"
+#, kde-format
 msgid "%1 Failed Alignment"
-msgstr "Guardar imágenes de alineación fallidas"
+msgstr "La alineación de %1 ha fallado"
 
 #: fitsviewer/fitsstackmonitor.h:101
-#, fuzzy, kde-format
-#| msgid "Failed to edit city"
+#, kde-format
 msgid "%1 Failed to Stack"
-msgstr "La edición de la ciudad ha fallado"
+msgstr "El apilamiento de %1 ha fallado"
 
 #: fitsviewer/fitsstackmonitor.h:120
 #, kde-format
@@ -31525,6 +31516,9 @@ msgid ""
 "%2 = OK\n"
 "%3 = Error"
 msgstr ""
+"%1 \n"
+"%2 = Correcto\n"
+"%3 = Error"
 
 #: fitsviewer/fitsstackmonitor.h:123
 #, kde-format
@@ -31532,6 +31526,8 @@ msgid ""
 "%1 \n"
 "%2 = Not applicable"
 msgstr ""
+"%1 \n"
+"%2 = No aplicable"
 
 #: fitsviewer/fitsstackmonitor.h:129
 #, kde-format
@@ -31546,6 +31542,15 @@ msgid ""
 "%8\n"
 "%9"
 msgstr ""
+"%1 \n"
+"%2\n"
+"%3 = Procesado correctamente\n"
+"%4\n"
+"%5\n"
+"%6\n"
+"%7\n"
+"%8\n"
+"%9"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -31847,32 +31852,32 @@ msgstr "Guardar la imagen"
 msgid "File saved to %1"
 msgstr "Archivo guardado en %1"
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, kde-format
 msgid "Watching %1"
 msgstr "Observando %1"
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, kde-format
 msgid "Stopped Watching (%1)"
 msgstr "Observación detenida (%1)"
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, kde-format
 msgid "(%1) Watching"
 msgstr "(%1) Observando"
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, kde-format
 msgid "Stopped (%1)"
 msgstr "Detenido (%1)"
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, kde-format
 msgid "(%1)"
 msgstr "(%1)"
@@ -32418,12 +32423,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MonitorB)
 #: fitsviewer/livestacking.ui:382
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Launch Live Stacker Monitor</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Guardar los parámetros del apilador en vivo</p></"
-"body></html>"
+"<html><head/><body><p>Lanzar el monitor del apilador en vivo</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, HelpB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
@@ -32863,29 +32867,25 @@ msgstr "Configure las opciones de apilamiento en esta sección."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, StackMonitorDialog)
 #: fitsviewer/livestackmonitor.ui:26
-#, fuzzy, kde-format
-#| msgid "Live Stacking"
+#, kde-format
 msgid "Live Stacking Monitor"
-msgstr "Apilamiento en vivo"
+msgstr "Monitor de apilamiento en vivo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable highlighting of data changes</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Marque esto para mostrar etiquetas en el gráfico.</p></"
-"body></html>"
+"<html><head/><body><p>Marque esto para activar el resaltado de cambios en "
+"los datos</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:63
-#, fuzzy, kde-format
-#| msgid "Highlights"
+#, kde-format
 msgid " Highlighting"
-msgstr "Reflejos"
+msgstr " Resaltado"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -40026,28 +40026,25 @@ msgstr "Sigma de enfoque del apilamiento en vivo"
 #: kstars.kcfg:1878
 #, kde-format
 msgid "Geometry of Live Stacking Monitor window"
-msgstr ""
+msgstr "Geometría de la ventana del monitor de apilamiento en vivo"
 
 #. i18n: ectx: label, entry (fitsLSMVisibleColumns), group (FITSViewer)
 #: kstars.kcfg:1882
-#, fuzzy, kde-format
-#| msgid "Live Stacking deconvolution amount"
+#, kde-format
 msgid "Live Stacking Monitor column visibility"
-msgstr "Cantidad de deconvolución del apilamiento en vivo"
+msgstr "Visibilidad de la columna del monitor de apilamiento en vivo"
 
 #. i18n: ectx: label, entry (fitsLSMColumnWidths), group (FITSViewer)
 #: kstars.kcfg:1886
-#, fuzzy, kde-format
-#| msgid "Live Stacking Post Processing switch"
+#, kde-format
 msgid "Live Stacking Monitor column widths"
-msgstr "Interruptor de posprocesamiento del apilamiento en vivo"
+msgstr "Anchura de la columna del monitor de apilamiento en vivo"
 
 #. i18n: ectx: label, entry (fitsLSMHighlighting), group (FITSViewer)
 #: kstars.kcfg:1896
-#, fuzzy, kde-format
-#| msgid "Live Stacking sub weighting"
+#, kde-format
 msgid "Live Stacking Monitor highlighting."
-msgstr "Ponderación de copias de apilamiento en vivo"
+msgstr "Resaltado del monitor de apilamiento en vivo."
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1902

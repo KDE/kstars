@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-22 01:58+0000\n"
+"POT-Creation-Date: 2025-10-23 01:55+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -31597,37 +31597,37 @@ msgstr "画像の形式"
 msgid "File saved to %1"
 msgstr "FITS ファイルを %1 に保存しました。"
 
-#: fitsviewer/fitstab.cpp:1340
+#: fitsviewer/fitstab.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "Watching %1"
 msgstr "%1 をロード中"
 
-#: fitsviewer/fitstab.cpp:1474
+#: fitsviewer/fitstab.cpp:1479
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "Stopped Watching (%1)"
 msgstr "%1 をロード中"
 
-#: fitsviewer/fitstab.cpp:1475
+#: fitsviewer/fitstab.cpp:1480
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "(%1) Watching"
 msgstr "%1 をロード中"
 
-#: fitsviewer/fitstab.cpp:1476 fitsviewer/fitstab.cpp:1482
+#: fitsviewer/fitstab.cpp:1481 fitsviewer/fitstab.cpp:1487
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1 %2"
 msgstr "%1, %2 と %3"
 
-#: fitsviewer/fitstab.cpp:1480
+#: fitsviewer/fitstab.cpp:1485
 #, fuzzy, kde-format
 #| msgid "INDI"
 msgid "Stopped (%1)"
 msgstr "INDI"
 
-#: fitsviewer/fitstab.cpp:1481
+#: fitsviewer/fitstab.cpp:1486
 #, fuzzy, kde-format
 #| msgid "RA (%1):"
 msgid "(%1)"
