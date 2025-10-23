@@ -42,7 +42,7 @@
 namespace Ekos
 {
 CameraProcess::CameraProcess(QSharedPointer<CameraState> newModuleState,
-                             QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor) : QObject(KStars::Instance())
+                             QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor)
 {
     setObjectName("CameraProcess");
     m_State = newModuleState;
