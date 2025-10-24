@@ -19,14 +19,35 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 macro(_INDI_check_version)
-    file(READ "${INDI_INCLUDE_DIR}/indiapi.h" _INDI_version_header)
-
-    string(REGEX MATCH "#define INDI_VERSION_MAJOR[ \t]+([0-9]+)" _INDI_version_major_match "${_INDI_version_header}")
-    set(INDI_VERSION_MAJOR "${CMAKE_MATCH_1}")
-    string(REGEX MATCH "#define INDI_VERSION_MINOR[ \t]+([0-9]+)" _INDI_version_minor_match "${_INDI_version_header}")
-    set(INDI_VERSION_MINOR "${CMAKE_MATCH_1}")
-    string(REGEX MATCH "#define INDI_VERSION_RELEASE[ \t]+([0-9]+)" _INDI_version_release_match "${_INDI_version_header}")
-    set(INDI_VERSION_RELEASE "${CMAKE_MATCH_1}")
+    # Try to read version from indiversion.h first
+    set(_INDI_version_found FALSE)
+    if(EXISTS "${INDI_INCLUDE_DIR}/indiversion.h")
+        file(READ "${INDI_INCLUDE_DIR}/indiversion.h" _INDI_version_header)
+        
+        string(REGEX MATCH "#define INDI_VERSION_MAJOR[ \t]+([0-9]+)" _INDI_version_major_match "${_INDI_version_header}")
+        set(INDI_VERSION_MAJOR "${CMAKE_MATCH_1}")
+        string(REGEX MATCH "#define INDI_VERSION_MINOR[ \t]+([0-9]+)" _INDI_version_minor_match "${_INDI_version_header}")
+        set(INDI_VERSION_MINOR "${CMAKE_MATCH_1}")
+        string(REGEX MATCH "#define INDI_VERSION_RELEASE[ \t]+([0-9]+)" _INDI_version_release_match "${_INDI_version_header}")
+        set(INDI_VERSION_RELEASE "${CMAKE_MATCH_1}")
+        
+        # Check if version extraction was successful
+        if(INDI_VERSION_MAJOR AND INDI_VERSION_MINOR AND INDI_VERSION_RELEASE)
+            set(_INDI_version_found TRUE)
+        endif()
+    endif()
+    
+    # Fallback to indiapi.h if version extraction from indiversion.h failed
+    if(NOT _INDI_version_found)
+        file(READ "${INDI_INCLUDE_DIR}/indiapi.h" _INDI_version_header)
+        
+        string(REGEX MATCH "#define INDI_VERSION_MAJOR[ \t]+([0-9]+)" _INDI_version_major_match "${_INDI_version_header}")
+        set(INDI_VERSION_MAJOR "${CMAKE_MATCH_1}")
+        string(REGEX MATCH "#define INDI_VERSION_MINOR[ \t]+([0-9]+)" _INDI_version_minor_match "${_INDI_version_header}")
+        set(INDI_VERSION_MINOR "${CMAKE_MATCH_1}")
+        string(REGEX MATCH "#define INDI_VERSION_RELEASE[ \t]+([0-9]+)" _INDI_version_release_match "${_INDI_version_header}")
+        set(INDI_VERSION_RELEASE "${CMAKE_MATCH_1}")
+    endif()
 
     set(INDI_VERSION ${INDI_VERSION_MAJOR}.${INDI_VERSION_MINOR}.${INDI_VERSION_RELEASE})
     if(${INDI_VERSION} VERSION_LESS ${INDI_FIND_VERSION})
