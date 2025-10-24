@@ -400,7 +400,7 @@
   </description>
   <url type="homepage">https://kstars.kde.org/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kstars</url>
-  <url type="help">https://docs.kde.org/?application=kstars</url>
+  <url type="help">https://kstars-docs.kde.org/</url>
   <screenshots>
     <screenshot type="default">
       <caption>KStars main window</caption>
