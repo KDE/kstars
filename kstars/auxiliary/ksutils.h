@@ -415,6 +415,13 @@ double rangePA(double pa);
 double range360(double r);
 
 /**
+ * @brief rangeAlt Limit altitude angle to -90 to +90 range
+ * @param r altitude angle in degrees
+ * @return limited altitude angle in degrees
+ */
+double rangeAlt(double r);
+
+/**
          * @brief rotationToPositionAngle Convert from astrometry.net rotation to PA
          * @param value rotation in degrees (-180 to +180)
          * @return Position angle in degrees (-180 to +180)

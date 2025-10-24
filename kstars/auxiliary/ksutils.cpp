@@ -1950,6 +1950,16 @@ double range360(double r)
     return res;
 }
 
+double rangeAlt(double degrees)
+{
+    double res = degrees;
+    while (res < -90)
+        res += 90;
+    while (res > 90)
+        res -= 90;
+    return res;
+}
+
 double rotationToPositionAngle(double value)
 {
     double pa = value + 180;

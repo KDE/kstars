@@ -269,7 +269,7 @@ bool PolarAlign::processRefreshCoords(const SkyPoint &coords, const KStarsDateTi
     // Similar to the comment above, we refract the altitude of points[2].
     const V3 p3OrigPoint = Rotations::azAlt2xyz(QPointF(points[2].az().Degrees(),
                            SkyPoint::refract(points[2].alt().Degrees(),
-                                   REFRACT_IN_PAA && Options::useRefraction())));
+                               REFRACT_IN_PAA && Options::useRefraction())));
 
     // Get the unit vector corresponding the original RA axis
     const V3 origAxisPt = Rotations::azAlt2xyz(QPointF(azimuthCenter, altitudeCenter));
@@ -501,6 +501,9 @@ bool PolarAlign::pixelError(const QSharedPointer<FITSData> &image, const QPointF
     const double pixDist = hypot(pix.x() - pixel2.x(), pix.y() - pixel2.y());
     if (pixDist > 10)
         return false;
+
+    azE = KSUtils::range360(azE);
+    altE = KSUtils::rangeAlt(altE);
 
     *azError = azE;
     *altError = altE;
