@@ -20,7 +20,7 @@ ConcreteDevice::ConcreteDevice(ISD::GenericDevice *parent) : GDInterface(parent)
     // Signal --> Signal
     connect(parent, &GenericDevice::Connected, this, [this]()
     {
-        m_ReadyTimer.reset(new QTimer(this));
+        m_ReadyTimer.reset(new QTimer());
         m_ReadyTimer->setInterval(250);
         m_ReadyTimer->setSingleShot(true);
         connect(m_ReadyTimer.get(), &QTimer::timeout, this, &ConcreteDevice::ready);

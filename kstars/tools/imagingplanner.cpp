@@ -1495,7 +1495,7 @@ void ImagingPlanner::removeEventFilters()
 
 void ImagingPlanner::openOptionsMenu()
 {
-    QSharedPointer<ImagingPlannerOptions> options(new ImagingPlannerOptions(this));
+    QSharedPointer<ImagingPlannerOptions> options(new ImagingPlannerOptions(nullptr));
     options->exec();
     focusOnTable();
 }

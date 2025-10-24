@@ -3805,7 +3805,7 @@ void Manager::createRotatorController(ISD::Rotator *device)
     auto Name = device->getDeviceName();
     if (m_RotatorControllers.contains(Name) == false)
     {
-        QSharedPointer<RotatorSettings> newRC(new RotatorSettings(this));
+        QSharedPointer<RotatorSettings> newRC(new RotatorSettings(nullptr));
         // Properties are fetched in RotatorSettings::initRotator!
         m_RotatorControllers[Name] = newRC;
     }
