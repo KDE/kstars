@@ -84,6 +84,7 @@ class GuideInterface : public QObject
         void newStarPixmap(QPixmap &);
         void newSNR(double snr);
         void calibrationUpdate(CalibrationUpdateType type, const QString &message = QString(""), double x = 0, double y = 0);
+        void newPA(const double Angle, const bool FlipRotationDone);
         void frameCaptureRequested();
         void guideStats(double raError, double decError, int raPulse, int decPulse,
                         double snr, double skyBg, int numStars);

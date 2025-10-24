@@ -297,6 +297,10 @@ signals:
          */
         void newRotatorAngle(double value, IPState state);
         /**
+         * @brief Update rotation for calibration in internal guider
+         */
+        void newPA(const double Angle, const bool FlipRotationDone);
+        /**
          * @brief Update for the rotator reverse status
          */
         void rotatorReverseToggled(bool enabled);

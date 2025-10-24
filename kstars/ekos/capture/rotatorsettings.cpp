@@ -30,7 +30,6 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
 
-    connect(this, &RotatorSettings::newLog, Ekos::Manager::Instance()->captureModule(), &Ekos::Capture::appendLogText);
     connect(RotatorUtils::Instance(), &RotatorUtils::changedPierside, this, &RotatorSettings::updateGaugeZeroPos);
     connect(FlipPolicy, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &RotatorSettings::setFlipPolicy);
     connect(AlignOptions,  &QPushButton::clicked, this, &RotatorSettings::showAlignOptions);
@@ -121,7 +120,8 @@ void RotatorSettings::initRotator(const QString &train, const QSharedPointer<Eko
             updateRotator(RAngle);
             updateGaugeZeroPos(RotatorUtils::Instance()->getMountPierside());
             qCInfo(KSTARS_EKOS_CAPTURE()) << "Rotator Settings: Initial raw angle is" << RAngle << ".";
-            emit newLog(i18n("Initial rotator angle %1° is read in successfully.", RAngle));
+            if (auto captureMod = Ekos::Manager::Instance()->captureModule())
+                captureMod->appendLogText(i18n("Initial rotator angle %1° is read in successfully.", RAngle));
         }
         else
             qCWarning(KSTARS_EKOS_CAPTURE()) << "Rotator Settings: Reading initial raw angle failed.";
@@ -137,6 +137,7 @@ void RotatorSettings::updateRotator(double RAngle)
     CameraPA->blockSignals(false);
     CameraPASlider->setSliderPosition(PAngle * 100); // Prevent rounding to integer
     updateGauge(RAngle);
+    emit m_CaptureDA->newPA(PAngle, true);
 }
 
 void RotatorSettings::updateGauge(double RAngle)
@@ -165,7 +166,6 @@ void RotatorSettings::updateGaugeZeroPos(ISD::Mount::PierSide Pierside)
         RAngle = RotatorUtils::Instance()->calcRotatorAngle(CameraPA->value());
         activateRotator(RAngle);
     }
-    updateGauge(RAngle);
     updateRotator(RAngle);
 }
 

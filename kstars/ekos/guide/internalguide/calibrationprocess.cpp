@@ -586,7 +586,7 @@ void CalibrationProcess::decInState(double cur_x, double cur_y)
                                  &reverse_dec_dir, ra_total_pulse, de_total_pulse))
     {
         double rotation = calibration->getAngle();
-        QString success = QString("Calibration OK\n Rotation = %1").arg(rotation, 0, 'f', 1);
+        QString success = QString("Camera Rotation = %1").arg(rotation, 0, 'f', 1);
         addCalibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n(success.toLatin1().data()));
 
         calibration->save();

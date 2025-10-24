@@ -28,6 +28,8 @@ class Calibration
         // Set the current binning, which may be different from what was used during calibration.
         void setBinningUsed(int x, int y);
 
+        void updateRotation(double CamRotation);
+
         // Generate new calibrations according to the input parameters.
         bool calculate1D(double start_x, double start_y,
                          double end_x, double end_y, int RATotalPulse);
@@ -45,19 +47,32 @@ class Calibration
 
         double getFocalLength() const
         {
-            return focalMm;
+            return m_Current.FocalLength;
+        }
+
+        double getRestoredAngle() const
+        {
+            return m_Original.Angle;
+        }
+        double getRestoredRAAngle() const
+        {
+            return m_Original.AngleRA;
+        }
+        double getRestoredDECAngle() const
+        {
+            return m_Original.AngleDEC;
         }
         double getAngle() const
         {
-            return angle;
+            return m_Current.Angle;
         }
         double getRAAngle() const
         {
-            return calibrationAngleRA;
+            return m_Current.AngleRA;
         }
         double getDECAngle() const
         {
-            return calibrationAngleDEC;
+            return m_Current.AngleDEC;
         }
 
         // Converts the input x & y coordinates from pixels to arc-seconds.
@@ -72,7 +87,7 @@ class Calibration
 
         // Given offsets, convert to RA and DEC coordinates
         // by rotating according to the calibration.
-        // Also inverts the y-axis. Does not convert to arc-seconds.
+        // Does not convert to arc-seconds.
         GuiderUtils::Vector rotateToRaDec(const GuiderUtils::Vector &input) const;
         void rotateToRaDec(double dx, double dy, double *ra, double *dec) const;
 
@@ -91,34 +106,39 @@ class Calibration
         double yArcsecondsPerPixel() const;
 
         // Save the calibration to Options.
-        void save() const;
+        void save();
         // Restore the saved calibration. If the pier side is different than
         // when was calibrated, adjust the angle accordingly.
         bool restore(ISD::Mount::PierSide currentPierSide, bool reverseDecOnPierChange,
                      int currentBinX, int currentBinY,
-                     const dms *declination = nullptr);
+                     const dms declination);
         // As above, but for testing.
         bool restore(const QString &encoding, ISD::Mount::PierSide currentPierSide,
                      bool reverseDecOnPierChange, int currentBinX, int currentBinY,
-                     const dms *declination = nullptr);
+                     const dms declination);
 
         bool declinationSwapEnabled() const
         {
-            return decSwap;
+            return m_Current.DecSwap;
         }
         void setDeclinationSwapEnabled(bool value);
 
         void reset()
         {
-            initialized = false;
+            m_initialized = false;
         }
         // Returns true if calculate1D, calculate2D or restore have been called.
         bool isInitialized()
         {
-            return initialized;
+            return m_initialized;
         }
         // Prints the calibration parameters in the debug log.
         void logCalibration() const;
+
+        double getDiffDEC(const dms currentDEC);
+        void updateRAPulse(const dms currentDEC);
+        void updatePierside(ISD::Mount::PierSide *Pierside, double *Rotation,
+                            const bool FlipRotReady, const bool ManualRotatorOnly);
 
     private:
         // Internal calibration methods.
@@ -131,7 +151,7 @@ class Calibration
         bool restore(const QString &encoding);
 
         // Adjusts the RA rate, according to the calibration and current declination values.
-        double correctRA(double raMsPerPixel, const dms &calibrationDec, const dms &currentDec);
+        double correctRA(double raMsPerPixel, const dms calibrationDec, const dms currentDec);
 
         // Compute a rotation angle given pixel change coordinates
         static double calculateRotation(double x, double y);
@@ -150,58 +170,36 @@ class Calibration
         // Inverse of above.
         double inverseBinFactor() const;
 
-        // Sub-binning in X and Y.
-        int subBinX { 1 };
-        int subBinY { 1 };
 
-        // It is possible that this calibration was done with one binning, but is now
-        // being used with another binning. This is the current binning (as opposed to the above
-        // which is the binning that was in-place during calibration.
-        int subBinXused { 1 };
-        int subBinYused { 1 };
-
-        // Pixel width mm, for each pixel,
-        // Binning does not affect this.
-        double ccd_pixel_width { 0.003 };
-        double ccd_pixel_height { 0.003 };
-
-        // Focal length in millimeters.
-        double focalMm { 500 };
-
-        // This angle is the one in use for calibrating. It may differ from the
-        // calibrationAngle below if the pier side changes.
-        double angle { 0 };
 
         // The rotation matrix that converts between pixel coordinates and RA/DEC.
         // This is derived from angle in setAngle().
         GuiderUtils::Matrix ROT_Z;
 
-        // The angles associated with the calibration that was computed or
-        // restored. They won't change as we change pier sides.
-        double calibrationAngle { 0 };
-        double calibrationAngleRA = 0;
-        double calibrationAngleDEC = 0;
+        struct Calibration_Parameters
+        {
+            int SubBinX { 1 };
+            int SubBinY { 1 };
+            double CCDPixelWidth { 0.003 };
+            double CCDPixelHeight { 0.003 };
+            double FocalLength { 500 };
+            double Angle { 0 };
+            double AngleRA { 0 };
+            double AngleDEC { 0 };
+            dms MountRA;
+            dms MountDEC;
+            double PulseRA { 0 };
+            double PulseDEC { 0 };
+            ISD::Mount::PierSide PierSide { ISD::Mount::PIER_UNKNOWN };
+            bool DecSwap { false };
+        };
 
-        // The calibrated values of how many pulse milliseconds are required to
-        // move one arcsecond in RA and DEC.
-        double raPulseMsPerArcsecond { 0 };
-        double decPulseMsPerArcsecond { 0 };
+        // The parameters associated with the original/stored calibration
+        Calibration_Parameters m_Original;
+        // The parameters associated with the compute calibration
+        Calibration_Parameters m_Current;
 
-        // The decSwap that was computed in calibration.
-        bool calibrationDecSwap { false };
-
-        // The decSwap in use. May be the opposite of calibrationDecSwap if the calibration
-        // is being used on the opposite pier side as the calibration pier side.
-        bool decSwap { false };
-
-        // The RA and DEC when calibration was performed. For reference. Not currently used.
-        dms calibrationRA;
-        dms calibrationDEC;
-
-        // The side of the pier where the current calibration was calculated.
-        ISD::Mount::PierSide calibrationPierSide { ISD::Mount::PIER_UNKNOWN };
-
-        bool initialized { false };
+        bool m_initialized { false };
         friend class TestGuideStars;
 };
 

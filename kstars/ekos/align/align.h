@@ -605,6 +605,7 @@ class Align : public QWidget, public Ui::Align
         void newFrame(const QSharedPointer<FITSView> &view);
         // Send new solver results
         void newSolverResults(double orientation, double ra, double dec, double pixscale);
+        void newPA(const double Angle, const bool FlipRotationDone);
 
         // Train changed
         void trainChanged();

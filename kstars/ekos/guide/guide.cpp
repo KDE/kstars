@@ -167,6 +167,9 @@ Guide::Guide() : QWidget()
     // Initialize non guided dithering random generator.
     resetNonGuidedDither();
 
+    // Disable clear button by default
+    clearCalibrationB->setEnabled(false);
+
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
@@ -279,7 +282,10 @@ void Guide::clearCalibrationGraphs()
     calRAArrow->setVisible(false);
     calDECLabel->setVisible(false);
     calDECArrow->setVisible(false);
+    calLabel->setText("");
     calibrationPlot->replot();
+    calDecArrowStartX = 0;
+    calDecArrowStartY = 0;
 }
 
 void Guide::slotAutoScaleGraphs()
@@ -577,7 +583,9 @@ void Guide::updateGuideParams()
 
     checkUseGuideHead();
 
-    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead
+                                                    ? ISD::CameraChip::GUIDE_CCD
+                                                    : ISD::CameraChip::PRIMARY_CCD);
 
     if (targetChip == nullptr)
     {
@@ -1560,7 +1568,11 @@ void Guide::setMountStatus(ISD::Mount::Status newState)
             {
                 captureB->setEnabled(true);
                 loopB->setEnabled(true);
-                clearCalibrationB->setEnabled(true);
+                if (calibrationComplete ||
+                        ((guiderType == GUIDE_INTERNAL) &&
+                         Options::reuseGuideCalibration() &&
+                         !Options::serializedCalibration().isEmpty()))
+                    clearCalibrationB->setEnabled(true);
                 manualPulseB->setEnabled(true);
             }
     }
@@ -1570,7 +1582,8 @@ void Guide::setMountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSi
 {
     Q_UNUSED(ha);
     m_GuiderInstance->setMountCoords(position, pierSide);
-    m_ManaulPulse->setMountCoords(position);
+    if (m_ManaulPulse->isVisible()) // update only if visible
+        m_ManaulPulse->setMountCoords(position);
 }
 
 void Guide::setExposure(double value)
@@ -1597,11 +1610,10 @@ void Guide::clearCalibration()
     calibrationComplete = false;
     if (m_GuiderInstance->clearCalibration())
     {
+        clearCalibrationGraphs();
         clearCalibrationB->setEnabled(false);
         appendLogText(i18n("Calibration is cleared."));
     }
-
-
 }
 
 void Guide::setStatus(Ekos::GuideState newState)
@@ -1965,7 +1977,11 @@ bool Guide::setGuiderType(int type)
 
             internalGuider->setStarDetectionAlgorithm(opsGuide->kcfg_GuideAlgorithm->currentIndex());
 
-            clearCalibrationB->setEnabled(true);
+            if (calibrationComplete ||
+                    ((guiderType == GUIDE_INTERNAL) &&
+                     Options::reuseGuideCalibration() &&
+                     !Options::serializedCalibration().isEmpty()))
+                clearCalibrationB->setEnabled(true);
             guideB->setEnabled(true);
             captureB->setEnabled(true);
             loopB->setEnabled(true);

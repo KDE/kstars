@@ -162,6 +162,7 @@ QSharedPointer<Camera> Capture::addCamera()
     connect(newCamera.get(), &Camera::resumeGuiding, this, &Capture::resumeGuiding);
     connect(newCamera.get(), &Camera::resetNonGuidedDither, this, &Capture::resetNonGuidedDither);
     connect(newCamera.get(), &Camera::driverTimedout, this, &Capture::driverTimedout);
+    connect(newCamera.get(), &Camera::newPA, this, &Capture::newPA);
 
     // find an unused train for additional tabs
     const QString train = tabIndex == 0 ? "" : findUnusedOpticalTrain();

@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>427</width>
-    <height>383</height>
+    <width>357</width>
+    <height>493</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>470</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
@@ -28,6 +40,9 @@
    </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
@@ -38,19 +53,22 @@
          <number>3</number>
         </property>
         <property name="leftMargin">
-         <number>5</number>
+         <number>3</number>
         </property>
         <property name="topMargin">
-         <number>5</number>
+         <number>3</number>
         </property>
         <property name="rightMargin">
-         <number>5</number>
+         <number>3</number>
         </property>
         <property name="bottomMargin">
-         <number>5</number>
+         <number>3</number>
         </property>
         <item>
          <layout class="QGridLayout" name="gridLayout">
+          <property name="spacing">
+           <number>3</number>
+          </property>
           <item row="0" column="1">
            <widget class="QLabel" name="l_29">
             <property name="toolTip">
@@ -169,6 +187,24 @@
         <string>Reticle</string>
        </property>
        <layout class="QFormLayout" name="formLayout_2">
+        <property name="horizontalSpacing">
+         <number>3</number>
+        </property>
+        <property name="verticalSpacing">
+         <number>3</number>
+        </property>
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
         <item row="0" column="0">
          <widget class="QLabel" name="l_26">
           <property name="toolTip">
@@ -209,221 +245,260 @@
     </layout>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout_2"/>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBox_3">
+    <widget class="QFrame" name="verticalLayout_4">
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>80</height>
+       <height>200</height>
       </size>
      </property>
-     <property name="title">
-      <string>Calibrated Values</string>
-     </property>
-     <widget class="QLabel" name="racal">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>67</width>
-        <height>17</height>
-       </rect>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="spacing">
+       <number>3</number>
       </property>
-      <property name="text">
-       <string>RA</string>
+      <property name="leftMargin">
+       <number>3</number>
       </property>
-     </widget>
-     <widget class="QLabel" name="ra_cal_degrees">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>30</y>
-        <width>67</width>
-        <height>17</height>
-       </rect>
+      <property name="topMargin">
+       <number>3</number>
       </property>
-      <property name="text">
-       <string>xxxx</string>
+      <property name="rightMargin">
+       <number>3</number>
       </property>
-     </widget>
-     <widget class="QLabel" name="label_4">
-      <property name="geometry">
-       <rect>
-        <x>130</x>
-        <y>30</y>
-        <width>67</width>
-        <height>17</height>
-       </rect>
+      <property name="bottomMargin">
+       <number>3</number>
       </property>
-      <property name="text">
-       <string>degrees</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="ra_cal_mspp">
-      <property name="geometry">
-       <rect>
-        <x>280</x>
-        <y>30</y>
-        <width>51</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>xxxx</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_6">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>30</y>
-        <width>67</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>ms/arcsec</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_7">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>50</y>
-        <width>67</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>DEC</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="dec_cal_degrees">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>50</y>
-        <width>67</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>xxxx</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="dec_cal_degrees_unit">
-      <property name="geometry">
-       <rect>
-        <x>130</x>
-        <y>50</y>
-        <width>141</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>degrees (swapped)</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="dec_cal_mspp">
-      <property name="geometry">
-       <rect>
-        <x>280</x>
-        <y>50</y>
-        <width>51</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>xxxx</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_11">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>50</y>
-        <width>67</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>ms/arcsec</string>
-      </property>
-     </widget>
+      <item>
+       <widget class="QGroupBox" name="CalibrationsValues">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Calibrated Values</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>3</number>
+         </property>
+         <property name="rightMargin">
+          <number>3</number>
+         </property>
+         <property name="bottomMargin">
+          <number>3</number>
+         </property>
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="racal">
+           <property name="text">
+            <string>RA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="ra_cal_degrees">
+           <property name="text">
+            <string>xxxx</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>degrees</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="ra_cal_mspp">
+           <property name="text">
+            <string>xxxx</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>ms/arcsec</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>DEC</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="dec_cal_degrees">
+           <property name="text">
+            <string>xxxx</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="dec_cal_degrees_unit">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>degrees (swapped)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLabel" name="dec_cal_mspp">
+           <property name="text">
+            <string>xxxx</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>ms/arcsec</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="Options">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>170</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Options</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>3</number>
+         </property>
+         <property name="rightMargin">
+          <number>3</number>
+         </property>
+         <property name="bottomMargin">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="kcfg_GuideCalibrationBacklash">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove the effect of DEC backlash when calibrating guider.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="statusTip">
+            <string/>
+           </property>
+           <property name="text">
+            <string>Remove DEC backlash in guide calibration</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="kcfg_ResetGuideCalibration">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked,  always re-calibrate when guiding is started. This is often not necessary when a good quality calibration has previously been done and the guide camera has not been re-installed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="statusTip">
+            <string/>
+           </property>
+           <property name="text">
+            <string>Reset guide calibration after each mount slew</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="kcfg_ReverseDecOnPierSideChange">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When re-using a calibration, reverse the DEC angle if the current pier side differs from the one at calibration. This only applies when re-using calibrations. The value you need is a property of your mount that should be researched. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="statusTip">
+            <string/>
+           </property>
+           <property name="text">
+            <string>Mount reverses DEC pulses after changing pierside</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="kcfg_ReuseGuideCalibration">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Store and attempt to reuse calibrations. This even works on opposite sides of the meridian if the pier-side can be automatically determined from your mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>Store and reuse guide calibration when possible</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <property name="leftMargin">
+             <number>10</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>5</number>
+            </property>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_GuideCalibrationBacklash">
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove the effect of DEC backlash when calibrating guider.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="statusTip">
-      <string/>
-     </property>
-     <property name="text">
-      <string>Remove DEC backlash in guide calibration</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ResetGuideCalibration">
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked,  always re-calibrate when guiding is started. This is often not necessary when a good quality calibration has previously been done and the guide camera has not been rotated or re-installed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="statusTip">
-      <string/>
-     </property>
-     <property name="text">
-      <string>Reset Guide Calibration After Each Mount Slew</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ReuseGuideCalibration">
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Store and attempt to reuse calibrations. This only works on opposite sides of the meridian if the pier-side can be automatically determined from your mount. The &quot;Reset Guide on Slew&quot; option above must be unchecked for this to be attempted.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="statusTip">
-      <string/>
-     </property>
-     <property name="text">
-      <string>Store and reuse guide calibration when possible.</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="kcfg_ReverseDecOnPierSideChange">
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When re-using a calibration, reverse the DEC angle if the current pier side differs from the one at calibration. This only applies when re-using calibrations. The value you need is a property of your mount that should be researched. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="statusTip">
-      <string/>
-     </property>
-     <property name="text">
-      <string>Reverse DEC guide pulses when changing pier-side and reusing calibration.</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <spacer name="verticalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>
@@ -433,10 +508,6 @@
   <tabstop>kcfg_CalibrationMaxMove</tabstop>
   <tabstop>kcfg_TwoAxisEnabled</tabstop>
   <tabstop>kcfg_GuideAutoSquareSizeEnabled</tabstop>
-  <tabstop>kcfg_GuideCalibrationBacklash</tabstop>
-  <tabstop>kcfg_ResetGuideCalibration</tabstop>
-  <tabstop>kcfg_ReuseGuideCalibration</tabstop>
-  <tabstop>kcfg_ReverseDecOnPierSideChange</tabstop>
   <tabstop>spinBox_ReticleX</tabstop>
   <tabstop>spinBox_ReticleY</tabstop>
  </tabstops>

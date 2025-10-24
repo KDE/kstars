@@ -3318,6 +3318,20 @@ void Manager::connectModules()
                 Qt::UniqueConnection);
     }
 
+    // Align <---> Guide connections
+    if (alignProcess && guideProcess)
+    {
+        connect(alignModule(), &Ekos::Align::newPA, guideModule()->getGuiderInstance(), &Ekos::GuideInterface::newPA,
+                Qt::UniqueConnection);
+    }
+
+    // Capture(Camera) <---> Guide connections
+    if (captureProcess && guideProcess)
+    {
+        connect(captureModule(), &Ekos::Capture::newPA , guideModule()->getGuiderInstance(), &Ekos::GuideInterface::newPA,
+                Qt::UniqueConnection);
+    }
+
     // Align <--> EkosLive connections
     if (alignProcess && ekosLiveClient)
     {
