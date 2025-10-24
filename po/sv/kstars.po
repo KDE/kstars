@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-23 01:55+0000\n"
-"PO-Revision-Date: 2025-10-15 21:12+0200\n"
+"PO-Revision-Date: 2025-10-23 22:02+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -6187,10 +6187,9 @@ msgid "Clear Solution Points"
 msgstr "Ta bort lösningspunkter"
 
 #: ekos/align/align.cpp:559
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Remote solver timed out."
-msgstr "Tidsgräns överskreds för lösningsverktyg."
+msgstr "Tidsgräns överskreds för fjärrlösningsverktyg."
 
 #: ekos/align/align.cpp:851
 #, kde-format
@@ -6368,17 +6367,14 @@ msgid "Loaded image was taken on pierside %1"
 msgstr "Inläst bild togs på pirsida %1"
 
 #: ekos/align/align.cpp:2062
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver timed out after %1 seconds."
-msgstr "Lösningsverktyget avbröts efter %1 sekunder."
+msgstr "Lösningsverktygets tidsgräns överskreds efter %1 sekunder."
 
 #: ekos/align/align.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Solver failed after %1 second."
-#| msgid_plural "Solver failed after %1 seconds."
+#, kde-format
 msgid "Solver failed after %1 seconds."
-msgstr "Lösning avbröts efter %1 sekund."
+msgstr "Lösningsverktyget misslyckades efter %1 sekunder."
 
 #: ekos/align/align.cpp:2087
 #, kde-format
@@ -6386,10 +6382,9 @@ msgid "Solver completed after %1 seconds."
 msgstr "Lösningsverktyget färdig efter %1 sekunder."
 
 #: ekos/align/align.cpp:2108
-#, fuzzy, kde-format
-#| msgid "Solver completed after %1 seconds."
+#, kde-format
 msgid "Remote solver completed after %1 seconds."
-msgstr "Lösningsverktyget färdig efter %1 sekunder."
+msgstr "Fjärrlösningsverktyget färdig efter %1 sekunder."
 
 #: ekos/align/align.cpp:2121
 #, kde-format
@@ -6511,10 +6506,9 @@ msgid "Capture aborted."
 msgstr "Tagning avbruten."
 
 #: ekos/align/align.cpp:2640
-#, fuzzy, kde-format
-#| msgid "Solving aborted."
+#, kde-format
 msgid "Solver aborted."
-msgstr "Lösning avbruten."
+msgstr "Lösningsverktyget avbrutet."
 
 #: ekos/align/align.cpp:2682 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
@@ -7304,16 +7298,14 @@ msgid "Mount Model"
 msgstr "Stativmodell"
 
 #: ekos/align/alignmentplot.cpp:158
-#, fuzzy, kde-format
-#| msgid "Azimuth at set"
+#, kde-format
 msgid "Azimuth diff (deg)"
-msgstr "Azimut vid nedgång"
+msgstr "Azimutskillnad (grader)"
 
 #: ekos/align/alignmentplot.cpp:159
-#, fuzzy, kde-format
-#| msgid "Latitude in degrees"
+#, kde-format
 msgid "Altitude diff (deg)"
-msgstr "Latitud i grader"
+msgstr "Elevationsskillnad (grader)"
 
 #: ekos/align/alignview.cpp:170
 #, kde-format
@@ -10449,39 +10441,35 @@ msgid "Adjust"
 msgstr "Justera"
 
 #: ekos/align/pushtoassistant.cpp:23
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Slew Target"
+#, kde-format
 msgid "Select Target"
-msgstr "Förflytta mål"
+msgstr "Välj mål"
 
 #: ekos/align/pushtoassistant.cpp:24
 #, kde-format
 msgid "Select the target that you are aiming for."
-msgstr ""
+msgstr "Välj mål som du siktar på."
 
 #: ekos/align/pushtoassistant.cpp:94
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stop EKOS"
-msgstr "Stoppa"
+msgstr "Stoppa Ekos"
 
 #: ekos/align/pushtoassistant.cpp:100
-#, fuzzy, kde-format
-#| msgid "Start Scan"
+#, kde-format
 msgid "Start EKOS"
-msgstr "Starta sökning"
+msgstr "Starta Ekos"
 
 #: ekos/align/pushtoassistant.cpp:251
-#, fuzzy, kde-format
-#| msgid "Scale & Position"
+#, kde-format
 msgid "Solve Position"
-msgstr "Skala och position"
+msgstr "Lös position"
 
 #: ekos/align/pushtoassistant.cpp:252
 #, kde-format
 msgid "Start plate solving the position you are currently aiming at."
 msgstr ""
+"Starta lösning av astrobilder för positionen som du för närvarande siktar på."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:256 ekos/capture/capture.cpp:472
@@ -10494,58 +10482,19 @@ msgid "Abort"
 msgstr "Avbryt"
 
 #: ekos/align/pushtoassistant.cpp:257
-#, fuzzy, kde-format
-#| msgid "Set %1 as the current location"
+#, kde-format
 msgid "Stop the current plate solving run."
-msgstr "Ställ in %1 som nuvarande plats"
+msgstr "Stoppa den nuvarande lösningen av astrobilder."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PushToAssistant)
 #: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:489
-#, fuzzy, kde-format
-#| msgid "Serial Port Assistant"
+#, kde-format
 msgid "Push-To Assistant"
-msgstr "Serieportguide"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (AlignmentPlot, targetPlot)
 #: ekos/align/pushtoassistant.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
-#| "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" "
-#| "font-style:italic;\">blocked</span> from view from your vantage point (e."
-#| "g. by tall trees or buildings). Regions can be areas above or below line "
-#| "segments that you enter. </p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; "
-#| "-qt-block-indent:0; text-indent:0px;\">To draw a <span style=\" font-"
-#| "weight:600;\">Region</span>, enter a list of <span style=\" font-"
-#| "weight:600;\">Points</span> (<span style=\" font-style:italic;\">minimum</"
-#| "span> 2) that outlines the top of a blocked area (the <span style=\" font-"
-#| "weight:600;\">blockage is below</span> the lines).</li><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Setting <span style=\" font-style:italic;\">ceiling/window mode</span> "
-#| "for a list of points instead sets the <span style=\" font-weight:600;"
-#| "\">blockage above</span> the lines.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Add the points manually, or preferably by selecting "
-#| "them from the Sky Map after clicking <span style=\" font-style:italic;"
-#| "\">Select Points</span> button. </li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Enable a region by <span style=\" font-style:italic;"
-#| "\">checking its box</span>. </li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Selecting a region displays its points on the SkyMap. </"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When done click "
-#| "<span style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Defining regions is easier when used in "
-#| "conjunction with the Terrain background feature.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">You can export (and later import) regions "
-#| "using the export/import region buttons.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Description</span></"
 "p><p>This assistant gives users of manual mounts (dobsons etc.) support "
@@ -10583,63 +10532,24 @@ msgid ""
 "finder scope is correctly configured and your telescope is roughly pointing "
 "to the target that you have selected.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Artificiell horisont används för att definiera <span "
-"style=\" font-weight:600;\">områden</span> på himmelskartan som är <span "
-"style=\" font-style :italic;\">blockerade</span> från din utsiktsplats (t."
-"ex. av höga träd eller byggnader). Områden kan vara regioner över eller "
-"under linjesegment som du anger. </p><ul style=\"margin-top: 0px; margin-"
-"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
-"style=\" margin -top:12px margin-bottom:0px; -qt-block-indent:0; text-"
-"indent:0px;\">För att rita ett <span style=\" font-weight:600;\">område</"
-"span> anger du en lista med <span style=\" font- weight:600;\">Punkter</"
-"span> (<span style=\" font-style:italic;\">minst</span> 2) som anger "
-"konturen av ett blockerat områdes överdel (<span style=\" font-weight:600;"
-"\">blockering är under</span> linjerna).</li><ul style=\"margin-top: 0px; "
-"margin-left: 0px; 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
-"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Inställning av "
-"<span style=\" font-style:italic;\">tak- eller fönsterläge</span> för en "
-"lista med punkter ställer istället in <span style=\" font-weight:600;"
-"\">blockeringen ovanför</span> linjerna.</li><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; -qt-block-indent:0; text-indent:0px;"
-"\">Lägg till punkterna manuellt, eller hellre genom att välja dem på "
-"himmelskartan efter att ha klickat på knappen <span style=\" font-style:"
-"italic;\">Välj punkter</span>. </li>< /ul><li style=\" margin-top:0px; "
-"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Aktivera ett område genom att <span style=\" font-style:"
-"italic;\">markera dess ruta</span>. </li><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">När du väljer ett område visas dess punkter på himmelskartan. "
-"</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">När du är klar klickar du "
-"på <span style=\" font-style:italic;\">Verkställ</span>.</li><li style=\" "
-"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\">Det är lättare att definiera områden när "
-"de används tillsammans med funktionen för terrängbakgrund.</li><li style=\" "
-"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\">Du kan exportera (och senare importera) "
-"områden med hjälp av knapparna för att exportera och importera områden.</"
-"li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
 #: ekos/align/pushtoassistant.ui:101
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Abort Motion"
+#, kde-format
 msgid "Abort Solving"
-msgstr "Avbryt rörelse"
+msgstr "Avbryt lösning"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopSolvingB)
 #: ekos/align/pushtoassistant.ui:125
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "Repeat solving"
-msgstr "Lösning av astrobilder"
+msgstr "Upprepa lösning"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, refreshIntervalSB)
 #: ekos/align/pushtoassistant.ui:148
 #, kde-format
 msgid "Interval after which solving is repeated"
-msgstr ""
+msgstr "Intervall efter vilket lösningen upprepas"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, refreshIntervalSB)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMotionTimeout)
@@ -31016,40 +30926,34 @@ msgid "Double-click to toggle text display"
 msgstr "Dubbelklicka för att visa eller dölja textvisning"
 
 #: fitsviewer/fitsstackmonitor.h:96
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "%1 Failed to Load"
-msgstr "Misslyckades ladda bild"
+msgstr "%1 misslyckades ladda"
 
 #: fitsviewer/fitsstackmonitor.h:97
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "%1 Failed Plate Solving"
-msgstr "Lösning av astrobilder"
+msgstr "%1 misslyckades vid lösning av astrobilder"
 
 #: fitsviewer/fitsstackmonitor.h:98
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "%1 Failed Waiting"
-msgstr "Filinställningar"
+msgstr "%1 misslyckades vänta"
 
 #: fitsviewer/fitsstackmonitor.h:99
-#, fuzzy, kde-format
-#| msgid "Flat Calibration"
+#, kde-format
 msgid "%1 Failed Calibration"
-msgstr "Plankalibrering"
+msgstr "%1 misslyckades vid kalibrering"
 
 #: fitsviewer/fitsstackmonitor.h:100
-#, fuzzy, kde-format
-#| msgid "Save Failed Align Images"
+#, kde-format
 msgid "%1 Failed Alignment"
-msgstr "Spara misslyckade inriktningsbilder"
+msgstr "%1 misslyckades vid inriktning"
 
 #: fitsviewer/fitsstackmonitor.h:101
-#, fuzzy, kde-format
-#| msgid "Failed to edit city"
+#, kde-format
 msgid "%1 Failed to Stack"
-msgstr "Misslyckades redigera stad"
+msgstr "%1 misslyckades vid stapling"
 
 #: fitsviewer/fitsstackmonitor.h:120
 #, kde-format
@@ -31058,6 +30962,9 @@ msgid ""
 "%2 = OK\n"
 "%3 = Error"
 msgstr ""
+"%1 \n"
+"%2 = Ok\n"
+"%3 = Fel"
 
 #: fitsviewer/fitsstackmonitor.h:123
 #, kde-format
@@ -31065,6 +30972,8 @@ msgid ""
 "%1 \n"
 "%2 = Not applicable"
 msgstr ""
+"%1 \n"
+"%2 = Inte tillämplig"
 
 #: fitsviewer/fitsstackmonitor.h:129
 #, kde-format
@@ -31079,6 +30988,15 @@ msgid ""
 "%8\n"
 "%9"
 msgstr ""
+"%1 \n"
+"%2\n"
+"%3 = Behandling lyckades\n"
+"%4\n"
+"%5\n"
+"%6\n"
+"%7\n"
+"%8\n"
+"%9"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -31944,11 +31862,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MonitorB)
 #: fitsviewer/livestacking.ui:382
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Launch Live Stacker Monitor</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Spara realtidsstaplingsparametrar</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, HelpB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
@@ -32383,29 +32299,25 @@ msgstr "Anpassa staplingsinställningar i den här sektionen."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, StackMonitorDialog)
 #: fitsviewer/livestackmonitor.ui:26
-#, fuzzy, kde-format
-#| msgid "Live Stacking"
+#, kde-format
 msgid "Live Stacking Monitor"
-msgstr "Realtidsstapling"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable highlighting of data changes</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Markera för att visa beteckningar på diagrammet.</p></"
-"body></html>"
+"<html><head/><body><p>Markera för att aktivera färgläggning av "
+"dataändringar</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:63
-#, fuzzy, kde-format
-#| msgid "Highlights"
+#, kde-format
 msgid " Highlighting"
-msgstr "Dagrar"
+msgstr " Dagrar"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -34027,22 +33939,19 @@ msgid "Mount motion was aborted"
 msgstr "Stativförflyttningen avbröts"
 
 #: indi/indimount.cpp:383
-#, fuzzy, kde-format
-#| msgid "Mount parking is in progress"
+#, kde-format
 msgid "Mount homing in progress"
-msgstr "Håller på att parkera stativ"
+msgstr "Stativ till hemposition pågår"
 
 #: indi/indimount.cpp:391
-#, fuzzy, kde-format
-#| msgid "Dithering completed successfully."
+#, kde-format
 msgid "Mount homed successfully"
-msgstr "Gitter avslutades med lyckat resultat."
+msgstr "Stativ till hemposition med lyckat resultat"
 
 #: indi/indimount.cpp:397
-#, fuzzy, kde-format
-#| msgid "Mount parking failed"
+#, kde-format
 msgid "Mount homing failed"
-msgstr "Fel vid parkering av stativ"
+msgstr "Stativ till hemposition misslyckades"
 
 #: indi/indimount.cpp:486
 #, kde-format
@@ -39380,24 +39289,21 @@ msgstr ""
 
 #. i18n: ectx: label, entry (fitsLSMVisibleColumns), group (FITSViewer)
 #: kstars.kcfg:1882
-#, fuzzy, kde-format
-#| msgid "Live Stacking deconvolution amount"
+#, kde-format
 msgid "Live Stacking Monitor column visibility"
-msgstr "Avfaltningsvärde för realtidsstapling"
+msgstr ""
 
 #. i18n: ectx: label, entry (fitsLSMColumnWidths), group (FITSViewer)
 #: kstars.kcfg:1886
-#, fuzzy, kde-format
-#| msgid "Live Stacking Post Processing switch"
+#, kde-format
 msgid "Live Stacking Monitor column widths"
-msgstr "Efterbehandlingsomkopplare för realtidsstapling"
+msgstr ""
 
 #. i18n: ectx: label, entry (fitsLSMHighlighting), group (FITSViewer)
 #: kstars.kcfg:1896
-#, fuzzy, kde-format
-#| msgid "Live Stacking sub weighting"
+#, kde-format
 msgid "Live Stacking Monitor highlighting."
-msgstr "Delviktning för realtidsstapling"
+msgstr ""
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1902

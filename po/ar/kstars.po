@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-23 01:55+0000\n"
-"PO-Revision-Date: 2025-10-15 20:48+0400\n"
+"PO-Revision-Date: 2025-10-23 13:20+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -6140,7 +6140,7 @@ msgid ""
 msgstr ""
 "<table><tr><th colspan=\"2\">الهدف %1: %2</th></tr><tr><td>المطلع المستقيم:</"
 "td><td>%3</td></tr><tr><td>الميل:</td><td>%4</td></tr><tr><td>تغيّر المطلع:</"
-"td><td>%5</td></tr><tr><td>تغيّر الميل:</td><td>%6</td></tr></tr></table>"
+"td><td>%5</td></tr><tr><td>تغيّر الميل:</td><td>%6</td></tr></table>"
 
 #: ekos/align/align.cpp:485
 #, kde-format
@@ -6153,10 +6153,9 @@ msgid "Clear Solution Points"
 msgstr "امسح نقاط الحل"
 
 #: ekos/align/align.cpp:559
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Remote solver timed out."
-msgstr "انتهت مهلة برنامج الحل."
+msgstr "انتهت مهلة برنامج الحل عن بعد."
 
 #: ekos/align/align.cpp:851
 #, kde-format
@@ -6327,16 +6326,14 @@ msgid "Loaded image was taken on pierside %1"
 msgstr "اُلتُقِطت الصورة المحمّلة على جانب الرصيف %1"
 
 #: ekos/align/align.cpp:2062
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver timed out after %1 seconds."
-msgstr "أُجهض برنامج الحل بعد %1 ثانية."
+msgstr "انتهت مهلة برنامج الحل بعد %1 ثانية."
 
 #: ekos/align/align.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Solver failed after %1 seconds."
-msgstr "أُجهض برنامج الحل بعد %1 ثانية."
+msgstr "فشل برنامج الحل بعد %1 ثانية."
 
 #: ekos/align/align.cpp:2087
 #, kde-format
@@ -6344,10 +6341,9 @@ msgid "Solver completed after %1 seconds."
 msgstr "أكمل برنامج الحل بعد %1 ثانية."
 
 #: ekos/align/align.cpp:2108
-#, fuzzy, kde-format
-#| msgid "Solver completed after %1 seconds."
+#, kde-format
 msgid "Remote solver completed after %1 seconds."
-msgstr "أكمل برنامج الحل بعد %1 ثانية."
+msgstr "أكمل برنامج الحل عن بعد بعد %1 ثانية."
 
 #: ekos/align/align.cpp:2121
 #, kde-format
@@ -6468,10 +6464,9 @@ msgid "Capture aborted."
 msgstr "أُجهض الالتقاط."
 
 #: ekos/align/align.cpp:2640
-#, fuzzy, kde-format
-#| msgid "Solving aborted."
+#, kde-format
 msgid "Solver aborted."
-msgstr "أُجهض الحل."
+msgstr "أُجهض برنامج الحل."
 
 #: ekos/align/align.cpp:2682 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
@@ -7244,16 +7239,14 @@ msgid "Mount Model"
 msgstr "نموذج الحامل"
 
 #: ekos/align/alignmentplot.cpp:158
-#, fuzzy, kde-format
-#| msgid "Azimuth at set"
+#, kde-format
 msgid "Azimuth diff (deg)"
-msgstr "السمت عند الغروب"
+msgstr "فرق السمت (درجة)"
 
 #: ekos/align/alignmentplot.cpp:159
-#, fuzzy, kde-format
-#| msgid "Latitude in degrees"
+#, kde-format
 msgid "Altitude diff (deg)"
-msgstr "خط العرض بالدرجات"
+msgstr "فرق الارتفاع (درجة)"
 
 #: ekos/align/alignview.cpp:170
 #, kde-format
@@ -10326,39 +10319,34 @@ msgid "Adjust"
 msgstr "ضبط"
 
 #: ekos/align/pushtoassistant.cpp:23
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Slew Target"
+#, kde-format
 msgid "Select Target"
-msgstr "هدف الانعراج"
+msgstr "اختر الهدف"
 
 #: ekos/align/pushtoassistant.cpp:24
 #, kde-format
 msgid "Select the target that you are aiming for."
-msgstr ""
+msgstr "اختر الهدف الذي تسعى إليه."
 
 #: ekos/align/pushtoassistant.cpp:94
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stop EKOS"
-msgstr "أوقف"
+msgstr "أوقف إكوس"
 
 #: ekos/align/pushtoassistant.cpp:100
-#, fuzzy, kde-format
-#| msgid "Start Scan"
+#, kde-format
 msgid "Start EKOS"
-msgstr "ابدأ المسح"
+msgstr "ابدأ إكوس"
 
 #: ekos/align/pushtoassistant.cpp:251
-#, fuzzy, kde-format
-#| msgid "Scale & Position"
+#, kde-format
 msgid "Solve Position"
-msgstr "المقياس والموضع"
+msgstr "حل الموضع"
 
 #: ekos/align/pushtoassistant.cpp:252
 #, kde-format
 msgid "Start plate solving the position you are currently aiming at."
-msgstr ""
+msgstr "ابدأ بحل اللوحة للموضع الذي تستهدفه حالياً."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/align/pushtoassistant.cpp:256 ekos/capture/capture.cpp:472
@@ -10371,58 +10359,19 @@ msgid "Abort"
 msgstr "أجهض"
 
 #: ekos/align/pushtoassistant.cpp:257
-#, fuzzy, kde-format
-#| msgid "Set %1 as the current location"
+#, kde-format
 msgid "Stop the current plate solving run."
-msgstr "اضبط %1 كالموقع الحالي"
+msgstr "أوقف تشغيل حل اللوحة الحالي."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PushToAssistant)
 #: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:489
-#, fuzzy, kde-format
-#| msgid "Serial Port Assistant"
+#, kde-format
 msgid "Push-To Assistant"
-msgstr "مساعد المنفذ التسلسلي"
+msgstr "مساعد الدفع إلى"
 
 #. i18n: ectx: property (toolTip), widget (AlignmentPlot, targetPlot)
 #: ekos/align/pushtoassistant.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
-#| "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" "
-#| "font-style:italic;\">blocked</span> from view from your vantage point (e."
-#| "g. by tall trees or buildings). Regions can be areas above or below line "
-#| "segments that you enter. </p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; "
-#| "-qt-block-indent:0; text-indent:0px;\">To draw a <span style=\" font-"
-#| "weight:600;\">Region</span>, enter a list of <span style=\" font-"
-#| "weight:600;\">Points</span> (<span style=\" font-style:italic;\">minimum</"
-#| "span> 2) that outlines the top of a blocked area (the <span style=\" font-"
-#| "weight:600;\">blockage is below</span> the lines).</li><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Setting <span style=\" font-style:italic;\">ceiling/window mode</span> "
-#| "for a list of points instead sets the <span style=\" font-weight:600;"
-#| "\">blockage above</span> the lines.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Add the points manually, or preferably by selecting "
-#| "them from the Sky Map after clicking <span style=\" font-style:italic;"
-#| "\">Select Points</span> button. </li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Enable a region by <span style=\" font-style:italic;"
-#| "\">checking its box</span>. </li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Selecting a region displays its points on the SkyMap. </"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When done click "
-#| "<span style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Defining regions is easier when used in "
-#| "conjunction with the Terrain background feature.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">You can export (and later import) regions "
-#| "using the export/import region buttons.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Description</span></"
 "p><p>This assistant gives users of manual mounts (dobsons etc.) support "
@@ -10460,60 +10409,56 @@ msgid ""
 "finder scope is correctly configured and your telescope is roughly pointing "
 "to the target that you have selected.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>يُستخدم الأفق الاصطناعي لتعريف <span style=\" font-"
-"weight:600;\">مناطق</span> على خارطة السماء <span style=\" font-style:italic;"
-"\">محجوبة</span> عن الرؤية من موقع المراقبة الخاص بك (مثل الأشجار الطويلة أو "
-"المباني). يمكن أن تكون المناطق إما فوق أو تحت أجزاء خطوط تُدخلها. </p><ul "
-"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
+"<html><head/><body><p><span style=\" font-weight:600;\">الوصف</span></"
+"p><p>يقدم هذا المساعد دعمًا لمستخدمي الحوامل اليدوية (مثل حوامل دوبسون) في "
+"إيجاد أهدافهم باستخدام منظار بحث مجهز بكاميرا.</p><p><span style=\" font-"
+"weight:600;\">الإعداد</span></p><p>افتح إيكوس (EKOS)، أنشئ تشكيلة بالكاميرا "
+"التي اخترتها، محاكي التلسكوب كحامل، وأضف منظار البحث الخاص بك كتلسكوب جديد.</"
+"p><p><span style=\" font-weight:600;\">الاستخدام</span></p><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">ابدأ "
+"إيكوس (EKOS)</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">ضع حاملك "
+"أقرب ما يمكن من هدفك</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">لرسم <span style=\" font-weight:600;\">منطقة</span>، أدخل قائمة بـ <span "
-"style=\" font-weight:600;\">النقاط</span> (<span style=\" font-style:italic;"
-"\">حد أدنى</span> 2) تحدد الجزء العلوي لمنطقة محجوبة (يكون <span style=\" "
-"font-weight:600;\">الحجب أسفل</span> الخطوط).</li><ul style=\"margin-top: "
-"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">ضبط <span "
-"style=\" font-style:italic;\">وضع السقف/النافذة</span> لقائمة من النقاط يضبط "
-"بدلاً من ذلك <span style=\" font-weight:600;\">الحجب أعلى</span> الخطوط.</"
+"\">اختر هدفك في أداة البحث عن الهدف واضغط على زر &quot;اختر الهدف&quot;</"
 "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">أضف النقاط يدويًا، أو "
-"الأفضل، باختيارها من خارطة السماء بعد النقر على زر <span style=\" font-style:"
-"italic;\">اختر النقاط</span>. </li></ul><li style=\" margin-top:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">اضغط على زر &quot;حل "
+"الموضع&quot;. يلتقط هذا إطارًا من خلال منظار البحث الخاص بك ويحل الصورة مقابل "
+"كتالوجات نجوم كيه ستارز (KStars).</li><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">فعّل منطقة بـ <span style=\" font-style:italic;\">تحديد مربعها</"
-"span>. </li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">اختيار منطقة يعرض "
-"نقاطها على خارطة السماء. </li><li style=\" margin-top:0px; margin-"
+"indent:0px;\">فور نجاح حل اللوحة، تعرض المسافة إلى الهدف. تظهر الأسهم "
+"الاتجاهات اللازمة لتصحيح موضع حاملك.</li><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">عند الانتهاء انقر <span style=\" font-style:italic;\">طبق</"
-"span>.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">تعريف المناطق أسهل "
-"عندما تستخدم بالترافق مع ميزة خلفية التضاريس.</li><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\">يمكنك تصدير (واستيراد لاحقاً) المناطق باستخدام "
-"أزرار تصدير/استيراد المنطقة.</li></ul></body></html>"
+"indent:0px;\">حرك حاملك إلى الموضع المشار إليه وكرر الحل.</li></ul><p><span "
+"style=\" font-weight:600;\">تلميحات</span></p><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">إذا ضغطت على زر &quot;"
+"تكرار&quot;، يتكرر التقاط وحل اللوحة بعد التأخير المضبوط.</li><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">إذا فشل حل اللوحة، تحقق من ضبط البعد "
+"البؤري لمنظار البحث الخاص بك بشكل صحيح، وأن تلسكوبك يشير تقريباً إلى الهدف "
+"الذي اخترته.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
 #: ekos/align/pushtoassistant.ui:101
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Abort Motion"
+#, kde-format
 msgid "Abort Solving"
-msgstr "إلغاء الحركة"
+msgstr "أجهض الحل"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopSolvingB)
 #: ekos/align/pushtoassistant.ui:125
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "Repeat solving"
-msgstr "حل اللوحة"
+msgstr "كرر الحل"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, refreshIntervalSB)
 #: ekos/align/pushtoassistant.ui:148
 #, kde-format
 msgid "Interval after which solving is repeated"
-msgstr ""
+msgstr "الفاصل الزمني الذي يتكرر بعده الحل"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, refreshIntervalSB)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMotionTimeout)
@@ -30531,40 +30476,34 @@ msgid "Double-click to toggle text display"
 msgstr "اِنقر نقرًا مزدوجًا لتبديل عرض النص"
 
 #: fitsviewer/fitsstackmonitor.h:96
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "%1 Failed to Load"
-msgstr "فشل في تحميل الصورة "
+msgstr "%1 فشل التحميل"
 
 #: fitsviewer/fitsstackmonitor.h:97
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgid "%1 Failed Plate Solving"
-msgstr "حل اللوحة"
+msgstr "%1 فشل حل اللوحة"
 
 #: fitsviewer/fitsstackmonitor.h:98
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "%1 Failed Waiting"
-msgstr "إعدادات الملف"
+msgstr "%1 فشل الانتظار"
 
 #: fitsviewer/fitsstackmonitor.h:99
-#, fuzzy, kde-format
-#| msgid "Flat Calibration"
+#, kde-format
 msgid "%1 Failed Calibration"
-msgstr "معايرة مسطّح"
+msgstr "%1 فشلت المعايرة"
 
 #: fitsviewer/fitsstackmonitor.h:100
-#, fuzzy, kde-format
-#| msgid "Save Failed Align Images"
+#, kde-format
 msgid "%1 Failed Alignment"
-msgstr "احفظ صور الموائمة الفاشلة"
+msgstr "%1 فشلت الموائمة"
 
 #: fitsviewer/fitsstackmonitor.h:101
-#, fuzzy, kde-format
-#| msgid "Failed to edit city"
+#, kde-format
 msgid "%1 Failed to Stack"
-msgstr "فشل تعديل المدينة"
+msgstr "%1 فشل التراص"
 
 #: fitsviewer/fitsstackmonitor.h:120
 #, kde-format
@@ -30573,6 +30512,9 @@ msgid ""
 "%2 = OK\n"
 "%3 = Error"
 msgstr ""
+"%1 \n"
+"%2 = حسنًا\n"
+"%3 = خطأ"
 
 #: fitsviewer/fitsstackmonitor.h:123
 #, kde-format
@@ -30580,6 +30522,8 @@ msgid ""
 "%1 \n"
 "%2 = Not applicable"
 msgstr ""
+"%1 \n"
+"%2 = غير منطبق"
 
 #: fitsviewer/fitsstackmonitor.h:129
 #, kde-format
@@ -30594,6 +30538,15 @@ msgid ""
 "%8\n"
 "%9"
 msgstr ""
+"%1 \n"
+"%2\n"
+"%3 = عولج بنجاح\n"
+"%4\n"
+"%5\n"
+"%6\n"
+"%7\n"
+"%8\n"
+"%9"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
@@ -31464,10 +31417,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, MonitorB)
 #: fitsviewer/livestacking.ui:382
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Save Live Stacker parameters</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Launch Live Stacker Monitor</p></body></html>"
-msgstr "<html><head/><body><p>احفظ مُعلمات المرصّف الحي</p></body></html>"
+msgstr "<html><head/><body><p>شغّل مراقب المرصّف الحي</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, HelpB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
@@ -31893,28 +31845,24 @@ msgstr "اضبط خيارات التراص في هذا القسم."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, StackMonitorDialog)
 #: fitsviewer/livestackmonitor.ui:26
-#, fuzzy, kde-format
-#| msgid "Live Stacking"
+#, kde-format
 msgid "Live Stacking Monitor"
-msgstr "تراص حي"
+msgstr "مراقب التراص الحي"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable highlighting of data changes</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>اختر لعرض لصائق على الرسم البياني.</p></body></html>"
+"<html><head/><body><p>اختر لتمكين إبراز تغييرات البيانات</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:63
-#, fuzzy, kde-format
-#| msgid "Highlights"
+#, kde-format
 msgid " Highlighting"
-msgstr "الإضاءات"
+msgstr " إبراز"
 
 #: fitsviewer/opsfits.cpp:111
 #, kde-format
@@ -33508,22 +33456,19 @@ msgid "Mount motion was aborted"
 msgstr "أُجهضت حركة الحامل"
 
 #: indi/indimount.cpp:383
-#, fuzzy, kde-format
-#| msgid "Mount parking is in progress"
+#, kde-format
 msgid "Mount homing in progress"
-msgstr "يجري ركن الحامل"
+msgstr "توجيه الحامل للبيت قيد التقدم"
 
 #: indi/indimount.cpp:391
-#, fuzzy, kde-format
-#| msgid "Dithering completed successfully."
+#, kde-format
 msgid "Mount homed successfully"
-msgstr "اكتمل التنخيل بنجاح."
+msgstr "أكملت توجيه الحامل للبيت بنجاح."
 
 #: indi/indimount.cpp:397
-#, fuzzy, kde-format
-#| msgid "Mount parking failed"
+#, kde-format
 msgid "Mount homing failed"
-msgstr "فشل ركن الحامل"
+msgstr "فشل توجيه الحامل للبيت"
 
 #: indi/indimount.cpp:486
 #, kde-format
@@ -38737,28 +38682,25 @@ msgstr "سيجما التحديد لتكديس البث المباشر"
 #: kstars.kcfg:1878
 #, kde-format
 msgid "Geometry of Live Stacking Monitor window"
-msgstr ""
+msgstr "هندسة نافذة مراقب التراص الحي"
 
 #. i18n: ectx: label, entry (fitsLSMVisibleColumns), group (FITSViewer)
 #: kstars.kcfg:1882
-#, fuzzy, kde-format
-#| msgid "Live Stacking deconvolution amount"
+#, kde-format
 msgid "Live Stacking Monitor column visibility"
-msgstr "مقدار فك الالتفاف لتكديس البث المباشر"
+msgstr "وضوح عمود مراقب التراص الحي"
 
 #. i18n: ectx: label, entry (fitsLSMColumnWidths), group (FITSViewer)
 #: kstars.kcfg:1886
-#, fuzzy, kde-format
-#| msgid "Live Stacking Post Processing switch"
+#, kde-format
 msgid "Live Stacking Monitor column widths"
-msgstr "مفتاح ما بعد المعالجة لتكديس البث المباشر"
+msgstr "عروض أعمدة مراقب التراص الحي"
 
 #. i18n: ectx: label, entry (fitsLSMHighlighting), group (FITSViewer)
 #: kstars.kcfg:1896
-#, fuzzy, kde-format
-#| msgid "Live Stacking sub weighting"
+#, kde-format
 msgid "Live Stacking Monitor highlighting."
-msgstr "ترجيح الإرسال الفرعي لتكديس البث المباشر"
+msgstr "إبراز مراقب التراص الحي."
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1902
