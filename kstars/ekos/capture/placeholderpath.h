@@ -91,8 +91,8 @@ class PlaceholderPath
          * This overload of the function supports calls from the capture class
          */
         QString generateSequenceFilename(const SequenceJob &job, bool local, const bool batch_mode,
-                                 const int nextSequenceID, const QString &extension, const QString &filename,
-                                 const bool glob = false, const bool gettingSignature = false);
+                                         const int nextSequenceID, const QString &extension, const QString &filename,
+                                         const bool glob = false, const bool gettingSignature = false);
 
         /**
          * @brief generateFilename performs the data for tag substitution in the filename
@@ -107,8 +107,9 @@ class PlaceholderPath
          *
          * This overload of the function supports calls from the indicamera class
          */
-        QString generateOutputFilename(const bool local, const bool batch_mode, const int nextSequenceID, const QString &extension, const QString &filename,
-                                 const bool glob = false, const bool gettingSignature = false) const;
+        QString generateOutputFilename(const bool local, const bool batch_mode, const int nextSequenceID, const QString &extension,
+                                       const QString &filename,
+                                       const bool glob = false, const bool gettingSignature = false) const;
 
         /**
          * @brief setGenerateFilenameSettings loads the placeHolderPath with settings from the passed job
@@ -173,6 +174,13 @@ class PlaceholderPath
          */
         static QString repairFilename(const QString &filename);
 
+        /**
+         * @brief getFrameTypeFromString converts a frame type string to its corresponding CCDFrameType enum.
+         * @param frameTypeString The string representation of the frame type (e.g., "Dark", "Light").
+         * @return The CCDFrameType enum value, or FRAME_NONE if no match is found.
+         */
+        static CCDFrameType getFrameTypeFromString(const QString &frameTypeString);
+
         // shortcuts
         static bool isFilterEnabled(const QString format)
         {
@@ -192,10 +200,11 @@ class PlaceholderPath
             m_seqFilename = newSeqFilename;
         }
 
-private:
+    private:
         // TODO use QVariantMap or QVariantList instead of passing this many args.
-        QString generateFilenameInternal(const QMap<PathProperty, QVariant> &pathPropertyMap, const bool local, const bool batch_mode, const int nextSequenceID, const QString &extension,
-                                 const QString &filename, const bool glob = false, const bool gettingSignature = false, const bool isVideo = false) const;
+        QString generateFilenameInternal(const QMap<PathProperty, QVariant> &pathPropertyMap, const bool local,
+                                         const bool batch_mode, const int nextSequenceID, const QString &extension,
+                                         const QString &filename, const bool glob = false, const bool gettingSignature = false, const bool isVideo = false) const;
 
         /**
          * @brief setGenerateFilenameSettings Generate property map from job settings. In case that gettingSignature is set to true,
@@ -207,13 +216,15 @@ private:
          * @param local set true if local file directory should be used
          * @param is this parameter setting for generating a signature?
          */
-        void setGenerateFilenameSettings(const SequenceJob &job, QMap<PathProperty, QVariant> &pathPropertyMap, const bool local, const bool gettingSignature = false);
+        void setGenerateFilenameSettings(const SequenceJob &job, QMap<PathProperty, QVariant> &pathPropertyMap, const bool local,
+                                         const bool gettingSignature = false);
 
         /**
          * @brief generateReplacement Generate the replacement for the given property. if usePattern
          * is true, a pattern for the given type is used instead of a fixed value.
          */
-        QString generateReplacement(const QMap<PathProperty, QVariant> &pathPropertyMap, PathProperty property, bool usePattern = false) const;
+        QString generateReplacement(const QMap<PathProperty, QVariant> &pathPropertyMap, PathProperty property,
+                                    bool usePattern = false) const;
 
         static QString getFrameType(CCDFrameType frameType)
         {
@@ -240,4 +251,3 @@ private:
 };
 
 }
-

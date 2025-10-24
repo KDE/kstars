@@ -5,6 +5,7 @@
 */
 
 #include "sequencejob.h"
+#include "placeholderpath.h"
 
 #include <knotification.h>
 #include <ekos_capture_debug.h>
@@ -758,8 +759,8 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
         }
         else if (!strcmp(tagXMLEle(ep), "Type"))
         {
-            int index = frameTypes().indexOf(pcdataXMLEle(ep));
-            setFrameType(static_cast<CCDFrameType>(qMax(0, index)));
+            QString frameTypeString = pcdataXMLEle(ep);
+            setFrameType(PlaceholderPath::getFrameTypeFromString(frameTypeString));
         }
         else if (!strcmp(tagXMLEle(ep), "TargetName"))
         {
@@ -1060,10 +1061,10 @@ void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
     outstream << "<FITSDirectory>" << getCoreProperty(SequenceJob::SJ_LocalDirectory).toString() << "</FITSDirectory>" <<
               Qt::endl;
     outstream << "<PlaceholderFormat>" << getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString() <<
-              "</PlaceholderFormat>" <<
+                 "</PlaceholderFormat>" <<
               Qt::endl;
     outstream << "<PlaceholderSuffix>" << getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt() <<
-              "</PlaceholderSuffix>" <<
+                 "</PlaceholderSuffix>" <<
               Qt::endl;
     outstream << "<UploadMode>" << getUploadMode() << "</UploadMode>" << Qt::endl;
     if (getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString().isEmpty() == false)
@@ -1119,13 +1120,12 @@ void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
         outstream << "<Value>" << cLocale.toString(getCoreProperty(SequenceJob::SJ_TargetADU).toDouble()) << "</Value>" <<
                   Qt::endl;
         outstream << "<Tolerance>" << cLocale.toString(getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble()) <<
-                  "</Tolerance>" << Qt::endl;
+                     "</Tolerance>" << Qt::endl;
         outstream << "<SkyFlat>" << (getCoreProperty(SequenceJob::SJ_SkyFlat).toBool() ? "true" : "false") <<
-                  "</SkyFlat>" << Qt::endl;
+                     "</SkyFlat>" << Qt::endl;
     }
     outstream << "</FlatDuration>" << Qt::endl;
     outstream << "</Calibration>" << Qt::endl;
     outstream << "</Job>" << Qt::endl;
 }
 }
-

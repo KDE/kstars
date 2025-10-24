@@ -731,5 +731,18 @@ QString PlaceholderPath::repairFilename(const QString &filename)
     return filename;;
 }
 
+CCDFrameType PlaceholderPath::getFrameTypeFromString(const QString &frameTypeString)
+{
+    QMapIterator<CCDFrameType, QString> i(m_frameTypes);
+    while (i.hasNext())
+    {
+        i.next();
+        if (i.value() == frameTypeString)
+        {
+            return i.key();
+        }
+    }
+    return FRAME_NONE; // Return FRAME_NONE if no match is found
 }
 
+}
