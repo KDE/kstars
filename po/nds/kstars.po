@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-23 01:55+0000\n"
+"POT-Creation-Date: 2025-10-25 02:01+0000\n"
 "PO-Revision-Date: 2014-06-12 16:56+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -490,14 +490,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "All Biller sekern"
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:4013
+#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:4015
 #: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1391
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Dat gifft al en Datei mit den Naam \"%1\". Överschrieven?"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:4016
+#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:4018
 #: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1392
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -614,7 +614,7 @@ msgstr "Afbreken"
 #: ekos/align/opsastrometryindexfiles.cpp:647
 #: ekos/align/opsastrometryindexfiles.cpp:715
 #: ekos/align/opsastrometryindexfiles.cpp:736
-#: ekos/align/opsastrometryindexfiles.cpp:746 ekos/capture/sequencejob.cpp:24
+#: ekos/align/opsastrometryindexfiles.cpp:746 ekos/capture/sequencejob.cpp:25
 #: ekos/manager.cpp:1277 ekos/manager.cpp:1292 ekos/manager.cpp:1308
 #: ekos/scheduler/scheduler.cpp:1632 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:23 indi/indidustcap.cpp:18 indi/indimount.cpp:32
@@ -2180,7 +2180,7 @@ msgstr "Status"
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:3487 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
-#: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
+#: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:25
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:807 ekos/manager/guidemanager.cpp:135
@@ -2801,7 +2801,7 @@ msgstr ""
 "De URL is leeg. Wullt Du en Nettkiekerfinster\n"
 "mit de Söökmaschien \"Google\" opmaken?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4024
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4026
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:332 ekos/capture/camera_jobs.cpp:419
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
@@ -3379,7 +3379,7 @@ msgstr "&Bewerken"
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverRALabel)
 #: dialogs/catalogobjectlistmodel.cpp:67 ekos/align/align.ui:909
 #: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:424
-#: ekos/guide/opscalibration.ui:235 ekos/guide/opsguide.ui:218
+#: ekos/guide/opscalibration.ui:307 ekos/guide/opsguide.ui:218
 #: ekos/scheduler/scheduler.ui:606 fitsviewer/platesolve.ui:200
 #: fitsviewer/solveInfo.ui:66 skycomponents/imageoverlaycomponent.cpp:66
 #, kde-format
@@ -4107,7 +4107,7 @@ msgstr "0,00 Parsek"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:457 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
-#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:597
+#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:709 ekos/guide/guide.ui:597
 #: ekos/guide/guide.ui:721 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
@@ -5475,7 +5475,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, textLabel6_2_2_2)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, AngDistLabel_4)
-#: dialogs/newfov.ui:297 ekos/guide/opscalibration.ui:261
+#: dialogs/newfov.ui:297 ekos/guide/opscalibration.ui:321
 #: tools/modcalcangdist.ui:331
 #, kde-format
 msgid "degrees"
@@ -6528,7 +6528,7 @@ msgid "Mount coordinates are invalid. Check mount connection and try again."
 msgstr "Teleskoop \"%1\" is afkoppelt. Bitte tokoppeln un nochmaal versöken."
 
 #: ekos/align/align.cpp:1437 ekos/align/align.cpp:1469
-#: ekos/align/align.cpp:2481
+#: ekos/align/align.cpp:2483
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgid "Astrometry alignment failed"
@@ -6609,7 +6609,7 @@ msgstr "Automaatsch bi to scharpstellen..."
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr "Automaatsch bi to scharpstellen..."
 
-#: ekos/align/align.cpp:1605 ekos/align/align.cpp:3123
+#: ekos/align/align.cpp:1605 ekos/align/align.cpp:3125
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
@@ -6695,86 +6695,86 @@ msgstr "Löser hett na %1 Sekunn afbraken."
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 
-#: ekos/align/align.cpp:2188
+#: ekos/align/align.cpp:2190
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
 "valid WCS."
 msgstr ""
 
-#: ekos/align/align.cpp:2206
+#: ekos/align/align.cpp:2208
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
 
-#: ekos/align/align.cpp:2217
+#: ekos/align/align.cpp:2219
 #, fuzzy, kde-format
 #| msgid "Synchronize the telescope to the solution coordinates"
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Dat Teleskoop mit de Lösen-Koordinaten synkroniseren"
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-#: ekos/align/align.cpp:2262
+#: ekos/align/align.cpp:2264
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Camera position angle is %1 degrees."
 msgstr "Temperatuur vun den CCD-Chip fastleggen"
 
-#: ekos/align/align.cpp:2298 ekos/align/align.cpp:2438
+#: ekos/align/align.cpp:2300 ekos/align/align.cpp:2440
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
 msgstr ""
 
-#: ekos/align/align.cpp:2306 ekos/align/align.cpp:2767
+#: ekos/align/align.cpp:2308 ekos/align/align.cpp:2769
 #, fuzzy, kde-format
 #| msgid "Telescope Coordinates"
 msgid "Astrometry alignment completed successfully"
 msgstr "Teleskoop-Koordinaten"
 
-#: ekos/align/align.cpp:2328
+#: ekos/align/align.cpp:2330
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2357
+#: ekos/align/align.cpp:2359
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2420
+#: ekos/align/align.cpp:2422
 #, fuzzy, kde-format
 #| msgid "Save the image to disk"
 msgid "Saving failed solver image to %1"
 msgstr "Dat Bild op de Fastplaat sekern"
 
-#: ekos/align/align.cpp:2444
+#: ekos/align/align.cpp:2446
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 second."
 #| msgid_plural "Solver aborted after %1 seconds"
 msgid "Solver failed. Retrying with blind dynamic threshold."
 msgstr "Löser hett na %1 Sekunn afbraken."
 
-#: ekos/align/align.cpp:2458
+#: ekos/align/align.cpp:2460
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 second."
 #| msgid_plural "Solver aborted after %1 seconds"
 msgid "Solver failed. Retrying without scale constraint."
 msgstr "Löser hett na %1 Sekunn afbraken."
 
-#: ekos/align/align.cpp:2468
+#: ekos/align/align.cpp:2470
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr ""
 
-#: ekos/align/align.cpp:2476
+#: ekos/align/align.cpp:2478
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver Failed."
 msgstr "Keen SF"
 
-#: ekos/align/align.cpp:2479
+#: ekos/align/align.cpp:2481
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6782,43 +6782,43 @@ msgid ""
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
 
-#: ekos/align/align.cpp:2539
+#: ekos/align/align.cpp:2541
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Temperatuur vun den CCD-Chip fastleggen"
 
-#: ekos/align/align.cpp:2546
+#: ekos/align/align.cpp:2548
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2560
+#: ekos/align/align.cpp:2562
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align.cpp:2630
+#: ekos/align/align.cpp:2632
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Refresh is complete."
 msgstr "%1 is tokoppelt."
 
-#: ekos/align/align.cpp:2637 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/align/align.cpp:2639 ekos/auxiliary/darklibrary.cpp:1413
 #: ekos/focus/focus.cpp:1679
 #, kde-format
 msgid "Capture aborted."
 msgstr "Bildopnehmen afbraken."
 
-#: ekos/align/align.cpp:2640
+#: ekos/align/align.cpp:2642
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Solver aborted."
 msgstr "Automaatsch Naföhren anfungen"
 
-#: ekos/align/align.cpp:2682 ekos/analyze/analyze.cpp:4142
-#: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2106 ekos/mount/mount.cpp:778
+#: ekos/align/align.cpp:2684 ekos/analyze/analyze.cpp:4142
+#: ekos/capture/capture.cpp:310 ekos/focus/focusmodule.cpp:458
+#: ekos/guide/guide.cpp:1250 ekos/manager.cpp:2106 ekos/mount/mount.cpp:778
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3731
 #, kde-format
@@ -6826,78 +6826,78 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2738
+#: ekos/align/align.cpp:2740
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 
-#: ekos/align/align.cpp:2761
+#: ekos/align/align.cpp:2763
 #, fuzzy, kde-format
 #| msgid "Synchronize the telescope to the solution coordinates"
 msgid "Mount is synced to solution coordinates."
 msgstr "Dat Teleskoop mit de Lösen-Koordinaten synkroniseren"
 
-#: ekos/align/align.cpp:2797 ekos/align/align.cpp:2815
-#: ekos/align/align.cpp:3427 ekos/align/align.cpp:4172
+#: ekos/align/align.cpp:2799 ekos/align/align.cpp:2817
+#: ekos/align/align.cpp:3429 ekos/align/align.cpp:4174
 #: ekos/align/polaralignmentassistant.cpp:654
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling..."
 msgstr "&Instellen"
 
-#: ekos/align/align.cpp:2805
+#: ekos/align/align.cpp:2807
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align.cpp:2807
+#: ekos/align/align.cpp:2809
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align.cpp:2850 ekos/align/align.cpp:3001
+#: ekos/align/align.cpp:2852 ekos/align/align.cpp:3003
 #, kde-format
 msgid "Syncing failed."
 msgstr "Synkroniseren fehlslaan."
 
-#: ekos/align/align.cpp:2852
+#: ekos/align/align.cpp:2854
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Slewing failed."
 msgstr "Bi to punkteren..."
 
-#: ekos/align/align.cpp:2896
+#: ekos/align/align.cpp:2898
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached camera position angle."
 msgstr "Positschoon-Winkel"
 
-#: ekos/align/align.cpp:2909
+#: ekos/align/align.cpp:2911
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align.cpp:2947
+#: ekos/align/align.cpp:2949
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "Slew detected, suspend solving..."
 msgstr "Keen Steerns funnen, warrt nochmaal opnahmen..."
 
-#: ekos/align/align.cpp:2995
+#: ekos/align/align.cpp:2997
 #, fuzzy, kde-format
 #| msgid "Syncing successful."
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Mit Spood synkroniseert."
 
-#: ekos/align/align.cpp:3019
+#: ekos/align/align.cpp:3021
 #, fuzzy, kde-format
 #| msgid "Slew the telescope to the target coordinates"
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Dat Teleskoop na de Teelkoordinaten swojen"
 
-#: ekos/align/align.cpp:3024
+#: ekos/align/align.cpp:3026
 #, fuzzy, kde-format
 #| msgid "Slew the telescope to the target coordinates"
 msgid ""
@@ -6905,129 +6905,129 @@ msgid ""
 "notification)"
 msgstr "Dat Teleskoop na de Teelkoordinaten swojen"
 
-#: ekos/align/align.cpp:3043
+#: ekos/align/align.cpp:3045
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr ""
 
-#: ekos/align/align.cpp:3092
+#: ekos/align/align.cpp:3094
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Bildadressen warrt laadt"
 
-#: ekos/align/align.cpp:3323
+#: ekos/align/align.cpp:3325
 #, fuzzy, kde-format
 #| msgid "Select Coordinate System for Output File"
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "Koordinatensysteem för Utgaav-Datei utsöken"
 
-#: ekos/align/align.cpp:3328
+#: ekos/align/align.cpp:3330
 #, fuzzy, kde-format
 #| msgid "Select Coordinate System for Output File"
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "Koordinatensysteem för Utgaav-Datei utsöken"
 
-#: ekos/align/align.cpp:3347
+#: ekos/align/align.cpp:3349
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Capture error. Aborting..."
 msgstr "Bildopnehmen afbraken."
 
-#: ekos/align/align.cpp:3352 ekos/capture/cameraprocess.cpp:1630
+#: ekos/align/align.cpp:3354 ekos/capture/cameraprocess.cpp:1630
 #: ekos/capture/cameraprocess.cpp:2191
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3478
+#: ekos/align/align.cpp:3480
 #, fuzzy, kde-format
 #| msgid "Alignment"
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Utrichten"
 
-#: ekos/align/align.cpp:3553
+#: ekos/align/align.cpp:3555
 #, fuzzy, kde-format
 #| msgid "Plate Solve Options"
 msgid "StellarSolver Options"
 msgstr "Automaatsch Richtopdecken"
 
-#: ekos/align/align.cpp:3558
+#: ekos/align/align.cpp:3560
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3562
+#: ekos/align/align.cpp:3564
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Scale & Position"
 msgstr "Positschoon torüchsetten"
 
-#: ekos/align/align.cpp:3566
+#: ekos/align/align.cpp:3568
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Align Options Profiles Editor"
 msgstr "Vöransichtbild-Editor"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3585 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3587 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 #| msgid "Invalid File"
 msgid "Index Files"
 msgstr "Leeg Datei"
 
-#: ekos/align/align.cpp:3650 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3652 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgid "arcmin"
 msgid "dRA (arcsec)"
 msgstr "′"
 
-#: ekos/align/align.cpp:3651 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3653 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "arcsecs"
 msgid "dDE (arcsec)"
 msgstr "Bagensekunnen"
 
-#: ekos/align/align.cpp:3699 ekos/capture/camera_config.cpp:717
+#: ekos/align/align.cpp:3701 ekos/capture/camera_config.cpp:717
 #: ekos/focus/focus.cpp:5906
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Filter operation failed."
 msgstr "Afstimmen"
 
-#: ekos/align/align.cpp:3711 ekos/capture/camera.cpp:579
+#: ekos/align/align.cpp:3713 ekos/capture/camera.cpp:582
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3718 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:584
+#: ekos/align/align.cpp:3720 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/capture/camera.cpp:587
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3723 ekos/capture/camera.cpp:589
+#: ekos/align/align.cpp:3725 ekos/capture/camera.cpp:592
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Auto focus on filter change..."
 msgstr "Automaatsch Scharpstellen afslaten."
 
-#: ekos/align/align.cpp:3844
+#: ekos/align/align.cpp:3846
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid FOV."
 msgstr "Leeg URL"
 
-#: ekos/align/align.cpp:4000
+#: ekos/align/align.cpp:4002
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "All Bahnsporen wegmaken"
 
-#: ekos/align/align.cpp:4023 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:4025 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:331
 #: ekos/capture/camera_jobs.cpp:418 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
@@ -7037,7 +7037,7 @@ msgstr "All Bahnsporen wegmaken"
 msgid "Invalid URL: %1"
 msgstr "Leeg URL: %1"
 
-#: ekos/align/align.cpp:4032 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:4034 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:3201
 #: ekos/scheduler/schedulerprocess.cpp:4945
@@ -7046,7 +7046,7 @@ msgstr "Leeg URL: %1"
 msgid "Unable to write to file %1"
 msgstr "Bild lett sik nich sekern: %1 "
 
-#: ekos/align/align.cpp:4033 ekos/align/mountmodel.cpp:286
+#: ekos/align/align.cpp:4035 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:347
 #: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3202
@@ -7066,31 +7066,31 @@ msgstr "Bild lett sik nich sekern: %1 "
 msgid "Could Not Open File"
 msgstr "Datei lett sik nich opmaken"
 
-#: ekos/align/align.cpp:4054
+#: ekos/align/align.cpp:4056
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "Fehlers binnen Regen"
 
-#: ekos/align/align.cpp:4063
+#: ekos/align/align.cpp:4065
 #, fuzzy, kde-format
 #| msgid "Solution Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "Löös-Koordinaten"
 
-#: ekos/align/align.cpp:4080
+#: ekos/align/align.cpp:4082
 #, fuzzy, kde-format
 #| msgid "Polar Alignment Measurement"
 msgid "Polar Alignment"
 msgstr "Pooltopassen meten"
 
-#: ekos/align/align.cpp:4649
+#: ekos/align/align.cpp:4651
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Capture timed out."
 msgstr "Bildopnehmen afbraken."
 
-#: ekos/align/align.cpp:4658
+#: ekos/align/align.cpp:4660
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -7551,7 +7551,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverDECLabel)
 #: ekos/align/align.ui:914 ekos/align/opsastrometry.ui:389
 #: ekos/guide/guide.ui:342 ekos/guide/guide.ui:1291
-#: ekos/guide/opscalibration.ui:300 ekos/guide/opsguide.ui:208
+#: ekos/guide/opscalibration.ui:342 ekos/guide/opsguide.ui:208
 #: ekos/scheduler/scheduler.ui:626 fitsviewer/platesolve.ui:245
 #: skycomponents/imageoverlaycomponent.cpp:66
 #, kde-format
@@ -8469,6 +8469,7 @@ msgstr "Teleskoop swojen"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, Options)
 #: ekos/align/opsastap.ui:34 ekos/capture/rotatorsettings.ui:536
+#: ekos/guide/opscalibration.ui:398
 #, kde-format
 msgid "Options"
 msgstr "Optschonen"
@@ -10424,6 +10425,7 @@ msgstr "Standoort instellen..."
 #. i18n: ectx: property (text), item, widget (QComboBox, MountPierside)
 #: ekos/align/polaralignmentassistant.ui:120
 #: ekos/capture/rotatorsettings.ui:261
+#: ekos/guide/internalguide/internalguider.cpp:671
 #, kde-format
 msgid "West"
 msgstr "West"
@@ -10432,6 +10434,7 @@ msgstr "West"
 #. i18n: ectx: property (text), item, widget (QComboBox, MountPierside)
 #: ekos/align/polaralignmentassistant.ui:125
 #: ekos/capture/rotatorsettings.ui:266
+#: ekos/guide/internalguide/internalguider.cpp:671
 #, kde-format
 msgid "East"
 msgstr "Oost"
@@ -10736,7 +10739,7 @@ msgid "Start plate solving the position you are currently aiming at."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/align/pushtoassistant.cpp:256 ekos/capture/capture.cpp:472
+#: ekos/align/pushtoassistant.cpp:256 ekos/capture/capture.cpp:473
 #: ekos/focus/focusmodule.cpp:676 ekos/observatory/observatory.ui:550
 #: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:623
 #: skycomponents/imageoverlaycomponent.cpp:753
@@ -11015,7 +11018,7 @@ msgid ""
 msgstr ""
 
 #: ekos/analyze/analyze.cpp:3489 ekos/auxiliary/ledstatuswidget.cpp:78
-#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
+#: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1631
 #, kde-format
@@ -14610,8 +14613,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:1101 fitsviewer/livestacking.ui:1466
 #: fitsviewer/livestacking.ui:1470 fitsviewer/livestacking.ui:1592
 #: fitsviewer/livestacking.ui:1599 indi/drivermanager.cpp:1341
-#: indi/indidriver.cpp:735 kstarsactions.cpp:1972 kstarsinit.cpp:873
-#: kstarsinit.cpp:874 tools/obslistwizard.ui:183
+#: indi/indidriver.cpp:735 kstarsinit.cpp:874 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
 msgstr "Keen"
@@ -14933,20 +14935,20 @@ msgstr "Ünnerbild lett sik nich fastleggen."
 msgid "Downloading..."
 msgstr "Bi to daalladen..."
 
-#: ekos/capture/camera.cpp:596
+#: ekos/capture/camera.cpp:599
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "FITS-Datei na \"%1\" sekert"
 
-#: ekos/capture/camera.cpp:621
+#: ekos/capture/camera.cpp:624
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/camera.cpp:624
+#: ekos/capture/camera.cpp:627
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
@@ -15089,7 +15091,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_26)
 #: ekos/capture/camera.ui:712 ekos/guide/manualdither.ui:67
-#: ekos/guide/opscalibration.ui:178
+#: ekos/guide/opscalibration.ui:214
 #, kde-format
 msgid "X:"
 msgstr "X:"
@@ -15098,7 +15100,7 @@ msgstr "X:"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, l_27)
 #: ekos/capture/camera.ui:735 ekos/guide/manualdither.ui:88
-#: ekos/guide/opscalibration.ui:195
+#: ekos/guide/opscalibration.ui:231
 #, kde-format
 msgid "Y:"
 msgstr "Y:"
@@ -16332,7 +16334,7 @@ msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
 #: ekos/capture/cameraprocess.cpp:2138 ekos/focus/focus.cpp:6082
-#: ekos/guide/guide.cpp:1010
+#: ekos/guide/guide.cpp:1018
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure timeout. Restarting exposure..."
@@ -16674,12 +16676,12 @@ msgstr ""
 msgid "DSLR"
 msgstr ""
 
-#: ekos/capture/capture.cpp:470 ekos/focus/focusmodule.cpp:675
+#: ekos/capture/capture.cpp:471 ekos/focus/focusmodule.cpp:675
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:471 ekos/focus/focusmodule.cpp:676
+#: ekos/capture/capture.cpp:472 ekos/focus/focusmodule.cpp:676
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop capturing"
@@ -18170,14 +18172,14 @@ msgstr "Frequenz:"
 msgid "<comment>"
 msgstr "Kommentar"
 
-#: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
+#: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139 fitsviewer/fitsstackmonitor.h:94
 #, fuzzy, kde-format
 #| msgid "In progress"
 msgid "In Progress"
 msgstr "In de Maak"
 
-#: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
+#: ekos/capture/sequencejob.cpp:26 ekos/ekos.h:75 ekos/ekos.h:118
 #: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1630
 #, kde-format
 msgid "Complete"
@@ -19490,7 +19492,7 @@ msgstr "Vöransichtbild-Editor"
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, analyzeGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
-#: ekos/focus/focus.cpp:202 ekos/guide/opscalibration.ui:34
+#: ekos/focus/focus.cpp:202 ekos/guide/opscalibration.ui:49
 #: ekos/guide/opsgpg.ui:93 ekos/opsekos.ui:195 options/opsimageoverlay.ui:38
 #, fuzzy, kde-format
 #| msgid "&Settings"
@@ -22521,14 +22523,14 @@ msgstr "Punkteren"
 msgid "GPG RA Guider"
 msgstr "Hülplienen"
 
-#: ekos/guide/guide.cpp:426
+#: ekos/guide/guide.cpp:432
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
 
-#: ekos/guide/guide.cpp:436
+#: ekos/guide/guide.cpp:442
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
@@ -22536,241 +22538,241 @@ msgid ""
 "using the SubFrame checkbox."
 msgstr ""
 
-#: ekos/guide/guide.cpp:584
+#: ekos/guide/guide.cpp:592
 #, kde-format
 msgid "Connection to the guide CCD is lost."
 msgstr "Verbinnen na Naföhrkamera is afreten."
 
-#: ekos/guide/guide.cpp:822
+#: ekos/guide/guide.cpp:830
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to CCD."
 msgid "Error: lost connection to CCD."
 msgstr "Fehler: Verbinnen na CCD afreten."
 
-#: ekos/guide/guide.cpp:1004
+#: ekos/guide/guide.cpp:1012
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Kamera-/CCD-Belichtentiet in Sekunnen instellen"
 
-#: ekos/guide/guide.cpp:1032
+#: ekos/guide/guide.cpp:1040
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Kamera-/CCD-Belichtentiet in Sekunnen instellen"
 
-#: ekos/guide/guide.cpp:1034
+#: ekos/guide/guide.cpp:1042
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Kamera-/CCD-Belichtentiet in Sekunnen instellen"
 
-#: ekos/guide/guide.cpp:1036
+#: ekos/guide/guide.cpp:1044
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Kamera-/CCD-Belichtentiet in Sekunnen instellen"
 
-#: ekos/guide/guide.cpp:1045
+#: ekos/guide/guide.cpp:1053
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Automaatsch scharpstellen is fehlslaan. Opnahm warrt afbraken..."
 
-#: ekos/guide/guide.cpp:1315
+#: ekos/guide/guide.cpp:1323
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1321
+#: ekos/guide/guide.cpp:1329
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1402
+#: ekos/guide/guide.cpp:1410
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1505
+#: ekos/guide/guide.cpp:1513
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1519
+#: ekos/guide/guide.cpp:1527
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Swojen torüch na Orginaalsteed..."
 
-#: ekos/guide/guide.cpp:1536
+#: ekos/guide/guide.cpp:1544
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount is parking. Aborting guide..."
 msgstr "Mount Ekar"
 
-#: ekos/guide/guide.cpp:1538
+#: ekos/guide/guide.cpp:1546
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Swojen torüch na Orginaalsteed..."
 
-#: ekos/guide/guide.cpp:1601
+#: ekos/guide/guide.cpp:1615
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Calibration is cleared."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:1629
+#: ekos/guide/guide.cpp:1641
 #, kde-format
 msgid "External guider connected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1647
+#: ekos/guide/guide.cpp:1659
 #, kde-format
 msgid "External guider disconnected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1664
+#: ekos/guide/guide.cpp:1676
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Calibration completed."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:1682
+#: ekos/guide/guide.cpp:1694
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Calibration started."
 msgstr "Caliente"
 
-#: ekos/guide/guide.cpp:1689
+#: ekos/guide/guide.cpp:1701
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Naföhren wedderopnahmen."
 
-#: ekos/guide/guide.cpp:1692
+#: ekos/guide/guide.cpp:1704
 #, fuzzy, kde-format
 #| msgid "Guiding resumed."
 msgid "Autoguiding running."
 msgstr "Naföhren wedderopnahmen."
 
-#: ekos/guide/guide.cpp:1704
+#: ekos/guide/guide.cpp:1716
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Autoguiding aborted."
 msgstr "Automaatsch Naföhren anfungen"
 
-#: ekos/guide/guide.cpp:1709
+#: ekos/guide/guide.cpp:1721
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Naföhren is utsett."
 
-#: ekos/guide/guide.cpp:1718
+#: ekos/guide/guide.cpp:1730
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Manual dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:1722
+#: ekos/guide/guide.cpp:1734
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:1726
+#: ekos/guide/guide.cpp:1738
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/guide/guide.cpp:1731
+#: ekos/guide/guide.cpp:1743
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Dithering failed."
 msgstr "Bi to punkteren..."
 
-#: ekos/guide/guide.cpp:1742
+#: ekos/guide/guide.cpp:1754
 #, fuzzy, kde-format
 #| msgid "Telescope Coordinates"
 msgid "Dithering completed successfully."
 msgstr "Teleskoop-Koordinaten"
 
-#: ekos/guide/guide.cpp:1791
+#: ekos/guide/guide.cpp:1803
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "%1x%1 guide binning is not supported."
 msgstr "Automaatsch bi to scharpstellen..."
 
-#: ekos/guide/guide.cpp:1813
+#: ekos/guide/guide.cpp:1825
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Automaatsch scharpstellen is fehlslaan. Opnahm warrt afbraken..."
 
-#: ekos/guide/guide.cpp:1939
+#: ekos/guide/guide.cpp:1951
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot change guider type while active."
 msgstr "Automaatsch bi to scharpstellen..."
 
-#: ekos/guide/guide.cpp:2034
+#: ekos/guide/guide.cpp:2050
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2441
+#: ekos/guide/guide.cpp:2457
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibration failed to start."
 msgstr "Afstimmen"
 
-#: ekos/guide/guide.cpp:2592
+#: ekos/guide/guide.cpp:2608
 #, fuzzy, kde-format
 #| msgid "FITS received. No stars detected."
 msgid "Auto star selected."
 msgstr "FITS-Bild haalt, keen Steerns funnen."
 
-#: ekos/guide/guide.cpp:2596
+#: ekos/guide/guide.cpp:2612
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to select an auto star."
 msgstr "Ünnerbild lett sik nich fastleggen."
 
-#: ekos/guide/guide.cpp:2605
+#: ekos/guide/guide.cpp:2621
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Select a guide star to calibrate."
 msgstr "Steern utsöken"
 
-#: ekos/guide/guide.cpp:2867
+#: ekos/guide/guide.cpp:2883
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dx (pixels)"
 msgstr "Pixels"
 
-#: ekos/guide/guide.cpp:2868
+#: ekos/guide/guide.cpp:2884
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dy (pixels)"
 msgstr "Pixels"
 
-#: ekos/guide/guide.cpp:3011 ekos/guide/guide.cpp:3139
+#: ekos/guide/guide.cpp:3027 ekos/guide/guide.cpp:3155
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3015 ekos/guide/guide.cpp:3143
+#: ekos/guide/guide.cpp:3031 ekos/guide/guide.cpp:3159
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -22778,7 +22780,7 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3310
+#: ekos/guide/guide.cpp:3326
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -23477,79 +23479,107 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:532
+#: ekos/guide/internalguide/internalguider.cpp:536
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:602
+#: ekos/guide/internalguide/internalguider.cpp:606
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Warning: Manual Dithering failed."
 msgstr "Bi to punkteren..."
 
-#: ekos/guide/internalguide/internalguider.cpp:671
+#: ekos/guide/internalguide/internalguider.cpp:667
+#, kde-format
+msgid "Error while updating pierside for camera rotation: Pierside unkown!"
+msgstr ""
+
+#: ekos/guide/internalguide/internalguider.cpp:670
+#, kde-format
+msgid "Camera Rotation updated for Pierside "
+msgstr ""
+
+#: ekos/guide/internalguide/internalguider.cpp:674
+#, kde-format
+msgid "Camera rotation is now %1 (Original calibration with %2)"
+msgstr ""
+
+#: ekos/guide/internalguide/internalguider.cpp:676
+#, kde-format
+msgid "RApulse now %1ms/arcsec calculated for DEC = %2"
+msgstr ""
+
+#: ekos/guide/internalguide/internalguider.cpp:707
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "%1-Informatschonen fehlt. Föög de Weerten bitte binnen dat INDI-Stüerpaneel "
 "in."
 
-#: ekos/guide/internalguide/internalguider.cpp:672
+#: ekos/guide/internalguide/internalguider.cpp:708
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Missing Information"
 msgstr "Informatschonen"
 
-#: ekos/guide/internalguide/internalguider.cpp:697
+#: ekos/guide/internalguide/internalguider.cpp:731
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Guiding calibration restored"
 msgstr "Afstimmen"
 
-#: ekos/guide/internalguide/internalguider.cpp:749
+#: ekos/guide/internalguide/internalguider.cpp:737
 #, kde-format
+msgid "Calibration OK: CamRotation %1 / CalRotation %2"
+msgstr ""
+
+#: ekos/guide/internalguide/internalguider.cpp:789
+#, fuzzy, kde-format
+#| msgid ""
+#| "Lost track of the guide star. Try increasing the square size or reducing "
+#| "pulse duration."
 msgid ""
-"Lost track of the guide star. Try increasing the square size or reducing "
-"pulse duration."
+"Lost track of the guide star. Try increasing binning, square size or "
+"reducing pulse duration."
 msgstr ""
 "De Spoor vun den Leedsteern is afreten. Versöök dat un sett de Quadraatgrött "
 "rop oder maak de Pulsen körter."
 
-#: ekos/guide/internalguide/internalguider.cpp:752
+#: ekos/guide/internalguide/internalguider.cpp:792
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guide Star lost."
 msgstr "Hülplienen"
 
-#: ekos/guide/internalguide/internalguider.cpp:784
+#: ekos/guide/internalguide/internalguider.cpp:824
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Guiding calibration failed"
 msgstr "Afstimmen"
 
-#: ekos/guide/internalguide/internalguider.cpp:791
+#: ekos/guide/internalguide/internalguider.cpp:834
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Guiding calibration completed successfully"
 msgstr "Caliente"
 
-#: ekos/guide/internalguide/internalguider.cpp:1123
+#: ekos/guide/internalguide/internalguider.cpp:1188
 #, fuzzy, kde-format
 #| msgid "Lost track of the guide star. Aborting guiding..."
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "De Spoor vun den Leedsteern is afreten. Naföhren warrt afbraken..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1125
+#: ekos/guide/internalguide/internalguider.cpp:1190
 #, fuzzy, kde-format
 #| msgid "Lost track of the guide star. Aborting guiding..."
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "De Spoor vun den Leedsteern is afreten. Naföhren warrt afbraken..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1309
+#: ekos/guide/internalguide/internalguider.cpp:1374
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to find any suitable guide stars. Aborting..."
@@ -23598,7 +23628,7 @@ msgstr "&Sööd"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_29)
-#: ekos/guide/manualpulse.ui:86 ekos/guide/opscalibration.ui:60
+#: ekos/guide/manualpulse.ui:86 ekos/guide/opscalibration.ui:78
 #, kde-format
 msgid "Pulse:"
 msgstr ""
@@ -23626,20 +23656,20 @@ msgstr "Verscheel to UT:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
-#: ekos/guide/opscalibration.ui:57 ekos/guide/opscalibration.ui:83
+#: ekos/guide/opscalibration.ui:75 ekos/guide/opscalibration.ui:101
 #, fuzzy, kde-format
 #| msgid "Initial declination:"
 msgid "Initial pulse size for calibration."
 msgstr "Anfang-Deklinatschoon:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_AutoModeIterations)
-#: ekos/guide/opscalibration.ui:67
+#: ekos/guide/opscalibration.ui:85
 #, kde-format
 msgid "Maximum number of iterations calibration should use per phase."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
-#: ekos/guide/opscalibration.ui:102
+#: ekos/guide/opscalibration.ui:120
 #, kde-format
 msgid ""
 "Maximum number of iterations calibration should use per phase. It may use "
@@ -23647,14 +23677,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/guide/opscalibration.ui:105
+#: ekos/guide/opscalibration.ui:123
 #, fuzzy, kde-format
 #| msgid "Separation"
 msgid "Max Iterations:"
 msgstr "Trennen"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label1)
-#: ekos/guide/opscalibration.ui:112
+#: ekos/guide/opscalibration.ui:130
 #, kde-format
 msgid ""
 "Maximum number of pixels the calibration should move. Once it exceeds this "
@@ -23663,20 +23693,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label1)
-#: ekos/guide/opscalibration.ui:115
+#: ekos/guide/opscalibration.ui:133
 #, kde-format
 msgid "Max move (px):"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationMaxMove)
 #. i18n: ectx: label, entry (CalibrationMaxMove), group (Guide)
-#: ekos/guide/opscalibration.ui:122 kstars.kcfg:3013
+#: ekos/guide/opscalibration.ui:140 kstars.kcfg:3013
 #, kde-format
 msgid "Maximum number of pixels the calibration should move (approximate)."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TwoAxisEnabled)
-#: ekos/guide/opscalibration.ui:143
+#: ekos/guide/opscalibration.ui:161
 #, fuzzy, kde-format
 #| msgctxt "City in Alberta Canada"
 #| msgid "Two Hills"
@@ -23685,41 +23715,41 @@ msgstr "Two Hills"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GuideAutoSquareSizeEnabled)
 #. i18n: ectx: label, entry (GuideAutoSquareSizeEnabled), group (Guide)
-#: ekos/guide/opscalibration.ui:156 kstars.kcfg:3033
+#: ekos/guide/opscalibration.ui:174 kstars.kcfg:3033
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Automatically select the square size based on the selected star width."
 msgstr "Koordinatengadder an/ut"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideAutoSquareSizeEnabled)
-#: ekos/guide/opscalibration.ui:159
+#: ekos/guide/opscalibration.ui:177
 #, fuzzy, kde-format
 #| msgid "Square size"
 msgid "Auto Square Size"
 msgstr "Quadraatgrött"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/guide/opscalibration.ui:169
+#: ekos/guide/opscalibration.ui:187
 #, kde-format
 msgid "Reticle"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_26)
-#: ekos/guide/opscalibration.ui:175
+#: ekos/guide/opscalibration.ui:211
 #, fuzzy, kde-format
 #| msgid "Position of the time InfoBox."
 msgid "X position of the guide star"
 msgstr "Steed vun de Tietinfo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_27)
-#: ekos/guide/opscalibration.ui:192
+#: ekos/guide/opscalibration.ui:228
 #, fuzzy, kde-format
 #| msgid "Position of the time InfoBox."
 msgid "Y position of the guide star"
 msgstr "Steed vun de Tietinfo"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: ekos/guide/opscalibration.ui:223
+#. i18n: ectx: property (title), widget (QGroupBox, CalibrationsValues)
+#: ekos/guide/opscalibration.ui:286
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
@@ -23730,8 +23760,8 @@ msgstr "Caliente"
 #. i18n: ectx: property (text), widget (QLabel, ra_cal_mspp)
 #. i18n: ectx: property (text), widget (QLabel, dec_cal_degrees)
 #. i18n: ectx: property (text), widget (QLabel, dec_cal_mspp)
-#: ekos/guide/opscalibration.ui:248 ekos/guide/opscalibration.ui:274
-#: ekos/guide/opscalibration.ui:313 ekos/guide/opscalibration.ui:345
+#: ekos/guide/opscalibration.ui:314 ekos/guide/opscalibration.ui:328
+#: ekos/guide/opscalibration.ui:349 ekos/guide/opscalibration.ui:369
 #: kstarslite/qml/indi/INDIControlPanel.qml:96
 #, kde-format, kde-kuit-format
 msgid "xxxx"
@@ -23739,20 +23769,20 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: ekos/guide/opscalibration.ui:287 ekos/guide/opscalibration.ui:358
+#: ekos/guide/opscalibration.ui:335 ekos/guide/opscalibration.ui:376
 #, fuzzy, kde-format
 #| msgid "arcsecs"
 msgid "ms/arcsec"
 msgstr "Bagensekunnen"
 
 #. i18n: ectx: property (text), widget (QLabel, dec_cal_degrees_unit)
-#: ekos/guide/opscalibration.ui:332
+#: ekos/guide/opscalibration.ui:362
 #, kde-format
 msgid "degrees (swapped)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
-#: ekos/guide/opscalibration.ui:366
+#: ekos/guide/opscalibration.ui:425
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -23761,46 +23791,30 @@ msgid ""
 msgstr "Bito-Optschonen för den Löser"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
-#: ekos/guide/opscalibration.ui:372
+#: ekos/guide/opscalibration.ui:431
 #, kde-format
 msgid "Remove DEC backlash in guide calibration"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
-#: ekos/guide/opscalibration.ui:379
+#: ekos/guide/opscalibration.ui:444
 #, kde-format
 msgid ""
 "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
 "started. This is often not necessary when a good quality calibration has "
-"previously been done and the guide camera has not been rotated or re-"
-"installed.</p></body></html>"
+"previously been done and the guide camera has not been re-installed.</p></"
+"body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
-#: ekos/guide/opscalibration.ui:385
+#: ekos/guide/opscalibration.ui:450
 #, fuzzy, kde-format
 #| msgid "Calibration"
-msgid "Reset Guide Calibration After Each Mount Slew"
+msgid "Reset guide calibration after each mount slew"
 msgstr "Afstimmen"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
-#: ekos/guide/opscalibration.ui:392
-#, kde-format
-msgid ""
-"<html><head/><body><p>Store and attempt to reuse calibrations. This only "
-"works on opposite sides of the meridian if the pier-side can be "
-"automatically determined from your mount. The \"Reset Guide on Slew\" option "
-"above must be unchecked for this to be attempted.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
-#: ekos/guide/opscalibration.ui:398
-#, kde-format
-msgid "Store and reuse guide calibration when possible."
-msgstr ""
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
-#: ekos/guide/opscalibration.ui:405
+#: ekos/guide/opscalibration.ui:457
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -23811,11 +23825,26 @@ msgid ""
 msgstr "Bito-Optschonen för den Löser"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
-#: ekos/guide/opscalibration.ui:411
+#: ekos/guide/opscalibration.ui:463
+#, kde-format
+msgid "Mount reverses DEC pulses after changing pierside"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
+#: ekos/guide/opscalibration.ui:479
 #, kde-format
 msgid ""
-"Reverse DEC guide pulses when changing pier-side and reusing calibration."
+"<html><head/><body><p>Store and attempt to reuse calibrations. This even "
+"works on opposite sides of the meridian if the pier-side can be "
+"automatically determined from your mount.</p></body></html>"
 msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
+#: ekos/guide/opscalibration.ui:482
+#, fuzzy, kde-format
+#| msgid "Automatic Meridian Flip"
+msgid "Store and reuse guide calibration when possible"
+msgstr "Automaatsch Meridiaandreihen"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -25170,17 +25199,17 @@ msgstr ""
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3836
+#: ekos/manager.cpp:3850
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:3843
+#: ekos/manager.cpp:3857
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:3850
+#: ekos/manager.cpp:3864
 #, kde-format
 msgid "Received external preview file"
 msgstr ""
@@ -78721,26 +78750,26 @@ msgstr "XPlanet"
 msgid "Developer"
 msgstr "Revelstoke"
 
-#: kstarsactions.cpp:1210 kstarsactions.cpp:2073 kstarsinit.cpp:287
+#: kstarsactions.cpp:1210 kstarsactions.cpp:2086 kstarsinit.cpp:287
 #, fuzzy, kde-format
 #| msgctxt "City in Spain"
 #| msgid "Terrassa"
 msgid "Hide Terrain"
 msgstr "Terrassa"
 
-#: kstarsactions.cpp:1210 kstarsactions.cpp:2073 kstarsinit.cpp:288
+#: kstarsactions.cpp:1210 kstarsactions.cpp:2086 kstarsinit.cpp:288
 #, fuzzy, kde-format
 #| msgid "Show details..."
 msgid "Show Terrain"
 msgstr "Enkelheiten wiesen..."
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2083 kstarsinit.cpp:292
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2096 kstarsinit.cpp:292
 #, fuzzy, kde-format
 #| msgid "Polar Alignment"
 msgid "Hide Image Overlays"
 msgstr "Pooltopassen"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2083 kstarsinit.cpp:293
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2096 kstarsinit.cpp:293
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show Image Overlays"
@@ -79039,60 +79068,60 @@ msgid "Userdata at index %1 does not exist."
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:78 tools/arglooktoward.ui:92
+#: kstarsdbus.cpp:80 tools/arglooktoward.ui:92
 #, kde-format
 msgid "zenith"
 msgstr "kopppunkt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:82 tools/arglooktoward.ui:52
+#: kstarsdbus.cpp:84 tools/arglooktoward.ui:52
 #, kde-format
 msgid "north"
 msgstr "north"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:86 tools/arglooktoward.ui:62
+#: kstarsdbus.cpp:88 tools/arglooktoward.ui:62
 #, kde-format
 msgid "east"
 msgstr "east"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:90 tools/arglooktoward.ui:72
+#: kstarsdbus.cpp:92 tools/arglooktoward.ui:72
 #, kde-format
 msgid "south"
 msgstr "south"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:94 tools/arglooktoward.ui:82
+#: kstarsdbus.cpp:96 tools/arglooktoward.ui:82
 #, kde-format
 msgid "west"
 msgstr "west"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:98 tools/arglooktoward.ui:57
+#: kstarsdbus.cpp:100 tools/arglooktoward.ui:57
 #, kde-format
 msgid "northeast"
 msgstr "northeast"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:106 tools/arglooktoward.ui:67
+#: kstarsdbus.cpp:108 tools/arglooktoward.ui:67
 #, kde-format
 msgid "southeast"
 msgstr "southeast"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:114 tools/arglooktoward.ui:77
+#: kstarsdbus.cpp:116 tools/arglooktoward.ui:77
 #, kde-format
 msgid "southwest"
 msgstr "southwest"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
-#: kstarsdbus.cpp:122 tools/arglooktoward.ui:87
+#: kstarsdbus.cpp:124 tools/arglooktoward.ui:87
 #, kde-format
 msgid "northwest"
 msgstr "northwest"
 
-#: kstarsdbus.cpp:1027
+#: kstarsdbus.cpp:1033
 #, fuzzy, kde-format
 #| msgid "Print Sky"
 msgctxt "@title:window"
