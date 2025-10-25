@@ -43,6 +43,15 @@ QSharedPointer<SequenceJob> Camera::createJob(SequenceJob::SequenceJobType jobty
 
     updateJobFromUI(job, filenamePreview);
 
+    // Update CameraState with job-specific calibration settings from the newly created job
+    state()->setCalibrationPreAction(job->getCalibrationPreAction());
+    state()->setFlatFieldDuration(job->getFlatFieldDuration());
+    state()->wallCoord().setAz(job->getWallCoord().az().Degrees());
+    state()->wallCoord().setAlt(job->getWallCoord().alt().Degrees());
+    state()->setTargetADU(job->getCoreProperty(SequenceJob::SJ_TargetADU).toInt());
+    state()->setTargetADUTolerance(job->getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toInt());
+    state()->setSkyFlat(job->getCoreProperty(SequenceJob::SJ_SkyFlat).toBool());
+
     // Nothing more to do if preview or for placeholder calculations
     if (jobtype == SequenceJob::JOBTYPE_PREVIEW || filenamePreview != FILENAME_NOT_PREVIEW)
         return job;

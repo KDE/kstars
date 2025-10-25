@@ -374,6 +374,12 @@ IPState SequenceJobState::checkFlatsCoverReady()
     auto result = checkCalibrationPreActionsReady();
     if (result == IPS_OK)
     {
+        // Sky flats require no cover checks
+        // But we still need to ensure the dust cap is unparked if present
+        // Like capturing light frames.
+        if (m_CameraState->skyFlat())
+            return checkDustCapReady(FRAME_LIGHT);
+
         if (m_CameraState->hasDustCap && m_CameraState->hasLightBox)
             return checkDustCapReady(FRAME_FLAT);
         // In case we have a wall action then we are facing a flat light source and we can immediately continue to next step
@@ -719,7 +725,7 @@ void SequenceJobState::setCurrentFilterID(int value)
     m_CameraState->currentFilterID = value;
     // Signal the FilterManager if we need a new targetFilterID or a new autofocus on that filter
     if (isInitialized(CAPTURE_ACTION_FILTER) == false &&
-                            (value != targetFilterID || m_filterPolicy & FilterManager::AUTOFOCUS_POLICY))
+            (value != targetFilterID || m_filterPolicy & FilterManager::AUTOFOCUS_POLICY))
     {
         // mark filter preparation action
         // TODO introduce settle time

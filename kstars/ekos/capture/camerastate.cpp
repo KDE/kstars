@@ -33,7 +33,7 @@ void CameraState::init()
     wallCoord().setAz(Options::calibrationWallAz());
     wallCoord().setAlt(Options::calibrationWallAlt());
     setTargetADU(Options::calibrationADUValue());
-    setSkyFlat(Options::calibrationSkyFlat());
+    setSkyFlat(Options::captureCalibrationSkyFlats());
 }
 
 CameraState::CameraState(QObject *parent): QObject{parent}
@@ -683,7 +683,7 @@ void CameraState::updateFocusState(FocusState state)
     if (state != m_FocusState)
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" <<
                                      Ekos::getFocusStatusString(m_FocusState) <<
-                                     "to" << Ekos::getFocusStatusString(state);
+        "to" << Ekos::getFocusStatusString(state);
     setFocusState(state);
 
     // Do not process if meridian flip in progress
