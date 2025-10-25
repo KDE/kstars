@@ -664,7 +664,7 @@ bool InternalGuider:: adaptCalibration(const bool FlipRotDone)
     pmath->getMutableCalibration()->updatePierside(&NewPierside, &CamRotation, FlipRotDone, withManualRotator);
     if (NewPierside == ISD::Mount::PIER_UNKNOWN)
     {
-        emit newLog(i18n("Error while updating pierside for camera rotation: Pierside unkown!"));
+        emit newLog(i18n("Error while updating pierside for camera rotation: Pierside unknown!"));
         return false;
     }
     emit newLog(i18n("Camera Rotation updated for Pierside ") +
