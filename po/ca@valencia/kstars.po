@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-26 01:58+0000\n"
-"PO-Revision-Date: 2025-10-25 13:19+0200\n"
+"PO-Revision-Date: 2025-10-26 16:30+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -23805,8 +23805,7 @@ msgid "Warning: Manual Dithering failed."
 msgstr "Avís: Ha fallat el tramat manual."
 
 #: ekos/guide/internalguide/internalguider.cpp:667
-#, fuzzy, kde-format
-#| msgid "Error while updating pierside for camera rotation: Pierside unkown!"
+#, kde-format
 msgid "Error while updating pierside for camera rotation: Pierside unknown!"
 msgstr ""
 "S'ha produït un error mentre s'actualitzava el costat del moll segons el gir "
@@ -91528,9 +91527,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Sky Flat"
-#~ msgstr "Pla del cel"
-
-#~ msgid "When shooting flats on sky with changing intensity."
-#~ msgstr "Quan es prenen plans del cel amb una intensitat canviant."

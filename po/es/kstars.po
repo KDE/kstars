@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-26 01:58+0000\n"
-"PO-Revision-Date: 2025-10-25 20:23+0100\n"
+"PO-Revision-Date: 2025-10-26 03:55+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -23510,8 +23510,7 @@ msgid "Warning: Manual Dithering failed."
 msgstr "Advertencia: El desvío manual ha fallado."
 
 #: ekos/guide/internalguide/internalguider.cpp:667
-#, fuzzy, kde-format
-#| msgid "Error while updating pierside for camera rotation: Pierside unkown!"
+#, kde-format
 msgid "Error while updating pierside for camera rotation: Pierside unknown!"
 msgstr ""
 "Ha ocurrido un error al actualizar el lado de la columna para la rotación de "
@@ -90670,9 +90669,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid "Sky Flat"
-#~ msgstr "Plano del cielo"
-
-#~ msgid "When shooting flats on sky with changing intensity."
-#~ msgstr "Al filmar planos del cielo con intensidad cambiante."

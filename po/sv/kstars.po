@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-26 01:58+0000\n"
-"PO-Revision-Date: 2025-10-23 22:02+0200\n"
+"PO-Revision-Date: 2025-10-26 23:29+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -23141,17 +23141,17 @@ msgstr "Varning: Manuellt gitter misslyckades."
 #: ekos/guide/internalguide/internalguider.cpp:667
 #, kde-format
 msgid "Error while updating pierside for camera rotation: Pierside unknown!"
-msgstr ""
+msgstr "Fel vid uppdatering av pirsida för kamerarotation: pirsida okänd."
 
 #: ekos/guide/internalguide/internalguider.cpp:670
 #, kde-format
 msgid "Camera Rotation updated for Pierside "
-msgstr ""
+msgstr "Kamerarotation uppdaterad för pirsida"
 
 #: ekos/guide/internalguide/internalguider.cpp:674
 #, kde-format
 msgid "Camera rotation is now %1 (Original calibration with %2)"
-msgstr ""
+msgstr "Kamerarotationen är nu %1 (originalkalibrering med %2)"
 
 #: ekos/guide/internalguide/internalguider.cpp:676
 #, kde-format
@@ -23179,16 +23179,13 @@ msgid "Calibration OK: CamRotation %1 / CalRotation %2"
 msgstr ""
 
 #: ekos/guide/internalguide/internalguider.cpp:789
-#, fuzzy, kde-format
-#| msgid ""
-#| "Lost track of the guide star. Try increasing the square size or reducing "
-#| "pulse duration."
+#, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing binning, square size or "
 "reducing pulse duration."
 msgstr ""
-"Förlorade guidestjärnan. Försök att öka kvadratstorlek eller minska "
-"pulslängden."
+"Förlorade guidestjärnan. Försök att öka indelning, kvadratstorlek eller "
+"minska pulslängden."
 
 #: ekos/guide/internalguide/internalguider.cpp:792
 #, kde-format
@@ -23423,12 +23420,7 @@ msgstr "Ta bort Dek-spel i guidningskalibrering"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
-#| "started. This is often not necessary when a good quality calibration has "
-#| "previously been done and the guide camera has not been rotated or re-"
-#| "installed.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
 "started. This is often not necessary when a good quality calibration has "
@@ -23437,13 +23429,12 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Om markerad, kalibrera alltid om när guidning startas. "
 "Det är oftast inte nödvändigt när en kalibrering av god kvalitet har "
-"tidigare gjorts och guidningskameran inte har roterats eller installerats om."
-"</p></body></html>"
+"tidigare gjorts och guidningskameran inte har installerats om.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:450
-#, fuzzy, kde-format
-#| msgid "Reset Guide Calibration After Each Mount Slew"
+#, kde-format
 msgid "Reset guide calibration after each mount slew"
 msgstr "Nollställ guidningskalibrering efter varje stativförflyttning"
 
@@ -23463,39 +23454,27 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:463
-#, fuzzy, kde-format
-#| msgid ""
-#| "Reverse DEC guide pulses when changing pier-side and reusing calibration."
+#, kde-format
 msgid "Mount reverses DEC pulses after changing pierside"
-msgstr ""
-"Vänd Dek-guidningspulser vid ändring av pirsida och återanvändning av "
-"kalibrering."
+msgstr "Stativet vänder Dek-pulser efter ändring av pirsida"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:479
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Store and attempt to reuse calibrations. This only "
-#| "works on opposite sides of the meridian if the pier-side can be "
-#| "automatically determined from your mount. The \"Reset Guide on Slew\" "
-#| "option above must be unchecked for this to be attempted.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Store and attempt to reuse calibrations. This even "
 "works on opposite sides of the meridian if the pier-side can be "
 "automatically determined from your mount.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Lagra och försök återanvända kalibreringar. Det "
-"fungerar bara på motsatta sidor av meridianen om pirsidan kan bestämmas "
-"automatiskt från stativet. Alternativet \"Nollställ guidning efter "
-"förflyttning\" ovan måste vara avmarkerat för att det ska försökas.</p></"
-"body></html>"
+"fungerar till och med på motsatta sidor av meridianen om pirsidan kan "
+"bestämmas automatiskt från stativet.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:482
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Store and reuse guide calibration when possible"
-msgstr "Lagra och återanvänd guidningskalibrering om möjligt."
+msgstr "Lagra och återanvänd guidningskalibrering om möjligt"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43

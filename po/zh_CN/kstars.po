@@ -22281,14 +22281,11 @@ msgid "Calibration OK: CamRotation %1 / CalRotation %2"
 msgstr ""
 
 #: ekos/guide/internalguide/internalguider.cpp:789
-#, fuzzy, kde-format
-#| msgid ""
-#| "Lost track of the guide star. Try increasing the square size or reducing "
-#| "pulse duration."
+#, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing binning, square size or "
 "reducing pulse duration."
-msgstr "失去被导星的踪迹。请尝试增大方框尺寸或减小脉冲宽度。"
+msgstr ""
 
 #: ekos/guide/internalguide/internalguider.cpp:792
 #, kde-format
@@ -22516,27 +22513,19 @@ msgstr "导星校准时移除赤纬回差"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:444
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
-#| "started. This is often not necessary when a good quality calibration has "
-#| "previously been done and the guide camera has not been rotated or re-"
-#| "installed.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
 "started. This is often not necessary when a good quality calibration has "
 "previously been done and the guide camera has not been re-installed.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>如果选中，在开始导星时总是重新校准。如果以往进行过良好"
-"的校准，且导星相机没有旋转或重新安装，这常常是不必要的。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:450
-#, fuzzy, kde-format
-#| msgid "Reset Guide Calibration After Each Mount Slew"
+#, kde-format
 msgid "Reset guide calibration after each mount slew"
-msgstr "每次赤道仪转动操作后，复位导星校准"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:457
@@ -22553,35 +22542,24 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:463
-#, fuzzy, kde-format
-#| msgid ""
-#| "Reverse DEC guide pulses when changing pier-side and reusing calibration."
+#, kde-format
 msgid "Mount reverses DEC pulses after changing pierside"
-msgstr "当改变墩侧以及复用校准时，反转赤经导星脉冲。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:479
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Store and attempt to reuse calibrations. This only "
-#| "works on opposite sides of the meridian if the pier-side can be "
-#| "automatically determined from your mount. The \"Reset Guide on Slew\" "
-#| "option above must be unchecked for this to be attempted.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Store and attempt to reuse calibrations. This even "
 "works on opposite sides of the meridian if the pier-side can be "
 "automatically determined from your mount.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>存储并尝试复用校准结果。 如果赤道仪能自动确认 pier-"
-"side ，将能工作在当前子午圈的另一侧。 如需进行尝试，必须取消选中上面的“转动后"
-"复位导星”选项。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:482
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible."
+#, kde-format
 msgid "Store and reuse guide calibration when possible"
-msgstr "如可能，保存并复用导星校准数据。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -69045,7 +69023,7 @@ msgstr "Skyview虚拟天文馆"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Gamma-ray"
-msgstr "伽玛射线"
+msgstr "伽马射线"
 
 #: kstars_i18n.cpp:4836
 #, kde-kuit-format
@@ -69105,7 +69083,7 @@ msgstr "过去的 X 射线计划"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Gamma-Ray Missions"
-msgstr "伽玛射线计划"
+msgstr "伽马射线计划"
 
 #: kstars_i18n.cpp:4846
 #, kde-kuit-format
@@ -86904,9 +86882,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Sky Flat"
-#~ msgstr "天空平场"
-
-#~ msgid "When shooting flats on sky with changing intensity."
-#~ msgstr "拍摄强度变化中的天空平场时"

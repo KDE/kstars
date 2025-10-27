@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-26 01:58+0000\n"
-"PO-Revision-Date: 2025-10-25 21:03+0300\n"
+"PO-Revision-Date: 2025-10-26 20:04+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23207,8 +23207,7 @@ msgid "Warning: Manual Dithering failed."
 msgstr "Uyarı: Elle kıpırdatma başarısız."
 
 #: ekos/guide/internalguide/internalguider.cpp:667
-#, fuzzy, kde-format
-#| msgid "Error while updating pierside for camera rotation: Pierside unkown!"
+#, kde-format
 msgid "Error while updating pierside for camera rotation: Pierside unknown!"
 msgstr ""
 "Kamera döndürmesi için iskele tarafı güncellenirken hata: Bilinmeyen iskele "

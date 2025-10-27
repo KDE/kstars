@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-26 01:58+0000\n"
-"PO-Revision-Date: 2025-10-25 15:18+0200\n"
+"PO-Revision-Date: 2025-10-26 14:23+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -23253,8 +23253,7 @@ msgid "Warning: Manual Dithering failed."
 msgstr "Waarschuwing: handmatig ditheren is mislukt."
 
 #: ekos/guide/internalguide/internalguider.cpp:667
-#, fuzzy, kde-format
-#| msgid "Error while updating pierside for camera rotation: Pierside unkown!"
+#, kde-format
 msgid "Error while updating pierside for camera rotation: Pierside unknown!"
 msgstr ""
 "Fout bij bijwerken van de richting voor camera draaiing: richting onbekend!"

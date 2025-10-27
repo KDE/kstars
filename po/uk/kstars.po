@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-26 01:58+0000\n"
-"PO-Revision-Date: 2025-10-25 17:08+0300\n"
+"PO-Revision-Date: 2025-10-26 15:52+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -23455,8 +23455,7 @@ msgid "Warning: Manual Dithering failed."
 msgstr "Попередження: спроба малого руху вручну зазнала невдачі."
 
 #: ekos/guide/internalguide/internalguider.cpp:667
-#, fuzzy, kde-format
-#| msgid "Error while updating pierside for camera rotation: Pierside unkown!"
+#, kde-format
 msgid "Error while updating pierside for camera rotation: Pierside unknown!"
 msgstr ""
 "Помилка під час оновлення боку стійки для обертання камери: невідомий бік "

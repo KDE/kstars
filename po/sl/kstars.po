@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-26 01:58+0000\n"
-"PO-Revision-Date: 2025-10-25 06:57+0200\n"
+"PO-Revision-Date: 2025-10-26 07:07+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -23213,11 +23213,11 @@ msgid "Warning: Manual Dithering failed."
 msgstr "Opozorilo: Ročno stresanje ni uspelo."
 
 #: ekos/guide/internalguide/internalguider.cpp:667
-#, fuzzy, kde-format
-#| msgid "Error while updating pierside for camera rotation: Pierside unkown!"
+#, kde-format
 msgid "Error while updating pierside for camera rotation: Pierside unknown!"
 msgstr ""
-"Napaka pri posodabljanju rotacije kamere na stojalu: Neznana stran stojala!"
+"Napaka pri posodabljanju rotacije kamere na strani stojala: Neznana stran "
+"stojala!"
 
 #: ekos/guide/internalguide/internalguider.cpp:670
 #, kde-format
