@@ -15,7 +15,7 @@
 .optional-on-scheduled-pipeline:
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: optional
+      when: manual
 
 .always-on-scheduled-pipeline:
   rules:
