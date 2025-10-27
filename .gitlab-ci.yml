@@ -22,15 +22,17 @@ include:
   rules:
     - !reference [.optional-on-forked-repository, rules]
     - !reference [.optional-on-draft-merge-requests, rules]
-    - !reference [.always-on-scheduled-pipeline, rules]
+    - !reference [.optional-on-scheduled-pipeline, rules]
     - !reference [.always-on-master-branch, rules]
     - !reference [.always-on-merge-requests, rules]
     - !reference [.manual-skipped-recipe, rules]
 
 # These jobs are automatically defined by the included templates
 # We just need to override their rules - no need to extend anything
+
 suse_tumbleweed_qt610:
   rules:
+    - !reference [.always-on-scheduled-pipeline, rules]  # Flatpak nightly
     - !reference [.standard-build-recipes, rules]
 
 windows_qt69:
@@ -61,7 +63,7 @@ flatpak:
   rules:
     - !reference [.optional-on-forked-repository, rules]
     - !reference [.optional-on-draft-merge-requests, rules]
-    - !reference [.always-on-scheduled-pipeline, rules]
+    - !reference [.optional-on-scheduled-pipeline, rules]
     - !reference [.always-on-master-branch, rules]
     - !reference [.always-on-stable-release, rules]
     - !reference [.manual-skipped-recipe, rules]
@@ -98,6 +100,13 @@ microsoftstore_qt6:
   needs:
     - craft_windows_qt6_x86_64 # Wait for Windows craft job to complete
   rules:
+    - !reference [.publishing-recipes, rules]
+
+flatpak:
+  needs:
+    - suse_tumbleweed_qt610
+  rules:
+    - !reference [.always-on-scheduled-pipeline, rules]
     - !reference [.publishing-recipes, rules]
 
 # Custom build recipes - until tests are operational in the KDE CI image

@@ -12,6 +12,11 @@
       when: manual
       allow_failure: true
 
+.optional-on-scheduled-pipeline:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: optional
+
 .always-on-scheduled-pipeline:
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
