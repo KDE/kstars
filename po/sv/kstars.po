@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-26 01:58+0000\n"
-"PO-Revision-Date: 2025-10-26 23:29+0100\n"
+"PO-Revision-Date: 2025-10-27 22:18+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -10493,7 +10493,7 @@ msgstr "Stoppa den nuvarande lösningen av astrobilder."
 #: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:489
 #, kde-format
 msgid "Push-To Assistant"
-msgstr ""
+msgstr "Sök till guide"
 
 #. i18n: ectx: property (toolTip), widget (AlignmentPlot, targetPlot)
 #: ekos/align/pushtoassistant.ui:60
@@ -10535,6 +10535,40 @@ msgid ""
 "finder scope is correctly configured and your telescope is roughly pointing "
 "to the target that you have selected.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Beskrivning</span></"
+"p><p>Guiden ger användare av manuella stativ (dobson etc.) stöd för att "
+"hitta mål med hjälp av ett sökteleskop utrustat med en kamera.</p><p><span "
+"style=\" font-weight:600;\">Förberedelse</span></p><p>Öppna Ekos, skapa en "
+"profil med valfri kamera, teleskopsimulatorn som stativ och lägg till "
+"sökteleskopet som nytt teleskop.</p><p><span style=\" font-weight:600;"
+"\">Användning</span></p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0;\" text-indent:0px;\">Starta Ekos</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Rikta in stativet så nära målet som möjligt</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Välj målet i målsökaren "
+"och tryck på knappen &quot;Välj mål&quot;.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Tryck på knappen &quot;Lös position&quot;. Det tar en "
+"bild genom sökteleskopet och jämför bilden med Kstars stjärnkataloger.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Så snart lösningen av "
+"astrobilder lyckats visas avståndet till målet. Pilar visar anvisningarna "
+"för hur stativpositionen korrigeras.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Flytta stativet till den angivna positionen och upprepa "
+"lösningen.</li></ul><p><span style=\"font-weight:600;\">Tips</span></p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Om "
+"man trycker på knappen &quot;Upprepa&quot;, upprepas tagning och lösning av "
+"astrobilder efter den inställda fördröjningen.</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Om lösning av astrobilder misslyckas, "
+"kontrollera om sökteleskopets brännvidd är riktigt inställd och att "
+"teleskopet ungefär pekar mot målet som är valt.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
 #: ekos/align/pushtoassistant.ui:101
@@ -23156,7 +23190,7 @@ msgstr "Kamerarotationen är nu %1 (originalkalibrering med %2)"
 #: ekos/guide/internalguide/internalguider.cpp:676
 #, kde-format
 msgid "RApulse now %1ms/arcsec calculated for DEC = %2"
-msgstr ""
+msgstr "RA-puls nu %1 ms/bågsekund beräknad för DEK = %2"
 
 #: ekos/guide/internalguide/internalguider.cpp:707
 #, kde-format
@@ -23176,7 +23210,7 @@ msgstr "Guidningskalibrering återställd"
 #: ekos/guide/internalguide/internalguider.cpp:737
 #, kde-format
 msgid "Calibration OK: CamRotation %1 / CalRotation %2"
-msgstr ""
+msgstr "Kalibrering ok: Kamerarotation %1 /  Kalibreringsrotation %2"
 
 #: ekos/guide/internalguide/internalguider.cpp:789
 #, kde-format
@@ -31886,6 +31920,8 @@ msgstr ""
 #, kde-format
 msgid "<html><head/><body><p>Launch Live Stacker Monitor</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Starta övervakning av realtidsstapling</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, HelpB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
@@ -32322,7 +32358,7 @@ msgstr "Anpassa staplingsinställningar i den här sektionen."
 #: fitsviewer/livestackmonitor.ui:26
 #, kde-format
 msgid "Live Stacking Monitor"
-msgstr ""
+msgstr "Övervakning av realtidsstapling"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:60
@@ -39306,25 +39342,25 @@ msgstr "Skärpningssigma för realtidsstapling"
 #: kstars.kcfg:1878
 #, kde-format
 msgid "Geometry of Live Stacking Monitor window"
-msgstr ""
+msgstr "Fönstergeometri för övervakning av realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSMVisibleColumns), group (FITSViewer)
 #: kstars.kcfg:1882
 #, kde-format
 msgid "Live Stacking Monitor column visibility"
-msgstr ""
+msgstr "Kolumnsynlighet för övervakning av realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSMColumnWidths), group (FITSViewer)
 #: kstars.kcfg:1886
 #, kde-format
 msgid "Live Stacking Monitor column widths"
-msgstr ""
+msgstr "Kolumnbredder för övervakning av realtidsstapling"
 
 #. i18n: ectx: label, entry (fitsLSMHighlighting), group (FITSViewer)
 #: kstars.kcfg:1896
 #, kde-format
 msgid "Live Stacking Monitor highlighting."
-msgstr ""
+msgstr "Färgläggning för övervakning av realtidsstapling."
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1902
