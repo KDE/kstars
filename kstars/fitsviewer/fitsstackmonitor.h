@@ -21,6 +21,16 @@
 #include <QVector>
 #include <QElapsedTimer>
 
+// Ensure translation domain is set before any i18nc() calls in this header
+namespace
+{
+    const bool _initKStarsDomain = []()
+    {
+        KLocalizedString::setApplicationDomain("kstars");
+        return true;
+    }();
+}
+
 namespace Ui { class StackMonitorDialog; }
 
 const QString STATUS_GOOD = QStringLiteral("🟢");
@@ -91,15 +101,24 @@ inline QString displayOverallStatus(const SubStatus &status)
 {
     switch (status)
     {
-        case SubStatus::InProgress: return ki18n("In Progress").toString();
-        case SubStatus::Processed: return STATUS_GOOD;
-        case SubStatus::FailedLoading: return ki18n("%1 Failed to Load").subs(STATUS_BAD).toString();
-        case SubStatus::FailedPlateSolving: return ki18n("%1 Failed Plate Solving").subs(STATUS_BAD).toString();
-        case SubStatus::FailedWaiting: return ki18n("%1 Failed Waiting").subs(STATUS_BAD).toString();
-        case SubStatus::FailedCalibration: return ki18n("%1 Failed Calibration").subs(STATUS_BAD).toString();
-        case SubStatus::FailedAlignment: return ki18n("%1 Failed Alignment").subs(STATUS_BAD).toString();
-        case SubStatus::FailedStacking: return ki18n("%1 Failed to Stack").subs(STATUS_BAD).toString();
-        default: return QString();
+        case SubStatus::InProgress:
+            return ki18nc("Stack monitor status", "In Progress").toString();
+        case SubStatus::Processed:
+            return STATUS_GOOD;
+        case SubStatus::FailedLoading:
+            return ki18nc("Stack monitor status", "%1 Failed to Load").subs(STATUS_BAD).toString();
+        case SubStatus::FailedPlateSolving:
+            return ki18nc("Stack monitor status", "%1 Failed Plate Solving").subs(STATUS_BAD).toString();
+        case SubStatus::FailedWaiting:
+            return ki18nc("Stack monitor status", "%1 Failed Waiting").subs(STATUS_BAD).toString();
+        case SubStatus::FailedCalibration:
+            return ki18nc("Stack monitor status", "%1 Failed Calibration").subs(STATUS_BAD).toString();
+        case SubStatus::FailedAlignment:
+            return ki18nc("Stack monitor status", "%1 Failed Alignment").subs(STATUS_BAD).toString();
+        case SubStatus::FailedStacking:
+            return ki18nc("Stack monitor status", "%1 Failed to Stack").subs(STATUS_BAD).toString();
+        default:
+            return QString();
     }
 }
 
@@ -116,21 +135,33 @@ inline QString displayStatus(const LSStatus &status)
 
 inline QString statusHelp(const QString &name, const bool useNA=true)
 {
-
-    QString str = ki18n("%1 \n%2 = OK\n%3 = Error").subs(name).subs(displayStatus(LSStatus::LSStatusOK))
-                      .subs(displayStatus(LSStatus::LSStatusError)).toString();
+    QString str = ki18nc("Stack monitor status help", "%1 \n%2 = OK\n%3 = Error")
+                      .subs(name)
+                      .subs(displayStatus(LSStatus::LSStatusOK))
+                      .subs(displayStatus(LSStatus::LSStatusError))
+                      .toString();
     if (useNA)
-        str = ki18n("%1 \n%2 = Not applicable").subs(str).subs(displayStatus(LSStatus::LSStatusNA)).toString();
+        str = ki18nc("Stack monitor status help", "%1 \n%2 = Not applicable")
+                  .subs(str)
+                  .subs(displayStatus(LSStatus::LSStatusNA))
+                  .toString();
     return str;
 }
 
 inline QString overallStatusHelp(const QString &name)
 {
-    return ki18n("%1 \n%2\n%3 = Processed Successfully\n%4\n%5\n%6\n%7\n%8\n%9").subs(name)
-        .subs(displayOverallStatus(SubStatus::InProgress)).subs(displayOverallStatus(SubStatus::Processed))
-        .subs(displayOverallStatus(SubStatus::FailedLoading)).subs(displayOverallStatus(SubStatus::FailedPlateSolving))
-        .subs(displayOverallStatus(SubStatus::FailedWaiting)).subs(displayOverallStatus(SubStatus::FailedCalibration))
-        .subs(displayOverallStatus(SubStatus::FailedAlignment)).subs(displayOverallStatus(SubStatus::FailedStacking)).toString();
+    return ki18nc("Stack monitor overall status help",
+                  "%1 \n%2\n%3 = Processed Successfully\n%4\n%5\n%6\n%7\n%8\n%9")
+        .subs(name)
+        .subs(displayOverallStatus(SubStatus::InProgress))
+        .subs(displayOverallStatus(SubStatus::Processed))
+        .subs(displayOverallStatus(SubStatus::FailedLoading))
+        .subs(displayOverallStatus(SubStatus::FailedPlateSolving))
+        .subs(displayOverallStatus(SubStatus::FailedWaiting))
+        .subs(displayOverallStatus(SubStatus::FailedCalibration))
+        .subs(displayOverallStatus(SubStatus::FailedAlignment))
+        .subs(displayOverallStatus(SubStatus::FailedStacking))
+        .toString();
 }
 
 } // namespace StackMonUtils
@@ -138,45 +169,82 @@ inline QString overallStatusHelp(const QString &name)
 // Single source of truth for all table columns
 static const QVector<ColumnInfo> ColumnInfos =
 {
-    { "",              "ID",                   "Unique subframe identifier",  Qt::AlignRight | Qt::AlignVCenter },
-    { "",              "Pathname",             "Full file path",              Qt::AlignLeft  | Qt::AlignVCenter },
-    { "",              "Filename",             "Filename only",               Qt::AlignLeft  | Qt::AlignVCenter },
-    { "",              "Overall\nStatus",      StackMonUtils::overallStatusHelp("Overall processing status"),
-                                                                              Qt::AlignCenter },
+    { "",              i18nc("Column header", "ID"),
+                       i18nc("Tooltip for ID column", "Unique subframe identifier"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
+    { "",              i18nc("Column header", "Pathname"),
+                       i18nc("Tooltip for Pathname column", "Full file path"),
+                                                    Qt::AlignLeft | Qt::AlignVCenter },
+    { "",              i18nc("Column header", "Filename"),
+                       i18nc("Tooltip for Filename column", "Filename only"),
+                                                    Qt::AlignLeft | Qt::AlignVCenter },
+    { "",              i18nc("Column header", "Overall\nStatus"),
+          StackMonUtils::overallStatusHelp(i18nc("Tooltip for Overall Status column", "Overall processing status")),
+                                                    Qt::AlignCenter },
 
-    { "Loading",       "Load Wait\nTime(s)",   "Wait time from subs detected until loading starts",
-                                                                              Qt::AlignRight | Qt::AlignVCenter },
-    { "Loading",       "Loading\nStatus",      StackMonUtils::statusHelp("Loading status", false),  Qt::AlignCenter },
-    { "Loading",       "Loading\nTime(s)",     "Time to load",                Qt::AlignRight | Qt::AlignVCenter },
-    { "Loading",       "SNR",                  "Signal-to-noise ratio",       Qt::AlignRight | Qt::AlignVCenter },
+    { "Loading",       i18nc("Column header", "Load Wait\nTime(s)"),
+                       i18nc("Tooltip for Load Wait Time column", "Wait time from subs detected until loading starts"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
+    { "Loading",       i18nc("Column header", "Loading\nStatus"),
+          StackMonUtils::statusHelp(i18nc("Tooltip for Loading Status column", "Loading status"), false),
+                                                    Qt::AlignCenter },
+    { "Loading",       i18nc("Column header", "Loading\nTime(s)"),
+                       i18nc("Tooltip for Loading Time column", "Time to load"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
+    { "Loading",       i18nc("Column header", "SNR"),
+                       i18nc("Tooltip for SNR column", "Signal-to-noise ratio"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
 
-    { "Plate Solving", "Plate Solve\nStatus",  StackMonUtils::statusHelp("Plate solving status"),
-                                                                              Qt::AlignCenter },
-    { "Plate Solving", "Plate Solve\nTime(s)", "Time to plate solve",         Qt::AlignRight | Qt::AlignVCenter },
-    { "Plate Solving", "HFR",                  "Average HFR of stars",        Qt::AlignRight | Qt::AlignVCenter },
-    { "Plate Solving", "Num Stars",            "Number of stars detected",    Qt::AlignRight | Qt::AlignVCenter },
+    { "Plate Solving", i18nc("Column header", "Plate Solve\nStatus"),
+          StackMonUtils::statusHelp(i18nc("Tooltip for Plate Solve Status column", "Plate solving status")),
+                                                    Qt::AlignCenter },
+    { "Plate Solving", i18nc("Column header", "Plate Solve\nTime(s)"),
+                       i18nc("Tooltip for Plate Solve Time column", "Time to plate solve"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
+    { "Plate Solving", i18nc("Column header", "HFR"),
+                       i18nc("Tooltip for HFR column", "Average HFR of stars"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
+    { "Plate Solving", i18nc("Column header", "Num Stars"),
+                       i18nc("Tooltip for Num Stars column", "Number of stars detected"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
 
-    { "Stack Waiting", "Stack Wait\nTime(s)",  "Wait time for sufficient subs to start stacking",
-                                                                              Qt::AlignRight | Qt::AlignVCenter },
+    { "Stack Waiting", i18nc("Column header", "Stack Wait\nTime(s)"),
+                       i18nc("Tooltip for Stack Wait Time column", "Wait time for sufficient subs to start stacking"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
 
-    { "Calibration",   "Calibration\nStatus",  StackMonUtils::statusHelp("Calibration status"),
-                                                                              Qt::AlignCenter },
-    { "Calibration",   "Calibration\nTime(s)", "Time to calibrate",           Qt::AlignRight | Qt::AlignVCenter },
+    { "Calibration",   i18nc("Column header", "Calibration\nStatus"),
+          StackMonUtils::statusHelp(i18nc("Tooltip for Calibration Status column", "Calibration status")),
+                                                    Qt::AlignCenter },
 
-    { "Alignment",     "Alignment\nStatus",    StackMonUtils::statusHelp("Alignment status"),
-                                                                              Qt::AlignCenter },
-    { "Alignment",     "Alignment\nTime(s)",   "Time to align",               Qt::AlignRight | Qt::AlignVCenter },
-    { "Alignment",     "Δx",                   "X-axis shift in pixels compared to alignment master",
-                                                                              Qt::AlignRight | Qt::AlignVCenter },
-    { "Alignment",     "Δy",                   "Y-axis shift in pixels compared to alignment master",
-                                                                              Qt::AlignRight | Qt::AlignVCenter },
-    { "Alignment",     "Rot(°)",               "Rotation angle in degrees compared to alignment master",
-                                                                              Qt::AlignRight | Qt::AlignVCenter },
+    { "Calibration",   i18nc("Column header", "Calibration\nTime(s)"),
+                       i18nc("Tooltip for Calibration Time column", "Time to calibrate"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
 
-    { "Stacking",      "Stacking\nStatus",     StackMonUtils::statusHelp("Stacking status", false),
-                                                                              Qt::AlignCenter },
-    { "Stacking",      "Stacking\nTime(s)",    "Time to stack (s)",           Qt::AlignRight | Qt::AlignVCenter },
-    { "Stacking",      "Stacking\nWeight",     "Weight used in stacking",     Qt::AlignRight | Qt::AlignVCenter }
+    { "Alignment",     i18nc("Column header", "Alignment\nStatus"),
+          StackMonUtils::statusHelp(i18nc("Tooltip for Alignment Status column", "Alignment status")),
+                                                    Qt::AlignCenter },
+    { "Alignment",     i18nc("Column header", "Alignment\nTime(s)"),
+                       i18nc("Tooltip for Alignment Time column", "Time to align"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
+    { "Alignment",     i18nc("Column header", "Δx"),
+                       i18nc("Tooltip for Δx column", "X-axis shift in pixels compared to alignment master"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
+    { "Alignment",     i18nc("Column header", "Δy"),
+                       i18nc("Tooltip for Δy column", "Y-axis shift in pixels compared to alignment master"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
+    { "Alignment",     i18nc("Column header", "Rot(°)"),
+                       i18nc("Tooltip for Rotation column", "Rotation angle in degrees compared to alignment master"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
+
+    { "Stacking",      i18nc("Column header", "Stacking\nStatus"),
+          StackMonUtils::statusHelp(i18nc("Tooltip for Stacking Status column", "Stacking status"), false),
+                                                    Qt::AlignCenter },
+    { "Stacking",      i18nc("Column header", "Stacking\nTime(s)"),
+                       i18nc("Tooltip for Stacking Time column", "Time to stack (s)"),
+                                                    Qt::AlignRight | Qt::AlignVCenter },
+    { "Stacking",      i18nc("Column header", "Stacking\nWeight"),
+                       i18nc("Tooltip for Stacking Weight column", "Weight used in stacking"),
+                                                    Qt::AlignRight | Qt::AlignVCenter }
 };
 
 // Structure holding statistics on a sub
