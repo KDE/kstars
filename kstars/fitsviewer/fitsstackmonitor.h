@@ -91,14 +91,14 @@ inline QString displayOverallStatus(const SubStatus &status)
 {
     switch (status)
     {
-        case SubStatus::InProgress: return i18n("In Progress");
+        case SubStatus::InProgress: return ki18n("In Progress").toString();
         case SubStatus::Processed: return STATUS_GOOD;
-        case SubStatus::FailedLoading: return i18n("%1 Failed to Load", STATUS_BAD);
-        case SubStatus::FailedPlateSolving: return i18n("%1 Failed Plate Solving", STATUS_BAD);
-        case SubStatus::FailedWaiting: return i18n("%1 Failed Waiting", STATUS_BAD);
-        case SubStatus::FailedCalibration: return i18n("%1 Failed Calibration", STATUS_BAD);
-        case SubStatus::FailedAlignment: return i18n("%1 Failed Alignment", STATUS_BAD);
-        case SubStatus::FailedStacking: return i18n("%1 Failed to Stack", STATUS_BAD);
+        case SubStatus::FailedLoading: return ki18n("%1 Failed to Load").subs(STATUS_BAD).toString();
+        case SubStatus::FailedPlateSolving: return ki18n("%1 Failed Plate Solving").subs(STATUS_BAD).toString();
+        case SubStatus::FailedWaiting: return ki18n("%1 Failed Waiting").subs(STATUS_BAD).toString();
+        case SubStatus::FailedCalibration: return ki18n("%1 Failed Calibration").subs(STATUS_BAD).toString();
+        case SubStatus::FailedAlignment: return ki18n("%1 Failed Alignment").subs(STATUS_BAD).toString();
+        case SubStatus::FailedStacking: return ki18n("%1 Failed to Stack").subs(STATUS_BAD).toString();
         default: return QString();
     }
 }
@@ -117,20 +117,20 @@ inline QString displayStatus(const LSStatus &status)
 inline QString statusHelp(const QString &name, const bool useNA=true)
 {
 
-    QString str = i18n("%1 \n%2 = OK\n%3 = Error", name, displayStatus(LSStatus::LSStatusOK),
-                                                         displayStatus(LSStatus::LSStatusError));
+    QString str = ki18n("%1 \n%2 = OK\n%3 = Error").subs(name).subs(displayStatus(LSStatus::LSStatusOK))
+                      .subs(displayStatus(LSStatus::LSStatusError)).toString();
     if (useNA)
-        str = i18n("%1 \n%2 = Not applicable", str, displayStatus(LSStatus::LSStatusNA));
+        str = ki18n("%1 \n%2 = Not applicable").subs(str).subs(displayStatus(LSStatus::LSStatusNA)).toString();
     return str;
 }
 
 inline QString overallStatusHelp(const QString &name)
 {
-    return i18n("%1 \n%2\n%3 = Processed Successfully\n%4\n%5\n%6\n%7\n%8\n%9", name,
-                displayOverallStatus(SubStatus::InProgress), displayOverallStatus(SubStatus::Processed),
-                displayOverallStatus(SubStatus::FailedLoading), displayOverallStatus(SubStatus::FailedPlateSolving),
-                displayOverallStatus(SubStatus::FailedWaiting), displayOverallStatus(SubStatus::FailedCalibration),
-                displayOverallStatus(SubStatus::FailedAlignment), displayOverallStatus(SubStatus::FailedStacking));
+    return ki18n("%1 \n%2\n%3 = Processed Successfully\n%4\n%5\n%6\n%7\n%8\n%9").subs(name)
+        .subs(displayOverallStatus(SubStatus::InProgress)).subs(displayOverallStatus(SubStatus::Processed))
+        .subs(displayOverallStatus(SubStatus::FailedLoading)).subs(displayOverallStatus(SubStatus::FailedPlateSolving))
+        .subs(displayOverallStatus(SubStatus::FailedWaiting)).subs(displayOverallStatus(SubStatus::FailedCalibration))
+        .subs(displayOverallStatus(SubStatus::FailedAlignment)).subs(displayOverallStatus(SubStatus::FailedStacking)).toString();
 }
 
 } // namespace StackMonUtils
