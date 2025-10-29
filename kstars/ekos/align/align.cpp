@@ -770,6 +770,43 @@ bool Align::setDome(ISD::Dome *device)
     return true;
 }
 
+bool Align::setDustCap(ISD::DustCap *device)
+{
+    if (m_DustCap && m_DustCap == device)
+    {
+        return false;
+    }
+
+    if (m_DustCap)
+    {
+        disconnect(m_DustCap, &ISD::DustCap::newStatus, this, &Ekos::Align::onDustCapStatusChanged);
+    }
+
+    m_DustCap = device;
+
+    if (m_DustCap)
+    {
+        connect(m_DustCap, &ISD::DustCap::newStatus, this, &Ekos::Align::onDustCapStatusChanged, Qt::UniqueConnection);
+    }
+    return true;
+}
+
+void Align::onDustCapStatusChanged(ISD::DustCap::Status status)
+{
+    if (m_waitingForDustCapUnpark && status == ISD::DustCap::CAP_IDLE)
+    {
+        appendLogText(i18n("Dustcap unparked. Resuming capture and solve."));
+        m_waitingForDustCapUnpark = false;
+        captureAndSolve(false); // Resume capture and solve
+    }
+    else if (status == ISD::DustCap::CAP_ERROR)
+    {
+        appendLogText(i18n("Dustcap error detected. Aborting alignment."));
+        m_waitingForDustCapUnpark = false;
+        stop(ALIGN_ABORTED); // Abort alignment
+    }
+}
+
 void Align::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
     auto name = device->getDeviceName();
@@ -820,6 +857,13 @@ void Align::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
         QTimer::singleShot(1000, this, &Align::checkFilter);
     }
 
+    // Check DustCap
+    if (m_DustCap && m_DustCap->getDeviceName() == name)
+    {
+        disconnect(m_DustCap, &ISD::DustCap::newStatus, this, &Ekos::Align::onDustCapStatusChanged);
+        m_DustCap = nullptr;
+        appendLogText(i18n("Dustcap device %1 removed.", name));
+    }
 }
 
 bool Align::syncTelescopeInfo()
@@ -1526,6 +1570,24 @@ bool Align::captureAndSolve(bool initialCall)
         {
             return false;
         }
+    }
+
+    // Check dustcap status before proceeding with capture
+    if (m_DustCap && m_DustCap->isParked())
+    {
+        appendLogText(i18n("Dustcap is parked. Unparking before capture and solve..."));
+        m_waitingForDustCapUnpark = true;
+        m_DustCap->unpark();
+        return true; // Wait for onDustCapStatusChanged to resume captureAndSolve
+    }
+    else if (m_DustCap && m_DustCap->isUnParked() == false && m_DustCap->status() != ISD::DustCap::CAP_IDLE)
+    {
+        // If dustcap is not unparked and not in an idle state (e.g., parking, unparking, error)
+        appendLogText(i18n("Dustcap is not ready (status: %1). Waiting before capture and solve...", ISD::DustCap::getStatusString(m_DustCap->status())));
+        m_waitingForDustCapUnpark = true;
+        // No explicit unpark call here, as it might already be in motion or error.
+        // The onDustCapStatusChanged will eventually trigger CAP_IDLE or CAP_ERROR.
+        return true;
     }
 
     double seqExpose = alignExposure->value();
@@ -4266,6 +4328,9 @@ void Align::refreshOpticalTrain()
 
         auto rotator = OpticalTrainManager::Instance()->getRotator(name);
         setRotator(rotator);
+
+        auto dustcap = OpticalTrainManager::Instance()->getDustCap(name);
+        setDustCap(dustcap);
 
         // Load train settings
         OpticalTrainSettings::Instance()->setOpticalTrainID(id);

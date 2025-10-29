@@ -14,6 +14,7 @@
 #include "indi/indicamera.h"
 #include "indi/indistd.h"
 #include "indi/indimount.h"
+#include "indi/indidustcap.h"
 #include "skypoint.h"
 
 #include <QTime>
@@ -228,6 +229,13 @@ class Align : public QWidget, public Ui::Align
              * @return True if added successfully, false if duplicate or failed to add.
              */
         bool setDome(ISD::Dome *device);
+
+        /**
+         * @brief setDustCap Set the dustcap device for the align module.
+         * @param device Pointer to the dustcap device.
+         * @return True if set successfully, false otherwise.
+         */
+        bool setDustCap(ISD::DustCap *device);
 
         /**
              * @brief Add new Rotator
@@ -592,6 +600,9 @@ class Align : public QWidget, public Ui::Align
         void refreshAlignOptions();
 
         void processPAHStage(int stage);
+
+    private slots:
+        void onDustCapStatusChanged(ISD::DustCap::Status status); // New slot for dustcap status changes
 
     signals:
         void newLog(const QString &text);
@@ -958,6 +969,9 @@ class Align : public QWidget, public Ui::Align
         double m_ScaleUsed = 0;
         double m_RAUsed = 0;
         double m_DECUsed = 0;
+
+        ISD::DustCap *m_DustCap { nullptr };
+        bool m_waitingForDustCapUnpark { false };
 
         double m_dynamicThreshold { 2.0 }; // Initialize with default from parameters.h
 

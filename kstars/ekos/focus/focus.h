@@ -20,6 +20,7 @@
 #include "indi/indistd.h"
 #include "indi/indiweather.h"
 #include "indi/indimount.h"
+#include "indi/indidustcap.h"
 
 #include "opsfocussettings.h"
 #include "opsfocusprocess.h"
@@ -216,6 +217,13 @@ class Focus : public QWidget, public Ui::Focus
              * @return True if added successfully, false if duplicate or failed to add.
              */
         bool setFilterWheel(ISD::FilterWheel *device);
+
+        /**
+         * @brief setDustCap Set the dustcap device for the focus module.
+         * @param device Pointer to the dustcap device.
+         * @return True if set successfully, false otherwise.
+         */
+        bool setDustCap(ISD::DustCap *device);
 
         /**
          * @brief setImageMask Select the currently active image mask filtering
@@ -516,6 +524,9 @@ public slots:
         void clearDataRequested();
 
         void resetHFRPlot();
+
+    private slots:
+        void onDustCapStatusChanged(ISD::DustCap::Status status); // New slot for dustcap status changes
 
     signals:
         void newLog(const QString &text);
@@ -1429,6 +1440,9 @@ public slots:
         QVector<int> m_scanPosition;
         QVector<double> m_scanMeasure;
         QString m_AFfilter = NULL_FILTER;
+
+        ISD::DustCap *m_DustCap { nullptr }; // New member for dustcap device
+        bool m_waitingForDustCapUnpark { false }; // Flag to indicate waiting for dustcap to unpark
 };
 
 }

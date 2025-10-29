@@ -72,6 +72,7 @@ typedef enum { FOCUS_FAIL_NONE,
                FOCUS_FAIL_ADVISOR_COMPLETE,
                FOCUS_FAIL_ADVISOR_RERUN,
                FOCUS_FAIL_OPTIMISED_OUT,
+               FOCUS_FAIL_DUSTCAP_ERROR,
                FOCUS_FAIL_MAX_REASONS
              } AutofocusFailReason;
 

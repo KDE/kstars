@@ -548,6 +548,43 @@ bool Focus::setFilterWheel(ISD::FilterWheel *device)
     return true;
 }
 
+bool Focus::setDustCap(ISD::DustCap *device)
+{
+    if (m_DustCap && m_DustCap == device)
+    {
+        return false;
+    }
+
+    if (m_DustCap)
+    {
+        disconnect(m_DustCap, &ISD::DustCap::newStatus, this, &Ekos::Focus::onDustCapStatusChanged);
+    }
+
+    m_DustCap = device;
+
+    if (m_DustCap)
+    {
+        connect(m_DustCap, &ISD::DustCap::newStatus, this, &Ekos::Focus::onDustCapStatusChanged, Qt::UniqueConnection);
+    }
+    return true;
+}
+
+void Focus::onDustCapStatusChanged(ISD::DustCap::Status status)
+{
+    if (m_waitingForDustCapUnpark && status == ISD::DustCap::CAP_IDLE)
+    {
+        appendLogText(i18n("Dustcap unparked. Resuming capture."));
+        m_waitingForDustCapUnpark = false;
+        capture(); // Resume capture
+    }
+    else if (status == ISD::DustCap::CAP_ERROR)
+    {
+        appendLogText(i18n("Dustcap error detected. Aborting focus."));
+        m_waitingForDustCapUnpark = false;
+        completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_DUSTCAP_ERROR);
+    }
+}
+
 void Focus::updateTemperatureSources(const QList<QSharedPointer<ISD::GenericDevice >> &temperatureSources)
 {
     defaultFocusTemperatureSource->blockSignals(true);
@@ -1861,6 +1898,24 @@ void Focus::capture(double settleTime)
     {
         appendLogText(i18n("Error: Lost connection to Camera."));
         checkStopFocus(true);
+        return;
+    }
+
+    // Check dustcap status before proceeding with capture
+    if (m_DustCap && m_DustCap->isParked())
+    {
+        appendLogText(i18n("Dustcap is parked. Unparking before capture..."));
+        m_waitingForDustCapUnpark = true;
+        m_DustCap->unpark();
+        return; // Wait for onDustCapStatusChanged to resume capture
+    }
+    else if (m_DustCap && m_DustCap->isUnParked() == false && m_DustCap->status() != ISD::DustCap::CAP_IDLE)
+    {
+        // If dustcap is not unparked and not in an idle state (e.g., parking, unparking, error)
+        appendLogText(i18n("Dustcap is not ready (status: %1). Waiting before capture...", ISD::DustCap::getStatusString(m_DustCap->status())));
+        m_waitingForDustCapUnpark = true;
+        // No explicit unpark call here, as it might already be in motion or error.
+        // The onDustCapStatusChanged will eventually trigger CAP_IDLE or CAP_ERROR.
         return;
     }
 
@@ -5825,6 +5880,14 @@ void Focus::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved
             resetButtons();
         });
     }
+
+    // Check DustCap
+    if (m_DustCap && m_DustCap->getDeviceName() == name)
+    {
+        disconnect(m_DustCap, &ISD::DustCap::newStatus, this, &Ekos::Focus::onDustCapStatusChanged);
+        m_DustCap = nullptr;
+        appendLogText(i18n("Dustcap device %1 removed.", name));
+    }
 }
 
 void Focus::setupFilterManager()
@@ -8070,6 +8133,9 @@ void Focus::refreshOpticalTrain(const int id)
 
     auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
     setFilterWheel(filterWheel);
+
+    auto dustcap = OpticalTrainManager::Instance()->getDustCap(name);
+    setDustCap(dustcap);
 
     // Update calcs for the CFZ based on the new OT
     resetCFZToOT();
