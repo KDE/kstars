@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.8\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-26 01:58+0000\n"
+"POT-Creation-Date: 2025-10-29 02:00+0000\n"
 "PO-Revision-Date: 2025-07-20 12:19+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -18276,7 +18276,7 @@ msgid "<comment>"
 msgstr "<Commentaire>"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:71 ekos/ekos.h:119
-#: ekos/ekos.h:139 fitsviewer/fitsstackmonitor.h:94
+#: ekos/ekos.h:139
 #, kde-format
 msgid "In Progress"
 msgstr "En cours"
@@ -31737,59 +31737,75 @@ msgstr "RAM : -- / --"
 msgid "Double-click to toggle text display"
 msgstr "Double-clic pour basculer vers l'affichage texte"
 
-#: fitsviewer/fitsstackmonitor.h:96
+#: fitsviewer/fitsstackmonitor.h:105
+#, fuzzy, kde-format
+#| msgid "In Progress"
+msgctxt "Stack monitor status"
+msgid "In Progress"
+msgstr "En cours"
+
+#: fitsviewer/fitsstackmonitor.h:109
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
+msgctxt "Stack monitor status"
 msgid "%1 Failed to Load"
 msgstr "Il est impossible de charger l'image"
 
-#: fitsviewer/fitsstackmonitor.h:97
+#: fitsviewer/fitsstackmonitor.h:111
 #, fuzzy, kde-format
 #| msgid "Plate Solving"
+msgctxt "Stack monitor status"
 msgid "%1 Failed Plate Solving"
 msgstr "Résolution"
 
-#: fitsviewer/fitsstackmonitor.h:98
+#: fitsviewer/fitsstackmonitor.h:113
 #, fuzzy, kde-format
 #| msgid "File Settings"
+msgctxt "Stack monitor status"
 msgid "%1 Failed Waiting"
 msgstr "Réglages du fichier"
 
-#: fitsviewer/fitsstackmonitor.h:99
+#: fitsviewer/fitsstackmonitor.h:115
 #, fuzzy, kde-format
 #| msgid "Flat Calibration"
+msgctxt "Stack monitor status"
 msgid "%1 Failed Calibration"
 msgstr "Calibration Flat"
 
-#: fitsviewer/fitsstackmonitor.h:100
+#: fitsviewer/fitsstackmonitor.h:117
 #, fuzzy, kde-format
 #| msgid "Save Failed Align Images"
+msgctxt "Stack monitor status"
 msgid "%1 Failed Alignment"
 msgstr "Enregistrer les images d'alignement échouées"
 
-#: fitsviewer/fitsstackmonitor.h:101
+#: fitsviewer/fitsstackmonitor.h:119
 #, fuzzy, kde-format
 #| msgid "Failed to edit city"
+msgctxt "Stack monitor status"
 msgid "%1 Failed to Stack"
 msgstr "Impossible de modifier la ville."
 
-#: fitsviewer/fitsstackmonitor.h:120
+#: fitsviewer/fitsstackmonitor.h:138
 #, kde-format
+msgctxt "Stack monitor status help"
 msgid ""
 "%1 \n"
 "%2 = OK\n"
 "%3 = Error"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:123
+#: fitsviewer/fitsstackmonitor.h:144
 #, kde-format
+msgctxt "Stack monitor status help"
 msgid ""
 "%1 \n"
 "%2 = Not applicable"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:129
+#: fitsviewer/fitsstackmonitor.h:154
 #, kde-format
+msgctxt "Stack monitor overall status help"
 msgid ""
 "%1 \n"
 "%2\n"
@@ -31800,6 +31816,342 @@ msgid ""
 "%7\n"
 "%8\n"
 "%9"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:172
+#, fuzzy, kde-format
+#| msgid "ID"
+msgctxt "Column header"
+msgid "ID"
+msgstr "ID"
+
+#: fitsviewer/fitsstackmonitor.h:173
+#, kde-format
+msgctxt "Tooltip for ID column"
+msgid "Unique subframe identifier"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:175
+#, kde-format
+msgctxt "Column header"
+msgid "Pathname"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:176
+#, fuzzy, kde-format
+#| msgid "Arc file path"
+msgctxt "Tooltip for Pathname column"
+msgid "Full file path"
+msgstr "Emplacement du fichier Arc"
+
+#: fitsviewer/fitsstackmonitor.h:178
+#, fuzzy, kde-format
+#| msgid "Filename"
+msgctxt "Column header"
+msgid "Filename"
+msgstr "Nom du fichier"
+
+#: fitsviewer/fitsstackmonitor.h:179
+#, fuzzy, kde-format
+#| msgid "Filename"
+msgctxt "Tooltip for Filename column"
+msgid "Filename only"
+msgstr "Nom du fichier"
+
+#: fitsviewer/fitsstackmonitor.h:181
+#, fuzzy, kde-format
+#| msgid "Overall"
+msgctxt "Column header"
+msgid ""
+"Overall\n"
+"Status"
+msgstr "Global"
+
+#: fitsviewer/fitsstackmonitor.h:182
+#, kde-format
+msgctxt "Tooltip for Overall Status column"
+msgid "Overall processing status"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:185
+#, kde-format
+msgctxt "Column header"
+msgid ""
+"Load Wait\n"
+"Time(s)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:186
+#, kde-format
+msgctxt "Tooltip for Load Wait Time column"
+msgid "Wait time from subs detected until loading starts"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:188
+#, fuzzy, kde-format
+#| msgid "Loading stars"
+msgctxt "Column header"
+msgid ""
+"Loading\n"
+"Status"
+msgstr "Chargement des étoiles"
+
+#: fitsviewer/fitsstackmonitor.h:189
+#, fuzzy, kde-format
+#| msgid "Loading stars"
+msgctxt "Tooltip for Loading Status column"
+msgid "Loading status"
+msgstr "Chargement des étoiles"
+
+#: fitsviewer/fitsstackmonitor.h:191
+#, fuzzy, kde-format
+#| msgid "Loading comets"
+msgctxt "Column header"
+msgid ""
+"Loading\n"
+"Time(s)"
+msgstr "Chargement des comètes"
+
+#: fitsviewer/fitsstackmonitor.h:192
+#, fuzzy, kde-format
+#| msgid "Set Time to &Now"
+msgctxt "Tooltip for Loading Time column"
+msgid "Time to load"
+msgstr "Régler l'heure à &maintenant"
+
+#: fitsviewer/fitsstackmonitor.h:194
+#, fuzzy, kde-format
+#| msgid "SNR"
+msgctxt "Column header"
+msgid "SNR"
+msgstr "SNR"
+
+#: fitsviewer/fitsstackmonitor.h:195
+#, fuzzy, kde-format
+#| msgid "The signal-to-noise ratio of the final image"
+msgctxt "Tooltip for SNR column"
+msgid "Signal-to-noise ratio"
+msgstr "Le rapport signal sur bruit de l'image finale"
+
+#: fitsviewer/fitsstackmonitor.h:198
+#, fuzzy, kde-format
+#| msgid "Plate Solve"
+msgctxt "Column header"
+msgid ""
+"Plate Solve\n"
+"Status"
+msgstr "Résolveur"
+
+#: fitsviewer/fitsstackmonitor.h:199
+#, fuzzy, kde-format
+#| msgid "Plate Solving"
+msgctxt "Tooltip for Plate Solve Status column"
+msgid "Plate solving status"
+msgstr "Résolution"
+
+#: fitsviewer/fitsstackmonitor.h:201
+#, fuzzy, kde-format
+#| msgid "Plate Solve"
+msgctxt "Column header"
+msgid ""
+"Plate Solve\n"
+"Time(s)"
+msgstr "Résolveur"
+
+#: fitsviewer/fitsstackmonitor.h:202
+#, fuzzy, kde-format
+#| msgid "Time && Location Updates"
+msgctxt "Tooltip for Plate Solve Time column"
+msgid "Time to plate solve"
+msgstr "Mises à jour de l'heure et de la position"
+
+#: fitsviewer/fitsstackmonitor.h:204
+#, fuzzy, kde-format
+#| msgid "HFR"
+msgctxt "Column header"
+msgid "HFR"
+msgstr "HFR"
+
+#: fitsviewer/fitsstackmonitor.h:205
+#, fuzzy, kde-format
+#| msgid "Average HFR Check:"
+msgctxt "Tooltip for HFR column"
+msgid "Average HFR of stars"
+msgstr "Vérification HFR moyenne :"
+
+#: fitsviewer/fitsstackmonitor.h:207
+#, fuzzy, kde-format
+#| msgid "Num Stars"
+msgctxt "Column header"
+msgid "Num Stars"
+msgstr "Nombres d'étoiles"
+
+#: fitsviewer/fitsstackmonitor.h:208
+#, fuzzy, kde-format
+#| msgid "No stars detected"
+msgctxt "Tooltip for Num Stars column"
+msgid "Number of stars detected"
+msgstr "Aucune étoile détectée"
+
+#: fitsviewer/fitsstackmonitor.h:211
+#, kde-format
+msgctxt "Column header"
+msgid ""
+"Stack Wait\n"
+"Time(s)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:212
+#, kde-format
+msgctxt "Tooltip for Stack Wait Time column"
+msgid "Wait time for sufficient subs to start stacking"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:215
+#, fuzzy, kde-format
+#| msgid "Calibration Options"
+msgctxt "Column header"
+msgid ""
+"Calibration\n"
+"Status"
+msgstr "Options de calibrage"
+
+#: fitsviewer/fitsstackmonitor.h:216
+#, fuzzy, kde-format
+#| msgid "Calibration started."
+msgctxt "Tooltip for Calibration Status column"
+msgid "Calibration status"
+msgstr "Démarrage de la calibration."
+
+#: fitsviewer/fitsstackmonitor.h:219
+#, fuzzy, kde-format
+#| msgid "Calibration timeout"
+msgctxt "Column header"
+msgid ""
+"Calibration\n"
+"Time(s)"
+msgstr "Délai maximal pour la calibration"
+
+#: fitsviewer/fitsstackmonitor.h:220
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Move to rate"
+msgctxt "Tooltip for Calibration Time column"
+msgid "Time to calibrate"
+msgstr "Taux de mouvement"
+
+#: fitsviewer/fitsstackmonitor.h:223
+#, fuzzy, kde-format
+#| msgid "Alignment"
+msgctxt "Column header"
+msgid ""
+"Alignment\n"
+"Status"
+msgstr "Alignement"
+
+#: fitsviewer/fitsstackmonitor.h:224
+#, fuzzy, kde-format
+#| msgid "Alignment Points:"
+msgctxt "Tooltip for Alignment Status column"
+msgid "Alignment status"
+msgstr "Points d'alignement"
+
+#: fitsviewer/fitsstackmonitor.h:226
+#, fuzzy, kde-format
+#| msgid "Alignment"
+msgctxt "Column header"
+msgid ""
+"Alignment\n"
+"Time(s)"
+msgstr "Alignement"
+
+#: fitsviewer/fitsstackmonitor.h:227
+#, fuzzy, kde-format
+#| msgid "Timeline"
+msgctxt "Tooltip for Alignment Time column"
+msgid "Time to align"
+msgstr "Chronologie"
+
+#: fitsviewer/fitsstackmonitor.h:229
+#, kde-format
+msgctxt "Column header"
+msgid "Δx"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:230
+#, kde-format
+msgctxt "Tooltip for Δx column"
+msgid "X-axis shift in pixels compared to alignment master"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:232
+#, kde-format
+msgctxt "Column header"
+msgid "Δy"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:233
+#, kde-format
+msgctxt "Tooltip for Δy column"
+msgid "Y-axis shift in pixels compared to alignment master"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:235
+#, kde-format
+msgctxt "Column header"
+msgid "Rot(°)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:236
+#, kde-format
+msgctxt "Tooltip for Rotation column"
+msgid "Rotation angle in degrees compared to alignment master"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:239
+#, fuzzy, kde-format
+#| msgid "Parking Status"
+msgctxt "Column header"
+msgid ""
+"Stacking\n"
+"Status"
+msgstr "État du parcage"
+
+#: fitsviewer/fitsstackmonitor.h:240
+#, fuzzy, kde-format
+#| msgid "Parking Status"
+msgctxt "Tooltip for Stacking Status column"
+msgid "Stacking status"
+msgstr "État du parcage"
+
+#: fitsviewer/fitsstackmonitor.h:242
+#, fuzzy, kde-format
+#| msgid "Stacking"
+msgctxt "Column header"
+msgid ""
+"Stacking\n"
+"Time(s)"
+msgstr "En cours d'empilement"
+
+#: fitsviewer/fitsstackmonitor.h:243
+#, kde-format
+msgctxt "Tooltip for Stacking Time column"
+msgid "Time to stack (s)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:245
+#, fuzzy, kde-format
+#| msgid "Stacking"
+msgctxt "Column header"
+msgid ""
+"Stacking\n"
+"Weight"
+msgstr "En cours d'empilement"
+
+#: fitsviewer/fitsstackmonitor.h:246
+#, kde-format
+msgctxt "Tooltip for Stacking Weight column"
+msgid "Weight used in stacking"
 msgstr ""
 
 #: fitsviewer/fitsstretchui.cpp:241
@@ -92052,9 +92404,6 @@ msgstr "Sélectionnez la couleur de fond."
 #~ "Sélectionner des paramètres de synchronisation pour l'heure et la "
 #~ "position entre KStars et les périphériques INDI."
 
-#~ msgid "Time && Location Updates"
-#~ msgstr "Mises à jour de l'heure et de la position"
-
 #~ msgid ""
 #~ "<html><head/><body><p>KStars is the master source for time and location "
 #~ "settings. All INDI devices time and locations settings are synchronized "
@@ -118149,11 +118498,6 @@ msgstr "Sélectionnez la couleur de fond."
 #~| msgid "Radiotelescope"
 #~ msgid "Park the telescope (INDI)"
 #~ msgstr "Radiotélescope"
-
-#, fuzzy
-#~| msgid "Calibration Options"
-#~ msgid "Calibration Settings"
-#~ msgstr "Options de calibrage"
 
 #~ msgid "Filename for sky image"
 #~ msgstr "Nom de fichier pour l'image du ciel"

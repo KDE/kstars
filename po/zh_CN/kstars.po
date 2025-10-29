@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-26 01:58+0000\n"
+"POT-Creation-Date: 2025-10-29 02:00+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -17161,7 +17161,7 @@ msgid "<comment>"
 msgstr "<批注>"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:71 ekos/ekos.h:119
-#: ekos/ekos.h:139 fitsviewer/fitsstackmonitor.h:94
+#: ekos/ekos.h:139
 #, kde-format
 msgid "In Progress"
 msgstr "进行中"
@@ -29673,53 +29673,75 @@ msgstr ""
 msgid "Double-click to toggle text display"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:96
-#, kde-format
+#: fitsviewer/fitsstackmonitor.h:105
+#, fuzzy, kde-format
+#| msgid "In Progress"
+msgctxt "Stack monitor status"
+msgid "In Progress"
+msgstr "进行中"
+
+#: fitsviewer/fitsstackmonitor.h:109
+#, fuzzy, kde-format
+#| msgid "Failed to load image"
+msgctxt "Stack monitor status"
 msgid "%1 Failed to Load"
-msgstr ""
+msgstr "加载图像失败"
 
-#: fitsviewer/fitsstackmonitor.h:97
-#, kde-format
+#: fitsviewer/fitsstackmonitor.h:111
+#, fuzzy, kde-format
+#| msgid "Plate Solving"
+msgctxt "Stack monitor status"
 msgid "%1 Failed Plate Solving"
-msgstr ""
+msgstr "平面解析"
 
-#: fitsviewer/fitsstackmonitor.h:98
-#, kde-format
+#: fitsviewer/fitsstackmonitor.h:113
+#, fuzzy, kde-format
+#| msgid "File Settings"
+msgctxt "Stack monitor status"
 msgid "%1 Failed Waiting"
-msgstr ""
+msgstr "文件设置"
 
-#: fitsviewer/fitsstackmonitor.h:99
-#, kde-format
+#: fitsviewer/fitsstackmonitor.h:115
+#, fuzzy, kde-format
+#| msgid "Flat Calibration"
+msgctxt "Stack monitor status"
 msgid "%1 Failed Calibration"
-msgstr ""
+msgstr "平场校正"
 
-#: fitsviewer/fitsstackmonitor.h:100
-#, kde-format
+#: fitsviewer/fitsstackmonitor.h:117
+#, fuzzy, kde-format
+#| msgid "Save Failed Align Images"
+msgctxt "Stack monitor status"
 msgid "%1 Failed Alignment"
-msgstr ""
+msgstr "保存对齐图像失败"
 
-#: fitsviewer/fitsstackmonitor.h:101
-#, kde-format
+#: fitsviewer/fitsstackmonitor.h:119
+#, fuzzy, kde-format
+#| msgid "Failed to edit city"
+msgctxt "Stack monitor status"
 msgid "%1 Failed to Stack"
-msgstr ""
+msgstr "编辑城市失败"
 
-#: fitsviewer/fitsstackmonitor.h:120
+#: fitsviewer/fitsstackmonitor.h:138
 #, kde-format
+msgctxt "Stack monitor status help"
 msgid ""
 "%1 \n"
 "%2 = OK\n"
 "%3 = Error"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:123
+#: fitsviewer/fitsstackmonitor.h:144
 #, kde-format
+msgctxt "Stack monitor status help"
 msgid ""
 "%1 \n"
 "%2 = Not applicable"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:129
+#: fitsviewer/fitsstackmonitor.h:154
 #, kde-format
+msgctxt "Stack monitor overall status help"
 msgid ""
 "%1 \n"
 "%2\n"
@@ -29730,6 +29752,340 @@ msgid ""
 "%7\n"
 "%8\n"
 "%9"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:172
+#, fuzzy, kde-format
+#| msgid "ID"
+msgctxt "Column header"
+msgid "ID"
+msgstr "ID"
+
+#: fitsviewer/fitsstackmonitor.h:173
+#, kde-format
+msgctxt "Tooltip for ID column"
+msgid "Unique subframe identifier"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:175
+#, kde-format
+msgctxt "Column header"
+msgid "Pathname"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:176
+#, fuzzy, kde-format
+#| msgid "Arc file path"
+msgctxt "Tooltip for Pathname column"
+msgid "Full file path"
+msgstr "Arc 文件路径"
+
+#: fitsviewer/fitsstackmonitor.h:178
+#, fuzzy, kde-format
+#| msgid "Filename"
+msgctxt "Column header"
+msgid "Filename"
+msgstr "文件名"
+
+#: fitsviewer/fitsstackmonitor.h:179
+#, fuzzy, kde-format
+#| msgid "Filename"
+msgctxt "Tooltip for Filename column"
+msgid "Filename only"
+msgstr "文件名"
+
+#: fitsviewer/fitsstackmonitor.h:181
+#, fuzzy, kde-format
+#| msgid "Overall"
+msgctxt "Column header"
+msgid ""
+"Overall\n"
+"Status"
+msgstr "全部"
+
+#: fitsviewer/fitsstackmonitor.h:182
+#, kde-format
+msgctxt "Tooltip for Overall Status column"
+msgid "Overall processing status"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:185
+#, kde-format
+msgctxt "Column header"
+msgid ""
+"Load Wait\n"
+"Time(s)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:186
+#, kde-format
+msgctxt "Tooltip for Load Wait Time column"
+msgid "Wait time from subs detected until loading starts"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:188
+#, fuzzy, kde-format
+#| msgid "Loading stars"
+msgctxt "Column header"
+msgid ""
+"Loading\n"
+"Status"
+msgstr "正在加载恒星"
+
+#: fitsviewer/fitsstackmonitor.h:189
+#, fuzzy, kde-format
+#| msgid "Loading stars"
+msgctxt "Tooltip for Loading Status column"
+msgid "Loading status"
+msgstr "正在加载恒星"
+
+#: fitsviewer/fitsstackmonitor.h:191
+#, fuzzy, kde-format
+#| msgid "Loading comets"
+msgctxt "Column header"
+msgid ""
+"Loading\n"
+"Time(s)"
+msgstr "正在加载彗星"
+
+#: fitsviewer/fitsstackmonitor.h:192
+#, fuzzy, kde-format
+#| msgid "Set Time to &Now"
+msgctxt "Tooltip for Loading Time column"
+msgid "Time to load"
+msgstr "将时间设为现在(&N)"
+
+#: fitsviewer/fitsstackmonitor.h:194
+#, fuzzy, kde-format
+#| msgid "SNR"
+msgctxt "Column header"
+msgid "SNR"
+msgstr "信噪比"
+
+#: fitsviewer/fitsstackmonitor.h:195
+#, kde-format
+msgctxt "Tooltip for SNR column"
+msgid "Signal-to-noise ratio"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:198
+#, fuzzy, kde-format
+#| msgid "Plate Solve"
+msgctxt "Column header"
+msgid ""
+"Plate Solve\n"
+"Status"
+msgstr "平面解析"
+
+#: fitsviewer/fitsstackmonitor.h:199
+#, fuzzy, kde-format
+#| msgid "Plate Solving"
+msgctxt "Tooltip for Plate Solve Status column"
+msgid "Plate solving status"
+msgstr "平面解析"
+
+#: fitsviewer/fitsstackmonitor.h:201
+#, fuzzy, kde-format
+#| msgid "Plate Solve"
+msgctxt "Column header"
+msgid ""
+"Plate Solve\n"
+"Time(s)"
+msgstr "平面解析"
+
+#: fitsviewer/fitsstackmonitor.h:202
+#, fuzzy, kde-format
+#| msgid "Plate Solve"
+msgctxt "Tooltip for Plate Solve Time column"
+msgid "Time to plate solve"
+msgstr "平面解析"
+
+#: fitsviewer/fitsstackmonitor.h:204
+#, fuzzy, kde-format
+#| msgid "HFR"
+msgctxt "Column header"
+msgid "HFR"
+msgstr "HFR"
+
+#: fitsviewer/fitsstackmonitor.h:205
+#, fuzzy, kde-format
+#| msgid "Average HFR Check:"
+msgctxt "Tooltip for HFR column"
+msgid "Average HFR of stars"
+msgstr "HFR 平均值检查:"
+
+#: fitsviewer/fitsstackmonitor.h:207
+#, fuzzy, kde-format
+#| msgid "Num Stars"
+msgctxt "Column header"
+msgid "Num Stars"
+msgstr "星点数"
+
+#: fitsviewer/fitsstackmonitor.h:208
+#, fuzzy, kde-format
+#| msgid "No stars detected"
+msgctxt "Tooltip for Num Stars column"
+msgid "Number of stars detected"
+msgstr "未探测到星点"
+
+#: fitsviewer/fitsstackmonitor.h:211
+#, kde-format
+msgctxt "Column header"
+msgid ""
+"Stack Wait\n"
+"Time(s)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:212
+#, kde-format
+msgctxt "Tooltip for Stack Wait Time column"
+msgid "Wait time for sufficient subs to start stacking"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:215
+#, fuzzy, kde-format
+#| msgid "Calibration"
+msgctxt "Column header"
+msgid ""
+"Calibration\n"
+"Status"
+msgstr "校准"
+
+#: fitsviewer/fitsstackmonitor.h:216
+#, fuzzy, kde-format
+#| msgid "Calibration started."
+msgctxt "Tooltip for Calibration Status column"
+msgid "Calibration status"
+msgstr "校准开始。"
+
+#: fitsviewer/fitsstackmonitor.h:219
+#, fuzzy, kde-format
+#| msgid "Calibration timeout"
+msgctxt "Column header"
+msgid ""
+"Calibration\n"
+"Time(s)"
+msgstr "校准超时"
+
+#: fitsviewer/fitsstackmonitor.h:220
+#, fuzzy, kde-format
+#| msgid "Park dome on calibration."
+msgctxt "Tooltip for Calibration Time column"
+msgid "Time to calibrate"
+msgstr "校准时归位圆顶。"
+
+#: fitsviewer/fitsstackmonitor.h:223
+#, fuzzy, kde-format
+#| msgid "Alignment"
+msgctxt "Column header"
+msgid ""
+"Alignment\n"
+"Status"
+msgstr "对准"
+
+#: fitsviewer/fitsstackmonitor.h:224
+#, fuzzy, kde-format
+#| msgid "Alignment Points:"
+msgctxt "Tooltip for Alignment Status column"
+msgid "Alignment status"
+msgstr "对齐点："
+
+#: fitsviewer/fitsstackmonitor.h:226
+#, fuzzy, kde-format
+#| msgid "Alignment"
+msgctxt "Column header"
+msgid ""
+"Alignment\n"
+"Time(s)"
+msgstr "对准"
+
+#: fitsviewer/fitsstackmonitor.h:227
+#, fuzzy, kde-format
+#| msgid "Timeline"
+msgctxt "Tooltip for Alignment Time column"
+msgid "Time to align"
+msgstr "时间轴"
+
+#: fitsviewer/fitsstackmonitor.h:229
+#, kde-format
+msgctxt "Column header"
+msgid "Δx"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:230
+#, kde-format
+msgctxt "Tooltip for Δx column"
+msgid "X-axis shift in pixels compared to alignment master"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:232
+#, kde-format
+msgctxt "Column header"
+msgid "Δy"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:233
+#, kde-format
+msgctxt "Tooltip for Δy column"
+msgid "Y-axis shift in pixels compared to alignment master"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:235
+#, kde-format
+msgctxt "Column header"
+msgid "Rot(°)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:236
+#, kde-format
+msgctxt "Tooltip for Rotation column"
+msgid "Rotation angle in degrees compared to alignment master"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:239
+#, fuzzy, kde-format
+#| msgid "Parking Status"
+msgctxt "Column header"
+msgid ""
+"Stacking\n"
+"Status"
+msgstr "归位状态"
+
+#: fitsviewer/fitsstackmonitor.h:240
+#, fuzzy, kde-format
+#| msgid "Parking Status"
+msgctxt "Tooltip for Stacking Status column"
+msgid "Stacking status"
+msgstr "归位状态"
+
+#: fitsviewer/fitsstackmonitor.h:242
+#, kde-format
+msgctxt "Column header"
+msgid ""
+"Stacking\n"
+"Time(s)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:243
+#, kde-format
+msgctxt "Tooltip for Stacking Time column"
+msgid "Time to stack (s)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:245
+#, fuzzy, kde-format
+#| msgctxt "City in Michigan USA"
+#| msgid "Sterling Heights"
+msgctxt "Column header"
+msgid ""
+"Stacking\n"
+"Weight"
+msgstr "斯特林高地"
+
+#: fitsviewer/fitsstackmonitor.h:246
+#, kde-format
+msgctxt "Tooltip for Stacking Weight column"
+msgid "Weight used in stacking"
 msgstr ""
 
 #: fitsviewer/fitsstretchui.cpp:241

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-26 01:58+0000\n"
+"POT-Creation-Date: 2025-10-29 02:00+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -17229,7 +17229,7 @@ msgid "<comment>"
 msgstr "കമന്റ്"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:71 ekos/ekos.h:119
-#: ekos/ekos.h:139 fitsviewer/fitsstackmonitor.h:94
+#: ekos/ekos.h:139
 #, fuzzy, kde-format
 msgid "In Progress"
 msgstr "ഗാനത്തിന്റെ മുന്നേറ്റം"
@@ -29558,55 +29558,70 @@ msgstr ""
 msgid "Double-click to toggle text display"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:96
+#: fitsviewer/fitsstackmonitor.h:105
 #, fuzzy, kde-format
+msgctxt "Stack monitor status"
+msgid "In Progress"
+msgstr "ഗാനത്തിന്റെ മുന്നേറ്റം"
+
+#: fitsviewer/fitsstackmonitor.h:109
+#, fuzzy, kde-format
+msgctxt "Stack monitor status"
 msgid "%1 Failed to Load"
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: fitsviewer/fitsstackmonitor.h:97
+#: fitsviewer/fitsstackmonitor.h:111
 #, fuzzy, kde-format
+msgctxt "Stack monitor status"
 msgid "%1 Failed Plate Solving"
 msgstr "ഉപയോഗിക്കുവാനുളള MusicBrainz സര്‍വര്‍"
 
-#: fitsviewer/fitsstackmonitor.h:98
+#: fitsviewer/fitsstackmonitor.h:113
 #, fuzzy, kde-format
+msgctxt "Stack monitor status"
 msgid "%1 Failed Waiting"
 msgstr "നിലവിലുള്ള സ്റ്റ്രീമിന്റെ ആല്‍ബം"
 
-#: fitsviewer/fitsstackmonitor.h:99
+#: fitsviewer/fitsstackmonitor.h:115
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
+msgctxt "Stack monitor status"
 msgid "%1 Failed Calibration"
 msgstr "കാലിയെന്റെ"
 
-#: fitsviewer/fitsstackmonitor.h:100
+#: fitsviewer/fitsstackmonitor.h:117
 #, fuzzy, kde-format
+msgctxt "Stack monitor status"
 msgid "%1 Failed Alignment"
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: fitsviewer/fitsstackmonitor.h:101
+#: fitsviewer/fitsstackmonitor.h:119
 #, fuzzy, kde-format
+msgctxt "Stack monitor status"
 msgid "%1 Failed to Stack"
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: fitsviewer/fitsstackmonitor.h:120
+#: fitsviewer/fitsstackmonitor.h:138
 #, kde-format
+msgctxt "Stack monitor status help"
 msgid ""
 "%1 \n"
 "%2 = OK\n"
 "%3 = Error"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:123
+#: fitsviewer/fitsstackmonitor.h:144
 #, kde-format
+msgctxt "Stack monitor status help"
 msgid ""
 "%1 \n"
 "%2 = Not applicable"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:129
+#: fitsviewer/fitsstackmonitor.h:154
 #, kde-format
+msgctxt "Stack monitor overall status help"
 msgid ""
 "%1 \n"
 "%2\n"
@@ -29617,6 +29632,326 @@ msgid ""
 "%7\n"
 "%8\n"
 "%9"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:172
+#, fuzzy, kde-format
+#| msgid "INDI"
+msgctxt "Column header"
+msgid "ID"
+msgstr "INDI"
+
+#: fitsviewer/fitsstackmonitor.h:173
+#, kde-format
+msgctxt "Tooltip for ID column"
+msgid "Unique subframe identifier"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:175
+#, kde-format
+msgctxt "Column header"
+msgid "Pathname"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:176
+#, fuzzy, kde-format
+msgctxt "Tooltip for Pathname column"
+msgid "Full file path"
+msgstr "തായ്‌വാന്‍ , പ്രൊവിന്‍സ് ഓഫ് ചൈന"
+
+#: fitsviewer/fitsstackmonitor.h:178
+#, fuzzy, kde-format
+msgctxt "Column header"
+msgid "Filename"
+msgstr "ഫയലിന്റെ _പേരു്:"
+
+#: fitsviewer/fitsstackmonitor.h:179
+#, fuzzy, kde-format
+msgctxt "Tooltip for Filename column"
+msgid "Filename only"
+msgstr "ഫയലിന്റെ _പേരു്:"
+
+#: fitsviewer/fitsstackmonitor.h:181
+#, fuzzy, kde-format
+#| msgid "Stars"
+msgctxt "Column header"
+msgid ""
+"Overall\n"
+"Status"
+msgstr "നക്ഷത്രങ്ങള്‍"
+
+#: fitsviewer/fitsstackmonitor.h:182
+#, kde-format
+msgctxt "Tooltip for Overall Status column"
+msgid "Overall processing status"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:185
+#, kde-format
+msgctxt "Column header"
+msgid ""
+"Load Wait\n"
+"Time(s)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:186
+#, kde-format
+msgctxt "Tooltip for Load Wait Time column"
+msgid "Wait time from subs detected until loading starts"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:188
+#, fuzzy, kde-format
+msgctxt "Column header"
+msgid ""
+"Loading\n"
+"Status"
+msgstr "നക്ഷത്രക്കൂട്ടം"
+
+#: fitsviewer/fitsstackmonitor.h:189
+#, fuzzy, kde-format
+msgctxt "Tooltip for Loading Status column"
+msgid "Loading status"
+msgstr "നക്ഷത്രക്കൂട്ടം"
+
+#: fitsviewer/fitsstackmonitor.h:191
+#, fuzzy, kde-format
+msgctxt "Column header"
+msgid ""
+"Loading\n"
+"Time(s)"
+msgstr "നക്ഷത്രരാശിയുടെ പടം ലോഡ് ചെയ്തുകൊണ്ടിരിക്കുന്നു: "
+
+#: fitsviewer/fitsstackmonitor.h:192
+#, fuzzy, kde-format
+msgctxt "Tooltip for Loading Time column"
+msgid "Time to load"
+msgstr "സമയം ഉറപ്പിക്കുക "
+
+#: fitsviewer/fitsstackmonitor.h:194
+#, fuzzy, kde-format
+#| msgid "LSR"
+msgctxt "Column header"
+msgid "SNR"
+msgstr "LSR"
+
+#: fitsviewer/fitsstackmonitor.h:195
+#, kde-format
+msgctxt "Tooltip for SNR column"
+msgid "Signal-to-noise ratio"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:198
+#, fuzzy, kde-format
+msgctxt "Column header"
+msgid ""
+"Plate Solve\n"
+"Status"
+msgstr "ഉപയോഗിക്കുവാനുളള MusicBrainz സര്‍വര്‍"
+
+#: fitsviewer/fitsstackmonitor.h:199
+#, fuzzy, kde-format
+msgctxt "Tooltip for Plate Solve Status column"
+msgid "Plate solving status"
+msgstr "ഉപയോഗിക്കുവാനുളള MusicBrainz സര്‍വര്‍"
+
+#: fitsviewer/fitsstackmonitor.h:201
+#, fuzzy, kde-format
+msgctxt "Column header"
+msgid ""
+"Plate Solve\n"
+"Time(s)"
+msgstr "ഉപയോഗിക്കുവാനുളള MusicBrainz സര്‍വര്‍"
+
+#: fitsviewer/fitsstackmonitor.h:202
+#, fuzzy, kde-format
+msgctxt "Tooltip for Plate Solve Time column"
+msgid "Time to plate solve"
+msgstr "തിരഞ്ഞെടുത്ത സ്ഥലം സൂക്ഷിക്കുക"
+
+#: fitsviewer/fitsstackmonitor.h:204
+#, fuzzy, kde-format
+#| msgid "Sunset: %1"
+msgctxt "Column header"
+msgid "HFR"
+msgstr "സൂര്യാസ്തമനം: %1"
+
+#: fitsviewer/fitsstackmonitor.h:205
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Anchorage"
+msgctxt "Tooltip for HFR column"
+msgid "Average HFR of stars"
+msgstr "ആങ്കറേജ്"
+
+#: fitsviewer/fitsstackmonitor.h:207
+#, fuzzy, kde-format
+#| msgid "Mars"
+msgctxt "Column header"
+msgid "Num Stars"
+msgstr "ചൊവ്വ"
+
+#: fitsviewer/fitsstackmonitor.h:208
+#, fuzzy, kde-format
+msgctxt "Tooltip for Num Stars column"
+msgid "Number of stars detected"
+msgstr "തിരഞ്ഞെടുത്ത വസ്തുവിലേക്ക് പോവുക [SPACE]"
+
+#: fitsviewer/fitsstackmonitor.h:211
+#, kde-format
+msgctxt "Column header"
+msgid ""
+"Stack Wait\n"
+"Time(s)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:212
+#, kde-format
+msgctxt "Tooltip for Stack Wait Time column"
+msgid "Wait time for sufficient subs to start stacking"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:215
+#, fuzzy, kde-format
+msgctxt "Column header"
+msgid ""
+"Calibration\n"
+"Status"
+msgstr "ആജ്ഞാ സ്ഥാന സാധ്യതകള്‍"
+
+#: fitsviewer/fitsstackmonitor.h:216
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Caliente"
+msgctxt "Tooltip for Calibration Status column"
+msgid "Calibration status"
+msgstr "കാലിയെന്റെ"
+
+#: fitsviewer/fitsstackmonitor.h:219
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Caliente"
+msgctxt "Column header"
+msgid ""
+"Calibration\n"
+"Time(s)"
+msgstr "കാലിയെന്റെ"
+
+#: fitsviewer/fitsstackmonitor.h:220
+#, fuzzy, kde-format
+msgctxt "Tooltip for Calibration Time column"
+msgid "Time to calibrate"
+msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
+
+#: fitsviewer/fitsstackmonitor.h:223
+#, fuzzy, kde-format
+msgctxt "Column header"
+msgid ""
+"Alignment\n"
+"Status"
+msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
+
+#: fitsviewer/fitsstackmonitor.h:224
+#, fuzzy, kde-format
+msgctxt "Tooltip for Alignment Status column"
+msgid "Alignment status"
+msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
+
+#: fitsviewer/fitsstackmonitor.h:226
+#, fuzzy, kde-format
+msgctxt "Column header"
+msgid ""
+"Alignment\n"
+"Time(s)"
+msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
+
+#: fitsviewer/fitsstackmonitor.h:227
+#, fuzzy, kde-format
+#| msgid "Time"
+msgctxt "Tooltip for Alignment Time column"
+msgid "Time to align"
+msgstr "സമയം"
+
+#: fitsviewer/fitsstackmonitor.h:229
+#, kde-format
+msgctxt "Column header"
+msgid "Δx"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:230
+#, kde-format
+msgctxt "Tooltip for Δx column"
+msgid "X-axis shift in pixels compared to alignment master"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:232
+#, kde-format
+msgctxt "Column header"
+msgid "Δy"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:233
+#, kde-format
+msgctxt "Tooltip for Δy column"
+msgid "Y-axis shift in pixels compared to alignment master"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:235
+#, kde-format
+msgctxt "Column header"
+msgid "Rot(°)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:236
+#, kde-format
+msgctxt "Tooltip for Rotation column"
+msgid "Rotation angle in degrees compared to alignment master"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:239
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Beijing"
+msgctxt "Column header"
+msgid ""
+"Stacking\n"
+"Status"
+msgstr "ബീജിങ്ങ്"
+
+#: fitsviewer/fitsstackmonitor.h:240
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Beijing"
+msgctxt "Tooltip for Stacking Status column"
+msgid "Stacking status"
+msgstr "ബീജിങ്ങ്"
+
+#: fitsviewer/fitsstackmonitor.h:242
+#, fuzzy, kde-format
+msgctxt "Column header"
+msgid ""
+"Stacking\n"
+"Time(s)"
+msgstr "ഗാനം"
+
+#: fitsviewer/fitsstackmonitor.h:243
+#, kde-format
+msgctxt "Tooltip for Stacking Time column"
+msgid "Time to stack (s)"
+msgstr ""
+
+#: fitsviewer/fitsstackmonitor.h:245
+#, fuzzy, kde-format
+msgctxt "Column header"
+msgid ""
+"Stacking\n"
+"Weight"
+msgstr "ഗാനം"
+
+#: fitsviewer/fitsstackmonitor.h:246
+#, kde-format
+msgctxt "Tooltip for Stacking Weight column"
+msgid "Weight used in stacking"
 msgstr ""
 
 #: fitsviewer/fitsstretchui.cpp:241
@@ -92697,10 +93032,6 @@ msgstr ""
 #~ msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
 #, fuzzy
-#~ msgid "Time && Location Updates"
-#~ msgstr "തിരഞ്ഞെടുത്ത സ്ഥലം സൂക്ഷിക്കുക"
-
-#, fuzzy
 #~ msgid "Mount updates KStars"
 #~ msgstr "നക്ഷത്രം തിളങ്ങുന്നതിന്റെ മാനം :"
 
@@ -93079,11 +93410,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
 #~ msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
-
-#, fuzzy
-#~| msgid "Sunset: %1"
-#~ msgid "HFR: "
-#~ msgstr "സൂര്യാസ്തമനം: %1"
 
 #, fuzzy
 #~ msgid ""
@@ -97122,10 +97448,6 @@ msgstr ""
 #~| msgid "Telescope"
 #~ msgid "Park the telescope (INDI)"
 #~ msgstr "ടെലസ്കോപ്പ്"
-
-#, fuzzy
-#~ msgid "Calibration Settings"
-#~ msgstr "ആജ്ഞാ സ്ഥാന സാധ്യതകള്‍"
 
 #, fuzzy
 #~ msgid "Filename for sky image"
