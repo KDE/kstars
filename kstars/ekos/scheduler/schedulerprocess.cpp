@@ -3401,6 +3401,16 @@ void SchedulerProcess::checkAlignment(const QVariantMap &metadata, const QString
         return;
     }
 
+    // If the scheduler is idle or shutting down, or if the active job no longer requires light frames,
+    // do not proceed with alignment check.
+    if (moduleState()->schedulerState() == SCHEDULER_IDLE ||
+        moduleState()->schedulerState() == SCHEDULER_SHUTDOWN ||
+        !activeJob()->getLightFramesRequired())
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Job" << activeJob()->getName() << "is complete or scheduler is stopping, skipping alignment check.";
+        return;
+    }
+
     if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN &&
             metadata["type"].toInt() == FRAME_LIGHT &&
             Options::alignCheckFrequency() > 0 &&
