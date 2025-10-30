@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-29 02:00+0000\n"
-"PO-Revision-Date: 2025-10-26 07:01-0300\n"
+"POT-Creation-Date: 2025-10-30 02:02+0000\n"
+"PO-Revision-Date: 2025-10-29 08:32-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -484,14 +484,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Salvar imagem"
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:4015
+#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:4077
 #: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1391
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Já existe um arquivo chamado \"%1\". Deseja sobrescrevê-lo?"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:4018
+#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:4080
 #: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1392
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -2694,7 +2694,7 @@ msgstr ""
 "A URL não é válida. Deseja abrir uma janela do navegador\n"
 "com o mecanismo de pesquisa Google?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4026
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4088
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:428
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
@@ -3890,7 +3890,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
-#: dialogs/details_data.ui:390 ekos/align/align.cpp:951
+#: dialogs/details_data.ui:390 ekos/align/align.cpp:995
 #: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1057
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
@@ -6248,12 +6248,28 @@ msgstr "Limpar pontos de solução"
 msgid "Remote solver timed out."
 msgstr "Expirou o tempo-limite do solucionador remoto."
 
-#: ekos/align/align.cpp:851
+#: ekos/align/align.cpp:798
+#, kde-format
+msgid "Dustcap unparked. Resuming capture and solve."
+msgstr ""
+
+#: ekos/align/align.cpp:804
+#, kde-format
+msgid "Dustcap error detected. Aborting alignment."
+msgstr ""
+
+#: ekos/align/align.cpp:865 ekos/focus/focus.cpp:5889
+#, fuzzy, kde-format
+#| msgid "Dust cap is parked."
+msgid "Dustcap device %1 removed."
+msgstr "A tampa anti-poeira está bloqueada."
+
+#: ekos/align/align.cpp:895
 #, kde-format
 msgid "Mount does not support syncing."
 msgstr "A montagem não tem suporte à sincronização."
 
-#: ekos/align/align.cpp:1056
+#: ekos/align/align.cpp:1100
 #, kde-format
 msgid ""
 "Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
@@ -6262,7 +6278,7 @@ msgstr ""
 "A distância focal efetiva do telescópio foi atualizada para %1 mm (FL: %2 "
 "Redutor: %3 W: %4 Passo: %5 Campo de visão: %6)."
 
-#: ekos/align/align.cpp:1104
+#: ekos/align/align.cpp:1148
 #, kde-format
 msgid ""
 "Warning! The calculated field of view (%1) is out of bounds. Ensure the "
@@ -6272,7 +6288,7 @@ msgstr ""
 "se de que a distância focal do telescópio e o tamanho do pixel da câmera "
 "estejam corretos."
 
-#: ekos/align/align.cpp:1143
+#: ekos/align/align.cpp:1187
 #, kde-format
 msgid ""
 "<p>Effective field of view size in arcminutes.</p><p>Please capture and "
@@ -6283,40 +6299,40 @@ msgstr ""
 "resolva uma vez para medir o campo de visão efetivo ou insira os valores "
 "manualmente.</p><p>Campo de visão calculado: %1</p>"
 
-#: ekos/align/align.cpp:1152
+#: ekos/align/align.cpp:1196
 #, kde-format
 msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Tamanho efetivo do campo de visão em minutos de arco.</p>"
 
-#: ekos/align/align.cpp:1436
+#: ekos/align/align.cpp:1480
 #, kde-format
 msgid "Mount coordinates are invalid. Check mount connection and try again."
 msgstr ""
 "As coordenadas de montagem são inválidas. Verifique a conexão da montagem e "
 "tente novamente."
 
-#: ekos/align/align.cpp:1437 ekos/align/align.cpp:1469
-#: ekos/align/align.cpp:2483
+#: ekos/align/align.cpp:1481 ekos/align/align.cpp:1513
+#: ekos/align/align.cpp:2545
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "Falha no alinhamento do Astrometry"
 
-#: ekos/align/align.cpp:1443
+#: ekos/align/align.cpp:1487
 #, kde-format
 msgid "Setting target to RA:%1 DEC:%2"
 msgstr "Definindo o alvo para AR:%1 DEC:%2"
 
-#: ekos/align/align.cpp:1462
+#: ekos/align/align.cpp:1506
 #, kde-format
 msgid "Error: No camera detected."
 msgstr "Erro: Nenhuma câmera detectada."
 
-#: ekos/align/align.cpp:1468
+#: ekos/align/align.cpp:1512
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Erro: conexão perdida com a câmera."
 
-#: ekos/align/align.cpp:1485
+#: ekos/align/align.cpp:1529
 #, kde-format
 msgid ""
 "Telescope aperture and focal length are missing. Please check your optical "
@@ -6325,7 +6341,7 @@ msgstr ""
 "Está faltando a abertura e a distância focal do telescópio. Verifique as "
 "configurações do seu trem óptico e tente novamente."
 
-#: ekos/align/align.cpp:1491
+#: ekos/align/align.cpp:1535
 #, kde-format
 msgid ""
 "CCD pixel size is missing. Please check your driver settings and try again."
@@ -6333,27 +6349,37 @@ msgstr ""
 "Esta faltando o tamanho dos pixels do CCD. Verifique as configurações do seu "
 "driver e tente novamente."
 
-#: ekos/align/align.cpp:1499
+#: ekos/align/align.cpp:1543
 #, kde-format
 msgid "Error: lost connection to filter wheel."
 msgstr "Erro: conexão perdida com a roda de filtros."
 
-#: ekos/align/align.cpp:1519 ekos/capture/cameraprocess.cpp:216
-#: ekos/capture/cameraprocess.cpp:635 ekos/focus/focus.cpp:6025
+#: ekos/align/align.cpp:1563 ekos/capture/cameraprocess.cpp:216
+#: ekos/capture/cameraprocess.cpp:635 ekos/focus/focus.cpp:6088
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
 msgstr ""
 "A transferência de imagens está desativada para esta câmera. Deseja ativá-la?"
 
-#: ekos/align/align.cpp:1537
+#: ekos/align/align.cpp:1578
+#, kde-format
+msgid "Dustcap is parked. Unparking before capture and solve..."
+msgstr ""
+
+#: ekos/align/align.cpp:1586
+#, kde-format
+msgid "Dustcap is not ready (status: %1). Waiting before capture and solve..."
+msgstr ""
+
+#: ekos/align/align.cpp:1599
 #, kde-format
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr ""
 "Não é possível capturar enquanto o módulo de focagem estiver ocupado. "
 "Tentando novamente em %1 segundos..."
 
-#: ekos/align/align.cpp:1545
+#: ekos/align/align.cpp:1607
 #, kde-format
 msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
@@ -6361,38 +6387,38 @@ msgstr ""
 "Não é possível capturar enquanto a exposição do CCD está em andamento. "
 "Tentando novamente em %1 segundos..."
 
-#: ekos/align/align.cpp:1572
+#: ekos/align/align.cpp:1634
 #, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
 "Não é possível capturar enquanto o rotador estiver ocupado: A estimativa de "
 "atraso de tempo foi iniciada..."
 
-#: ekos/align/align.cpp:1586
+#: ekos/align/align.cpp:1648
 #, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr ""
 "Não é possível capturar enquanto o rotador estiver ocupado. Tentando "
 "novamente em %1 segundos..."
 
-#: ekos/align/align.cpp:1605 ekos/align/align.cpp:3125
+#: ekos/align/align.cpp:1667 ekos/align/align.cpp:3187
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Nenhum driver de astrometria remota detectado, alternando para StellarSolver."
 
-#: ekos/align/align.cpp:1658 ekos/focus/focus.cpp:1963
+#: ekos/align/align.cpp:1720 ekos/focus/focus.cpp:2018
 #, kde-format
 msgid "Capturing image..."
 msgstr "Capturando imagens..."
 
-#: ekos/align/align.cpp:1748 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:3119
+#: ekos/align/align.cpp:1810 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/focus/focus.cpp:3174
 #, kde-format
 msgid "Image received."
 msgstr "Imagem recebida."
 
-#: ekos/align/align.cpp:1881
+#: ekos/align/align.cpp:1943
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -6403,58 +6429,58 @@ msgstr ""
 "arquivos de índice especificados. Baixe alguns arquivos de índice ou "
 "adicione a pasta correta à lista."
 
-#: ekos/align/align.cpp:1937
+#: ekos/align/align.cpp:1999
 #, kde-format
 msgid "Solving with blind image scale..."
 msgstr "Resolvendo com escala de imagem cega..."
 
-#: ekos/align/align.cpp:1945
+#: ekos/align/align.cpp:2007
 #, kde-format
 msgid "Solving with blind image position..."
 msgstr "Resolvendo com posição de imagem cega..."
 
-#: ekos/align/align.cpp:1951
+#: ekos/align/align.cpp:2013
 #, kde-format
 msgid "Solving with blind dynamic threshold..."
 msgstr "Resolvendo com limite dinâmico cego..."
 
-#: ekos/align/align.cpp:1981
+#: ekos/align/align.cpp:2043
 #, kde-format
 msgid "Loaded image does not have pierside information"
 msgstr "A imagem carregada não possui informações sobre o pierside"
 
-#: ekos/align/align.cpp:1986
+#: ekos/align/align.cpp:2048
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
 msgstr "A imagem carregada foi tirada no pierside %1"
 
-#: ekos/align/align.cpp:2062
+#: ekos/align/align.cpp:2124
 #, kde-format
 msgid "Solver timed out after %1 seconds."
 msgstr "O solucionador expirou tempo limite após %1 segundos."
 
-#: ekos/align/align.cpp:2065
+#: ekos/align/align.cpp:2127
 #, kde-format
 msgid "Solver failed after %1 seconds."
 msgstr "O solucionador falhou após %1 segundos."
 
-#: ekos/align/align.cpp:2087
+#: ekos/align/align.cpp:2149
 #, kde-format
 msgid "Solver completed after %1 seconds."
 msgstr "A solução foi concluída após %1 segundos."
 
-#: ekos/align/align.cpp:2108
+#: ekos/align/align.cpp:2170
 #, kde-format
 msgid "Remote solver completed after %1 seconds."
 msgstr "A solução remota foi concluída após %1 segundos."
 
-#: ekos/align/align.cpp:2121
+#: ekos/align/align.cpp:2183
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 "Solução AR (%1) DEC (%2) Orientação (%3) Escala de pixels (%4) Paridade (%5)"
 
-#: ekos/align/align.cpp:2190
+#: ekos/align/align.cpp:2252
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
@@ -6463,7 +6489,7 @@ msgstr ""
 "As informações do WCS foram atualizadas. As imagens capturadas a partir "
 "desse momento deverão ter um WCS válido."
 
-#: ekos/align/align.cpp:2208
+#: ekos/align/align.cpp:2270
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
@@ -6472,69 +6498,69 @@ msgstr ""
 "Coordenadas da solução: AR (%1) DEC (%2) Coordenadas do telescópio: AR (%3) "
 "DEC (%4) Coordenadas do alvo: AR (%5) DEC (%6)"
 
-#: ekos/align/align.cpp:2219
+#: ekos/align/align.cpp:2281
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "O alvo está dentro dos %1 graus das coordenadas da solução."
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-#: ekos/align/align.cpp:2264
+#: ekos/align/align.cpp:2326
 #, kde-format
 msgid "Camera position angle is %1 degrees."
 msgstr "O ângulo de posição da câmera é de %1 graus."
 
-#: ekos/align/align.cpp:2300 ekos/align/align.cpp:2440
+#: ekos/align/align.cpp:2362 ekos/align/align.cpp:2502
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
 msgstr "Limite dinâmico ajustado para %1 (estrelas encontradas: %2)."
 
-#: ekos/align/align.cpp:2308 ekos/align/align.cpp:2769
+#: ekos/align/align.cpp:2370 ekos/align/align.cpp:2831
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "O alinhamento do Astrometry foi concluído com sucesso"
 
-#: ekos/align/align.cpp:2330
+#: ekos/align/align.cpp:2392
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr "Foi atingido o número máximo de iterações. O solucionador falhou."
 
-#: ekos/align/align.cpp:2359
+#: ekos/align/align.cpp:2421
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr "O alvo está dentro do intervalo aceitável."
 
-#: ekos/align/align.cpp:2422
+#: ekos/align/align.cpp:2484
 #, kde-format
 msgid "Saving failed solver image to %1"
 msgstr "Salvando a imagem do solucionador com falha em %1"
 
-#: ekos/align/align.cpp:2446
+#: ekos/align/align.cpp:2508
 #, kde-format
 msgid "Solver failed. Retrying with blind dynamic threshold."
 msgstr ""
 "Ocorreu uma falha no solucionador. Tentando novamente com limite dinâmico "
 "cego."
 
-#: ekos/align/align.cpp:2460
+#: ekos/align/align.cpp:2522
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr ""
 "Ocorreu uma falha no solucionador. Tentando novamente sem restrição de "
 "escala."
 
-#: ekos/align/align.cpp:2470
+#: ekos/align/align.cpp:2532
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr ""
 "Ocorreu uma falha no solucionador. Tentando novamente sem restrição de "
 "posição."
 
-#: ekos/align/align.cpp:2478
+#: ekos/align/align.cpp:2540
 #, kde-format
 msgid "Solver Failed."
 msgstr "Ocorreu uma falha no solucionador."
 
-#: ekos/align/align.cpp:2481
+#: ekos/align/align.cpp:2543
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6546,94 +6572,94 @@ msgstr ""
 "Habilite o registro de alinhamento na aba Configurações -> Registros para "
 "obter informações detalhadas sobre a falha."
 
-#: ekos/align/align.cpp:2541
+#: ekos/align/align.cpp:2603
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Definindo o ângulo de posição da câmera para %1 graus ..."
 
-#: ekos/align/align.cpp:2548
+#: ekos/align/align.cpp:2610
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr "O ângulo de posição da câmera está dentro da faixa aceitável."
 
-#: ekos/align/align.cpp:2562
+#: ekos/align/align.cpp:2624
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "PA atual é %1; PA alvo é %2; diff: %3"
 
-#: ekos/align/align.cpp:2632
+#: ekos/align/align.cpp:2694
 #, kde-format
 msgid "Refresh is complete."
 msgstr "A atualização está completa."
 
-#: ekos/align/align.cpp:2639 ekos/auxiliary/darklibrary.cpp:1413
-#: ekos/focus/focus.cpp:1679
+#: ekos/align/align.cpp:2701 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/focus/focus.cpp:1716
 #, kde-format
 msgid "Capture aborted."
 msgstr "Captura cancelada."
 
-#: ekos/align/align.cpp:2642
+#: ekos/align/align.cpp:2704
 #, kde-format
 msgid "Solver aborted."
 msgstr "Solucionador interrompido."
 
-#: ekos/align/align.cpp:2684 ekos/analyze/analyze.cpp:4142
+#: ekos/align/align.cpp:2746 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:310 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1250 ekos/manager.cpp:2106 ekos/mount/mount.cpp:778
 #: ekos/observatory/observatory.cpp:1042
-#: ekos/scheduler/schedulerprocess.cpp:3731
+#: ekos/scheduler/schedulerprocess.cpp:3741
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2740
+#: ekos/align/align.cpp:2802
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 "Montagem concluída com giro próximo ao polo celeste. Capture novamente para "
 "verificar."
 
-#: ekos/align/align.cpp:2763
+#: ekos/align/align.cpp:2825
 #, kde-format
 msgid "Mount is synced to solution coordinates."
 msgstr "A montagem está sincronizada com as coordenadas da solução."
 
-#: ekos/align/align.cpp:2799 ekos/align/align.cpp:2817
-#: ekos/align/align.cpp:3429 ekos/align/align.cpp:4174
+#: ekos/align/align.cpp:2861 ekos/align/align.cpp:2879
+#: ekos/align/align.cpp:3491 ekos/align/align.cpp:4236
 #: ekos/align/polaralignmentassistant.cpp:654
 #, kde-format
 msgid "Settling..."
 msgstr "Acomodando-se..."
 
-#: ekos/align/align.cpp:2807
+#: ekos/align/align.cpp:2869
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Rotação concluída. A precisão do alvo não foi cumprida. Executando o "
 "solucionador novamente..."
 
-#: ekos/align/align.cpp:2809
+#: ekos/align/align.cpp:2871
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Rotação concluída. Resolvendo o ponto de alinhamento..."
 
-#: ekos/align/align.cpp:2852 ekos/align/align.cpp:3003
+#: ekos/align/align.cpp:2914 ekos/align/align.cpp:3065
 #, kde-format
 msgid "Syncing failed."
 msgstr "A sincronização falhou."
 
-#: ekos/align/align.cpp:2854
+#: ekos/align/align.cpp:2916
 #, kde-format
 msgid "Slewing failed."
 msgstr "Rotação falhou."
 
-#: ekos/align/align.cpp:2898
+#: ekos/align/align.cpp:2960
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "O rotador atingiu o ângulo de posição da câmera."
 
-#: ekos/align/align.cpp:2911
+#: ekos/align/align.cpp:2973
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -6642,22 +6668,22 @@ msgstr ""
 "O rotador não conseguiu atingir o ângulo de posição solicitado (Desvio %1 "
 "arcmin)."
 
-#: ekos/align/align.cpp:2949
+#: ekos/align/align.cpp:3011
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Rotação detectada, suspenda a resolução..."
 
-#: ekos/align/align.cpp:2997
+#: ekos/align/align.cpp:3059
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Sincronização para a AR (%1) DEC (%2)"
 
-#: ekos/align/align.cpp:3021
+#: ekos/align/align.cpp:3083
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Deslocando para as coordenadas de destino: AR (%1) DEC (%2)."
 
-#: ekos/align/align.cpp:3026
+#: ekos/align/align.cpp:3088
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -6666,115 +6692,115 @@ msgstr ""
 "Rotação para coordenadas alvo: AR (%1) DEC (%2) foi rejeitada. (ver "
 "notificação)"
 
-#: ekos/align/align.cpp:3045
+#: ekos/align/align.cpp:3107
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr "Tarefa Ekos (%1) - Telescópio sincronizado"
 
-#: ekos/align/align.cpp:3094
+#: ekos/align/align.cpp:3156
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Carregar imagem"
 
-#: ekos/align/align.cpp:3325
+#: ekos/align/align.cpp:3387
 #, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "O Sistema Mundial de Coordenadas (WCS, sigla em inglês) está ativado."
 
-#: ekos/align/align.cpp:3330
+#: ekos/align/align.cpp:3392
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr ""
 "O Sistema Mundial de Coordenadas (WCS, sigla em inglês) está desativado."
 
-#: ekos/align/align.cpp:3349
+#: ekos/align/align.cpp:3411
 #, kde-format
 msgid "Capture error. Aborting..."
 msgstr "Erro na captura. Interrompendo..."
 
-#: ekos/align/align.cpp:3354 ekos/capture/cameraprocess.cpp:1630
+#: ekos/align/align.cpp:3416 ekos/capture/cameraprocess.cpp:1630
 #: ekos/capture/cameraprocess.cpp:2191
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Reiniciando a tentativa de captura #%1"
 
-#: ekos/align/align.cpp:3480
+#: ekos/align/align.cpp:3542
 #, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Alinhar quadro"
 
-#: ekos/align/align.cpp:3555
+#: ekos/align/align.cpp:3617
 #, kde-format
 msgid "StellarSolver Options"
 msgstr "Opções do StellarSolver"
 
-#: ekos/align/align.cpp:3560
+#: ekos/align/align.cpp:3622
 #, kde-format
 msgid "External & Online Programs"
 msgstr "Programas online e externos"
 
-#: ekos/align/align.cpp:3564
+#: ekos/align/align.cpp:3626
 #, kde-format
 msgid "Scale & Position"
 msgstr "Escala e posição"
 
-#: ekos/align/align.cpp:3568
+#: ekos/align/align.cpp:3630
 #, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "Editor de perfis de opções de alinhamento"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3587 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3649 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Arquivos de índice"
 
-#: ekos/align/align.cpp:3652 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3714 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
 msgstr "dAR (arcseg)"
 
-#: ekos/align/align.cpp:3653 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3715 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
 msgstr "dDE (arcseg)"
 
-#: ekos/align/align.cpp:3701 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5906
+#: ekos/align/align.cpp:3763 ekos/capture/camera_config.cpp:717
+#: ekos/focus/focus.cpp:5969
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Falha na operação do filtro."
 
-#: ekos/align/align.cpp:3713 ekos/capture/camera.cpp:582
+#: ekos/align/align.cpp:3775 ekos/capture/camera.cpp:582
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Alterando o deslocamento do foco em %1 passos..."
 
-#: ekos/align/align.cpp:3720 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3782 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/camera.cpp:587
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Alterando o filtro para %1..."
 
-#: ekos/align/align.cpp:3725 ekos/capture/camera.cpp:592
+#: ekos/align/align.cpp:3787 ekos/capture/camera.cpp:592
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Foco automático na troca de filtro..."
 
-#: ekos/align/align.cpp:3846
+#: ekos/align/align.cpp:3908
 #, kde-format
 msgid "Invalid FOV."
 msgstr "CDV inválido."
 
-#: ekos/align/align.cpp:4002
+#: ekos/align/align.cpp:4064
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Exportar pontos de solução"
 
-#: ekos/align/align.cpp:4025 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:4087 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:427 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
@@ -6784,21 +6810,21 @@ msgstr "Exportar pontos de solução"
 msgid "Invalid URL: %1"
 msgstr "URL inválida: %1"
 
-#: ekos/align/align.cpp:4034 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:4096 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:3201
-#: ekos/scheduler/schedulerprocess.cpp:4945
+#: ekos/scheduler/schedulerprocess.cpp:4955
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Não foi possível gravar no arquivo %1"
 
-#: ekos/align/align.cpp:4035 ekos/align/mountmodel.cpp:286
+#: ekos/align/align.cpp:4097 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3202
-#: ekos/scheduler/schedulerprocess.cpp:3550
-#: ekos/scheduler/schedulerprocess.cpp:4946
-#: ekos/scheduler/schedulerprocess.cpp:4966 indi/drivermanager.cpp:1549
+#: ekos/scheduler/schedulerprocess.cpp:3560
+#: ekos/scheduler/schedulerprocess.cpp:4956
+#: ekos/scheduler/schedulerprocess.cpp:4976 indi/drivermanager.cpp:1549
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -6812,27 +6838,27 @@ msgstr "Não foi possível gravar no arquivo %1"
 msgid "Could Not Open File"
 msgstr "Não foi possível abrir o arquivo"
 
-#: ekos/align/align.cpp:4056
+#: ekos/align/align.cpp:4118
 #, kde-format
 msgid "Error in table structure."
 msgstr "Erro na estrutura da tabela."
 
-#: ekos/align/align.cpp:4065
+#: ekos/align/align.cpp:4127
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Pontos de solução salvos como: %1"
 
-#: ekos/align/align.cpp:4082
+#: ekos/align/align.cpp:4144
 #, kde-format
 msgid "Polar Alignment"
 msgstr "Alinhamento Polar"
 
-#: ekos/align/align.cpp:4651
+#: ekos/align/align.cpp:4716
 #, kde-format
 msgid "Capture timed out."
 msgstr "Tempo de captura esgotado."
 
-#: ekos/align/align.cpp:4660
+#: ekos/align/align.cpp:4725
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Captura ainda em execução, Tentando novamente em %1 segundos..."
@@ -7459,8 +7485,8 @@ msgstr "Abrir a lista de alinhamento do Ekos"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:355
 #: ekos/capture/cameraprocess.cpp:2600 ekos/capture/sequencequeue.cpp:32
-#: ekos/scheduler/schedulerprocess.cpp:3549
-#: ekos/scheduler/schedulerprocess.cpp:4965
+#: ekos/scheduler/schedulerprocess.cpp:3559
+#: ekos/scheduler/schedulerprocess.cpp:4975
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Não foi possível abrir o arquivo %1"
@@ -16203,8 +16229,8 @@ msgstr "Script pré-trabalho foi concluído com o código %1."
 msgid "Post job script finished with code %1."
 msgstr "Script pós-trabalho foi concluído com o código %1."
 
-#: ekos/capture/cameraprocess.cpp:2113 ekos/focus/focus.cpp:6077
-#: ekos/focus/focus.cpp:6101
+#: ekos/capture/cameraprocess.cpp:2113 ekos/focus/focus.cpp:6140
+#: ekos/focus/focus.cpp:6164
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Tempo limite de exposição excedido. Cancelando..."
@@ -16216,7 +16242,7 @@ msgstr ""
 "Tempo limite de exposição excedido. Mais de 3 foram detectados. O "
 "controlador será reiniciado."
 
-#: ekos/capture/cameraprocess.cpp:2138 ekos/focus/focus.cpp:6082
+#: ekos/capture/cameraprocess.cpp:2138 ekos/focus/focus.cpp:6145
 #: ekos/guide/guide.cpp:1018
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -16748,7 +16774,7 @@ msgstr "Próxima execução de foco automático"
 msgid "Dithering..."
 msgstr "Pontilhamento..."
 
-#: ekos/capture/capturepreviewwidget.cpp:185 ekos/focus/focus.cpp:1064
+#: ekos/capture/capturepreviewwidget.cpp:185 ekos/focus/focus.cpp:1101
 #, kde-format
 msgid "Delete directly, do not move to trash."
 msgstr "Excluir diretamente, não mover para a lixeira."
@@ -19312,32 +19338,44 @@ msgstr "Mecânica"
 msgid "Focus Mechanics"
 msgstr "Mecânica do foco"
 
-#: ekos/focus/focus.cpp:944
+#: ekos/focus/focus.cpp:576
+#, fuzzy, kde-format
+#| msgid "Dust cap unparked."
+msgid "Dustcap unparked. Resuming capture."
+msgstr "Tampa anti-poeira desbloqueada."
+
+#: ekos/focus/focus.cpp:582
+#, fuzzy, kde-format
+#| msgid "No star was selected. Aborting..."
+msgid "Dustcap error detected. Aborting focus."
+msgstr "Nenhum estrela foi selecionada. Finalizando..."
+
+#: ekos/focus/focus.cpp:981
 #, kde-format
 msgid "Finally found temperature source %1"
 msgstr "Finalmente encontrada a fonte de temperatura %1"
 
-#: ekos/focus/focus.cpp:1091
+#: ekos/focus/focus.cpp:1128
 #, kde-format
 msgid "Delete the corresponding focus frames?"
 msgstr "Excluir os quadros de foco correspondentes?"
 
-#: ekos/focus/focus.cpp:1091
+#: ekos/focus/focus.cpp:1128
 #, kde-format
 msgid "Delete focus frames?"
 msgstr "Excluir quadros de foco?"
 
-#: ekos/focus/focus.cpp:1110
+#: ekos/focus/focus.cpp:1147
 #, kde-format
 msgid "No Focuser connected."
 msgstr "Nenhum focalizador conectado."
 
-#: ekos/focus/focus.cpp:1117 ekos/focus/focus.cpp:4990
+#: ekos/focus/focus.cpp:1154 ekos/focus/focus.cpp:5045
 #, kde-format
 msgid "No CCD connected."
 msgstr "Nenhum CCD conectado."
 
-#: ekos/focus/focus.cpp:1124
+#: ekos/focus/focus.cpp:1161
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
@@ -19345,338 +19383,349 @@ msgstr ""
 "O passo do pulso inicial é muito baixo. Aumente o tamanho do passo para %1 "
 "ou mais..."
 
-#: ekos/focus/focus.cpp:1135
+#: ekos/focus/focus.cpp:1172
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 "O foco automático já está em execução, descartando a solicitação de início."
 
-#: ekos/focus/focus.cpp:1142
+#: ekos/focus/focus.cpp:1179
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr ""
 "O deslocamento de construção já está em execução, o foco automático foi "
 "rejeitado."
 
-#: ekos/focus/focus.cpp:1150
+#: ekos/focus/focus.cpp:1187
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "No loop de Foco, foco automático rejeitado."
 
-#: ekos/focus/focus.cpp:1157 ekos/focus/focus.cpp:5417
-#: ekos/focus/focus.cpp:5692
+#: ekos/focus/focus.cpp:1194 ekos/focus/focus.cpp:5472
+#: ekos/focus/focus.cpp:5747
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Ajustar foco"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1157 ekos/focus/focus.cpp:5419
-#: ekos/focus/focus.cpp:5692 ekos/focus/opsfocussettings.ui:503
+#: ekos/focus/focus.cpp:1194 ekos/focus/focus.cpp:5474
+#: ekos/focus/focus.cpp:5747 ekos/focus/opsfocussettings.ui:503
 #: ekos/focus/opsfocussettings.ui:583
 #, kde-format
 msgid "Adaptive Focus"
 msgstr "Foco adaptativo"
 
-#: ekos/focus/focus.cpp:1160
+#: ekos/focus/focus.cpp:1197
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Solicitação de início de foco automático - Aguardando 10 segundos para %1 "
 "concluir."
 
-#: ekos/focus/focus.cpp:1168
+#: ekos/focus/focus.cpp:1205
 #, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
 msgstr ""
 "Descartando solicitação de início de foco automático - %1 em andamento."
 
-#: ekos/focus/focus.cpp:1188
+#: ekos/focus/focus.cpp:1225
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
 msgstr "Solicitação de foco automático [%1] otimizada."
 
-#: ekos/focus/focus.cpp:1349
+#: ekos/focus/focus.cpp:1386
 #, kde-format
 msgid "Autofocus starting..."
 msgstr "Iniciando focagem automática..."
 
-#: ekos/focus/focus.cpp:1363
+#: ekos/focus/focus.cpp:1400
 #, kde-format
 msgid "Autofocus operation started"
 msgstr "A operação de focagem automática foi iniciada"
 
-#: ekos/focus/focus.cpp:1515 ekos/focus/focus.cpp:2290
+#: ekos/focus/focus.cpp:1552 ekos/focus/focus.cpp:2345
 #, kde-format
 msgid "Detection complete."
 msgstr "Detecção concluída."
 
-#: ekos/focus/focus.cpp:1684
+#: ekos/focus/focus.cpp:1721
 #, kde-format
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Captura em andamento, tentando novamente em 1s..."
 
-#: ekos/focus/focus.cpp:1698
+#: ekos/focus/focus.cpp:1735
 #, kde-format
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "Detecção de estrelas em andamento, tentando novamente em 1s..."
 
-#: ekos/focus/focus.cpp:1702
+#: ekos/focus/focus.cpp:1739
 #, kde-format
 msgid "Star detection still in progress, aborting..."
 msgstr "Detecção de estrelas ainda em andamento, cancelando..."
 
-#: ekos/focus/focus.cpp:1751
+#: ekos/focus/focus.cpp:1788
 #, kde-format
 msgid "Autofocus aborted."
 msgstr "Focagem automática cancelada."
 
-#: ekos/focus/focus.cpp:1855
+#: ekos/focus/focus.cpp:1892
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr "Erro: Nenhuma câmera detectada."
 
-#: ekos/focus/focus.cpp:1862
+#: ekos/focus/focus.cpp:1899
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Erro: conexão perdida com a câmera."
 
-#: ekos/focus/focus.cpp:1883
+#: ekos/focus/focus.cpp:1907
+#, fuzzy, kde-format
+#| msgid "Dust cap is unparking..."
+msgid "Dustcap is parked. Unparking before capture..."
+msgstr "A tampa anti-poeira está sendo desbloqueada..."
+
+#: ekos/focus/focus.cpp:1915
+#, kde-format
+msgid "Dustcap is not ready (status: %1). Waiting before capture..."
+msgstr ""
+
+#: ekos/focus/focus.cpp:1938
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Erro: Nenhuma roda de filtro detectada."
 
-#: ekos/focus/focus.cpp:1889
+#: ekos/focus/focus.cpp:1944
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Erro: conexão perdida com a roda de filtros."
 
-#: ekos/focus/focus.cpp:2007
+#: ekos/focus/focus.cpp:2062
 #, kde-format
 msgid "At minimum focus position %1..."
 msgstr "Na posição de foco mínimo %1..."
 
-#: ekos/focus/focus.cpp:2022
+#: ekos/focus/focus.cpp:2077
 #, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "Movendo para a posição de foco mínimo %1..."
 
-#: ekos/focus/focus.cpp:2031
+#: ekos/focus/focus.cpp:2086
 #, kde-format
 msgid "At maximum focus position %1..."
 msgstr "Na posição de foco máximo %1..."
 
-#: ekos/focus/focus.cpp:2047
+#: ekos/focus/focus.cpp:2102
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "Movendo para a posição de foco máximo %1..."
 
-#: ekos/focus/focus.cpp:2074
+#: ekos/focus/focus.cpp:2129
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Erro: Nenhum focalizador detectado."
 
-#: ekos/focus/focus.cpp:2081
+#: ekos/focus/focus.cpp:2136
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Erro: Conexão perdida com o focalizador."
 
-#: ekos/focus/focus.cpp:2095
+#: ekos/focus/focus.cpp:2150
 #, kde-format
 msgid "outward"
 msgstr "externo"
 
-#: ekos/focus/focus.cpp:2095
+#: ekos/focus/focus.cpp:2150
 #, kde-format
 msgid "inward"
 msgstr "interno"
 
-#: ekos/focus/focus.cpp:2112
+#: ekos/focus/focus.cpp:2167
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Focando %2 por %1 passos..."
 
-#: ekos/focus/focus.cpp:2118
+#: ekos/focus/focus.cpp:2173
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Focando %2 por %1 passo..."
 msgstr[1] "Focando %2 por %1 passos..."
 
-#: ekos/focus/focus.cpp:2124
+#: ekos/focus/focus.cpp:2179
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Focando %2 por %1 ms..."
 
-#: ekos/focus/focus.cpp:2159
+#: ekos/focus/focus.cpp:2214
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "O focalizador ainda está com tempo limite esgotado. Cancelando..."
 
-#: ekos/focus/focus.cpp:2166
+#: ekos/focus/focus.cpp:2221
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Tempo limite de movimento do foco (%1). Reiniciando o controlador de foco %2"
 
-#: ekos/focus/focus.cpp:2177
+#: ekos/focus/focus.cpp:2232
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "Tempo limite de movimento do foco esgotado (%1). Focando em %2 passos..."
 
-#: ekos/focus/focus.cpp:2223
+#: ekos/focus/focus.cpp:2278
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Tentando reconectar o focalizador: %1"
 
-#: ekos/focus/focus.cpp:2232
+#: ekos/focus/focus.cpp:2287
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Não foi possível reconectar o focalizador: %1. Cancelando..."
 
-#: ekos/focus/focus.cpp:2493
+#: ekos/focus/focus.cpp:2548
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Detectando fontes..."
 
-#: ekos/focus/focus.cpp:2629
+#: ekos/focus/focus.cpp:2684
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "A operação de focagem automática foi concluída com sucesso"
 
-#: ekos/focus/focus.cpp:2643
+#: ekos/focus/focus.cpp:2698
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Opções da focagem automática falhou"
 
-#: ekos/focus/focus.cpp:2711
+#: ekos/focus/focus.cpp:2766
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Procedimento de foco concluído após %1 iteração."
 msgstr[1] "Procedimento de foco concluído após %1 iterações."
 
-#: ekos/focus/focus.cpp:2797
+#: ekos/focus/focus.cpp:2852
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "Assentando para %1s..."
 
-#: ekos/focus/focus.cpp:2805
+#: ekos/focus/focus.cpp:2860
 #, kde-format
 msgid "Settling complete."
 msgstr "Assentamento concluído."
 
-#: ekos/focus/focus.cpp:2818
+#: ekos/focus/focus.cpp:2873
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr "A focagem automática falhou. Retornando à posição de foco inicial %1."
 
-#: ekos/focus/focus.cpp:2851
+#: ekos/focus/focus.cpp:2906
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS recebido. Não foram detectadas estrelas."
 
-#: ekos/focus/focus.cpp:3184
+#: ekos/focus/focus.cpp:3239
 #, kde-format
 msgid "Capture complete. Select a region of interest."
 msgstr "Captura concluída. Selecione uma região de interesse."
 
-#: ekos/focus/focus.cpp:3225
+#: ekos/focus/focus.cpp:3280
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 "Não foi possível selecionar uma estrela de forma automática. Selecione-a "
 "manualmente."
 
-#: ekos/focus/focus.cpp:3319
+#: ekos/focus/focus.cpp:3374
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Captura concluída. Selecione uma estrela para focar."
 
-#: ekos/focus/focus.cpp:3350
+#: ekos/focus/focus.cpp:3405
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "Não foram detectadas estrelas ao testar RMF, capturando novamente..."
 
 # Raio do Meio-Fluxo (RMF)
-#: ekos/focus/focus.cpp:3371
+#: ekos/focus/focus.cpp:3426
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "RMF %1 > Limite %2"
 
-#: ekos/focus/focus.cpp:3513
+#: ekos/focus/focus.cpp:3568
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Falha na focagem automática: excedido o máximo de iterações %1"
 
-#: ekos/focus/focus.cpp:3524 ekos/focus/focus.cpp:3786
-#: ekos/focus/focus.cpp:4394
+#: ekos/focus/focus.cpp:3579 ekos/focus/focus.cpp:3841
+#: ekos/focus/focus.cpp:4449
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Não foram detectadas estrelas, capturando novamente..."
 
-#: ekos/focus/focus.cpp:3530 ekos/focus/focus.cpp:4400
+#: ekos/focus/focus.cpp:3585 ekos/focus/focus.cpp:4455
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Falha ao detectar quaisquer estrelas na posição %1. Continuando..."
 
-#: ekos/focus/focus.cpp:3536 ekos/focus/focus.cpp:4406
+#: ekos/focus/focus.cpp:3591 ekos/focus/focus.cpp:4461
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr "Falha ao detectar estrelas. Reinicie o quadro e tente novamente."
 
-#: ekos/focus/focus.cpp:3723
+#: ekos/focus/focus.cpp:3778
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Não foi possível iniciar o inspetor de aberração em execução %1..."
 
-#: ekos/focus/focus.cpp:3743
+#: ekos/focus/focus.cpp:3798
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Iniciando o inspetor de aberração em execução %1..."
 
-#: ekos/focus/focus.cpp:3769
+#: ekos/focus/focus.cpp:3824
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Iniciando a varredura para a posição inicial do focalizador."
 
-#: ekos/focus/focus.cpp:3770
+#: ekos/focus/focus.cpp:3825
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Procurando posição inicial..."
 
-#: ekos/focus/focus.cpp:3792
+#: ekos/focus/focus.cpp:3847
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Falha ao detectar estrelas. Cancelando..."
 
-#: ekos/focus/focus.cpp:3801
+#: ekos/focus/focus.cpp:3856
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Procura de Pos inicial: excedido o máximo de iterações %1"
 
-#: ekos/focus/focus.cpp:3820
+#: ekos/focus/focus.cpp:3875
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Procurando a posição inicial %1/%2"
 
-#: ekos/focus/focus.cpp:3834
+#: ekos/focus/focus.cpp:3889
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Varredura mínima sem resultado - ampliando a busca..."
 
-#: ekos/focus/focus.cpp:3847
+#: ekos/focus/focus.cpp:3902
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Procura encontrou posição inicial %1"
 
-#: ekos/focus/focus.cpp:3848
+#: ekos/focus/focus.cpp:3903
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Procura encontrou posição inicial %1"
 
-#: ekos/focus/focus.cpp:3917
+#: ekos/focus/focus.cpp:3972
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
@@ -19684,37 +19733,37 @@ msgstr ""
 "novamente..."
 
 # Raio do Meio-Fluxo (RMF)
-#: ekos/focus/focus.cpp:3919
+#: ekos/focus/focus.cpp:3974
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Limite=%2"
 
-#: ekos/focus/focus.cpp:3927
+#: ekos/focus/focus.cpp:3982
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "A verificação de ajuste de curva falhou novamente R2=%1 focoR2Limite=%2 mas "
 "continuando..."
 
-#: ekos/focus/focus.cpp:3937
+#: ekos/focus/focus.cpp:3992
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Algoritmo de focagem automática linear cancelado: %1"
 
 # Raio do Meio-Fluxo (RMF)
-#: ekos/focus/focus.cpp:3972
+#: ekos/focus/focus.cpp:4027
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS recebido. RMF %1 @ %2. Delta (%3%)"
 
 # Raio do Meio-Fluxo (RMF)
-#: ekos/focus/focus.cpp:3974
+#: ekos/focus/focus.cpp:4029
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS recebido. RMF %1 @ %2."
 
 # Raio do Meio-Fluxo (RMF)
-#: ekos/focus/focus.cpp:4035
+#: ekos/focus/focus.cpp:4090
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -19723,51 +19772,51 @@ msgstr ""
 "A mudança de RMF é muito pequena. Tente aumentar o tamanho do passo ou "
 "diminuir a tolerância."
 
-#: ekos/focus/focus.cpp:4042
+#: ekos/focus/focus.cpp:4097
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Não foi possível detectar a estrela de focagem na imagem. Capture e "
 "selecione uma estrela de focagem."
 
-#: ekos/focus/focus.cpp:4148
+#: ekos/focus/focus.cpp:4203
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Solução polinomial encontrada @ %1"
 
-#: ekos/focus/focus.cpp:4212
+#: ekos/focus/focus.cpp:4267
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "O focalizador não pode se mover mais, limites do dispositivo atingidos. Foco "
 "automático cancelado."
 
-#: ekos/focus/focus.cpp:4223
+#: ekos/focus/focus.cpp:4278
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 "Flutuações instáveis. Tente aumentar o passo inicial ou o tempo de exposição."
 
-#: ekos/focus/focus.cpp:4233
+#: ekos/focus/focus.cpp:4288
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 "Atingiu-se uma situação sem solução. Tente novamente com configurações "
 "diferentes."
 
-#: ekos/focus/focus.cpp:4262
+#: ekos/focus/focus.cpp:4317
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr "Limite máximo de deslocamento atingido. Foco automático cancelado."
 
 # Raio do Meio-Fluxo (RMF)
-#: ekos/focus/focus.cpp:4379
+#: ekos/focus/focus.cpp:4434
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS recebido. RMF %1. Delta (%2%) RMF Mín (%3)"
 
-#: ekos/focus/focus.cpp:4383
+#: ekos/focus/focus.cpp:4438
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -19775,112 +19824,112 @@ msgstr ""
 "A focagem automática não conseguiu funcionar adequadamente. Tente ajustar o "
 "valor de tolerância."
 
-#: ekos/focus/focus.cpp:4497 ekos/focus/focus.cpp:4520
-#: ekos/focus/focus.cpp:4705 ekos/focus/focus.cpp:4798
-#: ekos/focus/focus.cpp:4880 ekos/focus/focus.cpp:4965
+#: ekos/focus/focus.cpp:4552 ekos/focus/focus.cpp:4575
+#: ekos/focus/focus.cpp:4760 ekos/focus/focus.cpp:4853
+#: ekos/focus/focus.cpp:4935 ekos/focus/focus.cpp:5020
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Erro na focagem; verifique o painel do INDI."
 
-#: ekos/focus/focus.cpp:4581 ekos/focus/focus.cpp:4721
+#: ekos/focus/focus.cpp:4636 ekos/focus/focus.cpp:4776
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Simular falha de comunicação do focalizador..."
 
-#: ekos/focus/focus.cpp:4682 ekos/focus/focus.cpp:4779
-#: ekos/focus/focus.cpp:4861 ekos/focus/focus.cpp:4902
+#: ekos/focus/focus.cpp:4737 ekos/focus/focus.cpp:4834
+#: ekos/focus/focus.cpp:4916 ekos/focus/focus.cpp:4957
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Reiniciar o processo de focagem automática..."
 
-#: ekos/focus/focus.cpp:5006
+#: ekos/focus/focus.cpp:5061
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Iniciando a exposição contínua..."
 
-#: ekos/focus/focus.cpp:5387
+#: ekos/focus/focus.cpp:5442
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Desabilitando a seleção automática de estrelas, pois a caixa de seleção de "
 "estrelas foi movida manualmente."
 
-#: ekos/focus/focus.cpp:5393
+#: ekos/focus/focus.cpp:5448
 #, kde-format
 msgid "Focus star is selected."
 msgstr "A estrela de foco está selecionada."
 
-#: ekos/focus/focus.cpp:5395
+#: ekos/focus/focus.cpp:5450
 #, kde-format
 msgid "Region of interest is selected."
 msgstr "A região de interesse está selecionada."
 
-#: ekos/focus/focus.cpp:5415
+#: ekos/focus/focus.cpp:5470
 #, kde-format
 msgid "Autofocus"
 msgstr "Focalização automática"
 
-#: ekos/focus/focus.cpp:5423
+#: ekos/focus/focus.cpp:5478
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Solicitação de verificação de foco - Aguardando 10 segundos para %1 concluir."
 
-#: ekos/focus/focus.cpp:5431
+#: ekos/focus/focus.cpp:5486
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Descartando solicitação de verificação de foco - %1 em andamento."
 
-#: ekos/focus/focus.cpp:5444
+#: ekos/focus/focus.cpp:5499
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 "Verificação de foco ignorada - A medida da estrela deve ser baseada em "
 "estrelas"
 
-#: ekos/focus/focus.cpp:5449
+#: ekos/focus/focus.cpp:5504
 #, kde-format
 msgid "Capturing to check HFR..."
 msgstr "Capturando para verificar RMF..."
 
-#: ekos/focus/focus.cpp:5579
+#: ekos/focus/focus.cpp:5634
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Nenhum estrela foi selecionada. Usando última posição conhecida..."
 
-#: ekos/focus/focus.cpp:5585
+#: ekos/focus/focus.cpp:5640
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Nenhum estrela foi selecionada. Finalizando..."
 
-#: ekos/focus/focus.cpp:5596
+#: ekos/focus/focus.cpp:5651
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Focalizador já está em %1..."
 
-#: ekos/focus/focus.cpp:5695
+#: ekos/focus/focus.cpp:5750
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Solicitação de ajuste de foco - Aguardando 10 segundos para %1 concluir."
 
-#: ekos/focus/focus.cpp:5729
+#: ekos/focus/focus.cpp:5784
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Quadro de focagem"
 
-#: ekos/focus/focus.cpp:6125
+#: ekos/focus/focus.cpp:6188
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Falha ao salvar a imagem. Cancelando..."
 
-#: ekos/focus/focus.cpp:6140 ekos/focus/focus.cpp:6165
+#: ekos/focus/focus.cpp:6203 ekos/focus/focus.cpp:6228
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Falha de exposição. Cancelando..."
 
-#: ekos/focus/focus.cpp:6464
+#: ekos/focus/focus.cpp:6527
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -25589,7 +25638,7 @@ msgstr "Modelo de alinhamento limpo."
 msgid "Failed to clear Alignment Model."
 msgstr "Falha ao limpar o modo do alinhamento."
 
-#: ekos/mount/mount.cpp:1288 ekos/scheduler/schedulerprocess.cpp:4375
+#: ekos/mount/mount.cpp:1288 ekos/scheduler/schedulerprocess.cpp:4385
 #, kde-format
 msgid "Mount already parked."
 msgstr "A montagem já está bloqueada."
@@ -28840,7 +28889,7 @@ msgstr ""
 "horário e, em seguida, avalia os trabalhos."
 
 #: ekos/scheduler/scheduler.cpp:381 ekos/scheduler/scheduler.cpp:2238
-#: ekos/scheduler/schedulerprocess.cpp:3636
+#: ekos/scheduler/schedulerprocess.cpp:3646
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
@@ -30415,7 +30464,7 @@ msgstr ""
 "apenas quadros de calibração estão pendentes."
 
 #: ekos/scheduler/schedulerprocess.cpp:2983
-#: ekos/scheduler/schedulerprocess.cpp:3799
+#: ekos/scheduler/schedulerprocess.cpp:3809
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
@@ -30435,7 +30484,7 @@ msgstr ""
 "Aviso: o procedimento de foco da tarefa '%1' falhou, marcação cancelada."
 
 #: ekos/scheduler/schedulerprocess.cpp:3078
-#: ekos/scheduler/schedulerprocess.cpp:3870
+#: ekos/scheduler/schedulerprocess.cpp:3880
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
@@ -30464,40 +30513,40 @@ msgstr "A tarefa do Ekos foi iniciada (%1)"
 msgid "Scheduler list saved to %1"
 msgstr "A lista de agendamentos foi salva em %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3494
+#: ekos/scheduler/schedulerprocess.cpp:3504
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "Expirou o tempo-limite do solucionador: %1s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3496
+#: ekos/scheduler/schedulerprocess.cpp:3506
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "Solucionador falhou: %1s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3531
+#: ekos/scheduler/schedulerprocess.cpp:3541
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 "O quadro capturado está a %1 minuto de arco de distância do alvo, "
 "realinhando..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3599
+#: ekos/scheduler/schedulerprocess.cpp:3609
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
 msgstr "Aviso: o nome do trem está vazio, selecionando \"%1\"."
 
-#: ekos/scheduler/schedulerprocess.cpp:3600
+#: ekos/scheduler/schedulerprocess.cpp:3610
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr "Aviso: o nome do trem %2 não existe, selecionando \"%1\"."
 
-#: ekos/scheduler/schedulerprocess.cpp:3602
-#: ekos/scheduler/schedulerprocess.cpp:3614
+#: ekos/scheduler/schedulerprocess.cpp:3612
+#: ekos/scheduler/schedulerprocess.cpp:3624
 #, kde-format
 msgid "Select optical train"
 msgstr "Selecionar trem óptico"
 
-#: ekos/scheduler/schedulerprocess.cpp:3611
+#: ekos/scheduler/schedulerprocess.cpp:3621
 #, kde-format
 msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
@@ -30506,17 +30555,17 @@ msgstr ""
 "Aviso: nenhum nome de trem disponível para o trabalho do agendador, "
 "selecione o nome do trem óptico manualmente."
 
-#: ekos/scheduler/schedulerprocess.cpp:3765
+#: ekos/scheduler/schedulerprocess.cpp:3775
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "O alinhamento da tarefa '%1' está completo."
 
-#: ekos/scheduler/schedulerprocess.cpp:3784
+#: ekos/scheduler/schedulerprocess.cpp:3794
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "Aviso: o alinhamento da tarefa '%1' falhou."
 
-#: ekos/scheduler/schedulerprocess.cpp:3790
+#: ekos/scheduler/schedulerprocess.cpp:3800
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
@@ -30524,40 +30573,40 @@ msgstr ""
 "Aviso: tarefa '%1' forçando redefinição do modelo de montagem após falha no "
 "alinhamento #%2."
 
-#: ekos/scheduler/schedulerprocess.cpp:3794
-#: ekos/scheduler/schedulerprocess.cpp:3858
+#: ekos/scheduler/schedulerprocess.cpp:3804
+#: ekos/scheduler/schedulerprocess.cpp:3868
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "Reiniciando o processo de alinhamento de %1..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3830
+#: ekos/scheduler/schedulerprocess.cpp:3840
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "A guia de da tarefa '%1' está em andamento."
 
-#: ekos/scheduler/schedulerprocess.cpp:3842
+#: ekos/scheduler/schedulerprocess.cpp:3852
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "Aviso: A guia da tarefa '%1' falhou."
 
-#: ekos/scheduler/schedulerprocess.cpp:3844
+#: ekos/scheduler/schedulerprocess.cpp:3854
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "Aviso: a calibração da tarefa '%1' falhou."
 
-#: ekos/scheduler/schedulerprocess.cpp:3863
+#: ekos/scheduler/schedulerprocess.cpp:3873
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
 "A tarefa '%1' está sendo guiada, o procedimento de guia será reiniciado em "
 "%2 segundos."
 
-#: ekos/scheduler/schedulerprocess.cpp:3916
+#: ekos/scheduler/schedulerprocess.cpp:3926
 #, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
 msgstr "[%2] Aviso: a tarefa '%1' falhou ao capturar o alvo."
 
-#: ekos/scheduler/schedulerprocess.cpp:3934
+#: ekos/scheduler/schedulerprocess.cpp:3944
 #, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
@@ -30566,52 +30615,52 @@ msgstr ""
 "[%2] A tarefa '%1' está capturando e reiniciando seu procedimento de "
 "orientação (tentativa #%3 de %4)."
 
-#: ekos/scheduler/schedulerprocess.cpp:3943
+#: ekos/scheduler/schedulerprocess.cpp:3953
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 "Aviso: a tarefa '%1' falhou no procedimento de captura, reiniciando a "
 "captura."
 
-#: ekos/scheduler/schedulerprocess.cpp:3949
+#: ekos/scheduler/schedulerprocess.cpp:3959
 #, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
 "[%2] Aviso: a tarefa '%1' falhou no procedimento de captura, sendo marcada "
 "como cancelada."
 
-#: ekos/scheduler/schedulerprocess.cpp:3962
+#: ekos/scheduler/schedulerprocess.cpp:3972
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr "[%2] O seguidor da tarefa '%1' foi cancelado e está sendo reiniciado."
 
-#: ekos/scheduler/schedulerprocess.cpp:3968
+#: ekos/scheduler/schedulerprocess.cpp:3978
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
 msgstr "[%2] O seguidor da tarefa '%1' foi cancelado."
 
-#: ekos/scheduler/schedulerprocess.cpp:3976
+#: ekos/scheduler/schedulerprocess.cpp:3986
 #, kde-format
 msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] Tarefa (%1) - Captura concluída"
 
-#: ekos/scheduler/schedulerprocess.cpp:4050
+#: ekos/scheduler/schedulerprocess.cpp:4060
 #, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
 msgstr "O trem de focagem '%2' da tarefa '%1' foi concluído."
 
-#: ekos/scheduler/schedulerprocess.cpp:4062
+#: ekos/scheduler/schedulerprocess.cpp:4072
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "Aviso: focagem da tarefa '%1' falhou."
 
-#: ekos/scheduler/schedulerprocess.cpp:4066
+#: ekos/scheduler/schedulerprocess.cpp:4076
 #, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
 msgstr ""
 "A tarefa '%1' para o trem '%2' está reiniciando seu procedimento de foco."
 
-#: ekos/scheduler/schedulerprocess.cpp:4071
+#: ekos/scheduler/schedulerprocess.cpp:4081
 #, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
@@ -30619,28 +30668,28 @@ msgstr ""
 "Aviso: o procedimento de foco da tarefa '%1' no trem '%2' falhou, marcação "
 "cancelada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4104
+#: ekos/scheduler/schedulerprocess.cpp:4114
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "O desvio da tarefa '%1' está completo."
 
-#: ekos/scheduler/schedulerprocess.cpp:4110
+#: ekos/scheduler/schedulerprocess.cpp:4120
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 "Aviso: o desvio da tarefa '%1' falhou, marcação encerrada devido a erros."
 
-#: ekos/scheduler/schedulerprocess.cpp:4116
+#: ekos/scheduler/schedulerprocess.cpp:4126
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Aviso: tarefa '%1' encontrada não está girando, reiniciando."
 
-#: ekos/scheduler/schedulerprocess.cpp:4129
+#: ekos/scheduler/schedulerprocess.cpp:4139
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "O reposicionamento da tarefa '%1' está completo."
 
-#: ekos/scheduler/schedulerprocess.cpp:4135
+#: ekos/scheduler/schedulerprocess.cpp:4145
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
@@ -30648,13 +30697,13 @@ msgstr ""
 "Aviso: O reposicionamento da tarefa '%1' falhou, marcação encerrada devido a "
 "erros."
 
-#: ekos/scheduler/schedulerprocess.cpp:4141
+#: ekos/scheduler/schedulerprocess.cpp:4151
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Aviso: tarefa '%1' encontrada não reposicionando, reiniciando."
 
-#: ekos/scheduler/schedulerprocess.cpp:4155
-#: ekos/scheduler/schedulerprocess.cpp:4166
+#: ekos/scheduler/schedulerprocess.cpp:4165
+#: ekos/scheduler/schedulerprocess.cpp:4176
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
@@ -30662,19 +30711,19 @@ msgstr ""
 "Aviso: A montagem está bloqueada enquanto o agendador da tarefa '%1' está "
 "ativo. Cancelando."
 
-#: ekos/scheduler/schedulerprocess.cpp:4195
+#: ekos/scheduler/schedulerprocess.cpp:4205
 #, kde-format
 msgid "Weather has improved. Resuming operations."
 msgstr "O clima melhorou. Retomando as operações."
 
-#: ekos/scheduler/schedulerprocess.cpp:4205
+#: ekos/scheduler/schedulerprocess.cpp:4215
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
 "Alerta meteorológico detectado. Iniciando procedimento de desligamento suave "
 "em %1 segundos."
 
-#: ekos/scheduler/schedulerprocess.cpp:4232
+#: ekos/scheduler/schedulerprocess.cpp:4242
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
@@ -30682,102 +30731,102 @@ msgstr ""
 "Observatório programado para desligamento suave até que o tempo melhore ou "
 "até %1."
 
-#: ekos/scheduler/schedulerprocess.cpp:4254
+#: ekos/scheduler/schedulerprocess.cpp:4264
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "Procedimento de desligamento manual concluído com sucesso."
 
-#: ekos/scheduler/schedulerprocess.cpp:4260
+#: ekos/scheduler/schedulerprocess.cpp:4270
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "Procedimento de desligamento manual encerrado devido a erros."
 
-#: ekos/scheduler/schedulerprocess.cpp:4275
+#: ekos/scheduler/schedulerprocess.cpp:4285
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 "Bloqueio da tampa anti-poeira solicitado, mas nenhuma tampa anti-poeira foi "
 "detectada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4298
+#: ekos/scheduler/schedulerprocess.cpp:4308
 #, kde-format
 msgid "Parking Cap..."
 msgstr "Bloqueando a tampa..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4304
+#: ekos/scheduler/schedulerprocess.cpp:4314
 #, kde-format
 msgid "Cap already parked."
 msgstr "A tampa já está bloqueada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4313
+#: ekos/scheduler/schedulerprocess.cpp:4323
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 "Foi solicitado o desbloqueio da tampa anti-poeira, mas nenhuma tampa anti-"
 "poeira foi detectada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4335
+#: ekos/scheduler/schedulerprocess.cpp:4345
 #, kde-format
 msgid "Unparking cap..."
 msgstr "Desbloqueando a tampa..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4341
+#: ekos/scheduler/schedulerprocess.cpp:4351
 #, kde-format
 msgid "Cap already unparked."
 msgstr "A tampa já está desbloqueada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4350
+#: ekos/scheduler/schedulerprocess.cpp:4360
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr "Bloqueio da montagem solicitado, mas nenhuma montagem foi detectada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4408
+#: ekos/scheduler/schedulerprocess.cpp:4418
 #, kde-format
 msgid "Parking mount in progress..."
 msgstr "Bloqueio de montagem em andamento..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4422
+#: ekos/scheduler/schedulerprocess.cpp:4432
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 "Desbloqueio da montagem solicitado, mas nenhuma montagem foi detectada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4448
+#: ekos/scheduler/schedulerprocess.cpp:4458
 #, kde-format
 msgid "Mount already unparked."
 msgstr "A montagem já está desbloqueada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4568
+#: ekos/scheduler/schedulerprocess.cpp:4578
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr "Bloqueio da cúpula, mas nenhuma cúpula foi detectada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4591
+#: ekos/scheduler/schedulerprocess.cpp:4601
 #, kde-format
 msgid "Parking dome..."
 msgstr "Bloqueando a cúpula..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4597
+#: ekos/scheduler/schedulerprocess.cpp:4607
 #, kde-format
 msgid "Dome already parked."
 msgstr "A cúpula já está bloqueada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4607
+#: ekos/scheduler/schedulerprocess.cpp:4617
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr "Desbloqueio da cúpula, mas nenhuma cúpula foi detectada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4627
+#: ekos/scheduler/schedulerprocess.cpp:4637
 #, kde-format
 msgid "Unparking dome..."
 msgstr "Desbloqueando a cúpula..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4633
+#: ekos/scheduler/schedulerprocess.cpp:4643
 #, kde-format
 msgid "Dome already unparked."
 msgstr "A cúpula já está desbloqueada."
 
-#: ekos/scheduler/schedulerprocess.cpp:4714
+#: ekos/scheduler/schedulerprocess.cpp:4724
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -30786,17 +30835,17 @@ msgstr ""
 "Dormindo por %1 na atualização do relógio de simulação até que a próxima "
 "tarefa de observação esteja pronta..."
 
-#: ekos/scheduler/schedulerprocess.cpp:5004
+#: ekos/scheduler/schedulerprocess.cpp:5014
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "O script de inicialização falhou, interrompendo..."
 
-#: ekos/scheduler/schedulerprocess.cpp:5009
+#: ekos/scheduler/schedulerprocess.cpp:5019
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "O script de desligamento falhou, interrompendo..."
 
-#: ekos/scheduler/schedulerprocess.cpp:5070
+#: ekos/scheduler/schedulerprocess.cpp:5080
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
@@ -31280,60 +31329,49 @@ msgid "Double-click to toggle text display"
 msgstr "Clique duas vezes para alternar a exibição do texto"
 
 #: fitsviewer/fitsstackmonitor.h:105
-#, fuzzy, kde-format
-#| msgid "In Progress"
+#, kde-format
 msgctxt "Stack monitor status"
 msgid "In Progress"
 msgstr "Em andamento"
 
 #: fitsviewer/fitsstackmonitor.h:109
-#, fuzzy, kde-format
-#| msgid "%1 Failed to Load"
+#, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed to Load"
 msgstr "%1 falhou ao carregar"
 
 #: fitsviewer/fitsstackmonitor.h:111
-#, fuzzy, kde-format
-#| msgid "%1 Failed Plate Solving"
+#, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed Plate Solving"
-msgstr "%1 Falhou na resolução de placas"
+msgstr "%1 falhou na resolução de placas"
 
 #: fitsviewer/fitsstackmonitor.h:113
-#, fuzzy, kde-format
-#| msgid "%1 Failed Waiting"
+#, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed Waiting"
 msgstr "%1 falhou na espera"
 
 #: fitsviewer/fitsstackmonitor.h:115
-#, fuzzy, kde-format
-#| msgid "%1 Failed Calibration"
+#, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed Calibration"
 msgstr "%1 falhou na calibração"
 
 #: fitsviewer/fitsstackmonitor.h:117
-#, fuzzy, kde-format
-#| msgid "%1 Failed Alignment"
+#, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed Alignment"
 msgstr "%1 falhou no alinhamento"
 
 #: fitsviewer/fitsstackmonitor.h:119
-#, fuzzy, kde-format
-#| msgid "%1 Failed to Stack"
+#, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed to Stack"
 msgstr "%1 falhou no empilhamento"
 
 #: fitsviewer/fitsstackmonitor.h:138
-#, fuzzy, kde-format
-#| msgid ""
-#| "%1 \n"
-#| "%2 = OK\n"
-#| "%3 = Error"
+#, kde-format
 msgctxt "Stack monitor status help"
 msgid ""
 "%1 \n"
@@ -31345,10 +31383,7 @@ msgstr ""
 "%3 = Erro"
 
 #: fitsviewer/fitsstackmonitor.h:144
-#, fuzzy, kde-format
-#| msgid ""
-#| "%1 \n"
-#| "%2 = Not applicable"
+#, kde-format
 msgctxt "Stack monitor status help"
 msgid ""
 "%1 \n"
@@ -31358,17 +31393,7 @@ msgstr ""
 "%2 = Não aplicável"
 
 #: fitsviewer/fitsstackmonitor.h:154
-#, fuzzy, kde-format
-#| msgid ""
-#| "%1 \n"
-#| "%2\n"
-#| "%3 = Processed Successfully\n"
-#| "%4\n"
-#| "%5\n"
-#| "%6\n"
-#| "%7\n"
-#| "%8\n"
-#| "%9"
+#, kde-format
 msgctxt "Stack monitor overall status help"
 msgid ""
 "%1 \n"
@@ -31392,8 +31417,7 @@ msgstr ""
 "%9"
 
 #: fitsviewer/fitsstackmonitor.h:172
-#, fuzzy, kde-format
-#| msgid "ID"
+#, kde-format
 msgctxt "Column header"
 msgid "ID"
 msgstr "ID"
@@ -31402,49 +31426,49 @@ msgstr "ID"
 #, kde-format
 msgctxt "Tooltip for ID column"
 msgid "Unique subframe identifier"
-msgstr ""
+msgstr "Identificador do sub-quadro único"
 
 #: fitsviewer/fitsstackmonitor.h:175
 #, kde-format
 msgctxt "Column header"
 msgid "Pathname"
-msgstr ""
+msgstr "Caminho"
 
 #: fitsviewer/fitsstackmonitor.h:176
-#, fuzzy, kde-format
-#| msgid "Arc file path"
+#, kde-format
 msgctxt "Tooltip for Pathname column"
 msgid "Full file path"
-msgstr "Caminho do arquivo arc"
+msgstr "Caminho completo do arquivo"
 
 #: fitsviewer/fitsstackmonitor.h:178
-#, fuzzy, kde-format
-#| msgid "Filename"
+#, kde-format
 msgctxt "Column header"
 msgid "Filename"
-msgstr "Nome do arquivo"
+msgstr ""
+"Nome do\n"
+"arquivo"
 
 #: fitsviewer/fitsstackmonitor.h:179
-#, fuzzy, kde-format
-#| msgid "Filename"
+#, kde-format
 msgctxt "Tooltip for Filename column"
 msgid "Filename only"
-msgstr "Nome do arquivo"
+msgstr "Somente o nome do arquivo"
 
 #: fitsviewer/fitsstackmonitor.h:181
-#, fuzzy, kde-format
-#| msgid "Overall"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Overall\n"
 "Status"
-msgstr "Geral"
+msgstr ""
+"Status\n"
+"geral"
 
 #: fitsviewer/fitsstackmonitor.h:182
 #, kde-format
 msgctxt "Tooltip for Overall Status column"
 msgid "Overall processing status"
-msgstr ""
+msgstr "Estado geral do processamento"
 
 #: fitsviewer/fitsstackmonitor.h:185
 #, kde-format
@@ -31453,119 +31477,116 @@ msgid ""
 "Load Wait\n"
 "Time(s)"
 msgstr ""
+"Tempo(s)\n"
+"de espera"
 
 #: fitsviewer/fitsstackmonitor.h:186
 #, kde-format
 msgctxt "Tooltip for Load Wait Time column"
 msgid "Wait time from subs detected until loading starts"
 msgstr ""
+"Tempo de espera desde a detecção das inscrições até o início do carregamento."
 
 #: fitsviewer/fitsstackmonitor.h:188
-#, fuzzy, kde-format
-#| msgid "Loading stars"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Loading\n"
 "Status"
-msgstr "Carregando estrelas"
+msgstr ""
+"Status de\n"
+"carregamento"
 
 #: fitsviewer/fitsstackmonitor.h:189
-#, fuzzy, kde-format
-#| msgid "Loading stars"
+#, kde-format
 msgctxt "Tooltip for Loading Status column"
 msgid "Loading status"
-msgstr "Carregando estrelas"
+msgstr "Status de carregamento"
 
 #: fitsviewer/fitsstackmonitor.h:191
-#, fuzzy, kde-format
-#| msgid "Loading comets"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Loading\n"
 "Time(s)"
-msgstr "Carregando os cometas"
+msgstr ""
+"Tempo(s)\n"
+"carregamento"
 
 #: fitsviewer/fitsstackmonitor.h:192
-#, fuzzy, kde-format
-#| msgid "Set Time to &Now"
+#, kde-format
 msgctxt "Tooltip for Loading Time column"
 msgid "Time to load"
-msgstr "Definir hora para &agora"
+msgstr "Tempo para carregamento"
 
 #: fitsviewer/fitsstackmonitor.h:194
-#, fuzzy, kde-format
-#| msgid "SNR"
+#, kde-format
 msgctxt "Column header"
 msgid "SNR"
-msgstr "SNR"
+msgstr "RSR"
 
 #: fitsviewer/fitsstackmonitor.h:195
-#, fuzzy, kde-format
-#| msgid "The signal-to-noise ratio of the final image"
+#, kde-format
 msgctxt "Tooltip for SNR column"
 msgid "Signal-to-noise ratio"
-msgstr "A relação sinal-ruído (RSR) da imagem final"
+msgstr "Relação sinal-ruído (RSR)"
 
 #: fitsviewer/fitsstackmonitor.h:198
-#, fuzzy, kde-format
-#| msgid "Plate Solve"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Plate Solve\n"
 "Status"
-msgstr "Resolução de placas"
+msgstr ""
+"Status resolução\n"
+"de placas"
 
 #: fitsviewer/fitsstackmonitor.h:199
-#, fuzzy, kde-format
-#| msgid "Plate Solving"
+#, kde-format
 msgctxt "Tooltip for Plate Solve Status column"
 msgid "Plate solving status"
-msgstr "Resolução de placas"
+msgstr "Status da resolução de placas"
 
 #: fitsviewer/fitsstackmonitor.h:201
-#, fuzzy, kde-format
-#| msgid "Plate Solve"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Plate Solve\n"
 "Time(s)"
-msgstr "Resolução de placas"
+msgstr ""
+"Tempo(s) Resolução\n"
+"de placas"
 
 #: fitsviewer/fitsstackmonitor.h:202
-#, fuzzy, kde-format
-#| msgid "Date && Location"
+#, kde-format
 msgctxt "Tooltip for Plate Solve Time column"
 msgid "Time to plate solve"
-msgstr "Data e localização"
+msgstr "Tempo para resolução de placas"
 
 # Raio do Meio-Fluxo (RMF)
 #: fitsviewer/fitsstackmonitor.h:204
-#, fuzzy, kde-format
-#| msgid "HFR"
+#, kde-format
 msgctxt "Column header"
 msgid "HFR"
 msgstr "RMF"
 
 #: fitsviewer/fitsstackmonitor.h:205
-#, fuzzy, kde-format
-#| msgid "Average HFR Check:"
+#, kde-format
 msgctxt "Tooltip for HFR column"
 msgid "Average HFR of stars"
-msgstr "Verificação RMF média:"
+msgstr "RMF médio das estrelas"
 
 #: fitsviewer/fitsstackmonitor.h:207
-#, fuzzy, kde-format
-#| msgid "Num Stars"
+#, kde-format
 msgctxt "Column header"
 msgid "Num Stars"
 msgstr "Núm estrelas"
 
 #: fitsviewer/fitsstackmonitor.h:208
-#, fuzzy, kde-format
-#| msgid "No stars detected"
+#, kde-format
 msgctxt "Tooltip for Num Stars column"
 msgid "Number of stars detected"
-msgstr "Nenhuma estrela detectada"
+msgstr "Número de estrelas detectadas"
 
 #: fitsviewer/fitsstackmonitor.h:211
 #, kde-format
@@ -31574,159 +31595,164 @@ msgid ""
 "Stack Wait\n"
 "Time(s)"
 msgstr ""
+"Tempo(s)\n"
+"Espera da Pilha"
 
 #: fitsviewer/fitsstackmonitor.h:212
 #, kde-format
 msgctxt "Tooltip for Stack Wait Time column"
 msgid "Wait time for sufficient subs to start stacking"
-msgstr ""
+msgstr "Tempo de espera para que subs suficientes comecem a se empilhar"
 
 #: fitsviewer/fitsstackmonitor.h:215
-#, fuzzy, kde-format
-#| msgid "Calibration Options"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Calibration\n"
 "Status"
-msgstr "Opções de calibração"
+msgstr ""
+"Status da\n"
+"Calibração"
 
 #: fitsviewer/fitsstackmonitor.h:216
-#, fuzzy, kde-format
-#| msgid "Calibration started."
+#, kde-format
 msgctxt "Tooltip for Calibration Status column"
 msgid "Calibration status"
-msgstr "Calibração iniciada."
+msgstr "Status da calibração"
 
 #: fitsviewer/fitsstackmonitor.h:219
-#, fuzzy, kde-format
-#| msgid "Calibration timeout"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Calibration\n"
 "Time(s)"
-msgstr "Tempo de expiração da calibração"
+msgstr ""
+"Tempo(s)\n"
+"Calibração"
 
 #: fitsviewer/fitsstackmonitor.h:220
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Move to rate"
+#, kde-format
 msgctxt "Tooltip for Calibration Time column"
 msgid "Time to calibrate"
-msgstr "Taxa de movimento"
+msgstr "Tempo para calibrar"
 
 #: fitsviewer/fitsstackmonitor.h:223
-#, fuzzy, kde-format
-#| msgid "Alignment"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Alignment\n"
 "Status"
-msgstr "Alinhamento"
+msgstr ""
+"Status\n"
+"Alinhamento"
 
 #: fitsviewer/fitsstackmonitor.h:224
-#, fuzzy, kde-format
-#| msgid "Alignment Points:"
+#, kde-format
 msgctxt "Tooltip for Alignment Status column"
 msgid "Alignment status"
-msgstr "Pontos de alinhamento:"
+msgstr "Status do alinhamento"
 
 #: fitsviewer/fitsstackmonitor.h:226
-#, fuzzy, kde-format
-#| msgid "Alignment"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Alignment\n"
 "Time(s)"
-msgstr "Alinhamento"
+msgstr ""
+"Tempo(s)\n"
+"Alinhamento"
 
 #: fitsviewer/fitsstackmonitor.h:227
-#, fuzzy, kde-format
-#| msgid "Timeline"
+#, kde-format
 msgctxt "Tooltip for Alignment Time column"
 msgid "Time to align"
-msgstr "Linha do tempo"
+msgstr "Tempo para alinhar"
 
 #: fitsviewer/fitsstackmonitor.h:229
 #, kde-format
 msgctxt "Column header"
 msgid "Δx"
-msgstr ""
+msgstr "Δx"
 
 #: fitsviewer/fitsstackmonitor.h:230
 #, kde-format
 msgctxt "Tooltip for Δx column"
 msgid "X-axis shift in pixels compared to alignment master"
 msgstr ""
+"Deslocamento no eixo X em pixels em comparação com o alinhamento mestre"
 
 #: fitsviewer/fitsstackmonitor.h:232
 #, kde-format
 msgctxt "Column header"
 msgid "Δy"
-msgstr ""
+msgstr "Δy"
 
 #: fitsviewer/fitsstackmonitor.h:233
 #, kde-format
 msgctxt "Tooltip for Δy column"
 msgid "Y-axis shift in pixels compared to alignment master"
 msgstr ""
+"Deslocamento no eixo Y em pixels em comparação com o alinhamento mestre"
 
 #: fitsviewer/fitsstackmonitor.h:235
 #, kde-format
 msgctxt "Column header"
 msgid "Rot(°)"
-msgstr ""
+msgstr "Rot(°)"
 
 #: fitsviewer/fitsstackmonitor.h:236
 #, kde-format
 msgctxt "Tooltip for Rotation column"
 msgid "Rotation angle in degrees compared to alignment master"
-msgstr ""
+msgstr "Ângulo de rotação em graus em comparação com o alinhamento mestre"
 
 #: fitsviewer/fitsstackmonitor.h:239
-#, fuzzy, kde-format
-#| msgid "Parking Status"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Stacking\n"
 "Status"
-msgstr "Status do bloqueio"
+msgstr ""
+"Status\n"
+"Empilhamento"
 
 #: fitsviewer/fitsstackmonitor.h:240
-#, fuzzy, kde-format
-#| msgid "Parking Status"
+#, kde-format
 msgctxt "Tooltip for Stacking Status column"
 msgid "Stacking status"
-msgstr "Status do bloqueio"
+msgstr "Status do empilhamento"
 
 #: fitsviewer/fitsstackmonitor.h:242
-#, fuzzy, kde-format
-#| msgid "Stacking"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Stacking\n"
 "Time(s)"
-msgstr "Rastreando"
+msgstr ""
+"Tempo(s)\n"
+"Empilhamento"
 
 #: fitsviewer/fitsstackmonitor.h:243
 #, kde-format
 msgctxt "Tooltip for Stacking Time column"
 msgid "Time to stack (s)"
-msgstr ""
+msgstr "Tempo para empilhar (s)"
 
 #: fitsviewer/fitsstackmonitor.h:245
-#, fuzzy, kde-format
-#| msgid "Stacking"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Stacking\n"
 "Weight"
-msgstr "Rastreando"
+msgstr ""
+"Peso\n"
+"Empilhamento"
 
 #: fitsviewer/fitsstackmonitor.h:246
 #, kde-format
 msgctxt "Tooltip for Stacking Weight column"
 msgid "Weight used in stacking"
-msgstr ""
+msgstr "Peso usado no empilhamento"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
