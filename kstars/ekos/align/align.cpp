@@ -353,22 +353,22 @@ void Align::handlePointTooltip(QMouseEvent *event)
                 return;
             QToolTip::showText(event->globalPos(),
                                i18n("<table>"
-                                    "<tr>"
-                                    "<th colspan=\"2\">Object %1: %2</th>"
-                                    "</tr>"
-                                    "<tr>"
-                                    "<td>RA:</td><td>%3</td>"
-                                    "</tr>"
-                                    "<tr>"
-                                    "<td>DE:</td><td>%4</td>"
-                                    "</tr>"
-                                    "<tr>"
-                                    "<td>dRA:</td><td>%5</td>"
-                                    "</tr>"
-                                    "<tr>"
-                                    "<td>dDE:</td><td>%6</td>"
-                                    "</tr>"
-                                    "</table>",
+                 "<tr>"
+                 "<th colspan=\"2\">Object %1: %2</th>"
+                 "</tr>"
+                 "<tr>"
+                 "<td>RA:</td><td>%3</td>"
+                 "</tr>"
+                 "<tr>"
+                 "<td>DE:</td><td>%4</td>"
+                 "</tr>"
+                 "<tr>"
+                 "<td>dRA:</td><td>%5</td>"
+                 "</tr>"
+                 "<tr>"
+                 "<td>dDE:</td><td>%6</td>"
+                 "</tr>"
+                 "</table>",
                                     point + 1,
                                     solutionTable->item(point, 2)->text(),
                                     solutionTable->item(point, 0)->text(),
@@ -1532,7 +1532,7 @@ bool Align::captureAndSolve(bool initialCall)
 
     if (m_CameraPixelWidth == -1 || m_CameraPixelHeight == -1)
     {
-        KSNotification::error(i18n("CCD pixel size is missing. Please check your driver settings and try again."));
+        KSNotification::error(i18n("Camera pixel size is missing. Please check your driver settings and try again."));
         return false;
     }
 
@@ -1583,7 +1583,8 @@ bool Align::captureAndSolve(bool initialCall)
     else if (m_DustCap && m_DustCap->isUnParked() == false && m_DustCap->status() != ISD::DustCap::CAP_IDLE)
     {
         // If dustcap is not unparked and not in an idle state (e.g., parking, unparking, error)
-        appendLogText(i18n("Dustcap is not ready (status: %1). Waiting before capture and solve...", ISD::DustCap::getStatusString(m_DustCap->status())));
+        appendLogText(i18n("Dustcap is not ready (status: %1). Waiting before capture and solve...",
+                           ISD::DustCap::getStatusString(m_DustCap->status())));
         m_waitingForDustCapUnpark = true;
         // No explicit unpark call here, as it might already be in motion or error.
         // The onDustCapStatusChanged will eventually trigger CAP_IDLE or CAP_ERROR.
@@ -1604,7 +1605,7 @@ bool Align::captureAndSolve(bool initialCall)
 
     if (targetChip->isCapturing())
     {
-        appendLogText(i18n("Cannot capture while CCD exposure is in progress. Retrying in %1 seconds...",
+        appendLogText(i18n("Cannot capture while camera exposure is in progress. Retrying in %1 seconds...",
                            CAPTURE_RETRY_DELAY / 1000));
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return true;
@@ -1613,7 +1614,7 @@ bool Align::captureAndSolve(bool initialCall)
     if (m_Dome && m_Dome->isMoving())
     {
         qCWarning(KSTARS_EKOS_ALIGN) << "Cannot capture while dome is in motion. Retrying in" <<  CAPTURE_RETRY_DELAY / 1000 <<
-                                     "seconds...";
+                                        "seconds...";
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return true;
     }
@@ -4075,7 +4076,7 @@ void Align::exportSolutionPoints()
     {
         int r = KMessageBox::warningContinueCancel(nullptr,
                 i18n("A file named \"%1\" already exists. "
-                     "Overwrite it?",
+             "Overwrite it?",
                      exportFile.fileName()),
                 i18n("Overwrite File?"), KStandardGuiItem::overwrite());
         if (r == KMessageBox::Cancel)

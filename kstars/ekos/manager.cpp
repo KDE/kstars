@@ -1116,7 +1116,7 @@ void Manager::start()
             });
 
             KSMessageBox::Instance()->questionYesNo(i18n("Ekos detected an instance of INDI server running. Do you wish to "
-                                                    "shut down the existing instance before starting a new one?"),
+                                                         "shut down the existing instance before starting a new one?"),
                                                     i18n("INDI Server"), 5);
         }
         else
@@ -2155,7 +2155,7 @@ void Manager::initCapture()
 
     capturePreview->shareCaptureModule(captureModule());
     int index = addModuleTab(EkosModule::Capture, captureModule(), QIcon(":/icons/ekos_ccd.png"));
-    toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
+    toolsWidget->tabBar()->setTabToolTip(index, i18n("Camera"));
     if (Options::ekosLeftIcons())
     {
         QTransform trans;
@@ -3328,7 +3328,7 @@ void Manager::connectModules()
     // Capture(Camera) <---> Guide connections
     if (captureProcess && guideProcess)
     {
-        connect(captureModule(), &Ekos::Capture::newPA , guideModule()->getGuiderInstance(), &Ekos::GuideInterface::newPA,
+        connect(captureModule(), &Ekos::Capture::newPA, guideModule()->getGuiderInstance(), &Ekos::GuideInterface::newPA,
                 Qt::UniqueConnection);
     }
 

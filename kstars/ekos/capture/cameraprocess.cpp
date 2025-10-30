@@ -345,30 +345,32 @@ void CameraProcess::stopCapturing(CaptureState targetState)
         if (activeJob()->getStatus() == JOB_BUSY)
         {
             QString stopText;
+            KSNotification::EventType eventType = KSNotification::Info;
             switch (targetState)
             {
                 case CAPTURE_SUSPENDED:
-                    stopText = i18n("CCD capture suspended");
+                    stopText = i18n("Camera capture suspended");
                     resetJobStatus(JOB_BUSY);
                     break;
 
                 case CAPTURE_COMPLETE:
-                    stopText = i18n("CCD capture complete");
+                    stopText = i18n("Camera capture complete");
                     resetJobStatus(JOB_DONE);
                     break;
 
                 case CAPTURE_ABORTED:
-                    stopText = state()->isLooping() ? i18n("Framing stopped") : i18n("CCD capture stopped");
+                    stopText = state()->isLooping() ? i18n("Framing stopped") : i18n("Camera capture stopped");
                     resetJobStatus(JOB_ABORTED);
+                    eventType = KSNotification::Alert;
                     break;
 
                 default:
-                    stopText = i18n("CCD capture stopped");
+                    stopText = i18n("Camera capture stopped");
                     resetJobStatus(JOB_IDLE);
                     break;
             }
             emit captureAborted(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
-            KSNotification::event(QLatin1String("CaptureFailed"), stopText, KSNotification::Capture, KSNotification::Alert);
+            KSNotification::event(QLatin1String("CaptureFailed"), stopText, KSNotification::Capture, eventType);
             emit newLog(stopText);
 
             // special case: if pausing has been requested, we pause
@@ -1398,8 +1400,7 @@ void CameraProcess::processJobCompletion2()
     // Otherwise, we're done. We park if required and resume guiding if no parking is done and autoguiding was engaged before.
     else
     {
-        //KNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"));
-        KSNotification::event(QLatin1String("CaptureSuccessful"), i18n("CCD capture sequence completed"),
+        KSNotification::event(QLatin1String("CaptureSuccessful"), i18n("Camera capture sequence completed"),
                               KSNotification::Capture);
 
         emit stopCapture(CAPTURE_COMPLETE);
@@ -1456,7 +1457,7 @@ void CameraProcess::captureImage()
     // Bail out if we have no CCD anymore
     if (!activeCamera() || !activeCamera()->isConnected())
     {
-        emit newLog(i18n("Error: Lost connection to CCD."));
+        emit newLog(i18n("Error: Lost connection to camera."));
         emit stopCapture(CAPTURE_ABORTED);
         return;
     }
@@ -1653,7 +1654,7 @@ void CameraProcess::setExposureProgress(ISD::CameraChip *tChip, double value, IP
         if (state()->getGuideState() == GUIDE_GUIDING && Options::guiderType() == 0
                 && state()->suspendGuidingOnDownload())
         {
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Autoguiding suspended until primary CCD chip completes downloading...";
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Autoguiding suspended until primary camera chip completes downloading...";
             emit suspendGuiding();
         }
 
@@ -1851,7 +1852,7 @@ IPState CameraProcess::updateImageMetadataAction(QSharedPointer<FITSData> imageD
         qCDebug(KSTARS_EKOS_CAPTURE) << "Captured frame metadata: filename =" << filename << ", type =" << metadata["type"].toInt()
                                      << "exposure =" <<  metadata["exposure"].toDouble() << "filter =" << metadata["filter"].toString() << "width =" <<
                                      metadata["width"].toInt() << "height =" << metadata["height"].toInt() << "hfr =" << metadata["hfr"].toDouble() <<
-                                     "starCount =" << metadata["starCount"].toInt() << "median =" << metadata["median"].toInt() << "eccentricity =" <<
+                 "starCount =" << metadata["starCount"].toInt() << "median =" << metadata["median"].toInt() << "eccentricity =" <<
                                      metadata["eccentricity"].toDouble();
 
         emit captureComplete(metadata);

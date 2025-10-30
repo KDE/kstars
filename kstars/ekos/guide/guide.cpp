@@ -584,12 +584,12 @@ void Guide::updateGuideParams()
     checkUseGuideHead();
 
     ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead
-                                                    ? ISD::CameraChip::GUIDE_CCD
-                                                    : ISD::CameraChip::PRIMARY_CCD);
+                                  ? ISD::CameraChip::GUIDE_CCD
+                                  : ISD::CameraChip::PRIMARY_CCD);
 
     if (targetChip == nullptr)
     {
-        appendLogText(i18n("Connection to the guide CCD is lost."));
+        appendLogText(i18n("Connection to the guide camera is lost."));
         return;
     }
 
@@ -827,7 +827,7 @@ bool Guide::captureOneFrame()
 
     if (m_Camera->isConnected() == false)
     {
-        appendLogText(i18n("Error: lost connection to CCD."));
+        appendLogText(i18n("Error: lost connection to camera."));
         return false;
     }
 
@@ -2739,7 +2739,7 @@ void Guide::nonGuidedDither()
 
     qCInfo(KSTARS_EKOS_GUIDE) << "Starting non-guiding dither...";
     qCDebug(KSTARS_EKOS_GUIDE) << "dither ra_msec:" << raMsec << "ra_polarity:" << raPolarity << "de_msec:" << decMsec <<
-                               "de_polarity:" << decPolarity;
+                                  "de_polarity:" << decPolarity;
 
     bool rc = sendMultiPulse(raPolarity > 0 ? RA_INC_DIR : RA_DEC_DIR, raMsec, decPolarity > 0 ? DEC_INC_DIR : DEC_DEC_DIR,
                              decMsec, DontCaptureAfterPulses);
@@ -3174,19 +3174,19 @@ QVariantMap Guide::getAllSettings() const
     QVariantMap settings;
 
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->currentText());
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     return settings;
@@ -3416,7 +3416,7 @@ void Guide::loadGlobalSettings()
 
     QVariantMap settings;
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
     {
         if (oneWidget->objectName() == "opticalTrainCombo")
             continue;
@@ -3431,7 +3431,7 @@ void Guide::loadGlobalSettings()
     }
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -3443,7 +3443,7 @@ void Guide::loadGlobalSettings()
     }
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -3455,7 +3455,7 @@ void Guide::loadGlobalSettings()
     }
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -3466,7 +3466,7 @@ void Guide::loadGlobalSettings()
         }
     }
     // All checkable Push Buttons
-    for (auto &oneWidget : findChildren<QPushButton*>())
+    for (auto &oneWidget : findChildren<QPushButton * >())
     {
         if (!oneWidget->isCheckable())
             continue;
@@ -3486,27 +3486,27 @@ void Guide::loadGlobalSettings()
 void Guide::connectSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Guide::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         connect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         connect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         connect(oneWidget, &QRadioButton::toggled, this, &Ekos::Guide::syncSettings);
 
     // All checkable Push buttons
-    for (auto &oneWidget : findChildren<QPushButton*>())
+    for (auto &oneWidget : findChildren<QPushButton * >())
         if (oneWidget->isCheckable())
             connect(oneWidget, &QRadioButton::toggled, this, &Ekos::Guide::syncSettings);
 
@@ -3517,27 +3517,27 @@ void Guide::connectSettings()
 void Guide::disconnectSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Guide::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::Guide::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::Guide::syncSettings);
 
     // All checkable Push buttons
-    for (auto &oneWidget : findChildren<QPushButton*>())
+    for (auto &oneWidget : findChildren<QPushButton * >())
         if (oneWidget->isCheckable())
             disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::Guide::syncSettings);
 }
@@ -3576,28 +3576,28 @@ void Guide::syncSettings()
     QString key;
     QVariant value;
 
-    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    if ( (dsb = qobject_cast<QDoubleSpinBox * >(sender())))
     {
         key = dsb->objectName();
         value = dsb->value();
 
     }
-    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    else if ( (sb = qobject_cast<QSpinBox * >(sender())))
     {
         key = sb->objectName();
         value = sb->value();
     }
-    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    else if ( (cb = qobject_cast<QCheckBox * >(sender())))
     {
         key = cb->objectName();
         value = cb->isChecked();
     }
-    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    else if ( (cbox = qobject_cast<QComboBox * >(sender())))
     {
         key = cbox->objectName();
         value = cbox->currentText();
     }
-    else if ( (rb = qobject_cast<QRadioButton*>(sender())))
+    else if ( (rb = qobject_cast<QRadioButton * >(sender())))
     {
         key = rb->objectName();
         if (rb->isChecked() == false)
@@ -3607,7 +3607,7 @@ void Guide::syncSettings()
         }
         value = true;
     }
-    else if (((pb = qobject_cast<QPushButton*>(sender())) && pb->isCheckable()))
+    else if (((pb = qobject_cast<QPushButton * >(sender())) && pb->isCheckable()))
     {
         key = pb->objectName();
         value = pb->isChecked();

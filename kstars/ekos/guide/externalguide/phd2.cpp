@@ -976,7 +976,7 @@ void PHD2::processPHD2Result(const QJsonObject &jsonObj, const QByteArray &line)
         case PIXEL_SCALE:                           //get_pixel_scale
             pixelScale = jsonObj["result"].toDouble();
             if (pixelScale == 0)
-                emit newLog(i18n("PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is invalid."));
+                emit newLog(i18n("PHD2: Please set camera and telescope parameters in PHD2, Pixel Scale is invalid."));
             else
                 emit newLog(i18n("PHD2: Pixel Scale is %1 arcsec per pixel", QString::number(pixelScale, 'f', 2)));
             break;

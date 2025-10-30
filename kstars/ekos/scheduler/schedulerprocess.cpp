@@ -2153,7 +2153,7 @@ bool SchedulerProcess::checkShutdownState()
 
             if (Options::schedulerWarmCCD())
             {
-                appendLogText(i18n("Warming up CCD..."));
+                appendLogText(i18n("Warming up camera..."));
 
                 // Turn it off
                 //QVariant arg(false);
@@ -3404,10 +3404,11 @@ void SchedulerProcess::checkAlignment(const QVariantMap &metadata, const QString
     // If the scheduler is idle or shutting down, or if the active job no longer requires light frames,
     // do not proceed with alignment check.
     if (moduleState()->schedulerState() == SCHEDULER_IDLE ||
-        moduleState()->schedulerState() == SCHEDULER_SHUTDOWN ||
-        !activeJob()->getLightFramesRequired())
+            moduleState()->schedulerState() == SCHEDULER_SHUTDOWN ||
+            !activeJob()->getLightFramesRequired())
     {
-        qCDebug(KSTARS_EKOS_SCHEDULER) << "Job" << activeJob()->getName() << "is complete or scheduler is stopping, skipping alignment check.";
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Job" << activeJob()->getName() <<
+                                          "is complete or scheduler is stopping, skipping alignment check.";
         return;
     }
 
