@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-10-30 02:02+0000\n"
+"POT-Creation-Date: 2025-10-31 01:59+0000\n"
 "PO-Revision-Date: 2025-09-14 15:11+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -467,7 +467,7 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Запазване на изображението"
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:4077
+#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:4078
 #: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1391
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
@@ -475,7 +475,7 @@ msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr ""
 "Вече има файл с име \"%1\". Сигурни ли сте, че искате да бъде презаписан?"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:4080
+#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:4081
 #: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1392
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -2670,7 +2670,7 @@ msgid ""
 msgstr ""
 "Адресът е невалиден. Искате ли да бъде отворена търсачката Google в браузъра?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4088
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4089
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:428
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2012
@@ -2969,7 +2969,7 @@ msgstr "Вид на съпоставянето"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2456 ekos/capture/capturecountswidget.cpp:321
+#: ekos/capture/cameraprocess.cpp:2457 ekos/capture/capturecountswidget.cpp:321
 #: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:814
 #, kde-format
 msgid "Preview"
@@ -5280,6 +5280,7 @@ msgstr "Изчисляване на зрителното поле"
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
+#: ekos/manager.cpp:2158
 #, kde-format
 msgid "Camera"
 msgstr "Камера"
@@ -6223,7 +6224,7 @@ msgstr ""
 msgid "Dustcap error detected. Aborting alignment."
 msgstr ""
 
-#: ekos/align/align.cpp:865 ekos/focus/focus.cpp:5889
+#: ekos/align/align.cpp:865 ekos/focus/focus.cpp:5890
 #, fuzzy, kde-format
 #| msgid "Dust cap is parked."
 msgid "Dustcap device %1 removed."
@@ -6277,7 +6278,7 @@ msgstr ""
 "опитайте отново."
 
 #: ekos/align/align.cpp:1481 ekos/align/align.cpp:1513
-#: ekos/align/align.cpp:2545
+#: ekos/align/align.cpp:2546
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "Неуспешно астрометрично подравняване"
@@ -6292,7 +6293,7 @@ msgstr "Задаване на целта до  RA:%1 DEC:%2"
 msgid "Error: No camera detected."
 msgstr "Грешка: Не е открита камера."
 
-#: ekos/align/align.cpp:1512
+#: ekos/align/align.cpp:1512 ekos/guide/guide.cpp:830
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Грешка: загубена връзка с камерата."
@@ -6307,9 +6308,13 @@ msgstr ""
 "проверете настройките на оптичната система и опитайте отново."
 
 #: ekos/align/align.cpp:1535
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "CCD pixel size is missing. Please check your driver settings and try "
+#| "again."
 msgid ""
-"CCD pixel size is missing. Please check your driver settings and try again."
+"Camera pixel size is missing. Please check your driver settings and try "
+"again."
 msgstr ""
 "Липсва размер на CCD пиксела. Моля, проверете настройките на драйвера си и "
 "опитайте отново."
@@ -6320,7 +6325,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Грешка: загубена връзка с филтърното колело."
 
 #: ekos/align/align.cpp:1563 ekos/capture/cameraprocess.cpp:216
-#: ekos/capture/cameraprocess.cpp:635 ekos/focus/focus.cpp:6088
+#: ekos/capture/cameraprocess.cpp:637 ekos/focus/focus.cpp:6089
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6338,54 +6343,58 @@ msgstr ""
 msgid "Dustcap is not ready (status: %1). Waiting before capture and solve..."
 msgstr ""
 
-#: ekos/align/align.cpp:1599
+#: ekos/align/align.cpp:1600
 #, kde-format
 msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr ""
 "Не може да се заснеме, докато модулът за фокусиране е зает. Повторен опит "
 "след %1 секунди..."
 
-#: ekos/align/align.cpp:1607
-#, kde-format
+#: ekos/align/align.cpp:1608
+#, fuzzy, kde-format
+#| msgid ""
+#| "Cannot capture while CCD exposure is in progress. Retrying in %1 "
+#| "seconds..."
 msgid ""
-"Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
+"Cannot capture while camera exposure is in progress. Retrying in %1 "
+"seconds..."
 msgstr ""
 "Не може да се заснема, докато тече експозиция на CCD. Повторен опит след %1 "
 "секунди..."
 
-#: ekos/align/align.cpp:1634
+#: ekos/align/align.cpp:1635
 #, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
 "Не може да се заснема, докато ротаторът е зает: Започна оценка на "
 "закъснението..."
 
-#: ekos/align/align.cpp:1648
+#: ekos/align/align.cpp:1649
 #, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr ""
 "Не може да се заснема, докато ротаторът е зает: Повторен опит след %1 "
 "секунди..."
 
-#: ekos/align/align.cpp:1667 ekos/align/align.cpp:3187
+#: ekos/align/align.cpp:1668 ekos/align/align.cpp:3188
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Не е открит драйвер за отдалечена астрометрия, превключва се на "
 "StellarSolver."
 
-#: ekos/align/align.cpp:1720 ekos/focus/focus.cpp:2018
+#: ekos/align/align.cpp:1721 ekos/focus/focus.cpp:2019
 #, kde-format
 msgid "Capturing image..."
 msgstr "Заснемане на изображение..."
 
-#: ekos/align/align.cpp:1810 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:3174
+#: ekos/align/align.cpp:1811 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/focus/focus.cpp:3175
 #, kde-format
 msgid "Image received."
 msgstr "Изображението е получено."
 
-#: ekos/align/align.cpp:1943
+#: ekos/align/align.cpp:1944
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -6396,62 +6405,62 @@ msgstr ""
 "за индексни файлове.  Моля, изтеглете някои индексни файлове или добавете "
 "правилната директория в списъка."
 
-#: ekos/align/align.cpp:1999
+#: ekos/align/align.cpp:2000
 #, kde-format
 msgid "Solving with blind image scale..."
 msgstr "Решаване със скала на сляпо изображение..."
 
-#: ekos/align/align.cpp:2007
+#: ekos/align/align.cpp:2008
 #, kde-format
 msgid "Solving with blind image position..."
 msgstr "Решаване с позиция на сляпо изображение..."
 
-#: ekos/align/align.cpp:2013
+#: ekos/align/align.cpp:2014
 #, fuzzy, kde-format
 #| msgid "Solving with blind image scale..."
 msgid "Solving with blind dynamic threshold..."
 msgstr "Решаване със скала на сляпо изображение..."
 
-#: ekos/align/align.cpp:2043
+#: ekos/align/align.cpp:2044
 #, kde-format
 msgid "Loaded image does not have pierside information"
 msgstr "Каченото изображение не съдържа информация за страната на статива"
 
-#: ekos/align/align.cpp:2048
+#: ekos/align/align.cpp:2049
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
 msgstr "Каченото изображение е заснето със страна на статива %1"
 
-#: ekos/align/align.cpp:2124
+#: ekos/align/align.cpp:2125
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 seconds."
 msgid "Solver timed out after %1 seconds."
 msgstr "Решаването е прекъснато след %1 секунди."
 
-#: ekos/align/align.cpp:2127
+#: ekos/align/align.cpp:2128
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 seconds."
 msgid "Solver failed after %1 seconds."
 msgstr "Решаването е прекъснато след %1 секунди."
 
-#: ekos/align/align.cpp:2149
+#: ekos/align/align.cpp:2150
 #, kde-format
 msgid "Solver completed after %1 seconds."
 msgstr "Решаването завърши след %1 секунди."
 
-#: ekos/align/align.cpp:2170
+#: ekos/align/align.cpp:2171
 #, fuzzy, kde-format
 #| msgid "Solver completed after %1 seconds."
 msgid "Remote solver completed after %1 seconds."
 msgstr "Решаването завърши след %1 секунди."
 
-#: ekos/align/align.cpp:2183
+#: ekos/align/align.cpp:2184
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 "Решение RA (%1) DEC (%2) Ориентация (%3) Мащаб на пиксела (%4) Паритет (%5)"
 
-#: ekos/align/align.cpp:2252
+#: ekos/align/align.cpp:2253
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
@@ -6460,7 +6469,7 @@ msgstr ""
 "Актуализирана информация за WCS. Изображенията, заснети от този момент "
 "нататък, трябва да имат валидна информация за WCS."
 
-#: ekos/align/align.cpp:2270
+#: ekos/align/align.cpp:2271
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
@@ -6469,64 +6478,64 @@ msgstr ""
 "Координати на решението: RA (%1) DEC (%2) Координати на телескопа: RA (%3) "
 "DEC (%4) Координати на целта: RA (%5) DEC (%6)"
 
-#: ekos/align/align.cpp:2281
+#: ekos/align/align.cpp:2282
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Целта е в рамките на %1 градуса от координатите на решението."
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-#: ekos/align/align.cpp:2326
+#: ekos/align/align.cpp:2327
 #, kde-format
 msgid "Camera position angle is %1 degrees."
 msgstr "Ъгълът на позицията на камерата е %1 градуса."
 
-#: ekos/align/align.cpp:2362 ekos/align/align.cpp:2502
+#: ekos/align/align.cpp:2363 ekos/align/align.cpp:2503
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
 msgstr ""
 
-#: ekos/align/align.cpp:2370 ekos/align/align.cpp:2831
+#: ekos/align/align.cpp:2371 ekos/align/align.cpp:2832
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "Астрометричното подравняване завърши успешно"
 
-#: ekos/align/align.cpp:2392
+#: ekos/align/align.cpp:2393
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr "Достигнат максимален брой повторения. Решаването е неуспешно."
 
-#: ekos/align/align.cpp:2421
+#: ekos/align/align.cpp:2422
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr "Целта е в рамките на приемливия диапазон."
 
-#: ekos/align/align.cpp:2484
+#: ekos/align/align.cpp:2485
 #, kde-format
 msgid "Saving failed solver image to %1"
 msgstr "Неуспешно изображение на програмата за решаване се запазва в %1"
 
-#: ekos/align/align.cpp:2508
+#: ekos/align/align.cpp:2509
 #, fuzzy, kde-format
 #| msgid "Solver failed. Retrying without scale constraint."
 msgid "Solver failed. Retrying with blind dynamic threshold."
 msgstr "Решаването е неуспешно. Повторен опит без ограничение на мащаба."
 
-#: ekos/align/align.cpp:2522
+#: ekos/align/align.cpp:2523
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr "Решаването е неуспешно. Повторен опит без ограничение на мащаба."
 
-#: ekos/align/align.cpp:2532
+#: ekos/align/align.cpp:2533
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr "Решаването е неуспешно. Повторен опит без ограничение на позицията."
 
-#: ekos/align/align.cpp:2540
+#: ekos/align/align.cpp:2541
 #, kde-format
 msgid "Solver Failed."
 msgstr "Грешка в решаващия модул."
 
-#: ekos/align/align.cpp:2543
+#: ekos/align/align.cpp:2544
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6538,96 +6547,96 @@ msgstr ""
 "Активирайте функцията Alignment Logging (Регистриране на подравняването) в "
 "Настройки -> Регистри, за да получите подробна информация за неуспеха."
 
-#: ekos/align/align.cpp:2603
+#: ekos/align/align.cpp:2604
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "Задаване на ъгъл на позиция на камерата на %1 градуса..."
 
-#: ekos/align/align.cpp:2610
+#: ekos/align/align.cpp:2611
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 "Ъгълът на позициониране на камерата е в рамките на приемливия диапазон."
 
-#: ekos/align/align.cpp:2624
+#: ekos/align/align.cpp:2625
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "Текущата PA е %1; Целевата PA е %2; разлика: %3"
 
-#: ekos/align/align.cpp:2694
+#: ekos/align/align.cpp:2695
 #, kde-format
 msgid "Refresh is complete."
 msgstr "Опресняването е завършено."
 
-#: ekos/align/align.cpp:2701 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/align/align.cpp:2702 ekos/auxiliary/darklibrary.cpp:1413
 #: ekos/focus/focus.cpp:1716
 #, kde-format
 msgid "Capture aborted."
 msgstr "Заснемането е прекъснато."
 
-#: ekos/align/align.cpp:2704
+#: ekos/align/align.cpp:2705
 #, fuzzy, kde-format
 #| msgid "Solving aborted."
 msgid "Solver aborted."
 msgstr "Решението е прекъснато."
 
-#: ekos/align/align.cpp:2746 ekos/analyze/analyze.cpp:4142
+#: ekos/align/align.cpp:2747 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:310 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1250 ekos/manager.cpp:2106 ekos/mount/mount.cpp:778
 #: ekos/observatory/observatory.cpp:1042
-#: ekos/scheduler/schedulerprocess.cpp:3741
+#: ekos/scheduler/schedulerprocess.cpp:3742
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: ekos/align/align.cpp:2802
+#: ekos/align/align.cpp:2803
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 "Монтировката е завършила преместването си в близост до небесния полюс. "
 "Заснемете отново, за да проверите."
 
-#: ekos/align/align.cpp:2825
+#: ekos/align/align.cpp:2826
 #, kde-format
 msgid "Mount is synced to solution coordinates."
 msgstr "Монтирането се синхронизира с координатите на решението."
 
-#: ekos/align/align.cpp:2861 ekos/align/align.cpp:2879
-#: ekos/align/align.cpp:3491 ekos/align/align.cpp:4236
+#: ekos/align/align.cpp:2862 ekos/align/align.cpp:2880
+#: ekos/align/align.cpp:3492 ekos/align/align.cpp:4237
 #: ekos/align/polaralignmentassistant.cpp:654
 #, kde-format
 msgid "Settling..."
 msgstr "Стабилизиране..."
 
-#: ekos/align/align.cpp:2869
+#: ekos/align/align.cpp:2870
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Завършване на придвижването. Точността на целта не е постигната, стартирайте "
 "решаването отново..."
 
-#: ekos/align/align.cpp:2871
+#: ekos/align/align.cpp:2872
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "Завършване на придвижването. Решаване на точката за подравняване. . ."
 
-#: ekos/align/align.cpp:2914 ekos/align/align.cpp:3065
+#: ekos/align/align.cpp:2915 ekos/align/align.cpp:3066
 #, kde-format
 msgid "Syncing failed."
 msgstr "Синхронизирането е неуспешно."
 
-#: ekos/align/align.cpp:2916
+#: ekos/align/align.cpp:2917
 #, kde-format
 msgid "Slewing failed."
 msgstr "Неуспешно насочване."
 
-#: ekos/align/align.cpp:2960
+#: ekos/align/align.cpp:2961
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "Ротаторът достигна ъгъл на позиция на камерата."
 
-#: ekos/align/align.cpp:2973
+#: ekos/align/align.cpp:2974
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -6636,22 +6645,22 @@ msgstr ""
 "Ротаторът не успя да достигне заявения ъгъл на позиция (отклонение %1 "
 "arcmin)."
 
-#: ekos/align/align.cpp:3011
+#: ekos/align/align.cpp:3012
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "Открито е завъртане, спиране на решаването..."
 
-#: ekos/align/align.cpp:3059
+#: ekos/align/align.cpp:3060
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Синхронизиране с RA (%1) DEC (%2)"
 
-#: ekos/align/align.cpp:3083
+#: ekos/align/align.cpp:3084
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Завъртане към целеви координати: RA (%1) DEC (%2)."
 
-#: ekos/align/align.cpp:3088
+#: ekos/align/align.cpp:3089
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -6660,114 +6669,114 @@ msgstr ""
 "Придвижване към целевите координати: RA (%1) DEC (%2) се отхвърля. (вижте "
 "известието)"
 
-#: ekos/align/align.cpp:3107
+#: ekos/align/align.cpp:3108
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr "Задание на Ekos (%1) - Телескопът е синхронизиран"
 
-#: ekos/align/align.cpp:3156
+#: ekos/align/align.cpp:3157
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Зареждане на изображение"
 
-#: ekos/align/align.cpp:3387
+#: ekos/align/align.cpp:3388
 #, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "Световната координатна система (WCS) е активирана."
 
-#: ekos/align/align.cpp:3392
+#: ekos/align/align.cpp:3393
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "Световната координатна система (WCS) е деактивирана."
 
-#: ekos/align/align.cpp:3411
+#: ekos/align/align.cpp:3412
 #, kde-format
 msgid "Capture error. Aborting..."
 msgstr "Грешка при заснемане. Прекъсване..."
 
-#: ekos/align/align.cpp:3416 ekos/capture/cameraprocess.cpp:1630
-#: ekos/capture/cameraprocess.cpp:2191
+#: ekos/align/align.cpp:3417 ekos/capture/cameraprocess.cpp:1631
+#: ekos/capture/cameraprocess.cpp:2192
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Рестартиране на опита за заснемане #%1"
 
-#: ekos/align/align.cpp:3542
+#: ekos/align/align.cpp:3543
 #, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Подравняване на кадрите"
 
-#: ekos/align/align.cpp:3617
+#: ekos/align/align.cpp:3618
 #, kde-format
 msgid "StellarSolver Options"
 msgstr "Опции на StellarSolver"
 
-#: ekos/align/align.cpp:3622
+#: ekos/align/align.cpp:3623
 #, kde-format
 msgid "External & Online Programs"
 msgstr "Външни и интернет програми"
 
-#: ekos/align/align.cpp:3626
+#: ekos/align/align.cpp:3627
 #, kde-format
 msgid "Scale & Position"
 msgstr "Мащаб и позиция"
 
-#: ekos/align/align.cpp:3630
+#: ekos/align/align.cpp:3631
 #, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "Редактор на профили с опции за подравняване"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3649 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3650 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Индексни файлове"
 
-#: ekos/align/align.cpp:3714 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3715 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
 msgstr "ΔРА (дъг. сек.)"
 
-#: ekos/align/align.cpp:3715 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3716 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
 msgstr "ΔДекл (дъг. сек.)"
 
-#: ekos/align/align.cpp:3763 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5969
+#: ekos/align/align.cpp:3764 ekos/capture/camera_config.cpp:717
+#: ekos/focus/focus.cpp:5970
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Операцията на филтъра е неуспешна."
 
-#: ekos/align/align.cpp:3775 ekos/capture/camera.cpp:582
+#: ekos/align/align.cpp:3776 ekos/capture/camera.cpp:582
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Промяна на изместването на фокуса с %1 стъпки ..."
 
-#: ekos/align/align.cpp:3782 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3783 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/camera.cpp:587
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Филтърът се сменя на  %1..."
 
-#: ekos/align/align.cpp:3787 ekos/capture/camera.cpp:592
+#: ekos/align/align.cpp:3788 ekos/capture/camera.cpp:592
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Автоматичен фокус при смяна на филтъра..."
 
-#: ekos/align/align.cpp:3908
+#: ekos/align/align.cpp:3909
 #, kde-format
 msgid "Invalid FOV."
 msgstr "Неправилно зрително поле."
 
-#: ekos/align/align.cpp:4064
+#: ekos/align/align.cpp:4065
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Експортиране на точките на решението"
 
-#: ekos/align/align.cpp:4087 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:4088 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:427 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2011 ekos/scheduler/scheduler.cpp:2121
@@ -6777,21 +6786,21 @@ msgstr "Експортиране на точките на решението"
 msgid "Invalid URL: %1"
 msgstr "Невалиден адрес: %1"
 
-#: ekos/align/align.cpp:4096 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:4097 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:3201
-#: ekos/scheduler/schedulerprocess.cpp:4955
+#: ekos/scheduler/schedulerprocess.cpp:4956
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Не може да се записва във файл %1"
 
-#: ekos/align/align.cpp:4097 ekos/align/mountmodel.cpp:286
+#: ekos/align/align.cpp:4098 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:356
-#: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2602 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3202
-#: ekos/scheduler/schedulerprocess.cpp:3560
-#: ekos/scheduler/schedulerprocess.cpp:4956
-#: ekos/scheduler/schedulerprocess.cpp:4976 indi/drivermanager.cpp:1549
+#: ekos/scheduler/schedulerprocess.cpp:3561
+#: ekos/scheduler/schedulerprocess.cpp:4957
+#: ekos/scheduler/schedulerprocess.cpp:4977 indi/drivermanager.cpp:1549
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -6805,27 +6814,27 @@ msgstr "Не може да се записва във файл %1"
 msgid "Could Not Open File"
 msgstr "Грешка при отваряне на файл"
 
-#: ekos/align/align.cpp:4118
+#: ekos/align/align.cpp:4119
 #, kde-format
 msgid "Error in table structure."
 msgstr "Грешка в структурата на таблицата."
 
-#: ekos/align/align.cpp:4127
+#: ekos/align/align.cpp:4128
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Точките за решение запазени като: %1"
 
-#: ekos/align/align.cpp:4144
+#: ekos/align/align.cpp:4145
 #, kde-format
 msgid "Polar Alignment"
 msgstr "Полярно ориентиране"
 
-#: ekos/align/align.cpp:4716
+#: ekos/align/align.cpp:4717
 #, kde-format
 msgid "Capture timed out."
 msgstr "Времето за заснемане изтече."
 
-#: ekos/align/align.cpp:4725
+#: ekos/align/align.cpp:4726
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Заснемането все още се изпълнява, повторен опит след %1 секунди..."
@@ -7457,9 +7466,9 @@ msgid "Open Ekos Alignment List"
 msgstr "Отваряне на списък за подравняване на Ekos"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:355
-#: ekos/capture/cameraprocess.cpp:2600 ekos/capture/sequencequeue.cpp:32
-#: ekos/scheduler/schedulerprocess.cpp:3559
-#: ekos/scheduler/schedulerprocess.cpp:4975
+#: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:32
+#: ekos/scheduler/schedulerprocess.cpp:3560
+#: ekos/scheduler/schedulerprocess.cpp:4976
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Грешка при отваряне на файла %1"
@@ -15139,7 +15148,7 @@ msgstr "Опции за автоматично калибриране на тъ�
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, CalibrationMinimized)
-#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2469
+#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2470
 #: ekos/guide/guide.cpp:70 fitsviewer/livestacking.ui:860
 #: fitsviewer/livestacking.ui:1022
 #, kde-format
@@ -16099,7 +16108,7 @@ msgstr "Приложени са промени в задача #%1."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Сигурни ли сте, че искате да нулирате състоянието на всички задачи?"
 
-#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2721
+#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2722
 #, kde-format
 msgid "Reset job status"
 msgstr "Нулиране на състоянието на задачата"
@@ -16153,7 +16162,7 @@ msgid_plural "%1 dark flats jobs were created."
 msgstr[0] "Създадено е едно задание за изграждане на тъмни плоски кадри."
 msgstr[1] "Създадени са %1 задания за изграждане на тъмни плоски кадри."
 
-#: ekos/capture/cameraprocess.cpp:217 ekos/capture/cameraprocess.cpp:636
+#: ekos/capture/cameraprocess.cpp:217 ekos/capture/cameraprocess.cpp:638
 #, kde-format
 msgid "Image Transfer"
 msgstr "Прехвърляне на изображения"
@@ -16175,7 +16184,7 @@ msgstr ""
 msgid "No new job created."
 msgstr "Няма създадени нови задачи."
 
-#: ekos/capture/cameraprocess.cpp:311 ekos/capture/cameraprocess.cpp:888
+#: ekos/capture/cameraprocess.cpp:311 ekos/capture/cameraprocess.cpp:890
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr "Не може да се заснеме, докато модулът за фокусиране е зает."
@@ -16185,55 +16194,58 @@ msgstr "Не може да се заснеме, докато модулът за
 msgid "Starting framing..."
 msgstr "Стартиране на кадриране..."
 
-#: ekos/capture/cameraprocess.cpp:351
-#, kde-format
-msgid "CCD capture suspended"
+#: ekos/capture/cameraprocess.cpp:352
+#, fuzzy, kde-format
+#| msgid "CCD capture suspended"
+msgid "Camera capture suspended"
 msgstr "CCD заснемането е спряно"
 
-#: ekos/capture/cameraprocess.cpp:356
-#, kde-format
-msgid "CCD capture complete"
+#: ekos/capture/cameraprocess.cpp:357
+#, fuzzy, kde-format
+#| msgid "CCD capture complete"
+msgid "Camera capture complete"
 msgstr "CCD заснемането е завършено"
 
-#: ekos/capture/cameraprocess.cpp:361
+#: ekos/capture/cameraprocess.cpp:362
 #, kde-format
 msgid "Framing stopped"
 msgstr "Кадрирането е спряно"
 
-#: ekos/capture/cameraprocess.cpp:361 ekos/capture/cameraprocess.cpp:366
-#, kde-format
-msgid "CCD capture stopped"
+#: ekos/capture/cameraprocess.cpp:362 ekos/capture/cameraprocess.cpp:368
+#, fuzzy, kde-format
+#| msgid "CCD capture stopped"
+msgid "Camera capture stopped"
 msgstr "Заснемането на CCD е спряно"
 
-#: ekos/capture/cameraprocess.cpp:444
+#: ekos/capture/cameraprocess.cpp:446
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr "Паузата е възможна само докато тече заснемането на кадри."
 
-#: ekos/capture/cameraprocess.cpp:451
+#: ekos/capture/cameraprocess.cpp:453
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr "След приключване на текущата експозиция последователността се спира."
 
-#: ekos/capture/cameraprocess.cpp:464
+#: ekos/capture/cameraprocess.cpp:466
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
 "Не е открита камера. Проверете конфигурацията на системата и настройките за "
 "връзка."
 
-#: ekos/capture/cameraprocess.cpp:489
+#: ekos/capture/cameraprocess.cpp:491
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 "Няма наличен изглед за предварителни изгледи. Активиране на преглед на FITS?"
 
-#: ekos/capture/cameraprocess.cpp:490
+#: ekos/capture/cameraprocess.cpp:492
 #, kde-format
 msgid "Display preview"
 msgstr "Предварителен преглед"
 
-#: ekos/capture/cameraprocess.cpp:574
+#: ekos/capture/cameraprocess.cpp:576
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
@@ -16242,7 +16254,7 @@ msgstr ""
 "Задачата изисква %1-секундни %2 изображения, вече има %3/%4 заснемания и не "
 "е необходимо да се изпълнява."
 
-#: ekos/capture/cameraprocess.cpp:589
+#: ekos/capture/cameraprocess.cpp:591
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
@@ -16251,32 +16263,32 @@ msgstr ""
 "Задачата изисква %1-секундни %2 изображения, има заснети %3/%4 кадъра и ще "
 "бъде обработена."
 
-#: ekos/capture/cameraprocess.cpp:602
+#: ekos/capture/cameraprocess.cpp:604
 #, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
 msgstr "Задачата изисква %1 x %2-секундни %3 видео и ще бъде обработена."
 
-#: ekos/capture/cameraprocess.cpp:834
+#: ekos/capture/cameraprocess.cpp:836
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "Автонасочването е възобновено."
 
-#: ekos/capture/cameraprocess.cpp:878
+#: ekos/capture/cameraprocess.cpp:880
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Неуспешно задаване на подкадър."
 
-#: ekos/capture/cameraprocess.cpp:883
+#: ekos/capture/cameraprocess.cpp:885
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Неуспешно задаване на бининг."
 
-#: ekos/capture/cameraprocess.cpp:1043
+#: ekos/capture/cameraprocess.cpp:1045
 #, kde-format
 msgid "file saved to %1"
 msgstr "файлът е записан в %1"
 
-#: ekos/capture/cameraprocess.cpp:1053
+#: ekos/capture/cameraprocess.cpp:1055
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -16285,125 +16297,126 @@ msgstr ""
 "Неуспешно записване на изображение в %1\n"
 "Моля, проверете папката, името на файла и разрешенията."
 
-#: ekos/capture/cameraprocess.cpp:1055
+#: ekos/capture/cameraprocess.cpp:1057
 #, kde-format
 msgid "Image Write Failed"
 msgstr "Неуспешно записване на изображение"
 
-#: ekos/capture/cameraprocess.cpp:1280
+#: ekos/capture/cameraprocess.cpp:1282
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Отдалеченото изображение е запазено в %1"
 
-#: ekos/capture/cameraprocess.cpp:1306
+#: ekos/capture/cameraprocess.cpp:1308
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Автоматичното насочване е спряно."
 
-#: ekos/capture/cameraprocess.cpp:1336
+#: ekos/capture/cameraprocess.cpp:1338
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Предупреждение: Процесът на калибриране е прекратен преждевременно."
 
-#. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1402
-#, kde-format
-msgid "CCD capture sequence completed"
+#: ekos/capture/cameraprocess.cpp:1403
+#, fuzzy, kde-format
+#| msgid "CCD capture sequence completed"
+msgid "Camera capture sequence completed"
 msgstr "CCD последователността на заснемане е завършена"
 
-#: ekos/capture/cameraprocess.cpp:1459
-#, kde-format
-msgid "Error: Lost connection to CCD."
-msgstr "Грешка: Загубена връзка с CCD."
+#: ekos/capture/cameraprocess.cpp:1460
+#, fuzzy, kde-format
+#| msgid "Error: lost connection to camera."
+msgid "Error: Lost connection to camera."
+msgstr "Грешка: загубена връзка с камерата."
 
-#: ekos/capture/cameraprocess.cpp:1487
+#: ekos/capture/cameraprocess.cpp:1488
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 "Не може да се изчислят нивата на ADU (analog to digital units) в "
 "изображения, които не са във формат FITS."
 
-#: ekos/capture/cameraprocess.cpp:1622 ekos/capture/cameraprocess.cpp:2183
+#: ekos/capture/cameraprocess.cpp:1623 ekos/capture/cameraprocess.cpp:2184
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 "Заснемането е неуспешно. Проверете контролния панел на INDI за подробности."
 
-#: ekos/capture/cameraprocess.cpp:1722
+#: ekos/capture/cameraprocess.cpp:1723
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Време за изтегляне: %1 s, нова оценка на времето за изтегляне: %2 s."
 
-#: ekos/capture/cameraprocess.cpp:1788
+#: ekos/capture/cameraprocess.cpp:1789
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Получено изображение %1 от %2."
 
-#: ekos/capture/cameraprocess.cpp:1825
+#: ekos/capture/cameraprocess.cpp:1826
 #, kde-format
 msgid "Captured %1"
 msgstr "Изображение %1 е заснето"
 
-#: ekos/capture/cameraprocess.cpp:1831
+#: ekos/capture/cameraprocess.cpp:1832
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "ПРЕДУПРЕЖДЕНИЕ: останали и потенциално неизвестни заместители %1 в %2"
 
-#: ekos/capture/cameraprocess.cpp:1874
+#: ekos/capture/cameraprocess.cpp:1875
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Изпълнява се скрипт за улавяне %1"
 
-#: ekos/capture/cameraprocess.cpp:1889
+#: ekos/capture/cameraprocess.cpp:1890
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Скриптът за предварително заснемане завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:1900
+#: ekos/capture/cameraprocess.cpp:1901
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Скриптът за последващо заснемане завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:1912
+#: ekos/capture/cameraprocess.cpp:1913
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Обръщане на меридиана се обработва..."
 
-#: ekos/capture/cameraprocess.cpp:1922
+#: ekos/capture/cameraprocess.cpp:1923
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Скриптът за предварителна работа завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:1927
+#: ekos/capture/cameraprocess.cpp:1928
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Скриптът за последваща работа завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:2113 ekos/focus/focus.cpp:6140
-#: ekos/focus/focus.cpp:6164
+#: ekos/capture/cameraprocess.cpp:2114 ekos/focus/focus.cpp:6141
+#: ekos/focus/focus.cpp:6165
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Изчакване на експозицията. Прекъсване..."
 
-#: ekos/capture/cameraprocess.cpp:2120
+#: ekos/capture/cameraprocess.cpp:2121
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Изчакване на експозицията. Засечени са повече от три опита. Драйверът се "
 "рестартира..."
 
-#: ekos/capture/cameraprocess.cpp:2138 ekos/focus/focus.cpp:6145
+#: ekos/capture/cameraprocess.cpp:2139 ekos/focus/focus.cpp:6146
 #: ekos/guide/guide.cpp:1018
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Изчакване на експозицията. Експозицията се рестартира..."
 
-#: ekos/capture/cameraprocess.cpp:2164
+#: ekos/capture/cameraprocess.cpp:2165
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Времето на изчакване на експозицията изтече. Прекъсване..."
 
-#: ekos/capture/cameraprocess.cpp:2242
+#: ekos/capture/cameraprocess.cpp:2243
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16412,19 +16425,19 @@ msgstr ""
 "Калибрирането с плоско поле е неуспешно. Заснетото изображение е само %1-"
 "битово, а исканото ADU е %2."
 
-#: ekos/capture/cameraprocess.cpp:2253
+#: ekos/capture/cameraprocess.cpp:2254
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "Текущото изображение е наситено (%1). Следващата експозиция е %2 секунди."
 
-#: ekos/capture/cameraprocess.cpp:2275
+#: ekos/capture/cameraprocess.cpp:2276
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "Текущо ADU %1 в рамките на целевия диапазон на допустимите отклонения на ADU."
 
-#: ekos/capture/cameraprocess.cpp:2304
+#: ekos/capture/cameraprocess.cpp:2305
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16433,27 +16446,27 @@ msgstr ""
 "При невъзможност за изчисляване на оптимални настройки на експозицията, "
 "моля, заснемете плоските кадри ръчно."
 
-#: ekos/capture/cameraprocess.cpp:2312
+#: ekos/capture/cameraprocess.cpp:2313
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Текущото ADU е %1 Следващата експозиция е %2 секунди."
 
-#: ekos/capture/cameraprocess.cpp:2453
+#: ekos/capture/cameraprocess.cpp:2454
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Преглед"
 
-#: ekos/capture/cameraprocess.cpp:2464 ekos/capture/cameraprocess.cpp:2466
+#: ekos/capture/cameraprocess.cpp:2465 ekos/capture/cameraprocess.cpp:2467
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Калибриране с плоско поле"
 
-#: ekos/capture/cameraprocess.cpp:2670
+#: ekos/capture/cameraprocess.cpp:2671
 #, kde-format
 msgid "Sequence paused."
 msgstr "Последователността е паузирана."
 
-#: ekos/capture/cameraprocess.cpp:2720
+#: ekos/capture/cameraprocess.cpp:2721
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16462,7 +16475,7 @@ msgstr ""
 "Всички задачи са завършени. Искате ли да нулирате състоянието на всички "
 "задачи и да рестартирате заснемането?"
 
-#: ekos/capture/cameraprocess.cpp:2734
+#: ekos/capture/cameraprocess.cpp:2735
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16471,17 +16484,17 @@ msgstr ""
 "Предупреждение: опцията \"Винаги нулиране на последователността при "
 "стартиране\" е активирана и нулира броячите на последователността."
 
-#: ekos/capture/cameraprocess.cpp:2970
+#: ekos/capture/cameraprocess.cpp:2971
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Сигурни ли сте, че искате да рестартирате %1 драйвер за камера?"
 
-#: ekos/capture/cameraprocess.cpp:2971
+#: ekos/capture/cameraprocess.cpp:2972
 #, kde-format
 msgid "Driver Restart"
 msgstr "Презареждане на драйвера"
 
-#: ekos/capture/cameraprocess.cpp:3118 ekos/capture/sequencejobstate.cpp:41
+#: ekos/capture/cameraprocess.cpp:3119 ekos/capture/sequencejobstate.cpp:41
 #, kde-format
 msgid "Capture operations timed out after %1 seconds."
 msgstr "Времето на операциите за заснемане изтече след %1 секунди."
@@ -19536,10 +19549,11 @@ msgstr "Изтриване на рамките за фокусиране?"
 msgid "No Focuser connected."
 msgstr "Няма свързан фокусер."
 
-#: ekos/focus/focus.cpp:1154 ekos/focus/focus.cpp:5045
-#, kde-format
-msgid "No CCD connected."
-msgstr "Няма свързан CCD."
+#: ekos/focus/focus.cpp:1154 ekos/focus/focus.cpp:5046
+#, fuzzy, kde-format
+#| msgid "No Focuser connected."
+msgid "No camera connected."
+msgstr "Няма свързан фокусер."
 
 #: ekos/focus/focus.cpp:1161
 #, kde-format
@@ -19565,16 +19579,16 @@ msgstr ""
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "Извършва се процес на фокусиране, автофокусирането се отхвърли."
 
-#: ekos/focus/focus.cpp:1194 ekos/focus/focus.cpp:5472
-#: ekos/focus/focus.cpp:5747
+#: ekos/focus/focus.cpp:1194 ekos/focus/focus.cpp:5473
+#: ekos/focus/focus.cpp:5748
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Регулиране на фокуса"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1194 ekos/focus/focus.cpp:5474
-#: ekos/focus/focus.cpp:5747 ekos/focus/opsfocussettings.ui:503
+#: ekos/focus/focus.cpp:1194 ekos/focus/focus.cpp:5475
+#: ekos/focus/focus.cpp:5748 ekos/focus/opsfocussettings.ui:503
 #: ekos/focus/opsfocussettings.ui:583
 #, kde-format
 msgid "Adaptive Focus"
@@ -19607,7 +19621,7 @@ msgstr "Адаптивният фокус стартира..."
 msgid "Autofocus operation started"
 msgstr "Започнала е операция за автоматично фокусиране"
 
-#: ekos/focus/focus.cpp:1552 ekos/focus/focus.cpp:2345
+#: ekos/focus/focus.cpp:1552 ekos/focus/focus.cpp:2346
 #, kde-format
 msgid "Detection complete."
 msgstr "Завършване на откриването."
@@ -19653,281 +19667,281 @@ msgstr "Капачката за прах се откопчава..."
 msgid "Dustcap is not ready (status: %1). Waiting before capture..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1938
+#: ekos/focus/focus.cpp:1939
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Грешка: Не е открито филтърно колело."
 
-#: ekos/focus/focus.cpp:1944
+#: ekos/focus/focus.cpp:1945
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Грешка: Загубена връзка с филтърното колело."
 
-#: ekos/focus/focus.cpp:2062
+#: ekos/focus/focus.cpp:2063
 #, kde-format
 msgid "At minimum focus position %1..."
 msgstr "При минимална фокусна позиция %1..."
 
-#: ekos/focus/focus.cpp:2077
+#: ekos/focus/focus.cpp:2078
 #, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "Отиване до позиция на минимален фокус %1..."
 
-#: ekos/focus/focus.cpp:2086
+#: ekos/focus/focus.cpp:2087
 #, kde-format
 msgid "At maximum focus position %1..."
 msgstr "При максимална фокусна позиция %1..."
 
-#: ekos/focus/focus.cpp:2102
+#: ekos/focus/focus.cpp:2103
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "Отиване до позиция на максимален фокус %1..."
 
-#: ekos/focus/focus.cpp:2129
+#: ekos/focus/focus.cpp:2130
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Грешка: Не е открит фокусер."
 
-#: ekos/focus/focus.cpp:2136
+#: ekos/focus/focus.cpp:2137
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Грешка: Загубена връзка с фокусер."
 
-#: ekos/focus/focus.cpp:2150
+#: ekos/focus/focus.cpp:2151
 #, kde-format
 msgid "outward"
 msgstr "навън"
 
-#: ekos/focus/focus.cpp:2150
+#: ekos/focus/focus.cpp:2151
 #, kde-format
 msgid "inward"
 msgstr "навътре"
 
-#: ekos/focus/focus.cpp:2167
+#: ekos/focus/focus.cpp:2168
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Фокусиране на %2 с %1 стъпки..."
 
-#: ekos/focus/focus.cpp:2173
+#: ekos/focus/focus.cpp:2174
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Фокусиране на %2 на %1 стъпка..."
 msgstr[1] "Фокусиране на %2 на %1 стъпки..."
 
-#: ekos/focus/focus.cpp:2179
+#: ekos/focus/focus.cpp:2180
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Фокусиране на %2 с %1 ms..."
 
-#: ekos/focus/focus.cpp:2214
+#: ekos/focus/focus.cpp:2215
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr ""
 "Инструментът за фокусиране е надхвърлил времето си за изчакване. Прекъсване "
 "на работата..."
 
-#: ekos/focus/focus.cpp:2221
+#: ekos/focus/focus.cpp:2222
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Времето за изчакване на движението на фокуса изтече (%1). Рестартира се "
 "драйверът за фокус %2"
 
-#: ekos/focus/focus.cpp:2232
+#: ekos/focus/focus.cpp:2233
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "Времето за изчакване на движението на фокуса изтече (%1). Фокусиране върху "
 "%2 стъпки..."
 
-#: ekos/focus/focus.cpp:2278
+#: ekos/focus/focus.cpp:2279
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Опит за повторно свързване на фокусера: %1"
 
-#: ekos/focus/focus.cpp:2287
+#: ekos/focus/focus.cpp:2288
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Не може да се свърже повторно с фокусера: %1. Прекъсване..."
 
-#: ekos/focus/focus.cpp:2548
+#: ekos/focus/focus.cpp:2549
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Откриване на източници..."
 
-#: ekos/focus/focus.cpp:2684
+#: ekos/focus/focus.cpp:2685
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Операцията за автофокус е завършена успешно"
 
-#: ekos/focus/focus.cpp:2698
+#: ekos/focus/focus.cpp:2699
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Операцията на автоматичното фокусиране е неуспешна"
 
-#: ekos/focus/focus.cpp:2766
+#: ekos/focus/focus.cpp:2767
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Процедурата за фокусиране завърши след %1 цикъл."
 msgstr[1] "Процедурата за фокусиране завърши след %1 цикъла."
 
-#: ekos/focus/focus.cpp:2852
+#: ekos/focus/focus.cpp:2853
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "Установяване за %1s..."
 
-#: ekos/focus/focus.cpp:2860
+#: ekos/focus/focus.cpp:2861
 #, kde-format
 msgid "Settling complete."
 msgstr "Установяването е завършено."
 
-#: ekos/focus/focus.cpp:2873
+#: ekos/focus/focus.cpp:2874
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Автофокусът е неуспешен, връщане към първоначалната позиция за фокусиране %1."
 
-#: ekos/focus/focus.cpp:2906
+#: ekos/focus/focus.cpp:2907
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "Получени FITS. Няма открити звезди."
 
-#: ekos/focus/focus.cpp:3239
+#: ekos/focus/focus.cpp:3240
 #, kde-format
 msgid "Capture complete. Select a region of interest."
 msgstr "Заснемането е завършено. Изберете регион на интерес."
 
-#: ekos/focus/focus.cpp:3280
+#: ekos/focus/focus.cpp:3281
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Неуспешно автоматично избиране на звезда. Моля, изберете звезда ръчно."
 
-#: ekos/focus/focus.cpp:3374
+#: ekos/focus/focus.cpp:3375
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Заснемането е завършено. Избор на звезда за фокусиране."
 
-#: ekos/focus/focus.cpp:3405
+#: ekos/focus/focus.cpp:3406
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 "Не са открити звезди по време на тестването на HFR, заснемане отново..."
 
-#: ekos/focus/focus.cpp:3426
+#: ekos/focus/focus.cpp:3427
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "HFR %1 > Ограничение %2"
 
-#: ekos/focus/focus.cpp:3568
+#: ekos/focus/focus.cpp:3569
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "Автофокусирането е неуспешно: надхвърлен е максималния брой итерации %1"
 
-#: ekos/focus/focus.cpp:3579 ekos/focus/focus.cpp:3841
-#: ekos/focus/focus.cpp:4449
+#: ekos/focus/focus.cpp:3580 ekos/focus/focus.cpp:3842
+#: ekos/focus/focus.cpp:4450
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Не са открити звезди, заснемане отново..."
 
-#: ekos/focus/focus.cpp:3585 ekos/focus/focus.cpp:4455
+#: ekos/focus/focus.cpp:3586 ekos/focus/focus.cpp:4456
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Неуспешно откриване на звезди на позиция %1. Продължаване..."
 
-#: ekos/focus/focus.cpp:3591 ekos/focus/focus.cpp:4461
+#: ekos/focus/focus.cpp:3592 ekos/focus/focus.cpp:4462
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr "Неуспешно откриване на звезди. Нулирайте кадрите и опитайте отново."
 
-#: ekos/focus/focus.cpp:3778
+#: ekos/focus/focus.cpp:3779
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Не може да се стартира %1 на Инспектора на аберациите..."
 
-#: ekos/focus/focus.cpp:3798
+#: ekos/focus/focus.cpp:3799
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Стартиране на изпълнение на %1 на инспектора за аберации..."
 
-#: ekos/focus/focus.cpp:3824
+#: ekos/focus/focus.cpp:3825
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Започване на сканиране за първоначална позиция на фокусера."
 
-#: ekos/focus/focus.cpp:3825
+#: ekos/focus/focus.cpp:3826
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Сканиране за първоначална позиция на фокусера"
 
-#: ekos/focus/focus.cpp:3847
+#: ekos/focus/focus.cpp:3848
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Неуспешно откриване на звезди. Прекъсване..."
 
-#: ekos/focus/focus.cpp:3856
+#: ekos/focus/focus.cpp:3857
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr ""
 "Сканиране на начална позиция: надхвърлен е максималния брой итерации %1"
 
-#: ekos/focus/focus.cpp:3875
+#: ekos/focus/focus.cpp:3876
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Сканиране за начална позиция %1/%2"
 
-#: ekos/focus/focus.cpp:3889
+#: ekos/focus/focus.cpp:3890
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Без минимално сканиране - разширяване на търсенето..."
 
-#: ekos/focus/focus.cpp:3902
+#: ekos/focus/focus.cpp:3903
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Намерена е начална позиция на сканиране %1"
 
-#: ekos/focus/focus.cpp:3903
+#: ekos/focus/focus.cpp:3904
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Намерена е е начална стартова позиция %1"
 
-#: ekos/focus/focus.cpp:3972
+#: ekos/focus/focus.cpp:3973
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Проверката за прилягане на кривата е неуспешна R2=%1 focusR2Limit=%2 "
 "повторен опит..."
 
-#: ekos/focus/focus.cpp:3974
+#: ekos/focus/focus.cpp:3975
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Ограничение=%2"
 
-#: ekos/focus/focus.cpp:3982
+#: ekos/focus/focus.cpp:3983
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Проверката за прилягане на кривата отново се провали R2=%1 focusR2Limit=%2, "
 "но продължава..."
 
-#: ekos/focus/focus.cpp:3992
+#: ekos/focus/focus.cpp:3993
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Линейният алгоритъм за автофокусиране е прекъснат: %1"
 
-#: ekos/focus/focus.cpp:4027
+#: ekos/focus/focus.cpp:4028
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "Получени FITS. HFR %1 @ %2. Делта (%3%)"
 
-#: ekos/focus/focus.cpp:4029
+#: ekos/focus/focus.cpp:4030
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "Получени FITS. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:4090
+#: ekos/focus/focus.cpp:4091
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -19936,26 +19950,26 @@ msgstr ""
 "Промяната в HFR е твърде малка. Опитайте да увеличите размера на стъпката "
 "или да намалите допустимото отклонение."
 
-#: ekos/focus/focus.cpp:4097
+#: ekos/focus/focus.cpp:4098
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Не успя да открие звезда за фокусиране в кадъра. Заснемете и изберете "
 "фокусна звезда."
 
-#: ekos/focus/focus.cpp:4203
+#: ekos/focus/focus.cpp:4204
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Намерено е полиномно решение @ %1"
 
-#: ekos/focus/focus.cpp:4267
+#: ekos/focus/focus.cpp:4268
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Фокусиращото устройство не може да се придвижи по-нататък, лимитите на "
 "устройството са достигнати. Автофокусът е прекъснат."
 
-#: ekos/focus/focus.cpp:4278
+#: ekos/focus/focus.cpp:4279
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -19963,25 +19977,25 @@ msgstr ""
 "Нестабилни колебания. Опитайте да увеличите първоначалния размер на стъпката "
 "или времето на експозиция."
 
-#: ekos/focus/focus.cpp:4288
+#: ekos/focus/focus.cpp:4289
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 "Достигнато е безизходно положение. Моля, опитайте отново с различни "
 "настройки."
 
-#: ekos/focus/focus.cpp:4317
+#: ekos/focus/focus.cpp:4318
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "Достигната е максималната граница на движение. Автофокусът е прекъснат."
 
-#: ekos/focus/focus.cpp:4434
+#: ekos/focus/focus.cpp:4435
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "Получени FITS. HFR %1. Делта (%2%) Мин HFR (%3)"
 
-#: ekos/focus/focus.cpp:4438
+#: ekos/focus/focus.cpp:4439
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -19989,112 +20003,112 @@ msgstr ""
 "Автофокусът не успява да постигне правилно фокусиране. Опитайте да "
 "регулирате стойността на толеранса."
 
-#: ekos/focus/focus.cpp:4552 ekos/focus/focus.cpp:4575
-#: ekos/focus/focus.cpp:4760 ekos/focus/focus.cpp:4853
-#: ekos/focus/focus.cpp:4935 ekos/focus/focus.cpp:5020
+#: ekos/focus/focus.cpp:4553 ekos/focus/focus.cpp:4576
+#: ekos/focus/focus.cpp:4761 ekos/focus/focus.cpp:4854
+#: ekos/focus/focus.cpp:4936 ekos/focus/focus.cpp:5021
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Грешка на фокусера, проверете панела INDI."
 
-#: ekos/focus/focus.cpp:4636 ekos/focus/focus.cpp:4776
+#: ekos/focus/focus.cpp:4637 ekos/focus/focus.cpp:4777
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Неуспешна симулация на автоматично фокусиране..."
 
-#: ekos/focus/focus.cpp:4737 ekos/focus/focus.cpp:4834
-#: ekos/focus/focus.cpp:4916 ekos/focus/focus.cpp:4957
+#: ekos/focus/focus.cpp:4738 ekos/focus/focus.cpp:4835
+#: ekos/focus/focus.cpp:4917 ekos/focus/focus.cpp:4958
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Процесът на автоматично фокусиране се рестартира..."
 
-#: ekos/focus/focus.cpp:5061
+#: ekos/focus/focus.cpp:5062
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Стартиране на непрекъсната експозиция..."
 
-#: ekos/focus/focus.cpp:5442
+#: ekos/focus/focus.cpp:5443
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Деактивиране на автоматичния избор на звезди, тъй като полето за избор на "
 "звезди е преместено ръчно."
 
-#: ekos/focus/focus.cpp:5448
+#: ekos/focus/focus.cpp:5449
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Звездата за фокус е избрана."
 
-#: ekos/focus/focus.cpp:5450
+#: ekos/focus/focus.cpp:5451
 #, kde-format
 msgid "Region of interest is selected."
 msgstr "Регионът на интерес е избран."
 
-#: ekos/focus/focus.cpp:5470
+#: ekos/focus/focus.cpp:5471
 #, kde-format
 msgid "Autofocus"
 msgstr "Автоматично фокусиране"
 
-#: ekos/focus/focus.cpp:5478
+#: ekos/focus/focus.cpp:5479
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Заявка за проверка на фокус - Изчаква се 10 секунди за завършване на %1."
 
-#: ekos/focus/focus.cpp:5486
+#: ekos/focus/focus.cpp:5487
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Отхвърляне на заявка за проверка на фокуса - в процес е %1."
 
-#: ekos/focus/focus.cpp:5499
+#: ekos/focus/focus.cpp:5500
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 "Проверете, че фокусът е игнориран - Star Measure трябва да се основава на "
 "звезди"
 
-#: ekos/focus/focus.cpp:5504
+#: ekos/focus/focus.cpp:5505
 #, kde-format
 msgid "Capturing to check HFR..."
 msgstr "Заснема се за проверка на HFR..."
 
-#: ekos/focus/focus.cpp:5634
+#: ekos/focus/focus.cpp:5635
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Не е избрана звезда. Използва се последната известна позиция..."
 
-#: ekos/focus/focus.cpp:5640
+#: ekos/focus/focus.cpp:5641
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Не е избрана звезда. Прекъсване..."
 
-#: ekos/focus/focus.cpp:5651
+#: ekos/focus/focus.cpp:5652
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Фокусерът е вече на %1..."
 
-#: ekos/focus/focus.cpp:5750
+#: ekos/focus/focus.cpp:5751
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Заявка за регулиране на фокус - Изчаква се 10 секунди за завършване на %1."
 
-#: ekos/focus/focus.cpp:5784
+#: ekos/focus/focus.cpp:5785
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Фокусна рамка"
 
-#: ekos/focus/focus.cpp:6188
+#: ekos/focus/focus.cpp:6189
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Неуспешно запазване на изображението. Прекъсване..."
 
-#: ekos/focus/focus.cpp:6203 ekos/focus/focus.cpp:6228
+#: ekos/focus/focus.cpp:6204 ekos/focus/focus.cpp:6229
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Неуспешна експозиция. Прекъсване..."
 
-#: ekos/focus/focus.cpp:6527
+#: ekos/focus/focus.cpp:6528
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -22585,9 +22599,12 @@ msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Валидно време на експозиция: Автоматично,"
 
 #: ekos/guide/externalguide/phd2.cpp:979
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
+#| "invalid."
 msgid ""
-"PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
+"PHD2: Please set camera and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
 "PHD2: Моля, задайте параметрите на CCD и телескопа в PHD2, Pixel Scale е "
@@ -22667,14 +22684,10 @@ msgstr ""
 "SubFrame (Подкадър)."
 
 #: ekos/guide/guide.cpp:592
-#, kde-format
-msgid "Connection to the guide CCD is lost."
+#, fuzzy, kde-format
+#| msgid "Connection to the guide CCD is lost."
+msgid "Connection to the guide camera is lost."
 msgstr "Загубена е връзката с направляващия CCD."
-
-#: ekos/guide/guide.cpp:830
-#, kde-format
-msgid "Error: lost connection to CCD."
-msgstr "Грешка: загубена връзка с CCD."
 
 #: ekos/guide/guide.cpp:1012
 #, kde-format
@@ -25429,12 +25442,6 @@ msgstr "%1 Светлинен източник е онлайн."
 msgid "%1 is offline."
 msgstr "%1 е недостъпен."
 
-#: ekos/manager.cpp:2158
-#, kde-format
-msgctxt "Charge-Coupled Device"
-msgid "CCD"
-msgstr "CCD"
-
 #: ekos/manager.cpp:2542
 #, kde-format
 msgid "Guider port from %1 is ready."
@@ -25864,7 +25871,7 @@ msgstr "Моделът на подравняване е изчистен."
 msgid "Failed to clear Alignment Model."
 msgstr "Неуспешно изчистване на модела на подравняване."
 
-#: ekos/mount/mount.cpp:1288 ekos/scheduler/schedulerprocess.cpp:4385
+#: ekos/mount/mount.cpp:1288 ekos/scheduler/schedulerprocess.cpp:4386
 #, kde-format
 msgid "Mount already parked."
 msgstr "Монтировката вече е паркиран."
@@ -29139,7 +29146,7 @@ msgstr ""
 "използва едно и също време, след което оценява заданията."
 
 #: ekos/scheduler/scheduler.cpp:381 ekos/scheduler/scheduler.cpp:2238
-#: ekos/scheduler/schedulerprocess.cpp:3646
+#: ekos/scheduler/schedulerprocess.cpp:3647
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
@@ -30644,8 +30651,9 @@ msgid "Ekos is already started, skipping startup script..."
 msgstr "Ekos вече е стартиран, пропускане на стартовия скрипт..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2156
-#, kde-format
-msgid "Warming up CCD..."
+#, fuzzy, kde-format
+#| msgid "Warming up CCD..."
+msgid "Warming up camera..."
 msgstr "Загряване на CCD..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2189
@@ -30736,7 +30744,7 @@ msgstr ""
 "кадри за калибриране са в изчакване."
 
 #: ekos/scheduler/schedulerprocess.cpp:2983
-#: ekos/scheduler/schedulerprocess.cpp:3809
+#: ekos/scheduler/schedulerprocess.cpp:3810
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
@@ -30758,7 +30766,7 @@ msgstr ""
 "маркирането е прекратено."
 
 #: ekos/scheduler/schedulerprocess.cpp:3078
-#: ekos/scheduler/schedulerprocess.cpp:3880
+#: ekos/scheduler/schedulerprocess.cpp:3881
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
@@ -30790,40 +30798,40 @@ msgstr "Заданието на Ekos започна (%1)"
 msgid "Scheduler list saved to %1"
 msgstr "Списъкът на планираните задания е запазен в %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3504
+#: ekos/scheduler/schedulerprocess.cpp:3505
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "Времето за изчакване на решаващия инструмент е изтекло: %1s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3506
+#: ekos/scheduler/schedulerprocess.cpp:3507
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "Неуспешно решаване: %1s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3541
+#: ekos/scheduler/schedulerprocess.cpp:3542
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr "Заснетият кадър е на %1 дъгови минути от целта. Пренастройване..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3609
+#: ekos/scheduler/schedulerprocess.cpp:3610
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
 msgstr "Предупреждение: името на оптичната система е празно, избира се \"%1\"."
 
-#: ekos/scheduler/schedulerprocess.cpp:3610
+#: ekos/scheduler/schedulerprocess.cpp:3611
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr ""
 "Предупреждение: името на оптичната система %2 не съществува, избира се "
 "\"%1\"."
 
-#: ekos/scheduler/schedulerprocess.cpp:3612
-#: ekos/scheduler/schedulerprocess.cpp:3624
+#: ekos/scheduler/schedulerprocess.cpp:3613
+#: ekos/scheduler/schedulerprocess.cpp:3625
 #, kde-format
 msgid "Select optical train"
 msgstr "Избор на оптична система"
 
-#: ekos/scheduler/schedulerprocess.cpp:3621
+#: ekos/scheduler/schedulerprocess.cpp:3622
 #, kde-format
 msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
@@ -30832,17 +30840,17 @@ msgstr ""
 "Предупреждение: няма налично име на оптичната система за задание на графика, "
 "изберете името ръчно."
 
-#: ekos/scheduler/schedulerprocess.cpp:3775
+#: ekos/scheduler/schedulerprocess.cpp:3776
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "Задание \"%1\" подравняването е завършено."
 
-#: ekos/scheduler/schedulerprocess.cpp:3794
+#: ekos/scheduler/schedulerprocess.cpp:3795
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "Предупреждение: неуспешно подравняване на задание \"%1\"."
 
-#: ekos/scheduler/schedulerprocess.cpp:3800
+#: ekos/scheduler/schedulerprocess.cpp:3801
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
@@ -30850,40 +30858,40 @@ msgstr ""
 "Предупреждение: задача '%1' налага нулиране на модела за монтиране след "
 "неуспешно подравняване #%2."
 
-#: ekos/scheduler/schedulerprocess.cpp:3804
-#: ekos/scheduler/schedulerprocess.cpp:3868
+#: ekos/scheduler/schedulerprocess.cpp:3805
+#: ekos/scheduler/schedulerprocess.cpp:3869
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "Рестартира се %1 процедура за подравняване..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3840
+#: ekos/scheduler/schedulerprocess.cpp:3841
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "Задание \"%1\" гидирането е в ход."
 
-#: ekos/scheduler/schedulerprocess.cpp:3852
+#: ekos/scheduler/schedulerprocess.cpp:3853
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "Предупреждение: неуспешно гидиране на задание \"%1\"."
 
-#: ekos/scheduler/schedulerprocess.cpp:3854
+#: ekos/scheduler/schedulerprocess.cpp:3855
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "Предупреждение: неуспешно калибриране на задание \"%1\"."
 
-#: ekos/scheduler/schedulerprocess.cpp:3873
+#: ekos/scheduler/schedulerprocess.cpp:3874
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
 "Задание \"%1\"  извършва гидиране, процедурата на гидиране ще бъде "
 "рестартирана след %2 секунди."
 
-#: ekos/scheduler/schedulerprocess.cpp:3926
+#: ekos/scheduler/schedulerprocess.cpp:3927
 #, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
 msgstr "[%2] Предупреждение: заданието \"%1\" не успя да заснеме целта."
 
-#: ekos/scheduler/schedulerprocess.cpp:3944
+#: ekos/scheduler/schedulerprocess.cpp:3945
 #, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
@@ -30892,51 +30900,51 @@ msgstr ""
 "[%2] Задание '%1' извършва заснеман и рестартира процедурата за насочване "
 "(опит #%3 от %4)."
 
-#: ekos/scheduler/schedulerprocess.cpp:3953
+#: ekos/scheduler/schedulerprocess.cpp:3954
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 "Предупреждение: заданието \"%1\" не успя с процедурата за заснемане, "
 "рестартиране на заснемането."
 
-#: ekos/scheduler/schedulerprocess.cpp:3959
+#: ekos/scheduler/schedulerprocess.cpp:3960
 #, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
 "[%2] Предупреждение: задание \"%1\" не успя да изпълни процедурата за "
 "заснемане, маркира се като прекратено."
 
-#: ekos/scheduler/schedulerprocess.cpp:3972
+#: ekos/scheduler/schedulerprocess.cpp:3973
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr "[%2] Задание за следване '%1'е прекъснато и се рестартира."
 
-#: ekos/scheduler/schedulerprocess.cpp:3978
+#: ekos/scheduler/schedulerprocess.cpp:3979
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
 msgstr "[%2] Задание за следване '%1'е прекъснато."
 
-#: ekos/scheduler/schedulerprocess.cpp:3986
+#: ekos/scheduler/schedulerprocess.cpp:3987
 #, kde-format
 msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] Задание (%1) - Заснемането завърши"
 
-#: ekos/scheduler/schedulerprocess.cpp:4060
+#: ekos/scheduler/schedulerprocess.cpp:4061
 #, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
 msgstr "Задача „%1“ фокусиране на влак „%2“ е завършена."
 
-#: ekos/scheduler/schedulerprocess.cpp:4072
+#: ekos/scheduler/schedulerprocess.cpp:4073
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "Предупреждение: неуспешно фокусиране на задание \"%1\"."
 
-#: ekos/scheduler/schedulerprocess.cpp:4076
+#: ekos/scheduler/schedulerprocess.cpp:4077
 #, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
 msgstr "Задание „%1“ за влак „%2“ рестартира процедурата си за фокусиране."
 
-#: ekos/scheduler/schedulerprocess.cpp:4081
+#: ekos/scheduler/schedulerprocess.cpp:4082
 #, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
@@ -30944,31 +30952,31 @@ msgstr ""
 "Предупреждение: задание „%1“ във влак „%2“ е неуспешно, маркирането е "
 "прекратено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4114
+#: ekos/scheduler/schedulerprocess.cpp:4115
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "Задание \"%1\" завъртването е завършено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4120
+#: ekos/scheduler/schedulerprocess.cpp:4121
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 "Предупреждение: задача \"%1\" за завъртване е неуспешна. Маркирането е "
 "прекратено поради грешки."
 
-#: ekos/scheduler/schedulerprocess.cpp:4126
+#: ekos/scheduler/schedulerprocess.cpp:4127
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr ""
 "Предупреждение: установено е, че заданието \"%1\" не извършва завъртване. "
 "Рестартиране."
 
-#: ekos/scheduler/schedulerprocess.cpp:4139
+#: ekos/scheduler/schedulerprocess.cpp:4140
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "Репозиционирането на заданието \"%1\" е завършено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4145
+#: ekos/scheduler/schedulerprocess.cpp:4146
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
@@ -30976,14 +30984,14 @@ msgstr ""
 "Предупреждение: повторното позициониране на задание \"%1\" е неуспешно. "
 "маркирането е прекратено поради грешки."
 
-#: ekos/scheduler/schedulerprocess.cpp:4151
+#: ekos/scheduler/schedulerprocess.cpp:4152
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr ""
 "Предупреждение: задание \"%1\" не извършва репозициониране. Рестартиране."
 
-#: ekos/scheduler/schedulerprocess.cpp:4165
-#: ekos/scheduler/schedulerprocess.cpp:4176
+#: ekos/scheduler/schedulerprocess.cpp:4166
+#: ekos/scheduler/schedulerprocess.cpp:4177
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
@@ -30991,19 +30999,19 @@ msgstr ""
 "Предупреждение: Монтировката е паркирана, докато е активно планирано задание "
 "'%1'. Прекъсване."
 
-#: ekos/scheduler/schedulerprocess.cpp:4205
+#: ekos/scheduler/schedulerprocess.cpp:4206
 #, kde-format
 msgid "Weather has improved. Resuming operations."
 msgstr "Метеорологичните условия  се подобриха. Възобновяване на дейността."
 
-#: ekos/scheduler/schedulerprocess.cpp:4215
+#: ekos/scheduler/schedulerprocess.cpp:4216
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
 "Открито е предупреждение за времето. Процедурата за меко изключване започва "
 "след %1 секунди."
 
-#: ekos/scheduler/schedulerprocess.cpp:4242
+#: ekos/scheduler/schedulerprocess.cpp:4243
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
@@ -31011,97 +31019,97 @@ msgstr ""
 "Обсерваторията е планирана за плавно изключване, докато времето се подобри "
 "или до %1."
 
-#: ekos/scheduler/schedulerprocess.cpp:4264
+#: ekos/scheduler/schedulerprocess.cpp:4265
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "Процедурата за ръчно изключване завърши успешно."
 
-#: ekos/scheduler/schedulerprocess.cpp:4270
+#: ekos/scheduler/schedulerprocess.cpp:4271
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "Процедурата за ръчно изключване е прекратена поради грешки."
 
-#: ekos/scheduler/schedulerprocess.cpp:4285
+#: ekos/scheduler/schedulerprocess.cpp:4286
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr "Заявено е паркиране на противопрахов капак, но такъв не се открива."
 
-#: ekos/scheduler/schedulerprocess.cpp:4308
+#: ekos/scheduler/schedulerprocess.cpp:4309
 #, kde-format
 msgid "Parking Cap..."
 msgstr "Паркиране на капака…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4314
+#: ekos/scheduler/schedulerprocess.cpp:4315
 #, kde-format
 msgid "Cap already parked."
 msgstr "Капакът вече е паркиран."
 
-#: ekos/scheduler/schedulerprocess.cpp:4323
+#: ekos/scheduler/schedulerprocess.cpp:4324
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr "Заявено е разпаркиране на противопрахов капак, но такъв не се открива."
 
-#: ekos/scheduler/schedulerprocess.cpp:4345
+#: ekos/scheduler/schedulerprocess.cpp:4346
 #, kde-format
 msgid "Unparking cap..."
 msgstr "Отваряне на капачката..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4351
+#: ekos/scheduler/schedulerprocess.cpp:4352
 #, kde-format
 msgid "Cap already unparked."
 msgstr "Капакът вече е разпаркиран."
 
-#: ekos/scheduler/schedulerprocess.cpp:4360
+#: ekos/scheduler/schedulerprocess.cpp:4361
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr "Заявено е паркиране на монтировка, но не са намерени монтировки."
 
-#: ekos/scheduler/schedulerprocess.cpp:4418
+#: ekos/scheduler/schedulerprocess.cpp:4419
 #, kde-format
 msgid "Parking mount in progress..."
 msgstr "Извършва се паркиране на монтировката..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4432
+#: ekos/scheduler/schedulerprocess.cpp:4433
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr "Заявено е разпаркиране на монтировка, но не са намерени монтировки."
 
-#: ekos/scheduler/schedulerprocess.cpp:4458
+#: ekos/scheduler/schedulerprocess.cpp:4459
 #, kde-format
 msgid "Mount already unparked."
 msgstr "Монтировката вече е разпаркирана."
 
-#: ekos/scheduler/schedulerprocess.cpp:4578
+#: ekos/scheduler/schedulerprocess.cpp:4579
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr "Заявено е паркиране на купола, но не са открити куполи."
 
-#: ekos/scheduler/schedulerprocess.cpp:4601
+#: ekos/scheduler/schedulerprocess.cpp:4602
 #, kde-format
 msgid "Parking dome..."
 msgstr "Паркиране на купола..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4607
+#: ekos/scheduler/schedulerprocess.cpp:4608
 #, kde-format
 msgid "Dome already parked."
 msgstr "Куполът вече е паркиран."
 
-#: ekos/scheduler/schedulerprocess.cpp:4617
+#: ekos/scheduler/schedulerprocess.cpp:4618
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr "Заявено е разпаркиране на купол, но не са открити куполи."
 
-#: ekos/scheduler/schedulerprocess.cpp:4637
+#: ekos/scheduler/schedulerprocess.cpp:4638
 #, kde-format
 msgid "Unparking dome..."
 msgstr "Разпаркиране на купола..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4643
+#: ekos/scheduler/schedulerprocess.cpp:4644
 #, kde-format
 msgid "Dome already unparked."
 msgstr "Куполът вече е разпаркиран."
 
-#: ekos/scheduler/schedulerprocess.cpp:4724
+#: ekos/scheduler/schedulerprocess.cpp:4725
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -31110,17 +31118,17 @@ msgstr ""
 "Преминаване в режим на заспиване за %1 при обновяване на часовника за "
 "симулация, докато следващата задача за наблюдение е готова..."
 
-#: ekos/scheduler/schedulerprocess.cpp:5014
+#: ekos/scheduler/schedulerprocess.cpp:5015
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "Стартиращият скрипт не успя, прекъсване..."
 
-#: ekos/scheduler/schedulerprocess.cpp:5019
+#: ekos/scheduler/schedulerprocess.cpp:5020
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "Скриптът за изключване не успя, прекъсване..."
 
-#: ekos/scheduler/schedulerprocess.cpp:5080
+#: ekos/scheduler/schedulerprocess.cpp:5081
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
@@ -91012,6 +91020,19 @@ msgstr "Цвят на фона:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Задаване на цвета на фона."
+
+#~ msgid "Error: Lost connection to CCD."
+#~ msgstr "Грешка: Загубена връзка с CCD."
+
+#~ msgid "No CCD connected."
+#~ msgstr "Няма свързан CCD."
+
+#~ msgid "Error: lost connection to CCD."
+#~ msgstr "Грешка: загубена връзка с CCD."
+
+#~ msgctxt "Charge-Coupled Device"
+#~ msgid "CCD"
+#~ msgstr "CCD"
 
 #~ msgid "Sky Flat"
 #~ msgstr "Плоски кадри на небето"
