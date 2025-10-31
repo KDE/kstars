@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-31 01:59+0000\n"
-"PO-Revision-Date: 2025-10-30 15:29+0200\n"
+"PO-Revision-Date: 2025-10-31 11:48+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -6304,16 +6304,13 @@ msgstr ""
 "параметри оптичного тракту і повторіть спробу."
 
 #: ekos/align/align.cpp:1535
-#, fuzzy, kde-format
-#| msgid ""
-#| "CCD pixel size is missing. Please check your driver settings and try "
-#| "again."
+#, kde-format
 msgid ""
 "Camera pixel size is missing. Please check your driver settings and try "
 "again."
 msgstr ""
-"Не вказано розміру ПЗЗ у пікселях. Будь ласка, перевірте параметри драйвера "
-"і повторіть спробу."
+"Не вказано розміру кадру камери у пікселях. Будь ласка, перевірте параметри "
+"драйвера і повторіть спробу."
 
 #: ekos/align/align.cpp:1543
 #, kde-format
@@ -6349,15 +6346,12 @@ msgstr ""
 "Повторюємо спробу за %1 секунд…"
 
 #: ekos/align/align.cpp:1608
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot capture while CCD exposure is in progress. Retrying in %1 "
-#| "seconds..."
+#, kde-format
 msgid ""
 "Cannot capture while camera exposure is in progress. Retrying in %1 "
 "seconds..."
 msgstr ""
-"Неможливо захопити зображення, доки триває процедура експонування ПЗЗ. "
+"Неможливо захопити зображення, доки триває процедура експонування кадру. "
 "Повторюємо спробу за %1 секунд…"
 
 #: ekos/align/align.cpp:1635
@@ -16066,16 +16060,14 @@ msgid "Starting framing..."
 msgstr "Розпочинаємо кадрування…"
 
 #: ekos/capture/cameraprocess.cpp:352
-#, fuzzy, kde-format
-#| msgid "CCD capture suspended"
+#, kde-format
 msgid "Camera capture suspended"
-msgstr "Захоплення зображення з ПЗЗ призупинено"
+msgstr "Захоплення зображення з камери призупинено"
 
 #: ekos/capture/cameraprocess.cpp:357
-#, fuzzy, kde-format
-#| msgid "CCD capture complete"
+#, kde-format
 msgid "Camera capture complete"
-msgstr "Захоплення з ПЗЗ завершено"
+msgstr "Захоплення з камери завершено"
 
 #: ekos/capture/cameraprocess.cpp:362
 #, kde-format
@@ -16083,10 +16075,9 @@ msgid "Framing stopped"
 msgstr "Кадрування зупинено"
 
 #: ekos/capture/cameraprocess.cpp:362 ekos/capture/cameraprocess.cpp:368
-#, fuzzy, kde-format
-#| msgid "CCD capture stopped"
+#, kde-format
 msgid "Camera capture stopped"
-msgstr "Захоплення з ПЗЗ припинено."
+msgstr "Захоплення з камери припинено."
 
 #: ekos/capture/cameraprocess.cpp:446
 #, kde-format
@@ -16192,14 +16183,12 @@ msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Попередження: процедуру калібрування було передчасно перервано."
 
 #: ekos/capture/cameraprocess.cpp:1403
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Camera capture sequence completed"
-msgstr "Захоплення послідовності зображень з ПЗЗ завершено"
+msgstr "Захоплення послідовності зображень з камери завершено"
 
 #: ekos/capture/cameraprocess.cpp:1460
-#, fuzzy, kde-format
-#| msgid "Error: lost connection to camera."
+#, kde-format
 msgid "Error: Lost connection to camera."
 msgstr "Помилка: втрачено з'єднання із камерою."
 
@@ -19437,10 +19426,9 @@ msgid "No Focuser connected."
 msgstr "Не з'єднано жодного засобу фокусування."
 
 #: ekos/focus/focus.cpp:1154 ekos/focus/focus.cpp:5046
-#, fuzzy, kde-format
-#| msgid "No Focuser connected."
+#, kde-format
 msgid "No camera connected."
-msgstr "Не з'єднано жодного засобу фокусування."
+msgstr "Не з'єднано жодної камери."
 
 #: ekos/focus/focus.cpp:1161
 #, kde-format
@@ -22485,15 +22473,12 @@ msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: коректні часи експонування: авто, "
 
 #: ekos/guide/externalguide/phd2.cpp:979
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
-#| "invalid."
+#, kde-format
 msgid ""
 "PHD2: Please set camera and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
-"PHD2: будь ласка, вкажіть параметри ПЗЗ та телескопа у PHD2, значення "
+"PHD2: будь ласка, вкажіть параметри камери та телескопа у PHD2, значення "
 "масштабу у пікселях є некоректним."
 
 #: ekos/guide/externalguide/phd2.cpp:981
@@ -22569,10 +22554,9 @@ msgstr ""
 "зображення напрямної зірки PHD2 за допомогою пункту кадрування."
 
 #: ekos/guide/guide.cpp:592
-#, fuzzy, kde-format
-#| msgid "Connection to the guide CCD is lost."
+#, kde-format
 msgid "Connection to the guide camera is lost."
-msgstr "З'єднання з ПЗЗ наведення втрачено."
+msgstr "З'єднання з камерою наведення втрачено."
 
 #: ekos/guide/guide.cpp:1012
 #, kde-format
@@ -30516,10 +30500,9 @@ msgid "Ekos is already started, skipping startup script..."
 msgstr "Ekos вже запущено, пропускаємо виконання початкового скрипту…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2156
-#, fuzzy, kde-format
-#| msgid "Warming up CCD..."
+#, kde-format
 msgid "Warming up camera..."
-msgstr "Розігріваємо ПЗЗ…"
+msgstr "Розігріваємо камеру…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2189
 #, kde-format

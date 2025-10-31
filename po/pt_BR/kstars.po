@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-31 01:59+0000\n"
-"PO-Revision-Date: 2025-10-30 08:03-0300\n"
+"PO-Revision-Date: 2025-10-31 07:25-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -6342,16 +6342,13 @@ msgstr ""
 "configurações do seu trem óptico e tente novamente."
 
 #: ekos/align/align.cpp:1535
-#, fuzzy, kde-format
-#| msgid ""
-#| "CCD pixel size is missing. Please check your driver settings and try "
-#| "again."
+#, kde-format
 msgid ""
 "Camera pixel size is missing. Please check your driver settings and try "
 "again."
 msgstr ""
-"Esta faltando o tamanho dos pixels do CCD. Verifique as configurações do seu "
-"driver e tente novamente."
+"Esta faltando o tamanho dos pixels da câmera. Verifique as configurações do "
+"seu driver e tente novamente."
 
 #: ekos/align/align.cpp:1543
 #, kde-format
@@ -6387,15 +6384,12 @@ msgstr ""
 "Tentando novamente em %1 segundos..."
 
 #: ekos/align/align.cpp:1608
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot capture while CCD exposure is in progress. Retrying in %1 "
-#| "seconds..."
+#, kde-format
 msgid ""
 "Cannot capture while camera exposure is in progress. Retrying in %1 "
 "seconds..."
 msgstr ""
-"Não é possível capturar enquanto a exposição do CCD está em andamento. "
+"Não é possível capturar enquanto a exposição da câmera está em andamento. "
 "Tentando novamente em %1 segundos..."
 
 #: ekos/align/align.cpp:1635
@@ -16047,16 +16041,14 @@ msgid "Starting framing..."
 msgstr "Iniciando enquadramento..."
 
 #: ekos/capture/cameraprocess.cpp:352
-#, fuzzy, kde-format
-#| msgid "CCD capture suspended"
+#, kde-format
 msgid "Camera capture suspended"
-msgstr "Captura do CCD suspensa"
+msgstr "Captura da câmera suspensa"
 
 #: ekos/capture/cameraprocess.cpp:357
-#, fuzzy, kde-format
-#| msgid "CCD capture complete"
+#, kde-format
 msgid "Camera capture complete"
-msgstr "Captura do CCD completada"
+msgstr "Captura da câmera completada"
 
 #: ekos/capture/cameraprocess.cpp:362
 #, kde-format
@@ -16064,10 +16056,9 @@ msgid "Framing stopped"
 msgstr "Enquadramento parado"
 
 #: ekos/capture/cameraprocess.cpp:362 ekos/capture/cameraprocess.cpp:368
-#, fuzzy, kde-format
-#| msgid "CCD capture stopped"
+#, kde-format
 msgid "Camera capture stopped"
-msgstr "Captura do CCD parada"
+msgstr "Captura da câmera parada"
 
 #: ekos/capture/cameraprocess.cpp:446
 #, kde-format
@@ -16171,16 +16162,14 @@ msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Aviso: O processo de calibração foi encerrado prematuramente."
 
 #: ekos/capture/cameraprocess.cpp:1403
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Camera capture sequence completed"
-msgstr "A sequência de captura do CCD foi concluída"
+msgstr "A sequência de captura da câmera foi concluída"
 
 #: ekos/capture/cameraprocess.cpp:1460
-#, fuzzy, kde-format
-#| msgid "Error: lost connection to camera."
+#, kde-format
 msgid "Error: Lost connection to camera."
-msgstr "Erro: conexão perdida com a câmera."
+msgstr "Erro: Conexão perdida com a câmera."
 
 #: ekos/capture/cameraprocess.cpp:1488
 #, kde-format
@@ -19384,10 +19373,9 @@ msgid "No Focuser connected."
 msgstr "Nenhum focalizador conectado."
 
 #: ekos/focus/focus.cpp:1154 ekos/focus/focus.cpp:5046
-#, fuzzy, kde-format
-#| msgid "No Focuser connected."
+#, kde-format
 msgid "No camera connected."
-msgstr "Nenhum focalizador conectado."
+msgstr "Nenhuma câmera conectada."
 
 #: ekos/focus/focus.cpp:1161
 #, kde-format
@@ -22421,15 +22409,12 @@ msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Tempos de exposição válidos: Automático, "
 
 #: ekos/guide/externalguide/phd2.cpp:979
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
-#| "invalid."
+#, kde-format
 msgid ""
 "PHD2: Please set camera and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
-"PHD2: Defina os parâmetros do CCD e do telescópio no PHD2. A escala de "
+"PHD2: Defina os parâmetros da câmera e do telescópio no PHD2. A escala de "
 "pixels é inválida."
 
 #: ekos/guide/externalguide/phd2.cpp:981
@@ -22504,10 +22489,9 @@ msgstr ""
 "estrela-guia do PHD2 usando a caixa de seleção de sub-quadro."
 
 #: ekos/guide/guide.cpp:592
-#, fuzzy, kde-format
-#| msgid "Connection to the guide CCD is lost."
+#, kde-format
 msgid "Connection to the guide camera is lost."
-msgstr "A conexão ao CCD da guia. foi perdida."
+msgstr "A conexão ao guia da câmera foi perdida."
 
 #: ekos/guide/guide.cpp:1012
 #, kde-format
@@ -30380,10 +30364,9 @@ msgid "Ekos is already started, skipping startup script..."
 msgstr "O Ekos já foi iniciado, ignorando o script de inicialização..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2156
-#, fuzzy, kde-format
-#| msgid "Warming up CCD..."
+#, kde-format
 msgid "Warming up camera..."
-msgstr "Aquecendo o CCD..."
+msgstr "Aquecendo a câmera..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2189
 #, kde-format

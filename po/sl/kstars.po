@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-31 01:59+0000\n"
-"PO-Revision-Date: 2025-10-30 07:18+0100\n"
+"PO-Revision-Date: 2025-10-31 05:52+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6322,16 +6322,13 @@ msgstr ""
 "nastavitve vaše optike in poskusite znova."
 
 #: ekos/align/align.cpp:1535
-#, fuzzy, kde-format
-#| msgid ""
-#| "CCD pixel size is missing. Please check your driver settings and try "
-#| "again."
+#, kde-format
 msgid ""
 "Camera pixel size is missing. Please check your driver settings and try "
 "again."
 msgstr ""
-"Velikost slikovne točke CCD manjka. Preverite nastavitve vašega gonilnika in "
-"poskusite znova."
+"Velikost slikovne točke kamere manjka. Preverite nastavitve vašega gonilnika "
+"in poskusite znova."
 
 #: ekos/align/align.cpp:1543
 #, kde-format
@@ -6366,15 +6363,13 @@ msgstr ""
 "%1 s …"
 
 #: ekos/align/align.cpp:1608
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot capture while CCD exposure is in progress. Retrying in %1 "
-#| "seconds..."
+#, kde-format
 msgid ""
 "Cannot capture while camera exposure is in progress. Retrying in %1 "
 "seconds..."
 msgstr ""
-"V času izpostavljenosti CCD ni mogoče zajeti. Znova poskusite čez %1 s …"
+"Ni mogoče zajemati posnetkov med snemanjem kamere . Ponovni poskus čez %1 "
+"sekund..."
 
 #: ekos/align/align.cpp:1635
 #, kde-format
@@ -15951,16 +15946,14 @@ msgid "Starting framing..."
 msgstr "Začetek okvirjanja…"
 
 #: ekos/capture/cameraprocess.cpp:352
-#, fuzzy, kde-format
-#| msgid "CCD capture suspended"
+#, kde-format
 msgid "Camera capture suspended"
-msgstr "Zajem CCD zaustavljen"
+msgstr "Zajem kamere začasno zaustavljen"
 
 #: ekos/capture/cameraprocess.cpp:357
-#, fuzzy, kde-format
-#| msgid "CCD capture complete"
+#, kde-format
 msgid "Camera capture complete"
-msgstr "Zajem CCD zaključen"
+msgstr "Zajem kamere zaključen"
 
 #: ekos/capture/cameraprocess.cpp:362
 #, kde-format
@@ -15968,10 +15961,9 @@ msgid "Framing stopped"
 msgstr "Okvirjanje ustavljeno"
 
 #: ekos/capture/cameraprocess.cpp:362 ekos/capture/cameraprocess.cpp:368
-#, fuzzy, kde-format
-#| msgid "CCD capture stopped"
+#, kde-format
 msgid "Camera capture stopped"
-msgstr "Zajem CCD ustavljen"
+msgstr "Zajem kamere ustavljen"
 
 #: ekos/capture/cameraprocess.cpp:446
 #, kde-format
@@ -16073,14 +16065,12 @@ msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Opozorilo: Postopek umerjanja je bil predčasno končan."
 
 #: ekos/capture/cameraprocess.cpp:1403
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Camera capture sequence completed"
-msgstr "Zaporedje zajemov CCD-ja zaključeno"
+msgstr "Zaporedje zajemov kamere zaključeno"
 
 #: ekos/capture/cameraprocess.cpp:1460
-#, fuzzy, kde-format
-#| msgid "Error: lost connection to camera."
+#, kde-format
 msgid "Error: Lost connection to camera."
 msgstr "Napaka: izgubljena povezava s kamero."
 
@@ -19247,10 +19237,9 @@ msgid "No Focuser connected."
 msgstr "Ni povezanega fokuserja."
 
 #: ekos/focus/focus.cpp:1154 ekos/focus/focus.cpp:5046
-#, fuzzy, kde-format
-#| msgid "No Focuser connected."
+#, kde-format
 msgid "No camera connected."
-msgstr "Ni povezanega fokuserja."
+msgstr "Ni povezane kamere."
 
 #: ekos/focus/focus.cpp:1161
 #, kde-format
@@ -22256,15 +22245,12 @@ msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Veljavni časi osvetlitev: Samodejno, "
 
 #: ekos/guide/externalguide/phd2.cpp:979
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
-#| "invalid."
+#, kde-format
 msgid ""
 "PHD2: Please set camera and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
-"PHD2: Nastavi parametre CCD in teleskopa v PHD2, merilo slikovnih pik je "
+"PHD2: Nastavi parametre kamere in teleskopa v PHD2, merilo slikovnih pik je "
 "neveljavno."
 
 #: ekos/guide/externalguide/phd2.cpp:981
@@ -22339,10 +22325,9 @@ msgstr ""
 "vodilne zvezdez uporabo potrditvenega polja podposnetka."
 
 #: ekos/guide/guide.cpp:592
-#, fuzzy, kde-format
-#| msgid "Connection to the guide CCD is lost."
+#, kde-format
 msgid "Connection to the guide camera is lost."
-msgstr "Povezava s CCD vodnika je bila izgubljena."
+msgstr "Povezava z vodnikom kamere je bila izgubljena."
 
 #: ekos/guide/guide.cpp:1012
 #, kde-format
@@ -30180,10 +30165,9 @@ msgid "Ekos is already started, skipping startup script..."
 msgstr "Ekos je že zagnan, preskakovanje zagonskega skripta…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2156
-#, fuzzy, kde-format
-#| msgid "Warming up CCD..."
+#, kde-format
 msgid "Warming up camera..."
-msgstr "Ogrevanje CCD-ja…"
+msgstr "Ogrevanje kamere…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2189
 #, kde-format

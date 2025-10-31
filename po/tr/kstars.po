@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-31 01:59+0000\n"
-"PO-Revision-Date: 2025-10-29 09:10+0300\n"
+"PO-Revision-Date: 2025-10-31 18:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6215,18 +6215,17 @@ msgstr "Uzak çözücü zaman aşımına uğradı."
 #: ekos/align/align.cpp:798
 #, kde-format
 msgid "Dustcap unparked. Resuming capture and solve."
-msgstr ""
+msgstr "Toz kapağı park edildi. Yakalama ve çözme sürdürülüyor."
 
 #: ekos/align/align.cpp:804
 #, kde-format
 msgid "Dustcap error detected. Aborting alignment."
-msgstr ""
+msgstr "Toz kapağı hatası algılandı. Hizalama iptal ediliyor."
 
 #: ekos/align/align.cpp:865 ekos/focus/focus.cpp:5890
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dustcap device %1 removed."
-msgstr "Toz kapağı park edilmiş."
+msgstr "Toz kapağı aygıtı %1 kaldırıldı."
 
 #: ekos/align/align.cpp:895
 #, kde-format
@@ -6304,15 +6303,12 @@ msgstr ""
 "denetleyip yeniden deneyin."
 
 #: ekos/align/align.cpp:1535
-#, fuzzy, kde-format
-#| msgid ""
-#| "CCD pixel size is missing. Please check your driver settings and try "
-#| "again."
+#, kde-format
 msgid ""
 "Camera pixel size is missing. Please check your driver settings and try "
 "again."
 msgstr ""
-"CCD piksel boyutu eksik. Lütfen sürücü ayarlarınızı denetleyip yeniden "
+"Kamera piksel boyutu eksik. Lütfen sürücü ayarlarınızı denetleyin ve yeniden "
 "deneyin."
 
 #: ekos/align/align.cpp:1543
@@ -6331,12 +6327,13 @@ msgstr ""
 #: ekos/align/align.cpp:1578
 #, kde-format
 msgid "Dustcap is parked. Unparking before capture and solve..."
-msgstr ""
+msgstr "Toz kapağı park edildi. Yakalama ve solma öncesi parktan çıkarılıyor…"
 
 #: ekos/align/align.cpp:1586
 #, kde-format
 msgid "Dustcap is not ready (status: %1). Waiting before capture and solve..."
 msgstr ""
+"Toz kapağı hazır değil (durum: %1). Yakalama ve çözme öncesi bekleniyor…"
 
 #: ekos/align/align.cpp:1600
 #, kde-format
@@ -6345,15 +6342,12 @@ msgstr ""
 "Odak modülü meşgulken yakalama yapılamaz. %1 saniye içinde yeniden deneniyor…"
 
 #: ekos/align/align.cpp:1608
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot capture while CCD exposure is in progress. Retrying in %1 "
-#| "seconds..."
+#, kde-format
 msgid ""
 "Cannot capture while camera exposure is in progress. Retrying in %1 "
 "seconds..."
 msgstr ""
-"CCD pozlaması sürerken yakalama yapılamaz. %1 saniye içinde yeniden "
+"Kamera pozlaması sürerken yakalama yapılamıyor. %1 saniye içinde yeniden "
 "deneniyor…"
 
 #: ekos/align/align.cpp:1635
@@ -15942,16 +15936,14 @@ msgid "Starting framing..."
 msgstr "Kareleme başlatılıyor…"
 
 #: ekos/capture/cameraprocess.cpp:352
-#, fuzzy, kde-format
-#| msgid "CCD capture suspended"
+#, kde-format
 msgid "Camera capture suspended"
-msgstr "CCD yakalaması askıya alındı"
+msgstr "Kamera yakalaması askıya alındı"
 
 #: ekos/capture/cameraprocess.cpp:357
-#, fuzzy, kde-format
-#| msgid "CCD capture complete"
+#, kde-format
 msgid "Camera capture complete"
-msgstr "CCD yakalaması tamamlandı"
+msgstr "Kamera yakalaması tamamlandı"
 
 #: ekos/capture/cameraprocess.cpp:362
 #, kde-format
@@ -15959,10 +15951,9 @@ msgid "Framing stopped"
 msgstr "Kareleme durduruldu"
 
 #: ekos/capture/cameraprocess.cpp:362 ekos/capture/cameraprocess.cpp:368
-#, fuzzy, kde-format
-#| msgid "CCD capture stopped"
+#, kde-format
 msgid "Camera capture stopped"
-msgstr "CCD yakalaması durduruldu"
+msgstr "Kamera yakalaması durduruldu"
 
 #: ekos/capture/cameraprocess.cpp:446
 #, kde-format
@@ -16066,14 +16057,12 @@ msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Uyarı: Kalibrasyon işlemi zamanından önce sonlandırıldı."
 
 #: ekos/capture/cameraprocess.cpp:1403
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Camera capture sequence completed"
-msgstr "CCD yakalama sekansı tamamlandı"
+msgstr "Kamera yakalama sekansı tamamlandı"
 
 #: ekos/capture/cameraprocess.cpp:1460
-#, fuzzy, kde-format
-#| msgid "Error: lost connection to camera."
+#, kde-format
 msgid "Error: Lost connection to camera."
 msgstr "Hata: Kamerayla bağlantı kesildi."
 
@@ -19217,16 +19206,14 @@ msgid "Focus Mechanics"
 msgstr "Odak Mekanikleri"
 
 #: ekos/focus/focus.cpp:576
-#, fuzzy, kde-format
-#| msgid "Dust cap unparked."
+#, kde-format
 msgid "Dustcap unparked. Resuming capture."
-msgstr "Toz kapağı park edilmemiş."
+msgstr "Toz kapağı parktan çıkarıldı. Yakalama sürdürülüyor."
 
 #: ekos/focus/focus.cpp:582
-#, fuzzy, kde-format
-#| msgid "No star was selected. Aborting..."
+#, kde-format
 msgid "Dustcap error detected. Aborting focus."
-msgstr "Seçili yıldız yok. İptal ediliyor…"
+msgstr "Toz kapağı hatası algılandı. Odak iptal ediliyor."
 
 #: ekos/focus/focus.cpp:981
 #, kde-format
@@ -19249,10 +19236,9 @@ msgid "No Focuser connected."
 msgstr "Bağlı odaklayıcı yok."
 
 #: ekos/focus/focus.cpp:1154 ekos/focus/focus.cpp:5046
-#, fuzzy, kde-format
-#| msgid "No Focuser connected."
+#, kde-format
 msgid "No camera connected."
-msgstr "Bağlı odaklayıcı yok."
+msgstr "Bağlı kamera yok."
 
 #: ekos/focus/focus.cpp:1161
 #, kde-format
@@ -19356,15 +19342,14 @@ msgid "Error: Lost connection to Camera."
 msgstr "Hata: Kameraya olan bağlantı koptu."
 
 #: ekos/focus/focus.cpp:1907
-#, fuzzy, kde-format
-#| msgid "Dust cap is unparking..."
+#, kde-format
 msgid "Dustcap is parked. Unparking before capture..."
-msgstr "Toz kapağı parktan çıkıyor…"
+msgstr "Toz kapağı park edildi. Yakalama öncesi parktan çıkarılıyor…"
 
 #: ekos/focus/focus.cpp:1915
 #, kde-format
 msgid "Dustcap is not ready (status: %1). Waiting before capture..."
-msgstr ""
+msgstr "Toz kapağı hazır değil (durum: %1). Yakalama öncesi bekleniyor…"
 
 #: ekos/focus/focus.cpp:1939
 #, kde-format
@@ -22256,15 +22241,12 @@ msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Geçerli pozlama zamanları: Kendiliğinden, "
 
 #: ekos/guide/externalguide/phd2.cpp:979
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
-#| "invalid."
+#, kde-format
 msgid ""
 "PHD2: Please set camera and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
-"PHD2: Lütfen PHD2’de CCD ve teleskop parametrelerini ayarlayın. Piksel "
+"PHD2: Lütfen PHD2’de kamera ve teleskop parametrelerini ayarlayın. Piksel "
 "ölçeği geçersiz."
 
 #: ekos/guide/externalguide/phd2.cpp:981
@@ -22339,10 +22321,9 @@ msgstr ""
 "Yıldız Görseli’ni almayı seçebilirsiniz."
 
 #: ekos/guide/guide.cpp:592
-#, fuzzy, kde-format
-#| msgid "Connection to the guide CCD is lost."
+#, kde-format
 msgid "Connection to the guide camera is lost."
-msgstr "CCD kılavuzuna olan bağlantı kesildi."
+msgstr "Kılavuz kamera ile olan bağlantı kesildi."
 
 #: ekos/guide/guide.cpp:1012
 #, kde-format
@@ -30155,10 +30136,9 @@ msgid "Ekos is already started, skipping startup script..."
 msgstr "Ekos halihazırda başlatılmış, başlangıç betiği atlanıyor…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2156
-#, fuzzy, kde-format
-#| msgid "Warming up CCD..."
+#, kde-format
 msgid "Warming up camera..."
-msgstr "CCD ısıtılıyor…"
+msgstr "Kamera ısıtılıyor…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2189
 #, kde-format
