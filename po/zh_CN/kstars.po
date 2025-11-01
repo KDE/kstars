@@ -6183,14 +6183,11 @@ msgid ""
 msgstr "望远镜光圈及焦距设置缺失，请检查您的设置并重试。"
 
 #: ekos/align/align.cpp:1535
-#, fuzzy, kde-format
-#| msgid ""
-#| "CCD pixel size is missing. Please check your driver settings and try "
-#| "again."
+#, kde-format
 msgid ""
 "Camera pixel size is missing. Please check your driver settings and try "
 "again."
-msgstr "CCD 像素尺寸缺失。请检查您的驱动设置并重试。"
+msgstr ""
 
 #: ekos/align/align.cpp:1543
 #, kde-format
@@ -6220,14 +6217,11 @@ msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
 msgstr "无法拍摄，因为聚焦模块正在工作，请在 %1 秒后重试..."
 
 #: ekos/align/align.cpp:1608
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot capture while CCD exposure is in progress. Retrying in %1 "
-#| "seconds..."
+#, kde-format
 msgid ""
 "Cannot capture while camera exposure is in progress. Retrying in %1 "
 "seconds..."
-msgstr "CCD 曝光正在进行时无法拍摄。 %1 秒后重试..."
+msgstr ""
 
 #: ekos/align/align.cpp:1635
 #, kde-format
@@ -15305,16 +15299,14 @@ msgid "Starting framing..."
 msgstr "开始连续曝光..."
 
 #: ekos/capture/cameraprocess.cpp:352
-#, fuzzy, kde-format
-#| msgid "CCD capture suspended"
+#, kde-format
 msgid "Camera capture suspended"
-msgstr "CCD 拍摄挂起"
+msgstr ""
 
 #: ekos/capture/cameraprocess.cpp:357
-#, fuzzy, kde-format
-#| msgid "CCD capture complete"
+#, kde-format
 msgid "Camera capture complete"
-msgstr "CCD 拍摄完成"
+msgstr ""
 
 #: ekos/capture/cameraprocess.cpp:362
 #, kde-format
@@ -15322,10 +15314,9 @@ msgid "Framing stopped"
 msgstr "帧拍摄已停止"
 
 #: ekos/capture/cameraprocess.cpp:362 ekos/capture/cameraprocess.cpp:368
-#, fuzzy, kde-format
-#| msgid "CCD capture stopped"
+#, kde-format
 msgid "Camera capture stopped"
-msgstr "CCD 拍摄中止"
+msgstr ""
 
 #: ekos/capture/cameraprocess.cpp:446
 #, kde-format
@@ -15421,16 +15412,14 @@ msgid "Warning: Calibration process was prematurely terminated."
 msgstr "警告： 校准过程被提前终止。"
 
 #: ekos/capture/cameraprocess.cpp:1403
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Camera capture sequence completed"
-msgstr "CCD 拍摄队列完毕"
+msgstr ""
 
 #: ekos/capture/cameraprocess.cpp:1460
-#, fuzzy, kde-format
-#| msgid "Error: lost connection to camera."
+#, kde-format
 msgid "Error: Lost connection to camera."
-msgstr "错误：相机连接中断。"
+msgstr ""
 
 #: ekos/capture/cameraprocess.cpp:1488
 #, kde-format
@@ -18490,10 +18479,9 @@ msgid "No Focuser connected."
 msgstr "未连接到电调"
 
 #: ekos/focus/focus.cpp:1154 ekos/focus/focus.cpp:5046
-#, fuzzy, kde-format
-#| msgid "No Focuser connected."
+#, kde-format
 msgid "No camera connected."
-msgstr "未连接到电调"
+msgstr ""
 
 #: ekos/focus/focus.cpp:1161
 #, kde-format
@@ -21330,14 +21318,11 @@ msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: 有效曝光时间: 自动， "
 
 #: ekos/guide/externalguide/phd2.cpp:979
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
-#| "invalid."
+#, kde-format
 msgid ""
 "PHD2: Please set camera and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
-msgstr "PHD2: 请在 PHD2 中设置 CCD 和望远镜参数, 像素缩放无效。"
+msgstr ""
 
 #: ekos/guide/externalguide/phd2.cpp:981
 #, kde-format
@@ -21410,10 +21395,9 @@ msgstr ""
 "或勾选截幅复选框只接收 PHD2 的被导星图像。"
 
 #: ekos/guide/guide.cpp:592
-#, fuzzy, kde-format
-#| msgid "Connection to the guide CCD is lost."
+#, kde-format
 msgid "Connection to the guide camera is lost."
-msgstr "与导星 CCD 的连接丢失。"
+msgstr ""
 
 #: ekos/guide/guide.cpp:1012
 #, kde-format
@@ -28821,10 +28805,9 @@ msgid "Ekos is already started, skipping startup script..."
 msgstr "Ekos 已经启动，跳过启动脚本..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2156
-#, fuzzy, kde-format
-#| msgid "Warming up CCD..."
+#, kde-format
 msgid "Warming up camera..."
-msgstr "CCD 升温..."
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:2189
 #, kde-format
@@ -87254,16 +87237,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Error: Lost connection to CCD."
-#~ msgstr "错误：与 CCD 的连接中断。"
-
-#~ msgid "No CCD connected."
-#~ msgstr "没有 CCD 连接。"
-
-#~ msgid "Error: lost connection to CCD."
-#~ msgstr "错误：与 CCD 的连接中断。"
-
-#~ msgctxt "Charge-Coupled Device"
-#~ msgid "CCD"
-#~ msgstr "CCD"

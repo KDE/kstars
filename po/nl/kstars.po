@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-31 01:59+0000\n"
-"PO-Revision-Date: 2025-10-30 12:43+0100\n"
+"PO-Revision-Date: 2025-10-31 11:30+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6316,15 +6316,12 @@ msgstr ""
 "van uw optische trein en probeer het opnieuw."
 
 #: ekos/align/align.cpp:1535
-#, fuzzy, kde-format
-#| msgid ""
-#| "CCD pixel size is missing. Please check your driver settings and try "
-#| "again."
+#, kde-format
 msgid ""
 "Camera pixel size is missing. Please check your driver settings and try "
 "again."
 msgstr ""
-"Pixelgrootte CCD ontbreekt. Controleer de instellingen en probeer het "
+"Pixelgrootte van camera ontbreekt. Controleer de instellingen en probeer het "
 "opnieuw."
 
 #: ekos/align/align.cpp:1543
@@ -6362,16 +6359,13 @@ msgstr ""
 "seconden..."
 
 #: ekos/align/align.cpp:1608
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot capture while CCD exposure is in progress. Retrying in %1 "
-#| "seconds..."
+#, kde-format
 msgid ""
 "Cannot capture while camera exposure is in progress. Retrying in %1 "
 "seconds..."
 msgstr ""
-"Kan geen opnames maken tijdens belichting CCD. Nieuwe poging over %1 "
-"seconden..."
+"Kan geen opnames maken tijdens belichting wordt gedaan. Nieuwe poging over "
+"%1 seconden..."
 
 #: ekos/align/align.cpp:1635
 #, kde-format
@@ -15975,16 +15969,14 @@ msgid "Starting framing..."
 msgstr "Framing wordt gestart ..."
 
 #: ekos/capture/cameraprocess.cpp:352
-#, fuzzy, kde-format
-#| msgid "CCD capture suspended"
+#, kde-format
 msgid "Camera capture suspended"
-msgstr "CCD-opname opgehouden"
+msgstr "Camera-opname opgeschort"
 
 #: ekos/capture/cameraprocess.cpp:357
-#, fuzzy, kde-format
-#| msgid "CCD capture complete"
+#, kde-format
 msgid "Camera capture complete"
-msgstr "Opnemen met CCD voltooid"
+msgstr "Camera-opnemen voltooid"
 
 #: ekos/capture/cameraprocess.cpp:362
 #, kde-format
@@ -15992,10 +15984,9 @@ msgid "Framing stopped"
 msgstr "Frames maken gestopt"
 
 #: ekos/capture/cameraprocess.cpp:362 ekos/capture/cameraprocess.cpp:368
-#, fuzzy, kde-format
-#| msgid "CCD capture stopped"
+#, kde-format
 msgid "Camera capture stopped"
-msgstr "CCD-opname gestopt"
+msgstr "Camera-opname gestopt"
 
 #: ekos/capture/cameraprocess.cpp:446
 #, kde-format
@@ -16097,16 +16088,14 @@ msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Waarschuwing: Calibratieproces is voortijdig afgebroken."
 
 #: ekos/capture/cameraprocess.cpp:1403
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Camera capture sequence completed"
-msgstr "Opnamereeks met CCD voltooid"
+msgstr "Camera-opnamereeks voltooid"
 
 #: ekos/capture/cameraprocess.cpp:1460
-#, fuzzy, kde-format
-#| msgid "Error: lost connection to camera."
+#, kde-format
 msgid "Error: Lost connection to camera."
-msgstr "Fout: Verbinding met camera verbroken."
+msgstr "Fout: Verbinding met camera verloren."
 
 #: ekos/capture/cameraprocess.cpp:1488
 #, kde-format
@@ -19297,10 +19286,9 @@ msgid "No Focuser connected."
 msgstr "Geen focusseerder verbonden."
 
 #: ekos/focus/focus.cpp:1154 ekos/focus/focus.cpp:5046
-#, fuzzy, kde-format
-#| msgid "No Focuser connected."
+#, kde-format
 msgid "No camera connected."
-msgstr "Geen focusseerder verbonden."
+msgstr "Geen camera verbonden."
 
 #: ekos/focus/focus.cpp:1161
 #, kde-format
@@ -22301,15 +22289,13 @@ msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Geldige belichtingstijden: Auto"
 
 #: ekos/guide/externalguide/phd2.cpp:979
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
-#| "invalid."
+#, kde-format
 msgid ""
 "PHD2: Please set camera and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
-"PHD2: Stel parameters CCD en telescoop in in PHD2, pixelschaal is onjuist."
+"PHD2: Stel de parameters van de camera en telescoop in in PHD2, pixelschaal "
+"is ongeldig."
 
 #: ekos/guide/externalguide/phd2.cpp:981
 #, kde-format
@@ -22384,10 +22370,9 @@ msgstr ""
 "volg-ster voor PHD2, met behulp van het keuzevakje voor Subframe."
 
 #: ekos/guide/guide.cpp:592
-#, fuzzy, kde-format
-#| msgid "Connection to the guide CCD is lost."
+#, kde-format
 msgid "Connection to the guide camera is lost."
-msgstr "Verbinding CCD voor volgen is verbroken."
+msgstr "Verbinding met de camera voor volgen is verbroken."
 
 #: ekos/guide/guide.cpp:1012
 #, kde-format
@@ -30220,10 +30205,9 @@ msgid "Ekos is already started, skipping startup script..."
 msgstr "Ekos is reeds gestart. Script voor starten wordt overgeslagen..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2156
-#, fuzzy, kde-format
-#| msgid "Warming up CCD..."
+#, kde-format
 msgid "Warming up camera..."
-msgstr "CCD opwarmen..."
+msgstr "Camera aan het opwarmen..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2189
 #, kde-format

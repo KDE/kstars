@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-31 01:59+0000\n"
-"PO-Revision-Date: 2025-10-30 12:01+0100\n"
+"PO-Revision-Date: 2025-11-01 01:43+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -450,7 +450,7 @@ msgstr "Descargar"
 #: auxiliary/imageviewer.cpp:195
 #, kde-format
 msgid "Please wait while image is being downloaded..."
-msgstr "Por favor, espere mientras se descarga la imagen…"
+msgstr "Espere mientras se descarga la imagen…"
 
 #: auxiliary/imageviewer.cpp:223
 #, kde-format
@@ -496,7 +496,7 @@ msgstr "Descarga DSS"
 #: auxiliary/ksdssdownloader.cpp:201 auxiliary/ksdssdownloader.cpp:229
 #, kde-format
 msgid "Please wait while DSS image is being downloaded..."
-msgstr "Por favor, espere mientras se descarga la imagen DSS…"
+msgstr "Espere mientras se descarga la imagen DSS…"
 
 #: auxiliary/ksfilereader.cpp:98 tools/modcalcdaylength.cpp:208
 #: tools/wutdialog.cpp:239
@@ -759,8 +759,8 @@ msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
-"No se puede encontrar «dcraw» ni «cjpeg». Por favor, instale las "
-"herramientas necesarias para convertir CR2/NEF en JPEG."
+"No se puede encontrar «dcraw» ni «cjpeg». Instale las herramientas "
+"necesarias para convertir CR2/NEF en JPEG."
 
 #: auxiliary/ksutils.cpp:1779
 #, kde-format
@@ -2664,7 +2664,7 @@ msgstr "Introduzca un nombre para el catálogo"
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Custom URL to %1"
-msgstr "Añadir URL personalizado a %1"
+msgstr "Añadir URL personalizada a %1"
 
 #: dialogs/addlinkdialog.cpp:46 dialogs/addlinkdialog.cpp:72
 #, kde-format
@@ -2677,8 +2677,8 @@ msgid ""
 "The URL is not valid. Would you like to open a browser window\n"
 "to the Google search engine?"
 msgstr ""
-"El URL no es válido. ¿Quiere abrir una ventana del navegador\n"
-"con el buscador Google?"
+"La URL no es válida. ¿Quiere abrir una ventana del navegador\n"
+"con el buscador de Google?"
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4089
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
@@ -2688,7 +2688,7 @@ msgstr ""
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
-msgstr "URL no válido"
+msgstr "URL no válida"
 
 #: dialogs/addlinkdialog.cpp:61
 #, kde-format
@@ -5985,7 +5985,7 @@ msgstr ""
 "No se ha encontrado su directorio de datos. Puede pulsar el siguiente botón "
 "para copiar un directorio de datos por defecto de KStars en la ubicación "
 "correcta o, si ya tiene un directorio de KStars en otro lugar, puede salir "
-"de KStars y copiarlo en esta ubicación usted mismo."
+"de KStars y copiarlo en esta ubicación."
 
 #. i18n: ectx: property (text), widget (QPushButton, copyKStarsData)
 #: dialogs/wizdata.ui:112
@@ -6332,15 +6332,12 @@ msgstr ""
 "preferencias de su tren óptico y vuelva a intentarlo."
 
 #: ekos/align/align.cpp:1535
-#, fuzzy, kde-format
-#| msgid ""
-#| "CCD pixel size is missing. Please check your driver settings and try "
-#| "again."
+#, kde-format
 msgid ""
 "Camera pixel size is missing. Please check your driver settings and try "
 "again."
 msgstr ""
-"Falta el tamaño de píxel CCD. Por favor, compruebe las preferencias del "
+"Falta el tamaño de píxel de la cámara. Compruebe las preferencias del "
 "controlador y pruebe de nuevo."
 
 #: ekos/align/align.cpp:1543
@@ -6379,16 +6376,13 @@ msgstr ""
 "intentar en %1 segundos…"
 
 #: ekos/align/align.cpp:1608
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot capture while CCD exposure is in progress. Retrying in %1 "
-#| "seconds..."
+#, kde-format
 msgid ""
 "Cannot capture while camera exposure is in progress. Retrying in %1 "
 "seconds..."
 msgstr ""
-"No se puede capturar mientras la exposición CCD está en curso. Se vuelve a "
-"intentar en %1 segundos…"
+"No se puede capturar mientras la exposición de la cámara está en curso. Se "
+"vuelve a intentar en %1 segundos…"
 
 #: ekos/align/align.cpp:1635
 #, kde-format
@@ -6818,7 +6812,7 @@ msgstr "Exportar los puntos de la solución"
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
-msgstr "URL no válido: %1"
+msgstr "URL no válida: %1"
 
 #: ekos/align/align.cpp:4097 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
@@ -7510,8 +7504,8 @@ msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
 "file."
 msgstr ""
-"La versión %1 de formato del archivo de secuencias está desaconsejada. Por "
-"favor, construya un nuevo archivo de secuencias."
+"La versión %1 de formato del archivo de secuencias está desaconsejada. "
+"Construya un nuevo archivo de secuencias."
 
 #: ekos/align/mountmodel.cpp:369
 #, kde-format
@@ -7562,7 +7556,7 @@ msgstr "La herramienta del modelo de montura se ha reiniciado."
 #: ekos/align/mountmodel.cpp:1004
 #, kde-format
 msgid "Please Check the Alignment Points."
-msgstr "Por favor, compruebe los puntos de alineación."
+msgstr "Compruebe los puntos de alineación."
 
 #: ekos/align/mountmodel.cpp:1011
 #, kde-format
@@ -8871,14 +8865,14 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>El sistema de identificación <span style=\"font-"
 "weight:600;\">sin conexión</span> de astrometry.net necesita archivos de "
-"índice para poder resolver imágenes. Por favor, consulte el archivo <a href="
-"\"http://astrometry.net/doc/readme.html\"><span style=\" text-decoration: "
-"underline; color:#0000ff;\">README</span></a> de Astrometry.net. La "
-"siguiente lista proporciona un listado completo de los archivos de índice, "
-"así como los archivos de índice que se le recomienda instalar según el campo "
-"visual actual del CCD. Los archivos de índice instalados aparecen marcados. "
-"Junto a cada archivo de índice existe un icono que representa lo siguiente:</"
-"p></body></html>"
+"índice para poder resolver imágenes. Consulte el archivo <a href=\"http://"
+"astrometry.net/doc/readme.html\"><span style=\" text-decoration: underline; "
+"color:#0000ff;\">README</span></a> de Astrometry.net. La siguiente lista "
+"proporciona un listado completo de los archivos de índice, así como los "
+"archivos de índice que se le recomienda instalar según el campo visual "
+"actual del CCD. Los archivos de índice instalados aparecen marcados. Junto a "
+"cada archivo de índice existe un icono que representa lo siguiente:</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, required_legend)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_32)
@@ -10056,8 +10050,7 @@ msgstr "Aparcando la montura…"
 #: ekos/align/polaralignmentassistant.cpp:906
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
-msgstr ""
-"Por favor, espere hasta que la montura termine de rotar hasta AR (%1) DE (%2)"
+msgstr "Espere hasta que la montura termine de rotar hasta AR (%1) DE (%2)"
 
 #: ekos/align/polaralignmentassistant.cpp:922
 #: ekos/align/polaralignmentassistant.cpp:928
@@ -10101,7 +10094,7 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:1111
 #, kde-format
 msgid "Please wait while WCS data is processed..."
-msgstr "Por favor, espere mientras se procesan los datos WCS…"
+msgstr "Espere mientras se procesan los datos WCS…"
 
 #: ekos/align/polaralignmentassistant.cpp:1142
 #, kde-format
@@ -10349,7 +10342,7 @@ msgstr "Desplazamiento manual"
 #: ekos/align/polaralignmentassistant.ui:266
 #, kde-format
 msgid "Please rotate your mount in RA"
-msgstr "Por favor, rote la montura en AR"
+msgstr "Rote la montura en AR"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHRefreshB)
 #: ekos/align/polaralignmentassistant.ui:341
@@ -10359,7 +10352,7 @@ msgid ""
 "altitude and azimuth knobs to correct polar alignment."
 msgstr ""
 "Iniciar la fase de actualización (donde se repiten las capturas de imagen "
-"mientras usted ajusta los mandos de altitud y de acimut para corregir la "
+"mientras ajusta los mandos de altitud y de acimut para corregir la "
 "alineación polar)."
 
 #. i18n: ectx: property (text), widget (QPushButton, PAHRefreshB)
@@ -16091,8 +16084,8 @@ msgstr "Se ha reanudado la secuencia."
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr ""
-"No se han encontrado trabajos pendientes. Por favor, añada un trabajo a la "
-"cola de secuencia."
+"No se han encontrado trabajos pendientes. Añada un trabajo a la cola de "
+"secuencia."
 
 #: ekos/capture/cameraprocess.cpp:288
 #, kde-format
@@ -16110,16 +16103,14 @@ msgid "Starting framing..."
 msgstr "Iniciando el encuadre…"
 
 #: ekos/capture/cameraprocess.cpp:352
-#, fuzzy, kde-format
-#| msgid "CCD capture suspended"
+#, kde-format
 msgid "Camera capture suspended"
-msgstr "Captura CCD suspendida"
+msgstr "Captura de la cámara suspendida"
 
 #: ekos/capture/cameraprocess.cpp:357
-#, fuzzy, kde-format
-#| msgid "CCD capture complete"
+#, kde-format
 msgid "Camera capture complete"
-msgstr "Captura CCD completada"
+msgstr "Captura de la cámara completada"
 
 #: ekos/capture/cameraprocess.cpp:362
 #, kde-format
@@ -16127,10 +16118,9 @@ msgid "Framing stopped"
 msgstr "Encuadre detenido"
 
 #: ekos/capture/cameraprocess.cpp:362 ekos/capture/cameraprocess.cpp:368
-#, fuzzy, kde-format
-#| msgid "CCD capture stopped"
+#, kde-format
 msgid "Camera capture stopped"
-msgstr "Captura CCD detenida"
+msgstr "Captura de la cámara detenida"
 
 #: ekos/capture/cameraprocess.cpp:446
 #, kde-format
@@ -16236,16 +16226,14 @@ msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Advertencia: el proceso de calibración ha terminado prematuramente."
 
 #: ekos/capture/cameraprocess.cpp:1403
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Camera capture sequence completed"
-msgstr "Secuencia de captura CCD completada"
+msgstr "Secuencia de captura de la cámara completada"
 
 #: ekos/capture/cameraprocess.cpp:1460
-#, fuzzy, kde-format
-#| msgid "Error: lost connection to camera."
+#, kde-format
 msgid "Error: Lost connection to camera."
-msgstr "Error: se ha perdido la conexión con la cámara."
+msgstr "Error: Se ha perdido la conexión con la cámara."
 
 #: ekos/capture/cameraprocess.cpp:1488
 #, kde-format
@@ -16366,8 +16354,8 @@ msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
-"No ha sido posible calcular los ajustes de exposición óptimos. Por favor, "
-"capture los planos de forma manual."
+"No ha sido posible calcular los ajustes de exposición óptimos. Capture los "
+"planos de forma manual."
 
 #: ekos/capture/cameraprocess.cpp:2313
 #, kde-format
@@ -17034,11 +17022,11 @@ msgid ""
 "text-decoration: underline; color:#007af4;\">Digital Camera Database</span></"
 "a>.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Por favor, rellene la información solicitada a "
-"continuación. Solo tendrá que hacerlo una vez. Puede obtener estos valores "
-"del manual de su cámara o de fuentes en línea, como la <a href=\"https://www."
-"digicamdb.com/\"><span style=\" text-decoration: underline; color:#007af4;"
-"\">base de datos de cámaras digitales</span></a>.</p></body></html>"
+"<html><head/><body><p>Rellene la información solicitada a continuación. Solo "
+"tendrá que hacerlo una vez. Puede obtener estos valores del manual de su "
+"cámara o de fuentes en línea, como la <a href=\"https://www.digicamdb.com/"
+"\"><span style=\" text-decoration: underline; color:#007af4;\">base de datos "
+"de cámaras digitales</span></a>.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/dslrinfo.ui:58
@@ -17076,7 +17064,7 @@ msgstr "Distancia entre píxeles:"
 #: ekos/capture/dslrinfodialog.cpp:39
 #, kde-format
 msgid "Invalid values. Please set all values."
-msgstr "Valores no válidos. Por favor, defina todos los valores."
+msgstr "Valores no válidos. Defina todos los valores."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExposureCalculatorDialog)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:32
@@ -18283,7 +18271,7 @@ msgid ""
 "configure the meridian flip there."
 msgstr ""
 "La configuración de la inversión del meridiano se ha desplazado al módulo de "
-"la montura. Por favor, configure ahí la inversión del meridiano."
+"la montura. Configure ahí la inversión del meridiano."
 
 #: ekos/capture/sequencequeue.cpp:260
 #, kde-format
@@ -19487,10 +19475,9 @@ msgid "No Focuser connected."
 msgstr "Ningún enfocador conectado."
 
 #: ekos/focus/focus.cpp:1154 ekos/focus/focus.cpp:5046
-#, fuzzy, kde-format
-#| msgid "No Focuser connected."
+#, kde-format
 msgid "No camera connected."
-msgstr "Ningún enfocador conectado."
+msgstr "No hay ninguna cámara conectada."
 
 #: ekos/focus/focus.cpp:1161
 #, kde-format
@@ -19755,8 +19742,8 @@ msgstr "Captura completa. Seleccione una zona de interés."
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
-"Ha fallado la selección automática de una estrella. Por favor, seleccione "
-"una estrella de forma manual."
+"Ha fallado la selección automática de una estrella. Seleccione una estrella "
+"de forma manual."
 
 #: ekos/focus/focus.cpp:3375
 #, kde-format
@@ -19925,8 +19912,7 @@ msgstr ""
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
-"Se ha alcanzado un punto muerto. Por favor, pruebe de nuevo con diferentes "
-"ajustes."
+"Se ha alcanzado un punto muerto. Pruebe de nuevo con diferentes ajustes."
 
 #: ekos/focus/focus.cpp:4318
 #, kde-format
@@ -22252,8 +22238,8 @@ msgid ""
 "The host was not found. Please check the host name and port settings in "
 "Guide options."
 msgstr ""
-"No se ha encontrado el servidor. Por favor, compruebe las preferencias del "
-"nombre del servidor y del puerto en las opciones de guiado."
+"No se ha encontrado el servidor. Compruebe las preferencias del nombre del "
+"servidor y del puerto en las opciones de guiado."
 
 #: ekos/guide/externalguide/linguider.cpp:74
 #, kde-format
@@ -22288,8 +22274,8 @@ msgid ""
 "Only LinGuider v4.1.0 or higher is supported. Please upgrade LinGuider and "
 "try again."
 msgstr ""
-"Solo se permite el uso de LinGuider versión 4.1.0 o posterior. Por favor, "
-"actualice LinGuider y vuelva a intentarlo."
+"Solo se permite el uso de LinGuider versión 4.1.0 o posterior. Actualice "
+"LinGuider y vuelva a intentarlo."
 
 #: ekos/guide/externalguide/linguider.cpp:166
 #, kde-format
@@ -22549,16 +22535,13 @@ msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Tiempos de exposición válidos: Auto, "
 
 #: ekos/guide/externalguide/phd2.cpp:979
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
-#| "invalid."
+#, kde-format
 msgid ""
 "PHD2: Please set camera and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
-"PHD2: Por favor, defina los parámetros del CCD y del telescopio en PHD2; la "
-"escala de píxeles no es válida."
+"PHD2: Defina los parámetros de la cámara y del telescopio en PHD2; la escala "
+"de píxeles no es válida."
 
 #: ekos/guide/externalguide/phd2.cpp:981
 #, kde-format
@@ -22633,10 +22616,9 @@ msgstr ""
 "imagen de estrella guía de PHD2 usando la casilla «Subfotograma»."
 
 #: ekos/guide/guide.cpp:592
-#, fuzzy, kde-format
-#| msgid "Connection to the guide CCD is lost."
+#, kde-format
 msgid "Connection to the guide camera is lost."
-msgstr "Se ha perdido la conexión con la guía CCD."
+msgstr "Se ha perdido la conexión con la cámara guía."
 
 #: ekos/guide/guide.cpp:1012
 #, kde-format
@@ -25189,9 +25171,7 @@ msgstr "Servicios INDI iniciados en el puerto %1."
 #: ekos/manager.cpp:1232
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
-msgstr ""
-"Servicios INDI iniciados en el puerto %1. Por favor, conecte los "
-"dispositivos."
+msgstr "Servicios INDI iniciados en el puerto %1. Conecte los dispositivos."
 
 #: ekos/manager.cpp:1237
 #, kde-format
@@ -25250,7 +25230,7 @@ msgid ""
 msgstr ""
 "No ha sido posible establecer:\n"
 "%1\n"
-"Por favor, asegúrese de que el dispositivo está conectado y encendido."
+"Asegúrese de que el dispositivo está conectado y encendido."
 
 #: ekos/manager.cpp:1382 ekos/manager.cpp:1390 ekos/manager.cpp:1423
 #: ekos/manager.cpp:1431
@@ -25267,7 +25247,7 @@ msgid ""
 msgstr ""
 "No ha sido posible establecer los dispositivos siguientes:\n"
 "%1\n"
-"Por favor, asegúrese de que cada dispositivo está conectado y encendido."
+"Asegúrese de que cada dispositivo está conectado y encendido."
 
 #: ekos/manager.cpp:1419
 #, kde-format
@@ -25278,7 +25258,7 @@ msgid ""
 msgstr ""
 "No ha sido posible establecer de forma remota:\n"
 "%1\n"
-"Por favor, asegúrese de que el dispositivo está conectado y encendido."
+"Asegúrese de que el dispositivo está conectado y encendido."
 
 #: ekos/manager.cpp:1427
 #, kde-format
@@ -25289,7 +25269,7 @@ msgid ""
 msgstr ""
 "No ha sido posible establecer de forma remota los dispositivos siguientes:\n"
 "%1\n"
-"Por favor, asegúrese de que cada dispositivo está conectado y encendido."
+"Asegúrese de que cada dispositivo está conectado y encendido."
 
 #: ekos/manager.cpp:1485
 #, kde-format
@@ -25314,8 +25294,7 @@ msgstr "Dispositivos remotos establecidos."
 #: ekos/manager.cpp:1597
 #, kde-format
 msgid "Remote devices established. Please connect devices."
-msgstr ""
-"Dispositivos remotos establecidos. Por favor, conecte los dispositivos."
+msgstr "Dispositivos remotos establecidos. Conecte los dispositivos."
 
 #: ekos/manager.cpp:1661
 #, kde-format
@@ -27376,7 +27355,7 @@ msgstr "Detectando StellarMate…"
 #: ekos/profilewizard.cpp:274
 #, kde-format
 msgid "Please wait while searching for StellarMate..."
-msgstr "Por favor, espere mientras se busca StellarMate…"
+msgstr "Espere mientras se busca StellarMate…"
 
 #: ekos/profilewizard.cpp:299
 #, kde-format
@@ -30091,12 +30070,12 @@ msgstr "No se puede borrar el trabajo. Estado del planificador: %1"
 #: ekos/scheduler/schedulerprocess.cpp:92
 #, kde-format
 msgid "Warning: startup script URL %1 is not valid."
-msgstr "Advertencia: El URL del guion de arranque %1 no es válido."
+msgstr "Advertencia: La URL del guion de arranque %1 no es válida."
 
 #: ekos/scheduler/schedulerprocess.cpp:100
 #, kde-format
 msgid "Warning: shutdown script URL %1 is not valid."
-msgstr "Advertencia: la URL del guion de apagado %1 no es válida."
+msgstr "Advertencia: La URL del guion de apagado %1 no es válida."
 
 #: ekos/scheduler/schedulerprocess.cpp:111
 #, kde-format
@@ -30595,10 +30574,9 @@ msgid "Ekos is already started, skipping startup script..."
 msgstr "Ya se ha iniciado Ekos. Omitiendo guion de arranque…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2156
-#, fuzzy, kde-format
-#| msgid "Warming up CCD..."
+#, kde-format
 msgid "Warming up camera..."
-msgstr "Calentando CCD…"
+msgstr "Calentando la cámara…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2189
 #, kde-format
@@ -34383,8 +34361,8 @@ msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2 to JPEG."
 msgstr ""
-"No se puede encontrar «dcraw» ni «cjpeg». Por favor, instale las "
-"herramientas necesarias para convertir CR2 en JPEG."
+"No se puede encontrar «dcraw» ni «cjpeg». Instale las herramientas "
+"necesarias para convertir CR2 en JPEG."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, collimationOptions)
 #: indi/collimationOptions.ui:20
@@ -35613,8 +35591,8 @@ msgid ""
 msgstr ""
 "<h3>1. Modelo de telescopio</h3>\n"
 "\n"
-"Por favor, seleccione su modelo de telescopio en la lista inferior. Pulse "
-"«Siguiente» después de seleccionar un modelo."
+"Seleccione su modelo de telescopio en la lista inferior. Pulse «Siguiente» "
+"después de seleccionar un modelo."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: indi/telescopewizard.ui:274
@@ -35743,8 +35721,7 @@ msgstr ""
 #: indi/telescopewizardprocess.cpp:225
 #, kde-format
 msgid "Please wait while KStars tries to connect to your telescope..."
-msgstr ""
-"Por favor, espere mientras KStars establece comunicación con el telescopio…"
+msgstr "Espere mientras KStars establece comunicación con el telescopio…"
 
 #: indi/telescopewizardprocess.cpp:340
 #, kde-format
@@ -35752,7 +35729,7 @@ msgid ""
 "Sorry. KStars failed to detect any attached telescopes, please check your "
 "settings and try again."
 msgstr ""
-"KStars no pudo detectar ningún telescopio conectado, por favor compruebe su "
+"KStars no ha podido detectar ningún telescopio conectado. Compruebe su "
 "configuración e inténtelo de nuevo."
 
 #: indi/telescopewizardprocess.cpp:354
@@ -73875,7 +73852,7 @@ msgstr "Añadir"
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:91
 #, kde-kuit-format
 msgid "Please, fill in URL and Description"
-msgstr "Por favor, introduzca el URL y la descripción"
+msgstr "Introduzca la URL y la descripción"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:13
 #, kde-kuit-format
@@ -73895,7 +73872,7 @@ msgstr "Añadir posición"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:20
 #, kde-kuit-format
 msgid "Please, wait while we are fetching coordinates"
-msgstr "Por favor, espere mientras obtenemos las coordenadas"
+msgstr "Espere mientras obtenemos las coordenadas"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:58
 #, kde-kuit-format
@@ -73955,14 +73932,14 @@ msgid ""
 "Please, switch on the location service, and retry"
 msgstr ""
 "No se dispone de un servicio de localización (GPS, servicio móvil, etc.).\n"
-"Por favor, active un servicio de localización y vuelva a probar."
+"Active un servicio de localización y vuelva a probar."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:150
 #, kde-kuit-format
 msgid "Unknown error occurred. Please contact the application developer."
 msgstr ""
-"Ha ocurrido un error desconocido. Por favor, póngase en contacto con el "
-"desarrollador de la aplicación."
+"Ha ocurrido un error desconocido. Póngase en contacto con el desarrollador "
+"de la aplicación."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:160
 #, kde-kuit-format
@@ -73977,7 +73954,7 @@ msgstr "Se han encontrado su longitud y su altitud"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:185
 #, kde-kuit-format
 msgid "Please, wait while we are retrieving location name"
-msgstr "Por favor, espere mientras obtenemos el nombre de la posición"
+msgstr "Espere mientras obtenemos el nombre de la posición"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:247
 #, kde-kuit-format
@@ -74023,22 +74000,22 @@ msgstr "Ajustar desde GPS"
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:378
 #, kde-kuit-format
 msgid "Please, fill in the city"
-msgstr "Por favor, introduzca la ciudad"
+msgstr "Introduzca la ciudad"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:381
 #, kde-kuit-format
 msgid "Please, fill in the country"
-msgstr "Por favor, introduzca el país"
+msgstr "Introduzca el país"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:384
 #, kde-kuit-format
 msgid "Please, fill in the latitude"
-msgstr "Por favor, introduzca la latitud"
+msgstr "Introduzca la latitud"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:387
 #, kde-kuit-format
 msgid "Please, fill in the longitude"
-msgstr "Por favor, introduzca la longitud"
+msgstr "Introduzca la longitud"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:392
 #, kde-kuit-format
@@ -74783,7 +74760,7 @@ msgstr "NO"
 #: kstarssplash.cpp:18
 #, kde-format
 msgid "Welcome to KStars. Please stand by while loading..."
-msgstr "Bienvenido a KStars. Por favor, espere durante la carga…"
+msgstr "Bienvenido a KStars. Espere durante la carga…"
 
 #: libindi_strings.cpp:1
 #, kde-kuit-format
@@ -78990,8 +78967,8 @@ msgid ""
 "Looks like you have not listed out your observers / equipment. Please hit "
 "Ctrl + 0 and Ctrl + 1 to fix this situation and come back here."
 msgstr ""
-"Parece que no ha listado sus observadores o equipo. Por favor, pulse Ctrl+0 "
-"y Ctrl+1 para solucionar este problema y vuelva aquí otra vez."
+"Parece que no ha listado sus observadores o equipo. Pulse Ctrl+0 y Ctrl+1 "
+"para solucionar este problema y vuelva aquí otra vez."
 
 #. i18n: ectx: property (text), widget (QPushButton, NextButton)
 #: oal/execute.ui:474
@@ -79912,7 +79889,7 @@ msgid ""
 "may also define your own."
 msgstr ""
 "Lista de todos los esquemas de color conocidos. Se proporcionan varios por "
-"omisión, y usted puede definir los suyos propios."
+"omisión, y puede definir los suyos propios."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddPreset)
 #: options/opscolors.ui:211
@@ -79930,10 +79907,10 @@ msgid ""
 "list of presets, and will also be available in the \"Settings\" menu of the "
 "main window."
 msgstr ""
-"Después de cambiar los colores de un esquema que a usted le satisfaga, pulse "
-"este botón para crear un nuevo esquema usando esos colores. Su esquema "
-"aparecerá aquí en la lista de esquemas predefinidos, y también estará "
-"disponible en el menú de «Preferencias» de la ventana principal."
+"Después de cambiar los colores a un esquema que le satisfaga, pulse este "
+"botón para crear un nuevo esquema usando esos colores. Su esquema aparecerá "
+"aquí en la lista de esquemas predefinidos, y también estará disponible en el "
+"menú de «Preferencias» de la ventana principal."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemovePreset)
 #: options/opscolors.ui:224
@@ -82354,7 +82331,7 @@ msgstr "Cargando estrellas"
 #: skycomponents/starcomponent.cpp:166
 #, kde-format
 msgid "Please wait while re-indexing stars..."
-msgstr "Por favor, espere mientras se rehace el índice de estrellas…"
+msgstr "Espere mientras se rehace el índice de estrellas…"
 
 #: skycomponents/supernovaecomponent.cpp:271
 #, kde-format
@@ -83304,8 +83281,7 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Cuando usted pulsa con el ratón sobre el mapa, el objeto del cielo "
-"más\n"
+"\t\t<p>Cuando pulse con el ratón sobre el mapa, el objeto del cielo más\n"
 "\t\t\tpróximo al cursor del ratón queda identificado en la barra de estado.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -83488,7 +83464,7 @@ msgid ""
 msgstr ""
 "\t\t <p>La herramienta de «Altitud frente a tiempo» (Ctrl+A) dibuja curvas "
 "de altitud para\n"
-"\t\t\tcualquier grupo de objetos que usted seleccione. Es una herramienta\n"
+"\t\t\tcualquier grupo de objetos que seleccione. Es una herramienta\n"
 "\t\t\testupenda para planificar sesiones de observación.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -84427,9 +84403,9 @@ msgid ""
 msgstr ""
 "Fije el valor de la opción seleccionada aquí. Asegúrese de que el valor que "
 "introduce concuerda con el tipo de datos esperado. Por ejemplo, la opción "
-"«UseAltAc» acepta un valor booleano, y usted debería introducir «true», "
-"«false», «1», o «0». Si no sabe qué tipo de datos acepta examine la vista de "
-"árbol de las opciones usando el botón «Explorar árbol…»."
+"«UseAltAc» acepta un valor booleano, y debería introducir «true», «false», "
+"«1», o «0». Si no sabe qué tipo de datos acepta examine la vista de árbol de "
+"las opciones usando el botón «Explorar árbol…»."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/argchangeviewoption.ui:102
@@ -84628,8 +84604,8 @@ msgstr ""
 "Si se selecciona, el cielo continuará apuntando a la posición actual u "
 "objeto a medida que discurre el tiempo. Este comportamiento se le llama "
 "«Seguimiento». Advierta que el seguimiento se activa siempre que un objeto "
-"se selecciona al apuntar. De modo que si usted usa «lookToward» con un "
-"nombre de objeto no necesita activar el seguimiento.  \n"
+"se selecciona al apuntar. De modo que si usa «lookToward» con un nombre de "
+"objeto no necesita activar el seguimiento.  \n"
 "\n"
 "Si se deselecciona, entonces el seguimiento se desactivará, incluso si el "
 "objeto está centrado. A medida que discurra el tiempo el cielo parecerá que "
@@ -87794,7 +87770,7 @@ msgstr "No intentar"
 #: tools/observinglist.cpp:1195
 #, kde-format
 msgid "Please wait while adding objects..."
-msgstr "Por favor, espere mientras se añaden los objetos…"
+msgstr "Espere mientras se añaden los objetos…"
 
 #: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
 #: tools/observinglist.cpp:1356
@@ -88186,12 +88162,12 @@ msgid ""
 "in your observing list.</p></body></html>"
 msgstr ""
 "<html><head></head><body><p>Bienvenido al asistente de la lista de "
-"observación</p><p></p><p>Con esta herramienta, usted puede construir una "
-"lista de observación filtrando la lista de objetos de diversas maneras. "
-"Primero, seleccionará objetos por <span style=\" font-weight:600;\">tipo</"
-"span>. Después, solo puede seleccionar aquellos objetos que ocupan una <span "
-"style=\" font-weight:600;\">zona en el cielo</span>. Puede recortar la lista "
-"de observación seleccionando objetos de un <span style=\" font-weight:600;"
+"observación</p><p></p><p>Con esta herramienta puede construir una lista de "
+"observación filtrando la lista de objetos de diversas maneras. Primero, "
+"seleccionará objetos por <span style=\" font-weight:600;\">tipo</span>. "
+"Después, solo puede seleccionar aquellos objetos que ocupan una <span style="
+"\" font-weight:600;\">zona en el cielo</span>. Puede recortar la lista de "
+"observación seleccionando objetos de un <span style=\" font-weight:600;"
 "\">rango de magnitudes</span>. Finalmente, puede elegir mantener aquellos "
 "objetos que son <span style=\" font-weight:600;\">observables en una fecha "
 "en particular</span>.</p><p></p><p>Pulse el botón <span style=\" font-"
@@ -89504,7 +89480,7 @@ msgstr "Imprimir el calendario celeste"
 #: tools/skycalendar.cpp:74 tools/skycalendar.cpp:139 tools/skycalendar.cpp:142
 #, kde-format
 msgid "Please Wait"
-msgstr "Espere, por favor"
+msgstr "Espere un momento"
 
 #. i18n: ectx: property (text), widget (QPushButton, CreateButton)
 #: tools/skycalendar.cpp:125 tools/skycalendar.ui:259
@@ -91080,16 +91056,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid "Error: Lost connection to CCD."
-#~ msgstr "Error: se ha perdido la conexión al CCD."
-
-#~ msgid "No CCD connected."
-#~ msgstr "Ningún CCD conectado."
-
-#~ msgid "Error: lost connection to CCD."
-#~ msgstr "Error: se ha perdido la conexión al CCD."
-
-#~ msgctxt "Charge-Coupled Device"
-#~ msgid "CCD"
-#~ msgstr "CCD"
