@@ -2332,7 +2332,7 @@ void SchedulerProcess::runStartupProcedure()
             appendLogText(i18n("Warning: executing startup procedure manually..."));
             moduleState()->setStartupState(STARTUP_IDLE);
             checkStartupState();
-            QTimer::singleShot(1000, this, SLOT(checkStartupProcedure()));
+            QTimer::singleShot(1000, this,  &SchedulerProcess::checkStartupProcedure);
 
         });
 
@@ -2397,7 +2397,7 @@ void SchedulerProcess::runShutdownProcedure()
             appendLogText(i18n("Warning: executing shutdown procedure manually..."));
             moduleState()->setShutdownState(SHUTDOWN_IDLE);
             checkShutdownState();
-            QTimer::singleShot(1000, this, SLOT(checkShutdownProcedure()));
+            QTimer::singleShot(1000, this,  &SchedulerProcess::checkShutdownProcedure);
         });
 
         KSMessageBox::Instance()->questionYesNo(i18n("Are you sure you want to execute the shutdown procedure manually?"));
@@ -4274,7 +4274,7 @@ void SchedulerProcess::checkShutdownProcedure()
     }
     else
         // If shutdown procedure is not finished yet, let's check again in 1 second.
-        QTimer::singleShot(1000, this, SLOT(checkShutdownProcedure()));
+        QTimer::singleShot(1000, this, &SchedulerProcess::checkShutdownProcedure);
 
 }
 
