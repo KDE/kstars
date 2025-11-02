@@ -18,31 +18,6 @@ KStars is Free Software, released under the GNU Public License. See COPYING for 
 
 KStars is available for Windows, MacOS, and Linux. You can download the latest version from [KStars official website](https://kstars.kde.org).
 
-## Flatpak
-On Linux, it is available for most Linux distributions. For Linux, it is recommened to install the [KStars Flatpak](https://flathub.org/en/apps/org.kde.kstars) since it provide a sandboxed KStars along with all INDI drivers pre-installed.
-
-### Stable Flatpak
-Add flathub repository:
-```
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-```
-Install KStars:
-```
-flatpak install flathub org.kde.kstars
-```
-
-### Nightly Flatpak
-You can also install alongside the stable Flatpak the nightly Flatpak by adding KStars Nightly repository:
-```
-flatpak remote-add --user --if-not-exists kstars-nightly https://origin.cdn.kde.org/flatpak/kstars-nightly/kstars-nightly.flatpakrepo
-```
-Then install KStars Nightly:
-```
-flatpak install --user kstars-nightly org.kde.kstars//master
-```
-
-Latest stable version is v3.7.9
-
 ## Important URLs and files.
 
 * The [KStars homepage](https://kstars.kde.org)
