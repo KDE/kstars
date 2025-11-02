@@ -51,12 +51,6 @@ json-validation:
     - !reference [.standard-build-recipes, rules]
 
 flatpak:
-  allow_failure: true # TODO: REMOVE WHEN STABLE AGAIN
-  rules:
-    - !reference [.standard-build-recipes, rules]
-  needs:
-    - suse_tumbleweed_qt610
-
 # Craft recipes
 
 .craft-recipes:
@@ -94,6 +88,7 @@ craft_macos_qt6_arm64: # Extended from /gitlab-templates/craft-macos-arm64-qt6.y
 .publishing-recipes:
   rules:
     - !reference [.always-on-stable-release, rules]
+    - !reference [.manual-skipped-recipe, rules]
     - when: never
 
 microsoftstore_qt6:
@@ -103,6 +98,7 @@ microsoftstore_qt6:
     - !reference [.publishing-recipes, rules]
 
 flatpak:
+  allow_failure: true # TODO: REMOVE WHEN STABLE AGAIN
   needs:
     - suse_tumbleweed_qt610
   rules:
