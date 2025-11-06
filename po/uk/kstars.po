@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-06 09:17+0000\n"
-"PO-Revision-Date: 2025-10-31 11:48+0200\n"
+"PO-Revision-Date: 2025-11-06 16:58+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -29087,42 +29087,34 @@ msgid "Warning: DEC value %1 is invalid."
 msgstr "Увага! Значення схилення %1 є некоректним."
 
 #: ekos/scheduler/scheduler.cpp:929
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre-Startup Queue"
-msgstr "Виберіть скрипт запуску"
+msgstr "Виберіть скрипт для виконання до запуску"
 
 #: ekos/scheduler/scheduler.cpp:931 ekos/scheduler/scheduler.cpp:947
 #: ekos/scheduler/scheduler.cpp:963 ekos/scheduler/scheduler.cpp:979
 #, kde-format
 msgid "Queue Files (*.kstarsqueue *.json)"
-msgstr ""
+msgstr "файли черги (*.kstarsqueue *.json)"
 
 #: ekos/scheduler/scheduler.cpp:945
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post-Startup Queue"
-msgstr "Виберіть скрипт для виконання після запуску драйвера"
+msgstr "Виберіть скрипт для виконання після запуску"
 
 #: ekos/scheduler/scheduler.cpp:961
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Sequence Queue"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre-Shutdown Queue"
-msgstr "Виберіть чергу послідовності"
+msgstr "Виберіть скрипт для виконання до вимикання"
 
 #: ekos/scheduler/scheduler.cpp:977
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Sequence Queue"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post-Shutdown Queue"
-msgstr "Виберіть чергу послідовності"
+msgstr "Виберіть скрипт для виконання після вимикання"
 
 #: ekos/scheduler/scheduler.cpp:1068
 #, kde-format
@@ -29914,38 +29906,39 @@ msgid ""
 "Enable or disable execution of the startup queue. When disabled, no startup "
 "procedure will run."
 msgstr ""
+"Увімкнути або вимкнути виконання черги запуску. Якщо вимкнено, процедура "
+"запуску не виконуватиметься."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerStartupEnabled)
 #: ekos/scheduler/scheduler.ui:2045
 #, kde-format
 msgid "Enable startup queue"
-msgstr ""
+msgstr "Увімкнути чергу запуску"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPreStartupScript)
 #: ekos/scheduler/scheduler.ui:2066
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Selected pre-startup queue to run before starting Ekos profile"
-msgstr "Виберіть скрипт для виконання до запуску драйвера"
+msgstr "Вибрана черга до запуску, яку буде запущено до запуску профілю Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPreStartupQueueB)
 #: ekos/scheduler/scheduler.ui:2095
 #, kde-format
 msgid "Browse for pre-startup queue/collection file"
-msgstr ""
+msgstr "Пошук файла черги або збірки для виконання до запуску"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostStartupScript)
 #: ekos/scheduler/scheduler.ui:2121
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Selected post-startup queue to run after starting Ekos profile"
-msgstr "Виберіть скрипт для виконання після запуску драйвера"
+msgstr ""
+"Вибрана черга після запуску, яку буде запущено після запуску профілю Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPostStartupQueueB)
 #: ekos/scheduler/scheduler.ui:2150
 #, kde-format
 msgid "Browse for post-startup queue/collection file"
-msgstr ""
+msgstr "Пошук файла черги або збірки для виконання після запуску"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:2174
@@ -29960,38 +29953,41 @@ msgid ""
 "Enable or disable execution of the shutdown queue. When disabled, no "
 "shutdown procedure will run."
 msgstr ""
+"Увімкнути або вимкнути виконання черги вимикання. Якщо вимкнено, процедура "
+"вимикання не виконуватиметься."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerShutdownEnabled)
 #: ekos/scheduler/scheduler.ui:2198
 #, kde-format
 msgid "Enable shutdown queue"
-msgstr ""
+msgstr "Увімкнути чергу вимикання"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPreShutdownScript)
 #: ekos/scheduler/scheduler.ui:2219
-#, fuzzy, kde-format
-#| msgid "Select script to execute before stopping the driver"
+#, kde-format
 msgid "Selected pre-shutdown queue to run before stopping Ekos profile"
-msgstr "Виберіть скрипт для виконання до зупинення драйвера"
+msgstr ""
+"Вибрана черга до вимикання, яку буде запущено до припинення дії профілю Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPreShutdownQueueB)
 #: ekos/scheduler/scheduler.ui:2248
 #, kde-format
 msgid "Browse for pre-shutdown queue/collection file"
-msgstr ""
+msgstr "Пошук файла черги або збірки для виконання до вимикання"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostShutdownScript)
 #: ekos/scheduler/scheduler.ui:2274
-#, fuzzy, kde-format
-#| msgid "Select script to execute after stopping the driver"
+#, kde-format
 msgid "Selected post-shutdown queue to run after stopping Ekos profile"
-msgstr "Виберіть скрипт для виконання після зупинення драйвера"
+msgstr ""
+"Вибрана черга після вимикання, яку буде запущено після припинення дії "
+"профілю Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPostShutdownQueueB)
 #: ekos/scheduler/scheduler.ui:2303
 #, kde-format
 msgid "Browse for post-shutdown queue/collection file"
-msgstr ""
+msgstr "Пошук файла черги або збірки для виконання після вимикання"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
@@ -30189,10 +30185,9 @@ msgstr ""
 "до готовності завдання до виконання."
 
 #: ekos/scheduler/schedulerprocess.cpp:736
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Warning: Failed to add mount park task."
-msgstr "Не вдалося завантажити дані темного зображення."
+msgstr "Попередження: не вдалося додати завдання з паркування лафета."
 
 #: ekos/scheduler/schedulerprocess.cpp:742
 #, kde-format
@@ -30209,16 +30204,17 @@ msgstr ""
 "увімкнути вимикання із попереднім спорожненням списку завдань."
 
 #: ekos/scheduler/schedulerprocess.cpp:781
-#, fuzzy, kde-format
-#| msgid "The mount is parked. Unpark to start guiding."
+#, kde-format
 msgid "Mount is parked, adding unpark task before slewing."
 msgstr ""
-"Лафет запарковано. Зніміть лафет з паркування, щоб розпочати наведення."
+"Лафет запарковано, додаємо завдання зі зняття з паркування перед наведенням."
 
 #: ekos/scheduler/schedulerprocess.cpp:786
 #, kde-format
 msgid "Warning: Failed to add mount unpark task, attempting to slew anyway."
 msgstr ""
+"Попередження: не вдалося додати завдання зі знімання лафета з паркування, "
+"намагаємося повернути лафет попри це."
 
 #: ekos/scheduler/schedulerprocess.cpp:813
 #, kde-format
@@ -30391,19 +30387,17 @@ msgstr "Пристрої INDI від'єднано."
 #: ekos/scheduler/schedulerprocess.cpp:1528
 #, kde-format
 msgid "INDI devices ready. Proceeding to post-startup phase..."
-msgstr ""
+msgstr "Пристрої INDI готові. Переходимо до стадії після запуску…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1593
-#, fuzzy, kde-format
-#| msgid "Executing post job script %1"
+#, kde-format
 msgid "Executing post-shutdown tasks from %1..."
-msgstr "Виконуємо скрипт після виконання завдання, %1"
+msgstr "Виконуємо завдання після вимикання з %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1601
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map %1"
+#, kde-format
 msgid "Failed to load post-shutdown queue from %1"
-msgstr "Не вдалося завантажити карту дефектів %1"
+msgstr "Не вдалося завантажити чергу завдань після вимикання з %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1611
 #, kde-format
@@ -30421,63 +30415,60 @@ msgid "Observatory is in the startup process"
 msgstr "Обсерваторія виконує процедуру започаткування роботи"
 
 #: ekos/scheduler/schedulerprocess.cpp:1725
-#, fuzzy, kde-format
-#| msgid "Executing script %1..."
+#, kde-format
 msgid "Executing pre-startup tasks from %1..."
-msgstr "Виконуємо скрипт %1…"
+msgstr "Виконуємо завдання до запуску з %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1733
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map file %1"
+#, kde-format
 msgid "Failed to load pre-startup queue from %1"
-msgstr "Не вдалося завантажити файл карти дефектів %1"
+msgstr "Не вдалося завантажити чергу завдань перед запуском з %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1739
 #, kde-format
 msgid "No pre-startup tasks, pre-startup phase complete. Starting Ekos..."
 msgstr ""
+"Немає завдань перед запуском. Стадію перед запуском завершено. Запускаємо "
+"Ekos…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1763
-#, fuzzy, kde-format
-#| msgid "Executing script %1..."
+#, kde-format
 msgid "Executing post-startup tasks from %1..."
-msgstr "Виконуємо скрипт %1…"
+msgstr "Виконуємо завдання після запуску з %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1771
-#, fuzzy, kde-format
-#| msgid "Failed to load dark frame file %1"
+#, kde-format
 msgid "Failed to load post-startup tasks from %1"
-msgstr "Не вдалося завантажити файл темного кадру %1"
+msgstr "Не вдалося завантажити завдання після запуску з %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1777
 #, kde-format
 msgid "No post-startup tasks, startup complete."
-msgstr ""
+msgstr "Немає завдань після запуску. Запуск завершено."
 
 #: ekos/scheduler/schedulerprocess.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Executing pre job script %1"
+#, kde-format
 msgid "Executing pre-shutdown tasks from %1..."
-msgstr "Виконуємо скрипт перед виконанням завдання, %1"
+msgstr "Виконуємо завдання перед вимиканням з %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1829
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map %1"
+#, kde-format
 msgid "Failed to load pre-shutdown queue from %1"
-msgstr "Не вдалося завантажити карту дефектів %1"
+msgstr "Не вдалося завантажити чергу завдань перед вимиканням з %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1835
 #, kde-format
 msgid "No pre-shutdown tasks, proceeding to stop Ekos/INDI."
 msgstr ""
+"Немає завдань для виконання перед вимиканням, переходимо до припинення "
+"роботи Ekos/INDI."
 
 #: ekos/scheduler/schedulerprocess.cpp:1876
-#, fuzzy, kde-format
-#| msgid "park/unpark wait procedure failed, aborting..."
+#, kde-format
 msgid "Park/unpark procedure failed, aborting..."
 msgstr ""
-"Процедура очікування на паркування або зняття з паркування завершилася з "
-"помилками, перериваємо обробку…"
+"Процедура паркування або зняття з паркування завершилася з помилками, "
+"перериваємо обробку…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1889
 #, kde-format
@@ -30596,45 +30587,39 @@ msgstr ""
 "Захоплений кадр зсунуто на %1 кутових мінут від цілі, повторне вирівнювання…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2971
-#, fuzzy, kde-format
-#| msgid "Manual startup procedure completed successfully."
+#, kde-format
 msgid "Pre-startup queue completed successfully. Starting Ekos..."
-msgstr "Процедуру запуску вручну успішно завершено."
+msgstr "Чергу завдань перед запуском успішно завершено. Запускаємо Ekos…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2979
-#, fuzzy, kde-format
-#| msgid "Manual startup procedure completed successfully."
+#, kde-format
 msgid "Post-startup queue completed successfully."
-msgstr "Процедуру запуску вручну успішно завершено."
+msgstr "Успішно завершено чергу завдань після запуску."
 
 #: ekos/scheduler/schedulerprocess.cpp:2986
-#, fuzzy, kde-format
-#| msgid "Manual shutdown procedure completed successfully."
+#, kde-format
 msgid "Pre-shutdown queue completed successfully."
-msgstr "Процедуру вимикання вручну успішно завершено."
+msgstr "Успішно завершено чергу завдань до вимикання."
 
 #: ekos/scheduler/schedulerprocess.cpp:2994
-#, fuzzy, kde-format
-#| msgid "Manual shutdown procedure completed successfully."
+#, kde-format
 msgid "Post-shutdown queue completed successfully."
-msgstr "Процедуру вимикання вручну успішно завершено."
+msgstr "Успішно завершено чергу завдань після вимикання."
 
 #: ekos/scheduler/schedulerprocess.cpp:3007
-#, fuzzy, kde-format
-#| msgid "Extractor failed: %1s"
+#, kde-format
 msgid "Startup queue failed: %1"
-msgstr "Помилка засобу видобування: %1 с"
+msgstr "Помилка у черзі запуску: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:3014
-#, fuzzy, kde-format
-#| msgid "Refresh solver failed: %1s"
+#, kde-format
 msgid "Pre-shutdown queue failed: %1"
-msgstr "Помилка оновлення розв'язання: %1 с"
+msgstr "Помилка у черзі завдань до вимикання: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:3021
 #, kde-format
 msgid "Post-shutdown queue failed: %1"
-msgstr ""
+msgstr "Помилка у черзі завдань після вимикання: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:3087
 #, kde-format
@@ -30885,116 +30870,100 @@ msgstr "Завдання «%1» %2⨯%3\" %4"
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:92
 #, kde-format
 msgid "Starting task queue with %1 items"
-msgstr ""
+msgstr "Запускаємо чергу завдань з %1 записами"
 
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:263
 #, kde-format
 msgid "No connected device found with required interfaces"
-msgstr ""
+msgstr "Не знайдено з'єднаних пристрої із потрібними інтерфейсами"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
-#, fuzzy, kde-format
-#| msgid "Loading sky objects"
+#, kde-format
 msgid "Load Task Collection"
-msgstr "Завантажуються небесні об'єкти"
+msgstr "Завантаження збірки завдань"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:42
-#, fuzzy, kde-format
-#| msgid "Available Properties"
+#, kde-format
 msgid "Available Collections"
-msgstr "Доступні властивості"
+msgstr "Доступні збірки"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:52
-#, fuzzy, kde-format
-#| msgid "Object Details"
+#, kde-format
 msgid "Collection Details"
-msgstr "Відомості про об'єкт"
+msgstr "Дані збірки"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:79
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "Do not adjust the orientation of the sky map for an erect observer"
-#| msgid "No correction"
+#, kde-format
 msgid "Load Collection"
-msgstr "Без виправлення"
+msgstr "Завантажити збірку"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:185
-#, fuzzy, kde-format
-#| msgid "Error parsing orientation."
+#, kde-format
 msgid "Error reading collection"
-msgstr "Помилка під час обробки орієнтації."
+msgstr "Помилка під час спроби читання збірки"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:196
-#, fuzzy, kde-format
-#| msgid "Invalid Epoch format"
+#, kde-format
 msgid "Invalid collection format"
-msgstr "Некоректний формат запису епохи"
+msgstr "Некоректний формат збірки"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:214
 #, kde-format
 msgid "<b>Tasks (%1):</b><br/>"
-msgstr ""
+msgstr "<b>Завдання (%1):</b><br/>"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Select Devices"
+#, kde-format
 msgid "Select Device"
-msgstr "Вибір пристроїв"
+msgstr "Виберіть пристрій"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:67
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for plate solving"
+#, kde-format
 msgid "Select the device to use for this task"
-msgstr ""
-"Визначає профіль параметрів, який буде використано для розв'язування "
-"зображення"
+msgstr "Виберіть пристрій для використання для цього завдання"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:170
 #, kde-format
 msgid "No compatible devices found"
-msgstr ""
+msgstr "Сумісних пристроїв не знайдено"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:190
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:506
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Optical Train Manager not available"
-msgstr "Немає даних щодо зображення."
+msgstr "Засіб керування оптичним трактом недоступний"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:201
-#, fuzzy, kde-format
-#| msgid "Scheduler started."
+#, kde-format
 msgid "Scheduler state not available"
-msgstr "Розпочато виконання плану."
+msgstr "Немає доступу до стану планувальника"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:215
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:474
-#, fuzzy, kde-format
-#| msgid "No object selected."
+#, kde-format
 msgid "No profile selected"
-msgstr "Не вибрано жодного об'єкта."
+msgstr "Не вибрано жодного профілю"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:235
-#, fuzzy, kde-format
-#| msgid "Critical File not Found: %1"
+#, kde-format
 msgid "Profile not found: %1"
-msgstr "Не знайдено важливого файла: %1"
+msgstr "Профіль не знайдено: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:246
-#, fuzzy, kde-format
-#| msgid "Optical train doesn't exist for id %1"
+#, kde-format
 msgid "No optical trains for profile: %1"
-msgstr "Не існує оптичного тракту для ідентифікатора %1"
+msgstr "Немає оптичних трактів для профілю: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:280
 #, kde-format
 msgid "No cached devices for profile: %1"
-msgstr ""
+msgstr "Немає кешованих пристроїв для профілю: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:316
 #, kde-format
 msgid "No compatible devices in profile"
-msgstr ""
+msgstr "Немає сумісних пристроїв у профілі"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
 #, kde-format
@@ -31007,29 +30976,24 @@ msgid "Weather Station"
 msgstr "Метеорологічна станція"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:503
-#, fuzzy, kde-format
-#| msgid "Dust cap:"
+#, kde-format
 msgid "Dust Cap"
-msgstr "Пилозахисний ковпак:"
+msgstr "Пилозахисний ковпак"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:505
-#, fuzzy, kde-format
-#| msgid "Light box:"
+#, kde-format
 msgid "Light Box"
-msgstr "Підсвічування:"
+msgstr "Підсвічування"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:511
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Spectra"
+#, kde-format
 msgid "Spectrograph"
-msgstr "Спектри"
+msgstr "Спектрограф"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:513
-#, fuzzy, kde-format
-#| msgid "Correct Alt Error"
+#, kde-format
 msgid "Correlator"
-msgstr "Виправити похибку за Вис."
+msgstr "Узгоджувач"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:517
@@ -31040,99 +31004,85 @@ msgid "Device"
 msgstr "Пристрій"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Astrometry Parameters"
+#, kde-format
 msgid "Customize Parameters"
-msgstr "Параметри астрометрії"
+msgstr "Налаштувати параметри"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:97
-#, fuzzy, kde-format
-#| msgid "Device"
+#, kde-format
 msgid "Device: %1"
-msgstr "Пристрій"
+msgstr "Пристрій: %1"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:210
-#, fuzzy, kde-format
-#| msgid "Browse Tree..."
+#, kde-format
 msgid "Browse..."
-msgstr "Ієрархічний список…"
+msgstr "Вибрати…"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:214
-#, fuzzy, kde-format
-#| msgid "Select Filenames"
+#, kde-format
 msgid "Select File"
-msgstr "Виберіть назви файлів"
+msgstr "Виберіть файл"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:298
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Invalid Parameters"
-msgstr "Вхідні параметри"
+msgstr "Некоректні параметри"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:309
 #, kde-format
 msgid "No template specified"
-msgstr ""
+msgstr "Не вказано шаблона"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:53
 #, kde-format
 msgid "Property Template Builder"
-msgstr ""
+msgstr "Засіб побудови шаблону властивостей"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:64
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:81
-#, fuzzy, kde-format
-#| msgid "Edit Flag"
+#, kde-format
 msgid "Edit Template"
-msgstr "Змінити прапорець"
+msgstr "Редагувати шаблон"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:142
-#, fuzzy, kde-format
-#| msgid "Device"
+#, kde-format
 msgid "Device:"
-msgstr "Пристрій"
+msgstr "Пристрій:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Property"
+#, kde-format
 msgid "Property:"
-msgstr "Властивість"
+msgstr "Властивість:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:174
-#, fuzzy, kde-format
-#| msgid "Version:"
+#, kde-format
 msgid "Permission:"
-msgstr "Версія:"
+msgstr "Права доступу:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:207
 #, kde-format
 msgid "SET - Write value to property"
-msgstr ""
+msgstr "SET – записати значення до властивості"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:211
 #, kde-format
 msgid "EVALUATE - Check property condition"
-msgstr ""
+msgstr "EVALUATE – перевірити умову щодо властивості"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:218
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Property"
+#, kde-format
 msgid "Property Element"
-msgstr "Властивість"
+msgstr "Елемент властивості"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:222
-#, fuzzy, kde-format
-#| msgid "Equipment:"
+#, kde-format
 msgid "Element:"
-msgstr "Обладнання:"
+msgstr "Елемент:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:230
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "Action Settings"
-msgstr "Параметри файла"
+msgstr "Параметри дій"
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:237
@@ -31142,61 +31092,54 @@ msgid "Timeout:"
 msgstr "Час очікування:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:242
-#, fuzzy, kde-format
-#| msgctxt "City in St. Lucia"
-#| msgid "Castries"
+#, kde-format
 msgid "Retries:"
-msgstr "Кастрі"
+msgstr "Повторні спроби:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:245
-#, fuzzy, kde-format
-#| msgid "Aborted"
+#, kde-format
 msgid "Abort Queue"
-msgstr "Перервано"
+msgstr "Перервати виконання черги"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:247
 #, kde-format
 msgid "Skip to Next Task"
-msgstr ""
+msgstr "Перейти до наступного завдання"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:248
 #, kde-format
 msgid "On Failure:"
-msgstr ""
+msgstr "Якщо помилка:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:271
-#, fuzzy, kde-format
-#| msgid "Alternate Name"
+#, kde-format
 msgid "Template Name:"
-msgstr "Альтернативна назва"
+msgstr "Назва шаблона:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:281
-#, fuzzy, kde-format
-#| msgid "Memory:"
+#, kde-format
 msgid "Category:"
-msgstr "Пам'ять:"
+msgstr "Категорія:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:294
 #, kde-format
 msgid "Template Preview (JSON)"
-msgstr ""
+msgstr "Перегляд шаблону (JSON)"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:317
-#, fuzzy, kde-format
-#| msgid "Select Devices"
+#, kde-format
 msgid "Step 1: Select Device"
-msgstr "Вибір пристроїв"
+msgstr "Крок 1: вибір пристрою"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:318
 #, kde-format
 msgid "Choose the INDI device for which you want to create a custom template."
-msgstr ""
+msgstr "Виберіть пристрій INDI, для якого ви хочете створити нетиповий шаблон."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:321
-#, fuzzy, kde-format
-#| msgid "1. Select Profile"
+#, kde-format
 msgid "Step 2: Select Property"
-msgstr "1. Вибір профілю"
+msgstr "Крок 2: вибір властивості"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:323
 #, kde-format
@@ -31205,99 +31148,93 @@ msgid ""
 "properties (NUMBER, SWITCH, TEXT) and readable status properties (LIGHT) are "
 "shown."
 msgstr ""
+"Виберіть властивість, якою ви хочете керувати за допомогою цього шаблону. "
+"Буде показано лише властивості, значення яких можна встановлювати (NUMBER, "
+"SWITCH, TEXT), та властивості, стан яких можна читати (LIGHT)."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:326
-#, fuzzy, kde-format
-#| msgid "Configurations"
+#, kde-format
 msgid "Step 3: Configure Actions"
-msgstr "Налаштування"
+msgstr "Крок 3: налаштувати дії"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:327
 #, kde-format
 msgid "Configure how the property should be set and/or evaluated."
 msgstr ""
+"Налаштуйте, як слід встановлювати значення і/або перевіряти значення "
+"властивості."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:330
 #, kde-format
 msgid "Step 4: Template Metadata"
-msgstr ""
+msgstr "Крок 4: метадані шаблону"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:331
 #, kde-format
 msgid "Provide a name, description, and category for your template."
-msgstr ""
+msgstr "Вкажіть назву, опис і категорію вашого шаблону."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:334
 #, kde-format
 msgid "Step 5: Preview and Save"
-msgstr ""
+msgstr "Крок 5: перегляд і збереження"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:335
 #, kde-format
 msgid "Review the generated template before saving."
-msgstr ""
+msgstr "Перегляд створеного шаблону до збереження."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:456
-#, fuzzy, kde-format
-#| msgid "Disconnecting INDI devices..."
+#, kde-format
 msgid "Using connected INDI devices"
-msgstr "Від'єднуємо пристрої INDI…"
+msgstr "Використовуємо з'єднані пристрої INDI"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:464
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "No devices available"
-msgstr "Немає даних щодо зображення."
+msgstr "Не виявлено жодного пристрою"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:491
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Profile Editor"
+#, kde-format
 msgid "Profile not found"
-msgstr "Редактор профілів"
+msgstr "Профіль не знайдено"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:499
-#, fuzzy, kde-format
-#| msgid "Select optical train"
+#, kde-format
 msgid "No optical trains found"
-msgstr "Виберіть оптичний тракт"
+msgstr "Не знайдено оптичних трактів"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:533
 #, kde-format
 msgid "Using cached devices from profile: %1"
-msgstr ""
+msgstr "Використовуємо кешовані пристрої з профілю: %1"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:538
-#, fuzzy, kde-format
-#| msgid "INDI devices connected."
+#, kde-format
 msgid "No devices found"
-msgstr "З'єднано пристрої INDI."
+msgstr "Пристроїв не виявлено"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:585
-#, fuzzy, kde-format
-#| msgid "Object named %1 not found"
+#, kde-format
 msgid "Device not found"
-msgstr "Об'єкт з назвою %1 не знайдено"
+msgstr "Пристрій не знайдено"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:628
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Scope Properties"
+#, kde-format
 msgid "No compatible properties found"
-msgstr "Властивості телескопа"
+msgstr "Не знайдено сумісних властивостей"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:632
 #, kde-format
 msgid "%1 properties available"
-msgstr ""
+msgstr "Маємо %1 доступних властивостей"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:861
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:923
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:966
-#, fuzzy, kde-format
-#| msgid "Mount Configuration"
+#, kde-format
 msgid "SET Action Configuration"
-msgstr "Налаштування лафета"
+msgstr "Налаштовування дії SET"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:869
@@ -31311,89 +31248,77 @@ msgstr "Значення:"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:932
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:973
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Mount Configuration"
+#, kde-format
 msgid "EVALUATE Action Configuration"
-msgstr "Налаштування лафета"
+msgstr "Налаштовування дії EVALUATE"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:876
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:978
-#, fuzzy, kde-format
-#| msgid "Equal"
+#, kde-format
 msgid "Equals"
-msgstr "Рівномірна"
+msgstr "Дорівнює"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:877
 #, kde-format
 msgid "Less Than"
-msgstr ""
+msgstr "Менше за"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:878
-#, fuzzy, kde-format
-#| msgctxt "City in Montana USA"
-#| msgid "Great Falls"
+#, kde-format
 msgid "Greater Than"
-msgstr "Грейт-Фоллз"
+msgstr "Більше за"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:879
 #, kde-format
 msgid "Less or Equal"
-msgstr ""
+msgstr "Менше або дорівнює"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:880
 #, kde-format
 msgid "Greater or Equal"
-msgstr ""
+msgstr "Більше або дорівнює"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:881
-#, fuzzy, kde-format
-#| msgid "Equal"
+#, kde-format
 msgid "Not Equal"
-msgstr "Рівномірна"
+msgstr "Не дорівнює"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:882
 #, kde-format
 msgid "Within Range"
-msgstr ""
+msgstr "У межах діапазону"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:883
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:980
-#, fuzzy, kde-format
-#| msgctxt "City in Oregon USA"
-#| msgid "Condon"
+#, kde-format
 msgid "Condition:"
-msgstr "Кондон"
+msgstr "Умова:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:895
-#, fuzzy, kde-format
-#| msgid "Tolerance:"
+#, kde-format
 msgid "Margin/Tolerance:"
 msgstr "Допуск:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:930
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "State:"
 msgstr "Стан:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:939
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1019
-#, fuzzy, kde-format
-#| msgid "Expert Settings"
+#, kde-format
 msgid "Expected State:"
-msgstr "Розширені налаштування"
+msgstr "Очікуваний стан:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:979
-#, fuzzy, kde-format
-#| msgid "Continue"
+#, kde-format
 msgid "Contains"
-msgstr "Продовжити"
+msgstr "Містить"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:983
-#, fuzzy, kde-format
-#| msgid "Proposed Value"
+#, kde-format
 msgid "Expected Value:"
-msgstr "Пропоноване значення"
+msgstr "Очікуване значення:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1016
 #: skycomponents/imageoverlaycomponent.cpp:556
@@ -31404,18 +31329,17 @@ msgstr "Гаразд"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1017
 #, kde-format
 msgid "Busy"
-msgstr ""
+msgstr "Зайнятий"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Legend Configuration"
+#, kde-format
 msgid "Invalid Configuration"
-msgstr "Налаштування умовних позначень"
+msgstr "Некоректні налаштування"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1034
 #, kde-format
 msgid "At least one action type (SET or EVALUATE) must be selected."
-msgstr ""
+msgstr "Має бути вибрано принаймні один тип дії (SET або EVALUATE)."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1068
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1079
@@ -31424,66 +31348,59 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1105
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1117
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1124
-#, fuzzy, kde-format
-#| msgid "Calibration error"
+#, kde-format
 msgid "Validation Error"
-msgstr "Помилка калібрування"
+msgstr "Помилка під час перевірки"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1069
-#, fuzzy, kde-format
-#| msgid "Failed to scan devices."
+#, kde-format
 msgid "Please select a device."
-msgstr "Не вдалося виконати сканування пристроїв."
+msgstr "Будь ласка, оберіть пристрій."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1080
 #, kde-format
 msgid "Please select a property."
-msgstr ""
+msgstr "Будь ласка, виберіть властивість."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1087
-#, fuzzy, kde-format
-#| msgid "Sample format %1 is not supported."
+#, kde-format
 msgid "Selected property type is not supported."
-msgstr "Підтримки формату зразка %1 не передбачено."
+msgstr "Підтримки вибраного типу властивості не передбачено."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1099
 #, kde-format
 msgid "At least one action (SET or EVALUATE) must be selected."
-msgstr ""
+msgstr "Має бути вибрано принаймні одну дію (SET або EVALUATE)."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1106
 #, kde-format
 msgid "Please select a property element."
-msgstr ""
+msgstr "Будь ласка, виберіть елемент властивості."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1118
 #, kde-format
 msgid "Please provide a template name."
-msgstr ""
+msgstr "Будь ласка, надайте назву шаблону."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1125
-#, fuzzy, kde-format
-#| msgid "Select a category:"
+#, kde-format
 msgid "Please select or enter a category."
-msgstr "Виберіть категорію:"
+msgstr "Будь ласка, виберіть або введіть категорію."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1428
-#, fuzzy, kde-format
-#| msgid "Error"
+#, kde-format
 msgid "Save Error"
-msgstr "Помилка"
+msgstr "Помилка збереження"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1429
-#, fuzzy, kde-format
-#| msgid "Failed to close file: %1"
+#, kde-format
 msgid "Failed to open file for writing: %1"
-msgstr "Не вдалося закрити файл: %1"
+msgstr "Не вдалося відкрити файл для записування: %1"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1466
-#, fuzzy, kde-format
-#| msgid "Update PA Error"
+#, kde-format
 msgid "Template Error"
-msgstr "Оновити похибку ПВ"
+msgstr "Помилка шаблону"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1467
 #, fuzzy, kde-format
@@ -31520,12 +31437,12 @@ msgstr "Поставити до &черги"
 #, fuzzy, kde-format
 #| msgid "Paused"
 msgid "Pause"
-msgstr "Призупинено"
+msgstr "Пауза"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:97
-#, kde-format
+#, fuzzy, kde-format
 msgid "Task"
-msgstr ""
+msgstr "Завдання"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:100
 #, kde-format
@@ -31536,7 +31453,7 @@ msgstr "Поступ"
 #, fuzzy, kde-format
 #| msgid "Calibrated"
 msgid "Created"
-msgstr "Калібровано"
+msgstr "Створено"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpButton)
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:116
@@ -31616,13 +31533,13 @@ msgstr "Помилка розв'язувача: %1 с"
 #| msgctxt "City in Victoria Australia"
 #| msgid "Bendigo"
 msgid "Pending"
-msgstr "Бердіго"
+msgstr "Очікування"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:504
 #, fuzzy, kde-format
 #| msgid "Flipped"
 msgid "Skipped"
-msgstr "Віддзеркалене"
+msgstr "Пропущено"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:602
 #, fuzzy, kde-format
@@ -31707,7 +31624,7 @@ msgstr "Немає даних щодо зображення."
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:763
 #, kde-format
 msgid "Failed to initialize template library"
-msgstr ""
+msgstr "Не вдалося ініціалізувати бібліотеку шаблонів"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:784
 #, fuzzy, kde-format
@@ -31758,17 +31675,14 @@ msgid "Task Queue Templates"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "City in Arizona USA"
-#| msgid "Tempe"
+#, kde-format
 msgid "Templates"
-msgstr "Темпе"
+msgstr "Шаблони"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:73
-#, fuzzy, kde-format
-#| msgid "Add to Job"
+#, kde-format
 msgid "Add to Queue"
-msgstr "Додати до завдання"
+msgstr "Додати до черги відтворення"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:75
 #, kde-format
@@ -31776,23 +31690,19 @@ msgid "Create Custom Template"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:85
-#, fuzzy, kde-format
-#| msgid "Delete Image"
+#, kde-format
 msgid "Delete Template"
-msgstr "Вилучити зображення"
+msgstr "Вилучити шаблон"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:279
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Regor"
+#, kde-format
 msgid "Category"
-msgstr "Регор"
+msgstr "Категорія"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:291
-#, fuzzy, kde-format
-#| msgid "Parameter"
+#, kde-format
 msgid "Parameters"
-msgstr "Параметр"
+msgstr "Параметри"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:317
 #, fuzzy, kde-format
@@ -31812,15 +31722,15 @@ msgid "User Template"
 msgstr "Дані користувача"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:331
-#, kde-format
+#, fuzzy, kde-format
 msgid "Based on"
-msgstr ""
+msgstr "Засновано на"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:399
 #, fuzzy, kde-format
 #| msgid "Delete File(s)"
 msgid "Delete Failed"
-msgstr "Вилучити файли"
+msgstr "Помилка вилучення"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:400
 #, fuzzy, kde-format
