@@ -236,6 +236,17 @@ class Manager : public QDialog, public Ui::Manager
 
         /** @}*/
 
+        /** Get the current device profile */
+        const QString getCurrentProfile() const
+        {
+            return profileCombo->currentText();
+        }
+
+        const QList<QSharedPointer<ProfileInfo >> &getAllProfiles() const
+        {
+            return profiles;
+        }
+
 
         /**
          * Manager interface provides advanced scripting capabilities to establish and shutdown Ekos services.

@@ -393,6 +393,17 @@ bool KSUserDB::Initialize()
         if (!ok)
             qCWarning(KSTARS) << query.lastError();
     }
+
+    // Add opticaltraindevices table
+    if (currentDBVersion < 316)
+    {
+        QSqlQuery query(db);
+        if (!query.exec("CREATE TABLE opticaltraindevices ( "
+                        "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                        "opticaltrain INTEGER DEFAULT NULL, "
+                        "devices TEXT DEFAULT NULL)"))
+            qCWarning(KSTARS) << query.lastError();
+    }
     return true;
 }
 
@@ -552,6 +563,11 @@ bool KSUserDB::RebuildDB()
 
     tables.append("CREATE TABLE opticaltrainsettings (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
                   "opticaltrain INTEGER DEFAULT NULL, settings TEXT DEFAULT NULL)");
+
+    tables.append("CREATE TABLE opticaltraindevices ( "
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                  "opticaltrain INTEGER DEFAULT NULL, "
+                  "devices TEXT DEFAULT NULL)");
 
     tables.append("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, ccd TEXT "
                   "NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, gain INTEGER DEFAULT -1, "
@@ -1110,6 +1126,84 @@ bool KSUserDB::GetOpticalTrains(uint32_t profileID, QList<QVariantMap> &opticalT
     }
 
     return true;
+}
+
+bool KSUserDB::AddOpticalTrainDevices(uint32_t opticaltrainID, const QJsonArray &devicesJson)
+{
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel opticalTrainDevices(nullptr, db);
+    opticalTrainDevices.setTable("opticaltraindevices");
+    opticalTrainDevices.setFilter(QString("opticaltrain=%1").arg(opticaltrainID));
+    opticalTrainDevices.select();
+
+    QSqlRecord record = opticalTrainDevices.record();
+
+    // If a record for this optical train already exists, update it. Otherwise, insert a new one.
+    if (opticalTrainDevices.rowCount() > 0)
+    {
+        record = opticalTrainDevices.record(0);
+        record.setValue("devices", QJsonDocument(devicesJson).toJson(QJsonDocument::Compact));
+        opticalTrainDevices.setRecord(0, record);
+    }
+    else
+    {
+        // Remove PK so that it gets auto-incremented later
+        record.remove(0);
+        record.setValue("opticaltrain", opticaltrainID);
+        record.setValue("devices", QJsonDocument(devicesJson).toJson(QJsonDocument::Compact));
+        opticalTrainDevices.insertRecord(-1, record);
+    }
+
+    if (!opticalTrainDevices.submitAll())
+    {
+        qCWarning(KSTARS) << opticalTrainDevices.lastError();
+        return false;
+    }
+
+    return true;
+}
+
+bool KSUserDB::GetOpticalTrainDevices(uint32_t opticaltrainID, QJsonArray &devicesJson)
+{
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    devicesJson = QJsonArray(); // Clear existing content
+
+    QSqlTableModel opticalTrainDevices(nullptr, db);
+    opticalTrainDevices.setTable("opticaltraindevices");
+    opticalTrainDevices.setFilter(QString("opticaltrain=%1").arg(opticaltrainID));
+    opticalTrainDevices.select();
+
+    if (opticalTrainDevices.rowCount() > 0)
+    {
+        QSqlRecord record = opticalTrainDevices.record(0);
+        auto devicesField = record.value("devices").toByteArray();
+        QJsonParseError parserError;
+        QJsonDocument doc = QJsonDocument::fromJson(devicesField, &parserError);
+        if (parserError.error == QJsonParseError::NoError && doc.isArray())
+        {
+            devicesJson = doc.array();
+            return true;
+        }
+        else
+        {
+            qCWarning(KSTARS) << "Failed to parse INDI device JSON for optical train" << opticaltrainID << ":" <<
+                              parserError.errorString();
+        }
+    }
+
+    return false;
 }
 
 /* Driver Alias Section */

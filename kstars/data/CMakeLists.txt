@@ -216,5 +216,15 @@ install(FILES
 file(GLOB camera_files cameradata/*)
 install( FILES ${camera_files} DESTINATION ${KSTARS_DATADIR}/kstars/cameradata )
 
+# Install README for task queue templates
+install( FILES taskqueue/templates/README.md DESTINATION ${KSTARS_DATADIR}/kstars/taskqueue/templates )
+
+# Install system task queue templates
+file(GLOB taskqueue_template_files taskqueue/templates/system/*)
+install( FILES ${taskqueue_template_files} DESTINATION ${KSTARS_DATADIR}/kstars/taskqueue/templates/system )
+
+file(GLOB taskqueue_collection_files taskqueue/collections/*)
+install( FILES ${taskqueue_collection_files} DESTINATION ${KSTARS_DATADIR}/kstars/taskqueue/collections )
+
 add_subdirectory(fr)
 add_subdirectory(nds)

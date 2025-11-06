@@ -3396,43 +3396,37 @@
          <label>If captured position exceeds target position by more this many arcminutes, abort capture and reschedule the pipeline.</label>
          <default>30</default>
       </entry>
-      <entry name="SchedulerParkDome" type="Bool">
-         <label>Default scheduler checkbox for parking dome on shutdown.</label>
-         <default>false</default>
-      </entry>
-      <entry name="SchedulerParkMount" type="Bool">
-         <label>Default scheduler checkbox for parking mount on shutdown.</label>
-         <default>false</default>
-      </entry>
-      <entry name="SchedulerCloseDustCover" type="Bool">
-         <label>Default scheduler checkbox for closing dust cover on shutdown.</label>
-         <default>false</default>
-      </entry>
-      <entry name="SchedulerWarmCCD" type="Bool">
-         <label>Default scheduler checkbox for warming the CCD on shutdown.</label>
-         <default>false</default>
-      </entry>
-      <entry name="SchedulerUnparkDome" type="Bool">
-         <label>Default scheduler checkbox for unparking dome on startup.</label>
-         <default>false</default>
-      </entry>
-      <entry name="SchedulerUnparkMount" type="Bool">
-         <label>Default scheduler checkbox for unparking mount on startup.</label>
-         <default>false</default>
-      </entry>
-      <entry name="SchedulerOpenDustCover" type="Bool">
-         <label>Default scheduler checkbox for opening dust cover on startup.</label>
-         <default>false</default>
-      </entry>
       <entry name="SchedulerTrackStep" type="Bool">
          <label>Default scheduler checkbox for starting mount tracking on job startup.</label>
          <default>true</default>
       </entry>
-      <entry name="SchedulerStartupScript" type="String">
-         <label>Execute this script when starting the scheduler.</label>
+      <entry name="SchedulerStartupEnabled" type="Bool">
+         <label>Enable startup queue execution</label>
+         <whatsthis>If enabled, the startup queue will be executed when the scheduler starts. If disabled, no startup procedure will run.</whatsthis>
+         <default>true</default>
       </entry>
-      <entry name="SchedulerShutdownScript" type="String">
-         <label>Execute this script when shutting down the scheduler.</label>
+      <entry name="SchedulerPreStartupScript" type="String">
+         <label>Path to startup queue file or script.</label>
+         <whatsthis>Path to the startup queue file to execute when starting the scheduler before starting the equipment profile.</whatsthis>         
+      </entry>
+      <entry name="SchedulerPostStartupScript" type="String">
+         <label>Path to post-startup queue file or script.</label>
+         <whatsthis>Path to the startup queue file to execute when starting the scheduler after starting the equipment profile.</whatsthis>
+         <default>observatory_startup</default>
+      </entry>
+      <entry name="SchedulerShutdownEnabled" type="Bool">
+         <label>Enable shutdown queue execution</label>
+         <whatsthis>If enabled, the shutdown queue will be executed when the scheduler shuts down. If disabled, no shutdown procedure will run.</whatsthis>
+         <default>true</default>
+      </entry>
+      <entry name="SchedulerPreShutdownScript" type="String">
+         <label>Path to shutdown queue file or script.</label>
+         <whatsthis>Path to the shutdown queue file to execute when stopping the scheduler before stopping the equipment profile.</whatsthis>
+         <default>observatory_shutdown</default>
+      </entry>
+      <entry name="SchedulerPostShutdownScript" type="String">
+         <label>Path to post-shutdown queue file or script.</label>
+         <whatsthis>Path to the shutdown queue file to execute when stopping the scheduler after stopping the equipment profile.</whatsthis>         
       </entry>
       <entry name="SchedulerFocusStep" type="Bool">
          <label>Default scheduler checkbox for running autofocus on job startup.</label>

@@ -24,6 +24,9 @@ namespace Ekos
 
 class GreedyScheduler;
 class SchedulerModuleState;
+class QueueItem;
+class QueueManager;
+class QueueExecutor;
 
 /**
  * @class SchedulerProcess
@@ -42,7 +45,8 @@ class SchedulerProcess : public QObject, public ModuleLogger
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
     public:
-        SchedulerProcess(QSharedPointer<SchedulerModuleState> state, const QString &ekosPathStr, const QString &ekosInterfaceStr);
+        SchedulerProcess(QSharedPointer<SchedulerModuleState> state, const QString &ekosPathStr, const QString &ekosInterfaceStr,
+                         QueueManager *queueManager = nullptr, QueueExecutor *queueExecutor = nullptr);
 
 
         // ////////////////////////////////////////////////////////////////////
@@ -237,18 +241,7 @@ class SchedulerProcess : public QObject, public ModuleLogger
          * @brief checkParkWaitState Check park wait state.
          * @return If parking/unparking in progress, return false. If parking/unparking complete, return true.
          */
-        Q_SCRIPTABLE bool checkParkWaitState();
-
-        /**
-         * @brief runStartupProcedure Execute the startup of the scheduler itself to be prepared
-         * for running scheduler jobs.
-         */
-        Q_SCRIPTABLE Q_NOREPLY void runStartupProcedure();
-
-        /**
-         * @brief runShutdownProcedure Shutdown the scheduler itself and EKOS (if configured to do so).
-         */
-        Q_SCRIPTABLE Q_NOREPLY void runShutdownProcedure();
+        Q_SCRIPTABLE bool checkParkWaitState();        
 
         /**
          * @brief setPaused pausing the scheduler
@@ -574,10 +567,6 @@ class SchedulerProcess : public QObject, public ModuleLogger
          */
         GuideState getGuidingStatus();
 
-        QProcess &scriptProcess()
-        {
-            return m_scriptProcess;
-        }
 
         const QString &profile() const;
         void setProfile(const QString &newProfile);
@@ -658,6 +647,18 @@ class SchedulerProcess : public QObject, public ModuleLogger
         void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
 
         /**
+         * @brief queueExecutionCompleted Handle completion of startup or shutdown queue execution
+         */
+        void queueExecutionCompleted();
+
+        /**
+         * @brief queueItemFailed Handle failure of a queue item during startup or shutdown
+         * @param item The queue item that failed
+         * @param error Error message describing the failure
+         */
+        void queueItemFailed(QueueItem *item, const QString &error);
+
+        /**
          * @brief checkInterfaceReady Sometimes syncProperties() is not sufficient since the ready signal could have fired already
          * and cannot be relied on to know once a module interface is ready. Therefore, we explicitly check if the module interface
          * is ready.
@@ -700,8 +701,6 @@ class SchedulerProcess : public QObject, public ModuleLogger
         /// Counter to keep debug logging in check
         uint8_t checkJobStageCounter { 0 };
 
-        // Startup and Shutdown scripts process
-        QProcess m_scriptProcess;
         // solver for alignment checks
         QSharedPointer<SolverUtils> m_Solver;
 
@@ -710,6 +709,10 @@ class SchedulerProcess : public QObject, public ModuleLogger
 
         // Shutdown Timer due to weather
         QTimer m_WeatherShutdownTimer;
+
+        // Task queue system for startup/shutdown procedures
+        QueueManager *m_queueManager { nullptr };
+        QueueExecutor *m_queueExecutor { nullptr };
 
         // ////////////////////////////////////////////////////////////////////
         // DBUS interfaces
@@ -754,47 +757,9 @@ class SchedulerProcess : public QObject, public ModuleLogger
         void checkMountParkingStatus();
 
         /**
-         * @brief checkDomeParkingStatus check dome parking status and updating corresponding states accordingly.
-         */
-        void checkDomeParkingStatus();
-
-        /**
          * @brief startFocusing Start focusing on the job
          */
         void startFocusing(SchedulerJob *job);
-        // ////////////////////////////////////////////////////////////////////
-        // device handling
-        // ////////////////////////////////////////////////////////////////////
-        /**
-         * @brief parkCap Close dust cover
-         */
-        void parkCap();
-
-        /**
-         * @brief unCap Open dust cover
-         */
-        void unParkCap();
-
-        /**
-         * @brief parkMount Park mount
-         */
-        void parkMount();
-
-        /**
-         * @brief unParkMount Unpark mount
-         */
-        void unParkMount();
-
-        /**
-         * @brief parkDome Park dome
-         */
-        void parkDome();
-
-        /**
-         * @brief unParkDome Unpark dome
-         */
-        void unParkDome();
-
         // ////////////////////////////////////////////////////////////////////
         // helper functions
         // ////////////////////////////////////////////////////////////////////
@@ -809,17 +774,6 @@ class SchedulerProcess : public QObject, public ModuleLogger
          * {@see #checkShutdownState()}) and stop EKOS if the corresponding configuration flag is set.
          */
         void checkShutdownProcedure();
-
-        /**
-         * @brief checkProcessExit Check script process exist status. This is called when the process exists either normally or abnormally.
-         * @param exitCode exit code from the script process. Depending on the exist code, the status of startup/shutdown procedure is set accordingly.
-         */
-        void checkProcessExit(int exitCode);
-
-        /**
-         * @brief readProcessOutput read running script process output and display it in Ekos
-         */
-        void readProcessOutput();
 
         /**
          * @brief Returns true if the job is storing its captures on the same machine as the scheduler.
@@ -844,4 +798,4 @@ class SchedulerProcess : public QObject, public ModuleLogger
     private:
         ISD::Mount::Status m_lastMountStatus = ISD::Mount::MOUNT_IDLE;
 };
-} // Ekos namespace
+}

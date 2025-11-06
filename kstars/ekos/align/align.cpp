@@ -63,6 +63,7 @@
 #include <basedevice.h>
 #include <indicom.h>
 #include <memory>
+#include <algorithm>
 
 //Qt Includes
 #include <QToolTip>
@@ -1645,6 +1646,8 @@ bool Align::captureAndSolve(bool initialCall)
             default:
             {
                 TimeOut *= m_CaptureTimeoutCounter; // Extend Timeout in case estimated value is too short
+                // Ensure TimeOut does not exceed 60 seconds (60000 milliseconds)
+                TimeOut = std::min(TimeOut, 60000);
                 m_estimateRotatorTimeFrame = false;
                 appendLogText(i18n("Cannot capture while rotator is busy: Retrying in %1 seconds...", TimeOut / 1000));
                 m_CaptureTimer.start(TimeOut);
@@ -2982,7 +2985,7 @@ void Align::updateProperty(INDI::Property prop)
         }
         else if (m_estimateRotatorTimeFrame) // Estimate time frame during first timeout
         {
-            m_RotatorTimeFrame = RotatorUtils::Instance()->calcTimeFrame(RAngle);
+            m_RotatorTimeFrame = std::min(RotatorUtils::Instance()->calcTimeFrame(RAngle), 60);
         }
     }
     else if (prop.isNameMatch("TELESCOPE_MOTION_NS") || prop.isNameMatch("TELESCOPE_MOTION_WE"))

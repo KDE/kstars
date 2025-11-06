@@ -12,40 +12,26 @@ namespace Ekos
 {
 typedef enum
 {
-    STARTUP_IDLE,
-    STARTUP_SCRIPT,
-    STARTUP_UNPARK_DOME,
-    STARTUP_UNPARKING_DOME,
-    STARTUP_UNPARK_MOUNT,
-    STARTUP_UNPARKING_MOUNT,
-    STARTUP_UNPARK_CAP,
-    STARTUP_UNPARKING_CAP,
-    STARTUP_ERROR,
-    STARTUP_COMPLETE
+    STARTUP_IDLE,                  /**< Startup procedure not started */
+    STARTUP_PRE_DEVICES,           /**< Executing pre-startup tasks (before INDI) */
+    STARTUP_PRE_DEVICES_RUNNING,   /**< Waiting for pre-startup tasks to complete */
+    STARTUP_POST_DEVICES,          /**< Executing post-startup tasks (after INDI ready) */
+    STARTUP_POST_DEVICES_RUNNING,  /**< Waiting for post-startup tasks to complete */
+    STARTUP_COMPLETE,              /**< Startup procedure completed successfully */
+    STARTUP_ERROR                  /**< Startup procedure failed */
 } StartupState;
-typedef enum
-{
-    SHUTDOWN_IDLE,
-    SHUTDOWN_PARK_CAP,
-    SHUTDOWN_PARKING_CAP,
-    SHUTDOWN_PARK_MOUNT,
-    SHUTDOWN_PARKING_MOUNT,
-    SHUTDOWN_PARK_DOME,
-    SHUTDOWN_PARKING_DOME,
-    SHUTDOWN_SCRIPT,
-    SHUTDOWN_SCRIPT_RUNNING,
-    SHUTDOWN_ERROR,
-    SHUTDOWN_COMPLETE
-} ShutdownState;
+    typedef enum
+    {
+        SHUTDOWN_IDLE,                  ///< Shutdown not in progress
+        SHUTDOWN_PRE_QUEUE_RUNNING,     ///< Pre-shutdown queue is executing
+        SHUTDOWN_STOPPING_EKOS,         ///< Pre-shutdown done, stopping Ekos/INDI
+        SHUTDOWN_POST_QUEUE_RUNNING,    ///< Post-shutdown queue is executing  
+        SHUTDOWN_COMPLETE,              ///< Shutdown complete
+        SHUTDOWN_ERROR                  ///< Shutdown error
+    } ShutdownState;
 typedef enum
 {
     PARKWAIT_IDLE,
-    PARKWAIT_PARK,
-    PARKWAIT_PARKING,
-    PARKWAIT_PARKED,
-    PARKWAIT_UNPARK,
-    PARKWAIT_UNPARKING,
-    PARKWAIT_UNPARKED,
     PARKWAIT_ERROR
 } ParkWaitState;
 // overall states of EKOS

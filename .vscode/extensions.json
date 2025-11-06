@@ -8,8 +8,7 @@
     "ms-vscode.cpptools-themes",
     "ms-vscode.cmake-tools",
     "webfreak.debug",
-    "ms-vscode.vscode-serial-monitor",
-    "twxs.cmake"
+    "ms-vscode.vscode-serial-monitor"
   ],
   "unwantedRecommendations": []
 }

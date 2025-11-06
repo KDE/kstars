@@ -175,6 +175,12 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          */
         QString name(int id) const;
 
+        /**
+         * @brief Import INDI properties of devices for a specific optical train profile from the user database.
+         * @param trainID The ID of the train to import properties for. If 0, the current active train is used.
+         */
+        bool importTrainINDIProperties(QJsonArray &devices, uint32_t trainID = 0);
+
         ISD::Mount *getMount(const QString &name);
         ISD::DustCap *getDustCap(const QString &name);
         ISD::LightBox *getLightBox(const QString &name);
@@ -242,6 +248,11 @@ class OpticalTrainManager : public QDialog, public Ui::OpticalTrain
          * @return name, eventually added (i) to make the train name unique
          */
         QString uniqueTrainName(QString name);
+
+        /**
+         * @brief Export INDI properties of devices in the optical trains to the user database.
+         */
+        void exportTrainINDIProperties();
 
         QSharedPointer<ProfileInfo> m_Profile;
         QList<QVariantMap> m_OpticalTrains;

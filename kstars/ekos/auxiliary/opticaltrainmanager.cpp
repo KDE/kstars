@@ -12,6 +12,7 @@
 #include "Options.h"
 #include "kstars.h"
 #include "indi/indilistener.h"
+#include "indi/indipropertyexporter.h"
 #include "ekos/auxiliary/profilesettings.h"
 #include "oal/equipmentwriter.h"
 
@@ -19,6 +20,7 @@
 #include <QSqlTableModel>
 #include <QSqlDatabase>
 #include <QSqlRecord>
+#include <QJsonDocument>
 
 #include <basedevice.h>
 
@@ -386,7 +388,6 @@ void OpticalTrainManager::syncActiveProperties(const QVariantMap &train, const Q
             device->sendNewProperty(tvp.getText());
         }
     }
-
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -610,7 +611,7 @@ bool OpticalTrainManager::syncDelegatesToDevices()
 {
     auto changed = false;
     // Must block signals otherwise all the combo boxes will fire signals that should not be processed.
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         oneWidget->blockSignals(true);
 
     // Mounts
@@ -719,7 +720,7 @@ bool OpticalTrainManager::syncDelegatesToDevices()
     guiderComboBox->setCurrentText(currentGuider);
 
     // Restore all signals
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         oneWidget->blockSignals(false);
 
     return changed;
@@ -1256,6 +1257,9 @@ void OpticalTrainManager::checkMissingDevices()
         raise();
         emit configurationRequested(true);
     }
+    // No missing devices? Time to export to DB
+    else
+        exportTrainINDIProperties();
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -1350,4 +1354,63 @@ void OpticalTrainManager::reset()
     }
 }
 
+////////////////////////////////////////////////////////////////////////////
+/// Export Train INDI properties
+////////////////////////////////////////////////////////////////////////////
+void OpticalTrainManager::exportTrainINDIProperties()
+{
+    if (!m_Profile)
+        return;
+
+    for (const QVariantMap &oneTrain : m_OpticalTrains)
+    {
+        uint32_t opticalTrainID = oneTrain["id"].toUInt();
+        QList<QSharedPointer<ISD::GenericDevice>> devicesInTrain;
+
+        // Collect devices for the current optical train
+        QSharedPointer<ISD::GenericDevice> device;
+        if (getGenericDevice(oneTrain["name"].toString(), Mount, device))
+            devicesInTrain.append(device);
+        if (getGenericDevice(oneTrain["name"].toString(), Camera, device))
+            devicesInTrain.append(device);
+        if (getGenericDevice(oneTrain["name"].toString(), GuideVia, device))
+            devicesInTrain.append(device);
+        if (getGenericDevice(oneTrain["name"].toString(), Focuser, device))
+            devicesInTrain.append(device);
+        if (getGenericDevice(oneTrain["name"].toString(), FilterWheel, device))
+            devicesInTrain.append(device);
+        if (getGenericDevice(oneTrain["name"].toString(), Rotator, device))
+            devicesInTrain.append(device);
+        if (getGenericDevice(oneTrain["name"].toString(), DustCap, device))
+            devicesInTrain.append(device);
+        if (getGenericDevice(oneTrain["name"].toString(), LightBox, device))
+            devicesInTrain.append(device);
+        // Also include non-train specific devices if this is the primary train
+        if (opticalTrainID == m_OpticalTrains[0]["id"].toUInt())
+        {
+            if (getGenericDevice(oneTrain["name"].toString(), Dome, device))
+                devicesInTrain.append(device);
+            if (getGenericDevice(oneTrain["name"].toString(), Weather, device))
+                devicesInTrain.append(device);
+            if (getGenericDevice(oneTrain["name"].toString(), GPS, device))
+                devicesInTrain.append(device);
+        }
+
+        QJsonArray devicesJson = ISD::INDIPropertyExporter::exportDevicesProperties(devicesInTrain);
+        KStarsData::Instance()->userdb()->AddOpticalTrainDevices(opticalTrainID, devicesJson);
+    }
+}
+////////////////////////////////////////////////////////////////////////////
+/// Import Train INDI properties
+////////////////////////////////////////////////////////////////////////////
+bool OpticalTrainManager::importTrainINDIProperties(QJsonArray & devices, uint32_t trainID)
+{
+    uint32_t targetTrainID = trainID;
+    if (targetTrainID == 0)
+    {
+        targetTrainID = m_CurrentOpticalTrain->value("id").toUInt();
+    }
+
+    return KStarsData::Instance()->userdb()->GetOpticalTrainDevices(targetTrainID, devices);
+}
 }

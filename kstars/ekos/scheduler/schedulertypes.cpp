@@ -50,20 +50,14 @@ QString startupStateString(StartupState state)
     {
         case STARTUP_IDLE:
             return "Startup is idle";
-        case STARTUP_SCRIPT:
-            return "Startup running script";
-        case STARTUP_UNPARK_DOME:
-            return "Startup unpark dome";
-        case STARTUP_UNPARKING_DOME:
-            return "Startup unparking dome";
-        case STARTUP_UNPARK_MOUNT:
-            return "Startup unpark mount";
-        case STARTUP_UNPARKING_MOUNT:
-            return "Startup unparking mount";
-        case STARTUP_UNPARK_CAP:
-            return "Startup remove cap";
-        case STARTUP_UNPARKING_CAP:
-            return "Startup removing cap";
+        case STARTUP_PRE_DEVICES:
+            return "Pre-startup phase";
+        case STARTUP_PRE_DEVICES_RUNNING:
+            return "Starting Ekos and INDI";
+        case STARTUP_POST_DEVICES:
+            return "Post-startup phase";
+        case STARTUP_POST_DEVICES_RUNNING:
+            return "Post-startup queue running";
         case STARTUP_ERROR:
             return "Startup error";
         case STARTUP_COMPLETE:
@@ -77,27 +71,17 @@ QString shutdownStateString(ShutdownState state)
     switch(state)
     {
         case SHUTDOWN_IDLE:
-            return "Shutdown is idle";
-        case SHUTDOWN_PARK_CAP:
-            return "Shutdown remove cap";
-        case SHUTDOWN_PARKING_CAP:
-            return "Shutdown removing cap";
-        case SHUTDOWN_PARK_MOUNT:
-            return "Shutdown park mount";
-        case SHUTDOWN_PARKING_MOUNT:
-            return "Shutdown parking mount";
-        case SHUTDOWN_PARK_DOME:
-            return "Shutdown park dome";
-        case SHUTDOWN_PARKING_DOME:
-            return "Shutdown parking dome";
-        case SHUTDOWN_SCRIPT:
-            return "Shutdown script";
-        case SHUTDOWN_SCRIPT_RUNNING:
-            return "Shutdown script running";
-        case SHUTDOWN_ERROR:
-            return "Shutdown error";
+            return "SHUTDOWN_IDLE";
+        case SHUTDOWN_PRE_QUEUE_RUNNING:
+            return "SHUTDOWN_PRE_QUEUE_RUNNING";
+        case SHUTDOWN_STOPPING_EKOS:
+            return "SHUTDOWN_STOPPING_EKOS";
+        case SHUTDOWN_POST_QUEUE_RUNNING:
+            return "SHUTDOWN_POST_QUEUE_RUNNING";
         case SHUTDOWN_COMPLETE:
-            return "Shutdown complete";
+            return "SHUTDOWN_COMPLETE";
+        case SHUTDOWN_ERROR:
+            return "SHUTDOWN_ERROR";
     }
     return QString("????");
 }
@@ -108,18 +92,6 @@ QString parkWaitStateString(ParkWaitState state)
     {
         case PARKWAIT_IDLE:
             return "Park idle";
-        case PARKWAIT_PARK:
-            return "Park";
-        case PARKWAIT_PARKING:
-            return "Parking";
-        case PARKWAIT_PARKED:
-            return "Parked";
-        case PARKWAIT_UNPARK:
-            return "Unpark";
-        case PARKWAIT_UNPARKING:
-            return "Unparking";
-        case PARKWAIT_UNPARKED:
-            return "Unparked";
         case PARKWAIT_ERROR:
             return "Park error";
     }

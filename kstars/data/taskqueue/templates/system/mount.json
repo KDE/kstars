@@ -1,0 +1,95 @@
+{
+    "category": "Mount",
+    "device_type": "Telescope",
+    "version": "1.0",
+    "templates": [
+        {
+            "id": "mount_park",
+            "name": "Park Mount",
+            "description": "Park telescope mount to home position",
+            "version": "1.0",
+            "category": "Mount",
+            "supported_interfaces": [
+                1
+            ],
+            "parameters": [
+                {
+                    "name": "wait_timeout",
+                    "type": "number",
+                    "default": 60,
+                    "min": 30,
+                    "max": 300,
+                    "step": 10,
+                    "unit": "seconds",
+                    "description": "Maximum time to wait for parking to complete"
+                }
+            ],
+            "actions": [
+                {
+                    "type": "SET",
+                    "property": "TELESCOPE_PARK",
+                    "element": "PARK",
+                    "value": true,
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                },
+                {
+                    "type": "EVALUATE",
+                    "property": "TELESCOPE_PARK",
+                    "element": "STATE",
+                    "property_type": 4,
+                    "condition": 0,
+                    "target": "OK",
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                }
+            ]
+        },
+        {
+            "id": "mount_unpark",
+            "name": "Unpark Mount",
+            "description": "Unpark telescope mount for observations",
+            "version": "1.0",
+            "category": "Mount",
+            "supported_interfaces": [
+                1
+            ],
+            "parameters": [
+                {
+                    "name": "wait_timeout",
+                    "type": "number",
+                    "default": 60,
+                    "min": 30,
+                    "max": 300,
+                    "step": 10,
+                    "unit": "seconds",
+                    "description": "Maximum time to wait for unparking to complete"
+                }
+            ],
+            "actions": [
+                {
+                    "type": "SET",
+                    "property": "TELESCOPE_PARK",
+                    "element": "UNPARK",
+                    "value": true,
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                },
+                {
+                    "type": "EVALUATE",
+                    "property": "TELESCOPE_PARK",
+                    "element": "STATE",
+                    "property_type": 4,
+                    "condition": 0,
+                    "target": "OK",
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                }
+            ]
+        }
+    ]
+}

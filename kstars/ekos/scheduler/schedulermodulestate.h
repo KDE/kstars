@@ -140,13 +140,30 @@ class SchedulerModuleState : public QObject
 
         void setStartupState(StartupState state);
 
-        const QUrl &startupScriptURL() const
+        const QUrl &preStartupScriptURL() const
         {
-            return m_startupScriptURL;
+            return m_preStartupScriptURL;
         }
-        void setStartupScriptURL(const QUrl &newURL)
+        void setPreStartupScriptURL(const QUrl &newURL)
         {
-            m_startupScriptURL = newURL;
+            if (newURL != m_preStartupScriptURL)
+            {
+                m_preStartupScriptURL = newURL;
+                emit scriptsChanged();
+            }
+        }
+
+        const QUrl &postStartupScriptURL() const
+        {
+            return m_postStartupScriptURL;
+        }
+        void setPostStartupScriptURL(const QUrl &newURL)
+        {
+            if (newURL != m_postStartupScriptURL)
+            {
+                m_postStartupScriptURL = newURL;
+                emit scriptsChanged();
+            }
         }
 
         const ShutdownState &shutdownState() const
@@ -155,13 +172,30 @@ class SchedulerModuleState : public QObject
         }
         void setShutdownState(ShutdownState state);
 
-        const QUrl &shutdownScriptURL() const
+        const QUrl &preShutdownScriptURL() const
         {
-            return m_shutdownScriptURL;
+            return m_preShutdownScriptURL;
         }
-        void setShutdownScriptURL(const QUrl &newShutdownScriptURL)
+        void setPreShutdownScriptURL(const QUrl &newURL)
         {
-            m_shutdownScriptURL = newShutdownScriptURL;
+            if (newURL != m_preShutdownScriptURL)
+            {
+                m_preShutdownScriptURL = newURL;
+                emit scriptsChanged();
+            }
+        }
+
+        const QUrl &postShutdownScriptURL() const
+        {
+            return m_postShutdownScriptURL;
+        }
+        void setPostShutdownScriptURL(const QUrl &newURL)
+        {
+            if (newURL != m_postShutdownScriptURL)
+            {
+                m_postShutdownScriptURL = newURL;
+                emit scriptsChanged();
+            }
         }
 
         const ParkWaitState &parkWaitState() const
@@ -654,6 +688,8 @@ class SchedulerModuleState : public QObject
         void profilesChanged();
         // current profile changed
         void currentProfileChanged();
+        // Startup or Shutdown scripts changes
+        void scriptsChanged();
         // new log text for the module log window
         void newLog(const QString &text);
         // current position in the job list changed
@@ -680,15 +716,19 @@ class SchedulerModuleState : public QObject
         SchedulerState m_schedulerState { SCHEDULER_IDLE };
         // states of the scheduler startup
         StartupState m_startupState { STARTUP_IDLE };
-        // Startup script URL
-        QUrl m_startupScriptURL;
+        // Pre-startup script URL (before Ekos/INDI start)
+        QUrl m_preStartupScriptURL;
+        // Post-startup script URL (after Ekos/INDI ready)
+        QUrl m_postStartupScriptURL;
         // states of the scheduler shutdown
         ShutdownState m_shutdownState { SHUTDOWN_IDLE };
         // current position on the job list - necessary if there is no line selected in the
         // UI, for example after deleting a row.
         int m_currentPosition { -1 };
-        // Shutdown script URL
-        QUrl m_shutdownScriptURL;
+        // Pre-shutdown script URL (before Ekos/INDI stop)
+        QUrl m_preShutdownScriptURL;
+        // Post-shutdown script URL (after Ekos/INDI stopped)
+        QUrl m_postShutdownScriptURL;
         // states of parking
         ParkWaitState m_parkWaitState { PARKWAIT_IDLE };
         // current profile

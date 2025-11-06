@@ -421,6 +421,20 @@ class KSUserDB
          **/
         bool GetOpticalTrains(uint32_t profileID, QList<QVariantMap> &opticalTrains);
 
+        /**
+         * @brief Add INDI device properties JSON to the database
+         * @param profileID ID of the profile
+         * @param devicesJson JSON array of INDI device properties
+         **/
+        bool AddOpticalTrainDevices(uint32_t profileID, const QJsonArray &devicesJson);
+
+        /**
+         * @brief Get INDI device properties JSON from the database
+         * @param profileID ID of the profile
+         * @param devicesJson JSON array to populate with INDI device properties
+         **/
+        bool GetOpticalTrainDevices(uint32_t profileID, QJsonArray &devicesJson);
+
         /************************************************************************
          ******************************** Profile Settings **********************
          ************************************************************************/
@@ -551,5 +565,5 @@ class KSUserDB
 
         QString m_ConnectionName;
 
-        static const uint16_t SCHEMA_VERSION = 315;
+        static const uint16_t SCHEMA_VERSION = 316;
 };

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>967</width>
-    <height>543</height>
+    <width>846</width>
+    <height>579</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8" stretch="4,1,0">
@@ -928,6 +928,28 @@
             </property>
             <property name="text">
              <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="queueViewerB">
+            <property name="minimumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="QIcon::ThemeIcon::FormatJustifyFill"/>
             </property>
            </widget>
           </item>
@@ -1995,9 +2017,6 @@ font-weight:bold;
      </item>
      <item row="0" column="0">
       <widget class="QGroupBox" name="startupGroupBox">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time startup procedure to be executed before starting Ekos. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;before&lt;/span&gt; the startup procedures (e.g. unpark scope), if selected, are executed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
        <property name="title">
         <string>Observatory Startup Procedure</string>
        </property>
@@ -2018,139 +2037,123 @@ font-weight:bold;
          <number>3</number>
         </property>
         <item>
+         <widget class="QCheckBox" name="schedulerStartupEnabled">
+          <property name="toolTip">
+           <string>Enable or disable execution of the startup queue. When disabled, no startup procedure will run.</string>
+          </property>
+          <property name="text">
+           <string>Enable startup queue</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_16">
           <property name="spacing">
            <number>1</number>
           </property>
           <item>
-           <widget class="QCheckBox" name="schedulerUnparkDome">
-            <property name="enabled">
+           <widget class="QLineEdit" name="schedulerPreStartupScript">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Selected pre-startup queue to run before starting Ekos profile</string>
+            </property>
+            <property name="readOnly">
              <bool>true</bool>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="clearButtonEnabled">
+             <bool>false</bool>
             </property>
-            <property name="toolTip">
-             <string>Park dome to home position</string>
-            </property>
-            <property name="text">
-             <string>UnPark Dome</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">startupProcedureButtonGroup</string>
-            </attribute>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="schedulerUnparkMount">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Park telescope to home position.</string>
-            </property>
+           <widget class="QPushButton" name="preStartupQueueClearB">
             <property name="text">
-             <string>UnPark Mount</string>
+             <string/>
             </property>
-            <attribute name="buttonGroup">
-             <string notr="true">startupProcedureButtonGroup</string>
-            </attribute>
+            <property name="icon">
+             <iconset theme="QIcon::ThemeIcon::EditClear"/>
+            </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="schedulerOpenDustCover">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Open dust cover</string>
-            </property>
-            <property name="text">
-             <string>UnCap</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">startupProcedureButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_10">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="startupB">
+           <widget class="QPushButton" name="selectPreStartupQueueB">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Browse for pre-startup queue/collection file</string>
+            </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="folder"/>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_12">
+         <layout class="QHBoxLayout" name="horizontalLayout_PostStartup">
           <property name="spacing">
            <number>1</number>
           </property>
           <item>
-           <widget class="QLabel" name="label_8">
-            <property name="text">
-             <string>Script:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="schedulerStartupScript">
+           <widget class="QLineEdit" name="schedulerPostStartupScript">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Selected post-startup queue to run after starting Ekos profile</string>
+            </property>
             <property name="readOnly">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="clearButtonEnabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="selectStartupScriptB">
+           <widget class="QPushButton" name="postStartupQueueClearB">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="QIcon::ThemeIcon::EditClear"/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectPostStartupQueueB">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Browse for post-startup queue/collection file</string>
+            </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="folder"/>
             </property>
            </widget>
           </item>
@@ -2166,9 +2169,6 @@ font-weight:bold;
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time shutdown procedure to be executed after all scheduler jobs are completed. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;after&lt;/span&gt; the shutdown procedures (e.g. parking), if selected, are completed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="title">
         <string>Observatory Shutdown Procedure</string>
@@ -2190,161 +2190,123 @@ font-weight:bold;
          <number>3</number>
         </property>
         <item>
+         <widget class="QCheckBox" name="schedulerShutdownEnabled">
+          <property name="toolTip">
+           <string>Enable or disable execution of the shutdown queue. When disabled, no shutdown procedure will run.</string>
+          </property>
+          <property name="text">
+           <string>Enable shutdown queue</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <property name="spacing">
            <number>1</number>
           </property>
           <item>
-           <widget class="QCheckBox" name="schedulerWarmCCD">
-            <property name="enabled">
+           <widget class="QLineEdit" name="schedulerPreShutdownScript">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Selected pre-shutdown queue to run before stopping Ekos profile</string>
+            </property>
+            <property name="readOnly">
              <bool>true</bool>
             </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+            <property name="clearButtonEnabled">
+             <bool>false</bool>
             </property>
-            <property name="toolTip">
-             <string>Turn off CCD cooler.</string>
-            </property>
-            <property name="text">
-             <string>Warm CCD</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">shutdownProcedureGroup</string>
-            </attribute>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="schedulerCloseDustCover">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Close dust cover</string>
-            </property>
+           <widget class="QPushButton" name="preShutdownQueueClearB">
             <property name="text">
-             <string>Cap</string>
+             <string/>
             </property>
-            <attribute name="buttonGroup">
-             <string notr="true">shutdownProcedureGroup</string>
-            </attribute>
+            <property name="icon">
+             <iconset theme="QIcon::ThemeIcon::EditClear"/>
+            </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="schedulerParkMount">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Park telescope to home position.</string>
-            </property>
-            <property name="text">
-             <string>Park Mount</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">shutdownProcedureGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="schedulerParkDome">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Park dome to home position</string>
-            </property>
-            <property name="text">
-             <string>Park Dome</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">shutdownProcedureGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_8">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="shutdownB">
+           <widget class="QPushButton" name="selectPreShutdownQueueB">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Browse for pre-shutdown queue/collection file</string>
+            </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="folder"/>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout_PostShutdown">
           <property name="spacing">
            <number>1</number>
           </property>
           <item>
-           <widget class="QLabel" name="label_13">
-            <property name="text">
-             <string>Script:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="schedulerShutdownScript">
+           <widget class="QLineEdit" name="schedulerPostShutdownScript">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Selected post-shutdown queue to run after stopping Ekos profile</string>
+            </property>
             <property name="readOnly">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="clearButtonEnabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="selectShutdownScriptB">
+           <widget class="QPushButton" name="postShutdownQueueClearB">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="QIcon::ThemeIcon::EditClear"/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectPostShutdownQueueB">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Browse for post-shutdown queue/collection file</string>
+            </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="folder"/>
             </property>
            </widget>
           </item>
@@ -2376,18 +2338,14 @@ font-weight:bold;
   <tabstop>raBox</tabstop>
   <tabstop>decBox</tabstop>
   <tabstop>schedulerTrackStep</tabstop>
-  <tabstop>schedulerUnparkDome</tabstop>
-  <tabstop>schedulerUnparkMount</tabstop>
-  <tabstop>schedulerOpenDustCover</tabstop>
-  <tabstop>startupB</tabstop>
-  <tabstop>selectStartupScriptB</tabstop>
-  <tabstop>schedulerWarmCCD</tabstop>
-  <tabstop>schedulerCloseDustCover</tabstop>
-  <tabstop>schedulerParkMount</tabstop>
-  <tabstop>schedulerParkDome</tabstop>
-  <tabstop>shutdownB</tabstop>
-  <tabstop>schedulerShutdownScript</tabstop>
-  <tabstop>selectShutdownScriptB</tabstop>
+  <tabstop>schedulerPreStartupScript</tabstop>
+  <tabstop>selectPreStartupQueueB</tabstop>
+  <tabstop>schedulerPostStartupScript</tabstop>
+  <tabstop>selectPostStartupQueueB</tabstop>
+  <tabstop>schedulerPreShutdownScript</tabstop>
+  <tabstop>selectPreShutdownQueueB</tabstop>
+  <tabstop>schedulerPostShutdownScript</tabstop>
+  <tabstop>selectPostShutdownQueueB</tabstop>
   <tabstop>addToQueueB</tabstop>
   <tabstop>removeFromQueueB</tabstop>
   <tabstop>evaluateOnlyB</tabstop>
@@ -2402,14 +2360,9 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="startupProcedureButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="errorHandlingButtonGroup"/>
+  <buttongroup name="startupButtonGroup"/>
   <buttongroup name="completionButtonGroup"/>
-  <buttongroup name="shutdownProcedureGroup">
+  <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
@@ -2419,11 +2372,6 @@ font-weight:bold;
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="stepsButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="errorHandlingButtonGroup"/>
  </buttongroups>
 </ui>

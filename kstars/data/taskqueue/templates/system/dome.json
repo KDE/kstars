@@ -1,0 +1,95 @@
+{
+    "category": "Dome",
+    "device_type": "Dome",
+    "version": "1.0",
+    "templates": [
+        {
+            "id": "dome_park",
+            "name": "Park Dome",
+            "description": "Park observatory dome to home position",
+            "version": "1.0",
+            "category": "Dome",
+            "supported_interfaces": [
+                32
+            ],
+            "parameters": [
+                {
+                    "name": "wait_timeout",
+                    "type": "number",
+                    "default": 120,
+                    "min": 60,
+                    "max": 600,
+                    "step": 30,
+                    "unit": "seconds",
+                    "description": "Maximum time to wait for dome parking to complete"
+                }
+            ],
+            "actions": [
+                {
+                    "type": "SET",
+                    "property": "DOME_PARK",
+                    "element": "PARK",
+                    "value": true,
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                },
+                {
+                    "type": "EVALUATE",
+                    "property": "DOME_PARK",
+                    "element": "STATE",
+                    "property_type": 4,
+                    "condition": 0,
+                    "target": "OK",
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                }
+            ]
+        },
+        {
+            "id": "dome_unpark",
+            "name": "Unpark Dome",
+            "description": "Unpark observatory dome for observations",
+            "version": "1.0",
+            "category": "Dome",
+            "supported_interfaces": [
+                32
+            ],
+            "parameters": [
+                {
+                    "name": "wait_timeout",
+                    "type": "number",
+                    "default": 120,
+                    "min": 60,
+                    "max": 600,
+                    "step": 30,
+                    "unit": "seconds",
+                    "description": "Maximum time to wait for dome unparking to complete"
+                }
+            ],
+            "actions": [
+                {
+                    "type": "SET",
+                    "property": "DOME_PARK",
+                    "element": "UNPARK",
+                    "value": true,
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                },
+                {
+                    "type": "EVALUATE",
+                    "property": "DOME_PARK",
+                    "element": "STATE",
+                    "property_type": 4,
+                    "condition": 0,
+                    "target": "OK",
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                }
+            ]
+        }
+    ]
+}

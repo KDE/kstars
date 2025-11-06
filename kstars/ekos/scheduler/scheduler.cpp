@@ -10,6 +10,9 @@
 #include "scheduler.h"
 
 #include "ekos/scheduler/framingassistantui.h"
+#include "ekos/scheduler/taskqueue/ui/queueviewerwidget.h"
+#include "ekos/scheduler/taskqueue/queue/queuemanager.h"
+#include "ekos/scheduler/taskqueue/queue/queueexecutor.h"
 #include "ksnotification.h"
 #include "ksmessagebox.h"
 #include "kstars.h"
@@ -26,6 +29,7 @@
 #include "skycomponents/mosaiccomponent.h"
 #include "skyobjects/mosaictiles.h"
 #include "auxiliary/QProgressIndicator.h"
+#include "auxiliary/kspaths.h"
 #include "dialogs/finddialog.h"
 #include "ekos/manager.h"
 #include "ekos/capture/sequencejob.h"
@@ -108,7 +112,6 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     qDBusRegisterMetaType<Ekos::SchedulerState>();
 
     m_moduleState.reset(new SchedulerModuleState());
-    m_process.reset(new SchedulerProcess(moduleState(), ekosPathStr, ekosInterfaceStr));
 
     dirPath = QUrl::fromLocalFile(QDir::homePath());
 
@@ -221,20 +224,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
 
     loadSequenceB->setIcon(QIcon::fromTheme("document-open"));
     loadSequenceB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    selectStartupScriptB->setIcon(QIcon::fromTheme("document-open"));
-    selectStartupScriptB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    selectShutdownScriptB->setIcon(
-        QIcon::fromTheme("document-open"));
-    selectShutdownScriptB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectFITSB->setIcon(QIcon::fromTheme("document-open"));
     selectFITSB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
-    startupB->setIcon(
-        QIcon::fromTheme("media-playback-start"));
-    startupB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    shutdownB->setIcon(
-        QIcon::fromTheme("media-playback-start"));
-    shutdownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     // 2023-06-27 sterne-jaeger: For simplicity reasons, the repeat option
     // for all sequences is only active if we do consider the past
@@ -245,17 +236,20 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     // disable creating follower jobs at the beginning
     leadFollowerSelectionCB->setEnabled(false);
 
-    connect(startupB, &QPushButton::clicked, process().data(), &SchedulerProcess::runStartupProcedure);
-    connect(shutdownB, &QPushButton::clicked, process().data(), &SchedulerProcess::runShutdownProcedure);
-
     connect(selectObjectB, &QPushButton::clicked, this, &Scheduler::selectObject);
     connect(epochCB, &QComboBox::currentTextChanged, this, &Scheduler::displayTargetCoords);
     connect(raBox, &QLineEdit::editingFinished, this, &Scheduler::readCoordsFromUI);
     connect(decBox, &QLineEdit::editingFinished, this, &Scheduler::readCoordsFromUI);
     connect(selectFITSB, &QPushButton::clicked, this, &Scheduler::selectFITS);
     connect(loadSequenceB, &QPushButton::clicked, this, &Scheduler::selectSequence);
-    connect(selectStartupScriptB, &QPushButton::clicked, this, &Scheduler::selectStartupScript);
-    connect(selectShutdownScriptB, &QPushButton::clicked, this, &Scheduler::selectShutdownScript);
+    connect(selectPreStartupQueueB, &QPushButton::clicked, this, &Scheduler::selectPreStartupQueue);
+    connect(selectPostStartupQueueB, &QPushButton::clicked, this, &Scheduler::selectPostStartupQueue);
+    connect(selectPreShutdownQueueB, &QPushButton::clicked, this, &Scheduler::selectPreShutdownQueue);
+    connect(selectPostShutdownQueueB, &QPushButton::clicked, this, &Scheduler::selectPostShutdownQueue);
+    connect(preStartupQueueClearB, &QPushButton::clicked, this, &Scheduler::clearPreStartupQueue);
+    connect(postStartupQueueClearB, &QPushButton::clicked, this, &Scheduler::clearPostStartupQueue);
+    connect(preShutdownQueueClearB, &QPushButton::clicked, this, &Scheduler::clearPreShutdownQueue);
+    connect(postShutdownQueueClearB, &QPushButton::clicked, this, &Scheduler::clearPostShutdownQueue);
     connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Scheduler::refreshOpticalTrain);
 
     connect(KStars::Instance()->actionCollection()->action("show_mosaic_panel"), &QAction::triggered, this, [this](bool checked)
@@ -265,6 +259,31 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(mosaicB, &QPushButton::clicked, this, []()
     {
         KStars::Instance()->actionCollection()->action("show_mosaic_panel")->trigger();
+    });
+
+    // Task Queue System - Initialize and connect
+    m_queueManager = new QueueManager(this);
+    m_queueExecutor = new QueueExecutor(m_queueManager, this);
+    m_queueViewer = new QueueViewerWidget(this);
+    m_queueViewer->setQueueManager(m_queueManager);
+    m_queueViewer->setQueueExecutor(m_queueExecutor);
+
+    // Now create SchedulerProcess with the queue manager and executor
+    m_process.reset(new SchedulerProcess(moduleState(), ekosPathStr, ekosInterfaceStr, m_queueManager, m_queueExecutor));
+
+    // Connect queue executor logging to scheduler log
+    connect(m_queueExecutor, &QueueExecutor::newLog, process().data(), &SchedulerProcess::appendLogText);
+    // Connect action progress messages (like script stdout) to scheduler log
+    connect(m_queueExecutor, &QueueExecutor::progress, this, [this](int, const QString & message)
+    {
+        if (!message.isEmpty())
+            process()->appendLogText(message);
+    });
+
+    connect(queueViewerB, &QPushButton::clicked, this, [this]()
+    {
+        m_queueViewer->show();
+        m_queueViewer->raise();
     });
     connect(addToQueueB, &QPushButton::clicked, [this]()
     {
@@ -330,7 +349,118 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     {
         schedulerProfileCombo->setCurrentText(moduleState()->currentProfile());
     });
+    connect(moduleState().data(), &SchedulerModuleState::scriptsChanged, this, [&]()
+            {
+                schedulerPreStartupScript->setText((moduleState()->preStartupScriptURL().toLocalFile()));
+                schedulerPostStartupScript->setText((moduleState()->postStartupScriptURL().toLocalFile()));
+                schedulerPreShutdownScript->setText((moduleState()->preShutdownScriptURL().toLocalFile()));
+                schedulerPostShutdownScript->setText((moduleState()->postShutdownScriptURL().toLocalFile()));
+            });
     connect(schedulerProfileCombo, &QComboBox::currentTextChanged, process().data(), &SchedulerProcess::setProfile);
+
+    // Resolve pre-startup script path (before Ekos/INDI start)
+    QString preStartupScript = Options::schedulerPreStartupScript();
+    if (preStartupScript.isEmpty())
+    {
+        schedulerPreStartupScript->setText("");
+        moduleState()->setPreStartupScriptURL(QUrl());
+    }
+    else
+    {
+        schedulerPreStartupScript->setText(preStartupScript);
+        moduleState()->setPreStartupScriptURL(QUrl::fromUserInput(preStartupScript));
+    }
+
+    // Resolve post-startup script path (after Ekos/INDI ready)
+    QString postStartupScript = Options::schedulerPostStartupScript();
+    // Check if it's a collection name (defaults to "observatory_startup")
+    if (postStartupScript == "observatory_startup")
+    {
+        // Try to locate it as a collection file in the data directories
+        QString collectionPath = KSPaths::locate(QStandardPaths::AppLocalDataLocation,
+                                 "taskqueue/collections/" + postStartupScript + ".json");
+
+        if (!collectionPath.isEmpty())
+        {
+            Options::setSchedulerPostStartupScript(collectionPath);
+            schedulerPostStartupScript->setText(collectionPath);
+            moduleState()->setPostStartupScriptURL(QUrl::fromLocalFile(collectionPath));
+        }
+        else
+        {
+            schedulerPostStartupScript->setText(postStartupScript);
+            moduleState()->setPostStartupScriptURL(QUrl::fromUserInput(postStartupScript));
+        }
+    }
+    else if (!postStartupScript.isEmpty())
+    {
+        schedulerPostStartupScript->setText(postStartupScript);
+        moduleState()->setPostStartupScriptURL(QUrl::fromUserInput(postStartupScript));
+    }
+    else
+    {
+        schedulerPostStartupScript->setText("");
+        moduleState()->setPostStartupScriptURL(QUrl());
+    }
+
+    // Resolve pre-shutdown script path (before Ekos/INDI stop)
+    QString preShutdownScript = Options::schedulerPreShutdownScript();
+    // Check if it's a collection name (defaults to "observatory_shutdown")
+    if (preShutdownScript == "observatory_shutdown")
+    {
+        // Try to locate it as a collection file in the data directories
+        QString collectionPath = KSPaths::locate(QStandardPaths::AppLocalDataLocation,
+                                 "taskqueue/collections/" + preShutdownScript + ".json");
+
+        if (!collectionPath.isEmpty())
+        {
+            Options::setSchedulerPreShutdownScript(collectionPath);
+            schedulerPreShutdownScript->setText(collectionPath);
+            moduleState()->setPreShutdownScriptURL(QUrl::fromLocalFile(collectionPath));
+        }
+        else
+        {
+            schedulerPreShutdownScript->setText(preShutdownScript);
+            moduleState()->setPreShutdownScriptURL(QUrl::fromUserInput(preShutdownScript));
+        }
+    }
+    else if (!preShutdownScript.isEmpty())
+    {
+        schedulerPreShutdownScript->setText(preShutdownScript);
+        moduleState()->setPreShutdownScriptURL(QUrl::fromUserInput(preShutdownScript));
+    }
+    else
+    {
+        schedulerPreShutdownScript->setText("");
+        moduleState()->setPreShutdownScriptURL(QUrl());
+    }
+
+    // Resolve post-shutdown script path (after Ekos/INDI stopped)
+    QString postShutdownScript = Options::schedulerPostShutdownScript();
+    if (postShutdownScript.isEmpty())
+    {
+        schedulerPostShutdownScript->setText("");
+        moduleState()->setPostShutdownScriptURL(QUrl());
+    }
+    else
+    {
+        schedulerPostShutdownScript->setText(postShutdownScript);
+        moduleState()->setPostShutdownScriptURL(QUrl::fromUserInput(postShutdownScript));
+    }
+
+    // Connect UI checkboxes to Options
+    schedulerStartupEnabled->setChecked(Options::schedulerStartupEnabled());
+    connect(schedulerStartupEnabled, &QCheckBox::toggled, this, [](bool checked)
+    {
+        Options::setSchedulerStartupEnabled(checked);
+    });
+
+    schedulerShutdownEnabled->setChecked(Options::schedulerShutdownEnabled());
+    connect(schedulerShutdownEnabled, &QCheckBox::toggled, this, [](bool checked)
+    {
+        Options::setSchedulerShutdownEnabled(checked);
+    });
+
     // Connect to process engine
     connect(process().data(), &SchedulerProcess::schedulerStopped, this, &Scheduler::schedulerStopped);
     connect(process().data(), &SchedulerProcess::schedulerPaused, this, &Scheduler::handleSetPaused);
@@ -483,9 +613,7 @@ void Scheduler::watchJobChanges(bool enable)
         raBox,
         decBox,
         fitsEdit,
-        sequenceEdit,
-        schedulerStartupScript,
-        schedulerShutdownScript
+        sequenceEdit
     };
 
     QDateTimeEdit * const dateEdits[] =
@@ -507,9 +635,7 @@ void Scheduler::watchJobChanges(bool enable)
         errorHandlingButtonGroup,
         startupButtonGroup,
         constraintButtonGroup,
-        completionButtonGroup,
-        startupProcedureButtonGroup,
-        shutdownProcedureGroup
+        completionButtonGroup
     };
 
     QAbstractButton * const buttons[] =
@@ -797,34 +923,92 @@ void Scheduler::selectSequence()
     setSequence(file);
 }
 
-void Scheduler::selectStartupScript()
+void Scheduler::selectPreStartupQueue()
 {
-    moduleState()->setStartupScriptURL(QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window",
-                                       "Select Startup Script"),
-                                       dirPath,
-                                       i18n("Script (*)")));
-    if (moduleState()->startupScriptURL().isEmpty())
+    QString file = QFileDialog::getOpenFileName(Ekos::Manager::Instance(),
+                   i18nc("@title:window", "Select Pre-Startup Queue"),
+                   dirPath.toLocalFile(),
+                   i18n("Queue Files (*.kstarsqueue *.json)"));
+
+    if (file.isEmpty())
         return;
 
-    dirPath = QUrl(moduleState()->startupScriptURL().url(QUrl::RemoveFilename));
+    dirPath = QUrl(QUrl::fromLocalFile(file).url(QUrl::RemoveFilename));
+    schedulerPreStartupScript->setText(file);
 
     moduleState()->setDirty(true);
-    schedulerStartupScript->setText(moduleState()->startupScriptURL().toLocalFile());
 }
 
-void Scheduler::selectShutdownScript()
+void Scheduler::selectPostStartupQueue()
 {
-    moduleState()->setShutdownScriptURL(QFileDialog::getOpenFileUrl(Ekos::Manager::Instance(), i18nc("@title:window",
-                                        "Select Shutdown Script"),
-                                        dirPath,
-                                        i18n("Script (*)")));
-    if (moduleState()->shutdownScriptURL().isEmpty())
+    QString file = QFileDialog::getOpenFileName(Ekos::Manager::Instance(),
+                   i18nc("@title:window", "Select Post-Startup Queue"),
+                   dirPath.toLocalFile(),
+                   i18n("Queue Files (*.kstarsqueue *.json)"));
+
+    if (file.isEmpty())
         return;
 
-    dirPath = QUrl(moduleState()->shutdownScriptURL().url(QUrl::RemoveFilename));
+    dirPath = QUrl(QUrl::fromLocalFile(file).url(QUrl::RemoveFilename));
+    schedulerPostStartupScript->setText(file);
 
     moduleState()->setDirty(true);
-    schedulerShutdownScript->setText(moduleState()->shutdownScriptURL().toLocalFile());
+}
+
+void Scheduler::selectPreShutdownQueue()
+{
+    QString file = QFileDialog::getOpenFileName(Ekos::Manager::Instance(),
+                   i18nc("@title:window", "Select Pre-Shutdown Queue"),
+                   dirPath.toLocalFile(),
+                   i18n("Queue Files (*.kstarsqueue *.json)"));
+
+    if (file.isEmpty())
+        return;
+
+    dirPath = QUrl(QUrl::fromLocalFile(file).url(QUrl::RemoveFilename));
+    schedulerPreShutdownScript->setText(file);
+
+    moduleState()->setDirty(true);
+}
+
+void Scheduler::selectPostShutdownQueue()
+{
+    QString file = QFileDialog::getOpenFileName(Ekos::Manager::Instance(),
+                   i18nc("@title:window", "Select Post-Shutdown Queue"),
+                   dirPath.toLocalFile(),
+                   i18n("Queue Files (*.kstarsqueue *.json)"));
+
+    if (file.isEmpty())
+        return;
+
+    dirPath = QUrl(QUrl::fromLocalFile(file).url(QUrl::RemoveFilename));
+    schedulerPostShutdownScript->setText(file);
+
+    moduleState()->setDirty(true);
+}
+
+void Scheduler::clearPreStartupQueue()
+{
+    schedulerPreStartupScript->setText(QString());
+    moduleState()->setDirty(true);
+}
+
+void Scheduler::clearPostStartupQueue()
+{
+    schedulerPostStartupScript->setText(QString());
+    moduleState()->setDirty(true);
+}
+
+void Scheduler::clearPreShutdownQueue()
+{
+    schedulerPreShutdownScript->setText(QString());
+    moduleState()->setDirty(true);
+}
+
+void Scheduler::clearPostShutdownQueue()
+{
+    schedulerPostShutdownScript->setText(QString());
+    moduleState()->setDirty(true);
 }
 
 void Scheduler::addJob(SchedulerJob *job)
@@ -1199,25 +1383,17 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
 
 void Scheduler::syncGUIToGeneralSettings()
 {
-    schedulerParkDome->setChecked(Options::schedulerParkDome());
-    schedulerParkMount->setChecked(Options::schedulerParkMount());
-    schedulerCloseDustCover->setChecked(Options::schedulerCloseDustCover());
-    schedulerWarmCCD->setChecked(Options::schedulerWarmCCD());
-    schedulerUnparkDome->setChecked(Options::schedulerUnparkDome());
-    schedulerUnparkMount->setChecked(Options::schedulerUnparkMount());
-    schedulerOpenDustCover->setChecked(Options::schedulerOpenDustCover());
     setErrorHandlingStrategy(static_cast<ErrorHandlingStrategy>(Options::errorHandlingStrategy()));
     errorHandlingStrategyDelay->setValue(Options::errorHandlingStrategyDelay());
     errorHandlingRescheduleErrorsCB->setChecked(Options::rescheduleErrors());
-    schedulerStartupScript->setText(moduleState()->startupScriptURL().toString(QUrl::PreferLocalFile));
-    schedulerShutdownScript->setText(moduleState()->shutdownScriptURL().toString(QUrl::PreferLocalFile));
+    schedulerStartupEnabled->setChecked(Options::schedulerStartupEnabled());
+    schedulerShutdownEnabled->setChecked(Options::schedulerShutdownEnabled());
 
     if (process()->captureInterface() != nullptr)
     {
         QVariant hasCoolerControl = process()->captureInterface()->property("coolerControl");
         if (hasCoolerControl.isValid())
         {
-            schedulerWarmCCD->setEnabled(hasCoolerControl.toBool());
             moduleState()->setCaptureReady(true);
         }
     }
@@ -1960,9 +2136,6 @@ void Scheduler::schedulerStopped()
         KSNotification::event(QLatin1String("SchedulerAborted"), i18n("Scheduler aborted."), KSNotification::Scheduler,
                               KSNotification::Alert);
 
-    startupB->setEnabled(true);
-    shutdownB->setEnabled(true);
-
     // If soft shutdown, we return for now
     if (moduleState()->preemptiveShutdown())
     {
@@ -2154,14 +2327,8 @@ void Scheduler::setDirty()
 
     moduleState()->setDirty(true);
 
-    if (sender() == startupProcedureButtonGroup || sender() == shutdownProcedureGroup)
-        return;
 
     // update state
-    if (sender() == schedulerStartupScript)
-        moduleState()->setStartupScriptURL(QUrl::fromUserInput(schedulerStartupScript->text()));
-    else if (sender() == schedulerShutdownScript)
-        moduleState()->setShutdownScriptURL(QUrl::fromUserInput(schedulerShutdownScript->text()));
 }
 
 void Scheduler::sortJobsPerAltitude()
@@ -2304,43 +2471,13 @@ void Scheduler::interfaceReady(QDBusInterface *iface)
 {
     if (iface == process()->mountInterface())
     {
-        QVariant canMountPark = process()->mountInterface()->property("canPark");
-        if (canMountPark.isValid())
-        {
-            schedulerUnparkMount->setEnabled(canMountPark.toBool());
-            schedulerParkMount->setEnabled(canMountPark.toBool());
-        }
         copyMountTargetB->setEnabled(true);
-    }
-    else if (iface == process()->capInterface())
-    {
-        QVariant canCapPark = process()->capInterface()->property("canPark");
-        if (canCapPark.isValid())
-        {
-            schedulerCloseDustCover->setEnabled(canCapPark.toBool());
-            schedulerOpenDustCover->setEnabled(canCapPark.toBool());
-        }
-        else
-        {
-            schedulerCloseDustCover->setEnabled(false);
-            schedulerOpenDustCover->setEnabled(false);
-        }
-    }
-    else if (iface == process()->domeInterface())
-    {
-        QVariant canDomePark = process()->domeInterface()->property("canPark");
-        if (canDomePark.isValid())
-        {
-            schedulerUnparkDome->setEnabled(canDomePark.toBool());
-            schedulerParkDome->setEnabled(canDomePark.toBool());
-        }
     }
     else if (iface == process()->captureInterface())
     {
         QVariant hasCoolerControl = process()->captureInterface()->property("coolerControl");
         if (hasCoolerControl.isValid())
         {
-            schedulerWarmCCD->setEnabled(hasCoolerControl.toBool());
         }
     }
 }
@@ -2432,8 +2569,6 @@ void Scheduler::handleSchedulerStateChanged(SchedulerState newState)
             setJobManipulation(true, false, leadFollowerSelectionCB->currentIndex() == INDEX_LEAD);
             //mosaicB->setEnabled(false);
             evaluateOnlyB->setEnabled(false);
-            startupB->setEnabled(false);
-            shutdownB->setEnabled(false);
             break;
 
         default:
@@ -2467,36 +2602,14 @@ bool Scheduler::importMosaic(const QJsonObject &payload)
 void Scheduler::startupStateChanged(StartupState state)
 {
     jobStatus->setText(startupStateString(state));
-
-    switch (moduleState()->startupState())
-    {
-        case STARTUP_IDLE:
-            startupB->setIcon(QIcon::fromTheme("media-playback-start"));
-            break;
-        case STARTUP_COMPLETE:
-            startupB->setIcon(QIcon::fromTheme("media-playback-start"));
-            process()->appendLogText(i18n("Manual startup procedure completed successfully."));
-            break;
-        case STARTUP_ERROR:
-            startupB->setIcon(QIcon::fromTheme("media-playback-start"));
-            process()->appendLogText(i18n("Manual startup procedure terminated due to errors."));
-            break;
-        default:
-            // in all other cases startup is running
-            startupB->setIcon(QIcon::fromTheme("media-playback-stop"));
-            break;
-    }
 }
 void Scheduler::shutdownStateChanged(ShutdownState state)
 {
     if (state == SHUTDOWN_COMPLETE || state == SHUTDOWN_IDLE
             || state == SHUTDOWN_ERROR)
     {
-        shutdownB->setIcon(QIcon::fromTheme("media-playback-start"));
         pi->stopAnimation();
     }
-    else
-        shutdownB->setIcon(QIcon::fromTheme("media-playback-stop"));
 
     if (state == SHUTDOWN_IDLE)
         jobStatus->setText(i18n("Idle"));

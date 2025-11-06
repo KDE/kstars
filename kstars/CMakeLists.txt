@@ -103,6 +103,7 @@ if (INDI_FOUND)
         indi/indiadaptiveoptics.cpp
         indi/indicorrelator.cpp
         indi/indispectrograph.cpp
+        indi/indipropertyexporter.cpp
         indi/indidbus.cpp
         indi/opsindi.cpp
         indi/streamwg.cpp
@@ -301,6 +302,26 @@ if (INDI_FOUND)
             ekos/scheduler/opsjobssettings.cpp
             ekos/scheduler/opsoffsetsettings.cpp
             ekos/scheduler/schedulersettings.cpp
+            # Task Queue System
+            ekos/scheduler/taskqueue/tasktemplate.cpp
+            ekos/scheduler/taskqueue/task.cpp
+            ekos/scheduler/taskqueue/templatemanager.cpp
+            ekos/scheduler/taskqueue/queue/queueitem.cpp
+            ekos/scheduler/taskqueue/queue/queuemanager.cpp
+            ekos/scheduler/taskqueue/queue/queueexecutor.cpp
+            ekos/scheduler/taskqueue/actions/taskaction.cpp
+            ekos/scheduler/taskqueue/actions/setaction.cpp
+            ekos/scheduler/taskqueue/actions/evaluateaction.cpp
+            ekos/scheduler/taskqueue/actions/delayaction.cpp
+            ekos/scheduler/taskqueue/actions/startaction.cpp
+            ekos/scheduler/taskqueue/actions/scriptaction.cpp
+            ekos/scheduler/taskqueue/indi/indipropertyaccess.cpp
+            ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp
+            ekos/scheduler/taskqueue/ui/collectionsdialog.cpp
+            ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp
+            ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp
+            ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp
+            ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp
 
             # Focus
             ekos/focus/focus.cpp

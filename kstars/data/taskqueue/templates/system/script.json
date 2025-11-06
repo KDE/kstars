@@ -1,0 +1,42 @@
+{
+    "category": "Scripts",
+    "device_type": "None",
+    "version": "1.0",
+    "templates": [
+        {
+            "id": "script_execute",
+            "name": "Execute Script",
+            "description": "Execute an external script or program",
+            "version": "1.0",
+            "category": "Scripts",
+            "supported_interfaces": [],
+            "parameters": [
+                {
+                    "name": "script_path",
+                    "type": "file",
+                    "default": "",
+                    "description": "Path to the executable script"
+                },
+                {
+                    "name": "timeout",
+                    "type": "number",
+                    "default": 300,
+                    "min": 30,
+                    "max": 3600,
+                    "step": 30,
+                    "unit": "seconds",
+                    "description": "Maximum time to wait for script completion"
+                }
+            ],
+            "actions": [
+                {
+                    "type": "SCRIPT",
+                    "script_path": "${script_path}",
+                    "timeout": "${timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                }
+            ]
+        }
+    ]
+}

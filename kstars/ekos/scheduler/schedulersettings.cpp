@@ -30,7 +30,7 @@ void Scheduler::loadGlobalSettings()
 
     QVariantMap settings;
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -44,7 +44,7 @@ void Scheduler::loadGlobalSettings()
     }
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -58,7 +58,7 @@ void Scheduler::loadGlobalSettings()
     }
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -72,7 +72,7 @@ void Scheduler::loadGlobalSettings()
     }
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -86,7 +86,7 @@ void Scheduler::loadGlobalSettings()
     }
 
     // All Line Edits
-    for (auto &oneWidget : findChildren<QLineEdit*>())
+    for (auto &oneWidget : findChildren<QLineEdit * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -97,17 +97,22 @@ void Scheduler::loadGlobalSettings()
 
             if (key == "sequenceEdit")
                 setSequence(value.toString());
-            else if (key == "schedulerStartupScript")
-                moduleState()->setStartupScriptURL(QUrl::fromUserInput(value.toString()));
-            else if (key == "schedulerShutdownScript")
-                moduleState()->setShutdownScriptURL(QUrl::fromUserInput(value.toString()));
+            // Map old keys to new pre- queues for backward compatibility
+            else if (key == "schedulerPreStartupScript")
+                moduleState()->setPreStartupScriptURL(QUrl::fromUserInput(value.toString()));
+            else if (key == "schedulerPostStartupScript")
+                moduleState()->setPostStartupScriptURL(QUrl::fromUserInput(value.toString()));
+            else if (key == "schedulerPreShutdownScript")
+                moduleState()->setPreShutdownScriptURL(QUrl::fromUserInput(value.toString()));
+            else if (key == "schedulerPostShutdownScript")
+                moduleState()->setPostShutdownScriptURL(QUrl::fromUserInput(value.toString()));
         }
         else
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Option" << key << "not found!";
     }
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -119,7 +124,7 @@ void Scheduler::loadGlobalSettings()
     }
 
     // All QDateTime edits
-    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+    for (auto &oneWidget : findChildren<QDateTimeEdit * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -152,23 +157,23 @@ void Scheduler::syncSettings()
     QVariant value;
     bool removeKey = false;
 
-    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    if ( (dsb = qobject_cast<QDoubleSpinBox * >(sender())))
     {
         key = dsb->objectName();
         value = dsb->value();
 
     }
-    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    else if ( (sb = qobject_cast<QSpinBox * >(sender())))
     {
         key = sb->objectName();
         value = sb->value();
     }
-    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    else if ( (cb = qobject_cast<QCheckBox * >(sender())))
     {
         key = cb->objectName();
         value = cb->isChecked();
     }
-    else if ( (rb = qobject_cast<QRadioButton*>(sender())))
+    else if ( (rb = qobject_cast<QRadioButton * >(sender())))
     {
         key = rb->objectName();
         // N.B. We need to remove radio button false from local settings
@@ -181,17 +186,29 @@ void Scheduler::syncSettings()
         else
             value = true;
     }
-    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    else if ( (cbox = qobject_cast<QComboBox * >(sender())))
     {
         key = cbox->objectName();
         value = cbox->currentText();
     }
-    else if ( (lineedit = qobject_cast<QLineEdit*>(sender())))
+    else if ( (lineedit = qobject_cast<QLineEdit * >(sender())))
     {
         key = lineedit->objectName();
         value = lineedit->text();
+
+        if (key == "sequenceEdit")
+            setSequence(value.toString());
+        // Map old keys to new pre- queues for backward compatibility
+        else if (key == "schedulerPreStartupScript")
+            moduleState()->setPreStartupScriptURL(QUrl::fromUserInput(value.toString()));
+        else if (key == "schedulerPostStartupScript")
+            moduleState()->setPostStartupScriptURL(QUrl::fromUserInput(value.toString()));
+        else if (key == "schedulerPreShutdownScript")
+            moduleState()->setPreShutdownScriptURL(QUrl::fromUserInput(value.toString()));
+        else if (key == "schedulerPostShutdownScript")
+            moduleState()->setPostShutdownScriptURL(QUrl::fromUserInput(value.toString()));
     }
-    else if ( (datetimeedit = qobject_cast<QDateTimeEdit*>(sender())))
+    else if ( (datetimeedit = qobject_cast<QDateTimeEdit * >(sender())))
     {
         key = datetimeedit->objectName();
         value = datetimeedit->dateTime().toString(Qt::ISODate);
@@ -226,23 +243,23 @@ QVariantMap Scheduler::getAllSettings() const
     QVariantMap settings;
 
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->currentText());
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     // All Line Edits
-    for (auto &oneWidget : findChildren<QLineEdit*>())
+    for (auto &oneWidget : findChildren<QLineEdit * >())
     {
         // Many other widget types (e.g. spinboxes) apparently have QLineEdit inside them so we want to skip those
         if (!oneWidget->objectName().startsWith("qt_"))
@@ -250,11 +267,11 @@ QVariantMap Scheduler::getAllSettings() const
     }
 
     // All Radio Buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     // All QDateTime
-    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+    for (auto &oneWidget : findChildren<QDateTimeEdit * >())
     {
         settings.insert(oneWidget->objectName(), oneWidget->dateTime().toString(Qt::ISODate));
     }
@@ -315,10 +332,15 @@ void Scheduler::setAllSettings(const QVariantMap &settings)
                 setSequence(lineedit->text());
             else if (name == "fitsEdit")
                 processFITSSelection(QUrl::fromLocalFile(lineedit->text()));
-            else if (name == "schedulerStartupScript")
-                moduleState()->setStartupScriptURL(QUrl::fromUserInput(lineedit->text()));
-            else if (name == "schedulerShutdownScript")
-                moduleState()->setShutdownScriptURL(QUrl::fromUserInput(lineedit->text()));
+            // Map old keys to new pre- queues for backward compatibility
+            else if (name == "schedulerPreStartupScript")
+                moduleState()->setPreStartupScriptURL(QUrl::fromUserInput(lineedit->text()));
+            else if (name == "schedulerPostStartupScript")
+                moduleState()->setPostStartupScriptURL(QUrl::fromUserInput(lineedit->text()));
+            else if (name == "schedulerPreShutdownScript")
+                moduleState()->setPreShutdownScriptURL(QUrl::fromUserInput(lineedit->text()));
+            else if (name == "schedulerPostShutdownScript")
+                moduleState()->setPostShutdownScriptURL(QUrl::fromUserInput(lineedit->text()));
 
             continue;
         }
@@ -417,27 +439,27 @@ bool Scheduler::syncControl(const QVariantMap &settings, const QString &key, QWi
 void Scheduler::connectSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Scheduler::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         connect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Scheduler::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         connect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Scheduler::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Scheduler::syncSettings);
 
     // All Radio Butgtons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         connect(oneWidget, &QRadioButton::toggled, this, &Ekos::Scheduler::syncSettings);
 
     // All QLineEdits
-    for (auto &oneWidget : findChildren<QLineEdit*>())
+    for (auto &oneWidget : findChildren<QLineEdit * >())
     {
         // Many other widget types (e.g. spinboxes) apparently have QLineEdit inside them so we want to skip those
         if (!oneWidget->objectName().startsWith("qt_"))
@@ -445,38 +467,38 @@ void Scheduler::connectSettings()
     }
 
     // All QDateTimeEdit
-    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+    for (auto &oneWidget : findChildren<QDateTimeEdit * >())
         connect(oneWidget, &QDateTimeEdit::dateTimeChanged, this, &Ekos::Scheduler::syncSettings);
 }
 
 void Scheduler::disconnectSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Scheduler::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         disconnect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Scheduler::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         disconnect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Scheduler::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Scheduler::syncSettings);
 
     // All Radio Butgtons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::Scheduler::syncSettings);
 
     // All QLineEdits
-    for (auto &oneWidget : findChildren<QLineEdit*>())
+    for (auto &oneWidget : findChildren<QLineEdit * >())
         disconnect(oneWidget, &QLineEdit::editingFinished, this, &Ekos::Scheduler::syncSettings);
 
     // All QDateTimeEdit
-    for (auto &oneWidget : findChildren<QDateTimeEdit*>())
+    for (auto &oneWidget : findChildren<QDateTimeEdit * >())
         disconnect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Scheduler::syncSettings);
 }
 

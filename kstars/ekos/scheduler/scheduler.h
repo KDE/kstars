@@ -45,6 +45,9 @@ class GreedyScheduler;
 class SchedulerProcess;
 class SchedulerModuleState;
 class SequenceEditor;
+class QueueViewerWidget;
+class QueueManager;
+class QueueExecutor;
 
 /**
  * @brief The Ekos scheduler is a simple scheduler class to orchestrate automated multi object observation jobs.
@@ -303,14 +306,30 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void selectSequence();
 
         /**
-             * @brief Selects sequence queue.
+             * @brief Selects pre-startup queue/collection.
              */
-        void selectStartupScript();
+        void selectPreStartupQueue();
 
         /**
-             * @brief Selects sequence queue.
+             * @brief Selects post-startup queue/collection.
              */
-        void selectShutdownScript();
+        void selectPostStartupQueue();
+
+        /**
+             * @brief Selects pre-shutdown queue/collection.
+             */
+        void selectPreShutdownQueue();
+
+        /**
+             * @brief Selects post-shutdown queue/collection.
+             */
+        void selectPostShutdownQueue();
+
+        void clearPreStartupQueue();
+        void clearPostStartupQueue();
+        void clearPreShutdownQueue();
+        void clearPostShutdownQueue();
+        
 
         /**
              * @brief editJob Edit an observation job
@@ -575,6 +594,15 @@ class Scheduler : public QWidget, public Ui::Scheduler
         /// Current target coordinates
         SkyPoint targetCoords;
 
+        /// URL for pre-startup script
+        QUrl preStartupScriptURL;
+        /// URL for post-startup script
+        QUrl postStartupScriptURL;
+        /// URL for pre-shutdown script
+        QUrl preShutdownScriptURL;
+        /// URL for post-shutdown script
+        QUrl postShutdownScriptURL;
+
         /// Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
         //QTimer weatherTimer;
 
@@ -599,5 +627,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
         QVariantMap m_Settings;
         QVariantMap m_GlobalSettings;
         QTimer m_DebounceTimer;
+
+        // Task Queue System
+        QueueViewerWidget *m_queueViewer { nullptr };
+        QueueManager *m_queueManager { nullptr };
+        QueueExecutor *m_queueExecutor { nullptr };
 };
 }

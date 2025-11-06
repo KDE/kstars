@@ -1,0 +1,95 @@
+{
+    "category": "Dust Cap",
+    "device_type": "DustCap",
+    "version": "1.0",
+    "templates": [
+        {
+            "id": "dustcap_park",
+            "name": "Park Dust Cap",
+            "description": "Close dust cap to protect optics",
+            "version": "1.0",
+            "category": "Dust Cap",
+            "supported_interfaces": [
+                512
+            ],
+            "parameters": [
+                {
+                    "name": "wait_timeout",
+                    "type": "number",
+                    "default": 30,
+                    "min": 10,
+                    "max": 120,
+                    "step": 5,
+                    "unit": "seconds",
+                    "description": "Maximum time to wait for dust cap to close"
+                }
+            ],
+            "actions": [
+                {
+                    "type": "SET",
+                    "property": "CAP_PARK",
+                    "element": "PARK",
+                    "value": true,
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                },
+                {
+                    "type": "EVALUATE",
+                    "property": "CAP_PARK",
+                    "element": "STATE",
+                    "property_type": 4,
+                    "condition": 0,
+                    "target": "OK",
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                }
+            ]
+        },
+        {
+            "id": "dustcap_unpark",
+            "name": "Unpark Dust Cap",
+            "description": "Open dust cap for observations",
+            "version": "1.0",
+            "category": "Dust Cap",
+            "supported_interfaces": [
+                512
+            ],
+            "parameters": [
+                {
+                    "name": "wait_timeout",
+                    "type": "number",
+                    "default": 30,
+                    "min": 10,
+                    "max": 120,
+                    "step": 5,
+                    "unit": "seconds",
+                    "description": "Maximum time to wait for dust cap to open"
+                }
+            ],
+            "actions": [
+                {
+                    "type": "SET",
+                    "property": "CAP_PARK",
+                    "element": "UNPARK",
+                    "value": true,
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                },
+                {
+                    "type": "EVALUATE",
+                    "property": "CAP_PARK",
+                    "element": "STATE",
+                    "property_type": 4,
+                    "condition": 0,
+                    "target": "OK",
+                    "timeout": "${wait_timeout}",
+                    "retries": 2,
+                    "failure_action": 0
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+{
+    "name": "Observatory Shutdown Tasks",
+    "description": "Standard sequence to safely close observatory",
+    "version": "1.0",
+    "tasks": [
+        {
+            "template_id": "dustcap_park",
+            "device": "",
+            "parameters": {
+                "wait_timeout": 30
+            }
+        },
+        {
+            "template_id": "mount_park",
+            "device": "",
+            "parameters": {
+                "wait_timeout": 60
+            }
+        },
+        {
+            "template_id": "dome_park",
+            "device": "",
+            "parameters": {
+                "wait_timeout": 120
+            }
+        }
+    ]
+}
