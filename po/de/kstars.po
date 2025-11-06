@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-31 01:59+0000\n"
-"PO-Revision-Date: 2025-10-28 23:58+0100\n"
+"PO-Revision-Date: 2025-11-02 18:37+0100\n"
 "Last-Translator: Daniel Kauser <danysahne333@yahoo.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -8206,10 +8206,9 @@ msgstr "Zusätzliche Einstellungen für die Lösung"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
 #: ekos/align/opsalign.ui:243 ekos/mount/mount.ui:507
-#, fuzzy, kde-format
-#| msgid "Auto Stretch"
+#, kde-format
 msgid "Auto Park"
-msgstr "Automatische Streckung"
+msgstr "Automatisches Parken"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverWCS)
 #: ekos/align/opsalign.ui:250
@@ -15146,7 +15145,7 @@ msgstr "Beobachter verwalten"
 #: ekos/scheduler/scheduler.cpp:469
 #, kde-format
 msgid "Scripts"
-msgstr "Skripte:"
+msgstr "Skripte"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
 #: ekos/capture/camera.ui:1418
@@ -15648,10 +15647,9 @@ msgstr "<b>Fortschritt</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
 #: ekos/capture/camera.ui:2758
-#, fuzzy, kde-format
-#| msgid "Download"
+#, kde-format
 msgid "Avg. Download:"
-msgstr "Herunterladen"
+msgstr "Durchschn. Download:"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
 #: ekos/capture/camera.ui:2792
@@ -25252,10 +25250,9 @@ msgid "Connection in progress. Click to abort."
 msgstr ""
 
 #: ekos/manager.cpp:281
-#, fuzzy, kde-format
-#| msgid "Logging Form"
+#, kde-format
 msgid "Logging"
-msgstr "Protokollformular"
+msgstr "Protokollierung"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
 #: ekos/manager.cpp:392 ekos/opsekos.ui:174
@@ -25333,7 +25330,7 @@ msgstr "Kamera"
 #: ekos/manager.cpp:1087
 #, kde-format
 msgid "Starting INDI services..."
-msgstr "Die INDI-Dienste werden gestartet ..."
+msgstr "INDI-Dienste werden gestartet …"
 
 #: ekos/manager.cpp:1118
 #, kde-format
@@ -25380,13 +25377,13 @@ msgstr ""
 #: ekos/manager.cpp:1229
 #, kde-format
 msgid "INDI services started on port %1."
-msgstr "Die INDI-Dienste wurden auf Port %1 gestartet."
+msgstr "INDI-Dienste wurden auf Port %1 gestartet."
 
 #: ekos/manager.cpp:1232
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
-"Die INDI-Dienste wurden auf Port %1 gestartet, Bitte schließen Sie Geräte an."
+"INDI-Dienste wurden auf Port %1 gestartet. Bitte schließen Sie Geräte an."
 
 #: ekos/manager.cpp:1237
 #, fuzzy, kde-format
@@ -25523,7 +25520,7 @@ msgstr "Verbindung zu INDI-Geräten wird getrennt ..."
 #: ekos/manager.cpp:1535
 #, kde-format
 msgid "INDI services stopped."
-msgstr "Die INDI-Dienste wurden angehalten."
+msgstr "INDI-Dienste wurden angehalten."
 
 #: ekos/manager.cpp:1595
 #, kde-format
@@ -25568,10 +25565,9 @@ msgid "%1 filter is online."
 msgstr "Der Filter %1 ist online."
 
 #: ekos/manager.cpp:1715
-#, fuzzy, kde-format
-#| msgid "%1 filter is online."
+#, kde-format
 msgid "%1 focuser is online."
-msgstr "Der Filter %1 ist online."
+msgstr "%1-Fokussierer ist verbunden."
 
 #: ekos/manager.cpp:1722
 #, fuzzy, kde-format
@@ -25580,10 +25576,9 @@ msgid "Rotator %1 is online."
 msgstr "%1 ist verbunden."
 
 #: ekos/manager.cpp:1738
-#, fuzzy, kde-format
-#| msgid "%1 filter is online."
+#, kde-format
 msgid "%1 Weather is online."
-msgstr "Der Filter %1 ist online."
+msgstr "%1-Wetter ist verbunden."
 
 #: ekos/manager.cpp:1745
 #, fuzzy, kde-format
@@ -25757,10 +25752,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, logsB)
 #: ekos/manager.ui:504
-#, fuzzy, kde-format
-#| msgid "Show Logs"
+#, kde-format
 msgid "Logs..."
-msgstr "Protokolle anzeigen"
+msgstr "Protokolle …"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/manager.ui:528
@@ -26266,10 +26260,9 @@ msgstr "Verfolgungsmodus"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/mount/mount.ui:528
-#, fuzzy, kde-format
-#| msgid "Mount"
+#, kde-format
 msgid "Park at:"
-msgstr "Montierung"
+msgstr "Parken um:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, parkEveryDay)
 #: ekos/mount/mount.ui:546
@@ -26531,11 +26524,9 @@ msgid "Dome is moving counter clockwise..."
 msgstr "Verarbeitung läuft ..."
 
 #: ekos/observatory/observatory.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "%1 is parked."
-msgstr "Dome Creek"
+msgstr "%1 ist geparkt."
 
 #: ekos/observatory/observatory.cpp:376
 #, fuzzy, kde-format
@@ -29823,10 +29814,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAltitude)
 #: ekos/scheduler/scheduler.ui:1671
-#, fuzzy, kde-format
-#| msgid "Min. Altitude:"
+#, kde-format
 msgid "Min. Altitude: "
-msgstr "Minimale Höhe:"
+msgstr "Minimale Höhe: "
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerAltitudeValue)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
@@ -30512,7 +30502,7 @@ msgstr "Ekos wurde angehalten."
 #: ekos/scheduler/schedulerprocess.cpp:1474
 #, kde-format
 msgid "INDI devices connected."
-msgstr "Die INDI-Geräte sind verbunden."
+msgstr "INDI-Geräte sind verbunden."
 
 #: ekos/scheduler/schedulerprocess.cpp:1481
 #, kde-format
@@ -30540,7 +30530,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:1512
 #, kde-format
 msgid "INDI devices disconnected."
-msgstr "Die INDI-Geräte sind getrennt."
+msgstr "INDI-Geräte sind getrennt."
 
 #: ekos/scheduler/schedulerprocess.cpp:1528
 #, kde-format

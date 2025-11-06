@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-10-31 01:59+0000\n"
-"PO-Revision-Date: 2025-10-30 13:08+0400\n"
+"PO-Revision-Date: 2025-11-05 21:00+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -6161,18 +6161,17 @@ msgstr "انتهت مهلة برنامج الحل عن بعد."
 #: ekos/align/align.cpp:798
 #, kde-format
 msgid "Dustcap unparked. Resuming capture and solve."
-msgstr ""
+msgstr "غطاء الغبار غير مركون. استئناف الالتقاط والحل."
 
 #: ekos/align/align.cpp:804
 #, kde-format
 msgid "Dustcap error detected. Aborting alignment."
-msgstr ""
+msgstr "اكتُشف خطأ في غطاء الغبار. إيقاف المحاذاة."
 
 #: ekos/align/align.cpp:865 ekos/focus/focus.cpp:5890
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dustcap device %1 removed."
-msgstr "غطاء الغبار مركون."
+msgstr "أُزيل جهاز غطاء الغبار %1."
 
 #: ekos/align/align.cpp:895
 #, kde-format
@@ -6248,14 +6247,11 @@ msgstr ""
 "أخرى."
 
 #: ekos/align/align.cpp:1535
-#, fuzzy, kde-format
-#| msgid ""
-#| "CCD pixel size is missing. Please check your driver settings and try "
-#| "again."
+#, kde-format
 msgid ""
 "Camera pixel size is missing. Please check your driver settings and try "
 "again."
-msgstr "حجم بكسل CCD مفقود. تحقق من إعدادات برنامج تشغيلك وحاول مرة أخرى."
+msgstr "حجم بكسل الكاميرا مفقود. تحقق من إعدادات برنامج تشغيلك وحاول مرة أخرى."
 
 #: ekos/align/align.cpp:1543
 #, kde-format
@@ -6272,12 +6268,12 @@ msgstr "نقل الصور معطّل لآلة التصوير هذه. هل تري
 #: ekos/align/align.cpp:1578
 #, kde-format
 msgid "Dustcap is parked. Unparking before capture and solve..."
-msgstr ""
+msgstr "غطاء الغبار مركون. فُكّ الغطاء قبل الالتقاط والحل..."
 
 #: ekos/align/align.cpp:1586
 #, kde-format
 msgid "Dustcap is not ready (status: %1). Waiting before capture and solve..."
-msgstr ""
+msgstr "غطاء الغبار غير جاهز (الحالة: %1). في انتظار التقاط والحل ..."
 
 #: ekos/align/align.cpp:1600
 #, kde-format
@@ -6287,15 +6283,12 @@ msgstr ""
 "ثانية..."
 
 #: ekos/align/align.cpp:1608
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot capture while CCD exposure is in progress. Retrying in %1 "
-#| "seconds..."
+#, kde-format
 msgid ""
 "Cannot capture while camera exposure is in progress. Retrying in %1 "
 "seconds..."
 msgstr ""
-"لا أستطيع التقاط الصورة بينما تعريض CCD قيد التقدم. أعيد المحاولة في %1 "
+"لا أستطيع التقاط الصورة بينما تعريض الكاميرا قيد التقدم. أعيد المحاولة في %1 "
 "ثانية..."
 
 #: ekos/align/align.cpp:1635
@@ -15697,16 +15690,14 @@ msgid "Starting framing..."
 msgstr "يُبدَأ التأطير..."
 
 #: ekos/capture/cameraprocess.cpp:352
-#, fuzzy, kde-format
-#| msgid "CCD capture suspended"
+#, kde-format
 msgid "Camera capture suspended"
-msgstr "أوقِف اقتناص CCD مؤقتًا"
+msgstr "ألبث التقاط الكاميرا"
 
 #: ekos/capture/cameraprocess.cpp:357
-#, fuzzy, kde-format
-#| msgid "CCD capture complete"
+#, kde-format
 msgid "Camera capture complete"
-msgstr "أكمل اقتناص CCD"
+msgstr "أكتمل التقاط الكاميرا"
 
 #: ekos/capture/cameraprocess.cpp:362
 #, kde-format
@@ -15714,10 +15705,9 @@ msgid "Framing stopped"
 msgstr "أوقِف التأطير"
 
 #: ekos/capture/cameraprocess.cpp:362 ekos/capture/cameraprocess.cpp:368
-#, fuzzy, kde-format
-#| msgid "CCD capture stopped"
+#, kde-format
 msgid "Camera capture stopped"
-msgstr "أوقِف اقتناص CCD"
+msgstr "توقّف التقاط الكاميرا"
 
 #: ekos/capture/cameraprocess.cpp:446
 #, kde-format
@@ -15815,16 +15805,14 @@ msgid "Warning: Calibration process was prematurely terminated."
 msgstr "تحذير: أُنهِيَت عملية المعايرة قبل الأوان."
 
 #: ekos/capture/cameraprocess.cpp:1403
-#, fuzzy, kde-format
-#| msgid "CCD capture sequence completed"
+#, kde-format
 msgid "Camera capture sequence completed"
-msgstr "أكمل تسلسل اقتناص CCD"
+msgstr "أكتمل تسلسل التقاط الكاميرا"
 
 #: ekos/capture/cameraprocess.cpp:1460
-#, fuzzy, kde-format
-#| msgid "Error: lost connection to camera."
+#, kde-format
 msgid "Error: Lost connection to camera."
-msgstr "خطأ: فُقد الاتصال بآلة التصوير."
+msgstr "خطأ: فُقِدَ الاتصال بالكاميرا."
 
 #: ekos/capture/cameraprocess.cpp:1488
 #, kde-format
@@ -18920,16 +18908,14 @@ msgid "Focus Mechanics"
 msgstr "آليات التركيز"
 
 #: ekos/focus/focus.cpp:576
-#, fuzzy, kde-format
-#| msgid "Dust cap unparked."
+#, kde-format
 msgid "Dustcap unparked. Resuming capture."
-msgstr "أُزِيل غطاء الغبار."
+msgstr "غطاء الغبار غير مركون. استئناف الالتقاط."
 
 #: ekos/focus/focus.cpp:582
-#, fuzzy, kde-format
-#| msgid "No star was selected. Aborting..."
+#, kde-format
 msgid "Dustcap error detected. Aborting focus."
-msgstr "لم يُختَر أي نجم. إجهاض..."
+msgstr "اكتُشف خطأ في غطاء الغبار. إيقاف التركيز."
 
 #: ekos/focus/focus.cpp:981
 #, kde-format
@@ -18952,10 +18938,9 @@ msgid "No Focuser connected."
 msgstr "لم يتصِل أي مُركِّز."
 
 #: ekos/focus/focus.cpp:1154 ekos/focus/focus.cpp:5046
-#, fuzzy, kde-format
-#| msgid "No Focuser connected."
+#, kde-format
 msgid "No camera connected."
-msgstr "لم يتصِل أي مُركِّز."
+msgstr "لا توجد كاميرا موصولة."
 
 #: ekos/focus/focus.cpp:1161
 #, kde-format
@@ -19054,15 +19039,14 @@ msgid "Error: Lost connection to Camera."
 msgstr "خطأ: فُقِدَ الاتصال بالكاميرا."
 
 #: ekos/focus/focus.cpp:1907
-#, fuzzy, kde-format
-#| msgid "Dust cap is unparking..."
+#, kde-format
 msgid "Dustcap is parked. Unparking before capture..."
-msgstr "غطاء الغبار يفك ركنه..."
+msgstr "غطاء الغبار مركون. فُكّ الغطاء قبل الالتقاط..."
 
 #: ekos/focus/focus.cpp:1915
 #, kde-format
 msgid "Dustcap is not ready (status: %1). Waiting before capture..."
-msgstr ""
+msgstr "غطاء الغبار غير جاهز (الحالة: %1). في انتظار التقاط..."
 
 #: ekos/focus/focus.cpp:1939
 #, kde-format
@@ -21879,14 +21863,11 @@ msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: أوقات التعريض الصالحة: آلي، "
 
 #: ekos/guide/externalguide/phd2.cpp:979
-#, fuzzy, kde-format
-#| msgid ""
-#| "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
-#| "invalid."
+#, kde-format
 msgid ""
 "PHD2: Please set camera and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
-msgstr "PHD2: رجاءً عيِّن CCD ومعاملات المقراب في PHD2، مقياس البكسل غير صالح."
+msgstr "PHD2: رجاءً عيِّن كاميرا ومعاملات المقراب في PHD2، مقياس البكسل غير صالح."
 
 #: ekos/guide/externalguide/phd2.cpp:981
 #, kde-format
@@ -21960,10 +21941,9 @@ msgstr ""
 "الفرعي»."
 
 #: ekos/guide/guide.cpp:592
-#, fuzzy, kde-format
-#| msgid "Connection to the guide CCD is lost."
+#, kde-format
 msgid "Connection to the guide camera is lost."
-msgstr "اِفقِد الاتصال بـ CCD الدليل."
+msgstr "اِفقِد الاتصال بكاميرة الدليل."
 
 #: ekos/guide/guide.cpp:1012
 #, kde-format
@@ -29644,10 +29624,9 @@ msgid "Ekos is already started, skipping startup script..."
 msgstr "إيكوس بدأ بالفعل، تخطَ سكربت بدء التشغيل..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2156
-#, fuzzy, kde-format
-#| msgid "Warming up CCD..."
+#, kde-format
 msgid "Warming up camera..."
-msgstr "تدفئة CCD..."
+msgstr "إحماء الكاميرا..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2189
 #, kde-format
