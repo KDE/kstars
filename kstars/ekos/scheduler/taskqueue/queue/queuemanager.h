@@ -110,6 +110,13 @@ class QueueManager : public QObject
          */
         bool addMountUnparkTask(int timeout = 60);
 
+        /**
+         * @brief Creates and adds a delay task programmatically
+         * @param delaySeconds Duration of delay in seconds (default: 60)
+         * @return true if task was created and added successfully
+         */
+        bool addDelayTask(int delaySeconds = 60);
+
     signals:
         void itemAdded(QueueItem *item, int index);
         void itemRemoved(QueueItem *item, int index);

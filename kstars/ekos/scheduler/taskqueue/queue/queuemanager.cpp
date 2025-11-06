@@ -370,6 +370,21 @@ bool QueueManager::addMountUnparkTask(int timeout)
     return true;
 }
 
+bool QueueManager::addDelayTask(int delaySeconds)
+{
+    QMap<QString, QVariant> params;
+    params["delay_seconds"] = delaySeconds;
+
+    Task *task = createTaskFromTemplate("delay", params);
+    if (!task)
+        return false;
+
+    QueueItem *item = new QueueItem(task, this);
+    addItem(item);
+
+    return true;
+}
+
 bool QueueManager::loadCollectionFromJson(const QJsonObject &json)
 {    
     // Clear existing queue

@@ -1,0 +1,37 @@
+{
+    "category": "System",
+    "device_type": "Generic",
+    "version": "1.0",
+    "templates": [
+        {
+            "id": "delay",
+            "name": "Add Delay",
+            "description": "Add a time delay between tasks",
+            "version": "1.0",
+            "category": "System",
+            "supported_interfaces": [],
+            "parameters": [
+                {
+                    "name": "delay_seconds",
+                    "type": "number",
+                    "default": 60,
+                    "min": 5,
+                    "max": 21600,
+                    "step": 1,
+                    "unit": "seconds",
+                    "description": "Delay duration in seconds (max 6 hours)"
+                }
+            ],
+            "actions": [
+                {
+                    "type": "DELAY",
+                    "duration": "${delay_seconds}",
+                    "unit": 0,
+                    "timeout": "${delay_seconds}",
+                    "retries": 0,
+                    "failure_action": 1
+                }
+            ]
+        }
+    ]
+}
