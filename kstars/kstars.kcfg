@@ -3480,6 +3480,9 @@
          <label>Wait this many seconds when detecting weather alert before starting observatory shutdown.</label>
          <default>10</default>
       </entry>
+      <entry name="SchedulerWeatherConnectionString" type="String">
+         <label>Connection string for the weather monitoring driver. The scheduler uses this to continuously monitor weather conditions and evaluate whether it is safe to operate the observatory.</label>
+     </entry>
       <entry name="SchedulerTwilight" type="Bool">
          <label>Default scheduler checkbox for job twilight constraints.</label>
          <default>true</default>

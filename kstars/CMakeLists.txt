@@ -133,6 +133,7 @@ if (INDI_FOUND)
             ekos/scheduler/opsscriptssettings.ui
             ekos/scheduler/opsoffsetsettings.ui
             ekos/scheduler/opsjobssettings.ui
+            ekos/scheduler/opsweathersettings.ui
             # Capture
             ekos/capture/capture.ui
             ekos/capture/camera.ui
@@ -292,6 +293,7 @@ if (INDI_FOUND)
             ekos/scheduler/scheduler.cpp
             ekos/scheduler/schedulermodulestate.cpp
             ekos/scheduler/schedulerprocess.cpp
+            ekos/scheduler/schedulerweather.cpp
             ekos/scheduler/schedulerutils.cpp
             ekos/scheduler/schedulertypes.cpp
             ekos/scheduler/framingassistantui.cpp
@@ -299,6 +301,7 @@ if (INDI_FOUND)
             ekos/scheduler/scheduleraltitudegraph.cpp
             ekos/scheduler/opsalignmentsettings.cpp
             ekos/scheduler/opsscriptssettings.cpp
+            ekos/scheduler/opsweathersettings.cpp
             ekos/scheduler/opsjobssettings.cpp
             ekos/scheduler/opsoffsetsettings.cpp
             ekos/scheduler/schedulersettings.cpp

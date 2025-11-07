@@ -8,10 +8,13 @@
 
 #include "schedulertypes.h"
 #include "schedulerjob.h"
+#include "schedulerweather.h"
 #include "ekos/auxiliary/modulelogger.h"
 #include "ekos/align/align.h"
 #include "ekos/auxiliary/solverutils.h"
 #include "indi/indiweather.h"
+#include "indi/clientmanager.h"
+#include "indi/deviceinfo.h"
 #include "dms.h"
 
 #include <QObject>
@@ -47,6 +50,7 @@ class SchedulerProcess : public QObject, public ModuleLogger
     public:
         SchedulerProcess(QSharedPointer<SchedulerModuleState> state, const QString &ekosPathStr, const QString &ekosInterfaceStr,
                          QueueManager *queueManager = nullptr, QueueExecutor *queueExecutor = nullptr);
+        ~SchedulerProcess();
 
 
         // ////////////////////////////////////////////////////////////////////
@@ -241,7 +245,7 @@ class SchedulerProcess : public QObject, public ModuleLogger
          * @brief checkParkWaitState Check park wait state.
          * @return If parking/unparking in progress, return false. If parking/unparking complete, return true.
          */
-        Q_SCRIPTABLE bool checkParkWaitState();        
+        Q_SCRIPTABLE bool checkParkWaitState();
 
         /**
          * @brief setPaused pausing the scheduler
@@ -797,5 +801,8 @@ class SchedulerProcess : public QObject, public ModuleLogger
 
     private:
         ISD::Mount::Status m_lastMountStatus = ISD::Mount::MOUNT_IDLE;
+
+        // Standalone weather monitoring (before equipment profile starts)
+        SchedulerWeather *m_StandaloneWeather {nullptr};
 };
 }

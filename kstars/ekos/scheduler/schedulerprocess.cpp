@@ -9,6 +9,7 @@
 #include "greedyscheduler.h"
 #include "schedulerutils.h"
 #include "schedulerjob.h"
+#include "schedulerweather.h"
 #include "taskqueue/queue/queuemanager.h"
 #include "taskqueue/queue/queueexecutor.h"
 #include "taskqueue/queue/queueitem.h"
@@ -86,6 +87,31 @@ SchedulerProcess::SchedulerProcess(QSharedPointer<SchedulerModuleState> state, c
 
     m_WeatherShutdownTimer.setSingleShot(true);
     connect(&m_WeatherShutdownTimer, &QTimer::timeout, this, &SchedulerProcess::startShutdownDueToWeather);
+
+    // Initialize standalone weather monitoring (before equipment profile starts)
+    if (Options::schedulerWeather())
+    {
+        QString connectionString = Options::schedulerWeatherConnectionString();
+        if (!connectionString.isEmpty())
+        {
+            m_StandaloneWeather = new SchedulerWeather(this);
+            connect(m_StandaloneWeather, &SchedulerWeather::newWeatherStatus, this, &SchedulerProcess::setWeatherStatus);
+            connect(m_StandaloneWeather, &SchedulerWeather::newLog, this, &SchedulerProcess::appendLogText);
+            m_StandaloneWeather->initStandaloneWeather(connectionString);
+        }
+    }
+}
+
+SchedulerProcess::~SchedulerProcess()
+{
+    // Clean up standalone weather monitoring
+    if (m_StandaloneWeather)
+    {
+        delete m_StandaloneWeather;
+        m_StandaloneWeather = nullptr;
+    }
+
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "SchedulerProcess destructor: Standalone weather cleanup complete";
 }
 
 SchedulerState SchedulerProcess::status()
@@ -685,7 +711,13 @@ bool SchedulerProcess::shouldSchedulerSleep(SchedulerJob * job)
 
             moduleState()->setWeatherGracePeriodActive(true);
             moduleState()->enablePreemptiveShutdown(wakeupTime);
-            checkShutdownState();
+
+            // Only execute shutdown procedures if the observatory has actually been started
+            if (moduleState()->startupState() == STARTUP_COMPLETE)
+            {
+                checkShutdownState();
+            }
+
             emit schedulerSleeping(true, true);
             return true;
         }
@@ -2113,10 +2145,20 @@ bool SchedulerProcess::checkStatus()
             }
         }
 
-        // #2.6 If there is no current job after evaluation, shutdown
+        // #2.6 If there is no current job after evaluation, shutdown or stop
         if (nullptr == activeJob())
         {
-            checkShutdownState();
+            // Only execute shutdown procedures if the observatory has actually been started
+            if (moduleState()->startupState() == STARTUP_COMPLETE)
+            {
+                checkShutdownState();
+            }
+            else
+            {
+                // Observatory was never started and there are no jobs, stop the scheduler
+                appendLogText(i18n("No executable jobs found. Stopping scheduler."));
+                stop();
+            }
             return false;
         }
     }

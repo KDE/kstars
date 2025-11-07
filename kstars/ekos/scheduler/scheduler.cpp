@@ -350,12 +350,12 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
         schedulerProfileCombo->setCurrentText(moduleState()->currentProfile());
     });
     connect(moduleState().data(), &SchedulerModuleState::scriptsChanged, this, [&]()
-            {
-                schedulerPreStartupScript->setText((moduleState()->preStartupScriptURL().toLocalFile()));
-                schedulerPostStartupScript->setText((moduleState()->postStartupScriptURL().toLocalFile()));
-                schedulerPreShutdownScript->setText((moduleState()->preShutdownScriptURL().toLocalFile()));
-                schedulerPostShutdownScript->setText((moduleState()->postShutdownScriptURL().toLocalFile()));
-            });
+    {
+        schedulerPreStartupScript->setText((moduleState()->preStartupScriptURL().toLocalFile()));
+        schedulerPostStartupScript->setText((moduleState()->postStartupScriptURL().toLocalFile()));
+        schedulerPreShutdownScript->setText((moduleState()->preShutdownScriptURL().toLocalFile()));
+        schedulerPostShutdownScript->setText((moduleState()->postShutdownScriptURL().toLocalFile()));
+    });
     connect(schedulerProfileCombo, &QComboBox::currentTextChanged, process().data(), &SchedulerProcess::setProfile);
 
     // Resolve pre-startup script path (before Ekos/INDI start)
@@ -598,6 +598,10 @@ void Scheduler::prepareGUI ()
     m_OpsScriptsSettings = new OpsScriptsSettings();
     page = dialog->addPage(m_OpsScriptsSettings, i18n("Scripts"));
     page->setIcon(QIcon::fromTheme("document-properties"));
+
+    m_OpsWeatherSettings = new OpsWeatherSettings();
+    page = dialog->addPage(m_OpsWeatherSettings, i18n("Weather"));
+    page->setIcon(QIcon::fromTheme("weather-storm"));
 }
 void Scheduler::watchJobChanges(bool enable)
 {

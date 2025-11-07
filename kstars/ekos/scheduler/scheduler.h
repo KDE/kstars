@@ -14,6 +14,7 @@
 #include "opsalignmentsettings.h"
 #include "opsjobssettings.h"
 #include "opsscriptssettings.h"
+#include "opsweathersettings.h"
 #include "schedulertypes.h"
 #include "ekos/align/align.h"
 #include "indi/indiweather.h"
@@ -121,6 +122,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         OpsAlignmentSettings *m_OpsAlignmentSettings { nullptr };
         OpsJobsSettings *m_OpsJobsSettings { nullptr };
         OpsScriptsSettings *m_OpsScriptsSettings { nullptr };
+        OpsWeatherSettings *m_OpsWeatherSettings { nullptr };
 
 
         /** DBUS interface function.
@@ -329,7 +331,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void clearPostStartupQueue();
         void clearPreShutdownQueue();
         void clearPostShutdownQueue();
-        
+
 
         /**
              * @brief editJob Edit an observation job
