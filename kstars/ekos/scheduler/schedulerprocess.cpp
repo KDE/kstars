@@ -531,6 +531,32 @@ void SchedulerProcess::wakeUpScheduler()
     {
         moduleState()->disablePreemptiveShutdown();
         appendLogText(i18n("Scheduler is awake."));
+
+        // If we're recovering from weather alert soft shutdown, execute post-startup queue
+        // to reverse the parking/shutdown actions (symmetric with pre-shutdown queue execution)
+        if (moduleState()->weatherGracePeriodActive() &&
+                Options::schedulerStartupEnabled() &&
+                m_queueManager &&
+                !moduleState()->postStartupScriptURL().isEmpty())
+        {
+            QString queueFile = moduleState()->postStartupScriptURL().toLocalFile();
+            if (m_queueManager->loadQueue(queueFile))
+            {
+                if (m_queueManager->count() > 0)
+                {
+                    appendLogText(i18n("Executing post-startup tasks from %1 after weather recovery...", queueFile));
+                    // Set a temporary state to track post-weather-recovery startup
+                    moduleState()->setStartupState(STARTUP_POST_DEVICES_RUNNING);
+                    m_queueExecutor->start();
+                    return; // Don't call execute() yet, wait for queue completion
+                }
+            }
+            else
+            {
+                appendLogText(i18n("Warning: Failed to load post-startup queue from %1 after weather recovery", queueFile));
+            }
+        }
+
         execute();
     }
     else
@@ -3020,6 +3046,14 @@ void SchedulerProcess::queueExecutionCompleted()
     {
         appendLogText(i18n("Post-startup queue completed successfully."));
         moduleState()->setStartupState(STARTUP_COMPLETE);
+
+        // If we just completed post-startup queue after weather recovery (not during normal startup),
+        // we need to explicitly resume scheduler execution since we returned early from wakeUpScheduler()
+        if (moduleState()->schedulerState() == SCHEDULER_IDLE || moduleState()->schedulerState() == SCHEDULER_PAUSED)
+        {
+            appendLogText(i18n("Resuming scheduler after weather recovery startup tasks..."));
+            execute();
+        }
         return;
     }
 
