@@ -19,9 +19,9 @@ namespace ISD
 {
 
 const QList<KLocalizedString> Dome::domeStates = { ki18n("Idle"), ki18n("Moving clockwise"), ki18n("Moving counter clockwise"),
-                                                   ki18n("Tracking"), ki18n("Parking"), ki18n("UnParking"), ki18n("Parked"),
-                                                   ki18n("Error")
-                                                 };
+    ki18n("Tracking"), ki18n("Parking"), ki18n("UnParking"), ki18n("Parked"),
+    ki18n("Error")
+};
 
 Dome::Dome(GenericDevice *parent) : ConcreteDevice(parent)
 {
@@ -300,7 +300,7 @@ bool Dome::abort()
     if (!motionSP)
         return false;
 
-    auto abortSW = motionSP->findWidgetByName("ABORT");
+    auto abortSW = motionSP.findWidgetByName("ABORT");
 
     if (!abortSW)
         return false;
@@ -318,12 +318,12 @@ bool Dome::park()
     if (!parkSP)
         return false;
 
-    auto parkSW = parkSP->findWidgetByName("PARK");
+    auto parkSW = parkSP.findWidgetByName("PARK");
 
     if (!parkSW)
         return false;
 
-    parkSP->reset();
+    parkSP.reset();
     parkSW->setState(ISS_ON);
     sendNewProperty(parkSP);
 
@@ -337,12 +337,12 @@ bool Dome::unpark()
     if (!parkSP)
         return false;
 
-    auto parkSW = parkSP->findWidgetByName("UNPARK");
+    auto parkSW = parkSP.findWidgetByName("UNPARK");
 
     if (!parkSW)
         return false;
 
-    parkSP->reset();
+    parkSP.reset();
     parkSW->setState(ISS_ON);
     sendNewProperty(parkSP);
 
@@ -353,7 +353,7 @@ bool Dome::isMoving() const
 {
     auto motionSP = getSwitch("DOME_MOTION");
 
-    if (motionSP && motionSP->getState() == IPS_BUSY)
+    if (motionSP && motionSP.getState() == IPS_BUSY)
         return true;
 
     return false;
@@ -366,7 +366,7 @@ double Dome::position() const
     if (!az)
         return -1;
     else
-        return az->at(0)->getValue();
+        return az[0].getValue();
 }
 
 bool Dome::setPosition(double position)
@@ -376,7 +376,7 @@ bool Dome::setPosition(double position)
     if (!az)
         return false;
 
-    az->at(0)->setValue(position);
+    az[0].setValue(position);
     sendNewProperty(az);
     return true;
 }
@@ -387,7 +387,7 @@ bool Dome::setRelativePosition(double position)
     if (!azDiff)
         return false;
 
-    azDiff->at(0)->setValue(position);
+    azDiff[0].setValue(position);
     sendNewProperty(azDiff);
     return true;
 }
@@ -398,7 +398,7 @@ bool Dome::isAutoSync()
     if (!autosync)
         return false;
 
-    auto autosyncSW = autosync->findWidgetByName("DOME_AUTOSYNC_ENABLE");
+    auto autosyncSW = autosync.findWidgetByName("DOME_AUTOSYNC_ENABLE");
     if (!autosyncSW)
         return false;
     else
@@ -411,11 +411,11 @@ bool Dome::setAutoSync(bool activate)
     if (!autosync)
         return false;
 
-    auto autosyncSW = autosync->findWidgetByName(activate ? "DOME_AUTOSYNC_ENABLE" : "DOME_AUTOSYNC_DISABLE");
+    auto autosyncSW = autosync.findWidgetByName(activate ? "DOME_AUTOSYNC_ENABLE" : "DOME_AUTOSYNC_DISABLE");
     if (!autosyncSW)
         return false;
 
-    autosync->reset();
+    autosync.reset();
     autosyncSW->setState(ISS_ON);
     sendNewProperty(autosync);
 
@@ -428,11 +428,11 @@ bool Dome::moveDome(DomeDirection dir, DomeMotionCommand operation)
     if (!domeMotion)
         return false;
 
-    auto opSwitch = domeMotion->findWidgetByName(dir == DomeDirection::DOME_CW ? "DOME_CW" : "DOME_CCW");
+    auto opSwitch = domeMotion.findWidgetByName(dir == DomeDirection::DOME_CW ? "DOME_CW" : "DOME_CCW");
     if (!opSwitch)
         return false;
 
-    domeMotion->reset();
+    domeMotion.reset();
     opSwitch->setState(operation == DomeMotionCommand::MOTION_START ? ISS_ON : ISS_OFF);
     sendNewProperty(domeMotion);
     return true;
@@ -444,11 +444,11 @@ bool Dome::controlShutter(bool open)
     if (!shutterSP)
         return false;
 
-    auto shutterSW = shutterSP->findWidgetByName(open ? "SHUTTER_OPEN" : "SHUTTER_CLOSE");
+    auto shutterSW = shutterSP.findWidgetByName(open ? "SHUTTER_OPEN" : "SHUTTER_CLOSE");
     if (!shutterSW)
         return false;
 
-    shutterSP->reset();
+    shutterSP.reset();
     shutterSW->setState(ISS_ON);
     sendNewProperty(shutterSP);
 
@@ -532,7 +532,7 @@ double ISD::Dome::getDomeRadius() const
     auto nvp = getNumber("DOME_MEASUREMENTS");
     if (nvp)
     {
-        auto radius = nvp->findWidgetByName("DM_DOME_RADIUS");
+        auto radius = nvp.findWidgetByName("DM_DOME_RADIUS");
         if (radius)
             return radius->getValue();
     }
@@ -544,7 +544,7 @@ double ISD::Dome::getShutterWidth() const
     auto nvp = getNumber("DOME_MEASUREMENTS");
     if (nvp)
     {
-        auto width = nvp->findWidgetByName("DM_SHUTTER_WIDTH");
+        auto width = nvp.findWidgetByName("DM_SHUTTER_WIDTH");
         if (width)
             return width->getValue();
     }
@@ -556,7 +556,7 @@ double ISD::Dome::getNorthDisplacement() const
     auto nvp = getNumber("DOME_MEASUREMENTS");
     if (nvp)
     {
-        auto north = nvp->findWidgetByName("DM_NORTH_DISPLACEMENT");
+        auto north = nvp.findWidgetByName("DM_NORTH_DISPLACEMENT");
         if (north)
             return north->getValue();
     }
@@ -568,7 +568,7 @@ double ISD::Dome::getEastDisplacement() const
     auto nvp = getNumber("DOME_MEASUREMENTS");
     if (nvp)
     {
-        auto east = nvp->findWidgetByName("DM_EAST_DISPLACEMENT");
+        auto east = nvp.findWidgetByName("DM_EAST_DISPLACEMENT");
         if (east)
             return east->getValue();
     }
@@ -580,7 +580,7 @@ double ISD::Dome::getUpDisplacement() const
     auto nvp = getNumber("DOME_MEASUREMENTS");
     if (nvp)
     {
-        auto up = nvp->findWidgetByName("DM_UP_DISPLACEMENT");
+        auto up = nvp.findWidgetByName("DM_UP_DISPLACEMENT");
         if (up)
             return up->getValue();
     }
@@ -592,7 +592,7 @@ double ISD::Dome::getOTAOffset() const
     auto nvp = getNumber("DOME_MEASUREMENTS");
     if (nvp)
     {
-        auto ota = nvp->findWidgetByName("DM_OTA_OFFSET");
+        auto ota = nvp.findWidgetByName("DM_OTA_OFFSET");
         if (ota)
             return ota->getValue();
     }
