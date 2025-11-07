@@ -15,6 +15,7 @@
 
 #include <indi_debug.h>
 #include <QTimer>
+#include <QtConcurrent>
 
 ClientManager::ClientManager()
 {
@@ -54,7 +55,7 @@ void ClientManager::newDevice(INDI::BaseDevice dp)
             DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
             oneDriverInfo->addDevice(devInfo);
             qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
-                                 "(exact match by label)";
+                                    "(exact match by label)";
             emit newINDIDevice(devInfo);
             return;
         }
@@ -69,7 +70,7 @@ void ClientManager::newDevice(INDI::BaseDevice dp)
             DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
             oneDriverInfo->addDevice(devInfo);
             qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
-                                 "(exact match by name)";
+                                    "(exact match by name)";
             emit newINDIDevice(devInfo);
             return;
         }
@@ -84,7 +85,7 @@ void ClientManager::newDevice(INDI::BaseDevice dp)
             DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
             oneDriverInfo->addDevice(devInfo);
             qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
-                                 "(startsWith match)";
+                                    "(startsWith match)";
             emit newINDIDevice(devInfo);
             return;
         }
@@ -103,7 +104,7 @@ void ClientManager::newDevice(INDI::BaseDevice dp)
             oneDriverInfo->setUniqueLabel(dp.getDeviceName());
             DeviceInfo *devInfo = new DeviceInfo(oneDriverInfo, dp);
             qCDebug(KSTARS_INDI) << "Driver" << oneDriverInfo->getName() << "is adding device" << dp.getDeviceName() <<
-                                 "(heuristic match)";
+                                    "(heuristic match)";
             oneDriverInfo->addDevice(devInfo);
             emit newINDIDevice(devInfo);
             return;
@@ -256,7 +257,7 @@ void ClientManager::removeManagedDriver(const QSharedPointer<DriverInfo> &driver
     for (auto &di : driver->getDevices())
     {
         qCDebug(KSTARS_INDI) << "Managed driver" << driver->getName() << "has device" << di->getDeviceName() <<
-                             "that will be removed";
+                                "that will be removed";
 
         // #1 Remove from GUI Manager
         GUIManager::Instance()->removeDevice(di->getDeviceName());
@@ -305,14 +306,39 @@ void ClientManager::serverDisconnected(int exitCode)
         // Should we retry again?
         if (m_ConnectionRetries-- > 0)
         {
-            // Connect again in 1 second.
+            // Connect again in 1 second using non-blocking call
             QTimer::singleShot(1000, this, [this]()
             {
                 qCDebug(KSTARS_INDI) << "Retrying connection again...";
-                if (connectServer() == false)
-                    serverDisconnected(0);
-                else
-                    m_PendingConnection = false;
+
+                // Run connectServer in a separate thread to avoid blocking
+                auto future = QtConcurrent::run([this]()
+                {
+                    return connectServer();
+                });
+
+                // Use QFutureWatcher to handle the result
+                auto *watcher = new QFutureWatcher<bool>(this);
+                QPointer<ClientManager> self(this);
+                connect(watcher, &QFutureWatcher<bool>::finished, this, [self, watcher]()
+                {
+                    bool success = watcher->result();
+                    watcher->deleteLater();
+
+                    // Check if ClientManager still exists before accessing it
+                    if (!self)
+                        return;
+
+                    if (!success)
+                    {
+                        self->serverDisconnected(0);
+                    }
+                    else
+                    {
+                        self->m_PendingConnection = false;
+                    }
+                });
+                watcher->setFuture(future);
             });
         }
         // Nope cannot connect to server.
@@ -342,10 +368,34 @@ void ClientManager::establishConnection()
     m_PendingConnection = true;
     m_ConnectionRetries = 2;
 
-    if (connectServer() == false)
-        serverDisconnected(0);
-    else
-        m_PendingConnection = false;
+    // Run the blocking connectServer() call in a separate thread to avoid blocking the UI
+    auto future = QtConcurrent::run([this]()
+    {
+        return connectServer();
+    });
+
+    // Use QFutureWatcher to handle the result
+    auto *watcher = new QFutureWatcher<bool>(this);
+    QPointer<ClientManager> self(this);
+    connect(watcher, &QFutureWatcher<bool>::finished, this, [self, watcher]()
+    {
+        bool success = watcher->result();
+        watcher->deleteLater();
+
+        // Check if ClientManager still exists before accessing it
+        if (!self)
+            return;
+
+        if (!success)
+        {
+            self->serverDisconnected(0);
+        }
+        else
+        {
+            self->m_PendingConnection = false;
+        }
+    });
+    watcher->setFuture(future);
 }
 
 const QSharedPointer<DriverInfo> &ClientManager::findDriverInfoByName(const QString &name)
