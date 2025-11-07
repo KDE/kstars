@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-06 09:17+0000\n"
-"PO-Revision-Date: 2025-11-01 01:43+0100\n"
+"PO-Revision-Date: 2025-11-07 01:22+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -29156,42 +29156,34 @@ msgid "Warning: DEC value %1 is invalid."
 msgstr "Advertencia: El valor de DEC %1 no es válido."
 
 #: ekos/scheduler/scheduler.cpp:929
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre-Startup Queue"
-msgstr "Seleccionar guion de arranque"
+msgstr "Seleccionar cola de prearranque"
 
 #: ekos/scheduler/scheduler.cpp:931 ekos/scheduler/scheduler.cpp:947
 #: ekos/scheduler/scheduler.cpp:963 ekos/scheduler/scheduler.cpp:979
 #, kde-format
 msgid "Queue Files (*.kstarsqueue *.json)"
-msgstr ""
+msgstr "Archivos de cola (*.kstarsqueue *.json)"
 
 #: ekos/scheduler/scheduler.cpp:945
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post-Startup Queue"
-msgstr "Seleccione el guion posterior al inicio del controlador"
+msgstr "Seleccionar cola de postarranque"
 
 #: ekos/scheduler/scheduler.cpp:961
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Sequence Queue"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre-Shutdown Queue"
-msgstr "Seleccionar cola de secuencias"
+msgstr "Seleccionar cola de preapagado"
 
 #: ekos/scheduler/scheduler.cpp:977
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Sequence Queue"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post-Shutdown Queue"
-msgstr "Seleccionar cola de secuencias"
+msgstr "Seleccionar cola de postapagado"
 
 #: ekos/scheduler/scheduler.cpp:1068
 #, kde-format
@@ -29993,38 +29985,42 @@ msgid ""
 "Enable or disable execution of the startup queue. When disabled, no startup "
 "procedure will run."
 msgstr ""
+"Activar o desactivar la ejecución de la cola de arranque. Si está "
+"desactivada, no se ejecutará ningún procedimiento de arranque."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerStartupEnabled)
 #: ekos/scheduler/scheduler.ui:2045
 #, kde-format
 msgid "Enable startup queue"
-msgstr ""
+msgstr "Activar cola de arranque"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPreStartupScript)
 #: ekos/scheduler/scheduler.ui:2066
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Selected pre-startup queue to run before starting Ekos profile"
-msgstr "Seleccione el guion a ejecutar antes de iniciar el controlador"
+msgstr ""
+"Cola de prearranque seleccionada que se ejecutará antes de iniciar el perfil "
+"de Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPreStartupQueueB)
 #: ekos/scheduler/scheduler.ui:2095
 #, kde-format
 msgid "Browse for pre-startup queue/collection file"
-msgstr ""
+msgstr "Buscar el archivo de cola/recopilación de prearranque"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostStartupScript)
 #: ekos/scheduler/scheduler.ui:2121
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Selected post-startup queue to run after starting Ekos profile"
-msgstr "Seleccione el guion a ejecutar después de iniciar el controlador"
+msgstr ""
+"Cola de postarranque seleccionada que se ejecutará tras iniciar el perfil de "
+"Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPostStartupQueueB)
 #: ekos/scheduler/scheduler.ui:2150
 #, kde-format
 msgid "Browse for post-startup queue/collection file"
-msgstr ""
+msgstr "Buscar el archivo de cola/recopilación de postarranque"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:2174
@@ -30039,38 +30035,42 @@ msgid ""
 "Enable or disable execution of the shutdown queue. When disabled, no "
 "shutdown procedure will run."
 msgstr ""
+"Activar o desactivar la ejecución de la cola de apagado. Si está "
+"desactivada, no se ejecutará ningún procedimiento de apagado."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerShutdownEnabled)
 #: ekos/scheduler/scheduler.ui:2198
 #, kde-format
 msgid "Enable shutdown queue"
-msgstr ""
+msgstr "Activar cola de apagado"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPreShutdownScript)
 #: ekos/scheduler/scheduler.ui:2219
-#, fuzzy, kde-format
-#| msgid "Select script to execute before stopping the driver"
+#, kde-format
 msgid "Selected pre-shutdown queue to run before stopping Ekos profile"
-msgstr "Seleccione el guion a ejecutar antes de detener el controlador"
+msgstr ""
+"Cola de preapagado seleccionada que se ejecutará antes de detener el perfil "
+"de Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPreShutdownQueueB)
 #: ekos/scheduler/scheduler.ui:2248
 #, kde-format
 msgid "Browse for pre-shutdown queue/collection file"
-msgstr ""
+msgstr "Buscar el archivos de cola/recopilación de preapagado"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostShutdownScript)
 #: ekos/scheduler/scheduler.ui:2274
-#, fuzzy, kde-format
-#| msgid "Select script to execute after stopping the driver"
+#, kde-format
 msgid "Selected post-shutdown queue to run after stopping Ekos profile"
-msgstr "Seleccione el guion a ejecutar después de detener el controlador"
+msgstr ""
+"Cola de postapagado seleccionada que se ejecutará tras detener el perfil de "
+"Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPostShutdownQueueB)
 #: ekos/scheduler/scheduler.ui:2303
 #, kde-format
 msgid "Browse for post-shutdown queue/collection file"
-msgstr ""
+msgstr "Buscar el archivo de cola/recopilación de postapagado"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
@@ -30258,10 +30258,10 @@ msgstr ""
 "montura hasta que el trabajo esté preparado."
 
 #: ekos/scheduler/schedulerprocess.cpp:736
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Warning: Failed to add mount park task."
-msgstr "Ha fallado la carga de datos oscuros."
+msgstr ""
+"Advertencia: No se ha podido añadir la tarea de aparcamiento de la montura."
 
 #: ekos/scheduler/schedulerprocess.cpp:742
 #, kde-format
@@ -30279,15 +30279,17 @@ msgstr ""
 "activar el apagado preventivo."
 
 #: ekos/scheduler/schedulerprocess.cpp:781
-#, fuzzy, kde-format
-#| msgid "The mount is parked. Unpark to start guiding."
+#, kde-format
 msgid "Mount is parked, adding unpark task before slewing."
-msgstr "La montura está aparcada. Desapárquela para empezar el guiado."
+msgstr ""
+"La montura está aparcada. Añadiendo tarea de desaparcamiento antes de rotar."
 
 #: ekos/scheduler/schedulerprocess.cpp:786
 #, kde-format
 msgid "Warning: Failed to add mount unpark task, attempting to slew anyway."
 msgstr ""
+"Advertencia: No se ha podido añadir la tarea de desaparcamiento de la "
+"montura. De todas formas, se intenta rotar."
 
 #: ekos/scheduler/schedulerprocess.cpp:813
 #, kde-format
@@ -30462,18 +30464,17 @@ msgstr "Dispositivos INDI desconectados."
 #: ekos/scheduler/schedulerprocess.cpp:1528
 #, kde-format
 msgid "INDI devices ready. Proceeding to post-startup phase..."
-msgstr ""
+msgstr "Dispositivos INDI preparados. Continuando con la fase de postarranque…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1593
 #, kde-format
 msgid "Executing post-shutdown tasks from %1..."
-msgstr ""
+msgstr "Ejecutando tareas de postapagado de %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1601
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map %1"
+#, kde-format
 msgid "Failed to load post-shutdown queue from %1"
-msgstr "No se ha podido cargar el mapa de defectos %1"
+msgstr "No se ha podido cargar la cola de postapagado de %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1611
 #, kde-format
@@ -30491,27 +30492,25 @@ msgid "Observatory is in the startup process"
 msgstr "El observatorio está en el proceso de arranque"
 
 #: ekos/scheduler/schedulerprocess.cpp:1725
-#, fuzzy, kde-format
-#| msgid "Executing script %1..."
+#, kde-format
 msgid "Executing pre-startup tasks from %1..."
-msgstr "Ejecutando guion %1…"
+msgstr "Ejecutando tareas de prearranque de %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1733
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map file %1"
+#, kde-format
 msgid "Failed to load pre-startup queue from %1"
-msgstr "No se ha podido cargar el archivo de mapa de defectos %1"
+msgstr "No se ha podido cargar la cola de prearranque de %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1739
 #, kde-format
 msgid "No pre-startup tasks, pre-startup phase complete. Starting Ekos..."
 msgstr ""
+"No hay tareas de prearranque. Fase de prearranque completada. Iniciando Ekos…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1763
-#, fuzzy, kde-format
-#| msgid "Executing script %1..."
+#, kde-format
 msgid "Executing post-startup tasks from %1..."
-msgstr "Ejecutando guion %1…"
+msgstr "Ejecutando tareas de postarranque de %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1771
 #, fuzzy, kde-format
@@ -30664,10 +30663,9 @@ msgstr ""
 "El fotograma capturado está a %1 minutos de arco del objetivo, realineando…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2971
-#, fuzzy, kde-format
-#| msgid "Manual startup procedure completed successfully."
+#, kde-format
 msgid "Pre-startup queue completed successfully. Starting Ekos..."
-msgstr "El procedimiento de arranque manual ha finalizado con éxito."
+msgstr "La cola de prearranque se ha completado correctamente. Iniciando Ekos…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2979
 #, fuzzy, kde-format
@@ -31801,14 +31799,15 @@ msgid "No tasks were added from collection '%1'."
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:821
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed to Load"
+#, kde-format
 msgid ""
 "\n"
 "\n"
 "%1 tasks failed to load."
-msgstr "La carga de %1 ha fallado"
+msgstr ""
+"\n"
+"\n"
+"Ha fallado la carga de %1 tareas."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:826
 #, fuzzy, kde-format
@@ -91862,304 +91861,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid "Script (*)"
-#~ msgstr "Guion (*)"
-
-#~ msgctxt "@title:window"
-#~ msgid "Select Shutdown Script"
-#~ msgstr "Seleccionar guion de apagado"
-
-#~ msgid "Manual startup procedure terminated due to errors."
-#~ msgstr "El procedimiento de arranque manual ha terminado debido a errores."
-
-#~ msgid ""
-#~ "<html><head/><body><p>One-time startup procedure to be executed before "
-#~ "starting Ekos. The script is executed <span style=\" font-weight:600; "
-#~ "text-decoration: underline;\">before</span> the startup procedures (e.g. "
-#~ "unpark scope), if selected, are executed.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Procedimiento de arranque a ejecutar una única vez "
-#~ "antes de iniciar Ekos. El guion se ejecuta <span style=\" font-"
-#~ "weight:600; text-decoration: underline;\">antes</span> de los "
-#~ "procedimientos de arranque (por ejemplo, desaparcar el telescopio), si "
-#~ "está seleccionado.</p></body></html>"
-
-#~ msgid "Park dome to home position"
-#~ msgstr "Aparcar la cúpula en la posición inicial"
-
-#~ msgid "UnPark Dome"
-#~ msgstr "Desaparcar cúpula"
-
-#~ msgid "Park telescope to home position."
-#~ msgstr "Aparcar el telescopio en la posición inicial."
-
-#~ msgid "UnPark Mount"
-#~ msgstr "Desaparcar montura"
-
-#~ msgid "Open dust cover"
-#~ msgstr "Abrir la cubierta antipolvo"
-
-#~ msgid "UnCap"
-#~ msgstr "Destapar"
-
-#~ msgid "Script:"
-#~ msgstr "Guion:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>One-time shutdown procedure to be executed after "
-#~ "all scheduler jobs are completed. The script is executed <span style=\" "
-#~ "font-weight:600; text-decoration: underline;\">after</span> the shutdown "
-#~ "procedures (e.g. parking), if selected, are completed.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Procedimiento de apagado que se ejecuta una única "
-#~ "vez tras completar todos los trabajos planificados. El guion se ejecuta "
-#~ "<span style=\" font-weight:600; text-decoration: underline;\">después</"
-#~ "span> de los procedimientos de apagado (por ejemplo, aparcamiento), si "
-#~ "está seleccionado.</p></body></html>"
-
-#~ msgid "Turn off CCD cooler."
-#~ msgstr "Apagar el refrigerador del CCD."
-
-#~ msgid "Warm CCD"
-#~ msgstr "Calentar CCD"
-
-#~ msgid "Close dust cover"
-#~ msgstr "Cerrar la cubierta antipolvo"
-
-#~ msgid "Cap"
-#~ msgstr "Tapar"
-
-#~ msgid "Warning: startup script URL %1 is not valid."
-#~ msgstr "Advertencia: La URL del guion de arranque %1 no es válida."
-
-#~ msgid "Warning: shutdown script URL %1 is not valid."
-#~ msgstr "Advertencia: La URL del guion de apagado %1 no es válida."
-
-#~ msgid ""
-#~ "Warning: dome device not ready after timeout, attempting to recover..."
-#~ msgstr ""
-#~ "Advertencia: el dispositivo de la cúpula no está preparado haberse "
-#~ "agotado su tiempo. Se está intentando recuperarlo…"
-
-#~ msgid "Dome unpark required but dome is not yet ready."
-#~ msgstr ""
-#~ "Se ha solicitado desaparcar la cúpula, pero la cúpula todavía no está "
-#~ "preparada."
-
-#~ msgid ""
-#~ "Warning: mount device not ready after timeout, attempting to recover..."
-#~ msgstr ""
-#~ "Advertencia: el dispositivo de la montura no está preparado haberse "
-#~ "agotado su tiempo. Se está intentando recuperarlo…"
-
-#~ msgid ""
-#~ "Warning: cap device not ready after timeout, attempting to recover..."
-#~ msgstr ""
-#~ "Advertencia: el dispositivo de la tapa no está preparado haberse agotado "
-#~ "su tiempo. Se está intentando recuperarlo…"
-
-#~ msgid "Cap parked."
-#~ msgstr "Tapa aparcada."
-
-#~ msgid "Cap unparked."
-#~ msgstr "Tapa desaparcada."
-
-#~ msgid "Operation timeout. Restarting operation..."
-#~ msgstr "Se ha agotado el tiempo de la operación. Reiniciando la operación…"
-
-#~ msgid "Cap parking error."
-#~ msgstr "Ha ocurrido un error al aparcar la tapa."
-
-#~ msgid "Cap unparking error."
-#~ msgstr "Ha ocurrido un error al desaparcar la tapa."
-
-#~ msgid "Mount parked."
-#~ msgstr "Montura aparcada."
-
-#~ msgid ""
-#~ "Warning: mount unpark operation timed out on attempt %1/%2. Restarting "
-#~ "operation..."
-#~ msgstr ""
-#~ "Advertencia: la operación de desaparcar la montura se ha quedado sin "
-#~ "tiempo en el intento %1/%2. Reiniciando la operación…"
-
-#~ msgid "Warning: mount unpark operation timed out on last attempt."
-#~ msgstr ""
-#~ "Advertencia: la operación de desaparcar la montura se ha quedado sin "
-#~ "tiempo en el último intento."
-
-#~ msgid ""
-#~ "Warning: mount park operation timed out on attempt %1/%2. Restarting "
-#~ "operation..."
-#~ msgstr ""
-#~ "Advertencia: la operación de aparcar la montura se ha quedado sin tiempo "
-#~ "en el intento %1/%2. Reiniciando la operación…"
-
-#~ msgid "Warning: mount park operation timed out on last attempt."
-#~ msgstr ""
-#~ "Advertencia: la operación de aparcar la montura se ha quedado sin tiempo "
-#~ "en el último intento."
-
-#~ msgid "Mount unparking error."
-#~ msgstr "Ha ocurrido un error al desaparcar la montura."
-
-#~ msgid ""
-#~ "Warning: mount park operation failed on attempt %1/%2. Restarting "
-#~ "operation..."
-#~ msgstr ""
-#~ "Advertencia: la operación de aparcar la montura ha fallado en el intento "
-#~ "%1/%2. Reiniciando la operación…"
-
-#~ msgid "Mount parking error."
-#~ msgstr "Ha ocurrido un error al aparcar la montura."
-
-#~ msgid "Dome parked."
-#~ msgstr "Cúpula aparcada."
-
-#~ msgid "Dome unparked."
-#~ msgstr "Cúpula desaparcada."
-
-#~ msgid "Dome parking failed. Restarting operation..."
-#~ msgstr "El aparcamiento de la cúpula ha fallado. Reiniciando la operación…"
-
-#~ msgid "Dome parking error."
-#~ msgstr "Ha ocurrido un error al aparcar la cúpula."
-
-#~ msgid "Dome unparking failed. Restarting operation..."
-#~ msgstr ""
-#~ "El desaparcamiento de la cúpula ha fallado. Reiniciando la operación…"
-
-#~ msgid "Dome unparking error."
-#~ msgstr "Ha ocurrido un error al desaparcar la cúpula."
-
-#~ msgid "Ekos is already started, skipping startup script..."
-#~ msgstr "Ya se ha iniciado Ekos. Omitiendo guion de arranque…"
-
-#~ msgid "Warming up camera..."
-#~ msgstr "Calentando la cámara…"
-
-#~ msgid "Warning: Bypassing parking procedures, no INDI connection."
-#~ msgstr ""
-#~ "Advertencia: Ignorando los procedimientos de aparcamiento. Sin conexión "
-#~ "INDI."
-
-#~ msgid "Warning: executing startup procedure manually..."
-#~ msgstr "Advertencia: ejecutando el procedimiento de arranque manualmente…"
-
-#~ msgid "Are you sure you want to execute the startup procedure manually?"
-#~ msgstr ""
-#~ "¿Seguro que desea ejecutar el procedimiento de arranque manualmente?"
-
-#~ msgid "Startup procedure terminated."
-#~ msgstr "Procedimiento de arranque terminado."
-
-#~ msgid "Warning: executing shutdown procedure manually..."
-#~ msgstr "Advertencia: ejecutando el procedimiento de apagado manualmente…"
-
-#~ msgid "Are you sure you want to execute the shutdown procedure manually?"
-#~ msgstr ""
-#~ "¿Seguro que quiere ejecutar el procedimiento de apagado manualmente?"
-
-#~ msgid "Shutdown procedure terminated."
-#~ msgstr "Procedimiento de apagado terminado."
-
-#~ msgid "Dust cover park requested but no dust covers detected."
-#~ msgstr ""
-#~ "Se ha solicitado aparcar la cubierta antipolvo, pero no se han detectado "
-#~ "cubiertas antipolvo."
-
-#~ msgid "Parking Cap..."
-#~ msgstr "Aparcando la tapa…"
-
-#~ msgid "Cap already parked."
-#~ msgstr "La tapa ya está aparcada."
-
-#~ msgid "Dust cover unpark requested but no dust covers detected."
-#~ msgstr ""
-#~ "Se ha solicitado desaparcar la cubierta antipolvo, pero no se han "
-#~ "detectado cubiertas antipolvo."
-
-#~ msgid "Unparking cap..."
-#~ msgstr "Desaparcando la tapa…"
-
-#~ msgid "Cap already unparked."
-#~ msgstr "La tapa ya está desaparcada."
-
-#~ msgid "Mount park requested but no mounts detected."
-#~ msgstr ""
-#~ "Se ha solicitado aparcar la montura, pero no se han detectado monturas."
-
-#~ msgid "Parking mount in progress..."
-#~ msgstr "Aparcamiento de la montura en curso…"
-
-#~ msgid "Mount unpark requested but no mounts detected."
-#~ msgstr ""
-#~ "Se ha solicitado desaparcar la montura, pero no se han detectado monturas."
-
-#~ msgid "Mount already unparked."
-#~ msgstr "La montura ya está desaparcada."
-
-#~ msgid "Dome park requested but no domes detected."
-#~ msgstr ""
-#~ "Se ha solicitado aparcar la cúpula, pero no se han detectado cúpulas."
-
-#~ msgid "Parking dome..."
-#~ msgstr "Aparcando la cúpula…"
-
-#~ msgid "Dome already parked."
-#~ msgstr "La cúpula ya está aparcada."
-
-#~ msgid "Dome unpark requested but no domes detected."
-#~ msgstr ""
-#~ "Se ha solicitado desaparcar la cúpula, pero no se han detectado cúpulas."
-
-#~ msgid "Unparking dome..."
-#~ msgstr "Desaparcando la cúpula…"
-
-#~ msgid "Dome already unparked."
-#~ msgstr "La cúpula ya está desaparcada."
-
-#~ msgid "Startup script failed, aborting..."
-#~ msgstr "Ha fallado el guion de arranque. Interrumpiendo…"
-
-#~ msgid "Shutdown script failed, aborting..."
-#~ msgstr "El guion de apagado ha fallado. Interrumpiendo…"
-
-#~ msgid "Default scheduler checkbox for parking dome on shutdown."
-#~ msgstr ""
-#~ "Casilla predeterminada del planificador para aparcar la cúpula al apagar."
-
-#~ msgid "Default scheduler checkbox for parking mount on shutdown."
-#~ msgstr ""
-#~ "Casilla predeterminada del planificador para aparcar la montura al apagar."
-
-#~ msgid "Default scheduler checkbox for closing dust cover on shutdown."
-#~ msgstr ""
-#~ "Casilla predeterminada del planificador para cerrar la cubierta antipolvo "
-#~ "al apagar."
-
-#~ msgid "Default scheduler checkbox for warming the CCD on shutdown."
-#~ msgstr ""
-#~ "Casilla predeterminada del planificador para calentar el CCD al apagar."
-
-#~ msgid "Default scheduler checkbox for unparking dome on startup."
-#~ msgstr ""
-#~ "Casilla predeterminada del planificador para desaparcar la cúpula al "
-#~ "iniciar."
-
-#~ msgid "Default scheduler checkbox for unparking mount on startup."
-#~ msgstr ""
-#~ "Casilla predeterminada del planificador para desaparcar la montura al "
-#~ "iniciar."
-
-#~ msgid "Default scheduler checkbox for opening dust cover on startup."
-#~ msgstr ""
-#~ "Casilla predeterminada del planificador para abrir la cubierta antipolvo "
-#~ "al iniciar."
-
-#~ msgid "Execute this script when starting the scheduler."
-#~ msgstr "Ejecutar este guion al iniciar el planificador."
-
-#~ msgid "Execute this script when shutting down the scheduler."
-#~ msgstr "Ejecutar este guion al detener el planificador."
