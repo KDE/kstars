@@ -101,7 +101,7 @@
                     "target": "${target_temperature}",
                     "margin": "${tolerance}",
                     "timeout": "${max_wait_time}",
-                    "retries": 3,
+                    "retries": 0,
                     "failure_action": 0
                 },
                 {
@@ -215,7 +215,7 @@
                     "target": "${target_temperature}",
                     "margin": "${tolerance}",
                     "timeout": "${max_wait_time}",
-                    "retries": 3,
+                    "retries": 0,
                     "failure_action": 0
                 },
                 {

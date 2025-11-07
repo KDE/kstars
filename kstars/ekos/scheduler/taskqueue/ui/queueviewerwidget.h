@@ -59,11 +59,11 @@ class QueueViewerWidget : public QWidget
         void onPauseQueue();
         void onStopQueue();
         void onClearQueue();
-        
+
         // Queue persistence
         void onSaveQueue();
         void onLoadQueue();
-        
+
         // Collections
         void onLoadCollection();
 
@@ -75,6 +75,7 @@ class QueueViewerWidget : public QWidget
         // Queue manager signals
         void onItemAdded(QueueItem *item, int index);
         void onItemRemoved(QueueItem *item, int index);
+        void onItemMoved(int fromIndex, int toIndex);
         void onQueueCleared();
         void onStateChanged(QueueManager::QueueState state);
 
@@ -98,7 +99,7 @@ class QueueViewerWidget : public QWidget
         void updateItemRow(int row, QueueItem *item);
         QString statusToString(QueueItem::Status status) const;
         QIcon statusToIcon(QueueItem::Status status) const;
-        
+
         // Collection loading helpers
         void loadCollectionFile(const QString &filePath);
         QStringList findDevicesByInterface(uint32_t interfaceMask);
@@ -116,7 +117,7 @@ class QueueViewerWidget : public QWidget
         QPushButton *m_saveQueueButton = nullptr;
         QPushButton *m_loadQueueButton = nullptr;
         QPushButton *m_collectionsButton = nullptr;
-        
+
         // Status bar components
         QStatusBar *m_statusBar = nullptr;
         QLabel *m_statusLabel = nullptr;
@@ -127,6 +128,9 @@ class QueueViewerWidget : public QWidget
         QueueManager *m_manager = nullptr;
         TemplateLibraryWidget *m_templateLibrary = nullptr;
         QueueExecutor *m_executor = nullptr;
+
+        // Last used queue file path for save/load operations
+        QString m_lastQueueFilePath;
 };
 
 } // namespace Ekos

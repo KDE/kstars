@@ -42,7 +42,7 @@
                     "condition": 0,
                     "target": "OK",
                     "timeout": "${wait_timeout}",
-                    "retries": 2,
+                    "retries": 1,
                     "failure_action": 0
                 }
             ]
@@ -86,7 +86,7 @@
                     "condition": 0,
                     "target": "OK",
                     "timeout": "${wait_timeout}",
-                    "retries": 2,
+                    "retries": 1,
                     "failure_action": 0
                 }
             ]

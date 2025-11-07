@@ -105,7 +105,7 @@ bool SetAction::abort()
         m_completionTimer->stop();
     if (m_timeoutTimer)
         m_timeoutTimer->stop();
-    
+
     // Clear device pointer to prevent crashes during cleanup
     if (m_deviceConnection)
         disconnect(m_deviceConnection);
@@ -272,24 +272,22 @@ void SetAction::onPropertyUpdated(INDI::Property prop)
     if (QString::fromUtf8(prop.getName()) != m_property)
         return;
 
-    // Check if property reached desired state and value
+    // Check if property reached desired state
     IPState state = prop.getState();
 
-    if (state == IPS_OK || state == IPS_IDLE)
+    // SET action completes when property is not in ALERT state
+    // We don't check the value - that's EVALUATE action's job
+    if (state == IPS_OK || state == IPS_IDLE || state == IPS_BUSY)
     {
-        // Verify the value is correct
-        if (checkCurrentValue())
-        {
-            m_completionTimer->stop();
-            m_timeoutTimer->stop();
-            disconnect(m_deviceConnection);
-            // Clear device pointer to prevent crashes during cleanup
-            m_devicePtr.clear();
+        m_completionTimer->stop();
+        m_timeoutTimer->stop();
+        disconnect(m_deviceConnection);
+        // Clear device pointer to prevent crashes during cleanup
+        m_devicePtr.clear();
 
-            emit progress(QString("%1.%2.%3 confirmed").arg(m_device).arg(m_property).arg(m_element));
-            setStatus(COMPLETED);
-            emit completed();
-        }
+        emit progress(QString("%1.%2.%3 set command acknowledged").arg(m_device).arg(m_property).arg(m_element));
+        setStatus(COMPLETED);
+        emit completed();
     }
     else if (state == IPS_ALERT)
     {
@@ -312,7 +310,6 @@ void SetAction::onPropertyUpdated(INDI::Property prop)
             emit failed(m_errorMessage);
         }
     }
-    // If Busy, continue waiting
 }
 
 void SetAction::checkCompletion()
@@ -333,20 +330,18 @@ void SetAction::checkCompletion()
 
     IPState state = prop.getState();
 
-    if (state == IPS_OK || state == IPS_IDLE)
+    // SET action completes when property is not in ALERT state
+    // We don't check the value - that's EVALUATE action's job
+    if (state == IPS_OK || state == IPS_IDLE || state == IPS_BUSY)
     {
-        // Verify the value is correct
-        if (checkCurrentValue())
-        {
-            m_completionTimer->stop();
-            m_timeoutTimer->stop();
-            disconnect(m_deviceConnection);
-            // Clear device pointer to prevent crashes during cleanup
-            m_devicePtr.clear();
+        m_completionTimer->stop();
+        m_timeoutTimer->stop();
+        disconnect(m_deviceConnection);
+        // Clear device pointer to prevent crashes during cleanup
+        m_devicePtr.clear();
 
-            setStatus(COMPLETED);
-            emit completed();
-        }
+        setStatus(COMPLETED);
+        emit completed();
     }
     else if (state == IPS_ALERT)
     {
@@ -369,7 +364,6 @@ void SetAction::checkCompletion()
             emit failed(m_errorMessage);
         }
     }
-    // If Busy, continue polling
 }
 
 void SetAction::handleTimeout()

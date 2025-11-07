@@ -30,8 +30,6 @@ EvaluateAction::EvaluateAction(QObject *parent)
 
 bool EvaluateAction::start()
 {
-    m_currentRetry = 0;
-
     // Get device
     m_devicePtr = getDevice();
     if (!m_devicePtr)

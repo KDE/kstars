@@ -60,8 +60,8 @@
                 {
                     "name": "wait_timeout",
                     "type": "number",
-                    "default": 60,
-                    "min": 30,
+                    "default": 5,
+                    "min": 5,
                     "max": 300,
                     "step": 10,
                     "unit": "seconds",

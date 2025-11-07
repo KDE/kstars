@@ -169,6 +169,7 @@ void QueueViewerWidget::setQueueManager(QueueManager *manager)
     {
         connect(m_manager, &QueueManager::itemAdded, this, &QueueViewerWidget::onItemAdded);
         connect(m_manager, &QueueManager::itemRemoved, this, &QueueViewerWidget::onItemRemoved);
+        connect(m_manager, &QueueManager::itemMoved, this, &QueueViewerWidget::onItemMoved);
         connect(m_manager, &QueueManager::queueCleared, this, &QueueViewerWidget::onQueueCleared);
         connect(m_manager, &QueueManager::stateChanged, this, &QueueViewerWidget::onStateChanged);
 
@@ -351,6 +352,25 @@ void QueueViewerWidget::onItemAdded(QueueItem *item, int index)
 void QueueViewerWidget::onItemRemoved(QueueItem * /*item*/, int index)
 {
     m_queueTable->removeRow(index);
+    updateControls();
+}
+
+void QueueViewerWidget::onItemMoved(int fromIndex, int toIndex)
+{
+    if (!m_manager)
+        return;
+
+    // Refresh the rows that were affected by the move
+    int minIndex = qMin(fromIndex, toIndex);
+    int maxIndex = qMax(fromIndex, toIndex);
+
+    for (int i = minIndex; i <= maxIndex; ++i)
+    {
+        QueueItem *item = m_manager->itemAt(i);
+        if (item)
+            updateItemRow(i, item);
+    }
+
     updateControls();
 }
 
@@ -622,9 +642,17 @@ void QueueViewerWidget::onSaveQueue()
         return;
     }
 
-    // Default to Documents directory
-    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-    QString defaultPath = documentsPath + "/my_queue.kstarsqueue";
+    // Use last saved/loaded path if available, otherwise default to Documents directory
+    QString defaultPath;
+    if (!m_lastQueueFilePath.isEmpty())
+    {
+        defaultPath = m_lastQueueFilePath;
+    }
+    else
+    {
+        QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+        defaultPath = documentsPath + "/my_queue.kstarsqueue";
+    }
 
     QString filePath = QFileDialog::getSaveFileName(this,
                        i18n("Save Queue"),
@@ -634,9 +662,16 @@ void QueueViewerWidget::onSaveQueue()
     if (filePath.isEmpty())
         return;
 
-    if (!m_manager->saveQueue(filePath))
+    if (m_manager->saveQueue(filePath))
+    {
+        // Remember the last used file path for next time
+        m_lastQueueFilePath = filePath;
+    }
+    else
+    {
         QMessageBox::critical(this, i18n("Error"),
                               i18n("Failed to save queue to %1", filePath));
+    }
 }
 
 void QueueViewerWidget::onLoadQueue()
@@ -654,12 +689,21 @@ void QueueViewerWidget::onLoadQueue()
             return;
     }
 
-    // Default to Documents directory
-    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    // Use last saved/loaded path if available, otherwise default to Documents directory
+    QString defaultPath;
+    if (!m_lastQueueFilePath.isEmpty())
+    {
+        defaultPath = m_lastQueueFilePath;
+    }
+    else
+    {
+        QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+        defaultPath = documentsPath;
+    }
 
     QString filePath = QFileDialog::getOpenFileName(this,
                        i18n("Load Queue"),
-                       documentsPath,
+                       defaultPath,
                        i18n("KStars Queue Files (*.kstarsqueue);;All Files (*)"));
 
     if (filePath.isEmpty())
@@ -667,6 +711,8 @@ void QueueViewerWidget::onLoadQueue()
 
     if (m_manager->loadQueue(filePath))
     {
+        // Remember the last used file path for next time
+        m_lastQueueFilePath = filePath;
         refreshQueue();
     }
     else
