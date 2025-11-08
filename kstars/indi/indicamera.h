@@ -118,12 +118,12 @@ class Camera : public ConcreteDevice
         // Gain controls
         bool hasGain()
         {
-            return gainN != nullptr;
+            return m_GainSource != GAIN_SOURCE_UNKNOWN;
         }
         bool getGain(double *value);
         IPerm getGainPermission() const
         {
-            return gainPerm;
+            return m_GainPermission;
         }
         bool setGain(double value);
         bool getGainMinMaxStep(double *min, double *max, double *step);
@@ -131,19 +131,15 @@ class Camera : public ConcreteDevice
         // offset controls
         bool hasOffset()
         {
-            return offsetN != nullptr;
+            return m_OffsetSource != OFFSET_SOURCE_UNKNOWN;
         }
         bool getOffset(double *value);
         IPerm getOffsetPermission() const
         {
-            return offsetPerm;
+            return m_OffsetPermission;
         }
         bool setOffset(double value);
         bool getOffsetMinMaxStep(double *min, double *max, double *step);
-
-        // Rapid Guide
-        bool configureRapidGuide(CameraChip *targetChip, bool autoLoop, bool sendImage = false, bool showMarker = false);
-        bool setRapidGuide(CameraChip *targetChip, bool enable);
 
         // Upload Settings
         void updateUploadSettings(const QString &uploadDirectory, const QString &uploadFile);
@@ -207,13 +203,6 @@ class Camera : public ConcreteDevice
         bool startDurationRecording(double duration);
         bool startFramesRecording(uint32_t frames);
         bool stopRecording();
-
-        // Telescope type
-        TelescopeType getTelescopeType()
-        {
-            return telescopeType;
-        }
-        bool setTelescopeType(TelescopeType type);
 
         // Update FITS Header
         bool setFITSHeaders(const QList<FITSData::Record> &values);
@@ -310,12 +299,29 @@ class Camera : public ConcreteDevice
         int m_CaptureFormatIndex {-1};
         TelescopeType telescopeType { TELESCOPE_UNKNOWN };
 
-        // Gain, since it is spread among different vector properties, let's try to find the property itself.
-        INumber *gainN { nullptr };
-        IPerm gainPerm { IP_RO };
+        enum GainSource
+        {
+            GAIN_SOURCE_UNKNOWN,
+            GAIN_SOURCE_STANDALONE, // e.g., CCD_GAIN property
+            GAIN_SOURCE_CONTROLS    // e.g., CCD_CONTROLS property with "gain" label
+        };
 
-        INumber *offsetN { nullptr };
-        IPerm offsetPerm { IP_RO };
+        enum OffsetSource
+        {
+            OFFSET_SOURCE_UNKNOWN,
+            OFFSET_SOURCE_STANDALONE, // e.g., CCD_OFFSET property
+            OFFSET_SOURCE_CONTROLS    // e.g., CCD_CONTROLS property with "offset" label
+        };
+
+        // Gain properties
+        GainSource m_GainSource { GAIN_SOURCE_UNKNOWN };
+        INDI::Property m_GainProperty;
+        IPerm m_GainPermission { IP_RO };
+
+        // Offset properties
+        OffsetSource m_OffsetSource { OFFSET_SOURCE_UNKNOWN };
+        INDI::Property m_OffsetProperty;
+        IPerm m_OffsetPermission { IP_RO };
 
         QPointer<ImageViewer> m_ImageViewerWindow;
 

@@ -129,7 +129,7 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
     resize(Options::streamWindowWidth(), Options::streamWindowHeight());
 
     eoszoom = m_Camera->getProperty("eoszoom");
-    if (eoszoom == nullptr)
+    if (!eoszoom)
     {
         zoomLevelCombo->hide();
     }
@@ -137,9 +137,9 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
     {
         connect(zoomLevelCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), [&]()
         {
-            auto tvp = eoszoom->getText();
+            auto tvp = INDI::PropertyText(eoszoom);
             QString zoomLevel = zoomLevelCombo->currentText().remove("x");
-            tvp->at(0)->setText(zoomLevel.toLatin1().constData());
+            tvp[0].setText(zoomLevel.toLatin1().constData());
             handLabel->setEnabled(true);
             NSSlider->setEnabled(true);
             WESlider->setEnabled(true);
@@ -154,7 +154,7 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
     }
 
     eoszoomposition = m_Camera->getProperty("eoszoomposition");
-    if (eoszoomposition == nullptr)
+    if (!eoszoomposition)
     {
         handLabel->hide();
         NSSlider->hide();
@@ -166,17 +166,17 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
     {
         connect(NSSlider, &QSlider::sliderReleased, [&]()
         {
-            auto tvp = eoszoomposition->getText();
+            auto tvp = INDI::PropertyText(eoszoomposition);
             QString pos = QString("%1,%2").arg(WESlider->value()).arg(NSSlider->value());
-            tvp->at(0)->setText(pos.toLatin1().constData());
+            tvp[0].setText(pos.toLatin1().constData());
             m_Camera->sendNewProperty(tvp);
         });
 
         connect(WESlider, &QSlider::sliderReleased, [&]()
         {
-            auto tvp = eoszoomposition->getText();
+            auto tvp = INDI::PropertyText(eoszoomposition);
             QString pos = QString("%1,%2").arg(WESlider->value()).arg(NSSlider->value());
-            tvp->at(0)->setText(pos.toLatin1().constData());
+            tvp[0].setText(pos.toLatin1().constData());
             m_Camera->sendNewProperty(tvp);
         });
 

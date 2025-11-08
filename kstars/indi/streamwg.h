@@ -103,7 +103,7 @@ class StreamWG : public QDialog, public Ui::streamForm
         bool m_DebayerActive { false }, m_DebayerSupported { false };
 
         // For Canon DSLRs
-        INDI::Property *eoszoom {nullptr}, *eoszoomposition {nullptr};
+        INDI::Property eoszoom, eoszoomposition;
 
         // Options panels
         RecordOptions *options;

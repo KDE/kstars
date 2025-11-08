@@ -80,53 +80,53 @@ void Camera::registerProperty(INDI::Property prop)
     else if (prop.isNameMatch("CCD_FRAME_TYPE"))
     {
         primaryChip->clearFrameTypes();
-
-        for (auto &it : *prop.getSwitch())
+        auto svp = INDI::PropertySwitch(prop);
+        for (auto it : svp)
             primaryChip->addFrameLabel(it.getLabel());
     }
     else if (prop.isNameMatch("CCD_FRAME"))
     {
-        auto np = prop.getNumber();
-        if (np && np->getPermission() != IP_RO)
+        auto nvp = INDI::PropertyNumber(prop);
+        if (nvp && nvp.getPermission() != IP_RO)
             primaryChip->setCanSubframe(true);
     }
     else if (prop.isNameMatch("GUIDER_FRAME"))
     {
-        auto np = prop.getNumber();
-        if (np && np->getPermission() != IP_RO)
+        auto nvp = INDI::PropertyNumber(prop);
+        if (nvp && nvp.getPermission() != IP_RO)
             guideChip->setCanSubframe(true);
     }
     else if (prop.isNameMatch("CCD_BINNING"))
     {
-        auto np = prop.getNumber();
-        if (np && np->getPermission() != IP_RO)
+        auto nvp = INDI::PropertyNumber(prop);
+        if (nvp && nvp.getPermission() != IP_RO)
             primaryChip->setCanBin(true);
     }
     else if (prop.isNameMatch("GUIDER_BINNING"))
     {
-        auto np = prop.getNumber();
-        if (np && np->getPermission() != IP_RO)
+        auto nvp = INDI::PropertyNumber(prop);
+        if (nvp && nvp.getPermission() != IP_RO)
             guideChip->setCanBin(true);
     }
     else if (prop.isNameMatch("CCD_ABORT_EXPOSURE"))
     {
-        auto sp = prop.getSwitch();
-        if (sp && sp->getPermission() != IP_RO)
+        auto svp = INDI::PropertySwitch(prop);
+        if (svp && svp.getPermission() != IP_RO)
             primaryChip->setCanAbort(true);
     }
     else if (prop.isNameMatch("GUIDER_ABORT_EXPOSURE"))
     {
-        auto sp = prop.getSwitch();
-        if (sp && sp->getPermission() != IP_RO)
+        auto svp = INDI::PropertySwitch(prop);
+        if (svp && svp.getPermission() != IP_RO)
             guideChip->setCanAbort(true);
     }
     else if (prop.isNameMatch("CCD_TEMPERATURE"))
     {
-        auto np = prop.getNumber();
+        auto nvp = INDI::PropertyNumber(prop);
         HasCooler = true;
-        CanCool   = (np->getPermission() != IP_RO);
-        if (np)
-            emit newTemperatureValue(np->at(0)->getValue());
+        CanCool   = (nvp.getPermission() != IP_RO);
+        if (nvp)
+            emit newTemperatureValue(nvp[0].getValue());
     }
     else if (prop.isNameMatch("CCD_COOLER"))
     {
@@ -140,68 +140,68 @@ void Camera::registerProperty(INDI::Property prop)
     }
     else if (prop.isNameMatch("CCD_CAPTURE_FORMAT"))
     {
-        auto sp = prop.getSwitch();
-        if (sp)
+        auto svp = INDI::PropertySwitch(prop);
+        if (svp)
         {
             m_CaptureFormats.clear();
-            for (const auto &oneSwitch : *sp)
+            for (const auto &oneSwitch : svp)
                 m_CaptureFormats << oneSwitch.getLabel();
 
-            m_CaptureFormatIndex = sp->findOnSwitchIndex();
+            m_CaptureFormatIndex = svp.findOnSwitchIndex();
         }
     }
     else if (prop.isNameMatch("CCD_STREAM_ENCODER"))
     {
-        auto sp = prop.getSwitch();
-        if (sp)
+        auto svp = INDI::PropertySwitch(prop);
+        if (svp)
         {
             m_StreamEncodings.clear();
-            for (const auto &oneSwitch : *sp)
+            for (const auto &oneSwitch : svp)
                 m_StreamEncodings << oneSwitch.getLabel();
 
-            auto format = sp->findOnSwitch();
+            auto format = svp.findOnSwitch();
             if (format)
                 m_StreamEncoding = format->label;
         }
     }
     else if (prop.isNameMatch("CCD_TRANSFER_FORMAT"))
     {
-        auto sp = prop.getSwitch();
-        if (sp)
+        auto svp = INDI::PropertySwitch(prop);
+        if (svp)
         {
             m_EncodingFormats.clear();
-            for (const auto &oneSwitch : *sp)
+            for (const auto &oneSwitch : svp)
                 m_EncodingFormats << oneSwitch.getLabel();
 
-            auto format = sp->findOnSwitch();
+            auto format = svp.findOnSwitch();
             if (format)
                 m_EncodingFormat = format->label;
         }
     }
     else if (prop.isNameMatch("CCD_STREAM_RECORDER"))
     {
-        auto sp = prop.getSwitch();
-        if (sp)
+        auto svp = INDI::PropertySwitch(prop);
+        if (svp)
         {
             m_VideoFormats.clear();
-            for (const auto &oneSwitch : *sp)
+            for (const auto &oneSwitch : svp)
                 m_VideoFormats << oneSwitch.getLabel();
 
-            auto format = sp->findOnSwitch();
+            auto format = svp.findOnSwitch();
             if (format)
                 m_StreamRecording = format->label;
         }
     }
     else if (prop.isNameMatch("CCD_EXPOSURE_PRESETS"))
     {
-        auto svp = prop.getSwitch();
+        auto svp = INDI::PropertySwitch(prop);
         if (svp)
         {
             bool ok = false;
             auto separator = QDir::separator();
-            for (const auto &it : *svp)
+            for (const auto &oneSwitch : svp)
             {
-                QString key = QString(it.getLabel());
+                QString key = QString(oneSwitch.getLabel());
                 double value = key.toDouble(&ok);
                 if (!ok)
                 {
@@ -235,18 +235,18 @@ void Camera::registerProperty(INDI::Property prop)
     }
     else if (prop.isNameMatch("CCD_FAST_TOGGLE"))
     {
-        auto sp = prop.getSwitch();
-        if (sp)
-            m_FastExposureEnabled = sp->findOnSwitchIndex() == 0;
+        auto svp = INDI::PropertySwitch(prop);
+        if (svp)
+            m_FastExposureEnabled = svp.findOnSwitchIndex() == 0;
         else
             m_FastExposureEnabled = false;
     }
     else if (prop.isNameMatch("TELESCOPE_TYPE"))
     {
-        auto sp = prop.getSwitch();
-        if (sp)
+        auto svp = INDI::PropertySwitch(prop);
+        if (svp)
         {
-            auto format = sp->findWidgetByName("TELESCOPE_PRIMARY");
+            auto format = svp.findWidgetByName("TELESCOPE_PRIMARY");
             if (format && format->getState() == ISS_ON)
                 telescopeType = TELESCOPE_PRIMARY;
             else
@@ -255,36 +255,48 @@ void Camera::registerProperty(INDI::Property prop)
     }
     else if (prop.isNameMatch("CCD_WEBSOCKET_SETTINGS"))
     {
-        auto np = prop.getNumber();
-        m_Media->setURL(QUrl(QString("ws://%1:%2").arg(m_Parent->getClientManager()->getHost()).arg(np->at(0)->getValue())));
+        auto nvp = INDI::PropertyNumber(prop);
+        m_Media->setURL(QUrl(QString("ws://%1:%2").arg(m_Parent->getClientManager()->getHost()).arg(nvp[0].getValue())));
         m_Media->connectServer();
     }
     else if (prop.isNameMatch("CCD1"))
     {
         primaryCCDBLOB = prop;
     }
-    // try to find gain and/or offset property, if any
-    else if ( (gainN == nullptr || offsetN == nullptr) && prop.getType() == INDI_NUMBER)
+    else if (prop.isNameMatch("CCD_GAIN") && m_GainSource == GAIN_SOURCE_UNKNOWN)
     {
-        // Since gain is spread among multiple property depending on the camera providing it
-        // we need to search in all possible number properties
-        auto controlNP = prop.getNumber();
+        m_GainProperty   = prop;
+        m_GainSource     = GAIN_SOURCE_STANDALONE;
+        m_GainPermission = m_GainProperty.getPermission();
+    }
+    else if (prop.isNameMatch("CCD_OFFSET") && m_OffsetSource == OFFSET_SOURCE_UNKNOWN)
+    {
+        m_OffsetProperty   = prop;
+        m_OffsetSource     = OFFSET_SOURCE_STANDALONE;
+        m_OffsetPermission = m_OffsetProperty.getPermission();
+    }
+    // Try to find gain and/or offset property within a general number property (e.g., CCD_CONTROLS)
+    else if ((m_GainSource == GAIN_SOURCE_UNKNOWN || m_OffsetSource == OFFSET_SOURCE_UNKNOWN) && prop.getType() == INDI_NUMBER)
+    {
+        auto controlNP = INDI::PropertyNumber(prop);
         if (controlNP)
         {
-            for (auto &it : *controlNP)
+            for (const auto &it : controlNP)
             {
                 QString name  = QString(it.getName()).toLower();
                 QString label = QString(it.getLabel()).toLower();
 
-                if (name == "gain" || label == "gain")
+                if ((name == "gain" || label == "gain") && m_GainSource == GAIN_SOURCE_UNKNOWN)
                 {
-                    gainN = &it;
-                    gainPerm = controlNP->getPermission();
+                    m_GainProperty   = prop;
+                    m_GainSource     = GAIN_SOURCE_CONTROLS;
+                    m_GainPermission = controlNP.getPermission();
                 }
-                else if (name == "offset" || label == "offset")
+                else if ((name == "offset" || label == "offset") && m_OffsetSource == OFFSET_SOURCE_UNKNOWN)
                 {
-                    offsetN = &it;
-                    offsetPerm = controlNP->getPermission();
+                    m_OffsetProperty   = prop;
+                    m_OffsetSource     = OFFSET_SOURCE_CONTROLS;
+                    m_OffsetPermission = controlNP.getPermission();
                 }
             }
         }
@@ -303,35 +315,35 @@ void Camera::removeProperty(INDI::Property prop)
 
 void Camera::processNumber(INDI::Property prop)
 {
-    auto nvp = prop.getNumber();
-    if (nvp->isNameMatch("CCD_EXPOSURE"))
+    auto nvp = INDI::PropertyNumber(prop);
+    if (nvp.isNameMatch("CCD_EXPOSURE"))
     {
-        auto np = nvp->findWidgetByName("CCD_EXPOSURE_VALUE");
+        auto np = nvp.findWidgetByName("CCD_EXPOSURE_VALUE");
         if (np)
-            emit newExposureValue(primaryChip.get(), np->getValue(), nvp->getState());
-        if (nvp->getState() == IPS_ALERT)
+            emit newExposureValue(primaryChip.get(), np->getValue(), nvp.getState());
+        if (nvp.getState() == IPS_ALERT)
             emit error(ERROR_CAPTURE);
     }
     else if (prop.isNameMatch("CCD_TEMPERATURE"))
     {
         HasCooler   = true;
-        auto np = nvp->findWidgetByName("CCD_TEMPERATURE_VALUE");
+        auto np = nvp.findWidgetByName("CCD_TEMPERATURE_VALUE");
         if (np)
             emit newTemperatureValue(np->getValue());
     }
     else if (prop.isNameMatch("GUIDER_EXPOSURE"))
     {
-        auto np = nvp->findWidgetByName("GUIDER_EXPOSURE_VALUE");
+        auto np = nvp.findWidgetByName("GUIDER_EXPOSURE_VALUE");
         if (np)
-            emit newExposureValue(guideChip.get(), np->getValue(), nvp->getState());
+            emit newExposureValue(guideChip.get(), np->getValue(), nvp.getState());
     }
     else if (prop.isNameMatch("FPS"))
     {
-        emit newFPS(nvp->at(0)->getValue(), nvp->at(1)->getValue());
+        emit newFPS(nvp[0].getValue(), nvp[1].getValue());
     }
     else if (prop.isNameMatch("CCD_RAPID_GUIDE_DATA"))
     {
-        if (nvp->getState() == IPS_ALERT)
+        if (nvp.getState() == IPS_ALERT)
         {
             emit newGuideStarData(primaryChip.get(), -1, -1, -1);
         }
@@ -339,13 +351,13 @@ void Camera::processNumber(INDI::Property prop)
         {
             double dx = -1, dy = -1, fit = -1;
 
-            auto np = nvp->findWidgetByName("GUIDESTAR_X");
+            auto np = nvp.findWidgetByName("GUIDESTAR_X");
             if (np)
                 dx = np->getValue();
-            np = nvp->findWidgetByName("GUIDESTAR_Y");
+            np = nvp.findWidgetByName("GUIDESTAR_Y");
             if (np)
                 dy = np->getValue();
-            np = nvp->findWidgetByName("GUIDESTAR_FIT");
+            np = nvp.findWidgetByName("GUIDESTAR_FIT");
             if (np)
                 fit = np->getValue();
 
@@ -355,20 +367,20 @@ void Camera::processNumber(INDI::Property prop)
     }
     else if (prop.isNameMatch("GUIDER_RAPID_GUIDE_DATA"))
     {
-        if (nvp->getState() == IPS_ALERT)
+        if (nvp.getState() == IPS_ALERT)
         {
             emit newGuideStarData(guideChip.get(), -1, -1, -1);
         }
         else
         {
             double dx = -1, dy = -1, fit = -1;
-            auto np = nvp->findWidgetByName("GUIDESTAR_X");
+            auto np = nvp.findWidgetByName("GUIDESTAR_X");
             if (np)
                 dx = np->getValue();
-            np = nvp->findWidgetByName("GUIDESTAR_Y");
+            np = nvp.findWidgetByName("GUIDESTAR_Y");
             if (np)
                 dy = np->getValue();
-            np = nvp->findWidgetByName("GUIDESTAR_FIT");
+            np = nvp.findWidgetByName("GUIDESTAR_FIT");
             if (np)
                 fit = np->getValue();
 
@@ -380,15 +392,15 @@ void Camera::processNumber(INDI::Property prop)
 
 void Camera::processSwitch(INDI::Property prop)
 {
-    auto svp = prop.getSwitch();
+    auto svp = INDI::PropertySwitch(prop);
 
-    if (svp->isNameMatch("CCD_COOLER"))
+    if (svp.isNameMatch("CCD_COOLER"))
     {
         // Can turn cooling on/off
         HasCoolerControl = true;
-        emit coolerToggled(svp->sp[0].s == ISS_ON);
+        emit coolerToggled(svp[0].getState() == ISS_ON);
     }
-    else if (QString(svp->getName()).endsWith("VIDEO_STREAM"))
+    else if (QString(svp.getName()).endsWith("VIDEO_STREAM"))
     {
         // If BLOB is not enabled for this camera, then ignore all VIDEO_STREAM calls.
         if (isBLOBEnabled() == false || m_StreamingEnabled == false)
@@ -396,21 +408,21 @@ void Camera::processSwitch(INDI::Property prop)
 
         HasVideoStream = true;
 
-        if (svp->sp[0].s == ISS_ON)
+        if (svp[0].getState() == ISS_ON)
         {
-            INumberVectorProperty *streamFrame = getNumber("CCD_STREAM_FRAME");
-            INumber *w = nullptr, *h = nullptr;
+            auto nvp = getNumber("CCD_STREAM_FRAME");
+            uint32_t w = 0, h = 0;
 
-            if (streamFrame)
+            if (nvp)
             {
-                w = IUFindNumber(streamFrame, "WIDTH");
-                h = IUFindNumber(streamFrame, "HEIGHT");
+                w = nvp[0].getValue();
+                h = nvp[1].getValue();
             }
 
             if (w && h)
             {
-                streamW = w->value;
-                streamH = h->value;
+                streamW = w;
+                streamH = h;
             }
             else
             {
@@ -428,31 +440,28 @@ void Camera::processSwitch(INDI::Property prop)
                 }
             }
 
-            emit updateVideoWindow(streamW, streamH, svp->sp[0].s == ISS_ON);
+            emit updateVideoWindow(streamW, streamH, svp[0].getState() == ISS_ON);
         }
 
-        m_isStreamEnabled = (svp->sp[0].s == ISS_ON);
+        m_isStreamEnabled = (svp[0].getState() == ISS_ON);
         emit videoStreamToggled(m_isStreamEnabled);
     }
-    else if (svp->isNameMatch("CCD_CAPTURE_FORMAT"))
+    else if (svp.isNameMatch("CCD_CAPTURE_FORMAT"))
     {
         m_CaptureFormats.clear();
-        for (int i = 0; i < svp->nsp; i++)
-        {
-            m_CaptureFormats << svp->sp[i].label;
-            if (svp->sp[i].s == ISS_ON)
-                m_CaptureFormatIndex = i;
-        }
+        for (const auto &it : svp)
+            m_CaptureFormats << it.getLabel();
+        m_CaptureFormatIndex = svp.findOnSwitchIndex();
     }
-    else if (svp->isNameMatch("CCD_TRANSFER_FORMAT"))
+    else if (svp.isNameMatch("CCD_TRANSFER_FORMAT"))
     {
-        ISwitch *format = IUFindOnSwitch(svp);
+        auto format = svp.findOnSwitch();
         if (format)
-            m_EncodingFormat = format->label;
+            m_EncodingFormat = format->getLabel();;
     }
-    else if (svp->isNameMatch("RECORD_STREAM"))
+    else if (svp.isNameMatch("RECORD_STREAM"))
     {
-        ISwitch *recordOFF = IUFindSwitch(svp, "RECORD_OFF");
+        auto recordOFF = svp.findWidgetByName("RECORD_OFF");
 
         if (recordOFF && recordOFF->s == ISS_ON)
         {
@@ -470,30 +479,35 @@ void Camera::processSwitch(INDI::Property prop)
             KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Started"), KSNotification::INDI);
         }
     }
-    else if (svp->isNameMatch("TELESCOPE_TYPE"))
+    else if (svp.isNameMatch("TELESCOPE_TYPE"))
     {
-        ISwitch *format = IUFindSwitch(svp, "TELESCOPE_PRIMARY");
+        auto format = svp.findWidgetByName("TELESCOPE_PRIMARY");
         if (format && format->s == ISS_ON)
             telescopeType = TELESCOPE_PRIMARY;
         else
             telescopeType = TELESCOPE_GUIDE;
     }
-    else if (!strcmp(svp->name, "CCD_FAST_TOGGLE"))
+    else if (!strcmp(svp.getName(), "CCD_FAST_TOGGLE"))
     {
-        m_FastExposureEnabled = IUFindOnSwitchIndex(svp) == 0;
+        m_FastExposureEnabled = svp.findOnSwitchIndex() == 0;
     }
-    else if (svp->isNameMatch("CONNECTION"))
+    else if (svp.isNameMatch("CONNECTION"))
     {
-        auto dSwitch = svp->findWidgetByName("DISCONNECT");
+        auto dSwitch = svp.findWidgetByName("DISCONNECT");
 
         if (dSwitch && dSwitch->getState() == ISS_ON)
         {
             emit videoStreamToggled(false);
             emit closeVideoWindow();
 
-            // Clear the pointers on disconnect.
-            gainN = nullptr;
-            offsetN = nullptr;
+            // Clear the gain and offset properties on disconnect.
+            m_GainProperty = INDI::Property();
+            m_GainSource = GAIN_SOURCE_UNKNOWN;
+            m_GainPermission = IP_RO;
+            m_OffsetProperty = INDI::Property();
+            m_OffsetSource = OFFSET_SOURCE_UNKNOWN;
+            m_OffsetPermission = IP_RO;
+
             primaryCCDBLOB = INDI::Property();
         }
     }
@@ -501,10 +515,10 @@ void Camera::processSwitch(INDI::Property prop)
 
 void Camera::processText(INDI::Property prop)
 {
-    auto tvp = prop.getText();
-    if (tvp->isNameMatch("CCD_FILE_PATH"))
+    auto tvp = INDI::PropertyText(prop);
+    if (tvp.isNameMatch("CCD_FILE_PATH"))
     {
-        auto filepath = tvp->findWidgetByName("FILE_PATH");
+        auto filepath = tvp.findWidgetByName("FILE_PATH");
         if (filepath)
             emit newRemoteFile(QString(filepath->getText()));
     }
@@ -532,19 +546,19 @@ void Camera::processStream(INDI::Property prop)
     if (m_isStreamEnabled == false)
         return;
 
-    INumberVectorProperty *streamFrame = getNumber("CCD_STREAM_FRAME");
-    INumber *w = nullptr, *h = nullptr;
+    auto streamFrame = getNumber("CCD_STREAM_FRAME");
+    uint32_t w = 0, h = 0;
 
     if (streamFrame)
     {
-        w = IUFindNumber(streamFrame, "WIDTH");
-        h = IUFindNumber(streamFrame, "HEIGHT");
+        w = streamFrame[0].getValue();
+        h = streamFrame[1].getValue();
     }
 
     if (w && h)
     {
-        streamW = w->value;
-        streamH = h->value;
+        streamW = w;
+        streamH = h;
     }
     else
     {
@@ -612,7 +626,7 @@ bool Camera::saveCurrentImage(QString &filename)
                                             fileWriteBufferSize);
 #endif
     }
-    else if (!WriteImageFileInternal(filename, static_cast<char*>(fileWriteBuffer), fileWriteBufferSize))
+    else if (!WriteImageFileInternal(filename, static_cast<char *>(fileWriteBuffer), fileWriteBufferSize))
         return false;
 
     return true;
@@ -719,30 +733,30 @@ void Camera::StreamWindowHidden()
         auto streamSP = getSwitch("CCD_VIDEO_STREAM");
         if (streamSP)
         {
-            streamSP->reset();
-            streamSP->at(0)->setState(ISS_OFF);
-            streamSP->at(1)->setState(ISS_ON);
-            streamSP->setState(IPS_IDLE);
+            streamSP.reset();
+            streamSP[0].setState(ISS_OFF);
+            streamSP[1].setState(ISS_ON);
+            streamSP.setState(IPS_IDLE);
             sendNewProperty(streamSP);
         }
 
         streamSP = getSwitch("VIDEO_STREAM");
         if (streamSP)
         {
-            streamSP->reset();
-            streamSP->at(0)->setState(ISS_OFF);
-            streamSP->at(1)->setState(ISS_ON);
-            streamSP->setState(IPS_IDLE);
+            streamSP.reset();
+            streamSP[0].setState(ISS_OFF);
+            streamSP[1].setState(ISS_ON);
+            streamSP.setState(IPS_IDLE);
             sendNewProperty(streamSP);
         }
 
         streamSP = getSwitch("AUX_VIDEO_STREAM");
         if (streamSP)
         {
-            streamSP->reset();
-            streamSP->at(0)->setState(ISS_OFF);
-            streamSP->at(1)->setState(ISS_ON);
-            streamSP->setState(IPS_IDLE);
+            streamSP.reset();
+            streamSP[0].setState(ISS_OFF);
+            streamSP[1].setState(ISS_ON);
+            streamSP.setState(IPS_IDLE);
             sendNewProperty(streamSP);
         }
     }
@@ -774,8 +788,8 @@ bool Camera::setCoolerControl(bool enable)
         return false;
 
     // Cooler ON/OFF
-    auto coolerON  = coolerSP->findWidgetByName("COOLER_ON");
-    auto coolerOFF = coolerSP->findWidgetByName("COOLER_OFF");
+    auto coolerON  = coolerSP.findWidgetByName("COOLER_ON");
+    auto coolerOFF = coolerSP.findWidgetByName("COOLER_OFF");
     if (!coolerON || !coolerOFF)
         return false;
 
@@ -800,92 +814,24 @@ CameraChip *Camera::getChip(CameraChip::ChipType cType)
     return nullptr;
 }
 
-bool Camera::setRapidGuide(CameraChip *targetChip, bool enable)
-{
-    ISwitchVectorProperty *rapidSP = nullptr;
-    ISwitch *enableS               = nullptr;
-
-    if (targetChip == primaryChip.get())
-        rapidSP = getSwitch("CCD_RAPID_GUIDE");
-    else
-        rapidSP = getSwitch("GUIDER_RAPID_GUIDE");
-
-    if (rapidSP == nullptr)
-        return false;
-
-    enableS = IUFindSwitch(rapidSP, "ENABLE");
-
-    if (enableS == nullptr)
-        return false;
-
-    // Already updated, return OK
-    if ((enable && enableS->s == ISS_ON) || (!enable && enableS->s == ISS_OFF))
-        return true;
-
-    IUResetSwitch(rapidSP);
-    rapidSP->sp[0].s = enable ? ISS_ON : ISS_OFF;
-    rapidSP->sp[1].s = enable ? ISS_OFF : ISS_ON;
-
-    sendNewProperty(rapidSP);
-
-    return true;
-}
-
-bool Camera::configureRapidGuide(CameraChip *targetChip, bool autoLoop, bool sendImage, bool showMarker)
-{
-    ISwitchVectorProperty *rapidSP = nullptr;
-    ISwitch *autoLoopS = nullptr, *sendImageS = nullptr, *showMarkerS = nullptr;
-
-    if (targetChip == primaryChip.get())
-        rapidSP = getSwitch("CCD_RAPID_GUIDE_SETUP");
-    else
-        rapidSP = getSwitch("GUIDER_RAPID_GUIDE_SETUP");
-
-    if (rapidSP == nullptr)
-        return false;
-
-    autoLoopS   = IUFindSwitch(rapidSP, "AUTO_LOOP");
-    sendImageS  = IUFindSwitch(rapidSP, "SEND_IMAGE");
-    showMarkerS = IUFindSwitch(rapidSP, "SHOW_MARKER");
-
-    if (!autoLoopS || !sendImageS || !showMarkerS)
-        return false;
-
-    // If everything is already set, let's return.
-    if (((autoLoop && autoLoopS->s == ISS_ON) || (!autoLoop && autoLoopS->s == ISS_OFF)) &&
-            ((sendImage && sendImageS->s == ISS_ON) || (!sendImage && sendImageS->s == ISS_OFF)) &&
-            ((showMarker && showMarkerS->s == ISS_ON) || (!showMarker && showMarkerS->s == ISS_OFF)))
-        return true;
-
-    autoLoopS->s   = autoLoop ? ISS_ON : ISS_OFF;
-    sendImageS->s  = sendImage ? ISS_ON : ISS_OFF;
-    showMarkerS->s = showMarker ? ISS_ON : ISS_OFF;
-
-    sendNewProperty(rapidSP);
-
-    return true;
-}
-
 void Camera::updateUploadSettings(const QString &uploadDirectory, const QString &uploadFile)
 {
-    ITextVectorProperty *uploadSettingsTP = nullptr;
-    IText *uploadT                        = nullptr;
+    auto uploadSettingsTP = getText("UPLOAD_SETTINGS");
 
-    uploadSettingsTP = getText("UPLOAD_SETTINGS");
     if (uploadSettingsTP)
     {
-        uploadT = IUFindText(uploadSettingsTP, "UPLOAD_DIR");
-        if (uploadT && uploadDirectory.isEmpty() == false)
+        auto dirT = uploadSettingsTP.findWidgetByName("UPLOAD_DIR");
+        if (dirT && uploadDirectory.isEmpty() == false)
         {
             auto posixDirectory = uploadDirectory;
             // N.B. Need to convert any Windows directory separators / to Posix separators /
             posixDirectory.replace(QDir::separator(), "/");
-            IUSaveText(uploadT, posixDirectory.toLatin1().constData());
+            dirT->setText(posixDirectory.toLatin1().constData());
         }
 
-        uploadT = IUFindText(uploadSettingsTP, "UPLOAD_PREFIX");
-        if (uploadT)
-            IUSaveText(uploadT, uploadFile.toLatin1().constData());
+        auto prefixT = uploadSettingsTP.findWidgetByName("UPLOAD_PREFIX");
+        if (prefixT)
+            prefixT->setText(uploadFile.toLatin1().constData());
 
         sendNewProperty(uploadSettingsTP);
     }
@@ -893,30 +839,16 @@ void Camera::updateUploadSettings(const QString &uploadDirectory, const QString 
 
 Camera::UploadMode Camera::getUploadMode()
 {
-    ISwitchVectorProperty *uploadModeSP = nullptr;
+    INDI::PropertySwitch uploadModeSP = getSwitch("UPLOAD_MODE");
 
-    uploadModeSP = getSwitch("UPLOAD_MODE");
-
-    if (uploadModeSP == nullptr)
+    if (!uploadModeSP)
     {
         qWarning() << "No UPLOAD_MODE in CCD driver. Please update driver to INDI compliant CCD driver.";
         return UPLOAD_CLIENT;
     }
 
     if (uploadModeSP)
-    {
-        ISwitch *modeS = nullptr;
-
-        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_CLIENT");
-        if (modeS && modeS->s == ISS_ON)
-            return UPLOAD_CLIENT;
-        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_LOCAL");
-        if (modeS && modeS->s == ISS_ON)
-            return UPLOAD_REMOTE;
-        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_BOTH");
-        if (modeS && modeS->s == ISS_ON)
-            return UPLOAD_BOTH;
-    }
+        return static_cast<UploadMode>(uploadModeSP.findOnSwitchIndex());
 
     // Default
     return UPLOAD_CLIENT;
@@ -924,9 +856,8 @@ Camera::UploadMode Camera::getUploadMode()
 
 bool Camera::setUploadMode(UploadMode mode)
 {
-    ISwitch *modeS = nullptr;
 
-    auto uploadModeSP = getSwitch("UPLOAD_MODE");
+    INDI::PropertySwitch uploadModeSP = getSwitch("UPLOAD_MODE");
 
     if (!uploadModeSP)
     {
@@ -934,36 +865,12 @@ bool Camera::setUploadMode(UploadMode mode)
         return false;
     }
 
-    switch (mode)
-    {
-        case UPLOAD_CLIENT:
-            modeS = uploadModeSP->findWidgetByName("UPLOAD_CLIENT");
-            if (!modeS)
-                return false;
-            if (modeS->s == ISS_ON)
-                return true;
-            break;
+    auto onIndex = uploadModeSP.findOnSwitchIndex();
+    if (onIndex == mode)
+        return true;
 
-        case UPLOAD_BOTH:
-            modeS = uploadModeSP->findWidgetByName("UPLOAD_BOTH");
-            if (!modeS)
-                return false;
-            if (modeS->s == ISS_ON)
-                return true;
-            break;
-
-        case UPLOAD_REMOTE:
-            modeS = uploadModeSP->findWidgetByName("UPLOAD_LOCAL");
-            if (!modeS)
-                return false;
-            if (modeS->s == ISS_ON)
-                return true;
-            break;
-    }
-
-    uploadModeSP->reset();
-    modeS->s = ISS_ON;
-
+    uploadModeSP.reset();
+    uploadModeSP[mode].setState(ISS_ON);
     sendNewProperty(uploadModeSP);
 
     return true;
@@ -974,24 +881,24 @@ bool Camera::getTemperature(double *value)
     if (HasCooler == false)
         return false;
 
-    auto temperatureNP = getNumber("CCD_TEMPERATURE");
+    INDI::PropertyNumber temperatureNP = getNumber("CCD_TEMPERATURE");
 
     if (!temperatureNP)
         return false;
 
-    *value = temperatureNP->at(0)->getValue();
+    *value = temperatureNP[0].getValue();
 
     return true;
 }
 
 bool Camera::setTemperature(double value)
 {
-    auto nvp = getNumber("CCD_TEMPERATURE");
+    INDI::PropertyNumber nvp = getNumber("CCD_TEMPERATURE");
 
     if (!nvp)
         return false;
 
-    auto np = nvp->findWidgetByName("CCD_TEMPERATURE_VALUE");
+    auto np = nvp.findWidgetByName("CCD_TEMPERATURE_VALUE");
 
     if (!np)
         return false;
@@ -1008,17 +915,17 @@ bool Camera::setEncodingFormat(const QString &value)
     if (value.isEmpty() || value == m_EncodingFormat)
         return true;
 
-    auto svp = getSwitch("CCD_TRANSFER_FORMAT");
+    INDI::PropertySwitch svp = getSwitch("CCD_TRANSFER_FORMAT");
 
     if (!svp)
         return false;
 
-    svp->reset();
-    for (int i = 0; i < svp->nsp; i++)
+    svp.reset();
+    for (size_t i = 0; i < svp.count(); i++)
     {
-        if (svp->at(i)->getLabel() == value)
+        if (svp[i].getLabel() == value)
         {
-            svp->at(i)->setState(ISS_ON);
+            svp[i].setState(ISS_ON);
             break;
         }
     }
@@ -1033,17 +940,17 @@ bool Camera::setStreamEncoding(const QString &value)
     if (value.isEmpty() || value == m_StreamEncoding)
         return true;
 
-    auto svp = getSwitch("CCD_STREAM_ENCODER");
+    INDI::PropertySwitch svp = getSwitch("CCD_STREAM_ENCODER");
 
     if (!svp)
         return false;
 
-    svp->reset();
-    for (int i = 0; i < svp->nsp; i++)
+    svp.reset();
+    for (size_t i = 0; i < svp.count(); i++)
     {
-        if (svp->at(i)->getLabel() == value)
+        if (svp[i].getLabel() == value)
         {
-            svp->at(i)->setState(ISS_ON);
+            svp[i].setState(ISS_ON);
             break;
         }
     }
@@ -1058,53 +965,23 @@ bool Camera::setStreamRecording(const QString &value)
     if (value.isEmpty() || value == m_StreamRecording)
         return true;
 
-    auto svp = getSwitch("CCD_STREAM_RECORDER");
+    INDI::PropertySwitch svp = getSwitch("CCD_STREAM_RECORDER");
 
     if (!svp)
         return false;
 
-    svp->reset();
-    for (int i = 0; i < svp->nsp; i++)
+    svp.reset();
+    for (size_t i = 0; i < svp.count(); i++)
     {
-        if (svp->at(i)->getLabel() == value)
+        if (svp[i].getLabel() == value)
         {
-            svp->at(i)->setState(ISS_ON);
+            svp[i].setState(ISS_ON);
             break;
         }
     }
 
     m_StreamRecording = value;
     sendNewProperty(svp);
-    return true;
-}
-
-bool Camera::setTelescopeType(TelescopeType type)
-{
-    if (type == telescopeType)
-        return true;
-
-    auto svp = getSwitch("TELESCOPE_TYPE");
-
-    if (!svp)
-        return false;
-
-    auto typePrimary = svp->findWidgetByName("TELESCOPE_PRIMARY");
-    auto typeGuide   = svp->findWidgetByName("TELESCOPE_GUIDE");
-
-    if (!typePrimary || !typeGuide)
-        return false;
-
-    telescopeType = type;
-
-    if ( (telescopeType == TELESCOPE_PRIMARY && typePrimary->getState() == ISS_OFF) ||
-            (telescopeType == TELESCOPE_GUIDE && typeGuide->getState() == ISS_OFF))
-    {
-        typePrimary->setState(telescopeType == TELESCOPE_PRIMARY ? ISS_ON : ISS_OFF);
-        typeGuide->setState(telescopeType == TELESCOPE_PRIMARY ? ISS_OFF : ISS_ON);
-        sendNewProperty(svp);
-        setConfig(SAVE_CONFIG);
-    }
-
     return true;
 }
 
@@ -1115,17 +992,17 @@ bool Camera::setVideoStreamEnabled(bool enable)
 
     m_isStreamEnabled = enable;
 
-    auto svp = getSwitch("CCD_VIDEO_STREAM");
+    INDI::PropertySwitch svp = getSwitch("CCD_VIDEO_STREAM");
 
     if (!svp)
         return false;
 
     // If already on and enable is set or vice versa no need to change anything we return true
-    if ((enable && svp->at(0)->getState() == ISS_ON) || (!enable && svp->at(1)->getState() == ISS_ON))
+    if ((enable && svp[0].getState() == ISS_ON) || (!enable && svp[1].getState() == ISS_ON))
         return true;
 
-    svp->at(0)->setState(enable ? ISS_ON : ISS_OFF);
-    svp->at(1)->setState(enable ? ISS_OFF : ISS_ON);
+    svp[0].setState(enable ? ISS_ON : ISS_OFF);
+    svp[1].setState(enable ? ISS_OFF : ISS_ON);
 
     sendNewProperty(svp);
 
@@ -1134,15 +1011,15 @@ bool Camera::setVideoStreamEnabled(bool enable)
 
 bool Camera::resetStreamingFrame()
 {
-    auto frameProp = getNumber("CCD_STREAM_FRAME");
+    INDI::PropertyNumber frameProp = getNumber("CCD_STREAM_FRAME");
 
     if (!frameProp)
         return false;
 
-    auto xarg = frameProp->findWidgetByName("X");
-    auto yarg = frameProp->findWidgetByName("Y");
-    auto warg = frameProp->findWidgetByName("WIDTH");
-    auto harg = frameProp->findWidgetByName("HEIGHT");
+    auto xarg = frameProp.findWidgetByName("X");
+    auto yarg = frameProp.findWidgetByName("Y");
+    auto warg = frameProp.findWidgetByName("WIDTH");
+    auto harg = frameProp.findWidgetByName("HEIGHT");
 
     if (xarg && yarg && warg && harg)
     {
@@ -1166,13 +1043,13 @@ bool Camera::resetStreamingFrame()
 
 bool Camera::setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
 {
-    auto limitsProp = getNumber("LIMITS");
+    INDI::PropertyNumber limitsProp = getNumber("LIMITS");
 
     if (!limitsProp)
         return false;
 
-    auto bufferMax = limitsProp->findWidgetByName("LIMITS_BUFFER_MAX");
-    auto previewFPS = limitsProp->findWidgetByName("LIMITS_PREVIEW_FPS");
+    auto bufferMax = limitsProp.findWidgetByName("LIMITS_BUFFER_MAX");
+    auto previewFPS = limitsProp.findWidgetByName("LIMITS_PREVIEW_FPS");
 
     if (bufferMax && previewFPS)
     {
@@ -1191,15 +1068,15 @@ bool Camera::setStreamLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
 
 bool Camera::setStreamingFrame(int x, int y, int w, int h)
 {
-    auto frameProp = getNumber("CCD_STREAM_FRAME");
+    INDI::PropertyNumber frameProp = getNumber("CCD_STREAM_FRAME");
 
     if (!frameProp)
         return false;
 
-    auto xarg = frameProp->findWidgetByName("X");
-    auto yarg = frameProp->findWidgetByName("Y");
-    auto warg = frameProp->findWidgetByName("WIDTH");
-    auto harg = frameProp->findWidgetByName("HEIGHT");
+    auto xarg = frameProp.findWidgetByName("X");
+    auto yarg = frameProp.findWidgetByName("Y");
+    auto warg = frameProp.findWidgetByName("WIDTH");
+    auto harg = frameProp.findWidgetByName("HEIGHT");
 
     if (xarg && yarg && warg && harg)
     {
@@ -1229,13 +1106,13 @@ bool Camera::isStreamingEnabled()
 
 bool Camera::setSERNameDirectory(const QString &filename, const QString &directory)
 {
-    auto tvp = getText("RECORD_FILE");
+    INDI::PropertyText tvp = getText("RECORD_FILE");
 
     if (!tvp)
         return false;
 
-    auto filenameT = tvp->findWidgetByName("RECORD_FILE_NAME");
-    auto dirT      = tvp->findWidgetByName("RECORD_FILE_DIR");
+    auto filenameT = tvp.findWidgetByName("RECORD_FILE_NAME");
+    auto dirT      = tvp.findWidgetByName("RECORD_FILE_DIR");
 
     if (!filenameT || !dirT)
         return false;
@@ -1250,13 +1127,13 @@ bool Camera::setSERNameDirectory(const QString &filename, const QString &directo
 
 bool Camera::getSERNameDirectory(QString &filename, QString &directory)
 {
-    auto tvp = getText("RECORD_FILE");
+    INDI::PropertyText tvp = getText("RECORD_FILE");
 
     if (!tvp)
         return false;
 
-    auto filenameT = tvp->findWidgetByName("RECORD_FILE_NAME");
-    auto dirT      = tvp->findWidgetByName("RECORD_FILE_DIR");
+    auto filenameT = tvp.findWidgetByName("RECORD_FILE_NAME");
+    auto dirT      = tvp.findWidgetByName("RECORD_FILE_DIR");
 
     if (!filenameT || !dirT)
         return false;
@@ -1269,12 +1146,12 @@ bool Camera::getSERNameDirectory(QString &filename, QString &directory)
 
 bool Camera::startRecording()
 {
-    auto svp = getSwitch("RECORD_STREAM");
+    INDI::PropertySwitch svp = getSwitch("RECORD_STREAM");
 
     if (!svp)
         return false;
 
-    auto recordON = svp->findWidgetByName("RECORD_ON");
+    auto recordON = svp.findWidgetByName("RECORD_ON");
 
     if (!recordON)
         return false;
@@ -1282,7 +1159,7 @@ bool Camera::startRecording()
     if (recordON->getState() == ISS_ON)
         return true;
 
-    svp->reset();
+    svp.reset();
     recordON->setState(ISS_ON);
 
     sendNewProperty(svp);
@@ -1292,22 +1169,22 @@ bool Camera::startRecording()
 
 bool Camera::startDurationRecording(double duration)
 {
-    auto nvp = getNumber("RECORD_OPTIONS");
+    INDI::PropertyNumber nvp = getNumber("RECORD_OPTIONS");
 
     if (!nvp)
         return false;
 
-    auto durationN = nvp->findWidgetByName("RECORD_DURATION");
+    auto durationN = nvp.findWidgetByName("RECORD_DURATION");
 
     if (!durationN)
         return false;
 
-    auto svp = getSwitch("RECORD_STREAM");
+    INDI::PropertySwitch svp = getSwitch("RECORD_STREAM");
 
     if (!svp)
         return false;
 
-    auto recordON = svp->findWidgetByName("RECORD_DURATION_ON");
+    auto recordON = svp.findWidgetByName("RECORD_DURATION_ON");
 
     if (!recordON)
         return false;
@@ -1318,7 +1195,7 @@ bool Camera::startDurationRecording(double duration)
     durationN->setValue(duration);
     sendNewProperty(nvp);
 
-    svp->reset();
+    svp.reset();
     recordON->setState(ISS_ON);
 
     sendNewProperty(svp);
@@ -1328,18 +1205,18 @@ bool Camera::startDurationRecording(double duration)
 
 bool Camera::startFramesRecording(uint32_t frames)
 {
-    auto nvp = getNumber("RECORD_OPTIONS");
+    INDI::PropertyNumber nvp = getNumber("RECORD_OPTIONS");
 
     if (!nvp)
         return false;
 
-    auto frameN = nvp->findWidgetByName("RECORD_FRAME_TOTAL");
-    auto svp = getSwitch("RECORD_STREAM");
+    auto frameN = nvp.findWidgetByName("RECORD_FRAME_TOTAL");
+    INDI::PropertySwitch svp = getSwitch("RECORD_STREAM");
 
     if (!frameN || !svp)
         return false;
 
-    auto recordON = svp->findWidgetByName("RECORD_FRAME_ON");
+    auto recordON = svp.findWidgetByName("RECORD_FRAME_ON");
 
     if (!recordON)
         return false;
@@ -1350,7 +1227,7 @@ bool Camera::startFramesRecording(uint32_t frames)
     frameN->setValue(frames);
     sendNewProperty(nvp);
 
-    svp->reset();
+    svp.reset();
     recordON->setState(ISS_ON);
 
     sendNewProperty(svp);
@@ -1360,12 +1237,12 @@ bool Camera::startFramesRecording(uint32_t frames)
 
 bool Camera::stopRecording()
 {
-    auto svp = getSwitch("RECORD_STREAM");
+    INDI::PropertySwitch svp = getSwitch("RECORD_STREAM");
 
     if (!svp)
         return false;
 
-    auto recordOFF = svp->findWidgetByName("RECORD_OFF");
+    auto recordOFF = svp.findWidgetByName("RECORD_OFF");
 
     if (!recordOFF)
         return false;
@@ -1374,7 +1251,7 @@ bool Camera::stopRecording()
     if (recordOFF->getState() == ISS_ON)
         return true;
 
-    svp->reset();
+    svp.reset();
     recordOFF->setState(ISS_ON);
 
     sendNewProperty(svp);
@@ -1384,17 +1261,17 @@ bool Camera::stopRecording()
 
 bool Camera::setFITSHeaders(const QList<FITSData::Record> &values)
 {
-    auto tvp = getText("FITS_HEADER");
+    INDI::PropertyText tvp = getText("FITS_HEADER");
 
     // Only proceed if FITS header has 3 fields introduced with INDI v2.0.1
-    if (!tvp || tvp->count() < 3)
+    if (!tvp || tvp.count() < 3)
         return false;
 
     for (auto &record : values)
     {
-        tvp->at(0)->setText(record.key.toLatin1().constData());
-        tvp->at(1)->setText(record.value.toString().toLatin1().constData());
-        tvp->at(2)->setText(record.comment.toLatin1().constData());
+        tvp[0].setText(record.key.toLatin1().constData());
+        tvp[1].setText(record.value.toString().toLatin1().constData());
+        tvp[2].setText(record.comment.toLatin1().constData());
 
         sendNewProperty(tvp);
     }
@@ -1404,66 +1281,183 @@ bool Camera::setFITSHeaders(const QList<FITSData::Record> &values)
 
 bool Camera::setGain(double value)
 {
-    if (!gainN)
+    if (m_GainSource == GAIN_SOURCE_UNKNOWN || !m_GainProperty.isValid())
         return false;
 
-    gainN->value = value;
-    sendNewProperty(gainN->nvp);
+    auto nvp = INDI::PropertyNumber(m_GainProperty);
+
+    if (m_GainSource == GAIN_SOURCE_STANDALONE)
+    {
+        nvp[0].setValue(value);
+    }
+    else if (m_GainSource == GAIN_SOURCE_CONTROLS)
+    {
+        for (auto &it : nvp)
+        {
+            QString name  = QString(it.getName()).toLower();
+            QString label = QString(it.getLabel()).toLower();
+            if (name == "gain" || label == "gain")
+            {
+                it.setValue(value);
+                break;
+            }
+        }
+    }
+
+    sendNewProperty(m_GainProperty);
     return true;
 }
 
 bool Camera::getGain(double *value)
 {
-    if (!gainN)
+    if (m_GainSource == GAIN_SOURCE_UNKNOWN || !m_GainProperty.isValid())
         return false;
 
-    *value = gainN->value;
+    auto nvp = INDI::PropertyNumber(m_GainProperty);
 
-    return true;
+    if (m_GainSource == GAIN_SOURCE_STANDALONE)
+    {
+        *value = nvp[0].getValue();
+        return true;
+    }
+    else if (m_GainSource == GAIN_SOURCE_CONTROLS)
+    {
+        for (const auto &it : nvp)
+        {
+            QString name  = QString(it.getName()).toLower();
+            QString label = QString(it.getLabel()).toLower();
+            if (name == "gain" || label == "gain")
+            {
+                *value = it.getValue();
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 bool Camera::getGainMinMaxStep(double *min, double *max, double *step)
 {
-    if (!gainN)
+    if (m_GainSource == GAIN_SOURCE_UNKNOWN || !m_GainProperty.isValid())
         return false;
 
-    *min  = gainN->min;
-    *max  = gainN->max;
-    *step = gainN->step;
+    auto nvp = INDI::PropertyNumber(m_GainProperty);
 
-    return true;
+    if (m_GainSource == GAIN_SOURCE_STANDALONE)
+    {
+        *min  = nvp[0].getMin();
+        *max  = nvp[0].getMax();
+        *step = nvp[0].getStep();
+        return true;
+    }
+    else if (m_GainSource == GAIN_SOURCE_CONTROLS)
+    {
+        for (auto &it : nvp)
+        {
+            QString name  = QString(it.getName()).toLower();
+            QString label = QString(it.getLabel()).toLower();
+            if (name == "gain" || label == "gain")
+            {
+                *min  = it.getMin();
+                *max  = it.getMax();
+                *step = it.getStep();
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 bool Camera::setOffset(double value)
 {
-    if (!offsetN)
+    if (m_OffsetSource == OFFSET_SOURCE_UNKNOWN || !m_OffsetProperty.isValid())
         return false;
 
-    offsetN->value = value;
-    sendNewProperty(offsetN->nvp);
+    auto nvp = INDI::PropertyNumber(m_OffsetProperty);
+
+    if (m_OffsetSource == OFFSET_SOURCE_STANDALONE)
+    {
+        nvp[0].setValue(value);
+    }
+    else if (m_OffsetSource == OFFSET_SOURCE_CONTROLS)
+    {
+        for (auto &it : nvp)
+        {
+            QString name  = QString(it.getName()).toLower();
+            QString label = QString(it.getLabel()).toLower();
+            if (name == "offset" || label == "offset")
+            {
+                it.setValue(value);
+                break;
+            }
+        }
+    }
+
+    sendNewProperty(m_OffsetProperty);
     return true;
 }
 
 bool Camera::getOffset(double *value)
 {
-    if (!offsetN)
+    if (m_OffsetSource == OFFSET_SOURCE_UNKNOWN || !m_OffsetProperty.isValid())
         return false;
 
-    *value = offsetN->value;
+    auto nvp = INDI::PropertyNumber(m_OffsetProperty);
 
-    return true;
+    if (m_OffsetSource == OFFSET_SOURCE_STANDALONE)
+    {
+        *value = nvp[0].getValue();
+        return true;
+    }
+    else if (m_OffsetSource == OFFSET_SOURCE_CONTROLS)
+    {
+        for (const auto &it : nvp)
+        {
+            QString name  = QString(it.getName()).toLower();
+            QString label = QString(it.getLabel()).toLower();
+            if (name == "offset" || label == "offset")
+            {
+                *value = it.getValue();
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 bool Camera::getOffsetMinMaxStep(double *min, double *max, double *step)
 {
-    if (!offsetN)
+    if (m_OffsetSource == OFFSET_SOURCE_UNKNOWN || !m_OffsetProperty.isValid())
         return false;
 
-    *min  = offsetN->min;
-    *max  = offsetN->max;
-    *step = offsetN->step;
+    auto nvp = INDI::PropertyNumber(m_OffsetProperty);
+    if (m_OffsetSource == OFFSET_SOURCE_STANDALONE)
+    {
+        *min  = nvp[0].getMin();
+        *max  = nvp[0].getMax();
+        *step = nvp[0].getStep();
+        return true;
+    }
+    else if (m_OffsetSource == OFFSET_SOURCE_CONTROLS)
+    {
+        for (auto &it : nvp)
+        {
+            QString name  = QString(it.getName()).toLower();
+            QString label = QString(it.getLabel()).toLower();
+            if (name == "offset" || label == "offset")
+            {
+                *min  = it.getMin();
+                *max  = it.getMax();
+                *step = it.getStep();
+                return true;
+            }
+        }
+    }
 
-    return true;
+    return false;
 }
 
 bool Camera::isBLOBEnabled()
@@ -1483,13 +1477,13 @@ bool Camera::setFastExposureEnabled(bool enable)
     // Set value immediately
     m_FastExposureEnabled = enable;
 
-    auto svp = getSwitch("CCD_FAST_TOGGLE");
+    INDI::PropertySwitch svp = getSwitch("CCD_FAST_TOGGLE");
 
     if (!svp)
         return false;
 
-    svp->at(0)->setState(enable ? ISS_ON : ISS_OFF);
-    svp->at(1)->setState(enable ? ISS_OFF : ISS_ON);
+    svp[0].setState(enable ? ISS_ON : ISS_OFF);
+    svp[1].setState(enable ? ISS_OFF : ISS_ON);
     sendNewProperty(svp);
 
     return true;
@@ -1497,12 +1491,15 @@ bool Camera::setFastExposureEnabled(bool enable)
 
 bool Camera::setCaptureFormat(const QString &format)
 {
-    auto svp = getSwitch("CCD_CAPTURE_FORMAT");
+    INDI::PropertySwitch svp = getSwitch("CCD_CAPTURE_FORMAT");
     if (!svp)
         return false;
 
-    for (auto &oneSwitch : *svp)
-        oneSwitch.setState(oneSwitch.label == format ? ISS_ON : ISS_OFF);
+    svp.reset();
+    auto formatT = svp.findWidgetByName(format.toLatin1().constData());
+    if (formatT)
+        formatT->setState(ISS_ON);
+
 
     sendNewProperty(svp);
     return true;
@@ -1510,12 +1507,12 @@ bool Camera::setCaptureFormat(const QString &format)
 
 bool Camera::setFastCount(uint32_t count)
 {
-    auto nvp = getNumber("CCD_FAST_COUNT");
+    INDI::PropertyNumber nvp = getNumber("CCD_FAST_COUNT");
 
     if (!nvp)
         return false;
 
-    nvp->at(0)->setValue(count);
+    nvp[0].setValue(count);
 
     sendNewProperty(nvp);
 
@@ -1524,12 +1521,12 @@ bool Camera::setFastCount(uint32_t count)
 
 bool Camera::setStreamExposure(double duration)
 {
-    auto nvp = getNumber("STREAMING_EXPOSURE");
+    INDI::PropertyNumber nvp = getNumber("STREAMING_EXPOSURE");
 
     if (!nvp)
         return false;
 
-    nvp->at(0)->setValue(duration);
+    nvp[0].setValue(duration);
 
     sendNewProperty(nvp);
 
@@ -1538,24 +1535,24 @@ bool Camera::setStreamExposure(double duration)
 
 bool Camera::getStreamExposure(double *duration)
 {
-    auto nvp = getNumber("STREAMING_EXPOSURE");
+    INDI::PropertyNumber nvp = getNumber("STREAMING_EXPOSURE");
 
     if (!nvp)
         return false;
 
-    *duration = nvp->at(0)->getValue();
+    *duration = nvp[0].getValue();
 
     return true;
 }
 
 bool Camera::isCoolerOn()
 {
-    auto svp = getSwitch("CCD_COOLER");
+    INDI::PropertySwitch svp = getSwitch("CCD_COOLER");
 
     if (!svp)
         return false;
 
-    return (svp->at(0)->getState() == ISS_ON);
+    return (svp[0].getState() == ISS_ON);
 }
 
 bool Camera::getTemperatureRegulation(double &ramp, double &threshold)
@@ -1564,8 +1561,8 @@ bool Camera::getTemperatureRegulation(double &ramp, double &threshold)
     if (!regulation.isValid())
         return false;
 
-    ramp = regulation.getNumber()->at(0)->getValue();
-    threshold = regulation.getNumber()->at(1)->getValue();
+    ramp = INDI::PropertyNumber(regulation)[0].getValue();
+    threshold = INDI::PropertyNumber(regulation)[1].getValue();
     return true;
 }
 
@@ -1575,9 +1572,9 @@ bool Camera::setTemperatureRegulation(double ramp, double threshold)
     if (!regulation.isValid())
         return false;
 
-    regulation.getNumber()->at(0)->setValue(ramp);
-    regulation.getNumber()->at(1)->setValue(threshold);
-    sendNewProperty(regulation.getNumber());
+    INDI::PropertyNumber(regulation)[0].setValue(ramp);
+    INDI::PropertyNumber(regulation)[1].setValue(threshold);
+    sendNewProperty(INDI::PropertyNumber(regulation));
     return true;
 }
 
@@ -1587,9 +1584,9 @@ bool Camera::setScopeInfo(double focalLength, double aperture)
     if (!scopeInfo.isValid())
         return false;
 
-    auto nvp = scopeInfo.getNumber();
-    nvp->at(0)->setValue(focalLength);
-    nvp->at(1)->setValue(aperture);
+    INDI::PropertyNumber nvp = getNumber("SCOPE_INFO");
+    nvp[0].setValue(focalLength);
+    nvp[1].setValue(aperture);
     sendNewProperty(nvp);
     return true;
 }
