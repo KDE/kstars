@@ -232,7 +232,7 @@ void GenericDevice::registerProperty(INDI::Property prop)
         auto port = m_BaseDevice.getText("DEVICE_PORT");
         if (svp && port)
         {
-            for (const auto &it : *svp)
+            for (const auto &it : svp)
             {
                 if (it.isNameMatch(port[0].getText()))
                 {
@@ -499,7 +499,7 @@ void GenericDevice::processText(INDI::Property prop)
         indiDate.setDate(y, m, d);
         indiTime.setHMS(hour, min, sec);
 
-        KStarsDateTime indiDateTime(QDateTime(indiDate, indiTime, Qt::UTC));
+        KStarsDateTime indiDateTime(QDateTime(indiDate, indiTime, QTimeZone::utc()));
 
         tp = tvp.findWidgetByName("OFFSET");
 
@@ -1657,7 +1657,7 @@ void switchToJson(INDI::Property prop, QJsonObject &propObject, bool compact)
 {
     auto svp = INDI::PropertySwitch(prop);
     QJsonArray switches;
-    for (int i = 0; i < svp.count(); i++)
+    for (size_t i = 0; i < svp.count(); i++)
     {
         QJsonObject oneSwitch = {{"name", svp[i].getName()}, {"state", svp[i].getState()}};
         if (!compact)
@@ -1679,7 +1679,7 @@ void numberToJson(INDI::Property prop, QJsonObject &propObject, bool compact)
 {
     auto nvp = INDI::PropertyNumber(prop);
     QJsonArray numbers;
-    for (int i = 0; i < nvp.count(); i++)
+    for (size_t i = 0; i < nvp.count(); i++)
     {
         QJsonObject oneNumber = {{"name", nvp[i].getName()}, {"value", nvp[i].getValue()}};
         if (!compact)
@@ -1706,7 +1706,7 @@ void textToJson(INDI::Property prop, QJsonObject &propObject, bool compact)
 {
     auto tvp = INDI::PropertyText(prop);
     QJsonArray Texts;
-    for (int i = 0; i < tvp.count(); i++)
+    for (size_t i = 0; i < tvp.count(); i++)
     {
         QJsonObject oneText = {{"name", tvp[i].getName()}, {"text", tvp[i].getText()}};
         if (!compact)
@@ -1729,7 +1729,7 @@ void lightToJson(INDI::Property prop, QJsonObject &propObject, bool compact)
 {
     auto lvp = INDI::PropertyLight(prop);
     QJsonArray Lights;
-    for (int i = 0; i < lvp.count(); i++)
+    for (size_t i = 0; i < lvp.count(); i++)
     {
         QJsonObject oneLight = {{"name", lvp[i].getName()}, {"state", lvp[i].getState()}};
         if (!compact)
