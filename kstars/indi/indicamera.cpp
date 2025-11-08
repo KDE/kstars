@@ -634,16 +634,14 @@ bool Camera::saveCurrentImage(QString &filename)
 
 bool Camera::processBLOB(INDI::Property prop)
 {
-    auto bvp = prop.getBLOB();
+    auto bvp = INDI::PropertyBlob(prop);
+    auto size = bvp[0].getSize();
     // Ignore write-only BLOBs since we only receive it for state-change
-    if (bvp->getPermission() == IP_WO || bvp->at(0)->getSize() == 0)
+    if (bvp.getPermission() == IP_WO || size == 0)
         return false;
 
     BType = BLOB_OTHER;
-
-    auto bp = bvp->at(0);
-
-    auto format = QString(bp->getFormat()).toLower();
+    auto format = QString(bvp[0].getFormat()).toLower();
 
     // If stream, process it first
     if (format.contains("stream"))
@@ -673,13 +671,13 @@ bool Camera::processBLOB(INDI::Property prop)
 
     CameraChip *targetChip = nullptr;
 
-    if (bvp->isNameMatch("CCD2"))
+    if (bvp.isNameMatch("CCD2"))
         targetChip = guideChip.get();
     else
     {
         targetChip = primaryChip.get();
         qCDebug(KSTARS_INDI) << "Image received. Mode:" << getFITSModeStringString(targetChip->getCaptureMode()) << "Size:" <<
-                             bp->getSize();
+                             size;
     }
 
     // Create temporary name if ANY of the following conditions are met:
@@ -695,7 +693,7 @@ bool Camera::processBLOB(INDI::Property prop)
         m_LastNotificationTS = QDateTime::currentDateTime();
     }
 
-    QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->getBlob()), bp->getSize());
+    QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bvp[0].getBlob()), size);
     QSharedPointer<FITSData> imageData;
     imageData.reset(new FITSData(targetChip->getCaptureMode()), &QObject::deleteLater);
     imageData->setExtension(shortFormat);
@@ -714,13 +712,13 @@ bool Camera::processBLOB(INDI::Property prop)
     // Add metadata
     imageData->setProperty("device", getDeviceName());
     imageData->setProperty("blobVector", prop.getName());
-    imageData->setProperty("blobElement", bp->getName());
+    imageData->setProperty("blobElement", bvp[0].getName());
     imageData->setProperty("chip", targetChip->getType());
 
     // Retain a copy
     targetChip->setImageData(imageData);
     emit propertyUpdated(prop);
-    emit newImage(imageData, QString(bp->getFormat()).toLower());
+    emit newImage(imageData, QString(bvp[0].getFormat()).toLower());
 
     return true;
 }
@@ -1496,10 +1494,14 @@ bool Camera::setCaptureFormat(const QString &format)
         return false;
 
     svp.reset();
-    auto formatT = svp.findWidgetByName(format.toLatin1().constData());
-    if (formatT)
-        formatT->setState(ISS_ON);
-
+    for (auto &it : svp)
+    {
+        if (it.getLabel() == format)
+        {
+            it.setState(ISS_ON);
+            break;
+        }
+    }
 
     sendNewProperty(svp);
     return true;
