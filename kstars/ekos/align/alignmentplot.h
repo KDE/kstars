@@ -7,6 +7,7 @@
 #pragma once
 
 #include "qcustomplot.h"
+#include "auxiliary/flashingtextitem.h"
 
 
 class TargetTag : public QObject
@@ -22,7 +23,7 @@ public:
 
     QPointer<QCPItemTracer> innerCircle, outerCircle;
     QPointer<QCPItemLine> upperSpike , rightSpike , lowerSpike , leftSpike ;
-    QPointer<QCPItemText> upperLabel, lowerLabel, leftLabel, rightLabel;
+    QPointer<FlashingTextItem> upperLabel, lowerLabel, leftLabel, rightLabel;
 };
 
 

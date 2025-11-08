@@ -23,6 +23,11 @@ PushToAssistant::PushToAssistant(QWidget *parent) : QDialog(parent)
     mountTarget->syncButtonObject->setText(i18n("Select Target"));
     mountTarget->syncButtonObject->setToolTip(i18n("Select the target that you are aiming for."));
     mountTarget->gotoButtonObject->setVisible(false);
+
+    // switch between JNow and J2000
+    mountTarget->setJ2000Enabled(j2000Check->isChecked());
+    connect(j2000Check, &QRadioButton::toggled, mountTarget, &MountTargetWidget::setJ2000Enabled);
+
     // forward target commands
     connect(mountTarget, &MountTargetWidget::sync, this, &PushToAssistant::sync);
     connect(mountTarget, &MountTargetWidget::newTarget, [this]()

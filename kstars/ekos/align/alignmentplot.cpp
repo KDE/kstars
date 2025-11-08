@@ -68,10 +68,10 @@ static inline QPointer<QCPItemLine> createArrow(QCustomPlot *parent, QCPItemTrac
     return stick;
 }
 
-static inline QPointer<QCPItemText> createLabel(QCustomPlot *parent, QCPItemLine* spike, Qt::Alignment align,
+static inline QPointer<FlashingTextItem> createLabel(QCustomPlot *parent, QCPItemLine* spike, Qt::Alignment align,
         const QPointF &pxOffset)
 {
-    auto *t = new QCPItemText(parent);
+    auto *t = new FlashingTextItem(parent);
     t->position->setParentAnchor(spike->end);              // follow spike tip
     t->position->setType(QCPItemPosition::ptAbsolute);     // pixel offset
     t->position->setCoords(pxOffset);                      // small gap from tip
@@ -80,9 +80,9 @@ static inline QPointer<QCPItemText> createLabel(QCustomPlot *parent, QCPItemLine
     t->setPen(Qt::NoPen);                                  // no frame
     t->setColor(Qt::white);                                // white text
     QFont f;
-    f.setBold(true);                                       // bold
     // leave point size unset -> Qt uses default application font size
     t->setFont(f);
+    t->setNormalBold(true);
     t->setText("");                                        // start hidden
     t->setVisible(false);
     t->setLayer("overlay");
@@ -90,8 +90,8 @@ static inline QPointer<QCPItemText> createLabel(QCustomPlot *parent, QCPItemLine
     return t;
 };
 
-static inline void showError(double deg, QCPItemLine *posSpike, QCPItemText * posLbl, QCPItemLine *negSpike,
-                             QCPItemText * negLbl)
+static inline void showError(double deg, QCPItemLine *posSpike, FlashingTextItem * posLbl, QCPItemLine *negSpike,
+                             FlashingTextItem * negLbl)
 {
     const bool pos = (deg * 3600 >= 1.0);  // >=  1 asec
     const bool neg = (deg * 3600 <= -1.0); // <= -1 asec
