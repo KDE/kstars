@@ -170,7 +170,7 @@ void SchedulerModuleState::setParkWaitState(ParkWaitState state)
 bool SchedulerModuleState::removeJob(const int currentRow)
 {
     /* Don't remove a row that is not selected */
-    if (currentRow < 0)
+    if (currentRow < 0 || currentRow >= jobs().count())
         return false;
 
     /* Grab the job currently selected */
