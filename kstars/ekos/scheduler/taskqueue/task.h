@@ -14,6 +14,7 @@
 #include <QList>
 #include <QMap>
 #include <QVariant>
+#include <QJsonObject>
 
 namespace Ekos
 {
@@ -124,6 +125,16 @@ class Task : public QObject
             return m_parameters;
         }
 
+        // Device mapping failure action
+        TaskAction::FailureAction deviceMappingFailureAction() const
+        {
+            return m_deviceMappingFailureAction;
+        }
+        void setDeviceMappingFailureAction(TaskAction::FailureAction action)
+        {
+            m_deviceMappingFailureAction = action;
+        }
+
         // Serialization (for queue persistence)
         QJsonObject toJson() const;
         bool loadFromJson(const QJsonObject &json);
@@ -164,6 +175,9 @@ class Task : public QObject
         // Parameters and actions
         QMap<QString, QVariant> m_parameters;
         QList<TaskAction *> m_actions;
+
+        // Device mapping failure action (defaults to abort for backward compatibility)
+        TaskAction::FailureAction m_deviceMappingFailureAction = TaskAction::ABORT_QUEUE;
 };
 
 } // namespace Ekos

@@ -43,7 +43,7 @@ bool QueueExecutor::start()
     // Check if any task requires devices by looking at template interfaces
     bool requiresDevices = false;
     TemplateManager *templateMgr = TemplateManager::Instance();
-    
+
     for (QueueItem *item : m_manager->items())
     {
         if (item && item->task())
@@ -54,7 +54,7 @@ bool QueueExecutor::start()
                 requiresDevices = true;
                 break;
             }
-            
+
             // Check template for interface requirements
             if (templateMgr)
             {
@@ -89,11 +89,11 @@ bool QueueExecutor::start()
         qCInfo(KSTARS_EKOS_SCHEDULER) << "Starting queue with device-independent tasks only - Ekos not required";
     }
 
-    emit newLog(i18n("Starting task queue with %1 items", m_manager->count()));
-
     m_running = true;
     m_paused = false;
     m_abortRequested = false;
+
+    emit newLog(i18n("Starting task queue with %1 items", m_manager->count()));
 
     m_manager->setState(QueueManager::RUNNING);
     emit started();
@@ -224,34 +224,34 @@ void QueueExecutor::executeItem(QueueItem *item)
                 {
                     requiredInterfaces |= static_cast<uint32_t>(interface);
                 }
-                
+
                 // Get ALL devices and check if they have all required interfaces
                 auto allDevices = INDIListener::devices();
                 QString assignedDevice;
-                
+
                 qCInfo(KSTARS_EKOS_SCHEDULER) << "Searching for device with required interfaces:" << requiredInterfaces;
-                
+
                 for (const auto &device : allDevices)
                 {
                     if (device && device->isConnected())
                     {
                         uint32_t deviceInterfaces = device->getDriverInterface();
-                        qCInfo(KSTARS_EKOS_SCHEDULER) << "  Checking device:" << device->getDeviceName() 
+                        qCInfo(KSTARS_EKOS_SCHEDULER) << "  Checking device:" << device->getDeviceName()
                                                       << "interfaces:" << deviceInterfaces
                                                       << "(" << QString::number(deviceInterfaces, 2) << ")";
-                        
+
                         // Check if device has ALL required interfaces using BIT-AND
                         if ((deviceInterfaces & requiredInterfaces) == requiredInterfaces)
                         {
                             assignedDevice = device->getDeviceName();
-                            qCInfo(KSTARS_EKOS_SCHEDULER) << "Found matching device:" << assignedDevice 
+                            qCInfo(KSTARS_EKOS_SCHEDULER) << "Found matching device:" << assignedDevice
                                                           << "with interfaces:" << deviceInterfaces
                                                           << "required:" << requiredInterfaces;
                             break;
                         }
                     }
                 }
-                
+
                 if (!assignedDevice.isEmpty())
                 {
                     task->setDevice(assignedDevice);
@@ -259,13 +259,38 @@ void QueueExecutor::executeItem(QueueItem *item)
                 }
                 else
                 {
-                    qCWarning(KSTARS_EKOS_SCHEDULER) << "No connected device found with required interfaces" << QString::number(requiredInterfaces, 2) << "for task:" << task->name();
-                    item->setErrorMessage(i18n("No connected device found with required interfaces"));
-                    item->setStatus(QueueItem::FAILED);
-                    emit itemFailed(item, item->errorMessage());
-                    m_currentItem = nullptr;
-                    executeNext();
-                    return;
+                    // No device found with required interfaces - check failure action
+                    QString errorMsg = i18n("No connected device found with required interfaces");
+                    qCWarning(KSTARS_EKOS_SCHEDULER) << errorMsg << QString::number(requiredInterfaces, 2) << "for task:" << task->name();
+
+                    // Handle based on task's device mapping failure action
+                    switch (task->deviceMappingFailureAction())
+                    {
+                        case TaskAction::SKIP_TO_NEXT_TASK:
+                            qCInfo(KSTARS_EKOS_SCHEDULER) << "Skipping task due to missing device (failure_action: skip_to_next_task)";
+                            item->setStatus(QueueItem::SKIPPED);
+                            item->setErrorMessage(errorMsg);
+                            // Don't emit itemFailed for skipped tasks - just move to next
+                            m_currentItem = nullptr;
+                            executeNext();
+                            return;
+
+                        case TaskAction::CONTINUE:
+                            qCInfo(KSTARS_EKOS_SCHEDULER) << "Marking task as completed despite missing device (failure_action: continue)";
+                            item->setErrorMessage(errorMsg);
+                            handleItemCompletion(item);
+                            return;
+
+                        case TaskAction::ABORT_QUEUE:
+                        default:
+                            qCWarning(KSTARS_EKOS_SCHEDULER) << "Aborting queue due to missing device (failure_action: abort_queue)";
+                            item->setErrorMessage(errorMsg);
+                            item->setStatus(QueueItem::FAILED);
+                            emit itemFailed(item, errorMsg);
+                            m_currentItem = nullptr;
+                            executeNext();
+                            return;
+                    }
                 }
             }
         }
@@ -313,7 +338,7 @@ void QueueExecutor::executeAction(TaskAction *action)
 
     // Reset retry counter before first execution
     action->resetRetryCounter();
-    
+
     // Execute the action
     action->start();
 }

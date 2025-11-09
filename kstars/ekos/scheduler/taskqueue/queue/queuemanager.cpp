@@ -89,7 +89,7 @@ void QueueManager::clear()
         if (item)
             item->deleteLater();
     }
-    
+
     m_items.clear();
     m_currentItem = nullptr;
 
@@ -209,7 +209,7 @@ bool QueueManager::loadQueue(const QString &filePath)
     }
 
     QJsonObject json = doc.object();
-    
+
     // Check if this is a collection file (has "tasks" array) or queue file (has "items" array)
     if (json.contains("tasks"))
     {
@@ -386,7 +386,7 @@ bool QueueManager::addDelayTask(int delaySeconds)
 }
 
 bool QueueManager::loadCollectionFromJson(const QJsonObject &json)
-{    
+{
     // Clear existing queue
     clear();
 
@@ -394,7 +394,7 @@ bool QueueManager::loadCollectionFromJson(const QJsonObject &json)
     TemplateManager *templateMgr = TemplateManager::Instance();
     if (!templateMgr)
         return false;
-    
+
     // Initialize template manager if not already done
     if (templateMgr->allTemplates().isEmpty())
     {
@@ -409,7 +409,7 @@ bool QueueManager::loadCollectionFromJson(const QJsonObject &json)
         QJsonObject taskJson = val.toObject();
         QString templateId = taskJson["template_id"].toString();
         QString deviceName = taskJson["device"].toString();
-        
+
         // Get parameters
         QMap<QString, QVariant> params;
         QJsonObject paramsJson = taskJson["parameters"].toObject();
@@ -417,16 +417,26 @@ bool QueueManager::loadCollectionFromJson(const QJsonObject &json)
         {
             params[key] = paramsJson[key].toVariant();
         }
-                
+
         // Find the template
         TaskTemplate *tmpl = templateMgr->getTemplate(templateId);
         if (!tmpl)
             continue;
-        
+
         // Create task from template
         Task *task = new Task(this);
         if (task->instantiateFromTemplate(tmpl, deviceName, params))
         {
+            // Read device mapping failure action if specified
+            if (taskJson.contains("failure_action"))
+            {
+                int failureActionValue = taskJson["failure_action"].toInt(-1);
+                if (failureActionValue >= 0 && failureActionValue <= 2)
+                {
+                    task->setDeviceMappingFailureAction(static_cast<TaskAction::FailureAction>(failureActionValue));
+                }
+            }
+
             QueueItem *item = new QueueItem(task, this);
             m_items.append(item);
         }

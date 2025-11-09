@@ -54,7 +54,6 @@ SchedulerProcess::SchedulerProcess(QSharedPointer<SchedulerModuleState> state, c
     {
         connect(m_queueExecutor, &QueueExecutor::completed, this, &SchedulerProcess::queueExecutionCompleted);
         connect(m_queueExecutor, &QueueExecutor::itemFailed, this, &SchedulerProcess::queueItemFailed);
-        connect(m_queueExecutor, &QueueExecutor::newLog, this, &SchedulerProcess::appendLogText);
     }
     connect(KConfigDialog::exists("settings"), &KConfigDialog::settingsChanged, this, &SchedulerProcess::applyConfig);
 
