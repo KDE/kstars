@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-08 01:59+0000\n"
+"POT-Creation-Date: 2025-11-09 02:16+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -4755,10 +4755,11 @@ msgid "Set Epoch to now"
 msgstr "Ορισμός θέσης..."
 
 #. i18n: ectx: property (text), widget (QPushButton, JNowB)
+#. i18n: ectx: property (text), widget (QRadioButton, jNowCheck)
 #. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
 #. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
-#: dialogs/focusdialog.ui:74 ekos/mount/mountpositionwidget.ui:197
-#: ekos/scheduler/scheduler.ui:696
+#: dialogs/focusdialog.ui:74 ekos/align/pushtoassistant.ui:283
+#: ekos/mount/mountpositionwidget.ui:197 ekos/scheduler/scheduler.ui:696
 #, kde-format
 msgid "JNow"
 msgstr ""
@@ -4770,10 +4771,11 @@ msgid "Set Epoch to J2000"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, J2000B)
+#. i18n: ectx: property (text), widget (QRadioButton, j2000Check)
 #. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
 #. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
-#: dialogs/focusdialog.ui:84 ekos/mount/mountpositionwidget.ui:207
-#: ekos/scheduler/scheduler.ui:691
+#: dialogs/focusdialog.ui:84 ekos/align/pushtoassistant.ui:296
+#: ekos/mount/mountpositionwidget.ui:207 ekos/scheduler/scheduler.ui:691
 #, fuzzy, kde-format
 #| msgid "2000.0"
 msgid "J2000"
@@ -10814,31 +10816,31 @@ msgstr "Επόμενος προορισμός >"
 msgid "Select the target that you are aiming for."
 msgstr ""
 
-#: ekos/align/pushtoassistant.cpp:94
+#: ekos/align/pushtoassistant.cpp:99
 #, fuzzy, kde-format
 #| msgid "Stop"
 msgid "Stop EKOS"
 msgstr "Διακοπή"
 
-#: ekos/align/pushtoassistant.cpp:100
+#: ekos/align/pushtoassistant.cpp:105
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Start EKOS"
 msgstr "&Έναρξη ακολουθίας "
 
-#: ekos/align/pushtoassistant.cpp:251
+#: ekos/align/pushtoassistant.cpp:256
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Solve Position"
 msgstr "Επαναφορά θέσης"
 
-#: ekos/align/pushtoassistant.cpp:252
+#: ekos/align/pushtoassistant.cpp:257
 #, kde-format
 msgid "Start plate solving the position you are currently aiming at."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/align/pushtoassistant.cpp:256 ekos/capture/capture.cpp:473
+#: ekos/align/pushtoassistant.cpp:261 ekos/capture/capture.cpp:473
 #: ekos/focus/focusmodule.cpp:676 ekos/observatory/observatory.ui:550
 #: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:623
 #: skycomponents/imageoverlaycomponent.cpp:753
@@ -10847,7 +10849,7 @@ msgstr ""
 msgid "Abort"
 msgstr "Εγκατάλειψη"
 
-#: ekos/align/pushtoassistant.cpp:257
+#: ekos/align/pushtoassistant.cpp:262
 #, fuzzy, kde-format
 #| msgid "set location"
 msgid "Stop the current plate solving run."
@@ -10861,7 +10863,7 @@ msgid "Push-To Assistant"
 msgstr "Στοίχιση"
 
 #. i18n: ectx: property (toolTip), widget (AlignmentPlot, targetPlot)
-#: ekos/align/pushtoassistant.ui:60
+#: ekos/align/pushtoassistant.ui:47
 #, fuzzy, kde-format
 #| msgid ""
 #| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
@@ -10952,7 +10954,7 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
-#: ekos/align/pushtoassistant.ui:101
+#: ekos/align/pushtoassistant.ui:71
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Abort Motion"
@@ -10960,14 +10962,14 @@ msgid "Abort Solving"
 msgstr "Εγκατάλειψη κίνησης"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopSolvingB)
-#: ekos/align/pushtoassistant.ui:125
+#: ekos/align/pushtoassistant.ui:95
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid "Repeat solving"
 msgstr "Εξυπηρετητής του INDI:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, refreshIntervalSB)
-#: ekos/align/pushtoassistant.ui:148
+#: ekos/align/pushtoassistant.ui:118
 #, kde-format
 msgid "Interval after which solving is repeated"
 msgstr ""
@@ -10979,7 +10981,7 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusGuideSettleTime)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAFOptimize)
-#: ekos/align/pushtoassistant.ui:154 ekos/focus/opsfocusmechanics.ui:169
+#: ekos/align/pushtoassistant.ui:124 ekos/focus/opsfocusmechanics.ui:169
 #: ekos/focus/opsfocusmechanics.ui:194 ekos/focus/opsfocusmechanics.ui:340
 #: ekos/focus/opsfocusmechanics.ui:431 ekos/focus/opsfocussettings.ui:131
 #: ekos/focus/opsfocussettings.ui:267
@@ -10987,34 +10989,17 @@ msgstr ""
 msgid " s"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, targetLabel)
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
-#. i18n: ectx: property (text), widget (QLabel, label)
-#. i18n: ectx: property (title), widget (QGroupBox, targetGroup)
-#: ekos/align/pushtoassistant.ui:200 ekos/capture/camera.ui:1750
-#: ekos/mount/mount.ui:374 ekos/mount/mountcontrolpanel.ui:58
-#: ekos/scheduler/scheduler.cpp:130
-#, fuzzy, kde-format
-msgid "Target"
-msgstr "Σάρτζεντ"
-
 #. i18n: ectx: property (text), widget (QLabel, processEkosLabel)
-#. i18n: ectx: property (text), widget (QLabel, statShortLabel)
-#. i18n: ectx: property (text), widget (QLabel, labelDate)
-#. i18n: ectx: property (text), widget (QLabel, labelTime)
-#. i18n: ectx: property (text), widget (QLabel, labelPolarisHA)
-#: ekos/align/pushtoassistant.ui:232 ekos/analyze/yaxistool.ui:40
-#: tools/polarishourangle.ui:59 tools/polarishourangle.ui:76
-#: tools/polarishourangle.ui:106
+#: ekos/align/pushtoassistant.ui:179
 #, fuzzy, kde-format
-#| msgid "Label"
-msgid "TextLabel"
-msgstr "Ετικέτα"
+#| msgid "Auto Stretch"
+msgid "start Ekos"
+msgstr "Αυτόματη επιμήκυνση"
 
 #. i18n: ectx: property (text), widget (QLabel, alignStatusLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/align/pushtoassistant.ui:252 ekos/analyze/analyze.cpp:2309
+#: ekos/align/pushtoassistant.ui:199 ekos/analyze/analyze.cpp:2309
 #: ekos/manager.cpp:2210 ekos/scheduler/framingassistant.ui:1276
 #: ekos/scheduler/scheduler.ui:240 fitsviewer/fitsviewer.cpp:562
 #, fuzzy, kde-format
@@ -11026,13 +11011,24 @@ msgstr "Στοίχιση"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/align/pushtoassistant.ui:259 ekos/analyze/analyze.cpp:2312
+#: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2312
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
 #: ekos/manager.cpp:2400 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, fuzzy, kde-format
 msgid "Mount"
 msgstr "Πλήθος:"
+
+#. i18n: ectx: property (text), widget (QLabel, targetLabel)
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
+#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (title), widget (QGroupBox, targetGroup)
+#: ekos/align/pushtoassistant.ui:251 ekos/capture/camera.ui:1750
+#: ekos/mount/mount.ui:374 ekos/mount/mountcontrolpanel.ui:58
+#: ekos/scheduler/scheduler.cpp:130
+#, fuzzy, kde-format
+msgid "Target"
+msgstr "Σάρτζεντ"
 
 #: ekos/align/remoteastrometryparser.cpp:32
 #, kde-format
@@ -12075,6 +12071,17 @@ msgstr ""
 #| msgid "Star Name"
 msgid "Stat Name"
 msgstr "Όνομα αστέρα"
+
+#. i18n: ectx: property (text), widget (QLabel, statShortLabel)
+#. i18n: ectx: property (text), widget (QLabel, labelDate)
+#. i18n: ectx: property (text), widget (QLabel, labelTime)
+#. i18n: ectx: property (text), widget (QLabel, labelPolarisHA)
+#: ekos/analyze/yaxistool.ui:40 tools/polarishourangle.ui:59
+#: tools/polarishourangle.ui:76 tools/polarishourangle.ui:106
+#, fuzzy, kde-format
+#| msgid "Label"
+msgid "TextLabel"
+msgstr "Ετικέτα"
 
 #. i18n: ectx: property (text), widget (QLabel, upperLimitLabel)
 #: ekos/analyze/yaxistool.ui:76
@@ -25736,7 +25743,7 @@ msgid "%1 is disconnected."
 msgstr "Αποσύνδεση"
 
 #: ekos/manager.cpp:1689 ekos/manager.cpp:1698 ekos/manager.cpp:1731
-#: indi/indistd.cpp:716
+#: indi/indistd.cpp:718
 #, kde-format
 msgid "%1 is online."
 msgstr "Το %1 είναι σε σύνδεση."
@@ -36082,17 +36089,17 @@ msgstr ""
 "Δεν εκτελούνται συσκευές του INDI αυτή τη στιγμή. Για την εκτέλεση συσκευών, "
 "παρακαλώ επιλέξτε συσκευές από τη διαχείριση συσκευών στο μενού συσκευών."
 
-#: indi/indicamera.cpp:463
+#: indi/indicamera.cpp:472
 #, kde-format
 msgid "Video Recording Stopped"
 msgstr ""
 
-#: indi/indicamera.cpp:470
+#: indi/indicamera.cpp:479
 #, kde-format
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:680
+#: indi/indicamera.cpp:692
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgid "Image file is received"
@@ -36362,7 +36369,7 @@ msgstr "Ορισμός θέσης..."
 msgid "Mount Location"
 msgstr "Ορισμός θέσης..."
 
-#: indi/indistd.cpp:655
+#: indi/indistd.cpp:657
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Το αρχείο δεδομένων αποθηκεύτηκε στο %1"

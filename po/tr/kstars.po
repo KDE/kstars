@@ -15,16 +15,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-08 01:59+0000\n"
-"PO-Revision-Date: 2025-11-07 06:30+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
-"Language-Team: Turkish <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2025-11-09 02:16+0000\n"
+"PO-Revision-Date: 2025-11-08 21:21+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
+"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.07.70\n"
+"X-Generator: Lokalize 25.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4573,10 +4573,11 @@ msgid "Set Epoch to now"
 msgstr "Çığırı şimdiye ayarla"
 
 #. i18n: ectx: property (text), widget (QPushButton, JNowB)
+#. i18n: ectx: property (text), widget (QRadioButton, jNowCheck)
 #. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
 #. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
-#: dialogs/focusdialog.ui:74 ekos/mount/mountpositionwidget.ui:197
-#: ekos/scheduler/scheduler.ui:696
+#: dialogs/focusdialog.ui:74 ekos/align/pushtoassistant.ui:283
+#: ekos/mount/mountpositionwidget.ui:197 ekos/scheduler/scheduler.ui:696
 #, kde-format
 msgid "JNow"
 msgstr "JNow"
@@ -4588,10 +4589,11 @@ msgid "Set Epoch to J2000"
 msgstr "Çığırı J2000 olarak ayarla"
 
 #. i18n: ectx: property (text), widget (QPushButton, J2000B)
+#. i18n: ectx: property (text), widget (QRadioButton, j2000Check)
 #. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
 #. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
-#: dialogs/focusdialog.ui:84 ekos/mount/mountpositionwidget.ui:207
-#: ekos/scheduler/scheduler.ui:691
+#: dialogs/focusdialog.ui:84 ekos/align/pushtoassistant.ui:296
+#: ekos/mount/mountpositionwidget.ui:207 ekos/scheduler/scheduler.ui:691
 #, kde-format
 msgid "J2000"
 msgstr "J2000"
@@ -10535,28 +10537,28 @@ msgstr "Hedef Seç"
 msgid "Select the target that you are aiming for."
 msgstr "Ereğiniz olan hedefi seçin."
 
-#: ekos/align/pushtoassistant.cpp:94
+#: ekos/align/pushtoassistant.cpp:99
 #, kde-format
 msgid "Stop EKOS"
 msgstr "EKOS’u Durdur"
 
-#: ekos/align/pushtoassistant.cpp:100
+#: ekos/align/pushtoassistant.cpp:105
 #, kde-format
 msgid "Start EKOS"
 msgstr "EKOS’u Başlat"
 
-#: ekos/align/pushtoassistant.cpp:251
+#: ekos/align/pushtoassistant.cpp:256
 #, kde-format
 msgid "Solve Position"
 msgstr "Konumu Çöz"
 
-#: ekos/align/pushtoassistant.cpp:252
+#: ekos/align/pushtoassistant.cpp:257
 #, kde-format
 msgid "Start plate solving the position you are currently aiming at."
 msgstr "Şu anda hedeflediğiniz konumun plakasını çözmeye başlayın."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/align/pushtoassistant.cpp:256 ekos/capture/capture.cpp:473
+#: ekos/align/pushtoassistant.cpp:261 ekos/capture/capture.cpp:473
 #: ekos/focus/focusmodule.cpp:676 ekos/observatory/observatory.ui:550
 #: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:623
 #: skycomponents/imageoverlaycomponent.cpp:753
@@ -10565,7 +10567,7 @@ msgstr "Şu anda hedeflediğiniz konumun plakasını çözmeye başlayın."
 msgid "Abort"
 msgstr "Vazgeç"
 
-#: ekos/align/pushtoassistant.cpp:257
+#: ekos/align/pushtoassistant.cpp:262
 #, kde-format
 msgid "Stop the current plate solving run."
 msgstr "Şu anki plaka çözme işlemini durdurun."
@@ -10577,7 +10579,7 @@ msgid "Push-To Assistant"
 msgstr "Yardımcıya İt"
 
 #. i18n: ectx: property (toolTip), widget (AlignmentPlot, targetPlot)
-#: ekos/align/pushtoassistant.ui:60
+#: ekos/align/pushtoassistant.ui:47
 #, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Description</span></"
@@ -10654,19 +10656,19 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
-#: ekos/align/pushtoassistant.ui:101
+#: ekos/align/pushtoassistant.ui:71
 #, kde-format
 msgid "Abort Solving"
 msgstr "Çözmeyi İptal Et"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopSolvingB)
-#: ekos/align/pushtoassistant.ui:125
+#: ekos/align/pushtoassistant.ui:95
 #, kde-format
 msgid "Repeat solving"
 msgstr "Çözmeyi yinele"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, refreshIntervalSB)
-#: ekos/align/pushtoassistant.ui:148
+#: ekos/align/pushtoassistant.ui:118
 #, kde-format
 msgid "Interval after which solving is repeated"
 msgstr "Çözmenin yineleneceği aralık"
@@ -10678,7 +10680,7 @@ msgstr "Çözmenin yineleneceği aralık"
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusGuideSettleTime)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAFOptimize)
-#: ekos/align/pushtoassistant.ui:154 ekos/focus/opsfocusmechanics.ui:169
+#: ekos/align/pushtoassistant.ui:124 ekos/focus/opsfocusmechanics.ui:169
 #: ekos/focus/opsfocusmechanics.ui:194 ekos/focus/opsfocusmechanics.ui:340
 #: ekos/focus/opsfocusmechanics.ui:431 ekos/focus/opsfocussettings.ui:131
 #: ekos/focus/opsfocussettings.ui:267
@@ -10686,33 +10688,17 @@ msgstr "Çözmenin yineleneceği aralık"
 msgid " s"
 msgstr " sn"
 
-#. i18n: ectx: property (text), widget (QLabel, targetLabel)
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
-#. i18n: ectx: property (text), widget (QLabel, label)
-#. i18n: ectx: property (title), widget (QGroupBox, targetGroup)
-#: ekos/align/pushtoassistant.ui:200 ekos/capture/camera.ui:1750
-#: ekos/mount/mount.ui:374 ekos/mount/mountcontrolpanel.ui:58
-#: ekos/scheduler/scheduler.cpp:130
-#, kde-format
-msgid "Target"
-msgstr "Hedef"
-
 #. i18n: ectx: property (text), widget (QLabel, processEkosLabel)
-#. i18n: ectx: property (text), widget (QLabel, statShortLabel)
-#. i18n: ectx: property (text), widget (QLabel, labelDate)
-#. i18n: ectx: property (text), widget (QLabel, labelTime)
-#. i18n: ectx: property (text), widget (QLabel, labelPolarisHA)
-#: ekos/align/pushtoassistant.ui:232 ekos/analyze/yaxistool.ui:40
-#: tools/polarishourangle.ui:59 tools/polarishourangle.ui:76
-#: tools/polarishourangle.ui:106
-#, kde-format
-msgid "TextLabel"
-msgstr "Metin etiketi"
+#: ekos/align/pushtoassistant.ui:179
+#, fuzzy, kde-format
+#| msgid "Start Pos"
+msgid "start Ekos"
+msgstr "Başlangıç Konumu"
 
 #. i18n: ectx: property (text), widget (QLabel, alignStatusLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/align/pushtoassistant.ui:252 ekos/analyze/analyze.cpp:2309
+#: ekos/align/pushtoassistant.ui:199 ekos/analyze/analyze.cpp:2309
 #: ekos/manager.cpp:2210 ekos/scheduler/framingassistant.ui:1276
 #: ekos/scheduler/scheduler.ui:240 fitsviewer/fitsviewer.cpp:562
 #, kde-format
@@ -10723,13 +10709,24 @@ msgstr "Hizala"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIMountLogging)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
-#: ekos/align/pushtoassistant.ui:259 ekos/analyze/analyze.cpp:2312
+#: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2312
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
 #: ekos/manager.cpp:2400 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
 msgstr "Kaide"
+
+#. i18n: ectx: property (text), widget (QLabel, targetLabel)
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
+#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (title), widget (QGroupBox, targetGroup)
+#: ekos/align/pushtoassistant.ui:251 ekos/capture/camera.ui:1750
+#: ekos/mount/mount.ui:374 ekos/mount/mountcontrolpanel.ui:58
+#: ekos/scheduler/scheduler.cpp:130
+#, kde-format
+msgid "Target"
+msgstr "Hedef"
 
 #: ekos/align/remoteastrometryparser.cpp:32
 #, kde-format
@@ -11824,6 +11821,16 @@ msgstr "Y Ekseni Aracı"
 #, kde-format
 msgid "Stat Name"
 msgstr "İstatistik adı"
+
+#. i18n: ectx: property (text), widget (QLabel, statShortLabel)
+#. i18n: ectx: property (text), widget (QLabel, labelDate)
+#. i18n: ectx: property (text), widget (QLabel, labelTime)
+#. i18n: ectx: property (text), widget (QLabel, labelPolarisHA)
+#: ekos/analyze/yaxistool.ui:40 tools/polarishourangle.ui:59
+#: tools/polarishourangle.ui:76 tools/polarishourangle.ui:106
+#, kde-format
+msgid "TextLabel"
+msgstr "Metin etiketi"
 
 #. i18n: ectx: property (text), widget (QLabel, upperLimitLabel)
 #: ekos/analyze/yaxistool.ui:76
@@ -25017,7 +25024,7 @@ msgid "%1 is disconnected."
 msgstr "%1 bağlantısı kesildi."
 
 #: ekos/manager.cpp:1689 ekos/manager.cpp:1698 ekos/manager.cpp:1731
-#: indi/indistd.cpp:716
+#: indi/indistd.cpp:718
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 çevrimiçi."
@@ -28593,7 +28600,7 @@ msgstr "Hava durumu ikazı kapanma gecikmesi:"
 #: ekos/scheduler/opsweathersettings.ui:134
 #, kde-format
 msgid "Standalone Weather Driver:"
-msgstr ""
+msgstr "Bağımsız hava durumu sürücüsü:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SchedulerWeatherConnectionString)
 #. i18n: ectx: label, entry (SchedulerWeatherConnectionString), group (Scheduler)
@@ -28604,13 +28611,15 @@ msgid ""
 "to continuously monitor weather conditions and evaluate whether it is safe "
 "to operate the observatory."
 msgstr ""
+"Hava durumu izleme sürücüsü için bağlantı dizisi. Zamanlayıcı, hava "
+"koşullarını sürekli olarak izlemek ve gözlemevinin çalıştırılmasının güvenli "
+"olup olmadığını değerlendirmek için bunu kullanır."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_SchedulerWeatherConnectionString)
 #: ekos/scheduler/opsweathersettings.ui:144
-#, fuzzy, kde-format
-#| msgid "Weather Station"
+#, kde-format
 msgid "\"My Weather Station\"@localhost:8000"
-msgstr "Hava Durumu İstasyonu"
+msgstr "\"Hava Durumu İstasyonum\"@localhost:8000"
 
 #: ekos/scheduler/scheduler.cpp:132
 #, kde-format
@@ -29797,17 +29806,19 @@ msgid "Scheduler is awake."
 msgstr "Zamanlayıcı uyanık."
 
 #: ekos/scheduler/schedulerprocess.cpp:547
-#, fuzzy, kde-format
-#| msgid "Executing post-startup tasks from %1..."
+#, kde-format
 msgid "Executing post-startup tasks from %1 after weather recovery..."
-msgstr "%1 konumundan başlangıç sonrası görevleri yürütülüyor…"
+msgstr ""
+"Hava durumunun iyileşmesi sonrası %1 konumundan başlangıç sonrası görevleri "
+"yürütülüyor…"
 
 #: ekos/scheduler/schedulerprocess.cpp:556
-#, fuzzy, kde-format
-#| msgid "Failed to load pre-startup queue from %1"
+#, kde-format
 msgid ""
 "Warning: Failed to load post-startup queue from %1 after weather recovery"
-msgstr "%1 konumundan başlangıç öncesi kuyruğu yüklenemedi"
+msgstr ""
+"Hava durumunun iyileşmesi sonrası %1 konumundan başlangıç öncesi kuyruğu "
+"yüklenemedi"
 
 #: ekos/scheduler/schedulerprocess.cpp:565
 #, kde-format
@@ -30168,7 +30179,7 @@ msgstr "İş dizisi yinelemesi №%1 başlatılıyor…"
 #: ekos/scheduler/schedulerprocess.cpp:2185
 #, kde-format
 msgid "No executable jobs found. Stopping scheduler."
-msgstr ""
+msgstr "Yürütülebilir iş bulunamadı. Zamanlayıcı durduruluyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:2253
 #, kde-format
@@ -30264,6 +30275,7 @@ msgstr "Başlangıç sonrası kuyruğu başarıyla tamamlandı."
 #, kde-format
 msgid "Resuming scheduler after weather recovery startup tasks..."
 msgstr ""
+"Hava durumu iyileşmesi başlangıç görevleri sonrası zamanlayıcı sürdürülüyor…"
 
 #: ekos/scheduler/schedulerprocess.cpp:3062
 #, kde-format
@@ -30541,7 +30553,7 @@ msgstr "“%1” işi, %2 × %3” %4"
 #: ekos/scheduler/schedulerweather.cpp:66
 #, kde-format
 msgid "Initializing standalone weather monitoring for %1@%2:%3"
-msgstr ""
+msgstr "%1@%2:%3 için bağımsız hava durumu izleme ilklendiriliyor…"
 
 #: ekos/scheduler/schedulerweather.cpp:124
 #, kde-format
@@ -30549,34 +30561,39 @@ msgid ""
 "Warning: Invalid weather connection string format. Expected 'device@host:"
 "port'"
 msgstr ""
+"Uyarı: Geçersiz hava durumu bağlantısı dizisi biçimi. “aygıt@makine:kapı” "
+"biçimi bekleniyordu."
 
 #: ekos/scheduler/schedulerweather.cpp:151
 #, kde-format
 msgid "Invalid weather port number, using default port 7624"
 msgstr ""
+"Geçersiz hava durumu kapısı numarası; öntanımlı 7624 numaralı kapı "
+"kullanılıyor…"
 
 #: ekos/scheduler/schedulerweather.cpp:167
 #, kde-format
 msgid "Failed to connect to standalone weather after %1 attempts, giving up"
 msgstr ""
+"%1 denemeden sonra bağımsız hava durumu istemcisine bağlanılamadı; deneme "
+"bırakılıyor…"
 
 #: ekos/scheduler/schedulerweather.cpp:181
-#, fuzzy, kde-format
-#| msgid "Connecting to remote INDI server at %1 on port %2 ..."
+#, kde-format
 msgid "Connecting to standalone weather at %1:%2..."
-msgstr "%2 kapısında %1 konumundaki INDI sunucusuna bağlanılıyor…"
+msgstr "%1:%2 konumundaki bağımsız hava durumu istemcisine bağlanılıyor…"
 
 #: ekos/scheduler/schedulerweather.cpp:203
 #, kde-format
 msgid "Warning: Standalone weather device %1 disconnected"
-msgstr ""
+msgstr "Uyarı: Bağımsız hava durumu aygıtı %1 bağlantısı kesildi"
 
 #: ekos/scheduler/schedulerweather.cpp:218
 #: ekos/scheduler/schedulerweather.cpp:262
 #: ekos/scheduler/schedulerweather.cpp:289
 #, kde-format
 msgid "Will attempt to reconnect in 10 seconds (attempt %1 of %2)..."
-msgstr ""
+msgstr "10 saniye içinde yeniden bağlanılmaya çalışılacak (deneme %1/%2)…"
 
 #: ekos/scheduler/schedulerweather.cpp:224
 #: ekos/scheduler/schedulerweather.cpp:268
@@ -30584,39 +30601,38 @@ msgstr ""
 #, kde-format
 msgid "Maximum reconnection attempts reached for standalone weather"
 msgstr ""
+"Bağımsız hava durumu istemcisi için en çok yeniden bağlanma denemesi "
+"sayısına ulaşıldı"
 
 #: ekos/scheduler/schedulerweather.cpp:232
-#, fuzzy, kde-format
-#| msgid "Attempting to reconnect focuser: %1"
+#, kde-format
 msgid "Attempting to reconnect to standalone weather..."
-msgstr "Odaklayıcıya yeniden bağlanma deneniyor: %1"
+msgstr "Bağımsız hava durumu istemcisine yeniden bağlanmaya çalışılıyor…"
 
 #: ekos/scheduler/schedulerweather.cpp:249
-#, fuzzy, kde-format
-#| msgid "Astrometry alignment completed successfully"
+#, kde-format
 msgid "Standalone weather client connected successfully"
-msgstr "Astrometri hizalaması başarıyla tamamlandı"
+msgstr "Bağımsız hava durumu istemcisine başarıyla bağlandı"
 
 #: ekos/scheduler/schedulerweather.cpp:256
-#, fuzzy, kde-format
-#| msgid "Failed to open collection file: %1"
+#, kde-format
 msgid "Standalone weather client connection failed: %1"
-msgstr "Koleksiyon dosyası açılamadı: %1"
+msgstr "Bağımsız hava durumu istemcisine bağlanılamadı: %1"
 
 #: ekos/scheduler/schedulerweather.cpp:275
 #, kde-format
 msgid "Standalone weather client terminated: %1"
-msgstr ""
+msgstr "Bağımsız hava durumu istemcisi sonlandırdı: %1"
 
 #: ekos/scheduler/schedulerweather.cpp:314
 #, kde-format
 msgid "Standalone weather device %1 is ready"
-msgstr ""
+msgstr "Bağımsız hava durumu istemcisi aygıtı %1 hazır"
 
 #: ekos/scheduler/schedulerweather.cpp:326
 #, kde-format
 msgid "Warning: Device %1 is not a weather device"
-msgstr ""
+msgstr "Uyarı: %1 aygıtı bir hava durumu aygıtı değil"
 
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:92
 #, kde-format
@@ -35124,17 +35140,17 @@ msgstr ""
 "Çalışan bir INDI aygıtı yok. Aygıtları çalıştırmak için Aygıtlar menüsündeki "
 "Aygıt Yöneticisi’nden aygıtlar seçin."
 
-#: indi/indicamera.cpp:463
+#: indi/indicamera.cpp:472
 #, kde-format
 msgid "Video Recording Stopped"
 msgstr "Video Kaydı Durduruldu"
 
-#: indi/indicamera.cpp:470
+#: indi/indicamera.cpp:479
 #, kde-format
 msgid "Video Recording Started"
 msgstr "Video Kaydı Başlatıldı"
 
-#: indi/indicamera.cpp:680
+#: indi/indicamera.cpp:692
 #, kde-format
 msgid "Image file is received"
 msgstr "Görsel dosyası alındı"
@@ -35383,7 +35399,7 @@ msgstr "GPS Konumu"
 msgid "Mount Location"
 msgstr "Kaide Konumu"
 
-#: indi/indistd.cpp:655
+#: indi/indistd.cpp:657
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "Veri dosyası %1 konumuna kaydedildi"
