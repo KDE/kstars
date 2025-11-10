@@ -2229,8 +2229,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     sensorFOV->setPA(solverPA);
 
     PAOut->setText(QString::number(solverPA, 'f', 2)); // Two decimals are reasonable
-    // Send new position angle for recalculation of calibration
-    emit newPA(solverPA, true);
 
     QString ra_dms, dec_dms;
     getFormattedCoords(m_AlignCoord.ra().Hours(), m_AlignCoord.dec().Degrees(), ra_dms, dec_dms);

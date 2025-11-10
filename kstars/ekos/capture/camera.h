@@ -480,7 +480,6 @@ class Camera : public QWidget, public Ui::Camera
         void suspendGuiding();
         void resumeGuiding();
         void driverTimedout(const QString &deviceName);
-        void newPA(const double Angle, const bool FlipRotationDone);
 
     private slots:
         // ////////////////////////////////////////////////////////////////////

@@ -39,12 +39,6 @@ class InternalGuider : public GuideInterface
     public:
         InternalGuider();
 
-        enum IGState
-        {
-            CALIBRATION_UNDEFINED,
-            CALIBRATION_OK
-        };
-
         bool Connect() override
         {
             state = GUIDE_IDLE;
@@ -59,11 +53,6 @@ class InternalGuider : public GuideInterface
             return true;
         }
 
-        IGState getCalState()
-        {
-            return CalState;
-        }
-        void newPositionAngle(const double solvedPA, const bool FlipRotationDone);
         bool calibrate() override;
         bool guide() override;
         bool abort() override;
@@ -101,8 +90,6 @@ class InternalGuider : public GuideInterface
         void setGuideView(const QSharedPointer<GuideView> &guideView);
         // Image Data
         void setImageData(const QSharedPointer<FITSData> &data);
-        // RA-DEC coordinate system
-        void displayRADEC(const QString message, const double RotationRA, const double RotationDEC);
 
         bool start();
 
@@ -148,10 +135,6 @@ class InternalGuider : public GuideInterface
         void newSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses followWithCapture);
         //void newStarPosition(QVector3D, bool);
         void DESwapChanged(bool enable);
-
-    protected:
-         IGState CalState {CALIBRATION_UNDEFINED};
-
     private:
         // Guiding
         bool processGuiding();
@@ -184,7 +167,7 @@ class InternalGuider : public GuideInterface
         QElapsedTimer reacquireTimer;
         int m_highRMSCounter {0};
 
-        GuiderUtils::Matrix ROT_Z_RA, ROT_Z_DEC;
+        GuiderUtils::Matrix ROT_Z;
         Ekos::GuideState rememberState { GUIDE_IDLE };
 
         // Progressive Manual Dither
@@ -228,14 +211,7 @@ class InternalGuider : public GuideInterface
         std::default_random_engine m_generator;
         std::uniform_real_distribution<double> m_randomAngle;
 
-        // Full circle angle ...
-        double CamRotation = 0; // ... of camera rotation
-        double CalRotation = 0; // ... of calibration rotation
-
         bool isPoorGuiding(const cproc_out_params *out);
         void emitAxisPulse(const cproc_out_params *out);
-
-        // Calculate new rotation matrix for reuse of calibration
-        bool adaptCalibration(const bool FlipRotDone);
 };
 }

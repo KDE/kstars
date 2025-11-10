@@ -9,7 +9,6 @@
 #include "internalguider.h"
 
 #include "ekos_guide_debug.h"
-#include "ekos/manager.h"
 #include "gmath.h"
 #include "Options.h"
 #include "auxiliary/kspaths.h"
@@ -42,9 +41,6 @@ InternalGuider::InternalGuider()
     pmath.reset(new cgmath());
     connect(pmath.get(), &cgmath::newStarPosition, this, &InternalGuider::newStarPosition);
     connect(pmath.get(), &cgmath::guideStats, this, &InternalGuider::guideStats);
-
-    // Connection for recalculation of calibration (only for internal guider)
-    connect(this, &Ekos::GuideInterface::newPA, this, &InternalGuider::newPositionAngle);
 
     state = GUIDE_IDLE;
     m_DitherOrigin = QVector3D(0, 0, 0);
@@ -650,38 +646,6 @@ void InternalGuider::setDitherSettled()
     }
 }
 
-void InternalGuider::newPositionAngle(const double Angle, const bool FlipRotationDone)
-{
-    CamRotation = KSUtils::range360(Angle);
-    if (!(CalState == CALIBRATION_OK && adaptCalibration(FlipRotationDone)))
-        CalState = CALIBRATION_UNDEFINED;
-}
-
-bool InternalGuider:: adaptCalibration(const bool FlipRotDone)
-{
-    ISD::Mount::PierSide NewPierside = ISD::Mount::PIER_UNKNOWN;
-    bool withManualRotator = !Ekos::Manager::Instance()->existRotatorController();
-    pmath->getMutableCalibration()->updatePierside(&NewPierside, &CamRotation, FlipRotDone, withManualRotator);
-    if (NewPierside == ISD::Mount::PIER_UNKNOWN)
-    {
-        emit newLog(i18n("Error while updating pierside for camera rotation: Pierside unknown!"));
-        return false;
-    }
-    emit newLog(i18n("Camera Rotation updated for Pierside ") +
-                    ((NewPierside == ISD::Mount::PIER_WEST) ? i18n("West") : i18n("East")));
-
-    pmath->getMutableCalibration()->updateRotation(CamRotation);
-    emit newLog(i18n("Camera rotation is now %1 (Original calibration with %2)", CamRotation, CalRotation));
-    pmath->getMutableCalibration()->updateRAPulse(mountDEC);
-    emit newLog(i18n("RApulse now %1ms/arcsec calculated for DEC = %2",
-                     pmath->getCalibration().raPulseMillisecondsPerArcsecond(),
-                     mountDEC.toDMSString(true)));
-    displayRADEC(QString("Camera Rotation = %1").arg(CamRotation, 0, 'f', 1),
-                          pmath->getCalibration().getRAAngle(),
-                          pmath->getCalibration().getDECAngle());
-    return true;
-}
-
 bool InternalGuider::calibrate()
 {
     bool ccdInfo = true, scopeInfo = true;
@@ -725,17 +689,13 @@ bool InternalGuider::calibrate()
         return true;
     }
 
-    if ((CalState != CALIBRATION_OK) && restoreCalibration())
+    if (restoreCalibration())
     {
+        calibrationProcess.reset();
+        emit newStatus(Ekos::GUIDE_CALIBRATION_SUCCESS);
         KSNotification::event(QLatin1String("CalibrationRestored"),
                               i18n("Guiding calibration restored"), KSNotification::Guide);
         reset();
-    }
-    if (CalState == CALIBRATION_OK)
-    {
-        adaptCalibration(false);
-        emit newLog(i18n("Calibration OK: CamRotation %1 / CalRotation %2", CamRotation, CalRotation));
-        emit newStatus(Ekos::GUIDE_CALIBRATION_SUCCESS);
         return true;
     }
 
@@ -786,7 +746,7 @@ void InternalGuider::iterateCalibration()
 
         if (pmath->isStarLost())
         {
-            emit newLog(i18n("Lost track of the guide star. Try increasing binning, square size or reducing pulse duration."));
+            emit newLog(i18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
             emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
             emit calibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY,
                                    i18n("Guide Star lost."));
@@ -827,12 +787,10 @@ void InternalGuider::iterateCalibration()
     }
     else if (status == GUIDE_CALIBRATION_SUCCESS)
     {
-        CalRotation = pmath->getCalibration().getAngle();
-        pmath->setTargetPosition(calibrationStartX, calibrationStartY);
-        emit DESwapChanged(pmath->getCalibration().declinationSwapEnabled());
         KSNotification::event(QLatin1String("CalibrationSuccessful"),
                               i18n("Guiding calibration completed successfully"), KSNotification::Guide);
-        CalState = CALIBRATION_OK;
+        emit DESwapChanged(pmath->getCalibration().declinationSwapEnabled());
+        pmath->setTargetPosition(calibrationStartX, calibrationStartY);
         reset();
     }
 }
@@ -860,23 +818,6 @@ void InternalGuider::setImageData(const QSharedPointer<FITSData> &data)
     }
 }
 
-void InternalGuider::displayRADEC(const QString message,
-                                  const double RotationRA,
-                                  const double RotationDEC)
-{
-    ROT_Z_RA = GuiderUtils::RotateZ(M_PI * RotationRA / 180.0);
-    ROT_Z_DEC = GuiderUtils::RotateZ(M_PI * RotationDEC / 180.0);
-    GuiderUtils::Vector Base, Rotated;
-    Base.x = 10;
-    Base.y = 0;
-    Rotated = Base * ROT_Z_RA;
-    emit calibrationUpdate(GuideInterface::RA_OUT_OK,"", Rotated.x, Rotated.y);
-    Rotated = Base * ROT_Z_DEC;
-    emit calibrationUpdate(GuideInterface::DEC_OUT_OK,
-                           i18n(message.toLatin1().data()), Rotated.x, Rotated.y);
-
-}
-
 void InternalGuider::reset()
 {
     qCDebug(KSTARS_EKOS_GUIDE) << "Resetting internal guider...";
@@ -893,8 +834,6 @@ bool InternalGuider::clearCalibration()
 {
     Options::setSerializedCalibration("");
     pmath->getMutableCalibration()->reset();
-    CalState = CALIBRATION_UNDEFINED;
-    emit newStatus(GUIDE_IDLE);
     return true;
 }
 
@@ -903,13 +842,9 @@ bool InternalGuider::restoreCalibration()
     bool success = Options::reuseGuideCalibration() &&
                    pmath->getMutableCalibration()->restore(
                        pierSide, Options::reverseDecOnPierSideChange(),
-                       subBinX, subBinY, mountDEC);
+                       subBinX, subBinY, &mountDEC);
     if (success)
-    {
-        CalRotation = pmath->getCalibration().getAngle();
         emit DESwapChanged(pmath->getCalibration().declinationSwapEnabled());
-        CalState = CALIBRATION_OK;
-    }
     return success;
 }
 
@@ -1416,5 +1351,4 @@ const Calibration &InternalGuider::getCalibration() const
 {
     return pmath->getCalibration();
 }
-
 }

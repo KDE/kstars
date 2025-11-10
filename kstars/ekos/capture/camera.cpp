@@ -564,9 +564,6 @@ void Camera::initCamera()
             m_cameraState.data(), &CameraState::setDomeState);
     connect(m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::dustCapStatusChanged,
             m_cameraState.data(), &CameraState::dustCapStateChanged);
-
-    // connections between device adaptor and camera
-    connect(m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::newPA, this, &Camera::newPA);
 }
 
 void Camera::setFilterStatus(FilterState filterState)
