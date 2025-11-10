@@ -40,6 +40,12 @@ class SchedulerSafetyMonitor : public QObject
         void initStandaloneSafetyMonitor(const QString &connectionString);
 
         /**
+         * @brief Update connection string and reconnect if changed
+         * @param connectionString New connection string in format "hostname:port" or "hostname"
+         */
+        void updateConnectionString(const QString &connectionString);
+
+        /**
          * @brief Get the current safety status
          */
         IPState safetyStatus() const

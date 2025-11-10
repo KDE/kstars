@@ -3754,7 +3754,7 @@ void SchedulerProcess::setSafetyStatus(IPState status)
             weatherStatus = ISD::Weather::WEATHER_IDLE;
             break;
     }
-    
+
     setWeatherStatus(weatherStatus);
 }
 
@@ -4395,6 +4395,34 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
 SchedulerJob *SchedulerProcess::activeJob()
 {
     return  moduleState()->activeJob();
+}
+
+void SchedulerProcess::updateSafetyMonitorConnection()
+{
+    // Read the current connection string from settings
+    QString connectionString = Options::schedulerSafetyMonitorConnectionString();
+
+    // If weather monitoring is disabled, nothing to update
+    if (!Options::schedulerWeather())
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Weather monitoring is disabled, skipping safety monitor update";
+        return;
+    }
+
+    // If we don't have a standalone safety monitor yet, initialize it if connection string is provided
+    if (m_StandaloneSafetyMonitor == nullptr && !connectionString.isEmpty())
+    {
+        m_StandaloneSafetyMonitor = new SchedulerSafetyMonitor(this);
+        connect(m_StandaloneSafetyMonitor, &SchedulerSafetyMonitor::newSafetyStatus, this, &SchedulerProcess::setSafetyStatus);
+        connect(m_StandaloneSafetyMonitor, &SchedulerSafetyMonitor::newLog, this, &SchedulerProcess::appendLogText);
+        m_StandaloneSafetyMonitor->initStandaloneSafetyMonitor(connectionString);
+        appendLogText(i18n("Safety monitor initialized with connection string: %1", connectionString));
+    }
+    // If we have a standalone safety monitor, update its connection
+    else if (m_StandaloneSafetyMonitor != nullptr)
+    {
+        m_StandaloneSafetyMonitor->updateConnectionString(connectionString);
+    }
 }
 
 void SchedulerProcess::printStates(const QString &label)

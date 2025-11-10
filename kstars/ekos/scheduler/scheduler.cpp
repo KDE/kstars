@@ -602,6 +602,10 @@ void Scheduler::prepareGUI ()
     m_OpsWeatherSettings = new OpsWeatherSettings();
     page = dialog->addPage(m_OpsWeatherSettings, i18n("Weather"));
     page->setIcon(QIcon::fromTheme("weather-storm"));
+
+    // Connect weather settings changes to update safety monitor connection
+    connect(m_OpsWeatherSettings, &OpsWeatherSettings::settingsUpdated, process().data(),
+            &SchedulerProcess::updateSafetyMonitorConnection);
 }
 void Scheduler::watchJobChanges(bool enable)
 {

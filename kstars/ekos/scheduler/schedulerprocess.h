@@ -331,6 +331,12 @@ class SchedulerProcess : public QObject, public ModuleLogger
         Q_SCRIPTABLE void clearLog();
 
         /**
+         * @brief updateSafetyMonitorConnection Update the safety monitor connection string
+         * This is called when settings change to reconnect to a new safety monitor if needed
+         */
+        void updateSafetyMonitorConnection();
+
+        /**
          * @return True if mount is parked
          */
         Q_SCRIPTABLE bool isMountParked();
