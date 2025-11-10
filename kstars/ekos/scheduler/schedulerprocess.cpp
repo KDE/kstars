@@ -543,7 +543,7 @@ void SchedulerProcess::wakeUpScheduler()
             {
                 if (m_queueManager->count() > 0)
                 {
-                    appendLogText(i18n("Executing post-startup tasks from %1 after weather recovery...", queueFile));
+                    appendLogText(i18n("Executing post-startup tasks from %1 after safety recovery...", queueFile));
                     // Set a temporary state to track post-weather-recovery startup
                     moduleState()->setStartupState(STARTUP_POST_DEVICES_RUNNING);
                     m_queueExecutor->start();
@@ -552,7 +552,7 @@ void SchedulerProcess::wakeUpScheduler()
             }
             else
             {
-                appendLogText(i18n("Warning: Failed to load post-startup queue from %1 after weather recovery", queueFile));
+                appendLogText(i18n("Warning: Failed to load post-startup queue from %1 after safety recovery", queueFile));
             }
         }
 
@@ -719,7 +719,7 @@ bool SchedulerProcess::shouldSchedulerSleep(SchedulerJob * job)
             // If we're already in preemptive shutdown, give up on this job
             if (moduleState()->weatherGracePeriodActive())
             {
-                appendLogText(i18n("Job '%1' cannot start because weather status is %2 and grace period is over.",
+                appendLogText(i18n("Job '%1' cannot start because safety status is %2 and grace period is over.",
                                    job->getName(), (weatherStatus == ISD::Weather::WEATHER_WARNING) ? i18n("Warning") : i18n("Alert")));
                 job->setState(SCHEDJOB_ERROR);
                 moduleState()->setWeatherGracePeriodActive(false);
@@ -729,7 +729,7 @@ bool SchedulerProcess::shouldSchedulerSleep(SchedulerJob * job)
 
             QDateTime wakeupTime = SchedulerModuleState::getLocalTime().addSecs(Options::schedulerWeatherGracePeriod() * 60);
 
-            appendLogText(i18n("Job '%1' cannot start because weather status is %2. Waiting until weather improves or until %3",
+            appendLogText(i18n("Job '%1' cannot start because safety status is %2. Waiting until weather improves or until %3",
                                job->getName(), (weatherStatus == ISD::Weather::WEATHER_WARNING) ? i18n("Warning") : i18n("Alert"),
                                wakeupTime.toString()));
 
@@ -3050,7 +3050,7 @@ void SchedulerProcess::queueExecutionCompleted()
         // we need to explicitly resume scheduler execution since we returned early from wakeUpScheduler()
         if (moduleState()->schedulerState() == SCHEDULER_IDLE || moduleState()->schedulerState() == SCHEDULER_PAUSED)
         {
-            appendLogText(i18n("Resuming scheduler after weather recovery startup tasks..."));
+            appendLogText(i18n("Resuming scheduler after safety recovery startup tasks..."));
             execute();
         }
         return;
@@ -3755,12 +3755,23 @@ void SchedulerProcess::setSafetyStatus(IPState status)
             break;
     }
 
-    setWeatherStatus(weatherStatus);
+    setWeatherStatus(weatherStatus, true);
 }
 
-void SchedulerProcess::setWeatherStatus(ISD::Weather::Status status)
+void SchedulerProcess::setWeatherStatus(ISD::Weather::Status status, bool fromStandaloneSafetyMonitor)
 {
     ISD::Weather::Status newStatus = status;
+
+    // If we have a standalone safety monitor connected and this update is from the observatory interface,
+    // we should only accept it if it's worse than the current status or ignore it completely
+    if (m_StandaloneSafetyMonitor != nullptr && !fromStandaloneSafetyMonitor)
+    {
+        // Standalone safety monitor takes precedence - ignore observatory interface weather updates
+        qCDebug(KSTARS_EKOS_SCHEDULER) <<
+        "Ignoring observatory interface weather status update because standalone safety monitor is active. "
+                                       << "Observatory status:" << status << "Current status:" << moduleState()->weatherStatus();
+        return;
+    }
 
     if (newStatus == moduleState()->weatherStatus())
         return;
@@ -3777,7 +3788,7 @@ void SchedulerProcess::setWeatherStatus(ISD::Weather::Status status)
             oldStatus != ISD::Weather::WEATHER_OK &&
             newStatus == ISD::Weather::WEATHER_OK)
     {
-        appendLogText(i18n("Weather has improved. Resuming operations."));
+        appendLogText(i18n("Safety has improved. Resuming operations."));
         moduleState()->setWeatherGracePeriodActive(false);
         wakeUpScheduler();
     }
@@ -3787,7 +3798,7 @@ void SchedulerProcess::setWeatherStatus(ISD::Weather::Status status)
              moduleState()->schedulerState() != Ekos::SCHEDULER_SHUTDOWN))
     {
         m_WeatherShutdownTimer.start(Options::schedulerWeatherShutdownDelay() * 1000);
-        appendLogText(i18n("Weather alert detected. Starting soft shutdown procedure in %1 seconds.",
+        appendLogText(i18n("Safety alert detected. Starting soft shutdown procedure in %1 seconds.",
                            Options::schedulerWeatherShutdownDelay()));
     }
 
@@ -3814,7 +3825,7 @@ void SchedulerProcess::startShutdownDueToWeather()
         moduleState()->setWeatherGracePeriodActive(true);
         moduleState()->enablePreemptiveShutdown(wakeupTime);
 
-        appendLogText(i18n("Observatory scheduled for soft shutdown until weather improves or until %1.",
+        appendLogText(i18n("Observatory scheduled for soft shutdown until safety improves or until %1.",
                            wakeupTime.toString()));
 
         // Initiate shutdown procedure
@@ -4163,27 +4174,6 @@ void SchedulerProcess::registerNewDevice(const QString &name, int interface)
             checkInterfaceReady(domeInterface());
         }
     }
-
-    // if (interface & INDI::BaseDevice::WEATHER_INTERFACE)
-    // {
-    //     QList<QVariant> dbusargs;
-    //     dbusargs.append(INDI::BaseDevice::WEATHER_INTERFACE);
-    //     QDBusReply<QStringList> paths = indiInterface()->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths",
-    //                                     dbusargs);
-    //     if (paths.error().type() == QDBusError::NoError)
-    //     {
-    //         // Select last device in case a restarted caused multiple instances in the tree
-    //         setWeatherPathString(paths.value().last());
-    //         delete weatherInterface();
-    //         setWeatherInterface(new QDBusInterface(kstarsInterfaceString, weatherPathString,
-    //                                                weatherInterfaceString,
-    //                                                QDBusConnection::sessionBus(), this));
-    //         connect(weatherInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
-    //         connect(weatherInterface(), SIGNAL(newStatus(ISD::Weather::Status)), this,
-    //                 SLOT(setWeatherStatus(ISD::Weather::Status)));
-    //         checkInterfaceReady(weatherInterface());
-    //     }
-    // }
 
     if (interface & INDI::BaseDevice::DUSTCAP_INTERFACE)
     {

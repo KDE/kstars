@@ -2499,15 +2499,15 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
     switch (newStatus)
     {
         case ISD::Weather::WEATHER_OK:
-            statusString = i18n("Weather conditions are OK.");
+            statusString = i18n("Safety conditions are OK.");
             break;
 
         case ISD::Weather::WEATHER_WARNING:
-            statusString = i18n("Warning: weather conditions are in the WARNING zone.");
+            statusString = i18n("Warning: safety conditions are in the WARNING zone.");
             break;
 
         case ISD::Weather::WEATHER_ALERT:
-            statusString = i18n("Caution: weather conditions are in the DANGER zone!");
+            statusString = i18n("Caution: safety conditions are in the DANGER zone!");
             break;
 
         default:
@@ -2525,7 +2525,7 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
         weatherLabel->setPixmap(
             QIcon::fromTheme("security-medium")
             .pixmap(QSize(32, 32)));
-        KSNotification::event(QLatin1String("WeatherWarning"), i18n("Weather conditions in warning zone"),
+        KSNotification::event(QLatin1String("WeatherWarning"), i18n("Safety conditions in warning zone"),
                               KSNotification::Scheduler, KSNotification::Warn);
     }
     else if (moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT)
@@ -2534,7 +2534,7 @@ void Scheduler::setWeatherStatus(ISD::Weather::Status status)
             QIcon::fromTheme("security-low")
             .pixmap(QSize(32, 32)));
         KSNotification::event(QLatin1String("WeatherAlert"),
-                              i18n("Weather conditions are critical. Observatory shutdown is imminent"), KSNotification::Scheduler,
+                              i18n("Safety conditions are critical. Observatory shutdown is imminent"), KSNotification::Scheduler,
                               KSNotification::Alert);
     }
     else

@@ -699,7 +699,7 @@ class SchedulerProcess : public QObject, public ModuleLogger
         void setFocusStatus(Ekos::FocusState status, const QString &trainname);
         void setMountStatus(ISD::Mount::Status status);
         void setSafetyStatus(IPState status);
-        void setWeatherStatus(ISD::Weather::Status status);
+        void setWeatherStatus(ISD::Weather::Status status, bool fromStandaloneSafetyMonitor = false);
 
     private:
         // When a module is commanded to perform an action, wait this many milliseconds
