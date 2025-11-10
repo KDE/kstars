@@ -293,7 +293,7 @@ if (INDI_FOUND)
             ekos/scheduler/scheduler.cpp
             ekos/scheduler/schedulermodulestate.cpp
             ekos/scheduler/schedulerprocess.cpp
-            ekos/scheduler/schedulerweather.cpp
+            ekos/scheduler/schedulersafetymonitor.cpp
             ekos/scheduler/schedulerutils.cpp
             ekos/scheduler/schedulertypes.cpp
             ekos/scheduler/framingassistantui.cpp

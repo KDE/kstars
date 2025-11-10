@@ -131,17 +131,17 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Standalone Weather Driver:</string>
+        <string>Standalone Safety Monitor Driver:</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="kcfg_SchedulerWeatherConnectionString">
+      <widget class="QLineEdit" name="kcfg_SchedulerSafetyMonitorConnectionString">
        <property name="toolTip">
-        <string>Connection string for the weather monitoring driver. The scheduler uses this to continuously monitor weather conditions and evaluate whether it is safe to operate the observatory.</string>
+        <string>Connection string for the INDI Safety Monitor driver. The scheduler uses this to continuously monitor safety conditions and evaluate whether it is safe to operate the observatory.</string>
        </property>
        <property name="placeholderText">
-        <string>&quot;My Weather Station&quot;@localhost:8000</string>
+        <string>localhost:7624</string>
        </property>
       </widget>
      </item>

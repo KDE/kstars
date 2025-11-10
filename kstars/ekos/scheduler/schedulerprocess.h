@@ -8,7 +8,7 @@
 
 #include "schedulertypes.h"
 #include "schedulerjob.h"
-#include "schedulerweather.h"
+#include "schedulersafetymonitor.h"
 #include "ekos/auxiliary/modulelogger.h"
 #include "ekos/align/align.h"
 #include "ekos/auxiliary/solverutils.h"
@@ -692,6 +692,7 @@ class SchedulerProcess : public QObject, public ModuleLogger
         void setCaptureStatus(Ekos::CaptureState status, const QString &trainname);
         void setFocusStatus(Ekos::FocusState status, const QString &trainname);
         void setMountStatus(ISD::Mount::Status status);
+        void setSafetyStatus(IPState status);
         void setWeatherStatus(ISD::Weather::Status status);
 
     private:
@@ -802,7 +803,7 @@ class SchedulerProcess : public QObject, public ModuleLogger
     private:
         ISD::Mount::Status m_lastMountStatus = ISD::Mount::MOUNT_IDLE;
 
-        // Standalone weather monitoring (before equipment profile starts)
-        SchedulerWeather *m_StandaloneWeather {nullptr};
+        // Standalone safety monitor monitoring (before equipment profile starts)
+        SchedulerSafetyMonitor *m_StandaloneSafetyMonitor {nullptr};
 };
 }

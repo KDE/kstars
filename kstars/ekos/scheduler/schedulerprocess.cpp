@@ -9,7 +9,7 @@
 #include "greedyscheduler.h"
 #include "schedulerutils.h"
 #include "schedulerjob.h"
-#include "schedulerweather.h"
+#include "schedulersafetymonitor.h"
 #include "taskqueue/queue/queuemanager.h"
 #include "taskqueue/queue/queueexecutor.h"
 #include "taskqueue/queue/queueitem.h"
@@ -87,30 +87,30 @@ SchedulerProcess::SchedulerProcess(QSharedPointer<SchedulerModuleState> state, c
     m_WeatherShutdownTimer.setSingleShot(true);
     connect(&m_WeatherShutdownTimer, &QTimer::timeout, this, &SchedulerProcess::startShutdownDueToWeather);
 
-    // Initialize standalone weather monitoring (before equipment profile starts)
+    // Initialize standalone safety monitor monitoring (before equipment profile starts)
     if (Options::schedulerWeather())
     {
-        QString connectionString = Options::schedulerWeatherConnectionString();
+        QString connectionString = Options::schedulerSafetyMonitorConnectionString();
         if (!connectionString.isEmpty())
         {
-            m_StandaloneWeather = new SchedulerWeather(this);
-            connect(m_StandaloneWeather, &SchedulerWeather::newWeatherStatus, this, &SchedulerProcess::setWeatherStatus);
-            connect(m_StandaloneWeather, &SchedulerWeather::newLog, this, &SchedulerProcess::appendLogText);
-            m_StandaloneWeather->initStandaloneWeather(connectionString);
+            m_StandaloneSafetyMonitor = new SchedulerSafetyMonitor(this);
+            connect(m_StandaloneSafetyMonitor, &SchedulerSafetyMonitor::newSafetyStatus, this, &SchedulerProcess::setSafetyStatus);
+            connect(m_StandaloneSafetyMonitor, &SchedulerSafetyMonitor::newLog, this, &SchedulerProcess::appendLogText);
+            m_StandaloneSafetyMonitor->initStandaloneSafetyMonitor(connectionString);
         }
     }
 }
 
 SchedulerProcess::~SchedulerProcess()
 {
-    // Clean up standalone weather monitoring
-    if (m_StandaloneWeather)
+    // Clean up standalone safety monitor monitoring
+    if (m_StandaloneSafetyMonitor)
     {
-        delete m_StandaloneWeather;
-        m_StandaloneWeather = nullptr;
+        delete m_StandaloneSafetyMonitor;
+        m_StandaloneSafetyMonitor = nullptr;
     }
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "SchedulerProcess destructor: Standalone weather cleanup complete";
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "SchedulerProcess destructor: Standalone safety monitor cleanup complete";
 }
 
 SchedulerState SchedulerProcess::status()
@@ -3730,6 +3730,32 @@ void SchedulerProcess::setMountStatus(ISD::Mount::Status status)
         default:
             break;
     }
+}
+
+void SchedulerProcess::setSafetyStatus(IPState status)
+{
+    // Map IPState to ISD::Weather::Status for compatibility
+    ISD::Weather::Status weatherStatus;
+    switch (status)
+    {
+        case IPS_IDLE:
+            weatherStatus = ISD::Weather::WEATHER_IDLE;
+            break;
+        case IPS_OK:
+            weatherStatus = ISD::Weather::WEATHER_OK;
+            break;
+        case IPS_BUSY:
+            weatherStatus = ISD::Weather::WEATHER_WARNING;
+            break;
+        case IPS_ALERT:
+            weatherStatus = ISD::Weather::WEATHER_ALERT;
+            break;
+        default:
+            weatherStatus = ISD::Weather::WEATHER_IDLE;
+            break;
+    }
+    
+    setWeatherStatus(weatherStatus);
 }
 
 void SchedulerProcess::setWeatherStatus(ISD::Weather::Status status)
