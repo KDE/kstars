@@ -10,6 +10,7 @@ include:
       - /gitlab-templates/linux-qt6.yml
       - /gitlab-templates/windows-qt6.yml
       - /gitlab-templates/flatpak.yml
+      - /gitlab-templates/flatpak-arm64.yml
       - /gitlab-templates/craft-windows-x86-64-qt6.yml
       - /gitlab-templates/craft-windows-appx-qt6.yml
       - /gitlab-templates/craft-macos-x86-64-qt6.yml
@@ -50,7 +51,6 @@ json-validation:
   rules:
     - !reference [.standard-build-recipes, rules]
 
-flatpak:
 # Craft recipes
 
 .craft-recipes:
@@ -98,7 +98,13 @@ microsoftstore_qt6:
     - !reference [.publishing-recipes, rules]
 
 flatpak:
-  allow_failure: true # TODO: REMOVE WHEN STABLE AGAIN
+  needs:
+    - suse_tumbleweed_qt610
+  rules:
+    - !reference [.always-on-scheduled-pipeline, rules]
+    - !reference [.publishing-recipes, rules]
+
+flatpak-arm64:
   needs:
     - suse_tumbleweed_qt610
   rules:
