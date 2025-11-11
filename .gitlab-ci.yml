@@ -33,7 +33,7 @@ include:
 
 suse_tumbleweed_qt610:
   rules:
-    - !reference [.always-on-scheduled-pipeline, rules]  # Flatpak nightly
+    - !reference [.always-on-scheduled-pipeline, rules] # Flatpak nightly
     - !reference [.standard-build-recipes, rules]
 
 windows_qt69:
@@ -97,7 +97,7 @@ microsoftstore_qt6:
   rules:
     - !reference [.publishing-recipes, rules]
 
-flatpak:
+flatpak-amd64:
   needs:
     - suse_tumbleweed_qt610
   rules:
