@@ -70,6 +70,15 @@ FITSStack::~FITSStack()
         wcsfree(m_WCSStackImage);
         m_WCSStackImage = nullptr;
     }
+
+    m_RunningStackImageData.imageMMState.accumNum.release();
+    m_RunningStackImageData.imageMMState.accumDen.release();
+    m_RunningStackImageData.imageMMState.latent.release();
+    for (int i = 0; i < m_RunningStackImageData.runningSubs.size(); i++)
+    {
+        m_RunningStackImageData.runningSubs[i].image.release();
+        m_RunningStackImageData.runningSubs[i].psfKernel.release();
+    }
 }
 
 void FITSStack::setStackInProgress(bool inProgress)
@@ -808,12 +817,21 @@ bool FITSStack::stackSubs(const bool initial, float &totalWeight, cv::Mat &stack
 
         weights = getWeights();
 
-        if (m_StackData.rejection == LS_STACKING_REJ_SIGMA || m_StackData.rejection == LS_STACKING_REJ_WINDSOR)
+        if (m_StackData.stackingMethod == LS_STACKING_SIGMA || m_StackData.stackingMethod == LS_STACKING_WINDSOR)
         {
+            // Sigma clipping (standard or Windsorized
             if (initial)
                 stack = stackSubsSigmaClipping(weights);
             else
                 stack = stacknSubsSigmaClipping(weights);
+        }
+        else if (m_StackData.stackingMethod == LS_STACKING_IMAGEMM)
+        {
+            // ImageMM method
+            if (initial)
+                stack = stackSubsImageMM(weights, m_StackData);
+            else
+                stack = stacknSubsImageMM(weights, m_StackData);
         }
         else
         {
@@ -1018,7 +1036,7 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
 
                         float pixelValue = 0.0;
 
-                        if (m_StackData.rejection == LS_STACKING_REJ_WINDSOR)
+                        if (m_StackData.stackingMethod == LS_STACKING_WINDSOR)
                         {
                             // Winsorize the data
                             float median = Mathematics::RobustStatistics::ComputeLocation(
@@ -1108,7 +1126,7 @@ void FITSStack::stackSigmaClipPixel(int x, const std::vector<const float *> &ima
 
         float pixelValue = 0.0;
 
-        if (m_StackData.rejection == LS_STACKING_REJ_WINDSOR)
+        if (m_StackData.stackingMethod == LS_STACKING_WINDSOR)
         {
             // Winsorize the data
             float median = Mathematics::RobustStatistics::ComputeLocation(
@@ -1255,6 +1273,698 @@ cv::Mat FITSStack::stacknSubsSigmaClipping(const QVector<float> &weights)
         QString s1 = ex.what();
         qCDebug(KSTARS_FITS) << QString("openCV exception %1 called from %2").arg(s1).arg(__FUNCTION__);
         return m_StackedImage32F;
+    }
+}
+
+/**
+ * Run full ImageMM stacking on the current subframe set.
+ *
+ * This function performs a complete ImageMM (Iterative Multiplicative Model) stacking
+ * over all available subframes. It first builds a combined list of subframes and weights
+ * (including any running history), then calls the main ImageMM core solver to produce
+ * a new stacked latent image.
+ *
+ * The function resets the latent state and sigma estimate before starting, so each call
+ * performs a multi-frame refinement without reusing any previous iterative state.
+ */
+cv::Mat FITSStack::stackSubsImageMM(const QVector<float> &weights, const LiveStackData &lsd)
+{
+    try
+    {
+        QVector<float> allWeights;
+        QVector<StackImageData> allSubs;
+        if (!imageMMBuildAllSubs(weights, allSubs, allWeights))
+            return m_StackedImage32F;
+
+        cv::Mat latent = m_StackedImage32F;
+        double sigma = 0.0;
+        bool incremental = false;
+        return imageMMCore(allSubs, latent, sigma, allWeights, lsd, incremental);
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("openCV exception %1 called from %2").arg(ex.what()).arg(__FUNCTION__);
+        return m_StackedImage32F;
+    }
+}
+
+/**
+ * Incrementally update the ImageMM stack using new subframes.
+ *
+ * This variant of ImageMM stacking continues from the previous latent
+ * image and sigma state stored in `m_RunningStackImageData.imageMMState`.
+ * It reuses the existing latent estimate (`latent`) and noise model (`sigma`)
+ * to efficiently refine the current stack when new subframes arrive.
+ *
+ * The method merges the current running subframes with the new ones,
+ * builds the combined data set and weight vector via `imageMMBuildAllSubs()`,
+ * and then calls `imageMMCore()` in incremental mode.
+ */
+cv::Mat FITSStack::stacknSubsImageMM(const QVector<float> &weights, const LiveStackData &lsd)
+{
+    try
+    {
+        QVector<float> allWeights;
+        QVector<StackImageData> allSubs;
+        if (!imageMMBuildAllSubs(weights, allSubs, allWeights))
+            return m_StackedImage32F;
+
+        cv::Mat latent = m_RunningStackImageData.imageMMState.latent;
+        double sigma = m_RunningStackImageData.imageMMState.sigma;
+        const bool incremental = true;
+        cv::Mat result = imageMMCore(allSubs, latent, sigma, allWeights, lsd, incremental);
+        m_RunningStackImageData.imageMMState.latent = result;
+        m_RunningStackImageData.imageMMState.sigma = sigma;
+        return result;
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+        return m_StackedImage32F;
+    }
+}
+
+/**
+ * Build a complete list of subframes and corresponding weights for ImageMM stacking.
+ *
+ * This function merges the currently running set of stacked subframes with any new pending subframes.
+ * It ensures each subframe has a valid PSF kernel (creating a default Gaussian kernel if missing) and
+ * produces normalized weights across all subframes.
+ *
+ * Specifically, the function:
+ *  - Starts from the currently accumulated subframes in `m_RunningStackImageData`.
+ *  - Appends all new subframes from `m_StackImageData` along with their associated weights.
+ *  - Ensures PSF kernels exist for each subframe (building one from HFR if needed).
+ *  - Normalizes the combined weights
+ */
+bool FITSStack::imageMMBuildAllSubs(const QVector<float> &newWeights, QVector<FITSStack::StackImageData> &allSubs,
+                                    QVector<float> &allWeights)
+{
+    try
+    {
+        // Add historical subs
+        auto &run = m_RunningStackImageData;
+        allSubs = run.runningSubs;
+        for (int i = 0; i < allSubs.size(); i++)
+            allWeights.push_back(allSubs[i].weight);
+
+        // Add new subs
+        if (m_StackImageData.size() != newWeights.size())
+        {
+            qCDebug(KSTARS_FITS) << QString("Inconsistent new subs and weights in %1").arg(__FUNCTION__);
+            return false;
+        }
+
+        for (int i = 0; i < m_StackImageData.size(); i++)
+        {
+            auto &sub = m_StackImageData[i];
+
+            // Ensure PSF is built
+            if (sub.psfKernel.empty())
+            {
+                if (sub.hfr > 0)
+                    sub.psfKernel = buildPSFFromHFR(sub.hfr);
+                else
+                {
+                    cv::Mat g = cv::getGaussianKernel(9, 1.5, CV_32F);
+                    sub.psfKernel = g * g.t();
+                }
+            }
+
+            // Default weight (if not already set)
+            if (sub.weight <= 0.0f)
+                sub.weight = newWeights[i];
+
+            allSubs.append(sub);
+            allWeights.append(newWeights[i]);
+        }
+        // Normalise weights
+        float sumW = std::accumulate(allWeights.begin(), allWeights.end(), 0.0f);
+        if (sumW <= 0.0)
+            std::fill(allWeights.begin(), allWeights.end(), 1.0f / allWeights.size());
+        else
+        {
+            for (float &w : allWeights)
+                w /= sumW;
+        }
+        return true;
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+        return false;
+    }
+}
+
+/**
+ * Robust Image Stacking via Majorization–Minimization (ImageMM)
+ *
+ * Implements **Algorithm 3** from Sukurdeep et al. (2025), AJ 170, Article 233:
+ * “ImageMM: Robust Astronomical Image Stacking via MM Optimization”.
+ *
+ * Link: https://iopscience.iop.org/article/10.3847/1538-3881/adfb72
+ *
+ * Algorithm 3 summary (from the paper, adapted):
+ *
+ *  1. Input: aligned frames {yₜ}, initial latent x⁰, weights wₜ, parameters κ, α, ε
+ *  2. For k = 0, 1, 2, … until convergence:
+ *     a. Compute residuals: rₜ = yₜ – xᵏ
+ *     b. Estimate global scale σ (e.g. via MAD of residuals) (Eq. 11)
+ *     c. Compute robust weights: wₜ(p) = 1 / (1 + (rₜ(p)/σ)²)  (Eq. 10–12)
+ *     d. Compute numerator N(p) = Σₜ wₜ(p) · yₜ(p), denominator D(p) = Σₜ wₜ(p) · xᵏ(p)
+ *     e. Ratio u(p) = N(p) / (D(p) + ε)
+ *     f. Clip u(p) to [1/κ, κ]
+ *     g. Update latent: xᵏ⁺¹(p) = xᵏ(p) · u(p)
+ *     h. (Optional relaxation): xᵏ⁺¹ ← (1−α)xᵏ + α xᵏ⁺¹
+ *     i. Enforce non-negativity: xᵏ⁺¹(p) ≥ 0
+ *     j. Check convergence: if ‖xᵏ⁺¹ – xᵏ‖ / ‖xᵏ‖ < ε then stop
+ *  3. Output: final latent x̂ = xᵏ
+ *
+ * This implementation:
+ *  • Uses global σ per iteration (step 2b)
+ *  • Uses Cauchy weighting (step 2c)
+ *  • Multiplies via QtConcurrent (step 2g)
+ *  • Implements convergence test (step 2j)
+ *  • Supports multi-channel (RGB) stacking
+ *  • Parallel over frames processing
+ *  • Parallel over pixel processing of final image (tiles)
+ */
+cv::Mat FITSStack::imageMMCore(QVector<StackImageData> &subs, cv::Mat &latent, double &sigma,
+                               const QVector<float> &weights, const LiveStackData &lsd, bool incremental)
+{
+    try
+    {
+        const float convergenceTest = 1e-3;
+        const int pixelSample = 4;           // Sample every nth row & column - for speed
+        const int frameSample = 4;           // How many frames to sample - for speed
+        const float psfLearningRate = 0.05f; // Small step size
+        const double sigmaBlend = 0.25;      // 0 - 1. Higher = smoother updates
+
+        qCDebug(KSTARS_FITS) << QString("Running %1ImageMM: iterations=%2 kappa=%3 alpha=%4 sigmaScale=%5 PSFUpdate=%6")
+                                    .arg(incremental ? "Incremental" : "Initial").arg(lsd.iterations).arg(lsd.kappa)
+                                    .arg(lsd.alpha).arg(lsd.sigma).arg(lsd.PSFUpdate);
+
+        const int n = subs.size();
+        if (n == 0)
+        {
+            qCDebug(KSTARS_FITS) << QString("No data to stack in %1").arg(__FUNCTION__);
+            return m_StackedImage32F;
+        }
+
+        if (n != weights.size())
+        {
+            qCDebug(KSTARS_FITS) << QString("Inconsistent subs and weights in %1").arg(__FUNCTION__);
+            return m_StackedImage32F;
+        }
+
+        // Initialize latent (if required)
+        imageMMInitializeLatent(latent, subs, weights);
+
+        // Split the subs into channels for later processing
+        std::vector<std::vector<cv::Mat>> subsChannels;
+        subsChannels.reserve(n);
+        for (int i = 0; i < n; i++)
+        {
+            std::vector<cv::Mat> tempChannels;
+            cv::split(subs[i].image, tempChannels);
+            subsChannels.push_back(tempChannels);
+        }
+
+        cv::Mat prevLatent = latent.clone();
+        double prevSigma = 0.0;
+
+        // Outer loop for iterations (or until convergence)
+        for (int iter = 0; iter < lsd.iterations; iter++)
+        {
+            // Debug
+            cv::Scalar mn, sd;
+            cv::meanStdDev(latent, mn, sd);
+            qCDebug(KSTARS_FITS) << QString("%1 iter %2 mean=%3 std=%4").arg(__FUNCTION__).arg(iter).arg(mn[0])
+                                        .arg(sd[0]);
+
+            // Get an estimate of sigma across all subs / channels
+            sigma = imageMMEstimateSigma(subs, latent, pixelSample, frameSample, lsd.sigma, prevSigma, sigmaBlend);
+
+            // Split latent into channels
+            std::vector<cv::Mat> latentChannels;
+            cv::split(latent, latentChannels);
+
+            // Per-channel loop
+            for (uint c = 0; c < latentChannels.size(); c++)
+            {
+                std::pair<cv::Mat, cv::Mat> acc = imageMMAccumulateChannel(subs, subsChannels, latentChannels[c],
+                                                                           weights, sigma, c);
+                // Step 2e–2g: multiplicative update
+                imageMMPixelwiseUpdate(latentChannels[c], std::vector<cv::Mat>{acc.first},
+                                       std::vector<cv::Mat>{acc.second}, (float)lsd.kappa);
+
+                // debug
+                cv::Scalar mc, sc;
+                cv::meanStdDev(latentChannels[c], mc, sc);
+                qCDebug(KSTARS_FITS) << QString("%1: channel %2 iter %3 mean=%4 std=%5").arg(__FUNCTION__).arg(c)
+                                            .arg(iter).arg(mc[0]).arg(sc[0]);
+            } // end channel loop
+
+            // Merge channels back into latent
+            cv::merge(latentChannels, latent);
+
+            // Update the PSFs
+            if ((lsd.PSFUpdate > 0) && ((iter + 1) % lsd.PSFUpdate == 0))
+                imageMMRefinePSFs(subs, latent, psfLearningRate);
+
+            // Step 2h: relaxation damping
+            if (lsd.alpha < 1.0f)
+                latent = (1 - lsd.alpha) * prevLatent + lsd.alpha * latent;
+
+            // Step 2j: convergence check
+            double relChange = imageMMComputeRelChange(latent, prevLatent);
+            if (relChange >= convergenceTest)
+                qCDebug(KSTARS_FITS) << QString("Converging (iter=%1) Δ=%2").arg(iter).arg(relChange, 0, 'e', 4);
+            else
+            {
+                qCDebug(KSTARS_FITS) << QString("Converged (iter=%1) Δ=%2").arg(iter).arg(relChange, 0, 'e', 4);
+                break;
+            }
+
+            // Step 2i: non-negativity
+            cv::threshold(latent, latent, 0.0, 0.0, cv::THRESH_TOZERO);
+
+            prevLatent = latent.clone();
+        } // end iterations loop
+        return latent;
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+        return m_StackedImage32F;
+    }
+}
+
+// Initialize latent image if empty, using weighted mean of subs.
+void FITSStack::imageMMInitializeLatent(cv::Mat &latent, const QVector<StackImageData> &subs,
+                                        const QVector<float> &weights)
+{
+    const int n = subs.size();
+    if (n > 0 && latent.empty())
+    {
+        latent = weights[0] * subs[0].image;
+        for (int i = 1; i < n; i++)
+            latent += weights[i] * subs[i].image;
+    }
+}
+
+/**
+ * Estimate the global noise scale (σ) of the ImageMM model using the Median Absolute Deviation (MAD) of residuals.
+ *
+ * This function computes a robust estimate of the per-pixel residual variance between each subframe and the current
+ * latent image. The estimate is based on the median absolute deviation (MAD), which is robust.
+ *
+ * The computation works as follows:
+ *  - Select a subset of frames (`frameSample`) from the available subframes.
+ *  - For each selected frame, compute residuals as |subframe - latent|.
+ *  - Uniformly subsample residuals by `pixelSample` to reduce computation.
+ *  - Compute the median of all residual samples.
+ *  - Convert MAD to a Gaussian-equivalent σ estimate via `σ = 1.4826 * MAD * sigmaScale`.
+ *  - Blend the new σ with the previous estimate (`prevSigma`) using `sigmaBlend`.
+ */
+double FITSStack::imageMMEstimateSigma(const QVector<StackImageData> &subs, const cv::Mat &latent, int pixelSample,
+                                       int frameSample, double sigmaScale, double prevSigma, double sigmaBlend)
+{
+    try
+    {
+        const int n = subs.size();
+        if (n == 0)
+            return prevSigma > 0 ? prevSigma : 1.0;
+
+        std::vector<float> residualSamples;
+        residualSamples.reserve(latent.total() / (pixelSample * pixelSample) * std::min(n, frameSample));
+
+        // Collect sample data
+        int sampleCount = std::min(n, frameSample);
+        for (int t = 0; t < sampleCount; t++)
+        {
+            const cv::Mat &frame = subs[t].image;
+            cv::Mat absr;
+            cv::absdiff(frame, latent, absr);
+
+            for (int y = 0; y < absr.rows; y += pixelSample)
+            {
+                const float *row = absr.ptr<float>(y);
+                for (int x = 0; x < absr.cols; x += pixelSample)
+                    residualSamples.push_back(row[x]);
+            }
+        }
+
+        if (residualSamples.empty())
+            residualSamples.push_back(1e-6f);
+
+        // Compute median of residuals (robust location)
+        const size_t mid = residualSamples.size() / 2;
+        std::nth_element(residualSamples.begin(), residualSamples.begin() + mid, residualSamples.end());
+        const double medianResidual = residualSamples[mid];
+
+        // Compute absolute deviations from that median
+        for (float &v : residualSamples)
+            v = std::abs(v - static_cast<float>(medianResidual));
+
+        // Median of deviations (MAD)
+        std::nth_element(residualSamples.begin(), residualSamples.begin() + mid, residualSamples.end());
+        const double mad = residualSamples[mid];
+
+        // Convert MAD → σ (Eq. 11) and apply the user defined sigmaScale
+        const double sigmaNew = std::max(1e-6, 1.4826 * mad * sigmaScale);
+
+        // Blend with previous estimate
+        double sigma = (prevSigma > 0.0) ? sigmaBlend * prevSigma + (1.0 - sigmaBlend) * sigmaNew : sigmaNew;
+
+        qCDebug(KSTARS_FITS)
+            << QString("%1: medianResidual=%2 mad=%3 sigmaNew=%4 blended=%5").arg(__FUNCTION__)
+                   .arg(medianResidual, 0, 'f', 4).arg(mad, 0, 'f', 4).arg(sigmaNew, 0, 'f', 4).arg(sigma, 0, 'f', 4);
+        return sigma;
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+        return prevSigma > 0 ? prevSigma : 1.0;
+    }
+}        
+
+/**
+ * Accumulate per-subframe contributions for one color channel in the ImageMM iteration.
+ *
+ * This function performs Step 2c–2d of the ImageMM algorithm:
+ * computing the forward and backward model accumulations for a single color channel across all registered subframes.
+ *
+ * Each subframe contributes to two accumulators:
+ *  - Numerator (accumNum):  Σ Fᵀ (w ⊙ y)
+ *  - Denominator (accumDen): Σ Fᵀ (w ⊙ F·x)
+ *
+ * where:
+ *   - F is the convolution operator (PSF for the subframe),
+ *   - Fᵀ is its transpose (implemented by convolving again with the PSF),
+ *   - x is the current latent (merged) estimate,
+ *   - y is the observed subframe channel,
+ *   - w is a robust weight defined as:
+ *     w = 1 / (1 + (r² / σ²))
+ *     with residual r = (y − F·x),
+ *   - σ controls robustness to outliers.
+ *
+ * Each subframe’s scalar weight (e.g. SNR or exposure-based) is multiplied into the per-pixel weights `w`.
+ *
+ * Parallelized across subframes using with per-thread partial results accumulated using a mutex.
+ */
+std::pair<cv::Mat, cv::Mat> FITSStack::imageMMAccumulateChannel(const QVector<StackImageData> &subs,
+                                const std::vector<std::vector<cv::Mat>> &subsChannels, const cv::Mat &latentChannel,
+                                const QVector<float> &normWeights, double sigma, int channelIndex)
+{
+    try
+    {
+        const int n = subs.size();
+        if (n <= 0)
+            return {cv::Mat(), cv::Mat()};
+
+        int numThreads = std::min(n, QThreadPool::globalInstance()->maxThreadCount());
+        qCDebug(KSTARS_FITS) << QString("%1 Channel %2: running per-frame parallel map on upto %3 threads")
+                                    .arg(__FUNCTION__).arg(channelIndex).arg(numThreads);
+
+        // Since we're processing per channel the num and den need to be single channel
+        const cv::Size imageSize = latentChannel.size();
+        int depth = CV_MAT_DEPTH(m_CVType);
+        cv::Mat accumNum = cv::Mat::zeros(imageSize, CV_MAKETYPE(depth, 1));
+        cv::Mat accumDen = cv::Mat::zeros(imageSize, CV_MAKETYPE(depth, 1));
+        QMutex accumLock;
+
+        QVector<int> subIndices(n);
+        std::iota(subIndices.begin(), subIndices.end(), 0);
+        const char *func = __FUNCTION__;
+
+        // Step 2c–2d in parallel: per-frame contributions
+        QtConcurrent::blockingMap(subIndices, [&](int t)
+        {
+            try
+            {
+                const auto &s = subs[t];
+                const auto &psf = s.psfKernel;
+
+                // Forward model Fi_x = Fi * x
+                cv::Mat Fi_x;
+                cv::filter2D(latentChannel, Fi_x, -1, psf, cv::Point(-1,-1), 0, cv::BORDER_REPLICATE);
+
+                // Residual and robust weight
+                cv::Mat r, rsq, wi;
+                cv::subtract(subsChannels[t][channelIndex], Fi_x, r);
+                cv::multiply(r, r, rsq);
+                wi = 1.0f / (1.0f + rsq / (sigma * sigma));
+
+                // Subframe scalar weight
+                const float subScalar = (normWeights.size() == n) ? normWeights[t] : s.weight;
+                wi *= subScalar;
+
+                // Build Fiᵀ(w·y) and Fiᵀ(w·Fi·x)
+                cv::Mat wi_y, wi_Fix, FiT_wi_y, FiT_wi_Fix;
+                cv::multiply(wi, subsChannels[t][channelIndex], wi_y);
+                cv::multiply(wi, Fi_x, wi_Fix);
+
+                cv::filter2D(wi_y, FiT_wi_y, -1, psf, cv::Point(-1,-1), 0, cv::BORDER_REPLICATE);
+                cv::filter2D(wi_Fix, FiT_wi_Fix, -1, psf, cv::Point(-1,-1), 0, cv::BORDER_REPLICATE);
+
+                // Thread-safe accumulation
+                QMutexLocker lock(&accumLock);
+                accumNum += FiT_wi_y;
+                accumDen += FiT_wi_Fix;
+            }
+            catch (const cv::Exception &ex)
+            {
+                qCDebug(KSTARS_FITS) << QString("OpenCV exception in %1: %2").arg(func).arg(ex.what());
+            }
+        });
+        return {accumNum, accumDen};
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("OpenCV exception in %1: %2").arg(__FUNCTION__).arg(ex.what());
+        return {cv::Mat(), cv::Mat()};
+    }
+}
+
+/**
+ * Perform a multiplicative pixel-wise update to the latent image channel.
+ *
+ * This function applies the multiplicative update step of the ImageMM algorithm to a single latent channel
+ * (e.g. R, G, or B). Each pixel in the latent image is updated by a multiplicative factor *u* computed from the
+ * ratio of accumulated numerators (`Fiᵀ·w·y`) to denominators (`Fiᵀ·w·Fi·x`) across all subframes.
+ *
+ * The update rule for each pixel is:
+ * x_new(y, x) = x_old(y, x) * clamp( num / (den + ε), 1/kappa, kappa )
+ *
+ * where:
+ * - `num` = Σₜ Fiᵀₜ(wₜ · yₜ)
+ * - `den` = Σₜ Fiᵀₜ(wₜ · Fiₜ · x)
+ * - `ε`   = small stabilizer (1e-8)
+ *
+ * This step ensures stability and prevents excessive multiplicative jumps by clamping the update factor `u`
+ * between `1/kappa` and `kappa`.
+ *
+ * NOTE: it seems to be a bit softer to apply the clamping in log space so this is now implemented.
+ *
+ * Parallelism is achieved using QtConcurrent by partitioning the image into blocks
+ */
+void FITSStack::imageMMPixelwiseUpdate(cv::Mat &channel, const std::vector<cv::Mat> &FiT_wi_y,
+                                       const std::vector<cv::Mat> &FiT_wi_Fix, float kappa)
+{
+    const int height = channel.rows;
+    const int width = channel.cols;
+    const int n = static_cast<int>(FiT_wi_y.size());
+
+    // Partition rows into work blocks
+    const int numChunks = std::max(1, QThread::idealThreadCount() * 2);
+    const int chunkRows = std::max(1, height / numChunks);
+
+    qCDebug(KSTARS_FITS) << QString("Starting ImageMM update: %1 chunks on %2 threads")
+                                .arg(numChunks).arg(QThread::idealThreadCount());
+
+    QVector<int> rowBlocks;
+    for (int y = 0; y < height; y += chunkRows)
+        rowBlocks.append(y);
+
+    // Add small stabilizer to denominator
+    const float denomBeta = 1e-8f;
+
+    auto processBlock = [&](int yStart)
+    {
+        int yEnd = std::min(yStart + chunkRows, height);
+        for (int y = yStart; y < yEnd; ++y)
+        {
+            float *outRow = channel.ptr<float>(y);
+            for (int x = 0; x < width; ++x)
+            {
+                float num = 0.0f, den = 0.0f;
+                for (int t = 0; t < n; ++t)
+                {
+                    num += FiT_wi_y[t].at<float>(y, x);
+                    den += FiT_wi_Fix[t].at<float>(y, x);
+                }
+
+                // Use log-domain damping for stability as it seems a bit softer
+                float u = num / std::max(den, denomBeta);
+                float logu = std::log(std::max(u, denomBeta));
+                logu = std::clamp(logu, -std::log(kappa), std::log(kappa));
+                outRow[x] *= std::exp(logu);
+            }
+        }
+    };
+    QtConcurrent::blockingMap(rowBlocks, processBlock);
+}
+
+/**
+ * Refine per-subframe PSFs using gradient-based optimization.
+ *
+ * This function performs a simple iterative refinement of each subframe's point spread function (PSF) based on the
+ * current latent (model) image. For each subframe:
+ *  - The latent image is convolved with the current PSF estimate (`Fi_x`).
+ *  - The gradient of the reconstruction error (`Fi_x - sub.image`) is computed.
+ *  - The PSF is updated via `imageMMUpdatePSF()`.
+ *
+ * The idea is to slightly reshape each PSF kernel so that, when convolved with the latent image, it better
+ * reproduces the observed subframe.
+ */
+void FITSStack::imageMMRefinePSFs(QVector<StackImageData> &subs, const cv::Mat &latent, float learningRate)
+{
+    try
+    {
+        for (int t = 0; t < subs.size(); ++t)
+        {
+            cv::Mat &psf = subs[t].psfKernel;
+            if (psf.empty())
+                continue;
+
+            cv::Mat Fi_x, grad;
+            cv::filter2D(latent, Fi_x, -1, psf, cv::Point(-1,-1), 0, cv::BORDER_REPLICATE);
+            cv::subtract(Fi_x, subs[t].image, grad);
+
+            imageMMUpdatePSF(psf, grad, learningRate);
+        }
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+    }
+}
+
+/**
+ * Apply a simple gradient descent based update to the PSF kernel.
+ *
+ * This function performs a single optimization step on the point spread function (PSF) used in the ImageMM model.
+ * The update is applied element-wise as:
+ * psf ← psf − η · ∇L(psf)
+ * where:
+ *   - η is the learning rate (`lr`),
+ *   - ∇L(psf) is the gradient of the current loss with respect to the PSF (`grad`).
+ *
+ * Negative values are clamped to zero after the update to preserve a physically valid (non-negative) kernel, and
+ * the PSF is then renormalized to maintain flux conservation:
+ * psf ← psf / Σ(psf)
+ */
+inline void FITSStack::imageMMUpdatePSF(cv::Mat &psf, const cv::Mat &grad, float lr)
+{
+    try
+    {
+        const int rows = psf.rows, cols = psf.cols;
+        for (int y = 0; y < rows; ++y)
+        {
+            float *p_psf = psf.ptr<float>(y);
+            const float *p_g = grad.ptr<float>(y);
+            for (int x = 0; x < cols; ++x)
+            {
+                // Single-step descent
+                p_psf[x] -= lr * p_g[x];
+                if (p_psf[x] < 0.0f)
+                    p_psf[x] = 0.0f;
+            }
+        }
+
+        // Renormalize kernel to maintain flux conservation
+        double sumVal = cv::sum(psf)[0];
+        if (sumVal > 1e-8)
+            psf /= sumVal;
+        return;
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+    }
+}
+
+/**
+ * Compute relative change between two images.
+ *
+ * This function measures how much an updated image `a` differs from a reference image `b` using the L2 (Euclidean)
+ * norm. It is typically used within the ImageMM iterative optimization loop to determine convergence between
+ * successive updates.
+ *
+ * The relative change is defined as:
+ *      rel_change = ||a - b||_2 / (||b||_2 + 1e-8)
+ *
+ * A small epsilon (1e-8) is added to the denominator to prevent div by zero.
+ */
+double FITSStack::imageMMComputeRelChange(const cv::Mat &a, const cv::Mat &b)
+{
+    try
+    {
+        double num = cv::norm(a - b, cv::NORM_L2);
+        double den = cv::norm(b, cv::NORM_L2) + 1e-8;
+        return num / den;
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+        return 0.0;
+    }
+}
+
+/**
+ * Build a synthetic 2D Gaussian PSF kernel from a given HFR value.
+ *
+ * This function generates a normalized Gaussian point spread function (PSF) whose width corresponds to the specified
+ * half-flux radius (HFR), expressed in pixels. The PSF is commonly used in ImageMM routines for convolution,
+ * deconvolution, or as an initial estimate of the stellar profile.
+ *
+ * The conversion assumes an approximate relationship:
+ *      σ ≈ HFR / 1.177
+ * which relates the Gaussian standard deviation (σ) to the half-flux radius. The kernel size is chosen to cover
+ * roughly ±3σ and is enforced to be odd.
+ */
+cv::Mat FITSStack::buildPSFFromHFR(const double hfr)
+{
+    try
+    {
+        // Sanity clamp
+        if (!std::isfinite(hfr) || hfr <= 0.1 || hfr > 20.0)
+            return cv::Mat();
+
+        // Convert HFR -> Gaussian sigma
+        double sigma = hfr / 1.177;
+        sigma = std::clamp(sigma, 0.5, 5.0);
+
+        // Kernel size: roughly ±3σ (odd)
+        int ksize = std::max(7, int(6 * sigma) | 1);
+
+        // 1D Gaussian -> 2D kernel
+        cv::Mat g1d = cv::getGaussianKernel(ksize, sigma, CV_MAT_TYPE(m_CVType));
+        cv::Mat psf = g1d * g1d.t();
+
+        // Normalize to sum = 1
+        psf /= cv::sum(psf)[0];
+
+        qCDebug(KSTARS_FITS) << QString("%1: HFR=%2 px -> σ=%3 (ksize=%4x%4)").arg(__FUNCTION__).arg(hfr, 0, 'f', 2)
+                                    .arg(sigma, 0, 'f', 2).arg(ksize);
+
+        return psf;
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+        return cv::Mat();
     }
 }
 
@@ -1874,14 +2584,77 @@ void FITSStack::setupRunningStack(struct wcsprm * refWCS, const int numSubs, con
     m_RunningStackImageData.ref_hfr = 0;
     m_RunningStackImageData.ref_numStars = 0;
     m_RunningStackImageData.totalWeight = totalWeight;
+
+    // Initialize latent for incremental ImageMM
+    if (!m_StackedImage32F.empty())
+        m_RunningStackImageData.imageMMState.latent = m_StackedImage32F.clone();
+    else
+        m_RunningStackImageData.imageMMState.latent = cv::Mat::zeros(
+            m_StackImageData[0].image.size(), m_StackImageData[0].image.type());
+
+    if (m_StackData.stackingMethod == LS_STACKING_IMAGEMM)
+    {
+        // Copy subs to running buffer for ImageMM
+        m_RunningStackImageData.runningSubs.clear();
+        for (int i = 0; i < numSubs; ++i)
+        {
+            StackImageData sub;
+            sub.image = m_StackImageData[i].image;
+            sub.psfKernel = m_StackImageData[i].psfKernel.empty()
+                                   ? buildPSFFromHFR(m_StackImageData[i].hfr)
+                                   : m_StackImageData[i].psfKernel;
+            sub.weight = m_StackImageData[i].weight;
+            m_RunningStackImageData.runningSubs.append(sub);
+        }
+    }
+
+    // Now it’s safe to free the old data
     tidyUpInitalStack(refWCS);
 }
 
 void FITSStack::updateRunningStack(const int numSubs, const float totalWeight)
 {
-    m_RunningStackImageData.numSubs += numSubs;
-    m_RunningStackImageData.totalWeight = totalWeight;
-    tidyUpInitalStack(nullptr);
+    try
+    {
+        // Update running stack metadata
+        m_RunningStackImageData.numSubs += numSubs;
+        m_RunningStackImageData.totalWeight = totalWeight;
+
+        if (m_StackData.stackingMethod == LS_STACKING_IMAGEMM)
+        {
+            // Merge new subs from m_StackImageData into runningSubs
+            for (auto &newSub : m_StackImageData)
+            {
+                // Ensure PSF kernel is valid
+                if (newSub.psfKernel.empty())
+                {
+                    if (newSub.hfr > 0)
+                        newSub.psfKernel = buildPSFFromHFR(newSub.hfr);
+                    else
+                    {
+                        cv::Mat g = cv::getGaussianKernel(9, 1.5, CV_MAT_TYPE(m_CVType));
+                        newSub.psfKernel = g * g.t();
+                    }
+                }
+
+                // Append to running buffer
+                m_RunningStackImageData.runningSubs.append(newSub);
+            }
+
+            // Trim history if too many old subs
+            int excess = m_RunningStackImageData.runningSubs.size() - m_StackData.numInMem;
+            if (excess > 0)
+                m_RunningStackImageData.runningSubs.remove(0, excess);
+        }
+
+        // Free any unnecessary references to old FITS buffers
+        tidyUpInitalStack(nullptr);
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS)
+            << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+    }
 }
 
 // Release FITS and openCV memory used in original stack
@@ -1897,6 +2670,7 @@ void FITSStack::tidyUpInitalStack(struct wcsprm * refWCS)
             m_StackImageData[i].wcsprm = nullptr;
         }
         m_StackImageData[i].image.release();
+        m_StackImageData[i].psfKernel.release();
     }
     m_StackImageData.clear();
 }
@@ -1910,4 +2684,7 @@ void FITSStack::tidyUpRunningStack()
         free(m_RunningStackImageData.ref_wcsprm);
         m_RunningStackImageData.ref_wcsprm = nullptr;
     }
+
+    // Reset ImageMM state
+    m_RunningStackImageData.imageMMState = {};
 }

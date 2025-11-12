@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>618</width>
-    <height>754</height>
+    <height>848</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1145,7 +1145,7 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="alignLabel">
+            <widget class="QLabel" name="AlignMethodLabel">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -1267,161 +1267,8 @@
            <property name="spacing">
             <number>3</number>
            </property>
-           <item row="6" column="1">
-            <widget class="QDoubleSpinBox" name="HighSigma">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>150</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Value of High Sigma to be used in pixel rejection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="maximum">
-              <double>10.000000000000000</double>
-             </property>
-             <property name="value">
-              <double>3.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="LowSigmaLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>165</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Value of Low Sigma to be used in pixel rejection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="text">
-              <string>Low Sigma:</string>
-             </property>
-             <property name="buddy">
-              <cstring>LowSigma</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QSpinBox" name="NumInMem">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>150</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum number of subs held in memory whilst processing. The larger the value, the better the quality of the stacking process, but at the cost of more processing time and memory used.&lt;/p&gt;&lt;p&gt;Processes such as sigma clipping will use this many subs to calculate statistics to use on all subs.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="minimum">
-              <number>2</number>
-             </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="value">
-              <number>5</number>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="InMemoryLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>165</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum number of subs held in memory whilst processing. The larger the value, the better the quality of the stacking process, but at the cost of more processing time and memory used.&lt;/p&gt;&lt;p&gt;Processes such as sigma clipping will use this many subs to calculate statistics to use on all subs.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="text">
-              <string>In Memory Subs:</string>
-             </property>
-             <property name="buddy">
-              <cstring>NumInMem</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="HighSigmaLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>165</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Value of High Sigma to be used in pixel rejection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="text">
-              <string>High Sigma:</string>
-             </property>
-             <property name="buddy">
-              <cstring>HighSigma</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1">
-            <widget class="QDoubleSpinBox" name="LowSigma">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>150</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Value of Low Sigma to be used in pixel rejection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="maximum">
-              <double>10.000000000000000</double>
-             </property>
-             <property name="value">
-              <double>3.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="DownscaleLabel">
+           <item row="8" column="2">
+            <widget class="QLabel" name="SigmaLabel">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -1435,13 +1282,60 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Downscale images:&lt;/p&gt;&lt;p&gt;- None. No downscaling applied .&lt;/p&gt;&lt;p&gt;- 2x2. Subs and masters are downscaled 2x2.&lt;/p&gt;&lt;p&gt;- 3x3. Subs and masters are downscaled 3x3.&lt;/p&gt;&lt;p&gt;- 4x4. Subs and masters are downscaled 4x4.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sigma Scale reduces the calculated image sigma to smooth the updates (usually in the range 0.6 - 0.9).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>  Downscale: </string>
+              <string>  Sigma Scale:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="3">
+            <widget class="QDoubleSpinBox" name="WinsorCutoff">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Winsorization cutoff in units of sigma to be used in pixel rejection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="maximum">
+              <double>10.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>3.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="AlphaLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>165</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Relaxation / damping between iterations. 1.0 = no damping, &amp;lt;1.0 = smoother but slower convergence.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>Alpha:</string>
              </property>
              <property name="buddy">
-              <cstring>LSDownscale</cstring>
+              <cstring>Alpha</cstring>
              </property>
             </widget>
            </item>
@@ -1487,6 +1381,151 @@
              </item>
             </widget>
            </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="DownscaleLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>125</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Downscale images:&lt;/p&gt;&lt;p&gt;- None. No downscaling applied .&lt;/p&gt;&lt;p&gt;- 2x2. Subs and masters are downscaled 2x2.&lt;/p&gt;&lt;p&gt;- 3x3. Subs and masters are downscaled 3x3.&lt;/p&gt;&lt;p&gt;- 4x4. Subs and masters are downscaled 4x4.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>  Downscale: </string>
+             </property>
+             <property name="buddy">
+              <cstring>LSDownscale</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="3">
+            <widget class="QDoubleSpinBox" name="Sigma">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sigma Scale reduces the calculated image sigma to smooth the updates (usually in the range 0.6 - 0.9).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="minimum">
+              <double>0.100000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>2.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.100000000000000</double>
+             </property>
+             <property name="value">
+              <double>0.700000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="StackingMethod">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stacking mathod:&lt;/p&gt;&lt;p&gt;- Average. Uses a simple mean average. No pixel rejection is applied.&lt;/p&gt;&lt;p&gt;- Sigma Clipping. Outlying pixels are rejected.&lt;/p&gt;&lt;p&gt;- Winsorized Sigma Clipping. Winsorized version of sigma clipping&lt;/p&gt;&lt;p&gt;- ImageMM. Implements ImageMM stacking as per https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this method is very resource intensive&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="currentText">
+              <string>None</string>
+             </property>
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <item>
+              <property name="text">
+               <string>None</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Sigma Clipping</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Winsorized SC</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ImageMM</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QDoubleSpinBox" name="HighSigma">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Value of High Sigma to be used in pixel rejection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="maximum">
+              <double>10.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>3.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QSpinBox" name="NumInMem">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum number of subs held in memory whilst processing. The larger the value, the better the quality of the stacking process, but at the cost of more processing time and memory used.&lt;/p&gt;&lt;p&gt;Processes such as sigma clipping will use this many subs to calculate statistics to use on all subs.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="minimum">
+              <number>2</number>
+             </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
+             <property name="value">
+              <number>5</number>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="3">
             <widget class="QComboBox" name="Weighting">
              <property name="sizePolicy">
@@ -1521,6 +1560,212 @@
              </item>
             </widget>
            </item>
+           <item row="7" column="3">
+            <widget class="QDoubleSpinBox" name="Kappa">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kappa controls the multiplicative update constraint per iteration (preventing large pixel updates). Usual values between 1.0 (no update) and 2.0.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="minimum">
+              <double>1.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.100000000000000</double>
+             </property>
+             <property name="value">
+              <double>1.500000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1">
+            <widget class="QDoubleSpinBox" name="Alpha">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Relaxation / damping between iterations. 1.0 = no damping, &amp;lt;1.0 = smoother but slower convergence.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="minimum">
+              <double>0.500000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>1.000000000000000</double>
+             </property>
+             <property name="singleStep">
+              <double>0.100000000000000</double>
+             </property>
+             <property name="value">
+              <double>0.900000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="InMemoryLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>165</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum number of subs held in memory whilst processing. The larger the value, the better the quality of the stacking process, but at the cost of more processing time and memory used.&lt;/p&gt;&lt;p&gt;Processes such as sigma clipping will use this many subs to calculate statistics to use on all subs.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>In Memory Subs:</string>
+             </property>
+             <property name="buddy">
+              <cstring>NumInMem</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="StackingMethodLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>165</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pixel rejection algorithm:&lt;/p&gt;&lt;p&gt;- None. No rejection is applied.&lt;/p&gt;&lt;p&gt;- Sigma Clipping. Outlying pixels are rejected.&lt;/p&gt;&lt;p&gt;- Winsorized Sigma Clipping. Winsorized version of sigma clipping&lt;/p&gt;&lt;p&gt;- ImageMM. Implements ImageMM stacking as per https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this method is very resource intensive&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>Method:</string>
+             </property>
+             <property name="buddy">
+              <cstring>StackingMethod</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QDoubleSpinBox" name="LowSigma">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Value of Low Sigma to be used in pixel rejection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="maximum">
+              <double>10.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>3.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QSpinBox" name="Iterations">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of iterations for use in ImageMM algorithm.&lt;/p&gt;&lt;p&gt;Keep low to minimize processing overhead&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>20</number>
+             </property>
+             <property name="value">
+              <number>3</number>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="2">
+            <widget class="QLabel" name="KappaLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>125</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kappa controls the multiplicative update constraint per iteration (preventing large pixel updates). Usual values between 1.0 (no update) and 2.0.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>  Kappa:</string>
+             </property>
+             <property name="buddy">
+              <cstring>Kappa</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="HighSigmaLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>165</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Value of High Sigma to be used in pixel rejection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>High Sigma:</string>
+             </property>
+             <property name="buddy">
+              <cstring>HighSigma</cstring>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="2">
             <widget class="QLabel" name="WeightingLabel">
              <property name="sizePolicy">
@@ -1546,8 +1791,8 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="pixelRejLabel">
+           <item row="5" column="0">
+            <widget class="QLabel" name="LowSigmaLabel">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -1561,18 +1806,18 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pixel rejection algorithm:&lt;/p&gt;&lt;p&gt;- None. No rejection is applied.&lt;/p&gt;&lt;p&gt;- Sigma Clipping. Outlying pixels are rejected.&lt;/p&gt;&lt;p&gt;- Winsorized Sigma Clipping. Winsorized version of sigma clipping&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Value of Low Sigma to be used in pixel rejection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Rejection Method:</string>
+              <string>Low Sigma:</string>
              </property>
              <property name="buddy">
-              <cstring>Rejection</cstring>
+              <cstring>LowSigma</cstring>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QComboBox" name="Rejection">
+           <item row="7" column="0">
+            <widget class="QLabel" name="IterationsLabel">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -1581,34 +1826,19 @@
              </property>
              <property name="minimumSize">
               <size>
-               <width>150</width>
+               <width>165</width>
                <height>0</height>
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pixel rejection algorithm:&lt;/p&gt;&lt;p&gt;- None. No rejection is applied.&lt;/p&gt;&lt;p&gt;- Sigma Clipping. Outlying pixels are rejected.&lt;/p&gt;&lt;p&gt;- Winsorized Sigma Clipping. Winsorized version of sigma clipping&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of iterations for use in ImageMM algorithm.&lt;/p&gt;&lt;p&gt;Keep low to minimize processing overhead&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
-             <property name="currentText">
-              <string>None</string>
+             <property name="text">
+              <string>Iterations:</string>
              </property>
-             <property name="currentIndex">
-              <number>0</number>
+             <property name="buddy">
+              <cstring>Iterations</cstring>
              </property>
-             <item>
-              <property name="text">
-               <string>None</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Sigma Clipping</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Winsorized SC</string>
-              </property>
-             </item>
             </widget>
            </item>
            <item row="5" column="2">
@@ -1636,8 +1866,33 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="3">
-            <widget class="QDoubleSpinBox" name="WinsorCutoff">
+           <item row="9" column="0">
+            <widget class="QLabel" name="PSFUpdateLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>165</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Update PSF Interval. Adapt the PSF used in the ImageMM method to provide a better result. This is resource intensive and if overdone can lead to ringing.&lt;/p&gt;&lt;p&gt;0 = No update&lt;/p&gt;&lt;p&gt;1 = Every iteration&lt;/p&gt;&lt;p&gt;n = Every nth iteration&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>PSF Update:</string>
+             </property>
+             <property name="buddy">
+              <cstring>PSFUpdate</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="1">
+            <widget class="QSpinBox" name="PSFUpdate">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -1651,13 +1906,10 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Winsorization cutoff in units of sigma to be used in pixel rejection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Update PSF Interval. Adapt the PSF used in the ImageMM method to provide a better result. This is resource intensive and if overdone can lead to ringing.&lt;/p&gt;&lt;p&gt;0 = No update&lt;/p&gt;&lt;p&gt;1 = Every iteration&lt;/p&gt;&lt;p&gt;n = Every nth iteration&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="maximum">
-              <double>10.000000000000000</double>
-             </property>
-             <property name="value">
-              <double>3.000000000000000</double>
+              <number>20</number>
              </property>
             </widget>
            </item>
@@ -1724,11 +1976,16 @@
   <tabstop>AlignMethod</tabstop>
   <tabstop>NumInMem</tabstop>
   <tabstop>LSDownscale</tabstop>
-  <tabstop>Rejection</tabstop>
+  <tabstop>StackingMethod</tabstop>
   <tabstop>Weighting</tabstop>
   <tabstop>LowSigma</tabstop>
   <tabstop>WinsorCutoff</tabstop>
   <tabstop>HighSigma</tabstop>
+  <tabstop>Iterations</tabstop>
+  <tabstop>Kappa</tabstop>
+  <tabstop>Alpha</tabstop>
+  <tabstop>Sigma</tabstop>
+  <tabstop>PSFUpdate</tabstop>
   <tabstop>PostProcGroupBox</tabstop>
   <tabstop>DeconvAmt</tabstop>
   <tabstop>PSFSigma</tabstop>

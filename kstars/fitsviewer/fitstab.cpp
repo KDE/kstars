@@ -933,6 +933,8 @@ void FITSTab::initLiveStacking()
     connect(m_LiveStackingUI.MasterFlatB, &QPushButton::clicked, this, &FITSTab::selectLiveStackMasterFlat);
     connect(m_LiveStackingUI.AlignMasterB, &QPushButton::clicked, this, &FITSTab::selectLiveStackAlignSub);
     connect(m_LiveStackingUI.PostProcGroupBox, &QGroupBox::toggled, this, &FITSTab::redoPostProcessing);
+    connect(m_LiveStackingUI.StackingMethod, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+                                        &FITSTab::rejectionChanged);
 
     // Other connections used by Live Stacking
     connect(m_View.get(), &FITSView::plateSolveSub, this, &FITSTab::plateSolveSub);
@@ -952,10 +954,15 @@ void FITSTab::initSettings()
     m_LiveStackingUI.NumInMem->setValue(Options::fitsLSNumInMem());
     m_LiveStackingUI.LSDownscale->setCurrentIndex(Options::fitsLSDownscale());
     m_LiveStackingUI.Weighting->setCurrentIndex(Options::fitsLSWeighting());
-    m_LiveStackingUI.Rejection->setCurrentIndex(Options::fitsLSRejection());
+    m_LiveStackingUI.StackingMethod->setCurrentIndex(Options::fitsLSStackingMethod());
     m_LiveStackingUI.LowSigma->setValue(Options::fitsLSLowSigma());
     m_LiveStackingUI.HighSigma->setValue(Options::fitsLSHighSigma());
     m_LiveStackingUI.WinsorCutoff->setValue(Options::fitsLSWinsorCutoff());
+    m_LiveStackingUI.Iterations->setValue(Options::fitsLSIterations());
+    m_LiveStackingUI.Kappa->setValue(Options::fitsLSKappa());
+    m_LiveStackingUI.Alpha->setValue(Options::fitsLSAlpha());
+    m_LiveStackingUI.Sigma->setValue(Options::fitsLSSigma());
+    m_LiveStackingUI.PSFUpdate->setValue(Options::fitsPSFUpdate());
     m_LiveStackingUI.PostProcGroupBox->setChecked(Options::fitsLSPostProc());
     m_LiveStackingUI.DeconvAmt->setValue(Options::fitsLSDeconvAmt());
     m_LiveStackingUI.PSFSigma->setValue(Options::fitsLSPSFSigma());
@@ -963,6 +970,7 @@ void FITSTab::initSettings()
     m_LiveStackingUI.SharpenAmt->setValue(Options::fitsLSSharpenAmt());
     m_LiveStackingUI.SharpenKernal->setValue(Options::fitsLSSharpenKernal());
     m_LiveStackingUI.SharpenSigma->setValue(Options::fitsLSSharpenSigma());
+    rejectionChanged(m_LiveStackingUI.StackingMethod->currentIndex());
 }
 
 void FITSTab::saveSettings()
@@ -973,10 +981,16 @@ void FITSTab::saveSettings()
     Options::setFitsLSNumInMem(m_LiveStackingUI.NumInMem->value());
     Options::setFitsLSDownscale(m_LiveStackingUI.LSDownscale->currentIndex());
     Options::setFitsLSWeighting(m_LiveStackingUI.Weighting->currentIndex());
-    Options::setFitsLSRejection(m_LiveStackingUI.Rejection->currentIndex());
+    Options::setFitsLSStackingMethod(m_LiveStackingUI.StackingMethod->currentIndex());
     Options::setFitsLSLowSigma(m_LiveStackingUI.LowSigma->value());
     Options::setFitsLSHighSigma(m_LiveStackingUI.HighSigma->value());
     Options::setFitsLSWinsorCutoff(m_LiveStackingUI.WinsorCutoff->value());
+    Options::setFitsLSIterations(m_LiveStackingUI.Iterations->value());
+    Options::setFitsLSKappa(m_LiveStackingUI.Kappa->value());
+    Options::setFitsLSAlpha(m_LiveStackingUI.Alpha->value());
+    Options::setFitsLSSigma(m_LiveStackingUI.Sigma->value());
+    Options::setFitsPSFUpdate(m_LiveStackingUI.PSFUpdate->value());
+
     Options::setFitsLSPostProc(m_LiveStackingUI.PostProcGroupBox->isChecked());
     Options::setFitsLSDeconvAmt(m_LiveStackingUI.DeconvAmt->value());
     Options::setFitsLSPSFSigma(m_LiveStackingUI.PSFSigma->value());
@@ -1004,10 +1018,15 @@ LiveStackData FITSTab::getAllSettings()
     data.numInMem = m_LiveStackingUI.NumInMem->value();
     data.downscale = static_cast<LiveStackDownscale>(m_LiveStackingUI.LSDownscale->currentIndex());
     data.weighting = static_cast<LiveStackFrameWeighting>(m_LiveStackingUI.Weighting->currentIndex());
-    data.rejection = static_cast<LiveStackRejection>(m_LiveStackingUI.Rejection->currentIndex());
+    data.stackingMethod = static_cast<LiveStackStackingMethod>(m_LiveStackingUI.StackingMethod->currentIndex());
     data.lowSigma = m_LiveStackingUI.LowSigma->value();
     data.highSigma = m_LiveStackingUI.HighSigma->value();
     data.windsorCutoff = m_LiveStackingUI.WinsorCutoff->value();
+    data.iterations = m_LiveStackingUI.Iterations->value();
+    data.kappa = m_LiveStackingUI.Kappa->value();
+    data.alpha = m_LiveStackingUI.Alpha->value();
+    data.sigma = m_LiveStackingUI.Sigma->value();
+    data.PSFUpdate = m_LiveStackingUI.PSFUpdate->value();
     data.postProcessing = getPPSettings();
     return data;
 }
@@ -1023,6 +1042,55 @@ LiveStackPPData FITSTab::getPPSettings()
     data.sharpenKernal = m_LiveStackingUI.SharpenKernal->value();
     data.sharpenSigma = m_LiveStackingUI.SharpenSigma->value();
     return data;
+}
+
+void FITSTab::rejectionChanged(int index)
+{
+    switch (index)
+    {
+        case LS_STACKING_MEAN:
+            m_LiveStackingUI.LowSigma->hide(); m_LiveStackingUI.LowSigmaLabel->hide();
+            m_LiveStackingUI.HighSigma->hide(); m_LiveStackingUI.HighSigmaLabel->hide();
+            m_LiveStackingUI.WinsorCutoff->hide(); m_LiveStackingUI.WinsorCutoffLabel->hide();
+            m_LiveStackingUI.Iterations->hide(); m_LiveStackingUI.IterationsLabel->hide();
+            m_LiveStackingUI.Kappa->hide(); m_LiveStackingUI.KappaLabel->hide();
+            m_LiveStackingUI.Alpha->hide(); m_LiveStackingUI.AlphaLabel->hide();
+            m_LiveStackingUI.Sigma->hide(); m_LiveStackingUI.SigmaLabel->hide();
+            m_LiveStackingUI.PSFUpdate->hide(); m_LiveStackingUI.PSFUpdateLabel->hide();
+            break;
+        case LS_STACKING_SIGMA:
+            m_LiveStackingUI.LowSigma->show(); m_LiveStackingUI.LowSigmaLabel->show();
+            m_LiveStackingUI.HighSigma->show(); m_LiveStackingUI.HighSigmaLabel->show();
+            m_LiveStackingUI.WinsorCutoff->hide(); m_LiveStackingUI.WinsorCutoffLabel->hide();
+            m_LiveStackingUI.Iterations->hide(); m_LiveStackingUI.IterationsLabel->hide();
+            m_LiveStackingUI.Kappa->hide(); m_LiveStackingUI.KappaLabel->hide();
+            m_LiveStackingUI.Alpha->hide(); m_LiveStackingUI.AlphaLabel->hide();
+            m_LiveStackingUI.Sigma->hide(); m_LiveStackingUI.SigmaLabel->hide();
+            m_LiveStackingUI.PSFUpdate->hide(); m_LiveStackingUI.PSFUpdateLabel->hide();
+            break;
+        case LS_STACKING_WINDSOR:
+            m_LiveStackingUI.LowSigma->show(); m_LiveStackingUI.LowSigmaLabel->show();
+            m_LiveStackingUI.HighSigma->show(); m_LiveStackingUI.HighSigmaLabel->show();
+            m_LiveStackingUI.WinsorCutoff->show(); m_LiveStackingUI.WinsorCutoffLabel->show();
+            m_LiveStackingUI.Iterations->hide(); m_LiveStackingUI.IterationsLabel->hide();
+            m_LiveStackingUI.Kappa->hide(); m_LiveStackingUI.KappaLabel->hide();
+            m_LiveStackingUI.Alpha->hide(); m_LiveStackingUI.AlphaLabel->hide();
+            m_LiveStackingUI.Sigma->hide(); m_LiveStackingUI.SigmaLabel->hide();
+            m_LiveStackingUI.PSFUpdate->hide(); m_LiveStackingUI.PSFUpdateLabel->hide();
+            break;
+        case LS_STACKING_IMAGEMM:
+            m_LiveStackingUI.LowSigma->hide(); m_LiveStackingUI.LowSigmaLabel->hide();
+            m_LiveStackingUI.HighSigma->hide(); m_LiveStackingUI.HighSigmaLabel->hide();
+            m_LiveStackingUI.WinsorCutoff->hide(); m_LiveStackingUI.WinsorCutoffLabel->hide();
+            m_LiveStackingUI.Iterations->show(); m_LiveStackingUI.IterationsLabel->show();
+            m_LiveStackingUI.Kappa->show(); m_LiveStackingUI.KappaLabel->show();
+            m_LiveStackingUI.Alpha->show(); m_LiveStackingUI.AlphaLabel->show();
+            m_LiveStackingUI.Sigma->show(); m_LiveStackingUI.SigmaLabel->show();
+            m_LiveStackingUI.PSFUpdate->show(); m_LiveStackingUI.PSFUpdateLabel->show();
+            break;
+        default:
+            break;
+    }
 }
 
 void FITSTab::redoPostProcessing()

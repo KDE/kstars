@@ -1830,8 +1830,8 @@
       <whatsthis>Live Stacking sub weighting</whatsthis>
       <default>0</default>
    </entry>
-   <entry name="fitsLSRejection" type="UInt">
-      <whatsthis>Live Stacking pixel rejection mechanism</whatsthis>
+   <entry name="fitsLSStackingMethod" type="UInt">
+      <whatsthis>Live Stacking stacking method</whatsthis>
       <default>0</default>
    </entry>
    <entry name="fitsLSLowSigma" type="Double">
@@ -1845,6 +1845,26 @@
    <entry name="fitsLSWinsorCutoff" type="Double">
       <label>Live Stacking sigma clipping windzor cutoff</label>
       <default>3.0</default>
+   </entry>
+   <entry name="fitsLSIterations" type="UInt">
+      <label>Live Stacking Iterations to use in ImageMM stacking</label>
+      <default>3</default>
+   </entry>
+   <entry name="fitsLSKappa" type="Double">
+      <label>Live Stacking ImageMM kappa</label>
+      <default>1.5</default>
+   </entry>
+   <entry name="fitsLSAlpha" type="Double">
+      <label>Live Stacking ImageMM alpha</label>
+      <default>0.9</default>
+   </entry>
+   <entry name="fitsLSSigma" type="Double">
+      <label>Live Stacking ImageMM sigma</label>
+      <default>0.9</default>
+   </entry>
+   <entry name="fitsPSFUpdate" type="UInt">
+      <label>Live Stacking ImageMM PSF Update interval</label>
+      <default>0</default>
    </entry>
    <entry name="fitsLSPostProc" type="bool">
       <whatsthis>Live Stacking Post Processing switch</whatsthis>

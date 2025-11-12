@@ -299,6 +299,26 @@ class FITSStack : public QObject
             OK
         } StackSubStatus;
 
+        typedef struct
+        {
+            cv::Mat m, v;
+            int t = 0;
+        } AdamState;
+
+        typedef struct
+        {
+            QString sub;
+            cv::Mat image;
+            cv::Mat psfKernel;
+            StackSubStatus status = StackSubStatus::OK;
+            bool isCalibrated = false;
+            bool isAligned = false;
+            struct wcsprm * wcsprm;
+            double hfr = -1;
+            int numStars = 0;
+            float weight = -1.0f;
+        } StackImageData;
+
         /**
          * @brief Check that a new image is consistent with previous images in size, datatype, etc
          * @return success (or not)
@@ -416,6 +436,129 @@ class FITSStack : public QObject
         cv::Mat stacknSubsSigmaClipping(const QVector<float> &weights);
 
         /**
+         * @brief Runs full ImageMM stacking on the current subframe set.
+         * @param weights     Per-subframe relative weights (same size as current subframe list).
+         * @param lsd         User specified parameters.
+         * @return The stacked image.
+         */
+        cv::Mat stackSubsImageMM(const QVector<float> &weights, const LiveStackData &lsd);
+
+        /**
+         * @brief Incrementally update the ImageMM stack using new subframes.
+         * @param weights     Per-subframe relative weights (same size as current subframe list).
+         * @param lsd         User specified parameters.
+         * @return The updated latent floating-point image (`cv::Mat`, type `CV_32F`).
+         */
+        cv::Mat stacknSubsImageMM(const QVector<float> &weights, const LiveStackData &lsd);
+
+        /**
+         * @brief Build a complete list of subframes and corresponding weights for ImageMM stacking.
+         * @param[in]  newWeights   Vector of weights associated with the new subframes being added.
+         * @param[out] allSubs      Combined list of all subframes (existing + new) to be used for stacking.
+         * @param[out] allWeights   Combined, normalized list of weights matching `allSubs`.
+         * @return True if all subframes and weights were successfully combined; false on error or mismatch.
+         */
+        bool imageMMBuildAllSubs(const QVector<float> &newWeights, QVector<FITSStack::StackImageData> &allSubs,
+                                 QVector<float> &allWeights);
+
+        /**
+         * @brief Perform one complete ImageMM robust stacking run. This is the core function for ImageMM
+         * @param subs          Vector of subframe data and metadata.
+         * @param latent        Latent image estimate (initialized if empty).
+         * @param sigma         Robust scale parameter, updated per iteration.
+         * @param weights       Per-subframe scalar weights (same size as subs).
+         * @param lsd           User specified parameters.
+         * @param incremental   If true, performs an incremental stack update (state persists).
+         * @return Final latent image (same size/channels as inputs).
+         */
+        cv::Mat imageMMCore(QVector<StackImageData> &subs, cv::Mat &latent, double &sigma,
+                            const QVector<float> &weights, const LiveStackData &lsd, bool incremental);
+
+        /**
+         * @brief Initialize latent image if empty, using weighted mean of subs.
+         * @param latent   image
+         * @param subs     Vector of new subs
+         * @param weights  Vector of normalised weights of subs
+         */
+        void imageMMInitializeLatent(cv::Mat &latent, const QVector<StackImageData> &subs,
+                                     const QVector<float> &weights);
+
+        /**
+         * @brief Estimate the global noise scale (σ) of the ImageMM model using the Median Absolute Deviation (MAD) of residuals.
+         * @param[in]  subs          Vector of subframes to analyze.
+         * @param[in]  latent        Current latent (mean) image against which residuals are computed.
+         * @param[in]  pixelSample   Pixel subsampling step (e.g., 4 means sample every 4th pixel).
+         * @param[in]  frameSample   Maximum number of frames to include in the estimation.
+         * @param[in]  sigmaScale    Scale multiplier applied to the final σ estimate.
+         * @param[in]  prevSigma     Previous σ estimate (for temporal blending).
+         * @param[in]  sigmaBlend    Blending factor between old and new σ (0.0 = only new, 1.0 = only old).
+         * @return The updated global σ estimate, blended if applicable.
+         */
+        double imageMMEstimateSigma(const QVector<StackImageData> &subs, const cv::Mat &latent, int pixelSample,
+                                    int frameSample, double sigmaScale, double prevSigma, double sigmaBlend);
+
+        /**
+         * @brief Accumulate per-subframe contributions for each channel in the ImageMM iteration.
+         * @param subs           Vector of subframe metadata (including PSFs and weights).
+         * @param subsChannels   For each subframe, its color channels as cv::Mat images.
+         * @param latentChannel  The current latent image estimate for this color channel.
+         * @param normWeights    Optional normalized scalar weights per subframe (same size as `subs`).
+         * @param sigma          Robustness parameter for residual weighting.
+         * @param channelIndex   The current color channel index (0=R, 1=G, 2=B, etc).
+         * @return A pair `{accumNum, accumDen}`:
+         *         - `accumNum`: accumulated numerator term (Σ Fᵀ(w·y))
+         *         - `accumDen`: accumulated denominator term (Σ Fᵀ(w·F·x))
+         */
+        std::pair<cv::Mat, cv::Mat> imageMMAccumulateChannel(const QVector<StackImageData> &subs,
+                                const std::vector<std::vector<cv::Mat>> &subsChannels, const cv::Mat &latentChannel,
+                                const QVector<float> &normWeights, double sigma, int channelIndex);
+
+        /**
+         * @brief Perform a multiplicative pixel-wise update to the latent image channel.
+         * @param channel The latent image channel to be updated in place. Must be a
+         *                single-channel `CV_32F` matrix (converted if not).
+         * @param FiT_wi_y Per-frame matrices representing `Fiᵀ·(w·y)` for each subframe.
+         * @param FiT_wi_Fix Per-frame matrices representing `Fiᵀ·(w·Fi·x)` for each subframe.
+         * @param kappa The multiplicative update clamp factor. Each pixel update
+         *              is restricted to the range `[1/kappa, kappa]`.
+         */
+        void imageMMPixelwiseUpdate(cv::Mat &channel, const std::vector<cv::Mat> &FiT_wi_y,
+                                    const std::vector<cv::Mat> &FiT_wi_Fix, float kappa);
+
+        /**
+         * @brief Refine per-subframe PSFs using gradient-based optimization.
+         * @param subs           Vector of subframe data. Each element must contain
+         *                       a non-empty PSF kernel (`psfKernel`) and an image (`image`).
+         * @param latent         Current latent model image used to estimate PSF gradients.
+         * @param learningRate   Step size for PSF updates. Typically a small value (e.g., 1e-3–1e-2)
+         *                       to prevent over-correction and maintain stability.
+         */
+        void imageMMRefinePSFs(QVector<StackImageData> &subs, const cv::Mat &latent, float learningRate);
+
+        /**
+         * @brief Apply a simple gradient-based update to the PSF kernel.
+         * @param psf  [in,out] Current PSF kernel (`CV_32F`, normalized, non-negative).
+         * @param grad [in] Gradient matrix of same size as `psf`, representing ∇L(psf).
+         * @param lr   Learning rate (step size) controlling the strength of the update.
+         */
+        inline void imageMMUpdatePSF(cv::Mat &psf, const cv::Mat &grad, float lr);
+
+        /**
+         * @brief Compute relative change between two images.
+         * @param a  Current image.
+         * @param b  Previous image.
+         * @return   Relative L2 norm difference (0 = identical, >1 = large change).
+         */
+        double imageMMComputeRelChange(const cv::Mat &a, const cv::Mat &b);
+
+        /**
+         * @brief Build a synthetic 2D Gaussian PSF kernel from a given HFR value.
+         * @param hfr  Half-flux radius in pixels, describing the PSF width.
+         * @return     Normalized 2D Gaussian PSF matrix (float type), or empty on error.
+        */
+        cv::Mat buildPSFFromHFR(const double hfr);
+
+        /**
          * @brief Store the WCS for the stack image based on the WCS for the master alignment sub
          * @param wcs is the master alignment sub WCS
          */
@@ -490,17 +633,15 @@ class FITSStack : public QObject
         int m_BayerOffsetX { 0 };
         int m_BayerOffsetY { 0 };
 
+        // Global incremental ImageMM state
         typedef struct
         {
-            QString sub;
-            cv::Mat image;
-            StackSubStatus status;
-            bool isCalibrated;
-            bool isAligned;
-            struct wcsprm * wcsprm;
-            double hfr;
-            int numStars;
-        } StackImageData;
+            cv::Mat accumNum;   // Σ Fᵀ(w·y)
+            cv::Mat accumDen;   // Σ Fᵀ(w·F·x)
+            cv::Mat latent;     // Current estimate x̂
+            double sigma = 0.0; // Blended sigma
+        } ImageMMState;
+
         QVector<StackImageData> m_StackImageData;
 
         typedef struct
@@ -510,8 +651,10 @@ class FITSStack : public QObject
             double ref_hfr;
             int ref_numStars;
             float totalWeight;
+            ImageMMState imageMMState;
+            QVector<StackImageData> runningSubs;
         } RunningStackImageData;
-        RunningStackImageData m_RunningStackImageData { 0, nullptr, -1.0, 0, 0.0 };
+        RunningStackImageData m_RunningStackImageData { 0, nullptr, -1.0, 0, 0.0, {}, {} };
 
         // SNR of subs
         double m_MeanSubSNR { 0 };
@@ -536,6 +679,11 @@ class FITSStack : public QObject
         cv::Mat m_StackedImage32F;
         QVector<cv::Mat> m_SigmaClip32FC4;
         QSharedPointer<QByteArray> m_StackedBuffer { nullptr };
+        double m_ImageMMLastSigma = -1.0;
+        float m_ImageMMTotalWeight = 0.0f;
+        int m_ImageMMFrameCount = 0;
+        cv::Mat m_ImageMMMean32F;
+        cv::Mat m_ImageMMVar32F;
 
         // Stack Image
         struct wcsprm * m_WCSStackImage { nullptr };

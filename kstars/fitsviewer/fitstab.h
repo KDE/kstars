@@ -296,6 +296,7 @@ class FITSTab : public QWidget
         void initSettings();
         LiveStackData getAllSettings();
         LiveStackPPData getPPSettings();
+        void rejectionChanged(int index);
         void redoPostProcessing();
 
         int m_LiveStackingItem { 0 };
