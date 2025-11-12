@@ -22357,14 +22357,11 @@ msgid "Guiding calibration restored"
 msgstr "已复用导星校准"
 
 #: ekos/guide/internalguide/internalguider.cpp:749
-#, fuzzy, kde-format
-#| msgid ""
-#| "Lost track of the guide star. Try increasing binning, square size or "
-#| "reducing pulse duration."
+#, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
-msgstr "失去被导星的踪迹。请尝试增大像素合并、方框尺寸或减小脉冲宽度。"
+msgstr ""
 
 #: ekos/guide/internalguide/internalguider.cpp:752
 #, kde-format
@@ -22602,10 +22599,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:385
-#, fuzzy, kde-format
-#| msgid "Reset guide calibration after each mount slew"
+#, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
-msgstr "每次支架移动后，重置导星校准"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
@@ -22619,10 +22615,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible"
+#, kde-format
 msgid "Store and reuse guide calibration when possible."
-msgstr "如可能，保存并复用导星校准数据。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:405
@@ -22639,11 +22634,10 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
-msgstr "复用校准数据时，过中天后翻转赤纬角度。"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -27367,10 +27361,9 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #: ekos/scheduler/opsweathersettings.ui:144
-#, fuzzy, kde-format
-#| msgid "localhost"
+#, kde-format
 msgid "localhost:7624"
-msgstr "本地主机"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:132
 #, kde-format
@@ -27706,34 +27699,29 @@ msgid "Guiding complete"
 msgstr "导星完毕"
 
 #: ekos/scheduler/scheduler.cpp:2502
-#, fuzzy, kde-format
-#| msgid "Weather conditions are OK."
+#, kde-format
 msgid "Safety conditions are OK."
-msgstr "天气条件具备。"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:2506
-#, fuzzy, kde-format
-#| msgid "Warning: weather conditions are in the WARNING zone."
+#, kde-format
 msgid "Warning: safety conditions are in the WARNING zone."
-msgstr "警告：天气条件在警告区。"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:2510
-#, fuzzy, kde-format
-#| msgid "Caution: weather conditions are in the DANGER zone!"
+#, kde-format
 msgid "Caution: safety conditions are in the DANGER zone!"
-msgstr "注意：天气条件处于危险区！"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:2528
-#, fuzzy, kde-format
-#| msgid "Weather conditions in warning zone"
+#, kde-format
 msgid "Safety conditions in warning zone"
-msgstr "天气条件在警戒区"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:2537
-#, fuzzy, kde-format
-#| msgid "Weather conditions are critical. Observatory shutdown is imminent"
+#, kde-format
 msgid "Safety conditions are critical. Observatory shutdown is imminent"
-msgstr "天气恶劣。立即关闭天文台"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:2559
 #, kde-format
@@ -28483,17 +28471,15 @@ msgid "Scheduler is awake."
 msgstr "调度器被唤醒。"
 
 #: ekos/scheduler/schedulerprocess.cpp:546
-#, fuzzy, kde-format
-#| msgid "Executing post-startup tasks from %1..."
+#, kde-format
 msgid "Executing post-startup tasks from %1 after safety recovery..."
-msgstr "正在从 %1 执行后启动任务……"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:555
-#, fuzzy, kde-format
-#| msgid "Failed to load pre-startup queue from %1"
+#, kde-format
 msgid ""
 "Warning: Failed to load post-startup queue from %1 after safety recovery"
-msgstr "从 %1 加载启动前队列失败"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:564
 #, kde-format
@@ -29171,10 +29157,9 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:182
-#, fuzzy, kde-format
-#| msgid "Connecting to remote INDI server at %1 on port %2 ..."
+#, kde-format
 msgid "Connecting to standalone safety monitor at %1:%2..."
-msgstr "正在连接远程 INDI 服务器 %1 的端口 %2 ..."
+msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:201
 #, kde-format
@@ -29182,10 +29167,9 @@ msgid "Standalone safety monitor device %1 is ready"
 msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:219
-#, fuzzy, kde-format
-#| msgid "Warning: DEC value %1 is invalid."
+#, kde-format
 msgid "Warning: Device %1 is not valid"
-msgstr "警告：赤纬值 %1 无效。"
+msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:235
 #, kde-format
@@ -29207,16 +29191,14 @@ msgid "Maximum reconnection attempts reached for standalone safety monitor"
 msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:263
-#, fuzzy, kde-format
-#| msgid "Attempting to reconnect focuser: %1"
+#, kde-format
 msgid "Attempting to reconnect to standalone safety monitor..."
-msgstr "尝试重新连接到电调： %1"
+msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:280
-#, fuzzy, kde-format
-#| msgid "Astrometry alignment completed successfully"
+#, kde-format
 msgid "Standalone safety monitor client connected successfully"
-msgstr "Astrometry 对准成功完成"
+msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:287
 #, kde-format
@@ -88063,18 +88045,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Error while updating pierside for camera rotation: Pierside unknown!"
-#~ msgstr "为相机旋转更新墩侧时出错：墩侧未知！"
-
-#~ msgid "Camera Rotation updated for Pierside "
-#~ msgstr "为墩侧更新相机旋转"
-
-#~ msgid "Calibration OK: CamRotation %1 / CalRotation %2"
-#~ msgstr "校准正常：相机实际旋转 %1 / 计算的旋转角度 %2"
-
-#~ msgid "Mount reverses DEC pulses after changing pierside"
-#~ msgstr "每次改变墩侧后，支架反转赤纬脉冲"
-
-#~ msgid "\"My Weather Station\"@localhost:8000"
-#~ msgstr "\"My Weather Station\"@localhost:8000"

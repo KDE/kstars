@@ -16,15 +16,15 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-11 02:16+0000\n"
-"PO-Revision-Date: 2025-11-09 21:56+0300\n"
-"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
-"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
+"PO-Revision-Date: 2025-11-12 02:07+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"Language-Team: Turkish <kde-i18n-doc@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -23318,16 +23318,13 @@ msgid "Guiding calibration restored"
 msgstr "Kılavuz kalibrasyonu geri yüklendi"
 
 #: ekos/guide/internalguide/internalguider.cpp:749
-#, fuzzy, kde-format
-#| msgid ""
-#| "Lost track of the guide star. Try increasing binning, square size or "
-#| "reducing pulse duration."
+#, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr ""
-"Kılavuz yıldızın izi kaybedildi. Gruplamayı, kare boyutunu artırmayı veya "
-"darbe süresini azaltmayı deneyin."
+"Kılavuz yıldızın izi kaybedildi. Kare boyutunu artırmayı veya darbe süresini "
+"azaltmayı deneyin."
 
 #: ekos/guide/internalguide/internalguider.cpp:752
 #, kde-format
@@ -23561,12 +23558,7 @@ msgstr "Kılavuz kalibrasyonunda DEC boşluğu etkisini kaldır"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
-#| "started. This is often not necessary when a good quality calibration has "
-#| "previously been done and the guide camera has not been re-installed.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
 "started. This is often not necessary when a good quality calibration has "
@@ -23575,23 +23567,18 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>İşaretliyse, kılavuzluk başlatıldığında her zaman "
 "yeniden kalibre edin. Daha önce iyi kalitede bir kalibrasyon yapıldığında ve "
-"kılavuz kamera yeniden kurulmadığında bu genellikle gerekli değildir.</p></"
-"body></html>"
+"kılavuz kamera döndürülmediyse veya yeniden kurulmadıysa bu genellikle "
+"gerekli değildir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:385
-#, fuzzy, kde-format
-#| msgid "Reset guide calibration after each mount slew"
+#, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
-msgstr "Her bir kaide çevriminde kılavuz kalibrasyonunu sıfırla"
+msgstr "Her kaide çevriminde kılavuz kalibrasyonunu sıfırla"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Store and attempt to reuse calibrations. This even "
-#| "works on opposite sides of the meridian if the pier-side can be "
-#| "automatically determined from your mount.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Store and attempt to reuse calibrations. This only "
 "works on opposite sides of the meridian if the pier-side can be "
@@ -23600,15 +23587,15 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Kalibrasyonları depolayın ve yeniden kullanmayı "
 "deneyin. Bu yalnızca iskele tarafının kaidenizden kendiliğinden "
-"belirlenebilmesi durumunda meridyenin karşıt taraflarında işe yarar.</p></"
-"body></html>"
+"belirlenebilmesi durumunda meridyenin karşıt taraflarında işe yarar. Bunun "
+"denenmesi için yukarıdaki “Kaide çevriminde kılavuzu sıfırla” seçeneğinin "
+"işaretinin kaldırılmış olması gerekmektedir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible"
+#, kde-format
 msgid "Store and reuse guide calibration when possible."
-msgstr "Olanaklıysa kılavuz kalibrasyonunu depola ve yeniden kullan"
+msgstr "Olanaklıysa kılavuz kalibrasyonunu depolayın ve yeniden kullanın."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:405
@@ -23627,13 +23614,12 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
-"Kalibrasyonu yeniden kullanırken iskele tarafındaki değişiklikte DEC’yi "
-"tersine çevir"
+"Kalibrasyonu yeniden kullanırken ve iskele tarafındaki değişiklikte DEC "
+"kılavuz darbelerini tersine çevir"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -28586,34 +28572,28 @@ msgstr "Hava durumu ikazı kapanma gecikmesi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/scheduler/opsweathersettings.ui:134
-#, fuzzy, kde-format
-#| msgid "Standalone Weather Driver:"
+#, kde-format
 msgid "Standalone Safety Monitor Driver:"
-msgstr "Bağımsız hava durumu sürücüsü:"
+msgstr "Bağımsız güvenlik monitörü sürücüsü:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #. i18n: ectx: label, entry (SchedulerSafetyMonitorConnectionString), group (Scheduler)
 #: ekos/scheduler/opsweathersettings.ui:141 kstars.kcfg:3480
-#, fuzzy, kde-format
-#| msgid ""
-#| "Connection string for the weather monitoring driver. The scheduler uses "
-#| "this to continuously monitor weather conditions and evaluate whether it "
-#| "is safe to operate the observatory."
+#, kde-format
 msgid ""
 "Connection string for the INDI Safety Monitor driver. The scheduler uses "
 "this to continuously monitor safety conditions and evaluate whether it is "
 "safe to operate the observatory."
 msgstr ""
-"Hava durumu izleme sürücüsü için bağlantı dizisi. Zamanlayıcı, hava "
+"INDI Güvenlik Monitörü sürücüsü için bağlantı dizisi. Zamanlayıcı, güvenlik "
 "koşullarını sürekli olarak izlemek ve gözlemevinin çalıştırılmasının güvenli "
 "olup olmadığını değerlendirmek için bunu kullanır."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #: ekos/scheduler/opsweathersettings.ui:144
-#, fuzzy, kde-format
-#| msgid "localhost"
+#, kde-format
 msgid "localhost:7624"
-msgstr "localhost"
+msgstr "localhost:7624"
 
 #: ekos/scheduler/scheduler.cpp:132
 #, kde-format
@@ -28973,34 +28953,29 @@ msgid "Guiding complete"
 msgstr "Kılavuzluk tamamlandı"
 
 #: ekos/scheduler/scheduler.cpp:2502
-#, fuzzy, kde-format
-#| msgid "Weather conditions are OK."
+#, kde-format
 msgid "Safety conditions are OK."
-msgstr "Hava koşulları iyi."
+msgstr "Güvenlik koşulları iyi."
 
 #: ekos/scheduler/scheduler.cpp:2506
-#, fuzzy, kde-format
-#| msgid "Warning: weather conditions are in the WARNING zone."
+#, kde-format
 msgid "Warning: safety conditions are in the WARNING zone."
-msgstr "Uyarı: Hava koşulları UYARI safhasında."
+msgstr "Uyarı: Güvenlik koşulları UYARI safhasında."
 
 #: ekos/scheduler/scheduler.cpp:2510
-#, fuzzy, kde-format
-#| msgid "Caution: weather conditions are in the DANGER zone!"
+#, kde-format
 msgid "Caution: safety conditions are in the DANGER zone!"
-msgstr "Dikkat: Hava koşulları TEHLİKE safhasında!"
+msgstr "Dikkat: Güvenlik koşulları TEHLİKE safhasında!"
 
 #: ekos/scheduler/scheduler.cpp:2528
-#, fuzzy, kde-format
-#| msgid "Weather conditions in warning zone"
+#, kde-format
 msgid "Safety conditions in warning zone"
-msgstr "Hava koşulları uyarı safhasında"
+msgstr "Güvenlik koşulları uyarı safhasında"
 
 #: ekos/scheduler/scheduler.cpp:2537
-#, fuzzy, kde-format
-#| msgid "Weather conditions are critical. Observatory shutdown is imminent"
+#, kde-format
 msgid "Safety conditions are critical. Observatory shutdown is imminent"
-msgstr "Hava koşulları kritik. Gözlemevi yakında kapanacak"
+msgstr "Güvenlik koşulları kritik. Gözlemevi yakında kapanacak"
 
 #: ekos/scheduler/scheduler.cpp:2559
 #, kde-format
@@ -29805,21 +29780,18 @@ msgid "Scheduler is awake."
 msgstr "Zamanlayıcı uyanık."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
-#, fuzzy, kde-format
-#| msgid "Executing post-startup tasks from %1 after weather recovery..."
+#, kde-format
 msgid "Executing post-startup tasks from %1 after safety recovery..."
 msgstr ""
-"Hava durumunun iyileşmesi sonrası %1 konumundan başlangıç sonrası görevleri "
-"yürütülüyor…"
+"Güvenlik durumunun iyileşmesi sonrası %1 konumundan başlangıç sonrası "
+"görevleri yürütülüyor…"
 
 #: ekos/scheduler/schedulerprocess.cpp:555
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: Failed to load post-startup queue from %1 after weather recovery"
+#, kde-format
 msgid ""
 "Warning: Failed to load post-startup queue from %1 after safety recovery"
 msgstr ""
-"Hava durumunun iyileşmesi sonrası %1 konumundan başlangıç öncesi kuyruğu "
+"Güvenlik durumunun iyileşmesi sonrası %1 konumundan başlangıç öncesi kuyruğu "
 "yüklenemedi"
 
 #: ekos/scheduler/schedulerprocess.cpp:564
@@ -29839,14 +29811,11 @@ msgstr ""
 "“%1” işi zamanlayıcı durmasında işlenmedi, iptal edilmiş olarak imleniyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:722
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because weather status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid ""
 "Job '%1' cannot start because safety status is %2 and grace period is over."
 msgstr ""
-"Hava durumu %2 olduğundan ve bekleme süresi dolduğundan “%1” işi "
+"Güvenlik durumu %2 olduğundan ve bekleme süresi dolduğundan “%1” işi "
 "başlatılamıyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:723
@@ -29857,16 +29826,13 @@ msgid "Alert"
 msgstr "İkaz"
 
 #: ekos/scheduler/schedulerprocess.cpp:732
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because weather status is %2. Waiting until weather "
-#| "improves or until %3"
+#, kde-format
 msgid ""
 "Job '%1' cannot start because safety status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
-"Hava durumu %2 olduğu için “%1” işi başlatılamıyor. Havalar düzelene veya %3 "
-"olana kadar bekleniyor."
+"Güvenlik durumu %2 olduğu için “%1” işi başlatılamıyor. Durum düzelene veya "
+"%3 olana kadar bekleniyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:760
 #, kde-format
@@ -30280,11 +30246,11 @@ msgid "Post-startup queue completed successfully."
 msgstr "Başlangıç sonrası kuyruğu başarıyla tamamlandı."
 
 #: ekos/scheduler/schedulerprocess.cpp:3053
-#, fuzzy, kde-format
-#| msgid "Resuming scheduler after weather recovery startup tasks..."
+#, kde-format
 msgid "Resuming scheduler after safety recovery startup tasks..."
 msgstr ""
-"Hava durumu iyileşmesi başlangıç görevleri sonrası zamanlayıcı sürdürülüyor…"
+"Güvenlik durumu iyileşmesi başlangıç görevleri sonrası zamanlayıcı "
+"sürdürülüyor…"
 
 #: ekos/scheduler/schedulerprocess.cpp:3061
 #, kde-format
@@ -30496,30 +30462,24 @@ msgstr ""
 "ediliyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:3791
-#, fuzzy, kde-format
-#| msgid "Weather has improved. Resuming operations."
+#, kde-format
 msgid "Safety has improved. Resuming operations."
-msgstr "Hava durumu artık daha iyi. İşlemler sürdürülüyor."
+msgstr "Güvenlik durumu artık daha iyi. İşlemler sürdürülüyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:3801
-#, fuzzy, kde-format
-#| msgid ""
-#| "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
+#, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
-"Hava durumu ikazı algılandı. %1 saniye içinde yumuşak kapanış prosedürü "
+"Güvenlik durumu ikazı algılandı. %1 saniye içinde yumuşak kapanış prosedürü "
 "başlatılıyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:3828
-#, fuzzy, kde-format
-#| msgid ""
-#| "Observatory scheduled for soft shutdown until weather improves or until "
-#| "%1."
+#, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
 msgstr ""
-"Gözlemevi, hava durumu iyileşene veya %1 olana kadar yumuşak kapanma için "
-"zamanlandı."
+"Gözlemevi, güvenlik durumu iyileşene veya %1 olana kadar yumuşak kapanma "
+"için zamanlandı."
 
 #: ekos/scheduler/schedulerprocess.cpp:3850
 #, kde-format
@@ -30549,66 +30509,56 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:4409
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
-msgstr ""
+msgstr "Güvenlik monitörü, şu bağlantı dizisiyle ilklendirildi: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:65
-#, fuzzy, kde-format
-#| msgid "Initializing standalone weather monitoring for %1@%2:%3"
+#, kde-format
 msgid "Initializing standalone safety monitor monitoring for %1@%2:%3"
-msgstr "%1@%2:%3 için bağımsız hava durumu izleme ilklendiriliyor…"
+msgstr "%1@%2:%3 için bağımsız güvenlik monitörü izlemesi ilklendiriliyor…"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:117
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: Invalid weather connection string format. Expected 'device@host:"
-#| "port'"
+#, kde-format
 msgid ""
 "Warning: Invalid safety monitor connection string format. Expected 'host' or "
 "'host:port'"
 msgstr ""
-"Uyarı: Geçersiz hava durumu bağlantısı dizisi biçimi. “aygıt@makine:kapı” "
-"biçimi bekleniyordu."
+"Uyarı: Geçersiz güvenlik durumu bağlantısı dizisi biçimi. “makine” veya "
+"“makine:kapı” biçimi bekleniyordu."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:138
-#, fuzzy, kde-format
-#| msgid "Invalid weather port number, using default port 7624"
+#, kde-format
 msgid "Invalid safety monitor port number, using default port 7624"
 msgstr ""
-"Geçersiz hava durumu kapısı numarası; öntanımlı 7624 numaralı kapı "
+"Geçersiz güvenlik durumu kapısı numarası; öntanımlı 7624 numaralı kapı "
 "kullanılıyor…"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:167
-#, fuzzy, kde-format
-#| msgid "Failed to connect to standalone weather after %1 attempts, giving up"
+#, kde-format
 msgid ""
 "Failed to connect to standalone safety monitor after %1 attempts, giving up"
 msgstr ""
-"%1 denemeden sonra bağımsız hava durumu istemcisine bağlanılamadı; deneme "
-"bırakılıyor…"
+"%1 denemeden sonra bağımsız güvenlik durumu izleyicisine bağlanılamadı; "
+"deneme bırakılıyor…"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:182
-#, fuzzy, kde-format
-#| msgid "Connecting to standalone weather at %1:%2..."
+#, kde-format
 msgid "Connecting to standalone safety monitor at %1:%2..."
-msgstr "%1:%2 konumundaki bağımsız hava durumu istemcisine bağlanılıyor…"
+msgstr "%1:%2 konumundaki bağımsız güvenlik monitörü istemcisine bağlanılıyor…"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:201
-#, fuzzy, kde-format
-#| msgid "Standalone weather device %1 is ready"
+#, kde-format
 msgid "Standalone safety monitor device %1 is ready"
-msgstr "Bağımsız hava durumu istemcisi aygıtı %1 hazır"
+msgstr "Bağımsız güvenlik monitörü aygıtı %1 hazır"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:219
-#, fuzzy, kde-format
-#| msgid "Warning: DEC value %1 is invalid."
+#, kde-format
 msgid "Warning: Device %1 is not valid"
-msgstr "Uyarı: DEC değeri %1 geçersiz."
+msgstr "Uyarı: %1 aygıtı geçersiz"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:235
-#, fuzzy, kde-format
-#| msgid "Warning: Standalone weather device %1 disconnected"
+#, kde-format
 msgid "Warning: Standalone safety monitor device %1 disconnected"
-msgstr "Uyarı: Bağımsız hava durumu aygıtı %1 bağlantısı kesildi"
+msgstr "Uyarı: Bağımsız güvenlik monitörü aygıtı %1 bağlantısı kesildi"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:249
 #: ekos/scheduler/schedulersafetymonitor.cpp:293
@@ -30620,52 +30570,46 @@ msgstr "10 saniye içinde yeniden bağlanılmaya çalışılacak (deneme %1/%2)�
 #: ekos/scheduler/schedulersafetymonitor.cpp:255
 #: ekos/scheduler/schedulersafetymonitor.cpp:299
 #: ekos/scheduler/schedulersafetymonitor.cpp:325
-#, fuzzy, kde-format
-#| msgid "Maximum reconnection attempts reached for standalone weather"
+#, kde-format
 msgid "Maximum reconnection attempts reached for standalone safety monitor"
 msgstr ""
-"Bağımsız hava durumu istemcisi için en çok yeniden bağlanma denemesi "
-"sayısına ulaşıldı"
+"Bağımsız güvenlik monitörü için en çok yeniden bağlanma denemesi sayısına "
+"ulaşıldı"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:263
-#, fuzzy, kde-format
-#| msgid "Attempting to reconnect to standalone weather..."
+#, kde-format
 msgid "Attempting to reconnect to standalone safety monitor..."
-msgstr "Bağımsız hava durumu istemcisine yeniden bağlanmaya çalışılıyor…"
+msgstr "Bağımsız güvenlik monitörüne yeniden bağlanmaya çalışılıyor…"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:280
-#, fuzzy, kde-format
-#| msgid "Standalone weather client connected successfully"
+#, kde-format
 msgid "Standalone safety monitor client connected successfully"
-msgstr "Bağımsız hava durumu istemcisine başarıyla bağlandı"
+msgstr "Bağımsız güvenlik monitörüne başarıyla bağlandı"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:287
-#, fuzzy, kde-format
-#| msgid "Standalone weather client connection failed: %1"
+#, kde-format
 msgid "Standalone safety monitor client connection failed: %1"
-msgstr "Bağımsız hava durumu istemcisine bağlanılamadı: %1"
+msgstr "Bağımsız güvenlik durumu istemcisine bağlanılamadı: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:306
-#, fuzzy, kde-format
-#| msgid "Standalone weather client terminated: %1"
+#, kde-format
 msgid "Standalone safety monitor client terminated: %1"
-msgstr "Bağımsız hava durumu istemcisi sonlandırdı: %1"
+msgstr "Bağımsız güvenlik monitörü istemcisi sonlandırdı: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:370
 #, kde-format
 msgid "Safety monitor connection string changed from %1:%2 to %3:%4"
-msgstr ""
+msgstr "Güvenlik monitörü bağlantı dizisi %1:%2 idi, %3:%4 oldu"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:378
-#, fuzzy, kde-format
-#| msgid "Connecting to standalone weather at %1:%2..."
+#, kde-format
 msgid "Disconnecting from existing safety monitor at %1:%2"
-msgstr "%1:%2 konumundaki bağımsız hava durumu istemcisine bağlanılıyor…"
+msgstr "%1:%2 konumundaki bağımsız güvenlik durumu istemcisine bağlanılıyor…"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:410
 #, kde-format
 msgid "Safety monitor monitoring disabled"
-msgstr ""
+msgstr "Güvenlik monitörü izlemesi devre dışı"
 
 #: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format

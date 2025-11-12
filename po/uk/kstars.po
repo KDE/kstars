@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-11 02:16+0000\n"
-"PO-Revision-Date: 2025-11-09 13:16+0200\n"
+"PO-Revision-Date: 2025-11-11 22:13+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -23577,10 +23577,7 @@ msgid "Guiding calibration restored"
 msgstr "Відновлено калібрування наведення"
 
 #: ekos/guide/internalguide/internalguider.cpp:749
-#, fuzzy, kde-format
-#| msgid ""
-#| "Lost track of the guide star. Try increasing binning, square size or "
-#| "reducing pulse duration."
+#, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
@@ -23820,12 +23817,7 @@ msgstr "Вилучати люфт СХИЛ у калібрування наве�
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
-#| "started. This is often not necessary when a good quality calibration has "
-#| "previously been done and the guide camera has not been re-installed.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
 "started. This is often not necessary when a good quality calibration has "
@@ -23835,22 +23827,17 @@ msgstr ""
 "<html><head/><body><p>Якщо позначено, завжди виконувати повторне "
 "калібрування на початку наведення. Часто, таке калібрування не потрібне, "
 "якщо перед поточним сеансом було виконано якісне калібрування, а камеру "
-"наведення не перевстановлювали.</p></body></html>"
+"наведення не обертали і не перевстановлювали.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:385
-#, fuzzy, kde-format
-#| msgid "Reset guide calibration after each mount slew"
+#, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
 msgstr "Скидати калібрування наведення після кожного руху лафета"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Store and attempt to reuse calibrations. This even "
-#| "works on opposite sides of the meridian if the pier-side can be "
-#| "automatically determined from your mount.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Store and attempt to reuse calibrations. This only "
 "works on opposite sides of the meridian if the pier-side can be "
@@ -23858,16 +23845,17 @@ msgid ""
 "above must be unchecked for this to be attempted.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Зберігати і намагатися використовувати повторно дані "
-"калібрування. Це спрацює на протилежних боках меридіана, лише якщо можна "
-"автоматично визначити бік стійки за даними лафета.</p></body></html>"
+"калібрування. Це працює лише на протилежних боках меридіана, лише якщо можна "
+"автоматично визначити бік стійки за даними лафета. Щоб уможливити спробу, "
+"слід зняти позначку з пункту «Скидати наведення після руху» вище.</p></"
+"body></html></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible"
+#, kde-format
 msgid "Store and reuse guide calibration when possible."
 msgstr ""
-"Зберігати і повторно використовувати калібрування наведення, якщо можна"
+"Зберігати і повторно використовувати калібрування наведення, якщо можна."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:405
@@ -23886,13 +23874,12 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
-"Обернене значення Схил при зміні боку стійки, якщо повторно використовуються "
-"дані калібрування."
+"Обернути значення пульсацій схилення при зміні боку стійки і повторному "
+"використанні калібрування."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -28902,34 +28889,28 @@ msgstr "Затримка вимикання при застереження що
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/scheduler/opsweathersettings.ui:134
-#, fuzzy, kde-format
-#| msgid "Standalone Weather Driver:"
+#, kde-format
 msgid "Standalone Safety Monitor Driver:"
-msgstr "Окремий драйвер прогнозу погоди:"
+msgstr "Окремий драйвер спостереження за безпекою:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #. i18n: ectx: label, entry (SchedulerSafetyMonitorConnectionString), group (Scheduler)
 #: ekos/scheduler/opsweathersettings.ui:141 kstars.kcfg:3480
-#, fuzzy, kde-format
-#| msgid ""
-#| "Connection string for the weather monitoring driver. The scheduler uses "
-#| "this to continuously monitor weather conditions and evaluate whether it "
-#| "is safe to operate the observatory."
+#, kde-format
 msgid ""
 "Connection string for the INDI Safety Monitor driver. The scheduler uses "
 "this to continuously monitor safety conditions and evaluate whether it is "
 "safe to operate the observatory."
 msgstr ""
-"Рядок встановлення з'єднання для драйвера спостереження за погодою. "
-"Планувальник використовує його для постійного стеження за погодними умовами "
-"та оцінки безпеки експлуатації обсерваторії."
+"Рядок встановлення з'єднання для драйвера монітора безпеки INDI. "
+"Планувальник використовує його для постійного стеження за умовами безпеки та "
+"оцінки безпеки експлуатації обсерваторії."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #: ekos/scheduler/opsweathersettings.ui:144
-#, fuzzy, kde-format
-#| msgid "localhost"
+#, kde-format
 msgid "localhost:7624"
-msgstr "localhost"
+msgstr "localhost:7624"
 
 #: ekos/scheduler/scheduler.cpp:132
 #, kde-format
@@ -29294,34 +29275,29 @@ msgid "Guiding complete"
 msgstr "Наведення завершено"
 
 #: ekos/scheduler/scheduler.cpp:2502
-#, fuzzy, kde-format
-#| msgid "Weather conditions are OK."
+#, kde-format
 msgid "Safety conditions are OK."
-msgstr "Погодні умови є СПРИЯТЛИВИМИ."
+msgstr "Умови безпеки є СПРИЯТЛИВИМИ."
 
 #: ekos/scheduler/scheduler.cpp:2506
-#, fuzzy, kde-format
-#| msgid "Warning: weather conditions are in the WARNING zone."
+#, kde-format
 msgid "Warning: safety conditions are in the WARNING zone."
-msgstr "Попередження! Погодні умови можуть змінитися на НЕСПРИЯТЛИВІ!"
+msgstr "Попередження! Умови безпеки можуть змінитися на НЕСПРИЯТЛИВІ!"
 
 #: ekos/scheduler/scheduler.cpp:2510
-#, fuzzy, kde-format
-#| msgid "Caution: weather conditions are in the DANGER zone!"
+#, kde-format
 msgid "Caution: safety conditions are in the DANGER zone!"
-msgstr "Увага! Погодні умови перебувають у зоні РИЗИКУ!"
+msgstr "Увага! Умови безпеки перебувають у зоні РИЗИКУ!"
 
 #: ekos/scheduler/scheduler.cpp:2528
-#, fuzzy, kde-format
-#| msgid "Weather conditions in warning zone"
+#, kde-format
 msgid "Safety conditions in warning zone"
-msgstr "Погодні умови близькі до несприятливих"
+msgstr "Умови безпеки близькі до несприятливих"
 
 #: ekos/scheduler/scheduler.cpp:2537
-#, fuzzy, kde-format
-#| msgid "Weather conditions are critical. Observatory shutdown is imminent"
+#, kde-format
 msgid "Safety conditions are critical. Observatory shutdown is imminent"
-msgstr "Погодні умови є критичними. Вимикання обсерваторії не уникнути."
+msgstr "Умови безпеки є критичними. Вимикання обсерваторії не уникнути."
 
 #: ekos/scheduler/scheduler.cpp:2559
 #, kde-format
@@ -30141,22 +30117,19 @@ msgid "Scheduler is awake."
 msgstr "Пробудження планувальника."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
-#, fuzzy, kde-format
-#| msgid "Executing post-startup tasks from %1 after weather recovery..."
+#, kde-format
 msgid "Executing post-startup tasks from %1 after safety recovery..."
 msgstr ""
-"Виконуємо завдання після запуску з %1 після відновлення належних погодних "
-"умов…"
+"Виконуємо завдання після запуску з %1 після відновлення належних умов "
+"безпеки…"
 
 #: ekos/scheduler/schedulerprocess.cpp:555
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: Failed to load post-startup queue from %1 after weather recovery"
+#, kde-format
 msgid ""
 "Warning: Failed to load post-startup queue from %1 after safety recovery"
 msgstr ""
 "Попередження: не вдалося завантажити чергу завдань після запуску з %1 після "
-"відновлення належних погодних умов"
+"відновлення належних умов безпеки"
 
 #: ekos/scheduler/schedulerprocess.cpp:564
 #, kde-format
@@ -30180,15 +30153,12 @@ msgstr ""
 "Позначаємо завдання як перерване."
 
 #: ekos/scheduler/schedulerprocess.cpp:722
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because weather status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid ""
 "Job '%1' cannot start because safety status is %2 and grace period is over."
 msgstr ""
-"Виконання завдання «%1» неможливо розпочати, оскільки маємо стан погоди %2 і "
-"період толерантності вичерпано."
+"Виконання завдання «%1» неможливо розпочати, оскільки маємо стан безпеки %2 "
+"і період толерантності вичерпано."
 
 #: ekos/scheduler/schedulerprocess.cpp:723
 #: ekos/scheduler/schedulerprocess.cpp:733
@@ -30198,15 +30168,12 @@ msgid "Alert"
 msgstr "Попередження"
 
 #: ekos/scheduler/schedulerprocess.cpp:732
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because weather status is %2. Waiting until weather "
-#| "improves or until %3"
+#, kde-format
 msgid ""
 "Job '%1' cannot start because safety status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
-"Виконання завдання «%1» неможливо розпочати, оскільки маємо стан погоди %2. "
+"Виконання завдання «%1» неможливо розпочати, оскільки маємо стан безпеки %2. "
 "Очікуємо на поліпшення погоди або до %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:760
@@ -30645,12 +30612,11 @@ msgid "Post-startup queue completed successfully."
 msgstr "Успішно завершено чергу завдань після запуску."
 
 #: ekos/scheduler/schedulerprocess.cpp:3053
-#, fuzzy, kde-format
-#| msgid "Resuming scheduler after weather recovery startup tasks..."
+#, kde-format
 msgid "Resuming scheduler after safety recovery startup tasks..."
 msgstr ""
 "Відновлюємо роботу планувальника після виконання завдань запуску у відповідь "
-"на зміну погоди…"
+"на зміну умови безпеки…"
 
 #: ekos/scheduler/schedulerprocess.cpp:3061
 #, kde-format
@@ -30858,30 +30824,24 @@ msgstr ""
 "Перериваємо обробку."
 
 #: ekos/scheduler/schedulerprocess.cpp:3791
-#, fuzzy, kde-format
-#| msgid "Weather has improved. Resuming operations."
+#, kde-format
 msgid "Safety has improved. Resuming operations."
-msgstr "Погода поліпшилася. Відновлюємо роботу."
+msgstr "Умови безпеки поліпшилися. Відновлюємо роботу."
 
 #: ekos/scheduler/schedulerprocess.cpp:3801
-#, fuzzy, kde-format
-#| msgid ""
-#| "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
+#, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
-"Виявлено попередження щодо погодних умов. Починаємо процедуру м'якого "
+"Виявлено попередження щодо умов безпеки. Починаємо процедуру м'якого "
 "вимикання за %1 секунд."
 
 #: ekos/scheduler/schedulerprocess.cpp:3828
-#, fuzzy, kde-format
-#| msgid ""
-#| "Observatory scheduled for soft shutdown until weather improves or until "
-#| "%1."
+#, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
 msgstr ""
 "Заплановано переведення обсерваторії у стан м'якого вимикання, доки не "
-"поліпшиться погода або до %1."
+"поліпшаться умови безпеки або до %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:3850
 #, kde-format
@@ -30912,65 +30872,56 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:4409
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
-msgstr ""
+msgstr "Монітор безпеки ініціалізовано за допомогою такого рядка з'єднання: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:65
-#, fuzzy, kde-format
-#| msgid "Initializing standalone weather monitoring for %1@%2:%3"
+#, kde-format
 msgid "Initializing standalone safety monitor monitoring for %1@%2:%3"
-msgstr "Ініціалізуємо окреме спостереження за погодою для %1@%2:%3"
+msgstr "Ініціалізуємо окремий монітор безпеки для %1@%2:%3"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:117
-#, fuzzy, kde-format
-#| msgid ""
-#| "Warning: Invalid weather connection string format. Expected 'device@host:"
-#| "port'"
+#, kde-format
 msgid ""
 "Warning: Invalid safety monitor connection string format. Expected 'host' or "
 "'host:port'"
 msgstr ""
-"Попередження: некоректний формат встановлення з'єднання із джерелом даних "
-"погоди. Мало бути: «пристрій@вузол:порт»"
+"Попередження: некоректний формат встановлення з'єднання із монітором "
+"безпеки. Мало бути: «вузол» або «вузол:порт»"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:138
-#, fuzzy, kde-format
-#| msgid "Invalid weather port number, using default port 7624"
+#, kde-format
 msgid "Invalid safety monitor port number, using default port 7624"
 msgstr ""
-"Некоректний номер порту даних погоди — використовуємо типовий порт 7624"
+"Некоректний номер порту монітора безпеки — використовуємо типовий порт 7624"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:167
-#, fuzzy, kde-format
-#| msgid "Failed to connect to standalone weather after %1 attempts, giving up"
+#, kde-format
 msgid ""
 "Failed to connect to standalone safety monitor after %1 attempts, giving up"
 msgstr ""
-"Не вдалося встановити з'єднання із окремим драйвером погоди після %1 спроб — "
-"припиняємо спроби"
+"Не вдалося встановити з'єднання із драйвером окремого монітора безпеки після "
+"%1 спроб — припиняємо спроби"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:182
-#, fuzzy, kde-format
-#| msgid "Connecting to standalone weather at %1:%2..."
+#, kde-format
 msgid "Connecting to standalone safety monitor at %1:%2..."
-msgstr "Встановлення з'єднання із окремим драйвером погоди — %1:%2..."
+msgstr "Встановлення з'єднання із окремим монітором безпеки — %1:%2..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:201
-#, fuzzy, kde-format
-#| msgid "Standalone weather device %1 is ready"
+#, kde-format
 msgid "Standalone safety monitor device %1 is ready"
-msgstr "Окремий пристрій погодних умов %1 готовий до роботи"
+msgstr "Окремий монітор безпеки %1 готовий до роботи"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:219
-#, fuzzy, kde-format
-#| msgid "Warning: DEC value %1 is invalid."
+#, kde-format
 msgid "Warning: Device %1 is not valid"
-msgstr "Увага! Значення схилення %1 є некоректним."
+msgstr "Попередження: некоректний пристрій %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:235
-#, fuzzy, kde-format
-#| msgid "Warning: Standalone weather device %1 disconnected"
+#, kde-format
 msgid "Warning: Standalone safety monitor device %1 disconnected"
-msgstr "Попередження: з'єднання з окремим пристроєм погодних умов %1 розірвано"
+msgstr ""
+"Попередження: з'єднання з окремим пристроєм монітора безпеки %1 розірвано"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:249
 #: ekos/scheduler/schedulersafetymonitor.cpp:293
@@ -30982,52 +30933,46 @@ msgstr "Спроба повторного з'єднання за 10 секунд
 #: ekos/scheduler/schedulersafetymonitor.cpp:255
 #: ekos/scheduler/schedulersafetymonitor.cpp:299
 #: ekos/scheduler/schedulersafetymonitor.cpp:325
-#, fuzzy, kde-format
-#| msgid "Maximum reconnection attempts reached for standalone weather"
+#, kde-format
 msgid "Maximum reconnection attempts reached for standalone safety monitor"
 msgstr ""
-"Для окремого драйвера погоди досягнуто максимальної кількості повторних "
+"Для окремого монітора безпеки досягнуто максимальної кількості повторних "
 "спроб з'єднання"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:263
-#, fuzzy, kde-format
-#| msgid "Attempting to reconnect to standalone weather..."
+#, kde-format
 msgid "Attempting to reconnect to standalone safety monitor..."
-msgstr "Спроба повторного з'єднання із окремим драйвером погоди…"
+msgstr "Спроба повторного з'єднання із окремим монітором безпеки…"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:280
-#, fuzzy, kde-format
-#| msgid "Standalone weather client connected successfully"
+#, kde-format
 msgid "Standalone safety monitor client connected successfully"
-msgstr "Успішно встановлено з'єднання із клієнтом погоди"
+msgstr "Успішно встановлено з'єднання із клієнтом монітора безпеки"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:287
-#, fuzzy, kde-format
-#| msgid "Standalone weather client connection failed: %1"
+#, kde-format
 msgid "Standalone safety monitor client connection failed: %1"
-msgstr "Не вдалося встановити з'єднання з окремим клієнтом погоди: %1"
+msgstr "Не вдалося встановити з'єднання з окремим монітором безпеки: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:306
-#, fuzzy, kde-format
-#| msgid "Standalone weather client terminated: %1"
+#, kde-format
 msgid "Standalone safety monitor client terminated: %1"
-msgstr "Перервано роботу окремого клієнта погоди: %1"
+msgstr "Перервано роботу окремого клієнта монітора безпеки: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:370
 #, kde-format
 msgid "Safety monitor connection string changed from %1:%2 to %3:%4"
-msgstr ""
+msgstr "Рядок з'єднання монітора безпеки змінено з %1:%2 на %3:%4"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:378
-#, fuzzy, kde-format
-#| msgid "Connecting to standalone weather at %1:%2..."
+#, kde-format
 msgid "Disconnecting from existing safety monitor at %1:%2"
-msgstr "Встановлення з'єднання із окремим драйвером погоди — %1:%2..."
+msgstr "Розірвання з'єднання з наявним монітором безпеки на %1:%2"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:410
 #, kde-format
 msgid "Safety monitor monitoring disabled"
-msgstr ""
+msgstr "Спостереження за допомогою монітора безпеки вимкнено"
 
 #: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
