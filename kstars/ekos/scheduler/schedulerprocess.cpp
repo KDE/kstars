@@ -1652,6 +1652,12 @@ bool SchedulerProcess::completeShutdown()
                             m_queueExecutor->start();
                             return false;
                         }
+                        else
+                        {
+                            // Queue loaded but is empty - consider shutdown complete
+                            appendLogText(i18n("Post-shutdown queue is empty, shutdown complete."));
+                            moduleState()->setShutdownState(SHUTDOWN_COMPLETE);
+                        }
                     }
                     else
                     {
@@ -1659,6 +1665,11 @@ bool SchedulerProcess::completeShutdown()
                         moduleState()->setShutdownState(SHUTDOWN_ERROR);
                         return false;
                     }
+                }
+                else
+                {
+                    // No post-shutdown queue configured - shutdown is complete
+                    moduleState()->setShutdownState(SHUTDOWN_COMPLETE);
                 }
             }
         }
