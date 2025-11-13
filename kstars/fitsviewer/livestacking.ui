@@ -1443,7 +1443,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stacking mathod:&lt;/p&gt;&lt;p&gt;- Average. Uses a simple mean average. No pixel rejection is applied.&lt;/p&gt;&lt;p&gt;- Sigma Clipping. Outlying pixels are rejected.&lt;/p&gt;&lt;p&gt;- Winsorized Sigma Clipping. Winsorized version of sigma clipping&lt;/p&gt;&lt;p&gt;- ImageMM. Implements ImageMM stacking as per https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this method is very resource intensive&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stacking method:&lt;/p&gt;&lt;p&gt;- Average. Uses a simple mean average. No pixel rejection is applied.&lt;/p&gt;&lt;p&gt;- Sigma Clipping. Outlying pixels are rejected.&lt;/p&gt;&lt;p&gt;- Winsorized Sigma Clipping. Winsorized version of sigma clipping&lt;/p&gt;&lt;p&gt;- ImageMM. Implements ImageMM stacking as per https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this method is very resource intensive&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="currentText">
               <string>None</string>
