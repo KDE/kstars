@@ -14,15 +14,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-13 02:01+0000\n"
-"PO-Revision-Date: 2025-11-08 12:01+0100\n"
+"POT-Creation-Date: 2025-11-14 02:02+0000\n"
+"PO-Revision-Date: 2025-11-13 22:37+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -10717,10 +10717,9 @@ msgstr " s"
 
 #. i18n: ectx: property (text), widget (QLabel, processEkosLabel)
 #: ekos/align/pushtoassistant.ui:179
-#, fuzzy, kde-format
-#| msgid "Start Pos"
+#, kde-format
 msgid "start Ekos"
-msgstr "Startpos"
+msgstr "Ekos starten"
 
 #. i18n: ectx: property (text), widget (QLabel, alignStatusLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
@@ -23369,15 +23368,13 @@ msgid "Guiding calibration restored"
 msgstr "Kalibratie volgen hersteld"
 
 #: ekos/guide/internalguide/internalguider.cpp:749
-#, fuzzy, kde-format
-#| msgid ""
-#| "Lost track of the guide star. Try increasing binning, square size or "
-#| "reducing pulse duration."
+#, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr ""
-"Volgster kwijt. Probeer grotere binning, groter vierkant of kortere pulsduur."
+"Volgster volgen verloren. Probeer de grootte van het vierkant te vergroten "
+"of de pulsduur te verminderen."
 
 #: ekos/guide/internalguide/internalguider.cpp:752
 #, kde-format
@@ -23613,12 +23610,7 @@ msgstr "Speling DEC wissen in kalibratie volger"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
-#| "started. This is often not necessary when a good quality calibration has "
-#| "previously been done and the guide camera has not been re-installed.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
 "started. This is often not necessary when a good quality calibration has "
@@ -23627,39 +23619,35 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Indien geactiveerd,  altijd opnieuw kalibreren wanneer "
 "volgen is gestart. Dit is vaak niet nodig wanneer een goede kwaliteit "
-"kalibratie eerder is gedaan en de volgcamera niet opnieuw is geïnstalleerd.</"
-"p></body></html>"
+"kalibratie eerder is gedaan en de volgcamera niet is gedraaid opnieuw "
+"geïnstalleerd.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:385
-#, fuzzy, kde-format
-#| msgid "Reset guide calibration after each mount slew"
+#, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
 msgstr "Na elke beweging van de opstelling volgkalibratie resetten"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Store and attempt to reuse calibrations. This even "
-#| "works on opposite sides of the meridian if the pier-side can be "
-#| "automatically determined from your mount.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Store and attempt to reuse calibrations. This only "
 "works on opposite sides of the meridian if the pier-side can be "
 "automatically determined from your mount. The \"Reset Guide on Slew\" option "
 "above must be unchecked for this to be attempted.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Calibraties opslaan voor hergebruik. Dit werkt zelfs "
-"aan beide zijden van de meridiaan als de zijde automatisch bepaald kan "
-"worden uit uw opstelling.</p></body></html>"
+"<html><head/><body><p>Calibraties opslaan en proberen her te gebruiken. Dit "
+"werkt zelfs aan beide zijden van de meridiaan als de zijde automatisch "
+"bepaald kan worden uit uw opstelling. De bovenstaande optie \"Reset volgen "
+"bij verplaatsen\" moet niet geactiveerd zijn om dit te proberen.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible"
+#, kde-format
 msgid "Store and reuse guide calibration when possible."
-msgstr "Volgkalibratie waar mogelijk opslaan en hergebruiken"
+msgstr "Volgkalibratie waar mogelijk opslaan en hergebruiken."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:405
@@ -23677,11 +23665,12 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
-msgstr "DEC wisselen als zijde met de hergebruikte kalibratie is verwisseld."
+msgstr ""
+"DEC volgpulsen wisselen wanneer zijde met de hergebruikte kalibratie is "
+"verwisseld."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -28655,10 +28644,9 @@ msgstr "Weerwaarschuwing vertraging van afsluiten:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/scheduler/opsweathersettings.ui:134
-#, fuzzy, kde-format
-#| msgid "Standalone Weather Driver:"
+#, kde-format
 msgid "Standalone Safety Monitor Driver:"
-msgstr "Alleenstaand weerstuurprogramma:"
+msgstr "Alleenstaand stuurprogramma voor beveiligingsmonitor:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #. i18n: ectx: label, entry (SchedulerSafetyMonitorConnectionString), group (Scheduler)
@@ -28672,10 +28660,9 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #: ekos/scheduler/opsweathersettings.ui:144
-#, fuzzy, kde-format
-#| msgid "localhost"
+#, kde-format
 msgid "localhost:7624"
-msgstr "localhost"
+msgstr "localhost:7624"
 
 #: ekos/scheduler/scheduler.cpp:132
 #, kde-format
@@ -29031,10 +29018,9 @@ msgid "Guiding complete"
 msgstr "Volgen voltooid"
 
 #: ekos/scheduler/scheduler.cpp:2502
-#, fuzzy, kde-format
-#| msgid "Weather conditions are OK."
+#, kde-format
 msgid "Safety conditions are OK."
-msgstr "Weercondities zijn OK."
+msgstr "Beveiligingscondities zijn OK."
 
 #: ekos/scheduler/scheduler.cpp:2506
 #, fuzzy, kde-format
@@ -29660,6 +29646,8 @@ msgid ""
 "Enable or disable execution of the startup queue. When disabled, no startup "
 "procedure will run."
 msgstr ""
+"Schakel in of uit het uitvoeren van de opstartwachtrij. Indien "
+"uitgeschakeld, zal geen opstartprocedure worden uitgevoerd."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerStartupEnabled)
 #: ekos/scheduler/scheduler.ui:2045
@@ -29693,7 +29681,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:2150
 #, kde-format
 msgid "Browse for post-startup queue/collection file"
-msgstr ""
+msgstr "Bladeren voor bestand met wachtrij ná opstarten/verzameling"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:2174
@@ -29708,6 +29696,8 @@ msgid ""
 "Enable or disable execution of the shutdown queue. When disabled, no "
 "shutdown procedure will run."
 msgstr ""
+"Schakel in of uit het uitvoeren van de afsluitwachtrij. Indien "
+"uitgeschakeld, zal geen afsluitprocedure worden uitgevoerd."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerShutdownEnabled)
 #: ekos/scheduler/scheduler.ui:2198
@@ -33714,11 +33704,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1335
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Alphard"
+#, kde-format
 msgid "Alpha:"
-msgstr "Alphard"
+msgstr "Alfa:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #. i18n: ectx: property (toolTip), widget (QLabel, DownscaleLabel)
@@ -33756,7 +33744,7 @@ msgstr "  Afschaling: "
 #| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
 #| "clipping</p></body></html>"
 msgid ""
-"<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple mean "
+"<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
 "pixels are rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version "
 "of sigma clipping</p><p>- ImageMM. Implements ImageMM stacking as per "
@@ -33928,7 +33916,7 @@ msgstr "Laag sigma:"
 #, fuzzy, kde-format
 #| msgid "Iteration: "
 msgid "Iterations:"
-msgstr "Iteratie: "
+msgstr "Iteraties:"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:1862

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-13 02:01+0000\n"
+"POT-Creation-Date: 2025-11-14 02:02+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -31999,21 +31999,17 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, SigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Sigma)
 #: fitsviewer/livestacking.ui:1285 fitsviewer/livestacking.ui:1412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sigma Scale reduces the calculated image sigma to "
 "smooth the updates (usually in the range 0.6 - 0.9).</p></body></html>"
-msgstr "<html><head/><body><p>缩放数值轴对当前值范围。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1288
-#, fuzzy, kde-format
-#| msgid "Chart Scale:"
+#, kde-format
 msgid "  Sigma Scale:"
-msgstr "图表比例："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #. i18n: ectx: property (toolTip), widget (QLabel, WinsorCutoffLabel)
@@ -32027,22 +32023,17 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, AlphaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Alpha)
 #: fitsviewer/livestacking.ui:1332 fitsviewer/livestacking.ui:1600
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Remaining time to complete the active capture "
-#| "sequence</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Relaxation / damping between iterations. 1.0 = no "
 "damping, &lt;1.0 = smoother but slower convergence.</p></body></html>"
-msgstr "<html><head/><body><p>完成活跃的拍摄序列的剩余时间</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1335
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Alphard"
+#, kde-format
 msgid "Alpha:"
-msgstr "星宿一(Alphard)"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #. i18n: ectx: property (toolTip), widget (QLabel, DownscaleLabel)
@@ -32071,7 +32062,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:1446
 #, kde-format
 msgid ""
-"<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple mean "
+"<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
 "pixels are rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version "
 "of sigma clipping</p><p>- ImageMM. Implements ImageMM stacking as per "
@@ -32093,10 +32084,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1471
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "ImageMM"
-msgstr "图像"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, HighSigmaLabel)
@@ -32176,21 +32166,17 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QSpinBox, Iterations)
 #. i18n: ectx: property (toolTip), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1706 fitsviewer/livestacking.ui:1834
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of iterations for use in ImageMM algorithm.</"
 "p><p>Keep low to minimize processing overhead</p></body></html>"
-msgstr "<html><head/><body><p>每个电调位置拍摄的帧数。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, KappaLabel)
 #: fitsviewer/livestacking.ui:1737
-#, fuzzy, kde-format
-#| msgid "kappa"
+#, kde-format
 msgid "  Kappa:"
-msgstr "κ"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:1762
@@ -32212,10 +32198,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1837
-#, fuzzy, kde-format
-#| msgid "Max Iterations:"
+#, kde-format
 msgid "Iterations:"
-msgstr "最大迭代:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:1862
@@ -32236,10 +32221,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, PSFUpdateLabel)
 #: fitsviewer/livestacking.ui:1887
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "PSF Update:"
-msgstr "HiPS 更新"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1922

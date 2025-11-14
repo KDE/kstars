@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-13 02:01+0000\n"
-"PO-Revision-Date: 2025-11-11 22:13+0200\n"
+"POT-Creation-Date: 2025-11-14 02:02+0000\n"
+"PO-Revision-Date: 2025-11-13 14:34+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -30405,10 +30405,9 @@ msgid "Executing post-shutdown tasks from %1..."
 msgstr "Виконуємо завдання після вимикання з %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1658
-#, fuzzy, kde-format
-#| msgid "Post-shutdown queue completed successfully."
+#, kde-format
 msgid "Post-shutdown queue is empty, shutdown complete."
-msgstr "Успішно завершено чергу завдань після вимикання."
+msgstr "Черга завдань після вимикання порожня. Вимикання завершено."
 
 #: ekos/scheduler/schedulerprocess.cpp:1664
 #, kde-format
@@ -33871,23 +33870,19 @@ msgstr "Стосування"
 #. i18n: ectx: property (toolTip), widget (QLabel, SigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Sigma)
 #: fitsviewer/livestacking.ui:1285 fitsviewer/livestacking.ui:1412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sigma Scale reduces the calculated image sigma to "
 "smooth the updates (usually in the range 0.6 - 0.9).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Масштабувати вісь значень за поточним діапазоном "
-"значень.</p></body></html>"
+"<html><head/><body><p>Масштаб сигми зменшує сигму обчисленого зображення для "
+"згладжування оновлень (зазвичай, у діапазоні 0.6 - 0.9).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1288
-#, fuzzy, kde-format
-#| msgid "Chart Scale:"
+#, kde-format
 msgid "  Sigma Scale:"
-msgstr "Масштаб карти:"
+msgstr " Масштаб сигми:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #. i18n: ectx: property (toolTip), widget (QLabel, WinsorCutoffLabel)
@@ -33903,24 +33898,19 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, AlphaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Alpha)
 #: fitsviewer/livestacking.ui:1332 fitsviewer/livestacking.ui:1600
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Remaining time to complete the active capture "
-#| "sequence</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Relaxation / damping between iterations. 1.0 = no "
 "damping, &lt;1.0 = smoother but slower convergence.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Час, який лишився до завершення активної послідовності "
-"знімання</p></body></html>"
+"<html><head/><body><p>Релаксація або затухання між ітераціями. 1.0 = без "
+"затухання, &lt;1.0 = плавніша, але повільніша збіжність.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1335
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Alphard"
+#, kde-format
 msgid "Alpha:"
-msgstr "Альфард"
+msgstr "Альфа:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #. i18n: ectx: property (toolTip), widget (QLabel, DownscaleLabel)
@@ -33954,22 +33944,27 @@ msgstr "  Зменшення масштабу: "
 #: fitsviewer/livestacking.ui:1446
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No "
-#| "rejection is applied.</p><p>- Sigma Clipping. Outlying pixels are "
-#| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
-#| "clipping</p></body></html>"
+#| "<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple "
+#| "mean average. No pixel rejection is applied.</p><p>- Sigma Clipping. "
+#| "Outlying pixels are rejected.</p><p>- Winsorized Sigma Clipping. "
+#| "Winsorized version of sigma clipping</p><p>- ImageMM. Implements ImageMM "
+#| "stacking as per https://iopscience.iop.org/article/10.3847/1538-3881/"
+#| "adfb72 NOTE: this method is very resource intensive</p></body></html>"
 msgid ""
-"<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple mean "
+"<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
 "pixels are rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version "
 "of sigma clipping</p><p>- ImageMM. Implements ImageMM stacking as per "
 "https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this "
 "method is very resource intensive</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Алгоритм відкидання пікселів:</p><p>- Немає. Без "
-"відкидання пікселів.</p><p>- Сигма-обрізання. Відкидання пікселів-викидів.</"
-"p><p>- Вінзоризоване сигма-обрізання. Вінзоризована версія сигма-обрізання</"
-"p></body></html>"
+"<html><head/><body><p>Метод стосування:</p><p>- Середнє. Використовує просте "
+"усереднення. Відкидання пікселів не застосовується.</p><p>- Сигма-обрізання. "
+"Відкидання пікселів-викидів.</p><p>- Вінзоризоване сигма-обрізання. "
+"Вінзоризована версія сигма-обрізання</p><p>- ImageMM. Реалізує стосування "
+"ImageMM, як вказано у https://iopscience.iop.org/article/10.3847/1538-3881/"
+"adfb72 ЗАУВАЖЕННЯ: цей метод є дуже вибагливим до ресурсів системи</p></"
+"body></html></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1461
@@ -33985,10 +33980,9 @@ msgstr "Вінзоризований SC"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1471
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "ImageMM"
-msgstr "Зображення"
+msgstr "ImageMM"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, HighSigmaLabel)
@@ -34049,6 +34043,9 @@ msgid ""
 "per iteration (preventing large pixel updates). Usual values between 1.0 (no "
 "update) and 2.0.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Каппа керує обмеженням на мультиплікативне оновлення "
+"за ітерацію (запобігає великим оновленням пікселів. Звичайні значення — від "
+"1.0 (без оновлень) до 2.0.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:1634
@@ -34058,12 +34055,7 @@ msgstr "Підкадри у пам'яті:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMethodLabel)
 #: fitsviewer/livestacking.ui:1656
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No "
-#| "rejection is applied.</p><p>- Sigma Clipping. Outlying pixels are "
-#| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
-#| "clipping</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No rejection "
 "is applied.</p><p>- Sigma Clipping. Outlying pixels are rejected.</p><p>- "
@@ -34075,7 +34067,9 @@ msgstr ""
 "<html><head/><body><p>Алгоритм відкидання пікселів:</p><p>- Немає. Без "
 "відкидання пікселів.</p><p>- Сигма-обрізання. Відкидання пікселів-викидів.</"
 "p><p>- Вінзоризоване сигма-обрізання. Вінзоризована версія сигма-обрізання</"
-"p></body></html>"
+"p><p>- ImageMM. Реалізує стосування ImageMM, як вказано у https://iopscience."
+"iop.org/article/10.3847/1538-3881/adfb72 ЗАУВАЖЕННЯ: цей метод є дуже "
+"вибагливим до ресурсів системи</p></body></html></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, LowSigmaLabel)
@@ -34091,23 +34085,20 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QSpinBox, Iterations)
 #. i18n: ectx: property (toolTip), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1706 fitsviewer/livestacking.ui:1834
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of iterations for use in ImageMM algorithm.</"
 "p><p>Keep low to minimize processing overhead</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Кількість зірок, які знайдено на останньому кадрі.</"
-"p></body></html>"
+"<html><head/><body><p>Кількість ітерацій в алгоритмі ImageMM.</p><p>Не варто "
+"використовувати великі значення, щоб запобігти надмірним обчисленням</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, KappaLabel)
 #: fitsviewer/livestacking.ui:1737
-#, fuzzy, kde-format
-#| msgid "kappa"
+#, kde-format
 msgid "  Kappa:"
-msgstr "каппа"
+msgstr "  Каппа:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:1762
@@ -34129,10 +34120,9 @@ msgstr "Нижня σ:"
 
 #. i18n: ectx: property (text), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1837
-#, fuzzy, kde-format
-#| msgid "Iteration: "
+#, kde-format
 msgid "Iterations:"
-msgstr "Ітерація: "
+msgstr "Ітерації: "
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:1862
@@ -34150,13 +34140,17 @@ msgid ""
 "overdone can lead to ringing.</p><p>0 = No update</p><p>1 = Every iteration</"
 "p><p>n = Every nth iteration</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Інтервал оновлення ФРТ. Адаптуйте ФРТ, яке "
+"використовується у методі ImageMM, щоб отримати кращі результати. Є "
+"вимогливим до ресурсів системи. Помилкові значення можуть привести до "
+"зациклювання.</p><p>0 = Без оновлень</p><p>1 = Кожної ітерації</p><p>n = "
+"Кожної n-ої ітерації</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFUpdateLabel)
 #: fitsviewer/livestacking.ui:1887
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "PSF Update:"
-msgstr "Оновлення HiPS"
+msgstr "Оновлення ФРТ:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1922
@@ -41175,10 +41169,9 @@ msgstr "Вага підкадрів для інтерактивного стос
 
 #. i18n: ectx: whatsthis, entry (fitsLSStackingMethod), group (FITSViewer)
 #: kstars.kcfg:1834
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Live Stacking stacking method"
-msgstr "Спосіб вирівнювання при інтерактивному стосуванні"
+msgstr "Метод інтерактивного стосування"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1838
@@ -41202,39 +41195,33 @@ msgstr "Сигма вінзор-обрізання для інтерактивн
 
 #. i18n: ectx: label, entry (fitsLSIterations), group (FITSViewer)
 #: kstars.kcfg:1850
-#, fuzzy, kde-format
-#| msgid "Live Stacking Minimise Calibration Options Widget"
+#, kde-format
 msgid "Live Stacking Iterations to use in ImageMM stacking"
-msgstr ""
-"Віджет параметрів калібрування мінімізації при інтерактивному стосуванні"
+msgstr "Кількість ітерацій при інтерактивному стосуванні у стосуванні ImageMM"
 
 #. i18n: ectx: label, entry (fitsLSKappa), group (FITSViewer)
 #: kstars.kcfg:1854
-#, fuzzy, kde-format
-#| msgid "Live Stacking master dark"
+#, kde-format
 msgid "Live Stacking ImageMM kappa"
-msgstr "Основний темний кадр для інтерактивного стосування"
+msgstr "Каппа при інтерактивному стосуванні ImageMM"
 
 #. i18n: ectx: label, entry (fitsLSAlpha), group (FITSViewer)
 #: kstars.kcfg:1858
-#, fuzzy, kde-format
-#| msgid "Live Stacking master flat"
+#, kde-format
 msgid "Live Stacking ImageMM alpha"
-msgstr "Основний плоский кадр для інтерактивного стосування"
+msgstr "Альфа при інтерактивному стосуванні ImageMM"
 
 #. i18n: ectx: label, entry (fitsLSSigma), group (FITSViewer)
 #: kstars.kcfg:1862
-#, fuzzy, kde-format
-#| msgid "Live Stacking sharpening sigma"
+#, kde-format
 msgid "Live Stacking ImageMM sigma"
-msgstr "Сигма збільшення різкості для інтерактивного стосування"
+msgstr "Сигма при інтерактивному стосуванні ImageMM"
 
 #. i18n: ectx: label, entry (fitsPSFUpdate), group (FITSViewer)
 #: kstars.kcfg:1866
-#, fuzzy, kde-format
-#| msgid "Live Stacking master dark"
+#, kde-format
 msgid "Live Stacking ImageMM PSF Update interval"
-msgstr "Основний темний кадр для інтерактивного стосування"
+msgstr "Інтервал оновлення ФРТ при інтерактивному стосуванні ImageMM"
 
 #. i18n: ectx: whatsthis, entry (fitsLSPostProc), group (FITSViewer)
 #: kstars.kcfg:1870

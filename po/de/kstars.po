@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-13 02:01+0000\n"
-"PO-Revision-Date: 2025-11-07 10:09+0100\n"
+"POT-Creation-Date: 2025-11-14 02:02+0000\n"
+"PO-Revision-Date: 2025-11-10 21:05+0100\n"
 "Last-Translator: Daniel Kauser <danysahne333@yahoo.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -12882,10 +12882,9 @@ msgstr "Angehalten"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:36
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:520
-#, fuzzy, kde-format
-#| msgid "Complete"
+#, kde-format
 msgid "Completed"
-msgstr "Beendet"
+msgstr "Abgeschlossen"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:40
 #, kde-format
@@ -29396,10 +29395,9 @@ msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:1811
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:516
-#, fuzzy, kde-format
-#| msgid "Scheduled Time"
+#, kde-format
 msgid "Scheduled"
-msgstr "Zeitplan"
+msgstr "Geplant"
 
 #: ekos/scheduler/scheduler.cpp:1813
 #, kde-format
@@ -30348,11 +30346,9 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:723
 #: ekos/scheduler/schedulerprocess.cpp:733
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1018
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
-msgstr "Alert"
+msgstr "Alarm"
 
 #: ekos/scheduler/schedulerprocess.cpp:732
 #, kde-format
@@ -31298,10 +31294,9 @@ msgid "Weather Station"
 msgstr "Wetterstation"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:503
-#, fuzzy, kde-format
-#| msgid "Dust cap:"
+#, kde-format
 msgid "Dust Cap"
-msgstr "Staubschutz:"
+msgstr "Staubschutz"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:505
 #, fuzzy, kde-format
@@ -31464,10 +31459,9 @@ msgid "Template Name:"
 msgstr "Name des Fremdrechners"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:281
-#, fuzzy, kde-format
-#| msgid "Memory:"
+#, kde-format
 msgid "Category:"
-msgstr "Speicher:"
+msgstr "Kategorie:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:294
 #, kde-format
@@ -31650,11 +31644,9 @@ msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:883
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:980
-#, fuzzy, kde-format
-#| msgctxt "City in Oregon USA"
-#| msgid "Condon"
+#, kde-format
 msgid "Condition:"
-msgstr "Condon"
+msgstr "Bedingung:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:895
 #, fuzzy, kde-format
@@ -31697,7 +31689,7 @@ msgstr "&OK"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1017
 #, kde-format
 msgid "Busy"
-msgstr ""
+msgstr "Beschäftigt"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1033
 #, fuzzy, kde-format
@@ -31793,21 +31785,19 @@ msgstr "Bildbetrachter"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:59
 #, kde-format
 msgid "Add from Template"
-msgstr ""
+msgstr "Aus Vorlage hinzufügen"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:69
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:658
-#, fuzzy, kde-format
-#| msgid "Scheduler"
+#, kde-format
 msgid "Save Queue"
-msgstr "Planer"
+msgstr "Warteschlange speichern"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:70
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:705
-#, fuzzy, kde-format
-#| msgid "&Queue"
+#, kde-format
 msgid "Load Queue"
-msgstr "&Warteschlange"
+msgstr "Warteschlange laden"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:77
 #, fuzzy, kde-format
@@ -31818,7 +31808,7 @@ msgstr "Angehalten"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:97
 #, kde-format
 msgid "Task"
-msgstr ""
+msgstr "Aufgabe"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:100
 #, kde-format
@@ -31826,10 +31816,9 @@ msgid "Progress"
 msgstr "Fortschritt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:101
-#, fuzzy, kde-format
-#| msgid "Calibrated"
+#, kde-format
 msgid "Created"
-msgstr "Kalibriert"
+msgstr "Erstellt"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpButton)
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:116
@@ -31906,17 +31895,14 @@ msgid "Item failed: %1"
 msgstr "Die Lösung ist fehlgeschlagen."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:514
-#, fuzzy, kde-format
-#| msgctxt "City in Victoria Australia"
-#| msgid "Bendigo"
+#, kde-format
 msgid "Pending"
-msgstr "Bendigo"
+msgstr "Ausstehend"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:524
-#, fuzzy, kde-format
-#| msgid "Flip view"
+#, kde-format
 msgid "Skipped"
-msgstr "Ansicht spiegeln"
+msgstr "Übersprungen"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:622
 #, fuzzy, kde-format
@@ -32058,15 +32044,14 @@ msgid "Templates"
 msgstr "Tempe"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:73
-#, fuzzy, kde-format
-#| msgid "Add to List"
+#, kde-format
 msgid "Add to Queue"
-msgstr "Zur Beobachtungsliste hinzufügen"
+msgstr "Zur Warteschlange hinzufügen"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:75
 #, kde-format
 msgid "Create Custom Template"
-msgstr ""
+msgstr "Benutzerdefinierte Vorlage erstellen"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:85
 #, fuzzy, kde-format
@@ -32075,11 +32060,9 @@ msgid "Delete Template"
 msgstr "Bild löschen"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:279
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Regor"
+#, kde-format
 msgid "Category"
-msgstr "Regor"
+msgstr "Kategorie"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:291
 #, fuzzy, kde-format
@@ -34315,7 +34298,7 @@ msgstr "Alle Bilder herunterladen"
 #: fitsviewer/livestacking.ui:1446
 #, kde-format
 msgid ""
-"<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple mean "
+"<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
 "pixels are rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version "
 "of sigma clipping</p><p>- ImageMM. Implements ImageMM stacking as per "

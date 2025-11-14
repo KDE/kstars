@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-13 02:01+0000\n"
-"PO-Revision-Date: 2025-11-12 18:43+0400\n"
+"POT-Creation-Date: 2025-11-14 02:02+0000\n"
+"PO-Revision-Date: 2025-11-13 10:23+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -4546,7 +4546,7 @@ msgstr "اضبط الحقبة على الآن"
 #: ekos/mount/mountpositionwidget.ui:197 ekos/scheduler/scheduler.ui:696
 #, kde-format
 msgid "JNow"
-msgstr "يوم الحاضر"
+msgstr "JNow"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, J2000B)
 #: dialogs/focusdialog.ui:81
@@ -4562,7 +4562,7 @@ msgstr "اضبط الحقبة على J2000"
 #: ekos/mount/mountpositionwidget.ui:207 ekos/scheduler/scheduler.ui:691
 #, kde-format
 msgid "J2000"
-msgstr "ي2000"
+msgstr "J2000"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, raLabel)
 #: dialogs/focusdialog.ui:104 ekos/manager.ui:895
@@ -5389,7 +5389,7 @@ msgstr ""
 #: dialogs/newfov.ui:650
 #, kde-format
 msgid "Detect from Ekos"
-msgstr "احصل عليه من Ekos"
+msgstr "احصل عليه من إيكوس"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab3)
 #: dialogs/newfov.ui:676
@@ -9939,7 +9939,7 @@ msgid ""
 "<p>The assistant requires three images to find a solution.  Ekos is now "
 "capturing the first image...</p>"
 msgstr ""
-"<p>يتطلب المساعد ثلاث صور لإيجاد حل. Ekos يلتقط الآن الصورة الأولى...</p>"
+"<p>يتطلب المساعد ثلاث صور لإيجاد حل. إيكوس يلتقط الآن الصورة الأولى...</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1244
 #, kde-format
@@ -10213,7 +10213,7 @@ msgstr ""
 "مجال رؤية الصورة، يجب استخدام هذا المخطط تكراريًا.</li><li style=\" margin-"
 "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">نقل النجم "
-"وحساب الخطأ</span>: مثل نقل النجم، ولكن Ekos يحاول تتبُّع النجم الذي يُنقَل "
+"وحساب الخطأ</span>: مثل نقل النجم، ولكن إيكوس يحاول تتبُّع النجم الذي يُنقَل "
 "ويقدّر خطأ المحاذاة الحالي عندما يستطيع ذلك.</li></ul><p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHRefreshAlgorithm)
@@ -10586,7 +10586,7 @@ msgid ""
 "Cannot set solver to remote. The Ekos equipment profile must include the "
 "astrometry Auxiliary driver."
 msgstr ""
-"لا تستطيع ضبط حلال ليكون بعيدًا. يجب أن تتضمن تشكيلة عتاد Ekos مشغل مساعد "
+"لا تستطيع ضبط حلال ليكون بعيدًا. يجب أن تتضمن تشكيلة عتاد إيكوس مشغل مساعد "
 "القياسات الفلكية."
 
 #: ekos/align/remoteastrometryparser.cpp:50
@@ -10852,7 +10852,7 @@ msgid ""
 "<html><head/><body><p>Select the input for the plots. This can be the "
 "current Ekos session, or it can be read from a file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>اختر مدخلًا للمؤامرات. يمكن أن يكون هذا جلسة Ekos "
+"<html><head/><body><p>اختر مدخلًا للمؤامرات. يمكن أن يكون هذا جلسة إيكوس "
 "الحالية، أو قراءته من ملف.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fullWidthCB)
@@ -10880,8 +10880,8 @@ msgid ""
 "plot.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>في أثناء التسجيل المباشر، اجعل الرسم البياني حديثًا. "
-"أي، اعرض أحدث الإجراءات التي نفّذها Ekos على الجانب الأيمن من الرسم البياني.</"
-"p></body></html>"
+"أي، اعرض أحدث الإجراءات التي نفّذها إيكوس على الجانب الأيمن من الرسم البياني."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keepCurrentCB)
 #: ekos/analyze/analyze.ui:224
@@ -12699,7 +12699,7 @@ msgid ""
 "them off when no longer needed. Logs consume resources and may slow the "
 "system down.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>فعّل السجلات لتشخيص مشاكل Ekos و INDI. إن كان نظامك "
+"<html><head/><body><p>فعّل السجلات لتشخيص مشاكل إيكوس و INDI. إن كان نظامك "
 "محدود الموارد، مثل Raspberry Pi ببطاقة SD، فعّل السجلات اللازمة فقط للمساعدة "
 "في تشخيص مشاكل محددة وعطّلها عندما لا تعد لازمة. السجلات تستهلك موارد وقد "
 "تبطئ النظام.</p></body></html>"
@@ -12743,13 +12743,13 @@ msgstr "سجّل نشاطات وحدة توجيه إيكوس"
 #, kde-format
 msgid ""
 "Have problem with Ekos? Turn on logging for Ekos modules that exhibit issues."
-msgstr "لديك مشكلة مع Ekos؟ فعّل التسجيل لوحدات Ekos التي تظهر مشاكل."
+msgstr "لديك مشكلة مع إيكوس؟ فعّل التسجيل لوحدات إيكوس التي تظهر مشاكل."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/auxiliary/opslogs.ui:133
 #, kde-format
 msgid "Ekos:"
-msgstr "Ekos:"
+msgstr "إيكوس:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_RegularLogging)
 #: ekos/auxiliary/opslogs.ui:140 options/opsadvanced.ui:238
@@ -12893,7 +12893,7 @@ msgstr "ضبط الاستقامة"
 #, kde-format
 msgid ""
 "<html><head/><body><p>Log Ekos Observatory module activity</p></body></html>"
-msgstr "<html><head/><body><p>سجّل نشاط وحدة مرصد Ekos</p></body></html>"
+msgstr "<html><head/><body><p>سجّل نشاط وحدة مرصد إيكوس</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
@@ -12975,7 +12975,7 @@ msgstr "المشغلات:"
 #: ekos/auxiliary/opslogs.ui:410
 #, kde-format
 msgid "Log Ekos Mount module activity"
-msgstr "سجّل نشاط وحدة تثبيت Ekos"
+msgstr "سجّل نشاط وحدة تثبيت إيكوس"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showINDIMessages)
 #: ekos/auxiliary/opslogs.ui:428 indi/opsindi.ui:395
@@ -15009,7 +15009,7 @@ msgstr ""
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">عن بُعد</span>: عند الاتصال "
 "بجهاز بعيد، اِخترْ هذا الخيار لحفظ الصور على الجهاز البعيد فقط. لا تُرفع صور "
-"إلى Ekos.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"إلى إيكوس.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">كلاهما</span>: اِحفظْ الصور الملتقطة على كل من "
 "الحاسوب <span style=\" font-weight:600;\">و</span> القرص المحلي أيضاً.</li></"
@@ -15679,13 +15679,13 @@ msgstr "أُلغِي تحرير الوظيفة."
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
-msgstr "افتح طابور تسلسل Ekos"
+msgstr "افتح طابور تسلسل إيكوس"
 
 #: ekos/capture/camera_jobs.cpp:397
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
-msgstr "احفَظ طابور تسلسل Ekos"
+msgstr "احفَظ طابور تسلسل إيكوس"
 
 #: ekos/capture/camera_jobs.cpp:419
 #, kde-format
@@ -18018,7 +18018,7 @@ msgstr "اسم المستخدم:"
 #: ekos/ekoslive/ekoslivedialog.ui:199
 #, kde-format
 msgid "Automatically connect to EkosLive service on startup."
-msgstr "اتصل آليًا بخدمة EkosLive عند البدء."
+msgstr "اتصل آليًا بخدمة إيكوسLive عند البدء."
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoStartCheck)
 #: ekos/ekoslive/ekoslivedialog.ui:202
@@ -18051,7 +18051,7 @@ msgstr "فشل استيراد الفسيفساء."
 #: ekos/ekoslive/nodemanager.cpp:227
 #, kde-format
 msgid "Error authenticating with EkosLive server: %1"
-msgstr "خطأ في الاستيثاق مع خادم EkosLive: %1"
+msgstr "خطأ في الاستيثاق مع خادم إيكوسLive: %1"
 
 #: ekos/ekoslive/nodemanager.cpp:240
 #, kde-format
@@ -21979,8 +21979,8 @@ msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
-"كاميرا PHD2 الحالية: %1، غير متصلة بـ Ekos.  صورة نجم دليل PHD2 تصل، ولكن لا "
-"تصل إطارات الدليل الخارجية الكاملة."
+"كاميرا PHD2 الحالية: %1، غير متصلة بـ إيكوس.  صورة نجم دليل PHD2 تصل، ولكن "
+"لا تصل إطارات الدليل الخارجية الكاملة."
 
 #: ekos/guide/guide.cpp:436
 #, kde-format
@@ -21989,7 +21989,7 @@ msgid ""
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
 "using the SubFrame checkbox."
 msgstr ""
-"كاميرا PHD2 الحالية: %1، متصلة بـ Ekos.  اختر هل تستعمل إطارات الدليل "
+"كاميرا PHD2 الحالية: %1، متصلة بـ إيكوس.  اختر هل تستعمل إطارات الدليل "
 "الخارجية الكاملة أو تستقبل صورة نجم دليل PHD2 فقط عبر مربع علامة «الإطار "
 "الفرعي»."
 
@@ -22193,7 +22193,7 @@ msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
-"كاميرا PHD2 غير متاحة لـ Ekos، لذا لا ترى الصور المُلتقطة. ولكنك ستظل ترى "
+"كاميرا PHD2 غير متاحة لـ إيكوس، لذا لا ترى الصور المُلتقطة. ولكنك ستظل ترى "
 "صورة نجم الدليل عندما توجِّه."
 
 #: ekos/guide/guide.cpp:3015 ekos/guide/guide.cpp:3143
@@ -23247,11 +23247,11 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
-msgstr "اعكس الميل عند تغيير جانب الركيزة عند إعادة استخدام المعايرة."
+msgstr ""
+"اعكس نبضات دليل الميل عند تغيير جانب الركيزة عند إعادة استخدام المعايرة."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -25208,8 +25208,8 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>فعّل أو عطّل حد زاوية الساعة للحامل. عند التفعيل، يراقب "
-"Ekos زاوية الساعة للحامل أثناء التوجيه أو التتبع. إذا وجّه/تتبّع الحامل "
-"متجاوزًا الحدّ بينما يكون 'جانب الدعامة' في حالة لا تسمح بذلك، يأمر Ekos "
+"إيكوس زاوية الساعة للحامل أثناء التوجيه أو التتبع. إذا وجّه/تتبّع الحامل "
+"متجاوزًا الحدّ بينما يكون 'جانب الدعامة' في حالة لا تسمح بذلك، يأمر إيكوس "
 "الحامل بالتوقف وإيقاف التتبع. يتطلب حاملاً يبلّغ عن جانب الدعامة بصورة صحيحة.</"
 "p></body></html>"
 
@@ -25235,8 +25235,8 @@ msgid ""
 "stop and tracking will be turned off.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>فعّل أو عطّل حدود نطاق حركة الحامل. عند التفعيل، يراقب "
-"Ekos ارتفاع الحامل أثناء التوجيه أو التتبع. إذا وجّه/تتبّع الحامل أسفل أو فوق "
-"الحدود، يأمر Ekos الحامل بالتوقف وإيقاف التتبع.</p></body></html>"
+"إيكوس ارتفاع الحامل أثناء التوجيه أو التتبع. إذا وجّه/تتبّع الحامل أسفل أو فوق "
+"الحدود، يأمر إيكوس الحامل بالتوقف وإيقاف التتبع.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimits)
 #: ekos/mount/mount.ui:344
@@ -26065,7 +26065,7 @@ msgid ""
 "reconnected, a new .analyze file will be created and written to, and the "
 "graphs in Analyze will only show the new session.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>إذا كان Analyze قيد التشغيل وفُصل Ekos ثم أُعيد توصيله، "
+"<html><head/><body><p>إذا كان Analyze قيد التشغيل وفُصل إيكوس ثم أُعيد توصيله، "
 "ينشأ ملف Analyze جديد ويُكتب فيه، وتعرض الرسوم البيانية في Analyze الجلسة "
 "الجديدة فقط.</p></body></html>"
 
@@ -26073,7 +26073,7 @@ msgstr ""
 #: ekos/opsekos.ui:204
 #, kde-format
 msgid "Restart Analyze when Ekos Restarts"
-msgstr "أعد تشغيل Analyze عند إعادة تشغيل Ekos"
+msgstr "أعد تشغيل Analyze عند إعادة تشغيل إيكوس"
 
 #. i18n: ectx: property (text), widget (QLabel, AnalyzeAlternativeDirectoryLabel)
 #: ekos/opsekos.ui:228
@@ -26193,7 +26193,7 @@ msgid ""
 msgstr ""
 "<html><head/><body>\n"
 "<p>أرسل إعدادات الموقع الجغرافي الحالية لـ «نجوم‌ك» إلى المشغّلات بمجرد اتصال "
-"Ekos بالشبكة.</p>\n"
+"إيكوس بالشبكة.</p>\n"
 "<p>استعمل هذا الخيار فقط عند الاتصال بموقع جغرافي بعيد.</p>\n"
 "</body></html>"
 
@@ -26237,7 +26237,7 @@ msgstr ""
 "<html><head/><body>\n"
 "<p>نمط الاتصال المستعمَل لخادم INDI:</p>\n"
 "<p><span style=\"font-weight:600\">محلي</span><br/>اتصل بخادم INDI محلي ينشأ "
-"عند بدء Ekos.</p>\n"
+"عند بدء إيكوس.</p>\n"
 "<p><span style=\"font-weight:600\">بعيد</span><br/>اتصل بخادم INDI بعيد يعمل "
 "بالفعل.</p>\n"
 "</body></html>"
@@ -26611,8 +26611,8 @@ msgid ""
 "style=\" font-weight:600;\">next</span> to continue. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>أهلاً بك في <span style=\" font-weight:600;\">معالج "
-"تشكيلة Ekos</span></p><p>Ekos هو منصة التحكم والأتمتة المتميزة للمراصد. مع "
-"Ekos، التقط الصور واجمع البيانات العلمية بسهولة. ساعد على إنشاء تشكيلة "
+"تشكيلة إيكوس</span></p><p>إيكوس هو منصة التحكم والأتمتة المتميزة للمراصد. مع "
+"إيكوس، التقط الصور واجمع البيانات العلمية بسهولة. ساعد على إنشاء تشكيلة "
 "جهازك. سيطلب منك التحقق من بعض المعلومات الأساسية. </p><p>انقر <span style="
 "\" font-weight:600;\">التالي</span> للمتابعة. </p></body></html>"
 
@@ -26780,7 +26780,7 @@ msgid ""
 "<html><head/><body><p>Using Ekos locally on Windows is not supported. You "
 "must connect to a remote gadget to control devices.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>تشغيل Ekos محلياً على Windows غير مدعوم. اتصل بجهاز "
+"<html><head/><body><p>تشغيل إيكوس محلياً على Windows غير مدعوم. اتصل بجهاز "
 "بعيد للتحكم بالأجهزة.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -26912,7 +26912,7 @@ msgid ""
 "Align module.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>إذا احتوى الحاسوب البعيد تثبيت astrometry.net، يمكنك "
-"تشغيل مشغِّل قياس النجوم البعيد واستعماله لحل الصور في وحدة محاذاة Ekos.</p></"
+"تشغيل مشغِّل قياس النجوم البعيد واستعماله لحل الصور في وحدة محاذاة إيكوس.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useRemoteAstrometryCheck)
@@ -26931,7 +26931,7 @@ msgid ""
 "procedure to protect your equipment.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>استعمل مشغِّل INDI WatchDog. يراقب الاتصال بين جهازك "
-"البعيد و Ekos. إذا فُقد الاتصال بينهما، يدخل مشغِّل WatchDog في الوضع الآمن "
+"البعيد و إيكوس. إذا فُقد الاتصال بينهما، يدخل مشغِّل WatchDog في الوضع الآمن "
 "وينفذ إجراء إيقاف تشغيل لحماية جهازك.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useWatchDogCheck)
@@ -27120,7 +27120,7 @@ msgid ""
 "<html><head/><body><p align=\"justify\">Fetch equipment information from the "
 "Ekos active profile, if any.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">اجلب معلومات الجهاز من تشكيلة Ekos "
+"<html><head/><body><p align=\"justify\">اجلب معلومات الجهاز من تشكيلة إيكوس "
 "النشطة، إن وجدت.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, fetchB)
@@ -27524,7 +27524,7 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:1257 ekos/scheduler/scheduler.ui:302
 #, kde-format
 msgid "Ekos Sequence File"
-msgstr "ملف تسلسل Ekos"
+msgstr "ملف تسلسل إيكوس"
 
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
 #: ekos/scheduler/framingassistant.ui:1260
@@ -27749,7 +27749,7 @@ msgstr "اختر قائمة انتظار التسلسل"
 #: ekos/scheduler/framingassistantui.cpp:742 ekos/scheduler/scheduler.cpp:929
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
-msgstr "قائمة انتظار تسلسل Ekos ‏(*.esq)"
+msgstr "قائمة انتظار تسلسل إيكوس ‏(*.esq)"
 
 #: ekos/scheduler/framingassistantui.cpp:754
 #, kde-format
@@ -28040,7 +28040,7 @@ msgstr "عند نجاح إجراء الإطفاء، أوقف INDI وإيكوس"
 #: ekos/scheduler/opsscriptssettings.ui:41
 #, kde-format
 msgid "Stop Ekos after shutdown"
-msgstr "أوقف Ekos بعد الإيقاف"
+msgstr "أوقف إيكوس بعد الإيقاف"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
 #: ekos/scheduler/opsscriptssettings.ui:48
@@ -28101,7 +28101,7 @@ msgstr "تأخير إيقاف تنبيه الطقس:"
 #: ekos/scheduler/opsweathersettings.ui:134
 #, kde-format
 msgid "Standalone Safety Monitor Driver:"
-msgstr ""
+msgstr "مشغِّل مراقب السلامة المنفصل:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #. i18n: ectx: label, entry (SchedulerSafetyMonitorConnectionString), group (Scheduler)
@@ -28112,6 +28112,8 @@ msgid ""
 "this to continuously monitor safety conditions and evaluate whether it is "
 "safe to operate the observatory."
 msgstr ""
+"سلسلة الاتصال لمشغِّل مراقب السلامة في INDI. يستخدمها المجدول لمراقبة ظروف "
+"السلامة باستمرار وتقييم ما إذا كان تشغيل المرصد آمنًا."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #: ekos/scheduler/opsweathersettings.ui:144
@@ -28280,42 +28282,34 @@ msgid "Warning: DEC value %1 is invalid."
 msgstr "تحذير: قيمة الميل %1 غير صالحة."
 
 #: ekos/scheduler/scheduler.cpp:937
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre-Startup Queue"
-msgstr "اختر سكربت بدء التشغيل"
+msgstr "اختر صف بدء التشغيل المبدئي"
 
 #: ekos/scheduler/scheduler.cpp:939 ekos/scheduler/scheduler.cpp:955
 #: ekos/scheduler/scheduler.cpp:971 ekos/scheduler/scheduler.cpp:987
 #, kde-format
 msgid "Queue Files (*.kstarsqueue *.json)"
-msgstr ""
+msgstr "ملفات الصفوف (*.kstarsqueue *.json)"
 
 #: ekos/scheduler/scheduler.cpp:953
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post-Startup Queue"
-msgstr "اختر النص البرمجي لما بعد بدء تشغيل المشغِّل"
+msgstr "اختر صف ما بعد بدء التشغيل"
 
 #: ekos/scheduler/scheduler.cpp:969
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Sequence Queue"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre-Shutdown Queue"
-msgstr "اختر قائمة انتظار التسلسل"
+msgstr "اختر صف الإيقاف المبدئي"
 
 #: ekos/scheduler/scheduler.cpp:985
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Sequence Queue"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post-Shutdown Queue"
-msgstr "اختر قائمة انتظار التسلسل"
+msgstr "اختر صف ما بعد الإيقاف"
 
 #: ekos/scheduler/scheduler.cpp:1076
 #, kde-format
@@ -28475,34 +28469,29 @@ msgid "Guiding complete"
 msgstr "انتهاء التوجيه"
 
 #: ekos/scheduler/scheduler.cpp:2502
-#, fuzzy, kde-format
-#| msgid "Weather conditions are OK."
+#, kde-format
 msgid "Safety conditions are OK."
-msgstr "الظروف الجوية حسنة."
+msgstr "ظروف السلامة حسنة."
 
 #: ekos/scheduler/scheduler.cpp:2506
-#, fuzzy, kde-format
-#| msgid "Warning: weather conditions are in the WARNING zone."
+#, kde-format
 msgid "Warning: safety conditions are in the WARNING zone."
-msgstr "تحذير: الظروف الجوية في منطقة التَحذير."
+msgstr "تحذير: ظروف السلامة في منطقة التَحذير."
 
 #: ekos/scheduler/scheduler.cpp:2510
-#, fuzzy, kde-format
-#| msgid "Caution: weather conditions are in the DANGER zone!"
+#, kde-format
 msgid "Caution: safety conditions are in the DANGER zone!"
-msgstr "انتبه: الظروف الجوية في منطقة الخطر!"
+msgstr "انتبه: ظروف السلامة في منطقة الخطر!"
 
 #: ekos/scheduler/scheduler.cpp:2528
-#, fuzzy, kde-format
-#| msgid "Weather conditions in warning zone"
+#, kde-format
 msgid "Safety conditions in warning zone"
-msgstr "دخلت الأحوال الجوّيّة منطقةَ الخطر"
+msgstr "ظروف السلامة في منطقة التحذير"
 
 #: ekos/scheduler/scheduler.cpp:2537
-#, fuzzy, kde-format
-#| msgid "Weather conditions are critical. Observatory shutdown is imminent"
+#, kde-format
 msgid "Safety conditions are critical. Observatory shutdown is imminent"
-msgstr "الأحوال الجوّيّة عصيبة. سيجري قريبًا إطفاء المرصد"
+msgstr "ظروف السلامة عصيبة. إيقاف المرصد وشيك"
 
 #: ekos/scheduler/scheduler.cpp:2559
 #, kde-format
@@ -29079,38 +29068,37 @@ msgid ""
 "Enable or disable execution of the startup queue. When disabled, no startup "
 "procedure will run."
 msgstr ""
+"فعّل أو عطّل تنفيذ صف بدء التشغيل. عند تعطيله، لن يجري أي إجراء لبدء التشغيل."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerStartupEnabled)
 #: ekos/scheduler/scheduler.ui:2045
 #, kde-format
 msgid "Enable startup queue"
-msgstr ""
+msgstr "فعّل صف بدء التشغيل"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPreStartupScript)
 #: ekos/scheduler/scheduler.ui:2066
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Selected pre-startup queue to run before starting Ekos profile"
-msgstr "اختر النص البرمجي لتنفيذه قبل بدء تشغيل المشغِّل"
+msgstr "صف بدء التشغيل المبدئي المختار لتشغيله قبل بدء تشكيلة إيكوس"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPreStartupQueueB)
 #: ekos/scheduler/scheduler.ui:2095
 #, kde-format
 msgid "Browse for pre-startup queue/collection file"
-msgstr ""
+msgstr "تصفح بحثاً عن ملف صف/تجميع بدء التشغيل المبدئي"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostStartupScript)
 #: ekos/scheduler/scheduler.ui:2121
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Selected post-startup queue to run after starting Ekos profile"
-msgstr "اختر النص البرمجي لتنفيذه بعد بدء تشغيل المشغِّل"
+msgstr "صف ما بعد بدء التشغيل المختار لتشغيله بعد بدء تشكيلة إيكوس"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPostStartupQueueB)
 #: ekos/scheduler/scheduler.ui:2150
 #, kde-format
 msgid "Browse for post-startup queue/collection file"
-msgstr ""
+msgstr "تصفح بحثاً عن ملف صف/تجميع ما بعد بدء التشغيل"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:2174
@@ -29124,39 +29112,37 @@ msgstr "إجراء إيقاف تشغيل المرصد"
 msgid ""
 "Enable or disable execution of the shutdown queue. When disabled, no "
 "shutdown procedure will run."
-msgstr ""
+msgstr "فعّل أو عطّل تنفيذ صف الإيقاف. عند تعطيله، لن يجري أي إجراء للإيقاف."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerShutdownEnabled)
 #: ekos/scheduler/scheduler.ui:2198
 #, kde-format
 msgid "Enable shutdown queue"
-msgstr ""
+msgstr "فعّل صف الإيقاف"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPreShutdownScript)
 #: ekos/scheduler/scheduler.ui:2219
-#, fuzzy, kde-format
-#| msgid "Select script to execute before stopping the driver"
+#, kde-format
 msgid "Selected pre-shutdown queue to run before stopping Ekos profile"
-msgstr "اختر النص البرمجي لتنفيذه قبل إيقاف المشغِّل"
+msgstr "صف الإيقاف المبدئي المختار لتشغيله قبل إيقاف تشكيلة إيكوس"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPreShutdownQueueB)
 #: ekos/scheduler/scheduler.ui:2248
 #, kde-format
 msgid "Browse for pre-shutdown queue/collection file"
-msgstr ""
+msgstr "تصفح بحثاً عن ملف صف/تجميع الإيقاف المبدئي"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostShutdownScript)
 #: ekos/scheduler/scheduler.ui:2274
-#, fuzzy, kde-format
-#| msgid "Select script to execute after stopping the driver"
+#, kde-format
 msgid "Selected post-shutdown queue to run after stopping Ekos profile"
-msgstr "اختر النص البرمجي لتنفيذه بعد إيقاف المشغِّل"
+msgstr "صف ما بعد الإيقاف المختار لتشغيله بعد إيقاف تشكيلة إيكوس"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPostShutdownQueueB)
 #: ekos/scheduler/scheduler.ui:2303
 #, kde-format
 msgid "Browse for post-shutdown queue/collection file"
-msgstr ""
+msgstr "تصفح بحثاً عن ملف صف/تجميع ما بعد الإيقاف"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
@@ -29291,17 +29277,15 @@ msgid "Scheduler is awake."
 msgstr "المُجدوِل مستيقظ."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
-#, fuzzy, kde-format
-#| msgid "Executing script %1..."
+#, kde-format
 msgid "Executing post-startup tasks from %1 after safety recovery..."
-msgstr "تنفيذ البرنامج النصي %1..."
+msgstr "نفّذ مهام ما بعد بدء التشغيل من %1 بعد استعادة السلامة..."
 
 #: ekos/scheduler/schedulerprocess.cpp:555
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map file %1"
+#, kde-format
 msgid ""
 "Warning: Failed to load post-startup queue from %1 after safety recovery"
-msgstr "فشلت عملية تحميل ملف خريطة العيب %1"
+msgstr "تحذير: فشل تحميل صف ما بعد بدء التشغيل من %1 بعد استعادة السلامة"
 
 #: ekos/scheduler/schedulerprocess.cpp:564
 #, kde-format
@@ -29319,13 +29303,10 @@ msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr "لم تُعالَج المهمة ”%1“ عند توقف المُجدوِل، اِجعلها مُجهَضة."
 
 #: ekos/scheduler/schedulerprocess.cpp:722
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because weather status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid ""
 "Job '%1' cannot start because safety status is %2 and grace period is over."
-msgstr "لا أستطيع بدء المهمة ”%1“ لأن حالة الطقس هي %2، ومرت فترة السماح."
+msgstr "لا أستطيع بدء المهمة ”%1“ لأن حالة السلامة هي %2، وفترة السماح انتهت."
 
 #: ekos/scheduler/schedulerprocess.cpp:723
 #: ekos/scheduler/schedulerprocess.cpp:733
@@ -29335,16 +29316,13 @@ msgid "Alert"
 msgstr "إنذار"
 
 #: ekos/scheduler/schedulerprocess.cpp:732
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because weather status is %2. Waiting until weather "
-#| "improves or until %3"
+#, kde-format
 msgid ""
 "Job '%1' cannot start because safety status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
-"لا أستطيع بدء المهمة ”%1“ لأن حالة الطقس هي %2. اِنتظِر حتى يتحسن الطقس أو حتى "
-"%3"
+"لا أستطيع بدء المهمة ”%1“ لأن حالة السلامة هي %2. اِنتظر حتى تتحسن الأحوال أو "
+"حتى %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:760
 #, kde-format
@@ -29363,10 +29341,9 @@ msgid ""
 msgstr "جدوِلت المهمة ”%1“ للتنفيذ في %2. اِركن الحامل حتى تكون المهمة جاهزة."
 
 #: ekos/scheduler/schedulerprocess.cpp:793
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Warning: Failed to add mount park task."
-msgstr "فشلت عملية تحميل بيانات الظلام."
+msgstr "تحذير: فشل إضافة مهمة ركن الحامل."
 
 #: ekos/scheduler/schedulerprocess.cpp:799
 #, kde-format
@@ -29382,15 +29359,14 @@ msgstr ""
 "تحذير: المهمة ”%1“ تبعد %2 عن الآن، قد ترغب في تمكين إيقاف التشغيل الاِستباقي."
 
 #: ekos/scheduler/schedulerprocess.cpp:838
-#, fuzzy, kde-format
-#| msgid "The mount is parked. Unpark to start guiding."
+#, kde-format
 msgid "Mount is parked, adding unpark task before slewing."
-msgstr "الحامل متوقف. أزل الإيقاف لبدء الدليل."
+msgstr "الحامل مركون، إضافة مهمة فك الركن قبل التوجيه."
 
 #: ekos/scheduler/schedulerprocess.cpp:843
 #, kde-format
 msgid "Warning: Failed to add mount unpark task, attempting to slew anyway."
-msgstr ""
+msgstr "تحذير: فشل إضافة مهمة فك ركن الحامل، محاولة التوجيه رغم ذلك."
 
 #: ekos/scheduler/schedulerprocess.cpp:870
 #, kde-format
@@ -29544,12 +29520,12 @@ msgstr "اِنفصلت أجهزة INDI."
 #: ekos/scheduler/schedulerprocess.cpp:1585
 #, kde-format
 msgid "INDI devices ready. Proceeding to post-startup phase..."
-msgstr ""
+msgstr "أجهزة INDI جاهزة. المضي قدماً في مرحلة ما بعد بدء التشغيل..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1650
-#, fuzzy, kde-format
+#, kde-format
 msgid "Executing post-shutdown tasks from %1..."
-msgstr "يعمل برنامج نصي 1"
+msgstr "نفّذ مهام ما بعد الإيقاف من %1..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1658
 #, fuzzy, kde-format
@@ -29558,10 +29534,9 @@ msgid "Post-shutdown queue is empty, shutdown complete."
 msgstr "اِكتمل إجراء إيقاف التشغيل اليدوي بنجاح."
 
 #: ekos/scheduler/schedulerprocess.cpp:1664
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map %1"
+#, kde-format
 msgid "Failed to load post-shutdown queue from %1"
-msgstr "فشلت عملية تحميل خريطة العيب %1"
+msgstr "فشلت عملية تحميل صف ما بعد الإيقاف من %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1679
 #, kde-format
@@ -29579,60 +29554,55 @@ msgid "Observatory is in the startup process"
 msgstr "دخل المرصد عمليّة الإعداد"
 
 #: ekos/scheduler/schedulerprocess.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Executing script %1..."
+#, kde-format
 msgid "Executing pre-startup tasks from %1..."
-msgstr "تنفيذ البرنامج النصي %1..."
+msgstr "نفّذ مهام بدء التشغيل المبدئي من %1..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map file %1"
+#, kde-format
 msgid "Failed to load pre-startup queue from %1"
-msgstr "فشلت عملية تحميل ملف خريطة العيب %1"
+msgstr "فشلت عملية تحميل صف بدء التشغيل المبدئي من %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1807
 #, kde-format
 msgid "No pre-startup tasks, pre-startup phase complete. Starting Ekos..."
 msgstr ""
+"لا مهام بدء تشغيل مبدئية، مرحلة بدء التشغيل المبدئي انتهت. بدء إيكوس..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1831
-#, fuzzy, kde-format
-#| msgid "Executing script %1..."
+#, kde-format
 msgid "Executing post-startup tasks from %1..."
-msgstr "تنفيذ البرنامج النصي %1..."
+msgstr "نفّذ مهام ما بعد بدء التشغيل من %1..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1839
-#, fuzzy, kde-format
-#| msgid "Failed to load dark frame file %1"
+#, kde-format
 msgid "Failed to load post-startup tasks from %1"
-msgstr "فشلت عملية تحميل ملف إطار الظلام %1"
+msgstr "فشلت عملية تحميل مهام ما بعد بدء التشغيل من %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1845
 #, kde-format
 msgid "No post-startup tasks, startup complete."
-msgstr ""
+msgstr "لا مهام ما بعد بدء تشغيل، بدء التشغيل انتهى."
 
 #: ekos/scheduler/schedulerprocess.cpp:1889
-#, fuzzy, kde-format
+#, kde-format
 msgid "Executing pre-shutdown tasks from %1..."
-msgstr "يعمل برنامج نصي 1"
+msgstr "نفّذ مهام الإيقاف المبدئي من %1..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1897
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map %1"
+#, kde-format
 msgid "Failed to load pre-shutdown queue from %1"
-msgstr "فشلت عملية تحميل خريطة العيب %1"
+msgstr "فشلت عملية تحميل صف الإيقاف المبدئي من %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:1903
 #, kde-format
 msgid "No pre-shutdown tasks, proceeding to stop Ekos/INDI."
-msgstr ""
+msgstr "لا مهام إيقاف مبدئية، المضي قدماً لإيقاف إيكوس/INDI."
 
 #: ekos/scheduler/schedulerprocess.cpp:1944
-#, fuzzy, kde-format
-#| msgid "park/unpark wait procedure failed, aborting..."
+#, kde-format
 msgid "Park/unpark procedure failed, aborting..."
-msgstr "فشل إجراء اِنتظار الركن/إخراج المَرْكَن، إجهاض..."
+msgstr "فشل إجراء الركن/فك الركن، إجهاض..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1957
 #, kde-format
@@ -29665,7 +29635,7 @@ msgstr "بدء تكرار تسلسل المهمة #%1"
 #: ekos/scheduler/schedulerprocess.cpp:2195
 #, kde-format
 msgid "No executable jobs found. Stopping scheduler."
-msgstr ""
+msgstr "لم يعثر على مهام قابلة للتنفيذ. إيقاف المجدول."
 
 #: ekos/scheduler/schedulerprocess.cpp:2263
 #, kde-format
@@ -29740,50 +29710,44 @@ msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr "الإطار الملتقط يبعد %1 دقيقة قوسية عن الهدف، يُعاد مُحاذاته..."
 
 #: ekos/scheduler/schedulerprocess.cpp:3049
-#, fuzzy, kde-format
-#| msgid "Manual startup procedure completed successfully."
+#, kde-format
 msgid "Pre-startup queue completed successfully. Starting Ekos..."
-msgstr "أكمل إجراء البدء اليدوي بنجاح."
+msgstr "صف بدء التشغيل المبدئي انتهى بنجاح. بدء إيكوس..."
 
 #: ekos/scheduler/schedulerprocess.cpp:3057
-#, fuzzy, kde-format
-#| msgid "Manual startup procedure completed successfully."
+#, kde-format
 msgid "Post-startup queue completed successfully."
-msgstr "أكمل إجراء البدء اليدوي بنجاح."
+msgstr "صف ما بعد بدء التشغيل انتهى بنجاح."
 
 #: ekos/scheduler/schedulerprocess.cpp:3064
 #, kde-format
 msgid "Resuming scheduler after safety recovery startup tasks..."
-msgstr ""
+msgstr "استئناف المجدول بعد مهام بدء تشغيل استعادة السلامة..."
 
 #: ekos/scheduler/schedulerprocess.cpp:3072
-#, fuzzy, kde-format
-#| msgid "Manual shutdown procedure completed successfully."
+#, kde-format
 msgid "Pre-shutdown queue completed successfully."
-msgstr "اِكتمل إجراء إيقاف التشغيل اليدوي بنجاح."
+msgstr "صف الإيقاف المبدئي انتهى بنجاح."
 
 #: ekos/scheduler/schedulerprocess.cpp:3080
-#, fuzzy, kde-format
-#| msgid "Manual shutdown procedure completed successfully."
+#, kde-format
 msgid "Post-shutdown queue completed successfully."
-msgstr "اِكتمل إجراء إيقاف التشغيل اليدوي بنجاح."
+msgstr "صف ما بعد الإيقاف انتهى بنجاح."
 
 #: ekos/scheduler/schedulerprocess.cpp:3093
-#, fuzzy, kde-format
-#| msgid "Extractor failed: %1s"
+#, kde-format
 msgid "Startup queue failed: %1"
-msgstr "فشل المستخرج: %1 ث"
+msgstr "صف بدء التشغيل فشل: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:3100
-#, fuzzy, kde-format
-#| msgid "Refresh solver failed: %1s"
+#, kde-format
 msgid "Pre-shutdown queue failed: %1"
-msgstr "فشل حلال التحديث: %1 ث"
+msgstr "صف الإيقاف المبدئي فشل: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:3107
 #, kde-format
 msgid "Post-shutdown queue failed: %1"
-msgstr ""
+msgstr "صف ما بعد الإيقاف فشل: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:3173
 #, kde-format
@@ -29949,26 +29913,20 @@ msgid ""
 msgstr "تحذير: الحامل مركون بينما مُجدوِل المهمة ”%1“ نشط. إجهاض."
 
 #: ekos/scheduler/schedulerprocess.cpp:3802
-#, fuzzy, kde-format
-#| msgid "Weather has improved. Resuming operations."
+#, kde-format
 msgid "Safety has improved. Resuming operations."
-msgstr "تحسن الطقس. اِستئناف العمليات."
+msgstr "تحسنت السلامة. استئناف العمليات."
 
 #: ekos/scheduler/schedulerprocess.cpp:3812
-#, fuzzy, kde-format
-#| msgid ""
-#| "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
+#, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
-msgstr "اِكتشاف تنبيه بالطقس. بدء إجراء إيقاف التشغيل الليِّن في %1 ثانية."
+msgstr "اِكتشاف تنبيه بالسلامة. بدء إجراء الإيقاف الليِّن في %1 ثانية."
 
 #: ekos/scheduler/schedulerprocess.cpp:3839
-#, fuzzy, kde-format
-#| msgid ""
-#| "Observatory scheduled for soft shutdown until weather improves or until "
-#| "%1."
+#, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
-msgstr "جُدْوِل المرصد لإيقاف التشغيل الليِّن حتى يتحسن الطقس أو حتى %1."
+msgstr "جُدْوِل المرصد لإيقاف التشغيل الليِّن حتى تتحسن السلامة أو حتى %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:3861
 #, kde-format
@@ -29996,12 +29954,12 @@ msgstr "تحذير: للمهمة ”%1“ تسلسل «%2» لا يمكن الو
 #: ekos/scheduler/schedulerprocess.cpp:4420
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
-msgstr ""
+msgstr "تهيئة مراقب السلامة بسلسلة الاتصال: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:65
 #, kde-format
 msgid "Initializing standalone safety monitor monitoring for %1@%2:%3"
-msgstr ""
+msgstr "تهيئة مراقب السلامة المنفصل للمراقبة لـ %1@%2:%3"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:117
 #, kde-format
@@ -30009,91 +29967,88 @@ msgid ""
 "Warning: Invalid safety monitor connection string format. Expected 'host' or "
 "'host:port'"
 msgstr ""
+"تحذير: تنسيق سلسلة اتصال مراقب السلامة غير صالحة. المتوقع 'مضيف' أو 'مضيف:"
+"منفذ'"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:138
 #, kde-format
 msgid "Invalid safety monitor port number, using default port 7624"
-msgstr ""
+msgstr "رقم منفذ مراقب السلامة غير صالح، استخدام المنفذ المبدئي 7624"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:167
 #, kde-format
 msgid ""
 "Failed to connect to standalone safety monitor after %1 attempts, giving up"
-msgstr ""
+msgstr "فشل الاتصال بمراقب السلامة المنفصل بعد %1 محاولة، استسلام"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:182
-#, fuzzy, kde-format
-#| msgid "Connecting to remote INDI server at %1 on port %2 ..."
+#, kde-format
 msgid "Connecting to standalone safety monitor at %1:%2..."
-msgstr "اتصال بخادوم INDI البعيد في %1 على المنفذ %2 ..."
+msgstr "اتصال بمراقب السلامة المنفصل في %1:%2..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:201
 #, kde-format
 msgid "Standalone safety monitor device %1 is ready"
-msgstr ""
+msgstr "جهاز مراقب السلامة المنفصل %1 جاهز"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:219
-#, fuzzy, kde-format
-#| msgid "Warning: DEC value %1 is invalid."
+#, kde-format
 msgid "Warning: Device %1 is not valid"
-msgstr "تحذير: قيمة الميل %1 غير صالحة."
+msgstr "تحذير: الجهاز %1 غير صالح"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:235
 #, kde-format
 msgid "Warning: Standalone safety monitor device %1 disconnected"
-msgstr ""
+msgstr "تحذير: جهاز مراقب السلامة المنفصل %1 قطع الاتصال"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:249
 #: ekos/scheduler/schedulersafetymonitor.cpp:293
 #: ekos/scheduler/schedulersafetymonitor.cpp:319
 #, kde-format
 msgid "Will attempt to reconnect in 10 seconds (attempt %1 of %2)..."
-msgstr ""
+msgstr "محاولة إعادة الاتصال في 10 ثوانٍ (المحاولة %1 من %2)..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:255
 #: ekos/scheduler/schedulersafetymonitor.cpp:299
 #: ekos/scheduler/schedulersafetymonitor.cpp:325
 #, kde-format
 msgid "Maximum reconnection attempts reached for standalone safety monitor"
-msgstr ""
+msgstr "الوصول إلى الحد الأقصى لمحاولات إعادة الاتصال لمراقب السلامة المنفصل"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:263
-#, fuzzy, kde-format
-#| msgid "Attempting to reconnect focuser: %1"
+#, kde-format
 msgid "Attempting to reconnect to standalone safety monitor..."
-msgstr "محاولة إعادة توصيل المركِّز: %1"
+msgstr "محاولة إعادة الاتصال بمراقب السلامة المنفصل..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:280
-#, fuzzy, kde-format
-#| msgid "Astrometry alignment completed successfully"
+#, kde-format
 msgid "Standalone safety monitor client connected successfully"
-msgstr "اكتملت المحاذاة الفلكيّة بنجاح"
+msgstr "اتصل عميل مراقب السلامة المنفصل بنجاح"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:287
-#, fuzzy, kde-format
+#, kde-format
 msgid "Standalone safety monitor client connection failed: %1"
-msgstr "لم أتمكن من فتح الملف %1."
+msgstr "فشل اتصال عميل مراقب السلامة المنفصل: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:306
-#, fuzzy, kde-format
+#, kde-format
 msgid "Standalone safety monitor client terminated: %1"
-msgstr "لم أتمكن من فتح الملف %1."
+msgstr "عميل مراقب السلامة المنفصل أُنهي: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:370
 #, kde-format
 msgid "Safety monitor connection string changed from %1:%2 to %3:%4"
-msgstr ""
+msgstr "تغيير سلسلة اتصال مراقب السلامة من %1:%2 إلى %3:%4"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:378
-#, fuzzy, kde-format
-#| msgid "Connecting to remote INDI server at %1 on port %2 ..."
+#, kde-format
 msgid "Disconnecting from existing safety monitor at %1:%2"
-msgstr "اتصال بخادوم INDI البعيد في %1 على المنفذ %2 ..."
+msgstr "قطع الاتصال بمراقب السلامة الحالي في %1:%2"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:410
 #, kde-format
 msgid "Safety monitor monitoring disabled"
-msgstr ""
+msgstr "تعطيل مراقبة مراقب السلامة"
 
 #: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
@@ -30117,49 +30072,43 @@ msgstr "المهمة ”%1“ %2x%3\" %4"
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:96
 #, kde-format
 msgid "Starting task queue with %1 items"
-msgstr ""
+msgstr "بدء صف المهام بـ %1 عنصر"
 
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:263
 #, kde-format
 msgid "No connected device found with required interfaces"
-msgstr ""
+msgstr "لم يعثر على جهاز متصل بالواجهات المطلوبة"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
-#, fuzzy, kde-format
-#| msgid "Loading sky objects"
+#, kde-format
 msgid "Load Task Collection"
-msgstr "حَمِّل أجرام السماء"
+msgstr "حمّل تجميع المهام"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:42
-#, fuzzy, kde-format
-#| msgid "Available Properties"
+#, kde-format
 msgid "Available Collections"
-msgstr "الخصائص المتوفّرة"
+msgstr "التجميعات المتوفرة"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:52
-#, fuzzy, kde-format
-#| msgid "Object Details"
+#, kde-format
 msgid "Collection Details"
-msgstr "معلومات الجرم المفصّلة"
+msgstr "تفاصيل التجميع"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:79
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "Do not adjust the orientation of the sky map for an erect observer"
-#| msgid "No correction"
+#, kde-format
 msgid "Load Collection"
-msgstr "لا تصحيح"
+msgstr "حمّل التجميع"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:185
-#, fuzzy, kde-format
+#, kde-format
 msgid "Error reading collection"
-msgstr "الهدف الموضع:"
+msgstr "خطأ قراءة التجميع"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:196
-#, fuzzy, kde-format
-#| msgid "Invalid Epoch format"
+#, kde-format
 msgid "Invalid collection format"
-msgstr "صيغة الحقبة غير صالحة"
+msgstr "صيغة التجميع غير صالحة"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:214
 #, kde-format
@@ -30172,28 +30121,25 @@ msgid "Select Device"
 msgstr "اختر جهازًا"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:67
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for plate solving"
+#, kde-format
 msgid "Select the device to use for this task"
-msgstr "اختر تشكيلة الخيارات لاستخدامها لحلحلة اللوحة"
+msgstr "اختر الجهاز للاستخدام لهذه المهمة"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:170
 #, kde-format
 msgid "No compatible devices found"
-msgstr ""
+msgstr "لم يعثر على أجهزة متوافقة"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:190
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:506
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Optical Train Manager not available"
-msgstr "لا توجد بيانات متاحة للصورة"
+msgstr "مدير المسار البصري غير متوفر"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:201
-#, fuzzy, kde-format
-#| msgid "Scheduler started."
+#, kde-format
 msgid "Scheduler state not available"
-msgstr "بدأ المُجدوِل."
+msgstr "حالة المجدول غير متوفرة"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:215
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:474
@@ -30202,26 +30148,24 @@ msgid "No profile selected"
 msgstr "لم تحدد تشكيلة"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:235
-#, fuzzy, kde-format
-#| msgid "Critical File not Found: %1"
+#, kde-format
 msgid "Profile not found: %1"
-msgstr "ملف أساسي لم يوجد: %1"
+msgstr "لم يعثر على تشكيلة: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:246
-#, fuzzy, kde-format
-#| msgid "Optical train doesn't exist for id %1"
+#, kde-format
 msgid "No optical trains for profile: %1"
-msgstr "مسار بصري غير موجود للمعّرف %1"
+msgstr "لا مسارات بصرية للتشكيلة: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:280
 #, kde-format
 msgid "No cached devices for profile: %1"
-msgstr ""
+msgstr "لا أجهزة مخبأة للتشكيلة: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:316
 #, kde-format
 msgid "No compatible devices in profile"
-msgstr ""
+msgstr "لا أجهزة متوافقة في التشكيلة"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
 #, kde-format
@@ -30249,10 +30193,9 @@ msgid "Spectrograph"
 msgstr "مرسام الطيف"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:513
-#, fuzzy, kde-format
-#| msgid "Calculator"
+#, kde-format
 msgid "Correlator"
-msgstr "الحاسبة الفلكية"
+msgstr "المُقارن"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:517
@@ -30263,10 +30206,9 @@ msgid "Device"
 msgstr "جهاز"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Astrometry Parameters"
+#, kde-format
 msgid "Customize Parameters"
-msgstr "معلمات القياسات الفلكية"
+msgstr "خصص المعلمات"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:97
 #, kde-format
@@ -30291,12 +30233,12 @@ msgstr "معلمات غير صالحة"
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:309
 #, kde-format
 msgid "No template specified"
-msgstr ""
+msgstr "لم يحدد قالب"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:53
 #, kde-format
 msgid "Property Template Builder"
-msgstr ""
+msgstr "بانٍ لقالب خاصية"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:64
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:81
@@ -30322,19 +30264,17 @@ msgstr "الأذن:"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:207
 #, kde-format
 msgid "SET - Write value to property"
-msgstr ""
+msgstr "اضبط - كتابة قيمة إلى خاصية"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:211
 #, kde-format
 msgid "EVALUATE - Check property condition"
-msgstr ""
+msgstr "قيّم - التحقق من شرط خاصية"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:218
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Property"
+#, kde-format
 msgid "Property Element"
-msgstr "الخاصية"
+msgstr "عنصر الخاصية"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:222
 #, kde-format
@@ -30342,10 +30282,9 @@ msgid "Element:"
 msgstr "العنصر:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:230
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "Action Settings"
-msgstr "إعدادات الملف"
+msgstr "إعدادات الإجراء"
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:237
@@ -30355,27 +30294,24 @@ msgid "Timeout:"
 msgstr "مهلة:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:242
-#, fuzzy, kde-format
-#| msgctxt "City in St. Lucia"
-#| msgid "Castries"
+#, kde-format
 msgid "Retries:"
-msgstr "كاستريس"
+msgstr "إعادة المحاولات:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:245
-#, fuzzy, kde-format
-#| msgid "Aborted"
+#, kde-format
 msgid "Abort Queue"
-msgstr "أُجهض"
+msgstr "أجهض الصف"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:247
 #, kde-format
 msgid "Skip to Next Task"
-msgstr ""
+msgstr "تجاوز إلى المهمة التالية"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:248
 #, kde-format
 msgid "On Failure:"
-msgstr ""
+msgstr "عند الفشل:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:271
 #, kde-format
@@ -30390,24 +30326,22 @@ msgstr "الفئة:"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:294
 #, kde-format
 msgid "Template Preview (JSON)"
-msgstr ""
+msgstr "معاينة القالب (JSON)"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:317
-#, fuzzy, kde-format
-#| msgid "Select Devices"
+#, kde-format
 msgid "Step 1: Select Device"
-msgstr "اختر الأجهزة"
+msgstr "الخطوة 1: اختر الجهاز"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:318
 #, kde-format
 msgid "Choose the INDI device for which you want to create a custom template."
-msgstr ""
+msgstr "اختر جهاز INDI الذي تود إنشاء قالب مخصص له."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:321
-#, fuzzy, kde-format
-#| msgid "1. Select Profile"
+#, kde-format
 msgid "Step 2: Select Property"
-msgstr "1. اختر المنظومة"
+msgstr "الخطوة 2: اختر الخاصية"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:323
 #, kde-format
@@ -30416,42 +30350,43 @@ msgid ""
 "properties (NUMBER, SWITCH, TEXT) and readable status properties (LIGHT) are "
 "shown."
 msgstr ""
+"اختر الخاصية التي تريد التحكم بها بهذا القالب. تظهر فقط الخصائص القابلة "
+"للضبط (رقم، مفتاح، نص) وخصائص الحالة القابلة للقراءة (ضوء)."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:326
-#, fuzzy, kde-format
+#, kde-format
 msgid "Step 3: Configure Actions"
-msgstr "تأكيد الحذف"
+msgstr "الخطوة 3: اضبط الإجراءات"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:327
 #, kde-format
 msgid "Configure how the property should be set and/or evaluated."
-msgstr ""
+msgstr "اضبط كيف ينبغي ضبط الخاصية و/أو تقييمها."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:330
 #, kde-format
 msgid "Step 4: Template Metadata"
-msgstr ""
+msgstr "الخطوة 4: بيانات القالب الوصفية"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:331
 #, kde-format
 msgid "Provide a name, description, and category for your template."
-msgstr ""
+msgstr "قدم اسمًا ووصفًا وتصنيفًا لقالبك."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:334
 #, kde-format
 msgid "Step 5: Preview and Save"
-msgstr ""
+msgstr "الخطوة 5: معاينة وحفظ"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:335
 #, kde-format
 msgid "Review the generated template before saving."
-msgstr ""
+msgstr "راجع القالب المولّد قبل الحفظ."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:456
-#, fuzzy, kde-format
-#| msgid "Disconnecting INDI devices..."
+#, kde-format
 msgid "Using connected INDI devices"
-msgstr "قطع ربط أجهزة INDI..."
+msgstr "استخدام أجهزة INDI المتصلة"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:464
 #, kde-format
@@ -30459,22 +30394,19 @@ msgid "No devices available"
 msgstr "لا يوجد أجهزة متوفّرة"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:491
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Profile Editor"
+#, kde-format
 msgid "Profile not found"
-msgstr "محرر منظومة الأجهزة"
+msgstr "لم يعثر على تشكيلة"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:499
-#, fuzzy, kde-format
-#| msgid "Select optical train"
+#, kde-format
 msgid "No optical trains found"
-msgstr "اِختر مسارًا بصريًا"
+msgstr "لم يعثر على مسارات بصرية"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:533
 #, kde-format
 msgid "Using cached devices from profile: %1"
-msgstr ""
+msgstr "استخدام الأجهزة المخبأة من التشكيلة: %1"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:538
 #, kde-format
@@ -30487,24 +30419,21 @@ msgid "Device not found"
 msgstr "لم يعثر على الجهاز"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:628
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Scope Properties"
+#, kde-format
 msgid "No compatible properties found"
-msgstr "خصائص المقراب"
+msgstr "لم يعثر على خصائص متوافقة"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:632
 #, kde-format
 msgid "%1 properties available"
-msgstr ""
+msgstr "%1 خصائص متوفرة"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:861
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:923
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:966
-#, fuzzy, kde-format
-#| msgid "Mount Configuration"
+#, kde-format
 msgid "SET Action Configuration"
-msgstr "إعداد الحامل"
+msgstr "إعداد إجراء الضبط"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:869
@@ -30518,10 +30447,9 @@ msgstr "القيمة:"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:932
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:973
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Mount Configuration"
+#, kde-format
 msgid "EVALUATE Action Configuration"
-msgstr "إعداد الحامل"
+msgstr "إعداد إجراء التقييم"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:876
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:978
@@ -30542,12 +30470,12 @@ msgstr "أكبر من"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:879
 #, kde-format
 msgid "Less or Equal"
-msgstr ""
+msgstr "أصغر من أو يساوي"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:880
 #, kde-format
 msgid "Greater or Equal"
-msgstr ""
+msgstr "أكبر من أو يساوي"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:881
 #, kde-format
@@ -30557,7 +30485,7 @@ msgstr "لا يساوي"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:882
 #, kde-format
 msgid "Within Range"
-msgstr ""
+msgstr "ضمن النطاق"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:883
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:980
@@ -30566,10 +30494,9 @@ msgid "Condition:"
 msgstr "الشرط:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:895
-#, fuzzy, kde-format
-#| msgid "Tolerance:"
+#, kde-format
 msgid "Margin/Tolerance:"
-msgstr "دائرة التأثير:"
+msgstr "الهامش/السماحية:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:930
 #, kde-format
@@ -30578,10 +30505,9 @@ msgstr "الحالة:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:939
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1019
-#, fuzzy, kde-format
-#| msgid "Expert Settings"
+#, kde-format
 msgid "Expected State:"
-msgstr "إعدادات الخبراء"
+msgstr "الحالة المتوقعة:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:979
 #, kde-format
@@ -30605,15 +30531,14 @@ msgid "Busy"
 msgstr "مشغول"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Legend Configuration"
+#, kde-format
 msgid "Invalid Configuration"
-msgstr "تشكيلة التوضيح"
+msgstr "إعداد غير صالح"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1034
 #, kde-format
 msgid "At least one action type (SET or EVALUATE) must be selected."
-msgstr ""
+msgstr "يجب اختيار نوع إجراء واحد على الأقل (ضبط أو تقييم)."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1068
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1079
@@ -30622,10 +30547,9 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1105
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1117
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1124
-#, fuzzy, kde-format
-#| msgid "Calibration error"
+#, kde-format
 msgid "Validation Error"
-msgstr "خطأ معايرة"
+msgstr "خطأ تحقق"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1069
 #, kde-format
@@ -30635,34 +30559,32 @@ msgstr "يرجى اختيار جهاز."
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1080
 #, kde-format
 msgid "Please select a property."
-msgstr ""
+msgstr "الرجاء اختيار خاصية."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1087
-#, fuzzy, kde-format
-#| msgid "Sample format %1 is not supported."
+#, kde-format
 msgid "Selected property type is not supported."
-msgstr "تنسيق العينة %1 غير مدعوم."
+msgstr "نوع الخاصية المختار غير متاحة."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1099
 #, kde-format
 msgid "At least one action (SET or EVALUATE) must be selected."
-msgstr ""
+msgstr "يجب اختيار إجراء واحد على الأقل (ضبط أو تقييم)."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1106
 #, kde-format
 msgid "Please select a property element."
-msgstr ""
+msgstr "الرجاء اختيار عنصر خاصية."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1118
 #, kde-format
 msgid "Please provide a template name."
-msgstr ""
+msgstr "الرجاء تقديم اسم للقالب."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1125
-#, fuzzy, kde-format
-#| msgid "Select a category:"
+#, kde-format
 msgid "Please select or enter a category."
-msgstr "اختر تصنيفاً:"
+msgstr "الرجاء اختيار أو إدخال تصنيف."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1428
 #, kde-format
@@ -30680,35 +30602,31 @@ msgid "Template Error"
 msgstr "خطأ في القالب"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1467
-#, fuzzy, kde-format
-#| msgid "Failed to create image: %1"
+#, kde-format
 msgid "Failed to create template object from JSON."
-msgstr "فشل اِبتكار الصورة: %1"
+msgstr "فشل إنشاء كائن القالب من JSON."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:39
-#, fuzzy, kde-format
-#| msgid "Image Viewer"
+#, kde-format
 msgid "Task Queue Viewer"
-msgstr "عارض الصور"
+msgstr "عارض صف المهام"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:59
 #, kde-format
 msgid "Add from Template"
-msgstr ""
+msgstr "أضف من قالب"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:69
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:658
-#, fuzzy, kde-format
-#| msgid "Scheduler"
+#, kde-format
 msgid "Save Queue"
-msgstr "احفظ الجدولة"
+msgstr "احفظ الصف"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:70
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:705
-#, fuzzy, kde-format
-#| msgid "&Queue"
+#, kde-format
 msgid "Load Queue"
-msgstr "&صفّ"
+msgstr "حمّل الصف"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:77
 #, kde-format
@@ -30746,62 +30664,54 @@ msgstr "انقل للأسفل"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:128
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:389
-#, fuzzy, kde-format
-#| msgid "&Queue"
+#, kde-format
 msgid "Queue idle"
-msgstr "&صفّ"
+msgstr "الصف خامد"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:226
 #, kde-format
 msgid "Total: %1  Completed: %2  Failed: %3  Pending: %4"
-msgstr ""
+msgstr "الإجمالي: %1 المنجزة: %2 الفاشلة: %3 المعلقة: %4"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:270
-#, fuzzy, kde-format
-#| msgid "Find Stars: Failed"
+#, kde-format
 msgid "Queue Start Failed"
-msgstr "اعثر على النجوم: فشل"
+msgstr "بدء الصف فشل"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:271
 #, kde-format
 msgid "Failed to start queue execution. Check that queue has items."
-msgstr ""
+msgstr "فشل بدء تنفيذ الصف. تحقق من أن الصف فيه عناصر."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:392
-#, fuzzy, kde-format
-#| msgid "Autoguiding running."
+#, kde-format
 msgid "Queue running"
-msgstr "الدليل الآلي يجري."
+msgstr "الصف قيد التشغيل"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:395
-#, fuzzy, kde-format
-#| msgid "Sequence paused."
+#, kde-format
 msgid "Queue paused"
-msgstr "أوقِف التسلسل مؤقتًا."
+msgstr "الصف أوقف مؤقتاً"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:398
-#, fuzzy, kde-format
-#| msgid "completed"
+#, kde-format
 msgid "Queue completed"
-msgstr "مكتمل"
+msgstr "الصف انتهى"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:401
-#, fuzzy, kde-format
-#| msgid "Scheduler aborted."
+#, kde-format
 msgid "Queue aborted"
-msgstr "أُجهض المجدول."
+msgstr "الصف أُجهض"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:431
-#, fuzzy, kde-format
-#| msgid "Dithering completed successfully."
+#, kde-format
 msgid "Queue completed successfully"
-msgstr "اكتمل التنخيل بنجاح."
+msgstr "الصف انتهى بنجاح"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:470
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s"
+#, kde-format
 msgid "Item failed: %1"
-msgstr "فشل المحلل: %1 ث"
+msgstr "العنصر فشل: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:514
 #, kde-format
@@ -30814,136 +30724,127 @@ msgid "Skipped"
 msgstr "مُتخطّاة"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:622
-#, fuzzy, kde-format
-#| msgid "Data verification failed"
+#, kde-format
 msgid "Task Creation Failed"
-msgstr "خطوة التأكد من صحة البيانات فشلت"
+msgstr "إنشاء المهمة فشل"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:623
-#, fuzzy, kde-format
-#| msgid "Failed to create file: %1"
+#, kde-format
 msgid "Failed to create task from template"
-msgstr "فشل اِبتكار الملف: %1"
+msgstr "فشل إنشاء مهمة من قالب"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:640
-#, fuzzy, kde-format
-#| msgid "Empty file"
+#, kde-format
 msgid "Empty Queue"
-msgstr "ملف فارغ"
+msgstr "صف فارغ"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:641
 #, kde-format
 msgid "Queue is empty. Nothing to save."
-msgstr ""
+msgstr "الصف فارغ. لا شيء للحفظ."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:660
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:707
 #, kde-format
 msgid "KStars Queue Files (*.kstarsqueue);;All Files (*)"
-msgstr ""
+msgstr "ملفات صفوف KStars (*.kstarsqueue);;كل الملفات (*)"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:673
-#, fuzzy, kde-format
-#| msgid "Failed to save defect map to %1"
+#, kde-format
 msgid "Failed to save queue to %1"
-msgstr "فشلت عملية حفظ خريطة العيب في %1"
+msgstr "فشلت عملية حفظ الصف في %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:685
 #, kde-format
 msgid "Clear Existing Queue?"
-msgstr ""
+msgstr "مسح الصف الحالي؟"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:686
 #, kde-format
 msgid "Loading a queue will clear the current queue. Continue?"
-msgstr ""
+msgstr "تحميل صف سيمسح الصف الحالي. أتريد الاستمرار؟"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:721
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map %1"
+#, kde-format
 msgid "Failed to load queue from %1"
-msgstr "فشلت عملية تحميل خريطة العيب %1"
+msgstr "فشلت عملية تحميل الصف من %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:769
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to open collection file: %1"
-msgstr "لم أتمكن من فتح الملف %1."
+msgstr "فشل فتح ملف التجميع: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:779
-#, fuzzy, kde-format
-#| msgid "Invalid Epoch format"
+#, kde-format
 msgid "Invalid collection file format"
-msgstr "صيغة الحقبة غير صالحة"
+msgstr "صيغة ملف التجميع غير صالحة"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:789
-#, fuzzy, kde-format
-#| msgid "Edit location"
+#, kde-format
 msgid "Empty Collection"
-msgstr "حرر الموقع"
+msgstr "تجميع فارغ"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:790
 #, kde-format
 msgid "The collection contains no tasks"
-msgstr ""
+msgstr "التجميع لا يحوي مهام"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:799
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Template manager not available"
-msgstr "لا توجد بيانات متاحة للصورة"
+msgstr "مدير القوالب غير متوفر"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:809
 #, kde-format
 msgid "Failed to initialize template library"
-msgstr ""
+msgstr "فشل تهيئة مكتبة القوالب"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:830
-#, fuzzy, kde-format
-#| msgid "Critical File not Found: %1"
+#, kde-format
 msgid "Template not found: %1"
-msgstr "ملف أساسي لم يوجد: %1"
+msgstr "لم يعثر على قالب: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:853
-#, fuzzy, kde-format
-#| msgid "Failed to create file: %1"
+#, kde-format
 msgid "Failed to create task from template: %1"
-msgstr "فشل اِبتكار الملف: %1"
+msgstr "فشل إنشاء مهمة من قالب: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:862
 #, kde-format
 msgid "No tasks were added from collection '%1'."
-msgstr ""
+msgstr "لم تضف مهام من التجميع '%1'."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:867
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed to Load"
+#, kde-format
 msgid ""
 "\n"
 "\n"
 "%1 tasks failed to load."
-msgstr "%1 فشل التحميل"
+msgstr ""
+"\n"
+"\n"
+"فشل تحميل %1 مهمة."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:872
-#, fuzzy, kde-format
-#| msgid "Warning"
+#, kde-format
 msgid ""
 "\n"
 "\n"
 "Warnings:\n"
-msgstr "تحذير"
+msgstr ""
+"\n"
+"\n"
+"تحذيرات:\n"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:876
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Connection Mode"
+#, kde-format
 msgid "Collection Loaded"
-msgstr "نمط الاتصال"
+msgstr "تجميع حُمّل"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format
 msgid "Task Queue Templates"
-msgstr ""
+msgstr "قوالب صف المهام"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:52
 #, kde-format
@@ -30958,7 +30859,7 @@ msgstr "أضف للطابور"
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:75
 #, kde-format
 msgid "Create Custom Template"
-msgstr ""
+msgstr "أنشئ قالب مخصص"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:85
 #, kde-format
@@ -30976,21 +30877,19 @@ msgid "Parameters"
 msgstr "المعاملات"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:317
-#, fuzzy, kde-format
-#| msgid "Name of plotted object"
+#, kde-format
 msgid "Number of actions"
-msgstr "اسم الجسم المخطّط"
+msgstr "عدد الإجراءات"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:323
 #, kde-format
 msgid "System Template"
-msgstr ""
+msgstr "قالب النظام"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:327
-#, fuzzy, kde-format
-#| msgid "User Input"
+#, kde-format
 msgid "User Template"
-msgstr "إدخال المستخدم"
+msgstr "قالب المستخدم"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:331
 #, kde-format
@@ -31003,10 +30902,9 @@ msgid "Delete Failed"
 msgstr "فشل الحذف"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:400
-#, fuzzy, kde-format
-#| msgid "Failed to set dither range."
+#, kde-format
 msgid "Failed to delete template."
-msgstr "أخفِق في تعيين نطاق الاهتزاز الدقيق."
+msgstr "فشل حذف القالب."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
@@ -33106,7 +33004,7 @@ msgstr "  مقياس سفلي: "
 #| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
 #| "clipping</p></body></html>"
 msgid ""
-"<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple mean "
+"<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
 "pixels are rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version "
 "of sigma clipping</p><p>- ImageMM. Implements ImageMM stacking as per "
@@ -38980,7 +38878,7 @@ msgstr "لون خطأ دليل RA"
 #: kstars.kcfg:1326
 #, kde-format
 msgid "The color for RA Guide Error bar in Ekos guide module."
-msgstr "لون شريط خطأ دليل RA في وحدة دليل Ekos."
+msgstr "لون شريط خطأ دليل RA في وحدة دليل إيكوس."
 
 #. i18n: ectx: label, entry (DEGuideColor), group (Colors)
 #: kstars.kcfg:1330
@@ -38992,7 +38890,7 @@ msgstr "لون خطأ دليل DEC"
 #: kstars.kcfg:1331
 #, kde-format
 msgid "The color for DEC Guide Error bar in Ekos guide module."
-msgstr "لون شريط خطأ دليل DEC في وحدة دليل Ekos."
+msgstr "لون شريط خطأ دليل DEC في وحدة دليل إيكوس."
 
 #. i18n: ectx: label, entry (SolverFOVColor), group (Colors)
 #: kstars.kcfg:1335
@@ -39004,7 +38902,7 @@ msgstr "لون صندوق مجال الرؤية للمحلل"
 #: kstars.kcfg:1336
 #, kde-format
 msgid "The color for solver FOV box in Ekos alignment module."
-msgstr "لون صندوق مجال الرؤية للمحلل في وحدة محاذاة Ekos."
+msgstr "لون صندوق مجال الرؤية للمحلل في وحدة محاذاة إيكوس."
 
 #. i18n: ectx: label, entry (xplanetIsInternal), group (Xplanet)
 #: kstars.kcfg:1342 xplanet/opsxplanet.cpp:21
@@ -40647,7 +40545,7 @@ msgid ""
 "If set, Ekos will capture a few flat images to determine the optimal "
 "exposure time to achieve the desired ADU value."
 msgstr ""
-"إذا ضُبِط، سيلتقط Ekos بعض الصور المسطحة لتحديد وقت التعرض الأمثل لتحقيق قيمة "
+"إذا ضُبِط، سيلتقط إيكوس بعض الصور المسطحة لتحديد وقت التعرض الأمثل لتحقيق قيمة "
 "ADU المرغوبة."
 
 #. i18n: ectx: label, entry (CalibrationADUValueTolerance), group (Capture)
@@ -40789,7 +40687,7 @@ msgstr "قَلِّل عينة الصور آليا بناء على الموارد
 msgid ""
 "Display every image captured sequence image in the Ekos summary screen "
 "preview window."
-msgstr "اعرض كل صورة تسلسل ملتقطة في نافذة معاينة شاشة ملخص Ekos."
+msgstr "اعرض كل صورة تسلسل ملتقطة في نافذة معاينة شاشة ملخص إيكوس."
 
 #. i18n: ectx: label, entry (useDSLRImageViewer), group (Capture)
 #: kstars.kcfg:2281
@@ -42385,7 +42283,7 @@ msgstr "سجّل نشاطات وحدة مجدول إيكوس"
 #, kde-format
 msgid ""
 "After shutdown procedure is successfully executed, shutdown INDI and Ekos."
-msgstr "بعد تنفيذ إجراء إيقاف التشغيل بنجاح، أوقف تشغيل INDI وEkos."
+msgstr "بعد تنفيذ إجراء إيقاف التشغيل بنجاح، أوقف تشغيل INDI وإيكوس."
 
 #. i18n: ectx: label, entry (ShutdownScriptTerminatesINDI), group (Scheduler)
 #: kstars.kcfg:3297
@@ -42595,7 +42493,7 @@ msgstr "مربع اختيار المُجَدْوِل مبدئي لبدء تتب�
 #: kstars.kcfg:3420
 #, kde-format
 msgid "Enable startup queue execution"
-msgstr ""
+msgstr "فعّل تنفيذ صف بدء التشغيل"
 
 #. i18n: ectx: whatsthis, entry (SchedulerStartupEnabled), group (Scheduler)
 #: kstars.kcfg:3421
@@ -42604,13 +42502,14 @@ msgid ""
 "If enabled, the startup queue will be executed when the scheduler starts. If "
 "disabled, no startup procedure will run."
 msgstr ""
+"إذا فُعّل، ينفّذ صف بدء التشغيل عند بدء المجدول. إذا عُطّل، لن يجري أي إجراء لبدء "
+"التشغيل."
 
 #. i18n: ectx: label, entry (SchedulerPreStartupScript), group (Scheduler)
 #: kstars.kcfg:3425
-#, fuzzy, kde-format
-#| msgid "Path to astrometry.net file location."
+#, kde-format
 msgid "Path to startup queue file or script."
-msgstr "مسار موقع ملف astrometry.net."
+msgstr "مسار ملف أو سكربت صف بدء التشغيل."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreStartupScript), group (Scheduler)
 #: kstars.kcfg:3426
@@ -42619,12 +42518,13 @@ msgid ""
 "Path to the startup queue file to execute when starting the scheduler before "
 "starting the equipment profile."
 msgstr ""
+"مسار ملف صف بدء التشغيل للتنفيذ عند بدء المجدول قبل بدء تشكيلة المعدات."
 
 #. i18n: ectx: label, entry (SchedulerPostStartupScript), group (Scheduler)
 #: kstars.kcfg:3429
 #, kde-format
 msgid "Path to post-startup queue file or script."
-msgstr ""
+msgstr "مسار ملف أو سكربت صف ما بعد بدء التشغيل."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPostStartupScript), group (Scheduler)
 #: kstars.kcfg:3430
@@ -42633,12 +42533,13 @@ msgid ""
 "Path to the startup queue file to execute when starting the scheduler after "
 "starting the equipment profile."
 msgstr ""
+"مسار ملف صف بدء التشغيل للتنفيذ عند بدء المجدول بعد بدء تشكيلة المعدات."
 
 #. i18n: ectx: label, entry (SchedulerShutdownEnabled), group (Scheduler)
 #: kstars.kcfg:3434
 #, kde-format
 msgid "Enable shutdown queue execution"
-msgstr ""
+msgstr "فعّل تنفيذ صف الإيقاف"
 
 #. i18n: ectx: whatsthis, entry (SchedulerShutdownEnabled), group (Scheduler)
 #: kstars.kcfg:3435
@@ -42647,13 +42548,14 @@ msgid ""
 "If enabled, the shutdown queue will be executed when the scheduler shuts "
 "down. If disabled, no shutdown procedure will run."
 msgstr ""
+"إذا فُعّل، ينفّذ صف الإيقاف عند إيقاف المجدول. إذا عُطّل، لن يجري أي إجراء "
+"للإيقاف."
 
 #. i18n: ectx: label, entry (SchedulerPreShutdownScript), group (Scheduler)
 #: kstars.kcfg:3439
-#, fuzzy, kde-format
-#| msgid "Path to astrometry.net file location."
+#, kde-format
 msgid "Path to shutdown queue file or script."
-msgstr "مسار موقع ملف astrometry.net."
+msgstr "مسار ملف أو سكربت صف الإيقاف."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreShutdownScript), group (Scheduler)
 #: kstars.kcfg:3440
@@ -42662,12 +42564,13 @@ msgid ""
 "Path to the shutdown queue file to execute when stopping the scheduler "
 "before stopping the equipment profile."
 msgstr ""
+"مسار ملف صف الإيقاف للتنفيذ عند إيقاف المجدول قبل إيقاف تشكيلة المعدات."
 
 #. i18n: ectx: label, entry (SchedulerPostShutdownScript), group (Scheduler)
 #: kstars.kcfg:3444
 #, kde-format
 msgid "Path to post-shutdown queue file or script."
-msgstr ""
+msgstr "مسار ملف أو سكربت صف ما بعد الإيقاف."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPostShutdownScript), group (Scheduler)
 #: kstars.kcfg:3445
@@ -42676,6 +42579,7 @@ msgid ""
 "Path to the shutdown queue file to execute when stopping the scheduler after "
 "stopping the equipment profile."
 msgstr ""
+"مسار ملف صف الإيقاف للتنفيذ عند إيقاف المجدول بعد إيقاف تشكيلة المعدات."
 
 #. i18n: ectx: label, entry (SchedulerFocusStep), group (Scheduler)
 #: kstars.kcfg:3448
@@ -42813,7 +42717,7 @@ msgid ""
 "analyze file will be created and written to, and the graphs in Analyze will "
 "only show the new session."
 msgstr ""
-"إذا كان \"تحليل\" قيد التشغيل وانفصل Ekos ثم أُعيد توصيله، يُنشَأ ملف analyze. "
+"إذا كان \"تحليل\" قيد التشغيل وانفصل إيكوس ثم أُعيد توصيله، يُنشَأ ملف analyze. "
 "جديد وتُكتَب عليه، وتعرِض الرسوم البيانية في \"تحليل\" الجلسة الجديدة فقط."
 
 #. i18n: ectx: label, entry (AnalyzeAlternativeDirectoryName), group (Analyze)
