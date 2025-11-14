@@ -80,7 +80,7 @@ void Camera::loadGlobalSettings()
 
     QVariantMap settings;
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
     {
         if (oneWidget->objectName() == "opticalTrainCombo")
             continue;
@@ -97,7 +97,7 @@ void Camera::loadGlobalSettings()
     }
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -111,7 +111,7 @@ void Camera::loadGlobalSettings()
     }
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -125,7 +125,7 @@ void Camera::loadGlobalSettings()
     }
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -139,7 +139,7 @@ void Camera::loadGlobalSettings()
     }
 
     // All Checkable Groupboxes
-    for (auto &oneWidget : findChildren<QGroupBox*>())
+    for (auto &oneWidget : findChildren<QGroupBox * >())
     {
         if (oneWidget->isCheckable())
         {
@@ -156,7 +156,7 @@ void Camera::loadGlobalSettings()
     }
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -168,7 +168,7 @@ void Camera::loadGlobalSettings()
     }
 
     // All Line Edits
-    for (auto &oneWidget : findChildren<QLineEdit*>())
+    for (auto &oneWidget : findChildren<QLineEdit * >())
     {
         if (oneWidget->objectName() == "qt_spinbox_lineedit" || oneWidget->isReadOnly())
             continue;
@@ -227,28 +227,28 @@ void Camera::syncSettings()
     QString key;
     QVariant value;
 
-    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    if ( (dsb = qobject_cast<QDoubleSpinBox * >(sender())))
     {
         key = dsb->objectName();
         value = dsb->value();
 
     }
-    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    else if ( (sb = qobject_cast<QSpinBox * >(sender())))
     {
         key = sb->objectName();
         value = sb->value();
     }
-    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    else if ( (cb = qobject_cast<QCheckBox * >(sender())))
     {
         key = cb->objectName();
         value = cb->isChecked();
     }
-    else if ( (gb = qobject_cast<QGroupBox*>(sender())))
+    else if ( (gb = qobject_cast<QGroupBox * >(sender())))
     {
         key = gb->objectName();
         value = gb->isChecked();
     }
-    else if ( (rb = qobject_cast<QRadioButton*>(sender())))
+    else if ( (rb = qobject_cast<QRadioButton * >(sender())))
     {
         key = rb->objectName();
         // Discard false requests
@@ -259,12 +259,12 @@ void Camera::syncSettings()
         }
         value = true;
     }
-    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    else if ( (cbox = qobject_cast<QComboBox * >(sender())))
     {
         key = cbox->objectName();
         value = cbox->currentText();
     }
-    else if ( (le = qobject_cast<QLineEdit*>(sender())))
+    else if ( (le = qobject_cast<QLineEdit * >(sender())))
     {
         key = le->objectName();
         value = le->text();
@@ -284,32 +284,32 @@ void Camera::syncSettings()
 void Camera::connectSyncSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Camera::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         connect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Camera::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         connect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Camera::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         connect(oneWidget, &QCheckBox::toggled, this, &Camera::syncSettings);
 
     // All Checkable Groupboxes
-    for (auto &oneWidget : findChildren<QGroupBox*>())
+    for (auto &oneWidget : findChildren<QGroupBox * >())
         if (oneWidget->isCheckable())
             connect(oneWidget, &QGroupBox::toggled, this, &Camera::syncSettings);
 
     // All Radio Buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         connect(oneWidget, &QRadioButton::toggled, this, &Camera::syncSettings);
 
     // All Line Edits
-    for (auto &oneWidget : findChildren<QLineEdit*>())
+    for (auto &oneWidget : findChildren<QLineEdit * >())
     {
         if (oneWidget->objectName() == "qt_spinbox_lineedit" || oneWidget->isReadOnly())
             continue;
@@ -323,32 +323,32 @@ void Camera::connectSyncSettings()
 void Camera::disconnectSyncSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Camera::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         disconnect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Camera::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         disconnect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Camera::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Camera::syncSettings);
 
     // All Checkable Groupboxes
-    for (auto &oneWidget : findChildren<QGroupBox*>())
+    for (auto &oneWidget : findChildren<QGroupBox * >())
         if (oneWidget->isCheckable())
             disconnect(oneWidget, &QGroupBox::toggled, this, &Camera::syncSettings);
 
     // All Radio Buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         disconnect(oneWidget, &QRadioButton::toggled, this, &Camera::syncSettings);
 
     // All Line Edits
-    for (auto &oneWidget : findChildren<QLineEdit*>())
+    for (auto &oneWidget : findChildren<QLineEdit * >())
     {
         if (oneWidget->objectName() == "qt_spinbox_lineedit")
             continue;
@@ -362,7 +362,7 @@ QVariantMap Camera::getAllSettings() const
 
     // All QLineEdits
     // N.B. This must be always first since other Widgets can be casted to QLineEdit like QSpinBox but not vice-versa.
-    for (auto &oneWidget : findChildren<QLineEdit*>())
+    for (auto &oneWidget : findChildren<QLineEdit * >())
     {
         auto name = oneWidget->objectName();
         if (name == "qt_spinbox_lineedit")
@@ -371,28 +371,28 @@ QVariantMap Camera::getAllSettings() const
     }
 
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->currentText());
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     // All Checkable Groupboxes
-    for (auto &oneWidget : findChildren<QGroupBox*>())
+    for (auto &oneWidget : findChildren<QGroupBox * >())
         if (oneWidget->isCheckable())
             settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     // All Radio Buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     return settings;
@@ -885,7 +885,9 @@ void Camera::updateCaptureFormats()
     // list of capture types
     QStringList frameTypes = process()->frameTypes();
     // current selection
-    QString currentType = captureTypeS->currentText();
+    auto currentType = captureTypeS->currentText();
+    auto currentFormat = captureFormatS->currentText();
+    auto currentEncoding = captureEncodingS->currentText();
 
     captureTypeS->blockSignals(true);
     captureTypeS->clear();
@@ -897,7 +899,7 @@ void Camera::updateCaptureFormats()
         captureTypeS->setEnabled(true);
         captureTypeS->addItems(frameTypes);
 
-        if (currentType == "")
+        if (currentType.isEmpty())
         {
             // if no capture type is selected, take the value from the active chip
             captureTypeS->setCurrentIndex(devices()->getActiveChip()->getFrameType());
@@ -913,17 +915,26 @@ void Camera::updateCaptureFormats()
     // Capture Format
     captureFormatS->blockSignals(true);
     captureFormatS->clear();
-    const auto list = isVideo ? activeCamera()->getVideoFormats() : activeCamera()->getCaptureFormats();
-    captureFormatS->addItems(list);
-    storeTrainKey(KEY_FORMATS, list);
-    captureFormatS->setCurrentText(activeCamera()->getCaptureFormat());
+    auto formats = isVideo ? activeCamera()->getVideoFormats() : activeCamera()->getCaptureFormats();
+    captureFormatS->addItems(formats);
+    storeTrainKey(KEY_FORMATS, formats);
+    // Only change format is either currentFormat is empty or no longer exists in the list
+    if (currentFormat.isEmpty() || formats.contains(currentFormat) == false)
+        captureFormatS->setCurrentText(activeCamera()->getCaptureFormat());
+    else
+        captureFormatS->setCurrentText(currentFormat);
     captureFormatS->blockSignals(false);
 
     // Encoding format
     captureEncodingS->blockSignals(true);
     captureEncodingS->clear();
-    captureEncodingS->addItems(isVideo ? activeCamera()->getStreamEncodings() : activeCamera()->getEncodingFormats());
-    captureEncodingS->setCurrentText(isVideo ? activeCamera()->getStreamEncoding() : activeCamera()->getEncodingFormat());
+    auto encodings = isVideo ? activeCamera()->getStreamEncodings() : activeCamera()->getEncodingFormats();
+    captureEncodingS->addItems(encodings);
+    // Only change format is either currentFormat is empty or no longer exists in the list
+    if (currentEncoding.isEmpty() || encodings.contains(currentEncoding) == false)
+        captureEncodingS->setCurrentText(isVideo ? activeCamera()->getStreamEncoding() : activeCamera()->getEncodingFormat());
+    else
+        captureEncodingS->setCurrentText(currentEncoding);
     captureEncodingS->blockSignals(false);
 }
 
