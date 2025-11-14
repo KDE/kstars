@@ -98,6 +98,7 @@ microsoftstore_qt6:
     - !reference [.publishing-recipes, rules]
 
 flatpak-amd64:
+  timeout: 2h
   needs:
     - suse_tumbleweed_qt610
   rules:
@@ -105,6 +106,7 @@ flatpak-amd64:
     - !reference [.publishing-recipes, rules]
 
 flatpak-arm64:
+  timeout: 2h
   needs:
     - suse_tumbleweed_qt610
   rules:
