@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-14 02:02+0000\n"
+"POT-Creation-Date: 2025-11-15 02:01+0000\n"
 "PO-Revision-Date: 2014-06-12 16:56+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -12469,7 +12469,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, exposureOptionsLabel)
 #. i18n: ectx: property (text), widget (QLabel, countLabel)
 #: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.ui:1691
-#: ekos/capture/camera_config.cpp:958 indi/collimationOptions.ui:440
+#: ekos/capture/camera_config.cpp:969 indi/collimationOptions.ui:440
 #, kde-format
 msgid "Count:"
 msgstr "Tall:"
@@ -15934,7 +15934,7 @@ msgstr "Temperatuur vun den CCD-Chip fastleggen"
 msgid "Set Camera to %1 deg..."
 msgstr "Standoort instellen..."
 
-#: ekos/capture/camera_config.cpp:957
+#: ekos/capture/camera_config.cpp:968
 #, fuzzy, kde-format
 #| msgid "Duration of night for selected date"
 msgid "Duration of the video sequence"
@@ -15943,26 +15943,26 @@ msgstr "Duer vun de Nacht an't utsöchte Datum"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/camera_config.cpp:957 ekos/capture/limits.ui:108
+#: ekos/capture/camera_config.cpp:968 ekos/capture/limits.ui:108
 #: ekos/capture/limits.ui:378 ekos/focus/focus.ui:713
 #, kde-format
 msgid "Number of images to capture"
 msgstr "Tall vun Biller, de opnahmen warrn schöölt"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera_config.cpp:958 indi/recordingoptions.ui:40
+#: ekos/capture/camera_config.cpp:969 indi/recordingoptions.ui:40
 #, fuzzy, kde-format
 #| msgid "Duration:"
 msgid "Duration:"
 msgstr "Duer:"
 
-#: ekos/capture/camera_config.cpp:959
+#: ekos/capture/camera_config.cpp:970
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure time in seconds of a single video frame"
 msgstr "Kamera-/CCD-Belichtentiet in Sekunnen instellen"
 
-#: ekos/capture/camera_config.cpp:960
+#: ekos/capture/camera_config.cpp:971
 #, fuzzy, kde-format
 #| msgid ""
 #| "Set the exposure time in seconds for individual images, if applicable"
@@ -15970,38 +15970,38 @@ msgid "Exposure time in seconds for individual images"
 msgstr ""
 "Stellt de Belichtentiet in Sekunnen för enkelte Biller in, wenn verföögbor"
 
-#: ekos/capture/camera_config.cpp:987
+#: ekos/capture/camera_config.cpp:998
 #, fuzzy, kde-format
 #| msgid "FITS Default directory"
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS-Standardorner"
 
-#: ekos/capture/camera_config.cpp:1029
+#: ekos/capture/camera_config.cpp:1040
 #, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr ""
 
-#: ekos/capture/camera_config.cpp:1035
+#: ekos/capture/camera_config.cpp:1046
 #, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr ""
 
-#: ekos/capture/camera_config.cpp:1163
+#: ekos/capture/camera_config.cpp:1174
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Luurmann"
 
-#: ekos/capture/camera_config.cpp:1165
+#: ekos/capture/camera_config.cpp:1176
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Current Observer:"
 msgstr "Luurmann"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera_config.cpp:1176 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera_config.cpp:1187 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observers"

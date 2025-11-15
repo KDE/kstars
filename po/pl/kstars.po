@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1722777 $
+# Version: $Revision: 1722834 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-14 02:02+0000\n"
+"POT-Creation-Date: 2025-11-15 02:01+0000\n"
 "PO-Revision-Date: 2025-10-25 08:41+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -12420,7 +12420,7 @@ msgstr "4x4"
 #. i18n: ectx: property (text), widget (QLabel, exposureOptionsLabel)
 #. i18n: ectx: property (text), widget (QLabel, countLabel)
 #: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.ui:1691
-#: ekos/capture/camera_config.cpp:958 indi/collimationOptions.ui:440
+#: ekos/capture/camera_config.cpp:969 indi/collimationOptions.ui:440
 #, kde-format
 msgid "Count:"
 msgstr "Liczba:"
@@ -15988,7 +15988,7 @@ msgstr "Ustawianie aparatu na %1 stopni WSCH lub PN..."
 msgid "Set Camera to %1 deg..."
 msgstr "Ustaw aparat na %1 stopni..."
 
-#: ekos/capture/camera_config.cpp:957
+#: ekos/capture/camera_config.cpp:968
 #, fuzzy, kde-format
 #| msgid "Duration of night for selected date"
 msgid "Duration of the video sequence"
@@ -15997,26 +15997,26 @@ msgstr "Długość nocy w wybranym dniu"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/camera_config.cpp:957 ekos/capture/limits.ui:108
+#: ekos/capture/camera_config.cpp:968 ekos/capture/limits.ui:108
 #: ekos/capture/limits.ui:378 ekos/focus/focus.ui:713
 #, kde-format
 msgid "Number of images to capture"
 msgstr "Liczba obrazów do przechwycenia"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera_config.cpp:958 indi/recordingoptions.ui:40
+#: ekos/capture/camera_config.cpp:969 indi/recordingoptions.ui:40
 #, fuzzy, kde-format
 #| msgid "Duration"
 msgid "Duration:"
 msgstr "Czas trwania"
 
-#: ekos/capture/camera_config.cpp:959
+#: ekos/capture/camera_config.cpp:970
 #, fuzzy, kde-format
 #| msgid "Exposure time in seconds"
 msgid "Exposure time in seconds of a single video frame"
 msgstr "Czas naświetlenia, w sekundach."
 
-#: ekos/capture/camera_config.cpp:960
+#: ekos/capture/camera_config.cpp:971
 #, fuzzy, kde-format
 #| msgid ""
 #| "Set the exposure time in seconds for individual images, if applicable"
@@ -16024,37 +16024,37 @@ msgid "Exposure time in seconds for individual images"
 msgstr ""
 "Ustawienie czasu ekspozycji w sekundach dla kolejnych obrazów, jeśli możliwe"
 
-#: ekos/capture/camera_config.cpp:987
+#: ekos/capture/camera_config.cpp:998
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Katalog do zapisu FITS"
 
-#: ekos/capture/camera_config.cpp:1029
+#: ekos/capture/camera_config.cpp:1040
 #, fuzzy, kde-format
 #| msgid "You must set remote directory for Local & Both modes."
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr "Musisz ustawić zdalny katalog dla trybu lokalnego i obu."
 
-#: ekos/capture/camera_config.cpp:1035
+#: ekos/capture/camera_config.cpp:1046
 #, fuzzy, kde-format
 #| msgid "You must set local directory for Client & Both modes."
 msgid "You must set local directory for Locally & Both modes."
 msgstr "Musisz ustawić katalog lokalny dla trybu lokalnego i obu."
 
-#: ekos/capture/camera_config.cpp:1163
+#: ekos/capture/camera_config.cpp:1174
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Wybór bieżącego obserwatora"
 
-#: ekos/capture/camera_config.cpp:1165
+#: ekos/capture/camera_config.cpp:1176
 #, kde-format
 msgid "Current Observer:"
 msgstr "Bieżący obserwator:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera_config.cpp:1176 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera_config.cpp:1187 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Zarządzanie obserwatorami"

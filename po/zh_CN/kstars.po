@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-14 02:02+0000\n"
+"POT-Creation-Date: 2025-11-15 02:01+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -11849,7 +11849,7 @@ msgstr "4x4"
 #. i18n: ectx: property (text), widget (QLabel, exposureOptionsLabel)
 #. i18n: ectx: property (text), widget (QLabel, countLabel)
 #: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.ui:1691
-#: ekos/capture/camera_config.cpp:958 indi/collimationOptions.ui:440
+#: ekos/capture/camera_config.cpp:969 indi/collimationOptions.ui:440
 #, kde-format
 msgid "Count:"
 msgstr "计数："
@@ -15105,7 +15105,7 @@ msgstr "正在设置相机到北偏东 %1 度..."
 msgid "Set Camera to %1 deg..."
 msgstr "设置相机为 %1 度..."
 
-#: ekos/capture/camera_config.cpp:957
+#: ekos/capture/camera_config.cpp:968
 #, kde-format
 msgid "Duration of the video sequence"
 msgstr "视频序列的时长"
@@ -15113,57 +15113,57 @@ msgstr "视频序列的时长"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/camera_config.cpp:957 ekos/capture/limits.ui:108
+#: ekos/capture/camera_config.cpp:968 ekos/capture/limits.ui:108
 #: ekos/capture/limits.ui:378 ekos/focus/focus.ui:713
 #, kde-format
 msgid "Number of images to capture"
 msgstr "要拍摄的图像数"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera_config.cpp:958 indi/recordingoptions.ui:40
+#: ekos/capture/camera_config.cpp:969 indi/recordingoptions.ui:40
 #, kde-format
 msgid "Duration:"
 msgstr "时长："
 
-#: ekos/capture/camera_config.cpp:959
+#: ekos/capture/camera_config.cpp:970
 #, kde-format
 msgid "Exposure time in seconds of a single video frame"
 msgstr "单个视频帧的曝光时间（秒）"
 
-#: ekos/capture/camera_config.cpp:960
+#: ekos/capture/camera_config.cpp:971
 #, kde-format
 msgid "Exposure time in seconds for individual images"
 msgstr "单个图像的曝光时间（秒）"
 
-#: ekos/capture/camera_config.cpp:987
+#: ekos/capture/camera_config.cpp:998
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS 保存目录"
 
-#: ekos/capture/camera_config.cpp:1029
+#: ekos/capture/camera_config.cpp:1040
 #, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr "您必须为”本地 & 均存放“模式设置本地或远程目录。"
 
-#: ekos/capture/camera_config.cpp:1035
+#: ekos/capture/camera_config.cpp:1046
 #, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr "您必须为 Locally & Both 模式设置本地目录。"
 
-#: ekos/capture/camera_config.cpp:1163
+#: ekos/capture/camera_config.cpp:1174
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "选择当前观测员"
 
-#: ekos/capture/camera_config.cpp:1165
+#: ekos/capture/camera_config.cpp:1176
 #, kde-format
 msgid "Current Observer:"
 msgstr "当前观测员："
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera_config.cpp:1176 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera_config.cpp:1187 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "管理观测员"

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-14 02:02+0000\n"
-"PO-Revision-Date: 2025-11-13 22:37+0100\n"
+"POT-Creation-Date: 2025-11-15 02:01+0000\n"
+"PO-Revision-Date: 2025-11-14 12:50+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -12292,7 +12292,7 @@ msgstr "4x4"
 #. i18n: ectx: property (text), widget (QLabel, exposureOptionsLabel)
 #. i18n: ectx: property (text), widget (QLabel, countLabel)
 #: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.ui:1691
-#: ekos/capture/camera_config.cpp:958 indi/collimationOptions.ui:440
+#: ekos/capture/camera_config.cpp:969 indi/collimationOptions.ui:440
 #, kde-format
 msgid "Count:"
 msgstr "Aantal:"
@@ -15768,7 +15768,7 @@ msgstr "Camera instellen op %1 graden O van N..."
 msgid "Set Camera to %1 deg..."
 msgstr "Camera instellen op %1 graden ..."
 
-#: ekos/capture/camera_config.cpp:957
+#: ekos/capture/camera_config.cpp:968
 #, kde-format
 msgid "Duration of the video sequence"
 msgstr "Duur van de videoreeks"
@@ -15776,58 +15776,58 @@ msgstr "Duur van de videoreeks"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/camera_config.cpp:957 ekos/capture/limits.ui:108
+#: ekos/capture/camera_config.cpp:968 ekos/capture/limits.ui:108
 #: ekos/capture/limits.ui:378 ekos/focus/focus.ui:713
 #, kde-format
 msgid "Number of images to capture"
 msgstr "Aantal te maken afbeeldingen"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera_config.cpp:958 indi/recordingoptions.ui:40
+#: ekos/capture/camera_config.cpp:969 indi/recordingoptions.ui:40
 #, kde-format
 msgid "Duration:"
 msgstr "Tijdsduur:"
 
-#: ekos/capture/camera_config.cpp:959
+#: ekos/capture/camera_config.cpp:970
 #, kde-format
 msgid "Exposure time in seconds of a single video frame"
 msgstr "Belichtingstijd in seconden van een enkel videoframe"
 
-#: ekos/capture/camera_config.cpp:960
+#: ekos/capture/camera_config.cpp:971
 #, kde-format
 msgid "Exposure time in seconds for individual images"
 msgstr "Belichtingstijd in seconden in voor individuele afbeeldingen"
 
-#: ekos/capture/camera_config.cpp:987
+#: ekos/capture/camera_config.cpp:998
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Map voor opslaan FITS"
 
-#: ekos/capture/camera_config.cpp:1029
+#: ekos/capture/camera_config.cpp:1040
 #, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr ""
 "U moet een lokale map of op afstand instellen voor modi Lokaal & Beide."
 
-#: ekos/capture/camera_config.cpp:1035
+#: ekos/capture/camera_config.cpp:1046
 #, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr "U moet een lokale map instellen voor modi Lokaal & Beide."
 
-#: ekos/capture/camera_config.cpp:1163
+#: ekos/capture/camera_config.cpp:1174
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Selecteer huidige waarnemer"
 
-#: ekos/capture/camera_config.cpp:1165
+#: ekos/capture/camera_config.cpp:1176
 #, kde-format
 msgid "Current Observer:"
 msgstr "Huidige waarnemer:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera_config.cpp:1176 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera_config.cpp:1187 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Waarnemers beheren"
@@ -28646,7 +28646,7 @@ msgstr "Weerwaarschuwing vertraging van afsluiten:"
 #: ekos/scheduler/opsweathersettings.ui:134
 #, kde-format
 msgid "Standalone Safety Monitor Driver:"
-msgstr "Alleenstaand stuurprogramma voor beveiligingsmonitor:"
+msgstr "Alleenstaand stuurprogramma voor veiligheidsmonitor:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #. i18n: ectx: label, entry (SchedulerSafetyMonitorConnectionString), group (Scheduler)
@@ -29020,32 +29020,29 @@ msgstr "Volgen voltooid"
 #: ekos/scheduler/scheduler.cpp:2502
 #, kde-format
 msgid "Safety conditions are OK."
-msgstr "Beveiligingscondities zijn OK."
+msgstr "Veiligheidscondities zijn OK."
 
 #: ekos/scheduler/scheduler.cpp:2506
-#, fuzzy, kde-format
-#| msgid "Warning: weather conditions are in the WARNING zone."
+#, kde-format
 msgid "Warning: safety conditions are in the WARNING zone."
-msgstr "Waarschuwing: SLECHTE weercondities."
+msgstr "Waarschuwing: veiligheidscondities zijn de WAARSCHUWINGS zone."
 
 #: ekos/scheduler/scheduler.cpp:2510
-#, fuzzy, kde-format
-#| msgid "Caution: weather conditions are in the DANGER zone!"
+#, kde-format
 msgid "Caution: safety conditions are in the DANGER zone!"
-msgstr "Opgepast: GEVAARLIJKE weercondities!"
+msgstr "Opgepast: veiligheidscondities zijn in de GEVAREN zone!"
 
 #: ekos/scheduler/scheduler.cpp:2528
-#, fuzzy, kde-format
-#| msgid "Weather conditions in warning zone"
+#, kde-format
 msgid "Safety conditions in warning zone"
-msgstr "Weercondities in waarschuwingszone"
+msgstr "Veiligheidscondities zijn in de waarschuwingszone"
 
 #: ekos/scheduler/scheduler.cpp:2537
-#, fuzzy, kde-format
-#| msgid "Weather conditions are critical. Observatory shutdown is imminent"
+#, kde-format
 msgid "Safety conditions are critical. Observatory shutdown is imminent"
 msgstr ""
-"Weersomstandigheden zijn kritiek. Afsluiten waarneemstation is aanstaande"
+"Veiligheidscondities zijn kritiek. Afsluiten waarneemstation is "
+"onvermijdelijk"
 
 #: ekos/scheduler/scheduler.cpp:2559
 #, kde-format
@@ -29850,17 +29847,17 @@ msgid "Scheduler is awake."
 msgstr "Planprogramma is actief."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
-#, fuzzy, kde-format
-#| msgid "Executing post-startup tasks from %1 after weather recovery..."
+#, kde-format
 msgid "Executing post-startup tasks from %1 after safety recovery..."
-msgstr "Taken ná opstarten uitvoeren van %1 na weerherstel..."
+msgstr "Taken ná opstarten uitvoeren van %1 na veiligheidsherstel..."
 
 #: ekos/scheduler/schedulerprocess.cpp:555
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map file %1"
+#, kde-format
 msgid ""
 "Warning: Failed to load post-startup queue from %1 after safety recovery"
-msgstr "Laden van defectenkaartbestand %1 is mislukt "
+msgstr ""
+"Waarschuwing: laden van wachtrij ná opstarten uit %1 na veiligheidsherstel "
+"is mislukt"
 
 #: ekos/scheduler/schedulerprocess.cpp:564
 #, kde-format
@@ -29879,15 +29876,12 @@ msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr "Taak '%1' is niet verwerkt na einde taakplanner. Wordt afgebroken."
 
 #: ekos/scheduler/schedulerprocess.cpp:722
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because weather status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid ""
 "Job '%1' cannot start because safety status is %2 and grace period is over."
 msgstr ""
-"Job '%1' kan niet starten omdat de status van het weer %2 is en de "
-"respijtperiode is voorbij."
+"Job '%1' kan niet starten omdat de veiligheidsstatus %2 is en de "
+"respijtperiode voorbij is."
 
 #: ekos/scheduler/schedulerprocess.cpp:723
 #: ekos/scheduler/schedulerprocess.cpp:733
@@ -29897,15 +29891,12 @@ msgid "Alert"
 msgstr "Alert"
 
 #: ekos/scheduler/schedulerprocess.cpp:732
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because weather status is %2. Waiting until weather "
-#| "improves or until %3"
+#, kde-format
 msgid ""
 "Job '%1' cannot start because safety status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
-"Job '%1' kan niet starten omdat de status van het weer %2 is. Wachten totdat "
+"Job '%1' kan niet starten omdat de veiligheidsstatus %2 is. Wachten totdat "
 "het weer verbetert of tot %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:760
@@ -30128,10 +30119,9 @@ msgid "Executing post-shutdown tasks from %1..."
 msgstr "Taken ná afsluiten uit %1 worden uitgevoerd..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1658
-#, fuzzy, kde-format
-#| msgid "Manual shutdown procedure completed successfully."
+#, kde-format
 msgid "Post-shutdown queue is empty, shutdown complete."
-msgstr "Handmatige afsluitprocedure met succes voltooid."
+msgstr "Wachtrij ná afsluiten is leeg, afsluiten voltooid."
 
 #: ekos/scheduler/schedulerprocess.cpp:1664
 #, kde-format
@@ -30159,10 +30149,9 @@ msgid "Executing pre-startup tasks from %1..."
 msgstr "Taken vóór opstarten uit %1 worden uitgevoerd..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map file %1"
+#, kde-format
 msgid "Failed to load pre-startup queue from %1"
-msgstr "Laden van defectenkaartbestand %1 is mislukt "
+msgstr "Laden van wachtrij vóór opstarten uit %1 is mislukt"
 
 #: ekos/scheduler/schedulerprocess.cpp:1807
 #, kde-format
@@ -30170,16 +30159,14 @@ msgid "No pre-startup tasks, pre-startup phase complete. Starting Ekos..."
 msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:1831
-#, fuzzy, kde-format
-#| msgid "Executing script %1..."
+#, kde-format
 msgid "Executing post-startup tasks from %1..."
-msgstr "Script %1 wordt uitgevoerd..."
+msgstr "Taken ná opstarten uit %1 worden uitgevoerd..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1839
-#, fuzzy, kde-format
-#| msgid "Failed to load dark frame file %1"
+#, kde-format
 msgid "Failed to load post-startup tasks from %1"
-msgstr "Donker-frame-bestand %1 kon niet worden ingelezen"
+msgstr "Laden van taken ná opstarten uit %1 is mislukt"
 
 #: ekos/scheduler/schedulerprocess.cpp:1845
 #, kde-format
@@ -30187,16 +30174,14 @@ msgid "No post-startup tasks, startup complete."
 msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:1889
-#, fuzzy, kde-format
-#| msgid "Executing pre job script %1"
+#, kde-format
 msgid "Executing pre-shutdown tasks from %1..."
-msgstr "Script %1 voor vóór de job wordt uitgevoerd..."
+msgstr "Taken vóór afsluiten uit %1 worden uitgevoerd..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1897
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map %1"
+#, kde-format
 msgid "Failed to load pre-shutdown queue from %1"
-msgstr "Laden van defectenkaart %1 is mislukt "
+msgstr "Laden van wachtrij voor afsluiten uit %1 is mislukt"
 
 #: ekos/scheduler/schedulerprocess.cpp:1903
 #, kde-format
@@ -30204,10 +30189,9 @@ msgid "No pre-shutdown tasks, proceeding to stop Ekos/INDI."
 msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:1944
-#, fuzzy, kde-format
-#| msgid "park/unpark wait procedure failed, aborting..."
+#, kde-format
 msgid "Park/unpark procedure failed, aborting..."
-msgstr " wachtprocedure parkeren/ontparkeren werkt niet, wordt afgebroken..."
+msgstr "Parkeren/uit parkeerstand halen is mislukt, er wordt afgebroken..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1957
 #, kde-format
@@ -30239,10 +30223,9 @@ msgid "Starting job sequence iteration #%1"
 msgstr "Takenreeks voor iteratie #%1 wordt gestart"
 
 #: ekos/scheduler/schedulerprocess.cpp:2195
-#, fuzzy, kde-format
-#| msgid "No valid jobs found, aborting schedule..."
+#, kde-format
 msgid "No executable jobs found. Stopping scheduler."
-msgstr "Geen geldige taken gevonden, wordt afgebroken..."
+msgstr "Geen uitvoerbare programma's gevonden. Planner wordt gestopt."
 
 #: ekos/scheduler/schedulerprocess.cpp:2263
 #, kde-format
@@ -30329,16 +30312,14 @@ msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr "opgenomen frame is %1 boogminuten van doel, opnieuw uitlijnen..."
 
 #: ekos/scheduler/schedulerprocess.cpp:3049
-#, fuzzy, kde-format
-#| msgid "Manual startup procedure completed successfully."
+#, kde-format
 msgid "Pre-startup queue completed successfully. Starting Ekos..."
-msgstr "Handmatige startprocedure met succes voltooid."
+msgstr "Wachtrij vóór opstarten met succes voltooid. Ekos wordt gestart..."
 
 #: ekos/scheduler/schedulerprocess.cpp:3057
-#, fuzzy, kde-format
-#| msgid "Manual startup procedure completed successfully."
+#, kde-format
 msgid "Post-startup queue completed successfully."
-msgstr "Handmatige startprocedure met succes voltooid."
+msgstr "Wachtrij ná opstarten met succes voltooid."
 
 #: ekos/scheduler/schedulerprocess.cpp:3064
 #, kde-format
@@ -30346,28 +30327,24 @@ msgid "Resuming scheduler after safety recovery startup tasks..."
 msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3072
-#, fuzzy, kde-format
-#| msgid "Manual shutdown procedure completed successfully."
+#, kde-format
 msgid "Pre-shutdown queue completed successfully."
-msgstr "Handmatige afsluitprocedure met succes voltooid."
+msgstr "Wachtrij vóór opstarten met succes voltooid."
 
 #: ekos/scheduler/schedulerprocess.cpp:3080
-#, fuzzy, kde-format
-#| msgid "Manual shutdown procedure completed successfully."
+#, kde-format
 msgid "Post-shutdown queue completed successfully."
-msgstr "Handmatige afsluitprocedure met succes voltooid."
+msgstr "Wachtrij ná afsluiten met succes voltooid."
 
 #: ekos/scheduler/schedulerprocess.cpp:3093
-#, fuzzy, kde-format
-#| msgid "Extractor failed: %1s"
+#, kde-format
 msgid "Startup queue failed: %1"
-msgstr "Extraheren is mislukt: %1s"
+msgstr "Wachtrij van opstarten is mislukt: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:3100
-#, fuzzy, kde-format
-#| msgid "Refresh solver failed: %1s"
+#, kde-format
 msgid "Pre-shutdown queue failed: %1"
-msgstr "Oplosser vernieuwen is mislukt: %1s"
+msgstr "Wachtrij vóór afsluiten is mislukt: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:3107
 #, kde-format
@@ -30552,30 +30529,24 @@ msgstr ""
 "actief is. Wordt afgebroken."
 
 #: ekos/scheduler/schedulerprocess.cpp:3802
-#, fuzzy, kde-format
-#| msgid "Weather has improved. Resuming operations."
+#, kde-format
 msgid "Safety has improved. Resuming operations."
-msgstr "Weer is verbeterd. Bewerking wordt herstart."
+msgstr "Veiligheid is verbeterd. Werking wordt hervat."
 
 #: ekos/scheduler/schedulerprocess.cpp:3812
-#, fuzzy, kde-format
-#| msgid ""
-#| "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
+#, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
-"Weerwaarschuwing gedetecteerd. Procedure van zacht afsluiten wordt gestart "
-"na %1 seconden."
+"Veiligheidswaarschuwing gedetecteerd. Procedure van zacht afsluiten wordt "
+"gestart na %1 seconden."
 
 #: ekos/scheduler/schedulerprocess.cpp:3839
-#, fuzzy, kde-format
-#| msgid ""
-#| "Observatory scheduled for soft shutdown until weather improves or until "
-#| "%1."
+#, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
 msgstr ""
-"Waarneemstation is gepland om zacht af te sluiten totdat het weer verbeterd "
-"of tot %1."
+"Waarneemstation is gepland om zacht af te sluiten totdat de veiligheid "
+"verbetert of tot %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:3861
 #, kde-format
@@ -30630,10 +30601,9 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:182
-#, fuzzy, kde-format
-#| msgid "Connecting to remote INDI server at %1 on port %2 ..."
+#, kde-format
 msgid "Connecting to standalone safety monitor at %1:%2..."
-msgstr "Verbinden met INDI-server op afstand op %1 met poort %2..."
+msgstr "Verbinden met alleenstaande veiligheidsmonitor op %1:%2..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:201
 #, kde-format
@@ -30641,10 +30611,9 @@ msgid "Standalone safety monitor device %1 is ready"
 msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:219
-#, fuzzy, kde-format
-#| msgid "Warning: DEC value %1 is invalid."
+#, kde-format
 msgid "Warning: Device %1 is not valid"
-msgstr "Waarschuwing: Waarde %1 Dec is ongeldig."
+msgstr "Waarschuwing: apparaat %1 is ongeldig"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:235
 #, kde-format
@@ -30666,22 +30635,19 @@ msgid "Maximum reconnection attempts reached for standalone safety monitor"
 msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:263
-#, fuzzy, kde-format
-#| msgid "Attempting to reconnect focuser: %1"
+#, kde-format
 msgid "Attempting to reconnect to standalone safety monitor..."
-msgstr "Poging om opnieuw te verbinden met insteller van focus: %1"
+msgstr "Poging om opnieuw te verbinden met veiligheidsmonitor..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:280
-#, fuzzy, kde-format
-#| msgid "Astrometry alignment completed successfully"
+#, kde-format
 msgid "Standalone safety monitor client connected successfully"
-msgstr "Uitlijnen met Astrometry met succes voltooid"
+msgstr "Alleenstaande veiligheidsmonitorclient met succes verbonden"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:287
-#, fuzzy, kde-format
-#| msgid "Failed to close file: %1"
+#, kde-format
 msgid "Standalone safety monitor client connection failed: %1"
-msgstr "Sluiten van bestand is mislukt: %1"
+msgstr "Alleenstaande veiligheidsmonitorclient verbinden is mislukt: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:306
 #, fuzzy, kde-format

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-14 02:02+0000\n"
+"POT-Creation-Date: 2025-11-15 02:01+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -12530,7 +12530,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, exposureOptionsLabel)
 #. i18n: ectx: property (text), widget (QLabel, countLabel)
 #: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.ui:1691
-#: ekos/capture/camera_config.cpp:958 indi/collimationOptions.ui:440
+#: ekos/capture/camera_config.cpp:969 indi/collimationOptions.ui:440
 #, kde-format
 msgid "Count:"
 msgstr "गणना गर्नुहोस्:"
@@ -16017,7 +16017,7 @@ msgstr "लक्षित सीसीडी चिप तापक्रम �
 msgid "Set Camera to %1 deg..."
 msgstr "स्थान सेट गर्नुहोस्..."
 
-#: ekos/capture/camera_config.cpp:957
+#: ekos/capture/camera_config.cpp:968
 #, fuzzy, kde-format
 #| msgid "Duration of night for selected date"
 msgid "Duration of the video sequence"
@@ -16026,64 +16026,64 @@ msgstr "चयन गरिएको मितिका लागि रात�
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/camera_config.cpp:957 ekos/capture/limits.ui:108
+#: ekos/capture/camera_config.cpp:968 ekos/capture/limits.ui:108
 #: ekos/capture/limits.ui:378 ekos/focus/focus.ui:713
 #, kde-format
 msgid "Number of images to capture"
 msgstr "ग्रहण गर्न छविको सङ्ख्या"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera_config.cpp:958 indi/recordingoptions.ui:40
+#: ekos/capture/camera_config.cpp:969 indi/recordingoptions.ui:40
 #, fuzzy, kde-format
 #| msgid "Duration:"
 msgid "Duration:"
 msgstr "अवधि:"
 
-#: ekos/capture/camera_config.cpp:959
+#: ekos/capture/camera_config.cpp:970
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure time in seconds of a single video frame"
 msgstr "क्यामेरा/सीसीडी प्रदर्शन सुरु गर्नुहोस् । अवधि सेकेन्डमा छ ।"
 
-#: ekos/capture/camera_config.cpp:960
+#: ekos/capture/camera_config.cpp:971
 #, fuzzy, kde-format
 #| msgid ""
 #| "Set the exposure time in seconds for individual images, if applicable"
 msgid "Exposure time in seconds for individual images"
 msgstr "यदि लागूयोग्य भएमा, व्यक्तिगत छविका लागि सेकेन्डमा विवरण समय सेट गर्नुहोस्"
 
-#: ekos/capture/camera_config.cpp:987
+#: ekos/capture/camera_config.cpp:998
 #, fuzzy, kde-format
 #| msgid "FITS Default directory"
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "पूर्वानिर्धारित फिट्स डाइरेक्टरी"
 
-#: ekos/capture/camera_config.cpp:1029
+#: ekos/capture/camera_config.cpp:1040
 #, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr ""
 
-#: ekos/capture/camera_config.cpp:1035
+#: ekos/capture/camera_config.cpp:1046
 #, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr ""
 
-#: ekos/capture/camera_config.cpp:1163
+#: ekos/capture/camera_config.cpp:1174
 #, fuzzy, kde-format
 #| msgid "Server"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "सर्भर"
 
-#: ekos/capture/camera_config.cpp:1165
+#: ekos/capture/camera_config.cpp:1176
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Current Observer:"
 msgstr "सर्भर"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera_config.cpp:1176 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera_config.cpp:1187 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage Observers"
