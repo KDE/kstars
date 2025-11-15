@@ -43,9 +43,6 @@ MountControlPanel::MountControlPanel(QWidget *parent) : QDialog(parent)
     connect(unparkButtonObject, &QPushButton::clicked, this, &MountControlPanel::unpark);
     // center
     connect(centerButtonObject, &QPushButton::clicked, this, &MountControlPanel::center);
-
-    // ensure that all J2000 attributes are in sync
-    setJ2000Enabled(true);
 }
 
 

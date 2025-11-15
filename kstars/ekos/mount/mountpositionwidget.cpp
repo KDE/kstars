@@ -22,7 +22,15 @@ MountPositionWidget::MountPositionWidget(QWidget *parent)
     haValueObject->setTextInteractionFlags(Qt::TextSelectableByMouse);
     zaValueObject->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
-    connect(j2000CheckObject, &QRadioButton::toggled, this, &MountPositionWidget::J2000Enabled);
+    // Connect to button group to detect changes from both JNow and J2000 buttons
+    connect(coordinateEpochGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked),
+            this, [this](QAbstractButton * button)
+    {
+        if (button == j2000CheckObject)
+            emit J2000Enabled(true);
+        else if (button == jnowCheckObject)
+            emit J2000Enabled(false);
+    });
 }
 
 void MountPositionWidget::updateTelescopeCoords(const SkyPoint &position, const dms &ha)
@@ -64,6 +72,9 @@ bool MountPositionWidget::isJ2000Enabled()
 
 void MountPositionWidget::setJ2000Enabled(bool enabled)
 {
-    j2000CheckObject->setChecked(enabled);
+    if (enabled)
+        j2000CheckObject->setChecked(true);
+    else
+        jnowCheckObject->setChecked(true);
 }
 } // namespace

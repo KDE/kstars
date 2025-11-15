@@ -60,7 +60,7 @@ Mount::Mount()
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Mount", this);
     // Set up DBus interfaces
     QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
-            QDBusConnection::sessionBus(), this);
+        QDBusConnection::sessionBus(), this);
     qDBusRegisterMetaType<SkyPoint>();
 
     // Connecting DBus signals
@@ -164,6 +164,10 @@ Mount::Mount()
 
     // forward J2000 selection to the target widget, which does not have its own selection
     connect(mountPosition, &MountPositionWidget::J2000Enabled, mountTarget, &MountTargetWidget::setJ2000Enabled);
+    // Synchronize J2000/JNow toggle with Mount Control Panel
+    connect(mountPosition, &MountPositionWidget::J2000Enabled, m_ControlPanel.get(), &MountControlPanel::setJ2000Enabled);
+    connect(m_ControlPanel->mountPosition, &MountPositionWidget::J2000Enabled, mountPosition,
+            &MountPositionWidget::setJ2000Enabled);
 
     // forward target commands
     connect(mountTarget, &MountTargetWidget::slew, this, &Mount::slew);
@@ -606,10 +610,10 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
         }
 
         qCDebug(KSTARS_EKOS_MOUNT) << "Ha: " << haHours <<
-                                   " haLimit " << haLimit <<
-                                   " " << ISD::Mount::pierSideStateString(m_Mount->pierSide()) <<
-                                   " haLimitReached " << (haLimitReached ? "true" : "false") <<
-                                   " lastHa " << m_LastHourAngle;
+                                      " haLimit " << haLimit <<
+                                      " " << ISD::Mount::pierSideStateString(m_Mount->pierSide()) <<
+                                      " haLimitReached " << (haLimitReached ? "true" : "false") <<
+                                      " lastHa " << m_LastHourAngle;
 
         // compare with last ha to avoid multiple calls
         if (haLimitReached && (rangeHA(haHours - m_LastHourAngle) >= 0 ) &&
@@ -1001,9 +1005,9 @@ bool Mount::slew(double RA, double DEC)
 
     qCDebug(KSTARS_EKOS_MOUNT) << "Slewing to RA=" <<
                                targetPosition->ra().toHMSString() <<
-                               "DEC=" << targetPosition->dec().toDMSString();
+    "DEC=" << targetPosition->dec().toDMSString();
     qCDebug(KSTARS_EKOS_MOUNT) << "Initial HA " << initialHA() << ", flipDelayHrs " << mf_state->getFlipDelayHrs() <<
-                               "MFStatus " << MeridianFlipState::meridianFlipStatusString(mf_state->getMeridianFlipMountState());
+                                  "MFStatus " << MeridianFlipState::meridianFlipStatusString(mf_state->getMeridianFlipMountState());
 
     // start the slew
     return(m_Mount->Slew(targetPosition));
