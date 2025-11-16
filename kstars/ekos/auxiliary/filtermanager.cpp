@@ -323,9 +323,9 @@ void FilterManager::setFilterWheel(ISD::FilterWheel *filter)
 
     m_FilterWheel = filter;
 
-    m_FilterNameProperty = nullptr;
-    m_FilterPositionProperty = nullptr;
-    m_FilterConfirmSet = nullptr;
+    m_FilterNameProperty = INDI::Property();
+    m_FilterPositionProperty = INDI::Property();
+    m_FilterConfirmSet = INDI::Property();
 
     if (!m_FilterWheel)
         return;
@@ -340,11 +340,11 @@ void FilterManager::refreshFilterProperties()
 {
     if (m_FilterNameProperty && m_FilterPositionProperty)
     {
-        if (m_FilterConfirmSet == nullptr)
+        if (!m_FilterConfirmSet)
             m_FilterConfirmSet = m_FilterWheel->getSwitch("CONFIRM_FILTER_SET");
 
         // All filters are synced up?
-        if (m_currentFilterLabels.count() == m_FilterNameProperty->ntp)
+        if (m_currentFilterLabels.count() == m_FilterNameProperty.getText()->count())
             return;
     }
 
@@ -370,21 +370,21 @@ QStringList FilterManager::getFilterLabels(bool forceRefresh)
 
     QStringList filterList;
 
-    for (int i = 0; i < m_FilterPositionProperty->np[0].max; i++)
-    {
-        if (m_FilterNameProperty != nullptr && (i < m_FilterNameProperty->ntp))
-            filterList.append(m_FilterNameProperty->tp[i].text);
-    }
+    INDI::PropertyText allFilters = m_FilterNameProperty;
+    for (auto &element : allFilters)
+        filterList.append(element.getText());
 
     return filterList;
 }
 
 int FilterManager::getFilterPosition(bool forceRefresh)
 {
-    if (forceRefresh == false || m_FilterPositionProperty == nullptr)
+    if (forceRefresh == false || !m_FilterPositionProperty)
         return m_currentFilterPosition;
 
-    return static_cast<int>(m_FilterPositionProperty->np[0].value);
+    INDI::PropertyNumber nvp = m_FilterPositionProperty;
+
+    return static_cast<int>(nvp[0].getValue());
 }
 
 void FilterManager::refreshFilterLabels()
@@ -439,28 +439,25 @@ void FilterManager::updateProperty(INDI::Property prop)
 
     if (prop.isNameMatch("FILTER_NAME"))
     {
-        auto tvp = prop.getText();
-        m_FilterNameProperty = tvp;
+        m_FilterNameProperty = prop;
 
         refreshFilterLabels();
     }
     else if (prop.isNameMatch("FILTER_SLOT"))
     {
         m_FilterChangeTimeout.stop();
-
-        auto nvp = prop.getNumber();
         // If filter fails to change position while we request that
         // fail immediately.
-        if (state == FILTER_CHANGE && nvp->s == IPS_ALERT)
+        if (state == FILTER_CHANGE && prop.getState() == IPS_ALERT)
         {
             emit failed();
             return;
         }
 
-        if (nvp->s != IPS_OK)
+        if (prop.getState() != IPS_OK)
             return;
 
-        m_FilterPositionProperty = nvp;
+        m_FilterPositionProperty = prop;
         refreshFilterPosition();
 
         if (state == FILTER_CHANGE)
@@ -476,8 +473,8 @@ void FilterManager::processDisconnect()
 {
     m_currentFilterLabels.clear();
     m_currentFilterPosition = -1;
-    m_FilterNameProperty = nullptr;
-    m_FilterPositionProperty = nullptr;
+    m_FilterNameProperty = INDI::Property();
+    m_FilterPositionProperty = INDI::Property();
 }
 
 void FilterManager::buildOperationQueue(FilterState operation)
@@ -839,8 +836,8 @@ void FilterManager::removeDevice(const QSharedPointer<ISD::GenericDevice> &devic
 {
     if (m_FilterWheel && (m_FilterWheel->getDeviceName() == device->getDeviceName()))
     {
-        m_FilterNameProperty = nullptr;
-        m_FilterPositionProperty = nullptr;
+        m_FilterNameProperty = INDI::Property();
+        m_FilterPositionProperty = INDI::Property();
         m_FilterWheel = nullptr;
         m_currentFilterLabels.clear();
         m_currentFilterPosition = 0;

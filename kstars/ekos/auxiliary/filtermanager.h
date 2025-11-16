@@ -298,9 +298,9 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         QSqlTableModel *m_FilterModel = { nullptr };
 
         // INDI Properties of current active filter
-        ITextVectorProperty *m_FilterNameProperty { nullptr };
-        INumberVectorProperty *m_FilterPositionProperty { nullptr };
-        ISwitchVectorProperty *m_FilterConfirmSet { nullptr };
+        INDI::Property m_FilterNameProperty;
+        INDI::Property m_FilterPositionProperty;
+        INDI::Property m_FilterConfirmSet;
 
         // Accessor function to return filter pointer for the passed in name.
         // nullptr is returned if there isn't a match
