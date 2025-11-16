@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-15 02:01+0000\n"
+"POT-Creation-Date: 2025-11-16 01:59+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -2005,7 +2005,7 @@ msgstr "x"
 #: data/qml/mount/mountbox.qml:548 data/qml/mount/mountbox.qml:742
 #: data/qml/mount/mountbox.qml:837 dialogs/catalogcsvimport.ui:178
 #: dialogs/focusdialog.ui:107 ekos/align/align.ui:327 ekos/align/align.ui:415
-#: ekos/manager.ui:898 ekos/mount/mountpositionwidget.ui:148
+#: ekos/manager.ui:898 ekos/mount/mountpositionwidget.ui:143
 #: ekos/mount/mounttargetwidget.ui:42 tools/altvstime.ui:97
 #: tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
 #: tools/modcalcplanets.ui:251 tools/modcalcvlsr.ui:508
@@ -2016,7 +2016,7 @@ msgstr "RA:"
 #. i18n: ectx: property (text), widget (QLabel, azLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: data/qml/mount/mountbox.qml:568 data/qml/mount/mountbox.qml:881
-#: ekos/manager.ui:868 ekos/mount/mountpositionwidget.ui:351
+#: ekos/manager.ui:868 ekos/mount/mountpositionwidget.ui:345
 #, kde-format, kde-kuit-format
 msgid "AZ:"
 msgstr "AZ:"
@@ -2029,7 +2029,7 @@ msgstr "AZ:"
 #: data/qml/mount/mountbox.qml:588 data/qml/mount/mountbox.qml:775
 #: data/qml/mount/mountbox.qml:838 data/qml/mount/mountbox.qml:926
 #: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:385
-#: ekos/manager.ui:883 ekos/mount/mountpositionwidget.ui:263
+#: ekos/manager.ui:883 ekos/mount/mountpositionwidget.ui:261
 #: ekos/mount/mounttargetwidget.ui:117
 #, kde-format, kde-kuit-format
 msgid "DE:"
@@ -2038,21 +2038,21 @@ msgstr "DE:"
 #. i18n: ectx: property (text), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: data/qml/mount/mountbox.qml:607 data/qml/mount/mountbox.qml:882
-#: ekos/manager.ui:853 ekos/mount/mountpositionwidget.ui:280
+#: ekos/manager.ui:853 ekos/mount/mountpositionwidget.ui:277
 #, kde-format, kde-kuit-format
 msgid "AL:"
 msgstr "AL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: data/qml/mount/mountbox.qml:626 data/qml/mount/mountbox.qml:925
-#: ekos/mount/mountpositionwidget.ui:60
+#: ekos/mount/mountpositionwidget.ui:59
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "H:"
 msgid "HA:"
 msgstr "H:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: data/qml/mount/mountbox.qml:645 ekos/mount/mountpositionwidget.ui:131
+#: data/qml/mount/mountbox.qml:645 ekos/mount/mountpositionwidget.ui:127
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "RA:"
 msgid "ZA:"
@@ -2087,7 +2087,7 @@ msgstr "Typ:"
 #. i18n: ectx: property (text), widget (QCheckBox, epochCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, EpochCheckBatch)
 #: data/qml/mount/mountbox.qml:955 dialogs/focusdialog.ui:114
-#: ekos/mount/mountpositionwidget.ui:190 tools/flagmanager.ui:64
+#: ekos/mount/mountpositionwidget.ui:184 tools/flagmanager.ui:64
 #: tools/modcalcapcoord.ui:127 tools/modcalcapcoord.ui:215
 #: tools/modcalcapcoord.ui:527 tools/modcalcgalcoord.ui:214
 #: tools/modcalcvlsr.ui:521
@@ -4301,10 +4301,10 @@ msgstr "RA (J2000.0):"
 #: dialogs/details_position.ui:323 dialogs/details_position.ui:414
 #: dialogs/details_position.ui:470 dialogs/details_position.ui:827
 #: dialogs/details_position.ui:845 dialogs/details_position.ui:863
-#: ekos/mount/mount.ui:583 ekos/mount/mountpositionwidget.ui:90
-#: ekos/mount/mountpositionwidget.ui:117 ekos/mount/mountpositionwidget.ui:178
-#: ekos/mount/mountpositionwidget.ui:249 ekos/mount/mountpositionwidget.ui:310
-#: ekos/mount/mountpositionwidget.ui:337 tools/modcalcangdist.ui:321
+#: ekos/mount/mount.ui:583 ekos/mount/mountpositionwidget.ui:88
+#: ekos/mount/mountpositionwidget.ui:114 ekos/mount/mountpositionwidget.ui:172
+#: ekos/mount/mountpositionwidget.ui:248 ekos/mount/mountpositionwidget.ui:306
+#: ekos/mount/mountpositionwidget.ui:332 tools/modcalcangdist.ui:321
 #, kde-format
 msgid "00:00:00"
 msgstr "00:00:00"
@@ -4729,7 +4729,7 @@ msgstr "Nastaviť polohu"
 #. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
 #. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
 #: dialogs/focusdialog.ui:74 ekos/align/pushtoassistant.ui:283
-#: ekos/mount/mountpositionwidget.ui:197 ekos/scheduler/scheduler.ui:696
+#: ekos/mount/mountpositionwidget.ui:191 ekos/scheduler/scheduler.ui:696
 #, kde-format
 msgid "JNow"
 msgstr ""
@@ -4745,7 +4745,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
 #. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
 #: dialogs/focusdialog.ui:84 ekos/align/pushtoassistant.ui:296
-#: ekos/mount/mountpositionwidget.ui:207 ekos/scheduler/scheduler.ui:691
+#: ekos/mount/mountpositionwidget.ui:204 ekos/scheduler/scheduler.ui:691
 #, fuzzy, kde-format
 #| msgid "J2000:"
 msgid "J2000"
@@ -6797,7 +6797,7 @@ msgstr "Automatické navádzanie spustené."
 
 #: ekos/align/align.cpp:2748 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2106 ekos/mount/mount.cpp:778
+#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2106 ekos/mount/mount.cpp:782
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3301
 #, kde-format
@@ -25783,47 +25783,47 @@ msgstr "Naozaj chcete odstrániť klienta %1?"
 msgid "Mount Configuration"
 msgstr "Nastavenie"
 
-#: ekos/mount/mount.cpp:492 ekos/mount/mount.cpp:500
+#: ekos/mount/mount.cpp:496 ekos/mount/mount.cpp:504
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to exit tutorial?"
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Naozaj chcete ukončiť výuku?"
 
-#: ekos/mount/mount.cpp:493 ekos/mount/mount.cpp:501
+#: ekos/mount/mount.cpp:497 ekos/mount/mount.cpp:505
 #, fuzzy, kde-format
 #| msgid "Tracking"
 msgid "Mount Tracking"
 msgstr "Trasovanie"
 
-#: ekos/mount/mount.cpp:494
+#: ekos/mount/mount.cpp:498
 #, fuzzy, kde-format
 #| msgid "Yes"
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Áno"
 
-#: ekos/mount/mount.cpp:495
+#: ekos/mount/mount.cpp:499
 #, fuzzy, kde-format
 #| msgid "No"
 msgctxt "@action:button"
 msgid "No"
 msgstr "Nie"
 
-#: ekos/mount/mount.cpp:557
+#: ekos/mount/mount.cpp:561
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
 "Výška teleskopu je pod maximálnou hranicou výšky %1, prerušujem pohyb..."
 
-#: ekos/mount/mount.cpp:569
+#: ekos/mount/mount.cpp:573
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
 "Výška teleskopu je nad maximálnou hranicou výšky %1, prerušujem pohyb..."
 
-#: ekos/mount/mount.cpp:620
+#: ekos/mount/mount.cpp:624
 #, fuzzy, kde-format
 #| msgid ""
 #| "Telescope altitude is above maximum altitude limit of %1. Aborting "
@@ -25834,84 +25834,84 @@ msgid ""
 msgstr ""
 "Výška teleskopu je nad maximálnou hranicou výšky %1, prerušujem pohyb..."
 
-#: ekos/mount/mount.cpp:755
+#: ekos/mount/mount.cpp:759
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 
-#: ekos/mount/mount.cpp:769
+#: ekos/mount/mount.cpp:773
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 
-#: ekos/mount/mount.cpp:792
+#: ekos/mount/mount.cpp:796
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1174
+#: ekos/mount/mount.cpp:1178
 #, fuzzy, kde-format
 #| msgid "%1 alignment is complete."
 msgid "Alignment Model cleared."
 msgstr "Zarovnanie %1 ukončené."
 
-#: ekos/mount/mount.cpp:1178
+#: ekos/mount/mount.cpp:1182
 #, fuzzy, kde-format
 #| msgid "Polar Alignment Mode"
 msgid "Failed to clear Alignment Model."
 msgstr "Režim polárneho vyrovnania"
 
-#: ekos/mount/mount.cpp:1288
+#: ekos/mount/mount.cpp:1292
 #, kde-format
 msgid "Mount already parked."
 msgstr "Montáž už zaparkovaná."
 
-#: ekos/mount/mount.cpp:1313
+#: ekos/mount/mount.cpp:1317
 #, fuzzy, kde-format
 #| msgid "The Name field cannot be empty"
 msgid "Parking time cannot be in the past."
 msgstr "Pole názvu nesmie byť prázdne"
 
-#: ekos/mount/mount.cpp:1322
+#: ekos/mount/mount.cpp:1326
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1327
+#: ekos/mount/mount.cpp:1331
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1329
+#: ekos/mount/mount.cpp:1333
 #, fuzzy, kde-format
 #| msgid "You cannot reset a job while the scheduler is running."
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr "Nemôžete vynulovať úlohu, kým beží plánovač."
 
-#: ekos/mount/mount.cpp:1349
+#: ekos/mount/mount.cpp:1353
 #, fuzzy, kde-format
 #| msgid "Parking dome..."
 msgid "Parking timer is up."
 msgstr "Parkovanie kupoly..."
 
-#: ekos/mount/mount.cpp:1359
+#: ekos/mount/mount.cpp:1363
 #, fuzzy, kde-format
 #| msgid "Starting solver..."
 msgid "Starting auto park..."
 msgstr "Spúšťanie riešiteľa..."
 
-#: ekos/mount/mount.cpp:1852
+#: ekos/mount/mount.cpp:1856
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1873
+#: ekos/mount/mount.cpp:1877
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1881
+#: ekos/mount/mount.cpp:1885
 #, fuzzy, kde-format
 #| msgid "Site location updated to %1."
 msgid "Updating master location source to %1."

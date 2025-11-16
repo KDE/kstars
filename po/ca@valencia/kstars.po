@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-15 02:01+0000\n"
-"PO-Revision-Date: 2025-10-31 18:29+0100\n"
+"POT-Creation-Date: 2025-11-16 01:59+0000\n"
+"PO-Revision-Date: 2025-11-15 17:39+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.1\n"
 "X-Accelerator-Marker: &\n"
 
 # Diccionari de termes astronòmics:
@@ -1958,7 +1958,7 @@ msgstr "1x"
 #: data/qml/mount/mountbox.qml:548 data/qml/mount/mountbox.qml:742
 #: data/qml/mount/mountbox.qml:837 dialogs/catalogcsvimport.ui:178
 #: dialogs/focusdialog.ui:107 ekos/align/align.ui:327 ekos/align/align.ui:415
-#: ekos/manager.ui:898 ekos/mount/mountpositionwidget.ui:148
+#: ekos/manager.ui:898 ekos/mount/mountpositionwidget.ui:143
 #: ekos/mount/mounttargetwidget.ui:42 tools/altvstime.ui:97
 #: tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
 #: tools/modcalcplanets.ui:251 tools/modcalcvlsr.ui:508
@@ -1971,7 +1971,7 @@ msgstr "AR:"
 #. i18n: ectx: property (text), widget (QLabel, azLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: data/qml/mount/mountbox.qml:568 data/qml/mount/mountbox.qml:881
-#: ekos/manager.ui:868 ekos/mount/mountpositionwidget.ui:351
+#: ekos/manager.ui:868 ekos/mount/mountpositionwidget.ui:345
 #, kde-format, kde-kuit-format
 msgid "AZ:"
 msgstr "AZ:"
@@ -1985,7 +1985,7 @@ msgstr "AZ:"
 #: data/qml/mount/mountbox.qml:588 data/qml/mount/mountbox.qml:775
 #: data/qml/mount/mountbox.qml:838 data/qml/mount/mountbox.qml:926
 #: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:385
-#: ekos/manager.ui:883 ekos/mount/mountpositionwidget.ui:263
+#: ekos/manager.ui:883 ekos/mount/mountpositionwidget.ui:261
 #: ekos/mount/mounttargetwidget.ui:117
 #, kde-format, kde-kuit-format
 msgid "DE:"
@@ -1996,7 +1996,7 @@ msgstr "Dec:"
 #. i18n: ectx: property (text), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: data/qml/mount/mountbox.qml:607 data/qml/mount/mountbox.qml:882
-#: ekos/manager.ui:853 ekos/mount/mountpositionwidget.ui:280
+#: ekos/manager.ui:853 ekos/mount/mountpositionwidget.ui:277
 #, kde-format, kde-kuit-format
 msgid "AL:"
 msgstr "AL:"
@@ -2004,14 +2004,14 @@ msgstr "AL:"
 # HA=Hour angle -> AH=Angle horari
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: data/qml/mount/mountbox.qml:626 data/qml/mount/mountbox.qml:925
-#: ekos/mount/mountpositionwidget.ui:60
+#: ekos/mount/mountpositionwidget.ui:59
 #, kde-format, kde-kuit-format
 msgid "HA:"
 msgstr "AH:"
 
 # ZA: Zenit angle -> AZ: Angle del zenit
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: data/qml/mount/mountbox.qml:645 ekos/mount/mountpositionwidget.ui:131
+#: data/qml/mount/mountbox.qml:645 ekos/mount/mountpositionwidget.ui:127
 #, kde-format, kde-kuit-format
 msgid "ZA:"
 msgstr "AZ:"
@@ -2045,7 +2045,7 @@ msgstr "Tipus:"
 #. i18n: ectx: property (text), widget (QCheckBox, epochCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, EpochCheckBatch)
 #: data/qml/mount/mountbox.qml:955 dialogs/focusdialog.ui:114
-#: ekos/mount/mountpositionwidget.ui:190 tools/flagmanager.ui:64
+#: ekos/mount/mountpositionwidget.ui:184 tools/flagmanager.ui:64
 #: tools/modcalcapcoord.ui:127 tools/modcalcapcoord.ui:215
 #: tools/modcalcapcoord.ui:527 tools/modcalcgalcoord.ui:214
 #: tools/modcalcvlsr.ui:521
@@ -4206,10 +4206,10 @@ msgstr "AR (J2000.0):"
 #: dialogs/details_position.ui:323 dialogs/details_position.ui:414
 #: dialogs/details_position.ui:470 dialogs/details_position.ui:827
 #: dialogs/details_position.ui:845 dialogs/details_position.ui:863
-#: ekos/mount/mount.ui:583 ekos/mount/mountpositionwidget.ui:90
-#: ekos/mount/mountpositionwidget.ui:117 ekos/mount/mountpositionwidget.ui:178
-#: ekos/mount/mountpositionwidget.ui:249 ekos/mount/mountpositionwidget.ui:310
-#: ekos/mount/mountpositionwidget.ui:337 tools/modcalcangdist.ui:321
+#: ekos/mount/mount.ui:583 ekos/mount/mountpositionwidget.ui:88
+#: ekos/mount/mountpositionwidget.ui:114 ekos/mount/mountpositionwidget.ui:172
+#: ekos/mount/mountpositionwidget.ui:248 ekos/mount/mountpositionwidget.ui:306
+#: ekos/mount/mountpositionwidget.ui:332 tools/modcalcangdist.ui:321
 #, kde-format
 msgid "00:00:00"
 msgstr "00:00:00"
@@ -4625,7 +4625,7 @@ msgstr "Establix l'època a ara."
 #. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
 #. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
 #: dialogs/focusdialog.ui:74 ekos/align/pushtoassistant.ui:283
-#: ekos/mount/mountpositionwidget.ui:197 ekos/scheduler/scheduler.ui:696
+#: ekos/mount/mountpositionwidget.ui:191 ekos/scheduler/scheduler.ui:696
 #, kde-format
 msgid "JNow"
 msgstr "JNow"
@@ -4642,7 +4642,7 @@ msgstr "Establix l'època a J2000."
 #. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
 #. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
 #: dialogs/focusdialog.ui:84 ekos/align/pushtoassistant.ui:296
-#: ekos/mount/mountpositionwidget.ui:207 ekos/scheduler/scheduler.ui:691
+#: ekos/mount/mountpositionwidget.ui:204 ekos/scheduler/scheduler.ui:691
 #, kde-format
 msgid "J2000"
 msgstr "J2000"
@@ -5087,7 +5087,7 @@ msgstr ""
 #: tools/modcalcplanets.ui:739 tools/modcalcvlsr.ui:528
 #, kde-format
 msgid "Longitude:"
-msgstr "Longitud:"
+msgstr "Llargària:"
 
 #. i18n: ectx: property (toolTip), widget (dmsBox, NewLong)
 #: dialogs/locationdialog.ui:376
@@ -6701,7 +6701,7 @@ msgstr "S'ha interromput el solucionador."
 
 #: ekos/align/align.cpp:2748 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2106 ekos/mount/mount.cpp:778
+#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2106 ekos/mount/mount.cpp:782
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3301
 #, kde-format
@@ -10904,10 +10904,9 @@ msgstr " s"
 
 #. i18n: ectx: property (text), widget (QLabel, processEkosLabel)
 #: ekos/align/pushtoassistant.ui:179
-#, fuzzy, kde-format
-#| msgid "Start Pos"
+#, kde-format
 msgid "start Ekos"
-msgstr "Pos. d'inici"
+msgstr "inicia l'EKOS"
 
 #. i18n: ectx: property (text), widget (QLabel, alignStatusLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
@@ -23927,16 +23926,13 @@ msgid "Guiding calibration restored"
 msgstr "S'ha restaurat el calibratge del guiatge"
 
 #: ekos/guide/internalguide/internalguider.cpp:749
-#, fuzzy, kde-format
-#| msgid ""
-#| "Lost track of the guide star. Try increasing binning, square size or "
-#| "reducing pulse duration."
+#, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr ""
-"S'ha perdut la traça de l'estrela guia. Proveu augmentant la mida de "
-"l'agrupament o reduint la duració del pols."
+"S'ha perdut la traça de l'estrela guia. Proveu augmentant la mida del "
+"requadro o reduint la duració del pols."
 
 #: ekos/guide/internalguide/internalguider.cpp:752
 #, kde-format
@@ -24177,12 +24173,7 @@ msgstr "Elimina el rebot de la Dec en calibrar el sistema de guiatge"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
-#| "started. This is often not necessary when a good quality calibration has "
-#| "previously been done and the guide camera has not been re-installed.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
 "started. This is often not necessary when a good quality calibration has "
@@ -24191,41 +24182,36 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Si està marcada, sempre es tornarà a calibrar quan "
 "s'inicie el guiatge. Sovint no cal fer-ho perquè abans s'ha efectuat un "
-"calibratge de bona qualitat i la càmera guia no s'ha reinstal·lat.</p></"
-"body></html>"
+"calibratge de bona qualitat i la càmera guia no s'ha girat o reinstal·lat.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:385
-#, fuzzy, kde-format
-#| msgid "Reset guide calibration after each mount slew"
+#, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
 msgstr ""
 "Reinicia el calibratge del guiatge després de cada orientació de la muntura"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Store and attempt to reuse calibrations. This even "
-#| "works on opposite sides of the meridian if the pier-side can be "
-#| "automatically determined from your mount.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Store and attempt to reuse calibrations. This only "
 "works on opposite sides of the meridian if the pier-side can be "
 "automatically determined from your mount. The \"Reset Guide on Slew\" option "
 "above must be unchecked for this to be attempted.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Açò fins i tot funciona en els costats oposats del "
-"meridià si es pot determinar automàticament el costat del moll a partir de "
-"la muntura.</p></body></html>"
+"<html><head/><body><p>Açò només funciona en els costats oposats del meridià "
+"si es pot determinar automàticament el costat del moll a partir de la "
+"muntura. L'opció «Reinicialitza el guiatge en orientar» de dalt haurà "
+"d'estar desmarcada perquè s'intente.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
-#, fuzzy, kde-format
-#| msgid "Store and reuse guide calibration when possible"
+#, kde-format
 msgid "Store and reuse guide calibration when possible."
 msgstr ""
-"Si és possible, emmagatzema i torna a utilitzar el calibratge del guiatge"
+"Si és possible, emmagatzema i torna a utilitzar el calibratge del guiatge."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:405
@@ -24244,13 +24230,12 @@ msgstr ""
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
-"Invertix la Dec en canviar el costat del moll quan es torne a emprar el "
-"calibratge."
+"Invertix els polsos de guiatge Dec en canviar el costat del moll i "
+"reutilitzar el calibratge."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -26078,29 +26063,29 @@ msgstr "Segur que voleu netejar totes les configuracions de la muntura?"
 msgid "Mount Configuration"
 msgstr "Configureu la muntura"
 
-#: ekos/mount/mount.cpp:492 ekos/mount/mount.cpp:500
+#: ekos/mount/mount.cpp:496 ekos/mount/mount.cpp:504
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Segur que voleu desactivar el seguiment de la muntura?"
 
-#: ekos/mount/mount.cpp:493 ekos/mount/mount.cpp:501
+#: ekos/mount/mount.cpp:497 ekos/mount/mount.cpp:505
 #, kde-format
 msgid "Mount Tracking"
 msgstr "Seguiment de la muntura"
 
-#: ekos/mount/mount.cpp:494
+#: ekos/mount/mount.cpp:498
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Sí"
 
-#: ekos/mount/mount.cpp:495
+#: ekos/mount/mount.cpp:499
 #, kde-format
 msgctxt "@action:button"
 msgid "No"
 msgstr "No"
 
-#: ekos/mount/mount.cpp:557
+#: ekos/mount/mount.cpp:561
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
@@ -26108,7 +26093,7 @@ msgstr ""
 "L'altitud del telescopi està per davall del límit d'altitud mínima de %1, "
 "s'interromp el moviment…"
 
-#: ekos/mount/mount.cpp:569
+#: ekos/mount/mount.cpp:573
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
@@ -26116,7 +26101,7 @@ msgstr ""
 "L'altitud del telescopi està per damunt del límit d'altitud màxima de %1, "
 "s'interromp el moviment…"
 
-#: ekos/mount/mount.cpp:620
+#: ekos/mount/mount.cpp:624
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
@@ -26125,84 +26110,84 @@ msgstr ""
 "L'angle horari del telescopi està per damunt de l'angle horari màxim de %1, "
 "s'interromp el moviment…"
 
-#: ekos/mount/mount.cpp:755
+#: ekos/mount/mount.cpp:759
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "La inversió del meridià restarà inactiva durant l'alineació polar."
 
-#: ekos/mount/mount.cpp:769
+#: ekos/mount/mount.cpp:773
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 "Han finalitzat els moviments d'alineació polar, s'ha activat la inversió del "
 "meridià."
 
-#: ekos/mount/mount.cpp:792
+#: ekos/mount/mount.cpp:796
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1174
+#: ekos/mount/mount.cpp:1178
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "S'ha netejat el model d'alineació."
 
-#: ekos/mount/mount.cpp:1178
+#: ekos/mount/mount.cpp:1182
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "No s'ha pogut netejar el model d'alineació."
 
-#: ekos/mount/mount.cpp:1288
+#: ekos/mount/mount.cpp:1292
 #, kde-format
 msgid "Mount already parked."
 msgstr "La muntura ja està aparcada."
 
-#: ekos/mount/mount.cpp:1313
+#: ekos/mount/mount.cpp:1317
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "L'hora d'aparcament no pot estar en el passat."
 
-#: ekos/mount/mount.cpp:1322
+#: ekos/mount/mount.cpp:1326
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr "L'hora d'aparcament cal que estiga en les pròximes 24 hores."
 
-#: ekos/mount/mount.cpp:1327
+#: ekos/mount/mount.cpp:1331
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Avís! L'hora d'aparcament supera les 12 hores."
 
-#: ekos/mount/mount.cpp:1329
+#: ekos/mount/mount.cpp:1333
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Precaució: no podeu utilitzar l'aparcament automàtic mentre el programador "
 "està actiu."
 
-#: ekos/mount/mount.cpp:1349
+#: ekos/mount/mount.cpp:1353
 #, kde-format
 msgid "Parking timer is up."
 msgstr "El temporitzador d'aparcament està actiu."
 
-#: ekos/mount/mount.cpp:1359
+#: ekos/mount/mount.cpp:1363
 #, kde-format
 msgid "Starting auto park..."
 msgstr "S'està iniciant l'aparcament automàtic…"
 
-#: ekos/mount/mount.cpp:1852
+#: ekos/mount/mount.cpp:1856
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr "S'està actualitzant la font mestra del temps a %1."
 
-#: ekos/mount/mount.cpp:1873
+#: ekos/mount/mount.cpp:1877
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 "S'està actualitzant la font mestra de l'emplaçament a %1. S'està "
 "actualitzant el GPS…"
 
-#: ekos/mount/mount.cpp:1881
+#: ekos/mount/mount.cpp:1885
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr "S'està actualitzant la font mestra de l'emplaçament a %1."
@@ -29314,7 +29299,7 @@ msgstr "Retard de la parada per alerta meteorològica:"
 #: ekos/scheduler/opsweathersettings.ui:134
 #, kde-format
 msgid "Standalone Safety Monitor Driver:"
-msgstr ""
+msgstr "Controlador del monitor de seguretat autònom:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #. i18n: ectx: label, entry (SchedulerSafetyMonitorConnectionString), group (Scheduler)
@@ -29325,13 +29310,15 @@ msgid ""
 "this to continuously monitor safety conditions and evaluate whether it is "
 "safe to operate the observatory."
 msgstr ""
+"Cadena de connexió del monitor de seguretat INDI. El programador utilitza "
+"açò per a controlar contínuament les condicions de seguretat i avaluar si és "
+"segur operar l'observatori."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #: ekos/scheduler/opsweathersettings.ui:144
-#, fuzzy, kde-format
-#| msgid "localhost"
+#, kde-format
 msgid "localhost:7624"
-msgstr "localhost"
+msgstr "localhost:7624"
 
 #: ekos/scheduler/scheduler.cpp:132
 #, kde-format
@@ -29703,10 +29690,9 @@ msgid "Guiding complete"
 msgstr "S'ha completat el guiatge"
 
 #: ekos/scheduler/scheduler.cpp:2502
-#, fuzzy, kde-format
-#| msgid "Weather conditions are OK."
+#, kde-format
 msgid "Safety conditions are OK."
-msgstr "Les condicions meteorològiques són BONES."
+msgstr "Les condicions de seguretat són BONES."
 
 #: ekos/scheduler/scheduler.cpp:2506
 #, fuzzy, kde-format
@@ -30554,17 +30540,15 @@ msgid "Scheduler is awake."
 msgstr "El programador està actiu."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
-#, fuzzy, kde-format
-#| msgid "Executing script %1..."
+#, kde-format
 msgid "Executing post-startup tasks from %1 after safety recovery..."
-msgstr "S'està executant l'script %1…"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:555
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map file %1"
+#, kde-format
 msgid ""
 "Warning: Failed to load post-startup queue from %1 after safety recovery"
-msgstr "No s'ha pogut carregar el fitxer de mapa de defectes %1"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:564
 #, kde-format
@@ -30842,10 +30826,9 @@ msgid "Executing post-shutdown tasks from %1..."
 msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:1658
-#, fuzzy, kde-format
-#| msgid "Manual shutdown procedure completed successfully."
+#, kde-format
 msgid "Post-shutdown queue is empty, shutdown complete."
-msgstr "S'ha completat amb èxit el procediment de tancament manual."
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:1664
 #, fuzzy, kde-format
@@ -31403,16 +31386,14 @@ msgid "Standalone safety monitor client connected successfully"
 msgstr "S'ha completat amb èxit l'alineació amb l'astrometria"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:287
-#, fuzzy, kde-format
-#| msgid "Failed to create file: %1"
+#, kde-format
 msgid "Standalone safety monitor client connection failed: %1"
-msgstr "No s'ha pogut crear el fitxer: %1"
+msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:306
-#, fuzzy, kde-format
-#| msgid "Failed to create file: %1"
+#, kde-format
 msgid "Standalone safety monitor client terminated: %1"
-msgstr "No s'ha pogut crear el fitxer: %1"
+msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:370
 #, kde-format
@@ -31420,10 +31401,9 @@ msgid "Safety monitor connection string changed from %1:%2 to %3:%4"
 msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:378
-#, fuzzy, kde-format
-#| msgid "Connecting to remote INDI server at %1 on port %2 ..."
+#, kde-format
 msgid "Disconnecting from existing safety monitor at %1:%2"
-msgstr "S'està connectant amb el servidor INDI %1 en el port %2…"
+msgstr ""
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:410
 #, kde-format
@@ -93041,359 +93021,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Rejection Method:"
-#~ msgstr "Mètode de rebuig:"
-
-#~ msgid "Live Stacking pixel rejection mechanism"
-#~ msgstr "Mecanisme de rebuig dels píxels de l'apilament en directe"
-
-#~ msgid "Error while updating pierside for camera rotation: Pierside unknown!"
-#~ msgstr ""
-#~ "S'ha produït un error mentre s'actualitzava el costat del moll segons el "
-#~ "gir de la càmera: costat del moll desconegut!"
-
-#~ msgid "Camera Rotation updated for Pierside "
-#~ msgstr "El gir de la càmera s'ha actualitzat segons el costat del moll"
-
-#~ msgid "Camera rotation is now %1 (Original calibration with %2)"
-#~ msgstr "El gir de la càmera ara és %1 (calibratge original amb %2)"
-
-#~ msgid "RApulse now %1ms/arcsec calculated for DEC = %2"
-#~ msgstr "Pols RA ara és %1 ms/arcsec calculat per a la Dec = %2"
-
-#~ msgid "Calibration OK: CamRotation %1 / CalRotation %2"
-#~ msgstr "Calibratge correcte: GirCam %1 / GirCal %2"
-
-# Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
-#~ msgid "Mount reverses DEC pulses after changing pierside"
-#~ msgstr ""
-#~ "La muntura invertix els polsos Dec després de canviar el costat del moll"
-
-#, fuzzy
-#~| msgid "Weather Warning"
-#~ msgid "\"My Weather Station\"@localhost:8000"
-#~ msgstr "Avís meteorològic"
-
-#~ msgid ""
-#~ "Observatory startup script is normally only executed if Ekos is offline. "
-#~ "Enable this option to start it whenever scheduler is starting up."
-#~ msgstr ""
-#~ "L'script d'inici de l'observatori normalment només s'executa si Ekos està "
-#~ "fora de línia. Marqueu esta opció per a iniciar-lo sempre que s'inicie el "
-#~ "programador."
-
-#~ msgid "Always Execute Startup Script"
-#~ msgstr "Executa sempre l'script d'inici"
-
-#~ msgid "Always execute startup script regardless of Ekos status."
-#~ msgstr ""
-#~ "Executa sempre l'script d'inici sense tindre en compte l'estat d'Ekos."
-
-#~ msgid "Script (*)"
-#~ msgstr "Script (*)"
-
-#~ msgctxt "@title:window"
-#~ msgid "Select Shutdown Script"
-#~ msgstr "Trieu l'script de tancament"
-
-#~ msgid "Manual startup procedure terminated due to errors."
-#~ msgstr "El procediment d'inici manual ha finalitzat a causa d'errors."
-
-#~ msgid ""
-#~ "<html><head/><body><p>One-time startup procedure to be executed before "
-#~ "starting Ekos. The script is executed <span style=\" font-weight:600; "
-#~ "text-decoration: underline;\">before</span> the startup procedures (e.g. "
-#~ "unpark scope), if selected, are executed.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Procediment d'inici que s'executarà una única "
-#~ "vegada abans d'iniciar Ekos. Si es tria, l'script s'executarà <span style="
-#~ "\"font-weight:600; text-decoration:underline;\">abans</span> que "
-#~ "s'executen els procediments d'inici (p. ex., desaparcar l'instrument de "
-#~ "visió).</p></body></html>"
-
-# skip-rule: punctuation-period-no
-#~ msgid "Park dome to home position"
-#~ msgstr "Aparca la cúpula a la posició inicial."
-
-#~ msgid "UnPark Dome"
-#~ msgstr "Desaparca la cúpula"
-
-#~ msgid "Park telescope to home position."
-#~ msgstr "Aparca el telescopi a la posició inicial."
-
-#~ msgid "UnPark Mount"
-#~ msgstr "Desaparca la muntura"
-
-# skip-rule: punctuation-period-no
-#~ msgid "Open dust cover"
-#~ msgstr "Obri la funda de protecció."
-
-#~ msgid "UnCap"
-#~ msgstr "Trau la funda"
-
-#~ msgid "Script:"
-#~ msgstr "Script:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>One-time shutdown procedure to be executed after "
-#~ "all scheduler jobs are completed. The script is executed <span style=\" "
-#~ "font-weight:600; text-decoration: underline;\">after</span> the shutdown "
-#~ "procedures (e.g. parking), if selected, are completed.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Procediment de tancament que s'executarà una única "
-#~ "vegada després de completar totes les tasques del programador. Si està "
-#~ "marcada, l'script s'executarà <span style=\"font-weight:600; text-"
-#~ "decoration:underline;\">després</span> que s'hagen completat els "
-#~ "procediments de tancament (p. ex., aparcar).</p></body></html>"
-
-#~ msgid "Turn off CCD cooler."
-#~ msgstr "Apaga el refrigerador de CCD."
-
-#~ msgid "Warm CCD"
-#~ msgstr "CCD calent"
-
-# skip-rule: punctuation-period-no
-#~ msgid "Close dust cover"
-#~ msgstr "Tanca la funda de protecció."
-
-#~ msgid "Cap"
-#~ msgstr "Tapa"
-
-#~ msgid "Warning: startup script URL %1 is not valid."
-#~ msgstr "Avís: l'script d'inici en l'URL %1 no és vàlid."
-
-#~ msgid "Warning: shutdown script URL %1 is not valid."
-#~ msgstr "Avís: l'script de tancament en l'URL %1 no és vàlid."
-
-#~ msgid ""
-#~ "Warning: dome device not ready after timeout, attempting to recover..."
-#~ msgstr ""
-#~ "Avís: el dispositiu de la cúpula no està preparat després del temps "
-#~ "d'espera, s'intenta recuperar…"
-
-#~ msgid "Dome unpark required but dome is not yet ready."
-#~ msgstr ""
-#~ "S'ha sol·licitat el desaparcament de la cúpula, però encara no està "
-#~ "preparada."
-
-#~ msgid ""
-#~ "Warning: mount device not ready after timeout, attempting to recover..."
-#~ msgstr ""
-#~ "Avís: el dispositiu de la muntura no està preparat després del temps "
-#~ "d'espera, s'intenta recuperar…"
-
-#~ msgid ""
-#~ "Warning: cap device not ready after timeout, attempting to recover..."
-#~ msgstr ""
-#~ "Avís: el dispositiu de la tapa no està preparat després del temps "
-#~ "d'espera, s'intenta recuperar…"
-
-#~ msgid "Cap parked."
-#~ msgstr "La tapa està aparcada."
-
-#~ msgid "Cap unparked."
-#~ msgstr "La tapa està desaparcada."
-
-#~ msgid "Operation timeout. Restarting operation..."
-#~ msgstr "S'ha excedit el temps de l'operació. S'està tornant a iniciar…"
-
-#~ msgid "Cap parking error."
-#~ msgstr "S'ha produït un error en aparcar la tapa."
-
-#~ msgid "Cap unparking error."
-#~ msgstr "S'ha produït un error en desaparcar la tapa."
-
-#~ msgid "Mount parked."
-#~ msgstr "La muntura està aparcada."
-
-#~ msgid ""
-#~ "Warning: mount unpark operation timed out on attempt %1/%2. Restarting "
-#~ "operation..."
-#~ msgstr ""
-#~ "Avís: l'operació de desaparcar la muntura ha esgotat el temps en l'intent "
-#~ "%1/%2. S'està tornant a iniciar l'operació…"
-
-#~ msgid "Warning: mount unpark operation timed out on last attempt."
-#~ msgstr ""
-#~ "Avís: l'operació de desaparcar la muntura ha esgotat el temps en l'últim "
-#~ "intent."
-
-#~ msgid ""
-#~ "Warning: mount park operation timed out on attempt %1/%2. Restarting "
-#~ "operation..."
-#~ msgstr ""
-#~ "Avís: l'operació d'aparcar la muntura ha esgotat el temps en l'intent %1/"
-#~ "%2. S'està tornant a iniciar l'operació…"
-
-#~ msgid "Warning: mount park operation timed out on last attempt."
-#~ msgstr ""
-#~ "Avís: l'operació d'aparcar la muntura ha esgotat el temps en l'últim "
-#~ "intent."
-
-#~ msgid "Mount unparking error."
-#~ msgstr "S'ha produït un error en desaparcar la muntura."
-
-#~ msgid ""
-#~ "Warning: mount park operation failed on attempt %1/%2. Restarting "
-#~ "operation..."
-#~ msgstr ""
-#~ "Avís: l'operació d'aparcar la muntura ha fallat en l'intent %1/%2. S'està "
-#~ "tornant a iniciar l'operació…"
-
-#~ msgid "Mount parking error."
-#~ msgstr "S'ha produït un error en aparcar la muntura."
-
-#~ msgid "Dome parked."
-#~ msgstr "La cúpula està aparcada."
-
-#~ msgid "Dome unparked."
-#~ msgstr "La cúpula està desaparcada."
-
-#~ msgid "Dome parking failed. Restarting operation..."
-#~ msgstr ""
-#~ "No s'ha pogut aparcar la cúpula. S'està tornant a iniciar l'operació…"
-
-#~ msgid "Dome parking error."
-#~ msgstr "S'ha produït un error en aparcar la cúpula."
-
-#~ msgid "Dome unparking failed. Restarting operation..."
-#~ msgstr ""
-#~ "No s'ha pogut desaparcar la cúpula. S'està tornant a iniciar l'operació…"
-
-#~ msgid "Dome unparking error."
-#~ msgstr "S'ha produït un error en desaparcar la cúpula."
-
-#~ msgid "Ekos is already started, skipping startup script..."
-#~ msgstr "Ja s'ha iniciat Ekos, s'està ometent l'script d'inici…"
-
-#~ msgid "Warming up camera..."
-#~ msgstr "S'està escalfant la càmera…"
-
-#~ msgid "Warning: Bypassing parking procedures, no INDI connection."
-#~ msgstr ""
-#~ "Avís: passen per alt els procediments per a aparcar, sense connexió amb "
-#~ "INDI."
-
-#~ msgid "Warning: executing startup procedure manually..."
-#~ msgstr "Avís: s'està executant manualment el procediment d'inici…"
-
-#~ msgid "Are you sure you want to execute the startup procedure manually?"
-#~ msgstr "Segur que voleu executar manualment el procediment d'inici?"
-
-#~ msgid "Startup procedure terminated."
-#~ msgstr "El procediment d'inici ha finalitzat."
-
-#~ msgid "Warning: executing shutdown procedure manually..."
-#~ msgstr "Avís: s'està executant manualment el procediment de tancament…"
-
-#~ msgid "Are you sure you want to execute the shutdown procedure manually?"
-#~ msgstr "Segur que voleu executar manualment el procediment de tancament?"
-
-#~ msgid "Shutdown procedure terminated."
-#~ msgstr "El procediment de tancament ha finalitzat."
-
-#~ msgid "Dust cover park requested but no dust covers detected."
-#~ msgstr ""
-#~ "S'ha sol·licitat l'aparcament de la funda de protecció, però no se n'ha "
-#~ "detectat cap."
-
-#~ msgid "Parking Cap..."
-#~ msgstr "S'està aparcant la tapa…"
-
-#~ msgid "Cap already parked."
-#~ msgstr "La tapa ja està aparcada."
-
-#~ msgid "Dust cover unpark requested but no dust covers detected."
-#~ msgstr ""
-#~ "S'ha sol·licitat el desaparcament de la funda de protecció, però no se "
-#~ "n'ha detectat cap."
-
-#~ msgid "Unparking cap..."
-#~ msgstr "S'està desaparcant la tapa…"
-
-#~ msgid "Cap already unparked."
-#~ msgstr "La tapa ja està desaparcada."
-
-#~ msgid "Mount park requested but no mounts detected."
-#~ msgstr ""
-#~ "S'ha sol·licitat l'aparcament de la muntura, però no se n'ha detectat cap."
-
-#~ msgid "Parking mount in progress..."
-#~ msgstr "L'aparcament de la muntura es troba en curs…"
-
-#~ msgid "Mount unpark requested but no mounts detected."
-#~ msgstr ""
-#~ "S'ha sol·licitat el desaparcament de la muntura, però no se n'ha detectat "
-#~ "cap."
-
-#~ msgid "Mount already unparked."
-#~ msgstr "La muntura ja està desaparcada."
-
-#~ msgid "Dome park requested but no domes detected."
-#~ msgstr ""
-#~ "S'ha sol·licitat l'aparcament de la cúpula, però no se n'ha detectat cap."
-
-#~ msgid "Parking dome..."
-#~ msgstr "S'està aparcant la cúpula…"
-
-#~ msgid "Dome already parked."
-#~ msgstr "La cúpula ja està aparcada."
-
-#~ msgid "Dome unpark requested but no domes detected."
-#~ msgstr ""
-#~ "S'ha sol·licitat el desaparcament de la cúpula, però no se n'ha detectat "
-#~ "cap."
-
-#~ msgid "Unparking dome..."
-#~ msgstr "S'està desaparcant la cúpula…"
-
-#~ msgid "Dome already unparked."
-#~ msgstr "La cúpula ja està desaparcada."
-
-#~ msgid "Startup script failed, aborting..."
-#~ msgstr "L'script d'inici ha fallat. S'interromp…"
-
-#~ msgid "Shutdown script failed, aborting..."
-#~ msgstr "L'script de tancament ha fallat. S'interromp…"
-
-#~ msgid "Default scheduler checkbox for parking dome on shutdown."
-#~ msgstr ""
-#~ "Casella de selecció predeterminada del programador per a l'aparcament de "
-#~ "la cúpula quan es tanque."
-
-#~ msgid "Default scheduler checkbox for parking mount on shutdown."
-#~ msgstr ""
-#~ "Casella de selecció predeterminada del programador per a l'aparcament de "
-#~ "la muntura quan es tanque."
-
-#~ msgid "Default scheduler checkbox for closing dust cover on shutdown."
-#~ msgstr ""
-#~ "Casella de selecció predeterminada del programador per a tancar la funda "
-#~ "de protecció quan es tanque."
-
-#~ msgid "Default scheduler checkbox for warming the CCD on shutdown."
-#~ msgstr ""
-#~ "Casella de selecció predeterminada del programador per a l'escalfament de "
-#~ "CCD quan es tanque."
-
-#~ msgid "Default scheduler checkbox for unparking dome on startup."
-#~ msgstr ""
-#~ "Casella de selecció predeterminada del programador per al desaparcament "
-#~ "de la cúpula en iniciar."
-
-#~ msgid "Default scheduler checkbox for unparking mount on startup."
-#~ msgstr ""
-#~ "Casella de selecció predeterminada del programador per al desaparcament "
-#~ "de la muntura en iniciar."
-
-#~ msgid "Default scheduler checkbox for opening dust cover on startup."
-#~ msgstr ""
-#~ "Casella de selecció predeterminada del programador per a obrir la funda "
-#~ "de protecció en iniciar."
-
-#~ msgid "Execute this script when starting the scheduler."
-#~ msgstr "Executeu este script quan s'inicie el programador."
-
-#~ msgid "Execute this script when shutting down the scheduler."
-#~ msgstr "Executeu este script quan es pare el programador."

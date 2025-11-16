@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-15 02:01+0000\n"
+"POT-Creation-Date: 2025-11-16 01:59+0000\n"
 "PO-Revision-Date: 2025-11-14 12:35+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -1929,7 +1929,7 @@ msgstr "1x"
 #: data/qml/mount/mountbox.qml:548 data/qml/mount/mountbox.qml:742
 #: data/qml/mount/mountbox.qml:837 dialogs/catalogcsvimport.ui:178
 #: dialogs/focusdialog.ui:107 ekos/align/align.ui:327 ekos/align/align.ui:415
-#: ekos/manager.ui:898 ekos/mount/mountpositionwidget.ui:148
+#: ekos/manager.ui:898 ekos/mount/mountpositionwidget.ui:143
 #: ekos/mount/mounttargetwidget.ui:42 tools/altvstime.ui:97
 #: tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
 #: tools/modcalcplanets.ui:251 tools/modcalcvlsr.ui:508
@@ -1940,7 +1940,7 @@ msgstr "ПС:"
 #. i18n: ectx: property (text), widget (QLabel, azLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: data/qml/mount/mountbox.qml:568 data/qml/mount/mountbox.qml:881
-#: ekos/manager.ui:868 ekos/mount/mountpositionwidget.ui:351
+#: ekos/manager.ui:868 ekos/mount/mountpositionwidget.ui:345
 #, kde-format, kde-kuit-format
 msgid "AZ:"
 msgstr "Аз:"
@@ -1953,7 +1953,7 @@ msgstr "Аз:"
 #: data/qml/mount/mountbox.qml:588 data/qml/mount/mountbox.qml:775
 #: data/qml/mount/mountbox.qml:838 data/qml/mount/mountbox.qml:926
 #: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:385
-#: ekos/manager.ui:883 ekos/mount/mountpositionwidget.ui:263
+#: ekos/manager.ui:883 ekos/mount/mountpositionwidget.ui:261
 #: ekos/mount/mounttargetwidget.ui:117
 #, kde-format, kde-kuit-format
 msgid "DE:"
@@ -1962,20 +1962,20 @@ msgstr "Схил:"
 #. i18n: ectx: property (text), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: data/qml/mount/mountbox.qml:607 data/qml/mount/mountbox.qml:882
-#: ekos/manager.ui:853 ekos/mount/mountpositionwidget.ui:280
+#: ekos/manager.ui:853 ekos/mount/mountpositionwidget.ui:277
 #, kde-format, kde-kuit-format
 msgid "AL:"
 msgstr "Вис:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: data/qml/mount/mountbox.qml:626 data/qml/mount/mountbox.qml:925
-#: ekos/mount/mountpositionwidget.ui:60
+#: ekos/mount/mountpositionwidget.ui:59
 #, kde-format, kde-kuit-format
 msgid "HA:"
 msgstr "ГВ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: data/qml/mount/mountbox.qml:645 ekos/mount/mountpositionwidget.ui:131
+#: data/qml/mount/mountbox.qml:645 ekos/mount/mountpositionwidget.ui:127
 #, kde-format, kde-kuit-format
 msgid "ZA:"
 msgstr "ЗА:"
@@ -2009,7 +2009,7 @@ msgstr "Тип:"
 #. i18n: ectx: property (text), widget (QCheckBox, epochCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, EpochCheckBatch)
 #: data/qml/mount/mountbox.qml:955 dialogs/focusdialog.ui:114
-#: ekos/mount/mountpositionwidget.ui:190 tools/flagmanager.ui:64
+#: ekos/mount/mountpositionwidget.ui:184 tools/flagmanager.ui:64
 #: tools/modcalcapcoord.ui:127 tools/modcalcapcoord.ui:215
 #: tools/modcalcapcoord.ui:527 tools/modcalcgalcoord.ui:214
 #: tools/modcalcvlsr.ui:521
@@ -4157,10 +4157,10 @@ msgstr "ПС (J2000.0):"
 #: dialogs/details_position.ui:323 dialogs/details_position.ui:414
 #: dialogs/details_position.ui:470 dialogs/details_position.ui:827
 #: dialogs/details_position.ui:845 dialogs/details_position.ui:863
-#: ekos/mount/mount.ui:583 ekos/mount/mountpositionwidget.ui:90
-#: ekos/mount/mountpositionwidget.ui:117 ekos/mount/mountpositionwidget.ui:178
-#: ekos/mount/mountpositionwidget.ui:249 ekos/mount/mountpositionwidget.ui:310
-#: ekos/mount/mountpositionwidget.ui:337 tools/modcalcangdist.ui:321
+#: ekos/mount/mount.ui:583 ekos/mount/mountpositionwidget.ui:88
+#: ekos/mount/mountpositionwidget.ui:114 ekos/mount/mountpositionwidget.ui:172
+#: ekos/mount/mountpositionwidget.ui:248 ekos/mount/mountpositionwidget.ui:306
+#: ekos/mount/mountpositionwidget.ui:332 tools/modcalcangdist.ui:321
 #, kde-format
 msgid "00:00:00"
 msgstr "00:00:00"
@@ -4572,7 +4572,7 @@ msgstr "Встановити поточну епоху"
 #. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
 #. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
 #: dialogs/focusdialog.ui:74 ekos/align/pushtoassistant.ui:283
-#: ekos/mount/mountpositionwidget.ui:197 ekos/scheduler/scheduler.ui:696
+#: ekos/mount/mountpositionwidget.ui:191 ekos/scheduler/scheduler.ui:696
 #, kde-format
 msgid "JNow"
 msgstr "JNow"
@@ -4588,7 +4588,7 @@ msgstr "Встановити епоху J2000"
 #. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
 #. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
 #: dialogs/focusdialog.ui:84 ekos/align/pushtoassistant.ui:296
-#: ekos/mount/mountpositionwidget.ui:207 ekos/scheduler/scheduler.ui:691
+#: ekos/mount/mountpositionwidget.ui:204 ekos/scheduler/scheduler.ui:691
 #, kde-format
 msgid "J2000"
 msgstr "J2000"
@@ -6608,7 +6608,7 @@ msgstr "Розв'язування перервано."
 
 #: ekos/align/align.cpp:2748 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2106 ekos/mount/mount.cpp:778
+#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2106 ekos/mount/mount.cpp:782
 #: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3301
 #, kde-format
@@ -25689,125 +25689,125 @@ msgstr "Ви справді хочете вилучити усі налашту�
 msgid "Mount Configuration"
 msgstr "Налаштування лафета"
 
-#: ekos/mount/mount.cpp:492 ekos/mount/mount.cpp:500
+#: ekos/mount/mount.cpp:496 ekos/mount/mount.cpp:504
 #, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
 msgstr "Ви справді хочете вимкнути стеження за лафетом?"
 
-#: ekos/mount/mount.cpp:493 ekos/mount/mount.cpp:501
+#: ekos/mount/mount.cpp:497 ekos/mount/mount.cpp:505
 #, kde-format
 msgid "Mount Tracking"
 msgstr "Стеження за лафетом"
 
-#: ekos/mount/mount.cpp:494
+#: ekos/mount/mount.cpp:498
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Так"
 
-#: ekos/mount/mount.cpp:495
+#: ekos/mount/mount.cpp:499
 #, kde-format
 msgctxt "@action:button"
 msgid "No"
 msgstr "Ні"
 
-#: ekos/mount/mount.cpp:557
+#: ekos/mount/mount.cpp:561
 #, kde-format
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
 "Висота телескопа стала нижчою за мінімальну, обмежену %1, перериваємо рух."
 
-#: ekos/mount/mount.cpp:569
+#: ekos/mount/mount.cpp:573
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr "Висота телескопа перевищила максимальну, обмежену %1, перериваємо рух."
 
-#: ekos/mount/mount.cpp:620
+#: ekos/mount/mount.cpp:624
 #, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr "Годинний кут перевищив максимальний, обмежений %1. Перериваємо рух…"
 
-#: ekos/mount/mount.cpp:755
+#: ekos/mount/mount.cpp:759
 #, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr "Перехід за меридіаном є неактивним під час полярного вирівнювання."
 
-#: ekos/mount/mount.cpp:769
+#: ekos/mount/mount.cpp:773
 #, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr ""
 "Рухи полярного вирівнювання завершено, активовано перехід за меридіаном."
 
-#: ekos/mount/mount.cpp:792
+#: ekos/mount/mount.cpp:796
 #, kde-format
 msgctxt "Message shown in Ekos Mount module"
 msgid "%1"
 msgstr "%1"
 
-#: ekos/mount/mount.cpp:1174
+#: ekos/mount/mount.cpp:1178
 #, kde-format
 msgid "Alignment Model cleared."
 msgstr "Дані моделі вирівнювання вилучено."
 
-#: ekos/mount/mount.cpp:1178
+#: ekos/mount/mount.cpp:1182
 #, kde-format
 msgid "Failed to clear Alignment Model."
 msgstr "Не вдалося вилучити дані моделі вирівнювання."
 
-#: ekos/mount/mount.cpp:1288
+#: ekos/mount/mount.cpp:1292
 #, kde-format
 msgid "Mount already parked."
 msgstr "Лафет уже запарковано."
 
-#: ekos/mount/mount.cpp:1313
+#: ekos/mount/mount.cpp:1317
 #, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "Не можна встановлювати момент паркування у минулому!"
 
-#: ekos/mount/mount.cpp:1322
+#: ekos/mount/mount.cpp:1326
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 "Момент паркування має відрізнятися від поточного часу не більше, ніж на 24 "
 "години."
 
-#: ekos/mount/mount.cpp:1327
+#: ekos/mount/mount.cpp:1331
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Увага! До моменту паркування більше 12 годин."
 
-#: ekos/mount/mount.cpp:1329
+#: ekos/mount/mount.cpp:1333
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Увага! Не використовуйте автоматичне паркування, доки працює планувальник."
 
-#: ekos/mount/mount.cpp:1349
+#: ekos/mount/mount.cpp:1353
 #, kde-format
 msgid "Parking timer is up."
 msgstr "Таймер паркування запущено."
 
-#: ekos/mount/mount.cpp:1359
+#: ekos/mount/mount.cpp:1363
 #, kde-format
 msgid "Starting auto park..."
 msgstr "Розпочинаємо автоматичне паркування…"
 
-#: ekos/mount/mount.cpp:1852
+#: ekos/mount/mount.cpp:1856
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr "Оновлюємо основне джерело даних щодо часу до %1."
 
-#: ekos/mount/mount.cpp:1873
+#: ekos/mount/mount.cpp:1877
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 "Оновлюємо основне джерело даних щодо розташування до %1. Оновлення GPS…"
 
-#: ekos/mount/mount.cpp:1881
+#: ekos/mount/mount.cpp:1885
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr "Оновлюємо основне місце розташування до %1."
