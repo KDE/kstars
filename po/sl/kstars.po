@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 08:59+0000\n"
-"PO-Revision-Date: 2025-11-14 07:03+0100\n"
+"PO-Revision-Date: 2025-11-17 06:24+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -49,7 +49,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -33559,7 +33559,8 @@ msgid ""
 "damping, &lt;1.0 = smoother but slower convergence.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Sprostitev / dušenje med iteracijami. 1,0 = brez "
-"dušenja, <1,0 = bolj gladka, vendar počasnejša konvergenca.</p></body></html>"
+"dušenja, &lt;1,0 = bolj gladka, vendar počasnejša konvergenca.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1335
