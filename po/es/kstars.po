@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-16 01:59+0000\n"
+"POT-Creation-Date: 2025-11-17 01:59+0000\n"
 "PO-Revision-Date: 2025-11-14 12:43+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -12839,12 +12839,12 @@ msgstr "Longitud de onda del punto medio del filtro en nm"
 msgid "Wavelength"
 msgstr "Longitud de onda"
 
-#: ekos/auxiliary/filtermanager.cpp:581
+#: ekos/auxiliary/filtermanager.cpp:578
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "Definir el filtro a %1. ¿Está definido el filtro?"
 
-#: ekos/auxiliary/filtermanager.cpp:582
+#: ekos/auxiliary/filtermanager.cpp:579
 #, kde-format
 msgid "Confirm Filter"
 msgstr "Confirmar el filtro"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-16 01:59+0000\n"
+"POT-Creation-Date: 2025-11-17 01:59+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -12275,12 +12275,12 @@ msgstr "滤镜的中心波长(nm)"
 msgid "Wavelength"
 msgstr "波长"
 
-#: ekos/auxiliary/filtermanager.cpp:581
+#: ekos/auxiliary/filtermanager.cpp:578
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "设置滤镜为 %1。是否设置滤镜？"
 
-#: ekos/auxiliary/filtermanager.cpp:582
+#: ekos/auxiliary/filtermanager.cpp:579
 #, kde-format
 msgid "Confirm Filter"
 msgstr "确认滤镜"

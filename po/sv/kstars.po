@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-16 01:59+0000\n"
+"POT-Creation-Date: 2025-11-17 01:59+0000\n"
 "PO-Revision-Date: 2025-10-27 22:18+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -12691,12 +12691,12 @@ msgstr "Mittpunktsvåglängd för filter i nm"
 msgid "Wavelength"
 msgstr "Våglängd"
 
-#: ekos/auxiliary/filtermanager.cpp:581
+#: ekos/auxiliary/filtermanager.cpp:578
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "Ställ in filter till %1. Är filtret inställt?"
 
-#: ekos/auxiliary/filtermanager.cpp:582
+#: ekos/auxiliary/filtermanager.cpp:579
 #, kde-format
 msgid "Confirm Filter"
 msgstr "Bekräfta filtrering"

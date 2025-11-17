@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-16 01:59+0000\n"
+"POT-Creation-Date: 2025-11-17 01:59+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -12312,12 +12312,12 @@ msgstr ""
 msgid "Wavelength"
 msgstr "സാധാരണ ഗുണഗണങ്ങള്‍"
 
-#: ekos/auxiliary/filtermanager.cpp:581
+#: ekos/auxiliary/filtermanager.cpp:578
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:582
+#: ekos/auxiliary/filtermanager.cpp:579
 #, fuzzy, kde-format
 msgid "Confirm Filter"
 msgstr "ശബ്ദ ഫയലിന്റെ യു.ആര്‍.ഐ (URI)"

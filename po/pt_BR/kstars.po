@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-16 01:59+0000\n"
-"PO-Revision-Date: 2025-11-14 09:42-0300\n"
+"POT-Creation-Date: 2025-11-17 01:59+0000\n"
+"PO-Revision-Date: 2025-11-16 19:18-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -12798,12 +12798,12 @@ msgstr "Comprimento de onda médio do filtro em nm"
 msgid "Wavelength"
 msgstr "Comprimento de onda"
 
-#: ekos/auxiliary/filtermanager.cpp:581
+#: ekos/auxiliary/filtermanager.cpp:578
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "Defina o filtro como %1. O filtro está definido?"
 
-#: ekos/auxiliary/filtermanager.cpp:582
+#: ekos/auxiliary/filtermanager.cpp:579
 #, kde-format
 msgid "Confirm Filter"
 msgstr "Confirmar filtro"
@@ -33766,8 +33766,8 @@ msgid ""
 "damping, &lt;1.0 = smoother but slower convergence.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Relaxamento/amortecimento entre iterações. 1,0 = sem "
-"amortecimento, <1,0 = convergência mais suave, porém mais lenta.</p></body></"
-"html>"
+"amortecimento, &lt;1,0 = convergência mais suave, porém mais lenta.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1335
