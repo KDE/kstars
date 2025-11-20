@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 08:59+0000\n"
-"PO-Revision-Date: 2025-11-15 23:40+0100\n"
+"PO-Revision-Date: 2025-11-20 00:04+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -30752,16 +30752,14 @@ msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:190
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:506
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Optical Train Manager not available"
-msgstr "Geen info over afbeelding beschikbaar."
+msgstr "Beheerder van optische trein niet beschikbaar"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:201
-#, fuzzy, kde-format
-#| msgid "Scheduler started."
+#, kde-format
 msgid "Scheduler state not available"
-msgstr "Taakplanner gestart."
+msgstr "Status van planner nier beschikbaar"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:215
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:474
@@ -30770,16 +30768,14 @@ msgid "No profile selected"
 msgstr "Geen profiel geselecteerd"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:235
-#, fuzzy, kde-format
-#| msgid "Critical File not Found: %1"
+#, kde-format
 msgid "Profile not found: %1"
-msgstr "Kritiek bestand niet gevonden: %1"
+msgstr "Profiel niet gevonden: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:246
-#, fuzzy, kde-format
-#| msgid "Optical train doesn't exist for id %1"
+#, kde-format
 msgid "No optical trains for profile: %1"
-msgstr "Optische trein bestaat niet voor id %1"
+msgstr "Geen optische trein voor profiel: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:280
 #, kde-format
@@ -30802,29 +30798,24 @@ msgid "Weather Station"
 msgstr "Weerstation"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:503
-#, fuzzy, kde-format
-#| msgid "Dust cap:"
+#, kde-format
 msgid "Dust Cap"
-msgstr "Stofkap:"
+msgstr "Stofkap"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:505
-#, fuzzy, kde-format
-#| msgid "Light box:"
+#, kde-format
 msgid "Light Box"
-msgstr "Lichtbox:"
+msgstr "Lichtbox"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:511
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Spectra"
+#, kde-format
 msgid "Spectrograph"
-msgstr "Spectra"
+msgstr "Spectrograaf"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:513
-#, fuzzy, kde-format
-#| msgid "Correct Alt Error"
+#, kde-format
 msgid "Correlator"
-msgstr "Corr. Hgte Fout"
+msgstr "Correlator"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:517
@@ -30835,16 +30826,14 @@ msgid "Device"
 msgstr "Apparaat"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Astrometry Parameters"
+#, kde-format
 msgid "Customize Parameters"
-msgstr "Parameters Astrometry"
+msgstr "Aangepaste parameters"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:97
-#, fuzzy, kde-format
-#| msgid "Device:"
+#, kde-format
 msgid "Device: %1"
-msgstr "Apparaat"
+msgstr "Apparaat: %1"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:210
 #, kde-format
@@ -30873,8 +30862,7 @@ msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:64
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:81
-#, fuzzy, kde-format
-#| msgid "Edit Flag"
+#, kde-format
 msgid "Edit Template"
 msgstr "Sjabloon bewerken"
 
@@ -30884,17 +30872,14 @@ msgid "Device:"
 msgstr "Apparaat:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Property"
+#, kde-format
 msgid "Property:"
-msgstr "Eigenschap"
+msgstr "Eigenschap:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:174
-#, fuzzy, kde-format
-#| msgid "Version:"
+#, kde-format
 msgid "Permission:"
-msgstr "Toestemming"
+msgstr "Toestemming:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:207
 #, kde-format
@@ -30907,17 +30892,14 @@ msgid "EVALUATE - Check property condition"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:218
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Property"
+#, kde-format
 msgid "Property Element"
-msgstr "Eigenschap"
+msgstr "Elementeigenschap"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:222
-#, fuzzy, kde-format
-#| msgid "Equipment:"
+#, kde-format
 msgid "Element:"
-msgstr "Element"
+msgstr "Element:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:230
 #, fuzzy, kde-format
