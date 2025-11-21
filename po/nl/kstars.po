@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 08:59+0000\n"
-"PO-Revision-Date: 2025-11-20 00:04+0100\n"
+"PO-Revision-Date: 2025-11-20 13:35+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -30902,10 +30902,9 @@ msgid "Element:"
 msgstr "Element:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:230
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "Action Settings"
-msgstr "Bestandsinstellingen"
+msgstr "Actie-instellingen"
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:237
@@ -30915,17 +30914,14 @@ msgid "Timeout:"
 msgstr "Tijdslimiet:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:242
-#, fuzzy, kde-format
-#| msgctxt "City in St. Lucia"
-#| msgid "Castries"
+#, kde-format
 msgid "Retries:"
-msgstr "Castries"
+msgstr "Herhaalpogingen:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:245
-#, fuzzy, kde-format
-#| msgid "Aborted"
+#, kde-format
 msgid "Abort Queue"
-msgstr "Afgebroken"
+msgstr "Wachtrij afbreken"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:247
 #, kde-format
@@ -30953,10 +30949,9 @@ msgid "Template Preview (JSON)"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:317
-#, fuzzy, kde-format
-#| msgid "Select Devices"
+#, kde-format
 msgid "Step 1: Select Device"
-msgstr "Selecteer apparaten"
+msgstr "Stap 1: selecteer apparaat"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:318
 #, kde-format
@@ -30964,10 +30959,9 @@ msgid "Choose the INDI device for which you want to create a custom template."
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:321
-#, fuzzy, kde-format
-#| msgid "1. Select Profile"
+#, kde-format
 msgid "Step 2: Select Property"
-msgstr "1. Selecteer profiel"
+msgstr "Stap 2: selecteer eigenschap"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:323
 #, kde-format
@@ -30978,10 +30972,9 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:326
-#, fuzzy, kde-format
-#| msgid "Configurations"
+#, kde-format
 msgid "Step 3: Configure Actions"
-msgstr "Configuraties"
+msgstr "Stap 3: configureer acties"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:327
 #, kde-format
@@ -31009,10 +31002,9 @@ msgid "Review the generated template before saving."
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:456
-#, fuzzy, kde-format
-#| msgid "Disconnecting INDI devices..."
+#, kde-format
 msgid "Using connected INDI devices"
-msgstr "INDI-apparaten worden afgekoppeld...."
+msgstr "Met gebruik van INDI-apparaten"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:464
 #, kde-format
@@ -31020,17 +31012,14 @@ msgid "No devices available"
 msgstr "Geen apparaten beschikbaar"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:491
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Profile Editor"
+#, kde-format
 msgid "Profile not found"
-msgstr "Profiel bewerken"
+msgstr "Profiel niet gevonden"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:499
-#, fuzzy, kde-format
-#| msgid "Select optical train"
+#, kde-format
 msgid "No optical trains found"
-msgstr "Optische trein selecteren"
+msgstr "Geen optische trein gevonden"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:533
 #, kde-format
@@ -31048,11 +31037,9 @@ msgid "Device not found"
 msgstr "Apparaat niet gevonden"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:628
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Scope Properties"
+#, kde-format
 msgid "No compatible properties found"
-msgstr "Eigenschappen telescoop"
+msgstr "Geen compatibele eigenschappen gevonden"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:632
 #, kde-format
@@ -31062,10 +31049,9 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:861
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:923
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:966
-#, fuzzy, kde-format
-#| msgid "Mount Configuration"
+#, kde-format
 msgid "SET Action Configuration"
-msgstr "Instellingen opstelling"
+msgstr "Actieconfiguratie ZETTEN"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:869
@@ -31079,10 +31065,9 @@ msgstr "Waarde:"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:932
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:973
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Mount Configuration"
+#, kde-format
 msgid "EVALUATE Action Configuration"
-msgstr "Instellingen opstelling"
+msgstr "Actieconfiguratie EVALUEREN"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:876
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:978
@@ -31091,13 +31076,12 @@ msgid "Equals"
 msgstr "Gelijk aan"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:877
-#, fuzzy, kde-format
+#, kde-format
 msgid "Less Than"
 msgstr "Kleiner dan"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:878
-#, fuzzy, kde-format
-#| msgid "Fainter thans"
+#, kde-format
 msgid "Greater Than"
 msgstr "Groter dan"
 
@@ -31112,10 +31096,9 @@ msgid "Greater or Equal"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:881
-#, fuzzy, kde-format
-#| msgid "Equal"
+#, kde-format
 msgid "Not Equal"
-msgstr "is niet gelijk aan"
+msgstr "Niet gelijk"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:882
 #, kde-format
@@ -31129,23 +31112,20 @@ msgid "Condition:"
 msgstr "Voorwaarde:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:895
-#, fuzzy, kde-format
-#| msgid "Tolerance:"
+#, kde-format
 msgid "Margin/Tolerance:"
-msgstr "Tolerantie:"
+msgstr "Marge/tolerantie:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:930
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "State:"
 msgstr "Status:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:939
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1019
-#, fuzzy, kde-format
-#| msgid "Expert Settings"
+#, kde-format
 msgid "Expected State:"
-msgstr "Expert-instellingen"
+msgstr "Verwachte status:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:979
 #, kde-format
@@ -31153,10 +31133,9 @@ msgid "Contains"
 msgstr "Bevat"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:983
-#, fuzzy, kde-format
-#| msgid "Proposed Value"
+#, kde-format
 msgid "Expected Value:"
-msgstr "Voorgestelde waarde"
+msgstr "Verwachte waarde:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1016
 #: skycomponents/imageoverlaycomponent.cpp:556
@@ -31170,10 +31149,9 @@ msgid "Busy"
 msgstr "Bezet"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Legend Configuration"
+#, kde-format
 msgid "Invalid Configuration"
-msgstr "Legenda instellen"
+msgstr "Ongeldige configuratie"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1034
 #, kde-format
@@ -31187,10 +31165,9 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1105
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1117
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1124
-#, fuzzy, kde-format
-#| msgid "Calibration error"
+#, kde-format
 msgid "Validation Error"
-msgstr "Kalibratie fout"
+msgstr "Validatiefout"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1069
 #, kde-format
@@ -31203,10 +31180,9 @@ msgid "Please select a property."
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1087
-#, fuzzy, kde-format
-#| msgid "Sample format %1 is not supported."
+#, kde-format
 msgid "Selected property type is not supported."
-msgstr "Sampleformaat %1 wordt niet ondersteund."
+msgstr "Geselecteerd type eigenschap wordt niet ondersteund."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1099
 #, kde-format
@@ -31224,14 +31200,12 @@ msgid "Please provide a template name."
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1125
-#, fuzzy, kde-format
-#| msgid "Select a category:"
+#, kde-format
 msgid "Please select or enter a category."
-msgstr "Kies een categorie:"
+msgstr "Selecteer of voer een categorie in."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1428
-#, fuzzy, kde-format
-#| msgid "Error"
+#, kde-format
 msgid "Save Error"
 msgstr "Fout bij opslaan"
 
@@ -31246,16 +31220,14 @@ msgid "Template Error"
 msgstr "Voorbeeld fout"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1467
-#, fuzzy, kde-format
-#| msgid "Failed to create image: %1"
+#, kde-format
 msgid "Failed to create template object from JSON."
-msgstr "Afbeelding maken is mislukt: %1"
+msgstr "Sjabloonobject aanmaken uit JSON is mislukt."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:39
-#, fuzzy, kde-format
-#| msgid "Image Viewer"
+#, kde-format
 msgid "Task Queue Viewer"
-msgstr "Afbeeldingsviewer"
+msgstr "Viewer van wachtrij met taken"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:59
 #, kde-format
@@ -31264,21 +31236,18 @@ msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:69
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:658
-#, fuzzy, kde-format
-#| msgid "Save schedule"
+#, kde-format
 msgid "Save Queue"
-msgstr "Schema opslaan"
+msgstr "Wachtrij opslaan"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:70
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:705
-#, fuzzy, kde-format
-#| msgid "&Queue"
+#, kde-format
 msgid "Load Queue"
-msgstr "&Wachtrij"
+msgstr "Wachtrij laden"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:77
-#, fuzzy, kde-format
-#| msgid "Paused"
+#, kde-format
 msgid "Pause"
 msgstr "Pauzeren"
 
@@ -31313,10 +31282,9 @@ msgstr "Naar beneden"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:128
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:389
-#, fuzzy, kde-format
-#| msgid "&Queue"
+#, kde-format
 msgid "Queue idle"
-msgstr "&Wachtrij"
+msgstr "Wachtrij is niet actief"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:226
 #, kde-format
@@ -31324,10 +31292,9 @@ msgid "Total: %1  Completed: %2  Failed: %3  Pending: %4"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:270
-#, fuzzy, kde-format
-#| msgid "Find Stars: Failed"
+#, kde-format
 msgid "Queue Start Failed"
-msgstr "Sterren zoeken: mislukt"
+msgstr "Opstarten van wachtrij is mislukt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:271
 #, kde-format
@@ -31335,40 +31302,34 @@ msgid "Failed to start queue execution. Check that queue has items."
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:392
-#, fuzzy, kde-format
-#| msgid "Autoguiding running."
+#, kde-format
 msgid "Queue running"
-msgstr "Automatisch volgen is actief."
+msgstr "Wachtrij is actief"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:395
-#, fuzzy, kde-format
-#| msgid "Sequence paused."
+#, kde-format
 msgid "Queue paused"
-msgstr "Serie tijdelijk gestopt"
+msgstr "Wachtrij is gepauzeerd"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:398
-#, fuzzy, kde-format
-#| msgid "completed"
+#, kde-format
 msgid "Queue completed"
-msgstr "voltooid"
+msgstr "Wachtrij is voltooid"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:401
-#, fuzzy, kde-format
-#| msgid "Scheduler aborted."
+#, kde-format
 msgid "Queue aborted"
-msgstr "Taakplanner afgebroken."
+msgstr "Wachtrij is afgebroken"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:431
-#, fuzzy, kde-format
-#| msgid "Dithering completed successfully."
+#, kde-format
 msgid "Queue completed successfully"
-msgstr "Ditheren met succes voltooid."
+msgstr "Wachtrij met succes voltooid"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:470
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s"
+#, kde-format
 msgid "Item failed: %1"
-msgstr "Oplossen is mislukt: %1s"
+msgstr "Item is mislukt: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:514
 #, kde-format
@@ -31381,22 +31342,19 @@ msgid "Skipped"
 msgstr "Overgeslagen"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:622
-#, fuzzy, kde-format
-#| msgid "Data verification failed"
+#, kde-format
 msgid "Task Creation Failed"
-msgstr "Gegevenscontrole is mislukt"
+msgstr "Aanmaken van taak is mislukt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:623
-#, fuzzy, kde-format
-#| msgid "Failed to create file: %1"
+#, kde-format
 msgid "Failed to create task from template"
-msgstr "Bestand aanmaken is mislukt: %1"
+msgstr "Taak aanmaken uit sjabloon is mislukt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:640
-#, fuzzy, kde-format
-#| msgid "Empty file"
+#, kde-format
 msgid "Empty Queue"
-msgstr "Leeg bestand"
+msgstr "Lege wachtrij"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:641
 #, kde-format
@@ -31410,10 +31368,9 @@ msgid "KStars Queue Files (*.kstarsqueue);;All Files (*)"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:673
-#, fuzzy, kde-format
-#| msgid "Failed to save defect map to %1"
+#, kde-format
 msgid "Failed to save queue to %1"
-msgstr "Defectenkaart opslaan naar %1 is mislukt."
+msgstr "Opslaan van wachtrij naar %1 is mislukt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:685
 #, kde-format
@@ -31426,28 +31383,24 @@ msgid "Loading a queue will clear the current queue. Continue?"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:721
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map %1"
+#, kde-format
 msgid "Failed to load queue from %1"
-msgstr "Laden van defectenkaart %1 is mislukt "
+msgstr "Laden van wachtrij uit %1 is mislukt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:769
-#, fuzzy, kde-format
-#| msgid "Failed to close file: %1"
+#, kde-format
 msgid "Failed to open collection file: %1"
-msgstr "Sluiten van bestand is mislukt: %1"
+msgstr "Bestand met verzameling openen is mislukt: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:779
-#, fuzzy, kde-format
-#| msgid "Invalid Epoch format"
+#, kde-format
 msgid "Invalid collection file format"
-msgstr "Ongeldige formaat voor Epoch"
+msgstr "Ongeldige formaat van bestand met verzameling"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:789
-#, fuzzy, kde-format
-#| msgid "Edit location"
+#, kde-format
 msgid "Empty Collection"
-msgstr "Locatie bewerken"
+msgstr "Lege verzameling"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:790
 #, kde-format
@@ -31455,28 +31408,24 @@ msgid "The collection contains no tasks"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:799
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Template manager not available"
-msgstr "Geen info over afbeelding beschikbaar."
+msgstr "Beheerder van sjabloon niet beschikbaar."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:809
-#, fuzzy, kde-format
-#| msgid "Failed to save dark frame to library!"
+#, kde-format
 msgid "Failed to initialize template library"
-msgstr "Opslaan dark frame in bibliotheek is niet gelukt!"
+msgstr "Sjabloonbibliotheek initialiseren is mislukt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:830
-#, fuzzy, kde-format
-#| msgid "Critical File not Found: %1"
+#, kde-format
 msgid "Template not found: %1"
-msgstr "Kritiek bestand niet gevonden: %1"
+msgstr "Sjabloon niet gevonden: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:853
-#, fuzzy, kde-format
-#| msgid "Failed to create file: %1"
+#, kde-format
 msgid "Failed to create task from template: %1"
-msgstr "Bestand aanmaken is mislukt: %1"
+msgstr "Taak aanmaken uit sjabloon is mislukt: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:862
 #, kde-format
@@ -31484,30 +31433,31 @@ msgid "No tasks were added from collection '%1'."
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:867
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed to Load"
+#, kde-format
 msgid ""
 "\n"
 "\n"
 "%1 tasks failed to load."
-msgstr "%1 laden is mislukt"
+msgstr ""
+"\n"
+"\n"
+"%1 taken laden is mislukt."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:872
-#, fuzzy, kde-format
-#| msgid "Warning"
+#, kde-format
 msgid ""
 "\n"
 "\n"
 "Warnings:\n"
-msgstr "Waarschuwing"
+msgstr ""
+"\n"
+"\n"
+"Waarschuwingen:\n"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:876
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Connection Mode"
+#, kde-format
 msgid "Collection Loaded"
-msgstr "Verbindingsmodus"
+msgstr "Verzameling geladen"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format
@@ -31545,10 +31495,9 @@ msgid "Parameters"
 msgstr "Parameters"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:317
-#, fuzzy, kde-format
-#| msgid "Number of static objects"
+#, kde-format
 msgid "Number of actions"
-msgstr "Aantal statistische objecten"
+msgstr "Aantal acties"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:323
 #, kde-format
@@ -31556,27 +31505,24 @@ msgid "System Template"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:327
-#, fuzzy, kde-format
-#| msgid "User Input"
+#, kde-format
 msgid "User Template"
-msgstr "Invoer van gebruiker:"
+msgstr "Sjabloon van gebruiker"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:331
-#, fuzzy, kde-format
+#, kde-format
 msgid "Based on"
-msgstr "Gebaseerd op: %2"
+msgstr "Gebaseerd op"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:399
-#, fuzzy, kde-format
-#| msgid "Delete File(s)"
+#, kde-format
 msgid "Delete Failed"
 msgstr "Verwijderen is mislukt"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:400
-#, fuzzy, kde-format
-#| msgid "Failed to set dither range."
+#, kde-format
 msgid "Failed to delete template."
-msgstr "Instellen ditherbereik is mislukt."
+msgstr "Sjabloon verwijderen is mislukt."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
@@ -33597,23 +33543,20 @@ msgstr "Stapelen"
 #. i18n: ectx: property (toolTip), widget (QLabel, SigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Sigma)
 #: fitsviewer/livestacking.ui:1285 fitsviewer/livestacking.ui:1412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sigma Scale reduces the calculated image sigma to "
 "smooth the updates (usually in the range 0.6 - 0.9).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Aswaarde schalen naar het huidige waardenbereik.</p></"
-"body></html>"
+"<html><head/><body><p>Sigmaschaal reduceert de berekende sigma van de "
+"afbeelding om updates glad te strijken (gewoonlijk in de reeks 0.6 - 0.9).</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1288
-#, fuzzy, kde-format
-#| msgid "Chart Scale:"
+#, kde-format
 msgid "  Sigma Scale:"
-msgstr "Schaal kaart:"
+msgstr "  Sigmaschaal:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #. i18n: ectx: property (toolTip), widget (QLabel, WinsorCutoffLabel)
@@ -33629,16 +33572,13 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, AlphaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Alpha)
 #: fitsviewer/livestacking.ui:1332 fitsviewer/livestacking.ui:1600
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Remaining time to complete the active capture "
-#| "sequence</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Relaxation / damping between iterations. 1.0 = no "
 "damping, &lt;1.0 = smoother but slower convergence.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Resterende tijd om de actieve opnamereeks te voltooien."
-"</p></body></html>"
+"<html><head/><body><p>Relaxatie / demping tussen iteraties. 1.0 = geen "
+"demping, &lt;1.0 = gladder maar langzamere convergentie.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1335
@@ -33675,12 +33615,7 @@ msgstr "  Afschaling: "
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1446
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No "
-#| "rejection is applied.</p><p>- Sigma Clipping. Outlying pixels are "
-#| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
-#| "clipping</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
@@ -33689,10 +33624,13 @@ msgid ""
 "https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this "
 "method is very resource intensive</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Afwijsalgoritme van pixels:</p><p>- Geen. Er wordt "
-"geen afwijzen toegepast.</p><p>- Afkappen op sigma. Buitenliggende pixels "
-"worden afgewezen.</p><p>- Afkappen op sigma methode Winsor. Versie van "
-"methode Winsor voor afkappen op sigma</p></body></html>"
+"<html><head/><body><p>Stapelmethode:</p><p>- Gemiddeld. Gebruikt een "
+"eenvoudig gemiddeld gemiddelde. Geen afwijzing van pixel wordt toegepast.</"
+"p><p>- Sigma afsnijden. Buiten liggende pixels worden afgewezen.</p><p>- "
+"Sigma afsnijden methode Winsor. Winsor versie van sigma afsnijden</p><p>- "
+"ImageMM. Implementeert ImageMM stapeling zoals per https://iopscience.iop."
+"org/article/10.3847/1538-3881/adfb72 MERK OP: deze methode is erg hulpbron "
+"intensief</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1461
@@ -33708,10 +33646,9 @@ msgstr "Methode Winsor SC"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1471
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "ImageMM"
-msgstr "Afbeelding"
+msgstr "ImageMM"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, HighSigmaLabel)
@@ -33780,12 +33717,7 @@ msgstr "Subs in geheugen:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMethodLabel)
 #: fitsviewer/livestacking.ui:1656
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No "
-#| "rejection is applied.</p><p>- Sigma Clipping. Outlying pixels are "
-#| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
-#| "clipping</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No rejection "
 "is applied.</p><p>- Sigma Clipping. Outlying pixels are rejected.</p><p>- "
@@ -33794,10 +33726,13 @@ msgid ""
 "article/10.3847/1538-3881/adfb72 NOTE: this method is very resource "
 "intensive</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Afwijsalgoritme van pixels:</p><p>- Geen. Er wordt "
-"geen afwijzen toegepast.</p><p>- Afkappen op sigma. Buitenliggende pixels "
-"worden afgewezen.</p><p>- Afkappen op sigma methode Winsor. Versie van "
-"methode Winsor voor afkappen op sigma</p></body></html>"
+"<html><head/><body><p>Algoritme voor afwijzen van pixels:</p><p>- Geen. Er "
+"wordt geen afwijzen toegepast.</p><p>- Afkappen op sigma. Buitenliggende "
+"pixels worden afgewezen.</p><p>- Afkappen op sigma methode Winsor. Versie "
+"van methode Winsor voor afkappen op sigma</p><p>-ImageMM. Implementeert "
+"ImageMM stapeling zoals per https://iopscience.iop.org/"
+"article/10.3847/1538-3881/adfb72 MERK OP: deze methode is erg hulpbron "
+"intensief</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, LowSigmaLabel)
@@ -33813,23 +33748,20 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QSpinBox, Iterations)
 #. i18n: ectx: property (toolTip), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1706 fitsviewer/livestacking.ui:1834
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of iterations for use in ImageMM algorithm.</"
 "p><p>Keep low to minimize processing overhead</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Het aantal sterren in het laatste frame.</p></body></"
+"<html><head/><body><p>Aantal iteraties te gebruiken in het ImageMM algoritme."
+"</p><p>Houd het laag om verwerkingsoverhead te minimaliseren</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, KappaLabel)
 #: fitsviewer/livestacking.ui:1737
-#, fuzzy, kde-format
-#| msgid "kappa"
+#, kde-format
 msgid "  Kappa:"
-msgstr "kappa"
+msgstr "  Kappa:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:1762
@@ -33851,8 +33783,7 @@ msgstr "Laag sigma:"
 
 #. i18n: ectx: property (text), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1837
-#, fuzzy, kde-format
-#| msgid "Iteration: "
+#, kde-format
 msgid "Iterations:"
 msgstr "Iteraties:"
 
@@ -33875,10 +33806,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, PSFUpdateLabel)
 #: fitsviewer/livestacking.ui:1887
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "PSF Update:"
-msgstr "HiPS -update"
+msgstr "PSF-update:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1922
@@ -40915,10 +40845,9 @@ msgstr "Live stapelen wegen van subs"
 
 #. i18n: ectx: whatsthis, entry (fitsLSStackingMethod), group (FITSViewer)
 #: kstars.kcfg:1834
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Live Stacking stacking method"
-msgstr "Live stapelen met uitlijnmethode"
+msgstr "Live stapelen met stapelmethode"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1838
@@ -40940,38 +40869,33 @@ msgstr "Live stapelen met sigma afkappen met Windzor-afkap"
 
 #. i18n: ectx: label, entry (fitsLSIterations), group (FITSViewer)
 #: kstars.kcfg:1850
-#, fuzzy, kde-format
-#| msgid "Live Stacking Minimise Calibration Options Widget"
+#, kde-format
 msgid "Live Stacking Iterations to use in ImageMM stacking"
-msgstr "Live stapelen minimaliseert widget voor opties voor kalibratie"
+msgstr "Iteraties van live stapelen te gebruiken in ImageMM stapelen"
 
 #. i18n: ectx: label, entry (fitsLSKappa), group (FITSViewer)
 #: kstars.kcfg:1854
-#, fuzzy, kde-format
-#| msgid "Live Stacking master dark"
+#, kde-format
 msgid "Live Stacking ImageMM kappa"
-msgstr "Live stapelen van master donker"
+msgstr "Kappa van live stapelen van ImageMM"
 
 #. i18n: ectx: label, entry (fitsLSAlpha), group (FITSViewer)
 #: kstars.kcfg:1858
-#, fuzzy, kde-format
-#| msgid "Live Stacking master flat"
+#, kde-format
 msgid "Live Stacking ImageMM alpha"
-msgstr "Live stapelen van master vlak"
+msgstr "Alfa van live stapelen van ImageMM"
 
 #. i18n: ectx: label, entry (fitsLSSigma), group (FITSViewer)
 #: kstars.kcfg:1862
-#, fuzzy, kde-format
-#| msgid "Live Stacking sharpening sigma"
+#, kde-format
 msgid "Live Stacking ImageMM sigma"
-msgstr "Live stapelen sigma van verscherpen"
+msgstr "Sigma van live stapelen van ImageMM"
 
 #. i18n: ectx: label, entry (fitsPSFUpdate), group (FITSViewer)
 #: kstars.kcfg:1866
-#, fuzzy, kde-format
-#| msgid "Live Stacking master dark"
+#, kde-format
 msgid "Live Stacking ImageMM PSF Update interval"
-msgstr "Live stapelen van master donker"
+msgstr "PSF-update-interval van live stapelen van ImageMM"
 
 #. i18n: ectx: whatsthis, entry (fitsLSPostProc), group (FITSViewer)
 #: kstars.kcfg:1870
@@ -43562,10 +43486,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerPreStartupScript), group (Scheduler)
 #: kstars.kcfg:3425
-#, fuzzy, kde-format
-#| msgid "Path to astrometry.net file location."
+#, kde-format
 msgid "Path to startup queue file or script."
-msgstr "Pad naar locatie bestand voor astrometry.net."
+msgstr "Pad naar wachtrij voor opstarten of script."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreStartupScript), group (Scheduler)
 #: kstars.kcfg:3426
@@ -43605,10 +43528,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerPreShutdownScript), group (Scheduler)
 #: kstars.kcfg:3439
-#, fuzzy, kde-format
-#| msgid "Path to astrometry.net file location."
+#, kde-format
 msgid "Path to shutdown queue file or script."
-msgstr "Pad naar locatie bestand voor astrometry.net."
+msgstr "Pad naar wachtrij voor afsluiten of script."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreShutdownScript), group (Scheduler)
 #: kstars.kcfg:3440

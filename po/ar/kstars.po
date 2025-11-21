@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 08:59+0000\n"
-"PO-Revision-Date: 2025-11-13 10:23+0400\n"
+"PO-Revision-Date: 2025-11-20 18:56+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -29528,10 +29528,9 @@ msgid "Executing post-shutdown tasks from %1..."
 msgstr "نفّذ مهام ما بعد الإيقاف من %1..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1658
-#, fuzzy, kde-format
-#| msgid "Manual shutdown procedure completed successfully."
+#, kde-format
 msgid "Post-shutdown queue is empty, shutdown complete."
-msgstr "اِكتمل إجراء إيقاف التشغيل اليدوي بنجاح."
+msgstr "قوائم الانتظار بعد الإغلاق فارغة، اكتمل الإغلاق."
 
 #: ekos/scheduler/schedulerprocess.cpp:1664
 #, kde-format
@@ -32917,23 +32916,19 @@ msgstr "التراص"
 #. i18n: ectx: property (toolTip), widget (QLabel, SigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Sigma)
 #: fitsviewer/livestacking.ui:1285 fitsviewer/livestacking.ui:1412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sigma Scale reduces the calculated image sigma to "
 "smooth the updates (usually in the range 0.6 - 0.9).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>اضبط مقياس محور القيمة ليناسب نطاق القيمة الحالي.</p></"
-"body></html>"
+"<html><head/><body><p>تقلل مقياس سيغما من سيغما الصورة المحسوبة لتسهيل "
+"التحديثات (عادة في نطاق 0.6 - 0.9).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1288
-#, fuzzy, kde-format
-#| msgid "Chart Scale:"
+#, kde-format
 msgid "  Sigma Scale:"
-msgstr "مقياس المخطط:"
+msgstr " مقياس سيجما:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #. i18n: ectx: property (toolTip), widget (QLabel, WinsorCutoffLabel)
@@ -32949,24 +32944,19 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, AlphaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Alpha)
 #: fitsviewer/livestacking.ui:1332 fitsviewer/livestacking.ui:1600
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Remaining time to complete the active capture "
-#| "sequence</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Relaxation / damping between iterations. 1.0 = no "
 "damping, &lt;1.0 = smoother but slower convergence.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>الزمن المُتبقّي لإكمال تسلسل الاقتناص النشط</p></body></"
-"html>"
+"<html><head/><body><p>الاسترخاء / التخميد بين التكرارات. 1.0 = بدون تخميد، "
+"&lt;1.0 = تقارب أكثر سلاسة ولكن أبطأ.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1335
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Alphard"
+#, kde-format
 msgid "Alpha:"
-msgstr "‎‎الفرد ‎‎‎"
+msgstr "ألفا:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #. i18n: ectx: property (toolTip), widget (QLabel, DownscaleLabel)
@@ -32997,12 +32987,7 @@ msgstr "  مقياس سفلي: "
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1446
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No "
-#| "rejection is applied.</p><p>- Sigma Clipping. Outlying pixels are "
-#| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
-#| "clipping</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
@@ -33011,9 +32996,11 @@ msgid ""
 "https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this "
 "method is very resource intensive</p></body></html>"
 msgstr ""
-"<html><head/><body><p>خوارزمية رفض البكسلات:</p><p>- لا شيء. لا يطبّق رفض.</"
-"p><p>- قص سيجما. تُرفض البكسلات الشاذة.</p><p>- قص سيجما فينسور. إصدار فينسور "
-"من قص سيجما</p></body></html>"
+"<html><head/><body><p>طريقة التكديس:</p><p>- المتوسط. يستخدم متوسطًا بسيطًا. "
+"لا يُطبق أي رفض للبكسلات. </p><p>- قص سيغما. تُرفض البكسلات البعيدة. </p><p>- "
+"قصاصات سيغما وينسور. نسخة وينسور من قصاصات سيغما</p><p>- ImageMM. تنفذ تكديس "
+"ImageMM وفقًا لـ https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 "
+"ملاحظة: هذه الطريقة تستهلك موارد كثيرة جدًا</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1461
@@ -33029,10 +33016,9 @@ msgstr "قص سيجما فينسور"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1471
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "ImageMM"
-msgstr "صورة"
+msgstr "ImageMM"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, HighSigmaLabel)
@@ -33091,6 +33077,9 @@ msgid ""
 "per iteration (preventing large pixel updates). Usual values between 1.0 (no "
 "update) and 2.0.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>يتحكم Kappa في قيود التحديث التكاثري لكل تكرار (مما "
+"يمنع تحديثات البكسل الكبيرة). القيم المعتادة تتراوح بين 1.0 (بدون تحديث) و "
+"2.0.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:1634
@@ -33100,12 +33089,7 @@ msgstr "صور فرعية في الذاكرة:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMethodLabel)
 #: fitsviewer/livestacking.ui:1656
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No "
-#| "rejection is applied.</p><p>- Sigma Clipping. Outlying pixels are "
-#| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
-#| "clipping</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No rejection "
 "is applied.</p><p>- Sigma Clipping. Outlying pixels are rejected.</p><p>- "
@@ -33116,7 +33100,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>خوارزمية رفض البكسلات:</p><p>- لا شيء. لا يطبّق رفض.</"
 "p><p>- قص سيجما. تُرفض البكسلات الشاذة.</p><p>- قص سيجما فينسور. إصدار فينسور "
-"من قص سيجما</p></body></html>"
+"من قص سيجما</p> <p>- ImageMM. ينفذ تكديس ImageMM وفقًا لـ https://iopscience."
+"iop.org/article/10.3847/1538-3881/adfb72 ملاحظة: هذه الطريقة تستهلك موارد "
+"كثيرة جدًا</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, LowSigmaLabel)
@@ -33132,18 +33118,19 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QSpinBox, Iterations)
 #. i18n: ectx: property (toolTip), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1706 fitsviewer/livestacking.ui:1834
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of iterations for use in ImageMM algorithm.</"
 "p><p>Keep low to minimize processing overhead</p></body></html>"
-msgstr "حدّد بوصة دَخْل ملفّ."
+msgstr ""
+"<html><head/><body><p>عدد التكرارات المستخدمة في خوارزمية ImageMM.</"
+"p><p>حافظ على انخفاض العدد لتقليل عبء المعالجة</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, KappaLabel)
 #: fitsviewer/livestacking.ui:1737
-#, fuzzy, kde-format
-#| msgid "kappa"
+#, kde-format
 msgid "  Kappa:"
-msgstr "kappa"
+msgstr "  Kappa:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:1762
@@ -33165,10 +33152,9 @@ msgstr "سيجما الدنيا:"
 
 #. i18n: ectx: property (text), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1837
-#, fuzzy, kde-format
-#| msgid "Iteration: "
+#, kde-format
 msgid "Iterations:"
-msgstr "الإعادة:"
+msgstr "تكرارات:"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:1862
@@ -33186,13 +33172,16 @@ msgid ""
 "overdone can lead to ringing.</p><p>0 = No update</p><p>1 = Every iteration</"
 "p><p>n = Every nth iteration</p></body></html>"
 msgstr ""
+"<html><head/><body><p>تحديث فاصل PSF. تكييف PSF المستخدم في طريقة ImageMM "
+"لتوفير نتيجة أفضل. هذا يستهلك موارد كثيرة وقد يؤدي إلى حدوث رنين إذا تم "
+"الإفراط فيه. </p><p>0 = لا يوجد تحديث</p><p>1 = كل تكرار</p><p>n = كل تكرار "
+"n</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFUpdateLabel)
 #: fitsviewer/livestacking.ui:1887
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "PSF Update:"
-msgstr "تحديث HiPS"
+msgstr "تحديث PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1922
@@ -39965,10 +39954,9 @@ msgstr "ترجيح الإرسال الفرعي لتكديس البث المبا�
 
 #. i18n: ectx: whatsthis, entry (fitsLSStackingMethod), group (FITSViewer)
 #: kstars.kcfg:1834
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Live Stacking stacking method"
-msgstr "طريقة محاذاة تكديس البث المباشر"
+msgstr "طريقة التكديس المباشر"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1838
@@ -39990,38 +39978,33 @@ msgstr "قطع ويندوز لقص سيجما لتكديس البث المباش
 
 #. i18n: ectx: label, entry (fitsLSIterations), group (FITSViewer)
 #: kstars.kcfg:1850
-#, fuzzy, kde-format
-#| msgid "Live Stacking Minimise Calibration Options Widget"
+#, kde-format
 msgid "Live Stacking Iterations to use in ImageMM stacking"
-msgstr "تصغير ودجة خيارات المعايرة لتكديس البث المباشر"
+msgstr "تكرارات التكديس المباشر لاستخدامها في تكديس ImageMM"
 
 #. i18n: ectx: label, entry (fitsLSKappa), group (FITSViewer)
 #: kstars.kcfg:1854
-#, fuzzy, kde-format
-#| msgid "Live Stacking master dark"
+#, kde-format
 msgid "Live Stacking ImageMM kappa"
-msgstr "ظلام رئيسي لتكديس البث المباشر"
+msgstr "تكديس الصور الحية ImageMM kappa"
 
 #. i18n: ectx: label, entry (fitsLSAlpha), group (FITSViewer)
 #: kstars.kcfg:1858
-#, fuzzy, kde-format
-#| msgid "Live Stacking master flat"
+#, kde-format
 msgid "Live Stacking ImageMM alpha"
-msgstr "مُسطَّح رئيسي لتكديس البث المباشر"
+msgstr "تكديس الصور المباشر ImageMM alpha"
 
 #. i18n: ectx: label, entry (fitsLSSigma), group (FITSViewer)
 #: kstars.kcfg:1862
-#, fuzzy, kde-format
-#| msgid "Live Stacking sharpening sigma"
+#, kde-format
 msgid "Live Stacking ImageMM sigma"
-msgstr "سيجما التحديد لتكديس البث المباشر"
+msgstr "تكديس الصور الحية سيجما ImageMM"
 
 #. i18n: ectx: label, entry (fitsPSFUpdate), group (FITSViewer)
 #: kstars.kcfg:1866
-#, fuzzy, kde-format
-#| msgid "Live Stacking master dark"
+#, kde-format
 msgid "Live Stacking ImageMM PSF Update interval"
-msgstr "ظلام رئيسي لتكديس البث المباشر"
+msgstr "تكديس مباشر للصور تحديث PSF"
 
 #. i18n: ectx: whatsthis, entry (fitsLSPostProc), group (FITSViewer)
 #: kstars.kcfg:1870

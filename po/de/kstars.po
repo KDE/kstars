@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 08:59+0000\n"
-"PO-Revision-Date: 2025-11-10 21:05+0100\n"
+"PO-Revision-Date: 2025-11-20 20:54+0100\n"
 "Last-Translator: Daniel Kauser <danysahne333@yahoo.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -7089,10 +7089,9 @@ msgstr "&Nichts"
 
 #. i18n: ectx: property (title), widget (QGroupBox, telescopeCoordinateGroup)
 #: ekos/align/align.ui:243
-#, fuzzy, kde-format
-#| msgid "Telescope Coordinates"
+#, kde-format
 msgid "Telescope Coordinates (JNow)"
-msgstr "Teleskopkoordinaten"
+msgstr "Teleskopkoordinaten (JNow)"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignAccuracyThreshold)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
@@ -7130,10 +7129,9 @@ msgstr "Genauigkeit"
 
 #. i18n: ectx: property (title), widget (QGroupBox, solutionCoordinatesGroupBox)
 #: ekos/align/align.ui:347
-#, fuzzy, kde-format
-#| msgid "Solution Coordinates"
+#, kde-format
 msgid "Solution Coordinates (JNow)"
-msgstr "Lösungs-Koordinaten"
+msgstr "Lösungskoordinaten (JNow)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVOut)
@@ -7401,10 +7399,9 @@ msgstr "Fremdgerät"
 
 #. i18n: ectx: attribute (title), widget (QWidget, solutionResults)
 #: ekos/align/align.ui:846
-#, fuzzy, kde-format
-#| msgid "Star-Hopper Results"
+#, kde-format
 msgid "Solution Results"
-msgstr "Sternverbindungs-Ergebnisse"
+msgstr "Lösungsergebnisse"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/align/align.ui:873
@@ -25907,10 +25904,9 @@ msgid "Meridian flip inactive (parked)"
 msgstr "Meridian-Flip inaktiv (geparkt)"
 
 #: ekos/manager/meridianflipstate.cpp:159
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Meridian flip inactive (no target set)"
-msgstr "Status:"
+msgstr "Meridian-Flip inaktiv (kein Ziel gesetzt)"
 
 #: ekos/manager/meridianflipstate.cpp:198
 #, fuzzy, kde-format
@@ -25919,10 +25915,9 @@ msgid "Meridian flip inactive (slew after meridian)"
 msgstr "Umschwenken am Meridian"
 
 #: ekos/manager/meridianflipstate.cpp:214
-#, fuzzy, kde-format
-#| msgid "Meridian Flip"
+#, kde-format
 msgid "Meridian flip in %1"
-msgstr "Umschwenken am Meridian"
+msgstr "Meridian-Flip in %1"
 
 #: ekos/manager/meridianflipstate.cpp:265
 #, kde-format
@@ -26407,11 +26402,9 @@ msgstr "Legenden-Einstellungen"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
 #: ekos/mount/mount.ui:930
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Movement Control"
+#, kde-format
 msgid "Mount Control"
-msgstr "Bewegungssteuerung"
+msgstr "Montierungssteuerung"
 
 #. i18n: ectx: property (shortcut), widget (QPushButton, mountToolBoxB)
 #: ekos/mount/mount.ui:942
@@ -28034,10 +28027,9 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FramingAssistant)
 #: ekos/scheduler/framingassistant.ui:14
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgid "Mosaic Planner"
-msgstr "Beobachtungsliste"
+msgstr "Mosaikplaner"
 
 #. i18n: ectx: property (title), widget (QGroupBox, equipmentGroup)
 #: ekos/scheduler/framingassistant.ui:63
@@ -29910,10 +29902,9 @@ msgstr "Zusätzliche Einstellungen für die Lösung"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonAltitude)
 #: ekos/scheduler/scheduler.ui:1807
-#, fuzzy, kde-format
-#| msgid "Moon  > "
+#, kde-format
 msgid "Moon max alt:"
-msgstr "Mond > "
+msgstr "Max. Mondhöhe:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerTwilight)
 #: ekos/scheduler/scheduler.ui:1839
@@ -31223,7 +31214,7 @@ msgstr "Ungültiger Format für Epoche."
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:214
 #, kde-format
 msgid "<b>Tasks (%1):</b><br/>"
-msgstr ""
+msgstr "<b>Aufgaben (%1):</b><br/>"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:33
 #, fuzzy, kde-format
@@ -31380,11 +31371,9 @@ msgid "Device:"
 msgstr "Gerät:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Property"
+#, kde-format
 msgid "Property:"
-msgstr "Eigenschaft"
+msgstr "Eigenschaft:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:174
 #, fuzzy, kde-format
@@ -31836,15 +31825,14 @@ msgstr "Nach unten"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:128
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:389
-#, fuzzy, kde-format
-#| msgid "&Queue"
+#, kde-format
 msgid "Queue idle"
-msgstr "&Warteschlange"
+msgstr "Warteschlange inaktiv"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:226
 #, kde-format
 msgid "Total: %1  Completed: %2  Failed: %3  Pending: %4"
-msgstr ""
+msgstr "Gesamt: %1  Abgeschlossen: %2  Fehlgeschlagen: %3  Ausstehend: %4"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:270
 #, fuzzy, kde-format
@@ -32037,11 +32025,9 @@ msgid "Task Queue Templates"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "City in Arizona USA"
-#| msgid "Tempe"
+#, kde-format
 msgid "Templates"
-msgstr "Tempe"
+msgstr "Vorlagen"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:73
 #, kde-format
@@ -74684,12 +74670,10 @@ msgid "Toggle Mosaic Panel"
 msgstr "INDI-Kontrollfeld ein-/ausschalten"
 
 #: kstarsinit.cpp:680
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Movement Control"
+#, kde-format
 msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
-msgstr "Bewegungssteuerung"
+msgstr "Montierungssteuerung"
 
 #: kstarsinit.cpp:682
 #, fuzzy, kde-format
