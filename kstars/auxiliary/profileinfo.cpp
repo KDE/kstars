@@ -158,6 +158,7 @@ QJsonObject ProfileInfo::toJson() const
     json["aux3"] = aux3();
     json["aux4"] = aux4();
     json["remote"] = remotedrivers;
+    json["driver_source"] = driverSource;
 
     QJsonObject driversObject;
     QMapIterator<DeviceFamily, QList<QString >> i(drivers);

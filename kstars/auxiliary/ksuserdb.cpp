@@ -404,6 +404,16 @@ bool KSUserDB::Initialize()
                         "devices TEXT DEFAULT NULL)"))
             qCWarning(KSTARS) << query.lastError();
     }
+
+    // Add driversource to profile table
+    if (currentDBVersion < 317)
+    {
+        QSqlQuery query(db);
+        QString columnQuery = QString("ALTER TABLE profile ADD COLUMN driversource TEXT DEFAULT 'system'");
+        if (!query.exec(columnQuery))
+            qCWarning(KSTARS) << query.lastError();
+    }
+
     return true;
 }
 
@@ -536,7 +546,7 @@ bool KSUserDB::RebuildDB()
                   "TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT "
                   "NULL, autoconnect INTEGER DEFAULT 1, guidertype INTEGER DEFAULT 0, guiderhost TEXT, guiderport INTEGER,"
                   "indihub INTEGER DEFAULT 0, portselector INTEGER DEFAULT 1, remotedrivers TEXT DEFAULT NULL, "
-                  "scripts TEXT DEFAULT NULL)");
+                  "scripts TEXT DEFAULT NULL, driversource TEXT DEFAULT 'system')");
 
 #ifdef Q_OS_WIN
     tables.append("INSERT INTO profile (name, host, port) VALUES ('Simulators', 'localhost', 7624)");
@@ -3026,6 +3036,10 @@ bool KSUserDB::SaveProfile(const QSharedPointer<ProfileInfo> &pi)
                         pi->id)))
         qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
 
+    // Update driver source
+    if (!query.exec(QString("UPDATE profile SET driversource='%1' WHERE id=%2").arg(pi->driverSource).arg(pi->id)))
+        qCWarning(KSTARS) << query.executedQuery() << query.lastError().text();
+
     QMapIterator<DeviceFamily, QList<QString>> i(pi->drivers);
     while (i.hasNext())
     {
@@ -3093,6 +3107,11 @@ bool KSUserDB::GetAllProfiles(QList<QSharedPointer<ProfileInfo >> &profiles)
         pi->remotedrivers = record.value("remotedrivers").toString();
 
         pi->scripts = record.value("scripts").toByteArray();
+
+        // Load driver source (default to "system" if not present for backward compatibility)
+        pi->driverSource = record.value("driversource").toString();
+        if (pi->driverSource.isEmpty())
+            pi->driverSource = "system";
 
         GetProfileDrivers(pi);
 

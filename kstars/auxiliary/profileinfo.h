@@ -61,5 +61,7 @@ class ProfileInfo
         bool autoConnect { false };
         bool portSelector {false};
         int INDIWebManagerPort { -1 };
+        // Driver source: system, flatpak-stable, or flatpak-master
+        QString driverSource { "system" };
         QMap<DeviceFamily, QList<QString >> drivers;
 };

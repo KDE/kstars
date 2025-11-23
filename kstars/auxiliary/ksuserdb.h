@@ -565,5 +565,5 @@ class KSUserDB
 
         QString m_ConnectionName;
 
-        static const uint16_t SCHEMA_VERSION = 316;
+        static const uint16_t SCHEMA_VERSION = 317;
 };

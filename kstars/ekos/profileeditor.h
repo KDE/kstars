@@ -89,4 +89,5 @@ class ProfileEditor : public QDialog
         QList<QNetworkReply*> m_Replies;
 
         bool m_CancelScan { false };
+        QString m_DriverSource { "system" };
 };

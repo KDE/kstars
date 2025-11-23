@@ -206,6 +206,9 @@ void ProfileEditor::saveProfile()
 
     pi->remotedrivers = ui->remoteDrivers->text();
 
+    // Set driver source from member variable (populated by setSettings)
+    pi->driverSource = m_DriverSource;
+
     KStarsData::Instance()->userdb()->SaveProfile(pi);
 
     // Ekos manager will reload and new profiles will be created
@@ -507,6 +510,10 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     ui->externalGuidePort->setText(profile["remote_guiding_port"].toString("4400"));
     ui->INDIWebManagerCheck->setChecked(profile["use_web_manager"].toBool());
     ui->remoteDrivers->setText(profile["remote"].toString(ui->remoteDrivers->text()));
+
+    // Extract driver source from JSON (defaults to "system" if not present)
+    // TODO expose in UI?
+    m_DriverSource = profile["driver_source"].toString("system");
 
     profileDriversModel->clear();
 
