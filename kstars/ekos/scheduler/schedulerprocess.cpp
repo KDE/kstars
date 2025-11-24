@@ -1296,6 +1296,12 @@ void SchedulerProcess::startSingleCapture(SchedulerJob *job, bool restart)
     QString url = job->getSequenceFile().toLocalFile();
     QVariant train(job->getOpticalTrain());
 
+    // Refresh the job's captured frames map from the module state before restarting
+    if (restart == true)
+    {
+        SchedulerUtils::estimateJobTime(job, moduleState()->capturedFramesCount(), this);
+    }
+
     if (restart == false)
     {
         QList<QVariant> dbusargs;
