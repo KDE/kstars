@@ -1592,7 +1592,11 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
         if (m_LocalMode == false && m_DriverDevicesCount == 0)
         {
             if (m_CurrentProfile->autoConnect)
+            {
+                connectB->setEnabled(false);
+                disconnectB->setEnabled(true);
                 appendLogText(i18n("Remote devices established."));
+            }
             else
                 appendLogText(i18n("Remote devices established. Please connect devices."));
         }

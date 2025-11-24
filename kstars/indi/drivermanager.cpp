@@ -802,6 +802,7 @@ void DriverManager::connectRemoteHost(const QSharedPointer<DriverInfo> &driver)
     auto clientManager = new ClientManager();
 
     clientManager->appendManagedDriver(driver);
+    driver->setClientManager(clientManager);
 
     connect(clientManager, &ClientManager::started, this, &DriverManager::setClientStarted, Qt::UniqueConnection);
     connect(clientManager, &ClientManager::failed, this, &DriverManager::setClientFailed, Qt::UniqueConnection);
