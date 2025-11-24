@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 08:59+0000\n"
-"PO-Revision-Date: 2025-11-15 23:44+0100\n"
+"PO-Revision-Date: 2025-11-22 13:41+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -33937,23 +33937,20 @@ msgstr "Stacking"
 #. i18n: ectx: property (toolTip), widget (QLabel, SigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Sigma)
 #: fitsviewer/livestacking.ui:1285 fitsviewer/livestacking.ui:1412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sigma Scale reduces the calculated image sigma to "
 "smooth the updates (usually in the range 0.6 - 0.9).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Scala il valore dell'asse all'intervallo corrente di "
-"valori.</p></body></html>"
+"<html><head/><body><p>La scala della deviazione standard riduce la "
+"deviazione standard dell'immagine calcolata al fine di attenuare gli "
+"aggiornamenti (in genere nell'intervallo 0,6 - 0,9).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1288
-#, fuzzy, kde-format
-#| msgid "Chart Scale:"
+#, kde-format
 msgid "  Sigma Scale:"
-msgstr "Scala del diagramma:"
+msgstr "  Scala della deviazione standard:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #. i18n: ectx: property (toolTip), widget (QLabel, WinsorCutoffLabel)
@@ -33969,16 +33966,14 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, AlphaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Alpha)
 #: fitsviewer/livestacking.ui:1332 fitsviewer/livestacking.ui:1600
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Remaining time to complete the active capture "
-#| "sequence</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Relaxation / damping between iterations. 1.0 = no "
 "damping, &lt;1.0 = smoother but slower convergence.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tempo rimanente al completamento della sequenza di "
-"acquisizione attiva</p></body></html>"
+"<html><head/><body><p>Rilassamento / smorzamento tra le iterazioni. 1,0 = "
+"nessuno smorzamento, &lt;1,0 = più attenuato ma convergenza più lenta.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1335
@@ -34015,12 +34010,7 @@ msgstr "  Ridimensionamento: "
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1446
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No "
-#| "rejection is applied.</p><p>- Sigma Clipping. Outlying pixels are "
-#| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
-#| "clipping</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
@@ -34029,10 +34019,13 @@ msgid ""
 "https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this "
 "method is very resource intensive</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Algoritmo di scarto dei pixel:</p><p>- Nessuno. Non "
-"viene applicato alcuno scarto.</p><p>- Taglio a sigma. I pixel con anomalie "
-"vengono scartati.</p><p>- Taglio a sigma winsorizzato. Versione winsorizzata "
-"del taglio a sigma.</p></body></html>"
+"<html><head/><body><p>Metodo di stacking:</p><p>- Medio. Usa una media "
+"semplice. Non viene applicato alcuno scarto di pixel.</p><p>- Taglio a "
+"sigma. I pixel esterni vengono scartati.</p><p>- Taglio a sigma "
+"winsorizzato. Versione winsorizzata del taglio a sigma</p><p>- ImageMM. "
+"Implementa lo stacking ImageMM come da https://iopscience.iop.org/"
+"article/10.3847/1538-3881/adfb72 NOTA: questo metodo impiega molte risorse</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1461
@@ -34048,10 +34041,9 @@ msgstr "TS winsorizzato"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1471
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "ImageMM"
-msgstr "Immagine"
+msgstr "ImageMM"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, HighSigmaLabel)
@@ -34111,6 +34103,10 @@ msgid ""
 "per iteration (preventing large pixel updates). Usual values between 1.0 (no "
 "update) and 2.0.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kappa controlla il limite di aggiornamento "
+"moltiplicativo per iterazione (impedendo gli aggiornamenti estesi dei "
+"pixel). I valori normali vanno da 1,0 (nessun aggiornamento) e 2,0.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:1634
@@ -34120,12 +34116,7 @@ msgstr "Sub in memoria:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMethodLabel)
 #: fitsviewer/livestacking.ui:1656
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No "
-#| "rejection is applied.</p><p>- Sigma Clipping. Outlying pixels are "
-#| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
-#| "clipping</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No rejection "
 "is applied.</p><p>- Sigma Clipping. Outlying pixels are rejected.</p><p>- "
@@ -34137,7 +34128,9 @@ msgstr ""
 "<html><head/><body><p>Algoritmo di scarto dei pixel:</p><p>- Nessuno. Non "
 "viene applicato alcuno scarto.</p><p>- Taglio a sigma. I pixel con anomalie "
 "vengono scartati.</p><p>- Taglio a sigma winsorizzato. Versione winsorizzata "
-"del taglio a sigma.</p></body></html>"
+"del taglio a sigma.</p><p>- ImageMM. Implementa lo stacking ImageMM stacking "
+"conformemente a https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 "
+"NOTA: questo metodo impegna molte risorse.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, LowSigmaLabel)
@@ -34153,16 +34146,14 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QSpinBox, Iterations)
 #. i18n: ectx: property (toolTip), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1706 fitsviewer/livestacking.ui:1834
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of iterations for use in ImageMM algorithm.</"
 "p><p>Keep low to minimize processing overhead</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Numero di stelle trovate nell'ultima immagine.</p></"
-"body></html>"
+"<html><head/><body><p>Numero di iterazioni da usare nell'algoritmo ImageMM.</"
+"p><p>Mantieni basso il numero per minimizzare l'aumento dell'elaborazione</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, KappaLabel)
 #: fitsviewer/livestacking.ui:1737
@@ -34210,13 +34201,17 @@ msgid ""
 "overdone can lead to ringing.</p><p>0 = No update</p><p>1 = Every iteration</"
 "p><p>n = Every nth iteration</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Aggiorna l'intervallo PSF. Adatta il PSF utilizzato "
+"nel metodo ImageMM per fornire un risultato migliore. Impiega molte risorse "
+"e se eccessivo può provocare un avviso sonoro.</p><p>0 = Nessun "
+"aggiornamento</p><p>1 = Ogni iterazione</p><p>n = Ogni n iterazioni</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFUpdateLabel)
 #: fitsviewer/livestacking.ui:1887
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "PSF Update:"
-msgstr "Aggiorna HiPS"
+msgstr "Aggiornamento PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1922
@@ -41324,10 +41319,9 @@ msgstr "Live Stacking - valutazione peso dei sub"
 
 #. i18n: ectx: whatsthis, entry (fitsLSStackingMethod), group (FITSViewer)
 #: kstars.kcfg:1834
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Live Stacking stacking method"
-msgstr "Live Stacking - metodo di allineamento"
+msgstr "Live Stacking - metodo di stacking"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1838
@@ -41351,38 +41345,33 @@ msgstr "Live Stacking - soglia di winsorizzazione del taglio a sigma"
 
 #. i18n: ectx: label, entry (fitsLSIterations), group (FITSViewer)
 #: kstars.kcfg:1850
-#, fuzzy, kde-format
-#| msgid "Live Stacking Minimise Calibration Options Widget"
+#, kde-format
 msgid "Live Stacking Iterations to use in ImageMM stacking"
-msgstr "Live Stacking - minimizza oggetto delle opzioni di calibrazione"
+msgstr "Live Stacking - iterazioni da usare nello stacking ImageMM"
 
 #. i18n: ectx: label, entry (fitsLSKappa), group (FITSViewer)
 #: kstars.kcfg:1854
-#, fuzzy, kde-format
-#| msgid "Live Stacking master dark"
+#, kde-format
 msgid "Live Stacking ImageMM kappa"
-msgstr "Live Stacking - master dark"
+msgstr "Live Stacking - Kappa di ImageMM"
 
 #. i18n: ectx: label, entry (fitsLSAlpha), group (FITSViewer)
 #: kstars.kcfg:1858
-#, fuzzy, kde-format
-#| msgid "Live Stacking master flat"
+#, kde-format
 msgid "Live Stacking ImageMM alpha"
-msgstr "Live Stacking - master flat"
+msgstr "Live Stacking - Alfa di ImageMM"
 
 #. i18n: ectx: label, entry (fitsLSSigma), group (FITSViewer)
 #: kstars.kcfg:1862
-#, fuzzy, kde-format
-#| msgid "Live Stacking sharpening sigma"
+#, kde-format
 msgid "Live Stacking ImageMM sigma"
-msgstr "Live Stacking - deviazione standard nell'applicazione della nitidezza"
+msgstr "Live Stacking - Sigma di ImageMM"
 
 #. i18n: ectx: label, entry (fitsPSFUpdate), group (FITSViewer)
 #: kstars.kcfg:1866
-#, fuzzy, kde-format
-#| msgid "Live Stacking master dark"
+#, kde-format
 msgid "Live Stacking ImageMM PSF Update interval"
-msgstr "Live Stacking - master dark"
+msgstr "Live Stacking - Intervallo di aggiornamento PSF di ImageMM"
 
 #. i18n: ectx: whatsthis, entry (fitsLSPostProc), group (FITSViewer)
 #: kstars.kcfg:1870
