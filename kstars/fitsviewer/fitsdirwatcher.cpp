@@ -21,60 +21,71 @@ FITSDirWatcher::~FITSDirWatcher()
 }
 
 // Start watching the specified directory
-bool FITSDirWatcher::watchDir(const QString &path)
+bool FITSDirWatcher::watchDirs(const QVector<QString> &paths)
 {
-    QDir dir(path);
-    if (!dir.exists())
+    for (auto path : paths)
     {
-        qCDebug(KSTARS_FITS) << QString("Directory %1 does not exist").arg(path);
-        return false;
+        qDebug() << "Watching:" << path;
+
+        if (m_WatchedPaths.contains(path))
+        {
+            // Already monitoring this directory so no need to do anything
+            qCDebug(KSTARS_FITS) << QString("Duplicate path %1 detected in %2 ignoring...").arg(path).arg(__FUNCTION__);
+            continue;
+        }
+
+        QDir dir(path);
+        if (!dir.exists())
+        {
+            qCDebug(KSTARS_FITS) << QString("Directory %1 does not exist").arg(path);
+            stopWatching();
+            return false;
+        }
+
+        // Store the current files in the directory - oldest first
+        QStringList files = dir.entryList(m_NameFilters, m_FilterFlags, m_SortFlags);
+        for (const QString &file : files)
+        {
+            LiveStackFile lsFile;
+            lsFile.file = dir.absoluteFilePath(file);
+            lsFile.ID = m_NextID++;
+            m_CurrentFiles.push_back(lsFile);
+        }
+
+        // Add the path to the watcher
+        if(!m_Watcher->addPath(path))
+        {
+            qCDebug(KSTARS_FITS) << QString("Unable to watch directory %1").arg(path);
+            stopWatching();
+            return false;
+        }
+        m_WatchedPaths.push_back(path);
     }
-
-    // Store the current files in the directory - oldest first
-    QStringList files = dir.entryList(m_NameFilters, m_FilterFlags, m_SortFlags);
-    for (const QString &file : files)
-    {
-        const QString fullPath = dir.absoluteFilePath(file);
-        m_CurrentFiles.push_back(fullPath);
-
-        if (!m_FileToID.contains(fullPath))
-            m_FileToID[fullPath] = m_NextID++;
-    }
-
-    // Add the path to the watcher
-    m_WatchedPath = path;
-    return m_Watcher->addPath(path);
+    return true;
 }
 
-// Stop watching the current directory
+// Stop watching the current directories
 void FITSDirWatcher::stopWatching()
 {
-    if (!m_WatchedPath.isEmpty())
-    {
-        m_Watcher->removePath(m_WatchedPath);
-        m_WatchedPath.clear();
-        m_CurrentFiles.clear();
-        m_PendingFiles.clear();
-    }
-}
+    QStringList paths = m_Watcher->directories();
+    QStringList fails = m_Watcher->removePaths(paths);
+    for (QString path : fails)
+        // If we have some failures to stop watching - log the issue and continue
+        qCDebug(KSTARS_FITS) << QString("Unable to stop watching directory %1").arg(path);
 
-// Return the current list of files with their associated IDs
-const QList<QPair<QString, int>> FITSDirWatcher::getCurrentFiles() const
-{
-    QList<QPair<QString, int>> list;
-    for (const QString &file : m_CurrentFiles)
-    {
-        int id = m_FileToID.value(file, -1);
-        list.append(qMakePair(file, id));
-    }
-    return list;
+    m_WatchedPaths.clear();
+    m_CurrentFiles.clear();
+    m_PendingFiles.clear();
 }
 
 // Something happened (e.g. new file) to the watched directory
 void FITSDirWatcher::onDirChanged(const QString &path)
 {
-    if (path != m_WatchedPath)
+    if (!m_WatchedPaths.contains(path))
+    {
+        qCDebug(KSTARS_FITS) << QString("%1 called for unwatched directory %2").arg(__FUNCTION__).arg(path);
         return;
+    }
 
     QDir dir(path);
     QStringList newFileList;
@@ -85,7 +96,12 @@ void FITSDirWatcher::onDirChanged(const QString &path)
     // Find files that are in newFileList but not in m_currentFiles
     for (const QString &file : newFileList)
     {
-        if (!m_CurrentFiles.contains(file) && !m_PendingFiles.contains(file))
+        bool inCurrent = std::any_of(m_CurrentFiles.constBegin(), m_CurrentFiles.constEnd(),
+                                     [&](const LiveStackFile &f){ return f.file == file; });
+
+        bool inPending = m_PendingFiles.contains(file);
+
+        if (!inCurrent && !inPending)
         {
             // New file detected - start stability check
             QFileInfo fileInfo(file);
@@ -125,10 +141,6 @@ void FITSDirWatcher::checkPendingFile(const QString &filePath)
         return;
     }
 
-    // Assign a new ID if it doesn't already have one
-    if (!m_FileToID.contains(filePath))
-        m_FileToID[filePath] = m_NextID++;
-
     // Check for timeout
     QDateTime now = QDateTime::currentDateTime();
     if (pending.firstDetected.msecsTo(now) > FILE_STABILITY_TIMEOUT_MS)
@@ -146,7 +158,7 @@ void FITSDirWatcher::checkPendingFile(const QString &filePath)
 
     bool canLock = false;
 
-    // Try and open for writing... if file still be written to this check may fail
+    // Try and open for writing... if file still being written to, this check may fail
     // So just another check on file stability
     if (isStable)
     {
@@ -159,11 +171,15 @@ void FITSDirWatcher::checkPendingFile(const QString &filePath)
     if (isStable && canLock)
     {
         // File is stable - add to current files and signal
-        m_CurrentFiles.append(filePath);
+        LiveStackFile lsFile;
+        lsFile.file = filePath;
+        lsFile.ID = m_NextID++;
         m_PendingFiles.remove(filePath);
+        m_CurrentFiles.push_back(lsFile);
+        QVector<LiveStackFile> lsFiles { lsFile };
         qCDebug(KSTARS_FITS) << QString("File %1 stabilized after %2s").arg(filePath)
                                     .arg(pending.firstDetected.msecsTo(now) / 1000.0);
-        emit newFilesDetected(QDateTime::currentDateTime(), { qMakePair(filePath, m_FileToID[filePath]) });
+        emit newFilesDetected(QDateTime::currentDateTime(), lsFiles);
     }
     else
     {

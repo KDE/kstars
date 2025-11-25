@@ -37,6 +37,14 @@ const QString STATUS_GOOD = QStringLiteral("🟢");
 const QString STATUS_BAD = QStringLiteral("🔴");
 const QString STATUS_NA = QStringLiteral("⚪");
 
+const QString SINGLE = QStringLiteral("");
+const QString MONO   = QStringLiteral("Mono");
+const QString COLOR  = QStringLiteral("Color");
+const QString RED    = QStringLiteral("🟥");
+const QString GREEN  = QStringLiteral("🟩");
+const QString BLUE   = QStringLiteral("🟦");
+const QString LUM    = QStringLiteral("L");
+
 // Overall processing status of a sub
 enum class SubStatus
 {
@@ -56,6 +64,7 @@ enum SubStatsColumn
     COL_ID = 0,
     COL_PATHNAME,
     COL_FILENAME,
+    COL_CHANNELS,
     COL_STATUS,
 
     COL_WAIT_LOAD_INTERVAL,
@@ -96,6 +105,32 @@ struct ColumnInfo
 
 namespace StackMonUtils
 {
+// Helper function to display channels associated with a sub
+inline QString displayChannels(const QVector<LiveStackChannel> &channels, const int morc)
+{
+    QString str;
+    for (int i = 0; i < channels.size(); i++)
+    {
+        switch (channels[i])
+        {
+            case LiveStackChannel::SINGLE:
+                if (morc == -1)
+                    str.append(SINGLE);
+                else if (morc == 3)
+                    str.append(COLOR);
+                else
+                    str.append(MONO);
+                break;
+            case LiveStackChannel::RED: str.append(RED); break;
+            case LiveStackChannel::GREEN: str.append(GREEN); break;
+            case LiveStackChannel::BLUE: str.append(BLUE); break;
+            case LiveStackChannel::LUM: str.append(LUM); break;
+            default: break;
+        }
+    }
+    return str;
+}
+
 // Helper function to display the overall status of a sub
 inline QString displayOverallStatus(const SubStatus &status)
 {
@@ -131,6 +166,13 @@ inline QString displayStatus(const LSStatus &status)
         case LSStatus::LSStatusNA: return STATUS_NA;
         default: return QString();
     }
+}
+
+inline QString channelsHelp(const QString &name)
+{
+    QString str = i18n("%1 \n%2 = Mono Single Channel\n%3 = Color Single Channel\n%4 = Red Channel\n%5 = Green Channel\n"
+                       "%6 = Blue Channel\n%7 = Lum Channel", name, MONO, COLOR, RED, GREEN, BLUE, LUM);
+    return str;
 }
 
 inline QString statusHelp(const QString &name, const bool useNA=true)
@@ -178,6 +220,9 @@ static const QVector<ColumnInfo> ColumnInfos =
     { "",              i18nc("Column header", "Filename"),
                        i18nc("Tooltip for Filename column", "Filename only"),
                                                     Qt::AlignLeft | Qt::AlignVCenter },
+    { "",              i18nc("Column header", "Channel(s)"),
+          StackMonUtils::channelsHelp(i18nc("Tooltip for Channels column", "Channel(s)")),
+                                                    Qt::AlignCenter },
     { "",              i18nc("Column header", "Overall\nStatus"),
           StackMonUtils::overallStatusHelp(i18nc("Tooltip for Overall Status column", "Overall processing status")),
                                                     Qt::AlignCenter },
@@ -253,6 +298,7 @@ struct SubStats
     int id = 0;
     QString pathname;
     QString filename;
+    QVector<LiveStackChannel> channels;
     QDateTime startTime;
     SubStatus status = SubStatus::InProgress;
 
@@ -264,6 +310,7 @@ struct SubStats
     QDateTime loadedTime;
     double loadedInterval = -1.0;
     double snr = -1.0;
+    int morc = -1;
 
     LSStatus plateSolved = LSStatus::LSStatusUninit;
     QDateTime plateSolvedTime;
@@ -483,21 +530,21 @@ class StackMonitor : public QWidget
      * @param timestamp of call
      * @param list of initial subs in the dir being watched
      */
-    void initialize(QDateTime timestamp, const QList<QPair<QString, int>> &subs);
+    void initialize(QDateTime timestamp, const QVector<LiveStackFile> &subs);
 
     /**
      * @brief addSubs
      * @param timestamp of call
      * @param subs is a list of subs to add
      */
-    void addSubs(QDateTime timestamp, const QList<QPair<QString, int>> &subs);
+    void addSubs(QDateTime timestamp, const QVector<LiveStackFile> &subs);
 
     /**
      * @brief updateSubs
      * @param list of subs to update
      * @param infos is a list of information about the update
      */
-    void updateSubs(const QVector<QString> &subs, const QVector<LiveStackStageInfo> &infos);
+    void updateSubs(const QVector<LiveStackFile> &subs, const QVector<LiveStackStageInfo> &infos);
 
   private:
     int addSub(const SubStats &stats);

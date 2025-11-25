@@ -107,14 +107,14 @@ class FITSStack : public QObject
         Q_OBJECT
 
     public:
-        explicit FITSStack(FITSData *parent, LiveStackData params);
+        explicit FITSStack(FITSData *parent, LiveStackChannel channel, LiveStackData params);
         virtual ~FITSStack() override;
 
         /**
          * @brief Prepare FITSStack for the next image sub. Call before addSub.
          * @param sub
          */
-        void setupNextSub(const QString &sub);
+        void setupNextSub(const LiveStackFile &sub);
 
         /**
          * @brief add an image sub to the stack.
@@ -128,6 +128,12 @@ class FITSStack : public QObject
          */
         bool addSub(void *imageBuffer, const int cvType, const int width, const int height,
                     const int bytesPerPixel, double &snr);
+
+        /**
+         * @brief add an align master
+         * @param wcs of alignment master
+         */
+        void addAlignMasterWCS(const QSharedPointer<wcsprm> &wcs);
 
         /**
          * @brief add a master dark or flat.
@@ -172,12 +178,6 @@ class FITSStack : public QObject
          * @param Post processing parameters
          */
         void redoPostProcessStack(const LiveStackPPData &ppParams);
-
-        /**
-         * @brief Get the WCS data structure for the reference alignment frame
-         * @return wcsprm pointer to reference alignment frame
-         */
-        struct wcsprm * getWCSRef();
 
         /**
          * @brief Get the WCS data structure for stacked image
@@ -228,21 +228,12 @@ class FITSStack : public QObject
         }
 
         /**
-         * @brief Get the stacked image
+         * @brief Return the stacked image
          * @return stacked image
          */
-        QByteArray getStackedImage() const
+        cv::Mat getStackImage() const
         {
-            return (m_StackedBuffer) ? *m_StackedBuffer : QByteArray();
-        }
-
-        /**
-         * @brief Determine whether a stacked image exists
-         * @return exists (or not)
-         */
-        bool isStackedImageEmpty() const
-        {
-            return !m_StackedBuffer || m_StackedBuffer->isEmpty();
+            return m_StackedImageFinal.clone();
         }
 
         /**
@@ -250,10 +241,6 @@ class FITSStack : public QObject
          * @return downscale factor
          */
         double getDownscaleFactor();
-
-        void resetStackedImage();
-
-        void setBayerPattern(const QString pattern, const int offsetX, const int offsetY);
 
         const double &getMeanSubSNR() const
         {
@@ -270,23 +257,13 @@ class FITSStack : public QObject
             return m_MaxSubSNR;
         }
 
-        const double &getStackSNR() const
-        {
-            return m_StackSNR;
-        }
-
       signals:
-        /**
-         * @brief Notification of an update to the stack
-         */
-        void stackChanged();
-
         /**
          * @brief Update the Stack Monitor
          * @param subs is a vector of subs to update
          * @param info is a structure containing details of the update
          */
-        void updateStackMon(const QVector<QString> &subs, const QVector<LiveStackStageInfo> &infos);
+        void updateStackMon(const QVector<LiveStackFile> &subs, const QVector<LiveStackStageInfo> &infos);
 
     public slots:
     private:      
@@ -307,7 +284,7 @@ class FITSStack : public QObject
 
         typedef struct
         {
-            QString sub;
+            LiveStackFile sub;
             cv::Mat image;
             cv::Mat psfKernel;
             StackSubStatus status = StackSubStatus::OK;
@@ -387,19 +364,12 @@ class FITSStack : public QObject
         void decomposeWarpMatrix(const cv::Mat &warp, const cv::Size &imageSize, double &dx, double &dy, double &rotationDeg);
 
         /**
-         * @brief Convert passed in Mat to FITS format
-         * @param image
-         * @return success (or not)
-         */
-        bool convertMatToFITS(const cv::Mat &image);
-
-        /**
          * @brief Calibrate the passed in sub
-         * @param subname is the pathname of the sub
+         * @param subFile file structure
          * @param sub to be calibrated
          * @return success (or not)
          */
-        bool calibrateSub(const QString &subname, cv::Mat &sub);
+        bool calibrateSub(const LiveStackFile &subFile, cv::Mat &sub);
 
         /**
          * @brief Stack the passed in vector of subs
@@ -498,7 +468,7 @@ class FITSStack : public QObject
                                     int frameSample, double sigmaScale, double prevSigma, double sigmaBlend);
 
         /**
-         * @brief Accumulate per-subframe contributions for each channel in the ImageMM iteration.
+         * @brief Accumulate per-subframe contributions for one color channel in the ImageMM iteration.
          * @param subs           Vector of subframe metadata (including PSFs and weights).
          * @param subsChannels   For each subframe, its color channels as cv::Mat images.
          * @param latentChannel  The current latent image estimate for this color channel.
@@ -562,7 +532,7 @@ class FITSStack : public QObject
          * @brief Store the WCS for the stack image based on the WCS for the master alignment sub
          * @param wcs is the master alignment sub WCS
          */
-        void setWCSStackImage(const struct wcsprm *masterWCS);
+        void setWCSStackImage(const QSharedPointer<wcsprm> &wcs);
 
         /**
          * @brief Post process the passed in stack
@@ -602,11 +572,10 @@ class FITSStack : public QObject
 
         /**
          * @brief Called to transition initial stack data to running stack
-         * @param Reference frame WCS
          * @param numSubs in the initial stack
          * @param totalWeight of subs processed so far
          */
-        void setupRunningStack(struct wcsprm * refWCS, const int numSubs, const float totalWeight);
+        void setupRunningStack(const int numSubs, const float totalWeight);
 
         /**
          * @brief Called to update running stack data
@@ -617,9 +586,8 @@ class FITSStack : public QObject
 
         /**
          * @brief Tidy up initial stack data, e.g. free heap
-         * @param refWCS
          */
-        void tidyUpInitalStack(struct wcsprm * refWCS);
+        void tidyUpInitalStack();
 
         /**
          * @brief Tidy up running stack data, e.g. free heap
@@ -647,14 +615,13 @@ class FITSStack : public QObject
         typedef struct
         {
             int numSubs;
-            struct wcsprm * ref_wcsprm;
             double ref_hfr;
             int ref_numStars;
             float totalWeight;
             ImageMMState imageMMState;
             QVector<StackImageData> runningSubs;
         } RunningStackImageData;
-        RunningStackImageData m_RunningStackImageData { 0, nullptr, -1.0, 0, 0.0, {}, {} };
+        RunningStackImageData m_RunningStackImageData { 0, -1.0, 0, 0.0, {}, {} };
 
         // SNR of subs
         double m_MeanSubSNR { 0 };
@@ -665,6 +632,9 @@ class FITSStack : public QObject
         bool m_StackInProgress { false };
         bool m_InitialStackDone { false };
 
+        // Channel associated with this stack
+        LiveStackChannel m_Channel;
+
         // Stack data user options
         LiveStackData m_StackData;
 
@@ -673,12 +643,12 @@ class FITSStack : public QObject
         cv::Mat m_MasterFlatInv;
 
         // Aligning
-        int m_InitialStackRef = -1;
+        QSharedPointer<wcsprm> m_AlignMasterWCS;
 
         // Stacking
         cv::Mat m_StackedImage32F;
         QVector<cv::Mat> m_SigmaClip32FC4;
-        QSharedPointer<QByteArray> m_StackedBuffer { nullptr };
+        cv::Mat m_StackedImageFinal;
         double m_ImageMMLastSigma = -1.0;
         float m_ImageMMTotalWeight = 0.0f;
         int m_ImageMMFrameCount = 0;
@@ -688,7 +658,6 @@ class FITSStack : public QObject
         // Stack Image
         struct wcsprm * m_WCSStackImage { nullptr };
 
-        double m_StackSNR { 0.0 };
         float m_Width { 0.0f };
         float m_Height { 0.0f };
         int m_Channels { 0 };

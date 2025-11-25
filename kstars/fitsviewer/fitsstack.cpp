@@ -35,9 +35,8 @@
  *
  * ### Integration Points:
  * - Receives FITS frames from FITSDirWatcher or FITSViewer via addSub()
- * - Emits stackChanged() signal whenever a new stack is generated
  * - Works with SolverUtils for plate solving and alignment
- * - Outputs stacked images through getStackedImage() and FITS buffer access
+ * - Outputs stacked images through getStackImage() and FITS buffer access
  *
  * ### Stack Lifecycle:
  * 1. Initial stack is built from a fixed-size chunk of frames
@@ -48,22 +47,24 @@
  * ### File Overview:
  * - Image consistency checks: checkSub(), convertMat(), convertToCV()
  * - Calibration: calibrateSub(), addMaster()
- * - Alignment: calcWarpMatrix(), solverDone()
+ * - Alignment: addAlignMasterWCS, calcWarpMatrix(), solverDone()
  * - Stacking logic: stack(), stackn(), stackSubs(), stackSubsSigmaClipping()
  * - Post-processing: postProcessImage(), wienerDeconvolution()
- * - SNR and PSF utilities: getSNR(), calculatePSF()
+ * - PSF utilities: calculatePSF()
  * - Stack management: setupRunningStack(), updateRunningStack(), tidyUpInitialStack()
  */
 
-FITSStack::FITSStack(FITSData *parent, LiveStackData params) : QObject(parent)
+FITSStack::FITSStack(FITSData *parent, LiveStackChannel channel, LiveStackData params)
+    : QObject(parent)
 {
     m_Data = parent;
+    m_Channel = channel;
     m_StackData = params;
 }
 
 FITSStack::~FITSStack()
 {
-    tidyUpInitalStack(nullptr);
+    tidyUpInitalStack();
     tidyUpRunningStack();
     if (m_WCSStackImage)
     {
@@ -86,25 +87,13 @@ void FITSStack::setStackInProgress(bool inProgress)
     m_StackInProgress = inProgress;
 }
 
-void FITSStack::resetStackedImage()
-{
-    m_StackedBuffer.reset();
-}
-
 void FITSStack::setInitalStackDone(bool done)
 {
     m_InitialStackDone = done;
 }
 
-void FITSStack::setBayerPattern(const QString pattern, const int offsetX, const int offsetY)
-{
-    m_BayerPattern = pattern;
-    m_BayerOffsetX = offsetX;
-    m_BayerOffsetY = offsetY;
-}
-
 // Setup the image data structure for later processing
-void FITSStack::setupNextSub(const QString &sub)
+void FITSStack::setupNextSub(const LiveStackFile &sub)
 {
     StackImageData imageData;
     imageData.sub = sub;
@@ -172,16 +161,13 @@ bool FITSStack::addSub(void * imageBuffer, const int cvType, const int width, co
         if (!checkSub(newImage.cols, newImage.rows, bytesPerPixel, channels))
             return false;
 
-        snr = getSNR(newImage);
-        if (snr > 0.0)
-        {
-            m_MaxSubSNR = std::max(m_MaxSubSNR, snr);
-            m_MinSubSNR = (m_MinSubSNR > 0.0) ? std::min(m_MinSubSNR, snr) : snr;
-            int subs = m_StackImageData.size();
-            if (getInitialStackDone())
-                subs += m_RunningStackImageData.numSubs;
-            m_MeanSubSNR = ((m_MeanSubSNR * (subs - 1)) + snr) / subs;
-        }
+        snr = m_StackData.calcSNR ? FITSData::calcStackSNR(newImage) : 0.0;
+        m_MaxSubSNR = std::max(m_MaxSubSNR, snr);
+        m_MinSubSNR = (m_MinSubSNR > 0.0) ? std::min(m_MinSubSNR, snr) : snr;
+        int subs = m_StackImageData.size();
+        if (getInitialStackDone())
+            subs += m_RunningStackImageData.numSubs;
+        m_MeanSubSNR = ((m_MeanSubSNR * (subs - 1)) + snr) / subs;
 
         m_StackImageData.last().image = newImage;
         return true;
@@ -192,6 +178,12 @@ bool FITSStack::addSub(void * imageBuffer, const int cvType, const int width, co
         qCDebug(KSTARS_FITS) << QString("openCV exception %1 called from %2").arg(s1).arg(__FUNCTION__);
     }
     return false;
+}
+
+void FITSStack::addAlignMasterWCS(const QSharedPointer<wcsprm> &wcs)
+{
+    m_AlignMasterWCS = wcs;
+    setWCSStackImage(m_AlignMasterWCS);
 }
 
 void FITSStack::addMaster(const bool dark, void * imageBuffer, const int width, const int height,
@@ -315,7 +307,7 @@ bool FITSStack::convertMat(const cv::Mat &input, cv::Mat &output)
         // Convert the Mat to float type for upcoming calcs. This is our standard internal processing type
         input.convertTo(output, CV_MAKETYPE(CV_32F, input.channels()));
 
-        if (m_StackData.downscale != LS_DOWNSCALE_NONE)
+        if (m_StackData.downscale != LiveStackDownscale::NONE)
         {
             // Downscale image (if required). Less data = faster...
             double downscaleFactor = getDownscaleFactor();
@@ -339,11 +331,11 @@ bool FITSStack::convertMat(const cv::Mat &input, cv::Mat &output)
 double FITSStack::getDownscaleFactor()
 {
     double factor = 1.0;
-    if (m_StackData.downscale == LS_DOWNSCALE_2X)
+    if (m_StackData.downscale == LiveStackDownscale::X2)
         factor = 2.0;
-    else if (m_StackData.downscale == LS_DOWNSCALE_3X)
+    else if (m_StackData.downscale == LiveStackDownscale::X3)
         factor = 3.0;
-    else if (m_StackData.downscale == LS_DOWNSCALE_4X)
+    else if (m_StackData.downscale == LiveStackDownscale::X4)
         factor = 4.0;
     return factor;
 }
@@ -476,7 +468,7 @@ bool FITSStack::stack()
                 continue;
 
             // Signal the Wait Stack stage complete (waiting for enough subs to stack) to Stack Monitor
-            QVector<QString> subs { m_StackImageData[i].sub };
+            QVector<LiveStackFile> subs { m_StackImageData[i].sub };
             QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::WaitStack,
                                                                             LSStatus::LSStatusOK) };
             emit updateStackMon(subs, infos);
@@ -493,21 +485,14 @@ bool FITSStack::stack()
                 }
             }
 
-            if (m_InitialStackRef < 0)
-            {
-                // First image ise reference  thto which others are aligned
-                m_InitialStackRef = i;
-                m_StackImageData[i].isAligned = true;
-                setWCSStackImage(m_StackImageData[i].wcsprm);
-            }
-            if (m_StackData.alignMethod == LS_ALIGNMENT_NONE)
-                // No alignment needed so skip this stage
+            if (m_StackData.alignMethod == LiveStackAlignMethod::NONE || m_AlignMasterWCS.isNull())
+                // No alignment needed (or not setup) so skip this stage
                 m_StackImageData[i].isAligned = true;
             else if (!m_StackImageData[i].isAligned)
             {
                 // Align this image to the reference image
                 cv::Mat warp, warpedImage;
-                bool ok = calcWarpMatrix(m_StackImageData[m_InitialStackRef].wcsprm, m_StackImageData[i].wcsprm, warp);
+                bool ok = calcWarpMatrix(m_AlignMasterWCS.get(), m_StackImageData[i].wcsprm, warp);
                 if (!ok)
                     m_StackImageData[i].status = ALIGNMENT_FAILED;
                 else
@@ -527,7 +512,7 @@ bool FITSStack::stack()
                 extraData.insert("rotation", rotationDeg);
                 QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::Aligned,
                                                     ok ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData) };
-                QVector<QString> subs { m_StackImageData[i].sub };
+                QVector<LiveStackFile> subs { m_StackImageData[i].sub };
                 emit updateStackMon(subs, infos);
             }
         }
@@ -539,17 +524,13 @@ bool FITSStack::stack()
         {
             // We've completed the initial stack so perform post processing such as sharpening / denoising
             cv::Mat finalImage = postProcessImage(m_StackedImage32F);
-            m_StackSNR = getSNR(finalImage);
-            convertMatToFITS(finalImage);
+            finalImage.copyTo(m_StackedImageFinal);
             // Move to incremental stacking as new subs arrive
-            setupRunningStack(m_StackImageData[m_InitialStackRef].wcsprm, m_StackImageData.size(), totalWeight);
+            setupRunningStack(m_StackImageData.size(), totalWeight);
         }
         else
-        {
             // Still more subs to stack so skip post-processing which is time consuming
-            m_StackSNR = getSNR(m_StackedImage32F);
-            convertMatToFITS(m_StackedImage32F);
-        }
+            m_StackedImage32F.copyTo(m_StackedImageFinal);
 
         qCDebug(KSTARS_FITS) << QString("Stacked %1 subs in %2 ms").arg(numSubs).arg(timer.elapsed());
         return true;
@@ -578,7 +559,7 @@ bool FITSStack::stackn()
                 continue;
 
             // Signal the Wait Stack stage complete (waiting for enough subs to stack) to Stack Monitor
-            QVector<QString> subs { m_StackImageData[i].sub };
+            QVector<LiveStackFile> subs { m_StackImageData[i].sub };
             QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::WaitStack,
                                                                             LSStatus::LSStatusOK) };
             emit updateStackMon(subs, infos);
@@ -597,12 +578,12 @@ bool FITSStack::stackn()
 
             // Alignment stage
             cv::Mat warp, warpedImage;
-            if (m_StackData.alignMethod == LS_ALIGNMENT_NONE)
+            if (m_StackData.alignMethod == LiveStackAlignMethod::NONE)
                 // No alignment needed so skip this stage
                 m_StackImageData[i].isAligned = true;
             else
             {
-                bool ok = calcWarpMatrix(m_RunningStackImageData.ref_wcsprm, m_StackImageData[i].wcsprm, warp);
+                bool ok = calcWarpMatrix(m_AlignMasterWCS.get(), m_StackImageData[i].wcsprm, warp);
                 if (!ok)
                     m_StackImageData[i].status = ALIGNMENT_FAILED;
                 else
@@ -622,7 +603,7 @@ bool FITSStack::stackn()
                 extraData.insert("rotation", rotationDeg);
                 QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::Aligned,
                                                     ok ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData) };
-                QVector<QString> subs { m_StackImageData[i].sub };
+                QVector<LiveStackFile> subs { m_StackImageData[i].sub };
                 emit updateStackMon(subs, infos);
             }
         }
@@ -632,9 +613,10 @@ bool FITSStack::stackn()
         {
             // Perform any post stacking processing such as sharpening / denoising
             cv::Mat finalImage = postProcessImage(m_StackedImage32F);
-            m_StackSNR = getSNR(finalImage);
-            convertMatToFITS(finalImage);
+
+            finalImage.copyTo(m_StackedImageFinal);
         }
+
         updateRunningStack(m_StackImageData.size(), totalWeight);
         qCDebug(KSTARS_FITS) << QString("Stacked %1 subs in %2 ms").arg(numSubs).arg(timer.elapsed());
     }
@@ -696,7 +678,7 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
         }
 
         // If we are downscaling the image we need to adjust the warp matrix which is calculated from the un-downscaled images
-        if (m_StackData.downscale != LS_DOWNSCALE_NONE)
+        if (m_StackData.downscale != LiveStackDownscale::NONE)
         {
             double scale = 1.0 / getDownscaleFactor();
             cv::Mat S = (cv::Mat_<double>(3,3) <<
@@ -755,7 +737,7 @@ void FITSStack::decomposeWarpMatrix(const cv::Mat &warp, const cv::Size &imageSi
 }
 
 // Calibrate the passed in sub with an associated Dark (if available) and / or Flat (if available)
-bool FITSStack::calibrateSub(const QString &subname, cv::Mat &sub)
+bool FITSStack::calibrateSub(const LiveStackFile &subFile, cv::Mat &sub)
 {
     bool ok = false;
     int dark = -1, flat = -1;
@@ -791,7 +773,7 @@ bool FITSStack::calibrateSub(const QString &subname, cv::Mat &sub)
     QVariantMap extraData;
     extraData.insert("dark", dark);
     extraData.insert("flat", flat);
-    QVector<QString> subs { subname };
+    QVector<LiveStackFile> subs { subFile };
     QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::Calibrated,
                                         (ok) ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData) };
     emit updateStackMon(subs, infos);
@@ -817,7 +799,8 @@ bool FITSStack::stackSubs(const bool initial, float &totalWeight, cv::Mat &stack
 
         weights = getWeights();
 
-        if (m_StackData.stackingMethod == LS_STACKING_SIGMA || m_StackData.stackingMethod == LS_STACKING_WINDSOR)
+        if (m_StackData.stackingMethod == LiveStackStackingMethod::SIGMA ||
+            m_StackData.stackingMethod == LiveStackStackingMethod::WINDSOR)
         {
             // Sigma clipping (standard or Windsorized
             if (initial)
@@ -825,9 +808,8 @@ bool FITSStack::stackSubs(const bool initial, float &totalWeight, cv::Mat &stack
             else
                 stack = stacknSubsSigmaClipping(weights);
         }
-        else if (m_StackData.stackingMethod == LS_STACKING_IMAGEMM)
+        else if (m_StackData.stackingMethod == LiveStackStackingMethod::IMAGEMM)
         {
-            // ImageMM method
             if (initial)
                 stack = stackSubsImageMM(weights, m_StackData);
             else
@@ -854,7 +836,7 @@ bool FITSStack::stackSubs(const bool initial, float &totalWeight, cv::Mat &stack
             cv::Mat temp;
             for (int sub = start; sub < m_StackImageData.size(); sub++)
             {
-                if (m_StackData.weighting == LS_STACKING_EQUAL)
+                if (m_StackData.weighting == LiveStackFrameWeighting::EQUAL)
                     // No need to multiply by 1 for equal weighting
                     cv::add(stack, m_StackImageData[sub].image, stack);
                 else
@@ -879,7 +861,7 @@ bool FITSStack::stackSubs(const bool initial, float &totalWeight, cv::Mat &stack
     // Signal the Stacking stage complete to Stack Monitor
     if (m_StackImageData.size() > 0)
     {
-        QVector<QString> subs;
+        QVector<LiveStackFile> subs;
         QVector<LiveStackStageInfo> infos;
         for (int sub = 0; sub < m_StackImageData.size(); sub++)
         {
@@ -903,16 +885,16 @@ QVector<float> FITSStack::getWeights()
     {
         switch (m_StackData.weighting)
         {
-            case LS_STACKING_EQUAL:
+            case LiveStackFrameWeighting::EQUAL:
                 weights[i] = 1.0;
                 break;
-            case LS_STACKING_HFR:
+            case LiveStackFrameWeighting::HFR:
                 if (m_StackImageData[i].hfr > 0.0)
                     weights[i] = 1.0 / m_StackImageData[i].hfr;
                 else
                     weights[i] = 1.0;
                 break;
-            case LS_STACKING_NUM_STARS:
+            case LiveStackFrameWeighting::NUM_STARS:
                 if (m_StackImageData[i].numStars > 0)
                     weights[i] = m_StackImageData[i].numStars;
                 else
@@ -1036,7 +1018,7 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
 
                         float pixelValue = 0.0;
 
-                        if (m_StackData.stackingMethod == LS_STACKING_WINDSOR)
+                        if (m_StackData.stackingMethod == LiveStackStackingMethod::WINDSOR)
                         {
                             // Winsorize the data
                             float median = Mathematics::RobustStatistics::ComputeLocation(
@@ -1126,7 +1108,7 @@ void FITSStack::stackSigmaClipPixel(int x, const std::vector<const float *> &ima
 
         float pixelValue = 0.0;
 
-        if (m_StackData.stackingMethod == LS_STACKING_WINDSOR)
+        if (m_StackData.stackingMethod == LiveStackStackingMethod::WINDSOR)
         {
             // Winsorize the data
             float median = Mathematics::RobustStatistics::ComputeLocation(
@@ -1968,7 +1950,7 @@ cv::Mat FITSStack::buildPSFFromHFR(const double hfr)
     }
 }
 
-void FITSStack::setWCSStackImage(const struct wcsprm *wcs)
+void FITSStack::setWCSStackImage(const QSharedPointer<wcsprm> &wcs)
 {
     if (!wcs)
         return;
@@ -1985,7 +1967,7 @@ void FITSStack::setWCSStackImage(const struct wcsprm *wcs)
 
     // Deep copy the original WCS structure
     int status = 0;
-    if ((status = wcssub(1, wcs, 0x0, 0x0, m_WCSStackImage)) != 0)
+    if ((status = wcssub(1, wcs.get(), 0x0, 0x0, m_WCSStackImage)) != 0)
     {
         qCDebug(KSTARS_FITS) << QString("%1 wcssub error processing %2").arg(__FUNCTION__).arg(status)
                                     .arg(wcs_errmsg[status]);
@@ -1995,7 +1977,7 @@ void FITSStack::setWCSStackImage(const struct wcsprm *wcs)
     }
 
     // If the stacked image is downscaled, adjust CRPIX and CDELT
-    if (m_StackData.downscale != LS_DOWNSCALE_NONE)
+    if (m_StackData.downscale != LiveStackDownscale::NONE)
     {
         double downscale = getDownscaleFactor();
 
@@ -2025,7 +2007,7 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
 
         cv::Mat finalImage;
         // Firstly perform deconvolution (if requested). Calculate psf then use this for deconvolution
-        cv::Mat image;
+        cv::Mat deconvolvedImage = image32F;
         if (m_StackData.postProcessing.deconvAmt > 0.0)
         {
             cv::Mat greyImage32F, deconvolved;
@@ -2040,24 +2022,7 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
             {
                 deconvolved = wienerDeconvolution(image32F, psf);
                 if (!deconvolved.empty())
-                    deconvolved.convertTo(image, CV_MAKETYPE(CV_16U, channels));
-            }
-        }
-
-        if (image.empty())
-        {
-            // Convert from 32F to 16U as following functions require 16U.
-            // Subs could have values out of range - due to processing
-            // Darks won't be out of range so preserve photometry by not scaling
-            double minVal, maxVal;
-            cv::minMaxLoc(image32F, &minVal, &maxVal);
-
-            if (maxVal <= 65535.0)
-                image32F.convertTo(image, CV_16U);
-            else
-            {
-                double scale = 65535.0 / maxVal;
-                image32F.convertTo(image, CV_16U, scale);
+                    deconvolvedImage = deconvolved;
             }
         }
 
@@ -2066,7 +2031,7 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
         // Sharpen using Unsharp Mask - openCV functions work on mono and colour images
         double sharpenAmount = m_StackData.postProcessing.sharpenAmt;
         if (sharpenAmount <= 0.0)
-            sharpenedImage = image;
+            sharpenedImage = deconvolvedImage;
         else
         {
             cv::Mat blurredImage;
@@ -2079,8 +2044,8 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
             else if (sharpenKernal % 2 == 0)
                 sharpenKernal++;
 
-            cv::GaussianBlur(image, blurredImage, cv::Size(sharpenKernal, sharpenKernal), sharpenSigma);
-            cv::addWeighted(image, 1.0 + sharpenAmount, blurredImage, -sharpenAmount, 0, sharpenedImage);
+            cv::GaussianBlur(deconvolvedImage, blurredImage, cv::Size(sharpenKernal, sharpenKernal), sharpenSigma);
+            cv::addWeighted(deconvolvedImage, 1.0 + sharpenAmount, blurredImage, -sharpenAmount, 0, sharpenedImage);
         }
 
         // Denoise
@@ -2089,23 +2054,45 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
             finalImage = sharpenedImage;
         else
         {
-            // cv::fastNlMeansDenoising works on single channel images in 16bit
-            // cv::fastNlMeansDenoisingColored works on colour images but only 8bit
-            // So denoise per channel at 16bit
-            std::vector<float> amount;
-            amount.push_back(denoiseAmount);
             std::vector<cv::Mat> channels;
             cv::split(sharpenedImage, channels);
 
-            for (auto& channel : channels)
+            for (auto &ch : channels)
             {
-                cv::Mat denoisedChannel;
-                cv::fastNlMeansDenoising(channel, denoisedChannel, amount, 7, 21, cv::NORM_L1);
-                channel = denoisedChannel;
+                CV_Assert(ch.type() == CV_32F);
+
+                cv::Mat low1, low2, low3;
+                cv::GaussianBlur(ch, low1, cv::Size(3,3), 0.8);
+                cv::GaussianBlur(low1, low2, cv::Size(5,5), 1.6);
+                cv::GaussianBlur(low2, low3, cv::Size(9,9), 3.2);
+
+                cv::Mat d1 = ch - low1;
+                cv::Mat d2 = low1 - low2;
+                cv::Mat d3 = low2 - low3;
+
+                // Scale the amount of noise reductiom (UI in the range 0 - 1)
+                float t1 = denoiseAmount * 30.0f;
+                float t2 = denoiseAmount * 15.0f;
+
+                cv::Mat s1 = cv::abs(d1);
+                cv::Mat s2 = cv::abs(d2);
+
+                cv::Mat mask1, mask2;
+                cv::compare(s1, t1, mask1, cv::CmpTypes::CMP_GT);
+                cv::compare(s2, t2, mask2, cv::CmpTypes::CMP_GT);
+
+                cv::Mat d1_shrink, d2_shrink;
+                d1.copyTo(d1_shrink, mask1);
+                d2.copyTo(d2_shrink, mask2);
+
+                ch = low3 + d3 + d2_shrink + d1_shrink;
             }
             cv::merge(channels, finalImage);
         }
-        return finalImage;
+        // Convert the image back to float before returning
+        cv::Mat returnImage;
+        finalImage.convertTo(returnImage, CV_32F);
+        return returnImage;
     }
     catch (const cv::Exception &ex)
     {
@@ -2360,227 +2347,16 @@ void FITSStack::redoPostProcessStack(const LiveStackPPData &ppParams)
     if (!m_StackedImage32F.empty())
     {
         cv::Mat finalImage = postProcessImage(m_StackedImage32F);
-        m_StackSNR = getSNR(finalImage);
-        convertMatToFITS(finalImage);
+        finalImage.copyTo(m_StackedImageFinal);
     }
-    emit stackChanged();
-}
-
-struct wcsprm * FITSStack::getWCSRef()
-{
-    struct wcsprm * ref = nullptr;
-    if (getInitialStackDone())
-        ref = m_RunningStackImageData.ref_wcsprm;
-    else if (m_StackImageData.size() > m_InitialStackRef)
-        ref = m_StackImageData[m_InitialStackRef].wcsprm;
-    return ref;
-}
-
-// This converts the float cv::Mat to TUSHORT for display
-// Keeping to float format would be more accurate but use twice
-// the memory for little benefit.
-bool FITSStack::convertMatToFITS(const cv::Mat &inImage)
-{
-    try
-    {
-        // Check if the image is valid
-        if (inImage.empty())
-            return false;
-
-        int width = inImage.size().width;
-        int height = inImage.size().height;
-        int channels = inImage.channels();
-
-        cv::Mat image;
-        if(inImage.depth() == CV_16U)
-            image = inImage;
-        else
-            inImage.convertTo(image, CV_MAKETYPE(CV_16U, channels));
-
-        //This section sets up the FITS File
-        fitsfile *fptr = nullptr;
-        int status = 0;
-        long fpixel = 1, nelements;
-        long naxis = (channels == 1) ? 2 : 3;
-        long naxes[3] = { width, height, channels };
-        char error_status[512] = { 0 };
-        void* fits_buffer = nullptr;
-        size_t fits_buffer_size = 0;
-
-        if (fits_create_memfile(&fptr, &fits_buffer, &fits_buffer_size, 4096, realloc, &status))
-        {
-            fits_get_errstatus(status, error_status);
-            qCDebug(KSTARS_FITS()) << "fits_create_memfile failed " << error_status;
-            return false;
-        }
-
-        if (fits_create_img(fptr, USHORT_IMG, naxis, naxes, &status))
-        {
-            fits_get_errstatus(status, error_status);
-            qCDebug(KSTARS_FITS) << "fits_create_img failed " << error_status;
-            status = 0;
-            fits_close_file(fptr, &status);
-            free(fits_buffer);
-            return false;
-        }
-
-        if (channels == 3)
-        {
-            // Colour image so firstly add bayer FITS keywords
-            QByteArray ba = m_BayerPattern.toUtf8();
-            const char* bayerPattern = ba.constData();
-            const char* comment = "Bayer color pattern";
-
-            if (fits_write_key(fptr, TSTRING, "BAYERPAT", (void*)bayerPattern, (char*)comment, &status))
-            {
-                fits_get_errstatus(status, error_status);
-                qCDebug(KSTARS_FITS) << "fits_write_key BAYERPAT failed:" << error_status;
-                status = 0;
-            }
-
-            comment = "X offset of Bayer array";
-            if (fits_write_key(fptr, TINT, "XBAYROFF", &m_BayerOffsetX, (char*)comment, &status))
-            {
-                fits_get_errstatus(status, error_status);
-                qCDebug(KSTARS_FITS) << "fits_write_key XBAYROFF failed:" << error_status;
-                status = 0;
-            }
-
-            comment = "Y offset of Bayer arra";
-            if (fits_write_key(fptr, TINT, "YBAYROFF", &m_BayerOffsetY, (char*)comment, &status))
-            {
-                fits_get_errstatus(status, error_status);
-                qCDebug(KSTARS_FITS) << "fits_write_key YBAYROFF failed:" << error_status;
-                status = 0;
-            }
-
-            // Colour images need to be converted from interleaved R1G1B1R2G2B2R3...
-            // format to planar RRRRR.. GGGGG.. BBBBB.. format for display
-            int totalPixels = width * height;
-
-            std::vector<cv::Mat> splitChannels(3);
-            cv::split(image, splitChannels);
-
-            // Allocate planar buffer to hold R, G, B planes consecutively
-            std::vector<uint16_t> planarBuffer(totalPixels * 3);
-
-            auto* planarPtr = planarBuffer.data();
-
-            // Copy each channel data into planar buffer
-            memcpy(planarPtr, splitChannels[0].data, totalPixels * sizeof(uint16_t));
-            memcpy(planarPtr + totalPixels, splitChannels[1].data, totalPixels * sizeof(uint16_t));
-            memcpy(planarPtr + 2 * totalPixels, splitChannels[2].data, totalPixels * sizeof(uint16_t));
-
-            nelements = totalPixels * 3;
-            if (fits_write_img(fptr, TUSHORT, fpixel, nelements, planarPtr, &status))
-            {
-                fits_get_errstatus(status, error_status);
-                qCDebug(KSTARS_FITS) << "fits_write_img failed " << status;
-                status = 0;
-                fits_close_file(fptr, &status);
-                free(fits_buffer);
-                return false;
-            }
-        }        
-        else
-        {
-            // Mono image so we can just write it out
-            nelements = width * height * channels;
-
-            cv::Mat contImage;
-            if (image.isContinuous())
-                contImage = image;
-            else
-                contImage = image.clone();
-
-            if (fits_write_img(fptr, TUSHORT, fpixel, nelements, contImage.data, &status))
-            {
-                fits_get_errstatus(status, error_status);
-                qCDebug(KSTARS_FITS) << "fits_write_img failed " << status;
-                status = 0;
-                fits_close_file(fptr, &status);
-                free(fits_buffer);
-                return false;
-            }
-        }
-
-        if (fits_flush_file(fptr, &status))
-        {
-            fits_get_errstatus(status, error_status);
-            qCDebug(KSTARS_FITS) << "fits_flush_file failed:" << error_status;
-            status = 0;
-            fits_close_file(fptr, &status);
-            free(fits_buffer);
-            return false;
-        }
-
-        if (fits_close_file(fptr, &status))
-        {
-            fits_get_errstatus(status, error_status);
-            qCDebug(KSTARS_FITS) << "fits_close_file failed:" << error_status;
-            free(fits_buffer);
-            return false;
-        }
-
-        m_StackedBuffer.reset(new QByteArray(reinterpret_cast<char *>(fits_buffer), fits_buffer_size));
-        free(fits_buffer);
-        return true;
-    }
-    catch (const cv::Exception &ex)
-    {
-        QString s1 = ex.what();
-        qCDebug(KSTARS_FITS) << QString("openCV exception %1 called from %2").arg(s1).arg(__FUNCTION__);
-    }
-    return false;
-}
-
-// Calculate the SNR of the passed in image.
-double FITSStack::getSNR(const cv::Mat &image)
-{
-    double snr = 0.0;
-    try
-    {
-        if (image.empty())
-            return snr;
-
-        // Split into channels: 1 for mono, 3 for colour
-        std::vector<cv::Mat> channels;
-        cv::split(image, channels);
-
-        // Get a ROI in the centre of the image to use for the signal region
-        cv::Rect roi = cv::Rect(image.cols/4, image.rows/4, image.cols/2, image.rows/2);
-
-        int count = 0;
-        for (const auto &channel : channels)
-        {
-            cv::Mat channelRoi = channel(roi);
-            cv::Scalar mean, stdDev;
-            cv::meanStdDev(channelRoi, mean, stdDev);
-            if (stdDev.val[0] > 1e-06)
-            {
-                snr += mean.val[0] / stdDev.val[0];
-                count++;
-            }
-        }
-        if (count > 0)
-            snr /= count;
-    }
-    catch (const cv::Exception &ex)
-    {
-        QString s1 = ex.what();
-        qCDebug(KSTARS_FITS) << QString("openCV exception %1 called from %2").arg(s1).arg(__FUNCTION__);
-        snr = 0.0;
-    }
-    return snr;
 }
 
 // We're done with the original stack so tidy up and keep data necessary to add individual
 // subs to the interim stack as they arrive
-void FITSStack::setupRunningStack(struct wcsprm * refWCS, const int numSubs, const float totalWeight)
+void FITSStack::setupRunningStack(const int numSubs, const float totalWeight)
 {
     setInitalStackDone(true);
     m_RunningStackImageData.numSubs = numSubs;
-    m_RunningStackImageData.ref_wcsprm = refWCS;
     m_RunningStackImageData.ref_hfr = 0;
     m_RunningStackImageData.ref_numStars = 0;
     m_RunningStackImageData.totalWeight = totalWeight;
@@ -2592,7 +2368,7 @@ void FITSStack::setupRunningStack(struct wcsprm * refWCS, const int numSubs, con
         m_RunningStackImageData.imageMMState.latent = cv::Mat::zeros(
             m_StackImageData[0].image.size(), m_StackImageData[0].image.type());
 
-    if (m_StackData.stackingMethod == LS_STACKING_IMAGEMM)
+    if (m_StackData.stackingMethod == LiveStackStackingMethod::IMAGEMM)
     {
         // Copy subs to running buffer for ImageMM
         m_RunningStackImageData.runningSubs.clear();
@@ -2609,7 +2385,7 @@ void FITSStack::setupRunningStack(struct wcsprm * refWCS, const int numSubs, con
     }
 
     // Now it’s safe to free the old data
-    tidyUpInitalStack(refWCS);
+    tidyUpInitalStack();
 }
 
 void FITSStack::updateRunningStack(const int numSubs, const float totalWeight)
@@ -2620,7 +2396,7 @@ void FITSStack::updateRunningStack(const int numSubs, const float totalWeight)
         m_RunningStackImageData.numSubs += numSubs;
         m_RunningStackImageData.totalWeight = totalWeight;
 
-        if (m_StackData.stackingMethod == LS_STACKING_IMAGEMM)
+        if (m_StackData.stackingMethod == LiveStackStackingMethod::IMAGEMM)
         {
             // Merge new subs from m_StackImageData into runningSubs
             for (auto &newSub : m_StackImageData)
@@ -2648,7 +2424,7 @@ void FITSStack::updateRunningStack(const int numSubs, const float totalWeight)
         }
 
         // Free any unnecessary references to old FITS buffers
-        tidyUpInitalStack(nullptr);
+        tidyUpInitalStack();
     }
     catch (const cv::Exception &ex)
     {
@@ -2658,11 +2434,11 @@ void FITSStack::updateRunningStack(const int numSubs, const float totalWeight)
 }
 
 // Release FITS and openCV memory used in original stack
-void FITSStack::tidyUpInitalStack(struct wcsprm * refWCS)
+void FITSStack::tidyUpInitalStack()
 {
     for (int i = 0; i < m_StackImageData.size(); i++)
     {
-        if (m_StackImageData[i].wcsprm != nullptr && m_StackImageData[i].wcsprm != refWCS)
+        if (m_StackImageData[i].wcsprm != nullptr)
         {
             // Don't free up the reference WCS as we'll need that for later processing
             wcsfree(m_StackImageData[i].wcsprm);
@@ -2678,13 +2454,5 @@ void FITSStack::tidyUpInitalStack(struct wcsprm * refWCS)
 // Release FITS and openCV memory used in the running stack
 void FITSStack::tidyUpRunningStack()
 {
-    if (m_RunningStackImageData.ref_wcsprm != nullptr)
-    {
-        wcsfree(m_RunningStackImageData.ref_wcsprm);
-        free(m_RunningStackImageData.ref_wcsprm);
-        m_RunningStackImageData.ref_wcsprm = nullptr;
-    }
-
-    // Reset ImageMM state
     m_RunningStackImageData.imageMMState = {};
 }

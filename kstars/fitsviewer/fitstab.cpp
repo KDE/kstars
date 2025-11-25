@@ -272,8 +272,9 @@ void FITSTab::initStack(const QString &dir, FITSMode mode, FITSScale filter)
 
     m_View->setFilter(filter);
 
-    m_liveStackDir = m_CurrentStackDir = dir;
-    m_LiveStackingUI.Stack->setText(m_liveStackDir);
+    m_CurrentStackDir = dir;
+    m_liveStackDir.push_back(dir);
+    m_LiveStackingUI.Stack->setText(dir);
 
     // Popup the Live Stacking pane
     fitsTools->setCurrentIndex(m_LiveStackingItem);
@@ -914,7 +915,24 @@ void FITSTab::initLiveStacking()
     initSettings();
 
     // Manage connections
-    connect(m_LiveStackingUI.StackDirB, &QPushButton::clicked, this, &FITSTab::selectLiveStack);
+    connect(m_LiveStackingUI.StackMultiCB1, &QToolButton::clicked, this, &FITSTab::toggleMultiC);
+    connect(m_LiveStackingUI.StackMultiCB2, &QToolButton::clicked, this, &FITSTab::toggleMultiC);
+    connect(m_LiveStackingUI.StackDirB, &QPushButton::clicked, this,
+            [this]() { selectLiveStack(m_LiveStackingUI.Stack, "Select Stack Directory"); });
+    connect(m_LiveStackingUI.RedDirB, &QPushButton::clicked, this,
+            [this]() { selectLiveStack(m_LiveStackingUI.Red, "Select Red Stack Directory"); });
+    connect(m_LiveStackingUI.GreenDirB, &QPushButton::clicked, this,
+            [this]() { selectLiveStack(m_LiveStackingUI.Green, "Select Green Stack Directory"); });
+    connect(m_LiveStackingUI.BlueDirB, &QPushButton::clicked, this,
+            [this]() { selectLiveStack(m_LiveStackingUI.Blue, "Select Blue Stack Directory"); });
+    connect(m_LiveStackingUI.LumDirB, &QPushButton::clicked, this,
+            [this]() { selectLiveStack(m_LiveStackingUI.Lum, "Select Lum Stack Directory"); });
+
+    connect(m_LiveStackingUI.Stack, &QLineEdit::textChanged, this, &FITSTab::stackDirChanged);
+    connect(m_LiveStackingUI.Red, &QLineEdit::textChanged, this, &FITSTab::stackDirChanged);
+    connect(m_LiveStackingUI.Green, &QLineEdit::textChanged, this, &FITSTab::stackDirChanged);
+    connect(m_LiveStackingUI.Blue, &QLineEdit::textChanged, this, &FITSTab::stackDirChanged);
+
     connect(m_LiveStackingUI.HelpB, &QPushButton::clicked, this, &FITSTab::launchLiveStackingHelp);
     connect(m_LiveStackingUI.MonitorB, &QPushButton::clicked, this, [this]()
     {
@@ -929,12 +947,34 @@ void FITSTab::initLiveStacking()
     connect(m_LiveStackingUI.StartB, &QPushButton::clicked, this, &FITSTab::liveStack);
     connect(m_LiveStackingUI.SaveB, &QPushButton::clicked, this, &FITSTab::saveSettings);
     connect(m_LiveStackingUI.ReprocessB, &QPushButton::clicked, this, &FITSTab::redoPostProcessing);
-    connect(m_LiveStackingUI.MasterDarkB, &QPushButton::clicked, this, &FITSTab::selectLiveStackMasterDark);
-    connect(m_LiveStackingUI.MasterFlatB, &QPushButton::clicked, this, &FITSTab::selectLiveStackMasterFlat);
+
+    connect(m_LiveStackingUI.CalcSNR, &QGroupBox::toggled, this, &FITSTab::calcSNRChanged);
+    connect(m_LiveStackingUI.MasterDarkB, &QPushButton::clicked, this,
+            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterDark, "Select Master Dark"); });
+    connect(m_LiveStackingUI.MasterDarkRedB, &QPushButton::clicked, this,
+            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterDarkRed, "Select Master Dark (Red)"); });
+    connect(m_LiveStackingUI.MasterDarkGreenB, &QPushButton::clicked, this,
+            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterDarkGreen, "Select Master Dark (Green)"); });
+    connect(m_LiveStackingUI.MasterDarkBlueB, &QPushButton::clicked, this,
+            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterDarkBlue, "Select Master Dark (Blue)"); });
+    connect(m_LiveStackingUI.MasterDarkLumB, &QPushButton::clicked, this,
+            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterDarkLum, "Select Master Dark (Lum)"); });
+
+    connect(m_LiveStackingUI.MasterFlatB, &QPushButton::clicked, this,
+            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterFlat, "Select Master Flat"); });
+    connect(m_LiveStackingUI.MasterFlatRedB, &QPushButton::clicked, this,
+            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterFlatRed, "Select Master Flat (Red)"); });
+    connect(m_LiveStackingUI.MasterFlatGreenB, &QPushButton::clicked, this,
+            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterFlatGreen, "Select Master Flat (Green)"); });
+    connect(m_LiveStackingUI.MasterFlatBlueB, &QPushButton::clicked, this,
+            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterFlatBlue, "Select Master Flat (Blue)"); });
+    connect(m_LiveStackingUI.MasterFlatLumB, &QPushButton::clicked, this,
+            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterFlatLum, "Select Master Flat (Lum)"); });
+
     connect(m_LiveStackingUI.AlignMasterB, &QPushButton::clicked, this, &FITSTab::selectLiveStackAlignSub);
     connect(m_LiveStackingUI.PostProcGroupBox, &QGroupBox::toggled, this, &FITSTab::redoPostProcessing);
     connect(m_LiveStackingUI.StackingMethod, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-                                        &FITSTab::rejectionChanged);
+                                        &FITSTab::stackMethodChanged);
 
     // Other connections used by Live Stacking
     connect(m_View.get(), &FITSView::plateSolveSub, this, &FITSTab::plateSolveSub);
@@ -948,6 +988,7 @@ void FITSTab::initLiveStacking()
 
 void FITSTab::initSettings()
 {
+    m_LiveStackingUI.CalcSNR->setChecked(Options::fitsLSCalcSNR());
     m_LiveStackingUI.MasterDark->setText(Options::fitsLSMasterDark());
     m_LiveStackingUI.MasterFlat->setText(Options::fitsLSMasterFlat());
     m_LiveStackingUI.AlignMethod->setCurrentIndex(Options::fitsLSAlignMethod());
@@ -970,11 +1011,13 @@ void FITSTab::initSettings()
     m_LiveStackingUI.SharpenAmt->setValue(Options::fitsLSSharpenAmt());
     m_LiveStackingUI.SharpenKernal->setValue(Options::fitsLSSharpenKernal());
     m_LiveStackingUI.SharpenSigma->setValue(Options::fitsLSSharpenSigma());
-    rejectionChanged(m_LiveStackingUI.StackingMethod->currentIndex());
+    stackMethodChanged(m_LiveStackingUI.StackingMethod->currentIndex());
+    toggleMultiC();
 }
 
 void FITSTab::saveSettings()
 {
+    Options::setFitsLSCalcSNR(m_LiveStackingUI.CalcSNR->isChecked());
     Options::setFitsLSMasterDark(m_LiveStackingUI.MasterDark->text());
     Options::setFitsLSMasterFlat(m_LiveStackingUI.MasterFlat->text());
     Options::setFitsLSAlignMethod(m_LiveStackingUI.AlignMethod->currentIndex());
@@ -1011,8 +1054,24 @@ void FITSTab::saveSettings()
 LiveStackData FITSTab::getAllSettings()
 {
     LiveStackData data;
-    data.masterDark = m_LiveStackingUI.MasterDark->text();
-    data.masterFlat = m_LiveStackingUI.MasterFlat->text();
+    data.calcSNR = m_LiveStackingUI.CalcSNR->isChecked();
+    if (!m_StackMultiC)
+    {
+        data.masterDark.push_back(m_LiveStackingUI.MasterDark->text());
+        data.masterFlat.push_back(m_LiveStackingUI.MasterFlat->text());
+    }
+    else
+    {
+        data.masterDark.push_back(m_LiveStackingUI.MasterDarkRed->text());
+        data.masterDark.push_back(m_LiveStackingUI.MasterDarkGreen->text());
+        data.masterDark.push_back(m_LiveStackingUI.MasterDarkBlue->text());
+        data.masterDark.push_back(m_LiveStackingUI.MasterDarkLum->text());
+
+        data.masterFlat.push_back(m_LiveStackingUI.MasterFlatRed->text());
+        data.masterFlat.push_back(m_LiveStackingUI.MasterFlatGreen->text());
+        data.masterFlat.push_back(m_LiveStackingUI.MasterFlatBlue->text());
+        data.masterFlat.push_back(m_LiveStackingUI.MasterFlatLum->text());
+    }
     data.alignMaster = m_LiveStackingUI.AlignMaster->text();
     data.alignMethod = static_cast<LiveStackAlignMethod>(m_LiveStackingUI.AlignMethod->currentIndex());
     data.numInMem = m_LiveStackingUI.NumInMem->value();
@@ -1044,11 +1103,11 @@ LiveStackPPData FITSTab::getPPSettings()
     return data;
 }
 
-void FITSTab::rejectionChanged(int index)
+void FITSTab::stackMethodChanged(int index)
 {
-    switch (index)
+    switch (static_cast<LiveStackStackingMethod>(index))
     {
-        case LS_STACKING_MEAN:
+        case LiveStackStackingMethod::MEAN:
             m_LiveStackingUI.LowSigma->hide(); m_LiveStackingUI.LowSigmaLabel->hide();
             m_LiveStackingUI.HighSigma->hide(); m_LiveStackingUI.HighSigmaLabel->hide();
             m_LiveStackingUI.WinsorCutoff->hide(); m_LiveStackingUI.WinsorCutoffLabel->hide();
@@ -1058,7 +1117,7 @@ void FITSTab::rejectionChanged(int index)
             m_LiveStackingUI.Sigma->hide(); m_LiveStackingUI.SigmaLabel->hide();
             m_LiveStackingUI.PSFUpdate->hide(); m_LiveStackingUI.PSFUpdateLabel->hide();
             break;
-        case LS_STACKING_SIGMA:
+        case LiveStackStackingMethod::SIGMA:
             m_LiveStackingUI.LowSigma->show(); m_LiveStackingUI.LowSigmaLabel->show();
             m_LiveStackingUI.HighSigma->show(); m_LiveStackingUI.HighSigmaLabel->show();
             m_LiveStackingUI.WinsorCutoff->hide(); m_LiveStackingUI.WinsorCutoffLabel->hide();
@@ -1068,7 +1127,7 @@ void FITSTab::rejectionChanged(int index)
             m_LiveStackingUI.Sigma->hide(); m_LiveStackingUI.SigmaLabel->hide();
             m_LiveStackingUI.PSFUpdate->hide(); m_LiveStackingUI.PSFUpdateLabel->hide();
             break;
-        case LS_STACKING_WINDSOR:
+        case LiveStackStackingMethod::WINDSOR:
             m_LiveStackingUI.LowSigma->show(); m_LiveStackingUI.LowSigmaLabel->show();
             m_LiveStackingUI.HighSigma->show(); m_LiveStackingUI.HighSigmaLabel->show();
             m_LiveStackingUI.WinsorCutoff->show(); m_LiveStackingUI.WinsorCutoffLabel->show();
@@ -1078,7 +1137,7 @@ void FITSTab::rejectionChanged(int index)
             m_LiveStackingUI.Sigma->hide(); m_LiveStackingUI.SigmaLabel->hide();
             m_LiveStackingUI.PSFUpdate->hide(); m_LiveStackingUI.PSFUpdateLabel->hide();
             break;
-        case LS_STACKING_IMAGEMM:
+        case LiveStackStackingMethod::IMAGEMM:
             m_LiveStackingUI.LowSigma->hide(); m_LiveStackingUI.LowSigmaLabel->hide();
             m_LiveStackingUI.HighSigma->hide(); m_LiveStackingUI.HighSigmaLabel->hide();
             m_LiveStackingUI.WinsorCutoff->hide(); m_LiveStackingUI.WinsorCutoffLabel->hide();
@@ -1096,13 +1155,19 @@ void FITSTab::rejectionChanged(int index)
 void FITSTab::redoPostProcessing()
 {
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
-    if(m_View && m_View->imageData() && m_View->imageData()->stack())
+    if(m_View)
     {
         m_LiveStackingUI.PostProcGroupBox->setEnabled(false);
         viewer->restack(getUID());
         m_View->redoPostProcessStack(getPPSettings());
     }
 #endif // !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+}
+
+void FITSTab::calcSNRChanged()
+{
+    m_LiveStackingUI.SubsSNR->setText("0 / 0 / 0");
+    m_LiveStackingUI.ImageSNR->setText("0");
 }
 
 void FITSTab::launchLiveStackingHelp()
@@ -1112,37 +1177,132 @@ void FITSTab::launchLiveStackingHelp()
         QDesktopServices::openUrl(url);
 }
 
-void FITSTab::selectLiveStack()
+void FITSTab::selectLiveStack(QLineEdit *targetEdit, const QString &title)
 {
-    QStringList dirs;
-
-    QFileDialog dialog(KStars::Instance(), i18nc("@title:window", "Stack Directory"));
+    QFileDialog dialog(KStars::Instance(), i18nc("@title:window", "%1", title));
     dialog.setFileMode(QFileDialog::Directory);
     dialog.setDirectory(m_CurrentStackDir);
 
     if (dialog.exec())
     {
-        dirs = dialog.selectedFiles();
-        m_LiveStackingUI.Stack->setText(dirs[0]);
-        m_CurrentStackDir = m_liveStackDir = dirs[0];
+        const QStringList dirs = dialog.selectedFiles();
+        if (dirs.isEmpty())
+            return;
 
-        // Reset the align master if a new stack has been selected
-        QString alignMaster = m_LiveStackingUI.AlignMaster->text();
+        const QString selectedDir = dirs[0];
+        m_CurrentStackDir = selectedDir;
+
+        if (targetEdit)
+            targetEdit->setText(selectedDir);
+
+        // Reset the align master if it doesn't match
+        const QString alignMaster = m_LiveStackingUI.AlignMaster->text();
         if (!alignMaster.isEmpty())
         {
-            QFileInfo fileInfo(alignMaster);
-            QString alignMasterDir = fileInfo.absolutePath();
-            if (alignMasterDir != dirs[0])
+            QFileInfo info(alignMaster);
+            if (info.absolutePath() != selectedDir)
                 m_LiveStackingUI.AlignMaster->setText("");
         }
     }
+}
+
+void FITSTab::toggleMultiC()
+{
+    m_StackMultiC = !m_StackMultiC;
+
+    // Single channel row
+    m_LiveStackingUI.StackLabel->setVisible(!m_StackMultiC);
+    m_LiveStackingUI.Stack->setVisible(!m_StackMultiC);
+    m_LiveStackingUI.StackDirB->setVisible(!m_StackMultiC);
+    m_LiveStackingUI.StackMultiCB1->setVisible(!m_StackMultiC);
+
+    // Darks
+    m_LiveStackingUI.MasterDarkLabel->setVisible(!m_StackMultiC);
+    m_LiveStackingUI.MasterDark->setVisible(!m_StackMultiC);
+    m_LiveStackingUI.MasterDarkB->setVisible(!m_StackMultiC);
+
+    // Flats
+    m_LiveStackingUI.MasterFlatLabel->setVisible(!m_StackMultiC);
+    m_LiveStackingUI.MasterFlat->setVisible(!m_StackMultiC);
+    m_LiveStackingUI.MasterFlatB->setVisible(!m_StackMultiC);
+
+    // Multi-channel rows
+    m_LiveStackingUI.RedLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.Red->setVisible(m_StackMultiC);
+    m_LiveStackingUI.RedDirB->setVisible(m_StackMultiC);
+    m_LiveStackingUI.StackMultiCB2->setVisible(m_StackMultiC);
+
+    m_LiveStackingUI.GreenLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.Green->setVisible(m_StackMultiC);
+    m_LiveStackingUI.GreenDirB->setVisible(m_StackMultiC);
+
+    m_LiveStackingUI.BlueLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.Blue->setVisible(m_StackMultiC);
+    m_LiveStackingUI.BlueDirB->setVisible(m_StackMultiC);
+
+    m_LiveStackingUI.LumLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.Lum->setVisible(m_StackMultiC);
+    m_LiveStackingUI.LumDirB->setVisible(m_StackMultiC);
+
+    // Set some defaults. Nothing for single channel; for mult-channel copy the stack directory to Red
+    if (m_StackMultiC && m_LiveStackingUI.Red->text().isEmpty())
+        m_LiveStackingUI.Red->setText(m_LiveStackingUI.Stack->text());
+
+    // Darks
+    m_LiveStackingUI.MasterDarkRedLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterDarkRed->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterDarkRedB->setVisible(m_StackMultiC);
+
+    m_LiveStackingUI.MasterDarkGreenLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterDarkGreen->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterDarkGreenB->setVisible(m_StackMultiC);
+
+    m_LiveStackingUI.MasterDarkBlueLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterDarkBlue->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterDarkBlueB->setVisible(m_StackMultiC);
+
+    m_LiveStackingUI.MasterDarkLumLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterDarkLum->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterDarkLumB->setVisible(m_StackMultiC);
+
+    // Flats
+    m_LiveStackingUI.MasterFlatRedLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterFlatRed->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterFlatRedB->setVisible(m_StackMultiC);
+
+    m_LiveStackingUI.MasterFlatGreenLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterFlatGreen->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterFlatGreenB->setVisible(m_StackMultiC);
+
+    m_LiveStackingUI.MasterFlatBlueLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterFlatBlue->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterFlatBlueB->setVisible(m_StackMultiC);
+
+    m_LiveStackingUI.MasterFlatLumLabel->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterFlatLum->setVisible(m_StackMultiC);
+    m_LiveStackingUI.MasterFlatLumB->setVisible(m_StackMultiC);
+
+    stackDirChanged("");
+}
+
+void FITSTab::stackDirChanged(const QString &text)
+{
+    Q_UNUSED(text);
+    bool cantStack;
+    if (m_StackMultiC)
+        // Can only stack in this mode if R, G and B are specified - L is optional
+        cantStack = m_LiveStackingUI.Red->text().isEmpty() || m_LiveStackingUI.Green->text().isEmpty() ||
+                    m_LiveStackingUI.Blue->text().isEmpty();
+    else
+        cantStack = m_LiveStackingUI.Stack->text().isEmpty();
+    m_LiveStackingUI.StartB->setEnabled(!cantStack);
 }
 
 void FITSTab::selectLiveStackAlignSub()
 {
     QString selectedFilter;
     QString file = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Select Alignment Sub"),
-                   m_liveStackDir, "FITS (*.fits *.fits.gz *.fit);;XISF (*.xisf)", &selectedFilter);
+                   m_CurrentStackDir, "FITS (*.fits *.fits.fz *.fit *.fts)", &selectedFilter);
     if (!file.isNull())
     {
         QUrl sequenceURL = QUrl::fromLocalFile(file);
@@ -1152,29 +1312,16 @@ void FITSTab::selectLiveStackAlignSub()
     }
 }
 
-void FITSTab::selectLiveStackMasterDark()
+void FITSTab::selectLiveStackMaster(QLineEdit *targetEdit, const QString &title)
 {
     QString selectedFilter;
-    QString file = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Select Master Dark"),
+    QString file = QFileDialog::getOpenFileName(this, i18nc("@title:window", "%1", title),
                    m_CurrentStackDir, "FITS (*.fits *.fits.gz *.fit);;XISF (*.xisf)", &selectedFilter);
     if (!file.isNull())
     {
         QUrl sequenceURL = QUrl::fromLocalFile(file);
-        m_LiveStackingUI.MasterDark->setText(sequenceURL.toLocalFile());
-        QFileInfo fileInfo(file);
-        m_CurrentStackDir = fileInfo.absolutePath();
-    }
-}
-
-void FITSTab::selectLiveStackMasterFlat()
-{
-    QString selectedFilter;
-    QString file = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Select Master Flat"),
-                   m_CurrentStackDir, "FITS (*.fits *.fits.gz *.fit);;XISF (*.xisf)", &selectedFilter);
-    if (!file.isNull())
-    {
-        QUrl sequenceURL = QUrl::fromLocalFile(file);
-        m_LiveStackingUI.MasterFlat->setText(sequenceURL.toLocalFile());
+        if (targetEdit)
+            targetEdit->setText(sequenceURL.toLocalFile());
         QFileInfo fileInfo(file);
         m_CurrentStackDir = fileInfo.absolutePath();
     }
@@ -1409,15 +1556,30 @@ void FITSTab::liveStack()
     {
         m_StackStarted = true;
         m_StackCancelled = false;
-        if (m_LiveStackingUI.Stack->text() != m_liveStackDir)
-            setTabName(i18n("Watching %1", m_liveStackDir));
+
         // Start the stack process
         m_LiveStackingUI.StartB->setText(TEXT_STOP.toString());
         m_LiveStackingUI.StartB->setEnabled(true);
         m_LiveStackingUI.PostProcGroupBox->setEnabled(false);
 
-        m_liveStackDir = m_LiveStackingUI.Stack->text();
-        m_CurrentStackDir = m_liveStackDir;
+        m_liveStackDir.clear();
+        if (!m_StackMultiC)
+            m_liveStackDir.push_back(m_LiveStackingUI.Stack->text());
+        else
+        {
+            m_liveStackDir.push_back(m_LiveStackingUI.Red->text());
+            m_liveStackDir.push_back(m_LiveStackingUI.Green->text());
+            m_liveStackDir.push_back(m_LiveStackingUI.Blue->text());
+            if (!m_LiveStackingUI.Lum->text().isEmpty())
+                m_liveStackDir.push_back(m_LiveStackingUI.Lum->text());
+        }
+
+        // Setup default tabname (user can manually change and override)
+        if (m_StackMultiC)
+            m_StackDefTabName = m_LiveStackingUI.Lum->text().isEmpty() ? i18n("RGB") : i18n("LRGB");
+        else
+            m_StackDefTabName = m_liveStackDir.first();
+
         m_StackSubsTotal = 0;
         m_StackSubsProcessed = 0;
         m_StackSubsFailed = 0;
@@ -1425,7 +1587,37 @@ void FITSTab::liveStack()
         m_LiveStackingUI.SubsSNR->setText("0 / 0 / 0");
         m_LiveStackingUI.ImageSNR->setText("0");
         viewer->restack(getUID());
-        m_View->loadStack(m_liveStackDir, getAllSettings());
+        LiveStackData lsd = getAllSettings();
+        m_View->loadStack(m_liveStackDir, lsd);
+
+        qCInfo(KSTARS_FITS).nospace()
+            << "Starting Live Stacker (" << (m_StackMultiC ? "Multi" : "Single") << " channel) on "
+            << " | Dir(s): " << m_liveStackDir.join(", ")
+            << " | Calc SNR: " << (lsd.calcSNR ? "On" : "Off")
+            << " | AlignMaster: " << (lsd.alignMaster.isEmpty() ? "None" : lsd.alignMaster)
+            << " | AlignMethod: " << LiveStackAlignMethodNames.value(lsd.alignMethod)
+            << " | MasterDark(s): " << (lsd.masterDark.isEmpty() ? "None" :
+                                                                QStringList::fromVector(lsd.masterDark).join(", "))
+            << " | MasterFlat(s): " << (lsd.masterFlat.isEmpty() ? "None" :
+                                                                QStringList::fromVector(lsd.masterFlat).join(", "))
+            << " | Downscale: " << LiveStackDownscaleNames.value(lsd.downscale)
+            << " | Weighting: " << LiveStackFrameWeightingNames.value(lsd.weighting)
+            << " | StackMethod: " << LiveStackStackingMethodNames.value(lsd.stackingMethod)
+            << " | Sigma(low/high): " << lsd.lowSigma << "/" << lsd.highSigma
+            << " | WindsorCutoff: " << lsd.windsorCutoff
+            << " | Iterations: " << lsd.iterations
+            << " | Kappa: " << lsd.kappa
+            << " | Alpha: " << lsd.alpha
+            << " | Sigma: " << lsd.sigma
+            << " | PSF Update: " << lsd.PSFUpdate
+            << " | NumInMem: " << lsd.numInMem
+            << " | PostProc: " << (lsd.postProcessing.postProcess ? "On" : "Off")
+            << " [Deconv=" << lsd.postProcessing.deconvAmt
+            << ", PSFSigma=" << lsd.postProcessing.PSFSigma
+            << ", Denoise=" << lsd.postProcessing.denoiseAmt
+            << ", Sharpen=" << lsd.postProcessing.sharpenAmt
+            << ", Kernel=" << lsd.postProcessing.sharpenKernal
+            << ", Sigma=" << lsd.postProcessing.sharpenSigma << "]";
     }
     else if (text == TEXT_STOP.toString())
     {
@@ -1433,6 +1625,7 @@ void FITSTab::liveStack()
         m_LiveStackingUI.StartB->setEnabled(false);
         m_LiveStackingUI.PostProcGroupBox->setEnabled(false);
         m_View->cancelStack();
+        qCInfo(KSTARS_FITS).nospace() << "Stopping Live Stacker";
     }
 }
 
@@ -1500,9 +1693,9 @@ void FITSTab::plateSolveSub(const double ra, const double dec, const double pixS
 
     SSolver::ProcessType solveType;
 
-    if (weighting == LS_STACKING_HFR)
+    if (weighting == LiveStackFrameWeighting::HFR)
         solveType = SSolver::EXTRACT_WITH_HFR;
-    else if (weighting == LS_STACKING_NUM_STARS)
+    else if (weighting == LiveStackFrameWeighting::NUM_STARS)
         solveType = SSolver::EXTRACT;
     else
         solveType = SSolver::SOLVE;
@@ -1542,15 +1735,13 @@ QString FITSTab::getTabTitle() const
         title = m_TabName;
     else if (m_StackStarted && m_TabName.isEmpty())
     {
-        // This won't happen as when m_StackStarted is set to true, it also sets m_TabName.
-        // See liveStack().
-        QString start = (m_StackCancelled) ? i18n("Stopped Watching (%1)", m_StackSubsProcessed) :
+        QString start = (m_StackCancelled) ? i18n("(%1) Stopped Watching", m_StackSubsProcessed) :
                         i18n("(%1) Watching", m_StackSubsProcessed);
-        title = i18n("%1 %2", start, m_liveStackDir);
+        title = i18n("%1 %2", start, m_StackDefTabName);
     }
     else if (m_StackStarted && !m_TabName.isEmpty())
     {
-        QString start = (m_StackCancelled) ? i18n("Stopped (%1)", m_StackSubsProcessed) :
+        QString start = (m_StackCancelled) ? i18n("(%1) Stopped", m_StackSubsProcessed) :
                         i18n("(%1)", m_StackSubsProcessed);
         title = i18n("%1 %2", start, m_TabName);
     }

@@ -103,6 +103,7 @@ QVariant SubStatsModel::data(const QModelIndex &index, int role) const
             case COL_ID: return sub.id;
             case COL_PATHNAME: return sub.pathname;
             case COL_FILENAME: return sub.filename;
+            case COL_CHANNELS: return StackMonUtils::displayChannels(sub.channels, sub.morc);
             case COL_STATUS: return StackMonUtils::displayOverallStatus(sub.status);
             case COL_WAIT_LOAD_INTERVAL: return (sub.waitLoadInterval < 0) ? QVariant() :
                                                    QString::number(sub.waitLoadInterval, 'f', 2);
@@ -402,19 +403,19 @@ void StackMonitor::clear()
     updateProgress();
 }
 
-void StackMonitor::initialize(QDateTime timestamp, const QList<QPair<QString, int>> &subs)
+void StackMonitor::initialize(QDateTime timestamp, const QVector<LiveStackFile> &subs)
 {
     for (int sub = 0; sub < subs.size(); sub++)
     {
         SubStats stats;
-        stats.pathname = QFileInfo(subs[sub].first).absoluteFilePath();
-        stats.filename = QFileInfo(subs[sub].first).fileName();
+        stats.id = subs[sub].ID;
+        stats.pathname = QFileInfo(subs[sub].file).absoluteFilePath();
+        stats.filename = QFileInfo(subs[sub].file).fileName();
+        stats.channels.push_back(subs[sub].baseChannel);
+        stats.channels += subs[sub].channels;
         stats.startTime = timestamp;
         stats.status = SubStatus::InProgress;
-        stats.id = subs[sub].second;
         int row = addSub(stats);
-        if (sub == 0)
-            m_Model->setAlignmentMasterRow(0);
         highlightRow(row);
     }
     // Start progress timer
@@ -423,26 +424,26 @@ void StackMonitor::initialize(QDateTime timestamp, const QList<QPair<QString, in
 }
 
 // Add new incoming subs
-void StackMonitor::addSubs(QDateTime timestamp, const QList<QPair<QString, int>> &subs)
+void StackMonitor::addSubs(QDateTime timestamp, const QVector<LiveStackFile> &subs)
 {
     for (int sub = 0; sub < subs.size(); sub++)
     {
         SubStats stats;
-        stats.pathname = QFileInfo(subs[sub].first).absoluteFilePath();
-        stats.filename = QFileInfo(subs[sub].first).fileName();
+        stats.id = subs[sub].ID;
+        stats.pathname = QFileInfo(subs[sub].file).absoluteFilePath();
+        stats.filename = QFileInfo(subs[sub].file).fileName();
+        stats.channels.push_back(subs[sub].baseChannel);
+        stats.channels += subs[sub].channels;
         stats.status = SubStatus::InProgress;
-        stats.id = subs[sub].second;
         stats.startTime = timestamp;
         int row = addSub(stats);
-        if (m_Model->getAlignmentMasterRow() < 0 && sub == 0)
-            m_Model->setAlignmentMasterRow(0);
         highlightRow(row);
     }
     updateProgress();
 }
 
 // Update subs with new information as they are processed
-void StackMonitor::updateSubs(const QVector<QString> &subs, const QVector<LiveStackStageInfo> &stageInfos)
+void StackMonitor::updateSubs(const QVector<LiveStackFile> &subs, const QVector<LiveStackStageInfo> &stageInfos)
 {
     if (subs.size() != stageInfos.size())
     {
@@ -452,20 +453,13 @@ void StackMonitor::updateSubs(const QVector<QString> &subs, const QVector<LiveSt
 
     for (int i = 0; i < subs.size(); ++i)
     {
-        const QString &sub = subs[i];
+        const LiveStackFile &sub = subs[i];
         const LiveStackStageInfo &stageInfo = stageInfos[i];
 
-        int id = getIDForSub(sub);
-        if (id < 0)
-        {
-            qCDebug(KSTARS_FITS) << "Stack Monitor Update to unknown sub:" << sub;
-            continue;
-        }
-
-        int row = findRowForSubID(id);
+        int row = findRowForSubID(subs[i].ID);
         if (row < 0)
         {
-            qCDebug(KSTARS_FITS) << "Could not find row for sub:" << sub << "with ID:" << id;
+            qCDebug(KSTARS_FITS) << "Could not find row for sub:" << sub.file << "with ID:" << sub.ID;
             continue;
         }
 
@@ -579,7 +573,8 @@ QList<int> StackMonitor::applyUpdate(int row, const LiveStackStageInfo &info)
             sub.loadedTime = info.timestamp;
             sub.loadedInterval = sub.waitLoadTime.msecsTo(sub.loadedTime) / 1000.0;
             sub.snr = info.extraData.value("snr", 0.0).toDouble();
-            columnsToUpdate << COL_LOADED << COL_LOADED_INTERVAL << COL_SNR;
+            sub.morc = info.extraData.value("morc", -1).toInt();
+            columnsToUpdate << COL_CHANNELS << COL_LOADED << COL_LOADED_INTERVAL << COL_SNR;
             if (info.status == LSStatus::LSStatusError)
             {
                 sub.status = SubStatus::FailedLoading;
@@ -593,6 +588,8 @@ QList<int> StackMonitor::applyUpdate(int row, const LiveStackStageInfo &info)
             sub.plateSolvedInterval = sub.loadedTime.msecsTo(sub.plateSolvedTime) / 1000.0;
             sub.hfr = info.extraData.value("hfr", -1.0).toDouble();
             sub.numStars = info.extraData.value("numStars", -1).toInt();
+            if (info.extraData.value("alignMaster", false).toBool())
+                m_Model->setAlignmentMasterRow(row);
             columnsToUpdate << COL_PLATE_SOLVED << COL_PLATE_SOLVED_INTERVAL << COL_HFR << COL_NUM_STARS;
             if (info.status == LSStatus::LSStatusError)
             {

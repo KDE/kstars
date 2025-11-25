@@ -671,15 +671,14 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////
 
-
         /**
          * @brief Get the live stack object pointer
          * @return Live Stack pointer
          */
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
-        const QSharedPointer<FITSStack> stack() const
+        const QMap<LiveStackChannel, QSharedPointer<FITSStack>> &stacks() const
         {
-            return m_Stack;
+            return m_Stacks;
         }
 #endif
         /**
@@ -707,11 +706,11 @@ class FITSData : public QObject
 
         /**
          * @brief Load and stack directory of FITS files.
-         * @param inDirectory Path to directory of FITS files
+         * @param inDirectory List of paths to directory of FITS files
          * @param params are stacking parameters
          * @return success (or not)
          */
-        bool loadStack(const QString &inDirectory, const LiveStackData &params);
+        bool loadStack(const QStringList &inDirectory, const LiveStackData &params);
 
         /**
          * @brief User request to cancel stacking operation
@@ -763,6 +762,57 @@ class FITSData : public QObject
          * @param healpixUsed is the index file used
          */
         void setStackSubSolution(const double ra, const double dec, const double pixscale, const int index, const int healpix);
+
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+        /**
+         * @brief convertMatToFITS converts the passed in cv::Mat image to FITS
+         * @param image to convert
+         * @return success (or not)
+         */
+        bool convertMatToFITS(const cv::Mat &image);
+
+        /**
+         * @brief calcStackSNR is a utility function to calculate the SNR. Used by fitsdata and fitsstack
+         * @param image
+         * @return SNR
+         */
+        static double calcStackSNR(const cv::Mat &image);
+#endif
+
+        /**
+         * @brief prepareStackBuffer musters stacks from different channels into a single displayable image
+         * @return success (or not)
+         */
+        bool prepareStackBuffer();
+
+        /**
+         * @brief prepareStackBufferAsync runs prepareStackBuffer in the background
+         */
+        void prepareStackBufferAsync();
+
+        /**
+         * @brief isStackedImageEmpty determines if there is a displayable image or not
+         * @return empty = true
+         */
+        bool isStackedImageEmpty() const
+        {
+            return !m_StackedBuffer || m_StackedBuffer->isEmpty();
+        }
+
+        /**
+         * @brief getStackSNR returns the SNR of the stacked image
+         * @return SNR
+         */
+        const double &getStackSNR() const
+        {
+            return m_StackSNR;
+        }
+
+        /**
+         * @brief redo Post Processing on the existing stack (user requsted)
+         * @param ppParams are the current user requested post processing params
+         */
+        void redoPostProcessStack(const LiveStackPPData &ppParams);
 
     signals:
         void converted(QImage);
@@ -832,31 +882,31 @@ class FITSData : public QObject
          * @param timestamp
          * @param list of subframes
          */
-        void initStackMon(QDateTime timestamp, const QList<QPair<QString, int>> &subs);
+        void initStackMon(QDateTime timestamp, const QVector<LiveStackFile> &subs);
 
         /**
          * @brief Add 1 or more new subs to the Stack Monitor
          * @param timestamp
-         * @param list of subframes with their IDs
+         * @param list of subframes to add to the monitor
          */
-        void addStackMon(QDateTime timestamp, const QList<QPair<QString, int>> &subs);
+        void addStackMon(QDateTime timestamp, const QVector<LiveStackFile> &subs);
 
         /**
          * @brief Update an existing sub in the Stack Monitor
          * @param Vector of subs being updated
          * @param vector of stats that contains update data fields
          */
-        void updateStackMon(const QVector<QString> &subs, const QVector<LiveStackStageInfo> &infos);
+        void updateStackMon(const QVector<LiveStackFile> &subs, const QVector<LiveStackStageInfo> &infos);
 
       public slots:
         void makeRoiBuffer(QRect roi);
 
         /**
-         * @brief Called when 1 (or more) new files added to the watched stack directory
-         * @param list of files added to directory
+         * @brief Called when a new file is added to the watched stack directory
+         * @param File added to directory
          */
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
-        void newStackSubs(QDateTime timestamp, const QList<QPair<QString, int>> &newFiles);
+        void newStackSubs(QDateTime timestamp, const QVector<LiveStackFile> &newFile);
 #endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
 
     private:
@@ -1006,6 +1056,21 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////
         /**
+         * @brief Setup which channels (mono, colour, etc.) are required for this stack
+         * @param dirs is the array of directories to process
+         * @param darks is the array of master darks to process
+         * @param flats is the array of master flats to process
+         * @return success (or not)
+         */
+        bool initStackChannels(const QStringList &dirs, const QVector<QString> &darks, const QVector<QString> &flats);
+
+        /**
+         * @brief Process alignment master file (load and plate solve)
+         * @param alignMaster
+         */
+        void processAlignMaster(const QString &alignMaster);
+
+        /**
          * @brief Process master files for stacking
          */
         void processMasters();
@@ -1050,7 +1115,7 @@ class FITSData : public QObject
          * @param sub to process
          * @return success
          */
-        bool processNextSub(QString &sub);
+        bool processNextSub(LiveStackFile &sub);
 
         /**
          * @brief Callback to handle an asynchronous stacking operation completion
@@ -1066,6 +1131,33 @@ class FITSData : public QObject
          * @brief Manage the user cancel stack request within FITSData
          */
         void checkCancelStack();
+
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+        /**
+         * @brief Return the channel for the passed in stack
+         * @param stack
+         * @return channel
+         */
+        LiveStackChannel channelForStack(const QSharedPointer<FITSStack> &stack) const;
+
+        /**
+         * @brief Perform a Linear fit on the passed in channels (ref=g)
+         * @param r - red channel balanced to g
+         * @param g - green channel (reference)
+         * @param b - blue channel balanced to g
+         */
+        void linearFit(cv::Mat &r, cv::Mat &g, cv::Mat &b);
+
+        /**
+         * @brief Perform a LRGB combination from the passed in L, R, G, B channels
+         * @param lum - lum channel
+         * @param r - red channel
+         * @param g - green channel
+         * @param b - blue channel
+         * @return combined 3-channel image
+         */
+        cv::Mat combineLRGB(const cv::Mat &lum, cv::Mat &r, cv::Mat &g, cv::Mat &b);
+#endif
 
         /// Pointer to CFITSIO FITS file struct
         fitsfile *fptr { nullptr };
@@ -1190,16 +1282,46 @@ class FITSData : public QObject
 
         // Live Stacking
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
-        QSharedPointer<FITSStack> m_Stack;
+        // Each base channel has its own FITSStack
+        QMap<LiveStackChannel, QSharedPointer<FITSStack>> m_Stacks;
+        QSharedPointer<FITSStack> m_CurrentStack;
 #endif
-        QList<QString> m_StackSubs;
+        QVector<LiveStackFile> m_StackSubs;
         int m_StackSubPos { -1 };
-        QString m_StackDir;
+        bool m_StackMultiC { false };
+        QMap<LiveStackChannel, QString> m_StackChannelMap;
+        QMap<LiveStackChannel, QString> m_DarkChannelMap;
+        QMap<LiveStackChannel, QString> m_FlatChannelMap;
+
+        // StackChannelDir associates a LiveStackChannel with its input directory, and optionally links channels that share the
+        // same source directory, e.g. if Red and Green both have the same dir, baseChannel for Green will be Red.
+        struct StackChannelDir
+        {
+            LiveStackChannel channel;
+            QString dir;
+            LiveStackChannel baseChannel;
+
+            StackChannelDir(LiveStackChannel c, const QString &d, LiveStackChannel base)
+                : channel(c), dir(d), baseChannel(base) {}
+        };
+        QVector<StackChannelDir> m_StackChannelDirs;
+        // Helper functions for StackChannelDir
+        void insertChannel(const LiveStackChannel &c, const QString dir);
+        QVector<LiveStackChannel> getBaseChannels();
+        LiveStackChannel getBaseChannelForChannel(LiveStackChannel channel);
+        QVector<QString> getUniqueStackDirs();
+        void getChannelInfoforSub(const QString &sub, LiveStackChannel &base, QVector<LiveStackChannel> &channels);
+
+        QSharedPointer<QByteArray> m_StackedBuffer { nullptr };
+        double m_StackSNR { 0.0 };
+
+        LiveStackData m_LiveStackData;
         QSharedPointer<FITSDirWatcher> m_StackDirWatcher;
-        QQueue<QString> m_StackQ;
+        QQueue<LiveStackFile> m_StackQ;
         bool m_AlignMasterChosen { false };
-        bool m_DarkLoaded { false };
-        bool m_FlatLoaded { false };
+        bool m_AlignMasterProcessed { false };
+        QMap<LiveStackChannel, bool> m_DarksLoadedMap;
+        QMap<LiveStackChannel, bool> m_FlatsLoadedMap;
         uint8_t *m_StackImageBuffer { nullptr };
         uint32_t m_StackImageBufferSize { 0 };
         typedef struct
@@ -1209,14 +1331,17 @@ class FITSData : public QObject
         } StackStatistics;
         StackStatistics m_StackStatistics;
         struct wcsprm *m_StackWCSHandle { nullptr };
-        int m_Stacknwcs {0};
+        int m_Stacknwcs { 0 };
+        QSharedPointer<wcsprm> m_StackAlignMasterWCS;
         fitsfile *m_Stackfptr { nullptr };
         QList<Record> m_StackHeaderRecords;
         QFutureWatcher<bool> m_StackWatcher;
         QFutureWatcher<bool> m_StackFITSWatcher;
+        QFuture<void> m_StackPrepareFuture;
         typedef enum
         {
             stackFITSNone,
+            stackFITSAlignMaster,
             stackFITSDark,
             stackFITSFlat,
             stackFITSSub

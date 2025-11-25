@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "fitscommon.h"
+
 #include <QObject>
 #include <QFileSystemWatcher>
 #include <QString>
@@ -16,12 +18,12 @@
 #include <QSharedPointer>
 
 /**
- * @brief The FITSDirWatcher holds routines for monitoring a directory for new files. Currently only FITS files
+ * @brief The FITSDirWatcher holds routines for monitoring directories for new files. Currently only FITS files
  *        are supported.
  *
- *        A directory is added to the watch list and the contents (files) are stored. When one or more files are
- *        added to the directory, they are emitted in a list to clients. Checks are made that the new files have
- *        been fully written being clients are notified so the client can simply go ahead and read the file. This
+ *        1 or more directories are added to the watch list and the contents (files) are stored. When one or more files are
+ *        added to a watched directory, they are emitted in a list to clients. Checks are made that the new files have
+ *        been fully written before clients are notified so the client can simply go ahead and read the file. This
  *        checking process means that files are emitted one at a time.
  *
  * @author John Evans
@@ -35,27 +37,29 @@ class FITSDirWatcher : public QObject
     virtual ~FITSDirWatcher() override;
 
     /**
-     * @brief Watch the input directory for new files
-     * @param path to watch
+     * @brief Watch the input directories for new files
+     * @param paths to watch in a map with matching channels
      * @return success (or not)
      */
-    bool watchDir(const QString &path);
+    bool watchDirs(const QVector<QString> &paths);
 
     /**
-     * @brief Stop watching
+     * @brief Stop watching directories
      */
     void stopWatching();
 
     /**
-     * @brief Get the list of files in the watched directory with associated IDs
-     * @return list of (file, ID) pairs
+     * @brief Get the list of files in the watched directories
+     * @return list of files
      */
-    const QList<QPair<QString, int>> getCurrentFiles() const;
+    const QVector<LiveStackFile> getCurrentFiles() const
+    {
+        return m_CurrentFiles;
+    };
 
   signals:
     // Signal the list of new files added since the previous signal (or since the directory watching began)
-  signals:
-    void newFilesDetected(QDateTime timestamp, const QList<QPair<QString, int>> &filesWithIDs);
+    void newFilesDetected(QDateTime timestamp, const QVector<LiveStackFile> &lsFile);
 
   private slots:
     // Something changed in the watched directory, so process for any new files
@@ -78,12 +82,11 @@ class FITSDirWatcher : public QObject
     QMap<QString, PendingFile> m_PendingFiles;
 
     QSharedPointer<QFileSystemWatcher> m_Watcher;
-    QString m_WatchedPath;
-    QStringList m_StableFiles;
-    QStringList m_CurrentFiles;
+    QVector<QString> m_WatchedPaths;
+    QVector<LiveStackFile> m_CurrentFiles;
     QStringList m_NameFilters { "*.fits", "*.fits.fz", "*.fit", "*.fts" };
     QDir::Filters m_FilterFlags = QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks;
     QDir::SortFlags m_SortFlags = QDir::Time | QDir::Reversed;
-    QMap<QString, int> m_FileToID;
+    QMap<QString, QPair<int, QString>> m_FileToID;
     int m_NextID { 1 };
 };

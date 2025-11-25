@@ -1806,6 +1806,10 @@
       <whatsthis>Live Stacking Minimise Post-Processing Options Widget</whatsthis>
       <default>true</default>
    </entry>
+   <entry name="fitsLSCalcSNR" type="bool">
+      <whatsthis>Live Stacking calculate SNR switch</whatsthis>
+      <default>true</default>
+   </entry>
    <entry name="fitsLSMasterDark" type="String">
       <whatsthis>Live Stacking master dark</whatsthis>
       <default></default>
