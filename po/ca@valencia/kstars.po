@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 08:59+0000\n"
-"PO-Revision-Date: 2025-11-15 17:39+0100\n"
+"POT-Creation-Date: 2025-11-25 02:00+0000\n"
+"PO-Revision-Date: 2025-11-24 20:54+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.3\n"
 "X-Accelerator-Marker: &\n"
 
 # Diccionari de termes astronòmics:
@@ -957,12 +957,12 @@ msgstr "Resultats de la busca:"
 #: auxiliary/thumbnailpicker.cpp:354
 #, kde-format
 msgid "Failed to load image at %1"
-msgstr "No s'ha pogut carregar la imatge %1"
+msgstr "Ha fallat mentre es carregava la imatge %1"
 
 #: auxiliary/thumbnailpicker.cpp:354
 #, kde-format
 msgid "Failed to load image"
-msgstr "No s'ha pogut carregar la imatge"
+msgstr "Ha fallat mentre es carregava la imatge"
 
 #: auxiliary/thumbnailpicker.h:38
 #, kde-format
@@ -1642,7 +1642,7 @@ msgstr ""
 #: auxiliary/xplanetimageviewer.cpp:795 indi/servermanager.cpp:89
 #, kde-format
 msgid "Error making FIFO file %1: %2."
-msgstr "S'ha produït un error en crear el fitxer FIFO %1: %2."
+msgstr "S'ha produït un error mentre es creava el fitxer FIFO %1: %2."
 
 #: auxiliary/xplanetimageviewer.cpp:846
 #, kde-format
@@ -2850,7 +2850,7 @@ msgstr "No s'ha trobat el catàleg amb l'ID %1."
 #: dialogs/catalogcoloreditor.cpp:109
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:441
 #: ekos/scheduler/scheduler.ui:552 ekos/scheduler/schedulermodulestate.cpp:56
-#: ekos/scheduler/schedulerprocess.cpp:1778
+#: ekos/scheduler/schedulerprocess.cpp:1784
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:210
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:469
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1197
@@ -3812,7 +3812,7 @@ msgstr "No s'ha pogut editar l'entrada."
 msgid "Are you sure you want to remove the %1 link?"
 msgstr "Segur que voleu eliminar l'enllaç %1?"
 
-#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1524
+#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1525
 #: indi/indidriver.cpp:897
 #, kde-format, kde-kuit-format
 msgid "Delete Confirmation"
@@ -5376,7 +5376,7 @@ msgstr "Calcula CDV"
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
-#: ekos/manager.cpp:2158
+#: ekos/manager.cpp:2162
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
 #, kde-format
 msgid "Camera"
@@ -6701,9 +6701,9 @@ msgstr "S'ha interromput el solucionador."
 
 #: ekos/align/align.cpp:2748 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2106 ekos/mount/mount.cpp:782
+#: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2110 ekos/mount/mount.cpp:782
 #: ekos/observatory/observatory.cpp:1042
-#: ekos/scheduler/schedulerprocess.cpp:3301
+#: ekos/scheduler/schedulerprocess.cpp:3307
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -6911,8 +6911,8 @@ msgstr "URL no vàlid: %1"
 
 #: ekos/align/align.cpp:4098 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
-#: ekos/scheduler/schedulerprocess.cpp:2705
-#: ekos/scheduler/schedulerprocess.cpp:4240
+#: ekos/scheduler/schedulerprocess.cpp:2711
+#: ekos/scheduler/schedulerprocess.cpp:4246
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "No es pot escriure en el fitxer %1"
@@ -6920,10 +6920,10 @@ msgstr "No es pot escriure en el fitxer %1"
 #: ekos/align/align.cpp:4099 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:2602 ekos/capture/sequencequeue.cpp:33
-#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2706
-#: ekos/scheduler/schedulerprocess.cpp:3124
-#: ekos/scheduler/schedulerprocess.cpp:4241
-#: ekos/scheduler/schedulerprocess.cpp:4261 indi/drivermanager.cpp:1549
+#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2712
+#: ekos/scheduler/schedulerprocess.cpp:3130
+#: ekos/scheduler/schedulerprocess.cpp:4247
+#: ekos/scheduler/schedulerprocess.cpp:4267 indi/drivermanager.cpp:1550
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -7606,11 +7606,11 @@ msgstr "Obriu la llista d'alineació d'Ekos"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:355
 #: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:32
-#: ekos/scheduler/schedulerprocess.cpp:3123
-#: ekos/scheduler/schedulerprocess.cpp:4260
+#: ekos/scheduler/schedulerprocess.cpp:3129
+#: ekos/scheduler/schedulerprocess.cpp:4266
 #, kde-format
 msgid "Unable to open file %1"
-msgstr "No s'ha pogut en obrir el fitxer %1"
+msgstr "No s'ha pogut obrir el fitxer %1"
 
 #: ekos/align/mountmodel.cpp:307 ekos/capture/sequencequeue.cpp:56
 #, kde-format
@@ -7630,7 +7630,7 @@ msgstr "Guardeu la llista d'alineació d'Ekos"
 #: ekos/align/mountmodel.cpp:386
 #, kde-format
 msgid "Failed to save alignment list"
-msgstr "No s'ha pogut guardar la llista d'alineació"
+msgstr "Ha fallat mentre es guardava la llista d'alineació"
 
 #: ekos/align/mountmodel.cpp:432
 #, kde-format
@@ -8964,7 +8964,7 @@ msgstr "Suprimix els fitxers"
 #: ekos/align/opsastrometryindexfiles.cpp:736
 #, kde-format
 msgid "File Delete Error"
-msgstr "S'ha produït un error en suprimir un fitxer"
+msgstr "S'ha produït un error mentre se suprimia un fitxer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: ekos/align/opsastrometryindexfiles.ui:41
@@ -10912,7 +10912,7 @@ msgstr "inicia l'EKOS"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/align/pushtoassistant.ui:199 ekos/analyze/analyze.cpp:2309
-#: ekos/manager.cpp:2210 ekos/scheduler/framingassistant.ui:1276
+#: ekos/manager.cpp:2214 ekos/scheduler/framingassistant.ui:1276
 #: ekos/scheduler/scheduler.ui:240 fitsviewer/fitsviewer.cpp:562
 #, kde-format
 msgid "Align"
@@ -10924,7 +10924,7 @@ msgstr "Alinea"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2312
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2400 ekos/manager.ui:778
+#: ekos/manager.cpp:2404 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -11015,7 +11015,7 @@ msgstr "No s'ha pogut mostrar el fitxer temporal d'imatge: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2308 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2254 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2258 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:554
 #, kde-format
@@ -11027,7 +11027,7 @@ msgstr "Enfocament"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2310 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2475
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2479
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:558
 #, kde-format
@@ -12295,7 +12295,7 @@ msgstr "Enfocament adaptatiu"
 #: ekos/auxiliary/darklibrary.cpp:97
 #, kde-format
 msgid "Failed to load %1: %2"
-msgstr "No s'ha pogut carregar %1: %2"
+msgstr "Ha fallat mentre es carregava %1: %2"
 
 #: ekos/auxiliary/darklibrary.cpp:309
 #, kde-format
@@ -12319,17 +12319,17 @@ msgstr "S'elimina el fitxer del fotograma fosc incorrecte «%1»"
 #: ekos/auxiliary/darklibrary.cpp:438
 #, kde-format
 msgid "Failed to load defect map %1"
-msgstr "S'ha produït un error en carregar el mapa de defectes %1"
+msgstr "S'ha produït un error mentre es carregava el mapa de defectes %1"
 
 #: ekos/auxiliary/darklibrary.cpp:458
 #, kde-format
 msgid "Failed to load defect map file %1"
-msgstr "No s'ha pogut carregar el fitxer de mapa de defectes %1"
+msgstr "Ha fallat mentre es carregava el fitxer de mapa de defectes %1"
 
 #: ekos/auxiliary/darklibrary.cpp:478
 #, kde-format
 msgid "Failed to load dark frame file %1"
-msgstr "No s'ha pogut carregar el fitxer de fotograma fosc «%1»"
+msgstr "Ha fallat mentre es carregava el fitxer de fotograma fosc «%1»"
 
 #: ekos/auxiliary/darklibrary.cpp:539
 #, kde-format
@@ -12339,7 +12339,7 @@ msgstr "No s'han pogut processar les dades fosques."
 #: ekos/auxiliary/darklibrary.cpp:545
 #, kde-format
 msgid "Failed to load dark data."
-msgstr "No s'han pogut carregar les dades fosques."
+msgstr "Ha fallat mentre es carregaven les dades fosques."
 
 #: ekos/auxiliary/darklibrary.cpp:555
 #, kde-format
@@ -12361,7 +12361,7 @@ msgstr "En curs…"
 #: ekos/auxiliary/darklibrary.cpp:1371
 #, kde-format
 msgid "Failed to save master frame: %1"
-msgstr "No s'ha pogut guardar el fotograma mestre: %1"
+msgstr "Ha fallat mentre es guardava el fotograma mestre: %1"
 
 #: ekos/auxiliary/darklibrary.cpp:1392
 #, kde-format
@@ -12381,7 +12381,7 @@ msgstr "El mapa de defectes s'ha guardat a %1"
 #: ekos/auxiliary/darklibrary.cpp:1464
 #, kde-format
 msgid "Failed to save defect map to %1"
-msgstr "No s'ha pogut guardar el mapa de defectes a %1"
+msgstr "Ha fallat mentre es guardava el mapa de defectes a %1"
 
 #: ekos/auxiliary/darklibrary.cpp:1639
 #, kde-format
@@ -13332,7 +13332,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2525
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2529
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -13916,7 +13916,7 @@ msgstr "El mapatge ha sigut correcte."
 #: ekos/auxiliary/serialportassistant.cpp:384
 #, kde-format
 msgid "Failed to add a new rule."
-msgstr "No s'ha pogut afegir una regla nova."
+msgstr "Ha fallat mentre s'afegia una regla nova."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SerialPortAssistant)
 #: ekos/auxiliary/serialportassistant.ui:14
@@ -14780,7 +14780,7 @@ msgstr ""
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
 #: fitsviewer/livestacking.ui:1101 fitsviewer/livestacking.ui:1360
 #: fitsviewer/livestacking.ui:1364 fitsviewer/livestacking.ui:1449
-#: fitsviewer/livestacking.ui:1456 indi/drivermanager.cpp:1341
+#: fitsviewer/livestacking.ui:1456 indi/drivermanager.cpp:1342
 #: indi/indidriver.cpp:735 kstarsinit.cpp:874 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -16443,7 +16443,7 @@ msgstr "No s'ha pogut fer l'establiment del submarc."
 #: ekos/capture/cameraprocess.cpp:885
 #, kde-format
 msgid "Failed to set binning."
-msgstr "No s'ha pogut establir l'agrupament."
+msgstr "Ha fallat mentre s'establia l'agrupament."
 
 #: ekos/capture/cameraprocess.cpp:1045
 #, kde-format
@@ -18279,11 +18279,11 @@ msgid ""
 "angle.</p><p>The position angle is measured East of North in degrees.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>En establir l'angle de posició de la càmera es mourà "
-"el rotor. L'indicador reflectix l'estat del rotor. Depenent de la precisió "
-"del rotor, pot haver-hi alguna desviació en l'angle de posició final.</"
-"p><p>L'angle de posició es mesura a l'est del nord, en graus.</p></body></"
-"html>"
+"<html><head/><body><p>Mentre s'establix l'angle de posició de la càmera es "
+"mourà el rotor. L'indicador reflectix l'estat del rotor. Depenent de la "
+"precisió del rotor, pot haver-hi alguna desviació en l'angle de posició "
+"final.</p><p>L'angle de posició es mesura a l'est del nord, en graus.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:452
@@ -20339,7 +20339,7 @@ msgstr "Enquadrat de l'enfocament"
 #: ekos/focus/focus.cpp:6189
 #, kde-format
 msgid "Failed to save image. Aborting..."
-msgstr "No s'ha pogut guardar la imatge. S'interromp…"
+msgstr "Ha fallat mentre es guardava la imatge. S'interromp…"
 
 #: ekos/focus/focus.cpp:6204 ekos/focus/focus.cpp:6229
 #, kde-format
@@ -22624,12 +22624,14 @@ msgstr "No s'ha pogut processar la posició de l'estrela."
 #: ekos/guide/externalguide/linguider.cpp:188
 #, kde-format
 msgid "Failed to set guider reticle position."
-msgstr "No s'ha pogut establir la posició de retícula del sistema de guiatge."
+msgstr ""
+"Ha fallat mentre s'establia la posició de retícula del sistema de guiatge."
 
 #: ekos/guide/externalguide/linguider.cpp:200
 #, kde-format
 msgid "Failed to set guider square position."
-msgstr "No s'ha pogut establir la posició del requadro del sistema de guiatge."
+msgstr ""
+"Ha fallat mentre s'establia la posició del requadro del sistema de guiatge."
 
 #: ekos/guide/externalguide/linguider.cpp:226
 #, kde-format
@@ -22649,7 +22651,7 @@ msgstr "No s'ha pogut obtindre la deriva AR/Dec."
 #: ekos/guide/externalguide/linguider.cpp:267
 #, kde-format
 msgid "Failed to set dither range."
-msgstr "No s'ha pogut establir l'interval del tramat."
+msgstr "Ha fallat mentre s'establia l'interval del tramat."
 
 #: ekos/guide/externalguide/phd2.cpp:135
 #, kde-format
@@ -25628,18 +25630,18 @@ msgstr "S'estan desconnectant els dispositius INDI…"
 msgid "INDI services stopped."
 msgstr "S'han parat els serveis INDI."
 
-#: ekos/manager.cpp:1595
+#: ekos/manager.cpp:1598
 #, kde-format
 msgid "Remote devices established."
 msgstr "S'han establit els dispositius remots."
 
-#: ekos/manager.cpp:1597
+#: ekos/manager.cpp:1601
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 "S'han establit els dispositius remots. Podeu connectar els dispositius."
 
-#: ekos/manager.cpp:1661
+#: ekos/manager.cpp:1665
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -25648,116 +25650,116 @@ msgstr ""
 "No s'ha pogut connectar amb %1.\n"
 "Assegureu-vos que el dispositiu està connectat i iniciat."
 
-#: ekos/manager.cpp:1668
+#: ekos/manager.cpp:1672
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "El «%1» està desconnectat."
 
-#: ekos/manager.cpp:1689 ekos/manager.cpp:1698 ekos/manager.cpp:1731
+#: ekos/manager.cpp:1693 ekos/manager.cpp:1702 ekos/manager.cpp:1735
 #: indi/indistd.cpp:718
 #, kde-format
 msgid "%1 is online."
 msgstr "El «%1» està en línia."
 
-#: ekos/manager.cpp:1706
+#: ekos/manager.cpp:1710
 #, kde-format
 msgid "%1 filter is online."
 msgstr "El filtre «%1» està en línia."
 
-#: ekos/manager.cpp:1715
+#: ekos/manager.cpp:1719
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "L'enfocador «%1» està en línia."
 
-#: ekos/manager.cpp:1722
+#: ekos/manager.cpp:1726
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "El rotor «%1» està en línia."
 
-#: ekos/manager.cpp:1738
+#: ekos/manager.cpp:1742
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "La meteorologia «%1» està en línia."
 
-#: ekos/manager.cpp:1745
+#: ekos/manager.cpp:1749
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "El GPS «%1» està en línia."
 
-#: ekos/manager.cpp:1754
+#: ekos/manager.cpp:1758
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "La tapa per la pols «%1» està en línia."
 
 # skip-rule: kct-box
-#: ekos/manager.cpp:1761
+#: ekos/manager.cpp:1765
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "La caixa de llum «%1» està en línia."
 
-#: ekos/manager.cpp:1919
+#: ekos/manager.cpp:1923
 #, kde-format
 msgid "%1 is offline."
 msgstr "El «%1» està fora de línia."
 
-#: ekos/manager.cpp:2542
+#: ekos/manager.cpp:2546
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "El port del sistema de guiatge «%1» està a punt."
 
-#: ekos/manager.cpp:2731
+#: ekos/manager.cpp:2735
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Segur que voleu eliminar el perfil?"
 
-#: ekos/manager.cpp:2732
+#: ekos/manager.cpp:2736
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirmeu la supressió"
 
-#: ekos/manager.cpp:2784
+#: ekos/manager.cpp:2788
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "L'emplaçament del lloc s'ha actualitzat a %1."
 
-#: ekos/manager.cpp:2786
+#: ekos/manager.cpp:2790
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "No s'ha pogut actualitzar l'emplaçament del lloc a %1. No s'ha trobat la "
 "ciutat."
 
-#: ekos/manager.cpp:3059
+#: ekos/manager.cpp:3063
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "S'activa el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3067
+#: ekos/manager.cpp:3071
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Es desactiva el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3095
+#: ekos/manager.cpp:3099
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Es torna a activar el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3107
+#: ekos/manager.cpp:3111
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3836
+#: ekos/manager.cpp:3840
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Font de vista prèvia establida a externa"
 
-#: ekos/manager.cpp:3843
+#: ekos/manager.cpp:3847
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Font de vista prèvia restablida a interna"
 
-#: ekos/manager.cpp:3850
+#: ekos/manager.cpp:3854
 #, kde-format
 msgid "Received external preview file"
 msgstr "S'ha rebut un fitxer extern de vista prèvia"
@@ -27220,7 +27222,7 @@ msgstr "No es pot guardar un perfil buit."
 msgid "Profile name already exists."
 msgstr "Ja existix un perfil amb este nom."
 
-#: ekos/profileeditor.cpp:333
+#: ekos/profileeditor.cpp:336
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
@@ -27229,7 +27231,7 @@ msgstr ""
 "<nobr>Disponible com a controlador <b>remot</b>. Per a utilitzar localment, "
 "instal·leu el controlador corresponent.<nobr/>"
 
-#: ekos/profileeditor.cpp:335
+#: ekos/profileeditor.cpp:338
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -27238,23 +27240,23 @@ msgstr ""
 "<nobr><b>Etiqueta</b>: %1 &#9473; <b>Controlador</b>: %2 &#9473; <b>Exec</"
 "b>: %3<nobr/>"
 
-#: ekos/profileeditor.cpp:344
+#: ekos/profileeditor.cpp:347
 #, kde-format
 msgid "Drivers"
 msgstr "Controladors"
 
-#: ekos/profileeditor.cpp:703
+#: ekos/profileeditor.cpp:710
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Exploreu la xarxa"
 
-#: ekos/profileeditor.cpp:704
+#: ekos/profileeditor.cpp:711
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "S'està explorant la xarxa buscant gestors web d'INDI…"
 
-#: ekos/profileeditor.cpp:768
+#: ekos/profileeditor.cpp:775
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "S'ha trobat un gestor web d'INDI a %1"
@@ -29448,7 +29450,7 @@ msgstr ""
 "utilitzant la mateixa hora, després avalua les tasques."
 
 #: ekos/scheduler/scheduler.cpp:511 ekos/scheduler/scheduler.cpp:2413
-#: ekos/scheduler/schedulerprocess.cpp:3210
+#: ekos/scheduler/schedulerprocess.cpp:3216
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
@@ -29489,42 +29491,34 @@ msgid "Warning: DEC value %1 is invalid."
 msgstr "Avís: el valor %1 de la Dec no és vàlid."
 
 #: ekos/scheduler/scheduler.cpp:937
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre-Startup Queue"
-msgstr "Trieu l'script d'inici"
+msgstr "Trieu la cua prèvia a l'inici"
 
 #: ekos/scheduler/scheduler.cpp:939 ekos/scheduler/scheduler.cpp:955
 #: ekos/scheduler/scheduler.cpp:971 ekos/scheduler/scheduler.cpp:987
 #, kde-format
 msgid "Queue Files (*.kstarsqueue *.json)"
-msgstr ""
+msgstr "Fitxers de cua (*.kstarsqueue *.json)"
 
 #: ekos/scheduler/scheduler.cpp:953
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post-Startup Queue"
-msgstr "Trieu l'script d'inici posterior al controlador"
+msgstr "Trieu la cua posterior a l'inici"
 
 #: ekos/scheduler/scheduler.cpp:969
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Sequence Queue"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre-Shutdown Queue"
-msgstr "Trieu una cua en seqüència"
+msgstr "Trieu la cua prèvia al tancament"
 
 #: ekos/scheduler/scheduler.cpp:985
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Sequence Queue"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post-Shutdown Queue"
-msgstr "Trieu una cua en seqüència"
+msgstr "Trieu la cua posterior al tancament"
 
 #: ekos/scheduler/scheduler.cpp:1076
 #, kde-format
@@ -29610,7 +29604,7 @@ msgstr "Pausa planificada del programador…"
 msgid "Resume Scheduler"
 msgstr "El programador es reprén"
 
-#: ekos/scheduler/scheduler.cpp:2114 ekos/scheduler/schedulerprocess.cpp:1876
+#: ekos/scheduler/scheduler.cpp:2114 ekos/scheduler/schedulerprocess.cpp:1882
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "L'observatori es troba en el procés de tancament"
@@ -29647,7 +29641,7 @@ msgstr "Guardeu la llista del programador d'Ekos"
 #: ekos/scheduler/scheduler.cpp:2293
 #, kde-format
 msgid "Failed to save scheduler list"
-msgstr "No s'ha pogut guardar la llista del programador"
+msgstr "Ha fallat mentre es guardava la llista del programador"
 
 #: ekos/scheduler/scheduler.cpp:2431
 #, kde-format
@@ -29695,31 +29689,26 @@ msgid "Safety conditions are OK."
 msgstr "Les condicions de seguretat són BONES."
 
 #: ekos/scheduler/scheduler.cpp:2506
-#, fuzzy, kde-format
-#| msgid "Warning: weather conditions are in the WARNING zone."
+#, kde-format
 msgid "Warning: safety conditions are in the WARNING zone."
-msgstr "Avís: les condicions meteorològiques es troben en la zona d'ALERTA."
+msgstr "Avís: les condicions de seguretat es troben en la zona d'ALERTA."
 
 #: ekos/scheduler/scheduler.cpp:2510
-#, fuzzy, kde-format
-#| msgid "Caution: weather conditions are in the DANGER zone!"
+#, kde-format
 msgid "Caution: safety conditions are in the DANGER zone!"
-msgstr ""
-"Precaució: les condicions meteorològiques es troben en la zona de PERILL!"
+msgstr "Precaució: les condicions de seguretat es troben en la zona de PERILL!"
 
 #: ekos/scheduler/scheduler.cpp:2528
-#, fuzzy, kde-format
-#| msgid "Weather conditions in warning zone"
+#, kde-format
 msgid "Safety conditions in warning zone"
-msgstr "Les condicions meteorològiques es troben en la zona d'alerta"
+msgstr "Les condicions de seguretat es troben en la zona d'alerta"
 
 #: ekos/scheduler/scheduler.cpp:2537
-#, fuzzy, kde-format
-#| msgid "Weather conditions are critical. Observatory shutdown is imminent"
+#, kde-format
 msgid "Safety conditions are critical. Observatory shutdown is imminent"
 msgstr ""
-"Les condicions meteorològiques són crítiques. El tancament de l'observatori "
-"és imminent"
+"Les condicions de seguretat són crítiques. El tancament de l'observatori és "
+"imminent"
 
 #: ekos/scheduler/scheduler.cpp:2559
 #, kde-format
@@ -30336,38 +30325,42 @@ msgid ""
 "Enable or disable execution of the startup queue. When disabled, no startup "
 "procedure will run."
 msgstr ""
+"Activa o desactiva l'execució de la cua d'inici. Si no està marcada, no "
+"s'executarà cap procediment d'inici."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerStartupEnabled)
 #: ekos/scheduler/scheduler.ui:2045
 #, kde-format
 msgid "Enable startup queue"
-msgstr ""
+msgstr "Activa la cua d'inici"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPreStartupScript)
 #: ekos/scheduler/scheduler.ui:2066
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Selected pre-startup queue to run before starting Ekos profile"
-msgstr "Trieu l'script que s'executarà abans d'iniciar el controlador"
+msgstr ""
+"Cua prèvia a l'inici seleccionada per a executar-se abans d'iniciar el "
+"perfil d'Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPreStartupQueueB)
 #: ekos/scheduler/scheduler.ui:2095
 #, kde-format
 msgid "Browse for pre-startup queue/collection file"
-msgstr ""
+msgstr "Navega buscant el fitxer de cua o la col·lecció prèvia a l'inici"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostStartupScript)
 #: ekos/scheduler/scheduler.ui:2121
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Selected post-startup queue to run after starting Ekos profile"
-msgstr "Trieu l'script que s'executarà després d'iniciar el controlador"
+msgstr ""
+"Cua posterior a l'inici seleccionada per a executar-se després d'iniciar el "
+"perfil d'Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPostStartupQueueB)
 #: ekos/scheduler/scheduler.ui:2150
 #, kde-format
 msgid "Browse for post-startup queue/collection file"
-msgstr ""
+msgstr "Navega buscant el fitxer de cua o la col·lecció posterior a l'inici"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:2174
@@ -30382,38 +30375,42 @@ msgid ""
 "Enable or disable execution of the shutdown queue. When disabled, no "
 "shutdown procedure will run."
 msgstr ""
+"Activa o desactiva l'execució de la cua de tancament. Si no està marcada, no "
+"s'executarà cap procediment de tancament."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerShutdownEnabled)
 #: ekos/scheduler/scheduler.ui:2198
 #, kde-format
 msgid "Enable shutdown queue"
-msgstr ""
+msgstr "Activa la cua de tancament"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPreShutdownScript)
 #: ekos/scheduler/scheduler.ui:2219
-#, fuzzy, kde-format
-#| msgid "Select script to execute before stopping the driver"
+#, kde-format
 msgid "Selected pre-shutdown queue to run before stopping Ekos profile"
-msgstr "Trieu l'script que s'executarà abans de parar el controlador"
+msgstr ""
+"Cua prèvia al tancament seleccionada per a executar-se abans de parar el "
+"perfil d'Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPreShutdownQueueB)
 #: ekos/scheduler/scheduler.ui:2248
 #, kde-format
 msgid "Browse for pre-shutdown queue/collection file"
-msgstr ""
+msgstr "Navega buscant el fitxer de cua o la col·lecció prèvia al tancament"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostShutdownScript)
 #: ekos/scheduler/scheduler.ui:2274
-#, fuzzy, kde-format
-#| msgid "Select script to execute after stopping the driver"
+#, kde-format
 msgid "Selected post-shutdown queue to run after stopping Ekos profile"
-msgstr "Trieu l'script que s'executarà després de parar el controlador"
+msgstr ""
+"Cua posterior al tancament seleccionada per a executar-se després de parar "
+"el perfil d'Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPostShutdownQueueB)
 #: ekos/scheduler/scheduler.ui:2303
 #, kde-format
 msgid "Browse for post-shutdown queue/collection file"
-msgstr ""
+msgstr "Navega buscant el fitxer de cua o la col·lecció posterior al tancament"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
@@ -30543,12 +30540,16 @@ msgstr "El programador està actiu."
 #, kde-format
 msgid "Executing post-startup tasks from %1 after safety recovery..."
 msgstr ""
+"S'estan executant les tasques posteriors a l'inici de %1 després de la "
+"recuperació meteorològica…"
 
 #: ekos/scheduler/schedulerprocess.cpp:555
 #, kde-format
 msgid ""
 "Warning: Failed to load post-startup queue from %1 after safety recovery"
 msgstr ""
+"Avís: ha fallat mentre es carregava la cua posterior a l'inici de %1 després "
+"de la recuperació de seguretat"
 
 #: ekos/scheduler/schedulerprocess.cpp:564
 #, kde-format
@@ -30569,15 +30570,12 @@ msgstr ""
 "com a interrompuda."
 
 #: ekos/scheduler/schedulerprocess.cpp:722
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because weather status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid ""
 "Job '%1' cannot start because safety status is %2 and grace period is over."
 msgstr ""
-"La tasca «%1» no es pot iniciar perquè l'estat del temps meteorològic és %2 "
-"i el període de gràcia ha acabat."
+"La tasca «%1» no es pot iniciar perquè l'estat de seguretat és %2 i el "
+"període de gràcia ha acabat."
 
 #: ekos/scheduler/schedulerprocess.cpp:723
 #: ekos/scheduler/schedulerprocess.cpp:733
@@ -30587,15 +30585,12 @@ msgid "Alert"
 msgstr "Alerta"
 
 #: ekos/scheduler/schedulerprocess.cpp:732
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because weather status is %2. Waiting until weather "
-#| "improves or until %3"
+#, kde-format
 msgid ""
 "Job '%1' cannot start because safety status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
-"La tasca «%1» no es pot iniciar perquè l'estat del temps meteorològic és %2. "
+"La tasca «%1» no es pot iniciar perquè l'estat de seguretat és %2. "
 "S'esperarà fins que millore la meteorologia o fins a %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:760
@@ -30617,10 +30612,9 @@ msgstr ""
 "muntura fins que la tasca estiga a punt."
 
 #: ekos/scheduler/schedulerprocess.cpp:793
-#, fuzzy, kde-format
-#| msgid "Failed to load dark data."
+#, kde-format
 msgid "Warning: Failed to add mount park task."
-msgstr "No s'han pogut carregar les dades fosques."
+msgstr "Avís: ha fallat mentre s'afegia la tasca d'aparcament de la muntura."
 
 #: ekos/scheduler/schedulerprocess.cpp:799
 #, kde-format
@@ -30637,15 +30631,18 @@ msgstr ""
 "habilitar el tancament preventiu."
 
 #: ekos/scheduler/schedulerprocess.cpp:838
-#, fuzzy, kde-format
-#| msgid "The mount is parked. Unpark to start guiding."
+#, kde-format
 msgid "Mount is parked, adding unpark task before slewing."
-msgstr "La muntura es troba aparcada. Desaparqueu-la per a iniciar el guiatge."
+msgstr ""
+"La muntura es troba aparcada, s'afig una tasca de desaparcament abans de "
+"l'orientació."
 
 #: ekos/scheduler/schedulerprocess.cpp:843
 #, kde-format
 msgid "Warning: Failed to add mount unpark task, attempting to slew anyway."
 msgstr ""
+"Avís: ha fallat mentre s'afegia la tasca de desaparcament de la muntura, "
+"s'intentarà igualment l'orientació."
 
 #: ekos/scheduler/schedulerprocess.cpp:870
 #, kde-format
@@ -30745,48 +30742,48 @@ msgstr "La captura de la tasca «%1» està en curs (iteració núm. %2)…"
 msgid "Job '%1' capture is in progress..."
 msgstr "La captura de la tasca «%1» es troba en curs…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1424
+#: ekos/scheduler/schedulerprocess.cpp:1430
 #, kde-format
 msgid "Ekos started."
 msgstr "S'ha iniciat Ekos."
 
-#: ekos/scheduler/schedulerprocess.cpp:1433
+#: ekos/scheduler/schedulerprocess.cpp:1439
 #, kde-format
 msgid "Starting Ekos failed. Retrying..."
 msgstr "Ekos ha fallat en iniciar-se. Es torna a intentar…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1438
+#: ekos/scheduler/schedulerprocess.cpp:1444
 #, kde-format
 msgid "Starting Ekos failed."
 msgstr "Ekos ha fallat en iniciar-se."
 
-#: ekos/scheduler/schedulerprocess.cpp:1449
+#: ekos/scheduler/schedulerprocess.cpp:1455
 #, kde-format
 msgid "Starting Ekos timed out. Retrying..."
 msgstr "L'inici d'Ekos ha exhaurit el temps d'espera. Es torna a intentar…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1459
+#: ekos/scheduler/schedulerprocess.cpp:1465
 #, kde-format
 msgid "Starting Ekos timed out."
 msgstr "L'inici d'Ekos ha exhaurit el temps d'espera."
 
-#: ekos/scheduler/schedulerprocess.cpp:1470
+#: ekos/scheduler/schedulerprocess.cpp:1476
 #, kde-format
 msgid "Ekos stopped."
 msgstr "S'ha parat Ekos."
 
-#: ekos/scheduler/schedulerprocess.cpp:1513
+#: ekos/scheduler/schedulerprocess.cpp:1519
 #, kde-format
 msgid "INDI devices connected."
 msgstr "S'han connectat els dispositius INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:1520
+#: ekos/scheduler/schedulerprocess.cpp:1526
 #, kde-format
 msgid "One or more INDI devices failed to connect. Retrying..."
 msgstr ""
 "Un o més dispositius INDI han fallat en connectar-se. Es torna a intentar…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1525
+#: ekos/scheduler/schedulerprocess.cpp:1531
 #, kde-format
 msgid ""
 "One or more INDI devices failed to connect. Check INDI control panel for "
@@ -30795,14 +30792,14 @@ msgstr ""
 "No s'ha pogut connectar un o més dispositius INDI. Per als detalls, "
 "verifiqueu el quadro de control d'INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:1534
+#: ekos/scheduler/schedulerprocess.cpp:1540
 #, kde-format
 msgid "One or more INDI devices timed out. Retrying..."
 msgstr ""
 "Un o més dispositius INDI han exhaurit el temps d'espera. Es torna a "
 "intentar…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1540
+#: ekos/scheduler/schedulerprocess.cpp:1546
 #, kde-format
 msgid ""
 "One or more INDI devices timed out. Check INDI control panel for details."
@@ -30810,115 +30807,110 @@ msgstr ""
 "Un o més dispositius INDI han exhaurit el temps d'espera. Per als detalls, "
 "verifiqueu el quadro de control d'INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:1551
+#: ekos/scheduler/schedulerprocess.cpp:1557
 #, kde-format
 msgid "INDI devices disconnected."
 msgstr "S'han desconnectat els dispositius INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:1585
+#: ekos/scheduler/schedulerprocess.cpp:1591
 #, kde-format
 msgid "INDI devices ready. Proceeding to post-startup phase..."
 msgstr ""
+"Dispositius INDI llestos. S'està procedint amb la fase posterior a l'inici…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1650
+#: ekos/scheduler/schedulerprocess.cpp:1656
 #, kde-format
 msgid "Executing post-shutdown tasks from %1..."
-msgstr ""
-
-#: ekos/scheduler/schedulerprocess.cpp:1658
-#, kde-format
-msgid "Post-shutdown queue is empty, shutdown complete."
-msgstr ""
+msgstr "S'estan executant les tasques posteriors al tancament de %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1664
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map %1"
-msgid "Failed to load post-shutdown queue from %1"
-msgstr "S'ha produït un error en carregar el mapa de defectes %1"
+#, kde-format
+msgid "Post-shutdown queue is empty, shutdown complete."
+msgstr "La cua posterior al tancament està buida, el tancament s'ha completat."
 
-#: ekos/scheduler/schedulerprocess.cpp:1679
+#: ekos/scheduler/schedulerprocess.cpp:1670
+#, kde-format
+msgid "Failed to load post-shutdown queue from %1"
+msgstr "Ha fallat mentre es carregava la cua posterior al tancament de %1"
+
+#: ekos/scheduler/schedulerprocess.cpp:1685
 #, kde-format
 msgid "Shutdown complete."
 msgstr "S'ha completat el tancament."
 
-#: ekos/scheduler/schedulerprocess.cpp:1681
+#: ekos/scheduler/schedulerprocess.cpp:1687
 #, kde-format
 msgid "Shutdown procedure failed, aborting..."
 msgstr "El procediment de tancament ha fallat. S'interromp…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1773
+#: ekos/scheduler/schedulerprocess.cpp:1779
 #, kde-format
 msgid "Observatory is in the startup process"
 msgstr "L'observatori es troba en el procés d'inici"
 
-#: ekos/scheduler/schedulerprocess.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Executing script %1..."
+#: ekos/scheduler/schedulerprocess.cpp:1799
+#, kde-format
 msgid "Executing pre-startup tasks from %1..."
-msgstr "S'està executant l'script %1…"
-
-#: ekos/scheduler/schedulerprocess.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map file %1"
-msgid "Failed to load pre-startup queue from %1"
-msgstr "No s'ha pogut carregar el fitxer de mapa de defectes %1"
+msgstr "S'estan executant les tasques prèvies a l'inici de %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1807
 #, kde-format
+msgid "Failed to load pre-startup queue from %1"
+msgstr "Ha fallat mentre es carregava la cua prèvia a l'inici de %1"
+
+#: ekos/scheduler/schedulerprocess.cpp:1813
+#, kde-format
 msgid "No pre-startup tasks, pre-startup phase complete. Starting Ekos..."
 msgstr ""
+"No hi ha cap tasca prèvia a l'inici. S'ha completat la fase prèvia a "
+"l'inici. S'està iniciant Ekos…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1831
-#, fuzzy, kde-format
-#| msgid "Executing script %1..."
+#: ekos/scheduler/schedulerprocess.cpp:1837
+#, kde-format
 msgid "Executing post-startup tasks from %1..."
-msgstr "S'està executant l'script %1…"
-
-#: ekos/scheduler/schedulerprocess.cpp:1839
-#, fuzzy, kde-format
-#| msgid "Failed to load dark frame file %1"
-msgid "Failed to load post-startup tasks from %1"
-msgstr "No s'ha pogut carregar el fitxer de fotograma fosc «%1»"
+msgstr "S'estan executant les tasques posteriors a l'inici de %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1845
 #, kde-format
-msgid "No post-startup tasks, startup complete."
-msgstr ""
+msgid "Failed to load post-startup tasks from %1"
+msgstr "Ha fallat mentre es carregaven les tasques posteriors a l'inici de %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1889
+#: ekos/scheduler/schedulerprocess.cpp:1851
+#, kde-format
+msgid "No post-startup tasks, startup complete."
+msgstr "No hi ha cap tasca posterior a l'inici. S'ha completat l'inici."
+
+#: ekos/scheduler/schedulerprocess.cpp:1895
 #, kde-format
 msgid "Executing pre-shutdown tasks from %1..."
-msgstr ""
-
-#: ekos/scheduler/schedulerprocess.cpp:1897
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map %1"
-msgid "Failed to load pre-shutdown queue from %1"
-msgstr "S'ha produït un error en carregar el mapa de defectes %1"
+msgstr "S'estan executant les tasques prèvies al tancament de %1…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1903
 #, kde-format
+msgid "Failed to load pre-shutdown queue from %1"
+msgstr "Ha fallat mentre es carregava la cua prèvia al tancament de %1"
+
+#: ekos/scheduler/schedulerprocess.cpp:1909
+#, kde-format
 msgid "No pre-shutdown tasks, proceeding to stop Ekos/INDI."
-msgstr ""
+msgstr "No hi ha cap tasca prèvia al tancament, es procedix a parar Ekos/INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:1944
-#, fuzzy, kde-format
-#| msgid "park/unpark wait procedure failed, aborting..."
+#: ekos/scheduler/schedulerprocess.cpp:1950
+#, kde-format
 msgid "Park/unpark procedure failed, aborting..."
-msgstr ""
-"Ha fallat el procediment d'espera per a aparcar o desaparcar. S'interromp…"
+msgstr "Ha fallat el procediment d'aparcar o desaparcar. S'interromp…"
 
-#: ekos/scheduler/schedulerprocess.cpp:1957
+#: ekos/scheduler/schedulerprocess.cpp:1963
 #, kde-format
 msgid "Scheduler paused."
 msgstr "El programador s'ha posat en pausa."
 
-#: ekos/scheduler/schedulerprocess.cpp:2000
+#: ekos/scheduler/schedulerprocess.cpp:2006
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr "No queden tasques en la cua del programador després d'avaluar."
 
-#: ekos/scheduler/schedulerprocess.cpp:2010
+#: ekos/scheduler/schedulerprocess.cpp:2016
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
@@ -30927,27 +30919,27 @@ msgstr ""
 "Només queden tasques interrompudes en la cua del programador després "
 "d'avaluar, torneu-les a programar."
 
-#: ekos/scheduler/schedulerprocess.cpp:2024
+#: ekos/scheduler/schedulerprocess.cpp:2030
 #, kde-format
 msgid "No jobs scheduled."
 msgstr "No hi ha cap tasca programada."
 
-#: ekos/scheduler/schedulerprocess.cpp:2179
+#: ekos/scheduler/schedulerprocess.cpp:2185
 #, kde-format
 msgid "Starting job sequence iteration #%1"
 msgstr "S'està iniciant la iteració núm. %1 de la seqüència de tasques"
 
-#: ekos/scheduler/schedulerprocess.cpp:2195
+#: ekos/scheduler/schedulerprocess.cpp:2201
 #, kde-format
 msgid "No executable jobs found. Stopping scheduler."
-msgstr ""
+msgstr "No s'ha trobat cap tasca executable. Es para el programador."
 
-#: ekos/scheduler/schedulerprocess.cpp:2263
+#: ekos/scheduler/schedulerprocess.cpp:2269
 #, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr "Ja s'està executant el guiatge, inicia directament la captura."
 
-#: ekos/scheduler/schedulerprocess.cpp:2275
+#: ekos/scheduler/schedulerprocess.cpp:2281
 #, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
@@ -30956,37 +30948,37 @@ msgstr ""
 "La tasca «%1» procedix directament a l'etapa de captura perquè només estan "
 "pendents els fotogrames de calibratge."
 
-#: ekos/scheduler/schedulerprocess.cpp:2487
-#: ekos/scheduler/schedulerprocess.cpp:3369
+#: ekos/scheduler/schedulerprocess.cpp:2493
+#: ekos/scheduler/schedulerprocess.cpp:3375
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
 "Avís: el procediment d'alineació de la tasca «%1» ha fallat, es marca com a "
 "interrompuda."
 
-#: ekos/scheduler/schedulerprocess.cpp:2513
+#: ekos/scheduler/schedulerprocess.cpp:2519
 #, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr ""
 "Avís: el procediment de captura de la tasca «%1» ha fallat, es marca com a "
 "interrompuda."
 
-#: ekos/scheduler/schedulerprocess.cpp:2559
+#: ekos/scheduler/schedulerprocess.cpp:2565
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 "Avís: el procediment d'enfocament de la tasca «%1» ha fallat, es marca com a "
 "interrompuda."
 
-#: ekos/scheduler/schedulerprocess.cpp:2582
-#: ekos/scheduler/schedulerprocess.cpp:3440
+#: ekos/scheduler/schedulerprocess.cpp:2588
+#: ekos/scheduler/schedulerprocess.cpp:3446
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
 "Avís: el procediment de guiatge de la tasca «%1» ha fallat, es marca com a "
 "interrompuda."
 
-#: ekos/scheduler/schedulerprocess.cpp:2606
+#: ekos/scheduler/schedulerprocess.cpp:2612
 #, kde-format
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
@@ -30994,103 +30986,99 @@ msgstr ""
 "Avís: la tasca «%1» ha perdut la connexió amb la muntura, s'intenta tornar a "
 "connectar."
 
-#: ekos/scheduler/schedulerprocess.cpp:2623
+#: ekos/scheduler/schedulerprocess.cpp:2629
 #, kde-format
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr ""
 "Avís: la tasca «%1» ha perdut la connexió amb la cúpula, s'intenta tornar a "
 "connectar."
 
-#: ekos/scheduler/schedulerprocess.cpp:2691
+#: ekos/scheduler/schedulerprocess.cpp:2697
 #, kde-format
 msgid "Ekos job started (%1)"
 msgstr "S'ha iniciat una tasca d'Ekos (%1)"
 
-#: ekos/scheduler/schedulerprocess.cpp:2884
+#: ekos/scheduler/schedulerprocess.cpp:2890
 #, kde-format
 msgid "Scheduler list saved to %1"
 msgstr "La llista del programador s'ha guardat a %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3000
+#: ekos/scheduler/schedulerprocess.cpp:3006
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "Temps límit del solucionador: %1 s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3002
+#: ekos/scheduler/schedulerprocess.cpp:3008
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "El solucionador ha fallat: %1 s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3037
+#: ekos/scheduler/schedulerprocess.cpp:3043
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 "El fotograma capturat està a %1 minuts d'arc de l'objectiu, es torna a "
 "alinear…"
 
-#: ekos/scheduler/schedulerprocess.cpp:3049
-#, fuzzy, kde-format
-#| msgid "Manual startup procedure completed successfully."
+#: ekos/scheduler/schedulerprocess.cpp:3055
+#, kde-format
 msgid "Pre-startup queue completed successfully. Starting Ekos..."
-msgstr "S'ha completat amb èxit el procediment d'inici manual."
+msgstr "La cua prèvia a l'inici s'ha completat amb èxit. S'està iniciant Ekos…"
 
-#: ekos/scheduler/schedulerprocess.cpp:3057
-#, fuzzy, kde-format
-#| msgid "Manual startup procedure completed successfully."
+#: ekos/scheduler/schedulerprocess.cpp:3063
+#, kde-format
 msgid "Post-startup queue completed successfully."
-msgstr "S'ha completat amb èxit el procediment d'inici manual."
+msgstr "La cua posterior a l'inici s'ha completat amb èxit."
 
-#: ekos/scheduler/schedulerprocess.cpp:3064
+#: ekos/scheduler/schedulerprocess.cpp:3070
 #, kde-format
 msgid "Resuming scheduler after safety recovery startup tasks..."
 msgstr ""
+"Es reprén el programador després de les tasques d'inici de recuperació de "
+"seguretat…"
 
-#: ekos/scheduler/schedulerprocess.cpp:3072
-#, fuzzy, kde-format
-#| msgid "Manual shutdown procedure completed successfully."
+#: ekos/scheduler/schedulerprocess.cpp:3078
+#, kde-format
 msgid "Pre-shutdown queue completed successfully."
-msgstr "S'ha completat amb èxit el procediment de tancament manual."
+msgstr "La cua prèvia al tancament s'ha completat amb èxit."
 
-#: ekos/scheduler/schedulerprocess.cpp:3080
-#, fuzzy, kde-format
-#| msgid "Manual shutdown procedure completed successfully."
+#: ekos/scheduler/schedulerprocess.cpp:3086
+#, kde-format
 msgid "Post-shutdown queue completed successfully."
-msgstr "S'ha completat amb èxit el procediment de tancament manual."
+msgstr "La cua posterior al tancament s'ha completat amb èxit."
 
-#: ekos/scheduler/schedulerprocess.cpp:3093
-#, fuzzy, kde-format
-#| msgid "Extractor failed: %1s"
+#: ekos/scheduler/schedulerprocess.cpp:3099
+#, kde-format
 msgid "Startup queue failed: %1"
-msgstr "L'extractor ha fallat: %1 s"
+msgstr "Ha fallat la cua d'inici: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3100
-#, fuzzy, kde-format
-#| msgid "Refresh solver failed: %1s"
+#: ekos/scheduler/schedulerprocess.cpp:3106
+#, kde-format
 msgid "Pre-shutdown queue failed: %1"
-msgstr "L'actualització del solucionador ha fallat: %1 s"
+msgstr "Ha fallat la cua prèvia al tancament: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3107
+#: ekos/scheduler/schedulerprocess.cpp:3113
 #, kde-format
 msgid "Post-shutdown queue failed: %1"
-msgstr ""
+msgstr "Ha fallat la cua posterior al tancament: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3173
+#: ekos/scheduler/schedulerprocess.cpp:3179
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
 msgstr "Avís: el nom del tren està buit, se selecciona «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3174
+#: ekos/scheduler/schedulerprocess.cpp:3180
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr "Avís: el nom del tren %2 no existix, se selecciona «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3176
-#: ekos/scheduler/schedulerprocess.cpp:3188
+#: ekos/scheduler/schedulerprocess.cpp:3182
+#: ekos/scheduler/schedulerprocess.cpp:3194
 #, kde-format
 msgid "Select optical train"
 msgstr "Tria el tren òptic"
 
-#: ekos/scheduler/schedulerprocess.cpp:3185
+#: ekos/scheduler/schedulerprocess.cpp:3191
 #, kde-format
 msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
@@ -31099,17 +31087,17 @@ msgstr ""
 "Avís: no hi ha disponible cap nom de tren per a la tasca del programador, "
 "trieu-lo manualment."
 
-#: ekos/scheduler/schedulerprocess.cpp:3335
+#: ekos/scheduler/schedulerprocess.cpp:3341
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "S'ha completat l'alineació de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3354
+#: ekos/scheduler/schedulerprocess.cpp:3360
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "Avís: ha fallat l'alineació de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3360
+#: ekos/scheduler/schedulerprocess.cpp:3366
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
@@ -31117,40 +31105,40 @@ msgstr ""
 "Avís: la tasca «%1» ha forçat un reinici del model de muntura després de "
 "fallar l'alineació núm. %2."
 
-#: ekos/scheduler/schedulerprocess.cpp:3364
-#: ekos/scheduler/schedulerprocess.cpp:3428
+#: ekos/scheduler/schedulerprocess.cpp:3370
+#: ekos/scheduler/schedulerprocess.cpp:3434
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "S'està reiniciant el procediment d'alineació de %1…"
 
-#: ekos/scheduler/schedulerprocess.cpp:3400
+#: ekos/scheduler/schedulerprocess.cpp:3406
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "El guiatge de la tasca «%1» està en curs."
 
-#: ekos/scheduler/schedulerprocess.cpp:3412
+#: ekos/scheduler/schedulerprocess.cpp:3418
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "Avís: ha fallat el guiatge de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3414
+#: ekos/scheduler/schedulerprocess.cpp:3420
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "Avís: ha fallat el calibratge de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3433
+#: ekos/scheduler/schedulerprocess.cpp:3439
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
 "La tasca «%1» està fent el guiatge, el procediment de guiatge es reiniciarà "
 "en %2 segons."
 
-#: ekos/scheduler/schedulerprocess.cpp:3486
+#: ekos/scheduler/schedulerprocess.cpp:3492
 #, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
 msgstr "[%2] Avís: ha fallat la captura de l'objectiu de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3504
+#: ekos/scheduler/schedulerprocess.cpp:3510
 #, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
@@ -31159,53 +31147,53 @@ msgstr ""
 "[%2] La tasca «%1» està fent la captura, s'està reiniciant el seu "
 "procediment de guiatge (intent núm. %3 de %4)."
 
-#: ekos/scheduler/schedulerprocess.cpp:3513
+#: ekos/scheduler/schedulerprocess.cpp:3519
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 "Avís: la tasca «%1» ha fallat el procediment de captura, es reinicia la "
 "captura."
 
-#: ekos/scheduler/schedulerprocess.cpp:3519
+#: ekos/scheduler/schedulerprocess.cpp:3525
 #, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
 "[%2] Avís: la tasca «%1» de procediment de captura ha fallat, i es marca com "
 "a interrompuda."
 
-#: ekos/scheduler/schedulerprocess.cpp:3532
+#: ekos/scheduler/schedulerprocess.cpp:3538
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr ""
 "[%2] La tasca «%1» del seguidor ha sigut interrompuda. S'està reiniciant."
 
-#: ekos/scheduler/schedulerprocess.cpp:3538
+#: ekos/scheduler/schedulerprocess.cpp:3544
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
 msgstr "[%2] La tasca «%1» del seguidor ha sigut interrompuda."
 
-#: ekos/scheduler/schedulerprocess.cpp:3546
+#: ekos/scheduler/schedulerprocess.cpp:3552
 #, kde-format
 msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] Tasca (%1): S'ha finalitzat la captura"
 
-#: ekos/scheduler/schedulerprocess.cpp:3620
+#: ekos/scheduler/schedulerprocess.cpp:3626
 #, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
 msgstr "S'ha completat l'enfocament de la tasca «%1» del tren «%2»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3632
+#: ekos/scheduler/schedulerprocess.cpp:3638
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "Avís: ha fallat l'enfocament de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3636
+#: ekos/scheduler/schedulerprocess.cpp:3642
 #, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
 msgstr ""
 "S'està reiniciant el procediment d'enfocament de la tasca «%1» del tren «%2»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3641
+#: ekos/scheduler/schedulerprocess.cpp:3647
 #, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
@@ -31213,29 +31201,29 @@ msgstr ""
 "Avís: el procediment d'enfocament de la tasca «%1» del tren «%2» ha fallat, "
 "es marca com a interrompuda."
 
-#: ekos/scheduler/schedulerprocess.cpp:3674
+#: ekos/scheduler/schedulerprocess.cpp:3680
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "S'ha completat l'orientació de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3680
+#: ekos/scheduler/schedulerprocess.cpp:3686
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 "Avís: la tasca «%1» d'orientació ha fallat, i es marca com a finalitzada a "
 "causa d'errors."
 
-#: ekos/scheduler/schedulerprocess.cpp:3686
+#: ekos/scheduler/schedulerprocess.cpp:3692
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Avís: la tasca «%1» no ha trobat cap orientació, es reinicia."
 
-#: ekos/scheduler/schedulerprocess.cpp:3699
+#: ekos/scheduler/schedulerprocess.cpp:3705
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "S'ha completat el reposicionament de la tasca «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3705
+#: ekos/scheduler/schedulerprocess.cpp:3711
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
@@ -31243,13 +31231,13 @@ msgstr ""
 "Avís: la tasca «%1» de reposicionament ha fallat, i es marca com a "
 "finalitzada a causa d'errors."
 
-#: ekos/scheduler/schedulerprocess.cpp:3711
+#: ekos/scheduler/schedulerprocess.cpp:3717
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Avís: la tasca «%1» no ha trobat cap reposicionament, es reinicia."
 
-#: ekos/scheduler/schedulerprocess.cpp:3725
-#: ekos/scheduler/schedulerprocess.cpp:3736
+#: ekos/scheduler/schedulerprocess.cpp:3731
+#: ekos/scheduler/schedulerprocess.cpp:3742
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
@@ -31257,43 +31245,37 @@ msgstr ""
 "Avís: la muntura està aparcada mentre el programador està actiu per a la "
 "tasca «%1». S'interromp."
 
-#: ekos/scheduler/schedulerprocess.cpp:3802
-#, fuzzy, kde-format
-#| msgid "Weather has improved. Resuming operations."
+#: ekos/scheduler/schedulerprocess.cpp:3808
+#, kde-format
 msgid "Safety has improved. Resuming operations."
-msgstr "La meteorologia ha millorat. Es reprenen les operacions."
+msgstr "La seguretat ha millorat. Es reprenen les operacions."
 
-#: ekos/scheduler/schedulerprocess.cpp:3812
-#, fuzzy, kde-format
-#| msgid ""
-#| "Weather alert detected. Starting soft shutdown procedure in %1 seconds."
+#: ekos/scheduler/schedulerprocess.cpp:3818
+#, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
-"S'ha detectat una alerta meteorològica. S'iniciarà el procediment de parada "
+"S'ha detectat una alerta de seguretat. S'iniciarà el procediment de parada "
 "suau d'ací a %1 segons."
 
-#: ekos/scheduler/schedulerprocess.cpp:3839
-#, fuzzy, kde-format
-#| msgid ""
-#| "Observatory scheduled for soft shutdown until weather improves or until "
-#| "%1."
+#: ekos/scheduler/schedulerprocess.cpp:3845
+#, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
 msgstr ""
-"Observatori planificat per a la parada suau fins que millore la meteorologia "
-"o fins a %1."
+"Observatori planificat per a la parada suau fins que millore la seguretat o "
+"fins a %1."
 
-#: ekos/scheduler/schedulerprocess.cpp:3861
+#: ekos/scheduler/schedulerprocess.cpp:3867
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "S'ha completat amb èxit el procediment de tancament manual."
 
-#: ekos/scheduler/schedulerprocess.cpp:3867
+#: ekos/scheduler/schedulerprocess.cpp:3873
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "El procediment de tancament manual ha finalitzat a causa d'errors."
 
-#: ekos/scheduler/schedulerprocess.cpp:4030
+#: ekos/scheduler/schedulerprocess.cpp:4036
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -31302,22 +31284,25 @@ msgstr ""
 "En repòs durant %1 per a la simulació d'actualització del rellotge fins que "
 "la tasca d'observació següent estiga llesta…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4335
+#: ekos/scheduler/schedulerprocess.cpp:4341
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
 "Avís: la tasca «%1» té la seqüència inaccessible «%2», es marca com a no "
 "vàlida."
 
-#: ekos/scheduler/schedulerprocess.cpp:4420
+#: ekos/scheduler/schedulerprocess.cpp:4426
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
 msgstr ""
+"El monitor de seguretat s'ha inicialitzat amb la cadena de connexió: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:65
 #, kde-format
 msgid "Initializing standalone safety monitor monitoring for %1@%2:%3"
 msgstr ""
+"S'està inicialitzant el monitoratge del dispositiu monitor de seguretat "
+"autònom %1@%2:%3"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:117
 #, kde-format
@@ -31325,46 +31310,51 @@ msgid ""
 "Warning: Invalid safety monitor connection string format. Expected 'host' or "
 "'host:port'"
 msgstr ""
+"Avís: format no vàlid de la cadena de connexió per al dispositiu monitor de "
+"seguretat. S'esperava «amfitrió» o «amfitrió:port»"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:138
 #, kde-format
 msgid "Invalid safety monitor port number, using default port 7624"
 msgstr ""
+"Número no vàlid de port del monitor de seguretat, s'utilitza el port "
+"predeterminat 7624"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:167
 #, kde-format
 msgid ""
 "Failed to connect to standalone safety monitor after %1 attempts, giving up"
 msgstr ""
+"No s'ha pogut connectar amb el dispositiu monitor de seguretat autònom "
+"després de %1 intents. Es desistix"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:182
-#, fuzzy, kde-format
-#| msgid "Connecting to remote INDI server at %1 on port %2 ..."
+#, kde-format
 msgid "Connecting to standalone safety monitor at %1:%2..."
-msgstr "S'està connectant amb el servidor INDI %1 en el port %2…"
+msgstr ""
+"S'està connectant amb el dispositiu monitor de seguretat autònom a %1:%2…"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:201
 #, kde-format
 msgid "Standalone safety monitor device %1 is ready"
-msgstr ""
+msgstr "El dispositiu monitor de seguretat autònom %1 està a punt"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:219
-#, fuzzy, kde-format
-#| msgid "Warning: DEC value %1 is invalid."
+#, kde-format
 msgid "Warning: Device %1 is not valid"
-msgstr "Avís: el valor %1 de la Dec no és vàlid."
+msgstr "Avís: el dispositiu %1 no és vàlid"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:235
 #, kde-format
 msgid "Warning: Standalone safety monitor device %1 disconnected"
-msgstr ""
+msgstr "Avís: s'ha desconnectat el dispositiu monitor de seguretat autònom %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:249
 #: ekos/scheduler/schedulersafetymonitor.cpp:293
 #: ekos/scheduler/schedulersafetymonitor.cpp:319
 #, kde-format
 msgid "Will attempt to reconnect in 10 seconds (attempt %1 of %2)..."
-msgstr ""
+msgstr "S'intentarà tornar a connectar d'ací a 10 segons (intent %1 de %2)…"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:255
 #: ekos/scheduler/schedulersafetymonitor.cpp:299
@@ -31372,48 +31362,54 @@ msgstr ""
 #, kde-format
 msgid "Maximum reconnection attempts reached for standalone safety monitor"
 msgstr ""
+"S'han assolit els intents màxims de tornar a connectar del dispositiu "
+"monitor de seguretat autònom"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:263
-#, fuzzy, kde-format
-#| msgid "Attempting to reconnect focuser: %1"
+#, kde-format
 msgid "Attempting to reconnect to standalone safety monitor..."
-msgstr "S'intentarà tornar a connectar amb l'enfocador: %1"
+msgstr ""
+"S'intentarà tornar a connectar amb el sistema monitor de seguretat autònom"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:280
-#, fuzzy, kde-format
-#| msgid "Astrometry alignment completed successfully"
+#, kde-format
 msgid "Standalone safety monitor client connected successfully"
-msgstr "S'ha completat amb èxit l'alineació amb l'astrometria"
+msgstr "El sistema monitor de seguretat autònom s'ha connectat amb èxit"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:287
 #, kde-format
 msgid "Standalone safety monitor client connection failed: %1"
 msgstr ""
+"No s'ha pogut connectar amb el client del sistema monitor de seguretat "
+"autònom: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:306
 #, kde-format
 msgid "Standalone safety monitor client terminated: %1"
 msgstr ""
+"El client del dispositiu monitor de seguretat autònom ha finalitzat: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:370
 #, kde-format
 msgid "Safety monitor connection string changed from %1:%2 to %3:%4"
 msgstr ""
+"La cadena de connexió del monitor de seguretat ha canviat de %1:%2 a %3:%4"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:378
 #, kde-format
 msgid "Disconnecting from existing safety monitor at %1:%2"
 msgstr ""
+"S'està desconnectant del dispositiu monitor de seguretat autònom a %1:%2"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:410
 #, kde-format
 msgid "Safety monitor monitoring disabled"
-msgstr ""
+msgstr "S'ha desactivat el monitoratge del monitor de seguretat"
 
 #: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
 msgid "Unable to open sequence queue file '%1'"
-msgstr "No s'ha pogut en obrir el fitxer «%1» de cua en seqüència"
+msgstr "No s'ha pogut obrir el fitxer «%1» de cua en seqüència"
 
 #: ekos/scheduler/schedulerutils.cpp:444
 #, kde-format
@@ -31432,69 +31428,59 @@ msgstr "Tasca «%1» %2x%3\" %4"
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:96
 #, kde-format
 msgid "Starting task queue with %1 items"
-msgstr ""
+msgstr "S'està iniciant la cua de tasques amb %1 elements"
 
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:263
 #, kde-format
 msgid "No connected device found with required interfaces"
-msgstr ""
+msgstr "No s'ha trobat cap dispositiu connectat amb les interfícies requerides"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
-#, fuzzy, kde-format
-#| msgid "Loading sky objects"
+#, kde-format
 msgid "Load Task Collection"
-msgstr "S'estan carregant els objectes celestes"
+msgstr "Càrrega de la col·lecció de tasques"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:42
-#, fuzzy, kde-format
-#| msgid "Available Properties"
+#, kde-format
 msgid "Available Collections"
-msgstr "Propietats disponibles"
+msgstr "Col·leccions disponibles"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:52
-#, fuzzy, kde-format
-#| msgid "Object Details"
+#, kde-format
 msgid "Collection Details"
-msgstr "Detalls de l'objecte"
+msgstr "Detalls de la col·lecció"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:79
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:63
-#, fuzzy, kde-format
-#| msgctxt "Do not adjust the orientation of the sky map for an erect observer"
-#| msgid "No correction"
+#, kde-format
 msgid "Load Collection"
-msgstr "Sense correcció"
+msgstr "Carrega la col·lecció"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:185
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error reading collection"
-msgstr "S'ha produït un error en llegir la imatge: %1"
+msgstr "S'ha produït un error mentre es llegia la col·lecció"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:196
-#, fuzzy, kde-format
-#| msgid "Invalid Epoch format"
+#, kde-format
 msgid "Invalid collection format"
-msgstr "Format d'època no vàlid"
+msgstr "Format de col·lecció no vàlid"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:214
 #, kde-format
 msgid "<b>Tasks (%1):</b><br/>"
-msgstr ""
+msgstr "<b>Tasques (%1):</b><br/>"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Select Devices"
+#, kde-format
 msgid "Select Device"
-msgstr "Tria els dispositius"
+msgstr "Trieu un dispositiu"
 
 # skip-rule: punctuation-period-no
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:67
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for plate solving"
+#, kde-format
 msgid "Select the device to use for this task"
 msgstr ""
-"Tria el perfil d'opcions que s'utilitzarà per a la resolució de plaques."
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:170
 #, kde-format
@@ -31503,35 +31489,30 @@ msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:190
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:506
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Optical Train Manager not available"
-msgstr "Sense informació disponible de la imatge."
+msgstr "El gestor del trem òptic no està disponible"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:201
-#, fuzzy, kde-format
-#| msgid "Scheduler started."
+#, kde-format
 msgid "Scheduler state not available"
-msgstr "El programador s'ha iniciat."
+msgstr "L'estat del programador no està disponible"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:215
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:474
-#, fuzzy, kde-format
-#| msgid "No object selected."
+#, kde-format
 msgid "No profile selected"
-msgstr "No hi ha cap objecte seleccionat."
+msgstr "No hi ha cap perfil seleccionat"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:235
-#, fuzzy, kde-format
-#| msgid "Critical File not Found: %1"
+#, kde-format
 msgid "Profile not found: %1"
-msgstr "No s'ha trobat el fitxer crítica: %1"
+msgstr "No s'ha trobat el perfil: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:246
-#, fuzzy, kde-format
-#| msgid "Optical train doesn't exist for id %1"
+#, kde-format
 msgid "No optical trains for profile: %1"
-msgstr "El tren òptic no existix per a l'ID %1"
+msgstr "No hi ha cap tren òptic per al perfil: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:280
 #, kde-format
@@ -31544,42 +31525,35 @@ msgid "No compatible devices in profile"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
-#, fuzzy, kde-format
-#| msgid "Guide"
+#, kde-format
 msgid "Guider"
-msgstr "Guia"
+msgstr "Sistema de guiatge"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:499
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather Station"
-msgstr "Avís meteorològic"
+msgstr "Estació meteorològica"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:503
-#, fuzzy, kde-format
-#| msgid "Dust cap:"
+#, kde-format
 msgid "Dust Cap"
-msgstr "Tapa per la pols:"
+msgstr "Tapa per la pols"
 
 # skip-rule: kct-box
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:505
-#, fuzzy, kde-format
-#| msgid "Light box:"
+#, kde-format
 msgid "Light Box"
-msgstr "Caixa de llum:"
+msgstr "Caixa de llum"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:511
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Spectra"
+#, kde-format
 msgid "Spectrograph"
-msgstr "Espectres"
+msgstr "Espectrògraf"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:513
-#, fuzzy, kde-format
-#| msgid "Calculator"
+#, kde-format
 msgid "Correlator"
-msgstr "Calculadora"
+msgstr "Correlacionador"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:517
@@ -31590,99 +31564,85 @@ msgid "Device"
 msgstr "Dispositiu"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Astrometry Parameters"
+#, kde-format
 msgid "Customize Parameters"
-msgstr "Paràmetres de l'astrometria"
+msgstr "Personalitza els paràmetres"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:97
-#, fuzzy, kde-format
-#| msgid "Device"
+#, kde-format
 msgid "Device: %1"
-msgstr "Dispositiu"
+msgstr "Dispositiu: %1"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:210
-#, fuzzy, kde-format
-#| msgid "Browse Tree..."
+#, kde-format
 msgid "Browse..."
-msgstr "Navega per l'arbre…"
+msgstr "Navega…"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:214
-#, fuzzy, kde-format
-#| msgid "Select Filenames"
+#, kde-format
 msgid "Select File"
-msgstr "Tria els noms dels fitxers"
+msgstr "Trieu un fitxer"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:298
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Invalid Parameters"
-msgstr "Paràmetres d'entrada"
+msgstr "Paràmetres no vàlids"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:309
 #, kde-format
 msgid "No template specified"
-msgstr ""
+msgstr "No s'ha especificat cap plantilla"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:53
 #, kde-format
 msgid "Property Template Builder"
-msgstr ""
+msgstr "Constructor de la plantilla de propietats"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:64
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:81
-#, fuzzy, kde-format
-#| msgid "Edit Flag"
+#, kde-format
 msgid "Edit Template"
-msgstr "Edita l'indicador"
+msgstr "Edició de plantilla"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:142
-#, fuzzy, kde-format
-#| msgid "Device"
+#, kde-format
 msgid "Device:"
-msgstr "Dispositiu"
+msgstr "Dispositiu:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Property"
+#, kde-format
 msgid "Property:"
-msgstr "Propietat"
+msgstr "Propietat:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:174
-#, fuzzy, kde-format
-#| msgid "Version:"
+#, kde-format
 msgid "Permission:"
-msgstr "Versió:"
+msgstr "Permisos:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:207
 #, kde-format
 msgid "SET - Write value to property"
-msgstr ""
+msgstr "SET: escriu el valor a la propietat"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:211
 #, kde-format
 msgid "EVALUATE - Check property condition"
-msgstr ""
+msgstr "EVALUATE: comprova la condició de la propietat"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:218
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Property"
+#, kde-format
 msgid "Property Element"
-msgstr "Propietat"
+msgstr "Element de propietat"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:222
-#, fuzzy, kde-format
-#| msgid "Equipment:"
+#, kde-format
 msgid "Element:"
-msgstr "Equip:"
+msgstr "Element:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:230
-#, fuzzy, kde-format
-#| msgid "File Settings"
+#, kde-format
 msgid "Action Settings"
-msgstr "Configureu els fitxers"
+msgstr "Configureu les accions"
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:237
@@ -31692,50 +31652,44 @@ msgid "Timeout:"
 msgstr "Temps d'espera:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:242
-#, fuzzy, kde-format
-#| msgctxt "City in St. Lucia"
-#| msgid "Castries"
+#, kde-format
 msgid "Retries:"
-msgstr "Castries"
+msgstr "Reintents:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:245
-#, fuzzy, kde-format
-#| msgid "Aborted"
+#, kde-format
 msgid "Abort Queue"
-msgstr "Interromput"
+msgstr "Interromp la cua"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:247
 #, kde-format
 msgid "Skip to Next Task"
-msgstr ""
+msgstr "Salta fins a la tasca següent"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:248
 #, kde-format
 msgid "On Failure:"
-msgstr ""
+msgstr "En fallar:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:271
-#, fuzzy, kde-format
-#| msgid "Alternate Name"
+#, kde-format
 msgid "Template Name:"
-msgstr "Nom alternatiu"
+msgstr "Nom de la plantilla:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:281
-#, fuzzy, kde-format
-#| msgid "Memory:"
+#, kde-format
 msgid "Category:"
-msgstr "Memòria:"
+msgstr "Categoria:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:294
 #, kde-format
 msgid "Template Preview (JSON)"
-msgstr ""
+msgstr "Vista prèvia de la plantilla (JSON)"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:317
-#, fuzzy, kde-format
-#| msgid "Select Devices"
+#, kde-format
 msgid "Step 1: Select Device"
-msgstr "Tria els dispositius"
+msgstr "Pas 1: Trieu el dispositiu"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:318
 #, kde-format
@@ -31743,10 +31697,9 @@ msgid "Choose the INDI device for which you want to create a custom template."
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:321
-#, fuzzy, kde-format
-#| msgid "1. Select Profile"
+#, kde-format
 msgid "Step 2: Select Property"
-msgstr "1. Trieu el perfil"
+msgstr "Pas 2: Trieu la propietat"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:323
 #, kde-format
@@ -31757,10 +31710,9 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:326
-#, fuzzy, kde-format
-#| msgid "Mount Configuration"
+#, kde-format
 msgid "Step 3: Configure Actions"
-msgstr "Configureu la muntura"
+msgstr "Pas 3: Configuració de les accions"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:327
 #, kde-format
@@ -31770,7 +31722,7 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:330
 #, kde-format
 msgid "Step 4: Template Metadata"
-msgstr ""
+msgstr "Pas 4: Metadades de la plantilla"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:331
 #, kde-format
@@ -31780,7 +31732,7 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:334
 #, kde-format
 msgid "Step 5: Preview and Save"
-msgstr ""
+msgstr "Pas 5: Vista prèvia i guardada"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:335
 #, kde-format
@@ -31788,29 +31740,24 @@ msgid "Review the generated template before saving."
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:456
-#, fuzzy, kde-format
-#| msgid "Disconnecting INDI devices..."
+#, kde-format
 msgid "Using connected INDI devices"
-msgstr "S'estan desconnectant els dispositius INDI…"
+msgstr "S'utilitzen els dispositius INDI connectats"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:464
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "No devices available"
-msgstr "Sense informació disponible de la imatge."
+msgstr "No hi ha cap dispositiu disponible"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:491
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Profile Editor"
+#, kde-format
 msgid "Profile not found"
-msgstr "Editor de perfils"
+msgstr "No s'ha trobat el perfil"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:499
-#, fuzzy, kde-format
-#| msgid "Select optical train"
+#, kde-format
 msgid "No optical trains found"
-msgstr "Tria el tren òptic"
+msgstr "No s'ha trobat cap tren òptic"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:533
 #, kde-format
@@ -31818,36 +31765,31 @@ msgid "Using cached devices from profile: %1"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:538
-#, fuzzy, kde-format
-#| msgid "INDI devices connected."
+#, kde-format
 msgid "No devices found"
-msgstr "S'han connectat els dispositius INDI."
+msgstr "No s'ha trobat cap dispositiu"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:585
-#, fuzzy, kde-format
-#| msgid "Scheme Not Found"
+#, kde-format
 msgid "Device not found"
-msgstr "No es troba l'esquema"
+msgstr "No s'ha trobat el dispositiu"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:628
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Scope Properties"
+#, kde-format
 msgid "No compatible properties found"
-msgstr "Propietats de l'instrument de visió"
+msgstr "No s'ha trobat cap propietat compatible"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:632
 #, kde-format
 msgid "%1 properties available"
-msgstr ""
+msgstr "%1 propietats disponibles"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:861
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:923
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:966
-#, fuzzy, kde-format
-#| msgid "Mount Configuration"
+#, kde-format
 msgid "SET Action Configuration"
-msgstr "Configureu la muntura"
+msgstr "Configureu l'acció SET"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:869
@@ -31861,89 +31803,77 @@ msgstr "Valor:"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:932
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:973
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Mount Configuration"
+#, kde-format
 msgid "EVALUATE Action Configuration"
-msgstr "Configureu la muntura"
+msgstr "EVALUATE Action Configuration"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:876
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:978
-#, fuzzy, kde-format
-#| msgid "Equal"
+#, kde-format
 msgid "Equals"
-msgstr "Igual"
+msgstr "Iguals"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:877
 #, kde-format
 msgid "Less Than"
-msgstr ""
+msgstr "Més xicotet que"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:878
-#, fuzzy, kde-format
-#| msgctxt "City in Montana USA"
-#| msgid "Great Falls"
+#, kde-format
 msgid "Greater Than"
-msgstr "Great Falls"
+msgstr "Més gran que"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:879
 #, kde-format
 msgid "Less or Equal"
-msgstr ""
+msgstr "Més xicotet o igual"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:880
 #, kde-format
 msgid "Greater or Equal"
-msgstr ""
+msgstr "Més gran o igual"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:881
-#, fuzzy, kde-format
-#| msgid "Equal"
+#, kde-format
 msgid "Not Equal"
-msgstr "Igual"
+msgstr "No igual"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:882
 #, kde-format
 msgid "Within Range"
-msgstr ""
+msgstr "Dins de l'interval"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:883
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:980
-#, fuzzy, kde-format
-#| msgctxt "City in Oregon USA"
-#| msgid "Condon"
+#, kde-format
 msgid "Condition:"
-msgstr "Condon"
+msgstr "Condició:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:895
-#, fuzzy, kde-format
-#| msgid "Tolerance:"
+#, kde-format
 msgid "Margin/Tolerance:"
-msgstr "Tolerància:"
+msgstr "Marge o tolerància:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:930
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "State:"
 msgstr "Estat:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:939
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1019
-#, fuzzy, kde-format
-#| msgid "Expert Settings"
+#, kde-format
 msgid "Expected State:"
-msgstr "Configuració experta"
+msgstr "Estat esperat:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:979
-#, fuzzy, kde-format
-#| msgid "Continue"
+#, kde-format
 msgid "Contains"
-msgstr "Continua"
+msgstr "Conté"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:983
-#, fuzzy, kde-format
-#| msgid "Proposed Value"
+#, kde-format
 msgid "Expected Value:"
-msgstr "Valors proposat"
+msgstr "Valor esperat:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1016
 #: skycomponents/imageoverlaycomponent.cpp:556
@@ -31954,18 +31884,17 @@ msgstr "D'acord"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1017
 #, kde-format
 msgid "Busy"
-msgstr ""
+msgstr "Ocupat"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Legend Configuration"
+#, kde-format
 msgid "Invalid Configuration"
-msgstr "Configureu la llegenda"
+msgstr "Configuració no vàlida"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1034
 #, kde-format
 msgid "At least one action type (SET or EVALUATE) must be selected."
-msgstr ""
+msgstr "Cal seleccionar almenys un tipus d'acció (SET o EVALUATE)."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1068
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1079
@@ -31974,120 +31903,106 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1105
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1117
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1124
-#, fuzzy, kde-format
-#| msgid "Calibration error"
+#, kde-format
 msgid "Validation Error"
-msgstr "S'ha produït un error de calibratge"
+msgstr "S'ha produït un error de validació"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1069
-#, fuzzy, kde-format
-#| msgid "Failed to scan devices."
+#, kde-format
 msgid "Please select a device."
-msgstr "No s'han pogut explorar els dispositius."
+msgstr "Trieu un dispositiu."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1080
 #, kde-format
 msgid "Please select a property."
-msgstr ""
+msgstr "Trieu una propietat."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1087
-#, fuzzy, kde-format
-#| msgid "Sample format %1 is not supported."
+#, kde-format
 msgid "Selected property type is not supported."
-msgstr "El format de mostra %1 no està admés."
+msgstr "El tipus de propietat seleccionat no està implementat."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1099
 #, kde-format
 msgid "At least one action (SET or EVALUATE) must be selected."
-msgstr ""
+msgstr "Cal seleccionar almenys una acció (SET o EVALUATE)."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1106
 #, kde-format
 msgid "Please select a property element."
-msgstr ""
+msgstr "Trieu un element de propietat."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1118
 #, kde-format
 msgid "Please provide a template name."
-msgstr ""
+msgstr "Proporcioneu un nom de plantilla."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1125
-#, fuzzy, kde-format
-#| msgid "Select a category:"
+#, kde-format
 msgid "Please select or enter a category."
-msgstr "Trieu una categoria:"
+msgstr "Trieu o introduïu una categoria."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1428
-#, fuzzy, kde-format
-#| msgid "Error"
+#, kde-format
 msgid "Save Error"
-msgstr "S'ha produït un error"
+msgstr "S'ha produït un error mentre es guardava"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1429
-#, fuzzy, kde-format
-#| msgid "Failed to open INDI Driver file: %1"
+#, kde-format
 msgid "Failed to open file for writing: %1"
-msgstr "No es pot obrir el fitxer controlador d'INDI: %1"
+msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1466
-#, fuzzy, kde-format
-#| msgid "File Delete Error"
+#, kde-format
 msgid "Template Error"
-msgstr "S'ha produït un error en suprimir un fitxer"
+msgstr "S'ha produït un error de plantilla"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1467
-#, fuzzy, kde-format
-#| msgid "Failed to create image: %1"
+#, kde-format
 msgid "Failed to create template object from JSON."
-msgstr "No s'ha pogut crear la imatge: %1"
+msgstr "Ha fallat mentre es creava l'objecte de plantilla a partir de JSON."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:39
-#, fuzzy, kde-format
-#| msgid "Image Viewer"
+#, kde-format
 msgid "Task Queue Viewer"
-msgstr "Visor d'imatges"
+msgstr "Visor de la cua de tasques"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:59
 #, kde-format
 msgid "Add from Template"
-msgstr ""
+msgstr "Afig a partir d'una plantilla"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:69
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:658
-#, fuzzy, kde-format
-#| msgid "Sequence Queue"
+#, kde-format
 msgid "Save Queue"
-msgstr "Cua en seqüència"
+msgstr "Guarda la cua"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:70
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:705
-#, fuzzy, kde-format
-#| msgid "&Queue"
+#, kde-format
 msgid "Load Queue"
-msgstr "Posa a la &cua"
+msgstr "Carrega la cua"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:77
-#, fuzzy, kde-format
-#| msgid "Paused"
+#, kde-format
 msgid "Pause"
-msgstr "En pausa"
+msgstr "Pausa"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:97
 #, kde-format
 msgid "Task"
-msgstr ""
+msgstr "Tasca"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:100
-#, fuzzy, kde-format
-#| msgid "In Progress"
+#, kde-format
 msgid "Progress"
-msgstr "En curs"
+msgstr "Progrés"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:101
-#, fuzzy, kde-format
-#| msgid "Calibrated"
+#, kde-format
 msgid "Created"
-msgstr "Calibrat"
+msgstr "Creada"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpButton)
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:116
@@ -32105,21 +32020,19 @@ msgstr "Mou-la cap avall"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:128
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:389
-#, fuzzy, kde-format
-#| msgid "&Queue"
+#, kde-format
 msgid "Queue idle"
-msgstr "Posa a la &cua"
+msgstr "Cua en espera"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:226
 #, kde-format
 msgid "Total: %1  Completed: %2  Failed: %3  Pending: %4"
-msgstr ""
+msgstr "Total: %1  Completades: %2  Fallades: %3  Pendents: %4"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:270
-#, fuzzy, kde-format
-#| msgid "Find Stars: Failed"
+#, kde-format
 msgid "Queue Start Failed"
-msgstr "Troba les estreles: ha fallat"
+msgstr "No s'ha pogut fer l'inici de la cua"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:271
 #, kde-format
@@ -32127,133 +32040,115 @@ msgid "Failed to start queue execution. Check that queue has items."
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:392
-#, fuzzy, kde-format
-#| msgid "Autoguiding running."
+#, kde-format
 msgid "Queue running"
-msgstr "S'està executant el guiatge automàtic."
+msgstr "S'està executant la cua"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:395
-#, fuzzy, kde-format
-#| msgid "Sequence paused."
+#, kde-format
 msgid "Queue paused"
-msgstr "Seqüència en pausa."
+msgstr "La cua està en pausa"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:398
-#, fuzzy, kde-format
-#| msgid "Capture completed."
+#, kde-format
 msgid "Queue completed"
-msgstr "S'ha completat la captura."
+msgstr "S'ha completat la cua"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:401
-#, fuzzy, kde-format
-#| msgid "Scheduler aborted."
+#, kde-format
 msgid "Queue aborted"
-msgstr "S'ha interromput el programador."
+msgstr "S'ha interromput la cua"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:431
-#, fuzzy, kde-format
-#| msgid "Dithering completed successfully."
+#, kde-format
 msgid "Queue completed successfully"
-msgstr "S'ha completat amb èxit el tramat."
+msgstr "S'ha completat amb èxit la cua"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:470
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s"
+#, kde-format
 msgid "Item failed: %1"
-msgstr "El solucionador ha fallat: %1 s"
+msgstr "No s'ha pogut fer l'element: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:514
-#, fuzzy, kde-format
-#| msgctxt "City in Victoria Australia"
-#| msgid "Bendigo"
+#, kde-format
 msgid "Pending"
-msgstr "Bendigo"
+msgstr "Pendent"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:524
-#, fuzzy, kde-format
-#| msgid "Stopped"
+#, kde-format
 msgid "Skipped"
-msgstr "Parada"
+msgstr "S'ha omés"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:622
-#, fuzzy, kde-format
-#| msgid "Data verification failed"
+#, kde-format
 msgid "Task Creation Failed"
-msgstr "Ha fallat la verificació de les dades"
+msgstr "No s'ha pogut crear la tasca"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:623
-#, fuzzy, kde-format
-#| msgid "Failed to create file: %1"
+#, kde-format
 msgid "Failed to create task from template"
-msgstr "No s'ha pogut crear el fitxer: %1"
+msgstr "Ha fallat mentre es creava la tasca a partir de la plantilla"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:640
-#, fuzzy, kde-format
-#| msgid "Empty file"
+#, kde-format
 msgid "Empty Queue"
-msgstr "Fitxer buit"
+msgstr "Cua buida"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:641
 #, kde-format
 msgid "Queue is empty. Nothing to save."
-msgstr ""
+msgstr "La cua està buida. No hi ha res per a guardar."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:660
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:707
 #, kde-format
 msgid "KStars Queue Files (*.kstarsqueue);;All Files (*)"
-msgstr ""
+msgstr "Fitxers de cua de KStars (*.kstarsqueue);;Tots els fitxers (*)"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:673
-#, fuzzy, kde-format
-#| msgid "Failed to save defect map to %1"
+#, kde-format
 msgid "Failed to save queue to %1"
-msgstr "No s'ha pogut guardar el mapa de defectes a %1"
+msgstr "Ha fallat mentre es guardava la cua a %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:685
 #, kde-format
 msgid "Clear Existing Queue?"
-msgstr ""
+msgstr "Voleu netejar la cua existent?"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:686
 #, kde-format
 msgid "Loading a queue will clear the current queue. Continue?"
-msgstr ""
+msgstr "Carregar una cua netejarà la cua actual. Voleu continuar?"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:721
-#, fuzzy, kde-format
-#| msgid "Failed to load defect map %1"
+#, kde-format
 msgid "Failed to load queue from %1"
-msgstr "S'ha produït un error en carregar el mapa de defectes %1"
+msgstr "Ha fallat mentre es carregava la cua des de %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:769
-#, fuzzy, kde-format
-#| msgid "Failed to create file: %1"
+#, kde-format
 msgid "Failed to open collection file: %1"
-msgstr "No s'ha pogut crear el fitxer: %1"
+msgstr "Ha fallat mentre s'obria el fitxer de col·lecció: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:779
-#, fuzzy, kde-format
-#| msgid "Invalid Epoch format"
+#, kde-format
 msgid "Invalid collection file format"
-msgstr "Format d'època no vàlid"
+msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:789
-#, fuzzy, kde-format
-#| msgid "Edit location"
+#, kde-format
 msgid "Empty Collection"
-msgstr "Edita l'emplaçament"
+msgstr "Col·lecció buida"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:790
 #, kde-format
 msgid "The collection contains no tasks"
-msgstr ""
+msgstr "La col·lecció no conté cap tasca"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:799
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Template manager not available"
-msgstr "Sense informació disponible de la imatge."
+msgstr "Gestor de plantilles no disponible"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:809
 #, kde-format
@@ -32261,16 +32156,14 @@ msgid "Failed to initialize template library"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:830
-#, fuzzy, kde-format
-#| msgid "Critical File not Found: %1"
+#, kde-format
 msgid "Template not found: %1"
-msgstr "No s'ha trobat el fitxer crítica: %1"
+msgstr "No s'ha trobat la plantilla: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:853
-#, fuzzy, kde-format
-#| msgid "Failed to create file: %1"
+#, kde-format
 msgid "Failed to create task from template: %1"
-msgstr "No s'ha pogut crear el fitxer: %1"
+msgstr "Ha fallat mentre es creava la tasca a partir de la plantilla: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:862
 #, kde-format
@@ -32278,107 +32171,96 @@ msgid "No tasks were added from collection '%1'."
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:867
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed to Load"
+#, kde-format
 msgid ""
 "\n"
 "\n"
 "%1 tasks failed to load."
-msgstr "%1 ha fallat en carregar"
+msgstr ""
+"\n"
+"\n"
+"%1 tasques han fallat mentre es carregava."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:872
-#, fuzzy, kde-format
-#| msgid "Warning"
+#, kde-format
 msgid ""
 "\n"
 "\n"
 "Warnings:\n"
-msgstr "Avís"
+msgstr ""
+"\n"
+"\n"
+"Avisos:\n"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:876
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Connection Mode"
+#, kde-format
 msgid "Collection Loaded"
-msgstr "Mode de la connexió"
+msgstr "S'ha carregat la col·lecció"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format
 msgid "Task Queue Templates"
-msgstr ""
+msgstr "Plantilles de cua de tasques"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:52
-#, fuzzy, kde-format
-#| msgctxt "City in Arizona USA"
-#| msgid "Tempe"
+#, kde-format
 msgid "Templates"
-msgstr "Tempe"
+msgstr "Plantilles"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:73
-#, fuzzy, kde-format
-#| msgid "Add to List"
+#, kde-format
 msgid "Add to Queue"
-msgstr "Afig a la llista"
+msgstr "Afig a la cua"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:75
 #, kde-format
 msgid "Create Custom Template"
-msgstr ""
+msgstr "Crea una plantilla personalitzada"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:85
-#, fuzzy, kde-format
-#| msgid "Delete Image"
+#, kde-format
 msgid "Delete Template"
-msgstr "Suprimix la imatge"
+msgstr "Suprimix la plantilla"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:279
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Regor"
+#, kde-format
 msgid "Category"
-msgstr "Regor"
+msgstr "Categoria"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:291
-#, fuzzy, kde-format
-#| msgid "Parameter"
+#, kde-format
 msgid "Parameters"
-msgstr "Paràmetre"
+msgstr "Paràmetres"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:317
-#, fuzzy, kde-format
-#| msgctxt "Tooltip for Num Stars column"
-#| msgid "Number of stars detected"
+#, kde-format
 msgid "Number of actions"
-msgstr "Nombre d'estreles detectades"
+msgstr "Nombre d'accions"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:323
 #, kde-format
 msgid "System Template"
-msgstr ""
+msgstr "Plantilla del sistema"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:327
-#, fuzzy, kde-format
-#| msgid "User Input"
+#, kde-format
 msgid "User Template"
-msgstr "Entrada de l'usuari"
+msgstr "Plantilla d'usuari"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:331
 #, kde-format
 msgid "Based on"
-msgstr ""
+msgstr "Basada en"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:399
-#, fuzzy, kde-format
-#| msgid "Delete File(s)"
+#, kde-format
 msgid "Delete Failed"
-msgstr "Suprimix els fitxers"
+msgstr "No s'ha pogut suprimir"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:400
-#, fuzzy, kde-format
-#| msgid "Failed to set dither range."
+#, kde-format
 msgid "Failed to delete template."
-msgstr "No s'ha pogut establir l'interval del tramat."
+msgstr "Ha fallat mentre se suprimia la plantilla."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
@@ -32445,7 +32327,8 @@ msgstr "Comentaris del tipus d'objecte"
 #: fitsviewer/fitsdata.cpp:867
 #, kde-format
 msgid "Error reading fits buffer: %1."
-msgstr "S'ha produït un error en llegir la memòria intermèdia de FITS: %1."
+msgstr ""
+"S'ha produït un error mentre es llegia la memòria intermèdia de FITS: %1."
 
 #: fitsviewer/fitsdata.cpp:880
 #, kde-format
@@ -32455,12 +32338,13 @@ msgstr "No s'ha pogut desempaquetar la FITS comprimida"
 #: fitsviewer/fitsdata.cpp:896
 #, kde-format
 msgid "Error opening fits file %1 : %2"
-msgstr "S'ha produït un error en obrir el fitxer FITS %1: %2"
+msgstr "S'ha produït un error mentre s'obria el fitxer FITS %1: %2"
 
 #: fitsviewer/fitsdata.cpp:909
 #, kde-format
 msgid "Error reading fits buffer: %1"
-msgstr "S'ha produït un error en llegir la memòria intermèdia de FITS: %1"
+msgstr ""
+"S'ha produït un error mentre es llegia la memòria intermèdia de FITS: %1"
 
 #: fitsviewer/fitsdata.cpp:921
 #, kde-format
@@ -32470,7 +32354,8 @@ msgstr "No s'ha pogut localitzar la imatge HDU: %1"
 #: fitsviewer/fitsdata.cpp:928
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
-msgstr "S'ha produït un error en obrir el fitxer FITS (fits_get_img_param): %1"
+msgstr ""
+"S'ha produït un error mentre s'obria el fitxer FITS (fits_get_img_param): %1"
 
 #: fitsviewer/fitsdata.cpp:942
 #, kde-format
@@ -32490,7 +32375,7 @@ msgstr "La imatge té dimensions no vàlides %1x%2"
 #: fitsviewer/fitsdata.cpp:1043
 #, kde-format
 msgid "Error reading image: %1"
-msgstr "S'ha produït un error en llegir la imatge: %1"
+msgstr "S'ha produït un error mentre es llegia la imatge: %1"
 
 #: fitsviewer/fitsdata.cpp:1386
 #, kde-format
@@ -32506,12 +32391,12 @@ msgstr "El format de mostra %1 no està admés."
 #: fitsviewer/fitsdata.cpp:1450
 #, kde-format
 msgid "XISF file open error: "
-msgstr "S'ha produït un error en obrir el fitxer XISF: "
+msgstr "S'ha produït un error mentre s'obria el fitxer XISF: "
 
 #: fitsviewer/fitsdata.cpp:1502
 #, kde-format
 msgid "Error saving XISF image"
-msgstr "S'ha produït un error en guardar la imatge XISF"
+msgstr "S'ha produït un error mentre es guardava la imatge XISF"
 
 #: fitsviewer/fitsdata.cpp:1594 fitsviewer/fitsdata.cpp:1710
 #, kde-format
@@ -32554,12 +32439,12 @@ msgstr "No s'admet la guardada de fitxers comprimits."
 #: fitsviewer/fitsdata.cpp:1900
 #, kde-format
 msgid "Failed to create file: %1"
-msgstr "No s'ha pogut crear el fitxer: %1"
+msgstr "Ha fallat mentre es creava el fitxer: %1"
 
 #: fitsviewer/fitsdata.cpp:1915
 #, kde-format
 msgid "Failed to create image: %1"
-msgstr "No s'ha pogut crear la imatge: %1"
+msgstr "Ha fallat mentre es creava la imatge: %1"
 
 #: fitsviewer/fitsdata.cpp:1924 fitsviewer/fitsdata.cpp:1931
 #, kde-format
@@ -32857,7 +32742,7 @@ msgstr "En curs"
 #, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed to Load"
-msgstr "%1 ha fallat en carregar"
+msgstr "%1 ha fallat mentre es carregava"
 
 #: fitsviewer/fitsstackmonitor.h:111
 #, kde-format
@@ -33561,7 +33446,7 @@ msgstr "Guardada de FITS"
 #: fitsviewer/fitstab.cpp:1310
 #, kde-format
 msgid "Image save error: %1"
-msgstr "S'ha produït un error en guardar la imatge: %1"
+msgstr "S'ha produït un error mentre es guardava la imatge: %1"
 
 #: fitsviewer/fitstab.cpp:1310
 #, kde-format
@@ -34429,23 +34314,17 @@ msgstr "Apilament"
 #. i18n: ectx: property (toolTip), widget (QLabel, SigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Sigma)
 #: fitsviewer/livestacking.ui:1285 fitsviewer/livestacking.ui:1412
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sigma Scale reduces the calculated image sigma to "
 "smooth the updates (usually in the range 0.6 - 0.9).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Escala l'eix de valors a l'interval actual de valors.</"
-"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1288
-#, fuzzy, kde-format
-#| msgid "Chart Scale:"
+#, kde-format
 msgid "  Sigma Scale:"
-msgstr "Escala de la carta:"
+msgstr "  Escala Sigma:"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
@@ -34462,24 +34341,17 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, AlphaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Alpha)
 #: fitsviewer/livestacking.ui:1332 fitsviewer/livestacking.ui:1600
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Remaining time to complete the active capture "
-#| "sequence</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Relaxation / damping between iterations. 1.0 = no "
 "damping, &lt;1.0 = smoother but slower convergence.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Temps romanent per a completar la seqüència de la "
-"captura activa.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1335
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Alphard"
+#, kde-format
 msgid "Alpha:"
-msgstr "Alphard"
+msgstr "Alfa:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #. i18n: ectx: property (toolTip), widget (QLabel, DownscaleLabel)
@@ -34511,12 +34383,7 @@ msgstr "  Reducció de l'escala:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1446
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No "
-#| "rejection is applied.</p><p>- Sigma Clipping. Outlying pixels are "
-#| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
-#| "clipping</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
@@ -34525,10 +34392,6 @@ msgid ""
 "https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this "
 "method is very resource intensive</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Algorisme de rebuig de píxels:</p><p>- Cap. No "
-"s'aplicarà cap rebuig.</p><p>- Retallat de la sigma. Es rebutjaran els "
-"píxels atípics.</p><p>- Retallat winsoritzat de la sigma. Versió "
-"winsoritzada del retallat de la sigma.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1461
@@ -34544,10 +34407,9 @@ msgstr "SC winsoritzat"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1471
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "ImageMM"
-msgstr "Imatge"
+msgstr "ImageMM"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, HighSigmaLabel)
@@ -34617,12 +34479,7 @@ msgstr "Subsolucions en la memòria:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMethodLabel)
 #: fitsviewer/livestacking.ui:1656
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No "
-#| "rejection is applied.</p><p>- Sigma Clipping. Outlying pixels are "
-#| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
-#| "clipping</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No rejection "
 "is applied.</p><p>- Sigma Clipping. Outlying pixels are rejected.</p><p>- "
@@ -34634,7 +34491,10 @@ msgstr ""
 "<html><head/><body><p>Algorisme de rebuig de píxels:</p><p>- Cap. No "
 "s'aplicarà cap rebuig.</p><p>- Retallat de la sigma. Es rebutjaran els "
 "píxels atípics.</p><p>- Retallat winsoritzat de la sigma. Versió "
-"winsoritzada del retallat de la sigma.</p></body></html>"
+"winsoritzada del retallat de la sigma.</p><p>- ImageMM. Implementa "
+"l'apilament ImageMM segons https://iopscience.iop.org/"
+"article/10.3847/1538-3881/adfb72 NOTA: este mètode és molt intensiu en "
+"recursos.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, LowSigmaLabel)
@@ -34650,23 +34510,17 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QSpinBox, Iterations)
 #. i18n: ectx: property (toolTip), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1706 fitsviewer/livestacking.ui:1834
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of iterations for use in ImageMM algorithm.</"
 "p><p>Keep low to minimize processing overhead</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nombre de fotogrames que es capturaran en cada posició "
-"de l'enfocador.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, KappaLabel)
 #: fitsviewer/livestacking.ui:1737
-#, fuzzy, kde-format
-#| msgid "kappa"
+#, kde-format
 msgid "  Kappa:"
-msgstr "kappa"
+msgstr "  Kappa:"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:1762
@@ -34688,10 +34542,9 @@ msgstr "Sigma baixa:"
 
 #. i18n: ectx: property (text), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1837
-#, fuzzy, kde-format
-#| msgid "Max Iterations:"
+#, kde-format
 msgid "Iterations:"
-msgstr "Màxim d'iteracions:"
+msgstr "Iteracions:"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:1862
@@ -34712,10 +34565,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, PSFUpdateLabel)
 #: fitsviewer/livestacking.ui:1887
-#, fuzzy, kde-format
-#| msgid "HiPS Update"
+#, kde-format
 msgid "PSF Update:"
-msgstr "Actualitza HiPS"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1922
@@ -35044,10 +34896,11 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Carrega automàticament les dades del Sistema de "
-"Coordenades Mundials «World-Coordinate-System» (WCS) en obrir un fitxer FITS."
-"</p><p><span style=\"font-weight:600;\">Avís: Trieu esta opció només en "
-"màquines molt ràpides, ja que pot portar a un comportament impredictible que "
-"provoque fallades en màquines lentes.</span></p></body></html>"
+"Coordenades Mundials «World-Coordinate-System» (WCS) mentre s'obria un "
+"fitxer FITS.</p><p><span style=\"font-weight:600;\">Avís: Trieu esta opció "
+"només en màquines molt ràpides, ja que pot portar a un comportament "
+"impredictible que provoque fallades en màquines lentes.</span></p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoWCS)
 #: fitsviewer/opsfits.ui:397
@@ -35985,7 +35838,7 @@ msgstr "L'etiqueta ja existix. Cal que l'etiqueta siga única."
 #: indi/customdrivers.cpp:122
 #, kde-format
 msgid "Failed to add new driver. Is the label unique?"
-msgstr "No s'ha pogut afegir el controlador nou. L'etiqueta és única?"
+msgstr "Ha fallat mentre s'afegia el controlador nou. L'etiqueta és única?"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CustomDrivers)
 #: indi/customdrivers.ui:14
@@ -36077,19 +35930,19 @@ msgstr "No es pot iniciar el servidor INDI: error de port."
 #: indi/drivermanager.cpp:365
 #, kde-format
 msgid "Failed to create local INDI server"
-msgstr "No s'ha pogut crear el servidor INDI local"
+msgstr "Ha fallat mentre es creava el servidor INDI local"
 
 #: indi/drivermanager.cpp:633 indi/indidriver.cpp:291
 #, kde-format, kde-kuit-format
 msgid "Invalid port entry: %1"
 msgstr "El port no és vàlid: %1"
 
-#: indi/drivermanager.cpp:829
+#: indi/drivermanager.cpp:830
 #, kde-format
 msgid "Connected to INDI server"
 msgstr "Connectat amb el servidor INDI"
 
-#: indi/drivermanager.cpp:1021 indi/indidriver.cpp:487
+#: indi/drivermanager.cpp:1022 indi/indidriver.cpp:487
 #, kde-format, kde-kuit-format
 msgid ""
 "Unable to find INDI drivers directory: %1\n"
@@ -36098,44 +35951,44 @@ msgstr ""
 "No s'ha pogut trobar la carpeta de controladors d'INDI: %1\n"
 "Assegureu-vos d'establir el camí correcte en la configuració de KStars"
 
-#: indi/drivermanager.cpp:1052 indi/indidriver.cpp:528
+#: indi/drivermanager.cpp:1053 indi/indidriver.cpp:528
 #, kde-format, kde-kuit-format
 msgid "Failed to open INDI Driver file: %1"
 msgstr "No es pot obrir el fitxer controlador d'INDI: %1"
 
-#: indi/drivermanager.cpp:1418
+#: indi/drivermanager.cpp:1419
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Host"
 msgstr "Afegiu un amfitrió"
 
-#: indi/drivermanager.cpp:1429 indi/indidriver.cpp:812
+#: indi/drivermanager.cpp:1430 indi/indidriver.cpp:812
 #, kde-format, kde-kuit-format
 msgid "Error: the port number is invalid."
 msgstr "S'ha produït un error: El número del port no és vàlid."
 
-#: indi/drivermanager.cpp:1442 indi/indidriver.cpp:822
+#: indi/drivermanager.cpp:1443 indi/indidriver.cpp:822
 #, kde-format, kde-kuit-format
 msgid "Host: %1 Port: %2 already exists."
 msgstr "Amfitrió: %1 Port: %2 ja existix."
 
-#: indi/drivermanager.cpp:1470
+#: indi/drivermanager.cpp:1471
 #, kde-format
 msgctxt "@title:window"
 msgid "Modify Host"
 msgstr "Modifiqueu l'amfitrió"
 
-#: indi/drivermanager.cpp:1516 indi/indidriver.cpp:890
+#: indi/drivermanager.cpp:1517 indi/indidriver.cpp:890
 #, kde-format, kde-kuit-format
 msgid "You need to disconnect the client before removing it."
 msgstr "Cal que desconnecteu el client abans d'eliminar-lo."
 
-#: indi/drivermanager.cpp:1522 indi/indidriver.cpp:895
+#: indi/drivermanager.cpp:1523 indi/indidriver.cpp:895
 #, kde-format, kde-kuit-format
 msgid "Are you sure you want to remove the %1 client?"
 msgstr "Segur que voleu eliminar el client %1?"
 
-#: indi/drivermanager.cpp:1547 indi/indidriver.cpp:920
+#: indi/drivermanager.cpp:1548 indi/indidriver.cpp:920
 #, kde-format, kde-kuit-format
 msgid ""
 "Unable to write to file 'indihosts.xml'\n"
@@ -41791,7 +41644,7 @@ msgid ""
 "file."
 msgstr ""
 "Processa automàticament les dades del sistema de coordenades mundial (World-"
-"Coordinate-System -WCS-) en carregar un fitxer FITS."
+"Coordinate-System -WCS-) mentre es carregava un fitxer FITS."
 
 #. i18n: ectx: label, entry (LimitedResourcesMode), group (FITSViewer)
 #: kstars.kcfg:1729
@@ -41978,10 +41831,9 @@ msgstr "Ponderació de les subsolucions de l'apilament en directe"
 
 #. i18n: ectx: whatsthis, entry (fitsLSStackingMethod), group (FITSViewer)
 #: kstars.kcfg:1834
-#, fuzzy, kde-format
-#| msgid "Live Stacking alignment method"
+#, kde-format
 msgid "Live Stacking stacking method"
-msgstr "Mètode d'alineació de l'apilament en directe"
+msgstr ""
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1838
@@ -42003,40 +41855,33 @@ msgstr "Retall winsor del retallat de la sigma de l'apilament en directe"
 
 #. i18n: ectx: label, entry (fitsLSIterations), group (FITSViewer)
 #: kstars.kcfg:1850
-#, fuzzy, kde-format
-#| msgid "Live Stacking Minimise Calibration Options Widget"
+#, kde-format
 msgid "Live Stacking Iterations to use in ImageMM stacking"
 msgstr ""
-"Giny de les opcions del calibratge per a la minimització de l'apilament en "
-"directe"
 
 #. i18n: ectx: label, entry (fitsLSKappa), group (FITSViewer)
 #: kstars.kcfg:1854
-#, fuzzy, kde-format
-#| msgid "Live Stacking master dark"
+#, kde-format
 msgid "Live Stacking ImageMM kappa"
-msgstr "Fotograma fosc mestre de l'apilament en directe"
+msgstr ""
 
 #. i18n: ectx: label, entry (fitsLSAlpha), group (FITSViewer)
 #: kstars.kcfg:1858
-#, fuzzy, kde-format
-#| msgid "Live Stacking master flat"
+#, kde-format
 msgid "Live Stacking ImageMM alpha"
-msgstr "Fotograma pla mestre de l'apilament en directe"
+msgstr ""
 
 #. i18n: ectx: label, entry (fitsLSSigma), group (FITSViewer)
 #: kstars.kcfg:1862
-#, fuzzy, kde-format
-#| msgid "Live Stacking sharpening sigma"
+#, kde-format
 msgid "Live Stacking ImageMM sigma"
-msgstr "Sigma d'agudització de l'apilament en directe"
+msgstr ""
 
 #. i18n: ectx: label, entry (fitsPSFUpdate), group (FITSViewer)
 #: kstars.kcfg:1866
-#, fuzzy, kde-format
-#| msgid "Live Stacking master dark"
+#, kde-format
 msgid "Live Stacking ImageMM PSF Update interval"
-msgstr "Fotograma fosc mestre de l'apilament en directe"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (fitsLSPostProc), group (FITSViewer)
 #: kstars.kcfg:1870
@@ -44728,10 +44573,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerPreStartupScript), group (Scheduler)
 #: kstars.kcfg:3425
-#, fuzzy, kde-format
-#| msgid "Path to astrometry.net file location."
+#, kde-format
 msgid "Path to startup queue file or script."
-msgstr "Camí cap a la ubicació del fitxer «astrometry.net»."
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreStartupScript), group (Scheduler)
 #: kstars.kcfg:3426
@@ -44771,10 +44615,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerPreShutdownScript), group (Scheduler)
 #: kstars.kcfg:3439
-#, fuzzy, kde-format
-#| msgid "Path to astrometry.net file location."
+#, kde-format
 msgid "Path to shutdown queue file or script."
-msgstr "Camí cap a la ubicació del fitxer «astrometry.net»."
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreShutdownScript), group (Scheduler)
 #: kstars.kcfg:3440
@@ -75675,7 +75518,7 @@ msgstr ""
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:96
 #, kde-kuit-format
 msgid "Failed to set location"
-msgstr "No s'ha pogut establir l'emplaçament"
+msgstr "Ha fallat mentre s'establia l'emplaçament"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:71
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:100
@@ -75805,7 +75648,7 @@ msgstr "Este emplaçament ja existix. Canvieu la ciutat, la província o el paí
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:414
 #, kde-kuit-format
 msgid "Failed to add location"
-msgstr "No s'ha pogut afegir l'emplaçament"
+msgstr "Ha fallat mentre s'afegia l'emplaçament"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:417
 #, kde-kuit-format
@@ -81582,7 +81425,7 @@ msgstr "No s'ha pogut suprimir el fitxer: %1"
 #: options/opscolors.cpp:296
 #, kde-format
 msgid "Error Deleting File"
-msgstr "S'ha produït un error en suprimir el fitxer"
+msgstr "S'ha produït un error mentre se suprimia el fitxer"
 
 #: options/opscolors.cpp:308
 #, kde-format
@@ -84156,7 +83999,7 @@ msgstr "Actualitzeu els elements orbitals dels satèl·lits"
 #: skycomponents/skymapcomposite.cpp:127
 #, kde-format
 msgid "Failed to load the DSO database."
-msgstr "No s'ha pogut carregar la base de dades DSO."
+msgstr "Ha fallat mentre es carregava la base de dades DSO."
 
 #: skycomponents/skymapcomposite.cpp:135
 #, kde-format
@@ -84722,15 +84565,15 @@ msgstr "omega"
 #, kde-format
 msgid "Failed to load terrain. Set terrain file in Settings."
 msgstr ""
-"No s'ha pogut carregar el terreny. Establiu el fitxer del terreny en la "
-"configuració."
+"Ha fallat mentre es carregava el terreny. Establiu el fitxer del terreny en "
+"la configuració."
 
 #: terrain/terrainrenderer.cpp:368
 #, kde-format
 msgid "Failed to load terrain image (%1). Set terrain file in Settings."
 msgstr ""
-"No s'ha pogut carregar la imatge (%1) del terreny. Establiu el fitxer del "
-"terreny en la configuració."
+"Ha fallat mentre es carregava la imatge (%1) del terreny. Establiu el fitxer "
+"del terreny en la configuració."
 
 #: time/timezonerule.cpp:37
 #, kde-format
