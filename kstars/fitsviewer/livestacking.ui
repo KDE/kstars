@@ -1194,7 +1194,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kappa clamps the pixel update in the range 1/kappa to kappa versus the original value. So 1 means no change, the higher kappa the larger the possibkle updates.&lt;/p&gt;&lt;p&gt;Usual values are in the range 1.5 to 2.0. Reduce if images appear over processed, e.g. star ringing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kappa clamps the pixel update in the range 1/kappa to kappa versus the original value. So 1 means no change, the higher kappa the larger the possible updates.&lt;/p&gt;&lt;p&gt;Usual values are in the range 1.5 to 2.0. Reduce if images appear over processed, e.g. star ringing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string>  Kappa:</string>
@@ -1370,7 +1370,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stacking mathod:&lt;/p&gt;&lt;p&gt;- Average. Uses a simple mean average. No pixel rejection is applied.&lt;/p&gt;&lt;p&gt;- Sigma Clipping. Outlying pixels are rejected.&lt;/p&gt;&lt;p&gt;- Winsorized Sigma Clipping. Winsorized version of sigma clipping&lt;/p&gt;&lt;p&gt;- ImageMM. Implements ImageMM stacking as per https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this method is very resource intensive&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stacking method:&lt;/p&gt;&lt;p&gt;- Average. Uses a simple mean average. No pixel rejection is applied.&lt;/p&gt;&lt;p&gt;- Sigma Clipping. Outlying pixels are rejected.&lt;/p&gt;&lt;p&gt;- Winsorized Sigma Clipping. Winsorized version of sigma clipping&lt;/p&gt;&lt;p&gt;- ImageMM. Implements ImageMM stacking as per https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this method is very resource intensive&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="currentText">
               <string>Average</string>
@@ -1465,7 +1465,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kappa clamps the pixel update in the range 1/kappa to kappa versus the original value. So 1 means no change, the higher kappa the larger the possibkle updates.&lt;/p&gt;&lt;p&gt;Usual values are in the range 1.5 to 2.0. Reduce if images appear over processed, e.g. star ringing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kappa clamps the pixel update in the range 1/kappa to kappa versus the original value. So 1 means no change, the higher kappa the larger the possible updates.&lt;/p&gt;&lt;p&gt;Usual values are in the range 1.5 to 2.0. Reduce if images appear over processed, e.g. star ringing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="decimals">
               <number>1</number>
