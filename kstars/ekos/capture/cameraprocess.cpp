@@ -464,7 +464,7 @@ void CameraProcess::prepareJob(const QSharedPointer<SequenceJob> &job)
     if (activeCamera() == nullptr || activeCamera()->isConnected() == false)
     {
         emit newLog(i18n("No camera detected. Check train configuration and connection settings."));
-        activeJob()->abort();
+        job->abort();
         return;
     }
 
