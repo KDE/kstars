@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-27 02:02+0000\n"
-"PO-Revision-Date: 2025-11-20 18:56+0400\n"
+"PO-Revision-Date: 2025-11-27 12:12+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -31500,20 +31500,16 @@ msgid "Filename only"
 msgstr "اسم الملف فقط"
 
 #: fitsviewer/fitsstackmonitor.h:223
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgctxt "Column header"
 msgid "Channel(s)"
-msgstr "كان"
+msgstr "قناة"
 
 #: fitsviewer/fitsstackmonitor.h:224
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgctxt "Tooltip for Channels column"
 msgid "Channel(s)"
-msgstr "كان"
+msgstr "قناة"
 
 #: fitsviewer/fitsstackmonitor.h:226
 #, kde-format
@@ -32062,9 +32058,7 @@ msgid "RAM"
 msgstr "الذّاكرة العشوائيّة"
 
 #: fitsviewer/fitstab.cpp:1182 fitsviewer/fitstab.cpp:1318
-#, fuzzy, kde-format
-#| msgctxt "Message shown in Ekos Mount module"
-#| msgid "%1"
+#, kde-format
 msgctxt "@title:window"
 msgid "%1"
 msgstr "%1"
@@ -32097,10 +32091,9 @@ msgid "File saved to %1"
 msgstr "حُفظ الملف في %1"
 
 #: fitsviewer/fitstab.cpp:1579
-#, fuzzy, kde-format
-#| msgid "RGGB"
+#, kde-format
 msgid "RGB"
-msgstr "أحمر-أخضر-أخضر-أزرق"
+msgstr "ح‌خ‌ز"
 
 #: fitsviewer/fitstab.cpp:1579
 #, kde-format
@@ -32108,10 +32101,9 @@ msgid "LRGB"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:1738
-#, fuzzy, kde-format
-#| msgid "(%1) Watching"
+#, kde-format
 msgid "(%1) Stopped Watching"
-msgstr "(%1) يراقب"
+msgstr "أوقف (%1) المراقبة"
 
 #: fitsviewer/fitstab.cpp:1739
 #, kde-format
@@ -32124,10 +32116,9 @@ msgid "%1 %2"
 msgstr "%1 %2"
 
 #: fitsviewer/fitstab.cpp:1744
-#, fuzzy, kde-format
-#| msgid "Stopped"
+#, kde-format
 msgid "(%1) Stopped"
-msgstr "أُوقف"
+msgstr "(%1) متوقف"
 
 #: fitsviewer/fitstab.cpp:1745
 #, kde-format
@@ -32739,16 +32730,13 @@ msgstr "احفظ الصورة"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
 #: fitsviewer/livestacking.ui:577
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the signal-to-noise ratio (SNR) of the guide "
-#| "star.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The signal-to-noise ratio of the final image</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>ارسم بيانيًا نسبة الإشارة إلى الضوضاء (SNR) لنجم دليل.</"
-"p></body></html>"
+"<html><head/><body><p>نسبة الإشارة إلى الضوضاء للصورة النهائية</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:599
@@ -33511,36 +33499,28 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatBlueLabel)
 #: fitsviewer/livestacking.ui:2509
-#, fuzzy, kde-format
-#| msgid "Master Flat:"
+#, kde-format
 msgid "Master Flat (Blue):"
-msgstr "المسطّح الرئيسي:"
+msgstr "المسطّح الرئيسي(أزرق):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkRedLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkRed)
 #: fitsviewer/livestacking.ui:2525 fitsviewer/livestacking.ui:2569
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
-#| "body></html>"
+#, kde-format
 msgid "The Master Dark to use to calibrate Red lights."
-msgstr ""
-"<html><head/><body><p>المظلم الرئيسي للاستخدام لمعايرة صور الضوء.</p></"
-"body></html>"
+msgstr "المظلم الرئيس للاستخدام لمعايرة الأضواء الحمر."
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkRedLabel)
 #: fitsviewer/livestacking.ui:2528
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Dark (Red):"
-msgstr "إطار الظلام الرئيسي:"
+msgstr "الظلام الرئيس (أحمر):"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatGreenLabel)
 #: fitsviewer/livestacking.ui:2660
-#, fuzzy, kde-format
-#| msgid "Master Flat:"
+#, kde-format
 msgid "Master Flat (Green):"
-msgstr "المسطّح الرئيسي:"
+msgstr "المسطّح الرئيس (أخضر):"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatLumB)
 #: fitsviewer/livestacking.ui:2670
@@ -33553,12 +33533,9 @@ msgstr "<html><head/><body><p>حوار اختيار ملف للمسطّح الر
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatRedB)
 #: fitsviewer/livestacking.ui:2683
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>File chooser dialog for Master Flat</p></body></"
-#| "html>"
+#, kde-format
 msgid "File chooser dialog for Master Flat Red"
-msgstr "<html><head/><body><p>حوار اختيار ملف للمسطّح الرئيسي</p></body></html>"
+msgstr "حوار اختيار ملف للمسطّح الرئيس الأحمر"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, CalibrationMinimized)
 #: fitsviewer/livestacking.ui:2699

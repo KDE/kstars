@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-27 02:02+0000\n"
-"PO-Revision-Date: 2025-11-26 09:18-0300\n"
+"PO-Revision-Date: 2025-11-27 07:49-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -33798,13 +33798,7 @@ msgstr "Subs na memória:"
 #. i18n: ectx: property (toolTip), widget (QLabel, KappaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Kappa)
 #: fitsviewer/livestacking.ui:1197 fitsviewer/livestacking.ui:1468
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Kappa clamps the pixel update in the range 1/kappa "
-#| "to kappa versus the original value. So 1 means no change, the higher "
-#| "kappa the larger the possibkle updates.</p><p>Usual values are in the "
-#| "range 1.5 to 2.0. Reduce if images appear over processed, e.g. star "
-#| "ringing.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Kappa clamps the pixel update in the range 1/kappa to "
 "kappa versus the original value. So 1 means no change, the higher kappa the "
@@ -33897,14 +33891,7 @@ msgstr "Sigma baixo:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1373
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple "
-#| "mean average. No pixel rejection is applied.</p><p>- Sigma Clipping. "
-#| "Outlying pixels are rejected.</p><p>- Winsorized Sigma Clipping. "
-#| "Winsorized version of sigma clipping</p><p>- ImageMM. Implements ImageMM "
-#| "stacking as per https://iopscience.iop.org/article/10.3847/1538-3881/"
-#| "adfb72 NOTE: this method is very resource intensive</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
