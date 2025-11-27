@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1723773 $
+# Version: $Revision: 1723833 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 01:58+0000\n"
+"POT-Creation-Date: 2025-11-27 02:02+0000\n"
 "PO-Revision-Date: 2025-10-25 08:41+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -34668,9 +34668,8 @@ msgstr "Pamięć:"
 msgid ""
 "<html><head/><body><p>Kappa clamps the pixel update in the range 1/kappa to "
 "kappa versus the original value. So 1 means no change, the higher kappa the "
-"larger the possibkle updates.</p><p>Usual values are in the range 1.5 to "
-"2.0. Reduce if images appear over processed, e.g. star ringing.</p></body></"
-"html>"
+"larger the possible updates.</p><p>Usual values are in the range 1.5 to 2.0. "
+"Reduce if images appear over processed, e.g. star ringing.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, KappaLabel)
@@ -34750,7 +34749,7 @@ msgstr "Sigma:"
 #: fitsviewer/livestacking.ui:1373
 #, kde-format
 msgid ""
-"<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple mean "
+"<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
 "pixels are rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version "
 "of sigma clipping</p><p>- ImageMM. Implements ImageMM stacking as per "

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 01:58+0000\n"
+"POT-Creation-Date: 2025-11-27 02:02+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -30658,20 +30658,16 @@ msgid "Filename only"
 msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:223
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgctxt "Column header"
 msgid "Channel(s)"
-msgstr "戛纳"
+msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:224
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgctxt "Tooltip for Channels column"
 msgid "Channel(s)"
-msgstr "戛纳"
+msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:226
 #, kde-format
@@ -31188,12 +31184,10 @@ msgid "RAM"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:1182 fitsviewer/fitstab.cpp:1318
-#, fuzzy, kde-format
-#| msgctxt "Message shown in Ekos Mount module"
-#| msgid "%1"
+#, kde-format
 msgctxt "@title:window"
 msgid "%1"
-msgstr "%1|/|$[~stripAccel %1]"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:1304
 #, kde-format
@@ -31223,10 +31217,9 @@ msgid "File saved to %1"
 msgstr "文件保存到 %1"
 
 #: fitsviewer/fitstab.cpp:1579
-#, fuzzy, kde-format
-#| msgid "RGGB"
+#, kde-format
 msgid "RGB"
-msgstr "RGGB"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:1579
 #, kde-format
@@ -31249,10 +31242,9 @@ msgid "%1 %2"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:1744
-#, fuzzy, kde-format
-#| msgid "Stopped"
+#, kde-format
 msgid "(%1) Stopped"
-msgstr "已终止"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:1745
 #, kde-format
@@ -31790,13 +31782,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, CalcSNR)
 #: fitsviewer/livestacking.ui:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable SNR calculations on individual subs "
 "and the final image.</p></body></html>"
-msgstr "<html><head/><body><p>点击以在图表上显示标签。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, CalcSNR)
 #: fitsviewer/livestacking.ui:482
@@ -31806,14 +31796,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:527
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the signal-to-noise ratio (SNR) of the guide "
-#| "star.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Signal-to-noise ratio Average (mean) / Min / Max  of "
 "the processed subs</p></body></html>"
-msgstr "<html><head/><body><p>绘制用于导星的星体信噪比。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:533
@@ -31829,33 +31816,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:555
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Image"
+#, kde-format
 msgid "Stacked Image:"
-msgstr "保存图像"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
 #: fitsviewer/livestacking.ui:577
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the signal-to-noise ratio (SNR) of the guide "
-#| "star.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The signal-to-noise ratio of the final image</p></"
 "body></html>"
-msgstr "<html><head/><body><p>绘制用于导星的星体信噪比。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:599
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the signal-to-noise ratio (SNR) of the guide "
-#| "star.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Signal-to-noise ratio Average (mean) / Min / Max of "
 "the processed subs</p></body></html>"
-msgstr "<html><head/><body><p>绘制用于导星的星体信噪比。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
@@ -31897,10 +31876,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, RedDirB)
 #: fitsviewer/livestacking.ui:727
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Red directory chooser dialog</p></body></html>"
-msgstr "<html><head/><body><p>减焦镜或者巴罗镜因子。 </p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, GreenDirB)
 #: fitsviewer/livestacking.ui:740
@@ -31910,21 +31888,17 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, StackMultiCB1)
 #: fitsviewer/livestacking.ui:759
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to set 3D Graphic in Simulation Mode</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Toggle between mono and multi-channel mode</p></body></"
 "html>"
-msgstr "<html><head/><body><p>选中以设置模拟模式下的 3D 图形</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, RedLabel)
 #: fitsviewer/livestacking.ui:787
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Red Directory:"
-msgstr "目录："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Red)
 #: fitsviewer/livestacking.ui:803
@@ -31934,10 +31908,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, BlueLabel)
 #: fitsviewer/livestacking.ui:822
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Blue Directory:"
-msgstr "目录："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, LumDirB)
 #: fitsviewer/livestacking.ui:832
@@ -31959,17 +31932,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, LumLabel)
 #: fitsviewer/livestacking.ui:892
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Lum Directory:"
-msgstr "目录："
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, GreenLabel)
 #: fitsviewer/livestacking.ui:914
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Green Directory:"
-msgstr "目录："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, GeneralProcMinimized)
 #: fitsviewer/livestacking.ui:927
@@ -32007,14 +31978,11 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Sigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1022 fitsviewer/livestacking.ui:1056
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Scale the value axis to the current value range.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sigma Scale is the MAD multiplier to remove outliers "
 "(usually in the range 0.6 - 0.9)</p></body></html>"
-msgstr "<html><head/><body><p>缩放数值轴对当前值范围。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1059
@@ -32084,9 +32052,8 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Kappa clamps the pixel update in the range 1/kappa to "
 "kappa versus the original value. So 1 means no change, the higher kappa the "
-"larger the possibkle updates.</p><p>Usual values are in the range 1.5 to "
-"2.0. Reduce if images appear over processed, e.g. star ringing.</p></body></"
-"html>"
+"larger the possible updates.</p><p>Usual values are in the range 1.5 to 2.0. "
+"Reduce if images appear over processed, e.g. star ringing.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, KappaLabel)
@@ -32160,7 +32127,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:1373
 #, kde-format
 msgid ""
-"<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple mean "
+"<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
 "pixels are rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version "
 "of sigma clipping</p><p>- ImageMM. Implements ImageMM stacking as per "
@@ -32201,14 +32168,11 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QSpinBox, Iterations)
 #. i18n: ectx: property (toolTip), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1527 fitsviewer/livestacking.ui:1583
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of iterations. Keep low to minimize processing "
 "overhead</p></body></html>"
-msgstr "<html><head/><body><p>每个电调位置拍摄的帧数。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1586
@@ -32367,10 +32331,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkBlueLabel)
 #: fitsviewer/livestacking.ui:2135
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Dark (Blue):"
-msgstr "主暗场："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkLum)
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkLumLabel)
@@ -32381,10 +32344,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkLumLabel)
 #: fitsviewer/livestacking.ui:2176
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Dark (Lum):"
-msgstr "主暗场："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkLumB)
 #: fitsviewer/livestacking.ui:2186
@@ -32400,11 +32362,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatLumLabel)
 #: fitsviewer/livestacking.ui:2243
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Master alarm"
+#, kde-format
 msgid "Master Flat (Lum):"
-msgstr "主告警"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterFlatLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
@@ -32430,26 +32390,23 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkGreenLabel)
 #: fitsviewer/livestacking.ui:2287
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Dark (Green):"
-msgstr "主暗场："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkRedB)
 #: fitsviewer/livestacking.ui:2297
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Reducer or Barlow factor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark Red</p></body></"
 "html>"
-msgstr "<html><head/><body><p>减焦镜或者巴罗镜因子。 </p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatRedLabel)
 #: fitsviewer/livestacking.ui:2322
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Flat (Red):"
-msgstr "主暗场："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatBlueB)
 #: fitsviewer/livestacking.ui:2332
@@ -32507,17 +32464,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkRedLabel)
 #: fitsviewer/livestacking.ui:2528
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Dark (Red):"
-msgstr "主暗场："
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatGreenLabel)
 #: fitsviewer/livestacking.ui:2660
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Flat (Green):"
-msgstr "主暗场："
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatLumB)
 #: fitsviewer/livestacking.ui:2670

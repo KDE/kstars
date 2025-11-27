@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 01:58+0000\n"
-"PO-Revision-Date: 2025-11-16 19:18-0300\n"
+"POT-Creation-Date: 2025-11-27 02:02+0000\n"
+"PO-Revision-Date: 2025-11-26 09:18-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -11484,14 +11484,14 @@ msgid ""
 "<html><head/><body><p>Plot the signal-to-noise ratio (SNR) of the guide star."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Plota a relação sinal-ruído (RNS) da estrela-guia.</"
+"<html><head/><body><p>Plota a relação sinal-ruído (RSR) da estrela-guia.</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, snrCB)
 #: ekos/analyze/analyze.ui:896
 #, kde-format
 msgid "snr"
-msgstr "rns"
+msgstr "rsr"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, snrOut)
 #: ekos/analyze/analyze.ui:909
@@ -11501,7 +11501,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>A relação sinal-ruído (RNS) da estrela-guia. Clique "
+"<html><head/><body><p>A relação sinal-ruído (RSR) da estrela-guia. Clique "
 "aqui para visualizar este eixo nos valores do eixo esquerdo. Clique duas "
 "vezes para atualizar o eixo.</p></body></html>"
 
@@ -23055,7 +23055,7 @@ msgstr "xxx"
 #: ekos/guide/guide.ui:935
 #, kde-format
 msgid "Guide SNR:"
-msgstr "Guia SNR:"
+msgstr "Guia RSR:"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, correctionSlider)
 #: ekos/guide/guide.ui:1117
@@ -23140,14 +23140,14 @@ msgid ""
 "<html><head/><body><p>Display SNR graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Exibir gráfico SNR no gráfico de deriva.</p></body></"
+"<html><head/><body><p>Exibir gráfico RSR no gráfico de deriva.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, sNRDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1324
 #, kde-format
 msgid "SNR"
-msgstr "SNR"
+msgstr "RSR"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rMSDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1334
@@ -23282,7 +23282,7 @@ msgid ""
 msgstr ""
 "<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>AR:   </td><td>%2 \"</td></"
 "tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</td></"
-"tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
+"tr><tr><td>RSR:   </td><td>%5 \"</td></tr></table>"
 
 #: ekos/guide/guidedriftgraph.cpp:265 ekos/guide/guidedriftgraph.cpp:664
 #: ekos/guide/guidedriftgraph.cpp:739
@@ -23299,7 +23299,7 @@ msgid ""
 msgstr ""
 "<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>AR:   </td><td>%2 \"</td></"
 "tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</td></"
-"tr><tr><td>SNR:   </td><td>%5 \"</td></tr><tr><td>Pulso AR:   </td><td>%6 "
+"tr><tr><td>RSR:   </td><td>%5 \"</td></tr><tr><td>Pulso AR:   </td><td>%6 "
 "ms</td></tr><tr><td>Pulso DE:   </td><td>%7 ms</td></tr></table>"
 
 #: ekos/guide/guidedriftgraph.cpp:304 ekos/guide/guidetargetplot.cpp:203
@@ -32215,6 +32215,13 @@ msgid ""
 "%6 = Blue Channel\n"
 "%7 = Lum Channel"
 msgstr ""
+"%1 \n"
+"%2 = Canal Único Mono\n"
+"%3 = Canal Único Colorido\n"
+"%4 = Canal Vermelho\n"
+"%5 = Canal Verde\n"
+"%6 = Canal Azul\n"
+"%7 = Canal de Luminosidade"
 
 #: fitsviewer/fitsstackmonitor.h:180
 #, kde-format
@@ -32301,20 +32308,16 @@ msgid "Filename only"
 msgstr "Somente o nome do arquivo"
 
 #: fitsviewer/fitsstackmonitor.h:223
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgctxt "Column header"
 msgid "Channel(s)"
-msgstr "Cannes"
+msgstr "Canal(is)"
 
 #: fitsviewer/fitsstackmonitor.h:224
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgctxt "Tooltip for Channels column"
 msgid "Channel(s)"
-msgstr "Cannes"
+msgstr "Canal(is)"
 
 #: fitsviewer/fitsstackmonitor.h:226
 #, kde-format
@@ -32871,9 +32874,7 @@ msgid "RAM"
 msgstr "RAM"
 
 #: fitsviewer/fitstab.cpp:1182 fitsviewer/fitstab.cpp:1318
-#, fuzzy, kde-format
-#| msgctxt "Message shown in Ekos Mount module"
-#| msgid "%1"
+#, kde-format
 msgctxt "@title:window"
 msgid "%1"
 msgstr "%1"
@@ -32906,21 +32907,19 @@ msgid "File saved to %1"
 msgstr "Arquivo salvo em %1"
 
 #: fitsviewer/fitstab.cpp:1579
-#, fuzzy, kde-format
-#| msgid "RGGB"
+#, kde-format
 msgid "RGB"
-msgstr "RGGB"
+msgstr "RGB"
 
 #: fitsviewer/fitstab.cpp:1579
 #, kde-format
 msgid "LRGB"
-msgstr ""
+msgstr "LRGB"
 
 #: fitsviewer/fitstab.cpp:1738
-#, fuzzy, kde-format
-#| msgid "(%1) Watching"
+#, kde-format
 msgid "(%1) Stopped Watching"
-msgstr "(%1) Observando"
+msgstr "(%1) Observação parada"
 
 #: fitsviewer/fitstab.cpp:1739
 #, kde-format
@@ -32933,10 +32932,9 @@ msgid "%1 %2"
 msgstr "%1 %2"
 
 #: fitsviewer/fitstab.cpp:1744
-#, fuzzy, kde-format
-#| msgid "Stopped"
+#, kde-format
 msgid "(%1) Stopped"
-msgstr "Parado"
+msgstr "(%1) Parado"
 
 #: fitsviewer/fitstab.cpp:1745
 #, kde-format
@@ -33494,42 +33492,35 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, CalcSNR)
 #: fitsviewer/livestacking.ui:473
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to enable highlighting of data changes</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable SNR calculations on individual subs "
 "and the final image.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Marque para habilitar o realce de alterações de dados</"
-"p></body></html>"
+"<html><head/><body><p>Verifique se deseja ativar os cálculos de RSR em "
+"subexposições individuais e na imagem final.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, CalcSNR)
 #: fitsviewer/livestacking.ui:482
-#, fuzzy, kde-format
-#| msgid "Image SNR:"
+#, kde-format
 msgid "Calc SNR:"
-msgstr "RSR da Imagem:"
+msgstr "Cálculo de RSR:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:527
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Signal-to-noise ratio Max / Min / Mean of the "
-#| "processed subs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Signal-to-noise ratio Average (mean) / Min / Max  of "
 "the processed subs</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Relação sinal-ruído (RSR) Máx./Mín./Mediana dos subs "
-"processados</p></body></html>"
+"<html><head/><body><p>Relação sinal-ruído (RSR) (mediana) / Mín. / Máx. dos "
+"subs processados</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNRLabel)
 #: fitsviewer/livestacking.ui:533
 #, kde-format
 msgid "Subs (Av/Min/Max):"
-msgstr ""
+msgstr "Subs (Mediana/Mín/Máx):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:552
@@ -33539,37 +33530,29 @@ msgstr "A relação sinal-ruído (RSR) da imagem final"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:555
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Image"
+#, kde-format
 msgid "Stacked Image:"
-msgstr "Salvar imagem"
+msgstr "Imagem empilhada:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
 #: fitsviewer/livestacking.ui:577
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the signal-to-noise ratio (SNR) of the guide "
-#| "star.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The signal-to-noise ratio of the final image</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Plota a relação sinal-ruído (RNS) da estrela-guia.</"
-"p></body></html>"
+"<html><head/><body><p>A relação sinal-ruído (RNS) da imagem final</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:599
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Signal-to-noise ratio Max / Min / Mean of the "
-#| "processed subs</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Signal-to-noise ratio Average (mean) / Min / Max of "
 "the processed subs</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Relação sinal-ruído (RSR) Máx./Mín./Mediana dos subs "
-"processados</p></body></html>"
+"<html><head/><body><p>Relação sinal-ruído (RSR) (mediana) / Mín. / Máx. dos "
+"subs processados</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
@@ -33580,13 +33563,9 @@ msgstr "0 / 0 / 0"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Lum)
 #: fitsviewer/livestacking.ui:618
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The directory containing files to stack</p></body></"
-#| "html>"
+#, kde-format
 msgid "The directory containing Lum files to stack"
-msgstr ""
-"<html><head/><body><p>A pasta contendo os arquivos da pilha</p></body></html>"
+msgstr "A pasta contendo os arquivos de luminosidade da pilha"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, HelpB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
@@ -33599,91 +33578,73 @@ msgstr "Abrir documentação web."
 #: fitsviewer/livestacking.ui:647
 #, kde-format
 msgid "Toggle between mono and multi-channel mode"
-msgstr ""
+msgstr "Alternar entre os modos mono e multicanal"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Blue)
 #: fitsviewer/livestacking.ui:682
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The directory containing files to stack</p></body></"
-#| "html>"
+#, kde-format
 msgid "The directory containing Blue files to stack"
-msgstr ""
-"<html><head/><body><p>A pasta contendo os arquivos da pilha</p></body></html>"
+msgstr "A pasta contendo os arquivos de Azul da pilha"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, BlueDirB)
 #: fitsviewer/livestacking.ui:692
 #, kde-format
 msgid "Blue directory chooser dialog"
-msgstr ""
+msgstr "Janela de seleção da pasta de Azul"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, RedDirB)
 #: fitsviewer/livestacking.ui:727
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Red directory chooser dialog</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Janela de seleção da pasta da pilha</p></body></html>"
+"<html><head/><body><p>Janela de seleção da pasta de Vermelho</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, GreenDirB)
 #: fitsviewer/livestacking.ui:740
 #, kde-format
 msgid "Green directory chooser dialog"
-msgstr ""
+msgstr "Janela de seleção da pasta de Verde"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, StackMultiCB1)
 #: fitsviewer/livestacking.ui:759
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to set 3D Graphic in Simulation Mode</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Toggle between mono and multi-channel mode</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Marque para definir o gráfico 3D no modo de simulação</"
-"p></body></html>"
+"<html><head/><body><p>Alternar entre os modos mono e multicanal</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, RedLabel)
 #: fitsviewer/livestacking.ui:787
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Red Directory:"
-msgstr "Pasta:"
+msgstr "Pasta de Vermelho:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Red)
 #: fitsviewer/livestacking.ui:803
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The directory containing files to stack</p></body></"
-#| "html>"
+#, kde-format
 msgid "The directory containing Red files to stack"
-msgstr ""
-"<html><head/><body><p>A pasta contendo os arquivos da pilha</p></body></html>"
+msgstr "A pasta contendo os arquivos de Vermelho da pilha"
 
 #. i18n: ectx: property (text), widget (QLabel, BlueLabel)
 #: fitsviewer/livestacking.ui:822
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Blue Directory:"
-msgstr "Pasta:"
+msgstr "Pasta de Azul:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, LumDirB)
 #: fitsviewer/livestacking.ui:832
 #, kde-format
 msgid "Lum (optional) directory chooser dialog"
-msgstr ""
+msgstr "Janela de seleção da pasta de Luminosidade (opcional)"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Green)
 #: fitsviewer/livestacking.ui:851
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The directory containing files to stack</p></body></"
-#| "html>"
+#, kde-format
 msgid "The directory containing Green files to stack"
-msgstr ""
-"<html><head/><body><p>A pasta contendo os arquivos da pilha</p></body></html>"
+msgstr "A pasta contendo os arquivos de Verde da pilha"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, StackDirB)
 #: fitsviewer/livestacking.ui:867
@@ -33694,17 +33655,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, LumLabel)
 #: fitsviewer/livestacking.ui:892
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Lum Directory:"
-msgstr "Pasta:"
+msgstr "Pasta de Luminosidade:"
 
 #. i18n: ectx: property (text), widget (QLabel, GreenLabel)
 #: fitsviewer/livestacking.ui:914
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Green Directory:"
-msgstr "Pasta:"
+msgstr "Pasta de Verde:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, GeneralProcMinimized)
 #: fitsviewer/livestacking.ui:927
@@ -33750,17 +33709,13 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Sigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1022 fitsviewer/livestacking.ui:1056
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Sigma Scale reduces the calculated image sigma to "
-#| "smooth the updates (usually in the range 0.6 - 0.9).</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sigma Scale is the MAD multiplier to remove outliers "
 "(usually in the range 0.6 - 0.9)</p></body></html>"
 msgstr ""
-"<html><head/><body><p>A Escala Sigma reduz o sigma da imagem calculado para "
-"suavizar as atualizações (geralmente na faixa de 0,6 a 0,9).</p></body></"
-"html>"
+"<html><head/><body><p>A Escala Sigma é o multiplicador MAD para remover "
+"valores discrepantes (geralmente na faixa de 0,6 a 0,9).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1059
@@ -33771,18 +33726,15 @@ msgstr "  Escala Sigma:"
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Alpha)
 #. i18n: ectx: property (toolTip), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1066 fitsviewer/livestacking.ui:1502
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Relaxation / damping between iterations. 1.0 = no "
-#| "damping, &lt;1.0 = smoother but slower convergence.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Relaxation / damping between iterations. 1.0 = no "
 "damping, &lt;1.0 = smoother (but slower convergence).</p><p>Usual values 0.7 "
 "- 0.9</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Relaxamento/amortecimento entre iterações. 1,0 = sem "
-"amortecimento, &lt;1,0 = convergência mais suave, porém mais lenta.</p></"
-"body></html>"
+"amortecimento, &lt;1,0 = convergência mais suave, porém mais lenta.</"
+"p><p>Valores geralmente na faixa de 0,7 a 0,9</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HighSigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
@@ -33846,14 +33798,25 @@ msgstr "Subs na memória:"
 #. i18n: ectx: property (toolTip), widget (QLabel, KappaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Kappa)
 #: fitsviewer/livestacking.ui:1197 fitsviewer/livestacking.ui:1468
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Kappa clamps the pixel update in the range 1/kappa "
+#| "to kappa versus the original value. So 1 means no change, the higher "
+#| "kappa the larger the possibkle updates.</p><p>Usual values are in the "
+#| "range 1.5 to 2.0. Reduce if images appear over processed, e.g. star "
+#| "ringing.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Kappa clamps the pixel update in the range 1/kappa to "
 "kappa versus the original value. So 1 means no change, the higher kappa the "
-"larger the possibkle updates.</p><p>Usual values are in the range 1.5 to "
-"2.0. Reduce if images appear over processed, e.g. star ringing.</p></body></"
-"html>"
+"larger the possible updates.</p><p>Usual values are in the range 1.5 to 2.0. "
+"Reduce if images appear over processed, e.g. star ringing.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>O coeficiente Kappa limita a atualização de pixels no "
+"intervalo de 1/kappa a kappa em relação ao valor original. Portanto, 1 "
+"significa nenhuma alteração; quanto maior o valor de kappa, maiores serão as "
+"atualizações possíveis.</p><p>Os valores usuais estão no intervalo de 1,5 a "
+"2,0. Reduza o valor se as imagens parecerem excessivamente processadas, por "
+"exemplo, com halos estelares.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, KappaLabel)
 #: fitsviewer/livestacking.ui:1200
@@ -33936,14 +33899,14 @@ msgstr "Sigma baixo:"
 #: fitsviewer/livestacking.ui:1373
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple "
+#| "<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple "
 #| "mean average. No pixel rejection is applied.</p><p>- Sigma Clipping. "
 #| "Outlying pixels are rejected.</p><p>- Winsorized Sigma Clipping. "
 #| "Winsorized version of sigma clipping</p><p>- ImageMM. Implements ImageMM "
 #| "stacking as per https://iopscience.iop.org/article/10.3847/1538-3881/"
 #| "adfb72 NOTE: this method is very resource intensive</p></body></html>"
 msgid ""
-"<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple mean "
+"<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
 "pixels are rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version "
 "of sigma clipping</p><p>- ImageMM. Implements ImageMM stacking as per "
@@ -33991,17 +33954,13 @@ msgstr "Alfa:"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, Iterations)
 #. i18n: ectx: property (toolTip), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1527 fitsviewer/livestacking.ui:1583
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of iterations for use in ImageMM algorithm.</"
-#| "p><p>Keep low to minimize processing overhead</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of iterations. Keep low to minimize processing "
 "overhead</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Número de iterações para uso no algoritmo ImageMM.</"
-"p><p>Mantenha baixo para minimizar a sobrecarga de processamento</p></body></"
-"html>"
+"<html><head/><body><p>Número de iterações. Mantenha baixo para minimizar a "
+"sobrecarga de processamento</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1586
@@ -34017,6 +33976,10 @@ msgid ""
 "Update</p><p>n = update PSF every n iterations</p><p><br/></p><p>Can cause "
 "star ringing if applied too frequently.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Adaptar PSF usado no algoritmo ImageMM.</p><p>0 = sem "
+"atualizar PSF</p><p>n = atualizar PSF a cada n iterações</p><p><br/></"
+"p><p>Pode causar efeito de anelamento se aplicado com muita frequência.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFUpdateLabel)
 #: fitsviewer/livestacking.ui:1611
@@ -34032,6 +33995,10 @@ msgid ""
 "Update</p><p>n = update PSF every n iterations</p><p><br/></p><p>Can cause "
 "star ringing if applied too frequently.</p><p><br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Adaptar PSF usado no algoritmo ImageMM.</p><p>0 = sem "
+"atualizar PSF</p><p>n = atualizar PSF a cada n iterações</p><p><br/></"
+"p><p>Pode causar efeito de anelamento se aplicado com muita frequência.</"
+"p><p><br/></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1646
@@ -34166,69 +34133,46 @@ msgstr "Configure as opções de pós-processamento nesta seção."
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkBlueLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkBlue)
 #: fitsviewer/livestacking.ui:2132 fitsviewer/livestacking.ui:2487
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
-#| "body></html>"
+#, kde-format
 msgid "The Master Dark to use to calibrate Blue lights."
-msgstr ""
-"<html><head/><body><p>O escuro mestre para usar para calibrar luzes.</p></"
-"body></html>"
+msgstr "O escuro mestre para usar para calibrar luzes do Azul."
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkBlueLabel)
 #: fitsviewer/livestacking.ui:2135
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Dark (Blue):"
-msgstr "Escuro mestre:"
+msgstr "Escuro mestre (Azul):"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkLum)
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkLumLabel)
 #: fitsviewer/livestacking.ui:2157 fitsviewer/livestacking.ui:2173
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
-#| "body></html>"
+#, kde-format
 msgid "The Master Dark to use to calibrate Lum lights."
-msgstr ""
-"<html><head/><body><p>O escuro mestre para usar para calibrar luzes.</p></"
-"body></html>"
+msgstr "O escuro mestre para usar para calibrar luzes de Luminosidade."
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkLumLabel)
 #: fitsviewer/livestacking.ui:2176
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Dark (Lum):"
-msgstr "Escuro mestre:"
+msgstr "Escuro mestre (Luminosidade):"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkLumB)
 #: fitsviewer/livestacking.ui:2186
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>File chooser dialog for Master Dark</p></body></"
-#| "html>"
+#, kde-format
 msgid "File chooser dialog for Master Dark Lum"
-msgstr ""
-"<html><head/><body><p>Janela do seletor de arquivos para o escuro mestre</"
-"p></body></html>"
+msgstr "Janela do seletor de arquivos para o escuro mestre de Luminosidade"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatGreenB)
 #: fitsviewer/livestacking.ui:2218
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>File chooser dialog for Master Flat</p></body></"
-#| "html>"
+#, kde-format
 msgid "File chooser dialog for Master Flat Green"
-msgstr ""
-"<html><head/><body><p>Janela do seletor de arquivos para o plano mestre</p></"
-"body></html>"
+msgstr "Janela do seletor de arquivos para o plano mestre do Verde"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatLumLabel)
 #: fitsviewer/livestacking.ui:2243
-#, fuzzy, kde-format
-#| msgid "Master Flat:"
+#, kde-format
 msgid "Master Flat (Lum):"
-msgstr "Plano mestre:"
+msgstr "Plano mestre (Luminosidade):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterFlatLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
@@ -34250,74 +34194,49 @@ msgstr "Plano mestre:"
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkGreenLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkGreen)
 #: fitsviewer/livestacking.ui:2284 fitsviewer/livestacking.ui:2465
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
-#| "body></html>"
+#, kde-format
 msgid "The Master Dark to use to calibrate Green lights."
-msgstr ""
-"<html><head/><body><p>O escuro mestre para usar para calibrar luzes.</p></"
-"body></html>"
+msgstr "O escuro mestre para usar para calibrar luzes do Verde."
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkGreenLabel)
 #: fitsviewer/livestacking.ui:2287
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Dark (Green):"
-msgstr "Escuro mestre:"
+msgstr "Escuro mestre (Verde):"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkRedB)
 #: fitsviewer/livestacking.ui:2297
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>File chooser dialog for Master Dark</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark Red</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Janela do seletor de arquivos para o escuro mestre</"
-"p></body></html>"
+"<html><head/><body><p>Janela do seletor de arquivos para o escuro mestre do "
+"Vermelho</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatRedLabel)
 #: fitsviewer/livestacking.ui:2322
-#, fuzzy, kde-format
-#| msgid "Master Flat:"
+#, kde-format
 msgid "Master Flat (Red):"
-msgstr "Plano mestre:"
+msgstr "Plano mestre (Vermelho):"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatBlueB)
 #: fitsviewer/livestacking.ui:2332
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>File chooser dialog for Master Flat</p></body></"
-#| "html>"
+#, kde-format
 msgid "File chooser dialog for Master Flat Blue"
-msgstr ""
-"<html><head/><body><p>Janela do seletor de arquivos para o plano mestre</p></"
-"body></html>"
+msgstr "Janela do seletor de arquivos para o plano mestre do Azul"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkBlueB)
 #: fitsviewer/livestacking.ui:2345
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>File chooser dialog for Master Dark</p></body></"
-#| "html>"
+#, kde-format
 msgid "File chooser dialog for Master Dark Blue"
-msgstr ""
-"<html><head/><body><p>Janela do seletor de arquivos para o escuro mestre</"
-"p></body></html>"
+msgstr "Janela do seletor de arquivos para o escuro mestre do Azul"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkGreenB)
 #: fitsviewer/livestacking.ui:2358
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>File chooser dialog for Master Dark</p></body></"
-#| "html>"
+#, kde-format
 msgid "File chooser dialog for Master Dark Green"
-msgstr ""
-"<html><head/><body><p>Janela do seletor de arquivos para o escuro mestre</"
-"p></body></html>"
+msgstr "Janela do seletor de arquivos para o escuro mestre do Verde"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatB)
 #: fitsviewer/livestacking.ui:2396
@@ -34350,58 +34269,40 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatBlueLabel)
 #: fitsviewer/livestacking.ui:2509
-#, fuzzy, kde-format
-#| msgid "Master Flat:"
+#, kde-format
 msgid "Master Flat (Blue):"
-msgstr "Plano mestre:"
+msgstr "Plano mestre (Azul):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkRedLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkRed)
 #: fitsviewer/livestacking.ui:2525 fitsviewer/livestacking.ui:2569
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
-#| "body></html>"
+#, kde-format
 msgid "The Master Dark to use to calibrate Red lights."
-msgstr ""
-"<html><head/><body><p>O escuro mestre para usar para calibrar luzes.</p></"
-"body></html>"
+msgstr "O escuro mestre para usar para calibrar luzes do Vermelho."
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkRedLabel)
 #: fitsviewer/livestacking.ui:2528
-#, fuzzy, kde-format
-#| msgid "Master Dark:"
+#, kde-format
 msgid "Master Dark (Red):"
-msgstr "Escuro mestre:"
+msgstr "Escuro mestre (Vermelho):"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatGreenLabel)
 #: fitsviewer/livestacking.ui:2660
-#, fuzzy, kde-format
-#| msgid "Master Flat:"
+#, kde-format
 msgid "Master Flat (Green):"
-msgstr "Plano mestre:"
+msgstr "Plano mestre (Verde):"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatLumB)
 #: fitsviewer/livestacking.ui:2670
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>File chooser dialog for Master Flat</p></body></"
-#| "html>"
+#, kde-format
 msgid "File chooser dialog for Master Flat Lum"
-msgstr ""
-"<html><head/><body><p>Janela do seletor de arquivos para o plano mestre</p></"
-"body></html>"
+msgstr "Janela do seletor de arquivos para o plano mestre da Luminosidade."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatRedB)
 #: fitsviewer/livestacking.ui:2683
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>File chooser dialog for Master Flat</p></body></"
-#| "html>"
+#, kde-format
 msgid "File chooser dialog for Master Flat Red"
-msgstr ""
-"<html><head/><body><p>Janela do seletor de arquivos para o plano mestre</p></"
-"body></html>"
+msgstr "Janela do seletor de arquivos para o plano mestre do Vermelho"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, CalibrationMinimized)
 #: fitsviewer/livestacking.ui:2699
@@ -41425,10 +41326,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (fitsLSCalcSNR), group (FITSViewer)
 #: kstars.kcfg:1810
-#, fuzzy, kde-format
-#| msgid "Live Stacking Post Processing switch"
+#, kde-format
 msgid "Live Stacking calculate SNR switch"
-msgstr "Interruptor de pós-processamento do empilhamento ao vivo"
+msgstr "Interruptor de cálculo do RSR do empilhamento ao vivo"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterDark), group (FITSViewer)
 #: kstars.kcfg:1814
@@ -43870,7 +43770,7 @@ msgstr "Exibir o gráfico de correções de DEC nos gráficos de desvio de guia.
 #: kstars.kcfg:3271
 #, kde-format
 msgid "Display the SNR Plot on the Guide Drift Graphics."
-msgstr "Exibir o gráfico SNR nos gráficos de desvio de guia."
+msgstr "Exibir o gráfico RSR nos gráficos de desvio de guia."
 
 #. i18n: ectx: label, entry (RMSDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:3275
@@ -44454,7 +44354,7 @@ msgstr "Exibir SkyBackground no gráfico de estatísticas do Analyze."
 #: kstars.kcfg:3580
 #, kde-format
 msgid "Display SNR on the Analyze Statistics Plot."
-msgstr "Exibir SNR no gráfico de estatísticas do Analyze."
+msgstr "Exibir RSR no gráfico de estatísticas do Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRA), group (Analyze)
 #: kstars.kcfg:3584
