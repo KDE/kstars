@@ -838,12 +838,24 @@ bool DriverManager::disconnectRemoteHost(const QSharedPointer<DriverInfo> &drive
 
     if (clientManager)
     {
+        // Disconnect all signals
+        clientManager->disconnect();
+        // Remove the managed driver
         clientManager->removeManagedDriver(driver);
+        // Disconnect all servers
         clientManager->disconnectAll();
+
+        // Remove Client from GUI and INDI Listener
         GUIManager::Instance()->removeClient(clientManager);
         INDIListener::Instance()->removeClient(clientManager);
+
+        // Remove from our DriverManage list
         clients.removeOne(clientManager);
+
+        // Delete later
         clientManager->deleteLater();
+
+        // Sync menu actions
         updateMenuActions();
         return true;
     }
