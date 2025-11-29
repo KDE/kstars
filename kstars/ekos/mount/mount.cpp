@@ -197,8 +197,6 @@ Mount::Mount()
 Mount::~Mount()
 {
     autoParkTimer.stop();
-    // disconnect all connections
-    disconnect(PushToAssistant::Instance(), nullptr, nullptr, nullptr);
 }
 
 void Mount::setupParkUI()

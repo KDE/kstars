@@ -90,6 +90,7 @@ void Manager::release()
     OpticalTrainManager::release();
     OpticalTrainSettings::release();
     RotatorUtils::release();
+    PushToAssistant::release();
     delete _Manager;
 }
 
@@ -1505,6 +1506,7 @@ void Manager::cleanDevices(bool stopDrivers)
         mountModule()->stopTimers();
 
     ekosLiveClient->message()->setPendingPropertiesEnabled(false);
+
     INDIListener::Instance()->disconnect(this);
     DriverManager::Instance()->disconnect(this);
 

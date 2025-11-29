@@ -60,6 +60,12 @@ PushToAssistant *PushToAssistant::Instance()
     return _PushToAssistant;
 }
 
+void PushToAssistant::release()
+{
+    delete _PushToAssistant;
+    _PushToAssistant = nullptr;
+}
+
 void PushToAssistant::updateTelescopeCoords(const SkyPoint &position)
 {
     // take the target from the current position if no target is set

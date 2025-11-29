@@ -269,9 +269,6 @@ Align::Align(const QSharedPointer<ProfileInfo> &activeProfile) : m_ActiveProfile
 
 Align::~Align()
 {
-    // disconnect all connections
-    disconnect(PushToAssistant::Instance(), nullptr, nullptr, nullptr);
-
     if (alignWidget->parent() == nullptr)
         toggleAlignWidgetFullScreen();
 
@@ -354,22 +351,22 @@ void Align::handlePointTooltip(QMouseEvent *event)
                 return;
             QToolTip::showText(event->globalPos(),
                                i18n("<table>"
-                 "<tr>"
-                 "<th colspan=\"2\">Object %1: %2</th>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>RA:</td><td>%3</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>DE:</td><td>%4</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>dRA:</td><td>%5</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>dDE:</td><td>%6</td>"
-                 "</tr>"
-                 "</table>",
+                                    "<tr>"
+                                    "<th colspan=\"2\">Object %1: %2</th>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>RA:</td><td>%3</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>DE:</td><td>%4</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dRA:</td><td>%5</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dDE:</td><td>%6</td>"
+                                    "</tr>"
+                                    "</table>",
                                     point + 1,
                                     solutionTable->item(point, 2)->text(),
                                     solutionTable->item(point, 0)->text(),
@@ -4077,7 +4074,7 @@ void Align::exportSolutionPoints()
     {
         int r = KMessageBox::warningContinueCancel(nullptr,
                 i18n("A file named \"%1\" already exists. "
-             "Overwrite it?",
+                     "Overwrite it?",
                      exportFile.fileName()),
                 i18n("Overwrite File?"), KStandardGuiItem::overwrite());
         if (r == KMessageBox::Cancel)
