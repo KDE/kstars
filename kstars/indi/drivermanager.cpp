@@ -838,10 +838,20 @@ bool DriverManager::disconnectRemoteHost(const QSharedPointer<DriverInfo> &drive
 
     if (clientManager)
     {
-        // Disconnect all signals
+        // LAYER 1: Set flag to prevent serverDisconnected from emitting signals
+        // This is critical for Flatpak where server shutdown happens very quickly
+        clientManager->setPendingDisconnection(true);
+
+        // LAYER 2: Block all signals as backup defense
+        // Prevents any Qt signals from being emitted during cleanup
+        clientManager->blockSignals(true);
+
+        // Disconnect all Qt signal/slot connections
         clientManager->disconnect();
-        // Remove the managed driver
+
+        // Remove the managed driver (cleans up driver state)
         clientManager->removeManagedDriver(driver);
+
         // Disconnect all servers
         clientManager->disconnectAll();
 
@@ -849,7 +859,7 @@ bool DriverManager::disconnectRemoteHost(const QSharedPointer<DriverInfo> &drive
         GUIManager::Instance()->removeClient(clientManager);
         INDIListener::Instance()->removeClient(clientManager);
 
-        // Remove from our DriverManage list
+        // Remove from our DriverManager list
         clients.removeOne(clientManager);
 
         // Delete later

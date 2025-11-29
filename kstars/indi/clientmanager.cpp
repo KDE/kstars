@@ -283,6 +283,7 @@ void ClientManager::serverConnected()
     }
 
     m_PendingConnection = false;
+    m_PendingDisconnection = false;
     m_ConnectionRetries = MAX_RETRIES;
 
     emit started();
@@ -290,6 +291,14 @@ void ClientManager::serverConnected()
 
 void ClientManager::serverDisconnected(int exitCode)
 {
+    // CRITICAL: Early exit if we're in the middle of intentional disconnect
+    // This prevents double-cleanup and crashes during shutdown, especially in Flatpak
+    if (m_PendingDisconnection)
+    {
+        qCDebug(KSTARS_INDI) << "Ignoring server disconnect during intentional cleanup";
+        return;
+    }
+
     if (m_PendingConnection)
         qCDebug(KSTARS_INDI) << "INDI server connection refused.";
     else

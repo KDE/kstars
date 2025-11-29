@@ -84,6 +84,17 @@ class ClientManager : public QObject, public INDI::BaseClient
 
         void establishConnection();
 
+        /**
+         * @brief setPendingDisconnection Set flag to indicate intentional disconnection
+         * @param value true if disconnection is intentional, false otherwise
+         * @note This prevents serverDisconnected from emitting signals during cleanup
+         */
+        void setPendingDisconnection(bool value)
+        {
+            m_PendingDisconnection = value;
+        }
+
+
     protected:
         virtual void newDevice(INDI::BaseDevice dp) override;
         virtual void removeDevice(INDI::BaseDevice dp) override;
@@ -134,4 +145,5 @@ class ClientManager : public QObject, public INDI::BaseClient
         static constexpr uint8_t MAX_RETRIES {2};
         uint8_t m_ConnectionRetries {MAX_RETRIES};
         bool m_PendingConnection {false};
+        bool m_PendingDisconnection {false};
 };
