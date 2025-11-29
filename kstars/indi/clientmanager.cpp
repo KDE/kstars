@@ -176,6 +176,8 @@ void ClientManager::processNewProperty(INDI::Property prop)
 
 void ClientManager::disconnectAll()
 {
+    m_PendingDisconnection = true;
+
     disconnectServer();
     for (auto &oneManager : blobManagers)
         oneManager->disconnectServer();
@@ -291,23 +293,27 @@ void ClientManager::serverConnected()
 
 void ClientManager::serverDisconnected(int exitCode)
 {
-    // CRITICAL: Early exit if we're in the middle of intentional disconnect
-    // This prevents double-cleanup and crashes during shutdown, especially in Flatpak
+    // Early exit if we're in the middle of intentional disconnect
+    // This prevents double-cleanup and crashes during shutdown
     if (m_PendingDisconnection)
-    {
-        qCDebug(KSTARS_INDI) << "Ignoring server disconnect during intentional cleanup";
         return;
-    }
 
     if (m_PendingConnection)
         qCDebug(KSTARS_INDI) << "INDI server connection refused.";
     else
         qCDebug(KSTARS_INDI) << "INDI server disconnected. Exit code:" << exitCode;
 
-    for (auto &oneDriverInfo : m_ManagedDrivers)
+    // CRITICAL FIX: Do NOT reset drivers when we have a pending connection that will retry
+    // Resetting clears the clientManager association, and when the retry succeeds,
+    // the driver no longer knows about its ClientManager. This causes the "connection lost"
+    // message because we can't find the ClientManager to set the m_PendingDisconnection flag.
+    if (!m_PendingConnection)
     {
-        oneDriverInfo->setClientState(false);
-        oneDriverInfo->reset();
+        for (auto &oneDriverInfo : m_ManagedDrivers)
+        {
+            oneDriverInfo->setClientState(false);
+            oneDriverInfo->reset();
+        }
     }
 
     if (m_PendingConnection)
