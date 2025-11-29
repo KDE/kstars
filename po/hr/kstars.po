@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-27 02:02+0000\n"
+"POT-Creation-Date: 2025-11-29 02:01+0000\n"
 "PO-Revision-Date: 2010-01-28 23:11+0100\n"
 "Last-Translator: Marko Dimjasevic <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -3861,7 +3861,7 @@ msgstr "Preuzimanje datoteke nije bilo moguće."
 msgid "Are you sure you want to remove the %1 link?"
 msgstr "Jeste li sigurni da želite ukloniti vezu %1?"
 
-#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1525
+#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1537
 #: indi/indidriver.cpp:897
 #, kde-format, kde-kuit-format
 msgid "Delete Confirmation"
@@ -6877,7 +6877,7 @@ msgstr "Error while reading binary data from file."
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2712
 #: ekos/scheduler/schedulerprocess.cpp:3130
 #: ekos/scheduler/schedulerprocess.cpp:4247
-#: ekos/scheduler/schedulerprocess.cpp:4267 indi/drivermanager.cpp:1550
+#: ekos/scheduler/schedulerprocess.cpp:4267 indi/drivermanager.cpp:1562
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -14129,7 +14129,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
 #: fitsviewer/livestacking.ui:133 fitsviewer/livestacking.ui:1259
-#: fitsviewer/livestacking.ui:1263 indi/drivermanager.cpp:1342
+#: fitsviewer/livestacking.ui:1263 indi/drivermanager.cpp:1354
 #: indi/indidriver.cpp:735 kstarsinit.cpp:874 tools/obslistwizard.ui:183
 #, fuzzy, kde-format, kde-kuit-format
 msgid "None"
@@ -33992,54 +33992,54 @@ msgstr "nepravilan naziv datoteke"
 msgid "Connected to INDI server"
 msgstr "Poveži"
 
-#: indi/drivermanager.cpp:1022 indi/indidriver.cpp:487
+#: indi/drivermanager.cpp:1034 indi/indidriver.cpp:487
 #, kde-format, kde-kuit-format
 msgid ""
 "Unable to find INDI drivers directory: %1\n"
 "Please make sure to set the correct path in KStars configuration"
 msgstr ""
 
-#: indi/drivermanager.cpp:1053 indi/indidriver.cpp:528
+#: indi/drivermanager.cpp:1065 indi/indidriver.cpp:528
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Failed to open INDI Driver file: %1"
 msgstr "Datoteku %s nije bilo moguće otvoriti."
 
-#: indi/drivermanager.cpp:1419
+#: indi/drivermanager.cpp:1431
 #, fuzzy, kde-format
 #| msgid "Add Host"
 msgctxt "@title:window"
 msgid "Add Host"
 msgstr "Dodaj računalo"
 
-#: indi/drivermanager.cpp:1430 indi/indidriver.cpp:812
+#: indi/drivermanager.cpp:1442 indi/indidriver.cpp:812
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Error: the port number is invalid."
 msgstr "pogreška u $FILE: neispravan broj pseudonima"
 
-#: indi/drivermanager.cpp:1443 indi/indidriver.cpp:822
+#: indi/drivermanager.cpp:1455 indi/indidriver.cpp:822
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Host: %1 Port: %2 already exists."
 msgstr "Mapa s nazivom %s već postoji."
 
-#: indi/drivermanager.cpp:1471
+#: indi/drivermanager.cpp:1483
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Modify Host"
 msgstr "Nepoznato računalo"
 
-#: indi/drivermanager.cpp:1517 indi/indidriver.cpp:890
+#: indi/drivermanager.cpp:1529 indi/indidriver.cpp:890
 #, fuzzy, kde-format, kde-kuit-format
 msgid "You need to disconnect the client before removing it."
 msgstr ""
 "Podsjetnik: Potrebno je da provjerite\n"
 " izazov ako želite igrati u njemu."
 
-#: indi/drivermanager.cpp:1523 indi/indidriver.cpp:895
+#: indi/drivermanager.cpp:1535 indi/indidriver.cpp:895
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Are you sure you want to remove the %1 client?"
 msgstr "Jeste li sigurni da želite ukloniti mapu \"%s\" ?"
 
-#: indi/drivermanager.cpp:1548 indi/indidriver.cpp:920
+#: indi/drivermanager.cpp:1560 indi/indidriver.cpp:920
 #, fuzzy, kde-format, kde-kuit-format
 msgid ""
 "Unable to write to file 'indihosts.xml'\n"

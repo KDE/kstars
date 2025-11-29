@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-27 02:02+0000\n"
-"PO-Revision-Date: 2025-11-26 13:43+0100\n"
+"POT-Creation-Date: 2025-11-29 02:01+0000\n"
+"PO-Revision-Date: 2025-11-27 13:45+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -3776,7 +3776,7 @@ msgstr "Kon het item niet bewerken."
 msgid "Are you sure you want to remove the %1 link?"
 msgstr "Wilt u de koppeling %1 verwijderen?"
 
-#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1525
+#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1537
 #: indi/indidriver.cpp:897
 #, kde-format, kde-kuit-format
 msgid "Delete Confirmation"
@@ -6835,7 +6835,7 @@ msgstr "Kon niet schrijven naar bestand %1"
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2712
 #: ekos/scheduler/schedulerprocess.cpp:3130
 #: ekos/scheduler/schedulerprocess.cpp:4247
-#: ekos/scheduler/schedulerprocess.cpp:4267 indi/drivermanager.cpp:1550
+#: ekos/scheduler/schedulerprocess.cpp:4267 indi/drivermanager.cpp:1562
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -14507,7 +14507,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
 #: fitsviewer/livestacking.ui:133 fitsviewer/livestacking.ui:1259
-#: fitsviewer/livestacking.ui:1263 indi/drivermanager.cpp:1342
+#: fitsviewer/livestacking.ui:1263 indi/drivermanager.cpp:1354
 #: indi/indidriver.cpp:735 kstarsinit.cpp:874 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -28646,7 +28646,7 @@ msgstr "Weerwaarschuwing vertraging van afsluiten:"
 #: ekos/scheduler/opsweathersettings.ui:134
 #, kde-format
 msgid "Standalone Safety Monitor Driver:"
-msgstr "Alleenstaand stuurprogramma voor veiligheidsmonitor:"
+msgstr "Alleenstaand stuurprogramma voor beveiligingsmonitor:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #. i18n: ectx: label, entry (SchedulerSafetyMonitorConnectionString), group (Scheduler)
@@ -30329,7 +30329,7 @@ msgstr "Wachtrij ná opstarten met succes voltooid."
 #: ekos/scheduler/schedulerprocess.cpp:3070
 #, kde-format
 msgid "Resuming scheduler after safety recovery startup tasks..."
-msgstr ""
+msgstr "Planner hervatten opstarttaken na beveiliging herstellen..."
 
 #: ekos/scheduler/schedulerprocess.cpp:3078
 #, kde-format
@@ -30354,7 +30354,7 @@ msgstr "Wachtrij vóór afsluiten is mislukt: %1"
 #: ekos/scheduler/schedulerprocess.cpp:3113
 #, kde-format
 msgid "Post-shutdown queue failed: %1"
-msgstr ""
+msgstr "Wachtrij ná afsluiten is mislukt: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:3179
 #, kde-format
@@ -30580,12 +30580,14 @@ msgstr "Waarschuwing: Taak '%1' bevat ontoegankelijke rij '%2', is ongeldig."
 #: ekos/scheduler/schedulerprocess.cpp:4426
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
-msgstr ""
+msgstr "Beveiligingsmonitor geïnitialiseerd met verbindingstekenreeks: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:65
 #, kde-format
 msgid "Initializing standalone safety monitor monitoring for %1@%2:%3"
 msgstr ""
+"Alleenstaande beveiligingsmonitor wordt geïnitialiseerd voor het monitoren "
+"van %1@%2:%3"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:117
 #, kde-format
@@ -30593,27 +30595,32 @@ msgid ""
 "Warning: Invalid safety monitor connection string format. Expected 'host' or "
 "'host:port'"
 msgstr ""
+"Waarschuwing: ongeldig formaat van tekenreeks van verbinding met "
+"beveiligingsmonitor. Verwacht 'host' of 'host:port'"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:138
 #, kde-format
 msgid "Invalid safety monitor port number, using default port 7624"
 msgstr ""
+"Ongeldig poortnummer van beveiligingsmonitor, gebruikt standaard poort 7624"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:167
 #, kde-format
 msgid ""
 "Failed to connect to standalone safety monitor after %1 attempts, giving up"
 msgstr ""
+"Verbinden met alleenstaande beveiligingsmonitor na %1 pogingen is mislukt, "
+"geeft op"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:182
 #, kde-format
 msgid "Connecting to standalone safety monitor at %1:%2..."
-msgstr "Verbinden met alleenstaande veiligheidsmonitor op %1:%2..."
+msgstr "Verbinden met alleenstaande beveiligingsmonitor op %1:%2..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:201
 #, kde-format
 msgid "Standalone safety monitor device %1 is ready"
-msgstr ""
+msgstr "Apparaat van alleenstaande beveiligingsmonitor %1 is gereed"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:219
 #, kde-format
@@ -30642,38 +30649,39 @@ msgstr ""
 #: ekos/scheduler/schedulersafetymonitor.cpp:263
 #, kde-format
 msgid "Attempting to reconnect to standalone safety monitor..."
-msgstr "Poging om opnieuw te verbinden met veiligheidsmonitor..."
+msgstr "Poging om opnieuw te verbinden met beveiligingsmonitor..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:280
 #, kde-format
 msgid "Standalone safety monitor client connected successfully"
-msgstr "Alleenstaande veiligheidsmonitorclient met succes verbonden"
+msgstr "Alleenstaande beveiligingsmonitorclient met succes verbonden"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:287
 #, kde-format
 msgid "Standalone safety monitor client connection failed: %1"
-msgstr "Alleenstaande veiligheidsmonitorclient verbinden is mislukt: %1"
+msgstr "Alleenstaande beveiligingsmonitorclient verbinden is mislukt: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:306
 #, kde-format
 msgid "Standalone safety monitor client terminated: %1"
-msgstr "Alleenstaande veiligheidsmonitorclient beëindigd: %1"
+msgstr "Alleenstaande beveiligingsmonitorclient beëindigd: %1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:370
 #, kde-format
 msgid "Safety monitor connection string changed from %1:%2 to %3:%4"
 msgstr ""
+"Verbindingstekenreeks van beveiligingsmonitor gewijzigd van %1:%2 naar %3:%4 "
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:378
 #, kde-format
 msgid "Disconnecting from existing safety monitor at %1:%2"
 msgstr ""
-"Verbinding met de bestaande veiligheidsmonitor op %1:%2 wordt verbroken"
+"Verbinding met de bestaande beveiligingsmonitor op %1:%2 wordt verbroken"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:410
 #, kde-format
 msgid "Safety monitor monitoring disabled"
-msgstr ""
+msgstr "Monitoren met beveiligingsmonitor is uitgeschakeld"
 
 #: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
@@ -30697,12 +30705,12 @@ msgstr "Taak '%1' %2x%3\" %4"
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:96
 #, kde-format
 msgid "Starting task queue with %1 items"
-msgstr ""
+msgstr "Takenwachtrij met %1 items wordt gestart"
 
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:263
 #, kde-format
 msgid "No connected device found with required interfaces"
-msgstr ""
+msgstr "Geen verbonden apparaat gevonden met vereiste interfaces"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
 #, kde-format
@@ -30738,7 +30746,7 @@ msgstr "Ongeldige formaat van verzameling"
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:214
 #, kde-format
 msgid "<b>Tasks (%1):</b><br/>"
-msgstr ""
+msgstr "<b>Taken (%1):</b><br/>"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:33
 #, kde-format
@@ -30753,7 +30761,7 @@ msgstr "Selecteer het te gebruiken apparaat voor deze taak"
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:170
 #, kde-format
 msgid "No compatible devices found"
-msgstr ""
+msgstr "Geen compatibele apparaten gevonden"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:190
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:506
@@ -30785,12 +30793,12 @@ msgstr "Geen optische trein voor profiel: %1"
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:280
 #, kde-format
 msgid "No cached devices for profile: %1"
-msgstr ""
+msgstr "Geen gebufferde apparaten voor profiel: %1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:316
 #, kde-format
 msgid "No compatible devices in profile"
-msgstr ""
+msgstr "Geen compatibele apparaten in profiel"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
 #, kde-format
@@ -30858,12 +30866,12 @@ msgstr "Ongeldige parameters"
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:309
 #, kde-format
 msgid "No template specified"
-msgstr ""
+msgstr "Geen sjabloon gespecificeerd"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:53
 #, kde-format
 msgid "Property Template Builder"
-msgstr ""
+msgstr "Bouwer van eigenschapsjabloon"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:64
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:81
@@ -30889,12 +30897,12 @@ msgstr "Toestemming:"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:207
 #, kde-format
 msgid "SET - Write value to property"
-msgstr ""
+msgstr "ZET - schrijf waarde to eigenschap"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:211
 #, kde-format
 msgid "EVALUATE - Check property condition"
-msgstr ""
+msgstr "EVALUEER - controleer conditie van eigenschap"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:218
 #, kde-format
@@ -30931,12 +30939,12 @@ msgstr "Wachtrij afbreken"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:247
 #, kde-format
 msgid "Skip to Next Task"
-msgstr ""
+msgstr "Spring naar volgende taak"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:248
 #, kde-format
 msgid "On Failure:"
-msgstr ""
+msgstr "Bij mislukking:"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:271
 #, kde-format
@@ -30951,7 +30959,7 @@ msgstr "Categorie:"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:294
 #, kde-format
 msgid "Template Preview (JSON)"
-msgstr ""
+msgstr "Sjabloonvoorbeeld (JSON)"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:317
 #, kde-format
@@ -30962,6 +30970,7 @@ msgstr "Stap 1: selecteer apparaat"
 #, kde-format
 msgid "Choose the INDI device for which you want to create a custom template."
 msgstr ""
+"Kies het INDI-apparaat waarvoor u een aangepast sjabloon wilt aanmaken."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:321
 #, kde-format
@@ -30975,6 +30984,9 @@ msgid ""
 "properties (NUMBER, SWITCH, TEXT) and readable status properties (LIGHT) are "
 "shown."
 msgstr ""
+"Kies de eigenschap die u wilt controleren met dit sjabloon. Alleen "
+"instelbare eigenschappen (NUMMER, SCHAKELAAR, TEKST) en leesbare "
+"statuseigenschappen (LICHT) worden getoond."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:326
 #, kde-format
@@ -33521,8 +33533,9 @@ msgid ""
 "<html><head/><body><p>Sigma Scale is the MAD multiplier to remove outliers "
 "(usually in the range 0.6 - 0.9)</p></body></html>"
 msgstr ""
-"Sigmaschaal is de MAD-vermenigvuldiger om buitenliggers te verwijderen "
-"(gewoonlijk in de reeks 0,6 - 0,9).</p></body></html>"
+"<html><head/><body><p>Sigmaschaal is de MAD-vermenigvuldiger om "
+"buitenliggers te verwijderen (gewoonlijk in de reeks 0,6 - 0,9).</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1059
@@ -33692,14 +33705,7 @@ msgstr "Laag sigma:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1373
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Stacking mathod:</p><p>- Average. Uses a simple "
-#| "mean average. No pixel rejection is applied.</p><p>- Sigma Clipping. "
-#| "Outlying pixels are rejected.</p><p>- Winsorized Sigma Clipping. "
-#| "Winsorized version of sigma clipping</p><p>- ImageMM. Implements ImageMM "
-#| "stacking as per https://iopscience.iop.org/article/10.3847/1538-3881/"
-#| "adfb72 NOTE: this method is very resource intensive</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
@@ -33923,9 +33929,7 @@ msgstr "Opties voor nabewerking in deze sectie configureren."
 #: fitsviewer/livestacking.ui:2132 fitsviewer/livestacking.ui:2487
 #, kde-format
 msgid "The Master Dark to use to calibrate Blue lights."
-msgstr ""
-"Het te gebruiken hoofddonker voor het kalibreren van Blauwe lichten.</p></"
-"body></html>"
+msgstr "Het te gebruiken hoofddonker voor het kalibreren van Blauwe lichten."
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkBlueLabel)
 #: fitsviewer/livestacking.ui:2135
@@ -35436,7 +35440,7 @@ msgstr "Ongeldige poort opgegeven: %1"
 msgid "Connected to INDI server"
 msgstr "Verbonden met INDI-server"
 
-#: indi/drivermanager.cpp:1022 indi/indidriver.cpp:487
+#: indi/drivermanager.cpp:1034 indi/indidriver.cpp:487
 #, kde-format, kde-kuit-format
 msgid ""
 "Unable to find INDI drivers directory: %1\n"
@@ -35445,44 +35449,44 @@ msgstr ""
 "Kan de map met de drivers voor INDI: %1\n"
 "niet vinden. Geef het juiste pad op in de instellingen voor KStars"
 
-#: indi/drivermanager.cpp:1053 indi/indidriver.cpp:528
+#: indi/drivermanager.cpp:1065 indi/indidriver.cpp:528
 #, kde-format, kde-kuit-format
 msgid "Failed to open INDI Driver file: %1"
 msgstr "Het bestand van de driver voor INDI: %1, kon niet worden geopend"
 
-#: indi/drivermanager.cpp:1419
+#: indi/drivermanager.cpp:1431
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Host"
 msgstr "Host toevoegen"
 
-#: indi/drivermanager.cpp:1430 indi/indidriver.cpp:812
+#: indi/drivermanager.cpp:1442 indi/indidriver.cpp:812
 #, kde-format, kde-kuit-format
 msgid "Error: the port number is invalid."
 msgstr "Fout: poortnummer is onjuist."
 
-#: indi/drivermanager.cpp:1443 indi/indidriver.cpp:822
+#: indi/drivermanager.cpp:1455 indi/indidriver.cpp:822
 #, kde-format, kde-kuit-format
 msgid "Host: %1 Port: %2 already exists."
 msgstr "Host: %1 poort: %2 is reeds in gebruik."
 
-#: indi/drivermanager.cpp:1471
+#: indi/drivermanager.cpp:1483
 #, kde-format
 msgctxt "@title:window"
 msgid "Modify Host"
 msgstr "Host wijzigen"
 
-#: indi/drivermanager.cpp:1517 indi/indidriver.cpp:890
+#: indi/drivermanager.cpp:1529 indi/indidriver.cpp:890
 #, kde-format, kde-kuit-format
 msgid "You need to disconnect the client before removing it."
 msgstr "Verbreek eerst de verbinding met de client voordat u deze verwijdert."
 
-#: indi/drivermanager.cpp:1523 indi/indidriver.cpp:895
+#: indi/drivermanager.cpp:1535 indi/indidriver.cpp:895
 #, kde-format, kde-kuit-format
 msgid "Are you sure you want to remove the %1 client?"
 msgstr "Wilt u client %1 verwijderen?"
 
-#: indi/drivermanager.cpp:1548 indi/indidriver.cpp:920
+#: indi/drivermanager.cpp:1560 indi/indidriver.cpp:920
 #, kde-format, kde-kuit-format
 msgid ""
 "Unable to write to file 'indihosts.xml'\n"
