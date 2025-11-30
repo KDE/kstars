@@ -4,6 +4,99 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.8.0
+
+b6c2a8b73 2025-11-29 Jasem Mutlaq         Fix the root cause of remote-disconnect crashes in flatpaks.
+1a4447a2b 2025-11-29 Jasem Mutlaq         Fix wildcard disconnects reported by Pushto Assistant and release it from Manager
+0d151641b 2025-11-29 Jasem Mutlaq         Add more protections againt flatpak crash that occasionally happens on remote disconnect
+cfd8991eb 2025-11-28 Jasem Mutlaq         Fix possible crash when disconnecting from remote host due to clientManager signals
+508e165b1 2025-11-27 Jasem Mutlaq         Fix crash KSTARS-54 reported in Sentry
+75c935b89 2025-11-26 Yuri Chornoivan      Fix minor typos
+b48c05aec 2025-11-25 John Evans           Live Stacker: Create RGB and LRGB images from individual mono subframes
+f42a2b7a9 2025-11-24 Jasem Mutlaq         When restarting capture, update job captured frame map from module state
+c0b85a81d 2025-11-24 Jasem Mutlaq         Fix crash when connecting to remote host because the clientManager was not set in the driver information.
+673201846 2025-11-23 Jasem Mutlaq         Support driver_source so that we can run INDI drivers from within the flatpak
+3e46eb947 2025-11-16 Jasem Mutlaq         Migrate Filter Manager to use modern INDI Properties
+193e01fb6 2025-11-15 Jasem Mutlaq         Fix issue with J2000 getting set by default in Mount Control Panel. Fix bi-direcitonal sync between mount target position in Ekos Mount tab and Cont..
+7f26aab1b 2025-11-14 Jasem Mutlaq         Increase flatpak timeout to 2 hours
+80027ad13 2025-11-14 Jasem Mutlaq         Fix regression where capture format and encoding are reset whenever they are changed in INDI. It should retain the current values in the current edi..
+567b47e12 2025-11-14 Jasem Mutlaq         Use more recent eigen
+257535b0c 2025-11-14 Jasem Mutlaq         Update to libgphoto2 v33
+3e73d095d 2025-11-14 Jasem Mutlaq         Use the offline HIPS path since it can be a custom location
+62111f7bb 2025-11-13 Yuri Chornoivan      Fix minor typo
+113178b26 2025-11-12 John Evans           Live Stacking - ImageMM Stacking Method
+dc9b44f27 2025-11-12 Jasem Mutlaq         Fix shutdown completion issue with queue task executor
+0e3b5facc 2025-11-11 Jasem Mutlaq         Explicitly use flatpak-amd64
+0514cf3b1 2025-11-11 Jasem Mutlaq         Add flatpak-arm64
+c6166f6ca 2025-11-10 Jasem Mutlaq         Safety Monitor should always override internal weather driver unless the internal weather driver reports worse conditdions. Use Safety instead of we..
+50c4b0786 2025-11-10 Jasem Mutlaq         Fix various Safety monitor issues
+6dc12e8c4 2025-11-10 Jasem Mutlaq         Use INDI Safety Monitor driver as the standealone option for observatory safety monitoring
+eef5c5181 2025-11-10 Jasem Mutlaq         Revert "Reuse calibration after rotation: Part 2"
+06c6d1f1e 2025-11-09 Jasem Mutlaq         For system collections, allow failure when driver interface is not found by skipping to next item in the list.
+ba8fb216b 2025-11-09 Jasem Mutlaq         Fix crash
+87eb6f741 2025-11-08 Wolfgang Reissenberger Improvements for the Push-to Assistant
+9efe410b1 2025-11-08 Jasem Mutlaq         Fix warnings
+bbac9c7b2 2025-11-08 Jasem Mutlaq         Continue migrating away from legacy INDI properties
+d567f414e 2025-11-08 Jasem Mutlaq         Migrate from obsolete to new INDI properties. Remove obsolete properties and functions no longer used.
+74d5916cf 2025-11-07 Jasem Mutlaq         Correctly execute post-startup procedure when recoving from soft-shutdown
+aa8aee0eb 2025-11-07 Jasem Mutlaq         Remove obsolete option
+f749fa7ca 2025-11-07 Jasem Mutlaq         Add support to dedicated weather driver for scheduler startup safety checks
+bf80f63d4 2025-11-07 Jasem Mutlaq         Support non-blocking connection
+75185d821 2025-11-07 Jasem Mutlaq         Improve default template. Fix evaluate and set actions as set should not do any evaluation at all.
+1c500f8f4 2025-11-07 Jasem Mutlaq         Do not use INDI pointers
+dcdd5bcab 2025-11-06 Jasem Mutlaq         Add delay task
+52a0ad4e8 2025-11-06 Jasem Mutlaq         Scheduler tasks
+6eab7ad23 2025-11-02 Eric Dejouhanet      ci: merge flatpak jobs, keep manual option for publishing recipes.
+54c08e15d 2025-08-18 Sertonix Norson      Fix test link failure on PowerPC
+5dfca224c 2025-11-02 Jasem Mutlaq         Fix scheduler startup and shutdown scripts
+519fb28da 2025-11-02 Jasem Mutlaq         Remove flatpak section as it is detailed in the downloads section
+d02ed2c12 2025-10-30 Jasem Mutlaq         Get rid of obsolete term "CCD" and replace it with "Camera"
+4cdc57f52 2025-10-29 Jasem Mutlaq         Focus and Align module will unpark dustcap if parked and is part of the active optical train
+f215852a6 2025-10-29 Jasem Mutlaq         Prevent premature alignment run if there are no more light frames in the job
+a3fe017c9 2025-10-28 John Evans           Live Stacker i18n Bug fix - Attempt 2
+e691c9b30 2025-10-28 John Evans           Live Stacker: Fix i18n issues
+9196f73e8 2025-10-27 Eric Dejouhanet      feat: flatpak nightlies
+c3faadd69 2025-10-27 Eric Dejouhanet      feat: flatpak nightlies
+429145bf5 2025-10-25 Jasem Mutlaq         Do not cover dust cap when capturing sky flats.
+2de503cbf 2025-10-25 Yuri Chornoivan      Fix minor typo
+d0bc97040 2025-10-24 Jasem Mutlaq         Fix setFrame when loaded from XML as DARK was incorrectly decoded as BIAS frame.
+0e7d8986d 2025-10-24 Jasem Mutlaq         Check indiversion.h first for version information
+76ef541ef 2025-10-24 Luigi Toscano        metainfo: update the link to the user documentation
+6d460bd03 2024-11-01 Akarsh Simha         Prefix HiPS actions with `hips:`, and use objectName() to identify the HiPS choice
+b681caf82 2024-10-31 Akarsh Simha         Prefix FOV actions' internal names (objectName()) with 'fov:'
+03e44fbb0 2024-10-31 Akarsh Simha         Add a number of DBus methods allowing almost complete programmatic control over the sky map
+6d0a1b475 2024-10-31 Akarsh Simha         Refactor slotApplySkyMapView to return whether the view exists
+a4d58f980 2024-10-31 Akarsh Simha         Expose width and height in DBus method getDSSURL
+64ee1b567 2025-10-24 Jasem Mutlaq         Limit Az and Alt errors
+bab543bb1 2025-10-24 Toni Schriber        Reuse calibration after rotation: Part 2
+22f633382 2025-10-23 Hy Murveit           Remove parents from constructors of objects pointed to by QSharedPointer
+10e244942 2025-10-23 Hy Murveit           Remove parent from CameraProcess
+24699a0d7 2025-10-21 Hy Murveit           Fix issue in FITS Solver, need to disconnect signals in callbacks
+e45a99372 2025-10-21 John Evans           Live Stacking Monitor
+0e6ce5fe2 2025-10-21 Hy Murveit           Convert Align module to SolverUtils
+c32bc1e42 2025-10-21 Jasem Mutlaq         Ignore empty or temporary files
+51f9b451f 2025-10-20 Hy Murveit           Fix bug in one-pulse-dither, update logging
+93a34fb7c 2025-10-20 Hy Murveit           Improve the randomness of dithering
+3d6ddd7fa 2025-10-20 Jasem Mutlaq         Fix issue where media messages were not uploading when client state was false but cloud was on
+6c714d536 2025-10-19 Jasem Mutlaq         Fix re-definition
+f2ae78fad 2025-10-19 Jasem Mutlaq         Add INDI mount homing support
+9f3415f2b 2025-10-19 Yuri Chornoivan      Fix minor typo
+d5b5ca12d 2025-10-18 Wolfgang Reissenberger Push-To Assistant
+250af79e8 2025-10-16 Hy Murveit           Fix issue in analyze stats font size
+6ef028328 2025-10-14 Hy Murveit           Try to get the text to fit in the stat boxes
+d40ed1dca 2025-10-13 Wolfgang Reissenberger Placeholder %cam removed
+cde7b9370 2025-10-13 Jasem Mutlaq         Starting KStars v3.8.0 development cycle
+da992c936 2025-10-12 Jasem Mutlaq         Fix windows warnings
+330250e11 2025-10-12 Jasem Mutlaq         Update .gitlab-ci.yml file
+10c6aef50 2025-10-12 Jasem Mutlaq         use Qt 6.10
+3555eca8a 2025-10-12 Jasem Mutlaq         Fix Toupcam EFW and AAF names
+ce53888e6 2025-10-12 Jasem Mutlaq         Make it compile with Qt 6.10
+223e9b661 2025-10-06 Jasem Mutlaq         Do not use i18n as constants as they will break KStars translation. Always use KLocalizedString.
+1ca86b042 2025-10-04 Ben Cooksley         Disable verbose makefile as it just generates noisy logs that aren't helpful and take up Gitlab server space
+9b425cff9 2025-10-03 Hy Murveit           fix bug in sequence editor
+437f324b2 2025-10-03 Wolfgang Reissenberger Bug fix for new placeholders for camera and hostname
+dcecc3b99 2025-10-03 Jasem Mutlaq         Do NOT enable MOUNT altitude limits when we have scheduler altitude limits, they are completely two different concepts
+
 3.7.9
 
 8cd70e12b 2025-10-02 Jasem Mutlaq         INDI Sync

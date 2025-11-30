@@ -385,6 +385,10 @@
             <driver name="Gemini Focusing Rotator">indi_gemini_focus</driver>
             <version>1.0</version>
         </device>
+        <device label="iOptron Focusing Rotator" manufacturer="iOptron">
+            <driver name="iOptron Focusing Rotator">indi_iafscaa_focus</driver>
+            <version>1.0</version>
+        </device>
         <device label="Pyxis" manufacturer="Optec">
             <driver name="Pyxis">indi_pyxis_rotator</driver>
             <version>1.1</version>
@@ -573,7 +577,19 @@
         </device>
         <device label="Sesto Senso 2" manufacturer="Primaluce Lab">
             <driver name="Sesto Senso 2">indi_sestosenso2_focus</driver>
-            <version>0.7</version>
+            <version>1.0</version>
+        </device>
+        <device label="Sesto Senso 3" manufacturer="Primaluce Lab">
+            <driver name="Sesto Senso 2">indi_sestosenso2_focus</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Sesto Senso 3 SC" manufacturer="Primaluce Lab">
+            <driver name="Sesto Senso 2">indi_sestosenso2_focus</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Sesto Senso 3 LS" manufacturer="Primaluce Lab">
+            <driver name="Sesto Senso 2">indi_sestosenso2_focus</driver>
+            <version>1.0</version>
         </device>
         <device label="Esatto" manufacturer="Primaluce Lab">
             <driver name="Esatto">indi_esatto_focus</driver>
@@ -745,6 +761,10 @@
     <devGroup group="Auxiliary">
         <device label="Astrometry" manufacturer="Others">
             <driver name="Astrometry">indi_astrometry</driver>
+            <version>0.1</version>
+        </device>
+        <device label="Safety Monitor" manufacturer="Others">
+            <driver name="Safety Monitor">indi_safetymonitor</driver>
             <version>0.1</version>
         </device>
         <device label="INDI Alpaca Server" manufacturer="Alpaca">
@@ -991,6 +1011,10 @@
             <driver name="WeatherFlow Tempest">indi_weatherflow_weather</driver>
             <version>1.0</version>
         </device>
+        <device label="HiTech Weather" manufacturer="HiTech Instruments">
+            <driver name="HiTech Weather">indi_hitech_weather</driver>
+            <version>1.0</version>
+        </device>
     </devGroup>
     <devGroup group="Agent">
         <device label="Imager Agent" manufacturer="Others">
@@ -1047,6 +1071,14 @@
             <driver name="CheapoDC">indi_cheapodc</driver>
             <version>1.0</version>
         </device>
+        <device label="Celestron Smart DewHeater and Power Controller 4X" manufacturer="Celestron">
+            <driver name="Celestron Dew Power">indi_celestron_dewpower</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Celestron Smart DewHeater Controller 2X" manufacturer="Celestron">
+            <driver name="Celestron Dew Power">indi_celestron_dewpower</driver>
+            <version>1.0</version>
+        </device>
     </devGroup>
 </driversList>
 <driversList>
@@ -1077,7 +1109,7 @@
   <devGroup group="Focusers">
     <device label="Altair AAF" mdpd="true" manufacturer="Altair">
       <driver name="Altair">indi_altaircam_focuser</driver>
-            <version>2.4</version>
+      <version>2.4</version>
         </device>
     </devGroup>
 </driversList>
@@ -1171,7 +1203,7 @@
             <driver name="Astromechanics FOC">indi_astromechfoc</driver>
             <version>0.2</version>
         </device>
-    </devGroup>
+</devGroup>
 </driversList>
 <driversList>
 <devGroup group="CCDs">
@@ -1227,9 +1259,9 @@
     <devGroup group="Detectors">
         <device label="BNO08X IMU" manufacturer="Bosch Sensortec">
             <driver name="BNO08X IMU">indi_bno08x_imu</driver>
-            <version>1.0</version>
-        </device>
-    </devGroup>
+        <version>1.0</version>
+	</device>
+</devGroup>
 </driversList>
 <driversList>
   <devGroup group="CCDs">
@@ -1320,8 +1352,8 @@
         <device label="DreamFocuser" manufacturer="Astromaniak">
             <driver name="DreamFocuser">indi_dreamfocuser_focus</driver>
             <version>2.1</version>
-        </device>
-    </devGroup>
+   </device>
+</devGroup>
 </driversList>
 <driversList>
 <devGroup group="CCDs">
@@ -1475,7 +1507,7 @@
             <driver name="Generic CCD">indi_generic_ccd</driver>
             <version>1.0</version>
         </device>
-    </devGroup>
+</devGroup>
 </driversList>
 <driversList>
 <devGroup group="CCDs">
@@ -1510,7 +1542,7 @@
 	<device label="GPIO" manufacturer="Others">
 		<driver name="GPIO">indi_gpio</driver>
 		<version>0.2</version>
-	</device>
+        </device>
 </devGroup>
 </driversList>
 <driversList>
@@ -1546,16 +1578,16 @@
     <device label="LibCamera" manufacturer="Raspberry PI">
       <driver name="LibCamera">indi_libcamera_ccd</driver>
             <version>1.0</version>
-        </device>
-    </devGroup>
+   </device>
+ </devGroup>
 </driversList>
 <driversList>
     <devGroup group="Receivers">
         <device label="LIME-SDR Receivers">
-            <driver name="LIME-SDR Receiver">indi_limesdr_receiver</driver>
-            <version>1.0</version>
-    </device>
-  </devGroup>
+                <driver name="LIME-SDR Receiver">indi_limesdr_receiver</driver>
+                <version>1.0</version>
+	</device>
+    </devGroup>
 </driversList>
 <driversList>
     <devGroup group="Focusers">
@@ -1706,6 +1738,14 @@
   </devGroup>
 </driversList>
 <driversList>
+  <devGroup group="Weather">
+    <device label="NUTMonitor" manufacturer="Others">
+      <driver name="NUTMonitor">indi_nut</driver>
+      <version>0.1</version>
+    </device>
+  </devGroup>
+</driversList>
+<driversList>
 <devGroup group="Domes">
     <device label="OCS" manufacturer="Other">
         <driver name="OCS">indi_ocs</driver>
@@ -1781,25 +1821,25 @@
 <devGroup group="CCDs">
         <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
                 <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
-                <version>1.20</version>
+                <version>1.21</version>
 	    </device>
 	    <device label="PlayerOne Camera 1" manufacturer="PlayerOne">
                 <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-                <version>1.20</version>
+                <version>1.21</version>
         </device>
         <device label="PlayerOne Camera 2" manufacturer="PlayerOne">
                 <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-                <version>1.20</version>
+                <version>1.21</version>
         </device>
         <device label="PlayerOne Camera 3" manufacturer="PlayerOne">
                 <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-                <version>1.20</version>
+                <version>1.21</version>
         </device>
 </devGroup>
 <devGroup group="Filter Wheels">
         <device label="PlayerOne EFW" mdpd="true" manufacturer="PlayerOne">
                 <driver name="PlayerOne EFW">indi_playerone_wheel</driver>
-                <version>1.20</version>
+                <version>1.21</version>
         </device>
 </devGroup>
 </driversList>
@@ -1850,8 +1890,8 @@
         <device label="RTL-SDR" mdpd="false">
             <driver name="RTL-SDR">indi_rtlsdr</driver>
             <version>1.0</version>
-        </device>
-    </devGroup>
+   </device>
+</devGroup>
 </driversList>
 <driversList>
   <devGroup group="CCDs">
