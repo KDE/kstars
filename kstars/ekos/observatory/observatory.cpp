@@ -413,7 +413,7 @@ void Observatory::setDomeParkStatus(ISD::ParkStatus status)
             motionCCWButton->setChecked(false);
 
             if (m_Dome->isRolloffRoof())
-                domeAzimuthPosition->setText(i18n("Open"));
+                domeAzimuthPosition->setText(i18nc("Rolloff roof state", "Open"));
             else
                 enableMotionControl(true);
             break;

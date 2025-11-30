@@ -1059,7 +1059,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Manual</string>
+            <string comment="opens handbook">Manual</string>
            </property>
           </widget>
          </item>
