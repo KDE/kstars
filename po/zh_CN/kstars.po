@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-30 02:05+0000\n"
+"POT-Creation-Date: 2025-12-01 02:06+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -8698,9 +8698,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, openIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, shutterOpen)
 #: ekos/align/opsastrometryindexfiles.ui:276
-#: ekos/observatory/observatory.cpp:416 ekos/observatory/observatory.cpp:459
-#: ekos/observatory/observatory.cpp:463 ekos/observatory/observatory.cpp:575
-#: ekos/observatory/observatory.ui:673
+#: ekos/observatory/observatory.cpp:459 ekos/observatory/observatory.cpp:463
+#: ekos/observatory/observatory.cpp:575 ekos/observatory/observatory.ui:673
 #, kde-format
 msgid "Open"
 msgstr "打开"
@@ -14153,9 +14152,10 @@ msgid "Use the frame exposure value"
 msgstr "使用帧曝光值"
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
-#. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: ekos/capture/calibrationoptions.ui:159 ekos/manager.ui:1062
-#, kde-format
+#: ekos/capture/calibrationoptions.ui:159
+#, fuzzy, kde-format
+#| msgid "Manual"
+msgctxt "manual flat field ADU"
 msgid "Manual"
 msgstr "手动"
 
@@ -24142,6 +24142,14 @@ msgstr "高度"
 msgid "  --"
 msgstr "  --"
 
+#. i18n: ectx: property (text), widget (QPushButton, helpB)
+#: ekos/manager.ui:1062
+#, fuzzy, kde-format
+#| msgid "Manual"
+msgctxt "opens handbook"
+msgid "Manual"
+msgstr "手动"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
 #: ekos/manager.ui:1069
 #, kde-format
@@ -24849,6 +24857,13 @@ msgstr "%1 正在跟踪。"
 #, kde-format
 msgid "Unparked"
 msgstr "已启动"
+
+#: ekos/observatory/observatory.cpp:416
+#, fuzzy, kde-format
+#| msgid "Open"
+msgctxt "Rolloff roof state"
+msgid "Open"
+msgstr "打开"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583

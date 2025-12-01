@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-30 02:05+0000\n"
+"POT-Creation-Date: 2025-12-01 02:06+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -8754,9 +8754,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, openIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, shutterOpen)
 #: ekos/align/opsastrometryindexfiles.ui:276
-#: ekos/observatory/observatory.cpp:416 ekos/observatory/observatory.cpp:459
-#: ekos/observatory/observatory.cpp:463 ekos/observatory/observatory.cpp:575
-#: ekos/observatory/observatory.ui:673
+#: ekos/observatory/observatory.cpp:459 ekos/observatory/observatory.cpp:463
+#: ekos/observatory/observatory.cpp:575 ekos/observatory/observatory.ui:673
 #, fuzzy, kde-format
 msgid "Open"
 msgstr "_ഫോള്‍ഡര്‍ തുറക്കുക"
@@ -14202,11 +14201,11 @@ msgid "Use the frame exposure value"
 msgstr "തനത് ക്രമീകരണം ലോഡ് ചെയ്യുക: "
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
-#. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: ekos/capture/calibrationoptions.ui:159 ekos/manager.ui:1062
+#: ekos/capture/calibrationoptions.ui:159
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Vanuatu"
+msgctxt "manual flat field ADU"
 msgid "Manual"
 msgstr "വന്വാട്ടു"
 
@@ -24054,6 +24053,15 @@ msgstr "സമുദ്രനിരപ്പില്‍ നിന്നുള�
 msgid "  --"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QPushButton, helpB)
+#: ekos/manager.ui:1062
+#, fuzzy, kde-format
+#| msgctxt "Country name (optional, but should be translated)"
+#| msgid "Vanuatu"
+msgctxt "opens handbook"
+msgid "Manual"
+msgstr "വന്വാട്ടു"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
 #: ekos/manager.ui:1069
 #, fuzzy, kde-format
@@ -24798,6 +24806,12 @@ msgstr "കേവ് ക്രീക്ക്"
 #| msgid "Mars"
 msgid "Unparked"
 msgstr "ചൊവ്വ"
+
+#: ekos/observatory/observatory.cpp:416
+#, fuzzy, kde-format
+msgctxt "Rolloff roof state"
+msgid "Open"
+msgstr "_ഫോള്‍ഡര്‍ തുറക്കുക"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583

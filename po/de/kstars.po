@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-30 02:05+0000\n"
-"PO-Revision-Date: 2025-11-20 20:54+0100\n"
+"POT-Creation-Date: 2025-12-01 02:06+0000\n"
+"PO-Revision-Date: 2025-11-23 16:12+0100\n"
 "Last-Translator: Daniel Kauser <danysahne333@yahoo.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -1943,11 +1943,9 @@ msgstr "Ansicht-Werkzeugleiste"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/qml/mount/mountbox.qml:427 ekos/mount/mountmotionwidget.ui:424
-#, fuzzy, kde-format, kde-kuit-format
-#| msgctxt "City in California USA"
-#| msgid "Riverside"
+#, kde-format, kde-kuit-format
 msgid "Reverse"
-msgstr "Riverside"
+msgstr "Umkehren"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
 #: data/qml/mount/mountbox.qml:496 indi/streamform.ui:219
@@ -7122,10 +7120,9 @@ msgstr "Seattle"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/align/align.ui:337
-#, fuzzy, kde-format
-#| msgid "Accuracy"
+#, kde-format
 msgid "Accuracy:"
-msgstr "Genauigkeit"
+msgstr "Genauigkeit:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, solutionCoordinatesGroupBox)
 #: ekos/align/align.ui:347
@@ -9010,9 +9007,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, openIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, shutterOpen)
 #: ekos/align/opsastrometryindexfiles.ui:276
-#: ekos/observatory/observatory.cpp:416 ekos/observatory/observatory.cpp:459
-#: ekos/observatory/observatory.cpp:463 ekos/observatory/observatory.cpp:575
-#: ekos/observatory/observatory.ui:673
+#: ekos/observatory/observatory.cpp:459 ekos/observatory/observatory.cpp:463
+#: ekos/observatory/observatory.cpp:575 ekos/observatory/observatory.ui:673
 #, kde-format
 msgid "Open"
 msgstr "Öffnen"
@@ -14770,10 +14766,10 @@ msgid "Use the frame exposure value"
 msgstr "Standardausrichtung des Belichtungswerts"
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
-#. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: ekos/capture/calibrationoptions.ui:159 ekos/manager.ui:1062
+#: ekos/capture/calibrationoptions.ui:159
 #, fuzzy, kde-format
 #| msgid "Manual"
+msgctxt "manual flat field ADU"
 msgid "Manual"
 msgstr "Manuell"
 
@@ -16875,10 +16871,9 @@ msgstr "Löschen"
 
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
 #: ekos/capture/capturepreviewwidget.ui:102
-#, fuzzy, kde-format
-#| msgid "Target:"
+#, kde-format
 msgid "Target: "
-msgstr "Ziel:"
+msgstr "Ziel: "
 
 #: ekos/capture/captureprocessoverlay.cpp:119
 #, fuzzy, kde-format
@@ -19828,10 +19823,9 @@ msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Aufnahmefehler. Abbruch ..."
 
 #: ekos/focus/focus.cpp:2549
-#, fuzzy, kde-format
-#| msgid "Downloading HiPS sources..."
+#, kde-format
 msgid "Detecting sources..."
-msgstr "HiPS-Quellen werden heruntergeladen ..."
+msgstr "Quellen werden erkannt …"
 
 #: ekos/focus/focus.cpp:2685
 #, kde-format
@@ -20432,10 +20426,9 @@ msgstr "V-Kurve"
 
 #. i18n: ectx: property (text), widget (QLabel, starsLabel)
 #: ekos/focus/focus.ui:1047
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "Stars:"
-msgstr "Sterne"
+msgstr "Sterne:"
 
 #. i18n: ectx: property (text), widget (QLabel, hfrLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
@@ -23189,10 +23182,9 @@ msgstr "Nachführungs-Bild"
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
-#, fuzzy, kde-format
-#| msgid "Save Telescope Info"
+#, kde-format
 msgid "Scope / Lens Info"
-msgstr "Teleskop-Informationen speichern"
+msgstr "Teleskop-/Objektivinformationen"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FOV)
 #: ekos/guide/guide.ui:594
@@ -23221,10 +23213,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroup)
 #: ekos/guide/guide.ui:766
-#, fuzzy, kde-format
-#| msgid "Save Telescope Info"
+#, kde-format
 msgid "Guide Info"
-msgstr "Teleskop-Informationen speichern"
+msgstr "Nachführungsinformationen"
 
 #. i18n: ectx: property (text), widget (QLabel, l_17)
 #: ekos/guide/guide.ui:792
@@ -25818,6 +25809,14 @@ msgstr "Höhe"
 msgid "  --"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QPushButton, helpB)
+#: ekos/manager.ui:1062
+#, fuzzy, kde-format
+#| msgid "Manual"
+msgctxt "opens handbook"
+msgid "Manual"
+msgstr "Manuell"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
 #: ekos/manager.ui:1069
 #, kde-format
@@ -26443,9 +26442,7 @@ msgstr "Links/Rechts"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
 #: ekos/mount/mountmotionwidget.ui:459
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Speed"
+#, kde-format
 msgid "Speed"
 msgstr "Geschwindigkeit"
 
@@ -26482,11 +26479,9 @@ msgid "Rolloff roof"
 msgstr "Rolldach"
 
 #: ekos/observatory/observatory.cpp:321
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "%1 is idle."
-msgstr "Dome Creek"
+msgstr "%1 ist inaktiv."
 
 #: ekos/observatory/observatory.cpp:331 ekos/observatory/observatory.cpp:384
 #: ekos/observatory/observatory.cpp:453
@@ -26574,6 +26569,13 @@ msgstr "Dome Creek"
 #, kde-format
 msgid "Unparked"
 msgstr "Ausgeparkt"
+
+#: ekos/observatory/observatory.cpp:416
+#, fuzzy, kde-format
+#| msgid "Open"
+msgctxt "Rolloff roof state"
+msgid "Open"
+msgstr "Öffnen"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-30 02:05+0000\n"
+"POT-Creation-Date: 2025-12-01 02:06+0000\n"
 "PO-Revision-Date: 2024-07-27 13:28+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -9198,9 +9198,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, openIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, shutterOpen)
 #: ekos/align/opsastrometryindexfiles.ui:276
-#: ekos/observatory/observatory.cpp:416 ekos/observatory/observatory.cpp:459
-#: ekos/observatory/observatory.cpp:463 ekos/observatory/observatory.cpp:575
-#: ekos/observatory/observatory.ui:673
+#: ekos/observatory/observatory.cpp:459 ekos/observatory/observatory.cpp:463
+#: ekos/observatory/observatory.cpp:575 ekos/observatory/observatory.ui:673
 #, fuzzy, kde-format
 #| msgid "FITS Open"
 msgid "Open"
@@ -15168,9 +15167,10 @@ msgid "Use the frame exposure value"
 msgstr "預設校準曝光值"
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
-#. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: ekos/capture/calibrationoptions.ui:159 ekos/manager.ui:1062
-#, kde-format
+#: ekos/capture/calibrationoptions.ui:159
+#, fuzzy, kde-format
+#| msgid "Manual"
+msgctxt "manual flat field ADU"
 msgid "Manual"
 msgstr "手動"
 
@@ -26516,6 +26516,14 @@ msgstr "高度仰角"
 msgid "  --"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QPushButton, helpB)
+#: ekos/manager.ui:1062
+#, fuzzy, kde-format
+#| msgid "Manual"
+msgctxt "opens handbook"
+msgid "Manual"
+msgstr "手動"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
 #: ekos/manager.ui:1069
 #, fuzzy, kde-format
@@ -27316,6 +27324,13 @@ msgstr "Dome Creek"
 #| msgid "UnPark"
 msgid "Unparked"
 msgstr "取消停駐"
+
+#: ekos/observatory/observatory.cpp:416
+#, fuzzy, kde-format
+#| msgid "FITS Open"
+msgctxt "Rolloff roof state"
+msgid "Open"
+msgstr "FITS 開啟"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583

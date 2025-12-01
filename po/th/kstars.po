@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-30 02:05+0000\n"
+"POT-Creation-Date: 2025-12-01 02:06+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -8771,9 +8771,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, openIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, shutterOpen)
 #: ekos/align/opsastrometryindexfiles.ui:276
-#: ekos/observatory/observatory.cpp:416 ekos/observatory/observatory.cpp:459
-#: ekos/observatory/observatory.cpp:463 ekos/observatory/observatory.cpp:575
-#: ekos/observatory/observatory.ui:673
+#: ekos/observatory/observatory.cpp:459 ekos/observatory/observatory.cpp:463
+#: ekos/observatory/observatory.cpp:575 ekos/observatory/observatory.ui:673
 #, kde-format
 msgid "Open"
 msgstr ""
@@ -14243,11 +14242,12 @@ msgid "Use the frame exposure value"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
-#. i18n: ectx: property (text), widget (QPushButton, helpB)
-#: ekos/capture/calibrationoptions.ui:159 ekos/manager.ui:1062
-#, kde-format
+#: ekos/capture/calibrationoptions.ui:159
+#, fuzzy, kde-format
+#| msgid "Remove Label"
+msgctxt "manual flat field ADU"
 msgid "Manual"
-msgstr ""
+msgstr "ลบป้ายชื่อ"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, captureCalibrationUseADU)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureCalibrationADUValue)
@@ -24140,6 +24140,14 @@ msgstr ""
 msgid "  --"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QPushButton, helpB)
+#: ekos/manager.ui:1062
+#, fuzzy, kde-format
+#| msgid "Remove Label"
+msgctxt "opens handbook"
+msgid "Manual"
+msgstr "ลบป้ายชื่อ"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
 #: ekos/manager.ui:1069
 #, fuzzy, kde-format
@@ -24887,6 +24895,13 @@ msgstr ""
 #| msgid "To file..."
 msgid "Unparked"
 msgstr "ไปยังแฟ้ม..."
+
+#: ekos/observatory/observatory.cpp:416
+#, fuzzy, kde-format
+#| msgid "Save"
+msgctxt "Rolloff roof state"
+msgid "Open"
+msgstr "บันทึก"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583
