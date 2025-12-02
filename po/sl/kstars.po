@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-01 02:06+0000\n"
-"PO-Revision-Date: 2025-11-27 06:48+0100\n"
+"PO-Revision-Date: 2025-12-01 06:58+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -14680,8 +14680,7 @@ msgstr "Uporabi vrednost osvetlitve posnetka"
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
 #: ekos/capture/calibrationoptions.ui:159
-#, fuzzy, kde-format
-#| msgid "Manual"
+#, kde-format
 msgctxt "manual flat field ADU"
 msgid "Manual"
 msgstr "Ročno"
@@ -25240,8 +25239,7 @@ msgstr "  --"
 
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
 #: ekos/manager.ui:1062
-#, fuzzy, kde-format
-#| msgid "Manual"
+#, kde-format
 msgctxt "opens handbook"
 msgid "Manual"
 msgstr "Ročno"
@@ -25976,8 +25974,7 @@ msgid "Unparked"
 msgstr "Odparkirano"
 
 #: ekos/observatory/observatory.cpp:416
-#, fuzzy, kde-format
-#| msgid "Open"
+#, kde-format
 msgctxt "Rolloff roof state"
 msgid "Open"
 msgstr "Odpri"

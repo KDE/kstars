@@ -14153,11 +14153,10 @@ msgstr "使用帧曝光值"
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
 #: ekos/capture/calibrationoptions.ui:159
-#, fuzzy, kde-format
-#| msgid "Manual"
+#, kde-format
 msgctxt "manual flat field ADU"
 msgid "Manual"
-msgstr "手动"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, captureCalibrationUseADU)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureCalibrationADUValue)
@@ -24144,11 +24143,10 @@ msgstr "  --"
 
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
 #: ekos/manager.ui:1062
-#, fuzzy, kde-format
-#| msgid "Manual"
+#, kde-format
 msgctxt "opens handbook"
 msgid "Manual"
-msgstr "手动"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
 #: ekos/manager.ui:1069
@@ -24859,11 +24857,10 @@ msgid "Unparked"
 msgstr "已启动"
 
 #: ekos/observatory/observatory.cpp:416
-#, fuzzy, kde-format
-#| msgid "Open"
+#, kde-format
 msgctxt "Rolloff roof state"
 msgid "Open"
-msgstr "打开"
+msgstr ""
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583

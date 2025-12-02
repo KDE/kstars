@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-01 02:06+0000\n"
-"PO-Revision-Date: 2025-11-25 09:15+0100\n"
+"PO-Revision-Date: 2025-11-28 22:07+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6816,7 +6816,7 @@ msgstr ""
 #: ekos/align/align.cpp:3410
 #, kde-format
 msgid "Capture error. Aborting..."
-msgstr "Error durant la captura. S'interromp…"
+msgstr "S'ha produït un error durant la captura. S'interromp…"
 
 #: ekos/align/align.cpp:3415 ekos/capture/cameraprocess.cpp:1631
 #: ekos/capture/cameraprocess.cpp:2192
@@ -10247,8 +10247,8 @@ msgstr "La informació WCS ara és vàlida. Es capturarà el fotograma següent�
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
-"No s'ha pogut processar el sistema de coordenades mundial: %1. Torneu-ho a "
-"provar."
+"Ha fallat mentre es processava el sistema de coordenades mundial: %1. Torneu-"
+"ho a provar."
 
 #: ekos/align/polaralignmentassistant.cpp:1211
 #, kde-format
@@ -12216,7 +12216,7 @@ msgstr "S'ha completat el processament."
 #: ekos/auxiliary/buildfilteroffsets.cpp:472
 #, kde-format
 msgid "Problem changing filter to %1..."
-msgstr "Problema en canviar el filtre a %1…"
+msgstr "Problema mentre es canviava el filtre a %1…"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:481
 #, kde-format
@@ -12336,7 +12336,7 @@ msgstr "Ha fallat mentre es carregava el fitxer de fotograma fosc «%1»"
 #: ekos/auxiliary/darklibrary.cpp:539
 #, kde-format
 msgid "Failed to process dark data."
-msgstr "No s'han pogut processar les dades fosques."
+msgstr "Ha fallat mentre es processaven les dades fosques."
 
 #: ekos/auxiliary/darklibrary.cpp:545
 #, kde-format
@@ -13889,7 +13889,7 @@ msgstr "Inicia l'exploració"
 #: ekos/auxiliary/serialportassistant.cpp:291
 #, kde-format
 msgid "Failed to scan devices."
-msgstr "No s'han pogut explorar els dispositius."
+msgstr "Ha fallat mentre s'exploraven els dispositius."
 
 #: ekos/auxiliary/serialportassistant.cpp:300
 #: ekos/auxiliary/serialportassistant.cpp:311
@@ -16456,13 +16456,13 @@ msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
-"No s'ha pogut escriure la imatge a %1\n"
+"Ha fallat mentre s'escrivia la imatge a %1\n"
 "Comproveu la carpeta, el nom de fitxer i els permisos."
 
 #: ekos/capture/cameraprocess.cpp:1057
 #, kde-format
 msgid "Image Write Failed"
-msgstr "No s'ha pogut escriure la imatge"
+msgstr "Ha fallat mentre s'escrivia la imatge"
 
 #: ekos/capture/cameraprocess.cpp:1282
 #, kde-format
@@ -16724,8 +16724,8 @@ msgstr "S'està realitzant el recalibratge i el guiatge després de la inversió
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
-"Error durant el calibratge després de la inversió del meridià. S'està "
-"reiniciant…"
+"S'ha produït un error durant el calibratge després de la inversió del "
+"meridià. S'està reiniciant…"
 
 #: ekos/capture/camerastate.cpp:640
 #, kde-format
@@ -16743,7 +16743,8 @@ msgstr "S'ha parat el guiatge automàtic. S'interromp…"
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
-"Error durant el calibratge després de la inversió del meridià. S'interromp…"
+"S'ha produït un error durant el calibratge després de la inversió del "
+"meridià. S'interromp…"
 
 #: ekos/capture/camerastate.cpp:678
 #, kde-format
@@ -18805,13 +18806,13 @@ msgstr "Ha fallat la importació del mosaic."
 #: ekos/ekoslive/nodemanager.cpp:227
 #, kde-format
 msgid "Error authenticating with EkosLive server: %1"
-msgstr "S'ha produït un error d'autenticació amb el servidor EkosLive: %1"
+msgstr ""
+"S'ha produït un error durant l'autenticació amb el servidor EkosLive: %1"
 
 #: ekos/ekoslive/nodemanager.cpp:240
 #, kde-format
 msgid "Error parsing server response: %1"
-msgstr ""
-"S'ha produït un error en l'anàlisi sintàctica de la resposta del servidor: %1"
+msgstr "S'ha produït un error durant l'anàlisi de la resposta del servidor: %1"
 
 #: ekos/focus/aberrationinspector.cpp:60
 #, kde-format
@@ -22619,7 +22620,7 @@ msgstr "Estrela seleccionada automàticament %1"
 #: ekos/guide/externalguide/linguider.cpp:175
 #, kde-format
 msgid "Failed to process star position."
-msgstr "No s'ha pogut processar la posició de l'estrela."
+msgstr "Ha fallat mentre es processava la posició de l'estrela."
 
 #: ekos/guide/externalguide/linguider.cpp:188
 #, kde-format
@@ -22641,12 +22642,12 @@ msgstr "Ha fallat mentre s'iniciava el sistema de guiatge."
 #: ekos/guide/externalguide/linguider.cpp:228
 #, kde-format
 msgid "Failed to stop guider."
-msgstr "Ha fallat mentre s'parava el sistema de guiatge."
+msgstr "Ha fallat mentre es parava el sistema de guiatge."
 
 #: ekos/guide/externalguide/linguider.cpp:253
 #, kde-format
 msgid "Failed to get RA/DEC Drift."
-msgstr "No s'ha pogut obtindre la deriva AR/Dec."
+msgstr "Ha fallat mentre s'obtenia la deriva AR/Dec."
 
 #: ekos/guide/externalguide/linguider.cpp:267
 #, kde-format
@@ -23966,7 +23967,7 @@ msgstr ""
 #: ekos/guide/internalguide/internalguider.cpp:1309
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
-msgstr "No s'ha pogut no trobar una estrela guia adequada. S'interromp…"
+msgstr "Ha fallat al no trobar una estrela guia adequada. S'interromp…"
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
 #: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:796
@@ -25403,7 +25404,8 @@ msgstr "L'extensió «%1» ha fallat mentre s'iniciava. S'interromp"
 #: ekos/manager.cpp:422
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
-msgstr "L'extensió «%1» ha fallat mentre s'parava. S'ha activat la interrupció"
+msgstr ""
+"L'extensió «%1» ha fallat mentre es parava. S'ha activat la interrupció"
 
 #: ekos/manager.cpp:431
 #, kde-format
@@ -25529,12 +25531,12 @@ msgstr ""
 #: ekos/manager.cpp:1269
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
-msgstr "No s'ha pogut connectar amb el servidor INDI local %1:%2"
+msgstr "Ha fallat mentre es connectava amb el servidor INDI local %1:%2"
 
 #: ekos/manager.cpp:1271
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
-msgstr "No s'ha pogut connectar amb el servidor INDI remot %1:%2"
+msgstr "Ha fallat mentre es connectava amb el servidor INDI remot %1:%2"
 
 #: ekos/manager.cpp:1284
 #, kde-format
@@ -25551,7 +25553,7 @@ msgstr "S'ha perdut la connexió amb el servidor INDI remot %1:%2"
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
-"No s'ha pogut connectar amb %1. Assegureu-vos que el dispositiu està "
+"Ha fallat mentre es connectava amb %1. Assegureu-vos que el dispositiu està "
 "connectat i iniciat."
 
 #: ekos/manager.cpp:1351
@@ -25561,7 +25563,7 @@ msgid ""
 "%1\n"
 "Please ensure each device is connected and powered on."
 msgstr ""
-"No s'ha pogut connectar amb \n"
+"Ha fallat mentre es connectava amb \n"
 "%1\n"
 "Assegureu-vos que el dispositiu està connectat i iniciat."
 
@@ -25647,7 +25649,7 @@ msgid ""
 "%1 failed to connect.\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
-"No s'ha pogut connectar amb %1.\n"
+"Ha fallat mentre es connectava amb %1.\n"
 "Assegureu-vos que el dispositiu està connectat i iniciat."
 
 #: ekos/manager.cpp:1674
@@ -25726,8 +25728,8 @@ msgstr "L'emplaçament del lloc s'ha actualitzat a %1."
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
-"No s'ha pogut actualitzar l'emplaçament del lloc a %1. No s'ha trobat la "
-"ciutat."
+"Ha fallat mentre s'actualitzava l'emplaçament del lloc a %1. No s'ha trobat "
+"la ciutat."
 
 #: ekos/manager.cpp:3065
 #, kde-format
@@ -26146,7 +26148,7 @@ msgstr "S'ha netejat el model d'alineació."
 #: ekos/mount/mount.cpp:1180
 #, kde-format
 msgid "Failed to clear Alignment Model."
-msgstr "No s'ha pogut netejar el model d'alineació."
+msgstr "Ha fallat mentre es netejava el model d'alineació."
 
 #: ekos/mount/mount.cpp:1290
 #, kde-format
@@ -30796,7 +30798,8 @@ msgstr "S'han connectat els dispositius INDI."
 #, kde-format
 msgid "One or more INDI devices failed to connect. Retrying..."
 msgstr ""
-"Un o més dispositius INDI han fallat en connectar-se. Es torna a intentar…"
+"Ha fallat mentre es connectava amb un o més dispositius INDI. Es torna a "
+"intentar…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1531
 #, kde-format
@@ -30804,8 +30807,8 @@ msgid ""
 "One or more INDI devices failed to connect. Check INDI control panel for "
 "details."
 msgstr ""
-"No s'ha pogut connectar un o més dispositius INDI. Per als detalls, "
-"verifiqueu el quadro de control d'INDI."
+"Ha fallat mentre es connectava amb un o més dispositius INDI. Per als "
+"detalls, verifiqueu el quadro de control d'INDI."
 
 #: ekos/scheduler/schedulerprocess.cpp:1540
 #, kde-format
@@ -31340,8 +31343,8 @@ msgstr ""
 msgid ""
 "Failed to connect to standalone safety monitor after %1 attempts, giving up"
 msgstr ""
-"No s'ha pogut connectar amb el dispositiu monitor de seguretat autònom "
-"després de %1 intents. Es desistix"
+"Ha fallat mentre es connectava amb el dispositiu monitor de seguretat "
+"autònom després de %1 intents. Es desistix"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:182
 #, kde-format
@@ -32194,7 +32197,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"%1 tasques han fallat mentre es carregava."
+"%1 tasques han fallat mentre es carregaven."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:872
 #, kde-format
@@ -32464,22 +32467,22 @@ msgstr "Ha fallat mentre es creava la imatge: %1"
 #: fitsviewer/fitsdata.cpp:2680 fitsviewer/fitsdata.cpp:2687
 #, kde-format
 msgid "Failed to update key: %1"
-msgstr "No s'ha pogut actualitzar la clau: %1"
+msgstr "Ha fallat mentre s'actualitzava la clau: %1"
 
 #: fitsviewer/fitsdata.cpp:2788
 #, kde-format
 msgid "Failed to update date: %1"
-msgstr "No s'ha pogut actualitzar la data: %1"
+msgstr "Ha fallat mentre s'actualitzava la data: %1"
 
 #: fitsviewer/fitsdata.cpp:2797
 #, kde-format
 msgid "Failed to update history: %1"
-msgstr "No s'ha pogut actualitzar l'historial: %1"
+msgstr "Ha fallat mentre s'actualitzava l'historial: %1"
 
 #: fitsviewer/fitsdata.cpp:2819
 #, kde-format
 msgid "Failed to write image: %1"
-msgstr "No s'ha pogut escriure la imatge: %1"
+msgstr "Ha fallat mentre s'escrivia la imatge: %1"
 
 #: fitsviewer/fitsdata.cpp:4542 fitsviewer/fitsdata.cpp:4553
 #: fitsviewer/fitsdata.cpp:4590 fitsviewer/fitsdata.cpp:4626
@@ -34531,14 +34534,7 @@ msgstr "Sigma baixa:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1373
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Pixel rejection algorithm:</p><p>- None. No "
-#| "rejection is applied.</p><p>- Sigma Clipping. Outlying pixels are "
-#| "rejected.</p><p>- Winsorized Sigma Clipping. Winsorized version of sigma "
-#| "clipping</p><p>- ImageMM. Implements ImageMM stacking as per https://"
-#| "iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this method is "
-#| "very resource intensive</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Stacking method:</p><p>- Average. Uses a simple mean "
 "average. No pixel rejection is applied.</p><p>- Sigma Clipping. Outlying "
@@ -34547,13 +34543,6 @@ msgid ""
 "https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this "
 "method is very resource intensive</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Algorisme de rebuig de píxels:</p><p>- Cap. No "
-"s'aplicarà cap rebuig.</p><p>- Retallat de la sigma. Es rebutjaran els "
-"píxels atípics.</p><p>- Retallat winsoritzat de la sigma. Versió "
-"winsoritzada del retallat de la sigma.</p><p>- ImageMM. Implementa "
-"l'apilament ImageMM segons https://iopscience.iop.org/"
-"article/10.3847/1538-3881/adfb72 NOTA: este mètode és molt intensiu en "
-"recursos.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1388
@@ -36064,7 +36053,7 @@ msgstr "Interpolació lineal"
 #: indi/clientmanager.cpp:364
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
-msgstr "No s'ha pogut connectar amb el servidor INDI %1:%2"
+msgstr "Ha fallat mentre es connectava amb el servidor INDI %1:%2"
 
 #: indi/clientmanager.cpp:369
 #, kde-format
@@ -87865,13 +87854,15 @@ msgstr "Fitxer buit"
 #: tools/imagingplanner.cpp:3654
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
-msgstr "No s'ha pogut marcar tots estos objectes com a imatge obtinguda: %1"
+msgstr ""
+"Ha fallat mentre es marcaven tots estos objectes com a imatge obtinguda: %1"
 
 #: tools/imagingplanner.cpp:3656
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
-"No s'ha pogut marcar %1 objectes com a imatge obtinguda, incloent-hi: %2"
+"Ha fallat mentre es marcaven %1 objectes com a imatge obtinguda, incloent-"
+"hi: %2"
 
 #: tools/imagingplanner.cpp:3658
 #, kde-format
@@ -89650,8 +89641,8 @@ msgstr ""
 #, kde-kuit-format
 msgid "Error parsing XML from CDS Sesame: %1 on line %2 @ col = %3"
 msgstr ""
-"S'ha produït un error en l'anàlisi sintàctica de l'XML des de «CDS Sesame»: "
-"%1 en la línia %2 @ col = %3"
+"S'ha produït un error durant l'anàlisi sintàctica de l'XML des de «CDS "
+"Sesame»: %1 en la línia %2 @ col = %3"
 
 #: tools/nameresolver.cpp:232
 #, kde-kuit-format
@@ -93315,32 +93306,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgctxt "@title:window"
-#~ msgid "Stack Directory"
-#~ msgstr "Carpeta d'apilament"
-
-#~ msgctxt "@title:window"
-#~ msgid "Select Master Dark"
-#~ msgstr "Trieu el fotograma fosc mestre"
-
-#~ msgctxt "@title:window"
-#~ msgid "Select Master Flat"
-#~ msgstr "Trieu el fotograma pla mestre"
-
-#~ msgid "Watching %1"
-#~ msgstr "S'està controlant %1"
-
-#~ msgid "Stopped Watching (%1)"
-#~ msgstr "S'ha parat el control de %1"
-
-#~ msgid "Stopped (%1)"
-#~ msgstr "Parada (%1)"
-
-#~ msgid "Signal-to-noise ratio Max / Min / Mean of the processed subs"
-#~ msgstr ""
-#~ "Relació de senyal a soroll Màx. / Mín. / Mitjana de les subsolucions "
-#~ "processades"
-
-#~ msgid "SNR Av / Min / Max:"
-#~ msgstr "SNR Mit. / Mín. / Màx.:"

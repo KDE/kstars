@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-01 02:06+0000\n"
-"PO-Revision-Date: 2025-11-27 09:42+0100\n"
+"PO-Revision-Date: 2025-12-01 10:29+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -14867,8 +14867,7 @@ msgstr "Usa el valor d'exposició del fotograma"
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
 #: ekos/capture/calibrationoptions.ui:159
-#, fuzzy, kde-format
-#| msgid "Manual"
+#, kde-format
 msgctxt "manual flat field ADU"
 msgid "Manual"
 msgstr "Manual"
@@ -25610,8 +25609,7 @@ msgstr "  --"
 
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
 #: ekos/manager.ui:1062
-#, fuzzy, kde-format
-#| msgid "Manual"
+#, kde-format
 msgctxt "opens handbook"
 msgid "Manual"
 msgstr "Manual"
@@ -26359,11 +26357,10 @@ msgid "Unparked"
 msgstr "Desaparcada"
 
 #: ekos/observatory/observatory.cpp:416
-#, fuzzy, kde-format
-#| msgid "Open"
+#, kde-format
 msgctxt "Rolloff roof state"
 msgid "Open"
-msgstr "Obre"
+msgstr "Obert"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583

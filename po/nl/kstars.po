@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-01 02:06+0000\n"
-"PO-Revision-Date: 2025-11-27 13:45+0100\n"
+"PO-Revision-Date: 2025-12-01 15:19+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -14722,8 +14722,7 @@ msgstr "De belichtingswaarde voor frame gebruiken"
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
 #: ekos/capture/calibrationoptions.ui:159
-#, fuzzy, kde-format
-#| msgid "Manual"
+#, kde-format
 msgctxt "manual flat field ADU"
 msgid "Manual"
 msgstr "Handmatig"
@@ -25310,8 +25309,7 @@ msgstr "  --"
 
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
 #: ekos/manager.ui:1062
-#, fuzzy, kde-format
-#| msgid "Manual"
+#, kde-format
 msgctxt "opens handbook"
 msgid "Manual"
 msgstr "Handmatig"
@@ -26044,8 +26042,7 @@ msgid "Unparked"
 msgstr "Uit parkeerstand gehaald"
 
 #: ekos/observatory/observatory.cpp:416
-#, fuzzy, kde-format
-#| msgid "Open"
+#, kde-format
 msgctxt "Rolloff roof state"
 msgid "Open"
 msgstr "Openen"
@@ -30646,6 +30643,8 @@ msgstr "Waarschuwing: apparaat %1 is ongeldig"
 #, kde-format
 msgid "Warning: Standalone safety monitor device %1 disconnected"
 msgstr ""
+"Waarschuwing: verbinding met alleenstaand beveiligingsmonitorapparaat %1 "
+"verbroken"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:249
 #: ekos/scheduler/schedulersafetymonitor.cpp:293
@@ -30653,6 +30652,7 @@ msgstr ""
 #, kde-format
 msgid "Will attempt to reconnect in 10 seconds (attempt %1 of %2)..."
 msgstr ""
+"Zal proberen opnieuw te verbinden naar in 10 seconden (poging %1 van %2)..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:255
 #: ekos/scheduler/schedulersafetymonitor.cpp:299
@@ -30660,6 +30660,8 @@ msgstr ""
 #, kde-format
 msgid "Maximum reconnection attempts reached for standalone safety monitor"
 msgstr ""
+"Maximale pogingen opnieuw te verbinden is bereikt voor alleenstaande "
+"beveiligingsmonitor"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:263
 #, kde-format
@@ -31012,26 +31014,27 @@ msgstr "Stap 3: configureer acties"
 #, kde-format
 msgid "Configure how the property should be set and/or evaluated."
 msgstr ""
+"Configureer hoe de eigenschap gezet en/of geëvalueerd zou moeten worden."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:330
 #, kde-format
 msgid "Step 4: Template Metadata"
-msgstr ""
+msgstr "Stap 4: sjabloon met metagegevens"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:331
 #, kde-format
 msgid "Provide a name, description, and category for your template."
-msgstr ""
+msgstr "Lever een naam, beschrijving en categorie voor uw sjabloon."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:334
 #, kde-format
 msgid "Step 5: Preview and Save"
-msgstr ""
+msgstr "Stap 5: voorbeeldweergave en opslaan"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:335
 #, kde-format
 msgid "Review the generated template before saving."
-msgstr ""
+msgstr "Bekijk het gegenereerde sjabloon voor opslaan."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:456
 #, kde-format
@@ -31056,7 +31059,7 @@ msgstr "Geen optische trein gevonden"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:533
 #, kde-format
 msgid "Using cached devices from profile: %1"
-msgstr ""
+msgstr "Gebufferde apparaten worden gebruikt uit profiel: %1"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:538
 #, kde-format
@@ -31076,7 +31079,7 @@ msgstr "Geen compatibele eigenschappen gevonden"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:632
 #, kde-format
 msgid "%1 properties available"
-msgstr ""
+msgstr "%1 eigenschappen beschikbaar"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:861
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:923
@@ -31120,12 +31123,12 @@ msgstr "Groter dan"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:879
 #, kde-format
 msgid "Less or Equal"
-msgstr ""
+msgstr "Kleiner of gelijk aan"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:880
 #, kde-format
 msgid "Greater or Equal"
-msgstr ""
+msgstr "Groter of gelijk aan"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:881
 #, kde-format
@@ -31135,7 +31138,7 @@ msgstr "Niet gelijk"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:882
 #, kde-format
 msgid "Within Range"
-msgstr ""
+msgstr "Binnen de reeks"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:883
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:980
@@ -31188,7 +31191,7 @@ msgstr "Ongeldige configuratie"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1034
 #, kde-format
 msgid "At least one action type (SET or EVALUATE) must be selected."
-msgstr ""
+msgstr "Minstens één actietype (SET of EVALUATE) moet geselecteerd worden."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1068
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1079
@@ -31209,7 +31212,7 @@ msgstr "Selecteer een apparaat."
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1080
 #, kde-format
 msgid "Please select a property."
-msgstr ""
+msgstr "Selecteer een eigenschap."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1087
 #, kde-format
@@ -31219,17 +31222,17 @@ msgstr "Geselecteerd type eigenschap wordt niet ondersteund."
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1099
 #, kde-format
 msgid "At least one action (SET or EVALUATE) must be selected."
-msgstr ""
+msgstr "Minstens één actie (SET of EVALUATE) moet geselecteerd worden."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1106
 #, kde-format
 msgid "Please select a property element."
-msgstr ""
+msgstr "Selecteer een eigenschapelement."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1118
 #, kde-format
 msgid "Please provide a template name."
-msgstr ""
+msgstr "Lever een sjabloonnaam."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1125
 #, kde-format
@@ -31264,7 +31267,7 @@ msgstr "Viewer van wachtrij met taken"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:59
 #, kde-format
 msgid "Add from Template"
-msgstr ""
+msgstr "Uit sjabloon toevoegen"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:69
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:658
@@ -31321,7 +31324,7 @@ msgstr "Wachtrij is niet actief"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:226
 #, kde-format
 msgid "Total: %1  Completed: %2  Failed: %3  Pending: %4"
-msgstr ""
+msgstr "Totaal: %1  Voltooid: %2  Mislukt: %3  In behandeling: %4"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:270
 #, kde-format
@@ -31332,6 +31335,8 @@ msgstr "Opstarten van wachtrij is mislukt"
 #, kde-format
 msgid "Failed to start queue execution. Check that queue has items."
 msgstr ""
+"Starten van uitvoeren van wachtrij is mislukt. Controleer dat de wachtrij "
+"items heeft."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:392
 #, kde-format
@@ -31391,13 +31396,13 @@ msgstr "Lege wachtrij"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:641
 #, kde-format
 msgid "Queue is empty. Nothing to save."
-msgstr ""
+msgstr "Wachtrij is leeg. Niets op te slaan."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:660
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:707
 #, kde-format
 msgid "KStars Queue Files (*.kstarsqueue);;All Files (*)"
-msgstr ""
+msgstr "Wachtrijbestanden van KStars (*.kstarsqueue);;Alle bestanden (*)"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:673
 #, kde-format
@@ -31407,12 +31412,12 @@ msgstr "Opslaan van wachtrij naar %1 is mislukt"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:685
 #, kde-format
 msgid "Clear Existing Queue?"
-msgstr ""
+msgstr "Bestaande wachtrij wissen?"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:686
 #, kde-format
 msgid "Loading a queue will clear the current queue. Continue?"
-msgstr ""
+msgstr "Laden van een wachtrij zal de huidige wachtrij wissen. Doorgaan?"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:721
 #, kde-format
