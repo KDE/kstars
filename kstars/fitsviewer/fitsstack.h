@@ -276,13 +276,13 @@ class FITSStack : public QObject
             OK
         } StackSubStatus;
 
-        typedef struct
+        struct AdamState
         {
             cv::Mat m, v;
             int t = 0;
-        } AdamState;
+        };
 
-        typedef struct
+        struct StackImageData
         {
             LiveStackFile sub;
             cv::Mat image;
@@ -294,7 +294,7 @@ class FITSStack : public QObject
             double hfr = -1;
             int numStars = 0;
             float weight = -1.0f;
-        } StackImageData;
+        };
 
         /**
          * @brief Check that a new image is consistent with previous images in size, datatype, etc
@@ -602,17 +602,17 @@ class FITSStack : public QObject
         int m_BayerOffsetY { 0 };
 
         // Global incremental ImageMM state
-        typedef struct
+        struct ImageMMState
         {
             cv::Mat accumNum;   // Σ Fᵀ(w·y)
             cv::Mat accumDen;   // Σ Fᵀ(w·F·x)
             cv::Mat latent;     // Current estimate x̂
             double sigma = 0.0; // Blended sigma
-        } ImageMMState;
+        };
 
         QVector<StackImageData> m_StackImageData;
 
-        typedef struct
+        struct RunningStackImageData
         {
             int numSubs;
             double ref_hfr;
@@ -620,7 +620,7 @@ class FITSStack : public QObject
             float totalWeight;
             ImageMMState imageMMState;
             QVector<StackImageData> runningSubs;
-        } RunningStackImageData;
+        };
         RunningStackImageData m_RunningStackImageData { 0, -1.0, 0, 0.0, {}, {} };
 
         // SNR of subs
