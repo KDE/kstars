@@ -434,8 +434,13 @@ struct LiveStackStageInfo
     static LiveStackStageInfo fromNow(const int &id, const LSStage &stage, const LSStatus &status,
                                       const QVariantMap &extra = {})
     {
-        return LiveStackStageInfo { .id = id, .stage = stage, .timestamp = QDateTime::currentDateTime(),
-                                    .status = status, .extraData = extra };
+        LiveStackStageInfo info;
+        info.id = id;
+        info.stage = stage;
+        info.timestamp = QDateTime::currentDateTime();
+        info.status = status;
+        info.extraData = extra;
+        return info;
     }
 };
 
