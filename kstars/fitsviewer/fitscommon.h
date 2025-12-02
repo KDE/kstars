@@ -83,7 +83,7 @@ static const QString CatTypeStr[CAT_MAX_REASONS] =
 static constexpr double CAT_OBJ_BOX_SIZE = 10.0;
 
 // Structure to hold catalog object data information
-typedef struct
+struct CatObject
 {
     int num;
     CatType catType;
@@ -99,7 +99,7 @@ typedef struct
     double y;
     bool highlight;
     bool show;
-} CatObject;
+};
 
 // Simbad catalog object type structure
 struct CatObjType
@@ -361,15 +361,15 @@ inline QString vectorChannelToString(const QVector<LiveStackChannel> &vec)
         list << LiveStackChannelNames.value(ch);
     return list.join(", ");
 }
-typedef struct
+struct LiveStackFile
 {
     QString file;
     int ID = -1;
     LiveStackChannel baseChannel = LiveStackChannel::NONE;
     QVector<LiveStackChannel> channels;
-} LiveStackFile;
+};
 
-typedef struct
+struct LiveStackPPData
 {
     bool postProcess;
     double deconvAmt;
@@ -378,9 +378,9 @@ typedef struct
     double sharpenAmt;
     int sharpenKernal;
     double sharpenSigma;
-} LiveStackPPData;
+};
 
-typedef struct
+struct LiveStackData
 {
     bool calcSNR;
     QVector<QString> masterDark;
@@ -400,7 +400,7 @@ typedef struct
     double sigma;
     int PSFUpdate;
     LiveStackPPData postProcessing;
-} LiveStackData;
+};
 
 enum class LSStage
 {
