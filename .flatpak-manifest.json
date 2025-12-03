@@ -2,7 +2,7 @@
     "id": "org.kde.kstars",
     "branch": "master",
     "runtime": "org.kde.Platform",
-    "runtime-version": "6.9",
+    "runtime-version": "6.10",
     "sdk": "org.kde.Sdk",
     "command": "kstars",
     "rename-icon": "kstars",
@@ -17,11 +17,13 @@
         "--filesystem=xdg-pictures",
         "--filesystem=xdg-videos",
         "--filesystem=~/.indi",
+        "--filesystem=~/.cache/sentry",
         "--share=ipc",
         "--share=network",
         "--socket=fallback-x11",
         "--socket=pulseaudio",
-        "--socket=wayland"
+        "--socket=wayland",
+        "--allow=devel"
     ],
     "cleanup": [
         "/include",
@@ -31,7 +33,6 @@
         "/share/man"
     ],
     "modules": [
-        "shared-modules/libusb/libusb.json",
         {
             "name": "eigen",
             "buildsystem": "cmake-ninja",
@@ -81,13 +82,13 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio-4.6.2.tar.gz",
-                    "sha256": "66fd078cc0bea896b0d44b120d46d6805421a5361d3a5ad84d9f397b1b5de2cb",
+                    "url": "https://github.com/HEASARC/cfitsio/archive/refs/tags/cfitsio-4.6.3.tar.gz",
+                    "sha256": "e9f1017e942f4a90d2db8984a7677e9d01a5da877a43ed905b9b5108451a68a0",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 270,
                         "stable-only": true,
-                        "url-template": "https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio-$version.tar.gz"
+                        "url-template": "https://github.com/HEASARC/cfitsio/archive/refs/tags/cfitsio-$version.tar.gz"
                     }
                 }
             ]
@@ -205,8 +206,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/ikarustechnologies/gsc/archive/refs/tags/1.0.0.tar.gz",
-                    "sha256": "00f3293f41cc0ae00690d466c733f1d8b27628e366d9994326a22305b026737f",
+                    "url": "https://github.com/ikarustechnologies/gsc/archive/refs/tags/1.0.1.tar.gz",
+                    "sha256": "3c1d389cc04d2b72c02f03733dbd84f8912f3dbb4fc7e45ad696d6eaa95aad7a",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 378968,
@@ -257,8 +258,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://downloads.sourceforge.net/project/libdc1394/libdc1394-2/2.2.6/libdc1394-2.2.6.tar.gz",
-                    "sha256": "2b905fc9aa4eec6bdcf6a2ae5f5ba021232739f5be047dec8fe8dd6049c10fed",
+                    "url": "https://downloads.sourceforge.net/project/libdc1394/libdc1394-2/2.2.7/libdc1394-2.2.7.tar.gz",
+                    "sha256": "537ceb78dd3cef271a183f4a176191d1cecf85f025520e6bd3758b0e19e6609f",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 1591,
@@ -330,13 +331,13 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/myriadrf/LimeSuite/archive/refs/tags/v23.11.0.tar.gz",
-                    "sha256": "fd8a448b92bc5ee4012f0ba58785f3c7e0a4d342b24e26275318802dfe00eb33",
+                    "url": "https://github.com/knro/LimeSuite/archive/refs/tags/25.12.03.tar.gz",
+                    "sha256": "3da940b7cc04de6f994d37f4c5273be8f49c5e025066d03dce1f991bd489b20f",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 14710,
                         "stable-only": true,
-                        "url-template": "https://github.com/myriadrf/LimeSuite/archive/refs/tags/$version.tar.gz"
+                        "url-template": "https://github.com/knro/LimeSuite/archive/refs/tags/$version.tar.gz"
                     }
                 }
             ]
@@ -374,7 +375,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://indilib.org/jdownloads/kstars/gpsd-3.26.1.tar.gz",
+                    "url": "https://download.savannah.gnu.org/releases/gpsd/gpsd-3.26.1.tar.gz",
                     "sha256": "dc7e465968c1540e61bc57c7586d6a57a0047212a014efdad348f907bc2e0990",
                     "x-checker-data": {
                         "type": "anitya",
@@ -408,35 +409,13 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://invent.kde.org/qt/qt/qtdatavis3d/-/archive/v6.9.0/qtdatavis3d-v6.9.0.tar.gz",
-                    "sha256": "b504d5da10832eb6dfae85956c4ae0d3aa77d99d3be471e001cfcb8c828809a5",
+                    "url": "https://invent.kde.org/qt/qt/qtdatavis3d/-/archive/v6.10.0/qtdatavis3d-v6.10.0.tar.gz",
+                    "sha256": "827518719d9efa3c7a8521ac89c22fa1a95cf1a8d4401fd3826feaec95a9e77f",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 7927,
                         "stable-only": true,
                         "url-template": "https://invent.kde.org/qt/qt/qtdatavis3d/-/archive/v$version/qtdatavis3d-v$version.tar.gz"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "libsecret",
-            "buildsystem": "meson",
-            "config-opts": [
-                "-Dvapi=false",
-                "-Dgtk_doc=false",
-                "-Dmanpage=false"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://download.gnome.org/sources/libsecret/0.20/libsecret-0.20.5.tar.xz",
-                    "sha256": "3fb3ce340fcd7db54d87c893e69bfc2b1f6e4d4b279065ffe66dac9f0fd12b4d",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 13150,
-                        "stable-only": true,
-                        "url-template": "https://download.gnome.org/sources/libsecret/$version/libsecret-$version.tar.xz"
                     }
                 }
             ]
@@ -467,7 +446,7 @@
             "buildsystem": "cmake-ninja",
             "builddir": true,
             "config-opts": [
-                "-DBUILD_LIST=core,imgproc,imgcodecs,calib3d,photo,video",
+                "-DBUILD_LIST=core,imgproc,highgui,imgcodecs,videoio,calib3d,photo,video",
                 "-DBUILD_EXAMPLES=OFF",
                 "-DBUILD_TESTS=OFF",
                 "-DBUILD_PERF_TESTS=OFF"
@@ -475,8 +454,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/opencv/opencv/archive/4.11.0.tar.gz",
-                    "sha256": "9a7c11f924eff5f8d8070e297b322ee68b9227e003fd600d4b8122198091665f",
+                    "url": "https://github.com/opencv/opencv/archive/4.12.0.tar.gz",
+                    "sha256": "44c106d5bb47efec04e531fd93008b3fcd1d27138985c5baf4eafac0e1ec9e9d",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 6615,
