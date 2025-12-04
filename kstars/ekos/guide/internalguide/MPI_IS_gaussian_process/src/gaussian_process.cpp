@@ -18,6 +18,7 @@
  */
 
 #include <cstdint>
+#include <cassert>
 
 #include "gaussian_process.h"
 #include "math_tools.h"
