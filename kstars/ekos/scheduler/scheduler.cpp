@@ -2003,7 +2003,7 @@ void Scheduler::updateCellStyle(SchedulerJob *job, QTableWidgetItem *cell)
 
 void Scheduler::resetJobEdit()
 {
-    if (jobUnderEdit < 0)
+    if (jobUnderEdit < 0 || moduleState()->jobs().empty())
         return;
 
     SchedulerJob * const job = moduleState()->jobs().at(jobUnderEdit);
