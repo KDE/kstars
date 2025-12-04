@@ -528,6 +528,35 @@ void SchedulerProcess::wakeUpScheduler()
 {
     if (moduleState()->preemptiveShutdown())
     {
+        // If waking up from weather grace period, check if weather has improved
+        if (moduleState()->weatherGracePeriodActive())
+        {
+            ISD::Weather::Status weatherStatus = moduleState()->weatherStatus();
+
+            // Check if weather has improved
+            if (weatherStatus == ISD::Weather::WEATHER_OK)
+            {
+                // Weather improved during grace period, proceed with recovery
+                appendLogText(i18n("Weather has improved during grace period. Resuming operations."));
+                moduleState()->setWeatherGracePeriodActive(false);
+            }
+            else
+            {
+                // Grace period has expired and weather is still bad - complete shutdown
+                appendLogText(i18n("Weather grace period has expired with safety status still %1. Proceeding to complete shutdown.",
+                                   (weatherStatus == ISD::Weather::WEATHER_WARNING) ? i18n("Warning") : i18n("Alert")));
+
+                if (activeJob())
+                    activeJob()->setState(SCHEDJOB_ERROR);
+
+                moduleState()->setWeatherGracePeriodActive(false);
+                moduleState()->disablePreemptiveShutdown();
+                moduleState()->setActiveJob(nullptr);
+                checkShutdownState();
+                return;
+            }
+        }
+
         moduleState()->disablePreemptiveShutdown();
         appendLogText(i18n("Scheduler is awake."));
 
@@ -716,14 +745,12 @@ bool SchedulerProcess::shouldSchedulerSleep(SchedulerJob * job)
         if (m_WeatherShutdownTimer.isActive() == false && job->getState() < SCHEDJOB_ERROR &&
                 (weatherStatus == ISD::Weather::WEATHER_WARNING || weatherStatus == ISD::Weather::WEATHER_ALERT))
         {
-            // If we're already in preemptive shutdown, give up on this job
+            // If we're already in grace period, just indicate we should sleep
+            // The wakeup timer has already been scheduled by startShutdownDueToWeather()
             if (moduleState()->weatherGracePeriodActive())
             {
-                appendLogText(i18n("Job '%1' cannot start because safety status is %2 and grace period is over.",
-                                   job->getName(), (weatherStatus == ISD::Weather::WEATHER_WARNING) ? i18n("Warning") : i18n("Alert")));
-                job->setState(SCHEDJOB_ERROR);
-                moduleState()->setWeatherGracePeriodActive(false);
-                findNextJob();
+                appendLogText(i18n("Job '%1' cannot start, weather grace period is active.",
+                                   job->getName()));
                 return true;
             }
 
@@ -2455,6 +2482,10 @@ void SchedulerProcess::checkJobStageEpilogue()
     if (!activeJob())
         return;
 
+    // Do not process if we are in soft shutdown mode
+    if (moduleState()->weatherGracePeriodActive())
+        return;
+
     // #5 Check system status to improve robustness
     // This handles external events such as disconnections or end-user manipulating INDI panel
     if (!checkStatus())
@@ -3076,8 +3107,19 @@ void SchedulerProcess::queueExecutionCompleted()
     if (moduleState()->shutdownState() == SHUTDOWN_PRE_QUEUE_RUNNING)
     {
         appendLogText(i18n("Pre-shutdown queue completed successfully."));
-        // Pre-shutdown complete, now proceed to stop Ekos/INDI
-        moduleState()->setShutdownState(SHUTDOWN_STOPPING_EKOS);
+        // In case we have shutdown due to weather event
+        // Mark shutdown as complete since it is only a soft-shutdown
+        if (moduleState()->weatherGracePeriodActive())
+        {
+            moduleState()->setShutdownState(SHUTDOWN_COMPLETE);
+            // Because this is only a soft shutdown
+            // Reset startup stage to POST_DEVICES we do not need to run
+            // any pre-INDI steps.
+            moduleState()->setStartupState(STARTUP_POST_DEVICES);
+        }
+        else
+            // Pre-shutdown complete, now proceed to stop Ekos/INDI
+            moduleState()->setShutdownState(SHUTDOWN_STOPPING_EKOS);
         return;
     }
 
@@ -3807,7 +3849,7 @@ void SchedulerProcess::setWeatherStatus(ISD::Weather::Status status, bool fromSt
     {
         appendLogText(i18n("Safety has improved. Resuming operations."));
         moduleState()->setWeatherGracePeriodActive(false);
-        wakeUpScheduler();
+        moduleState()->setupNextIteration(RUN_WAKEUP, 10);
     }
     // Check if the weather enforcement is on and weather is critical
     else if (activeJob() && Options::schedulerWeather() && (newStatus == ISD::Weather::WEATHER_ALERT &&
@@ -3832,8 +3874,8 @@ void SchedulerProcess::startShutdownDueToWeather()
         // Abort current job but keep it in the queue
         if (activeJob())
         {
-            activeJob()->setState(SCHEDJOB_ABORTED);
             stopCurrentJobAction();
+            emit updateJobTable();
         }
 
         // Park mount, dome, etc. but don't exit completely
@@ -3845,8 +3887,14 @@ void SchedulerProcess::startShutdownDueToWeather()
         appendLogText(i18n("Observatory scheduled for soft shutdown until safety improves or until %1.",
                            wakeupTime.toString()));
 
+        // Schedule wakeup after grace period expires
+        int const gracePeriodSeconds = Options::schedulerWeatherGracePeriod() * 60;
+        moduleState()->setupNextIteration(RUN_WAKEUP,
+                                          std::lround(((gracePeriodSeconds + 1) * 1000) / KStarsData::Instance()->clock()->scale()));
+
         // Initiate shutdown procedure
         emit schedulerSleeping(true, true);
+        moduleState()->setShutdownState(SHUTDOWN_IDLE);
         checkShutdownState();
     }
 }
