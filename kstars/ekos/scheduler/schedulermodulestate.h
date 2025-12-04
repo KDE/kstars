@@ -325,6 +325,15 @@ class SchedulerModuleState : public QObject
             return m_WeatherGracePeriodActive;
         }
 
+        void setWeatherShutdownMonitoring(bool active)
+        {
+            m_WeatherShutdownMonitoring = active;
+        }
+        bool weatherShutdownMonitoring() const
+        {
+            return m_WeatherShutdownMonitoring;
+        }
+
         /**
          * @brief resetFailureCounters Reset all failure counters
          */
@@ -847,6 +856,8 @@ class SchedulerModuleState : public QObject
         QDateTime m_preemptiveShutdownWakeupTime;
         // Are we in weather grace period?
         bool m_WeatherGracePeriodActive {false};
+        // Flag to indicate we completed shutdown due to weather and are monitoring for recovery
+        bool m_WeatherShutdownMonitoring {false};
 
         // These are used in testing, instead of KStars::Instance() resources
         static GeoLocation *storedGeo;
