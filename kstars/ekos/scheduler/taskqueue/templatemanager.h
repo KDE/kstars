@@ -148,6 +148,9 @@ class TemplateManager : public QObject
         // Track system vs user templates
         QStringList m_systemTemplateIds;
         QStringList m_userTemplateIds;
+
+        // Map template ID to its source file path (for user templates only)
+        QMap<QString, QString> m_userTemplateFiles;
 };
 
 } // namespace Ekos

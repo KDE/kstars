@@ -55,6 +55,7 @@ bool TemplateManager::initialize()
     m_templates.clear();
     m_systemTemplateIds.clear();
     m_userTemplateIds.clear();
+    m_userTemplateFiles.clear();
 
     // Load system templates
     if (!loadSystemTemplates())
@@ -248,6 +249,7 @@ bool TemplateManager::loadUserTemplateFile(const QString &filePath)
                     {
                         m_templates[id] = tmpl;
                         m_userTemplateIds.append(id);
+                        m_userTemplateFiles[id] = filePath;
                         loadedCount++;
                     }
                 }
@@ -279,6 +281,7 @@ bool TemplateManager::loadUserTemplateFile(const QString &filePath)
 
             m_templates[id] = tmpl;
             m_userTemplateIds.append(id);
+            m_userTemplateFiles[id] = filePath;
             return true;
         }
         else
@@ -443,22 +446,30 @@ bool TemplateManager::deleteUserTemplate(const QString &templateId)
         return false;
     }
 
-    // Delete the individual template file from disk
-    QString configPath = KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-    QString userTemplatesDir = QDir(configPath).filePath("taskqueue/templates/user");
-    QString filePath = QDir(userTemplatesDir).filePath(templateId + ".json");
-    
+    // Get the actual file path from the tracked mapping
+    QString filePath = m_userTemplateFiles.value(templateId);
+
+    if (filePath.isEmpty())
+    {
+        // Fallback to constructed path for backward compatibility
+        QString configPath = KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+        QString userTemplatesDir = QDir(configPath).filePath("taskqueue/templates/user");
+        filePath = QDir(userTemplatesDir).filePath(templateId + ".json");
+    }
+
     if (QFile::exists(filePath))
     {
         if (!QFile::remove(filePath))
         {
             qWarning() << "Failed to delete template file:" << filePath;
+            return false;
         }
     }
 
     // Remove from memory
     m_templates.remove(templateId);
     m_userTemplateIds.removeAll(templateId);
+    m_userTemplateFiles.remove(templateId);
 
     delete tmpl;
 
