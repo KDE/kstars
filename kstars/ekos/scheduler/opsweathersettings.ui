@@ -55,7 +55,10 @@
           <number>1</number>
          </property>
          <property name="maximum">
-          <number>120</number>
+          <number>1440</number>
+         </property>
+         <property name="singleStep">
+          <number>10</number>
          </property>
          <property name="value">
           <number>10</number>
@@ -99,7 +102,7 @@
        <item>
         <widget class="QSpinBox" name="kcfg_SchedulerWeatherShutdownDelay">
          <property name="maximum">
-          <number>900</number>
+          <number>1440</number>
          </property>
          <property name="value">
           <number>10</number>
