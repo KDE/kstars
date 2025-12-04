@@ -756,6 +756,7 @@ void Manager::reset()
 
     m_DriverDevicesCount = 0;
     m_syncedDevices.clear();
+    m_ProfileManagedDevices.clear();
 
     removeTabs();
 
@@ -1490,8 +1491,16 @@ void Manager::disconnectDevices()
 {
     for (auto &device : INDIListener::devices())
     {
-        qCDebug(KSTARS_EKOS) << "Disconnecting " << device->getDeviceName();
-        device->Disconnect();
+        // Only disconnect devices that were started by this profile
+        if (m_ProfileManagedDevices.contains(device->getDeviceName()))
+        {
+            qCDebug(KSTARS_EKOS) << "Disconnecting " << device->getDeviceName();
+            device->Disconnect();
+        }
+        else
+        {
+            qCDebug(KSTARS_EKOS) << "Skipping disconnect for non-managed device: " << device->getDeviceName();
+        }
     }
 
     appendLogText(i18n("Disconnecting INDI devices..."));
@@ -1540,6 +1549,9 @@ void Manager::cleanDevices(bool stopDrivers)
 void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
     qCInfo(KSTARS_EKOS) << "Ekos received a new device: " << device->getDeviceName();
+
+    // Track this device as managed by the current profile
+    m_ProfileManagedDevices.insert(device->getDeviceName());
 
     Ekos::CommunicationStatus previousStatus = m_indiStatus;
 
