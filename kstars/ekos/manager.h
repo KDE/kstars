@@ -619,6 +619,7 @@ class Manager : public QDialog, public Ui::Manager
         bool checkIfPageExists(const QString &urlString);
         QNetworkAccessManager m_networkManager;
         QSet<QString> m_syncedDevices;
+        QSet<QString> m_ProfileManagedDevices;
 
         friend class EkosLive::Client;
         friend class EkosLive::Message;
