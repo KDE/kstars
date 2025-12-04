@@ -75,11 +75,11 @@ void TemplateLibraryWidget::setupUI()
     m_createButton = new QPushButton(QIcon::fromTheme("document-new"), i18n("Create Custom Template"), previewWidget);
 
     m_refreshButton = new QPushButton(QIcon::fromTheme("view-refresh"), "", previewWidget);
-    
+
     m_editButton = new QPushButton(QIcon::fromTheme("document-edit"), "", previewWidget);
     m_editButton->setEnabled(false);
     m_editButton->setToolTip(i18n("Edit Template"));
-    
+
     m_deleteButton = new QPushButton(QIcon::fromTheme("edit-delete"), "", previewWidget);
     m_deleteButton->setEnabled(false);
     m_deleteButton->setToolTip(i18n("Delete Template"));
@@ -89,7 +89,7 @@ void TemplateLibraryWidget::setupUI()
     buttonLayout->addStretch();
     buttonLayout->addWidget(m_refreshButton);
     buttonLayout->addWidget(m_editButton);
-    buttonLayout->addWidget(m_deleteButton);    
+    buttonLayout->addWidget(m_deleteButton);
     previewLayout->addLayout(buttonLayout);
 
     // Set splitter sizes
@@ -189,6 +189,8 @@ void TemplateLibraryWidget::populateTemplates()
 
     m_previewText->clear();
     m_addButton->setEnabled(false);
+    m_editButton->setEnabled(false);
+    m_deleteButton->setEnabled(false);
 
     // Re-enable signals after tree is fully populated
     m_templateTree->blockSignals(false);
