@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-05 01:58+0000\n"
-"PO-Revision-Date: 2025-12-01 06:58+0100\n"
+"PO-Revision-Date: 2025-12-05 06:43+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -29803,10 +29803,9 @@ msgstr[3] ""
 "zagnano."
 
 #: ekos/scheduler/schedulerprocess.cpp:540
-#, fuzzy, kde-format
-#| msgid "Safety has improved. Resuming operations."
+#, kde-format
 msgid "Weather has improved during grace period. Resuming operations."
-msgstr "Varnost se je izboljšala. Nadaljevanje delovanja."
+msgstr "Vreme se je v obdobju mirovanja izboljšalo. Nadaljevanje delovanja."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
 #, kde-format
@@ -29814,6 +29813,8 @@ msgid ""
 "Weather grace period has expired with safety status still %1. Proceeding to "
 "complete shutdown."
 msgstr ""
+"Vremensko obdobje je poteklo, varnostno stanje pa je še vedno %1. "
+"Nadaljujemo s popolno zaustavitvijo."
 
 #: ekos/scheduler/schedulerprocess.cpp:547
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1018
@@ -29859,14 +29860,10 @@ msgstr ""
 "prekinjeno."
 
 #: ekos/scheduler/schedulerprocess.cpp:765
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because safety status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid "Job '%1' cannot start, weather grace period is active."
 msgstr ""
-"Opravila '%1' ne mogoče zagnati, ker je varnostno stanje %2 in je odloga "
-"konec."
+"Opravila '%1' ni mogoče zagnati, aktivno je obdobje mirovanja zaradi vremena."
 
 #: ekos/scheduler/schedulerprocess.cpp:784
 #, kde-format
@@ -30111,7 +30108,7 @@ msgstr "Postopek za izklop je spodletel, prekinjanje…"
 #: ekos/scheduler/schedulerprocess.cpp:1716
 #, kde-format
 msgid "Entering weather monitoring mode. Waiting for weather to improve..."
-msgstr ""
+msgstr "Vstop v način spremljanja vremena. Čakanje na izboljšanje vremena..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1814
 #, kde-format

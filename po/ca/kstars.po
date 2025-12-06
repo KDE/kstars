@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-05 01:58+0000\n"
-"PO-Revision-Date: 2025-12-01 10:29+0100\n"
+"PO-Revision-Date: 2025-12-05 08:52+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -30212,10 +30212,11 @@ msgstr[1] ""
 "finalització, es reinicia."
 
 #: ekos/scheduler/schedulerprocess.cpp:540
-#, fuzzy, kde-format
-#| msgid "Safety has improved. Resuming operations."
+#, kde-format
 msgid "Weather has improved during grace period. Resuming operations."
-msgstr "La seguretat ha millorat. Es reprenen les operacions."
+msgstr ""
+"La meteorologia ha millorat durant el període de gràcia. Es reprenen les "
+"operacions."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
 #, kde-format
@@ -30223,6 +30224,8 @@ msgid ""
 "Weather grace period has expired with safety status still %1. Proceeding to "
 "complete shutdown."
 msgstr ""
+"El període de gràcia meteorològic ha vençut mentre que l'estat de seguretat "
+"encara és %1. Es procedeix a l'aturada completa."
 
 #: ekos/scheduler/schedulerprocess.cpp:547
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1018
@@ -30269,14 +30272,9 @@ msgstr ""
 "com a interrompuda."
 
 #: ekos/scheduler/schedulerprocess.cpp:765
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because safety status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid "Job '%1' cannot start, weather grace period is active."
-msgstr ""
-"La tasca «%1» no es pot iniciar perquè l'estat de seguretat és %2 i el "
-"període de gràcia ha acabat."
+msgstr "La tasca «%1» no es pot iniciar, el període de gràcia és actiu."
 
 #: ekos/scheduler/schedulerprocess.cpp:784
 #, kde-format
@@ -30534,6 +30532,8 @@ msgstr "El procediment de tancament ha fallat. S'interromp..."
 #, kde-format
 msgid "Entering weather monitoring mode. Waiting for weather to improve..."
 msgstr ""
+"S'entra en el mode de monitoratge de la meteorologia. S'espera que millori "
+"la meteorologia..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1814
 #, kde-format

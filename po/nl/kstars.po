@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-05 01:58+0000\n"
-"PO-Revision-Date: 2025-12-01 15:19+0100\n"
+"PO-Revision-Date: 2025-12-05 12:18+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -29856,10 +29856,9 @@ msgstr[0] "Taak '%1' te vroeg klaar met batch #%2, herstart."
 msgstr[1] "Taak '%1' te vroeg klaar met batches #%2, herstart."
 
 #: ekos/scheduler/schedulerprocess.cpp:540
-#, fuzzy, kde-format
-#| msgid "Safety has improved. Resuming operations."
+#, kde-format
 msgid "Weather has improved during grace period. Resuming operations."
-msgstr "Veiligheid is verbeterd. Werking wordt hervat."
+msgstr "Het weer is verbeterd tijdens de respijtperiode. Werking wordt hervat."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
 #, kde-format
@@ -29867,6 +29866,8 @@ msgid ""
 "Weather grace period has expired with safety status still %1. Proceeding to "
 "complete shutdown."
 msgstr ""
+"De respijtperiode voor het weer is verstreken, maar de veiligheidsstatus is "
+"nog steeds %1. Voltooiing van de afsluiting wordt voortgezet."
 
 #: ekos/scheduler/schedulerprocess.cpp:547
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1018
@@ -29909,14 +29910,9 @@ msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr "Taak '%1' is niet verwerkt na einde taakplanner. Wordt afgebroken."
 
 #: ekos/scheduler/schedulerprocess.cpp:765
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because safety status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid "Job '%1' cannot start, weather grace period is active."
-msgstr ""
-"Job '%1' kan niet starten omdat de veiligheidsstatus %2 is en de "
-"respijtperiode voorbij is."
+msgstr "Job '%1' kan niet starten omdat de respijtperiode actief is."
 
 #: ekos/scheduler/schedulerprocess.cpp:784
 #, kde-format
@@ -30161,6 +30157,7 @@ msgstr "Procedure voor afsluiten mislukt, wordt afgebroken..."
 #, kde-format
 msgid "Entering weather monitoring mode. Waiting for weather to improve..."
 msgstr ""
+"De modus weer monitoren wordt geactiveerd. Wachten tot het weer verbetert..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1814
 #, kde-format
@@ -31451,7 +31448,7 @@ msgstr "Lege verzameling"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:790
 #, kde-format
 msgid "The collection contains no tasks"
-msgstr ""
+msgstr "De verzameling bevat geen taken"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:799
 #, kde-format
@@ -31476,7 +31473,7 @@ msgstr "Taak aanmaken uit sjabloon is mislukt: %1"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:862
 #, kde-format
 msgid "No tasks were added from collection '%1'."
-msgstr ""
+msgstr "Er zijn geen taken toegevoegd uit verzameling '%1'."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:867
 #, kde-format
@@ -31508,7 +31505,7 @@ msgstr "Verzameling geladen"
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format
 msgid "Task Queue Templates"
-msgstr ""
+msgstr "Sjablonen voor takenwachtrij"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:52
 #, kde-format
@@ -31523,7 +31520,7 @@ msgstr "Aan wachtrij toevoegen"
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:75
 #, kde-format
 msgid "Create Custom Template"
-msgstr ""
+msgstr "Aangepast sjabloon aanmaken"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:85
 #, kde-format
@@ -31548,7 +31545,7 @@ msgstr "Aantal acties"
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:325
 #, kde-format
 msgid "System Template"
-msgstr ""
+msgstr "Systeemsjabloon"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:329
 #, kde-format
@@ -32082,6 +32079,13 @@ msgid ""
 "%6 = Blue Channel\n"
 "%7 = Lum Channel"
 msgstr ""
+"%1 \n"
+"%2 = Mono enkel kanaal\n"
+"%3 = Enkel kleurkanaal\n"
+"%4 = Roodkanaal\n"
+"%5 = Groenkanaal\n"
+"%6 = Blauwkanaal\n"
+"%7 = Lum-kanaal"
 
 #: fitsviewer/fitsstackmonitor.h:180
 #, kde-format
@@ -32766,7 +32770,7 @@ msgstr "RGB"
 #: fitsviewer/fitstab.cpp:1579
 #, kde-format
 msgid "LRGB"
-msgstr ""
+msgstr "LRGB"
 
 #: fitsviewer/fitstab.cpp:1738
 #, kde-format
@@ -33368,7 +33372,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:533
 #, kde-format
 msgid "Subs (Av/Min/Max):"
-msgstr ""
+msgstr "Subs (Gem/Min/Max):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:552
@@ -33426,7 +33430,7 @@ msgstr "Webdocumentatie openen."
 #: fitsviewer/livestacking.ui:647
 #, kde-format
 msgid "Toggle between mono and multi-channel mode"
-msgstr ""
+msgstr "Wisselen tussen modus mono en multi-kanaal"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Blue)
 #: fitsviewer/livestacking.ui:682
@@ -33438,7 +33442,7 @@ msgstr "De map met te stapelen Blauwe bestanden"
 #: fitsviewer/livestacking.ui:692
 #, kde-format
 msgid "Blue directory chooser dialog"
-msgstr ""
+msgstr "Dialoog voor kiezen blauwe map"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, RedDirB)
 #: fitsviewer/livestacking.ui:727
@@ -33451,7 +33455,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:740
 #, kde-format
 msgid "Green directory chooser dialog"
-msgstr ""
+msgstr "Dialoog voor kiezen groene map"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, StackMultiCB1)
 #: fitsviewer/livestacking.ui:759
@@ -33485,7 +33489,7 @@ msgstr "Blauwe map:"
 #: fitsviewer/livestacking.ui:832
 #, kde-format
 msgid "Lum (optional) directory chooser dialog"
-msgstr ""
+msgstr "Dialoog voor kiezen Lum-map (optioneel)"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Green)
 #: fitsviewer/livestacking.ui:851
@@ -33654,6 +33658,12 @@ msgid ""
 "larger the possible updates.</p><p>Usual values are in the range 1.5 to 2.0. "
 "Reduce if images appear over processed, e.g. star ringing.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kappa beperkt het bijwerken van het pixel tot het "
+"bereik 1/kappa tot kappa ten opzichte van de oorspronkelijke waarde. Dus 1 "
+"betekent geen verandering. Hoe hoger de kappa, hoe groter het mogelijk "
+"bijwerken.</p><p>Gebruikelijke waarden liggen tussen 1,5 en 2,0. Verminderen "
+"als afbeeldingen overbewerkt lijken, bijvoorbeeld stervorming.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, KappaLabel)
 #: fitsviewer/livestacking.ui:1200
@@ -33806,6 +33816,10 @@ msgid ""
 "Update</p><p>n = update PSF every n iterations</p><p><br/></p><p>Can cause "
 "star ringing if applied too frequently.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Pas de PSF aan die in het ImageMM-algoritme wordt "
+"gebruikt.</p><p>0 = geen PSF bijwerken</p><p>n = PSF bijwerken elke n "
+"iteraties</p><p><br/></p><p>Kan stervorming veroorzaken als deze te vaak "
+"wordt toegepast.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFUpdateLabel)
 #: fitsviewer/livestacking.ui:1611
@@ -33821,6 +33835,10 @@ msgid ""
 "Update</p><p>n = update PSF every n iterations</p><p><br/></p><p>Can cause "
 "star ringing if applied too frequently.</p><p><br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Pas de PSF aan die in het ImageMM-algoritme wordt "
+"gebruikt.</p><p>0 = geen PSF bijwerken</p><p>n = PSF bijwerken elke n "
+"iteraties</p><p><br/></p><p>Kan stervorming veroorzaken als deze te vaak "
+"wordt toegepast.</p><p><br/></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:1646
@@ -43795,7 +43813,7 @@ msgstr ""
 #: kstars.kcfg:3424
 #, kde-format
 msgid "Enable startup queue execution"
-msgstr ""
+msgstr "Uitvoeren opstartwachtrij inschakelen"
 
 #. i18n: ectx: whatsthis, entry (SchedulerStartupEnabled), group (Scheduler)
 #: kstars.kcfg:3425
@@ -43804,6 +43822,8 @@ msgid ""
 "If enabled, the startup queue will be executed when the scheduler starts. If "
 "disabled, no startup procedure will run."
 msgstr ""
+"Indien ingeschakeld, wordt de opstartwachtrij uitgevoerd wanneer de planner "
+"start. Indien uitgeschakeld, wordt er geen opstartprocedure uitgevoerd."
 
 #. i18n: ectx: label, entry (SchedulerPreStartupScript), group (Scheduler)
 #: kstars.kcfg:3429
@@ -43818,12 +43838,14 @@ msgid ""
 "Path to the startup queue file to execute when starting the scheduler before "
 "starting the equipment profile."
 msgstr ""
+"Pad naar het opstartwachtrijbestand dat moet worden uitgevoerd bij het "
+"starten van de planner vóór het starten van het apparatuurprofiel."
 
 #. i18n: ectx: label, entry (SchedulerPostStartupScript), group (Scheduler)
 #: kstars.kcfg:3433
 #, kde-format
 msgid "Path to post-startup queue file or script."
-msgstr ""
+msgstr "Pad naar wachtrij ná opstarten of script."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPostStartupScript), group (Scheduler)
 #: kstars.kcfg:3434
@@ -43832,12 +43854,14 @@ msgid ""
 "Path to the startup queue file to execute when starting the scheduler after "
 "starting the equipment profile."
 msgstr ""
+"Pad naar het opstartwachtrijbestand dat moet worden uitgevoerd bij het "
+"starten van de planner ná het starten van het apparatuurprofiel."
 
 #. i18n: ectx: label, entry (SchedulerShutdownEnabled), group (Scheduler)
 #: kstars.kcfg:3438
 #, kde-format
 msgid "Enable shutdown queue execution"
-msgstr ""
+msgstr "Afsluitwachtrij uitvoeren inschakelen"
 
 #. i18n: ectx: whatsthis, entry (SchedulerShutdownEnabled), group (Scheduler)
 #: kstars.kcfg:3439
@@ -43846,12 +43870,14 @@ msgid ""
 "If enabled, the shutdown queue will be executed when the scheduler shuts "
 "down. If disabled, no shutdown procedure will run."
 msgstr ""
+"Indien ingeschakeld, wordt de afsluitwachtrij uitgevoerd wanneer de planner "
+"afsluit. Indien uitgeschakeld, wordt er geen afsluitprocedure uitgevoerd."
 
 #. i18n: ectx: label, entry (SchedulerPreShutdownScript), group (Scheduler)
 #: kstars.kcfg:3443
 #, kde-format
 msgid "Path to shutdown queue file or script."
-msgstr "Pad naar wachtrij voor afsluiten of script."
+msgstr "Pad naar afsluitwachtrijbestand of script."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreShutdownScript), group (Scheduler)
 #: kstars.kcfg:3444
@@ -43860,12 +43886,14 @@ msgid ""
 "Path to the shutdown queue file to execute when stopping the scheduler "
 "before stopping the equipment profile."
 msgstr ""
+"Pad naar het afsluitwachtrijbestand dat moet worden uitgevoerd bij het "
+"stoppen van de planner vóór het stoppen van het apparatuurprofiel."
 
 #. i18n: ectx: label, entry (SchedulerPostShutdownScript), group (Scheduler)
 #: kstars.kcfg:3448
 #, kde-format
 msgid "Path to post-shutdown queue file or script."
-msgstr ""
+msgstr "Pad naar het wachtrijbestand ná afsluiten of script."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPostShutdownScript), group (Scheduler)
 #: kstars.kcfg:3449
@@ -43874,6 +43902,8 @@ msgid ""
 "Path to the shutdown queue file to execute when stopping the scheduler after "
 "stopping the equipment profile."
 msgstr ""
+"Pad naar het afsluitwachtrijbestand dat moet worden uitgevoerd bij het "
+"stoppen van de planner ná het stoppen van het apparatuurprofiel."
 
 #. i18n: ectx: label, entry (SchedulerFocusStep), group (Scheduler)
 #: kstars.kcfg:3452

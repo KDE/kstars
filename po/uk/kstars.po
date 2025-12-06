@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-05 01:58+0000\n"
-"PO-Revision-Date: 2025-12-02 21:10+0200\n"
+"PO-Revision-Date: 2025-12-05 09:04+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -30123,10 +30123,10 @@ msgstr[3] ""
 "У завданні «%1» виконано %2 пакет до часу завершення, перезапускаємо."
 
 #: ekos/scheduler/schedulerprocess.cpp:540
-#, fuzzy, kde-format
-#| msgid "Safety has improved. Resuming operations."
+#, kde-format
 msgid "Weather has improved during grace period. Resuming operations."
-msgstr "Умови безпеки поліпшилися. Відновлюємо роботу."
+msgstr ""
+"За час періоду лояльності погодні умови поліпшилися. Відновлюємо роботу."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
 #, kde-format
@@ -30134,6 +30134,8 @@ msgid ""
 "Weather grace period has expired with safety status still %1. Proceeding to "
 "complete shutdown."
 msgstr ""
+"Період лояльності щодо погоди завершився із станом безпеки, який лишається "
+"%1. Переходимо до повного завершення роботи."
 
 #: ekos/scheduler/schedulerprocess.cpp:547
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1018
@@ -30183,14 +30185,11 @@ msgstr ""
 "Позначаємо завдання як перерване."
 
 #: ekos/scheduler/schedulerprocess.cpp:765
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because safety status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid "Job '%1' cannot start, weather grace period is active."
 msgstr ""
-"Виконання завдання «%1» неможливо розпочати, оскільки маємо стан безпеки %2 "
-"і період толерантності вичерпано."
+"Виконання завдання «%1» неможливо розпочати, оскільки активним є період "
+"лояльності щодо погоди."
 
 #: ekos/scheduler/schedulerprocess.cpp:784
 #, kde-format
@@ -30444,6 +30443,8 @@ msgstr "Не вдалося виконати вимикання. Перерив�
 #, kde-format
 msgid "Entering weather monitoring mode. Waiting for weather to improve..."
 msgstr ""
+"Переходимо до режиму спостереження за погодою. Очікуємо на поліпшення "
+"погодних умов…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1814
 #, kde-format

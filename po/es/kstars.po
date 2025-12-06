@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-05 01:58+0000\n"
-"PO-Revision-Date: 2025-12-02 01:54+0100\n"
+"PO-Revision-Date: 2025-12-05 18:11+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -30197,10 +30197,11 @@ msgstr[1] ""
 "reinicia."
 
 #: ekos/scheduler/schedulerprocess.cpp:540
-#, fuzzy, kde-format
-#| msgid "Safety has improved. Resuming operations."
+#, kde-format
 msgid "Weather has improved during grace period. Resuming operations."
-msgstr "La seguridad ha mejorado. Se reanudan las operaciones."
+msgstr ""
+"Las condiciones meteorológicas han mejorado durante el período de gracia. Se "
+"reanudan las operaciones."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
 #, kde-format
@@ -30208,6 +30209,8 @@ msgid ""
 "Weather grace period has expired with safety status still %1. Proceeding to "
 "complete shutdown."
 msgstr ""
+"El período de gracia meteorológico ha expirado con el estado de seguridad "
+"%1. Se continúa para completar el apagado."
 
 #: ekos/scheduler/schedulerprocess.cpp:547
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1018
@@ -30254,14 +30257,11 @@ msgstr ""
 "como interrumpido."
 
 #: ekos/scheduler/schedulerprocess.cpp:765
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because safety status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid "Job '%1' cannot start, weather grace period is active."
 msgstr ""
-"El trabajo «%1» no puede empezar porque el estado de seguridad es %2 y el "
-"período de gracia ha terminado."
+"El trabajo «%1» no puede empezar. El período de gracia meteorológico está "
+"activo."
 
 #: ekos/scheduler/schedulerprocess.cpp:784
 #, kde-format
@@ -30519,6 +30519,8 @@ msgstr "Ha fallado el procedimiento de apagado. Interrumpiendo…"
 #, kde-format
 msgid "Entering weather monitoring mode. Waiting for weather to improve..."
 msgstr ""
+"Entrando en modo de monitorización meteorológica. A la espera de que mejoren "
+"las condiciones meteorológicas…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1814
 #, kde-format
@@ -92353,10 +92355,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid ""
-#~ "Job '%1' cannot start because safety status is %2. Waiting until weather "
-#~ "improves or until %3"
-#~ msgstr ""
-#~ "El trabajo «%1» no puede empezar porque el estado de seguridad es %2. "
-#~ "Esperando a que mejoren las condiciones meteorológicas o hasta %3."
