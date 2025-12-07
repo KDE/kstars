@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-05 01:58+0000\n"
-"PO-Revision-Date: 2025-12-02 23:09+0100\n"
+"PO-Revision-Date: 2025-12-06 17:28+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -30177,10 +30177,9 @@ msgstr[1] ""
 "riavviato."
 
 #: ekos/scheduler/schedulerprocess.cpp:540
-#, fuzzy, kde-format
-#| msgid "Safety has improved. Resuming operations."
+#, kde-format
 msgid "Weather has improved during grace period. Resuming operations."
-msgstr "La sicurezza è migliorata. Riavvio delle operazioni."
+msgstr "Il tempo è migliorato durante il ritardo. Riavvio delle operazioni."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
 #, kde-format
@@ -30188,6 +30187,8 @@ msgid ""
 "Weather grace period has expired with safety status still %1. Proceeding to "
 "complete shutdown."
 msgstr ""
+"Il ritardo meteo è scaduto con stato di sicurezza ancora a %1. Si procede a "
+"completare lo spegnimento."
 
 #: ekos/scheduler/schedulerprocess.cpp:547
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1018
@@ -30234,14 +30235,9 @@ msgstr ""
 "pianificatore, contrassegnato come interrotto."
 
 #: ekos/scheduler/schedulerprocess.cpp:765
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because safety status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid "Job '%1' cannot start, weather grace period is active."
-msgstr ""
-"Impossibile avviare il processo «%1» perché le condizioni di sicurezza sono "
-"%2 e il periodo di ritardo è scaduto."
+msgstr "Impossibile avviare il processo «%1» perché il ritardo meteo è attivo."
 
 #: ekos/scheduler/schedulerprocess.cpp:784
 #, kde-format
@@ -30497,6 +30493,8 @@ msgstr "Procedura di spegnimento non riuscita, interruzione..."
 #, kde-format
 msgid "Entering weather monitoring mode. Waiting for weather to improve..."
 msgstr ""
+"Ingresso in modalità monitoraggio meteorologico. In attesa del miglioramento "
+"del tempo..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1814
 #, kde-format
