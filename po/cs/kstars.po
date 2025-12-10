@@ -30056,9 +30056,7 @@ msgid "RAM"
 msgstr "RAM"
 
 #: fitsviewer/fitstab.cpp:1182 fitsviewer/fitstab.cpp:1318
-#, fuzzy, kde-format
-#| msgctxt "Message shown in Ekos Mount module"
-#| msgid "%1"
+#, kde-format
 msgctxt "@title:window"
 msgid "%1"
 msgstr "%1"
@@ -30093,7 +30091,7 @@ msgstr "Soubor uložen do %1"
 #: fitsviewer/fitstab.cpp:1579
 #, kde-format
 msgid "RGB"
-msgstr ""
+msgstr "RGB"
 
 #: fitsviewer/fitstab.cpp:1579
 #, kde-format
@@ -31051,11 +31049,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1505
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Alphard"
+#, kde-format
 msgid "Alpha:"
-msgstr "Alphard"
+msgstr "Alfa:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, Iterations)
 #. i18n: ectx: property (toolTip), widget (QLabel, IterationsLabel)
@@ -31071,10 +31067,9 @@ msgstr "<html><head/><body><p>Jak chcete váš profil nazvat?</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1586
-#, fuzzy, kde-format
-#| msgid "Max Iterations:"
+#, kde-format
 msgid "Iterations:"
-msgstr "Maximum iterací:"
+msgstr "Opakování:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, PSFUpdateLabel)
 #: fitsviewer/livestacking.ui:1608
