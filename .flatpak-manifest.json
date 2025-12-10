@@ -101,8 +101,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.atnf.csiro.au/people/mcalabre/WCS/wcslib-8.4.tar.bz2",
-                    "sha256": "960b844426d14a8b53cdeed78258aa9288cded99a7732c0667c64fa6a50126dc",
+                    "url": "https://www.atnf.csiro.au/people/mcalabre/WCS/wcslib-8.5.tar.bz2",
+                    "sha256": "f1fd1b78fbfdbabda363f8045e0c59e32735eca45482a5302191e56fe062eace",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 7693,
