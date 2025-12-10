@@ -43,8 +43,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.tar.bz2",
-                    "sha256": "bdca0ec740fb83be21fe038699923f4c589ead9ab904f4058a9c97752e60d50b",
+                    "url": "https://gitlab.com/libeigen/eigen/-/archive/5.0.1/eigen-5.0.1.tar.bz2",
+                    "sha256": "e4de6b08f33fd8b8985d2f204381408c660bffa6170ac65b68ae1bd3cd575c0a",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 666,
@@ -82,8 +82,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/HEASARC/cfitsio/archive/refs/tags/cfitsio-4.6.3.tar.gz",
-                    "sha256": "e9f1017e942f4a90d2db8984a7677e9d01a5da877a43ed905b9b5108451a68a0",
+                    "url": "https://github.com/HEASARC/cfitsio/archive/refs/tags/cfitsio-4.6.2.tar.gz",
+                    "sha256": "83f710f9441e7c703eeb485c9a475f50801ae7fad32ac7e356a406d318b4c02f",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 270,
@@ -375,8 +375,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.savannah.gnu.org/releases/gpsd/gpsd-3.26.1.tar.gz",
-                    "sha256": "dc7e465968c1540e61bc57c7586d6a57a0047212a014efdad348f907bc2e0990",
+                    "url": "https://download.savannah.gnu.org/releases/gpsd/gpsd-3.27.tar.gz",
+                    "sha256": "6195292dd7910be68cb7018d45166283eaefd3f9db9773fcd6e9a78d49eac999",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 6846,
@@ -409,8 +409,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://invent.kde.org/qt/qt/qtdatavis3d/-/archive/v6.10.0/qtdatavis3d-v6.10.0.tar.gz",
-                    "sha256": "827518719d9efa3c7a8521ac89c22fa1a95cf1a8d4401fd3826feaec95a9e77f",
+                    "url": "https://invent.kde.org/qt/qt/qtdatavis3d/-/archive/v6.10.1/qtdatavis3d-v6.10.1.tar.gz",
+                    "sha256": "44781df0a9ca47554e63dc3bd175e87f49b2ec04dbe562f01908cfca66f14f7e",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 7927,
