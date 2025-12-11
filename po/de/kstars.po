@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-05 01:58+0000\n"
-"PO-Revision-Date: 2025-11-23 16:12+0100\n"
+"PO-Revision-Date: 2025-12-03 10:56+0100\n"
 "Last-Translator: Daniel Kauser <danysahne333@yahoo.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -14766,8 +14766,7 @@ msgstr "Standardausrichtung des Belichtungswerts"
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
 #: ekos/capture/calibrationoptions.ui:159
-#, fuzzy, kde-format
-#| msgid "Manual"
+#, kde-format
 msgctxt "manual flat field ADU"
 msgid "Manual"
 msgstr "Manuell"
@@ -16882,10 +16881,9 @@ msgstr "Ziel"
 
 #. i18n: ectx: property (text), widget (QLabel, captureStatisticsHeader)
 #: ekos/capture/captureprocessoverlay.ui:49
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgid "Capture statistics"
-msgstr "Statistik"
+msgstr "Aufnahmestatistiken"
 
 #. i18n: ectx: property (text), widget (QLabel, offsetValue)
 #: ekos/capture/captureprocessoverlay.ui:166
@@ -25810,11 +25808,10 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
 #: ekos/manager.ui:1062
-#, fuzzy, kde-format
-#| msgid "Manual"
+#, kde-format
 msgctxt "opens handbook"
 msgid "Manual"
-msgstr "Manuell"
+msgstr "Handbuch"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
 #: ekos/manager.ui:1069
@@ -26570,11 +26567,10 @@ msgid "Unparked"
 msgstr "Ausgeparkt"
 
 #: ekos/observatory/observatory.cpp:416
-#, fuzzy, kde-format
-#| msgid "Open"
+#, kde-format
 msgctxt "Rolloff roof state"
 msgid "Open"
-msgstr "Öffnen"
+msgstr "Geöffnet"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583
@@ -30105,7 +30101,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:2045
 #, kde-format
 msgid "Enable startup queue"
-msgstr ""
+msgstr "Startsequenz aktivieren"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPreStartupScript)
 #: ekos/scheduler/scheduler.ui:2066
@@ -30149,7 +30145,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:2198
 #, kde-format
 msgid "Enable shutdown queue"
-msgstr ""
+msgstr "Abschaltsequenz aktivieren"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPreShutdownScript)
 #: ekos/scheduler/scheduler.ui:2219
