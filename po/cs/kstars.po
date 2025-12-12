@@ -13790,6 +13790,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
 #: ekos/capture/calibrationoptions.ui:159
 #, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Manual"
 msgctxt "manual flat field ADU"
 msgid "Manual"
@@ -23221,6 +23222,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, helpB)
 #: ekos/manager.ui:1062
 #, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Manual"
 msgctxt "opens handbook"
 msgid "Manual"
