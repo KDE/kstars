@@ -932,6 +932,7 @@ Name[sl]=Razporejevalnik v spanju
 Name[sv]=Schemaläggning i viloläge
 Name[tr]=Zamanlayıcı Uyuyor
 Name[uk]=Планування приспано
+Name[zh_CN]=调度器睡眠
 Sound=KStars-Sys-App-Message.ogg
 Action=Sound
 [Event/SlewStarted]
