@@ -534,7 +534,6 @@
   </provides>
   <custom>
     <value key="KDE::windows_store">https://www.microsoft.com/store/apps/9pprz2qhlxtg</value>
-    <value key="KDE::supporters">@kaibojens@gruene.social, Emily Domingues</value>
   </custom>
   <content_rating type="oars-1.1"/>
   <releases>
