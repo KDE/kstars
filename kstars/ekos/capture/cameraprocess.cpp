@@ -807,7 +807,11 @@ IPState CameraProcess::checkLightFramePendingTasks()
 
     // step 3: check if a meridian flip is active
     if (state()->checkMeridianFlipActive())
+    {
+        // Invalidate capture operations timer during meridian flip to prevent timeout
+        m_CaptureOperationsTimer.invalidate();
         return IPS_BUSY;
+    }
 
     // step 4: check guide deviation for non meridian flip stages if the initial guide limit is set.
     //         Wait until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
