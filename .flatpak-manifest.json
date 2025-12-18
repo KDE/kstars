@@ -82,8 +82,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/HEASARC/cfitsio/archive/refs/tags/cfitsio-4.6.2.tar.gz",
-                    "sha256": "83f710f9441e7c703eeb485c9a475f50801ae7fad32ac7e356a406d318b4c02f",
+                    "url": "https://github.com/HEASARC/cfitsio/archive/refs/tags/cfitsio-4.6.3.tar.gz",
+                    "sha256": "e9f1017e942f4a90d2db8984a7677e9d01a5da877a43ed905b9b5108451a68a0",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 270,
@@ -102,13 +102,13 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.atnf.csiro.au/people/mcalabre/WCS/wcslib-8.4.tar.bz2",
-                    "sha256": "960b844426d14a8b53cdeed78258aa9288cded99a7732c0667c64fa6a50126dc",
+                    "url": "https://www.atnf.csiro.au/computing/software/wcs/wcslib-releases/wcslib-8.5.tar.bz2",
+                    "sha256": "f1fd1b78fbfdbabda363f8045e0c59e32735eca45482a5302191e56fe062eace",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 7693,
                         "stable-only": true,
-                        "url-template": "https://www.atnf.csiro.au/people/mcalabre/WCS/wcslib-$version.tar.bz2"
+                        "url-template": "https://www.atnf.csiro.au/computing/software/wcs/wcslib-releases/wcslib-$version.tar.bz2"
                     }
                 }
             ]
