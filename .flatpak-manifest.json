@@ -248,7 +248,7 @@
                         "type": "anitya",
                         "project-id": 1581,
                         "stable-only": true,
-                        "url-template": "https://github.com/libconfuse/libconfuse/releases/download/$version/confuse-$version.tar.xz"
+                        "url-template": "https://github.com/libconfuse/libconfuse/releases/download/v$version/confuse-$version.tar.xz"
                     }
                 }
             ]
@@ -375,13 +375,13 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.savannah.gnu.org/releases/gpsd/gpsd-3.27.tar.gz",
-                    "sha256": "6195292dd7910be68cb7018d45166283eaefd3f9db9773fcd6e9a78d49eac999",
+                    "url": "https://download-mirror.savannah.gnu.org/releases/gpsd/gpsd-3.27.1.tar.gz",
+                    "sha256": "3baa03b8fd922982950593665fa4d86fe9ecde8b3d2ed5c2d0320c7dcecc2937",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 6846,
                         "stable-only": true,
-                        "url-template": "https://download.savannah.gnu.org/releases/gpsd/gpsd-$version.tar.gz"
+                        "url-template": "https://download-mirror.savannah.gnu.org/releases/gpsd/gpsd-$version.tar.gz"
                     }
                 }
             ]
@@ -397,7 +397,7 @@
                         "type": "anitya",
                         "project-id": 16245,
                         "stable-only": true,
-                        "url-template": "https://github.com/zeromq/libzmq/releases/download/$version/zeromq-$version.tar.gz"
+                        "url-template": "https://github.com/zeromq/libzmq/releases/download/v$version/zeromq-$version.tar.gz"
                     }
                 }
             ]
