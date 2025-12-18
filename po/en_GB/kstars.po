@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-05 01:58+0000\n"
+"POT-Creation-Date: 2025-12-18 02:00+0000\n"
 "PO-Revision-Date: 2024-11-23 12:49+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -2987,7 +2987,7 @@ msgstr "Type Mapping"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2457 ekos/capture/capturecountswidget.cpp:321
+#: ekos/capture/cameraprocess.cpp:2461 ekos/capture/capturecountswidget.cpp:321
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
 #: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:814
 #, kde-format
@@ -6693,8 +6693,8 @@ msgstr "World Coordinate System (WCS) is disabled."
 msgid "Capture error. Aborting..."
 msgstr "Capture error. Aborting..."
 
-#: ekos/align/align.cpp:3415 ekos/capture/cameraprocess.cpp:1631
-#: ekos/capture/cameraprocess.cpp:2192
+#: ekos/align/align.cpp:3415 ekos/capture/cameraprocess.cpp:1635
+#: ekos/capture/cameraprocess.cpp:2196
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Restarting capture attempt #%1"
@@ -6794,7 +6794,7 @@ msgstr "Unable to write to file %1"
 
 #: ekos/align/align.cpp:4096 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:356
-#: ekos/capture/cameraprocess.cpp:2602 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2606 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2760
 #: ekos/scheduler/schedulerprocess.cpp:3189
 #: ekos/scheduler/schedulerprocess.cpp:4313
@@ -7454,7 +7454,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Open Ekos Alignment List"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:355
-#: ekos/capture/cameraprocess.cpp:2601 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2605 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3188
 #: ekos/scheduler/schedulerprocess.cpp:4332
 #, kde-format
@@ -15034,7 +15034,7 @@ msgstr "Dark & Flat frames automatic calibration options"
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, CalibrationMinimized)
-#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2470
+#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2474
 #: ekos/guide/guide.cpp:70 fitsviewer/livestacking.ui:2102
 #: fitsviewer/livestacking.ui:2702
 #, kde-format
@@ -15997,7 +15997,7 @@ msgstr "Job #%1 changes applied."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Are you sure you want to reset status of all jobs?"
 
-#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2722
+#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2726
 #, kde-format
 msgid "Reset job status"
 msgstr "Reset job status"
@@ -16071,7 +16071,7 @@ msgstr "No pending jobs found. Please add a job to the sequence queue."
 msgid "No new job created."
 msgstr "No new job created."
 
-#: ekos/capture/cameraprocess.cpp:311 ekos/capture/cameraprocess.cpp:890
+#: ekos/capture/cameraprocess.cpp:311 ekos/capture/cameraprocess.cpp:894
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr "Cannot capture while focus module is busy."
@@ -16157,27 +16157,27 @@ msgstr ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 
-#: ekos/capture/cameraprocess.cpp:836
+#: ekos/capture/cameraprocess.cpp:840
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "Autoguiding resumed."
 
-#: ekos/capture/cameraprocess.cpp:880
+#: ekos/capture/cameraprocess.cpp:884
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Failed to set sub frame."
 
-#: ekos/capture/cameraprocess.cpp:885
+#: ekos/capture/cameraprocess.cpp:889
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Failed to set binning."
 
-#: ekos/capture/cameraprocess.cpp:1045
+#: ekos/capture/cameraprocess.cpp:1049
 #, kde-format
 msgid "file saved to %1"
 msgstr "file saved to %1"
 
-#: ekos/capture/cameraprocess.cpp:1055
+#: ekos/capture/cameraprocess.cpp:1059
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -16186,121 +16186,121 @@ msgstr ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 
-#: ekos/capture/cameraprocess.cpp:1057
+#: ekos/capture/cameraprocess.cpp:1061
 #, kde-format
 msgid "Image Write Failed"
 msgstr "Image Write Failed"
 
-#: ekos/capture/cameraprocess.cpp:1282
+#: ekos/capture/cameraprocess.cpp:1286
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Remote image saved to %1"
 
-#: ekos/capture/cameraprocess.cpp:1308
+#: ekos/capture/cameraprocess.cpp:1312
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Autoguiding suspended."
 
-#: ekos/capture/cameraprocess.cpp:1338
+#: ekos/capture/cameraprocess.cpp:1342
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Warning: Calibration process was prematurely terminated."
 
-#: ekos/capture/cameraprocess.cpp:1403
+#: ekos/capture/cameraprocess.cpp:1407
 #, fuzzy, kde-format
 #| msgid "CCD capture sequence completed"
 msgid "Camera capture sequence completed"
 msgstr "CCD capture sequence completed"
 
-#: ekos/capture/cameraprocess.cpp:1460
+#: ekos/capture/cameraprocess.cpp:1464
 #, fuzzy, kde-format
 #| msgid "Error: lost connection to camera."
 msgid "Error: Lost connection to camera."
 msgstr "Error: lost connection to camera."
 
-#: ekos/capture/cameraprocess.cpp:1488
+#: ekos/capture/cameraprocess.cpp:1492
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Cannot calculate ADU levels in non-FITS images."
 
-#: ekos/capture/cameraprocess.cpp:1623 ekos/capture/cameraprocess.cpp:2184
+#: ekos/capture/cameraprocess.cpp:1627 ekos/capture/cameraprocess.cpp:2188
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "Capture failed. Check INDI Control Panel for details."
 
-#: ekos/capture/cameraprocess.cpp:1723
+#: ekos/capture/cameraprocess.cpp:1727
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Download Time: %1 s, New Download Time Estimate: %2 s."
 
-#: ekos/capture/cameraprocess.cpp:1789
+#: ekos/capture/cameraprocess.cpp:1793
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Received image %1 out of %2."
 
-#: ekos/capture/cameraprocess.cpp:1826
+#: ekos/capture/cameraprocess.cpp:1830
 #, kde-format
 msgid "Captured %1"
 msgstr "Captured %1"
 
-#: ekos/capture/cameraprocess.cpp:1832
+#: ekos/capture/cameraprocess.cpp:1836
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "WARNING: remaining and potentially unknown placeholders %1 in %2"
 
-#: ekos/capture/cameraprocess.cpp:1875
+#: ekos/capture/cameraprocess.cpp:1879
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Executing capture script %1"
 
-#: ekos/capture/cameraprocess.cpp:1890
+#: ekos/capture/cameraprocess.cpp:1894
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Pre capture script finished with code %1."
 
-#: ekos/capture/cameraprocess.cpp:1901
+#: ekos/capture/cameraprocess.cpp:1905
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Post capture script finished with code %1."
 
-#: ekos/capture/cameraprocess.cpp:1913
+#: ekos/capture/cameraprocess.cpp:1917
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Processing meridian flip..."
 
-#: ekos/capture/cameraprocess.cpp:1923
+#: ekos/capture/cameraprocess.cpp:1927
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Pre job script finished with code %1."
 
-#: ekos/capture/cameraprocess.cpp:1928
+#: ekos/capture/cameraprocess.cpp:1932
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Post job script finished with code %1."
 
-#: ekos/capture/cameraprocess.cpp:2114 ekos/focus/focus.cpp:6141
+#: ekos/capture/cameraprocess.cpp:2118 ekos/focus/focus.cpp:6141
 #: ekos/focus/focus.cpp:6165
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Exposure timeout. Aborting..."
 
-#: ekos/capture/cameraprocess.cpp:2121
+#: ekos/capture/cameraprocess.cpp:2125
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr "Exposure timeout. More than 3 have been detected, will restart driver."
 
-#: ekos/capture/cameraprocess.cpp:2139 ekos/focus/focus.cpp:6146
+#: ekos/capture/cameraprocess.cpp:2143 ekos/focus/focus.cpp:6146
 #: ekos/guide/guide.cpp:1010
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Exposure timeout. Restarting exposure..."
 
-#: ekos/capture/cameraprocess.cpp:2165
+#: ekos/capture/cameraprocess.cpp:2169
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Exposure timeout. Too many. Aborting..."
 
-#: ekos/capture/cameraprocess.cpp:2243
+#: ekos/capture/cameraprocess.cpp:2247
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16309,17 +16309,17 @@ msgstr ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 
-#: ekos/capture/cameraprocess.cpp:2254
+#: ekos/capture/cameraprocess.cpp:2258
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Current image is saturated (%1). Next exposure is %2 seconds."
 
-#: ekos/capture/cameraprocess.cpp:2276
+#: ekos/capture/cameraprocess.cpp:2280
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Current ADU %1 within target ADU tolerance range."
 
-#: ekos/capture/cameraprocess.cpp:2305
+#: ekos/capture/cameraprocess.cpp:2309
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16328,27 +16328,27 @@ msgstr ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 
-#: ekos/capture/cameraprocess.cpp:2313
+#: ekos/capture/cameraprocess.cpp:2317
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Current ADU is %1 Next exposure is %2 seconds."
 
-#: ekos/capture/cameraprocess.cpp:2454
+#: ekos/capture/cameraprocess.cpp:2458
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Preview"
 
-#: ekos/capture/cameraprocess.cpp:2465 ekos/capture/cameraprocess.cpp:2467
+#: ekos/capture/cameraprocess.cpp:2469 ekos/capture/cameraprocess.cpp:2471
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Flat Calibration"
 
-#: ekos/capture/cameraprocess.cpp:2671
+#: ekos/capture/cameraprocess.cpp:2675
 #, kde-format
 msgid "Sequence paused."
 msgstr "Sequence paused."
 
-#: ekos/capture/cameraprocess.cpp:2721
+#: ekos/capture/cameraprocess.cpp:2725
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16357,7 +16357,7 @@ msgstr ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 
-#: ekos/capture/cameraprocess.cpp:2735
+#: ekos/capture/cameraprocess.cpp:2739
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16366,17 +16366,17 @@ msgstr ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 
-#: ekos/capture/cameraprocess.cpp:2971
+#: ekos/capture/cameraprocess.cpp:2975
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Are you sure you want to restart %1 camera driver?"
 
-#: ekos/capture/cameraprocess.cpp:2972
+#: ekos/capture/cameraprocess.cpp:2976
 #, kde-format
 msgid "Driver Restart"
 msgstr "Driver Restart"
 
-#: ekos/capture/cameraprocess.cpp:3119 ekos/capture/sequencejobstate.cpp:41
+#: ekos/capture/cameraprocess.cpp:3123 ekos/capture/sequencejobstate.cpp:41
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 seconds."
 msgid "Capture operations timed out after %1 seconds."
