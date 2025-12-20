@@ -16,15 +16,15 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-18 02:00+0000\n"
-"PO-Revision-Date: 2025-12-01 11:02+0300\n"
-"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
+"PO-Revision-Date: 2025-12-19 13:37+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.11.80\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -29786,10 +29786,9 @@ msgstr[1] ""
 "tamamlandı, yeniden başlatıldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:540
-#, fuzzy, kde-format
-#| msgid "Safety has improved. Resuming operations."
+#, kde-format
 msgid "Weather has improved during grace period. Resuming operations."
-msgstr "Güvenlik durumu artık daha iyi. İşlemler sürdürülüyor."
+msgstr "Hava durumu, bekleme süresi boyunca iyileşti. İşlemler sürdürülüyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:546
 #, kde-format
@@ -29797,6 +29796,8 @@ msgid ""
 "Weather grace period has expired with safety status still %1. Proceeding to "
 "complete shutdown."
 msgstr ""
+"Hava durumu bekleme süresi, durum hâlâ %1 olarak sona erdi. Tam kapatma ile "
+"sürdürülüyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:547
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1018
@@ -29841,14 +29842,10 @@ msgstr ""
 "“%1” işi zamanlayıcı durmasında işlenmedi, iptal edilmiş olarak imleniyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:765
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' cannot start because safety status is %2 and grace period is "
-#| "over."
+#, kde-format
 msgid "Job '%1' cannot start, weather grace period is active."
 msgstr ""
-"Güvenlik durumu %2 olduğundan ve bekleme süresi dolduğundan “%1” işi "
-"başlatılamıyor."
+"Hava durumu bekleme süresi hâlâ etkin olduğundan “%1” işi başlatılamıyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:784
 #, kde-format
@@ -30089,6 +30086,8 @@ msgstr "Kapanma prosedürü başarısız oldu, iptal ediliyor…"
 #, kde-format
 msgid "Entering weather monitoring mode. Waiting for weather to improve..."
 msgstr ""
+"Hava durumu izleme kipine giriliyor. Hava durumunun daha iyi olması "
+"bekleniyor…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1814
 #, kde-format
