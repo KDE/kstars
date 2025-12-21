@@ -1,3 +1,4 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Crowdin-Project: kdeorg\n"
-"X-Crowdin-Project-ID: 269464\n"
-"X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-File: /kf5-trunk/messages/kstars/kstars.pot\n"
 "X-Crowdin-File-ID: 6539\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-Project: kdeorg\n"
+"X-Crowdin-Project-ID: 269464\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -864,7 +865,7 @@ msgctxt ""
 "Set the sky-map view to match a Schmidt-Cassegrain telescope with erecting "
 "prism pointed upwards"
 msgid "SCT with upward diagonal"
-msgstr ""
+msgstr "SCT 望远镜 (天顶镜朝上)"
 
 #: auxiliary/skymapview.cpp:100
 #, kde-format
@@ -7226,12 +7227,12 @@ msgstr "赤道仪模型"
 #: ekos/align/alignmentplot.cpp:158
 #, kde-format
 msgid "Azimuth diff (deg)"
-msgstr ""
+msgstr "方位角差值 (度)"
 
 #: ekos/align/alignmentplot.cpp:159
 #, kde-format
 msgid "Altitude diff (deg)"
-msgstr ""
+msgstr "高度角差值 (度)"
 
 #: ekos/align/alignview.cpp:170
 #, kde-format
@@ -7952,7 +7953,7 @@ msgstr "WCS"
 msgid ""
 "Adjust StellarSolver threshold dynamically based on source extractor "
 "detected stars to expedite solving."
-msgstr ""
+msgstr "基于星源提取器检测到的星点，动态调整 StellarSolver 阈值以加速求解。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDynamicThreshold)
 #: ekos/align/opsalign.ui:263
@@ -10286,7 +10287,7 @@ msgstr "停止当前平面解析。"
 #: ekos/align/pushtoassistant.ui:14 kstarsinit.cpp:489
 #, kde-format
 msgid "Push-To Assistant"
-msgstr ""
+msgstr "手动指向助手"
 
 #. i18n: ectx: property (toolTip), widget (AlignmentPlot, targetPlot)
 #: ekos/align/pushtoassistant.ui:47
@@ -10328,6 +10329,35 @@ msgid ""
 "finder scope is correctly configured and your telescope is roughly pointing "
 "to the target that you have selected.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">描述</span></p><p>该"
+"助手为手动赤道仪 (如多布森式等) 用户提供支持，通过配备相机的寻星镜辅助寻找目"
+"标天体。</p><p><span style=\" font-weight:600;\">准备工作</span></p><p>打开 "
+"EKOS，创建一个配置文件，选择您的相机，将望远镜模拟器设为赤道仪，并添加您的寻"
+"星镜作为新望远镜。</p><p><span style=\" font-weight:600;\">使用方法</span></"
+"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">启动 EKOS</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">将"
+"赤道仪尽可能对准目标天体大致方向</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">在目标查找器中选择您的目标，然后点击“选择目标”按钮</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">点击“求解位置”按钮。该操作"
+"会通过寻星镜拍摄一幅图像，并与 KStars 的星表进行匹配求解。</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">星体求解成功后，会显示到目标天体的距离。箭"
+"头将指示需要调整赤道仪位置的方向。</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">按照指示方向移动赤道仪，然后重复求解步骤。</li></ul><p><span "
+"style=\" font-weight:600;\">提示</span></p><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">如果点击“重复”按钮，将在配"
+"置的延迟时间后重复执行拍摄和星体求解操作。</li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">如果星体求解失败，请检查寻星镜的焦距是否配置正确，且望远镜"
+"是否大致对准了所选目标天体。</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, toggleSolvingB)
 #: ekos/align/pushtoassistant.ui:71
@@ -10345,7 +10375,7 @@ msgstr "重复解析中"
 #: ekos/align/pushtoassistant.ui:118
 #, kde-format
 msgid "Interval after which solving is repeated"
-msgstr ""
+msgstr "重复求解间隔"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, refreshIntervalSB)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMotionTimeout)
@@ -10366,7 +10396,7 @@ msgstr "秒"
 #: ekos/align/pushtoassistant.ui:179
 #, kde-format
 msgid "start Ekos"
-msgstr ""
+msgstr "启动 Ekos"
 
 #. i18n: ectx: property (text), widget (QLabel, alignStatusLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
@@ -11633,6 +11663,14 @@ msgid ""
 "th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
 "td></tr></table></body>"
 msgstr ""
+"<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
+"padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
+"caption { text-align: center; vertical-align: top; font-weight: bold; "
+"margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
+"align=top>对焦适配说明</caption><tr><th></th><th>位置</th><th>温度 (°C) </"
+"th><th>高度角 (°Alt) </th></tr><tr><th>实测位置</th><td>%1</td><td>%2 %3</"
+"td><td>%4 %5</td></tr><tr><th>适配量</th><td>%6</td><td>%7</td><td>%8</td></"
+"tr><tr><th>适配后位置</th><td>%9</td></tr></table></body>"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:731
 #, kde-format
@@ -12235,12 +12273,12 @@ msgstr "Last AF Alt (°Alt)"
 msgid ""
 "The datetime of the last AF solution. Updated automatically by the autofocus "
 "process."
-msgstr ""
+msgstr "最后一次自动对焦求解的时间。由自动对焦流程自动更新。"
 
 #: ekos/auxiliary/filtermanager.cpp:148
 #, kde-format
 msgid "Last AF Datetime"
-msgstr ""
+msgstr "最后自动对焦时间"
 
 #: ekos/auxiliary/filtermanager.cpp:151
 #, kde-format
@@ -14155,7 +14193,7 @@ msgstr "使用帧曝光值"
 #, kde-format
 msgctxt "manual flat field ADU"
 msgid "Manual"
-msgstr ""
+msgstr "手动"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, captureCalibrationUseADU)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureCalibrationADUValue)
@@ -14666,6 +14704,8 @@ msgid ""
 "available to be used in the filename Format via the %t or %type placeholder "
 "tag.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>目标是目标天体的名称。</p><p>可通过 %t 或 %type 占位符"
+"标签，将其用于文件名格式设置中。</p></body></html>"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
 #: ekos/capture/camera.ui:1826
@@ -14816,6 +14856,78 @@ msgid ""
 "in the filename portion of the format, not in the path definition.</li></"
 "ul></body></html>"
 msgstr ""
+"<html><head/><body><p>该格式用于通过占位符标签定义图像文件名。</p><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">占位符"
+"<span style=\" font-weight:704;\"> %f</span> 或 <span style=\" font-"
+"weight:704;\">%filename</span>：.esq 文件的名称 (不含扩展名)。</li><li style="
+"\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">占位符<span style=\" font-weight:704;\"> "
+"%D</span> 或 <span style=\" font-weight:704;\">%Datetime</span>：文件保存时的"
+"当前日期和时间<span style=\" font-weight:704;\">。</span></li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">占位符<span style=\" font-weight:704;\"> "
+"%T</span> 或 <span style=\" font-weight:704;\">%Type</span>：帧类型 (例如：光"
+"帧、偏置帧、暗帧、平场帧……)。</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">占位符<span style=\" font-weight:704;\"> %e</span> 或 <span "
+"style=\" font-weight:704;\">%exposure</span>：曝光时长 (单位：秒)，后缀"
+"为“_secs”。</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">占位符<span style=\" font-weight:704;\"> %E</"
+"span> 或 <span style=\" font-weight:704;\">%exp</span>：曝光时长 (单位：秒)，"
+"仅显示纯数字，无任何单位后缀。</li></ul><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">占位符<span style=\" font-weight:704;\"> %F</span> 或 <span "
+"style=\" font-weight:704;\">%Filter</span>：当前启用的滤镜名称。</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">占位符<span style=\" font-"
+"weight:704;\"> %t</span> 或 <span style=\" font-weight:704;\">%target</"
+"span>：目标天体名称。</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">占"
+"位符 <span style=\" font-weight:600;\">%C</span> 或 <span style=\" font-"
+"weight:600;\">%temperature</span>：拍摄时的相机温度。</li><ul style=\"margin-"
+"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">占位符 "
+"<span style=\" font-weight:600;\">%B</span> 或 <span style=\" font-"
+"weight:600;\">%bin</span>：拍摄时配置的像素合并模式。</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">占位符 <span style=\" font-weight:600;\">"
+"%G</span> 或 <span style=\" font-weight:600;\">%gain</span>：拍摄时配置的增益"
+"值。</li></ul><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">占位符 "
+"<span style=\" font-weight:600;\">%O</span> 或 <span style=\" font-"
+"weight:600;\">%offset</span>：拍摄时配置的偏移量。</li><ul style=\"margin-"
+"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">占位符 "
+"<span style=\" font-weight:600;\">%I</span> 或 <span style=\" font-"
+"weight:600;\">%iso</span>：ISO值 (仅适用于单反相机)。</li></ul><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">占位符 <span style=\" font-weight:600;\">"
+"%P</span> 或 <span style=\" font-weight:600;\">%pierside</span>：赤道仪当前的"
+"镜筒朝向。</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">占位符 <span style=\" font-weight:600;\">%H</span> 或 "
+"<span style=\" font-weight:600;\">%hostname</span>：运行 EKOS 的主机名。</"
+"li></ul><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">占位符<span style="
+"\" font-weight:704;\"> %s*</span> 或 <span style=\" font-weight:704;\">"
+"%sequence</span>：图像序列标识，其中 * 表示使用的位数 (1-9位)。<span style="
+"\" font-weight:704;\">该标签为必填项，且必须作为格式中的最后一个元素。</"
+"span></li></ul><p>格式字符串中也可包含任意文本，但<span style=\" font-"
+"weight:704;\">% 和 \\ 字符除外</span>。可使用 / 路径字符定义自定义目录。</"
+"p><p>注意事项：</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">所有标签的短格式和长格式均区分大小写。</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">仅在格式的文件名部分使用 "
+"%Datetime 标签，请勿在路径定义中使用。</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
 #: ekos/capture/camera.ui:1900
@@ -15991,19 +16103,19 @@ msgstr "<Filename>"
 #: ekos/capture/capturehistorynavigation.ui:65
 #, kde-format
 msgid "Previous autofocus run"
-msgstr ""
+msgstr "上次自动对焦"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyFirstB)
 #: ekos/capture/capturehistorynavigation.ui:85
 #, kde-format
 msgid "First focusing frame"
-msgstr ""
+msgstr "第一对焦帧"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyBackwardB)
 #: ekos/capture/capturehistorynavigation.ui:105
 #, kde-format
 msgid "Previous focusing frame"
-msgstr ""
+msgstr "上一对焦帧"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, iterOut)
 #: ekos/capture/capturehistorynavigation.ui:125
@@ -16015,19 +16127,19 @@ msgstr "<html><body><p>电调迭代数。</p></body></html>"
 #: ekos/capture/capturehistorynavigation.ui:135
 #, kde-format
 msgid "Next focusing frame"
-msgstr ""
+msgstr "下一对焦帧"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyLastB)
 #: ekos/capture/capturehistorynavigation.ui:155
 #, kde-format
 msgid "Last focusing frame"
-msgstr ""
+msgstr "最后对焦帧"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, historyNextRunB)
 #: ekos/capture/capturehistorynavigation.ui:175
 #, kde-format
 msgid "Next autofocus run"
-msgstr ""
+msgstr "下一自动对焦"
 
 #: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
@@ -18584,7 +18696,7 @@ msgstr "忽略自动对焦启动请求—— %1 进行中。"
 #: ekos/focus/focus.cpp:1225
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
-msgstr ""
+msgstr "自动对焦请求 [%1] 已优化剔除。"
 
 #: ekos/focus/focus.cpp:1386
 #, kde-format
@@ -19887,6 +19999,11 @@ msgid ""
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>该参数为自动对焦执行过程中调焦器向外移动的动作，提供以"
+"步长为单位的回差过扫补偿。此补偿是对设备驱动提供、且在“驱动回差”字段中设置的"
+"驱动回差的额外补充。设为 0 则禁用该功能。 </p><p>若启用该参数，自动对焦过扫补"
+"偿将应用于所有由对焦模块触发的调焦器移动动作。</p><p>通常只需设置调焦器回差或"
+"自动对焦过扫补偿其中一项即可。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: ekos/focus/opsfocusmechanics.ui:251
@@ -20894,6 +21011,13 @@ msgid ""
 "experimental feature enabled for Linear and Linear 1 Pass only.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>创建时长为该秒数的&quot;优化时段&quot;。当其他进程 (例"
+"如调度器 Scheduler、拍摄模块 Capture ) 请求触发自动对焦自动执行流程时，系统会"
+"检查该滤镜上次成功执行自动对焦的时间戳。若处于优化时段内，则不执行自动对焦；"
+"若超出优化时段，则按常规执行自动对焦。</p><p>请注意，滤镜偏移量和自适应对焦 "
+"(Adaptive Focus) 设置始终生效。</p><p>设为 0 则禁用该功能。</p><p>注意：手动"
+"触发的自动对焦执行流程始终会执行。</p><p>该功能目前为实验性特性，仅对线性模"
+"式 (Linear) 和线性单遍模式 (Linear 1 Pass) 启用。</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, maxFocusFrameFiles)
 #: ekos/focus/opsfocussettings.ui:277
@@ -20901,13 +21025,13 @@ msgstr ""
 msgid ""
 "Upper limit how many focus frames should be kept on disk. Set to -1 to allow "
 "arbitrary many files."
-msgstr ""
+msgstr "磁盘上保留的对焦帧的数量上限。设为 -1 则允许保留任意数量的文件。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocussettings.ui:290
 #, kde-format
 msgid "Max. Stored Frames:"
-msgstr ""
+msgstr "最大。储存的帧："
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:315
@@ -22325,7 +22449,7 @@ msgstr "赤纬方向反向（赤经-赤纬现在是一个标准的逆时针系�
 #: ekos/guide/internalguide/gmath.cpp:511
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
-msgstr ""
+msgstr "限定长脉冲范围：%1ms 至 %2ms"
 
 #: ekos/guide/internalguide/internalguider.cpp:532
 #, kde-format
@@ -22359,7 +22483,7 @@ msgstr "已复用导星校准"
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
-msgstr ""
+msgstr "导星丢失跟踪。尝试增大方框尺寸或缩短脉冲时长。"
 
 #: ekos/guide/internalguide/internalguider.cpp:752
 #, kde-format
@@ -22594,12 +22718,14 @@ msgid ""
 "previously been done and the guide camera has not been rotated or re-"
 "installed.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>如果选中，在开始导星时总是重新校准。如果以往进行过良好"
+"的校准，且导星相机没有旋转或重新安装，这常常是不必要的。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:385
 #, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
-msgstr ""
+msgstr "每次赤道仪转动操作后，复位导星校准"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
@@ -22610,12 +22736,15 @@ msgid ""
 "automatically determined from your mount. The \"Reset Guide on Slew\" option "
 "above must be unchecked for this to be attempted.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>存储并尝试复用校准结果。如果赤道仪能自动确认镜筒朝向，"
+"将能工作在当前子午圈的另一侧。 如需进行尝试，必须取消选中上面的“转动后复位导"
+"星”选项。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
 #, kde-format
 msgid "Store and reuse guide calibration when possible."
-msgstr ""
+msgstr "如可能，保存并复用导星校准数据。"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:405
@@ -22635,7 +22764,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
-msgstr ""
+msgstr "当改变镜筒朝向且复用校准数据时，反转赤经导星脉冲。"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -23271,6 +23400,26 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>选择赤经对应的导星脉冲算法。</p><ul style=\"margin-"
+"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">标准算法</span>：传统的比例导星算法。该算法会计算"
+"一个脉冲信号，用于修正计算得出的导星偏移量。响应强度参数决定误差的修正比例，"
+"小于最小误差的偏差不会被修正，最大响应值则限制最大修正幅度。迟滞参数对此算法"
+"无效。</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">迟滞算法</span>：迟滞算法基于标准算法改进，会根据迟滞参数纳入上"
+"一次的修正值进行加权计算。积分增益对此算法不适用。</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">线性算法</"
+"span>：该算法与 PHD2 低通 2 算法类似，会基于近期误差的短期历史数据计算误差脉"
+"冲。此算法适用于稳定性极佳的赤道仪，迟滞参数和积分增益均不适用。</li><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">GPG 算法</span>：GPG 算法可预测周期性误差和线性偏移，会使用此处"
+"的响应强度、最小值和最大值参数，以及独立GPG标签页中的更多参数。迟滞参数和积分"
+"增益对此算法不适用。</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
@@ -24145,7 +24294,7 @@ msgstr "  --"
 #, kde-format
 msgctxt "opens handbook"
 msgid "Manual"
-msgstr ""
+msgstr "手动"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
 #: ekos/manager.ui:1069
@@ -24859,7 +25008,7 @@ msgstr "已启动"
 #, kde-format
 msgctxt "Rolloff roof state"
 msgid "Open"
-msgstr ""
+msgstr "打开"
 
 #: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583
@@ -25718,13 +25867,13 @@ msgstr "选择设备"
 #: ekos/profileeditor.ui:422
 #, kde-format
 msgid "Driver Search"
-msgstr ""
+msgstr "搜索驱动程序"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, profileSearchEdit)
 #: ekos/profileeditor.ui:546
 #, kde-format
 msgid "Profile Search"
-msgstr ""
+msgstr "搜索配置文件"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteDriversLabel)
 #: ekos/profileeditor.ui:595
@@ -25786,7 +25935,7 @@ msgstr "执行停止驱动程序脚本后，延迟这么多秒再停止驱动程
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
-msgstr ""
+msgstr "驱动停止后，延迟该秒数再执行驱动停止脚本。"
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -25801,12 +25950,12 @@ msgstr "启动驱动后，选择要执行的脚本"
 #: ekos/profilescript.cpp:93
 #, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr ""
+msgstr "选择停止驱动前执行的脚本。"
 
 #: ekos/profilescript.cpp:102
 #, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr ""
+msgstr "选择停止驱动后执行的脚本。"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -25824,13 +25973,13 @@ msgstr "选择后驱动脚本"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr ""
+msgstr "选择驱动停止前执行的脚本"
 
 #: ekos/profilescript.cpp:187
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr ""
+msgstr "选择驱动停止后执行的脚本"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -25840,27 +25989,27 @@ msgstr "配置文件脚本编辑器"
 #: ekos/profilescriptdialog.cpp:31
 #, kde-format
 msgid "Driver"
-msgstr ""
+msgstr "驱动程序"
 
 #: ekos/profilescriptdialog.cpp:32
 #, kde-format
 msgid "Pre start"
-msgstr ""
+msgstr "启动前"
 
 #: ekos/profilescriptdialog.cpp:33
 #, kde-format
 msgid "Post start"
-msgstr ""
+msgstr "启动后"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
 msgid "Pre stop"
-msgstr ""
+msgstr "停止前"
 
 #: ekos/profilescriptdialog.cpp:35
 #, kde-format
 msgid "Post stop"
-msgstr ""
+msgstr "停止后"
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -26620,7 +26769,7 @@ msgstr "位置角："
 #: ekos/scheduler/framingassistant.ui:836
 #, kde-format
 msgid "Go to center and rotate to match this position angle"
-msgstr ""
+msgstr "转到中心并旋转匹配该方位角"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/scheduler/framingassistant.ui:855
@@ -27048,12 +27197,12 @@ msgstr "选择作业目录"
 #, kde-format
 msgid ""
 "Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
-msgstr ""
+msgstr "对不起，未来3天内没有任务可以运行。所有任务都已完成。"
 
 #: ekos/scheduler/greedyscheduler.cpp:98
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
-msgstr ""
+msgstr "对不起，未来3天内没有任务可以运行。任务 %1 已完成。"
 
 #: ekos/scheduler/greedyscheduler.cpp:111
 #, kde-format
