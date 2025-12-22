@@ -27,6 +27,7 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
         virtual ~OpsAstrometryIndexFiles() override = default;
 
         Q_SCRIPTABLE void downloadSingleIndexFile(const QString &indexFileName);
+        Q_SCRIPTABLE void processIndexFile(const QString &indexSeriesName, bool install, bool showWarnings = true);
 
     protected:
         void showEvent(QShowEvent *) override;

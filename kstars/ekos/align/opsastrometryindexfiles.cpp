@@ -575,7 +575,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
                     actualdownloadSpeed = (actualdownloadSpeed + (downloadedFileSize / dtime)) / 2;
                     qDebug() << Q_FUNC_INFO << "Filesize: " << downloadedFileSize << ", time: " << dtime << ", inst speed: " <<
                              downloadedFileSize / dtime <<
-                             ", averaged speed: " << actualdownloadSpeed;
+                    ", averaged speed: " << actualdownloadSpeed;
                     emit newDownloadProgress(i18n("%1 download complete.", indexSeriesName));
 
                 }
@@ -633,6 +633,11 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
     if (!isVisible() || !checkBox)
         return;
 
+    processIndexFile(checkBox->text().remove('&'), checked);
+}
+
+void OpsAstrometryIndexFiles::processIndexFile(const QString &indexSeriesName, bool install, bool showWarnings)
+{
     if (indexLocations->count() == 0)
         return;
 
@@ -655,98 +660,105 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
         return;
     }
 
-    if (checkBox)
+    QString filePath        = astrometryDataDir + '/' + indexSeriesName;
+    QString fileNumString   = indexSeriesName.mid(8, 2);
+
+    // Find the checkbox for this index series to update its state if needed
+    QString uiIndexName = indexSeriesName;
+    uiIndexName.replace('-', '_');
+    uiIndexName = uiIndexName.left(10);
+    QCheckBox *checkBox = findChild<QCheckBox *>(uiIndexName);
+
+    if (install)
     {
-        QString indexSeriesName = checkBox->text().remove('&');
-        QString filePath        = astrometryDataDir + '/' + indexSeriesName;
-        QString fileNumString   = indexSeriesName.mid(8, 2);
-
-        if (checked)
+        if (showWarnings && checkBox
+                && !checkBox->styleSheet().isEmpty()) //This means that the checkbox has a stylesheet so the index file was installed someplace.
         {
-            if(!checkBox->styleSheet().isEmpty()) //This means that the checkbox has a stylesheet so the index file was installed someplace.
+            if (KMessageBox::Cancel == KMessageBox::warningContinueCancel(
+                        nullptr, i18n("The file %1 already exists in another directory.  Are you sure you want to download it to this directory as well?",
+                                      indexSeriesName),
+                        i18n("Install File(s)"), KStandardGuiItem::cont(),
+                        KStandardGuiItem::cancel(), "install_index_files_warning"))
             {
-                if (KMessageBox::Cancel == KMessageBox::warningContinueCancel(
-                            nullptr, i18n("The file %1 already exists in another directory.  Are you sure you want to download it to this directory as well?",
-                                          indexSeriesName),
-                            i18n("Install File(s)"), KStandardGuiItem::cont(),
-                            KStandardGuiItem::cancel(), "install_index_files_warning"))
-                {
-                    checkBox->blockSignals(true);
-                    checkBox->setChecked(false);
-                    checkBox->blockSignals(false);
-                    slotUpdate();
-                    return;
-                }
+                if (checkBox)
+                    setCheckBoxStateProgrammatically(checkBox, false);
+                slotUpdate();
+                return;
             }
-            if (astrometryIndicesAreAvailable())
+        }
+        if (astrometryIndicesAreAvailable())
+        {
+            QString BASE_URL;
+            QString URL;
+
+            if (this->indexURL->text().endsWith("/"))
             {
-                QString BASE_URL;
-                QString URL;
-
-                if (this->indexURL->text().endsWith("/"))
-                {
-                    BASE_URL = this->indexURL->text();
-                }
-                else
-                {
-                    BASE_URL = this->indexURL->text() + "/";
-                }
-
-                if (indexSeriesName.startsWith(QLatin1String("index-41")))
-                    URL = BASE_URL + "4100/" + indexSeriesName;
-                else if (indexSeriesName.startsWith(QLatin1String("index-42")))
-                    URL = BASE_URL + "4200/" + indexSeriesName;
-                else if (indexSeriesName.startsWith(QLatin1String("index-52")))
-                    URL = "https://portal.nersc.gov/project/cosmo/temp/dstn/index-5200/LITE/" + indexSeriesName;
-
-                int maxIndex = indexFileCount(indexSeriesName) - 1;
-
-                double fileSize = 1E11 * qPow(astrometryIndex.key(fileNumString),
-                                              -1.909); //This estimates the file size based on skymark size obtained from the index number.
-                if(maxIndex != 0)
-                    fileSize /= maxIndex; //FileSize is divided between multiple files for some index series.
-                downloadIndexFile(URL, filePath, indexSeriesName, 0, maxIndex, fileSize);
+                BASE_URL = this->indexURL->text();
             }
             else
             {
-                checkBox->blockSignals(true);
-                checkBox->setChecked(false);
-                checkBox->blockSignals(false);
-                KSNotification::sorry(i18n("Could not contact Astrometry Index Server."), i18n("Error"), 10);
+                BASE_URL = this->indexURL->text() + "/";
+            }
+
+            if (indexSeriesName.startsWith(QLatin1String("index-41")))
+                URL = BASE_URL + "4100/" + indexSeriesName;
+            else if (indexSeriesName.startsWith(QLatin1String("index-42")))
+                URL = BASE_URL + "4200/" + indexSeriesName;
+            else if (indexSeriesName.startsWith(QLatin1String("index-52")))
+                URL = "https://portal.nersc.gov/project/cosmo/temp/dstn/index-5200/LITE/" + indexSeriesName;
+
+            int maxIndex = indexFileCount(indexSeriesName) - 1;
+
+            double fileSize = 1E11 * qPow(astrometryIndex.key(fileNumString),
+                                          -1.909); //This estimates the file size based on skymark size obtained from the index number.
+            if(maxIndex != 0)
+                fileSize /= maxIndex; //FileSize is divided between multiple files for some index series.
+            downloadIndexFile(URL, filePath, indexSeriesName, 0, maxIndex, fileSize);
+        }
+        else
+        {
+            if (checkBox)
+                setCheckBoxStateProgrammatically(checkBox, false);
+            KSNotification::sorry(i18n("Could not contact Astrometry Index Server."), i18n("Error"), 10);
+        }
+    }
+    else
+    {
+        if (!showWarnings || KMessageBox::Continue == KMessageBox::warningContinueCancel(
+                    nullptr, i18n("Are you sure you want to delete these index files? %1", indexSeriesName),
+                    i18n("Delete File(s)"), KStandardGuiItem::cont(),
+                    KStandardGuiItem::cancel(), "delete_index_files_warning"))
+        {
+            if (QFileInfo(astrometryDataDir).isWritable())
+            {
+                QStringList nameFilter("*.fits");
+                QDir directory(astrometryDataDir);
+                QStringList indexList = directory.entryList(nameFilter);
+                for (auto &fileName : indexList)
+                {
+                    if (fileName.contains(indexSeriesName.left(10)))
+                    {
+                        if (!directory.remove(fileName))
+                        {
+                            KSNotification::error(i18n("File Delete Error"), i18n("Error"), 10);
+                            slotUpdate();
+                            return;
+                        }
+                    }
+                }
+                slotUpdate();
+            }
+            else
+            {
+                KSNotification::error(i18n("Astrometry Folder Permissions Error"), i18n("Error"), 10);
+                slotUpdate();
             }
         }
         else
         {
-            if (KMessageBox::Continue == KMessageBox::warningContinueCancel(
-                        nullptr, i18n("Are you sure you want to delete these index files? %1", indexSeriesName),
-                        i18n("Delete File(s)"), KStandardGuiItem::cont(),
-                        KStandardGuiItem::cancel(), "delete_index_files_warning"))
-            {
-                if (QFileInfo(astrometryDataDir).isWritable())
-                {
-                    QStringList nameFilter("*.fits");
-                    QDir directory(astrometryDataDir);
-                    QStringList indexList = directory.entryList(nameFilter);
-                    for (auto &fileName : indexList)
-                    {
-                        if (fileName.contains(indexSeriesName.left(10)))
-                        {
-                            if (!directory.remove(fileName))
-                            {
-                                KSNotification::error(i18n("File Delete Error"), i18n("Error"), 10);
-                                slotUpdate();
-                                return;
-                            }
-                            slotUpdate();
-                        }
-                    }
-                }
-                else
-                {
-                    KSNotification::error(i18n("Astrometry Folder Permissions Error"), i18n("Error"), 10);
-                    slotUpdate();
-                }
-            }
+            // If user cancelled deletion, restore checkbox state if we have one
+            if (checkBox)
+                setCheckBoxStateProgrammatically(checkBox, true);
         }
     }
 }
