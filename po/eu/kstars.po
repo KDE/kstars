@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-18 02:00+0000\n"
+"POT-Creation-Date: 2025-12-23 02:04+0000\n"
 "PO-Revision-Date: 2025-07-29 14:41+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -591,10 +591,10 @@ msgstr "Utzi"
 #: ekos/align/opsastrometryindexfiles.cpp:551
 #: ekos/align/opsastrometryindexfiles.cpp:565
 #: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:647
-#: ekos/align/opsastrometryindexfiles.cpp:715
-#: ekos/align/opsastrometryindexfiles.cpp:736
-#: ekos/align/opsastrometryindexfiles.cpp:746 ekos/capture/sequencejob.cpp:25
+#: ekos/align/opsastrometryindexfiles.cpp:652
+#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:743
+#: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:25
 #: ekos/manager.cpp:1279 ekos/manager.cpp:1294 ekos/manager.cpp:1310
 #: ekos/scheduler/scheduler.cpp:1816
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:672
@@ -611,7 +611,7 @@ msgid "Error"
 msgstr "Errorea"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
-#: ekos/align/opsastrometryindexfiles.cpp:654
+#: ekos/align/opsastrometryindexfiles.cpp:659
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
@@ -8513,13 +8513,13 @@ msgid "No index file directories configured."
 msgstr "Ez da indize-fitxategien direktoriorik konfiguratu."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:647
+#: ekos/align/opsastrometryindexfiles.cpp:652
 #, kde-format
 msgid "No writable index file directory found."
 msgstr "Ez da aurkitu indize-fitxategien direktorio idazgarririk."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:715
+#: ekos/align/opsastrometryindexfiles.cpp:722
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "Ezin izan da Astrometria indize zerbitzariarekin harremanean jarri."
@@ -8590,13 +8590,13 @@ msgid "%1 download complete."
 msgstr "%1 zama-jaitsiera osatu da."
 
 #: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:746
+#: ekos/align/opsastrometryindexfiles.cpp:753
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Astrometry Folder Permissions Error"
 msgstr "Erabili zehaztutako konfigurazioaren fitxategia"
 
-#: ekos/align/opsastrometryindexfiles.cpp:654
+#: ekos/align/opsastrometryindexfiles.cpp:659
 #, fuzzy, kde-format
 #| msgid ""
 #| "The Default Astrometry Index File Directory does not exist and was not "
@@ -8608,29 +8608,29 @@ msgstr ""
 "Astrometriaren aurkibide fitxategiaren direktorio lehenetsia ez dago eta "
 "ezin izan da sortu."
 
-#: ekos/align/opsastrometryindexfiles.cpp:669
+#: ekos/align/opsastrometryindexfiles.cpp:678
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
 "download it to this directory as well?"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:671
+#: ekos/align/opsastrometryindexfiles.cpp:680
 #, kde-format
 msgid "Install File(s)"
 msgstr "Instalatu fitxategia(k)"
 
-#: ekos/align/opsastrometryindexfiles.cpp:721
+#: ekos/align/opsastrometryindexfiles.cpp:728
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Ziur zaude indize-fitxategi hauek ezabatu nahi dituzula? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:729
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Ezabatu fitxategia(k)"
 
-#: ekos/align/opsastrometryindexfiles.cpp:736
+#: ekos/align/opsastrometryindexfiles.cpp:743
 #, kde-format
 msgid "File Delete Error"
 msgstr "Fitxategia ezabatzeko errorea"

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-18 02:00+0000\n"
-"PO-Revision-Date: 2025-12-19 13:37+0300\n"
+"POT-Creation-Date: 2025-12-23 02:04+0000\n"
+"PO-Revision-Date: 2025-12-22 18:08+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.11.80\n"
+"X-Generator: Lokalize 25.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -590,10 +590,10 @@ msgstr "İptal"
 #: ekos/align/opsastrometryindexfiles.cpp:551
 #: ekos/align/opsastrometryindexfiles.cpp:565
 #: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:647
-#: ekos/align/opsastrometryindexfiles.cpp:715
-#: ekos/align/opsastrometryindexfiles.cpp:736
-#: ekos/align/opsastrometryindexfiles.cpp:746 ekos/capture/sequencejob.cpp:25
+#: ekos/align/opsastrometryindexfiles.cpp:652
+#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:743
+#: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:25
 #: ekos/manager.cpp:1279 ekos/manager.cpp:1294 ekos/manager.cpp:1310
 #: ekos/scheduler/scheduler.cpp:1816
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:672
@@ -610,7 +610,7 @@ msgid "Error"
 msgstr "Hata"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
-#: ekos/align/opsastrometryindexfiles.cpp:654
+#: ekos/align/opsastrometryindexfiles.cpp:659
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
@@ -8681,13 +8681,13 @@ msgid "No index file directories configured."
 msgstr "Yapılandırılmış indeks dosyası dizini yok."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:647
+#: ekos/align/opsastrometryindexfiles.cpp:652
 #, kde-format
 msgid "No writable index file directory found."
 msgstr "Bulunan yazılabilir indeks dosyası dizini yok."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:715
+#: ekos/align/opsastrometryindexfiles.cpp:722
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "Astrometri indeksi sunucusuyla bağlantı kurulamadı."
@@ -8758,12 +8758,12 @@ msgid "%1 download complete."
 msgstr "%1 indirmesi tamamlandı."
 
 #: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:746
+#: ekos/align/opsastrometryindexfiles.cpp:753
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "Astrometri klasörü izinleri hatası"
 
-#: ekos/align/opsastrometryindexfiles.cpp:654
+#: ekos/align/opsastrometryindexfiles.cpp:659
 #, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
@@ -8772,7 +8772,7 @@ msgstr ""
 "Seçili indeks dosyası dizini yok. Lütfen ya oluşturun ya da başka bir tane "
 "seçin."
 
-#: ekos/align/opsastrometryindexfiles.cpp:669
+#: ekos/align/opsastrometryindexfiles.cpp:678
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8781,22 +8781,22 @@ msgstr ""
 "%1 dosyası halihazırda başka bir dizinde var. Bu dizine de indirmek "
 "istediğinizden emin misiniz?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:671
+#: ekos/align/opsastrometryindexfiles.cpp:680
 #, kde-format
 msgid "Install File(s)"
 msgstr "Dosyaları Kur"
 
-#: ekos/align/opsastrometryindexfiles.cpp:721
+#: ekos/align/opsastrometryindexfiles.cpp:728
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Bu indeks dosyalarını silmek istediğinizden emin misiniz? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:729
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Dosyaları Sil"
 
-#: ekos/align/opsastrometryindexfiles.cpp:736
+#: ekos/align/opsastrometryindexfiles.cpp:743
 #, kde-format
 msgid "File Delete Error"
 msgstr "Dosya Silme Hatası"
@@ -36055,13 +36055,13 @@ msgid ""
 msgstr ""
 "<html><head/><body>\n"
 "<p><b>Uzak</b> SER videosu dizini adını ayarlayın. INDI sunucusu yerel "
-"olarak çalışıyors bir yerel dizin seçilebilir. Ancak uzak bir INDI "
+"olarak çalışıyorsa bir yerel dizin seçilebilir. Ancak uzak bir INDI "
 "sunucusuna bağlandıysanız dizin, kaydedildiği dosya sistemindeki geçerli bir "
 "dizin olmalıdır.</p>\n"
 "<p>Kayıt dizinleri, onları devingen yapmak üzere bazı dizgiler içerebilir:</"
 "p>\n"
 "<ul>\n"
-"<li><b>_D_</b> YYYY-AA-GG olarak tarih</li>\n"
+"<li><b>_D_</b> YYYY‒AA‒GG olarak tarih</li>\n"
 "<li><b>_H_</b> SS:DD:SS olarak zaman</li>\n"
 "<li><b>_T_</b> ISO8601 olarak zaman damgası</li>\n"
 "<li><b>_F_</b> varsa süzgeç adı</li>\n"
@@ -36094,7 +36094,7 @@ msgstr ""
 "<p>SER videosu dosya adını ayarlayın. Kayıt dizinleri, onları devingen "
 "yapmak üzere bazı dizgiler içerebilir:</p>\n"
 "<ul>\n"
-"<li><b>_D_</b> YYYY-AA-GG olarak tarih</li>\n"
+"<li><b>_D_</b> YYYY‒AA‒GG olarak tarih</li>\n"
 "<li><b>_H_</b> SS:DD:SS olarak zaman</li>\n"
 "<li><b>_T_</b> ISO8601 olarak zaman damgası</li>\n"
 "<li><b>_F_</b> varsa süzgeç adı</li>\n"

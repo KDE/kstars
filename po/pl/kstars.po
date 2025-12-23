@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1725147 $
+# Version: $Revision: 1725638 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-18 02:00+0000\n"
+"POT-Creation-Date: 2025-12-23 02:04+0000\n"
 "PO-Revision-Date: 2025-10-25 08:41+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -602,10 +602,10 @@ msgstr "Anuluj"
 #: ekos/align/opsastrometryindexfiles.cpp:551
 #: ekos/align/opsastrometryindexfiles.cpp:565
 #: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:647
-#: ekos/align/opsastrometryindexfiles.cpp:715
-#: ekos/align/opsastrometryindexfiles.cpp:736
-#: ekos/align/opsastrometryindexfiles.cpp:746 ekos/capture/sequencejob.cpp:25
+#: ekos/align/opsastrometryindexfiles.cpp:652
+#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:743
+#: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:25
 #: ekos/manager.cpp:1279 ekos/manager.cpp:1294 ekos/manager.cpp:1310
 #: ekos/scheduler/scheduler.cpp:1816
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:672
@@ -622,7 +622,7 @@ msgid "Error"
 msgstr "Błąd"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
-#: ekos/align/opsastrometryindexfiles.cpp:654
+#: ekos/align/opsastrometryindexfiles.cpp:659
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
@@ -8751,13 +8751,13 @@ msgid "No index file directories configured."
 msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:647
+#: ekos/align/opsastrometryindexfiles.cpp:652
 #, kde-format
 msgid "No writable index file directory found."
 msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:715
+#: ekos/align/opsastrometryindexfiles.cpp:722
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "Nie można skontaktować się z serwerem indeksu Astrometry."
@@ -8831,12 +8831,12 @@ msgid "%1 download complete."
 msgstr "Ukończono %1 zadanie."
 
 #: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:746
+#: ekos/align/opsastrometryindexfiles.cpp:753
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "Błąd uprawnień do katalogu Astrometry"
 
-#: ekos/align/opsastrometryindexfiles.cpp:654
+#: ekos/align/opsastrometryindexfiles.cpp:659
 #, fuzzy, kde-format
 #| msgid ""
 #| "The selected Index File directory does not exist.  Please either create "
@@ -8848,7 +8848,7 @@ msgstr ""
 "Wybrany katalog pliku indeksu nie istnieje. Należy go utworzyć lub wskazać "
 "inny."
 
-#: ekos/align/opsastrometryindexfiles.cpp:669
+#: ekos/align/opsastrometryindexfiles.cpp:678
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8857,22 +8857,22 @@ msgstr ""
 "Plik %1 już istnieje w innym katalogu. Czy na pewno chcesz go pobrać do tego "
 "katalogu?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:671
+#: ekos/align/opsastrometryindexfiles.cpp:680
 #, kde-format
 msgid "Install File(s)"
 msgstr "Wgraj plik(i)"
 
-#: ekos/align/opsastrometryindexfiles.cpp:721
+#: ekos/align/opsastrometryindexfiles.cpp:728
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Czy na pewno chcesz usunąć te pliki indeksu? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:729
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Usuń plik(i)"
 
-#: ekos/align/opsastrometryindexfiles.cpp:736
+#: ekos/align/opsastrometryindexfiles.cpp:743
 #, kde-format
 msgid "File Delete Error"
 msgstr "Błąd usuwania pliku"

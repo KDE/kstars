@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-18 02:00+0000\n"
+"POT-Creation-Date: 2025-12-23 02:04+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -579,10 +579,10 @@ msgstr "取消"
 #: ekos/align/opsastrometryindexfiles.cpp:551
 #: ekos/align/opsastrometryindexfiles.cpp:565
 #: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:647
-#: ekos/align/opsastrometryindexfiles.cpp:715
-#: ekos/align/opsastrometryindexfiles.cpp:736
-#: ekos/align/opsastrometryindexfiles.cpp:746 ekos/capture/sequencejob.cpp:25
+#: ekos/align/opsastrometryindexfiles.cpp:652
+#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:743
+#: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:25
 #: ekos/manager.cpp:1279 ekos/manager.cpp:1294 ekos/manager.cpp:1310
 #: ekos/scheduler/scheduler.cpp:1816
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:672
@@ -599,7 +599,7 @@ msgid "Error"
 msgstr "错误"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
-#: ekos/align/opsastrometryindexfiles.cpp:654
+#: ekos/align/opsastrometryindexfiles.cpp:659
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
@@ -8445,13 +8445,13 @@ msgid "No index file directories configured."
 msgstr "未配置索引文件目录。"
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:647
+#: ekos/align/opsastrometryindexfiles.cpp:652
 #, kde-format
 msgid "No writable index file directory found."
 msgstr "未找到可写索引文件目录。"
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:715
+#: ekos/align/opsastrometryindexfiles.cpp:722
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "无法联系 Astrometry 索引服务器。"
@@ -8518,41 +8518,41 @@ msgid "%1 download complete."
 msgstr "%1 下载完成。"
 
 #: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:746
+#: ekos/align/opsastrometryindexfiles.cpp:753
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "Astrometry 文件夹权限错误"
 
-#: ekos/align/opsastrometryindexfiles.cpp:654
+#: ekos/align/opsastrometryindexfiles.cpp:659
 #, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
 msgstr "所选索引文件目录不存在。请创建或选择其他目录。"
 
-#: ekos/align/opsastrometryindexfiles.cpp:669
+#: ekos/align/opsastrometryindexfiles.cpp:678
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
 "download it to this directory as well?"
 msgstr "文件 %1 已存在于另一个目录。您确定还要再下载它到这个目录吗？"
 
-#: ekos/align/opsastrometryindexfiles.cpp:671
+#: ekos/align/opsastrometryindexfiles.cpp:680
 #, kde-format
 msgid "Install File(s)"
 msgstr "安装文件"
 
-#: ekos/align/opsastrometryindexfiles.cpp:721
+#: ekos/align/opsastrometryindexfiles.cpp:728
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "您确定要删除这些索引文件吗？%1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:729
 #, kde-format
 msgid "Delete File(s)"
 msgstr "删除文件"
 
-#: ekos/align/opsastrometryindexfiles.cpp:736
+#: ekos/align/opsastrometryindexfiles.cpp:743
 #, kde-format
 msgid "File Delete Error"
 msgstr "文件删除错误"

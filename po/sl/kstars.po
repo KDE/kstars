@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-18 02:00+0000\n"
+"POT-Creation-Date: 2025-12-23 02:04+0000\n"
 "PO-Revision-Date: 2025-12-05 06:43+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -618,10 +618,10 @@ msgstr "Prekliči"
 #: ekos/align/opsastrometryindexfiles.cpp:551
 #: ekos/align/opsastrometryindexfiles.cpp:565
 #: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:647
-#: ekos/align/opsastrometryindexfiles.cpp:715
-#: ekos/align/opsastrometryindexfiles.cpp:736
-#: ekos/align/opsastrometryindexfiles.cpp:746 ekos/capture/sequencejob.cpp:25
+#: ekos/align/opsastrometryindexfiles.cpp:652
+#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:743
+#: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:25
 #: ekos/manager.cpp:1279 ekos/manager.cpp:1294 ekos/manager.cpp:1310
 #: ekos/scheduler/scheduler.cpp:1816
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:672
@@ -638,7 +638,7 @@ msgid "Error"
 msgstr "Napaka"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
-#: ekos/align/opsastrometryindexfiles.cpp:654
+#: ekos/align/opsastrometryindexfiles.cpp:659
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
@@ -8703,13 +8703,13 @@ msgid "No index file directories configured."
 msgstr "Imeniki datotek kazal niso konfigurirani."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
-#: ekos/align/opsastrometryindexfiles.cpp:647
+#: ekos/align/opsastrometryindexfiles.cpp:652
 #, kde-format
 msgid "No writable index file directory found."
 msgstr "Ni bil najden noben zapisljivi imenik datotek kazal."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
-#: ekos/align/opsastrometryindexfiles.cpp:715
+#: ekos/align/opsastrometryindexfiles.cpp:722
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "Ni mogoče vzpostaviti povezave s strežnikom kazal Astrometry."
@@ -8778,12 +8778,12 @@ msgid "%1 download complete."
 msgstr "Prenos sem %1 je končan."
 
 #: ekos/align/opsastrometryindexfiles.cpp:585
-#: ekos/align/opsastrometryindexfiles.cpp:746
+#: ekos/align/opsastrometryindexfiles.cpp:753
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "Napaka dovoljenja v mapi Astrometry"
 
-#: ekos/align/opsastrometryindexfiles.cpp:654
+#: ekos/align/opsastrometryindexfiles.cpp:659
 #, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
@@ -8792,7 +8792,7 @@ msgstr ""
 "Izbrani imenik datotek s kazalom ne obstaja. Ustvarite ga ali izberite "
 "drugega."
 
-#: ekos/align/opsastrometryindexfiles.cpp:669
+#: ekos/align/opsastrometryindexfiles.cpp:678
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8801,22 +8801,22 @@ msgstr ""
 "Datoteka %1 že obstaja v drugem imeniku.  Ali ste prepričani, da jo želite "
 "prenesti tudi v ta imenik?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:671
+#: ekos/align/opsastrometryindexfiles.cpp:680
 #, kde-format
 msgid "Install File(s)"
 msgstr "Namesti datoteko/e"
 
-#: ekos/align/opsastrometryindexfiles.cpp:721
+#: ekos/align/opsastrometryindexfiles.cpp:728
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Ali ste prepričani, da želite izbrisati te datoteke s kazali? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:722
+#: ekos/align/opsastrometryindexfiles.cpp:729
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Izbriši datoteke"
 
-#: ekos/align/opsastrometryindexfiles.cpp:736
+#: ekos/align/opsastrometryindexfiles.cpp:743
 #, kde-format
 msgid "File Delete Error"
 msgstr "Napaka pri brisanju datoteke"
