@@ -1,3 +1,4 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Crowdin-Project: kdeorg\n"
-"X-Crowdin-Project-ID: 269464\n"
-"X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-File: /kf5-trunk/messages/kstars/kstars.pot\n"
 "X-Crowdin-File-ID: 6539\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-Project: kdeorg\n"
+"X-Crowdin-Project-ID: 269464\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -27206,27 +27207,27 @@ msgstr "对不起，未来3天内没有任务可以运行。任务 %1 已完成�
 #: ekos/scheduler/greedyscheduler.cpp:111
 #, kde-format
 msgid "(%1) Job %2: has completed."
-msgstr ""
+msgstr "(%1) 作业 %2：已完成。"
 
 #: ekos/scheduler/greedyscheduler.cpp:115
 #, kde-format
 msgid "(%1) Job %2: cannot run because: %3"
-msgstr ""
+msgstr "(%1) 作业 %2：不能运行，因为：%3"
 
 #: ekos/scheduler/greedyscheduler.cpp:119
 #, kde-format
 msgid "******************** Now ********************"
-msgstr ""
+msgstr "******************** 现在 ********************"
 
 #: ekos/scheduler/greedyscheduler.cpp:121
 #, kde-format
 msgid "*****************In %1 Hours******************"
-msgstr ""
+msgstr "***************** 在 %1 小时内 ******************"
 
 #: ekos/scheduler/greedyscheduler.cpp:123
 #, kde-format
 msgid "Sorry, no jobs are runnable for the next 3 days."
-msgstr ""
+msgstr "对不起，未来3天内没有可以运行的作业。"
 
 #: ekos/scheduler/greedyscheduler.cpp:217
 #, kde-format
@@ -27481,6 +27482,10 @@ msgid ""
 "or grace period expiration, after which the current job is terminated.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:700;\">启用基于天气的调度："
+"</span> 天气预警和天气警报期间阻止新任务启动。现有任务在预警期间会继续执行，"
+"但在警报期间会被中止。系统会触发软关闭流程，等待天气条件改善或宽限期结束，宽"
+"限期结束后当前任务将被终止。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsweathersettings.ui:46
@@ -27495,18 +27500,20 @@ msgid ""
 "<html><head/><body><p>Wait this many seconds when detecting weather alert "
 "before starting observatory shutdown.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>检测到天气警报后，等待该秒数再启动观测站停机流程。</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/opsweathersettings.ui:96
 #, kde-format
 msgid "Weather Alert  Shutdown Delay:"
-msgstr ""
+msgstr "天气警报停机延迟："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/scheduler/opsweathersettings.ui:137
 #, kde-format
 msgid "Standalone Safety Monitor Driver:"
-msgstr ""
+msgstr "独立安全监控驱动："
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #. i18n: ectx: label, entry (SchedulerSafetyMonitorConnectionString), group (Scheduler)
@@ -27517,12 +27524,14 @@ msgid ""
 "this to continuously monitor safety conditions and evaluate whether it is "
 "safe to operate the observatory."
 msgstr ""
+"INDI 安全监控驱动的连接字符串。调度器将通过该字符串持续监控安全状态，并评估观"
+"测站是否具备安全运行条件。"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #: ekos/scheduler/opsweathersettings.ui:147
 #, kde-format
 msgid "localhost:7624"
-msgstr ""
+msgstr "localhost:7624"
 
 #: ekos/scheduler/scheduler.cpp:132
 #, kde-format
@@ -27536,6 +27545,9 @@ msgid ""
 "Click to select a job in the list.\n"
 "Double click to edit a job with the left-hand fields.\n"
 msgstr ""
+"作业调度器列表。\n"
+"请单击选中列表中作业。\n"
+"双击以编辑左手边的作业。\n"
 
 #: ekos/scheduler/scheduler.cpp:167
 #, kde-format
@@ -27631,6 +27643,10 @@ msgid ""
 "Note the algorithm first calculates all altitudes using the same time, then "
 "evaluates jobs."
 msgstr ""
+"重置状态，并基于首个任务的开始时间，按高度角和天区移动轨迹对观测任务进行排"
+"序。\n"
+"此操作会将落没目标优先于升起目标排序，有助于观测启动阶段的任务调度。\n"
+"请注意，该算法会先基于同一时间点计算所有目标的高度角，再对任务进行评估。"
 
 #: ekos/scheduler/scheduler.cpp:511 ekos/scheduler/scheduler.cpp:2413
 #: ekos/scheduler/schedulerprocess.cpp:3275
@@ -27675,31 +27691,31 @@ msgstr "警告：赤纬值 %1 无效。"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre-Startup Queue"
-msgstr ""
+msgstr "选择启动前队列"
 
 #: ekos/scheduler/scheduler.cpp:939 ekos/scheduler/scheduler.cpp:955
 #: ekos/scheduler/scheduler.cpp:971 ekos/scheduler/scheduler.cpp:987
 #, kde-format
 msgid "Queue Files (*.kstarsqueue *.json)"
-msgstr ""
+msgstr "队列文件 (*.kstarsqueue *.json)"
 
 #: ekos/scheduler/scheduler.cpp:953
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post-Startup Queue"
-msgstr ""
+msgstr "选择启动后队列"
 
 #: ekos/scheduler/scheduler.cpp:969
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre-Shutdown Queue"
-msgstr ""
+msgstr "选择关闭前队列"
 
 #: ekos/scheduler/scheduler.cpp:985
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post-Shutdown Queue"
-msgstr ""
+msgstr "选择关闭后队列"
 
 #: ekos/scheduler/scheduler.cpp:1076
 #, kde-format
@@ -27860,27 +27876,27 @@ msgstr "导星完毕"
 #: ekos/scheduler/scheduler.cpp:2502
 #, kde-format
 msgid "Safety conditions are OK."
-msgstr ""
+msgstr "安全条件具备。"
 
 #: ekos/scheduler/scheduler.cpp:2506
 #, kde-format
 msgid "Warning: safety conditions are in the WARNING zone."
-msgstr ""
+msgstr "警告：安全条件在警告区。"
 
 #: ekos/scheduler/scheduler.cpp:2510
 #, kde-format
 msgid "Caution: safety conditions are in the DANGER zone!"
-msgstr ""
+msgstr "注意：安全条件处于危险区！"
 
 #: ekos/scheduler/scheduler.cpp:2528
 #, kde-format
 msgid "Safety conditions in warning zone"
-msgstr ""
+msgstr "安全条件在警告区"
 
 #: ekos/scheduler/scheduler.cpp:2537
 #, kde-format
 msgid "Safety conditions are critical. Observatory shutdown is imminent"
-msgstr ""
+msgstr "安全条件恶劣。天文台立即停机"
 
 #: ekos/scheduler/scheduler.cpp:2559
 #, kde-format
@@ -28014,7 +28030,7 @@ msgstr "Ekos 设备配置文件"
 #: ekos/scheduler/scheduler.ui:652
 #, kde-format
 msgid "Fill coordinates with current mount position."
-msgstr ""
+msgstr "以当前赤道仪位置填充坐标。"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, trainLabel)
 #: ekos/scheduler/scheduler.ui:667
@@ -28219,7 +28235,7 @@ msgstr "天体的高度必须保持等于或高于给定值。"
 #: ekos/scheduler/scheduler.ui:1693
 #, kde-format
 msgid "Min. Altitude: "
-msgstr ""
+msgstr "最小高度："
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerAltitudeValue)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
@@ -28254,12 +28270,13 @@ msgid ""
 "<html><head/><body><p>The target must be at least this far from the moon.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>目标与月球的距离需至少达到该值。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonSeparation)
 #: ekos/scheduler/scheduler.ui:1756
 #, kde-format
 msgid "Moon  min. sep.:"
-msgstr ""
+msgstr "月球最小角距："
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonAltitude)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonAltitudeMaxValue)
@@ -28268,13 +28285,13 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>The moon must be lower than this altitude.</p></body></"
 "html>"
-msgstr ""
+msgstr "<html><head/><body><p>月球高度角需低于该值。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonAltitude)
 #: ekos/scheduler/scheduler.ui:1807
 #, kde-format
 msgid "Moon max alt:"
-msgstr ""
+msgstr "月球最大高度角："
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerTwilight)
 #: ekos/scheduler/scheduler.ui:1839
@@ -28453,25 +28470,25 @@ msgstr "启用启动队列"
 #: ekos/scheduler/scheduler.ui:2066
 #, kde-format
 msgid "Selected pre-startup queue to run before starting Ekos profile"
-msgstr ""
+msgstr "启动 Ekos 配置前，选中的要运行的启动前队列。"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPreStartupQueueB)
 #: ekos/scheduler/scheduler.ui:2095
 #, kde-format
 msgid "Browse for pre-startup queue/collection file"
-msgstr ""
+msgstr "浏览启动前队列 / 集合文件"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostStartupScript)
 #: ekos/scheduler/scheduler.ui:2121
 #, kde-format
 msgid "Selected post-startup queue to run after starting Ekos profile"
-msgstr ""
+msgstr "启动 Ekos 配置后，选中的要运行的启动后队列。"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPostStartupQueueB)
 #: ekos/scheduler/scheduler.ui:2150
 #, kde-format
 msgid "Browse for post-startup queue/collection file"
-msgstr ""
+msgstr "浏览启动后队列 / 集合文件"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:2174
@@ -28503,19 +28520,19 @@ msgstr "停止 Ekos 配置前，选中的要运行的预关机队列。"
 #: ekos/scheduler/scheduler.ui:2248
 #, kde-format
 msgid "Browse for pre-shutdown queue/collection file"
-msgstr ""
+msgstr "浏览关闭前队列 / 集合文件"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, schedulerPostShutdownScript)
 #: ekos/scheduler/scheduler.ui:2274
 #, kde-format
 msgid "Selected post-shutdown queue to run after stopping Ekos profile"
-msgstr ""
+msgstr "停止 Ekos 配置后，选中的要运行的关闭后队列。"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPostShutdownQueueB)
 #: ekos/scheduler/scheduler.ui:2303
 #, kde-format
 msgid "Browse for post-shutdown queue/collection file"
-msgstr ""
+msgstr "浏览关闭后队列 / 集合文件"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
@@ -28627,14 +28644,14 @@ msgstr[0] "Job'%1在#%2 批完成时间前完成了 ，已重启。"
 #: ekos/scheduler/schedulerprocess.cpp:540
 #, kde-format
 msgid "Weather has improved during grace period. Resuming operations."
-msgstr ""
+msgstr "天气在宽限期内有所改善。恢复操作。"
 
 #: ekos/scheduler/schedulerprocess.cpp:546
 #, kde-format
 msgid ""
 "Weather grace period has expired with safety status still %1. Proceeding to "
 "complete shutdown."
-msgstr ""
+msgstr "天气宽限期已结束，安全状态仍为 %1。开始执行完整停机流程。"
 
 #: ekos/scheduler/schedulerprocess.cpp:547
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1018
@@ -28650,13 +28667,13 @@ msgstr "调度器被唤醒。"
 #: ekos/scheduler/schedulerprocess.cpp:585
 #, kde-format
 msgid "Executing post-startup tasks from %1 after safety recovery..."
-msgstr ""
+msgstr "安全恢复后，正从 %1 执行启动后任务…"
 
 #: ekos/scheduler/schedulerprocess.cpp:594
 #, kde-format
 msgid ""
 "Warning: Failed to load post-startup queue from %1 after safety recovery"
-msgstr ""
+msgstr "警告：安全恢复后加载 %1 启动后任务队列失败"
 
 #: ekos/scheduler/schedulerprocess.cpp:603
 #, kde-format
@@ -28676,7 +28693,7 @@ msgstr "任务“%1”尚未在调度器停止前处理，标记为已中止。"
 #: ekos/scheduler/schedulerprocess.cpp:765
 #, kde-format
 msgid "Job '%1' cannot start, weather grace period is active."
-msgstr ""
+msgstr "任务 ‘%1’ 无法启动，天气宽限期已生效。"
 
 #: ekos/scheduler/schedulerprocess.cpp:784
 #, kde-format
@@ -28695,7 +28712,7 @@ msgstr "作业“%1”计划于 %2 执行。暂停支架直至作业准备就绪
 #: ekos/scheduler/schedulerprocess.cpp:817
 #, kde-format
 msgid "Warning: Failed to add mount park task."
-msgstr ""
+msgstr "警告：添加赤道仪泊位任务失败。"
 
 #: ekos/scheduler/schedulerprocess.cpp:823
 #, kde-format
@@ -28713,12 +28730,12 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:862
 #, kde-format
 msgid "Mount is parked, adding unpark task before slewing."
-msgstr ""
+msgstr "赤道仪已泊位，切换前添加解除泊位任务。"
 
 #: ekos/scheduler/schedulerprocess.cpp:867
 #, kde-format
 msgid "Warning: Failed to add mount unpark task, attempting to slew anyway."
-msgstr ""
+msgstr "警告：添加赤道仪解除泊位任务失败，仍然尝试切换。"
 
 #: ekos/scheduler/schedulerprocess.cpp:894
 #, kde-format
@@ -28872,7 +28889,7 @@ msgstr "INDI 设备已断开连接。"
 #: ekos/scheduler/schedulerprocess.cpp:1615
 #, kde-format
 msgid "INDI devices ready. Proceeding to post-startup phase..."
-msgstr ""
+msgstr "INDI 设备已就绪。正在进入启动后阶段..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1680
 #, kde-format
@@ -28882,7 +28899,7 @@ msgstr "正在从 %1 执行后关机任务……"
 #: ekos/scheduler/schedulerprocess.cpp:1688
 #, kde-format
 msgid "Post-shutdown queue is empty, shutdown complete."
-msgstr ""
+msgstr "关闭后队列为空，停机完成。"
 
 #: ekos/scheduler/schedulerprocess.cpp:1694
 #, kde-format
@@ -28902,7 +28919,7 @@ msgstr "关机过程失败，中止..."
 #: ekos/scheduler/schedulerprocess.cpp:1716
 #, kde-format
 msgid "Entering weather monitoring mode. Waiting for weather to improve..."
-msgstr ""
+msgstr "正在进入天气监控模式。等待天气改善..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1814
 #, kde-format
@@ -28947,17 +28964,17 @@ msgstr "正在从 %1 执行预关机任务……"
 #: ekos/scheduler/schedulerprocess.cpp:1938
 #, kde-format
 msgid "Failed to load pre-shutdown queue from %1"
-msgstr ""
+msgstr "从 %1 加载关机前队列失败"
 
 #: ekos/scheduler/schedulerprocess.cpp:1944
 #, kde-format
 msgid "No pre-shutdown tasks, proceeding to stop Ekos/INDI."
-msgstr ""
+msgstr "没有关闭前任务，继续停止 Ekos / INDI。"
 
 #: ekos/scheduler/schedulerprocess.cpp:1985
 #, kde-format
 msgid "Park/unpark procedure failed, aborting..."
-msgstr ""
+msgstr "泊位 / 取消泊位等待进程失败，终止中..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1998
 #, kde-format
@@ -29506,42 +29523,42 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:280
 #, kde-format
 msgid "No cached devices for profile: %1"
-msgstr ""
+msgstr "配置文件 %1 无缓存的设备"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:316
 #, kde-format
 msgid "No compatible devices in profile"
-msgstr ""
+msgstr "配置文件中没有兼容的设备"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:489
 #, kde-format
 msgid "Guider"
-msgstr ""
+msgstr "导星"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:499
 #, kde-format
 msgid "Weather Station"
-msgstr ""
+msgstr "气象站"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:503
 #, kde-format
 msgid "Dust Cap"
-msgstr ""
+msgstr "防尘盖"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:505
 #, kde-format
 msgid "Light Box"
-msgstr ""
+msgstr "柔光箱"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:511
 #, kde-format
 msgid "Spectrograph"
-msgstr ""
+msgstr "光谱仪"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:513
 #, kde-format
 msgid "Correlator"
-msgstr ""
+msgstr "相关器"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:517
@@ -29554,83 +29571,83 @@ msgstr "设备"
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:31
 #, kde-format
 msgid "Customize Parameters"
-msgstr ""
+msgstr "自定义参数"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:97
 #, kde-format
 msgid "Device: %1"
-msgstr ""
+msgstr "设备：%1"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:210
 #, kde-format
 msgid "Browse..."
-msgstr ""
+msgstr "浏览…"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:214
 #, kde-format
 msgid "Select File"
-msgstr ""
+msgstr "选择文件"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:298
 #, kde-format
 msgid "Invalid Parameters"
-msgstr ""
+msgstr "无效参数"
 
 #: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:309
 #, kde-format
 msgid "No template specified"
-msgstr ""
+msgstr "未指定模板"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:53
 #, kde-format
 msgid "Property Template Builder"
-msgstr ""
+msgstr "属性模板生成器"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:64
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:81
 #, kde-format
 msgid "Edit Template"
-msgstr ""
+msgstr "编辑模板"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:142
 #, kde-format
 msgid "Device:"
-msgstr ""
+msgstr "设备："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:168
 #, kde-format
 msgid "Property:"
-msgstr ""
+msgstr "属性："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:174
 #, kde-format
 msgid "Permission:"
-msgstr ""
+msgstr "权限："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:207
 #, kde-format
 msgid "SET - Write value to property"
-msgstr ""
+msgstr "SET - 写入属性值"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:211
 #, kde-format
 msgid "EVALUATE - Check property condition"
-msgstr ""
+msgstr "EVALUATE - 检查属性条件"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:218
 #, kde-format
 msgid "Property Element"
-msgstr ""
+msgstr "属性元素"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:222
 #, kde-format
 msgid "Element:"
-msgstr ""
+msgstr "元素："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:230
 #, kde-format
 msgid "Action Settings"
-msgstr ""
+msgstr "动作设定"
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:237
@@ -29642,52 +29659,52 @@ msgstr "超时："
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:242
 #, kde-format
 msgid "Retries:"
-msgstr ""
+msgstr "检索："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:245
 #, kde-format
 msgid "Abort Queue"
-msgstr ""
+msgstr "中止队列"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:247
 #, kde-format
 msgid "Skip to Next Task"
-msgstr ""
+msgstr "跳转到下一个任务"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:248
 #, kde-format
 msgid "On Failure:"
-msgstr ""
+msgstr "失败时："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:271
 #, kde-format
 msgid "Template Name:"
-msgstr ""
+msgstr "模板名称："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:281
 #, kde-format
 msgid "Category:"
-msgstr ""
+msgstr "分类："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:294
 #, kde-format
 msgid "Template Preview (JSON)"
-msgstr ""
+msgstr "模板预览 (JSON)"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:317
 #, kde-format
 msgid "Step 1: Select Device"
-msgstr ""
+msgstr "第一步：选择设备"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:318
 #, kde-format
 msgid "Choose the INDI device for which you want to create a custom template."
-msgstr ""
+msgstr "选择您想要创建自定义模板的 INDI 设备。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:321
 #, kde-format
 msgid "Step 2: Select Property"
-msgstr ""
+msgstr "第二步：选择属性"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:323
 #, kde-format
@@ -29696,81 +29713,83 @@ msgid ""
 "properties (NUMBER, SWITCH, TEXT) and readable status properties (LIGHT) are "
 "shown."
 msgstr ""
+"选择要使用此模板控制的属性。只显示可设置属性 (NUMBER, SWITCH, TEXT) 和可读状"
+"态属性 (LIGHT)。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:326
 #, kde-format
 msgid "Step 3: Configure Actions"
-msgstr ""
+msgstr "第三步：配置操作"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:327
 #, kde-format
 msgid "Configure how the property should be set and/or evaluated."
-msgstr ""
+msgstr "配置如何设置或评估属性。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:330
 #, kde-format
 msgid "Step 4: Template Metadata"
-msgstr ""
+msgstr "第四步：模板元数据"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:331
 #, kde-format
 msgid "Provide a name, description, and category for your template."
-msgstr ""
+msgstr "为您的模板提供名称、描述和类别。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:334
 #, kde-format
 msgid "Step 5: Preview and Save"
-msgstr ""
+msgstr "第五步：预览和保存"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:335
 #, kde-format
 msgid "Review the generated template before saving."
-msgstr ""
+msgstr "保存前审查生成的模板。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:456
 #, kde-format
 msgid "Using connected INDI devices"
-msgstr ""
+msgstr "使用已连接的 INDI 设备"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:464
 #, kde-format
 msgid "No devices available"
-msgstr ""
+msgstr "没有可用的设备"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:491
 #, kde-format
 msgid "Profile not found"
-msgstr ""
+msgstr "未找到配置文件"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:499
 #, kde-format
 msgid "No optical trains found"
-msgstr ""
+msgstr "未找到光学系统"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:533
 #, kde-format
 msgid "Using cached devices from profile: %1"
-msgstr ""
+msgstr "使用来自配置文件的缓存的设备：%1"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:538
 #, kde-format
 msgid "No devices found"
-msgstr ""
+msgstr "未找到设备"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:585
 #, kde-format
 msgid "Device not found"
-msgstr ""
+msgstr "未找到设备"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:628
 #, kde-format
 msgid "No compatible properties found"
-msgstr ""
+msgstr "没有找到兼容的属性"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:632
 #, kde-format
 msgid "%1 properties available"
-msgstr ""
+msgstr "%1 属性可用"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:861
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:923

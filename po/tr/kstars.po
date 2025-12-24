@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-23 02:04+0000\n"
-"PO-Revision-Date: 2025-12-22 18:08+0300\n"
+"PO-Revision-Date: 2025-12-23 12:11+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1707,13 +1707,13 @@ msgstr "Çıktı dosyasında katalog kayıt defterine eklenemedi.<br>%1"
 #: catalogsdb/catalogsdb.cpp:798
 #, kde-format
 msgid "Could not insert set exported database version.<br>%1"
-msgstr "Dışa aktarılmış veritabanı sürümü ayarlama eklenemedi.<br>%1"
+msgstr "Dışa aktarılmış veri tabanı sürümü ayarlama eklenemedi.<br>%1"
 
 #: catalogsdb/catalogsdb.cpp:805
 #, kde-format
 msgid "Could not insert set exported database application id.<br>%1"
 msgstr ""
-"Dışa aktarılan veritabanı uygulama kimliğini ayarlama eklenemedi.<br>%1"
+"Dışa aktarılan veri tabanı uygulama kimliğini ayarlama eklenemedi.<br>%1"
 
 #: catalogsdb/catalogsdb.cpp:821
 #, kde-format
@@ -1743,7 +1743,7 @@ msgstr "Katalog kimliği okunamadı.<br>%1"
 #: catalogsdb/catalogsdb.cpp:864
 #, kde-format
 msgid "Catalog already exists in the database!"
-msgstr "Katalog veritabanında halihazırda var!"
+msgstr "Katalog veri tabanında halihazırda var!"
 
 #: catalogsdb/catalogsdb.cpp:881 dialogs/catalogsdbui.cpp:211
 #, kde-format
@@ -4061,7 +4061,7 @@ msgstr "Ayrıntılar — Çevrimiçi Veritabanları"
 #: dialogs/details_database.ui:29
 #, kde-format
 msgid "Choose Online Database"
-msgstr "Çevrimiçi Veritabanı Seç"
+msgstr "Çevrimiçi Veri Tabanı Seç"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DetailsLinks)
 #: dialogs/details_links.ui:13
@@ -4875,7 +4875,7 @@ msgstr "Şehri Kaldır?"
 #: dialogs/locationdialog.cpp:300
 #, kde-format
 msgid "This city already exists in the database."
-msgstr "Bu şehir halihazırda veritabanında var."
+msgstr "Bu şehir halihazırda veri tabanında var."
 
 #: dialogs/locationdialog.cpp:301
 #, kde-format
@@ -12490,7 +12490,8 @@ msgstr "Ana Kayıtlar"
 msgid ""
 "Remove one row from the database and delete the associated dark frame from "
 "disk"
-msgstr "Veritabanından bir satırı kaldır ve ilgili karanlık kareyi diskten sil"
+msgstr ""
+"Veri tabanından bir satırı kaldır ve ilgili karanlık kareyi diskten sil"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearRowB)
 #: ekos/auxiliary/darklibrary.ui:1095
@@ -37118,7 +37119,7 @@ msgid ""
 "such resolved objects on the sky map."
 msgstr ""
 "Bul iletişim kutusuna girilen nesnelerin adları çevrimiçi hizmetler "
-"kullanılarak çözümlenir ve veritabanında saklanır. Bu seçenek ayrıca bu tür "
+"kullanılarak çözümlenir ve veri tabanında saklanır. Bu seçenek ayrıca bu tür "
 "çözümlenmiş nesnelerin gökyüzü haritasında görüntülenmesini de açar/kapatır."
 
 #. i18n: ectx: label, entry (DSOCachePercentage), group (Catalogs)
@@ -37136,7 +37137,7 @@ msgid ""
 "         will be cached. Turning this value up yields better\n"
 "         performance at the cost of memory."
 msgstr ""
-"DSO’lar bir SQLite veritabanından yüklenir ve bellekte\n"
+"DSO’lar bir SQLite veri tabanından yüklenir ve bellekte\n"
 "önbelleğe alınır. Bu ayar, DSO’ların ne kadarının\n"
 "önbelleğe alınacağını düzenler. Bu değeri artırmak,\n"
 "daha çok bellek kullanım pahasına daha iyi başarım sağlar."
@@ -72929,7 +72930,7 @@ msgstr "Çoklu Dalga Boyu Katalogları"
 #, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "NASA Extragalactic Database (NED)"
-msgstr "NASA Samanyolu dışı Veritabanı (NED)"
+msgstr "NASA Samanyolu Dışı Veri Tabanı (NED)"
 
 #: kstars_i18n.cpp:4850
 #, kde-kuit-format
@@ -73315,7 +73316,7 @@ msgstr "Zaman dilimi kuralları okunuyor"
 #, kde-format
 msgid "Upgrade existing user city db to support geographic elevation."
 msgstr ""
-"Coğrafi yükseltileri desteklemek için var olan kullanıcı şehir veritabanını "
+"Coğrafi yükseltileri desteklemek için var olan kullanıcı şehir veri tabanını "
 "güncelleyin."
 
 #: kstarsdata.cpp:163
@@ -73331,7 +73332,7 @@ msgstr "Şehir tablosunda “Yükselti” halihazırda var."
 #: kstarsdata.cpp:182
 #, kde-format
 msgid "City table missing from database."
-msgstr "Veritabanında şehir tablosu eksik."
+msgstr "Veri tabanında şehir tablosu eksik."
 
 #: kstarsdata.cpp:188
 #, kde-format
@@ -78874,7 +78875,7 @@ msgstr "Csaba Kertesz"
 #: main.cpp:174
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
-msgstr "İkili asteroit listesi, DSO veritabanı ve katalogları"
+msgstr "İkili asteroit listesi, DSO veri tabanı ve katalogları"
 
 #: main.cpp:175
 #, kde-format
@@ -79841,7 +79842,7 @@ msgstr "Ayrıntılı hata ayıklama çıktısını etkinleştir"
 #: options/opsadvanced.ui:384
 #, kde-format
 msgid "Clear all KStars configuration and user database."
-msgstr "Tüm K Yıldızlar yapılandırmasını ve kullanıcı veritabanını temizle"
+msgstr "Tüm K Yıldızlar yapılandırmasını ve kullanıcı veri tabanını temizle"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: options/opsadvanced.ui:420
@@ -80282,7 +80283,7 @@ msgid ""
 msgstr ""
 "Bu onay kutusu işaretliyse, K Yıldızlar’ın bilmediği bir nesne adı Bul "
 "iletişim kutusuna girildiğinde, K Yıldızlar nesne hakkında bilgi edinmek ve "
-"ardından nesneyi veritabanına eklemek için çevrimiçi hizmetlerle (örneğin "
+"ardından nesneyi veri tabanına eklemek için çevrimiçi hizmetlerle (örneğin "
 "CDS Sesame) iletişime geçecektir.\n"
 "Bu şekilde edinilen nesneler kullanıcı adı verilen bir katalog altında "
 "saklanır ve “DSO Kataloglarını Yönet” özelliği kullanılarak düzenlenebilir."
@@ -80358,7 +80359,7 @@ msgstr ""
 "Birçok nesnenin veritabanlarında bilinen büyüklükleri yoktur.\n"
 "Genellikle sönük veya çok dağınık olma eğilimindedirler; ancak durum her "
 "zaman böyle değildir.\n"
-"Veritabanında bilinen büyüklükleri olmayan nesneleri göstermek için bu onay "
+"Veri tabanında bilinen büyüklükleri olmayan nesneleri göstermek için bu onay "
 "kutusunu işaretleyin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowUnknownMagObjects)
@@ -82577,8 +82578,8 @@ msgid ""
 "Import custom and internet resolved objects from the old DSO database into "
 "the new one?"
 msgstr ""
-"Eski DSO veritabanından yeni veritabanına özel ve internet çözümlü nesneleri "
-"içe aktarılsın mı?"
+"Eski DSO veri tabanından yeni veri tabanına özel ve internet çözümlü "
+"nesneleri içe aktarılsın mı?"
 
 #: skycomponents/catalogscomponent.cpp:451
 #: skycomponents/catalogscomponent.cpp:458
@@ -82918,7 +82919,7 @@ msgstr "Uydu Yörünge Ögeleri Güncellemesi"
 #: skycomponents/skymapcomposite.cpp:127
 #, kde-format
 msgid "Failed to load the DSO database."
-msgstr "DSO veritabanı yüklenemedi."
+msgstr "DSO veri tabanı yüklenemedi."
 
 #: skycomponents/skymapcomposite.cpp:135
 #, kde-format
@@ -82927,8 +82928,8 @@ msgid ""
 "This will move the current DSO database \"%1\"\n"
 "to \"%2\""
 msgstr ""
-"Boş bir veritabanıyla yeniden başlamak istiyor musunuz?\n"
-"Bu, geçerli “%1” DSO veritabanını \n"
+"Boş bir veri tabanıyla yeniden başlamak istiyor musunuz?\n"
+"Bu, geçerli “%1” DSO veri tabanını \n"
 "“%2” konumuna taşıyacaktır."
 
 #: skycomponents/solarsystemcomposite.cpp:25
@@ -88097,7 +88098,7 @@ msgstr ""
 "Her satırda bir nesne olacak şekilde eklemek için bir nesne listesi "
 "belirtin. Adlar K Yıldızlar tarafından veya ayarlarda internet çözücüsü "
 "etkinleştirilmişse CDS Sesame çözücüsü tarafından anlaşılmalıdır. İnternet "
-"çözümlü nesneler veritabanına eklenecektir."
+"çözümlü nesneler veri tabanına eklenecektir."
 
 #: tools/observinglist.cpp:810
 #, kde-format
@@ -88115,10 +88116,10 @@ msgid_plural ""
 "%1 objects could not be found in the database or resolved, and hence could "
 "not be added. See the details for more."
 msgstr[0] ""
-"%1 nesne veritabanında bulunamadı veya çözülemedi ve bu nedenle eklenemedi. "
+"%1 nesne veri tabanında bulunamadı veya çözülemedi ve bu nedenle eklenemedi. "
 "Daha fazla bilgi için ayrıntılara bakın."
 msgstr[1] ""
-"%1 nesne veritabanında bulunamadı veya çözülemedi ve bu nedenle eklenemedi. "
+"%1 nesne veri tabanında bulunamadı veya çözülemedi ve bu nedenle eklenemedi. "
 "Daha fazla bilgi için ayrıntılara bakın."
 
 #: tools/observinglist.cpp:880
@@ -88229,10 +88230,10 @@ msgid_plural ""
 "backup, whereby you can later use the Batch Add feature in the Observation "
 "Planner to add them back using internet search."
 msgstr[0] ""
-"%1 nesne veritabanında bulunamadı ve gözlem istek listesinden kaldırılacak. "
+"%1 nesne veri tabanında bulunamadı ve gözlem istek listesinden kaldırılacak. "
 "Daha sonra ekleyebilmeniz için adını yedek olarak kopyalamanızı öneririz."
 msgstr[1] ""
-"%1 nesne veritabanında bulunamadı ve gözlem istek listesinden kaldırılacak. "
+"%1 nesne veri tabanında bulunamadı ve gözlem istek listesinden kaldırılacak. "
 "Ayrıntılı listeyi yedek olarak kopyalamanızı öneririz, böylece daha sonra "
 "Gözlem Planlayıcısı’ndaki Toplu Ekleme özelliğini kullanıp internet "
 "aramasını kullanarak bunları geri ekleyebilirsiniz."
@@ -88940,11 +88941,11 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Parlak nesneleri seçin.</p><p>Bu sayfada, gözlem "
 "listenizi yalnızca belirli bir büyüklükten daha parlak nesnelerle "
-"sınırlayabilirsiniz. Bu seçimde dikkatli olun; çünkü K Yıldızlar "
-"veritabanındaki her nesne için bir büyüklüğe sahip değildir. Tanımlanmamış "
-"bir büyüklüğe sahip nesneleri içermek isteyip istemediğinizi belirtmeniz "
-"gerekir.</p><p>Bu seçimle soluk nesneleri dışlamak istemiyorsanız aşağıdaki "
-"onay kutusunu işaretsiz bırakmanız yeterlidir.</p><p>Bu, Gözlem Listesi "
+"sınırlayabilirsiniz. Bu seçimde dikkatli olun; çünkü K Yıldızlar veri "
+"tabanındaki her nesne için bir büyüklüğe sahip değildir. Tanımlanmamış bir "
+"büyüklüğe sahip nesneleri içermek isteyip istemediğinizi belirtmeniz gerekir."
+"</p><p>Bu seçimle soluk nesneleri dışlamak istemiyorsanız aşağıdaki onay "
+"kutusunu işaretsiz bırakmanız yeterlidir.</p><p>Bu, Gözlem Listesi "
 "Sihirbazı’nın son sayfasıdır. <span style=\" font-weight:600;\">Geri</span> "
 "düğmesini kullanarak geri gidebilir ve önceki sayfalarda değişiklikler "
 "yapabilirsiniz. Memnun kaldığınızda sihirbazdan çıkmak için <span style=\" "
