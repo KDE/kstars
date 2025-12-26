@@ -2404,7 +2404,7 @@ void Focus::getFWHM(const QList<Edge *> &stars, double *FWHM, double *weight)
 
         default:
             qCDebug(KSTARS_EKOS_FOCUS) << "Unknown image buffer datatype " << m_ImageData->getStatistics().dataType <<
-                                          " Cannot calc FWHM";
+                                       " Cannot calc FWHM";
             break;
     }
 }
@@ -2461,7 +2461,7 @@ void Focus::getFourierPower(double *fourierPower, double *weight, const int mosa
 
         default:
             qCDebug(KSTARS_EKOS_FOCUS) << "Unknown image buffer datatype " << m_ImageData->getStatistics().dataType <<
-                                          " Cannot calc Fourier Power";
+                                       " Cannot calc Fourier Power";
             break;
     }
 }
@@ -2521,7 +2521,7 @@ void Focus::getBlurriness(const StarMeasure starMeasure, const bool denoise, dou
 
         default:
             qCDebug(KSTARS_EKOS_FOCUS) << "Unknown image buffer datatype " << m_ImageData->getStatistics().dataType <<
-                                          " Cannot calc Blurriness";
+                                       " Cannot calc Blurriness";
             break;
     }
 #else
@@ -2853,7 +2853,7 @@ void Focus::completeFocusProcedure(FocusState completionState, AutofocusFailReas
         appendLogText(i18n("Settling for %1s...", settleTime));
 
     QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, completionState, autoFocusUsed, inBuildOffsetsUsed, failCode,
-                       failCodeInfo]()
+                          failCodeInfo]()
     {
         settle(completionState, autoFocusUsed, inBuildOffsetsUsed, failCode, failCodeInfo);
 
@@ -2882,7 +2882,7 @@ void Focus::updateMeasurements()
     // Let's now report the current HFR
     qCDebug(KSTARS_EKOS_FOCUS) << "Focus newFITS #" << starMeasureFrames.count() + 1 << ": Current HFR " <<
                                lastFrame().hfr <<
-    " Num stars "
+                               " Num stars "
                                << (starSelected ? 1 : lastFrame().numStars);
 
     // Take the new HFR into account, eventually continue to stack samples
@@ -3423,10 +3423,10 @@ void Focus::setHFRComplete()
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << lastFrame().hfr << "is above required minimum HFR:" <<
                                        minimumRequiredHFR <<
-            ". Starting AutoFocus...";
+                                       ". Starting AutoFocus...";
             QString reasonInfo = i18n("HFR %1 > Limit %2", QString::number(lastFrame().hfr, 'f', 2),
                                       QString::number(minimumRequiredHFR, 'f',
-                                          2));
+                                              2));
             minimumRequiredHFR = INVALID_STAR_MEASURE;
             runAutoFocus(AutofocusReason::FOCUS_HFR_CHECK, reasonInfo);
         }
@@ -3435,7 +3435,7 @@ void Focus::setHFRComplete()
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << lastFrame().hfr << "is below required minimum HFR:" <<
                                        minimumRequiredHFR <<
-            ". Autofocus successful.";
+                                       ". Autofocus successful.";
             completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE);
         }
 
@@ -5402,7 +5402,7 @@ void Focus::focusStarSelected(int x, int y)
         subFramed = true;
 
         qCDebug(KSTARS_EKOS_FOCUS) << "Frame is subframed. X:" << x << "Y:" << y << "W:" << w << "H:" << h << "binX:" << subBinX <<
-                                      "binY:" << subBinY;
+                                   "binY:" << subBinY;
 
         m_FocusView->setFirstLoad(true);
 
@@ -8086,6 +8086,10 @@ void Focus::refreshOpticalTrain(const int id)
     // setup of settings in OpticalTrainSettings
     OpticalTrainSettings::Instance()->setOpticalTrainID(id);
 
+    // initialize the filter wheel first so that the focuser knows about the filter wheel
+    auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
+    setFilterWheel(filterWheel);
+
     auto focuser = OpticalTrainManager::Instance()->getFocuser(name);
     setFocuser(focuser);
 
@@ -8131,9 +8135,6 @@ void Focus::refreshOpticalTrain(const int id)
         }
     }
     setCamera(camera);
-
-    auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
-    setFilterWheel(filterWheel);
 
     auto dustcap = OpticalTrainManager::Instance()->getDustCap(name);
     setDustCap(dustcap);
