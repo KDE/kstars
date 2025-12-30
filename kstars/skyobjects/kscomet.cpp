@@ -162,9 +162,45 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
     // Different between lastJD and Tp (Time of periapsis (Julian Day Number))
     long double deltaJDP = lastPrecessJD - JDp;
 
-    if (e > 0.98)
+    if (e > 1.0)
     {
-        //Use near-parabolic approximation
+        // Hyperbolic orbit (e > 1) - Use hyperbolic Kepler equation
+        double k = 0.01720209895; // Gauss gravitational constant
+        // For hyperbolic orbits, a is negative, so we use |a| = q / (e - 1)
+        double abs_a = q / (e - 1.0);
+
+        // Mean motion: n = k / (|a|^1.5)
+        double n = k / pow(abs_a, 1.5);
+
+        // Mean anomaly: M = n * t (where t is time since perihelion)
+        double M = n * deltaJDP;
+
+        // Solve hyperbolic Kepler equation: M = e * sinh(F) - F
+        // Using Newton-Raphson iteration
+        double F = M / (e - 1.0); // Initial guess
+        double F0;
+        int iter = 0;
+        do
+        {
+            F0 = F;
+            double sinh_F = sinh(F);
+            double cosh_F = cosh(F);
+            F = F0 - (e * sinh_F - F0 - M) / (e * cosh_F - 1.0);
+            iter++;
+        }
+        while (fabs(F - F0) > 1e-8 && iter < 100);
+
+        // True anomaly from hyperbolic anomaly
+        // tan(v/2) = sqrt((e+1)/(e-1)) * tanh(F/2)
+        double tan_half_v = sqrt((e + 1.0) / (e - 1.0)) * tanh(F / 2.0);
+        v = 2.0 * atan(tan_half_v) / dms::DegToRad;
+
+        // Heliocentric distance
+        r = abs_a * (e * cosh(F) - 1.0);
+    }
+    else if (e > 0.98)
+    {
+        //Use near-parabolic approximation for e ≈ 1
         double k = 0.01720209895; //Gauss gravitational constant
         double a = 0.75 * (deltaJDP) * k * sqrt((1 + e) / (q * q * q));
         double b = sqrt(1.0 + a * a);
