@@ -1661,8 +1661,11 @@ bool SchedulerProcess::completeShutdown()
             return false;
         }
 
-        // After Ekos/INDI have stopped, check if we need to execute post-shutdown queue
-        if (moduleState()->ekosState() == EKOS_IDLE && moduleState()->indiState() == INDI_IDLE)
+        // Check if we need to stop Ekos/INDI or if they're already stopped
+        bool ekosIndiHandled = (moduleState()->ekosState() == EKOS_IDLE && moduleState()->indiState() == INDI_IDLE) ||
+                               !Options::stopEkosAfterShutdown();
+
+        if (ekosIndiHandled)
         {
             // Only run post-shutdown queue if we came from pre-shutdown (not if we're already done)
             if (moduleState()->shutdownState() != SHUTDOWN_POST_QUEUE_RUNNING &&
