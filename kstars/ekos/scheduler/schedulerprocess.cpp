@@ -654,18 +654,17 @@ void SchedulerProcess::stop()
     moduleState()->setEkosState(EKOS_IDLE);
     moduleState()->setIndiState(INDI_IDLE);
 
-    // Only reset startup state to idle if the startup procedure was interrupted before it had the chance to complete.
-    // Or if we're doing a soft shutdown
-    if (moduleState()->startupState() != STARTUP_COMPLETE || moduleState()->preemptiveShutdown())
+    // Handle startup state reset based on shutdown type
+    // For preemptive shutdown (weather/sleep), maintain POST_DEVICES to skip pre-startup on wakeup
+    // For normal shutdown, reset to IDLE only if startup was complete to allow full sequence on restart
+    if (!moduleState()->preemptiveShutdown())
     {
-        // STARTUP_SCRIPT and explicit unparking states are handled by the queue manager.
-        moduleState()->setStartupState(STARTUP_IDLE);
+        // Normal shutdown: if startup completed, reset to IDLE so next run does full startup
+        // This ensures post-startup queue (unparking) runs on every scheduler restart
+        if (moduleState()->startupState() == STARTUP_COMPLETE)
+            moduleState()->setStartupState(STARTUP_IDLE);
     }
-    // Unparking phases are now handled by the startup queue, so these explicit state transitions are removed.
-    else if (moduleState()->startupState() == STARTUP_COMPLETE)
-    {
-        // No explicit unparking states here, as the queue manager handles it.
-    }
+    // For preemptive shutdown, startup state is managed by wakeUpScheduler() and weather recovery logic
 
     moduleState()->setShutdownState(SHUTDOWN_IDLE);
 
