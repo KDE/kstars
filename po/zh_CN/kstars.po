@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-23 02:04+0000\n"
+"POT-Creation-Date: 2026-01-01 01:58+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2750,7 +2750,7 @@ msgstr "找不到 ID 为%1 的星表。"
 #: dialogs/catalogcoloreditor.cpp:109
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:441
 #: ekos/scheduler/scheduler.ui:552 ekos/scheduler/schedulermodulestate.cpp:56
-#: ekos/scheduler/schedulerprocess.cpp:1819
+#: ekos/scheduler/schedulerprocess.cpp:1821
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:210
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:469
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1197
@@ -6462,7 +6462,7 @@ msgstr "解析器已中止。"
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2124 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1042
-#: ekos/scheduler/schedulerprocess.cpp:3366
+#: ekos/scheduler/schedulerprocess.cpp:3368
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -6658,8 +6658,8 @@ msgstr "无效的网址：%1"
 
 #: ekos/align/align.cpp:4095 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
-#: ekos/scheduler/schedulerprocess.cpp:2759
-#: ekos/scheduler/schedulerprocess.cpp:4312
+#: ekos/scheduler/schedulerprocess.cpp:2761
+#: ekos/scheduler/schedulerprocess.cpp:4314
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "无法写入到文件 %1"
@@ -6667,10 +6667,10 @@ msgstr "无法写入到文件 %1"
 #: ekos/align/align.cpp:4096 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:2606 ekos/capture/sequencequeue.cpp:33
-#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2760
-#: ekos/scheduler/schedulerprocess.cpp:3189
-#: ekos/scheduler/schedulerprocess.cpp:4313
-#: ekos/scheduler/schedulerprocess.cpp:4333 indi/drivermanager.cpp:1567
+#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2762
+#: ekos/scheduler/schedulerprocess.cpp:3191
+#: ekos/scheduler/schedulerprocess.cpp:4315
+#: ekos/scheduler/schedulerprocess.cpp:4335 indi/drivermanager.cpp:1567
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -7310,8 +7310,8 @@ msgstr "打开 Ekos 校准列表"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:355
 #: ekos/capture/cameraprocess.cpp:2605 ekos/capture/sequencequeue.cpp:32
-#: ekos/scheduler/schedulerprocess.cpp:3188
-#: ekos/scheduler/schedulerprocess.cpp:4332
+#: ekos/scheduler/schedulerprocess.cpp:3190
+#: ekos/scheduler/schedulerprocess.cpp:4334
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "无法打开文件 %1"
@@ -27648,7 +27648,7 @@ msgstr ""
 "请注意，该算法会先基于同一时间点计算所有目标的高度角，再对任务进行评估。"
 
 #: ekos/scheduler/scheduler.cpp:511 ekos/scheduler/scheduler.cpp:2413
-#: ekos/scheduler/schedulerprocess.cpp:3275
+#: ekos/scheduler/schedulerprocess.cpp:3277
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
@@ -27795,7 +27795,7 @@ msgstr "调度器暂停计划..."
 msgid "Resume Scheduler"
 msgstr "恢复调度程序"
 
-#: ekos/scheduler/scheduler.cpp:2114 ekos/scheduler/schedulerprocess.cpp:1917
+#: ekos/scheduler/scheduler.cpp:2114 ekos/scheduler/schedulerprocess.cpp:1919
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "天文台处于关闭流程中"
@@ -28689,36 +28689,36 @@ msgstr "调度器被唤醒。唤醒后将开始作业。"
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr "任务“%1”尚未在调度器停止前处理，标记为已中止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:765
+#: ekos/scheduler/schedulerprocess.cpp:764
 #, kde-format
 msgid "Job '%1' cannot start, weather grace period is active."
 msgstr "任务 ‘%1’ 无法启动，天气宽限期已生效。"
 
-#: ekos/scheduler/schedulerprocess.cpp:784
+#: ekos/scheduler/schedulerprocess.cpp:783
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
 "until next job is ready."
 msgstr "任务“%1”计划在 %2 执行。观测将计划关闭，直到下次任务准备就绪。"
 
-#: ekos/scheduler/schedulerprocess.cpp:804
+#: ekos/scheduler/schedulerprocess.cpp:803
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
 "ready."
 msgstr "作业“%1”计划于 %2 执行。暂停支架直至作业准备就绪。"
 
-#: ekos/scheduler/schedulerprocess.cpp:817
+#: ekos/scheduler/schedulerprocess.cpp:816
 #, kde-format
 msgid "Warning: Failed to add mount park task."
 msgstr "警告：添加赤道仪泊位任务失败。"
 
-#: ekos/scheduler/schedulerprocess.cpp:823
+#: ekos/scheduler/schedulerprocess.cpp:822
 #, kde-format
 msgid "Sleeping until observation job %1 is ready at %2"
 msgstr "休眠直至观测作业 %1 在 %2 准备就绪"
 
-#: ekos/scheduler/schedulerprocess.cpp:834
+#: ekos/scheduler/schedulerprocess.cpp:833
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
@@ -28726,692 +28726,692 @@ msgid ""
 msgstr ""
 "警告：作业“%1”现在距离完成还有 %2 分钟，您可能需要启用先发制人关闭功能。"
 
-#: ekos/scheduler/schedulerprocess.cpp:862
+#: ekos/scheduler/schedulerprocess.cpp:861
 #, kde-format
 msgid "Mount is parked, adding unpark task before slewing."
 msgstr "赤道仪已泊位，切换前添加解除泊位任务。"
 
-#: ekos/scheduler/schedulerprocess.cpp:867
+#: ekos/scheduler/schedulerprocess.cpp:866
 #, kde-format
 msgid "Warning: Failed to add mount unpark task, attempting to slew anyway."
 msgstr "警告：添加赤道仪解除泊位任务失败，仍然尝试切换。"
 
-#: ekos/scheduler/schedulerprocess.cpp:894
+#: ekos/scheduler/schedulerprocess.cpp:893
 #, kde-format
 msgid "Job '%1' is slewing to target."
 msgstr "任务“%1”正在转动到目标。"
 
-#: ekos/scheduler/schedulerprocess.cpp:970
+#: ekos/scheduler/schedulerprocess.cpp:969
 #, kde-format
 msgid "Warning: job '%1' is unable to proceed with autofocus, not supported."
 msgstr "警告：任务“%1”无法进行自动对焦，不被支持。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1086
+#: ekos/scheduler/schedulerprocess.cpp:1085
 #, kde-format
 msgid "Job '%1' is focusing."
 msgstr "任务“%1”正在对焦。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1113
+#: ekos/scheduler/schedulerprocess.cpp:1112
 #, kde-format
 msgid "Warning: job '%1' target FITS file does not exist."
 msgstr "警告：作业 '%1' 目标 FITS 文件不存在。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1125
+#: ekos/scheduler/schedulerprocess.cpp:1124
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
 msgstr "警告：作业 '%1' loadAndSlew 请求收到 DBUS 错误：%2"
 
-#: ekos/scheduler/schedulerprocess.cpp:1136
+#: ekos/scheduler/schedulerprocess.cpp:1135
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request failed."
 msgstr "警告：作业 '%1' loadAndSlew 请求失败。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1142
+#: ekos/scheduler/schedulerprocess.cpp:1141
 #, kde-format
 msgid "Job '%1' is plate solving %2."
 msgstr "任务“%1”正在解析 %2。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1156
+#: ekos/scheduler/schedulerprocess.cpp:1155
 #, kde-format
 msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
 msgstr "警告：作业 '%1' setTargetCoords 请求收到 DBUS 错误：%2"
 
-#: ekos/scheduler/schedulerprocess.cpp:1172
+#: ekos/scheduler/schedulerprocess.cpp:1171
 #, kde-format
 msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
 msgstr "警告：作业 '%1' setTargetPositionAngle 请求收到 DBUS 错误：%2"
 
-#: ekos/scheduler/schedulerprocess.cpp:1185
+#: ekos/scheduler/schedulerprocess.cpp:1184
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
 msgstr "警告：作业 '%1' captureAndSolve 请求收到 DBUS 错误：%2"
 
-#: ekos/scheduler/schedulerprocess.cpp:1196
+#: ekos/scheduler/schedulerprocess.cpp:1195
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request failed."
 msgstr "警告：作业 '%1' captureAndSolve 请求失败。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1202
+#: ekos/scheduler/schedulerprocess.cpp:1201
 #, kde-format
 msgid "Job '%1' is capturing and plate solving."
 msgstr "任务“%1”正在拍摄及解析。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1218
+#: ekos/scheduler/schedulerprocess.cpp:1217
 #, kde-format
 msgid "Guiding already running for %1, starting next scheduler action..."
 msgstr "导星已为 %1 运行，正在开始下一个调度器动作..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1242
+#: ekos/scheduler/schedulerprocess.cpp:1241
 #, kde-format
 msgid "Starting guiding procedure for %1 ..."
 msgstr "正在启动 %1 的导星程序..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1305
+#: ekos/scheduler/schedulerprocess.cpp:1304
 #, kde-format
 msgid "Ekos job (%1) - Capture started"
 msgstr "Ekos 作业 (%1) - 拍摄已启动"
 
-#: ekos/scheduler/schedulerprocess.cpp:1308
+#: ekos/scheduler/schedulerprocess.cpp:1307
 #, kde-format
 msgid "Job '%1' capture is in progress (batch #%2)..."
 msgstr "作业%1的拍摄进行中（脚本 #%2）..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1311
+#: ekos/scheduler/schedulerprocess.cpp:1310
 #, kde-format
 msgid "Job '%1' capture is in progress..."
 msgstr "任务“%1”正在拍摄..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1454
+#: ekos/scheduler/schedulerprocess.cpp:1453
 #, kde-format
 msgid "Ekos started."
 msgstr "Ekos 已启动。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1463
+#: ekos/scheduler/schedulerprocess.cpp:1462
 #, kde-format
 msgid "Starting Ekos failed. Retrying..."
 msgstr "启动 Ekos 失败，正在重试..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1468
+#: ekos/scheduler/schedulerprocess.cpp:1467
 #, kde-format
 msgid "Starting Ekos failed."
 msgstr "启动 Ekos 失败。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1479
+#: ekos/scheduler/schedulerprocess.cpp:1478
 #, kde-format
 msgid "Starting Ekos timed out. Retrying..."
 msgstr "启动 Ekos 超时，正在重试..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1489
+#: ekos/scheduler/schedulerprocess.cpp:1488
 #, kde-format
 msgid "Starting Ekos timed out."
 msgstr "启动 Ekos 超时。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1500
+#: ekos/scheduler/schedulerprocess.cpp:1499
 #, kde-format
 msgid "Ekos stopped."
 msgstr "Ekos 已停止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1543
+#: ekos/scheduler/schedulerprocess.cpp:1542
 #, kde-format
 msgid "INDI devices connected."
 msgstr "INDI 设备已连接。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1550
+#: ekos/scheduler/schedulerprocess.cpp:1549
 #, kde-format
 msgid "One or more INDI devices failed to connect. Retrying..."
 msgstr "一个或多个 INDI 设备连接失败。正在重试..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1555
+#: ekos/scheduler/schedulerprocess.cpp:1554
 #, kde-format
 msgid ""
 "One or more INDI devices failed to connect. Check INDI control panel for "
 "details."
 msgstr "一个或多个 INDI 设备连接失败，请检查 INDI 控制面板以了解详情。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1564
+#: ekos/scheduler/schedulerprocess.cpp:1563
 #, kde-format
 msgid "One or more INDI devices timed out. Retrying..."
 msgstr "一个或多个 INDI 设备连接超时，正在重试..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1570
+#: ekos/scheduler/schedulerprocess.cpp:1569
 #, kde-format
 msgid ""
 "One or more INDI devices timed out. Check INDI control panel for details."
 msgstr "一个或多个 INDI 设备连接超时，请检查 INDI 控制面板以了解详情。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1581
+#: ekos/scheduler/schedulerprocess.cpp:1580
 #, kde-format
 msgid "INDI devices disconnected."
 msgstr "INDI 设备已断开连接。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1615
+#: ekos/scheduler/schedulerprocess.cpp:1614
 #, kde-format
 msgid "INDI devices ready. Proceeding to post-startup phase..."
 msgstr "INDI 设备已就绪。正在进入启动后阶段..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1680
+#: ekos/scheduler/schedulerprocess.cpp:1682
 #, kde-format
 msgid "Executing post-shutdown tasks from %1..."
 msgstr "正在从 %1 执行后关机任务……"
 
-#: ekos/scheduler/schedulerprocess.cpp:1688
+#: ekos/scheduler/schedulerprocess.cpp:1690
 #, kde-format
 msgid "Post-shutdown queue is empty, shutdown complete."
 msgstr "关闭后队列为空，停机完成。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1694
+#: ekos/scheduler/schedulerprocess.cpp:1696
 #, kde-format
 msgid "Failed to load post-shutdown queue from %1"
 msgstr "从 %1 加载后关机队列失败"
 
-#: ekos/scheduler/schedulerprocess.cpp:1709
+#: ekos/scheduler/schedulerprocess.cpp:1711
 #, kde-format
 msgid "Shutdown complete."
 msgstr "关闭完成。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1711
+#: ekos/scheduler/schedulerprocess.cpp:1713
 #, kde-format
 msgid "Shutdown procedure failed, aborting..."
 msgstr "关机过程失败，中止..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1716
+#: ekos/scheduler/schedulerprocess.cpp:1718
 #, kde-format
 msgid "Entering weather monitoring mode. Waiting for weather to improve..."
 msgstr "正在进入天气监控模式。等待天气改善..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1814
+#: ekos/scheduler/schedulerprocess.cpp:1816
 #, kde-format
 msgid "Observatory is in the startup process"
 msgstr "天文台处于启动流程中"
 
-#: ekos/scheduler/schedulerprocess.cpp:1834
+#: ekos/scheduler/schedulerprocess.cpp:1836
 #, kde-format
 msgid "Executing pre-startup tasks from %1..."
 msgstr "正在从 %1 执行预启动任务……"
 
-#: ekos/scheduler/schedulerprocess.cpp:1842
+#: ekos/scheduler/schedulerprocess.cpp:1844
 #, kde-format
 msgid "Failed to load pre-startup queue from %1"
 msgstr "从 %1 加载启动前队列失败"
 
-#: ekos/scheduler/schedulerprocess.cpp:1848
+#: ekos/scheduler/schedulerprocess.cpp:1850
 #, kde-format
 msgid "No pre-startup tasks, pre-startup phase complete. Starting Ekos..."
 msgstr "没有预启动任务，预启动阶段完成。启动 Ekos 中……"
 
-#: ekos/scheduler/schedulerprocess.cpp:1872
+#: ekos/scheduler/schedulerprocess.cpp:1874
 #, kde-format
 msgid "Executing post-startup tasks from %1..."
 msgstr "正在从 %1 执行后启动任务……"
 
-#: ekos/scheduler/schedulerprocess.cpp:1880
+#: ekos/scheduler/schedulerprocess.cpp:1882
 #, kde-format
 msgid "Failed to load post-startup tasks from %1"
 msgstr "未能从 %1 中启动后启动任务"
 
-#: ekos/scheduler/schedulerprocess.cpp:1886
+#: ekos/scheduler/schedulerprocess.cpp:1888
 #, kde-format
 msgid "No post-startup tasks, startup complete."
 msgstr "无后启动任务，启动完成。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1930
+#: ekos/scheduler/schedulerprocess.cpp:1932
 #, kde-format
 msgid "Executing pre-shutdown tasks from %1..."
 msgstr "正在从 %1 执行预关机任务……"
 
-#: ekos/scheduler/schedulerprocess.cpp:1938
+#: ekos/scheduler/schedulerprocess.cpp:1940
 #, kde-format
 msgid "Failed to load pre-shutdown queue from %1"
 msgstr "从 %1 加载关机前队列失败"
 
-#: ekos/scheduler/schedulerprocess.cpp:1944
+#: ekos/scheduler/schedulerprocess.cpp:1946
 #, kde-format
 msgid "No pre-shutdown tasks, proceeding to stop Ekos/INDI."
 msgstr "没有关闭前任务，继续停止 Ekos / INDI。"
 
-#: ekos/scheduler/schedulerprocess.cpp:1985
+#: ekos/scheduler/schedulerprocess.cpp:1987
 #, kde-format
 msgid "Park/unpark procedure failed, aborting..."
 msgstr "泊位 / 取消泊位等待进程失败，终止中..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1998
+#: ekos/scheduler/schedulerprocess.cpp:2000
 #, kde-format
 msgid "Scheduler paused."
 msgstr "调度程序暂停。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2041
+#: ekos/scheduler/schedulerprocess.cpp:2043
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr "在估计后，调度队列中没有留下任何作业。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2051
+#: ekos/scheduler/schedulerprocess.cpp:2053
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
 "those."
 msgstr "评估后，调度器队列中只剩下中断的作业，正在重新安排这些作业。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2065
+#: ekos/scheduler/schedulerprocess.cpp:2067
 #, kde-format
 msgid "No jobs scheduled."
 msgstr "未安排作业。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2229
+#: ekos/scheduler/schedulerprocess.cpp:2231
 #, kde-format
 msgid "Starting job sequence iteration #%1"
 msgstr "开始作业序列迭代 #%1"
 
-#: ekos/scheduler/schedulerprocess.cpp:2245
+#: ekos/scheduler/schedulerprocess.cpp:2247
 #, kde-format
 msgid "No executable jobs found. Stopping scheduler."
-msgstr ""
+msgstr "未找到可执行任务。正在停止调度器。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2313
+#: ekos/scheduler/schedulerprocess.cpp:2315
 #, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr "导星已经在运行，直接开始拍摄。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2325
+#: ekos/scheduler/schedulerprocess.cpp:2327
 #, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
 "frames are pending."
 msgstr "由于仅待处理的是校准帧，因此作业“%1”将直接进入拍摄阶段。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2541
-#: ekos/scheduler/schedulerprocess.cpp:3434
+#: ekos/scheduler/schedulerprocess.cpp:2543
+#: ekos/scheduler/schedulerprocess.cpp:3436
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr "警告：任务“%1”的对齐校准失败，标记已中止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2567
+#: ekos/scheduler/schedulerprocess.cpp:2569
 #, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr "警告：任务“%1”的拍摄失败，标记为已中止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2613
+#: ekos/scheduler/schedulerprocess.cpp:2615
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr "警告：任务“%1”的对焦失败，标记已中止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2636
-#: ekos/scheduler/schedulerprocess.cpp:3505
+#: ekos/scheduler/schedulerprocess.cpp:2638
+#: ekos/scheduler/schedulerprocess.cpp:3507
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr "警告：任务“%1”的导星失败，标记已中止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2660
+#: ekos/scheduler/schedulerprocess.cpp:2662
 #, kde-format
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
 msgstr "警告：任务“%1”断开了与支架的连接，正在尝试重新连接。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2677
+#: ekos/scheduler/schedulerprocess.cpp:2679
 #, kde-format
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr "警告：任务“%1”断开了连接圆顶的连接，正在尝试重新连接。"
 
-#: ekos/scheduler/schedulerprocess.cpp:2745
+#: ekos/scheduler/schedulerprocess.cpp:2747
 #, kde-format
 msgid "Ekos job started (%1)"
 msgstr "Ekos 作业开始 (%1)"
 
-#: ekos/scheduler/schedulerprocess.cpp:2938
+#: ekos/scheduler/schedulerprocess.cpp:2940
 #, kde-format
 msgid "Scheduler list saved to %1"
 msgstr "计划列表保存到 %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3054
+#: ekos/scheduler/schedulerprocess.cpp:3056
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "解析器超时：%1s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3056
+#: ekos/scheduler/schedulerprocess.cpp:3058
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "解析器失败: %1s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3091
+#: ekos/scheduler/schedulerprocess.cpp:3093
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr "拍摄的图像距离目标 %1角分 ，正在重新对齐..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3103
+#: ekos/scheduler/schedulerprocess.cpp:3105
 #, kde-format
 msgid "Pre-startup queue completed successfully. Starting Ekos..."
-msgstr ""
+msgstr "启动前队列成功完成。正在启动 Ekos..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3111
+#: ekos/scheduler/schedulerprocess.cpp:3113
 #, kde-format
 msgid "Post-startup queue completed successfully."
-msgstr ""
+msgstr "启动后队列已成功完成。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3118
+#: ekos/scheduler/schedulerprocess.cpp:3120
 #, kde-format
 msgid "Resuming scheduler after safety recovery startup tasks..."
-msgstr ""
+msgstr "安全恢复任务后恢复调度器中..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3126
+#: ekos/scheduler/schedulerprocess.cpp:3128
 #, kde-format
 msgid "Pre-shutdown queue completed successfully."
-msgstr ""
+msgstr "关闭前队列已成功完成。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3145
+#: ekos/scheduler/schedulerprocess.cpp:3147
 #, kde-format
 msgid "Post-shutdown queue completed successfully."
-msgstr ""
+msgstr "关闭后队列已成功完成。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3158
+#: ekos/scheduler/schedulerprocess.cpp:3160
 #, kde-format
 msgid "Startup queue failed: %1"
-msgstr ""
+msgstr "启动队列失败：%1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3165
+#: ekos/scheduler/schedulerprocess.cpp:3167
 #, kde-format
 msgid "Pre-shutdown queue failed: %1"
-msgstr ""
+msgstr "关闭前队列失败：%1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3172
+#: ekos/scheduler/schedulerprocess.cpp:3174
 #, kde-format
 msgid "Post-shutdown queue failed: %1"
-msgstr ""
+msgstr "关闭后队列失败：%1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3238
+#: ekos/scheduler/schedulerprocess.cpp:3240
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
 msgstr "警告：train 名字为空，选择 %1。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3239
+#: ekos/scheduler/schedulerprocess.cpp:3241
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr "警告：train 名字 %2 不存在，选择 \"%1\"。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3241
-#: ekos/scheduler/schedulerprocess.cpp:3253
+#: ekos/scheduler/schedulerprocess.cpp:3243
+#: ekos/scheduler/schedulerprocess.cpp:3255
 #, kde-format
 msgid "Select optical train"
 msgstr "选择 optical train"
 
-#: ekos/scheduler/schedulerprocess.cpp:3250
+#: ekos/scheduler/schedulerprocess.cpp:3252
 #, kde-format
 msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr "警告：调度器作业没有可用的 train 名称，请手动选择 optical train 名称。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3400
+#: ekos/scheduler/schedulerprocess.cpp:3402
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "任务“%1”的对齐校准已完成。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3419
+#: ekos/scheduler/schedulerprocess.cpp:3421
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "警告：任务“%1”的对齐校准失败。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3425
+#: ekos/scheduler/schedulerprocess.cpp:3427
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
 msgstr "警告：任务“%1”在校准失败后强制重置赤道仪模型 #%2。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3429
-#: ekos/scheduler/schedulerprocess.cpp:3493
+#: ekos/scheduler/schedulerprocess.cpp:3431
+#: ekos/scheduler/schedulerprocess.cpp:3495
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "重启 %1 对准流程..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3465
+#: ekos/scheduler/schedulerprocess.cpp:3467
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "任务“%1”的导星进行中。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3477
+#: ekos/scheduler/schedulerprocess.cpp:3479
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "警告：任务“%1”的导星失败。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3479
+#: ekos/scheduler/schedulerprocess.cpp:3481
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "警告：任务“%1”的校准失败。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3498
+#: ekos/scheduler/schedulerprocess.cpp:3500
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "任务“%1”正在导星，导星过程将在 %2 秒后重启。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3551
+#: ekos/scheduler/schedulerprocess.cpp:3553
 #, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
 msgstr "[%2]警告：作业 “'%1”拍摄目标失败。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3569
+#: ekos/scheduler/schedulerprocess.cpp:3571
 #, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
 "of %4)."
 msgstr "[%2]作业“%1”正在拍摄，且正在重新启动其导星程序 (尝试 #%3 of %4)。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3578
+#: ekos/scheduler/schedulerprocess.cpp:3580
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr "警告：任务“%1”的拍摄过程失败，正在重启拍摄。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3584
+#: ekos/scheduler/schedulerprocess.cpp:3586
 #, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr "[%2]警告：作业“%1”的拍摄过程失败，标记为已中止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3597
+#: ekos/scheduler/schedulerprocess.cpp:3599
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr "[%2] 跟随作业 '%1'已经中止，正在重启。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3603
+#: ekos/scheduler/schedulerprocess.cpp:3605
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
 msgstr "[%2] 跟随作业 '%1'已经中止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3611
+#: ekos/scheduler/schedulerprocess.cpp:3613
 #, kde-format
 msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] 作业 (%1) - 拍摄完成"
 
-#: ekos/scheduler/schedulerprocess.cpp:3685
+#: ekos/scheduler/schedulerprocess.cpp:3687
 #, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
-msgstr ""
+msgstr "任务“%1”光学系统“%2”对焦完成。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3697
+#: ekos/scheduler/schedulerprocess.cpp:3699
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "警告：任务“%1”对焦失败。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3701
+#: ekos/scheduler/schedulerprocess.cpp:3703
 #, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
-msgstr ""
+msgstr "任务“%1”光学系统“%2”正在重启对焦流程。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3706
+#: ekos/scheduler/schedulerprocess.cpp:3708
 #, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
-msgstr ""
+msgstr "警告：光学系统“%2”的任务“%1”对焦流程执行失败，标记为中止状态。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3739
+#: ekos/scheduler/schedulerprocess.cpp:3741
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "任务“%1”的转动已完成。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3745
+#: ekos/scheduler/schedulerprocess.cpp:3747
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr "警告：任务“%1”的转动失败，标记为因错误而终止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3751
+#: ekos/scheduler/schedulerprocess.cpp:3753
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "警告：任务“%1”发现未在转动，正在重启。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3764
+#: ekos/scheduler/schedulerprocess.cpp:3766
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "任务“%1”的重新定位已完成。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3770
+#: ekos/scheduler/schedulerprocess.cpp:3772
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr "警告：任务“%1”重新定位失败，标记为因错误而终止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3776
+#: ekos/scheduler/schedulerprocess.cpp:3778
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "警告：任务“%1”发现未在移位，正在重启。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3790
-#: ekos/scheduler/schedulerprocess.cpp:3801
+#: ekos/scheduler/schedulerprocess.cpp:3792
+#: ekos/scheduler/schedulerprocess.cpp:3803
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr "警告：调度器运行作业'%1'但支架已归位。正在中止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3867
+#: ekos/scheduler/schedulerprocess.cpp:3869
 #, kde-format
 msgid "Safety has improved. Resuming operations."
-msgstr ""
+msgstr "安全条件有所改善，恢复操作。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3878
+#: ekos/scheduler/schedulerprocess.cpp:3880
 #, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
-msgstr ""
+msgstr "检测到安全警报。在 %1 秒内启动软关闭流程。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3905
+#: ekos/scheduler/schedulerprocess.cpp:3907
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
-msgstr ""
+msgstr "计划软关闭天文台直到安全条件改善或直到 %1。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3933
+#: ekos/scheduler/schedulerprocess.cpp:3935
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "手动关闭过程已成功完成。"
 
-#: ekos/scheduler/schedulerprocess.cpp:3939
+#: ekos/scheduler/schedulerprocess.cpp:3941
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "手动关闭过程因错误而终止。"
 
-#: ekos/scheduler/schedulerprocess.cpp:4102
+#: ekos/scheduler/schedulerprocess.cpp:4104
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
 "ready..."
 msgstr "休眠 %1 模拟时钟更新直到下一个观察任务准备好..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4407
+#: ekos/scheduler/schedulerprocess.cpp:4409
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "警告：任务“%1”含不可访问序列“%2”，标记为无效。"
 
-#: ekos/scheduler/schedulerprocess.cpp:4492
+#: ekos/scheduler/schedulerprocess.cpp:4494
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
-msgstr ""
+msgstr "安全条件监视器已通过连接字符串：%1 初始化"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:65
 #, kde-format
 msgid "Initializing standalone safety monitor monitoring for %1@%2:%3"
-msgstr ""
+msgstr "正在初始化独立安全监视器 %1@%2：%3"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:117
 #, kde-format
 msgid ""
 "Warning: Invalid safety monitor connection string format. Expected 'host' or "
 "'host:port'"
-msgstr ""
+msgstr "警告：无效的安全条件监视器连接字符串格式。应该为“host”或“host:port”"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:138
 #, kde-format
 msgid "Invalid safety monitor port number, using default port 7624"
-msgstr ""
+msgstr "无效的安全条件监视器端口号，使用默认端口 7624"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:167
 #, kde-format
 msgid ""
 "Failed to connect to standalone safety monitor after %1 attempts, giving up"
-msgstr ""
+msgstr "在 %1 次尝试后无法连接到独立的安全条件监视器，正在放弃"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:182
 #, kde-format
 msgid "Connecting to standalone safety monitor at %1:%2..."
-msgstr ""
+msgstr "正在连接到独立安全条件监视器：%1:%2..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:201
 #, kde-format
 msgid "Standalone safety monitor device %1 is ready"
-msgstr ""
+msgstr "独立安全条件监视器 %1 已就绪"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:219
 #, kde-format
 msgid "Warning: Device %1 is not valid"
-msgstr ""
+msgstr "警告：设备 %1 无效"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:235
 #, kde-format
 msgid "Warning: Standalone safety monitor device %1 disconnected"
-msgstr ""
+msgstr "警告：独立安全条件监视器 %1 断开连接"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:249
 #: ekos/scheduler/schedulersafetymonitor.cpp:293
 #: ekos/scheduler/schedulersafetymonitor.cpp:319
 #, kde-format
 msgid "Will attempt to reconnect in 10 seconds (attempt %1 of %2)..."
-msgstr ""
+msgstr "将尝试在 10 秒后重新连接 (第 %1 次尝试，共 %2 次)..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:255
 #: ekos/scheduler/schedulersafetymonitor.cpp:299
 #: ekos/scheduler/schedulersafetymonitor.cpp:325
 #, kde-format
 msgid "Maximum reconnection attempts reached for standalone safety monitor"
-msgstr ""
+msgstr "已达到独立安全条件监视器的最大重连尝试次数"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:263
 #, kde-format
 msgid "Attempting to reconnect to standalone safety monitor..."
-msgstr ""
+msgstr "正在尝试重新连接到独立安全条件监视器..."
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:280
 #, kde-format
 msgid "Standalone safety monitor client connected successfully"
-msgstr ""
+msgstr "独立安全条件监视器客户端连接成功"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:287
 #, kde-format
 msgid "Standalone safety monitor client connection failed: %1"
-msgstr ""
+msgstr "独立安全条件监视器连接失败：%1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:306
 #, kde-format
 msgid "Standalone safety monitor client terminated: %1"
-msgstr ""
+msgstr "独立安全条件监视器客户端已终止：%1"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:370
 #, kde-format
 msgid "Safety monitor connection string changed from %1:%2 to %3:%4"
-msgstr ""
+msgstr "安全条件监视器连接字符串从 %1:%2 变更为 %3:%4"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:378
 #, kde-format
 msgid "Disconnecting from existing safety monitor at %1:%2"
-msgstr ""
+msgstr "从现有的 %1:%2 安全条件监视器断开连接"
 
 #: ekos/scheduler/schedulersafetymonitor.cpp:410
 #, kde-format
 msgid "Safety monitor monitoring disabled"
-msgstr ""
+msgstr "安全条件监视器已禁用"
 
 #: ekos/scheduler/schedulerutils.cpp:372
 #, kde-format
@@ -29434,90 +29434,90 @@ msgstr "任务“%1”%2x%3\" %4"
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:96
 #, kde-format
 msgid "Starting task queue with %1 items"
-msgstr ""
+msgstr "开始任务队列，共 %1 项"
 
 #: ekos/scheduler/taskqueue/queue/queueexecutor.cpp:263
 #, kde-format
 msgid "No connected device found with required interfaces"
-msgstr ""
+msgstr "未在请求的接口上找到连接的设备"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:26
 #, kde-format
 msgid "Load Task Collection"
-msgstr ""
+msgstr "加载任务合集"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:42
 #, kde-format
 msgid "Available Collections"
-msgstr ""
+msgstr "可用的合集"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:52
 #, kde-format
 msgid "Collection Details"
-msgstr ""
+msgstr "合集详情"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:79
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:63
 #, kde-format
 msgid "Load Collection"
-msgstr ""
+msgstr "加载合集"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:185
 #, kde-format
 msgid "Error reading collection"
-msgstr ""
+msgstr "读取合集时出错"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:196
 #, kde-format
 msgid "Invalid collection format"
-msgstr ""
+msgstr "无效的合集格式"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:214
 #, kde-format
 msgid "<b>Tasks (%1):</b><br/>"
-msgstr ""
+msgstr "<b>任务 (%1)：</b><br/>"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:33
 #, kde-format
 msgid "Select Device"
-msgstr ""
+msgstr "选择设备"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:67
 #, kde-format
 msgid "Select the device to use for this task"
-msgstr ""
+msgstr "选择用于此任务的设备"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:170
 #, kde-format
 msgid "No compatible devices found"
-msgstr ""
+msgstr "找不到兼容设备"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:190
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:506
 #, kde-format
 msgid "Optical Train Manager not available"
-msgstr ""
+msgstr "光学系统管理器不可用"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:201
 #, kde-format
 msgid "Scheduler state not available"
-msgstr ""
+msgstr "调度器状态不可用"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:215
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:474
 #, kde-format
 msgid "No profile selected"
-msgstr ""
+msgstr "未选择配置文件"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:235
 #, kde-format
 msgid "Profile not found: %1"
-msgstr ""
+msgstr "找不到配置文件：%1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:246
 #, kde-format
 msgid "No optical trains for profile: %1"
-msgstr ""
+msgstr "配置文件没有光学系统：%1"
 
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:280
 #, kde-format
@@ -29795,7 +29795,7 @@ msgstr "%1 属性可用"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:966
 #, kde-format
 msgid "SET Action Configuration"
-msgstr ""
+msgstr "SET 操作配置"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:869
@@ -29811,75 +29811,75 @@ msgstr "值："
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1010
 #, kde-format
 msgid "EVALUATE Action Configuration"
-msgstr ""
+msgstr "EVALUATE 操作配置"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:876
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:978
 #, kde-format
 msgid "Equals"
-msgstr ""
+msgstr "等于"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:877
 #, kde-format
 msgid "Less Than"
-msgstr ""
+msgstr "小于"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:878
 #, kde-format
 msgid "Greater Than"
-msgstr ""
+msgstr "大于"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:879
 #, kde-format
 msgid "Less or Equal"
-msgstr ""
+msgstr "小于等于"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:880
 #, kde-format
 msgid "Greater or Equal"
-msgstr ""
+msgstr "大于等于"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:881
 #, kde-format
 msgid "Not Equal"
-msgstr ""
+msgstr "不等于"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:882
 #, kde-format
 msgid "Within Range"
-msgstr ""
+msgstr "在范围内"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:883
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:980
 #, kde-format
 msgid "Condition:"
-msgstr ""
+msgstr "条件："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:895
 #, kde-format
 msgid "Margin/Tolerance:"
-msgstr ""
+msgstr "边际/公差："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:930
 #, kde-format
 msgid "State:"
-msgstr ""
+msgstr "状态："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:939
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1019
 #, kde-format
 msgid "Expected State:"
-msgstr ""
+msgstr "期望状态："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:979
 #, kde-format
 msgid "Contains"
-msgstr ""
+msgstr "包含"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:983
 #, kde-format
 msgid "Expected Value:"
-msgstr ""
+msgstr "期望值："
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1016
 #: skycomponents/imageoverlaycomponent.cpp:556
@@ -29890,17 +29890,17 @@ msgstr "OK"
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1017
 #, kde-format
 msgid "Busy"
-msgstr ""
+msgstr "忙碌"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1033
 #, kde-format
 msgid "Invalid Configuration"
-msgstr ""
+msgstr "无效配置"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1034
 #, kde-format
 msgid "At least one action type (SET or EVALUATE) must be selected."
-msgstr ""
+msgstr "至少选择一种操作类型 (SET or EVALUATE)。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1068
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1079
@@ -29911,104 +29911,104 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1124
 #, kde-format
 msgid "Validation Error"
-msgstr ""
+msgstr "验证错误"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1069
 #, kde-format
 msgid "Please select a device."
-msgstr ""
+msgstr "请选择一个设备。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1080
 #, kde-format
 msgid "Please select a property."
-msgstr ""
+msgstr "请选择一个属性。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1087
 #, kde-format
 msgid "Selected property type is not supported."
-msgstr ""
+msgstr "不支持所选属性类型。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1099
 #, kde-format
 msgid "At least one action (SET or EVALUATE) must be selected."
-msgstr ""
+msgstr "至少选择一种操作 (SET or EVALUATE)。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1106
 #, kde-format
 msgid "Please select a property element."
-msgstr ""
+msgstr "请选择一个属性元素。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1118
 #, kde-format
 msgid "Please provide a template name."
-msgstr ""
+msgstr "请提供一个模板名称。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1125
 #, kde-format
 msgid "Please select or enter a category."
-msgstr ""
+msgstr "请选择或输入一个类别。"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1428
 #, kde-format
 msgid "Save Error"
-msgstr ""
+msgstr "保存错误"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1429
 #, kde-format
 msgid "Failed to open file for writing: %1"
-msgstr ""
+msgstr "打开文件以写入时失败：%1"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1466
 #, kde-format
 msgid "Template Error"
-msgstr ""
+msgstr "模板错误"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1467
 #, kde-format
 msgid "Failed to create template object from JSON."
-msgstr ""
+msgstr "从 JSON 创建模板对象失败。"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:39
 #, kde-format
 msgid "Task Queue Viewer"
-msgstr ""
+msgstr "任务队列查看器"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:59
 #, kde-format
 msgid "Add from Template"
-msgstr ""
+msgstr "从模板添加"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:69
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:658
 #, kde-format
 msgid "Save Queue"
-msgstr ""
+msgstr "保存队列"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:70
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:705
 #, kde-format
 msgid "Load Queue"
-msgstr ""
+msgstr "加载队列"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:77
 #, kde-format
 msgid "Pause"
-msgstr ""
+msgstr "暂停"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:97
 #, kde-format
 msgid "Task"
-msgstr ""
+msgstr "任务"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:100
 #, kde-format
 msgid "Progress"
-msgstr ""
+msgstr "进度"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:101
 #, kde-format
 msgid "Created"
-msgstr ""
+msgstr "已创建"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpButton)
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:116
@@ -30028,153 +30028,153 @@ msgstr "向下移动"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:389
 #, kde-format
 msgid "Queue idle"
-msgstr ""
+msgstr "队列闲置"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:226
 #, kde-format
 msgid "Total: %1  Completed: %2  Failed: %3  Pending: %4"
-msgstr ""
+msgstr "共计：%1  已完成：%2  失败：%3  等待中：%4"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:270
 #, kde-format
 msgid "Queue Start Failed"
-msgstr ""
+msgstr "队列启动失败"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:271
 #, kde-format
 msgid "Failed to start queue execution. Check that queue has items."
-msgstr ""
+msgstr "启动队列执行失败。请检查队列中的项目。"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:392
 #, kde-format
 msgid "Queue running"
-msgstr ""
+msgstr "队列正在运行"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:395
 #, kde-format
 msgid "Queue paused"
-msgstr ""
+msgstr "队列已暂停"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:398
 #, kde-format
 msgid "Queue completed"
-msgstr ""
+msgstr "队列已完成"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:401
 #, kde-format
 msgid "Queue aborted"
-msgstr ""
+msgstr "队列中止"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:431
 #, kde-format
 msgid "Queue completed successfully"
-msgstr ""
+msgstr "队列成功完成"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:470
 #, kde-format
 msgid "Item failed: %1"
-msgstr ""
+msgstr "项目失败：%1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:514
 #, kde-format
 msgid "Pending"
-msgstr ""
+msgstr "等待中"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:524
 #, kde-format
 msgid "Skipped"
-msgstr ""
+msgstr "跳过"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:622
 #, kde-format
 msgid "Task Creation Failed"
-msgstr ""
+msgstr "创建任务失败"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:623
 #, kde-format
 msgid "Failed to create task from template"
-msgstr ""
+msgstr "从模板创建任务失败"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:640
 #, kde-format
 msgid "Empty Queue"
-msgstr ""
+msgstr "空队列"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:641
 #, kde-format
 msgid "Queue is empty. Nothing to save."
-msgstr ""
+msgstr "队列为空。没有任务可保存。"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:660
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:707
 #, kde-format
 msgid "KStars Queue Files (*.kstarsqueue);;All Files (*)"
-msgstr ""
+msgstr "KStars 队列文件 (*.kstarsqueue);;所有文件 (*)"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:673
 #, kde-format
 msgid "Failed to save queue to %1"
-msgstr ""
+msgstr "无法保存队列到 %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:685
 #, kde-format
 msgid "Clear Existing Queue?"
-msgstr ""
+msgstr "清除现有队列？"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:686
 #, kde-format
 msgid "Loading a queue will clear the current queue. Continue?"
-msgstr ""
+msgstr "加载新队列将清除现有队列。是否继续？"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:721
 #, kde-format
 msgid "Failed to load queue from %1"
-msgstr ""
+msgstr "从 %1 加载队列失败"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:769
 #, kde-format
 msgid "Failed to open collection file: %1"
-msgstr ""
+msgstr "打开合集失败：%1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:779
 #, kde-format
 msgid "Invalid collection file format"
-msgstr ""
+msgstr "无效的合集文件格式"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:789
 #, kde-format
 msgid "Empty Collection"
-msgstr ""
+msgstr "清空合集"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:790
 #, kde-format
 msgid "The collection contains no tasks"
-msgstr ""
+msgstr "合集中没有任务"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:799
 #, kde-format
 msgid "Template manager not available"
-msgstr ""
+msgstr "模板管理器不可用"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:809
 #, kde-format
 msgid "Failed to initialize template library"
-msgstr ""
+msgstr "初始化模板库失败"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:830
 #, kde-format
 msgid "Template not found: %1"
-msgstr ""
+msgstr "找不到模板：%1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:853
 #, kde-format
 msgid "Failed to create task from template: %1"
-msgstr ""
+msgstr "从模板创建任务失败：%1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:862
 #, kde-format
 msgid "No tasks were added from collection '%1'."
-msgstr ""
+msgstr "没有从合集“%1”中添加任务。"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:867
 #, kde-format
@@ -30183,6 +30183,8 @@ msgid ""
 "\n"
 "%1 tasks failed to load."
 msgstr ""
+"\n"
+"%1 任务加载失败"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:872
 #, kde-format
@@ -30191,76 +30193,78 @@ msgid ""
 "\n"
 "Warnings:\n"
 msgstr ""
+"\n"
+"警告：\n"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:876
 #, kde-format
 msgid "Collection Loaded"
-msgstr ""
+msgstr "合集已加载"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format
 msgid "Task Queue Templates"
-msgstr ""
+msgstr "任务队列模板"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:52
 #, kde-format
 msgid "Templates"
-msgstr ""
+msgstr "模板"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:73
 #, kde-format
 msgid "Add to Queue"
-msgstr ""
+msgstr "加入队列"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:75
 #, kde-format
 msgid "Create Custom Template"
-msgstr ""
+msgstr "创建自定义模板"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:85
 #, kde-format
 msgid "Delete Template"
-msgstr ""
+msgstr "删除模板"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:281
 #, kde-format
 msgid "Category"
-msgstr ""
+msgstr "类别"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:293
 #, kde-format
 msgid "Parameters"
-msgstr ""
+msgstr "参数"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:319
 #, kde-format
 msgid "Number of actions"
-msgstr ""
+msgstr "操作数"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:325
 #, kde-format
 msgid "System Template"
-msgstr ""
+msgstr "系统模板"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:329
 #, kde-format
 msgid "User Template"
-msgstr ""
+msgstr "用户模板"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:333
 #, kde-format
 msgid "Based on"
-msgstr ""
+msgstr "基于"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:401
 #, kde-format
 msgid "Delete Failed"
-msgstr ""
+msgstr "删除失败"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:402
 #, kde-format
 msgid "Failed to delete template."
-msgstr ""
+msgstr "模板删除失败"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
@@ -30713,24 +30717,24 @@ msgstr "KStars 未找到任何活动的支架。"
 #: fitsviewer/fitsmemmonitor.cpp:72 fitsviewer/fitsmemmonitor.cpp:202
 #, kde-format
 msgid "RAM: -- / --"
-msgstr ""
+msgstr "RAM: -- / --"
 
 #: fitsviewer/fitsmemmonitor.cpp:80
 #, kde-format
 msgid "Double-click to toggle text display"
-msgstr ""
+msgstr "双击切换文本显示"
 
 #: fitsviewer/fitsstackmonitor.h:140
 #, kde-format
 msgctxt "Stack monitor status"
 msgid "In Progress"
-msgstr ""
+msgstr "进行中"
 
 #: fitsviewer/fitsstackmonitor.h:144
 #, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed to Load"
-msgstr ""
+msgstr "%1 加载失败"
 
 #: fitsviewer/fitsstackmonitor.h:146
 #, kde-format

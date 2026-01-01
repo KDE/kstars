@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-12-23 02:04+0000\n"
+"POT-Creation-Date: 2026-01-01 01:58+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -3998,7 +3998,7 @@ msgstr "O catálogo com o ID %1 não foi encontrado."
 #: dialogs/catalogcoloreditor.cpp:109
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:441
 #: ekos/scheduler/scheduler.ui:552 ekos/scheduler/schedulermodulestate.cpp:56
-#: ekos/scheduler/schedulerprocess.cpp:1819
+#: ekos/scheduler/schedulerprocess.cpp:1821
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:210
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:469
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1197
@@ -7833,7 +7833,7 @@ msgstr "A guia automática foi interrompida."
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2124 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1042
-#: ekos/scheduler/schedulerprocess.cpp:3366
+#: ekos/scheduler/schedulerprocess.cpp:3368
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -8037,8 +8037,8 @@ msgstr "URL inválido: %1"
 
 #: ekos/align/align.cpp:4095 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
-#: ekos/scheduler/schedulerprocess.cpp:2759
-#: ekos/scheduler/schedulerprocess.cpp:4312
+#: ekos/scheduler/schedulerprocess.cpp:2761
+#: ekos/scheduler/schedulerprocess.cpp:4314
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Não é possível gravar no ficheiro %1"
@@ -8046,10 +8046,10 @@ msgstr "Não é possível gravar no ficheiro %1"
 #: ekos/align/align.cpp:4096 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:2606 ekos/capture/sequencequeue.cpp:33
-#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2760
-#: ekos/scheduler/schedulerprocess.cpp:3189
-#: ekos/scheduler/schedulerprocess.cpp:4313
-#: ekos/scheduler/schedulerprocess.cpp:4333 indi/drivermanager.cpp:1567
+#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2762
+#: ekos/scheduler/schedulerprocess.cpp:3191
+#: ekos/scheduler/schedulerprocess.cpp:4315
+#: ekos/scheduler/schedulerprocess.cpp:4335 indi/drivermanager.cpp:1567
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -8730,8 +8730,8 @@ msgstr "Abrir a Lista de Alinhamento do Ekos"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:355
 #: ekos/capture/cameraprocess.cpp:2605 ekos/capture/sequencequeue.cpp:32
-#: ekos/scheduler/schedulerprocess.cpp:3188
-#: ekos/scheduler/schedulerprocess.cpp:4332
+#: ekos/scheduler/schedulerprocess.cpp:3190
+#: ekos/scheduler/schedulerprocess.cpp:4334
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Não foi possível aceder ao ficheiro %1"
@@ -30924,7 +30924,7 @@ msgstr ""
 "hora, avaliando depois as tarefas."
 
 #: ekos/scheduler/scheduler.cpp:511 ekos/scheduler/scheduler.cpp:2413
-#: ekos/scheduler/schedulerprocess.cpp:3275
+#: ekos/scheduler/schedulerprocess.cpp:3277
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
@@ -31085,7 +31085,7 @@ msgstr "O agendamento está em pausa planeada..."
 msgid "Resume Scheduler"
 msgstr "Retomar o Agendamento"
 
-#: ekos/scheduler/scheduler.cpp:2114 ekos/scheduler/schedulerprocess.cpp:1917
+#: ekos/scheduler/scheduler.cpp:2114 ekos/scheduler/schedulerprocess.cpp:1919
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "O observatório está no processo de encerramento"
@@ -32072,12 +32072,12 @@ msgstr ""
 "A tarefa '%1' não foi processada após a paragem do escalonamento; a marcar "
 "como interrompida."
 
-#: ekos/scheduler/schedulerprocess.cpp:765
+#: ekos/scheduler/schedulerprocess.cpp:764
 #, kde-format
 msgid "Job '%1' cannot start, weather grace period is active."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:784
+#: ekos/scheduler/schedulerprocess.cpp:783
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
@@ -32086,7 +32086,7 @@ msgstr ""
 "A tarefa '%1' está agendada para execução às %2. O observatório está "
 "agendado para encerramento até a próxima tarefa estar pronta."
 
-#: ekos/scheduler/schedulerprocess.cpp:804
+#: ekos/scheduler/schedulerprocess.cpp:803
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
@@ -32095,19 +32095,19 @@ msgstr ""
 "A tarefa '%1' está agendada para execução às %2. A bloquear a montagem até "
 "que a tarefa esteja pronta."
 
-#: ekos/scheduler/schedulerprocess.cpp:817
+#: ekos/scheduler/schedulerprocess.cpp:816
 #, fuzzy, kde-format
 #| msgid "Failed to load dark data."
 msgid "Warning: Failed to add mount park task."
 msgstr "Não foi possível carregar os dados escuros."
 
-#: ekos/scheduler/schedulerprocess.cpp:823
+#: ekos/scheduler/schedulerprocess.cpp:822
 #, fuzzy, kde-format
 #| msgid "Sleeping until observation job %1 is ready at %2..."
 msgid "Sleeping until observation job %1 is ready at %2"
 msgstr "A suspender até que a tarefa de observação %1 esteja pronta às %2..."
 
-#: ekos/scheduler/schedulerprocess.cpp:834
+#: ekos/scheduler/schedulerprocess.cpp:833
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
@@ -32116,65 +32116,65 @@ msgstr ""
 "Atenção: A tarefa '%1' ocorre daqui a %2, pelo que poderá querer activar o "
 "Encerramento Preemptivo."
 
-#: ekos/scheduler/schedulerprocess.cpp:862
+#: ekos/scheduler/schedulerprocess.cpp:861
 #, fuzzy, kde-format
 #| msgid "The mount is parked. Unpark to start guiding."
 msgid "Mount is parked, adding unpark task before slewing."
 msgstr "A montagem está bloqueada. Desbloqueie para iniciar a guia."
 
-#: ekos/scheduler/schedulerprocess.cpp:867
+#: ekos/scheduler/schedulerprocess.cpp:866
 #, kde-format
 msgid "Warning: Failed to add mount unpark task, attempting to slew anyway."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:894
+#: ekos/scheduler/schedulerprocess.cpp:893
 #, kde-format
 msgid "Job '%1' is slewing to target."
 msgstr "A tarefa '%1 está a deslocar-se para o seu alvo."
 
-#: ekos/scheduler/schedulerprocess.cpp:970
+#: ekos/scheduler/schedulerprocess.cpp:969
 #, kde-format
 msgid "Warning: job '%1' is unable to proceed with autofocus, not supported."
 msgstr ""
 "Atenção: a tarefa '%1' não consegue prosseguir com o foco automático, por "
 "não ser suportado."
 
-#: ekos/scheduler/schedulerprocess.cpp:1086
+#: ekos/scheduler/schedulerprocess.cpp:1085
 #, kde-format
 msgid "Job '%1' is focusing."
 msgstr "A tarefa '%1' está a focar."
 
-#: ekos/scheduler/schedulerprocess.cpp:1113
+#: ekos/scheduler/schedulerprocess.cpp:1112
 #, kde-format
 msgid "Warning: job '%1' target FITS file does not exist."
 msgstr ""
 "Atenção: o ficheiro FITS do alvo para a tarefa '%1' não foi encontrado."
 
-#: ekos/scheduler/schedulerprocess.cpp:1125
+#: ekos/scheduler/schedulerprocess.cpp:1124
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
 msgstr ""
 "Atenção: o pedido de 'loadAndSlew' da tarefa '%1' devolveu um erro de DBUS: "
 "%2"
 
-#: ekos/scheduler/schedulerprocess.cpp:1136
+#: ekos/scheduler/schedulerprocess.cpp:1135
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request failed."
 msgstr "Atenção: o pedido de 'loadAndSlew' da tarefa '%1' falhou."
 
-#: ekos/scheduler/schedulerprocess.cpp:1142
+#: ekos/scheduler/schedulerprocess.cpp:1141
 #, kde-format
 msgid "Job '%1' is plate solving %2."
 msgstr "A tarefa '%1' está a fazer a resolução do prato de %2."
 
-#: ekos/scheduler/schedulerprocess.cpp:1156
+#: ekos/scheduler/schedulerprocess.cpp:1155
 #, kde-format
 msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
 msgstr ""
 "Atenção: o pedido de 'setTargetCoords' da tarefa '%1' devolveu um erro de "
 "DBUS: %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:1172
+#: ekos/scheduler/schedulerprocess.cpp:1171
 #, kde-format
 msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
@@ -32182,90 +32182,90 @@ msgstr ""
 "Atenção: o pedido de 'setTargetPositionAngle' da tarefa '%1' devolveu um "
 "erro de DBUS: %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:1185
+#: ekos/scheduler/schedulerprocess.cpp:1184
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
 msgstr ""
 "Atenção: o pedido de 'captureAndSolve' da tarefa '%1' devolveu um erro de "
 "DBUS: %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:1196
+#: ekos/scheduler/schedulerprocess.cpp:1195
 #, kde-format
 msgid "Warning: job '%1' captureAndSolve request failed."
 msgstr "Atenção: o pedido de 'captureAndSolve' da tarefa '%1' falhou."
 
-#: ekos/scheduler/schedulerprocess.cpp:1202
+#: ekos/scheduler/schedulerprocess.cpp:1201
 #, kde-format
 msgid "Job '%1' is capturing and plate solving."
 msgstr "A tarefa '%1' está a capturar e a resolver."
 
-#: ekos/scheduler/schedulerprocess.cpp:1218
+#: ekos/scheduler/schedulerprocess.cpp:1217
 #, fuzzy, kde-format
 #| msgid "Guiding already running for %1 ..."
 msgid "Guiding already running for %1, starting next scheduler action..."
 msgstr "A guia já está em execução para o %1 ..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1242
+#: ekos/scheduler/schedulerprocess.cpp:1241
 #, kde-format
 msgid "Starting guiding procedure for %1 ..."
 msgstr "A iniciar o processo de guia de %1..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1305
+#: ekos/scheduler/schedulerprocess.cpp:1304
 #, kde-format
 msgid "Ekos job (%1) - Capture started"
 msgstr "Tarefa do Ekos (%1) - Captura iniciada"
 
-#: ekos/scheduler/schedulerprocess.cpp:1308
+#: ekos/scheduler/schedulerprocess.cpp:1307
 #, kde-format
 msgid "Job '%1' capture is in progress (batch #%2)..."
 msgstr "A captura da tarefa '%1' está em curso (lote #%2)..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1311
+#: ekos/scheduler/schedulerprocess.cpp:1310
 #, kde-format
 msgid "Job '%1' capture is in progress..."
 msgstr "A captura da tarefa '%1' está em curso..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1454
+#: ekos/scheduler/schedulerprocess.cpp:1453
 #, kde-format
 msgid "Ekos started."
 msgstr "O Ekos foi iniciado."
 
-#: ekos/scheduler/schedulerprocess.cpp:1463
+#: ekos/scheduler/schedulerprocess.cpp:1462
 #, kde-format
 msgid "Starting Ekos failed. Retrying..."
 msgstr "Não foi possível iniciar o Ekos. A repetir..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1468
+#: ekos/scheduler/schedulerprocess.cpp:1467
 #, kde-format
 msgid "Starting Ekos failed."
 msgstr "Não foi possível iniciar o Ekos."
 
-#: ekos/scheduler/schedulerprocess.cpp:1479
+#: ekos/scheduler/schedulerprocess.cpp:1478
 #, kde-format
 msgid "Starting Ekos timed out. Retrying..."
 msgstr "Expirou o tempo-limite ao iniciar o Ekos. A repetir..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1489
+#: ekos/scheduler/schedulerprocess.cpp:1488
 #, kde-format
 msgid "Starting Ekos timed out."
 msgstr "Expirou o tempo-limite ao iniciar o Ekos."
 
-#: ekos/scheduler/schedulerprocess.cpp:1500
+#: ekos/scheduler/schedulerprocess.cpp:1499
 #, kde-format
 msgid "Ekos stopped."
 msgstr "O Ekos parou."
 
-#: ekos/scheduler/schedulerprocess.cpp:1543
+#: ekos/scheduler/schedulerprocess.cpp:1542
 #, kde-format
 msgid "INDI devices connected."
 msgstr "Foram ligados os dispositivos INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:1550
+#: ekos/scheduler/schedulerprocess.cpp:1549
 #, kde-format
 msgid "One or more INDI devices failed to connect. Retrying..."
 msgstr "Não foi possível ligar um ou mais dispositivos INDI. A repetir..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1555
+#: ekos/scheduler/schedulerprocess.cpp:1554
 #, kde-format
 msgid ""
 "One or more INDI devices failed to connect. Check INDI control panel for "
@@ -32274,14 +32274,14 @@ msgstr ""
 "Não foi possível ligar um ou mais dispositivos INDI. Verifique o painel de "
 "controlo do INDI para saber mais detalhes."
 
-#: ekos/scheduler/schedulerprocess.cpp:1564
+#: ekos/scheduler/schedulerprocess.cpp:1563
 #, kde-format
 msgid "One or more INDI devices timed out. Retrying..."
 msgstr ""
 "Expirou o tempo-limite ao tentar ligar um ou mais dispositivos INDI. A "
 "repetir..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1570
+#: ekos/scheduler/schedulerprocess.cpp:1569
 #, kde-format
 msgid ""
 "One or more INDI devices timed out. Check INDI control panel for details."
@@ -32289,121 +32289,121 @@ msgstr ""
 "Expirou o tempo-limite ao tentar ligar um ou mais dispositivos INDI. "
 "Verifique o painel de controlo do INDI para saber mais detalhes."
 
-#: ekos/scheduler/schedulerprocess.cpp:1581
+#: ekos/scheduler/schedulerprocess.cpp:1580
 #, kde-format
 msgid "INDI devices disconnected."
 msgstr "Foram desligados os dispositivos INDI."
 
-#: ekos/scheduler/schedulerprocess.cpp:1615
+#: ekos/scheduler/schedulerprocess.cpp:1614
 #, kde-format
 msgid "INDI devices ready. Proceeding to post-startup phase..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1680
+#: ekos/scheduler/schedulerprocess.cpp:1682
 #, kde-format
 msgid "Executing post-shutdown tasks from %1..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1688
+#: ekos/scheduler/schedulerprocess.cpp:1690
 #, fuzzy, kde-format
 #| msgid "Manual shutdown procedure completed successfully."
 msgid "Post-shutdown queue is empty, shutdown complete."
 msgstr "O procedimento de encerramento manual terminou com sucesso."
 
-#: ekos/scheduler/schedulerprocess.cpp:1694
+#: ekos/scheduler/schedulerprocess.cpp:1696
 #, fuzzy, kde-format
 #| msgid "Failed to load defect map %1"
 msgid "Failed to load post-shutdown queue from %1"
 msgstr "Não foi possível carregar o mapa de defeitos %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1709
+#: ekos/scheduler/schedulerprocess.cpp:1711
 #, kde-format
 msgid "Shutdown complete."
 msgstr "O encerramento terminou."
 
-#: ekos/scheduler/schedulerprocess.cpp:1711
+#: ekos/scheduler/schedulerprocess.cpp:1713
 #, kde-format
 msgid "Shutdown procedure failed, aborting..."
 msgstr "O procedimento de encerramento foi mal-sucedido; a interromper..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1716
+#: ekos/scheduler/schedulerprocess.cpp:1718
 #, kde-format
 msgid "Entering weather monitoring mode. Waiting for weather to improve..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1814
+#: ekos/scheduler/schedulerprocess.cpp:1816
 #, kde-format
 msgid "Observatory is in the startup process"
 msgstr "O observatório está no processo de arranque"
 
-#: ekos/scheduler/schedulerprocess.cpp:1834
+#: ekos/scheduler/schedulerprocess.cpp:1836
 #, fuzzy, kde-format
 #| msgid "Executing script %1..."
 msgid "Executing pre-startup tasks from %1..."
 msgstr "A executar o programa %1..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1842
+#: ekos/scheduler/schedulerprocess.cpp:1844
 #, fuzzy, kde-format
 #| msgid "Failed to load defect map file %1"
 msgid "Failed to load pre-startup queue from %1"
 msgstr "Não foi possível carregar o ficheiro do mapa de defeitos %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1848
+#: ekos/scheduler/schedulerprocess.cpp:1850
 #, kde-format
 msgid "No pre-startup tasks, pre-startup phase complete. Starting Ekos..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1872
+#: ekos/scheduler/schedulerprocess.cpp:1874
 #, fuzzy, kde-format
 #| msgid "Executing script %1..."
 msgid "Executing post-startup tasks from %1..."
 msgstr "A executar o programa %1..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1880
+#: ekos/scheduler/schedulerprocess.cpp:1882
 #, fuzzy, kde-format
 #| msgid "Failed to load dark frame file %1"
 msgid "Failed to load post-startup tasks from %1"
 msgstr "Não foi possível carregar o ficheiro da imagem escura %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1886
+#: ekos/scheduler/schedulerprocess.cpp:1888
 #, kde-format
 msgid "No post-startup tasks, startup complete."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1930
+#: ekos/scheduler/schedulerprocess.cpp:1932
 #, kde-format
 msgid "Executing pre-shutdown tasks from %1..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1938
+#: ekos/scheduler/schedulerprocess.cpp:1940
 #, fuzzy, kde-format
 #| msgid "Failed to load defect map %1"
 msgid "Failed to load pre-shutdown queue from %1"
 msgstr "Não foi possível carregar o mapa de defeitos %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1944
+#: ekos/scheduler/schedulerprocess.cpp:1946
 #, kde-format
 msgid "No pre-shutdown tasks, proceeding to stop Ekos/INDI."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1985
+#: ekos/scheduler/schedulerprocess.cpp:1987
 #, fuzzy, kde-format
 #| msgid "park/unpark wait procedure failed, aborting..."
 msgid "Park/unpark procedure failed, aborting..."
 msgstr ""
 "O procedimento de bloqueio/desbloqueio foi mal-sucedido; a interromper..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1998
+#: ekos/scheduler/schedulerprocess.cpp:2000
 #, kde-format
 msgid "Scheduler paused."
 msgstr "O agendamento está em pausa."
 
-#: ekos/scheduler/schedulerprocess.cpp:2041
+#: ekos/scheduler/schedulerprocess.cpp:2043
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr "Não existem mais tarefas na fila do escalonamento após a avaliação."
 
-#: ekos/scheduler/schedulerprocess.cpp:2051
+#: ekos/scheduler/schedulerprocess.cpp:2053
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
@@ -32412,27 +32412,27 @@ msgstr ""
 "Só restam tarefas interrompidas na fila de escalonamento após a avaliação; a "
 "reavaliar as mesmas."
 
-#: ekos/scheduler/schedulerprocess.cpp:2065
+#: ekos/scheduler/schedulerprocess.cpp:2067
 #, kde-format
 msgid "No jobs scheduled."
 msgstr "Não existem tarefas agendadas."
 
-#: ekos/scheduler/schedulerprocess.cpp:2229
+#: ekos/scheduler/schedulerprocess.cpp:2231
 #, kde-format
 msgid "Starting job sequence iteration #%1"
 msgstr "A iniciar a iteração #%1 da sequência de tarefas"
 
-#: ekos/scheduler/schedulerprocess.cpp:2245
+#: ekos/scheduler/schedulerprocess.cpp:2247
 #, kde-format
 msgid "No executable jobs found. Stopping scheduler."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2313
+#: ekos/scheduler/schedulerprocess.cpp:2315
 #, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr "A guia já está em execução; a iniciar directamente a captura."
 
-#: ekos/scheduler/schedulerprocess.cpp:2325
+#: ekos/scheduler/schedulerprocess.cpp:2327
 #, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
@@ -32441,156 +32441,156 @@ msgstr ""
 "A tarefa '%1' está a passar directamente para a fase de captura, porque só "
 "estão pendentes as imagens de calibração."
 
-#: ekos/scheduler/schedulerprocess.cpp:2541
-#: ekos/scheduler/schedulerprocess.cpp:3434
+#: ekos/scheduler/schedulerprocess.cpp:2543
+#: ekos/scheduler/schedulerprocess.cpp:3436
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
 "Atenção: o procedimento de alinhamento da tarefa '%1' falhou; a marcar como "
 "interrompido."
 
-#: ekos/scheduler/schedulerprocess.cpp:2567
+#: ekos/scheduler/schedulerprocess.cpp:2569
 #, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr ""
 "Atenção: o procedimento de captura da tarefa '%1' falhou; a marcar como "
 "interrompido."
 
-#: ekos/scheduler/schedulerprocess.cpp:2613
+#: ekos/scheduler/schedulerprocess.cpp:2615
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 "Atenção: o procedimento de foco da tarefa '%1' falhou; a marcar como "
 "interrompido."
 
-#: ekos/scheduler/schedulerprocess.cpp:2636
-#: ekos/scheduler/schedulerprocess.cpp:3505
+#: ekos/scheduler/schedulerprocess.cpp:2638
+#: ekos/scheduler/schedulerprocess.cpp:3507
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
 "Atenção: o procedimento de guia da tarefa '%1' falhou; a marcar como "
 "interrompido."
 
-#: ekos/scheduler/schedulerprocess.cpp:2660
+#: ekos/scheduler/schedulerprocess.cpp:2662
 #, kde-format
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
 msgstr ""
 "Atenção: a tarefa '%1' perdeu a ligação à montagem; a tentar ligar de novo."
 
-#: ekos/scheduler/schedulerprocess.cpp:2677
+#: ekos/scheduler/schedulerprocess.cpp:2679
 #, kde-format
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr ""
 "Atenção: a tarefa '%1' perdeu a ligação ao 'dome'; a tentar ligar de novo."
 
-#: ekos/scheduler/schedulerprocess.cpp:2745
+#: ekos/scheduler/schedulerprocess.cpp:2747
 #, kde-format
 msgid "Ekos job started (%1)"
 msgstr "Tarefa do Ekos iniciada (%1)"
 
-#: ekos/scheduler/schedulerprocess.cpp:2938
+#: ekos/scheduler/schedulerprocess.cpp:2940
 #, kde-format
 msgid "Scheduler list saved to %1"
 msgstr "A lista de agendamentos foi gravada em %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3054
+#: ekos/scheduler/schedulerprocess.cpp:3056
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "A resolução expirou o tempo-limite: %1s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3056
+#: ekos/scheduler/schedulerprocess.cpp:3058
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "A resolução falhou: %1s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3091
+#: ekos/scheduler/schedulerprocess.cpp:3093
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 "A imagem captura está a %1 arco-minutos de distância do alvo, a realinhar..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3103
+#: ekos/scheduler/schedulerprocess.cpp:3105
 #, fuzzy, kde-format
 #| msgid "Manual startup procedure completed successfully."
 msgid "Pre-startup queue completed successfully. Starting Ekos..."
 msgstr "O procedimento de arranque manual terminou com sucesso."
 
-#: ekos/scheduler/schedulerprocess.cpp:3111
+#: ekos/scheduler/schedulerprocess.cpp:3113
 #, fuzzy, kde-format
 #| msgid "Manual startup procedure completed successfully."
 msgid "Post-startup queue completed successfully."
 msgstr "O procedimento de arranque manual terminou com sucesso."
 
-#: ekos/scheduler/schedulerprocess.cpp:3118
+#: ekos/scheduler/schedulerprocess.cpp:3120
 #, kde-format
 msgid "Resuming scheduler after safety recovery startup tasks..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3126
+#: ekos/scheduler/schedulerprocess.cpp:3128
 #, fuzzy, kde-format
 #| msgid "Manual shutdown procedure completed successfully."
 msgid "Pre-shutdown queue completed successfully."
 msgstr "O procedimento de encerramento manual terminou com sucesso."
 
-#: ekos/scheduler/schedulerprocess.cpp:3145
+#: ekos/scheduler/schedulerprocess.cpp:3147
 #, fuzzy, kde-format
 #| msgid "Manual shutdown procedure completed successfully."
 msgid "Post-shutdown queue completed successfully."
 msgstr "O procedimento de encerramento manual terminou com sucesso."
 
-#: ekos/scheduler/schedulerprocess.cpp:3158
+#: ekos/scheduler/schedulerprocess.cpp:3160
 #, fuzzy, kde-format
 #| msgid "Solver failed: %1s %2"
 msgid "Startup queue failed: %1"
 msgstr "A resolução falhou: %1s %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3165
+#: ekos/scheduler/schedulerprocess.cpp:3167
 #, fuzzy, kde-format
 #| msgid "Refresh solver failed: %1s"
 msgid "Pre-shutdown queue failed: %1"
 msgstr "A actualização da resolução falhou: %1s"
 
-#: ekos/scheduler/schedulerprocess.cpp:3172
+#: ekos/scheduler/schedulerprocess.cpp:3174
 #, kde-format
 msgid "Post-shutdown queue failed: %1"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3238
+#: ekos/scheduler/schedulerprocess.cpp:3240
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3239
+#: ekos/scheduler/schedulerprocess.cpp:3241
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3241
-#: ekos/scheduler/schedulerprocess.cpp:3253
+#: ekos/scheduler/schedulerprocess.cpp:3243
+#: ekos/scheduler/schedulerprocess.cpp:3255
 #, fuzzy, kde-format
 #| msgid "Optical Train"
 msgid "Select optical train"
 msgstr "Treino Óptico"
 
-#: ekos/scheduler/schedulerprocess.cpp:3250
+#: ekos/scheduler/schedulerprocess.cpp:3252
 #, kde-format
 msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3400
+#: ekos/scheduler/schedulerprocess.cpp:3402
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "O alinhamento da tarefa '%1' terminou."
 
-#: ekos/scheduler/schedulerprocess.cpp:3419
+#: ekos/scheduler/schedulerprocess.cpp:3421
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "Atenção: o alinhamento da tarefa '%1' foi mal-sucedido."
 
-#: ekos/scheduler/schedulerprocess.cpp:3425
+#: ekos/scheduler/schedulerprocess.cpp:3427
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
@@ -32598,41 +32598,41 @@ msgstr ""
 "Atenção: a tarefa '%1' forçou um reinício do modelo da montagem após falhar "
 "o alinhamento #%2."
 
-#: ekos/scheduler/schedulerprocess.cpp:3429
-#: ekos/scheduler/schedulerprocess.cpp:3493
+#: ekos/scheduler/schedulerprocess.cpp:3431
+#: ekos/scheduler/schedulerprocess.cpp:3495
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "A reiniciar o processo de alinhamento %1..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3465
+#: ekos/scheduler/schedulerprocess.cpp:3467
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "A guia da tarefa '%1' está em curso."
 
-#: ekos/scheduler/schedulerprocess.cpp:3477
+#: ekos/scheduler/schedulerprocess.cpp:3479
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "Atenção: a guia da tarefa '%1' foi mal-sucedida."
 
-#: ekos/scheduler/schedulerprocess.cpp:3479
+#: ekos/scheduler/schedulerprocess.cpp:3481
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "Atenção: a calibração da tarefa '%1' falhou."
 
-#: ekos/scheduler/schedulerprocess.cpp:3498
+#: ekos/scheduler/schedulerprocess.cpp:3500
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
 "A tarefa '%1' está em pleno processo de guia, e o mesmo será reiniciado "
 "daqui a %2 segundos."
 
-#: ekos/scheduler/schedulerprocess.cpp:3551
+#: ekos/scheduler/schedulerprocess.cpp:3553
 #, fuzzy, kde-format
 #| msgid "Warning: job '%1' failed to capture target."
 msgid "[%2] Warning: job '%1' failed to capture target."
 msgstr "Atenção: a tarefa '%1' não conseguiu capturar o alvo."
 
-#: ekos/scheduler/schedulerprocess.cpp:3569
+#: ekos/scheduler/schedulerprocess.cpp:3571
 #, fuzzy, kde-format
 #| msgid ""
 #| "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 "
@@ -32644,14 +32644,14 @@ msgstr ""
 "A tarefa '%1' está a capturar e está a reiniciar o seu procedimento de guia "
 "(tentativa #%2 de %3)."
 
-#: ekos/scheduler/schedulerprocess.cpp:3578
+#: ekos/scheduler/schedulerprocess.cpp:3580
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 "Atenção: o procedimento de captura da tarefa '%1' falhou; a reiniciar a "
 "captura."
 
-#: ekos/scheduler/schedulerprocess.cpp:3584
+#: ekos/scheduler/schedulerprocess.cpp:3586
 #, fuzzy, kde-format
 #| msgid "Warning: job '%1' failed its capture procedure, marking aborted."
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
@@ -32659,42 +32659,42 @@ msgstr ""
 "Atenção: o procedimento de captura da tarefa '%1' falhou; a marcar como "
 "interrompida."
 
-#: ekos/scheduler/schedulerprocess.cpp:3597
+#: ekos/scheduler/schedulerprocess.cpp:3599
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3603
+#: ekos/scheduler/schedulerprocess.cpp:3605
 #, fuzzy, kde-format
 #| msgid "Job '%1' is aborted."
 msgid "[%2] Follower job '%1' has been aborted."
 msgstr "A tarefa '%1' está interrompida."
 
-#: ekos/scheduler/schedulerprocess.cpp:3611
+#: ekos/scheduler/schedulerprocess.cpp:3613
 #, fuzzy, kde-format
 #| msgid "Ekos job (%1) - Capture finished"
 msgid "[%2] Job (%1) - Capture finished"
 msgstr "Tarefa do Ekos (%1) - Captura terminada"
 
-#: ekos/scheduler/schedulerprocess.cpp:3685
+#: ekos/scheduler/schedulerprocess.cpp:3687
 #, fuzzy, kde-format
 #| msgid "Job '%1' focusing is complete."
 msgid "Job '%1' focusing train '%2' is complete."
 msgstr "A focagem da tarefa '%1' está completa."
 
-#: ekos/scheduler/schedulerprocess.cpp:3697
+#: ekos/scheduler/schedulerprocess.cpp:3699
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "Atenção: a focagem da tarefa '%1' foi mal-sucedida."
 
-#: ekos/scheduler/schedulerprocess.cpp:3701
+#: ekos/scheduler/schedulerprocess.cpp:3703
 #, fuzzy, kde-format
 #| msgid "Job '%1' is restarting its focusing procedure."
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
 msgstr ""
 "A tarefa '%1' está a reiniciar o seu procedimento de focagem automático."
 
-#: ekos/scheduler/schedulerprocess.cpp:3706
+#: ekos/scheduler/schedulerprocess.cpp:3708
 #, fuzzy, kde-format
 #| msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgid ""
@@ -32703,29 +32703,29 @@ msgstr ""
 "Atenção: o procedimento de foco da tarefa '%1' falhou; a marcar como "
 "interrompido."
 
-#: ekos/scheduler/schedulerprocess.cpp:3739
+#: ekos/scheduler/schedulerprocess.cpp:3741
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "O deslocamento da tarefa '%1' está completo."
 
-#: ekos/scheduler/schedulerprocess.cpp:3745
+#: ekos/scheduler/schedulerprocess.cpp:3747
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 "Atenção: o deslocamento da tarefa '%1' foi mal-sucedido; a marcar como "
 "terminado devido a erros."
 
-#: ekos/scheduler/schedulerprocess.cpp:3751
+#: ekos/scheduler/schedulerprocess.cpp:3753
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Atenção: a tarefa '%1' não está em deslocamento; a reiniciá-la."
 
-#: ekos/scheduler/schedulerprocess.cpp:3764
+#: ekos/scheduler/schedulerprocess.cpp:3766
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "O reposicionamento da tarefa '%1' está completo."
 
-#: ekos/scheduler/schedulerprocess.cpp:3770
+#: ekos/scheduler/schedulerprocess.cpp:3772
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
@@ -32733,47 +32733,47 @@ msgstr ""
 "Atenção: o reposicionamento da tarefa '%1' falhou; a marcar como terminado "
 "devido a erros."
 
-#: ekos/scheduler/schedulerprocess.cpp:3776
+#: ekos/scheduler/schedulerprocess.cpp:3778
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Atenção: a tarefa '%1' não está a posicionar de novo; a reiniciar."
 
-#: ekos/scheduler/schedulerprocess.cpp:3790
-#: ekos/scheduler/schedulerprocess.cpp:3801
+#: ekos/scheduler/schedulerprocess.cpp:3792
+#: ekos/scheduler/schedulerprocess.cpp:3803
 #, fuzzy, kde-format
 #| msgid "Caution: do not use Auto Park while scheduler is active."
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr "Atenção: não use o Bloqueio Automático com o escalonamento activo."
 
-#: ekos/scheduler/schedulerprocess.cpp:3867
+#: ekos/scheduler/schedulerprocess.cpp:3869
 #, fuzzy, kde-format
 #| msgid "Dome parking failed. Restarting operation..."
 msgid "Safety has improved. Resuming operations."
 msgstr "O bloqueio do dome falhou. A reiniciá-lo..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3878
+#: ekos/scheduler/schedulerprocess.cpp:3880
 #, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3905
+#: ekos/scheduler/schedulerprocess.cpp:3907
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3933
+#: ekos/scheduler/schedulerprocess.cpp:3935
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "O procedimento de encerramento manual terminou com sucesso."
 
-#: ekos/scheduler/schedulerprocess.cpp:3939
+#: ekos/scheduler/schedulerprocess.cpp:3941
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "O procedimento de encerramento manual terminou com erros."
 
-#: ekos/scheduler/schedulerprocess.cpp:4102
+#: ekos/scheduler/schedulerprocess.cpp:4104
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -32782,14 +32782,14 @@ msgstr ""
 "A suspender por %1 o relógio da simulação até que a próxima tarefa de "
 "observação esteja pronta..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4407
+#: ekos/scheduler/schedulerprocess.cpp:4409
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
 "Atenção: a tarefa '%1' tem uma sequência inacessível '%2', a marcar como "
 "inválida."
 
-#: ekos/scheduler/schedulerprocess.cpp:4492
+#: ekos/scheduler/schedulerprocess.cpp:4494
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
 msgstr ""
