@@ -51,6 +51,26 @@ json-validation:
   rules:
     - !reference [.standard-build-recipes, rules]
 
+astyle-check:
+  stage: test
+  image: ubuntu:24.04
+  rules:
+    - !reference [.standard-build-recipes, rules]
+  script:
+    - apt-get update && apt-get install -y --no-install-recommends astyle git
+    - git ls-files -z '*.c' '*.cc' '*.cpp' '*.cxx' '*.h' '*.hh' '*.hpp' '*.hxx' | xargs -0r astyle
+      --style=allman
+      --align-reference=name
+      --indent-switches
+      --indent-modifiers
+      --indent-classes
+      --pad-oper
+      --indent-col1-comments
+      --lineend=linux
+      --max-code-length=124
+      --suffix=none
+    - git diff --exit-code
+
 # Craft recipes
 
 .craft-recipes:
