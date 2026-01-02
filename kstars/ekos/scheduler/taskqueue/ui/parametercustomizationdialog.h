@@ -51,6 +51,12 @@ class ParameterCustomizationDialog : public QDialog
         void setDeviceName(const QString &deviceName);
 
         /**
+         * @brief Set initial parameter values (for editing existing tasks)
+         * @param values Map of parameter name to current value
+         */
+        void setInitialParameterValues(const QMap<QString, QVariant> &values);
+
+        /**
          * @brief Get the customized parameter values
          * @return Map of parameter name to customized value
          */
@@ -71,6 +77,7 @@ class ParameterCustomizationDialog : public QDialog
         TaskTemplate *m_template = nullptr;
         QString m_deviceName;
         QMap<QString, QVariant> m_parameterValues;
+        QMap<QString, QVariant> m_initialParameterValues;
 
         // UI widgets
         QLabel *m_titleLabel = nullptr;

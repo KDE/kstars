@@ -97,6 +97,16 @@ void ParameterCustomizationDialog::setDeviceName(const QString &deviceName)
     m_deviceLabel->setText(i18n("Device: %1", deviceName));
 }
 
+void ParameterCustomizationDialog::setInitialParameterValues(const QMap<QString, QVariant> &values)
+{
+    m_initialParameterValues = values;
+    // Repopulate if template is already set
+    if (m_template)
+    {
+        populateParameters();
+    }
+}
+
 void ParameterCustomizationDialog::populateParameters()
 {
     if (!m_template)
@@ -137,6 +147,11 @@ QWidget* ParameterCustomizationDialog::createParameterWidget(const TaskTemplate:
 {
     QWidget *widget = nullptr;
 
+    // Determine which value to use: initial value if set, otherwise default from template
+    QVariant initialValue = m_initialParameterValues.contains(param.name)
+                            ? m_initialParameterValues[param.name]
+                            : param.defaultValue;
+
     if (param.type == "number")
     {
         // Check if it's a floating point or integer based on default value
@@ -161,7 +176,7 @@ QWidget* ParameterCustomizationDialog::createParameterWidget(const TaskTemplate:
             if (param.step.isValid())
                 spinBox->setSingleStep(param.step.toDouble());
 
-            spinBox->setValue(param.defaultValue.toDouble());
+            spinBox->setValue(initialValue.toDouble());
 
             widget = spinBox;
         }
@@ -183,7 +198,7 @@ QWidget* ParameterCustomizationDialog::createParameterWidget(const TaskTemplate:
             if (param.step.isValid())
                 spinBox->setSingleStep(param.step.toInt());
 
-            spinBox->setValue(param.defaultValue.toInt());
+            spinBox->setValue(initialValue.toInt());
 
             widget = spinBox;
         }
@@ -192,7 +207,7 @@ QWidget* ParameterCustomizationDialog::createParameterWidget(const TaskTemplate:
     {
         auto *lineEdit = new QLineEdit(m_formWidget);
         lineEdit->setMinimumWidth(200);  // Minimum width for text fields
-        lineEdit->setText(param.defaultValue.toString());
+        lineEdit->setText(initialValue.toString());
         widget = lineEdit;
     }
     else if (param.type == "file")
@@ -201,35 +216,36 @@ QWidget* ParameterCustomizationDialog::createParameterWidget(const TaskTemplate:
         auto *container = new QWidget(m_formWidget);
         auto *layout = new QHBoxLayout(container);
         layout->setContentsMargins(0, 0, 0, 0);
-        
+
         auto *lineEdit = new QLineEdit(container);
         lineEdit->setMinimumWidth(250);
-        lineEdit->setText(param.defaultValue.toString());
+        lineEdit->setText(initialValue.toString());
         lineEdit->setObjectName("filePathEdit");  // For easy retrieval later
-        
+
         auto *browseButton = new QPushButton(i18n("Browse..."), container);
-        connect(browseButton, &QPushButton::clicked, this, [lineEdit, this]() {
+        connect(browseButton, &QPushButton::clicked, this, [lineEdit, this]()
+        {
             QString fileName = QFileDialog::getOpenFileName(
-                this,
-                i18n("Select File"),
-                lineEdit->text().isEmpty() ? QDir::homePath() : lineEdit->text(),
-                i18n("All Files (*)")
-            );
+                                   this,
+                                   i18n("Select File"),
+                                   lineEdit->text().isEmpty() ? QDir::homePath() : lineEdit->text(),
+                                   i18n("All Files (*)")
+                               );
             if (!fileName.isEmpty())
             {
                 lineEdit->setText(fileName);
             }
         });
-        
+
         layout->addWidget(lineEdit);
         layout->addWidget(browseButton);
-        
+
         widget = container;
     }
     else if (param.type == "boolean")
     {
         auto *checkBox = new QCheckBox(m_formWidget);
-        checkBox->setChecked(param.defaultValue.toBool());
+        checkBox->setChecked(initialValue.toBool());
         widget = checkBox;
     }
 

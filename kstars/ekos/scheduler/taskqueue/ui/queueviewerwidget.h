@@ -62,6 +62,7 @@ class QueueViewerWidget : public QWidget
 
         // Queue persistence
         void onSaveQueue();
+        void onSaveAsQueue();
         void onLoadQueue();
 
         // Collections
@@ -71,6 +72,7 @@ class QueueViewerWidget : public QWidget
         void onRemoveItem();
         void onMoveUp();
         void onMoveDown();
+        void onItemDoubleClicked(int row, int column);
 
         // Queue manager signals
         void onItemAdded(QueueItem *item, int index);
@@ -92,6 +94,9 @@ class QueueViewerWidget : public QWidget
         // UI updates
         void onSelectionChanged();
 
+    protected:
+        void closeEvent(QCloseEvent *event) override;
+
     private:
         void setupUI();
         void setupConnections();
@@ -99,6 +104,10 @@ class QueueViewerWidget : public QWidget
         void updateItemRow(int row, QueueItem *item);
         QString statusToString(QueueItem::Status status) const;
         QIcon statusToIcon(QueueItem::Status status) const;
+
+        // Modified state tracking
+        void setModified(bool modified);
+        bool promptToSave();
 
         // Collection loading helpers
         void loadCollectionFile(const QString &filePath);
@@ -115,6 +124,7 @@ class QueueViewerWidget : public QWidget
         QPushButton *m_moveDownButton = nullptr;
         QPushButton *m_addTemplateButton = nullptr;
         QPushButton *m_saveQueueButton = nullptr;
+        QPushButton *m_saveAsQueueButton = nullptr;
         QPushButton *m_loadQueueButton = nullptr;
         QPushButton *m_collectionsButton = nullptr;
 
@@ -131,6 +141,9 @@ class QueueViewerWidget : public QWidget
 
         // Last used queue file path for save/load operations
         QString m_lastQueueFilePath;
+
+        // Modified state tracking
+        bool m_isModified = false;
 };
 
 } // namespace Ekos

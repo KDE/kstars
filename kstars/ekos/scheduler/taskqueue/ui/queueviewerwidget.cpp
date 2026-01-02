@@ -25,6 +25,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDir>
+#include <QCloseEvent>
 #include <KLocalizedString>
 #include <ekos_scheduler_debug.h>
 
@@ -55,35 +56,52 @@ void QueueViewerWidget::setupUI()
     // Top toolbar
     auto *toolbarLayout = new QHBoxLayout();
 
-    // Add template button
+    // Group 1: Template and collection management
     m_addTemplateButton = new QPushButton(QIcon::fromTheme("list-add"), i18n("Add from Template"), this);
-    toolbarLayout->addWidget(m_addTemplateButton);
-
-    // Collections button
     m_collectionsButton = new QPushButton(QIcon::fromTheme("folder-templates"), i18n("Load Collection"), this);
+    toolbarLayout->addWidget(m_addTemplateButton);
     toolbarLayout->addWidget(m_collectionsButton);
 
-    toolbarLayout->addStretch();
+    // Separator 1
+    auto *separator1 = new QFrame(this);
+    separator1->setFrameShape(QFrame::VLine);
+    separator1->setFrameShadow(QFrame::Sunken);
+    toolbarLayout->addWidget(separator1);
 
-    // Save/Load buttons
-    m_saveQueueButton = new QPushButton(QIcon::fromTheme("document-save"), i18n("Save Queue"), this);
-    m_loadQueueButton = new QPushButton(QIcon::fromTheme("document-open"), i18n("Load Queue"), this);
+    // Group 2: Save/Load buttons (icons only)
+    m_saveQueueButton = new QPushButton(QIcon::fromTheme("document-save"), QString(), this);
+    m_saveQueueButton->setToolTip(i18n("Save"));
+    m_saveAsQueueButton = new QPushButton(QIcon::fromTheme("document-save-as"), QString(), this);
+    m_saveAsQueueButton->setToolTip(i18n("Save As"));
+    m_loadQueueButton = new QPushButton(QIcon::fromTheme("document-open"), QString(), this);
+    m_loadQueueButton->setToolTip(i18n("Load Queue"));
     toolbarLayout->addWidget(m_saveQueueButton);
+    toolbarLayout->addWidget(m_saveAsQueueButton);
     toolbarLayout->addWidget(m_loadQueueButton);
 
+    // Separator 2
+    auto *separator2 = new QFrame(this);
+    separator2->setFrameShape(QFrame::VLine);
+    separator2->setFrameShadow(QFrame::Sunken);
+    toolbarLayout->addWidget(separator2);
+
+    // Stretch before right-aligned control buttons
     toolbarLayout->addStretch();
 
-    m_startButton = new QPushButton(QIcon::fromTheme("media-playback-start"), i18n("Start"), this);
-    m_pauseButton = new QPushButton(QIcon::fromTheme("media-playback-pause"), i18n("Pause"), this);
-    m_stopButton = new QPushButton(QIcon::fromTheme("media-playback-stop"), i18n("Stop"), this);
-    m_clearButton = new QPushButton(QIcon::fromTheme("edit-clear"), i18n("Clear"), this);
-
+    // Group 3: Queue control buttons (icons only, right-aligned)
+    m_startButton = new QPushButton(QIcon::fromTheme("media-playback-start"), QString(), this);
+    m_startButton->setToolTip(i18n("Start"));
+    m_pauseButton = new QPushButton(QIcon::fromTheme("media-playback-pause"), QString(), this);
+    m_pauseButton->setToolTip(i18n("Pause"));
     m_pauseButton->setCheckable(true);
+    m_stopButton = new QPushButton(QIcon::fromTheme("media-playback-stop"), QString(), this);
+    m_stopButton->setToolTip(i18n("Stop"));
+    m_clearButton = new QPushButton(QIcon::fromTheme("edit-clear"), QString(), this);
+    m_clearButton->setToolTip(i18n("Clear"));
 
     toolbarLayout->addWidget(m_startButton);
     toolbarLayout->addWidget(m_pauseButton);
     toolbarLayout->addWidget(m_stopButton);
-    toolbarLayout->addStretch();
     toolbarLayout->addWidget(m_clearButton);
 
     mainLayout->addLayout(toolbarLayout);
@@ -106,6 +124,7 @@ void QueueViewerWidget::setupUI()
     m_queueTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_queueTable->setSelectionMode(QAbstractItemView::SingleSelection);
     m_queueTable->setAlternatingRowColors(true);
+    m_queueTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     mainLayout->addWidget(m_queueTable);
 
@@ -141,6 +160,7 @@ void QueueViewerWidget::setupUI()
     connect(m_addTemplateButton, &QPushButton::clicked, this, &QueueViewerWidget::onAddFromTemplate);
     connect(m_collectionsButton, &QPushButton::clicked, this, &QueueViewerWidget::onLoadCollection);
     connect(m_saveQueueButton, &QPushButton::clicked, this, &QueueViewerWidget::onSaveQueue);
+    connect(m_saveAsQueueButton, &QPushButton::clicked, this, &QueueViewerWidget::onSaveAsQueue);
     connect(m_loadQueueButton, &QPushButton::clicked, this, &QueueViewerWidget::onLoadQueue);
     connect(m_startButton, &QPushButton::clicked, this, &QueueViewerWidget::onStartQueue);
     connect(m_pauseButton, &QPushButton::clicked, this, &QueueViewerWidget::onPauseQueue);
@@ -152,6 +172,8 @@ void QueueViewerWidget::setupUI()
 
     connect(m_queueTable, &QTableWidget::itemSelectionChanged,
             this, &QueueViewerWidget::onSelectionChanged);
+    connect(m_queueTable, &QTableWidget::cellDoubleClicked,
+            this, &QueueViewerWidget::onItemDoubleClicked);
 
     updateControls();
 }
@@ -302,6 +324,7 @@ void QueueViewerWidget::onClearQueue()
         return;
 
     m_manager->clear();
+    setModified(true);
 }
 
 void QueueViewerWidget::onRemoveItem()
@@ -313,6 +336,7 @@ void QueueViewerWidget::onRemoveItem()
     if (row >= 0)
     {
         m_manager->removeItem(row);
+        setModified(true);
     }
 }
 
@@ -326,6 +350,7 @@ void QueueViewerWidget::onMoveUp()
     {
         m_manager->moveUp(row);
         m_queueTable->selectRow(row - 1);
+        setModified(true);
     }
 }
 
@@ -339,7 +364,92 @@ void QueueViewerWidget::onMoveDown()
     {
         m_manager->moveDown(row);
         m_queueTable->selectRow(row + 1);
+        setModified(true);
     }
+}
+
+void QueueViewerWidget::onItemDoubleClicked(int row, int /*column*/)
+{
+    if (!m_manager || !m_executor)
+        return;
+
+    // Don't allow editing while queue is running
+    if (m_executor->isRunning())
+    {
+        QMessageBox::information(this, i18n("Queue Running"),
+                                 i18n("Cannot edit tasks while queue is running. Please stop the queue first."));
+        return;
+    }
+
+    // Get the queue item
+    QueueItem *item = m_manager->itemAt(row);
+    if (!item || !item->task())
+        return;
+
+    Task *task = item->task();
+
+    // Get template manager
+    TemplateManager *templateMgr = TemplateManager::Instance();
+    if (!templateMgr)
+    {
+        QMessageBox::critical(this, i18n("Error"),
+                              i18n("Template manager not available"));
+        return;
+    }
+
+    // Initialize template manager if not already done
+    if (templateMgr->allTemplates().isEmpty())
+    {
+        if (!templateMgr->initialize())
+        {
+            QMessageBox::critical(this, i18n("Error"),
+                                  i18n("Failed to initialize template library"));
+            return;
+        }
+    }
+
+    // Find the template
+    TaskTemplate *tmpl = templateMgr->getTemplate(task->templateId());
+    if (!tmpl)
+    {
+        QMessageBox::warning(this, i18n("Template Not Found"),
+                             i18n("The template for this task is no longer available.\n"
+                                  "Template ID: %1", task->templateId()));
+        return;
+    }
+
+    // Open parameter customization dialog with current values
+    ParameterCustomizationDialog paramDlg(this);
+    paramDlg.setTemplate(tmpl);
+    paramDlg.setDeviceName(task->device());
+    paramDlg.setInitialParameterValues(task->parameters());
+
+    if (paramDlg.exec() != QDialog::Accepted)
+        return;
+
+    // Get updated parameters
+    QMap<QString, QVariant> newParams = paramDlg.parameterValues();
+
+    // Re-instantiate the task with new parameters
+    Task *newTask = new Task(this);
+    if (!newTask->instantiateFromTemplate(tmpl, task->device(), newParams))
+    {
+        QMessageBox::warning(this, i18n("Task Update Failed"),
+                             i18n("Failed to update task with new parameters"));
+        delete newTask;
+        return;
+    }
+
+    // Replace the task in the queue item
+    item->setTask(newTask);
+
+    // Update the row display
+    updateItemRow(row, item);
+
+    // Mark queue as modified
+    setModified(true);
+
+    m_statusLabel->setText(i18n("Task updated"));
 }
 
 void QueueViewerWidget::onItemAdded(QueueItem *item, int index)
@@ -347,12 +457,14 @@ void QueueViewerWidget::onItemAdded(QueueItem *item, int index)
     m_queueTable->insertRow(index);
     updateItemRow(index, item);
     updateControls();
+    setModified(true);
 }
 
 void QueueViewerWidget::onItemRemoved(QueueItem * /*item*/, int index)
 {
     m_queueTable->removeRow(index);
     updateControls();
+    setModified(true);
 }
 
 void QueueViewerWidget::onItemMoved(int fromIndex, int toIndex)
@@ -372,12 +484,14 @@ void QueueViewerWidget::onItemMoved(int fromIndex, int toIndex)
     }
 
     updateControls();
+    setModified(true);
 }
 
 void QueueViewerWidget::onQueueCleared()
 {
     m_queueTable->setRowCount(0);
     updateControls();
+    setModified(true);
 }
 
 void QueueViewerWidget::onStateChanged(QueueManager::QueueState state)
@@ -627,10 +741,42 @@ void QueueViewerWidget::onTemplateSelected(TaskTemplate *tmpl)
 
     QueueItem *item = new QueueItem(task, this);
     m_manager->addItem(item);
-
+    setModified(true);
 }
 
 void QueueViewerWidget::onSaveQueue()
+{
+    if (!m_manager)
+        return;
+
+    if (m_manager->count() == 0)
+    {
+        QMessageBox::warning(this, i18n("Empty Queue"),
+                             i18n("Queue is empty. Nothing to save."));
+        return;
+    }
+
+    // If we have a saved file path, save directly without dialog
+    if (!m_lastQueueFilePath.isEmpty())
+    {
+        if (m_manager->saveQueue(m_lastQueueFilePath))
+        {
+            setModified(false);
+        }
+        else
+        {
+            QMessageBox::critical(this, i18n("Error"),
+                                  i18n("Failed to save queue to %1", m_lastQueueFilePath));
+        }
+    }
+    else
+    {
+        // No file path yet, use Save As
+        onSaveAsQueue();
+    }
+}
+
+void QueueViewerWidget::onSaveAsQueue()
 {
     if (!m_manager)
         return;
@@ -655,7 +801,7 @@ void QueueViewerWidget::onSaveQueue()
     }
 
     QString filePath = QFileDialog::getSaveFileName(this,
-                       i18n("Save Queue"),
+                       i18n("Save Queue As"),
                        defaultPath,
                        i18n("KStars Queue Files (*.kstarsqueue);;All Files (*)"));
 
@@ -666,6 +812,8 @@ void QueueViewerWidget::onSaveQueue()
     {
         // Remember the last used file path for next time
         m_lastQueueFilePath = filePath;
+        // Mark as not modified after successful save
+        setModified(false);
     }
     else
     {
@@ -677,6 +825,10 @@ void QueueViewerWidget::onSaveQueue()
 void QueueViewerWidget::onLoadQueue()
 {
     if (!m_manager)
+        return;
+
+    // Check for unsaved changes first
+    if (!promptToSave())
         return;
 
     // Check if queue has items and confirm
@@ -714,6 +866,8 @@ void QueueViewerWidget::onLoadQueue()
         // Remember the last used file path for next time
         m_lastQueueFilePath = filePath;
         refreshQueue();
+        // Mark as not modified after successful load
+        setModified(false);
     }
     else
     {
@@ -875,6 +1029,67 @@ void QueueViewerWidget::loadCollectionFile(const QString &filePath)
     if (!message.isEmpty())
         QMessageBox::information(this, i18n("Collection Loaded"), message);
     refreshQueue();
+
+    // Mark as modified after loading collection (user may want to save combined queue)
+    if (tasksAdded > 0)
+        setModified(true);
+}
+
+void QueueViewerWidget::setModified(bool modified)
+{
+    if (m_isModified == modified)
+        return;
+
+    m_isModified = modified;
+
+    // Update window title to show modified state
+    QString title = i18n("Task Queue Viewer");
+    if (m_isModified)
+    {
+        title += " *";
+    }
+    setWindowTitle(title);
+}
+
+bool QueueViewerWidget::promptToSave()
+{
+    if (!m_isModified || !m_manager || m_manager->count() == 0)
+        return true;  // No need to save or nothing to save
+
+    QMessageBox::StandardButton reply = QMessageBox::question(
+                                            this,
+                                            i18n("Save Changes?"),
+                                            i18n("The queue has unsaved changes. Do you want to save them?"),
+                                            QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel,
+                                            QMessageBox::Save
+                                        );
+
+    if (reply == QMessageBox::Save)
+    {
+        onSaveQueue();
+        // Check if save was successful (user might have cancelled)
+        return !m_isModified;  // If still modified, save was cancelled
+    }
+    else if (reply == QMessageBox::Discard)
+    {
+        return true;
+    }
+    else  // Cancel
+    {
+        return false;
+    }
+}
+
+void QueueViewerWidget::closeEvent(QCloseEvent *event)
+{
+    // Prompt to save if there are unsaved changes
+    if (!promptToSave())
+    {
+        event->ignore();
+        return;
+    }
+
+    QWidget::closeEvent(event);
 }
 
 } // namespace Ekos
