@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-01 01:58+0000\n"
+"POT-Creation-Date: 2026-01-03 02:01+0000\n"
 "PO-Revision-Date: 2005-01-25 01:58+0100\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -451,6 +451,7 @@ msgstr ""
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera_jobs.cpp:419
 #: ekos/scheduler/scheduler.cpp:2293
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:73
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:699
@@ -637,12 +638,15 @@ msgstr "Nullañ"
 #: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:25
 #: ekos/manager.cpp:1279 ekos/manager.cpp:1294 ekos/manager.cpp:1310
 #: ekos/scheduler/scheduler.cpp:1816
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:672
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:720
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:395
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:405
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:768
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:778
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:798
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:808
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:820
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:874
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:922
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:932
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:952
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:962
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:23 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:32 kstarsactions.cpp:506 kstarsactions.cpp:514
 #: kstarsactions.cpp:524 skycomponents/imageoverlaycomponent.cpp:556
@@ -2583,8 +2587,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1817
 #: ekos/scheduler/scheduler.cpp:2467
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:246
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:526
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:268
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:640
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:293
 #: skyobjects/skyobject.cpp:435
@@ -3341,7 +3345,7 @@ msgstr "Aozañ ..."
 #. i18n: ectx: property (text), widget (QPushButton, RemovePreset)
 #: dialogs/catalogdetails.ui:188 dialogs/catalogsdbui.ui:83
 #: dialogs/fovdialog.ui:102 dialogs/viewsdialog.ui:113
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:115
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:134
 #: indi/customdrivers.ui:154 indi/drivermanager.ui:311
 #: oal/equipmentwriter.ui:429 oal/equipmentwriter.ui:900
 #: oal/equipmentwriter.ui:1291 options/opscolors.ui:230
@@ -7141,7 +7145,7 @@ msgstr "Kargañ an deiziadur ..."
 #: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:248
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:78
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
 #: fitsviewer/fitstab.cpp:38 kstarslite/qml/indi/INDIControlPanel.qml:137
 #: kstarslite/qml/indi/modules/MotionControl.qml:146
 #, kde-format, kde-kuit-format
@@ -10590,7 +10594,7 @@ msgstr ""
 #: ekos/manager.cpp:151 ekos/manager.cpp:254 ekos/manager.cpp:817
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:76
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
 #: fitsviewer/fitstab.cpp:37 fitsviewer/livestacking.ui:454
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
 #, fuzzy, kde-format, kde-kuit-format
@@ -10887,7 +10891,7 @@ msgid "Select input file"
 msgstr "Dibabit ar c'hatalog er restr enkas"
 
 #: ekos/analyze/analyze.cpp:638
-#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:216
+#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:232
 #, fuzzy, kde-format
 msgid "All Files (*)"
 msgstr "Dibabit netra"
@@ -12811,7 +12815,7 @@ msgid "Paused"
 msgstr "Seniñ/Ehanañ"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:36
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:520
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:634
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Completed"
@@ -15461,7 +15465,7 @@ msgstr "Superior"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: ekos/capture/camera.ui:2302 ekos/ekoslive/ekoslivedialog.ui:119
 #: ekos/mount/mount.ui:654 ekos/scheduler/scheduler.ui:1166
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:96
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:114
 #: indi/drivermanager.ui:66 indi/drivermanager.ui:322
 #: skycomponents/imageoverlaycomponent.cpp:66
 #, kde-format
@@ -18173,7 +18177,7 @@ msgid "Meridian Flip"
 msgstr "Meriden"
 
 #: ekos/ekos.h:118 ekos/ekos.h:138
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:522
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:636
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Hailey"
@@ -18229,7 +18233,7 @@ msgid "Startup"
 msgstr "&Loc'hañ"
 
 #: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1812
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:518
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:632
 #, fuzzy, kde-format
 msgid "Running"
 msgstr "Lansing"
@@ -20118,7 +20122,7 @@ msgstr "Arrecife"
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
 #: ekos/focus/focus.ui:1115 ekos/manager.ui:1079
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:79
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:100
 #: fitsviewer/fitstab.cpp:180 indi/guimanager.cpp:75 tools/conjunctions.ui:205
 #: tools/eclipsetool.ui:167 tools/modcalcgeod.ui:160
 #, kde-format
@@ -26006,7 +26010,7 @@ msgstr "Klask an dra"
 #. i18n: ectx: property (title), widget (QGroupBox, weatherActionsBox)
 #: ekos/observatory/observatory.ui:892
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:204
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:99
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:117
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:318
 #, fuzzy, kde-format
 #| msgid "Action:"
@@ -28441,7 +28445,7 @@ msgid "Evaluating"
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:1811
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:516
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:630
 #, fuzzy, kde-format
 #| msgid "Set Time..."
 msgid "Scheduled"
@@ -30237,7 +30241,7 @@ msgid "Collection Details"
 msgstr "Munudoù an dra"
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:79
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:63
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:61
 #, fuzzy, kde-format
 msgid "Load Collection"
 msgstr "Kevreadenn"
@@ -30354,7 +30358,7 @@ msgstr "Jederez"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:517
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:116
 #: indi/drivermanager.ui:61
 #, kde-format
 msgid "Device"
@@ -30371,23 +30375,23 @@ msgstr "Pep rannbennad"
 msgid "Device: %1"
 msgstr "Trobarzhell :"
 
-#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:210
+#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:225
 #, fuzzy, kde-format
 #| msgid "Browse Tree"
 msgid "Browse..."
 msgstr "Furchal ar gwezenn"
 
-#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:214
+#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:230
 #, fuzzy, kde-format
 msgid "Select File"
 msgstr "Dibabit netra"
 
-#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:298
+#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:314
 #, fuzzy, kde-format
 msgid "Invalid Parameters"
 msgstr "Pep rannbennad"
 
-#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:309
+#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:325
 #, kde-format
 msgid "No template specified"
 msgstr ""
@@ -30802,48 +30806,48 @@ msgstr "Bremañaat"
 msgid "Failed to create template object from JSON."
 msgstr "N'hell ket bet karget ar skeudenn e %1"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:39
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:40
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1046
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgid "Task Queue Viewer"
 msgstr "Degemer d'ar gweller FITS KStars."
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:59
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:60
 #, kde-format
 msgid "Add from Template"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:69
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:658
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Schedar"
-msgid "Save Queue"
-msgstr "Schedar"
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:75
+#: kstarslite/qml/indi/ImagePreview.qml:36
+#, fuzzy, kde-format, kde-kuit-format
+#| msgid "Save Script As..."
+msgid "Save As"
+msgstr "Enrollañ an urzhiaoueg e ..."
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:70
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:705
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:77
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:857
 #, kde-format
 msgid "Load Queue"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:77
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:95
 #, fuzzy, kde-format
 #| msgid "Play/Pause"
 msgid "Pause"
 msgstr "Seniñ/Ehanañ"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:97
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:115
 #, kde-format
 msgid "Task"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:100
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:118
 #, kde-format
 msgid "Progress"
 msgstr "Araogenn"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:101
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:119
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -30851,190 +30855,244 @@ msgid "Created"
 msgstr "Caliente"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpButton)
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:116
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:135
 #: tools/scriptbuilder.ui:382
 #, kde-format
 msgid "Move Up"
 msgstr "Pignit"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DownButton)
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:117
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:136
 #: tools/scriptbuilder.ui:404
 #, kde-format
 msgid "Move Down"
 msgstr "Diskennit"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:128
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:389
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:147
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:503
 #, kde-format
 msgid "Queue idle"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:226
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:248
 #, kde-format
 msgid "Total: %1  Completed: %2  Failed: %3  Pending: %4"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:270
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:292
 #, fuzzy, kde-format
 #| msgid "Resource Type"
 msgid "Queue Start Failed"
 msgstr "Seurt an danvez"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:271
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:293
 #, kde-format
 msgid "Failed to start queue execution. Check that queue has items."
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:392
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:379
+#, fuzzy, kde-format
+msgid "Queue Running"
+msgstr "Klask an dra"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:380
+#, kde-format
+msgid "Cannot edit tasks while queue is running. Please stop the queue first."
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:396
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:953
+#, kde-format
+msgid "Template manager not available"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:406
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:963
+#, kde-format
+msgid "Failed to initialize template library"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:415
+#, fuzzy, kde-format
+#| msgid "Scheme Not Found"
+msgid "Template Not Found"
+msgstr "N'eo ket bet kavet ar steuñv"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:416
+#, kde-format
+msgid ""
+"The template for this task is no longer available.\n"
+"Template ID: %1"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:437
+#, fuzzy, kde-format
+#| msgctxt "Advanced URLs: description or category"
+#| msgid "Other"
+msgid "Task Update Failed"
+msgstr "All"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:438
+#, fuzzy, kde-format
+#| msgid "Could not open file %1."
+msgid "Failed to update task with new parameters"
+msgstr "N'hellan ket digeriñ ar restr %1."
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:452
+#, fuzzy, kde-format
+#| msgid "Update"
+msgid "Task updated"
+msgstr "Bremañaat"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:506
 #, fuzzy, kde-format
 msgid "Queue running"
 msgstr "Klask an dra"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:395
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:509
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Queue paused"
 msgstr "Frekañs :"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:398
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:512
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Queue completed"
 msgstr "echuet"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:401
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:515
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Queue aborted"
 msgstr "Enrollet eo ar restr FITS e-barzh %1"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:431
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:545
 #, fuzzy, kde-format
 #| msgid "Telescope port:"
 msgid "Queue completed successfully"
 msgstr "Porzh ar bellsellerez :"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:470
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:584
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Item failed: %1"
 msgstr "N'eus FOV ebet"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:514
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:628
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Bendigo"
 msgid "Pending"
 msgstr "Bendigo"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:524
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:638
 #, fuzzy, kde-format
 msgid "Skipped"
 msgstr "Fairfield"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:622
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:736
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Task Creation Failed"
 msgstr "All"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:623
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:737
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to create task from template"
 msgstr "N'hellan ket digeriñ ar restr %1."
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:640
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:754
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:786
 #, fuzzy, kde-format
 #| msgid "Input file:"
 msgid "Empty Queue"
 msgstr "Restr enkas :"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:641
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:755
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:787
 #, kde-format
 msgid "Queue is empty. Nothing to save."
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:660
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:707
-#, kde-format
-msgid "KStars Queue Files (*.kstarsqueue);;All Files (*)"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:673
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:769
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:821
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to save queue to %1"
 msgstr "N'hellan ket digeriñ ar restr %1."
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:685
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:804
+#, fuzzy, kde-format
+#| msgctxt "star name"
+#| msgid "Schedar"
+msgid "Save Queue As"
+msgstr "Schedar"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:806
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:859
+#, kde-format
+msgid "KStars Queue Files (*.kstarsqueue);;All Files (*)"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:837
 #, kde-format
 msgid "Clear Existing Queue?"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:686
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:838
 #, kde-format
 msgid "Loading a queue will clear the current queue. Continue?"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:721
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:875
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to load queue from %1"
 msgstr "N'hell ket bet karget ar skeudenn e %1"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:769
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:923
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to open collection file: %1"
 msgstr "N'hellan ket digeriñ ar restr %1."
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:779
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:933
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid collection file format"
 msgstr "URL siek"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:789
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:943
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Empty Collection"
 msgstr "Lakaat an lec'hiadur ..."
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:790
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:944
 #, kde-format
 msgid "The collection contains no tasks"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:799
-#, kde-format
-msgid "Template manager not available"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:809
-#, kde-format
-msgid "Failed to initialize template library"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:830
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:984
 #, kde-format
 msgid "Template not found: %1"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:853
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1007
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to create task from template: %1"
 msgstr "N'hellan ket digeriñ ar restr %1."
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:862
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1016
 #, kde-format
 msgid "No tasks were added from collection '%1'."
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:867
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1021
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid ""
@@ -31043,7 +31101,7 @@ msgid ""
 "%1 tasks failed to load."
 msgstr "N'hell ket bet karget ar skeudenn"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:872
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1026
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Corning"
@@ -31053,11 +31111,22 @@ msgid ""
 "Warnings:\n"
 msgstr "Corning"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:876
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1030
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Collection Loaded"
 msgstr "Kevreadenn"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1061
+#, fuzzy, kde-format
+#| msgid "Save Changes to FITS?"
+msgid "Save Changes?"
+msgstr "Enrollañ ar c'hemmoù e FITS ?"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1062
+#, kde-format
+msgid "The queue has unsaved changes. Do you want to save them?"
+msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format
@@ -80879,12 +80948,6 @@ msgstr "Lakaat an lec'hiadur ..."
 #| msgid "Preview of %1"
 msgid "Image Preview - %1"
 msgstr "Rakgwel %1"
-
-#: kstarslite/qml/indi/ImagePreview.qml:36
-#, fuzzy, kde-kuit-format
-#| msgid "Save Script As..."
-msgid "Save As"
-msgstr "Enrollañ an urzhiaoueg e ..."
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:15
 #, kde-kuit-format

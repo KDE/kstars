@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-01 01:58+0000\n"
+"POT-Creation-Date: 2026-01-03 02:01+0000\n"
 "PO-Revision-Date: 2024-10-08 14:43+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -414,6 +414,7 @@ msgstr ""
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera_jobs.cpp:419
 #: ekos/scheduler/scheduler.cpp:2293
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:73
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:699
@@ -585,12 +586,15 @@ msgstr "Zrušit"
 #: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:25
 #: ekos/manager.cpp:1279 ekos/manager.cpp:1294 ekos/manager.cpp:1310
 #: ekos/scheduler/scheduler.cpp:1816
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:672
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:720
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:395
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:405
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:768
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:778
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:798
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:808
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:820
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:874
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:922
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:932
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:952
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:962
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:23 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:32 kstarsactions.cpp:506 kstarsactions.cpp:514
 #: kstarsactions.cpp:524 skycomponents/imageoverlaycomponent.cpp:556
@@ -2369,8 +2373,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1817
 #: ekos/scheduler/scheduler.cpp:2467
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:246
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:526
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:268
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:640
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:293
 #: skyobjects/skyobject.cpp:435
@@ -3090,7 +3094,7 @@ msgstr "Upravit..."
 #. i18n: ectx: property (text), widget (QPushButton, RemovePreset)
 #: dialogs/catalogdetails.ui:188 dialogs/catalogsdbui.ui:83
 #: dialogs/fovdialog.ui:102 dialogs/viewsdialog.ui:113
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:115
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:134
 #: indi/customdrivers.ui:154 indi/drivermanager.ui:311
 #: oal/equipmentwriter.ui:429 oal/equipmentwriter.ui:900
 #: oal/equipmentwriter.ui:1291 options/opscolors.ui:230
@@ -6709,7 +6713,7 @@ msgstr "Načíst a otočit..."
 #: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:248
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:78
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
 #: fitsviewer/fitstab.cpp:38 kstarslite/qml/indi/INDIControlPanel.qml:137
 #: kstarslite/qml/indi/modules/MotionControl.qml:146
 #, kde-format, kde-kuit-format
@@ -9977,7 +9981,7 @@ msgstr ""
 #: ekos/manager.cpp:151 ekos/manager.cpp:254 ekos/manager.cpp:817
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:76
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
 #: fitsviewer/fitstab.cpp:37 fitsviewer/livestacking.ui:454
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
 #, kde-format, kde-kuit-format
@@ -10250,7 +10254,7 @@ msgid "Select input file"
 msgstr "Vyberte výstupní soubor"
 
 #: ekos/analyze/analyze.cpp:638
-#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:216
+#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:232
 #, kde-format
 msgid "All Files (*)"
 msgstr "Všechny soubory (*)"
@@ -12041,7 +12045,7 @@ msgid "Paused"
 msgstr "Pozastaveno"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:36
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:520
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:634
 #, kde-format
 msgid "Completed"
 msgstr "Dokončeno"
@@ -14492,7 +14496,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: ekos/capture/camera.ui:2302 ekos/ekoslive/ekoslivedialog.ui:119
 #: ekos/mount/mount.ui:654 ekos/scheduler/scheduler.ui:1166
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:96
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:114
 #: indi/drivermanager.ui:66 indi/drivermanager.ui:322
 #: skycomponents/imageoverlaycomponent.cpp:66
 #, kde-format
@@ -16980,7 +16984,7 @@ msgid "Meridian Flip"
 msgstr ""
 
 #: ekos/ekos.h:118 ekos/ekos.h:138
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:522
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:636
 #, kde-format
 msgid "Failed"
 msgstr "Selhalo"
@@ -17027,7 +17031,7 @@ msgid "Startup"
 msgstr "Spuštění"
 
 #: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1812
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:518
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:632
 #, kde-format
 msgid "Running"
 msgstr "Spuštěno"
@@ -18758,7 +18762,7 @@ msgstr "Profil..."
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
 #: ekos/focus/focus.ui:1115 ekos/manager.ui:1079
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:79
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:100
 #: fitsviewer/fitstab.cpp:180 indi/guimanager.cpp:75 tools/conjunctions.ui:205
 #: tools/eclipsetool.ui:167 tools/modcalcgeod.ui:160
 #, kde-format
@@ -24199,7 +24203,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, weatherActionsBox)
 #: ekos/observatory/observatory.ui:892
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:204
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:99
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:117
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:318
 #, kde-format
 msgid "Actions"
@@ -26513,7 +26517,7 @@ msgid "Evaluating"
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:1811
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:516
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:630
 #, kde-format
 msgid "Scheduled"
 msgstr "Naplánováno"
@@ -28151,7 +28155,7 @@ msgid "Collection Details"
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/collectionsdialog.cpp:79
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:63
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:61
 #, kde-format
 msgid "Load Collection"
 msgstr ""
@@ -28255,7 +28259,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:517
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:116
 #: indi/drivermanager.ui:61
 #, kde-format
 msgid "Device"
@@ -28271,22 +28275,22 @@ msgstr ""
 msgid "Device: %1"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:210
+#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:225
 #, kde-format
 msgid "Browse..."
 msgstr "Procházet..."
 
-#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:214
+#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:230
 #, kde-format
 msgid "Select File"
 msgstr "Vybrat soubor"
 
-#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:298
+#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:314
 #, kde-format
 msgid "Invalid Parameters"
 msgstr "Neplatné parametry"
 
-#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:309
+#: ekos/scheduler/taskqueue/ui/parametercustomizationdialog.cpp:325
 #, kde-format
 msgid "No template specified"
 msgstr ""
@@ -28660,215 +28664,266 @@ msgstr "Chyba šablony"
 msgid "Failed to create template object from JSON."
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:39
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:40
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1046
 #, kde-format
 msgid "Task Queue Viewer"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:59
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:60
 #, kde-format
 msgid "Add from Template"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:69
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:658
-#, kde-format
-msgid "Save Queue"
-msgstr ""
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:75
+#: kstarslite/qml/indi/ImagePreview.qml:36
+#, kde-format, kde-kuit-format
+msgid "Save As"
+msgstr "Uložit jako"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:70
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:705
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:77
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:857
 #, kde-format
 msgid "Load Queue"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:77
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:95
 #, kde-format
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:97
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:115
 #, kde-format
 msgid "Task"
 msgstr "Úloha"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:100
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:118
 #, kde-format
 msgid "Progress"
 msgstr "Průběh"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:101
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:119
 #, kde-format
 msgid "Created"
 msgstr "Vytvořeno"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpButton)
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:116
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:135
 #: tools/scriptbuilder.ui:382
 #, kde-format
 msgid "Move Up"
 msgstr "Posunout nahoru"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DownButton)
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:117
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:136
 #: tools/scriptbuilder.ui:404
 #, kde-format
 msgid "Move Down"
 msgstr "Posunout dolů"
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:128
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:389
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:147
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:503
 #, kde-format
 msgid "Queue idle"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:226
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:248
 #, kde-format
 msgid "Total: %1  Completed: %2  Failed: %3  Pending: %4"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:270
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:292
 #, kde-format
 msgid "Queue Start Failed"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:271
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:293
 #, kde-format
 msgid "Failed to start queue execution. Check that queue has items."
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:392
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:379
+#, fuzzy, kde-format
+#| msgid "Running"
+msgid "Queue Running"
+msgstr "Spuštěno"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:380
 #, kde-format
-msgid "Queue running"
+msgid "Cannot edit tasks while queue is running. Please stop the queue first."
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:395
-#, kde-format
-msgid "Queue paused"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:398
-#, kde-format
-msgid "Queue completed"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:401
-#, kde-format
-msgid "Queue aborted"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:431
-#, kde-format
-msgid "Queue completed successfully"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:470
-#, kde-format
-msgid "Item failed: %1"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:514
-#, kde-format
-msgid "Pending"
-msgstr "Čekající"
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:524
-#, kde-format
-msgid "Skipped"
-msgstr "Přeskočeno"
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:622
-#, kde-format
-msgid "Task Creation Failed"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:623
-#, kde-format
-msgid "Failed to create task from template"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:640
-#, kde-format
-msgid "Empty Queue"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:641
-#, kde-format
-msgid "Queue is empty. Nothing to save."
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:660
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:707
-#, kde-format
-msgid "KStars Queue Files (*.kstarsqueue);;All Files (*)"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:673
-#, kde-format
-msgid "Failed to save queue to %1"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:685
-#, kde-format
-msgid "Clear Existing Queue?"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:686
-#, kde-format
-msgid "Loading a queue will clear the current queue. Continue?"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:721
-#, kde-format
-msgid "Failed to load queue from %1"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:769
-#, kde-format
-msgid "Failed to open collection file: %1"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:779
-#, kde-format
-msgid "Invalid collection file format"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:789
-#, kde-format
-msgid "Empty Collection"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:790
-#, kde-format
-msgid "The collection contains no tasks"
-msgstr ""
-
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:799
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:396
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:953
 #, kde-format
 msgid "Template manager not available"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:809
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:406
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:963
 #, kde-format
 msgid "Failed to initialize template library"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:830
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:415
+#, fuzzy, kde-format
+#| msgid "Scheme Not Found"
+msgid "Template Not Found"
+msgstr "Schéma nenalezeno"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:416
+#, kde-format
+msgid ""
+"The template for this task is no longer available.\n"
+"Template ID: %1"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:437
+#, kde-format
+msgid "Task Update Failed"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:438
+#, kde-format
+msgid "Failed to update task with new parameters"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:452
+#, kde-format
+msgid "Task updated"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:506
+#, kde-format
+msgid "Queue running"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:509
+#, kde-format
+msgid "Queue paused"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:512
+#, kde-format
+msgid "Queue completed"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:515
+#, kde-format
+msgid "Queue aborted"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:545
+#, kde-format
+msgid "Queue completed successfully"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:584
+#, kde-format
+msgid "Item failed: %1"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:628
+#, kde-format
+msgid "Pending"
+msgstr "Čekající"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:638
+#, kde-format
+msgid "Skipped"
+msgstr "Přeskočeno"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:736
+#, kde-format
+msgid "Task Creation Failed"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:737
+#, kde-format
+msgid "Failed to create task from template"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:754
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:786
+#, kde-format
+msgid "Empty Queue"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:755
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:787
+#, kde-format
+msgid "Queue is empty. Nothing to save."
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:769
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:821
+#, kde-format
+msgid "Failed to save queue to %1"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:804
+#, fuzzy, kde-format
+#| msgid "Save As"
+msgid "Save Queue As"
+msgstr "Uložit jako"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:806
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:859
+#, kde-format
+msgid "KStars Queue Files (*.kstarsqueue);;All Files (*)"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:837
+#, kde-format
+msgid "Clear Existing Queue?"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:838
+#, kde-format
+msgid "Loading a queue will clear the current queue. Continue?"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:875
+#, kde-format
+msgid "Failed to load queue from %1"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:923
+#, kde-format
+msgid "Failed to open collection file: %1"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:933
+#, kde-format
+msgid "Invalid collection file format"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:943
+#, kde-format
+msgid "Empty Collection"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:944
+#, kde-format
+msgid "The collection contains no tasks"
+msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:984
 #, kde-format
 msgid "Template not found: %1"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:853
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1007
 #, kde-format
 msgid "Failed to create task from template: %1"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:862
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1016
 #, kde-format
 msgid "No tasks were added from collection '%1'."
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:867
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1021
 #, kde-format
 msgid ""
 "\n"
@@ -28876,7 +28931,7 @@ msgid ""
 "%1 tasks failed to load."
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:872
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1026
 #, kde-format
 msgid ""
 "\n"
@@ -28884,10 +28939,26 @@ msgid ""
 "Warnings:\n"
 msgstr ""
 
-#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:876
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1030
 #, kde-format
 msgid "Collection Loaded"
 msgstr ""
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1061
+#, fuzzy, kde-format
+#| msgid "Save Changes"
+msgid "Save Changes?"
+msgstr "Uložit změny"
+
+#: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1062
+#, fuzzy, kde-format
+#| msgid ""
+#| "The current FITS file has unsaved changes.  Would you like to save before "
+#| "closing it?"
+msgid "The queue has unsaved changes. Do you want to save them?"
+msgstr ""
+"Aktuální soubor FITS obsahuje neuložené změny.  Přejete si je před zavřením "
+"uložit?"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format
@@ -71282,11 +71353,6 @@ msgstr ""
 #, kde-kuit-format
 msgid "Image Preview - %1"
 msgstr "Náhled obrázku - %1"
-
-#: kstarslite/qml/indi/ImagePreview.qml:36
-#, kde-kuit-format
-msgid "Save As"
-msgstr "Uložit jako"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:15
 #, kde-kuit-format
