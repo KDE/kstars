@@ -8,27 +8,27 @@
 # Jaap Woldringh <jjhwoldringh@kde.nl>, 2004-2015, 2016, 2017, 2018, 2019, 2020.
 # Tom Albers <tomalbers@kde.nl>, 2004.
 # Bram Schoenmakers <bramschoenmakers@kde.nl>, 2005-2007.
-# SPDX-FileCopyrightText: 2009, 2010, 2013-2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Freek de Kruijf <freekdekruijf@kde.nl>
+# SPDX-FileCopyrightText: 2009, 2010, 2013-2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Freek de Kruijf <freekdekruijf@kde.nl>
 # Kristof Bal <kristof.bal@gmail.com>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-03 02:01+0000\n"
-"PO-Revision-Date: 2025-12-05 12:18+0100\n"
+"PO-Revision-Date: 2026-01-03 10:49+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 25.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Jaap Woldringh - t/m 2021,Freek de Kruijf - 2021 t/m 2025"
+msgstr "Jaap Woldringh - t/m 2021,Freek de Kruijf - 2021 t/m 2026"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -31350,8 +31350,7 @@ msgstr ""
 "items heeft."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:379
-#, fuzzy, kde-format
-#| msgid "Queue running"
+#, kde-format
 msgid "Queue Running"
 msgstr "Wachtrij is actief"
 
@@ -31359,6 +31358,7 @@ msgstr "Wachtrij is actief"
 #, kde-format
 msgid "Cannot edit tasks while queue is running. Please stop the queue first."
 msgstr ""
+"Kan taken niet bewerken terwijl de wachtrij actief is. Stop deze eerst."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:396
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:953
@@ -31373,10 +31373,9 @@ msgid "Failed to initialize template library"
 msgstr "Sjabloonbibliotheek initialiseren is mislukt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:415
-#, fuzzy, kde-format
-#| msgid "Template not found: %1"
+#, kde-format
 msgid "Template Not Found"
-msgstr "Sjabloon niet gevonden: %1"
+msgstr "Sjabloon niet gevonden"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:416
 #, kde-format
@@ -31384,25 +31383,23 @@ msgid ""
 "The template for this task is no longer available.\n"
 "Template ID: %1"
 msgstr ""
+"Het sjabloon voor deze taak is niet langer beschikbaar.\n"
+"Sjabloon-id: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:437
-#, fuzzy, kde-format
-#| msgid "Task Creation Failed"
+#, kde-format
 msgid "Task Update Failed"
-msgstr "Aanmaken van taak is mislukt"
+msgstr "Actualiseren van taak is mislukt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:438
-#, fuzzy, kde-format
-#| msgid "Failed to create task from template"
+#, kde-format
 msgid "Failed to update task with new parameters"
-msgstr "Taak aanmaken uit sjabloon is mislukt"
+msgstr "Taak actualiseren met nieuwe parameters is mislukt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "OTA Update"
+#, kde-format
 msgid "Task updated"
-msgstr "OTA bijwerken"
+msgstr "Taak bijgewerkt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:506
 #, kde-format
@@ -31473,10 +31470,9 @@ msgid "Failed to save queue to %1"
 msgstr "Opslaan van wachtrij naar %1 is mislukt"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:804
-#, fuzzy, kde-format
-#| msgid "Save Queue"
+#, kde-format
 msgid "Save Queue As"
-msgstr "Wachtrij opslaan"
+msgstr "Wachtrij opslaan als"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:806
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:859
@@ -31562,20 +31558,14 @@ msgid "Collection Loaded"
 msgstr "Verzameling geladen"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgid "Save Changes?"
-msgstr "Wijzigingen opslaan"
+msgstr "Wijzigingen opslaan?"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1062
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current FITS file has unsaved changes.  Would you like to save before "
-#| "closing it?"
+#, kde-format
 msgid "The queue has unsaved changes. Do you want to save them?"
-msgstr ""
-"Het huidige FITS-bestand bevat niet-opgeslagen wijzigingen. Wilt u deze "
-"opslaan voordat u het sluit?"
+msgstr "De wachtrij heeft niet opgeslagen wijzigingen. Wilt u ze opslaan?"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format

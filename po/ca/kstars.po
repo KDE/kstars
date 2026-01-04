@@ -1,18 +1,18 @@
 # Translation of kstars.po to Catalan
-# Copyright (C) 2003-2025 This_file_is_part_of_KDE
+# Copyright (C) 2003-2026 This_file_is_part_of_KDE
 #
 # SPDX-FileCopyrightText: 2003, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Antoni Bella Pérez <antonibella5@yahoo.com>
 # SPDX-FileCopyrightText: 2004 Ivan Lloro Boada <antispam@wanadoo.es>
 # SPDX-FileCopyrightText: 2004 Albert Astals Cid <aacid@kde.org>
 # SPDX-FileCopyrightText: 2004 David Gil, <al016950@yahoo.es>
 # SPDX-FileCopyrightText: 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016 Orestes Mas Casals <orestes@tsc.upc.edu>
-# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-03 02:01+0000\n"
-"PO-Revision-Date: 2025-12-05 08:52+0100\n"
+"PO-Revision-Date: 2026-01-03 16:49+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 25.12.0\n"
 
 # Diccionari de termes astronòmics:
 # https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
@@ -31744,15 +31744,16 @@ msgstr ""
 "elements."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:379
-#, fuzzy, kde-format
-#| msgid "Queue running"
+#, kde-format
 msgid "Queue Running"
-msgstr "La cua està executant-se"
+msgstr "Cua en execució"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:380
 #, kde-format
 msgid "Cannot edit tasks while queue is running. Please stop the queue first."
 msgstr ""
+"No es poden editar les tasques mentre la cua està en execució. Primer atureu "
+"la cua."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:396
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:953
@@ -31767,10 +31768,9 @@ msgid "Failed to initialize template library"
 msgstr "Ha fallat en inicialitzar la biblioteca de plantilles"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:415
-#, fuzzy, kde-format
-#| msgid "Template not found: %1"
+#, kde-format
 msgid "Template Not Found"
-msgstr "No s'ha trobat la plantilla: %1"
+msgstr "No s'ha trobat la plantilla"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:416
 #, kde-format
@@ -31778,25 +31778,23 @@ msgid ""
 "The template for this task is no longer available.\n"
 "Template ID: %1"
 msgstr ""
+"La plantilla per a aquesta tasca ja no està disponible.\n"
+"ID de plantilla: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:437
-#, fuzzy, kde-format
-#| msgid "Task Creation Failed"
+#, kde-format
 msgid "Task Update Failed"
-msgstr "Ha fallat la creació de la tasca"
+msgstr "Ha fallat l'actualització de la tasca"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:438
-#, fuzzy, kde-format
-#| msgid "Failed to create task from template"
+#, kde-format
 msgid "Failed to update task with new parameters"
-msgstr "Ha fallat en crear la tasca a partir de la plantilla"
+msgstr "Ha fallat en actualitzar la tasca amb paràmetres nous"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "OTA Update"
+#, kde-format
 msgid "Task updated"
-msgstr "Actualitza la informació d'assemblatge del tub òptic"
+msgstr "Tasca actualitzada"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:506
 #, kde-format
@@ -31867,10 +31865,9 @@ msgid "Failed to save queue to %1"
 msgstr "Ha fallat en desar la cua a %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:804
-#, fuzzy, kde-format
-#| msgid "Save Queue"
+#, kde-format
 msgid "Save Queue As"
-msgstr "Desa la cua de"
+msgstr "Desa la cua com a"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:806
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:859
@@ -31956,20 +31953,14 @@ msgid "Collection Loaded"
 msgstr "La col·lecció s'ha carregat"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgid "Save Changes?"
-msgstr "Desa els canvis"
+msgstr "Deso els canvis?"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1062
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current FITS file has unsaved changes.  Would you like to save before "
-#| "closing it?"
+#, kde-format
 msgid "The queue has unsaved changes. Do you want to save them?"
-msgstr ""
-"El fitxer FITS actual té canvis sense desar. Voleu desar-los abans de tancar-"
-"lo?"
+msgstr "La cua té canvis sense desar. Els voleu desar?"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format

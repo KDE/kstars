@@ -12,7 +12,7 @@
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2008, 2009, 2010, 2012, 2014, 2017, 2019, 2020, 2021.
 # Mauricio Piacentini <piacentini@kde.org>, 2009.
-# SPDX-FileCopyrightText: 2010, 2025 Marcus Vinícius de Andrade Gama <marcus.gama@gmail.com>
+# SPDX-FileCopyrightText: 2010, 2025, 2026 Marcus Vinícius de Andrade Gama <marcus.gama@gmail.com>
 # Marcus Gama <marcus.gama@gmail.com>, 2011, 2012.
 # Bianca Oliveira <kbiancasol@gmail.com>, 2019.
 msgid ""
@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-03 02:01+0000\n"
-"PO-Revision-Date: 2025-12-05 08:57-0300\n"
+"PO-Revision-Date: 2026-01-03 06:45-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 25.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31508,8 +31508,7 @@ msgid "Failed to start queue execution. Check that queue has items."
 msgstr "Falha ao iniciar a execução da fila. Verifique se a fila contém itens."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:379
-#, fuzzy, kde-format
-#| msgid "Queue running"
+#, kde-format
 msgid "Queue Running"
 msgstr "Fila em execução"
 
@@ -31517,6 +31516,8 @@ msgstr "Fila em execução"
 #, kde-format
 msgid "Cannot edit tasks while queue is running. Please stop the queue first."
 msgstr ""
+"Não é possível editar tarefas enquanto a fila estiver em execução. Por "
+"favor, pare a fila primeiro."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:396
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:953
@@ -31531,10 +31532,9 @@ msgid "Failed to initialize template library"
 msgstr "Falha ao inicializar a biblioteca de modelos"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:415
-#, fuzzy, kde-format
-#| msgid "Template not found: %1"
+#, kde-format
 msgid "Template Not Found"
-msgstr "Modelo não encontrado: %1"
+msgstr "Modelo não encontrado"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:416
 #, kde-format
@@ -31542,25 +31542,23 @@ msgid ""
 "The template for this task is no longer available.\n"
 "Template ID: %1"
 msgstr ""
+"O modelo para esta tarefa não está mais disponível.\n"
+"ID do modelo: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:437
-#, fuzzy, kde-format
-#| msgid "Task Creation Failed"
+#, kde-format
 msgid "Task Update Failed"
-msgstr "Falha ao cria tarefa"
+msgstr "Falha ao atualizar a tarefa"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:438
-#, fuzzy, kde-format
-#| msgid "Failed to create task from template"
+#, kde-format
 msgid "Failed to update task with new parameters"
-msgstr "Falha ao criar tarefa a partir do modelo"
+msgstr "Falha ao atualizar a tarefa com novos parâmetros"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "OTA Update"
+#, kde-format
 msgid "Task updated"
-msgstr "Atualização do ambiente"
+msgstr "Tarefa atualizada"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:506
 #, kde-format
@@ -31631,10 +31629,9 @@ msgid "Failed to save queue to %1"
 msgstr "Falha ao salvar a fila em %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:804
-#, fuzzy, kde-format
-#| msgid "Save Queue"
+#, kde-format
 msgid "Save Queue As"
-msgstr "Salvar fila"
+msgstr "Salvar fila como"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:806
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:859
@@ -31720,20 +31717,14 @@ msgid "Collection Loaded"
 msgstr "Coleção carregada"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgid "Save Changes?"
-msgstr "Salvar alterações"
+msgstr "Salvar alterações?"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1062
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current FITS file has unsaved changes.  Would you like to save before "
-#| "closing it?"
+#, kde-format
 msgid "The queue has unsaved changes. Do you want to save them?"
-msgstr ""
-"O arquivo FITS atual tem modificações que não foram salvas. Gostaria de "
-"salvá-las antes de fechá-lo?"
+msgstr "A fila tem modificações que não foram salvas. Gostaria de salvá-las?"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format

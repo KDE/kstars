@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-03 02:01+0000\n"
-"PO-Revision-Date: 2025-12-05 06:43+0100\n"
+"PO-Revision-Date: 2026-01-03 10:13+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -31302,8 +31302,7 @@ msgstr ""
 "sploh vsebuje elemente."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:379
-#, fuzzy, kde-format
-#| msgid "Queue running"
+#, kde-format
 msgid "Queue Running"
 msgstr "Čakalna vrsta se izvaja"
 
@@ -31311,6 +31310,8 @@ msgstr "Čakalna vrsta se izvaja"
 #, kde-format
 msgid "Cannot edit tasks while queue is running. Please stop the queue first."
 msgstr ""
+"Med izvajanjem čakalne vrste ni mogoče urejati opravil. Najprej ustavite "
+"čakalno vrsto."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:396
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:953
@@ -31325,10 +31326,9 @@ msgid "Failed to initialize template library"
 msgstr "Neuspela inicializacija knjižnice predlog"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:415
-#, fuzzy, kde-format
-#| msgid "Template not found: %1"
+#, kde-format
 msgid "Template Not Found"
-msgstr "Predloga ni bila najdena: %1"
+msgstr "Predloga ni bila najdena"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:416
 #, kde-format
@@ -31336,25 +31336,23 @@ msgid ""
 "The template for this task is no longer available.\n"
 "Template ID: %1"
 msgstr ""
+"Predloga za to nalogo ni več na voljo.\n"
+"ID predloge: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:437
-#, fuzzy, kde-format
-#| msgid "Task Creation Failed"
+#, kde-format
 msgid "Task Update Failed"
-msgstr "Ustvarjanje opravila ni uspelo"
+msgstr "Posodabljanje opravila ni uspelo"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:438
-#, fuzzy, kde-format
-#| msgid "Failed to create task from template"
+#, kde-format
 msgid "Failed to update task with new parameters"
-msgstr "Ustvarjanje opravila iz predloge ni uspelo"
+msgstr "Posodobitev opravila z novimi parametri ni uspela"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "OTA Update"
+#, kde-format
 msgid "Task updated"
-msgstr "Posodobi OTA"
+msgstr "Opravilo posodobljeno"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:506
 #, kde-format
@@ -31425,10 +31423,9 @@ msgid "Failed to save queue to %1"
 msgstr "Neuspelo shranjevanje čakalne vrste v %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:804
-#, fuzzy, kde-format
-#| msgid "Save Queue"
+#, kde-format
 msgid "Save Queue As"
-msgstr "Shrani čakalno vrsto"
+msgstr "Shrani čakalno vrsto kot"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:806
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:859
@@ -31516,20 +31513,14 @@ msgid "Collection Loaded"
 msgstr "Zbirka naložena"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgid "Save Changes?"
-msgstr "Shrani spremembe"
+msgstr "Naj shranim spremembe?"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1062
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current FITS file has unsaved changes.  Would you like to save before "
-#| "closing it?"
+#, kde-format
 msgid "The queue has unsaved changes. Do you want to save them?"
-msgstr ""
-"Trenutna datoteka FITS ima neshranjene spremembe. Ali jo želite shraniti "
-"pred njenim zapiranjem?"
+msgstr "Čakalna vrsta ima neshranjene spremembe. Ali jih želite shraniti?"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format
