@@ -10,7 +10,7 @@
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 # Luigi Toscano <luigi.toscano@tiscali.it>, 2012, 2013.
 # Vincenzo Reale <smart2128vr@gmail.com>, 2019, 2020, 2022.
-# SPDX-FileCopyrightText: 2022, 2024, 2025 Valter Mura <valtermura@gmail.com>
+# SPDX-FileCopyrightText: 2022, 2024, 2025, 2026 Valter Mura <valtermura@gmail.com>
 # Paolo Zamponi <feus73@gmail.com>, 2023.
 #
 # Mini-glossary:
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-03 02:01+0000\n"
-"PO-Revision-Date: 2025-12-20 20:33+0100\n"
+"PO-Revision-Date: 2026-01-04 16:46+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -31709,8 +31709,7 @@ msgstr ""
 "elementi."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:379
-#, fuzzy, kde-format
-#| msgid "Queue running"
+#, kde-format
 msgid "Queue Running"
 msgstr "Coda in esecuzione"
 
@@ -31718,6 +31717,8 @@ msgstr "Coda in esecuzione"
 #, kde-format
 msgid "Cannot edit tasks while queue is running. Please stop the queue first."
 msgstr ""
+"Impossibile modificare le attività mentre la coda è in esecuzione. Ferma "
+"prima la coda."
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:396
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:953
@@ -31732,10 +31733,9 @@ msgid "Failed to initialize template library"
 msgstr "Impossibile inizializzare la libreria dei modelli"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:415
-#, fuzzy, kde-format
-#| msgid "Template not found: %1"
+#, kde-format
 msgid "Template Not Found"
-msgstr "Modello non trovato: %1"
+msgstr "Modello non trovato"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:416
 #, kde-format
@@ -31743,25 +31743,23 @@ msgid ""
 "The template for this task is no longer available.\n"
 "Template ID: %1"
 msgstr ""
+"Il modello per questa attività non è più disponibile.\n"
+"ID del modello: %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:437
-#, fuzzy, kde-format
-#| msgid "Task Creation Failed"
+#, kde-format
 msgid "Task Update Failed"
-msgstr "Creazione dell'operazione non riuscita"
+msgstr "Aggiornamento dell'attività non riuscito"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:438
-#, fuzzy, kde-format
-#| msgid "Failed to create task from template"
+#, kde-format
 msgid "Failed to update task with new parameters"
-msgstr "Creazione dell'operazione dal modello non riuscita"
+msgstr "L'aggiornamento dell'attività con nuovi parametri non è riuscito"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "OTA Update"
+#, kde-format
 msgid "Task updated"
-msgstr "Aggiornamento OTA"
+msgstr "Attività aggiornata"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:506
 #, kde-format
@@ -31832,10 +31830,9 @@ msgid "Failed to save queue to %1"
 msgstr "Impossibile salvare la coda in %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:804
-#, fuzzy, kde-format
-#| msgid "Save Queue"
+#, kde-format
 msgid "Save Queue As"
-msgstr "Salva coda"
+msgstr "Salva coda come"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:806
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:859
@@ -31921,20 +31918,14 @@ msgid "Collection Loaded"
 msgstr "Raccolta caricata"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgid "Save Changes?"
-msgstr "Salva le modifiche"
+msgstr "Salvare le modifiche?"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1062
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current FITS file has unsaved changes.  Would you like to save before "
-#| "closing it?"
+#, kde-format
 msgid "The queue has unsaved changes. Do you want to save them?"
-msgstr ""
-"Il file FITS corrente ha modifiche non salvate. Vuoi salvarlo prima di "
-"chiuderlo?"
+msgstr "La coda ha modifiche non salvate. Vuoi salvarle?"
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format
