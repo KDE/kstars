@@ -207,6 +207,28 @@ void TestCSVParser::CSVEmptyRow()
     QCOMPARE(row_content["field12"].toString(), QString(""));
 }
 
+void TestCSVParser::CSVUnmatchedQuoteSkipped()
+{
+    QTemporaryFile temp_file;
+    QVERIFY(temp_file.open());
+    QTextStream out_stream(&temp_file);
+    out_stream << "\"one,two,three\n";
+    out_stream << "a,b,c\n";
+    out_stream.flush();
+    temp_file.close();
+
+    QList<QPair<QString, KSParser::DataTypes>> sequence;
+    sequence.append(qMakePair(QString("col1"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("col2"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("col3"), KSParser::D_QSTRING));
+
+    KSParser parser(temp_file.fileName(), '#', sequence);
+    QHash<QString, QVariant> row_content = parser.ReadNextRow();
+    QCOMPARE(row_content["col1"].toString(), QString("a"));
+    QCOMPARE(row_content["col2"].toString(), QString("b"));
+    QCOMPARE(row_content["col3"].toString(), QString("c"));
+}
+
 void TestCSVParser::CSVNoRow()
 {
     /*

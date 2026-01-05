@@ -28,6 +28,7 @@ class TestCSVParser : public QObject
         void CSVMixedInputs();
         void CSVQuotesInQuotes();
         void CSVEmptyRow();
+        void CSVUnmatchedQuoteSkipped();
         void CSVNoRow();
         void CSVIgnoreHasNextRow();
         void CSVReadMissingFile();

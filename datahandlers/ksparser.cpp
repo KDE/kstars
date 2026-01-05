@@ -66,7 +66,7 @@ QHash<QString, QVariant> KSParser::ReadCSVRow()
     while (file_reader_.hasMoreLines() && read_success == false)
     {
         next_line = file_reader_.readLine();
-        if (next_line.isEmpty() || next_line.mid(0, 1)[0] == comment_char_)
+        if (next_line.isEmpty() || next_line.startsWith(QLatin1Char(comment_char_)))
             continue;
         separated = next_line.split(delimiter_);
         /*
@@ -155,7 +155,7 @@ QHash<QString, QVariant> KSParser::ReadFixedWidthRow()
          *             conversion
         */
         next_line = file_reader_.readLine();
-        if (next_line.isEmpty() || next_line.mid(0, 1)[0] == comment_char_)
+        if (next_line.isEmpty() || next_line.startsWith(QLatin1Char(comment_char_)))
             continue;
         if (next_line.length() < total_min_length)
             continue;
@@ -243,9 +243,7 @@ void KSParser::ShowProgress()
 
 QList<QString> KSParser::CombineQuoteParts(QList<QString> &separated)
 {
-    QString iter_string;
     QList<QString> quoteCombined;
-    QStringList::const_iterator iter;
 
     if (separated.length() == 0)
     {
@@ -265,25 +263,29 @@ QList<QString> KSParser::CombineQuoteParts(QList<QString> &separated)
          * 5) Read next word. Goto 3) until end of list of words is reached
          * 6) Goto 1) until end of list of words is reached
         */
-        iter = separated.constBegin();
-
-        while (iter != separated.constEnd())
+        for (int i = 0; i < separated.size(); ++i)
         {
             QList<QString> queue;
-            iter_string = *iter;
+            QString iter_string = separated[i];
 
             if (iter_string.indexOf("\"") == 0) // if (quote mark is the first character)
             {
                 iter_string = (iter_string).remove(0, 1); // remove the quote at the start
-                while (iter_string.lastIndexOf('\"') != (iter_string.length() - 1) &&
-                        iter != separated.constEnd()) // handle stuff between parent quotes
+                while (true) // handle stuff between parent quotes
                 {
-                    queue.append((iter_string));
-                    ++iter;
-                    iter_string = *iter;
+                    if (iter_string.lastIndexOf('\"') == (iter_string.length() - 1))
+                    {
+                        iter_string.chop(1); // remove the quote at the end
+                        queue.append(iter_string);
+                        break;
+                    }
+
+                    queue.append(iter_string);
+                    ++i;
+                    if (i >= separated.size())
+                        break;
+                    iter_string = separated[i];
                 }
-                iter_string.chop(1); // remove the quote at the end
-                queue.append(iter_string);
             }
             else
             {
@@ -293,9 +295,9 @@ QList<QString> KSParser::CombineQuoteParts(QList<QString> &separated)
             QString col_result;
             foreach (const QString &join, queue)
                 col_result += (join + delimiter_);
-            col_result.chop(1); // remove extra delimiter
+            if (!col_result.isEmpty())
+                col_result.chop(1); // remove extra delimiter
             quoteCombined.append(col_result);
-            ++iter;
         }
     }
     return quoteCombined;
