@@ -204,7 +204,7 @@ void StarObject::init(const DeepStarData *stardata)
     if (stardata->B == 30000 || stardata->V == 30000)
     {
         // Unused value
-//        BV_Index  = -100;
+        //        BV_Index  = -100;
         SpType[0] = '?';
     }
     else
@@ -257,14 +257,14 @@ void StarObject::initPopupMenu(KSPopupMenu *pmenu)
 
 void StarObject::updateCoords(const KSNumbers *num, bool, const CachingDms *, const CachingDms *, bool)
 {
-//Correct for proper motion of stars.  Determine RA and Dec offsets.
-//Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
-//That is numerically identical to the number of arcsec per millenium, so multiply by
-//KSNumbers::julianMillenia() to find the offsets in arcsec.
+    //Correct for proper motion of stars.  Determine RA and Dec offsets.
+    //Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
+    //That is numerically identical to the number of arcsec per millenium, so multiply by
+    //KSNumbers::julianMillenia() to find the offsets in arcsec.
 
-// Correction:  The method below computes the proper motion before the
-// precession.  If we precessed first then the direction of the proper
-// motion correction would depend on how far we've precessed.  -jbb
+    // Correction:  The method below computes the proper motion before the
+    // precession.  If we precessed first then the direction of the proper
+    // motion correction would depend on how far we've precessed.  -jbb
 #ifdef PROFILE_UPDATECOORDS
     std::clock_t start, stop;
     start = std::clock();
@@ -534,7 +534,7 @@ void StarObject::JITupdate()
         Q_ASSERT(std::isfinite(lastPrecessJD));
 
         if (Options::alwaysRecomputeCoordinates() || (Options::useRelativistic() && checkBendLight()) ||
-            std::abs(lastPrecessJD - data->updateNum()->getJD()) >= 0.00069444) // Update is once per solar minute
+                std::abs(lastPrecessJD - data->updateNum()->getJD()) >= 0.00069444) // Update is once per solar minute
         {
             // Short circuit right here, if recomputing coordinates is not required. NOTE: POTENTIALLY DANGEROUS
             updateCoords(data->updateNum());
@@ -570,8 +570,9 @@ QString StarObject::greekLetter(bool gchar) const
     QString letter = code; //in case genitive name is *not* a Greek letter
     int alpha      = 0x03B1;
 
-    auto checkAndGreekify = [&code, gchar, alpha, &letter](const QString &abbrev, int unicodeOffset,
-                                                           const QString &expansion) {
+    auto checkAndGreekify = [&code, gchar, alpha, &letter](const QString & abbrev, int unicodeOffset,
+                            const QString & expansion)
+    {
         if (code == abbrev)
             gchar ? letter = QString(QChar(alpha + unicodeOffset)) : letter = expansion;
     };

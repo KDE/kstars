@@ -18,26 +18,26 @@ namespace Ekos
 {
 // Guide States
 static const QList<KLocalizedString> guideStates = { ki18n("Idle"),
-                                                 ki18n("Aborted"),
-                                                 ki18n("Connected"),
-                                                 ki18n("Disconnected"),
-                                                 ki18n("Capturing"),
-                                                 ki18n("Looping"),
-                                                 ki18n("Subtracting"),
-                                                 ki18n("Subframing"),
-                                                 ki18n("Selecting star"),
-                                                 ki18n("Calibrating"),
-                                                 ki18n("Calibration error"),
-                                                 ki18n("Calibrated"),
-                                                 ki18n("Guiding"),
-                                                 ki18n("Suspended"),
-                                                 ki18n("Reacquiring"),
-                                                 ki18n("Dithering"),
-                                                 ki18n("Manual Dithering"),
-                                                 ki18n("Dithering error"),
-                                                 ki18n("Dithering successful"),
-                                                 ki18n("Settling")
-                                               };
+                                                     ki18n("Aborted"),
+                                                     ki18n("Connected"),
+                                                     ki18n("Disconnected"),
+                                                     ki18n("Capturing"),
+                                                     ki18n("Looping"),
+                                                     ki18n("Subtracting"),
+                                                     ki18n("Subframing"),
+                                                     ki18n("Selecting star"),
+                                                     ki18n("Calibrating"),
+                                                     ki18n("Calibration error"),
+                                                     ki18n("Calibrated"),
+                                                     ki18n("Guiding"),
+                                                     ki18n("Suspended"),
+                                                     ki18n("Reacquiring"),
+                                                     ki18n("Dithering"),
+                                                     ki18n("Manual Dithering"),
+                                                     ki18n("Dithering error"),
+                                                     ki18n("Dithering successful"),
+                                                     ki18n("Settling")
+                                                   };
 
 typedef enum
 {
@@ -116,9 +116,9 @@ const QString getCaptureStatusString(CaptureState state, bool translated = true)
 
 // Focus States
 static const QList<KLocalizedString> focusStates = { ki18n("Idle"),    ki18n("Complete"),       ki18n("Failed"),
-                                                 ki18n("Aborted"), ki18n("User Input"),     ki18n("In Progress"),
-                                                 ki18n("Framing"), ki18n("Changing Filter")
-                                               };
+                                                     ki18n("Aborted"), ki18n("User Input"),     ki18n("In Progress"),
+                                                     ki18n("Framing"), ki18n("Changing Filter")
+                                                   };
 
 typedef enum
 {
@@ -136,10 +136,10 @@ const QString getFocusStatusString(FocusState state, bool translated = true);
 
 // Align States
 static const QList<KLocalizedString> alignStates = { ki18n("Idle"),    ki18n("Complete"),  ki18n("Failed"),
-                                                 ki18n("Aborted"), ki18n("In Progress"), ki18n("Successful"),
-                                                 ki18n("Syncing"), ki18n("Slewing"), ki18n("Rotating"),
-                                                 ki18n("Suspended")
-                                               };
+                                                     ki18n("Aborted"), ki18n("In Progress"), ki18n("Successful"),
+                                                     ki18n("Syncing"), ki18n("Slewing"), ki18n("Rotating"),
+                                                     ki18n("Suspended")
+                                                   };
 
 typedef enum
 {
@@ -159,8 +159,8 @@ const QString getAlignStatusString(AlignState state, bool translated = true);
 
 // Filter Manager States
 static const QList<KLocalizedString> filterStates = { ki18n("Idle"), ki18n("Changing Filter"), ki18n("Focus Offset"),
-                                                  ki18n("Auto Focus")
-                                                };
+                                                      ki18n("Auto Focus")
+                                                    };
 typedef enum
 {
     FILTER_IDLE,
@@ -196,9 +196,9 @@ typedef enum
 const QString getSchedulerStatusString(SchedulerState state, bool translated = true);
 
 static const QList<KLocalizedString> schedulerStates = { ki18n("Idle"), ki18n("Startup"), ki18n("Running"),
-                                                     ki18n("Paused"), ki18n("Shutdown"), ki18n("Aborted"),
-                                                     ki18n("Loading")
-                                                   };
+                                                         ki18n("Paused"), ki18n("Shutdown"), ki18n("Aborted"),
+                                                         ki18n("Loading")
+                                                       };
 typedef enum
 {
     Idle,

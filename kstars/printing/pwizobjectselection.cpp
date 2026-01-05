@@ -126,7 +126,8 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
                 type = ps->translatedName();
             }
 
-            else if (ps->name() == i18nc("Asteroid name (optional)", "Pluto") || ps->name() == i18nc("Asteroid name (optional)", "Ceres") || ps->name() == i18nc("Asteroid name (optional)", "Eris"))
+            else if (ps->name() == i18nc("Asteroid name (optional)", "Pluto")
+                     || ps->name() == i18nc("Asteroid name (optional)", "Ceres") || ps->name() == i18nc("Asteroid name (optional)", "Eris"))
             {
                 type = i18n("Dwarf planet");
             }

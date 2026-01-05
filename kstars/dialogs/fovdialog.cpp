@@ -305,8 +305,10 @@ void NewFOV::slotComputeFOV()
         //const double aspectratio = 3.0/2.0; // Use the default aspect ratio for DSLRs / Film (i.e. 3:2)*/
 
         // FOV in arcmins
-        double fov_x = 206264.8062470963552 * ui->cameraWidth->value() * ui->cameraPixelSizeW->value() / 60000.0 / ui->TLength2->value();
-        double fov_y = 206264.8062470963552 * ui->cameraHeight->value() * ui->cameraPixelSizeH->value() / 60000.0 / ui->TLength2->value();
+        double fov_x = 206264.8062470963552 * ui->cameraWidth->value() * ui->cameraPixelSizeW->value() / 60000.0 /
+                       ui->TLength2->value();
+        double fov_y = 206264.8062470963552 * ui->cameraHeight->value() * ui->cameraPixelSizeH->value() / 60000.0 /
+                       ui->TLength2->value();
 
         ui->FOVEditX->setText(toString(fov_x));
         ui->FOVEditY->setText(toString(fov_y));

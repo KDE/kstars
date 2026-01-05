@@ -43,7 +43,7 @@ class DustCap : public ConcreteDevice
 
         virtual void processSwitch(INDI::Property prop) override;
 
-        Q_SCRIPTABLE virtual bool canPark();        
+        Q_SCRIPTABLE virtual bool canPark();
         // Check if cap is fully parked.
         Q_SCRIPTABLE virtual bool isParked();
         // Check if cap is fully unparked. We need this because we have parking and unparking in progress

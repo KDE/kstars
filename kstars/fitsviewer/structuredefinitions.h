@@ -20,11 +20,13 @@ typedef enum
     BOTH
 } Parity;
 
-static const QString getParityText(Parity parity){
+static const QString getParityText(Parity parity)
+{
     return parity == FITSImage::NEGATIVE ? "negative" : "positive";
 }
 
-static const QString getShortParityText(Parity parity){
+static const QString getShortParityText(Parity parity)
+{
     return parity == FITSImage::NEGATIVE ? "neg" : "pos";
 }
 

@@ -22,7 +22,7 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, C
     : ListComponent(parent)
 {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-     QtConcurrent::run(&ConstellationNamesComponent::loadData, this, cultures);
+    QtConcurrent::run(&ConstellationNamesComponent::loadData, this, cultures);
 #else
     QtConcurrent::run(this, &ConstellationNamesComponent::loadData, cultures);
 #endif

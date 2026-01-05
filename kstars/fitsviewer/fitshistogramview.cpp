@@ -315,7 +315,8 @@ void FITSHistogramView::createNonLinearHistogram()
 void FITSHistogramView::onXRangeChanged(const QCPRange &range)
 {
     QCPRange boundedRange = range;
-    if(boundedRange.lower < 0) {  // restrict max zoom in
+    if(boundedRange.lower < 0)    // restrict max zoom in
+    {
         boundedRange.lower = 0;
         boundedRange.upper = boundedRange.size();
     }
@@ -324,7 +325,8 @@ void FITSHistogramView::onXRangeChanged(const QCPRange &range)
 void FITSHistogramView::onYRangeChanged(const QCPRange &range)
 {
     QCPRange boundedRange = range;
-    if(boundedRange.lower < 0) {  // restrict max zoom in
+    if(boundedRange.lower < 0)    // restrict max zoom in
+    {
         boundedRange.lower = 0;
         boundedRange.upper = boundedRange.size();
     }

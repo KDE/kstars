@@ -101,7 +101,8 @@ void ThumbnailPicker::slotFillList()
 void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
 {
     //Preload ImageList with the URLs in the object's ImageList:
-    SkyObjectUserdata::LinkList ImageList{
+    SkyObjectUserdata::LinkList ImageList
+    {
         KStarsData::Instance()->getUserData(Object->name()).images()
     };
 
@@ -120,7 +121,8 @@ void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
         index += 5; //move to end of "src=\"http:" marker
 
         //Image URL is everything from index to next occurrence of "\""
-        ImageList.push_back(SkyObjectUserdata::LinkData{
+        ImageList.push_back(SkyObjectUserdata::LinkData
+        {
             "", QUrl{ PageHTML.mid(index, PageHTML.indexOf("\"", index) - index) },
             SkyObjectUserdata::Type::website });
 

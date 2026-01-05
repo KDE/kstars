@@ -15,37 +15,40 @@
 
 class GuideTargetPlot: public QCustomPlot
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    GuideTargetPlot(QWidget *parent = nullptr);
-    void showPoint(double ra, double de);
-    void setLatestGuidePoint(bool isChecked) {graphOnLatestPt = isChecked;}
-    void connectGuider(Ekos::GuideInterface *guider);
-    void resize(int w, int h);
+    public:
+        GuideTargetPlot(QWidget *parent = nullptr);
+        void showPoint(double ra, double de);
+        void setLatestGuidePoint(bool isChecked)
+        {
+            graphOnLatestPt = isChecked;
+        }
+        void connectGuider(Ekos::GuideInterface *guider);
+        void resize(int w, int h);
 
-public slots:
-    void handleVerticalPlotSizeChange();
-    void handleHorizontalPlotSizeChange();
+    public slots:
+        void handleVerticalPlotSizeChange();
+        void handleHorizontalPlotSizeChange();
 
-    void buildTarget(double accuracyRadius);
-    void setupNSEWLabels();
-    void autoScaleGraphs(double accuracyRadius);
-    void clear();
+        void buildTarget(double accuracyRadius);
+        void setupNSEWLabels();
+        void autoScaleGraphs(double accuracyRadius);
+        void clear();
 
-protected:
-    // virtual void resizeEvent(QResizeEvent *resize) override;
+    protected:
+        // virtual void resizeEvent(QResizeEvent *resize) override;
 
-private slots:
-    void setAxisDelta(double ra, double de);
+    private slots:
+        void setAxisDelta(double ra, double de);
 
 
-private:
-    QCPCurve *centralTarget { nullptr };
-    QCPCurve *yellowTarget { nullptr };
-    QCPCurve *redTarget { nullptr };
-    QCPCurve *concentricRings { nullptr };
+    private:
+        QCPCurve *centralTarget { nullptr };
+        QCPCurve *yellowTarget { nullptr };
+        QCPCurve *redTarget { nullptr };
+        QCPCurve *concentricRings { nullptr };
 
-    bool graphOnLatestPt = true;
+        bool graphOnLatestPt = true;
 
 };

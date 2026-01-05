@@ -141,7 +141,7 @@ void MilkyWay::loadContours(QString fname, QString greeting)
 
         skipList->append(std::move(point));
         if (firstChar == 'S')
-            static_cast<SkipHashList*>(skipList.get())->setSkip(iSkip);
+            static_cast<SkipHashList * >(skipList.get())->setSkip(iSkip);
 
         iSkip++;
     }

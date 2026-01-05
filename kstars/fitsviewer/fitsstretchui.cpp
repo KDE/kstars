@@ -388,7 +388,7 @@ void FITSStretchUI::setupPresetText(bool enabled)
         const int next = Stretch::nextPreset(m_StretchPresetNumber);
         stretchPreset->setToolTip(
             i18n("Cycle through stretch presets. Current stretch: preset %1. "
-                 "Click for preset %2.", m_StretchPresetNumber, next));
+             "Click for preset %2.", m_StretchPresetNumber, next));
         stretchPreset->setText(QString("%1").arg(m_StretchPresetNumber));
     }
     else

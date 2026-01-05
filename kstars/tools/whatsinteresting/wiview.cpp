@@ -634,7 +634,8 @@ void WIView::updateWikipediaDescription(SkyObjItem *soitem)
 
     QString name = getWikipediaName(soitem);
 
-    QUrl url("https://en.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=" + name);
+    QUrl url("https://en.wikipedia.org/w/api.php?format=xml&action=query&prop=extracts&exintro&explaintext&redirects=1&titles="
+             + name);
 
     QNetworkReply *response = manager->get(QNetworkRequest(url));
     QTimer::singleShot(30000, response, [response]   //Shut it down after 30 sec.
@@ -799,7 +800,7 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
         if (response->error() == QNetworkReply::ContentNotFoundError)
         {
             QString html = "<BR>Sorry, No Wikipedia article with this object name seems to exist.  It is possible that "
-            "one does exist but does not match the namimg scheme.";
+                           "one does exist but does not match the namimg scheme.";
             saveObjectInfoBoxText(soitem, "infoText", html);
             infoBoxText->setProperty("text", html);
             return;
@@ -838,13 +839,13 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem *soitem, QString name)
 
         //This next section is for the headers in the colored boxes. It turns them black instead of white because they are more visible that way.
         infoText.replace("background: #", "color:black;background: #")
-        .replace("background-color: #", "color:black;background: #")
-        .replace("background:#", "color:black;background:#")
-        .replace("background-color:#", "color:black;background:#")
-        .replace("background: pink", "color:black;background: pink");
+                .replace("background-color: #", "color:black;background: #")
+                .replace("background:#", "color:black;background:#")
+                .replace("background-color:#", "color:black;background:#")
+                .replace("background: pink", "color:black;background: pink");
         infoText.replace("//", "http://"); //This is to fix links on wikipedia which are missing http from the url
         infoText.replace("https:http:", "https:")
-        .replace("http:http:", "http:"); //Just in case it was done to an actual complete url
+                .replace("http:http:", "http:"); //Just in case it was done to an actual complete url
 
         //This section is intended to remove links from the object name header at the top.  The links break up the header.
         int thLeft = infoText.indexOf("<th ");

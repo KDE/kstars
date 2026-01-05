@@ -10,21 +10,21 @@
 
 class TestDMS : public QObject
 {
-    Q_OBJECT
-  public:
-    TestDMS();
-    ~TestDMS() override = default;
+        Q_OBJECT
+    public:
+        TestDMS();
+        ~TestDMS() override = default;
 
-    void checkCtor_data();
+        void checkCtor_data();
 
-  private slots:
-    void defaultCtor();
-    void explicitSexigesimalCtor();
-    void angleCtor();
-    void stringCtor();
-    void testReduceToRange();
-    void testSubstraction();
-    void testDeltaAngle();
-    void testUnitTransition();
-    void testPrecisionTransition();
+    private slots:
+        void defaultCtor();
+        void explicitSexigesimalCtor();
+        void angleCtor();
+        void stringCtor();
+        void testReduceToRange();
+        void testSubstraction();
+        void testDeltaAngle();
+        void testUnitTransition();
+        void testPrecisionTransition();
 };

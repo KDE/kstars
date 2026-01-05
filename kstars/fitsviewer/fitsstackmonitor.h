@@ -24,14 +24,17 @@
 // Ensure translation domain is set before any i18nc() calls in this header
 namespace
 {
-    const bool _initKStarsDomain = []()
-    {
-        KLocalizedString::setApplicationDomain("kstars");
-        return true;
-    }();
+const bool _initKStarsDomain = []()
+{
+    KLocalizedString::setApplicationDomain("kstars");
+    return true;
+}();
 }
 
-namespace Ui { class StackMonitorDialog; }
+namespace Ui
+{
+class StackMonitorDialog;
+}
 
 const QString STATUS_GOOD = QStringLiteral("🟢");
 const QString STATUS_BAD = QStringLiteral("🔴");
@@ -121,11 +124,20 @@ inline QString displayChannels(const QVector<LiveStackChannel> &channels, const 
                 else
                     str.append(MONO);
                 break;
-            case LiveStackChannel::RED: str.append(RED); break;
-            case LiveStackChannel::GREEN: str.append(GREEN); break;
-            case LiveStackChannel::BLUE: str.append(BLUE); break;
-            case LiveStackChannel::LUM: str.append(LUM); break;
-            default: break;
+            case LiveStackChannel::RED:
+                str.append(RED);
+                break;
+            case LiveStackChannel::GREEN:
+                str.append(GREEN);
+                break;
+            case LiveStackChannel::BLUE:
+                str.append(BLUE);
+                break;
+            case LiveStackChannel::LUM:
+                str.append(LUM);
+                break;
+            default:
+                break;
         }
     }
     return str;
@@ -161,10 +173,14 @@ inline QString displayStatus(const LSStatus &status)
 {
     switch (status)
     {
-        case LSStatus::LSStatusOK: return STATUS_GOOD;
-        case LSStatus::LSStatusError: return STATUS_BAD;
-        case LSStatus::LSStatusNA: return STATUS_NA;
-        default: return QString();
+        case LSStatus::LSStatusOK:
+            return STATUS_GOOD;
+        case LSStatus::LSStatusError:
+            return STATUS_BAD;
+        case LSStatus::LSStatusNA:
+            return STATUS_NA;
+        default:
+            return QString();
     }
 }
 
@@ -175,18 +191,18 @@ inline QString channelsHelp(const QString &name)
     return str;
 }
 
-inline QString statusHelp(const QString &name, const bool useNA=true)
+inline QString statusHelp(const QString &name, const bool useNA = true)
 {
     QString str = ki18nc("Stack monitor status help", "%1 \n%2 = OK\n%3 = Error")
-                      .subs(name)
-                      .subs(displayStatus(LSStatus::LSStatusOK))
-                      .subs(displayStatus(LSStatus::LSStatusError))
-                      .toString();
+                  .subs(name)
+                  .subs(displayStatus(LSStatus::LSStatusOK))
+                  .subs(displayStatus(LSStatus::LSStatusError))
+                  .toString();
     if (useNA)
         str = ki18nc("Stack monitor status help", "%1 \n%2 = Not applicable")
-                  .subs(str)
-                  .subs(displayStatus(LSStatus::LSStatusNA))
-                  .toString();
+              .subs(str)
+              .subs(displayStatus(LSStatus::LSStatusNA))
+              .toString();
     return str;
 }
 
@@ -194,16 +210,16 @@ inline QString overallStatusHelp(const QString &name)
 {
     return ki18nc("Stack monitor overall status help",
                   "%1 \n%2\n%3 = Processed Successfully\n%4\n%5\n%6\n%7\n%8\n%9")
-        .subs(name)
-        .subs(displayOverallStatus(SubStatus::InProgress))
-        .subs(displayOverallStatus(SubStatus::Processed))
-        .subs(displayOverallStatus(SubStatus::FailedLoading))
-        .subs(displayOverallStatus(SubStatus::FailedPlateSolving))
-        .subs(displayOverallStatus(SubStatus::FailedWaiting))
-        .subs(displayOverallStatus(SubStatus::FailedCalibration))
-        .subs(displayOverallStatus(SubStatus::FailedAlignment))
-        .subs(displayOverallStatus(SubStatus::FailedStacking))
-        .toString();
+           .subs(name)
+           .subs(displayOverallStatus(SubStatus::InProgress))
+           .subs(displayOverallStatus(SubStatus::Processed))
+           .subs(displayOverallStatus(SubStatus::FailedLoading))
+           .subs(displayOverallStatus(SubStatus::FailedPlateSolving))
+           .subs(displayOverallStatus(SubStatus::FailedWaiting))
+           .subs(displayOverallStatus(SubStatus::FailedCalibration))
+           .subs(displayOverallStatus(SubStatus::FailedAlignment))
+           .subs(displayOverallStatus(SubStatus::FailedStacking))
+           .toString();
 }
 
 } // namespace StackMonUtils
@@ -211,85 +227,133 @@ inline QString overallStatusHelp(const QString &name)
 // Single source of truth for all table columns
 static const QVector<ColumnInfo> ColumnInfos =
 {
-    { "",              i18nc("Column header", "ID"),
-                       i18nc("Tooltip for ID column", "Unique subframe identifier"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
-    { "",              i18nc("Column header", "Pathname"),
-                       i18nc("Tooltip for Pathname column", "Full file path"),
-                                                    Qt::AlignLeft | Qt::AlignVCenter },
-    { "",              i18nc("Column header", "Filename"),
-                       i18nc("Tooltip for Filename column", "Filename only"),
-                                                    Qt::AlignLeft | Qt::AlignVCenter },
-    { "",              i18nc("Column header", "Channel(s)"),
-          StackMonUtils::channelsHelp(i18nc("Tooltip for Channels column", "Channel(s)")),
-                                                    Qt::AlignCenter },
-    { "",              i18nc("Column header", "Overall\nStatus"),
-          StackMonUtils::overallStatusHelp(i18nc("Tooltip for Overall Status column", "Overall processing status")),
-                                                    Qt::AlignCenter },
+    {
+        "",              i18nc("Column header", "ID"),
+        i18nc("Tooltip for ID column", "Unique subframe identifier"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+    {
+        "",              i18nc("Column header", "Pathname"),
+        i18nc("Tooltip for Pathname column", "Full file path"),
+        Qt::AlignLeft | Qt::AlignVCenter
+    },
+    {
+        "",              i18nc("Column header", "Filename"),
+        i18nc("Tooltip for Filename column", "Filename only"),
+        Qt::AlignLeft | Qt::AlignVCenter
+    },
+    {
+        "",              i18nc("Column header", "Channel(s)"),
+        StackMonUtils::channelsHelp(i18nc("Tooltip for Channels column", "Channel(s)")),
+        Qt::AlignCenter
+    },
+    {
+        "",              i18nc("Column header", "Overall\nStatus"),
+        StackMonUtils::overallStatusHelp(i18nc("Tooltip for Overall Status column", "Overall processing status")),
+        Qt::AlignCenter
+    },
 
-    { "Loading",       i18nc("Column header", "Load Wait\nTime(s)"),
-                       i18nc("Tooltip for Load Wait Time column", "Wait time from subs detected until loading starts"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
-    { "Loading",       i18nc("Column header", "Loading\nStatus"),
-          StackMonUtils::statusHelp(i18nc("Tooltip for Loading Status column", "Loading status"), false),
-                                                    Qt::AlignCenter },
-    { "Loading",       i18nc("Column header", "Loading\nTime(s)"),
-                       i18nc("Tooltip for Loading Time column", "Time to load"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
-    { "Loading",       i18nc("Column header", "SNR"),
-                       i18nc("Tooltip for SNR column", "Signal-to-noise ratio"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
+    {
+        "Loading",       i18nc("Column header", "Load Wait\nTime(s)"),
+        i18nc("Tooltip for Load Wait Time column", "Wait time from subs detected until loading starts"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+    {
+        "Loading",       i18nc("Column header", "Loading\nStatus"),
+        StackMonUtils::statusHelp(i18nc("Tooltip for Loading Status column", "Loading status"), false),
+        Qt::AlignCenter
+    },
+    {
+        "Loading",       i18nc("Column header", "Loading\nTime(s)"),
+        i18nc("Tooltip for Loading Time column", "Time to load"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+    {
+        "Loading",       i18nc("Column header", "SNR"),
+        i18nc("Tooltip for SNR column", "Signal-to-noise ratio"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
 
-    { "Plate Solving", i18nc("Column header", "Plate Solve\nStatus"),
-          StackMonUtils::statusHelp(i18nc("Tooltip for Plate Solve Status column", "Plate solving status")),
-                                                    Qt::AlignCenter },
-    { "Plate Solving", i18nc("Column header", "Plate Solve\nTime(s)"),
-                       i18nc("Tooltip for Plate Solve Time column", "Time to plate solve"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
-    { "Plate Solving", i18nc("Column header", "HFR"),
-                       i18nc("Tooltip for HFR column", "Average HFR of stars"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
-    { "Plate Solving", i18nc("Column header", "Num Stars"),
-                       i18nc("Tooltip for Num Stars column", "Number of stars detected"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
+    {
+        "Plate Solving", i18nc("Column header", "Plate Solve\nStatus"),
+        StackMonUtils::statusHelp(i18nc("Tooltip for Plate Solve Status column", "Plate solving status")),
+        Qt::AlignCenter
+    },
+    {
+        "Plate Solving", i18nc("Column header", "Plate Solve\nTime(s)"),
+        i18nc("Tooltip for Plate Solve Time column", "Time to plate solve"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+    {
+        "Plate Solving", i18nc("Column header", "HFR"),
+        i18nc("Tooltip for HFR column", "Average HFR of stars"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+    {
+        "Plate Solving", i18nc("Column header", "Num Stars"),
+        i18nc("Tooltip for Num Stars column", "Number of stars detected"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
 
-    { "Stack Waiting", i18nc("Column header", "Stack Wait\nTime(s)"),
-                       i18nc("Tooltip for Stack Wait Time column", "Wait time for sufficient subs to start stacking"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
+    {
+        "Stack Waiting", i18nc("Column header", "Stack Wait\nTime(s)"),
+        i18nc("Tooltip for Stack Wait Time column", "Wait time for sufficient subs to start stacking"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
 
-    { "Calibration",   i18nc("Column header", "Calibration\nStatus"),
-          StackMonUtils::statusHelp(i18nc("Tooltip for Calibration Status column", "Calibration status")),
-                                                    Qt::AlignCenter },
+    {
+        "Calibration",   i18nc("Column header", "Calibration\nStatus"),
+        StackMonUtils::statusHelp(i18nc("Tooltip for Calibration Status column", "Calibration status")),
+        Qt::AlignCenter
+    },
 
-    { "Calibration",   i18nc("Column header", "Calibration\nTime(s)"),
-                       i18nc("Tooltip for Calibration Time column", "Time to calibrate"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
+    {
+        "Calibration",   i18nc("Column header", "Calibration\nTime(s)"),
+        i18nc("Tooltip for Calibration Time column", "Time to calibrate"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
 
-    { "Alignment",     i18nc("Column header", "Alignment\nStatus"),
-          StackMonUtils::statusHelp(i18nc("Tooltip for Alignment Status column", "Alignment status")),
-                                                    Qt::AlignCenter },
-    { "Alignment",     i18nc("Column header", "Alignment\nTime(s)"),
-                       i18nc("Tooltip for Alignment Time column", "Time to align"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
-    { "Alignment",     i18nc("Column header", "Δx"),
-                       i18nc("Tooltip for Δx column", "X-axis shift in pixels compared to alignment master"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
-    { "Alignment",     i18nc("Column header", "Δy"),
-                       i18nc("Tooltip for Δy column", "Y-axis shift in pixels compared to alignment master"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
-    { "Alignment",     i18nc("Column header", "Rot(°)"),
-                       i18nc("Tooltip for Rotation column", "Rotation angle in degrees compared to alignment master"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
+    {
+        "Alignment",     i18nc("Column header", "Alignment\nStatus"),
+        StackMonUtils::statusHelp(i18nc("Tooltip for Alignment Status column", "Alignment status")),
+        Qt::AlignCenter
+    },
+    {
+        "Alignment",     i18nc("Column header", "Alignment\nTime(s)"),
+        i18nc("Tooltip for Alignment Time column", "Time to align"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+    {
+        "Alignment",     i18nc("Column header", "Δx"),
+        i18nc("Tooltip for Δx column", "X-axis shift in pixels compared to alignment master"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+    {
+        "Alignment",     i18nc("Column header", "Δy"),
+        i18nc("Tooltip for Δy column", "Y-axis shift in pixels compared to alignment master"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+    {
+        "Alignment",     i18nc("Column header", "Rot(°)"),
+        i18nc("Tooltip for Rotation column", "Rotation angle in degrees compared to alignment master"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
 
-    { "Stacking",      i18nc("Column header", "Stacking\nStatus"),
-          StackMonUtils::statusHelp(i18nc("Tooltip for Stacking Status column", "Stacking status"), false),
-                                                    Qt::AlignCenter },
-    { "Stacking",      i18nc("Column header", "Stacking\nTime(s)"),
-                       i18nc("Tooltip for Stacking Time column", "Time to stack (s)"),
-                                                    Qt::AlignRight | Qt::AlignVCenter },
-    { "Stacking",      i18nc("Column header", "Stacking\nWeight"),
-                       i18nc("Tooltip for Stacking Weight column", "Weight used in stacking"),
-                                                    Qt::AlignRight | Qt::AlignVCenter }
+    {
+        "Stacking",      i18nc("Column header", "Stacking\nStatus"),
+        StackMonUtils::statusHelp(i18nc("Tooltip for Stacking Status column", "Stacking status"), false),
+        Qt::AlignCenter
+    },
+    {
+        "Stacking",      i18nc("Column header", "Stacking\nTime(s)"),
+        i18nc("Tooltip for Stacking Time column", "Time to stack (s)"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+    {
+        "Stacking",      i18nc("Column header", "Stacking\nWeight"),
+        i18nc("Tooltip for Stacking Weight column", "Weight used in stacking"),
+        Qt::AlignRight | Qt::AlignVCenter
+    }
 };
 
 // Structure holding statistics on a sub
@@ -367,117 +431,117 @@ struct SubStats
  */
 class SubStatsModel : public QAbstractTableModel
 {
-    Q_OBJECT
-  public:
-    explicit SubStatsModel(QObject *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit SubStatsModel(QObject *parent = nullptr);
 
-    /**
-     * @brief Override function to return row count in the table.
-     * @param parent
-     * @return row count
-     */
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+        /**
+         * @brief Override function to return row count in the table.
+         * @param parent
+         * @return row count
+         */
+        int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    /**
-     * @brief Override function to return column count in the table.
-     * @param parent
-     * @return column count
-     */
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+        /**
+         * @brief Override function to return column count in the table.
+         * @param parent
+         * @return column count
+         */
+        int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    /**
-     * @brief Override function to draw data.
-     * @param index
-     * @param role is the type of display role
-     * @return data to draw
-     */
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+        /**
+         * @brief Override function to draw data.
+         * @param index
+         * @param role is the type of display role
+         * @return data to draw
+         */
+        QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    /**
-     * @brief Override function to draw header data.
-     * @param section is the section of column belongs to
-     * @param orientation
-     * @param display role
-     * @return data to draw
-     */
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+        /**
+         * @brief Override function to draw header data.
+         * @param section is the section of column belongs to
+         * @param orientation
+         * @param display role
+         * @return data to draw
+         */
+        QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-    /**
-     * @brief Override function to set data.
-     * @param index
-     * @param value
-     * @param role
-     * @return whether function was successful (or not)
-     */
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+        /**
+         * @brief Override function to set data.
+         * @param index
+         * @param value
+         * @param role
+         * @return whether function was successful (or not)
+         */
+        bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 
-    /**
-     * @brief Add a new sub to SubStats and the table
-     * @param stats to add
-     * @return row in Substats that was added
-     */
-    int addSubStats(const SubStats &stats);
+        /**
+         * @brief Add a new sub to SubStats and the table
+         * @param stats to add
+         * @return row in Substats that was added
+         */
+        int addSubStats(const SubStats &stats);
 
-    /**
-     * @brief Update sub
-     * @param Sub ID
-     * @param statistics to update
-     */
-    void updateSubStats(const int id, const SubStats &stats);
+        /**
+         * @brief Update sub
+         * @param Sub ID
+         * @param statistics to update
+         */
+        void updateSubStats(const int id, const SubStats &stats);
 
-    /**
-     * @brief Get the Alignment Master row
-     * @return row
-     */
-    int getAlignmentMasterRow() const
-    {
-        return m_AlignmentMasterRow;
-    }
+        /**
+         * @brief Get the Alignment Master row
+         * @return row
+         */
+        int getAlignmentMasterRow() const
+        {
+            return m_AlignmentMasterRow;
+        }
 
-    /**
-     * @brief Set the Alignment Master row
-     * @param row
-     */
-    void setAlignmentMasterRow(int row);
+        /**
+         * @brief Set the Alignment Master row
+         * @param row
+         */
+        void setAlignmentMasterRow(int row);
 
-    /**
-     * @brief Clear the table
-     */
-    void clear();
+        /**
+         * @brief Clear the table
+         */
+        void clear();
 
-    /**
-     * @brief Get the Sub Stats for the passed in row
-     * @param row
-     * @return Sub Stats structure
-     */
-    const SubStats &getSubStats(int row) const
-    {
-        return m_subStatsList.at(row);
-    }
+        /**
+         * @brief Get the Sub Stats for the passed in row
+         * @param row
+         * @return Sub Stats structure
+         */
+        const SubStats &getSubStats(int row) const
+        {
+            return m_subStatsList.at(row);
+        }
 
-    /**
-     * @brief Get all the Sub Stats
-     * @return Sub Stats structures
-     */
-    const QVector<SubStats> &getSubStats() const
-    {
-        return m_subStatsList;
-    };
+        /**
+         * @brief Get all the Sub Stats
+         * @return Sub Stats structures
+         */
+        const QVector<SubStats> &getSubStats() const
+        {
+            return m_subStatsList;
+        };
 
-    /**
-     * @brief Display the overall status of the sub
-     * @param status
-     * @return Status display string
-     */
-    QString displayOverallStatus(const SubStatus &status) const;
+        /**
+         * @brief Display the overall status of the sub
+         * @param status
+         * @return Status display string
+         */
+        QString displayOverallStatus(const SubStatus &status) const;
 
-  private:
-    QString displayStatus(const LSStatus &status) const;
-    QString displayCalibrationStatus(const LSStatus &status, const int dark, const int flat) const;
-    QVector<SubStats> m_subStatsList;
-    int m_AlignmentMasterRow { -1 };
-    QSet<int> m_HighlightedIDs;
-    QSet<QPersistentModelIndex> m_HighlightedCells;
+    private:
+        QString displayStatus(const LSStatus &status) const;
+        QString displayCalibrationStatus(const LSStatus &status, const int dark, const int flat) const;
+        QVector<SubStats> m_subStatsList;
+        int m_AlignmentMasterRow { -1 };
+        QSet<int> m_HighlightedIDs;
+        QSet<QPersistentModelIndex> m_HighlightedCells;
 };
 
 /**
@@ -509,56 +573,56 @@ class SubStatsModel : public QAbstractTableModel
  */
 class StackMonitor : public QWidget
 {
-    Q_OBJECT
-  public:
-    explicit StackMonitor(QWidget *parent = nullptr);
-    ~StackMonitor();
+        Q_OBJECT
+    public:
+        explicit StackMonitor(QWidget *parent = nullptr);
+        ~StackMonitor();
 
-    /**
-     * @brief Clear (reset) the Monitor
-     */
-    void clear();
+        /**
+         * @brief Clear (reset) the Monitor
+         */
+        void clear();
 
-    /**
-     * @brief Save monitor settings
-     */
-    void saveSettings();
+        /**
+         * @brief Save monitor settings
+         */
+        void saveSettings();
 
-  public slots:
-    /**
-     * @brief Initialize the Monitor
-     * @param timestamp of call
-     * @param list of initial subs in the dir being watched
-     */
-    void initialize(QDateTime timestamp, const QVector<LiveStackFile> &subs);
+    public slots:
+        /**
+         * @brief Initialize the Monitor
+         * @param timestamp of call
+         * @param list of initial subs in the dir being watched
+         */
+        void initialize(QDateTime timestamp, const QVector<LiveStackFile> &subs);
 
-    /**
-     * @brief addSubs
-     * @param timestamp of call
-     * @param subs is a list of subs to add
-     */
-    void addSubs(QDateTime timestamp, const QVector<LiveStackFile> &subs);
+        /**
+         * @brief addSubs
+         * @param timestamp of call
+         * @param subs is a list of subs to add
+         */
+        void addSubs(QDateTime timestamp, const QVector<LiveStackFile> &subs);
 
-    /**
-     * @brief updateSubs
-     * @param list of subs to update
-     * @param infos is a list of information about the update
-     */
-    void updateSubs(const QVector<LiveStackFile> &subs, const QVector<LiveStackStageInfo> &infos);
+        /**
+         * @brief updateSubs
+         * @param list of subs to update
+         * @param infos is a list of information about the update
+         */
+        void updateSubs(const QVector<LiveStackFile> &subs, const QVector<LiveStackStageInfo> &infos);
 
-  private:
-    int addSub(const SubStats &stats);
-    void highlightRow(int row);
-    void highlightCells(int row, const QList<int> &columns);
-    int findRowForSubID(int subID) const;
-    QList<int> applyUpdate(int row, const LiveStackStageInfo &info);
-    int getIDForSub(const QString &sub) const;
-    void restoreSettings();
-    void updateProgress();
+    private:
+        int addSub(const SubStats &stats);
+        void highlightRow(int row);
+        void highlightCells(int row, const QList<int> &columns);
+        int findRowForSubID(int subID) const;
+        QList<int> applyUpdate(int row, const LiveStackStageInfo &info);
+        int getIDForSub(const QString &sub) const;
+        void restoreSettings();
+        void updateProgress();
 
-    Ui::StackMonitorDialog *ui;
-    SubStatsModel *m_Model;
-    QSortFilterProxyModel *m_ProxyModel = nullptr;
-    bool m_Highlight { true };
-    QElapsedTimer m_ProgressTimer;
+        Ui::StackMonitorDialog *ui;
+        SubStatsModel *m_Model;
+        QSortFilterProxyModel *m_ProxyModel = nullptr;
+        bool m_Highlight { true };
+        QElapsedTimer m_ProgressTimer;
 };

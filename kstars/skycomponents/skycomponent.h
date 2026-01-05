@@ -214,7 +214,7 @@ class SkyComponent
 
         // Disallow copying and assignment
         SkyComponent(const SkyComponent &);
-        SkyComponent &operator=(const SkyComponent &);
+        SkyComponent &operator = (const SkyComponent &);
 
         /// Parent of sky component.
         SkyComposite *m_parent;

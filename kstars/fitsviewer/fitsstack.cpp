@@ -272,11 +272,11 @@ void FITSStack::addMaster(const bool dark, void * imageBuffer, const int width, 
                 values.assign((float*)channels[c].data, (float*)channels[c].data + channels[c].total());
 
                 float median = Mathematics::RobustStatistics::ComputeLocation(
-                                                Mathematics::RobustStatistics::LOCATION_MEDIAN, values);
+                                   Mathematics::RobustStatistics::LOCATION_MEDIAN, values);
 
                 if (median <= 0.0f)
                     qCDebug(KSTARS_FITS) << QString("%1 Unable to calculate median of Master flat channel %2")
-                                                .arg(__FUNCTION__).arg(c);
+                                         .arg(__FUNCTION__).arg(c);
                 else
                 {
                     channels[c] /= median;
@@ -400,7 +400,8 @@ bool FITSStack::checkSub(const int width, const int height, const int bytesPerPi
 }
 
 // Update plate solving status
-bool FITSStack::solverDone(const wcsprm * wcsHandle, const bool timedOut, const bool success, const double hfr, const int numStars)
+bool FITSStack::solverDone(const wcsprm * wcsHandle, const bool timedOut, const bool success, const double hfr,
+                           const int numStars)
 {
     if (m_StackImageData.size() <= 0)
     {
@@ -470,7 +471,7 @@ bool FITSStack::stack()
             // Signal the Wait Stack stage complete (waiting for enough subs to stack) to Stack Monitor
             QVector<LiveStackFile> subs { m_StackImageData[i].sub };
             QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::WaitStack,
-                                                                            LSStatus::LSStatusOK) };
+                                                LSStatus::LSStatusOK) };
             emit updateStackMon(subs, infos);
 
             // Calibrate sub
@@ -561,7 +562,7 @@ bool FITSStack::stackn()
             // Signal the Wait Stack stage complete (waiting for enough subs to stack) to Stack Monitor
             QVector<LiveStackFile> subs { m_StackImageData[i].sub };
             QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::WaitStack,
-                                                                            LSStatus::LSStatusOK) };
+                                                LSStatus::LSStatusOK) };
             emit updateStackMon(subs, infos);
 
             // Calibrate sub
@@ -681,7 +682,7 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
         if (m_StackData.downscale != LiveStackDownscale::NONE)
         {
             double scale = 1.0 / getDownscaleFactor();
-            cv::Mat S = (cv::Mat_<double>(3,3) <<
+            cv::Mat S = (cv::Mat_<double>(3, 3) <<
                          scale, 0,     0,
                          0,     scale, 0,
                          0,     0,     1 );
@@ -706,7 +707,8 @@ bool FITSStack::calcWarpMatrix(struct wcsprm * wcs1, struct wcsprm * wcs2, cv::M
 // One complexity is that the translation elements need to be adjusted as openCV rotates
 // about the top left but its more intuitive to display results for a rotation about the
 // image center.
-void FITSStack::decomposeWarpMatrix(const cv::Mat &warp, const cv::Size &imageSize, double &dx, double &dy, double &rotationDeg)
+void FITSStack::decomposeWarpMatrix(const cv::Mat &warp, const cv::Size &imageSize, double &dx, double &dy,
+                                    double &rotationDeg)
 {
     dx = dy = rotationDeg = 0.0;
     if (warp.rows != 3 || warp.cols != 3)
@@ -722,13 +724,13 @@ void FITSStack::decomposeWarpMatrix(const cv::Mat &warp, const cv::Size &imageSi
     rotationDeg = rotationRad * 180.0 / M_PI;
 
     // Adjust translation to be relative to image center - openCV warps about top left
-    double tx = warp.at<double>(0,2);
-    double ty = warp.at<double>(1,2);
+    double tx = warp.at<double>(0, 2);
+    double ty = warp.at<double>(1, 2);
 
-    cv::Point2d center(imageSize.width/2.0, imageSize.height/2.0);
+    cv::Point2d center(imageSize.width / 2.0, imageSize.height / 2.0);
 
     // The effective translation relative to the center
-    cv::Matx22d R(a, warp.at<double>(0,1), warp.at<double>(1,0), warp.at<double>(1,1));
+    cv::Matx22d R(a, warp.at<double>(0, 1), warp.at<double>(1, 0), warp.at<double>(1, 1));
     cv::Point2d newCenter = R * center + cv::Point2d(tx, ty);
     cv::Point2d delta = newCenter - center;
 
@@ -800,7 +802,7 @@ bool FITSStack::stackSubs(const bool initial, float &totalWeight, cv::Mat &stack
         weights = getWeights();
 
         if (m_StackData.stackingMethod == LiveStackStackingMethod::SIGMA ||
-            m_StackData.stackingMethod == LiveStackStackingMethod::WINDSOR)
+                m_StackData.stackingMethod == LiveStackStackingMethod::WINDSOR)
         {
             // Sigma clipping (standard or Windsorized
             if (initial)
@@ -939,9 +941,15 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
         // If all subs are continuous so we can treat as 1D arrays to speed things up
         bool continuous = finalImage.isContinuous() &&
                           std::all_of(m_SigmaClip32FC4.begin(), m_SigmaClip32FC4.end(),
-                                      [](const cv::Mat &mat) { return mat.isContinuous(); }) &&
-                          std::all_of(m_StackImageData.begin(), m_StackImageData.end(),
-                                      [](const StackImageData &data) {return data.image.isContinuous(); });
+                                      [](const cv::Mat & mat)
+        {
+            return mat.isContinuous();
+        }) &&
+        std::all_of(m_StackImageData.begin(), m_StackImageData.end(),
+                    [](const StackImageData & data)
+        {
+            return data.image.isContinuous();
+        });
         if (continuous)
         {
             // We can flatten the 2D image to 1D for efficiency and also use parallel processing
@@ -959,20 +967,20 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
             }
 
             qCDebug(KSTARS_FITS) << QString("Starting sigma clipping: %1 chunks on %2 threads")
-                                                .arg(pixelChunks.size()).arg(QThread::idealThreadCount());
+                                 .arg(pixelChunks.size()).arg(QThread::idealThreadCount());
 
             // Get pointers once (since rows=1)
             std::vector<const float *> imagesPtrs(numImages);
             for (int i = 0; i < numImages; i++)
                 imagesPtrs[i] = m_StackImageData[i].image.ptr<float>(0);
 
-            float* finalImagePtr = finalImage.ptr<float>(0);
+            float * finalImagePtr = finalImage.ptr<float>(0);
             QVector<cv::Vec4f *> sigmaClipPtr(m_Channels);
             for (int ch = 0; ch < m_Channels; ch++)
                 sigmaClipPtr[ch] = m_SigmaClip32FC4[ch].ptr<cv::Vec4f>(0);
 
             // Setup the function for parallel processing to handle a chunk of pixels
-            auto processPixelChunk = [&](const QPair<int, int>& chunk)
+            auto processPixelChunk = [&](const QPair<int, int> &chunk)
             {
                 for (int x = chunk.first; x < chunk.second; x++)
                 {
@@ -1022,9 +1030,9 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
                         {
                             // Winsorize the data
                             float median = Mathematics::RobustStatistics::ComputeLocation(
-                                                    Mathematics::RobustStatistics::LOCATION_MEDIAN, values);
+                                               Mathematics::RobustStatistics::LOCATION_MEDIAN, values);
                             auto const stddev = std::sqrt(Mathematics::RobustStatistics::ComputeScale(
-                                                    Mathematics::RobustStatistics::SCALE_VARIANCE, values));
+                                                              Mathematics::RobustStatistics::SCALE_VARIANCE, values));
 
                             float lower = std::max(0.0, median - (stddev * m_StackData.windsorCutoff));
                             float upper = median + (stddev * m_StackData.windsorCutoff);
@@ -1040,7 +1048,7 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
 
                         // Now process the data
                         float median = Mathematics::RobustStatistics::ComputeLocation(
-                                                    Mathematics::RobustStatistics::LOCATION_MEDIAN, values);
+                                           Mathematics::RobustStatistics::LOCATION_MEDIAN, values);
 
                         float sum = 0.0, weightSum = 0.0, lower = -1.0, upper = -1.0;
                         if (values.size() <= 3)
@@ -1050,7 +1058,7 @@ cv::Mat FITSStack::stackSubsSigmaClipping(const QVector<float> &weights)
                         {
                             // Sigma clipping
                             auto const stddev = std::sqrt(Mathematics::RobustStatistics::ComputeScale(
-                                                    Mathematics::RobustStatistics::SCALE_VARIANCE, values));
+                                                              Mathematics::RobustStatistics::SCALE_VARIANCE, values));
 
                             // Get the lower and upper bounds
                             lower = std::max(0.0, median - (stddev * m_StackData.lowSigma));
@@ -1112,9 +1120,9 @@ void FITSStack::stackSigmaClipPixel(int x, const std::vector<const float *> &ima
         {
             // Winsorize the data
             float median = Mathematics::RobustStatistics::ComputeLocation(
-                Mathematics::RobustStatistics::LOCATION_MEDIAN, values);
+                               Mathematics::RobustStatistics::LOCATION_MEDIAN, values);
             auto const stddev = std::sqrt(Mathematics::RobustStatistics::ComputeScale(
-                Mathematics::RobustStatistics::SCALE_VARIANCE, values));
+                                              Mathematics::RobustStatistics::SCALE_VARIANCE, values));
 
             float lower = std::max(0.0, median - (stddev * m_StackData.windsorCutoff));
             float upper = median + (stddev * m_StackData.windsorCutoff);
@@ -1130,7 +1138,7 @@ void FITSStack::stackSigmaClipPixel(int x, const std::vector<const float *> &ima
 
         // Now process the data
         float median = Mathematics::RobustStatistics::ComputeLocation(
-            Mathematics::RobustStatistics::LOCATION_MEDIAN, values);
+                           Mathematics::RobustStatistics::LOCATION_MEDIAN, values);
 
         float sum = 0.0, weightSum = 0.0, lower = -1.0, upper = -1.0;
         if (values.size() <= 3)
@@ -1140,7 +1148,7 @@ void FITSStack::stackSigmaClipPixel(int x, const std::vector<const float *> &ima
         {
             // Sigma clipping
             auto const stddev = std::sqrt(Mathematics::RobustStatistics::ComputeScale(
-                Mathematics::RobustStatistics::SCALE_VARIANCE, values));
+                                              Mathematics::RobustStatistics::SCALE_VARIANCE, values));
 
             // Get the lower and upper bounds
             lower = std::max(0.0, median - (stddev * m_StackData.lowSigma));
@@ -1195,9 +1203,15 @@ cv::Mat FITSStack::stacknSubsSigmaClipping(const QVector<float> &weights)
         // If all images are continuous so we can treat as 1D arrays to speed things up
         bool continuous = finalImage.isContinuous() &&
                           std::all_of(m_SigmaClip32FC4.begin(), m_SigmaClip32FC4.end(),
-                                      [](const cv::Mat& mat) { return mat.isContinuous(); }) &&
-                          std::all_of(m_StackImageData.begin(), m_StackImageData.end(),
-                                      [](const StackImageData &data) {return data.image.isContinuous(); });
+                                      [](const cv::Mat & mat)
+        {
+            return mat.isContinuous();
+        }) &&
+        std::all_of(m_StackImageData.begin(), m_StackImageData.end(),
+                    [](const StackImageData & data)
+        {
+            return data.image.isContinuous();
+        });
         if (continuous)
         {
             cols *= rows;
@@ -1443,8 +1457,8 @@ cv::Mat FITSStack::imageMMCore(QVector<StackImageData> &subs, cv::Mat &latent, d
         const double sigmaBlend = 0.25;      // 0 - 1. Higher = smoother updates
 
         qCDebug(KSTARS_FITS) << QString("Running %1ImageMM: iterations=%2 kappa=%3 alpha=%4 sigmaScale=%5 PSFUpdate=%6")
-                                    .arg(incremental ? "Incremental" : "Initial").arg(lsd.iterations).arg(lsd.kappa)
-                                    .arg(lsd.alpha).arg(lsd.sigma).arg(lsd.PSFUpdate);
+                             .arg(incremental ? "Incremental" : "Initial").arg(lsd.iterations).arg(lsd.kappa)
+                             .arg(lsd.alpha).arg(lsd.sigma).arg(lsd.PSFUpdate);
 
         const int n = subs.size();
         if (n == 0)
@@ -1482,7 +1496,7 @@ cv::Mat FITSStack::imageMMCore(QVector<StackImageData> &subs, cv::Mat &latent, d
             cv::Scalar mn, sd;
             cv::meanStdDev(latent, mn, sd);
             qCDebug(KSTARS_FITS) << QString("%1 iter %2 mean=%3 std=%4").arg(__FUNCTION__).arg(iter).arg(mn[0])
-                                        .arg(sd[0]);
+                                 .arg(sd[0]);
 
             // Get an estimate of sigma across all subs / channels
             sigma = imageMMEstimateSigma(subs, latent, pixelSample, frameSample, lsd.sigma, prevSigma, sigmaBlend);
@@ -1495,16 +1509,16 @@ cv::Mat FITSStack::imageMMCore(QVector<StackImageData> &subs, cv::Mat &latent, d
             for (uint c = 0; c < latentChannels.size(); c++)
             {
                 std::pair<cv::Mat, cv::Mat> acc = imageMMAccumulateChannel(subs, subsChannels, latentChannels[c],
-                                                                           weights, sigma, c);
+                                                  weights, sigma, c);
                 // Step 2e–2g: multiplicative update
-                imageMMPixelwiseUpdate(latentChannels[c], std::vector<cv::Mat>{acc.first},
-                                       std::vector<cv::Mat>{acc.second}, (float)lsd.kappa);
+                imageMMPixelwiseUpdate(latentChannels[c], std::vector<cv::Mat> {acc.first},
+                                       std::vector<cv::Mat> {acc.second}, (float)lsd.kappa);
 
                 // debug
                 cv::Scalar mc, sc;
                 cv::meanStdDev(latentChannels[c], mc, sc);
                 qCDebug(KSTARS_FITS) << QString("%1: channel %2 iter %3 mean=%4 std=%5").arg(__FUNCTION__).arg(c)
-                                            .arg(iter).arg(mc[0]).arg(sc[0]);
+                                     .arg(iter).arg(mc[0]).arg(sc[0]);
             } // end channel loop
 
             // Merge channels back into latent
@@ -1620,8 +1634,8 @@ double FITSStack::imageMMEstimateSigma(const QVector<StackImageData> &subs, cons
         double sigma = (prevSigma > 0.0) ? sigmaBlend * prevSigma + (1.0 - sigmaBlend) * sigmaNew : sigmaNew;
 
         qCDebug(KSTARS_FITS)
-            << QString("%1: medianResidual=%2 mad=%3 sigmaNew=%4 blended=%5").arg(__FUNCTION__)
-                   .arg(medianResidual, 0, 'f', 4).arg(mad, 0, 'f', 4).arg(sigmaNew, 0, 'f', 4).arg(sigma, 0, 'f', 4);
+                << QString("%1: medianResidual=%2 mad=%3 sigmaNew=%4 blended=%5").arg(__FUNCTION__)
+                .arg(medianResidual, 0, 'f', 4).arg(mad, 0, 'f', 4).arg(sigmaNew, 0, 'f', 4).arg(sigma, 0, 'f', 4);
         return sigma;
     }
     catch (const cv::Exception &ex)
@@ -1629,7 +1643,7 @@ double FITSStack::imageMMEstimateSigma(const QVector<StackImageData> &subs, cons
         qCDebug(KSTARS_FITS) << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
         return prevSigma > 0 ? prevSigma : 1.0;
     }
-}        
+}
 
 /**
  * Accumulate per-subframe contributions for one color channel in the ImageMM iteration.
@@ -1656,8 +1670,8 @@ double FITSStack::imageMMEstimateSigma(const QVector<StackImageData> &subs, cons
  * Parallelized across subframes using with per-thread partial results accumulated using a mutex.
  */
 std::pair<cv::Mat, cv::Mat> FITSStack::imageMMAccumulateChannel(const QVector<StackImageData> &subs,
-                                const std::vector<std::vector<cv::Mat>> &subsChannels, const cv::Mat &latentChannel,
-                                const QVector<float> &normWeights, double sigma, int channelIndex)
+        const std::vector<std::vector<cv::Mat>> &subsChannels, const cv::Mat &latentChannel,
+        const QVector<float> &normWeights, double sigma, int channelIndex)
 {
     try
     {
@@ -1667,7 +1681,7 @@ std::pair<cv::Mat, cv::Mat> FITSStack::imageMMAccumulateChannel(const QVector<St
 
         int numThreads = std::min(n, QThreadPool::globalInstance()->maxThreadCount());
         qCDebug(KSTARS_FITS) << QString("%1 Channel %2: running per-frame parallel map on upto %3 threads")
-                                    .arg(__FUNCTION__).arg(channelIndex).arg(numThreads);
+                             .arg(__FUNCTION__).arg(channelIndex).arg(numThreads);
 
         // Since we're processing per channel the num and den need to be single channel
         const cv::Size imageSize = latentChannel.size();
@@ -1690,7 +1704,7 @@ std::pair<cv::Mat, cv::Mat> FITSStack::imageMMAccumulateChannel(const QVector<St
 
                 // Forward model Fi_x = Fi * x
                 cv::Mat Fi_x;
-                cv::filter2D(latentChannel, Fi_x, -1, psf, cv::Point(-1,-1), 0, cv::BORDER_REPLICATE);
+                cv::filter2D(latentChannel, Fi_x, -1, psf, cv::Point(-1, -1), 0, cv::BORDER_REPLICATE);
 
                 // Residual and robust weight
                 cv::Mat r, rsq, wi;
@@ -1707,8 +1721,8 @@ std::pair<cv::Mat, cv::Mat> FITSStack::imageMMAccumulateChannel(const QVector<St
                 cv::multiply(wi, subsChannels[t][channelIndex], wi_y);
                 cv::multiply(wi, Fi_x, wi_Fix);
 
-                cv::filter2D(wi_y, FiT_wi_y, -1, psf, cv::Point(-1,-1), 0, cv::BORDER_REPLICATE);
-                cv::filter2D(wi_Fix, FiT_wi_Fix, -1, psf, cv::Point(-1,-1), 0, cv::BORDER_REPLICATE);
+                cv::filter2D(wi_y, FiT_wi_y, -1, psf, cv::Point(-1, -1), 0, cv::BORDER_REPLICATE);
+                cv::filter2D(wi_Fix, FiT_wi_Fix, -1, psf, cv::Point(-1, -1), 0, cv::BORDER_REPLICATE);
 
                 // Thread-safe accumulation
                 QMutexLocker lock(&accumLock);
@@ -1763,7 +1777,7 @@ void FITSStack::imageMMPixelwiseUpdate(cv::Mat &channel, const std::vector<cv::M
     const int chunkRows = std::max(1, height / numChunks);
 
     qCDebug(KSTARS_FITS) << QString("Starting ImageMM update: %1 chunks on %2 threads")
-                                .arg(numChunks).arg(QThread::idealThreadCount());
+                         .arg(numChunks).arg(QThread::idealThreadCount());
 
     QVector<int> rowBlocks;
     for (int y = 0; y < height; y += chunkRows)
@@ -1821,7 +1835,7 @@ void FITSStack::imageMMRefinePSFs(QVector<StackImageData> &subs, const cv::Mat &
                 continue;
 
             cv::Mat Fi_x, grad;
-            cv::filter2D(latent, Fi_x, -1, psf, cv::Point(-1,-1), 0, cv::BORDER_REPLICATE);
+            cv::filter2D(latent, Fi_x, -1, psf, cv::Point(-1, -1), 0, cv::BORDER_REPLICATE);
             cv::subtract(Fi_x, subs[t].image, grad);
 
             imageMMUpdatePSF(psf, grad, learningRate);
@@ -1939,7 +1953,7 @@ cv::Mat FITSStack::buildPSFFromHFR(const double hfr)
         psf /= cv::sum(psf)[0];
 
         qCDebug(KSTARS_FITS) << QString("%1: HFR=%2 px -> σ=%3 (ksize=%4x%4)").arg(__FUNCTION__).arg(hfr, 0, 'f', 2)
-                                    .arg(sigma, 0, 'f', 2).arg(ksize);
+                             .arg(sigma, 0, 'f', 2).arg(ksize);
 
         return psf;
     }
@@ -1970,7 +1984,7 @@ void FITSStack::setWCSStackImage(const QSharedPointer<wcsprm> &wcs)
     if ((status = wcssub(1, wcs.get(), 0x0, 0x0, m_WCSStackImage)) != 0)
     {
         qCDebug(KSTARS_FITS) << QString("%1 wcssub error processing %2").arg(__FUNCTION__).arg(status)
-                                    .arg(wcs_errmsg[status]);
+                             .arg(wcs_errmsg[status]);
         delete m_WCSStackImage;
         m_WCSStackImage = nullptr;
         return;
@@ -1991,7 +2005,7 @@ void FITSStack::setWCSStackImage(const QSharedPointer<wcsprm> &wcs)
     if ((status = wcsset(m_WCSStackImage)) != 0)
     {
         qCDebug(KSTARS_FITS) << QString("%1 wcsset error processing %2").arg(__FUNCTION__).arg(status)
-                                            .arg(wcs_errmsg[status]);
+                             .arg(wcs_errmsg[status]);
         delete m_WCSStackImage;
         m_WCSStackImage = nullptr;
         return;
@@ -2062,9 +2076,9 @@ cv::Mat FITSStack::postProcessImage(const cv::Mat &image32F)
                 CV_Assert(ch.type() == CV_32F);
 
                 cv::Mat low1, low2, low3;
-                cv::GaussianBlur(ch, low1, cv::Size(3,3), 0.8);
-                cv::GaussianBlur(low1, low2, cv::Size(5,5), 1.6);
-                cv::GaussianBlur(low2, low3, cv::Size(9,9), 3.2);
+                cv::GaussianBlur(ch, low1, cv::Size(3, 3), 0.8);
+                cv::GaussianBlur(low1, low2, cv::Size(5, 5), 1.6);
+                cv::GaussianBlur(low2, low3, cv::Size(9, 9), 3.2);
 
                 cv::Mat d1 = ch - low1;
                 cv::Mat d2 = low1 - low2;
@@ -2146,7 +2160,7 @@ cv::Mat FITSStack::calculatePSF(const cv::Mat &image, int patchSize)
                 if (i == j)
                     continue;
                 if (starCenters[j]->x >= minx && starCenters[j]->x <= maxx &&
-                    starCenters[j]->y >= miny && starCenters[j]->y <= maxy)
+                        starCenters[j]->y >= miny && starCenters[j]->y <= maxy)
                 {
                     // Star j lies in star i's patch so ignore star i
                     keepStar = false;
@@ -2206,7 +2220,7 @@ cv::Mat FITSStack::wienerDeconvolution(const cv::Mat &image, const cv::Mat &psf)
         int m = cv::getOptimalDFTSize(image.rows);
         int n = cv::getOptimalDFTSize(image.cols);
         cv::copyMakeBorder(image, imagePadded, 0, m - image.rows, 0, n - image.cols,
-                                                                cv::BORDER_CONSTANT, cv::Scalar::all(0));
+                           cv::BORDER_CONSTANT, cv::Scalar::all(0));
 
         // At the end, scale back to original range if needed
         // Centre the PSF in an image of the same size as imagePadded
@@ -2226,8 +2240,12 @@ cv::Mat FITSStack::wienerDeconvolution(const cv::Mat &image, const cv::Mat &psf)
 
         // Swap diagonally opposite quadrants (0<->3, 1<->2)
         cv::Mat tmp;
-        q0.copyTo(tmp); q3.copyTo(q0); tmp.copyTo(q3);
-        q1.copyTo(tmp); q2.copyTo(q1); tmp.copyTo(q2);
+        q0.copyTo(tmp);
+        q3.copyTo(q0);
+        tmp.copyTo(q3);
+        q1.copyTo(tmp);
+        q2.copyTo(q1);
+        tmp.copyTo(q2);
 
         // Split into channels: 1 for mono, 3 for colour
         std::vector<cv::Mat> channels;
@@ -2366,7 +2384,7 @@ void FITSStack::setupRunningStack(const int numSubs, const float totalWeight)
         m_RunningStackImageData.imageMMState.latent = m_StackedImage32F.clone();
     else
         m_RunningStackImageData.imageMMState.latent = cv::Mat::zeros(
-            m_StackImageData[0].image.size(), m_StackImageData[0].image.type());
+                m_StackImageData[0].image.size(), m_StackImageData[0].image.type());
 
     if (m_StackData.stackingMethod == LiveStackStackingMethod::IMAGEMM)
     {
@@ -2377,8 +2395,8 @@ void FITSStack::setupRunningStack(const int numSubs, const float totalWeight)
             StackImageData sub;
             sub.image = m_StackImageData[i].image;
             sub.psfKernel = m_StackImageData[i].psfKernel.empty()
-                                   ? buildPSFFromHFR(m_StackImageData[i].hfr)
-                                   : m_StackImageData[i].psfKernel;
+                            ? buildPSFFromHFR(m_StackImageData[i].hfr)
+                            : m_StackImageData[i].psfKernel;
             sub.weight = m_StackImageData[i].weight;
             m_RunningStackImageData.runningSubs.append(sub);
         }
@@ -2429,7 +2447,7 @@ void FITSStack::updateRunningStack(const int numSubs, const float totalWeight)
     catch (const cv::Exception &ex)
     {
         qCDebug(KSTARS_FITS)
-            << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+                << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
     }
 }
 

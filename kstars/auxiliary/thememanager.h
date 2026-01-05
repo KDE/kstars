@@ -24,50 +24,50 @@ namespace KSTheme
 
 class Manager : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
+    public:
 
-    typedef enum { BREEZE_THEME, BREEZE_DARK_THEME } IconTheme;
+        typedef enum { BREEZE_THEME, BREEZE_DARK_THEME } IconTheme;
 
-    ~Manager();
-    static Manager* instance();
+        ~Manager();
+        static Manager* instance();
 
-    QString currentThemeName() const;
-    void    setCurrentTheme(const QString& name);
+        QString currentThemeName() const;
+        void    setCurrentTheme(const QString& name);
 
-    QString defaultThemeName() const;
+        QString defaultThemeName() const;
 
-    void    setThemeMenuAction(QMenu* const action);
-    void    registerThemeActions(KXmlGuiWindow * const win);
-    void    populateThemeQListWidget(QListWidget *themeWidget);
+        void    setThemeMenuAction(QMenu* const action);
+        void    registerThemeActions(KXmlGuiWindow * const win);
+        void    populateThemeQListWidget(QListWidget *themeWidget);
 
-    void setIconTheme(IconTheme theme);
+        void setIconTheme(IconTheme theme);
 
-signals:
+    signals:
 
-    void signalThemeChanged();
+        void signalThemeChanged();
 
-private Q_SLOTS:
+    private Q_SLOTS:
 
-    void slotChangePalette();
-    void slotSettingsChanged();
+        void slotChangePalette();
+        void slotSettingsChanged();
 
-private:
+    private:
 
-    Manager();
+        Manager();
 
-    void    populateThemeMenu();
-    QPixmap createSchemePreviewIcon(const KSharedConfigPtr& config) const;
-    QString currentDesktopdefaultTheme() const;
-    void    updateCurrentDesktopDefaultThemePreview();
+        void    populateThemeMenu();
+        QPixmap createSchemePreviewIcon(const KSharedConfigPtr& config) const;
+        QString currentDesktopdefaultTheme() const;
+        void    updateCurrentDesktopDefaultThemePreview();
 
-private:
+    private:
 
-    friend class ThemeManagerCreator;
+        friend class ThemeManagerCreator;
 
-    class Private;
-    Private* const d;
+        class Private;
+        Private* const d;
 };
 
 }

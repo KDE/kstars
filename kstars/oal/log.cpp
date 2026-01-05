@@ -685,7 +685,7 @@ void OAL::Log::readTarget()
                     while (!o && maxrd <= 2.0)
                     {
                         o = KStarsData::Instance()->skyComposite()->starNearest(&pos,
-                                maxrd);
+                            maxrd);
                         if (!o)
                             maxrd += 0.5;
                     }
@@ -889,7 +889,7 @@ void OAL::Log::readObservation(const QString &id)
         }
     }
     OAL::Observation *o = new OAL::Observation(id, observer, site, session, target, begin, faintestStar.toDouble(),
-            seeing.toDouble(), scope, eyepiece, lens, filter, result, lang);
+        seeing.toDouble(), scope, eyepiece, lens, filter, result, lang);
     m_observationList.append(o);
 }
 

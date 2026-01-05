@@ -13,22 +13,22 @@
 
 class TestKSPaths: public QObject
 {
-    Q_OBJECT
-public:
-    explicit TestKSPaths(QObject * parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit TestKSPaths(QObject * parent = nullptr);
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testStandardPaths_data();
-    void testStandardPaths();
+        void testStandardPaths_data();
+        void testStandardPaths();
 
-    void testKStarsInstallation_data();
-    void testKStarsInstallation();
+        void testKStarsInstallation_data();
+        void testKStarsInstallation();
 };
 
 #endif // TESTKSPATHS_H

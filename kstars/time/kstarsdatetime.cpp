@@ -24,7 +24,7 @@ KStarsDateTime::KStarsDateTime(const KStarsDateTime &kdt) : QDateTime()
     *this = kdt;
 }
 
-KStarsDateTime& KStarsDateTime::operator=(const KStarsDateTime &kdt) noexcept
+KStarsDateTime &KStarsDateTime::operator=(const KStarsDateTime &kdt) noexcept
 {
     setDJD(kdt.djd());
     setTimeSpec(kdt.timeSpec());

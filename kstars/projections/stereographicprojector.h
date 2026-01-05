@@ -17,13 +17,13 @@
  */
 class StereographicProjector : public Projector
 {
-  public:
-    explicit StereographicProjector(const ViewParams &p);
-    Projection type() const override;
-    double radius() const override;
-    double projectionK(double x) const override;
-    double projectionL(double x) const override;
-    double cosMaxFieldAngle() const override;
+    public:
+        explicit StereographicProjector(const ViewParams &p);
+        Projection type() const override;
+        double radius() const override;
+        double projectionK(double x) const override;
+        double projectionL(double x) const override;
+        double cosMaxFieldAngle() const override;
 };
 
 #endif // STEREOGRAPHICPROJECTOR_H

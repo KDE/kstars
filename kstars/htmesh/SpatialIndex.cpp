@@ -77,7 +77,8 @@ SpatialIndex::SpatialIndex(size_t maxlevel, size_t buildlevel)
     layers_[0].firstVertex_ = 0;
 
     // set the first 6 vertices
-    float64 v[6][3] = {
+    float64 v[6][3] =
+    {
         { 0.0L, 0.0L, 1.0L },  // 0
         { 1.0L, 0.0L, 0.0L },  // 1
         { 0.0L, 1.0L, 0.0L },  // 2

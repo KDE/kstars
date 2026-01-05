@@ -60,7 +60,7 @@ void TestEkosWizard::testProfileWizard()
         QVERIFY(k != nullptr);
 
         // Wait for the KStars Wizard to appear
-        if(k->findChild <ProfileWizard*>() == nullptr)
+        if(k->findChild <ProfileWizard * >() == nullptr)
         {
             QTimer::singleShot(500, KStars::Instance(), closeWizard);
             return;

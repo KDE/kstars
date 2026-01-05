@@ -44,11 +44,11 @@ SkyComponentsImport::get_objects(QSqlDatabase db, const std::list<int> &ids)
     QSqlQuery query{ db };
     query.prepare(
         QString("SELECT UID, RA, Dec, Type, Magnitude, PositionAngle, MajorAxis, "
-                "MinorAxis, "
-                "Flux, LongName, id_Catalog FROM DSO INNER JOIN ObjectDesignation ON "
-                "DSO.UID "
-                "= "
-                "ObjectDesignation.UID_DSO WHERE id_Catalog IN (%1)")
+            "MinorAxis, "
+            "Flux, LongName, id_Catalog FROM DSO INNER JOIN ObjectDesignation ON "
+            "DSO.UID "
+            "= "
+            "ObjectDesignation.UID_DSO WHERE id_Catalog IN (%1)")
         .arg(QStringList::fromVector(placeholders).join(", ")));
 
     for (auto const &i : ids)

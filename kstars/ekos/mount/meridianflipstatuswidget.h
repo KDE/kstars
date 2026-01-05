@@ -17,21 +17,21 @@ namespace Ekos
 
 class MeridianFlipStatusWidget : public QWidget, Ui::MeridianFlipStatusWidget
 {
-    Q_OBJECT
-public:
-    MeridianFlipStatusWidget(QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        MeridianFlipStatusWidget(QWidget *parent = nullptr);
 
-    /**
-     * @brief Change the status text and LED color
-     */
-    void setStatus(QString text);
+        /**
+         * @brief Change the status text and LED color
+         */
+        void setStatus(QString text);
 
-    /**
-     * @brief retrieve the currently displayed status
-     */
-    QString getStatus();
+        /**
+         * @brief retrieve the currently displayed status
+         */
+        QString getStatus();
 
-signals:
+    signals:
 
 };
 

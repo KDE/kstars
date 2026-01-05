@@ -7,7 +7,7 @@
 #include "catalogobjectlistmodel.h"
 
 CatalogObjectListModel::CatalogObjectListModel(QObject *parent,
-                                               std::vector<CatalogObject> objects)
+        std::vector<CatalogObject> objects)
     : QAbstractTableModel{ parent }, m_objects{ std::move(objects) } {};
 
 QVariant CatalogObjectListModel::data(const QModelIndex &index, int role) const
@@ -54,7 +54,7 @@ void CatalogObjectListModel::setObjects(std::vector<CatalogObject> objects)
 }
 
 QVariant CatalogObjectListModel::headerData(int section, Qt::Orientation orientation,
-                                            int role) const
+        int role) const
 {
     if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
         return QVariant();

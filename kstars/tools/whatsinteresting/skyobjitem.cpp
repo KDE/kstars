@@ -98,7 +98,7 @@ void SkyObjItem::setPosition(SkyObject *so)
     {
         KStarsData *data  = KStarsData::Instance();
         KStarsDateTime ut = data->geo()->LTtoUT(
-            KStarsDateTime(QDateTime::currentDateTime().toLocalTime()));
+                                KStarsDateTime(QDateTime::currentDateTime().toLocalTime()));
         SkyPoint sp = so->recomputeCoords(ut, data->geo());
 
         //check altitude of object at this time.
@@ -140,13 +140,13 @@ QString SkyObjItem::getImageURL(bool preferThumb) const
     const auto &wikiImageURL =
         QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::AppLocalDataLocation,
                                             "descriptions/wikiImage-" +
-                                                m_So->name().toLower().remove(' ') +
-                                                ".png"))
-            .url();
+                                            m_So->name().toLower().remove(' ') +
+                                            ".png"))
+        .url();
     QString XPlanetURL =
         QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::AppLocalDataLocation,
                                             "xplanet/" + m_So->name() + ".png"))
-            .url();
+        .url();
 
     //First try to return the preferred file
     if (!thumbURL.isEmpty() && preferThumb)
@@ -177,8 +177,10 @@ QString SkyObjItem::getSummary(bool includeDescription) const
     if (includeDescription)
     {
         QString description = loadObjectDescription();
-        if(description.indexOf(".") > 0) //This will shorten the description in the list to just a sentence, whereas in the larger space of the Object Information Summary, it is a full paragraph.
-           return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz() + "<BR><BR>" + description.left(description.indexOf(".") + 1);
+        if(description.indexOf(".") >
+                0) //This will shorten the description in the list to just a sentence, whereas in the larger space of the Object Information Summary, it is a full paragraph.
+            return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz() + "<BR><BR>" + description.left(
+                       description.indexOf(".") + 1);
         else
             return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz() + "<BR><BR>" + description;
     }

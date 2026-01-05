@@ -232,7 +232,9 @@ void ClientManagerLite::webManagerReplyFinished()
                                          i18n("Active Profile: %1", activeProfileStr));
             indiControlPage->setProperty("webMActiveProfileLayoutVisible", true);
             indiControlPage->setProperty("webMProfileListVisible", false);
-        } else {
+        }
+        else
+        {
             // INDI Server is not running (offline)
             indiControlPage->setProperty("webMStatusText", i18n("Web Manager Status: Offline"));
             indiControlPage->setProperty("webMActiveProfileLayoutVisible", false);
@@ -245,7 +247,7 @@ void ClientManagerLite::webManagerReplyFinished()
     if (webMStopProfileReply.get() != nullptr)
     {
         webMStopProfileReply.release()->deleteLater();
-        indiControlPage->setProperty("webMStatusText", QString(i18n("Web Manager Status:")+' '+i18n("Offline")));
+        indiControlPage->setProperty("webMStatusText", QString(i18n("Web Manager Status:") + ' ' + i18n("Offline")));
         indiControlPage->setProperty("webMStatusTextVisible", true);
         indiControlPage->setProperty("webMActiveProfileLayoutVisible", false);
         context.setContextProperty("webMProfileModel", QVariant::fromValue(webMProfiles));
@@ -357,7 +359,7 @@ void ClientManagerLite::buildTextGUI(Property *property)
     if (!tvp)
         return;
 
-    for (const auto &it: *tvp)
+    for (const auto &it : *tvp)
     {
         QString name  = it.getName();
         QString label = it.getLabel();
@@ -409,7 +411,7 @@ void ClientManagerLite::buildNumberGUI(Property *property)
         return;
 
     //for (int i = 0; i < nvp->nnp; i++)
-    for (const auto &it: nvp)
+    for (const auto &it : nvp)
     {
         bool scale = false;
         char iNumber[MAXINDIFORMAT];
@@ -461,7 +463,7 @@ void ClientManagerLite::buildNumberGUI(Property *property)
                 break;
         }
         emit createINDINumber(property->getDeviceName(), property->getName(), label, name, text, read, write,
-                                scale);
+                              scale);
     }
 }
 
@@ -475,7 +477,7 @@ void ClientManagerLite::buildMenuGUI(INDI::Property property)
     if (!svp)
         return;
 
-    for (auto &it: *svp)
+    for (auto &it : *svp)
     {
         buildSwitch(false, &it, property);
 
@@ -518,7 +520,7 @@ void ClientManagerLite::buildSwitchGUI(INDI::Property property, PGui guiType)
     /*if (svp->p != IP_RO)
         QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(newSwitch(QAbstractButton*)));*/
 
-    for (auto &it: *svp)
+    for (auto &it : *svp)
     {
         buildSwitch(true, &it, property, exclusive, guiType);
     }
@@ -590,7 +592,7 @@ void ClientManagerLite::buildLightGUI(INDI::Property property)
     if (!lvp)
         return;
 
-    for (auto &it: *lvp)
+    for (auto &it : *lvp)
     {
         QString name  = it.getName();
         QString label = i18nc(libindi_strings_context, it.getLabel());
@@ -695,7 +697,7 @@ void ClientManagerLite::sendNewINDISwitch(const QString &deviceName, const QStri
 }
 
 void ClientManagerLite::sendNewINDINumber(const QString &deviceName, const QString &propName, const QString &numberName,
-                                          double value)
+        double value)
 {
     foreach (DeviceInfoLite *devInfo, m_devices)
     {
@@ -792,8 +794,8 @@ bool ClientManagerLite::saveDisplayImage()
     QFileInfo const file(QString("%1/%2.jpeg").arg(dir.path()).arg(fileEnding));
 
     QString const filename = QFileDialog::getSaveFileName(
-                QApplication::activeWindow(), i18nc("@title:window", "Save Image"), file.filePath(),
-                i18n("JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)"));
+                                 QApplication::activeWindow(), i18nc("@title:window", "Save Image"), file.filePath(),
+                                 i18n("JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)"));
 
     if (!filename.isEmpty())
     {
@@ -844,7 +846,10 @@ void ClientManagerLite::newDevice(INDI::BaseDevice *dp)
     //devInfo->telescope.reset(new TelescopeLite(dp));
     m_devices.append(devInfo);
     // Connect the device automatically
-    QTimer::singleShot(2000, [=]() { connectNewDevice(deviceName); });
+    QTimer::singleShot(2000, [ = ]()
+    {
+        connectNewDevice(deviceName);
+    });
 }
 
 void ClientManagerLite::removeDevice(BaseDevice *dp)
@@ -872,8 +877,8 @@ void ClientManagerLite::newProperty(INDI::Property property)
     if (devInfo)
     {
         if ((!strcmp(property->getName(), "EQUATORIAL_EOD_COORD") ||
-             !strcmp(property->getName(), "EQUATORIAL_COORD") ||
-             !strcmp(property->getName(), "HORIZONTAL_COORD")))
+                !strcmp(property->getName(), "EQUATORIAL_COORD") ||
+                !strcmp(property->getName(), "HORIZONTAL_COORD")))
         {
             devInfo->telescope.reset(new TelescopeLite(devInfo->device));
             m_telescope = devInfo->telescope.get();
@@ -1072,7 +1077,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB *bp)
             filename = jpeg_filename;
 #else
             if (QStandardPaths::findExecutable("dcraw").isEmpty() == false &&
-                QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
+                    QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
             {
                 QProcess dcraw;
                 QString rawFileName  = filename;
@@ -1085,8 +1090,8 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB *bp)
                 QString jpeg_filename = jpgPreview.fileName();
 
                 QString cmd = QString("/bin/sh -c \"dcraw -c -q 0 -w -H 5 -b 8 %1 | cjpeg -quality 80 > %2\"")
-                                  .arg(filename)
-                                  .arg(jpeg_filename);
+                              .arg(filename)
+                              .arg(jpeg_filename);
                 dcraw.start(cmd);
                 dcraw.waitForFinished();
                 QFile::remove(filename); //Delete raw
@@ -1133,7 +1138,9 @@ void ClientManagerLite::newSwitch(ISwitchVectorProperty *svp)
                 if (sw->s == ISS_ON)
                 {
                     emit telescopeConnected(m_telescope);
-                } else {
+                }
+                else
+                {
                     emit telescopeDisconnected();
                 }
             }

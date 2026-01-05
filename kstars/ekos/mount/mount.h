@@ -620,7 +620,7 @@ class Mount : public QWidget, public Ui::Mount
 
         // Settings
         QVariantMap m_Settings;
-        QVariantMap m_GlobalSettings;        
+        QVariantMap m_GlobalSettings;
 };
 }
 

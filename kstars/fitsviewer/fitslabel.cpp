@@ -564,7 +564,8 @@ void FITSLabel::setRubberBand(QRect rect)
 
 void FITSLabel::updatePersistentRoiLabel(const QRect &roiGeometry)
 {
-    if (!view || !view->imageData() || !view->isSelectionRectShown() || !m_roiStatsLabel || roiGeometry.isNull() || roiGeometry.isEmpty())
+    if (!view || !view->imageData() || !view->isSelectionRectShown() || !m_roiStatsLabel || roiGeometry.isNull()
+            || roiGeometry.isEmpty())
     {
         if (m_roiStatsLabel)
             m_roiStatsLabel->hide();

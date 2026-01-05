@@ -127,7 +127,7 @@ class DriverManager : public QDialog
          * @param dList list of driver to examine
          * @param uHosts List of unique hosts, each with a group of drivers that belong to it.
          */
-        void getUniqueHosts(const QList<QSharedPointer<DriverInfo>> &dList, QList<QList<QSharedPointer<DriverInfo>>> &uHosts);
+        void getUniqueHosts(const QList<QSharedPointer<DriverInfo>> &dList, QList<QList<QSharedPointer<DriverInfo >>> &uHosts);
 
         void addDriver(const QSharedPointer<DriverInfo> &driver)
         {

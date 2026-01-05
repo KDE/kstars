@@ -41,9 +41,9 @@
 bool FITSViewer::m_BlinkBusy = false;
 
 QList<KLocalizedString> FITSViewer::filterTypes = {ki18n("Auto Stretch"), ki18n("High Contrast"), ki18n("Equalize"),
-                                                   ki18n("High Pass"), ki18n("Median"), ki18n("Gaussian blur"), ki18n("Rotate Right"), ki18n("Rotate Left"), ki18n("Flip Horizontal"),
-                                                   ki18n("Flip Vertical")
-                                                  };
+    ki18n("High Pass"), ki18n("Median"), ki18n("Gaussian blur"), ki18n("Rotate Right"), ki18n("Rotate Left"), ki18n("Flip Horizontal"),
+    ki18n("Flip Vertical")
+};
 
 FITSViewer::FITSViewer(QWidget *parent, Mode mode) : KXmlGuiWindow(parent), m_Mode(mode)
 
@@ -348,7 +348,7 @@ FITSViewer::FITSViewer(QWidget *parent, Mode mode) : KXmlGuiWindow(parent), m_Mo
     createGUI("fitsviewerui.rc");
 
     QString title = (m_Mode == Mode::LiveStacking) ? i18nc("@title:window", "KStars Live Stacker") :
-                                                     i18nc("@title:window", "KStars FITS Viewer");
+                    i18nc("@title:window", "KStars FITS Viewer");
     setWindowTitle(title);
 
     /* initially resize in accord with KDE rules */
@@ -1124,7 +1124,7 @@ void FITSViewer::stack()
     setWindowTitle(i18nc("@title:window", "KStars Live Stacker (BETA)"));
     qCDebug(KSTARS_FITS) << "OpenCV Optimized: " << cv::useOptimized();
     qCDebug(KSTARS_FITS) << QString("Live Stacker running openCV on %1 threads. SIMD Features enabled: %2")
-                                .arg(cv::getNumThreads()).arg(QString::fromStdString(cv::getCPUFeaturesLine()));
+                         .arg(cv::getNumThreads()).arg(QString::fromStdString(cv::getCPUFeaturesLine()));
 
     QString topDir = QDir::homePath();
     QString filePath = lastURL.path();

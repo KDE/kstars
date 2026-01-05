@@ -284,7 +284,8 @@ const dms dms::deltaAngle(dms angle) const
         return dms(angleDiff);
 }
 
-const QString dms::toDMSString(const bool forceSign, const bool machineReadable, const bool highPrecision, char machineReadableSeparator) const
+const QString dms::toDMSString(const bool forceSign, const bool machineReadable, const bool highPrecision,
+                               char machineReadableSeparator) const
 {
     QString dummy;
     char pm(' ');
@@ -292,13 +293,13 @@ const QString dms::toDMSString(const bool forceSign, const bool machineReadable,
     int dd, dm, ds;
 
     if (machineReadable || !highPrecision)
-    // minimize the mean angle representation error of DMS format
-    // set LSD transition in the middle of +- half precision range
+        // minimize the mean angle representation error of DMS format
+        // set LSD transition in the middle of +- half precision range
     {
         double half_precision = 1.0 / 7200.0;
-	if (Degrees() < 0.0)
+        if (Degrees() < 0.0)
             half_precision = -half_precision;
-	dms angle(Degrees() + half_precision);
+        dms angle(Degrees() + half_precision);
         dd = abs(angle.degree());
         dm = abs(angle.arcmin());
         ds = abs(angle.arcsec());
@@ -317,25 +318,25 @@ const QString dms::toDMSString(const bool forceSign, const bool machineReadable,
 
     if (machineReadable)
         return QString("%1%2%3%4%5%6").arg(pm)
-                .arg(dd, 2, 10, QChar('0'))
-                .arg(machineReadableSeparator)
-                .arg(dm, 2, 10, QChar('0'))
-                .arg(machineReadableSeparator)
-                .arg(ds, 2, 10, QChar('0'));
+               .arg(dd, 2, 10, QChar('0'))
+               .arg(machineReadableSeparator)
+               .arg(dm, 2, 10, QChar('0'))
+               .arg(machineReadableSeparator)
+               .arg(ds, 2, 10, QChar('0'));
 
     if (highPrecision)
     {
         double sec = arcsec() + marcsec() / 1000.;
         return QString("%1%2° %3\' %L4\"").arg(pm)
-                                         .arg(dd, 2, 10, zero)
-                                         .arg(dm, 2, 10, zero)
-                                         .arg(sec, 2,'f', 2, zero);
+               .arg(dd, 2, 10, zero)
+               .arg(dm, 2, 10, zero)
+               .arg(sec, 2, 'f', 2, zero);
     }
 
     return QString("%1%2° %3\' %4\"").arg(pm)
-                                     .arg(dd, 2, 10, zero)
-                                     .arg(dm, 2, 10, zero)
-                                     .arg(ds, 2, 10, zero);
+           .arg(dd, 2, 10, zero)
+           .arg(dm, 2, 10, zero)
+           .arg(ds, 2, 10, zero);
 
 #if 0
     if (!machineReadable && dd < 10)
@@ -384,11 +385,11 @@ const QString dms::toHMSString(const bool machineReadable, const bool highPrecis
     int hh, hm, hs;
 
     if (machineReadable || !highPrecision)
-    // minimize the mean angle representation error of HMS format
-    // set LSD transition in the middle of +- half precision range
+        // minimize the mean angle representation error of HMS format
+        // set LSD transition in the middle of +- half precision range
     {
         double half_precision = 15.0 / 7200.0;
-	angle.setD(Degrees() + half_precision);
+        angle.setD(Degrees() + half_precision);
         hh = angle.hour();
         hm = angle.minute();
         hs = angle.second();
@@ -396,22 +397,22 @@ const QString dms::toHMSString(const bool machineReadable, const bool highPrecis
 
     if (machineReadable)
         return QString("%1%2%3%4%5").arg(hh, 2, 10, zero)
-                                    .arg(machineReadableSeparator)
-                                    .arg(hm, 2, 10, zero)
-                                    .arg(machineReadableSeparator)
-                                    .arg(hs, 2, 10, zero);
+               .arg(machineReadableSeparator)
+               .arg(hm, 2, 10, zero)
+               .arg(machineReadableSeparator)
+               .arg(hs, 2, 10, zero);
 
     if (highPrecision)
     {
         double sec = second() + msecond() / 1000.;
         return QString("%1h %2m %L3s").arg(hour(), 2, 10, zero)
-                                     .arg(minute(), 2, 10, zero)
-                                     .arg(sec, 2, 'f', 2, zero);
+               .arg(minute(), 2, 10, zero)
+               .arg(sec, 2, 'f', 2, zero);
     }
 
     return QString("%1h %2m %3s").arg(hh, 2, 10, zero)
-                                 .arg(hm, 2, 10, zero)
-                                 .arg(hs, 2, 10, zero);
+           .arg(hm, 2, 10, zero)
+           .arg(hs, 2, 10, zero);
 
 #if 0
     QString dummy;
@@ -468,9 +469,10 @@ QDataStream &operator<<(QDataStream &out, const dms &d)
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, dms &d){
-   double D;
-   in >> D;
-   d = dms(D);
-   return in;
+QDataStream &operator>>(QDataStream &in, dms &d)
+{
+    double D;
+    in >> D;
+    d = dms(D);
+    return in;
 }

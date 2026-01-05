@@ -45,25 +45,43 @@ using LinkList = std::vector<LinkData>;
 struct Data
 {
     std::map<LinkData::Type, LinkList> links{ { Type::website, {} },
-                                              { Type::image, {} } };
+        { Type::image, {} } };
     QString userLog;
 
-    inline LinkList &images() { return links.at(Type::image); };
-    inline const LinkList &images() const { return links.at(Type::image); };
+    inline LinkList &images()
+    {
+        return links.at(Type::image);
+    };
+    inline const LinkList &images() const
+    {
+        return links.at(Type::image);
+    };
 
-    inline LinkList &websites() { return links.at(Type::website); };
-    inline const LinkList &websites() const { return links.at(Type::website); };
+    inline LinkList &websites()
+    {
+        return links.at(Type::website);
+    };
+    inline const LinkList &websites() const
+    {
+        return links.at(Type::website);
+    };
 
     auto findLinkByTitle(const QString &title, const Type type) const
     {
         return std::find_if(cbegin(links.at(type)), cend(links.at(type)),
-                            [&title](const auto &entry) { return entry.title == title; });
+                            [&title](const auto & entry)
+        {
+            return entry.title == title;
+        });
     };
 
     auto findLinkByTitle(const QString &title, const Type type)
     {
         return std::find_if(begin(links.at(type)), end(links.at(type)),
-                            [&title](const auto &entry) { return entry.title == title; });
+                            [&title](const auto & entry)
+        {
+            return entry.title == title;
+        });
     };
 
     void addLink(QString title, QUrl url, Type type)

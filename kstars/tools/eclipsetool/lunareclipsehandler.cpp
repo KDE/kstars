@@ -207,7 +207,8 @@ QVector<long double> LunarEclipseHandler::getFullMoons(long double startJD, long
     return fullMoons;
 }
 
-LunarEclipseEvent::LunarEclipseEvent(long double jd, GeoLocation geoPlace, EclipseEvent::ECLIPSE_TYPE type, KSEarthShadow::ECLIPSE_TYPE detailed_type)
+LunarEclipseEvent::LunarEclipseEvent(long double jd, GeoLocation geoPlace, EclipseEvent::ECLIPSE_TYPE type,
+                                     KSEarthShadow::ECLIPSE_TYPE detailed_type)
     : EclipseEvent (jd, geoPlace, type), m_detailedType { detailed_type }
 {
     m_details.available = false;

@@ -173,7 +173,8 @@ class Analyze : public QWidget, public Ui::Analyze
                 FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
                              const QString &filter_, const QString &points_, const QString &curve_, const QString &title_);
                 FocusSession(double start_, double end_, QCPItemRect *rect, bool ok, double temperature_,
-                             const QString &filter_, const AutofocusReason reason_, const QString &reasonInfo_, const QString &points_, const bool useWeights_,
+                             const QString &filter_, const AutofocusReason reason_, const QString &reasonInfo_, const QString &points_,
+                             const bool useWeights_,
                              const QString &curve_, const QString &title_, const AutofocusFailReason failCode_, const QString failCodeInfo_);
                 FocusSession(double start_, double end_, QCPItemRect *rect,
                              const QString &filter_, double temperature_, double tempTicks_, double altitude_,
@@ -257,13 +258,18 @@ class Analyze : public QWidget, public Ui::Analyze
         void processCaptureComplete(double time, const QString &filename, double exposureSeconds, const QString &filter,
                                     double hfr, int numStars, int median, double eccentricity, bool batchMode = false);
         void processCaptureAborted(double time, double exposureSeconds, bool batchMode = false);
-        void processAutofocusStarting(double time, double temperature, const QString &filter, const AutofocusReason reason, const QString &reasonInfo);
-        void processAutofocusComplete(double time, const QString &filter, const QString &points, const QString &curve, const QString &title, bool batchMode);
-        void processAutofocusCompleteV2(double time, double temperature, const QString &filter, const AutofocusReason reason, const QString &reasonInfo,
-                                      const QString &points, const bool useWeights, const QString &curve, const QString &title, bool batchMode = false);
+        void processAutofocusStarting(double time, double temperature, const QString &filter, const AutofocusReason reason,
+                                      const QString &reasonInfo);
+        void processAutofocusComplete(double time, const QString &filter, const QString &points, const QString &curve,
+                                      const QString &title, bool batchMode);
+        void processAutofocusCompleteV2(double time, double temperature, const QString &filter, const AutofocusReason reason,
+                                        const QString &reasonInfo,
+                                        const QString &points, const bool useWeights, const QString &curve, const QString &title, bool batchMode = false);
         void processAutofocusAborted(double time, const QString &filter, const QString &points, bool batchMode);
-        void processAutofocusAbortedV2(double time, double temperature, const QString &filter, const AutofocusReason reason, const QString &reasonInfo,
-                                     const QString &points, const bool useWeights, const AutofocusFailReason failCode, const QString failCodeInfo, bool batchMode = false);
+        void processAutofocusAbortedV2(double time, double temperature, const QString &filter, const AutofocusReason reason,
+                                       const QString &reasonInfo,
+                                       const QString &points, const bool useWeights, const AutofocusFailReason failCode, const QString failCodeInfo,
+                                       bool batchMode = false);
         void processAdaptiveFocusComplete(double time, const QString &filter, double temperature, double tempTicks,
                                           double altitude, double altTicks, int prevPosError, int thisPosError, int totalTicks,
                                           int position, bool focuserMoved, bool batchMode = false);

@@ -300,7 +300,8 @@ class MeridianFlipState : public QObject
         // current target position (might be different from current position!)
         MountPosition targetPosition;
 
-        static void updatePosition(MountPosition &pos, const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha, const bool isValid);
+        static void updatePosition(MountPosition &pos, const SkyPoint &position, ISD::Mount::PierSide pierSide, const dms &ha,
+                                   const bool isValid);
 
         // A meridian flip requires a slew of 180 degrees in the hour angle axis so will take a certain
         // amount of time. Within this time, a slewing state change will be ignored for pier side change checks.

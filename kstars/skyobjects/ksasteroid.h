@@ -40,202 +40,265 @@ class KSNumbers;
 	*/
 class KSAsteroid : public KSPlanetBase
 {
-  public:
-    /** Constructor.
-            *@p catN number of asteroid
-        	*@p s    the name of the asteroid
-        	*@p image_file the filename for an image of the asteroid
-        	*@p JD the Julian Day for the orbital elements
-        	*@p a the semi-major axis of the asteroid's orbit (AU)
-        	*@p e the eccentricity of the asteroid's orbit
-        	*@p i the inclination angle of the asteroid's orbit
-        	*@p w the argument of the orbit's perihelion
-        	*@p N the longitude of the orbit's ascending node
-        	*@p M the mean anomaly for the Julian Day
-        	*@p H absolute magnitude
-            *@p G slope parameter
-        	*/
-    KSAsteroid(int catN, const QString &s, const QString &image_file, long double JD, double a, double e, dms i, dms w,
-               dms N, dms M, double H, double G);
+    public:
+        /** Constructor.
+                *@p catN number of asteroid
+            	*@p s    the name of the asteroid
+            	*@p image_file the filename for an image of the asteroid
+            	*@p JD the Julian Day for the orbital elements
+            	*@p a the semi-major axis of the asteroid's orbit (AU)
+            	*@p e the eccentricity of the asteroid's orbit
+            	*@p i the inclination angle of the asteroid's orbit
+            	*@p w the argument of the orbit's perihelion
+            	*@p N the longitude of the orbit's ascending node
+            	*@p M the mean anomaly for the Julian Day
+            	*@p H absolute magnitude
+                *@p G slope parameter
+            	*/
+        KSAsteroid(int catN, const QString &s, const QString &image_file, long double JD, double a, double e, dms i, dms w,
+                   dms N, dms M, double H, double G);
 
-    KSAsteroid *clone() const override;
-    SkyObject::UID getUID() const override;
+        KSAsteroid *clone() const override;
+        SkyObject::UID getUID() const override;
 
-    static const SkyObject::TYPE TYPE = SkyObject::ASTEROID;
+        static const SkyObject::TYPE TYPE = SkyObject::ASTEROID;
 
-    /** Destructor (empty)*/
-    ~KSAsteroid() override = default;
+        /** Destructor (empty)*/
+        ~KSAsteroid() override = default;
 
-    /** This is inherited from KSPlanetBase.  We don't use it in this class,
-        	*so it is empty.
-        	*/
-    bool loadData() override;
+        /** This is inherited from KSPlanetBase.  We don't use it in this class,
+            	*so it is empty.
+            	*/
+        bool loadData() override;
 
-    /** This lets other classes like KSPlanetBase access H and G values
-        *Used by KSPlanetBase::FindMagnitude
-        */
-    double inline getAbsoluteMagnitude() const { return H; }
-    double inline getSlopeParameter() const { return G; }
+        /** This lets other classes like KSPlanetBase access H and G values
+            *Used by KSPlanetBase::FindMagnitude
+            */
+        double inline getAbsoluteMagnitude() const
+        {
+            return H;
+        }
+        double inline getSlopeParameter() const
+        {
+            return G;
+        }
 
-    /**
-         *@short Sets the asteroid's perihelion distance
+        /**
+             *@short Sets the asteroid's perihelion distance
+             */
+        void setPerihelion(double perihelion);
+
+        /**
+             *@return Perihelion distance
+             */
+        inline double getPerihelion() const
+        {
+            return q;
+        }
+
+        /**
+              *@short Sets the asteroid's earth minimum orbit intersection distance
+              */
+        void setEarthMOID(double earth_moid);
+
+        /**
+             *@return the asteroid's earth minimum orbit intersection distance in AU
+             */
+        inline double getEarthMOID() const
+        {
+            return EarthMOID;
+        }
+
+        /**
+             *@short Sets the asteroid's orbit solution ID
+             */
+        void setOrbitID(QString orbit_id);
+
+        /**
+             *@return the asteroid's orbit solution ID
+             */
+        inline QString getOrbitID() const
+        {
+            return OrbitID;
+        }
+
+        /**
+             *@short Sets the asteroid's orbit class
+             */
+        void setOrbitClass(QString orbit_class);
+
+        /**
+             *@return the asteroid's orbit class
+             */
+        inline QString getOrbitClass() const
+        {
+            return OrbitClass;
+        }
+
+        /**
+             *@short Sets if the comet is a near earth object
+             */
+        void setNEO(bool neo);
+
+        /**
+             *@return true if the asteroid is a near earth object
+             */
+        inline bool isNEO() const
+        {
+            return NEO;
+        }
+
+        /**
+             *@short Sets the asteroid's albedo
+             */
+        void setAlbedo(float albedo);
+
+        /**
+             *@return the asteroid's albedo
+             */
+        inline float getAlbedo() const
+        {
+            return Albedo;
+        }
+
+        /**
+             *@short Sets the asteroid's diameter
+             */
+        void setDiameter(float diam);
+
+        /**
+             *@return the asteroid's diameter
+             */
+        inline float getDiameter() const
+        {
+            return Diameter;
+        }
+
+        /**
+             *@short Sets the asteroid's dimensions
+             */
+        void setDimensions(QString dim);
+
+        /**
+             *@return the asteroid's dimensions
+             */
+        inline QString getDimensions() const
+        {
+            return Dimensions;
+        }
+
+        /**
+            *@short Sets the asteroid's rotation period
+            */
+        void setRotationPeriod(float rot_per);
+
+        /**
+             *@return the asteroid's rotation period
+             */
+        inline float getRotationPeriod() const
+        {
+            return RotationPeriod;
+        }
+
+        /**
+            *@short Sets the asteroid's period
+            */
+        void setPeriod(float per);
+
+        /**
+             *@return the asteroid's period
+             */
+        inline float getPeriod() const
+        {
+            return Period;
+        }
+
+        // TODO: Add top level implementation
+        /**
+         * @brief toDraw
+         * @return whether to draw the asteroid
+         *
+         * Note that you'd check for other, older filtering methids
+         * upn implementing this on other types! (a.k.a find nearest)
          */
-    void setPerihelion(double perihelion);
+        inline bool toDraw()
+        {
+            return toCalculate();
+        }
 
-    /**
-         *@return Perihelion distance
+        /**
+         * @brief toCalculate
+         * @return whether to calculate the position
          */
-    inline double getPerihelion() const { return q; }
+        bool toCalculate();
 
-    /**
-          *@short Sets the asteroid's earth minimum orbit intersection distance
-          */
-    void setEarthMOID(double earth_moid);
+    protected:
+        /** Calculate the geocentric RA, Dec coordinates of the Asteroid.
+            	*@note reimplemented from KSPlanetBase
+            	*@param num time-dependent values for the desired date
+            	*@param Earth planet Earth (needed to calculate geocentric coords)
+            	*@return true if position was successfully calculated.
+            	*/
+        bool findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Earth = nullptr) override;
 
-    /**
-         *@return the asteroid's earth minimum orbit intersection distance in AU
+        //these set functions are needed for the new KSPluto subclass
+        void set_a(double newa)
+        {
+            a = newa;
+        }
+        void set_e(double newe)
+        {
+            e = newe;
+        }
+        void set_P(double newP)
+        {
+            P = newP;
+        }
+        void set_i(double newi)
+        {
+            i.setD(newi);
+        }
+        void set_w(double neww)
+        {
+            w.setD(neww);
+        }
+        void set_M(double newM)
+        {
+            M.setD(newM);
+        }
+        void set_N(double newN)
+        {
+            N.setD(newN);
+        }
+        void setJD(long double jd)
+        {
+            JD = jd;
+        }
+
+
+    private:
+        /**
+         * Serializers
          */
-    inline double getEarthMOID() const { return EarthMOID; }
+        friend QDataStream &operator<<(QDataStream &out, const KSAsteroid &asteroid);
+        friend QDataStream &operator>>(QDataStream &in, KSAsteroid * &asteroid);
 
-    /**
-         *@short Sets the asteroid's orbit solution ID
-         */
-    void setOrbitID(QString orbit_id);
+        void findMagnitude(const KSNumbers *) override;
 
-    /**
-         *@return the asteroid's orbit solution ID
-         */
-    inline QString getOrbitID() const { return OrbitID; }
-
-    /**
-         *@short Sets the asteroid's orbit class
-         */
-    void setOrbitClass(QString orbit_class);
-
-    /**
-         *@return the asteroid's orbit class
-         */
-    inline QString getOrbitClass() const { return OrbitClass; }
-
-    /**
-         *@short Sets if the comet is a near earth object
-         */
-    void setNEO(bool neo);
-
-    /**
-         *@return true if the asteroid is a near earth object
-         */
-    inline bool isNEO() const { return NEO; }
-
-    /**
-         *@short Sets the asteroid's albedo
-         */
-    void setAlbedo(float albedo);
-
-    /**
-         *@return the asteroid's albedo
-         */
-    inline float getAlbedo() const { return Albedo; }
-
-    /**
-         *@short Sets the asteroid's diameter
-         */
-    void setDiameter(float diam);
-
-    /**
-         *@return the asteroid's diameter
-         */
-    inline float getDiameter() const { return Diameter; }
-
-    /**
-         *@short Sets the asteroid's dimensions
-         */
-    void setDimensions(QString dim);
-
-    /**
-         *@return the asteroid's dimensions
-         */
-    inline QString getDimensions() const { return Dimensions; }
-
-    /**
-        *@short Sets the asteroid's rotation period
-        */
-    void setRotationPeriod(float rot_per);
-
-    /**
-         *@return the asteroid's rotation period
-         */
-    inline float getRotationPeriod() const { return RotationPeriod; }
-
-    /**
-        *@short Sets the asteroid's period
-        */
-    void setPeriod(float per);
-
-    /**
-         *@return the asteroid's period
-         */
-    inline float getPeriod() const { return Period; }
-
-    // TODO: Add top level implementation
-    /**
-     * @brief toDraw
-     * @return whether to draw the asteroid
-     *
-     * Note that you'd check for other, older filtering methids
-     * upn implementing this on other types! (a.k.a find nearest)
-     */
-    inline bool toDraw() { return toCalculate(); }
-
-    /**
-     * @brief toCalculate
-     * @return whether to calculate the position
-     */
-    bool toCalculate();
-
-  protected:
-    /** Calculate the geocentric RA, Dec coordinates of the Asteroid.
-        	*@note reimplemented from KSPlanetBase
-        	*@param num time-dependent values for the desired date
-        	*@param Earth planet Earth (needed to calculate geocentric coords)
-        	*@return true if position was successfully calculated.
-        	*/
-    bool findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Earth = nullptr) override;
-
-    //these set functions are needed for the new KSPluto subclass
-    void set_a(double newa) { a = newa; }
-    void set_e(double newe) { e = newe; }
-    void set_P(double newP) { P = newP; }
-    void set_i(double newi) { i.setD(newi); }
-    void set_w(double neww) { w.setD(neww); }
-    void set_M(double newM) { M.setD(newM); }
-    void set_N(double newN) { N.setD(newN); }
-    void setJD(long double jd) { JD = jd; }
-
-
-  private:
-    /**
-     * Serializers
-     */
-    friend QDataStream &operator<<(QDataStream &out, const KSAsteroid &asteroid);
-    friend QDataStream &operator>>(QDataStream &in, KSAsteroid *&asteroid);
-
-    void findMagnitude(const KSNumbers *) override;
-
-    int catN { 0 };
-    long double JD { 0 };
-    double q { 0 };
-    double a { 0 };
-    double e { 0 };
-    double P { 0 };
-    double EarthMOID { 0 };
-    float Albedo { 0 };
-    float Diameter { 0 };
-    float RotationPeriod { 0 };
-    float Period { 0 };
-    dms i, w, M, N;
-    double H { 0 };
-    double G { 0 };
-    QString OrbitID, OrbitClass, Dimensions;
-    bool NEO { false };
+        int catN { 0 };
+        long double JD { 0 };
+        double q { 0 };
+        double a { 0 };
+        double e { 0 };
+        double P { 0 };
+        double EarthMOID { 0 };
+        float Albedo { 0 };
+        float Diameter { 0 };
+        float RotationPeriod { 0 };
+        float Period { 0 };
+        dms i, w, M, N;
+        double H { 0 };
+        double G { 0 };
+        QString OrbitID, OrbitClass, Dimensions;
+        bool NEO { false };
 };

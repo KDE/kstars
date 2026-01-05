@@ -181,9 +181,9 @@ void DeviceManager::connectionSuccess()
 void DeviceManager::connectionError()
 {
     QString errMsg = QString("Connection to INDI host at %1 on port %2 encountered an error: %3.")
-                         .arg(host)
-                         .arg(port)
-                         .arg(serverSocket.errorString());
+                     .arg(host)
+                     .arg(port)
+                     .arg(serverSocket.errorString());
     KMessageBox::error(nullptr, errMsg);
 
     emit deviceManagerError(this);

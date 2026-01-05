@@ -23,8 +23,14 @@ FileDownloader::FileDownloader(QObject *parent) : QObject(parent)
 {
     connect(&m_WebCtrl, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataFinished(QNetworkReply*)));
 
-    registerDataVerification([](const QByteArray &) { return true; });
-    registerFileVerification([](const QString &) { return true;});
+    registerDataVerification([](const QByteArray &)
+    {
+        return true;
+    });
+    registerFileVerification([](const QString &)
+    {
+        return true;
+    });
 }
 
 void FileDownloader::get(const QUrl &fileUrl)
@@ -35,8 +41,8 @@ void FileDownloader::get(const QUrl &fileUrl)
     m_Reply     = m_WebCtrl.get(request);
 
     connect(m_Reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SIGNAL(downloadProgress(qint64, qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(setDownloadProgress(qint64, qint64)));
     connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
 
     setDownloadProgress(0, 0);
@@ -51,8 +57,8 @@ void FileDownloader::post(const QUrl &fileUrl, QByteArray &data)
     m_Reply     = m_WebCtrl.post(request, data);
 
     connect(m_Reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SIGNAL(downloadProgress(qint64, qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(setDownloadProgress(qint64, qint64)));
     connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
 
     setDownloadProgress(0, 0);
@@ -67,8 +73,8 @@ void FileDownloader::post(const QUrl &fileUrl, QHttpMultiPart *parts)
     m_Reply     = m_WebCtrl.post(request, parts);
 
     connect(m_Reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
-    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SIGNAL(downloadProgress(qint64, qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(setDownloadProgress(qint64, qint64)));
     connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
 
     setDownloadProgress(0, 0);
@@ -145,7 +151,7 @@ void FileDownloader::slotError()
 }
 
 void FileDownloader::setProgressDialogEnabled(bool ShowProgressDialog, const QString &textTitle,
-                                              const QString &textLabel)
+        const QString &textLabel)
 {
     m_ShowProgressDialog = ShowProgressDialog;
 
@@ -171,12 +177,13 @@ bool FileDownloader::setDownloadedFileURL(const QUrl &DownloadedFile)
 
     if (m_DownloadedFileURL.isEmpty() == false)
     {
-        bool rc= m_downloadTemporaryFile.open();
+        bool rc = m_downloadTemporaryFile.open();
 
         if (rc == false)
             qCWarning(KSTARS) << m_downloadTemporaryFile.errorString();
         else
-            qCDebug(KSTARS) << "Opened" << m_downloadTemporaryFile.fileName() << "to download data into" << DownloadedFile.toLocalFile();
+            qCDebug(KSTARS) << "Opened" << m_downloadTemporaryFile.fileName() << "to download data into" <<
+                            DownloadedFile.toLocalFile();
 
         return rc;
     }
@@ -196,7 +203,8 @@ void FileDownloader::setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal
             progressDialog->setWindowTitle(title);
             progressDialog->setLabelText(i18n("Awaiting response from server..."));
             connect(progressDialog, SIGNAL(canceled()), this, SIGNAL(canceled()));
-            connect(progressDialog, &QProgressDialog::canceled, this, [&]() {
+            connect(progressDialog, &QProgressDialog::canceled, this, [&]()
+            {
                 isCancelled = true;
                 m_Reply->abort();
                 progressDialog->close();

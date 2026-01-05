@@ -207,7 +207,7 @@ bool TestEkosCaptureCount::checkCapturedFrames()
         if (it.value() != 0)
         {
             QWARN(QString("Capture count for signature %1 does not match: %2 frames too %3 captured.").arg(it.key()).arg(abs(
-                        it.value())).arg(it.value() < 0 ? "much" : "few").toStdString().c_str());
+                      it.value())).arg(it.value() < 0 ? "much" : "few").toStdString().c_str());
             success = false;
         }
 

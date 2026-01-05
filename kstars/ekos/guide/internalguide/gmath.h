@@ -118,19 +118,19 @@ class cgmath : public QObject
 
         // Star tracking
         void getStarScreenPosition(double *dx, double *dy) const;
-        GuiderUtils::Vector findLocalStarPosition(QSharedPointer<FITSData> &imageData,
-                QSharedPointer<GuideView> &guideView, bool firstFrame);
+        GuiderUtils::Vector findLocalStarPosition(QSharedPointer < FITSData > &imageData,
+                QSharedPointer < GuideView > &guideView, bool firstFrame);
         bool isStarLost() const;
         void setLostStar(bool is_lost);
 
         // Main processing function
         void performProcessing(Ekos::GuideState state,
-                               QSharedPointer<FITSData> &imageData,
-                               QSharedPointer<GuideView> &guideView,
-                               const std::pair<Seconds, Seconds> &timeStep,
+                               QSharedPointer < FITSData > &imageData,
+                               QSharedPointer < GuideView > &guideView,
+                               const std::pair < Seconds, Seconds > &timeStep,
                                GuideLog *logger = nullptr);
 
-        void performDarkGuiding(Ekos::GuideState state, const std::pair<Seconds, Seconds> &timeStep);
+        void performDarkGuiding(Ekos::GuideState state, const std::pair < Seconds, Seconds > &timeStep);
 
         bool calibrate1D(double start_x, double start_y, double end_x, double end_y, int RATotalPulse);
         bool calibrate2D(double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
@@ -145,7 +145,7 @@ class cgmath : public QObject
         {
             return &calibration;
         }
-        QVector3D selectGuideStar(const QSharedPointer<FITSData> &imageData);
+        QVector3D selectGuideStar(const QSharedPointer < FITSData > &imageData);
         double getGuideStarSNR();
 
         const GuideStars &getGuideStars()
@@ -163,12 +163,12 @@ class cgmath : public QObject
 
     private:
         // Templated functions
-        template <typename T>
+        template < typename T >
         GuiderUtils::Vector findLocalStarPosition(void) const;
 
         void updateCircularBuffers(void);
         GuiderUtils::Vector point2arcsec(const GuiderUtils::Vector &p) const;
-        void calculatePulses(Ekos::GuideState state, const std::pair<Seconds, Seconds> &timeStep);
+        void calculatePulses(Ekos::GuideState state, const std::pair < Seconds, Seconds > &timeStep);
         void calculateRmsError(void);
 
         // Old-stye Logging--deprecate.
@@ -217,11 +217,11 @@ class cgmath : public QObject
 
         GuideStars guideStars;
 
-        std::unique_ptr<GPG> gpg;
-        std::unique_ptr<LinearGuider> m_RALinearGuider;
-        std::unique_ptr<LinearGuider> m_DECLinearGuider;
-        std::unique_ptr<HysteresisGuider> m_RAHysteresisGuider;
-        std::unique_ptr<HysteresisGuider> m_DECHysteresisGuider;
+        std::unique_ptr < GPG > gpg;
+        std::unique_ptr < LinearGuider > m_RALinearGuider;
+        std::unique_ptr < LinearGuider > m_DECLinearGuider;
+        std::unique_ptr < HysteresisGuider > m_RAHysteresisGuider;
+        std::unique_ptr < HysteresisGuider > m_DECHysteresisGuider;
 
         Calibration calibration;
         bool configureInParams(Ekos::GuideState state);

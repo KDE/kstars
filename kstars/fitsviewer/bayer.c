@@ -93,7 +93,7 @@ void ClearBorders_uint16(uint16_t *rgb, int sx, int sy, int w)
 /* insprired by OpenCV's Bayer decoding */
 
 dc1394error_t dc1394_bayer_NearestNeighbor(const uint8_t *bayer, uint8_t *rgb, int sx, int sy,
-                                           int tile)
+        int tile)
 {
     const int bayerStep  = sx;
     const int rgbStep    = 3 * sx;
@@ -357,8 +357,8 @@ dc1394error_t dc1394_bayer_HQLinear(const uint8_t *bayer, uint8_t *rgb, int sx, 
                 /* at green pixel */
                 rgb[3] = bayer[bayerStep2 + 3];
                 t0     = rgb[3] * 5 + ((bayer[bayerStep + 3] + bayer[bayerStep3 + 3]) << 2) - bayer[3] -
-                     bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
-                     bayer[bayerStep4 + 3] + ((bayer[bayerStep2 + 1] + bayer[bayerStep2 + 5] + 1) >> 1);
+                         bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
+                         bayer[bayerStep4 + 3] + ((bayer[bayerStep2 + 1] + bayer[bayerStep2 + 5] + 1) >> 1);
                 t1 = rgb[3] * 5 + ((bayer[bayerStep2 + 2] + bayer[bayerStep2 + 4]) << 2) - bayer[bayerStep2 + 1] -
                      bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
                      bayer[bayerStep2 + 5] + ((bayer[3] + bayer[bayerStep4 + 3] + 1) >> 1);
@@ -391,8 +391,8 @@ dc1394error_t dc1394_bayer_HQLinear(const uint8_t *bayer, uint8_t *rgb, int sx, 
                 /* at green pixel */
                 rgb[3] = bayer[bayerStep2 + 3];
                 t0     = rgb[3] * 5 + ((bayer[bayerStep + 3] + bayer[bayerStep3 + 3]) << 2) - bayer[3] -
-                     bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
-                     bayer[bayerStep4 + 3] + ((bayer[bayerStep2 + 1] + bayer[bayerStep2 + 5] + 1) >> 1);
+                         bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
+                         bayer[bayerStep4 + 3] + ((bayer[bayerStep2 + 1] + bayer[bayerStep2 + 5] + 1) >> 1);
                 t1 = rgb[3] * 5 + ((bayer[bayerStep2 + 2] + bayer[bayerStep2 + 4]) << 2) - bayer[bayerStep2 + 1] -
                      bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
                      bayer[bayerStep2 + 5] + ((bayer[3] + bayer[bayerStep4 + 3] + 1) >> 1);
@@ -491,7 +491,7 @@ dc1394error_t dc1394_bayer_EdgeSense(const uint8_t *bayer, uint8_t *rgb, int sx,
                     dh   = abs(((outB[base - 6] + outB[base + 6]) >> 1) - outB[base]);
                     dv   = abs(((outB[base - (sx3 << 1)] + outB[base + (sx3 << 1)]) >> 1) - outB[base]);
                     tmp  = (((outG[base - 3] + outG[base + 3]) >> 1) * (dh <= dv) +
-                           ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
+                            ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
                     CLIP(tmp, outG[base]);
                 }
             }
@@ -504,7 +504,7 @@ dc1394error_t dc1394_bayer_EdgeSense(const uint8_t *bayer, uint8_t *rgb, int sx,
                     dh   = abs(((outR[base - 6] + outR[base + 6]) >> 1) - outR[base]);
                     dv   = abs(((outR[base - (sx3 << 1)] + outR[base + (sx3 << 1)]) >> 1) - outR[base]);
                     tmp  = (((outG[base - 3] + outG[base + 3]) >> 1) * (dh <= dv) +
-                           ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
+                            ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
                     CLIP(tmp, outG[base]);
                 }
             }
@@ -531,9 +531,9 @@ dc1394error_t dc1394_bayer_EdgeSense(const uint8_t *bayer, uint8_t *rgb, int sx,
                 {
                     base = i3 + j3;
                     tmp  = outG[base] + ((outR[base - sx3 - 3] - outG[base - sx3 - 3] + outR[base - sx3 + 3] -
-                                         outG[base - sx3 + 3] + outR[base + sx3 - 3] - outG[base + sx3 - 3] +
-                                         outR[base + sx3 + 3] - outG[base + sx3 + 3]) >>
-                                        2);
+                                          outG[base - sx3 + 3] + outR[base + sx3 - 3] - outG[base + sx3 - 3] +
+                                          outR[base + sx3 + 3] - outG[base + sx3 + 3]) >>
+                                         2);
                     CLIP(tmp, outR[base]);
                 }
             }
@@ -561,9 +561,9 @@ dc1394error_t dc1394_bayer_EdgeSense(const uint8_t *bayer, uint8_t *rgb, int sx,
                 {
                     base = i3 + j3;
                     tmp  = outG[base] + ((outB[base - sx3 - 3] - outG[base - sx3 - 3] + outB[base - sx3 + 3] -
-                                         outG[base - sx3 + 3] + outB[base + sx3 - 3] - outG[base + sx3 - 3] +
-                                         outB[base + sx3 + 3] - outG[base + sx3 + 3]) >>
-                                        2);
+                                          outG[base - sx3 + 3] + outB[base + sx3 - 3] - outG[base + sx3 - 3] +
+                                          outB[base + sx3 + 3] - outG[base + sx3 + 3]) >>
+                                         2);
                     CLIP(tmp, outB[base]);
                 }
             }
@@ -592,7 +592,7 @@ dc1394error_t dc1394_bayer_EdgeSense(const uint8_t *bayer, uint8_t *rgb, int sx,
                     dh   = abs(((outB[base - 6] + outB[base + 6]) >> 1) - outB[base]);
                     dv   = abs(((outB[base - (sx3 << 1)] + outB[base + (sx3 << 1)]) >> 1) - outB[base]);
                     tmp  = (((outG[base - 3] + outG[base + 3]) >> 1) * (dh <= dv) +
-                           ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
+                            ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
                     CLIP(tmp, outG[base]);
                 }
             }
@@ -604,13 +604,14 @@ dc1394error_t dc1394_bayer_EdgeSense(const uint8_t *bayer, uint8_t *rgb, int sx,
                     dh   = abs(((outR[base - 6] + outR[base + 6]) >> 1) - outR[base]);
                     dv   = abs(((outR[base - (sx3 << 1)] + outR[base + (sx3 << 1)]) >> 1) - outR[base]);
                     tmp  = (((outG[base - 3] + outG[base + 3]) >> 1) * (dh <= dv) +
-                           ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
+                            ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
                     CLIP(tmp, outG[base]);
                 }
             }
             /* process RED channel */
             for (i3 = sx3; i3 < (sy - 1) * sx3; i3 += (sx3 << 1))
-            { /* G-points (1/2) */
+            {
+                /* G-points (1/2) */
                 for (j3 = 6; j3 < sx3 - 3; j3 += 6)
                 {
                     base = i3 + j3;
@@ -621,19 +622,21 @@ dc1394error_t dc1394_bayer_EdgeSense(const uint8_t *bayer, uint8_t *rgb, int sx,
             for (i3 = 2 * sx3; i3 < (sy - 2) * sx3; i3 += (sx3 << 1))
             {
                 for (j3 = 3; j3 < sx3; j3 += 6)
-                { /* G-points (2/2) */
+                {
+                    /* G-points (2/2) */
                     base = i3 + j3;
                     tmp =
                         outG[base] + ((outR[base - sx3] - outG[base - sx3] + outR[base + sx3] - outG[base + sx3]) >> 1);
                     CLIP(tmp, outR[base]);
                 }
                 for (j3 = 6; j3 < sx3 - 3; j3 += 6)
-                { /* B-points */
+                {
+                    /* B-points */
                     base = i3 + j3;
                     tmp  = outG[base] + ((outR[base - sx3 - 3] - outG[base - sx3 - 3] + outR[base - sx3 + 3] -
-                                         outG[base - sx3 + 3] + outR[base + sx3 - 3] - outG[base + sx3 - 3] +
-                                         outR[base + sx3 + 3] - outG[base + sx3 + 3]) >>
-                                        2);
+                                          outG[base - sx3 + 3] + outR[base + sx3 - 3] - outG[base + sx3 - 3] +
+                                          outR[base + sx3 + 3] - outG[base + sx3 + 3]) >>
+                                         2);
                     CLIP(tmp, outR[base]);
                 }
             }
@@ -661,9 +664,9 @@ dc1394error_t dc1394_bayer_EdgeSense(const uint8_t *bayer, uint8_t *rgb, int sx,
                 {
                     base = i3 + j3;
                     tmp  = outG[base] + ((outB[base - sx3 - 3] - outG[base - sx3 - 3] + outB[base - sx3 + 3] -
-                                         outG[base - sx3 + 3] + outB[base + sx3 - 3] - outG[base + sx3 - 3] +
-                                         outB[base + sx3 + 3] - outG[base + sx3 + 3]) >>
-                                        2);
+                                          outG[base - sx3 + 3] + outB[base + sx3 - 3] - outG[base + sx3 - 3] +
+                                          outB[base + sx3 + 3] - outG[base + sx3 + 3]) >>
+                                         2);
                     CLIP(tmp, outB[base]);
                 }
             }
@@ -909,7 +912,7 @@ dc1394error_t dc1394_bayer16_RGBX_NearestNeighbor(const uint16_t *bayer, uint16_
 
 /* insprired by OpenCV's Bayer decoding */
 dc1394error_t dc1394_bayer_NearestNeighbor_uint16(const uint16_t *bayer, uint16_t *rgb, int sx,
-                                                  int sy, int tile, int bits)
+        int sy, int tile, int bits)
 {
     (void)bits;
     const int bayerStep  = sx;
@@ -1001,7 +1004,7 @@ dc1394error_t dc1394_bayer_NearestNeighbor_uint16(const uint16_t *bayer, uint16_
 }
 /* OpenCV's Bayer decoding */
 dc1394error_t dc1394_bayer_Bilinear_uint16(const uint16_t *bayer, uint16_t *rgb, int sx, int sy,
-                                           int tile, int bits)
+        int tile, int bits)
 {
     (void)bits;
     const int bayerStep  = sx;
@@ -1096,7 +1099,7 @@ dc1394error_t dc1394_bayer_Bilinear_uint16(const uint16_t *bayer, uint16_t *rgb,
    Bayer-Patterned Color Images, by Henrique S. Malvar, Li-wei He, and
    Ross Cutler, in ICASSP'04 */
 dc1394error_t dc1394_bayer_HQLinear_uint16(const uint16_t *bayer, uint16_t *rgb, int sx, int sy,
-                                           int tile, int bits)
+        int tile, int bits)
 {
     const int bayerStep = sx;
     const int rgbStep   = 3 * sx;
@@ -1176,8 +1179,8 @@ dc1394error_t dc1394_bayer_HQLinear_uint16(const uint16_t *bayer, uint16_t *rgb,
                 /* at green pixel */
                 rgb[3] = bayer[bayerStep2 + 3];
                 t0     = rgb[3] * 5 + ((bayer[bayerStep + 3] + bayer[bayerStep3 + 3]) << 2) - bayer[3] -
-                     bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
-                     bayer[bayerStep4 + 3] + ((bayer[bayerStep2 + 1] + bayer[bayerStep2 + 5] + 1) >> 1);
+                         bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
+                         bayer[bayerStep4 + 3] + ((bayer[bayerStep2 + 1] + bayer[bayerStep2 + 5] + 1) >> 1);
                 t1 = rgb[3] * 5 + ((bayer[bayerStep2 + 2] + bayer[bayerStep2 + 4]) << 2) - bayer[bayerStep2 + 1] -
                      bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
                      bayer[bayerStep2 + 5] + ((bayer[3] + bayer[bayerStep4 + 3] + 1) >> 1);
@@ -1210,8 +1213,8 @@ dc1394error_t dc1394_bayer_HQLinear_uint16(const uint16_t *bayer, uint16_t *rgb,
                 /* at green pixel */
                 rgb[3] = bayer[bayerStep2 + 3];
                 t0     = rgb[3] * 5 + ((bayer[bayerStep + 3] + bayer[bayerStep3 + 3]) << 2) - bayer[3] -
-                     bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
-                     bayer[bayerStep4 + 3] + ((bayer[bayerStep2 + 1] + bayer[bayerStep2 + 5] + 1) >> 1);
+                         bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
+                         bayer[bayerStep4 + 3] + ((bayer[bayerStep2 + 1] + bayer[bayerStep2 + 5] + 1) >> 1);
                 t1 = rgb[3] * 5 + ((bayer[bayerStep2 + 2] + bayer[bayerStep2 + 4]) << 2) - bayer[bayerStep2 + 1] -
                      bayer[bayerStep + 2] - bayer[bayerStep + 4] - bayer[bayerStep3 + 2] - bayer[bayerStep3 + 4] -
                      bayer[bayerStep2 + 5] + ((bayer[3] + bayer[bayerStep4 + 3] + 1) >> 1);
@@ -1254,7 +1257,7 @@ dc1394error_t dc1394_bayer_HQLinear_uint16(const uint16_t *bayer, uint16_t *rgb,
 
 /* coriander's Bayer decoding */
 dc1394error_t dc1394_bayer_EdgeSense_uint16(const uint16_t *bayer, uint16_t *rgb, int sx, int sy,
-                                            int tile, int bits)
+        int tile, int bits)
 {
     uint16_t *outR, *outG, *outB;
     register int i3, j3, base;
@@ -1307,7 +1310,7 @@ dc1394error_t dc1394_bayer_EdgeSense_uint16(const uint16_t *bayer, uint16_t *rgb
                     dh   = abs(((outB[base - 6] + outB[base + 6]) >> 1) - outB[base]);
                     dv   = abs(((outB[base - (sx3 << 1)] + outB[base + (sx3 << 1)]) >> 1) - outB[base]);
                     tmp  = (((outG[base - 3] + outG[base + 3]) >> 1) * (dh <= dv) +
-                           ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
+                            ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
                     CLIP16(tmp, outG[base], bits);
                 }
             }
@@ -1320,7 +1323,7 @@ dc1394error_t dc1394_bayer_EdgeSense_uint16(const uint16_t *bayer, uint16_t *rgb
                     dh   = abs(((outR[base - 6] + outR[base + 6]) >> 1) - outR[base]);
                     dv   = abs(((outR[base - (sx3 << 1)] + outR[base + (sx3 << 1)]) >> 1) - outR[base]);
                     tmp  = (((outG[base - 3] + outG[base + 3]) >> 1) * (dh <= dv) +
-                           ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
+                            ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
                     CLIP16(tmp, outG[base], bits);
                 }
             }
@@ -1347,9 +1350,9 @@ dc1394error_t dc1394_bayer_EdgeSense_uint16(const uint16_t *bayer, uint16_t *rgb
                 {
                     base = i3 + j3;
                     tmp  = outG[base] + ((outR[base - sx3 - 3] - outG[base - sx3 - 3] + outR[base - sx3 + 3] -
-                                         outG[base - sx3 + 3] + outR[base + sx3 - 3] - outG[base + sx3 - 3] +
-                                         outR[base + sx3 + 3] - outG[base + sx3 + 3]) >>
-                                        2);
+                                          outG[base - sx3 + 3] + outR[base + sx3 - 3] - outG[base + sx3 - 3] +
+                                          outR[base + sx3 + 3] - outG[base + sx3 + 3]) >>
+                                         2);
                     CLIP16(tmp, outR[base], bits);
                 }
             }
@@ -1377,9 +1380,9 @@ dc1394error_t dc1394_bayer_EdgeSense_uint16(const uint16_t *bayer, uint16_t *rgb
                 {
                     base = i3 + j3;
                     tmp  = outG[base] + ((outB[base - sx3 - 3] - outG[base - sx3 - 3] + outB[base - sx3 + 3] -
-                                         outG[base - sx3 + 3] + outB[base + sx3 - 3] - outG[base + sx3 - 3] +
-                                         outB[base + sx3 + 3] - outG[base + sx3 + 3]) >>
-                                        2);
+                                          outG[base - sx3 + 3] + outB[base + sx3 - 3] - outG[base + sx3 - 3] +
+                                          outB[base + sx3 + 3] - outG[base + sx3 + 3]) >>
+                                         2);
                     CLIP16(tmp, outB[base], bits);
                 }
             }
@@ -1408,7 +1411,7 @@ dc1394error_t dc1394_bayer_EdgeSense_uint16(const uint16_t *bayer, uint16_t *rgb
                     dh   = abs(((outB[base - 6] + outB[base + 6]) >> 1) - outB[base]);
                     dv   = abs(((outB[base - (sx3 << 1)] + outB[base + (sx3 << 1)]) >> 1) - outB[base]);
                     tmp  = (((outG[base - 3] + outG[base + 3]) >> 1) * (dh <= dv) +
-                           ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
+                            ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
                     CLIP16(tmp, outG[base], bits);
                 }
             }
@@ -1420,13 +1423,14 @@ dc1394error_t dc1394_bayer_EdgeSense_uint16(const uint16_t *bayer, uint16_t *rgb
                     dh   = abs(((outR[base - 6] + outR[base + 6]) >> 1) - outR[base]);
                     dv   = abs(((outR[base - (sx3 << 1)] + outR[base + (sx3 << 1)]) >> 1) - outR[base]);
                     tmp  = (((outG[base - 3] + outG[base + 3]) >> 1) * (dh <= dv) +
-                           ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
+                            ((outG[base - sx3] + outG[base + sx3]) >> 1) * (dh > dv));
                     CLIP16(tmp, outG[base], bits);
                 }
             }
             /* process RED channel */
             for (i3 = sx3; i3 < (sy - 1) * sx3; i3 += (sx3 << 1))
-            { /* G-points (1/2) */
+            {
+                /* G-points (1/2) */
                 for (j3 = 6; j3 < sx3 - 3; j3 += 6)
                 {
                     base = i3 + j3;
@@ -1437,19 +1441,21 @@ dc1394error_t dc1394_bayer_EdgeSense_uint16(const uint16_t *bayer, uint16_t *rgb
             for (i3 = 2 * sx3; i3 < (sy - 2) * sx3; i3 += (sx3 << 1))
             {
                 for (j3 = 3; j3 < sx3; j3 += 6)
-                { /* G-points (2/2) */
+                {
+                    /* G-points (2/2) */
                     base = i3 + j3;
                     tmp =
                         outG[base] + ((outR[base - sx3] - outG[base - sx3] + outR[base + sx3] - outG[base + sx3]) >> 1);
                     CLIP16(tmp, outR[base], bits);
                 }
                 for (j3 = 6; j3 < sx3 - 3; j3 += 6)
-                { /* B-points */
+                {
+                    /* B-points */
                     base = i3 + j3;
                     tmp  = outG[base] + ((outR[base - sx3 - 3] - outG[base - sx3 - 3] + outR[base - sx3 + 3] -
-                                         outG[base - sx3 + 3] + outR[base + sx3 - 3] - outG[base + sx3 - 3] +
-                                         outR[base + sx3 + 3] - outG[base + sx3 + 3]) >>
-                                        2);
+                                          outG[base - sx3 + 3] + outR[base + sx3 - 3] - outG[base + sx3 - 3] +
+                                          outR[base + sx3 + 3] - outG[base + sx3 + 3]) >>
+                                         2);
                     CLIP16(tmp, outR[base], bits);
                 }
             }
@@ -1477,9 +1483,9 @@ dc1394error_t dc1394_bayer_EdgeSense_uint16(const uint16_t *bayer, uint16_t *rgb
                 {
                     base = i3 + j3;
                     tmp  = outG[base] + ((outB[base - sx3 - 3] - outG[base - sx3 - 3] + outB[base - sx3 + 3] -
-                                         outG[base - sx3 + 3] + outB[base + sx3 - 3] - outG[base + sx3 - 3] +
-                                         outB[base + sx3 + 3] - outG[base + sx3 + 3]) >>
-                                        2);
+                                          outG[base - sx3 + 3] + outB[base + sx3 - 3] - outG[base + sx3 - 3] +
+                                          outB[base + sx3 + 3] - outG[base + sx3 + 3]) >>
+                                         2);
                     CLIP16(tmp, outB[base], bits);
                 }
             }
@@ -1493,7 +1499,7 @@ dc1394error_t dc1394_bayer_EdgeSense_uint16(const uint16_t *bayer, uint16_t *rgb
 
 /* coriander's Bayer decoding */
 dc1394error_t dc1394_bayer_Downsample_uint16(const uint16_t *bayer, uint16_t *rgb, int sx, int sy,
-                                             int tile, int bits)
+        int tile, int bits)
 {
     uint16_t *outR, *outG, *outB;
     register int i, j;
@@ -1556,7 +1562,7 @@ dc1394error_t dc1394_bayer_Downsample_uint16(const uint16_t *bayer, uint16_t *rg
 
 /* coriander's Bayer decoding */
 dc1394error_t dc1394_bayer_Simple_uint16(const uint16_t *bayer, uint16_t *rgb, int sx, int sy,
-                                         int tile, int bits)
+        int tile, int bits)
 {
     uint16_t *outR, *outG, *outB;
     register int i, j;
@@ -1625,11 +1631,11 @@ dc1394error_t dc1394_bayer_Simple_uint16(const uint16_t *bayer, uint16_t *rgb, i
                 {
                     base = i * sx + j;
                     tmp  = ((bayer[base + 1] + bayer[base + sx]) >> 1);
-                    CLIP16(tmp, outG[(base)*3], bits);
+                    CLIP16(tmp, outG[(base) * 3], bits);
                     tmp = bayer[base];
-                    CLIP16(tmp, outR[(base)*3], bits);
+                    CLIP16(tmp, outR[(base) * 3], bits);
                     tmp = bayer[base + 1 + sx];
-                    CLIP16(tmp, outB[(base)*3], bits);
+                    CLIP16(tmp, outB[(base) * 3], bits);
                 }
             }
             for (i = 1; i < sy - 1; i += 2)
@@ -1651,11 +1657,11 @@ dc1394error_t dc1394_bayer_Simple_uint16(const uint16_t *bayer, uint16_t *rgb, i
                 {
                     base = i * sx + j;
                     tmp  = ((bayer[base] + bayer[base + 1 + sx]) >> 1);
-                    CLIP16(tmp, outG[(base)*3], bits);
+                    CLIP16(tmp, outG[(base) * 3], bits);
                     tmp = bayer[base + sx];
-                    CLIP16(tmp, outR[(base)*3], bits);
+                    CLIP16(tmp, outR[(base) * 3], bits);
                     tmp = bayer[base + 1];
-                    CLIP16(tmp, outB[(base)*3], bits);
+                    CLIP16(tmp, outB[(base) * 3], bits);
                 }
             }
             break;
@@ -1680,11 +1686,11 @@ dc1394error_t dc1394_bayer_Simple_uint16(const uint16_t *bayer, uint16_t *rgb, i
                 {
                     base = i * sx + j;
                     tmp  = ((bayer[base] + bayer[base + 1 + sx]) >> 1);
-                    CLIP16(tmp, outG[(base)*3], bits);
+                    CLIP16(tmp, outG[(base) * 3], bits);
                     tmp = bayer[base + 1];
-                    CLIP16(tmp, outR[(base)*3], bits);
+                    CLIP16(tmp, outR[(base) * 3], bits);
                     tmp = bayer[base + sx];
-                    CLIP16(tmp, outB[(base)*3], bits);
+                    CLIP16(tmp, outB[(base) * 3], bits);
                 }
             }
             for (i = 0; i < sy - 1; i += 2)
@@ -1706,11 +1712,11 @@ dc1394error_t dc1394_bayer_Simple_uint16(const uint16_t *bayer, uint16_t *rgb, i
                 {
                     base = i * sx + j;
                     tmp  = ((bayer[base + 1] + bayer[base + sx]) >> 1);
-                    CLIP16(tmp, outG[(base)*3], bits);
+                    CLIP16(tmp, outG[(base) * 3], bits);
                     tmp = bayer[base];
-                    CLIP16(tmp, outR[(base)*3], bits);
+                    CLIP16(tmp, outR[(base) * 3], bits);
                     tmp = bayer[base + 1 + sx];
-                    CLIP16(tmp, outB[(base)*3], bits);
+                    CLIP16(tmp, outB[(base) * 3], bits);
                 }
             }
             break;
@@ -1766,23 +1772,25 @@ dc1394error_t dc1394_bayer_Simple_uint16(const uint16_t *bayer, uint16_t *rgb, i
    Gradients are numbered clockwise from NW=0 to W=7.
  */
 static const signed char bayervng_terms[] =
-    { -2, -2, +0, -1, 0, 0x01, -2, -2, +0, +0, 1, 0x01, -2, -1, -1, +0, 0, 0x01, -2, -1, +0, -1, 0, 0x02,
-      -2, -1, +0, +0, 0, 0x03, -2, -1, +0, +1, 1, 0x01, -2, +0, +0, -1, 0, 0x06, -2, +0, +0, +0, 1, 0x02,
-      -2, +0, +0, +1, 0, 0x03, -2, +1, -1, +0, 0, 0x04, -2, +1, +0, -1, 1, 0x04, -2, +1, +0, +0, 0, 0x06,
-      -2, +1, +0, +1, 0, 0x02, -2, +2, +0, +0, 1, 0x04, -2, +2, +0, +1, 0, 0x04, -1, -2, -1, +0, 0, 0x80,
-      -1, -2, +0, -1, 0, 0x01, -1, -2, +1, -1, 0, 0x01, -1, -2, +1, +0, 1, 0x01, -1, -1, -1, +1, 0, 0x88,
-      -1, -1, +1, -2, 0, 0x40, -1, -1, +1, -1, 0, 0x22, -1, -1, +1, +0, 0, 0x33, -1, -1, +1, +1, 1, 0x11,
-      -1, +0, -1, +2, 0, 0x08, -1, +0, +0, -1, 0, 0x44, -1, +0, +0, +1, 0, 0x11, -1, +0, +1, -2, 1, 0x40,
-      -1, +0, +1, -1, 0, 0x66, -1, +0, +1, +0, 1, 0x22, -1, +0, +1, +1, 0, 0x33, -1, +0, +1, +2, 1, 0x10,
-      -1, +1, +1, -1, 1, 0x44, -1, +1, +1, +0, 0, 0x66, -1, +1, +1, +1, 0, 0x22, -1, +1, +1, +2, 0, 0x10,
-      -1, +2, +0, +1, 0, 0x04, -1, +2, +1, +0, 1, 0x04, -1, +2, +1, +1, 0, 0x04, +0, -2, +0, +0, 1, 0x80,
-      +0, -1, +0, +1, 1, 0x88, +0, -1, +1, -2, 0, 0x40, +0, -1, +1, +0, 0, 0x11, +0, -1, +2, -2, 0, 0x40,
-      +0, -1, +2, -1, 0, 0x20, +0, -1, +2, +0, 0, 0x30, +0, -1, +2, +1, 1, 0x10, +0, +0, +0, +2, 1, 0x08,
-      +0, +0, +2, -2, 1, 0x40, +0, +0, +2, -1, 0, 0x60, +0, +0, +2, +0, 1, 0x20, +0, +0, +2, +1, 0, 0x30,
-      +0, +0, +2, +2, 1, 0x10, +0, +1, +1, +0, 0, 0x44, +0, +1, +1, +2, 0, 0x10, +0, +1, +2, -1, 1, 0x40,
-      +0, +1, +2, +0, 0, 0x60, +0, +1, +2, +1, 0, 0x20, +0, +1, +2, +2, 0, 0x10, +1, -2, +1, +0, 0, 0x80,
-      +1, -1, +1, +1, 0, 0x88, +1, +0, +1, +2, 0, 0x08, +1, +0, +2, -1, 0, 0x40, +1, +0, +2, +1, 0, 0x10 },
-                         bayervng_chood[] = { -1, -1, -1, 0, -1, +1, 0, +1, +1, +1, +1, 0, +1, -1, 0, -1 };
+{
+    -2, -2, +0, -1, 0, 0x01, -2, -2, +0, +0, 1, 0x01, -2, -1, -1, +0, 0, 0x01, -2, -1, +0, -1, 0, 0x02,
+    -2, -1, +0, +0, 0, 0x03, -2, -1, +0, +1, 1, 0x01, -2, +0, +0, -1, 0, 0x06, -2, +0, +0, +0, 1, 0x02,
+    -2, +0, +0, +1, 0, 0x03, -2, +1, -1, +0, 0, 0x04, -2, +1, +0, -1, 1, 0x04, -2, +1, +0, +0, 0, 0x06,
+    -2, +1, +0, +1, 0, 0x02, -2, +2, +0, +0, 1, 0x04, -2, +2, +0, +1, 0, 0x04, -1, -2, -1, +0, 0, 0x80,
+    -1, -2, +0, -1, 0, 0x01, -1, -2, +1, -1, 0, 0x01, -1, -2, +1, +0, 1, 0x01, -1, -1, -1, +1, 0, 0x88,
+    -1, -1, +1, -2, 0, 0x40, -1, -1, +1, -1, 0, 0x22, -1, -1, +1, +0, 0, 0x33, -1, -1, +1, +1, 1, 0x11,
+    -1, +0, -1, +2, 0, 0x08, -1, +0, +0, -1, 0, 0x44, -1, +0, +0, +1, 0, 0x11, -1, +0, +1, -2, 1, 0x40,
+    -1, +0, +1, -1, 0, 0x66, -1, +0, +1, +0, 1, 0x22, -1, +0, +1, +1, 0, 0x33, -1, +0, +1, +2, 1, 0x10,
+    -1, +1, +1, -1, 1, 0x44, -1, +1, +1, +0, 0, 0x66, -1, +1, +1, +1, 0, 0x22, -1, +1, +1, +2, 0, 0x10,
+    -1, +2, +0, +1, 0, 0x04, -1, +2, +1, +0, 1, 0x04, -1, +2, +1, +1, 0, 0x04, +0, -2, +0, +0, 1, 0x80,
+    +0, -1, +0, +1, 1, 0x88, +0, -1, +1, -2, 0, 0x40, +0, -1, +1, +0, 0, 0x11, +0, -1, +2, -2, 0, 0x40,
+    +0, -1, +2, -1, 0, 0x20, +0, -1, +2, +0, 0, 0x30, +0, -1, +2, +1, 1, 0x10, +0, +0, +0, +2, 1, 0x08,
+    +0, +0, +2, -2, 1, 0x40, +0, +0, +2, -1, 0, 0x60, +0, +0, +2, +0, 1, 0x20, +0, +0, +2, +1, 0, 0x30,
+    +0, +0, +2, +2, 1, 0x10, +0, +1, +1, +0, 0, 0x44, +0, +1, +1, +2, 0, 0x10, +0, +1, +2, -1, 1, 0x40,
+    +0, +1, +2, +0, 0, 0x60, +0, +1, +2, +1, 0, 0x20, +0, +1, +2, +2, 0, 0x10, +1, -2, +1, +0, 0, 0x80,
+    +1, -1, +1, +1, 0, 0x88, +1, +0, +1, +2, 0, 0x08, +1, +0, +2, -1, 0, 0x40, +1, +0, +2, +1, 0, 0x10
+},
+bayervng_chood[] = { -1, -1, -1, 0, -1, +1, 0, +1, +1, +1, +1, 0, +1, -1, 0, -1 };
 
 dc1394error_t dc1394_bayer_VNG(const uint8_t *bayer, uint8_t *dst, int sx, int sy,
                                dc1394color_filter_t pattern)
@@ -1818,7 +1826,8 @@ dc1394error_t dc1394_bayer_VNG(const uint8_t *bayer, uint8_t *dst, int sx, int s
     }
 
     for (row = 0; row < 8; row++)
-    { /* Precalculate for VNG */
+    {
+        /* Precalculate for VNG */
         for (col = 0; col < 2; col++)
         {
             ip = code[row][col];
@@ -1862,14 +1871,16 @@ dc1394error_t dc1394_bayer_VNG(const uint8_t *bayer, uint8_t *dst, int sx, int s
     for (row = 0; row < 3; row++)
         brow[row] = brow[4] + row * width;
     for (row = 2; row < height - 2; row++)
-    { /* Do VNG interpolation */
+    {
+        /* Do VNG interpolation */
         for (col = 2; col < width - 2; col++)
         {
             pix = dst + (row * width + col) * 3; /* [FD] */
             ip  = code[row & 7][col & 1];
             memset(gval, 0, sizeof gval);
             while ((g = ip[0]) != INT_MAX)
-            { /* Calculate gradients */
+            {
+                /* Calculate gradients */
                 diff = ABS(pix[g] - pix[ip[1]]) << ip[2];
                 gval[ip[3]] += diff;
                 ip += 5;
@@ -1890,14 +1901,15 @@ dc1394error_t dc1394_bayer_VNG(const uint8_t *bayer, uint8_t *dst, int sx, int s
             }
             if (gmax == 0)
             {
-                memcpy(brow[2][col], pix, 3 * sizeof *dst); /* [FD] */
+                memcpy(brow[2][col], pix, 3 * sizeof * dst); /* [FD] */
                 continue;
             }
             thold = gmin + (gmax >> 1);
             memset(sum, 0, sizeof sum);
             color = FC(row, col);
             for (num = g = 0; g < 8; g++, ip += 2)
-            { /* Average the neighbors */
+            {
+                /* Average the neighbors */
                 if (gval[g] <= thold)
                 {
                     for (c = 0; c < 3; c++) /* [FD] */
@@ -1909,7 +1921,8 @@ dc1394error_t dc1394_bayer_VNG(const uint8_t *bayer, uint8_t *dst, int sx, int s
                 }
             }
             for (c = 0; c < 3; c++)
-            { /* [FD] Save to buffer */
+            {
+                /* [FD] Save to buffer */
                 t = pix[color];
                 if (c != color)
                     t += (sum[c] - sum[color]) / num;
@@ -1917,12 +1930,12 @@ dc1394error_t dc1394_bayer_VNG(const uint8_t *bayer, uint8_t *dst, int sx, int s
             }
         }
         if (row > 3) /* Write buffer to image */
-            memcpy(dst + 3 * ((row - 2) * width + 2), brow[0] + 2, (width - 4) * 3 * sizeof *dst); /* [FD] */
+            memcpy(dst + 3 * ((row - 2) * width + 2), brow[0] + 2, (width - 4) * 3 * sizeof * dst); /* [FD] */
         for (g = 0; g < 4; g++)
             brow[(g - 1) & 3] = brow[g];
     }
-    memcpy(dst + 3 * ((row - 2) * width + 2), brow[0] + 2, (width - 4) * 3 * sizeof *dst);
-    memcpy(dst + 3 * ((row - 1) * width + 2), brow[1] + 2, (width - 4) * 3 * sizeof *dst);
+    memcpy(dst + 3 * ((row - 2) * width + 2), brow[0] + 2, (width - 4) * 3 * sizeof * dst);
+    memcpy(dst + 3 * ((row - 1) * width + 2), brow[1] + 2, (width - 4) * 3 * sizeof * dst);
     free(brow[4]);
 
     return DC1394_SUCCESS;
@@ -1963,7 +1976,8 @@ dc1394error_t dc1394_bayer_VNG_uint16(const uint16_t *bayer, uint16_t *dst, int 
     }
 
     for (row = 0; row < 8; row++)
-    { /* Precalculate for VNG */
+    {
+        /* Precalculate for VNG */
         for (col = 0; col < 2; col++)
         {
             ip = code[row][col];
@@ -2007,14 +2021,16 @@ dc1394error_t dc1394_bayer_VNG_uint16(const uint16_t *bayer, uint16_t *dst, int 
     for (row = 0; row < 3; row++)
         brow[row] = brow[4] + row * width;
     for (row = 2; row < height - 2; row++)
-    { /* Do VNG interpolation */
+    {
+        /* Do VNG interpolation */
         for (col = 2; col < width - 2; col++)
         {
             pix = dst + (row * width + col) * 3; /* [FD] */
             ip  = code[row & 7][col & 1];
             memset(gval, 0, sizeof gval);
             while ((g = ip[0]) != INT_MAX)
-            { /* Calculate gradients */
+            {
+                /* Calculate gradients */
                 diff = ABS(pix[g] - pix[ip[1]]) << ip[2];
                 gval[ip[3]] += diff;
                 ip += 5;
@@ -2035,14 +2051,15 @@ dc1394error_t dc1394_bayer_VNG_uint16(const uint16_t *bayer, uint16_t *dst, int 
             }
             if (gmax == 0)
             {
-                memcpy(brow[2][col], pix, 3 * sizeof *dst); /* [FD] */
+                memcpy(brow[2][col], pix, 3 * sizeof * dst); /* [FD] */
                 continue;
             }
             thold = gmin + (gmax >> 1);
             memset(sum, 0, sizeof sum);
             color = FC(row, col);
             for (num = g = 0; g < 8; g++, ip += 2)
-            { /* Average the neighbors */
+            {
+                /* Average the neighbors */
                 if (gval[g] <= thold)
                 {
                     for (c = 0; c < 3; c++) /* [FD] */
@@ -2054,7 +2071,8 @@ dc1394error_t dc1394_bayer_VNG_uint16(const uint16_t *bayer, uint16_t *dst, int 
                 }
             }
             for (c = 0; c < 3; c++)
-            { /* [FD] Save to buffer */
+            {
+                /* [FD] Save to buffer */
                 t = pix[color];
                 if (c != color)
                     t += (sum[c] - sum[color]) / num;
@@ -2062,12 +2080,12 @@ dc1394error_t dc1394_bayer_VNG_uint16(const uint16_t *bayer, uint16_t *dst, int 
             }
         }
         if (row > 3) /* Write buffer to image */
-            memcpy(dst + 3 * ((row - 2) * width + 2), brow[0] + 2, (width - 4) * 3 * sizeof *dst); /* [FD] */
+            memcpy(dst + 3 * ((row - 2) * width + 2), brow[0] + 2, (width - 4) * 3 * sizeof * dst); /* [FD] */
         for (g = 0; g < 4; g++)
             brow[(g - 1) & 3] = brow[g];
     }
-    memcpy(dst + 3 * ((row - 2) * width + 2), brow[0] + 2, (width - 4) * 3 * sizeof *dst);
-    memcpy(dst + 3 * ((row - 1) * width + 2), brow[1] + 2, (width - 4) * 3 * sizeof *dst);
+    memcpy(dst + 3 * ((row - 2) * width + 2), brow[0] + 2, (width - 4) * 3 * sizeof * dst);
+    memcpy(dst + 3 * ((row - 1) * width + 2), brow[1] + 2, (width - 4) * 3 * sizeof * dst);
     free(brow[4]);
 
     return DC1394_SUCCESS;
@@ -2079,10 +2097,11 @@ static dc1394bool_t ahd_inited = DC1394_FALSE; /* WARNING: not multi-processor s
 #define CLIPOUT(x)         LIM(x, 0, 255)
 #define CLIPOUT16(x, bits) LIM(x, 0, ((1 << bits) - 1))
 
-static const double xyz_rgb[3][3] = { /* XYZ from RGB */
-                                      { 0.412453, 0.357580, 0.180423 },
-                                      { 0.212671, 0.715160, 0.072169 },
-                                      { 0.019334, 0.119193, 0.950227 }
+static const double xyz_rgb[3][3] =   /* XYZ from RGB */
+{
+    { 0.412453, 0.357580, 0.180423 },
+    { 0.212671, 0.715160, 0.072169 },
+    { 0.019334, 0.119193, 0.950227 }
 };
 static const float d65_white[3] = { 0.950456, 1, 1.088754 };
 
@@ -2107,7 +2126,8 @@ static void cam_to_cielab(uint16_t cam[3], float lab[3]) /* [SA] */
     {
         xyz[0] = xyz[1] = xyz[2] = 0.5;
         FORC3
-        { /* [SA] */
+        {
+            /* [SA] */
             xyz[0] += xyz_cam[0][c] * cam[c];
             xyz[1] += xyz_cam[1][c] * cam[c];
             xyz[2] += xyz_cam[2][c] * cam[c];
@@ -2497,7 +2517,7 @@ dc1394error_t dc1394_bayer_AHD_uint16(const uint16_t *bayer, uint16_t *dst, int 
 }
 
 dc1394error_t dc1394_bayer_decoding_8bit(const uint8_t *bayer, uint8_t *rgb, uint32_t sx, uint32_t sy,
-                                         dc1394color_filter_t tile, dc1394bayer_method_t method)
+        dc1394color_filter_t tile, dc1394bayer_method_t method)
 {
     switch (method)
     {
@@ -2523,8 +2543,8 @@ dc1394error_t dc1394_bayer_decoding_8bit(const uint8_t *bayer, uint8_t *rgb, uin
 }
 
 dc1394error_t dc1394_bayer_decoding_16bit(const uint16_t *bayer, uint16_t *rgb, uint32_t sx,
-                                          uint32_t sy, dc1394color_filter_t tile, dc1394bayer_method_t method,
-                                          uint32_t bits)
+        uint32_t sy, dc1394color_filter_t tile, dc1394bayer_method_t method,
+        uint32_t bits)
 {
     switch (method)
     {

@@ -515,7 +515,7 @@ void FilterManager::buildOperationQueue(FilterState operation)
                     QString str = m_FocusReady ? "Applying offset" : "IGNORING offset";
                     QString wheel = (m_FilterWheel) ? m_FilterWheel->getDeviceName() : QString("No Filter Wheel");
                     qCDebug(KSTARS) << QString("%1 FILTER_CHANGE from %2 to %3 - %4").arg(wheel)
-                                           .arg(currentFilter->color()).arg(targetFilter->color()).arg(str);
+                                    .arg(currentFilter->color()).arg(targetFilter->color()).arg(str);
                 }
             }
 

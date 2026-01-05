@@ -160,7 +160,7 @@ class KStarsData : public QObject
         {
             return Clock.utc();
         }
-     
+
         /** @return inline method to return simulation JD */
         inline long double djd() const
         {
@@ -183,7 +183,10 @@ class KStarsData : public QObject
         }
 
         /** @return file name of current color scheme **/
-        Q_INVOKABLE QString colorSchemeFileName() { return CScheme.fileName(); }
+        Q_INVOKABLE QString colorSchemeFileName()
+        {
+            return CScheme.fileName();
+        }
 
         /** @return file name of the color scheme with the name \p name **/
         QString colorSchemeFileName(const QString &name)
@@ -217,10 +220,16 @@ class KStarsData : public QObject
         };
 
         /** \return a map of color scheme names and filenames */
-        const std::map<QString, QString> color_schemes() { return m_color_schemes; };
+        const std::map<QString, QString> color_schemes()
+        {
+            return m_color_schemes;
+        };
 
         /** @return pointer to the KSUserDB object */
-        KSUserDB *userdb() { return &m_ksuserdb; }
+        KSUserDB *userdb()
+        {
+            return &m_ksuserdb;
+        }
 
         /** @return pointer to the simulation Clock object */
         Q_INVOKABLE SimClock *clock()
@@ -367,7 +376,7 @@ class KStarsData : public QObject
         {
             return m_ImagingPlanner.get();
         }
-#endif  
+#endif
 
         ImageExporter *imageExporter();
 
@@ -479,7 +488,7 @@ class KStarsData : public QObject
         std::pair<bool, QString> updateUserLog(const QString &name,
                                                const QString &newLog);
 
-      private:
+    private:
         /**
          * Populate list of geographic locations from "citydb.sqlite" database. Also check for custom
          * locations file "mycitydb.sqlite" database, but don't require it.  Each line in the file

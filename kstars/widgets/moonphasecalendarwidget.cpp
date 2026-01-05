@@ -58,7 +58,7 @@ void MoonPhaseCalendar::loadImages()
     {
         QString imName = QString().sprintf("moon%02d", i);
         m_Images[i]    = QPixmap::fromImage(TextureManager::getImage(imName))
-                          .scaled(MoonImageSize, MoonImageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                         .scaled(MoonImageSize, MoonImageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
     imagesLoaded = true;
 }
@@ -285,7 +285,7 @@ void MoonPhaseCalendar::paintCell(QPainter *painter, int row, int col, const KCo
             painter->drawPixmap((drawRect.width() - MoonImageSize) / 2,
                                 12 + ((drawRect.height() - 12) - MoonImageSize) / 2,
                                 m_Images[iPhase]); // FIXME: Using hard coded fon
-                                                   // +            painter
+            // +            painter
             // painter->drawPixmap( ( drawRect.width() - MoonImageSize )/2,
             // 12 + (( drawRect.height() - 12 ) - MoonImageSize)/2,
             // m_Images[ iPhase ] );

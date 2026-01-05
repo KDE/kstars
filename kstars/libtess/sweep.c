@@ -99,8 +99,8 @@ static int EdgeLeq(GLUtesselator *tess, ActiveRegion *reg1, ActiveRegion *reg2)
         if (e2->Dst == event)
         {
             /* Two edges right of the sweep line which meet at the sweep event.
-       * Sort them by slope.
-       */
+            * Sort them by slope.
+            */
             if (VertLeq(e1->Org, e2->Org))
             {
                 return EdgeSign(e2->Dst, e1->Org, e2->Org) <= 0;
@@ -125,9 +125,9 @@ static void DeleteRegion(GLUtesselator *tess, ActiveRegion *reg)
     if (reg->fixUpperEdge)
     {
         /* It was created with zero winding number, so it better be
-     * deleted with zero winding number (ie. it better not get merged
-     * with a real edge).
-     */
+        * deleted with zero winding number (ie. it better not get merged
+        * with a real edge).
+        */
         assert(reg->eUp->winding == 0);
     }
     reg->eUp->activeRegion = NULL;
@@ -159,11 +159,12 @@ static ActiveRegion *TopLeftRegion(ActiveRegion *reg)
     do
     {
         reg = RegionAbove(reg);
-    } while (reg->eUp->Org == org);
+    }
+    while (reg->eUp->Org == org);
 
     /* If the edge above was a temporary edge introduced by ConnectRightVertex,
-   * now is the time to fix it.
-   */
+    * now is the time to fix it.
+    */
     if (reg->fixUpperEdge)
     {
         e = __gl_meshConnect(RegionBelow(reg)->eUp->Sym, reg->eUp->Lnext);
@@ -184,7 +185,8 @@ static ActiveRegion *TopRightRegion(ActiveRegion *reg)
     do
     {
         reg = RegionAbove(reg);
-    } while (reg->eUp->Dst == dst);
+    }
+    while (reg->eUp->Dst == dst);
     return reg;
 }
 
@@ -286,17 +288,17 @@ static GLUhalfEdge *FinishLeftRegions(GLUtesselator *tess, ActiveRegion *regFirs
             if (!reg->fixUpperEdge)
             {
                 /* Remove the last left-going edge.  Even though there are no further
-	 * edges in the dictionary with this origin, there may be further
-	 * such edges in the mesh (if we are adding left edges to a vertex
-	 * that has already been processed).  Thus it is important to call
-	 * FinishRegion rather than just DeleteRegion.
-	 */
+                * edges in the dictionary with this origin, there may be further
+                 * such edges in the mesh (if we are adding left edges to a vertex
+                 * that has already been processed).  Thus it is important to call
+                 * FinishRegion rather than just DeleteRegion.
+                 */
                 FinishRegion(tess, regPrev);
                 break;
             }
             /* If the edge below was a temporary edge introduced by
-       * ConnectRightVertex, now is the time to fix it.
-       */
+            * ConnectRightVertex, now is the time to fix it.
+            */
             e = __gl_meshConnect(ePrev->Lprev, e->Sym);
             if (e == NULL)
                 longjmp(tess->env, 1);
@@ -343,12 +345,13 @@ static void AddRightEdges(GLUtesselator *tess, ActiveRegion *regUp, GLUhalfEdge 
         assert(VertLeq(e->Org, e->Dst));
         AddRegionBelow(tess, regUp, e->Sym);
         e = e->Onext;
-    } while (e != eLast);
+    }
+    while (e != eLast);
 
     /* Walk *all* right-going edges from e->Org, in the dictionary order,
-   * updating the winding numbers of each region, and re-linking the mesh
-   * edges to match the dictionary ordering (if necessary).
-   */
+    * updating the winding numbers of each region, and re-linking the mesh
+    * edges to match the dictionary ordering (if necessary).
+    */
     if (eTopLeft == NULL)
     {
         eTopLeft = RegionBelow(regUp)->eUp->Rprev;
@@ -375,8 +378,8 @@ static void AddRightEdges(GLUtesselator *tess, ActiveRegion *regUp, GLUhalfEdge 
         reg->inside        = IsWindingInside(tess, reg->windingNumber);
 
         /* Check for two outgoing edges with same slope -- process these
-     * before any intersection tests (see example in __gl_computeInterior).
-     */
+        * before any intersection tests (see example in __gl_computeInterior).
+        */
         regPrev->dirty = TRUE;
         if (!firstTime && CheckForRightSplice(tess, regPrev))
         {
@@ -419,9 +422,9 @@ static void CallCombine(GLUtesselator *tess, GLUvertex *isect, void *data[4], GL
         else if (!tess->fatalError)
         {
             /* The only way fatal error is when two edges are found to intersect,
-       * but the user has not provided the callback necessary to handle
-       * generated intersection points.
-       */
+            * but the user has not provided the callback necessary to handle
+            * generated intersection points.
+            */
             CALL_ERROR_OR_ERROR_DATA(GLU_TESS_NEED_COMBINE_CALLBACK);
             tess->fatalError = TRUE;
         }
@@ -672,20 +675,20 @@ static int CheckForIntersect(GLUtesselator *tess, ActiveRegion *regUp)
     if (VertLeq(&isect, tess->event))
     {
         /* The intersection point lies slightly to the left of the sweep line,
-     * so move it until it''s slightly to the right of the sweep line.
-     * (If we had perfect numerical precision, this would never happen
-     * in the first place).  The easiest and safest thing to do is
-     * replace the intersection by tess->event.
-     */
+        * so move it until it''s slightly to the right of the sweep line.
+        * (If we had perfect numerical precision, this would never happen
+        * in the first place).  The easiest and safest thing to do is
+        * replace the intersection by tess->event.
+        */
         isect.s = tess->event->s;
         isect.t = tess->event->t;
     }
     /* Similarly, if the computed intersection lies to the right of the
-   * rightmost origin (which should rarely happen), it can cause
-   * unbelievable inefficiency on sufficiently degenerate inputs.
-   * (If you have the test program, try running test54.d with the
-   * "X zoom" option turned on).
-   */
+    * rightmost origin (which should rarely happen), it can cause
+    * unbelievable inefficiency on sufficiently degenerate inputs.
+    * (If you have the test program, try running test54.d with the
+    * "X zoom" option turned on).
+    */
     orgMin = VertLeq(orgUp, orgLo) ? orgUp : orgLo;
     if (VertLeq(orgMin, &isect))
     {
@@ -701,12 +704,12 @@ static int CheckForIntersect(GLUtesselator *tess, ActiveRegion *regUp)
     }
 
     if ((!VertEq(dstUp, tess->event) && EdgeSign(dstUp, tess->event, &isect) >= 0) ||
-        (!VertEq(dstLo, tess->event) && EdgeSign(dstLo, tess->event, &isect) <= 0))
+            (!VertEq(dstLo, tess->event) && EdgeSign(dstLo, tess->event, &isect) <= 0))
     {
         /* Very unusual -- the new upper or lower edge would pass on the
-     * wrong side of the sweep event, or through it.  This can happen
-     * due to very small numerical errors in the intersection calculation.
-     */
+        * wrong side of the sweep event, or through it.  This can happen
+        * due to very small numerical errors in the intersection calculation.
+        */
         if (dstLo == tess->event)
         {
             /* Splice dstLo into eUp, and process the new region(s) */
@@ -738,9 +741,9 @@ static int CheckForIntersect(GLUtesselator *tess, ActiveRegion *regUp)
             return TRUE;
         }
         /* Special case: called from ConnectRightVertex.  If either
-     * edge passes on the wrong side of tess->event, split it
-     * (and wait for ConnectRightVertex to splice it appropriately).
-     */
+        * edge passes on the wrong side of tess->event, split it
+        * (and wait for ConnectRightVertex to splice it appropriately).
+        */
         if (EdgeSign(dstUp, tess->event, &isect) >= 0)
         {
             RegionAbove(regUp)->dirty = regUp->dirty = TRUE;
@@ -762,13 +765,13 @@ static int CheckForIntersect(GLUtesselator *tess, ActiveRegion *regUp)
     }
 
     /* General case -- split both edges, splice into new vertex.
-   * When we do the splice operation, the order of the arguments is
-   * arbitrary as far as correctness goes.  However, when the operation
-   * creates a new face, the work done is proportional to the size of
-   * the new face.  We expect the faces in the processed part of
-   * the mesh (ie. eUp->Lface) to be smaller than the faces in the
-   * unprocessed original contours (which will be eLo->Oprev->Lface).
-   */
+    * When we do the splice operation, the order of the arguments is
+    * arbitrary as far as correctness goes.  However, when the operation
+    * creates a new face, the work done is proportional to the size of
+    * the new face.  We expect the faces in the processed part of
+    * the mesh (ie. eUp->Lface) to be smaller than the faces in the
+    * unprocessed original contours (which will be eLo->Oprev->Lface).
+    */
     if (__gl_meshSplitEdge(eUp->Sym) == NULL)
         longjmp(tess->env, 1);
     if (__gl_meshSplitEdge(eLo->Sym) == NULL)
@@ -830,9 +833,9 @@ static void WalkDirtyRegions(GLUtesselator *tess, ActiveRegion *regUp)
             if (CheckForLeftSplice(tess, regUp))
             {
                 /* If the upper or lower edge was marked fixUpperEdge, then
-	 * we no longer need it (since these edges are needed only for
-	 * vertices which otherwise have no right-going edges).
-	 */
+                * we no longer need it (since these edges are needed only for
+                 * vertices which otherwise have no right-going edges).
+                 */
                 if (regLo->fixUpperEdge)
                 {
                     DeleteRegion(tess, regLo);
@@ -854,16 +857,16 @@ static void WalkDirtyRegions(GLUtesselator *tess, ActiveRegion *regUp)
         if (eUp->Org != eLo->Org)
         {
             if (eUp->Dst != eLo->Dst && !regUp->fixUpperEdge && !regLo->fixUpperEdge &&
-                (eUp->Dst == tess->event || eLo->Dst == tess->event))
+                    (eUp->Dst == tess->event || eLo->Dst == tess->event))
             {
                 /* When all else fails in CheckForIntersect(), it uses tess->event
-	 * as the intersection location.  To make this possible, it requires
-	 * that tess->event lie between the upper and lower edges, and also
-	 * that neither of these is marked fixUpperEdge (since in the worst
-	 * case it might splice one of these edges into tess->event, and
-	 * violate the invariant that fixable edges are the only right-going
-	 * edge from their associated vertex).
-	 */
+                * as the intersection location.  To make this possible, it requires
+                 * that tess->event lie between the upper and lower edges, and also
+                 * that neither of these is marked fixUpperEdge (since in the worst
+                 * case it might splice one of these edges into tess->event, and
+                 * violate the invariant that fixable edges are the only right-going
+                 * edge from their associated vertex).
+                 */
                 if (CheckForIntersect(tess, regUp))
                 {
                     /* WalkDirtyRegions() was called recursively; we're done */
@@ -873,8 +876,8 @@ static void WalkDirtyRegions(GLUtesselator *tess, ActiveRegion *regUp)
             else
             {
                 /* Even though we can't use CheckForIntersect(), the Org vertices
-	 * may violate the dictionary edge ordering.  Check and correct this.
-	 */
+                * may violate the dictionary edge ordering.  Check and correct this.
+                 */
                 (void)CheckForRightSplice(tess, regUp);
             }
         }
@@ -936,8 +939,8 @@ static void ConnectRightVertex(GLUtesselator *tess, ActiveRegion *regUp, GLUhalf
     }
 
     /* Possible new degeneracies: upper or lower edge of regUp may pass
-   * through vEvent, or may coincide with new intersection vertex
-   */
+    * through vEvent, or may coincide with new intersection vertex
+    */
     if (VertEq(eUp->Org, tess->event))
     {
         if (!__gl_meshSplice(eTopLeft->Oprev, eUp))
@@ -963,8 +966,8 @@ static void ConnectRightVertex(GLUtesselator *tess, ActiveRegion *regUp, GLUhalf
     }
 
     /* Non-degenerate situation -- need to add a temporary, fixable edge.
-   * Connect to the closer of eLo->Org, eUp->Org.
-   */
+    * Connect to the closer of eLo->Org, eUp->Org.
+    */
     if (VertLeq(eLo->Org, eUp->Org))
     {
         eNew = eLo->Oprev;
@@ -978,8 +981,8 @@ static void ConnectRightVertex(GLUtesselator *tess, ActiveRegion *regUp, GLUhalf
         longjmp(tess->env, 1);
 
     /* Prevent cleanup, otherwise eNew might disappear before we've even
-   * had a chance to mark it as a temporary edge.
-   */
+    * had a chance to mark it as a temporary edge.
+    */
     AddRightEdges(tess, regUp, eNew, eNew->Onext, eNew->Onext, FALSE);
     eNew->Sym->activeRegion->fixUpperEdge = TRUE;
     WalkDirtyRegions(tess, regUp);
@@ -1008,8 +1011,8 @@ static void ConnectLeftDegenerate(GLUtesselator *tess, ActiveRegion *regUp, GLUv
     if (VertEq(e->Org, vEvent))
     {
         /* e->Org is an unprocessed vertex - just combine them, and wait
-     * for e->Org to be pulled from the queue
-     */
+        * for e->Org to be pulled from the queue
+        */
         assert(TOLERANCE_NONZERO);
         SpliceMergeVertices(tess, e, vEvent->anEdge);
         return;
@@ -1034,8 +1037,8 @@ static void ConnectLeftDegenerate(GLUtesselator *tess, ActiveRegion *regUp, GLUv
     }
 
     /* vEvent coincides with e->Dst, which has already been processed.
-   * Splice in the additional right-going edges.
-   */
+    * Splice in the additional right-going edges.
+    */
     assert(TOLERANCE_NONZERO);
     regUp     = TopRightRegion(regUp);
     reg       = RegionBelow(regUp);
@@ -1044,8 +1047,8 @@ static void ConnectLeftDegenerate(GLUtesselator *tess, ActiveRegion *regUp, GLUv
     if (reg->fixUpperEdge)
     {
         /* Here e->Dst has only a single fixable edge going right.
-     * We can delete it since now we have some real right-going edges.
-     */
+        * We can delete it since now we have some real right-going edges.
+        */
         assert(eTopLeft != eTopRight); /* there are some left edges too */
         DeleteRegion(tess, reg);
         if (!__gl_meshDelete(eTopRight))
@@ -1101,8 +1104,8 @@ static void ConnectLeftVertex(GLUtesselator *tess, GLUvertex *vEvent)
     }
 
     /* Connect vEvent to rightmost processed vertex of either chain.
-   * e->Dst is the vertex that we will connect to vEvent.
-   */
+    * e->Dst is the vertex that we will connect to vEvent.
+    */
     reg = VertLeq(eLo->Dst, eUp->Dst) ? regUp : regLo;
 
     if (regUp->inside || reg->fixUpperEdge)
@@ -1135,8 +1138,8 @@ static void ConnectLeftVertex(GLUtesselator *tess, GLUvertex *vEvent)
     else
     {
         /* The new vertex is in a region which does not belong to the polygon.
-     * We don''t need to connect this vertex to the rest of the mesh.
-     */
+        * We don''t need to connect this vertex to the rest of the mesh.
+        */
         AddRightEdges(tess, regUp, vEvent->anEdge, vEvent->anEdge, NULL, TRUE);
     }
 }
@@ -1154,9 +1157,9 @@ static void SweepEvent(GLUtesselator *tess, GLUvertex *vEvent)
     DebugEvent(tess);
 
     /* Check if this vertex is the right endpoint of an edge that is
-   * already in the dictionary.  In this case we don't need to waste
-   * time searching for the location to insert new edges.
-   */
+    * already in the dictionary.  In this case we don't need to waste
+    * time searching for the location to insert new edges.
+    */
     e = vEvent->anEdge;
     while (e->activeRegion == NULL)
     {
@@ -1170,12 +1173,12 @@ static void SweepEvent(GLUtesselator *tess, GLUvertex *vEvent)
     }
 
     /* Processing consists of two phases: first we "finish" all the
-   * active regions where both the upper and lower edges terminate
-   * at vEvent (ie. vEvent is closing off these regions).
-   * We mark these faces "inside" or "outside" the polygon according
-   * to their winding number, and delete the edges from the dictionary.
-   * This takes care of all the left-going edges from vEvent.
-   */
+    * active regions where both the upper and lower edges terminate
+    * at vEvent (ie. vEvent is closing off these regions).
+    * We mark these faces "inside" or "outside" the polygon according
+    * to their winding number, and delete the edges from the dictionary.
+    * This takes care of all the left-going edges from vEvent.
+    */
     regUp = TopLeftRegion(e->activeRegion);
     if (regUp == NULL)
         longjmp(tess->env, 1);
@@ -1184,10 +1187,10 @@ static void SweepEvent(GLUtesselator *tess, GLUvertex *vEvent)
     eBottomLeft = FinishLeftRegions(tess, reg, NULL);
 
     /* Next we process all the right-going edges from vEvent.  This
-   * involves adding the edges to the dictionary, and creating the
-   * associated "active regions" which record information about the
-   * regions between adjacent dictionary edges.
-   */
+    * involves adding the edges to the dictionary, and creating the
+    * associated "active regions" which record information about the
+    * regions between adjacent dictionary edges.
+    */
     if (eBottomLeft->Onext == eTopLeft)
     {
         /* No right-going edges -- add a temporary "fixable" edge */
@@ -1264,10 +1267,10 @@ static void DoneEdgeDict(GLUtesselator *tess)
     while ((reg = (ActiveRegion *)dictKey(dictMin(tess->dict))) != NULL)
     {
         /*
-     * At the end of all processing, the dictionary should contain
-     * only the two sentinel edges, plus at most one "fixable" edge
-     * created by ConnectRightVertex().
-     */
+        * At the end of all processing, the dictionary should contain
+        * only the two sentinel edges, plus at most one "fixable" edge
+        * created by ConnectRightVertex().
+        */
         if (!reg->sentinel)
         {
             assert(reg->fixUpperEdge);
@@ -1349,7 +1352,8 @@ static int InitPriorityQ(GLUtesselator *tess)
             break;
     }
     if (v != vHead || !pqInit(pq))
-    {                                /* __gl_pqSortInit */
+    {
+        /* __gl_pqSortInit */
         pqDeletePriorityQ(tess->pq); /* __gl_pqSortDeletePriorityQ */
         tess->pq = NULL;
         return 0;
@@ -1414,11 +1418,11 @@ int __gl_computeInterior(GLUtesselator *tess)
     tess->fatalError = FALSE;
 
     /* Each vertex defines an event for our sweep line.  Start by inserting
-   * all the vertices in a priority queue.  Events are processed in
-   * lexicographic order, ie.
-   *
-   *	e1 < e2  iff  e1.x < e2.x || (e1.x == e2.x && e1.y < e2.y)
-   */
+    * all the vertices in a priority queue.  Events are processed in
+    * lexicographic order, ie.
+    *
+    *	e1 < e2  iff  e1.x < e2.x || (e1.x == e2.x && e1.y < e2.y)
+    */
     RemoveDegenerateEdges(tess);
     if (!InitPriorityQ(tess))
         return 0; /* if error */
@@ -1434,19 +1438,19 @@ int __gl_computeInterior(GLUtesselator *tess)
                 break;
 
             /* Merge together all vertices at exactly the same location.
-       * This is more efficient than processing them one at a time,
-       * simplifies the code (see ConnectLeftDegenerate), and is also
-       * important for correct handling of certain degenerate cases.
-       * For example, suppose there are two identical edges A and B
-       * that belong to different contours (so without this code they would
-       * be processed by separate sweep events).  Suppose another edge C
-       * crosses A and B from above.  When A is processed, we split it
-       * at its intersection point with C.  However this also splits C,
-       * so when we insert B we may compute a slightly different
-       * intersection point.  This might leave two edges with a small
-       * gap between them.  This kind of error is especially obvious
-       * when using boundary extraction (GLU_TESS_BOUNDARY_ONLY).
-       */
+            * This is more efficient than processing them one at a time,
+            * simplifies the code (see ConnectLeftDegenerate), and is also
+            * important for correct handling of certain degenerate cases.
+            * For example, suppose there are two identical edges A and B
+            * that belong to different contours (so without this code they would
+            * be processed by separate sweep events).  Suppose another edge C
+            * crosses A and B from above.  When A is processed, we split it
+            * at its intersection point with C.  However this also splits C,
+            * so when we insert B we may compute a slightly different
+            * intersection point.  This might leave two edges with a small
+            * gap between them.  This kind of error is especially obvious
+            * when using boundary extraction (GLU_TESS_BOUNDARY_ONLY).
+            */
             vNext = (GLUvertex *)pqExtractMin(tess->pq); /* __gl_pqSortExtractMin*/
             SpliceMergeVertices(tess, v->anEdge, vNext->anEdge);
         }

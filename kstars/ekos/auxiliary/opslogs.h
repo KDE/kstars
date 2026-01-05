@@ -21,25 +21,31 @@ namespace Ekos
  */
 class OpsLogs : public QFrame, public Ui::OpsLogs
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsLogs();
-    uint16_t getINDIDebugInterface() { return m_INDIDebugInterface; }
-    bool isINDISettingsChanged() { return m_SettingsChanged; }
+    public:
+        explicit OpsLogs();
+        uint16_t getINDIDebugInterface()
+        {
+            return m_INDIDebugInterface;
+        }
+        bool isINDISettingsChanged()
+        {
+            return m_SettingsChanged;
+        }
 
 
-  private slots:
-    void refreshInterface();
-    void slotToggleVerbosityOptions();
-    void slotToggleOutputOptions();
-    void slotClearLogs();
+    private slots:
+        void refreshInterface();
+        void slotToggleVerbosityOptions();
+        void slotToggleOutputOptions();
+        void slotClearLogs();
 
-  private:
-    qint64 getDirSize(const QString &dirPath);
+    private:
+        qint64 getDirSize(const QString &dirPath);
 
-    uint16_t m_INDIDebugInterface = { 0 };
-    bool m_SettingsChanged = { false };
+        uint16_t m_INDIDebugInterface = { 0 };
+        bool m_SettingsChanged = { false };
 };
 
 }

@@ -224,12 +224,14 @@ bool extensions::confValid(const QString &filePath)
                             if (KStarsVerTot >= minVerTot)
                             {
                                 valid = true;
-                            } else qCDebug(KSTARS) << QString(".conf file %1 requires a minimum KStars version of %2").arg(filePath, minVersion);
+                            }
+                            else qCDebug(KSTARS) << QString(".conf file %1 requires a minimum KStars version of %2").arg(filePath, minVersion);
                         }
                     }
                 }
             }
-            if (!valid) qCDebug(KSTARS) << QString(".conf file %1 does not contain a valid minimum_kstars_version string").arg(filePath);
+            if (!valid) qCDebug(KSTARS) << QString(".conf file %1 does not contain a valid minimum_kstars_version string").arg(
+                                                filePath);
         }
         else qCDebug(KSTARS) << QString("Can't access .conf file %1").arg(filePath);
     }

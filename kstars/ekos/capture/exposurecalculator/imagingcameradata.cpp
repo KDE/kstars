@@ -92,22 +92,22 @@ QVector<OptimalExposure::CameraGainReadMode> OptimalExposure::ImagingCameraData:
 
 void OptimalExposure::ImagingCameraData::setCameraPixelSize(double newCameraPixelSize)
 {
-	cameraPixelSize = newCameraPixelSize;
+    cameraPixelSize = newCameraPixelSize;
 }
 
 double OptimalExposure::ImagingCameraData::getCameraPixelSize()
 {
-	return cameraPixelSize;
+    return cameraPixelSize;
 }
 
 void OptimalExposure::ImagingCameraData::setCameraQuantumEfficiency(double newCameraQuantumEfficiency)
 {
-	cameraQuantumEfficiency = newCameraQuantumEfficiency;
+    cameraQuantumEfficiency = newCameraQuantumEfficiency;
 }
 
 double OptimalExposure::ImagingCameraData::getCameraQuantumEfficiency()
 {
-	return cameraQuantumEfficiency;
+    return cameraQuantumEfficiency;
 }
 
 

@@ -19,11 +19,11 @@
 
 class KSPaths
 {
-  public:
-    static QString locate(QStandardPaths::StandardLocation location, const QString &fileName,
-                          QStandardPaths::LocateOptions options = QStandardPaths::LocateFile);
-    static QStringList locateAll(QStandardPaths::StandardLocation, const QString &fileNames,
-                                 QStandardPaths::LocateOptions options = QStandardPaths::LocateFile);
-    static QString writableLocation(QStandardPaths::StandardLocation type);
+    public:
+        static QString locate(QStandardPaths::StandardLocation location, const QString &fileName,
+                              QStandardPaths::LocateOptions options = QStandardPaths::LocateFile);
+        static QStringList locateAll(QStandardPaths::StandardLocation, const QString &fileNames,
+                                     QStandardPaths::LocateOptions options = QStandardPaths::LocateFile);
+        static QString writableLocation(QStandardPaths::StandardLocation type);
 };
 #endif

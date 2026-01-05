@@ -23,8 +23,8 @@ void SummaryFITSView::createFloatingToolBar()
 
     floatingToolBar->addSeparator();
     toggleProcessInfoAction = floatingToolBar->addAction(QIcon::fromTheme("document-properties"),
-                                                         i18n("Show Capture Process Information"),
-                                                         this, SLOT(toggleShowProcessInfo()));
+                              i18n("Show Capture Process Information"),
+                              this, SLOT(toggleShowProcessInfo()));
     toggleProcessInfoAction->setCheckable(true);
 }
 

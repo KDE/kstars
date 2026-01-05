@@ -52,7 +52,8 @@ typedef enum
     CAPTURE_ACTION_CHECK_GUIDING,       /* Check if guiding is running.                                                                   */
 } CaptureWorkflowActionType;
 
-typedef enum {
+typedef enum
+{
     CAPTURE_PREACTION_NONE       = 1 << 0,
     CAPTURE_PREACTION_WALL       = 1 << 1,
     CAPTURE_PREACTION_PARK_MOUNT = 1 << 2,

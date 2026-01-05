@@ -81,7 +81,7 @@ bool NOMADStarDataWriter::createTable()
  *of years
  */
 void NOMADStarDataWriter::calculatePMCoords(double startRA, double startDec, double dRA, double dDec, double *endRA,
-                                            double *endDec, float years)
+        double *endDec, float years)
 {
     // (Translated from Perl)
     double theta0 = hour2rad(startRA);
@@ -180,9 +180,9 @@ bool NOMADStarDataWriter::insertStarData(unsigned int trixel, const DeepStarData
                 "(\'%d\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%u\')",
                 db_tbl, TrixelList[i], RA, Dec, dRA, dDec, B, V, mag, PM,
                 ((TrixelList[i] == originalTrixelID) ?
-                     ntrixels :
-                     0) // Duplicates get a 'Copies' value of 0. The real star gets the actual value.
-        );
+                 ntrixels :
+                 0) // Duplicates get a 'Copies' value of 0. The real star gets the actual value.
+               );
         if (mysql_query(m_MySQLLink, query))
         {
             cerr << "MySQL INSERT INTO failed! Query was: " << endl << query << endl;
@@ -308,7 +308,7 @@ bool NOMADStarDataWriter::writeStarDataToDB()
                 double separationsqr = (RA1deg - RA2deg) * (RA1deg - RA2deg) +
                                        (Dec1 - Dec2) * (Dec1 - Dec2); // Separation in degrees // ugly.
                 if (separationsqr >
-                    0.69) // 50 arcminutes converted to degrees, squared and rounded below = 0.69. (This has nothing to do with sex positions.)
+                        0.69) // 50 arcminutes converted to degrees, squared and rounded below = 0.69. (This has nothing to do with sex positions.)
                 {
                     m_Mesh->intersect(RA1deg, Dec1, RA2deg, Dec2);
                     MeshIterator trixels(m_Mesh);
@@ -338,9 +338,9 @@ bool NOMADStarDataWriter::writeStarDataToDB()
                             "\'%u\')",
                             db_tbl, TrixelList[i], RA, Dec, dRA, dDec, B, V, mag, PM,
                             ((TrixelList[i] == originalTrixelID) ?
-                                 nt :
-                                 0) // Duplicates get a 'Copies' value of 0. The real star gets the actual value.
-                    );
+                             nt :
+                             0) // Duplicates get a 'Copies' value of 0. The real star gets the actual value.
+                           );
                     if (mysql_query(m_MySQLLink, query))
                     {
                         cerr << "MySQL INSERT INTO failed! Query was: " << endl << query << endl;

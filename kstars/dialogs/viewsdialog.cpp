@@ -231,7 +231,8 @@ NewView::NewView(QWidget *parent, std::optional<SkyMapView> _view) : QDialog(par
     connect(disableErectObserverCheckBox, &QCheckBox::toggled, this, &NewView::updateViewingAnglePreviews);
 
     // Disable erect observer when using equatorial mount
-    connect(mountTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [&](const int index) {
+    connect(mountTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [&](const int index)
+    {
         if (index == 0)
         {
             // Equatorial

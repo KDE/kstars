@@ -326,7 +326,8 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
     // Sleep for StoppingDelay seconds if required.
     if (StoppingDelay > 0)
     {
-        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing pre-driver shutdown delay for" << StoppingDelay << "second(s)";
+        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing pre-driver shutdown delay for" << StoppingDelay <<
+                                                            "second(s)";
         std::this_thread::sleep_for(std::chrono::seconds(StoppingDelay));
     }
 
@@ -355,7 +356,8 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
     if (StoppedDelay > 0)
     {
         emit scriptDriverStarted(driver);
-        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing post-driver shutdown delay for" << StoppedDelay << "second(s)";
+        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing post-driver shutdown delay for" << StoppedDelay <<
+                                                            "second(s)";
         std::this_thread::sleep_for(std::chrono::seconds(StoppedDelay));
     }
 

@@ -26,7 +26,7 @@ TimeZoneRule::TimeZoneRule(const QString &smonth, const QString &sday, const QTi
         RevertMonth = initMonth(rmonth);
 
         if (StartMonth && RevertMonth && initDay(sday, StartDay, StartWeek) && initDay(rday, RevertDay, RevertWeek) &&
-            stime.isValid() && rtime.isValid())
+                stime.isValid() && rtime.isValid())
         {
             StartTime  = stime;
             RevertTime = rtime;
@@ -235,14 +235,14 @@ int TimeZoneRule::findStartDay(const KStarsDateTime &d)
     else if (StartWeek == 5) // count back from end of month until StartDay is found.
     {
         for (test = QDate(d.date().year(), d.date().month(), d.date().daysInMonth()); test.day() > 21;
-             test = test.addDays(-1))
+                test = test.addDays(-1))
             if (test.dayOfWeek() == StartDay)
                 break;
     }
     else // Count forward from day 1, 8 or 15 (depending on StartWeek) until correct day of week is found
     {
         for (test = QDate(d.date().year(), d.date().month(), (StartWeek - 1) * 7 + 1); test.day() < 7 * StartWeek;
-             test = test.addDays(1))
+                test = test.addDays(1))
             if (test.dayOfWeek() == StartDay)
                 break;
     }
@@ -266,14 +266,14 @@ int TimeZoneRule::findRevertDay(const KStarsDateTime &d)
     else if (RevertWeek == 5) //count back from end of month until RevertDay is found.
     {
         for (test = QDate(d.date().year(), d.date().month(), d.date().daysInMonth()); test.day() > 21;
-             test = test.addDays(-1))
+                test = test.addDays(-1))
             if (test.dayOfWeek() == RevertDay)
                 break;
     }
     else //Count forward from day 1, 8 or 15 (depending on RevertWeek) until correct day of week is found
     {
         for (test = QDate(d.date().year(), d.date().month(), (RevertWeek - 1) * 7 + 1); test.day() < 7 * RevertWeek;
-             test = test.addDays(1))
+                test = test.addDays(1))
             if (test.dayOfWeek() == StartDay)
                 break;
     }
@@ -557,8 +557,8 @@ void TimeZoneRule::reset_with_ltime(KStarsDateTime &ltime, const double TZoffset
 bool TimeZoneRule::equals(TimeZoneRule *r)
 {
     if (StartDay == r->StartDay && RevertDay == r->RevertDay && StartWeek == r->StartWeek &&
-        RevertWeek == r->RevertWeek && StartMonth == r->StartMonth && RevertMonth == r->RevertMonth &&
-        StartTime == r->StartTime && RevertTime == r->RevertTime && isEmptyRule() == r->isEmptyRule())
+            RevertWeek == r->RevertWeek && StartMonth == r->StartMonth && RevertMonth == r->RevertMonth &&
+            StartTime == r->StartTime && RevertTime == r->RevertTime && isEmptyRule() == r->isEmptyRule())
         return true;
     else
         return false;

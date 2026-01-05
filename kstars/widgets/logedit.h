@@ -19,15 +19,15 @@
  */
 class LogEdit : public QTextEdit
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit LogEdit(QWidget *parent = nullptr);
-    virtual ~LogEdit() override = default;
+    public:
+        explicit LogEdit(QWidget *parent = nullptr);
+        virtual ~LogEdit() override = default;
 
-  signals:
-    void focusOut();
+    signals:
+        void focusOut();
 
-  protected:
-    void focusOutEvent(QFocusEvent *e) override;
+    protected:
+        void focusOutEvent(QFocusEvent *e) override;
 };

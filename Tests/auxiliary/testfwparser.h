@@ -19,22 +19,22 @@
 
 class TestFWParser : public QObject
 {
-    Q_OBJECT
-  public:
-    TestFWParser();
-    ~TestFWParser() override = default;
-  private slots:
-    void initTestCase();
-    void cleanupTestCase();
-    void MixedInputs();
-    void OnlySpaceRow();
-    void NoRow();
-    void FWReadMissingFile();
+        Q_OBJECT
+    public:
+        TestFWParser();
+        ~TestFWParser() override = default;
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
+        void MixedInputs();
+        void OnlySpaceRow();
+        void NoRow();
+        void FWReadMissingFile();
 
-  private:
-    QStringList test_cases_;
-    QList<int> widths_;
-    QList<QPair<QString, KSParser::DataTypes>> sequence_;
-    QString test_file_name_;
-    KSParser *test_parser_ { nullptr };
+    private:
+        QStringList test_cases_;
+        QList<int> widths_;
+        QList<QPair<QString, KSParser::DataTypes>> sequence_;
+        QString test_file_name_;
+        KSParser *test_parser_ { nullptr };
 };

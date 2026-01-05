@@ -17,25 +17,25 @@
  */
 class ObserverAdd : public QDialog
 {
-    Q_OBJECT
-  public:
-    /** The default constructor */
-    ObserverAdd();
+        Q_OBJECT
+    public:
+        /** The default constructor */
+        ObserverAdd();
 
-    /** @short function to load the list of observers from the file */
-    void loadObservers();
+        /** @short function to load the list of observers from the file */
+        void loadObservers();
 
-  public slots:
-    /**
-     * @short function to add the new observer
-     * to the observerList of the global logObject
-     */
-    void auxSlot();
-    void checkObserverInfo();
-    void slotAddObserver();
-    void slotRemoveObserver();
-    void slotUpdateModel();
+    public slots:
+        /**
+         * @short function to add the new observer
+         * to the observerList of the global logObject
+         */
+        void auxSlot();
+        void checkObserverInfo();
+        void slotAddObserver();
+        void slotRemoveObserver();
+        void slotUpdateModel();
 
-  private:
-    Ui::ObserverAdd ui;
+    private:
+        Ui::ObserverAdd ui;
 };

@@ -310,7 +310,8 @@ int main(int argc, char *argv[])
         usf_trix_count = 0;
         current_trixel++;
         ntrixels++;
-    } while (current_trixel != NTRIXELS);
+    }
+    while (current_trixel != NTRIXELS);
 
     if (ntrixels != NTRIXELS)
     {

@@ -27,7 +27,8 @@ const char *SpatialException::defaultstr[] = { "SDSS Science Archive",
                                                "unimplemented functionality", // currently implemented. If no string
                                                "failed operation",            // is given, this is the standard
                                                "array bounds violation",      // message.
-                                               "interface violation" };
+                                               "interface violation"
+                                             };
 
 #define CONTEXT       0 // indices of exceptions
 #define GENERIC       1

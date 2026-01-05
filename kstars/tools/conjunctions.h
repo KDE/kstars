@@ -34,53 +34,54 @@ class SkyObject;
   */
 class ConjunctionsTool : public QFrame, public Ui::ConjunctionsDlg
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ConjunctionsTool(QWidget *p);
-    virtual ~ConjunctionsTool() override = default;
+    public:
+        explicit ConjunctionsTool(QWidget *p);
+        virtual ~ConjunctionsTool() override = default;
 
-  public slots:
+    public slots:
 
-    void slotLocation();
-    void slotCompute();
-    void showProgress(int);
-    void slotFindObject();
-    void setMode(int);
-    void slotGoto();
-    void slotFilterType(int);
-    void slotClear();
-    void slotExport();
-    void slotFilterReg(const QString &);
+        void slotLocation();
+        void slotCompute();
+        void showProgress(int);
+        void slotFindObject();
+        void setMode(int);
+        void slotGoto();
+        void slotFilterType(int);
+        void slotClear();
+        void slotExport();
+        void slotFilterReg(const QString &);
 
-  private:
-    void showConjunctions(const QMap<long double, dms> &conjunctionlist, const QString &object1,
-                          const QString &object2);
+    private:
+        void showConjunctions(const QMap<long double, dms> &conjunctionlist, const QString &object1,
+                              const QString &object2);
 
-    /**
-     * @brief setUpConjunctionOpposition
-     * @short set up ui for conj./opp.
-     */
-    void setUpConjunctionOpposition();
+        /**
+         * @brief setUpConjunctionOpposition
+         * @short set up ui for conj./opp.
+         */
+        void setUpConjunctionOpposition();
 
-    /**
-     * @brief mode
-     * @short Represents whether the tool looks for conj/opp.
-     */
-    enum MODE {
-        CONJUNCTION,
-        OPPOSITION
-    } mode;
+        /**
+         * @brief mode
+         * @short Represents whether the tool looks for conj/opp.
+         */
+        enum MODE
+        {
+            CONJUNCTION,
+            OPPOSITION
+        } mode;
 
-    SkyObject_s Object1;
-    KSPlanetBase_s Object2; // Second object is always a planet.
-    /// To store the names of Planets vs. values expected by KSPlanetBase::createPlanet()
-    QHash<int, QString> pNames;
+        SkyObject_s Object1;
+        KSPlanetBase_s Object2; // Second object is always a planet.
+        /// To store the names of Planets vs. values expected by KSPlanetBase::createPlanet()
+        QHash<int, QString> pNames;
 
-    /// To store Julian Days corresponding to the row index in the output list widget
-    QMap<int, long double> outputJDList;
-    GeoLocation *geoPlace { nullptr };
-    QStandardItemModel *m_Model { nullptr };
-    QSortFilterProxyModel *m_SortModel { nullptr };
-    int m_index { 0 };
+        /// To store Julian Days corresponding to the row index in the output list widget
+        QMap<int, long double> outputJDList;
+        GeoLocation *geoPlace { nullptr };
+        QStandardItemModel *m_Model { nullptr };
+        QSortFilterProxyModel *m_SortModel { nullptr };
+        int m_index { 0 };
 };

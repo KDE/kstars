@@ -179,9 +179,9 @@ int RotatorUtils::calcTimeFrame(const double CurrentAngle)
         }
         m_DeltaAngle = KSUtils::range360(CurrentAngle + m_ShiftAngle);
         if (!m_CCW)
-                m_DeltaAngle = 360 - m_DeltaAngle;
+            m_DeltaAngle = 360 - m_DeltaAngle;
 
-        m_TimeFrame = fabs(m_DiffAngle) / fabs(m_DeltaAngle/m_DeltaTime);
+        m_TimeFrame = fabs(m_DiffAngle) / fabs(m_DeltaAngle / m_DeltaTime);
     }
     return m_TimeFrame;
 }

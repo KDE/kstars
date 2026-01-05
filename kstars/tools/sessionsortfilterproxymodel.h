@@ -26,11 +26,11 @@ class QModelIndex;
  */
 class SessionSortFilterProxyModel : public QSortFilterProxyModel
 {
-    Q_OBJECT;
+        Q_OBJECT;
 
-  public:
-    explicit SessionSortFilterProxyModel(QObject *parent = nullptr);
+    public:
+        explicit SessionSortFilterProxyModel(QObject *parent = nullptr);
 
-  protected:
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+    protected:
+        bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
 };

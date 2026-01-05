@@ -20,33 +20,33 @@ class PrintingWizard;
  */
 class PWizPrintUI : public QFrame, public Ui::PWizPrint
 {
-    Q_OBJECT
-  public:
-    /** Constructor. */
-    explicit PWizPrintUI(PrintingWizard *wizard, QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        /** Constructor. */
+        explicit PWizPrintUI(PrintingWizard *wizard, QWidget *parent = nullptr);
 
-  private slots:
-    /** Slot: show "Print preview" dialog window for finder chart. */
-    void slotPreview();
+    private slots:
+        /** Slot: show "Print preview" dialog window for finder chart. */
+        void slotPreview();
 
-    /**
-     * @brief Slot: show "Print preview" dialog window for finder chart (on passed QPrinter).
-     * @param printer Printer on which preview should be painted.
-     */
-    void slotPrintPreview(QPrinter *printer);
+        /**
+         * @brief Slot: show "Print preview" dialog window for finder chart (on passed QPrinter).
+         * @param printer Printer on which preview should be painted.
+         */
+        void slotPrintPreview(QPrinter *printer);
 
-    /** Slot: open printing dialog and print document. */
-    void slotPrint();
+        /** Slot: open printing dialog and print document. */
+        void slotPrint();
 
-    /** Slot: open "Save file" dialog to select export file name and format. */
-    void slotExport();
+        /** Slot: open "Save file" dialog to select export file name and format. */
+        void slotExport();
 
-  private:
-    /**
-     * @brief Print document on passed printer.
-     * @param printer Printer.
-     */
-    void printDocument(QPrinter *printer);
+    private:
+        /**
+         * @brief Print document on passed printer.
+         * @param printer Printer.
+         */
+        void printDocument(QPrinter *printer);
 
-    PrintingWizard *m_ParentWizard { nullptr };
+        PrintingWizard *m_ParentWizard { nullptr };
 };

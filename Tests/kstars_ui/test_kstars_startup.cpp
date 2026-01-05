@@ -85,7 +85,7 @@ void TestKStarsStartup::createInstanceTest()
             QVERIFY(k != nullptr);
 
             // Wait for the KStars Wizard to appear, or retrigger the signal
-            if(k->findChild <KSWizard*>() == nullptr)
+            if(k->findChild <KSWizard * >() == nullptr)
             {
                 QTimer::singleShot(500, KStars::Instance(), closeWizard);
                 return;

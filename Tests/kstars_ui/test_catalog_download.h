@@ -12,18 +12,18 @@
 
 class TestCatalogDownload: public QObject
 {
-    Q_OBJECT
-public:
-    explicit TestCatalogDownload(QObject* parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit TestCatalogDownload(QObject* parent = nullptr);
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testCatalogDownloadWhileUpdating();
+        void testCatalogDownloadWhileUpdating();
 };
 
 #endif // TEST_CATALOG_DOWNLOAD_H

@@ -24,7 +24,7 @@ class ManualRotator : public QDialog, public Ui::ManualRotator
 
         void setRotatorDiff(double current, double target, double diff);
 
-private:
+    private:
 
     signals:
         void newLog(const QString &);

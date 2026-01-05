@@ -136,7 +136,7 @@ MemoryInfo FITSMemoryMonitor::getMemoryInfo()
         info.totalSystemRAM = memStatus.ullTotalPhys;
 
     PROCESS_MEMORY_COUNTERS_EX pmc;
-    if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc)))
+    if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS * )&pmc, sizeof(pmc)))
         info.processMemoryUsage = pmc.WorkingSetSize;
 
 #elif defined(Q_OS_MACOS)
@@ -189,7 +189,7 @@ void FITSMemoryMonitor::updateMemoryDisplay()
         QPalette p = memoryBar->palette();
         if (percentage > 70)
             p.setColor(QPalette::Highlight, Qt::red);
-        else if (percentage >50)
+        else if (percentage > 50)
             // No Qt defined Orange or Amber
             p.setColor(QPalette::Highlight, QColor(255, 191, 0));
         else

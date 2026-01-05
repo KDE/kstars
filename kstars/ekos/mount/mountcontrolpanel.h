@@ -13,9 +13,9 @@ namespace Ekos
 {
 class MountControlPanel : public QDialog, public Ui::MountControlPanel
 {
-    Q_OBJECT
+        Q_OBJECT
 
-    Q_PROPERTY(bool isJ2000 MEMBER m_isJ2000)
+        Q_PROPERTY(bool isJ2000 MEMBER m_isJ2000)
 
     public:
         MountControlPanel(QWidget *parent = nullptr);
@@ -55,7 +55,7 @@ class MountControlPanel : public QDialog, public Ui::MountControlPanel
         void leftrightReversed(bool enable);
 
 
-    friend class Mount;
+        friend class Mount;
 
 };
 }

@@ -26,20 +26,20 @@ class KConfigDialog;
  */
 class OpsCatalog : public QFrame, public Ui::OpsCatalog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsCatalog();
-    virtual ~OpsCatalog() override = default;
+    public:
+        explicit OpsCatalog();
+        virtual ~OpsCatalog() override = default;
 
-  private slots:
-    void slotStarWidgets(bool on);
-    void slotDeepSkyWidgets(bool on);
-    void slotApply();
-    void slotCancel();
+    private slots:
+        void slotStarWidgets(bool on);
+        void slotDeepSkyWidgets(bool on);
+        void slotApply();
+        void slotCancel();
 
-  private:
-    KConfigDialog *m_ConfigDialog{ nullptr };
-    float m_StarDensity{ 0 };
-    bool isDirty{ false };
+    private:
+        KConfigDialog *m_ConfigDialog{ nullptr };
+        float m_StarDensity{ 0 };
+        bool isDirty{ false };
 };

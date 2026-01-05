@@ -36,7 +36,8 @@ void Supernova::initPopupMenu(KSPopupMenu *pmenu)
 #endif
 }
 
-QString Supernova::url() {
+QString Supernova::url()
+{
     // usually names are like "SN 2023xyz" or "AT 2023xyz"
     QString basename;
     if (!(name().startsWith("19") || name().startsWith("20")))

@@ -32,19 +32,19 @@ class SkyPoint;
 
 class HEALPix
 {
-public:
-    HEALPix() = default;
+    public:
+        HEALPix() = default;
 
-    void getCornerPoints(int level, int pix, SkyPoint *skyCoords);
-    void neighbours(int nside, qint32 ipix, int *result);
-    int  getPix(int level, double ra, double dec);
-    void getPixChilds(int pix, int *childs);
+        void getCornerPoints(int level, int pix, SkyPoint *skyCoords);
+        void neighbours(int nside, qint32 ipix, int *result);
+        int  getPix(int level, double ra, double dec);
+        void getPixChilds(int pix, int *childs);
 
-private:
-    void nest2xyf(int nside, int pix, int *ix, int *iy, int *face_num);
-    QVector3D toVec3(double fx, double fy, int face);
-    void boundaries(qint32 nside, qint32 pix, int step, QVector3D *out);
-    int ang2pix_nest_z_phi(qint32 nside_, double z, double phi);
-    void xyz2sph(const QVector3D &vec, double &l, double &b);
+    private:
+        void nest2xyf(int nside, int pix, int *ix, int *iy, int *face_num);
+        QVector3D toVec3(double fx, double fy, int face);
+        void boundaries(qint32 nside, qint32 pix, int step, QVector3D *out);
+        int ang2pix_nest_z_phi(qint32 nside_, double z, double phi);
+        void xyz2sph(const QVector3D &vec, double &l, double &b);
 };
 

@@ -31,7 +31,7 @@ Task::~Task()
             action->clearDevicePointer();
         }
     }
-    
+
     // Now safe to delete all actions
     qDeleteAll(m_actions);
     m_actions.clear();
@@ -102,7 +102,7 @@ bool Task::instantiateFromTemplate(TaskTemplate *tmpl,
 void Task::setDevice(const QString &deviceName)
 {
     m_device = deviceName;
-    
+
     // Update device name for all actions
     for (TaskAction *action : m_actions)
     {
@@ -111,7 +111,7 @@ void Task::setDevice(const QString &deviceName)
             action->setDevice(deviceName);
         }
     }
-    
+
     // Update task name to reflect new device
     if (!m_templateId.isEmpty())
     {

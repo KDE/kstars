@@ -179,7 +179,8 @@ int verifyStarData(FILE *f)
             if (byteswap)
                 bswap_stardata(&data);
             if (mag != -500 && ((data.mag - mag) > 20 && mag < 1250) || data.mag < mag)
-            { // TODO: Make sensible magnitude limit (1250) user specifiable
+            {
+                // TODO: Make sensible magnitude limit (1250) user specifiable
                 // TODO: Enable byteswapping
                 fprintf(stderr, "\n\tEncountered jump of %f at star #%d in trixel %d from %f to %f.",
                         (data.mag - mag) / 100.0, i, trixel, mag / 100.0, data.mag / 100.0);
@@ -385,7 +386,7 @@ int main(int argc, char *argv[])
           names = fopen(argv[3], "rb");
           else
           names = NULL;
-        
+
           fprintf(stderr, "Names = %s\n", ((names)?"Yes":"No"));
         */
         rewind(f);

@@ -534,8 +534,8 @@ void FITSData::newStackSubs(QDateTime timestamp, const QVector<LiveStackFile> &n
         LiveStackFile lsf = newFiles[i];
         getChannelInfoforSub(lsf.file, lsf.baseChannel, lsf.channels);
         qCDebug(KSTARS_FITS) << QString("Live Stacker: Newfile %1 ID=%2 Base Channel=%3 Dependent Channels: %4")
-                                .arg(lsf.file).arg(lsf.ID).arg(LiveStackChannelNames.value(lsf.baseChannel))
-                                .arg(vectorChannelToString(lsf.channels));
+                             .arg(lsf.file).arg(lsf.ID).arg(LiveStackChannelNames.value(lsf.baseChannel))
+                             .arg(vectorChannelToString(lsf.channels));
         m_StackQ.enqueue(lsf);
         lsfs.push_back(lsf);
     }
@@ -609,16 +609,26 @@ bool FITSData::prepareStackBuffer()
     try
     {
         // What kind of stack is this?
-        bool hasSingle = std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir &scd)
-                                { return scd.channel == LiveStackChannel::SINGLE; });
-        bool hasRGB = std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir &scd)
-                                { return scd.channel == LiveStackChannel::RED; }) &&
-                      std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir &scd)
-                                        { return scd.channel == LiveStackChannel::GREEN; }) &&
-                      std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir &scd)
-                                        { return scd.channel == LiveStackChannel::BLUE; });
-        bool hasLum = std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir &scd)
-                                { return scd.channel == LiveStackChannel::LUM; });
+        bool hasSingle = std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir & scd)
+        {
+            return scd.channel == LiveStackChannel::SINGLE;
+        });
+        bool hasRGB = std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir & scd)
+        {
+            return scd.channel == LiveStackChannel::RED;
+        }) &&
+        std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir & scd)
+        {
+            return scd.channel == LiveStackChannel::GREEN;
+        }) &&
+        std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir & scd)
+        {
+            return scd.channel == LiveStackChannel::BLUE;
+        });
+        bool hasLum = std::any_of(m_StackChannelDirs.begin(), m_StackChannelDirs.end(), [](const StackChannelDir & scd)
+        {
+            return scd.channel == LiveStackChannel::LUM;
+        });
 
         cv::Mat finalImage;
 
@@ -745,7 +755,7 @@ void FITSData::linearFit(cv::Mat &r, cv::Mat &g, cv::Mat &b)
         cv::Mat refF = ref->reshape(1, 1);
 
         // Linear regression scale lambda
-        auto applyLF_LS = [&](cv::Mat &src)
+        auto applyLF_LS = [&](cv::Mat & src)
         {
             if (&src == ref)
                 return;
@@ -776,16 +786,16 @@ void FITSData::linearFit(cv::Mat &r, cv::Mat &g, cv::Mat &b)
         cv::meanStdDev(b, meanB2, stdB2);
 
         qCDebug(KSTARS_FITS) << QString("LinearFit reference channel: %1")
-                                .arg(refIndex == 0 ? "R" : (refIndex == 1 ? "G" : "B"));
+                             .arg(refIndex == 0 ? "R" : (refIndex == 1 ? "G" : "B"));
 
         qCDebug(KSTARS_FITS) << QString("LinearFit: Red mean (std) %1 (%2) -> %3 (%4)")
-                                .arg(meanR[0]).arg(stdR[0]).arg(meanR2[0]).arg(stdR2[0]);
+                             .arg(meanR[0]).arg(stdR[0]).arg(meanR2[0]).arg(stdR2[0]);
 
         qCDebug(KSTARS_FITS) << QString("LinearFit: Green mean (std) %1 (%2) -> %3 (%4)")
-                                .arg(meanG[0]).arg(stdG[0]).arg(meanG2[0]).arg(stdG2[0]);
+                             .arg(meanG[0]).arg(stdG[0]).arg(meanG2[0]).arg(stdG2[0]);
 
         qCDebug(KSTARS_FITS) << QString("LinearFit: Blue mean (std) %1 (%2) -> %3 (%4)")
-                                .arg(meanB[0]).arg(stdB[0]).arg(meanB2[0]).arg(stdB2[0]);
+                             .arg(meanB[0]).arg(stdB[0]).arg(meanB2[0]).arg(stdB2[0]);
     }
     catch (const cv::Exception &ex)
     {
@@ -1045,8 +1055,8 @@ bool FITSData::processNextSub(LiveStackFile &sub)
 
             if (ok)
                 ok = m_CurrentStack->addSub((void *) m_StackImageBuffer, m_StackStatistics.cvType,
-                                     m_StackStatistics.stats.width, m_StackStatistics.stats.height,
-                                     m_StackStatistics.stats.bytesPerPixel, snr);
+                                            m_StackStatistics.stats.width, m_StackStatistics.stats.height,
+                                            m_StackStatistics.stats.bytesPerPixel, snr);
         }
 
         // Signal the Loaded stage complete to Stack Monitor
@@ -1054,7 +1064,7 @@ bool FITSData::processNextSub(LiveStackFile &sub)
         extraData.insert("morc", m_StackStatistics.stats.channels);
         extraData.insert("snr", snr);
         QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::Loaded,
-                                                    (ok) ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData) };
+                                            (ok) ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData) };
         QVector<LiveStackFile> subs { sub };
         emit updateStackMon(subs, infos);
         return ok;
@@ -1267,7 +1277,7 @@ void FITSData::solverDone(const bool timedOut, const bool success, const double 
         qCDebug(KSTARS_FITS) << QString("Plate solve complete%1").arg(alignMasterStr);
     else
         qCDebug(KSTARS_FITS) << QString("Plate solve failed %1 Success: %2 TimedOut: %3").arg(alignMasterStr)
-                                        .arg(success).arg(timedOut);
+                             .arg(success).arg(timedOut);
 
     if (!ok && alignMaster)
     {
@@ -1304,7 +1314,7 @@ void FITSData::solverDone(const bool timedOut, const bool success, const double 
         }
 
         // Create a shared pointer with deleter
-        m_StackAlignMasterWCS = QSharedPointer<wcsprm>(wcsStackAlign, [](wcsprm *ptr)
+        m_StackAlignMasterWCS = QSharedPointer<wcsprm>(wcsStackAlign, [](wcsprm * ptr)
         {
             if (ptr)
             {
@@ -2032,7 +2042,7 @@ bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
     if (m_StackMultiC && m_StackStatistics.stats.channels != 1)
     {
         qCDebug(KSTARS_FITS) << QString("Image %1 has channels=%2. Inconsistent with multi-channel stack - ignoring...")
-                                .arg(filename).arg(naxes[2]);
+                             .arg(filename).arg(naxes[2]);
         return false;
     }
     return true;
@@ -2270,7 +2280,7 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer)
     QImage imageFromFile;
     if (!buffer.isEmpty())
     {
-        if(!imageFromFile.loadFromData(reinterpret_cast<const uint8_t*>(buffer.data()), buffer.size()))
+        if(!imageFromFile.loadFromData(reinterpret_cast<const uint8_t * >(buffer.data()), buffer.size()))
         {
             qCCritical(KSTARS_FITS) << "Failed to open image.";
             return false;
@@ -3975,7 +3985,7 @@ double FITSData::getHFR(HFRType type)
             {
                 HFRs.push_back(center->HFR);
                 qCDebug(KSTARS_FITS) << "HFR Adj, sky background " << m_SkyBackground.mean << " star peak " << center->val <<
-                                     " not adjusting";
+                                        " not adjusting";
             }
             else
             {
@@ -4273,7 +4283,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     {
                         // Run threads
                         futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max,
-                                                              coeff, n](T & a)
+                                                         coeff, n](T & a)
                         {
                             a = qBound(min[n], static_cast<T>(round(coeff[n] * std::log(1 + qBound(min[n], a, max[n])))), max[n]);
                         }));
@@ -4287,7 +4297,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     {
                         // Run threads
                         futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max,
-                                                              coeff, n](T & a)
+                                                         coeff, n](T & a)
                         {
                             a = qBound(min[n], static_cast<T>(round(coeff[n] * a)), max[n]);
                         }));
@@ -4301,7 +4311,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, QVector<double
                     {
                         // Run threads
                         futures.append(QtConcurrent::map(runningBuffer, (runningBuffer + ((i == (nThreads - 1)) ? fStride : tStride)), [min, max,
-                                                              n](T & a)
+                                                         n](T & a)
                         {
                             a = qBound(min[n], a, max[n]);
                         }));
@@ -6988,7 +6998,7 @@ template <typename T> void FITSData::constructHistogramInternal()
     if (m_CumulativeFrequency[RED_CHANNEL][m_HistogramBinCount / 4] > 0)
         m_JMIndex = m_CumulativeFrequency[RED_CHANNEL][m_HistogramBinCount / 8] / static_cast<double>
                     (m_CumulativeFrequency[RED_CHANNEL][m_HistogramBinCount /
-                            4]);
+                        4]);
     else
         m_JMIndex = 1;
 

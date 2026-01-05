@@ -24,7 +24,7 @@ void MinimizeWidget::setupUI(bool initiallyMinimized, void(*setOption)(bool))
 
     QWidget *minimizedWidget = nullptr;
     QWidget *maximizedWidget = nullptr;
-    for (QWidget* child : childrenWidgets)
+    for (QWidget * child : childrenWidgets)
     {
         if (maximizedWidget == nullptr)
             maximizedWidget = child;

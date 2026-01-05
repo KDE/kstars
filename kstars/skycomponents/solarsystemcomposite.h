@@ -29,49 +29,61 @@ class KSEarthShadow;
 
 class SolarSystemComposite : public SkyComposite
 {
-  public:
-    explicit SolarSystemComposite(SkyComposite *parent);
-    ~SolarSystemComposite() override;
+    public:
+        explicit SolarSystemComposite(SkyComposite *parent);
+        ~SolarSystemComposite() override;
 
-    // Use this instead of `findByName`
-    KSPlanet *earth() { return m_Earth; }
-    KSSun *sun() { return m_Sun; }
-    KSMoon *moon() { return m_Moon; }
-    KSEarthShadow *earthShadow() { return m_EarthShadow; }
+        // Use this instead of `findByName`
+        KSPlanet *earth()
+        {
+            return m_Earth;
+        }
+        KSSun *sun()
+        {
+            return m_Sun;
+        }
+        KSMoon *moon()
+        {
+            return m_Moon;
+        }
+        KSEarthShadow *earthShadow()
+        {
+            return m_EarthShadow;
+        }
 
-    const QList<SkyObject *> &asteroids() const;
-    const QList<SkyObject *> &comets() const;
-    const QList<SkyObject *> &planetObjects() const;
-    const QList<SkyObject *> &moons() const;
+        const QList<SkyObject *> &asteroids() const;
+        const QList<SkyObject *> &comets() const;
+        const QList<SkyObject *> &planetObjects() const;
+        const QList<SkyObject *> &moons() const;
 
-    bool selected() override;
+        bool selected() override;
 
-    void update(KSNumbers *num) override;
+        void update(KSNumbers *num) override;
 
-    void updateSolarSystemBodies(KSNumbers *num) override;
+        void updateSolarSystemBodies(KSNumbers *num) override;
 
-    void updateMoons(KSNumbers *num) override;
+        void updateMoons(KSNumbers *num) override;
 
-    void drawTrails(SkyPainter *skyp) override;
+        void drawTrails(SkyPainter *skyp) override;
 
-    CometsComponent *cometsComponent();
+        CometsComponent *cometsComponent();
 
-    AsteroidsComponent *asteroidsComponent();
+        AsteroidsComponent *asteroidsComponent();
 
-    QList<PlanetMoonsComponent *> planetMoonsComponent() const;
+        QList<PlanetMoonsComponent *> planetMoonsComponent() const;
 
-    const QList<SolarSystemSingleComponent *> &planets() const;
+        const QList<SolarSystemSingleComponent *> &planets() const;
 
-  private:
-    KSPlanet *m_Earth { nullptr };
-    KSSun *m_Sun { nullptr };
-    KSMoon *m_Moon { nullptr };
-    KSEarthShadow *m_EarthShadow { nullptr };
+    private:
+        KSPlanet *m_Earth { nullptr };
+        KSSun *m_Sun { nullptr };
+        KSMoon *m_Moon { nullptr };
+        KSEarthShadow *m_EarthShadow { nullptr };
 
-    //    PlanetMoonsComponent *m_JupiterMoons;
-    AsteroidsComponent *m_AsteroidsComponent;
-    CometsComponent *m_CometsComponent;
-    QList<SolarSystemSingleComponent *> m_planets;
-    QList<SkyObject *> m_planetObjects;
-    QList<SkyObject *> m_moons;
+        //    PlanetMoonsComponent *m_JupiterMoons;
+        AsteroidsComponent *m_AsteroidsComponent;
+        CometsComponent *m_CometsComponent;
+        QList<SolarSystemSingleComponent *> m_planets;
+        QList<SkyObject *> m_planetObjects;
+        QList<SkyObject *> m_moons;
 };

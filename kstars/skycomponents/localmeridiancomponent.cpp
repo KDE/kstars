@@ -26,7 +26,7 @@ LocalMeridianComponent::LocalMeridianComponent(SkyComposite *parent)
     double eps    = 0.1;
     double maxAlt = 90.0;
 
-    std::shared_ptr<LineList> lineList;    
+    std::shared_ptr<LineList> lineList;
 
     for (double az = 0; az <= 180; az += 180)
     {
@@ -34,10 +34,10 @@ LocalMeridianComponent::LocalMeridianComponent(SkyComposite *parent)
 
         for (double alt = 0; alt < maxAlt; alt += eps)
         {
-                std::shared_ptr<SkyPoint> p(new SkyPoint());
-                p->setAz(az);
-                p->setAlt(alt);
-                lineList->append(std::move(p));
+            std::shared_ptr<SkyPoint> p(new SkyPoint());
+            p->setAz(az);
+            p->setAlt(alt);
+            lineList->append(std::move(p));
         }
 
         appendLine(lineList);
@@ -51,10 +51,10 @@ LocalMeridianComponent::LocalMeridianComponent(SkyComposite *parent)
 bool LocalMeridianComponent::selected()
 {
     return (Options::showLocalMeridian() && !(Options::hideOnSlew() &&
-    #ifndef KSTARS_LITE
-    SkyMap::IsSlewing()));
-    #else
-    SkyMapLite::IsSlewing()));
+#ifndef KSTARS_LITE
+            SkyMap::IsSlewing()));
+#else
+            SkyMapLite::IsSlewing()));
 #endif
 }
 

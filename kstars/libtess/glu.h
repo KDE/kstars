@@ -252,19 +252,19 @@ GLAPI void GLAPIENTRY gluBeginPolygon(GLUtesselator *tess);
 GLAPI void GLAPIENTRY gluBeginSurface(GLUnurbs *nurb);
 GLAPI void GLAPIENTRY gluBeginTrim(GLUnurbs *nurb);
 GLAPI GLint GLAPIENTRY gluBuild1DMipmapLevels(GLenum target, GLint internalFormat, GLsizei width, GLenum format,
-                                              GLenum type, GLint level, GLint base, GLint max, const void *data);
+        GLenum type, GLint level, GLint base, GLint max, const void *data);
 GLAPI GLint GLAPIENTRY gluBuild1DMipmaps(GLenum target, GLint internalFormat, GLsizei width, GLenum format, GLenum type,
-                                         const void *data);
+        const void *data);
 GLAPI GLint GLAPIENTRY gluBuild2DMipmapLevels(GLenum target, GLint internalFormat, GLsizei width, GLsizei height,
-                                              GLenum format, GLenum type, GLint level, GLint base, GLint max,
-                                              const void *data);
+        GLenum format, GLenum type, GLint level, GLint base, GLint max,
+        const void *data);
 GLAPI GLint GLAPIENTRY gluBuild2DMipmaps(GLenum target, GLint internalFormat, GLsizei width, GLsizei height,
-                                         GLenum format, GLenum type, const void *data);
+        GLenum format, GLenum type, const void *data);
 GLAPI GLint GLAPIENTRY gluBuild3DMipmapLevels(GLenum target, GLint internalFormat, GLsizei width, GLsizei height,
-                                              GLsizei depth, GLenum format, GLenum type, GLint level, GLint base,
-                                              GLint max, const void *data);
+        GLsizei depth, GLenum format, GLenum type, GLint level, GLint base,
+        GLint max, const void *data);
 GLAPI GLint GLAPIENTRY gluBuild3DMipmaps(GLenum target, GLint internalFormat, GLsizei width, GLsizei height,
-                                         GLsizei depth, GLenum format, GLenum type, const void *data);
+        GLsizei depth, GLenum format, GLenum type, const void *data);
 GLAPI GLboolean GLAPIENTRY gluCheckExtension(const GLubyte *extName, const GLubyte *extString);
 GLAPI void GLAPIENTRY gluCylinder(GLUquadric *quad, GLdouble base, GLdouble top, GLdouble height, GLint slices,
                                   GLint stacks);
@@ -281,7 +281,7 @@ GLAPI void GLAPIENTRY gluGetNurbsProperty(GLUnurbs *nurb, GLenum property, GLflo
 GLAPI const GLubyte *GLAPIENTRY gluGetString(GLenum name);
 GLAPI void GLAPIENTRY gluGetTessProperty(GLUtesselator *tess, GLenum which, GLdouble *data);
 GLAPI void GLAPIENTRY gluLoadSamplingMatrices(GLUnurbs *nurb, const GLfloat *model, const GLfloat *perspective,
-                                              const GLint *view);
+        const GLint *view);
 GLAPI void GLAPIENTRY gluLookAt(GLdouble eyeX, GLdouble eyeY, GLdouble eyeZ, GLdouble centerX, GLdouble centerY,
                                 GLdouble centerZ, GLdouble upX, GLdouble upY, GLdouble upZ);
 GLAPI GLUnurbs *GLAPIENTRY gluNewNurbsRenderer(void);

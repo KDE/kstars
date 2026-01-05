@@ -39,7 +39,8 @@ KSAsteroid *KSAsteroid::clone() const
 bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *Earth)
 {
     // TODO: (Valentin) TOP LEVEL CONTROL OF CALCULATION FOR ALL OBJECTS
-    if(!toCalculate()){
+    if(!toCalculate())
+    {
         return false;
     }
 
@@ -67,7 +68,8 @@ bool KSAsteroid::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase
             iter++;
             E = E0 -
                 (E0 - e * 180.0 / dms::PI * sin(E0 * dms::DegToRad) - m.Degrees()) / (1 - e * cos(E0 * dms::DegToRad));
-        } while (fabs(E - E0) > 0.001 && iter < 1000);
+        }
+        while (fabs(E - E0) > 0.001 && iter < 1000);
     }
 
     // Assert that the solution of the Kepler equation E = M + e sin E is accurate to about 0.1 arcsecond
@@ -205,13 +207,13 @@ void KSAsteroid::setPeriod(float per)
 bool KSAsteroid::toCalculate()
 {
     // Filter by magnitude, but draw focused asteroids anyway :)
-    return ((mag() < Options::magLimitAsteroid())|| (std::isnan(mag()) != 0) ||
+    return ((mag() < Options::magLimitAsteroid()) || (std::isnan(mag()) != 0) ||
 #ifdef KSTARS_LITE
             SkyMapLite::Instance()->focusObject() == this
 #else
             SkyMap::Instance()->focusObject() == this
 #endif
-            );
+           );
 }
 
 QDataStream &operator<<(QDataStream &out, const KSAsteroid &asteroid)
@@ -242,7 +244,7 @@ QDataStream &operator>>(QDataStream &in, KSAsteroid *&asteroid)
     in >> orbit_id;
 
     in >> catN >> JD >> a >> e >> i >> w >> N >> M >> H >> G >> q >> neo >> diameter
-            >> albedo >> rot_period >> period >> earth_moid;
+       >> albedo >> rot_period >> period >> earth_moid;
 
     asteroid = new KSAsteroid(catN, name, QString(), JD, a, e, i, w, N, M, H, G);
     asteroid->setPerihelion(q);

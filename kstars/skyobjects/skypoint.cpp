@@ -322,7 +322,8 @@ void SkyPoint::nutate(const KSNumbers *num, const bool reverse)
         // code lifted from libnova ln_get_equ_nut, tailored to our needs
         // with the option to add or remove nutation
         struct ln_nutation nut;
-        ln_get_nutation (num->julianDay(), &nut); // FIXME: Is this cached, or is it a slow call? If it is slow, we should move it to KSNumbers
+        ln_get_nutation (num->julianDay(),
+                         &nut); // FIXME: Is this cached, or is it a slow call? If it is slow, we should move it to KSNumbers
 
         double nut_ecliptic = ln_deg_to_rad(nut.ecliptic + nut.obliquity);
         sinOb = sin(nut_ecliptic);

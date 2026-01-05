@@ -15,25 +15,25 @@
  */
 class TestCachingDms : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    /** @short Constructor */
-    TestCachingDms();
+    public:
+        /** @short Constructor */
+        TestCachingDms();
 
-    /** @short Destructor */
-    ~TestCachingDms() override = default;
+        /** @short Destructor */
+        ~TestCachingDms() override = default;
 
-  private slots:
-    void defaultCtor();
-    void explicitSexigesimalCtor();
-    void angleCtor();
-    void stringCtor();
-    void setUsing_atan2();
-    void setUsing_asin();
-    void setUsing_acos();
-    void additionOperator();
-    void subtractionOperator();
-    void unaryMinusOperator();
-    void testFailsafeUseOfBaseClassPtr();
+    private slots:
+        void defaultCtor();
+        void explicitSexigesimalCtor();
+        void angleCtor();
+        void stringCtor();
+        void setUsing_atan2();
+        void setUsing_asin();
+        void setUsing_acos();
+        void additionOperator();
+        void subtractionOperator();
+        void unaryMinusOperator();
+        void testFailsafeUseOfBaseClassPtr();
 };

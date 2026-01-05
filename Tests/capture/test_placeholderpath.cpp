@@ -474,7 +474,7 @@ void TestPlaceholderPath::testFlexibleNaming_data()
         QTest::addColumn<QString>(column);
     }
     QTest::addRow("f")  << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" <<
-                        "1" << "" << "" << "/%f" << "1"  << "^/100x30s_RGB_0\\.fits$";
+                  "1" << "" << "" << "/%f" << "1"  << "^/100x30s_RGB_0\\.fits$";
     // %p & %d tags disabled for simplicity
     //    QTest::addRow("p")  << "" << "" << "" << "" << "" << "" << "" << "" << "/home/user/Images/NGC7635/100x30s_RGB.esq" << "" <<
     //                        "1" << "" << "%p"  << "^/home/user/Images/NGC7635\\.fits$";
@@ -517,12 +517,12 @@ void TestPlaceholderPath::testFlexibleNaming_data()
                         << "" << "" << "4" << "^/tmp/kstars/_0001\\.fits$";
 
     QTest::addRow("_s") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "1" << "" << "" << "1" <<
-                        "^/tmp/kstars/_1\\.fits$";
+                  "^/tmp/kstars/_1\\.fits$";
     QTest::addRow("unknown1") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "%b" << "" <<
-                              "^/tmp/kstars/%b_0\\.fits$";
+                  "^/tmp/kstars/%b_0\\.fits$";
     QTest::addRow("unknown2") << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "" << "%f_%a_%t" << ""
                               <<
-                              "^/tmp/kstars/%a_0\\.fits$";
+    "^/tmp/kstars/%a_0\\.fits$";
 
     parseCSV("testFlexibleNaming_data_small.csv", columns);
 
@@ -598,7 +598,7 @@ void TestPlaceholderPath::testFlexibleNamingGlob_data()
         QTest::addColumn<QString>(column);
     }
     QTest::addRow("D")  << "1" << "" << "" << "%D" << "1" <<
-                        "/tmp/kstars/\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d-\\d\\d-\\d\\d_(?<id>\\d+).fits";
+                  "/tmp/kstars/\\d\\d\\d\\d-\\d\\d-\\d\\dT\\d\\d-\\d\\d-\\d\\d_(?<id>\\d+).fits";
     QTest::addRow("s1") << "0"  << "1" << "" << "" << "1" << "/tmp/kstars/_(?<id>\\d+).fits";
     QTest::addRow("s2") << "0"  << "1" << "" << "" << "2" << "/tmp/kstars/_(?<id>\\d+).fits";
     QTest::addRow("s3") << "0"  << "1" << "" << "" << "3" << "/tmp/kstars/_(?<id>\\d+).fits";
@@ -702,11 +702,11 @@ void TestPlaceholderPath::testGetCompletedFileIds_data()
     //    QTest::addRow("f3") << "0.001" << "H_Alpha" << "Light" << "prefix" << "" << "1" << "1" << "0" <<
     //                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "%p1/%t/%T/%F/%t_%T_%F_%e << "3"";
     QTest::addRow("f1") << "0.001" << "H_Alpha" << "Light" << "prefix" << "" << "1" << "1" << "1" <<
-                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%t_%T_%F_%e_%D" << "3";
+                  "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%t_%T_%F_%e_%D" << "3";
     QTest::addRow("f2") << "0.001" << "H_Alpha" << "Light" << "prefix" << "" << "1" << "1" << "1" <<
-                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%D_%t_%T_%F_%e" << "3";
+                  "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%D_%t_%T_%F_%e" << "3";
     QTest::addRow("f3") << "0.001" << "H_Alpha" << "Light" << "prefix" << "" << "1" << "1" << "1" <<
-                        "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%t_%T_%e_%F" << "3";
+                  "/tmp/kstars/NGC7635/100x30s_RGB.esq" << "M42" << "/tmp/kstars/%t/%T/%F/%t_%T_%e_%F" << "3";
 #endif
 }
 

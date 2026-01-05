@@ -34,11 +34,11 @@ bool SatelliteSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModel
                 return true;
         return false;
     }
-    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     return sourceModel()->data(index).toString().contains(filterRegularExpression());
-    #else
+#else
     return sourceModel()->data(index).toString().contains(filterRegExp());
-    #endif
+#endif
 
 }
 
@@ -68,13 +68,19 @@ OpsSatellites::OpsSatellites() : QFrame(KStars::Instance())
     connect(FilterEdit, SIGNAL(textChanged(QString)), this, SLOT(slotFilterReg(QString)));
     connect(m_Model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(slotItemChanged(QStandardItem*)));
 
-    #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(satelliteButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this,
-            [&]() { isDirty = true; });
-    #else
+            [&]()
+    {
+        isDirty = true;
+    });
+#else
     connect(satelliteButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::idPressed), this,
-            [&]() { isDirty = true; });
-    #endif
+            [&]()
+    {
+        isDirty = true;
+    });
+#endif
 
     isDirty = false;
 }

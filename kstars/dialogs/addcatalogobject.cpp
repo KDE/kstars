@@ -19,32 +19,44 @@ AddCatalogObject::AddCatalogObject(QWidget *parent, const CatalogObject &obj)
     fill_form_from_object();
 
     connect(ui->name, &QLineEdit::textChanged,
-            [&](const auto &name) { m_object.setName(name); });
+            [&](const auto & name)
+    {
+        m_object.setName(name);
+    });
 
     connect(ui->long_name, &QLineEdit::textChanged,
-            [&](const auto &name) { m_object.setLongName(name); });
+            [&](const auto & name)
+    {
+        m_object.setLongName(name);
+    });
 
     connect(ui->catalog_identifier, &QLineEdit::textChanged,
-            [&](const auto &ident) { m_object.setCatalogIdentifier(ident); });
+            [&](const auto & ident)
+    {
+        m_object.setCatalogIdentifier(ident);
+    });
 
     connect(ui->type, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            [&](const auto index) {
-                if (index > SkyObject::TYPE_UNKNOWN)
-                    m_object.setType(SkyObject::TYPE_UNKNOWN);
+            [&](const auto index)
+    {
+        if (index > SkyObject::TYPE_UNKNOWN)
+            m_object.setType(SkyObject::TYPE_UNKNOWN);
 
-                m_object.setType(index);
+        m_object.setType(index);
 
-                refresh_flux();
-            });
+        refresh_flux();
+    });
 
-    auto validateAndStoreCoordinates = [&]() {
+    auto validateAndStoreCoordinates = [&]()
+    {
         bool raOk(false), decOk(false);
         auto ra = ui->ra->createDms(&raOk);
         auto dec = ui->dec->createDms(&decOk);
         auto* okButton = ui->buttonBox->button(QDialogButtonBox::Ok);
         Q_ASSERT(!!okButton);
         okButton->setEnabled(raOk && decOk);
-        if (raOk && decOk) {
+        if (raOk && decOk)
+        {
             m_object.setRA0(ra);
             m_object.setDec0(dec);
         }
@@ -62,18 +74,33 @@ AddCatalogObject::AddCatalogObject(QWidget *parent, const CatalogObject &obj)
     connect(ui->magUnknown, &QCheckBox::stateChanged, updateMag);
 
     connect(ui->maj, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-            [&](const auto value) { m_object.setMaj(static_cast<float>(value)); });
+            [&](const auto value)
+    {
+        m_object.setMaj(static_cast<float>(value));
+    });
 
     connect(ui->min, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-            [&](const auto value) { m_object.setMin(static_cast<float>(value)); });
+            [&](const auto value)
+    {
+        m_object.setMin(static_cast<float>(value));
+    });
 
     connect(ui->flux, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-            [&](const auto value) { m_object.setFlux(static_cast<float>(value)); });
+            [&](const auto value)
+    {
+        m_object.setFlux(static_cast<float>(value));
+    });
 
     connect(ui->position_angle, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
-            [&](const auto value) { m_object.setPA(value); });
+            [&](const auto value)
+    {
+        m_object.setPA(value);
+    });
 
-    connect(ui->guessFromTextButton, &QPushButton::clicked, [this]() { this->guess_form_contents_from_text(); });
+    connect(ui->guessFromTextButton, &QPushButton::clicked, [this]()
+    {
+        this->guess_form_contents_from_text();
+    });
 }
 
 AddCatalogObject::~AddCatalogObject()
@@ -128,11 +155,11 @@ void AddCatalogObject::guess_form_contents_from_text()
 {
     bool accepted = false;
     QString text = QInputDialog::getMultiLineText(
-        this,
-        i18n("Guess object data from text"),
-        i18n("Copy-paste a text blurb with data on the object, and KStars will try to guess the contents of the fields from the text. The result is just a guess, so please verify the coordinates and the other information."),
-        QString(),
-        &accepted);
+                       this,
+                       i18n("Guess object data from text"),
+                       i18n("Copy-paste a text blurb with data on the object, and KStars will try to guess the contents of the fields from the text. The result is just a guess, so please verify the coordinates and the other information."),
+                       QString(),
+                       &accepted);
     if (accepted && !text.isEmpty())
     {
         guess_form_contents_from_text(text);
@@ -208,7 +235,7 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
                  << "Minkowski"
                  << "KUG"
                  << "DDO"
-        ;
+                 ;
     QList<QPair<QString, SkyObject::TYPE>> objectTypes;
     objectTypes.append({"[Op]pen ?[Cc]luster|OCL|\\*Cl|Cl\\*|OpC|Cl\\?|Open Cl\\.", SkyObject::OPEN_CLUSTER});
     objectTypes.append({"Globular ?Cluster|GlC|GCl|Glob\\. Cl\\.|Globular|Gl\\?", SkyObject::GLOBULAR_CLUSTER});
@@ -230,12 +257,12 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
     // FIXME: This code will clean up by a lot if std::optional<> can be used
     QString coordText;
     bool coordsFound = false,
-        magFound = false,
-        sizeFound = false,
-        nameFound = false,
-        positionAngleFound = false,
-        catalogDetermined = false,
-        typeFound = false;
+         magFound = false,
+         sizeFound = false,
+         nameFound = false,
+         positionAngleFound = false,
+         catalogDetermined = false,
+         typeFound = false;
 
     dms RA, Dec;
     float mag           = NaN::f;
@@ -293,18 +320,21 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
     if (!coordText.isEmpty())
     {
         int coord1 = indexOf(coordText, matchCoords, 0, &rmatch);
-        if (coord1 >= 0) {
+        if (coord1 >= 0)
+        {
             std::size_t length1 = rmatch.captured(0).length();
             RA         = dms(rmatch.captured(1) + ' ' + rmatch.captured(2) + ' ' + rmatch.captured(3), false);
             int coord2 = indexOf(coordText, matchCoords, coord1 + length1, &rmatch);
-            if (coord2 >= 0) {
+            if (coord2 >= 0)
+            {
                 Dec = dms(rmatch.captured(1) + ' ' + rmatch.captured(2) + ' ' + rmatch.captured(3), true);
                 qCDebug(KSTARS) << "Extracted coordinates: " << RA.toHMSString() << " " << Dec.toDMSString();
                 coordsFound = true;
 
                 // Remove the coordinates from the original string so subsequent tasks don't confuse it
                 std::size_t length2 = rmatch.captured(0).length();
-                qCDebug(KSTARS) << "Eliminating text: " << text.mid(coordTextIndex + coord1, length1) << " and " << text.mid(coordTextIndex + coord2, length2);
+                qCDebug(KSTARS) << "Eliminating text: " << text.mid(coordTextIndex + coord1,
+                                length1) << " and " << text.mid(coordTextIndex + coord2, length2);
                 text.replace(coordTextIndex + coord1, length1, "\n");
                 text.replace(coordTextIndex + coord2 - length1 + 1, length2, "\n");
                 qCDebug(KSTARS) << "Text now: " << text;
@@ -325,13 +355,13 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
             // Remove coordinates to avoid downstream confusion with it
             qCDebug(KSTARS) << "Eliminating text: " << text.mid(rmatch.capturedStart(), rmatch.captured(0).length());
             text.replace(rmatch.capturedStart(), rmatch.captured(0).length(), "\n");
-                qCDebug(KSTARS) << "Text now: " << text;
+            qCDebug(KSTARS) << "Text now: " << text;
         }
         else
         {
             QStringList matches;
             qCDebug(KSTARS) << "Could not extract RA/Dec. Found " << countNonOverlappingMatches(text, matchCoords, &matches)
-                     << " coordinate matches:";
+                            << " coordinate matches:";
             qCDebug(KSTARS) << matches;
         }
     }
@@ -340,7 +370,8 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
     for (const auto& p : objectTypes)
     {
         QRegularExpression findType("\\b(?:" + p.first + ")\\b");
-        if (text.contains(findType, &rmatch)) {
+        if (text.contains(findType, &rmatch))
+        {
             type = p.second;
             typeFound = true;
             qCDebug(KSTARS) << "Found Type: " << SkyObject::typeName(p.second);
@@ -350,7 +381,8 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
             break;
         }
     }
-    if (!typeFound) {
+    if (!typeFound)
+    {
         qCDebug(KSTARS) << "Type not found";
     }
 
@@ -406,7 +438,7 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
     if (text.contains(findSize1, &rmatch))
     {
         qCDebug(KSTARS) << "Found size: " << rmatch.captured(1) << " x " << rmatch.captured(3) << " with units "
-                 << rmatch.captured(4) << " in text " << rmatch.captured(0);
+                        << rmatch.captured(4) << " in text " << rmatch.captured(0);
         majorAxis = rmatch.captured(1).toFloat();
         QString unitText2;
         if (rmatch.captured(2).isEmpty())
@@ -484,7 +516,8 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
     {
         ui->mag->setValue(mag);
         ui->magUnknown->setChecked(false);
-    } else
+    }
+    else
     {
         ui->magUnknown->setChecked(true);
     }

@@ -256,7 +256,7 @@ void Execute::sortTargetList()
     };
 
     std::sort(KStarsData::Instance()->observingList()->sessionList().begin(),
-          KStarsData::Instance()->observingList()->sessionList().end(), timeLessThan);
+              KStarsData::Instance()->observingList()->sessionList().end(), timeLessThan);
 }
 
 void Execute::addTargetNotes()
@@ -303,7 +303,8 @@ void Execute::slotEndSession()
                                    KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(),
                                    ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text());
 
-        QUrl fileURL = QFileDialog::getSaveFileUrl(nullptr, i18nc("@title:window", "Save Session"), QUrl(QDir::homePath()), "*.xml");
+        QUrl fileURL = QFileDialog::getSaveFileUrl(nullptr, i18nc("@title:window", "Save Session"), QUrl(QDir::homePath()),
+                       "*.xml");
 
         if (fileURL.isEmpty())
         {

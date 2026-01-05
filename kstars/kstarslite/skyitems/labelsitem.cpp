@@ -246,7 +246,7 @@ void LabelsItem::deleteLabel(LabelNode *label)
         LabelTypeNode *node = m_labelsLists[type];
 
         if (type == STAR_LABEL || type == DSO_IC_LABEL || type == DSO_NGC_LABEL || type == DSO_MESSIER_LABEL ||
-            type == DSO_OTHER_LABEL)
+                type == DSO_OTHER_LABEL)
         {
             QSGNode *trixel = node->firstChild();
             bool found      = false;

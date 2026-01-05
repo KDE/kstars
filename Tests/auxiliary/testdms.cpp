@@ -183,7 +183,7 @@ void TestDMS::testUnitTransition()
 {
     // check for rounding/truncating errors around unit transition
     // in DMS and HMS angle representation strings
-    dms sp; 
+    dms sp;
     sp.setD(10.0 - 1.0E-14);
     QVERIFY(sp.degree() == 9);
     QVERIFY(sp.arcmin() == 59);
@@ -195,7 +195,7 @@ void TestDMS::testUnitTransition()
     QVERIFY(sp.minute() == 59);
     QVERIFY(sp.second() == 59);
     QVERIFY(sp.msecond() == 999);
- 
+
     sp.setD(10.0);
     QVERIFY(sp.degree() == 10);
     QVERIFY(sp.arcmin() == 0);
@@ -224,7 +224,7 @@ void TestDMS::testUnitTransition()
 void TestDMS::testPrecisionTransition()
 {
     // check for transitions in DMS and HMS angle representation strings
-    // with respect to DMS and HMS precision around angle units 
+    // with respect to DMS and HMS precision around angle units
     dms sp;
     double half_precision_DMS = 1.0 / 7200.0;
     double half_precision_HMS = 15.0 / 7200.0;
@@ -240,181 +240,181 @@ void TestDMS::testPrecisionTransition()
 
     sp.setD(10.0 + half_precision_DMS + epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString(" 10° 00' 01\""));
+                 forceSign, machineReadable, highPrecision), QString(" 10° 00' 01\""));
     sp.setD(10.0 + half_precision_DMS - epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString(" 10° 00' 00\""));
+                 forceSign, machineReadable, highPrecision), QString(" 10° 00' 00\""));
     sp.setD(10.0 - half_precision_DMS + epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString(" 10° 00' 00\""));
+                 forceSign, machineReadable, highPrecision), QString(" 10° 00' 00\""));
     sp.setD(10.0 - half_precision_DMS - epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString(" 09° 59' 59\""));
+                 forceSign, machineReadable, highPrecision), QString(" 09° 59' 59\""));
 
     sp.setD(-10.0 + half_precision_DMS + epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString("-09° 59' 59\""));
+                 forceSign, machineReadable, highPrecision), QString("-09° 59' 59\""));
     sp.setD(-10.0 + half_precision_DMS - epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString("-10° 00' 00\""));
+                 forceSign, machineReadable, highPrecision), QString("-10° 00' 00\""));
     sp.setD(-10.0 - half_precision_DMS + epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString("-10° 00' 00\""));
+                 forceSign, machineReadable, highPrecision), QString("-10° 00' 00\""));
     sp.setD(-10.0 - half_precision_DMS - epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString("-10° 00' 01\""));
+                 forceSign, machineReadable, highPrecision), QString("-10° 00' 01\""));
 
     machineReadable = true;
 
-    for (int i=0; i < 2; i++)
+    for (int i = 0; i < 2; i++)
     {
         sp.setD(10.0 + half_precision_DMS + epsilon);
         QCOMPARE(sp.toDMSString(
- 	    forceSign, machineReadable, highPrecision), QString(" 10:00:01"));
+                     forceSign, machineReadable, highPrecision), QString(" 10:00:01"));
         sp.setD(10.0 + half_precision_DMS - epsilon);
         QCOMPARE(sp.toDMSString(
- 	    forceSign, machineReadable, highPrecision), QString(" 10:00:00"));
-      	sp.setD(10.0 - half_precision_DMS + epsilon);
+                     forceSign, machineReadable, highPrecision), QString(" 10:00:00"));
+        sp.setD(10.0 - half_precision_DMS + epsilon);
         QCOMPARE(sp.toDMSString(
- 	    forceSign, machineReadable, highPrecision), QString(" 10:00:00"));
+                     forceSign, machineReadable, highPrecision), QString(" 10:00:00"));
         sp.setD(10.0 - half_precision_DMS - epsilon);
         QCOMPARE(sp.toDMSString(
-	    forceSign, machineReadable, highPrecision), QString(" 09:59:59"));
+                     forceSign, machineReadable, highPrecision), QString(" 09:59:59"));
 
         sp.setD(-10.0 + half_precision_DMS + epsilon);
         QCOMPARE(sp.toDMSString(
-	    forceSign, machineReadable, highPrecision), QString("-09:59:59"));
+                     forceSign, machineReadable, highPrecision), QString("-09:59:59"));
         sp.setD(-10.0 + half_precision_DMS - epsilon);
         QCOMPARE(sp.toDMSString(
-	    forceSign, machineReadable, highPrecision), QString("-10:00:00"));
+                     forceSign, machineReadable, highPrecision), QString("-10:00:00"));
         sp.setD(-10.0 - half_precision_DMS + epsilon);
         QCOMPARE(sp.toDMSString(
-	    forceSign, machineReadable, highPrecision), QString("-10:00:00"));
+                     forceSign, machineReadable, highPrecision), QString("-10:00:00"));
         sp.setD(-10.0 - half_precision_DMS - epsilon);
         QCOMPARE(sp.toDMSString(
-	    forceSign, machineReadable, highPrecision), QString("-10:00:01"));
+                     forceSign, machineReadable, highPrecision), QString("-10:00:01"));
 
-	highPrecision = true;
+        highPrecision = true;
     }
 
     machineReadable = false;
 
     sp.setD(10.0 + half_precision_DMS + epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString(" 10° 00' 0.50\""));
+                 forceSign, machineReadable, highPrecision), QString(" 10° 00' 0.50\""));
     sp.setD(10.0 + half_precision_DMS - epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString(" 10° 00' 0.50\""));
+                 forceSign, machineReadable, highPrecision), QString(" 10° 00' 0.50\""));
     sp.setD(10.0 - half_precision_DMS + epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString(" 09° 59' 59.50\""));
+                 forceSign, machineReadable, highPrecision), QString(" 09° 59' 59.50\""));
     sp.setD(10.0 - half_precision_DMS - epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString(" 09° 59' 59.50\""));
+                 forceSign, machineReadable, highPrecision), QString(" 09° 59' 59.50\""));
 
     sp.setD(-10.0 + half_precision_DMS + epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString("-09° 59' 59.50\""));
+                 forceSign, machineReadable, highPrecision), QString("-09° 59' 59.50\""));
     sp.setD(-10.0 + half_precision_DMS - epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString("-09° 59' 59.50\""));
+                 forceSign, machineReadable, highPrecision), QString("-09° 59' 59.50\""));
     sp.setD(-10.0 - half_precision_DMS + epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString("-10° 00' 0.50\""));
+                 forceSign, machineReadable, highPrecision), QString("-10° 00' 0.50\""));
     sp.setD(-10.0 - half_precision_DMS - epsilon);
     QCOMPARE(sp.toDMSString(
-	forceSign, machineReadable, highPrecision), QString("-10° 00' 0.50\""));
+                 forceSign, machineReadable, highPrecision), QString("-10° 00' 0.50\""));
 
     // toHMSString
-    
+
     highPrecision = false;
 
     sp.setD(10.0 * 15.0 + half_precision_HMS + epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("10h 00m 01s"));
+                 machineReadable, highPrecision), QString("10h 00m 01s"));
     sp.setD(10.0 * 15.0 + half_precision_HMS - epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("10h 00m 00s"));
+                 machineReadable, highPrecision), QString("10h 00m 00s"));
     sp.setD(10.0 * 15.0 - half_precision_HMS + epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("10h 00m 00s"));
+                 machineReadable, highPrecision), QString("10h 00m 00s"));
     sp.setD(10.0 * 15.0 - half_precision_HMS - epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("09h 59m 59s"));
+                 machineReadable, highPrecision), QString("09h 59m 59s"));
 
     sp.setD(-10.0 * 15.0 + half_precision_HMS + epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("14h 00m 01s"));
+                 machineReadable, highPrecision), QString("14h 00m 01s"));
     sp.setD(-10.0 * 15.0 + half_precision_HMS - epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("14h 00m 00s"));
+                 machineReadable, highPrecision), QString("14h 00m 00s"));
     sp.setD(-10.0 * 15.0 - half_precision_HMS + epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("14h 00m 00s"));
+                 machineReadable, highPrecision), QString("14h 00m 00s"));
     sp.setD(-10.0 * 15.0 - half_precision_HMS - epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("13h 59m 59s"));
+                 machineReadable, highPrecision), QString("13h 59m 59s"));
 
     machineReadable = true;
 
-    for (int i=0; i < 2; i++)
+    for (int i = 0; i < 2; i++)
     {
         sp.setD(10.0 * 15.0 + half_precision_HMS + epsilon);
         QCOMPARE(sp.toHMSString(
- 	    machineReadable, highPrecision), QString("10:00:01"));
+                     machineReadable, highPrecision), QString("10:00:01"));
         sp.setD(10.0 * 15.0 + half_precision_HMS - epsilon);
         QCOMPARE(sp.toHMSString(
- 	    machineReadable, highPrecision), QString("10:00:00"));
-      	sp.setD(10.0 * 15.0 - half_precision_HMS + epsilon);
+                     machineReadable, highPrecision), QString("10:00:00"));
+        sp.setD(10.0 * 15.0 - half_precision_HMS + epsilon);
         QCOMPARE(sp.toHMSString(
- 	    machineReadable, highPrecision), QString("10:00:00"));
+                     machineReadable, highPrecision), QString("10:00:00"));
         sp.setD(10.0 * 15.0 - half_precision_HMS - epsilon);
         QCOMPARE(sp.toHMSString(
-	    machineReadable, highPrecision), QString("09:59:59"));
+                     machineReadable, highPrecision), QString("09:59:59"));
 
         sp.setD(-10.0 * 15.0 + half_precision_HMS + epsilon);
         QCOMPARE(sp.toHMSString(
-	    machineReadable, highPrecision), QString("14:00:01"));
+                     machineReadable, highPrecision), QString("14:00:01"));
         sp.setD(-10.0 * 15.0 + half_precision_HMS - epsilon);
         QCOMPARE(sp.toHMSString(
-	    machineReadable, highPrecision), QString("14:00:00"));
+                     machineReadable, highPrecision), QString("14:00:00"));
         sp.setD(-10.0 * 15.0 - half_precision_HMS + epsilon);
         QCOMPARE(sp.toHMSString(
-	    machineReadable, highPrecision), QString("14:00:00"));
+                     machineReadable, highPrecision), QString("14:00:00"));
         sp.setD(-10.0 * 15.0 - half_precision_HMS - epsilon);
         QCOMPARE(sp.toHMSString(
-	    machineReadable, highPrecision), QString("13:59:59"));
+                     machineReadable, highPrecision), QString("13:59:59"));
 
-	highPrecision = true;
+        highPrecision = true;
     }
 
     machineReadable = false;
 
     sp.setD(10.0 * 15.0 + half_precision_HMS + epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("10h 00m 0.50s"));
+                 machineReadable, highPrecision), QString("10h 00m 0.50s"));
     sp.setD(10.0 * 15.0 + half_precision_HMS - epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("10h 00m 0.50s"));
+                 machineReadable, highPrecision), QString("10h 00m 0.50s"));
     sp.setD(10.0 * 15.0 - half_precision_HMS + epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("09h 59m 59.50s"));
+                 machineReadable, highPrecision), QString("09h 59m 59.50s"));
     sp.setD(10.0 * 15.0 - half_precision_HMS - epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("09h 59m 59.50s"));
+                 machineReadable, highPrecision), QString("09h 59m 59.50s"));
 
     sp.setD(-10.0 * 15.0 + half_precision_HMS + epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("14h 00m 0.50s"));
+                 machineReadable, highPrecision), QString("14h 00m 0.50s"));
     sp.setD(-10.0 * 15.0 + half_precision_HMS - epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("14h 00m 0.50s"));
+                 machineReadable, highPrecision), QString("14h 00m 0.50s"));
     sp.setD(-10.0 * 15.0 - half_precision_HMS + epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("13h 59m 59.50s"));
+                 machineReadable, highPrecision), QString("13h 59m 59.50s"));
     sp.setD(-10.0 * 15.0 - half_precision_HMS - epsilon);
     QCOMPARE(sp.toHMSString(
-	machineReadable, highPrecision),QString("13h 59m 59.50s"));
+                 machineReadable, highPrecision), QString("13h 59m 59.50s"));
 
     QLocale::setDefault(QLocale::system());
 }

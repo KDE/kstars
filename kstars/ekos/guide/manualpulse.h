@@ -20,25 +20,25 @@ namespace Ekos
  */
 class ManualPulse : public QDialog, public Ui::ManualPulse
 {
-    Q_OBJECT
-public:
-    ManualPulse(QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        ManualPulse(QWidget *parent = nullptr);
 
-    /**
-     * @brief reset Reset RA & DE offset calculations
-     */
-    void reset();
+        /**
+         * @brief reset Reset RA & DE offset calculations
+         */
+        void reset();
 
-    /**
-     * @brief setMountCoords calculate new RA/DE offsets
-     * @param position updated mount position
-     */
-    void setMountCoords(const SkyPoint &position);
+        /**
+         * @brief setMountCoords calculate new RA/DE offsets
+         * @param position updated mount position
+         */
+        void setMountCoords(const SkyPoint &position);
 
-signals:
-    void newSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses followWithCapture);
+    signals:
+        void newSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses followWithCapture);
 
-private:
-    SkyPoint m_LastCoord;
+    private:
+        SkyPoint m_LastCoord;
 };
 }

@@ -30,37 +30,37 @@
 
 class TestEkosCapture : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit TestEkosCapture(QObject *parent = nullptr);
+    public:
+        explicit TestEkosCapture(QObject *parent = nullptr);
 
-private:
-    TestEkosCaptureHelper *m_CaptureHelper = new TestEkosCaptureHelper();
+    private:
+        TestEkosCaptureHelper *m_CaptureHelper = new TestEkosCaptureHelper();
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    /** @brief Test addition, UI sync and removal of capture jobs. */
-    void testAddCaptureJob();
+        /** @brief Test addition, UI sync and removal of capture jobs. */
+        void testAddCaptureJob();
 
-    /** @brief Test that storing to a system temporary folder makes the capture a preview. */
-    void testCaptureToTemporary();
+        /** @brief Test that storing to a system temporary folder makes the capture a preview. */
+        void testCaptureToTemporary();
 
-    /** @brief Test capturing a single frame in multiple attempts. */
-    void testCaptureSingle();
+        /** @brief Test capturing a single frame in multiple attempts. */
+        void testCaptureSingle();
 
-    /** @brief Test capturing multiple frames in multiple attempts. */
-    void testCaptureMultiple();
+        /** @brief Test capturing multiple frames in multiple attempts. */
+        void testCaptureMultiple();
 
-    /**
-         * @brief Test dark flat frames capture after flat frame
-         */
-    void testCaptureDarkFlats();
+        /**
+             * @brief Test dark flat frames capture after flat frame
+             */
+        void testCaptureDarkFlats();
 };
 
 #endif // HAVE_INDI

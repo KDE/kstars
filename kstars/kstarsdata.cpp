@@ -690,7 +690,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
                 else
                 {
                     qDebug() << Q_FUNC_INFO << "Failed to copy default URL file to locale folder, modifying default object links is "
-                             "not possible";
+                                               "not possible";
                 }
                 fileFound = true;
             }
@@ -807,9 +807,9 @@ bool KStarsData::readUserLog()
             int res = KMessageBox::warningContinueCancel(
                           nullptr,
                           i18n("The user notes log file %1 is malformatted in the opening of the entry starting at %2. "
-                               "KStars can still run without fully reading this file. "
-                               "Press Continue to run KStars with whatever partial reading was successful. "
-                               "The file may get truncated if KStars writes to the file later. Press Cancel to instead abort now and manually fix the problem. ",
+                 "KStars can still run without fully reading this file. "
+                 "Press Continue to run KStars with whatever partial reading was successful. "
+                 "The file may get truncated if KStars writes to the file later. Press Cancel to instead abort now and manually fix the problem. ",
                                file.fileName(), QString::number(currentEntryIndex)),
                           i18n( "Malformed file %1", file.fileName() )
                       );
@@ -1566,9 +1566,9 @@ KStarsData::addToUserData(const QString &name, const SkyObjectUserdata::LinkData
         return { false,
                  isImage ?
                  i18n("Custom image-links file could not be opened.\nLink cannot "
-                      "be recorded for future sessions.") :
+             "be recorded for future sessions.") :
                  i18n("Custom information-links file could not be opened.\nLink "
-                      "cannot be recorded for future sessions.") };
+             "cannot be recorded for future sessions.") };
     else
     {
         entry = name + ':' + data.title + ':' + data.url.toString();

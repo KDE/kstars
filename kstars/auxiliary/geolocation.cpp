@@ -9,7 +9,8 @@
 
 #include "timezonerule.h"
 
-GeoLocation::GeoLocation(const dms &lng, const dms &lat, const QString &name, const QString &province, const QString &country,
+GeoLocation::GeoLocation(const dms &lng, const dms &lat, const QString &name, const QString &province,
+                         const QString &country,
                          double tz, TimeZoneRule *tzrule, double elevation, bool readOnly, int iEllips) :
     Longitude(lng), Latitude(lat)
 {

@@ -240,8 +240,10 @@ void VideoWG::paintOverlay(QPixmap &imagePix)
 
     // Apply any offset from (only) the first enabled anchor element
     bool foundAnchor = false;
-    for (auto &oneElement : m_EnabledOverlayElements) {
-        if (oneElement["Type"] == "Anchor" && !foundAnchor) {
+    for (auto &oneElement : m_EnabledOverlayElements)
+    {
+        if (oneElement["Type"] == "Anchor" && !foundAnchor)
+        {
             anchor.setX(oneElement["OffsetX"].toInt());
             anchor.setY(oneElement["OffsetY"].toInt());
             foundAnchor = true;
@@ -254,7 +256,8 @@ void VideoWG::paintOverlay(QPixmap &imagePix)
     painter->translate(anchor);
     painter->translate(-drawOffsetX, -drawOffsetY);
 
-    for (auto &currentElement : m_EnabledOverlayElements) {
+    for (auto &currentElement : m_EnabledOverlayElements)
+    {
 
         painter->save();
         QPen m_pen = QPen(QColor(currentElement["Colour"].toString()));
@@ -267,33 +270,41 @@ void VideoWG::paintOverlay(QPixmap &imagePix)
         int m_count = currentElement["Count"].toUInt();
         float m_pcd = currentElement["PCD"].toFloat();
 
-        if (m_count == 1) {
-            PaintOneItem(currentElement["Type"].toString(), QPointF(0.0, 0.0), currentElement["SizeX"].toUInt(), currentElement["SizeY"].toUInt(), currentElement["Thickness"].toUInt());
-        } else if (m_count > 1) {
+        if (m_count == 1)
+        {
+            PaintOneItem(currentElement["Type"].toString(), QPointF(0.0, 0.0), currentElement["SizeX"].toUInt(),
+                         currentElement["SizeY"].toUInt(), currentElement["Thickness"].toUInt());
+        }
+        else if (m_count > 1)
+        {
             float slice = 360 / m_count;
-            for (int i = 0; i < m_count; i++) {
+            for (int i = 0; i < m_count; i++)
+            {
                 painter->save();
                 painter->rotate((slice * i) + currentElement["Rotation"].toFloat());
-                PaintOneItem(currentElement["Type"].toString(), QPointF((m_pcd / 2), 0.0), currentElement["SizeX"].toUInt(), currentElement["SizeY"].toUInt(), currentElement["Thickness"].toUInt());
+                PaintOneItem(currentElement["Type"].toString(), QPointF((m_pcd / 2), 0.0), currentElement["SizeX"].toUInt(),
+                             currentElement["SizeY"].toUInt(), currentElement["Thickness"].toUInt());
                 painter->restore();
             }
         }
 
         painter->restore();
-     }
+    }
     painter->end();
 }
 
 void VideoWG::setupOverlay ()
 {
-    if (overlayEnabled) {
+    if (overlayEnabled)
+    {
         initOverlayModel();
 
         typeValues = new QStringList;
         collimationoverlaytype m_types;
         const QMetaObject *m_metaobject = m_types.metaObject();
         QMetaEnum m_metaEnum = m_metaobject->enumerator(m_metaobject->indexOfEnumerator("Types"));
-        for (int i = 0; i < m_metaEnum.keyCount(); i++) {
+        for (int i = 0; i < m_metaEnum.keyCount(); i++)
+        {
             *typeValues << tr(m_metaEnum.key(i));
         }
 
@@ -324,38 +335,44 @@ void VideoWG::PaintOneItem (QString type, QPointF position, int sizeX, int sizeY
     float m_sizeX = sizeX - (thickness / 2);
     float m_sizeY = sizeY - (thickness / 2);
 
-    switch (typeValues->indexOf(type)) {
-case 0: // Anchor - ignore as we're not drawing it
-    break;
+    switch (typeValues->indexOf(type))
+    {
+        case 0: // Anchor - ignore as we're not drawing it
+            break;
 
-case 1: // Ellipse
-    painter->drawEllipse(position, m_sizeX, m_sizeY);
-    break;
+        case 1: // Ellipse
+            painter->drawEllipse(position, m_sizeX, m_sizeY);
+            break;
 
-case 2: // Rectangle
-{
-    QRect m_rect((position.x() - (m_sizeX / 2)), (position.y() - (m_sizeY / 2)), (m_sizeX - (thickness / 2)), (m_sizeY - (thickness / 2)));
-    painter->drawRect(m_rect);
-    break;
-}
+        case 2: // Rectangle
+        {
+            QRect m_rect((position.x() - (m_sizeX / 2)), (position.y() - (m_sizeY / 2)), (m_sizeX - (thickness / 2)),
+                         (m_sizeY - (thickness / 2)));
+            painter->drawRect(m_rect);
+            break;
+        }
 
-case 3: // Line
-    painter->drawLine(position.x(), position.y(), sizeX, sizeY);
-    break;
+        case 3: // Line
+            painter->drawLine(position.x(), position.y(), sizeX, sizeY);
+            break;
 
-default:
-    break;
+        default:
+            break;
     };
 }
 
 void VideoWG::toggleOverlay()
 {
-    if (overlayEnabled == false) {
+    if (overlayEnabled == false)
+    {
         overlayEnabled = true;
-        if (m_CollimationOverlayElementsModel == nullptr) {
+        if (m_CollimationOverlayElementsModel == nullptr)
+        {
             setupOverlay();
         }
-    } else if (overlayEnabled == true) {
+    }
+    else if (overlayEnabled == true)
+    {
         overlayEnabled = false;
     }
 }

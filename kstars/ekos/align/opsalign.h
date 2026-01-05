@@ -20,7 +20,7 @@ class Align;
 
 class OpsAlign : public QWidget, public Ui::OpsAlign
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
         explicit OpsAlign(Align *parent);

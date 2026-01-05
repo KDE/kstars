@@ -340,9 +340,9 @@ static const QMap<LiveStackStackingMethod, QString> LiveStackStackingMethodNames
     { LiveStackStackingMethod::SIGMA, "Sigma Clipping" },
     { LiveStackStackingMethod::WINDSOR, "Windsorization" },
     { LiveStackStackingMethod::IMAGEMM, "ImageMM" }
-    };
+};
 
-enum class LiveStackChannel{ SINGLE, RED, GREEN, BLUE, LUM, NONE };
+enum class LiveStackChannel { SINGLE, RED, GREEN, BLUE, LUM, NONE };
 static const QMap<LiveStackChannel, QString> LiveStackChannelNames
 {
     { LiveStackChannel::SINGLE, "Single" },

@@ -20,15 +20,15 @@
 #include "skycomponents/skymapcomposite.h"
 
 QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() << QColor("slateblue") << //Mercury
-        QColor("lightgreen") <<                     //Venus
-        QColor("red") <<                            //Mars
-        QColor("goldenrod") <<                      //Jupiter
-        QColor("khaki") <<                          //Saturn
-        QColor("lightseagreen") <<                  //Uranus
-        QColor("skyblue") <<                        //Neptune
-        QColor("grey") <<                           //Pluto
-        QColor("yellow") <<                         //Sun
-        QColor("white");                            //Moon
+    QColor("lightgreen") <<                     //Venus
+    QColor("red") <<                            //Mars
+    QColor("goldenrod") <<                      //Jupiter
+    QColor("khaki") <<                          //Saturn
+    QColor("lightseagreen") <<                  //Uranus
+    QColor("skyblue") <<                        //Neptune
+    QColor("grey") <<                           //Pluto
+    QColor("yellow") <<                         //Sun
+    QColor("white");                            //Moon
 
 const SkyObject::UID KSPlanetBase::UID_SOL_BIGOBJ   = 0;
 const SkyObject::UID KSPlanetBase::UID_SOL_ASTEROID = 1;
@@ -281,7 +281,7 @@ double KSPlanetBase::labelOffset() const
 
 void KSPlanetBase::findPhase()
 {
-    if (2 * rsun()*rearth() == 0)
+    if (2 * rsun() * rearth() == 0)
     {
         Phase = std::numeric_limits<double>::quiet_NaN();
         return;

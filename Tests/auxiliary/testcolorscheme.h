@@ -17,19 +17,19 @@
 
 class TestColorScheme : public QObject
 {
-    Q_OBJECT
-public:
-    explicit TestColorScheme(QObject *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit TestColorScheme(QObject *parent = nullptr);
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testSchemeColors_data();
-    void testSchemeColors();
+        void testSchemeColors_data();
+        void testSchemeColors();
 };
 
 #endif // TESTCOLORSCHEME_H

@@ -29,7 +29,7 @@ class RefocusState : public QObject
             REFOCUS_USER_REQUEST  /* user forced an in sequence Autofocus               */
         } RefocusReason;
 
-        explicit RefocusState(QObject *parent = nullptr): QObject{parent}{}
+        explicit RefocusState(QObject *parent = nullptr): QObject{parent} {}
 
         /**
          * @brief Check if focusing is necessary:
@@ -168,7 +168,7 @@ class RefocusState : public QObject
             m_ForceInSeqAF = newForceInSeqAF;
         }
 
-signals:
+    signals:
         // new log text for the module log window
         void newLog(const QString &text);
 

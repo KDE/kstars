@@ -26,43 +26,46 @@ class SkyMapLite;
  */
 class GuideLabelNode : public SkyNode
 {
-  public:
-    /**
-     * @short Constructor
-     * @param name name of the guide label
-     * @param type type of the label item
-     */
-    GuideLabelNode(QString name, LabelsItem::label_t type);
+    public:
+        /**
+         * @short Constructor
+         * @param name name of the guide label
+         * @param type type of the label item
+         */
+        GuideLabelNode(QString name, LabelsItem::label_t type);
 
-    /**
-     * @short changePos changes the position m_point
-     * @param pos new position
-     */
-    virtual void changePos(QPointF pos) override;
+        /**
+         * @short changePos changes the position m_point
+         * @param pos new position
+         */
+        virtual void changePos(QPointF pos) override;
 
-    /**
-     * @short setLabelPos sets the position of label with the given offset from SkyObject's position and
-     * makes the label visible if it was hidden
-     * @param pos position of label
-     * @param angle label angle
-     */
-    void setLabelPos(QPointF pos, float angle);
+        /**
+         * @short setLabelPos sets the position of label with the given offset from SkyObject's position and
+         * makes the label visible if it was hidden
+         * @param pos position of label
+         * @param angle label angle
+         */
+        void setLabelPos(QPointF pos, float angle);
 
-    virtual void update() override;
+        virtual void update() override;
 
-    inline const QString name() const { return m_name; }
+        inline const QString name() const
+        {
+            return m_name;
+        }
 
-    QPointF labelPos;
-    qreal left { 0 };
-    qreal right { 0 };
-    qreal top { 0 };
-    qreal bot { 0 };
+        QPointF labelPos;
+        qreal left { 0 };
+        qreal right { 0 };
+        qreal top { 0 };
+        qreal bot { 0 };
 
-  private:
-    QSGSimpleTextureNode *m_textTexture { nullptr };
-    QSize m_textSize { 0, 0 };
-    float m_angle { 0 };
-    QSGSimpleRectNode debugRect;
-    const QString m_name;
-    QPointF m_translatePos;
+    private:
+        QSGSimpleTextureNode *m_textTexture { nullptr };
+        QSize m_textSize { 0, 0 };
+        float m_angle { 0 };
+        QSGSimpleRectNode debugRect;
+        const QString m_name;
+        QPointF m_translatePos;
 };

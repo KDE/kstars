@@ -19,11 +19,11 @@ class QWidget;
 
 class MagnitudeSpinBox : public QDoubleSpinBox
 {
-  Q_OBJECT
-  public:
-    /** Default Constructor */
-    explicit MagnitudeSpinBox(QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        /** Default Constructor */
+        explicit MagnitudeSpinBox(QWidget *parent = nullptr);
 
-    /** Constructor.  Set minimum and maximum values for the spinbox. */
-    MagnitudeSpinBox(double minValue, double maxValue, QWidget *parent = nullptr);
+        /** Constructor.  Set minimum and maximum values for the spinbox. */
+        MagnitudeSpinBox(double minValue, double maxValue, QWidget *parent = nullptr);
 };

@@ -67,78 +67,80 @@ class ImageOverlay
  */
 class ImageOverlayComponent : public QObject, public SkyComponent
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ImageOverlayComponent(SkyComposite *);
+    public:
+        explicit ImageOverlayComponent(SkyComposite *);
 
-    virtual ~ImageOverlayComponent() override;
+        virtual ~ImageOverlayComponent() override;
 
-    bool selected() override;
-    void draw(SkyPainter *skyp) override;
-    void setWidgets(QTableWidget *table, QPlainTextEdit *statusDisplay, QPushButton *solveButton,
-                    QGroupBox *tableTitleBox, QComboBox *solverProfile);
-    void updateTable();
+        bool selected() override;
+        void draw(SkyPainter *skyp) override;
+        void setWidgets(QTableWidget *table, QPlainTextEdit *statusDisplay, QPushButton *solveButton,
+                        QGroupBox *tableTitleBox, QComboBox *solverProfile);
+        void updateTable();
 
-    const QList<ImageOverlay> imageOverlays() const {
-        return m_Overlays;
-    }
-    const QList<ImageOverlay> temporaryImageOverlays() const {
-        return m_TemporaryOverlays;
-    }
+        const QList<ImageOverlay> imageOverlays() const
+        {
+            return m_Overlays;
+        }
+        const QList<ImageOverlay> temporaryImageOverlays() const
+        {
+            return m_TemporaryOverlays;
+        }
 
     public slots:
-    void startSolving();
-    void abortSolving();
-    void show();
-    void reload();  // not currently implemented.
-    QString directory()
-    {
-        return m_Directory;
-    };
-    void addTemporaryImageOverlay(const ImageOverlay &overlay);
+        void startSolving();
+        void abortSolving();
+        void show();
+        void reload();  // not currently implemented.
+        QString directory()
+        {
+            return m_Directory;
+        };
+        void addTemporaryImageOverlay(const ImageOverlay &overlay);
 
- signals:
-    void updateLog(const QString &message);
+    signals:
+        void updateLog(const QString &message);
 
-private slots:
-    void tryAgain();
-    void updateStatusDisplay(const QString &message);
+    private slots:
+        void tryAgain();
+        void updateStatusDisplay(const QString &message);
 
-private:
-    void loadFromUserDB();
-    void saveToUserDB();
-    void solveImage(const QString &filename);
-    void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
-    void initializeGui();
-    int numAvailable();
-    void cellChanged(int row, int col);
-    void statusCellChanged(int row);
-    void selectionChanged();
-    void initSolverProfiles();
+    private:
+        void loadFromUserDB();
+        void saveToUserDB();
+        void solveImage(const QString &filename);
+        void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
+        void initializeGui();
+        int numAvailable();
+        void cellChanged(int row, int col);
+        void statusCellChanged(int row);
+        void selectionChanged();
+        void initSolverProfiles();
 
-    // Methods that load the image files in the background.
-    void loadAllImageFiles();
-    void loadImageFileLoop();
-    bool loadImageFile();
-    QImage *loadImageFile (const QString &fullFilename, bool mirror);
+        // Methods that load the image files in the background.
+        void loadAllImageFiles();
+        void loadImageFileLoop();
+        bool loadImageFile();
+        QImage *loadImageFile (const QString &fullFilename, bool mirror);
 
 
-    QTableWidget *m_ImageOverlayTable;
-    QGroupBox *m_TableGroupBox;
-    QAbstractItemView::EditTriggers m_EditTriggers;
-    QPlainTextEdit *m_StatusDisplay;
-    QPushButton *m_SolveButton;
-    QComboBox *m_SolverProfile;
-    QStringList m_LogText;
-    bool m_Initialized = false;
+        QTableWidget *m_ImageOverlayTable;
+        QGroupBox *m_TableGroupBox;
+        QAbstractItemView::EditTriggers m_EditTriggers;
+        QPlainTextEdit *m_StatusDisplay;
+        QPushButton *m_SolveButton;
+        QComboBox *m_SolverProfile;
+        QStringList m_LogText;
+        bool m_Initialized = false;
 
-    QList<ImageOverlay> m_Overlays;
-    QList<ImageOverlay> m_TemporaryOverlays;
-    QMap<QString, int> m_Filenames;
-    QSharedPointer<SolverUtils> m_Solver;
-    QList<int> m_RowsToSolve;
-    QString m_Directory;
-    QTimer m_TryAgainTimer;
-    QFuture<void> m_LoadImagesFuture;
+        QList<ImageOverlay> m_Overlays;
+        QList<ImageOverlay> m_TemporaryOverlays;
+        QMap<QString, int> m_Filenames;
+        QSharedPointer<SolverUtils> m_Solver;
+        QList<int> m_RowsToSolve;
+        QString m_Directory;
+        QTimer m_TryAgainTimer;
+        QFuture<void> m_LoadImagesFuture;
 };

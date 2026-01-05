@@ -21,11 +21,11 @@ class SequenceEditor : public QDialog, public Ui::SequenceEditorUI
 
     public:
 
-    SequenceEditor(QWidget *parent = nullptr);
+        SequenceEditor(QWidget *parent = nullptr);
 
-    void showEvent(QShowEvent* event) override;
+        void showEvent(QShowEvent* event) override;
 
-    bool loadSequenceQueue(const QString &fileURL, QString targetName = "");
+        bool loadSequenceQueue(const QString &fileURL, QString targetName = "");
 
     public slots:
 

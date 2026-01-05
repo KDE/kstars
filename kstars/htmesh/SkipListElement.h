@@ -29,33 +29,51 @@ class SkipListElement;
 
 class LINKAGE SkipListElement
 {
-  public:
-    SkipListElement(long level = 0, Key key = 0, Value value = 0);
+    public:
+        SkipListElement(long level = 0, Key key = 0, Value value = 0);
 
-    /** get key of element */
-    Key getKey() const { return myKey; };
-    /** set key of element */
-    void setKey(Key key) { myKey = key; };
+        /** get key of element */
+        Key getKey() const
+        {
+            return myKey;
+        };
+        /** set key of element */
+        void setKey(Key key)
+        {
+            myKey = key;
+        };
 
-    /** get value of element */
-    Value getValue() const { return myValue; }
-    /** set value of element */
-    void setValue(Value value) { myValue = value; }
+        /** get value of element */
+        Value getValue() const
+        {
+            return myValue;
+        }
+        /** set value of element */
+        void setValue(Value value)
+        {
+            myValue = value;
+        }
 
-    /** get level of element */
-    long getLevel() const { return (myLevel); };
-    /** Set level of element */
-    void setLevel(long level) { myLevel = level; }
+        /** get level of element */
+        long getLevel() const
+        {
+            return (myLevel);
+        };
+        /** Set level of element */
+        void setLevel(long level)
+        {
+            myLevel = level;
+        }
 
-    /** get next element in level */
-    SkipListElement *getElement(long level);
-    /** set next element in level */
-    void setElement(long level, SkipListElement *element);
+        /** get next element in level */
+        SkipListElement *getElement(long level);
+        /** set next element in level */
+        void setElement(long level, SkipListElement *element);
 
-  private:
-    long myLevel;                               // level of element
-    Key myKey;                                  // key of element
-    Value myValue;                              // value of element
-    SkipListElement *myNext[SKIPLIST_MAXLEVEL]; // pointers to next elements
+    private:
+        long myLevel;                               // level of element
+        Key myKey;                                  // key of element
+        Value myValue;                              // value of element
+        SkipListElement *myNext[SKIPLIST_MAXLEVEL]; // pointers to next elements
 };
 #endif // _SkipListElement_H

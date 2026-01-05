@@ -77,7 +77,7 @@ TextureManager::CacheIter TextureManager::findTexture(const QString &name)
         QFile file{ filename };
         if (file.exists())
             return (TextureManager::CacheIter)m_p->m_textures.insert(
-                name, QImage(filename, "PNG"));
+                       name, QImage(filename, "PNG"));
     }
 
     //Try to load from the file in 'skycultures/western' subdirectory for western constellation art
@@ -86,7 +86,7 @@ TextureManager::CacheIter TextureManager::findTexture(const QString &name)
     if (!filename.isNull())
     {
         return (TextureManager::CacheIter)m_p->m_textures.insert(name,
-                                                                 QImage(filename, "PNG"));
+                QImage(filename, "PNG"));
     }
 
     //Try to load from the file in 'skycultures/inuit' subdirectory for Inuit constellation art
@@ -95,7 +95,7 @@ TextureManager::CacheIter TextureManager::findTexture(const QString &name)
     if (!filename.isNull())
     {
         return (TextureManager::CacheIter)m_p->m_textures.insert(name,
-                                                                 QImage(filename, "PNG"));
+                QImage(filename, "PNG"));
     }
 
     // Try to load from file in main data directory
@@ -105,7 +105,7 @@ TextureManager::CacheIter TextureManager::findTexture(const QString &name)
     if (!filename.isNull())
     {
         return (TextureManager::CacheIter)m_p->m_textures.insert(name,
-                                                                 QImage(filename, "PNG"));
+                QImage(filename, "PNG"));
     }
 
     return (TextureManager::CacheIter)m_p->m_textures.insert(name, QImage());

@@ -161,7 +161,7 @@ void QRoundProgressBar::paintEvent(QPaintEvent * /*event*/)
 {
 #if 0
     double outerRadius = qMin(width(), height());
-    QRectF baseRect(1, 1, outerRadius-2, outerRadius-2);
+    QRectF baseRect(1, 1, outerRadius - 2, outerRadius - 2);
 
     QImage buffer(outerRadius, outerRadius, QImage::Format_ARGB32_Premultiplied);
 
@@ -195,7 +195,7 @@ void QRoundProgressBar::paintEvent(QPaintEvent * /*event*/)
 
     QPainter painter(this);
     painter.fillRect(baseRect, palette().background());
-    painter.drawImage(0,0, buffer);
+    painter.drawImage(0, 0, buffer);
 #endif
     double outerRadius = qMin(width(), height());
     QRectF baseRect(1, 1, outerRadius - 2, outerRadius - 2);
@@ -246,7 +246,8 @@ void QRoundProgressBar::drawBase(QPainter &p, const QRectF &baseRect)
                                             -m_outlinePenWidth / 2));
             break;
 
-        default:;
+        default:
+            ;
     }
 }
 
@@ -282,7 +283,7 @@ void QRoundProgressBar::drawValue(QPainter &p, const QRectF &baseRect, double va
 }
 
 void QRoundProgressBar::calculateInnerRect(const QRectF & /*baseRect*/, double outerRadius, QRectF &innerRect,
-                                           double &innerRadius)
+        double &innerRadius)
 {
     // for Line style
     if (m_barStyle == StyleLine)

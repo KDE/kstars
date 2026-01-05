@@ -15,7 +15,7 @@
 PlanetMoonsNode::PlanetMoonsNode(KSPlanetBase *planet, RootNode *parentNode)
     : SkyNode(planet), m_rootNode(parentNode), pmoons(0), m_planetNode(new PlanetNode(planet, parentNode)),
       m_labelType(LabelsItem::label_t::NO_LABEL)
-//For now we consider labels only in case of Jupiter
+      //For now we consider labels only in case of Jupiter
 {
     appendChildNode(m_planetNode);
 }

@@ -17,51 +17,54 @@ namespace Ekos
 
 class LedStatusWidget : public QWidget, Ui::LedStatusWidget
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    LedStatusWidget(QWidget * parent = nullptr);
+    public:
+        LedStatusWidget(QWidget * parent = nullptr);
 
-    /**
-     * @brief Change the status text and LED color
-     */
-    void setStatus(QString text, Qt::GlobalColor color);
+        /**
+         * @brief Change the status text and LED color
+         */
+        void setStatus(QString text, Qt::GlobalColor color);
 
-    /**
-     * @brief Currently displayed status text
-     */
-    QString getStatusText() { return statusText->text(); }
+        /**
+         * @brief Currently displayed status text
+         */
+        QString getStatusText()
+        {
+            return statusText->text();
+        }
 
-public slots:
-    /**
-     * @brief Handle new alignment state
-     */
-    void setAlignState(AlignState status);
+    public slots:
+        /**
+         * @brief Handle new alignment state
+         */
+        void setAlignState(AlignState status);
 
-    /**
-     * @brief Handle new capture state
-     */
-    void setCaptureState(CaptureState status);
+        /**
+         * @brief Handle new capture state
+         */
+        void setCaptureState(CaptureState status);
 
-    /**
-     * @brief Handle the mount state
-     */
-    void setMountState(QString text, ISD::Mount::Status status);
+        /**
+         * @brief Handle the mount state
+         */
+        void setMountState(QString text, ISD::Mount::Status status);
 
-    /**
-     * @brief Handle the focus state
-     */
-    void setFocusState(FocusState status);
+        /**
+         * @brief Handle the focus state
+         */
+        void setFocusState(FocusState status);
 
-    /**
-     * @brief Handle new filter state
-     */
-    void setFilterState(FilterState status);
+        /**
+         * @brief Handle new filter state
+         */
+        void setFilterState(FilterState status);
 
-private:
-    KLed *statusLed {nullptr};
+    private:
+        KLed *statusLed {nullptr};
 
-    FilterState lastFilterState = FILTER_IDLE;
+        FilterState lastFilterState = FILTER_IDLE;
 };
 
 } // namespace

@@ -708,7 +708,7 @@ class TestEkosHelper : public QObject
          */
         OAL::Scope *createScopeIfNecessary(QString model, QString vendor, QString type, double aperture, double focallenght);
 
-private:
+    private:
         // current mount status
         ISD::Mount::Status m_MountStatus { ISD::Mount::MOUNT_IDLE };
 

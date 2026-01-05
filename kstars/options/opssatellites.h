@@ -19,11 +19,11 @@ class KStars;
 
 class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
 {
-  Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit SatelliteSortFilterProxyModel(QObject *parent);
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+    public:
+        explicit SatelliteSortFilterProxyModel(QObject *parent);
+        bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 };
 
 /**
@@ -37,34 +37,34 @@ class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
  */
 class OpsSatellites : public QFrame, public Ui::OpsSatellites
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    /** Constructor */
-    OpsSatellites();
+    public:
+        /** Constructor */
+        OpsSatellites();
 
-    virtual ~OpsSatellites() override = default;
+        virtual ~OpsSatellites() override = default;
 
-  private:
-    /** Refresh satellites list */
-    void updateListView();
+    private:
+        /** Refresh satellites list */
+        void updateListView();
 
-    /**
-     * @brief saveSatellitesList Saves list of checked satellites in the configuration file
-     */
-    void saveSatellitesList();
+        /**
+         * @brief saveSatellitesList Saves list of checked satellites in the configuration file
+         */
+        void saveSatellitesList();
 
-  private slots:
-    void slotUpdateTLEs();
-    void slotShowSatellites(bool on);
-    void slotApply();
-    void slotCancel();
-    void slotFilterReg(const QString &);
-    void slotItemChanged(QStandardItem *);
+    private slots:
+        void slotUpdateTLEs();
+        void slotShowSatellites(bool on);
+        void slotApply();
+        void slotCancel();
+        void slotFilterReg(const QString &);
+        void slotItemChanged(QStandardItem *);
 
-private:
-  KConfigDialog *m_ConfigDialog { nullptr };
-  QStandardItemModel *m_Model { nullptr };
-  QSortFilterProxyModel *m_SortModel { nullptr };
-  bool isDirty { false };
+    private:
+        KConfigDialog *m_ConfigDialog { nullptr };
+        QStandardItemModel *m_Model { nullptr };
+        QSortFilterProxyModel *m_SortModel { nullptr };
+        bool isDirty { false };
 };

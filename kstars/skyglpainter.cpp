@@ -233,8 +233,9 @@ bool SkyGLPainter::addItem(SkyPoint *p, int type, float width, char sp)
     return true;
 }
 
-void SkyGLPainter::drawTexturedRectangle(const QImage &img, const Eigen::Vector2f &pos, const float angle, const float sizeX,
-                                         const float sizeY)
+void SkyGLPainter::drawTexturedRectangle(const QImage &img, const Eigen::Vector2f &pos, const float angle,
+        const float sizeX,
+        const float sizeY)
 {
     // Set up texture
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -369,8 +370,8 @@ void SkyGLPainter::drawSkyPolygon(LineList *list)
         isVisibleLast = isVisible;
     }
 
-// false -> makes kstars slower but is always accurate
-// true -> faster but potentially results in incorrect rendering
+    // false -> makes kstars slower but is always accurate
+    // true -> faster but potentially results in incorrect rendering
 #define KSTARS_ASSUME_CONVEXITY false
     if (polygon.size())
     {

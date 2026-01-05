@@ -20,28 +20,28 @@ class KPlotObject;
  */
 class modCalcEquinox : public QFrame, public Ui::modCalcEquinox
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit modCalcEquinox(QWidget *p);
-    virtual ~modCalcEquinox() override = default;
+    public:
+        explicit modCalcEquinox(QWidget *p);
+        virtual ~modCalcEquinox() override = default;
 
-    double dmonth(int imonth);
+        double dmonth(int imonth);
 
-  private slots:
-    void slotCompute();
-    void slotCheckFiles();
-    void slotRunBatch();
-    void slotViewBatch();
+    private slots:
+        void slotCompute();
+        void slotCheckFiles();
+        void slotRunBatch();
+        void slotViewBatch();
 
-  private:
-    void processLines(QTextStream &istream);
-    void addDateAxes();
-    void findSolsticeAndEquinox(uint32_t year);
-    qreal FindCorrection(uint32_t year);
+    private:
+        void processLines(QTextStream &istream);
+        void addDateAxes();
+        void findSolsticeAndEquinox(uint32_t year);
+        qreal FindCorrection(uint32_t year);
 
-  public:
-    KStarsDateTime dSpring, dSummer, dAutumn, dWinter;
-  private:
-    double DMonth[12];
+    public:
+        KStarsDateTime dSpring, dSummer, dAutumn, dWinter;
+    private:
+        double DMonth[12];
 };

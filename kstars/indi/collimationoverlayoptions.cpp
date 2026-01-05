@@ -21,7 +21,8 @@ CollimationOverlayOptions *CollimationOverlayOptions::m_Instance = nullptr;
 
 CollimationOverlayOptions *CollimationOverlayOptions::Instance(QWidget *parent)
 {
-    if (m_Instance == nullptr) {
+    if (m_Instance == nullptr)
+    {
         m_Instance = new CollimationOverlayOptions(parent);
     }
     return m_Instance;
@@ -43,62 +44,74 @@ CollimationOverlayOptions::CollimationOverlayOptions(QWidget *parent) : QDialog(
 
     // Enable Checkbox
     connect(EnableCheckBox, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this,
-            [this](int state) {
-                updateValue(state, "Enabled");
-            });
+            [this](int state)
+    {
+        updateValue(state, "Enabled");
+    });
 
     // Type Combo
     connect(typeComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [this]() {
-                updateValue(typeComboBox, "Type");
+            [this]()
+    {
+        updateValue(typeComboBox, "Type");
 
-                // Anchor types can't have a size, rotation, count, PCD, thickness, or colour
-                if (typeComboBox->currentIndex() == 0) {
-                    sizeXSpinBox->setValue(0);
-                    sizeYSpinBox->setValue(0);
-                    rotationDoubleSpinBox->setValue(0.0);
-                    countSpinBox->setValue(0);
-                    pcdSpinBox->setValue(0);
-                    thicknessSpinBox->setEnabled(false);
-                    sizeXSpinBox->setEnabled(false);
-                    sizeYSpinBox->setEnabled(false);
-                    rotationDoubleSpinBox->setEnabled(false);
-                    countSpinBox->setEnabled(false);
-                    pcdSpinBox->setEnabled(false);
-                    thicknessSpinBox->setEnabled(false);
-                    colourButton->setColor("Black");
-                    colourButton->setEnabled(false);
-                } else {
-                    sizeXSpinBox->setEnabled(true);
-                    sizeYSpinBox->setEnabled(true);
-                    rotationDoubleSpinBox->setEnabled(true);
-                    countSpinBox->setEnabled(true);
-                    pcdSpinBox->setEnabled(true);
-                    thicknessSpinBox->setEnabled(true);
-                    colourButton->setEnabled(true);
-                }
+        // Anchor types can't have a size, rotation, count, PCD, thickness, or colour
+        if (typeComboBox->currentIndex() == 0)
+        {
+            sizeXSpinBox->setValue(0);
+            sizeYSpinBox->setValue(0);
+            rotationDoubleSpinBox->setValue(0.0);
+            countSpinBox->setValue(0);
+            pcdSpinBox->setValue(0);
+            thicknessSpinBox->setEnabled(false);
+            sizeXSpinBox->setEnabled(false);
+            sizeYSpinBox->setEnabled(false);
+            rotationDoubleSpinBox->setEnabled(false);
+            countSpinBox->setEnabled(false);
+            pcdSpinBox->setEnabled(false);
+            thicknessSpinBox->setEnabled(false);
+            colourButton->setColor("Black");
+            colourButton->setEnabled(false);
+        }
+        else
+        {
+            sizeXSpinBox->setEnabled(true);
+            sizeYSpinBox->setEnabled(true);
+            rotationDoubleSpinBox->setEnabled(true);
+            countSpinBox->setEnabled(true);
+            pcdSpinBox->setEnabled(true);
+            thicknessSpinBox->setEnabled(true);
+            colourButton->setEnabled(true);
+        }
 
-                // Default to linked XY size for Ellipse types only
-                if (typeComboBox->currentIndex() == 1) {
-                    linkXYB->setIcon(QIcon::fromTheme("document-encrypt"));
-                } else {
-                    linkXYB->setIcon(QIcon::fromTheme("document-decrypt"));
-                }
+        // Default to linked XY size for Ellipse types only
+        if (typeComboBox->currentIndex() == 1)
+        {
+            linkXYB->setIcon(QIcon::fromTheme("document-encrypt"));
+        }
+        else
+        {
+            linkXYB->setIcon(QIcon::fromTheme("document-decrypt"));
+        }
 
-                // Allow sizeY = 0 for lines
-                if (typeComboBox->currentIndex() == 3){
-                    sizeYSpinBox->setMinimum(0);
-                } else {
-                    sizeYSpinBox->setMinimum(1);
-                }
-            });
+        // Allow sizeY = 0 for lines
+        if (typeComboBox->currentIndex() == 3)
+        {
+            sizeYSpinBox->setMinimum(0);
+        }
+        else
+        {
+            sizeYSpinBox->setMinimum(1);
+        }
+    });
 
     //Populate typeComboBox
     QStringList typeValues;
     collimationoverlaytype m_types;
     const QMetaObject *m_metaobject = m_types.metaObject();
     QMetaEnum m_metaEnum = m_metaobject->enumerator(m_metaobject->indexOfEnumerator("Types"));
-    for (int i = 0; i < m_metaEnum.keyCount(); i++) {
+    for (int i = 0; i < m_metaEnum.keyCount(); i++)
+    {
         typeValues << tr(m_metaEnum.key(i));
     }
     typeComboBox->clear();
@@ -107,28 +120,35 @@ CollimationOverlayOptions::CollimationOverlayOptions(QWidget *parent) : QDialog(
 
     // SizeX SpinBox
     connect(sizeXSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
-            [this](int value) {
-                updateValue(value, "SizeX");
-                if (linkXYB->icon().name() == "document-encrypt") {
-                    sizeYSpinBox->setValue(sizeXSpinBox->value());
-                    updateValue(value, "SizeY");
-                }
-            });
+            [this](int value)
+    {
+        updateValue(value, "SizeX");
+        if (linkXYB->icon().name() == "document-encrypt")
+        {
+            sizeYSpinBox->setValue(sizeXSpinBox->value());
+            updateValue(value, "SizeY");
+        }
+    });
 
     // SizeY SpinBox
     connect(sizeYSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
-            [this](int value) {
-                updateValue(value, "SizeY");
-            });
+            [this](int value)
+    {
+        updateValue(value, "SizeY");
+    });
 
     //LinkXY Button
     linkXYB->setIcon(QIcon::fromTheme("document-decrypt"));
-    connect(linkXYB, &QPushButton::clicked, this, [this] {
-        if (linkXYB->icon().name() == "document-decrypt") {
+    connect(linkXYB, &QPushButton::clicked, this, [this]
+    {
+        if (linkXYB->icon().name() == "document-decrypt")
+        {
             sizeYSpinBox->setValue(sizeXSpinBox->value());
             linkXYB->setIcon(QIcon::fromTheme("document-encrypt"));
             sizeYSpinBox->setEnabled(false);
-        } else if (linkXYB->icon().name() == "document-encrypt") {
+        }
+        else if (linkXYB->icon().name() == "document-encrypt")
+        {
             linkXYB->setIcon(QIcon::fromTheme("document-decrypt"));
             sizeYSpinBox->setEnabled(true);
         }
@@ -136,61 +156,75 @@ CollimationOverlayOptions::CollimationOverlayOptions(QWidget *parent) : QDialog(
 
     // OffsetX SpinBox
     connect(offsetXSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
-            [this](int value) {
-                updateValue(value, "OffsetX");
-            });
+            [this](int value)
+    {
+        updateValue(value, "OffsetX");
+    });
 
     // OffsetY SpinBox
     connect(offsetYSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
-            [this](int value) {
-                updateValue(value, "OffsetY");
-            });
+            [this](int value)
+    {
+        updateValue(value, "OffsetY");
+    });
 
     // Count SpinBox
     connect(countSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
-            [this](int value) {
-                updateValue(value, "Count");
-                // Single count elements can't have rotation or PCD
-                if (value == 1) {
-                    pcdSpinBox->setEnabled(false);
-                    rotationDoubleSpinBox->setEnabled(false);
-                } else {
-                    pcdSpinBox->setEnabled(true);
-                    rotationDoubleSpinBox->setEnabled(true);
-                }
-            });
+            [this](int value)
+    {
+        updateValue(value, "Count");
+        // Single count elements can't have rotation or PCD
+        if (value == 1)
+        {
+            pcdSpinBox->setEnabled(false);
+            rotationDoubleSpinBox->setEnabled(false);
+        }
+        else
+        {
+            pcdSpinBox->setEnabled(true);
+            rotationDoubleSpinBox->setEnabled(true);
+        }
+    });
 
     //PCD SpinBox
     connect(pcdSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
-            [this](int value) {
-                updateValue(value, "PCD");
-            });
+            [this](int value)
+    {
+        updateValue(value, "PCD");
+    });
 
     // Rotation DoubleSpinBox
     connect(rotationDoubleSpinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
-            [this](double value) {
-                updateValue(value, "Rotation");
-            });
+            [this](double value)
+    {
+        updateValue(value, "Rotation");
+    });
 
     // Color KColorButton
     colourButton->setAlphaChannelEnabled(true);
-    connect(colourButton, static_cast<void (KColorButton::*)(const QColor&)>(&KColorButton::changed), this,
-            [this](QColor value) {
-                updateValue(value, "Colour");
-            });
+    connect(colourButton, static_cast<void (KColorButton::*)(const QColor &)>(&KColorButton::changed), this,
+            [this](QColor value)
+    {
+        updateValue(value, "Colour");
+    });
 
     // Thickness SpinBox
     connect(thicknessSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
-            [this](int value) {
-                updateValue(value, "Thickness");
-            });
+            [this](int value)
+    {
+        updateValue(value, "Thickness");
+    });
 
-    connect(addB, &QPushButton::clicked, this, [this]() {
-        if (addB->icon().name() == "dialog-ok-apply") {
+    connect(addB, &QPushButton::clicked, this, [this]()
+    {
+        if (addB->icon().name() == "dialog-ok-apply")
+        {
             elementNamesList->clearSelection();
             addB->setIcon(QIcon::fromTheme("list-add"));
             selectCollimationOverlayElement("");
-        } else {
+        }
+        else
+        {
             addElement(nameLineEdit->text());
             m_CollimationOverlayElementsModel->select();
             refreshModel();
@@ -198,8 +232,10 @@ CollimationOverlayOptions::CollimationOverlayOptions(QWidget *parent) : QDialog(
         }
     });
 
-    connect(removeB, &QPushButton::clicked, this, [this]() {
-        if (elementNamesList->currentItem() != nullptr) {
+    connect(removeB, &QPushButton::clicked, this, [this]()
+    {
+        if (elementNamesList->currentItem() != nullptr)
+        {
             removeCollimationOverlayElement(elementNamesList->currentItem()->text());
             refreshElements();
             elementNamesList->clearSelection();
@@ -207,27 +243,34 @@ CollimationOverlayOptions::CollimationOverlayOptions(QWidget *parent) : QDialog(
         }
     });
 
-    connect(elementNamesList, &QListWidget::itemClicked, this, [this](QListWidgetItem * item) {
-                Q_UNUSED(item);
-                addB->setIcon(QIcon::fromTheme("list-add"));
-                removeB->setEnabled(true);
-            });
+    connect(elementNamesList, &QListWidget::itemClicked, this, [this](QListWidgetItem * item)
+    {
+        Q_UNUSED(item);
+        addB->setIcon(QIcon::fromTheme("list-add"));
+        removeB->setEnabled(true);
+    });
 
-    connect(elementNamesList, &QListWidget::itemDoubleClicked, this, [this](QListWidgetItem * item) {
+    connect(elementNamesList, &QListWidget::itemDoubleClicked, this, [this](QListWidgetItem * item)
+    {
         selectCollimationOverlayElement(item);
         addB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
-        if (typeComboBox->currentIndex() == 1) {
+        if (typeComboBox->currentIndex() == 1)
+        {
             linkXYB->setIcon(QIcon::fromTheme("document-encrypt"));
-        } else {
+        }
+        else
+        {
             linkXYB->setIcon(QIcon::fromTheme("document-decrypt"));
         }
     });
 
-    connect(renameB, &QPushButton::clicked, this, [this] {
+    connect(renameB, &QPushButton::clicked, this, [this]
+    {
         renameCollimationOverlayElement(nameLineEdit->text());
     })  ;
 
-    connect(elementNamesList, &QListWidget::currentRowChanged, this, [this](int row) {
+    connect(elementNamesList, &QListWidget::currentRowChanged, this, [this](int row)
+    {
         Q_UNUSED(row);
         selectCollimationOverlayElement("");
     });
@@ -240,9 +283,11 @@ void CollimationOverlayOptions::initModel()
     m_CollimationOverlayElements.clear();
     auto userdb = QSqlDatabase::database(KStarsData::Instance()->userdb()->connectionName());
     m_CollimationOverlayElementsModel = new QSqlTableModel(this, userdb);
-    connect(m_CollimationOverlayElementsModel, &QSqlTableModel::dataChanged, this, [this]() {
+    connect(m_CollimationOverlayElementsModel, &QSqlTableModel::dataChanged, this, [this]()
+    {
         m_CollimationOverlayElements.clear();
-        for (int i = 0; i < m_CollimationOverlayElementsModel->rowCount(); ++i) {
+        for (int i = 0; i < m_CollimationOverlayElementsModel->rowCount(); ++i)
+        {
             QVariantMap recordMap;
             QSqlRecord record = m_CollimationOverlayElementsModel->record(i);
             for (int j = 0; j < record.count(); j++)
@@ -251,7 +296,8 @@ void CollimationOverlayOptions::initModel()
             m_CollimationOverlayElements.append(recordMap);
         }
         m_ElementNames.clear();
-        for (auto &oneElement : m_CollimationOverlayElements) {
+        for (auto &oneElement : m_CollimationOverlayElements)
+        {
             m_ElementNames << oneElement["Name"].toString();
         }
         elementNamesList->clear();
@@ -267,7 +313,8 @@ void CollimationOverlayOptions::refreshModel()
     m_CollimationOverlayElements.clear();
     KStars::Instance()->data()->userdb()->GetCollimationOverlayElements(m_CollimationOverlayElements);
     m_ElementNames.clear();
-    for (auto &oneElement : m_CollimationOverlayElements) {
+    for (auto &oneElement : m_CollimationOverlayElements)
+    {
         m_ElementNames << oneElement["Name"].toString();
     }
     elementNamesList->clear();
@@ -295,12 +342,16 @@ QString CollimationOverlayOptions::addElement(const QString &name)
     return element["Name"].toString();
 }
 
-bool CollimationOverlayOptions::setCollimationOverlayElementValue(const QString &name, const QString &field, const QVariant &value)
+bool CollimationOverlayOptions::setCollimationOverlayElementValue(const QString &name, const QString &field,
+        const QVariant &value)
 {
-    for (auto &oneElement : m_CollimationOverlayElements) {
-        if (oneElement["Name"].toString() == name) {
+    for (auto &oneElement : m_CollimationOverlayElements)
+    {
+        if (oneElement["Name"].toString() == name)
+        {
             // If value did not change, just return true
-            if (oneElement[field] == value) {
+            if (oneElement[field] == value)
+            {
                 return true;
             }
             // Update field and database.
@@ -315,7 +366,8 @@ bool CollimationOverlayOptions::setCollimationOverlayElementValue(const QString 
 
 void CollimationOverlayOptions::renameCollimationOverlayElement(const QString &name)
 {
-    if (m_CurrentElement != nullptr && (*m_CurrentElement)["Name"] != name) {
+    if (m_CurrentElement != nullptr && (*m_CurrentElement)["Name"] != name)
+    {
         auto pos = elementNamesList->currentRow();
         // ensure element name uniqueness
         auto unique = uniqueElementName(name, (*m_CurrentElement)["Type"].toString());
@@ -334,7 +386,8 @@ void CollimationOverlayOptions::renameCollimationOverlayElement(const QString &n
 bool CollimationOverlayOptions::setCollimationOverlayElement(const QJsonObject &element)
 {
     auto oneElement = getCollimationOverlayElement(element["id"].toInt());
-    if (!oneElement.empty()) {
+    if (!oneElement.empty())
+    {
         KStarsData::Instance()->userdb()->UpdateCollimationOverlayElement(element.toVariantMap(), oneElement["id"].toInt());
         refreshElements();
         return true;
@@ -344,8 +397,10 @@ bool CollimationOverlayOptions::setCollimationOverlayElement(const QJsonObject &
 
 bool CollimationOverlayOptions::removeCollimationOverlayElement(const QString &name)
 {
-    for (auto &oneElement : m_CollimationOverlayElements) {
-        if (oneElement["Name"].toString() == name) {
+    for (auto &oneElement : m_CollimationOverlayElements)
+    {
+        if (oneElement["Name"].toString() == name)
+        {
             auto id = oneElement["id"].toInt();
             KStarsData::Instance()->userdb()->DeleteCollimationOverlayElement(id);
             refreshElements();
@@ -360,7 +415,8 @@ QString CollimationOverlayOptions::uniqueElementName(QString name, QString type)
     if ("" == name) name = type;
     QString result = name;
     int nr = 1;
-    while (m_ElementNames.contains(result)) {
+    while (m_ElementNames.contains(result))
+    {
         result = QString("%1 (%2)").arg(name).arg(nr++);
     }
     return result;
@@ -368,7 +424,8 @@ QString CollimationOverlayOptions::uniqueElementName(QString name, QString type)
 
 bool CollimationOverlayOptions::selectCollimationOverlayElement(QListWidgetItem *item)
 {
-    if (item != nullptr && selectCollimationOverlayElement(item->text())) {
+    if (item != nullptr && selectCollimationOverlayElement(item->text()))
+    {
         return true;
     }
     return false;
@@ -376,8 +433,10 @@ bool CollimationOverlayOptions::selectCollimationOverlayElement(QListWidgetItem 
 
 bool CollimationOverlayOptions::selectCollimationOverlayElement(const QString &name)
 {
-    for (auto &oneElement : m_CollimationOverlayElements) {
-        if (oneElement["Name"].toString() == name) {
+    for (auto &oneElement : m_CollimationOverlayElements)
+    {
+        if (oneElement["Name"].toString() == name)
+        {
             editing = true;
             m_CurrentElement = &oneElement;
             nameLineEdit->setText(oneElement["Name"].toString());
@@ -431,7 +490,8 @@ void CollimationOverlayOptions::openEditor()
 
 const QVariantMap CollimationOverlayOptions::getCollimationOverlayElement(uint8_t id) const
 {
-    for (auto &oneElement : m_CollimationOverlayElements) {
+    for (auto &oneElement : m_CollimationOverlayElements)
+    {
         if (oneElement["id"].toInt() == id)
             return oneElement;
     }
@@ -440,7 +500,8 @@ const QVariantMap CollimationOverlayOptions::getCollimationOverlayElement(uint8_
 
 bool CollimationOverlayOptions::exists(uint8_t id) const
 {
-    for (auto &oneElement : m_CollimationOverlayElements) {
+    for (auto &oneElement : m_CollimationOverlayElements)
+    {
         if (oneElement["id"].toInt() == id)
             return true;
     }
@@ -449,8 +510,10 @@ bool CollimationOverlayOptions::exists(uint8_t id) const
 
 const QVariantMap CollimationOverlayOptions::getCollimationOverlayElement(const QString &name) const
 {
-    for (auto &oneElement : m_CollimationOverlayElements) {
-        if (oneElement["Name"].toString() == name) {
+    for (auto &oneElement : m_CollimationOverlayElements)
+    {
+        if (oneElement["Name"].toString() == name)
+        {
             return oneElement;
         }
     }
@@ -465,7 +528,8 @@ void CollimationOverlayOptions::refreshElements()
 
 int CollimationOverlayOptions::id(const QString &name) const
 {
-    for (auto &oneElement : m_CollimationOverlayElements) {
+    for (auto &oneElement : m_CollimationOverlayElements)
+    {
         if (oneElement["Name"].toString() == name)
             return oneElement["id"].toUInt();
     }
@@ -474,7 +538,8 @@ int CollimationOverlayOptions::id(const QString &name) const
 
 QString CollimationOverlayOptions::name(int id) const
 {
-    for (auto &oneElement : m_CollimationOverlayElements) {
+    for (auto &oneElement : m_CollimationOverlayElements)
+    {
         if (oneElement["id"].toInt() == id)
             return oneElement["name"].toString();
     }
@@ -483,35 +548,40 @@ QString CollimationOverlayOptions::name(int id) const
 
 void CollimationOverlayOptions::updateValue(QComboBox *cb, const QString &element)
 {
-    if (elementNamesList->currentItem() != nullptr && editing == true) {
+    if (elementNamesList->currentItem() != nullptr && editing == true)
+    {
         setCollimationOverlayElementValue(elementNamesList->currentItem()->text(), element, cb->currentText());
     }
 }
 
 void CollimationOverlayOptions::updateValue(double value, const QString &element)
 {
-    if (elementNamesList->currentItem() != nullptr && editing == true) {
+    if (elementNamesList->currentItem() != nullptr && editing == true)
+    {
         setCollimationOverlayElementValue(elementNamesList->currentItem()->text(), element, value);
     }
 }
 
 void CollimationOverlayOptions::updateValue(int value, const QString &element)
 {
-    if (elementNamesList->currentItem() != nullptr && editing == true) {
+    if (elementNamesList->currentItem() != nullptr && editing == true)
+    {
         setCollimationOverlayElementValue(elementNamesList->currentItem()->text(), element, value);
     }
 }
 
 void CollimationOverlayOptions::updateValue(QColor value, const QString &element)
 {
-    if (elementNamesList->currentItem() != nullptr && editing == true) {
+    if (elementNamesList->currentItem() != nullptr && editing == true)
+    {
         setCollimationOverlayElementValue(elementNamesList->currentItem()->text(), element, value);
     }
 }
 
 void CollimationOverlayOptions::updateValue(QString value, const QString &element)
 {
-    if (elementNamesList->currentItem() != nullptr && editing == true) {
+    if (elementNamesList->currentItem() != nullptr && editing == true)
+    {
         setCollimationOverlayElementValue(elementNamesList->currentItem()->text(), element, value);
     }
 }

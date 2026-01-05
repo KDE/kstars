@@ -22,28 +22,28 @@ class KSNumbers;
  */
 class HorizonComponent : public PointListComponent
 {
-  public:
-    /**
-     * @short Constructor
-     *
-     * @p parent Pointer to the parent SkyComposite object
-     */
-    explicit HorizonComponent(SkyComposite *parent);
+    public:
+        /**
+         * @short Constructor
+         *
+         * @p parent Pointer to the parent SkyComposite object
+         */
+        explicit HorizonComponent(SkyComposite *parent);
 
-    virtual ~HorizonComponent() override = default;
+        virtual ~HorizonComponent() override = default;
 
-    /**
-     * @short Draw the Horizon on the Sky map
-     *
-     * @p map Pointer to the SkyMap object
-     * @p psky Reference to the QPainter on which to paint
-     */
-    void draw(SkyPainter *skyp) override;
+        /**
+         * @short Draw the Horizon on the Sky map
+         *
+         * @p map Pointer to the SkyMap object
+         * @p psky Reference to the QPainter on which to paint
+         */
+        void draw(SkyPainter *skyp) override;
 
-    void update(KSNumbers *) override;
+        void update(KSNumbers *) override;
 
-    bool selected() override;
+        bool selected() override;
 
-  private:
-    void drawCompassLabels();
+    private:
+        void drawCompassLabels();
 };

@@ -51,7 +51,7 @@ class OpsGuide : public QFrame, public Ui::OpsGuide
 
     private slots:
         void setRAGuidePulseAlg(int index);
-      void setDECGuidePulseAlg(int index);
+        void setDECGuidePulseAlg(int index);
 
     private:
         KConfigDialog *m_ConfigDialog { nullptr };

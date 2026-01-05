@@ -183,7 +183,7 @@ void INDI_P::buildSwitchGUI()
         groupB->setExclusive(false);
 
     if (svp->p != IP_RO)
-        QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(newSwitch(QAbstractButton*)));
+        QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton * )), this, SLOT(newSwitch(QAbstractButton * )));
 
     for (int i = 0; i < svp->nsp; i++)
     {

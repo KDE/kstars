@@ -18,15 +18,18 @@ class SkyPainter;
  */
 class EarthShadowComponent : public SkyComponent
 {
-public:
-    EarthShadowComponent(SkyComposite * parent, KSEarthShadow * shadow);
+    public:
+        EarthShadowComponent(SkyComposite * parent, KSEarthShadow * shadow);
 
-    void update(KSNumbers *num) override;
-    void updateSolarSystemBodies(KSNumbers *num) override;
-    bool selected() override { return m_shadow->shouldUpdate(); }
-    void draw(SkyPainter *skyp) override;
+        void update(KSNumbers *num) override;
+        void updateSolarSystemBodies(KSNumbers *num) override;
+        bool selected() override
+        {
+            return m_shadow->shouldUpdate();
+        }
+        void draw(SkyPainter *skyp) override;
 
-private:
-    KSEarthShadow * m_shadow;
-    bool m_up_to_date;
+    private:
+        KSEarthShadow * m_shadow;
+        bool m_up_to_date;
 };

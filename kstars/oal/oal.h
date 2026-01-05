@@ -42,7 +42,7 @@ inline int warningOverwrite(QString message)
 {
 #ifndef KSTARS_LITE
     return KMessageBox::warningContinueCancel(nullptr, message, xi18n("Overwrite"), KStandardGuiItem::overwrite(),
-                                     KStandardGuiItem::cancel());
+            KStandardGuiItem::cancel());
 #else
     return 0;
 #endif

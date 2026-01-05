@@ -24,13 +24,13 @@ TimeStepBox::TimeStepBox(QWidget *parent, bool daysonly) : QWidget(parent)
 
     this->setWhatsThis(
         i18n("Set the timescale for the simulation clock.  A setting of \"1 sec\" means the clock advances in "
-             "real-time, keeping up perfectly with your CPU clock.  Higher values make the simulation clock run "
-             "faster, lower values make it run slower.  Negative values make it run backwards."
-             "\n\n"
-             "There are two pairs of up/down buttons.  The left pair will cycle through all available timesteps in "
-             "sequence.  Since there are a large number of timesteps, the right pair is provided to skip to the next "
-             "higher/lower unit of time.  For example, if the timescale is currently \"1 min\", the right up button "
-             "will make it \"1 hour\", and the right down button will make it \"1 sec\""));
+         "real-time, keeping up perfectly with your CPU clock.  Higher values make the simulation clock run "
+         "faster, lower values make it run slower.  Negative values make it run backwards."
+         "\n\n"
+         "There are two pairs of up/down buttons.  The left pair will cycle through all available timesteps in "
+         "sequence.  Since there are a large number of timesteps, the right pair is provided to skip to the next "
+         "higher/lower unit of time.  For example, if the timescale is currently \"1 min\", the right up button "
+         "will make it \"1 hour\", and the right down button will make it \"1 sec\""));
     hlay = new QHBoxLayout(this);
     hlay->setContentsMargins(0, 0, 0, 0);
     hlay->setSpacing(0);

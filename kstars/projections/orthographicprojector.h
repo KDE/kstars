@@ -17,12 +17,12 @@
  */
 class OrthographicProjector : public Projector
 {
-  public:
-    explicit OrthographicProjector(const ViewParams &p);
-    Projection type() const override;
-    double radius() const override;
-    double projectionK(double x) const override;
-    double projectionL(double x) const override;
+    public:
+        explicit OrthographicProjector(const ViewParams &p);
+        Projection type() const override;
+        double radius() const override;
+        double projectionK(double x) const override;
+        double projectionL(double x) const override;
 };
 
 #endif // ORTHOGRAPHICPROJECTOR_H

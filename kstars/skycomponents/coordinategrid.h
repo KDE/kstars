@@ -22,15 +22,15 @@ class SkyPainter;
  */
 class CoordinateGrid : public NoPrecessIndex
 {
-  public:
-    /**
-     * @short Constructor
-     * Simply adds all of the coordinate grid circles (meridians and parallels)
-     * @p parent Pointer to the parent SkyComposite object
-     */
-    CoordinateGrid(SkyComposite *parent, const QString &name);
+    public:
+        /**
+         * @short Constructor
+         * Simply adds all of the coordinate grid circles (meridians and parallels)
+         * @p parent Pointer to the parent SkyComposite object
+         */
+        CoordinateGrid(SkyComposite *parent, const QString &name);
 
-    void preDraw(SkyPainter *skyp) override = 0;
+        void preDraw(SkyPainter *skyp) override = 0;
 
-    bool selected() override = 0;
+        bool selected() override = 0;
 };

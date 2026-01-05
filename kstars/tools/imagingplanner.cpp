@@ -1259,7 +1259,7 @@ void ImagingPlanner::initialize()
     // Initialize image and catalog section
     m_NoImagePixmap =
         QPixmap(":/images/noimage.png").scaled(ui->ImagePreview->width(), ui->ImagePreview->height(), Qt::KeepAspectRatio,
-                Qt::FastTransformation);
+            Qt::FastTransformation);
     setDefaultImage();
     connect(ui->LoadCatalogButton, &QPushButton::clicked, this, &ImagingPlanner::loadCatalogViaMenu);
     connect(ui->LoadCatalogButton2, &QPushButton::clicked, this, &ImagingPlanner::loadCatalogViaMenu);
@@ -2394,8 +2394,8 @@ void ImagingPlanner::loadInitialCatalog()
     {
         KSNotification::sorry(
             i18n("You need to load a catalog to start using this tool.\n"
-                 "Use the Load Catalog button if you have one.\n"
-                 "See Data -> Download New Data if not..."));
+             "Use the Load Catalog button if you have one.\n"
+             "See Data -> Download New Data if not..."));
         setStatus(i18n("No Catalog!"));
     }
     else
@@ -3965,19 +3965,19 @@ void ImagingPlanner::takeScreenshot()
     const QString messageID = "ImagingPlannerScreenShotInfo";
     const QString screenshotInfo =
         QString("<p><b>Taking a screenshot of %1 for the SkyMap</b></p>"
-                "<p>This allows you to screenshot/copy a good example image of %1 from another application, "
-                "such as a browser viewing %1 on Astrobin. It then plate-solves that screenshot and overlays "
-                "it temporarily on the SkyMap.</p>"
-                "<p>You can use this to help you frame your future %1 capture. "
-                "The SkyMap overlay will only be visible in the current KStars session.</p>"
-                "<p>In order to do this, you should make the image you wish to copy visible "
-                "on your screen now, before clicking OK. After you click OK you will see the mouse pointer change "
-                "to the screenshot pointer. You then drag your mouse over the part of the %1 image "
-                "you wish to copy. If you check do-not-ask-again, then you must make sure that your desired image "
-                "is already visible before you run this.</p>"
-                "<p>After you take your screenshot, the system will bring up a menu to help plate-solve the image. "
-                "Click SOLVE on that menu to start the process, unless it is automatically started. "
-                "Once successfully plate-solved, your image will be overlayed onto the SkyMap.").arg(currentObjectName());
+            "<p>This allows you to screenshot/copy a good example image of %1 from another application, "
+            "such as a browser viewing %1 on Astrobin. It then plate-solves that screenshot and overlays "
+            "it temporarily on the SkyMap.</p>"
+            "<p>You can use this to help you frame your future %1 capture. "
+            "The SkyMap overlay will only be visible in the current KStars session.</p>"
+            "<p>In order to do this, you should make the image you wish to copy visible "
+            "on your screen now, before clicking OK. After you click OK you will see the mouse pointer change "
+            "to the screenshot pointer. You then drag your mouse over the part of the %1 image "
+            "you wish to copy. If you check do-not-ask-again, then you must make sure that your desired image "
+            "is already visible before you run this.</p>"
+            "<p>After you take your screenshot, the system will bring up a menu to help plate-solve the image. "
+            "Click SOLVE on that menu to start the process, unless it is automatically started. "
+            "Once successfully plate-solved, your image will be overlayed onto the SkyMap.").arg(currentObjectName());
 #if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     if (KMessageBox::questionTwoActions(KStars::Instance(),
                                         screenshotInfo,

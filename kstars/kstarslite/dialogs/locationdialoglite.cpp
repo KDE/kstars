@@ -137,7 +137,7 @@ void LocationDialogLite::filterCity(const QString &city, const QString &province
             sp = loc->translatedProvince();
 
         if (sc.toLower().startsWith(city.toLower()) && sp.toLower().startsWith(province.toLower()) &&
-            ss.toLower().startsWith(country.toLower()))
+                ss.toLower().startsWith(country.toLower()))
         {
             QString name = loc->fullName();
             cities.append(name);

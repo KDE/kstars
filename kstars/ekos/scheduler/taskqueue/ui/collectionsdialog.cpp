@@ -103,12 +103,12 @@ void CollectionsDialog::loadCollections()
 
     // Look for collections in data directory
     QStringList dataDirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
-    
+
     for (const QString &dataDir : dataDirs)
     {
         QString collectionsPath = dataDir + "/kstars/taskqueue/collections";
         QDir dir(collectionsPath);
-        
+
         if (!dir.exists())
             continue;
 
@@ -119,7 +119,7 @@ void CollectionsDialog::loadCollections()
         for (const QFileInfo &fileInfo : files)
         {
             QString filePath = fileInfo.absoluteFilePath();
-            
+
             // Read collection file to get name
             QFile file(filePath);
             if (!file.open(QIODevice::ReadOnly))
@@ -133,7 +133,7 @@ void CollectionsDialog::loadCollections()
 
             QJsonObject obj = doc.object();
             QString name = obj["name"].toString();
-            
+
             if (name.isEmpty())
                 name = fileInfo.baseName();
 
@@ -141,7 +141,7 @@ void CollectionsDialog::loadCollections()
             auto *item = new QListWidgetItem(QIcon::fromTheme("folder-templates"), name);
             item->setToolTip(filePath);
             m_collectionList->addItem(item);
-            
+
             m_collectionFiles[name] = filePath;
         }
     }
@@ -155,7 +155,7 @@ void CollectionsDialog::loadCollections()
 void CollectionsDialog::onCollectionSelected(QListWidgetItem *current, QListWidgetItem *previous)
 {
     Q_UNUSED(previous);
-    
+
     if (!current)
     {
         m_loadButton->setEnabled(false);
@@ -167,13 +167,13 @@ void CollectionsDialog::onCollectionSelected(QListWidgetItem *current, QListWidg
 
     QString name = current->text();
     QString filePath = m_collectionFiles.value(name);
-    
+
     if (filePath.isEmpty())
         return;
 
     m_selectedCollection = filePath;
     m_loadButton->setEnabled(true);
-    
+
     displayCollectionDetails(filePath);
 }
 
@@ -200,7 +200,7 @@ void CollectionsDialog::displayCollectionDetails(const QString &filePath)
     }
 
     QJsonObject obj = doc.object();
-    
+
     // Display name
     QString name = obj["name"].toString();
     m_nameLabel->setText(name);
@@ -212,22 +212,22 @@ void CollectionsDialog::displayCollectionDetails(const QString &filePath)
     // Display tasks
     QJsonArray tasks = obj["tasks"].toArray();
     QString tasksText = i18n("<b>Tasks (%1):</b><br/>", tasks.size());
-    
+
     int taskNum = 1;
     for (const QJsonValue &taskVal : tasks)
     {
         QJsonObject task = taskVal.toObject();
         QString templateId = task["template_id"].toString();
-        
+
         // Convert template ID to display name
         QString displayName = templateId;
         displayName.replace('_', ' ');
         displayName = displayName.left(1).toUpper() + displayName.mid(1);
-        
+
         tasksText += QString("%1. %2<br/>").arg(taskNum).arg(displayName);
         taskNum++;
     }
-    
+
     m_tasksLabel->setText(tasksText);
 }
 

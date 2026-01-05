@@ -3,20 +3,21 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 class CameraDataFileUtilityDialog;
 }
 
 class CameraDataFileUtilityDialog : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit CameraDataFileUtilityDialog(QWidget *parent = nullptr);
-    ~CameraDataFileUtilityDialog();
+    public:
+        explicit CameraDataFileUtilityDialog(QWidget *parent = nullptr);
+        ~CameraDataFileUtilityDialog();
 
-private:
-    Ui::CameraDataFileUtilityDialog *ui;
+    private:
+        Ui::CameraDataFileUtilityDialog *ui;
 };
 
 #endif // CAMERADATAFILEUTILITYDIALOG_H

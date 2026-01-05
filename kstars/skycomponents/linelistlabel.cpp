@@ -174,7 +174,7 @@ void LineListLabel::draw()
 QPointF LineListLabel::angleAt(const Projector *proj, LineList *list, int i, double *angle)
 {
     const SkyPoint *pThis = list->at(i).get();
-    const SkyPoint *pLast = list->at(i-1).get();
+    const SkyPoint *pLast = list->at(i - 1).get();
 
     QPointF oThis = proj->toScreen(pThis);
     QPointF oLast = proj->toScreen(pLast);

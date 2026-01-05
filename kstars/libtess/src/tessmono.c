@@ -16,7 +16,7 @@
  * (what else would it do??)  The region must consist of a single
  * loop of half-edges (see mesh.h) oriented CCW.  "Monotone" in this
  * case means that any vertical line intersects the interior of the
- * region in a single interval.  
+ * region in a single interval.
  *
  * Tessellation consists of adding interior edges (actually pairs of
  * half-edges), to split the region into non-overlapping triangles.
@@ -44,10 +44,10 @@ int __gl_meshTessellateMonoRegion(GLUface *face)
     GLUhalfEdge *up, *lo;
 
     /* All edges are oriented CCW around the boundary of the region.
-   * First, find the half-edge whose origin vertex is rightmost.
-   * Since the sweep goes from left to right, face->anEdge should
-   * be close to the edge we want.
-   */
+    * First, find the half-edge whose origin vertex is rightmost.
+    * Since the sweep goes from left to right, face->anEdge should
+    * be close to the edge we want.
+    */
     up = face->anEdge;
     assert(up->Lnext != up && up->Lnext->Lnext != up);
 
@@ -62,9 +62,9 @@ int __gl_meshTessellateMonoRegion(GLUface *face)
         if (VertLeq(up->Dst, lo->Org))
         {
             /* up->Dst is on the left.  It is safe to form triangles from lo->Org.
-       * The EdgeGoesLeft test guarantees progress even when some triangles
-       * are CW, given that the upper and lower chains are truly monotone.
-       */
+            * The EdgeGoesLeft test guarantees progress even when some triangles
+            * are CW, given that the upper and lower chains are truly monotone.
+            */
             while (lo->Lnext != up && (EdgeGoesLeft(lo->Lnext) || EdgeSign(lo->Org, lo->Dst, lo->Lnext->Dst) <= 0))
             {
                 GLUhalfEdge *tempHalfEdge = __gl_meshConnect(lo->Lnext, lo);
@@ -89,8 +89,8 @@ int __gl_meshTessellateMonoRegion(GLUface *face)
     }
 
     /* Now lo->Org == up->Dst == the leftmost vertex.  The remaining region
-   * can be tessellated in a fan from this leftmost vertex.
-   */
+    * can be tessellated in a fan from this leftmost vertex.
+    */
     assert(lo->Lnext != up);
     while (lo->Lnext->Lnext != up)
     {

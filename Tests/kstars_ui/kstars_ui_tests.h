@@ -110,92 +110,92 @@ extern void execute_tests();
 // It inherits from QObject, and defines private slots as test functions
 class KStarsUiTests : public QObject
 {
-    Q_OBJECT
-public:
-    explicit KStarsUiTests(QObject *parent = nullptr): QObject(parent) {};
+        Q_OBJECT
+    public:
+        explicit KStarsUiTests(QObject *parent = nullptr): QObject(parent) {};
 
-public:
-    static QSystemTrayIcon * m_Notifier;
-    static void notifierBegin();
-    static void notifierHide();
-    static void notifierMessage(QString, QString);
-    static void notifierEnd();
+    public:
+        static QSystemTrayIcon * m_Notifier;
+        static void notifierBegin();
+        static void notifierHide();
+        static void notifierMessage(QString, QString);
+        static void notifierEnd();
 
-private slots:
+    private slots:
 
-    /** @brief Members "initTestCase" and "cleanupTestCase" trigger when the framework processes this class.
-     * Member "initTestCase" is executed before any other declared test.
-     * Member "cleanupTestCase" is executed after all tests are done.
-     */
-    /** @{ */
-    void initTestCase() {};
-    void cleanupTestCase() {};
-    /** @} */
+        /** @brief Members "initTestCase" and "cleanupTestCase" trigger when the framework processes this class.
+         * Member "initTestCase" is executed before any other declared test.
+         * Member "cleanupTestCase" is executed after all tests are done.
+         */
+        /** @{ */
+        void initTestCase() {};
+        void cleanupTestCase() {};
+        /** @} */
 
-    /** @brief Members "init" and "cleanup" trigger when the framework process one test from this class.
-     * Member "init" is executed before each declared test.
-     * Member "cleanup" is executed after each test is done.
-     */
-    /** @{ */
-    void init() {};
-    void cleanup() {};
-    /** @} */
+        /** @brief Members "init" and "cleanup" trigger when the framework process one test from this class.
+         * Member "init" is executed before each declared test.
+         * Member "cleanup" is executed after each test is done.
+         */
+        /** @{ */
+        void init() {};
+        void cleanup() {};
+        /** @} */
 
-    /** @brief Tests should be defined as "test<a-particular-feature>" for homogeneity.
-     * Use QVERIFY and others to validate tests that reply immediately.
-     * If the application needs to process events while you wait for something, use QTRY_VERIFY_WITH_TIMEOUT.
-     * If the application needs to process signals while you wait for something, use QTimer::singleShot to run your QVERIFY checks with an arbitrary delay.
-     * If the application opens dialogs inside signals while you wait for something but you cannot determine the delay, use
-     * QTimer::singleShot with a lambda, and retrigger the timer until your check can be verified.
-     */
+        /** @brief Tests should be defined as "test<a-particular-feature>" for homogeneity.
+         * Use QVERIFY and others to validate tests that reply immediately.
+         * If the application needs to process events while you wait for something, use QTRY_VERIFY_WITH_TIMEOUT.
+         * If the application needs to process signals while you wait for something, use QTimer::singleShot to run your QVERIFY checks with an arbitrary delay.
+         * If the application opens dialogs inside signals while you wait for something but you cannot determine the delay, use
+         * QTimer::singleShot with a lambda, and retrigger the timer until your check can be verified.
+         */
 
-    void testSomethingThatWorks()
-    {
-        QVERIFY(QString("this string contains").contains("string"));
-    };
+        void testSomethingThatWorks()
+        {
+            QVERIFY(QString("this string contains").contains("string"));
+        };
 
-    /** @brief Tests that require fixtures can define those in "test<a-particular-feature>_data" as a record list.
-     * Condition your test with QT_VERSION >= 0x050900 as this is the minimal version that supports this.
-     * Add data columns to your fixture with QTest::addColum<column-type>("column-name").
-     * In the same order, add data rows to your fixture with QTest::addRow("<arbitrary-row-identifier>") << column1 << column2 << ...
-     * Afterwards, in your test, use QFETCH(<column-type>, <column-name>) to obtain values for one row of your fixture.
-     * Your test will be run as many times as there are rows, so use initTestCase and cleanupTestCase.
-     */
-    /** @{ */
-    void testAnotherThingThatWorks_data()
-    {
+        /** @brief Tests that require fixtures can define those in "test<a-particular-feature>_data" as a record list.
+         * Condition your test with QT_VERSION >= 0x050900 as this is the minimal version that supports this.
+         * Add data columns to your fixture with QTest::addColum<column-type>("column-name").
+         * In the same order, add data rows to your fixture with QTest::addRow("<arbitrary-row-identifier>") << column1 << column2 << ...
+         * Afterwards, in your test, use QFETCH(<column-type>, <column-name>) to obtain values for one row of your fixture.
+         * Your test will be run as many times as there are rows, so use initTestCase and cleanupTestCase.
+         */
+        /** @{ */
+        void testAnotherThingThatWorks_data()
+        {
 #if QT_VERSION < 0x050900
-        QSKIP("Skipping fixture-based test on old QT version.");
+            QSKIP("Skipping fixture-based test on old QT version.");
 #else
-        QTest::addColumn <int> ("A");
-        QTest::addColumn <int> ("B");
-        QTest::addColumn <int> ("C");
-        QTest::addRow("1+1=2") << 1 << 1 << 2;
-        QTest::addRow("1+4=5") << 1 << 4 << 5;
+            QTest::addColumn <int> ("A");
+            QTest::addColumn <int> ("B");
+            QTest::addColumn <int> ("C");
+            QTest::addRow("1+1=2") << 1 << 1 << 2;
+            QTest::addRow("1+4=5") << 1 << 4 << 5;
 #endif
-    };
+        };
 
-    void testAnotherThingThatWorks()
-    {
+        void testAnotherThingThatWorks()
+        {
 #if QT_VERSION < 0x050900
-        QSKIP("Skipping fixture-based test on old QT version.");
+            QSKIP("Skipping fixture-based test on old QT version.");
 #else
-        QFETCH(int, A);
-        QFETCH(int, B);
-        QFETCH(int, C);
-        QVERIFY(A+B == C);
+            QFETCH(int, A);
+            QFETCH(int, B);
+            QFETCH(int, C);
+            QVERIFY(A + B == C);
 #endif
-    };
-    /** @} */
+        };
+        /** @} */
 
-    /** @brief Tests that are built to reproduce a bug should expect failures with QEXPECT_FAIL.
-     * When the bug is resolved, that test will trigger a failure to verify the fix and may then be updated to remove the expected failure.
-     * The first argument of QEXPECT_FAIL provides a way to fail on a particular fixture only.
-     * If the test is not using a fixture or if the failure should trigger for all fixtures, the first argument must be "".
-     */
-    void testSomethingThatFails()
-    {
-        QEXPECT_FAIL("", "The next verification will fail, but the test will continue", Continue);
-        QVERIFY(1+1 == 3);
-    }
+        /** @brief Tests that are built to reproduce a bug should expect failures with QEXPECT_FAIL.
+         * When the bug is resolved, that test will trigger a failure to verify the fix and may then be updated to remove the expected failure.
+         * The first argument of QEXPECT_FAIL provides a way to fail on a particular fixture only.
+         * If the test is not using a fixture or if the failure should trigger for all fixtures, the first argument must be "".
+         */
+        void testSomethingThatFails()
+        {
+            QEXPECT_FAIL("", "The next verification will fail, but the test will continue", Continue);
+            QVERIFY(1 + 1 == 3);
+        }
 };

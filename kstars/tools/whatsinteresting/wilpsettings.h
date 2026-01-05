@@ -21,11 +21,11 @@ class KStars;
  */
 class WILPSettings : public QFrame, public Ui::WILPSettings
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit WILPSettings(KStars *ks);
+    public:
+        explicit WILPSettings(KStars *ks);
 
-  private:
-    KStars *m_Ks { nullptr };
+    private:
+        KStars *m_Ks { nullptr };
 };

@@ -26,45 +26,46 @@ class QHostAddress;
  *
  * \todo Implement NSEC block code generation in the \c sendResponse() packet
  */
-class qMDNS : public QObject {
-    Q_OBJECT
+class qMDNS : public QObject
+{
+        Q_OBJECT
 
-  signals:
-    void hostFound (const QHostInfo& info);
+    signals:
+        void hostFound (const QHostInfo& info);
 
-  public:
-    static qMDNS* getInstance();
+    public:
+        static qMDNS* getInstance();
 
-    QString hostName() const;
-    QString getAddress (const QString& string);
+        QString hostName() const;
+        QString getAddress (const QString& string);
 
-  protected:
-    explicit qMDNS();
-    ~qMDNS();
+    protected:
+        explicit qMDNS();
+        ~qMDNS();
 
-  public slots:
-    void setTTL (const quint32 ttl);
-    void lookup (const QString& name);
-    void setHostName (const QString& name);
+    public slots:
+        void setTTL (const quint32 ttl);
+        void lookup (const QString& name);
+        void setHostName (const QString& name);
 
-  private slots:
-    void onReadyRead();
-    void readQuery (const QByteArray& data);
-    void sendPacket (const QByteArray& data);
-    void readResponse (const QByteArray& data);
-    void sendResponse (const quint16 query_id);
+    private slots:
+        void onReadyRead();
+        void readQuery (const QByteArray& data);
+        void sendPacket (const QByteArray& data);
+        void readResponse (const QByteArray& data);
+        void sendResponse (const quint16 query_id);
 
-  private:
-    QString getHostNameFromResponse (const QByteArray& data);
-    QString getIPv4FromResponse (const QByteArray& data, const QString& host);
-    QStringList getIPv6FromResponse (const QByteArray& data, const QString& host);
-    QList<QHostAddress> getAddressesFromResponse (const QByteArray& data,
-                                                  const QString& host);
+    private:
+        QString getHostNameFromResponse (const QByteArray& data);
+        QString getIPv4FromResponse (const QByteArray& data, const QString& host);
+        QStringList getIPv6FromResponse (const QByteArray& data, const QString& host);
+        QList<QHostAddress> getAddressesFromResponse (const QByteArray& data,
+                const QString& host);
 
-  private:
-    quint32 m_ttl;
-    QString m_hostName;
-    QString m_serviceName;
-    QUdpSocket* m_IPv4Socket;
-    QUdpSocket* m_IPv6Socket;
+    private:
+        quint32 m_ttl;
+        QString m_hostName;
+        QString m_serviceName;
+        QUdpSocket* m_IPv4Socket;
+        QUdpSocket* m_IPv6Socket;
 };

@@ -36,46 +36,46 @@
 
 class TargetListComponent : public SkyComponent
 {
-  public:
-    /**
-     * @short Default constructor.
-     */
-    explicit TargetListComponent(SkyComposite *parent);
+    public:
+        /**
+         * @short Default constructor.
+         */
+        explicit TargetListComponent(SkyComposite *parent);
 
-    /**
-     * @short Constructor that sets up this target list
-     */
-    TargetListComponent(SkyComposite *parent, QList<SkyObject *> *objectList, QPen _pen,
-                        bool (*optionDrawSymbols)(void) = nullptr, bool (*optionDrawLabels)(void) = nullptr);
+        /**
+         * @short Constructor that sets up this target list
+         */
+        TargetListComponent(SkyComposite *parent, QList<SkyObject *> *objectList, QPen _pen,
+                            bool (*optionDrawSymbols)(void) = nullptr, bool (*optionDrawLabels)(void) = nullptr);
 
-    ~TargetListComponent() override;
+        ~TargetListComponent() override;
 
-    /**
-     * @short Draw this component by iterating over the list.
-     *
-     * @note This method does not bother refreshing the coordinates of
-     * the objects on the list. So this must be called only after the
-     * objects are drawn in a given draw cycle.
-     */
-    void draw(SkyPainter *skyp) override;
+        /**
+         * @short Draw this component by iterating over the list.
+         *
+         * @note This method does not bother refreshing the coordinates of
+         * the objects on the list. So this must be called only after the
+         * objects are drawn in a given draw cycle.
+         */
+        void draw(SkyPainter *skyp) override;
 
-    // FIXME: Maybe we should make these member objects private / protected?
-    /// Pointer to list of objects to draw
-    std::unique_ptr<SkyObjectList> list;
-    /// Pointer to list of objects to draw
-    QList<QSharedPointer<SkyObject>> list2;
-    /// Pen to use to draw
-    QPen pen;
+        // FIXME: Maybe we should make these member objects private / protected?
+        /// Pointer to list of objects to draw
+        std::unique_ptr<SkyObjectList> list;
+        /// Pointer to list of objects to draw
+        QList<QSharedPointer<SkyObject>> list2;
+        /// Pen to use to draw
+        QPen pen;
 
-    /**
-     * @short Pointer to static method that tells us whether to draw this list or not
-     * @note If the pointer is nullptr, the list is drawn nevertheless
-     */
-    bool (*drawSymbols)(void);
+        /**
+         * @short Pointer to static method that tells us whether to draw this list or not
+         * @note If the pointer is nullptr, the list is drawn nevertheless
+         */
+        bool (*drawSymbols)(void);
 
-    /**
-     * @short Pointer to static method that tells us whether to draw labels for this list or not
-     * @note If the pointer is nullptr, labels are not drawn
-     */
-    bool (*drawLabels)(void);
+        /**
+         * @short Pointer to static method that tells us whether to draw labels for this list or not
+         * @note If the pointer is nullptr, labels are not drawn
+         */
+        bool (*drawLabels)(void);
 };

@@ -22,13 +22,13 @@
 #if 0
 static void Normalize( GLdouble v[3] )
 {
-  GLdouble len = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
+    GLdouble len = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
 
-  assert( len > 0 );
-  len = sqrt( len );
-  v[0] /= len;
-  v[1] /= len;
-  v[2] /= len;
+    assert( len > 0 );
+    len = sqrt( len );
+    v[0] /= len;
+    v[1] /= len;
+    v[2] /= len;
 }
 #endif
 
@@ -81,8 +81,8 @@ static void ComputeNormal(GLUtesselator *tess, GLdouble norm[3])
     }
 
     /* Find two vertices separated by at least 1/sqrt(3) of the maximum
-   * distance between any two vertices
-   */
+    * distance between any two vertices
+    */
     i = 0;
     if (maxVal[1] - minVal[1] > maxVal[0] - minVal[0])
     {
@@ -102,8 +102,8 @@ static void ComputeNormal(GLUtesselator *tess, GLdouble norm[3])
     }
 
     /* Look for a third vertex which forms the triangle with maximum area
-   * (Length of normal == twice the triangle area)
-   */
+    * (Length of normal == twice the triangle area)
+    */
     maxLen2 = 0;
     v1      = minVert[i];
     v2      = maxVert[i];
@@ -144,8 +144,8 @@ static void CheckOrientation(GLUtesselator *tess)
     GLUhalfEdge *e;
 
     /* When we compute the normal automatically, we choose the orientation
-   * so that the sum of the signed areas of all contours is non-negative.
-   */
+    * so that the sum of the signed areas of all contours is non-negative.
+    */
     area = 0;
     for (f = fHead->next; f != fHead; f = f->next)
     {
@@ -156,7 +156,8 @@ static void CheckOrientation(GLUtesselator *tess)
         {
             area += (e->Org->s - e->Dst->s) * (e->Org->t + e->Dst->t);
             e = e->Lnext;
-        } while (e != f->anEdge);
+        }
+        while (e != f->anEdge);
     }
     if (area < 0)
     {
@@ -219,8 +220,8 @@ void __gl_projectPolygon(GLUtesselator *tess)
 
 #if defined(FOR_TRITE_TEST_PROGRAM) || defined(TRUE_PROJECT)
     /* Choose the initial sUnit vector to be approximately perpendicular
-   * to the normal.
-   */
+    * to the normal.
+    */
     Normalize(norm);
 
     sUnit[i]           = 0;

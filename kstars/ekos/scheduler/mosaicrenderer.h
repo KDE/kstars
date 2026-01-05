@@ -27,9 +27,9 @@ class MosaicRenderer : public QObject
 
     private:
 
-      Projector *m_Projecter {nullptr};
-      MosaicTilesManager *m_TilesManager {nullptr};
+        Projector *m_Projecter {nullptr};
+        MosaicTilesManager *m_TilesManager {nullptr};
 
-      QGraphicsScene m_TilesScene;
+        QGraphicsScene m_TilesScene;
 };
 }

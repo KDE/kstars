@@ -7,7 +7,8 @@
 #include "oal/dslrlens.h"
 #include <QJsonObject>
 
-void OAL::DSLRLens::setDSLRLens(const QString &_id, const QString &_model, const QString &_vendor, double _focalLength, double _focalRatio)
+void OAL::DSLRLens::setDSLRLens(const QString &_id, const QString &_model, const QString &_vendor, double _focalLength,
+                                double _focalRatio)
 {
     m_Id          = _id;
     m_Model       = _model;
@@ -15,7 +16,8 @@ void OAL::DSLRLens::setDSLRLens(const QString &_id, const QString &_model, const
     m_FocalLength = _focalLength;
     m_FocalRatio  = _focalRatio;
 
-    m_Name = QString("%1 %2 %3@F/%4").arg(m_Vendor, m_Model, QString::number(m_FocalLength, 'f', 0), QString::number(m_FocalRatio, 'f', 1));
+    m_Name = QString("%1 %2 %3@F/%4").arg(m_Vendor, m_Model, QString::number(m_FocalLength, 'f', 0),
+                                          QString::number(m_FocalRatio, 'f', 1));
 }
 
 QJsonObject OAL::DSLRLens::toJson() const

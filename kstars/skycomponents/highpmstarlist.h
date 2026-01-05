@@ -27,49 +27,55 @@ class SkyMesh;
 
 class HighPMStarList
 {
-  public:
-    /** @short Constructor */
-    explicit HighPMStarList(double threshold);
-    ~HighPMStarList();
+    public:
+        /** @short Constructor */
+        explicit HighPMStarList(double threshold);
+        ~HighPMStarList();
 
-    /**
-     * @short adds the star located at trixel to the list if the pm is
-     * greater than the threshold.  We also use the pm to determine the
-     * update interval.  Returns true if the star was appended and false
-     * otherwise.
-     */
-    bool append(Trixel trixel, StarObject *star, double pm);
+        /**
+         * @short adds the star located at trixel to the list if the pm is
+         * greater than the threshold.  We also use the pm to determine the
+         * update interval.  Returns true if the star was appended and false
+         * otherwise.
+         */
+        bool append(Trixel trixel, StarObject *star, double pm);
 
-    /** @short returns the threshold. */
-    double threshold() const { return m_threshold; }
+        /** @short returns the threshold. */
+        double threshold() const
+        {
+            return m_threshold;
+        }
 
-    /** @short returns the number of stars in the list. */
-    int size() const { return m_stars.size(); }
+        /** @short returns the number of stars in the list. */
+        int size() const
+        {
+            return m_stars.size();
+        }
 
-    /**
-     * @short sets the time this list was last indexed to.  Normally this
-     * is done automatically in the reindex() routine but this is useful
-     * if the entire starIndex gets re-indexed.
-     */
-    void setIndexTime(KSNumbers *num);
+        /**
+         * @short sets the time this list was last indexed to.  Normally this
+         * is done automatically in the reindex() routine but this is useful
+         * if the entire starIndex gets re-indexed.
+         */
+        void setIndexTime(KSNumbers *num);
 
-    /**
-     * @short if the date in num differs from the last time we indexed by
-     * more than our update interval then we re-index all the stars in our
-     * list that have actually changed trixels.
-     */
-    bool reindex(KSNumbers *num, StarIndex *starIndex);
+        /**
+         * @short if the date in num differs from the last time we indexed by
+         * more than our update interval then we re-index all the stars in our
+         * list that have actually changed trixels.
+         */
+        bool reindex(KSNumbers *num, StarIndex *starIndex);
 
-    /** @short prints out some brief statistics. */
-    void stats();
+        /** @short prints out some brief statistics. */
+        void stats();
 
-  private:
-    QVector<HighPMStar *> m_stars;
+    private:
+        QVector<HighPMStar *> m_stars;
 
-    KSNumbers m_reindexNum;
-    double m_reindexInterval { 0 };
-    double m_threshold { 0 };
-    double m_maxPM { 0 };
+        KSNumbers m_reindexNum;
+        double m_reindexInterval { 0 };
+        double m_threshold { 0 };
+        double m_maxPM { 0 };
 
-    SkyMesh *m_skyMesh { nullptr };
+        SkyMesh *m_skyMesh { nullptr };
 };

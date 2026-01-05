@@ -15,10 +15,10 @@ class GeoLocation;
 
 class SkyCalendarUI : public QFrame, public Ui::SkyCalendar
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit SkyCalendarUI(QWidget *p = nullptr);
+    public:
+        explicit SkyCalendarUI(QWidget *p = nullptr);
 };
 
 /**
@@ -28,30 +28,30 @@ class SkyCalendarUI : public QFrame, public Ui::SkyCalendar
  */
 class SkyCalendar : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-    friend class CalendarWidget;
+        friend class CalendarWidget;
 
-  public:
-    explicit SkyCalendar(QWidget *parent = nullptr);
-    ~SkyCalendar() = default;
+    public:
+        explicit SkyCalendar(QWidget *parent = nullptr);
+        ~SkyCalendar() = default;
 
-    int year();
-    GeoLocation *get_geo();
+        int year();
+        GeoLocation *get_geo();
 
-  public slots:
-    void slotFillCalendar();
-    void slotPrint();
-    void slotLocation();
-    //void slotCalculating();
+    public slots:
+        void slotFillCalendar();
+        void slotPrint();
+        void slotLocation();
+        //void slotCalculating();
 
-  private:
-    void addPlanetEvents(int nPlanet);
-    void drawEventLabel(float x1, float y1, float x2, float y2, QString LabelText);
+    private:
+        void addPlanetEvents(int nPlanet);
+        void drawEventLabel(float x1, float y1, float x2, float y2, QString LabelText);
 
-    SkyCalendarUI *scUI { nullptr };
-    GeoLocation *geo { nullptr };
-    QMutex calculationMutex;
-    QString plotButtonText;
-    bool calculating { false };
+        SkyCalendarUI *scUI { nullptr };
+        GeoLocation *geo { nullptr };
+        QMutex calculationMutex;
+        QString plotButtonText;
+        bool calculating { false };
 };

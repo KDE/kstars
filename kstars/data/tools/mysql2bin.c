@@ -319,8 +319,8 @@ int main(int argc, char *argv[])
     current_trixel = 0;
     nsf_trix_count = usf_trix_count = dsf_trix_count = 0;
     nsf_trix_begin = usf_trix_begin = dsf_trix_begin =
-        2 + 1 +
-        2; // The 2+1+2 is to leave space for deep magnitude limit, HTM Level and MSpT specification. TODO: Change this if things change.
+                                          2 + 1 +
+                                          2; // The 2+1+2 is to leave space for deep magnitude limit, HTM Level and MSpT specification. TODO: Change this if things change.
     ntrixels    = 0;
     names_count = 0;
 
@@ -516,7 +516,8 @@ int main(int argc, char *argv[])
         nsf_trix_count = usf_trix_count = dsf_trix_count = 0;
         current_trixel++;
         ntrixels++;
-    } while (current_trixel != NTRIXELS);
+    }
+    while (current_trixel != NTRIXELS);
 
     fseek(namefile, nf_header_offset, SEEK_SET);
     writeIndexEntry(namefile, 0, nf_header_offset + INDEX_ENTRY_SIZE, names_count);

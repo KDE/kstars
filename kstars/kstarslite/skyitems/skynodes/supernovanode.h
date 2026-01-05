@@ -21,27 +21,30 @@ class Supernova;
  */
 class SupernovaNode : public SkyNode
 {
-  public:
-    /**
-     * @short Constructor.
-     * @param snova - pointer to supernova that needs to be represented by this node
-     */
-    explicit SupernovaNode(Supernova *snova);
+    public:
+        /**
+         * @short Constructor.
+         * @param snova - pointer to supernova that needs to be represented by this node
+         */
+        explicit SupernovaNode(Supernova *snova);
 
-    /**
-     * @short Update position and visibility of supernova. Initialize m_lines if not already done
-     */
-    virtual void update() override;
+        /**
+         * @short Update position and visibility of supernova. Initialize m_lines if not already done
+         */
+        virtual void update() override;
 
-    virtual void changePos(QPointF pos) override;
+        virtual void changePos(QPointF pos) override;
 
-    inline Supernova *snova() { return m_snova; }
+        inline Supernova *snova()
+        {
+            return m_snova;
+        }
 
-  private:
-    Supernova *m_snova { nullptr };
+    private:
+        Supernova *m_snova { nullptr };
 
-    QSGGeometryNode *m_lines { nullptr };
+        QSGGeometryNode *m_lines { nullptr };
 
-    QSGFlatColorMaterial *m_material { nullptr };
-    QSGGeometry *m_geometry { nullptr };
+        QSGFlatColorMaterial *m_material { nullptr };
+        QSGGeometry *m_geometry { nullptr };
 };

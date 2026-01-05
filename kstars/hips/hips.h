@@ -18,31 +18,31 @@
 
 typedef struct
 {
-  QString cachePath;
-  qint64  discCacheSize;
-  int     memoryCacheSize;   // count
+    QString cachePath;
+    qint64  discCacheSize;
+    int     memoryCacheSize;   // count
 } hipsCache_t;
 
 class pixCacheItem_t
-{  
-public:
-   pixCacheItem_t() = default;
+{
+    public:
+        pixCacheItem_t() = default;
 
-  ~pixCacheItem_t()
-   {
-     //qDebug() << Q_FUNC_INFO << "delete";
-     Q_ASSERT(image);
-     delete image;
-   }
+        ~pixCacheItem_t()
+        {
+            //qDebug() << Q_FUNC_INFO << "delete";
+            Q_ASSERT(image);
+            delete image;
+        }
 
-  QImage *image { nullptr };
+        QImage *image { nullptr };
 };
 
 typedef struct
 {
-  int    level;
-  int    pix;
-  qint64 uid;  
+    int    level;
+    int    pix;
+    qint64 uid;
 } pixCacheKey_t;
 
 Q_DECLARE_METATYPE(pixCacheKey_t)

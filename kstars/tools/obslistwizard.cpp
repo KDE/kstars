@@ -125,7 +125,7 @@ void ObsListWizard::initialize()
     olw->RAMax->setUnits(dmsBox::HOURS);
 
     //Initialize object counts
-    ObjectCount   = 0; //number of objects in observing list    
+    ObjectCount   = 0; //number of objects in observing list
 
     StarCount     = data->skyComposite()->stars().size();     //total number of stars
     PlanetCount   = std::size(sun_moon_planets_list);         //Sun, Moon, 7 planets (excluding Earth and Pluto)
@@ -223,7 +223,7 @@ void ObsListWizard::slotNextPage()
     }
 
     if ( olw->olwStack->currentIndex() == PAGE_ID_CONSTELLATION ||
-         olw->olwStack->currentIndex() == PAGE_ID_RECTANGULAR)
+            olw->olwStack->currentIndex() == PAGE_ID_RECTANGULAR)
         NextPage = PAGE_ID_DATE;
 
     olw->olwStack->setCurrentIndex(NextPage);
@@ -244,8 +244,8 @@ void ObsListWizard::slotPrevPage()
     int PrevPage = olw->olwStack->currentIndex() - 1;
 
     if ( olw->olwStack->currentIndex() == PAGE_ID_RECTANGULAR ||
-         olw->olwStack->currentIndex() == PAGE_ID_CIRCULAR ||
-         olw->olwStack->currentIndex() == PAGE_ID_DATE)
+            olw->olwStack->currentIndex() == PAGE_ID_CIRCULAR ||
+            olw->olwStack->currentIndex() == PAGE_ID_DATE)
         PrevPage = PAGE_ID_REGION_TYPE;
 
     olw->olwStack->setCurrentIndex(PrevPage);
@@ -285,7 +285,8 @@ void ObsListWizard::slotSolarSystemButton()
     setItemSelected(i18n("Asteroids"), olw->TypeList, true);
 }
 
-void ObsListWizard::slotChangeLocation() {
+void ObsListWizard::slotChangeLocation()
+{
     QPointer<LocationDialog> ld = new LocationDialog(this);
 
     if (ld->exec() == QDialog::Accepted)
@@ -327,10 +328,10 @@ void ObsListWizard::slotParseRegion()
 {
     if ( isItemSelected(i18n(IN_A_RECTANGULAR_REGION), olw->RegionList) &&
             (sender()->objectName() == "RAMin" || sender()->objectName() == "RAMax" ||
-            sender()->objectName() == "DecMin" || sender()->objectName() == "DecMax"))
+             sender()->objectName() == "DecMin" || sender()->objectName() == "DecMax"))
     {
         if (!olw->RAMin->isEmpty() && !olw->RAMax->isEmpty() &&
-            !olw->DecMin->isEmpty() && !olw->DecMax->isEmpty())
+                !olw->DecMin->isEmpty() && !olw->DecMax->isEmpty())
         {
             bool rectOk = false;
             xRect1      = 0.0;
@@ -374,10 +375,10 @@ void ObsListWizard::slotParseRegion()
             slotObjectCountDirty();
         }
         return; // only one selection possible.
-    }    
+    }
 
     if ( isItemSelected(i18n(IN_A_CIRCULAR_REGION), olw->RegionList) &&
-              (!olw->RA->isEmpty() && !olw->Dec->isEmpty() && !olw->Radius->isEmpty()))
+            (!olw->RA->isEmpty() && !olw->Dec->isEmpty() && !olw->Radius->isEmpty()))
     {
         bool circOk1;
         bool circOk2;
@@ -484,7 +485,8 @@ void ObsListWizard::applyFilters(bool doBuildList)
     if (dso)
     {
         CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
-        CatalogsDB::CatalogObjectList cObjectList = manager.get_objects_all(); // JFD: Can't skip faint objects because counting down
+        CatalogsDB::CatalogObjectList cObjectList =
+            manager.get_objects_all(); // JFD: Can't skip faint objects because counting down
 
         for (auto &o : cObjectList)
         {
@@ -586,9 +588,9 @@ bool ObsListWizard::applyRegionFilter(SkyObject *o, bool doBuildList)
     if (isItemSelected(i18n(BY_CONSTELLATION), olw->RegionList))
     {
         QString constellationName = KStarsData::Instance()
-                                        ->skyComposite()
-                                        ->constellationBoundary()
-                                        ->constellationName(o);
+                                    ->skyComposite()
+                                    ->constellationBoundary()
+                                    ->constellationName(o);
 
         if (isItemSelected(constellationName, olw->ConstellationList))
         {

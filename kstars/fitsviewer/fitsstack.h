@@ -144,7 +144,8 @@ class FITSStack : public QObject
          * @param bytesPerPixel. Set to zero to skip this check
          * @param cvType
          */
-        void addMaster(const bool dark, void *imageBuffer, const int width, const int height, const int bytesPerPixel, const int cvType);
+        void addMaster(const bool dark, void *imageBuffer, const int width, const int height, const int bytesPerPixel,
+                       const int cvType);
 
         /**
          * @brief solverDone called when plate solving completes, so start next action.
@@ -257,7 +258,7 @@ class FITSStack : public QObject
             return m_MaxSubSNR;
         }
 
-      signals:
+    signals:
         /**
          * @brief Update the Stack Monitor
          * @param subs is a vector of subs to update
@@ -266,7 +267,7 @@ class FITSStack : public QObject
         void updateStackMon(const QVector<LiveStackFile> &subs, const QVector<LiveStackStageInfo> &infos);
 
     public slots:
-    private:      
+    private:
         typedef enum
         {
             PLATESOLVE_IN_PROGRESS,
@@ -480,8 +481,8 @@ class FITSStack : public QObject
          *         - `accumDen`: accumulated denominator term (Σ Fᵀ(w·F·x))
          */
         std::pair<cv::Mat, cv::Mat> imageMMAccumulateChannel(const QVector<StackImageData> &subs,
-                                const std::vector<std::vector<cv::Mat>> &subsChannels, const cv::Mat &latentChannel,
-                                const QVector<float> &normWeights, double sigma, int channelIndex);
+                const std::vector<std::vector<cv::Mat>> &subsChannels, const cv::Mat &latentChannel,
+                const QVector<float> &normWeights, double sigma, int channelIndex);
 
         /**
          * @brief Perform a multiplicative pixel-wise update to the latent image channel.
@@ -610,7 +611,7 @@ class FITSStack : public QObject
             double sigma = 0.0; // Blended sigma
         };
 
-        QVector<StackImageData> m_StackImageData;
+        QVector < StackImageData > m_StackImageData;
 
         struct RunningStackImageData
         {
@@ -619,7 +620,7 @@ class FITSStack : public QObject
             int ref_numStars;
             float totalWeight;
             ImageMMState imageMMState;
-            QVector<StackImageData> runningSubs;
+            QVector < StackImageData > runningSubs;
         };
         RunningStackImageData m_RunningStackImageData { 0, -1.0, 0, 0.0, {}, {} };
 
@@ -643,11 +644,11 @@ class FITSStack : public QObject
         cv::Mat m_MasterFlatInv;
 
         // Aligning
-        QSharedPointer<wcsprm> m_AlignMasterWCS;
+        QSharedPointer < wcsprm > m_AlignMasterWCS;
 
         // Stacking
         cv::Mat m_StackedImage32F;
-        QVector<cv::Mat> m_SigmaClip32FC4;
+        QVector < cv::Mat > m_SigmaClip32FC4;
         cv::Mat m_StackedImageFinal;
         double m_ImageMMLastSigma = -1.0;
         float m_ImageMMTotalWeight = 0.0f;
@@ -656,7 +657,10 @@ class FITSStack : public QObject
         cv::Mat m_ImageMMVar32F;
 
         // Stack Image
-        struct wcsprm * m_WCSStackImage { nullptr };
+        struct wcsprm * m_WCSStackImage
+        {
+            nullptr
+        };
 
         float m_Width { 0.0f };
         float m_Height { 0.0f };

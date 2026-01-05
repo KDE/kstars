@@ -54,8 +54,8 @@ void PWizFovShUI::slotDetails()
     if (m_ParentWizard->getShBeginObject())
     {
         QPointer<DetailDialog> detailDlg(new DetailDialog(m_ParentWizard->getShBeginObject(),
-                                                          KStars::Instance()->data()->ut(),
-                                                          KStars::Instance()->data()->geo(), this));
+                                         KStars::Instance()->data()->ut(),
+                                         KStars::Instance()->data()->geo(), this));
         detailDlg->exec();
         delete detailDlg;
     }

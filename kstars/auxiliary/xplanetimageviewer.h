@@ -42,41 +42,41 @@ class QLabel;
  */
 class XPlanetImageLabel : public QFrame
 {
-    Q_OBJECT
-  public:
-    explicit XPlanetImageLabel(QWidget *parent);
-    ~XPlanetImageLabel() override = default;
-    void setImage(const QImage &img);
-    void invertPixels();
-    void refreshImage();
+        Q_OBJECT
+    public:
+        explicit XPlanetImageLabel(QWidget *parent);
+        ~XPlanetImageLabel() override = default;
+        void setImage(const QImage &img);
+        void invertPixels();
+        void refreshImage();
 
-  public slots:
-    void wheelEvent(QWheelEvent *e) override;
-    void mousePressEvent(QMouseEvent *e) override;
-    void mouseReleaseEvent(QMouseEvent *e) override;
-    void mouseMoveEvent(QMouseEvent *e) override;
+    public slots:
+        void wheelEvent(QWheelEvent *e) override;
+        void mousePressEvent(QMouseEvent *e) override;
+        void mouseReleaseEvent(QMouseEvent *e) override;
+        void mouseMoveEvent(QMouseEvent *e) override;
 
-  signals:
-    void zoomIn();
-    void zoomOut();
-    void changePosition(QPoint);
-    void changeLocation(QPoint);
+    signals:
+        void zoomIn();
+        void zoomOut();
+        void changePosition(QPoint);
+        void changeLocation(QPoint);
 
-  protected:
-    void paintEvent(QPaintEvent *e) override;
-    void resizeEvent(QResizeEvent *) override;
+    protected:
+        void paintEvent(QPaintEvent *e) override;
+        void resizeEvent(QResizeEvent *) override;
 
-  private:
-    //Image related
-    QPixmap m_Pix;
-    QImage m_Image;
+    private:
+        //Image related
+        QPixmap m_Pix;
+        QImage m_Image;
 
-    //Mouse related
-    bool m_MouseButtonDown = false;
-    QPoint m_LastMousePoint;
-    bool event(QEvent *event) override;
-    bool gestureEvent(QGestureEvent *event);
-    void pinchTriggered(QPinchGesture *gesture);
+        //Mouse related
+        bool m_MouseButtonDown = false;
+        QPoint m_LastMousePoint;
+        bool event(QEvent *event) override;
+        bool gestureEvent(QGestureEvent *event);
+        void pinchTriggered(QPinchGesture *gesture);
 };
 
 /**
@@ -96,152 +96,152 @@ class XPlanetImageLabel : public QFrame
  */
 class XPlanetImageViewer : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    /** Create xplanet image viewer from Object */
-    explicit XPlanetImageViewer(const QString &obj, QWidget *parent = nullptr);
+    public:
+        /** Create xplanet image viewer from Object */
+        explicit XPlanetImageViewer(const QString &obj, QWidget *parent = nullptr);
 
-    /** Destructor. If there is a partially downloaded image file, delete it.*/
-    ~XPlanetImageViewer() override;
+        /** Destructor. If there is a partially downloaded image file, delete it.*/
+        ~XPlanetImageViewer() override;
 
-    /**
-     * @brief loadImage Load image and display it
-     * @return True if opened and displayed, false otherwise
-     */
-    bool loadImage();
+        /**
+         * @brief loadImage Load image and display it
+         * @return True if opened and displayed, false otherwise
+         */
+        bool loadImage();
 
-    void startXplanet();
+        void startXplanet();
 
-  private:
+    private:
 
 
-    /** prepares the output file**/
-    bool setupOutputFile();
+        /** prepares the output file**/
+        bool setupOutputFile();
 
-    QImage m_Image;
+        QImage m_Image;
 
-    /** Save the downloaded image to a local file. */
-    void saveFile(const QString & fileName);
+        /** Save the downloaded image to a local file. */
+        void saveFile(const QString & fileName);
 
-    QFile m_File;
+        QFile m_File;
 
-    XPlanetImageLabel *m_View { nullptr };
-    QLabel *m_Caption { nullptr };
+        XPlanetImageLabel *m_View { nullptr };
+        QLabel *m_Caption { nullptr };
 
-    QString m_LastFile;
+        QString m_LastFile;
 
-    QStringList m_ObjectNames;
-    QList<double> m_objectDefaultFOVs;
+        QStringList m_ObjectNames;
+        QList<double> m_objectDefaultFOVs;
 
-    typedef enum { YEARS, MONTHS, DAYS, HOURS, MINS, SECS } timeUnits;
+        typedef enum { YEARS, MONTHS, DAYS, HOURS, MINS, SECS } timeUnits;
 
-    void setXPlanetDate(KStarsDateTime time);
+        void setXPlanetDate(KStarsDateTime time);
 
-    //XPlanet strings
-    QString m_ObjectName;
-    QString m_OriginName;
-    QString m_Date;
-    QString m_DateText;
+        //XPlanet strings
+        QString m_ObjectName;
+        QString m_OriginName;
+        QString m_Date;
+        QString m_DateText;
 
-    //XPlanet numbers
-    int m_CurrentObjectIndex { 0 };
-    int m_CurrentOriginIndex { 0 };
-    int m_Rotation { 0 };
-    int m_CurrentTimeUnitIndex { 0 };
-    uint32_t m_Radius { 0 };
-    double m_FOV { 0 };
-    double m_lat { 0 };
-    double m_lon { 0 };
-    QPoint center;
+        //XPlanet numbers
+        int m_CurrentObjectIndex { 0 };
+        int m_CurrentOriginIndex { 0 };
+        int m_Rotation { 0 };
+        int m_CurrentTimeUnitIndex { 0 };
+        uint32_t m_Radius { 0 };
+        double m_FOV { 0 };
+        double m_lat { 0 };
+        double m_lon { 0 };
+        QPoint center;
 
 #ifndef Q_OS_WIN
-    QFutureWatcher<bool> fifoImageLoadWatcher;
-    QTimer watcherTimeout;
+        QFutureWatcher<bool> fifoImageLoadWatcher;
+        QTimer watcherTimeout;
 #endif
 
-    // Time
-    KStarsDateTime m_XPlanetTime {};
-    bool m_XPlanetRunning = false;
+        // Time
+        KStarsDateTime m_XPlanetTime {};
+        bool m_XPlanetRunning = false;
 
-    QComboBox *m_OriginSelector {nullptr};
+        QComboBox *m_OriginSelector {nullptr};
 
-    // Field of view controls
-    QPushButton *m_KStarsFOV  {nullptr};
-    QPushButton *m_setFOV  {nullptr};
-    QPushButton *m_NoFOV  {nullptr};
-    NonLinearDoubleSpinBox *m_FOVEdit {nullptr};
+        // Field of view controls
+        QPushButton *m_KStarsFOV  {nullptr};
+        QPushButton *m_setFOV  {nullptr};
+        QPushButton *m_NoFOV  {nullptr};
+        NonLinearDoubleSpinBox *m_FOVEdit {nullptr};
 
-    // Rotation controls
-    QSpinBox *m_RotateEdit {nullptr};
+        // Rotation controls
+        QSpinBox *m_RotateEdit {nullptr};
 
-    // Free rotation controls
-    QLabel *m_PositionDisplay {nullptr};
-    QPushButton *m_FreeRotate {nullptr};
-    bool m_ImageLoadSucceeded = false;
+        // Free rotation controls
+        QLabel *m_PositionDisplay {nullptr};
+        QPushButton *m_FreeRotate {nullptr};
+        bool m_ImageLoadSucceeded = false;
 
-    // Time controls
-    QLabel *m_XPlanetTimeDisplay {nullptr};
-    QSlider *m_TimeSlider {nullptr};
-    QSpinBox *m_TimeEdit {nullptr};
-    QComboBox *m_TimeUnitsSelect {nullptr};
+        // Time controls
+        QLabel *m_XPlanetTimeDisplay {nullptr};
+        QSlider *m_TimeSlider {nullptr};
+        QSpinBox *m_TimeEdit {nullptr};
+        QComboBox *m_TimeUnitsSelect {nullptr};
 
-    //Animation controls
-    QPushButton *m_RunTime {nullptr};
-    QTimer *m_XPlanetTimer {nullptr};
+        //Animation controls
+        QPushButton *m_RunTime {nullptr};
+        QTimer *m_XPlanetTimer {nullptr};
 
 
-  private slots:
+    private slots:
 
-    /**
-     * Display the downloaded image.  Resize the window to fit the image,  If the image is
-     * larger than the screen, make the image as large as possible while preserving the
-     * original aspect ratio
-     */
-    bool showImage();
+        /**
+         * Display the downloaded image.  Resize the window to fit the image,  If the image is
+         * larger than the screen, make the image as large as possible while preserving the
+         * original aspect ratio
+         */
+        bool showImage();
 
-    // Saves file to disk.
-    void saveFileToDisk();
+        // Saves file to disk.
+        void saveFileToDisk();
 
-    // Inverts colors
-    void invertColors();
+        // Inverts colors
+        void invertColors();
 
-    // Rotation slots
-    void updateXPlanetRotationEdit();
-    void resetXPlanetRotation();
-    void invertXPlanetRotation();
+        // Rotation slots
+        void updateXPlanetRotationEdit();
+        void resetXPlanetRotation();
+        void invertXPlanetRotation();
 
-    void reCenterXPlanet();
+        void reCenterXPlanet();
 
-    // Free Rotation slots
-    void changeXPlanetPosition(QPoint delta);
-    void changeXPlanetLocation(QPoint delta);
-    void slotFreeRotate();
-    void updateStates();
-    void updatePositionDisplay();
-    void resetLocation();
+        // Free Rotation slots
+        void changeXPlanetPosition(QPoint delta);
+        void changeXPlanetLocation(QPoint delta);
+        void slotFreeRotate();
+        void updateStates();
+        void updatePositionDisplay();
+        void resetLocation();
 
-    // Field of View slots
-    void zoomInXPlanetFOV();
-    void zoomOutXPlanetFOV();
-    void updateXPlanetFOVEdit();
-    void resetXPlanetFOV();
-    void setKStarsXPlanetFOV();
-    void setFOVfromList();
+        // Field of View slots
+        void zoomInXPlanetFOV();
+        void zoomOutXPlanetFOV();
+        void updateXPlanetFOVEdit();
+        void resetXPlanetFOV();
+        void setKStarsXPlanetFOV();
+        void setFOVfromList();
 
-    // Time slots
-    void updateXPlanetTime(int timeShift);
-    void updateXPlanetObject(int objectIndex);
-    void updateXPlanetOrigin(int originIndex);
-    void updateXPlanetTimeUnits(int units);
-    void updateXPlanetTimeEdit();
-    void setXPlanetTime();
-    void setXPlanetTimetoKStarsTime();
-    void resetXPlanetTime();
+        // Time slots
+        void updateXPlanetTime(int timeShift);
+        void updateXPlanetObject(int objectIndex);
+        void updateXPlanetOrigin(int originIndex);
+        void updateXPlanetTimeUnits(int units);
+        void updateXPlanetTimeEdit();
+        void setXPlanetTime();
+        void setXPlanetTimetoKStarsTime();
+        void resetXPlanetTime();
 
-    // Animation slots
-    void incrementXPlanetTime();
-    void toggleXPlanetRun();
-    void timeSliderDisplay(int timeShift);
+        // Animation slots
+        void incrementXPlanetTime();
+        void toggleXPlanetRun();
+        void timeSliderDisplay(int timeShift);
 
 };

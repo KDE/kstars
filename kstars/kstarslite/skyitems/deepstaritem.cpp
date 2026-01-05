@@ -268,7 +268,7 @@ void DeepStarItem::update()
             {
                 //Dynamic stars are under construction
                 if (!m_staticStars && !m_starBlockList->at(regionID)->fillToMag(maglim) &&
-                    maglim <= m_deepStarComp->m_FaintMagnitude * (1 - 1.5 / 16))
+                        maglim <= m_deepStarComp->m_FaintMagnitude * (1 - 1.5 / 16))
                 {
                     qDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel " << regionID << " !" << endl;
                 }

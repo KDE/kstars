@@ -98,13 +98,13 @@ OpsXplanet::OpsXplanet(KStars *_ks) : QFrame(_ks), ksw(_ks)
     if (Options::xplanetProjection() == 0)
         groupBoxBackground->setEnabled(false);
 
-    #ifdef Q_OS_WIN
-        kcfg_XplanetUseFIFO->setChecked(false);
-        kcfg_XplanetUseFIFO->setDisabled(true);
-        kcfg_XplanetUseFIFO->setToolTip(i18n("FIFO files are not supported on Windows"));
-    #endif
+#ifdef Q_OS_WIN
+    kcfg_XplanetUseFIFO->setChecked(false);
+    kcfg_XplanetUseFIFO->setDisabled(true);
+    kcfg_XplanetUseFIFO->setToolTip(i18n("FIFO files are not supported on Windows"));
+#endif
 
-    connect(openXPlanetMaps, SIGNAL(clicked()),this,SLOT(showXPlanetMapsDirectory()));
+    connect(openXPlanetMaps, SIGNAL(clicked()), this, SLOT(showXPlanetMapsDirectory()));
 }
 
 void OpsXplanet::showXPlanetMapsDirectory()
@@ -118,13 +118,14 @@ void OpsXplanet::showXPlanetMapsDirectory()
 
 QString OpsXplanet::XPlanetShareDirectory()
 {
-    #ifdef Q_OS_WIN
-        const QFileInfo xPlanetLocationInfo(Options::xplanetPath());
-        return xPlanetLocationInfo.dir().absolutePath() + QDir::separator() + "xplanet";
-    #endif
+#ifdef Q_OS_WIN
+    const QFileInfo xPlanetLocationInfo(Options::xplanetPath());
+    return xPlanetLocationInfo.dir().absolutePath() + QDir::separator() + "xplanet";
+#endif
 
     if (Options::xplanetIsInternal())
-        return QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory) + QDir::separator() + "xplanet" + QDir::separator() + "images";
+        return QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars",
+                                      QStandardPaths::LocateDirectory) + QDir::separator() + "xplanet" + QDir::separator() + "images";
     else
         return Options::xplanetPath() + "../share/xplanet";
 }

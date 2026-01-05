@@ -14,14 +14,16 @@
 #include "catalogcoloreditor.h"
 
 CatalogsDBUI::CatalogsDBUI(QWidget *parent, const QString &db_path)
-    : QDialog(parent), ui{ new Ui::CatalogsDBUI }, m_manager{ db_path }, m_last_dir{
+    : QDialog(parent), ui{ new Ui::CatalogsDBUI }, m_manager{ db_path }, m_last_dir
+      {
           QDir::homePath()
       }
 {
     ui->setupUi(this);
     ui->objectsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    const QStringList labels = {
+    const QStringList labels =
+    {
         i18n("Enabled"),    i18n("ID"),      i18n("Name"),
         i18n("Precedence"), i18n("Author"),  i18n("Mutable"),
         i18n("Version"),    i18n("License"), i18n("Maintainer")
@@ -174,7 +176,7 @@ void CatalogsDBUI::export_catalog()
 
     QFileDialog dialog(this, i18nc("@title:window", "Export Catalog"), m_last_dir,
                        i18n("Catalog") +
-                           QString(" (*.%1);;").arg(CatalogsDB::db_file_extension));
+                       QString(" (*.%1);;").arg(CatalogsDB::db_file_extension));
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setDefaultSuffix(CatalogsDB::db_file_extension);
 
@@ -194,7 +196,7 @@ void CatalogsDBUI::import_catalog(bool force)
 {
     QFileDialog dialog(this, i18nc("@title:window", "Import Catalog"), m_last_dir,
                        i18n("Catalog") +
-                           QString(" (*.%1);;").arg(CatalogsDB::db_file_extension));
+                       QString(" (*.%1);;").arg(CatalogsDB::db_file_extension));
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setDefaultSuffix(CatalogsDB::db_file_extension);
 
@@ -282,7 +284,7 @@ void CatalogsDBUI::dublicate_catalog()
     {
         QMessageBox::warning(this, i18n("Warning"),
                              i18n("Could not copy the objects to the new catalog.<br>%1")
-                                 .arg(copy_success.second));
+                             .arg(copy_success.second));
 
         const auto &remove_success = m_manager.remove_catalog(create_success.second);
         if (!remove_success.first)

@@ -101,9 +101,9 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
          * @param measures datapoints for each tile
          * @param weights datapoints for each tile
          */
-        AberrationInspector(const abInsData &data, const QVector<int> &positions, const QVector<QVector<double>> &measures,
-                            const QVector<QVector<double>> &weights, const QVector<QVector<int>> &numStars,
-                            const QVector<QPoint> &tileCenterOffset);
+        AberrationInspector(const abInsData &data, const QVector < int > &positions, const QVector < QVector<double >> &measures,
+                            const QVector < QVector < double>> &weights, const QVector<QVector < int >> &numStars,
+                            const QVector < QPoint > &tileCenterOffset);
         ~AberrationInspector();
 
     private slots:
@@ -328,11 +328,11 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
         void simTBTiltChanged(int value);
 
         abInsData m_data;
-        QVector<int> m_positions;
-        QVector<QVector<double>> m_measures;
-        QVector<QVector<double>> m_weights;
-        QVector<QVector<int>> m_numStars;
-        QVector<QPoint> m_tileOffsets;
+        QVector < int > m_positions;
+        QVector < QVector < double>> m_measures;
+        QVector < QVector < double>> m_weights;
+        QVector < QVector < int>> m_numStars;
+        QVector < QPoint > m_tileOffsets;
 
         // Which tiles to use
         bool m_useTile[NUM_TILES] = { false, false, false, false, false, false, false, false, false };
@@ -343,15 +343,15 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
         int m_HighlightedRow { -1 };
 
         // Curve fitting
-        std::unique_ptr<CurveFitting> curveFitting;
-        QVector<int> m_minimum;
-        QVector<double> m_minMeasure;
-        QVector<bool> m_fit;
-        QVector<double> m_R2;
+        std::unique_ptr < CurveFitting > curveFitting;
+        QVector < int > m_minimum;
+        QVector < double > m_minMeasure;
+        QVector < bool > m_fit;
+        QVector < double > m_R2;
 
         // Analysis - the following members are in microns
         double m_backfocus = 0.0;
-        QVector<double> m_deltas;
+        QVector < double > m_deltas;
         double m_LRMicrons = 0.0;
         double m_TBMicrons = 0.0;
         double m_diagonalMicrons = 0.0;

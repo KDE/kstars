@@ -53,22 +53,24 @@ ProfileScript::ProfileScript(QWidget *parent) : QWidget(parent)
     });
 
     m_StoppingDelaySpin = new QSpinBox(this);
-    m_StoppingDelaySpin->setToolTip(i18n("Delay this many seconds after executing stopping driver script before stopping driver."));
+    m_StoppingDelaySpin->setToolTip(
+        i18n("Delay this many seconds after executing stopping driver script before stopping driver."));
     m_StoppingDelaySpin->setRange(0, 300);
     m_StoppingDelaySpin->setSingleStep(5);
     connect(m_StoppingDelaySpin, &QSpinBox::editingFinished, this, [this]()
-            {
-                m_StoppingDelay = m_StoppingDelaySpin->value();
-            });
+    {
+        m_StoppingDelay = m_StoppingDelaySpin->value();
+    });
 
     m_StoppedDelaySpin = new QSpinBox(this);
-    m_StoppedDelaySpin->setToolTip(i18n("Delay this many seconds after driver stopped before executing stopped driver script."));
+    m_StoppedDelaySpin->setToolTip(
+        i18n("Delay this many seconds after driver stopped before executing stopped driver script."));
     m_StoppedDelaySpin->setRange(0, 300);
     m_StoppedDelaySpin->setSingleStep(5);
     connect(m_StoppedDelaySpin, &QSpinBox::editingFinished, this, [this]()
-            {
-                m_StoppedDelay = m_StoppedDelaySpin->value();
-            });
+    {
+        m_StoppedDelay = m_StoppedDelaySpin->value();
+    });
 
     m_PreScriptEdit = new QLineEdit(this);
     m_PreScriptEdit->setMinimumWidth(100);
@@ -93,18 +95,18 @@ ProfileScript::ProfileScript(QWidget *parent) : QWidget(parent)
     m_StoppingScriptEdit->setToolTip(i18n("Select script to execute before stopping the driver"));
     m_StoppingScriptEdit->setClearButtonEnabled(true);
     connect(m_StoppingScriptEdit, &QLineEdit::editingFinished, this, [this]()
-            {
-                m_StoppingScript = m_StoppingScriptEdit->text();
-            });
+    {
+        m_StoppingScript = m_StoppingScriptEdit->text();
+    });
 
     m_StoppedScriptEdit = new QLineEdit(this);
     m_StoppedScriptEdit->setMinimumWidth(100);
     m_StoppedScriptEdit->setToolTip(i18n("Select script to execute after stopping the driver"));
     m_StoppedScriptEdit->setClearButtonEnabled(true);
     connect(m_StoppedScriptEdit, &QLineEdit::editingFinished, this, [this]()
-            {
-                m_StoppedScript = m_StoppedScriptEdit->text();
-            });
+    {
+        m_StoppedScript = m_StoppedScriptEdit->text();
+    });
 
     m_PreScriptB = new QPushButton(this);
     m_PreScriptB->setIcon(QIcon::fromTheme("document-open"));

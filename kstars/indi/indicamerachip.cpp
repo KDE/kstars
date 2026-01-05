@@ -274,7 +274,8 @@ bool CameraChip::setFrame(int x, int y, int w, int h, bool force)
 
 bool CameraChip::capture(double exposure)
 {
-    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_EXPOSURE") : m_Camera->getNumber("GUIDER_EXPOSURE");
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_EXPOSURE") :
+                               m_Camera->getNumber("GUIDER_EXPOSURE");
 
     if (!nvp)
         return false;
@@ -322,7 +323,8 @@ bool CameraChip::abortExposure()
 {
     if (!m_Camera) return false;
 
-    INDI::PropertySwitch svp = (m_Type == PRIMARY_CCD) ? m_Camera->getSwitch("CCD_ABORT_EXPOSURE") : m_Camera->getSwitch("GUIDER_ABORT_EXPOSURE");
+    INDI::PropertySwitch svp = (m_Type == PRIMARY_CCD) ? m_Camera->getSwitch("CCD_ABORT_EXPOSURE") :
+                               m_Camera->getSwitch("GUIDER_ABORT_EXPOSURE");
 
     if (!svp)
         return false;
@@ -430,7 +432,8 @@ bool CameraChip::isCapturing()
 {
     if (!m_Camera) return false;
 
-    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_EXPOSURE") : m_Camera->getNumber("GUIDER_EXPOSURE");
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_EXPOSURE") :
+                               m_Camera->getNumber("GUIDER_EXPOSURE");
 
     if (!nvp)
         return false;
@@ -461,7 +464,8 @@ bool CameraChip::setFrameType(const QString &name)
 
 bool CameraChip::setFrameType(CCDFrameType fType)
 {
-    INDI::PropertySwitch svp = (m_Type == PRIMARY_CCD) ? m_Camera->getSwitch("CCD_FRAME_TYPE") : m_Camera->getSwitch("GUIDER_FRAME_TYPE");
+    INDI::PropertySwitch svp = (m_Type == PRIMARY_CCD) ? m_Camera->getSwitch("CCD_FRAME_TYPE") :
+                               m_Camera->getSwitch("GUIDER_FRAME_TYPE");
     if (!svp)
         return false;
 
@@ -496,7 +500,8 @@ bool CameraChip::setFrameType(CCDFrameType fType)
 CCDFrameType CameraChip::getFrameType()
 {
     CCDFrameType fType = FRAME_LIGHT;
-    INDI::PropertySwitch svp = (m_Type == PRIMARY_CCD) ? m_Camera->getSwitch("CCD_FRAME_TYPE") : m_Camera->getSwitch("GUIDER_FRAME_TYPE");
+    INDI::PropertySwitch svp = (m_Type == PRIMARY_CCD) ? m_Camera->getSwitch("CCD_FRAME_TYPE") :
+                               m_Camera->getSwitch("GUIDER_FRAME_TYPE");
 
     if (!svp)
         return fType;
@@ -543,7 +548,8 @@ bool CameraChip::setBinning(CCDBinType binType)
 CCDBinType CameraChip::getBinning()
 {
     CCDBinType binType = SINGLE_BIN;
-    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") : m_Camera->getNumber("GUIDER_BINNING");
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") :
+                               m_Camera->getNumber("GUIDER_BINNING");
 
     if (!nvp)
         return binType;
@@ -579,7 +585,8 @@ CCDBinType CameraChip::getBinning()
 bool CameraChip::getBinning(int *bin_x, int *bin_y)
 {
     *bin_x = *bin_y = 1;
-    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") : m_Camera->getNumber("GUIDER_BINNING");
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") :
+                               m_Camera->getNumber("GUIDER_BINNING");
 
     if (!nvp)
         return false;
@@ -602,7 +609,8 @@ bool CameraChip::getMaxBin(int *max_xbin, int *max_ybin)
         return false;
 
     *max_xbin = *max_ybin = 1;
-    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") : m_Camera->getNumber("GUIDER_BINNING");
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") :
+                               m_Camera->getNumber("GUIDER_BINNING");
 
     if (!nvp)
         return false;
@@ -621,7 +629,8 @@ bool CameraChip::getMaxBin(int *max_xbin, int *max_ybin)
 
 bool CameraChip::setBinning(int bin_x, int bin_y)
 {
-    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") : m_Camera->getNumber("GUIDER_BINNING");
+    INDI::PropertyNumber nvp = (m_Type == PRIMARY_CCD) ? m_Camera->getNumber("CCD_BINNING") :
+                               m_Camera->getNumber("GUIDER_BINNING");
 
     if (!nvp)
         return false;

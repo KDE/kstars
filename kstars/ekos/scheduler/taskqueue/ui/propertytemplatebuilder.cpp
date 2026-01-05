@@ -350,18 +350,18 @@ void PropertyTemplateBuilderDialog::updateNavigationButtons()
     {
         m_backButton->setEnabled(m_currentPage > PAGE_DEVICE_SELECTION);
     }
-    
+
     m_nextButton->setEnabled(m_currentPage < PAGE_PREVIEW);
 
     if (m_currentPage == PAGE_PREVIEW)
     {
         m_nextButton->setEnabled(false);
-        
+
         // Auto-generate preview when on preview page
         QJsonObject templateJson = generateTemplateJson();
         QJsonDocument doc(templateJson);
         m_previewText->setPlainText(doc.toJson(QJsonDocument::Indented));
-        
+
         // Enable Save button now that preview is ready
         m_saveButton->setEnabled(true);
     }
@@ -1580,12 +1580,12 @@ void PropertyTemplateBuilderDialog::loadTemplateForEditing(TaskTemplate *tmpl)
     // Store action values before building UI
     QJsonObject setActionData;
     QJsonObject evaluateActionData;
-    
+
     for (const QJsonValue &actionValue : actions)
     {
         QJsonObject action = actionValue.toObject();
         QString actionType = action["type"].toString();
-        
+
         if (actionType == "SET")
         {
             setActionData = action;
@@ -1595,7 +1595,7 @@ void PropertyTemplateBuilderDialog::loadTemplateForEditing(TaskTemplate *tmpl)
             evaluateActionData = action;
         }
     }
-    
+
     // Now populate values from stored action data after UI is built
     if (!setActionData.isEmpty())
     {
@@ -1624,7 +1624,7 @@ void PropertyTemplateBuilderDialog::loadTemplateForEditing(TaskTemplate *tmpl)
                 break;
         }
     }
-    
+
     if (!evaluateActionData.isEmpty())
     {
         int propertyType = evaluateActionData["property_type"].toInt();

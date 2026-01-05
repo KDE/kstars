@@ -20,27 +20,27 @@
 
 class SkyMapQDraw : public QWidget, public SkyMapDrawAbstract
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    /**
-         *@short Constructor
-         */
-    explicit SkyMapQDraw(SkyMap *parent);
+    public:
+        /**
+             *@short Constructor
+             */
+        explicit SkyMapQDraw(SkyMap *parent);
 
-    /**
-         *@short Destructor
-         */
-    ~SkyMapQDraw() override;
+        /**
+             *@short Destructor
+             */
+        ~SkyMapQDraw() override;
 
-  protected:
-    void paintEvent(QPaintEvent *e) override;
+    protected:
+        void paintEvent(QPaintEvent *e) override;
 
-    void resizeEvent(QResizeEvent *e) override;
+        void resizeEvent(QResizeEvent *e) override;
 
-    QPixmap *m_SkyPixmap;
+        QPixmap *m_SkyPixmap;
 
-    QScopedPointer<SkyQPainter> m_SkyPainter;
+        QScopedPointer<SkyQPainter> m_SkyPainter;
 };
 
 #endif

@@ -21,21 +21,24 @@ class QMouseEvent;
  */
 class DragListBox : public QListWidget
 {
-    Q_OBJECT
-  public:
-    explicit DragListBox(QWidget *parent = nullptr, const char *name = nullptr);
+        Q_OBJECT
+    public:
+        explicit DragListBox(QWidget *parent = nullptr, const char *name = nullptr);
 
-    int ignoreIndex() const { return IgnoreIndex; }
-    bool contains(const QString &s) const;
+        int ignoreIndex() const
+        {
+            return IgnoreIndex;
+        }
+        bool contains(const QString &s) const;
 
-    void dragEnterEvent(QDragEnterEvent *evt) override;
-    void dragMoveEvent(QDragMoveEvent *evt) override;
-    void dropEvent(QDropEvent *evt) override;
-    void mousePressEvent(QMouseEvent *evt) override;
-    void mouseMoveEvent(QMouseEvent *) override;
-    void mouseReleaseEvent(QMouseEvent *) override;
+        void dragEnterEvent(QDragEnterEvent *evt) override;
+        void dragMoveEvent(QDragMoveEvent *evt) override;
+        void dropEvent(QDropEvent *evt) override;
+        void mousePressEvent(QMouseEvent *evt) override;
+        void mouseMoveEvent(QMouseEvent *) override;
+        void mouseReleaseEvent(QMouseEvent *) override;
 
-  private:
-    bool leftButtonDown { false };
-    int IgnoreIndex { 0 };
+    private:
+        bool leftButtonDown { false };
+        int IgnoreIndex { 0 };
 };

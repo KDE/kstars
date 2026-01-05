@@ -37,7 +37,7 @@ OpsAlign::OpsAlign(Align *parent) : QWidget(KStars::Instance())
         emit needToLoadProfile(kcfg_SolveOptionsProfile->currentText());
     });
 
-    reloadOptionsProfiles();   
+    reloadOptionsProfiles();
 
     connect(m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL(clicked()), SLOT(slotApply()));
     connect(m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), SLOT(slotApply()));

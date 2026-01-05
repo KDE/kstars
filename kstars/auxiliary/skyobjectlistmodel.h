@@ -22,38 +22,41 @@ class SkyObject;
  */
 class SkyObjectListModel : public QAbstractListModel
 {
-    Q_OBJECT
-  public:
-    enum DemoRoles
-    {
-        SkyObjectRole = Qt::UserRole + 1,
-    };
+        Q_OBJECT
+    public:
+        enum DemoRoles
+        {
+            SkyObjectRole = Qt::UserRole + 1,
+        };
 
-    explicit SkyObjectListModel(QObject *parent = nullptr);
+        explicit SkyObjectListModel(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex &) const override { return skyObjects.size(); }
-    QVariant data(const QModelIndex &index, int role) const override;
+        int rowCount(const QModelIndex &) const override
+        {
+            return skyObjects.size();
+        }
+        QVariant data(const QModelIndex &index, int role) const override;
 
-    QHash<int, QByteArray> roleNames() const override;
+        QHash<int, QByteArray> roleNames() const override;
 
-    /**
-     * @return index of object from skyObjects with name objectName. -1 if object with such
-     * name was not found
-     */
-    int indexOf(const QString &objectName) const;
+        /**
+         * @return index of object from skyObjects with name objectName. -1 if object with such
+         * name was not found
+         */
+        int indexOf(const QString &objectName) const;
 
-    /**
-     * @short Filter the model
-     * @param regEx Regex
-     * @return Filtered string list
-     */
-    QStringList filter(const QRegularExpression &regEx);
+        /**
+         * @short Filter the model
+         * @param regEx Regex
+         * @return Filtered string list
+         */
+        QStringList filter(const QRegularExpression &regEx);
 
-    void setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects);
+        void setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects);
 
-  public slots:
-    void removeSkyObject(SkyObject *object);
+    public slots:
+        void removeSkyObject(SkyObject *object);
 
-  private:
-    QVector<QPair<QString, const SkyObject *>> skyObjects;
+    private:
+        QVector<QPair<QString, const SkyObject *>> skyObjects;
 };

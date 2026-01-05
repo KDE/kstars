@@ -33,7 +33,7 @@ OpsImageOverlay::OpsImageOverlay() : QFrame(KStars::Instance())
     connect(m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL(clicked()), SLOT(slotApply()));
 
     ImageOverlayComponent *overlayComponent = dynamic_cast<ImageOverlayComponent*>(
-                KStarsData::Instance()->skyComposite()->imageOverlay());
+            KStarsData::Instance()->skyComposite()->imageOverlay());
     connect(solveButton, &QPushButton::clicked, overlayComponent, &ImageOverlayComponent::startSolving,
             Qt::UniqueConnection);
     connect(refreshB, &QPushButton::clicked, overlayComponent, &ImageOverlayComponent::reload,

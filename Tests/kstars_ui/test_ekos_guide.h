@@ -95,28 +95,28 @@
 
 class TestEkosGuide : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit TestEkosGuide(QObject *parent = nullptr);
+    public:
+        explicit TestEkosGuide(QObject *parent = nullptr);
 
-protected:
-    QProcess * phd2 { nullptr };
-    QString testProfileName { "phd2_test_profile" };
-    QString const guider_host { "localhost" };
-    QString const guider_port { "4400" };
-    void stopPHD2();
+    protected:
+        QProcess * phd2 { nullptr };
+        QString testProfileName { "phd2_test_profile" };
+        QString const guider_host { "localhost" };
+        QString const guider_port { "4400" };
+        void stopPHD2();
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testPHD2ConnectionStability();
-    void testPHD2CaptureStability();
-    void testPHD2Calibration();
+        void testPHD2ConnectionStability();
+        void testPHD2CaptureStability();
+        void testPHD2Calibration();
 };
 
 #endif // HAVE_INDI

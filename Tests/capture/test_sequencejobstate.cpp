@@ -84,14 +84,14 @@ void TestSequenceJobState::testPrepareLightFrames_data()
                     for (double delta_t :
                             {
                                 -21.0, 0.0
-                                })
+                            })
                         for (double delta_r :
-                    {
-                        45.0, 0.0
-                    })
-    QTest::newRow(QString("preview=%4 enforce rotate=%1, temperature=%2, guiding=%3, delta_t=%5, delta_rot=%6")
-                  .arg(rotate).arg(temperature).arg(guiding).arg(preview).arg(delta_t).arg(delta_r).toLocal8Bit())
-            << preview << rotate << temperature << guiding << delta_t << delta_r;
+                                {
+                                    45.0, 0.0
+                                })
+                            QTest::newRow(QString("preview=%4 enforce rotate=%1, temperature=%2, guiding=%3, delta_t=%5, delta_rot=%6")
+                                          .arg(rotate).arg(temperature).arg(guiding).arg(preview).arg(delta_t).arg(delta_r).toLocal8Bit())
+                                    << preview << rotate << temperature << guiding << delta_t << delta_r;
 }
 
 /* *********************************************************************************

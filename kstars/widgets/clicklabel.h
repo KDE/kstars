@@ -17,20 +17,20 @@
 	*/
 class ClickLabel : public QLabel
 {
-    Q_OBJECT
-  public:
-    explicit ClickLabel(QWidget *parent = nullptr, const char *name = nullptr);
-    ~ClickLabel() override = default;
+        Q_OBJECT
+    public:
+        explicit ClickLabel(QWidget *parent = nullptr, const char *name = nullptr);
+        ~ClickLabel() override = default;
 
-  signals:
-    void clicked();
+    signals:
+        void clicked();
 
-  protected:
-    void mousePressEvent(QMouseEvent *e) override
-    {
-        if (e->button() == Qt::LeftButton)
-            emit clicked();
-    }
+    protected:
+        void mousePressEvent(QMouseEvent *e) override
+        {
+            if (e->button() == Qt::LeftButton)
+                emit clicked();
+        }
 };
 
 #endif

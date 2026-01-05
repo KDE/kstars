@@ -45,7 +45,8 @@ class OAL::DSLRLens
         {
             return m_FocalRatio;
         }
-        void setDSLRLens(const QString &_id, const QString &_model, const QString &_vendor, double _focalLength, double _focalRatio);
+        void setDSLRLens(const QString &_id, const QString &_model, const QString &_vendor, double _focalLength,
+                         double _focalRatio);
 
         QJsonObject toJson() const;
 

@@ -12,16 +12,16 @@
 
 class PixCache
 {
-public:
-  PixCache() = default;
+    public:
+        PixCache() = default;
 
-  void add(pixCacheKey_t &key, pixCacheItem_t *item, int cost);
-  pixCacheItem_t *get(pixCacheKey_t &key);
-  void setMaxCost(int maxCost);
-  void printCache();
-  int  used();
+        void add(pixCacheKey_t &key, pixCacheItem_t *item, int cost);
+        pixCacheItem_t *get(pixCacheKey_t &key);
+        void setMaxCost(int maxCost);
+        void printCache();
+        int  used();
 
-private:  
-  QCache <pixCacheKey_t, pixCacheItem_t> m_cache;
+    private:
+        QCache <pixCacheKey_t, pixCacheItem_t> m_cache;
 };
 

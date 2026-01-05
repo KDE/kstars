@@ -30,7 +30,8 @@ class ImagingCameraData
         ImagingCameraData() {}
         ImagingCameraData(const QString &cameraId, OptimalExposure::SensorType sensorType,
                           OptimalExposure::GainSelectionType gainSelectionType, const QVector<int> &gainSelectionRange,
-                          const QVector<OptimalExposure::CameraGainReadMode> &CameraGainReadModeVector, double cameraPixelSize, double cameraQuantumEfficiency);
+                          const QVector<OptimalExposure::CameraGainReadMode> &CameraGainReadModeVector, double cameraPixelSize,
+                          double cameraQuantumEfficiency);
 
         int getDataClassVersion();
         void setDataClassVersion(int newDataClassVersion);
@@ -52,7 +53,7 @@ class ImagingCameraData
 
         QVector<int> getGainSelectionRange();
         void setGainSelectionRange(QVector<int> newGainSelectionRange);
-        
+
         double getCameraPixelSize();
         void setCameraPixelSize(double newCameraPixelSize);
         double getCameraQuantumEfficiency();
@@ -72,9 +73,9 @@ class ImagingCameraData
         // For GAIN_SELECTION_TYPE_FIXED the gainSelection will not be populated
         QVector<int> gainSelectionRange;
         QVector<OptimalExposure::CameraGainReadMode> CameraGainReadModeVector;
-		
-		double cameraPixelSize;
-		double cameraQuantumEfficiency;
+
+        double cameraPixelSize;
+        double cameraQuantumEfficiency;
 
 };
 }

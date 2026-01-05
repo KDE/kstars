@@ -26,19 +26,19 @@ class LightBox : public ConcreteDevice
 
         Q_SCRIPTABLE virtual bool isLightOn();
 
-public slots:
-    /**
-     * @brief SetBrightness Set light box brightness levels if dimmable.
-     * @param val Value of brightness level.
-     * @return True if operation is successful, false otherwise.
-     */
-    Q_SCRIPTABLE bool setBrightness(uint16_t val);
+    public slots:
+        /**
+         * @brief SetBrightness Set light box brightness levels if dimmable.
+         * @param val Value of brightness level.
+         * @return True if operation is successful, false otherwise.
+         */
+        Q_SCRIPTABLE bool setBrightness(uint16_t val);
 
-    /**
-     * @brief SetLightEnabled Turn on/off light
-     * @param enable true to turn on, false to turn off
-     * @return True if operation is successful, false otherwise.
-     */
-    Q_SCRIPTABLE bool setLightEnabled(bool enable);
+        /**
+         * @brief SetLightEnabled Turn on/off light
+         * @param enable true to turn on, false to turn off
+         * @return True if operation is successful, false otherwise.
+         */
+        Q_SCRIPTABLE bool setLightEnabled(bool enable);
 };
 }

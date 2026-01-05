@@ -79,9 +79,10 @@ OpsCatalog::OpsCatalog() : QFrame(KStars::Instance())
     // zoomed-in limit to avoid weird behavior
     kcfg_MagLimitDrawDeepSky->setMaximum(FAINTEST_MAGNITUDE);
     connect(kcfg_MagLimitDrawDeepSky, &QDoubleSpinBox::editingFinished,
-            [&]() {
-                kcfg_MagLimitDrawDeepSkyZoomOut->setMaximum(kcfg_MagLimitDrawDeepSky->value());
-            });
+            [&]()
+    {
+        kcfg_MagLimitDrawDeepSkyZoomOut->setMaximum(kcfg_MagLimitDrawDeepSky->value());
+    });
 
     isDirty = false;
 }

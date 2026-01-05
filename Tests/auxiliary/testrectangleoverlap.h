@@ -1,4 +1,4 @@
-/*  
+/*
     SPDX-FileCopyrightText: 2023 Hy Murveit <hy@murveit.com>
 
     SPDX-License-Identifier: GPL-2.0-or-later
@@ -12,13 +12,13 @@
 
 class TestRectangleOverlap: public QObject
 {
-    Q_OBJECT
-public:
-    explicit TestRectangleOverlap(QObject * parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit TestRectangleOverlap(QObject * parent = nullptr);
 
-private slots:
-    void testBasic_data();
-    void testBasic();
+    private slots:
+        void testBasic_data();
+        void testBasic();
 };
 
 

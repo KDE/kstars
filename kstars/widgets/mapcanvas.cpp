@@ -24,7 +24,7 @@ MapCanvas::MapCanvas(QWidget *parent) : QFrame(parent), ld(nullptr)
 
     QString bgFile = KSPaths::locate(QStandardPaths::AppLocalDataLocation, "geomap.jpg");
     bgImage        = new QPixmap(bgFile);
-    xsize= width();
+    xsize = width();
     ysize = height();
     ximage = bgImage->width();
     yimage = bgImage->height();
@@ -68,7 +68,7 @@ void MapCanvas::paintEvent(QPaintEvent *)
 {
     QPainter p;
 
-    xsize= width();
+    xsize = width();
     ysize = height();
     ximage = bgImage->width();
     yimage = bgImage->height();

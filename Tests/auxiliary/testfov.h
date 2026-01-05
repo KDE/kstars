@@ -18,18 +18,18 @@
 
 class TestFOV : public QObject
 {
-    Q_OBJECT
-public:
-    explicit TestFOV(QObject *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit TestFOV(QObject *parent = nullptr);
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testFOVCreation();
+        void testFOVCreation();
 };
 
 #endif // TESTFOV_H

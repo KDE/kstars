@@ -369,9 +369,9 @@ void Stretch::recalculateInputRange(uint8_t const *input)
 
     float mx = 0;
     if (dataType == TFLOAT)
-        mx = sampledMax(reinterpret_cast<float const*>(input), image_height * image_width, 1000);
+        mx = sampledMax(reinterpret_cast<float const * >(input), image_height * image_width, 1000);
     else if (dataType == TDOUBLE)
-        mx = sampledMax(reinterpret_cast<double const*>(input), image_height * image_width, 1000);
+        mx = sampledMax(reinterpret_cast<double const * >(input), image_height * image_width, 1000);
     if (mx <= 1.01f) input_range = 1;
 }
 

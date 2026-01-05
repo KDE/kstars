@@ -30,24 +30,24 @@ class KStars;
  */
 class OpsColors : public QFrame, public Ui::OpsColors
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsColors();
-    virtual ~OpsColors() override = default;
+    public:
+        explicit OpsColors();
+        virtual ~OpsColors() override = default;
 
-  private slots:
-    void newColor(QListWidgetItem *item);
-    void slotPreset(int i);
-    void slotAddPreset();
-    void slotSavePreset();
-    void slotRemovePreset();
-    void slotStarColorMode(int);
-    void slotStarColorIntensity(int);
-    void slotChangeTheme(QListWidgetItem *item);
+    private slots:
+        void newColor(QListWidgetItem *item);
+        void slotPreset(int i);
+        void slotAddPreset();
+        void slotSavePreset();
+        void slotRemovePreset();
+        void slotStarColorMode(int);
+        void slotStarColorIntensity(int);
+        void slotChangeTheme(QListWidgetItem *item);
 
-  private:
-    bool setColors(const QString &filename);
+    private:
+        bool setColors(const QString &filename);
 
-    QStringList PresetFileList;
+        QStringList PresetFileList;
 };

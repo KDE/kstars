@@ -14,27 +14,30 @@
 
 class SummaryFITSView : public FITSView
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit SummaryFITSView(QWidget *parent = nullptr);
+    public:
+        explicit SummaryFITSView(QWidget *parent = nullptr);
 
-    // Floating toolbar
-    void createFloatingToolBar();
+        // Floating toolbar
+        void createFloatingToolBar();
 
-    // process information widget
-    QWidget *processInfoWidget;
+        // process information widget
+        QWidget *processInfoWidget;
 
-public slots:
-    // process information
-    void showProcessInfo(bool show);
-    void toggleShowProcessInfo() {showProcessInfo(!m_showProcessInfo);}
+    public slots:
+        // process information
+        void showProcessInfo(bool show);
+        void toggleShowProcessInfo()
+        {
+            showProcessInfo(!m_showProcessInfo);
+        }
 
-    void resizeEvent(QResizeEvent *event) override;
+        void resizeEvent(QResizeEvent *event) override;
 
-private:
-    // floating bar
-    bool m_showProcessInfo { false };
-    QAction *toggleProcessInfoAction { nullptr };
+    private:
+        // floating bar
+        bool m_showProcessInfo { false };
+        QAction *toggleProcessInfoAction { nullptr };
 
 };

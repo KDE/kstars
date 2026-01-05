@@ -62,20 +62,20 @@
 
 class TestEkosScheduler : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit TestEkosScheduler(QObject *parent = nullptr);
+    public:
+        explicit TestEkosScheduler(QObject *parent = nullptr);
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testScheduleManipulation_data();
-    void testScheduleManipulation();
+        void testScheduleManipulation_data();
+        void testScheduleManipulation();
 };
 
 #endif // HAVE_INDI

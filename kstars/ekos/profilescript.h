@@ -41,7 +41,8 @@ class ProfileScript : public QWidget
         QComboBox *m_DriverCombo {nullptr};
         QSpinBox *m_PreDelaySpin {nullptr}, *m_PostDelaySpin {nullptr}, *m_StoppingDelaySpin {nullptr}, *m_StoppedDelaySpin {nullptr};
         QLineEdit *m_PreScriptEdit {nullptr}, *m_PostScriptEdit {nullptr}, *m_StoppingScriptEdit {nullptr}, *m_StoppedScriptEdit {nullptr};
-        QPushButton *m_PreScriptB {nullptr}, *m_PostScriptB {nullptr}, *m_RemoveB {nullptr}, *m_StoppingScriptB {nullptr}, *m_StoppedScriptB {nullptr};
+        QPushButton *m_PreScriptB {nullptr}, *m_PostScriptB {nullptr}, *m_RemoveB {nullptr}, *m_StoppingScriptB {nullptr},
+                    *m_StoppedScriptB {nullptr};
 
     signals:
         void removedRequested();

@@ -21,31 +21,54 @@ CatalogEditForm::CatalogEditForm(QWidget *parent, const CatalogsDB::Catalog &cat
 
     fill_form_from_catalog();
     connect(ui->id, QOverload<int>::of(&QSpinBox::valueChanged),
-            [&](const int id) { m_catalog.id = id; });
+            [&](const int id)
+    {
+        m_catalog.id = id;
+    });
 
     connect(ui->name, &QLineEdit::textChanged,
-            [&](const QString &s) { m_catalog.name = s; });
+            [&](const QString & s)
+    {
+        m_catalog.name = s;
+    });
 
     connect(ui->author, &QLineEdit::textChanged,
-            [&](const QString &s) { m_catalog.author = s; });
+            [&](const QString & s)
+    {
+        m_catalog.author = s;
+    });
 
     connect(ui->source, &QLineEdit::textChanged,
-            [&](const QString &s) { m_catalog.source = s; });
+            [&](const QString & s)
+    {
+        m_catalog.source = s;
+    });
 
     connect(ui->description, &QTextEdit::textChanged,
-            [&]() { m_catalog.description = ui->description->toHtml(); });
+            [&]()
+    {
+        m_catalog.description = ui->description->toHtml();
+    });
 
     connect(ui->license, &QLineEdit::textChanged,
-            [&](const QString &s) { m_catalog.license = s; });
+            [&](const QString & s)
+    {
+        m_catalog.license = s;
+    });
 
     connect(ui->maintainer, &QLineEdit::textChanged,
-            [&](const QString &s) { m_catalog.maintainer = s; });
+            [&](const QString & s)
+    {
+        m_catalog.maintainer = s;
+    });
 
-    connect(ui->color, &QPushButton::clicked, [&]() {
-        CatalogColorEditor editor{
+    connect(ui->color, &QPushButton::clicked, [&]()
+    {
+        CatalogColorEditor editor
+        {
             m_catalog.color == "" ?
-                KStarsData::Instance()->colorScheme()->colorNamed("DSOColor").name() :
-                m_catalog.color
+            KStarsData::Instance()->colorScheme()->colorNamed("DSOColor").name() :
+            m_catalog.color
         };
 
         if (editor.exec() != QDialog::Accepted)

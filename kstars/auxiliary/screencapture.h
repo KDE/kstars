@@ -10,26 +10,27 @@
 #include <QMouseEvent>
 #include <QScreen>
 
-class ScreenCapture : public QWidget {
-    Q_OBJECT
-public:
-  explicit ScreenCapture(QWidget *parent = nullptr);
+class ScreenCapture : public QWidget
+{
+        Q_OBJECT
+    public:
+        explicit ScreenCapture(QWidget *parent = nullptr);
 
-  ~ScreenCapture();
+        ~ScreenCapture();
 
-protected:
-  void showEvent(QShowEvent *event) override;
-  void hideEvent(QHideEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
+    protected:
+        void showEvent(QShowEvent *event) override;
+        void hideEvent(QHideEvent *event) override;
+        void mousePressEvent(QMouseEvent *event) override;
+        void mouseMoveEvent(QMouseEvent *event) override;
+        void mouseReleaseEvent(QMouseEvent *event) override;
+        void keyPressEvent(QKeyEvent *event) override;
 
-signals:
-    void areaSelected(const QImage &image);
-    void aborted();
+    signals:
+        void areaSelected(const QImage &image);
+        void aborted();
 
-private:
-    QPoint origin;
-    QRubberBand *rubberBand;
+    private:
+        QPoint origin;
+        QRubberBand *rubberBand;
 };

@@ -132,15 +132,15 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
 
         QStandardItemModel m_BFOModel;
 
-        QVector <QString> m_filters;
+        QVector < QString > m_filters;
         int m_refFilter { -1 };
         double m_refTemperature { INVALID_VALUE };
         double m_refAltitude { INVALID_VALUE };
 
-        QQueue<buildOffsetsQItem> m_buildOffsetsQ;
+        QQueue < buildOffsetsQItem > m_buildOffsetsQ;
         buildOffsetsQItem m_qItemInProgress;
 
-        QSharedPointer<FilterManager> m_filterManager;
+        QSharedPointer < FilterManager > m_filterManager;
 
         bool m_inBuildOffsets { false };
         int m_rowIdx { 0 };
@@ -151,7 +151,7 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
         bool m_stopFlag { false };
         bool m_abortAFPending { false };
         bool m_tableInEditMode {false};
-        QVector<AFSolutionDetail> m_AFSolutions;
+        QVector < AFSolutionDetail > m_AFSolutions;
 };
 
 }

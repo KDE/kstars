@@ -276,7 +276,7 @@ QList<QString> KSParser::CombineQuoteParts(QList<QString> &separated)
             {
                 iter_string = (iter_string).remove(0, 1); // remove the quote at the start
                 while (iter_string.lastIndexOf('\"') != (iter_string.length() - 1) &&
-                       iter != separated.constEnd()) // handle stuff between parent quotes
+                        iter != separated.constEnd()) // handle stuff between parent quotes
                 {
                     queue.append((iter_string));
                     ++iter;

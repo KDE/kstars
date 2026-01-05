@@ -65,8 +65,8 @@ DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
     connected    = QIcon::fromTheme("network-connect");
     disconnected = QIcon::fromTheme("network-disconnect");
 
-    connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this,
-            SLOT(makePortEditable(QTreeWidgetItem*,int)));
+    connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this,
+            SLOT(makePortEditable(QTreeWidgetItem*, int)));
 }
 
 void DeviceManagerUI::makePortEditable(QTreeWidgetItem *selectedItem, int column)
@@ -109,8 +109,8 @@ INDIDriver::INDIDriver(KStars *_ks) : QDialog(_ks), ksw(_ks)
     QObject::connect(ui->disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
     QObject::connect(ui->runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
     QObject::connect(ui->stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
-    QObject::connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(updateLocalTab()));
-    QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(updateClientTab()));
+    QObject::connect(ui->localTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(updateLocalTab()));
+    QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(updateClientTab()));
     QObject::connect(ui->localTreeWidget, SIGNAL(expanded(QModelIndex)), this, SLOT(resizeDeviceColumn()));
 
     readXMLDrivers();
@@ -254,7 +254,7 @@ void INDIDriver::updateClientTab()
     foreach (INDIHostsInfo *host, ksw->data()->INDIHostsList)
     {
         if (ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN) == host->name &&
-            ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN) == host->portnumber)
+                ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN) == host->portnumber)
         {
             ui->connectHostB->setEnabled(!host->isConnected);
             ui->disconnectHostB->setEnabled(host->isConnected);
@@ -312,7 +312,7 @@ void INDIDriver::processLocalTree(IDevice::DeviceStatus dev_request)
 
         //deviceManager = ksw->indiMenu()->startDeviceManager(processed_devices, ui->localR->isChecked() ? DeviceManager::M_LOCAL : DeviceManager::M_SERVER, ((uint) port));
         deviceManager = ksw->indiMenu()->initDeviceManager(
-            "localhost", ((uint)port), ui->localR->isChecked() ? DeviceManager::M_LOCAL : DeviceManager::M_SERVER);
+                            "localhost", ((uint)port), ui->localR->isChecked() ? DeviceManager::M_LOCAL : DeviceManager::M_SERVER);
 
         if (deviceManager == nullptr)
         {
@@ -339,7 +339,7 @@ void INDIDriver::processRemoteTree(IDevice::DeviceStatus dev_request)
     foreach (INDIHostsInfo *host, ksw->data()->INDIHostsList)
     {
         if (currentItem->text(HOST_NAME_COLUMN) == host->name &&
-            currentItem->text(HOST_PORT_COLUMN) == host->portnumber)
+                currentItem->text(HOST_PORT_COLUMN) == host->portnumber)
         {
             // Nothing changed, return
             if (host->isConnected == toConnect)
@@ -349,7 +349,7 @@ void INDIDriver::processRemoteTree(IDevice::DeviceStatus dev_request)
             if (toConnect)
             {
                 deviceManager = ksw->indiMenu()->initDeviceManager(host->hostname, host->portnumber.toUInt(),
-                                                                   DeviceManager::M_CLIENT);
+                                DeviceManager::M_CLIENT);
 
                 if (deviceManager == nullptr)
                 {
@@ -850,7 +850,7 @@ void INDIDriver::modifyINDIHost()
     foreach (INDIHostsInfo *host, ksw->data()->INDIHostsList)
     {
         if (currentItem->text(HOST_NAME_COLUMN) == host->name &&
-            currentItem->text(HOST_PORT_COLUMN) == host->portnumber)
+                currentItem->text(HOST_PORT_COLUMN) == host->portnumber)
         {
             hostConf.nameIN->setText(host->name);
             hostConf.hostname->setText(host->hostname);
@@ -883,7 +883,7 @@ void INDIDriver::removeINDIHost()
     for (int i = 0; i < ksw->data()->INDIHostsList.count(); i++)
     {
         if (ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN) == ksw->data()->INDIHostsList[i]->name &&
-            ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN) == ksw->data()->INDIHostsList[i]->portnumber)
+                ui->clientTreeWidget->currentItem()->text(HOST_PORT_COLUMN) == ksw->data()->INDIHostsList[i]->portnumber)
         {
             if (ksw->data()->INDIHostsList[i]->isConnected)
             {
@@ -893,7 +893,7 @@ void INDIDriver::removeINDIHost()
 
             if (KMessageBox::warningContinueCancel(0,
                                                    xi18n("Are you sure you want to remove the %1 client?",
-                                                         ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN)),
+                                                           ui->clientTreeWidget->currentItem()->text(HOST_NAME_COLUMN)),
                                                    xi18n("Delete Confirmation"),
                                                    KStandardGuiItem::del()) != KMessageBox::Continue)
                 return;
@@ -917,7 +917,7 @@ void INDIDriver::saveHosts()
     if (!file.open(QIODevice::WriteOnly))
     {
         QString message = xi18n(
-            "Unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved.");
+                              "Unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved.");
         KMessageBox::sorry(0, message, xi18n("Could Not Open File"));
         return;
     }

@@ -97,7 +97,10 @@ void FITSDirWatcher::onDirChanged(const QString &path)
     for (const QString &file : newFileList)
     {
         bool inCurrent = std::any_of(m_CurrentFiles.constBegin(), m_CurrentFiles.constEnd(),
-                                     [&](const LiveStackFile &f){ return f.file == file; });
+                                     [&](const LiveStackFile & f)
+        {
+            return f.file == file;
+        });
 
         bool inPending = m_PendingFiles.contains(file);
 
@@ -146,7 +149,7 @@ void FITSDirWatcher::checkPendingFile(const QString &filePath)
     if (pending.firstDetected.msecsTo(now) > FILE_STABILITY_TIMEOUT_MS)
     {
         qCWarning(KSTARS_FITS) << QString("File stability check timed out for %1 after %2s. Ignoring file...")
-                                      .arg(filePath).arg(pending.firstDetected.msecsTo(now) / 1000.0);
+                               .arg(filePath).arg(pending.firstDetected.msecsTo(now) / 1000.0);
         m_PendingFiles.remove(filePath);
         return;
     }
@@ -178,7 +181,7 @@ void FITSDirWatcher::checkPendingFile(const QString &filePath)
         m_CurrentFiles.push_back(lsFile);
         QVector<LiveStackFile> lsFiles { lsFile };
         qCDebug(KSTARS_FITS) << QString("File %1 stabilized after %2s").arg(filePath)
-                                    .arg(pending.firstDetected.msecsTo(now) / 1000.0);
+                             .arg(pending.firstDetected.msecsTo(now) / 1000.0);
         emit newFilesDetected(QDateTime::currentDateTime(), lsFiles);
     }
     else

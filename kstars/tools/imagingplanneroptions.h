@@ -13,30 +13,30 @@
 
 class ImagingPlannerOptionsUI : public QFrame, public Ui::ImagingPlannerOptions
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ImagingPlannerOptionsUI(QWidget *p = nullptr);
+    public:
+        explicit ImagingPlannerOptionsUI(QWidget *p = nullptr);
 };
 
 class ImagingPlannerOptions : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
+    public:
 
-    explicit ImagingPlannerOptions(QWidget *parent);
-    virtual ~ImagingPlannerOptions() override = default;
+        explicit ImagingPlannerOptions(QWidget *parent);
+        virtual ~ImagingPlannerOptions() override = default;
 
-  protected:
-    void showEvent(QShowEvent *) override;
+    protected:
+        void showEvent(QShowEvent *) override;
 
-  private slots:
-    void slotIndependentWindow(bool checked);
-    void slotCenterOnSkyMap(bool checked);
-    void slotStartSolvingImmediately(bool checked);
+    private slots:
+        void slotIndependentWindow(bool checked);
+        void slotCenterOnSkyMap(bool checked);
+        void slotStartSolvingImmediately(bool checked);
 
-  private:
-    ImagingPlannerOptionsUI *ui { nullptr };
+    private:
+        ImagingPlannerOptionsUI *ui { nullptr };
 };
 

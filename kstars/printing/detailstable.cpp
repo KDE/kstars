@@ -147,7 +147,8 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
                 objTypeVal = ps->translatedName();
             }
 
-            else if (ps->name() == i18nc("Asteroid name (optional)", "Pluto") || ps->name() == i18nc("Asteroid name (optional)", "Ceres") ||
+            else if (ps->name() == i18nc("Asteroid name (optional)", "Pluto")
+                     || ps->name() == i18nc("Asteroid name (optional)", "Ceres") ||
                      ps->name() == i18nc("Asteroid name (optional)", "Eris")) // TODO: Check if Ceres / Eris have translations and i18n() them
             {
                 objTypeVal = i18n("Dwarf planet");

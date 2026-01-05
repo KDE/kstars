@@ -18,7 +18,8 @@
 
 #include "ekos/auxiliary/filtermanager.h"
 
-namespace {
+namespace
+{
 class Camera;
 class LightBox;
 class Rotator;
@@ -33,8 +34,8 @@ class CaptureDeviceAdaptor: public QObject
 {
         Q_OBJECT
 
-public:
-    CaptureDeviceAdaptor() {}
+    public:
+        CaptureDeviceAdaptor() {}
 
         //////////////////////////////////////////////////////////////////////
         // current sequence job's state machine
@@ -268,7 +269,7 @@ public:
          */
         void queryHasShutter();
 
-signals:
+    signals:
         /**
          * @brief filterIdChanged Update of the currently selected filter ID
          */
@@ -347,7 +348,7 @@ signals:
          */
         void hasShutter(bool present);
 
-public slots:
+    public slots:
         /**
          * @brief Slot that reads the requested device state and publishes the corresponding event
          * @param state device state that needs to be read directly
@@ -358,7 +359,7 @@ public slots:
          */
         void readCurrentMountParkState();
 
-private:
+    private:
         // the state machine for the current sequence job
         QSharedPointer<SequenceJobState> currentSequenceJobState;
         // the light box device

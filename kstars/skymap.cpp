@@ -631,7 +631,7 @@ void SkyMap::slotSDSS()
     {
         new ImageViewer(url,
                         i18n("Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free "
-                             "for non-commercial use]."),
+             "for non-commercial use]."),
                         this);
         //iv->show();
     }
@@ -754,8 +754,8 @@ void SkyMap::slotEndRulerMode()
                                     ((f->sizeX() >= f->sizeY() && f->sizeY() != 0) ? f->sizeY() : f->sizeX()));
             }
             fov = nameToFovMap[QInputDialog::getItem(this, i18n("Star Hopper: Choose a field-of-view"),
-                                                           i18n("FOV to use for star hopping:"), nameToFovMap.keys(), 0,
-                                                           false, &ok)];
+                               i18n("FOV to use for star hopping:"), nameToFovMap.keys(), 0,
+                               false, &ok)];
         }
         else
         {

@@ -144,9 +144,10 @@ QVector<Eigen::Vector2f> EquirectangularProjector::groundPoly(SkyPoint *labelpoi
         //Construct the ground polygon, which is a simple rectangle in this case
         ground << corner1
                << corner2;
-        if (m_vp.fillGround) {
-               ground << corner3
-                      << corner4;
+        if (m_vp.fillGround)
+        {
+            ground << corner3
+                   << corner4;
         }
 
         if (labelpoint)

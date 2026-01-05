@@ -25,128 +25,128 @@
 
 class ArgLookToward : public QFrame, public Ui::ArgLookToward
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgLookToward(QWidget *p);
+    public:
+        explicit ArgLookToward(QWidget *p);
 };
 
 class ArgFindObject : public QFrame, public Ui::ArgFindObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgFindObject(QWidget *p);
+    public:
+        explicit ArgFindObject(QWidget *p);
 };
 
 class ArgSetRaDec : public QFrame, public Ui::ArgSetRaDec
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgSetRaDec(QWidget *p);
+    public:
+        explicit ArgSetRaDec(QWidget *p);
 };
 
 class ArgSetAltAz : public QFrame, public Ui::ArgSetAltAz
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgSetAltAz(QWidget *p);
+    public:
+        explicit ArgSetAltAz(QWidget *p);
 };
 
 class ArgSetLocalTime : public QFrame, public Ui::ArgSetLocalTime
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgSetLocalTime(QWidget *p);
+    public:
+        explicit ArgSetLocalTime(QWidget *p);
 };
 
 class ArgWaitFor : public QFrame, public Ui::ArgWaitFor
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgWaitFor(QWidget *p);
+    public:
+        explicit ArgWaitFor(QWidget *p);
 };
 
 class ArgWaitForKey : public QFrame, public Ui::ArgWaitForKey
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgWaitForKey(QWidget *p);
+    public:
+        explicit ArgWaitForKey(QWidget *p);
 };
 
 class ArgSetTrack : public QFrame, public Ui::ArgSetTrack
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgSetTrack(QWidget *p);
+    public:
+        explicit ArgSetTrack(QWidget *p);
 };
 
 class ArgChangeViewOption : public QFrame, public Ui::ArgChangeViewOption
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgChangeViewOption(QWidget *p);
+    public:
+        explicit ArgChangeViewOption(QWidget *p);
 };
 
 class ArgSetGeoLocation : public QFrame, public Ui::ArgSetGeoLocation
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgSetGeoLocation(QWidget *p);
+    public:
+        explicit ArgSetGeoLocation(QWidget *p);
 };
 
 class ArgTimeScale : public QFrame, public Ui::ArgTimeScale
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgTimeScale(QWidget *p);
+    public:
+        explicit ArgTimeScale(QWidget *p);
 };
 
 class ArgZoom : public QFrame, public Ui::ArgZoom
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgZoom(QWidget *p);
+    public:
+        explicit ArgZoom(QWidget *p);
 };
 
 class ArgExportImage : public QFrame, public Ui::ArgExportImage
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgExportImage(QWidget *p);
+    public:
+        explicit ArgExportImage(QWidget *p);
 };
 
 class ArgPrintImage : public QFrame, public Ui::ArgPrintImage
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgPrintImage(QWidget *p);
+    public:
+        explicit ArgPrintImage(QWidget *p);
 };
 
 class ArgSetColor : public QFrame, public Ui::ArgSetColor
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgSetColor(QWidget *p);
+    public:
+        explicit ArgSetColor(QWidget *p);
 };
 
 class ArgLoadColorScheme : public QFrame, public Ui::ArgLoadColorScheme
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit ArgLoadColorScheme(QWidget *p);
+    public:
+        explicit ArgLoadColorScheme(QWidget *p);
 };

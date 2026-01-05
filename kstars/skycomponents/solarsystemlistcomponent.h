@@ -19,25 +19,25 @@ class SolarSystemComposite;
  */
 class SolarSystemListComponent : public ListComponent
 {
-  public:
-    explicit SolarSystemListComponent(SolarSystemComposite *parent);
+    public:
+        explicit SolarSystemListComponent(SolarSystemComposite *parent);
 
-    ~SolarSystemListComponent() override;
+        ~SolarSystemListComponent() override;
 
-    void update(KSNumbers *num) override;
+        void update(KSNumbers *num) override;
 
-    /**
-     * @short Update the coordinates of the solar system bodies in this component.
-     *
-     * This function updates the position of the moving solar system bodies.
-     * @p data Pointer to the KStarsData object
-     * @p num Pointer to the KSNumbers object
-     */
-    void updateSolarSystemBodies(KSNumbers *num) override;
+        /**
+         * @short Update the coordinates of the solar system bodies in this component.
+         *
+         * This function updates the position of the moving solar system bodies.
+         * @p data Pointer to the KStarsData object
+         * @p num Pointer to the KSNumbers object
+         */
+        void updateSolarSystemBodies(KSNumbers *num) override;
 
-  protected:
-    void drawTrails(SkyPainter *skyp) override;
+    protected:
+        void drawTrails(SkyPainter *skyp) override;
 
-  private:
-    KSPlanet *m_Earth { nullptr };
+    private:
+        KSPlanet *m_Earth { nullptr };
 };

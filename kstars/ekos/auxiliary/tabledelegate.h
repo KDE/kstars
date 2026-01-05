@@ -141,21 +141,22 @@ class ComboDelegate : public QStyledItemDelegate
 
 class DatetimeDelegate : public QStyledItemDelegate
 {
-    Q_OBJECT
-  public:
-    explicit DatetimeDelegate(QObject *parent = nullptr, QString format = "yyyy-MM-dd hh:mm:ss", QString minDT = "2025-01-01", QString maxDT = "2100-01-01", bool calPopup = true) : QStyledItemDelegate(parent)
-    {
-        this->format = format;
-        this->minDT = minDT;
-        this->maxDT = maxDT;
-        this->calPopup = calPopup;
-    }
+        Q_OBJECT
+    public:
+        explicit DatetimeDelegate(QObject *parent = nullptr, QString format = "yyyy-MM-dd hh:mm:ss", QString minDT = "2025-01-01",
+                                  QString maxDT = "2100-01-01", bool calPopup = true) : QStyledItemDelegate(parent)
+        {
+            this->format = format;
+            this->minDT = minDT;
+            this->maxDT = maxDT;
+            this->calPopup = calPopup;
+        }
 
-    QWidget * createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-  protected:
-    QString format, maxDT, minDT;
-    bool calPopup { true };
+        QWidget * createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+        void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+        void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
+        void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    protected:
+        QString format, maxDT, minDT;
+        bool calPopup { true };
 };

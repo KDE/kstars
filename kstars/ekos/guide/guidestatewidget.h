@@ -19,20 +19,20 @@ namespace Ekos
 
 class GuideStateWidget : public QWidget, public Ui::GuideStateWidget
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    GuideStateWidget(QWidget * parent = nullptr);
-    void init();
+    public:
+        GuideStateWidget(QWidget * parent = nullptr);
+        void init();
 
-public slots:
-    void updateGuideStatus(GuideState state);
+    public slots:
+        void updateGuideStatus(GuideState state);
 
-private:
-    // State
-    KLed * idlingStateLed { nullptr };
-    KLed * preparingStateLed { nullptr };
-    KLed * runningStateLed { nullptr };
+    private:
+        // State
+        KLed * idlingStateLed { nullptr };
+        KLed * preparingStateLed { nullptr };
+        KLed * runningStateLed { nullptr };
 
 
 };

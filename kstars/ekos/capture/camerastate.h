@@ -57,18 +57,18 @@ class CameraState: public QObject
         // ////////////////////////////////////////////////////////////////////
         // sequence jobs
         // ////////////////////////////////////////////////////////////////////
-        QList<QSharedPointer<SequenceJob> > &allJobs();
+        QList < QSharedPointer < SequenceJob> > &allJobs();
 
-        QSharedPointer<SequenceQueue> getSequenceQueue()
+        QSharedPointer < SequenceQueue > getSequenceQueue()
         {
             return m_sequenceQueue;
         }
 
-        const QSharedPointer<SequenceJob> &getActiveJob()
+        const QSharedPointer < SequenceJob > &getActiveJob()
         {
             return m_activeJob;
         }
-        void setActiveJob(const QSharedPointer<SequenceJob> &value);
+        void setActiveJob(const QSharedPointer < SequenceJob > &value);
 
         const QUrl &sequenceURL() const;
         void setSequenceURL(const QUrl &newSequenceURL);
@@ -76,11 +76,11 @@ class CameraState: public QObject
         // ////////////////////////////////////////////////////////////////////
         // pointer to last captured frame
         // ////////////////////////////////////////////////////////////////////
-        QSharedPointer<FITSData> imageData()
+        QSharedPointer < FITSData > imageData()
         {
             return m_ImageData;
         }
-        void setImageData(QSharedPointer<FITSData> newImageData)
+        void setImageData(QSharedPointer < FITSData > newImageData)
         {
             m_ImageData = newImageData;
         }
@@ -94,7 +94,7 @@ class CameraState: public QObject
         // With this construct we could do a lazy initialization of current values if setCurrent...()
         // sets this flag to true. This is necessary since we listen to the events, but as long as
         // the value does not change, there won't be an event.
-        QMap<CaptureWorkflowActionType, bool> isInitialized;
+        QMap < CaptureWorkflowActionType, bool > isInitialized;
 
         // ////////////////////////////////////////////////////////////////////
         // flat preparation attributes
@@ -326,10 +326,10 @@ class CameraState: public QObject
             m_domeState = value;
         }
 
-        QSharedPointer<MeridianFlipState> getMeridianFlipState();
-        void setMeridianFlipState(QSharedPointer<MeridianFlipState> state);
+        QSharedPointer < MeridianFlipState > getMeridianFlipState();
+        void setMeridianFlipState(QSharedPointer < MeridianFlipState > state);
 
-        QSharedPointer<RefocusState> getRefocusState() const
+        QSharedPointer < RefocusState > getRefocusState() const
         {
             return m_refocusState;
         }
@@ -699,7 +699,7 @@ class CameraState: public QObject
          * calculation results are discarded since Ekos does not save this information to the sequence file.
          * Possible solution is to write to a local config file to keep this information persist between sessions.
          */
-        bool setDarkFlatExposure(const QSharedPointer<SequenceJob> &job);
+        bool setDarkFlatExposure(const QSharedPointer < SequenceJob > &job);
 
         /**
          * @brief checkSeqBoundary Determine the next file number sequence.
@@ -832,8 +832,10 @@ class CameraState: public QObject
 
         bool isCaptureRunning()
         {
-            return (m_CaptureState == CAPTURE_PROGRESS || m_CaptureState == CAPTURE_CAPTURING || m_CaptureState == CAPTURE_PAUSE_PLANNED ||
-                    m_CaptureState == CAPTURE_IMAGE_RECEIVED || m_CaptureState == CAPTURE_CHANGING_FILTER || m_CaptureState == CAPTURE_CALIBRATING);
+            return (m_CaptureState == CAPTURE_PROGRESS || m_CaptureState == CAPTURE_CAPTURING
+                    || m_CaptureState == CAPTURE_PAUSE_PLANNED ||
+                    m_CaptureState == CAPTURE_IMAGE_RECEIVED || m_CaptureState == CAPTURE_CHANGING_FILTER
+                    || m_CaptureState == CAPTURE_CALIBRATING);
         }
 
         bool isCaptureStopped()
@@ -896,11 +898,11 @@ class CameraState: public QObject
             m_ExposureRange.max = max;
         }
 
-        QMap<ISD::CameraChip *, QVariantMap> &frameSettings()
+        QMap < ISD::CameraChip *, QVariantMap > &frameSettings()
         {
             return m_frameSettings;
         }
-        void setFrameSettings(const QMap<ISD::CameraChip *, QVariantMap> &value)
+        void setFrameSettings(const QMap < ISD::CameraChip *, QVariantMap > &value)
         {
             m_frameSettings = value;
         }
@@ -923,7 +925,7 @@ class CameraState: public QObject
             m_CalibrationPreAction = value;
         }
 
-        QList<QMap<QString, QVariant> > &DSLRInfos()
+        QList < QMap < QString, QVariant> > &DSLRInfos()
         {
             return m_DSLRInfos;
         }
@@ -939,7 +941,7 @@ class CameraState: public QObject
 
         void setPrepareComplete(bool success);
 
-signals:
+    signals:
         // controls for capture execution
         void captureBusy(bool busy);
         void startCapture();
@@ -990,15 +992,15 @@ signals:
         void init();
 
         // Container for the list of SequenceJobs.
-        QSharedPointer<SequenceQueue> m_sequenceQueue;
+        QSharedPointer < SequenceQueue > m_sequenceQueue;
         // Currently active sequence job.
-        QSharedPointer<SequenceJob> m_activeJob;
+        QSharedPointer < SequenceJob > m_activeJob;
         // pointer to the image data
-        QSharedPointer<FITSData> m_ImageData;
+        QSharedPointer < FITSData > m_ImageData;
         // CCD Chip frame settings
-        QMap<ISD::CameraChip *, QVariantMap> m_frameSettings;
+        QMap < ISD::CameraChip *, QVariantMap > m_frameSettings;
         // DSLR Infos
-        QList<QMap<QString, QVariant>> m_DSLRInfos;
+        QList < QMap < QString, QVariant>> m_DSLRInfos;
 
         // current optical train
         QString m_opticalTrain;
@@ -1103,9 +1105,9 @@ signals:
         uint m_ditherCounter { 0 };
 
         /* Refocusing */
-        QSharedPointer<RefocusState> m_refocusState;
+        QSharedPointer < RefocusState > m_refocusState;
         /* Meridian Flip */
-        QSharedPointer<MeridianFlipState> mf_state;
+        QSharedPointer < MeridianFlipState > mf_state;
 
         /**
          * @brief Add log message

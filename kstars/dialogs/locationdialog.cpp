@@ -92,7 +92,8 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
     qDebug() << Q_FUNC_INFO << "Last known position" << source->lastKnownPosition().coordinate();
 
     connect(source, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(positionUpdated(QGeoPositionInfo)));
-    connect(source, SIGNAL(error(QGeoPositionInfoSource::Error)), this, SLOT(positionUpdateError(QGeoPositionInfoSource::Error)));
+    connect(source, SIGNAL(error(QGeoPositionInfoSource::Error)), this,
+            SLOT(positionUpdateError(QGeoPositionInfoSource::Error)));
     connect(source, SIGNAL(updateTimeout()), this, SLOT(positionUpdateTimeout()));
 
     connect(ld->GetLocationButton, SIGNAL(clicked()), this, SLOT(requestUpdate()));

@@ -63,7 +63,7 @@
 {
 }
 /*ARGSUSED*/ void GLAPIENTRY __gl_noCombineData(GLdouble coords[3], void *data[4], GLfloat weight[4], void **outData,
-                                                void *polygonData)
+        void *polygonData)
 {
 }
 
@@ -82,8 +82,8 @@ GLUtesselator *GLAPIENTRY gluNewTess(void)
     GLUtesselator *tess;
 
     /* Only initialize fields which can be changed by the api.  Other fields
-   * are initialized where they are used.
-   */
+    * are initialized where they are used.
+    */
 
     if (memInit(MAX_FAST_ALLOC) == 0)
     {
@@ -149,8 +149,8 @@ static void GotoState(GLUtesselator *tess, enum TessState newState)
     while (tess->state != newState)
     {
         /* We change the current state one level at a time, to get to
-     * the desired state.
-     */
+        * the desired state.
+        */
         if (tess->state < newState)
         {
             switch (tess->state)
@@ -163,7 +163,8 @@ static void GotoState(GLUtesselator *tess, enum TessState newState)
                     CALL_ERROR_OR_ERROR_DATA(GLU_TESS_MISSING_BEGIN_CONTOUR);
                     gluTessBeginContour(tess);
                     break;
-                default:;
+                default:
+                    ;
             }
         }
         else
@@ -179,7 +180,8 @@ static void GotoState(GLUtesselator *tess, enum TessState newState)
                     /* gluTessEndPolygon( tess ) is too much work! */
                     MakeDormant(tess);
                     break;
-                default:;
+                default:
+                    ;
             }
         }
     }
@@ -279,15 +281,15 @@ void GLAPIENTRY gluTessCallback(GLUtesselator *tess, GLenum which, _GLUfuncptr f
         case GLU_TESS_EDGE_FLAG:
             tess->callEdgeFlag = (fn == NULL) ? &noEdgeFlag : (void(GLAPIENTRY *)(GLboolean))fn;
             /* If the client wants boundary edges to be flagged,
-     * we render everything as separate triangles (no strips or fans).
-     */
+            * we render everything as separate triangles (no strips or fans).
+            */
             tess->flagBoundary = (fn != NULL);
             return;
         case GLU_TESS_EDGE_FLAG_DATA:
             tess->callEdgeFlagData = (fn == NULL) ? &__gl_noEdgeFlagData : (void(GLAPIENTRY *)(GLboolean, void *))fn;
             /* If the client wants boundary edges to be flagged,
-     * we render everything as separate triangles (no strips or fans).
-     */
+            * we render everything as separate triangles (no strips or fans).
+            */
             tess->flagBoundary = (fn != NULL);
             return;
         case GLU_TESS_VERTEX:
@@ -314,8 +316,8 @@ void GLAPIENTRY gluTessCallback(GLUtesselator *tess, GLenum which, _GLUfuncptr f
             return;
         case GLU_TESS_COMBINE_DATA:
             tess->callCombineData = (fn == NULL) ?
-                                        &__gl_noCombineData :
-                                        (void(GLAPIENTRY *)(GLdouble[3], void * [4], GLfloat[4], void **, void *)) fn;
+                                    &__gl_noCombineData :
+                                    (void(GLAPIENTRY *)(GLdouble[3], void * [4], GLfloat[4], void **, void *)) fn;
             return;
         case GLU_TESS_MESH:
             tess->callMesh = (fn == NULL) ? &noMesh : (void(GLAPIENTRY *)(GLUmesh *))fn;
@@ -344,8 +346,8 @@ static int AddVertex(GLUtesselator *tess, GLdouble coords[3], void *data)
     else
     {
         /* Create a new vertex and edge which immediately follow e
-     * in the ordering around the left face.
-     */
+        * in the ordering around the left face.
+        */
         if (__gl_meshSplitEdge(e) == NULL)
             return 0;
         e = e->Lnext;
@@ -358,10 +360,10 @@ static int AddVertex(GLUtesselator *tess, GLdouble coords[3], void *data)
     e->Org->coords[2] = coords[2];
 
     /* The winding of an edge says how the winding number changes as we
-   * cross from the edge''s right face to its left face.  We add the
-   * vertices in such an order that a CCW contour will add +1 to
-   * the winding number of the region inside the contour.
-   */
+    * cross from the edge''s right face to its left face.  We add the
+    * vertices in such an order that a CCW contour will add +1 to
+    * the winding number of the region inside the contour.
+    */
     e->winding      = 1;
     e->Sym->winding = -1;
 
@@ -477,9 +479,9 @@ void GLAPIENTRY gluTessBeginContour(GLUtesselator *tess)
     if (tess->cacheCount > 0)
     {
         /* Just set a flag so we don't get confused by empty contours
-     * -- these can be generated accidentally with the obsolete
-     * NextContour() interface.
-     */
+        * -- these can be generated accidentally with the obsolete
+        * NextContour() interface.
+        */
         tess->emptyCache = TRUE;
     }
 }
@@ -509,10 +511,10 @@ void GLAPIENTRY gluTessEndPolygon(GLUtesselator *tess)
         if (!tess->flagBoundary && tess->callMesh == &noMesh)
         {
             /* Try some special code to make the easy cases go quickly
-       * (eg. convex polygons).  This code does NOT handle multiple contours,
-       * intersections, edge flags, and of course it does not generate
-       * an explicit mesh either.
-       */
+            * (eg. convex polygons).  This code does NOT handle multiple contours,
+            * intersections, edge flags, and of course it does not generate
+            * an explicit mesh either.
+            */
             if (__gl_renderCache(tess))
             {
                 tess->polygonData = NULL;
@@ -524,16 +526,16 @@ void GLAPIENTRY gluTessEndPolygon(GLUtesselator *tess)
     }
 
     /* Determine the polygon normal and project vertices onto the plane
-   * of the polygon.
-   */
+    * of the polygon.
+    */
     __gl_projectPolygon(tess);
 
     /* __gl_computeInterior( tess ) computes the planar arrangement specified
-   * by the given contours, and further subdivides this arrangement
-   * into regions.  Each region is marked "inside" if it belongs
-   * to the polygon, according to the rule given by tess->windingRule.
-   * Each interior region is guaranteed be monotone.
-   */
+    * by the given contours, and further subdivides this arrangement
+    * into regions.  Each region is marked "inside" if it belongs
+    * to the polygon, according to the rule given by tess->windingRule.
+    * Each interior region is guaranteed be monotone.
+    */
     if (!__gl_computeInterior(tess))
     {
         longjmp(tess->env, 1); /* could've used a label */
@@ -545,9 +547,9 @@ void GLAPIENTRY gluTessEndPolygon(GLUtesselator *tess)
         int rc = 1;
 
         /* If the user wants only the boundary contours, we throw away all edges
-     * except those which separate the interior from the exterior.
-     * Otherwise we tessellate all the regions marked "inside".
-     */
+        * except those which separate the interior from the exterior.
+        * Otherwise we tessellate all the regions marked "inside".
+        */
         if (tess->boundaryOnly)
         {
             rc = __gl_meshSetWindingNumber(mesh, 1, TRUE);
@@ -562,9 +564,9 @@ void GLAPIENTRY gluTessEndPolygon(GLUtesselator *tess)
         __gl_meshCheckMesh(mesh);
 
         if (tess->callBegin != &noBegin || tess->callEnd != &noEnd || tess->callVertex != &noVertex ||
-            tess->callEdgeFlag != &noEdgeFlag || tess->callBeginData != &__gl_noBeginData ||
-            tess->callEndData != &__gl_noEndData || tess->callVertexData != &__gl_noVertexData ||
-            tess->callEdgeFlagData != &__gl_noEdgeFlagData)
+                tess->callEdgeFlag != &noEdgeFlag || tess->callBeginData != &__gl_noBeginData ||
+                tess->callEndData != &__gl_noEndData || tess->callVertexData != &__gl_noVertexData ||
+                tess->callEdgeFlagData != &__gl_noEdgeFlagData)
         {
             if (tess->boundaryOnly)
             {
@@ -578,11 +580,11 @@ void GLAPIENTRY gluTessEndPolygon(GLUtesselator *tess)
         if (tess->callMesh != &noMesh)
         {
             /* Throw away the exterior faces, so that all faces are interior.
-       * This way the user doesn't have to check the "inside" flag,
-       * and we don't need to even reveal its existence.  It also leaves
-       * the freedom for an implementation to not generate the exterior
-       * faces in the first place.
-       */
+            * This way the user doesn't have to check the "inside" flag,
+            * and we don't need to even reveal its existence.  It also leaves
+            * the freedom for an implementation to not generate the exterior
+            * faces in the first place.
+            */
             __gl_meshDiscardExterior(mesh);
             (*tess->callMesh)(mesh); /* user wants the mesh itself */
             tess->mesh        = NULL;
@@ -600,7 +602,7 @@ void GLAPIENTRY gluTessEndPolygon(GLUtesselator *tess)
 void GLAPIENTRY
 gluDeleteMesh( GLUmesh *mesh )
 {
-  __gl_meshDeleteMesh( mesh );
+    __gl_meshDeleteMesh( mesh );
 }
 #endif
 

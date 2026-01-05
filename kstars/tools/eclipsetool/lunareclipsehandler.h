@@ -16,8 +16,10 @@
  * @brief The LunarEclipseDetails struct
  * @short A struct to hold detail information about an eclipse
  */
-struct LunarEclipseDetails {
-    enum EVENT {
+struct LunarEclipseDetails
+{
+    enum EVENT
+    {
         BEGIN_PENUMBRA_CONTACT,
         BEGIN_UMBRA_CONTACT,
         END_PENUMBRA_CONTACT,
@@ -40,34 +42,46 @@ struct LunarEclipseDetails {
  */
 class LunarEclipseEvent : public EclipseEvent
 {
-    Q_OBJECT
-public:
-    LunarEclipseEvent(long double jd, GeoLocation geoPlace, ECLIPSE_TYPE type, KSEarthShadow::ECLIPSE_TYPE detailed_type);
+        Q_OBJECT
+    public:
+        LunarEclipseEvent(long double jd, GeoLocation geoPlace, ECLIPSE_TYPE type, KSEarthShadow::ECLIPSE_TYPE detailed_type);
 
-    ~LunarEclipseEvent() override {} // empty for now
+        ~LunarEclipseEvent() override {} // empty for now
 
-    QString getExtraInfo() override;
+        QString getExtraInfo() override;
 
-    /**
-     * @brief getDetailedType
-     * @return Type of the eclipse as in KSEarthShadow::ECLIPSE_TYPE
-     */
-    KSEarthShadow::ECLIPSE_TYPE getDetailedType() { return m_detailedType; }
+        /**
+         * @brief getDetailedType
+         * @return Type of the eclipse as in KSEarthShadow::ECLIPSE_TYPE
+         */
+        KSEarthShadow::ECLIPSE_TYPE getDetailedType()
+        {
+            return m_detailedType;
+        }
 
-    QString getEclipsingObjectName() override { return i18n("Earth Shadow"); }
-    QString getEclipsedObjectName() override  { return i18n("Moon"); }
+        QString getEclipsingObjectName() override
+        {
+            return i18n("Earth Shadow");
+        }
+        QString getEclipsedObjectName() override
+        {
+            return i18n("Moon");
+        }
 
-    SkyObject * getEclipsingObjectFromSkyComposite() override;
+        SkyObject * getEclipsingObjectFromSkyComposite() override;
 
-    bool hasDetails() override { return false; } // false for now!
+        bool hasDetails() override
+        {
+            return false;    // false for now!
+        }
 
-public slots:
-    void slotShowDetails() override;
+    public slots:
+        void slotShowDetails() override;
 
-private:
-    KSEarthShadow::ECLIPSE_TYPE m_detailedType;
-    LunarEclipseDetails m_details;
-    // More Later_details;
+    private:
+        KSEarthShadow::ECLIPSE_TYPE m_detailedType;
+        LunarEclipseDetails m_details;
+        // More Later_details;
 };
 
 
@@ -79,55 +93,58 @@ private:
  */
 class LunarEclipseHandler : public EclipseHandler
 {
-    Q_OBJECT
-public:
-    explicit LunarEclipseHandler(QObject * parent = nullptr);
-    virtual ~LunarEclipseHandler() override;
+        Q_OBJECT
+    public:
+        explicit LunarEclipseHandler(QObject * parent = nullptr);
+        virtual ~LunarEclipseHandler() override;
 
-    EclipseVector computeEclipses(long double startJD, long double endJD) override;
+        EclipseVector computeEclipses(long double startJD, long double endJD) override;
 
-    // FIXME: (Valentin) Not yet finished. Returns empty Details!
-    LunarEclipseDetails findEclipseDetails(LunarEclipseEvent *event);
+        // FIXME: (Valentin) Not yet finished. Returns empty Details!
+        LunarEclipseDetails findEclipseDetails(LunarEclipseEvent *event);
 
-protected:
-    double findInitialStep(long double, long double) override
-        { return (m_mode == CLOSEST_APPROACH) ? INITIAL_STEP : DETAIL_STEP; }
+    protected:
+        double findInitialStep(long double, long double) override
+        {
+            return (m_mode == CLOSEST_APPROACH) ? INITIAL_STEP : DETAIL_STEP;
+        }
 
-    void updatePositions(long double jd) override;
+        void updatePositions(long double jd) override;
 
-    // NOTE: This method depends on m_mode!
-    dms findDistance() override;
+        // NOTE: This method depends on m_mode!
+        dms findDistance() override;
 
-    // NOTE: This method depends on m_mode!
-    double getMaxSeparation() override;
+        // NOTE: This method depends on m_mode!
+        double getMaxSeparation() override;
 
-private:
-    /**
-     * @brief getFullMoons
-     * @param startJD start Date
-     * @param endJD end Date
-     * @return a vector of JDs for full moons (actually a little earlier as it doesn't matter much)
-     */
-    QVector<long double> getFullMoons(long double startJD, long double endJD);
+    private:
+        /**
+         * @brief getFullMoons
+         * @param startJD start Date
+         * @param endJD end Date
+         * @return a vector of JDs for full moons (actually a little earlier as it doesn't matter much)
+         */
+        QVector<long double> getFullMoons(long double startJD, long double endJD);
 
-    // Objects for the Calculations
-    KSSun m_sun;
-    KSMoon m_moon;
-    KSEarthShadow m_shadow;
+        // Objects for the Calculations
+        KSSun m_sun;
+        KSMoon m_moon;
+        KSEarthShadow m_shadow;
 
-    // Controls the step size, is chosen small to minimize overshooting
-    const double INITIAL_STEP { 0.1 };
-    const double DETAIL_STEP { 0.001 };
+        // Controls the step size, is chosen small to minimize overshooting
+        const double INITIAL_STEP { 0.1 };
+        const double DETAIL_STEP { 0.001 };
 
-    /**
-     * @brief The MODE enum
-     * @short Set the mode for the distance minimizer, i.e. which point to find.
-     */
-    enum {
-        CLOSEST_APPROACH,
-        PENUMBRA_CONTACT,
-        PUNUMBRA_IMMERSION,
-        UMBRA_CONTACT,
-        UMBRA_IMMERSION
-    } m_mode { CLOSEST_APPROACH };
+        /**
+         * @brief The MODE enum
+         * @short Set the mode for the distance minimizer, i.e. which point to find.
+         */
+        enum
+        {
+            CLOSEST_APPROACH,
+            PENUMBRA_CONTACT,
+            PUNUMBRA_IMMERSION,
+            UMBRA_CONTACT,
+            UMBRA_IMMERSION
+        } m_mode { CLOSEST_APPROACH };
 };

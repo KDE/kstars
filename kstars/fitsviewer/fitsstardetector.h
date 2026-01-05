@@ -25,7 +25,10 @@ class Edge
         {
             x = y = val = HFR = -1;
         }
-        virtual Edge* clone() const { return new Edge(*this); }
+        virtual Edge* clone() const
+        {
+            return new Edge(*this);
+        }
 
         float x {0};
         float y {0};
@@ -44,7 +47,10 @@ class BahtinovEdge : public Edge
         virtual ~BahtinovEdge() = default;
         QVector<QLineF> line;
         QPointF offset;
-        Edge* clone() const override { return new BahtinovEdge(*this); }
+        Edge* clone() const override
+        {
+            return new BahtinovEdge(*this);
+        }
 };
 
 class FITSStarDetector : public QObject

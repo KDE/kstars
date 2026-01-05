@@ -21,23 +21,23 @@ class SatellitesComponent;
 
 class SatellitesItem : public SkyItem
 {
-  public:
-    /**
-     * @short Constructor
-     * @param satComp - pointer to SatellitesComponent that handles data
-     * @param rootNode parent RootNode that instantiates this object
-     */
-    explicit SatellitesItem(SatellitesComponent *satComp, RootNode *rootNode = nullptr);
+    public:
+        /**
+         * @short Constructor
+         * @param satComp - pointer to SatellitesComponent that handles data
+         * @param rootNode parent RootNode that instantiates this object
+         */
+        explicit SatellitesItem(SatellitesComponent *satComp, RootNode *rootNode = nullptr);
 
-    /**
-     * @short recreates the node tree (deletes old nodes and appends new ones according to
-     * SatelliteGroups from SatellitesComponent::groups())
-     */
-    void recreateList();
+        /**
+         * @short recreates the node tree (deletes old nodes and appends new ones according to
+         * SatelliteGroups from SatellitesComponent::groups())
+         */
+        void recreateList();
 
-    /** Update positions and visibility of satellites */
-    virtual void update() override;
+        /** Update positions and visibility of satellites */
+        virtual void update() override;
 
-  private:
-    SatellitesComponent *m_satComp { nullptr };
+    private:
+        SatellitesComponent *m_satComp { nullptr };
 };

@@ -31,7 +31,7 @@ class HysteresisGuider
         }
 
         // Input is time in seconds and offset in arc-seconds.
-        // Returns an arc-second correction 
+        // Returns an arc-second correction
         // (i.e. guide pulse should correct that many arcseconds)
         double guide(double offset);
 
@@ -44,6 +44,6 @@ class HysteresisGuider
 
         QString m_ID;
         QDateTime m_LastGuideTime;
-        int m_GuiderIteration { 0 };        
+        int m_GuiderIteration { 0 };
         double m_LastOutput { 0 };
 };

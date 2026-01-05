@@ -22,42 +22,42 @@ class GeoLocation;
  */
 class modCalcGeodCoord : public QFrame, public Ui::modCalcGeodCoordDlg
 {
-    Q_OBJECT
-  public:
-    explicit modCalcGeodCoord(QWidget *p);
+        Q_OBJECT
+    public:
+        explicit modCalcGeodCoord(QWidget *p);
 
-    void genGeoCoords(void);
-    void getCartGeoCoords(void);
-    void getSphGeoCoords(void);
-    void showSpheGeoCoords(void);
-    void showCartGeoCoords(void);
+        void genGeoCoords(void);
+        void getCartGeoCoords(void);
+        void getSphGeoCoords(void);
+        void showSpheGeoCoords(void);
+        void showCartGeoCoords(void);
 
-  public slots:
+    public slots:
 
-    void slotComputeGeoCoords(void);
-    void slotClearGeoCoords(void);
-    void setEllipsoid(int i);
-    void slotLongCheckedBatch();
-    void slotLatCheckedBatch();
-    void slotElevCheckedBatch();
-    void slotXCheckedBatch();
-    void slotYCheckedBatch();
-    void slotZCheckedBatch();
-    void slotOutputFile();
-    void slotInputFile();
+        void slotComputeGeoCoords(void);
+        void slotClearGeoCoords(void);
+        void setEllipsoid(int i);
+        void slotLongCheckedBatch();
+        void slotLatCheckedBatch();
+        void slotElevCheckedBatch();
+        void slotXCheckedBatch();
+        void slotYCheckedBatch();
+        void slotZCheckedBatch();
+        void slotOutputFile();
+        void slotInputFile();
 
-  private:
-    void geoCheck(void);
-    void xyzCheck(void);
-    void showLongLat(void);
-    void processLines(QTextStream &istream);
-    void slotRunBatch(void);
+    private:
+        void geoCheck(void);
+        void xyzCheck(void);
+        void showLongLat(void);
+        void processLines(QTextStream &istream);
+        void slotRunBatch(void);
 
-    //		QRadioButton *cartRadio, *spheRadio;
-    //		QVBox *vbox, *rightBox;
-    //		QLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;
-    //		dmsBox *timeBox, *dateBox, *lonGeoBox, *latGeoBox;
+        //		QRadioButton *cartRadio, *spheRadio;
+        //		QVBox *vbox, *rightBox;
+        //		QLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;
+        //		dmsBox *timeBox, *dateBox, *lonGeoBox, *latGeoBox;
 
-    std::unique_ptr<GeoLocation> geoPlace;
-    bool xyzInputCoords { false };
+        std::unique_ptr<GeoLocation> geoPlace;
+        bool xyzInputCoords { false };
 };

@@ -97,7 +97,7 @@ void psf_conv(float *dst, const float *src, int width, int height)
             D1 = PX(+0, -3) + PX(-3, +0) + PX(+3, +0) + PX(+0, +3);
             D2 = PX(-1, -3) + PX(+1, -3) + PX(-3, -1) + PX(+3, -1) + PX(-3, +1) + PX(+3, +1) + PX(-1, +3) + PX(+1, +3);
             D3 = PX(-4, -2) + PX(-3, -2) + PX(+3, -2) + PX(+4, -2) + PX(-4, -1) + PX(+4, -1) + PX(-4, +0) + PX(+4, +0) + PX(-4,
-                    +1) + PX(+4, +1) + PX(-4, +2) + PX(-3, +2) + PX(+3, +2) + PX(+4, +2);
+                 +1) + PX(+4, +1) + PX(-4, +2) + PX(-3, +2) + PX(+3, +2) + PX(+4, +2);
 #undef PX
             int i;
             const float *uptr;
@@ -164,14 +164,14 @@ void GetStats(double *mean, double *stdev, int width, const float *img, const QR
     *stdev = sqrt(q / km1);
 }
 
-void RemoveItems(std::set<Peak> &stars, const std::set<int> &to_erase)
+void RemoveItems(std::set < Peak > &stars, const std::set < int > &to_erase)
 {
     int n = 0;
-    for (std::set<Peak>::iterator it = stars.begin(); it != stars.end(); n++)
+    for (std::set < Peak >::iterator it = stars.begin(); it != stars.end(); n++)
     {
         if (to_erase.find(n) != to_erase.end())
         {
-            std::set<Peak>::iterator next = it;
+            std::set < Peak >::iterator next = it;
             ++next;
             stars.erase(it);
             it = next;
@@ -181,9 +181,9 @@ void RemoveItems(std::set<Peak> &stars, const std::set<int> &to_erase)
     }
 }
 
-float *createFloatImage(const QSharedPointer<FITSData> &target)
+float *createFloatImage(const QSharedPointer < FITSData > &target)
 {
-    QSharedPointer<FITSData> imageData;
+    QSharedPointer < FITSData > imageData;
 
     /*************
     if (target.isNull())
@@ -215,7 +215,7 @@ float *createFloatImage(const QSharedPointer<FITSData> &target)
 
         case TSHORT:
         {
-            int16_t const *buffer = reinterpret_cast<int16_t const *>(imageData->getImageBuffer());
+            int16_t const *buffer = reinterpret_cast < int16_t const * > (imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -223,7 +223,7 @@ float *createFloatImage(const QSharedPointer<FITSData> &target)
 
         case TUSHORT:
         {
-            uint16_t const *buffer = reinterpret_cast<uint16_t const*>(imageData->getImageBuffer());
+            uint16_t const *buffer = reinterpret_cast < uint16_t const* > (imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -231,7 +231,7 @@ float *createFloatImage(const QSharedPointer<FITSData> &target)
 
         case TLONG:
         {
-            int32_t const *buffer = reinterpret_cast<int32_t const*>(imageData->getImageBuffer());
+            int32_t const *buffer = reinterpret_cast < int32_t const* > (imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -239,7 +239,7 @@ float *createFloatImage(const QSharedPointer<FITSData> &target)
 
         case TULONG:
         {
-            uint32_t const *buffer = reinterpret_cast<uint32_t const*>(imageData->getImageBuffer());
+            uint32_t const *buffer = reinterpret_cast < uint32_t const* > (imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -247,7 +247,7 @@ float *createFloatImage(const QSharedPointer<FITSData> &target)
 
         case TFLOAT:
         {
-            float const *buffer = reinterpret_cast<float const*>(imageData->getImageBuffer());
+            float const *buffer = reinterpret_cast < float const* > (imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -255,7 +255,7 @@ float *createFloatImage(const QSharedPointer<FITSData> &target)
 
         case TLONGLONG:
         {
-            int64_t const *buffer = reinterpret_cast<int64_t const*>(imageData->getImageBuffer());
+            int64_t const *buffer = reinterpret_cast < int64_t const* > (imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -263,7 +263,7 @@ float *createFloatImage(const QSharedPointer<FITSData> &target)
 
         case TDOUBLE:
         {
-            double const *buffer = reinterpret_cast<double const*>(imageData->getImageBuffer());
+            double const *buffer = reinterpret_cast < double const* > (imageData->getImageBuffer());
             for (uint32_t i = 0; i < imgSize; i++)
                 imgFloat[i] = buffer[i];
         }
@@ -280,7 +280,7 @@ float *createFloatImage(const QSharedPointer<FITSData> &target)
 }  // namespace
 
 // Based on PHD2 algorithm
-QList<Edge*> GuideAlgorithms::detectStars(const QSharedPointer<FITSData> &imageData, const QRect &trackingBox)
+QList < Edge* > GuideAlgorithms::detectStars(const QSharedPointer < FITSData > &imageData, const QRect &trackingBox)
 {
     //Debug.Write(wxString::Format("Star::AutoFind called with edgeAllowance = %d searchRegion = %d\n", extraEdgeAllowance, searchRegion));
 
@@ -289,7 +289,7 @@ QList<Edge*> GuideAlgorithms::detectStars(const QSharedPointer<FITSData> &imageD
     //smoothed.CopyFrom(image);
     //Median3(smoothed);
     constexpr int extraEdgeAllowance = 0;
-    const QSharedPointer<FITSData> smoothed(new FITSData(imageData));
+    const QSharedPointer < FITSData > smoothed(new FITSData(imageData));
     smoothed->applyFilter(FITS_MEDIAN);
 
     int searchRegion = trackingBox.width();
@@ -316,7 +316,7 @@ QList<Edge*> GuideAlgorithms::detectStars(const QSharedPointer<FITSData> &imageD
     QRect convRect(CONV_RADIUS, CONV_RADIUS, dw - 2 * CONV_RADIUS, dh - 2 * CONV_RADIUS);  // region containing valid data
 
     enum { TOP_N = 100 };  // keep track of the brightest stars
-    std::set<Peak> stars;  // sorted by ascending intensity
+    std::set < Peak > stars; // sorted by ascending intensity
 
     double global_mean, global_stdev;
     GetStats(&global_mean, &global_stdev, subW, conv, convRect);
@@ -388,9 +388,9 @@ QList<Edge*> GuideAlgorithms::detectStars(const QSharedPointer<FITSData> &imageD
     {
         const int minlimitsq = 5 * 5;
 repeat:
-        for (std::set<Peak>::const_iterator a = stars.begin(); a != stars.end(); ++a)
+        for (std::set < Peak >::const_iterator a = stars.begin(); a != stars.end(); ++a)
         {
-            std::set<Peak>::const_iterator b = a;
+            std::set < Peak >::const_iterator b = a;
             ++b;
             for (; b != stars.end(); ++b)
             {
@@ -412,12 +412,12 @@ repeat:
     // exclude stars that would fit within a single searchRegion box
     {
         // build a list of stars to be excluded
-        std::set<int> to_erase;
+        std::set < int > to_erase;
         const int extra = 5; // extra safety margin
         const int fullw = searchRegion + extra;
-        for (std::set<Peak>::const_iterator a = stars.begin(); a != stars.end(); ++a)
+        for (std::set < Peak >::const_iterator a = stars.begin(); a != stars.end(); ++a)
         {
-            std::set<Peak>::const_iterator b = a;
+            std::set < Peak >::const_iterator b = a;
             ++b;
             for (; b != stars.end(); ++b)
             {
@@ -451,10 +451,10 @@ repeat:
             edgeDist = searchRegion;
         edgeDist += extraEdgeAllowance;
 
-        std::set<Peak>::iterator it = stars.begin();
+        std::set < Peak >::iterator it = stars.begin();
         while (it != stars.end())
         {
-            std::set<Peak>::iterator next = it;
+            std::set < Peak >::iterator next = it;
             ++next;
             if (it->x <= edgeDist || it->x >= subW - edgeDist ||
                     it->y <= edgeDist || it->y >= subH - edgeDist)
@@ -466,8 +466,8 @@ repeat:
         }
     }
 
-    QList<Edge*> centers;
-    for (std::set<Peak>::reverse_iterator it = stars.rbegin(); it != stars.rend(); ++it)
+    QList < Edge* > centers;
+    for (std::set < Peak >::reverse_iterator it = stars.rbegin(); it != stars.rend(); ++it)
     {
         Edge *center = new Edge;
         center->x = it->x;
@@ -482,15 +482,15 @@ repeat:
 }
 
 
-template <typename T>
-GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageData,
+template < typename T >
+GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer < FITSData > &imageData,
         const int algorithmIndex,
         const int videoWidth,
         const int videoHeight,
         const QRect &trackingBox)
 {
     static const double P0 = 0.906, P1 = 0.584, P2 = 0.365, P3 = 0.117, P4 = 0.049, P5 = -0.05, P6 = -0.064, P7 = -0.074,
-                        P8 = -0.094;
+                                                                                                             P8 = -0.094;
 
     GuiderUtils::Vector ret(-1, -1, -1);
     int i, j;
@@ -512,9 +512,9 @@ GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSDa
     {
         QVariantMap settings;
         settings["optionsProfileIndex"] = Options::guideOptionsProfile();
-        settings["optionsProfileGroup"] = static_cast<int>(Ekos::GuideProfiles);
+        settings["optionsProfileGroup"] = static_cast < int > (Ekos::GuideProfiles);
         imageData->setSourceExtractorSettings(settings);
-        QFuture<bool> result = imageData->findStars(ALGORITHM_SEP, trackingBox);
+        QFuture < bool > result = imageData->findStars(ALGORITHM_SEP, trackingBox);
         result.waitForFinished();
         if (result.result())
         {
@@ -528,7 +528,7 @@ GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSDa
         return ret;
     }
 
-    T const *pdata = reinterpret_cast<T const*>(imageData->getImageBuffer());
+    T const *pdata = reinterpret_cast < T const* > (imageData->getImageBuffer());
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Tracking Square " << trackingBox;
 
@@ -843,7 +843,7 @@ GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSDa
     return ret;
 }
 
-GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSData> &imageData,
+GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer < FITSData > &imageData,
         const int algorithmIndex,
         const int videoWidth,
         const int videoHeight,
@@ -852,28 +852,28 @@ GuiderUtils::Vector GuideAlgorithms::findLocalStarPosition(QSharedPointer<FITSDa
     switch (imageData->dataType())
     {
         case TBYTE:
-            return findLocalStarPosition<uint8_t>(imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
+            return findLocalStarPosition < uint8_t > (imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
 
         case TSHORT:
-            return findLocalStarPosition<int16_t>(imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
+            return findLocalStarPosition < int16_t > (imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
 
         case TUSHORT:
-            return findLocalStarPosition<uint16_t>(imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
+            return findLocalStarPosition < uint16_t > (imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
 
         case TLONG:
-            return findLocalStarPosition<int32_t>(imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
+            return findLocalStarPosition < int32_t > (imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
 
         case TULONG:
-            return findLocalStarPosition<uint32_t>(imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
+            return findLocalStarPosition < uint32_t > (imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
 
         case TFLOAT:
-            return findLocalStarPosition<float>(imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
+            return findLocalStarPosition < float > (imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
 
         case TLONGLONG:
-            return findLocalStarPosition<int64_t>(imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
+            return findLocalStarPosition < int64_t > (imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
 
         case TDOUBLE:
-            return findLocalStarPosition<double>(imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
+            return findLocalStarPosition < double > (imageData, algorithmIndex, videoWidth, videoHeight, trackingBox);
 
         default:
             break;

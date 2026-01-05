@@ -19,14 +19,14 @@ class PolyNode;
  */
 class HorizonNode : public SkyNode
 {
-  public:
-    /** @short Constructor */
-    HorizonNode();
+    public:
+        /** @short Constructor */
+        HorizonNode();
 
-    /** @short Update child nodes based on user settings (filled/non-filled ground) and their visibility */
-    virtual void update() override;
-    virtual void hide() override;
+        /** @short Update child nodes based on user settings (filled/non-filled ground) and their visibility */
+        virtual void update() override;
+        virtual void hide() override;
 
-  private:
-    PolyNode *m_polygonNode { nullptr };
+    private:
+        PolyNode *m_polygonNode { nullptr };
 };

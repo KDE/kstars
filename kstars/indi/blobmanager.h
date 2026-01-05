@@ -32,32 +32,35 @@ class BlobManager : public INDI::BaseClientQt
 class BlobManager : public QObject, public INDI::BaseClient
 #endif
 {
-    Q_OBJECT
-    Q_PROPERTY(QString device MEMBER m_Device)
-    Q_PROPERTY(QString property MEMBER m_Property)
-    Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
+        Q_OBJECT
+        Q_PROPERTY(QString device MEMBER m_Device)
+        Q_PROPERTY(QString property MEMBER m_Property)
+        Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
 
-  public:
-    BlobManager(QObject *parent, const QString &host, int port, const QString &device, const QString &prop);
-    virtual ~BlobManager() override = default;
+    public:
+        BlobManager(QObject *parent, const QString &host, int port, const QString &device, const QString &prop);
+        virtual ~BlobManager() override = default;
 
-    bool enabled() { return m_Enabled; }
-    void setEnabled(bool enabled);
+        bool enabled()
+        {
+            return m_Enabled;
+        }
+        void setEnabled(bool enabled);
 
-  protected:
-    virtual void newDevice(INDI::BaseDevice device) override;
-    virtual void updateProperty(INDI::Property prop) override;
+    protected:
+        virtual void newDevice(INDI::BaseDevice device) override;
+        virtual void updateProperty(INDI::Property prop) override;
 
-    virtual void serverConnected() override {}
-    virtual void serverDisconnected(int exit_code) override;
+        virtual void serverConnected() override {}
+        virtual void serverDisconnected(int exit_code) override;
 
-  signals:   
-    void propertyUpdated(INDI::Property prop);
-    void connected();
-    void connectionFailure();
+    signals:
+        void propertyUpdated(INDI::Property prop);
+        void connected();
+        void connectionFailure();
 
-  private:
-    QString m_Device;
-    QString m_Property;
-    bool m_Enabled { true };
+    private:
+        QString m_Device;
+        QString m_Property;
+        bool m_Enabled { true };
 };

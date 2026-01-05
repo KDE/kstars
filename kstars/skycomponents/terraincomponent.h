@@ -17,12 +17,12 @@
  */
 class TerrainComponent : public SkyComponent
 {
-  public:
-    /** Constructor */
-    explicit TerrainComponent(SkyComposite *);
+    public:
+        /** Constructor */
+        explicit TerrainComponent(SkyComposite *);
 
-    virtual ~TerrainComponent() override = default;
+        virtual ~TerrainComponent() override = default;
 
-    bool selected() override;
-    void draw(SkyPainter *skyp) override;
+        bool selected() override;
+        void draw(SkyPainter *skyp) override;
 };

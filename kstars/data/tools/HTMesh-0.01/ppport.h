@@ -1,5 +1,5 @@
 #if 0
-        <<'SKIP';
+        << 'SKIP';
 #endif
 /*
 ----------------------------------------------------------------------
@@ -3441,7 +3441,7 @@ extern SV *DPPP_(my_eval_pv)(char *p, I32 croak_on_error);
 
 #if defined(NEED_eval_pv) || defined(NEED_eval_pv_GLOBAL)
 
-    SV *DPPP_(my_eval_pv)(char *p, I32 croak_on_error)
+SV *DPPP_(my_eval_pv)(char *p, I32 croak_on_error)
 {
     dSP;
     SV *sv = newSVpv(p, 0);
@@ -3481,7 +3481,7 @@ extern SV *DPPP_(my_newRV_noinc)(SV *sv);
 #define Perl_newRV_noinc DPPP_(my_newRV_noinc)
 
 #if defined(NEED_newRV_noinc) || defined(NEED_newRV_noinc_GLOBAL)
-    SV *DPPP_(my_newRV_noinc)(SV *sv)
+SV *DPPP_(my_newRV_noinc)(SV *sv)
 {
     SV *rv = (SV *)newRV(sv);
     SvREFCNT_dec(sv);
@@ -3513,7 +3513,7 @@ extern void DPPP_(my_newCONSTSUB)(HV *stash, char *name, SV *sv);
 
 #if defined(NEED_newCONSTSUB) || defined(NEED_newCONSTSUB_GLOBAL)
 
-    void DPPP_(my_newCONSTSUB)(HV *stash, char *name, SV *sv)
+void DPPP_(my_newCONSTSUB)(HV *stash, char *name, SV *sv)
 {
     U32 oldhints        = PL_hints;
     HV *old_cop_stash   = PL_curcop->cop_stash;
@@ -3694,7 +3694,7 @@ extern char *DPPP_(my_sv_2pv_nolen)(pTHX_ register SV *sv);
 
 #if defined(NEED_sv_2pv_nolen) || defined(NEED_sv_2pv_nolen_GLOBAL)
 
-    char *DPPP_(my_sv_2pv_nolen)(pTHX_ register SV *sv)
+char *DPPP_(my_sv_2pv_nolen)(pTHX_ register SV *sv)
 {
     STRLEN n_a;
     return sv_2pv(sv, &n_a);
@@ -3735,7 +3735,7 @@ extern char *DPPP_(my_sv_2pvbyte)(pTHX_ register SV *sv, STRLEN *lp);
 
 #if defined(NEED_sv_2pvbyte) || defined(NEED_sv_2pvbyte_GLOBAL)
 
-    char *DPPP_(my_sv_2pvbyte)(pTHX_ register SV *sv, STRLEN *lp)
+char *DPPP_(my_sv_2pvbyte)(pTHX_ register SV *sv, STRLEN *lp)
 {
     sv_utf8_downgrade(sv, 0);
     return SvPV(sv, *lp);
@@ -3797,7 +3797,7 @@ extern SV *DPPP_(my_vnewSVpvf)(pTHX_ const char *pat, va_list *args);
 
 #if defined(NEED_vnewSVpvf) || defined(NEED_vnewSVpvf_GLOBAL)
 
-    SV *DPPP_(my_vnewSVpvf)(pTHX_ const char *pat, va_list *args)
+SV *DPPP_(my_vnewSVpvf)(pTHX_ const char *pat, va_list *args)
 {
     register SV *sv = newSV(0);
     sv_vsetpvfn(sv, pat, strlen(pat), args, Null(SV **), 0, Null(bool *));
@@ -3830,7 +3830,7 @@ extern void DPPP_(my_sv_catpvf_mg)(pTHX_ SV *sv, const char *pat, ...);
 
 #if defined(NEED_sv_catpvf_mg) || defined(NEED_sv_catpvf_mg_GLOBAL)
 
-    void DPPP_(my_sv_catpvf_mg)(pTHX_ SV *sv, const char *pat, ...)
+void DPPP_(my_sv_catpvf_mg)(pTHX_ SV *sv, const char *pat, ...)
 {
     va_list args;
     va_start(args, pat);
@@ -3857,7 +3857,7 @@ extern void DPPP_(my_sv_catpvf_mg_nocontext)(SV *sv, const char *pat, ...);
 
 #if defined(NEED_sv_catpvf_mg_nocontext) || defined(NEED_sv_catpvf_mg_nocontext_GLOBAL)
 
-    void DPPP_(my_sv_catpvf_mg_nocontext)(SV *sv, const char *pat, ...)
+void DPPP_(my_sv_catpvf_mg_nocontext)(SV *sv, const char *pat, ...)
 {
     dTHX;
     va_list args;
@@ -3903,7 +3903,7 @@ extern void DPPP_(my_sv_setpvf_mg)(pTHX_ SV *sv, const char *pat, ...);
 
 #if defined(NEED_sv_setpvf_mg) || defined(NEED_sv_setpvf_mg_GLOBAL)
 
-    void DPPP_(my_sv_setpvf_mg)(pTHX_ SV *sv, const char *pat, ...)
+void DPPP_(my_sv_setpvf_mg)(pTHX_ SV *sv, const char *pat, ...)
 {
     va_list args;
     va_start(args, pat);
@@ -3930,7 +3930,7 @@ extern void DPPP_(my_sv_setpvf_mg_nocontext)(SV *sv, const char *pat, ...);
 
 #if defined(NEED_sv_setpvf_mg_nocontext) || defined(NEED_sv_setpvf_mg_nocontext_GLOBAL)
 
-    void DPPP_(my_sv_setpvf_mg_nocontext)(SV *sv, const char *pat, ...)
+void DPPP_(my_sv_setpvf_mg_nocontext)(SV *sv, const char *pat, ...)
 {
     dTHX;
     va_list args;
@@ -4432,7 +4432,7 @@ extern bool DPPP_(my_grok_numeric_radix)(pTHX_ const char **sp, const char *send
 #define Perl_grok_numeric_radix  DPPP_(my_grok_numeric_radix)
 
 #if defined(NEED_grok_numeric_radix) || defined(NEED_grok_numeric_radix_GLOBAL)
-    bool DPPP_(my_grok_numeric_radix)(pTHX_ const char **sp, const char *send)
+bool DPPP_(my_grok_numeric_radix)(pTHX_ const char **sp, const char *send)
 {
 #ifdef USE_LOCALE_NUMERIC
 #ifdef PL_numeric_radix_sv
@@ -4447,9 +4447,9 @@ extern bool DPPP_(my_grok_numeric_radix)(pTHX_ const char **sp, const char *send
         }
     }
 #else
-/* older perls don't have PL_numeric_radix_sv so the radix
-     * must manually be requested from locale.h
-     */
+    /* older perls don't have PL_numeric_radix_sv so the radix
+         * must manually be requested from locale.h
+         */
 #include <locale.h>
     dTHR; /* needed for older threaded perls */
     struct lconv *lc = localeconv();
@@ -4494,7 +4494,7 @@ extern int DPPP_(my_grok_number)(pTHX_ const char *pv, STRLEN len, UV *valuep);
 #define Perl_grok_number     DPPP_(my_grok_number)
 
 #if defined(NEED_grok_number) || defined(NEED_grok_number_GLOBAL)
-    int DPPP_(my_grok_number)(pTHX_ const char *pv, STRLEN len, UV *valuep)
+int DPPP_(my_grok_number)(pTHX_ const char *pv, STRLEN len, UV *valuep)
 {
     const char *s         = pv;
     const char *send      = pv + len;
@@ -4586,9 +4586,9 @@ extern int DPPP_(my_grok_number)(pTHX_ const char *pv, STRLEN len, UV *valuep);
                                                                                each time for overflow.  */
                                                                             digit = *s - '0';
                                                                             while (digit >= 0 && digit <= 9 &&
-                                                                                   (value < max_div_10 ||
-                                                                                    (value == max_div_10 &&
-                                                                                     digit <= max_mod_10)))
+                                                                                    (value < max_div_10 ||
+                                                                                     (value == max_div_10 &&
+                                                                                      digit <= max_mod_10)))
                                                                             {
                                                                                 value = value * 10 + digit;
                                                                                 if (++s < send)
@@ -4604,7 +4604,8 @@ extern int DPPP_(my_grok_number)(pTHX_ const char *pv, STRLEN len, UV *valuep);
                                                                                 do
                                                                                 {
                                                                                     s++;
-                                                                                } while (s < send && isDIGIT(*s));
+                                                                                }
+                                                                                while (s < send && isDIGIT(*s));
                                                                                 numtype |=
                                                                                     IS_NUMBER_GREATER_THAN_UV_MAX;
                                                                                 goto skip_value;
@@ -4630,7 +4631,7 @@ extern int DPPP_(my_grok_number)(pTHX_ const char *pv, STRLEN len, UV *valuep);
         if (valuep)
             *valuep = value;
 
-    skip_value:
+skip_value:
         if (GROK_NUMERIC_RADIX(&s, send))
         {
             numtype |= IS_NUMBER_NOT_INT;
@@ -4647,7 +4648,8 @@ extern int DPPP_(my_grok_number)(pTHX_ const char *pv, STRLEN len, UV *valuep);
             do
             {
                 s++;
-            } while (s < send && isDIGIT(*s));
+            }
+            while (s < send && isDIGIT(*s));
             if (valuep)
             {
                 /* integer approximation is valid - it's 0.  */
@@ -4725,7 +4727,8 @@ extern int DPPP_(my_grok_number)(pTHX_ const char *pv, STRLEN len, UV *valuep);
                 do
                 {
                     s++;
-                } while (s < send && isDIGIT(*s));
+                }
+                while (s < send && isDIGIT(*s));
             }
             else
                 return 0;
@@ -4767,7 +4770,7 @@ extern UV DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
 #define Perl_grok_bin        DPPP_(my_grok_bin)
 
 #if defined(NEED_grok_bin) || defined(NEED_grok_bin_GLOBAL)
-    UV DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
+UV DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
 {
     const char *s = start;
     STRLEN len    = *len_p;
@@ -4803,10 +4806,10 @@ extern UV DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
         char bit = *s;
         if (bit == '0' || bit == '1')
         {
-        /* Write it in this wonky order with a goto to attempt to get the
-               compiler to make the common case integer-only loop pretty tight.
-               With gcc seems to be much straighter code than old scan_bin.  */
-        redo:
+            /* Write it in this wonky order with a goto to attempt to get the
+                   compiler to make the common case integer-only loop pretty tight.
+                   With gcc seems to be much straighter code than old scan_bin.  */
+redo:
             if (!overflowed)
             {
                 if (value <= max_div_2)
@@ -4842,9 +4845,9 @@ extern UV DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
 
     if ((overflowed && value_nv > 4294967295.0)
 #if UVSIZE > 4
-        || (!overflowed && value > 0xffffffff)
+            || (!overflowed && value > 0xffffffff)
 #endif
-    )
+       )
     {
         warn("Binary number > 0b11111111111111111111111111111111 non-portable");
     }
@@ -4877,7 +4880,7 @@ extern UV DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
 #define Perl_grok_hex        DPPP_(my_grok_hex)
 
 #if defined(NEED_grok_hex) || defined(NEED_grok_hex_GLOBAL)
-    UV DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
+UV DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
 {
     const char *s = start;
     STRLEN len    = *len_p;
@@ -4914,10 +4917,10 @@ extern UV DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
         xdigit = strchr((char *)PL_hexdigit, *s);
         if (xdigit)
         {
-        /* Write it in this wonky order with a goto to attempt to get the
-               compiler to make the common case integer-only loop pretty tight.
-               With gcc seems to be much straighter code than old scan_hex.  */
-        redo:
+            /* Write it in this wonky order with a goto to attempt to get the
+                   compiler to make the common case integer-only loop pretty tight.
+                   With gcc seems to be much straighter code than old scan_hex.  */
+redo:
             if (!overflowed)
             {
                 if (value <= max_div_16)
@@ -4952,9 +4955,9 @@ extern UV DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
 
     if ((overflowed && value_nv > 4294967295.0)
 #if UVSIZE > 4
-        || (!overflowed && value > 0xffffffff)
+            || (!overflowed && value > 0xffffffff)
 #endif
-    )
+       )
     {
         warn("Hexadecimal number > 0xffffffff non-portable");
     }
@@ -4987,7 +4990,7 @@ extern UV DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
 #define Perl_grok_oct        DPPP_(my_grok_oct)
 
 #if defined(NEED_grok_oct) || defined(NEED_grok_oct_GLOBAL)
-    UV DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
+UV DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
 {
     const char *s = start;
     STRLEN len    = *len_p;
@@ -5005,10 +5008,10 @@ extern UV DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
         int digit = *s - '0';
         if (digit >= 0 && digit <= 7)
         {
-        /* Write it in this wonky order with a goto to attempt to get the
-               compiler to make the common case integer-only loop pretty tight.
-            */
-        redo:
+            /* Write it in this wonky order with a goto to attempt to get the
+                   compiler to make the common case integer-only loop pretty tight.
+                */
+redo:
             if (!overflowed)
             {
                 if (value <= max_div_8)
@@ -5050,9 +5053,9 @@ extern UV DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
 
     if ((overflowed && value_nv > 4294967295.0)
 #if UVSIZE > 4
-        || (!overflowed && value > 0xffffffff)
+            || (!overflowed && value > 0xffffffff)
 #endif
-    )
+       )
     {
         warn("Octal number > 037777777777 non-portable");
     }

@@ -37,34 +37,34 @@ AstroCalc::AstroCalc(QWidget *parent) : QDialog(parent)
 
     // List of messages. Maybe there is better place for it...
     QString message      = i18n("<QT>"
-                           "<H2>KStars Astrocalculator</H2>"
-                           "<P>"
-                           "The KStars Astrocalculator contains several <B>modules</b> "
-                           "which perform a variety of astronomy-related calculations.  "
-                           "The modules are organized into several categories: "
-                           "<UL>"
-                           "<LI><B>Time calculators: </B>"
-                           "Convert between time systems, and predict the timing of celestial events</LI>"
-                           "<LI><B>Coordinate converters: </B>"
-                           "Convert between various coordinate systems</LI>"
-                           "<LI><B>Solar system: </B>"
-                           "Predict the position of any planet, from a given location on Earth at a given time</LI>"
-                           "</UL>"
-                           "</QT>");
+                                "<H2>KStars Astrocalculator</H2>"
+                                "<P>"
+                                "The KStars Astrocalculator contains several <B>modules</b> "
+                                "which perform a variety of astronomy-related calculations.  "
+                                "The modules are organized into several categories: "
+                                "<UL>"
+                                "<LI><B>Time calculators: </B>"
+                                "Convert between time systems, and predict the timing of celestial events</LI>"
+                                "<LI><B>Coordinate converters: </B>"
+                                "Convert between various coordinate systems</LI>"
+                                "<LI><B>Solar system: </B>"
+                                "Predict the position of any planet, from a given location on Earth at a given time</LI>"
+                                "</UL>"
+                                "</QT>");
     QString messageTime  = i18n("<QT>"
-                               "Section which includes algorithms for computing time ephemeris"
-                               "<UL><LI>"
-                               "<B>Julian Day:</B> Julian Day/Calendar conversion"
-                               "</LI><LI>"
-                               "<B>Sidereal Time:</B> Sidereal/Universal time conversion"
-                               "</LI><LI>"
-                               "<B>Almanac:</B> Rise/Set/Transit timing and position data "
-                               "for the Sun and Moon"
-                               "</LI><LI>"
-                               "<B>Equinoxes & Solstices:</B> Equinoxes, Solstices and duration of the "
-                               "seasons"
-                               "</LI></UL>"
-                               "</QT>");
+                                "Section which includes algorithms for computing time ephemeris"
+                                "<UL><LI>"
+                                "<B>Julian Day:</B> Julian Day/Calendar conversion"
+                                "</LI><LI>"
+                                "<B>Sidereal Time:</B> Sidereal/Universal time conversion"
+                                "</LI><LI>"
+                                "<B>Almanac:</B> Rise/Set/Transit timing and position data "
+                                "for the Sun and Moon"
+                                "</LI><LI>"
+                                "<B>Equinoxes & Solstices:</B> Equinoxes, Solstices and duration of the "
+                                "seasons"
+                                "</LI></UL>"
+                                "</QT>");
     QString messageCoord = i18n("<QT>"
                                 "Section with algorithms for the conversion of "
                                 "different astronomical systems of coordinates"
@@ -170,7 +170,7 @@ AstroCalc::AstroCalc(QWidget *parent) : QDialog(parent)
     addTreeItem<EclipseTool>(solarItem, i18n("Eclipses"));
 
     acStack->setCurrentWidget(splashScreen);
-    connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this,
+    connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this,
             SLOT(slotItemSelection(QTreeWidgetItem*)));
 }
 

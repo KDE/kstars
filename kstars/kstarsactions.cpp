@@ -513,7 +513,7 @@ void KStars::slotDownload()
                         QMessageBox::critical(
                             this, i18n("Error"),
                             i18n("The catalog \"%1\" is corrupt.<br>Expected id=%2 but "
-                                 "got id=%3",
+                             "got id=%3",
                                  entry.name(), id, meta.second.id));
                         continue;
                     }
@@ -745,11 +745,11 @@ void KStars::slotINDIDriver()
     if (KMessageBox::warningContinueCancel(
                 nullptr,
                 i18n("INDI Device Manager should only be used by advanced technical users. "
-                     "It cannot be used with Ekos. Do you still want to open INDI device "
-                     "manager?"),
+         "It cannot be used with Ekos. Do you still want to open INDI device "
+         "manager?"),
                 i18n("INDI Device Manager"), KStandardGuiItem::cont(),
                 KStandardGuiItem::cancel(),
-                "indi_device_manager_warning") == KMessageBox::Cancel)
+    "indi_device_manager_warning") == KMessageBox::Cancel)
         return;
 
     QString indiServerDir = Options::indiServer();
@@ -1504,8 +1504,8 @@ void KStars::slotPrint()
     {
         QString message =
             i18n("You can save printer ink by using the \"Star Chart\" "
-                 "color scheme, which uses a white background. Would you like to "
-                 "temporarily switch to the Star Chart color scheme for printing?");
+             "color scheme, which uses a white background. Would you like to "
+             "temporarily switch to the Star Chart color scheme for printing?");
 
         int answer = KMessageBox::warningContinueCancel(
                          nullptr, message, i18n("Switch to Star Chart Colors?"),
@@ -1887,7 +1887,8 @@ void KStars::slotTargetSymbol(bool flag)
     qDebug() << Q_FUNC_INFO << QString("slotTargetSymbol: %1 %2").arg(name).arg(flag);
 
     Q_ASSERT(name.startsWith("fov:"));
-    if (!name.startsWith("fov:")) {
+    if (!name.startsWith("fov:"))
+    {
         qCWarning(KSTARS) << "Invalid FOV action " << name << " does not start with prefix `fov:`";
         return;
     }
@@ -1976,7 +1977,8 @@ void KStars::slotHIPSSource()
 
     QString selectedSource = selectedAction->objectName(); // Use action's internal name so we don't have to deal with i18n()
     Q_ASSERT(selectedSource.startsWith("hips:"));
-    if (!selectedSource.startsWith("hips:")) {
+    if (!selectedSource.startsWith("hips:"))
+    {
         qCWarning(KSTARS) << "Invalid sender " << selectedSource << " for slotHIPSSource()";
         return;
     }

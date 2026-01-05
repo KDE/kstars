@@ -6,7 +6,7 @@
 #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
 namespace Qt
 {
-    static auto KeepEmptyParts = QString::KeepEmptyParts;
+static auto KeepEmptyParts = QString::KeepEmptyParts;
 }
 #endif
 

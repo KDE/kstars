@@ -448,7 +448,7 @@ void RangeConvex::simplify()
 
                 // both pos or zero
                 if ((constraints_[i].sign_ == pOS || constraints_[i].sign_ == zERO) &&
-                    (constraints_[j].sign_ == pOS || constraints_[j].sign_ == zERO))
+                        (constraints_[j].sign_ == pOS || constraints_[j].sign_ == zERO))
                 {
                     if ((test = testConstraints(i, j)) == 0)
                         continue; // intersection
@@ -1188,7 +1188,7 @@ bool RangeConvex::testBoundingCircle(const SpatialVector &v0, const SpatialVecto
     for (i = 0; i < constraints_.size(); i++)
     {
         if (((c * constraints_[i].a_) < -1.0L + gEpsilon ? gPi : acos(c * constraints_[i].a_)) >
-            (d + constraints_[i].s_))
+                (d + constraints_[i].s_))
             return false;
     }
     return true;

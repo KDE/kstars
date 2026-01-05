@@ -362,17 +362,18 @@ void TestStarObject::compareProperMotionAgainstErfa()
          * before use."
          */
         int result = eraStarpm(
-            ra1, dec1, pmr1, pmd1,
-            0.1, 0., // No parallax, radial velocity info
-            J2000, 0, // Starting epoch is J2000
-            double(jdf), 0, // Ending epoch is jdf
-            &resRa, &resDec, &resPmRa, &resPmDec,
-            &resPx, &resRv
-            ); // return value irrelevant to us
+                         ra1, dec1, pmr1, pmd1,
+                         0.1, 0., // No parallax, radial velocity info
+                         J2000, 0, // Starting epoch is J2000
+                         double(jdf), 0, // Ending epoch is jdf
+                         &resRa, &resDec, &resPmRa, &resPmDec,
+                         &resPx, &resRv
+                     ); // return value irrelevant to us
 
         if (result > 0)
         {
-            qDebug() << "ERFA reports status " << result << ", correction (degrees) dRA = " << (resRa - ra1) / dms::DegToRad << ", dDec = " << (resDec - dec1) / dms::DegToRad;
+            qDebug() << "ERFA reports status " << result << ", correction (degrees) dRA = " << (resRa - ra1) / dms::DegToRad <<
+                        ", dDec = " << (resDec - dec1) / dms::DegToRad;
         }
 
         erfaResult = std::make_pair(dms { resRa / dms::DegToRad }, dms { resDec / dms::DegToRad });
@@ -390,7 +391,7 @@ void TestStarObject::compareProperMotionAgainstErfa()
             dms(ra_fd).reduce().Degrees(), dec_fd,
             1e-8); // Same algorithm, should match exactly!
 
-    constexpr double arcsecond_tolerance = 1.0/3600.0;
+    constexpr double arcsecond_tolerance = 1.0 / 3600.0;
     compare(
         "Proper Motion KStars vs ERFA",
         ra_f.reduce().Degrees(), dec_f.Degrees(),

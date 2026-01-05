@@ -48,7 +48,7 @@ std::pair<bool, CatalogObject>
 NameResolver::NameResolverInternals::sesameResolver(const QString &name)
 {
     QUrl resolverUrl = QUrl(
-        QString("http://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/-oxpFI/SNV?%1").arg(name));
+                           QString("http://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/-oxpFI/SNV?%1").arg(name));
 
     QString msg = xi18n("Attempting to resolve object %1 using CDS Sesame.", name);
     qCDebug(KSTARS) << msg;
@@ -93,7 +93,8 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
         return { false, {} };
     }
 
-    CatalogObject data{
+    CatalogObject data
+    {
         CatalogObject::oid{}, SkyObject::STAR, dms{ 0 }, dms{ 0 }, 0, name, name
     };
 
@@ -118,8 +119,8 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
                 if (attributes.hasAttribute("name"))
                     resolver =
                         attributes.value("name")
-                            .at(0)
-                            .toLatin1(); // Expected to be S (Simbad), V (VizieR), or N (NED)
+                        .at(0)
+                        .toLatin1(); // Expected to be S (Simbad), V (VizieR), or N (NED)
                 else
                 {
                     resolver = 0; // NUL character for unknown resolver
@@ -129,7 +130,7 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
                 }
 
                 qCDebug(KSTARS)
-                    << "Resolved by " << resolver << attributes.value("name") << "!";
+                        << "Resolved by " << resolver << attributes.value("name") << "!";
 
                 // Start reading the data to pick out the relevant ones
                 while (xml.readNextStartElement())
@@ -178,14 +179,14 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
                             }
                             mag = xml.readElementText().toFloat();
                             qCDebug(KSTARS)
-                                << "Got " << xml.tokenString() << " mag = " << mag;
+                                    << "Got " << xml.tokenString() << " mag = " << mag;
                             while (!xml.atEnd() && xml.readNext() && xml.name().toString() != "mag")
                                 ; // finish reading the <mag> tag all the way to </mag>
                         }
                         else
                             qWarning()
-                                << "Failed to parse Xml token in magnitude element: "
-                                << xml.tokenString();
+                                    << "Failed to parse Xml token in magnitude element: "
+                                    << xml.tokenString();
 
                         if (band == 'V')
                         {
@@ -320,7 +321,10 @@ SkyObject::TYPE NameResolver::NameResolverInternals::interpretObjectType(const Q
     if (openClusterTypes.contains(s, cs))
         return SkyObject::OPEN_CLUSTER; // FIXME: NED doesn't distinguish between globular clusters and open clusters!!
 
-    auto check = [typeString, cs](const QString &type) { return (!QString::compare(typeString, type, cs)); };
+    auto check = [typeString, cs](const QString & type)
+    {
+        return (!QString::compare(typeString, type, cs));
+    };
 
     if (check("GlC") || check("GlCl"))
         return SkyObject::GLOBULAR_CLUSTER;

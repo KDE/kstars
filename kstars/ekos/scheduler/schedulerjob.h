@@ -533,7 +533,7 @@ class SchedulerJob
              * @return true if target is separated enough from the Moon.
              */
         bool moonConstraintsOK(QDateTime const &when = QDateTime(), QString *reason = new QString(),
-        double *margin = nullptr) const;
+                               double *margin = nullptr) const;
 
         /**
              * @brief calculateNextTime calculate the next time constraints are met (or missed).

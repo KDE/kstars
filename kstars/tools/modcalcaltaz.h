@@ -18,20 +18,20 @@ class GeoLocation;
   */
 class modCalcAltAz : public QFrame, public Ui::modCalcAltAz
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit modCalcAltAz(QWidget *p);
-    virtual ~modCalcAltAz() override = default;
+    public:
+        explicit modCalcAltAz(QWidget *p);
+        virtual ~modCalcAltAz() override = default;
 
-  public slots:
-    void slotCompute();
-    void slotNow();
-    void slotLocation();
-    void slotObject();
-    void slotDateTimeChanged(const QDateTime &);
+    public slots:
+        void slotCompute();
+        void slotNow();
+        void slotLocation();
+        void slotObject();
+        void slotDateTimeChanged(const QDateTime &);
 
-  private:
-    GeoLocation *geoPlace;
-    dms LST;
+    private:
+        GeoLocation *geoPlace;
+        dms LST;
 };

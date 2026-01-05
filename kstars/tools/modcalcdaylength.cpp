@@ -205,7 +205,8 @@ void modCalcDayLength::updateAlmanac(const QDate &d, GeoLocation *geo)
     //after calling riseSetTime Phase needs to reset, setting it before causes Phase to set nan
     Moon.findPosition(&num);
     Moon.findPhase(nullptr);
-    lunarphaseString = i18nc("%2 is the value, % is the percent sign", "%1 (%2%)", Moon.phaseName(), QString::number(int(100 * Moon.illum())));
+    lunarphaseString = i18nc("%2 is the value, % is the percent sign", "%1 (%2%)", Moon.phaseName(),
+                             QString::number(int(100 * Moon.illum())));
 
     //Fix length of Az strings
     if (srAz.Degrees() < 100.0)

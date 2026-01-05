@@ -77,20 +77,20 @@
 
 class TestEkos: public QObject
 {
-    Q_OBJECT
-public:
-    explicit TestEkos(QObject *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit TestEkos(QObject *parent = nullptr);
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testOpenClose();
-    void testSimulatorProfile();
-    void testManipulateProfiles();
+        void testOpenClose();
+        void testSimulatorProfile();
+        void testManipulateProfiles();
 };
 
 #endif // HAVE_INDI

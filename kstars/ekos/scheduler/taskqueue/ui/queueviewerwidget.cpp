@@ -414,7 +414,7 @@ void QueueViewerWidget::onItemDoubleClicked(int row, int /*column*/)
     {
         QMessageBox::warning(this, i18n("Template Not Found"),
                              i18n("The template for this task is no longer available.\n"
-                                  "Template ID: %1", task->templateId()));
+             "Template ID: %1", task->templateId()));
         return;
     }
 

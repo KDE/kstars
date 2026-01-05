@@ -276,7 +276,8 @@ void CalendarWidget::drawAxes(QPainter *p)
         QRectF rMonth(mapToWidget(QPointF(0.0, float(dt.daysInYear() - dt.addMonths(-1).dayOfYear()))),
                       mapToWidget(QPointF(dataRect().left() - 0.1, doy)));
         QLocale locale;
-        p->drawText(rMonth, Qt::AlignRight | Qt::AlignVCenter | Qt::TextDontClip, locale.monthName(imonth - 1, QLocale::ShortFormat));
+        p->drawText(rMonth, Qt::AlignRight | Qt::AlignVCenter | Qt::TextDontClip, locale.monthName(imonth - 1,
+                    QLocale::ShortFormat));
         if (imonth == 12) // December
         {
             rMonth = QRectF(mapToWidget(QPointF(0.0, doy)), mapToWidget(QPointF(dataRect().left() - 0.1, 0.0)));
@@ -299,7 +300,7 @@ void CalendarWidget::drawAxes(QPainter *p)
     QFont origFont = p->font();
     p->setFont(QFont("Monospace", origFont.pointSize() - 1));
     for (KStarsDateTime kdt(QDate(y, 1, 1), QTime(12, 0, 0)); kdt.date().year() == y;
-         kdt = kdt.addDays(skycal->scUI->spinBox_Interval->value() > 7 ? skycal->scUI->spinBox_Interval->value() : 7))
+            kdt = kdt.addDays(skycal->scUI->spinBox_Interval->value() > 7 ? skycal->scUI->spinBox_Interval->value() : 7))
     {
         // Draw ticks
         float doy         = float(kdt.date().daysInYear() - kdt.date().dayOfYear());

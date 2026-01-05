@@ -14,21 +14,21 @@ enum InclusionType
 
 class LINKAGE HtmRange
 {
-  public:
-    HtmRange();
-    ~HtmRange();
+    public:
+        HtmRange();
+        ~HtmRange();
 
-    int getNext(Key *lo, Key *hi);
+        int getNext(Key *lo, Key *hi);
 
-    void mergeRange(const Key lo, const Key hi);
-    void reset();
+        void mergeRange(const Key lo, const Key hi);
+        void reset();
 
-  protected:
-    InclusionType tinside(const Key mid) const;
+    protected:
+        InclusionType tinside(const Key mid) const;
 
-  private:
-    SkipList *my_los;
-    SkipList *my_his;
+    private:
+        SkipList *my_los;
+        SkipList *my_his;
 };
 
 #endif

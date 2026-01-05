@@ -23,17 +23,17 @@ class InternalGuider;
  */
 class OpsGPG : public QFrame, public Ui::OpsGPG
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsGPG(InternalGuider *guiderObject);
-    virtual ~OpsGPG() override = default;
+    public:
+        explicit OpsGPG(InternalGuider *guiderObject);
+        virtual ~OpsGPG() override = default;
 
-  private slots:
-    void slotApply();
+    private slots:
+        void slotApply();
 
-  private:
-    KConfigDialog *m_ConfigDialog { nullptr };
-    InternalGuider *guider { nullptr };
+    private:
+        KConfigDialog *m_ConfigDialog { nullptr };
+        InternalGuider *guider { nullptr };
 };
 }

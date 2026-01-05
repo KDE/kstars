@@ -363,7 +363,7 @@ void TestSkyPoint::testApparentCatalogue()
 
     SkyPoint spn = SkyPoint(sp.ra(), sp.dec());
     qDebug() << "spn ra0 " << spn.ra0().Degrees() << ", dec0 " << spn.dec0().Degrees() <<
-             " ra " << spn.ra().Degrees() << ", dec " << spn.dec().Degrees();
+                " ra " << spn.ra().Degrees() << ", dec " << spn.dec().Degrees();
 
     // apparent on jd to J2000Catalogue
     spn.catalogueCoord(jd);
@@ -604,7 +604,7 @@ void TestSkyPoint::testUpdateCoords()
         jdfrac = modf(static_cast<double>(dt.djd()), &jdint);
         if (fabs(sp.dec().Degrees()) > 90.0)
             qDebug() << "i" << i << " jdfrac" << jdfrac << ": sp ra0 " << sp.ra0().Degrees() << ", dec " << sp.dec0().Degrees() <<
-                     " ra " << sp.ra().Degrees() << ", dec " << sp.dec().Degrees();
+                        " ra " << sp.ra().Degrees() << ", dec " << sp.dec().Degrees();
         QVERIFY(fabs(sp.dec().Degrees()) <= 90.0);
 
         dt = dt.addSecs(numdays * 86400 / numtest);

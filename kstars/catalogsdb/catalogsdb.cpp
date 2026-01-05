@@ -58,7 +58,7 @@ std::pair<bool, QString> migrate_db(const int version, QSqlDatabase &db,
     {
         QSqlQuery add_ts{ db };
         const auto success = add_ts.exec(QString("ALTER TABLE %1catalogs ADD COLUMN "
-                                         "timestamp DEFAULT NULL")
+                                                 "timestamp DEFAULT NULL")
                                          .arg(prefix));
         if (!success)
             return { false, add_ts.lastError().text() };
@@ -122,7 +122,7 @@ DBManager::DBManager(const QString &filename) : m_db_file(filename)
         else
             throw DatabaseError(
                 QString("Wrong database version. Expected %1 and got %2 and "
-                        "migration is not possible.")
+                    "migration is not possible.")
                 .arg(SqlStatements::current_db_version)
                 .arg(m_db_version),
                 DatabaseError::ErrorType::VERSION, success.second);

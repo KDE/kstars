@@ -13,14 +13,14 @@
 
 class KStarsLiteUiTests : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    KStarsLiteUiTests();
-    virtual ~KStarsLiteUiTests() = default;
+    public:
+        KStarsLiteUiTests();
+        virtual ~KStarsLiteUiTests() = default;
 
-  private slots:
-    void initTestCase();
-    void cleanupTestCase();
-    void openToolbars();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
+        void openToolbars();
 };

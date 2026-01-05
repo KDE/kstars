@@ -17,17 +17,17 @@
  */
 class HorizontalCoordinateGrid : public CoordinateGrid
 {
-  public:
-    /**
-     * @short Constructor
-     * Simply adds all of the coordinate grid circles (meridians and parallels)
-     * @p parent Pointer to the parent SkyComposite object
-     */
-    explicit HorizontalCoordinateGrid(SkyComposite *parent);
+    public:
+        /**
+         * @short Constructor
+         * Simply adds all of the coordinate grid circles (meridians and parallels)
+         * @p parent Pointer to the parent SkyComposite object
+         */
+        explicit HorizontalCoordinateGrid(SkyComposite *parent);
 
-    void preDraw(SkyPainter *skyp) override;
+        void preDraw(SkyPainter *skyp) override;
 
-    void update(KSNumbers *) override;
+        void update(KSNumbers *) override;
 
-    bool selected() override;
+        bool selected() override;
 };

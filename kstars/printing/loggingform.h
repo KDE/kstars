@@ -19,18 +19,18 @@ class QTextDocument;
  */
 class LoggingForm : public KStarsDocument
 {
-  public:
-    /** Constructor */
-    LoggingForm() = default;
+    public:
+        /** Constructor */
+        LoggingForm() = default;
 
-    /** Create simple logging form for finder charts. */
-    void createFinderChartLogger();
+        /** Create simple logging form for finder charts. */
+        void createFinderChartLogger();
 
-    /**
-     * @brief Get logging form internal QTextDocument.
-     * This method is used to enable inserting of LoggingForm objects into QTextDocument
-     * instances.
-     * @return QTextDocument that contains logging form.
-     */
-    QTextDocument *getDocument();
+        /**
+         * @brief Get logging form internal QTextDocument.
+         * This method is used to enable inserting of LoggingForm objects into QTextDocument
+         * instances.
+         * @return QTextDocument that contains logging form.
+         */
+        QTextDocument *getDocument();
 };

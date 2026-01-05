@@ -584,7 +584,7 @@ Legend::Legend(const Legend &o)
 {
 }
 
-Legend& Legend::operator=(const Legend &o) noexcept
+Legend &Legend::operator=(const Legend &o) noexcept
 {
     m_SkyMap = o.m_SkyMap;
     m_DeletePainter = o.m_DeletePainter;

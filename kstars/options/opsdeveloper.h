@@ -23,10 +23,10 @@ class KStars;
  */
 class OpsDeveloper : public QFrame, public Ui::OpsDeveloper
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsDeveloper();
+    public:
+        explicit OpsDeveloper();
 
-    ~OpsDeveloper() override = default;
+        ~OpsDeveloper() override = default;
 };

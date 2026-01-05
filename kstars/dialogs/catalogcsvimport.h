@@ -46,7 +46,7 @@ namespace rapidcsv
 template <>
 inline void
 Converter<typed_dms<coord_unit::deg>>::ToVal(const std::string &pStr,
-                                             typed_dms<coord_unit::deg> &pVal) const
+        typed_dms<coord_unit::deg> &pVal) const
 {
     if (!pVal.data.setFromString(pStr.c_str(), true))
         throw std::exception();
@@ -55,7 +55,7 @@ Converter<typed_dms<coord_unit::deg>>::ToVal(const std::string &pStr,
 template <>
 inline void
 Converter<typed_dms<coord_unit::hours>>::ToVal(const std::string &pStr,
-                                               typed_dms<coord_unit::hours> &pVal) const
+        typed_dms<coord_unit::hours> &pVal) const
 {
     if (!pVal.data.setFromString(pStr.c_str(), false))
         throw std::exception();
@@ -70,98 +70,104 @@ inline void Converter<QString>::ToVal(const std::string &pStr, QString &pVal) co
 
 class CatalogCSVImport : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit CatalogCSVImport(QWidget *parent = nullptr);
-    ~CatalogCSVImport();
+    public:
+        explicit CatalogCSVImport(QWidget *parent = nullptr);
+        ~CatalogCSVImport();
 
-    /**
-     * Maps a string to a `SkyObject::TYPE`.
-     */
-    using type_map = std::unordered_map<std::string, SkyObject::TYPE>;
+        /**
+         * Maps a string to a `SkyObject::TYPE`.
+         */
+        using type_map = std::unordered_map<std::string, SkyObject::TYPE>;
 
-    /**
-     * Maps a field in the Catalog object to a column in the CSV.
-     *
-     * The first element of the tuple can take on the following values:
-     *     - -2 :: Default initialize this value.
-     *     - -1 :: Take the value in the second part of the string for every row.
-     *     - everything else :: Read from the column indicated by the integer value.
-     */
-    using column_pair = std::pair<int, QString>;
-    using column_map  = std::unordered_map<QString, column_pair>;
+        /**
+         * Maps a field in the Catalog object to a column in the CSV.
+         *
+         * The first element of the tuple can take on the following values:
+         *     - -2 :: Default initialize this value.
+         *     - -1 :: Take the value in the second part of the string for every row.
+         *     - everything else :: Read from the column indicated by the integer value.
+         */
+        using column_pair = std::pair<int, QString>;
+        using column_map  = std::unordered_map<QString, column_pair>;
 
-    inline const std::vector<CatalogObject> &get_objects() const { return m_objects; };
-  private slots:
-    /** Selects a CSV file and opens it. Calls `init_mapping_selectors`. */
-    void select_file();
+        inline const std::vector<CatalogObject> &get_objects() const
+        {
+            return m_objects;
+        };
+    private slots:
+        /** Selects a CSV file and opens it. Calls `init_mapping_selectors`. */
+        void select_file();
 
-    /** Reads the header of the CSV and initializes the mapping selectors. */
-    void init_mapping_selectors();
+        /** Reads the header of the CSV and initializes the mapping selectors. */
+        void init_mapping_selectors();
 
-    /** Add a row to the type table. */
-    void type_table_add_map();
+        /** Add a row to the type table. */
+        void type_table_add_map();
 
-    /** Remove the selected row from the type table. */
-    void type_table_remove_map();
+        /** Remove the selected row from the type table. */
+        void type_table_remove_map();
 
-    /** Read all the objects from the csv */
-    inline void read_objects() { read_n_objects(); };
+        /** Read all the objects from the csv */
+        inline void read_objects()
+        {
+            read_n_objects();
+        };
 
-  private:
-    void init_column_mapping();
-    void init_type_table();
-    type_map get_type_mapping();
-    column_map get_column_mapping();
-    void read_n_objects(size_t n = std::numeric_limits<int>::max());
+    private:
+        void init_column_mapping();
+        void init_type_table();
+        type_map get_type_mapping();
+        column_map get_column_mapping();
+        void read_n_objects(size_t n = std::numeric_limits<int>::max());
 
-    // Parsing
-    SkyObject::TYPE parse_type(const std::string &type, const type_map &type_map);
+        // Parsing
+        SkyObject::TYPE parse_type(const std::string &type, const type_map &type_map);
 
-    template <typename T>
-    T cell_or_default(const column_pair &config, const size_t row, const T &default_val)
-    {
-        if (config.first < 0)
-            return default_val;
+        template <typename T>
+        T cell_or_default(const column_pair &config, const size_t row, const T &default_val)
+        {
+            if (config.first < 0)
+                return default_val;
 
-        return m_doc.GetCell<T>(config.first, row);
-    };
+            return m_doc.GetCell<T>(config.first, row);
+        };
 
-    template <typename T>
-    T get_default(const column_pair &config, const T &default_val)
-    {
-        if (config.first != -1)
-            return default_val;
+        template <typename T>
+        T get_default(const column_pair &config, const T &default_val)
+        {
+            if (config.first != -1)
+                return default_val;
 
-        rapidcsv::Converter<T> converter(rapidcsv::ConverterParams{});
+            rapidcsv::Converter<T> converter(rapidcsv::ConverterParams{});
 
-        T res{};
-        converter.ToVal(config.second.toStdString(), res);
+            T res{};
+            converter.ToVal(config.second.toStdString(), res);
 
-        return res;
-    }
+            return res;
+        }
 
-    Ui::CatalogCSVImport *ui;
+        Ui::CatalogCSVImport *ui;
 
-    /** Disables the mapping selection and resets everything. */
-    void reset_mapping();
+        /** Disables the mapping selection and resets everything. */
+        void reset_mapping();
 
-    /** Maps the fields to a selector widget. */
-    std::map<QString, QComboBox *> m_selectors{};
+        /** Maps the fields to a selector widget. */
+        std::map<QString, QComboBox *> m_selectors{};
 
-    /** Rapidcsv Document */
-    rapidcsv::Document m_doc{};
+        /** Rapidcsv Document */
+        rapidcsv::Document m_doc{};
 
-    /** The Parsed Objects */
-    std::vector<CatalogObject> m_objects;
+        /** The Parsed Objects */
+        std::vector<CatalogObject> m_objects;
 
-    /** The model to preview the import */
-    CatalogObjectListModel m_preview_model;
+        /** The model to preview the import */
+        CatalogObjectListModel m_preview_model;
 
-    static const char default_separator = ',';
-    static const char default_comment     = '#';
-    static const int default_preview_size = 10;
+        static const char default_separator = ',';
+        static const char default_comment     = '#';
+        static const int default_preview_size = 10;
 };
 
 #endif // CATALOGCSVIMPORT_H

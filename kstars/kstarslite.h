@@ -45,192 +45,210 @@ class QQuickItem;
  */
 class KStarsLite : public QObject
 {
-    Q_OBJECT
-    //runTutorial is a wrapper for Options::RunStartupWizard()
-    Q_PROPERTY(bool runTutorial WRITE setRunTutorial READ getRunTutorial NOTIFY runTutorialChanged)
-  private:
+        Q_OBJECT
+        //runTutorial is a wrapper for Options::RunStartupWizard()
+        Q_PROPERTY(bool runTutorial WRITE setRunTutorial READ getRunTutorial NOTIFY runTutorialChanged)
+    private:
 
-    /**
-     * @short Constructor.
-     * @param doSplash should the splash panel be displayed during initialization.
-     * @param startClockRunning should the clock be running on startup?
-     * @param startDateString date (in string representation) to start running from.
-     */
-    explicit KStarsLite(bool doSplash, bool startClockRunning = true, const QString &startDateString = QString());
-    virtual ~KStarsLite();
+        /**
+         * @short Constructor.
+         * @param doSplash should the splash panel be displayed during initialization.
+         * @param startClockRunning should the clock be running on startup?
+         * @param startDateString date (in string representation) to start running from.
+         */
+        explicit KStarsLite(bool doSplash, bool startClockRunning = true, const QString &startDateString = QString());
+        virtual ~KStarsLite();
 
-    static KStarsLite *pinstance; // Pointer to an instance of KStarsLite
+        static KStarsLite *pinstance; // Pointer to an instance of KStarsLite
 
-  public:
-    /**
-     * @short Create an instance of this class. Destroy any previous instance
-     * @param doSplash
-     * @param clockrunning
-     * @param startDateString
-     * @note See KStarsLite::KStarsLite for details on parameters
-     * @return a pointer to the instance
-     */
-    static KStarsLite *createInstance(bool doSplash, bool clockrunning = true,
-                                      const QString &startDateString = QString());
+    public:
+        /**
+         * @short Create an instance of this class. Destroy any previous instance
+         * @param doSplash
+         * @param clockrunning
+         * @param startDateString
+         * @note See KStarsLite::KStarsLite for details on parameters
+         * @return a pointer to the instance
+         */
+        static KStarsLite *createInstance(bool doSplash, bool clockrunning = true,
+                                          const QString &startDateString = QString());
 
-    /** @return a pointer to the instance of this class */
-    inline static KStarsLite *Instance() { return pinstance; }
+        /** @return a pointer to the instance of this class */
+        inline static KStarsLite *Instance()
+        {
+            return pinstance;
+        }
 
-    /** @return pointer to SkyMapLite object which draws SkyMap. */
-    inline SkyMapLite *map() const { return m_SkyMapLite; }
+        /** @return pointer to SkyMapLite object which draws SkyMap. */
+        inline SkyMapLite *map() const
+        {
+            return m_SkyMapLite;
+        }
 
-    /** @return pointer to the main window. */
-    QQuickWindow *getMainWindow();
+        /** @return pointer to the main window. */
+        QQuickWindow *getMainWindow();
 
-    /** @return pointer to KStarsData object which contains application data. */
-    inline KStarsData *data() const { return m_KStarsData; }
+        /** @return pointer to KStarsData object which contains application data. */
+        inline KStarsData *data() const
+        {
+            return m_KStarsData;
+        }
 
-    /** @return pointer to ImageProvider that is used in QML to display image fetched from CCD **/
-    inline ImageProvider *imageProvider() const { return m_imgProvider.get(); }
+        /** @return pointer to ImageProvider that is used in QML to display image fetched from CCD **/
+        inline ImageProvider *imageProvider() const
+        {
+            return m_imgProvider.get();
+        }
 
-    /** @return pointer to QQmlApplicationEngine that runs QML **/
-    inline QQmlApplicationEngine *qmlEngine() { return &m_Engine; }
+        /** @return pointer to QQmlApplicationEngine that runs QML **/
+        inline QQmlApplicationEngine *qmlEngine()
+        {
+            return &m_Engine;
+        }
 
-    /** @short used from QML to update positions of sky objects and update SkyMapLite */
-    Q_INVOKABLE void fullUpdate();
+        /** @short used from QML to update positions of sky objects and update SkyMapLite */
+        Q_INVOKABLE void fullUpdate();
 
-    /** @short currently sets color scheme from config **/
-    Q_INVOKABLE void applyConfig(bool doApplyFocus = true);
+        /** @short currently sets color scheme from config **/
+        Q_INVOKABLE void applyConfig(bool doApplyFocus = true);
 
-    /** @short set whether tutorial should be shown on next startup **/
-    void setRunTutorial(bool runTutorial);
+        /** @short set whether tutorial should be shown on next startup **/
+        void setRunTutorial(bool runTutorial);
 
-    /** @return true if tutorial should be shown **/
-    bool getRunTutorial();
+        /** @return true if tutorial should be shown **/
+        bool getRunTutorial();
 
-    /** @return pointer to KStarsData object which handles connection to INDI server. */
-    inline ClientManagerLite *clientManagerLite() const { return m_clientManager; }
+        /** @return pointer to KStarsData object which handles connection to INDI server. */
+        inline ClientManagerLite *clientManagerLite() const
+        {
+            return m_clientManager;
+        }
 
-    /**
-     * @defgroup kconfigwrappers QML wrappers around KConfig
-     * @{
-     */
-    enum class ObjectsToToggle
-    {
-        Stars,
-        DeepSky,
-        Planets,
-        CLines,
-        CBounds,
-        ConstellationArt,
-        MilkyWay,
-        CNames,
-        EquatorialGrid,
-        HorizontalGrid,
-        Ground,
-        Flags,
-        Satellites,
-        Supernovae
-    };
+        /**
+         * @defgroup kconfigwrappers QML wrappers around KConfig
+         * @{
+         */
+        enum class ObjectsToToggle
+        {
+            Stars,
+            DeepSky,
+            Planets,
+            CLines,
+            CBounds,
+            ConstellationArt,
+            MilkyWay,
+            CNames,
+            EquatorialGrid,
+            HorizontalGrid,
+            Ground,
+            Flags,
+            Satellites,
+            Supernovae
+        };
 
-    Q_ENUMS(ObjectsToToggle)
+        Q_ENUMS(ObjectsToToggle)
 
-    /** setProjection calls Options::setProjection(proj) and updates SkyMapLite */
-    // Having projection as uint is not good but it will go away once KConfig is fixed
-    // The reason for this is that you can't use Enums of another in class in Q_INVOKABLE function
-    Q_INVOKABLE void setProjection(uint proj);
+        /** setProjection calls Options::setProjection(proj) and updates SkyMapLite */
+        // Having projection as uint is not good but it will go away once KConfig is fixed
+        // The reason for this is that you can't use Enums of another in class in Q_INVOKABLE function
+        Q_INVOKABLE void setProjection(uint proj);
 
-    // These functions are just convenient getters to access internals of KStars from QML
+        // These functions are just convenient getters to access internals of KStars from QML
 
-    /**
-     * @short returns color with key name from current color scheme
-     * @param name the key name of the color to be retrieved from current color scheme
-     * @return color from name
-     */
-    Q_INVOKABLE QColor getColor(QString name);
+        /**
+         * @short returns color with key name from current color scheme
+         * @param name the key name of the color to be retrieved from current color scheme
+         * @return color from name
+         */
+        Q_INVOKABLE QColor getColor(QString name);
 
-    Q_INVOKABLE QString getConfigCScheme();
+        Q_INVOKABLE QString getConfigCScheme();
 
-    /**
-     * @short toggles on/off objects of group toToggle
-     * @see ObjectsToToggle
-     */
-    Q_INVOKABLE void toggleObjects(ObjectsToToggle toToggle, bool toggle);
+        /**
+         * @short toggles on/off objects of group toToggle
+         * @see ObjectsToToggle
+         */
+        Q_INVOKABLE void toggleObjects(ObjectsToToggle toToggle, bool toggle);
 
-    /** @return true if objects from group toToggle are currently toggled on **/
-    Q_INVOKABLE bool isToggled(ObjectsToToggle toToggle);
+        /** @return true if objects from group toToggle are currently toggled on **/
+        Q_INVOKABLE bool isToggled(ObjectsToToggle toToggle);
 
-    /** @} */ // end of kconfigwrappers group
+        /** @} */ // end of kconfigwrappers group
 
-signals:
-    /** Sent when KStarsData finishes loading data */
-    void dataLoadFinished();
+    signals:
+        /** Sent when KStarsData finishes loading data */
+        void dataLoadFinished();
 
-    /** Makes splash (Splash.qml) visible on startup */
-    void showSplash();
+        /** Makes splash (Splash.qml) visible on startup */
+        void showSplash();
 
-    /** Emitted whenever TimeSpinBox in QML changes the scale **/
-    void scaleChanged(float);
+        /** Emitted whenever TimeSpinBox in QML changes the scale **/
+        void scaleChanged(float);
 
-    void runTutorialChanged();
+        void runTutorialChanged();
 
-    /**
-     * Once this signal is emitted, notification with text msg will appear on the screen.
-     * Use this signal to output messages to user (warnings, info etc.)
-     */
-    void notificationMessage(QString msg);
+        /**
+         * Once this signal is emitted, notification with text msg will appear on the screen.
+         * Use this signal to output messages to user (warnings, info etc.)
+         */
+        void notificationMessage(QString msg);
 
-  public Q_SLOTS:
-    /**
-     * Update time-dependent data and (possibly) repaint the sky map.
-     * @param automaticDSTchange change DST status automatically?
-     */
-    void updateTime(const bool automaticDSTchange = true);
+    public Q_SLOTS:
+        /**
+         * Update time-dependent data and (possibly) repaint the sky map.
+         * @param automaticDSTchange change DST status automatically?
+         */
+        void updateTime(const bool automaticDSTchange = true);
 
-    /** Write current settings to config file. Used to save config file upon exit */
-    bool writeConfig();
+        /** Write current settings to config file. Used to save config file upon exit */
+        bool writeConfig();
 
-    /**
-     * Load a color scheme.
-     * @param name the name of the color scheme to load (e.g., "Moonless Night")
-     */
-    void loadColorScheme(const QString &name);
+        /**
+         * Load a color scheme.
+         * @param name the name of the color scheme to load (e.g., "Moonless Night")
+         */
+        void loadColorScheme(const QString &name);
 
-    /** sets time and date according to parameter time*/
-    void slotSetTime(QDateTime time);
+        /** sets time and date according to parameter time*/
+        void slotSetTime(QDateTime time);
 
-    /** action slot: toggle whether kstars clock is running or not */
-    void slotToggleTimer();
+        /** action slot: toggle whether kstars clock is running or not */
+        void slotToggleTimer();
 
-    /** action slot: advance one step forward in time */
-    void slotStepForward();
+        /** action slot: advance one step forward in time */
+        void slotStepForward();
 
-    /** action slot: advance one step backward in time */
-    void slotStepBackward();
+        /** action slot: advance one step backward in time */
+        void slotStepBackward();
 
-    /** start tracking clickedPoint or stop tracking if we are already tracking some object **/
-    void slotTrack();
+        /** start tracking clickedPoint or stop tracking if we are already tracking some object **/
+        void slotTrack();
 
-private slots:
-    /** finish setting up after the KStarsData has finished */
-    void datainitFinished();
+    private slots:
+        /** finish setting up after the KStarsData has finished */
+        void datainitFinished();
 
-    /** Save data to config file before exiting.*/
-    void handleStateChange(Qt::ApplicationState state);
+        /** Save data to config file before exiting.*/
+        void handleStateChange(Qt::ApplicationState state);
 
-  private:
-    /** Initialize focus position */
-    void initFocus();
+    private:
+        /** Initialize focus position */
+        void initFocus();
 
-    QQmlApplicationEngine m_Engine;
-    SkyMapLite *m_SkyMapLite { nullptr };
-    QPalette OriginalPalette, DarkPalette;
+        QQmlApplicationEngine m_Engine;
+        SkyMapLite *m_SkyMapLite { nullptr };
+        QPalette OriginalPalette, DarkPalette;
 
-    QObject *m_RootObject { nullptr };
-    bool StartClockRunning { false };
+        QObject *m_RootObject { nullptr };
+        bool StartClockRunning { false };
 
-    KStarsData *m_KStarsData { nullptr };
-    std::unique_ptr<ImageProvider> m_imgProvider;
+        KStarsData *m_KStarsData { nullptr };
+        std::unique_ptr<ImageProvider> m_imgProvider;
 
-    //Dialogs
-    FindDialogLite *m_findDialogLite { nullptr };
-    DetailDialogLite *m_detailDialogLite { nullptr };
-    LocationDialogLite *m_locationDialogLite { nullptr };
+        //Dialogs
+        FindDialogLite *m_findDialogLite { nullptr };
+        DetailDialogLite *m_detailDialogLite { nullptr };
+        LocationDialogLite *m_locationDialogLite { nullptr };
 
-    ClientManagerLite *m_clientManager { nullptr };
+        ClientManagerLite *m_clientManager { nullptr };
 };

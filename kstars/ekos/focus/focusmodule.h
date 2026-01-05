@@ -16,10 +16,10 @@ namespace Ekos
 
 class FocusModule : public QWidget, public Ui::FocusManager
 {
-    Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Focus")
+        Q_OBJECT
+        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Focus")
 
-public:
+    public:
         FocusModule();
         ~FocusModule();
 
@@ -161,7 +161,8 @@ public:
          * @param tolerance Measure of how accurate the autofocus algorithm is. If the difference between the current HFR and minimum measured HFR is less than %tolerance after the focuser traversed both ends of the V-curve, then the focusing operation
          * is deemed successful. Otherwise, the focusing operation will continue.
          */
-        Q_SCRIPTABLE bool setAutoFocusParameters(const QString &trainname, int boxSize, int stepSize, int maxTravel, double tolerance);
+        Q_SCRIPTABLE bool setAutoFocusParameters(const QString &trainname, int boxSize, int stepSize, int maxTravel,
+                double tolerance);
 
         // ////////////////////////////////////////////////////////////////////
         // Device handling
@@ -221,7 +222,7 @@ public:
             return m_LogText.join("\n");
         }
 
-public slots:
+    public slots:
         // ////////////////////////////////////////////////////////////////////
         // DBus interface
         // ////////////////////////////////////////////////////////////////////
@@ -256,7 +257,7 @@ public slots:
 
 
 
-signals:
+    signals:
         Q_SCRIPTABLE void newLog(const QString &text);
         Q_SCRIPTABLE void newStatus(FocusState state, const QString &trainname);
         Q_SCRIPTABLE void newHFR(double hfr, int position, bool inAutofocus, const QString &trainname);
@@ -267,7 +268,7 @@ signals:
         void inSequenceAF(bool requested, const QString &trainname);
 
 
-private:
+    private:
         // ////////////////////////////////////////////////////////////////////
         // focuser handling
         // ////////////////////////////////////////////////////////////////////

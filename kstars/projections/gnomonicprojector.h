@@ -17,13 +17,13 @@
  */
 class GnomonicProjector : public Projector
 {
-  public:
-    explicit GnomonicProjector(const ViewParams &p);
-    Projection type() const override;
-    double radius() const override;
-    double projectionK(double x) const override;
-    double projectionL(double x) const override;
-    double cosMaxFieldAngle() const override;
+    public:
+        explicit GnomonicProjector(const ViewParams &p);
+        Projection type() const override;
+        double radius() const override;
+        double projectionK(double x) const override;
+        double projectionL(double x) const override;
+        double cosMaxFieldAngle() const override;
 };
 
 #endif // GNOMONICPROJECTOR_H

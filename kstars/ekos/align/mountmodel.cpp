@@ -859,7 +859,7 @@ void MountModel::slotClearAllAlignPoints()
         return;
 
     if (KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to clear all the alignment points?"),
-                                   i18n("Clear Align Points")) == KMessageBox::Continue)
+                                           i18n("Clear Align Points")) == KMessageBox::Continue)
         alignTable->setRowCount(0);
 
     if (previewShowing)
@@ -1009,10 +1009,10 @@ void MountModel::startStopAlignmentProcedure()
                 int r = KMessageBox::warningContinueCancel(
                             nullptr,
                             i18n("In the Align Module, \"Nothing\" is Selected for the Solver Action.  This means that the "
-                                 "mount model tool will not sync/align your mount but will only report the pointing model "
-                                 "errors.  Do you wish to continue?"),
+                     "mount model tool will not sync/align your mount but will only report the pointing model "
+                     "errors.  Do you wish to continue?"),
                             i18n("Pointing Model Report Only?"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                            "nothing_selected_warning");
+                     "nothing_selected_warning");
                 if (r == KMessageBox::Cancel)
                     return;
             }

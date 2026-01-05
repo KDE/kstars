@@ -143,29 +143,29 @@
 
 class TestEkosFocus : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit TestEkosFocus(QObject *parent = nullptr);
+    public:
+        explicit TestEkosFocus(QObject *parent = nullptr);
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testCaptureStates();
-    void testDuplicateFocusRequest();
-    void testAutofocusSignalEmission();
-    void testFocusAbort();
-    void testGuidingSuspendWhileFocusing();
-    void testFocusWhenHFRChecking();
-    void testFocusFailure();    
-    void testFocusWhenMountFlips();
+        void testCaptureStates();
+        void testDuplicateFocusRequest();
+        void testAutofocusSignalEmission();
+        void testFocusAbort();
+        void testGuidingSuspendWhileFocusing();
+        void testFocusWhenHFRChecking();
+        void testFocusFailure();
+        void testFocusWhenMountFlips();
 
-    void testStarDetection_data();
-    void testStarDetection();
+        void testStarDetection_data();
+        void testStarDetection();
 };
 
 #endif // HAVE_INDI

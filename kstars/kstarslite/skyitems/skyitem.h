@@ -28,39 +28,45 @@ class SkyNode;
 
 class SkyItem : public SkyOpacityNode
 {
-  public:
-    /**
-     * Constructor, appends SkyItem to rootNode as a child in a node tree
-     *
-     * @param labelType type of label that corresponds to this item
-     * @note see LabelsItem::label_t
-     * @param parent a pointer to SkyItem's parent node
-     */
-    explicit SkyItem(LabelsItem::label_t labelType, RootNode *rootNode = nullptr);
-    /** @see PointSourceNode::~PointSourceNode() */
-    virtual ~SkyItem();
+    public:
+        /**
+         * Constructor, appends SkyItem to rootNode as a child in a node tree
+         *
+         * @param labelType type of label that corresponds to this item
+         * @note see LabelsItem::label_t
+         * @param parent a pointer to SkyItem's parent node
+         */
+        explicit SkyItem(LabelsItem::label_t labelType, RootNode *rootNode = nullptr);
+        /** @see PointSourceNode::~PointSourceNode() */
+        virtual ~SkyItem();
 
-    /**
-     * @short updates the coordinates and visibility of child node. Similar to draw routine in
-     * SkyComponent derived classes
-     */
-    virtual void update() = 0;
+        /**
+         * @short updates the coordinates and visibility of child node. Similar to draw routine in
+         * SkyComponent derived classes
+         */
+        virtual void update() = 0;
 
-    virtual void show() override;
+        virtual void show() override;
 
-    /** @short hides this item and corresponding labels */
-    virtual void hide() override;
+        /** @short hides this item and corresponding labels */
+        virtual void hide() override;
 
-    void hideLabels();
+        void hideLabels();
 
-    /** @return RootNode that is the parent of this SkyItem in a node tree */
-    inline RootNode *rootNode() { return m_rootNode; }
+        /** @return RootNode that is the parent of this SkyItem in a node tree */
+        inline RootNode *rootNode()
+        {
+            return m_rootNode;
+        }
 
-    /** @return label type of this SkyItem */
-    inline LabelsItem::label_t labelType() { return m_labelType; }
+        /** @return label type of this SkyItem */
+        inline LabelsItem::label_t labelType()
+        {
+            return m_labelType;
+        }
 
-  private:
-    RootNode *m_rootNode { nullptr };
-    QVector<SkyNode *> m_skyNodes;
-    LabelsItem::label_t m_labelType;
+    private:
+        RootNode *m_rootNode { nullptr };
+        QVector<SkyNode *> m_skyNodes;
+        LabelsItem::label_t m_labelType;
 };

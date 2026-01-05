@@ -26,7 +26,7 @@ BlobManager::BlobManager(QObject *parent, const QString &host, int port, const Q
 void BlobManager::serverDisconnected(int exit_code)
 {
     qCDebug(KSTARS_INDI) << "INDI server disconnected from BLOB manager for Device:" << m_Device << "Property:" << m_Property <<
-                         "Exit code:" << exit_code;
+                            "Exit code:" << exit_code;
 }
 
 void BlobManager::updateProperty(INDI::Property prop)

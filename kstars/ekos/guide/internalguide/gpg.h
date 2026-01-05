@@ -63,5 +63,6 @@ class GPG
         int gpgSamples = 0;
         int gpgSkippedSamples = 0;
         // Converts the gpg output to pulse milliseconds
-        double convertCorrectionToPulseMilliseconds(const Calibration &cal, int *pulseLength, GuideDirection *pulseDir, const double gpgResult);
+        double convertCorrectionToPulseMilliseconds(const Calibration &cal, int *pulseLength, GuideDirection *pulseDir,
+                const double gpgResult);
 };

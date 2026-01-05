@@ -464,14 +464,14 @@ int OptimalExposure::FileUtilityCameraData::readCameraDataFile(QString aCameraDa
                     }
                     if (xmlReader.name().toString() == "CameraPixelSize")
                     {
-						double aCameraPixelSize = xmlReader.readElementText().toDouble();
-						anImagingCameraData->setCameraPixelSize(aCameraPixelSize);
-					}
-					if (xmlReader.name().toString() == "CameraQuantumEfficiency")
+                        double aCameraPixelSize = xmlReader.readElementText().toDouble();
+                        anImagingCameraData->setCameraPixelSize(aCameraPixelSize);
+                    }
+                    if (xmlReader.name().toString() == "CameraQuantumEfficiency")
                     {
-						double aCameraQuantumEfficiency = xmlReader.readElementText().toDouble();
-						anImagingCameraData->setCameraQuantumEfficiency(aCameraQuantumEfficiency);
-					}
+                        double aCameraQuantumEfficiency = xmlReader.readElementText().toDouble();
+                        anImagingCameraData->setCameraQuantumEfficiency(aCameraQuantumEfficiency);
+                    }
 
                 }
                 // qCInfo(KSTARS_EKOS_CAPTURE) << "Read xml data for " + anImagingCameraData->getCameraId();

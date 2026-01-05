@@ -24,25 +24,28 @@ class CatalogEditForm;
  */
 class CatalogEditForm : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit CatalogEditForm(QWidget *parent, const CatalogsDB::Catalog &catalog,
-                             const int min_id         = CatalogsDB::custom_cat_min_id,
-                             const bool allow_id_edit = true);
-    ~CatalogEditForm();
+    public:
+        explicit CatalogEditForm(QWidget *parent, const CatalogsDB::Catalog &catalog,
+                                 const int min_id         = CatalogsDB::custom_cat_min_id,
+                                 const bool allow_id_edit = true);
+        ~CatalogEditForm();
 
-    /**
-     * Get the result of the catalog edit.
-     */
-    CatalogsDB::Catalog getCatalog() { return m_catalog; };
+        /**
+         * Get the result of the catalog edit.
+         */
+        CatalogsDB::Catalog getCatalog()
+        {
+            return m_catalog;
+        };
 
-  private:
-    Ui::CatalogEditForm *ui;
-    CatalogsDB::Catalog m_catalog;
+    private:
+        Ui::CatalogEditForm *ui;
+        CatalogsDB::Catalog m_catalog;
 
-    /**
-     * Fills the form fields with the given catalog information.
-     */
-    void fill_form_from_catalog();
+        /**
+         * Fills the form fields with the given catalog information.
+         */
+        void fill_form_from_catalog();
 };

@@ -20,35 +20,35 @@ class CultureList;
  */
 class ConstellationArtComponent : public SkyComponent
 {
-  public:
-    /** Constructor */
-    explicit ConstellationArtComponent(SkyComposite *, CultureList *cultures);
+    public:
+        /** Constructor */
+        explicit ConstellationArtComponent(SkyComposite *, CultureList *cultures);
 
-    /** Destructor */
-    ~ConstellationArtComponent() override;
+        /** Destructor */
+        ~ConstellationArtComponent() override;
 
-    /**
-     * @short Read the skycultures.sqlite database file.
-     * Parse all the data from the skycultures database.Construct a ConstellationsArt object
-     * from the data, and add it to a QList.
-     * @return true if data file is successfully read.
-     */
-    void loadData();
+        /**
+         * @short Read the skycultures.sqlite database file.
+         * Parse all the data from the skycultures database.Construct a ConstellationsArt object
+         * from the data, and add it to a QList.
+         * @return true if data file is successfully read.
+         */
+        void loadData();
 
-    /**
-     * @short deletes all created ConstellationsArt objects.
-     * Used in KStars Lite to reduce memory consumption if Constellation Art is switched off
-     */
-    void deleteData();
+        /**
+         * @short deletes all created ConstellationsArt objects.
+         * Used in KStars Lite to reduce memory consumption if Constellation Art is switched off
+         */
+        void deleteData();
 
-    /** @short Shows the details of the constellations selected skyculture */
-    void showList();
+        /** @short Shows the details of the constellations selected skyculture */
+        void showList();
 
-    void draw(SkyPainter *skyp) override;
+        void draw(SkyPainter *skyp) override;
 
-    QList<ConstellationsArt *> m_ConstList;
+        QList<ConstellationsArt *> m_ConstList;
 
-  private:
-    QString cultureName;
-    int records { 0 };
+    private:
+        QString cultureName;
+        int records { 0 };
 };

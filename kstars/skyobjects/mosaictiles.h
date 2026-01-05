@@ -267,11 +267,11 @@ class MosaicTiles : public SkyObject
         }
 
         // Titles
-        const QList<std::shared_ptr<OneTile >> &tiles() const
+        const QList < std::shared_ptr < OneTile >> &tiles() const
         {
             return m_Tiles;
         }
-        std::shared_ptr<OneTile> oneTile(int row, int col);
+        std::shared_ptr < OneTile > oneTile(int row, int col);
 
     private:
         // Overall properties
@@ -300,7 +300,7 @@ class MosaicTiles : public SkyObject
         QBrush m_TextBrush;
         QPen m_TextPen;
 
-        QList<std::shared_ptr<OneTile >> m_Tiles;
+        QList < std::shared_ptr < OneTile >> m_Tiles;
 
         /**
            * @brief adjustCoordinate This uses the mosaic center as reference and the argument resolution of the sky map at that center.

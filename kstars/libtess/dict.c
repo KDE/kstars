@@ -49,7 +49,8 @@ DictNode *dictInsertBefore(Dict *dict, DictNode *node, DictKey key)
     do
     {
         node = node->prev;
-    } while (node->key != NULL && !(*dict->leq)(dict->frame, node->key, key));
+    }
+    while (node->key != NULL && !(*dict->leq)(dict->frame, node->key, key));
 
     newNode = (DictNode *)memAlloc(sizeof(DictNode));
     if (newNode == NULL)
@@ -80,7 +81,8 @@ DictNode *dictSearch(Dict *dict, DictKey key)
     do
     {
         node = node->next;
-    } while (node->key != NULL && !(*dict->leq)(dict->frame, key, node->key));
+    }
+    while (node->key != NULL && !(*dict->leq)(dict->frame, key, node->key));
 
     return node;
 }

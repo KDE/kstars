@@ -25,39 +25,42 @@ class AddCatalogObject;
  */
 class AddCatalogObject : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    /**
-     * \param parent the parent widget, nullptr allowed
-     * \parame obj the objects to be mutated, default constructed by default
-     */
-    explicit AddCatalogObject(QWidget *parent, const CatalogObject &obj = {});
-    ~AddCatalogObject();
+    public:
+        /**
+         * \param parent the parent widget, nullptr allowed
+         * \parame obj the objects to be mutated, default constructed by default
+         */
+        explicit AddCatalogObject(QWidget *parent, const CatalogObject &obj = {});
+        ~AddCatalogObject();
 
-    /**
-     * Retrieve the edited object.
-     */
-    CatalogObject get_object() { return m_object; }
+        /**
+         * Retrieve the edited object.
+         */
+        CatalogObject get_object()
+        {
+            return m_object;
+        }
 
-  private:
-    Ui::AddCatalogObject *ui;
+    private:
+        Ui::AddCatalogObject *ui;
 
-    /** The object to be edited. */
-    CatalogObject m_object;
+        /** The object to be edited. */
+        CatalogObject m_object;
 
-    /** Fill the form fields with the information from the object. */
-    void fill_form_from_object();
+        /** Fill the form fields with the information from the object. */
+        void fill_form_from_object();
 
-    /** Enable/Disable the `flux` field depending on object type. */
-    void refresh_flux();
+        /** Enable/Disable the `flux` field depending on object type. */
+        void refresh_flux();
 
-    /** Guess the contents of the form by parsing the supplied text. */
-    void guess_form_contents_from_text(QString text);
+        /** Guess the contents of the form by parsing the supplied text. */
+        void guess_form_contents_from_text(QString text);
 
-  private slots:
-    /** Overload of the above that prompts for the text using an input box. */
-    void guess_form_contents_from_text();
+    private slots:
+        /** Overload of the above that prompts for the text using an input box. */
+        void guess_form_contents_from_text();
 };
 
 #endif // ADDCATALOGOBJECT_H

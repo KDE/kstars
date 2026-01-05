@@ -220,7 +220,7 @@ void CapturePreviewWidget::deleteCurrentFrame()
         else
         {
             qCWarning(KSTARS_EKOS_CAPTURE) << "Deleting" << m_overlay->currentFrame().filename <<
-                                           "failed!";
+                                              "failed!";
             // give up
             m_overlay->setEnabled(true);
         }

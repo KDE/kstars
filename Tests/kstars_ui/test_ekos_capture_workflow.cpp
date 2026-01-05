@@ -1452,15 +1452,15 @@ void TestEkosCaptureWorkflow::testLoadEsqFileGeneral_data()
             << version << "KStars Freak" << false << false << false << false << false << false;
     QTest::newRow(QString("guideDeviationLimit v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version
             <<
-            "KStars Freak" << true << false << false << false << false << false;
+    "KStars Freak" << true << false << false << false << false << false;
     QTest::newRow(QString("startGuideDeviation v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version
             << "KStars Freak" << false << true << false << false << false << false;
     QTest::newRow(QString("inSequenceFocus v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version <<
-            "KStars Freak" << false << false << true << false << false << false;
+                          "KStars Freak" << false << false << true << false << false << false;
     QTest::newRow(QString("autofocusOnTemperature v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) <<
             version << "KStars Freak" << false << false << false << true << false << false;
     QTest::newRow(QString("refocusEveryN v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version <<
-            "KStars Freak" << false << false << false << false << true << false;
+                          "KStars Freak" << false << false << false << false << true << false;
     QTest::newRow(QString("refocusAfterMeridianFlip v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) <<
             version << "KStars Freak" << false << false << false << false << false << true;
 }
@@ -1533,7 +1533,7 @@ void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings_data()
     {
         QTest::newRow(QString("Flat pre_action=wall adu=manual v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit())
                 << version << 1.0 << 2 <<
-                "Flat" << static_cast<uint>(Ekos::CAPTURE_PREACTION_WALL) << 180.0 << 85.0 << true << false << 12345 << 1234;
+        "Flat" << static_cast<uint>(Ekos::CAPTURE_PREACTION_WALL) << 180.0 << 85.0 << true << false << 12345 << 1234;
         QTest::newRow(QString("Dark pre_action=none adu=automatic v=%1").arg(
                           m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version  << 1.0 << 2 << "Dark" <<
                                   static_cast<uint>(Ekos::CAPTURE_PREACTION_NONE) << 180.0 << 85.0 << false << true <<  12345 << 1234;

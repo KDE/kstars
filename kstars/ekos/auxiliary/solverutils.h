@@ -43,7 +43,7 @@ class SolverUtils : public QObject
         void abort(bool wait = false);
 
         void setHealpix(int indexToUse = -1, int healpixToUse = -1);
-        void getSolutionHealpix(int *indexUsed, int *healpixUsed) const;        
+        void getSolutionHealpix(int *indexUsed, int *healpixUsed) const;
 
         const FITSImage::Background &getBackground() const
         {

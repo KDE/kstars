@@ -25,10 +25,10 @@ class KStars;
  */
 class OpsSupernovae : public QFrame, public Ui::OpsSupernovae
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsSupernovae();
+    public:
+        explicit OpsSupernovae();
 
-    ~OpsSupernovae() override = default;
+        ~OpsSupernovae() override = default;
 };

@@ -91,7 +91,7 @@ bool NOMADStarDataWriter::createTable()
  *of years
  */
 void NOMADStarDataWriter::calculatePMCoords(double startRA, double startDec, double dRA, double dDec, double *endRA,
-                                            double *endDec, float years)
+        double *endDec, float years)
 {
     // (Translated from Perl)
     double theta0 = hour2rad(startRA);
@@ -370,7 +370,7 @@ bool NOMADStarDataWriter::writeStarDataToDB()
                 double separationsqr = (RA1deg - RA2deg) * (RA1deg - RA2deg) +
                                        (Dec1 - Dec2) * (Dec1 - Dec2); // Separation in degrees // ugly.
                 if (separationsqr >
-                    0.69) // 50 arcminutes converted to degrees, squared and rounded below = 0.69. (This has nothing to do with sex positions.)
+                        0.69) // 50 arcminutes converted to degrees, squared and rounded below = 0.69. (This has nothing to do with sex positions.)
                 {
                     m_Mesh->intersect(RA1deg, Dec1, RA2deg, Dec2);
                     MeshIterator trixels(m_Mesh);

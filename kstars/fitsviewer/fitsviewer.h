@@ -69,7 +69,7 @@ class FITSViewer : public KXmlGuiWindow
         // Returns the tab id for the tab to be loaded (could be used in updateFile/Data).
         // It may be that the id is not used if the load fails.
         int loadFile(const QUrl &imageName, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
-                      const QString &previewText = QString());
+                     const QString &previewText = QString());
 
         bool loadData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int *tab_uid,
                       FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,

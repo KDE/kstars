@@ -18,23 +18,23 @@ namespace Ekos
 {
 class MountPositionWidget : public QWidget, public Ui::MountPositionWidget
 {
-    Q_OBJECT
-public:
-    explicit MountPositionWidget(QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit MountPositionWidget(QWidget *parent = nullptr);
 
-    /**
-         * @brief updateTelescopeCoords Update the coordinates
-         * @param position latest coordinates the mount reports it is pointing to
-         * @param ha hour angle of the latest coordinates
-         */
-    void updateTelescopeCoords(const SkyPoint &position, const dms &ha);
+        /**
+             * @brief updateTelescopeCoords Update the coordinates
+             * @param position latest coordinates the mount reports it is pointing to
+             * @param ha hour angle of the latest coordinates
+             */
+        void updateTelescopeCoords(const SkyPoint &position, const dms &ha);
 
-    // J2000 flag
-    bool isJ2000Enabled();
-    void setJ2000Enabled(bool enabled);
+        // J2000 flag
+        bool isJ2000Enabled();
+        void setJ2000Enabled(bool enabled);
 
-signals:
-    void J2000Enabled(bool enabled);
+    signals:
+        void J2000Enabled(bool enabled);
 
 };
 

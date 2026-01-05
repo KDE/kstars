@@ -62,7 +62,7 @@ bool TaskTemplate::loadFromJson(const QJsonObject &json)
     if (m_id.isEmpty() || m_name.isEmpty() || m_category.isEmpty())
     {
         return false;
-    }    
+    }
 
     if (m_actionDefinitions.isEmpty())
     {

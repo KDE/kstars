@@ -16,30 +16,30 @@
  */
 class FOVItem : public SkyItem
 {
-  public:
-    /** FOV symbol types */
-    enum Shape
-    {
-        SQUARE,
-        CIRCLE,
-        CROSSHAIRS,
-        BULLSEYE,
-        SOLIDCIRCLE,
-        UNKNOWN
-    };
+    public:
+        /** FOV symbol types */
+        enum Shape
+        {
+            SQUARE,
+            CIRCLE,
+            CROSSHAIRS,
+            BULLSEYE,
+            SOLIDCIRCLE,
+            UNKNOWN
+        };
 
-    /** Constructor. Initialize default FOV symbols */
-    explicit FOVItem(RootNode *rootNode);
+        /** Constructor. Initialize default FOV symbols */
+        explicit FOVItem(RootNode *rootNode);
 
-    /**
-     * @short Add information about new symbol to SkyMapLite and create FOVSymbolNode
-     * SkyMapLite acts here as a bridge between FOVItem and QML. Here we call SkyMapLite::addFOVSymbol to add
-     * information about new FOVSymbol to SkyMapLite and later in update() we check if user switched this
-     * FOVSymbol on
-     */
-    void addSymbol(const QString &name, float a, float b, float xoffset, float yoffset, float rot, FOVItem::Shape shape,
-                   const QString &color);
+        /**
+         * @short Add information about new symbol to SkyMapLite and create FOVSymbolNode
+         * SkyMapLite acts here as a bridge between FOVItem and QML. Here we call SkyMapLite::addFOVSymbol to add
+         * information about new FOVSymbol to SkyMapLite and later in update() we check if user switched this
+         * FOVSymbol on
+         */
+        void addSymbol(const QString &name, float a, float b, float xoffset, float yoffset, float rot, FOVItem::Shape shape,
+                       const QString &color);
 
-    /** Update FOVSymbol if user switched it on */
-    virtual void update() override;
+        /** Update FOVSymbol if user switched it on */
+        virtual void update() override;
 };

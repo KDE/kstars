@@ -218,7 +218,7 @@ void PrintingWizard::beginShFovCapture()
     {
         KMessageBox::information(this,
                                  i18n("Star hopper returned empty path. We advise you to change star hopping settings "
-                                      "or use manual capture mode."),
+             "or use manual capture mode."),
                                  i18n("Star hopper failed to find path"));
         return;
     }
@@ -488,8 +488,8 @@ void PrintingWizard::slewAndBeginCapture(SkyPoint *center, FOV *fov)
 
         // Adjust map's zoom level
         double zoom = m_FovImageSize.width() > m_FovImageSize.height() ?
-                          SimpleFovExporter::calculateZoomLevel(m_FovImageSize.width(), fov->sizeX()) :
-                          SimpleFovExporter::calculateZoomLevel(m_FovImageSize.height(), fov->sizeY());
+                      SimpleFovExporter::calculateZoomLevel(m_FovImageSize.width(), fov->sizeX()) :
+                      SimpleFovExporter::calculateZoomLevel(m_FovImageSize.height(), fov->sizeY());
         m_KStars->map()->setZoomFactor(zoom);
     }
 
@@ -553,7 +553,7 @@ void PrintingWizard::createFinderChart()
     }
 
     if (m_WizChartContentsUI->isGeneralTableChecked() || m_WizChartContentsUI->isPositionTableChecked() ||
-        m_WizChartContentsUI->isRSTTableChecked() || m_WizChartContentsUI->isAstComTableChecked())
+            m_WizChartContentsUI->isRSTTableChecked() || m_WizChartContentsUI->isAstComTableChecked())
     {
         m_FinderChart->insertSectionTitle(i18n("Details About Object"));
         m_FinderChart->insertGeoTimeInfo(KStarsData::Instance()->ut(), KStarsData::Instance()->geo());

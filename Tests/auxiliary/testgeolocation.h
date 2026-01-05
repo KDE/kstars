@@ -18,21 +18,21 @@
 
 class TestGeolocation : public QObject
 {
-    Q_OBJECT
-public:
-    explicit TestGeolocation(QObject *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit TestGeolocation(QObject *parent = nullptr);
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testGeolocation_data();
-    void testGeolocation();
-    void testParseCityDatabase();
-    void testCoordinates();
+        void testGeolocation_data();
+        void testGeolocation();
+        void testParseCityDatabase();
+        void testCoordinates();
 };
 
 #endif // TESTGEOLOCATION_H

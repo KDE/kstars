@@ -10,9 +10,9 @@
 
 class collimationoverlaytype : QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
+    public:
         enum Types
         {
             Anchor,

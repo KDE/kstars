@@ -13,23 +13,26 @@
 
 class FocusProfilePlot : public QCustomPlot
 {
-public:
-    FocusProfilePlot(QWidget *parent = nullptr);
+    public:
+        FocusProfilePlot(QWidget *parent = nullptr);
 
-    void setFocusAuto(bool isAuto) {focusAuto = isAuto;}
-    void clear();
+        void setFocusAuto(bool isAuto)
+        {
+            focusAuto = isAuto;
+        }
+        void clear();
 
-public slots:
-    void drawProfilePlot(double currentHFR);
+    public slots:
+        void drawProfilePlot(double currentHFR);
 
-private:
-    bool focusAuto = true;
-    QCPGraph *currentGaus { nullptr };
-    QCPGraph *firstGaus { nullptr };
-    QCPGraph *lastGaus { nullptr };
+    private:
+        bool focusAuto = true;
+        QCPGraph *currentGaus { nullptr };
+        QCPGraph *firstGaus { nullptr };
+        QCPGraph *lastGaus { nullptr };
 
-    // Last gaussian fit values
-    QVector<double> lastGausIndexes;
-    QVector<double> lastGausFrequencies;
+        // Last gaussian fit values
+        QVector<double> lastGausIndexes;
+        QVector<double> lastGausFrequencies;
 
 };

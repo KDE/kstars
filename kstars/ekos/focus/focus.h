@@ -268,7 +268,7 @@ class Focus : public QWidget, public Ui::Focus
             return m_FocusView->captureHistory(run);
         }
 
-public slots:
+    public slots:
 
         /** \addtogroup FocusDBusInterface
              *  @{
@@ -1038,34 +1038,52 @@ public slots:
         /**
          * @brief Retrieve the currently selected frame
          */
-        const CaptureHistory::FrameData currentFrame() {return m_FocusView->currentFrame();}
+        const CaptureHistory::FrameData currentFrame()
+        {
+            return m_FocusView->currentFrame();
+        }
 
         /**
          * @brief Retrieve the last captured frame
          */
-        const CaptureHistory::FrameData lastFrame() {return m_FocusView->lastFrame();}
+        const CaptureHistory::FrameData lastFrame()
+        {
+            return m_FocusView->lastFrame();
+        }
 
         /**
          * @brief lastAFRun ID of the last autofocus run
          */
-        int lastAFRun(){return m_FocusView->lastAFRun();};
+        int lastAFRun()
+        {
+            return m_FocusView->lastAFRun();
+        };
 
         /******************************************
          * Accessors to the last focusing measurements
          ******************************************/
 
-         /**
-         * @brief getLastNumStars Determine the last measured number of stars
-         */
-        double getLastNumStars() {return m_FocusView->lastFrame().numStars;}
+        /**
+        * @brief getLastNumStars Determine the last measured number of stars
+        */
+        double getLastNumStars()
+        {
+            return m_FocusView->lastFrame().numStars;
+        }
         /**
          * @brief getLastMeasure Determine the last measured value
          */
-        double getLastMeasure() {return  m_FocusView->lastFrame().measure;}
+        double getLastMeasure()
+        {
+            return  m_FocusView->lastFrame().measure;
+        }
         /**
          * @brief getLastWeight Determine the last weight value
          */
-        double getLastWeight() {return  m_FocusView->lastFrame().weight;}
+        double getLastWeight()
+        {
+            return  m_FocusView->lastFrame().weight;
+        }
 
         /**
          * @brief calculateCurrentHFR calculate the HFR from the current frame, taking into

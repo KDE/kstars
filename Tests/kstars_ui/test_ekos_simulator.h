@@ -68,22 +68,22 @@
 
 class TestEkosSimulator : public QObject
 {
-    Q_OBJECT
-public:
-    explicit TestEkosSimulator(QObject *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit TestEkosSimulator(QObject *parent = nullptr);
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testMountSlew_data();
-    void testMountSlew();
+        void testMountSlew_data();
+        void testMountSlew();
 
-    void testColorSchemes_data();
-    void testColorSchemes();
+        void testColorSchemes_data();
+        void testColorSchemes();
 };
 
 #endif // HAVE_INDI

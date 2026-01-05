@@ -62,9 +62,9 @@ void __gl_renderMesh(GLUtesselator *tess, GLUmesh *mesh)
     for (f = mesh->fHead.next; f != &mesh->fHead; f = f->next)
     {
         /* We examine all faces in an arbitrary order.  Whenever we find
-     * an unprocessed face F, we output a group of faces including F
-     * whose size is maximum.
-     */
+        * an unprocessed face F, we output a group of faces including F
+        * whose size is maximum.
+        */
         if (f->inside && !f->marked)
         {
             RenderMaximumFaceGroup(tess, f);
@@ -81,12 +81,12 @@ void __gl_renderMesh(GLUtesselator *tess, GLUmesh *mesh)
 static void RenderMaximumFaceGroup(GLUtesselator *tess, GLUface *fOrig)
 {
     /* We want to find the largest triangle fan or strip of unmarked faces
-   * which includes the given face fOrig.  There are 3 possible fans
-   * passing through fOrig (one centered at each vertex), and 3 possible
-   * strips (one for each CCW permutation of the vertices).  Our strategy
-   * is to try all of these, and take the primitive which uses the most
-   * triangles (a greedy approach).
-   */
+    * which includes the given face fOrig.  There are 3 possible fans
+    * passing through fOrig (one centered at each vertex), and 3 possible
+    * strips (one for each CCW permutation of the vertices).  Our strategy
+    * is to try all of these, and take the primitive which uses the most
+    * triangles (a greedy approach).
+    */
     GLUhalfEdge *e = fOrig->anEdge;
     struct FaceCount max, newFace;
 
@@ -155,9 +155,9 @@ static void RenderMaximumFaceGroup(GLUtesselator *tess, GLUface *fOrig)
 static struct FaceCount MaximumFan(GLUhalfEdge *eOrig)
 {
     /* eOrig->Lface is the face we want to render.  We want to find the size
-   * of a maximal fan around eOrig->Org.  To do this we just walk around
-   * the origin vertex as far as possible in both directions.
-   */
+    * of a maximal fan around eOrig->Org.  To do this we just walk around
+    * the origin vertex as far as possible in both directions.
+    */
     struct FaceCount newFace = { 0, NULL, &RenderFan };
     GLUface *trail           = NULL;
     GLUhalfEdge *e;
@@ -183,15 +183,15 @@ static struct FaceCount MaximumFan(GLUhalfEdge *eOrig)
 static struct FaceCount MaximumStrip(GLUhalfEdge *eOrig)
 {
     /* Here we are looking for a maximal strip that contains the vertices
-   * eOrig->Org, eOrig->Dst, eOrig->Lnext->Dst (in that order or the
-   * reverse, such that all triangles are oriented CCW).
-   *
-   * Again we walk forward and backward as far as possible.  However for
-   * strips there is a twist: to get CCW orientations, there must be
-   * an *even* number of triangles in the strip on one side of eOrig.
-   * We walk the strip starting on a side with an even number of triangles;
-   * if both side have an odd number, we are forced to shorten one side.
-   */
+    * eOrig->Org, eOrig->Dst, eOrig->Lnext->Dst (in that order or the
+    * reverse, such that all triangles are oriented CCW).
+    *
+    * Again we walk forward and backward as far as possible.  However for
+    * strips there is a twist: to get CCW orientations, there must be
+    * an *even* number of triangles in the strip on one side of eOrig.
+    * We walk the strip starting on a side with an even number of triangles;
+    * if both side have an odd number, we are forced to shorten one side.
+    */
     struct FaceCount newFace = { 0, NULL, &RenderStrip };
     long headSize = 0, tailSize = 0;
     GLUface *trail = NULL;
@@ -231,8 +231,8 @@ static struct FaceCount MaximumStrip(GLUhalfEdge *eOrig)
     else
     {
         /* Both sides have odd length, we must shorten one of them.  In fact,
-     * we must start from eHead to guarantee inclusion of eOrig->Lface.
-     */
+        * we must start from eHead to guarantee inclusion of eOrig->Lface.
+        */
         --newFace.size;
         newFace.eStart = eHead->Onext;
     }
@@ -244,8 +244,8 @@ static struct FaceCount MaximumStrip(GLUhalfEdge *eOrig)
 static void RenderTriangle(GLUtesselator *tess, GLUhalfEdge *e, long size)
 {
     /* Just add the triangle to a triangle list, so we can render all
-   * the separate triangles at once.
-   */
+    * the separate triangles at once.
+    */
     assert(size == 1);
     AddToTrail(e->Lface, tess->lonelyTriList);
 }
@@ -253,8 +253,8 @@ static void RenderTriangle(GLUtesselator *tess, GLUhalfEdge *e, long size)
 static void RenderLonelyTriangles(GLUtesselator *tess, GLUface *f)
 {
     /* Now we render all the separate triangles which could not be
-   * grouped into a triangle fan or strip.
-   */
+    * grouped into a triangle fan or strip.
+    */
     GLUhalfEdge *e;
     int newState;
     int edgeState = -1; /* force edge state output for first vertex */
@@ -271,8 +271,8 @@ static void RenderLonelyTriangles(GLUtesselator *tess, GLUface *f)
             if (tess->flagBoundary)
             {
                 /* Set the "edge state" to TRUE just before we output the
-	 * first vertex of each edge on the polygon boundary.
-	 */
+                * first vertex of each edge on the polygon boundary.
+                 */
                 newState = !e->Rface->inside;
                 if (edgeState != newState)
                 {
@@ -283,7 +283,8 @@ static void RenderLonelyTriangles(GLUtesselator *tess, GLUface *f)
             CALL_VERTEX_OR_VERTEX_DATA(e->Org->data);
 
             e = e->Lnext;
-        } while (e != f->anEdge);
+        }
+        while (e != f->anEdge);
     }
     CALL_END_OR_END_DATA();
 }
@@ -291,9 +292,9 @@ static void RenderLonelyTriangles(GLUtesselator *tess, GLUface *f)
 static void RenderFan(GLUtesselator *tess, GLUhalfEdge *e, long size)
 {
     /* Render as many CCW triangles as possible in a fan starting from
-   * edge "e".  The fan *should* contain exactly "size" triangles
-   * (otherwise we've goofed up somewhere).
-   */
+    * edge "e".  The fan *should* contain exactly "size" triangles
+    * (otherwise we've goofed up somewhere).
+    */
     CALL_BEGIN_OR_BEGIN_DATA(GL_TRIANGLE_FAN);
     CALL_VERTEX_OR_VERTEX_DATA(e->Org->data);
     CALL_VERTEX_OR_VERTEX_DATA(e->Dst->data);
@@ -313,9 +314,9 @@ static void RenderFan(GLUtesselator *tess, GLUhalfEdge *e, long size)
 static void RenderStrip(GLUtesselator *tess, GLUhalfEdge *e, long size)
 {
     /* Render as many CCW triangles as possible in a strip starting from
-   * edge "e".  The strip *should* contain exactly "size" triangles
-   * (otherwise we've goofed up somewhere).
-   */
+    * edge "e".  The strip *should* contain exactly "size" triangles
+    * (otherwise we've goofed up somewhere).
+    */
     CALL_BEGIN_OR_BEGIN_DATA(GL_TRIANGLE_STRIP);
     CALL_VERTEX_OR_VERTEX_DATA(e->Org->data);
     CALL_VERTEX_OR_VERTEX_DATA(e->Dst->data);
@@ -360,7 +361,8 @@ void __gl_renderBoundary(GLUtesselator *tess, GLUmesh *mesh)
             {
                 CALL_VERTEX_OR_VERTEX_DATA(e->Org->data);
                 e = e->Lnext;
-            } while (e != f->anEdge);
+            }
+            while (e != f->anEdge);
             CALL_END_OR_END_DATA();
         }
     }
@@ -387,18 +389,18 @@ static int ComputeNormal(GLUtesselator *tess, GLdouble norm[3], int check)
     int sign = 0;
 
     /* Find the polygon normal.  It is important to get a reasonable
-   * normal even when the polygon is self-intersecting (eg. a bowtie).
-   * Otherwise, the computed normal could be very tiny, but perpendicular
-   * to the true plane of the polygon due to numerical noise.  Then all
-   * the triangles would appear to be degenerate and we would incorrectly
-   * decompose the polygon as a fan (or simply not render it at all).
-   *
-   * We use a sum-of-triangles normal algorithm rather than the more
-   * efficient sum-of-trapezoids method (used in CheckOrientation()
-   * in normal.c).  This lets us explicitly reverse the signed area
-   * of some triangles to get a reasonable normal in the self-intersecting
-   * case.
-   */
+    * normal even when the polygon is self-intersecting (eg. a bowtie).
+    * Otherwise, the computed normal could be very tiny, but perpendicular
+    * to the true plane of the polygon due to numerical noise.  Then all
+    * the triangles would appear to be degenerate and we would incorrectly
+    * decompose the polygon as a fan (or simply not render it at all).
+    *
+    * We use a sum-of-triangles normal algorithm rather than the more
+    * efficient sum-of-trapezoids method (used in CheckOrientation()
+    * in normal.c).  This lets us explicitly reverse the signed area
+    * of some triangles to get a reasonable normal in the self-intersecting
+    * case.
+    */
     if (!check)
     {
         norm[0] = norm[1] = norm[2] = 0.0;
@@ -426,8 +428,8 @@ static int ComputeNormal(GLUtesselator *tess, GLdouble norm[3], int check)
         if (!check)
         {
             /* Reverse the contribution of back-facing triangles to get
-       * a reasonable normal for self-intersecting polygons (see above)
-       */
+            * a reasonable normal for self-intersecting polygons (see above)
+            */
             if (dot >= 0)
             {
                 norm[0] += n[0];
@@ -521,7 +523,7 @@ GLboolean __gl_renderCache(GLUtesselator *tess)
     }
 
     CALL_BEGIN_OR_BEGIN_DATA(tess->boundaryOnly ? GL_LINE_LOOP :
-                                                  (tess->cacheCount > 3) ? GL_TRIANGLE_FAN : GL_TRIANGLES);
+                             (tess->cacheCount > 3) ? GL_TRIANGLE_FAN : GL_TRIANGLES);
 
     CALL_VERTEX_OR_VERTEX_DATA(v0->data);
     if (sign > 0)

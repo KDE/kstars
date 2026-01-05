@@ -25,36 +25,36 @@ class GeoLocation;
  */
 class modCalcSidTime : public QFrame, public Ui::modCalcSidTimeDlg
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit modCalcSidTime(QWidget *p);
+    public:
+        explicit modCalcSidTime(QWidget *p);
 
-  private slots:
-    void slotChangeLocation();
-    void slotChangeDate();
-    void slotConvertST(const QTime &lt);
-    void slotConvertLT(const QTime &st);
+    private slots:
+        void slotChangeLocation();
+        void slotChangeDate();
+        void slotConvertST(const QTime &lt);
+        void slotConvertLT(const QTime &st);
 
-    void slotDateChecked();
-    void slotLocationChecked();
-    void slotLocationBatch();
-    void slotCheckFiles();
-    void slotRunBatch();
-    void slotViewBatch();
-    void slotHelpLabel();
-    void processLines(QTextStream &istream);
+        void slotDateChecked();
+        void slotLocationChecked();
+        void slotLocationBatch();
+        void slotCheckFiles();
+        void slotRunBatch();
+        void slotViewBatch();
+        void slotHelpLabel();
+        void processLines(QTextStream &istream);
 
-  private:
-    /**
-     * Fills the UT, Date boxes with the current time
-     * and date and the longitude box with the current Geo location
-     */
-    void showCurrentTimeAndLocation();
+    private:
+        /**
+         * Fills the UT, Date boxes with the current time
+         * and date and the longitude box with the current Geo location
+         */
+        void showCurrentTimeAndLocation();
 
-    QTime computeLTtoST(QTime lt);
-    QTime computeSTtoLT(QTime st);
+        QTime computeLTtoST(QTime lt);
+        QTime computeSTtoLT(QTime st);
 
-    GeoLocation *geo { nullptr };
-    GeoLocation *geoBatch { nullptr };
+        GeoLocation *geo { nullptr };
+        GeoLocation *geoBatch { nullptr };
 };

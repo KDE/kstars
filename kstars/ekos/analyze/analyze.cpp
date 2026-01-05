@@ -2603,9 +2603,9 @@ void Analyze::initStatsPlot()
         if (show && !Options::autoHFR())
             KSNotification::info(
                 i18n("The \"Auto Compute HFR\" option in the KStars "
-                     "FITS options menu is not set. You won't get HFR values "
-                     "without it. Once you set it, newly captured images "
-                     "will have their HFRs computed."));
+                 "FITS options menu is not set. You won't get HFR values "
+                 "without it. Once you set it, newly captured images "
+                 "will have their HFRs computed."));
     });
 
     shortName = "#SubStars";
@@ -2619,9 +2619,9 @@ void Analyze::initStatsPlot()
         if (show && !Options::autoHFR())
             KSNotification::info(
                 i18n("The \"Auto Compute HFR\" option in the KStars "
-                     "FITS options menu is not set. You won't get # stars in capture image values "
-                     "without it. Once you set it, newly captured images "
-                     "will have their stars detected."));
+                 "FITS options menu is not set. You won't get # stars in capture image values "
+                 "without it. Once you set it, newly captured images "
+                 "will have their stars detected."));
     });
 
     shortName = "median";

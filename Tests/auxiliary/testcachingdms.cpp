@@ -235,7 +235,8 @@ void TestCachingDms::subtractionOperator()
 
 void TestCachingDms::testFailsafeUseOfBaseClassPtr()
 {
-    typedef union angle {
+    typedef union angle
+    {
         double x;
         int64_t y;
     } angle;

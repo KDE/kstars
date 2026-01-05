@@ -282,7 +282,7 @@ QJsonObject KSMessageBox::createMessageObject()
     message.insert("icon", icon());
     message.insert("timeout", static_cast<int32_t>(m_Timeout));
 
-    for (const auto oneButton : findChildren<QPushButton*>())
+    for (const auto oneButton : findChildren<QPushButton * >())
     {
         buttons.append(oneButton->text());
         if (oneButton == defaultButton())
@@ -296,7 +296,7 @@ QJsonObject KSMessageBox::createMessageObject()
 
 bool KSMessageBox::selectResponse(const QString &button)
 {
-    for (const auto oneButton : findChildren<QPushButton*>())
+    for (const auto oneButton : findChildren<QPushButton * >())
     {
         const QString buttonText = oneButton->text().remove("&");
 

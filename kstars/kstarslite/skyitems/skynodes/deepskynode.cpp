@@ -100,7 +100,7 @@ void DeepSkyNode::update(bool drawImage, bool drawLabel, QPointF pos)
             {
                 m_objImg = new QSGSimpleTextureNode;
                 m_objImg->setTexture(SkyMapLite::Instance()->window()->createTextureFromImage(
-                    m_dso->image(), QQuickWindow::TextureCanUseAtlas));
+                                         m_dso->image(), QQuickWindow::TextureCanUseAtlas));
                 m_objImg->setOwnsTexture(true);
                 m_opacity->appendChildNode(m_objImg);
             }

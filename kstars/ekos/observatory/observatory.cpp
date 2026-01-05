@@ -517,21 +517,26 @@ bool Observatory::addWeatherSource(ISD::Weather *device)
     // Prevent populating the QComboBox list from setting the default
     weatherSourceCombo->blockSignals(true);
     // If first in list, init weather
-    if (weatherSourceCombo->count() == 0) {
+    if (weatherSourceCombo->count() == 0)
+    {
         weatherSourceCombo->addItem(deviceName);
         weatherSourceCombo->setCurrentText(deviceName);
         setWeatherSource(deviceName);
-    } else
-    // If default set currentText explicitly and init weather
-    if (deviceName == Options::defaultObservatoryWeatherSource()) {
-        weatherSourceCombo->addItem(deviceName);
-        weatherSourceCombo->setCurrentText(deviceName);
-        setWeatherSource(deviceName);
-    } else
-    // If just another source (not first and not default) don't set as current
-    if ((weatherSourceCombo->count() > 0) && !(deviceName == Options::defaultObservatoryWeatherSource())) {
-        weatherSourceCombo->addItem(deviceName);
     }
+    else
+        // If default set currentText explicitly and init weather
+        if (deviceName == Options::defaultObservatoryWeatherSource())
+        {
+            weatherSourceCombo->addItem(deviceName);
+            weatherSourceCombo->setCurrentText(deviceName);
+            setWeatherSource(deviceName);
+        }
+        else
+            // If just another source (not first and not default) don't set as current
+            if ((weatherSourceCombo->count() > 0) && !(deviceName == Options::defaultObservatoryWeatherSource()))
+            {
+                weatherSourceCombo->addItem(deviceName);
+            }
     weatherSourceCombo->blockSignals(false);
 
     return true;
@@ -1183,7 +1188,8 @@ void Observatory::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceR
 void Observatory::setWeatherSource(const QString &name)
 {
     // If requested name is in the comboBox list use it
-    if (weatherSourceCombo->findText(name) >= 0) {
+    if (weatherSourceCombo->findText(name) >= 0)
+    {
         for (auto &oneWeatherSource : m_WeatherSources)
         {
             if (oneWeatherSource->getDeviceName() == name)

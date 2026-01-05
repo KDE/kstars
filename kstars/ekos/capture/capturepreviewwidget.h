@@ -26,107 +26,108 @@ class SequenceJob;
 
 class CapturePreviewWidget : public QWidget, public Ui::CapturePreviewWidget
 {
-    Q_OBJECT
-public:
-    explicit CapturePreviewWidget(QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit CapturePreviewWidget(QWidget *parent = nullptr);
 
-    void shareCaptureModule(Ekos::Capture *module);
-    void shareSchedulerModuleState(QSharedPointer<Ekos::SchedulerModuleState> state);
-    void shareMountModule(Ekos::Mount *module);
+        void shareCaptureModule(Ekos::Capture *module);
+        void shareSchedulerModuleState(QSharedPointer<Ekos::SchedulerModuleState> state);
+        void shareMountModule(Ekos::Mount *module);
 
-    /**
-     * @brief display information about the currently running job
-     * @param currently active job
-     */
-    void updateJobProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QSharedPointer<FITSData> &data, const QString &devicename);
+        /**
+         * @brief display information about the currently running job
+         * @param currently active job
+         */
+        void updateJobProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QSharedPointer<FITSData> &data,
+                               const QString &devicename);
 
-    /**
-     * @brief update the preview image from a file
-     * @param filePath to load
-     */
-    void updateJobPreview(const QString &filePath);
+        /**
+         * @brief update the preview image from a file
+         * @param filePath to load
+         */
+        void updateJobPreview(const QString &filePath);
 
-    /**
-     * @brief Show the next frame from the capture history
-     */
-    void showNextFrame();
+        /**
+         * @brief Show the next frame from the capture history
+         */
+        void showNextFrame();
 
-    /**
-     * @brief Show the previous frame from the capture history
-     */
-    void showPreviousFrame();
+        /**
+         * @brief Show the previous frame from the capture history
+         */
+        void showPreviousFrame();
 
-    /**
-     * @brief Delete the currently displayed frame
-     */
-    void deleteCurrentFrame();
+        /**
+         * @brief Delete the currently displayed frame
+         */
+        void deleteCurrentFrame();
 
-    /**
-     * @brief Set the summary FITS view
-     */
-    void setSummaryFITSView(const QSharedPointer<SummaryFITSView> &view);
+        /**
+         * @brief Set the summary FITS view
+         */
+        void setSummaryFITSView(const QSharedPointer<SummaryFITSView> &view);
 
-    /**
-     * @brief enable / disable display widgets
-     */
-    void setEnabled(bool enabled);
+        /**
+         * @brief enable / disable display widgets
+         */
+        void setEnabled(bool enabled);
 
-    /**
-     * @brief reset display values
-     */
-    void reset();
+        /**
+         * @brief reset display values
+         */
+        void reset();
 
-    /**
-     * @brief set the target name
-     */
-    void setTargetName(QString name);
+        /**
+         * @brief set the target name
+         */
+        void setTargetName(QString name);
 
-public slots:
-    /**
-     * @brief update display when the capture status changes
-     */
-    void updateCaptureStatus(Ekos::CaptureState status, bool isPreview, const QString &trainname);
+    public slots:
+        /**
+         * @brief update display when the capture status changes
+         */
+        void updateCaptureStatus(Ekos::CaptureState status, bool isPreview, const QString &trainname);
 
-    /**
-     * @brief Slot receiving the update of the current target distance.
-     * @param targetDiff distance to the target in arcseconds.
-     */
-    void updateTargetDistance(double targetDiff);
+        /**
+         * @brief Slot receiving the update of the current target distance.
+         * @param targetDiff distance to the target in arcseconds.
+         */
+        void updateTargetDistance(double targetDiff);
 
-    /**
-     * @brief update the count down value of the current exposure
-     * @param delta time difference
-     */
-    void updateCaptureCountDown(int delta);
+        /**
+         * @brief update the count down value of the current exposure
+         * @param delta time difference
+         */
+        void updateCaptureCountDown(int delta);
 
-    /**
-     * @brief React upon changed camera device selection
-     */
-    void selectedTrainChanged(QString newName);
+        /**
+         * @brief React upon changed camera device selection
+         */
+        void selectedTrainChanged(QString newName);
 
-private:
+    private:
 
-    void updateExposureProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QString &devicename);
-    void updateDownloadProgress(double downloadTimeLeft, const QString &devicename);
+        void updateExposureProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QString &devicename);
+        void updateDownloadProgress(double downloadTimeLeft, const QString &devicename);
 
-    QSharedPointer<Ekos::SchedulerModuleState> m_schedulerModuleState = nullptr;
-    Ekos::Capture *m_captureModule = nullptr;
-    Ekos::Mount *m_mountModule = nullptr;
+        QSharedPointer<Ekos::SchedulerModuleState> m_schedulerModuleState = nullptr;
+        Ekos::Capture *m_captureModule = nullptr;
+        Ekos::Mount *m_mountModule = nullptr;
 
-    // cache frame data
-    QMap<QString, CaptureHistory::FrameData> m_currentFrame;
+        // cache frame data
+        QMap<QString, CaptureHistory::FrameData> m_currentFrame;
 
-    // known train names
-    QList<QString> m_trainNames;
+        // known train names
+        QList<QString> m_trainNames;
 
-    // target the mount is pointing to (may be different to the scheduler job name)
-    QString m_mountTarget = "";
+        // target the mount is pointing to (may be different to the scheduler job name)
+        QString m_mountTarget = "";
 
-    // summary FITS view
-    QSharedPointer<SummaryFITSView> m_fitsPreview;
-    // FITS data overlay
-    QSharedPointer<CaptureProcessOverlay> m_overlay;
+        // summary FITS view
+        QSharedPointer<SummaryFITSView> m_fitsPreview;
+        // FITS data overlay
+        QSharedPointer<CaptureProcessOverlay> m_overlay;
 
-    // move to trash or delete finally
-    bool m_permanentlyDelete {false};
+        // move to trash or delete finally
+        bool m_permanentlyDelete {false};
 };

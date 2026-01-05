@@ -131,7 +131,7 @@ class Guide : public QWidget, public Ui::Guide
              * Set calibration dark frame option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
              * @param enable if true, a dark frame will be captured to subtract from the light frame.
              */
-        Q_SCRIPTABLE Q_NOREPLY void setDarkFrameEnabled(bool enable);        
+        Q_SCRIPTABLE Q_NOREPLY void setDarkFrameEnabled(bool enable);
 
         /** @}*/
 
@@ -351,7 +351,8 @@ class Guide : public QWidget, public Ui::Guide
         void setCaptureComplete();
 
         // Pulse both RA and DEC axes
-        bool sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs, CaptureAfterPulses followWithCapture);
+        bool sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs,
+                            CaptureAfterPulses followWithCapture);
         // Pulse for one of the mount axes
         bool sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses followWithCapture);
 
@@ -481,7 +482,7 @@ class Guide : public QWidget, public Ui::Guide
         /**
              * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
              */
-        void syncTrackingBoxPosition();   
+        void syncTrackingBoxPosition();
 
         /**
              * @brief setBusy Indicate whether guiding id running or not to disable buttons which should not be
@@ -493,7 +494,8 @@ class Guide : public QWidget, public Ui::Guide
         /**
          * @brief isGuiderActive Indicate if the guider is active (i.e. calibrating, guiding, dithering, ...)
          */
-        static bool isGuiderActive(const GuideState state) {
+        static bool isGuiderActive(const GuideState state)
+        {
             return  state == GUIDE_CAPTURE ||
                     state == GUIDE_LOOPING ||
                     state == GUIDE_DARK ||
@@ -577,7 +579,7 @@ class Guide : public QWidget, public Ui::Guide
         bool captureOneFrame();
 
         void setupOpticalTrainManager();
-        void refreshOpticalTrain();        
+        void refreshOpticalTrain();
 
         // Driver
         void reconnectDriver(const QString &camera, QVariantMap settings);

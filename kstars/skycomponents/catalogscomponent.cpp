@@ -438,7 +438,7 @@ void CatalogsComponent::tryImportSkyComponents()
 
     const auto resp = KMessageBox::warningContinueCancel(
                           nullptr, i18n("Import custom and internet resolved objects "
-                                        "from the old DSO database into the new one?"));
+                  "from the old DSO database into the new one?"));
 
     if (resp != KMessageBox::Continue)
     {

@@ -578,22 +578,22 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, int data
                 QToolTip::hideText();
                 QToolTip::showText(event->globalPos(),
                                    i18n("<table>"
-                                        "<tr>"
-                                        "<th colspan=\"2\">%1</th>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>LST:   </td>"
-                                        "<td>%3</td>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>LT:   </td>"
-                                        "<td>%2</td>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>Altitude:   </td>"
-                                        "<td>%4</td>"
-                                        "</tr>"
-                                        "</table>",
+                     "<tr>"
+                     "<th colspan=\"2\">%1</th>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>LST:   </td>"
+                     "<td>%3</td>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>LT:   </td>"
+                     "<td>%2</td>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>Altitude:   </td>"
+                     "<td>%4</td>"
+                     "</tr>"
+                     "</table>",
                                         graph->name().isEmpty() ? "???" : graph->name(),
                                         localTime.toString(),
                                         localSiderealTime.toString(),
@@ -872,22 +872,22 @@ void AltVsTime::mouseOverLine(QMouseEvent *event)
                 QToolTip::hideText();
                 QToolTip::showText(event->globalPos(),
                                    i18n("<table>"
-                                        "<tr>"
-                                        "<th colspan=\"2\">%1</th>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>LST:   </td>"
-                                        "<td>%3</td>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>LT:   </td>"
-                                        "<td>%2</td>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>Altitude:   </td>"
-                                        "<td>%4</td>"
-                                        "</tr>"
-                                        "</table>",
+                     "<tr>"
+                     "<th colspan=\"2\">%1</th>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>LST:   </td>"
+                     "<td>%3</td>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>LT:   </td>"
+                     "<td>%2</td>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>Altitude:   </td>"
+                     "<td>%4</td>"
+                     "</tr>"
+                     "</table>",
                                         graph->name().isEmpty() ? "???" : graph->name(),
                                         localTime.toString(), localSiderealTime.toString(),
                                         QString::number(yValue, 'f', 2) + ' ' + QChar(176)),

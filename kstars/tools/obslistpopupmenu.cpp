@@ -59,7 +59,7 @@ void ObsListPopupMenu::initPopupMenu(bool sessionView, bool multiSelection, bool
     if (!multiSelection)
     {
         if (ksdata->observingList()->currentObject() != nullptr &&
-            !ksdata->observingList()->currentObject()->isSolarSystem())
+                !ksdata->observingList()->currentObject()->isSolarSystem())
         {
             addAction(i18n("Show SDSS image"), ksdata->observingList(), SLOT(slotGetImage()));
             addAction(i18n("Show DSS image"), ksdata->observingList(), SLOT(slotDSS()));

@@ -407,26 +407,6 @@ IF (UNIX OR APPLE OR ANDROID)
     SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${SEC_LINK_FLAGS}")
 ENDIF ()
 
-# Clang Format support
-IF (UNIX OR APPLE)
-    SET(FORMAT_CODE OFF CACHE BOOL "Enable Clang Format")
-    IF (FORMAT_CODE MATCHES ON)
-        FILE(GLOB_RECURSE ALL_SOURCE_FILES *.c *.cpp *.h)
-
-        FOREACH(SOURCE_FILE ${ALL_SOURCE_FILES})
-            STRING(FIND ${SOURCE_FILE} ${CMAKE_SOURCE_DIR} DIR_FOUND)
-            IF (NOT ${DIR_FOUND} EQUAL 0)
-                LIST(REMOVE_ITEM ALL_SOURCE_FILES ${SOURCE_FILE})
-            ENDIF ()
-        ENDFOREACH ()
-
-        FIND_PROGRAM(CLANGFORMAT_EXE NAMES clang-format-5.0)
-        IF (CLANGFORMAT_EXE)
-            ADD_CUSTOM_TARGET(clang-format COMMAND ${CLANGFORMAT_EXE} -style=file -i ${ALL_SOURCE_FILES})
-        ENDIF ()
-    ENDIF ()
-ENDIF ()
-
 SET(FIX_WARNINGS OFF CACHE BOOL "Enable strict compilation mode to turn compiler warnings to errors")
 # Warning, debug and linker flags
 IF (UNIX OR APPLE)
@@ -536,6 +516,22 @@ if(NOT APPLE) #This is not used on MacOS
 endif(NOT APPLE)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+# Code formatting helper (see README.md "Code Style")
+find_program(ASTYLE_EXECUTABLE astyle)
+if(ASTYLE_EXECUTABLE)
+    add_custom_target(astyle
+        COMMAND bash ${CMAKE_SOURCE_DIR}/tools/run_astyle.sh
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Formatting sources with astyle"
+        VERBATIM
+    )
+else()
+    add_custom_target(astyle
+        COMMAND ${CMAKE_COMMAND} -E echo "astyle not found; install Artistic Style to use this target."
+        VERBATIM
+    )
+endif()
 
 # Only build k5auth for Linux
 # JM 2018-09-26: KAuth is disabled due to reliability issues.

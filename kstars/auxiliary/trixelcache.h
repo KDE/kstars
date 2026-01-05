@@ -58,158 +58,177 @@
 template <typename content>
 class TrixelCache
 {
-  public:
-    /**
-     * @brief A container to hold cache elements.
-     *
-     * The holds the data and the information if the data has been set
-     * already. To this end, the assignment operator has been
-     * overloaded.
-     */
-    class element
-    {
-      public:
-        /** @return whether the element contains a cached object */
-        bool is_set() { return _set; }
-
-        /** @return the data held by element */
-        content &data() { return _data; }
-
-        element &operator=(const content &rhs)
+    public:
+        /**
+         * @brief A container to hold cache elements.
+         *
+         * The holds the data and the information if the data has been set
+         * already. To this end, the assignment operator has been
+         * overloaded.
+         */
+        class element
         {
-            _data = rhs;
-            _set  = true;
-            return *this;
-        }
+            public:
+                /** @return whether the element contains a cached object */
+                bool is_set()
+                {
+                    return _set;
+                }
 
-        element &operator=(content &&rhs)
-        {
-            _data.swap(rhs);
-            _set = true;
-            return *this;
-        }
+                /** @return the data held by element */
+                content &data()
+                {
+                    return _data;
+                }
 
-        /** resets the element to the empty state */
-        void reset()
-        {
-            content().swap(_data);
-            _set = false;
+                element &operator=(const content &rhs)
+                {
+                    _data = rhs;
+                    _set  = true;
+                    return *this;
+                }
+
+                element &operator=(content &&rhs)
+                {
+                    _data.swap(rhs);
+                    _set = true;
+                    return *this;
+                }
+
+                /** resets the element to the empty state */
+                void reset()
+                {
+                    content().swap(_data);
+                    _set = false;
+                };
+
+            private:
+                bool _set{ false };
+                content _data;
         };
 
-      private:
-        bool _set{ false };
-        content _data;
-    };
+        /**
+         * Constructs a cache with \p data_size default constructed elements
+         * with an elastic ceiling capacity of \p cache_size.
+         */
+        TrixelCache(const size_t data_size, const size_t cache_size)
+            : _cache_size{ cache_size }, _noop{ cache_size == data_size }
+        {
+            if (_cache_size > data_size)
+                throw std::range_error("cache_size cannot exceet data_size");
 
-    /**
-     * Constructs a cache with \p data_size default constructed elements
-     * with an elastic ceiling capacity of \p cache_size.
-     */
-    TrixelCache(const size_t data_size, const size_t cache_size)
-        : _cache_size{ cache_size }, _noop{ cache_size == data_size }
-    {
-        if (_cache_size > data_size)
-            throw std::range_error("cache_size cannot exceet data_size");
+            _data.resize(data_size);
+        };
 
-        _data.resize(data_size);
-    };
+        /** Retrieve an element at \p index. */
+        element &operator[](const size_t index) noexcept
+        {
+            if (!_noop)
+                add_index(index);
 
-    /** Retrieve an element at \p index. */
-    element &operator[](const size_t index) noexcept
-    {
-        if (!_noop)
-            add_index(index);
+            return _data[index];
+        }
 
-        return _data[index];
-    }
+        /**
+         * Remove excess elements from the cache
+         * The capacity can be temporarily readjusted to \p keep.
+         * \p keep must be greater than the cache size to be of effect.
+         */
+        void prune(size_t keep = 0) noexcept
+        {
+            if (_noop)
+                return;
 
-    /**
-     * Remove excess elements from the cache
-     * The capacity can be temporarily readjusted to \p keep.
-     * \p keep must be greater than the cache size to be of effect.
-     */
-    void prune(size_t keep = 0) noexcept
-    {
-        if (_noop)
-            return;
+            remove_dublicate_indices();
+            const int delta =
+                _used_indices.size() - (keep > _cache_size ? keep : _cache_size);
 
-        remove_dublicate_indices();
-        const int delta =
-            _used_indices.size() - (keep > _cache_size ? keep : _cache_size);
+            if (delta <= 0)
+                return;
 
-        if (delta <= 0)
-            return;
+            auto begin = _used_indices.begin();
+            std::advance(begin, delta);
 
-        auto begin = _used_indices.begin();
-        std::advance(begin, delta);
+            std::for_each(begin, _used_indices.end(),
+                          [&](size_t index)
+            {
+                _data[index].reset();
+            });
 
-        std::for_each(begin, _used_indices.end(),
-                      [&](size_t index) { _data[index].reset(); });
+            _used_indices = {};
+        }
 
-        _used_indices = {};
-    }
+        /**
+         * Reset the cache size to \p size. This does clear the cache.
+         */
+        void set_size(const size_t size)
+        {
+            if (size > _data.size())
+                throw std::range_error("cache_size cannot exceet data_size");
 
-    /**
-     * Reset the cache size to \p size. This does clear the cache.
-     */
-    void set_size(const size_t size)
-    {
-        if (size > _data.size())
-            throw std::range_error("cache_size cannot exceet data_size");
+            clear();
 
-        clear();
+            _cache_size = size;
+            _noop       = (_cache_size == _data.size());
+        }
 
-        _cache_size = size;
-        _noop       = (_cache_size == _data.size());
-    }
+        /** @return the size of the cache */
+        size_t size() const
+        {
+            return _cache_size;
+        };
 
-    /** @return the size of the cache */
-    size_t size() const { return _cache_size; };
+        /** @return the number of set elements in the cache, slow */
+        size_t current_usage()
+        {
+            remove_dublicate_indices();
+            return _used_indices.size();
+        };
 
-    /** @return the number of set elements in the cache, slow */
-    size_t current_usage()
-    {
-        remove_dublicate_indices();
-        return _used_indices.size();
-    };
+        /** @return a list of currently primed indices, slow */
+        std::list<size_t> primed_indices()
+        {
+            remove_dublicate_indices();
+            return _used_indices;
+        };
 
-    /** @return a list of currently primed indices, slow */
-    std::list<size_t> primed_indices()
-    {
-        remove_dublicate_indices();
-        return _used_indices;
-    };
+        /** @return whether the cache is just a wrapped vector */
+        bool noop() const
+        {
+            return _noop;
+        }
 
-    /** @return whether the cache is just a wrapped vector */
-    bool noop() const { return _noop; }
+        /** Clear the cache without changing it's size. */
+        void clear() noexcept
+        {
+            auto size = _data.size();
+            std::vector<element>().swap(_data);
+            _data.resize(size);
+            _used_indices.clear();
+        }
 
-    /** Clear the cache without changing it's size. */
-    void clear() noexcept
-    {
-        auto size = _data.size();
-        std::vector<element>().swap(_data);
-        _data.resize(size);
-        _used_indices.clear();
-    }
+    private:
+        size_t _cache_size;
+        bool _noop;
+        std::vector<element> _data;
+        std::list<size_t> _used_indices;
 
-  private:
-    size_t _cache_size;
-    bool _noop;
-    std::vector<element> _data;
-    std::list<size_t> _used_indices;
+        /** Add an index to the lru caching list */
+        void add_index(const size_t index)
+        {
+            _used_indices.push_front(index);
+        }
 
-    /** Add an index to the lru caching list */
-    void add_index(const size_t index) { _used_indices.push_front(index); }
+        void remove_dublicate_indices()
+        {
+            std::vector<bool> found(_data.size(), false);
+            _used_indices.remove_if([&](size_t index)
+            {
+                if (found[index])
+                    return true;
 
-    void remove_dublicate_indices()
-    {
-        std::vector<bool> found(_data.size(), false);
-        _used_indices.remove_if([&](size_t index) {
-            if (found[index])
-                return true;
-
-            found[index] = true;
-            return false;
-        });
-    };
+                found[index] = true;
+                return false;
+            });
+        };
 };

@@ -12,31 +12,31 @@ class PlanetViewer;
 
 class PVPlotWidget : public KPlotWidget
 {
-    Q_OBJECT
-  public:
-    explicit PVPlotWidget(QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit PVPlotWidget(QWidget *parent = nullptr);
 
-  public slots:
-    void slotZoomIn();
-    void slotZoomOut();
+    public slots:
+        void slotZoomIn();
+        void slotZoomOut();
 
-  signals:
-    void doubleClicked(double, double);
+    signals:
+        void doubleClicked(double, double);
 
-  protected:
-    void keyPressEvent(QKeyEvent *e) override;
-    void mousePressEvent(QMouseEvent *e) override;
-    void mouseMoveEvent(QMouseEvent *e) override;
-    void mouseReleaseEvent(QMouseEvent *) override;
-    void mouseDoubleClickEvent(QMouseEvent *e) override;
-    void wheelEvent(QWheelEvent *e) override;
+    protected:
+        void keyPressEvent(QKeyEvent *e) override;
+        void mousePressEvent(QMouseEvent *e) override;
+        void mouseMoveEvent(QMouseEvent *e) override;
+        void mouseReleaseEvent(QMouseEvent *) override;
+        void mouseDoubleClickEvent(QMouseEvent *e) override;
+        void wheelEvent(QWheelEvent *e) override;
 
-  private:
-    void updateFactor(const int modifier);
+    private:
+        void updateFactor(const int modifier);
 
-    bool mouseButtonDown { false };
-    int oldx { 0 };
-    int oldy { 0 };
-    double factor { 2 };
-    PlanetViewer *pv { nullptr };
+        bool mouseButtonDown { false };
+        int oldx { 0 };
+        int oldy { 0 };
+        double factor { 2 };
+        PlanetViewer *pv { nullptr };
 };

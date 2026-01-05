@@ -48,13 +48,13 @@ telescopeWizardProcess::telescopeWizardProcess(QWidget *parent) : QDialog(parent
     //if (KStars::Instance()->data()->geo()->translatedProvince().isEmpty())
     if (KStars::Instance()->data()->geo()->translatedProvince() == QString("(I18N_EMPTY_MESSAGE)"))
         ui->locationOut->setText(QString("%1, %2")
-                                     .arg(KStars::Instance()->data()->geo()->translatedName(),
-                                          KStars::Instance()->data()->geo()->translatedCountry()));
+                                 .arg(KStars::Instance()->data()->geo()->translatedName(),
+                                      KStars::Instance()->data()->geo()->translatedCountry()));
     else
         ui->locationOut->setText(QString("%1, %2, %3")
-                                     .arg(KStars::Instance()->data()->geo()->translatedName(),
-                                          KStars::Instance()->data()->geo()->translatedProvince(),
-                                          KStars::Instance()->data()->geo()->translatedCountry()));
+                                 .arg(KStars::Instance()->data()->geo()->translatedName(),
+                                      KStars::Instance()->data()->geo()->translatedProvince(),
+                                      KStars::Instance()->data()->geo()->translatedCountry()));
 
     for (DriverInfo *dv : DriverManager::Instance()->getDrivers())
     {
@@ -190,7 +190,7 @@ void telescopeWizardProcess::newLocation()
     KStars::Instance()->slotGeoLocator();
     GeoLocation *geo = KStars::Instance()->data()->geo();
     ui->locationOut->setText(
-        QString("%1, %2, %3").arg(geo->translatedName(),geo->translatedProvince(), geo->translatedCountry()));
+        QString("%1, %2, %3").arg(geo->translatedName(), geo->translatedProvince(), geo->translatedCountry()));
     ui->timeOut->setText(QString().sprintf("%02d:%02d:%02d", KStars::Instance()->data()->lt().time().hour(),
                                            KStars::Instance()->data()->lt().time().minute(),
                                            KStars::Instance()->data()->lt().time().second()));

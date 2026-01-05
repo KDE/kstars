@@ -15,8 +15,8 @@ namespace ISD
 {
 
 const QList<KLocalizedString> DustCap::capStates = { ki18n("Idle"), ki18n("Parking"), ki18n("UnParking"),
-                                                     ki18n("Parked"), ki18n("Error")
-                                                   };
+    ki18n("Parked"), ki18n("Error")
+};
 
 DustCap::DustCap(GenericDevice *parent): ConcreteDevice(parent)
 {

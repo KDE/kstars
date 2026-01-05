@@ -20,12 +20,12 @@ class PrintingWizard;
  */
 class FovEditorDialogUI : public QFrame, public Ui::FovEditorDialog
 {
-    Q_OBJECT
-  public:
-    /**
-     * \brief Constructor.
-     */
-    explicit FovEditorDialogUI(QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        /**
+         * \brief Constructor.
+         */
+        explicit FovEditorDialogUI(QWidget *parent = nullptr);
 };
 
 /**
@@ -35,72 +35,72 @@ class FovEditorDialogUI : public QFrame, public Ui::FovEditorDialog
  */
 class FovEditorDialog : public QDialog
 {
-    Q_OBJECT
-  public:
-    /**
-     * \brief Constructor.
-     */
-    explicit FovEditorDialog(PrintingWizard *wizard, QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        /**
+         * \brief Constructor.
+         */
+        explicit FovEditorDialog(PrintingWizard *wizard, QWidget *parent = nullptr);
 
-  private slots:
-    /**
-     * \brief Slot: switch to next FOV snapshot.
-     */
-    void slotNextFov();
+    private slots:
+        /**
+         * \brief Slot: switch to next FOV snapshot.
+         */
+        void slotNextFov();
 
-    /**
-     * \brief Slot: switch to previous FOV snapshot.
-     */
-    void slotPreviousFov();
+        /**
+         * \brief Slot: switch to previous FOV snapshot.
+         */
+        void slotPreviousFov();
 
-    /**
-     * \brief Slot: recapture current FOV snapshot.
-     */
-    void slotCaptureAgain();
+        /**
+         * \brief Slot: recapture current FOV snapshot.
+         */
+        void slotCaptureAgain();
 
-    /**
-     * \brief Slot: delete current FOV snapshot.
-     */
-    void slotDelete();
+        /**
+         * \brief Slot: delete current FOV snapshot.
+         */
+        void slotDelete();
 
-    /**
-     * \brief Slot: save description of the current FOV snapshot.
-     */
-    void slotSaveDescription();
+        /**
+         * \brief Slot: save description of the current FOV snapshot.
+         */
+        void slotSaveDescription();
 
-    /**
-     * \brief Slot: open "Save file" dialog to choose file name and format to save image.
-     */
-    void slotSaveImage();
+        /**
+         * \brief Slot: open "Save file" dialog to choose file name and format to save image.
+         */
+        void slotSaveImage();
 
-  private:
-    /**
-     * \brief Setup widget properties.
-     */
-    void setupWidgets();
+    private:
+        /**
+         * \brief Setup widget properties.
+         */
+        void setupWidgets();
 
-    /**
-     * \brief Setup signal-slot connections.
-     */
-    void setupConnections();
+        /**
+         * \brief Setup signal-slot connections.
+         */
+        void setupConnections();
 
-    /**
-     * \brief Update buttons.
-     */
-    void updateButtons();
+        /**
+         * \brief Update buttons.
+         */
+        void updateButtons();
 
-    /**
-     * \brief Update image description.
-     */
-    void updateDescriptions();
+        /**
+         * \brief Update image description.
+         */
+        void updateDescriptions();
 
-    /**
-     * \brief Update FOV image.
-     */
-    void updateFovImage();
+        /**
+         * \brief Update FOV image.
+         */
+        void updateFovImage();
 
-    PrintingWizard *m_ParentWizard { nullptr };
-    FovEditorDialogUI *m_EditorUi { nullptr };
+        PrintingWizard *m_ParentWizard { nullptr };
+        FovEditorDialogUI *m_EditorUi { nullptr };
 
-    int m_CurrentIndex { 0 };
+        int m_CurrentIndex { 0 };
 };

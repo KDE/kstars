@@ -109,7 +109,7 @@ class GuideStars
         // Would be private, except for testing
         void setupStarCorrespondence(const QList<Edge> &neighbors, int guideIndex);
 
-private:
+    private:
         // Evaluates which stars are desirable as guide stars and reference stars.
         void evaluateSEPStars(const QList<Edge *> &starCenters, QVector<double> *scores,
                               const QRect *roi, const double maxHFR) const;

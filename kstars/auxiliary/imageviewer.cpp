@@ -76,7 +76,8 @@ void ImageLabel::resizeEvent(QResizeEvent *event)
     pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
-ImageViewer::ImageViewer(const QString &caption, QWidget *parent) : QDialog(parent), fileIsImage(false), downloadJob(nullptr)
+ImageViewer::ImageViewer(const QString &caption, QWidget *parent) : QDialog(parent), fileIsImage(false),
+    downloadJob(nullptr)
 {
 #ifndef KSTARS_LITE
     init(caption, QString());
@@ -174,7 +175,7 @@ ImageViewer::~ImageViewer()
     {
         if (m_ImageUrl.isEmpty() == false ||
                 KMessageBox::warningContinueCancel(nullptr, i18n("Remove temporary file %1 from disk?", filename),
-                                           i18n("Confirm Removal")) == KMessageBox::Continue)
+                        i18n("Confirm Removal")) == KMessageBox::Continue)
             QFile::remove(filename);
     }
 
@@ -308,7 +309,8 @@ void ImageViewer::saveFileToDisc()
     QFileDialog dialog;
 
     QUrl newURL =
-        dialog.getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save Image"), lastURL); // save-dialog with default filename
+        dialog.getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save Image"),
+                              lastURL); // save-dialog with default filename
     if (!newURL.isEmpty())
     {
         //QFile f (newURL.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).toLocalFile() + '/' +  newURL.fileName());
@@ -317,7 +319,7 @@ void ImageViewer::saveFileToDisc()
         {
             if ((KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
                                                     i18n("A file named \"%1\" already exists. "
-                                                            "Overwrite it?",
+                 "Overwrite it?",
                                                             newURL.fileName()),
                                                     i18n("Overwrite File?"), KStandardGuiItem::overwrite()) == KMessageBox::Cancel))
                 return;

@@ -281,7 +281,7 @@ bool SequenceQueue::save(const QString &path, const QString &observerName)
     outstream << "<HFRCheckFrames>" << cLocale.toString(m_HFRCheckFrames) << "</HFRCheckFrames>" << Qt::endl;
     outstream << "</HFRCheck>" << Qt::endl;
     outstream << "<RefocusOnTemperatureDelta enabled='" << (m_EnforceAutofocusOnTemperature ? "true" : "false") <<
-              "'>"
+                 "'>"
               << cLocale.toString(m_MaxFocusTemperatureDelta) << "</RefocusOnTemperatureDelta>" << Qt::endl;
     outstream << "<RefocusEveryN enabled='" << (m_EnforceRefocusEveryN ? "true" : "false") << "'>"
               << cLocale.toString(m_RefocusEveryN) << "</RefocusEveryN>" << Qt::endl;

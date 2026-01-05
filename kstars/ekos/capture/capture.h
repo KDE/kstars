@@ -154,7 +154,8 @@ class Capture : public QWidget, public Ui::Capture
              * @param lead lead or follower job?
              * @param targetName override the target in the sequence queue file (necessary for using the target of the scheduler)
              */
-        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, const QString &train = "", bool isLead = true, const QString &targetName = "");
+        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, const QString &train = "", bool isLead = true,
+                                            const QString &targetName = "");
 
         /** DBUS interface function.
              * Saves the Sequence Queue to the Ekos Sequence Queue file.
@@ -475,7 +476,7 @@ class Capture : public QWidget, public Ui::Capture
         const QJsonArray &getSequence() const
         {
             return mainCameraState()->getSequence();
-        }        
+        }
 
         /**
          * @brief setVideoLimits sets the buffer size and max preview fps for live preview
@@ -490,7 +491,7 @@ class Capture : public QWidget, public Ui::Capture
             return moduleState()->cameras();
         }
 
-public slots:
+    public slots:
         // ////////////////////////////////////////////////////////////////////
         // Main capturing actions
         // ////////////////////////////////////////////////////////////////////
@@ -736,7 +737,7 @@ public slots:
         void newExposureProgress(const QSharedPointer<SequenceJob> &job, const QString &trainname);
         void newDownloadProgress(double, const QString &trainname);
         void sequenceChanged(const QJsonArray &sequence);
-        void settingsUpdated(const QVariantMap &settings);        
+        void settingsUpdated(const QVariantMap &settings);
         void newLocalPreview(const QString &preview);
         void dslrInfoRequested(const QString &cameraName);
         void driverTimedout(const QString &deviceName);

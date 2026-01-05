@@ -621,8 +621,8 @@ void ObservingList::slotNewSelection()
                     labelText += o->name();
                 if (std::isfinite(o->mag()) && o->mag() <= 30.)
                     labelText += ":</b> " + i18nc("%1 magnitude of object, %2 type of sky object (planet, asteroid "
-                                                  "etc), %3 name of a constellation",
-                                                  "%1 mag %2 in %3", o->mag(), o->typeName().toLower(), cname);
+                                 "etc), %3 name of a constellation",
+                                 "%1 mag %2 in %3", o->mag(), o->typeName().toLower(), cname);
                 else
                     labelText +=
                         ":</b> " + i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation",
@@ -809,8 +809,8 @@ void ObservingList::slotBatchAdd()
                 QMessageBox::Icon::Warning,
                 i18np("Batch add: %1 object not found", "Batch add: %1 objects not found", failedObjects.size()),
                 i18np("%1 object could not be found in the database or resolved, and hence could not be added. See the details for more.",
-                      "%1 objects could not be found in the database or resolved, and hence could not be added. See the details for more.",
-                      failedObjects.size()),
+                "%1 objects could not be found in the database or resolved, and hence could not be added. See the details for more.",
+                failedObjects.size()),
                 QMessageBox::Ok,
                 this
             };

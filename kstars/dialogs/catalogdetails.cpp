@@ -28,13 +28,16 @@ CatalogDetails::CatalogDetails(QWidget *parent, const QString &db_path,
     reload_objects();
     ui->name_filter->setPlaceholderText(i18n("Showing <= %1 entries. Enter a name (case "
                                              "sensitive) to narrow down the search.",
-                                             list_size));
+                                        list_size));
 
     m_timer->setInterval(200);
     connect(m_timer, &QTimer::timeout, this, &CatalogDetails::reload_objects);
 
     connect(ui->name_filter, &QLineEdit::textChanged, this,
-            [&](const auto) { m_timer->start(); });
+            [&](const auto)
+    {
+        m_timer->start();
+    });
 
     ui->object_table->setModel(&m_model);
     ui->object_table->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -45,7 +48,8 @@ CatalogDetails::CatalogDetails(QWidget *parent, const QString &db_path,
     connect(ui->object_table, &QTableView::doubleClicked, this,
             &CatalogDetails::show_object_details);
 
-    connect(ui->object_table, &QTableView::clicked, [&](const auto) {
+    connect(ui->object_table, &QTableView::clicked, [&](const auto)
+    {
         if (!m_catalog.mut)
             return;
 
@@ -101,7 +105,7 @@ void CatalogDetails::reload_catalog()
 void CatalogDetails::reload_objects()
 {
     const auto objects = m_manager.find_objects_by_name(
-        m_catalog.id, ui->name_filter->displayText(), list_size);
+                             m_catalog.id, ui->name_filter->displayText(), list_size);
 
     m_model.setObjects({ objects.cbegin(), objects.cend() });
     m_timer->stop();

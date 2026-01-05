@@ -20,15 +20,15 @@ class SkyPainter;
  */
 class EquatorialCoordinateGrid : public CoordinateGrid
 {
-  public:
-    /**
-     * @short Constructor
-     * Simply adds all of the equatorial coordinate grid circles (meridians and parallels)
-     * @p parent Pointer to the parent SkyComposite object
-     */
-    explicit EquatorialCoordinateGrid(SkyComposite *parent);
+    public:
+        /**
+         * @short Constructor
+         * Simply adds all of the equatorial coordinate grid circles (meridians and parallels)
+         * @p parent Pointer to the parent SkyComposite object
+         */
+        explicit EquatorialCoordinateGrid(SkyComposite *parent);
 
-    void preDraw(SkyPainter *skyp) override;
+        void preDraw(SkyPainter *skyp) override;
 
-    bool selected() override;
+        bool selected() override;
 };

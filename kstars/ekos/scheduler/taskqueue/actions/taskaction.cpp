@@ -33,7 +33,7 @@ TaskAction::~TaskAction()
         disconnect(m_deviceConnection);
         m_deviceConnection = QMetaObject::Connection();
     }
-    
+
 }
 
 void TaskAction::setStatus(Status status)

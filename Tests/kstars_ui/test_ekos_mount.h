@@ -108,32 +108,32 @@
 
 class TestEkosMount : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit TestEkosMount(QObject *parent = nullptr);
+    public:
+        explicit TestEkosMount(QObject *parent = nullptr);
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testMountCtrlCoordLabels();
-    void testMountCtrlCoordConversion();
-    void testMountCtrlGoto();
-    void testMountCtrlSync();
+        void testMountCtrlCoordLabels();
+        void testMountCtrlCoordConversion();
+        void testMountCtrlGoto();
+        void testMountCtrlSync();
 
-private:
-    Ekos::Manager *ekos;
-    QWindow *mountControl;
-    QObject *raLabel, *deLabel, *raText, *deText,
-        *coordRaDe, *coordAzAl, *coordHaDe,
-        *raValue, *deValue, *azValue, *altValue, *haValue, *zaValue,
-        *gotoButton, *syncButton;
-    double degreePrecision = 2 * 1.0 / 3600.0;
-    double hourPrecision = 2 * 15.0 / 3600.0;
+    private:
+        Ekos::Manager *ekos;
+        QWindow *mountControl;
+        QObject *raLabel, *deLabel, *raText, *deText,
+                *coordRaDe, *coordAzAl, *coordHaDe,
+                *raValue, *deValue, *azValue, *altValue, *haValue, *zaValue,
+                *gotoButton, *syncButton;
+        double degreePrecision = 2 * 1.0 / 3600.0;
+        double hourPrecision = 2 * 15.0 / 3600.0;
 
 
 };

@@ -156,7 +156,7 @@ bool FITSGradientDetector::findSources(const QRect &boundary)
         float totalMass = 0;
     } massInfo;
 
-    QMap<int, massInfo> masses;
+    QMap < int, massInfo > masses;
 
     // #7 Calculate center of mass for all detected regions
     for (int y = 0; y < subH; y++)
@@ -253,14 +253,14 @@ bool FITSGradientDetector::findSources(const QRect &boundary)
     double rightEdge = center->x + center->width / 2.0;
     double leftEdge  = center->x - center->width / 2.0;
 
-    QVector<double> subPixels;
+    QVector < double > subPixels;
     subPixels.reserve(center->width / resolution);
 
-    const T * origBuffer = reinterpret_cast<T const *>(m_ImageData->getImageBuffer()) + offset;
+    const T * origBuffer = reinterpret_cast < T const * > (m_ImageData->getImageBuffer()) + offset;
 
     for (double x = leftEdge; x <= rightEdge; x += resolution)
     {
-        double slice = resolution * (origBuffer[static_cast<int>(floor(x)) + cen_y * dataWidth]);
+        double slice = resolution * (origBuffer[static_cast < int > (floor(x)) + cen_y * dataWidth]);
         FSum += slice;
         subPixels.append(slice);
     }
@@ -299,7 +299,7 @@ bool FITSGradientDetector::findSources(const QRect &boundary)
     center->x += subX;
     center->y += subY;
 
-    QList<Edge*> starCenters;
+    QList < Edge* > starCenters;
     starCenters.append(center);
     m_ImageData->setStarCenters(starCenters);
 
@@ -312,8 +312,8 @@ bool FITSGradientDetector::findSources(const QRect &boundary)
  * Web-Site: https://github.com/hipersayanX/CannyDetector
  */
 
-template <typename T>
-void FITSGradientDetector::sobel(FITSData const *data, QVector<float> &gradient, QVector<float> &direction) const
+template < typename T >
+void FITSGradientDetector::sobel(FITSData const *data, QVector < float > &gradient, QVector < float > &direction) const
 {
     if (data == nullptr)
         return;
@@ -327,7 +327,7 @@ void FITSGradientDetector::sobel(FITSData const *data, QVector<float> &gradient,
     for (int y = 0; y < stats.height; y++)
     {
         size_t yOffset    = y * stats.width;
-        const T * grayLine = reinterpret_cast<T const *>(data->getImageBuffer()) + yOffset;
+        const T * grayLine = reinterpret_cast < T const * > (data->getImageBuffer()) + yOffset;
 
         const T * grayLine_m1 = y < 1 ? grayLine : grayLine - stats.width;
         const T * grayLine_p1 = y >= stats.height - 1 ? grayLine : grayLine + stats.width;
@@ -395,7 +395,7 @@ void FITSGradientDetector::sobel(FITSData const *data, QVector<float> &gradient,
     }
 }
 
-int FITSGradientDetector::partition(int width, int height, QVector<float> &gradient, QVector<int> &ids) const
+int FITSGradientDetector::partition(int width, int height, QVector < float > &gradient, QVector < int > &ids) const
 {
     int id = 0;
 
@@ -416,7 +416,7 @@ int FITSGradientDetector::partition(int width, int height, QVector<float> &gradi
     return id;
 }
 
-void FITSGradientDetector::trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x,
+void FITSGradientDetector::trace(int width, int height, int id, QVector < float > &image, QVector < int > &ids, int x,
                                  int y) const
 {
     int yOffset      = y * width;

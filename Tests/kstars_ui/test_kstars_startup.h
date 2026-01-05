@@ -27,32 +27,32 @@
 
 class TestKStarsStartup : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit TestKStarsStartup(QObject *parent = nullptr);
+    public:
+        explicit TestKStarsStartup(QObject *parent = nullptr);
 
-public:
-    static struct _InitialConditions
-    {
-        QDateTime dateTime;
-        bool clockRunning;
+    public:
+        static struct _InitialConditions
+        {
+            QDateTime dateTime;
+            bool clockRunning;
 
-        _InitialConditions():
-            dateTime(QDate(2020, 01, 01), QTime(23, 0, 0), Qt::UTC),
-            clockRunning(false) {};
-    }
-    const m_InitialConditions;
+            _InitialConditions():
+                dateTime(QDate(2020, 01, 01), QTime(23, 0, 0), Qt::UTC),
+                clockRunning(false) {};
+        }
+        const m_InitialConditions;
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void createInstanceTest();
-    void testInitialConditions();
+        void createInstanceTest();
+        void testInitialConditions();
 };
 
 #endif // TEST_KSTARS_STARTUP_H

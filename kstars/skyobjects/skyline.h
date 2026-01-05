@@ -25,46 +25,52 @@ class KStarsData;
  */
 class SkyLine
 {
-  public:
-    SkyLine() = default;
+    public:
+        SkyLine() = default;
 
-    ~SkyLine();
+        ~SkyLine();
 
-    /**
-     * Append a segment to the list by adding a new endpoint.
-     *
-     * @param p the new endpoint to be added
-     */
-    void append(SkyPoint *p);
+        /**
+         * Append a segment to the list by adding a new endpoint.
+         *
+         * @param p the new endpoint to be added
+         */
+        void append(SkyPoint *p);
 
-    /**
-     * @return a const pointer to a point in the SkyLine
-     * param i the index position of the point
-     */
-    inline SkyPoint *point(int i) const { return m_pList[i]; }
+        /**
+         * @return a const pointer to a point in the SkyLine
+         * param i the index position of the point
+         */
+        inline SkyPoint *point(int i) const
+        {
+            return m_pList[i];
+        }
 
-    inline QList<SkyPoint *> &points() { return m_pList; }
+        inline QList<SkyPoint *> &points()
+        {
+            return m_pList;
+        }
 
-    /** Remove all points from list */
-    void clear();
+        /** Remove all points from list */
+        void clear();
 
-    /**
-     * Set point i in the SkyLine
-     *
-     * @param i the index position of the point to modify
-     * @param p the new SkyPoint
-     */
-    void setPoint(int i, SkyPoint *p);
+        /**
+         * Set point i in the SkyLine
+         *
+         * @param i the index position of the point to modify
+         * @param p the new SkyPoint
+         */
+        void setPoint(int i, SkyPoint *p);
 
-    /**
-     * @return the angle subtended by any line segment along the SkyLine.
-     * @param i the index of the line segment to be measured.
-     * If no argument is given, the first segment is assumed.
-     */
-    dms angularSize(int i = 0) const;
+        /**
+         * @return the angle subtended by any line segment along the SkyLine.
+         * @param i the index of the line segment to be measured.
+         * If no argument is given, the first segment is assumed.
+         */
+        dms angularSize(int i = 0) const;
 
-    void update(KStarsData *data, KSNumbers *num = nullptr);
+        void update(KStarsData *data, KSNumbers *num = nullptr);
 
-  private:
-    QList<SkyPoint *> m_pList;
+    private:
+        QList<SkyPoint *> m_pList;
 };

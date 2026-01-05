@@ -7,16 +7,16 @@
 
 class TestEkosWizard : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit TestEkosWizard(QObject *parent = nullptr);
+    public:
+        explicit TestEkosWizard(QObject *parent = nullptr);
 
-private slots:
-    void init();
-    void cleanup();
+    private slots:
+        void init();
+        void cleanup();
 
-    void testProfileWizard();
+        void testProfileWizard();
 };
 
 #endif // HAVE_INDI

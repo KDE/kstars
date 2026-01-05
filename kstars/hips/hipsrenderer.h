@@ -18,25 +18,25 @@ class Projector;
 
 class HIPSRenderer : public QObject
 {
-  Q_OBJECT
-public:
-  explicit HIPSRenderer();
-  //void render(mapView_t *view, CSkPainter *painter, QImage *pDest);
-  bool render(uint16_t w, uint16_t h, QImage *hipsImage, const Projector *m_proj);
-  void renderRec(bool allsky, int level, int pix, QImage *pDest);
-  bool renderPix(bool allsky, int level, int pix, QImage *pDest);
+        Q_OBJECT
+    public:
+        explicit HIPSRenderer();
+        //void render(mapView_t *view, CSkPainter *painter, QImage *pDest);
+        bool render(uint16_t w, uint16_t h, QImage *hipsImage, const Projector *m_proj);
+        void renderRec(bool allsky, int level, int pix, QImage *pDest);
+        bool renderPix(bool allsky, int level, int pix, QImage *pDest);
 
-signals:
+    signals:
 
-public slots:
+    public slots:
 
-private:  
-  int m_blocks { 0 };
-  int m_rendered { 0 };
-  int m_size { 0 };
-  QSet<int>  m_renderedMap;
-  std::unique_ptr<HEALPix> m_HEALpix;
-  std::unique_ptr<ScanRender> m_scanRender;
-  const Projector *m_projector;
-  QColor gridColor;
+    private:
+        int m_blocks { 0 };
+        int m_rendered { 0 };
+        int m_size { 0 };
+        QSet<int>  m_renderedMap;
+        std::unique_ptr<HEALPix> m_HEALpix;
+        std::unique_ptr<ScanRender> m_scanRender;
+        const Projector *m_projector;
+        QColor gridColor;
 };

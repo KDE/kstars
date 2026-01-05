@@ -20,7 +20,7 @@
 class CSVRow
 {
     public:
-        std::string const& operator[](std::size_t index) const
+        std::string const &operator[](std::size_t index) const
         {
             return m_data[index];
         }
@@ -52,7 +52,7 @@ class CSVRow
         std::vector<std::string>    m_data;
 };
 
-inline std::istream& operator>>(std::istream& str, CSVRow& data)
+inline std::istream &operator>>(std::istream& str, CSVRow& data)
 {
     data.readNextRow(str);
     return str;
@@ -95,9 +95,9 @@ inline Eigen::ArrayXXd read_data_from_file(std::string filename)
         if (row[0][0] == 'I')
         {
             std::string infoline(row[0]);
-            if (infoline.substr(6,6) == "DITHER")
+            if (infoline.substr(6, 6) == "DITHER")
             {
-                dither = std::stod(infoline.substr(15,10));
+                dither = std::stod(infoline.substr(15, 10));
             }
         }
 
@@ -117,7 +117,7 @@ inline Eigen::ArrayXXd read_data_from_file(std::string filename)
         SNRs(i) = std::stod(row[16]);
     }
 
-    Eigen::ArrayXXd result(4,N);
+    Eigen::ArrayXXd result(4, N);
     result.row(0) = times;
     result.row(1) = measurements;
     result.row(2) = controls;
@@ -137,9 +137,9 @@ inline double get_exposure_from_file(std::string filename)
         if (row[0][0] == 'E')
         {
             std::string infoline(row[0]);
-            if (infoline.substr(0,8) == "Exposure")
+            if (infoline.substr(0, 8) == "Exposure")
             {
-                exposure = std::stoi(infoline.substr(11,4)) / 1000.0;
+                exposure = std::stoi(infoline.substr(11, 4)) / 1000.0;
             }
         }
     }
@@ -151,30 +151,30 @@ inline double get_exposure_from_file(std::string filename)
  */
 class GAHysteresis
 {
-public:
-    double m_hysteresis;
-    double m_aggression;
-    double m_minMove;
-    double m_lastMove;
+    public:
+        double m_hysteresis;
+        double m_aggression;
+        double m_minMove;
+        double m_lastMove;
 
-    GAHysteresis() : m_hysteresis(0.1), m_aggression(0.7), m_minMove(0.2), m_lastMove(0.0)
-    { }
+        GAHysteresis() : m_hysteresis(0.1), m_aggression(0.7), m_minMove(0.2), m_lastMove(0.0)
+        { }
 
-    double result(double input)
-    {
-        double dReturn = (1.0 - m_hysteresis) * input + m_hysteresis * m_lastMove;
-
-        dReturn *= m_aggression;
-
-        if (fabs(input) < m_minMove)
+        double result(double input)
         {
-            dReturn = 0.0;
+            double dReturn = (1.0 - m_hysteresis) * input + m_hysteresis * m_lastMove;
+
+            dReturn *= m_aggression;
+
+            if (fabs(input) < m_minMove)
+            {
+                dReturn = 0.0;
+            }
+
+            m_lastMove = dReturn;
+
+            return dReturn;
         }
-
-        m_lastMove = dReturn;
-
-        return dReturn;
-    }
 };
 
 /*
@@ -192,18 +192,18 @@ inline double calculate_improvement(std::string filename, GAHysteresis GAH, Gaus
 
     double hysteresis_control = 0.0;
     double hysteresis_state = measurements(0);
-    Eigen::ArrayXd hysteresis_states(times.size()-2);
+    Eigen::ArrayXd hysteresis_states(times.size() - 2);
 
     double gp_guider_control = 0.0;
     double gp_guider_state = measurements(0);
-    Eigen::ArrayXd gp_guider_states(times.size()-2);
+    Eigen::ArrayXd gp_guider_states(times.size() - 2);
 
-    for (int i = 0; i < times.size()-2; ++i)
+    for (int i = 0; i < times.size() - 2; ++i)
     {
         hysteresis_control = GAH.result(hysteresis_state);
 
         // this is a simple telescope "simulator"
-        hysteresis_state = hysteresis_state + (measurements(i+1) - (measurements(i) - controls(i))) - hysteresis_control;
+        hysteresis_state = hysteresis_state + (measurements(i + 1) - (measurements(i) - controls(i))) - hysteresis_control;
         hysteresis_states(i) = hysteresis_state;
 
         GPG->reset();
@@ -212,14 +212,14 @@ inline double calculate_improvement(std::string filename, GAHysteresis GAH, Gaus
             GPG->inject_data_point(times(j), measurements(j), SNRs(j), controls(j));
         }
         gp_guider_control = GPG->result(gp_guider_state, SNRs(i), exposure);
-        gp_guider_state = gp_guider_state + (measurements(i+1) - (measurements(i) - controls(i))) - gp_guider_control;
+        gp_guider_state = gp_guider_state + (measurements(i + 1) - (measurements(i) - controls(i))) - gp_guider_control;
         assert(fabs(gp_guider_state) < 100);
 
         gp_guider_states(i) = gp_guider_state;
     }
 
-    double gp_guider_rms = std::sqrt(gp_guider_states.pow(2).sum()/gp_guider_states.size());
-    double hysteresis_rms = std::sqrt(hysteresis_states.array().pow(2).sum()/hysteresis_states.size());
+    double gp_guider_rms = std::sqrt(gp_guider_states.pow(2).sum() / gp_guider_states.size());
+    double hysteresis_rms = std::sqrt(hysteresis_states.array().pow(2).sum() / hysteresis_states.size());
 
     return 1 - gp_guider_rms / hysteresis_rms;
 }

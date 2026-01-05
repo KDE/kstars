@@ -13,27 +13,27 @@ class FITSViewer;
 
 class debayerUI : public QDialog, public Ui::FITSDebayerDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit debayerUI(QDialog *parent = 0);
+    public:
+        explicit debayerUI(QDialog *parent = 0);
 };
 
 class FITSDebayer : public QDialog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit FITSDebayer(FITSViewer *parent);
+    public:
+        explicit FITSDebayer(FITSViewer *parent);
 
-    virtual ~FITSDebayer() override = default;
+        virtual ~FITSDebayer() override = default;
 
-    void setBayerParams(BayerParams *param);
+        void setBayerParams(BayerParams *param);
 
-  public slots:
-    void applyDebayer();
+    public slots:
+        void applyDebayer();
 
-  private:
-    FITSViewer *viewer { nullptr };
-    debayerUI *ui { nullptr };
+    private:
+        FITSViewer *viewer { nullptr };
+        debayerUI *ui { nullptr };
 };

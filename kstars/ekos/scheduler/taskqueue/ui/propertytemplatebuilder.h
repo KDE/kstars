@@ -139,7 +139,7 @@ class PropertyTemplateBuilderDialog : public QDialog
         bool saveTemplate(const QJsonObject &templateJson);
         QSharedPointer<ISD::GenericDevice> getDevice(const QString &deviceName) const;
         QJsonObject getDeviceFromProfile(const QString &deviceName) const;
-        
+
         // Edit mode
         void loadTemplateForEditing(TaskTemplate *tmpl);
 
@@ -220,7 +220,7 @@ class PropertyTemplateBuilderDialog : public QDialog
         bool m_isIndiMode = false; // true if using live INDI, false if using profile cache
         TaskTemplate *m_generatedTemplate = nullptr;
         QJsonObject m_deviceCacheData; // Cached device data for planning mode
-        
+
         // Edit mode state
         TaskTemplate *m_templateToEdit = nullptr;
         bool m_isEditMode = false;

@@ -224,12 +224,12 @@ bool MeridianFlipState::checkMeridianFlip(dms lst)
                 // signal that a flip can be done
                 qCInfo(KSTARS_EKOS_MOUNT) << "Meridian flip planned with LST=" <<
                                           lst.toHMSString() <<
-                                          " scope RA=" << currentPosition.position.ra().toHMSString() <<
-                                          " ha=" << ha <<
-                                          ", meridian diff=" << offset <<
-                                          ", hrstoFlip=" << hrsToFlip <<
-                                          ", flipDelayHrs=" << getFlipDelayHrs() <<
-                                          ", " << ISD::Mount::pierSideStateString(currentPosition.pierSide);
+                " scope RA=" << currentPosition.position.ra().toHMSString() <<
+                " ha=" << ha <<
+                ", meridian diff=" << offset <<
+                ", hrstoFlip=" << hrsToFlip <<
+                ", flipDelayHrs=" << getFlipDelayHrs() <<
+                ", " << ISD::Mount::pierSideStateString(currentPosition.pierSide);
 
                 initialPierSide = currentPosition.pierSide;
                 updateMFMountState(MOUNT_FLIP_PLANNED);
@@ -344,8 +344,8 @@ void MeridianFlipState::startMeridianFlip()
     // execute meridian flip
     qCInfo(KSTARS_EKOS_MOUNT) << "Meridian flip: slewing to RA=" <<
                               targetPosition.position.ra().toHMSString() <<
-                              "DEC=" << targetPosition.position.dec().toDMSString() <<
-                              " Hour Angle " << dms(HA).toHMSString();
+    "DEC=" << targetPosition.position.dec().toDMSString() <<
+    " Hour Angle " << dms(HA).toHMSString();
 
     updateMinMeridianFlipEndTime();
     updateMFMountState(MeridianFlipState::MOUNT_FLIP_RUNNING);

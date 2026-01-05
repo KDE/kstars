@@ -18,20 +18,20 @@ class Ecliptic;
  */
 class EclipticItem : public SkyItem
 {
-  public:
-    /**
-     * @short Constructor. Creates TrixelNodes for lines and LabelNodes for compass labels
-     * @param eclipticComp Ecliptic that needs to be represented in SkyMapLite
-     * @param rootNode parent RootNode that instantiated this object
-     */
-    EclipticItem(Ecliptic *eclipticComp, RootNode *rootNode);
+    public:
+        /**
+         * @short Constructor. Creates TrixelNodes for lines and LabelNodes for compass labels
+         * @param eclipticComp Ecliptic that needs to be represented in SkyMapLite
+         * @param rootNode parent RootNode that instantiated this object
+         */
+        EclipticItem(Ecliptic *eclipticComp, RootNode *rootNode);
 
-    /** @short updates positions of lines and compass labels */
-    virtual void update() override;
+        /** @short updates positions of lines and compass labels */
+        virtual void update() override;
 
-  private:
-    Ecliptic *m_eclipticComp { nullptr };
+    private:
+        Ecliptic *m_eclipticComp { nullptr };
 
-    //Holds compass labels each associated with SkyPoint that is coordinate of this label
-    QMap<SkyPoint *, LabelNode *> m_compassLabels;
+        //Holds compass labels each associated with SkyPoint that is coordinate of this label
+        QMap<SkyPoint *, LabelNode *> m_compassLabels;
 };

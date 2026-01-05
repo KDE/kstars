@@ -97,7 +97,7 @@ void KStarsLiteUiTests::openToolbars()
     while (!testFuture.isFinished())
     {
         QCoreApplication::instance()->processEvents();
-        usleep(20*1000);
+        usleep(20 * 1000);
     }
 }
 

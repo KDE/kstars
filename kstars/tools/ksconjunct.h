@@ -23,28 +23,37 @@ class SkyObject;
  */
 class KSConjunct : public ApproachSolver
 {
-Q_OBJECT
-public:
-    /** Constructor. Instantiates a KSNumbers for internal computations. */
-    KSConjunct();
+        Q_OBJECT
+    public:
+        /** Constructor. Instantiates a KSNumbers for internal computations. */
+        KSConjunct();
 
-    void setObject1(SkyObject_s &obj) { m_object1 = obj; }
-    void setObject2(KSPlanetBase_s &obj) { m_object2 = obj; }
-    void setOpposition(bool opposition) { m_opposition = opposition; }
+        void setObject1(SkyObject_s &obj)
+        {
+            m_object1 = obj;
+        }
+        void setObject2(KSPlanetBase_s &obj)
+        {
+            m_object2 = obj;
+        }
+        void setOpposition(bool opposition)
+        {
+            m_opposition = opposition;
+        }
 
-signals:
-    void madeProgress(int);
+    signals:
+        void madeProgress(int);
 
-protected:
-    double findInitialStep(long double startJD, long double stopJD) override;
-    void updatePositions(long double jd) override;
+    protected:
+        double findInitialStep(long double startJD, long double stopJD) override;
+        void updatePositions(long double jd) override;
 
-private:
-    dms findDistance() override;
+    private:
+        dms findDistance() override;
 
 
-    SkyObject_s m_object1;
-    KSPlanetBase_s m_object2;
-    bool m_opposition { false };
+        SkyObject_s m_object1;
+        KSPlanetBase_s m_object2;
+        bool m_opposition { false };
 };
 

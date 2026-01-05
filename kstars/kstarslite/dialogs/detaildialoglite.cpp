@@ -183,10 +183,10 @@ void DetailDialogLite::createGeneralTab()
                     setProperty(
                         "angSize",
                         (i18nc(
-                            "angular size in arcminutes", "%1 arcmin",
-                            QLocale().toString(
-                                ps->angSize(), 'f',
-                                1)))); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
+                             "angular size in arcminutes", "%1 arcmin",
+                             QLocale().toString(
+                                 ps->angSize(), 'f',
+                                 1)))); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
                 }
                 else
                 {
@@ -708,7 +708,7 @@ void DetailDialogLite::addLink(const QString &url, const QString &desc, bool isI
         if (!file.open(QIODevice::ReadWrite | QIODevice::Append))
         {
             QString message = i18n(
-                "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions.");
+                                  "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions.");
             qDebug() << message;
             return;
         }

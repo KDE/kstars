@@ -70,7 +70,8 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     connect(Obj1FindButton, SIGNAL(clicked()), this, SLOT(slotFindObject()));
 
     // Mode Change
-    connect(ModeSelector, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ConjunctionsTool::setMode);
+    connect(ModeSelector, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &ConjunctionsTool::setMode);
 
     //connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
     connect(ComputeButton, &QPushButton::clicked, [this]()
@@ -207,7 +208,8 @@ void ConjunctionsTool::slotExport()
     QByteArray line;
 
     //QFile file( KFileDialog::getSaveFileName( QDir::homePath(), "*|All files", this, "Save Conjunctions" ) );
-    QFile file(QFileDialog::getSaveFileName(nullptr, i18nc("@title:window", "Save Conjunctions"), QDir::homePath(), "*|All files"));
+    QFile file(QFileDialog::getSaveFileName(nullptr, i18nc("@title:window", "Save Conjunctions"), QDir::homePath(),
+                                            "*|All files"));
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
 
@@ -262,7 +264,8 @@ void ConjunctionsTool::slotCompute(void)
     // Check if Object1 and Object2 are set
     if (FilterTypeComboBox->currentIndex() == 0 && Object1 == nullptr)
     {
-        KSNotification::sorry(i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button."));
+        KSNotification::sorry(
+            i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button."));
         return;
     }
     Object2.reset(KSPlanetBase::createPlanet(Obj2ComboBox->currentIndex()));

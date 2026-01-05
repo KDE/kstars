@@ -7,7 +7,7 @@
 #include "eclipsehandler.h"
 
 EclipseEvent::EclipseEvent(long double jd, GeoLocation geoPlace, ECLIPSE_TYPE type) : QObject(),
-  m_type { type }, m_geoPlace { geoPlace }, m_jd { jd }
+    m_type { type }, m_geoPlace { geoPlace }, m_jd { jd }
 {
     qRegisterMetaType<EclipseEvent_s>("EclipseEvent_s");
 }

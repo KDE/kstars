@@ -10,10 +10,10 @@
 
 class eqPlotWidget : public KPlotWidget
 {
-    Q_OBJECT
-  public:
-    explicit eqPlotWidget(QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit eqPlotWidget(QWidget *parent = nullptr);
 
-  protected:
-    void paintEvent(QPaintEvent *) override;
+    protected:
+        void paintEvent(QPaintEvent *) override;
 };

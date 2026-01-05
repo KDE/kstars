@@ -37,7 +37,7 @@ RefocusState::RefocusReason RefocusState::checkFocusRequired()
     if (Options::enforceRefocusEveryN())
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus elapsed time (secs): " << getRefocusEveryNTimerElapsedSec() <<
-                                     ". Requested Interval (secs): " << Options::refocusEveryN() * 60;
+                                        ". Requested Interval (secs): " << Options::refocusEveryN() * 60;
 
         if (getRefocusEveryNTimerElapsedSec() >= Options::refocusEveryN() * 60)
         {
@@ -51,7 +51,7 @@ RefocusState::RefocusReason RefocusState::checkFocusRequired()
     if (!isRefocusing() && Options::enforceAutofocusOnTemperature())
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus temperature delta (°C): " << getFocusTemperatureDelta() <<
-                                     ". Requested maximum delta (°C): " << Options::maxFocusTemperatureDelta();
+                                        ". Requested maximum delta (°C): " << Options::maxFocusTemperatureDelta();
 
         if (getFocusTemperatureDelta() > Options::maxFocusTemperatureDelta())
         {

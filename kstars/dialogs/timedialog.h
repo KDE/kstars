@@ -36,42 +36,42 @@ class GeoLocation;
  */
 class TimeDialog : public QDialog
 {
-    Q_OBJECT
-  public:
-    /**
-     * Constructor. Creates widgets and packs them into QLayouts.
-     * Connects Signals and Slots.
-     */
-    TimeDialog(const KStarsDateTime &now, GeoLocation *_geo, QWidget *parent, bool UTCFrame = false);
+        Q_OBJECT
+    public:
+        /**
+         * Constructor. Creates widgets and packs them into QLayouts.
+         * Connects Signals and Slots.
+         */
+        TimeDialog(const KStarsDateTime &now, GeoLocation *_geo, QWidget *parent, bool UTCFrame = false);
 
-    ~TimeDialog() override = default;
+        ~TimeDialog() override = default;
 
-    /** @returns a QTime object with the selected time */
-    QTime selectedTime(void);
+        /** @returns a QTime object with the selected time */
+        QTime selectedTime(void);
 
-    /** @returns a QDate object with the selected date */
-    QDate selectedDate(void);
+        /** @returns a QDate object with the selected date */
+        QDate selectedDate(void);
 
-    /** @returns a KStarsDateTime object with the selected date and time */
-    KStarsDateTime selectedDateTime(void);
+        /** @returns a KStarsDateTime object with the selected date and time */
+        KStarsDateTime selectedDateTime(void);
 
-  public slots:
-    /**
-     * When the "Now" button is pressed, read the time and date from the system clock.
-     * Change the selected date in the KDatePicker to the system's date, and the displayed time
-     * to the system time.
-     */
-    void setNow(void);
+    public slots:
+        /**
+         * When the "Now" button is pressed, read the time and date from the system clock.
+         * Change the selected date in the KDatePicker to the system's date, and the displayed time
+         * to the system time.
+         */
+        void setNow(void);
 
-  protected:
-    void keyReleaseEvent(QKeyEvent *) override;
+    protected:
+        void keyReleaseEvent(QKeyEvent *) override;
 
-  private:
-    bool UTCNow;
-    QHBoxLayout *hlay { nullptr };
-    QVBoxLayout *vlay { nullptr };
-    KDatePicker *dPicker { nullptr };
-    QTimeEdit *tEdit { nullptr };
-    QPushButton *NowButton { nullptr };
-    GeoLocation *geo { nullptr };
+    private:
+        bool UTCNow;
+        QHBoxLayout *hlay { nullptr };
+        QVBoxLayout *vlay { nullptr };
+        KDatePicker *dPicker { nullptr };
+        QTimeEdit *tEdit { nullptr };
+        QPushButton *NowButton { nullptr };
+        GeoLocation *geo { nullptr };
 };

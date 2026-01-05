@@ -22,9 +22,9 @@ class DeepSkyObject;
 
 class FindDialogUI : public QFrame, public Ui::FindDialog
 {
-    Q_OBJECT
-  public:
-    explicit FindDialogUI(QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit FindDialogUI(QWidget *parent = nullptr);
 };
 
 /**
@@ -41,129 +41,135 @@ class FindDialogUI : public QFrame, public Ui::FindDialog
  */
 class FindDialog : public QDialog
 {
-    Q_OBJECT
-  public:
-    static FindDialog *Instance();
+        Q_OBJECT
+    public:
+        static FindDialog *Instance();
 
-    /**
-     * @return the target object (need not be the same as currently selected object!)
-     *
-     * @note Avoid using selectedObject()
-     */
-    inline SkyObject *targetObject() { return m_targetObject; }
+        /**
+         * @return the target object (need not be the same as currently selected object!)
+         *
+         * @note Avoid using selectedObject()
+         */
+        inline SkyObject *targetObject()
+        {
+            return m_targetObject;
+        }
 
 
-    /**
-     * @brief exec overrides base's QDialog::exec() to provide a parent widget.
-     * @param parent is the widget to position the FindDialog instance against.
-     * @return QDialog::exec() result.
-     */
-    int execWithParent(QWidget* parent = nullptr);
+        /**
+         * @brief exec overrides base's QDialog::exec() to provide a parent widget.
+         * @param parent is the widget to position the FindDialog instance against.
+         * @return QDialog::exec() result.
+         */
+        int execWithParent(QWidget* parent = nullptr);
 
-    /**
-     * @brief removes the Details... button from this exec.
-     * @return QDialog::exec() result.
-     */
-    int execWithoutDetails();
+        /**
+         * @brief removes the Details... button from this exec.
+         * @return QDialog::exec() result.
+         */
+        int execWithoutDetails();
 
-    // Backend methods
-    /**
-     * @short Do some post processing on the search text to interpret what the user meant
-     * This could include replacing text like "m93" with "m 93"
-     */
-    static QString processSearchText(QString searchText);
+        // Backend methods
+        /**
+         * @short Do some post processing on the search text to interpret what the user meant
+         * This could include replacing text like "m93" with "m 93"
+         */
+        static QString processSearchText(QString searchText);
 
-    // FIXME: Move this method to a better place, maybe into the NameResolver
-    /**
-     * @short Resolves an object using the internet and adds it to the database
-     * @note Can only be called when KStars is fully initialized
-     * @return a pointer to the DeepSkyObject (instance managed by internetResolvedComponent) if successful, nullptr otherwise
-     */
-    static CatalogObject *resolveAndAdd(CatalogsDB::DBManager &db_manager, const QString &query);
+        // FIXME: Move this method to a better place, maybe into the NameResolver
+        /**
+         * @short Resolves an object using the internet and adds it to the database
+         * @note Can only be called when KStars is fully initialized
+         * @return a pointer to the DeepSkyObject (instance managed by internetResolvedComponent) if successful, nullptr otherwise
+         */
+        static CatalogObject *resolveAndAdd(CatalogsDB::DBManager &db_manager, const QString &query);
 
-  public slots:
-    /**
-     * When Text is entered in the QLineEdit, filter the List of objects
-     * so that only objects which start with the filter text are shown.
-     */
-    void filterList();
+    public slots:
+        /**
+         * When Text is entered in the QLineEdit, filter the List of objects
+         * so that only objects which start with the filter text are shown.
+         */
+        void filterList();
 
-    // FIXME: Still valid for QDialog?  i.e., does QDialog have a slotOk() ?
-    /**
-     * Overloading the Standard QDialogBase slotOk() to show a "sorry"
-     * message box if no object is selected and internet resolution was
-     * disabled/failed when the user presses Ok.  The window is not
-     * closed in this case.
-     */
-    void slotOk();
+        // FIXME: Still valid for QDialog?  i.e., does QDialog have a slotOk() ?
+        /**
+         * Overloading the Standard QDialogBase slotOk() to show a "sorry"
+         * message box if no object is selected and internet resolution was
+         * disabled/failed when the user presses Ok.  The window is not
+         * closed in this case.
+         */
+        void slotOk();
 
-    /**
-     * @short This slot resolves the object on the internet, ignoring the selection on the list
-     */
-    void slotResolve();
+        /**
+         * @short This slot resolves the object on the internet, ignoring the selection on the list
+         */
+        void slotResolve();
 
-  private slots:
-    /** Init object list after opening dialog. */
-    void init();
+    private slots:
+        /** Init object list after opening dialog. */
+        void init();
 
-    /** Set the selected item to the first item in the list */
-    void initSelection();
+        /** Set the selected item to the first item in the list */
+        void initSelection();
 
-    void enqueueSearch();
+        void enqueueSearch();
 
-    void slotDetails();
+        void slotDetails();
 
-    /** Enable/disable the OK button, and set the default button */
-    void slotUpdateButtons();
+        /** Enable/disable the OK button, and set the default button */
+        void slotUpdateButtons();
 
-  protected:
-    /**
-     * Process Keystrokes.  The Up and Down arrow keys are used to select the
-     * Previous/Next item in the listbox of named objects.  The Esc key closes
-     * the window with no selection, using reject().
-     * @param e The QKeyEvent pointer
-     */
-    void keyPressEvent(QKeyEvent *e) override;
+    protected:
+        /**
+         * Process Keystrokes.  The Up and Down arrow keys are used to select the
+         * Previous/Next item in the listbox of named objects.  The Esc key closes
+         * the window with no selection, using reject().
+         * @param e The QKeyEvent pointer
+         */
+        void keyPressEvent(QKeyEvent *e) override;
 
-    void showEvent(QShowEvent *e) override;
+        void showEvent(QShowEvent *e) override;
 
-    /** @return the currently-selected item from the listbox of named objects */
-    SkyObject *selectedObject() const;
+        /** @return the currently-selected item from the listbox of named objects */
+        SkyObject *selectedObject() const;
 
-  private:
-    /**
-     * Constructor. Creates all widgets and packs them in QLayouts. Connects
-     * Signals and Slots. Runs initObjectList().
-     */
-    explicit FindDialog(QWidget *parent = nullptr);
+    private:
+        /**
+         * Constructor. Creates all widgets and packs them in QLayouts. Connects
+         * Signals and Slots. Runs initObjectList().
+         */
+        explicit FindDialog(QWidget *parent = nullptr);
 
-    static FindDialog *m_Instance;
+        static FindDialog *m_Instance;
 
-    /**
-     * @short processSearchText(QString) called on the text entered in the find dialog
-     */
-    inline QString processSearchText() { return processSearchText(ui->SearchBox->text()); }
+        /**
+         * @short processSearchText(QString) called on the text entered in the find dialog
+         */
+        inline QString processSearchText()
+        {
+            return processSearchText(ui->SearchBox->text());
+        }
 
-    /** @short Finishes the processing towards closing the dialog initiated by slotOk() or slotResolve() */
-    void finishProcessing(SkyObject *selObj = nullptr, bool resolve = true);
+        /** @short Finishes the processing towards closing the dialog initiated by slotOk() or slotResolve() */
+        void finishProcessing(SkyObject *selObj = nullptr, bool resolve = true);
 
-    /** @short pre-filter the list of objects according to the selected object type. */
-    void filterByType();
+        /** @short pre-filter the list of objects according to the selected object type. */
+        void filterByType();
 
-    FindDialogUI *ui { nullptr };
-    SkyObjectListModel *fModel { nullptr };
-    QSortFilterProxyModel *sortModel { nullptr };
-    QTimer *timer { nullptr };
-    bool listFiltered { false };
-    std::size_t m_currentSearchSequence { 0 };
-    QPushButton *okB { nullptr };
-    SkyObject *m_targetObject { nullptr };
-    QPushButton *m_DetailsB { nullptr };
+        FindDialogUI *ui { nullptr };
+        SkyObjectListModel *fModel { nullptr };
+        QSortFilterProxyModel *sortModel { nullptr };
+        QTimer *timer { nullptr };
+        bool listFiltered { false };
+        std::size_t m_currentSearchSequence { 0 };
+        QPushButton *okB { nullptr };
+        SkyObject *m_targetObject { nullptr };
+        QPushButton *m_DetailsB { nullptr };
 
-    // History
-    QComboBox *m_HistoryCombo { nullptr};
-    QList<SkyObject *> m_HistoryList;
+        // History
+        QComboBox *m_HistoryCombo { nullptr};
+        QList<SkyObject *> m_HistoryList;
 
-    // DSO Database
-    CatalogsDB::DBManager m_dbManager; // runs in this thread
+        // DSO Database
+        CatalogsDB::DBManager m_dbManager; // runs in this thread
 };

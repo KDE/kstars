@@ -26,27 +26,30 @@ class SkyPoint;
  */
 class PointListComponent : public SkyComponent
 {
-  public:
-    explicit PointListComponent(SkyComposite *parent);
+    public:
+        explicit PointListComponent(SkyComposite *parent);
 
-    virtual ~PointListComponent() override = default;
+        virtual ~PointListComponent() override = default;
 
-    /**
-     * @short Update the sky positions of this component.
-     *
-     * This function usually just updates the Horizontal (Azimuth/Altitude)
-     * coordinates of the objects in this component.  However, the precession
-     * and nutation must also be recomputed periodically.  Requests to do
-     * so are sent through the doPrecess parameter.
-     * @p num Pointer to the KSNumbers object
-     * @note By default, the num parameter is nullptr, indicating that
-     * Precession/Nutation computation should be skipped; this computation
-     * is only occasionally required.
-     */
-    void update(KSNumbers *num = nullptr) override;
+        /**
+         * @short Update the sky positions of this component.
+         *
+         * This function usually just updates the Horizontal (Azimuth/Altitude)
+         * coordinates of the objects in this component.  However, the precession
+         * and nutation must also be recomputed periodically.  Requests to do
+         * so are sent through the doPrecess parameter.
+         * @p num Pointer to the KSNumbers object
+         * @note By default, the num parameter is nullptr, indicating that
+         * Precession/Nutation computation should be skipped; this computation
+         * is only occasionally required.
+         */
+        void update(KSNumbers *num = nullptr) override;
 
-    QList<std::shared_ptr<SkyPoint>> &pointList() { return m_PointList; }
+        QList<std::shared_ptr<SkyPoint>> &pointList()
+        {
+            return m_PointList;
+        }
 
-  private:
-    QList<std::shared_ptr<SkyPoint>> m_PointList;
+    private:
+        QList<std::shared_ptr<SkyPoint>> m_PointList;
 };

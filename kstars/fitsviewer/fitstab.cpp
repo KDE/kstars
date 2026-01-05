@@ -918,15 +918,30 @@ void FITSTab::initLiveStacking()
     connect(m_LiveStackingUI.StackMultiCB1, &QToolButton::clicked, this, &FITSTab::toggleMultiC);
     connect(m_LiveStackingUI.StackMultiCB2, &QToolButton::clicked, this, &FITSTab::toggleMultiC);
     connect(m_LiveStackingUI.StackDirB, &QPushButton::clicked, this,
-            [this]() { selectLiveStack(m_LiveStackingUI.Stack, "Select Stack Directory"); });
+            [this]()
+    {
+        selectLiveStack(m_LiveStackingUI.Stack, "Select Stack Directory");
+    });
     connect(m_LiveStackingUI.RedDirB, &QPushButton::clicked, this,
-            [this]() { selectLiveStack(m_LiveStackingUI.Red, "Select Red Stack Directory"); });
+            [this]()
+    {
+        selectLiveStack(m_LiveStackingUI.Red, "Select Red Stack Directory");
+    });
     connect(m_LiveStackingUI.GreenDirB, &QPushButton::clicked, this,
-            [this]() { selectLiveStack(m_LiveStackingUI.Green, "Select Green Stack Directory"); });
+            [this]()
+    {
+        selectLiveStack(m_LiveStackingUI.Green, "Select Green Stack Directory");
+    });
     connect(m_LiveStackingUI.BlueDirB, &QPushButton::clicked, this,
-            [this]() { selectLiveStack(m_LiveStackingUI.Blue, "Select Blue Stack Directory"); });
+            [this]()
+    {
+        selectLiveStack(m_LiveStackingUI.Blue, "Select Blue Stack Directory");
+    });
     connect(m_LiveStackingUI.LumDirB, &QPushButton::clicked, this,
-            [this]() { selectLiveStack(m_LiveStackingUI.Lum, "Select Lum Stack Directory"); });
+            [this]()
+    {
+        selectLiveStack(m_LiveStackingUI.Lum, "Select Lum Stack Directory");
+    });
 
     connect(m_LiveStackingUI.Stack, &QLineEdit::textChanged, this, &FITSTab::stackDirChanged);
     connect(m_LiveStackingUI.Red, &QLineEdit::textChanged, this, &FITSTab::stackDirChanged);
@@ -950,31 +965,61 @@ void FITSTab::initLiveStacking()
 
     connect(m_LiveStackingUI.CalcSNR, &QGroupBox::toggled, this, &FITSTab::calcSNRChanged);
     connect(m_LiveStackingUI.MasterDarkB, &QPushButton::clicked, this,
-            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterDark, "Select Master Dark"); });
+            [this]()
+    {
+        selectLiveStackMaster(m_LiveStackingUI.MasterDark, "Select Master Dark");
+    });
     connect(m_LiveStackingUI.MasterDarkRedB, &QPushButton::clicked, this,
-            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterDarkRed, "Select Master Dark (Red)"); });
+            [this]()
+    {
+        selectLiveStackMaster(m_LiveStackingUI.MasterDarkRed, "Select Master Dark (Red)");
+    });
     connect(m_LiveStackingUI.MasterDarkGreenB, &QPushButton::clicked, this,
-            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterDarkGreen, "Select Master Dark (Green)"); });
+            [this]()
+    {
+        selectLiveStackMaster(m_LiveStackingUI.MasterDarkGreen, "Select Master Dark (Green)");
+    });
     connect(m_LiveStackingUI.MasterDarkBlueB, &QPushButton::clicked, this,
-            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterDarkBlue, "Select Master Dark (Blue)"); });
+            [this]()
+    {
+        selectLiveStackMaster(m_LiveStackingUI.MasterDarkBlue, "Select Master Dark (Blue)");
+    });
     connect(m_LiveStackingUI.MasterDarkLumB, &QPushButton::clicked, this,
-            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterDarkLum, "Select Master Dark (Lum)"); });
+            [this]()
+    {
+        selectLiveStackMaster(m_LiveStackingUI.MasterDarkLum, "Select Master Dark (Lum)");
+    });
 
     connect(m_LiveStackingUI.MasterFlatB, &QPushButton::clicked, this,
-            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterFlat, "Select Master Flat"); });
+            [this]()
+    {
+        selectLiveStackMaster(m_LiveStackingUI.MasterFlat, "Select Master Flat");
+    });
     connect(m_LiveStackingUI.MasterFlatRedB, &QPushButton::clicked, this,
-            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterFlatRed, "Select Master Flat (Red)"); });
+            [this]()
+    {
+        selectLiveStackMaster(m_LiveStackingUI.MasterFlatRed, "Select Master Flat (Red)");
+    });
     connect(m_LiveStackingUI.MasterFlatGreenB, &QPushButton::clicked, this,
-            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterFlatGreen, "Select Master Flat (Green)"); });
+            [this]()
+    {
+        selectLiveStackMaster(m_LiveStackingUI.MasterFlatGreen, "Select Master Flat (Green)");
+    });
     connect(m_LiveStackingUI.MasterFlatBlueB, &QPushButton::clicked, this,
-            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterFlatBlue, "Select Master Flat (Blue)"); });
+            [this]()
+    {
+        selectLiveStackMaster(m_LiveStackingUI.MasterFlatBlue, "Select Master Flat (Blue)");
+    });
     connect(m_LiveStackingUI.MasterFlatLumB, &QPushButton::clicked, this,
-            [this]() { selectLiveStackMaster(m_LiveStackingUI.MasterFlatLum, "Select Master Flat (Lum)"); });
+            [this]()
+    {
+        selectLiveStackMaster(m_LiveStackingUI.MasterFlatLum, "Select Master Flat (Lum)");
+    });
 
     connect(m_LiveStackingUI.AlignMasterB, &QPushButton::clicked, this, &FITSTab::selectLiveStackAlignSub);
     connect(m_LiveStackingUI.PostProcGroupBox, &QGroupBox::toggled, this, &FITSTab::redoPostProcessing);
     connect(m_LiveStackingUI.StackingMethod, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-                                        &FITSTab::stackMethodChanged);
+            &FITSTab::stackMethodChanged);
 
     // Other connections used by Live Stacking
     connect(m_View.get(), &FITSView::plateSolveSub, this, &FITSTab::plateSolveSub);
@@ -1108,44 +1153,76 @@ void FITSTab::stackMethodChanged(int index)
     switch (static_cast<LiveStackStackingMethod>(index))
     {
         case LiveStackStackingMethod::MEAN:
-            m_LiveStackingUI.LowSigma->hide(); m_LiveStackingUI.LowSigmaLabel->hide();
-            m_LiveStackingUI.HighSigma->hide(); m_LiveStackingUI.HighSigmaLabel->hide();
-            m_LiveStackingUI.WinsorCutoff->hide(); m_LiveStackingUI.WinsorCutoffLabel->hide();
-            m_LiveStackingUI.Iterations->hide(); m_LiveStackingUI.IterationsLabel->hide();
-            m_LiveStackingUI.Kappa->hide(); m_LiveStackingUI.KappaLabel->hide();
-            m_LiveStackingUI.Alpha->hide(); m_LiveStackingUI.AlphaLabel->hide();
-            m_LiveStackingUI.Sigma->hide(); m_LiveStackingUI.SigmaLabel->hide();
-            m_LiveStackingUI.PSFUpdate->hide(); m_LiveStackingUI.PSFUpdateLabel->hide();
+            m_LiveStackingUI.LowSigma->hide();
+            m_LiveStackingUI.LowSigmaLabel->hide();
+            m_LiveStackingUI.HighSigma->hide();
+            m_LiveStackingUI.HighSigmaLabel->hide();
+            m_LiveStackingUI.WinsorCutoff->hide();
+            m_LiveStackingUI.WinsorCutoffLabel->hide();
+            m_LiveStackingUI.Iterations->hide();
+            m_LiveStackingUI.IterationsLabel->hide();
+            m_LiveStackingUI.Kappa->hide();
+            m_LiveStackingUI.KappaLabel->hide();
+            m_LiveStackingUI.Alpha->hide();
+            m_LiveStackingUI.AlphaLabel->hide();
+            m_LiveStackingUI.Sigma->hide();
+            m_LiveStackingUI.SigmaLabel->hide();
+            m_LiveStackingUI.PSFUpdate->hide();
+            m_LiveStackingUI.PSFUpdateLabel->hide();
             break;
         case LiveStackStackingMethod::SIGMA:
-            m_LiveStackingUI.LowSigma->show(); m_LiveStackingUI.LowSigmaLabel->show();
-            m_LiveStackingUI.HighSigma->show(); m_LiveStackingUI.HighSigmaLabel->show();
-            m_LiveStackingUI.WinsorCutoff->hide(); m_LiveStackingUI.WinsorCutoffLabel->hide();
-            m_LiveStackingUI.Iterations->hide(); m_LiveStackingUI.IterationsLabel->hide();
-            m_LiveStackingUI.Kappa->hide(); m_LiveStackingUI.KappaLabel->hide();
-            m_LiveStackingUI.Alpha->hide(); m_LiveStackingUI.AlphaLabel->hide();
-            m_LiveStackingUI.Sigma->hide(); m_LiveStackingUI.SigmaLabel->hide();
-            m_LiveStackingUI.PSFUpdate->hide(); m_LiveStackingUI.PSFUpdateLabel->hide();
+            m_LiveStackingUI.LowSigma->show();
+            m_LiveStackingUI.LowSigmaLabel->show();
+            m_LiveStackingUI.HighSigma->show();
+            m_LiveStackingUI.HighSigmaLabel->show();
+            m_LiveStackingUI.WinsorCutoff->hide();
+            m_LiveStackingUI.WinsorCutoffLabel->hide();
+            m_LiveStackingUI.Iterations->hide();
+            m_LiveStackingUI.IterationsLabel->hide();
+            m_LiveStackingUI.Kappa->hide();
+            m_LiveStackingUI.KappaLabel->hide();
+            m_LiveStackingUI.Alpha->hide();
+            m_LiveStackingUI.AlphaLabel->hide();
+            m_LiveStackingUI.Sigma->hide();
+            m_LiveStackingUI.SigmaLabel->hide();
+            m_LiveStackingUI.PSFUpdate->hide();
+            m_LiveStackingUI.PSFUpdateLabel->hide();
             break;
         case LiveStackStackingMethod::WINDSOR:
-            m_LiveStackingUI.LowSigma->show(); m_LiveStackingUI.LowSigmaLabel->show();
-            m_LiveStackingUI.HighSigma->show(); m_LiveStackingUI.HighSigmaLabel->show();
-            m_LiveStackingUI.WinsorCutoff->show(); m_LiveStackingUI.WinsorCutoffLabel->show();
-            m_LiveStackingUI.Iterations->hide(); m_LiveStackingUI.IterationsLabel->hide();
-            m_LiveStackingUI.Kappa->hide(); m_LiveStackingUI.KappaLabel->hide();
-            m_LiveStackingUI.Alpha->hide(); m_LiveStackingUI.AlphaLabel->hide();
-            m_LiveStackingUI.Sigma->hide(); m_LiveStackingUI.SigmaLabel->hide();
-            m_LiveStackingUI.PSFUpdate->hide(); m_LiveStackingUI.PSFUpdateLabel->hide();
+            m_LiveStackingUI.LowSigma->show();
+            m_LiveStackingUI.LowSigmaLabel->show();
+            m_LiveStackingUI.HighSigma->show();
+            m_LiveStackingUI.HighSigmaLabel->show();
+            m_LiveStackingUI.WinsorCutoff->show();
+            m_LiveStackingUI.WinsorCutoffLabel->show();
+            m_LiveStackingUI.Iterations->hide();
+            m_LiveStackingUI.IterationsLabel->hide();
+            m_LiveStackingUI.Kappa->hide();
+            m_LiveStackingUI.KappaLabel->hide();
+            m_LiveStackingUI.Alpha->hide();
+            m_LiveStackingUI.AlphaLabel->hide();
+            m_LiveStackingUI.Sigma->hide();
+            m_LiveStackingUI.SigmaLabel->hide();
+            m_LiveStackingUI.PSFUpdate->hide();
+            m_LiveStackingUI.PSFUpdateLabel->hide();
             break;
         case LiveStackStackingMethod::IMAGEMM:
-            m_LiveStackingUI.LowSigma->hide(); m_LiveStackingUI.LowSigmaLabel->hide();
-            m_LiveStackingUI.HighSigma->hide(); m_LiveStackingUI.HighSigmaLabel->hide();
-            m_LiveStackingUI.WinsorCutoff->hide(); m_LiveStackingUI.WinsorCutoffLabel->hide();
-            m_LiveStackingUI.Iterations->show(); m_LiveStackingUI.IterationsLabel->show();
-            m_LiveStackingUI.Kappa->show(); m_LiveStackingUI.KappaLabel->show();
-            m_LiveStackingUI.Alpha->show(); m_LiveStackingUI.AlphaLabel->show();
-            m_LiveStackingUI.Sigma->show(); m_LiveStackingUI.SigmaLabel->show();
-            m_LiveStackingUI.PSFUpdate->show(); m_LiveStackingUI.PSFUpdateLabel->show();
+            m_LiveStackingUI.LowSigma->hide();
+            m_LiveStackingUI.LowSigmaLabel->hide();
+            m_LiveStackingUI.HighSigma->hide();
+            m_LiveStackingUI.HighSigmaLabel->hide();
+            m_LiveStackingUI.WinsorCutoff->hide();
+            m_LiveStackingUI.WinsorCutoffLabel->hide();
+            m_LiveStackingUI.Iterations->show();
+            m_LiveStackingUI.IterationsLabel->show();
+            m_LiveStackingUI.Kappa->show();
+            m_LiveStackingUI.KappaLabel->show();
+            m_LiveStackingUI.Alpha->show();
+            m_LiveStackingUI.AlphaLabel->show();
+            m_LiveStackingUI.Sigma->show();
+            m_LiveStackingUI.SigmaLabel->show();
+            m_LiveStackingUI.PSFUpdate->show();
+            m_LiveStackingUI.PSFUpdateLabel->show();
             break;
         default:
             break;
@@ -1591,33 +1668,33 @@ void FITSTab::liveStack()
         m_View->loadStack(m_liveStackDir, lsd);
 
         qCInfo(KSTARS_FITS).nospace()
-            << "Starting Live Stacker (" << (m_StackMultiC ? "Multi" : "Single") << " channel) on "
-            << " | Dir(s): " << m_liveStackDir.join(", ")
-            << " | Calc SNR: " << (lsd.calcSNR ? "On" : "Off")
-            << " | AlignMaster: " << (lsd.alignMaster.isEmpty() ? "None" : lsd.alignMaster)
-            << " | AlignMethod: " << LiveStackAlignMethodNames.value(lsd.alignMethod)
-            << " | MasterDark(s): " << (lsd.masterDark.isEmpty() ? "None" :
-                                                                QStringList::fromVector(lsd.masterDark).join(", "))
-            << " | MasterFlat(s): " << (lsd.masterFlat.isEmpty() ? "None" :
-                                                                QStringList::fromVector(lsd.masterFlat).join(", "))
-            << " | Downscale: " << LiveStackDownscaleNames.value(lsd.downscale)
-            << " | Weighting: " << LiveStackFrameWeightingNames.value(lsd.weighting)
-            << " | StackMethod: " << LiveStackStackingMethodNames.value(lsd.stackingMethod)
-            << " | Sigma(low/high): " << lsd.lowSigma << "/" << lsd.highSigma
-            << " | WindsorCutoff: " << lsd.windsorCutoff
-            << " | Iterations: " << lsd.iterations
-            << " | Kappa: " << lsd.kappa
-            << " | Alpha: " << lsd.alpha
-            << " | Sigma: " << lsd.sigma
-            << " | PSF Update: " << lsd.PSFUpdate
-            << " | NumInMem: " << lsd.numInMem
-            << " | PostProc: " << (lsd.postProcessing.postProcess ? "On" : "Off")
-            << " [Deconv=" << lsd.postProcessing.deconvAmt
-            << ", PSFSigma=" << lsd.postProcessing.PSFSigma
-            << ", Denoise=" << lsd.postProcessing.denoiseAmt
-            << ", Sharpen=" << lsd.postProcessing.sharpenAmt
-            << ", Kernel=" << lsd.postProcessing.sharpenKernal
-            << ", Sigma=" << lsd.postProcessing.sharpenSigma << "]";
+                << "Starting Live Stacker (" << (m_StackMultiC ? "Multi" : "Single") << " channel) on "
+                << " | Dir(s): " << m_liveStackDir.join(", ")
+                << " | Calc SNR: " << (lsd.calcSNR ? "On" : "Off")
+                << " | AlignMaster: " << (lsd.alignMaster.isEmpty() ? "None" : lsd.alignMaster)
+                << " | AlignMethod: " << LiveStackAlignMethodNames.value(lsd.alignMethod)
+                << " | MasterDark(s): " << (lsd.masterDark.isEmpty() ? "None" :
+                                            QStringList::fromVector(lsd.masterDark).join(", "))
+                << " | MasterFlat(s): " << (lsd.masterFlat.isEmpty() ? "None" :
+                                            QStringList::fromVector(lsd.masterFlat).join(", "))
+                << " | Downscale: " << LiveStackDownscaleNames.value(lsd.downscale)
+                << " | Weighting: " << LiveStackFrameWeightingNames.value(lsd.weighting)
+                << " | StackMethod: " << LiveStackStackingMethodNames.value(lsd.stackingMethod)
+                << " | Sigma(low/high): " << lsd.lowSigma << "/" << lsd.highSigma
+                << " | WindsorCutoff: " << lsd.windsorCutoff
+                << " | Iterations: " << lsd.iterations
+                << " | Kappa: " << lsd.kappa
+                << " | Alpha: " << lsd.alpha
+                << " | Sigma: " << lsd.sigma
+                << " | PSF Update: " << lsd.PSFUpdate
+                << " | NumInMem: " << lsd.numInMem
+                << " | PostProc: " << (lsd.postProcessing.postProcess ? "On" : "Off")
+                << " [Deconv=" << lsd.postProcessing.deconvAmt
+                << ", PSFSigma=" << lsd.postProcessing.PSFSigma
+                << ", Denoise=" << lsd.postProcessing.denoiseAmt
+                << ", Sharpen=" << lsd.postProcessing.sharpenAmt
+                << ", Kernel=" << lsd.postProcessing.sharpenKernal
+                << ", Sigma=" << lsd.postProcessing.sharpenSigma << "]";
     }
     else if (text == TEXT_STOP.toString())
     {

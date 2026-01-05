@@ -351,7 +351,7 @@ QString Calibration::serialize() const
     QString decStr = std::isnan(calibrationDEC.Degrees()) ? "" : calibrationDEC.toHMSString(true, true);
     QString s =
         QString("%16,bx=%1,by=%2,pw=%3,ph=%4,fl=%5,ang=%6,angR=%7,angD=%8,"
-                "ramspas=%9,decmspas=%10,swap=%11,ra=%12,dec=%13,side=%14,when=%15,calEnd")
+            "ramspas=%9,decmspas=%10,swap=%11,ra=%12,dec=%13,side=%14,when=%15,calEnd")
         .arg(subBinX).arg(subBinY).arg(ccd_pixel_width).arg(ccd_pixel_height)
         .arg(focalMm).arg(calibrationAngle).arg(calibrationAngleRA)
         .arg(calibrationAngleDEC).arg(raPulseMsPerArcsecond)

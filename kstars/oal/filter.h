@@ -37,7 +37,8 @@ struct filterProperties
                      QString _focusDatetime = "", double _focusTicksPerTemp = 0.0, double _focusTicksPerAlt = 0.0, double _wavelength = 500.0) :
         vendor(_vendor), model(_model), type(_type), color(_color),
         offset(_offset), exposure(_exposure), useAutoFocus(_useAutoFocus), lockedFilter(_lockedFilter),
-          absFocusPos(_absFocusPos), focusTemperature(_focusTemperature), focusAltitude(_focusAltitude), focusDatetime(_focusDatetime),
+        absFocusPos(_absFocusPos), focusTemperature(_focusTemperature), focusAltitude(_focusAltitude),
+        focusDatetime(_focusDatetime),
         focusTicksPerTemp(_focusTicksPerTemp), focusTicksPerAlt(_focusTicksPerAlt), wavelength(_wavelength) {}
 };
 

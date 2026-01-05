@@ -153,6 +153,24 @@ KStars uses [Artistic Style](http://astyle.sourceforge.net) to format all the C+
 --lineend=linux
 --max-code-length=124
 ```
+This repository also includes a matching `./.astylerc` and a helper script `tools/run_astyle.sh` you can run from the repo root.
+The pinned formatter version is stored in `./.astyle-version`.
+
+`tools/run_astyle.sh` uses `uvx` by default (to run the pinned `astyle` version). If `uvx` is not available, it falls back to `astyle` found in `PATH`.
+If the available `astyle` version does not match `./.astyle-version`, it exits with an error.
+
+Examples:
+
+```sh
+# Format sources (changed files: pass paths, otherwise formats all tracked sources)
+bash tools/run_astyle.sh
+
+# Fail CI/local checks if formatting would change files
+bash tools/run_astyle.sh --check
+
+# Format only files changed since a ref/sha (e.g. for merge requests)
+bash tools/run_astyle.sh --changed-since origin/master
+```
 Some IDEs (e.g. QtCreator) support automatic formatting for the code every time you save the file to disk.
 
 ### Making Updates to the Manual

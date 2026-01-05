@@ -19,7 +19,8 @@ namespace INDI
 {
 namespace WebManager
 {
-bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUrl &url, QJsonDocument *reply, QByteArray *data = nullptr);
+bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUrl &url, QJsonDocument *reply,
+                           QByteArray *data = nullptr);
 bool isOnline(const QSharedPointer<ProfileInfo> &pi);
 bool checkVersion(const QSharedPointer<ProfileInfo> &pi);
 bool syncCustomDrivers(const QSharedPointer<ProfileInfo> &pi);

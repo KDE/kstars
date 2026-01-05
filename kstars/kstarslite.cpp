@@ -96,25 +96,29 @@ KStarsLite::KStarsLite(bool doSplash, bool startClock, const QString &startDateS
     m_RootObject = m_Engine.rootObjects()[0];
     m_clientManager->setIndiControlPage(*m_RootObject->findChild<QObject*>("indiControlPanel"));
     connect(m_clientManager, &ClientManagerLite::telescopeConnected,
-            [=](TelescopeLite *telescope) {
-                m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("telescope", true);
-                connect(telescope, &TelescopeLite::slewRateUpdate,
-                        [=](int index, int count) {
-                            m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("slewCount", count);
-                            m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("sliderValue", index);
-                        } );
-            } );
+            [ = ](TelescopeLite * telescope)
+    {
+        m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("telescope", true);
+        connect(telescope, &TelescopeLite::slewRateUpdate,
+                [ = ](int index, int count)
+        {
+            m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("slewCount", count);
+            m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("sliderValue", index);
+        } );
+    } );
     connect(m_clientManager, &ClientManagerLite::telescopeDisconnected,
-            [=]() {
-                m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("telescope", false);
-            } );
+            [ = ]()
+    {
+        m_RootObject->findChild<QObject*>("bottomMenu")->setProperty("telescope", false);
+    } );
 
     // Set the About information
     QObject *aboutDialog = m_RootObject->findChild<QObject*>("aboutDialog");
 
     aboutDialog->setProperty("versionText", i18n("Version: %1", QStringLiteral(KSTARS_VERSION)));
     aboutDialog->setProperty("buildText", i18n("Build: %1", QStringLiteral(KSTARS_BUILD_TS)));
-    aboutDialog->setProperty("teamText", QString("2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team")));
+    aboutDialog->setProperty("teamText", QString("2001-" + QString::number(QDate::currentDate().year()) +
+                             i18n("(c), The KStars Team")));
     aboutDialog->setProperty("licenseText", i18n("License: GPLv2"));
 
     QQuickItem *skyMapLiteWrapper = m_RootObject->findChild<QQuickItem *>("skyMapLiteWrapper");

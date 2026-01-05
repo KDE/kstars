@@ -18,7 +18,7 @@ namespace Ekos
 {
 
 AberrationInspector::AberrationInspector(const abInsData &data, const QVector<int> &positions,
-        const QVector<QVector<double>> &measures, const QVector<QVector<double>> &weights,
+        const QVector<QVector<double>> &measures, const QVector<QVector<double >> &weights,
         const QVector<QVector<int>> &numStars, const QVector<QPoint> &tileCenterOffsets) :
     m_data(data), m_positions(positions), m_measures(measures), m_weights(weights),
     m_numStars(numStars), m_tileOffsets(tileCenterOffsets)
@@ -106,7 +106,7 @@ void AberrationInspector::setupGUI()
 
     // Prevent editing of table widget (except the exclude checkboxes) unless in production support mode
     QAbstractItemView::EditTrigger editTrigger = ABINS_DEBUG ? QAbstractItemView::DoubleClicked :
-            QAbstractItemView::NoEditTriggers;
+        QAbstractItemView::NoEditTriggers;
     abInsTable->setEditTriggers(editTrigger);
 
     // Connect up table widget events: cellEntered when mouse moves over a cell
@@ -247,16 +247,16 @@ void AberrationInspector::setExcludeTile(int row, bool checked, TileSelection ti
 void AberrationInspector::connectSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::AberrationInspector::syncSettings);
 
     // All Checkboxes, except Sim mode checkbox - this should be defaulted to off when Aberratio Inspector starts
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         if (oneWidget != abInsSimMode)
             connect(oneWidget, &QCheckBox::toggled, this, &Ekos::AberrationInspector::syncSettings);
 
     // All Splitters
-    for (auto &oneWidget : findChildren<QSplitter*>())
+    for (auto &oneWidget : findChildren<QSplitter * >())
         connect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::AberrationInspector::syncSettings);
 }
 
@@ -266,7 +266,7 @@ void AberrationInspector::loadSettings()
     QVariant value;
 
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -277,7 +277,7 @@ void AberrationInspector::loadSettings()
     }
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
     {
         key = oneWidget->objectName();
         if (key == abInsSimMode->objectName() || key == "")
@@ -293,7 +293,7 @@ void AberrationInspector::loadSettings()
     }
 
     // All Splitters
-    for (auto &oneWidget : findChildren<QSplitter*>())
+    for (auto &oneWidget : findChildren<QSplitter * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -317,17 +317,17 @@ void AberrationInspector::syncSettings()
     QString key;
     QVariant value;
 
-    if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    if ( (cbox = qobject_cast<QComboBox * >(sender())))
     {
         key = cbox->objectName();
         value = cbox->currentText();
     }
-    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    else if ( (cb = qobject_cast<QCheckBox * >(sender())))
     {
         key = cb->objectName();
         value = cb->isChecked();
     }
-    else if ( (s = qobject_cast<QSplitter*>(sender())))
+    else if ( (s = qobject_cast<QSplitter * >(sender())))
     {
         key = s->objectName();
         // Convert from the QByteArray to QString using Base64

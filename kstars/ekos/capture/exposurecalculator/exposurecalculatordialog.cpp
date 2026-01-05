@@ -478,7 +478,7 @@ void ExposureCalculatorDialog::applyInitialInputs()
 
     // QString aSelectedImagingCameraName = ui->imagingCameraSelector->itemText(ui->imagingCameraSelector->currentIndex());
     QString aSelectedImagingCameraFileName = ui->imagingCameraSelector->itemData(
-                ui->imagingCameraSelector->currentIndex()).toString();
+            ui->imagingCameraSelector->currentIndex()).toString();
 
 
     // qCInfo(KSTARS_EKOS_CAPTURE) << ui->cameraReadModeSelector->currentData();
@@ -759,7 +759,7 @@ void ExposureCalculatorDialog::initializeSubExposureCalculator(double aNoiseTole
     }
 
     anOptimalSubExposureCalculator = new OptimalExposure::OptimalSubExposureCalculator(aNoiseTolerance, aSkyQualityValue,
-            aFocalRatioValue, aFilterCompensationValue, *anImagingCameraData);
+        aFocalRatioValue, aFilterCompensationValue, *anImagingCameraData);
 
     // qCInfo(KSTARS_EKOS_CAPTURE) << "Calculating... ";
     // qCInfo(KSTARS_EKOS_CAPTURE) << "A Noise Tolerance " << anOptimalSubExposureCalculator->getANoiseTolerance();

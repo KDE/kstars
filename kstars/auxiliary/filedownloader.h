@@ -22,62 +22,68 @@ class QProgressDialog;
 
 class FileDownloader : public QObject
 {
-    Q_OBJECT
-  public:
-    explicit FileDownloader(QObject *parent = nullptr);
-    ~FileDownloader() override = default;
+        Q_OBJECT
+    public:
+        explicit FileDownloader(QObject *parent = nullptr);
+        ~FileDownloader() override = default;
 
-    void get(const QUrl &fileUrl);
-    void post(const QUrl &fileUrl, QByteArray &data);
-    void post(const QUrl &fileUrl, QHttpMultiPart *parts);
+        void get(const QUrl &fileUrl);
+        void post(const QUrl &fileUrl, QByteArray &data);
+        void post(const QUrl &fileUrl, QHttpMultiPart *parts);
 
-    QByteArray downloadedData() const;
+        QByteArray downloadedData() const;
 
-    QUrl getDownloadedFileURL() const;
-    bool setDownloadedFileURL(const QUrl &DownloadedFile);
+        QUrl getDownloadedFileURL() const;
+        bool setDownloadedFileURL(const QUrl &DownloadedFile);
 
-    void setProgressDialogEnabled(bool ShowProgressDialog, const QString &textTitle = QString(),
-                                  const QString &textLabel = QString());
+        void setProgressDialogEnabled(bool ShowProgressDialog, const QString &textTitle = QString(),
+                                      const QString &textLabel = QString());
 
-    // Callbacks to verify data before being accepted
-    void registerDataVerification(std::function<bool(const QByteArray &data)> verifyFunc) { m_verifyData = verifyFunc; }
-    void registerFileVerification(std::function<bool(const QString &filename)> verifyFile){ m_verifyFile = verifyFile; }
+        // Callbacks to verify data before being accepted
+        void registerDataVerification(std::function<bool(const QByteArray &data)> verifyFunc)
+        {
+            m_verifyData = verifyFunc;
+        }
+        void registerFileVerification(std::function<bool(const QString &filename)> verifyFile)
+        {
+            m_verifyFile = verifyFile;
+        }
 
-  signals:
-    void downloaded();
-    void canceled();
-    void error(const QString &errorString);
-    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    signals:
+        void downloaded();
+        void canceled();
+        void error(const QString &errorString);
+        void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
-  private slots:
-    void dataFinished(QNetworkReply *pReply);
-    void dataReady();
-    void slotError();
-    void setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    private slots:
+        void dataFinished(QNetworkReply *pReply);
+        void dataReady();
+        void slotError();
+        void setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
-  private:
-    QNetworkAccessManager m_WebCtrl;
-    QByteArray m_DownloadedData;
+    private:
+        QNetworkAccessManager m_WebCtrl;
+        QByteArray m_DownloadedData;
 
-    // Downloaded file
-    QUrl m_DownloadedFileURL;
+        // Downloaded file
+        QUrl m_DownloadedFileURL;
 
-    // Temporary file used until download is successful
-    QTemporaryFile m_downloadTemporaryFile;
+        // Temporary file used until download is successful
+        QTemporaryFile m_downloadTemporaryFile;
 
-    // Network reply
-    QNetworkReply *m_Reply { nullptr };
+        // Network reply
+        QNetworkReply *m_Reply { nullptr };
 
-    // Optional Progress dialog
-    bool m_ShowProgressDialog { false };
+        // Optional Progress dialog
+        bool m_ShowProgressDialog { false };
 
 #ifndef KSTARS_LITE
-    QProgressDialog *progressDialog { nullptr };
+        QProgressDialog *progressDialog { nullptr };
 #endif
-    bool isCancelled { false };
-    QString label;
-    QString title;
+        bool isCancelled { false };
+        QString label;
+        QString title;
 
-    std::function<bool(const QByteArray &data)> m_verifyData;
-    std::function<bool(const QString &filename)> m_verifyFile;
+        std::function<bool(const QByteArray &data)> m_verifyData;
+        std::function<bool(const QString &filename)> m_verifyFile;
 };

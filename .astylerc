@@ -1,0 +1,9 @@
+--style=allman
+--align-reference=name
+--indent-switches
+--indent-modifiers
+--indent-classes
+--pad-oper
+--indent-col1-comments
+--lineend=linux
+--max-code-length=124

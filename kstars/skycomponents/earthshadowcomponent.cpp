@@ -26,7 +26,8 @@ void EarthShadowComponent::update(KSNumbers *)
 void EarthShadowComponent::updateSolarSystemBodies(KSNumbers *num)
 {
     // don't bother if the moon is not in position
-    if(!m_shadow->shouldUpdate()) { // TODO: There must be sth. more efficient
+    if(!m_shadow->shouldUpdate())   // TODO: There must be sth. more efficient
+    {
         m_up_to_date = false;
         return;
     }

@@ -41,7 +41,8 @@ FlagComponent::FlagComponent(SkyComposite *parent) : PointListComponent(parent)
         QString path = appDir.absoluteFilePath(item);
         m_Images.append(QImage(path));
 
-        QString fileName = item.replace(QRegularExpression("\\.[^.]*$"), QString()).replace(QRegularExpression("^flag"), QString()).replace('_', ' ');
+        QString fileName = item.replace(QRegularExpression("\\.[^.]*$"), QString()).replace(QRegularExpression("^flag"),
+                           QString()).replace('_', ' ');
 
         m_Names.append(fileName);
     }
@@ -141,8 +142,8 @@ void FlagComponent::saveToFile()
     for (int i = 0; i < size(); ++i)
     {
         KStarsData::Instance()->userdb()->AddFlag(QString::number(epochCoords(i).first),
-                QString::number(epochCoords(i).second), epoch(i),
-                imageName(i).replace(' ', '_'), label(i), labelColor(i).name());
+            QString::number(epochCoords(i).second), epoch(i),
+            imageName(i).replace(' ', '_'), label(i), labelColor(i).name());
     }
 }
 

@@ -1681,7 +1681,7 @@ void DarkLibrary::loadGlobalSettings()
 
     QVariantMap settings;
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
     {
         if (oneWidget->objectName() == "opticalTrainCombo")
             continue;
@@ -1696,7 +1696,7 @@ void DarkLibrary::loadGlobalSettings()
     }
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -1708,7 +1708,7 @@ void DarkLibrary::loadGlobalSettings()
     }
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -1720,7 +1720,7 @@ void DarkLibrary::loadGlobalSettings()
     }
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -1741,23 +1741,23 @@ void DarkLibrary::loadGlobalSettings()
 void DarkLibrary::connectSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::DarkLibrary::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         connect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::DarkLibrary::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         connect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::DarkLibrary::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::DarkLibrary::syncSettings);
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         connect(oneWidget, &QRadioButton::toggled, this, &Ekos::DarkLibrary::syncSettings);
 
     // Train combo box should NOT be synced.
@@ -1770,23 +1770,23 @@ void DarkLibrary::connectSettings()
 void DarkLibrary::disconnectSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::DarkLibrary::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         disconnect(oneWidget, &QDoubleSpinBox::editingFinished, this, &Ekos::DarkLibrary::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         disconnect(oneWidget, &QSpinBox::editingFinished, this, &Ekos::DarkLibrary::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::DarkLibrary::syncSettings);
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::DarkLibrary::syncSettings);
 
 }
@@ -1799,19 +1799,19 @@ QVariantMap DarkLibrary::getAllSettings() const
     QVariantMap settings;
 
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->currentText());
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     return settings;
@@ -1966,28 +1966,28 @@ void DarkLibrary::syncSettings()
     QString key;
     QVariant value;
 
-    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    if ( (dsb = qobject_cast<QDoubleSpinBox * >(sender())))
     {
         key = dsb->objectName();
         value = dsb->value();
 
     }
-    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    else if ( (sb = qobject_cast<QSpinBox * >(sender())))
     {
         key = sb->objectName();
         value = sb->value();
     }
-    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    else if ( (cb = qobject_cast<QCheckBox * >(sender())))
     {
         key = cb->objectName();
         value = cb->isChecked();
     }
-    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    else if ( (cbox = qobject_cast<QComboBox * >(sender())))
     {
         key = cbox->objectName();
         value = cbox->currentText();
     }
-    else if ( (cradio = qobject_cast<QRadioButton*>(sender())))
+    else if ( (cradio = qobject_cast<QRadioButton * >(sender())))
     {
         key = cradio->objectName();
         // Discard false requests

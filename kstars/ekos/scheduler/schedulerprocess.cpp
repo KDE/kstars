@@ -4006,15 +4006,15 @@ bool SchedulerProcess::isMountParked()
         // Deduce state of mount - see getParkingStatus in mount.cpp
         switch (static_cast<ISD::ParkStatus>(parkingStatus.toInt()))
         {
-            //            case Mount::PARKING_OK:     // INDI switch ok, and parked
-            //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
+                //            case Mount::PARKING_OK:     // INDI switch ok, and parked
+                //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
             case ISD::PARK_PARKED:
                 return true;
 
-            //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
-            //            case Mount::PARKING_ERROR:  // INDI switch error
-            //            case Mount::PARKING_BUSY:   // INDI switch busy
-            //            case Mount::UNPARKING_BUSY: // INDI switch busy
+                //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
+                //            case Mount::PARKING_ERROR:  // INDI switch error
+                //            case Mount::PARKING_BUSY:   // INDI switch busy
+                //            case Mount::UNPARKING_BUSY: // INDI switch busy
             default:
                 return false;
         }

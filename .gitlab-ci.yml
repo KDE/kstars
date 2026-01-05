@@ -57,19 +57,23 @@ astyle-check:
   rules:
     - !reference [.standard-build-recipes, rules]
   script:
-    - apt-get update && apt-get install -y --no-install-recommends astyle git
-    - git ls-files -z '*.c' '*.cc' '*.cpp' '*.cxx' '*.h' '*.hh' '*.hpp' '*.hxx' | xargs -0r astyle
-      --style=allman
-      --align-reference=name
-      --indent-switches
-      --indent-modifiers
-      --indent-classes
-      --pad-oper
-      --indent-col1-comments
-      --lineend=linux
-      --max-code-length=124
-      --suffix=none
-    - git diff --exit-code
+    - apt-get update && apt-get install -y --no-install-recommends git python3-pip
+    - |
+      ASTYLE_VERSION="$(cat .astyle-version)"
+      python3 -m pip install --break-system-packages "astyle==${ASTYLE_VERSION}"
+      astyle --version
+      astyle --version | grep -q "Version ${ASTYLE_VERSION}" || {
+        echo "ERROR: CI astyle version mismatch (expected ${ASTYLE_VERSION})." >&2
+        exit 1
+      }
+    - |
+      if [ -n "${CI_MERGE_REQUEST_DIFF_BASE_SHA:-}" ]; then
+        bash tools/run_astyle.sh --check --changed-since "${CI_MERGE_REQUEST_DIFF_BASE_SHA}"
+      elif [ -n "${CI_COMMIT_BEFORE_SHA:-}" ] && [ "${CI_COMMIT_BEFORE_SHA}" != "0000000000000000000000000000000000000000" ]; then
+        bash tools/run_astyle.sh --check --changed-since "${CI_COMMIT_BEFORE_SHA}"
+      else
+        bash tools/run_astyle.sh --check
+      fi
 
 # Craft recipes
 

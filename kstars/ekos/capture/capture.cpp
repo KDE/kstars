@@ -76,7 +76,7 @@ Capture::Capture()
 
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture", this);
     QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
-            QDBusConnection::sessionBus(), this);
+        QDBusConnection::sessionBus(), this);
 
     // Connecting DBus signals
     QDBusConnection::sessionBus().connect("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos", "newModule", this,

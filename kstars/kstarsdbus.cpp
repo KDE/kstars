@@ -1082,7 +1082,8 @@ void KStars::openFITS(const QUrl &imageURL)
 QStringList KStars::listSkyMapViews()
 {
     QStringList output;
-    for (const SkyMapView& view : SkyMapViewManager::getViews()) {
+    for (const SkyMapView& view : SkyMapViewManager::getViews())
+    {
         output.append(view.name);
     }
     return output;
@@ -1101,15 +1102,18 @@ bool KStars::setFOVIndicatorVisibility(const QString& fovName, bool visibility)
     // Based on KStars::slotTargetSymbol(bool)
     QStringList visibleFOVNames = Options::fOVNames();
     int ix = visibleFOVNames.indexOf(fovName);
-    if (ix < 0 && visibility) {
+    if (ix < 0 && visibility)
+    {
         visibleFOVNames.append(fovName);
     }
-    if (ix >= 0 && !visibility) {
+    if (ix >= 0 && !visibility)
+    {
         visibleFOVNames.removeAt(ix);
     }
     Options::setFOVNames(visibleFOVNames);
     KStarsData::Instance()->syncFOV();
-    if (map()) {
+    if (map())
+    {
         map()->forceUpdate();
     }
     return true;
@@ -1123,11 +1127,13 @@ bool KStars::getFOVIndicatorVisibility(const QString& fovName)
 QStringList KStars::getFOVIndicators()
 {
     KStarsData* data = KStarsData::Instance();
-    if (!data) { // Should not happen
+    if (!data)   // Should not happen
+    {
         return {};
     }
     QStringList output;
-    for (const FOV* fov : data->getAvailableFOVs()) {
+    for (const FOV * fov : data->getAvailableFOVs())
+    {
         output.append(fov->name());
     }
     return output;
@@ -1160,7 +1166,7 @@ QString KStars::getToggleableActionStates()
 {
     QJsonObject actionStates;
     const auto& actions = actionCollection()->actions();
-    for (const QAction* action : actions)
+    for (const QAction * action : actions)
     {
         if (!action->isCheckable())
             continue;
@@ -1173,7 +1179,7 @@ QStringList KStars::getActions()
 {
     QStringList result;
     const auto& actions = actionCollection()->actions();
-    for (const QAction* action : actions)
+    for (const QAction * action : actions)
     {
         result.append(action->objectName());
     }
@@ -1183,7 +1189,8 @@ QStringList KStars::getActions()
 bool KStars::activateAction(const QString& actionName)
 {
     QAction* action = actionCollection()->action(actionName);
-    if (!action) {
+    if (!action)
+    {
         return false;
     }
     action->activate(QAction::Trigger);

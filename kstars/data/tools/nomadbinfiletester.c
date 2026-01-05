@@ -179,7 +179,8 @@ int verifyStarData(FILE *f)
             fread(&data, sizeof(deepStarData), 1, f);
             double new_mag = ((data.V == 30000) ? (data.B - 1600) : data.V);
             if (mag != -5000 && ((new_mag - mag) > 20 && mag < 1250) || new_mag < mag)
-            { // TODO: Make sensible magnitude limit (1250) user specifiable
+            {
+                // TODO: Make sensible magnitude limit (1250) user specifiable
                 // TODO: Enable byteswapping
                 fprintf(stderr, "\n\tEncountered jump of %f at star #%d in trixel %d from %f to %f.",
                         (new_mag - mag) / 1000.0, i, trixel, mag / 1000.0, new_mag / 1000.0);
@@ -381,7 +382,7 @@ int main(int argc, char *argv[])
           names = fopen(argv[3], "rb");
           else
           names = NULL;
-        
+
           fprintf(stderr, "Names = %s\n", ((names)?"Yes":"No"));
         */
         readStarList(f, atoi(argv[2]), names);

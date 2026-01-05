@@ -42,7 +42,8 @@ EclipseTool::EclipseTool(QWidget *parent) :
 
     // set up slots
     connect(ui->LocationButton, &QPushButton::clicked, this, &EclipseTool::slotLocation);
-    connect(ui->ComputeButton, &QPushButton::clicked, this, [&, this]() {
+    connect(ui->ComputeButton, &QPushButton::clicked, this, [ &, this]()
+    {
         // switch to progress bar
         ui->computeStack->setCurrentIndex(1);
 
@@ -65,7 +66,8 @@ EclipseTool::EclipseTool(QWidget *parent) :
     ui->tableView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     // double click to view
-    connect(ui->tableView, &QTableView::doubleClicked, this, [this](const QModelIndex &index){
+    connect(ui->tableView, &QTableView::doubleClicked, this, [this](const QModelIndex & index)
+    {
         slotView(m_model.getEvent(index.row()));
     });
 
@@ -100,9 +102,12 @@ void EclipseTool::slotCompute()
     long double startJD    = dtStart.djd();         // start julian day
     long double stopJD     = dtStop.djd();
 
-    if(ui->Obj1ComboBox->currentData().toInt() == KSPlanetBase::EARTH_SHADOW && ui->Obj2ComboBox->currentData().toInt() == KSPlanetBase::MOON){
+    if(ui->Obj1ComboBox->currentData().toInt() == KSPlanetBase::EARTH_SHADOW
+            && ui->Obj2ComboBox->currentData().toInt() == KSPlanetBase::MOON)
+    {
         handler = new LunarEclipseHandler();
-    } else
+    }
+    else
         return;
 
     connect(handler, &EclipseHandler::signalEventFound, &m_model, &EclipseModel::slotAddEclipse);
@@ -128,14 +133,17 @@ void EclipseTool::slotContextMenu(QPoint pos)
 
     QMenu * menu = new QMenu(this);
     QAction * view = new QAction(i18n("View in SkyMap"), menu);
-    connect(view, &QAction::triggered, this, [=]{
+    connect(view, &QAction::triggered, this, [ = ]
+    {
         slotView(event);
     });
     menu->addAction(view);
 
-    if(event->hasDetails()){
+    if(event->hasDetails())
+    {
         QAction * details = new QAction(i18n("Show Details"), menu);
-        connect(details, &QAction::triggered, this, [=] {
+        connect(details, &QAction::triggered, this, [ = ]
+        {
             event->slotShowDetails(); // call virtual
         });
         menu->addAction(details);
@@ -179,26 +187,30 @@ QVariant EclipseModel::data(const QModelIndex &index, int role) const
 
     EclipseEvent * event = m_eclipses[row].get();
 
-    switch(col) {
-    case 0: /* Date */ {
-        KStarsDateTime dt(event->getJD());
-        return dt.toString(Qt::ISODate);
-    }
-    case 1: // Eclipsing Obj
-        return event->getEclipsingObjectName();
-    case 2: // Eclipsed Obj
-        return event->getEclipsedObjectName();
-    case 3: /* Eclipse Type */ {
-        switch(event->getType()) {
-        case EclipseEvent::FULL:
-            return QString(i18n("Full"));
-        case EclipseEvent::PARTIAL:
-            return QString(i18n("Partial"));
+    switch(col)
+    {
+        case 0: /* Date */
+        {
+            KStarsDateTime dt(event->getJD());
+            return dt.toString(Qt::ISODate);
         }
-        break;
-    }
-    case 4: // Extra Info
-        return event->getExtraInfo();
+        case 1: // Eclipsing Obj
+            return event->getEclipsingObjectName();
+        case 2: // Eclipsed Obj
+            return event->getEclipsedObjectName();
+        case 3: /* Eclipse Type */
+        {
+            switch(event->getType())
+            {
+                case EclipseEvent::FULL:
+                    return QString(i18n("Full"));
+                case EclipseEvent::PARTIAL:
+                    return QString(i18n("Partial"));
+            }
+            break;
+        }
+        case 4: // Extra Info
+            return event->getExtraInfo();
     }
 
     return QVariant();
@@ -223,7 +235,8 @@ void EclipseModel::exportAsCsv()
     QString fname;
     if(dialog.exec())
         fname = dialog.selectedFiles()[0];
-    else {
+    else
+    {
         QErrorMessage msg;
         msg.showMessage(i18n("Could not export."));
         return;
@@ -254,19 +267,20 @@ QVariant EclipseModel::headerData(int section, Qt::Orientation orientation, int 
 {
     if (role == Qt::DisplayRole)
     {
-        if (orientation == Qt::Horizontal) {
+        if (orientation == Qt::Horizontal)
+        {
             switch (section)
             {
-            case 0:
-                return QString("Date");
-            case 1:
-                return QString("Eclipsing Object");
-            case 2:
-                return QString("Eclipsed Object");
-            case 3:
-                return QString("Eclipse Type");
-            case 4:
-                return QString("Extra Information");
+                case 0:
+                    return QString("Date");
+                case 1:
+                    return QString("Eclipsing Object");
+                case 2:
+                    return QString("Eclipsed Object");
+                case 3:
+                    return QString("Eclipse Type");
+                case 4:
+                    return QString("Extra Information");
             }
         }
     }

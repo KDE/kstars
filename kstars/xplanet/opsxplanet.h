@@ -12,29 +12,29 @@ class KStars;
 
 class OpsXplanet : public QFrame, public Ui::OpsXplanet
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsXplanet(KStars *_ks);
-    virtual ~OpsXplanet() override = default;
+    public:
+        explicit OpsXplanet(KStars *_ks);
+        virtual ~OpsXplanet() override = default;
 
-  private:
-    KStars *ksw { nullptr };
+    private:
+        KStars *ksw { nullptr };
 
-    QString XPlanetShareDirectory();
+        QString XPlanetShareDirectory();
 
-  private slots:
-    void showXPlanetMapsDirectory();
-    void slotConfigFileWidgets(bool on);
-    void slotStarmapFileWidgets(bool on);
-    void slotArcFileWidgets(bool on);
-    void slotLabelWidgets(bool on);
-    void slotMarkerFileWidgets(bool on);
-    void slotMarkerBoundsWidgets(bool on);
-    void slotProjectionWidgets(int index);
-    void slotBackgroundWidgets(bool on);
-    void toggleXPlanetInternal();
-    void slotSelectConfigFile();
-    void slotSelectStarMapFile();
-    void slotSelectArcFile();
+    private slots:
+        void showXPlanetMapsDirectory();
+        void slotConfigFileWidgets(bool on);
+        void slotStarmapFileWidgets(bool on);
+        void slotArcFileWidgets(bool on);
+        void slotLabelWidgets(bool on);
+        void slotMarkerFileWidgets(bool on);
+        void slotMarkerBoundsWidgets(bool on);
+        void slotProjectionWidgets(int index);
+        void slotBackgroundWidgets(bool on);
+        void toggleXPlanetInternal();
+        void slotSelectConfigFile();
+        void slotSelectStarMapFile();
+        void slotSelectArcFile();
 };

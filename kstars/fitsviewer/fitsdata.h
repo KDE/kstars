@@ -898,7 +898,7 @@ class FITSData : public QObject
          */
         void updateStackMon(const QVector<LiveStackFile> &subs, const QVector<LiveStackStageInfo> &infos);
 
-      public slots:
+    public slots:
         void makeRoiBuffer(QRect roi);
 
         /**
@@ -1207,8 +1207,8 @@ class FITSData : public QObject
         int m_nwcs {0};
         WCSState m_WCSState { Idle };
         /// All the stars we detected, if any.
-        QList<Edge *> starCenters;
-        QList<Edge *> localStarCenters;
+        QList < Edge * > starCenters;
+        QList < Edge * > localStarCenters;
         /// The biggest fattest star in the image.
         Edge m_SelectedHFRStar;
 
@@ -1224,10 +1224,10 @@ class FITSData : public QObject
         FITSImage::Statistic m_ROIStatistics;
 
         // A list of header records
-        QList<Record> m_HeaderRecords;
+        QList < Record > m_HeaderRecords;
 
-        QList<FITSSkyObject *> m_SkyObjects;
-        QList<CatObject> m_CatObjects;
+        QList < FITSSkyObject * > m_SkyObjects;
+        QList < CatObject > m_CatObjects;
         QStringList m_CatObjectsFilters;
         QString m_CatObjQuery;
         bool m_ObjectsSearched {false};
@@ -1246,10 +1246,10 @@ class FITSData : public QObject
         /// Histogram Variables
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////
-        QVector<QVector<uint32_t>> m_CumulativeFrequency;
-        QVector<QVector<double>> m_HistogramIntensity;
-        QVector<QVector<double>> m_HistogramFrequency;
-        QVector<double> m_HistogramBinWidth;
+        QVector < QVector < uint32_t>> m_CumulativeFrequency;
+        QVector < QVector < double>> m_HistogramIntensity;
+        QVector < QVector < double>> m_HistogramFrequency;
+        QVector < double > m_HistogramBinWidth;
         uint16_t m_HistogramBinCount { 0 };
         double m_JMIndex { 1 };
         bool m_HistogramConstructed { false };
@@ -1263,8 +1263,8 @@ class FITSData : public QObject
         SkyBackground m_SkyBackground;
         // Detector Settings
         QVariantMap m_SourceExtractorSettings;
-        QFuture<bool> m_StarFindFuture;
-        QScopedPointer<FITSStarDetector, QScopedPointerDeleteLater> m_StarDetector;
+        QFuture < bool > m_StarFindFuture;
+        QScopedPointer < FITSStarDetector, QScopedPointerDeleteLater > m_StarDetector;
 
         // Cached values for hfr and eccentricity computations
         double cacheHFR { -1 };
@@ -1273,7 +1273,7 @@ class FITSData : public QObject
         QPoint roiCenter;
 
         // Catalog Objects
-        QSharedPointer<QNetworkAccessManager> m_NetworkAccessManager;
+        QSharedPointer < QNetworkAccessManager > m_NetworkAccessManager;
         QTimer m_CatQueryTimer;
         bool m_CatQueryInProgress { false };
         bool m_CatUpdateTable { false };
@@ -1283,15 +1283,15 @@ class FITSData : public QObject
         // Live Stacking
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
         // Each base channel has its own FITSStack
-        QMap<LiveStackChannel, QSharedPointer<FITSStack>> m_Stacks;
-        QSharedPointer<FITSStack> m_CurrentStack;
+        QMap < LiveStackChannel, QSharedPointer < FITSStack>> m_Stacks;
+        QSharedPointer < FITSStack > m_CurrentStack;
 #endif
-        QVector<LiveStackFile> m_StackSubs;
+        QVector < LiveStackFile > m_StackSubs;
         int m_StackSubPos { -1 };
         bool m_StackMultiC { false };
-        QMap<LiveStackChannel, QString> m_StackChannelMap;
-        QMap<LiveStackChannel, QString> m_DarkChannelMap;
-        QMap<LiveStackChannel, QString> m_FlatChannelMap;
+        QMap < LiveStackChannel, QString > m_StackChannelMap;
+        QMap < LiveStackChannel, QString > m_DarkChannelMap;
+        QMap < LiveStackChannel, QString > m_FlatChannelMap;
 
         // StackChannelDir associates a LiveStackChannel with its input directory, and optionally links channels that share the
         // same source directory, e.g. if Red and Green both have the same dir, baseChannel for Green will be Red.
@@ -1301,27 +1301,27 @@ class FITSData : public QObject
             QString dir;
             LiveStackChannel baseChannel;
 
-            StackChannelDir(LiveStackChannel c, const QString &d, LiveStackChannel base)
+            StackChannelDir(LiveStackChannel c, const QString & d, LiveStackChannel base)
                 : channel(c), dir(d), baseChannel(base) {}
         };
-        QVector<StackChannelDir> m_StackChannelDirs;
+        QVector < StackChannelDir > m_StackChannelDirs;
         // Helper functions for StackChannelDir
         void insertChannel(const LiveStackChannel &c, const QString dir);
-        QVector<LiveStackChannel> getBaseChannels();
+        QVector < LiveStackChannel > getBaseChannels();
         LiveStackChannel getBaseChannelForChannel(LiveStackChannel channel);
-        QVector<QString> getUniqueStackDirs();
-        void getChannelInfoforSub(const QString &sub, LiveStackChannel &base, QVector<LiveStackChannel> &channels);
+        QVector < QString > getUniqueStackDirs();
+        void getChannelInfoforSub(const QString &sub, LiveStackChannel &base, QVector < LiveStackChannel > &channels);
 
-        QSharedPointer<QByteArray> m_StackedBuffer { nullptr };
+        QSharedPointer < QByteArray > m_StackedBuffer { nullptr };
         double m_StackSNR { 0.0 };
 
         LiveStackData m_LiveStackData;
-        QSharedPointer<FITSDirWatcher> m_StackDirWatcher;
-        QQueue<LiveStackFile> m_StackQ;
+        QSharedPointer < FITSDirWatcher > m_StackDirWatcher;
+        QQueue < LiveStackFile > m_StackQ;
         bool m_AlignMasterChosen { false };
         bool m_AlignMasterProcessed { false };
-        QMap<LiveStackChannel, bool> m_DarksLoadedMap;
-        QMap<LiveStackChannel, bool> m_FlatsLoadedMap;
+        QMap < LiveStackChannel, bool > m_DarksLoadedMap;
+        QMap < LiveStackChannel, bool > m_FlatsLoadedMap;
         uint8_t *m_StackImageBuffer { nullptr };
         uint32_t m_StackImageBufferSize { 0 };
         typedef struct
@@ -1330,14 +1330,17 @@ class FITSData : public QObject
             int cvType;
         } StackStatistics;
         StackStatistics m_StackStatistics;
-        struct wcsprm *m_StackWCSHandle { nullptr };
+        struct wcsprm *m_StackWCSHandle
+        {
+            nullptr
+        };
         int m_Stacknwcs { 0 };
-        QSharedPointer<wcsprm> m_StackAlignMasterWCS;
+        QSharedPointer < wcsprm > m_StackAlignMasterWCS;
         fitsfile *m_Stackfptr { nullptr };
-        QList<Record> m_StackHeaderRecords;
-        QFutureWatcher<bool> m_StackWatcher;
-        QFutureWatcher<bool> m_StackFITSWatcher;
-        QFuture<void> m_StackPrepareFuture;
+        QList < Record > m_StackHeaderRecords;
+        QFutureWatcher < bool > m_StackWatcher;
+        QFutureWatcher < bool > m_StackFITSWatcher;
+        QFuture < void > m_StackPrepareFuture;
         typedef enum
         {
             stackFITSNone,

@@ -23,23 +23,23 @@ const int HIGHLIGHT_DURATION = 3000;
 // Subclass QStyledItemDelegate for highlighting
 class StackMonitorDelegate : public QStyledItemDelegate
 {
-  public:
-    using QStyledItemDelegate::QStyledItemDelegate;
+    public:
+        using QStyledItemDelegate::QStyledItemDelegate;
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const override
-    {
-        QVariant isHighlighted = index.data(CELL_HIGHLIGHT_ROLE);
-        QStyleOptionViewItem opt(option);
-
-        if (isHighlighted.toBool())
+        void paint(QPainter *painter, const QStyleOptionViewItem &option,
+                   const QModelIndex &index) const override
         {
-            opt.backgroundBrush = QBrush(Qt::yellow);
-            opt.palette.setColor(QPalette::Text, Qt::black);  // reversed fg
-        }
+            QVariant isHighlighted = index.data(CELL_HIGHLIGHT_ROLE);
+            QStyleOptionViewItem opt(option);
 
-        QStyledItemDelegate::paint(painter, opt, index);
-    }
+            if (isHighlighted.toBool())
+            {
+                opt.backgroundBrush = QBrush(Qt::yellow);
+                opt.palette.setColor(QPalette::Text, Qt::black);  // reversed fg
+            }
+
+            QStyledItemDelegate::paint(painter, opt, index);
+        }
 };
 
 SubStatsModel::SubStatsModel(QObject *parent) : QAbstractTableModel(parent)
@@ -100,42 +100,66 @@ QVariant SubStatsModel::data(const QModelIndex &index, int role) const
     {
         switch (index.column())
         {
-            case COL_ID: return sub.id;
-            case COL_PATHNAME: return sub.pathname;
-            case COL_FILENAME: return sub.filename;
-            case COL_CHANNELS: return StackMonUtils::displayChannels(sub.channels, sub.morc);
-            case COL_STATUS: return StackMonUtils::displayOverallStatus(sub.status);
-            case COL_WAIT_LOAD_INTERVAL: return (sub.waitLoadInterval < 0) ? QVariant() :
-                                                   QString::number(sub.waitLoadInterval, 'f', 2);
-            case COL_LOADED: return StackMonUtils::displayStatus(sub.loaded);
-            case COL_LOADED_INTERVAL: return (sub.loaded == LSStatus::LSStatusUninit) ? QVariant() :
-                                                    QString::number(sub.loadedInterval, 'f', 2);
-            case COL_SNR: return (sub.loaded == LSStatus::LSStatusUninit) ? QVariant() : QString::number(sub.snr, 'f', 2);
-            case COL_PLATE_SOLVED: return StackMonUtils::displayStatus(sub.plateSolved);
-            case COL_PLATE_SOLVED_INTERVAL: return (sub.plateSolved == LSStatus::LSStatusUninit) ? QVariant() :
-                                                    QString::number(sub.plateSolvedInterval, 'f', 2);
-            case COL_HFR: return (sub.plateSolved == LSStatus::LSStatusUninit) ? QVariant() :
-                                                    QString::number(sub.hfr, 'f', 2);;
-            case COL_NUM_STARS: return (sub.plateSolved == LSStatus::LSStatusUninit) ? QVariant() : sub.numStars;
-            case COL_WAIT_STACK_INTERVAL: return (sub.waitStackInterval < 0) ? QVariant() :
-                                                    QString::number(sub.waitStackInterval, 'f', 2);
-            case COL_CALIBRATED: return displayCalibrationStatus(sub.calibrated, sub.dark, sub.flat);
-            case COL_CALIBRATED_INTERVAL: return (sub.calibrated == LSStatus::LSStatusUninit) ? QVariant() :
-                                                    QString::number(sub.calibratedInterval, 'f', 2);
-            case COL_ALIGNED: return StackMonUtils::displayStatus(sub.aligned);
-            case COL_ALIGNED_INTERVAL: return (sub.aligned == LSStatus::LSStatusUninit) ? QVariant() :
-                                                    QString::number(sub.alignedInterval, 'f', 2);
-            case COL_DX: return (sub.aligned == LSStatus::LSStatusUninit) ? QVariant() :
-                                                    QString::number(sub.dx, 'f', 2);
-            case COL_DY: return (sub.aligned == LSStatus::LSStatusUninit) ? QVariant() :
-                                                    QString::number(sub.dy, 'f', 2);
-            case COL_ROTATION: return (sub.aligned == LSStatus::LSStatusUninit) ? QVariant() :
-                                                    QString::number(sub.rotation, 'f', 2);
-            case COL_STACKED: return StackMonUtils::displayStatus(sub.stacked);
-            case COL_STACKED_INTERVAL: return (sub.stacked == LSStatus::LSStatusUninit) ? QVariant() :
-                                                    QString::number(sub.stackedInterval, 'f', 2);
-            case COL_WEIGHT: return (sub.stacked == LSStatus::LSStatusUninit) ? QVariant() :
-                                                    QString::number(sub.weight, 'f', 2);
+            case COL_ID:
+                return sub.id;
+            case COL_PATHNAME:
+                return sub.pathname;
+            case COL_FILENAME:
+                return sub.filename;
+            case COL_CHANNELS:
+                return StackMonUtils::displayChannels(sub.channels, sub.morc);
+            case COL_STATUS:
+                return StackMonUtils::displayOverallStatus(sub.status);
+            case COL_WAIT_LOAD_INTERVAL:
+                return (sub.waitLoadInterval < 0) ? QVariant() :
+                       QString::number(sub.waitLoadInterval, 'f', 2);
+            case COL_LOADED:
+                return StackMonUtils::displayStatus(sub.loaded);
+            case COL_LOADED_INTERVAL:
+                return (sub.loaded == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.loadedInterval, 'f', 2);
+            case COL_SNR:
+                return (sub.loaded == LSStatus::LSStatusUninit) ? QVariant() : QString::number(sub.snr, 'f', 2);
+            case COL_PLATE_SOLVED:
+                return StackMonUtils::displayStatus(sub.plateSolved);
+            case COL_PLATE_SOLVED_INTERVAL:
+                return (sub.plateSolved == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.plateSolvedInterval, 'f', 2);
+            case COL_HFR:
+                return (sub.plateSolved == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.hfr, 'f', 2);;
+            case COL_NUM_STARS:
+                return (sub.plateSolved == LSStatus::LSStatusUninit) ? QVariant() : sub.numStars;
+            case COL_WAIT_STACK_INTERVAL:
+                return (sub.waitStackInterval < 0) ? QVariant() :
+                       QString::number(sub.waitStackInterval, 'f', 2);
+            case COL_CALIBRATED:
+                return displayCalibrationStatus(sub.calibrated, sub.dark, sub.flat);
+            case COL_CALIBRATED_INTERVAL:
+                return (sub.calibrated == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.calibratedInterval, 'f', 2);
+            case COL_ALIGNED:
+                return StackMonUtils::displayStatus(sub.aligned);
+            case COL_ALIGNED_INTERVAL:
+                return (sub.aligned == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.alignedInterval, 'f', 2);
+            case COL_DX:
+                return (sub.aligned == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.dx, 'f', 2);
+            case COL_DY:
+                return (sub.aligned == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.dy, 'f', 2);
+            case COL_ROTATION:
+                return (sub.aligned == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.rotation, 'f', 2);
+            case COL_STACKED:
+                return StackMonUtils::displayStatus(sub.stacked);
+            case COL_STACKED_INTERVAL:
+                return (sub.stacked == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.stackedInterval, 'f', 2);
+            case COL_WEIGHT:
+                return (sub.stacked == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.weight, 'f', 2);
         }
     }
     return {};
@@ -164,7 +188,7 @@ QString SubStatsModel::displayCalibrationStatus(const LSStatus &status, const in
         case LSStatus::LSStatusError:
         case LSStatus::LSStatusNA:
             return QString("D %1   F %2").arg(StackMonUtils::displayStatus(darkStatus))
-                                         .arg(StackMonUtils::displayStatus(flatStatus));
+                   .arg(StackMonUtils::displayStatus(flatStatus));
         case LSStatus::LSStatusUninit:
         default:
             return QString();
@@ -198,7 +222,7 @@ bool SubStatsModel::setData(const QModelIndex &index, const QVariant &highlight,
             m_HighlightedIDs.remove(sub.id);
 
         emit dataChanged(this->index(index.row(), 0), this->index(index.row(), columnCount() - 1),
-                             {Qt::BackgroundRole, Qt::ForegroundRole});
+        {Qt::BackgroundRole, Qt::ForegroundRole});
         return true;
     }
     return false;
@@ -273,7 +297,8 @@ int SubStatsModel::columnCount(const QModelIndex &) const
 }
 
 // StackMonitor
-StackMonitor::StackMonitor(QWidget *parent) : QWidget(parent), ui(new Ui::StackMonitorDialog), m_Model(new SubStatsModel(this))
+StackMonitor::StackMonitor(QWidget *parent) : QWidget(parent), ui(new Ui::StackMonitorDialog),
+    m_Model(new SubStatsModel(this))
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::Window);
@@ -308,7 +333,7 @@ StackMonitor::StackMonitor(QWidget *parent) : QWidget(parent), ui(new Ui::StackM
     });
 
     // Add a menu to allow columns to be shown / hidden
-    connect(header, &QHeaderView::customContextMenuRequested, this, [this, header](const QPoint &pos)
+    connect(header, &QHeaderView::customContextMenuRequested, this, [this, header](const QPoint & pos)
     {
         QMenu menu;
         auto model = ui->StackMonitorTableView->model();
@@ -355,7 +380,7 @@ StackMonitor::StackMonitor(QWidget *parent) : QWidget(parent), ui(new Ui::StackM
     restoreSettings();
 
     // Highlight checkbox
-    connect(ui->StackMonitorHighlight, &QCheckBox::toggled, this, [=](bool checked)
+    connect(ui->StackMonitorHighlight, &QCheckBox::toggled, this, [ = ](bool checked)
     {
         m_Highlight = checked;
         if (!checked)
@@ -508,7 +533,7 @@ void StackMonitor::highlightCells(int sourceRow, const QList<int> &columns)
     }
 
     // Schedule timer to clear highlights
-    QTimer::singleShot(HIGHLIGHT_DURATION, this, [=]()
+    QTimer::singleShot(HIGHLIGHT_DURATION, this, [ = ]()
     {
         if (!m_Model)
             return;
@@ -777,9 +802,9 @@ void StackMonitor::updateProgress()
             int mins  = (int(remainingSeconds) % 3600) / 60;
             int secs  = int(remainingSeconds) % 60;
             eta = QString("%1:%2:%3 remaining").arg(hours).arg(mins, 2, 10, QLatin1Char('0'))
-                                                          .arg(secs, 2, 10, QLatin1Char('0'));
+                  .arg(secs, 2, 10, QLatin1Char('0'));
         }
         ui->StackMonitorProgressBar->setFormat(QString("%p% (%1)").arg(eta));
     }
-    ui->StackMonitorProgressBar->setValue(double(processed * 100)/double(rows));
+    ui->StackMonitorProgressBar->setValue(double(processed * 100) / double(rows));
 }

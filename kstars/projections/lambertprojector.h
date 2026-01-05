@@ -17,13 +17,13 @@
  */
 class LambertProjector : public Projector
 {
-  public:
-    explicit LambertProjector(const ViewParams &p);
-    ~LambertProjector() override = default;
-    Projection type() const override;
-    double radius() const override;
-    double projectionK(double x) const override;
-    double projectionL(double x) const override;
+    public:
+        explicit LambertProjector(const ViewParams &p);
+        ~LambertProjector() override = default;
+        Projection type() const override;
+        double radius() const override;
+        double projectionK(double x) const override;
+        double projectionL(double x) const override;
 };
 
 #endif // LAMBERTPROJECTOR_H

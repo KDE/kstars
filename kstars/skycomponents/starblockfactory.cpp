@@ -79,7 +79,7 @@ std::shared_ptr<StarBlock> StarBlockFactory::getBlock()
     return freeBlock;
 }
 
-bool StarBlockFactory::markFirst(std::shared_ptr<StarBlock>& block)
+bool StarBlockFactory::markFirst(std::shared_ptr<StarBlock> &block)
 {
     if (!block.get())
         return false;
@@ -119,7 +119,7 @@ bool StarBlockFactory::markFirst(std::shared_ptr<StarBlock>& block)
     return true;
 }
 
-bool StarBlockFactory::markNext(std::shared_ptr<StarBlock>& after, std::shared_ptr<StarBlock>& block)
+bool StarBlockFactory::markNext(std::shared_ptr<StarBlock> &after, std::shared_ptr<StarBlock> &block)
 {
     //    fprintf(stderr, "markNext()!\n");
     if (!block.get() || !after.get())
@@ -159,7 +159,7 @@ bool StarBlockFactory::markNext(std::shared_ptr<StarBlock>& after, std::shared_p
     if (after->getFaintMag() > block->getFaintMag() && block->getFaintMag() != -5)
     {
         qCDebug(KSTARS) << "WARNING: Marking block with faint mag = " << block->getFaintMag() << " after block with faint mag "
-                 << after->getFaintMag() << "in trixel" << block->parent->getTrixel();
+                        << after->getFaintMag() << "in trixel" << block->parent->getTrixel();
     }
 
     if (block == last)
@@ -281,7 +281,8 @@ void StarBlockFactory::printStructure() const
         }
         cur = cur->next;
         ++index;
-    } while (cur != last);
+    }
+    while (cur != last);
 }
 
 int StarBlockFactory::freeUnused()

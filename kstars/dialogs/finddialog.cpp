@@ -581,7 +581,7 @@ void FindDialog::slotDetails()
     if (selectedObject())
     {
         QPointer<DetailDialog> dd = new DetailDialog(selectedObject(), KStarsData::Instance()->ut(),
-                KStarsData::Instance()->geo(), KStars::Instance());
+            KStarsData::Instance()->geo(), KStars::Instance());
         dd->exec();
         delete dd;
     }

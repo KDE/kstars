@@ -48,8 +48,8 @@ const QString set_meta       = "INSERT INTO meta (version, htmesh_level, init) V
 /* Colors */
 const QString create_colors_table =
     QString("CREATE TABLE IF NOT EXISTS %1 (catalog INTEGER NOT "
-            "NULL, scheme TEXT NOT NULL, color TEXT NOT NULL, UNIQUE(catalog, scheme, "
-            "color))")
+        "NULL, scheme TEXT NOT NULL, color TEXT NOT NULL, UNIQUE(catalog, scheme, "
+        "color))")
     .arg(colors_table);
 
 const QString get_colors =
@@ -57,7 +57,7 @@ const QString get_colors =
 
 const QString insert_color =
     QString("INSERT INTO %1 (catalog, scheme, color) VALUES (:catalog, :scheme, :color) "
-            "ON CONFLICT(catalog, scheme, color) DO UPDATE SET color = :color")
+        "ON CONFLICT(catalog, scheme, color) DO UPDATE SET color = :color")
     .arg(colors_table);
 
 /* catalog queries */
@@ -180,19 +180,19 @@ const QString empty_view = "SELECT NULL WHERE FALSE";
 
 /* catalog management */
 const QString _create_catalog_list_table = "CREATE TABLE IF NOT EXISTS %1 ("
-        "id INTEGER PRIMARY KEY,"
-        "name TEXT NOT NULL,"
-        "precedence REAL NOT NULL,"
-        "author TEXT DEFAULT NULL,"
-        "source TEXT DEFAULT NULL,"
-        "description TEXT DEFAULT NULL,"
-        "mut INTEGER DEFAULT 0,"
-        "version INTEGER DEFAULT -1,"
-        "enabled INTEGER DEFAULT 1,"
-        "color TEXT DEFAULT NULL,"
-        "license TEXT DEFAULT NULL,"
-        "maintainer TEXT DEFAULT NULL,"
-        "timestamp DATETIME DEFAULT NULL)";
+                                           "id INTEGER PRIMARY KEY,"
+                                           "name TEXT NOT NULL,"
+                                           "precedence REAL NOT NULL,"
+                                           "author TEXT DEFAULT NULL,"
+                                           "source TEXT DEFAULT NULL,"
+                                           "description TEXT DEFAULT NULL,"
+                                           "mut INTEGER DEFAULT 0,"
+                                           "version INTEGER DEFAULT -1,"
+                                           "enabled INTEGER DEFAULT 1,"
+                                           "color TEXT DEFAULT NULL,"
+                                           "license TEXT DEFAULT NULL,"
+                                           "maintainer TEXT DEFAULT NULL,"
+                                           "timestamp DATETIME DEFAULT NULL)";
 
 inline const QString create_catalog_registry(const QString &name)
 {
@@ -394,7 +394,7 @@ const QString _dso_by_maglim = "SELECT %1 FROM master WHERE magnitude < :maglim 
 const QString dso_by_maglim = QString(_dso_by_maglim).arg(object_fields).arg(mag_asc);
 
 const QString _dso_by_lim = "SELECT %1 FROM master "
-                               "ORDER BY %2 LIMIT :limit";
+                            "ORDER BY %2 LIMIT :limit";
 
 const QString dso_by_lim = QString(_dso_by_lim).arg(object_fields).arg(mag_asc);
 

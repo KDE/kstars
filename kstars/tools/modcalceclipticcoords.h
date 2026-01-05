@@ -19,18 +19,18 @@
  */
 class modCalcEclCoords : public QFrame, public Ui::modCalcEclCoordsDlg
 {
-  Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit modCalcEclCoords(QWidget *p);
-    virtual ~modCalcEclCoords() override = default;
+    public:
+        explicit modCalcEclCoords(QWidget *p);
+        virtual ~modCalcEclCoords() override = default;
 
-  public slots:
-    void slotNow(void);
-    void slotObject(void);
-    void slotDateTimeChanged(const QDateTime &edt);
-    void slotCompute(void);
+    public slots:
+        void slotNow(void);
+        void slotObject(void);
+        void slotDateTimeChanged(const QDateTime &edt);
+        void slotCompute(void);
 
-  private:
-    KStarsDateTime kdt;
+    private:
+        KStarsDateTime kdt;
 };

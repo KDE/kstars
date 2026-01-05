@@ -241,7 +241,7 @@ SkyObject *AsteroidsComponent::objectNearest(SkyPoint *p, double &maxrad)
 
     for (auto o : m_ObjectList)
     {
-        if (!((dynamic_cast<KSAsteroid*>(o)->toDraw())))
+        if (!((dynamic_cast<KSAsteroid * >(o)->toDraw())))
             continue;
 
         double r = o->angularDistanceTo(p).Degrees();

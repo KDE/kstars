@@ -112,6 +112,6 @@ void ConstellationArtComponent::draw(SkyPainter *skyp)
             skyp->drawConstellationArtImage(m_ConstList[i]);
     }
 
-//Loops through the QList containing all data required to draw constellations.
+    //Loops through the QList containing all data required to draw constellations.
 #endif
 }

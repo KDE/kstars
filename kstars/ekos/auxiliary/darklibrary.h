@@ -72,7 +72,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
          * @param defectMap If a frame is found, load it from disk and store it in a shared DefectMap pointer.
          * @return True if a suitable frame was found the loaded successfully, false otherwise.
          */
-        bool findDefectMap(ISD::CameraChip *targetChip, double duration, QSharedPointer<DefectMap> &defectMap);        
+        bool findDefectMap(ISD::CameraChip *targetChip, double duration, QSharedPointer<DefectMap> &defectMap);
 
         void refreshFromDB();
         bool setCamera(ISD::Camera *device);
@@ -83,7 +83,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
 
         void start();
         void setCameraPresets(const QJsonObject &settings);
-        QJsonObject getCameraPresets();        
+        QJsonObject getCameraPresets();
         void setDefectPixels(const QJsonObject &payload);
         QJsonArray getViewMasters();
         void getloadDarkViewMasterFITS(int index);
@@ -111,7 +111,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
          */
         void stop();
 
-protected:
+    protected:
         virtual void closeEvent(QCloseEvent *ev) override;
 
     signals:
@@ -293,8 +293,8 @@ protected:
         uint32_t m_DarkImagesCounter {0};
         bool m_RememberFITSViewer {true};
         bool m_RememberSummaryView {true};
-        bool m_JobsGenerated {false};        
-        QString m_DefectMapFilename, m_MasterDarkFrameFilename;        
+        bool m_JobsGenerated {false};
+        QString m_DefectMapFilename, m_MasterDarkFrameFilename;
         QSharedPointer<DarkView> m_DarkView;
         QPointer<QStatusBar> m_StatusBar;
         QPointer<QLabel> m_StatusLabel, m_FileLabel;

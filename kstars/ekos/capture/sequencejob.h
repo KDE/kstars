@@ -430,7 +430,7 @@ class SequenceJob : public QObject
         // update the current guiding deviation
         void updateGuiderDrift(double deviation_rms);
 
-private:
+    private:
         /**
          * @brief init Initialize the sequence job from its XML representation
          */

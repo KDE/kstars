@@ -19,23 +19,23 @@ class Align;
 
 class OpsPrograms : public QWidget, public Ui::OpsPrograms
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsPrograms(Align *parent);
-    virtual ~OpsPrograms() override = default;
+    public:
+        explicit OpsPrograms(Align *parent);
+        virtual ~OpsPrograms() override = default;
 
-  protected:
-  private slots:
-    void loadDefaultPaths(int option);
-    void slotApply();
+    protected:
+    private slots:
+        void loadDefaultPaths(int option);
+        void slotApply();
 
-  signals:
-    void settingsUpdated();
+    signals:
+        void settingsUpdated();
 
-  private:
-    KConfigDialog *m_ConfigDialog { nullptr };
-    Align *alignModule { nullptr };
+    private:
+        KConfigDialog *m_ConfigDialog { nullptr };
+        Align *alignModule { nullptr };
 
 
 };

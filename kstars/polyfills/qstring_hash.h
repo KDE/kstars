@@ -16,7 +16,10 @@ namespace std
 template <>
 struct hash<QString>
 {
-    size_t operator()(const QString &s) const noexcept { return qHash(s); }
+    size_t operator()(const QString &s) const noexcept
+    {
+        return qHash(s);
+    }
 };
 } // namespace std
 #endif

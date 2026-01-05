@@ -48,7 +48,7 @@ Media::Media(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &node
         connect(nodeManager->media(), &Node::onBinaryReceived, this, &Media::onBinaryReceived);
     }
 
-    connect(this, &Media::newImage, this, [this](const QByteArray & image, const QString &uuid)
+    connect(this, &Media::newImage, this, [this](const QByteArray & image, const QString & uuid)
     {
         uploadImage(image, uuid);
     });

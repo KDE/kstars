@@ -156,17 +156,20 @@ class TaskAction : public QObject
         {
             return m_currentRetry;
         }
-        
+
         // Retry management
-        void resetRetryCounter() { m_currentRetry = 0; }
-        
+        void resetRetryCounter()
+        {
+            m_currentRetry = 0;
+        }
+
         // Device pointer management
         /**
          * @brief Clear device pointer to prevent crashes during cleanup
          * This should be called before destroying actions when devices might be disconnecting
          */
-        void clearDevicePointer() 
-        { 
+        void clearDevicePointer()
+        {
             if (m_deviceConnection)
             {
                 disconnect(m_deviceConnection);

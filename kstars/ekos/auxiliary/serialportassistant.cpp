@@ -90,7 +90,7 @@ void SerialPortAssistant::addDevicePage(const QSharedPointer<ISD::GenericDevice>
     QLabel *instructionsLabel = new QLabel(devicePage);
     instructionsLabel->setText(
         i18n("To assign a permanent designation to the device, you need to unplug the device from stellarmate "
-             "then replug it after 1 second. Click on the <b>Start Scan</b> to begin this procedure."));
+         "then replug it after 1 second. Click on the <b>Start Scan</b> to begin this procedure."));
     instructionsLabel->setWordWrap(true);
     layout->addWidget(instructionsLabel);
 
@@ -125,8 +125,8 @@ void SerialPortAssistant::addDevicePage(const QSharedPointer<ISD::GenericDevice>
     hardwareSlotC->setObjectName("hardwareSlot");
     hardwareSlotC->setToolTip(
         i18n("Assign the permanent name based on which physical port the device is plugged to in StellarMate. "
-             "This is useful to distinguish between two identical USB adapters. The device must <b>always</b> be "
-             "plugged into the same port for this to work."));
+         "This is useful to distinguish between two identical USB adapters. The device must <b>always</b> be "
+         "plugged into the same port for this to work."));
     actionsLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Preferred));
     actionsLayout->addWidget(startButton);
     actionsLayout->addWidget(skipButton);

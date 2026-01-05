@@ -46,7 +46,8 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
 
     QWidget *container = QWidget::createWindowContainer(m_graph);
 
-    if (!m_graph->hasContext()) {
+    if (!m_graph->hasContext())
+    {
         QMessageBox msgBox;
         msgBox.setText(i18n("Couldn't initialize the OpenGL context."));
         msgBox.exec();
@@ -75,30 +76,30 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     mainLayout->addLayout(controlsLayout);
     controlsLayout->setAlignment(Qt::AlignLeft);
 
-    maxValue=new QLabel(this);
+    maxValue = new QLabel(this);
     maxValue->setToolTip(i18n("Maximum Value on the graph"));
-    cutoffValue=new QLabel(this);
+    cutoffValue = new QLabel(this);
     cutoffValue->setToolTip(i18n("Cuttoff Maximum for eliminating hot pixels and bright stars."));
 
-    QCheckBox *toggleEnableCutoff= new QCheckBox(this);
+    QCheckBox *toggleEnableCutoff = new QCheckBox(this);
     toggleEnableCutoff->setToolTip(i18n("Enable or Disable the Max Value Cutoff"));
     toggleEnableCutoff->setText(i18n("Toggle Cutoff"));
     toggleEnableCutoff->setChecked(false);
 
-    blackPointSlider=new QSlider( Qt::Vertical, this);
+    blackPointSlider = new QSlider( Qt::Vertical, this);
     blackPointSlider->setToolTip(i18n("Sets the Minimum Value on the graph"));
-    sliderLayout->addWidget(blackPointSlider,0,0);
-    sliderLayout->addWidget(new QLabel(i18n("Min")),1,0);
+    sliderLayout->addWidget(blackPointSlider, 0, 0);
+    sliderLayout->addWidget(new QLabel(i18n("Min")), 1, 0);
 
-    whitePointSlider=new QSlider( Qt::Vertical, this);
+    whitePointSlider = new QSlider( Qt::Vertical, this);
     whitePointSlider->setToolTip(i18n("Sets the Maximum Value on the graph"));
-    sliderLayout->addWidget(whitePointSlider,0,1);
-    sliderLayout->addWidget(new QLabel(i18n("Max")),1,1);
+    sliderLayout->addWidget(whitePointSlider, 0, 1);
+    sliderLayout->addWidget(new QLabel(i18n("Max")), 1, 1);
 
-    cutoffSlider=new QSlider( Qt::Vertical, this);
+    cutoffSlider = new QSlider( Qt::Vertical, this);
     cutoffSlider->setToolTip(i18n("Sets the Cuttoff Maximum for eliminating hot pixels and bright stars."));
-    sliderLayout->addWidget(cutoffSlider,0,2);
-    sliderLayout->addWidget(new QLabel(i18n("Cut")),1,2);
+    sliderLayout->addWidget(cutoffSlider, 0, 2);
+    sliderLayout->addWidget(new QLabel(i18n("Cut")), 1, 2);
     cutoffSlider->setEnabled(false);
 
     minValue = new QLabel(this);
@@ -106,7 +107,8 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
 
     autoScale = new QCheckBox(this);
     autoScale->setText(i18n("AutoScale"));
-    autoScale->setToolTip(i18n("Automatically scales the sliders for the subFrame.\nUncheck to leave them unchanged when you pan around."));
+    autoScale->setToolTip(
+        i18n("Automatically scales the sliders for the subFrame.\nUncheck to leave them unchanged when you pan around."));
     autoScale->setChecked(true);
 
     showScaling = new QPushButton(this);
@@ -211,7 +213,7 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     controlsLayout->addWidget(showPeakValues);
     controlsLayout->addWidget(reportBox);
 
-    QWidget *bottomSliderWidget= new QWidget(this);
+    QWidget *bottomSliderWidget = new QWidget(this);
     QGridLayout *bottomSliders = new QGridLayout(bottomSliderWidget);
     bottomSliderWidget->setLayout(bottomSliders);
     mainLayout->addWidget(bottomSliderWidget);
@@ -227,9 +229,10 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     bottomSliders->addWidget(new QLabel(i18n("Horizontal: ")), 1, 0);
     bottomSliders->addWidget(horizontalSelector, 1, 1);
 
-    QWidget *bottomControlsWidget= new QWidget(this);
+    QWidget *bottomControlsWidget = new QWidget(this);
     QHBoxLayout *bottomControlLayout = new QHBoxLayout(bottomControlsWidget);
-    mainLayout->addWidget(bottomControlsWidget);\
+    mainLayout->addWidget(bottomControlsWidget);
+    \
     bottomControlsWidget->setVisible(false);
 
     exploreMode = new QPushButton(this);
@@ -240,13 +243,13 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     exploreMode->setToolTip(i18n("Zooms automatically as the sliders change"));
     exploreMode->setChecked(true);
 
-    QDial *barSpacing=new QDial(this);
+    QDial *barSpacing = new QDial(this);
     barSpacing->setMinimum(0);
     barSpacing->setMaximum(100);
     barSpacing->setValue(50);
     barSpacing->setMaximumSize(32, 32);
     barSpacing->setWrapping(false);
-    m_graph->setBarSpacing(QSizeF(0.5,0.5));
+    m_graph->setBarSpacing(QSizeF(0.5, 0.5));
 
     QComboBox *color = new QComboBox(this);
     color->setToolTip(i18n("Changes the color scheme"));
@@ -262,7 +265,7 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     pmp.setBrush(QBrush(grGtoR));
     pmp.drawRect(0, 0, 50, 10);
     color->addItem("");
-    color->setItemIcon(0,QIcon(pm));
+    color->setItemIcon(0, QIcon(pm));
 
     QLinearGradient grBtoY(50, 1, 0, 0);
     grBtoY.setColorAt(1.0, Qt::black);
@@ -272,7 +275,7 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
     pmp.setBrush(QBrush(grBtoY));
     pmp.drawRect(0, 0, 50, 10);
     color->addItem("");
-    color->setItemIcon(1,QIcon(pm));
+    color->setItemIcon(1, QIcon(pm));
 
     color->setIconSize(QSize(50, 10));
     color->setCurrentIndex(0);
@@ -336,11 +339,11 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
-    #ifdef Q_OS_MACOS
+#ifdef Q_OS_MACOS
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
-    #endif
+#endif
 
     show();
 }
@@ -355,42 +358,42 @@ void StarProfileViewer::loadData(QSharedPointer<FITSData> data, QRect sub, QList
     if(data)
     {
         imageData = data;
-        subFrame=sub;
-        starCenters=centers;               
+        subFrame = sub;
+        starCenters = centers;
 
         switch (data->getStatistics().dataType)
         {
-        case TBYTE:
-            loadDataPrivate<uint8_t>();
-            break;
+            case TBYTE:
+                loadDataPrivate<uint8_t>();
+                break;
 
-        case TSHORT:
-            loadDataPrivate<int16_t>();
-            break;
+            case TSHORT:
+                loadDataPrivate<int16_t>();
+                break;
 
-        case TUSHORT:
-            loadDataPrivate<uint16_t>();
-            break;
+            case TUSHORT:
+                loadDataPrivate<uint16_t>();
+                break;
 
-        case TLONG:
-            loadDataPrivate<int32_t>();
-            break;
+            case TLONG:
+                loadDataPrivate<int32_t>();
+                break;
 
-        case TULONG:
-            loadDataPrivate<uint32_t>();
-            break;
+            case TULONG:
+                loadDataPrivate<uint32_t>();
+                break;
 
-        case TFLOAT:
-            loadDataPrivate<float>();
-            break;
+            case TFLOAT:
+                loadDataPrivate<float>();
+                break;
 
-        case TLONGLONG:
-            loadDataPrivate<int64_t>();
-            break;
+            case TLONGLONG:
+                loadDataPrivate<int64_t>();
+                break;
 
-        case TDOUBLE:
-            loadDataPrivate<double>();
-            break;
+            case TDOUBLE:
+                loadDataPrivate<double>();
+                break;
         }
 
         updateScale();
@@ -401,8 +404,8 @@ void StarProfileViewer::loadData(QSharedPointer<FITSData> data, QRect sub, QList
 
         updateHFRandPeakSelection();
 
-        horizontalSelector->setRange(0, subFrame.width()-1);
-        verticalSelector->setRange(0, subFrame.width()-1);  //Width and height are the same
+        horizontalSelector->setRange(0, subFrame.width() - 1);
+        verticalSelector->setRange(0, subFrame.width() - 1); //Width and height are the same
     }
 }
 
@@ -458,11 +461,11 @@ void StarProfileViewer::updateScale()
 
     //We need to disconnect these so that changing their ranges doesn't affect things
     QObject::disconnect(blackPointSlider,  &QSlider::valueChanged,
-                     this, &StarProfileViewer::updateVerticalAxis);
+                        this, &StarProfileViewer::updateVerticalAxis);
     QObject::disconnect(whitePointSlider,  &QSlider::valueChanged,
-                     this, &StarProfileViewer::updateVerticalAxis);
+                        this, &StarProfileViewer::updateVerticalAxis);
     QObject::disconnect(cutoffSlider,  &QSlider::valueChanged,
-                     this, &StarProfileViewer::updateDisplayData);
+                        this, &StarProfileViewer::updateDisplayData);
 
     float subFrameMin, subFrameMax;
     double dataMin, dataMax;
@@ -532,7 +535,7 @@ void StarProfileViewer::updateScale()
 
 void StarProfileViewer::updateBarSpacing(int value)
 {
-    float spacing = (float)value/100.0;
+    float spacing = (float)value / 100.0;
     m_graph->setBarSpacing(QSizeF(spacing, spacing));
 }
 
@@ -543,108 +546,110 @@ void StarProfileViewer::zoomViewTo(int where)
         int star = where - 7;
         int x = starCenters[star]->x - subFrame.x();
         int y = subFrame.height() - (starCenters[star]->y - subFrame.y());
-        m_graph->primarySeries()->setSelectedBar(QPoint( y , x )); //Note row, column    y, x
+        m_graph->primarySeries()->setSelectedBar(QPoint( y, x ));  //Note row, column    y, x
         where = 6; //This is so it will zoom to the target.
     }
 
-    switch (where) {
-    case 0: //Zoom To
-        break;
-
-    case 1: //Front
-        m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
-        m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
-        m_graph->scene()->activeCamera()->setZoomLevel(110);
-        zoomView->setCurrentIndex(0);
-        break;
-
-    case 2: //Front High
-        m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFrontHigh);
-        m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
-        m_graph->scene()->activeCamera()->setZoomLevel(110);
-        zoomView->setCurrentIndex(0);
-        break;
-
-    case 3: //Overhead
-        m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetDirectlyAbove);
-        m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
-        m_graph->scene()->activeCamera()->setZoomLevel(110);
-        zoomView->setCurrentIndex(0);
-        break;
-
-    case 4: //Isometric L
-        m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricLeftHigh);
-        m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
-        m_graph->scene()->activeCamera()->setZoomLevel(110);
-        zoomView->setCurrentIndex(0);
-        break;
-
-    case 5: //Isometric R
-        m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricRightHigh);
-        m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
-        m_graph->scene()->activeCamera()->setZoomLevel(110);
-        zoomView->setCurrentIndex(0);
-        break;
-
-    case 6: //Selected Item
+    switch (where)
     {
-        QPoint selectedBar = m_graph->selectedSeries()
-                ? m_graph->selectedSeries()->selectedBar()
-                : QBar3DSeries::invalidSelectionPosition();
-        if (selectedBar != QBar3DSeries::invalidSelectionPosition())
+        case 0: //Zoom To
+            break;
+
+        case 1: //Front
+            m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFront);
+            m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
+            m_graph->scene()->activeCamera()->setZoomLevel(110);
+            zoomView->setCurrentIndex(0);
+            break;
+
+        case 2: //Front High
+            m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetFrontHigh);
+            m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
+            m_graph->scene()->activeCamera()->setZoomLevel(110);
+            zoomView->setCurrentIndex(0);
+            break;
+
+        case 3: //Overhead
+            m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetDirectlyAbove);
+            m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
+            m_graph->scene()->activeCamera()->setZoomLevel(110);
+            zoomView->setCurrentIndex(0);
+            break;
+
+        case 4: //Isometric L
+            m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricLeftHigh);
+            m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
+            m_graph->scene()->activeCamera()->setZoomLevel(110);
+            zoomView->setCurrentIndex(0);
+            break;
+
+        case 5: //Isometric R
+            m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricRightHigh);
+            m_graph->scene()->activeCamera()->setTarget(QVector3D(0.0f, 0.0f, 0.0f));
+            m_graph->scene()->activeCamera()->setZoomLevel(110);
+            zoomView->setCurrentIndex(0);
+            break;
+
+        case 6: //Selected Item
         {
-            QVector3D target;
-            float xMin = m_graph->columnAxis()->min();
-            float xRange = m_graph->columnAxis()->max() - xMin;
-            float zMin = m_graph->rowAxis()->min();
-            float zRange = m_graph->rowAxis()->max() - zMin;
-            target.setX((selectedBar.y() - xMin) / xRange * 2.0f - 1.0f);
-            target.setZ((selectedBar.x() - zMin) / zRange * 2.0f - 1.0f);
+            QPoint selectedBar = m_graph->selectedSeries()
+                                 ? m_graph->selectedSeries()->selectedBar()
+                                 : QBar3DSeries::invalidSelectionPosition();
+            if (selectedBar != QBar3DSeries::invalidSelectionPosition())
+            {
+                QVector3D target;
+                float xMin = m_graph->columnAxis()->min();
+                float xRange = m_graph->columnAxis()->max() - xMin;
+                float zMin = m_graph->rowAxis()->min();
+                float zRange = m_graph->rowAxis()->max() - zMin;
+                target.setX((selectedBar.y() - xMin) / xRange * 2.0f - 1.0f);
+                target.setZ((selectedBar.x() - zMin) / zRange * 2.0f - 1.0f);
 
-            qreal endAngleX = qAtan(qreal(target.z() / target.x())) / M_PI * -180.0 + 90.0;
-            if (target.x() > 0.0f)
-                endAngleX -= 180.0f;
-            float barValue = m_graph->selectedSeries()->dataProxy()->itemAt(selectedBar.x(),
-                                                                            selectedBar.y())->value();
-            float endAngleY = 60.0f;
-            float zoom = 150 * 1/qSqrt(barValue / convertFromSliderValue(whitePointSlider->value()));
-            m_graph->scene()->activeCamera()->setCameraPosition(endAngleX, endAngleY, zoom);
-            m_graph->scene()->activeCamera()->setTarget(target);
+                qreal endAngleX = qAtan(qreal(target.z() / target.x())) / M_PI * -180.0 + 90.0;
+                if (target.x() > 0.0f)
+                    endAngleX -= 180.0f;
+                float barValue = m_graph->selectedSeries()->dataProxy()->itemAt(selectedBar.x(),
+                                 selectedBar.y())->value();
+                float endAngleY = 60.0f;
+                float zoom = 150 * 1 / qSqrt(barValue / convertFromSliderValue(whitePointSlider->value()));
+                m_graph->scene()->activeCamera()->setCameraPosition(endAngleX, endAngleY, zoom);
+                m_graph->scene()->activeCamera()->setTarget(target);
 
 
+            }
+            zoomView->setCurrentIndex(0);
+            break;
         }
-        zoomView->setCurrentIndex(0);
-        break;
-    }
 
 
-    default:
-        zoomView->setCurrentIndex(0);
-        break;
+        default:
+            zoomView->setCurrentIndex(0);
+            break;
     }
 }
 
 void StarProfileViewer::changeSelectionType(int type)
 {
-    switch (type) {
-    case 0:
-        m_graph->setSelectionMode(QAbstract3DGraph::SelectionItem);
-        m_graph->scene()->setSlicingActive(false);
-        sliceB->setEnabled(false);
-        break;
+    switch (type)
+    {
+        case 0:
+            m_graph->setSelectionMode(QAbstract3DGraph::SelectionItem);
+            m_graph->scene()->setSlicingActive(false);
+            sliceB->setEnabled(false);
+            break;
 
-    case 1:
-        m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndRow);
-        sliceB->setEnabled(true);
-        break;
+        case 1:
+            m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndRow);
+            sliceB->setEnabled(true);
+            break;
 
-    case 2:
-        m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndColumn);
-        sliceB->setEnabled(true);
-        break;
+        case 2:
+            m_graph->setSelectionMode(QAbstract3DGraph::SelectionItemAndColumn);
+            sliceB->setEnabled(true);
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -652,7 +657,7 @@ void StarProfileViewer::changeSelection()
 {
     int x = horizontalSelector->value();
     int y = verticalSelector->value();
-    m_graph->primarySeries()->setSelectedBar(QPoint( y , x )); //Note row, column    y, x
+    m_graph->primarySeries()->setSelectedBar(QPoint( y, x ));  //Note row, column    y, x
     if(exploreMode->isChecked())
         zoomViewTo(6); //Zoom to SelectedItem
     updatePixelReport();
@@ -666,7 +671,8 @@ void StarProfileViewer::updatePixelReport()
     x += subFrame.x();
     y = (subFrame.height() - 1 - y) + subFrame.y(); //Note: Y is in reverse order on the graph.
     float barValue = getImageDataValue(x, y);
-    pixelReport->setText(i18n("Selected Pixel: (%1, %2): %3", x + 1, y + 1, roundf(barValue * 100) / 100)); //Have to add 1 because humans start counting at 1
+    pixelReport->setText(i18n("Selected Pixel: (%1, %2): %3", x + 1, y + 1,
+                              roundf(barValue * 100) / 100)); //Have to add 1 because humans start counting at 1
 
 }
 
@@ -675,9 +681,9 @@ void StarProfileViewer::updateSelectorBars(QPoint position)
 {
     //Note that we need to disconnect and then reconnect to avoid triggering changeSelection
     QObject::disconnect(verticalSelector,  &QSlider::valueChanged,
-                     this, &StarProfileViewer::changeSelection);
+                        this, &StarProfileViewer::changeSelection);
     QObject::disconnect(horizontalSelector,  &QSlider::valueChanged,
-                     this, &StarProfileViewer::changeSelection);
+                        this, &StarProfileViewer::changeSelection);
 
     //Note row, column    y, x
     verticalSelector->setValue(position.x());
@@ -726,13 +732,14 @@ void StarProfileViewer::updateDisplayData()
             displayDataSet->append(newDataRow);
 
         }
-        m_3DPixelSeries->dataProxy()->resetArray(displayDataSet); //, m_3DPixelSeries->dataProxy()->rowLabels(), m_3DPixelSeries->dataProxy()->columnLabels()
+        m_3DPixelSeries->dataProxy()->resetArray(
+            displayDataSet); //, m_3DPixelSeries->dataProxy()->rowLabels(), m_3DPixelSeries->dataProxy()->columnLabels()
     }
 }
 
 void StarProfileViewer::getSubFrameMinMax(float *subFrameMin, float *subFrameMax, double *dataMin, double *dataMax)
 {
-    imageData->getMinMax(dataMin,dataMax);
+    imageData->getMinMax(dataMin, dataMax);
 
     //Backwards so that we can find the min and max in subFrame
     *subFrameMin = *dataMax;
@@ -740,37 +747,37 @@ void StarProfileViewer::getSubFrameMinMax(float *subFrameMin, float *subFrameMax
 
     switch (imageData->getStatistics().dataType)
     {
-    case TBYTE:
-        getSubFrameMinMax<uint8_t>(subFrameMin, subFrameMax);
-        break;
+        case TBYTE:
+            getSubFrameMinMax<uint8_t>(subFrameMin, subFrameMax);
+            break;
 
-    case TSHORT:
-        getSubFrameMinMax<int16_t>(subFrameMin, subFrameMax);
-        break;
+        case TSHORT:
+            getSubFrameMinMax<int16_t>(subFrameMin, subFrameMax);
+            break;
 
-    case TUSHORT:
-        getSubFrameMinMax<uint16_t>(subFrameMin, subFrameMax);
-        break;
+        case TUSHORT:
+            getSubFrameMinMax<uint16_t>(subFrameMin, subFrameMax);
+            break;
 
-    case TLONG:
-        getSubFrameMinMax<int32_t>(subFrameMin, subFrameMax);
-        break;
+        case TLONG:
+            getSubFrameMinMax<int32_t>(subFrameMin, subFrameMax);
+            break;
 
-    case TULONG:
-        getSubFrameMinMax<uint32_t>(subFrameMin, subFrameMax);
-        break;
+        case TULONG:
+            getSubFrameMinMax<uint32_t>(subFrameMin, subFrameMax);
+            break;
 
-    case TFLOAT:
-        getSubFrameMinMax<float>(subFrameMin, subFrameMax);
-        break;
+        case TFLOAT:
+            getSubFrameMinMax<float>(subFrameMin, subFrameMax);
+            break;
 
-    case TLONGLONG:
-        getSubFrameMinMax<int64_t>(subFrameMin, subFrameMax);
-        break;
+        case TLONGLONG:
+            getSubFrameMinMax<int64_t>(subFrameMin, subFrameMax);
+            break;
 
-    case TDOUBLE:
-        getSubFrameMinMax<double>(subFrameMin, subFrameMax);
-        break;
+        case TDOUBLE:
+            getSubFrameMinMax<double>(subFrameMin, subFrameMax);
+            break;
     }
 }
 
@@ -852,7 +859,8 @@ float StarProfileViewer::getImageDataValue(int x, int y)
 
 void StarProfileViewer::toggleSlice()
 {
-    if(m_graph->selectionMode() == QAbstract3DGraph::SelectionItemAndRow || m_graph->selectionMode() == QAbstract3DGraph::SelectionItemAndColumn)
+    if(m_graph->selectionMode() == QAbstract3DGraph::SelectionItemAndRow
+            || m_graph->selectionMode() == QAbstract3DGraph::SelectionItemAndColumn)
     {
 
         if(m_graph->scene()->isSlicingActive())
@@ -862,8 +870,8 @@ void StarProfileViewer::toggleSlice()
         else
         {
             QPoint selectedBar = m_graph->selectedSeries()
-                    ? m_graph->selectedSeries()->selectedBar()
-                    : QBar3DSeries::invalidSelectionPosition();
+                                 ? m_graph->selectedSeries()->selectedBar()
+                                 : QBar3DSeries::invalidSelectionPosition();
             if (selectedBar != QBar3DSeries::invalidSelectionPosition())
                 m_graph->scene()->setSlicingActive(true);
         }
@@ -896,8 +904,9 @@ void StarProfileViewer::updateHFRandPeakSelection()
         int row = x - subFrame.x();
         int y = starCenters[i]->y;
         int col = subFrame.height() - (y - subFrame.y());
-        if(subFrame.contains(x,y)){
-            double newHFR = imageData->getHFR(x,y);
+        if(subFrame.contains(x, y))
+        {
+            double newHFR = imageData->getHFR(x, y);
             int value = getImageDataValue(x, y);
             QCustom3DLabel *label = new QCustom3DLabel();
             label->setFacingCamera(true);
@@ -938,17 +947,18 @@ void StarProfileViewer::updateHFRandPeakSelection()
 
 void StarProfileViewer::updateColor(int selection)
 {
-    switch (selection) {
-    case 0:
-        setGreenToRedGradient();
-        break;
+    switch (selection)
+    {
+        case 0:
+            setGreenToRedGradient();
+            break;
 
-    case 1:
-        setBlackToYellowGradient();
-        break;
+        case 1:
+            setBlackToYellowGradient();
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -1007,6 +1017,6 @@ int StarProfileViewer::convertToSliderValue(float value)
 
 float StarProfileViewer::convertFromSliderValue(int value)
 {
-    return qPow((float)value,2) / 1000000.0;
+    return qPow((float)value, 2) / 1000000.0;
 }
 

@@ -16,7 +16,10 @@
 
 KSDssDownloader::KSDssDownloader(QObject *parent) : QObject(parent)
 {
-    connect(this, &KSDssDownloader::downloadCanceled, this, [&]() { deleteLater(); });
+    connect(this, &KSDssDownloader::downloadCanceled, this, [&]()
+    {
+        deleteLater();
+    });
     m_VersionPreference << "poss2ukstu_blue"
                         << "poss2ukstu_red"
                         << "poss1_blue"
@@ -33,7 +36,10 @@ KSDssDownloader::KSDssDownloader(const SkyPoint *const p, const QString &destFil
     // Initialize version preferences. FIXME: This must be made a
     // user-changeable option just in case someone likes red
 
-    connect(this, &KSDssDownloader::downloadCanceled, this, [&]() { deleteLater(); });
+    connect(this, &KSDssDownloader::downloadCanceled, this, [&]()
+    {
+        deleteLater();
+    });
 
     m_VersionPreference << "poss2ukstu_blue"
                         << "poss2ukstu_red"
@@ -315,7 +321,7 @@ bool KSDssDownloader::writeImageFile()
 }
 
 bool KSDssDownloader::writeImageWithMetadata(const QString &srcFile, const QString &destFile,
-                                             const KSDssImage::Metadata &md)
+        const KSDssImage::Metadata &md)
 {
     // Write the temporary file into an image file with metadata
     QImage img(srcFile);

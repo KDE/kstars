@@ -88,7 +88,7 @@ Triangle *new_triangle(TessContext *ctx, int v1, int v2, int v3)
 
 /******************************************************************************/
 
-void skip_vertex(Vertex *v, TessContext *ctx){};
+void skip_vertex(Vertex *v, TessContext *ctx) {};
 
 void fan_vertex(Vertex *v, TessContext *ctx)
 {
@@ -243,7 +243,8 @@ void tessellate(double **verts, int *nverts, int **tris, int *ntris, const doubl
             gluTessVertex(tess, current_vertex->pt, current_vertex);
         }
         gluTessEndContour(tess);
-    } while (contoursbegin != (contoursend - 1));
+    }
+    while (contoursbegin != (contoursend - 1));
     gluTessEndPolygon(tess);
 
     write_output(ctx, verts, tris, nverts, ntris);

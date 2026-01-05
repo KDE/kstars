@@ -15,18 +15,18 @@ class FileDownloader;
 
 class OpsHIPSDisplay : public QFrame, public Ui::OpsHIPSDisplay
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsHIPSDisplay();
+    public:
+        explicit OpsHIPSDisplay();
 };
 
 class OpsHIPSCache : public QFrame, public Ui::OpsHIPSCache
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsHIPSCache();
+    public:
+        explicit OpsHIPSCache();
 };
 
 /**
@@ -38,30 +38,30 @@ class OpsHIPSCache : public QFrame, public Ui::OpsHIPSCache
  */
 class OpsHIPS : public QFrame, public Ui::OpsHIPS
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsHIPS();
-    virtual ~OpsHIPS() override = default;
+    public:
+        explicit OpsHIPS();
+        virtual ~OpsHIPS() override = default;
 
-  public slots:
-    void slotRefresh();    
+    public slots:
+        void slotRefresh();
 
-  protected slots:
-    void downloadReady();
-    void downloadError(const QString &errorString);
-    void previewReady();
-    void slotItemUpdated(QListWidgetItem *item);
-    void slotItemClicked(QListWidgetItem *item);
+    protected slots:
+        void downloadReady();
+        void downloadError(const QString &errorString);
+        void previewReady();
+        void slotItemUpdated(QListWidgetItem *item);
+        void slotItemClicked(QListWidgetItem *item);
 
-  private:
+    private:
 
-    void setPreview(const QString &id, const QString &url);
+        void setPreview(const QString &id, const QString &url);
 
-    KConfigDialog *m_ConfigDialog { nullptr };
-    FileDownloader *downloadJob { nullptr };
-    FileDownloader *previewJob { nullptr };
+        KConfigDialog *m_ConfigDialog { nullptr };
+        FileDownloader *downloadJob { nullptr };
+        FileDownloader *previewJob { nullptr };
 
-    QList<QMap<QString,QString>> sources;
-    bool dirty { false };
+        QList<QMap<QString, QString>> sources;
+        bool dirty { false };
 };

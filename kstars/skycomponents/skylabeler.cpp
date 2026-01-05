@@ -87,11 +87,11 @@ SkyLabeler::SkyLabeler()
     //Painter is needed to get default font and we use it only once to have only one warning
     m_stdFont = QFont();
 
-//For some reason there is no point size in default font on Android
+    //For some reason there is no point size in default font on Android
 #ifdef ANDROID
     m_stdFont.setPointSize(16);
 #else
-    m_stdFont.setPointSize(m_stdFont.pointSize()+2);
+    m_stdFont.setPointSize(m_stdFont.pointSize() + 2);
 #endif
 
 #endif
@@ -175,7 +175,8 @@ bool SkyLabeler::drawNameLabel(SkyObject *obj, const QPointF &_p,
     else
     {
         double factor       = log(Options::zoomFactor() / 750.0);
-        double newPointSize = qBound(12.0, factor * m_stdFont.pointSizeF(), 18.0) * (1.0 + 0.7 * Options::labelFontScaling()/100.0);
+        double newPointSize = qBound(12.0, factor * m_stdFont.pointSizeF(),
+                                     18.0) * (1.0 + 0.7 * Options::labelFontScaling() / 100.0);
         QFont zoomFont(m_p.font());
         zoomFont.setPointSizeF(newPointSize);
         m_p.setFont(zoomFont);
@@ -413,7 +414,7 @@ bool SkyLabeler::markText(const QPointF &p, const QString &text, qreal padding_f
     {
         padding_factor =
             (1 - ((std::min(log10(Options::zoomFactor()), ramp_zoom)) / ramp_zoom)) *
-                padding_factor +
+            padding_factor +
             1;
     }
 
@@ -690,44 +691,44 @@ void SkyLabeler::printInfo()
     printf("  screenRows=%d elements=%d virtualSize=%.1f Kbytes\n", screenRows.size(), m_elements,
            float(m_size) / 1024.0);
 
-//    static const char *labelName[NUM_LABEL_TYPES];
-//
-//    labelName[STAR_LABEL]         = "Star";
-//    labelName[ASTEROID_LABEL]     = "Asteroid";
-//    labelName[COMET_LABEL]        = "Comet";
-//    labelName[PLANET_LABEL]       = "Planet";
-//    labelName[JUPITER_MOON_LABEL] = "Jupiter Moon";
-//    labelName[SATURN_MOON_LABEL]  = "Saturn Moon";
-//    labelName[DEEP_SKY_LABEL]     = "Deep Sky Object";
-//    labelName[CONSTEL_NAME_LABEL] = "Constellation Name";
-//
-//    for (int i = 0; i < NUM_LABEL_TYPES; i++)
-//    {
-//        printf("  %20ss: %d\n", labelName[i], labelList[i].size());
-//    }
-//
-//    // Check for errors in the data structure
-//    for (int y = 0; y <= m_maxY; y++)
-//    {
-//        LabelRow *row = screenRows[y];
-//        int size      = row->size();
-//        if (size < 2)
-//            continue;
-//
-//        bool error = false;
-//        for (int i = 1; i < size; i++)
-//        {
-//            if (row->at(i - 1)->end > row->at(i)->start)
-//                error = true;
-//        }
-//        if (!error)
-//            continue;
-//
-//        printf("ERROR: %3d: ", y);
-//        for (int i = 0; i < row->size(); i++)
-//        {
-//            printf("(%d, %d) ", row->at(i)->start, row->at(i)->end);
-//        }
-//        printf("\n");
-//    }
+    //    static const char *labelName[NUM_LABEL_TYPES];
+    //
+    //    labelName[STAR_LABEL]         = "Star";
+    //    labelName[ASTEROID_LABEL]     = "Asteroid";
+    //    labelName[COMET_LABEL]        = "Comet";
+    //    labelName[PLANET_LABEL]       = "Planet";
+    //    labelName[JUPITER_MOON_LABEL] = "Jupiter Moon";
+    //    labelName[SATURN_MOON_LABEL]  = "Saturn Moon";
+    //    labelName[DEEP_SKY_LABEL]     = "Deep Sky Object";
+    //    labelName[CONSTEL_NAME_LABEL] = "Constellation Name";
+    //
+    //    for (int i = 0; i < NUM_LABEL_TYPES; i++)
+    //    {
+    //        printf("  %20ss: %d\n", labelName[i], labelList[i].size());
+    //    }
+    //
+    //    // Check for errors in the data structure
+    //    for (int y = 0; y <= m_maxY; y++)
+    //    {
+    //        LabelRow *row = screenRows[y];
+    //        int size      = row->size();
+    //        if (size < 2)
+    //            continue;
+    //
+    //        bool error = false;
+    //        for (int i = 1; i < size; i++)
+    //        {
+    //            if (row->at(i - 1)->end > row->at(i)->start)
+    //                error = true;
+    //        }
+    //        if (!error)
+    //            continue;
+    //
+    //        printf("ERROR: %3d: ", y);
+    //        for (int i = 0; i < row->size(); i++)
+    //        {
+    //            printf("(%d, %d) ", row->at(i)->start, row->at(i)->end);
+    //        }
+    //        printf("\n");
+    //    }
 }

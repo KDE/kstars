@@ -20,15 +20,15 @@ typedef enum
     STARTUP_COMPLETE,              /**< Startup procedure completed successfully */
     STARTUP_ERROR                  /**< Startup procedure failed */
 } StartupState;
-    typedef enum
-    {
-        SHUTDOWN_IDLE,                  ///< Shutdown not in progress
-        SHUTDOWN_PRE_QUEUE_RUNNING,     ///< Pre-shutdown queue is executing
-        SHUTDOWN_STOPPING_EKOS,         ///< Pre-shutdown done, stopping Ekos/INDI
-        SHUTDOWN_POST_QUEUE_RUNNING,    ///< Post-shutdown queue is executing  
-        SHUTDOWN_COMPLETE,              ///< Shutdown complete
-        SHUTDOWN_ERROR                  ///< Shutdown error
-    } ShutdownState;
+typedef enum
+{
+    SHUTDOWN_IDLE,                  ///< Shutdown not in progress
+    SHUTDOWN_PRE_QUEUE_RUNNING,     ///< Pre-shutdown queue is executing
+    SHUTDOWN_STOPPING_EKOS,         ///< Pre-shutdown done, stopping Ekos/INDI
+    SHUTDOWN_POST_QUEUE_RUNNING,    ///< Post-shutdown queue is executing
+    SHUTDOWN_COMPLETE,              ///< Shutdown complete
+    SHUTDOWN_ERROR                  ///< Shutdown error
+} ShutdownState;
 typedef enum
 {
     PARKWAIT_IDLE,

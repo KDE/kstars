@@ -19,43 +19,43 @@ class SkyObject;
   */
 class PWizObjectSelectionUI : public QFrame, public Ui::PWizObjectSelection
 {
-    Q_OBJECT
-  public:
-    /**
-          * \brief Constructor.
-          */
-    explicit PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent = nullptr);
+        Q_OBJECT
+    public:
+        /**
+              * \brief Constructor.
+              */
+        explicit PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent = nullptr);
 
-    /**
-          * \brief Update UI elements for newly selected SkyObject.
-          * \param obj Selected SkyObject.
-          */
-    void setSkyObject(SkyObject *obj);
+        /**
+              * \brief Update UI elements for newly selected SkyObject.
+              * \param obj Selected SkyObject.
+              */
+        void setSkyObject(SkyObject *obj);
 
-    /**
-          * \brief Static function: get QString with basic information about SkyObject.
-          * \param obj Selected SkyObject.
-          */
-    static QString objectInfoString(SkyObject *obj);
+        /**
+              * \brief Static function: get QString with basic information about SkyObject.
+              * \param obj Selected SkyObject.
+              */
+        static QString objectInfoString(SkyObject *obj);
 
-  private slots:
-    /**
-          * \brief Slot: open "Find Object" dialog to select SkyObject.
-          */
-    void slotSelectFromList();
+    private slots:
+        /**
+              * \brief Slot: open "Find Object" dialog to select SkyObject.
+              */
+        void slotSelectFromList();
 
-    /**
-          * \brief Slot: enter object pointing mode to select SkyObject.
-          */
-    void slotPointObject();
+        /**
+              * \brief Slot: enter object pointing mode to select SkyObject.
+              */
+        void slotPointObject();
 
-    /**
-          * \brief Slot: show "Details" window for selected object.
-          */
-    void slotShowDetails();
+        /**
+              * \brief Slot: show "Details" window for selected object.
+              */
+        void slotShowDetails();
 
-  private:
-    PrintingWizard *m_ParentWizard;
+    private:
+        PrintingWizard *m_ParentWizard;
 };
 
 #endif // PWIZOBJECTSELECTION_H

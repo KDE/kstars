@@ -19,20 +19,20 @@
 
 class SkyMapGLDraw : public QGLWidget, public SkyMapDrawAbstract
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    /**
-         *@short Constructor
-         */
-    explicit SkyMapGLDraw(SkyMap *parent);
+    public:
+        /**
+             *@short Constructor
+             */
+        explicit SkyMapGLDraw(SkyMap *parent);
 
-  protected:
-    virtual void paintEvent(QPaintEvent *e);
+    protected:
+        virtual void paintEvent(QPaintEvent *e);
 
-    virtual void initializeGL();
+        virtual void initializeGL();
 
-    virtual void resizeGL(int, int);
+        virtual void resizeGL(int, int);
 };
 
 #endif

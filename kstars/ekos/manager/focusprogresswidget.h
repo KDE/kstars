@@ -22,21 +22,21 @@ namespace Ekos
 
 class FocusProgressWidget : public QWidget, public Ui::FocusProgressWidget
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    FocusProgressWidget(QWidget * parent);
-    void init();
-    void updateFocusDetailView();
-    void reset();
+    public:
+        FocusProgressWidget(QWidget * parent);
+        void init();
+        void updateFocusDetailView();
+        void reset();
 
-public slots:
-    void updateFocusStatus(FocusState status);
-    void updateFocusStarPixmap(QPixmap &starPixmap);
-    void updateCurrentHFR(double newHFR);
+    public slots:
+        void updateFocusStatus(FocusState status);
+        void updateFocusStarPixmap(QPixmap &starPixmap);
+        void updateCurrentHFR(double newHFR);
 
-private:
-    std::unique_ptr<QPixmap> focusStarPixmap;
+    private:
+        std::unique_ptr<QPixmap> focusStarPixmap;
 
 };
 

@@ -24,26 +24,29 @@ class DriverInfo;
  */
 class CustomDrivers : public QDialog, public Ui::CustomDrivers
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit CustomDrivers(QWidget *parent, const QList<QSharedPointer<DriverInfo>> &driversList);
-    ~CustomDrivers();
+    public:
+        explicit CustomDrivers(QWidget *parent, const QList<QSharedPointer<DriverInfo>> &driversList);
+        ~CustomDrivers();
 
-    const QList<QVariantMap> & customDrivers() const { return m_CustomDrivers; }
-    void refreshFromDB();
+        const QList<QVariantMap>  &customDrivers() const
+        {
+            return m_CustomDrivers;
+        }
+        void refreshFromDB();
 
-  protected slots:
-    void syncDriver();
-    void addDriver();
-    void removeDriver();
+    protected slots:
+        void syncDriver();
+        void addDriver();
+        void removeDriver();
 
-  private:            
+    private:
 
-    QList<QVariantMap> m_CustomDrivers;
-    const QList<QSharedPointer<DriverInfo>> &m_DriversList;
+        QList<QVariantMap> m_CustomDrivers;
+        const QList<QSharedPointer<DriverInfo>> &m_DriversList;
 
-    QSqlDatabase userdb;
-    QPointer<QSqlTableModel> model;
+        QSqlDatabase userdb;
+        QPointer<QSqlTableModel> model;
 };
 

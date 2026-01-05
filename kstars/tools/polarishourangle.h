@@ -16,22 +16,22 @@ class SkyObject;
 
 class PolarisHourAngle : public QDialog, public Ui::PolarisHourAngle
 {
-  Q_OBJECT
+        Q_OBJECT
 
-public:
-  explicit PolarisHourAngle(QWidget *parent);
+    public:
+        explicit PolarisHourAngle(QWidget *parent);
 
-protected:
-  void paintEvent(QPaintEvent *) override;
+    protected:
+        void paintEvent(QPaintEvent *) override;
 
-private slots:
-  void onTimeUpdated(QDateTime newDateTime);
+    private slots:
+        void onTimeUpdated(QDateTime newDateTime);
 
-private:
-  double m_polarisHourAngle;
+    private:
+        double m_polarisHourAngle;
 
-  SkyObject *m_polaris = { nullptr };
-  std::unique_ptr<QPixmap> m_reticle12;
-  std::unique_ptr<QPixmap> m_reticle24;
+        SkyObject *m_polaris = { nullptr };
+        std::unique_ptr<QPixmap> m_reticle12;
+        std::unique_ptr<QPixmap> m_reticle24;
 };
 

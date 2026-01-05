@@ -15,11 +15,11 @@ namespace Ekos
 {
 class ModuleLogger
 {
-public:
-    /**
-     * @brief appendLogText Append a new line to the logging.
-     */
-    virtual void appendLogText(const QString &) {};
+    public:
+        /**
+         * @brief appendLogText Append a new line to the logging.
+         */
+        virtual void appendLogText(const QString &) {};
 
 }; // class ModuleLogger
 } // namespace

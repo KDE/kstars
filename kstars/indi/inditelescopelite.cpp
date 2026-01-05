@@ -291,7 +291,7 @@ bool TelescopeLite::sendCoords(SkyPoint *ScopeTarget)
             return false;
 
         //if (useJ2000)
-            //ScopeTarget->apparentCoord( KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+        //ScopeTarget->apparentCoord( KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
 
         currentRA  = RAEle->value;
         currentDEC = DecEle->value;
@@ -320,7 +320,7 @@ bool TelescopeLite::sendCoords(SkyPoint *ScopeTarget)
     targetAlt = ScopeTarget->altRefracted().Degrees();
     if (targetAlt < 0)
     {
-       return false;
+        return false;
     }
 
     if (EqProp)
@@ -332,11 +332,11 @@ bool TelescopeLite::sendCoords(SkyPoint *ScopeTarget)
             // If we have invalid DEC, then convert coords to J2000
             if (ScopeTarget->dec0().Degrees() == 180.0)
             {
-               ScopeTarget->setRA0(ScopeTarget->ra());
-               ScopeTarget->setDec0(ScopeTarget->dec());
-               ScopeTarget->apparentCoord( KStarsLite::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
-               ra = ScopeTarget->ra();
-               de = ScopeTarget->dec();
+                ScopeTarget->setRA0(ScopeTarget->ra());
+                ScopeTarget->setDec0(ScopeTarget->dec());
+                ScopeTarget->apparentCoord( KStarsLite::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
+                ra = ScopeTarget->ra();
+                de = ScopeTarget->dec();
             }
             else
             {

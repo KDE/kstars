@@ -58,37 +58,40 @@
 
 class MinimizeWidget : public QWidget
 {
-    Q_OBJECT
+        Q_OBJECT
 
-    Q_PROPERTY(bool minimized READ isMinimized WRITE setMinimized NOTIFY changed)
+        Q_PROPERTY(bool minimized READ isMinimized WRITE setMinimized NOTIFY changed)
 
-  public:
-    MinimizeWidget(QWidget *parent = nullptr);
+    public:
+        MinimizeWidget(QWidget *parent = nullptr);
 
-    // Must be explicitly called
-    // Can add an initial value and a function that sets the option value
-    // when minimized/maximized by the user.
-    void setupUI(bool initiallyMinimized = false, void(*setOption)(bool) = nullptr);
+        // Must be explicitly called
+        // Can add an initial value and a function that sets the option value
+        // when minimized/maximized by the user.
+        void setupUI(bool initiallyMinimized = false, void(*setOption)(bool) = nullptr);
 
-    bool isMinimized() const { return m_isMinimized; }
-    void setMinimized(bool minimized);
+        bool isMinimized() const
+        {
+            return m_isMinimized;
+        }
+        void setMinimized(bool minimized);
 
-  signals:
-    void changed(bool minimized);
+    signals:
+        void changed(bool minimized);
 
-  protected:
+    protected:
 
-  private slots:
-    void maximize();
-    void minimize();
+    private slots:
+        void maximize();
+        void minimize();
 
-  private:
-    QPushButton *m_MaximizeButton { nullptr };
-    QPushButton *m_MinimizeButton { nullptr };
-    QVBoxLayout *m_mainLayout { nullptr };
-    QWidget *m_MinimizedWidget { nullptr };
-    QWidget *m_MaximizedWidget { nullptr };
+    private:
+        QPushButton *m_MaximizeButton { nullptr };
+        QPushButton *m_MinimizeButton { nullptr };
+        QVBoxLayout *m_mainLayout { nullptr };
+        QWidget *m_MinimizedWidget { nullptr };
+        QWidget *m_MaximizedWidget { nullptr };
 
-    bool m_initialized { false };
-    bool m_isMinimized { true };
+        bool m_initialized { false };
+        bool m_isMinimized { true };
 };

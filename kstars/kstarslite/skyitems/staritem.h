@@ -21,28 +21,28 @@ class StarComponent;
  */
 class StarItem : public SkyItem
 {
-  public:
-    /**
-     * @short Constructor.
-     * @param starComp star component
-     * @param rootNode parent RootNode that instantiated this object
-     */
-    StarItem(StarComponent *starComp, RootNode *rootNode);
+    public:
+        /**
+         * @short Constructor.
+         * @param starComp star component
+         * @param rootNode parent RootNode that instantiated this object
+         */
+        StarItem(StarComponent *starComp, RootNode *rootNode);
 
-    /**
-     * @short Update positions of nodes that represent stars
-     * In this function we perform almost the same thing as in DeepSkyItem::updateDeepSkyNode() to reduce
-     * memory consumption.
-     * @see DeepSkyItem::updateDeepSkyNode()
-     */
-    virtual void update();
+        /**
+         * @short Update positions of nodes that represent stars
+         * In this function we perform almost the same thing as in DeepSkyItem::updateDeepSkyNode() to reduce
+         * memory consumption.
+         * @see DeepSkyItem::updateDeepSkyNode()
+         */
+        virtual void update();
 
-  private:
-    StarComponent *m_starComp { nullptr };
-    SkyMesh *m_skyMesh { nullptr };
-    StarBlockFactory *m_StarBlockFactory { nullptr };
+    private:
+        StarComponent *m_starComp { nullptr };
+        SkyMesh *m_skyMesh { nullptr };
+        StarBlockFactory *m_StarBlockFactory { nullptr };
 
-    SkyOpacityNode *m_stars { nullptr };
-    SkyOpacityNode *m_deepStars { nullptr };
-    SkyOpacityNode *m_starLabels { nullptr };
+        SkyOpacityNode *m_stars { nullptr };
+        SkyOpacityNode *m_deepStars { nullptr };
+        SkyOpacityNode *m_starLabels { nullptr };
 };

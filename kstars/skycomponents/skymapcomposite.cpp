@@ -120,7 +120,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent)
     try
     {
         addComponent(m_Catalogs = new CatalogsComponent(this, path, !QFile::exists(path)),
-                     5);
+        5);
     }
     catch (const CatalogsDB::DatabaseError &e)
     {
@@ -133,10 +133,10 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent)
         const auto &answer = KMessageBox::warningContinueCancel(
                                  nullptr,
                                  i18n("Do you want to start over with an empty database?\n"
-                                      "This will move the current DSO database \"%1\"\n"
-                                      "to \"%2\"",
+             "This will move the current DSO database \"%1\"\n"
+             "to \"%2\"",
                                       path, backup_path),
-                                 "Start over?");
+        "Start over?");
 
         if (answer == KMessageBox::Continue)
         {
@@ -171,8 +171,8 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent)
     addComponent(m_Flags = new FlagComponent(this), 4);
 
     addComponent(m_ObservingList = new TargetListComponent(this, nullptr, QPen(),
-            &Options::obsListSymbol,
-            &Options::obsListText),
+        &Options::obsListSymbol,
+        &Options::obsListText),
                  120);
     addComponent(m_StarHopRouteList = new TargetListComponent(this, nullptr, QPen()),
                  130);
@@ -560,7 +560,7 @@ QList<SkyObject *> SkyMapComposite::findObjectsInArea(const SkyPoint &p1,
     return list;
 }
 
-SkyObject *SkyMapComposite::findByName(const QString &name, bool exact)
+SkyObject * SkyMapComposite::findByName(const QString &name, bool exact)
 {
 #ifndef KSTARS_LITE
     if (KStars::Closing)
@@ -588,12 +588,12 @@ SkyObject *SkyMapComposite::findByName(const QString &name, bool exact)
     return nullptr;
 }
 
-SkyObject *SkyMapComposite::findStarByGenetiveName(const QString name)
+SkyObject * SkyMapComposite::findStarByGenetiveName(const QString name)
 {
     return m_Stars->findStarByGenetiveName(name);
 }
 
-KSPlanetBase *SkyMapComposite::planet(int n)
+KSPlanetBase * SkyMapComposite::planet(int n)
 {
     if (n == KSPlanetBase::SUN)
         return dynamic_cast<KSPlanetBase *>((m_SolarSystem->findByName(i18n("Sun"))));
@@ -787,7 +787,7 @@ const QList<SkyObject *> *SkyMapComposite::getSkyObjectsList(SkyObject::TYPE t)
     //return nullptr;
 }
 
-KSPlanet *SkyMapComposite::earth()
+KSPlanet * SkyMapComposite::earth()
 {
     return m_SolarSystem->earth();
 }
@@ -812,28 +812,28 @@ QString SkyMapComposite::currentCulture()
     return m_Cultures->current();
 }
 #ifndef KSTARS_LITE
-FlagComponent *SkyMapComposite::flags()
+FlagComponent * SkyMapComposite::flags()
 {
     return m_Flags;
 }
 #endif
 
-SatellitesComponent *SkyMapComposite::satellites()
+SatellitesComponent * SkyMapComposite::satellites()
 {
     return m_Satellites;
 }
 
-SupernovaeComponent *SkyMapComposite::supernovaeComponent()
+SupernovaeComponent * SkyMapComposite::supernovaeComponent()
 {
     return m_Supernovae;
 }
 
-ArtificialHorizonComponent *SkyMapComposite::artificialHorizon()
+ArtificialHorizonComponent * SkyMapComposite::artificialHorizon()
 {
     return m_ArtificialHorizon;
 }
 
-ImageOverlayComponent *SkyMapComposite::imageOverlay()
+ImageOverlayComponent * SkyMapComposite::imageOverlay()
 {
     return m_ImageOverlay;
 }

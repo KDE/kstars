@@ -30,63 +30,63 @@ struct MemoryInfo
 
 class FITSMemoryMonitor : public QWidget
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit FITSMemoryMonitor(QWidget *parent = nullptr);
+    public:
+        explicit FITSMemoryMonitor(QWidget *parent = nullptr);
 
-    /**
-     * @brief Get the update interval, default is 1000 = 1s
-     * @return interval
-     */
-    int updateInterval() const;
+        /**
+         * @brief Get the update interval, default is 1000 = 1s
+         * @return interval
+         */
+        int updateInterval() const;
 
-    /**
-     * @brief Set the update interval
-     * @param interval
-     */
-    void setUpdateInterval(const int interval);
+        /**
+         * @brief Set the update interval
+         * @param interval
+         */
+        void setUpdateInterval(const int interval);
 
-    /**
-     * @brief Get the show label setting
-     * @return show setting
-     */
-    bool showLabel() const;
+        /**
+         * @brief Get the show label setting
+         * @return show setting
+         */
+        bool showLabel() const;
 
-    /**
-     * @brief Set the show label setting
-     * @param show setting
-     */
-    void setShowLabel(const bool show);
+        /**
+         * @brief Set the show label setting
+         * @param show setting
+         */
+        void setShowLabel(const bool show);
 
-    /**
-     * @brief Get the label format
-     * @return label format
-     */
-    QString labelFormat() const;
+        /**
+         * @brief Get the label format
+         * @return label format
+         */
+        QString labelFormat() const;
 
-    /**
-     * @brief Set the label format
-     * @param label format
-     */
-    void setLabelFormat(const QString &format);
+        /**
+         * @brief Set the label format
+         * @param label format
+         */
+        void setLabelFormat(const QString &format);
 
-  protected:
-    bool eventFilter(QObject *obj, QEvent *event) override;
+    protected:
+        bool eventFilter(QObject *obj, QEvent *event) override;
 
-  private slots:
-    void updateMemoryDisplay();
-    void onLabelDoubleClicked();
+    private slots:
+        void updateMemoryDisplay();
+        void onLabelDoubleClicked();
 
-  private:
-    void setupUI();
-    MemoryInfo getMemoryInfo();
-    QString formatBytes(quint64 bytes);
+    private:
+        void setupUI();
+        MemoryInfo getMemoryInfo();
+        QString formatBytes(quint64 bytes);
 
-    QTimer *updateTimer { nullptr };
-    QProgressBar *memoryBar { nullptr };
-    QLabel *memoryLabel { nullptr };
-    int m_updateInterval { 1000 };
-    bool m_showLabel { true };
-    QString m_labelFormat { "RAM: %1 / %2" };
+        QTimer *updateTimer { nullptr };
+        QProgressBar *memoryBar { nullptr };
+        QLabel *memoryLabel { nullptr };
+        int m_updateInterval { 1000 };
+        bool m_showLabel { true };
+        QString m_labelFormat { "RAM: %1 / %2" };
 };

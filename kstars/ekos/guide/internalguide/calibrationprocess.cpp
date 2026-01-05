@@ -439,7 +439,7 @@ void CalibrationProcess::decOutState(double cur_x, double cur_y)
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << dec_iterations << ": STAR " << cur_x << "," << cur_y;
     qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << dec_iterations << " Direction: DEC_INC_DIR" <<
-                               " Duration: " << last_pulse << " ms.";
+                                  " Duration: " << last_pulse << " ms.";
 
     // Don't yet know how to tell NORTH vs SOUTH
     if (guideLog)
@@ -521,7 +521,7 @@ void CalibrationProcess::decInState(double cur_x, double cur_y)
     // Star position resulting from LAST guiding pulse to mount
     qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << dec_iterations << ": STAR " << cur_x << "," << cur_y;
     qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << dec_iterations << " Direction: DEC_DEC_DIR" <<
-                               " Duration: " << last_pulse << " ms.";
+                                  " Duration: " << last_pulse << " ms.";
 
     // Note: the way this temp calibration was set up above, with the DEC drifts, the ra axis is really dec.
     // This will help the dec find its way home. Could convert to a full RA/DEC calibration.

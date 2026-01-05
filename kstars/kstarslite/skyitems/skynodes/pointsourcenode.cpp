@@ -47,7 +47,7 @@ float PointSourceNode::starWidth(float mag) const
 PointSourceNode::~PointSourceNode()
 {
     if (m_label &&
-        (m_labelType == LabelsItem::label_t::STAR_LABEL || m_labelType == LabelsItem::label_t::CATALOG_STAR_LABEL))
+            (m_labelType == LabelsItem::label_t::STAR_LABEL || m_labelType == LabelsItem::label_t::CATALOG_STAR_LABEL))
     {
         m_rootNode->labelsItem()->deleteLabel(m_label);
     }
@@ -85,8 +85,8 @@ void PointSourceNode::update()
     bool visible = false;
     pos          = projector()->toScreen(m_skyObject, true, &visible);
     if (visible &&
-        projector()->onScreen(
-            pos)) // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode! (Inherited from SkyMap)
+            projector()->onScreen(
+                pos)) // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode! (Inherited from SkyMap)
     {
         updatePos(pos, m_drawLabel);
     }

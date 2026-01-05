@@ -179,9 +179,10 @@ CachingDms operator+(const CachingDms &a, const CachingDms &b)
 {
     double SumD = a.Degrees() + b.Degrees();
     if (std::fabs(SumD) < 1)
-    {   // Small angle approximation: sinx ~ x and cos ~ 1 - (x*x)/2
+    {
+        // Small angle approximation: sinx ~ x and cos ~ 1 - (x*x)/2
         double SumR = a.radians() + b.radians();
-        return CachingDms(SumD, SumR, 1 - (SumR*SumR)/2);
+        return CachingDms(SumD, SumR, 1 - (SumR * SumR) / 2);
     }
     else
         return CachingDms(SumD, sinA * cosB + cosA * sinB, cosA * cosB - sinA * sinB);
@@ -191,9 +192,10 @@ CachingDms operator-(const CachingDms &a, const CachingDms &b)
 {
     double DiffD = a.Degrees() - b.Degrees();
     if (std::fabs(DiffD) < 1)
-    {   // Small angle approximation: sinx ~ x and cos ~ 1 - (x*x)/2
+    {
+        // Small angle approximation: sinx ~ x and cos ~ 1 - (x*x)/2
         double DiffR = a.radians() - b.radians();
-        return CachingDms(DiffD, DiffR, 1 - (DiffR*DiffR)/2);
+        return CachingDms(DiffD, DiffR, 1 - (DiffR * DiffR) / 2);
     }
     else
         return CachingDms(DiffD, sinA * cosB - cosA * sinB, cosA * cosB + sinA * sinB);

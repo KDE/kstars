@@ -60,7 +60,7 @@ FocusDialog::FocusDialog() : QDialog(KStars::Instance())
 
     const SkyPoint *center {nullptr};
     if (SkyMap::Instance()->focusObject())
-        center = dynamic_cast<const SkyPoint*>(SkyMap::Instance()->focusObject());
+        center = dynamic_cast<const SkyPoint * >(SkyMap::Instance()->focusObject());
     else
         center = const_cast<const SkyPoint*>(SkyMap::Instance()->focusPoint());
 

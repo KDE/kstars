@@ -301,8 +301,8 @@ void HEALPix::neighbours(int nside, qint32 ipix, int *result)
     {
         qint32 fpix = (qint32)(face_num) << (2 * order),
                px0 = spread_bits64(ix  ), py0 = spread_bits64(iy  ) << 1,
-               pxp = spread_bits64(ix + 1), pyp = spread_bits64(iy + 1) << 1,
-               pxm = spread_bits64(ix - 1), pym = spread_bits64(iy - 1) << 1;
+                                          pxp = spread_bits64(ix + 1), pyp = spread_bits64(iy + 1) << 1,
+                                                                       pxm = spread_bits64(ix - 1), pym = spread_bits64(iy - 1) << 1;
 
         result[0] = fpix + pxm + py0;
         result[1] = fpix + pxm + pyp;

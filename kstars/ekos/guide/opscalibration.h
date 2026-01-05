@@ -23,21 +23,21 @@ class InternalGuider;
  */
 class OpsCalibration : public QFrame, public Ui::OpsCalibration
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    explicit OpsCalibration(InternalGuider *guiderObject);
-    virtual ~OpsCalibration() override = default;
+    public:
+        explicit OpsCalibration(InternalGuider *guiderObject);
+        virtual ~OpsCalibration() override = default;
 
-  protected:
-    void showEvent(QShowEvent *) override;
+    protected:
+        void showEvent(QShowEvent *) override;
 
-  private slots:
+    private slots:
 
-    void slotApply();
+        void slotApply();
 
-  private:
-    KConfigDialog *m_ConfigDialog { nullptr };
-    InternalGuider *guider { nullptr };
+    private:
+        KConfigDialog *m_ConfigDialog { nullptr };
+        InternalGuider *guider { nullptr };
 };
 }

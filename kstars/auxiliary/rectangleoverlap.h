@@ -25,29 +25,29 @@
 
 class RectangleOverlap
 {
-public:
-    /** Constructor specifying reference rectangle
-         * @param center the center of the rectangle
+    public:
+        /** Constructor specifying reference rectangle
+             * @param center the center of the rectangle
+             * @param width its width
+             * @param height its height
+             * @param rotationDegrees amount in degrees the rectangle is rotated counter-clockwise
+             */
+        RectangleOverlap(const QPointF &center, int width, int height, double rotationDegrees = 0.0);
+
+        /**
+         * @brief Check if the input rectangle overlaps the reference rectangle
+         *
+         * @param center the center of the input rectangle
          * @param width its width
          * @param height its height
          * @param rotationDegrees amount in degrees the rectangle is rotated counter-clockwise
-         */
-    RectangleOverlap(const QPointF &center, int width, int height, double rotationDegrees = 0.0);
+         * @return true if the rectangles overlap
+         **/
+        bool intersects(const QPointF &center, int width, int height, double rotationDegrees = 0.0) const;
 
-    /**
-     * @brief Check if the input rectangle overlaps the reference rectangle
-     *
-     * @param center the center of the input rectangle
-     * @param width its width
-     * @param height its height
-     * @param rotationDegrees amount in degrees the rectangle is rotated counter-clockwise
-     * @return true if the rectangles overlap
-     **/
-    bool intersects(const QPointF &center, int width, int height, double rotationDegrees = 0.0) const;
-
-private:
-    // The coordinates of the reference triangle's vertices, counter-clockwise.
-    QVector<QPointF> m_Vertices;
+    private:
+        // The coordinates of the reference triangle's vertices, counter-clockwise.
+        QVector<QPointF> m_Vertices;
 };
 
 

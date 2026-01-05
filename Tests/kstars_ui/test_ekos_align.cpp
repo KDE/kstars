@@ -297,7 +297,7 @@ bool TestEkosAlign::prepareMountModel(int points)
         {
             QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget());
             if (dialog != nullptr)
-                QTest::mouseClick(dialog->findChild<QDialogButtonBox*>()->button(QDialogButtonBox::Yes), Qt::LeftButton);
+                QTest::mouseClick(dialog->findChild<QDialogButtonBox * >()->button(QDialogButtonBox::Yes), Qt::LeftButton);
         });
         mountModel->clearAllAlignB->click();
     }

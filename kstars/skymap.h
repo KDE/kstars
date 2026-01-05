@@ -368,7 +368,8 @@ class SkyMap : public QGraphicsView
         void setExtraFovRotation(double angle);
 
         /** @short Gets the extra rotation applied to FOV symbols. */
-        double extraFovRotation() const {
+        double extraFovRotation() const
+        {
             return m_fovExtraRotation;
         }
 

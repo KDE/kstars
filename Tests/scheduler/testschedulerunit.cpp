@@ -79,13 +79,13 @@ dms midnightRA(188.2), testDEC(37.56);
 QVector<double> svAltitudes =
 {
     -15.11, -13.92, -10.28, -4.53, // 12,1,2,3pm
-        2.94, 11.74, 21.53, 32.05,     // 4,5,6,7pm
-        43.10, 54.53, 66.22, 78.08,    // 8,9,10,11pm
-        89.99,                         // midnight
-        78.07, 66.21, 54.52, 43.09,    // 1,2,3,4am
-        32.04, 21.52, 11.73, 2.94,     // 5,6,7,8am
-        -4.53, -10.29, -13.92, -15.11  // 9,10,11,12
-    };
+    2.94, 11.74, 21.53, 32.05,     // 4,5,6,7pm
+    43.10, 54.53, 66.22, 78.08,    // 8,9,10,11pm
+    89.99,                         // midnight
+    78.07, 66.21, 54.52, 43.09,    // 1,2,3,4am
+    32.04, 21.52, 11.73, 2.94,     // 5,6,7,8am
+    -4.53, -10.29, -13.92, -15.11  // 9,10,11,12
+};
 
 // Used to keep the "correct information" about what's stored in an .esq file
 // in order to test loadSequenceQueue() and processJobInfo(XML, job) which it calls.
@@ -314,7 +314,7 @@ namespace
 {
 // compareCaptureSequeuce() is a utility to use the CaptureJobDetails structure as a truth value
 // to see if the capture sequeuce was loaded properly.
-void compareCaptureSequence(const QList<CaptureJobDetails> &details, const QList<QSharedPointer<Ekos::SequenceJob>> &jobs)
+void compareCaptureSequence(const QList<CaptureJobDetails> &details, const QList<QSharedPointer<Ekos::SequenceJob >> &jobs)
 {
     QVERIFY(details.size() == jobs.size());
     for (int i = 0; i < jobs.size(); ++i)

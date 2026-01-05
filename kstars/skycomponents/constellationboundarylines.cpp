@@ -243,10 +243,11 @@ PolyList *ConstellationBoundaryLines::ContainingPoly(const SkyPoint *p) const
     // --asimha
     double RAH = p->ra0().Hours(), DED = p->dec0().Degrees();
     const StarObject *star = dynamic_cast<const StarObject*>(p);
-    if (star) {
+    if (star)
+    {
         StarObject copy = *star;
         double RAD = 0;
-        copy.getIndexCoords((star->getLastPrecessJD() - J2000)/365250., &RAD, &DED);
+        copy.getIndexCoords((star->getLastPrecessJD() - J2000) / 365250., &RAD, &DED);
         RAH = RAD / 15.;
     }
     QPointF point(RAH, DED);
@@ -287,8 +288,8 @@ QString ConstellationBoundaryLines::constellationName(const SkyPoint *p) const
     if (polyList)
     {
         return (Options::useLocalConstellNames() ?
-                    i18nc("Constellation name (optional)", polyList->name().toUpper().toLocal8Bit().data()) :
-                    polyList->name());
+                i18nc("Constellation name (optional)", polyList->name().toUpper().toLocal8Bit().data()) :
+                polyList->name());
     }
     return i18n("Unknown");
 }

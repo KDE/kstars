@@ -31,10 +31,10 @@ KSAlmanac::KSAlmanac(const KStarsDateTime &midnight, const GeoLocation *g)
     geo = g ? g : KStarsData::Instance()->geo();
 
     dt = midnight.isValid() ?
-                midnight.timeSpec() == Qt::LocalTime ?
-                    geo->LTtoUT(midnight) :
-                    midnight :
-                KStarsData::Instance()->ut();
+         midnight.timeSpec() == Qt::LocalTime ?
+         geo->LTtoUT(midnight) :
+         midnight :
+         KStarsData::Instance()->ut();
 
     update();
 }
@@ -54,8 +54,8 @@ void KSAlmanac::RiseSetTime(SkyObject *o, double *riseTime, double *setTime, QTi
     const KStarsDateTime today = dt;
     const GeoLocation *_geo    = geo;
     *RiseTime                  = o->riseSetTime(
-        today, _geo,
-        true); // FIXME: Should we add a day here so that we report future rise time? Not doing so produces the right results for the moon. Not sure about the sun.
+                                     today, _geo,
+                                     true); // FIXME: Should we add a day here so that we report future rise time? Not doing so produces the right results for the moon. Not sure about the sun.
     *SetTime  = o->riseSetTime(today, _geo, false);
     *riseTime = -1.0 * RiseTime->secsTo(QTime(0, 0, 0, 0)) / 86400.0;
     *setTime  = -1.0 * SetTime->secsTo(QTime(0, 0, 0, 0)) / 86400.0;
@@ -99,7 +99,7 @@ void KSAlmanac::findDawnDusk(double altitude)
 
     // Compute the altitude of the Sun twelve hours before this almanac time
     int const start_h = -1200, end_h = +1200;
-    double last_alt = findAltitude(&m_Sun, start_h/100.0);
+    double last_alt = findAltitude(&m_Sun, start_h / 100.0);
 
     int dawn = -1300, dusk = -1300, min_alt_time = -1300;
     double max_alt = -100.0, min_alt = +100.0;
@@ -109,7 +109,7 @@ void KSAlmanac::findDawnDusk(double altitude)
     for (int h = start_h + h_inc; h <= end_h; h += h_inc)
     {
         // Compute the Sun's altitude in an increasing hour interval
-        double const alt = findAltitude(&m_Sun, h/100.0);
+        double const alt = findAltitude(&m_Sun, h / 100.0);
 
         // Deduce whether the Sun is rising or setting
         bool const rising = alt - last_alt > 0;
@@ -129,13 +129,13 @@ void KSAlmanac::findDawnDusk(double altitude)
         if (dawn < 0)
             if (rising)
                 if (last_alt <= altitude && altitude <= alt)
-                    dawn = h - h_inc * (alt == last_alt ? 0 : (alt - altitude)/(alt - last_alt));
+                    dawn = h - h_inc * (alt == last_alt ? 0 : (alt - altitude) / (alt - last_alt));
 
         // Dusk is when the Sun is setting and crosses an altitude of -18 degrees
         if (dusk < 0)
             if (!rising)
                 if (last_alt >= altitude && altitude >= alt)
-                    dusk = h - h_inc * (alt == last_alt ? 0 : (alt - altitude)/(alt - last_alt));
+                    dusk = h - h_inc * (alt == last_alt ? 0 : (alt - altitude) / (alt - last_alt));
 
         last_alt = alt;
     }
@@ -185,7 +185,7 @@ double KSAlmanac::sunZenithAngleToTime(double z) const
 {
     // TODO: Correct for movement of the sun
     double HA       = acos((cos(z * dms::DegToRad) - m_Sun.dec().sin() * geo->lat()->sin()) /
-                     (m_Sun.dec().cos() * geo->lat()->cos()));
+                           (m_Sun.dec().cos() * geo->lat()->cos()));
     double HASunset = acos((-m_Sun.dec().sin() * geo->lat()->sin()) / (m_Sun.dec().cos() * geo->lat()->cos()));
     return SunSet + (HA - HASunset) / 24.0;
 }

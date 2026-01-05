@@ -175,7 +175,7 @@ void Cloud::dispatch(const QSharedPointer<FITSData> &data, const QString &uuid)
         if (oneRecord.key.isEmpty() || oneRecord.value.toString().isEmpty())
             continue;
         metadata.insert(oneRecord.key.toLower(), QJsonValue::fromVariant(oneRecord.value));
-    }    
+    }
 
     // Add filename and size as wells
     metadata.insert("uuid", uuid);

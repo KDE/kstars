@@ -19,23 +19,23 @@ class Align;
 
 class OpsAstrometry : public QWidget, public Ui::OpsAstrometry
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
+    public:
 
-    explicit OpsAstrometry(Align *parent);
-    virtual ~OpsAstrometry() override = default;
+        explicit OpsAstrometry(Align *parent);
+        virtual ~OpsAstrometry() override = default;
 
-  protected:
-    void showEvent(QShowEvent *) override;
+    protected:
+        void showEvent(QShowEvent *) override;
 
-  private slots:
-    void slotUpdatePosition();
-    void slotUpdateScale();
-    void slotApply();
+    private slots:
+        void slotUpdatePosition();
+        void slotUpdateScale();
+        void slotApply();
 
-  private:
-    KConfigDialog *m_ConfigDialog { nullptr };
-    Align *alignModule { nullptr };
+    private:
+        KConfigDialog *m_ConfigDialog { nullptr };
+        Align *alignModule { nullptr };
 };
 }

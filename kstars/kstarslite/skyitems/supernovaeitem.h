@@ -18,23 +18,23 @@ class SupernovaeComponent;
  */
 class SupernovaeItem : public SkyItem
 {
-  public:
-    /**
-     * @short Constructor
-     * @param snovaComp - pointer to SupernovaeComponent that handles data
-     * @param rootNode parent RootNode that instantiates this object
-     */
-    explicit SupernovaeItem(SupernovaeComponent *snovaComp, RootNode *rootNode = nullptr);
+    public:
+        /**
+         * @short Constructor
+         * @param snovaComp - pointer to SupernovaeComponent that handles data
+         * @param rootNode parent RootNode that instantiates this object
+         */
+        explicit SupernovaeItem(SupernovaeComponent *snovaComp, RootNode *rootNode = nullptr);
 
-    /**
-     * @short Recreate the node tree (delete old nodes and append new ones according to
-     * SupernovaeItem::objectList())
-     */
-    void recreateList();
+        /**
+         * @short Recreate the node tree (delete old nodes and append new ones according to
+         * SupernovaeItem::objectList())
+         */
+        void recreateList();
 
-    /** Update positions and visibility of supernovae */
-    virtual void update() override;
+        /** Update positions and visibility of supernovae */
+        virtual void update() override;
 
-  private:
-    SupernovaeComponent *m_snovaComp { nullptr };
+    private:
+        SupernovaeComponent *m_snovaComp { nullptr };
 };

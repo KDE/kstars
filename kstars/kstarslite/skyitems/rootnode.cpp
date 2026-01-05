@@ -45,7 +45,7 @@
 #include <QSGFlatColorMaterial>
 
 RootNode::RootNode() : m_skyMapLite(SkyMapLite::Instance())
-    {
+{
     SkyMapLite::setRootNode(this);
     genCachedTextures();
 

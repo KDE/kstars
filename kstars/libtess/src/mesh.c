@@ -59,8 +59,8 @@ static GLUhalfEdge *MakeEdge(GLUhalfEdge *eNext)
     }
 
     /* Insert in circular doubly-linked list before eNext.
-   * Note that the prev pointer is stored in Sym->next.
-   */
+    * Note that the prev pointer is stored in Sym->next.
+    */
     ePrev            = eNext->Sym->next;
     eSym->next       = ePrev;
     ePrev->Sym->next = e;
@@ -134,7 +134,8 @@ static void MakeVertex(GLUvertex *newVertex, GLUhalfEdge *eOrig, GLUvertex *vNex
     {
         e->Org = vNew;
         e      = e->Onext;
-    } while (e != eOrig);
+    }
+    while (e != eOrig);
 }
 
 /* MakeFace( newFace, eOrig, fNext ) attaches a new face and makes it the left
@@ -164,8 +165,8 @@ static void MakeFace(GLUface *newFace, GLUhalfEdge *eOrig, GLUface *fNext)
     fNew->marked = FALSE;
 
     /* The new face is marked "inside" if the old one was.  This is a
-   * convenience for the common case where a face has been split in two.
-   */
+    * convenience for the common case where a face has been split in two.
+    */
     fNew->inside = fNext->inside;
 
     /* fix other edges on this face loop */
@@ -174,7 +175,8 @@ static void MakeFace(GLUface *newFace, GLUhalfEdge *eOrig, GLUface *fNext)
     {
         e->Lface = fNew;
         e        = e->Lnext;
-    } while (e != eOrig);
+    }
+    while (e != eOrig);
 }
 
 /* KillEdge( eDel ) destroys an edge (the half-edges eDel and eDel->Sym),
@@ -213,7 +215,8 @@ static void KillVertex(GLUvertex *vDel, GLUvertex *newOrg)
     {
         e->Org = newOrg;
         e      = e->Onext;
-    } while (e != eStart);
+    }
+    while (e != eStart);
 
     /* delete from circular doubly-linked list */
     vPrev       = vDel->prev;
@@ -238,7 +241,8 @@ static void KillFace(GLUface *fDel, GLUface *newLface)
     {
         e->Lface = newLface;
         e        = e->Lnext;
-    } while (e != eStart);
+    }
+    while (e != eStart);
 
     /* delete from circular doubly-linked list */
     fPrev       = fDel->prev;
@@ -342,8 +346,8 @@ int __gl_meshSplice(GLUhalfEdge *eOrg, GLUhalfEdge *eDst)
             return 0;
 
         /* We split one vertex into two -- the new vertex is eDst->Org.
-     * Make sure the old vertex points to a valid half-edge.
-     */
+        * Make sure the old vertex points to a valid half-edge.
+        */
         MakeVertex(newVertex, eDst, eOrg->Org);
         eOrg->Org->anEdge = eOrg;
     }
@@ -354,8 +358,8 @@ int __gl_meshSplice(GLUhalfEdge *eOrg, GLUhalfEdge *eDst)
             return 0;
 
         /* We split one loop into two -- the new loop is eDst->Lface.
-     * Make sure the old face points to a valid half-edge.
-     */
+        * Make sure the old face points to a valid half-edge.
+        */
         MakeFace(newFace, eDst, eOrg->Lface);
         eOrg->Lface->anEdge = eOrg;
     }
@@ -379,8 +383,8 @@ int __gl_meshDelete(GLUhalfEdge *eDel)
     int joiningLoops     = FALSE;
 
     /* First step: disconnect the origin vertex eDel->Org.  We make all
-   * changes to get a consistent mesh in this "intermediate" state.
-   */
+    * changes to get a consistent mesh in this "intermediate" state.
+    */
     if (eDel->Lface != eDel->Rface)
     {
         /* We are joining two loops into one -- remove the left face */
@@ -411,8 +415,8 @@ int __gl_meshDelete(GLUhalfEdge *eDel)
     }
 
     /* Claim: the mesh is now in a consistent state, except that eDel->Org
-   * may have been deleted.  Now we disconnect eDel->Dst.
-   */
+    * may have been deleted.  Now we disconnect eDel->Dst.
+    */
     if (eDelSym->Onext == eDelSym)
     {
         KillVertex(eDelSym->Org, NULL);
@@ -596,7 +600,8 @@ void __gl_meshZapFace(GLUface *fZap)
             }
             KillEdge(e);
         }
-    } while (e != eStart);
+    }
+    while (e != eStart);
 
     /* delete from circular doubly-linked list */
     fPrev       = fZap->prev;
@@ -777,7 +782,8 @@ void __gl_meshCheckMesh(GLUmesh *mesh)
             assert(e->Onext->Sym->Lnext == e);
             assert(e->Lface == f);
             e = e->Lnext;
-        } while (e != f->anEdge);
+        }
+        while (e != f->anEdge);
     }
     assert(f->prev == fPrev && f->anEdge == NULL && f->data == NULL);
 
@@ -794,7 +800,8 @@ void __gl_meshCheckMesh(GLUmesh *mesh)
             assert(e->Onext->Sym->Lnext == e);
             assert(e->Org == v);
             e = e->Onext;
-        } while (e != v->anEdge);
+        }
+        while (e != v->anEdge);
     }
     assert(v->prev == vPrev && v->anEdge == NULL && v->data == NULL);
 

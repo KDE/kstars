@@ -208,10 +208,14 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_objectDefaultFOVs << 0.00865          << 0.00002          << 0.00002;
     m_ObjectNames       << i18n("Jupiter")  << i18n("Ganymede") << i18n("Io")       << i18n("Callisto") << i18n("Europa");
     m_objectDefaultFOVs << 0.02             << 0.0005           << 0.0004           << 0.0005           << 0.0003;
-    m_ObjectNames       << i18n("Saturn")   << i18n("Titan")    << i18n("Mimas")    << i18n("Enceladus") << i18n("Tethys")   << i18n("Dione")    << i18n("Rhea")     << i18n("Hyperion") << i18n("Iapetus")  << i18n("Phoebe");
-    m_objectDefaultFOVs << 0.02             << 0.0003            << 0.00002            << 0.00003            << 0.00007            << 0.00007            << 0.0001            << 0.00002            << 0.0001            << 0.00002;
-    m_ObjectNames       << i18n("Uranus")   << i18n("Umbriel")  << i18n("Ariel")    << i18n("Miranda")  << i18n("Titania")  << i18n("Oberon");
-    m_objectDefaultFOVs << 0.00256          << 0.00004            << 0.00004            << 0.00002            << 0.00005            << 0.00005;
+    m_ObjectNames       << i18n("Saturn")   << i18n("Titan")    << i18n("Mimas")    << i18n("Enceladus") << i18n("Tethys")   <<
+                        i18n("Dione")    << i18n("Rhea")     << i18n("Hyperion") << i18n("Iapetus")  << i18n("Phoebe");
+    m_objectDefaultFOVs << 0.02             << 0.0003            << 0.00002            << 0.00003            << 0.00007
+                        << 0.00007            << 0.0001            << 0.00002            << 0.0001            << 0.00002;
+    m_ObjectNames       << i18n("Uranus")   << i18n("Umbriel")  << i18n("Ariel")    << i18n("Miranda")  << i18n("Titania")  <<
+                        i18n("Oberon");
+    m_objectDefaultFOVs << 0.00256          << 0.00004            << 0.00004            << 0.00002            << 0.00005
+                        << 0.00005;
     m_ObjectNames       << i18n("Neptune")  << i18n("Triton");
     m_objectDefaultFOVs << 0.00114          << 0.0001;
 
@@ -246,7 +250,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     selectorsLayout->addWidget(new QLabel(i18n("Location:"), this));
 
     m_PositionDisplay = new QLabel(this);
-    m_PositionDisplay->setToolTip(i18n("XPlanet Latitude, Longitude, and object radius in %. This is only valid when viewing the object from the same object"));
+    m_PositionDisplay->setToolTip(
+        i18n("XPlanet Latitude, Longitude, and object radius in %. This is only valid when viewing the object from the same object"));
     updatePositionDisplay();
     m_PositionDisplay->setDisabled(true);
     selectorsLayout->addWidget(m_PositionDisplay);
@@ -336,7 +341,8 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
     m_NoFOV->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     m_NoFOV->setMaximumSize(QSize(32, 32));
     m_NoFOV->setMinimumSize(QSize(32, 32));
-    m_NoFOV->setToolTip(i18n("Optimum FOV for the target, FOV parameter not specified.  Note: has no effect if hovering over object."));
+    m_NoFOV->setToolTip(
+        i18n("Optimum FOV for the target, FOV parameter not specified.  Note: has no effect if hovering over object."));
     viewControlsLayout->addWidget(m_NoFOV);
     connect(m_NoFOV, SIGNAL(clicked()), this, SLOT(resetXPlanetFOV()));
 
@@ -628,7 +634,8 @@ void XPlanetImageViewer::startXplanet()
         if (Options::xplanetRandom())
             args << "-random";
         else
-            args << "-latitude" << QString::number(m_lat) << "-longitude" << QString::number(m_lon) << "-radius" << QString::number(m_Radius);
+            args << "-latitude" << QString::number(m_lat) << "-longitude" << QString::number(m_lon) << "-radius" << QString::number(
+                     m_Radius);
     }
     else
         args << "-origin" << m_OriginName;
@@ -636,7 +643,8 @@ void XPlanetImageViewer::startXplanet()
     //Centering
     //This allows you to recenter the xplanet view
 
-    args << "-center" << "+" + QString::number(Options::xplanetWidth() / 2 + center.x()) + "+" + QString::number(Options::xplanetHeight() / 2 + center.y());
+    args << "-center" << "+" + QString::number(Options::xplanetWidth() / 2 + center.x()) + "+" + QString::number(
+             Options::xplanetHeight() / 2 + center.y());
 
     // Projection
     if (Options::xplanetProjection())
@@ -709,7 +717,8 @@ void XPlanetImageViewer::startXplanet()
     }
 
 #ifdef Q_OS_MACOS
-    QString searchDir = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory) + QDir::separator() + "xplanet";
+    QString searchDir = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars",
+                        QStandardPaths::LocateDirectory) + QDir::separator() + "xplanet";
     args << "-searchdir" << searchDir;
 #endif
 
@@ -772,7 +781,8 @@ void XPlanetImageViewer::startXplanet()
     }
     else
     {
-        KStars::Instance()->statusBar()->showMessage(i18n("XPlanet failed to generate the image for object %1 before the timeout expired.", m_ObjectName));
+        KStars::Instance()->statusBar()->showMessage(
+            i18n("XPlanet failed to generate the image for object %1 before the timeout expired.", m_ObjectName));
 #ifndef Q_OS_WIN
         if(Options::xplanetUseFIFO())
             fifoImageLoadWatcher.cancel();
@@ -789,7 +799,8 @@ bool XPlanetImageViewer::setupOutputFile()
             return true;
         QDir kstarsTempDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() + qAppName());
         kstarsTempDir.mkpath(".");
-        m_File.setFileName(kstarsTempDir.filePath(QString("xplanetfifo%1.png").arg(QUuid::createUuid().toString().mid(1, 8)).toLatin1()));
+        m_File.setFileName(kstarsTempDir.filePath(QString("xplanetfifo%1.png").arg(QUuid::createUuid().toString().mid(1,
+                           8)).toLatin1()));
         if (mkfifo(m_File.fileName().toLatin1(), S_IRUSR | S_IWUSR) < 0)
         {
             KSNotification::error(i18n("Error making FIFO file %1: %2.", m_File.fileName(), strerror(errno)));
@@ -1120,8 +1131,8 @@ void XPlanetImageViewer::setFOVfromList()
         bool ok = false;
         const FOV *fov = nullptr;
         fov = nameToFovMap[QInputDialog::getItem(this, i18n("Choose a field-of-view"),
-                                                       i18n("FOV to render in XPlanet:"), nameToFovMap.keys(), 0,
-                                                       false, &ok)];
+                           i18n("FOV to render in XPlanet:"), nameToFovMap.keys(), 0,
+                           false, &ok)];
         if (ok)
         {
             m_FOV = fov->sizeX() / 60 ; //Converting from arcmin to degrees

@@ -26,37 +26,37 @@
 
 class TestPlaceholderPath : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-  public:
-    TestPlaceholderPath();
-    ~TestPlaceholderPath() override;
+    public:
+        TestPlaceholderPath();
+        ~TestPlaceholderPath() override;
 
-  private slots:
+    private slots:
 
-    void initTestCase();
-    void testSchedulerProcessJobInfo_data();
-    void testSchedulerProcessJobInfo();
+        void initTestCase();
+        void testSchedulerProcessJobInfo_data();
+        void testSchedulerProcessJobInfo();
 
-//    void testCCDGenerateFilename_data();
-//    void testCCDGenerateFilename();
+        //    void testCCDGenerateFilename_data();
+        //    void testCCDGenerateFilename();
 
-//    void testFullNamingSequence_data();
-//    void testFullNamingSequence();
+        //    void testFullNamingSequence_data();
+        //    void testFullNamingSequence();
 
-    void testFlexibleNaming_data();
-    void testFlexibleNaming();
+        void testFlexibleNaming_data();
+        void testFlexibleNaming();
 
-    void testFlexibleNamingGlob_data();
-    void testFlexibleNamingGlob();
+        void testFlexibleNamingGlob_data();
+        void testFlexibleNamingGlob();
 
-    void testRemainingPlaceholders_data();
-    void testRemainingPlaceholders();
+        void testRemainingPlaceholders_data();
+        void testRemainingPlaceholders();
 
-    void testGetCompletedFileIds_data();
-    void testGetCompletedFileIds();
+        void testGetCompletedFileIds_data();
+        void testGetCompletedFileIds();
 
-    void cleanupTestCase();
+        void cleanupTestCase();
 };
 
 #endif

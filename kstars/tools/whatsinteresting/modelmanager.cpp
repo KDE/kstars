@@ -281,7 +281,8 @@ void ModelManager::loadCatalog(const QString &name)
     if (m_CatalogMap.count(id) > 0)
         return;
 
-    const std::unordered_map<QString, QString> search_prefixes{
+    const std::unordered_map<QString, QString> search_prefixes
+    {
         { "ngc", "NGC " }, { "ic", "IC " }, { "messier", "M " }, { "sharpless", "Sh2 " }
     };
 
@@ -291,8 +292,8 @@ void ModelManager::loadCatalog(const QString &name)
     const int offset   = prefix.size();
 
     m_CatalogMap[id] = std::get<2>(manager.general_master_query(
-        QString("name LIKE '%1'").arg(prefix + "%"),
-        QString("CAST(SUBSTR(name,%1) AS INT)").arg(offset)));
+                                       QString("name LIKE '%1'").arg(prefix + "%"),
+                                       QString("CAST(SUBSTR(name,%1) AS INT)").arg(offset)));
 
     auto &lst = m_CatalogSkyObjItems[id];
 

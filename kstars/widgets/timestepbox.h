@@ -26,39 +26,48 @@ class TimeUnitBox;
  */
 class TimeStepBox : public QWidget
 {
-    Q_OBJECT
-  public:
-    /** Constructor. */
-    explicit TimeStepBox(QWidget *parent = nullptr, bool daysonly = false);
+        Q_OBJECT
+    public:
+        /** Constructor. */
+        explicit TimeStepBox(QWidget *parent = nullptr, bool daysonly = false);
 
-    /** @return a pointer to the child TimeSpinBox */
-    TimeSpinBox *tsbox() const { return timeBox; }
+        /** @return a pointer to the child TimeSpinBox */
+        TimeSpinBox *tsbox() const
+        {
+            return timeBox;
+        }
 
-    /** @return a pointer to the child TimeUnitBox */
-    TimeUnitBox *unitbox() const { return unitBox; }
+        /** @return a pointer to the child TimeUnitBox */
+        TimeUnitBox *unitbox() const
+        {
+            return unitBox;
+        }
 
-    bool daysOnly() const { return DaysOnly; }
-    void setDaysOnly(bool daysonly);
+        bool daysOnly() const
+        {
+            return DaysOnly;
+        }
+        void setDaysOnly(bool daysonly);
 
-  signals:
-    void scaleChanged(float);
+    signals:
+        void scaleChanged(float);
 
-  private slots:
-    /**
-     * Set the TimeSpinBox value according to the current UnitBox value.
-   	 * This is connected to the UnitBox valueChanged() Signal.
-     */
-    void changeUnits(void);
+    private slots:
+        /**
+         * Set the TimeSpinBox value according to the current UnitBox value.
+         * This is connected to the UnitBox valueChanged() Signal.
+         */
+        void changeUnits(void);
 
-    /**
-     * Make sure the current UnitBox value represents the correct units for the
-     * current TimeBox value. This slot is connected to the TimeBox valueChanged() Slot.
-     */
-    void syncUnits(int);
+        /**
+         * Make sure the current UnitBox value represents the correct units for the
+         * current TimeBox value. This slot is connected to the TimeBox valueChanged() Slot.
+         */
+        void syncUnits(int);
 
-  private:
-    bool DaysOnly { false };
-    QHBoxLayout *hlay { nullptr };
-    TimeSpinBox *timeBox { nullptr };
-    TimeUnitBox *unitBox { nullptr };
+    private:
+        bool DaysOnly { false };
+        QHBoxLayout *hlay { nullptr };
+        TimeSpinBox *timeBox { nullptr };
+        TimeUnitBox *unitBox { nullptr };
 };

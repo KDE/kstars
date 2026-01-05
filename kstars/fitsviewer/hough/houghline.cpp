@@ -69,12 +69,12 @@ void HoughLine::setTheta(const double theta)
     this->theta = theta;
 }
 
-bool HoughLine::compareByScore(const HoughLine *line1,const HoughLine *line2)
+bool HoughLine::compareByScore(const HoughLine *line1, const HoughLine *line2)
 {
     return (line1->getScore() < line2->getScore());
 }
 
-bool HoughLine::compareByTheta(const HoughLine *line1,const HoughLine *line2)
+bool HoughLine::compareByTheta(const HoughLine *line1, const HoughLine *line2)
 {
     return (line1->getTheta() < line2->getTheta());
 }
@@ -94,13 +94,13 @@ void HoughLine::printHoughLine()
 HoughLine::IntersectResult HoughLine::Intersect(const HoughLine& other_line, QPointF& intersection)
 {
     double denom = ((other_line.p2().y() - other_line.p1().y()) * (p2().x() - p1().x())) -
-            ((other_line.p2().x() - other_line.p1().x()) * (p2().y() - p1().y()));
+                   ((other_line.p2().x() - other_line.p1().x()) * (p2().y() - p1().y()));
 
     double nume_a = ((other_line.p2().x() - other_line.p1().x()) * (p1().y() - other_line.p1().y())) -
-            ((other_line.p2().y() - other_line.p1().y()) * (p1().x() - other_line.p1().x()));
+                    ((other_line.p2().y() - other_line.p1().y()) * (p1().x() - other_line.p1().x()));
 
     double nume_b = ((p2().x() - p1().x()) * (p1().y() - other_line.p1().y())) -
-            ((p2().y() - p1().y()) * (p1().x() - other_line.p1().x()));
+                    ((p2().y() - p1().y()) * (p1().x() - other_line.p1().x()));
 
     if (denom == 0.0f)
     {
@@ -131,15 +131,16 @@ double HoughLine::Magnitude(const QPointF& point1, const QPointF& point2)
     return qSqrt(vector.x() * vector.x() + vector.y() * vector.y());
 }
 
-bool HoughLine::DistancePointLine(const QPointF& point, QPointF& intersection, double& distance)
+bool HoughLine::DistancePointLine(const QPointF& point, QPointF& intersection, double &distance)
 {
     double lineMag = length();
 
     double U = qreal((((point.x() - p1().x()) * (p2().x() - p1().x())) +
-            ((point.y() - p1().y()) * (p2().y() - p1().y()))) /
-            (lineMag * lineMag));
+                      ((point.y() - p1().y()) * (p2().y() - p1().y()))) /
+                     (lineMag * lineMag));
 
-    if (U < 0.0 || U > 1.0) {
+    if (U < 0.0 || U > 1.0)
+    {
         return false; // closest point does not fall within the line segment
     }
 
@@ -177,24 +178,27 @@ void HoughLine::getSortedTopThreeLines(QVector<HoughLine*> &houghLines, QVector<
     double dGR = thetaR - thetaG;
     double dBG = thetaB - thetaG;
     double dBR = thetaB - thetaR;
-    if (dGR > bahtinovMaskAngle && dBR > bahtinovMaskAngle) {
+    if (dGR > bahtinovMaskAngle && dBR > bahtinovMaskAngle)
+    {
         // lineR has theta that is 180 degrees rotated
         thetaR -= M_PI;
         // update theta
         lineR->setTheta(thetaR);
     }
-    if (dBR > bahtinovMaskAngle && dBG > bahtinovMaskAngle) {
+    if (dBR > bahtinovMaskAngle && dBG > bahtinovMaskAngle)
+    {
         // lineB has theta that is 180 degrees rotated
         thetaB -= M_PI;
         // update theta
         lineB->setTheta(thetaB);
     }
-    if (dGR > bahtinovMaskAngle && dBG > bahtinovMaskAngle) {
+    if (dGR > bahtinovMaskAngle && dBG > bahtinovMaskAngle)
+    {
         // lineG has theta that is 180 degrees rotated
         thetaG -= M_PI;
         // update theta
         lineG->setTheta(thetaG);
     }
     // Now sort top3lines array according to calculated new angles
-    std::sort(top3Lines.begin(),top3Lines.end(), HoughLine::compareByTheta);
+    std::sort(top3Lines.begin(), top3Lines.end(), HoughLine::compareByTheta);
 }

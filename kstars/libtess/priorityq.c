@@ -80,12 +80,12 @@ int pqInit(PriorityQ *pq)
     unsigned long seed = 2016473283;
 
     /* Create an array of indirect pointers to the keys, so that we
-   * the handles we have returned are still valid.
-   */
+    * the handles we have returned are still valid.
+    */
     /*
-  pq->order = (PQHeapKey **)memAlloc( (size_t)
+    pq->order = (PQHeapKey **)memAlloc( (size_t)
                                   (pq->size * sizeof(pq->order[0])) );
-*/
+    */
     pq->order = (PQHeapKey **)memAlloc((size_t)((pq->size + 1) * sizeof(pq->order[0])));
     /* the previous line is a patch to compensate for the fact that IBM */
     /* machines return a null on a malloc of zero bytes (unlike SGI),   */
@@ -102,8 +102,8 @@ int pqInit(PriorityQ *pq)
     }
 
     /* Sort the indirect pointers in descending order,
-   * using randomized Quicksort
-   */
+    * using randomized Quicksort
+    */
     top->p = p;
     top->r = r;
     ++top;
@@ -125,13 +125,16 @@ int pqInit(PriorityQ *pq)
                 do
                 {
                     ++i;
-                } while (GT(**i, *piv));
+                }
+                while (GT(**i, *piv));
                 do
                 {
                     --j;
-                } while (LT(**j, *piv));
+                }
+                while (LT(**j, *piv));
                 Swap(i, j);
-            } while (i < j);
+            }
+            while (i < j);
             Swap(i, j); /* Undo last swap */
             if (i - p < r - j)
             {
@@ -227,7 +230,8 @@ PQkey pqExtractMin(PriorityQ *pq)
     do
     {
         --pq->size;
-    } while (pq->size > 0 && *(pq->order[pq->size - 1]) == NULL);
+    }
+    while (pq->size > 0 && *(pq->order[pq->size - 1]) == NULL);
     return sortMin;
 }
 

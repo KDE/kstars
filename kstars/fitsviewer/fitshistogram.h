@@ -104,7 +104,8 @@ class FITSHistogram : public QDialog
 class FITSHistogramCommand : public QUndoCommand
 {
     public:
-        FITSHistogramCommand(QWidget * parent, FITSHistogram * inHisto, FITSScale newType, const QVector<double> &lmin, const QVector<double> &lmax);
+        FITSHistogramCommand(QWidget * parent, FITSHistogram * inHisto, FITSScale newType, const QVector<double> &lmin,
+                             const QVector<double> &lmax);
         virtual ~FITSHistogramCommand();
 
         virtual void redo() override;

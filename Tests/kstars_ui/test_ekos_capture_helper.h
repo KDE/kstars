@@ -159,177 +159,184 @@
 class TestEkosCaptureHelper : public TestEkosHelper
 {
 
-public:
+    public:
 
-    struct OptDouble {
-        bool enabled = false;
-        double value = 0.0;
-    };
+        struct OptDouble
+        {
+            bool enabled = false;
+            double value = 0.0;
+        };
 
-    struct OptInt {
-        bool enabled = false;
-        double value = 0;
-    };
+        struct OptInt
+        {
+            bool enabled = false;
+            double value = 0;
+        };
 
-    typedef enum {
-        ESQ_VERSION_2_4,
-        ESQ_VERSION_2_5,
-        ESQ_VERSION_2_6
-    } ESQVersion;
+        typedef enum
+        {
+            ESQ_VERSION_2_4,
+            ESQ_VERSION_2_5,
+            ESQ_VERSION_2_6
+        } ESQVersion;
 
-    const QList<QString> esqVersionNames = {"2.4", "2.5", "2.6"};
+        const QList<QString> esqVersionNames = {"2.4", "2.5", "2.6"};
 
-    struct CaptureSettings {
-        QString observer = "";
-        OptDouble guideDeviation, startGuideDeviation;
-        OptDouble inSequenceFocus, autofocusOnTemperature;
-        OptInt refocusEveryN;
-        bool refocusAfterMeridianFlip = false;
-    };
+        struct CaptureSettings
+        {
+            QString observer = "";
+            OptDouble guideDeviation, startGuideDeviation;
+            OptDouble inSequenceFocus, autofocusOnTemperature;
+            OptInt refocusEveryN;
+            bool refocusAfterMeridianFlip = false;
+        };
 
-    struct SimpleCaptureLightsJob
-    {
-        ESQVersion version = ESQ_VERSION_2_6;
-        int exposureTime = 1.0;
-        int count = 1;
-        int delayMS = 0; // delay in milliseconds
-        int binX = 1, binY = 1;
-        int x = 0, y = 0, w = 1280, h = 1080;
-        QString filterName = "Luminance";
-        QString type = "Light";
-        QString encoding = "FITS";
-        QString targetName = "test";
-        QString fitsDirectory = "/home/pi";
-        QString placeholderFormat = "/%t/%T/%F/%t_%T_%F_%e_%D";
-        int formatSuffix = 3;
-        OptDouble cameraTemperature = {false, 20.0};
-        int uploadMode = 0;
-    };
+        struct SimpleCaptureLightsJob
+        {
+            ESQVersion version = ESQ_VERSION_2_6;
+            int exposureTime = 1.0;
+            int count = 1;
+            int delayMS = 0; // delay in milliseconds
+            int binX = 1, binY = 1;
+            int x = 0, y = 0, w = 1280, h = 1080;
+            QString filterName = "Luminance";
+            QString type = "Light";
+            QString encoding = "FITS";
+            QString targetName = "test";
+            QString fitsDirectory = "/home/pi";
+            QString placeholderFormat = "/%t/%T/%F/%t_%T_%F_%e_%D";
+            int formatSuffix = 3;
+            OptDouble cameraTemperature = {false, 20.0};
+            int uploadMode = 0;
+        };
 
-    struct SimpleCaptureCalibratingJob
-    {
-        ESQVersion version = ESQ_VERSION_2_6;
-        int exposureTime = 1.0;
-        QString type = "Flat";
-        int count = 1;
-        uint preAction = 0;
-        double wall_az = 90, wall_alt = 0;
-        bool duration_manual = true, duration_adu = false;
-        int adu = 10000, tolerance = 1000;
-    };
+        struct SimpleCaptureCalibratingJob
+        {
+            ESQVersion version = ESQ_VERSION_2_6;
+            int exposureTime = 1.0;
+            QString type = "Flat";
+            int count = 1;
+            uint preAction = 0;
+            double wall_az = 90, wall_alt = 0;
+            bool duration_manual = true, duration_adu = false;
+            int adu = 10000, tolerance = 1000;
+        };
 
-    explicit TestEkosCaptureHelper(QString guider = nullptr);
+        explicit TestEkosCaptureHelper(QString guider = nullptr);
 
-    /**
-     * @brief Initialization ahead of executing the test cases.
-     */
-    void init() override;
+        /**
+         * @brief Initialization ahead of executing the test cases.
+         */
+        void init() override;
 
-    /**
-     * @brief Cleanup after test cases have been executed.
-     */
-    void cleanup() override;
+        /**
+         * @brief Cleanup after test cases have been executed.
+         */
+        void cleanup() override;
 
-    /**
-     * @brief Helper function for start of capturing
-     * @param checkCapturing set to true if check of capturing should be included
-     */
-    bool startCapturing(bool checkCapturing = true);
+        /**
+         * @brief Helper function for start of capturing
+         * @param checkCapturing set to true if check of capturing should be included
+         */
+        bool startCapturing(bool checkCapturing = true);
 
-    /**
-     * @brief Helper function to stop capturing
-     */
-    bool stopCapturing();
+        /**
+         * @brief Helper function to stop capturing
+         */
+        bool stopCapturing();
 
-    /**
-     * @brief Fill the capture sequences in the Capture GUI
-     * @param target capturing target name
-     * @param sequence comma separated list of <filter>:<count>
-     * @param exptime exposure time
-     * @param fitsDirectory directory where the captures will be placed
-     * @param format image location for
-     * @param delay delay between frame captures
-     * @return true if everything was successful
-     */
-    bool fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory, int delay = 0, QString format = Ekos::PlaceholderPath::defaultFormat(true, false, false));
+        /**
+         * @brief Fill the capture sequences in the Capture GUI
+         * @param target capturing target name
+         * @param sequence comma separated list of <filter>:<count>
+         * @param exptime exposure time
+         * @param fitsDirectory directory where the captures will be placed
+         * @param format image location for
+         * @param delay delay between frame captures
+         * @return true if everything was successful
+         */
+        bool fillCaptureSequences(QString target, QString sequence, double exptime, QString fitsDirectory, int delay = 0,
+                                  QString format = Ekos::PlaceholderPath::defaultFormat(true, false, false));
 
-    /**
-     * @brief Fill the fields of the script manager in the capture module
-     * @param scripts Pre-... and post-... scripts
-     */
-    bool fillScriptManagerDialog(const QMap<Ekos::ScriptTypes, QString> &scripts);
+        /**
+         * @brief Fill the fields of the script manager in the capture module
+         * @param scripts Pre-... and post-... scripts
+         */
+        bool fillScriptManagerDialog(const QMap<Ekos::ScriptTypes, QString> &scripts);
 
-    /**
-     * @brief Stop and clean up scheduler
-     */
-    void cleanupScheduler();
+        /**
+         * @brief Stop and clean up scheduler
+         */
+        void cleanupScheduler();
 
-    /**
-     * @brief readCurrentTemperature Read the current temperature value from the temperature field
-     */
-    double readCurrentTemperature(Ekos::Capture *captureModule);
+        /**
+         * @brief readCurrentTemperature Read the current temperature value from the temperature field
+         */
+        double readCurrentTemperature(Ekos::Capture *captureModule);
 
-    /**
-     * @brief getSimpleEsqContent Create a simple lights capture sequence file
-     * @param settings overall settings
-     * @param jobs list of sequence jobs
-     * @param version file version
-     * @return XML string list
-     */
-    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs, ESQVersion version = ESQ_VERSION_2_6);
+        /**
+         * @brief getSimpleEsqContent Create a simple lights capture sequence file
+         * @param settings overall settings
+         * @param jobs list of sequence jobs
+         * @param version file version
+         * @return XML string list
+         */
+        QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureLightsJob> jobs,
+                                        ESQVersion version = ESQ_VERSION_2_6);
 
-    /**
-     * @brief getSimpleEsqContent Create a simple flats capture sequence file
-     * @param settings overall settings
-     * @param jobs list of sequence jobs
-     * @param version file version
-     * @return XML string list
-     */
-    QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureCalibratingJob> jobs, ESQVersion version = ESQ_VERSION_2_6);
+        /**
+         * @brief getSimpleEsqContent Create a simple flats capture sequence file
+         * @param settings overall settings
+         * @param jobs list of sequence jobs
+         * @param version file version
+         * @return XML string list
+         */
+        QStringList getSimpleEsqContent(CaptureSettings settings, QVector<SimpleCaptureCalibratingJob> jobs,
+                                        ESQVersion version = ESQ_VERSION_2_6);
 
-    /**
-     * @brief serializeGeneralSettings Create the XML representation of the general settings
-     */
-    QStringList serializeGeneralSettings(CaptureSettings settings, ESQVersion version = ESQ_VERSION_2_6);
+        /**
+         * @brief serializeGeneralSettings Create the XML representation of the general settings
+         */
+        QStringList serializeGeneralSettings(CaptureSettings settings, ESQVersion version = ESQ_VERSION_2_6);
 
-    /**
-     * @brief serializeJob Create the XML representation of a single lights job
-     */
-    QStringList serializeJob(const SimpleCaptureLightsJob &job, ESQVersion version = ESQ_VERSION_2_6);
+        /**
+         * @brief serializeJob Create the XML representation of a single lights job
+         */
+        QStringList serializeJob(const SimpleCaptureLightsJob &job, ESQVersion version = ESQ_VERSION_2_6);
 
-    /**
-     * @brief serializeJob Create the XML representation of a single flats job
-     */
-    QStringList serializeJob(const SimpleCaptureCalibratingJob &job, ESQVersion version = ESQ_VERSION_2_6);
+        /**
+         * @brief serializeJob Create the XML representation of a single flats job
+         */
+        QStringList serializeJob(const SimpleCaptureCalibratingJob &job, ESQVersion version = ESQ_VERSION_2_6);
 
-    /**
-     * @brief calculateSignature Calculate the signature of a given filter
-     * @param filter filter name
-     * @param fitsDirectory base directory holding all images
-     * @return signature
-     */
-    QString calculateSignature(QString target, QString filter, QString fitsDirectory);
+        /**
+         * @brief calculateSignature Calculate the signature of a given filter
+         * @param filter filter name
+         * @param fitsDirectory base directory holding all images
+         * @return signature
+         */
+        QString calculateSignature(QString target, QString filter, QString fitsDirectory);
 
-    /**
-     * @brief Search for FITS files recursively
-     * @param dir starting directory
-     * @return list of file names
-     */
-    QStringList searchFITS(QDir const &dir) const;
+        /**
+         * @brief Search for FITS files recursively
+         * @param dir starting directory
+         * @return list of file names
+         */
+        QStringList searchFITS(QDir const &dir) const;
 
-    /**
-     * @brief Ensure that it is known whether the CCD device has a shutter or not
-     * @param shutter set to true iff a shutter should be present
-     */
-    void ensureCCDShutter(bool shutter);
+        /**
+         * @brief Ensure that it is known whether the CCD device has a shutter or not
+         * @param shutter set to true iff a shutter should be present
+         */
+        void ensureCCDShutter(bool shutter);
 
-    QDir *getImageLocation();
+        QDir *getImageLocation();
 
-    // destination where images will be located
-    QTemporaryDir *destination;
+        // destination where images will be located
+        QTemporaryDir *destination;
 
-private:
-    QDir *imageLocation = nullptr;
+    private:
+        QDir *imageLocation = nullptr;
 
 
 };

@@ -131,7 +131,7 @@ void BuildFilterOffsets::setupGUI()
         if (!m_tableInEditMode)
             this->done(QDialog::Rejected);
         else if (KMessageBox::warningContinueCancel(KStars::Instance(),
-                                            i18n("Are you sure you want to quit?")) == KMessageBox::Continue)
+                 i18n("Are you sure you want to quit?")) == KMessageBox::Continue)
             this->done(QDialog::Rejected);
     });
 
@@ -617,20 +617,20 @@ void BuildFilterOffsets::loadPosition(const bool checked, const int row, const i
         QStandardItem *posItem = new QStandardItem(QString::number(pos));
         const QString toolTip =
             i18nc("Graphics tooltip; column 1 is a header, column 2 is focus position, column 3 is temperature in °C, column 4 is altitude in °Alt"
-                  "Row 1 is the headers, row 2 is the measured position, row 3 are the adaptations for temperature and altitude, row 4 is adapted position",
-                  "<head><style>"
-                  "  th, td, caption {white-space: nowrap; padding-left: 5px; padding-right: 5px;}"
-                  "  th { text-align: left;}"
-                  "  td { text-align: right;}"
-                  "  caption { text-align: center; vertical-align: top; font-weight: bold; margin: 0px; padding-bottom: 5px;}"
-                  "</head></style>"
-                  "<body><table>"
-                  "<caption align=top>Adapt Focus Explainer</caption>"
-                  "<tr><th></th><th>Position</th><th>Temperature (°C)</th><th>Altitude (°Alt)</th></tr>"
-                  "<tr><th>Measured Pos</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></tr>"
-                  "<tr><th>Adaptations</th><td>%6</td><td>%7</td><td>%8</td></tr>"
-                  "<tr><th>Adapted Pos</th><td>%9</td></tr>"
-                  "</table></body>",
+              "Row 1 is the headers, row 2 is the measured position, row 3 are the adaptations for temperature and altitude, row 4 is adapted position",
+              "<head><style>"
+              "  th, td, caption {white-space: nowrap; padding-left: 5px; padding-right: 5px;}"
+              "  th { text-align: left;}"
+              "  td { text-align: right;}"
+              "  caption { text-align: center; vertical-align: top; font-weight: bold; margin: 0px; padding-bottom: 5px;}"
+              "</head></style>"
+              "<body><table>"
+              "<caption align=top>Adapt Focus Explainer</caption>"
+              "<tr><th></th><th>Position</th><th>Temperature (°C)</th><th>Altitude (°Alt)</th></tr>"
+              "<tr><th>Measured Pos</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></tr>"
+              "<tr><th>Adaptations</th><td>%6</td><td>%7</td><td>%8</td></tr>"
+              "<tr><th>Adapted Pos</th><td>%9</td></tr>"
+              "</table></body>",
                   m_AFSolutions[idx].position, temp, deltaTemp, alt, deltaAlt,
                   m_AFSolutions[idx].deltaTicksTotal, ticksTemp, ticksAlt,
                   m_AFSolutions[idx].adaptedPosition);

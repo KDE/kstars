@@ -87,7 +87,7 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     yAxis2->setRange(-3, 3);
     yAxis2->setRangeReversed(true);
     // Make DEC-axis transfer its range to RA-axis maintaining reversed range
-    connect(yAxis, static_cast<void (QCPAxis::*)(const QCPRange&)>(&QCPAxis::rangeChanged),
+    connect(yAxis, static_cast<void (QCPAxis::*)(const QCPRange &)>(&QCPAxis::rangeChanged),
             this, [ = ](QCPRange newRange)
     {
         yAxis2->setRangeLower(-newRange.upper);
@@ -122,7 +122,7 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     addGraph(xAxis, yAxis2);
     graph(GuideGraph::G_RA_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
     graph(GuideGraph::G_RA_HIGHLIGHT)->setPen(QPen(KStarsData::Instance()
-                                                   ->colorScheme()->colorNamed("RAGuideError")));
+            ->colorScheme()->colorNamed("RAGuideError")));
     graph(GuideGraph::G_RA_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
             QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
 
@@ -130,7 +130,7 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     addGraph(xAxis, yAxis);
     graph(GuideGraph::G_DEC_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
     graph(GuideGraph::G_DEC_HIGHLIGHT)->setPen(QPen(KStarsData::Instance()
-                                                    ->colorScheme()->colorNamed("DEGuideError")));
+            ->colorScheme()->colorNamed("DEGuideError")));
     graph(GuideGraph::G_DEC_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
             QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
 
@@ -373,9 +373,9 @@ void GuideDriftGraph::zoomOutX()
 void GuideDriftGraph::setCorrectionGraphScale(int value)
 {
     RApulseAxis->setRange(yAxis->range().lower * value,
-                   yAxis->range().upper * value);
+                          yAxis->range().upper * value);
     DECpulseAxis->setRange(yAxis->range().lower * value,
-                   yAxis->range().upper * value);
+                           yAxis->range().upper * value);
     replot();
 }
 
@@ -489,7 +489,7 @@ void GuideDriftGraph::exportGuideData()
     {
         int r = KMessageBox::warningContinueCancel(nullptr,
                 i18n("A file named \"%1\" already exists. "
-                     "Overwrite it?",
+             "Overwrite it?",
                      exportFile.fileName()),
                 i18n("Overwrite File?"), KStandardGuiItem::overwrite());
         if (r == KMessageBox::Cancel)
@@ -515,7 +515,7 @@ void GuideDriftGraph::exportGuideData()
     QTextStream outstream(&file);
 
     outstream <<
-              "Frame #, Time Elapsed (sec), Local Time (HMS), RA Error (arcsec), DE Error (arcsec), RA Pulse  (ms), DE Pulse (ms)" <<
+    "Frame #, Time Elapsed (sec), Local Time (HMS), RA Error (arcsec), DE Error (arcsec), RA Pulse  (ms), DE Pulse (ms)" <<
               Qt::endl;
 
     for (int i = 0; i < numPoints; i++)

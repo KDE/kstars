@@ -22,41 +22,53 @@ class HTMesh;
 
 class MeshBuffer
 {
-  public:
-    MeshBuffer(HTMesh *mesh);
+    public:
+        MeshBuffer(HTMesh *mesh);
 
-    ~MeshBuffer();
+        ~MeshBuffer();
 
-    /** @short prepare the buffer for a new result set
-         */
-    void reset() { m_size = m_error = 0; }
+        /** @short prepare the buffer for a new result set
+             */
+        void reset()
+        {
+            m_size = m_error = 0;
+        }
 
-    /** @short add trixels to the buffer
-         */
-    int append(Trixel trixel);
+        /** @short add trixels to the buffer
+             */
+        int append(Trixel trixel);
 
-    /** @short the location of the buffer for reading
-         */
-    const Trixel *buffer() const { return m_buffer; }
+        /** @short the location of the buffer for reading
+             */
+        const Trixel *buffer() const
+        {
+            return m_buffer;
+        }
 
-    /** @short the number of trixels in the result set
-         */
-    int size() const { return m_size; }
+        /** @short the number of trixels in the result set
+             */
+        int size() const
+        {
+            return m_size;
+        }
 
-    /** @short returns the number of trixels that would have overflowed the
-         * buffer.
-         */
-    int error() const { return m_error; }
+        /** @short returns the number of trixels that would have overflowed the
+             * buffer.
+             */
+        int error() const
+        {
+            return m_error;
+        }
 
-    /** @short fills the buffer with consecutive integers
-         */
-    void fill();
+        /** @short fills the buffer with consecutive integers
+             */
+        void fill();
 
-  private:
-    Trixel *m_buffer;
-    int m_size;
-    int maxSize;
-    int m_error;
+    private:
+        Trixel *m_buffer;
+        int m_size;
+        int maxSize;
+        int m_error;
 };
 
 #endif

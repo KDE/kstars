@@ -126,7 +126,7 @@ class InternalGuider : public GuideInterface
 
     protected slots:
         void trackingStarSelected(int x, int y);
-      void setDitherSettled();
+        void setDitherSettled();
         void darkGuide();
 
     signals:

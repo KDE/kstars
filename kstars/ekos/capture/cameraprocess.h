@@ -131,7 +131,7 @@ class CameraProcess : public QObject
         } FitsvViewerTabIDs;
 
 
-        CameraProcess(QSharedPointer<CameraState> newModuleState, QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor);
+        CameraProcess(QSharedPointer < CameraState > newModuleState, QSharedPointer < CaptureDeviceAdaptor > newDeviceAdaptor);
 
         // ////////////////////////////////////////////////////////////////////
         // handle connectivity to modules and devices
@@ -240,7 +240,7 @@ class CameraProcess : public QObject
          * where the event receiver reports whether one has been added successfully
          * and of which type it was.
          */
-        void jobCreated(QSharedPointer<SequenceJob> newJob);
+        void jobCreated(QSharedPointer < SequenceJob > newJob);
 
         /**
          * @brief capturePreview Capture a preview (single or looping ones)
@@ -266,13 +266,13 @@ class CameraProcess : public QObject
          * - Prepare the selected job ({@see #prepareJob(SequenceJob *)})
          * @param job selected sequence job
          */
-        void startJob(const QSharedPointer<SequenceJob> &job);
+        void startJob(const QSharedPointer < SequenceJob > &job);
 
         /**
          * @brief prepareJob Update the counters of existing frames and continue with prepareActiveJob(), if there exist less
          *        images than targeted. If enough images exist, continue with processJobCompletion().
          */
-        void prepareJob(const QSharedPointer<SequenceJob> &job);
+        void prepareJob(const QSharedPointer < SequenceJob > &job);
 
         /**
          * @brief prepareActiveJobStage1 Check for pre job script to execute. If none, move to stage 2
@@ -415,13 +415,13 @@ class CameraProcess : public QObject
          * @param data pointer to blob containing FITS data
          * @param extension defining the file type
          */
-        void processFITSData(const QSharedPointer<FITSData> &data, const QString &extension);
+        void processFITSData(const QSharedPointer < FITSData > &data, const QString &extension);
 
         /**
          * @brief showFITSPreview Directly show the FITS data as preview
          * @param data pointer to blob containing FITS data
          */
-        void showFITSPreview(const QSharedPointer<FITSData> &data);
+        void showFITSPreview(const QSharedPointer < FITSData > &data);
 
         /**
          * @brief setNewRemoteFile A new image has been stored as remote file
@@ -479,7 +479,7 @@ class CameraProcess : public QObject
          * @brief continueFramingAction If framing is running, start the next capture sequence
          * @return IPS_OK in all cases
          */
-        IPState continueFramingAction(const QSharedPointer<FITSData> &imageData);
+        IPState continueFramingAction(const QSharedPointer < FITSData > &imageData);
 
         /**
          * @brief updateDownloadTimesAction Add the current download time to the list of already measured ones
@@ -500,7 +500,7 @@ class CameraProcess : public QObject
         /**
          * @brief updateImageMetadataAction Update meta data of a captured image
          */
-        IPState updateImageMetadataAction(QSharedPointer<FITSData> imageData);
+        IPState updateImageMetadataAction(QSharedPointer < FITSData > imageData);
 
         /**
          * @brief runCaptureScript Run the pre-/post capture/job script
@@ -542,7 +542,7 @@ class CameraProcess : public QObject
         /**
          * @brief Generic method for removing any connected device.
          */
-        void removeDevice(const QSharedPointer<ISD::GenericDevice> &device);
+        void removeDevice(const QSharedPointer < ISD::GenericDevice > &device);
 
         /**
          * @brief processCaptureTimeout If exposure timed out, let's handle it.
@@ -562,7 +562,7 @@ class CameraProcess : public QObject
          * @param exp_max maximal possible exposure time
          * @return false iff calibration has not been reached yet
          */
-        bool checkFlatCalibration(QSharedPointer<FITSData> imageData, double exp_min, double exp_max);
+        bool checkFlatCalibration(QSharedPointer < FITSData > imageData, double exp_min, double exp_max);
 
         /**
          * @brief calculateFlatExpTime calculate the next flat exposure time from the measured ADU value
@@ -579,9 +579,9 @@ class CameraProcess : public QObject
         /**
          * @brief updateFITSViewer display new image in the configured FITSViewer tab.
          */
-        void updateFITSViewer(const QSharedPointer<FITSData> data, const FITSMode &captureMode, const FITSScale &captureFilter,
+        void updateFITSViewer(const QSharedPointer < FITSData > data, const FITSMode &captureMode, const FITSScale &captureFilter,
                               const QString &filename, const QString &deviceName);
-        void updateFITSViewer(const QSharedPointer<FITSData> data, ISD::CameraChip *tChip, const QString &filename);
+        void updateFITSViewer(const QSharedPointer < FITSData > data, ISD::CameraChip *tChip, const QString &filename);
 
         // ////////////////////////////////////////////////////////////////////
         // video streaming
@@ -589,7 +589,7 @@ class CameraProcess : public QObject
         /**
          * @brief getVideoWindow Return the current video window and initialize it if required.
          */
-        QSharedPointer<StreamWG> getVideoWindow();
+        QSharedPointer < StreamWG > getVideoWindow();
 
         void updateVideoWindow(int width, int height, bool streamEnabled);
         void closeVideoWindow();
@@ -625,10 +625,10 @@ class CameraProcess : public QObject
         /**
          * @brief findExecutableJob find next job to be executed
          */
-        const QSharedPointer<SequenceJob> findNextPendingJob();
+        const QSharedPointer < SequenceJob > findNextPendingJob();
 
         //  Based on  John Burkardt LLSQ (LGPL)
-        void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
+        void llsq(QVector < double > x, QVector < double > y, double &a, double &b);
 
         /**
          * @brief generateScriptArguments Generate argument list to pass to capture script
@@ -677,14 +677,14 @@ class CameraProcess : public QObject
          *        on the camera, it is either stored as GAIN property value of CCD_GAIN or as
          *        Gain property value from CCD_CONTROLS.
          */
-        void updateGain(double value, QMap<QString, QMap<QString, QVariant> > &propertyMap);
+        void updateGain(double value, QMap < QString, QMap < QString, QVariant> > &propertyMap);
 
         /**
          * @brief getOffset Update the offset value from the custom property value. Depending
          *        on the camera, it is either stored as OFFSET property value of CCD_OFFSET or as
          *        Offset property value from CCD_CONTROLS.
          */
-        void updateOffset(double value, QMap<QString, QMap<QString, QVariant> > &propertyMap);
+        void updateOffset(double value, QMap < QString, QMap < QString, QVariant> > &propertyMap);
 
 
         // ////////////////////////////////////////////////////////////////////
@@ -697,22 +697,22 @@ class CameraProcess : public QObject
 
     signals:
         // controls for capture execution
-        void addJob (const QSharedPointer<SequenceJob> &job);
+        void addJob (const QSharedPointer < SequenceJob > &job);
         void createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH);
         void jobStarting();
         void stopCapture(CaptureState targetState = CAPTURE_IDLE);
         void captureAborted(double exposureSeconds);
         void captureStopped();
         void requestAction(CaptureWorkflowActionType action);
-        void syncGUIToJob(const QSharedPointer<SequenceJob> &job);
+        void syncGUIToJob(const QSharedPointer < SequenceJob > &job);
         void updateFrameProperties(int reset);
-        void updateJobTable(const QSharedPointer<SequenceJob> &job, bool full = false);
+        void updateJobTable(const QSharedPointer < SequenceJob > &job, bool full = false);
         void jobExecutionPreparationStarted();
-        void jobPrepared(const QSharedPointer<SequenceJob> &job);
+        void jobPrepared(const QSharedPointer < SequenceJob > &job);
         void captureImageStarted();
         void captureTarget(QString targetName);
         void captureRunning();
-        void newExposureProgress(const QSharedPointer<SequenceJob> &job);
+        void newExposureProgress(const QSharedPointer < SequenceJob > &job);
         void newDownloadProgress(double downloadTimeLeft);
         void downloadingFrame();
         void updateCaptureCountDown(int deltaMS);
@@ -725,8 +725,8 @@ class CameraProcess : public QObject
         void processingFITSfinished(bool success);
         void rotatorReverseToggled(bool enabled);
         // communication with other modules
-        void newImage(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data);
-        void newView(const QSharedPointer<FITSView> &view);
+        void newImage(const QSharedPointer < SequenceJob > &job, const QSharedPointer < FITSData > &data);
+        void newView(const QSharedPointer < FITSView > &view);
         void suspendGuiding();
         void resumeGuiding();
         void abortFocus();
@@ -738,11 +738,11 @@ class CameraProcess : public QObject
 
 
     private:
-        QSharedPointer<CameraState> m_State;
-        QSharedPointer<CaptureDeviceAdaptor> m_DeviceAdaptor;
-        QPointer<DarkProcessor> m_DarkProcessor;
-        QSharedPointer<FITSViewer> m_FITSViewerWindow;
-        QSharedPointer<StreamWG> m_VideoWindow;
+        QSharedPointer < CameraState > m_State;
+        QSharedPointer < CaptureDeviceAdaptor > m_DeviceAdaptor;
+        QPointer < DarkProcessor > m_DarkProcessor;
+        QSharedPointer < FITSViewer > m_FITSViewerWindow;
+        QSharedPointer < StreamWG > m_VideoWindow;
         FitsvViewerTabIDs m_fitsvViewerTabIDs = {-1, -1, -1, -1, -1};
         QElapsedTimer m_CaptureOperationsTimer;
 
@@ -750,14 +750,14 @@ class CameraProcess : public QObject
         QProcess m_CaptureScript;
         QString m_Scope;
         // Flat field automation
-        QVector<double> ExpRaw, ADURaw;
+        QVector < double > ExpRaw, ADURaw;
         ADUAlgorithm targetADUAlgorithm { ADU_LEAST_SQUARES };
 
 
         /**
          * @brief activeJob Shortcut for the module state
          */
-        QSharedPointer<CameraState> state() const
+        QSharedPointer < CameraState > state() const
         {
             return m_State;
         }
@@ -765,7 +765,7 @@ class CameraProcess : public QObject
         /**
          * @brief activeJob Shortcut to device adapter
          */
-        QSharedPointer<CaptureDeviceAdaptor> devices()
+        QSharedPointer < CaptureDeviceAdaptor > devices()
         {
             return m_DeviceAdaptor;
         }
@@ -775,12 +775,12 @@ class CameraProcess : public QObject
          * or if capture mode is calibrate since for now we are forced to open the file in the viewer
          * this should be fixed in the future and should only use FITSData.
          */
-        QSharedPointer<FITSViewer> getFITSViewer();
+        QSharedPointer < FITSViewer > getFITSViewer();
 
         /**
          * @brief activeJob Shortcut to the active job held in the state machine
          */
-        const QSharedPointer<SequenceJob> &activeJob()
+        const QSharedPointer < SequenceJob > &activeJob()
         {
             return  state()->getActiveJob();
         }
@@ -817,7 +817,7 @@ class CameraProcess : public QObject
          * @brief saveReceivedImage Save the received image if the state allows it
          * @return true iff everything worked as expected
          */
-        bool checkSavingReceivedImage(const QSharedPointer<FITSData> &data, const QString &extension, QString &filename);
+        bool checkSavingReceivedImage(const QSharedPointer < FITSData > &data, const QString &extension, QString &filename);
 
         /**
          * @brief createTabText Create the tab to be displayed in the FITSViewer tab
@@ -827,6 +827,6 @@ class CameraProcess : public QObject
         /**
          * Check capture operations timeout
          */
-        void checkCaptureOperationsTimeout(const std::function<void()> &slot);
+        void checkCaptureOperationsTimeout(const std::function < void() > &slot);
 };
 } // Ekos namespace

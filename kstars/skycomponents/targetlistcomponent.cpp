@@ -19,7 +19,7 @@ TargetListComponent::TargetListComponent(SkyComposite *parent) : SkyComponent(pa
 }
 
 TargetListComponent::TargetListComponent(SkyComposite *parent, SkyObjectList *objectList, QPen _pen,
-                                         bool (*optionDrawSymbols)(void), bool (*optionDrawLabels)(void))
+        bool (*optionDrawSymbols)(void), bool (*optionDrawLabels)(void))
     : SkyComponent(parent), list(objectList), pen(_pen)
 {
     drawSymbols = optionDrawSymbols;

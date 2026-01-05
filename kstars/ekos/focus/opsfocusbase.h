@@ -14,24 +14,24 @@ namespace Ekos
 
 class OpsFocusBase : public QFrame
 {
-    Q_OBJECT
-public:
-    OpsFocusBase(const QString name);
+        Q_OBJECT
+    public:
+        OpsFocusBase(const QString name);
 
-    const QString &dialogName() const
-    {
-        return m_dialogName;
-    }
+        const QString &dialogName() const
+        {
+            return m_dialogName;
+        }
 
 
-signals:
-    void settingsUpdated();
+    signals:
+        void settingsUpdated();
 
-protected:
-    KConfigDialog *m_ConfigDialog { nullptr };
+    protected:
+        KConfigDialog *m_ConfigDialog { nullptr };
 
-private:
-    QString m_dialogName;
+    private:
+        QString m_dialogName;
 
 };
 } // namespace Ekos

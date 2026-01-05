@@ -316,7 +316,7 @@ class Projector
             return
             {
                 m_vp.width / 2 - m_vp.zoomFactor * (x * sgn * m_vp.rotationAngle.cos() - y * m_vp.rotationAngle.sin()),
-                    m_vp.height / 2 - m_vp.zoomFactor * (x * sgn * m_vp.rotationAngle.sin() + y * m_vp.rotationAngle.cos())
+                m_vp.height / 2 - m_vp.zoomFactor * (x * sgn * m_vp.rotationAngle.sin() + y * m_vp.rotationAngle.cos())
             };
         }
 

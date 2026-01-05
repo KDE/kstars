@@ -341,7 +341,7 @@ void cgmath::outputGuideLog()
     {
         QTextStream out(&logFile);
         out << iterationCounter << "," << logTime.elapsed() << "," << out_params.delta[0] << "," << out_params.pulse_length[0] <<
-            ","
+                                   ","
             << directionStr(out_params.pulse_dir[0]) << "," << out_params.delta[1] << ","
             << out_params.pulse_length[1] << "," << directionStr(out_params.pulse_dir[1]) << Qt::endl;
     }

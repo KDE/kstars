@@ -545,7 +545,7 @@ void DriverManager::activateHostDisconnection()
     processRemoteTree(false);
 }
 
-ClientManager *DriverManager::getClientManager(const QSharedPointer<DriverInfo> &driver)
+ClientManager * DriverManager::getClientManager(const QSharedPointer<DriverInfo> &driver)
 {
     auto cm = driver->getClientManager();
     if (cm)

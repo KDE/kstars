@@ -18,19 +18,19 @@
 
 class TestBinHelper : public QObject
 {
-    Q_OBJECT
-public:
-    explicit TestBinHelper(QObject *parent = nullptr);
+        Q_OBJECT
+    public:
+        explicit TestBinHelper(QObject *parent = nullptr);
 
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
+    private slots:
+        void initTestCase();
+        void cleanupTestCase();
 
-    void init();
-    void cleanup();
+        void init();
+        void cleanup();
 
-    void testLoadBinary_data();
-    void testLoadBinary();
+        void testLoadBinary_data();
+        void testLoadBinary();
 };
 
 #endif // TESTBINHELPER_H

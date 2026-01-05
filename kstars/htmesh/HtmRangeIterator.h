@@ -5,27 +5,27 @@
 
 class HtmRangeIterator
 {
-  public:
-    Key next();
-    char *nextSymbolic(char *buffer); /* User responsible for managing it */
-    bool hasNext();
-    HtmRangeIterator(HtmRange *ran)
-    {
-        range = ran;
-        range->reset();
-        range->getNext(&currange[0], &currange[1]);
-        nextval = currange[0] - 1;
-        getNext();
-    }
+    public:
+        Key next();
+        char *nextSymbolic(char *buffer); /* User responsible for managing it */
+        bool hasNext();
+        HtmRangeIterator(HtmRange *ran)
+        {
+            range = ran;
+            range->reset();
+            range->getNext(&currange[0], &currange[1]);
+            nextval = currange[0] - 1;
+            getNext();
+        }
 
-  protected:
-    HtmRange *range;
-    void getNext();
+    protected:
+        HtmRange *range;
+        void getNext();
 
-  private:
-    Key nextval;
-    Key currange[2] { 0 }; /* Low and High */
-    HtmRangeIterator() : range(nullptr), nextval(-1) {}
+    private:
+        Key nextval;
+        Key currange[2] { 0 }; /* Low and High */
+        HtmRangeIterator() : range(nullptr), nextval(-1) {}
 };
 
 #endif

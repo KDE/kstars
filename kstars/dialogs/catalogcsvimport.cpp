@@ -19,7 +19,8 @@
  *
  * @todo Maybe centralize that in the catalogobject class.
  */
-const std::vector<std::pair<QString, std::tuple<QString, QString, bool>>> fields{
+const std::vector<std::pair<QString, std::tuple<QString, QString, bool>>> fields
+{
     { "Type", { "", "", true } },
     { "Right Ascension", { "", "", false } },
     { "Declination", { "", "", false } },
@@ -76,7 +77,8 @@ CatalogCSVImport::CatalogCSVImport(QWidget *parent)
     connect(ui->remove_map, &QPushButton::clicked, this,
             &CatalogCSVImport::type_table_remove_map);
 
-    connect(ui->preview_button, &QPushButton::clicked, this, [&]() {
+    connect(ui->preview_button, &QPushButton::clicked, this, [&]()
+    {
         read_n_objects(default_preview_size);
         m_preview_model.setObjects(m_objects);
     });
@@ -84,7 +86,10 @@ CatalogCSVImport::CatalogCSVImport(QWidget *parent)
     init_column_mapping();
     init_type_table();
 
-    for (auto *box : { ui->ra_units, ui->dec_units })
+    for (auto *box :
+            {
+                ui->ra_units, ui->dec_units
+            })
     {
         box->addItem(i18n("Degrees"));
         box->addItem(i18n("Hours"));
@@ -100,7 +105,7 @@ void CatalogCSVImport::select_file()
 {
     QFileDialog dialog(this, i18nc("@title:window", "Import Catalog"), QDir::homePath(),
                        QString("CSV") + i18n("File") + QString(" (*.csv);;") +
-                           i18n("Any File") + QString(" (*);;"));
+                       i18n("Any File") + QString(" (*);;"));
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setDefaultSuffix("csv");
 
@@ -229,9 +234,9 @@ CatalogCSVImport::type_map CatalogCSVImport::get_type_mapping()
             continue;
 
         map[key->text().toStdString()] = static_cast<SkyObject::TYPE>(
-            dynamic_cast<QComboBox *>(type->layout()->itemAt(0)->widget())
-                ->currentData()
-                .toInt());
+                                             dynamic_cast<QComboBox *>(type->layout()->itemAt(0)->widget())
+                                             ->currentData()
+                                             .toInt());
     }
 
     return map;
@@ -275,7 +280,7 @@ CatalogCSVImport::column_map CatalogCSVImport::get_column_mapping()
 
         QString val_string;
         if (selected_value >= 0 &&
-            (selector->currentText() != names[selected_value].c_str()))
+                (selector->currentText() != names[selected_value].c_str()))
         {
             selected_value = -1;
             val_string     = selector->currentText();
@@ -301,69 +306,80 @@ void CatalogCSVImport::read_n_objects(size_t n)
     m_objects.reserve(std::min(m_doc.GetRowCount(), n));
 
     //  pure magic, it's like LISP macros
-    const auto make_getter = [this, &column_map](const QString &field, auto def) {
+    const auto make_getter = [this, &column_map](const QString & field, auto def)
+    {
         const auto &conf        = column_map.at(field);
         const auto &default_val = get_default(conf, def);
         const auto index        = conf.first;
 
         std::function<decltype(def)(const size_t)> getter;
         if (conf.first >= 0)
-            getter = [=](const size_t row) {
-                try
-                {
-                    return m_doc.GetCell<decltype(def)>(index, row);
-                }
-                catch (...)
-                {
-                    return default_val;
-                };
+            getter = [ = ](const size_t row)
+        {
+            try
+            {
+                return m_doc.GetCell<decltype(def)>(index, row);
+            }
+            catch (...)
+            {
+                return default_val;
             };
+        };
         else
-            getter = [=](const size_t) { return default_val; };
+            getter = [ = ](const size_t)
+        {
+            return default_val;
+        };
 
         return getter;
     };
 
-    const auto make_coord_getter = [this, &column_map](const QString &field, auto def,
-                                                       coord_unit unit) {
+    const auto make_coord_getter = [this, &column_map](const QString & field, auto def,
+                                   coord_unit unit)
+    {
         const auto &conf = column_map.at(field);
         const auto default_val =
             (unit == coord_unit::deg) ?
-                get_default<typed_dms<coord_unit::deg>>(column_map.at(field), { def })
-                    .data :
-                get_default<typed_dms<coord_unit::hours>>(column_map.at(field), { def })
-                    .data;
+            get_default<typed_dms<coord_unit::deg>>(column_map.at(field), { def })
+            .data :
+            get_default<typed_dms<coord_unit::hours>>(column_map.at(field), { def })
+            .data;
         const auto index = conf.first;
 
         std::function<decltype(def)(const size_t)> getter;
         if (conf.first >= 0)
         {
             if (unit == coord_unit::deg)
-                getter = [=](const size_t row) {
-                    try
-                    {
-                        return m_doc.GetCell<typed_dms<coord_unit::deg>>(index, row).data;
-                    }
-                    catch (...)
-                    {
-                        return default_val;
-                    };
+                getter = [ = ](const size_t row)
+            {
+                try
+                {
+                    return m_doc.GetCell<typed_dms<coord_unit::deg>>(index, row).data;
+                }
+                catch (...)
+                {
+                    return default_val;
                 };
+            };
             else
-                getter = [=](const size_t row) {
-                    try
-                    {
-                        return m_doc.GetCell<typed_dms<coord_unit::hours>>(index, row)
-                            .data;
-                    }
-                    catch (...)
-                    {
-                        return default_val;
-                    };
+                getter = [ = ](const size_t row)
+            {
+                try
+                {
+                    return m_doc.GetCell<typed_dms<coord_unit::hours>>(index, row)
+                    .data;
+                }
+                catch (...)
+                {
+                    return default_val;
                 };
+            };
         }
         else
-            getter = [=](const size_t) { return default_val; };
+            getter = [ = ](const size_t)
+        {
+            return default_val;
+        };
 
         return getter;
     };
@@ -406,7 +422,7 @@ void CatalogCSVImport::read_n_objects(size_t n)
 };
 
 SkyObject::TYPE CatalogCSVImport::parse_type(const std::string &type,
-                                             const type_map &type_map)
+        const type_map &type_map)
 {
     if (type_map.count(type) == 0)
         return type_map.at("default");
