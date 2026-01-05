@@ -71,15 +71,27 @@ do {\
   * @brief Subroutine version of QTRY_TIMEOUT_DEBUG_IMPL
   * @return false if expression equals false, otherwise continuing
   */
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #define KTRY_TIMEOUT_DEBUG_IMPL_SUB(expr, timeoutValue, step)\
     if (!(expr)) { \
         QTRY_LOOP_IMPL((expr), (2 * timeoutValue), step);\
         if (expr) { \
             QString msg = QString::fromUtf8("QTestLib: This test case check (\"%1\") failed because the requested timeout (%2 ms) was too short, %3 ms would have been sufficient this time."); \
-            msg = msg.arg(QString::fromUtf8(#expr)).arg(timeoutValue).arg(timeoutValue + qt_test_i); \
+            msg = msg.arg(QString::fromUtf8(#expr)).arg(timeoutValue + qt_test_i); \
             KVERIFY2_SUB(false, qPrintable(msg)); \
         } \
     }
+#else
+#define KTRY_TIMEOUT_DEBUG_IMPL_SUB(expr, timeoutValue, step)\
+    if (!(expr)) { \
+        QTRY_LOOP_IMPL((expr), (2 * timeoutValue), step);\
+        if (expr) { \
+            QString msg = QString::fromUtf8("QTestLib: This test case check (\"%1\") failed because the requested timeout (%2 ms) was too short, %3 ms would have been sufficient this time."); \
+            msg = msg.arg(QString::fromUtf8(#expr)).arg(timeoutValue + static_cast<int>(qt_test_i.count())); \
+            KVERIFY2_SUB(false, qPrintable(msg)); \
+        } \
+    }
+#endif
 
 /**
   * @brief Subroutine version of QTRY_IMPL

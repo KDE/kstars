@@ -72,7 +72,7 @@ Eigen::MatrixXd squareDistance(const Eigen::MatrixXd &a, const Eigen::MatrixXd &
     return
         ((am.array().square().colwise().sum().transpose().rowwise().replicate(bCols).matrix()
           + bm.array().square().colwise().sum().colwise().replicate(aCols).matrix())
-         - 2 * (am.transpose()) * bm).array().max(0);
+         - 2 * (am.transpose()) * bm).array().max(0.0);
 
     /* // verbose version
     Eigen::MatrixXd a_square =

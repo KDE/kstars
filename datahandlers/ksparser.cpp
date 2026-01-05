@@ -66,7 +66,7 @@ QHash<QString, QVariant> KSParser::ReadCSVRow()
     while (file_reader_.hasMoreLines() && read_success == false)
     {
         next_line = file_reader_.readLine();
-        if (next_line.mid(0, 1)[0] == comment_char_)
+        if (next_line.isEmpty() || next_line.mid(0, 1)[0] == comment_char_)
             continue;
         separated = next_line.split(delimiter_);
         /*
@@ -155,7 +155,7 @@ QHash<QString, QVariant> KSParser::ReadFixedWidthRow()
          *             conversion
         */
         next_line = file_reader_.readLine();
-        if (next_line.mid(0, 1)[0] == comment_char_)
+        if (next_line.isEmpty() || next_line.mid(0, 1)[0] == comment_char_)
             continue;
         if (next_line.length() < total_min_length)
             continue;
