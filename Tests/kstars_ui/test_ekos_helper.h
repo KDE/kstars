@@ -354,6 +354,7 @@ do {\
     } while (false)
 
 #define CLOSE_MODAL_DIALOG(button_nr) do { \
+    QTRY_IMPL(QApplication::activeModalWidget() != nullptr, 5000); \
     QTimer::singleShot(1000, capture, [&]() { \
         QDialog * const dialog = qobject_cast <QDialog*> (QApplication::activeModalWidget()); \
         if (dialog) \
@@ -458,6 +459,11 @@ class TestEkosHelper : public QObject
          * @param isDone will be true if everything succeeds
          */
         void fillProfile(bool *isDone);
+
+        /**
+         * @brief addDriver Add a driver to a profile
+         */
+        void addDriverToProfile(QString drivername);
 
         /**
          * @brief create a new EKOS profile
@@ -592,13 +598,6 @@ class TestEkosHelper : public QObject
          * @brief update J2000 coordinates
          */
         void updateJ2000Coordinates(SkyPoint *target);
-
-        /**
-         * @brief Set a tree view combo to a given value
-         * @param combo box with tree view
-         * @param lookup target value
-         */
-        void setTreeviewCombo(QComboBox *combo, const QString lookup);
 
         /**
          * @brief Simple write-string-to-file utility.

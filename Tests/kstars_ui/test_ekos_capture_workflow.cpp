@@ -892,6 +892,11 @@ void TestEkosCaptureWorkflow::testDarkManualCovering()
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(capture, 1000);
 
+    // clear calibration settings
+    KTRY_SET_CHECKBOX(capture, captureCalibrationWall, false);
+    KTRY_SET_CHECKBOX(capture, captureCalibrationParkMount, false);
+    KTRY_SET_CHECKBOX(capture, captureCalibrationParkDome, false);
+
     // use a test directory for darks
     QString imagepath = getImageLocation()->path() + "/test";
 

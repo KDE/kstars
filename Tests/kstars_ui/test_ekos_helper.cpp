@@ -52,6 +52,40 @@ void TestEkosHelper::createEkosProfile(QString name, bool isPHD2, bool *isDone)
     fillProfile(isDone);
 }
 
+void TestEkosHelper::addDriverToProfile(QString drivername)
+{
+    KTRY_PROFILEEDITOR_GADGET(QLineEdit, driverSearchEdit);
+    driverSearchEdit->setText(drivername);
+    KTRY_PROFILEEDITOR_GADGET(QTreeView, driversTree);
+    auto *driversModel = qobject_cast<QStandardItemModel*>(driversTree->model());
+
+    for (int i = 0; i < driversModel->rowCount(); ++i)
+    {
+        QStandardItem *familyItem = driversModel->item(i);
+
+        for (int j = 0; j < familyItem->rowCount(); ++j)
+        {
+            QStandardItem *manufacturerItem = familyItem->child(j);
+            for (int k = 0; k < manufacturerItem->rowCount(); ++k)
+            {
+                QStandardItem *driverItem = manufacturerItem->child(k);
+                if (!driversTree->isRowHidden(k, manufacturerItem->index()))
+                {
+                    // select the driver
+                    driversTree->scrollTo(driverItem->index(), QAbstractItemView::PositionAtCenter);
+                    driversTree->setCurrentIndex(driverItem->index());
+                    driversTree->selectionModel()->select(driverItem->index(), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+
+                    // add the driver
+                    KTRY_PROFILEEDITOR_GADGET(QPushButton, addDriverB);
+                    addDriverB->click();
+                    return;
+                }
+            }
+        }
+    }
+}
+
 void TestEkosHelper::fillProfile(bool *isDone)
 {
     qCInfo(KSTARS_EKOS_TEST) << "Fill profile: starting...";
@@ -60,56 +94,49 @@ void TestEkosHelper::fillProfile(bool *isDone)
     // Select the mount device
     if (m_MountDevice != "")
     {
-        KTRY_PROFILEEDITOR_GADGET(QComboBox, mountCombo);
-        setTreeviewCombo(mountCombo, m_MountDevice);
+        addDriverToProfile(m_MountDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Mount selected.";
     }
 
     // Select the CCD device
     if (m_CCDDevice != "")
     {
-        KTRY_PROFILEEDITOR_GADGET(QComboBox, ccdCombo);
-        setTreeviewCombo(ccdCombo, m_CCDDevice);
+        addDriverToProfile(m_CCDDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: CCD selected.";
     }
 
     // Select the focuser device
     if (m_FocuserDevice != "")
     {
-        KTRY_PROFILEEDITOR_GADGET(QComboBox, focuserCombo);
-        setTreeviewCombo(focuserCombo, m_FocuserDevice);
+        addDriverToProfile(m_FocuserDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Focuser selected.";
     }
 
     // Select the guider device, if not empty and different from CCD
     if (m_GuiderDevice != "" && m_GuiderDevice != m_CCDDevice)
     {
-        KTRY_PROFILEEDITOR_GADGET(QComboBox, guiderCombo);
-        setTreeviewCombo(guiderCombo, m_GuiderDevice);
+        addDriverToProfile(m_GuiderDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Guider selected.";
     }
 
     // Select the light panel device for flats capturing
     if (m_LightPanelDevice != "")
     {
-        KTRY_PROFILEEDITOR_GADGET(QComboBox, aux1Combo);
-        setTreeviewCombo(aux1Combo, m_LightPanelDevice);
+        addDriverToProfile(m_LightPanelDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Light panel selected.";
     }
 
     // Select the dome device
     if (m_DomeDevice != "")
     {
-        KTRY_PROFILEEDITOR_GADGET(QComboBox, domeCombo);
-        setTreeviewCombo(domeCombo, m_DomeDevice);
+        addDriverToProfile(m_DomeDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Dome selected.";
     }
 
     // Select the rotator device
     if (m_RotatorDevice != "")
     {
-        KTRY_PROFILEEDITOR_GADGET(QComboBox, aux2Combo);
-        setTreeviewCombo(aux2Combo, m_RotatorDevice);
+        addDriverToProfile(m_RotatorDevice);
         qCInfo(KSTARS_EKOS_TEST) << "Fill profile: Rotator selected.";
     }
 
@@ -538,7 +565,7 @@ void TestEkosHelper::prepareGuidingModule()
     Options::setResetGuideCalibration(false);
     // guide calibration captured with fsq-85 as guiding scope, clear if it creates problems
     // KTRY_CLICK(Ekos::Manager::Instance()->guideModule(), clearCalibrationB);
-    Options::setSerializedCalibration("Cal v1.0,bx=1,by=1,pw=0.0098,ph=0.0126,fl=450,ang=270,angR=270,angD=180,ramspas=207.777,decmspas=190.816,swap=0,ra= 165:55:58,dec=04:07:00,side=0,when=2024-03-16 18:01:01,calEnd");
+    Options::setSerializedCalibration("Cal v1.1,bx=1,by=1,pw=0.0024,ph=0.0024,fl=450,ang=269.014,angR=268.755,angD=359.273,ramspas=125.814,decmspas=134.457,swap=0,ra= 80:21:17,dec=00:25:52,side=0,when=2025-12-21 00:13:11,calEnd");
     // 0.5 pixel dithering
     Options::setDitherPixels(0.5);
     // auto star select
@@ -942,28 +969,6 @@ void TestEkosHelper::cleanup()
  * Helper functions
  *
  * ********************************************************************************* */
-void TestEkosHelper::setTreeviewCombo(QComboBox *combo, QString lookup)
-{
-    // Match the text recursively in the model, this results in a model index with a parent
-    QModelIndexList const list = combo->model()->match(combo->model()->index(0, 0), Qt::DisplayRole,
-                                 QVariant::fromValue(lookup), 1, Qt::MatchRecursive);
-    QVERIFY(0 < list.count());
-    QModelIndex const &index = list.first();
-    QCOMPARE(list.value(0).data().toString(), lookup);
-    QVERIFY(!index.parent().parent().isValid());
-    // Now set the combobox model root to the match's parent
-    combo->setRootModelIndex(index.parent());
-    combo->setModelColumn(index.column());
-    combo->setCurrentIndex(index.row());
-
-    // Now reset
-    combo->setRootModelIndex(QModelIndex());
-    combo->view()->setCurrentIndex(index);
-
-    // Check, if everything went well
-    QCOMPARE(combo->currentText(), lookup);
-}
-
 
 // Simple write-string-to-file utility.
 bool TestEkosHelper::writeFile(const QString &filename, const QStringList &lines, QFileDevice::Permissions permissions)
@@ -987,7 +992,8 @@ bool TestEkosHelper::createCountingScript(Ekos::ScriptTypes scripttype, const QS
     logfilename.replace(scriptname.lastIndexOf(".sh"), 3, ".log");
     QStringList script_content({"#!/bin/sh",
                                 QString("nr=`head -1 %1|| echo 0` 2> /dev/null").arg(logfilename),
-                                QString("nr=$(($nr+1))\necho $nr > %1").arg(logfilename)});
+                                QString("nr=$(($nr+1))\necho $nr > %1").arg(logfilename),
+                                QString("sleep 0.1")});
     // create executable script
     bool result = writeFile(scriptname, script_content,
                             QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner);
