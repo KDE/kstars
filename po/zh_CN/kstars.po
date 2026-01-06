@@ -1,8 +1,9 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-03 02:01+0000\n"
+"POT-Creation-Date: 2026-01-06 02:21+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -11,11 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Crowdin-Project: kdeorg\n"
-"X-Crowdin-Project-ID: 269464\n"
-"X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-File: /kf5-trunk/messages/kstars/kstars.pot\n"
 "X-Crowdin-File-ID: 6539\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-Project: kdeorg\n"
+"X-Crowdin-Project-ID: 269464\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -108,7 +109,7 @@ msgid "Ecliptic"
 msgstr "黄道"
 
 #: auxiliary/colorscheme.cpp:45 kstarslite/qml/modules/TopMenu.qml:256
-#: projections/equirectangularprojector.cpp:170 projections/projector.cpp:317
+#: projections/equirectangularprojector.cpp:171 projections/projector.cpp:317
 #, kde-format, kde-kuit-format
 msgid "Horizon"
 msgstr "地平圈"
@@ -209,8 +210,8 @@ msgstr "超新星"
 #: auxiliary/colorscheme.cpp:63 data/qml/whatisinteresting/wiview.qml:360
 #: data/qml/whatisinteresting/wiview.qml:372 dialogs/finddialog.cpp:45
 #: kstarslite/dialogs/finddialoglite.cpp:34 options/opssolarsystem.ui:364
-#: tools/conjunctions.cpp:103 tools/obslistwizard.cpp:285
-#: tools/obslistwizard.cpp:411 tools/obslistwizard.cpp:535
+#: tools/conjunctions.cpp:104 tools/obslistwizard.cpp:285
+#: tools/obslistwizard.cpp:412 tools/obslistwizard.cpp:537
 #: tools/obslistwizard.ui:120 tools/wutdialog.cpp:103
 #, kde-format, kde-kuit-format
 msgid "Asteroids"
@@ -302,27 +303,27 @@ msgstr ""
 "无法打开本地配色方案索引文件。\n"
 "无法记录配色方案。"
 
-#: auxiliary/filedownloader.cpp:94
+#: auxiliary/filedownloader.cpp:100
 #, kde-format
 msgid "Data verification failed"
 msgstr "数据验证失败"
 
-#: auxiliary/filedownloader.cpp:105
+#: auxiliary/filedownloader.cpp:111
 #, kde-format
 msgid "File verification failed"
 msgstr "文件验证失败"
 
-#: auxiliary/filedownloader.cpp:153
+#: auxiliary/filedownloader.cpp:159
 #, kde-format
 msgid "Downloading"
 msgstr "正在下载"
 
-#: auxiliary/filedownloader.cpp:158
+#: auxiliary/filedownloader.cpp:164
 #, kde-format
 msgid "Downloading Data..."
 msgstr "下载数据..."
 
-#: auxiliary/filedownloader.cpp:197
+#: auxiliary/filedownloader.cpp:204
 #, kde-format
 msgid "Awaiting response from server..."
 msgstr "等待来自服务器的响应..."
@@ -372,8 +373,8 @@ msgstr "KStars 导出的天空图像"
 msgid "Error: Unable to save image: %1"
 msgstr "错误：无法保存图像：%1"
 
-#: auxiliary/imageexporter.cpp:169 auxiliary/imageviewer.cpp:355
-#: auxiliary/xplanetimageviewer.cpp:1250
+#: auxiliary/imageexporter.cpp:169 auxiliary/imageviewer.cpp:357
+#: auxiliary/xplanetimageviewer.cpp:1261
 #, kde-format
 msgid "Saved image to %1"
 msgstr "将图像保存到 %1"
@@ -389,18 +390,18 @@ msgstr "无法上传图像到远程位置：%1"
 msgid "Could not export image: URL %1 invalid"
 msgstr "无法导出图像：URL %1 无效"
 
-#: auxiliary/imageviewer.cpp:117
+#: auxiliary/imageviewer.cpp:118
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars image viewer: %1"
 msgstr "KStars 图像查看器： %1"
 
-#: auxiliary/imageviewer.cpp:131
+#: auxiliary/imageviewer.cpp:132
 #, kde-format
 msgid "Invert colors"
 msgstr "反转颜色"
 
-#: auxiliary/imageviewer.cpp:132 auxiliary/xplanetimageviewer.cpp:388
+#: auxiliary/imageviewer.cpp:133 auxiliary/xplanetimageviewer.cpp:394
 #, kde-format
 msgid ""
 "Reverse colors of the image. This is useful to enhance contrast at times. "
@@ -410,7 +411,7 @@ msgstr "反转图像颜色。需要加强对比时该功能会比较有用。该
 #. i18n: ectx: property (text), widget (QPushButton, AddScope)
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
-#: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:386
+#: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:386
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera_jobs.cpp:419
 #: ekos/scheduler/scheduler.cpp:2293
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
@@ -423,75 +424,75 @@ msgstr "反转图像颜色。需要加强对比时该功能会比较有用。该
 msgid "Save"
 msgstr "保存"
 
-#: auxiliary/imageviewer.cpp:135 auxiliary/xplanetimageviewer.cpp:287
+#: auxiliary/imageviewer.cpp:136 auxiliary/xplanetimageviewer.cpp:292
 #, kde-format
 msgid "Save the image to disk"
 msgstr "将图像保存到磁盘"
 
-#: auxiliary/imageviewer.cpp:176
+#: auxiliary/imageviewer.cpp:177
 #, kde-format
 msgid "Remove temporary file %1 from disk?"
 msgstr "从磁盘中删除临时文件 %1 吗？"
 
-#: auxiliary/imageviewer.cpp:177
+#: auxiliary/imageviewer.cpp:178
 #, kde-format
 msgid "Confirm Removal"
 msgstr "确认删除"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadB)
-#: auxiliary/imageviewer.cpp:194
+#: auxiliary/imageviewer.cpp:195
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:59
 #, kde-format
 msgid "Download"
 msgstr "下载"
 
-#: auxiliary/imageviewer.cpp:195
+#: auxiliary/imageviewer.cpp:196
 #, kde-format
 msgid "Please wait while image is being downloaded..."
 msgstr "请正在下载图像，稍候..."
 
-#: auxiliary/imageviewer.cpp:223
+#: auxiliary/imageviewer.cpp:224
 #, kde-format
 msgid "Image Viewer"
 msgstr "图像查看器"
 
-#: auxiliary/imageviewer.cpp:256
+#: auxiliary/imageviewer.cpp:257
 #, kde-format
 msgid "Loading of the image %1 failed."
 msgstr "加载图像 %1 失败。"
 
-#: auxiliary/imageviewer.cpp:311 auxiliary/xplanetimageviewer.cpp:1221
-#: indi/clientmanagerlite.cpp:795 printing/foveditordialog.cpp:119
+#: auxiliary/imageviewer.cpp:312 auxiliary/xplanetimageviewer.cpp:1232
+#: indi/clientmanagerlite.cpp:797 printing/foveditordialog.cpp:119
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "保存图像"
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:4076
+#: auxiliary/imageviewer.cpp:321 ekos/align/align.cpp:4076
 #: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1391
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "名为“%1”的文件已经存在。覆盖吗？"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:4079
+#: auxiliary/imageviewer.cpp:324 ekos/align/align.cpp:4079
 #: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1392
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
 msgstr "要覆盖文件吗？"
 
-#: auxiliary/imageviewer.cpp:346
+#: auxiliary/imageviewer.cpp:348
 #, kde-format
 msgid "Saving of the image %1 failed."
 msgstr "保存图像 %1 失败。"
 
-#: auxiliary/ksdssdownloader.cpp:200 auxiliary/ksdssdownloader.cpp:228
+#: auxiliary/ksdssdownloader.cpp:206 auxiliary/ksdssdownloader.cpp:234
 #, kde-format
 msgid "DSS Download"
 msgstr "DSS 下载"
 
-#: auxiliary/ksdssdownloader.cpp:201 auxiliary/ksdssdownloader.cpp:229
+#: auxiliary/ksdssdownloader.cpp:207 auxiliary/ksdssdownloader.cpp:235
 #, kde-format
 msgid "Please wait while DSS image is being downloaded..."
 msgstr "正在下载 DSS 图像，请稍候..."
@@ -523,7 +524,7 @@ msgstr "问题"
 #: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:441
 #: dialogs/detaildialog.cpp:499 ekos/profilewizard.ui:560
 #: kstarslite/qml/modules/tutorial/TutorialExitPopup.qml:39
-#: printing/detailstable.cpp:372 printing/detailstable.cpp:410
+#: printing/detailstable.cpp:373 printing/detailstable.cpp:411
 #, kde-format, kde-kuit-format
 msgid "Yes"
 msgstr "是"
@@ -531,19 +532,19 @@ msgstr "是"
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerNoR)
 #: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:443
 #: dialogs/detaildialog.cpp:501 ekos/profilewizard.ui:567
-#: printing/detailstable.cpp:372 printing/detailstable.cpp:410
+#: printing/detailstable.cpp:373 printing/detailstable.cpp:411
 #, kde-format
 msgid "No"
 msgstr "否"
 
-#: auxiliary/ksmessagebox.h:37 dialogs/catalogcsvimport.cpp:115
-#: dialogs/catalogdetails.cpp:79 dialogs/catalogdetails.cpp:132
-#: dialogs/catalogdetails.cpp:147 dialogs/catalogdetails.cpp:166
-#: dialogs/catalogdetails.cpp:190 dialogs/catalogdetails.cpp:196
-#: dialogs/catalogdetails.cpp:213 dialogs/catalogsdbui.cpp:153
-#: dialogs/catalogsdbui.cpp:189 dialogs/catalogsdbui.cpp:210
-#: dialogs/catalogsdbui.cpp:230 dialogs/catalogsdbui.cpp:248
-#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:814
+#: auxiliary/ksmessagebox.h:37 dialogs/catalogcsvimport.cpp:120
+#: dialogs/catalogdetails.cpp:83 dialogs/catalogdetails.cpp:136
+#: dialogs/catalogdetails.cpp:151 dialogs/catalogdetails.cpp:170
+#: dialogs/catalogdetails.cpp:194 dialogs/catalogdetails.cpp:200
+#: dialogs/catalogdetails.cpp:217 dialogs/catalogsdbui.cpp:155
+#: dialogs/catalogsdbui.cpp:191 dialogs/catalogsdbui.cpp:212
+#: dialogs/catalogsdbui.cpp:232 dialogs/catalogsdbui.cpp:250
+#: dialogs/catalogsdbui.cpp:285 ekos/align/polaralignmentassistant.cpp:814
 #: ekos/scheduler/schedulerprocess.cpp:547
 #, kde-format
 msgid "Warning"
@@ -759,7 +760,7 @@ msgstr "Astrometry 配置文件读取错误。"
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "内部 Astrometry 配置文件写错误。"
 
-#: auxiliary/ksutils.cpp:1768 fitsviewer/fitsdata.cpp:2391
+#: auxiliary/ksutils.cpp:1768 fitsviewer/fitsdata.cpp:2401
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -917,23 +918,23 @@ msgstr "裁剪区域：[0,0, 200 x 200]"
 msgid "(crop region will be scaled to 200x200)"
 msgstr "(裁剪区域将缩放至 200x200)"
 
-#: auxiliary/thumbnailpicker.cpp:136
+#: auxiliary/thumbnailpicker.cpp:138
 #, kde-format
 msgid "Loading images..."
 msgstr "正在加载图像..."
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
-#: auxiliary/thumbnailpicker.cpp:170 auxiliary/thumbnailpicker.ui:24
+#: auxiliary/thumbnailpicker.cpp:172 auxiliary/thumbnailpicker.ui:24
 #, kde-format
 msgid "Search results:"
 msgstr "搜索结果："
 
-#: auxiliary/thumbnailpicker.cpp:354
+#: auxiliary/thumbnailpicker.cpp:356
 #, kde-format
 msgid "Failed to load image at %1"
 msgstr "加载图像失败 %1"
 
-#: auxiliary/thumbnailpicker.cpp:354
+#: auxiliary/thumbnailpicker.cpp:356
 #, kde-format
 msgid "Failed to load image"
 msgstr "加载图像失败"
@@ -1038,7 +1039,7 @@ msgstr "编辑图像(&G)..."
 msgid "Unset Image"
 msgstr "撤销图像"
 
-#: auxiliary/xplanetimageviewer.cpp:186 auxiliary/xplanetimageviewer.cpp:894
+#: auxiliary/xplanetimageviewer.cpp:186 auxiliary/xplanetimageviewer.cpp:905
 #, kde-format
 msgctxt "@title:window"
 msgid "XPlanet Solar System Simulator: %1"
@@ -1056,15 +1057,15 @@ msgstr "XPlanet 太阳系模拟器: %1"
 #: data/qml/whatisinteresting/wiview.qml:158 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
 #: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
-#: printing/detailstable.cpp:140 printing/detailstable.cpp:186
+#: printing/detailstable.cpp:140 printing/detailstable.cpp:187
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
-#: skycomponents/skymapcomposite.cpp:599 skyglpainter.cpp:288
+#: skycomponents/skymapcomposite.cpp:599 skyglpainter.cpp:289
 #: skymapdrawabstract.cpp:366 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
-#: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
-#: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
+#: skyobjects/skypoint.cpp:435 skyqpainter.cpp:524 skyqpainter.cpp:548
+#: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:299
 #: tools/imagingplanner.cpp:1542 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
@@ -1081,7 +1082,7 @@ msgstr "太阳"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Mercury)
 #: auxiliary/xplanetimageviewer.cpp:203
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:264
-#: skycomponents/skymapcomposite.cpp:601 skyglpainter.cpp:296
+#: skycomponents/skymapcomposite.cpp:601 skyglpainter.cpp:297
 #: skymapdrawabstract.cpp:368 skyobjects/ksplanet.cpp:124
 #: skyobjects/ksplanet.cpp:159 skyobjects/ksplanet.cpp:363
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
@@ -1133,15 +1134,15 @@ msgstr "地球"
 #: dialogs/detaildialog.cpp:232 dialogs/detaildialog.cpp:255
 #: dialogs/detaildialog.cpp:270 ekos/scheduler/schedulerjob.cpp:124
 #: options/opssolarsystem.ui:220 printing/detailstable.cpp:145
-#: printing/detailstable.cpp:162 printing/detailstable.cpp:173
-#: printing/detailstable.cpp:186 printing/pwizobjectselection.cpp:124
+#: printing/detailstable.cpp:163 printing/detailstable.cpp:174
+#: printing/detailstable.cpp:187 printing/pwizobjectselection.cpp:124
 #: skycomponents/skymapcomposite.cpp:605 skymapdrawabstract.cpp:372
 #: skyobjects/ksmoon.cpp:64 skyobjects/ksplanet.cpp:177
 #: skyobjects/ksplanetbase.cpp:204 skyobjects/ksplanetbase.cpp:270
 #: skyobjects/skyobject.cpp:287 skyobjects/skyobject.cpp:367
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
-#: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
+#: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:68
 #: tools/imagingplanner.cpp:85 tools/imagingplanner.cpp:1517
 #: tools/imagingplanner.cpp:3063 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
@@ -1160,7 +1161,7 @@ msgstr "月球"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Mars)
 #: auxiliary/xplanetimageviewer.cpp:207
 #: kstarslite/skyitems/skynodes/planetnode.cpp:26 options/opssolarsystem.ui:85
-#: skycomponents/skymapcomposite.cpp:607 skyglpainter.cpp:292
+#: skycomponents/skymapcomposite.cpp:607 skyglpainter.cpp:293
 #: skymapdrawabstract.cpp:374 skyobjects/ksplanet.cpp:130
 #: skyobjects/ksplanet.cpp:163 skyobjects/ksplanet.cpp:373
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
@@ -1188,7 +1189,7 @@ msgstr "火卫二 (戴摩斯)"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Jupiter)
 #: auxiliary/xplanetimageviewer.cpp:209
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:202
-#: skycomponents/skymapcomposite.cpp:609 skyglpainter.cpp:296
+#: skycomponents/skymapcomposite.cpp:609 skyglpainter.cpp:297
 #: skymapdrawabstract.cpp:376 skyobjects/ksplanet.cpp:133
 #: skyobjects/ksplanet.cpp:165 skyobjects/ksplanet.cpp:377
 #: skyobjects/ksplanet.cpp:421 skyobjects/ksplanetbase.cpp:146
@@ -1226,7 +1227,7 @@ msgstr "木卫二（欧罗巴）"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1430
+#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:298 skymap.cpp:1430
 #: skymapdrawabstract.cpp:378 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -1259,27 +1260,27 @@ msgstr "土卫二 (恩克拉多斯)"
 msgid "Tethys"
 msgstr "土卫三 (特提斯)"
 
-#: auxiliary/xplanetimageviewer.cpp:211
+#: auxiliary/xplanetimageviewer.cpp:212
 #, kde-format
 msgid "Dione"
 msgstr "土卫四 (狄奥妮)"
 
-#: auxiliary/xplanetimageviewer.cpp:211
+#: auxiliary/xplanetimageviewer.cpp:212
 #, kde-format
 msgid "Rhea"
 msgstr "土卫五 (瑞亚)"
 
-#: auxiliary/xplanetimageviewer.cpp:211
+#: auxiliary/xplanetimageviewer.cpp:212
 #, kde-format
 msgid "Hyperion"
 msgstr "土卫七 (海帕里翁)"
 
-#: auxiliary/xplanetimageviewer.cpp:211
+#: auxiliary/xplanetimageviewer.cpp:212
 #, kde-format
 msgid "Iapetus"
 msgstr "土卫八 (伊阿珀托斯)"
 
-#: auxiliary/xplanetimageviewer.cpp:211
+#: auxiliary/xplanetimageviewer.cpp:212
 #, kde-format
 msgid "Phoebe"
 msgstr "土卫九 (菲比)"
@@ -1288,7 +1289,7 @@ msgstr "土卫九 (菲比)"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBox)
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Uranus)
-#: auxiliary/xplanetimageviewer.cpp:213 options/opssolarsystem.ui:312
+#: auxiliary/xplanetimageviewer.cpp:215 options/opssolarsystem.ui:312
 #: skycomponents/skymapcomposite.cpp:613 skymapdrawabstract.cpp:380
 #: skyobjects/ksplanet.cpp:139 skyobjects/ksplanet.cpp:169
 #: skyobjects/ksplanet.cpp:391 skyobjects/ksplanet.cpp:429
@@ -1300,27 +1301,27 @@ msgstr "土卫九 (菲比)"
 msgid "Uranus"
 msgstr "天王星"
 
-#: auxiliary/xplanetimageviewer.cpp:213
+#: auxiliary/xplanetimageviewer.cpp:215
 #, kde-format
 msgid "Umbriel"
 msgstr "天卫二 (乌姆柏里厄尔)"
 
-#: auxiliary/xplanetimageviewer.cpp:213
+#: auxiliary/xplanetimageviewer.cpp:215
 #, kde-format
 msgid "Ariel"
 msgstr "天卫一 (艾瑞尔)"
 
-#: auxiliary/xplanetimageviewer.cpp:213
+#: auxiliary/xplanetimageviewer.cpp:215
 #, kde-format
 msgid "Miranda"
 msgstr "天卫五 (Miranda)"
 
-#: auxiliary/xplanetimageviewer.cpp:213
+#: auxiliary/xplanetimageviewer.cpp:215
 #, kde-format
 msgid "Titania"
 msgstr "天卫三 (泰坦妮亚)"
 
-#: auxiliary/xplanetimageviewer.cpp:213
+#: auxiliary/xplanetimageviewer.cpp:216
 #, kde-format
 msgid "Oberon"
 msgstr "天卫四 (奥伯龙)"
@@ -1329,7 +1330,7 @@ msgstr "天卫四 (奥伯龙)"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBox)
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Neptune)
-#: auxiliary/xplanetimageviewer.cpp:215 options/opssolarsystem.ui:280
+#: auxiliary/xplanetimageviewer.cpp:219 options/opssolarsystem.ui:280
 #: skycomponents/skymapcomposite.cpp:615 skymapdrawabstract.cpp:382
 #: skyobjects/ksplanet.cpp:142 skyobjects/ksplanet.cpp:171
 #: skyobjects/ksplanet.cpp:395 skyobjects/ksplanet.cpp:433
@@ -1341,22 +1342,22 @@ msgstr "天卫四 (奥伯龙)"
 msgid "Neptune"
 msgstr "海王星"
 
-#: auxiliary/xplanetimageviewer.cpp:215
+#: auxiliary/xplanetimageviewer.cpp:219
 #, kde-format
 msgid "Triton"
 msgstr "海卫一 (崔顿)"
 
-#: auxiliary/xplanetimageviewer.cpp:226
+#: auxiliary/xplanetimageviewer.cpp:230
 #, kde-format
 msgid "This allows you to select a new object/target for XPlanet to view"
 msgstr "这允许您选择在 XPlanet 中观看的新天体/目标"
 
-#: auxiliary/xplanetimageviewer.cpp:234
+#: auxiliary/xplanetimageviewer.cpp:238
 #, kde-format
 msgid "from"
 msgstr "观测于"
 
-#: auxiliary/xplanetimageviewer.cpp:237
+#: auxiliary/xplanetimageviewer.cpp:241
 #, kde-format
 msgid "This allows you to select a viewing location"
 msgstr "这允许您选择观看地点"
@@ -1367,7 +1368,7 @@ msgstr "这允许您选择观看地点"
 #. i18n: ectx: property (text), widget (QLabel, LocationLabelBatch)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, locationLabel)
-#: auxiliary/xplanetimageviewer.cpp:246 ekos/mount/mount.ui:825
+#: auxiliary/xplanetimageviewer.cpp:250 ekos/mount/mount.ui:825
 #: oal/execute.ui:41 tools/modcalcaltaz.ui:109 tools/modcalcdaylength.ui:38
 #: tools/modcalcdaylength.ui:792 tools/modcalcsidtime.ui:130
 #: tools/modcalcsidtime.ui:222 tools/modcalcvlsr.ui:81
@@ -1376,7 +1377,7 @@ msgstr "这允许您选择观看地点"
 msgid "Location:"
 msgstr "位置："
 
-#: auxiliary/xplanetimageviewer.cpp:249
+#: auxiliary/xplanetimageviewer.cpp:254
 #, kde-format
 msgid ""
 "XPlanet Latitude, Longitude, and object radius in %. This is only valid when "
@@ -1384,47 +1385,47 @@ msgid ""
 msgstr ""
 "XPlanet 的纬度、经度和天体半径以%为单位。仅当从某天体观测同一天体时有效。"
 
-#: auxiliary/xplanetimageviewer.cpp:259
+#: auxiliary/xplanetimageviewer.cpp:264
 #, kde-format
 msgid "Reset XPlanet Location to the location specified in the XPlanet Options"
 msgstr "重置 XPlanet 位置为 XPlanet 设置中设定的位置"
 
-#: auxiliary/xplanetimageviewer.cpp:269
+#: auxiliary/xplanetimageviewer.cpp:274
 #, kde-format
 msgid "Hover over target and freely rotate view with mouse in XPlanet Viewer"
 msgstr "悬停目标天体，并在 XPlanet 查看器中使用鼠标自由旋转视图"
 
-#: auxiliary/xplanetimageviewer.cpp:278
+#: auxiliary/xplanetimageviewer.cpp:283
 #, kde-format
 msgid "Recenters the XPlanet image once it has been moved"
 msgstr "重新居中移动过的 XPlanet 图像"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: auxiliary/xplanetimageviewer.cpp:296 ekos/align/align.ui:371
+#: auxiliary/xplanetimageviewer.cpp:301 ekos/align/align.ui:371
 #, kde-format
 msgid "FOV:"
 msgstr "视场："
 
-#: auxiliary/xplanetimageviewer.cpp:305
+#: auxiliary/xplanetimageviewer.cpp:310
 #, kde-format
 msgid ""
 "Sets the FOV to the Specified value.   Note: has no effect if hovering over "
 "object."
 msgstr "设置视场为指定值。注意：如果悬停在天体上，则无效。"
 
-#: auxiliary/xplanetimageviewer.cpp:321
+#: auxiliary/xplanetimageviewer.cpp:326
 #, kde-format
 msgid ""
 "Zoom to the current KStars FOV.   Note: has no effect if hovering over "
 "object."
 msgstr "缩放到当前的 KStars 视场。注意：如果悬停天体，则无效。"
 
-#: auxiliary/xplanetimageviewer.cpp:330
+#: auxiliary/xplanetimageviewer.cpp:335
 #, kde-format
 msgid "Zoom to a specific FOV. This has no effect when hovering over an object"
 msgstr "缩放到指定的视场。如果悬停天体时，则无效"
 
-#: auxiliary/xplanetimageviewer.cpp:339
+#: auxiliary/xplanetimageviewer.cpp:345
 #, kde-format
 msgid ""
 "Optimum FOV for the target, FOV parameter not specified.  Note: has no "
@@ -1433,84 +1434,84 @@ msgstr "最优化天体的视场，无需指定视场大小。注意：如果悬
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
-#: auxiliary/xplanetimageviewer.cpp:345 dialogs/newfov.ui:1095
+#: auxiliary/xplanetimageviewer.cpp:351 dialogs/newfov.ui:1095
 #: indi/collimationOptions.ui:462
 #, kde-format
 msgid "Rotation:"
 msgstr "旋转："
 
-#: auxiliary/xplanetimageviewer.cpp:352
+#: auxiliary/xplanetimageviewer.cpp:358
 #, kde-format
 msgid "Set the view rotation to the desired angle"
 msgstr "设置所需的视场旋转角度"
 
-#: auxiliary/xplanetimageviewer.cpp:361
+#: auxiliary/xplanetimageviewer.cpp:367
 #, kde-format
 msgid "Rotate the view 180 degrees"
 msgstr "旋转视图 (180 度)"
 
-#: auxiliary/xplanetimageviewer.cpp:370
+#: auxiliary/xplanetimageviewer.cpp:376
 #, kde-format
 msgid "Reset view rotation to 0"
 msgstr "重置视图旋转到 0"
 
-#: auxiliary/xplanetimageviewer.cpp:379
+#: auxiliary/xplanetimageviewer.cpp:385
 #, kde-format
 msgid "Bring up XPlanet Options"
 msgstr "打开 XPlanet 选项"
 
-#: auxiliary/xplanetimageviewer.cpp:405
+#: auxiliary/xplanetimageviewer.cpp:411
 #, kde-format
 msgid "Allows you to set the XPlanet time to a different date/time from KStars"
 msgstr "允许您设置不同于 KStars 的 XPlanet 日期和时间"
 
-#: auxiliary/xplanetimageviewer.cpp:414
+#: auxiliary/xplanetimageviewer.cpp:420
 #, kde-format
 msgid "Sets the XPlanet time to the current KStars time"
 msgstr "设 XPlanet 时间为当前 KStars 时间"
 
-#: auxiliary/xplanetimageviewer.cpp:419
+#: auxiliary/xplanetimageviewer.cpp:425
 #, kde-format
 msgid "Current XPlanet Time"
 msgstr "当前 XPlanet 时间"
 
-#: auxiliary/xplanetimageviewer.cpp:422 auxiliary/xplanetimageviewer.cpp:881
-#: auxiliary/xplanetimageviewer.cpp:1042 auxiliary/xplanetimageviewer.cpp:1055
+#: auxiliary/xplanetimageviewer.cpp:428 auxiliary/xplanetimageviewer.cpp:892
+#: auxiliary/xplanetimageviewer.cpp:1053 auxiliary/xplanetimageviewer.cpp:1066
 #, kde-format
 msgid "%1, %2"
 msgstr "%1, %2"
 
-#: auxiliary/xplanetimageviewer.cpp:429
+#: auxiliary/xplanetimageviewer.cpp:435
 #, kde-format
 msgid ""
 "This sets the time step from the current XPlanet time, good for viewing "
 "events"
 msgstr "这将设定距当前 XPlanet 时间的时间跳跃，适合查看事件"
 
-#: auxiliary/xplanetimageviewer.cpp:435
+#: auxiliary/xplanetimageviewer.cpp:441
 #, kde-format
 msgid "This sets the time step from the current XPlanet time"
 msgstr "这将设定距当前 XPlanet 时间的时间跳跃"
 
-#: auxiliary/xplanetimageviewer.cpp:442
+#: auxiliary/xplanetimageviewer.cpp:448
 #, kde-format
 msgid "years"
 msgstr "年"
 
-#: auxiliary/xplanetimageviewer.cpp:443
+#: auxiliary/xplanetimageviewer.cpp:449
 #, kde-format
 msgid "months"
 msgstr "月"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: auxiliary/xplanetimageviewer.cpp:444 ekos/auxiliary/darklibrary.ui:1188
+#: auxiliary/xplanetimageviewer.cpp:450 ekos/auxiliary/darklibrary.ui:1188
 #: widgets/timespinbox.cpp:140 widgets/timespinbox.cpp:144
 #: widgets/timespinbox.cpp:145 widgets/timespinbox.cpp:146
 #, kde-format
 msgid "days"
 msgstr "日"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1134
+#: auxiliary/xplanetimageviewer.cpp:451 ekos/scheduler/schedulerjob.cpp:1134
 #, kde-format
 msgid "hours"
 msgstr "时"
@@ -1518,7 +1519,7 @@ msgstr "时"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
+#: auxiliary/xplanetimageviewer.cpp:452 ekos/auxiliary/darklibrary.ui:236
 #: ekos/capture/limits.ui:357 ekos/scheduler/opsweathersettings.ui:71
 #: ekos/scheduler/schedulerjob.cpp:1132
 #, kde-format
@@ -1537,7 +1538,7 @@ msgstr "分"
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas4c)
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: auxiliary/xplanetimageviewer.cpp:447 ekos/capture/opsmiscsettings.ui:50
+#: auxiliary/xplanetimageviewer.cpp:453 ekos/capture/opsmiscsettings.ui:50
 #: ekos/capture/opsmiscsettings.ui:116 ekos/capture/opsmiscsettings.ui:166
 #: ekos/capture/opsmiscsettings.ui:196 ekos/guide/opsdither.ui:72
 #: ekos/guide/opsdither.ui:126 ekos/guide/opsgpg.ui:129
@@ -1550,74 +1551,74 @@ msgstr "分"
 msgid "seconds"
 msgstr "秒"
 
-#: auxiliary/xplanetimageviewer.cpp:449
+#: auxiliary/xplanetimageviewer.cpp:455
 #, kde-format
 msgid "Lets you change the units for the timestep in the animation"
 msgstr "让您更改动画中的计时单位"
 
-#: auxiliary/xplanetimageviewer.cpp:462
+#: auxiliary/xplanetimageviewer.cpp:468
 #, kde-format
 msgid "Lets you run the animation"
 msgstr "让您运行动画"
 
-#: auxiliary/xplanetimageviewer.cpp:471
+#: auxiliary/xplanetimageviewer.cpp:477
 #, kde-format
 msgid "Resets the animation to 0 timesteps from the current XPlanet Time"
 msgstr "重置距离当前的 XPlanet 时间为 0 的时间跳跃。"
 
-#: auxiliary/xplanetimageviewer.cpp:542
+#: auxiliary/xplanetimageviewer.cpp:548
 #, kde-format
 msgid "Xplanet binary path is empty in config panel."
 msgstr "配置面板内 Xplanet 可执行文件路径为空。"
 
-#: auxiliary/xplanetimageviewer.cpp:550
+#: auxiliary/xplanetimageviewer.cpp:556
 #, kde-format
 msgid "The configured Xplanet binary does not exist or is not executable."
 msgstr "当前配置下的 Xplanet 二进制文件不存在或不可执行。"
 
-#: auxiliary/xplanetimageviewer.cpp:754
+#: auxiliary/xplanetimageviewer.cpp:763
 #, kde-format
 msgid "XPlanet View: %1 from %2 on %3"
 msgstr "XPlanet 视图: %1 从 %2 在 %3"
 
-#: auxiliary/xplanetimageviewer.cpp:756
+#: auxiliary/xplanetimageviewer.cpp:765
 #, kde-format
 msgid "XPlanet View: %1 from %2 on %3 at FOV: %4 deg"
 msgstr "XPlanet 视图: %1 从 %2 于 %3 视场 %4 度"
 
-#: auxiliary/xplanetimageviewer.cpp:770
+#: auxiliary/xplanetimageviewer.cpp:779
 #, kde-format
 msgid "Loading of the image of object %1 failed."
 msgstr "加载天体图像 %1 失败。"
 
-#: auxiliary/xplanetimageviewer.cpp:775
+#: auxiliary/xplanetimageviewer.cpp:785
 #, kde-format
 msgid ""
 "XPlanet failed to generate the image for object %1 before the timeout "
 "expired."
 msgstr "XPlanet 未能在预期时间前生成天体 %1 的图像。"
 
-#: auxiliary/xplanetimageviewer.cpp:795 indi/servermanager.cpp:89
+#: auxiliary/xplanetimageviewer.cpp:806 indi/servermanager.cpp:89
 #, kde-format
 msgid "Error making FIFO file %1: %2."
 msgstr "产生管道文件 %1 时发生错误：%2。"
 
-#: auxiliary/xplanetimageviewer.cpp:846
+#: auxiliary/xplanetimageviewer.cpp:857
 #, kde-format
 msgid "%1, %2, %3"
 msgstr "%1，%2，%3"
 
-#: auxiliary/xplanetimageviewer.cpp:1122
+#: auxiliary/xplanetimageviewer.cpp:1133
 #, kde-format
 msgid "Choose a field-of-view"
 msgstr "选择一个视场"
 
-#: auxiliary/xplanetimageviewer.cpp:1123
+#: auxiliary/xplanetimageviewer.cpp:1134
 #, kde-format
 msgid "FOV to render in XPlanet:"
 msgstr "XPlanet 中渲染的视场："
 
-#: auxiliary/xplanetimageviewer.cpp:1247
+#: auxiliary/xplanetimageviewer.cpp:1258
 #, kde-format
 msgid "Saving of the image to %1 failed."
 msgstr "保存图像至 %1 失败。"
@@ -1717,7 +1718,7 @@ msgstr "无法读取星表 ID。<br>%1"
 msgid "Catalog already exists in the database!"
 msgstr "星表已在数据库！"
 
-#: catalogsdb/catalogsdb.cpp:881 dialogs/catalogsdbui.cpp:211
+#: catalogsdb/catalogsdb.cpp:881 dialogs/catalogsdbui.cpp:213
 #, kde-format
 msgid "Could not import the catalog.<br>%1"
 msgstr "无法导入星表。 <br>%1"
@@ -1975,7 +1976,7 @@ msgstr "目标："
 #: ekos/mount/mounttargetwidget.ui:148
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:171
 #: indi/collimationOptions.ui:427 oal/equipmentwriter.ui:198
-#: oal/equipmentwriter.ui:977 oal/execute.ui:146 printing/detailstable.cpp:318
+#: oal/equipmentwriter.ui:977 oal/execute.ui:146 printing/detailstable.cpp:319
 #, kde-format, kde-kuit-format
 msgid "Type:"
 msgstr "类型："
@@ -2057,7 +2058,7 @@ msgstr "肉眼可见的天体"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: data/qml/whatisinteresting/wiview.qml:212
-#: data/qml/whatisinteresting/wiview.qml:224 tools/conjunctions.cpp:101
+#: data/qml/whatisinteresting/wiview.qml:224 tools/conjunctions.cpp:102
 #: tools/skycalendar.ui:28 tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Planets"
@@ -2068,8 +2069,8 @@ msgstr "行星"
 #: data/qml/whatisinteresting/wiview.qml:288 dialogs/finddialog.cpp:37
 #: kstarslite/dialogs/finddialoglite.cpp:26
 #: kstarslite/qml/modules/TopMenu.qml:141 skyobjects/skyobject.cpp:433
-#: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:405
-#: tools/obslistwizard.cpp:449 tools/obslistwizard.ui:105
+#: tools/conjunctions.cpp:100 tools/obslistwizard.cpp:406
+#: tools/obslistwizard.cpp:450 tools/obslistwizard.ui:105
 #: tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Stars"
@@ -2092,8 +2093,8 @@ msgstr "深空天体"
 #: data/qml/whatisinteresting/wiview.qml:393
 #: data/qml/whatisinteresting/wiview.qml:405 dialogs/finddialog.cpp:44
 #: kstarslite/dialogs/finddialoglite.cpp:33 options/opssolarsystem.ui:380
-#: tools/conjunctions.cpp:102 tools/obslistwizard.cpp:284
-#: tools/obslistwizard.cpp:409 tools/obslistwizard.cpp:529
+#: tools/conjunctions.cpp:103 tools/obslistwizard.cpp:284
+#: tools/obslistwizard.cpp:410 tools/obslistwizard.cpp:531
 #: tools/obslistwizard.ui:115 tools/wutdialog.cpp:103
 #, kde-format, kde-kuit-format
 msgid "Comets"
@@ -2102,9 +2103,9 @@ msgstr "彗星"
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: data/qml/whatisinteresting/wiview.qml:426
 #: data/qml/whatisinteresting/wiview.qml:441 dialogs/finddialog.cpp:43
-#: kstarslite/dialogs/finddialoglite.cpp:32 tools/conjunctions.cpp:108
-#: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:413
-#: tools/obslistwizard.cpp:482 tools/obslistwizard.cpp:516
+#: kstarslite/dialogs/finddialoglite.cpp:32 tools/conjunctions.cpp:109
+#: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:414
+#: tools/obslistwizard.cpp:483 tools/obslistwizard.cpp:518
 #: tools/obslistwizard.ui:145 tools/wutdialog.cpp:102
 #, kde-format, kde-kuit-format
 msgid "Galaxies"
@@ -2322,12 +2323,12 @@ msgstr ""
 msgid "Back"
 msgstr "返回"
 
-#: dialogs/addcatalogobject.cpp:132
+#: dialogs/addcatalogobject.cpp:159
 #, kde-format
 msgid "Guess object data from text"
 msgstr "从文本猜测天体数据"
 
-#: dialogs/addcatalogobject.cpp:133
+#: dialogs/addcatalogobject.cpp:160
 #, kde-format
 msgid ""
 "Copy-paste a text blurb with data on the object, and KStars will try to "
@@ -2401,7 +2402,7 @@ msgstr "检查星等是否未知"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:268
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:640
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
-#: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:293
+#: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:294
 #: skyobjects/skyobject.cpp:435
 #, kde-format
 msgid "Unknown"
@@ -2641,7 +2642,7 @@ msgstr "该 URL 无效。您是否想要打开浏览器窗口用 Google 搜索�
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:428
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2193
-#: ekos/scheduler/scheduler.cpp:2303 fitsviewer/fitstab.cpp:1468
+#: ekos/scheduler/scheduler.cpp:2303 fitsviewer/fitstab.cpp:1545
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2738,8 +2739,8 @@ msgstr "您可以通过点击此按钮来利用浏览器打开这个URL来核查
 msgid "Check URL"
 msgstr "检查 URL"
 
-#: dialogs/catalogcoloreditor.cpp:21 dialogs/catalogcoloreditor.cpp:137
-#: dialogs/catalogsdbui.cpp:290
+#: dialogs/catalogcoloreditor.cpp:21 dialogs/catalogcoloreditor.cpp:138
+#: dialogs/catalogsdbui.cpp:292
 #, kde-format
 msgid "Critical error"
 msgstr "严重错误"
@@ -2763,7 +2764,7 @@ msgstr "找不到 ID 为%1 的星表。"
 msgid "Default"
 msgstr "默认"
 
-#: dialogs/catalogcoloreditor.cpp:138
+#: dialogs/catalogcoloreditor.cpp:139
 #, kde-format
 msgid "Could not insert new colors.<br>"
 msgstr "无法插入新颜色。<br>"
@@ -2786,59 +2787,59 @@ msgstr "_"
 msgid "Click on a color to change it..."
 msgstr "点击改变颜色..."
 
-#: dialogs/catalogcsvimport.cpp:89
+#: dialogs/catalogcsvimport.cpp:94
 #, kde-format
 msgid "Degrees"
 msgstr "度"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:84
+#: dialogs/catalogcsvimport.cpp:95 tools/imagingplanner.cpp:84
 #, kde-format
 msgid "Hours"
 msgstr "小时"
 
-#: dialogs/catalogcsvimport.cpp:101 dialogs/catalogsdbui.cpp:195
+#: dialogs/catalogcsvimport.cpp:106 dialogs/catalogsdbui.cpp:197
 #, kde-format
 msgctxt "@title:window"
 msgid "Import Catalog"
 msgstr "导入星表"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_LogToFile)
-#: dialogs/catalogcsvimport.cpp:102 ekos/auxiliary/opslogs.ui:215
+#: dialogs/catalogcsvimport.cpp:107 ekos/auxiliary/opslogs.ui:215
 #: options/opsadvanced.ui:336
 #, kde-format
 msgid "File"
 msgstr "文件"
 
-#: dialogs/catalogcsvimport.cpp:103
+#: dialogs/catalogcsvimport.cpp:108
 #, kde-format
 msgid "Any File"
 msgstr "任何文件"
 
-#: dialogs/catalogcsvimport.cpp:116
+#: dialogs/catalogcsvimport.cpp:121
 #, kde-format
 msgid "Could not open the csv file.<br>It does not exist."
 msgstr "无法打开 csv 文件。<br>它不存在。"
 
-#: dialogs/catalogcsvimport.cpp:167 widgets/draglistbox.cpp:70
+#: dialogs/catalogcsvimport.cpp:172 widgets/draglistbox.cpp:70
 #: widgets/draglistbox.cpp:87
 #, kde-format
 msgid "Ignore"
 msgstr "忽略"
 
-#: dialogs/catalogcsvimport.cpp:178
+#: dialogs/catalogcsvimport.cpp:183
 #, kde-format
 msgid "%1 Object"
 msgid_plural "%1 Objects"
 msgstr[0] "%1 天体"
 
-#: dialogs/catalogcsvimport.cpp:184
+#: dialogs/catalogcsvimport.cpp:189
 #, kde-format
 msgid "Text"
 msgstr "文本"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
-#: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
+#: dialogs/catalogcsvimport.cpp:189 dialogs/catalogobjectlistmodel.cpp:65
 #: ekos/capture/camera.ui:2322 tools/imagingplanner.cpp:84
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
@@ -2846,7 +2847,7 @@ msgstr "文本"
 msgid "Type"
 msgstr "类型"
 
-#: dialogs/catalogcsvimport.cpp:188
+#: dialogs/catalogcsvimport.cpp:193
 #, kde-format
 msgid "default"
 msgstr "默认"
@@ -2953,27 +2954,27 @@ msgid ""
 "search."
 msgstr "显示不多于 %1 条目。请输入名称 (区分大小写) 来缩小搜索范围。"
 
-#: dialogs/catalogdetails.cpp:80
+#: dialogs/catalogdetails.cpp:84
 #, kde-format
 msgid "Could not load the catalog with id=%1"
 msgstr "无法加载 ID 为 %1 的星表"
 
-#: dialogs/catalogdetails.cpp:133
+#: dialogs/catalogdetails.cpp:137
 #, kde-format
 msgid "Could not update the catalog.<br>%1"
 msgstr "未能更新星表。<br>%1"
 
-#: dialogs/catalogdetails.cpp:148 dialogs/catalogdetails.cpp:197
+#: dialogs/catalogdetails.cpp:152 dialogs/catalogdetails.cpp:201
 #, kde-format
 msgid "Could not add the object.<br>%1"
 msgstr "未能添加该天体。<br>%1"
 
-#: dialogs/catalogdetails.cpp:167 dialogs/catalogdetails.cpp:191
+#: dialogs/catalogdetails.cpp:171 dialogs/catalogdetails.cpp:195
 #, kde-format
 msgid "Could not remove the object.<br>%1"
 msgstr "未能移除该天体。<br>%1"
 
-#: dialogs/catalogdetails.cpp:214
+#: dialogs/catalogdetails.cpp:218
 #, kde-format
 msgid "Could not add the objects.<br>%1"
 msgstr "未能添加天体。<br>%1"
@@ -3199,7 +3200,7 @@ msgstr "星等"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
-#: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
+#: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:27
 #: ekos/scheduler/scheduler.ui:1161 indi/drivermanager.ui:327
 #: tools/imagingplanner.cpp:84 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
@@ -3239,46 +3240,46 @@ msgstr "通量(Flux)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, coldPixelsEnabled)
 #. i18n: ectx: property (text), widget (QCheckBox, hotPixelsEnabled)
-#: dialogs/catalogsdbui.cpp:25 ekos/auxiliary/darklibrary.ui:857
+#: dialogs/catalogsdbui.cpp:27 ekos/auxiliary/darklibrary.ui:857
 #: ekos/auxiliary/darklibrary.ui:906
 #, kde-format
 msgid "Enabled"
 msgstr "启用"
 
-#: dialogs/catalogsdbui.cpp:25
+#: dialogs/catalogsdbui.cpp:27
 #, kde-format
 msgid "ID"
 msgstr "ID"
 
-#: dialogs/catalogsdbui.cpp:26
+#: dialogs/catalogsdbui.cpp:28
 #, kde-format
 msgid "Precedence"
 msgstr "优先"
 
-#: dialogs/catalogsdbui.cpp:26
+#: dialogs/catalogsdbui.cpp:28
 #, kde-format
 msgid "Author"
 msgstr "作者"
 
-#: dialogs/catalogsdbui.cpp:26
+#: dialogs/catalogsdbui.cpp:28
 #, kde-format
 msgid "Mutable"
 msgstr "可变"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
-#: dialogs/catalogsdbui.cpp:27
+#: dialogs/catalogsdbui.cpp:29
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:282
 #: indi/drivermanager.ui:76
 #, kde-format
 msgid "Version"
 msgstr "版本"
 
-#: dialogs/catalogsdbui.cpp:27
+#: dialogs/catalogsdbui.cpp:29
 #, kde-format
 msgid "License"
 msgstr "许可证"
 
-#: dialogs/catalogsdbui.cpp:27
+#: dialogs/catalogsdbui.cpp:29
 #, kde-format
 msgid "Maintainer"
 msgstr "维护者"
@@ -3286,7 +3287,7 @@ msgstr "维护者"
 #. i18n: ectx: property (text), widget (QPushButton, activateButton)
 #. i18n: ectx: property (text), widget (QPushButton, slavingEnableButton)
 #. i18n: ectx: property (text), widget (QCheckBox, f_UseAutoFocus)
-#: dialogs/catalogsdbui.cpp:121 dialogs/catalogsdbui.cpp:135
+#: dialogs/catalogsdbui.cpp:123 dialogs/catalogsdbui.cpp:137
 #: dialogs/catalogsdbui.ui:73 ekos/observatory/observatory.ui:370
 #: oal/equipmentwriter.ui:1143
 #, kde-format
@@ -3294,50 +3295,50 @@ msgid "Enable"
 msgstr "启用"
 
 #. i18n: ectx: property (text), widget (QPushButton, slavingDisableButton)
-#: dialogs/catalogsdbui.cpp:121 ekos/observatory/observatory.ui:403
+#: dialogs/catalogsdbui.cpp:123 ekos/observatory/observatory.ui:403
 #, kde-format
 msgid "Disable"
 msgstr "禁用"
 
-#: dialogs/catalogsdbui.cpp:154
+#: dialogs/catalogsdbui.cpp:156
 #, kde-format
 msgid "Could not enable/disable the catalog.<br>%1"
 msgstr "未能启用或禁用该星表。<br>%1"
 
-#: dialogs/catalogsdbui.cpp:175
+#: dialogs/catalogsdbui.cpp:177
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Catalog"
 msgstr "导出星表"
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelCheckCatalogButton)
-#: dialogs/catalogsdbui.cpp:176 dialogs/catalogsdbui.cpp:196
+#: dialogs/catalogsdbui.cpp:178 dialogs/catalogsdbui.cpp:198
 #: tools/imagingplanner.ui:507
 #, kde-format
 msgid "Catalog"
 msgstr "星表"
 
-#: dialogs/catalogsdbui.cpp:190
+#: dialogs/catalogsdbui.cpp:192
 #, kde-format
 msgid "Could not export the catalog.<br>%1"
 msgstr "未能导出该星表。<br>%1"
 
-#: dialogs/catalogsdbui.cpp:231
+#: dialogs/catalogsdbui.cpp:233
 #, kde-format
 msgid "Could not remove the catalog.<br>%1"
 msgstr "未能移除该星表。<br>%1"
 
-#: dialogs/catalogsdbui.cpp:249
+#: dialogs/catalogsdbui.cpp:251
 #, kde-format
 msgid "Could not create the catalog.<br>%1"
 msgstr "未能创建该星表。<br>%1"
 
-#: dialogs/catalogsdbui.cpp:284
+#: dialogs/catalogsdbui.cpp:286
 #, kde-format
 msgid "Could not copy the objects to the new catalog.<br>%1"
 msgstr "未能复制天体到新星表。<br>%1"
 
-#: dialogs/catalogsdbui.cpp:291
+#: dialogs/catalogsdbui.cpp:293
 #, kde-format
 msgid "Could not clean up and remove the new catalog.<br>%1"
 msgstr "未能清理及删除新星表。<br>%1"
@@ -3401,7 +3402,7 @@ msgstr "天体细节"
 #: dialogs/detaildialog.cpp:74 ekos/focus/opsfocussettings.ui:20
 #: ekos/opsekos.ui:21 fitsviewer/livestacking.ui:272
 #: fitsviewer/livestacking.ui:930 indi/opsindi.ui:32
-#: kstarslite/qml/dialogs/DetailsDialog.qml:34 printing/detailstable.cpp:311
+#: kstarslite/qml/dialogs/DetailsDialog.qml:34 printing/detailstable.cpp:312
 #: xplanet/opsxplanet.ui:21
 #, kde-format, kde-kuit-format
 msgid "General"
@@ -3423,8 +3424,8 @@ msgstr "%1 星"
 #: kstarslite/dialogs/detaildialoglite.cpp:162
 #: kstarslite/dialogs/detaildialoglite.cpp:210
 #: kstarslite/dialogs/detaildialoglite.cpp:261 printing/detailstable.cpp:78
-#: printing/detailstable.cpp:170 printing/detailstable.cpp:262
-#: printing/pwizobjectselection.cpp:102 printing/pwizobjectselection.cpp:139
+#: printing/detailstable.cpp:171 printing/detailstable.cpp:263
+#: printing/pwizobjectselection.cpp:102 printing/pwizobjectselection.cpp:140
 #, kde-format
 msgctxt "number in magnitudes"
 msgid "%1 mag"
@@ -3487,41 +3488,41 @@ msgstr "G5 恒星"
 
 #: dialogs/detaildialog.cpp:220 printing/detailstable.cpp:150
 #: printing/pwizobjectselection.cpp:129
-#: skycomponents/asteroidscomponent.cpp:154 tools/wutdialog.cpp:360
+#: skycomponents/asteroidscomponent.cpp:154 tools/wutdialog.cpp:361
 #, kde-format
 msgctxt "Asteroid name (optional)"
 msgid "Pluto"
 msgstr "冥王星"
 
-#: dialogs/detaildialog.cpp:221 printing/detailstable.cpp:150
-#: printing/pwizobjectselection.cpp:129
+#: dialogs/detaildialog.cpp:221 printing/detailstable.cpp:151
+#: printing/pwizobjectselection.cpp:130
 #, kde-format
 msgctxt "Asteroid name (optional)"
 msgid "Ceres"
 msgstr "谷神星"
 
-#: dialogs/detaildialog.cpp:222 printing/detailstable.cpp:151
-#: printing/pwizobjectselection.cpp:129
+#: dialogs/detaildialog.cpp:222 printing/detailstable.cpp:152
+#: printing/pwizobjectselection.cpp:130
 #, kde-format
 msgctxt "Asteroid name (optional)"
 msgid "Eris"
 msgstr "阋神星"
 
 #: dialogs/detaildialog.cpp:224 kstarslite/dialogs/detaildialoglite.cpp:138
-#: printing/detailstable.cpp:153 printing/pwizobjectselection.cpp:131
+#: printing/detailstable.cpp:154 printing/pwizobjectselection.cpp:132
 #, kde-format
 msgid "Dwarf planet"
 msgstr "矮行星"
 
 #: dialogs/detaildialog.cpp:258 kstarslite/dialogs/detaildialoglite.cpp:169
-#: printing/detailstable.cpp:175
+#: printing/detailstable.cpp:176
 #, kde-format
 msgctxt "distance in kilometers"
 msgid "%1 km"
 msgstr "%1 千米"
 
 #: dialogs/detaildialog.cpp:263 kstarslite/dialogs/detaildialoglite.cpp:174
-#: printing/detailstable.cpp:180
+#: printing/detailstable.cpp:181
 #, kde-format
 msgctxt "distance in Astronomical Units"
 msgid "%1 AU"
@@ -3530,15 +3531,15 @@ msgstr "%1 天文单位"
 #: dialogs/detaildialog.cpp:273 dialogs/detaildialog.cpp:397
 #: dialogs/detaildialog.cpp:402 kstarslite/dialogs/detaildialoglite.cpp:186
 #: kstarslite/dialogs/detaildialoglite.cpp:272
-#: kstarslite/dialogs/detaildialoglite.cpp:277 printing/detailstable.cpp:189
-#: printing/detailstable.cpp:271 printing/detailstable.cpp:276
+#: kstarslite/dialogs/detaildialoglite.cpp:277 printing/detailstable.cpp:190
+#: printing/detailstable.cpp:272 printing/detailstable.cpp:277
 #, kde-format
 msgctxt "angular size in arcminutes"
 msgid "%1 arcmin"
 msgstr "%1 角分"
 
 #: dialogs/detaildialog.cpp:281 kstarslite/dialogs/detaildialoglite.cpp:193
-#: printing/detailstable.cpp:195
+#: printing/detailstable.cpp:196
 #, kde-format
 msgctxt "angular size in arcseconds"
 msgid "%1 arcsec"
@@ -3565,13 +3566,13 @@ msgstr "宿主星系："
 msgid "Red Shift:"
 msgstr "红移："
 
-#: dialogs/detaildialog.cpp:372 printing/detailstable.cpp:249
+#: dialogs/detaildialog.cpp:372 printing/detailstable.cpp:250
 #, kde-format
 msgctxt "integrated flux at a frequency"
 msgid "Flux(%1):"
 msgstr "通量(%1)："
 
-#: dialogs/detaildialog.cpp:373 printing/detailstable.cpp:250
+#: dialogs/detaildialog.cpp:373 printing/detailstable.cpp:251
 #, kde-format
 msgctxt "integrated flux value"
 msgid "%1 %2"
@@ -3609,7 +3610,7 @@ msgid "%1 y"
 msgstr "%1 年"
 
 #: dialogs/detaildialog.cpp:545 kstarslite/dialogs/detaildialoglite.cpp:417
-#: printing/detailstable.cpp:297 tools/observinglist.cpp:629
+#: printing/detailstable.cpp:298 tools/observinglist.cpp:629
 #, kde-format
 msgctxt ""
 "%1 type of sky object (planet, asteroid etc), %2 name of a constellation"
@@ -3627,7 +3628,7 @@ msgid "Position"
 msgstr "位置"
 
 #: dialogs/detaildialog.cpp:570 kstarslite/dialogs/detaildialoglite.cpp:441
-#: printing/detailstable.cpp:518
+#: printing/detailstable.cpp:519
 #, kde-format
 msgid "RA (%1):"
 msgstr "赤经(%1)："
@@ -3639,8 +3640,8 @@ msgstr "赤纬(%1):"
 
 #: dialogs/detaildialog.cpp:659 dialogs/detaildialog.cpp:660
 #: kstarslite/dialogs/detaildialoglite.cpp:523
-#: kstarslite/dialogs/detaildialoglite.cpp:524 printing/detailstable.cpp:622
-#: printing/detailstable.cpp:623 tools/modcalcdaylength.cpp:139
+#: kstarslite/dialogs/detaildialoglite.cpp:524 printing/detailstable.cpp:623
+#: printing/detailstable.cpp:624 tools/modcalcdaylength.cpp:139
 #: tools/modcalcdaylength.cpp:141 tools/modcalcdaylength.cpp:186
 #: tools/modcalcdaylength.cpp:188
 #, kde-format
@@ -3649,8 +3650,8 @@ msgstr "天极"
 
 #: dialogs/detaildialog.cpp:664 dialogs/detaildialog.cpp:665
 #: kstarslite/dialogs/detaildialoglite.cpp:528
-#: kstarslite/dialogs/detaildialoglite.cpp:529 printing/detailstable.cpp:628
-#: printing/detailstable.cpp:629 tools/observinglist.cpp:191
+#: kstarslite/dialogs/detaildialoglite.cpp:529 printing/detailstable.cpp:629
+#: printing/detailstable.cpp:630 tools/observinglist.cpp:191
 #, kde-format
 msgid "Never rises"
 msgstr "从不升起"
@@ -3658,8 +3659,8 @@ msgstr "从不升起"
 #: dialogs/detaildialog.cpp:668 dialogs/detaildialog.cpp:669
 #: ekos/observatory/observatory.cpp:143
 #: kstarslite/dialogs/detaildialoglite.cpp:532
-#: kstarslite/dialogs/detaildialoglite.cpp:533 printing/detailstable.cpp:632
-#: printing/detailstable.cpp:633
+#: kstarslite/dialogs/detaildialoglite.cpp:533 printing/detailstable.cpp:633
+#: printing/detailstable.cpp:634
 #, kde-format
 msgctxt "Not Applicable"
 msgid "N/A"
@@ -3775,7 +3776,7 @@ msgstr "0.0 等"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_19)
 #. i18n: ectx: property (text), widget (QLabel, sizeLabel)
 #: dialogs/details_data.ui:289 ekos/capture/camera.ui:661
-#: indi/collimationOptions.ui:342 printing/detailstable.cpp:326
+#: indi/collimationOptions.ui:342 printing/detailstable.cpp:327
 #, kde-format
 msgid "Size:"
 msgstr "大小："
@@ -3793,20 +3794,20 @@ msgid "B - V index:"
 msgstr "B - V 索引："
 
 #. i18n: ectx: property (text), widget (KSHelpLabel, DistanceLabel)
-#: dialogs/details_data.ui:342 printing/detailstable.cpp:322
+#: dialogs/details_data.ui:342 printing/detailstable.cpp:323
 #, kde-format
 msgid "Distance:"
 msgstr "距离："
 
 #. i18n: ectx: property (text), widget (KSHelpLabel, MagLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: dialogs/details_data.ui:352 oal/execute.ui:132 printing/detailstable.cpp:330
+#: dialogs/details_data.ui:352 oal/execute.ui:132 printing/detailstable.cpp:331
 #, kde-format
 msgid "Magnitude:"
 msgstr "星等："
 
 #. i18n: ectx: property (text), widget (QLabel, IllumLabel)
-#: dialogs/details_data.ui:362 printing/detailstable.cpp:338
+#: dialogs/details_data.ui:362 printing/detailstable.cpp:339
 #, kde-format
 msgid "Illumination:"
 msgstr "照度："
@@ -3878,7 +3879,7 @@ msgid "Center in Telescope"
 msgstr "在望远镜里居中"
 
 #. i18n: ectx: property (text), widget (QLabel, PerihelionLabel)
-#: dialogs/details_data_comet.ui:30 printing/detailstable.cpp:450
+#: dialogs/details_data_comet.ui:30 printing/detailstable.cpp:451
 #, kde-format
 msgid "Perihelion:"
 msgstr "近日点："
@@ -3891,7 +3892,7 @@ msgid "0.0 AU"
 msgstr "0.0 天文单位"
 
 #. i18n: ectx: property (text), widget (QLabel, OrbitIDLabel)
-#: dialogs/details_data_comet.ui:52 printing/detailstable.cpp:454
+#: dialogs/details_data_comet.ui:52 printing/detailstable.cpp:455
 #, kde-format
 msgid "Orbit ID:"
 msgstr "轨道 ID："
@@ -3903,7 +3904,7 @@ msgid "Orbit ID"
 msgstr "轨道 ID"
 
 #. i18n: ectx: property (text), widget (QLabel, NEOLabel)
-#: dialogs/details_data_comet.ui:74 printing/detailstable.cpp:458
+#: dialogs/details_data_comet.ui:74 printing/detailstable.cpp:459
 #, kde-format
 msgid "NEO:"
 msgstr "NEO："
@@ -3916,7 +3917,7 @@ msgid "NEO"
 msgstr "NEO"
 
 #. i18n: ectx: property (text), widget (QLabel, DiameterLabel)
-#: dialogs/details_data_comet.ui:95 printing/detailstable.cpp:462
+#: dialogs/details_data_comet.ui:95 printing/detailstable.cpp:463
 #, kde-format
 msgid "Diameter:"
 msgstr "直径："
@@ -3929,7 +3930,7 @@ msgid "0.0 km"
 msgstr "0.0 千米"
 
 #. i18n: ectx: property (text), widget (QLabel, RotationLabel)
-#: dialogs/details_data_comet.ui:117 printing/detailstable.cpp:466
+#: dialogs/details_data_comet.ui:117 printing/detailstable.cpp:467
 #, kde-format
 msgid "Rotation period:"
 msgstr "旋转周期："
@@ -3941,13 +3942,13 @@ msgid "0.0 h"
 msgstr "0.0 小时"
 
 #. i18n: ectx: property (text), widget (QLabel, EarthMOIDLabel)
-#: dialogs/details_data_comet.ui:159 printing/detailstable.cpp:470
+#: dialogs/details_data_comet.ui:159 printing/detailstable.cpp:471
 #, kde-format
 msgid "Earth MOID:"
 msgstr "地球最小轨道交会距离："
 
 #. i18n: ectx: property (text), widget (QLabel, OrbitClassLabel)
-#: dialogs/details_data_comet.ui:181 printing/detailstable.cpp:474
+#: dialogs/details_data_comet.ui:181 printing/detailstable.cpp:475
 #, kde-format
 msgid "Orbit class:"
 msgstr "轨道类别："
@@ -3959,7 +3960,7 @@ msgid "Class"
 msgstr "分类"
 
 #. i18n: ectx: property (text), widget (QLabel, AlbedoLabel)
-#: dialogs/details_data_comet.ui:203 printing/detailstable.cpp:478
+#: dialogs/details_data_comet.ui:203 printing/detailstable.cpp:479
 #, kde-format
 msgid "Albedo:"
 msgstr "反射率："
@@ -3974,13 +3975,13 @@ msgid "0.0"
 msgstr "0.0"
 
 #. i18n: ectx: property (text), widget (QLabel, DimensionsLabel)
-#: dialogs/details_data_comet.ui:225 printing/detailstable.cpp:482
+#: dialogs/details_data_comet.ui:225 printing/detailstable.cpp:483
 #, kde-format
 msgid "Dimensions:"
 msgstr "尺寸："
 
 #. i18n: ectx: property (text), widget (QLabel, PeriodLabel)
-#: dialogs/details_data_comet.ui:247 printing/detailstable.cpp:486
+#: dialogs/details_data_comet.ui:247 printing/detailstable.cpp:487
 #, kde-format
 msgid "Period:"
 msgstr "周期："
@@ -4061,7 +4062,7 @@ msgstr "细节 - 位置数据"
 #. i18n: ectx: property (text), widget (QRadioButton, coordinatesR)
 #: dialogs/details_position.ui:66 ekos/guide/manualdither.ui:55
 #: fitsviewer/fitstab.cpp:794 kstarslite/qml/dialogs/DetailsDialog.qml:236
-#: printing/detailstable.cpp:509
+#: printing/detailstable.cpp:510
 #, kde-format, kde-kuit-format
 msgid "Coordinates"
 msgstr "坐标"
@@ -4131,13 +4132,13 @@ msgstr "赤纬(J2000.0):"
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #. i18n: ectx: property (text), widget (QLabel, azLabel)
 #: dialogs/details_position.ui:336 oal/execute.ui:216
-#: printing/detailstable.cpp:541 tools/modcalcaltaz.ui:313
+#: printing/detailstable.cpp:542 tools/modcalcaltaz.ui:313
 #, kde-format
 msgid "Azimuth:"
 msgstr "方位角："
 
 #. i18n: ectx: property (text), widget (QLabel, AirmassLabel)
-#: dialogs/details_position.ui:371 printing/detailstable.cpp:559
+#: dialogs/details_position.ui:371 printing/detailstable.cpp:560
 #, kde-format
 msgid "Airmass:"
 msgstr "大气质量："
@@ -4146,38 +4147,38 @@ msgstr "大气质量："
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #. i18n: ectx: property (text), widget (QLabel, elLabel)
 #: dialogs/details_position.ui:387 oal/execute.ui:202
-#: printing/detailstable.cpp:545 tools/modcalcaltaz.ui:320
+#: printing/detailstable.cpp:546 tools/modcalcaltaz.ui:320
 #, kde-format
 msgid "Altitude:"
 msgstr "高度角："
 
 #. i18n: ectx: property (text), widget (QLabel, HALabel)
-#: dialogs/details_position.ui:427 printing/detailstable.cpp:526
+#: dialogs/details_position.ui:427 printing/detailstable.cpp:527
 #, kde-format
 msgid "Hour angle:"
 msgstr "时角："
 
 #. i18n: ectx: property (text), widget (QLabel, RSTTitle)
 #: dialogs/details_position.ui:554 kstarslite/qml/dialogs/DetailsDialog.qml:284
-#: printing/detailstable.cpp:648
+#: printing/detailstable.cpp:649
 #, kde-format, kde-kuit-format
 msgid "Rise/Set/Transit"
 msgstr "升起/落下/中天"
 
 #. i18n: ectx: property (text), widget (QLabel, TimeSetLabel)
-#: dialogs/details_position.ui:637 printing/detailstable.cpp:660
+#: dialogs/details_position.ui:637 printing/detailstable.cpp:661
 #, kde-format
 msgid "Set time:"
 msgstr "落下时间："
 
 #. i18n: ectx: property (text), widget (QLabel, TimeTransitLabel)
-#: dialogs/details_position.ui:653 printing/detailstable.cpp:655
+#: dialogs/details_position.ui:653 printing/detailstable.cpp:656
 #, kde-format
 msgid "Transit time:"
 msgstr "中天时间："
 
 #. i18n: ectx: property (text), widget (QLabel, TimeRiseLabel)
-#: dialogs/details_position.ui:669 printing/detailstable.cpp:651
+#: dialogs/details_position.ui:669 printing/detailstable.cpp:652
 #, kde-format
 msgid "Rise time:"
 msgstr "升起时间："
@@ -4211,19 +4212,19 @@ msgid "00:00"
 msgstr "00:00"
 
 #. i18n: ectx: property (text), widget (QLabel, AzSetLabel)
-#: dialogs/details_position.ui:774 printing/detailstable.cpp:672
+#: dialogs/details_position.ui:774 printing/detailstable.cpp:673
 #, kde-format
 msgid "Azimuth at set:"
 msgstr "落下方位："
 
 #. i18n: ectx: property (text), widget (QLabel, AltTransitLabel)
-#: dialogs/details_position.ui:790 printing/detailstable.cpp:668
+#: dialogs/details_position.ui:790 printing/detailstable.cpp:669
 #, kde-format
 msgid "Altitude at transit:"
 msgstr "中天高度："
 
 #. i18n: ectx: property (text), widget (QLabel, AzRiseLabel)
-#: dialogs/details_position.ui:806 printing/detailstable.cpp:664
+#: dialogs/details_position.ui:806 printing/detailstable.cpp:665
 #, kde-format
 msgid "Azimuth at rise:"
 msgstr "升起方位："
@@ -4240,13 +4241,13 @@ msgid "Export sky image"
 msgstr "导出天空图像"
 
 #: dialogs/exportimagedialog.cpp:92 fitsviewer/starprofileviewer.cpp:33
-#: fitsviewer/starprofileviewer.cpp:130 printing/pwizfovconfig.cpp:58
+#: fitsviewer/starprofileviewer.cpp:132 printing/pwizfovconfig.cpp:58
 #, kde-format
 msgid "Horizontal"
 msgstr "垂直"
 
 #: dialogs/exportimagedialog.cpp:93 fitsviewer/starprofileviewer.cpp:36
-#: fitsviewer/starprofileviewer.cpp:131 printing/pwizfovconfig.cpp:59
+#: fitsviewer/starprofileviewer.cpp:133 printing/pwizfovconfig.cpp:59
 #, kde-format
 msgid "Vertical"
 msgstr "水平"
@@ -4332,7 +4333,7 @@ msgid "Legend position:"
 msgstr "图例位置："
 
 #: dialogs/finddialog.cpp:36 kstarslite/dialogs/finddialoglite.cpp:25
-#: tools/conjunctions.cpp:98
+#: tools/conjunctions.cpp:99
 #, kde-format
 msgid "Any"
 msgstr "任意"
@@ -4340,31 +4341,31 @@ msgstr "任意"
 #: dialogs/finddialog.cpp:38 kstarsactions.cpp:1141 kstarsinit.cpp:507
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
-#: tools/conjunctions.cpp:100
+#: tools/conjunctions.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Solar System"
 msgstr "太阳系"
 
 #: dialogs/finddialog.cpp:39 kstarslite/dialogs/finddialoglite.cpp:28
-#: tools/conjunctions.cpp:104
+#: tools/conjunctions.cpp:105
 #, kde-format
 msgid "Open Clusters"
 msgstr "疏散星团"
 
 #: dialogs/finddialog.cpp:40 kstarslite/dialogs/finddialoglite.cpp:29
-#: tools/conjunctions.cpp:105
+#: tools/conjunctions.cpp:106
 #, kde-format
 msgid "Globular Clusters"
 msgstr "球状星团"
 
 #: dialogs/finddialog.cpp:41 kstarslite/dialogs/finddialoglite.cpp:30
-#: tools/conjunctions.cpp:106
+#: tools/conjunctions.cpp:107
 #, kde-format
 msgid "Gaseous Nebulae"
 msgstr "气体星云"
 
 #: dialogs/finddialog.cpp:42 kstarslite/dialogs/finddialoglite.cpp:31
-#: tools/conjunctions.cpp:107
+#: tools/conjunctions.cpp:108
 #, kde-format
 msgid "Planetary Nebulae"
 msgstr "行星状星云"
@@ -4695,29 +4696,29 @@ msgstr "英尺"
 msgid "meters"
 msgstr "米"
 
-#: dialogs/fovdialog.cpp:397
+#: dialogs/fovdialog.cpp:399
 #, kde-format
 msgctxt "@title:window"
 msgid "Telescope Focal Length Calculator"
 msgstr "望远镜焦距计算器"
 
-#: dialogs/fovdialog.cpp:414
+#: dialogs/fovdialog.cpp:416
 #, kde-format
 msgctxt "millimeters"
 msgid "mm"
 msgstr "毫米"
 
-#: dialogs/fovdialog.cpp:415
+#: dialogs/fovdialog.cpp:417
 #, kde-format
 msgid "inch"
 msgstr "英寸"
 
-#: dialogs/fovdialog.cpp:417
+#: dialogs/fovdialog.cpp:419
 #, kde-format
 msgid "Aperture diameter: "
 msgstr "口径："
 
-#: dialogs/fovdialog.cpp:420
+#: dialogs/fovdialog.cpp:422
 #, kde-format
 msgctxt "F-Number or F-Ratio of optical system"
 msgid "F-Number: "
@@ -4782,94 +4783,94 @@ msgid "Set Geographic Location"
 msgstr "设置地理位置"
 
 #. i18n: ectx: property (text), widget (QLabel, DSTLabel)
-#: dialogs/locationdialog.cpp:101 dialogs/locationdialog.ui:461
+#: dialogs/locationdialog.cpp:102 dialogs/locationdialog.ui:461
 #, kde-format
 msgid "DST rule:"
 msgstr "夏令时规则："
 
-#: dialogs/locationdialog.cpp:146 dialogs/locationdialog.cpp:206
-#: dialogs/locationdialog.cpp:512
+#: dialogs/locationdialog.cpp:147 dialogs/locationdialog.cpp:207
+#: dialogs/locationdialog.cpp:513
 #, kde-format
 msgid "One city matches search criteria"
 msgid_plural "%1 cities match search criteria"
 msgstr[0] "%1 个城市符合搜索条件"
 
-#: dialogs/locationdialog.cpp:294
+#: dialogs/locationdialog.cpp:295
 #, kde-format
 msgid "Are you sure you want to remove %1?"
 msgstr "您确定要删除 %1 吗？"
 
-#: dialogs/locationdialog.cpp:295
+#: dialogs/locationdialog.cpp:296
 #, kde-format
 msgid "Remove City?"
 msgstr "删除城市？"
 
-#: dialogs/locationdialog.cpp:300
+#: dialogs/locationdialog.cpp:301
 #, kde-format
 msgid "This city already exists in the database."
 msgstr "此城市已经存在于数据库中。"
 
-#: dialogs/locationdialog.cpp:301
+#: dialogs/locationdialog.cpp:302
 #, kde-format
 msgid "Error: Duplicate Entry"
 msgstr "错误：重复项"
 
-#: dialogs/locationdialog.cpp:315
+#: dialogs/locationdialog.cpp:316
 #, kde-format
 msgid "All fields (except province) must be filled to add this location."
 msgstr "必须填写所有字段才能添加此位置 (州/省名称除外)。"
 
-#: dialogs/locationdialog.cpp:316
+#: dialogs/locationdialog.cpp:317
 #, kde-format
 msgid "Fields are Empty"
 msgstr "域为空"
 
-#: dialogs/locationdialog.cpp:321
+#: dialogs/locationdialog.cpp:322
 #, kde-format
 msgid "Could not parse the Latitude/Longitude."
 msgstr "经纬度解析失败。"
 
-#: dialogs/locationdialog.cpp:322
+#: dialogs/locationdialog.cpp:323
 #, kde-format
 msgid "Bad Coordinates"
 msgstr "无效坐标值"
 
-#: dialogs/locationdialog.cpp:327
+#: dialogs/locationdialog.cpp:328
 #, kde-format
 msgid "UTC Offset must be selected."
 msgstr "必须选定 UTC 偏移量。"
 
-#: dialogs/locationdialog.cpp:328
+#: dialogs/locationdialog.cpp:329
 #, kde-format
 msgid "UTC Offset"
 msgstr "UTC 偏移"
 
-#: dialogs/locationdialog.cpp:571
+#: dialogs/locationdialog.cpp:572
 #, kde-format
 msgid "Daylight Saving Time Rules"
 msgstr "夏令时规则"
 
-#: dialogs/locationdialog.cpp:621
+#: dialogs/locationdialog.cpp:622
 #, kde-format
 msgid "Cannot add new location -- city name blank"
 msgstr "无法添加新位置 — 城市名为空"
 
-#: dialogs/locationdialog.cpp:625
+#: dialogs/locationdialog.cpp:626
 #, kde-format
 msgid "Cannot add new location -- country name blank"
 msgstr "无法添加新位置 — 国家/地区名称为空"
 
-#: dialogs/locationdialog.cpp:629
+#: dialogs/locationdialog.cpp:630
 #, kde-format
 msgid "Cannot add new location -- invalid latitude / longitude"
 msgstr "无法添加新位置 — 无效的经度/纬度"
 
-#: dialogs/locationdialog.cpp:633
+#: dialogs/locationdialog.cpp:634
 #, kde-format
 msgid "Cannot add new location -- missing UTC Offset"
 msgstr "不能添加新位置 -- 缺少 UTC 偏移量"
 
-#: dialogs/locationdialog.cpp:637
+#: dialogs/locationdialog.cpp:638
 #, kde-format
 msgid "City is Read Only. Change name to add new city."
 msgstr "城市是只读选项。更改名称以添加新的城市。"
@@ -5808,12 +5809,12 @@ msgctxt "@title:window"
 msgid "New View"
 msgstr "新建视野"
 
-#: dialogs/viewsdialog.cpp:321
+#: dialogs/viewsdialog.cpp:322
 #, kde-format
 msgid "Conflicting View Name"
 msgstr "冲突的视野名称"
 
-#: dialogs/viewsdialog.cpp:322
+#: dialogs/viewsdialog.cpp:323
 #, kde-format
 msgid ""
 "There already exists a view with the name you attempted to use. Please "
@@ -6465,7 +6466,7 @@ msgstr "解析器已中止。"
 #: ekos/align/align.cpp:2745 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2124 ekos/mount/mount.cpp:780
-#: ekos/observatory/observatory.cpp:1042
+#: ekos/observatory/observatory.cpp:1047
 #: ekos/scheduler/schedulerprocess.cpp:3368
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -6654,7 +6655,7 @@ msgstr "导出已解析的点"
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:427 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2192 ekos/scheduler/scheduler.cpp:2302
-#: fitsviewer/fitstab.cpp:1467 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:1544 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -6675,9 +6676,9 @@ msgstr "无法写入到文件 %1"
 #: ekos/scheduler/schedulerprocess.cpp:3191
 #: ekos/scheduler/schedulerprocess.cpp:4315
 #: ekos/scheduler/schedulerprocess.cpp:4335 indi/drivermanager.cpp:1567
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:321
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
-#: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
+#: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
 #: tools/modcalcjd.cpp:117 tools/modcalcplanets.cpp:195
 #: tools/modcalcsidtime.cpp:205 tools/modcalcvizequinox.cpp:69
@@ -8702,7 +8703,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, shutterOpen)
 #: ekos/align/opsastrometryindexfiles.ui:276
 #: ekos/observatory/observatory.cpp:459 ekos/observatory/observatory.cpp:463
-#: ekos/observatory/observatory.cpp:575 ekos/observatory/observatory.ui:673
+#: ekos/observatory/observatory.cpp:580 ekos/observatory/observatory.ui:673
 #, kde-format
 msgid "Open"
 msgstr "打开"
@@ -10276,7 +10277,7 @@ msgstr "开始解析当前指向的位置。"
 #: ekos/focus/focusmodule.cpp:676 ekos/observatory/observatory.ui:550
 #: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:623
 #: skycomponents/imageoverlaycomponent.cpp:753
-#: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
+#: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:357
 #, kde-format
 msgid "Abort"
 msgstr "中止"
@@ -13291,7 +13292,7 @@ msgstr "您现在可以连接到您的设备。"
 #. i18n: ectx: property (text), widget (QPushButton, shutterClosed)
 #: ekos/auxiliary/serialportassistant.ui:264
 #: ekos/ekoslive/ekoslivedialog.ui:334 ekos/observatory/observatory.cpp:448
-#: ekos/observatory/observatory.cpp:453 ekos/observatory/observatory.cpp:577
+#: ekos/observatory/observatory.cpp:453 ekos/observatory/observatory.cpp:582
 #: ekos/observatory/observatory.ui:631 indi/guimanager.cpp:76
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:61
 #, kde-format, kde-kuit-format
@@ -17712,7 +17713,7 @@ msgid "Online"
 msgstr "在线"
 
 #. i18n: ectx: property (text), widget (QLabel, offlineLabel)
-#: ekos/ekoslive/ekoslivedialog.ui:272 indi/clientmanagerlite.cpp:248
+#: ekos/ekoslive/ekoslivedialog.ui:272 indi/clientmanagerlite.cpp:250
 #, kde-format
 msgid "Offline"
 msgstr "离线"
@@ -17996,7 +17997,7 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsSelection)
-#: ekos/focus/aberrationinspector.ui:345 fitsviewer/starprofileviewer.cpp:129
+#: ekos/focus/aberrationinspector.ui:345 fitsviewer/starprofileviewer.cpp:131
 #, kde-format
 msgid "Item"
 msgstr "项目"
@@ -24417,8 +24418,8 @@ msgstr "中天翻转成功完成。"
 msgid "Telescope completed the meridian flip."
 msgstr "望远镜完成过中天翻转。"
 
-#: ekos/manager/meridianflipstate.cpp:431 ekos/observatory/observatory.cpp:1118
-#: ekos/observatory/observatory.cpp:1129
+#: ekos/manager/meridianflipstate.cpp:431 ekos/observatory/observatory.cpp:1123
+#: ekos/observatory/observatory.cpp:1134
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
 #, kde-format
@@ -25049,27 +25050,27 @@ msgstr "快门已关闭。"
 msgid "Shutter is closing..."
 msgstr "快门正在关闭..."
 
-#: ekos/observatory/observatory.cpp:770
+#: ekos/observatory/observatory.cpp:775
 #, kde-format
 msgid "%1 = %2 @ %3"
 msgstr "%1 = %2 @ %3"
 
-#: ekos/observatory/observatory.cpp:821
+#: ekos/observatory/observatory.cpp:826
 #, kde-format
 msgid "Weather is OK"
 msgstr "天气尚可"
 
-#: ekos/observatory/observatory.cpp:827
+#: ekos/observatory/observatory.cpp:832
 #, kde-format
 msgid "Weather Warning"
 msgstr "天气警告"
 
-#: ekos/observatory/observatory.cpp:833
+#: ekos/observatory/observatory.cpp:838
 #, kde-format
 msgid "Weather Alert"
 msgstr "天气警报"
 
-#: ekos/observatory/observatory.cpp:1115 ekos/observatory/observatory.cpp:1126
+#: ekos/observatory/observatory.cpp:1120 ekos/observatory/observatory.cpp:1131
 #: ekos/observatory/observatoryweathermodel.cpp:156
 #: ekos/observatory/observatoryweathermodel.cpp:180
 #, kde-format
@@ -25926,59 +25927,59 @@ msgid ""
 "script."
 msgstr "驱动启动后，执行后驱动脚本前的延迟的秒数。"
 
-#: ekos/profilescript.cpp:56
+#: ekos/profilescript.cpp:57
 #, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
 msgstr "执行停止驱动程序脚本后，延迟这么多秒再停止驱动程序。"
 
-#: ekos/profilescript.cpp:65
+#: ekos/profilescript.cpp:67
 #, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
 msgstr "驱动停止后，延迟该秒数再执行驱动停止脚本。"
 
-#: ekos/profilescript.cpp:75
+#: ekos/profilescript.cpp:77
 #, kde-format
 msgid "Select script to execute before starting the driver"
 msgstr "启动驱动前，选择要执行的脚本"
 
-#: ekos/profilescript.cpp:84
+#: ekos/profilescript.cpp:86
 #, kde-format
 msgid "Select script to execute after starting the driver"
 msgstr "启动驱动后，选择要执行的脚本"
 
-#: ekos/profilescript.cpp:93
+#: ekos/profilescript.cpp:95
 #, kde-format
 msgid "Select script to execute before stopping the driver"
 msgstr "选择停止驱动前执行的脚本。"
 
-#: ekos/profilescript.cpp:102
+#: ekos/profilescript.cpp:104
 #, kde-format
 msgid "Select script to execute after stopping the driver"
 msgstr "选择停止驱动后执行的脚本。"
 
-#: ekos/profilescript.cpp:169
+#: ekos/profilescript.cpp:171
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Startup Script"
 msgstr "选择前驱动启动脚本"
 
-#: ekos/profilescript.cpp:175
+#: ekos/profilescript.cpp:177
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Startup Script"
 msgstr "选择后驱动脚本"
 
-#: ekos/profilescript.cpp:181
+#: ekos/profilescript.cpp:183
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
 msgstr "选择驱动停止前执行的脚本"
 
-#: ekos/profilescript.cpp:187
+#: ekos/profilescript.cpp:189
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
@@ -30051,10 +30052,9 @@ msgid "Failed to start queue execution. Check that queue has items."
 msgstr "启动队列执行失败。请检查队列中的项目。"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:379
-#, fuzzy, kde-format
-#| msgid "Queue running"
+#, kde-format
 msgid "Queue Running"
-msgstr "队列正在运行"
+msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:380
 #, kde-format
@@ -30074,10 +30074,9 @@ msgid "Failed to initialize template library"
 msgstr "初始化模板库失败"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:415
-#, fuzzy, kde-format
-#| msgid "Template not found: %1"
+#, kde-format
 msgid "Template Not Found"
-msgstr "找不到模板：%1"
+msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:416
 #, kde-format
@@ -30087,23 +30086,19 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:437
-#, fuzzy, kde-format
-#| msgid "Task Creation Failed"
+#, kde-format
 msgid "Task Update Failed"
-msgstr "创建任务失败"
+msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:438
-#, fuzzy, kde-format
-#| msgid "Failed to create task from template"
+#, kde-format
 msgid "Failed to update task with new parameters"
-msgstr "从模板创建任务失败"
+msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "OTA Update"
+#, kde-format
 msgid "Task updated"
-msgstr "OTA 更新"
+msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:506
 #, kde-format
@@ -30174,10 +30169,9 @@ msgid "Failed to save queue to %1"
 msgstr "无法保存队列到 %1"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:804
-#, fuzzy, kde-format
-#| msgid "Save Queue"
+#, kde-format
 msgid "Save Queue As"
-msgstr "保存队列"
+msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:806
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:859
@@ -30261,18 +30255,14 @@ msgid "Collection Loaded"
 msgstr "合集已加载"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Save Changes"
+#, kde-format
 msgid "Save Changes?"
-msgstr "保存更改"
+msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1062
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current FITS file has unsaved changes.  Would you like to save before "
-#| "closing it?"
+#, kde-format
 msgid "The queue has unsaved changes. Do you want to save them?"
-msgstr "当前 FITS 文件有未保存的更改。您希望在关闭前保存它吗？"
+msgstr ""
 
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:31
 #, kde-format
@@ -30401,186 +30391,186 @@ msgstr "天体类型描述"
 msgid "Object Type Comments"
 msgstr "天体类型备注"
 
-#: fitsviewer/fitsdata.cpp:1615
+#: fitsviewer/fitsdata.cpp:1625
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "读取 fits 文件缓存出错: %1"
 
-#: fitsviewer/fitsdata.cpp:1628
+#: fitsviewer/fitsdata.cpp:1638
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "解包压缩的 fits 文件失败"
 
-#: fitsviewer/fitsdata.cpp:1644
+#: fitsviewer/fitsdata.cpp:1654
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "打开 fits 文件 %1 出错：%2"
 
-#: fitsviewer/fitsdata.cpp:1657
+#: fitsviewer/fitsdata.cpp:1667
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "读取 fits 文件缓存出错: %1"
 
-#: fitsviewer/fitsdata.cpp:1669
+#: fitsviewer/fitsdata.cpp:1679
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "无法定位图像 HDU：%1"
 
-#: fitsviewer/fitsdata.cpp:1676
+#: fitsviewer/fitsdata.cpp:1686
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "FITS 文件打开错误(fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:1690
+#: fitsviewer/fitsdata.cpp:1700
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "KStars 不支持 1D FITS 图像。"
 
-#: fitsviewer/fitsdata.cpp:1736 fitsviewer/fitsdata.cpp:2243
+#: fitsviewer/fitsdata.cpp:1746 fitsviewer/fitsdata.cpp:2253
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "不支持位深 %1。"
 
-#: fitsviewer/fitsdata.cpp:1746
+#: fitsviewer/fitsdata.cpp:1756
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "图像尺寸无效 %1x%2"
 
-#: fitsviewer/fitsdata.cpp:1791
+#: fitsviewer/fitsdata.cpp:1801
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "读取图像错误：%1"
 
-#: fitsviewer/fitsdata.cpp:2142
+#: fitsviewer/fitsdata.cpp:2152
 #, kde-format
 msgid "File contain no images"
 msgstr "文件不包含图像"
 
-#: fitsviewer/fitsdata.cpp:2171
+#: fitsviewer/fitsdata.cpp:2181
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "不支持样本格式 %1。"
 
-#: fitsviewer/fitsdata.cpp:2206
+#: fitsviewer/fitsdata.cpp:2216
 #, kde-format
 msgid "XISF file open error: "
 msgstr "XISF 文件打开错误："
 
-#: fitsviewer/fitsdata.cpp:2258
+#: fitsviewer/fitsdata.cpp:2268
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "保存 XISF 图像错误"
 
-#: fitsviewer/fitsdata.cpp:2350 fitsviewer/fitsdata.cpp:2466
+#: fitsviewer/fitsdata.cpp:2360 fitsviewer/fitsdata.cpp:2476
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr "FITSData: image_buffer 通道内存不足。 已请求的: %1 bytes "
 
-#: fitsviewer/fitsdata.cpp:2405
+#: fitsviewer/fitsdata.cpp:2415
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "无法打开文件 %1：%2"
 
-#: fitsviewer/fitsdata.cpp:2418
+#: fitsviewer/fitsdata.cpp:2428
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "无法打开缓冲： %1"
 
-#: fitsviewer/fitsdata.cpp:2429
+#: fitsviewer/fitsdata.cpp:2439
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "无法解压缩略图： %1"
 
-#: fitsviewer/fitsdata.cpp:2436
+#: fitsviewer/fitsdata.cpp:2446
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "无法 dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:2444
+#: fitsviewer/fitsdata.cpp:2454
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "无法加载到内存： %1"
 
-#: fitsviewer/fitsdata.cpp:2591
+#: fitsviewer/fitsdata.cpp:2601
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "不支持保存为压缩文件。"
 
-#: fitsviewer/fitsdata.cpp:2656
+#: fitsviewer/fitsdata.cpp:2666
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "未能创建文件: %1"
 
-#: fitsviewer/fitsdata.cpp:2671
+#: fitsviewer/fitsdata.cpp:2681
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "未能创建图像: %1"
 
-#: fitsviewer/fitsdata.cpp:2680 fitsviewer/fitsdata.cpp:2687
+#: fitsviewer/fitsdata.cpp:2690 fitsviewer/fitsdata.cpp:2697
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "未能更新密钥: %1"
 
-#: fitsviewer/fitsdata.cpp:2788
+#: fitsviewer/fitsdata.cpp:2798
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "未能更新日期: %1"
 
-#: fitsviewer/fitsdata.cpp:2797
+#: fitsviewer/fitsdata.cpp:2807
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "未能更新历史: %1"
 
-#: fitsviewer/fitsdata.cpp:2819
+#: fitsviewer/fitsdata.cpp:2829
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "写入图像失败： %1"
 
-#: fitsviewer/fitsdata.cpp:4542 fitsviewer/fitsdata.cpp:4553
-#: fitsviewer/fitsdata.cpp:4590 fitsviewer/fitsdata.cpp:4626
-#: fitsviewer/fitsdata.cpp:4760
+#: fitsviewer/fitsdata.cpp:4552 fitsviewer/fitsdata.cpp:4563
+#: fitsviewer/fitsdata.cpp:4600 fitsviewer/fitsdata.cpp:4636
+#: fitsviewer/fitsdata.cpp:4770
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "未能找到世界坐标系统。"
 
-#: fitsviewer/fitsdata.cpp:4935 fitsviewer/fitsdata.cpp:5043
+#: fitsviewer/fitsdata.cpp:4945 fitsviewer/fitsdata.cpp:5053
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "查询 Simbad 时出错"
 
-#: fitsviewer/fitsdata.cpp:4952
+#: fitsviewer/fitsdata.cpp:4962
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Simbad 查询超时"
 
-#: fitsviewer/fitsdata.cpp:5929
+#: fitsviewer/fitsdata.cpp:5939
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "只支持 8 和 16 位拜耳图像。"
 
-#: fitsviewer/fitsdata.cpp:5962
+#: fitsviewer/fitsdata.cpp:5972
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "不支持的拜耳模式 %1。"
 
-#: fitsviewer/fitsdata.cpp:5993
+#: fitsviewer/fitsdata.cpp:6003
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "不支持的拜耳偏移 %1 %2。"
 
-#: fitsviewer/fitsdata.cpp:6148 fitsviewer/fitsdata.cpp:6195
-#: fitsviewer/fitsdata.cpp:6240 fitsviewer/fitsdata.cpp:6287
+#: fitsviewer/fitsdata.cpp:6158 fitsviewer/fitsdata.cpp:6205
+#: fitsviewer/fitsdata.cpp:6250 fitsviewer/fitsdata.cpp:6297
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "无法为临时拜耳缓冲区分配内存：%1"
 
-#: fitsviewer/fitsdata.cpp:6158 fitsviewer/fitsdata.cpp:6250
+#: fitsviewer/fitsdata.cpp:6168 fitsviewer/fitsdata.cpp:6260
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "无法为临时拜耳缓冲区分配内存。"
 
-#: fitsviewer/fitsdata.cpp:6178 fitsviewer/fitsdata.cpp:6270
+#: fitsviewer/fitsdata.cpp:6188 fitsviewer/fitsdata.cpp:6280
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "解拜耳失败 (%1)"
@@ -30797,49 +30787,49 @@ msgstr "RAM: -- / --"
 msgid "Double-click to toggle text display"
 msgstr "双击切换文本显示"
 
-#: fitsviewer/fitsstackmonitor.h:140
+#: fitsviewer/fitsstackmonitor.h:152
 #, kde-format
 msgctxt "Stack monitor status"
 msgid "In Progress"
 msgstr "进行中"
 
-#: fitsviewer/fitsstackmonitor.h:144
+#: fitsviewer/fitsstackmonitor.h:156
 #, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed to Load"
 msgstr "%1 加载失败"
 
-#: fitsviewer/fitsstackmonitor.h:146
+#: fitsviewer/fitsstackmonitor.h:158
 #, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed Plate Solving"
-msgstr ""
+msgstr "%1 星图匹配失败"
 
-#: fitsviewer/fitsstackmonitor.h:148
+#: fitsviewer/fitsstackmonitor.h:160
 #, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed Waiting"
-msgstr ""
+msgstr "%1 等待失败"
 
-#: fitsviewer/fitsstackmonitor.h:150
+#: fitsviewer/fitsstackmonitor.h:162
 #, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed Calibration"
-msgstr ""
+msgstr "%1 校准失败"
 
-#: fitsviewer/fitsstackmonitor.h:152
+#: fitsviewer/fitsstackmonitor.h:164
 #, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed Alignment"
-msgstr ""
+msgstr "%1 赤道仪指向校准失败"
 
-#: fitsviewer/fitsstackmonitor.h:154
+#: fitsviewer/fitsstackmonitor.h:166
 #, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed to Stack"
-msgstr ""
+msgstr "%1 堆叠失败"
 
-#: fitsviewer/fitsstackmonitor.h:173
+#: fitsviewer/fitsstackmonitor.h:189
 #, kde-format
 msgid ""
 "%1 \n"
@@ -30850,8 +30840,15 @@ msgid ""
 "%6 = Blue Channel\n"
 "%7 = Lum Channel"
 msgstr ""
+"%1 \n"
+"%2 = 单色单通道\n"
+"%3 = 彩色单通道\n"
+"%4 = 红色通道\n"
+"%5 = 绿色通道\n"
+"%6 = 蓝色通道\n"
+"%7 = 亮度通道"
 
-#: fitsviewer/fitsstackmonitor.h:180
+#: fitsviewer/fitsstackmonitor.h:196
 #, kde-format
 msgctxt "Stack monitor status help"
 msgid ""
@@ -30859,16 +30856,21 @@ msgid ""
 "%2 = OK\n"
 "%3 = Error"
 msgstr ""
+"%1 \n"
+"%2 = 就绪\n"
+"%3 = 错误"
 
-#: fitsviewer/fitsstackmonitor.h:186
+#: fitsviewer/fitsstackmonitor.h:202
 #, kde-format
 msgctxt "Stack monitor status help"
 msgid ""
 "%1 \n"
 "%2 = Not applicable"
 msgstr ""
+"%1 \n"
+"%2 = 不适用"
 
-#: fitsviewer/fitsstackmonitor.h:196
+#: fitsviewer/fitsstackmonitor.h:212
 #, kde-format
 msgctxt "Stack monitor overall status help"
 msgid ""
@@ -30882,282 +30884,313 @@ msgid ""
 "%8\n"
 "%9"
 msgstr ""
+"%1 \n"
+"%2\n"
+"%3 = 处理成功\n"
+"%4\n"
+"%5\n"
+"%6\n"
+"%7\n"
+"%8\n"
+"%9"
 
-#: fitsviewer/fitsstackmonitor.h:214
+#: fitsviewer/fitsstackmonitor.h:231
 #, kde-format
 msgctxt "Column header"
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
-#: fitsviewer/fitsstackmonitor.h:215
+#: fitsviewer/fitsstackmonitor.h:232
 #, kde-format
 msgctxt "Tooltip for ID column"
 msgid "Unique subframe identifier"
-msgstr ""
+msgstr "原始子帧唯一标识符"
 
-#: fitsviewer/fitsstackmonitor.h:217
+#: fitsviewer/fitsstackmonitor.h:236
 #, kde-format
 msgctxt "Column header"
 msgid "Pathname"
-msgstr ""
+msgstr "路径名称"
 
-#: fitsviewer/fitsstackmonitor.h:218
+#: fitsviewer/fitsstackmonitor.h:237
 #, kde-format
 msgctxt "Tooltip for Pathname column"
 msgid "Full file path"
-msgstr ""
+msgstr "完整文件路径"
 
-#: fitsviewer/fitsstackmonitor.h:220
+#: fitsviewer/fitsstackmonitor.h:241
 #, kde-format
 msgctxt "Column header"
 msgid "Filename"
-msgstr ""
+msgstr "文件名"
 
-#: fitsviewer/fitsstackmonitor.h:221
+#: fitsviewer/fitsstackmonitor.h:242
 #, kde-format
 msgctxt "Tooltip for Filename column"
 msgid "Filename only"
-msgstr ""
+msgstr "仅文件名"
 
-#: fitsviewer/fitsstackmonitor.h:223
+#: fitsviewer/fitsstackmonitor.h:246
 #, kde-format
 msgctxt "Column header"
 msgid "Channel(s)"
-msgstr ""
+msgstr "通道"
 
-#: fitsviewer/fitsstackmonitor.h:224
+#: fitsviewer/fitsstackmonitor.h:247
 #, kde-format
 msgctxt "Tooltip for Channels column"
 msgid "Channel(s)"
-msgstr ""
+msgstr "通道"
 
-#: fitsviewer/fitsstackmonitor.h:226
+#: fitsviewer/fitsstackmonitor.h:251
 #, kde-format
 msgctxt "Column header"
 msgid ""
 "Overall\n"
 "Status"
 msgstr ""
+"总体\n"
+"状态"
 
-#: fitsviewer/fitsstackmonitor.h:227
+#: fitsviewer/fitsstackmonitor.h:252
 #, kde-format
 msgctxt "Tooltip for Overall Status column"
 msgid "Overall processing status"
-msgstr ""
+msgstr "总体处理状态"
 
-#: fitsviewer/fitsstackmonitor.h:230
+#: fitsviewer/fitsstackmonitor.h:257
 #, kde-format
 msgctxt "Column header"
 msgid ""
 "Load Wait\n"
 "Time(s)"
 msgstr ""
+"加载等待\n"
+"时间 (秒)"
 
-#: fitsviewer/fitsstackmonitor.h:231
+#: fitsviewer/fitsstackmonitor.h:258
 #, kde-format
 msgctxt "Tooltip for Load Wait Time column"
 msgid "Wait time from subs detected until loading starts"
-msgstr ""
+msgstr "子帧检测完成到加载启动的等待时长"
 
-#: fitsviewer/fitsstackmonitor.h:233
+#: fitsviewer/fitsstackmonitor.h:262
 #, kde-format
 msgctxt "Column header"
 msgid ""
 "Loading\n"
 "Status"
 msgstr ""
+"正在加载\n"
+"状态"
 
-#: fitsviewer/fitsstackmonitor.h:234
+#: fitsviewer/fitsstackmonitor.h:263
 #, kde-format
 msgctxt "Tooltip for Loading Status column"
 msgid "Loading status"
-msgstr ""
+msgstr "正在加载状态"
 
-#: fitsviewer/fitsstackmonitor.h:236
+#: fitsviewer/fitsstackmonitor.h:267
 #, kde-format
 msgctxt "Column header"
 msgid ""
 "Loading\n"
 "Time(s)"
 msgstr ""
+"加载\n"
+"时间 (秒)"
 
-#: fitsviewer/fitsstackmonitor.h:237
+#: fitsviewer/fitsstackmonitor.h:268
 #, kde-format
 msgctxt "Tooltip for Loading Time column"
 msgid "Time to load"
-msgstr ""
+msgstr "加载时间"
 
-#: fitsviewer/fitsstackmonitor.h:239
+#: fitsviewer/fitsstackmonitor.h:272
 #, kde-format
 msgctxt "Column header"
 msgid "SNR"
-msgstr ""
+msgstr "SNR"
 
-#: fitsviewer/fitsstackmonitor.h:240
+#: fitsviewer/fitsstackmonitor.h:273
 #, kde-format
 msgctxt "Tooltip for SNR column"
 msgid "Signal-to-noise ratio"
-msgstr ""
+msgstr "信噪比"
 
-#: fitsviewer/fitsstackmonitor.h:243
+#: fitsviewer/fitsstackmonitor.h:278
 #, kde-format
 msgctxt "Column header"
 msgid ""
 "Plate Solve\n"
 "Status"
 msgstr ""
+"星图匹配\n"
+"状态"
 
-#: fitsviewer/fitsstackmonitor.h:244
+#: fitsviewer/fitsstackmonitor.h:279
 #, kde-format
 msgctxt "Tooltip for Plate Solve Status column"
 msgid "Plate solving status"
-msgstr ""
+msgstr "星图匹配状态"
 
-#: fitsviewer/fitsstackmonitor.h:246
+#: fitsviewer/fitsstackmonitor.h:283
 #, kde-format
 msgctxt "Column header"
 msgid ""
 "Plate Solve\n"
 "Time(s)"
 msgstr ""
+"星图匹配\n"
+"时间 (秒)"
 
-#: fitsviewer/fitsstackmonitor.h:247
+#: fitsviewer/fitsstackmonitor.h:284
 #, kde-format
 msgctxt "Tooltip for Plate Solve Time column"
 msgid "Time to plate solve"
-msgstr ""
+msgstr "星图匹配时间"
 
-#: fitsviewer/fitsstackmonitor.h:249
+#: fitsviewer/fitsstackmonitor.h:288
 #, kde-format
 msgctxt "Column header"
 msgid "HFR"
-msgstr ""
+msgstr "HFR"
 
-#: fitsviewer/fitsstackmonitor.h:250
+#: fitsviewer/fitsstackmonitor.h:289
 #, kde-format
 msgctxt "Tooltip for HFR column"
 msgid "Average HFR of stars"
-msgstr ""
+msgstr "星体平均 HFR"
 
-#: fitsviewer/fitsstackmonitor.h:252
+#: fitsviewer/fitsstackmonitor.h:293
 #, kde-format
 msgctxt "Column header"
 msgid "Num Stars"
-msgstr ""
+msgstr "星点数"
 
-#: fitsviewer/fitsstackmonitor.h:253
+#: fitsviewer/fitsstackmonitor.h:294
 #, kde-format
 msgctxt "Tooltip for Num Stars column"
 msgid "Number of stars detected"
-msgstr ""
+msgstr "检测到的星体数"
 
-#: fitsviewer/fitsstackmonitor.h:256
+#: fitsviewer/fitsstackmonitor.h:299
 #, kde-format
 msgctxt "Column header"
 msgid ""
 "Stack Wait\n"
 "Time(s)"
 msgstr ""
+"叠图等待\n"
+"时间 (秒)"
 
-#: fitsviewer/fitsstackmonitor.h:257
+#: fitsviewer/fitsstackmonitor.h:300
 #, kde-format
 msgctxt "Tooltip for Stack Wait Time column"
 msgid "Wait time for sufficient subs to start stacking"
-msgstr ""
+msgstr "积累足够子帧以开始叠图的等待时间"
 
-#: fitsviewer/fitsstackmonitor.h:260
+#: fitsviewer/fitsstackmonitor.h:305
 #, kde-format
 msgctxt "Column header"
 msgid ""
 "Calibration\n"
 "Status"
 msgstr ""
+"校准\n"
+"状态"
 
-#: fitsviewer/fitsstackmonitor.h:261
+#: fitsviewer/fitsstackmonitor.h:306
 #, kde-format
 msgctxt "Tooltip for Calibration Status column"
 msgid "Calibration status"
-msgstr ""
+msgstr "校准状态"
 
-#: fitsviewer/fitsstackmonitor.h:264
+#: fitsviewer/fitsstackmonitor.h:311
 #, kde-format
 msgctxt "Column header"
 msgid ""
 "Calibration\n"
 "Time(s)"
 msgstr ""
+"校准\n"
+"时间 (秒)"
 
-#: fitsviewer/fitsstackmonitor.h:265
+#: fitsviewer/fitsstackmonitor.h:312
 #, kde-format
 msgctxt "Tooltip for Calibration Time column"
 msgid "Time to calibrate"
-msgstr ""
+msgstr "校准时间"
 
-#: fitsviewer/fitsstackmonitor.h:268
+#: fitsviewer/fitsstackmonitor.h:317
 #, kde-format
 msgctxt "Column header"
 msgid ""
 "Alignment\n"
 "Status"
 msgstr ""
+"赤道仪指向校准\n"
+"状态"
 
-#: fitsviewer/fitsstackmonitor.h:269
+#: fitsviewer/fitsstackmonitor.h:318
 #, kde-format
 msgctxt "Tooltip for Alignment Status column"
 msgid "Alignment status"
-msgstr ""
+msgstr "赤道仪指向校准状态"
 
-#: fitsviewer/fitsstackmonitor.h:271
+#: fitsviewer/fitsstackmonitor.h:322
 #, kde-format
 msgctxt "Column header"
 msgid ""
 "Alignment\n"
 "Time(s)"
 msgstr ""
+"赤道仪指向校准\n"
+"时间 (秒)"
 
-#: fitsviewer/fitsstackmonitor.h:272
+#: fitsviewer/fitsstackmonitor.h:323
 #, kde-format
 msgctxt "Tooltip for Alignment Time column"
 msgid "Time to align"
-msgstr ""
+msgstr "赤道仪指向校准时间"
 
-#: fitsviewer/fitsstackmonitor.h:274
+#: fitsviewer/fitsstackmonitor.h:327
 #, kde-format
 msgctxt "Column header"
 msgid "Δx"
-msgstr ""
+msgstr "Δx"
 
-#: fitsviewer/fitsstackmonitor.h:275
+#: fitsviewer/fitsstackmonitor.h:328
 #, kde-format
 msgctxt "Tooltip for Δx column"
 msgid "X-axis shift in pixels compared to alignment master"
-msgstr ""
+msgstr "相对于校准基准帧的 X 轴像素偏移量"
 
-#: fitsviewer/fitsstackmonitor.h:277
+#: fitsviewer/fitsstackmonitor.h:332
 #, kde-format
 msgctxt "Column header"
 msgid "Δy"
-msgstr ""
+msgstr "Δy"
 
-#: fitsviewer/fitsstackmonitor.h:278
+#: fitsviewer/fitsstackmonitor.h:333
 #, kde-format
 msgctxt "Tooltip for Δy column"
 msgid "Y-axis shift in pixels compared to alignment master"
-msgstr ""
+msgstr "相对于校准基准帧的 Y 轴像素偏移量"
 
-#: fitsviewer/fitsstackmonitor.h:280
+#: fitsviewer/fitsstackmonitor.h:337
 #, kde-format
 msgctxt "Column header"
 msgid "Rot(°)"
-msgstr ""
+msgstr "Rot(°)"
 
-#: fitsviewer/fitsstackmonitor.h:281
+#: fitsviewer/fitsstackmonitor.h:338
 #, kde-format
 msgctxt "Tooltip for Rotation column"
 msgid "Rotation angle in degrees compared to alignment master"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:284
+#: fitsviewer/fitsstackmonitor.h:343
 #, kde-format
 msgctxt "Column header"
 msgid ""
@@ -31165,13 +31198,13 @@ msgid ""
 "Status"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:285
+#: fitsviewer/fitsstackmonitor.h:344
 #, kde-format
 msgctxt "Tooltip for Stacking Status column"
 msgid "Stacking status"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:287
+#: fitsviewer/fitsstackmonitor.h:348
 #, kde-format
 msgctxt "Column header"
 msgid ""
@@ -31179,13 +31212,13 @@ msgid ""
 "Time(s)"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:288
+#: fitsviewer/fitsstackmonitor.h:349
 #, kde-format
 msgctxt "Tooltip for Stacking Time column"
 msgid "Time to stack (s)"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:290
+#: fitsviewer/fitsstackmonitor.h:353
 #, kde-format
 msgctxt "Column header"
 msgid ""
@@ -31193,7 +31226,7 @@ msgid ""
 "Weight"
 msgstr ""
 
-#: fitsviewer/fitsstackmonitor.h:291
+#: fitsviewer/fitsstackmonitor.h:354
 #, kde-format
 msgctxt "Tooltip for Stacking Weight column"
 msgid "Weight used in stacking"
@@ -31445,70 +31478,70 @@ msgstr "天体主要坐标尺寸（角分）"
 msgid "RAM"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1182 fitsviewer/fitstab.cpp:1318
+#: fitsviewer/fitstab.cpp:1259 fitsviewer/fitstab.cpp:1395
 #, kde-format
 msgctxt "@title:window"
 msgid "%1"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1304
+#: fitsviewer/fitstab.cpp:1381
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1421 fitsviewer/fitstab.cpp:1425
+#: fitsviewer/fitstab.cpp:1498 fitsviewer/fitstab.cpp:1502
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "保存 FITS"
 
-#: fitsviewer/fitstab.cpp:1457
+#: fitsviewer/fitstab.cpp:1534
 #, kde-format
 msgid "Image save error: %1"
 msgstr "图像保存错误： %1"
 
-#: fitsviewer/fitstab.cpp:1457
+#: fitsviewer/fitstab.cpp:1534
 #, kde-format
 msgid "Image Save"
 msgstr "保存图像"
 
-#: fitsviewer/fitstab.cpp:1461
+#: fitsviewer/fitstab.cpp:1538
 #, kde-format
 msgid "File saved to %1"
 msgstr "文件保存到 %1"
 
-#: fitsviewer/fitstab.cpp:1579
+#: fitsviewer/fitstab.cpp:1656
 #, kde-format
 msgid "RGB"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1579
+#: fitsviewer/fitstab.cpp:1656
 #, kde-format
 msgid "LRGB"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1738
+#: fitsviewer/fitstab.cpp:1815
 #, kde-format
 msgid "(%1) Stopped Watching"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1739
+#: fitsviewer/fitstab.cpp:1816
 #, kde-format
 msgid "(%1) Watching"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1740 fitsviewer/fitstab.cpp:1746
+#: fitsviewer/fitstab.cpp:1817 fitsviewer/fitstab.cpp:1823
 #, kde-format
 msgid "%1 %2"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1744
+#: fitsviewer/fitstab.cpp:1821
 #, kde-format
 msgid "(%1) Stopped"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1745
+#: fitsviewer/fitstab.cpp:1822
 #, kde-format
 msgid "(%1)"
 msgstr ""
@@ -32074,13 +32107,13 @@ msgstr ""
 #: fitsviewer/livestacking.ui:552
 #, kde-format
 msgid "The signal-to-noise ratio of the final image"
-msgstr ""
+msgstr "最终图像的信噪比"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageSNRLabel)
 #: fitsviewer/livestacking.ui:555
 #, kde-format
 msgid "Stacked Image:"
-msgstr ""
+msgstr "堆叠图片："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ImageSNR)
 #: fitsviewer/livestacking.ui:577
@@ -32088,7 +32121,7 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>The signal-to-noise ratio of the final image</p></"
 "body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>最终图像的信噪比</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SubsSNR)
 #: fitsviewer/livestacking.ui:599
@@ -32097,19 +32130,20 @@ msgid ""
 "<html><head/><body><p>Signal-to-noise ratio Average (mean) / Min / Max of "
 "the processed subs</p></body></html>"
 msgstr ""
+"<html><head/><body><p>处理子图的信噪比 (平均) /最小/最大值</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SubsSNR)
 #. i18n: ectx: property (text), widget (QLabel, SubsProcessed)
 #: fitsviewer/livestacking.ui:602 fitsviewer/livestacking.ui:720
 #, kde-format
 msgid "0 / 0 / 0"
-msgstr ""
+msgstr "0 / 0 / 0"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Lum)
 #: fitsviewer/livestacking.ui:618
 #, kde-format
 msgid "The directory containing Lum files to stack"
-msgstr ""
+msgstr "保存要堆叠的亮度通道文件的目录"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, HelpB)
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
@@ -32122,31 +32156,31 @@ msgstr "打开网页文档。"
 #: fitsviewer/livestacking.ui:647
 #, kde-format
 msgid "Toggle between mono and multi-channel mode"
-msgstr ""
+msgstr "切换单通道和多通道模式"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Blue)
 #: fitsviewer/livestacking.ui:682
 #, kde-format
 msgid "The directory containing Blue files to stack"
-msgstr ""
+msgstr "保存要堆叠的蓝色通道文件的目录"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, BlueDirB)
 #: fitsviewer/livestacking.ui:692
 #, kde-format
 msgid "Blue directory chooser dialog"
-msgstr ""
+msgstr "蓝色通道目录选择对话框"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, RedDirB)
 #: fitsviewer/livestacking.ui:727
 #, kde-format
 msgid "<html><head/><body><p>Red directory chooser dialog</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>红色通道目录选择对话框</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, GreenDirB)
 #: fitsviewer/livestacking.ui:740
 #, kde-format
 msgid "Green directory chooser dialog"
-msgstr ""
+msgstr "绿色通道目录选择对话框"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, StackMultiCB1)
 #: fitsviewer/livestacking.ui:759
@@ -32154,61 +32188,61 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Toggle between mono and multi-channel mode</p></body></"
 "html>"
-msgstr ""
+msgstr "<html><head/><body><p>切换单通道和多通道模式</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, RedLabel)
 #: fitsviewer/livestacking.ui:787
 #, kde-format
 msgid "Red Directory:"
-msgstr ""
+msgstr "红色通道目录："
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Red)
 #: fitsviewer/livestacking.ui:803
 #, kde-format
 msgid "The directory containing Red files to stack"
-msgstr ""
+msgstr "保存要堆叠的红色通道文件的目录"
 
 #. i18n: ectx: property (text), widget (QLabel, BlueLabel)
 #: fitsviewer/livestacking.ui:822
 #, kde-format
 msgid "Blue Directory:"
-msgstr ""
+msgstr "蓝色通道目录："
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, LumDirB)
 #: fitsviewer/livestacking.ui:832
 #, kde-format
 msgid "Lum (optional) directory chooser dialog"
-msgstr ""
+msgstr "亮度通道 (可选) 目录选择对话框"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, Green)
 #: fitsviewer/livestacking.ui:851
 #, kde-format
 msgid "The directory containing Green files to stack"
-msgstr ""
+msgstr "保存要堆叠的绿色通道文件的目录"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, StackDirB)
 #: fitsviewer/livestacking.ui:867
 #, kde-format
 msgid "<html><head/><body><p>Stack directory chooser dialog</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>图像堆叠目录选择对话框</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LumLabel)
 #: fitsviewer/livestacking.ui:892
 #, kde-format
 msgid "Lum Directory:"
-msgstr ""
+msgstr "亮度通道目录："
 
 #. i18n: ectx: property (text), widget (QLabel, GreenLabel)
 #: fitsviewer/livestacking.ui:914
 #, kde-format
 msgid "Green Directory:"
-msgstr ""
+msgstr "绿色通道目录："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, GeneralProcMinimized)
 #: fitsviewer/livestacking.ui:927
 #, kde-format
 msgid "Configure general options in this section."
-msgstr ""
+msgstr "配置此部分的常规选项。"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, StackingGroupBox)
 #: fitsviewer/livestacking.ui:970
@@ -32220,13 +32254,19 @@ msgid ""
 "></p><p>Processes such as sigma clipping will use this many subs to "
 "calculate statistics to use on all subs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>这是指在执行子帧堆叠处理时，临时保存在计算机内存中的最"
+"大子帧数量。该参数值设置得越大，图像堆叠后的最终质量会越好，但同时也会花费更"
+"长的处理时间，并且占用更多的计算机内存资源。</p><p><br/></p><p>像 Sigma 裁剪 "
+"(用于剔除坏点、宇宙射线等异常值) 这样的处理步骤，会先使用该参数设定数量的子帧"
+"来计算统计数据，再将这些统计结果应用到所有参与堆叠的子帧上，以提升整体堆叠效"
+"果。</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, StackingGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, StackingMinimized)
 #: fitsviewer/livestacking.ui:973 fitsviewer/livestacking.ui:1649
 #, kde-format
 msgid "Stacking"
-msgstr ""
+msgstr "堆叠"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, WinsorCutoff)
 #. i18n: ectx: property (toolTip), widget (QLabel, WinsorCutoffLabel)
@@ -32236,6 +32276,8 @@ msgid ""
 "<html><head/><body><p>Winsorization cutoff in units of sigma to be used in "
 "pixel rejection.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>应用于像素剔除流程的温莎化算法截断值，计量单位为 Sigma "
+"(标准差)</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Sigma)
 #. i18n: ectx: property (toolTip), widget (QLabel, SigmaLabel)
@@ -32245,12 +32287,15 @@ msgid ""
 "<html><head/><body><p>Sigma Scale is the MAD multiplier to remove outliers "
 "(usually in the range 0.6 - 0.9)</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Sigma 缩放系数是一款用于剔除图像异常值的 MAD (中位数绝"
+"对偏差) 乘数，该参数的常规取值范围为0.6至0.9，可用于调整异常值剔除的严苛程"
+"度。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SigmaLabel)
 #: fitsviewer/livestacking.ui:1059
 #, kde-format
 msgid "  Sigma Scale:"
-msgstr ""
+msgstr "  Sigma 缩放："
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Alpha)
 #. i18n: ectx: property (toolTip), widget (QLabel, AlphaLabel)
@@ -32261,6 +32306,8 @@ msgid ""
 "damping, &lt;1.0 = smoother (but slower convergence).</p><p>Usual values 0.7 "
 "- 0.9</p></body></html>"
 msgstr ""
+"<html><head/><body><p>迭代过程中的松弛/阻尼系数。1.0 = 无阻尼，&lt;1.0 = 迭代"
+"更平滑 (但收敛速度更慢)</p><p>常用取值 0.7 - 0.9</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HighSigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, HighSigma)
@@ -32270,12 +32317,14 @@ msgid ""
 "<html><head/><body><p>Value of High Sigma to be used in pixel rejection.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>应用于图像像素剔除流程的高 Sigma 临界取值。</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, HighSigmaLabel)
 #: fitsviewer/livestacking.ui:1100
 #, kde-format
 msgid "High Sigma:"
-msgstr ""
+msgstr "高 Sigma 取值："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, StackingMethodLabel)
 #: fitsviewer/livestacking.ui:1122
@@ -32288,6 +32337,11 @@ msgid ""
 "article/10.3847/1538-3881/adfb72 NOTE: this method is very resource "
 "intensive</p></body></html>"
 msgstr ""
+"<html><head/><body><p>像素剔除算法：</p><p>- 无：不应用任何剔除操作。</"
+"p><p>- Sigma 剪裁：</p><p>- 温莎化 Sigma 裁剪：Sigma 裁剪的温莎化改进版本。"
+"g</p><p>- ImageMM：基于论文 https://iopscience.iop.org/"
+"article/10.3847/1538-3881/adfb72 实现的 ImageMM 堆叠算法。注意：该方法资源消"
+"耗极高。</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, InMemoryLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, NumInMem)
@@ -32300,12 +32354,18 @@ msgid ""
 "p><p>Processes such as sigma clipping will use this many subs to calculate "
 "statistics to use on all subs.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>这是指在执行子帧堆叠处理时，临时保存在计算机内存中的最"
+"大子帧数量。该参数值设置得越大，图像堆叠后的最终质量会越好，但同时也会花费更"
+"长的处理时间，并且占用更多的计算机内存资源。</p><p>像 Sigma 裁剪 (用于剔除坏"
+"点、宇宙射线等异常值) 这样的处理步骤，会先使用该参数设定数量的子帧来计算统计"
+"数据，再将这些统计结果应用到所有参与堆叠的子帧上，以提升整体堆叠效果。</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, InMemoryLabel)
 #: fitsviewer/livestacking.ui:1175
 #, kde-format
 msgid "In Memory Subs:"
-msgstr ""
+msgstr "内存中的子图："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, KappaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, Kappa)
@@ -32317,12 +32377,16 @@ msgid ""
 "larger the possible updates.</p><p>Usual values are in the range 1.5 to 2.0. "
 "Reduce if images appear over processed, e.g. star ringing.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kappa (k) 参数将像素更新量限制在原始值的 1/k 至 k 倍范"
+"围内。因此取值为 1 时无变化，k 值越高，允许的像素更新幅度越大。</p><p>常用的"
+"取值范围是 1.5 到 2.0。若图像出现过度处理现象 (如星晕/星环)，可减小 k 值。</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, KappaLabel)
 #: fitsviewer/livestacking.ui:1200
 #, kde-format
 msgid "  Kappa:"
-msgstr ""
+msgstr "  Kappa (k) 值："
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, Weighting)
 #. i18n: ectx: property (toolTip), widget (QLabel, WeightingLabel)
@@ -32334,12 +32398,15 @@ msgid ""
 "Num Stars. Frames are weighted by the number of stars detected in the frame."
 "</p></body></html>"
 msgstr ""
+"<html><head/><body><p>帧权重分配：</p><p>- 均等：所有帧权重相同。</p><p>- "
+"HFR：按 1/HFR (平均光半径) 分配权重。</p><p>- 星点数量：按帧中检测到的星点数"
+"量分配权重。</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
 #: fitsviewer/livestacking.ui:1226
 #, kde-format
 msgid "Equal"
-msgstr ""
+msgstr "等于"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, LSDownscale)
 #. i18n: ectx: property (toolTip), widget (QLabel, DownscaleLabel)
@@ -32351,24 +32418,27 @@ msgid ""
 "Subs and masters are downscaled 3x3.</p><p>- 4x4. Subs and masters are "
 "downscaled 4x4.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>图像降采样：</p><p>- 无：不应用任何降采样操作。</"
+"p><p>- 2x2：对子帧与基准帧进行 2x2 降采样。</p><p>- 3x3：对子帧与基准帧进行 "
+"3x3 降采样。</p><p>- 4x4：对子帧与基准帧进行 4x4 降采样。</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, LSDownscale)
 #: fitsviewer/livestacking.ui:1273
 #, kde-format
 msgid "3x3"
-msgstr ""
+msgstr "3x3"
 
 #. i18n: ectx: property (text), widget (QLabel, WinsorCutoffLabel)
 #: fitsviewer/livestacking.ui:1301
 #, kde-format
 msgid "  Winsor Cutoff: "
-msgstr ""
+msgstr "  温莎化截断值： "
 
 #. i18n: ectx: property (text), widget (QLabel, DownscaleLabel)
 #: fitsviewer/livestacking.ui:1326
 #, kde-format
 msgid "  Downscale: "
-msgstr ""
+msgstr "  降采样： "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, LowSigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, LowSigma)
@@ -32378,12 +32448,14 @@ msgid ""
 "<html><head/><body><p>Value of Low Sigma to be used in pixel rejection.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>应用于图像像素剔除流程的低 Sigma 临界取值。</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, LowSigmaLabel)
 #: fitsviewer/livestacking.ui:1351
 #, kde-format
 msgid "Low Sigma:"
-msgstr ""
+msgstr "低 Sigma 取值："
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1373
@@ -32396,36 +32468,41 @@ msgid ""
 "https://iopscience.iop.org/article/10.3847/1538-3881/adfb72 NOTE: this "
 "method is very resource intensive</p></body></html>"
 msgstr ""
+"<html><head/><body><p>叠图方法：</p><p>- 平均值：使用一个简单的平均值，不应用"
+"任何剔除操作。</p><p>- Sigma 剪裁：</p><p>- 温莎化 Sigma 裁剪：Sigma 裁剪的温"
+"莎化改进版本。g</p><p>- ImageMM：基于论文 https://iopscience.iop.org/"
+"article/10.3847/1538-3881/adfb72 实现的 ImageMM 堆叠算法。注意：该方法资源消"
+"耗极高。</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1388
 #, kde-format
 msgid "Sigma Clipping"
-msgstr ""
+msgstr "Sigma 剪裁"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1393
 #, kde-format
 msgid "Winsorized SC"
-msgstr ""
+msgstr "温莎化 Sigma 剪裁"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
 #: fitsviewer/livestacking.ui:1398
 #, kde-format
 msgid "ImageMM"
-msgstr ""
+msgstr "ImageMM"
 
 #. i18n: ectx: property (text), widget (QLabel, WeightingLabel)
 #: fitsviewer/livestacking.ui:1446
 #, kde-format
 msgid "  Frame Weight: "
-msgstr ""
+msgstr "  帧权重： "
 
 #. i18n: ectx: property (text), widget (QLabel, AlphaLabel)
 #: fitsviewer/livestacking.ui:1505
 #, kde-format
 msgid "Alpha:"
-msgstr ""
+msgstr "透明度："
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, Iterations)
 #. i18n: ectx: property (toolTip), widget (QLabel, IterationsLabel)
@@ -32435,6 +32512,7 @@ msgid ""
 "<html><head/><body><p>Number of iterations. Keep low to minimize processing "
 "overhead</p></body></html>"
 msgstr ""
+"<html><head/><body><p>迭代次数。保持较低以减少处理开销</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, IterationsLabel)
 #: fitsviewer/livestacking.ui:1586
@@ -33371,80 +33449,80 @@ msgstr "显示日志"
 msgid "Pixel Values"
 msgstr "像素值"
 
-#: fitsviewer/starprofileviewer.cpp:51
+#: fitsviewer/starprofileviewer.cpp:52
 #, kde-format
 msgid "Couldn't initialize the OpenGL context."
 msgstr "未能初始化 OpenGL 上下文。"
 
-#: fitsviewer/starprofileviewer.cpp:62
+#: fitsviewer/starprofileviewer.cpp:63
 #, kde-format
 msgctxt "@title:window"
 msgid "View Star Profile"
 msgstr "查看星星资料"
 
-#: fitsviewer/starprofileviewer.cpp:79
+#: fitsviewer/starprofileviewer.cpp:80
 #, kde-format
 msgid "Maximum Value on the graph"
 msgstr "图表上的最大值"
 
-#: fitsviewer/starprofileviewer.cpp:81
+#: fitsviewer/starprofileviewer.cpp:82
 #, kde-format
 msgid "Cuttoff Maximum for eliminating hot pixels and bright stars."
 msgstr "消除热像素和明亮星点的最大值截止点。"
 
-#: fitsviewer/starprofileviewer.cpp:84
+#: fitsviewer/starprofileviewer.cpp:85
 #, kde-format
 msgid "Enable or Disable the Max Value Cutoff"
 msgstr "启用或禁用最大值截断"
 
-#: fitsviewer/starprofileviewer.cpp:85
+#: fitsviewer/starprofileviewer.cpp:86
 #, kde-format
 msgid "Toggle Cutoff"
 msgstr "切换截断"
 
-#: fitsviewer/starprofileviewer.cpp:89
+#: fitsviewer/starprofileviewer.cpp:90
 #, kde-format
 msgid "Sets the Minimum Value on the graph"
 msgstr "设置图表上的最小值"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/starprofileviewer.cpp:91 fitsviewer/statform.ui:86
+#: fitsviewer/starprofileviewer.cpp:92 fitsviewer/statform.ui:86
 #, kde-format
 msgid "Min"
 msgstr "Min"
 
-#: fitsviewer/starprofileviewer.cpp:94
+#: fitsviewer/starprofileviewer.cpp:95
 #, kde-format
 msgid "Sets the Maximum Value on the graph"
 msgstr "设置图表上的最大值"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/starprofileviewer.cpp:96 fitsviewer/statform.ui:91
+#: fitsviewer/starprofileviewer.cpp:97 fitsviewer/statform.ui:91
 #, kde-format
 msgid "Max"
 msgstr "Max"
 
-#: fitsviewer/starprofileviewer.cpp:99
+#: fitsviewer/starprofileviewer.cpp:100
 #, kde-format
 msgid "Sets the Cuttoff Maximum for eliminating hot pixels and bright stars."
 msgstr "设置消除热像素和明亮星点的最大值截止点。"
 
-#: fitsviewer/starprofileviewer.cpp:101
+#: fitsviewer/starprofileviewer.cpp:102
 #, kde-format
 msgid "Cut"
 msgstr "剪切"
 
-#: fitsviewer/starprofileviewer.cpp:105
+#: fitsviewer/starprofileviewer.cpp:106
 #, kde-format
 msgid "Minimum Value on the graph"
 msgstr "图表上的最小值"
 
-#: fitsviewer/starprofileviewer.cpp:108
+#: fitsviewer/starprofileviewer.cpp:109
 #, kde-format
 msgid "AutoScale"
 msgstr "自动缩放"
 
-#: fitsviewer/starprofileviewer.cpp:109
+#: fitsviewer/starprofileviewer.cpp:111
 #, kde-format
 msgid ""
 "Automatically scales the sliders for the subFrame.\n"
@@ -33453,164 +33531,164 @@ msgstr ""
 "自动缩放 subFrame 的滑块。\n"
 "取消选中可在平移时保持滑块不变。"
 
-#: fitsviewer/starprofileviewer.cpp:117
+#: fitsviewer/starprofileviewer.cpp:119
 #, kde-format
 msgid "Hides and shows the scaling side panel"
 msgstr "隐藏并显示缩放侧面板"
 
-#: fitsviewer/starprofileviewer.cpp:128
+#: fitsviewer/starprofileviewer.cpp:130
 #, kde-format
 msgid "Changes the type of selection"
 msgstr "更改选择的类型"
 
-#: fitsviewer/starprofileviewer.cpp:139
+#: fitsviewer/starprofileviewer.cpp:141
 #, kde-format
 msgid "Toggles the slice view when horizontal or vertical items are selected"
 msgstr "选中水平或垂直项目时切换切片视图"
 
-#: fitsviewer/starprofileviewer.cpp:150
+#: fitsviewer/starprofileviewer.cpp:152
 #, kde-format
 msgid "Shows the x, y coordinates of star centers in the frame"
 msgstr "显示帧中恒星中心的x, y坐标"
 
-#: fitsviewer/starprofileviewer.cpp:154
+#: fitsviewer/starprofileviewer.cpp:156
 #, kde-format
 msgid "Shows the HFR of stars in the frame"
 msgstr "显示帧中恒星的HFR"
 
-#: fitsviewer/starprofileviewer.cpp:168
+#: fitsviewer/starprofileviewer.cpp:170
 #, kde-format
 msgid "Shows the peak values of star centers in the frame"
 msgstr "显示帧中恒星中心的峰值"
 
-#: fitsviewer/starprofileviewer.cpp:172
+#: fitsviewer/starprofileviewer.cpp:174
 #, kde-format
 msgid "Changes the sample size shown in the graph"
 msgstr "更改图表中显示的示例大小"
 
-#: fitsviewer/starprofileviewer.cpp:183
+#: fitsviewer/starprofileviewer.cpp:185
 #, kde-format
 msgid "Zooms the view to preset locations."
 msgstr "缩放视图到预设位置。"
 
-#: fitsviewer/starprofileviewer.cpp:184
+#: fitsviewer/starprofileviewer.cpp:186
 #, kde-format
 msgid "ZoomTo"
 msgstr "缩放："
 
-#: fitsviewer/starprofileviewer.cpp:185
+#: fitsviewer/starprofileviewer.cpp:187
 #, kde-format
 msgid "Front"
 msgstr "前面"
 
-#: fitsviewer/starprofileviewer.cpp:186
+#: fitsviewer/starprofileviewer.cpp:188
 #, kde-format
 msgid "Front High"
 msgstr "Front High"
 
-#: fitsviewer/starprofileviewer.cpp:187
+#: fitsviewer/starprofileviewer.cpp:189
 #, kde-format
 msgid "Overhead"
 msgstr "Overhead"
 
-#: fitsviewer/starprofileviewer.cpp:188
+#: fitsviewer/starprofileviewer.cpp:190
 #, kde-format
 msgid "Iso. L"
 msgstr "Iso. L"
 
-#: fitsviewer/starprofileviewer.cpp:189
+#: fitsviewer/starprofileviewer.cpp:191
 #, kde-format
 msgid "Iso. R"
 msgstr "Iso. R"
 
-#: fitsviewer/starprofileviewer.cpp:190
+#: fitsviewer/starprofileviewer.cpp:192
 #, kde-format
 msgid "Selected"
 msgstr "选中内容"
 
-#: fitsviewer/starprofileviewer.cpp:198
+#: fitsviewer/starprofileviewer.cpp:200
 #, kde-format
 msgid "Hides and shows the Vertical and Horizontal Selection Sliders"
 msgstr "隐藏或显示垂直和水平选择滑块"
 
-#: fitsviewer/starprofileviewer.cpp:221
+#: fitsviewer/starprofileviewer.cpp:223
 #, kde-format
 msgid "Selects the Vertical Value"
 msgstr "选择垂直值"
 
-#: fitsviewer/starprofileviewer.cpp:223
+#: fitsviewer/starprofileviewer.cpp:225
 #, kde-format
 msgid "Selects the Horizontal Value"
 msgstr "选择水平值"
 
-#: fitsviewer/starprofileviewer.cpp:225
+#: fitsviewer/starprofileviewer.cpp:227
 #, kde-format
 msgid "Vertical: "
 msgstr "水平: "
 
-#: fitsviewer/starprofileviewer.cpp:227
+#: fitsviewer/starprofileviewer.cpp:229
 #, kde-format
 msgid "Horizontal: "
 msgstr "水平: "
 
-#: fitsviewer/starprofileviewer.cpp:240
+#: fitsviewer/starprofileviewer.cpp:243
 #, kde-format
 msgid "Zooms automatically as the sliders change"
 msgstr "滑动条改变时自动缩放"
 
-#: fitsviewer/starprofileviewer.cpp:252
+#: fitsviewer/starprofileviewer.cpp:255
 #, kde-format
 msgid "Changes the color scheme"
 msgstr "更改配色方案"
 
-#: fitsviewer/starprofileviewer.cpp:506 fitsviewer/starprofileviewer.cpp:706
+#: fitsviewer/starprofileviewer.cpp:509 fitsviewer/starprofileviewer.cpp:712
 #, kde-format
 msgid "Cut: %1"
 msgstr "Cut： %1"
 
-#: fitsviewer/starprofileviewer.cpp:514 fitsviewer/starprofileviewer.cpp:521
-#: fitsviewer/starprofileviewer.cpp:878
+#: fitsviewer/starprofileviewer.cpp:517 fitsviewer/starprofileviewer.cpp:524
+#: fitsviewer/starprofileviewer.cpp:886
 #, kde-format
 msgid "Max: %1"
 msgstr "最大值： %1"
 
-#: fitsviewer/starprofileviewer.cpp:515 fitsviewer/starprofileviewer.cpp:522
-#: fitsviewer/starprofileviewer.cpp:879
+#: fitsviewer/starprofileviewer.cpp:518 fitsviewer/starprofileviewer.cpp:525
+#: fitsviewer/starprofileviewer.cpp:887
 #, kde-format
 msgid "Min: %1"
 msgstr "最小值： %1"
 
-#: fitsviewer/starprofileviewer.cpp:669
+#: fitsviewer/starprofileviewer.cpp:674
 #, kde-format
 msgid "Selected Pixel: (%1, %2): %3"
 msgstr "选中像素： (%1，%2)： %3"
 
-#: fitsviewer/starprofileviewer.cpp:708
+#: fitsviewer/starprofileviewer.cpp:714
 #, kde-format
 msgid "Cut Disabled"
 msgstr "禁用 Cut"
 
-#: fitsviewer/starprofileviewer.cpp:904
+#: fitsviewer/starprofileviewer.cpp:913
 #, kde-format
 msgid "Star %1: "
 msgstr "星点 %1: "
 
-#: fitsviewer/starprofileviewer.cpp:907
+#: fitsviewer/starprofileviewer.cpp:916
 #, kde-format
 msgid "(%1, %2) "
 msgstr "(%1，%2) "
 
-#: fitsviewer/starprofileviewer.cpp:911
+#: fitsviewer/starprofileviewer.cpp:920
 #, kde-format
 msgid "HFR: %1  "
 msgstr "HFR：%1  "
 
-#: fitsviewer/starprofileviewer.cpp:915
+#: fitsviewer/starprofileviewer.cpp:924
 #, kde-format
 msgid "Peak: %1"
 msgstr "峰值： %1"
 
-#: fitsviewer/starprofileviewer.cpp:930
+#: fitsviewer/starprofileviewer.cpp:939
 #, kde-format
 msgid "Star %1"
 msgstr "星点 %1"
@@ -33767,22 +33845,22 @@ msgstr "Web 管理器状态：在线"
 msgid "Active Profile: %1"
 msgstr "当前配置文件：%1"
 
-#: indi/clientmanagerlite.cpp:237
+#: indi/clientmanagerlite.cpp:239
 #, kde-format
 msgid "Web Manager Status: Offline"
 msgstr "Web 管理器状态：离线"
 
-#: indi/clientmanagerlite.cpp:248 kstarslite/qml/indi/INDIControlPanel.qml:122
+#: indi/clientmanagerlite.cpp:250 kstarslite/qml/indi/INDIControlPanel.qml:122
 #, kde-format, kde-kuit-format
 msgid "Web Manager Status:"
 msgstr "Web 管理器状态："
 
-#: indi/clientmanagerlite.cpp:796
+#: indi/clientmanagerlite.cpp:798
 #, kde-format
 msgid "JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)"
 msgstr "JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)"
 
-#: indi/clientmanagerlite.cpp:1098
+#: indi/clientmanagerlite.cpp:1103
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -34768,22 +34846,22 @@ msgstr "驱动后启动脚本失败，退出代码: %1"
 msgid "Pre driver shutdown script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:377
+#: indi/servermanager.cpp:379
 #, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:521
+#: indi/servermanager.cpp:523
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "连接到 INDI 服务器 %1:%2 终止: %3"
 
-#: indi/servermanager.cpp:574
+#: indi/servermanager.cpp:576
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "INDI 驱动 <b>%1</b> 已崩溃。重新启动吗？"
 
-#: indi/servermanager.cpp:575
+#: indi/servermanager.cpp:577
 #, kde-format
 msgid "Driver crash"
 msgstr "驱动崩溃"
@@ -35157,7 +35235,7 @@ msgstr "显示数字巡天(DSS)图像"
 #: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:1002
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
-#: skycomponents/starcomponent.cpp:518 skyobjects/starobject.cpp:633
+#: skycomponents/starcomponent.cpp:518 skyobjects/starobject.cpp:634
 #, kde-format
 msgid "star"
 msgstr "恒星"
@@ -71133,22 +71211,22 @@ msgstr "Xplanet"
 msgid "Developer"
 msgstr "开发者"
 
-#: kstarsactions.cpp:1210 kstarsactions.cpp:2086 kstarsinit.cpp:287
+#: kstarsactions.cpp:1210 kstarsactions.cpp:2088 kstarsinit.cpp:287
 #, kde-format
 msgid "Hide Terrain"
 msgstr "隐藏地景"
 
-#: kstarsactions.cpp:1210 kstarsactions.cpp:2086 kstarsinit.cpp:288
+#: kstarsactions.cpp:1210 kstarsactions.cpp:2088 kstarsinit.cpp:288
 #, kde-format
 msgid "Show Terrain"
 msgstr "显示地景"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2096 kstarsinit.cpp:292
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2098 kstarsinit.cpp:292
 #, kde-format
 msgid "Hide Image Overlays"
 msgstr "隐藏图像图层"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2096 kstarsinit.cpp:293
+#: kstarsactions.cpp:1214 kstarsactions.cpp:2098 kstarsinit.cpp:293
 #, kde-format
 msgid "Show Image Overlays"
 msgstr "叠加图像图层"
@@ -71171,7 +71249,7 @@ msgstr "KStars 脚本 (*.kstars)"
 msgid "Executing remote scripts is not supported."
 msgstr "不支持执行远程脚本。"
 
-#: kstarsactions.cpp:1439 oal/execute.cpp:319 tools/observinglist.cpp:906
+#: kstarsactions.cpp:1439 oal/execute.cpp:320 tools/observinglist.cpp:906
 #, kde-format
 msgid "Could not open file %1"
 msgstr "无法打开文件 %1"
@@ -72324,22 +72402,22 @@ msgstr "不重置"
 msgid "&Themes"
 msgstr "主题(&T)"
 
-#: kstarslite.cpp:115
+#: kstarslite.cpp:118
 #, kde-format
 msgid "Version: %1"
 msgstr "版本：%1"
 
-#: kstarslite.cpp:116
+#: kstarslite.cpp:119
 #, kde-format
 msgid "Build: %1"
 msgstr "生成: %1"
 
-#: kstarslite.cpp:117
+#: kstarslite.cpp:121
 #, kde-format
 msgid "(c), The KStars Team"
 msgstr "(c), The KStars Team"
 
-#: kstarslite.cpp:118
+#: kstarslite.cpp:122
 #, kde-format
 msgid "License: GPLv2"
 msgstr "许可证： GPLv2"
@@ -72351,7 +72429,7 @@ msgstr "许可证： GPLv2"
 msgid "Pluto"
 msgstr "冥王星"
 
-#: kstarslite/dialogs/detaildialoglite.cpp:442 printing/detailstable.cpp:522
+#: kstarslite/dialogs/detaildialoglite.cpp:442 printing/detailstable.cpp:523
 #, kde-format
 msgid "Dec (%1):"
 msgstr "赤纬(%1)："
@@ -77415,7 +77493,7 @@ msgctxt "@title:window"
 msgid "Execute Session"
 msgstr "执行会话"
 
-#: oal/execute.cpp:154 oal/execute.cpp:419
+#: oal/execute.cpp:154 oal/execute.cpp:420
 #, kde-format
 msgid "Next Page >"
 msgstr "下一页 >"
@@ -79031,12 +79109,12 @@ msgstr ""
 msgid "Timeout for plate-solving an overlay image (seconds)."
 msgstr ""
 
-#: options/opssatellites.cpp:104
+#: options/opssatellites.cpp:110
 #, kde-format
 msgid "Satellite Name"
 msgstr "卫星名称"
 
-#: options/opssatellites.cpp:180
+#: options/opssatellites.cpp:186
 #, kde-format
 msgid "%1 position calculation error: %2."
 msgstr ""
@@ -79712,17 +79790,17 @@ msgstr "跳过像素加速"
 msgid "Transparency speedup"
 msgstr "透明度加速"
 
-#: printing/detailstable.cpp:314
+#: printing/detailstable.cpp:315
 #, kde-format
 msgid "Names:"
 msgstr "名称："
 
-#: printing/detailstable.cpp:334
+#: printing/detailstable.cpp:335
 #, kde-format
 msgid "B-V index:"
 msgstr "B-V 索引："
 
-#: printing/detailstable.cpp:448
+#: printing/detailstable.cpp:449
 #, kde-format
 msgid "Asteroid/Comet details"
 msgstr "小行星/彗星细节"
@@ -80845,7 +80923,7 @@ msgstr "木卫四"
 
 #: skyobjects/ksearthshadow.cpp:11 skyobjects/ksplanet.cpp:175
 #: skyobjects/skyobject.cpp:287 tools/eclipsetool.cpp:28
-#: tools/eclipsetool/lunareclipsehandler.h:57
+#: tools/eclipsetool/lunareclipsehandler.h:64
 #, kde-format
 msgid "Earth Shadow"
 msgstr "地球阴影"
@@ -81100,127 +81178,127 @@ msgstr "%1：欧洲南方天文台甚大望远镜 [对非商业性质使用免�
 msgid "Show"
 msgstr "显示"
 
-#: skyobjects/skypoint.cpp:642
+#: skyobjects/skypoint.cpp:643
 #, kde-format
 msgid "lat and LST parameters should only be used in KSPlanetBase objects."
 msgstr "lat和LST参数只使用于KSPlanetBase组件"
 
-#: skyobjects/starobject.cpp:579
+#: skyobjects/starobject.cpp:580
 #, kde-format
 msgid "alpha"
 msgstr "α"
 
-#: skyobjects/starobject.cpp:580
+#: skyobjects/starobject.cpp:581
 #, kde-format
 msgid "beta"
 msgstr "β"
 
-#: skyobjects/starobject.cpp:581
+#: skyobjects/starobject.cpp:582
 #, kde-format
 msgid "gamma"
 msgstr "γ"
 
-#: skyobjects/starobject.cpp:582
+#: skyobjects/starobject.cpp:583
 #, kde-format
 msgid "delta"
 msgstr "δ"
 
-#: skyobjects/starobject.cpp:583
+#: skyobjects/starobject.cpp:584
 #, kde-format
 msgid "epsilon"
 msgstr "ε"
 
-#: skyobjects/starobject.cpp:584
+#: skyobjects/starobject.cpp:585
 #, kde-format
 msgid "zeta"
 msgstr "ζ"
 
-#: skyobjects/starobject.cpp:585
+#: skyobjects/starobject.cpp:586
 #, kde-format
 msgid "eta"
 msgstr "η"
 
-#: skyobjects/starobject.cpp:586
+#: skyobjects/starobject.cpp:587
 #, kde-format
 msgid "theta"
 msgstr "θ"
 
-#: skyobjects/starobject.cpp:587
+#: skyobjects/starobject.cpp:588
 #, kde-format
 msgid "iota"
 msgstr "ι"
 
-#: skyobjects/starobject.cpp:588
+#: skyobjects/starobject.cpp:589
 #, kde-format
 msgid "kappa"
 msgstr "κ"
 
-#: skyobjects/starobject.cpp:589
+#: skyobjects/starobject.cpp:590
 #, kde-format
 msgid "lambda"
 msgstr "λ"
 
-#: skyobjects/starobject.cpp:590
+#: skyobjects/starobject.cpp:591
 #, kde-format
 msgid "mu"
 msgstr "μ"
 
-#: skyobjects/starobject.cpp:591
+#: skyobjects/starobject.cpp:592
 #, kde-format
 msgid "nu"
 msgstr "ν"
 
-#: skyobjects/starobject.cpp:592
+#: skyobjects/starobject.cpp:593
 #, kde-format
 msgid "xi"
 msgstr "ξ"
 
-#: skyobjects/starobject.cpp:593
+#: skyobjects/starobject.cpp:594
 #, kde-format
 msgid "omicron"
 msgstr "ο"
 
-#: skyobjects/starobject.cpp:594
+#: skyobjects/starobject.cpp:595
 #, kde-format
 msgid "pi"
 msgstr "π"
 
-#: skyobjects/starobject.cpp:595
+#: skyobjects/starobject.cpp:596
 #, kde-format
 msgid "rho"
 msgstr "ρ"
 
-#: skyobjects/starobject.cpp:598
+#: skyobjects/starobject.cpp:599
 #, kde-format
 msgid "sigma"
 msgstr "σ"
 
-#: skyobjects/starobject.cpp:599
+#: skyobjects/starobject.cpp:600
 #, kde-format
 msgid "tau"
 msgstr "τ"
 
-#: skyobjects/starobject.cpp:600
+#: skyobjects/starobject.cpp:601
 #, kde-format
 msgid "upsilon"
 msgstr "υ"
 
-#: skyobjects/starobject.cpp:601
+#: skyobjects/starobject.cpp:602
 #, kde-format
 msgid "phi"
 msgstr "φ"
 
-#: skyobjects/starobject.cpp:602
+#: skyobjects/starobject.cpp:603
 #, kde-format
 msgid "chi"
 msgstr "χ"
 
-#: skyobjects/starobject.cpp:603
+#: skyobjects/starobject.cpp:604
 #, kde-format
 msgid "psi"
 msgstr "ψ"
 
-#: skyobjects/starobject.cpp:604
+#: skyobjects/starobject.cpp:605
 #, kde-format
 msgid "omega"
 msgstr "ω"
@@ -82913,85 +82991,85 @@ msgstr "格林威治时间"
 msgid "Julian date"
 msgstr "儒略日期"
 
-#: tools/conjunctions.cpp:97
+#: tools/conjunctions.cpp:98
 #, kde-format
 msgid "Single Object"
 msgstr "单一天体"
 
-#: tools/conjunctions.cpp:120
+#: tools/conjunctions.cpp:121
 #, kde-format
 msgid "Conjunction/Opposition"
 msgstr "合/冲"
 
-#: tools/conjunctions.cpp:120
+#: tools/conjunctions.cpp:121
 #, kde-format
 msgid "Date & Time (UT)"
 msgstr "日期和时间(UT)"
 
-#: tools/conjunctions.cpp:121
+#: tools/conjunctions.cpp:122
 #, kde-format
 msgid "Object 1"
 msgstr "天体1"
 
-#: tools/conjunctions.cpp:121
+#: tools/conjunctions.cpp:122
 #, kde-format
 msgid "Object 2"
 msgstr "天体2"
 
-#: tools/conjunctions.cpp:121
+#: tools/conjunctions.cpp:122
 #, kde-format
 msgid "Separation"
 msgstr "分离"
 
-#: tools/conjunctions.cpp:210
+#: tools/conjunctions.cpp:211
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Conjunctions"
 msgstr ""
 
-#: tools/conjunctions.cpp:257
+#: tools/conjunctions.cpp:259
 #, kde-format
 msgid ""
 "Maximum separation entered is not a valid angle. Use the What's this help "
 "feature for information on how to enter a valid angle"
 msgstr ""
 
-#: tools/conjunctions.cpp:265
+#: tools/conjunctions.cpp:268
 #, kde-format
 msgid ""
 "Please select an object to check conjunctions with, by clicking on the 'Find "
 "Object' button."
 msgstr "请选择一个天体来进行望远镜校准,请点击'寻找天体'按钮"
 
-#: tools/conjunctions.cpp:272
+#: tools/conjunctions.cpp:275
 #, kde-format
 msgid "Please select two different objects to check conjunctions with."
 msgstr "请选择两个不同的天体来进行望远镜校准."
 
-#: tools/conjunctions.cpp:354
+#: tools/conjunctions.cpp:357
 #, kde-format
 msgid "Compute conjunction..."
 msgstr "计算合..."
 
-#: tools/conjunctions.cpp:355
+#: tools/conjunctions.cpp:358
 #, kde-format
 msgctxt "@title:window"
 msgid "Conjunction"
 msgstr "合"
 
-#: tools/conjunctions.cpp:368
+#: tools/conjunctions.cpp:371
 #, kde-format
 msgid "Compute conjunction between %1 and %2"
 msgstr "计算 %1 与 %2 间的合"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ModeSelector)
-#: tools/conjunctions.cpp:415 tools/conjunctions.ui:165
+#: tools/conjunctions.cpp:418 tools/conjunctions.ui:165
 #, kde-format
 msgid "Conjunction"
 msgstr "合"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ModeSelector)
-#: tools/conjunctions.cpp:417 tools/conjunctions.ui:170
+#: tools/conjunctions.cpp:420 tools/conjunctions.ui:170
 #, kde-format
 msgid "Opposition"
 msgstr "冲"
@@ -83060,38 +83138,38 @@ msgstr "计算"
 msgid "Conjunctions / Oppositions"
 msgstr "合/冲"
 
-#: tools/eclipsetool.cpp:130
+#: tools/eclipsetool.cpp:135
 #, kde-format
 msgid "View in SkyMap"
 msgstr "在天图中查看"
 
-#: tools/eclipsetool.cpp:137
+#: tools/eclipsetool.cpp:144
 #, kde-format
 msgid "Show Details"
 msgstr "显示细节"
 
-#: tools/eclipsetool.cpp:194
+#: tools/eclipsetool.cpp:206
 #, kde-format
 msgid "Full"
 msgstr "完全"
 
-#: tools/eclipsetool.cpp:196
+#: tools/eclipsetool.cpp:208
 #, kde-format
 msgid "Partial"
 msgstr "部分"
 
-#: tools/eclipsetool.cpp:219
+#: tools/eclipsetool.cpp:231
 #, kde-format
 msgid "CSV Files (*.csv)"
 msgstr "CSV 文件 (*.csv)"
 
-#: tools/eclipsetool.cpp:221
+#: tools/eclipsetool.cpp:233
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Eclipses"
 msgstr "导出蚀"
 
-#: tools/eclipsetool.cpp:228
+#: tools/eclipsetool.cpp:241
 #, kde-format
 msgid "Could not export."
 msgstr "无法导出。"
@@ -84396,7 +84474,7 @@ msgid "Second position"
 msgstr "第二个位置"
 
 #: tools/modcalcangdist.cpp:131 tools/modcalcapcoord.cpp:142
-#: tools/modcalcdaylength.cpp:257 tools/modcalcgalcoord.cpp:191
+#: tools/modcalcdaylength.cpp:258 tools/modcalcgalcoord.cpp:191
 #: tools/modcalcgeodcoord.cpp:230 tools/modcalcjd.cpp:116
 #: tools/modcalcplanets.cpp:194 tools/modcalcsidtime.cpp:204
 #: tools/modcalcvizequinox.cpp:69 tools/modcalcvlsr.cpp:289
@@ -84407,7 +84485,7 @@ msgid "Could not open file %1."
 msgstr "无法打开文件 %1。"
 
 #: tools/modcalcangdist.cpp:145 tools/modcalcapcoord.cpp:155
-#: tools/modcalcdaylength.cpp:270 tools/modcalcgalcoord.cpp:203
+#: tools/modcalcdaylength.cpp:271 tools/modcalcgalcoord.cpp:203
 #: tools/modcalcgeodcoord.cpp:243 tools/modcalcjd.cpp:129
 #: tools/modcalcplanets.cpp:205 tools/modcalcsidtime.cpp:219
 #: tools/modcalcvizequinox.cpp:83 tools/modcalcvlsr.cpp:301
@@ -84416,7 +84494,7 @@ msgid "Invalid file: %1"
 msgstr "无效的文件：%1"
 
 #: tools/modcalcangdist.cpp:146 tools/modcalcapcoord.cpp:155
-#: tools/modcalcdaylength.cpp:271 tools/modcalcgalcoord.cpp:204
+#: tools/modcalcdaylength.cpp:272 tools/modcalcgalcoord.cpp:204
 #: tools/modcalcgeodcoord.cpp:244 tools/modcalcjd.cpp:130
 #: tools/modcalcplanets.cpp:206 tools/modcalcsidtime.cpp:220
 #: tools/modcalcvizequinox.cpp:83 tools/modcalcvlsr.cpp:301
@@ -84612,18 +84690,18 @@ msgstr "不升起"
 msgid "Does not set"
 msgstr "不落下"
 
-#: tools/modcalcdaylength.cpp:283
+#: tools/modcalcdaylength.cpp:284
 #, kde-format
 msgctxt "%1 is a location on earth"
 msgid "Almanac for %1"
 msgstr "%1 的年历"
 
-#: tools/modcalcdaylength.cpp:285
+#: tools/modcalcdaylength.cpp:286
 #, kde-format
 msgid "computed by KStars"
 msgstr "KStars 计算"
 
-#: tools/modcalcdaylength.cpp:350
+#: tools/modcalcdaylength.cpp:351
 #, kde-format
 msgid "Results of Almanac calculation"
 msgstr "星历表计算结果"
@@ -85308,12 +85386,12 @@ msgid ""
 "connection?"
 msgstr ""
 
-#: tools/nameresolver.cpp:219
+#: tools/nameresolver.cpp:220
 #, kde-kuit-format
 msgid "Error parsing XML from CDS Sesame: %1 on line %2 @ col = %3"
 msgstr ""
 
-#: tools/nameresolver.cpp:232
+#: tools/nameresolver.cpp:233
 #, kde-kuit-format
 msgid "Resolved %1 successfully."
 msgstr "解析 %1 成功。"
@@ -85900,55 +85978,55 @@ msgid "Remove from Session Plan"
 msgstr "从会话计划中删除"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:273 tools/obslistwizard.cpp:415
-#: tools/obslistwizard.cpp:478 tools/obslistwizard.cpp:496
+#: tools/obslistwizard.cpp:273 tools/obslistwizard.cpp:416
+#: tools/obslistwizard.cpp:479 tools/obslistwizard.cpp:498
 #: tools/obslistwizard.ui:125
 #, kde-format
 msgid "Open clusters"
 msgstr "疏散星团"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:274 tools/obslistwizard.cpp:417
-#: tools/obslistwizard.cpp:479 tools/obslistwizard.cpp:501
+#: tools/obslistwizard.cpp:274 tools/obslistwizard.cpp:418
+#: tools/obslistwizard.cpp:480 tools/obslistwizard.cpp:503
 #: tools/obslistwizard.ui:130
 #, kde-format
 msgid "Globular clusters"
 msgstr "球状星团"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:275 tools/obslistwizard.cpp:419
-#: tools/obslistwizard.cpp:480 tools/obslistwizard.cpp:507
+#: tools/obslistwizard.cpp:275 tools/obslistwizard.cpp:420
+#: tools/obslistwizard.cpp:481 tools/obslistwizard.cpp:509
 #: tools/obslistwizard.ui:135
 #, kde-format
 msgid "Gaseous nebulae"
 msgstr "气体星云"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:276 tools/obslistwizard.cpp:421
-#: tools/obslistwizard.cpp:481 tools/obslistwizard.cpp:512
+#: tools/obslistwizard.cpp:276 tools/obslistwizard.cpp:422
+#: tools/obslistwizard.cpp:482 tools/obslistwizard.cpp:514
 #: tools/obslistwizard.ui:140
 #, kde-format
 msgid "Planetary nebulae"
 msgstr "行星状星云"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: tools/obslistwizard.cpp:283 tools/obslistwizard.cpp:407
-#: tools/obslistwizard.cpp:461 tools/obslistwizard.ui:110
+#: tools/obslistwizard.cpp:283 tools/obslistwizard.cpp:408
+#: tools/obslistwizard.cpp:462 tools/obslistwizard.ui:110
 #, kde-format
 msgid "Sun, moon, planets"
 msgstr "太阳，月亮和行星"
 
-#: tools/obslistwizard.cpp:353
+#: tools/obslistwizard.cpp:354
 #, kde-format
 msgid "Illegal rectangle specified, no region selection possible."
 msgstr ""
 
-#: tools/obslistwizard.cpp:392
+#: tools/obslistwizard.cpp:393
 #, kde-format
 msgid "Illegal circle specified, no region selection possible."
 msgstr ""
 
-#: tools/obslistwizard.cpp:545
+#: tools/obslistwizard.cpp:547
 #, kde-format
 msgid "Your observing list currently has 1 object"
 msgid_plural "Your observing list currently has %1 objects"
@@ -87439,12 +87517,12 @@ msgctxt "@title:window"
 msgid "What's up Tonight"
 msgstr "今夜天象"
 
-#: tools/wutdialog.cpp:70 tools/wutdialog.cpp:650
+#: tools/wutdialog.cpp:70 tools/wutdialog.cpp:651
 #, kde-format
 msgid "at %1"
 msgstr "于 %1"
 
-#: tools/wutdialog.cpp:72 tools/wutdialog.cpp:629
+#: tools/wutdialog.cpp:72 tools/wutdialog.cpp:630
 #, kde-format
 msgid "The night of %1"
 msgstr "%1 的夜晚"
@@ -87455,13 +87533,13 @@ msgid "Star Clusters"
 msgstr "星团"
 
 #: tools/wutdialog.cpp:147 tools/wutdialog.cpp:148 tools/wutdialog.cpp:207
-#: tools/wutdialog.cpp:208 tools/wutdialog.cpp:518 tools/wutdialog.cpp:519
+#: tools/wutdialog.cpp:208 tools/wutdialog.cpp:519 tools/wutdialog.cpp:520
 #, kde-format
 msgid "circumpolar"
 msgstr "天极"
 
 #: tools/wutdialog.cpp:154 tools/wutdialog.cpp:155 tools/wutdialog.cpp:212
-#: tools/wutdialog.cpp:213 tools/wutdialog.cpp:523 tools/wutdialog.cpp:524
+#: tools/wutdialog.cpp:213 tools/wutdialog.cpp:524 tools/wutdialog.cpp:525
 #, kde-format
 msgid "does not rise"
 msgstr "不升起"
@@ -87513,27 +87591,27 @@ msgstr "月出：%1 在 %2"
 msgid "Moon sets at: %1 on %2"
 msgstr "月落：%1 在 %2"
 
-#: tools/wutdialog.cpp:498
+#: tools/wutdialog.cpp:499
 #, kde-format
 msgid "No Object Selected"
 msgstr "没有选中天体"
 
-#: tools/wutdialog.cpp:507
+#: tools/wutdialog.cpp:508
 #, kde-format
 msgid "Object Not Found"
 msgstr "天体未找到"
 
-#: tools/wutdialog.cpp:542
+#: tools/wutdialog.cpp:543
 #, kde-format
 msgid "Rises at: %1"
 msgstr "升起时间：%1"
 
-#: tools/wutdialog.cpp:543
+#: tools/wutdialog.cpp:544
 #, kde-format
 msgid "Transits at: %1"
 msgstr "中天时间：%1"
 
-#: tools/wutdialog.cpp:544
+#: tools/wutdialog.cpp:545
 #, kde-format
 msgid "Sets at: %1"
 msgstr "落下时间：%1"
@@ -88222,19 +88300,19 @@ msgstr "TSC 投影"
 msgid "FIFO files are not supported on Windows"
 msgstr "Windows 不支持管道文件"
 
-#: xplanet/opsxplanet.cpp:219
+#: xplanet/opsxplanet.cpp:220
 #, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Config File"
 msgstr "选择 XPlanet 配置文件"
 
-#: xplanet/opsxplanet.cpp:231
+#: xplanet/opsxplanet.cpp:232
 #, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Star Map File"
 msgstr "选择 XPlanet 星图文件"
 
-#: xplanet/opsxplanet.cpp:244
+#: xplanet/opsxplanet.cpp:245
 #, kde-format
 msgctxt "@title:window"
 msgid "Select XPlanet Arc File"
