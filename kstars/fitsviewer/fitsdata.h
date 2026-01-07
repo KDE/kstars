@@ -131,9 +131,10 @@ class FITSData : public QObject
         /**
          * @brief parseSolution Parse the WCS solution information from the header into the given struct.
          * @param solution Solution structure to fill out.
+         * @param stack tells the function to use the stack header rather than "normal" header
          * @return True if parsing successful, false otherwise.
          */
-        bool parseSolution(FITSImage::Solution &solution) const;
+        bool parseSolution(FITSImage::Solution &solution, const bool stack = false) const;
 
         /* Save FITS or JPG/PNG*/
         bool saveImage(const QString &newFilename);
@@ -269,7 +270,7 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////
         // FITS Record
-        bool getRecordValue(const QString &key, QVariant &value) const;
+        bool getRecordValue(const QString &key, QVariant &value, const bool stack = false) const;
         void updateRecordValue(const QString &key, QVariant value, const QString &comment, const bool stack = false);
         const QList<Record> &getRecords() const
         {
@@ -948,8 +949,9 @@ class FITSData : public QObject
 
         /**
              * @brief Setup WCS parameters for non-FITS files so plate solved solutions can be used with catalog functionality.
+             * @param stack whether to use stack header or normal header
              */
-        void setupWCSParams();
+        void setupWCSParams(const bool stack = false);
 
         // Record last FITS error
         void recordLastError(int errorCode);
@@ -1081,13 +1083,26 @@ class FITSData : public QObject
         void stackFITSLoaded();
 
         /**
-         * @brief A quicker version of loadFITSImage used by Live Stacking
+         * @brief Load a sub for Live Stacking
          * @param filename to open
-         * @param buffer
+         * @return success
+         */
+        bool stackLoadImage(QString filename);
+
+        /**
+         * @brief Load a FITS sub for Live Stacking
+         * @param filename to open
          * @param isCompressed
          * @return success
          */
-        bool stackLoadFITSImage(QString filename, const bool isCompressed);
+        bool stackLoadFITSImage(QString filename, const bool isCompressed = false);
+
+        /**
+         * @brief Load a XISF sub for Live Stacking
+         * @param filename to open
+         * @return success
+         */
+        bool stackLoadXISFImage(QString filename);
 
         /**
          * @brief stackCheckDebayer checks whether a stack sub needs to be debayered

@@ -309,6 +309,10 @@ static CatObjType catObjTypes[MAX_CAT_OBJ_TYPES] =
 };
 
 // Live Stacking
+// These filter patterns define the types of file Live Stacker can operate on
+const QStringList STACK_FITS_FILTER { "*.fits", "*.fits.fz", "*.fit", "*.fts" };
+const QStringList STACK_XISF_FILTER { "*.xisf" };
+
 enum class LiveStackAlignMethod { PLATE_SOLVE, NONE };
 static const QMap<LiveStackAlignMethod, QString> LiveStackAlignMethodNames
 {

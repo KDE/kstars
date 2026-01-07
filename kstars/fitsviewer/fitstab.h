@@ -269,6 +269,7 @@ class FITSTab : public QWidget
         void toggleMultiC();
         void stackDirChanged(const QString &text);
         void launchLiveStackingHelp();
+        QString getStackDialogFilters();
         void selectLiveStackMaster(QLineEdit *targetEdit, const QString &title);
         void selectLiveStackAlignSub();
         void applyTypeFilter();
@@ -316,6 +317,7 @@ class FITSTab : public QWidget
         bool m_StackExtendedPlateSolve { false };
         bool m_StackMultiC { true };
         QString m_StackDefTabName;
+        QString m_StackLastFilter;
 
         // Stack Monitor
         StackMonitor *m_StackMonitor = nullptr;

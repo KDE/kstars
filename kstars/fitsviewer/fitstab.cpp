@@ -56,6 +56,9 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
     {
         undoStack->push(command);
     });
+    // Setup the default stack filter for file choosers
+    const QStringList allPatterns = STACK_FITS_FILTER + STACK_XISF_FILTER;
+    m_StackLastFilter = QString("All (%1)").arg(allPatterns.join(' '));
 }
 
 FITSTab::~FITSTab()
@@ -1375,11 +1378,21 @@ void FITSTab::stackDirChanged(const QString &text)
     m_LiveStackingUI.StartB->setEnabled(!cantStack);
 }
 
+QString FITSTab::getStackDialogFilters()
+{
+    QStringList allFilters = STACK_FITS_FILTER + STACK_XISF_FILTER;
+    QString allFilter = QString("All (%1)").arg(allFilters.join(' '));
+    QString FITSFilter = QString("FITS (%1)").arg(STACK_FITS_FILTER.join(' '));
+    QString XISFFilter = QString("XISF (%1)").arg(STACK_XISF_FILTER.join(' '));
+    QString filter = allFilter + ";;" + FITSFilter + ";;" + XISFFilter;
+    return allFilter + ";;" + FITSFilter + ";;" + XISFFilter;
+}
+
 void FITSTab::selectLiveStackAlignSub()
 {
-    QString selectedFilter;
     QString file = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Select Alignment Sub"),
-                   m_CurrentStackDir, "FITS (*.fits *.fits.fz *.fit *.fts)", &selectedFilter);
+                   m_CurrentStackDir, getStackDialogFilters(), &m_StackLastFilter);
+
     if (!file.isNull())
     {
         QUrl sequenceURL = QUrl::fromLocalFile(file);
@@ -1391,9 +1404,8 @@ void FITSTab::selectLiveStackAlignSub()
 
 void FITSTab::selectLiveStackMaster(QLineEdit *targetEdit, const QString &title)
 {
-    QString selectedFilter;
     QString file = QFileDialog::getOpenFileName(this, i18nc("@title:window", "%1", title),
-                   m_CurrentStackDir, "FITS (*.fits *.fits.gz *.fit);;XISF (*.xisf)", &selectedFilter);
+                   m_CurrentStackDir, getStackDialogFilters(), &m_StackLastFilter);
     if (!file.isNull())
     {
         QUrl sequenceURL = QUrl::fromLocalFile(file);

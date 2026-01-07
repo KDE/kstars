@@ -84,7 +84,7 @@ class FITSDirWatcher : public QObject
         QSharedPointer<QFileSystemWatcher> m_Watcher;
         QVector<QString> m_WatchedPaths;
         QVector<LiveStackFile> m_CurrentFiles;
-        QStringList m_NameFilters { "*.fits", "*.fits.fz", "*.fit", "*.fts" };
+        QStringList m_NameFilters = STACK_FITS_FILTER + STACK_XISF_FILTER;
         QDir::Filters m_FilterFlags = QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks;
         QDir::SortFlags m_SortFlags = QDir::Time | QDir::Reversed;
         QMap<QString, QPair<int, QString>> m_FileToID;

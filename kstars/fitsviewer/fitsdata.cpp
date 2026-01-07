@@ -1039,7 +1039,7 @@ bool FITSData::processNextSub(LiveStackFile &sub)
     QFuture<bool> future = QtConcurrent::run([this, sub]() -> bool
     {
         double snr = -1.0;
-        bool ok = stackLoadFITSImage(sub.file, false);
+        bool ok = stackLoadImage(sub.file);
         if (!ok)
             qCDebug(KSTARS_FITS) << QString("Unable to load sub %1").arg(sub.file);
         else
@@ -1082,7 +1082,7 @@ void FITSData::processAlignMaster(const QString &alignMaster)
     // Lambda to load the align master in the background
     QFuture<bool> future = QtConcurrent::run([this, alignMaster]() -> bool
     {
-        bool load = stackLoadFITSImage(alignMaster, false);
+        bool load = stackLoadImage(alignMaster);
         if (!load)
             qCDebug(KSTARS_FITS) << QString("Unable to load align master");
         return load;
@@ -1110,7 +1110,7 @@ void FITSData::processMasters()
             // Lambda to load the dark in the background
             QFuture<bool> future = QtConcurrent::run([this, dark]() -> bool
             {
-                bool load = stackLoadFITSImage(dark, false);
+                bool load = stackLoadImage(dark);
                 if (!load)
                     qCDebug(KSTARS_FITS) << QString("Unable to load master dark");
                 else
@@ -1144,7 +1144,7 @@ void FITSData::processMasters()
             // Lambda to load the dark in the background
             QFuture<bool> future = QtConcurrent::run([this, flat]() -> bool
             {
-                bool load = stackLoadFITSImage(flat, false);
+                bool load = stackLoadImage(flat);
                 if (!load)
                     qCDebug(KSTARS_FITS) << QString("Unable to load master flat");
                 else
@@ -1843,9 +1843,23 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const bool isCompressed)
     return true;
 }
 
+#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
+bool FITSData::stackLoadImage(QString filename)
+{
+    QFileInfo info(filename);
+    QString extension = info.completeSuffix().toLower();
+
+    if (extension.contains("fit") || extension.contains("fz"))
+        return stackLoadFITSImage(filename);
+    if (extension.contains("xisf"))
+        return stackLoadXISFImage(filename);
+
+    qCDebug(KSTARS_FITS) << QString("File %1 has unknown extension %2. Ignoring...").arg(filename).arg(extension);
+    return false;
+}
+
 // Load a FITS image temporarily for stacking so no need to setup all the global
 // variables required for a "normal" load
-#if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
 bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
 {
     int status = 0, anynull = 0;
@@ -2038,7 +2052,7 @@ bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
             qCDebug(KSTARS_FITS) << QString("Unsupported bit depth for debayering: %1 bytes per pixel")
                                  .arg(m_StackStatistics.stats.bytesPerPixel);
     }
-    // JEE In multi-channel mode we on only want single channel images so reject any that aren't
+    // In multi-channel mode we on only want single channel images so reject any that aren't
     if (m_StackMultiC && m_StackStatistics.stats.channels != 1)
     {
         qCDebug(KSTARS_FITS) << QString("Image %1 has channels=%2. Inconsistent with multi-channel stack - ignoring...")
@@ -2046,6 +2060,125 @@ bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
         return false;
     }
     return true;
+}
+
+bool FITSData::stackLoadXISFImage(QString filename)
+{
+#ifdef HAVE_XISF
+    try
+    {
+        LibXISF::XISFReader xisfReader;
+        xisfReader.open(filename.toLocal8Bit().data());
+
+        if (xisfReader.imagesCount() == 0)
+        {
+            qCDebug(KSTARS_FITS) << QString("File %1 contains no images").arg(filename);
+            return false;
+        }
+
+        const LibXISF::Image &image = xisfReader.getImage(0);
+
+        m_StackStatistics.stats.width = image.width();
+        m_StackStatistics.stats.height = image.height();
+        m_StackStatistics.stats.channels = image.channelCount();
+        m_StackStatistics.stats.samples_per_channel = m_StackStatistics.stats.width * m_StackStatistics.stats.height;
+
+        // Lets look at the type of image
+        // If we ever need to debayer an XISF image this is where to do it - currently not supported
+        LibXISF::Image::ColorSpace cs = image.colorSpace();
+        bool mono = (cs == LibXISF::Image::Gray && m_StackStatistics.stats.channels == 1);
+        bool color = (cs == LibXISF::Image::RGB && m_StackStatistics.stats.channels == 3);
+
+        // In multi-channel mode we on only want single channel images so reject any that aren't
+        if (m_StackMultiC && !mono)
+        {
+            qCDebug(KSTARS_FITS) << QString("Image %1 is not mono. Inconsistent with multi-channel mode - ignoring...")
+                                 .arg(filename);
+            return false;
+        }
+
+        if (!mono && !color)
+        {
+            qCDebug(KSTARS_FITS) << QString("Image %1 is neither mono nor color. Ignoring...").arg(filename);
+            return false;
+        }
+
+        switch (image.sampleFormat())
+        {
+            case LibXISF::Image::UInt8:
+                m_StackStatistics.stats.dataType      = TBYTE;
+                m_StackStatistics.stats.bytesPerPixel = sizeof(LibXISF::UInt8);
+                m_StackStatistics.cvType              = CV_MAKETYPE(CV_8U, m_StackStatistics.stats.channels);
+                break;
+            case LibXISF::Image::UInt16:
+                m_StackStatistics.stats.dataType      = TUSHORT;
+                m_StackStatistics.stats.bytesPerPixel = sizeof(LibXISF::UInt16);
+                m_StackStatistics.cvType              = CV_MAKETYPE(CV_16U, m_StackStatistics.stats.channels);
+                break;
+            case LibXISF::Image::UInt32:
+                m_StackStatistics.stats.dataType      = TULONG;
+                m_StackStatistics.stats.bytesPerPixel = sizeof(LibXISF::UInt32);
+                m_StackStatistics.cvType              = -1;
+                qCDebug(KSTARS_FITS) << "OpenCV does not support unsigned long datatype";
+                return false;
+            case LibXISF::Image::Float32:
+                m_StackStatistics.stats.dataType      = TFLOAT;
+                m_StackStatistics.stats.bytesPerPixel = sizeof(LibXISF::Float32);
+                m_StackStatistics.cvType              = CV_MAKETYPE(CV_32F, m_StackStatistics.stats.channels);
+                break;
+            case LibXISF::Image::Float64:
+                m_StackStatistics.stats.dataType      = TDOUBLE;
+                m_StackStatistics.stats.bytesPerPixel = sizeof(LibXISF::Float64);
+                m_StackStatistics.cvType              = CV_MAKETYPE(CV_64F, m_StackStatistics.stats.channels);
+                break;
+            default:
+                qCDebug(KSTARS_FITS) << QString("Sample format %1 is not supported")
+                                     .arg(LibXISF::Image::sampleFormatString(image.sampleFormat()).c_str());
+                return false;
+        }
+
+        m_StackHeaderRecords.clear();
+        auto &fitsKeywords = image.fitsKeywords();
+        for(auto &fitsKeyword : fitsKeywords)
+            m_StackHeaderRecords.push_back({QString::fromStdString(fitsKeyword.name),
+                                            QString::fromStdString(fitsKeyword.value),
+                                            QString::fromStdString(fitsKeyword.comment)});
+
+        // We need to call setupWCSParams to reformat WCS keywords properly for fits
+        setupWCSParams(true);
+
+        unsigned int stackImageBufferSize = image.imageDataSize();
+        if (m_StackImageBufferSize != stackImageBufferSize)
+        {
+            if (m_StackImageBuffer != nullptr)
+                delete[] m_StackImageBuffer;
+            m_StackImageBuffer = new uint8_t[stackImageBufferSize];
+
+            if (m_StackImageBuffer != nullptr)
+                m_StackImageBufferSize = stackImageBufferSize;
+            else
+            {
+                qCDebug(KSTARS_FITS) << "FITSData: Not enough memory for stack_image_buffer channel. Requested: "
+                                     << stackImageBufferSize << " bytes.";
+                m_StackImageBufferSize = 0;
+                return false;
+            }
+        }
+
+        // This copies all channels (1 for mono, 3 for color)
+        std::memcpy(m_StackImageBuffer, image.imageData(), m_StackImageBufferSize);
+    }
+    catch (LibXISF::Error &error)
+    {
+        m_LastError = i18n("XISF file open error: ") + error.what();
+        return false;
+    }
+    return true;
+#else
+    Q_UNUSED(buffer)
+    return false;
+#endif
+
 }
 
 bool FITSData::stackLoadWCS()
@@ -2890,18 +3023,18 @@ void FITSData::makeRoiBuffer(QRect roi)
     calculateStats(false, true);
 }
 
-void FITSData::setupWCSParams()
+void FITSData::setupWCSParams(const bool stack)
 {
     FITSImage::Solution solution;
-    if (parseSolution(solution))
+    if (parseSolution(solution, stack))
     {
         const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
-        updateWCSHeaderData(solution.orientation, solution.ra, solution.dec, solution.pixscale, eastToTheRight);
+        updateWCSHeaderData(solution.orientation, solution.ra, solution.dec, solution.pixscale, eastToTheRight, stack);
 
         QVariant value;
         bool validObservationDate = false;
 
-        if (getRecordValue("DATE-OBS", value))
+        if (getRecordValue("DATE-OBS", value, stack))
         {
             QString tsString(value.toString());
             tsString = tsString.remove('\'').trimmed();
@@ -3653,14 +3786,15 @@ bool FITSData::parseHeader(const bool stack)
     return true;
 }
 
-bool FITSData::getRecordValue(const QString &key, QVariant &value) const
+bool FITSData::getRecordValue(const QString &key, QVariant &value, const bool stack) const
 {
-    auto result = std::find_if(m_HeaderRecords.begin(), m_HeaderRecords.end(), [&key](const Record & oneRecord)
+    auto &headerRecords = (stack) ? m_StackHeaderRecords : m_HeaderRecords;
+    auto result = std::find_if(headerRecords.begin(), headerRecords.end(), [&key](const Record & oneRecord)
     {
         return (oneRecord.key == key && oneRecord.value.isValid());
     });
 
-    if (result != m_HeaderRecords.end())
+    if (result != headerRecords.end())
     {
         value = (*result).value;
         return true;
@@ -3692,7 +3826,7 @@ void FITSData::updateRecordValue(const QString &key, QVariant value, const QStri
     }
 }
 
-bool FITSData::parseSolution(FITSImage::Solution &solution) const
+bool FITSData::parseSolution(FITSImage::Solution &solution, const bool stack) const
 {
     dms angleValue;
     bool raOK = false, deOK = false, coordOK = false, scaleOK = false;
@@ -3702,25 +3836,25 @@ bool FITSData::parseSolution(FITSImage::Solution &solution) const
     solution.fieldWidth = solution.fieldHeight = solution.pixscale = solution.ra = solution.dec = -1;
 
     // RA
-    if (getRecordValue("OBJCTRA", value))
+    if (getRecordValue("OBJCTRA", value, stack))
     {
         angleValue = dms::fromString(value.toString(), false);
         solution.ra = angleValue.Degrees();
         raOK = true;
     }
-    else if (getRecordValue("RA", value))
+    else if (getRecordValue("RA", value, stack))
     {
         solution.ra = value.toDouble(&raOK);
     }
 
     // DE
-    if (getRecordValue("OBJCTDEC", value))
+    if (getRecordValue("OBJCTDEC", value, stack))
     {
         angleValue = dms::fromString(value.toString(), true);
         solution.dec = angleValue.Degrees();
         deOK = true;
     }
-    else if (getRecordValue("DEC", value))
+    else if (getRecordValue("DEC", value, stack))
     {
         solution.dec = value.toDouble(&deOK);
     }
@@ -3729,45 +3863,45 @@ bool FITSData::parseSolution(FITSImage::Solution &solution) const
 
     // PixScale
     double scale = -1;
-    if (getRecordValue("SCALE", value))
+    if (getRecordValue("SCALE", value, stack))
     {
         scale = value.toDouble();
     }
 
     double focal_length = -1;
-    if (getRecordValue("FOCALLEN", value))
+    if (getRecordValue("FOCALLEN", value, stack))
     {
         focal_length = value.toDouble();
     }
 
     double pixsize1 = -1, pixsize2 = -1;
     // Pixel Size 1
-    if (getRecordValue("PIXSIZE1", value))
+    if (getRecordValue("PIXSIZE1", value, stack))
     {
         pixsize1 = value.toDouble();
     }
-    else if (getRecordValue("XPIXSZ", value))
+    else if (getRecordValue("XPIXSZ", value, stack))
     {
         pixsize1 = value.toDouble();
     }
     // Pixel Size 2
-    if (getRecordValue("PIXSIZE2", value))
+    if (getRecordValue("PIXSIZE2", value, stack))
     {
         pixsize2 = value.toDouble();
     }
-    else if (getRecordValue("YPIXSZ", value))
+    else if (getRecordValue("YPIXSZ", value, stack))
     {
         pixsize2 = value.toDouble();
     }
 
     int binx = 1, biny = 1;
     // Binning X
-    if (getRecordValue("XBINNING", value))
+    if (getRecordValue("XBINNING", value, stack))
     {
         binx = value.toDouble();
     }
     // Binning Y
-    if (getRecordValue("YBINNING", value))
+    if (getRecordValue("YBINNING", value, stack))
     {
         biny = value.toDouble();
     }
