@@ -933,7 +933,8 @@ class FITSData : public QObject
         void rotWCSFITS(int angle, int mirror);
         void calculateMinMax(bool refresh = false, bool roi = false);
         void calculateMedian(bool refresh = false, bool roi = false);
-        bool checkDebayer();
+        bool checkDebayerFITS();
+        bool checkDebayerXISF(const QString pattern);
         void readWCSKeys();
 
         /**
@@ -1105,12 +1106,21 @@ class FITSData : public QObject
         bool stackLoadXISFImage(QString filename);
 
         /**
-         * @brief stackCheckDebayer checks whether a stack sub needs to be debayered
-         *        this routine doesn't affect the object variables used by checkDebayer()
+         * @brief stackCheckDebayerFITS checks whether a FITS stack sub needs to be debayered
+         *        this routine doesn't affect the object variables used by checkDebayer
          * @param if debayering is successful, bayerParams contains the appropriate params
          * @return success
          */
-        bool stackCheckDebayer(BayerParams bayerParams);
+        bool stackCheckDebayerFITS(BayerParams bayerParams);
+
+        /**
+         * @brief stackCheckDebayerXISF checks whether a XISF stack sub needs to be debayered
+         *        this routine doesn't affect the object variables used by checkDebayer
+         * @param pattern is the bayer pattern used
+         * @param if debayering is successful, bayerParams contains the appropriate params
+         * @return success
+         */
+        bool stackCheckDebayerXISF(const QString pattern, BayerParams &bayerParams);
 
         /**
          * @brief stackDebayer debayers a stack sub

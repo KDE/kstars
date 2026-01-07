@@ -1814,7 +1814,7 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const bool isCompressed)
 
     // Only check for debayed IF the original naxes[2] is 1
     // which is for single channels.
-    if (naxes[2] == 1 && m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayer())
+    if (naxes[2] == 1 && m_Statistics.channels == 1 && Options::autoDebayer() && checkDebayerFITS())
     {
         // Save bayer image on disk in case we need to save it later since debayer destorys this data
         if (m_isTemporary && m_TemporaryDataFile.open())
@@ -2042,7 +2042,7 @@ bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
     bayerParams.offsetX = bayerParams.offsetY = 0;
 
     if (naxes[2] == 1 && m_StackStatistics.stats.channels == 1 && Options::autoDebayer() &&
-            stackCheckDebayer(bayerParams))
+            stackCheckDebayerFITS(bayerParams))
     {
         if (m_StackStatistics.stats.dataType == TUSHORT)
             stackDebayer<uint16_t>(bayerParams);
@@ -2084,7 +2084,6 @@ bool FITSData::stackLoadXISFImage(QString filename)
         m_StackStatistics.stats.samples_per_channel = m_StackStatistics.stats.width * m_StackStatistics.stats.height;
 
         // Lets look at the type of image
-        // If we ever need to debayer an XISF image this is where to do it - currently not supported
         LibXISF::Image::ColorSpace cs = image.colorSpace();
         bool mono = (cs == LibXISF::Image::Gray && m_StackStatistics.stats.channels == 1);
         bool color = (cs == LibXISF::Image::RGB && m_StackStatistics.stats.channels == 3);
@@ -2144,29 +2143,36 @@ bool FITSData::stackLoadXISFImage(QString filename)
                                             QString::fromStdString(fitsKeyword.value),
                                             QString::fromStdString(fitsKeyword.comment)});
 
-        // We need to call setupWCSParams to reformat WCS keywords properly for fits
+        // We need to call setupWCSParams to reformat WCS keywords properly
         setupWCSParams(true);
 
-        unsigned int stackImageBufferSize = image.imageDataSize();
-        if (m_StackImageBufferSize != stackImageBufferSize)
-        {
-            if (m_StackImageBuffer != nullptr)
-                delete[] m_StackImageBuffer;
-            m_StackImageBuffer = new uint8_t[stackImageBufferSize];
+        m_StackImageBufferSize = image.imageDataSize();
+        m_StackStatistics.stats.size = m_StackImageBufferSize;
+        m_StackImageBuffer = new uint8_t[m_StackImageBufferSize];
+        std::memcpy(m_StackImageBuffer, image.imageData(), m_StackImageBufferSize);
 
-            if (m_StackImageBuffer != nullptr)
-                m_StackImageBufferSize = stackImageBufferSize;
-            else
+        const auto &cfa = image.colorFilterArray();
+
+        if (!cfa.pattern.empty())
+        {
+            const QString pattern = QString::fromUtf8(cfa.pattern.c_str());
+
+            // CFA images must be treated as single-channel
+            m_StackStatistics.stats.channels = 1;
+
+            // Only debayer if image is single-channel CFA
+            BayerParams bayerParams;
+            if (Options::autoDebayer() && stackCheckDebayerXISF(pattern, bayerParams))
             {
-                qCDebug(KSTARS_FITS) << "FITSData: Not enough memory for stack_image_buffer channel. Requested: "
-                                     << stackImageBufferSize << " bytes.";
-                m_StackImageBufferSize = 0;
-                return false;
+                if (m_StackStatistics.stats.dataType == TUSHORT)
+                    stackDebayer<uint16_t>(bayerParams);
+                else if (m_StackStatistics.stats.dataType == TBYTE)
+                    stackDebayer<uint8_t>(bayerParams);
+                else
+                    qCDebug(KSTARS_FITS) << QString("Unsupported bit depth for debayering: %1 bytes per pixel")
+                                         .arg(m_StackStatistics.stats.bytesPerPixel);
             }
         }
-
-        // This copies all channels (1 for mono, 3 for color)
-        std::memcpy(m_StackImageBuffer, image.imageData(), m_StackImageBufferSize);
     }
     catch (LibXISF::Error &error)
     {
@@ -2331,9 +2337,9 @@ bool FITSData::loadXISFImage(const QByteArray &buffer)
         m_HeaderRecords.clear();
         auto &fitsKeywords = image.fitsKeywords();
         for(auto &fitsKeyword : fitsKeywords)
-        {
-            m_HeaderRecords.push_back({QString::fromStdString(fitsKeyword.name), QString::fromStdString(fitsKeyword.value), QString::fromStdString(fitsKeyword.comment)});
-        }
+            m_HeaderRecords.push_back({QString::fromStdString(fitsKeyword.name),
+                                       QString::fromStdString(fitsKeyword.value),
+                                       QString::fromStdString(fitsKeyword.comment)});
 
         setupWCSParams();
 
@@ -2341,6 +2347,28 @@ bool FITSData::loadXISFImage(const QByteArray &buffer)
         m_ImageBuffer = new uint8_t[m_ImageBufferSize];
         std::memcpy(m_ImageBuffer, image.imageData(), m_ImageBufferSize);
 
+        // Debayer if required
+        const auto &cfa = image.colorFilterArray();
+        if (!cfa.pattern.empty())
+        {
+            const QString pattern = QString::fromUtf8(cfa.pattern.c_str());
+
+            // CFA images must be treated as single-channel
+            m_Statistics.channels = 1;
+
+            // Only debayer if image is single-channel CFA
+            if (Options::autoDebayer() && checkDebayerXISF(pattern))
+            {
+                // Save raw CFA image if temporary, same as FITS
+                if (m_isTemporary && m_TemporaryDataFile.open())
+                {
+                    m_TemporaryDataFile.write(buffer);
+                    m_TemporaryDataFile.close();
+                    m_Filename = m_TemporaryDataFile.fileName();
+                }
+                debayer();
+            }
+        }
         calculateStats(false, false);
         loadWCS();
     }
@@ -6059,7 +6087,7 @@ void FITSData::setImageBuffer(uint8_t * buffer)
     m_ImageBuffer = buffer;
 }
 
-bool FITSData::checkDebayer()
+bool FITSData::checkDebayerFITS()
 {
     int status = 0;
     char bayerPattern[64], roworder[64];
@@ -6143,9 +6171,44 @@ bool FITSData::checkDebayer()
     return true;
 }
 
+// Setup debayer params for XISF images
+bool FITSData::checkDebayerXISF(const QString pattern)
+{
+    if (m_Statistics.dataType != TUSHORT && m_Statistics.dataType != TBYTE)
+    {
+        m_LastError = i18n("Only 8 and 16 bits bayered images supported.");
+        return false;
+    }
+
+    BayerParams params;
+    getBayerParams(&params);
+
+    // XISF doesn't support offsets so we can ignore them
+    params.offsetX = 0;
+    params.offsetY = 0;
+
+    if (pattern == "RGGB")
+        params.filter = DC1394_COLOR_FILTER_RGGB;
+    else if (pattern == "GBRG")
+        params.filter = DC1394_COLOR_FILTER_GBRG;
+    else if (pattern == "GRBG")
+        params.filter = DC1394_COLOR_FILTER_GRBG;
+    else if (pattern == "BGGR")
+        params.filter = DC1394_COLOR_FILTER_BGGR;
+    else
+    {
+        m_LastError = i18n("Unsupported bayer pattern %1.", pattern);
+        return false;
+    }
+
+    setBayerParams(&params);
+    HasDebayer = true;
+    return true;
+}
+
 // Check whether a stack sub needs debayering
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
-bool FITSData::stackCheckDebayer(BayerParams bayerParams)
+bool FITSData::stackCheckDebayerFITS(BayerParams bayerParams)
 {
     int status = 0;
     char bayerPattern[64], roworder[64];
@@ -6228,6 +6291,36 @@ bool FITSData::stackCheckDebayer(BayerParams bayerParams)
     }
     return true;
 }
+
+bool FITSData::stackCheckDebayerXISF(const QString pattern, BayerParams &bayerParams)
+{
+    if (m_StackStatistics.stats.dataType != TUSHORT && m_StackStatistics.stats.dataType != TBYTE)
+    {
+        qCDebug(KSTARS_FITS) << QString("Only 8 and 16 bit bayered images supported. Continuing as greyscale...");
+        return false;
+    }
+
+    getBayerParams(&bayerParams);
+    if (pattern == "RGGB")
+        bayerParams.filter = DC1394_COLOR_FILTER_RGGB;
+    else if (pattern == "GBRG")
+        bayerParams.filter = DC1394_COLOR_FILTER_GBRG;
+    else if (pattern == "GRBG")
+        bayerParams.filter = DC1394_COLOR_FILTER_GRBG;
+    else if (pattern == "BGGR")
+        bayerParams.filter = DC1394_COLOR_FILTER_BGGR;
+    else
+    {
+        qCDebug(KSTARS_FITS) << QString("Unsupported bayer pattern %1.").arg(pattern);
+        return false;
+    }
+
+    // In XISF there are no offsets so ensure these are mapped to 0
+    bayerParams.offsetX = 0;
+    bayerParams.offsetX = 0;
+
+    return true;
+}
 #endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
 
 void FITSData::getBayerParams(BayerParams * param)
@@ -6250,16 +6343,24 @@ bool FITSData::debayer(bool reload)
 {
     if (reload)
     {
-        int anynull = 0, status = 0;
-
-        if (fits_read_img(fptr, m_Statistics.dataType, 1, m_Statistics.samples_per_channel, nullptr, m_ImageBuffer,
-                          &anynull, &status))
+        if (m_Extension.contains("fit") || m_Extension.contains("fz"))
         {
-            //                char errmsg[512];
-            //                fits_get_errstatus(status, errmsg);
-            //                KSNotification::error(i18n("Error reading image: %1", QString(errmsg)), i18n("Debayer error"));
-            return false;
+            int anynull = 0, status = 0;
+
+            if (fits_read_img(fptr, m_Statistics.dataType, 1, m_Statistics.samples_per_channel, nullptr, m_ImageBuffer,
+                              &anynull, &status))
+                return false;
         }
+        else if (m_Extension.contains("xisf") && !m_Filename.isEmpty())
+        {
+            LibXISF::XISFReader xisfReader;
+            xisfReader.open(m_Filename.toLocal8Bit().data());
+            const LibXISF::Image &image = xisfReader.getImage(0);
+            m_ImageBufferSize = image.imageDataSize();
+            std::memcpy(m_ImageBuffer, image.imageData(), m_ImageBufferSize);
+        }
+        else
+            return false;
     }
 
     switch (m_Statistics.dataType)
