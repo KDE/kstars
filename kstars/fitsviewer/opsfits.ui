@@ -401,7 +401,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_Auto3DCube">
           <property name="toolTip">
-           <string>Process 3D (RGB) FITS images. If unchecked, only first channel is processed.</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Process 3D (RGB) FITS images. If unchecked, only first channel is processed.&lt;/p&gt;&lt;p&gt;NOTE: Live Stacker will always display a color image if requested to do so.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>3D cube</string>

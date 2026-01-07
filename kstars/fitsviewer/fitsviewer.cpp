@@ -1121,7 +1121,7 @@ void FITSViewer::stack()
         return;
     m_StackBusy = true;
 
-    setWindowTitle(i18nc("@title:window", "KStars Live Stacker (BETA)"));
+    setWindowTitle(i18nc("@title:window", "KStars Live Stacker"));
     qCDebug(KSTARS_FITS) << "OpenCV Optimized: " << cv::useOptimized();
     qCDebug(KSTARS_FITS) << QString("Live Stacker running openCV on %1 threads. SIMD Features enabled: %2")
                          .arg(cv::getNumThreads()).arg(QString::fromStdString(cv::getCPUFeaturesLine()));

@@ -1776,8 +1776,13 @@ bool FITSData::loadFITSImage(const QByteArray &buffer, const bool isCompressed)
 
     // Channels always set to #1 if we are not required to process 3D Cubes
     // Or if mode is not FITS_NORMAL (guide, focus..etc)
-    if ( (m_Mode != FITS_NORMAL && m_Mode != FITS_CALIBRATE && m_Mode != FITS_LIVESTACKING) || !Options::auto3DCube())
-        m_Statistics.channels = 1;
+    // Live Stacking doesn't obey the auto3DCube setting as users can select colour options
+    // in other ways
+    if (m_Mode != FITS_LIVESTACKING)
+    {
+        if ( (m_Mode != FITS_NORMAL && m_Mode != FITS_CALIBRATE) || !Options::auto3DCube())
+            m_Statistics.channels = 1;
+    }
 
     m_ImageBufferSize = m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel;
     m_ImageBuffer = new uint8_t[m_ImageBufferSize];

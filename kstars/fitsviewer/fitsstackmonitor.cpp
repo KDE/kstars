@@ -752,7 +752,15 @@ void StackMonitor::restoreSettings()
     m_Highlight = Options::fitsLSMHighlighting();
 
     // Window geometry
-    this->restoreGeometry(QByteArray::fromBase64(Options::fitsLSMWindowGeometry().toUtf8()));
+    const QString geometry = Options::fitsLSMWindowGeometry();
+    if (!geometry.isEmpty())
+        restoreGeometry(QByteArray::fromBase64(geometry.toUtf8()));
+    else
+    {
+        // First run default
+        resize(900, 500);
+        move(100, 100);
+    }
 }
 
 // Update the progress bar

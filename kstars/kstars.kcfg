@@ -1904,11 +1904,11 @@
    </entry>
    <entry name="fitsLSMVisibleColumns" type="StringList">
       <label>Live Stacking Monitor column visibility</label>
-      <default>ID,Filename,Loaded,Plate Solved,HFR,Calibrated,Aligned,DX,DY,Stacked,Status</default>
+      <default>ID,Filename,Channel(s),Overall\nStatus,Load Wait\nTime(s),Loading\nStatus,Loading\nTime(s),SNR,Plate Solve\nStatus,Plate Solve\nTime(s),HFR,Num Stars,Stack Wait\nTime(s),Calibration\nStatus,Calibration\nTime,Alignment\nStatus,Alignment\nTime,Δx,Δy,Rot(°),Stacking\nStatus,Stacking\nTime,Stacking\nWeight</default>
    </entry>
    <entry name="fitsLSMColumnWidths" type="IntList">
       <label>Live Stacking Monitor column widths</label>
-      <default>80,120,80,80,80,80,80,60,60,80,150</default>
+      <default>80,120,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80</default>
    </entry>
    <entry name="fitsLSMSortColumn" type="Int">
        <default>0</default>
