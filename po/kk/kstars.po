@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-06 02:21+0000\n"
+"POT-Creation-Date: 2026-01-08 02:04+0000\n"
 "PO-Revision-Date: 2013-11-16 05:16+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -803,7 +803,7 @@ msgstr "Аstrometry.net баптау файлы"
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Аstrometry.net баптау файлы"
 
-#: auxiliary/ksutils.cpp:1768 fitsviewer/fitsdata.cpp:2401
+#: auxiliary/ksutils.cpp:1768 fitsviewer/fitsdata.cpp:2567
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -2772,7 +2772,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:428
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2193
-#: ekos/scheduler/scheduler.cpp:2303 fitsviewer/fitstab.cpp:1545
+#: ekos/scheduler/scheduler.cpp:2303 fitsviewer/fitstab.cpp:1557
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -3255,7 +3255,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, object_group)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:458
-#: fitsviewer/fitstab.cpp:791
+#: fitsviewer/fitstab.cpp:794
 #, kde-format
 msgid "Object"
 msgstr "Нысан"
@@ -4294,7 +4294,7 @@ msgstr "Еегжей-тегжейі - Координаттары"
 #. i18n: ectx: property (text), widget (QLabel, CoordTitle)
 #. i18n: ectx: property (text), widget (QRadioButton, coordinatesR)
 #: dialogs/details_position.ui:66 ekos/guide/manualdither.ui:55
-#: fitsviewer/fitstab.cpp:794 kstarslite/qml/dialogs/DetailsDialog.qml:236
+#: fitsviewer/fitstab.cpp:797 kstarslite/qml/dialogs/DetailsDialog.qml:236
 #: printing/detailstable.cpp:510
 #, kde-format, kde-kuit-format
 msgid "Coordinates"
@@ -7066,7 +7066,7 @@ msgstr "Барлық орбиталық траекторияларын өшір�
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:427 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2192 ekos/scheduler/scheduler.cpp:2302
-#: fitsviewer/fitstab.cpp:1544 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:1556 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -11402,7 +11402,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
-#: ekos/analyze/analyze.ui:289 fitsviewer/fitstab.cpp:147
+#: ekos/analyze/analyze.ui:289 fitsviewer/fitstab.cpp:150
 #: fitsviewer/fitsviewer.cpp:195 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
@@ -20839,7 +20839,7 @@ msgstr "Күмбез файлы"
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
 #: ekos/focus/focus.ui:1115 ekos/manager.ui:1079
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:100
-#: fitsviewer/fitstab.cpp:180 indi/guimanager.cpp:75 tools/conjunctions.ui:205
+#: fitsviewer/fitstab.cpp:183 indi/guimanager.cpp:75 tools/conjunctions.ui:205
 #: tools/eclipsetool.ui:167 tools/modcalcgeod.ui:160
 #, kde-format
 msgid "Clear"
@@ -21312,7 +21312,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:43 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:435
+#: fitsviewer/fitstab.cpp:438
 #, kde-format
 msgid "Value"
 msgstr "Мәні"
@@ -24246,7 +24246,7 @@ msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Ішкі қоршауын орнату жаңылысы"
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
-#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:796
+#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:799
 #: kstarslite/qml/dialogs/DetailsDialog.qml:138
 #, kde-format, kde-kuit-format
 msgid "Magnitude"
@@ -32756,7 +32756,7 @@ msgstr "Ішкі қоршауын орнату жаңылысы"
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
 #: fitsviewer/catalogobject.ui:14 fitsviewer/fitsheaderdialog.ui:14
-#: fitsviewer/fitstab.cpp:171 fitsviewer/fitsviewer.cpp:160
+#: fitsviewer/fitstab.cpp:174 fitsviewer/fitsviewer.cpp:160
 #, kde-format
 msgid "FITS Header"
 msgstr "FITS айдары"
@@ -32860,7 +32860,7 @@ msgstr "FITS (fits_get_img_param) файлын ашу қатесі: %1"
 msgid "1D FITS images are not supported in KStars."
 msgstr "1D FITS кескіндерді KStars танымайды."
 
-#: fitsviewer/fitsdata.cpp:1746 fitsviewer/fitsdata.cpp:2253
+#: fitsviewer/fitsdata.cpp:1746 fitsviewer/fitsdata.cpp:2419
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr ""
@@ -32870,159 +32870,159 @@ msgstr ""
 msgid "Image has invalid dimensions %1x%2"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:1801
+#: fitsviewer/fitsdata.cpp:1806
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading image: %1"
 msgstr "Қате: Келесі кескін сақталмады: %1"
 
-#: fitsviewer/fitsdata.cpp:2152
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
-msgid "File contain no images"
-msgstr "Кескінді жүктеу жаңылысы"
-
-#: fitsviewer/fitsdata.cpp:2181
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
-msgid "Sample format %1 is not supported."
-msgstr "Автотоғыстау барысында..."
-
-#: fitsviewer/fitsdata.cpp:2216
+#: fitsviewer/fitsdata.cpp:2184 fitsviewer/fitsdata.cpp:2382
 #, fuzzy, kde-format
 #| msgid "Alt Error:"
 msgid "XISF file open error: "
 msgstr "Биіктік қатесі:"
 
-#: fitsviewer/fitsdata.cpp:2268
+#: fitsviewer/fitsdata.cpp:2296
+#, fuzzy, kde-format
+#| msgid "Failed to load image"
+msgid "File contain no images"
+msgstr "Кескінді жүктеу жаңылысы"
+
+#: fitsviewer/fitsdata.cpp:2325
+#, fuzzy, kde-format
+#| msgid "Autofocus in progress..."
+msgid "Sample format %1 is not supported."
+msgstr "Автотоғыстау барысында..."
+
+#: fitsviewer/fitsdata.cpp:2434
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error saving XISF image"
 msgstr "Қате: Келесі кескін сақталмады: %1"
 
-#: fitsviewer/fitsdata.cpp:2360 fitsviewer/fitsdata.cpp:2476
+#: fitsviewer/fitsdata.cpp:2526 fitsviewer/fitsdata.cpp:2642
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2415
+#: fitsviewer/fitsdata.cpp:2581
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open file %1: %2"
 msgstr "Файл ашылмады: %1"
 
-#: fitsviewer/fitsdata.cpp:2428
+#: fitsviewer/fitsdata.cpp:2594
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open buffer: %1"
 msgstr "Файл ашылмады: %1"
 
-#: fitsviewer/fitsdata.cpp:2439
+#: fitsviewer/fitsdata.cpp:2605
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2446
+#: fitsviewer/fitsdata.cpp:2612
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot dcraw_process: %1"
 msgstr "Пайдаланушының журналы жазылмады"
 
-#: fitsviewer/fitsdata.cpp:2454
+#: fitsviewer/fitsdata.cpp:2620
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:2601
+#: fitsviewer/fitsdata.cpp:2767
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Saving compressed files is not supported."
 msgstr "Автотоғыстау барысында..."
 
-#: fitsviewer/fitsdata.cpp:2666
+#: fitsviewer/fitsdata.cpp:2832
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to create file: %1"
 msgstr "%1 файлы ашылмайды."
 
-#: fitsviewer/fitsdata.cpp:2681
+#: fitsviewer/fitsdata.cpp:2847
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to create image: %1"
 msgstr "%1 дегенге кескін жүктелмеді"
 
-#: fitsviewer/fitsdata.cpp:2690 fitsviewer/fitsdata.cpp:2697
+#: fitsviewer/fitsdata.cpp:2856 fitsviewer/fitsdata.cpp:2863
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to update key: %1"
 msgstr "Ішкі қоршауын орнату жаңылысы"
 
-#: fitsviewer/fitsdata.cpp:2798
+#: fitsviewer/fitsdata.cpp:2964
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to update date: %1"
 msgstr "%1 дегенге кескін жүктелмеді"
 
-#: fitsviewer/fitsdata.cpp:2807
+#: fitsviewer/fitsdata.cpp:2973
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to update history: %1"
 msgstr "Жинақтау жаңылысы"
 
-#: fitsviewer/fitsdata.cpp:2829
+#: fitsviewer/fitsdata.cpp:2995
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to write image: %1"
 msgstr "%1 дегенге кескін жүктелмеді"
 
-#: fitsviewer/fitsdata.cpp:4552 fitsviewer/fitsdata.cpp:4563
-#: fitsviewer/fitsdata.cpp:4600 fitsviewer/fitsdata.cpp:4636
-#: fitsviewer/fitsdata.cpp:4770
+#: fitsviewer/fitsdata.cpp:4719 fitsviewer/fitsdata.cpp:4730
+#: fitsviewer/fitsdata.cpp:4767 fitsviewer/fitsdata.cpp:4803
+#: fitsviewer/fitsdata.cpp:4937
 #, fuzzy, kde-format
 #| msgid "Use horizontal coordinate system?"
 msgid "No world coordinate systems found."
 msgstr "Көкжиектік координаттар колданылсын ба?"
 
-#: fitsviewer/fitsdata.cpp:4945 fitsviewer/fitsdata.cpp:5053
+#: fitsviewer/fitsdata.cpp:5112 fitsviewer/fitsdata.cpp:5220
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error querying Simbad"
 msgstr "Қате: Келесі кескін сақталмады: %1"
 
-#: fitsviewer/fitsdata.cpp:4962
+#: fitsviewer/fitsdata.cpp:5129
 #, fuzzy, kde-format
 #| msgid "Guiding rate,x15\"/sec"
 msgid "Simbad query timed out"
 msgstr "Дәлдеу жылдамдығы, x15\"/сек"
 
-#: fitsviewer/fitsdata.cpp:5939
+#: fitsviewer/fitsdata.cpp:6106 fitsviewer/fitsdata.cpp:6184
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:5972
+#: fitsviewer/fitsdata.cpp:6139 fitsviewer/fitsdata.cpp:6205
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:6003
+#: fitsviewer/fitsdata.cpp:6170
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:6158 fitsviewer/fitsdata.cpp:6205
-#: fitsviewer/fitsdata.cpp:6250 fitsviewer/fitsdata.cpp:6297
+#: fitsviewer/fitsdata.cpp:6398 fitsviewer/fitsdata.cpp:6445
+#: fitsviewer/fitsdata.cpp:6490 fitsviewer/fitsdata.cpp:6537
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:6168 fitsviewer/fitsdata.cpp:6260
+#: fitsviewer/fitsdata.cpp:6408 fitsviewer/fitsdata.cpp:6500
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:6188 fitsviewer/fitsdata.cpp:6280
+#: fitsviewer/fitsdata.cpp:6428 fitsviewer/fitsdata.cpp:6520
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
@@ -33197,7 +33197,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
-#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:168
+#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:171
 #: fitsviewer/fitsviewer.cpp:126
 #, kde-format
 msgid "Histogram"
@@ -33795,12 +33795,12 @@ msgstr ""
 msgid "Stopping..."
 msgstr "Қа&дағалауды тоқтату"
 
-#: fitsviewer/fitstab.cpp:70
+#: fitsviewer/fitstab.cpp:73
 #, kde-format
 msgid "Save Changes to FITS?"
 msgstr "Өзгерістерді FITS-ке сақталсын ба?"
 
-#: fitsviewer/fitstab.cpp:71
+#: fitsviewer/fitstab.cpp:74
 #, kde-format
 msgid ""
 "The current FITS file has unsaved changes.  Would you like to save before "
@@ -33811,33 +33811,33 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, LiveStackingUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
-#: fitsviewer/fitstab.cpp:148 fitsviewer/livestacking.ui:26
+#: fitsviewer/fitstab.cpp:151 fitsviewer/livestacking.ui:26
 #: fitsviewer/platesolve.ui:14
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid "Plate Solving"
 msgstr "INDI сервері:"
 
-#: fitsviewer/fitstab.cpp:152
+#: fitsviewer/fitstab.cpp:155
 #, fuzzy, kde-format
 #| msgid "Catalog Star"
 msgid "Catalog Objects"
 msgstr "Каталогтағы жұлдыз"
 
-#: fitsviewer/fitstab.cpp:164
+#: fitsviewer/fitstab.cpp:167
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Live Stacking"
 msgstr "Доум-Крик"
 
-#: fitsviewer/fitstab.cpp:177
+#: fitsviewer/fitstab.cpp:180
 #, fuzzy, kde-format
 #| msgid "Reference Images:"
 msgid "Recent Images"
 msgstr "Эталон кескіндері:"
 
-#: fitsviewer/fitstab.cpp:447
+#: fitsviewer/fitstab.cpp:450
 #, fuzzy, kde-format
 #| msgctxt "First letter in 'Remove'"
 #| msgid "R"
@@ -33845,24 +33845,24 @@ msgctxt "Red"
 msgid "R"
 msgstr "Ө"
 
-#: fitsviewer/fitstab.cpp:610
+#: fitsviewer/fitstab.cpp:613
 #, kde-format
 msgid "%1 / %2 Simbad objects loaded"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:625
+#: fitsviewer/fitstab.cpp:628
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Simbad query in progress..."
 msgstr "Радиотелескоп"
 
-#: fitsviewer/fitstab.cpp:787
+#: fitsviewer/fitstab.cpp:790
 #, fuzzy, kde-format
 #| msgid "m"
 msgid "Num"
 msgstr "м"
 
-#: fitsviewer/fitstab.cpp:788
+#: fitsviewer/fitstab.cpp:791
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Portugal"
@@ -33872,7 +33872,7 @@ msgstr "Португалия"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad2)
-#: fitsviewer/fitstab.cpp:789 fitsviewer/opsfits.ui:445
+#: fitsviewer/fitstab.cpp:792 fitsviewer/opsfits.ui:445
 #: tools/imagingplanner.ui:1377 tools/imagingplanner.ui:1714
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
@@ -33880,69 +33880,69 @@ msgstr "Португалия"
 msgid "Simbad"
 msgstr "Симбад"
 
-#: fitsviewer/fitstab.cpp:790
+#: fitsviewer/fitstab.cpp:793
 #, fuzzy, kde-format
 #| msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 #| msgid "NE"
 msgid "NED"
 msgstr "СШ"
 
-#: fitsviewer/fitstab.cpp:792
+#: fitsviewer/fitstab.cpp:795
 #, fuzzy, kde-format
 #| msgid "Type"
 msgid "Type Code"
 msgstr "Түрі"
 
-#: fitsviewer/fitstab.cpp:793
+#: fitsviewer/fitstab.cpp:796
 #, fuzzy, kde-format
 #| msgid "Label"
 msgid "Type Label"
 msgstr "Жарлық"
 
-#: fitsviewer/fitstab.cpp:795 kstarslite/qml/dialogs/DetailsDialog.qml:143
+#: fitsviewer/fitstab.cpp:798 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Distance:"
 msgid "Distance"
 msgstr "Қашықтығы:"
 
-#: fitsviewer/fitstab.cpp:797 fitsviewer/fitsviewer.cpp:1594
+#: fitsviewer/fitstab.cpp:800 fitsviewer/fitsviewer.cpp:1594
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:84
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
 msgstr "Өлшемі:"
 
-#: fitsviewer/fitstab.cpp:802
+#: fitsviewer/fitstab.cpp:805
 #, kde-format
 msgid "Item reference number"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:803
+#: fitsviewer/fitstab.cpp:806
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Double click to launch CDS Portal browser"
 msgstr "%1 дегенге кескін жүктелмеді"
 
-#: fitsviewer/fitstab.cpp:805
+#: fitsviewer/fitstab.cpp:808
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Double click to launch Simbad browser"
 msgstr "%1 дегенге кескін жүктелмеді"
 
-#: fitsviewer/fitstab.cpp:806
+#: fitsviewer/fitstab.cpp:809
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Double click to launch NED browser"
 msgstr "%1 дегенге кескін жүктелмеді"
 
-#: fitsviewer/fitstab.cpp:807
+#: fitsviewer/fitstab.cpp:810
 #, fuzzy, kde-format
 #| msgctxt "Index Catalog object"
 #| msgid "IC Object"
 msgid "Catalog Object"
 msgstr "IC нысаны"
 
-#: fitsviewer/fitstab.cpp:809
+#: fitsviewer/fitstab.cpp:812
 #, kde-format
 msgid ""
 "Object Type Code. Double click to launch Object Type Filter.\n"
@@ -33950,7 +33950,7 @@ msgid ""
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:812
+#: fitsviewer/fitstab.cpp:815
 #, kde-format
 msgid ""
 "Object Type Label. Double click to launch Object Type Filter.\n"
@@ -33958,111 +33958,111 @@ msgid ""
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:814
+#: fitsviewer/fitstab.cpp:817
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Mount coordinates"
 msgid "Object coordinates"
 msgstr "Қондырғы координаттары"
 
-#: fitsviewer/fitstab.cpp:815
+#: fitsviewer/fitstab.cpp:818
 #, kde-format
 msgid "Object distance in arcmins from the search center"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:817
+#: fitsviewer/fitstab.cpp:820
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Object V magnitude"
 msgstr "Нысандарды көрсету"
 
-#: fitsviewer/fitstab.cpp:818
+#: fitsviewer/fitstab.cpp:821
 #, kde-format
 msgid "Object major coordinate size in arcsmins"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:907
+#: fitsviewer/fitstab.cpp:910
 #, fuzzy, kde-format
 #| msgid "RA"
 msgid "RAM"
 msgstr "ТК"
 
-#: fitsviewer/fitstab.cpp:1259 fitsviewer/fitstab.cpp:1395
+#: fitsviewer/fitstab.cpp:1262 fitsviewer/fitstab.cpp:1407
 #, fuzzy, kde-format
 #| msgid "%1"
 msgctxt "@title:window"
 msgid "%1"
 msgstr "%1"
 
-#: fitsviewer/fitstab.cpp:1381
+#: fitsviewer/fitstab.cpp:1393
 #, fuzzy, kde-format
 #| msgid "Scheduled Time"
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
 msgstr "Жоспар уақыты"
 
-#: fitsviewer/fitstab.cpp:1498 fitsviewer/fitstab.cpp:1502
+#: fitsviewer/fitstab.cpp:1510 fitsviewer/fitstab.cpp:1514
 #, fuzzy, kde-format
 #| msgid "Save"
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Сақтау"
 
-#: fitsviewer/fitstab.cpp:1534
+#: fitsviewer/fitstab.cpp:1546
 #, fuzzy, kde-format
 #| msgid "FITS file save error: %1"
 msgid "Image save error: %1"
 msgstr "FITS файлын сақтау қатесі: %1"
 
-#: fitsviewer/fitstab.cpp:1534
+#: fitsviewer/fitstab.cpp:1546
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
 msgid "Image Save"
 msgstr "Кескін дерегі"
 
-#: fitsviewer/fitstab.cpp:1538
+#: fitsviewer/fitstab.cpp:1550
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "File saved to %1"
 msgstr "FITS файлы %1 деп сақталды"
 
-#: fitsviewer/fitstab.cpp:1656
+#: fitsviewer/fitstab.cpp:1668
 #, kde-format
 msgid "RGB"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1656
+#: fitsviewer/fitstab.cpp:1668
 #, kde-format
 msgid "LRGB"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:1815
+#: fitsviewer/fitstab.cpp:1827
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "(%1) Stopped Watching"
 msgstr "%1 дегенді жүктеу"
 
-#: fitsviewer/fitstab.cpp:1816
+#: fitsviewer/fitstab.cpp:1828
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "(%1) Watching"
 msgstr "%1 дегенді жүктеу"
 
-#: fitsviewer/fitstab.cpp:1817 fitsviewer/fitstab.cpp:1823
+#: fitsviewer/fitstab.cpp:1829 fitsviewer/fitstab.cpp:1835
 #, fuzzy, kde-format
 #| msgctxt "integrated flux value"
 #| msgid "%1 %2"
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1821
+#: fitsviewer/fitstab.cpp:1833
 #, fuzzy, kde-format
 #| msgid "Stop"
 msgid "(%1) Stopped"
 msgstr "Тоқтату"
 
-#: fitsviewer/fitstab.cpp:1822
+#: fitsviewer/fitstab.cpp:1834
 #, fuzzy, kde-format
 #| msgid "RA (%1):"
 msgid "(%1)"
@@ -34328,7 +34328,7 @@ msgstr "Жұлдыздарды маркерлеу"
 msgid "View 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:350 kstars.cpp:65
+#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:1124 kstars.cpp:65
 #, fuzzy, kde-format
 #| msgid "KStars"
 msgctxt "@title:window"
@@ -34432,13 +34432,6 @@ msgstr "Деректер қапшығы:"
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "FITS ашу..."
-
-#: fitsviewer/fitsviewer.cpp:1124
-#, fuzzy, kde-format
-#| msgid "KStars"
-msgctxt "@title:window"
-msgid "KStars Live Stacker (BETA)"
-msgstr "KStars"
 
 #: fitsviewer/fitsviewer.cpp:1175
 #, fuzzy, kde-format
@@ -35828,7 +35821,9 @@ msgstr "Автосозу"
 #: fitsviewer/opsfits.ui:404
 #, kde-format
 msgid ""
-"Process 3D (RGB) FITS images. If unchecked, only first channel is processed."
+"<html><head/><body><p>Process 3D (RGB) FITS images. If unchecked, only first "
+"channel is processed.</p><p>NOTE: Live Stacker will always display a color "
+"image if requested to do so.</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Auto3DCube)
@@ -100537,6 +100532,12 @@ msgstr "Аясының түсі"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Аспан аясының түсін орнату."
+
+#, fuzzy
+#~| msgid "KStars"
+#~ msgctxt "@title:window"
+#~ msgid "KStars Live Stacker (BETA)"
+#~ msgstr "KStars"
 
 #, fuzzy
 #~| msgid "Data directory:"
