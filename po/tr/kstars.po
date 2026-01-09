@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-08 02:04+0000\n"
-"PO-Revision-Date: 2026-01-07 20:52+0300\n"
+"PO-Revision-Date: 2026-01-08 17:44+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -34479,6 +34479,9 @@ msgid ""
 "channel is processed.</p><p>NOTE: Live Stacker will always display a color "
 "image if requested to do so.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>3B (RGB) FITS görsellerini işleyin. İşaretlenmemişse "
+"yalnızca ilk kanal işlenir.</p><p>NOT: Canlı Yığıcı, yapması istenmişse her "
+"zaman renkli bir görsel görüntüler.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Auto3DCube)
 #: fitsviewer/opsfits.ui:407

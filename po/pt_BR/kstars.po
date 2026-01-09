@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-08 02:04+0000\n"
-"PO-Revision-Date: 2026-01-03 06:45-0300\n"
+"PO-Revision-Date: 2026-01-08 08:22-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -34713,6 +34713,9 @@ msgid ""
 "channel is processed.</p><p>NOTE: Live Stacker will always display a color "
 "image if requested to do so.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Processar imagens FITS 3D (RGB). Se desmarcado, apenas "
+"o primeiro canal será processado.</p><p>NOTA: O empilhamento ao vivo sempre "
+"exibirá uma imagem colorida se solicitado.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Auto3DCube)
 #: fitsviewer/opsfits.ui:407
