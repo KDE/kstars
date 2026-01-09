@@ -1,4 +1,4 @@
-
+cmake_minimum_required (VERSION 3.16.0)
 ########### install files ###############
 if(APPLE)
     set(KSTARS_DATADIR "${BUNDLED_DATA_LOCATION}")
