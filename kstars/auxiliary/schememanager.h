@@ -359,7 +359,7 @@ class SchemeManager
          * @return the contrast (between 0.0 for minimum and 1.0 for maximum
          *         contrast)
          */
-        static qreal contrastF(const KSharedConfigPtr& config = KSharedConfigPtr());
+        static qreal contrastF(const KSharedConfigPtr &config = KSharedConfigPtr());
 
         /**
          * Retrieve the requested shade color, using the specified color as the
@@ -433,7 +433,7 @@ class SchemeManager
          *
          * @returns the QPalette
          */
-        static QPalette createApplicationPalette(const KSharedConfigPtr& config);
+        static QPalette createApplicationPalette(const KSharedConfigPtr &config);
 
     private:
 

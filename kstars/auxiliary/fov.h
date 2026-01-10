@@ -220,5 +220,5 @@ class FOVManager
 
 // Shape
 Q_DECLARE_METATYPE(FOV::Shape)
-QDBusArgument &operator<<(QDBusArgument &argument, const FOV::Shape& source);
+QDBusArgument &operator<<(QDBusArgument &argument, const FOV::Shape &source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, FOV::Shape &dest);

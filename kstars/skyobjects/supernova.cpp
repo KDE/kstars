@@ -14,7 +14,7 @@
 #endif
 
 Supernova::Supernova(const QString &sName, dms ra, dms dec, const QString &type, const QString &hostGalaxy,
-                     const QString &date, float sRedShift, float sMag, const QDateTime& _discoveryDate)
+                     const QString &date, float sRedShift, float sMag, const QDateTime &_discoveryDate)
     : SkyObject(SkyObject::SUPERNOVA, ra, dec, sMag, sName), type(type), hostGalaxy(hostGalaxy), date(date),
       redShift(sRedShift)
 {

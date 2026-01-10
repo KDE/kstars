@@ -831,7 +831,7 @@ class AsyncDBManager : public QObject
          *
          * Should be done in the thread corresponding to this object
          */
-        template <typename... Args> void init(Args&&... args)
+        template <typename... Args> void init(Args &&... args)
         {
             m_manager = std::make_shared<DBManager>(std::forward<Args>(args)...);
         }
@@ -864,7 +864,7 @@ class AsyncDBManager : public QObject
          *
          * @fixme Code duplication needed to support older compilers
          */
-        void _find_objects_by_name(const QString& name, const int limit, const bool exactMatchOnly)
+        void _find_objects_by_name(const QString &name, const int limit, const bool exactMatchOnly)
         {
             // FIXME: Remove this and use execute() once C++1x compilers
             // support variadic template type deduction properly
@@ -894,7 +894,7 @@ class AsyncDBManager : public QObject
          * \p args arguments to supply to the method
          */
 
-        void find_objects_by_name(const QString& name, const int limit = -1)
+        void find_objects_by_name(const QString &name, const int limit = -1)
         {
             // N.B. One cannot have a function pointer to a function with
             // default arguments, so all arguments must be supplied here

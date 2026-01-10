@@ -44,7 +44,7 @@ TrailObject *TrailObject::clone() const
 
 void TrailObject::updateTrail(dms *LST, const dms *lat)
 {
-    for (auto & item : Trail)
+    for (auto &item : Trail)
         item.EquatorialToHorizontal(LST, lat);
 }
 

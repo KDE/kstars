@@ -317,7 +317,7 @@ class JPLParser
     public:
         JPLParser(const QString & path);
 
-        const QJsonArray  & data() const
+        const QJsonArray   & data() const
         {
             return m_data;
         }

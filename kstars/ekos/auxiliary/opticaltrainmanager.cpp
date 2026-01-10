@@ -1403,7 +1403,7 @@ void OpticalTrainManager::exportTrainINDIProperties()
 ////////////////////////////////////////////////////////////////////////////
 /// Import Train INDI properties
 ////////////////////////////////////////////////////////////////////////////
-bool OpticalTrainManager::importTrainINDIProperties(QJsonArray & devices, uint32_t trainID)
+bool OpticalTrainManager::importTrainINDIProperties(QJsonArray &devices, uint32_t trainID)
 {
     uint32_t targetTrainID = trainID;
     if (targetTrainID == 0)

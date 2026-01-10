@@ -75,7 +75,7 @@ static inline qreal mixQreal(qreal a, qreal b, qreal bias)
  * is from 0.0 (black) to 1.0 (white).
  *
  */
-qreal luma(const QColor& color)
+qreal luma(const QColor &color)
 {
     return HCYColorSpace::luma(color);
 }
@@ -83,7 +83,7 @@ qreal luma(const QColor& color)
 /**
  * Calculate hue, chroma and luma of a color in one call.
  */
-void getHcy(const QColor& color, qreal* h, qreal* c, qreal* y, qreal* a = 0)
+void getHcy(const QColor &color, qreal* h, qreal* c, qreal* y, qreal* a = 0)
 {
     if (!c || !h || !y)
     {
@@ -121,7 +121,7 @@ static qreal contrastRatioForLuma(qreal y1, qreal y2)
     return (y2 + 0.05) / (y1 + 0.05);
 }
 
-qreal contrastRatio(const QColor& c1, const QColor& c2)
+qreal contrastRatio(const QColor &c1, const QColor &c2)
 {
     return contrastRatioForLuma(luma(c1), luma(c2));
 }
@@ -129,7 +129,7 @@ qreal contrastRatio(const QColor& c1, const QColor& c2)
 /**
  * Adjust the luma of a color by changing its distance from white.
  */
-QColor lighten(const QColor& color, qreal ky = 0.5, qreal kc = 1.0)
+QColor lighten(const QColor &color, qreal ky = 0.5, qreal kc = 1.0)
 {
     HCYColorSpace c(color);
     c.y = 1.0 - ColorTools::normalize((1.0 - c.y) * (1.0 - ky));
@@ -141,7 +141,7 @@ QColor lighten(const QColor& color, qreal ky = 0.5, qreal kc = 1.0)
 /**
  * Adjust the luma of a color by changing its distance from black.
  */
-QColor darken(const QColor& color, qreal ky = 0.5, qreal kc = 1.0)
+QColor darken(const QColor &color, qreal ky = 0.5, qreal kc = 1.0)
 {
     HCYColorSpace c(color);
     c.y = ColorTools::normalize(c.y * (1.0 - ky));
@@ -154,7 +154,7 @@ QColor darken(const QColor& color, qreal ky = 0.5, qreal kc = 1.0)
  * Adjust the luma and chroma components of a color. The amount is added
  * to the corresponding component.
  */
-QColor shade(const QColor& color, qreal ky, qreal kc = 0.0)
+QColor shade(const QColor &color, qreal ky, qreal kc = 0.0)
 {
     HCYColorSpace c(color);
     c.y = ColorTools::normalize(c.y + ky);
@@ -166,7 +166,7 @@ QColor shade(const QColor& color, qreal ky, qreal kc = 0.0)
 /**
  * Blend two colors into a new color by linear combination.
  */
-QColor mix(const QColor& c1, const QColor& c2, qreal bias)
+QColor mix(const QColor &c1, const QColor &c2, qreal bias)
 {
     if (bias <= 0.0)
     {
@@ -191,7 +191,7 @@ QColor mix(const QColor& c1, const QColor& c2, qreal bias)
     return QColor::fromRgbF(r, g, b, a);
 }
 
-static QColor tintHelper(const QColor& base, qreal baseLuma, const QColor& color, qreal amount)
+static QColor tintHelper(const QColor &base, qreal baseLuma, const QColor &color, qreal amount)
 {
     HCYColorSpace result(mix(base, color, pow(amount, 0.3)));
     result.y = mixQreal(baseLuma, result.y, amount);
@@ -211,7 +211,7 @@ static QColor tintHelper(const QColor& base, qreal baseLuma, const QColor& color
  * @param amount how strongly to tint the base; 0.0 gives @p base,
  * 1.0 gives @p color
  */
-QColor tint(const QColor& base, const QColor& color, qreal amount = 0.3)
+QColor tint(const QColor &base, const QColor &color, qreal amount = 0.3)
 {
     if (amount <= 0.0)
     {
@@ -261,7 +261,7 @@ QColor tint(const QColor& base, const QColor& color, qreal amount = 0.3)
  * @param paint the color to be overlayed onto the base color.
  * @param comp the CompositionMode used to do the blending.
  */
-QColor overlayColors(const QColor& base, const QColor& paint,
+QColor overlayColors(const QColor &base, const QColor &paint,
                      QPainter::CompositionMode comp)
 {
     // This isn't the fastest way, but should be "fast enough".
@@ -314,7 +314,7 @@ HCYColorSpace::HCYColorSpace(qreal h_, qreal c_, qreal y_, qreal a_)
     a = a_;
 }
 
-HCYColorSpace::HCYColorSpace(const QColor& color)
+HCYColorSpace::HCYColorSpace(const QColor &color)
 {
     qreal r = gamma(color.redF());
     qreal g = gamma(color.greenF());
@@ -441,7 +441,7 @@ QColor HCYColorSpace::qColor() const
     }
 }
 
-qreal HCYColorSpace::luma(const QColor& color)
+qreal HCYColorSpace::luma(const QColor &color)
 {
     return lumag(gamma(color.redF()),
                  gamma(color.greenF()),
@@ -457,8 +457,8 @@ class StateEffects
         explicit StateEffects(QPalette::ColorGroup state, const KSharedConfigPtr &);
         ~StateEffects() = default;
 
-        QBrush brush(const QBrush& background) const;
-        QBrush brush(const QBrush& foreground, const QBrush& background) const;
+        QBrush brush(const QBrush &background) const;
+        QBrush brush(const QBrush &foreground, const QBrush &background) const;
 
     private:
 
@@ -491,7 +491,7 @@ class StateEffects
         QColor _color;
 };
 
-StateEffects::StateEffects(QPalette::ColorGroup state, const KSharedConfigPtr& config)
+StateEffects::StateEffects(QPalette::ColorGroup state, const KSharedConfigPtr &config)
     : _color(0, 0, 0, 0)
 {
     QString group;
@@ -535,7 +535,7 @@ StateEffects::StateEffects(QPalette::ColorGroup state, const KSharedConfigPtr& c
     }
 }
 
-QBrush StateEffects::brush(const QBrush& background) const
+QBrush StateEffects::brush(const QBrush &background) const
 {
     QColor color = background.color(); // TODO - actually work on brushes
 
@@ -568,7 +568,7 @@ QBrush StateEffects::brush(const QBrush& background) const
     return QBrush(color);
 }
 
-QBrush StateEffects::brush(const QBrush& foreground, const QBrush& background) const
+QBrush StateEffects::brush(const QBrush &foreground, const QBrush &background) const
 {
     QColor color = foreground.color();
     QColor bg    = background.color();
@@ -739,7 +739,7 @@ class SchemeManagerPrivate : public QSharedData
 #define SET_DEFAULT(a)  DEFAULT( defaults.a )
 #define DECO_DEFAULT(a) DEFAULT( defaultDecorationColors.a )
 
-SchemeManagerPrivate::SchemeManagerPrivate(const KSharedConfigPtr& config,
+SchemeManagerPrivate::SchemeManagerPrivate(const KSharedConfigPtr &config,
         QPalette::ColorGroup state,
         const char* group,
         SetDefaultColors defaults)
@@ -755,11 +755,11 @@ SchemeManagerPrivate::SchemeManagerPrivate(const KSharedConfigPtr& config,
     init(config, state, group, defaults);
 }
 
-SchemeManagerPrivate::SchemeManagerPrivate(const KSharedConfigPtr& config,
+SchemeManagerPrivate::SchemeManagerPrivate(const KSharedConfigPtr &config,
         QPalette::ColorGroup state,
         const char* group,
         SetDefaultColors defaults,
-        const QBrush& tint)
+        const QBrush &tint)
 {
     KConfigGroup cfg(config, group);
     _contrast      = SchemeManager::contrastF(config);
@@ -776,7 +776,7 @@ SchemeManagerPrivate::SchemeManagerPrivate(const KSharedConfigPtr& config,
     init(config, state, group, defaults);
 }
 
-void SchemeManagerPrivate::init(const KSharedConfigPtr& config,
+void SchemeManagerPrivate::init(const KSharedConfigPtr &config,
                                 QPalette::ColorGroup state,
                                 const char* group,
                                 SetDefaultColors defaults)
@@ -885,7 +885,7 @@ qreal SchemeManagerPrivate::contrast() const
 
 // ------------------------------------------------------------------------------------
 
-SchemeManager::SchemeManager(const SchemeManager& other) : d(other.d)
+SchemeManager::SchemeManager(const SchemeManager &other) : d(other.d)
 {
 }
 
@@ -893,7 +893,7 @@ SchemeManager::~SchemeManager()
 {
 }
 
-SchemeManager &SchemeManager::operator=(const SchemeManager& other)
+SchemeManager &SchemeManager::operator=(const SchemeManager &other)
 {
     d = other.d;
     return *this;
@@ -955,7 +955,7 @@ int SchemeManager::contrast()
     return g.readEntry("contrast", 7);
 }
 
-qreal SchemeManager::contrastF(const KSharedConfigPtr& config)
+qreal SchemeManager::contrastF(const KSharedConfigPtr &config)
 {
     if (config)
     {
@@ -987,12 +987,12 @@ QColor SchemeManager::shade(ShadeRole role) const
     return shade(background().color(), role, d->contrast());
 }
 
-QColor SchemeManager::shade(const QColor& color, ShadeRole role)
+QColor SchemeManager::shade(const QColor &color, ShadeRole role)
 {
     return shade(color, role, SchemeManager::contrastF());
 }
 
-QColor SchemeManager::shade(const QColor& color, ShadeRole role, qreal contrast, qreal chromaAdjust)
+QColor SchemeManager::shade(const QColor &color, ShadeRole role, qreal contrast, qreal chromaAdjust)
 {
     // nan -> 1.0
     contrast = ((1.0 > contrast) ? ((-1.0 < contrast) ? contrast
@@ -1052,7 +1052,7 @@ QColor SchemeManager::shade(const QColor& color, ShadeRole role, qreal contrast,
     }
 }
 
-void SchemeManager::adjustBackground(QPalette& palette, BackgroundRole newRole, QPalette::ColorRole color,
+void SchemeManager::adjustBackground(QPalette &palette, BackgroundRole newRole, QPalette::ColorRole color,
                                      ColorSet set, KSharedConfigPtr config)
 {
     palette.setBrush(QPalette::Active,   color, SchemeManager(QPalette::Active,   set, config).background(newRole));
@@ -1060,7 +1060,7 @@ void SchemeManager::adjustBackground(QPalette& palette, BackgroundRole newRole, 
     palette.setBrush(QPalette::Disabled, color, SchemeManager(QPalette::Disabled, set, config).background(newRole));
 }
 
-void SchemeManager::adjustForeground(QPalette& palette, ForegroundRole newRole, QPalette::ColorRole color,
+void SchemeManager::adjustForeground(QPalette &palette, ForegroundRole newRole, QPalette::ColorRole color,
                                      ColorSet set, KSharedConfigPtr config)
 {
     palette.setBrush(QPalette::Active,   color, SchemeManager(QPalette::Active,   set, config).foreground(newRole));
@@ -1068,7 +1068,7 @@ void SchemeManager::adjustForeground(QPalette& palette, ForegroundRole newRole, 
     palette.setBrush(QPalette::Disabled, color, SchemeManager(QPalette::Disabled, set, config).foreground(newRole));
 }
 
-QPalette SchemeManager::createApplicationPalette(const KSharedConfigPtr& config)
+QPalette SchemeManager::createApplicationPalette(const KSharedConfigPtr &config)
 {
     QPalette palette;
 

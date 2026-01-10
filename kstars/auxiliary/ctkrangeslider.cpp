@@ -32,14 +32,14 @@ class ctkRangeSliderPrivate
         };
         Q_DECLARE_FLAGS(Handles, Handle)
 
-        ctkRangeSliderPrivate(ctkRangeSlider& object);
+        ctkRangeSliderPrivate(ctkRangeSlider &object);
         void init();
 
         /// Return the handle at the given pos, or none if no handle is at the pos.
         /// If a handle is selected, handleRect is set to the handle rect.
         /// otherwise return NoHandle and handleRect is set to the combined rect of
         /// the min and max handles
-        Handle handleAtPos(const QPoint& pos, QRect& handleRect)const;
+        Handle handleAtPos(const QPoint &pos, QRect &handleRect)const;
 
         /// Copied verbatim from QSliderPrivate class (see QSlider.cpp)
         int pixelPosToRangeValue(int pos) const;
@@ -85,7 +85,7 @@ class ctkRangeSliderPrivate
 };
 
 // --------------------------------------------------------------------------
-ctkRangeSliderPrivate::ctkRangeSliderPrivate(ctkRangeSlider& object)
+ctkRangeSliderPrivate::ctkRangeSliderPrivate(ctkRangeSlider &object)
     : q_ptr(&object)
 {
     this->m_MinimumValue = 0;
@@ -113,7 +113,7 @@ void ctkRangeSliderPrivate::init()
 }
 
 // --------------------------------------------------------------------------
-ctkRangeSliderPrivate::Handle ctkRangeSliderPrivate::handleAtPos(const QPoint& pos, QRect& handleRect)const
+ctkRangeSliderPrivate::Handle ctkRangeSliderPrivate::handleAtPos(const QPoint &pos, QRect &handleRect)const
 {
     Q_Q(const ctkRangeSlider);
 
@@ -794,7 +794,7 @@ QString ctkRangeSlider::handleToolTip()const
 }
 
 // --------------------------------------------------------------------------
-void ctkRangeSlider::setHandleToolTip(const QString& _toolTip)
+void ctkRangeSlider::setHandleToolTip(const QString &_toolTip)
 {
     Q_D(ctkRangeSlider);
     d->m_HandleToolTip = _toolTip;

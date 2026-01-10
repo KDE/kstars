@@ -43,7 +43,7 @@ DeviceInfoLite::~DeviceInfoLite()
 {
 }
 
-ClientManagerLite::ClientManagerLite(QQmlContext& main_context) : context(main_context)
+ClientManagerLite::ClientManagerLite(QQmlContext &main_context) : context(main_context)
 {
 #ifdef ANDROID
     defaultImageType      = ".jpeg";
@@ -277,7 +277,7 @@ void ClientManagerLite::webManagerReplyFinished()
 
 TelescopeLite *ClientManagerLite::getTelescope()
 {
-    for (auto& devInfo : m_devices)
+    for (auto &devInfo : m_devices)
     {
         if (devInfo->telescope.get())
         {
@@ -820,7 +820,7 @@ bool ClientManagerLite::isDeviceConnected(const QString &deviceName)
     return false;
 }
 
-void ClientManagerLite::connectNewDevice(const QString& device_name)
+void ClientManagerLite::connectNewDevice(const QString &device_name)
 {
     connectDevice(qPrintable(device_name));
 }

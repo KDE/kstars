@@ -28,7 +28,7 @@ class CSVRow
         {
             return m_data.size();
         }
-        void readNextRow(std::istream& str)
+        void readNextRow(std::istream &str)
         {
             std::string         line;
             std::getline(str, line);
@@ -52,7 +52,7 @@ class CSVRow
         std::vector<std::string>    m_data;
 };
 
-inline std::istream &operator>>(std::istream& str, CSVRow& data)
+inline std::istream &operator>>(std::istream &str, CSVRow &data)
 {
     data.readNextRow(str);
     return str;

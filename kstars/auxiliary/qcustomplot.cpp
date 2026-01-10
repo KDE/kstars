@@ -7401,13 +7401,13 @@ double QCPAxisTickerFixed::getTickStep(const QCPRange &range)
             if (exactStep < mTickStep)
                 return mTickStep;
             else
-                return qint64(cleanMantissa(exactStep / mTickStep) +0.5) * mTickStep;
+                return qint64(cleanMantissa(exactStep / mTickStep) + 0.5) * mTickStep;
         }
         case ssPowers:
         {
             double exactStep = range.size() / double(mTickCount +
                                1e-10); // mTickCount ticks on average, the small addition is to prevent jitter on exact integers
-            return qPow(mTickStep, int(qLn(exactStep) / qLn(mTickStep) +0.5));
+            return qPow(mTickStep, int(qLn(exactStep) / qLn(mTickStep) + 0.5));
         }
     }
     return mTickStep;
@@ -7912,7 +7912,7 @@ QString QCPAxisTickerPi::unicodeSuperscript(int number) const
             }
             default:
             {
-                result.prepend(QChar(0x2070+digit));
+                result.prepend(QChar(0x2070 + digit));
                 break;
             }
         }
@@ -7934,7 +7934,7 @@ QString QCPAxisTickerPi::unicodeSubscript(int number) const
     QString result;
     while (number > 0)
     {
-        result.prepend(QChar(0x2080+number % 10));
+        result.prepend(QChar(0x2080 + number % 10));
         number /= 10;
     }
     return result;
@@ -19582,7 +19582,7 @@ void QCPPlottableLegendItem::draw(QCPPainter *painter)
     {
         painter->setPen(getIconBorderPen());
         painter->setBrush(Qt::NoBrush);
-        int halfPen = qCeil(painter->pen().widthF() * 0.5) +1;
+        int halfPen = qCeil(painter->pen().widthF() * 0.5) + 1;
         painter->setClipRect(mOuterRect.adjusted(-halfPen, -halfPen, halfPen,
                              halfPen)); // extend default clip rect so thicker pens (especially during selection) are not clipped
         painter->drawRect(iconRect);
@@ -22412,7 +22412,7 @@ void QCPGraph::getOptimizedLineData(QVector<QCPGraphData> *lineData, const QCPGr
         double currentIntervalStartKey = keyAxis->pixelToCoord(int(keyAxis->coordToPixel(begin->key) + reversedRound));
         double lastIntervalEndKey = currentIntervalStartKey;
         double keyEpsilon = qAbs(currentIntervalStartKey - keyAxis->pixelToCoord(keyAxis->coordToPixel(
-                                     currentIntervalStartKey) +1.0 * reversedFactor)); // interval of one pixel on screen when mapped to plot key coordinates
+                                     currentIntervalStartKey) + 1.0 * reversedFactor)); // interval of one pixel on screen when mapped to plot key coordinates
         bool keyEpsilonVariable = keyAxis->scaleType() ==
                                   QCPAxis::stLogarithmic; // indicates whether keyEpsilon needs to be updated after every interval (for log axes)
         int intervalDataCount = 1;
@@ -22450,7 +22450,7 @@ void QCPGraph::getOptimizedLineData(QVector<QCPGraphData> *lineData, const QCPGr
                 currentIntervalStartKey = keyAxis->pixelToCoord(int(keyAxis->coordToPixel(it->key) + reversedRound));
                 if (keyEpsilonVariable)
                     keyEpsilon = qAbs(currentIntervalStartKey - keyAxis->pixelToCoord(keyAxis->coordToPixel(
-                                          currentIntervalStartKey) +1.0 * reversedFactor));
+                                          currentIntervalStartKey) + 1.0 * reversedFactor));
                 intervalDataCount = 1;
             }
             ++it;
@@ -22535,7 +22535,7 @@ void QCPGraph::getOptimizedScatterData(QVector<QCPGraphData> *scatterData, QCPGr
                             0; // is used to switch between floor (normal) and ceil (reversed) rounding of currentIntervalStartKey
         double currentIntervalStartKey = keyAxis->pixelToCoord(int(keyAxis->coordToPixel(begin->key) + reversedRound));
         double keyEpsilon = qAbs(currentIntervalStartKey - keyAxis->pixelToCoord(keyAxis->coordToPixel(
-                                     currentIntervalStartKey) +1.0 * reversedFactor)); // interval of one pixel on screen when mapped to plot key coordinates
+                                     currentIntervalStartKey) + 1.0 * reversedFactor)); // interval of one pixel on screen when mapped to plot key coordinates
         bool keyEpsilonVariable = keyAxis->scaleType() ==
                                   QCPAxis::stLogarithmic; // indicates whether keyEpsilon needs to be updated after every interval (for log axes)
         int intervalDataCount = 1;
@@ -22602,7 +22602,7 @@ void QCPGraph::getOptimizedScatterData(QVector<QCPGraphData> *scatterData, QCPGr
                 currentIntervalStartKey = keyAxis->pixelToCoord(int(keyAxis->coordToPixel(it->key) + reversedRound));
                 if (keyEpsilonVariable)
                     keyEpsilon = qAbs(currentIntervalStartKey - keyAxis->pixelToCoord(keyAxis->coordToPixel(
-                                          currentIntervalStartKey) +1.0 * reversedFactor));
+                                          currentIntervalStartKey) + 1.0 * reversedFactor));
                 intervalDataCount = 1;
             }
             // advance to next data point:
@@ -27172,8 +27172,8 @@ QCPColorMapData &QCPColorMapData::operator=(const QCPColorMapData &other)
 /* undocumented getter */
 double QCPColorMapData::data(double key, double value)
 {
-    int keyCell = int( (key - mKeyRange.lower) / (mKeyRange.upper - mKeyRange.lower) * (mKeySize - 1) +0.5 );
-    int valueCell = int( (value - mValueRange.lower) / (mValueRange.upper - mValueRange.lower) * (mValueSize - 1) +0.5 );
+    int keyCell = int( (key - mKeyRange.lower) / (mKeyRange.upper - mKeyRange.lower) * (mKeySize - 1) + 0.5 );
+    int valueCell = int( (value - mValueRange.lower) / (mValueRange.upper - mValueRange.lower) * (mValueSize - 1) + 0.5 );
     if (keyCell >= 0 && keyCell < mKeySize && valueCell >= 0 && valueCell < mValueSize)
         return mData[valueCell * mKeySize + keyCell];
     else
@@ -27344,8 +27344,8 @@ void QCPColorMapData::setValueRange(const QCPRange &valueRange)
 */
 void QCPColorMapData::setData(double key, double value, double z)
 {
-    int keyCell = int( (key - mKeyRange.lower) / (mKeyRange.upper - mKeyRange.lower) * (mKeySize - 1) +0.5 );
-    int valueCell = int( (value - mValueRange.lower) / (mValueRange.upper - mValueRange.lower) * (mValueSize - 1) +0.5 );
+    int keyCell = int( (key - mKeyRange.lower) / (mKeyRange.upper - mKeyRange.lower) * (mKeySize - 1) + 0.5 );
+    int valueCell = int( (value - mValueRange.lower) / (mValueRange.upper - mValueRange.lower) * (mValueSize - 1) + 0.5 );
     if (keyCell >= 0 && keyCell < mKeySize && valueCell >= 0 && valueCell < mValueSize)
     {
         mData[valueCell * mKeySize + keyCell] = z;
@@ -27517,9 +27517,9 @@ void QCPColorMapData::fillAlpha(unsigned char alpha)
 void QCPColorMapData::coordToCell(double key, double value, int *keyIndex, int *valueIndex) const
 {
     if (keyIndex)
-        *keyIndex = int( (key - mKeyRange.lower) / (mKeyRange.upper - mKeyRange.lower) * (mKeySize - 1) +0.5 );
+        *keyIndex = int( (key - mKeyRange.lower) / (mKeyRange.upper - mKeyRange.lower) * (mKeySize - 1) + 0.5 );
     if (valueIndex)
-        *valueIndex = int( (value - mValueRange.lower) / (mValueRange.upper - mValueRange.lower) * (mValueSize - 1) +0.5 );
+        *valueIndex = int( (value - mValueRange.lower) / (mValueRange.upper - mValueRange.lower) * (mValueSize - 1) + 0.5 );
 }
 
 /*!
@@ -35931,7 +35931,7 @@ void QCPPolarLegendItem::draw(QCPPainter *painter)
     {
         painter->setPen(getIconBorderPen());
         painter->setBrush(Qt::NoBrush);
-        int halfPen = qCeil(painter->pen().widthF() * 0.5) +1;
+        int halfPen = qCeil(painter->pen().widthF() * 0.5) + 1;
         painter->setClipRect(mOuterRect.adjusted(-halfPen, -halfPen, halfPen,
                              halfPen)); // extend default clip rect so thicker pens (especially during selection) are not clipped
         painter->drawRect(iconRect);

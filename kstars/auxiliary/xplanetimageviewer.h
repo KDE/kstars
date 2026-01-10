@@ -122,7 +122,7 @@ class XPlanetImageViewer : public QDialog
         QImage m_Image;
 
         /** Save the downloaded image to a local file. */
-        void saveFile(const QString & fileName);
+        void saveFile(const QString &fileName);
 
         QFile m_File;
 

@@ -91,7 +91,7 @@ void HoughLine::printHoughLine()
  *     http://paulbourke.net/geometry/pointlineplane/
  * Also check https://doc.qt.io/archives/qt-4.8/qlinef.html for more line methods
  */
-HoughLine::IntersectResult HoughLine::Intersect(const HoughLine& other_line, QPointF& intersection)
+HoughLine::IntersectResult HoughLine::Intersect(const HoughLine &other_line, QPointF &intersection)
 {
     double denom = ((other_line.p2().y() - other_line.p1().y()) * (p2().x() - p1().x())) -
                    ((other_line.p2().x() - other_line.p1().x()) * (p2().y() - p1().y()));
@@ -125,13 +125,13 @@ HoughLine::IntersectResult HoughLine::Intersect(const HoughLine& other_line, QPo
     return NOT_INTERESECTING;
 }
 
-double HoughLine::Magnitude(const QPointF& point1, const QPointF& point2)
+double HoughLine::Magnitude(const QPointF &point1, const QPointF &point2)
 {
     QPointF vector = point2 - point1;
     return qSqrt(vector.x() * vector.x() + vector.y() * vector.y());
 }
 
-bool HoughLine::DistancePointLine(const QPointF& point, QPointF& intersection, double &distance)
+bool HoughLine::DistancePointLine(const QPointF &point, QPointF &intersection, double &distance)
 {
     double lineMag = length();
 

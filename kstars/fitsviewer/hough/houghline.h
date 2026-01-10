@@ -33,8 +33,8 @@ class HoughLine : public QLineF
         HoughLine(double theta, double r, int width, int height, int score);
         virtual ~HoughLine() = default;
         QPointF RotatePoint(int x1, double r, double theta, int width, int height);
-        IntersectResult Intersect(const HoughLine& other_line, QPointF& intersection);
-        bool DistancePointLine(const QPointF& point, QPointF& intersection, double &distance);
+        IntersectResult Intersect(const HoughLine &other_line, QPointF &intersection);
+        bool DistancePointLine(const QPointF &point, QPointF &intersection, double &distance);
         int getScore() const;
         double getR() const;
         double getTheta() const;
@@ -63,7 +63,7 @@ class HoughLine : public QLineF
         void Offset(const int offsetX, const int offsetY);
 
     private:
-        double Magnitude(const QPointF& point1, const QPointF& point2);
+        double Magnitude(const QPointF &point1, const QPointF &point2);
 
         int score;
         double theta;

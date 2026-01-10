@@ -228,7 +228,7 @@ QDataStream &operator<<(QDataStream &out, const KSAsteroid &asteroid)
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, KSAsteroid *&asteroid)
+QDataStream &operator>>(QDataStream &in, KSAsteroid * &asteroid)
 {
     QString name, orbit_id, orbit_class, dimensions;
     double q, a, e, H, G, earth_moid;

@@ -57,25 +57,25 @@ class GP
         typedef std::pair<Eigen::VectorXd, Eigen::MatrixXd> VectorMatrixPair;
 
         GP(); // allowing the standard constructor makes the use so much easier!
-        GP(const covariance_functions::CovFunc& covFunc);
+        GP(const covariance_functions::CovFunc &covFunc);
         GP(const double noise_variance,
-           const covariance_functions::CovFunc& covFunc);
+           const covariance_functions::CovFunc &covFunc);
         ~GP(); // Need to tidy up
 
-        GP(const GP& that);
-        GP &operator=(const GP& that);
+        GP(const GP &that);
+        GP &operator=(const GP &that);
 
         /*! Sets the covariance function
          *
          * This operation is possible only if there is not inference going on in the
          * current instance. This is useful after initialisation.
          */
-        bool setCovarianceFunction(const covariance_functions::CovFunc& covFunc);
+        bool setCovarianceFunction(const covariance_functions::CovFunc &covFunc);
 
         /*!
          * Sets the output projection covariance function.
          */
-        void enableOutputProjection(const covariance_functions::CovFunc& covFunc);
+        void enableOutputProjection(const covariance_functions::CovFunc &covFunc);
 
         /*!
          * Removes the output projection covariance function.
@@ -87,13 +87,13 @@ class GP
          *
          * Returns a sample of the prior if the Gram matrix is empty.
          */
-        Eigen::VectorXd drawSample(const Eigen::VectorXd& locations) const;
+        Eigen::VectorXd drawSample(const Eigen::VectorXd &locations) const;
 
         /*!
          * Returns a sample of the GP based on a given vector of random numbers.
          */
-        Eigen::VectorXd drawSample(const Eigen::VectorXd& locations,
-                                   const Eigen::VectorXd& random_vector) const;
+        Eigen::VectorXd drawSample(const Eigen::VectorXd &locations,
+                                   const Eigen::VectorXd &random_vector) const;
 
         /*!
          * Builds an inverts the Gram matrix for a given set of datapoints.
@@ -109,9 +109,9 @@ class GP
          * Calls infer() everytime so that the Gram matrix is rebuild and the
          * Cholesky decomposition is computed.
          */
-        void infer(const Eigen::VectorXd& data_loc,
-                   const Eigen::VectorXd& data_out,
-                   const Eigen::VectorXd& data_var = Eigen::VectorXd());
+        void infer(const Eigen::VectorXd &data_loc,
+                   const Eigen::VectorXd &data_out,
+                   const Eigen::VectorXd &data_var = Eigen::VectorXd());
 
         /*!
          * Calculates the GP based on a subset of data (SD) approximation. The data
@@ -120,10 +120,10 @@ class GP
          * no prediction point is given, the last data point is used (extrapolation
          * mode).
          */
-        void inferSD(const Eigen::VectorXd& data_loc,
-                     const Eigen::VectorXd& data_out,
+        void inferSD(const Eigen::VectorXd &data_loc,
+                     const Eigen::VectorXd &data_out,
                      const int n,
-                     const Eigen::VectorXd& data_var = Eigen::VectorXd(),
+                     const Eigen::VectorXd &data_var = Eigen::VectorXd(),
                      const double prediction_point = std::numeric_limits<double>::quiet_NaN());
 
         /*!
@@ -138,7 +138,7 @@ class GP
          * This function just builds the prior and mixed covariance matrices and
          * calls the other predict afterwards.
          */
-        Eigen::VectorXd predict(const Eigen::VectorXd& locations, Eigen::VectorXd* variances = nullptr) const;
+        Eigen::VectorXd predict(const Eigen::VectorXd &locations, Eigen::VectorXd* variances = nullptr) const;
 
         /*!
          * Predicts the mean and covariance for a vector of locations based on
@@ -147,20 +147,20 @@ class GP
          * This function just builds the prior and mixed covariance matrices and
          * calls the other predict afterwards.
          */
-        Eigen::VectorXd predictProjected(const Eigen::VectorXd& locations, Eigen::VectorXd* variances = nullptr) const;
+        Eigen::VectorXd predictProjected(const Eigen::VectorXd &locations, Eigen::VectorXd* variances = nullptr) const;
 
         /*!
          * Does the real work for predict. Solves the Cholesky decomposition for the
          * given matrices. The Gram matrix and measurements need to be cached
          * already.
          */
-        Eigen::VectorXd predict(const Eigen::MatrixXd& prior_cov, const Eigen::MatrixXd& mixed_cov,
-                                const Eigen::MatrixXd& phi = Eigen::MatrixXd(), Eigen::VectorXd* variances = nullptr) const;
+        Eigen::VectorXd predict(const Eigen::MatrixXd &prior_cov, const Eigen::MatrixXd &mixed_cov,
+                                const Eigen::MatrixXd &phi = Eigen::MatrixXd(), Eigen::VectorXd* variances = nullptr) const;
 
         /*!
          * Sets the hyperparameters to the given vector.
          */
-        void setHyperParameters(const Eigen::VectorXd& hyperParameters);
+        void setHyperParameters(const Eigen::VectorXd &hyperParameters);
 
         /*!
          * Returns the hyperparameters to the given vector.

@@ -52,7 +52,7 @@ class AstroCalc : public QDialog
                  * @param acalc  pointer to class.
                  * @param f      function which construct widget.
                  */
-                WidgetThunk(AstroCalc *acalc, const WidgetConstructor& f) : widget(nullptr), calc(acalc), func(f) { }
+                WidgetThunk(AstroCalc *acalc, const WidgetConstructor &f) : widget(nullptr), calc(acalc), func(f) { }
                 /**
                  * Request widget.
                  * @return newly created widget or cached value.

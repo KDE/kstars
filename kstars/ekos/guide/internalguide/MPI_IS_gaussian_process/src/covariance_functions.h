@@ -42,11 +42,11 @@ class CovFunc
          * Evaluates the covariance function, caches the quantities that are needed
          * to calculate gradient and Hessian.
          */
-        virtual Eigen::MatrixXd evaluate(const Eigen::VectorXd& x1, const Eigen::VectorXd& x2) = 0;
+        virtual Eigen::MatrixXd evaluate(const Eigen::VectorXd &x1, const Eigen::VectorXd &x2) = 0;
 
         //! Method to set the hyper-parameters.
-        virtual void setParameters(const Eigen::VectorXd& params) = 0;
-        virtual void setExtraParameters(const Eigen::VectorXd& params) = 0;
+        virtual void setParameters(const Eigen::VectorXd &params) = 0;
+        virtual void setExtraParameters(const Eigen::VectorXd &params) = 0;
 
         //! Returns the hyper-parameters.
         virtual const Eigen::VectorXd &getParameters() const = 0;
@@ -98,17 +98,17 @@ class PeriodicSquareExponential : public CovFunc
 
     public:
         PeriodicSquareExponential();
-        explicit PeriodicSquareExponential(const Eigen::VectorXd& hyperParameters);
+        explicit PeriodicSquareExponential(const Eigen::VectorXd &hyperParameters);
 
         /*!
          * Evaluates the covariance function, caches the quantities that are needed
          * to calculate gradient and Hessian.
          */
-        Eigen::MatrixXd evaluate(const Eigen::VectorXd& x1, const Eigen::VectorXd& x2) override;
+        Eigen::MatrixXd evaluate(const Eigen::VectorXd &x1, const Eigen::VectorXd &x2) override;
 
         //! Method to set the hyper-parameters.
-        void setParameters(const Eigen::VectorXd& params) override;
-        void setExtraParameters(const Eigen::VectorXd& params) override;
+        void setParameters(const Eigen::VectorXd &params) override;
+        void setExtraParameters(const Eigen::VectorXd &params) override;
 
         //! Returns the hyper-parameters.
         const Eigen::VectorXd &getParameters() const override;
@@ -168,13 +168,13 @@ class PeriodicSquareExponential2 : public CovFunc
 
     public:
         PeriodicSquareExponential2();
-        explicit PeriodicSquareExponential2(const Eigen::VectorXd& hyperParameters);
+        explicit PeriodicSquareExponential2(const Eigen::VectorXd &hyperParameters);
 
-        Eigen::MatrixXd evaluate(const Eigen::VectorXd& x1, const Eigen::VectorXd& x2) override;
+        Eigen::MatrixXd evaluate(const Eigen::VectorXd &x1, const Eigen::VectorXd &x2) override;
 
         //! Method to set the hyper-parameters.
-        void setParameters(const Eigen::VectorXd& params) override;
-        void setExtraParameters(const Eigen::VectorXd& params) override;
+        void setParameters(const Eigen::VectorXd &params) override;
+        void setExtraParameters(const Eigen::VectorXd &params) override;
 
         //! Returns the hyper-parameters.
         const Eigen::VectorXd &getParameters() const override;

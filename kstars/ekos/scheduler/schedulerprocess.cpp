@@ -2032,7 +2032,7 @@ void SchedulerProcess::selectActiveJob(const QList<SchedulerJob *> &jobs)
     /* If there are no jobs left to run in the filtered list, stop evaluation */
     ErrorHandlingStrategy strategy = static_cast<ErrorHandlingStrategy>(Options::errorHandlingStrategy());
     qCDebug(KSTARS_EKOS_SCHEDULER) << "selectActiveJob: Evaluating jobs. Total jobs:" << jobs.count();
-    for (const auto& job : jobs)
+    for (const auto &job : jobs)
     {
         qCDebug(KSTARS_EKOS_SCHEDULER) << "  Job:" << job->getName() << "State:" << SchedulerJob::jobStatusString(
                                            job->getState()) << "Stage:" << SchedulerJob::jobStageString(job->getStage());
@@ -2121,7 +2121,7 @@ void SchedulerProcess::evaluateJobs(bool evaluateOnly)
     moduleState()->calculateDawnDusk();
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << "evaluateJobs: Before scheduling jobs with GreedyScheduler.";
-    for (const auto& job : moduleState()->jobs())
+    for (const auto &job : moduleState()->jobs())
     {
         qCDebug(KSTARS_EKOS_SCHEDULER) << "  Job:" << job->getName() << "State:" << SchedulerJob::jobStatusString(
                                            job->getState()) << "Stage:" << SchedulerJob::jobStageString(job->getStage());
@@ -2131,7 +2131,7 @@ void SchedulerProcess::evaluateJobs(bool evaluateOnly)
                                        moduleState()->capturedFramesCount(), this);
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << "evaluateJobs: After scheduling jobs with GreedyScheduler.";
-    for (const auto& job : moduleState()->jobs())
+    for (const auto &job : moduleState()->jobs())
     {
         qCDebug(KSTARS_EKOS_SCHEDULER) << "  Job:" << job->getName() << "State:" << SchedulerJob::jobStatusString(
                                            job->getState()) << "Stage:" << SchedulerJob::jobStageString(job->getStage());

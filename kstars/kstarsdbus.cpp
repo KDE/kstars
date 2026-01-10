@@ -1082,19 +1082,19 @@ void KStars::openFITS(const QUrl &imageURL)
 QStringList KStars::listSkyMapViews()
 {
     QStringList output;
-    for (const SkyMapView& view : SkyMapViewManager::getViews())
+    for (const SkyMapView &view : SkyMapViewManager::getViews())
     {
         output.append(view.name);
     }
     return output;
 }
 
-bool KStars::setSkyMapView(const QString& viewName)
+bool KStars::setSkyMapView(const QString &viewName)
 {
     return slotApplySkyMapView(viewName);
 }
 
-bool KStars::setFOVIndicatorVisibility(const QString& fovName, bool visibility)
+bool KStars::setFOVIndicatorVisibility(const QString &fovName, bool visibility)
 {
     if (!getFOVIndicators().contains(fovName))
         return false; // Invalid FOV name
@@ -1119,7 +1119,7 @@ bool KStars::setFOVIndicatorVisibility(const QString& fovName, bool visibility)
     return true;
 }
 
-bool KStars::getFOVIndicatorVisibility(const QString& fovName)
+bool KStars::getFOVIndicatorVisibility(const QString &fovName)
 {
     return (Options::fOVNames().indexOf(fovName) >= 0);
 }
@@ -1165,7 +1165,7 @@ void KStars::setSkyMapMirrored(bool mirrored)
 QString KStars::getToggleableActionStates()
 {
     QJsonObject actionStates;
-    const auto& actions = actionCollection()->actions();
+    const auto &actions = actionCollection()->actions();
     for (const QAction * action : actions)
     {
         if (!action->isCheckable())
@@ -1178,7 +1178,7 @@ QString KStars::getToggleableActionStates()
 QStringList KStars::getActions()
 {
     QStringList result;
-    const auto& actions = actionCollection()->actions();
+    const auto &actions = actionCollection()->actions();
     for (const QAction * action : actions)
     {
         result.append(action->objectName());
@@ -1186,7 +1186,7 @@ QStringList KStars::getActions()
     return result;
 }
 
-bool KStars::activateAction(const QString& actionName)
+bool KStars::activateAction(const QString &actionName)
 {
     QAction* action = actionCollection()->action(actionName);
     if (!action)
@@ -1197,7 +1197,7 @@ bool KStars::activateAction(const QString& actionName)
     return true;
 }
 
-bool KStars::setToggleableActionState(const QString& actionName, const bool state)
+bool KStars::setToggleableActionState(const QString &actionName, const bool state)
 {
     QAction* action = actionCollection()->action(actionName);
     if (!action || !action->isCheckable())

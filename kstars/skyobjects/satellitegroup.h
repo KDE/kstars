@@ -23,7 +23,7 @@ class SatelliteGroup : public QList<Satellite *>
         /**
          * @short Constructor
          */
-        SatelliteGroup(const QString& name, const QString& tle_filename, const QUrl& update_url);
+        SatelliteGroup(const QString &name, const QString &tle_filename, const QUrl &update_url);
 
         virtual ~SatelliteGroup() = default;
 

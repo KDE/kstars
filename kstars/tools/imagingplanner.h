@@ -75,7 +75,7 @@ class CatalogFilter : public QSortFilterProxyModel
     public:
         CatalogFilter(QObject* parent = 0);
         bool filterAcceptsRow(int row, const QModelIndex &parent) const override;
-        bool lessThan ( const QModelIndex & left, const QModelIndex & right ) const override;
+        bool lessThan ( const QModelIndex &left, const QModelIndex &right ) const override;
         void setMinHours(double hours);
         void setImagedConstraints(bool enabled, bool required);
         void setPickedConstraints(bool enabled, bool required);

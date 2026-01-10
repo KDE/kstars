@@ -544,20 +544,20 @@ class KStars : public KXmlGuiWindow
          * @param viewName Name of the view
          * @note Essentially calls @see slotApplySkyMapView()
          */
-        Q_SCRIPTABLE bool setSkyMapView(const QString& viewName);
+        Q_SCRIPTABLE bool setSkyMapView(const QString &viewName);
 
         /** DBUS interface function. Sets the given FOV symbol to the given visbility state.
          * @param fovName Name of the FOV symbol
          * @param visible true if the FOV symbol should be shown, false if it should be hidden
          * @return true if FOV symbol name was in the list and the method succeeded
          */
-        Q_SCRIPTABLE bool setFOVIndicatorVisibility(const QString& fovName, bool visibility);
+        Q_SCRIPTABLE bool setFOVIndicatorVisibility(const QString &fovName, bool visibility);
 
         /** DBUS interface function. Get the visibility of the given FOV symbol.
          * @param fovName Name of the FOV symbol
          * @note Returns false if the FOV symbol does not exist
          */
-        Q_SCRIPTABLE bool getFOVIndicatorVisibility(const QString& fovName);
+        Q_SCRIPTABLE bool getFOVIndicatorVisibility(const QString &fovName);
 
         /** DBUS interface function. Get the list of available FOV indicators.
          */
@@ -591,7 +591,7 @@ class KStars : public KXmlGuiWindow
          * @note Although KMainWindow does expose this on DBus, it is convenient to have it in our own interface
          * @return false if there was no action matching @p actionName
          */
-        Q_SCRIPTABLE bool activateAction(const QString& actionName);
+        Q_SCRIPTABLE bool activateAction(const QString &actionName);
 
         /** DBUS interface function. List available actions
          * @note Although KMainWindow does expose this on DBus, it is convenient to have it in our own interface
@@ -604,7 +604,7 @@ class KStars : public KXmlGuiWindow
          * @note this essentially activates the action only if the state does not match
          * @return false if actionName does not match a toggleable (checkable) action
          */
-        Q_SCRIPTABLE bool setToggleableActionState(const QString& actionName, const bool state);
+        Q_SCRIPTABLE bool setToggleableActionState(const QString &actionName, const bool state);
 
         /** @}*/
 

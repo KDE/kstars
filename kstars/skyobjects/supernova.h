@@ -35,7 +35,7 @@ class Supernova : public SkyObject
     public:
         explicit Supernova(const QString &sName, dms ra, dms dec, const QString &type = QString(),
                            const QString &hostGalaxy = QString(), const QString &date = QString(), float sRedShift = 0.0,
-                           float sMag = 99.9, const QDateTime& discoveryDate = QDateTime::currentDateTime());
+                           float sMag = 99.9, const QDateTime &discoveryDate = QDateTime::currentDateTime());
         /**
          * @return a clone of this object
          * @note See SkyObject::clone()

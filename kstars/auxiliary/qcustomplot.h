@@ -967,11 +967,11 @@ class QCP_LIB_DECL QCPRange
         QCPRange();
         QCPRange(double lower, double upper);
 
-        bool operator==(const QCPRange& other) const
+        bool operator==(const QCPRange &other) const
         {
             return lower == other.lower && upper == other.upper;
         }
-        bool operator!=(const QCPRange& other) const
+        bool operator!=(const QCPRange &other) const
         {
             return !(*this == other);
         }
@@ -1002,10 +1002,10 @@ class QCP_LIB_DECL QCPRange
         }
         friend inline const QCPRange operator+(const QCPRange &, double);
         friend inline const QCPRange operator+(double, const QCPRange &);
-        friend inline const QCPRange operator-(const QCPRange& range, double value);
-        friend inline const QCPRange operator*(const QCPRange& range, double value);
-        friend inline const QCPRange operator*(double value, const QCPRange& range);
-        friend inline const QCPRange operator/(const QCPRange& range, double value);
+        friend inline const QCPRange operator-(const QCPRange &range, double value);
+        friend inline const QCPRange operator*(const QCPRange &range, double value);
+        friend inline const QCPRange operator*(double value, const QCPRange &range);
+        friend inline const QCPRange operator/(const QCPRange &range, double value);
 
         double size() const
         {
@@ -1052,7 +1052,7 @@ inline QDebug operator<< (QDebug d, const QCPRange &range)
 /*!
   Adds \a value to both boundaries of the range.
 */
-inline const QCPRange operator+(const QCPRange& range, double value)
+inline const QCPRange operator+(const QCPRange &range, double value)
 {
     QCPRange result(range);
     result += value;
@@ -1062,7 +1062,7 @@ inline const QCPRange operator+(const QCPRange& range, double value)
 /*!
   Adds \a value to both boundaries of the range.
 */
-inline const QCPRange operator+(double value, const QCPRange& range)
+inline const QCPRange operator+(double value, const QCPRange &range)
 {
     QCPRange result(range);
     result += value;
@@ -1072,7 +1072,7 @@ inline const QCPRange operator+(double value, const QCPRange& range)
 /*!
   Subtracts \a value from both boundaries of the range.
 */
-inline const QCPRange operator-(const QCPRange& range, double value)
+inline const QCPRange operator-(const QCPRange &range, double value)
 {
     QCPRange result(range);
     result -= value;
@@ -1082,7 +1082,7 @@ inline const QCPRange operator-(const QCPRange& range, double value)
 /*!
   Multiplies both boundaries of the range by \a value.
 */
-inline const QCPRange operator*(const QCPRange& range, double value)
+inline const QCPRange operator*(const QCPRange &range, double value)
 {
     QCPRange result(range);
     result *= value;
@@ -1092,7 +1092,7 @@ inline const QCPRange operator*(const QCPRange& range, double value)
 /*!
   Multiplies both boundaries of the range by \a value.
 */
-inline const QCPRange operator*(double value, const QCPRange& range)
+inline const QCPRange operator*(double value, const QCPRange &range)
 {
     QCPRange result(range);
     result *= value;
@@ -1102,7 +1102,7 @@ inline const QCPRange operator*(double value, const QCPRange& range)
 /*!
   Divides both boundaries of the range by \a value.
 */
-inline const QCPRange operator/(const QCPRange& range, double value)
+inline const QCPRange operator/(const QCPRange &range, double value)
 {
     QCPRange result(range);
     result /= value;
@@ -1121,11 +1121,11 @@ class QCP_LIB_DECL QCPDataRange
         QCPDataRange();
         QCPDataRange(int begin, int end);
 
-        bool operator==(const QCPDataRange& other) const
+        bool operator==(const QCPDataRange &other) const
         {
             return mBegin == other.mBegin && mEnd == other.mEnd;
         }
-        bool operator!=(const QCPDataRange& other) const
+        bool operator!=(const QCPDataRange &other) const
         {
             return !(*this == other);
         }
@@ -1191,23 +1191,23 @@ class QCP_LIB_DECL QCPDataSelection
         explicit QCPDataSelection();
         explicit QCPDataSelection(const QCPDataRange &range);
 
-        bool operator==(const QCPDataSelection& other) const;
-        bool operator!=(const QCPDataSelection& other) const
+        bool operator==(const QCPDataSelection &other) const;
+        bool operator!=(const QCPDataSelection &other) const
         {
             return !(*this == other);
         }
-        QCPDataSelection &operator+=(const QCPDataSelection& other);
-        QCPDataSelection &operator+=(const QCPDataRange& other);
-        QCPDataSelection &operator-=(const QCPDataSelection& other);
-        QCPDataSelection &operator-=(const QCPDataRange& other);
-        friend inline const QCPDataSelection operator+(const QCPDataSelection& a, const QCPDataSelection& b);
-        friend inline const QCPDataSelection operator+(const QCPDataRange& a, const QCPDataSelection& b);
-        friend inline const QCPDataSelection operator+(const QCPDataSelection& a, const QCPDataRange& b);
-        friend inline const QCPDataSelection operator+(const QCPDataRange& a, const QCPDataRange& b);
-        friend inline const QCPDataSelection operator-(const QCPDataSelection& a, const QCPDataSelection& b);
-        friend inline const QCPDataSelection operator-(const QCPDataRange& a, const QCPDataSelection& b);
-        friend inline const QCPDataSelection operator-(const QCPDataSelection& a, const QCPDataRange& b);
-        friend inline const QCPDataSelection operator-(const QCPDataRange& a, const QCPDataRange& b);
+        QCPDataSelection &operator+=(const QCPDataSelection &other);
+        QCPDataSelection &operator+=(const QCPDataRange &other);
+        QCPDataSelection &operator-=(const QCPDataSelection &other);
+        QCPDataSelection &operator-=(const QCPDataRange &other);
+        friend inline const QCPDataSelection operator+(const QCPDataSelection &a, const QCPDataSelection &b);
+        friend inline const QCPDataSelection operator+(const QCPDataRange &a, const QCPDataSelection &b);
+        friend inline const QCPDataSelection operator+(const QCPDataSelection &a, const QCPDataRange &b);
+        friend inline const QCPDataSelection operator+(const QCPDataRange &a, const QCPDataRange &b);
+        friend inline const QCPDataSelection operator-(const QCPDataSelection &a, const QCPDataSelection &b);
+        friend inline const QCPDataSelection operator-(const QCPDataRange &a, const QCPDataSelection &b);
+        friend inline const QCPDataSelection operator-(const QCPDataSelection &a, const QCPDataRange &b);
+        friend inline const QCPDataSelection operator-(const QCPDataRange &a, const QCPDataRange &b);
 
         // getters:
         int dataRangeCount() const
@@ -1252,7 +1252,7 @@ Q_DECLARE_METATYPE(QCPDataSelection)
   Return a \ref QCPDataSelection with the data points in \a a joined with the data points in \a b.
   The resulting data selection is already simplified (see \ref QCPDataSelection::simplify).
 */
-inline const QCPDataSelection operator+(const QCPDataSelection& a, const QCPDataSelection& b)
+inline const QCPDataSelection operator+(const QCPDataSelection &a, const QCPDataSelection &b)
 {
     QCPDataSelection result(a);
     result += b;
@@ -1263,7 +1263,7 @@ inline const QCPDataSelection operator+(const QCPDataSelection& a, const QCPData
   Return a \ref QCPDataSelection with the data points in \a a joined with the data points in \a b.
   The resulting data selection is already simplified (see \ref QCPDataSelection::simplify).
 */
-inline const QCPDataSelection operator+(const QCPDataRange& a, const QCPDataSelection& b)
+inline const QCPDataSelection operator+(const QCPDataRange &a, const QCPDataSelection &b)
 {
     QCPDataSelection result(a);
     result += b;
@@ -1274,7 +1274,7 @@ inline const QCPDataSelection operator+(const QCPDataRange& a, const QCPDataSele
   Return a \ref QCPDataSelection with the data points in \a a joined with the data points in \a b.
   The resulting data selection is already simplified (see \ref QCPDataSelection::simplify).
 */
-inline const QCPDataSelection operator+(const QCPDataSelection& a, const QCPDataRange& b)
+inline const QCPDataSelection operator+(const QCPDataSelection &a, const QCPDataRange &b)
 {
     QCPDataSelection result(a);
     result += b;
@@ -1285,7 +1285,7 @@ inline const QCPDataSelection operator+(const QCPDataSelection& a, const QCPData
   Return a \ref QCPDataSelection with the data points in \a a joined with the data points in \a b.
   The resulting data selection is already simplified (see \ref QCPDataSelection::simplify).
 */
-inline const QCPDataSelection operator+(const QCPDataRange& a, const QCPDataRange& b)
+inline const QCPDataSelection operator+(const QCPDataRange &a, const QCPDataRange &b)
 {
     QCPDataSelection result(a);
     result += b;
@@ -1295,7 +1295,7 @@ inline const QCPDataSelection operator+(const QCPDataRange& a, const QCPDataRang
 /*!
   Return a \ref QCPDataSelection with the data points which are in \a a but not in \a b.
 */
-inline const QCPDataSelection operator-(const QCPDataSelection& a, const QCPDataSelection& b)
+inline const QCPDataSelection operator-(const QCPDataSelection &a, const QCPDataSelection &b)
 {
     QCPDataSelection result(a);
     result -= b;
@@ -1305,7 +1305,7 @@ inline const QCPDataSelection operator-(const QCPDataSelection& a, const QCPData
 /*!
   Return a \ref QCPDataSelection with the data points which are in \a a but not in \a b.
 */
-inline const QCPDataSelection operator-(const QCPDataRange& a, const QCPDataSelection& b)
+inline const QCPDataSelection operator-(const QCPDataRange &a, const QCPDataSelection &b)
 {
     QCPDataSelection result(a);
     result -= b;
@@ -1315,7 +1315,7 @@ inline const QCPDataSelection operator-(const QCPDataRange& a, const QCPDataSele
 /*!
   Return a \ref QCPDataSelection with the data points which are in \a a but not in \a b.
 */
-inline const QCPDataSelection operator-(const QCPDataSelection& a, const QCPDataRange& b)
+inline const QCPDataSelection operator-(const QCPDataSelection &a, const QCPDataRange &b)
 {
     QCPDataSelection result(a);
     result -= b;
@@ -1325,7 +1325,7 @@ inline const QCPDataSelection operator-(const QCPDataSelection& a, const QCPData
 /*!
   Return a \ref QCPDataSelection with the data points which are in \a a but not in \a b.
 */
-inline const QCPDataSelection operator-(const QCPDataRange& a, const QCPDataRange& b)
+inline const QCPDataSelection operator-(const QCPDataRange &a, const QCPDataRange &b)
 {
     QCPDataSelection result(a);
     result -= b;

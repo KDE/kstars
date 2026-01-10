@@ -969,7 +969,7 @@ struct set_to_max_on_overflow
 namespace detail
 {
 template <class quote_policy>
-void chop_next_column(char *&line, char *&col_begin, char *&col_end)
+void chop_next_column(char * &line, char * &col_begin, char * &col_end)
 {
     assert(line != nullptr);
 
@@ -1084,12 +1084,12 @@ template <class overflow_policy> void parse(char *col, std::string &x)
     x = col;
 }
 
-template <class overflow_policy> void parse(char *col, const char *&x)
+template <class overflow_policy> void parse(char *col, const char * &x)
 {
     x = col;
 }
 
-template <class overflow_policy> void parse(char *col, char *&x)
+template <class overflow_policy> void parse(char *col, char * &x)
 {
     x = col;
 }

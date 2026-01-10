@@ -46,7 +46,7 @@ class WIView : public QWidget
         void loadDetailsView(SkyObjItem *soitem, int index);
 
         /** Updates sky-object list models */
-        void updateModel(ObsConditions& obs);
+        void updateModel(ObsConditions &obs);
 
         inline QQuickView *getWIBaseView() const
         {
@@ -112,7 +112,7 @@ class WIView : public QWidget
         void saveInfoURL(SkyObjItem *soitem, QString infoURL);
         void saveObjectInfoBoxText(SkyObjItem *soitem, QString type, QString infoText);
         void downloadWikipediaImage(SkyObjItem *soitem, QString imageURL);
-        void inspectSkyObject(const QString& name);
+        void inspectSkyObject(const QString &name);
         void inspectSkyObjectOnClick(SkyObject *obj);
         void inspectSkyObject(SkyObject *obj);
         bool inspectOnClickIsActive()

@@ -34,7 +34,7 @@ class Manager : public QObject
         static Manager* instance();
 
         QString currentThemeName() const;
-        void    setCurrentTheme(const QString& name);
+        void    setCurrentTheme(const QString &name);
 
         QString defaultThemeName() const;
 
@@ -58,7 +58,7 @@ class Manager : public QObject
         Manager();
 
         void    populateThemeMenu();
-        QPixmap createSchemePreviewIcon(const KSharedConfigPtr& config) const;
+        QPixmap createSchemePreviewIcon(const KSharedConfigPtr &config) const;
         QString currentDesktopdefaultTheme() const;
         void    updateCurrentDesktopDefaultThemePreview();
 

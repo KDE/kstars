@@ -12,7 +12,7 @@
 
 #include <QTextStream>
 
-SatelliteGroup::SatelliteGroup(const QString& name, const QString& tle_filename, const QUrl& update_url)
+SatelliteGroup::SatelliteGroup(const QString &name, const QString &tle_filename, const QUrl &update_url)
 {
     m_name     = name;
     m_tle_file = tle_filename;

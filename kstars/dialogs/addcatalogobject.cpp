@@ -367,7 +367,7 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
     }
 
     // Type determination: Support full names of types, or SIMBAD/NED shorthands
-    for (const auto& p : objectTypes)
+    for (const auto &p : objectTypes)
     {
         QRegularExpression findType("\\b(?:" + p.first + ")\\b");
         if (text.contains(findType, &rmatch))

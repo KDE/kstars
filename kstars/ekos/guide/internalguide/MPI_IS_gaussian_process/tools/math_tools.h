@@ -55,15 +55,15 @@ namespace math_tools
   a Matrix of size nxm containing all pairwise squared distances
 */
 Eigen::MatrixXd squareDistance(
-    const Eigen::MatrixXd& a,
-    const Eigen::MatrixXd& b);
+    const Eigen::MatrixXd &a,
+    const Eigen::MatrixXd &b);
 
 /*!
  * Single-input version of squaredDistance. For single inputs, it is assumed
  * that the pairwise distance matrix should be computed between the passed
  * vector itself.
  */
-Eigen::MatrixXd squareDistance(const Eigen::MatrixXd& a);
+Eigen::MatrixXd squareDistance(const Eigen::MatrixXd &a);
 
 /*!
  * Generates a uniformly distributed random matrix of values between 0 and 1.
@@ -74,7 +74,7 @@ Eigen::MatrixXd generate_uniform_random_matrix_0_1(const size_t n, const size_t 
  * Apply the Box-Muller transform, which transforms uniform random samples
  * to Gaussian distributed random samples.
  */
-Eigen::MatrixXd box_muller(const Eigen::VectorXd& vRand);
+Eigen::MatrixXd box_muller(const Eigen::VectorXd &vRand);
 
 /*!
  * Generates normal random samples. First it gets some uniform random samples
@@ -120,7 +120,7 @@ inline bool isInf(double x)
  * - The constant coefficient is removed.
  * - A list of frequencies is generated.
  */
-std::pair< Eigen::VectorXd, Eigen::VectorXd > compute_spectrum(Eigen::VectorXd& data, int N = 0);
+std::pair< Eigen::VectorXd, Eigen::VectorXd > compute_spectrum(Eigen::VectorXd &data, int N = 0);
 
 /*!
  * Computes a Hamming window (used to reduce spectral leakage of subsequent DFT).
@@ -130,7 +130,7 @@ Eigen::VectorXd hamming_window(int N);
 /*!
  * Computes the standard deviation of a vector... which is not part of Eigen.
  */
-double stdandard_deviation(Eigen::VectorXd& input);
+double stdandard_deviation(Eigen::VectorXd &input);
 
 }  // namespace math_tools
 

@@ -31,13 +31,13 @@ class qMDNS : public QObject
         Q_OBJECT
 
     signals:
-        void hostFound (const QHostInfo& info);
+        void hostFound (const QHostInfo &info);
 
     public:
         static qMDNS* getInstance();
 
         QString hostName() const;
-        QString getAddress (const QString& string);
+        QString getAddress (const QString &string);
 
     protected:
         explicit qMDNS();
@@ -45,22 +45,22 @@ class qMDNS : public QObject
 
     public slots:
         void setTTL (const quint32 ttl);
-        void lookup (const QString& name);
-        void setHostName (const QString& name);
+        void lookup (const QString &name);
+        void setHostName (const QString &name);
 
     private slots:
         void onReadyRead();
-        void readQuery (const QByteArray& data);
-        void sendPacket (const QByteArray& data);
-        void readResponse (const QByteArray& data);
+        void readQuery (const QByteArray &data);
+        void sendPacket (const QByteArray &data);
+        void readResponse (const QByteArray &data);
         void sendResponse (const quint16 query_id);
 
     private:
-        QString getHostNameFromResponse (const QByteArray& data);
-        QString getIPv4FromResponse (const QByteArray& data, const QString& host);
-        QStringList getIPv6FromResponse (const QByteArray& data, const QString& host);
-        QList<QHostAddress> getAddressesFromResponse (const QByteArray& data,
-                const QString& host);
+        QString getHostNameFromResponse (const QByteArray &data);
+        QString getIPv4FromResponse (const QByteArray &data, const QString &host);
+        QStringList getIPv6FromResponse (const QByteArray &data, const QString &host);
+        QList<QHostAddress> getAddressesFromResponse (const QByteArray &data,
+                const QString &host);
 
     private:
         quint32 m_ttl;

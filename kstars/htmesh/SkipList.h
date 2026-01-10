@@ -42,7 +42,7 @@ class LINKAGE SkipList
             if (iter != NIL)
                 return iter->getKey();
             else
-                return (Key) -1;
+                return (Key) - 1;
         }
 
         Value getvalue()
@@ -50,7 +50,7 @@ class LINKAGE SkipList
             if (iter != NIL)
                 return iter->getValue();
             else
-                return (Value) -1;
+                return (Value) - 1;
         }
 
         /// free element with key
