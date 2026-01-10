@@ -72229,12 +72229,12 @@ msgstr "启动望远镜"
 #: kstarsinit.cpp:719
 #, kde-format
 msgid "Slew the telescope to the mouse pointer position"
-msgstr "旋转望远镜至鼠标光标所在位置"
+msgstr "旋转望远镜至鼠标指针所在位置"
 
 #: kstarsinit.cpp:722
 #, kde-format
 msgid "Sync the telescope to the mouse pointer position"
-msgstr "同步望远镜至鼠标光标所在位置"
+msgstr "同步望远镜至鼠标指针所在位置"
 
 #: kstarsinit.cpp:729
 #, kde-format
