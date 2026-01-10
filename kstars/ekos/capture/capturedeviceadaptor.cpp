@@ -398,7 +398,10 @@ void CaptureDeviceAdaptor::connectFilterManager(SequenceJobState *state)
     connect(this, &CaptureDeviceAdaptor::filterIdChanged, state, &SequenceJobState::setCurrentFilterID, Qt::QueuedConnection);
 
     if (m_FilterManager.isNull() == false)
+    {
         connect(m_FilterManager.get(), &FilterManager::newStatus, state, &SequenceJobState::setFilterStatus);
+        connect(m_FilterManager.get(), &FilterManager::positionChanged, state, &SequenceJobState::setCurrentFilterID);
+    }
 }
 
 void CaptureDeviceAdaptor::disconnectFilterManager(SequenceJobState *state)
@@ -411,7 +414,10 @@ void CaptureDeviceAdaptor::disconnectFilterManager(SequenceJobState *state)
     disconnect(this, &CaptureDeviceAdaptor::filterIdChanged, state, &SequenceJobState::setCurrentFilterID);
 
     if (m_FilterManager.isNull() == false)
+    {
+        disconnect(m_FilterManager.get(), &FilterManager::positionChanged, state, &SequenceJobState::setCurrentFilterID);
         disconnect(m_FilterManager.get(), &FilterManager::newStatus, state, &SequenceJobState::setFilterStatus);
+    }
 }
 
 void Ekos::CaptureDeviceAdaptor::updateFilterPosition()

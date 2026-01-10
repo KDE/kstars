@@ -2215,31 +2215,34 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
     double currentADU = imageData->getADU();
     bool outOfRange = false, saturated = false;
 
-    switch (imageData->bpp())
+    if (currentADU > 0) // WRE 2025-12-13: Frames with ADU 0 might have 8-bit encoding
     {
-        case 8:
-            if (activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT8_MAX)
-                outOfRange = true;
-            else if (currentADU / UINT8_MAX > 0.95)
-                saturated = true;
-            break;
+        switch (imageData->bpp())
+        {
+            case 8:
+                if (activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT8_MAX)
+                    outOfRange = true;
+                else if (currentADU / UINT8_MAX > 0.95)
+                    saturated = true;
+                break;
 
-        case 16:
-            if (activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT16_MAX)
-                outOfRange = true;
-            else if (currentADU / UINT16_MAX > 0.95)
-                saturated = true;
-            break;
+            case 16:
+                if (activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT16_MAX)
+                    outOfRange = true;
+                else if (currentADU / UINT16_MAX > 0.95)
+                    saturated = true;
+                break;
 
-        case 32:
-            if (activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT32_MAX)
-                outOfRange = true;
-            else if (currentADU / UINT32_MAX > 0.95)
-                saturated = true;
-            break;
+            case 32:
+                if (activeJob()->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > UINT32_MAX)
+                    outOfRange = true;
+                else if (currentADU / UINT32_MAX > 0.95)
+                    saturated = true;
+                break;
 
-        default:
-            break;
+            default:
+                break;
+        }
     }
 
     if (outOfRange)
