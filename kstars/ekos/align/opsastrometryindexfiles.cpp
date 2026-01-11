@@ -783,4 +783,18 @@ QString OpsAstrometryIndexFiles::findFirstWritableDir()
 
     return QString();
 }
+
+void OpsAstrometryIndexFiles::installIndexFile(const QString &name)
+{
+
+    updateIndexDirectoryList();
+    processIndexFile(name, true, false);
+}
+
+void OpsAstrometryIndexFiles::removeIndexFile(const QString &name)
+{
+    updateIndexDirectoryList();
+    processIndexFile(name, false, false);
+}
+
 }

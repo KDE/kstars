@@ -28,6 +28,8 @@ class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFil
 
         Q_SCRIPTABLE void downloadSingleIndexFile(const QString &indexFileName);
         Q_SCRIPTABLE void processIndexFile(const QString &indexSeriesName, bool install, bool showWarnings = true);
+        Q_SCRIPTABLE void installIndexFile(const QString &name);
+        Q_SCRIPTABLE void removeIndexFile(const QString &name);
 
     protected:
         void showEvent(QShowEvent *) override;
