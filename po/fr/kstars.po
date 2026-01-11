@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.8\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-08 02:04+0000\n"
+"POT-Creation-Date: 2026-01-11 02:04+0000\n"
 "PO-Revision-Date: 2025-07-20 12:19+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -3032,7 +3032,7 @@ msgstr "Type de correspondance"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2461 ekos/capture/capturecountswidget.cpp:321
+#: ekos/capture/cameraprocess.cpp:2464 ekos/capture/capturecountswidget.cpp:321
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
 #: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:814
 #, kde-format
@@ -6892,7 +6892,7 @@ msgstr "Impossible d'écrire le fichier %1"
 
 #: ekos/align/align.cpp:4096 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:356
-#: ekos/capture/cameraprocess.cpp:2606 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2609 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2762
 #: ekos/scheduler/schedulerprocess.cpp:3191
 #: ekos/scheduler/schedulerprocess.cpp:4315
@@ -7565,7 +7565,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Ouvrir une liste d'alignement Ekos"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:355
-#: ekos/capture/cameraprocess.cpp:2605 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2608 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3190
 #: ekos/scheduler/schedulerprocess.cpp:4334
 #, kde-format
@@ -15277,7 +15277,7 @@ msgstr "Options de calibration automatique pour les darks et les flats"
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, CalibrationMinimized)
-#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2474
+#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2477
 #: ekos/guide/guide.cpp:70 fitsviewer/livestacking.ui:2102
 #: fitsviewer/livestacking.ui:2702
 #, kde-format
@@ -16239,7 +16239,7 @@ msgstr "Les modifications ont été appliquées pour la tâche #%1."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Voulez-vous vraiment réinitialiser l'état de toutes les tâches ?"
 
-#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2726
+#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2729
 #, kde-format
 msgid "Reset job status"
 msgstr "Réinitialiser l'état des tâches"
@@ -16552,7 +16552,7 @@ msgstr "Durée d'exposition écoulée. Redémarrage de l'exposition…"
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Durée d'exposition écoulée. Trop. Annulation…"
 
-#: ekos/capture/cameraprocess.cpp:2247
+#: ekos/capture/cameraprocess.cpp:2250
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16561,19 +16561,19 @@ msgstr ""
 "Échec de la calibration du flat. L'image acquise n'est que de %1 bits alors "
 "que la valeur ADU demandée est %2."
 
-#: ekos/capture/cameraprocess.cpp:2258
+#: ekos/capture/cameraprocess.cpp:2261
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "L'image courante est saturée (%1). La prochaine exposition est prévue dans "
 "%2 secondes."
 
-#: ekos/capture/cameraprocess.cpp:2280
+#: ekos/capture/cameraprocess.cpp:2283
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "La valeur courante ADU %1 est dans la plage de tolérance."
 
-#: ekos/capture/cameraprocess.cpp:2309
+#: ekos/capture/cameraprocess.cpp:2312
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16582,28 +16582,28 @@ msgstr ""
 "Impossible de calculer les paramètres optimaux d'exposition. Veuillez "
 "acquérir manuellement les flats."
 
-#: ekos/capture/cameraprocess.cpp:2317
+#: ekos/capture/cameraprocess.cpp:2320
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 "La valeur courante ADU est %1. La prochaine exposition est dans %2 secondes."
 
-#: ekos/capture/cameraprocess.cpp:2458
+#: ekos/capture/cameraprocess.cpp:2461
 #, kde-format
 msgid "%1 Preview"
 msgstr "Aperçu %1"
 
-#: ekos/capture/cameraprocess.cpp:2469 ekos/capture/cameraprocess.cpp:2471
+#: ekos/capture/cameraprocess.cpp:2472 ekos/capture/cameraprocess.cpp:2474
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Calibration Flat"
 
-#: ekos/capture/cameraprocess.cpp:2675
+#: ekos/capture/cameraprocess.cpp:2678
 #, kde-format
 msgid "Sequence paused."
 msgstr "Séquence en pause."
 
-#: ekos/capture/cameraprocess.cpp:2725
+#: ekos/capture/cameraprocess.cpp:2728
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16612,7 +16612,7 @@ msgstr ""
 "Toutes les tâches sont terminées. Voulez-vous réinitialiser l'état de toutes "
 "les tâches et relancer l'acquisition ?"
 
-#: ekos/capture/cameraprocess.cpp:2739
+#: ekos/capture/cameraprocess.cpp:2742
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16621,17 +16621,17 @@ msgstr ""
 "Attention : l'option « Toujours réinitialiser la séquence au démarrage » est "
 "activée et réinitialisera les compteurs de séquence."
 
-#: ekos/capture/cameraprocess.cpp:2975
+#: ekos/capture/cameraprocess.cpp:2978
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Voulez-vous vraiment relancer le pilote de la camera %1 ?"
 
-#: ekos/capture/cameraprocess.cpp:2976
+#: ekos/capture/cameraprocess.cpp:2979
 #, kde-format
 msgid "Driver Restart"
 msgstr "Redémarrage du pilote"
 
-#: ekos/capture/cameraprocess.cpp:3123 ekos/capture/sequencejobstate.cpp:41
+#: ekos/capture/cameraprocess.cpp:3126 ekos/capture/sequencejobstate.cpp:41
 #, kde-format
 msgid "Capture operations timed out after %1 seconds."
 msgstr "L'acquisition a dépassé le délai d'attente après %1 secondes."
@@ -17001,7 +17001,7 @@ msgstr "Total"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr "(Dés)active l'affichage des compteurs d'acquisition en mode graphique."
 
-#: ekos/capture/capturedeviceadaptor.cpp:423
+#: ekos/capture/capturedeviceadaptor.cpp:429
 #, fuzzy, kde-format
 #| msgid ""
 #| "Filter manager is not initilized yet. Filter wheel missing from train?"
@@ -17010,22 +17010,22 @@ msgstr ""
 "Le gestionnaire de filtres n'est pas encore initialisé. La roue à filtres "
 "fait-elle partie du train ?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:677
+#: ekos/capture/capturedeviceadaptor.cpp:683
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Enlever le capuchon du télescope pour continuer."
 
-#: ekos/capture/capturedeviceadaptor.cpp:678
+#: ekos/capture/capturedeviceadaptor.cpp:684
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Télescope couvert"
 
-#: ekos/capture/capturedeviceadaptor.cpp:810
+#: ekos/capture/capturedeviceadaptor.cpp:816
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "Est-ce que %1 possède un obturateur ?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:811
+#: ekos/capture/capturedeviceadaptor.cpp:817
 #: ekos/capture/sequencejobstate.cpp:445
 #, kde-format
 msgid "Dark Exposure"

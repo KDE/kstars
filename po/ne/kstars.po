@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-08 02:04+0000\n"
+"POT-Creation-Date: 2026-01-11 02:04+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -3159,7 +3159,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2461 ekos/capture/capturecountswidget.cpp:321
+#: ekos/capture/cameraprocess.cpp:2464 ekos/capture/capturecountswidget.cpp:321
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
 #: fitsviewer/fitsviewer.cpp:813 fitsviewer/fitsviewer.cpp:814
 #, fuzzy, kde-format
@@ -7189,7 +7189,7 @@ msgstr "छवि बचत गर्न असक्षम भयो: %1 "
 
 #: ekos/align/align.cpp:4096 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:356
-#: ekos/capture/cameraprocess.cpp:2606 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2609 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2762
 #: ekos/scheduler/schedulerprocess.cpp:3191
 #: ekos/scheduler/schedulerprocess.cpp:4315
@@ -7882,7 +7882,7 @@ msgid "Open Ekos Alignment List"
 msgstr "सूची अवलोकन गर्दै"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:355
-#: ekos/capture/cameraprocess.cpp:2605 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2608 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3190
 #: ekos/scheduler/schedulerprocess.cpp:4334
 #, fuzzy, kde-format
@@ -15358,7 +15358,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, CalibrationMinimized)
-#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2474
+#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2477
 #: ekos/guide/guide.cpp:70 fitsviewer/livestacking.ui:2102
 #: fitsviewer/livestacking.ui:2702
 #, fuzzy, kde-format
@@ -16195,7 +16195,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "तपाईँ %1 लिङ्क हटाउन निश्चित हुनुहुन्छ ?"
 
-#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2726
+#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2729
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
@@ -16514,55 +16514,55 @@ msgstr "क्यामेरा/सीसीडी प्रदर्शन स
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "क्यामेरा/सीसीडी प्रदर्शन सुरु गर्नुहोस् । अवधि सेकेन्डमा छ ।"
 
-#: ekos/capture/cameraprocess.cpp:2247
+#: ekos/capture/cameraprocess.cpp:2250
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2258
+#: ekos/capture/cameraprocess.cpp:2261
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2280
+#: ekos/capture/cameraprocess.cpp:2283
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2309
+#: ekos/capture/cameraprocess.cpp:2312
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2317
+#: ekos/capture/cameraprocess.cpp:2320
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2458
+#: ekos/capture/cameraprocess.cpp:2461
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "%1 Preview"
 msgstr "%1 को पूर्वावलोकन"
 
-#: ekos/capture/cameraprocess.cpp:2469 ekos/capture/cameraprocess.cpp:2471
+#: ekos/capture/cameraprocess.cpp:2472 ekos/capture/cameraprocess.cpp:2474
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Flat Calibration"
 msgstr "कालियन्टे"
 
-#: ekos/capture/cameraprocess.cpp:2675
+#: ekos/capture/cameraprocess.cpp:2678
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "आवृती:"
 
-#: ekos/capture/cameraprocess.cpp:2725
+#: ekos/capture/cameraprocess.cpp:2728
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -16570,26 +16570,26 @@ msgid ""
 "restart capturing?"
 msgstr "तपाईँ %1 लिङ्क हटाउन निश्चित हुनुहुन्छ ?"
 
-#: ekos/capture/cameraprocess.cpp:2739
+#: ekos/capture/cameraprocess.cpp:2742
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2975
+#: ekos/capture/cameraprocess.cpp:2978
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "तपाईँ %1 क्लाइन्ट हटाउन निश्चित हुनुहुन्छ ?"
 
-#: ekos/capture/cameraprocess.cpp:2976
+#: ekos/capture/cameraprocess.cpp:2979
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
 msgstr "तारा"
 
-#: ekos/capture/cameraprocess.cpp:3123 ekos/capture/sequencejobstate.cpp:41
+#: ekos/capture/cameraprocess.cpp:3126 ekos/capture/sequencejobstate.cpp:41
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Capture operations timed out after %1 seconds."
@@ -16951,28 +16951,28 @@ msgstr "स्थानीय समय"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:423
+#: ekos/capture/capturedeviceadaptor.cpp:429
 #, kde-format
 msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:677
+#: ekos/capture/capturedeviceadaptor.cpp:683
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:678
+#: ekos/capture/capturedeviceadaptor.cpp:684
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Telescope Covered"
 msgstr "आगत समन्वयहरू चयन गर्नुहोस्"
 
-#: ekos/capture/capturedeviceadaptor.cpp:810
+#: ekos/capture/capturedeviceadaptor.cpp:816
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:811
+#: ekos/capture/capturedeviceadaptor.cpp:817
 #: ekos/capture/sequencejobstate.cpp:445
 #, fuzzy, kde-format
 #| msgid "Exposure:"
