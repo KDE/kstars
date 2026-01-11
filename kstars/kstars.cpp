@@ -116,7 +116,8 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate, const boo
 
         QString pluginsDir = QDir(QCoreApplication::applicationDirPath() + "/../PlugIns").absolutePath();
         QString loadDBusPlist  = pluginsDir + "/dbus/org.freedesktop.dbus-kstars.plist";
-        QString saveDBusPlist = QDir::homePath() + "/Library/LaunchAgents/org.freedesktop.dbus-kstars.plist";
+        QString destPath = QDir::homePath() + "/Library/LaunchAgents";
+        QString saveDBusPlist = destPath + "/org.freedesktop.dbus-kstars.plist";
         QFile file(loadDBusPlist);
         if (file.open(QIODevice::ReadOnly))
         {
@@ -138,6 +139,9 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate, const boo
             "/dbus/kstars.conf</string>\n"
             "    </array>";
             pListText.replace(currentProgramArgs, newProgramArguments);
+            QDir destDir(destPath);
+            if(!destDir.exists())
+                destDir.mkpath(destPath);
             QFile file2(saveDBusPlist);
             if (file2.open(QIODevice::WriteOnly))
             {
