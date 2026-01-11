@@ -2186,7 +2186,7 @@ bool FITSData::stackLoadXISFImage(QString filename)
     }
     return true;
 #else
-    Q_UNUSED(buffer)
+    Q_UNUSED(filename)
     return false;
 #endif
 
@@ -6356,6 +6356,7 @@ bool FITSData::debayer(bool reload)
                               &anynull, &status))
                 return false;
         }
+#ifdef HAVE_XISF
         else if (m_Extension.contains("xisf") && !m_Filename.isEmpty())
         {
             LibXISF::XISFReader xisfReader;
@@ -6364,6 +6365,7 @@ bool FITSData::debayer(bool reload)
             m_ImageBufferSize = image.imageDataSize();
             std::memcpy(m_ImageBuffer, image.imageData(), m_ImageBufferSize);
         }
+#endif
         else
             return false;
     }
