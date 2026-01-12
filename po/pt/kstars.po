@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-11 02:04+0000\n"
+"POT-Creation-Date: 2026-01-12 02:23+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -34174,19 +34174,19 @@ msgstr "O padrão de Bayer %1 não é suportado."
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Os deslocamentos do Bayer %1 %2 não são suportados."
 
-#: fitsviewer/fitsdata.cpp:6398 fitsviewer/fitsdata.cpp:6445
-#: fitsviewer/fitsdata.cpp:6490 fitsviewer/fitsdata.cpp:6537
+#: fitsviewer/fitsdata.cpp:6400 fitsviewer/fitsdata.cpp:6447
+#: fitsviewer/fitsdata.cpp:6492 fitsviewer/fitsdata.cpp:6539
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 "Não foi possível reservar memória para o 'buffer' temporário do Bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:6408 fitsviewer/fitsdata.cpp:6500
+#: fitsviewer/fitsdata.cpp:6410 fitsviewer/fitsdata.cpp:6502
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Não foi possível reservar memória para o 'buffer' temporário do Bayer."
 
-#: fitsviewer/fitsdata.cpp:6428 fitsviewer/fitsdata.cpp:6520
+#: fitsviewer/fitsdata.cpp:6430 fitsviewer/fitsdata.cpp:6522
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "O Debayer foi mal-sucedido (%1)"
@@ -39349,34 +39349,34 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:294 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
+#: kstars.cpp:298 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:295
+#: kstars.cpp:299
 #, fuzzy, kde-format
 #| msgid "KStars Lite"
 msgid "KStars Live Stacker"
 msgstr "KStars Lite"
 
-#: kstars.cpp:296
+#: kstars.cpp:300
 #, fuzzy, kde-format
 #| msgid "(c), The KStars Team"
 msgid "© 2025 KStars Team"
 msgstr "(c) A Equipa do KStars"
 
-#: kstars.cpp:423 kstarsactions.cpp:1658 skymap.cpp:463
+#: kstars.cpp:427 kstarsactions.cpp:1658 skymap.cpp:463
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "&Parar de Seguir"
 
-#: kstars.cpp:431 kstarsactions.cpp:1825 kstarsinit.cpp:277
+#: kstars.cpp:435 kstarsactions.cpp:1825 kstarsinit.cpp:277
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Mudar para uma Vista em Globo (&Coordenadas Equatoriais)"
 
-#: kstars.cpp:432 kstarsactions.cpp:1806 kstarsinit.cpp:278
+#: kstars.cpp:436 kstarsactions.cpp:1806 kstarsinit.cpp:278
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Mudar para uma Vista Horizontal (&Coordenadas Horizontais)"

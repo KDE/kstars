@@ -1,5 +1,8 @@
 # Translation of kstars.po to Catalan (Valencian)
 # Copyright (C) 2003-2026 This_file_is_part_of_KDE
+# This file is distributed under the license LGPL version 2.1 or
+# version 3 or later versions approved by the membership of KDE e.V.
+# or the same license as the source of its messages in English.
 #
 # SPDX-FileCopyrightText: 2003, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Antoni Bella Pérez <antonibella5@yahoo.com>
 # SPDX-FileCopyrightText: 2004 Ivan Lloro Boada <antispam@wanadoo.es>
@@ -11,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-11 02:04+0000\n"
-"PO-Revision-Date: 2026-01-09 16:23+0100\n"
+"POT-Creation-Date: 2026-01-12 02:23+0000\n"
+"PO-Revision-Date: 2026-01-11 10:55+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -32597,22 +32600,22 @@ msgstr "Patró de Bayer no implementat %1."
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Desplaçaments del filtre mosaic de Bayer no implementats %1 %2."
 
-#: fitsviewer/fitsdata.cpp:6398 fitsviewer/fitsdata.cpp:6445
-#: fitsviewer/fitsdata.cpp:6490 fitsviewer/fitsdata.cpp:6537
+#: fitsviewer/fitsdata.cpp:6400 fitsviewer/fitsdata.cpp:6447
+#: fitsviewer/fitsdata.cpp:6492 fitsviewer/fitsdata.cpp:6539
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 "No s'ha pogut reservar la memòria intermèdia temporal per al filtre mosaic "
 "de Bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:6408 fitsviewer/fitsdata.cpp:6500
+#: fitsviewer/fitsdata.cpp:6410 fitsviewer/fitsdata.cpp:6502
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 "No s'ha pogut reservar la memòria intermèdia temporal per al filtre mosaic "
 "de Bayer."
 
-#: fitsviewer/fitsdata.cpp:6428 fitsviewer/fitsdata.cpp:6520
+#: fitsviewer/fitsdata.cpp:6430 fitsviewer/fitsdata.cpp:6522
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "La reconstrucció des de Bayer ha fallat (%1)"
@@ -37738,32 +37741,32 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:294 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
+#: kstars.cpp:298 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:295
+#: kstars.cpp:299
 #, kde-format
 msgid "KStars Live Stacker"
 msgstr "Apilador en directe de KStars"
 
-#: kstars.cpp:296
+#: kstars.cpp:300
 #, kde-format
 msgid "© 2025 KStars Team"
 msgstr "(c) 2025 L'equip de KStars"
 
-#: kstars.cpp:423 kstarsactions.cpp:1658 skymap.cpp:463
+#: kstars.cpp:427 kstarsactions.cpp:1658 skymap.cpp:463
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "A&tura el seguiment"
 
-#: kstars.cpp:431 kstarsactions.cpp:1825 kstarsinit.cpp:277
+#: kstars.cpp:435 kstarsactions.cpp:1825 kstarsinit.cpp:277
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Canvia a la vista de l'esfera celeste (&coordenades equatorials)"
 
-#: kstars.cpp:432 kstarsactions.cpp:1806 kstarsinit.cpp:278
+#: kstars.cpp:436 kstarsactions.cpp:1806 kstarsinit.cpp:278
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Canvia a la vista horitzontal (&coordenades horitzontals)"
