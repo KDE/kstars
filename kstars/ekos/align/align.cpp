@@ -351,22 +351,22 @@ void Align::handlePointTooltip(QMouseEvent *event)
                 return;
             QToolTip::showText(event->globalPos(),
                                i18n("<table>"
-                 "<tr>"
-                 "<th colspan=\"2\">Object %1: %2</th>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>RA:</td><td>%3</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>DE:</td><td>%4</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>dRA:</td><td>%5</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>dDE:</td><td>%6</td>"
-                 "</tr>"
-                 "</table>",
+                                    "<tr>"
+                                    "<th colspan=\"2\">Object %1: %2</th>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>RA:</td><td>%3</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>DE:</td><td>%4</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dRA:</td><td>%5</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dDE:</td><td>%6</td>"
+                                    "</tr>"
+                                    "</table>",
                                     point + 1,
                                     solutionTable->item(point, 2)->text(),
                                     solutionTable->item(point, 0)->text(),
@@ -2602,6 +2602,9 @@ bool Align::checkIfRotationRequired()
                         appendLogText(i18n("Setting camera position angle to %1 degrees ...", m_TargetPositionAngle));
                         setState(ALIGN_ROTATING);
                         emit newStatus(state); // Evoke 'updateProperty()' (where the same check is executed again)
+                        // Start rotator timeout timer and check
+                        m_RotatorTimer.start();
+                        QTimer::singleShot(1000, this, &Align::checkRotatorTimeout);
                         return true;
                     }
                     else
@@ -2632,6 +2635,9 @@ bool Align::checkIfRotationRequired()
                         m_ManualRotator->raise();
                         setState(ALIGN_ROTATING);
                         emit newStatus(state);
+                        // Start rotator timeout timer and check
+                        m_RotatorTimer.start();
+                        QTimer::singleShot(1000, this, &Align::checkRotatorTimeout);
                         return true;
                     }
                     else
@@ -2649,6 +2655,7 @@ bool Align::checkIfRotationRequired()
 void Align::stop(Ekos::AlignState mode)
 {
     m_CaptureTimer.stop();
+    m_RotatorTimer.invalidate();
     if (solverModeButtonGroup->checkedId() == SOLVER_LOCAL)
     {
         if (m_Solver.get())
@@ -2946,6 +2953,19 @@ void Align::updateProperty(INDI::Property prop)
                         + " Target PA:" + QString::number(m_TargetPositionAngle)
                         + " Offset:" + QString::number(Options::pAOffset());
         appendLogText(logtext);*/
+
+        // Check for rotator error state
+        if (std::isnan(m_TargetPositionAngle) == false && state == ALIGN_ROTATING && nvp->s == IPS_ALERT)
+        {
+            appendLogText(i18n("Rotator error detected. Aborting alignment."));
+            m_RotatorTimer.invalidate();
+            setState(ALIGN_FAILED);
+            emit newStatus(state);
+            solveB->setEnabled(true);
+            loadSlewB->setEnabled(true);
+            return;
+        }
+
         // loadSlewTarget defined if activation through [Load & Slew] and rotator just reached position
         if (std::isnan(m_TargetPositionAngle) == false && state == ALIGN_ROTATING && nvp->s == IPS_OK)
         {
@@ -4074,7 +4094,7 @@ void Align::exportSolutionPoints()
     {
         int r = KMessageBox::warningContinueCancel(nullptr,
                 i18n("A file named \"%1\" already exists. "
-             "Overwrite it?",
+                     "Overwrite it?",
                      exportFile.fileName()),
                 i18n("Overwrite File?"), KStandardGuiItem::overwrite());
         if (r == KMessageBox::Cancel)
@@ -4754,6 +4774,31 @@ void Align::resetDynamicThreshold()
     {
         m_dynamicThreshold = newThreshold;
         qCInfo(KSTARS_EKOS_ALIGN) << "Dynamic threshold reset to" << QString::number(m_dynamicThreshold, 'f', 2);
+    }
+}
+
+void Align::checkRotatorTimeout()
+{
+    // Only check timeout if we're still in ALIGN_ROTATING state
+    if (state != ALIGN_ROTATING)
+        return;
+
+    // Check if timeout has been reached
+    if (m_RotatorTimer.isValid() &&
+            m_RotatorTimer.elapsed() >= Options::captureOperationsTimeout() * 1000)
+    {
+        appendLogText(i18n("Rotator timeout after %1 seconds. Aborting alignment.",
+                           Options::captureOperationsTimeout()));
+        m_RotatorTimer.invalidate();
+        setState(ALIGN_FAILED);
+        emit newStatus(state);
+        solveB->setEnabled(true);
+        loadSlewB->setEnabled(true);
+    }
+    else
+    {
+        // Check again in 1 second
+        QTimer::singleShot(1000, this, &Align::checkRotatorTimeout);
     }
 }
 

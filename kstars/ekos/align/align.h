@@ -588,6 +588,9 @@ class Align : public QWidget, public Ui::Align
         // Capture Timeout
         void processCaptureTimeout();
 
+        // Rotator Timeout
+        void checkRotatorTimeout();
+
     protected slots:
         /**
              * @brief After a solver process is completed successfully, sync, slew to target, or do nothing as set by the user.
@@ -887,6 +890,7 @@ class Align : public QWidget, public Ui::Align
         QTimer m_RemoteAlignTimer;
         QElapsedTimer m_RemoteElapsedTimer;
         QTimer m_DebounceTimer;
+        QElapsedTimer m_RotatorTimer;
 
         // Align Frame
         QSharedPointer<AlignView> m_AlignView;
