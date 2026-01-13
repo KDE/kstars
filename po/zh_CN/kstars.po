@@ -30053,7 +30053,7 @@ msgstr "启动队列执行失败。请检查队列中的项目。"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:379
 #, kde-format
 msgid "Queue Running"
-msgstr ""
+msgstr "队列正在运行"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:380
 #, kde-format
@@ -30075,7 +30075,7 @@ msgstr "初始化模板库失败"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:415
 #, kde-format
 msgid "Template Not Found"
-msgstr ""
+msgstr "找不到模版"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:416
 #, kde-format
@@ -30087,7 +30087,7 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:437
 #, kde-format
 msgid "Task Update Failed"
-msgstr ""
+msgstr "任务更新失败"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:438
 #, kde-format
@@ -30097,7 +30097,7 @@ msgstr ""
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:452
 #, kde-format
 msgid "Task updated"
-msgstr ""
+msgstr "任务已更新"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:506
 #, kde-format
@@ -30170,7 +30170,7 @@ msgstr "无法保存队列到 %1"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:804
 #, kde-format
 msgid "Save Queue As"
-msgstr ""
+msgstr "保存队列为"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:806
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:859
@@ -30256,7 +30256,7 @@ msgstr "合集已加载"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1061
 #, kde-format
 msgid "Save Changes?"
-msgstr ""
+msgstr "保存更改？"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:1062
 #, kde-format
@@ -31196,12 +31196,14 @@ msgid ""
 "Stacking\n"
 "Status"
 msgstr ""
+"堆叠\n"
+"状态"
 
 #: fitsviewer/fitsstackmonitor.h:344
 #, kde-format
 msgctxt "Tooltip for Stacking Status column"
 msgid "Stacking status"
-msgstr ""
+msgstr "堆叠状态"
 
 #: fitsviewer/fitsstackmonitor.h:348
 #, kde-format
@@ -31210,12 +31212,14 @@ msgid ""
 "Stacking\n"
 "Time(s)"
 msgstr ""
+"叠图中\n"
+"时间 (秒)"
 
 #: fitsviewer/fitsstackmonitor.h:349
 #, kde-format
 msgctxt "Tooltip for Stacking Time column"
 msgid "Time to stack (s)"
-msgstr ""
+msgstr "叠图时间 (秒)"
 
 #: fitsviewer/fitsstackmonitor.h:353
 #, kde-format
@@ -31224,12 +31228,14 @@ msgid ""
 "Stacking\n"
 "Weight"
 msgstr ""
+"叠图\n"
+"权重"
 
 #: fitsviewer/fitsstackmonitor.h:354
 #, kde-format
 msgctxt "Tooltip for Stacking Weight column"
 msgid "Weight used in stacking"
-msgstr ""
+msgstr "叠图时使用的权重"
 
 #: fitsviewer/fitsstretchui.cpp:241
 #, kde-format
