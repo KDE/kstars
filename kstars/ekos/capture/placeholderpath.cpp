@@ -355,18 +355,32 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         else if ((match.captured("name") == "exposure") || (match.captured("name") == "e") ||
                  (match.captured("name") == "exp") || (match.captured("name") == "E"))
         {
-            double fractpart, intpart;
-            double exposure = pathPropertyMap[PP_EXPOSURE].toDouble();
-            fractpart = std::modf(exposure, &intpart);
-            if (fractpart == 0)
-                replacement = QString::number(exposure, 'd', 0);
-            else if (exposure >= 1e-3)
-                replacement = QString::number(exposure, 'f', 3);
+            // For FLAT frames with ADU-based calibration, exposure time changes dynamically
+            // to reach target ADU. When generating signatures for file matching, use a pattern
+            // instead of specific exposure value to match files with varying exposures.
+            if (gettingSignature && frameType == FRAME_FLAT)
+            {
+                // Use pattern that matches integers and decimals: e.g., "1", "0.056", "2.500"
+                replacement = "[\\d.]+";
+                // append _secs for placeholders "exposure" and "e"
+                if ((match.captured("name") == "exposure") || (match.captured("name") == "e"))
+                    replacement += "_secs";
+            }
             else
-                replacement = QString::number(exposure, 'f', 6);
-            // append _secs for placeholders "exposure" and "e"
-            if ((match.captured("name") == "exposure") || (match.captured("name") == "e"))
-                replacement += QString("_secs");
+            {
+                double fractpart, intpart;
+                double exposure = pathPropertyMap[PP_EXPOSURE].toDouble();
+                fractpart = std::modf(exposure, &intpart);
+                if (fractpart == 0)
+                    replacement = QString::number(exposure, 'd', 0);
+                else if (exposure >= 1e-3)
+                    replacement = QString::number(exposure, 'f', 3);
+                else
+                    replacement = QString::number(exposure, 'f', 6);
+                // append _secs for placeholders "exposure" and "e"
+                if ((match.captured("name") == "exposure") || (match.captured("name") == "e"))
+                    replacement += QString("_secs");
+            }
         }
         else if ((match.captured("name") == "Filter") || (match.captured("name") == "F"))
         {
