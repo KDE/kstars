@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-12 02:23+0000\n"
+"POT-Creation-Date: 2026-01-14 02:02+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -475,14 +475,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "ആകാശ സമയം മുന്‍ കൂട്ടിയുള്ളത് "
 
-#: auxiliary/imageviewer.cpp:321 ekos/align/align.cpp:4076
+#: auxiliary/imageviewer.cpp:321 ekos/align/align.cpp:4096
 #: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1391
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr ""
 
-#: auxiliary/imageviewer.cpp:324 ekos/align/align.cpp:4079
+#: auxiliary/imageviewer.cpp:324 ekos/align/align.cpp:4099
 #: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1392
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, fuzzy, kde-format
@@ -2717,7 +2717,7 @@ msgid ""
 "to the Google search engine?"
 msgstr ""
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4087
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4107
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:428
 #: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2193
@@ -6402,7 +6402,7 @@ msgstr "നക്ഷത്രക്കൂട്ടം"
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: ekos/align/align.cpp:1668 ekos/align/align.cpp:3186
+#: ekos/align/align.cpp:1668 ekos/align/align.cpp:3206
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
@@ -6506,7 +6506,7 @@ msgstr "ഇന്‍പുട്ട് ഡിവൈസുകള്‍"
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
 msgstr ""
 
-#: ekos/align/align.cpp:2369 ekos/align/align.cpp:2830
+#: ekos/align/align.cpp:2369 ekos/align/align.cpp:2837
 #, fuzzy, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "തുടങ്ങാന്‍ തിരഞ്ഞെടുത്ത് പുറത്ത് കടക്കുക."
@@ -6559,33 +6559,33 @@ msgstr ""
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "ഇന്‍പുട്ട് ഡിവൈസുകള്‍"
 
-#: ekos/align/align.cpp:2609
+#: ekos/align/align.cpp:2612
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2623
+#: ekos/align/align.cpp:2626
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align.cpp:2693
+#: ekos/align/align.cpp:2700
 #, fuzzy, kde-format
 msgid "Refresh is complete."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/align/align.cpp:2700 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/align/align.cpp:2707 ekos/auxiliary/darklibrary.cpp:1413
 #: ekos/focus/focus.cpp:1716
 #, fuzzy, kde-format
 msgid "Capture aborted."
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/align/align.cpp:2703
+#: ekos/align/align.cpp:2710
 #, fuzzy, kde-format
 msgid "Solver aborted."
 msgstr "നക്ഷത്രക്കൂട്ടം"
 
-#: ekos/align/align.cpp:2745 ekos/analyze/analyze.cpp:4142
+#: ekos/align/align.cpp:2752 ekos/analyze/analyze.cpp:4142
 #: ekos/capture/capture.cpp:309 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1242 ekos/manager.cpp:2124 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1047
@@ -6595,157 +6595,162 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "ടിവിയും റേഡിയോയും"
 
-#: ekos/align/align.cpp:2801
+#: ekos/align/align.cpp:2808
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 
-#: ekos/align/align.cpp:2824
+#: ekos/align/align.cpp:2831
 #, kde-format
 msgid "Mount is synced to solution coordinates."
 msgstr ""
 
-#: ekos/align/align.cpp:2860 ekos/align/align.cpp:2878
-#: ekos/align/align.cpp:3490 ekos/align/align.cpp:4235
+#: ekos/align/align.cpp:2867 ekos/align/align.cpp:2885
+#: ekos/align/align.cpp:3510 ekos/align/align.cpp:4255
 #: ekos/align/polaralignmentassistant.cpp:654
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Settling..."
 msgstr "string"
 
-#: ekos/align/align.cpp:2868
+#: ekos/align/align.cpp:2875
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align.cpp:2870
+#: ekos/align/align.cpp:2877
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align.cpp:2913 ekos/align/align.cpp:3064
+#: ekos/align/align.cpp:2920 ekos/align/align.cpp:3084
 #, kde-format
 msgid "Syncing failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2915
+#: ekos/align/align.cpp:2922
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Ashern"
 msgid "Slewing failed."
 msgstr "ആഷേര്‍ണ്‍"
 
-#: ekos/align/align.cpp:2959
+#: ekos/align/align.cpp:2960
+#, kde-format
+msgid "Rotator error detected. Aborting alignment."
+msgstr ""
+
+#: ekos/align/align.cpp:2979
 #, fuzzy, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "സ്ഥാനം"
 
-#: ekos/align/align.cpp:2972
+#: ekos/align/align.cpp:2992
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align.cpp:3010
+#: ekos/align/align.cpp:3030
 #, fuzzy, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/align/align.cpp:3058
+#: ekos/align/align.cpp:3078
 #, fuzzy, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "തുടങ്ങാന്‍ തിരഞ്ഞെടുത്ത് പുറത്ത് കടക്കുക."
 
-#: ekos/align/align.cpp:3082
+#: ekos/align/align.cpp:3102
 #, fuzzy, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "തുടങ്ങാന്‍ തിരഞ്ഞെടുത്ത് പുറത്ത് കടക്കുക."
 
-#: ekos/align/align.cpp:3087
+#: ekos/align/align.cpp:3107
 #, fuzzy, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
 "notification)"
 msgstr "തുടങ്ങാന്‍ തിരഞ്ഞെടുത്ത് പുറത്ത് കടക്കുക."
 
-#: ekos/align/align.cpp:3106
+#: ekos/align/align.cpp:3126
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr ""
 
-#: ekos/align/align.cpp:3155
+#: ekos/align/align.cpp:3175
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "നക്ഷത്രരാശിയുടെ പടം ലോഡ് ചെയ്തുകൊണ്ടിരിക്കുന്നു: "
 
-#: ekos/align/align.cpp:3386
+#: ekos/align/align.cpp:3406
 #, fuzzy, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "കുറുകെയുള്ള ഫ്ലിപ്പ്"
 
-#: ekos/align/align.cpp:3391
+#: ekos/align/align.cpp:3411
 #, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr ""
 
-#: ekos/align/align.cpp:3410
+#: ekos/align/align.cpp:3430
 #, fuzzy, kde-format
 msgid "Capture error. Aborting..."
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/align/align.cpp:3415 ekos/capture/cameraprocess.cpp:1635
+#: ekos/align/align.cpp:3435 ekos/capture/cameraprocess.cpp:1635
 #: ekos/capture/cameraprocess.cpp:2196
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3541
+#: ekos/align/align.cpp:3561
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/align/align.cpp:3616
+#: ekos/align/align.cpp:3636
 #, fuzzy, kde-format
 msgid "StellarSolver Options"
 msgstr "ആജ്ഞാ സ്ഥാന സാധ്യതകള്‍"
 
-#: ekos/align/align.cpp:3621
+#: ekos/align/align.cpp:3641
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3625
+#: ekos/align/align.cpp:3645
 #, fuzzy, kde-format
 msgid "Scale & Position"
 msgstr "സ്ഥാനം"
 
-#: ekos/align/align.cpp:3629
+#: ekos/align/align.cpp:3649
 #, fuzzy, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "ഒരു അറ തെരഞ്ഞെടുക്കുക"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3648 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3668 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 msgid "Index Files"
 msgstr "ഫയലുകളുടെ നടത്തിപ്പു്"
 
-#: ekos/align/align.cpp:3713 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3733 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgid "arcmin"
 msgid "dRA (arcsec)"
 msgstr "arcmin"
 
-#: ekos/align/align.cpp:3714 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3734 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "seconds"
 msgid "dDE (arcsec)"
 msgstr "സെക്കന്റുകള്‍"
 
-#: ekos/align/align.cpp:3762 ekos/capture/camera_config.cpp:717
+#: ekos/align/align.cpp:3782 ekos/capture/camera_config.cpp:717
 #: ekos/focus/focus.cpp:5970
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -6753,34 +6758,34 @@ msgstr "സെക്കന്റുകള്‍"
 msgid "Filter operation failed."
 msgstr "കാലിയെന്റെ"
 
-#: ekos/align/align.cpp:3774 ekos/capture/camera.cpp:579
+#: ekos/align/align.cpp:3794 ekos/capture/camera.cpp:579
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3781 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3801 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/camera.cpp:584
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3786 ekos/capture/camera.cpp:589
+#: ekos/align/align.cpp:3806 ekos/capture/camera.cpp:589
 #, fuzzy, kde-format
 msgid "Auto focus on filter change..."
 msgstr "പ്രാദേശികം(കണ്ട്രി)"
 
-#: ekos/align/align.cpp:3907
+#: ekos/align/align.cpp:3927
 #, fuzzy, kde-format
 msgid "Invalid FOV."
 msgstr "തെറ്റായ സ്ക്രിപ്റ്റ് നിര്‍ദ്ദേശം"
 
-#: ekos/align/align.cpp:4063
+#: ekos/align/align.cpp:4083
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "ഹോളി സീ (വത്തിക്കാന്‍ സിറ്റി സ്റ്റേറ്റ്)"
 
-#: ekos/align/align.cpp:4086 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:4106 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:427 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2192 ekos/scheduler/scheduler.cpp:2302
@@ -6790,7 +6795,7 @@ msgstr "ഹോളി സീ (വത്തിക്കാന്‍ സിറ്�
 msgid "Invalid URL: %1"
 msgstr "തെറ്റായ സ്ക്രിപ്റ്റ് നിര്‍ദ്ദേശം"
 
-#: ekos/align/align.cpp:4095 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:4115 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:2761
 #: ekos/scheduler/schedulerprocess.cpp:4314
@@ -6798,7 +6803,7 @@ msgstr "തെറ്റായ സ്ക്രിപ്റ്റ് നിര്�
 msgid "Unable to write to file %1"
 msgstr "URL തുറക്കുവാന്‍ സാധ്യമായില്ല"
 
-#: ekos/align/align.cpp:4096 ekos/align/mountmodel.cpp:286
+#: ekos/align/align.cpp:4116 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:2609 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:2762
@@ -6818,30 +6823,35 @@ msgstr "URL തുറക്കുവാന്‍ സാധ്യമായില�
 msgid "Could Not Open File"
 msgstr "ഫയല്‍ തുറക്കുവാന്‍ സാധിച്ചില്ല"
 
-#: ekos/align/align.cpp:4117
+#: ekos/align/align.cpp:4137
 #, fuzzy, kde-format
 msgid "Error in table structure."
 msgstr "രഹസ്യ രീതിയില്‍ പ്രവര്‍ത്തിപ്പിയ്ക്കുക"
 
-#: ekos/align/align.cpp:4126
+#: ekos/align/align.cpp:4146
 #, fuzzy, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "കുറുകെയുള്ള ഫ്ലിപ്പ്"
 
-#: ekos/align/align.cpp:4143
+#: ekos/align/align.cpp:4163
 #, fuzzy, kde-format
 msgid "Polar Alignment"
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/align/align.cpp:4715
+#: ekos/align/align.cpp:4735
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/align/align.cpp:4724
+#: ekos/align/align.cpp:4744
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "നക്ഷത്രക്കൂട്ടം"
+
+#: ekos/align/align.cpp:4790
+#, fuzzy, kde-format
+msgid "Rotator timeout after %1 seconds. Aborting alignment."
+msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
 #. i18n: ectx: property (text), widget (QLabel, trainLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
