@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-14 02:02+0000\n"
-"PO-Revision-Date: 2026-01-13 18:21+0300\n"
+"PO-Revision-Date: 2026-01-14 19:11+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6647,10 +6647,9 @@ msgid "Slewing failed."
 msgstr "Çevirme başarısız oldu."
 
 #: ekos/align/align.cpp:2960
-#, fuzzy, kde-format
-#| msgid "Dustcap error detected. Aborting alignment."
+#, kde-format
 msgid "Rotator error detected. Aborting alignment."
-msgstr "Toz kapağı hatası algılandı. Hizalama iptal ediliyor."
+msgstr "Döndürücü hatası algılandı. Hizalama iptal ediliyor."
 
 #: ekos/align/align.cpp:2979
 #, kde-format
@@ -6858,10 +6857,10 @@ msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Yakalama hâlâ sürüyor. %1 saniye içinde yeniden deneniyor…"
 
 #: ekos/align/align.cpp:4790
-#, fuzzy, kde-format
-#| msgid "Dustcap error detected. Aborting alignment."
+#, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
-msgstr "Toz kapağı hatası algılandı. Hizalama iptal ediliyor."
+msgstr ""
+"Döndürücü, %1 saniye sonra zaman aşımına uğradı. Hizalama iptal ediliyor."
 
 #. i18n: ectx: property (text), widget (QLabel, trainLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_25)

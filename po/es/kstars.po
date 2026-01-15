@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-14 02:02+0000\n"
-"PO-Revision-Date: 2026-01-09 01:30+0100\n"
+"PO-Revision-Date: 2026-01-14 12:02+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -6698,11 +6698,9 @@ msgid "Slewing failed."
 msgstr "El desplazamiento ha fallado."
 
 #: ekos/align/align.cpp:2960
-#, fuzzy, kde-format
-#| msgid "Dustcap error detected. Aborting alignment."
+#, kde-format
 msgid "Rotator error detected. Aborting alignment."
-msgstr ""
-"Detectado error de la cubierta antipolvo. Interrumpiendo la alineación."
+msgstr "Detectado error del rotador. Interrumpiendo la alineación."
 
 #: ekos/align/align.cpp:2979
 #, kde-format
@@ -6914,11 +6912,11 @@ msgstr ""
 "El proceso de captura está en marcha. Se vuelve a intentar en %1 segundos…"
 
 #: ekos/align/align.cpp:4790
-#, fuzzy, kde-format
-#| msgid "Dustcap error detected. Aborting alignment."
+#, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr ""
-"Detectado error de la cubierta antipolvo. Interrumpiendo la alineación."
+"Se ha agotado el tiempo del rotador tras %1 segundos. Interrumpiendo la "
+"alineación."
 
 #. i18n: ectx: property (text), widget (QLabel, trainLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_25)

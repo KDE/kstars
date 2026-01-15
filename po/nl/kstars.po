@@ -15,14 +15,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-14 02:02+0000\n"
-"PO-Revision-Date: 2026-01-08 17:26+0100\n"
+"PO-Revision-Date: 2026-01-14 18:16+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.12.0\n"
+"X-Generator: Lokalize 25.12.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -6671,10 +6671,9 @@ msgid "Slewing failed."
 msgstr "Draaien is mislukt."
 
 #: ekos/align/align.cpp:2960
-#, fuzzy, kde-format
-#| msgid "Dustcap error detected. Aborting alignment."
+#, kde-format
 msgid "Rotator error detected. Aborting alignment."
-msgstr "Stofkapfout gedetecteerd. Uitlijning afgebroken."
+msgstr "Rotatiefout gedetecteerd. Uitlijning afgebroken."
 
 #: ekos/align/align.cpp:2979
 #, kde-format
@@ -6884,10 +6883,9 @@ msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Nog bezig met opnemen, probeer het opnieuw in %1 seconden..."
 
 #: ekos/align/align.cpp:4790
-#, fuzzy, kde-format
-#| msgid "Dustcap error detected. Aborting alignment."
+#, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
-msgstr "Stofkapfout gedetecteerd. Uitlijning afgebroken."
+msgstr "Tijdslimiet van rotatie bereikt na %1 seconden. Uitlijning afgebroken."
 
 #. i18n: ectx: property (text), widget (QLabel, trainLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_25)

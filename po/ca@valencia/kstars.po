@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-14 02:02+0000\n"
-"PO-Revision-Date: 2026-01-11 10:55+0100\n"
+"PO-Revision-Date: 2026-01-14 17:40+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6757,11 +6757,9 @@ msgid "Slewing failed."
 msgstr "No s'ha pogut fer l'orientació."
 
 #: ekos/align/align.cpp:2960
-#, fuzzy, kde-format
-#| msgid "Dustcap error detected. Aborting alignment."
+#, kde-format
 msgid "Rotator error detected. Aborting alignment."
-msgstr ""
-"S'ha detectat un error de la tapa per la pols. S'interromp l'alineació."
+msgstr "S'ha detectat un error del rotor. S'interromp l'alineació."
 
 #: ekos/align/align.cpp:2979
 #, kde-format
@@ -6977,11 +6975,11 @@ msgstr ""
 "Encara s'està executant la captura. Es tornarà a intentar en %1 segons…"
 
 #: ekos/align/align.cpp:4790
-#, fuzzy, kde-format
-#| msgid "Dustcap error detected. Aborting alignment."
+#, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr ""
-"S'ha detectat un error de la tapa per la pols. S'interromp l'alineació."
+"S'ha excedit el temps del rotor després de %1 segons. S'interromp "
+"l'alineació."
 
 #. i18n: ectx: property (text), widget (QLabel, trainLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
