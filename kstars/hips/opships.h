@@ -53,6 +53,7 @@ class OpsHIPS : public QFrame, public Ui::OpsHIPS
         void previewReady();
         void slotItemUpdated(QListWidgetItem *item);
         void slotItemClicked(QListWidgetItem *item);
+        void slotFilterChanged(const QString &text);
 
     private:
 

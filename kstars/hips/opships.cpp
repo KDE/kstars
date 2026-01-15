@@ -66,10 +66,11 @@ OpsHIPS::OpsHIPS() : QFrame(KStars::Instance())
     QDir dir;
     dir.mkpath(path);
 
-    connect(refreshSourceB, SIGNAL(clicked()), this, SLOT(slotRefresh()));
+    connect(refreshSourceB, &QPushButton::clicked, this, &OpsHIPS::slotRefresh);
 
-    connect(sourcesList, SIGNAL(itemChanged(QListWidgetItem*)), this, SLOT(slotItemUpdated(QListWidgetItem*)));
-    connect(sourcesList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
+    connect(sourcesList, &QListWidget::itemChanged, this, &OpsHIPS::slotItemUpdated);
+    connect(sourcesList, &QListWidget::itemClicked, this, &OpsHIPS::slotItemClicked);
+    connect(filterEdit, &QLineEdit::textChanged, this, &OpsHIPS::slotFilterChanged);
 
     if (sourcesList->count() == 0)
         slotRefresh();
@@ -81,11 +82,11 @@ void OpsHIPS::slotRefresh()
 
     downloadJob->setProgressDialogEnabled(true, i18n("HiPS Update"), i18n("Downloading HiPS sources..."));
 
-    QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
-    QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
+    connect(downloadJob, &FileDownloader::downloaded, this, &OpsHIPS::downloadReady);
+    connect(downloadJob, &FileDownloader::error, this, &OpsHIPS::downloadError);
 
     downloadJob->get(
-        QUrl("http://alasky.unistra.fr/MocServer/query?hips_service_url=*&dataproduct_type=!catalog&dataproduct_type=!cube&&moc_sky_fraction=1&get=record"));
+        QUrl("http://alasky.unistra.fr/MocServer/query?hips_service_url=*&dataproduct_type=!catalog&dataproduct_type=!cube&get=record"));
 }
 
 void OpsHIPS::downloadReady()
@@ -126,6 +127,8 @@ void OpsHIPS::downloadReady()
     for (QMap<QString, QString> oneSource : dbSources)
         dbTitles << oneSource["obs_title"];
 
+    // Sort titles alphabetically (case-insensitive)
+    hipsTitles.sort(Qt::CaseInsensitive);
     // Add all titles to list widget
     sourcesList->addItems(hipsTitles);
     QListWidgetItem* item = nullptr;
@@ -203,7 +206,7 @@ void OpsHIPS::setPreview(const QString &id, const QString &url)
                                  QLatin1String("hips_previews/") + previewName);
 
         previewJob = new FileDownloader();
-        connect(previewJob, SIGNAL(downloaded()), this, SLOT(previewReady()));
+        connect(previewJob, &FileDownloader::downloaded, this, &OpsHIPS::previewReady);
 
         previewJob->setDownloadedFileURL(QUrl::fromLocalFile(currentPreviewPath));
 
@@ -225,3 +228,19 @@ void OpsHIPS::previewReady()
         sourceImage->setPixmap(QPixmap(previewFile));
 }
 
+void OpsHIPS::slotFilterChanged(const QString &text)
+{
+    // Filter the list based on the search text
+    QString filterText = text.trimmed();
+
+    for(int i = 0; i < sourcesList->count(); ++i)
+    {
+        QListWidgetItem* item = sourcesList->item(i);
+        if (item)
+        {
+            // Show item if filter is empty or if item text contains filter text (case-insensitive)
+            bool matches = filterText.isEmpty() || item->text().contains(filterText, Qt::CaseInsensitive);
+            item->setHidden(!matches);
+        }
+    }
+}

@@ -38,7 +38,24 @@
       <number>3</number>
      </property>
      <item>
-      <widget class="QListWidget" name="sourcesList"/>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <item>
+        <widget class="QLineEdit" name="filterEdit">
+         <property name="placeholderText">
+          <string>Search...</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="sourcesList"/>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
