@@ -595,6 +595,16 @@ void SchedulerProcess::wakeUpScheduler()
             }
         }
 
+        // FIX: Reset startup state when waking from preemptive shutdown
+        // This is needed because pre-shutdown queue may have parked equipment (mount, dome, etc.)
+        // and we need to execute post-startup queue on the next startup to unpark them.
+        // This mirrors the fix in stop() but applies to preemptive shutdown wake-up scenario.
+        if (moduleState()->startupState() == STARTUP_COMPLETE)
+        {
+            moduleState()->setStartupState(STARTUP_IDLE);
+            appendLogText(i18n("Resetting startup state to run startup procedures after preemptive shutdown."));
+        }
+
         execute();
     }
     else
@@ -4006,15 +4016,15 @@ bool SchedulerProcess::isMountParked()
         // Deduce state of mount - see getParkingStatus in mount.cpp
         switch (static_cast<ISD::ParkStatus>(parkingStatus.toInt()))
         {
-                //            case Mount::PARKING_OK:     // INDI switch ok, and parked
-                //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
+            //            case Mount::PARKING_OK:     // INDI switch ok, and parked
+            //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
             case ISD::PARK_PARKED:
                 return true;
 
-                //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
-                //            case Mount::PARKING_ERROR:  // INDI switch error
-                //            case Mount::PARKING_BUSY:   // INDI switch busy
-                //            case Mount::UNPARKING_BUSY: // INDI switch busy
+            //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
+            //            case Mount::PARKING_ERROR:  // INDI switch error
+            //            case Mount::PARKING_BUSY:   // INDI switch busy
+            //            case Mount::UNPARKING_BUSY: // INDI switch busy
             default:
                 return false;
         }
