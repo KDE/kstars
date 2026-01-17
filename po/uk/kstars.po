@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-16 02:24+0000\n"
-"PO-Revision-Date: 2026-01-15 23:02+0200\n"
+"PO-Revision-Date: 2026-01-16 05:31+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -30184,6 +30184,8 @@ msgstr ""
 msgid ""
 "Resetting startup state to run startup procedures after preemptive shutdown."
 msgstr ""
+"Скидаємо початковий стан для запуску початкової процедури після "
+"упереджувального вимикання."
 
 #: ekos/scheduler/schedulerprocess.cpp:613
 #, kde-format
@@ -35508,10 +35510,9 @@ msgstr "Помилка під час спроби отримати дані HiPS
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filterEdit)
 #: hips/opships.ui:48
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search..."
-msgstr "Шукати"
+msgstr "Шукати…"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_HIPSNetCache)

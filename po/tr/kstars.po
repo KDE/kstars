@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-16 02:24+0000\n"
-"PO-Revision-Date: 2026-01-14 19:11+0300\n"
+"PO-Revision-Date: 2026-01-16 22:43+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -29846,6 +29846,8 @@ msgstr ""
 msgid ""
 "Resetting startup state to run startup procedures after preemptive shutdown."
 msgstr ""
+"Beklenmedik kapanma sonrası başlangıç prosedürlerini çalıştırmak için "
+"başlangıç durumu sıfırlanıyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:613
 #, kde-format
@@ -35118,10 +35120,9 @@ msgstr "HiPS kaynakları indirilirken hata: %1"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filterEdit)
 #: hips/opships.ui:48
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search..."
-msgstr "Ara"
+msgstr "Ara…"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_HIPSNetCache)

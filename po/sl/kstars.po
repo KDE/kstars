@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-16 02:24+0000\n"
-"PO-Revision-Date: 2026-01-14 06:55+0100\n"
+"PO-Revision-Date: 2026-01-16 06:20+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -29859,6 +29859,8 @@ msgstr ""
 msgid ""
 "Resetting startup state to run startup procedures after preemptive shutdown."
 msgstr ""
+"Ponastavitev zagonskega stanja za izvajanje zagonskih postopkov po "
+"preventivni zaustavitvi."
 
 #: ekos/scheduler/schedulerprocess.cpp:613
 #, kde-format
@@ -35132,10 +35134,9 @@ msgstr "Napaka pri prejemanju virov HiPS: %1"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filterEdit)
 #: hips/opships.ui:48
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search..."
-msgstr "Iskanje"
+msgstr "Išči..."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_HIPSNetCache)

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-16 02:24+0000\n"
-"PO-Revision-Date: 2026-01-14 17:40+0100\n"
+"PO-Revision-Date: 2026-01-16 09:49+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1922,7 +1922,7 @@ msgstr "Barra d'eines de visualització"
 #: data/kstarsui.rc:198
 #, kde-format
 msgid "INDI Toolbar"
-msgstr "Barres d'eines INDI"
+msgstr "Barra d'eines INDI"
 
 #. i18n: ectx: ToolBar (TelescopeToolBar)
 #: data/kstarsui.rc:208
@@ -30611,6 +30611,8 @@ msgstr ""
 msgid ""
 "Resetting startup state to run startup procedures after preemptive shutdown."
 msgstr ""
+"Restablix l'estat d'inici per a que s'executen els procediments d'inici "
+"després d'un tancament preventiu."
 
 #: ekos/scheduler/schedulerprocess.cpp:613
 #, kde-format
@@ -35992,10 +35994,9 @@ msgstr "S'ha produït un error mentre es baixaven els orígens HiPS: %1"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filterEdit)
 #: hips/opships.ui:48
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Search..."
-msgstr "Busca"
+msgstr "Busca…"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_HIPSNetCache)
