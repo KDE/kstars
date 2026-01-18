@@ -6510,7 +6510,7 @@ msgstr "旋转失败。"
 #: ekos/align/align.cpp:2960
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
-msgstr ""
+msgstr "检测到旋转器错误，中止校准流程。"
 
 #: ekos/align/align.cpp:2979
 #, kde-format
@@ -6719,7 +6719,7 @@ msgstr "拍摄仍在进行， %1 秒后重试..."
 #: ekos/align/align.cpp:4790
 #, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
-msgstr ""
+msgstr "旋转器超时 %1 秒，中止校准流程。"
 
 #. i18n: ectx: property (text), widget (QLabel, trainLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
@@ -32606,7 +32606,7 @@ msgstr "降噪幅度："
 #: fitsviewer/livestacking.ui:1753 fitsviewer/livestacking.ui:1835
 #, kde-format
 msgid "<html><head/><body><p>Sharpen kernal size.</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>锐化卷积核尺寸。</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, DeconvAmt)
 #. i18n: ectx: property (toolTip), widget (QLabel, DeconvLabel)
@@ -32618,25 +32618,28 @@ msgid ""
 "amount) of the original image.</p><p>Set to 0 to switch deconvolution off.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>维纳反卷积强度，取值范围0–1。该参数控制反卷积处理后图像"
+"与原始图像的混合比例：反卷积图像占比为参数值，原始图像占比为(1-参数值)。\n"
+"</p><p>设置为 0 时关闭反卷积功能。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenKernalLabel)
 #: fitsviewer/livestacking.ui:1838
 #, kde-format
 msgid "  Kernel:"
-msgstr ""
+msgstr "  卷积核："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenSigmaLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenSigma)
 #: fitsviewer/livestacking.ui:1860 fitsviewer/livestacking.ui:1910
 #, kde-format
 msgid "<html><head/><body><p>Sharpen sigma.</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>锐化 Sigma。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenSigmaLabel)
 #: fitsviewer/livestacking.ui:1863
 #, kde-format
 msgid "Sharpen Sigma:"
-msgstr ""
+msgstr "锐化 Sigma："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, PSFLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, PSFSigma)
@@ -32644,13 +32647,13 @@ msgstr ""
 #, kde-format
 msgid ""
 "<html><head/><body><p>PSF Sigma to use for Deconvolution</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>反卷积算法专用点扩散函数 Sigma</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, PSFLabel)
 #: fitsviewer/livestacking.ui:1888
 #, kde-format
 msgid "  PSF Sigma:"
-msgstr ""
+msgstr "  点扩散函数 Sigma："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SharpenLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, SharpenAmt)
@@ -32660,24 +32663,26 @@ msgid ""
 "<html><head/><body><p>Amount of sharpening to apply. Larger values apply "
 "more sharpening.</p><p>Set to 0 to skip sharpening.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>锐化强度。取值越大，锐化效果越强。</p><p>设为0则跳过锐"
+"化流程。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, SharpenLabel)
 #: fitsviewer/livestacking.ui:1938
 #, kde-format
 msgid "Sharpen Amount:"
-msgstr ""
+msgstr "锐化强度："
 
 #. i18n: ectx: property (text), widget (QLabel, DeconvLabel)
 #: fitsviewer/livestacking.ui:1963
 #, kde-format
 msgid "Deconv Amount:"
-msgstr ""
+msgstr "反卷积强度："
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:2039
 #, kde-format
 msgid "Rerun the post processing using the selected parameters"
-msgstr ""
+msgstr "使用所选参数重新运行后处理"
 
 #. i18n: ectx: property (text), widget (QPushButton, ReprocessB)
 #: fitsviewer/livestacking.ui:2042
@@ -32696,44 +32701,44 @@ msgstr "配置此部分的后处理选项。"
 #: fitsviewer/livestacking.ui:2132 fitsviewer/livestacking.ui:2487
 #, kde-format
 msgid "The Master Dark to use to calibrate Blue lights."
-msgstr ""
+msgstr "用于校准蓝光光帧的主暗场。"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkBlueLabel)
 #: fitsviewer/livestacking.ui:2135
 #, kde-format
 msgid "Master Dark (Blue):"
-msgstr ""
+msgstr "主暗场 (蓝光)："
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkLum)
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkLumLabel)
 #: fitsviewer/livestacking.ui:2157 fitsviewer/livestacking.ui:2173
 #, kde-format
 msgid "The Master Dark to use to calibrate Lum lights."
-msgstr ""
+msgstr "用于校准亮度光帧的主暗场。"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkLumLabel)
 #: fitsviewer/livestacking.ui:2176
 #, kde-format
 msgid "Master Dark (Lum):"
-msgstr ""
+msgstr "主暗场 (亮度)："
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkLumB)
 #: fitsviewer/livestacking.ui:2186
 #, kde-format
 msgid "File chooser dialog for Master Dark Lum"
-msgstr ""
+msgstr "校准亮度光帧的主暗场文件选择器"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatGreenB)
 #: fitsviewer/livestacking.ui:2218
 #, kde-format
 msgid "File chooser dialog for Master Flat Green"
-msgstr ""
+msgstr "校准绿色光帧的主平场文件选择器"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatLumLabel)
 #: fitsviewer/livestacking.ui:2243
 #, kde-format
 msgid "Master Flat (Lum):"
-msgstr ""
+msgstr "主平场 (亮度)："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterFlatLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterFlat)
@@ -32742,26 +32747,26 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>The Master Flat to use to calibrate lights.</p></"
 "body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>用于校准亮度通道的主平场。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatLabel)
 #: fitsviewer/livestacking.ui:2268
 #, kde-format
 msgid "Master Flat:"
-msgstr ""
+msgstr "主平场："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkGreenLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkGreen)
 #: fitsviewer/livestacking.ui:2284 fitsviewer/livestacking.ui:2465
 #, kde-format
 msgid "The Master Dark to use to calibrate Green lights."
-msgstr ""
+msgstr "用于校准绿光光帧的主暗场。"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkGreenLabel)
 #: fitsviewer/livestacking.ui:2287
 #, kde-format
 msgid "Master Dark (Green):"
-msgstr ""
+msgstr "主暗场 (绿光)："
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkRedB)
 #: fitsviewer/livestacking.ui:2297
@@ -32769,45 +32774,45 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark Red</p></body></"
 "html>"
-msgstr ""
+msgstr "<html><head/><body><p>红光通道校准主暗场文件选择器</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatRedLabel)
 #: fitsviewer/livestacking.ui:2322
 #, kde-format
 msgid "Master Flat (Red):"
-msgstr ""
+msgstr "主平场 (红光)："
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatBlueB)
 #: fitsviewer/livestacking.ui:2332
 #, kde-format
 msgid "File chooser dialog for Master Flat Blue"
-msgstr ""
+msgstr "校准蓝光光帧的主平场文件选择器"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkBlueB)
 #: fitsviewer/livestacking.ui:2345
 #, kde-format
 msgid "File chooser dialog for Master Dark Blue"
-msgstr ""
+msgstr "校准蓝光光帧的主暗场文件选择器"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkGreenB)
 #: fitsviewer/livestacking.ui:2358
 #, kde-format
 msgid "File chooser dialog for Master Dark Green"
-msgstr ""
+msgstr "校准绿色光帧的主暗场文件选择器"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatB)
 #: fitsviewer/livestacking.ui:2396
 #, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Flat</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>主平场文件选择器</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterDarkB)
 #: fitsviewer/livestacking.ui:2415
 #, kde-format
 msgid ""
 "<html><head/><body><p>File chooser dialog for Master Dark</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>主暗场文件选择器</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDark)
@@ -32816,56 +32821,56 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>The Master Dark to use to calibrate lights.</p></"
 "body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>用于校准亮度通道的主暗场。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatBlueLabel)
 #: fitsviewer/livestacking.ui:2509
 #, kde-format
 msgid "Master Flat (Blue):"
-msgstr ""
+msgstr "主平场 (蓝光)："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MasterDarkRedLabel)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, MasterDarkRed)
 #: fitsviewer/livestacking.ui:2525 fitsviewer/livestacking.ui:2569
 #, kde-format
 msgid "The Master Dark to use to calibrate Red lights."
-msgstr ""
+msgstr "用于校准红光光帧的主暗场。"
 
 #. i18n: ectx: property (text), widget (QLabel, MasterDarkRedLabel)
 #: fitsviewer/livestacking.ui:2528
 #, kde-format
 msgid "Master Dark (Red):"
-msgstr ""
+msgstr "主暗场 (红光)："
 
 #. i18n: ectx: property (text), widget (QLabel, MasterFlatGreenLabel)
 #: fitsviewer/livestacking.ui:2660
 #, kde-format
 msgid "Master Flat (Green):"
-msgstr ""
+msgstr "主平场 (绿光)："
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatLumB)
 #: fitsviewer/livestacking.ui:2670
 #, kde-format
 msgid "File chooser dialog for Master Flat Lum"
-msgstr ""
+msgstr "校准亮度光帧的主平场文件选择器"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, MasterFlatRedB)
 #: fitsviewer/livestacking.ui:2683
 #, kde-format
 msgid "File chooser dialog for Master Flat Red"
-msgstr ""
+msgstr "校准红光光帧的主平场文件选择器"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, CalibrationMinimized)
 #: fitsviewer/livestacking.ui:2699
 #, kde-format
 msgid "Configure calibration options in this section."
-msgstr ""
+msgstr "配置此部分的校准选项。"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, StackMonitorDialog)
 #: fitsviewer/livestackmonitor.ui:26
 #, kde-format
 msgid "Live Stacking Monitor"
-msgstr ""
+msgstr "实时堆叠监视器"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:60
@@ -32873,7 +32878,7 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Check to enable highlighting of data changes</p></"
 "body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>勾选以启用高亮显示数据更改</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StackMonitorHighlight)
 #: fitsviewer/livestackmonitor.ui:63
@@ -32977,12 +32982,13 @@ msgid ""
 "<html><head/><body><p>Run Live Stacker as a separate process.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>以一个分离的进程运行实时堆叠器。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_liveStackerOwnProcess)
 #: fitsviewer/opsfits.ui:135
 #, kde-format
 msgid "Live Stacker own process"
-msgstr ""
+msgstr "实时堆叠器进程"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:144
@@ -33177,6 +33183,9 @@ msgid ""
 "channel is processed.</p><p>NOTE: Live Stacker will always display a color "
 "image if requested to do so.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>处理 3D (RGB) FITS 图像。如果未勾选，仅会处理首个通道。"
+"</p><p>如果实时堆叠器被要求显示彩色图像，将始终输出彩色图像。</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Auto3DCube)
 #: fitsviewer/opsfits.ui:407
@@ -34886,7 +34895,7 @@ msgstr "驱动前关闭脚本失败，退出代码: %1"
 #: indi/servermanager.cpp:379
 #, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
-msgstr ""
+msgstr "驱动后关闭脚本失败，退出代码: %1"
 
 #: indi/servermanager.cpp:523
 #, kde-format
@@ -35474,12 +35483,12 @@ msgstr "KStars"
 #: kstars.cpp:299
 #, kde-format
 msgid "KStars Live Stacker"
-msgstr ""
+msgstr "KStars 实时堆叠器"
 
 #: kstars.cpp:300
 #, kde-format
 msgid "© 2025 KStars Team"
-msgstr ""
+msgstr "© 2025 KStars Team"
 
 #: kstars.cpp:427 kstarsactions.cpp:1658 skymap.cpp:463
 #, kde-format
@@ -35739,7 +35748,7 @@ msgstr "主窗口的高度像素"
 #: kstars.kcfg:113
 #, kde-format
 msgid "Geometry of main window, encoded byte array"
-msgstr ""
+msgstr "主窗口几何形状，编码字节数组"
 
 #. i18n: ectx: label, entry (RunStartupWizard), group (GUI)
 #: kstars.kcfg:117
@@ -35863,7 +35872,7 @@ msgstr "INDI 窗口高度"
 #: kstars.kcfg:179
 #, kde-format
 msgid "Geometry of INDI window, encoded byte array"
-msgstr ""
+msgstr "INDI 窗口几何形状，编码字节数组"
 
 #. i18n: ectx: label, entry (useGeographicUpdate), group (indi)
 #: kstars.kcfg:183
@@ -35925,7 +35934,7 @@ msgstr "启动 EKOS 时显示 INDI 窗口。"
 #: kstars.kcfg:210
 #, kde-format
 msgid "Limit for saved focus frames"
-msgstr ""
+msgstr "保存焦点帧限制"
 
 #. i18n: ectx: whatsthis, entry (maxFocusFrameFiles), group (indi)
 #: kstars.kcfg:211
