@@ -1190,8 +1190,10 @@ void Manager::start()
                 // If web manager was explicitly configured but is not online, fail instead of bypassing it
                 else
                 {
-                    appendLogText(i18n("Error: INDI Web Manager is not online at %1:%2", m_CurrentProfile->host,
-                                       m_CurrentProfile->INDIWebManagerPort));
+                    auto message = i18n("Error: INDI Web Manager is not online at %1:%2", m_CurrentProfile->host,
+                                        m_CurrentProfile->INDIWebManagerPort);
+                    appendLogText(message);
+                    KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::General, KSNotification::Alert);
                     m_ekosStatus = Ekos::Error;
                     emit ekosStatusChanged(m_ekosStatus);
                 }
