@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "bayer.h"
+#include "bayerparameters.h"
 #include "ui_fitsdebayer.h"
 
 class FITSViewer;
@@ -28,12 +28,13 @@ class FITSDebayer : public QDialog
 
         virtual ~FITSDebayer() override = default;
 
-        void setBayerParams(BayerParams *param);
+        void setBayerParams(BayerParameters *param);
 
     public slots:
         void applyDebayer();
 
     private:
+        void updateMethodList();
         FITSViewer *viewer { nullptr };
         debayerUI *ui { nullptr };
 };

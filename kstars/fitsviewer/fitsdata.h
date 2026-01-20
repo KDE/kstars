@@ -19,7 +19,7 @@
 #endif
 
 #include "kstarsdatetime.h"
-#include "bayer.h"
+#include "bayerparameters.h"
 #include "skybackground.h"
 #include "fitscommon.h"
 #include "fitsstardetector.h"
@@ -445,8 +445,8 @@ class FITSData : public QObject
         bool debayer(bool reload = false);
         bool debayer_8bit();
         bool debayer_16bit();
-        void getBayerParams(BayerParams *param);
-        void setBayerParams(BayerParams *param);
+        void getBayerParams(BayerParameters *param);
+        void setBayerParams(BayerParameters *param);
 
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////
@@ -933,6 +933,24 @@ class FITSData : public QObject
         void rotWCSFITS(int angle, int mirror);
         void calculateMinMax(bool refresh = false, bool roi = false);
         void calculateMedian(bool refresh = false, bool roi = false);
+
+        /**
+         * @brief Default bayer parameters based on user configurable parameters (dc1394 / openCV, etc)
+         * @param stack is true for live stacker subs, false for regular images
+         * @return Configured BayerParameters
+         */
+        BayerParameters setupBayerParams(const bool stack = false);
+        /**
+         * @brief Setup bayer parameters based on input parameters
+         * @param engine to set
+         * @param pattern to set
+         * @param algo to set
+         * @param offsetX - to set
+         * @param offsetY - to set
+         * @return Configured BayerParameters
+         */
+        BayerParameters setupBayerParams(const DebayerEngine engine, const QString pattern, const QVariant algo,
+                                         const int offsetX, const int offsetY);
         bool checkDebayerFITS();
         bool checkDebayerXISF(const QString pattern);
         void readWCSKeys();
@@ -1111,7 +1129,7 @@ class FITSData : public QObject
          * @param if debayering is successful, bayerParams contains the appropriate params
          * @return success
          */
-        bool stackCheckDebayerFITS(BayerParams bayerParams);
+        bool stackCheckDebayerFITS(BayerParameters bayerParams);
 
         /**
          * @brief stackCheckDebayerXISF checks whether a XISF stack sub needs to be debayered
@@ -1120,7 +1138,7 @@ class FITSData : public QObject
          * @param if debayering is successful, bayerParams contains the appropriate params
          * @return success
          */
-        bool stackCheckDebayerXISF(const QString pattern, BayerParams &bayerParams);
+        bool stackCheckDebayerXISF(const QString pattern, BayerParameters &bayerParams);
 
         /**
          * @brief stackDebayer debayers a stack sub
@@ -1128,7 +1146,32 @@ class FITSData : public QObject
          * @return success
          */
         template <typename T>
-        bool stackDebayer(BayerParams &bayerParams);
+        bool stackDebayer(BayerParameters &bayerParams);
+
+        /**
+         * @brief debayerCV debayers an image or stack sub using openCV
+         * @param debayerParams
+         * @param stack is true if input is a live stacker sub
+         * @return success
+         */
+        template <typename T>
+        bool debayerCV(BayerParameters &bayerParams, const bool stack = false);
+
+        /**
+         * @brief Verify that the debayer params are consistent for openCV processing
+         * @param bayerParams are the input parameters
+         * @param openCVParams is the output parameter structure
+         * @return success
+         */
+        bool verifyCVDebayerParams(const BayerParameters &bayerParams, OpenCVParams &openCVParams);
+
+        /**
+         * @brief Verify that the debayer params are consistent for dc1394 processing
+         * @param bayerParams are the input parameters
+         * @param dc1394Params is the output parameter structure
+         * @return success
+         */
+        bool verifyDC1394DebayerParams(const BayerParameters &bayerParams, DC1394Params &dc1394Params);
 
         /**
          * @brief Work out the next stacking action and start it off
@@ -1238,7 +1281,7 @@ class FITSData : public QObject
         Edge m_SelectedHFRStar;
 
         /// Bayer parameters
-        BayerParams debayerParams;
+        BayerParameters debayerParams;
         QTemporaryFile m_TemporaryDataFile;
 
         /// Data type of fits pixel in the image. Used when saving FITS again.

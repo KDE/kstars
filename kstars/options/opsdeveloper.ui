@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>325</width>
-    <height>194</height>
+    <width>490</width>
+    <height>370</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -34,31 +34,6 @@
         <string>Developer Options</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QCheckBox" name="kcfg_SaveFocusImages">
-          <property name="font">
-           <font>
-            <strikeout>true</strikeout>
-           </font>
-          </property>
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Option replaced by the &lt;span style=&quot; font-weight:600;&quot;&gt;max. focus frame&lt;/span&gt; option in the Focus options.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Save Focus Images</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QCheckBox" name="kcfg_SaveGuideImages">
-          <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save Internal Guider frames. Only enable to troubleshoot guider by examining frames. This can consume a lot of storage space.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="text">
-           <string>Save Guider Images</string>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="0">
          <widget class="QCheckBox" name="kcfg_SaveAlignImages">
           <property name="toolTip">
@@ -79,6 +54,31 @@
           </property>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="kcfg_SaveGuideImages">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save Internal Guider frames. Only enable to troubleshoot guider by examining frames. This can consume a lot of storage space.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Save Guider Images</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="kcfg_SaveFocusImages">
+          <property name="font">
+           <font>
+            <strikeout>true</strikeout>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Option replaced by the &lt;span style=&quot; font-weight:600;&quot;&gt;max. focus frame&lt;/span&gt; option in the Focus options.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Save Focus Images</string>
+          </property>
+         </widget>
+        </item>
         <item row="4" column="0">
          <widget class="QCheckBox" name="kcfg_DontSyncToRealTime">
           <property name="toolTip">
@@ -87,6 +87,72 @@
           <property name="text">
            <string>Don't sync to Real Time on Ekos startup</string>
           </property>
+         </widget>
+        </item>
+        <item row="6" column="0" rowspan="2">
+         <widget class="QGroupBox" name="gridGroupBox">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Debayer Options:</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="1">
+            <widget class="QComboBox" name="kcfg_ImageDebayerEngine">
+             <property name="toolTip">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Debayer parameters to be applied to images.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>Image Debayer:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QComboBox" name="kcfg_ImageDebayerAlgo">
+             <property name="toolTip">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Debayer parameters to be applied to Live Stacker subs.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>Stack Sub Debayer:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="kcfg_StackDebayerEngine">
+             <property name="toolTip">
+              <string/>
+             </property>
+             <property name="currentText">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QComboBox" name="kcfg_StackDebayerAlgo">
+             <property name="toolTip">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>

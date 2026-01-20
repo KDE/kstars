@@ -29,4 +29,7 @@ class OpsDeveloper : public QFrame, public Ui::OpsDeveloper
         explicit OpsDeveloper();
 
         ~OpsDeveloper() override = default;
+
+    private:
+        void updateAlgoList(QComboBox *engineCombo, QComboBox *algoCombo);
 };

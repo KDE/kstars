@@ -79,10 +79,10 @@ FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
     static const QRegularExpression re("[-{}]");
 
     qRegisterMetaType<FITSMode>("FITSMode");
+    qRegisterMetaType<DC1394Params>("DC1394Params");
+    qRegisterMetaType<OpenCVParams>("OpenCVParams");
 
-    debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
-    debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
-    debayerParams.offsetX = debayerParams.offsetY = 0;
+    debayerParams = setupBayerParams();
 
     // Reserve 3 channels
     m_CumulativeFrequency.resize(3);
@@ -100,10 +100,10 @@ FITSData::FITSData(const QSharedPointer<FITSData> &other)
 {
     static const QRegularExpression re("[-{}]");
     qRegisterMetaType<FITSMode>("FITSMode");
+    qRegisterMetaType<DC1394Params>("DC1394Params");
+    qRegisterMetaType<OpenCVParams>("OpenCVParams");
 
-    debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
-    debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
-    debayerParams.offsetX = debayerParams.offsetY = 0;
+    debayerParams = setupBayerParams();
 
     m_TemporaryDataFile.setFileTemplate("fits_memory_XXXXXX");
 
@@ -183,6 +183,77 @@ FITSData::~FITSData()
     m_StackFITSWatcher.waitForFinished();
     m_StackWatcher.waitForFinished();
     m_StackPrepareFuture.waitForFinished();
+}
+
+// Default bayer parameters based on user set parameters
+BayerParameters FITSData::setupBayerParams(const bool stack)
+{
+    BayerParameters params;
+    params.engine = stack ? static_cast<DebayerEngine>(Options::stackDebayerEngine())
+                    : static_cast<DebayerEngine>(Options::imageDebayerEngine());
+
+    if (params.engine == DebayerEngine::OpenCV)
+    {
+        OpenCVParams cvParams;
+        cvParams.algo    = stack ? static_cast<OpenCVAlgo>(Options::stackDebayerAlgo())
+                           : static_cast<OpenCVAlgo>(Options::imageDebayerAlgo());
+        cvParams.pattern = BayerPattern::RGGB;
+        cvParams.offsetX = 0;
+        cvParams.offsetY = 0;
+        params.params = QVariant::fromValue(cvParams);
+    }
+    else // DC1394
+    {
+        DC1394Params dc1394Params;
+        dc1394Params.params.method  = stack ? BayerUtils::convertDC1394Method(
+                                          static_cast<DC1394DebayerMethod>(Options::stackDebayerAlgo()))
+                                      : BayerUtils::convertDC1394Method(
+                                          static_cast<DC1394DebayerMethod>(Options::imageDebayerAlgo()));
+        dc1394Params.params.filter  = DC1394_COLOR_FILTER_RGGB;
+        dc1394Params.params.offsetX = 0;
+        dc1394Params.params.offsetY = 0;
+        params.params = QVariant::fromValue(dc1394Params);
+    }
+    return params;
+}
+
+BayerParameters FITSData::setupBayerParams(const DebayerEngine engine, const QString pattern, const QVariant algorithm,
+        const int offsetX, const int offsetY)
+{
+    BayerParameters params;
+    params.engine = engine;
+
+    if (params.engine == DebayerEngine::OpenCV)
+    {
+        OpenCVParams cvParams;
+        if (algorithm.canConvert<OpenCVAlgo>())
+            cvParams.algo = algorithm.value<OpenCVAlgo>();
+        else
+        {
+            qCDebug(KSTARS_FITS) << QString("Invalid debayer algo in %1").arg(__FUNCTION__);
+            cvParams.algo = OpenCVAlgo::Bilinear;
+        }
+        cvParams.pattern = BayerUtils::bayerPatternFromStr(pattern);
+        cvParams.offsetX = offsetX;
+        cvParams.offsetY = offsetY;
+        params.params = QVariant::fromValue(cvParams);
+    }
+    else // DC1394
+    {
+        DC1394Params dc1394Params;
+        if (algorithm.canConvert<dc1394bayer_method_t>())
+            dc1394Params.params.method = algorithm.value<dc1394bayer_method_t>();
+        else
+        {
+            qCDebug(KSTARS_FITS) << QString("Invalid debayer method in %1").arg(__FUNCTION__);
+            dc1394Params.params.method = DC1394_BAYER_METHOD_NEAREST;
+        }
+        dc1394Params.params.filter  = BayerUtils::convertDC1394Filter(BayerUtils::bayerPatternFromStr(pattern));
+        dc1394Params.params.offsetX = offsetX;
+        dc1394Params.params.offsetY = offsetY;
+        params.params = QVariant::fromValue(dc1394Params);
+    }
+    return params;
 }
 
 void FITSData::loadCommon(const QString &inFilename)
@@ -2041,21 +2112,31 @@ bool FITSData::stackLoadFITSImage(QString filename, const bool isCompressed)
     }
 
     // Debayer if necessary
-    BayerParams bayerParams;
-    bayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
-    bayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
-    bayerParams.offsetX = bayerParams.offsetY = 0;
+    BayerParameters bayerParams = setupBayerParams(true);
 
     if (naxes[2] == 1 && m_StackStatistics.stats.channels == 1 && Options::autoDebayer() &&
             stackCheckDebayerFITS(bayerParams))
     {
-        if (m_StackStatistics.stats.dataType == TUSHORT)
-            stackDebayer<uint16_t>(bayerParams);
-        else if (m_StackStatistics.stats.dataType == TBYTE)
-            stackDebayer<uint8_t>(bayerParams);
-        else
-            qCDebug(KSTARS_FITS) << QString("Unsupported bit depth for debayering: %1 bytes per pixel")
-                                 .arg(m_StackStatistics.stats.bytesPerPixel);
+        if (Options::stackDebayerEngine() == static_cast<int>(DebayerEngine::OpenCV))
+        {
+            if (m_StackStatistics.stats.dataType == TUSHORT)
+                debayerCV<uint16_t>(bayerParams, true);
+            else if (m_StackStatistics.stats.dataType == TBYTE)
+                debayerCV<uint8_t>(bayerParams, true);
+            else
+                qCDebug(KSTARS_FITS) << QString("Unsupported datatype for openCV debayering: %1")
+                                     .arg(m_StackStatistics.stats.dataType);
+        }
+        else // dc1394 mode
+        {
+            if (m_StackStatistics.stats.dataType == TUSHORT)
+                stackDebayer<uint16_t>(bayerParams);
+            else if (m_StackStatistics.stats.dataType == TBYTE)
+                stackDebayer<uint8_t>(bayerParams);
+            else
+                qCDebug(KSTARS_FITS) << QString("Unsupported bit depth for debayering: %1 bytes per pixel")
+                                     .arg(m_StackStatistics.stats.bytesPerPixel);
+        }
     }
     // In multi-channel mode we on only want single channel images so reject any that aren't
     if (m_StackMultiC && m_StackStatistics.stats.channels != 1)
@@ -2166,16 +2247,29 @@ bool FITSData::stackLoadXISFImage(QString filename)
             m_StackStatistics.stats.channels = 1;
 
             // Only debayer if image is single-channel CFA
-            BayerParams bayerParams;
+            BayerParameters bayerParams = setupBayerParams(true);
             if (Options::autoDebayer() && stackCheckDebayerXISF(pattern, bayerParams))
             {
-                if (m_StackStatistics.stats.dataType == TUSHORT)
-                    stackDebayer<uint16_t>(bayerParams);
-                else if (m_StackStatistics.stats.dataType == TBYTE)
-                    stackDebayer<uint8_t>(bayerParams);
-                else
-                    qCDebug(KSTARS_FITS) << QString("Unsupported bit depth for debayering: %1 bytes per pixel")
-                                         .arg(m_StackStatistics.stats.bytesPerPixel);
+                if (Options::stackDebayerEngine() == static_cast<int>(DebayerEngine::OpenCV))
+                {
+                    if (m_StackStatistics.stats.dataType == TUSHORT)
+                        debayerCV<uint16_t>(bayerParams, true);
+                    else if (m_StackStatistics.stats.dataType == TBYTE)
+                        debayerCV<uint8_t>(bayerParams, true);
+                    else
+                        qCDebug(KSTARS_FITS) << QString("Unsupported datatype for openCV debayering: %1")
+                                             .arg(m_StackStatistics.stats.dataType);
+                }
+                else // dc1394 mode
+                {
+                    if (m_StackStatistics.stats.dataType == TUSHORT)
+                        stackDebayer<uint16_t>(bayerParams);
+                    else if (m_StackStatistics.stats.dataType == TBYTE)
+                        stackDebayer<uint8_t>(bayerParams);
+                    else
+                        qCDebug(KSTARS_FITS) << QString("Unsupported bit depth for debayering: %1 bytes per pixel")
+                                             .arg(m_StackStatistics.stats.bytesPerPixel);
+                }
             }
         }
     }
@@ -6109,7 +6203,18 @@ bool FITSData::checkDebayerFITS()
     QString pattern(bayerPattern);
     pattern = pattern.remove('\'').trimmed();
 
-    QString order(roworder);
+    if (!BayerUtils::bayerPatternValid(pattern))
+    {
+        m_LastError = i18n("Unknown bayer pattern %1", pattern);
+        return false;
+    }
+
+    QString order;
+    // Search for ROWORDER keyword, this is optional
+    status = 0;
+    if (!fits_read_keyword(fptr, "ROWORDER", roworder, nullptr, &status))
+        order = QString(roworder);
+
     order = order.remove('\'').trimmed();
 
     if (order == "BOTTOM-UP" && !(m_Statistics.height % 2))
@@ -6122,54 +6227,78 @@ bool FITSData::checkDebayerFITS()
             pattern = "BGGR";
         else if (pattern == "BGGR")
             pattern = "GRBG";
-        else return false;
+        else
+        {
+            m_LastError = i18n("Unsupported bayer pattern %1", pattern);
+            return false;
+        }
     }
 
-    if (pattern == "RGGB")
-        debayerParams.filter = DC1394_COLOR_FILTER_RGGB;
-    else if (pattern == "GBRG")
-        debayerParams.filter = DC1394_COLOR_FILTER_GBRG;
-    else if (pattern == "GRBG")
-        debayerParams.filter = DC1394_COLOR_FILTER_GRBG;
-    else if (pattern == "BGGR")
-        debayerParams.filter = DC1394_COLOR_FILTER_BGGR;
-    // We return unless we find a valid pattern
-    else
-    {
-        m_LastError = i18n("Unsupported bayer pattern %1.", pattern);
-        return false;
-    }
+    int offsetX = 0, offsetY = 0;
+    status = 0;
+    fits_read_key(fptr, TINT, "XBAYROFF", &offsetX, nullptr, &status);
+    status = 0;
+    fits_read_key(fptr, TINT, "YBAYROFF", &offsetY, nullptr, &status);
 
-    fits_read_key(fptr, TINT, "XBAYROFF", &debayerParams.offsetX, nullptr, &status);
-    fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, nullptr, &status);
-
-    if (debayerParams.offsetX == 1)
+    if (offsetX == 1)
     {
         // This may leave odd values in the 0th column if the color filter is not there
         // in the sensor, but otherwise should process the offset correctly.
         // Only offsets of 0 or 1 are implemented in debayer_8bit() and debayer_16bit().
-        switch (debayerParams.filter)
+        if (pattern == "RGGB")
+            pattern = "GRBG";
+        else if (pattern == "GBRG")
+            pattern = "BGGR";
+        else if (pattern == "GRBG")
+            pattern = "RGGB";
+        else if (pattern == "BGGR")
+            pattern = "GBRG";
+        else
         {
-            case DC1394_COLOR_FILTER_RGGB:
-                debayerParams.filter = DC1394_COLOR_FILTER_GRBG;
-                break;
-            case DC1394_COLOR_FILTER_GBRG:
-                debayerParams.filter = DC1394_COLOR_FILTER_BGGR;
-                break;
-            case DC1394_COLOR_FILTER_GRBG:
-                debayerParams.filter = DC1394_COLOR_FILTER_RGGB;
-                break;
-            case DC1394_COLOR_FILTER_BGGR:
-                debayerParams.filter = DC1394_COLOR_FILTER_GBRG;
-                break;
+            m_LastError = i18n("Unsupported bayer pattern %1", pattern);
+            return false;
         }
-        debayerParams.offsetX = 0;
+
+        offsetX = 0;
     }
-    if (debayerParams.offsetX != 0 || debayerParams.offsetY > 1 || debayerParams.offsetY < 0)
+    if (offsetX != 0 || offsetY > 1 || offsetY < 0)
     {
-        m_LastError = i18n("Unsupported bayer offsets %1 %2.", debayerParams.offsetX, debayerParams.offsetY);
+        m_LastError = i18n("Unsupported bayer offsets %1 %2.", offsetX, offsetY);
         return false;
     }
+
+    BayerParameters params;
+    getBayerParams(&params);
+    QVariant algo;
+    if (params.engine == DebayerEngine::DC1394)
+    {
+        if (!params.params.canConvert<DC1394Params>())
+        {
+            m_LastError = i18n("Invalid dc1394 debayer parameters.");
+            return false;
+        }
+
+        const DC1394Params dc1394Params = params.params.value<DC1394Params>();
+        algo = QVariant::fromValue(dc1394Params.params.method);
+    }
+    else if (params.engine == DebayerEngine::OpenCV)
+    {
+        if (!params.params.canConvert<OpenCVParams>())
+        {
+            m_LastError = i18n("Invalid OpenCV debayer parameters.");
+            return false;
+        }
+
+        const OpenCVParams cvParams = params.params.value<OpenCVParams>();
+        algo = QVariant::fromValue(cvParams.algo);
+    }
+    else
+    {
+        m_LastError = i18n("Invalid debayer engine");
+        return false;
+    }
+
+    debayerParams = setupBayerParams(params.engine, pattern, algo, offsetX, offsetY);
 
     HasDebayer = true;
 
@@ -6185,35 +6314,52 @@ bool FITSData::checkDebayerXISF(const QString pattern)
         return false;
     }
 
-    BayerParams params;
-    getBayerParams(&params);
-
-    // XISF doesn't support offsets so we can ignore them
-    params.offsetX = 0;
-    params.offsetY = 0;
-
-    if (pattern == "RGGB")
-        params.filter = DC1394_COLOR_FILTER_RGGB;
-    else if (pattern == "GBRG")
-        params.filter = DC1394_COLOR_FILTER_GBRG;
-    else if (pattern == "GRBG")
-        params.filter = DC1394_COLOR_FILTER_GRBG;
-    else if (pattern == "BGGR")
-        params.filter = DC1394_COLOR_FILTER_BGGR;
-    else
+    if (!BayerUtils::bayerPatternValid(pattern))
     {
-        m_LastError = i18n("Unsupported bayer pattern %1.", pattern);
+        m_LastError = i18n("Unknown bayer pattern %1", pattern);
         return false;
     }
 
-    setBayerParams(&params);
+    BayerParameters params;
+    getBayerParams(&params);
+    QVariant algo;
+    if (params.engine == DebayerEngine::DC1394)
+    {
+        if (!params.params.canConvert<DC1394Params>())
+        {
+            m_LastError = i18n("Invalid dc1394 debayer parameters.");
+            return false;
+        }
+
+        const DC1394Params dc1394Params = params.params.value<DC1394Params>();
+        algo = QVariant::fromValue(dc1394Params.params.method);
+    }
+    else if (params.engine == DebayerEngine::OpenCV)
+    {
+        if (!params.params.canConvert<OpenCVParams>())
+        {
+            m_LastError = i18n("Invalid OpenCV debayer parameters.");
+            return false;
+        }
+
+        const OpenCVParams cvParams = params.params.value<OpenCVParams>();
+        algo = QVariant::fromValue(cvParams.algo);
+    }
+    else
+    {
+        m_LastError = i18n("Invalid debayer engine");
+        return false;
+    }
+
+    int offsetX = 0, offsetY = 0;
+    debayerParams = setupBayerParams(params.engine, pattern, algo, offsetX, offsetY);
     HasDebayer = true;
     return true;
 }
 
 // Check whether a stack sub needs debayering
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
-bool FITSData::stackCheckDebayerFITS(BayerParams bayerParams)
+bool FITSData::stackCheckDebayerFITS(BayerParameters params)
 {
     int status = 0;
     char bayerPattern[64], roworder[64];
@@ -6230,7 +6376,17 @@ bool FITSData::stackCheckDebayerFITS(BayerParams bayerParams)
     QString pattern(bayerPattern);
     pattern = pattern.remove('\'').trimmed();
 
-    QString order(roworder);
+    if (!BayerUtils::bayerPatternValid(pattern))
+    {
+        qCDebug(KSTARS_FITS) << QString("Unknown bayer pattern %1").arg(pattern);
+        return false;
+    }
+
+    QString order;
+    status = 0;
+    if (!fits_read_keyword(m_Stackfptr, "ROWORDER", roworder, nullptr, &status))
+        order = QString(roworder);
+
     order = order.remove('\'').trimmed();
 
     if (order == "BOTTOM-UP" && !(m_StackStatistics.stats.height % 2))
@@ -6243,61 +6399,81 @@ bool FITSData::stackCheckDebayerFITS(BayerParams bayerParams)
             pattern = "BGGR";
         else if (pattern == "BGGR")
             pattern = "GRBG";
-        else return false;
+        else
+        {
+            qCDebug(KSTARS_FITS) << QString("Unsupported bayer pattern %1").arg(pattern);
+            return false;
+        }
     }
 
-    if (pattern == "RGGB")
-        bayerParams.filter = DC1394_COLOR_FILTER_RGGB;
-    else if (pattern == "GBRG")
-        bayerParams.filter = DC1394_COLOR_FILTER_GBRG;
-    else if (pattern == "GRBG")
-        bayerParams.filter = DC1394_COLOR_FILTER_GRBG;
-    else if (pattern == "BGGR")
-        bayerParams.filter = DC1394_COLOR_FILTER_BGGR;
-    else
-    {
-        qCDebug(KSTARS_FITS) << QString("Unsupported bayer pattern %1.").arg(pattern);
-        return false;
-    }
+    int offsetX = 0, offsetY = 0;
+    status = 0;
+    fits_read_key(m_Stackfptr, TINT, "XBAYROFF", &offsetX, nullptr, &status);
+    status = 0;
+    fits_read_key(m_Stackfptr, TINT, "YBAYROFF", &offsetY, nullptr, &status);
 
-    fits_read_key(m_Stackfptr, TINT, "XBAYROFF", &bayerParams.offsetX, nullptr, &status);
-    fits_read_key(m_Stackfptr, TINT, "YBAYROFF", &bayerParams.offsetY, nullptr, &status);
-
-    if (bayerParams.offsetX == 1)
+    if (offsetX == 1)
     {
         // This may leave odd values in the 0th column if the color filter is not there
         // in the sensor, but otherwise should process the offset correctly.
         // Only offsets of 0 or 1 are implemented in debayer_8bit() and debayer_16bit().
-        switch (bayerParams.filter)
+        if (pattern == "RGGB")
+            pattern = "GRBG";
+        else if (pattern == "GBRG")
+            pattern = "BGGR";
+        else if (pattern == "GRBG")
+            pattern = "RGGB";
+        else if (pattern == "BGGR")
+            pattern = "GBRG";
+        else
         {
-            case DC1394_COLOR_FILTER_RGGB:
-                bayerParams.filter = DC1394_COLOR_FILTER_GRBG;
-                pattern = "GRBG";
-                break;
-            case DC1394_COLOR_FILTER_GBRG:
-                bayerParams.filter = DC1394_COLOR_FILTER_BGGR;
-                pattern = "BGGR";
-                break;
-            case DC1394_COLOR_FILTER_GRBG:
-                bayerParams.filter = DC1394_COLOR_FILTER_RGGB;
-                pattern = "RGGB";
-                break;
-            case DC1394_COLOR_FILTER_BGGR:
-                bayerParams.filter = DC1394_COLOR_FILTER_GBRG;
-                pattern = "GBRG";
-                break;
+            qCDebug(KSTARS_FITS) << QString("Unsupported bayer pattern %1").arg(pattern);
+            return false;
         }
-        bayerParams.offsetX = 0;
+
+        offsetX = 0;
     }
-    if (bayerParams.offsetX != 0 || bayerParams.offsetY > 1 || bayerParams.offsetY < 0)
+    if (offsetX != 0 || offsetY > 1 || offsetY < 0)
     {
-        qCDebug(KSTARS_FITS) << QString("Unsupported bayer offsets %1 %2.").arg(bayerParams.offsetX).arg(bayerParams.offsetY);
+        qCDebug(KSTARS_FITS) << QString("Unsupported bayer offsets %1 %2.").arg(offsetX).arg(offsetY);
         return false;
     }
+
+    QVariant algo;
+    if (params.engine == DebayerEngine::DC1394)
+    {
+        if (!params.params.canConvert<DC1394Params>())
+        {
+            qCDebug(KSTARS_FITS) << QString("Invalid dc1394 debayer parameters");
+            return false;
+        }
+
+        const DC1394Params dc1394Params = params.params.value<DC1394Params>();
+        algo = QVariant::fromValue(dc1394Params.params.method);
+    }
+    else if (params.engine == DebayerEngine::OpenCV)
+    {
+        if (!params.params.canConvert<OpenCVParams>())
+        {
+            qCDebug(KSTARS_FITS) << QString("Invalid OpenCV debayer parameters");
+            return false;
+        }
+
+        const OpenCVParams cvParams = params.params.value<OpenCVParams>();
+        algo = QVariant::fromValue(cvParams.algo);
+    }
+    else
+    {
+        qCDebug(KSTARS_FITS) << QString("Invalid debayer engine");
+        return false;
+    }
+
+    params = setupBayerParams(params.engine, pattern, algo, offsetX, offsetY);
+
     return true;
 }
 
-bool FITSData::stackCheckDebayerXISF(const QString pattern, BayerParams &bayerParams)
+bool FITSData::stackCheckDebayerXISF(const QString pattern, BayerParameters &params)
 {
     if (m_StackStatistics.stats.dataType != TUSHORT && m_StackStatistics.stats.dataType != TBYTE)
     {
@@ -6305,43 +6481,58 @@ bool FITSData::stackCheckDebayerXISF(const QString pattern, BayerParams &bayerPa
         return false;
     }
 
-    getBayerParams(&bayerParams);
-    if (pattern == "RGGB")
-        bayerParams.filter = DC1394_COLOR_FILTER_RGGB;
-    else if (pattern == "GBRG")
-        bayerParams.filter = DC1394_COLOR_FILTER_GBRG;
-    else if (pattern == "GRBG")
-        bayerParams.filter = DC1394_COLOR_FILTER_GRBG;
-    else if (pattern == "BGGR")
-        bayerParams.filter = DC1394_COLOR_FILTER_BGGR;
+    if (!BayerUtils::bayerPatternValid(pattern))
+    {
+        qCDebug(KSTARS_FITS) << QString("Unknown bayer pattern %1").arg(pattern);
+        return false;
+    }
+
+    QVariant algo;
+    if (params.engine == DebayerEngine::DC1394)
+    {
+        if (!params.params.canConvert<DC1394Params>())
+        {
+            qCDebug(KSTARS_FITS) << QString("Invalid dc1394 debayer parameters");
+            return false;
+        }
+
+        const DC1394Params dc1394Params = params.params.value<DC1394Params>();
+        algo = QVariant::fromValue(dc1394Params.params.method);
+    }
+    else if (params.engine == DebayerEngine::OpenCV)
+    {
+        if (!params.params.canConvert<OpenCVParams>())
+        {
+            qCDebug(KSTARS_FITS) << QString("Invalid OpenCV debayer parameters");
+            return false;
+        }
+
+        const OpenCVParams cvParams = params.params.value<OpenCVParams>();
+        algo = QVariant::fromValue(cvParams.algo);
+    }
     else
     {
-        qCDebug(KSTARS_FITS) << QString("Unsupported bayer pattern %1.").arg(pattern);
+        qCDebug(KSTARS_FITS) << QString("Invalid debayer engine");
         return false;
     }
 
     // In XISF there are no offsets so ensure these are mapped to 0
-    bayerParams.offsetX = 0;
-    bayerParams.offsetX = 0;
-
+    int offsetX = 0, offsetY = 0;
+    params = setupBayerParams(params.engine, pattern, algo, offsetX, offsetY);
     return true;
 }
 #endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
 
-void FITSData::getBayerParams(BayerParams * param)
+void FITSData::getBayerParams(BayerParameters * param)
 {
-    param->method  = debayerParams.method;
-    param->filter  = debayerParams.filter;
-    param->offsetX = debayerParams.offsetX;
-    param->offsetY = debayerParams.offsetY;
+    param->engine = debayerParams.engine;
+    param->params = debayerParams.params;
 }
 
-void FITSData::setBayerParams(BayerParams * param)
+void FITSData::setBayerParams(BayerParameters * param)
 {
-    debayerParams.method  = param->method;
-    debayerParams.filter  = param->filter;
-    debayerParams.offsetX = param->offsetX;
-    debayerParams.offsetY = param->offsetY;
+    debayerParams.engine = param->engine;
+    debayerParams.params = param->params;
 }
 
 bool FITSData::debayer(bool reload)
@@ -6370,21 +6561,50 @@ bool FITSData::debayer(bool reload)
             return false;
     }
 
-    switch (m_Statistics.dataType)
+    BayerParameters params;
+    getBayerParams(&params);
+    if (params.engine == DebayerEngine::OpenCV)
     {
-        case TBYTE:
-            return debayer_8bit();
+        switch (m_Statistics.dataType)
+        {
+            case TBYTE:
+                return debayerCV<uint8_t>(params);
 
-        case TUSHORT:
-            return debayer_16bit();
+            case TUSHORT:
+                return debayerCV<uint16_t>(params);
 
-        default:
-            return false;
+            default:
+                return false;
+        }
+    }
+    else
+    {
+        // Legacy dc1394
+        switch (m_Statistics.dataType)
+        {
+            case TBYTE:
+                return debayer_8bit();
+
+            case TUSHORT:
+                return debayer_16bit();
+
+            default:
+                return false;
+        }
     }
 }
 
 bool FITSData::debayer_8bit()
 {
+    auto start = std::chrono::high_resolution_clock::now();
+
+    DC1394Params dc1394Params;
+    if(!BayerUtils::verifyDC1394DebayerParams(debayerParams, dc1394Params))
+    {
+        m_LastError = i18n("debayer_8bit called with invalid debayer parameters");
+        return false;
+    }
+
     dc1394error_t error_code;
 
     uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
@@ -6414,7 +6634,7 @@ bool FITSData::debayer_8bit()
     int ds1394_height = m_Statistics.height;
     auto dc1394_source = bayer_source_buffer;
 
-    if (debayerParams.offsetY == 1)
+    if (dc1394Params.params.offsetY == 1)
     {
         dc1394_source += m_Statistics.width;
         ds1394_height--;
@@ -6422,8 +6642,7 @@ bool FITSData::debayer_8bit()
     // offsetX == 1 is handled in checkDebayer() and should be 0 here.
 
     error_code = dc1394_bayer_decoding_8bit(dc1394_source, bayer_destination_buffer, m_Statistics.width, ds1394_height,
-                                            debayerParams.filter,
-                                            debayerParams.method);
+                                            dc1394Params.params.filter, dc1394Params.params.method);
 
     if (error_code != DC1394_SUCCESS)
     {
@@ -6473,11 +6692,24 @@ bool FITSData::debayer_8bit()
     m_Statistics.channels = (m_Mode == FITS_NORMAL || m_Mode == FITS_CALIBRATE || m_Mode == FITS_LIVESTACKING) ? 3 : 1;
     m_Statistics.dataType = TBYTE;
     delete[] destinationBuffer;
+    auto end = std::chrono::high_resolution_clock::now();
+    qCDebug(KSTARS_FITS) << "Debayer (dc1394 8bit) using method:"
+                         << BayerUtils::convertDC1394MethodToStr(dc1394Params.params.method)
+                         << " took:" << std::chrono::duration<double, std::milli>(end - start).count() << "ms";
     return true;
 }
 
 bool FITSData::debayer_16bit()
 {
+    auto start = std::chrono::high_resolution_clock::now();
+
+    DC1394Params dc1394Params;
+    if(!BayerUtils::verifyDC1394DebayerParams(debayerParams, dc1394Params))
+    {
+        m_LastError = i18n("debayer_16bit called with invalid debayer parameters");
+        return false;
+    }
+
     dc1394error_t error_code;
 
     uint32_t rgb_size = m_Statistics.samples_per_channel * 3 * m_Statistics.bytesPerPixel;
@@ -6506,7 +6738,7 @@ bool FITSData::debayer_16bit()
     int ds1394_height = m_Statistics.height;
     auto dc1394_source = bayer_source_buffer;
 
-    if (debayerParams.offsetY == 1)
+    if (dc1394Params.params.offsetY == 1)
     {
         dc1394_source += m_Statistics.width;
         ds1394_height--;
@@ -6514,8 +6746,7 @@ bool FITSData::debayer_16bit()
     // offsetX == 1 is handled in checkDebayer() and should be 0 here.
 
     error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer, m_Statistics.width, ds1394_height,
-                 debayerParams.filter,
-                 debayerParams.method, 16);
+                 dc1394Params.params.filter, dc1394Params.params.method, 16);
 
     if (error_code != DC1394_SUCCESS)
     {
@@ -6562,16 +6793,26 @@ bool FITSData::debayer_16bit()
     m_Statistics.channels = (m_Mode == FITS_NORMAL || m_Mode == FITS_CALIBRATE || m_Mode == FITS_LIVESTACKING) ? 3 : 1;
     m_Statistics.dataType = TUSHORT;
     delete[] destinationBuffer;
+    auto end = std::chrono::high_resolution_clock::now();
+    qCDebug(KSTARS_FITS) << "Debayer (dc1394 16bit) using method:"
+                         << BayerUtils::convertDC1394MethodToStr(dc1394Params.params.method)
+                         << " took:" << std::chrono::duration<double, std::milli>(end - start).count() << "ms";
     return true;
 }
 
 // Template function to handle both 8-bit and 16-bit debayering
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
 template <typename T>
-bool FITSData::stackDebayer(BayerParams &bayerParams)
+bool FITSData::stackDebayer(BayerParameters &bayerParams)
 {
-    //static_assert(std::is_same_v<T, uint8_t> || std::is_same_v<T, uint16_t>,
-    //              "Template parameter must be uint8_t or uint16_t");
+    auto start = std::chrono::high_resolution_clock::now();
+
+    DC1394Params dc1394Params;
+    if(!BayerUtils::verifyDC1394DebayerParams(bayerParams, dc1394Params))
+    {
+        qCDebug(KSTARS_FITS) << QString("%1 called with invalid debayer parameters").arg(__FUNCTION__);
+        return false;
+    }
 
     dc1394error_t error_code;
     uint32_t rgb_size = m_StackStatistics.stats.samples_per_channel * 3 * m_StackStatistics.stats.bytesPerPixel;
@@ -6599,7 +6840,7 @@ bool FITSData::stackDebayer(BayerParams &bayerParams)
     int ds1394_height = m_StackStatistics.stats.height;
     auto dc1394_source = bayer_source_buffer;
 
-    if (bayerParams.offsetY == 1)
+    if (dc1394Params.params.offsetY == 1)
     {
         dc1394_source += m_StackStatistics.stats.width;
         ds1394_height--;
@@ -6610,13 +6851,13 @@ bool FITSData::stackDebayer(BayerParams &bayerParams)
     {
         error_code = dc1394_bayer_decoding_16bit(dc1394_source, bayer_destination_buffer,
                      m_StackStatistics.stats.width, ds1394_height,
-                     bayerParams.filter, bayerParams.method, 16);
+                     dc1394Params.params.filter, dc1394Params.params.method, 16);
     }
     else // uint8_t
     {
         error_code = dc1394_bayer_decoding_8bit(dc1394_source, bayer_destination_buffer,
                                                 m_StackStatistics.stats.width, ds1394_height,
-                                                bayerParams.filter, bayerParams.method);
+                                                dc1394Params.params.filter, dc1394Params.params.method);
     }
 
     if (error_code != DC1394_SUCCESS)
@@ -6664,7 +6905,136 @@ bool FITSData::stackDebayer(BayerParams &bayerParams)
     m_StackStatistics.cvType = CV_MAKETYPE(type, channels);
 
     delete[] destinationBuffer;
+    auto end = std::chrono::high_resolution_clock::now();
+    qCDebug(KSTARS_FITS) << "Stack Debayer (dc1394) using method:"
+                         << BayerUtils::convertDC1394MethodToStr(dc1394Params.params.method) << " took:"
+                         << std::chrono::duration<double, std::milli>(end - start).count() << "ms";
     return true;
+}
+
+// This is the openCV stack debayer routine
+template <typename T>
+bool FITSData::debayerCV(BayerParameters &bayerParams, bool stack)
+{
+    try
+    {
+        auto start = std::chrono::high_resolution_clock::now();
+
+        auto w = (stack) ? m_StackStatistics.stats.width : m_Statistics.width;
+        auto h = (stack) ? m_StackStatistics.stats.height : m_Statistics.height;
+        auto sPerC = (stack) ? m_StackStatistics.stats.samples_per_channel : m_Statistics.samples_per_channel;
+        auto bufferSize = (stack) ? m_StackImageBufferSize : m_ImageBufferSize;
+        auto bytesPerPixel = (stack) ? m_StackStatistics.stats.bytesPerPixel : m_Statistics.bytesPerPixel;
+
+        OpenCVParams cvParams;
+        if(!BayerUtils::verifyCVDebayerParams(bayerParams, cvParams))
+        {
+            qCDebug(KSTARS_FITS) << QString("%1 called with invalid debayer parameters").arg(__FUNCTION__);
+            return false;
+        }
+
+        // Determine Algorithm Base Code
+        int base_code;
+        switch (cvParams.pattern)
+        {
+            case BayerPattern::RGGB:
+                base_code = cv::COLOR_BayerRG2BGR;
+                break;
+            case BayerPattern::GRBG:
+                base_code = cv::COLOR_BayerGR2BGR;
+                break;
+            case BayerPattern::GBRG:
+                base_code = cv::COLOR_BayerGB2BGR;
+                break;
+            case BayerPattern::BGGR:
+                base_code = cv::COLOR_BayerBG2BGR;
+                break;
+            default:
+                qCDebug(KSTARS_FITS) << QString("%1 called with unknown bayer pattern %2")
+                                     .arg(__FUNCTION__).arg(static_cast<int>(cvParams.pattern));
+                return false;
+        }
+
+        // Add Algorithm Modifier (e.g., VNG or EA)
+        // Note that openCV only implements VNG for 8bit - so fall back to Bilinear if called on something other than 8bit
+        OpenCVAlgo algo = cvParams.algo;
+        if (algo == OpenCVAlgo::VNG && bytesPerPixel != 1)
+        {
+            algo = OpenCVAlgo::Bilinear;
+            qCDebug(KSTARS_FITS) << QString("openCV debayer algo %1 not supported for this bit depth, using %2")
+                                 .arg(BayerUtils::openCVAlgoToString(cvParams.algo))
+                                 .arg(BayerUtils::openCVAlgoToString(algo));
+        }
+
+        int cv_code = base_code;
+        if (algo == OpenCVAlgo::VNG)
+            cv_code += (cv::COLOR_BayerBG2RGB_VNG - cv::COLOR_BayerBG2RGB);
+        else if (algo == OpenCVAlgo::EA)
+            cv_code += (cv::COLOR_BayerBG2RGB_EA - cv::COLOR_BayerBG2RGB);
+
+        // Setup Source & Destination
+        int cv_type = std::is_same_v<T, uint16_t> ? CV_16UC1 : CV_8UC1;
+        T *source_ptr = (stack) ? reinterpret_cast<T *>(m_StackImageBuffer) : reinterpret_cast<T *>(m_ImageBuffer);
+        int proc_height = h;
+        if (cvParams.offsetY == 1)
+        {
+            source_ptr += w;
+            proc_height--;
+        }
+
+        // OpenCV Demosaic
+        cv::Mat raw(proc_height, w, cv_type, source_ptr);
+        cv::Mat interleavedBGR;
+        cv::demosaicing(raw, interleavedBGR, cv_code);
+
+        // Optimized Split into planar FITS format
+        uint32_t rgb_size = sPerC * 3 * sizeof(T);
+        if (bufferSize != rgb_size)
+        {
+            if (stack)
+            {
+                delete[] m_StackImageBuffer;
+                m_StackImageBuffer = new uint8_t[rgb_size];
+                m_StackImageBufferSize = rgb_size;
+            }
+            else
+            {
+                delete[] m_ImageBuffer;
+                m_ImageBuffer = new uint8_t[rgb_size];
+                m_ImageBufferSize = rgb_size;
+            }
+        }
+
+        T *out_ptr = (stack) ? reinterpret_cast<T *>(m_StackImageBuffer) : reinterpret_cast<T *>(m_ImageBuffer);
+        std::vector<cv::Mat> planes = { cv::Mat(h, w, cv_type, out_ptr),
+                                        cv::Mat(h, w, cv_type, out_ptr + sPerC),
+                                        cv::Mat(h, w, cv_type, out_ptr + (sPerC * 2))
+                                      };
+
+        // Seems like openCV forces BGR so we have to go with it and remap the channels afterwards
+        cv::split(interleavedBGR, planes);
+
+        // Now we've debayered update the channels from 1 to 3
+        const int channels = 3;
+        if (!stack)
+            m_Statistics.channels = channels;
+        else
+        {
+            m_StackStatistics.stats.channels = channels;
+            const int type = CV_MAT_DEPTH(m_StackStatistics.cvType);
+            m_StackStatistics.cvType = CV_MAKETYPE(type, channels);
+        }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        qCDebug(KSTARS_FITS) << "Stack Debayer (openCV) using algo:" << BayerUtils::openCVAlgoToString(algo)
+                             << " took:" << std::chrono::duration<double, std::milli>(end - start).count() << "ms";
+        return true;
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCDebug(KSTARS_FITS) << QString("OpenCV exception %1 in %2").arg(ex.what()).arg(__FUNCTION__);
+        return false;
+    }
 }
 #endif // !KSTARS_LITE, HAVE_WCSLIB, HAVE_OPENCV
 

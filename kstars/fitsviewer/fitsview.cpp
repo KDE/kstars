@@ -376,7 +376,7 @@ void FITSView::loadFile(const QString &inFilename)
 
     bool setBayerParams = false;
 
-    BayerParams param;
+    BayerParameters param;
     if ((m_ImageData != nullptr) && m_ImageData->hasDebayer())
     {
         setBayerParams = true;
@@ -439,7 +439,7 @@ void FITSView::loadStack(const QStringList &inDir, const LiveStackData &params)
         floatingToolBar->setVisible(true);
 
     bool setBayerParams = false;
-    BayerParams param;
+    BayerParameters param;
     if ((m_ImageData != nullptr) && m_ImageData->hasDebayer())
     {
         setBayerParams = true;

@@ -462,6 +462,7 @@ if (CFITSIO_FOUND)
         fitsviewer/fitstab.cpp
         fitsviewer/platesolve.cpp
         fitsviewer/fitsdebayer.cpp
+        fitsviewer/bayerparameters.cpp
         fitsviewer/opsfits.cpp
         fitsviewer/fitsdirwatcher.cpp
         fitsviewer/fitsmemmonitor.cpp

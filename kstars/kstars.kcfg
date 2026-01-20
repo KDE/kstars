@@ -1664,6 +1664,22 @@
          <whatsthis>Log Ekos Observatory Module activity.</whatsthis>
          <default>false</default>
       </entry>
+      <entry name="ImageDebayerEngine" type="Int">
+         <label>Debayer engine to use on images.</label>
+         <default>0</default>
+      </entry>
+      <entry name="ImageDebayerAlgo" type="Int">
+         <label>Debayer algo to use on images.</label>
+         <default>0</default>
+      </entry>
+      <entry name="StackDebayerEngine" type="Int">
+        <label>Debayer engine to use on live stack subs.</label>
+        <default>1</default>
+      </entry>
+      <entry name="StackDebayerAlgo" type="Int">
+        <label>Debayer algo to use on live stack subs.</label>
+        <default>2</default>
+      </entry>
    </group>
    <group name="FITSViewer">
    <entry name="FITSWindowGeometry" type="String">

@@ -886,7 +886,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
 
         if (debayerDialog)
         {
-            BayerParams param;
+            BayerParameters param;
             view->imageData()->getBayerParams(&param);
             debayerDialog->setBayerParams(&param);
         }
@@ -1294,7 +1294,7 @@ void FITSViewer::debayerFITS()
     QSharedPointer<FITSView> view;
     if (getCurrentView(view))
     {
-        BayerParams param;
+        BayerParameters param;
         view->imageData()->getBayerParams(&param);
         debayerDialog->setBayerParams(&param);
         debayerDialog->show();
