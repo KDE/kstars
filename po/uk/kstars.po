@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-19 02:04+0000\n"
-"PO-Revision-Date: 2026-01-16 05:31+0200\n"
+"PO-Revision-Date: 2026-01-19 08:44+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -25146,10 +25146,9 @@ msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Встановлюємо зв'язок із засобом керування віддаленим INDI…"
 
 #: ekos/manager.cpp:1193
-#, fuzzy, kde-format
-#| msgid "Warning: INDI Web Manager is not online."
+#, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
-msgstr "Попередження: засіб керування INDI не працює у мережі."
+msgstr "Помилка: інтернет-керування INDI непридатне до з'єднання о %1:%2"
 
 #: ekos/manager.cpp:1234
 #, kde-format

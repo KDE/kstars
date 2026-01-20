@@ -23936,10 +23936,9 @@ msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "正在与远程 INDI 网页管理器建立通信..."
 
 #: ekos/manager.cpp:1193
-#, fuzzy, kde-format
-#| msgid "Warning: INDI Web Manager is not online."
+#, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
-msgstr "警告：INDI Web 管理器未在线。"
+msgstr ""
 
 #: ekos/manager.cpp:1234
 #, kde-format
@@ -28691,7 +28690,7 @@ msgstr "警告：安全恢复后加载 %1 启动后任务队列失败"
 #, kde-format
 msgid ""
 "Resetting startup state to run startup procedures after preemptive shutdown."
-msgstr ""
+msgstr "因强制关机，正在重置启动状态以重新执行启动流程。"
 
 #: ekos/scheduler/schedulerprocess.cpp:613
 #, kde-format
@@ -33793,7 +33792,7 @@ msgstr "下载 HiPS 数据错误： %1"
 #: hips/opships.ui:48
 #, kde-format
 msgid "Search..."
-msgstr ""
+msgstr "搜索..."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_HIPSNetCache)
@@ -35941,7 +35940,7 @@ msgstr "保存焦点帧限制"
 #: kstars.kcfg:211
 #, kde-format
 msgid "Upper limit how many focus frames should be kept on disk."
-msgstr ""
+msgstr "磁盘中保存的对焦帧的数量上限。"
 
 #. i18n: ectx: label, entry (messageNotificationINDI), group (indi)
 #: kstars.kcfg:215
@@ -36917,7 +36916,7 @@ msgstr "Meta-option for all planets in the sky map."
 msgid ""
 "Meta-option to control whether all major planets (and the Sun and Moon) are "
 "drawn in the sky map."
-msgstr ""
+msgstr "控制星图中是否绘制全部大行星 (含太阳与月球) 的总控选项。"
 
 #. i18n: ectx: label, entry (ShowPlanetImages), group (View)
 #: kstars.kcfg:646
@@ -37756,7 +37755,7 @@ msgstr "对于成像时数的计算，天体必须比这更多地远离月球。
 msgid ""
 "For imaging hours calculation, the moon must have an altitude lower than "
 "this."
-msgstr ""
+msgstr "用于成像时长计算时，月球高度需低于此值。"
 
 #. i18n: ectx: label, entry (ImagingPlannerShowPicked), group (ImagingPlanner)
 #: kstars.kcfg:1018
@@ -37926,7 +37925,7 @@ msgstr "在独立窗口显示成像规划工具。"
 #: kstars.kcfg:1110
 #, kde-format
 msgid "Start solving immediately after taking a screenshot."
-msgstr ""
+msgstr "拍摄截图后立刻开始解析。"
 
 #. i18n: ectx: whatsthis, entry (ImagingPlannerStartSolvingImmediately), group (ImagingPlanner)
 #: kstars.kcfg:1111
@@ -37934,7 +37933,7 @@ msgstr ""
 msgid ""
 "Start solving immediately after taking a screenshot, instead of waiting for "
 "the Solve button to be pressed."
-msgstr ""
+msgstr "拍摄截图后立刻开始解析，而不是等待点击“求解”。"
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1117
@@ -39085,6 +39084,10 @@ msgid ""
 "free. There are known bugs in the rendering of stars when this recomputation "
 "is avoided."
 msgstr ""
+"勾选此选项后，星图每次重绘时，都会根据星表坐标重新计算当前的赤道坐标 (即进行"
+"岁差、章动与光行差修正)。若需处理的恒星数量较多，此操作会降低处理速度，但能更"
+"大程度避免程序漏洞。\n"
+"目前已知：若跳过该重计算步骤，恒星的渲染过程会出现已知漏洞。"
 
 #. i18n: ectx: label, entry (DefaultDSSImageSize), group (General)
 #: kstars.kcfg:1585
@@ -39112,6 +39115,8 @@ msgid ""
 "images of deep-sky objects. This option configures the total (both sides) "
 "padding added to either dimension of the field."
 msgstr ""
+"为纳入更多星场区域，我们会在深空天体的数字巡天 (DSS) 图像周围添加额外边缘填"
+"充。此选项用于配置星场任一维度上添加的双侧总填充量。"
 
 #. i18n: ectx: label, entry (VerboseLogging), group (General)
 #: kstars.kcfg:1595
@@ -39227,7 +39232,7 @@ msgstr "保存失败的校准图像到本地？"
 #: kstars.kcfg:1648
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup."
-msgstr ""
+msgstr "Ekos 启动时不同步至实时时间。"
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1652
@@ -39257,7 +39262,7 @@ msgstr "记录 Ekos 天文台模块的活动。"
 #: kstars.kcfg:1670
 #, kde-format
 msgid "Geometry of FITS window, encoded byte array"
-msgstr ""
+msgstr "FITS 窗口几何形状，编码字节数组"
 
 #. i18n: ectx: label, entry (useFITSViewer), group (FITSViewer)
 #: kstars.kcfg:1674
@@ -39316,7 +39321,7 @@ msgstr "使 FITS 查看窗口独立于 KStars 主窗口"
 #: kstars.kcfg:1701
 #, kde-format
 msgid "Run Live Stacker as a separate process"
-msgstr ""
+msgstr "以一个分离的进程运行实时堆叠器"
 
 #. i18n: ectx: label, entry (AutoDebayer), group (FITSViewer)
 #: kstars.kcfg:1705
@@ -39395,7 +39400,7 @@ msgstr "Fitsviewer 解析的选项配置文件。"
 #: kstars.kcfg:1753
 #, kde-format
 msgid "Module from which profile is taken for Fitsviewer Solving."
-msgstr ""
+msgstr "FITS 查看器解析的配置文件来源模块。"
 
 #. i18n: ectx: label, entry (FitsSolverProfileIndeces), group (FITSViewer)
 #: kstars.kcfg:1757
@@ -39403,7 +39408,7 @@ msgstr ""
 msgid ""
 "JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
-msgstr ""
+msgstr "存储 FITS 查看器解析器的配置文件索引与模块配置文件映射关系的 JSON 数据"
 
 #. i18n: ectx: label, entry (FitsCatalog), group (FITSViewer)
 #: kstars.kcfg:1761
@@ -39451,193 +39456,193 @@ msgstr "Fitsviewer 解析所用位置的弧度（度）。"
 #: kstars.kcfg:1790
 #, kde-format
 msgid "Live Stacking Minimise General Options Widget"
-msgstr ""
+msgstr "最小化实时堆叠通用选项控件"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideCalibration), group (FITSViewer)
 #: kstars.kcfg:1794
 #, kde-format
 msgid "Live Stacking Minimise Calibration Options Widget"
-msgstr ""
+msgstr "最小化实时堆叠校准选项控件"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideAlignment), group (FITSViewer)
 #: kstars.kcfg:1798
 #, kde-format
 msgid "Live Stacking Minimise Alignment Options Widget"
-msgstr ""
+msgstr "最小化实时堆叠校准选项控件"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHideStacking), group (FITSViewer)
 #: kstars.kcfg:1802
 #, kde-format
 msgid "Live Stacking Minimise Stacking Options Widget"
-msgstr ""
+msgstr "最小化实时堆叠堆叠选项控件"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHidePostProc), group (FITSViewer)
 #: kstars.kcfg:1806
 #, kde-format
 msgid "Live Stacking Minimise Post-Processing Options Widget"
-msgstr ""
+msgstr "最小化实时堆叠后处理选项控件"
 
 #. i18n: ectx: whatsthis, entry (fitsLSCalcSNR), group (FITSViewer)
 #: kstars.kcfg:1810
 #, kde-format
 msgid "Live Stacking calculate SNR switch"
-msgstr ""
+msgstr "实时堆叠信噪比计算开关"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterDark), group (FITSViewer)
 #: kstars.kcfg:1814
 #, kde-format
 msgid "Live Stacking master dark"
-msgstr ""
+msgstr "实时堆叠主暗场"
 
 #. i18n: ectx: whatsthis, entry (fitsLSMasterFlat), group (FITSViewer)
 #: kstars.kcfg:1818
 #, kde-format
 msgid "Live Stacking master flat"
-msgstr ""
+msgstr "实时堆叠主平场"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1822
 #, kde-format
 msgid "Live Stacking alignment method"
-msgstr ""
+msgstr "实时堆叠校准方式"
 
 #. i18n: ectx: label, entry (fitsLSNumInMem), group (FITSViewer)
 #: kstars.kcfg:1826
 #, kde-format
 msgid "Live Stacking max number of subs to keep in memory"
-msgstr ""
+msgstr "实时堆叠在内存中保存的最大子图数"
 
 #. i18n: ectx: whatsthis, entry (fitsLSDownscale), group (FITSViewer)
 #: kstars.kcfg:1830
 #, kde-format
 msgid "Live Stacking downscale factor"
-msgstr ""
+msgstr "实时堆叠降采样系数"
 
 #. i18n: ectx: whatsthis, entry (fitsLSWeighting), group (FITSViewer)
 #: kstars.kcfg:1834
 #, kde-format
 msgid "Live Stacking sub weighting"
-msgstr ""
+msgstr "实时堆叠子图权重"
 
 #. i18n: ectx: whatsthis, entry (fitsLSStackingMethod), group (FITSViewer)
 #: kstars.kcfg:1838
 #, kde-format
 msgid "Live Stacking stacking method"
-msgstr ""
+msgstr "实时堆叠堆叠方式"
 
 #. i18n: ectx: label, entry (fitsLSLowSigma), group (FITSViewer)
 #: kstars.kcfg:1842
 #, kde-format
 msgid "Live Stacking low sigma pixel rejection criteria"
-msgstr ""
+msgstr "实时堆叠低 Sigma 像素剔除判定条件"
 
 #. i18n: ectx: label, entry (fitsLSHighSigma), group (FITSViewer)
 #: kstars.kcfg:1846
 #, kde-format
 msgid "Live Stacking high sigma pixel rejection criteria"
-msgstr ""
+msgstr "实时堆叠高 Sigma 像素剔除判定条件"
 
 #. i18n: ectx: label, entry (fitsLSWinsorCutoff), group (FITSViewer)
 #: kstars.kcfg:1850
 #, kde-format
 msgid "Live Stacking sigma clipping windzor cutoff"
-msgstr ""
+msgstr "实时堆叠温莎化 Sigma 剔除条件"
 
 #. i18n: ectx: label, entry (fitsLSIterations), group (FITSViewer)
 #: kstars.kcfg:1854
 #, kde-format
 msgid "Live Stacking Iterations to use in ImageMM stacking"
-msgstr ""
+msgstr "使用 ImageMM 堆叠方式的实时堆叠迭代次数"
 
 #. i18n: ectx: label, entry (fitsLSKappa), group (FITSViewer)
 #: kstars.kcfg:1858
 #, kde-format
 msgid "Live Stacking ImageMM kappa"
-msgstr ""
+msgstr "实时堆叠 ImageMM Kappa"
 
 #. i18n: ectx: label, entry (fitsLSAlpha), group (FITSViewer)
 #: kstars.kcfg:1862
 #, kde-format
 msgid "Live Stacking ImageMM alpha"
-msgstr ""
+msgstr "实时堆叠 ImageMM Alpha"
 
 #. i18n: ectx: label, entry (fitsLSSigma), group (FITSViewer)
 #: kstars.kcfg:1866
 #, kde-format
 msgid "Live Stacking ImageMM sigma"
-msgstr ""
+msgstr "实时堆叠 ImageMM Sigma"
 
 #. i18n: ectx: label, entry (fitsPSFUpdate), group (FITSViewer)
 #: kstars.kcfg:1870
 #, kde-format
 msgid "Live Stacking ImageMM PSF Update interval"
-msgstr ""
+msgstr "实时堆叠 ImageMM 点扩散函数更新间隔"
 
 #. i18n: ectx: whatsthis, entry (fitsLSPostProc), group (FITSViewer)
 #: kstars.kcfg:1874
 #, kde-format
 msgid "Live Stacking Post Processing switch"
-msgstr ""
+msgstr "实时堆叠后处理开关"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1878
 #, kde-format
 msgid "Live Stacking deconvolution amount"
-msgstr ""
+msgstr "实时堆叠反卷积强度"
 
 #. i18n: ectx: label, entry (fitsLSPSFSigma), group (FITSViewer)
 #: kstars.kcfg:1882
 #, kde-format
 msgid "Live Stacking PSF sigma to apply in deconvolution"
-msgstr ""
+msgstr "实时堆叠反卷积点扩散函数 Sigma"
 
 #. i18n: ectx: label, entry (fitsLSDenoiseAmt), group (FITSViewer)
 #: kstars.kcfg:1886
 #, kde-format
 msgid "Live Stacking denoise amount"
-msgstr ""
+msgstr "实时堆叠去噪音强度"
 
 #. i18n: ectx: label, entry (fitsLSSharpenAmt), group (FITSViewer)
 #: kstars.kcfg:1890
 #, kde-format
 msgid "Live Stacking sharpen amount"
-msgstr ""
+msgstr "实时堆叠锐化强度"
 
 #. i18n: ectx: label, entry (fitsLSSharpenKernal), group (FITSViewer)
 #: kstars.kcfg:1894
 #, kde-format
 msgid "Live Stacking sharpening kernel size"
-msgstr ""
+msgstr "实时堆叠锐化核大小"
 
 #. i18n: ectx: label, entry (fitsLSSharpenSigma), group (FITSViewer)
 #: kstars.kcfg:1898
 #, kde-format
 msgid "Live Stacking sharpening sigma"
-msgstr ""
+msgstr "实时堆叠锐化 Sigma"
 
 #. i18n: ectx: label, entry (fitsLSMWindowGeometry), group (FITSViewer)
 #: kstars.kcfg:1902
 #, kde-format
 msgid "Geometry of Live Stacking Monitor window"
-msgstr ""
+msgstr "实时堆叠监视器窗口几何形状"
 
 #. i18n: ectx: label, entry (fitsLSMVisibleColumns), group (FITSViewer)
 #: kstars.kcfg:1906
 #, kde-format
 msgid "Live Stacking Monitor column visibility"
-msgstr ""
+msgstr "实时堆叠监视器列可见性"
 
 #. i18n: ectx: label, entry (fitsLSMColumnWidths), group (FITSViewer)
 #: kstars.kcfg:1910
 #, kde-format
 msgid "Live Stacking Monitor column widths"
-msgstr ""
+msgstr "实时堆叠监视器列宽度"
 
 #. i18n: ectx: label, entry (fitsLSMHighlighting), group (FITSViewer)
 #: kstars.kcfg:1920
 #, kde-format
 msgid "Live Stacking Monitor highlighting."
-msgstr ""
+msgstr "实时堆叠监视器高亮"
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1926
@@ -39685,7 +39690,7 @@ msgstr "INDI 窗口高度"
 #: kstars.kcfg:1956
 #, kde-format
 msgid "Geometry of Ekos window, encoded byte array"
-msgstr ""
+msgstr "Ekos 窗口几何形状，编码字节数组"
 
 #. i18n: ectx: label, entry (EkosLeftIcons), group (Ekos)
 #: kstars.kcfg:1964

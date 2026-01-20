@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-19 02:04+0000\n"
-"PO-Revision-Date: 2026-01-16 06:20+0100\n"
+"PO-Revision-Date: 2026-01-19 07:25+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -24870,10 +24870,9 @@ msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Vzpostavljanje komunikacije z oddaljenim spletnem upravljalniku INDI…"
 
 #: ekos/manager.cpp:1193
-#, fuzzy, kde-format
-#| msgid "Warning: INDI Web Manager is not online."
+#, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
-msgstr "Opozorilo: spletni upravljalnik INDI ni povezan."
+msgstr "Napaka: Spletni upravljalnik INDI ni povezan na %1:%2"
 
 #: ekos/manager.cpp:1234
 #, kde-format
