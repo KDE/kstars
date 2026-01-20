@@ -36,7 +36,7 @@ suse_tumbleweed_qt610:
     - !reference [.always-on-scheduled-pipeline, rules] # Flatpak nightly
     - !reference [.standard-build-recipes, rules]
 
-windows_qt69:
+windows_qt610:
   allow_failure: true # TODO: REMOVE WHEN STELLARSOLVER QT6 IS INCLUDED IN CI IMAGE
   rules:
     - !reference [.standard-build-recipes, rules]
@@ -89,7 +89,7 @@ astyle-check:
 # These craft jobs are also automatically defined by the included templates
 craft_windows_qt6_x86_64: # Extended from /gitlab-templates/craft-windows-x86-64-qt6.yml
   needs:
-    - windows_qt69
+    - windows_qt610
   rules:
     - !reference [.craft-recipes, rules]
 
