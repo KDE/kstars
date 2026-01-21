@@ -10,6 +10,7 @@
 #include "kstarsdata.h"
 #include "indicom.h"
 #include "ekos/auxiliary/rotatorutils.h"
+#include <ekos_capture_debug.h>
 
 namespace Ekos
 {
@@ -67,6 +68,9 @@ void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool isPrev
     if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature)
         return;
 
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing light frame capture (enforce temp:" << enforceCCDTemp << "preview:" << isPreview
+                                 << ")";
+
     // initialize the states
     initPreparation(isPreview);
 
@@ -96,6 +100,9 @@ void SequenceJobState::prepareFlatFrameCapture(bool enforceCCDTemp, bool isPrevi
     if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature)
         return;
 
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing flat frame capture (enforce temp:" << enforceCCDTemp << "preview:" << isPreview
+                                 << ")";
+
     // initialize the states
     initPreparation(isPreview);
 
@@ -119,6 +126,9 @@ void SequenceJobState::prepareDarkFrameCapture(bool enforceCCDTemp, bool isPrevi
     // precondition: do not start while already being busy and conditions haven't changed
     if (m_status == JOB_BUSY && enforceCCDTemp == m_enforceTemperature)
         return;
+
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing dark frame capture (enforce temp:" << enforceCCDTemp << "preview:" << isPreview
+                                 << ")";
 
     // initialize the states
     initPreparation(isPreview);
@@ -190,6 +200,7 @@ void SequenceJobState::checkAllActionsReady()
                         if (checkLightFrameScopeCoverOpen() != IPS_OK)
                             return;
 
+                        qCDebug(KSTARS_EKOS_CAPTURE) << "Light prep: complete, emitting prepareComplete()";
                         m_PreparationState = PREP_COMPLETED;
                         emit prepareComplete();
                     }
@@ -212,6 +223,7 @@ void SequenceJobState::checkAllActionsReady()
                     // all preparations ready, avoid doubled events
                     if (m_PreparationState == PREP_BUSY)
                     {
+                        qCDebug(KSTARS_EKOS_CAPTURE) << "Flat prep: complete, emitting prepareComplete()";
                         m_PreparationState = PREP_COMPLETED;
                         emit prepareComplete();
                     }
@@ -229,6 +241,7 @@ void SequenceJobState::checkAllActionsReady()
                     // 2. avoid doubled events
                     if (m_PreparationState == PREP_BUSY)
                     {
+                        qCDebug(KSTARS_EKOS_CAPTURE) << "Dark/Bias prep: complete, emitting prepareComplete()";
                         m_PreparationState = PREP_COMPLETED;
                         emit prepareComplete();
                     }
@@ -400,23 +413,38 @@ IPState SequenceJobState::checkFlatsCoverReady()
 
 IPState SequenceJobState::checkDarksCoverReady()
 {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Checking darks cover ready...";
     IPState result = checkCalibrationPreActionsReady();;
 
     if (result == IPS_OK)
     {
         // 1. check if the CCD has a shutter
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Checking if camera has shutter...";
         result = checkHasShutter();
         if (result != IPS_OK)
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Shutter check returned:" << result;
             return result;
+        }
 
         if (m_CameraState->hasDustCap)
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Has dust cap, checking dust cap ready for FRAME_DARK";
             return checkDustCapReady(FRAME_DARK);
+        }
         // In case we have a wall action then we are facing a designated location and we can immediately continue to next step
         else if (m_CalibrationPreAction & CAPTURE_PREACTION_WALL)
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Wall action configured, darks cover ready";
             return IPS_OK;
+        }
         else
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "No dust cap or wall, checking manual cover";
             return checkManualCoverReady(false);
+        }
     }
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Calibration pre-actions not ready:" << result;
     return result;
 }
 
@@ -453,11 +481,17 @@ IPState SequenceJobState::checkManualCoverReady(bool lightSourceRequired)
 
 IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
 {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Checking dust cap ready for frame type:" << frameType
+                                 << "Current cap state:" << m_CameraState->getDustCapState();
+
     // turning on flat light running
     if (m_CameraState->getLightBoxLightState() == CAP_LIGHT_BUSY  ||
             m_CameraState->getDustCapState() == CAP_PARKING ||
             m_CameraState->getDustCapState() == CAP_UNPARKING)
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Dust cap busy (parking/unparking), returning IPS_BUSY";
         return IPS_BUSY;
+    }
     // error occurred
     if (m_CameraState->getDustCapState() == CAP_ERROR)
         return IPS_ALERT;
@@ -469,6 +503,8 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
     // If cap is parked, unpark it since dark cap uses external light source.
     if (m_CameraState->hasDustCap && m_CameraState->getDustCapState() != targetCapState)
     {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Dust cap state mismatch - current:" << m_CameraState->getDustCapState()
+                                     << "target:" << targetCapState << "Initiating" << (captureLights ? "unpark" : "park");
         m_CameraState->setDustCapState(captureLights ? CAP_UNPARKING : CAP_PARKING);
         emit parkDustCap(!captureLights);
         emit newLog(captureLights ? i18n("Unparking dust cap...") : i18n("Parking dust cap..."));
@@ -488,6 +524,7 @@ IPState SequenceJobState::checkDustCapReady(CCDFrameType frameType)
     }
 
     // nothing more to do
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Dust cap ready - state matches target";
     return IPS_OK;
 }
 

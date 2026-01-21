@@ -756,6 +756,8 @@ void CameraProcess::prepareJobExecution()
         return;
     }
 
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Starting job execution preparation";
+
     state()->setBusy(true);
 
     // Update guiderActive before prepareCapture.
@@ -763,6 +765,7 @@ void CameraProcess::prepareJobExecution()
                                  state()->isActivelyGuiding());
 
     // signal that capture preparation steps should be executed
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Calling activeJob()->prepareCapture()";
     activeJob()->prepareCapture();
 
     // update the UI
