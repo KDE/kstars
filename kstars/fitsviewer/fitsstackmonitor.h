@@ -57,6 +57,7 @@ enum class SubStatus
     FailedPlateSolving,
     FailedWaiting,
     FailedCalibration,
+    FailedCorrection,
     FailedAlignment,
     FailedStacking
 };
@@ -84,6 +85,11 @@ enum SubStatsColumn
 
     COL_CALIBRATED,
     COL_CALIBRATED_INTERVAL,
+
+    COL_CORRECTED,
+    COL_CORRECTED_INTERVAL,
+    COL_HOT_PIX,
+    COL_COLD_PIX,
 
     COL_ALIGNED,
     COL_ALIGNED_INTERVAL,
@@ -160,6 +166,8 @@ inline QString displayOverallStatus(const SubStatus &status)
             return ki18nc("Stack monitor status", "%1 Failed Waiting").subs(STATUS_BAD).toString();
         case SubStatus::FailedCalibration:
             return ki18nc("Stack monitor status", "%1 Failed Calibration").subs(STATUS_BAD).toString();
+        case SubStatus::FailedCorrection:
+            return ki18nc("Stack monitor status", "%1 Failed Correction").subs(STATUS_BAD).toString();
         case SubStatus::FailedAlignment:
             return ki18nc("Stack monitor status", "%1 Failed Alignment").subs(STATUS_BAD).toString();
         case SubStatus::FailedStacking:
@@ -217,6 +225,7 @@ inline QString overallStatusHelp(const QString &name)
            .subs(displayOverallStatus(SubStatus::FailedPlateSolving))
            .subs(displayOverallStatus(SubStatus::FailedWaiting))
            .subs(displayOverallStatus(SubStatus::FailedCalibration))
+           .subs(displayOverallStatus(SubStatus::FailedCorrection))
            .subs(displayOverallStatus(SubStatus::FailedAlignment))
            .subs(displayOverallStatus(SubStatus::FailedStacking))
            .toString();
@@ -306,10 +315,30 @@ static const QVector<ColumnInfo> ColumnInfos =
         StackMonUtils::statusHelp(i18nc("Tooltip for Calibration Status column", "Calibration status")),
         Qt::AlignCenter
     },
-
     {
         "Calibration",   i18nc("Column header", "Calibration\nTime(s)"),
         i18nc("Tooltip for Calibration Time column", "Time to calibrate"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+
+    {
+        "Correction",   i18nc("Column header", "Correction\nStatus"),
+        StackMonUtils::statusHelp(i18nc("Tooltip for Correction Status column", "Correction status")),
+        Qt::AlignCenter
+    },
+    {
+        "Correction",   i18nc("Column header", "Correction\nTime(s)"),
+        i18nc("Tooltip for Correction Time column", "Time to correct"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+    {
+        "Correction",     i18nc("Column header", "Hot Pix"),
+        i18nc("Tooltip for Hot Pix column", "Number of hot pixels removed"),
+        Qt::AlignRight | Qt::AlignVCenter
+    },
+    {
+        "Correction",     i18nc("Column header", "Cold Pix"),
+        i18nc("Tooltip for Cold Pix column", "Number of cold pixels removed"),
         Qt::AlignRight | Qt::AlignVCenter
     },
 
@@ -391,6 +420,12 @@ struct SubStats
     double calibratedInterval = -1.0;
     int dark = -1;
     int flat = -1;
+
+    LSStatus corrected = LSStatus::LSStatusUninit;
+    QDateTime correctedTime;
+    double correctedInterval = -1.0;
+    int hotPix = -1;
+    int coldPix = -1;
 
     LSStatus aligned = LSStatus::LSStatusUninit;
     QDateTime alignedTime;

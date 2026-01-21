@@ -100,6 +100,7 @@ void FITSStack::setupNextSub(const LiveStackFile &sub)
     imageData.image = cv::Mat();
     imageData.status = PLATESOLVE_IN_PROGRESS;
     imageData.isCalibrated = false;
+    imageData.isCorrected = false;
     imageData.isAligned = false;
     imageData.wcsprm = nullptr;
     imageData.hfr = -1;
@@ -486,6 +487,18 @@ bool FITSStack::stack()
                 }
             }
 
+            // Correct sub (remove hot/cold pixels)
+            if (!m_StackImageData[i].isCorrected)
+            {
+                if (correctSub(m_StackImageData[i].sub, m_StackImageData[i].image))
+                    m_StackImageData[i].isCorrected = true;
+                else
+                {
+                    m_StackImageData[i].status = CORRECTION_FAILED;
+                    continue;
+                }
+            }
+
             if (m_StackData.alignMethod == LiveStackAlignMethod::NONE || m_AlignMasterWCS.isNull())
                 // No alignment needed (or not setup) so skip this stage
                 m_StackImageData[i].isAligned = true;
@@ -573,6 +586,18 @@ bool FITSStack::stackn()
                 else
                 {
                     m_StackImageData[i].status = CALIBRATION_FAILED;
+                    continue;
+                }
+            }
+
+            // Remove hot/cold pixels. Don't fail the sub if this step fails
+            if (!m_StackImageData[i].isCorrected)
+            {
+                if (correctSub(m_StackImageData[i].sub, m_StackImageData[i].image))
+                    m_StackImageData[i].isCorrected = true;
+                else
+                {
+                    m_StackImageData[i].status = CORRECTION_FAILED;
                     continue;
                 }
             }
@@ -778,6 +803,97 @@ bool FITSStack::calibrateSub(const LiveStackFile &subFile, cv::Mat &sub)
     QVector<LiveStackFile> subs { subFile };
     QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::Calibrated,
                                         (ok) ? LSStatus::LSStatusOK : LSStatus::LSStatusError, extraData) };
+    emit updateStackMon(subs, infos);
+    return ok;
+}
+
+// Correct sub by removing hot/cold pixels
+bool FITSStack::correctSub(const LiveStackFile &subFile, cv::Mat &sub)
+{
+    bool ok = false;
+    bool workToDo = m_StackData.hotPixels || m_StackData.coldPixels;
+    int hotCount = 0, coldCount = 0;
+    try
+    {
+        if (workToDo)
+        {
+            const int kernelSize = 3;       // median kernel
+            double threshold = 25.0;
+
+            // Process per channel
+            std::vector<cv::Mat> channels;
+            cv::split(sub, channels);
+
+            for (auto &channel : channels)
+            {
+                cv::Mat median;
+                cv::medianBlur(channel, median, kernelSize);
+
+                cv::Mat diff;
+                cv::subtract(channel, median, diff, cv::noArray(), channel.type());
+
+                // Get the threshold to define a defective pixel
+                cv::Mat absDiff;
+                cv::absdiff(channel, median, absDiff);
+
+                // Flatten diff to 1D
+                cv::Mat diffFlat = absDiff.reshape(0, 1);
+                std::vector<ushort> v;
+                diffFlat.copyTo(v);
+
+                if (!v.empty())
+                {
+                    // Compute median of diff (MAD)
+                    std::nth_element(v.begin(), v.begin() + v.size() / 2, v.end());
+                    double mad = v[v.size() / 2];
+                    threshold =  std::max(mad * 5.0, 1.0); // 5-sigma threshold, min=1
+                }
+
+                cv::Mat hotMask, coldMask;
+                if (m_StackData.hotPixels)
+                {
+                    // Hot pixels: pixel > median + threshold
+                    cv::compare(diff, threshold, hotMask, cv::CMP_GT);
+                    hotCount += cv::countNonZero(hotMask);
+                }
+
+                if (m_StackData.coldPixels)
+                {
+                    // Cold pixels: pixel < median - threshold
+                    cv::compare(diff, -threshold, coldMask, cv::CMP_LT);
+                    coldCount += cv::countNonZero(coldMask);
+                    if (!coldMask.empty())
+                    {
+                        // Apply an isolation mask to reduce the chance of removing structure
+                        cv::Mat dilated;
+                        cv::dilate(coldMask, dilated, cv::Mat());
+                        coldMask &= (dilated == coldMask);
+                    }
+                }
+
+                // Combine the masks
+                cv::Mat mask = hotMask.empty() ? coldMask : coldMask.empty() ? hotMask : (hotMask | coldMask);
+
+                // Replace hot/cold pixels with local median
+                median.copyTo(channel, mask);
+            }
+            cv::merge(channels, sub);
+        }
+        ok = true;
+    }
+    catch (const cv::Exception &ex)
+    {
+        QString s1 = ex.what();
+        qCDebug(KSTARS_FITS) << QString("openCV exception %1 called from %2").arg(s1).arg(__FUNCTION__);
+        ok = false;
+    }
+    // Signal the Correction stage complete to Stack Monitor
+    QVariantMap extraData;
+    extraData.insert("hotpix", hotCount);
+    extraData.insert("coldpix", coldCount);
+    QVector<LiveStackFile> subs { subFile };
+    LSStatus status = (!ok) ? LSStatus::LSStatusError : (workToDo) ? LSStatus::LSStatusOK : LSStatus::LSStatusNA;
+    QVector<LiveStackStageInfo> infos { LiveStackStageInfo::fromNow(-1, LSStage::Correction, status, extraData) };
     emit updateStackMon(subs, infos);
     return ok;
 }

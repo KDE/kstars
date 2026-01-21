@@ -389,6 +389,8 @@ struct LiveStackData
     bool calcSNR;
     QVector<QString> masterDark;
     QVector<QString> masterFlat;
+    bool hotPixels;
+    bool coldPixels;
     QString alignMaster;
     LiveStackAlignMethod alignMethod;
     int numInMem;
@@ -414,6 +416,7 @@ enum class LSStage
     PlateSolved,   // Plate solving completed
     WaitStack,     // Wait for more subs for stacking to begin
     Calibrated,    // Calibration completed
+    Correction,    // Correction completed
     Aligned,       // Alignment completed
     Stacked,       // Subframe stacked
     Failed         // Terminal failure at any stage

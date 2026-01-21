@@ -1039,6 +1039,8 @@ void FITSTab::initSettings()
     m_LiveStackingUI.CalcSNR->setChecked(Options::fitsLSCalcSNR());
     m_LiveStackingUI.MasterDark->setText(Options::fitsLSMasterDark());
     m_LiveStackingUI.MasterFlat->setText(Options::fitsLSMasterFlat());
+    m_LiveStackingUI.HotPixels->setChecked(Options::fitsLSHotPixels());
+    m_LiveStackingUI.ColdPixels->setChecked(Options::fitsLSColdPixels());
     m_LiveStackingUI.AlignMethod->setCurrentIndex(Options::fitsLSAlignMethod());
     m_LiveStackingUI.NumInMem->setValue(Options::fitsLSNumInMem());
     m_LiveStackingUI.LSDownscale->setCurrentIndex(Options::fitsLSDownscale());
@@ -1068,6 +1070,8 @@ void FITSTab::saveSettings()
     Options::setFitsLSCalcSNR(m_LiveStackingUI.CalcSNR->isChecked());
     Options::setFitsLSMasterDark(m_LiveStackingUI.MasterDark->text());
     Options::setFitsLSMasterFlat(m_LiveStackingUI.MasterFlat->text());
+    Options::setFitsLSHotPixels(m_LiveStackingUI.HotPixels->isChecked());
+    Options::setFitsLSColdPixels(m_LiveStackingUI.ColdPixels->isChecked());
     Options::setFitsLSAlignMethod(m_LiveStackingUI.AlignMethod->currentIndex());
     Options::setFitsLSNumInMem(m_LiveStackingUI.NumInMem->value());
     Options::setFitsLSDownscale(m_LiveStackingUI.LSDownscale->currentIndex());
@@ -1120,6 +1124,8 @@ LiveStackData FITSTab::getAllSettings()
         data.masterFlat.push_back(m_LiveStackingUI.MasterFlatBlue->text());
         data.masterFlat.push_back(m_LiveStackingUI.MasterFlatLum->text());
     }
+    data.hotPixels = m_LiveStackingUI.HotPixels->isChecked();
+    data.coldPixels = m_LiveStackingUI.ColdPixels->isChecked();
     data.alignMaster = m_LiveStackingUI.AlignMaster->text();
     data.alignMethod = static_cast<LiveStackAlignMethod>(m_LiveStackingUI.AlignMethod->currentIndex());
     data.numInMem = m_LiveStackingUI.NumInMem->value();
@@ -1689,6 +1695,8 @@ void FITSTab::liveStack()
                                             QStringList::fromVector(lsd.masterDark).join(", "))
                 << " | MasterFlat(s): " << (lsd.masterFlat.isEmpty() ? "None" :
                                             QStringList::fromVector(lsd.masterFlat).join(", "))
+                << " | Hot Pixels: " << (lsd.hotPixels ? "On" : "Off")
+                << " | Cold Pixels: " << (lsd.coldPixels ? "On" : "Off")
                 << " | Downscale: " << LiveStackDownscaleNames.value(lsd.downscale)
                 << " | Weighting: " << LiveStackFrameWeightingNames.value(lsd.weighting)
                 << " | StackMethod: " << LiveStackStackingMethodNames.value(lsd.stackingMethod)

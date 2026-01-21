@@ -273,6 +273,7 @@ class FITSStack : public QObject
             PLATESOLVE_IN_PROGRESS,
             PLATESOLVE_FAILED,
             CALIBRATION_FAILED,
+            CORRECTION_FAILED,
             ALIGNMENT_FAILED,
             OK
         } StackSubStatus;
@@ -290,6 +291,7 @@ class FITSStack : public QObject
             cv::Mat psfKernel;
             StackSubStatus status = StackSubStatus::OK;
             bool isCalibrated = false;
+            bool isCorrected = false;
             bool isAligned = false;
             struct wcsprm * wcsprm;
             double hfr = -1;
@@ -371,6 +373,14 @@ class FITSStack : public QObject
          * @return success (or not)
          */
         bool calibrateSub(const LiveStackFile &subFile, cv::Mat &sub);
+
+        /**
+         * @brief Correct sub by removing hot/cold pixels
+         * @param subFile file structure
+         * @param sub
+         * @return success (or not)
+         */
+        bool correctSub(const LiveStackFile &subFile, cv::Mat &sub);
 
         /**
          * @brief Stack the passed in vector of subs

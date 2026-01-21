@@ -138,6 +138,17 @@ QVariant SubStatsModel::data(const QModelIndex &index, int role) const
             case COL_CALIBRATED_INTERVAL:
                 return (sub.calibrated == LSStatus::LSStatusUninit) ? QVariant() :
                        QString::number(sub.calibratedInterval, 'f', 2);
+            case COL_CORRECTED:
+                return StackMonUtils::displayStatus(sub.corrected);
+            case COL_CORRECTED_INTERVAL:
+                return (sub.corrected == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.correctedInterval, 'f', 2);
+            case COL_HOT_PIX:
+                return (sub.corrected == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.hotPix);
+            case COL_COLD_PIX:
+                return (sub.corrected == LSStatus::LSStatusUninit) ? QVariant() :
+                       QString::number(sub.coldPix);
             case COL_ALIGNED:
                 return StackMonUtils::displayStatus(sub.aligned);
             case COL_ALIGNED_INTERVAL:
@@ -653,10 +664,24 @@ QList<int> StackMonitor::applyUpdate(int row, const LiveStackStageInfo &info)
             }
             break;
 
+        case LSStage::Correction:
+            sub.corrected = info.status;
+            sub.correctedTime = info.timestamp;
+            sub.correctedInterval = sub.calibratedTime.msecsTo(sub.correctedTime) / 1000.0;
+            sub.hotPix = info.extraData.value("hotpix", 0).toInt();
+            sub.coldPix = info.extraData.value("coldpix", 0).toInt();
+            columnsToUpdate << COL_CORRECTED << COL_CORRECTED_INTERVAL << COL_HOT_PIX << COL_COLD_PIX;
+            if (info.status == LSStatus::LSStatusError)
+            {
+                sub.status = SubStatus::FailedCorrection;
+                columnsToUpdate << COL_STATUS;
+            }
+            break;
+
         case LSStage::Aligned:
             sub.aligned = info.status;
             sub.alignedTime = info.timestamp;
-            sub.alignedInterval = sub.calibratedTime.msecsTo(sub.alignedTime) / 1000.0;
+            sub.alignedInterval = sub.correctedTime.msecsTo(sub.alignedTime) / 1000.0;
             sub.dx = info.extraData.value("dx", 0.0).toDouble();
             sub.dy = info.extraData.value("dy", 0.0).toDouble();
             sub.rotation = info.extraData.value("rotation", 0.0).toDouble();
@@ -675,7 +700,7 @@ QList<int> StackMonitor::applyUpdate(int row, const LiveStackStageInfo &info)
             if (sub.aligned == LSStatus::LSStatusOK)
                 sub.stackedInterval = sub.alignedTime.msecsTo(sub.stackedTime) / 1000.0;
             else
-                sub.stackedInterval = sub.calibratedTime.msecsTo(sub.stackedTime) / 1000.0;
+                sub.stackedInterval = sub.correctedTime.msecsTo(sub.stackedTime) / 1000.0;
             sub.weight = info.extraData.value("weight", -1.0).toDouble();
             sub.status = (info.status == LSStatus::LSStatusOK) ? SubStatus::Processed : SubStatus::FailedStacking;
             columnsToUpdate << COL_STACKED << COL_STACKED_INTERVAL << COL_WEIGHT << COL_STATUS;

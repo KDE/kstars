@@ -1834,6 +1834,14 @@
       <whatsthis>Live Stacking master flat</whatsthis>
       <default></default>
    </entry>
+   <entry name="fitsLSHotPixels" type="bool">
+      <whatsthis>Live Stacking remove hot pixels</whatsthis>
+      <default>false</default>
+   </entry>
+   <entry name="fitsLSColdPixels" type="bool">
+      <whatsthis>Live Stacking remove cold pixels</whatsthis>
+      <default>false</default>
+   </entry>
    <entry name="fitsLSAlignMethod" type="UInt">
       <whatsthis>Live Stacking alignment method</whatsthis>
       <default>0</default>
