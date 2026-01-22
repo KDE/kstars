@@ -1129,7 +1129,7 @@ class FITSData : public QObject
          * @param if debayering is successful, bayerParams contains the appropriate params
          * @return success
          */
-        bool stackCheckDebayerFITS(BayerParameters bayerParams);
+        bool stackCheckDebayerFITS(BayerParameters &bayerParams);
 
         /**
          * @brief stackCheckDebayerXISF checks whether a XISF stack sub needs to be debayered

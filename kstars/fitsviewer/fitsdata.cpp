@@ -6359,7 +6359,7 @@ bool FITSData::checkDebayerXISF(const QString pattern)
 
 // Check whether a stack sub needs debayering
 #if !defined (KSTARS_LITE) && defined (HAVE_WCSLIB) && defined (HAVE_OPENCV)
-bool FITSData::stackCheckDebayerFITS(BayerParameters params)
+bool FITSData::stackCheckDebayerFITS(BayerParameters &params)
 {
     int status = 0;
     char bayerPattern[64], roworder[64];
