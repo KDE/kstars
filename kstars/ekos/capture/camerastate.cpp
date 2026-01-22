@@ -558,19 +558,37 @@ bool CameraState::checkMeridianFlipReady()
 
 bool CameraState::checkPostMeridianFlipActions()
 {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Checking post-meridian flip actions, MF stage:"
+                                 << MeridianFlipState::MFStageString(getMeridianFlipState()->getMeridianFlipStage())
+                                 << "Capture state:" << getCaptureStatusString(m_CaptureState)
+                                 << "Guide state:" << Ekos::getGuideStatusString(m_GuideState);
+
     // step 1: If dome is syncing, wait until it stops
     if (hasDome && (m_domeState == ISD::Dome::DOME_MOVING_CW || m_domeState == ISD::Dome::DOME_MOVING_CCW))
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF: Dome is moving, waiting for dome to stop...";
         return true;
+    }
+    else if (hasDome)
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF: Dome sync completed or idle";
+    }
 
     // step 2: check if post flip alignment is running
     if (m_CaptureState == CAPTURE_ALIGNING || checkAlignmentAfterFlip())
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF: Alignment is running or being started";
         return true;
+    }
 
-    // step 2: check if post flip guiding is running
+    // step 3: check if post flip guiding is running
     // MF_NONE is set as soon as guiding is running and the guide deviation is below the limit
     if (getMeridianFlipState()->getMeridianFlipStage() >= MeridianFlipState::MF_COMPLETED && m_GuideState != GUIDE_GUIDING
             && checkGuidingAfterFlip())
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF: Guiding is being started or calibrating";
         return true;
+    }
 
     // step 4: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
     //         until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
@@ -579,23 +597,42 @@ bool CameraState::checkPostMeridianFlipActions()
             && getMeridianFlipState()->getMeridianFlipStage() == MeridianFlipState::MF_GUIDING)
     {
         if (Options::enforceGuideDeviation() || Options::enforceStartGuiderDrift())
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF: Waiting for guide deviation to settle below limits"
+                                         << "(enforceGuideDeviation:" << Options::enforceGuideDeviation()
+                                         << "enforceStartGuiderDrift:" << Options::enforceStartGuiderDrift() << ")";
             return true;
+        }
         else
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF: Guide deviation check not enforced, meridian flip complete";
             updateMeridianFlipStage(MeridianFlipState::MF_NONE);
+        }
     }
 
     // all actions completed or no flip running
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF: All actions completed or no flip running";
     return false;
 }
 
 bool CameraState::checkGuidingAfterFlip()
 {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Checking guiding after flip, MF stage:"
+                                 << MeridianFlipState::MFStageString(getMeridianFlipState()->getMeridianFlipStage())
+                                 << "Guide state:" << Ekos::getGuideStatusString(m_GuideState)
+                                 << "resumeGuidingAfterFlip:" << getMeridianFlipState()->resumeGuidingAfterFlip();
+
     // if no meridian flip has completed, we do not touch guiding
     if (getMeridianFlipState()->getMeridianFlipStage() < MeridianFlipState::MF_COMPLETED)
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF guiding: Meridian flip not yet completed, skipping guiding check";
         return false;
+    }
+
     // If we're not autoguiding then we're done
     if (getMeridianFlipState()->resumeGuidingAfterFlip() == false)
     {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF guiding: Guiding resume not required, skipping post-flip guiding";
         getMeridianFlipState()->updateMeridianFlipStage(MeridianFlipState::MF_NONE);
         return false;
     }
@@ -604,6 +641,7 @@ bool CameraState::checkGuidingAfterFlip()
     if (getMeridianFlipState()->getMeridianFlipStage() >= MeridianFlipState::MF_COMPLETED
             && getMeridianFlipState()->getMeridianFlipStage() < MeridianFlipState::MF_GUIDING)
     {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF guiding: Starting post-flip re-calibration and guiding...";
         appendLogText(i18n("Performing post flip re-calibration and guiding..."));
 
         setCaptureState(CAPTURE_CALIBRATING);
@@ -617,20 +655,32 @@ bool CameraState::checkGuidingAfterFlip()
         if (getGuideState() == GUIDE_CALIBRATION_ERROR || getGuideState() == GUIDE_ABORTED)
         {
             // restart guiding after failure
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF guiding: Calibration error or aborted, restarting guiding...";
             appendLogText(i18n("Post meridian flip calibration error. Restarting..."));
             emit guideAfterMeridianFlip();
             return true;
         }
         else if (getGuideState() != GUIDE_GUIDING)
+        {
             // waiting for guiding to start
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF guiding: Waiting for guiding to start (state:"
+                                         << Ekos::getGuideStatusString(m_GuideState) << ")";
             return true;
+        }
         else
+        {
             // guiding is running
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF guiding: Guiding is now running successfully";
             return false;
+        }
     }
     else
+    {
         // in all other cases, do not touch
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF guiding: No action needed, capture state:" << getCaptureStatusString(
+                                         m_CaptureState);
         return false;
+    }
 }
 
 void CameraState::processGuidingFailed()
@@ -781,15 +831,27 @@ bool CameraState::startFocusIfRequired()
     // 3. Capture is preview only
     if (m_activeJob == nullptr || m_activeJob->getFrameType() != FRAME_LIGHT
             || m_activeJob->jobType() == SequenceJob::JOBTYPE_PREVIEW)
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus check: Skipping focus (no active job, non-LIGHT frame, or preview mode)";
         return false;
+    }
 
     RefocusState::RefocusReason reason = m_refocusState->checkFocusRequired();
 
     // no focusing necessary
     if (reason == RefocusState::REFOCUS_NONE)
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus check: No focus required at this time";
         return false;
+    }
+
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Focus check: Focus required, reason:" << reason
+                                 << "refocusAfterMeridianFlip flag:" << m_refocusState->isRefocusAfterMeridianFlip();
 
     // clear the flag for refocusing after the meridian flip
+    if (reason == RefocusState::REFOCUS_POST_MF)
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF focus: Starting post-meridian flip autofocus";
+
     m_refocusState->setRefocusAfterMeridianFlip(false);
 
     // Post meridian flip we need to reset filter _before_ running in-sequence focusing
@@ -800,7 +862,11 @@ bool CameraState::startFocusIfRequired()
     {
         int targetFilterPosition = m_activeJob->getTargetFilter();
         if (targetFilterPosition > 0 && targetFilterPosition != getCurrentFilterPosition())
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF focus: Resetting filter from position" << getCurrentFilterPosition()
+                                         << "to target position" << targetFilterPosition;
             emit newFilterPosition(targetFilterPosition);
+        }
     }
 
     emit abortFastExposure();
@@ -813,7 +879,7 @@ bool CameraState::startFocusIfRequired()
         case RefocusState::REFOCUS_HFR:
             m_refocusState->resetInSequenceFocusCounter();
             emit checkFocus(Options::hFRDeviation());
-            qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started...";
+            qCDebug(KSTARS_EKOS_CAPTURE) << "In-sequence focusing started (HFR check)...";
             break;
         case RefocusState::REFOCUS_ADAPTIVE:
             m_refocusState->setAdaptiveFocusDone(true);
@@ -826,17 +892,24 @@ bool CameraState::startFocusIfRequired()
         case RefocusState::REFOCUS_POST_MF:
             // If we are over 30 mins since last autofocus, we'll reset frame.
             if (m_refocusState->getRefocusEveryNTimerElapsedSec() >= 1800)
+            {
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Refocus: Resetting focus frame (last focus > 30 mins ago)";
                 emit resetFocusFrame();
+            }
 
             // force refocus
             afReason = getAFReason(reason, reasonInfo);
             emit runAutoFocus(afReason, reasonInfo);
             // restart in sequence counting
             m_refocusState->resetInSequenceFocusCounter();
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Refocusing started...";
+            if (reason == RefocusState::REFOCUS_POST_MF)
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF autofocus started (reason: post-meridian flip)";
+            else
+                qCDebug(KSTARS_EKOS_CAPTURE) << "Autofocus started (reason:" << reason << reasonInfo << ")";
             break;
         default:
             // this should not happen, since this case is handled above
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Unexpected focus reason, skipping focus";
             return false;
     }
 
@@ -890,21 +963,29 @@ QString CameraState::getFocusFilterName()
 
 bool CameraState::checkAlignmentAfterFlip()
 {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Checking alignment after flip, MF stage:"
+                                 << MeridianFlipState::MFStageString(getMeridianFlipState()->getMeridianFlipStage())
+                                 << "Capture state:" << getCaptureStatusString(m_CaptureState)
+                                 << "resumeAlignmentAfterFlip:" << getMeridianFlipState()->resumeAlignmentAfterFlip();
+
     // if no meridian flip has completed, we do not touch guiding
     if (getMeridianFlipState()->getMeridianFlipStage() < MeridianFlipState::MF_COMPLETED)
     {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF alignment: Meridian flip not yet completed, skipping alignment check";
         return false;
     }
+
     // If we do not need to align then we're done
     if (getMeridianFlipState()->resumeAlignmentAfterFlip() == false)
     {
-        qCDebug(KSTARS_EKOS_CAPTURE) << "No alignment after flip required.";
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF alignment: Alignment resume not required, skipping post-flip alignment";
         return false;
     }
 
     // if we are waiting for a calibration, start it
     if (m_CaptureState < CAPTURE_ALIGNING)
     {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF alignment: Starting post-flip re-alignment...";
         appendLogText(i18n("Performing post flip re-alignment..."));
 
         setCaptureState(CAPTURE_ALIGNING);
@@ -913,8 +994,11 @@ bool CameraState::checkAlignmentAfterFlip()
         return true;
     }
     else
+    {
         // in all other cases, do not touch
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Post-MF alignment: Already aligning or past that stage, no action needed";
         return false;
+    }
 }
 
 void CameraState::checkGuideDeviationTimeout()
