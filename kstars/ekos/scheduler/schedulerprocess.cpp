@@ -1817,8 +1817,6 @@ bool SchedulerProcess::checkStartupState()
     if (moduleState()->schedulerState() == SCHEDULER_PAUSED)
         return false;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Checking Startup State (%1)...").arg(moduleState()->startupState());
-
     switch (moduleState()->startupState())
     {
         case STARTUP_IDLE:
@@ -1919,8 +1917,6 @@ bool SchedulerProcess::checkShutdownState()
 {
     if (moduleState()->schedulerState() == SCHEDULER_PAUSED)
         return false;
-
-    qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Checking Shutdown State (%1)...").arg(moduleState()->shutdownState());
 
     switch (moduleState()->shutdownState())
     {
