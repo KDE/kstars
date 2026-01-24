@@ -11,8 +11,7 @@
 
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
-#include "test_ekos_simulator.h"
-#include "ekos/profileeditor.h"
+#include "test_ekos_helper.h"
 #include "fitsviewer/fitsdata.h"
 #include "ekos/capture/capture.h"
 
@@ -22,64 +21,14 @@ TestEkosFilterWheel::TestEkosFilterWheel(QObject *parent) : QObject(parent)
 
 void TestEkosFilterWheel::initTestCase()
 {
-    KVERIFY_EKOS_IS_HIDDEN();
-    KTRY_OPEN_EKOS();
-    KVERIFY_EKOS_IS_OPENED();
+    // use the helper to start the profile
+    TestEkosHelper *helper = new TestEkosHelper();
+    helper->startEkosProfile();
+    // Create a test profile
+    helper->init();
+    // prepare the optical trains
+    helper->prepareOpticalTrains();
 
-    // Update simulator profile to use PHD2 as guider
-    {
-        bool isDone = false;
-        Ekos::Manager * const ekos = Ekos::Manager::Instance();
-        QTimer::singleShot(1000, ekos, [&]
-        {
-            ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
-
-            // Create a test profile
-            KTRY_PROFILEEDITOR_GADGET(QLineEdit, profileIN);
-            profileIN->setText(testProfileName);
-            QCOMPARE(profileIN->text(), testProfileName);
-
-            // Disable Port Selector
-            KTRY_PROFILEEDITOR_GADGET(QCheckBox, portSelectorCheck);
-            portSelectorCheck->setChecked(false);
-            QCOMPARE(portSelectorCheck->isChecked(), false);
-
-            // Setting an item programmatically in a treeview combobox...
-            KTRY_PROFILEEDITOR_TREE_COMBOBOX(mountCombo, "Telescope Simulator");
-            KTRY_PROFILEEDITOR_TREE_COMBOBOX(ccdCombo, "Guide Simulator");
-            KTRY_PROFILEEDITOR_TREE_COMBOBOX(filterCombo, "Filter Simulator");
-
-            // Save the profile using the "Save" button
-            QDialogButtonBox* buttons = profileEditor->findChild<QDialogButtonBox*>("dialogButtons");
-            QVERIFY(nullptr != buttons);
-            QTest::mouseClick(buttons->button(QDialogButtonBox::Save), Qt::LeftButton);
-
-            isDone = true;
-        });
-
-        // Cancel the profile editor if test fails
-        QTimer * closeDialog = new QTimer(this);
-        closeDialog->setSingleShot(true);
-        closeDialog->setInterval(5000);
-        ekos->connect(closeDialog, &QTimer::timeout, [&]
-        {
-            ProfileEditor* profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
-            if (profileEditor != nullptr)
-                profileEditor->reject();
-        });
-
-        // Click on "New profile" button, and let the async tests run on the modal dialog
-        KTRY_EKOS_GADGET(QPushButton, addProfileB);
-        QTRY_VERIFY_WITH_TIMEOUT(addProfileB->isEnabled(), 1000);
-        QTest::mouseClick(addProfileB, Qt::LeftButton);
-
-        // Click handler returned, stop the timer closing the dialog on failure
-        closeDialog->stop();
-        delete closeDialog;
-
-        // Verification of the first test step
-        QVERIFY(isDone);
-    }
 
     // HACK: Reset clock to initial conditions
     //KHACK_RESET_EKOS_TIME();
@@ -94,8 +43,6 @@ void TestEkosFilterWheel::cleanupTestCase()
 
 void TestEkosFilterWheel::init()
 {
-    // Start Ekos
-    KTRY_EKOS_START_PROFILE(testProfileName);
     // Get manager instance
     Ekos::Manager * const ekos = Ekos::Manager::Instance();
 

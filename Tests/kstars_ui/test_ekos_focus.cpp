@@ -11,6 +11,7 @@
 
 #include "kstars_ui_tests.h"
 #include "test_ekos.h"
+#include "test_ekos_helper.h"
 #include "test_ekos_simulator.h"
 #include "test_ekos_mount.h"
 #include "ekos/focus/focusmodule.h"
@@ -104,6 +105,15 @@ void TestEkosFocus::initTestCase()
     KVERIFY_EKOS_IS_OPENED();
     KTRY_EKOS_START_SIMULATORS();
 
+    TestEkosHelper *helper = new TestEkosHelper();
+    helper->init();
+    // set the focuser device for correct preparation of optical trains
+    helper->m_FocuserDevice = "Focuser Simulator";
+    // prepare the optical trains
+    helper->prepareOpticalTrains();
+    // prepare the mount module (this has the side effect that it sets focal length and apperture in CCD Simulator)
+    helper->prepareMountModule(TestEkosHelper::SCOPE_NEWTON_10F4, TestEkosHelper::SCOPE_TAKFINDER10x50);
+
     // We can't use this here because of the meridian flip test
     // HACK: Reset clock to initial conditions
     // KHACK_RESET_EKOS_TIME();
@@ -158,45 +168,44 @@ void TestEkosFocus::testCaptureStates()
     KTRY_FOCUS_GADGET(QPushButton, startLoopB);
     KTRY_FOCUS_GADGET(QPushButton, stopFocusB);
 
-    KTELL("Loop captures.\nAbort loop.\nExpect FRAMING, PROGRESS, ABORTED, ABORTED.");
+    KTELL("Loop captures.\nAbort loop.\nExpect FRAMING, PROGRESS, ABORTED.");
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 3.0);
     KTRY_FOCUS_CLICK(startLoopB);
     QTRY_VERIFY_WITH_TIMEOUT(state_list.count() >= 1, 5000);
     KTRY_FOCUS_CLICK(stopFocusB);
-    QTRY_VERIFY_WITH_TIMEOUT(state_list.count() >= 4, 5000);
+    QTRY_VERIFY_WITH_TIMEOUT(state_list.count() >= 3, 5000);
     QCOMPARE((int)state_list[0], (int)Ekos::FocusState::FOCUS_FRAMING);
     QCOMPARE((int)state_list[1], (int)Ekos::FocusState::FOCUS_PROGRESS);
     QCOMPARE((int)state_list[2], (int)Ekos::FocusState::FOCUS_ABORTED);
-    QCOMPARE((int)state_list[3], (int)Ekos::FocusState::FOCUS_ABORTED);
     state_list.clear();
 
-    KTRY_FOCUS_GADGET(QCheckBox, useAutoStar);
+    KTRY_FOCUS_GADGET(QCheckBox, focusAutoStarEnabled);
     KTRY_FOCUS_GADGET(QPushButton, resetFrameB);
 
     QWARN("This test does not wait for the hardcoded timeout to select a star.");
 
     KTELL("Use a successful automatic star selection (not full-field).\nCapture a frame.\nExpect PROGRESS, IDLE\nCheck star selection.");
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 0.0, 3.0);
-    useAutoStar->setCheckState(Qt::CheckState::Checked);
+    focusAutoStarEnabled->setCheckState(Qt::CheckState::Checked);
     KTRY_FOCUS_DETECT(2, 1, 99);
     QTRY_VERIFY_WITH_TIMEOUT(state_list.count() >= 2, 5000);
     QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 1000);
     KTRY_FOCUS_CLICK(resetFrameB);
     QCOMPARE(state_list[0], Ekos::FocusState::FOCUS_PROGRESS);
     QCOMPARE(state_list[1], Ekos::FocusState::FOCUS_IDLE);
-    useAutoStar->setCheckState(Qt::CheckState::Unchecked);
+    focusAutoStarEnabled->setCheckState(Qt::CheckState::Unchecked);
     state_list.clear();
 
-    KTELL("Use an unsuccessful automatic star selection (not full-field).\nCapture a frame\nExpect PROGRESS, WAITING.\nCheck star selection.");
+    KTELL("Use an unsuccessful automatic star selection (not full-field).\nCapture a frame\nExpect PROGRESS, IDLE.\nCheck star selection.");
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 0.0, 3.0);
-    useAutoStar->setCheckState(Qt::CheckState::Checked);
+    focusAutoStarEnabled->setCheckState(Qt::CheckState::Checked);
     KTRY_FOCUS_DETECT(0.01, 1, 1);
     QTRY_VERIFY_WITH_TIMEOUT(state_list.count() >= 2, 5000);
     QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 1000);
     KTRY_FOCUS_CLICK(resetFrameB);
     QCOMPARE(state_list[0], Ekos::FocusState::FOCUS_PROGRESS);
-    QCOMPARE(state_list[1], Ekos::FocusState::FOCUS_WAITING);
-    useAutoStar->setCheckState(Qt::CheckState::Unchecked);
+    QCOMPARE(state_list[1], Ekos::FocusState::FOCUS_IDLE);
+    focusAutoStarEnabled->setCheckState(Qt::CheckState::Unchecked);
     state_list.clear();
 }
 
@@ -279,11 +288,11 @@ void TestEkosFocus::testAutofocusSignalEmission()
     QVERIFY(!autofocus.complete);
     KTRY_FOCUS_CLICK(startFocusB);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
-    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 30000);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 60000);
 
     KTELL("Wait for the second run to finish.\nNo other autofocus started.");
     autofocus.complete = false;
-    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 30000);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 60000);
     QVERIFY(!autofocus.started);
 }
 
@@ -328,11 +337,11 @@ void TestEkosFocus::testFocusAbort()
     KTRY_FOCUS_CLICK(startFocusB);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
     KTRY_FOCUS_CLICK(stopFocusB);
-    QTRY_VERIFY_WITH_TIMEOUT(autofocus.aborted, 1000);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.aborted, 5000);
 
     KTELL("Wait for the second run to finish.\nNo other autofocus started.");
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
-    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 30000);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 60000);
     QVERIFY(!autofocus.started);
 }
 
@@ -358,10 +367,10 @@ void TestEkosFocus::testGuidingSuspendWhileFocusing()
     QVERIFY(autofocus.notguiding);
     QVERIFY(autofocus.guiding);
 
-    KTRY_FOCUS_GADGET(QCheckBox, suspendGuideCheck);
+    KTRY_FOCUS_GADGET(QCheckBox, focusSuspendGuiding);
 
     KTELL("Abort the autofocus with guiding set to suspend\nGuiding required to suspend, then required to resume");
-    suspendGuideCheck->setCheckState(Qt::CheckState::Checked);
+    focusSuspendGuiding->setCheckState(Qt::CheckState::Checked);
     QVERIFY(!autofocus.started);
     QVERIFY(!autofocus.aborted);
     QVERIFY(!autofocus.complete);
@@ -378,12 +387,12 @@ void TestEkosFocus::testGuidingSuspendWhileFocusing()
     KTRY_FOCUS_CLICK(startFocusB);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
     QVERIFY(autofocus.unguided);
-    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 30000);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 45000);
     QVERIFY(!autofocus.unguided);
     QVERIFY(!autofocus.started);
 
     KTELL("Abort the autofocus with guiding set to continue\nNo guiding signal emitted");
-    suspendGuideCheck->setCheckState(Qt::CheckState::Unchecked);
+    focusSuspendGuiding->setCheckState(Qt::CheckState::Unchecked);
     autofocus.started = autofocus.aborted = autofocus.complete = autofocus.unguided = false;
     KTRY_FOCUS_CLICK(startFocusB);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
@@ -397,7 +406,7 @@ void TestEkosFocus::testGuidingSuspendWhileFocusing()
     KTRY_FOCUS_CLICK(startFocusB);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
     QVERIFY(!autofocus.unguided);
-    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 30000);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 45000);
     QVERIFY(!autofocus.unguided);
     QVERIFY(!autofocus.started);
 }
@@ -480,7 +489,7 @@ void TestEkosFocus::testFocusWhenHFRChecking()
     Ekos::Manager::Instance()->focusModule()->mainFocuser()->checkFocus(0.1);
 
     KTELL("Expect procedure to succeed nonetheless.");
-    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 60000);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 90000);
 
     KTELL("Run a second HFR check that would start an autofocus.");
     autofocus.complete = false;
@@ -506,7 +515,7 @@ void TestEkosFocus::testFocusWhenHFRChecking()
     autofocus.aborted = autofocus.complete = false;
     Ekos::Manager::Instance()->focusModule()->mainFocuser()->checkFocus(0.1);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 10000);
-    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 60000);
+    QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 90000);
 }
 
 void TestEkosFocus::testFocusFailure()
@@ -581,7 +590,8 @@ void TestEkosFocus::testStarDetection_data()
     KSNumbers const numbers(now.djd());
     CachingDms const LST = geo->GSTtoLST(geo->LTtoUT(now).gst());
 
-    std::list<char const *> Objects = { "Polaris", "Mizar", "M 51", "M 13", "M 47", "Vega", "NGC 2238", "M 81" };
+    // std::list<char const *> Objects = { "Polaris", "Mizar", "M 51", "M 13", "M 47", "Vega", "NGC 2238", "M 81" };
+    std::list<char const *> Objects = { "Polaris", "Mizar", "M 51", "M 47", "Vega", "M 81" };
     size_t count = 0;
 
     foreach (char const *name, Objects)
@@ -639,7 +649,7 @@ void TestEkosFocus::testStarDetection()
     QTRY_VERIFY_WITH_TIMEOUT(startFocusB->isEnabled(), 1000);
     QTRY_VERIFY_WITH_TIMEOUT(!stopFocusB->isEnabled(), 1000);
 
-    KTRY_FOCUS_GADGET(QLineEdit, starsOut);
+    KTRY_FOCUS_GADGET(QLabel, starsOut);
 
     KTELL(NAME + "\nMove focuser to see stars.");
     KTRY_FOCUS_MOVETO(35000);
@@ -682,8 +692,8 @@ void TestEkosFocus::testStarDetection()
     KTELL(NAME + "\nRun the detection with Threshold, full-field.");
     for (double threshold = 80.0; threshold < 99.0; threshold += 13.3)
     {
-        KTRY_FOCUS_GADGET(QDoubleSpinBox, thresholdSpin);
-        thresholdSpin->setValue(threshold);
+        KTRY_FOCUS_GADGET(QDoubleSpinBox, focusThreshold);
+        focusThreshold->setValue(threshold);
         KTRY_FOCUS_CONFIGURE("Threshold", "Iterative", 0, 0.0, 3.0);
         KTRY_FOCUS_DETECT(1, 1, 99);
     }

@@ -116,8 +116,22 @@
  * @warning Fails the test if detection, algorithm, full-field checkbox or annulus fields cannot be used.
  */
 #define KTRY_FOCUS_CONFIGURE(detection, algorithm, fieldin, fieldout, tolerance) do { \
-    KTRY_FOCUS_GADGET(QCheckBox, focusUseFullField); \
-    focusUseFullField->setCheckState(fieldin < fieldout ? Qt::CheckState::Checked : Qt::CheckState::Unchecked); \
+    if (fieldin < fieldout) \
+    { \
+        KTRY_FOCUS_GADGET(QRadioButton, focusUseFullField); \
+        focusUseFullField->setChecked(true); \
+        KTELL("Using full field for focusing"); \
+    } \
+    else \
+    { \
+        KTRY_FOCUS_GADGET(QRadioButton, focusSubFrame); \
+        focusSubFrame->setChecked(true); \
+        KTRY_FOCUS_GADGET(QCheckBox, focusAutoStarEnabled); \
+        focusAutoStarEnabled->setCheckState(Qt::CheckState::Checked); \
+        KTELL("Using sub frame for focusing with autostar"); \
+    } \
+    KTRY_FOCUS_GADGET(QRadioButton, focusRingMaskRB); \
+    focusRingMaskRB->setChecked(true); \
     KTRY_FOCUS_GADGET(QDoubleSpinBox, focusFullFieldInnerRadius); \
     focusFullFieldInnerRadius->setValue(fieldin); \
     KTRY_FOCUS_GADGET(QDoubleSpinBox, focusFullFieldOuterRadius); \
@@ -134,7 +148,7 @@
  */
 #define KTRY_FOCUS_MOVETO(steps) do { \
     KTRY_FOCUS_GADGET(QSpinBox, absTicksSpin); \
-    QTRY_VERIFY_WITH_TIMEOUT(absTicksSpin->isEnabled(), 500); \
+    QTRY_VERIFY_WITH_TIMEOUT(absTicksSpin->isEnabled(), 5000); \
     absTicksSpin->setValue(steps); \
     KTRY_FOCUS_GADGET(QPushButton, startGotoB); \
     KTRY_FOCUS_CLICK(startGotoB); \

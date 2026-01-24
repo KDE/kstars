@@ -147,7 +147,7 @@ void TestEkosSimulator::testMountSlew()
         return CachingDms(v, true).arcsec();
     };
 
-    QLineEdit * raOut = ekos->findChild<QLineEdit*>("raOUT");
+    QLabel *raOut = ekos->findChild<QLabel*>("raOUT");
     QVERIFY(raOut != nullptr);
     QTRY_VERIFY_WITH_TIMEOUT(abs(clampRA(RA) - clampRA(raOut->text())) <= 2, 15000);
     QTest::qWait(100);
@@ -158,7 +158,7 @@ void TestEkosSimulator::testMountSlew()
               .arg(clampRA(raOut->text()))
               .arg(abs(clampRA(RA) - clampRA(raOut->text()))).toStdString().c_str());
 
-    QLineEdit * deOut = Ekos::Manager::Instance()->findChild<QLineEdit*>("decOUT");
+    QLabel *deOut = Ekos::Manager::Instance()->findChild<QLabel*>("decOUT");
     QVERIFY(deOut != nullptr);
     QTRY_VERIFY_WITH_TIMEOUT(abs(clampDE(DEC) - clampDE(deOut->text())) <= 2, 20000);
     QTest::qWait(100);

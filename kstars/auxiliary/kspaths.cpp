@@ -63,6 +63,11 @@ QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const 
     {
         switch(location)
         {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+            case QStandardPaths::DataLocation:
+#else
+            case QStandardPaths::AppLocalDataLocation:
+#endif
             case QStandardPaths::AppDataLocation:
                 findings = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QDir("kstars").filePath(fileName), options);
                 break;
