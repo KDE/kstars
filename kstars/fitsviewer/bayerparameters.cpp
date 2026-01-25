@@ -5,7 +5,7 @@
 */
 
 #include "bayerparameters.h"
-
+#include <opencv2/imgproc.hpp>
 #include <KLocalizedString>
 
 namespace BayerUtils
@@ -236,6 +236,86 @@ BayerPattern convertDC1394Filter_t(dc1394color_filter_t filter)
             break;
     }
     return BayerPattern::RGGB;
+}
+
+bool verifyCVAlgo(const OpenCVAlgo inAlgo, int bytesPerPixel, OpenCVAlgo &outAlgo)
+{
+    if (inAlgo == OpenCVAlgo::VNG && bytesPerPixel != 1)
+    {
+        outAlgo = OpenCVAlgo::Bilinear;
+        return false;
+    }
+    else
+    {
+        outAlgo = inAlgo;
+        return true;
+    }
+}
+
+int getCVDebayerCode(const OpenCVAlgo algo, const OpenCVParams params)
+{
+    // If offsets are non-zero we have to adjust the pattern
+    BayerPattern effectivePattern = params.pattern;
+
+    if (params.offsetX == 1 && params.offsetY == 0)
+    {
+        // Horizontal Shift
+        if (params.pattern == BayerPattern::RGGB)      effectivePattern = BayerPattern::GRBG;
+        else if (params.pattern == BayerPattern::GRBG) effectivePattern = BayerPattern::RGGB;
+        else if (params.pattern == BayerPattern::GBRG) effectivePattern = BayerPattern::BGGR;
+        else if (params.pattern == BayerPattern::BGGR) effectivePattern = BayerPattern::GBRG;
+    }
+    else if (params.offsetX == 0 && params.offsetY == 1)
+    {
+        // Vertical Shift
+        if (params.pattern == BayerPattern::RGGB)      effectivePattern = BayerPattern::GBRG;
+        else if (params.pattern == BayerPattern::GRBG) effectivePattern = BayerPattern::BGGR;
+        else if (params.pattern == BayerPattern::GBRG) effectivePattern = BayerPattern::RGGB;
+        else if (params.pattern == BayerPattern::BGGR) effectivePattern = BayerPattern::GRBG;
+    }
+    else if (params.offsetX == 1 && params.offsetY == 1)
+    {
+        // Diagonal Shift
+        if (params.pattern == BayerPattern::RGGB)      effectivePattern = BayerPattern::BGGR;
+        else if (params.pattern == BayerPattern::GRBG) effectivePattern = BayerPattern::GBRG;
+        else if (params.pattern == BayerPattern::GBRG) effectivePattern = BayerPattern::GRBG;
+        else if (params.pattern == BayerPattern::BGGR) effectivePattern = BayerPattern::RGGB;
+    }
+
+    // Now we have the effectivePattern we can get the CV code
+    switch (algo)
+    {
+        case OpenCVAlgo::VNG:
+        switch (effectivePattern)
+        {
+            case BayerPattern::RGGB: return cv::COLOR_BayerRGGB2RGB_VNG;
+            case BayerPattern::GRBG: return cv::COLOR_BayerGRBG2RGB_VNG;
+            case BayerPattern::GBRG: return cv::COLOR_BayerGBRG2RGB_VNG;
+            case BayerPattern::BGGR: return cv::COLOR_BayerBGGR2RGB_VNG;
+            default:                 return cv::COLOR_BayerRGGB2RGB_VNG;
+        }
+
+        case OpenCVAlgo::EA:
+        switch (effectivePattern)
+        {
+            case BayerPattern::RGGB: return cv::COLOR_BayerRGGB2RGB_EA;
+            case BayerPattern::GRBG: return cv::COLOR_BayerGRBG2RGB_EA;
+            case BayerPattern::GBRG: return cv::COLOR_BayerGBRG2RGB_EA;
+            case BayerPattern::BGGR: return cv::COLOR_BayerBGGR2RGB_EA;
+            default:                 return cv::COLOR_BayerRGGB2RGB_EA;
+        }
+
+        default:
+        // Standard Bilinear
+        switch (effectivePattern)
+        {
+            case BayerPattern::RGGB: return cv::COLOR_BayerRGGB2RGB;
+            case BayerPattern::GRBG: return cv::COLOR_BayerGRBG2RGB;
+            case BayerPattern::GBRG: return cv::COLOR_BayerGBRG2RGB;
+            case BayerPattern::BGGR: return cv::COLOR_BayerBGGR2RGB;
+            default:                 return cv::COLOR_BayerRGGB2RGB;
+        }
+    }
 }
 
 } // namespace BayerUtils

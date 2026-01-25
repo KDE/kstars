@@ -11,6 +11,8 @@
 #include "kstarsdata.h"
 #include "kstars.h"
 
+#include <opencv2/imgproc.hpp>
+
 #include <QImageReader>
 #include <QMouseEvent>
 #include <QResizeEvent>
@@ -29,9 +31,19 @@ VideoWG::VideoWG(QWidget *parent) : QLabel(parent)
         grayTable[i] = qRgb(i, i, i);
 }
 
-bool VideoWG::newBayerFrame(IBLOB *bp, const BayerParams &params)
+bool VideoWG::newBayerFrame(IBLOB *bp, const BayerParameters &params, const uint8_t bpp)
 {
-    return debayer(bp, params);
+    if (params.engine == DebayerEngine::OpenCV)
+    {
+        if (bpp == 8)
+            return debayerCV<uint8_t>(bp, params);
+        else if (bpp == 16)
+            return debayerCV<uint16_t>(bp, params);
+        else
+            return false;
+    }
+    else
+        return debayer1394(bp, params, bpp);
 }
 
 bool VideoWG::newFrame(IBLOB *bp)
@@ -179,8 +191,24 @@ void VideoWG::wheelEvent(QWheelEvent *event)
     }
 }
 
-bool VideoWG::debayer(const IBLOB *bp, const BayerParams &params)
+// Debayer using libdc1394 - 8bit only
+bool VideoWG::debayer1394(const IBLOB *bp, const BayerParameters &params, const uint8_t bpp)
 {
+    auto start = std::chrono::high_resolution_clock::now();
+
+    if (bpp != 8)
+    {
+        qCCritical(KSTARS) << "Unable to debayer1394 on bit depth:" << bpp;
+        return false;
+    }
+
+    DC1394Params dc1394Params;
+    if(!BayerUtils::verifyDC1394DebayerParams(params, dc1394Params))
+    {
+        qCCritical(KSTARS) << "Unable to debayer1394 - inconsistent parameters.";
+        return false;
+    }
+
     uint32_t rgb_size = streamW * streamH * 3;
     auto * destinationBuffer = new uint8_t[rgb_size];
 
@@ -193,26 +221,28 @@ bool VideoWG::debayer(const IBLOB *bp, const BayerParams &params)
     int ds1394_height = streamH;
 
     uint8_t * dc1394_source = reinterpret_cast<uint8_t*>(bp->blob);
-    if (params.offsetY == 1)
+    if (dc1394Params.params.offsetY == 1)
     {
         dc1394_source += streamW;
         ds1394_height--;
     }
-    if (params.offsetX == 1)
+    if (dc1394Params.params.offsetX == 1)
     {
         dc1394_source++;
     }
     dc1394error_t error_code = dc1394_bayer_decoding_8bit(dc1394_source, destinationBuffer, streamW, ds1394_height,
-                               params.filter, params.method);
+                               dc1394Params.params.filter, dc1394Params.params.method);
 
     if (error_code != DC1394_SUCCESS)
     {
-        qCCritical(KSTARS) << "Debayer failed" << error_code;
+        qCCritical(KSTARS) << "Debayer1394 failed" << error_code;
         delete[] destinationBuffer;
         return false;
     }
 
-    streamImage.reset(new QImage(destinationBuffer, streamW, streamH, QImage::Format_RGB888));
+    // Force a deep copy as we're about to free destinationBuffer
+    QImage img(destinationBuffer, streamW, streamH, QImage::Format_RGB888);
+    streamImage.reset(new QImage(img.copy()));
     bool rc = !streamImage->isNull();
 
     if (rc)
@@ -227,7 +257,85 @@ bool VideoWG::debayer(const IBLOB *bp, const BayerParams &params)
     emit imageChanged(streamImage);
 
     delete[] destinationBuffer;
+    auto end = std::chrono::high_resolution_clock::now();
+    qCDebug(KSTARS) << "Debayer1394 8bit using method:"
+                    << BayerUtils::convertDC1394MethodToStr(dc1394Params.params.method)
+                    << " took:" << std::chrono::duration<double, std::milli>(end - start).count() << "ms";
     return rc;
+}
+
+// Debayer using openCV
+template <typename T>
+bool VideoWG::debayerCV(const IBLOB *bp, const BayerParameters &params)
+{
+    try
+    {
+        auto start = std::chrono::high_resolution_clock::now();
+
+        OpenCVParams cvParams;
+        if(!BayerUtils::verifyCVDebayerParams(params, cvParams))
+        {
+            qCCritical(KSTARS) << "Unable to debayerCV - inconsistent parameters.";
+            return false;
+        }
+
+        // Check the openCV algo is supported for bit depth, falls back if necessary
+        OpenCVAlgo algo;
+        BayerUtils::verifyCVAlgo(cvParams.algo, sizeof(T), algo);
+
+        // Get the openCV code from algo and Bayer Pattern
+        int cvCode = BayerUtils::getCVDebayerCode(algo, cvParams);
+
+        int cv_height = streamH;
+        T * cv_source = reinterpret_cast<T *>(bp->blob);
+
+        if (cvParams.offsetY == 1)
+        {
+            cv_source += streamW;
+            cv_height--;
+        }
+        if (cvParams.offsetX == 1)
+        {
+            cv_source++;
+        }
+
+        // OpenCV Demosaic
+        int cv_type = std::is_same_v<T, uint16_t> ? CV_16UC1 : CV_8UC1;
+        cv::Mat raw(cv_height, streamW, cv_type, cv_source);
+        cv::Mat RGB;
+        cv::demosaicing(raw, RGB, cvCode);
+
+        if constexpr (std::is_same_v<T, uint16_t>)
+        {
+            // Scale 16-bit RGB values down to 8-bit for QImage
+            RGB.convertTo(RGB, CV_8UC3, 1.0 / 256.0);
+        }
+
+        QImage img(RGB.data, RGB.cols, RGB.rows, RGB.step, QImage::Format_RGB888);
+        streamImage.reset(new QImage(img.copy()));
+        bool rc = !streamImage->isNull();
+
+        if (rc)
+        {
+            kPix = QPixmap::fromImage(streamImage->scaled(size(), Qt::KeepAspectRatio));
+
+            paintOverlay(kPix);
+
+            setPixmap(kPix);
+        }
+
+        emit imageChanged(streamImage);
+
+        auto end = std::chrono::high_resolution_clock::now();
+        qCDebug(KSTARS) << "Stack Debayer (openCV) using algo:" << BayerUtils::openCVAlgoToString(algo)
+                        << " took:" << std::chrono::duration<double, std::milli>(end - start).count() << "ms";
+        return true;
+    }
+    catch (const cv::Exception &ex)
+    {
+        qCCritical(KSTARS) << QString("DebayerCV failed - openCV exception %1").arg(ex.what());
+        return false;
+    }
 }
 
 void VideoWG::paintOverlay(QPixmap &imagePix)

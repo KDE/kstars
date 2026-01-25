@@ -87,6 +87,7 @@ class StreamWG : public QDialog, public Ui::streamForm
 
     private:
         bool queryDebayerParameters();
+        void updateDebayerMethodList();
 
         bool processStream;
         int streamWidth, streamHeight;
@@ -96,9 +97,8 @@ class StreamWG : public QDialog, public Ui::streamForm
         ISD::Camera *m_Camera {nullptr};
 
         // Debayer
-        BayerParams m_DebayerParams;
+        BayerParameters m_DebayerParams;
         uint8_t m_BBP {8};
-        uint16_t offsetX, offsetY;
         double pixelX, pixelY;
         bool m_DebayerActive { false }, m_DebayerSupported { false };
 

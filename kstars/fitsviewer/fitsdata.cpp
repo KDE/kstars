@@ -6933,44 +6933,14 @@ bool FITSData::debayerCV(BayerParameters &bayerParams, bool stack)
             return false;
         }
 
-        // Determine Algorithm Base Code
-        int base_code;
-        switch (cvParams.pattern)
-        {
-            case BayerPattern::RGGB:
-                base_code = cv::COLOR_BayerRG2BGR;
-                break;
-            case BayerPattern::GRBG:
-                base_code = cv::COLOR_BayerGR2BGR;
-                break;
-            case BayerPattern::GBRG:
-                base_code = cv::COLOR_BayerGB2BGR;
-                break;
-            case BayerPattern::BGGR:
-                base_code = cv::COLOR_BayerBG2BGR;
-                break;
-            default:
-                qCDebug(KSTARS_FITS) << QString("%1 called with unknown bayer pattern %2")
-                                     .arg(__FUNCTION__).arg(static_cast<int>(cvParams.pattern));
-                return false;
-        }
-
-        // Add Algorithm Modifier (e.g., VNG or EA)
-        // Note that openCV only implements VNG for 8bit - so fall back to Bilinear if called on something other than 8bit
-        OpenCVAlgo algo = cvParams.algo;
-        if (algo == OpenCVAlgo::VNG && bytesPerPixel != 1)
-        {
-            algo = OpenCVAlgo::Bilinear;
+        // Check the openCV algo is supported for bit depth, falls back if necessary
+        OpenCVAlgo algo;
+        if (!BayerUtils::verifyCVAlgo(cvParams.algo, bytesPerPixel, algo))
             qCDebug(KSTARS_FITS) << QString("openCV debayer algo %1 not supported for this bit depth, using %2")
                                  .arg(BayerUtils::openCVAlgoToString(cvParams.algo))
                                  .arg(BayerUtils::openCVAlgoToString(algo));
-        }
 
-        int cv_code = base_code;
-        if (algo == OpenCVAlgo::VNG)
-            cv_code += (cv::COLOR_BayerBG2RGB_VNG - cv::COLOR_BayerBG2RGB);
-        else if (algo == OpenCVAlgo::EA)
-            cv_code += (cv::COLOR_BayerBG2RGB_EA - cv::COLOR_BayerBG2RGB);
+        int cvCode = BayerUtils::getCVDebayerCode(algo, cvParams);
 
         // Setup Source & Destination
         int cv_type = std::is_same_v<T, uint16_t> ? CV_16UC1 : CV_8UC1;
@@ -6985,7 +6955,7 @@ bool FITSData::debayerCV(BayerParameters &bayerParams, bool stack)
         // OpenCV Demosaic
         cv::Mat raw(proc_height, w, cv_type, source_ptr);
         cv::Mat interleavedBGR;
-        cv::demosaicing(raw, interleavedBGR, cv_code);
+        cv::demosaicing(raw, interleavedBGR, cvCode);
 
         // Optimized Split into planar FITS format
         uint32_t rgb_size = sPerC * 3 * sizeof(T);

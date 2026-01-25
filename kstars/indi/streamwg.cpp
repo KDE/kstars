@@ -102,6 +102,21 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
     options->recordFilenameEdit->setText(filename);
     options->recordDirectoryEdit->setText(directory);
 
+    // Fill in the engine combo and select the default setting
+    options->engineCombo->clear();
+    for (int i = 0; i < static_cast<int>(DebayerEngine::MAX_ITEMS); i++)
+        options->engineCombo->addItem(BayerUtils::debayerEngineToString(static_cast<DebayerEngine>(i)), i);
+
+    options->engineCombo->setToolTip(BayerUtils::debayerEngineToolTip());
+    options->engineCombo->setCurrentIndex(static_cast<int>(DebayerEngine::DC1394));
+
+    // Connection for Engine combo changes
+    connect(options->engineCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &StreamWG::updateDebayerMethodList);
+
+    // Set the debayer method combo
+    updateDebayerMethodList();
+
     setWindowTitle(i18nc("@title:window", "%1 Live Video", ccd->getDeviceName()));
 
 #if defined(Q_OS_MACOS)
@@ -243,20 +258,53 @@ bool StreamWG::queryDebayerParameters()
     else
         m_BBP = 8;
 
+    uint16_t offsetX, offsetY;
     if (targetChip->getBayerInfo(offsetX, offsetY, pattern) == false)
         return false;
 
-    m_DebayerParams.method = DC1394_BAYER_METHOD_NEAREST;
-    m_DebayerParams.filter = DC1394_COLOR_FILTER_RGGB;
-
-    if (pattern == "GBRG")
-        m_DebayerParams.filter = DC1394_COLOR_FILTER_GBRG;
-    else if (pattern == "GRBG")
-        m_DebayerParams.filter = DC1394_COLOR_FILTER_GRBG;
-    else if (pattern == "BGGR")
-        m_DebayerParams.filter = DC1394_COLOR_FILTER_BGGR;
-
+    m_DebayerParams.engine = static_cast<DebayerEngine>(options->engineCombo->currentIndex());
+    if (m_DebayerParams.engine == DebayerEngine::OpenCV)
+    {
+        OpenCVParams cvParams;
+        cvParams.algo    = static_cast<OpenCVAlgo>(options->methodCombo->currentIndex());
+        cvParams.pattern = BayerUtils::bayerPatternFromStr(pattern);
+        cvParams.offsetX = offsetX;
+        cvParams.offsetY = offsetY;
+        m_DebayerParams.params = QVariant::fromValue(cvParams);
+    }
+    else
+    {
+        DC1394Params dc1394Params;
+        dc1394Params.params.method  = BayerUtils::convertDC1394Method(
+                                          static_cast<DC1394DebayerMethod>(options->methodCombo->currentIndex()));
+        dc1394Params.params.filter  = BayerUtils::convertDC1394Filter(BayerUtils::bayerPatternFromStr(pattern));
+        dc1394Params.params.offsetX = offsetX;
+        dc1394Params.params.offsetY = offsetY;
+        m_DebayerParams.params = QVariant::fromValue(dc1394Params);
+    }
     return true;
+}
+
+void StreamWG::updateDebayerMethodList()
+{
+    options->methodCombo->blockSignals(true);
+    options->methodCombo->clear();
+
+    if (options->engineCombo->currentIndex() == static_cast<int>(DebayerEngine::OpenCV))
+    {
+        for (int i = 0; i < static_cast<int>(OpenCVAlgo::MAX_ITEMS); i++)
+            options->methodCombo->addItem(BayerUtils::openCVAlgoToString(static_cast<OpenCVAlgo>(i)), i);
+
+        options->methodCombo->setToolTip(BayerUtils::openCVAlgoToolTip());
+    }
+    else // ENGINE_DC1394
+    {
+        for (int i = 0; i < static_cast<int>(DC1394DebayerMethod::MAX_ITEMS); i++)
+            options->methodCombo->addItem(BayerUtils::dc1394MethodToString(static_cast<DC1394DebayerMethod>(i)), i);
+
+        options->methodCombo->setToolTip(BayerUtils::dc1394MethodToolTip());
+    }
+    options->methodCombo->blockSignals(false);
 }
 
 QSize StreamWG::sizeHint() const
@@ -272,6 +320,9 @@ void StreamWG::showEvent(QShowEvent *ev)
         // Always reset to 1x for DSLRs since they reset whenever they are triggered again.
         if (eoszoom)
             zoomLevelCombo->setCurrentIndex(0);
+
+        // Ensure debayer parameters reflect current UI/camera state
+        queryDebayerParameters();
     }
 
     ev->accept();
@@ -399,7 +450,7 @@ void StreamWG::newFrame(INDI::Property prop)
     auto bp = prop.getBLOB()->at(0);
 
     bool rc = (m_DebayerActive
-               && !strcmp(bp->getFormat(), ".stream")) ? videoFrame->newBayerFrame(bp, m_DebayerParams) : videoFrame->newFrame(bp);
+               && !strcmp(bp->getFormat(), ".stream")) ? videoFrame->newBayerFrame(bp, m_DebayerParams, m_BBP) : videoFrame->newFrame(bp);
 
     if (rc == false)
         qCWarning(KSTARS) << "Failed to load video frame.";

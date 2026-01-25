@@ -114,6 +114,12 @@ dc1394color_filter_t convertDC1394Filter(BayerPattern filter);
 // Convert lib1394 debayer filter to UI enum
 BayerPattern convertDC1394Filter_t(dc1394color_filter_t filter);
 
+// Check the openCV algo can run on this data. If not, return the one to use
+bool verifyCVAlgo(const OpenCVAlgo inAlgo, int bytesPerPixel, OpenCVAlgo &outAlgo);
+
+// Get the openCV debayer code to use based on algorithm and debayer parameters
+int getCVDebayerCode(const OpenCVAlgo algo, const OpenCVParams pattern);
+
 } // namespace BayerUtils
 
 Q_DECLARE_METATYPE(DebayerEngine)

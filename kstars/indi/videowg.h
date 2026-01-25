@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "fitsviewer/bayer.h"
+#include "fitsviewer/bayerparameters.h"
 
 #include <indidevapi.h>
 
@@ -34,7 +34,7 @@ class VideoWG : public QLabel
         virtual ~VideoWG() override;
 
         bool newFrame(IBLOB *bp);
-        bool newBayerFrame(IBLOB *bp, const BayerParams &params);
+        bool newBayerFrame(IBLOB *bp, const BayerParameters &params, const uint8_t bpp);
 
         bool save(const QString &filename, const char *format);
 
@@ -58,7 +58,9 @@ class VideoWG : public QLabel
         void imageChanged(const QSharedPointer<QImage> &frame);
 
     private:
-        bool debayer(const IBLOB *bp, const BayerParams &params);
+        bool debayer1394(const IBLOB *bp, const BayerParameters &params, const uint8_t bpp);
+        template <typename T>
+        bool debayerCV(const IBLOB *bp, const BayerParameters &params);
 
         uint16_t streamW { 0 };
         uint16_t streamH { 0 };
