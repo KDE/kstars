@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-23 02:07+0000\n"
-"PO-Revision-Date: 2026-01-19 22:02+0400\n"
+"PO-Revision-Date: 2026-01-24 13:19+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -31009,18 +31009,16 @@ msgstr "فشل حذف القالب."
 #, kde-format
 msgctxt "@item:inlistbox Debayer engine"
 msgid "DC1394"
-msgstr ""
+msgstr "DC1394"
 
 #: fitsviewer/bayerparameters.cpp:21
-#, fuzzy, kde-format
-#| msgid "Open"
+#, kde-format
 msgctxt "@item:inlistbox Debayer engine"
 msgid "OpenCV"
-msgstr "افتح"
+msgstr "أوبن سي في"
 
 #: fitsviewer/bayerparameters.cpp:25
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgctxt "@item:inlistbox Debayer engine"
 msgid "Unknown"
 msgstr "غير معروف"
@@ -31033,17 +31031,18 @@ msgid ""
 "very reliable<br/><br/><b>OpenCV</b>: Experimental OpenCV-based debayer "
 "engine<br/>• Faster than libdc1394<br/>• Better edge handling"
 msgstr ""
+"<b>DC1394</b>: يستخدم محرك فك باير libdc1394 الموروث<br/>• أبطأ لكنه موثوق "
+"جداً<br/><br/><b>OpenCV</b>: محرك فك باير تجريبي مبني على OpenCV<br/>• أسرع "
+"من libdc1394<br/> • معالجة أفضل للحواف"
 
 #: fitsviewer/bayerparameters.cpp:45
-#, fuzzy, kde-format
-#| msgid "BILinear"
+#, kde-format
 msgctxt "@item:inlistbox OpenCV debayer algorithm"
 msgid "Bilinear"
-msgstr "اقتران ثنائي خطي"
+msgstr "خطي مزدوج"
 
 #: fitsviewer/bayerparameters.cpp:47
-#, fuzzy, kde-format
-#| msgid "VNG"
+#, kde-format
 msgctxt "@item:inlistbox OpenCV debayer algorithm"
 msgid "VNG"
 msgstr "VNG"
@@ -31052,11 +31051,10 @@ msgstr "VNG"
 #, kde-format
 msgctxt "@item:inlistbox OpenCV debayer algorithm"
 msgid "Edge-Aware"
-msgstr ""
+msgstr "مدرك للحواف"
 
 #: fitsviewer/bayerparameters.cpp:53
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgctxt "@item:inlistbox OpenCV debayer algorithm"
 msgid "Unknown"
 msgstr "غير معروف"
@@ -31070,53 +31068,49 @@ msgid ""
 "reconstruction<br/>• 8-bit images only<br/><br/><b>Edge-Aware</b>: Edge-"
 "aware interpolation<br/>• High quality and very fast"
 msgstr ""
+"<b>خطي مزدوج</b>: استكمال خطي مزدوج بسيط<br/>• سريع جداً، حواف ناعمة<br/><br/"
+"><b>VNG</b>: عدد متغير من التدرجات<br/>• إعادة بناء ألوان محسنة<br/>• لصور 8 "
+"بت فقط<br/><br/><b>مدرك للحواف</b>: استكمال مدرك للحواف<br/>• جودة عالية "
+"وسريع جداً"
 
 #: fitsviewer/bayerparameters.cpp:74
-#, fuzzy, kde-format
-#| msgid "Nearest"
+#, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "Nearest"
 msgstr "الأقرب"
 
 #: fitsviewer/bayerparameters.cpp:76
-#, fuzzy, kde-format
-#| msgid "Simple"
+#, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "Simple"
 msgstr "بسيط"
 
 #: fitsviewer/bayerparameters.cpp:78
-#, fuzzy, kde-format
-#| msgid "BILinear"
+#, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "Bilinear"
-msgstr "اقتران ثنائي خطي"
+msgstr "خطي مزدوج"
 
 #: fitsviewer/bayerparameters.cpp:80
-#, fuzzy, kde-format
-#| msgid "HQLinear"
+#, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "HQ Linear"
-msgstr "HQLinear"
+msgstr "خطي عالي الجودة"
 
 #: fitsviewer/bayerparameters.cpp:82
-#, fuzzy, kde-format
-#| msgctxt "City in Fyn Denmark"
-#| msgid "Odense"
+#, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "Edge Sense"
-msgstr "أودنسه"
+msgstr "تحسس الحواف"
 
 #: fitsviewer/bayerparameters.cpp:84
-#, fuzzy, kde-format
-#| msgid "VNG"
+#, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "VNG"
 msgstr "VNG"
 
 #: fitsviewer/bayerparameters.cpp:88 fitsviewer/bayerparameters.cpp:201
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "Unknown"
 msgstr "غير معروف"
@@ -31131,6 +31125,10 @@ msgid ""
 "><b>Edge Sense</b>: Preserves edges, high quality<br/><br/><b>VNG</b>: "
 "Highest quality, slowest"
 msgstr ""
+"<b>الأقرب</b>: أسرع طريقة، أدنى جودة<br/><br/><b>بسيط</b>: استكمال أساسي،"
+"منعم قليلاً<br/><br/><b>خطي مزدوج</b>: توازن جيد بين السرعة والجودة<br/><br/"
+"><b>خطي عالي الجودة</b>:جودة أعلى، أبطأ<br/><br/><b>تحسس الحواف</b>: يحافظ "
+"على الحواف، جودة عالية<br/> <br/><b>VNG</b>: أعلى جودة، الأبطأ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, filterCombo)
 #: fitsviewer/bayerparameters.cpp:118 fitsviewer/fitsdebayer.ui:112
@@ -31359,16 +31357,14 @@ msgid "Only 8 and 16 bits bayered images supported."
 msgstr "صور باير 8 و 16 بت فقط هي المدعومة."
 
 #: fitsviewer/fitsdata.cpp:6208 fitsviewer/fitsdata.cpp:6319
-#, fuzzy, kde-format
-#| msgid "Unsupported bayer pattern %1."
+#, kde-format
 msgid "Unknown bayer pattern %1"
-msgstr "نمط باير %1 غير مدعوم."
+msgstr "نمط باير %1 غير معروف"
 
 #: fitsviewer/fitsdata.cpp:6232 fitsviewer/fitsdata.cpp:6258
-#, fuzzy, kde-format
-#| msgid "Unsupported bayer pattern %1."
+#, kde-format
 msgid "Unsupported bayer pattern %1"
-msgstr "نمط باير %1 غير مدعوم."
+msgstr "نمط باير %1 غير متاح."
 
 #: fitsviewer/fitsdata.cpp:6266
 #, kde-format
@@ -31376,27 +31372,24 @@ msgid "Unsupported bayer offsets %1 %2."
 msgstr "إزاحات باير %1 %2 غير مدعومة."
 
 #: fitsviewer/fitsdata.cpp:6277 fitsviewer/fitsdata.cpp:6330
-#, fuzzy, kde-format
-#| msgid "Invalid Parameters"
+#, kde-format
 msgid "Invalid dc1394 debayer parameters."
-msgstr "معلمات غير صالحة"
+msgstr "معلمات فك باير dc1394 غير صالحة."
 
 #: fitsviewer/fitsdata.cpp:6288 fitsviewer/fitsdata.cpp:6341
-#, fuzzy, kde-format
-#| msgid "Invalid Parameters"
+#, kde-format
 msgid "Invalid OpenCV debayer parameters."
-msgstr "معلمات غير صالحة"
+msgstr "معلمات فك باير OpenCV غير صالحة."
 
 #: fitsviewer/fitsdata.cpp:6297 fitsviewer/fitsdata.cpp:6350
-#, fuzzy, kde-format
-#| msgid "Invalid response."
+#, kde-format
 msgid "Invalid debayer engine"
-msgstr "استجابة غير صالحة."
+msgstr "محرك فك باير غير صالح"
 
 #: fitsviewer/fitsdata.cpp:6604
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
-msgstr ""
+msgstr "استدعاء debayer_8bit بمعلمات فك باير غير صالحة"
 
 #: fitsviewer/fitsdata.cpp:6620 fitsviewer/fitsdata.cpp:6666
 #: fitsviewer/fitsdata.cpp:6724 fitsviewer/fitsdata.cpp:6770
@@ -31417,7 +31410,7 @@ msgstr "فشل فك الباير (%1)"
 #: fitsviewer/fitsdata.cpp:6709
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
-msgstr ""
+msgstr "استدعاء debayer_16bit بمعلمات فك باير غير صالحة"
 
 #: fitsviewer/fitsdebayer.cpp:105
 #, kde-format
@@ -31461,23 +31454,21 @@ msgstr "جاهز."
 
 #. i18n: ectx: property (text), widget (QLabel, engineLabel)
 #: fitsviewer/fitsdebayer.ui:73
-#, fuzzy, kde-format
-#| msgid "Online:"
+#, kde-format
 msgid "Engine:"
-msgstr "متصل:"
+msgstr "المحرّك:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, engineCombo)
 #: fitsviewer/fitsdebayer.ui:84
 #, kde-format
 msgid "dc1394"
-msgstr ""
+msgstr "dc1394"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, engineCombo)
 #: fitsviewer/fitsdebayer.ui:89
-#, fuzzy, kde-format
-#| msgid "opening"
+#, kde-format
 msgid "openCV"
-msgstr "فتح"
+msgstr "أوبن سي في"
 
 #. i18n: ectx: property (text), widget (QLabel, methodLabel)
 #. i18n: ectx: property (text), widget (QLabel, AlignMethodLabel)
@@ -31676,12 +31667,10 @@ msgid "%1 Failed Calibration"
 msgstr "%1 فشلت المعايرة"
 
 #: fitsviewer/fitsstackmonitor.h:170
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed Calibration"
+#, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed Correction"
-msgstr "%1 فشلت المعايرة"
+msgstr "فشل تصحيح %1"
 
 #: fitsviewer/fitsstackmonitor.h:172
 #, kde-format
@@ -31989,76 +31978,60 @@ msgid "Time to calibrate"
 msgstr "وقت المعايرة"
 
 #: fitsviewer/fitsstackmonitor.h:325
-#, fuzzy, kde-format
-#| msgctxt "Column header"
-#| msgid ""
-#| "Calibration\n"
-#| "Status"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Correction\n"
 "Status"
 msgstr ""
 "حالة\n"
-"المعايرة"
+"التصحيح"
 
 #: fitsviewer/fitsstackmonitor.h:326
-#, fuzzy, kde-format
-#| msgctxt "Tooltip for Calibration Status column"
-#| msgid "Calibration status"
+#, kde-format
 msgctxt "Tooltip for Correction Status column"
 msgid "Correction status"
-msgstr "حالة المعايرة"
+msgstr "حالة التصحيح"
 
 #: fitsviewer/fitsstackmonitor.h:330
-#, fuzzy, kde-format
-#| msgctxt "Column header"
-#| msgid ""
-#| "Calibration\n"
-#| "Time(s)"
+#, kde-format
 msgctxt "Column header"
 msgid ""
 "Correction\n"
 "Time(s)"
 msgstr ""
-"مهلة\n"
-"المعايرة"
+"وقت\n"
+"التصحيح (ث)"
 
 #: fitsviewer/fitsstackmonitor.h:331
-#, fuzzy, kde-format
-#| msgctxt "Tooltip for Calibration Time column"
-#| msgid "Time to calibrate"
+#, kde-format
 msgctxt "Tooltip for Correction Time column"
 msgid "Time to correct"
-msgstr "وقت المعايرة"
+msgstr "وقت التصحيح"
 
 #: fitsviewer/fitsstackmonitor.h:335
-#, fuzzy, kde-format
-#| msgid "Hot pixels:"
+#, kde-format
 msgctxt "Column header"
 msgid "Hot Pix"
-msgstr "البكسلات الساخنة:"
+msgstr "بكسلات ساخنة"
 
 #: fitsviewer/fitsstackmonitor.h:336
-#, fuzzy, kde-format
-#| msgctxt "Tooltip for Num Stars column"
-#| msgid "Number of stars detected"
+#, kde-format
 msgctxt "Tooltip for Hot Pix column"
 msgid "Number of hot pixels removed"
-msgstr "عدد النجوم المكتشفة"
+msgstr "عدد البكسلات الساخنة المزالة"
 
 #: fitsviewer/fitsstackmonitor.h:340
-#, fuzzy, kde-format
-#| msgid "Cold pixels:"
+#, kde-format
 msgctxt "Column header"
 msgid "Cold Pix"
-msgstr "البكسلات الباردة:"
+msgstr "بكسلات باردة"
 
 #: fitsviewer/fitsstackmonitor.h:341
 #, kde-format
 msgctxt "Tooltip for Cold Pix column"
 msgid "Number of cold pixels removed"
-msgstr ""
+msgstr "عدد البكسلات الباردة المزالة"
 
 #: fitsviewer/fitsstackmonitor.h:346
 #, kde-format
@@ -33821,32 +33794,27 @@ msgstr "حوار اختيار ملف للمسطّح الرئيس أخضر"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, HotPixels)
 #: fitsviewer/livestacking.ui:2696
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Check to remove hot pixels.</p></body></html>"
-msgstr "<html><head/><body><p>اختر لعرض المستشعر.</p></body></html>"
+msgstr "<html><head/><body><p>حدد لإزالة البكسلات الساخنة.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, HotPixels)
 #: fitsviewer/livestacking.ui:2699
-#, fuzzy, kde-format
-#| msgid "Remove Point"
+#, kde-format
 msgid "Remove Hot Pix"
-msgstr "أزل النقطة"
+msgstr "أزل البكسلات الساخنة"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ColdPixels)
 #: fitsviewer/livestacking.ui:2709
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Check to remove cold pixels</p></body></html>"
-msgstr "<html><head/><body><p>حجم الإطار الفرعي بالبكسلات.</p></body></html>"
+msgstr "<html><head/><body><p>حدد لإزالة البكسلات الباردة</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ColdPixels)
 #: fitsviewer/livestacking.ui:2712
-#, fuzzy, kde-format
-#| msgid "Remove City"
+#, kde-format
 msgid "Remove Cold Pix"
-msgstr "احذف مدينة"
+msgstr "أزل البكسلات الباردة"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, CalibrationMinimized)
 #: fitsviewer/livestacking.ui:2725
@@ -40363,27 +40331,27 @@ msgstr "سجِّل نشاط وحدة مرصد إيكوس."
 
 #. i18n: ectx: label, entry (ImageDebayerEngine), group (General)
 #: kstars.kcfg:1668
-#, fuzzy, kde-format
+#, kde-format
 msgid "Debayer engine to use on images."
-msgstr "التأخير بالثواني بين الصّور المتتالية"
+msgstr "محرك فك باير لاستخدامه في الصور."
 
 #. i18n: ectx: label, entry (ImageDebayerAlgo), group (General)
 #: kstars.kcfg:1672
 #, kde-format
 msgid "Debayer algo to use on images."
-msgstr ""
+msgstr "خوارزمية فك باير لاستخدامها في الصور."
 
 #. i18n: ectx: label, entry (StackDebayerEngine), group (General)
 #: kstars.kcfg:1676
 #, kde-format
 msgid "Debayer engine to use on live stack subs."
-msgstr ""
+msgstr "محرك فك باير لاستخدامه في لقطات التكديس الحي."
 
 #. i18n: ectx: label, entry (StackDebayerAlgo), group (General)
 #: kstars.kcfg:1680
 #, kde-format
 msgid "Debayer algo to use on live stack subs."
-msgstr ""
+msgstr "خوارزمية فك باير لاستخدامها في لقطات التكديس الحي."
 
 #. i18n: ectx: label, entry (FITSWindowGeometry), group (FITSViewer)
 #: kstars.kcfg:1686
@@ -40634,17 +40602,15 @@ msgstr "مُسطَّح رئيسي لتكديس البث المباشر"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHotPixels), group (FITSViewer)
 #: kstars.kcfg:1838
-#, fuzzy, kde-format
-#| msgid "Live Stacking denoise amount"
+#, kde-format
 msgid "Live Stacking remove hot pixels"
-msgstr "مقدار إزالة الضوضاء لتكديس البث المباشر"
+msgstr "إزالة البكسلات الساخنة في التكديس الحي"
 
 #. i18n: ectx: whatsthis, entry (fitsLSColdPixels), group (FITSViewer)
 #: kstars.kcfg:1842
-#, fuzzy, kde-format
-#| msgid "Live Stacking Monitor column widths"
+#, kde-format
 msgid "Live Stacking remove cold pixels"
-msgstr "عروض أعمدة مراقب التراص الحي"
+msgstr "إزالة البكسلات الباردة في التكديس الحي"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1846
@@ -80040,39 +80006,40 @@ msgstr "لا تزامن مع الوقت الفعلي عند بدء تشغيل إ
 
 #. i18n: ectx: property (title), widget (QGroupBox, gridGroupBox)
 #: options/opsdeveloper.ui:101
-#, fuzzy, kde-format
-#| msgid "Developer Options"
+#, kde-format
 msgid "Debayer Options:"
-msgstr "خيارات المطور"
+msgstr "خيارات فك باير:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: options/opsdeveloper.ui:114
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Debayer parameters to be applied to images.</p></"
 "body></html>"
-msgstr "حدّد بوصة دَخْل ملفّ."
+msgstr ""
+"<html><head/><body><p>معلمات فك باير التي ستطبق على الصور.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opsdeveloper.ui:117
-#, fuzzy, kde-format
-#| msgid "Image Debayering"
+#, kde-format
 msgid "Image Debayer:"
-msgstr "فك باير الصورة"
+msgstr "فك باير الصورة:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: options/opsdeveloper.ui:131
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Debayer parameters to be applied to Live Stacker subs."
 "</p></body></html>"
-msgstr "حدّد بوصة دَخْل ملفّ."
+msgstr ""
+"<html><head/><body><p>معلمات فك باير التي ستطبق على لقطات المكدس الحي.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opsdeveloper.ui:134
 #, kde-format
 msgid "Stack Sub Debayer:"
-msgstr ""
+msgstr "فك باير لقطات التكديس:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-23 02:07+0000\n"
-"PO-Revision-Date: 2026-01-22 09:06+0100\n"
+"PO-Revision-Date: 2026-01-22 12:15+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -32431,7 +32431,7 @@ msgstr "VNG"
 #, kde-format
 msgctxt "@item:inlistbox OpenCV debayer algorithm"
 msgid "Edge-Aware"
-msgstr "Eficaç a les vores"
+msgstr "Eficaç en la vores"
 
 #: fitsviewer/bayerparameters.cpp:53
 #, kde-format
@@ -32451,7 +32451,7 @@ msgstr ""
 "<b>Bilineal</b>: Interpolació bilineal senzilla.<br/>• Molt ràpid, vores "
 "suaus.<br/><br/><b>VNG</b>: Nombre variable de degradats<br/>• Una "
 "reconstrucció millorada del color.<br/>• Només imatges de 8 bits.<br/><br/"
-"><b>Eficaç a les vores</b>: Interpolació eficaç a les vores.<br/>• Una "
+"><b>Eficaç en la vores</b>: Interpolació eficaç en la vores.<br/>• Una "
 "qualitat alta i molt ràpid."
 
 #: fitsviewer/bayerparameters.cpp:74
@@ -32781,8 +32781,8 @@ msgstr "Motor no vàlid per a la reconstrucció de Bayer"
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr ""
-"Reconstrucció de 8 bits invocada amb paràmetres no vàlids de reconstrucció "
-"de Bayer"
+"Reconstrucció de 8 bits invocada amb paràmetres no vàlids de la "
+"reconstrucció de Bayer"
 
 #: fitsviewer/fitsdata.cpp:6620 fitsviewer/fitsdata.cpp:6666
 #: fitsviewer/fitsdata.cpp:6724 fitsviewer/fitsdata.cpp:6770
@@ -32808,8 +32808,8 @@ msgstr "La reconstrucció des de Bayer ha fallat (%1)"
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
-"Reconstrucció de 16 bits invocada amb paràmetres no vàlids de reconstrucció "
-"de Bayer"
+"Reconstrucció de 16 bits invocada amb paràmetres no vàlids de la "
+"reconstrucció de Bayer"
 
 #: fitsviewer/fitsdebayer.cpp:105
 #, kde-format
@@ -35266,7 +35266,7 @@ msgstr ""
 #: fitsviewer/livestacking.ui:2699
 #, kde-format
 msgid "Remove Hot Pix"
-msgstr "Elimina el pixel cremat"
+msgstr "Elimina els píxels cremats"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ColdPixels)
 #: fitsviewer/livestacking.ui:2709
@@ -42570,19 +42570,19 @@ msgstr "Fotograma pla mestre a l'«Apilament en directe»"
 #: kstars.kcfg:1838
 #, kde-format
 msgid "Live Stacking remove hot pixels"
-msgstr "L'apilament en directe està eliminant els píxels calents"
+msgstr "L'apilament en directe elimina els píxels cremats."
 
 #. i18n: ectx: whatsthis, entry (fitsLSColdPixels), group (FITSViewer)
 #: kstars.kcfg:1842
 #, kde-format
 msgid "Live Stacking remove cold pixels"
-msgstr "L'apilament en directe està eliminant els píxels freds"
+msgstr "L'apilament en directe elimina els píxels freds."
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1846
 #, kde-format
 msgid "Live Stacking alignment method"
-msgstr "Mètode d'alineació a l'«Apilament en directe»"
+msgstr "Mètode d'alineació a l'«Apilament en directe»."
 
 #. i18n: ectx: label, entry (fitsLSNumInMem), group (FITSViewer)
 #: kstars.kcfg:1850
@@ -76522,7 +76522,7 @@ msgstr "Quadro de control INDI…"
 #: kstarslite/qml/indi/INDIControlPanel.qml:58
 #, kde-kuit-format
 msgid "IP Address or Hostname"
-msgstr "Adreça IP o nom de l'amfitrió"
+msgstr "Adreça IP o un nom d'amfitrió"
 
 #: kstarslite/qml/indi/INDIControlPanel.qml:69
 #, kde-kuit-format
