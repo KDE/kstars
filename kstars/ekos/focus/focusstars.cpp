@@ -96,6 +96,11 @@ bool filterFocusStars(const FocusStars &stars1, const FocusStars &stars2, double
     int size1 = stars1.getStars().size();
     int size2 = stars2.getStars().size();
 
+    // Guard that we have some stars to work with.
+    // The statement "seed = rand() % size1" below needs size1 > 0. Bug 515021
+    if (size1 <= 0 || size2 <= 0)
+        return false;
+
     // This section limits the process to the first 100 stars, for computational reasons,
     // just in case there is an input with a large number of stars.
     constexpr int maxNumStars = 100;
