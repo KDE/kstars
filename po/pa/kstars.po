@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-23 02:07+0000\n"
+"POT-Creation-Date: 2026-01-26 02:02+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -15173,7 +15173,7 @@ msgstr "ਤਾਰੇ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/camera.ui:1766 indi/recordingoptions.ui:94
+#: ekos/capture/camera.ui:1766 indi/recordingoptions.ui:147
 #, fuzzy, kde-format
 #| msgid "FITS Save"
 msgid "Directory:"
@@ -15674,7 +15674,7 @@ msgid "Number of images to capture"
 msgstr "ਕੈਪਚਰ ਕਰਨ ਲਈ ਚਿੱਤਰਾਂ ਦੀ ਗਿਣਤੀ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera_config.cpp:969 indi/recordingoptions.ui:40
+#: ekos/capture/camera_config.cpp:969 indi/recordingoptions.ui:189
 #, fuzzy, kde-format
 #| msgid "Duration:"
 msgid "Duration:"
@@ -31749,7 +31749,8 @@ msgid "Ready."
 msgstr "ਰਿਡਿੰਗ"
 
 #. i18n: ectx: property (text), widget (QLabel, engineLabel)
-#: fitsviewer/fitsdebayer.ui:73
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: fitsviewer/fitsdebayer.ui:73 indi/recordingoptions.ui:253
 #, fuzzy, kde-format
 #| msgctxt "City in Illinois USA"
 #| msgid "Moline"
@@ -31772,8 +31773,9 @@ msgstr "FITS ਖੋਲ੍ਹੋ"
 #. i18n: ectx: property (text), widget (QLabel, methodLabel)
 #. i18n: ectx: property (text), widget (QLabel, AlignMethodLabel)
 #. i18n: ectx: property (text), widget (QLabel, StackingMethodLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_5)
 #: fitsviewer/fitsdebayer.ui:104 fitsviewer/livestacking.ui:178
-#: fitsviewer/livestacking.ui:1125
+#: fitsviewer/livestacking.ui:1125 indi/recordingoptions.ui:282
 #, kde-format
 msgid "Method:"
 msgstr ""
@@ -36195,23 +36197,9 @@ msgstr "ਨਾਂ ਵੇਖੋ(&n)"
 msgid "Recording Options"
 msgstr "ਇਕਸਾਰਤਾ ਚੋਣਾਂ"
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, recordDurationR)
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, durationSpin)
-#: indi/recordingoptions.ui:37 indi/recordingoptions.ui:47
-#, fuzzy, kde-format
-#| msgid "Duration:"
-msgid "Record stream for specified duration in seconds"
-msgstr "ਅੰਤਰਾਲ:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: indi/recordingoptions.ui:65
-#, kde-format
-msgid "Record:"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, recordDirectoryEdit)
-#: indi/recordingoptions.ui:91 indi/recordingoptions.ui:115
+#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
+#: indi/recordingoptions.ui:59 indi/recordingoptions.ui:144
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -36230,14 +36218,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectDirB)
-#: indi/recordingoptions.ui:134
+#: indi/recordingoptions.ui:78
 #, kde-format
 msgid "Play/Pause"
 msgstr "ਚਲਾਓ/ਵਿਰਾਮ"
 
-#. i18n: ectx: property (toolTip), widget (QLineEdit, recordFilenameEdit)
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
-#: indi/recordingoptions.ui:154 indi/recordingoptions.ui:212
+#. i18n: ectx: property (toolTip), widget (QLineEdit, recordFilenameEdit)
+#: indi/recordingoptions.ui:98 indi/recordingoptions.ui:222
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -36252,40 +36240,62 @@ msgid ""
 "</body></html>"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: indi/recordingoptions.ui:101 tools/argexportimage.ui:30
+#, kde-format
+msgid "File name:"
+msgstr "ਫਾਇਲ ਨਾਂ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: indi/recordingoptions.ui:108
+#, kde-format
+msgid "Record:"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QRadioButton, recordUntilStoppedR)
+#: indi/recordingoptions.ui:115
+#, kde-format
+msgid "Record stream until manually stopped"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, recordUntilStoppedR)
+#: indi/recordingoptions.ui:118
+#, fuzzy, kde-format
+#| msgid "Stop"
+msgid "Until stopped"
+msgstr "ਰੋਕੋ"
+
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordFramesR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, framesSpin)
-#: indi/recordingoptions.ui:163 indi/recordingoptions.ui:173
+#: indi/recordingoptions.ui:156 indi/recordingoptions.ui:166
 #, kde-format
 msgid "Record stream until this many frames are captured"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordFramesR)
-#: indi/recordingoptions.ui:166
+#: indi/recordingoptions.ui:159
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Frame"
 msgid "Frames:"
 msgstr "ਫਰੇਮ"
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, recordUntilStoppedR)
-#: indi/recordingoptions.ui:191
-#, kde-format
-msgid "Record stream until manually stopped"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QRadioButton, recordUntilStoppedR)
-#: indi/recordingoptions.ui:194
+#. i18n: ectx: property (toolTip), widget (QRadioButton, recordDurationR)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, durationSpin)
+#: indi/recordingoptions.ui:186 indi/recordingoptions.ui:196
 #, fuzzy, kde-format
-#| msgid "Stop"
-msgid "Until stopped"
-msgstr "ਰੋਕੋ"
+#| msgid "Duration:"
+msgid "Record stream for specified duration in seconds"
+msgstr "ਅੰਤਰਾਲ:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: indi/recordingoptions.ui:215 tools/argexportimage.ui:30
-#, kde-format
-msgid "File name:"
-msgstr "ਫਾਇਲ ਨਾਂ:"
+#. i18n: ectx: property (title), widget (QGroupBox, debayerOptions)
+#. i18n: ectx: property (title), widget (QGroupBox, gridGroupBox)
+#: indi/recordingoptions.ui:241 options/opsdeveloper.ui:101
+#, fuzzy, kde-format
+#| msgid "Calibration Options"
+msgid "Debayer Options:"
+msgstr "ਇਕਸਾਰਤਾ ਚੋਣਾਂ"
 
 #: indi/servermanager.cpp:98
 #, fuzzy, kde-format
@@ -36462,7 +36472,7 @@ msgctxt "@title:window"
 msgid "SER Record Directory"
 msgstr "FITS ਸੰਭਾਲੋ"
 
-#: indi/streamwg.cpp:105
+#: indi/streamwg.cpp:120
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Video"
@@ -36470,13 +36480,13 @@ msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "ਵਿਡੀਓ"
 
-#: indi/streamwg.cpp:345 indi/streamwg.cpp:392
+#: indi/streamwg.cpp:396 indi/streamwg.cpp:443
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop recording"
 msgstr "ਟਰੈਕ ਕਰਨਾ ਰੋਕੋ(&T)"
 
-#: indi/streamwg.cpp:350 indi/streamwg.cpp:360
+#: indi/streamwg.cpp:401 indi/streamwg.cpp:411
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Start recording"
@@ -84564,13 +84574,6 @@ msgstr ""
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
 msgstr ""
-
-#. i18n: ectx: property (title), widget (QGroupBox, gridGroupBox)
-#: options/opsdeveloper.ui:101
-#, fuzzy, kde-format
-#| msgid "Calibration Options"
-msgid "Debayer Options:"
-msgstr "ਇਕਸਾਰਤਾ ਚੋਣਾਂ"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: options/opsdeveloper.ui:114

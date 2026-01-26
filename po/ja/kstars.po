@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-23 02:07+0000\n"
+"POT-Creation-Date: 2026-01-26 02:02+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -15522,7 +15522,7 @@ msgstr "指定した設定ファイルを使います"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/camera.ui:1766 indi/recordingoptions.ui:94
+#: ekos/capture/camera.ui:1766 indi/recordingoptions.ui:147
 #, fuzzy, kde-format
 #| msgid "Projection"
 msgid "Directory:"
@@ -16018,7 +16018,7 @@ msgid "Number of images to capture"
 msgstr "キャプチャする画像の枚数"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera_config.cpp:969 indi/recordingoptions.ui:40
+#: ekos/capture/camera_config.cpp:969 indi/recordingoptions.ui:189
 #, kde-format
 msgid "Duration:"
 msgstr "持続時間:"
@@ -32296,7 +32296,8 @@ msgid "Ready."
 msgstr "Aladin"
 
 #. i18n: ectx: property (text), widget (QLabel, engineLabel)
-#: fitsviewer/fitsdebayer.ui:73
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: fitsviewer/fitsdebayer.ui:73 indi/recordingoptions.ui:253
 #, fuzzy, kde-format
 #| msgctxt "City in Illinois USA"
 #| msgid "Moline"
@@ -32319,8 +32320,9 @@ msgstr "FITS オープン"
 #. i18n: ectx: property (text), widget (QLabel, methodLabel)
 #. i18n: ectx: property (text), widget (QLabel, AlignMethodLabel)
 #. i18n: ectx: property (text), widget (QLabel, StackingMethodLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_5)
 #: fitsviewer/fitsdebayer.ui:104 fitsviewer/livestacking.ui:178
-#: fitsviewer/livestacking.ui:1125
+#: fitsviewer/livestacking.ui:1125 indi/recordingoptions.ui:282
 #, kde-format
 msgid "Method:"
 msgstr ""
@@ -36831,23 +36833,9 @@ msgstr "長い名前を表示する(&L)"
 msgid "Recording Options"
 msgstr "星座名オプション"
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, recordDurationR)
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, durationSpin)
-#: indi/recordingoptions.ui:37 indi/recordingoptions.ui:47
-#, fuzzy, kde-format
-#| msgid "Pause delay in seconds"
-msgid "Record stream for specified duration in seconds"
-msgstr "一時停止の秒数"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: indi/recordingoptions.ui:65
-#, kde-format
-msgid "Record:"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, recordDirectoryEdit)
-#: indi/recordingoptions.ui:91 indi/recordingoptions.ui:115
+#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
+#: indi/recordingoptions.ui:59 indi/recordingoptions.ui:144
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -36866,14 +36854,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectDirB)
-#: indi/recordingoptions.ui:134
+#: indi/recordingoptions.ui:78
 #, kde-format
 msgid "Play/Pause"
 msgstr "再生/一時停止"
 
-#. i18n: ectx: property (toolTip), widget (QLineEdit, recordFilenameEdit)
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
-#: indi/recordingoptions.ui:154 indi/recordingoptions.ui:212
+#. i18n: ectx: property (toolTip), widget (QLineEdit, recordFilenameEdit)
+#: indi/recordingoptions.ui:98 indi/recordingoptions.ui:222
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -36888,39 +36876,61 @@ msgid ""
 "</body></html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, recordFramesR)
-#. i18n: ectx: property (toolTip), widget (QSpinBox, framesSpin)
-#: indi/recordingoptions.ui:163 indi/recordingoptions.ui:173
+#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: indi/recordingoptions.ui:101 tools/argexportimage.ui:30
 #, kde-format
-msgid "Record stream until this many frames are captured"
+msgid "File name:"
+msgstr "ファイル名:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: indi/recordingoptions.ui:108
+#, kde-format
+msgid "Record:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, recordFramesR)
-#: indi/recordingoptions.ui:166
-#, fuzzy, kde-format
-#| msgid "Name:"
-msgid "Frames:"
-msgstr "名前:"
-
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordUntilStoppedR)
-#: indi/recordingoptions.ui:191
+#: indi/recordingoptions.ui:115
 #, kde-format
 msgid "Record stream until manually stopped"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordUntilStoppedR)
-#: indi/recordingoptions.ui:194
+#: indi/recordingoptions.ui:118
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Until stopped"
 msgstr "恒星をロード中"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: indi/recordingoptions.ui:215 tools/argexportimage.ui:30
+#. i18n: ectx: property (toolTip), widget (QRadioButton, recordFramesR)
+#. i18n: ectx: property (toolTip), widget (QSpinBox, framesSpin)
+#: indi/recordingoptions.ui:156 indi/recordingoptions.ui:166
 #, kde-format
-msgid "File name:"
-msgstr "ファイル名:"
+msgid "Record stream until this many frames are captured"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, recordFramesR)
+#: indi/recordingoptions.ui:159
+#, fuzzy, kde-format
+#| msgid "Name:"
+msgid "Frames:"
+msgstr "名前:"
+
+#. i18n: ectx: property (toolTip), widget (QRadioButton, recordDurationR)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, durationSpin)
+#: indi/recordingoptions.ui:186 indi/recordingoptions.ui:196
+#, fuzzy, kde-format
+#| msgid "Pause delay in seconds"
+msgid "Record stream for specified duration in seconds"
+msgstr "一時停止の秒数"
+
+#. i18n: ectx: property (title), widget (QGroupBox, debayerOptions)
+#. i18n: ectx: property (title), widget (QGroupBox, gridGroupBox)
+#: indi/recordingoptions.ui:241 options/opsdeveloper.ui:101
+#, fuzzy, kde-format
+#| msgid "Constellation Name Options"
+msgid "Debayer Options:"
+msgstr "星座名オプション"
 
 #: indi/servermanager.cpp:98
 #, fuzzy, kde-format
@@ -37098,20 +37108,20 @@ msgctxt "@title:window"
 msgid "SER Record Directory"
 msgstr "デフォルトの FITS ディレクトリ"
 
-#: indi/streamwg.cpp:105
+#: indi/streamwg.cpp:120
 #, fuzzy, kde-format
 #| msgid "Video port:"
 msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "ビデオポート:"
 
-#: indi/streamwg.cpp:345 indi/streamwg.cpp:392
+#: indi/streamwg.cpp:396 indi/streamwg.cpp:443
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop recording"
 msgstr "追尾を停止(&T)"
 
-#: indi/streamwg.cpp:350 indi/streamwg.cpp:360
+#: indi/streamwg.cpp:401 indi/streamwg.cpp:411
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Start recording"
@@ -82740,13 +82750,6 @@ msgstr ""
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
 msgstr ""
-
-#. i18n: ectx: property (title), widget (QGroupBox, gridGroupBox)
-#: options/opsdeveloper.ui:101
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
-msgid "Debayer Options:"
-msgstr "星座名オプション"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: options/opsdeveloper.ui:114

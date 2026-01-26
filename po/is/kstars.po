@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-23 02:07+0000\n"
+"POT-Creation-Date: 2026-01-26 02:02+0000\n"
 "PO-Revision-Date: 2009-07-28 20:12+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -14755,7 +14755,7 @@ msgstr "Finna hlut"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/camera.ui:1766 indi/recordingoptions.ui:94
+#: ekos/capture/camera.ui:1766 indi/recordingoptions.ui:147
 #, fuzzy, kde-format
 msgid "Directory:"
 msgstr "Tenging"
@@ -15223,7 +15223,7 @@ msgid "Number of images to capture"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera_config.cpp:969 indi/recordingoptions.ui:40
+#: ekos/capture/camera_config.cpp:969 indi/recordingoptions.ui:189
 #, fuzzy, kde-format
 msgid "Duration:"
 msgstr "Dagur Tímalengd"
@@ -30541,7 +30541,8 @@ msgid "Ready."
 msgstr "Reading"
 
 #. i18n: ectx: property (text), widget (QLabel, engineLabel)
-#: fitsviewer/fitsdebayer.ui:73
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: fitsviewer/fitsdebayer.ui:73 indi/recordingoptions.ui:253
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Moline"
@@ -30563,8 +30564,9 @@ msgstr "Vista Mynd"
 #. i18n: ectx: property (text), widget (QLabel, methodLabel)
 #. i18n: ectx: property (text), widget (QLabel, AlignMethodLabel)
 #. i18n: ectx: property (text), widget (QLabel, StackingMethodLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_5)
 #: fitsviewer/fitsdebayer.ui:104 fitsviewer/livestacking.ui:178
-#: fitsviewer/livestacking.ui:1125
+#: fitsviewer/livestacking.ui:1125 indi/recordingoptions.ui:282
 #, kde-format
 msgid "Method:"
 msgstr ""
@@ -34746,22 +34748,9 @@ msgstr "Sýna nafn"
 msgid "Recording Options"
 msgstr "Stjörnumerki"
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, recordDurationR)
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, durationSpin)
-#: indi/recordingoptions.ui:37 indi/recordingoptions.ui:47
-#, fuzzy, kde-format
-msgid "Record stream for specified duration in seconds"
-msgstr "Dagur Tímalengd"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: indi/recordingoptions.ui:65
-#, kde-format
-msgid "Record:"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, recordDirectoryEdit)
-#: indi/recordingoptions.ui:91 indi/recordingoptions.ui:115
+#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
+#: indi/recordingoptions.ui:59 indi/recordingoptions.ui:144
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -34780,14 +34769,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectDirB)
-#: indi/recordingoptions.ui:134
+#: indi/recordingoptions.ui:78
 #, fuzzy, kde-format
 msgid "Play/Pause"
 msgstr "Spila/bíða"
 
-#. i18n: ectx: property (toolTip), widget (QLineEdit, recordFilenameEdit)
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
-#: indi/recordingoptions.ui:154 indi/recordingoptions.ui:212
+#. i18n: ectx: property (toolTip), widget (QLineEdit, recordFilenameEdit)
+#: indi/recordingoptions.ui:98 indi/recordingoptions.ui:222
 #, kde-format
 msgid ""
 "<html><head/><body>\n"
@@ -34802,40 +34791,60 @@ msgid ""
 "</body></html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QRadioButton, recordFramesR)
-#. i18n: ectx: property (toolTip), widget (QSpinBox, framesSpin)
-#: indi/recordingoptions.ui:163 indi/recordingoptions.ui:173
+#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: indi/recordingoptions.ui:101 tools/argexportimage.ui:30
+#, fuzzy, kde-format
+msgid "File name:"
+msgstr "Nafn borgar"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: indi/recordingoptions.ui:108
 #, kde-format
-msgid "Record stream until this many frames are captured"
+msgid "Record:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QRadioButton, recordFramesR)
-#: indi/recordingoptions.ui:166
-#, fuzzy, kde-format
-#| msgid "Name:"
-msgid "Frames:"
-msgstr "Nafn:"
-
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordUntilStoppedR)
-#: indi/recordingoptions.ui:191
+#: indi/recordingoptions.ui:115
 #, kde-format
 msgid "Record stream until manually stopped"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordUntilStoppedR)
-#: indi/recordingoptions.ui:194
+#: indi/recordingoptions.ui:118
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "INDUS"
 msgid "Until stopped"
 msgstr "INDUS"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: indi/recordingoptions.ui:215 tools/argexportimage.ui:30
+#. i18n: ectx: property (toolTip), widget (QRadioButton, recordFramesR)
+#. i18n: ectx: property (toolTip), widget (QSpinBox, framesSpin)
+#: indi/recordingoptions.ui:156 indi/recordingoptions.ui:166
+#, kde-format
+msgid "Record stream until this many frames are captured"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, recordFramesR)
+#: indi/recordingoptions.ui:159
 #, fuzzy, kde-format
-msgid "File name:"
-msgstr "Nafn borgar"
+#| msgid "Name:"
+msgid "Frames:"
+msgstr "Nafn:"
+
+#. i18n: ectx: property (toolTip), widget (QRadioButton, recordDurationR)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, durationSpin)
+#: indi/recordingoptions.ui:186 indi/recordingoptions.ui:196
+#, fuzzy, kde-format
+msgid "Record stream for specified duration in seconds"
+msgstr "Dagur Tímalengd"
+
+#. i18n: ectx: property (title), widget (QGroupBox, debayerOptions)
+#. i18n: ectx: property (title), widget (QGroupBox, gridGroupBox)
+#: indi/recordingoptions.ui:241 options/opsdeveloper.ui:101
+#, fuzzy, kde-format
+msgid "Debayer Options:"
+msgstr "Stjörnumerki"
 
 #: indi/servermanager.cpp:98
 #, fuzzy, kde-format
@@ -35003,19 +35012,19 @@ msgctxt "@title:window"
 msgid "SER Record Directory"
 msgstr "Vista Mynd"
 
-#: indi/streamwg.cpp:105
+#: indi/streamwg.cpp:120
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "Gátt:"
 
-#: indi/streamwg.cpp:345 indi/streamwg.cpp:392
+#: indi/streamwg.cpp:396 indi/streamwg.cpp:443
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop recording"
 msgstr "S&töðva eftirför"
 
-#: indi/streamwg.cpp:350 indi/streamwg.cpp:360
+#: indi/streamwg.cpp:401 indi/streamwg.cpp:411
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -84564,12 +84573,6 @@ msgstr ""
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
 msgstr ""
-
-#. i18n: ectx: property (title), widget (QGroupBox, gridGroupBox)
-#: options/opsdeveloper.ui:101
-#, fuzzy, kde-format
-msgid "Debayer Options:"
-msgstr "Stjörnumerki"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: options/opsdeveloper.ui:114
