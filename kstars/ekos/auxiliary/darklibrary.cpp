@@ -7,6 +7,7 @@
 #include "darklibrary.h"
 #include "Options.h"
 
+#include "ekos_debug.h"
 #include "ekos/manager.h"
 #include "ekos/capture/capture.h"
 #include "ekos/capture/sequencejob.h"
@@ -213,6 +214,15 @@ void DarkLibrary::refreshFromDB()
 ///////////////////////////////////////////////////////////////////////////////////////
 bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, QSharedPointer<FITSData> &darkData)
 {
+    int rejectedCCD = 0, rejectedGain = 0, rejectedISO = 0, rejectedBinning = 0, rejectedTemp = 0;
+    int binX = 1, binY = 1;
+    m_TargetChip->getBinning(&binX, &binY);
+    int gain = getGain();
+    QString isoValue;
+    m_TargetChip->getISOValue(isoValue);
+    double temperature = 0;
+    bool hasTemp = m_TargetChip->getCCD()->getTemperature(&temperature);
+
     QVariantMap bestCandidate;
     for (auto &map : m_DarkFramesDatabaseList)
     {
@@ -221,32 +231,42 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
                 map["chip"].toInt() == static_cast<int>(m_TargetChip->getType()))
         {
             // Match Gain
-            int gain = getGain();
-            if (gain >= 0 && map["gain"].toInt() != gain)
+            int frameGain = map["gain"].toInt();
+            if (gain >= 0 && frameGain != gain)
+            {
+                rejectedGain++;
                 continue;
+            }
 
             // Match ISO
-            QString isoValue;
-            if (m_TargetChip->getISOValue(isoValue) && map["iso"].toString() != isoValue)
+            QString frameISO = map["iso"].toString();
+            if (!isoValue.isEmpty() && !frameISO.isEmpty() && frameISO != isoValue)
+            {
+                rejectedISO++;
                 continue;
+            }
 
             // Match binning
-            int binX = 1, binY = 1;
-            m_TargetChip->getBinning(&binX, &binY);
+            int frameBinX = map["binX"].toInt();
+            int frameBinY = map["binY"].toInt();
 
             // Then check if binning is the same
-            if (map["binX"].toInt() != binX || map["binY"].toInt() != binY)
+            if (frameBinX != binX || frameBinY != binY)
+            {
+                rejectedBinning++;
                 continue;
+            }
 
             // If camera has an active cooler, then we check temperature against the absolute threshold.
             if (m_TargetChip->getCCD()->hasCoolerControl())
             {
-                double temperature = 0;
-                m_TargetChip->getCCD()->getTemperature(&temperature);
                 double darkTemperature = map["temperature"].toDouble();
                 // If different is above threshold, it is completely rejected.
-                if (darkTemperature != INVALID_VALUE && fabs(darkTemperature - temperature) > maxDarkTemperatureDiff->value())
+                if (darkTemperature != INVALID_VALUE && hasTemp && fabs(darkTemperature - temperature) > maxDarkTemperatureDiff->value())
+                {
+                    rejectedTemp++;
                     continue;
+                }
             }
 
             if (bestCandidate.isEmpty())
@@ -303,7 +323,15 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
     }
 
     if (bestCandidate.isEmpty())
+    {
+        qCWarning(KSTARS_EKOS) << "No suitable dark frame found. Rejection reasons:"
+                               << "CCD/Chip:" << rejectedCCD
+                               << "Gain:" << rejectedGain
+                               << "ISO:" << rejectedISO
+                               << "Binning:" << rejectedBinning
+                               << "Temperature:" << rejectedTemp;
         return false;
+    }
 
     if (fabs(bestCandidate["duration"].toDouble() - duration) > 3)
         emit i18n("Using available dark frame with %1 seconds exposure. Please take a dark frame with %1 seconds exposure for more accurate results.",
@@ -352,21 +380,28 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
 ///////////////////////////////////////////////////////////////////////////////////////
 bool DarkLibrary::findDefectMap(ISD::CameraChip *m_TargetChip, double duration, QSharedPointer<DefectMap> &defectMap)
 {
+    int rejectedNoDefectMap = 0, rejectedBinning = 0;
+    int binX = 1, binY = 1;
+    m_TargetChip->getBinning(&binX, &binY);
+
     QVariantMap bestCandidate;
     for (auto &map : m_DarkFramesDatabaseList)
     {
         if (map["defectmap"].toString().isEmpty())
+        {
+            rejectedNoDefectMap++;
             continue;
+        }
 
         // First check CCD name matches and check if we are on the correct chip
         if (map["ccd"].toString() == m_TargetChip->getCCD()->getDeviceName() &&
                 map["chip"].toInt() == static_cast<int>(m_TargetChip->getType()))
         {
-            int binX, binY;
-            m_TargetChip->getBinning(&binX, &binY);
+            int frameBinX = map["binX"].toInt();
+            int frameBinY = map["binY"].toInt();
 
             // Then check if binning is the same
-            if (map["binX"].toInt() == binX && map["binY"].toInt() == binY)
+            if (frameBinX == binX && frameBinY == binY)
             {
                 if (bestCandidate.isEmpty())
                 {
@@ -406,13 +441,20 @@ bool DarkLibrary::findDefectMap(ISD::CameraChip *m_TargetChip, double duration, 
                 if (thisMapScore > bestCandidateScore)
                     bestCandidate = map;
             }
+            else
+            {
+                rejectedBinning++;
+            }
         }
     }
 
-
     if (bestCandidate.isEmpty())
+    {
+        qCWarning(KSTARS_EKOS) << "No suitable defect map found. Rejection reasons:"
+                               << "No defect map:" << rejectedNoDefectMap
+                               << "Binning:" << rejectedBinning;
         return false;
-
+    }
 
     QString darkFilename = bestCandidate["filename"].toString();
     QString defectFilename = bestCandidate["defectmap"].toString();

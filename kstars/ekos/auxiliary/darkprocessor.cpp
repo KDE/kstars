@@ -257,6 +257,10 @@ bool DarkProcessor::denoiseInternal(bool useDefect)
             qCDebug(KSTARS_EKOS) << "Defect map denoising applied";
             return true;
         }
+        else
+        {
+            qCWarning(KSTARS_EKOS) << "Failed to find suitable defect map, will try dark frame instead";
+        }
     }
 
     // Check if we have valid dark data and then use it.
@@ -267,6 +271,9 @@ bool DarkProcessor::denoiseInternal(bool useDefect)
         if (info.offsetX == 0 && info.offsetY == 0 &&
                 (info.targetData->width() != darkData->width() || info.targetData->height() != darkData->height()))
         {
+            qCWarning(KSTARS_EKOS) << "Dark frame dimension mismatch: target"
+                                   << info.targetData->width() << "x" << info.targetData->height()
+                                   << "vs dark" << darkData->width() << "x" << darkData->height();
             darkData.clear();
             emit newLog(i18n("No suitable dark frames or defect maps found. Please run the Dark Library wizard in Capture module."));
             return false;
@@ -276,6 +283,13 @@ bool DarkProcessor::denoiseInternal(bool useDefect)
         return true;
     }
 
+    int binX = 1, binY = 1;
+    info.targetChip->getBinning(&binX, &binY);
+
+    qCWarning(KSTARS_EKOS) << "Failed to find suitable dark frame or defect map for"
+                           << info.targetChip->getCCD()->getDeviceName()
+                           << "duration:" << info.duration << "s"
+                           << "binning:" << binX << "x" << binY;
     emit newLog(i18n("No suitable dark frames or defect maps found. Please run the Dark Library wizard in Capture module."));
     return false;
 }
