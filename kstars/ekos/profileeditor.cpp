@@ -517,18 +517,48 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
 
     profileDriversModel->clear();
 
-    // If we have drivers key, then it's just a list of all driver labels
+    // If we have drivers key, check if it's an array or object
     if (profile.contains("drivers"))
     {
-        const auto driversList = profile["drivers"].toArray();
-        for (const auto &oneLabel : driversList)
+        const auto driversValue = profile["drivers"];
+
+        // Format 1: Array of driver labels ["Driver1", "Driver2", ...]
+        if (driversValue.isArray())
         {
-            QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(oneLabel.toString());
-            if (driverInfo)
+            const auto driversList = driversValue.toArray();
+            for (const auto &oneLabel : driversList)
             {
-                QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), driverInfo->getLabel());
-                item->setEditable(false);
-                profileDriversModel->appendRow(item);
+                QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(oneLabel.toString());
+                if (driverInfo)
+                {
+                    QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), driverInfo->getLabel());
+                    item->setEditable(false);
+                    profileDriversModel->appendRow(item);
+                }
+            }
+        }
+        // Format 2: Object with DeviceFamily keys {"Telescope": ["Driver1"], "CCD": ["Driver2", "Driver3"], ...}
+        else if (driversValue.isObject())
+        {
+            const auto driversObject = driversValue.toObject();
+            // Iterate through each DeviceFamily key
+            for (auto it = driversObject.constBegin(); it != driversObject.constEnd(); ++it)
+            {
+                // Each value should be an array of driver labels for that family
+                if (it.value().isArray())
+                {
+                    const auto driverArray = it.value().toArray();
+                    for (const auto &oneLabel : driverArray)
+                    {
+                        QSharedPointer<DriverInfo> driverInfo = DriverManager::Instance()->findDriverByLabel(oneLabel.toString());
+                        if (driverInfo)
+                        {
+                            QStandardItem *item = new QStandardItem(getIconForFamily(driverInfo->getType()), driverInfo->getLabel());
+                            item->setEditable(false);
+                            profileDriversModel->appendRow(item);
+                        }
+                    }
+                }
             }
         }
     }
