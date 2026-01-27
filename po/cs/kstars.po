@@ -37599,7 +37599,7 @@ msgstr ""
 #: kstars.kcfg:1472
 #, kde-format
 msgid "Use background color"
-msgstr ""
+msgstr "Použít barvu pozadí"
 
 #. i18n: ectx: whatsthis, entry (XplanetBackgroundColor), group (Xplanet)
 #: kstars.kcfg:1473
