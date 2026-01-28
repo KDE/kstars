@@ -233,13 +233,12 @@ void SchedulerProcess::findNextJob()
     {
         emit jobEnded(activeJob()->getName(), activeJob()->getStopReason());
 
-        /* If we remember job progress, mark the job idle as well as all its duplicates for re-evaluation */
-        if (Options::rememberJobProgress())
-        {
-            foreach(SchedulerJob *a_job, moduleState()->jobs())
-                if (a_job == activeJob() || a_job->isDuplicateOf(activeJob()))
-                    a_job->setState(SCHEDJOB_IDLE);
-        }
+        // FINISH_SEQUENCE jobs are complete and should not restart
+        // Mark them as COMPLETE (not IDLE) to prevent them from being marked as ABORTED on scheduler stop
+        // GreedyScheduler filters out COMPLETE jobs from re-evaluation anyway
+        for(auto &a_job : moduleState()->jobs())
+            if (a_job == activeJob() || a_job->isDuplicateOf(activeJob()))
+                a_job->setState(SCHEDJOB_COMPLETE);
 
         moduleState()->resetCaptureBatch();
         // Stop Guiding if it was used
@@ -249,11 +248,6 @@ void SchedulerProcess::findNextJob()
 
         // Always reset job stage
         moduleState()->updateJobStage(SCHEDSTAGE_IDLE);
-
-        // If saving remotely, then can't tell later that the job has been completed.
-        // Set it complete now.
-        if (!canCountCaptures(*activeJob()))
-            activeJob()->setState(SCHEDJOB_COMPLETE);
 
         moduleState()->setActiveJob(nullptr);
         moduleState()->setupNextIteration(RUN_SCHEDULER);
@@ -647,6 +641,9 @@ void SchedulerProcess::stop()
             if (oneJob == activeJob())
                 stopCurrentJobAction();
 
+            // Only mark jobs as aborted if they were actually interrupted
+            // Jobs in COMPLETE state have finished and should not be marked as aborted
+            // The condition (state <= SCHEDJOB_BUSY) excludes COMPLETE, ERROR, ABORTED, and INVALID
             if (oneJob->getState() <= SCHEDJOB_BUSY)
             {
                 appendLogText(i18n("Job '%1' has not been processed upon scheduler stop, marking aborted.", oneJob->getName()));
