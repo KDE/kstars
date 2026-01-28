@@ -794,6 +794,12 @@ bool SchedulerProcess::shouldSchedulerSleep(SchedulerJob * job)
                           "Observatory scheduled for shutdown until next job is ready.",
                           job->getName(), job->getStartupTime().toString()));
         moduleState()->enablePreemptiveShutdown(job->getStartupTime());
+
+        // Set up the wakeup timer to prevent scheduler from immediately re-checking
+        // and getting stuck in a loop logging the same message repeatedly
+        moduleState()->setupNextIteration(RUN_WAKEUP,
+                                          std::lround(((nextObservationTime + 1) * 1000) / KStarsData::Instance()->clock()->scale()));
+
         checkShutdownState();
         emit schedulerSleeping(true, false);
         return true;
