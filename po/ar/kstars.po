@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-26 02:02+0000\n"
+"POT-Creation-Date: 2026-01-28 02:06+0000\n"
 "PO-Revision-Date: 2026-01-24 13:19+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -2040,7 +2040,7 @@ msgstr "الحالة:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:3487 ekos/auxiliary/buildfilteroffsets.cpp:153
-#: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
+#: ekos/auxiliary/darklibrary.cpp:47 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:25
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
@@ -3867,7 +3867,7 @@ msgstr "0.0 فرسخ فلكي"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:993
-#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1057
+#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1099
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6523,7 +6523,7 @@ msgstr "زاوية الموضع الحالية: %1؛ زاوية الموضع ا�
 msgid "Refresh is complete."
 msgstr "اكتمل التحديث."
 
-#: ekos/align/align.cpp:2707 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/align/align.cpp:2707 ekos/auxiliary/darklibrary.cpp:1455
 #: ekos/focus/focus.cpp:1716
 #, kde-format
 msgid "Capture aborted."
@@ -11920,12 +11920,12 @@ msgstr ""
 msgid "Adapt Focus"
 msgstr "تركيز تكيّفي"
 
-#: ekos/auxiliary/darklibrary.cpp:97
+#: ekos/auxiliary/darklibrary.cpp:98
 #, kde-format
 msgid "Failed to load %1: %2"
 msgstr "فشلت عملية تحميل %1: %2"
 
-#: ekos/auxiliary/darklibrary.cpp:309
+#: ekos/auxiliary/darklibrary.cpp:337
 #, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
@@ -11934,83 +11934,83 @@ msgstr ""
 "استخدم إطار الظلام المتاح بمدة تعريض %1 ثانية. التقط إطار ظلام بمدة تعريض %1 "
 "ثانية للحصول على نتائج أكثر دقة."
 
-#: ekos/auxiliary/darklibrary.cpp:319
+#: ekos/auxiliary/darklibrary.cpp:347
 #, kde-format
 msgid "Dark frame %s is expired. Please create new master dark."
 msgstr "انتهت صلاحية إطار الظلام %s. أنشئ إطار ظلام رئيس جديد."
 
-#: ekos/auxiliary/darklibrary.cpp:342
+#: ekos/auxiliary/darklibrary.cpp:370
 #, kde-format
 msgid "Removing bad dark frame file %1"
 msgstr "إزالة ملف إطار الظلام السيئ %1"
 
-#: ekos/auxiliary/darklibrary.cpp:438
+#: ekos/auxiliary/darklibrary.cpp:480
 #, kde-format
 msgid "Failed to load defect map %1"
 msgstr "فشلت عملية تحميل خريطة العيب %1"
 
-#: ekos/auxiliary/darklibrary.cpp:458
+#: ekos/auxiliary/darklibrary.cpp:500
 #, kde-format
 msgid "Failed to load defect map file %1"
 msgstr "فشلت عملية تحميل ملف خريطة العيب %1"
 
-#: ekos/auxiliary/darklibrary.cpp:478
+#: ekos/auxiliary/darklibrary.cpp:520
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "فشلت عملية تحميل ملف إطار الظلام %1"
 
-#: ekos/auxiliary/darklibrary.cpp:539
+#: ekos/auxiliary/darklibrary.cpp:581
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "فشلت معالجة بيانات الظلام."
 
-#: ekos/auxiliary/darklibrary.cpp:545
+#: ekos/auxiliary/darklibrary.cpp:587
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "فشلت عملية تحميل بيانات الظلام."
 
-#: ekos/auxiliary/darklibrary.cpp:555
+#: ekos/auxiliary/darklibrary.cpp:597
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "استقبل %1/%2 صورة."
 
-#: ekos/auxiliary/darklibrary.cpp:672
+#: ekos/auxiliary/darklibrary.cpp:714
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "هل أنت متأكد من رغبتك في حذف كل صور وبيانات إطارات الظلام؟"
 
-#: ekos/auxiliary/darklibrary.cpp:1213 ekos/focus/focusadvisor.cpp:658
+#: ekos/auxiliary/darklibrary.cpp:1255 ekos/focus/focusadvisor.cpp:658
 #: ekos/focus/focusadvisor.cpp:972 ekos/focus/focusadvisor.cpp:1269
 #, kde-format
 msgid "In progress..."
 msgstr "جاري..."
 
-#: ekos/auxiliary/darklibrary.cpp:1371
+#: ekos/auxiliary/darklibrary.cpp:1413
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "فشلت عملية حفظ الإطار الرئيسي: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1392
+#: ekos/auxiliary/darklibrary.cpp:1434
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "حُفظ إطار الظلام الرئيسي في %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1417
+#: ekos/auxiliary/darklibrary.cpp:1459
 #, kde-format
 msgid "Capture completed."
 msgstr "اكتمل الالتقاط."
 
-#: ekos/auxiliary/darklibrary.cpp:1444
+#: ekos/auxiliary/darklibrary.cpp:1486
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "حُفظت خريطة العيب في %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1464
+#: ekos/auxiliary/darklibrary.cpp:1506
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "فشلت عملية حفظ خريطة العيب في %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1639
+#: ekos/auxiliary/darklibrary.cpp:1681
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "مسار بصري غير موجود للمعّرف %1"
@@ -12426,7 +12426,7 @@ msgstr "أزِل من انتهت صلاحيته"
 msgid "Double click to load dark frame"
 msgstr "نقرة مزدوجة لتحميل الإطار الأسود"
 
-#: ekos/auxiliary/darkprocessor.cpp:271 ekos/auxiliary/darkprocessor.cpp:279
+#: ekos/auxiliary/darkprocessor.cpp:278 ekos/auxiliary/darkprocessor.cpp:293
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -26151,18 +26151,18 @@ msgstr ""
 msgid "Drivers"
 msgstr "المشغّلات"
 
-#: ekos/profileeditor.cpp:710
+#: ekos/profileeditor.cpp:740
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "مسح الشبكة ضوئياً"
 
-#: ekos/profileeditor.cpp:711
+#: ekos/profileeditor.cpp:741
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "مسح الشبكة ضوئياً بحثاً عن مديري ويب INDI..."
 
-#: ekos/profileeditor.cpp:775
+#: ekos/profileeditor.cpp:805
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "عثر على مدير ويب INDI في %1"

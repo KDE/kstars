@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-26 02:02+0000\n"
+"POT-Creation-Date: 2026-01-28 02:06+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2027,7 +2027,7 @@ msgstr "状态："
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:3487 ekos/auxiliary/buildfilteroffsets.cpp:153
-#: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
+#: ekos/auxiliary/darklibrary.cpp:47 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:25
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
@@ -3835,7 +3835,7 @@ msgstr "0.0 秒差距"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:993
-#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1057
+#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1099
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6449,7 +6449,7 @@ msgstr "当前 PA %1；目标 PA %2；改变量：%3"
 msgid "Refresh is complete."
 msgstr "刷新完成。"
 
-#: ekos/align/align.cpp:2707 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/align/align.cpp:2707 ekos/auxiliary/darklibrary.cpp:1455
 #: ekos/focus/focus.cpp:1716
 #, kde-format
 msgid "Capture aborted."
@@ -11710,95 +11710,95 @@ msgstr ""
 msgid "Adapt Focus"
 msgstr "Adapt Focus"
 
-#: ekos/auxiliary/darklibrary.cpp:97
+#: ekos/auxiliary/darklibrary.cpp:98
 #, kde-format
 msgid "Failed to load %1: %2"
 msgstr "加载 %1 失败：%2"
 
-#: ekos/auxiliary/darklibrary.cpp:309
+#: ekos/auxiliary/darklibrary.cpp:337
 #, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %1 seconds exposure for more accurate results."
 msgstr "使用可用的 %1 秒曝光暗场。请拍摄 %1 秒暗场以获取更准确的结果。"
 
-#: ekos/auxiliary/darklibrary.cpp:319
+#: ekos/auxiliary/darklibrary.cpp:347
 #, kde-format
 msgid "Dark frame %s is expired. Please create new master dark."
 msgstr "暗场 %s 已过期，请新建主暗场。"
 
-#: ekos/auxiliary/darklibrary.cpp:342
+#: ekos/auxiliary/darklibrary.cpp:370
 #, kde-format
 msgid "Removing bad dark frame file %1"
 msgstr "删除坏的暗场文件 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:438
+#: ekos/auxiliary/darklibrary.cpp:480
 #, kde-format
 msgid "Failed to load defect map %1"
 msgstr "加载 defect map %1 失败"
 
-#: ekos/auxiliary/darklibrary.cpp:458
+#: ekos/auxiliary/darklibrary.cpp:500
 #, kde-format
 msgid "Failed to load defect map file %1"
 msgstr "加载 defect map 文件 %1 失败"
 
-#: ekos/auxiliary/darklibrary.cpp:478
+#: ekos/auxiliary/darklibrary.cpp:520
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "未能加载暗场文件 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:539
+#: ekos/auxiliary/darklibrary.cpp:581
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "处理暗场数据失败。"
 
-#: ekos/auxiliary/darklibrary.cpp:545
+#: ekos/auxiliary/darklibrary.cpp:587
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "加载暗场数据失败。"
 
-#: ekos/auxiliary/darklibrary.cpp:555
+#: ekos/auxiliary/darklibrary.cpp:597
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "收到 %1/%2 图像。"
 
-#: ekos/auxiliary/darklibrary.cpp:672
+#: ekos/auxiliary/darklibrary.cpp:714
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "您确定要删除所有暗场和数据吗？"
 
-#: ekos/auxiliary/darklibrary.cpp:1213 ekos/focus/focusadvisor.cpp:658
+#: ekos/auxiliary/darklibrary.cpp:1255 ekos/focus/focusadvisor.cpp:658
 #: ekos/focus/focusadvisor.cpp:972 ekos/focus/focusadvisor.cpp:1269
 #, kde-format
 msgid "In progress..."
 msgstr "进行中..."
 
-#: ekos/auxiliary/darklibrary.cpp:1371
+#: ekos/auxiliary/darklibrary.cpp:1413
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "保存 master frame 失败： %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1392
+#: ekos/auxiliary/darklibrary.cpp:1434
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "主暗场保存到 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1417
+#: ekos/auxiliary/darklibrary.cpp:1459
 #, kde-format
 msgid "Capture completed."
 msgstr "拍摄完成。"
 
-#: ekos/auxiliary/darklibrary.cpp:1444
+#: ekos/auxiliary/darklibrary.cpp:1486
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Defect map 保存到 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1464
+#: ekos/auxiliary/darklibrary.cpp:1506
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "保存 defect map %1 失败"
 
-#: ekos/auxiliary/darklibrary.cpp:1639
+#: ekos/auxiliary/darklibrary.cpp:1681
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr " ID %1 没有 Optical train"
@@ -12206,7 +12206,7 @@ msgstr "清除过期的"
 msgid "Double click to load dark frame"
 msgstr "双击来加载暗场"
 
-#: ekos/auxiliary/darkprocessor.cpp:271 ekos/auxiliary/darkprocessor.cpp:279
+#: ekos/auxiliary/darkprocessor.cpp:278 ekos/auxiliary/darkprocessor.cpp:293
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -25607,18 +25607,18 @@ msgstr ""
 msgid "Drivers"
 msgstr "驱动"
 
-#: ekos/profileeditor.cpp:710
+#: ekos/profileeditor.cpp:740
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "扫描网络"
 
-#: ekos/profileeditor.cpp:711
+#: ekos/profileeditor.cpp:741
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "正在网络上扫描 INDI Web 管理器..."
 
-#: ekos/profileeditor.cpp:775
+#: ekos/profileeditor.cpp:805
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "在 %1 找到 INDI Web 管理器"
@@ -30349,19 +30349,19 @@ msgstr "模板删除失败"
 #, kde-format
 msgctxt "@item:inlistbox Debayer engine"
 msgid "DC1394"
-msgstr ""
+msgstr "DC1394"
 
 #: fitsviewer/bayerparameters.cpp:21
 #, kde-format
 msgctxt "@item:inlistbox Debayer engine"
 msgid "OpenCV"
-msgstr ""
+msgstr "OpenCV"
 
 #: fitsviewer/bayerparameters.cpp:25
 #, kde-format
 msgctxt "@item:inlistbox Debayer engine"
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: fitsviewer/bayerparameters.cpp:31
 #, kde-format
@@ -30371,30 +30371,33 @@ msgid ""
 "very reliable<br/><br/><b>OpenCV</b>: Experimental OpenCV-based debayer "
 "engine<br/>• Faster than libdc1394<br/>• Better edge handling"
 msgstr ""
+"<b>DC1394</b>：使用传统的 libdc1394 解拜耳引擎<br/>• 速度较慢但可靠性高<br/"
+"><br/><b>OpenCV</b>：基于 OpenCV 的实验性解拜耳引擎<br/>• 速度快于 "
+"libdc1394<br/>• 对图像边缘的处理效果更优"
 
 #: fitsviewer/bayerparameters.cpp:45
 #, kde-format
 msgctxt "@item:inlistbox OpenCV debayer algorithm"
 msgid "Bilinear"
-msgstr ""
+msgstr "双线性"
 
 #: fitsviewer/bayerparameters.cpp:47
 #, kde-format
 msgctxt "@item:inlistbox OpenCV debayer algorithm"
 msgid "VNG"
-msgstr ""
+msgstr "VNG"
 
 #: fitsviewer/bayerparameters.cpp:49
 #, kde-format
 msgctxt "@item:inlistbox OpenCV debayer algorithm"
 msgid "Edge-Aware"
-msgstr ""
+msgstr "边缘感知"
 
 #: fitsviewer/bayerparameters.cpp:53
 #, kde-format
 msgctxt "@item:inlistbox OpenCV debayer algorithm"
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: fitsviewer/bayerparameters.cpp:59
 #, kde-format
@@ -30405,48 +30408,51 @@ msgid ""
 "reconstruction<br/>• 8-bit images only<br/><br/><b>Edge-Aware</b>: Edge-"
 "aware interpolation<br/>• High quality and very fast"
 msgstr ""
+"<b>双线性</b>：简易双线性插值算法<br/>• 速度极快，边缘柔和<br/><br/><b>VNG</"
+"b>：可变梯度数值插值算法<br/>• 色彩还原效果更好<br/>• 仅支持 8 位深度图像<br/"
+"><br/><b>边缘感知</b>：边缘感知型插值算法<br/>• 画质优异且速度极快"
 
 #: fitsviewer/bayerparameters.cpp:74
 #, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "Nearest"
-msgstr ""
+msgstr "最近邻"
 
 #: fitsviewer/bayerparameters.cpp:76
 #, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "Simple"
-msgstr ""
+msgstr "简单"
 
 #: fitsviewer/bayerparameters.cpp:78
 #, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "Bilinear"
-msgstr ""
+msgstr "双线性"
 
 #: fitsviewer/bayerparameters.cpp:80
 #, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "HQ Linear"
-msgstr ""
+msgstr "HQ Linear"
 
 #: fitsviewer/bayerparameters.cpp:82
 #, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "Edge Sense"
-msgstr ""
+msgstr "边缘感知"
 
 #: fitsviewer/bayerparameters.cpp:84
 #, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "VNG"
-msgstr ""
+msgstr "VNG"
 
 #: fitsviewer/bayerparameters.cpp:88 fitsviewer/bayerparameters.cpp:201
 #, kde-format
 msgctxt "@item:inlistbox DC1394 debayer method"
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: fitsviewer/bayerparameters.cpp:94
 #, kde-format
@@ -30458,6 +30464,10 @@ msgid ""
 "><b>Edge Sense</b>: Preserves edges, high quality<br/><br/><b>VNG</b>: "
 "Highest quality, slowest"
 msgstr ""
+"<b>最近邻</b>：速度最快，画质最差<br/><br/><b>简易</b>基础差值算法，图像轻微"
+"平滑<br/><br/><b>双线性</b>速度与画质兼顾<br/><br/><b>HQ Linear</b>：画质更"
+"优，速度稍慢<br/><br/><b>边缘感知</b>保留图像边缘，画质出色<br/><br/><b>VNG</"
+"b>画质最佳，速度最慢"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, filterCombo)
 #: fitsviewer/bayerparameters.cpp:118 fitsviewer/fitsdebayer.ui:112
@@ -30688,12 +30698,12 @@ msgstr "只支持 8 和 16 位拜耳图像。"
 #: fitsviewer/fitsdata.cpp:6208 fitsviewer/fitsdata.cpp:6319
 #, kde-format
 msgid "Unknown bayer pattern %1"
-msgstr ""
+msgstr "未知拜耳模式 %1"
 
 #: fitsviewer/fitsdata.cpp:6232 fitsviewer/fitsdata.cpp:6258
 #, kde-format
 msgid "Unsupported bayer pattern %1"
-msgstr ""
+msgstr "不支持的拜耳模式 %1"
 
 #: fitsviewer/fitsdata.cpp:6266
 #, kde-format
@@ -30703,22 +30713,22 @@ msgstr "不支持的拜耳偏移 %1 %2。"
 #: fitsviewer/fitsdata.cpp:6277 fitsviewer/fitsdata.cpp:6330
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
-msgstr ""
+msgstr "无效的 dc1394 解拜耳参数。"
 
 #: fitsviewer/fitsdata.cpp:6288 fitsviewer/fitsdata.cpp:6341
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
-msgstr ""
+msgstr "无效的 OpenCV 解拜耳参数。"
 
 #: fitsviewer/fitsdata.cpp:6297 fitsviewer/fitsdata.cpp:6350
 #, kde-format
 msgid "Invalid debayer engine"
-msgstr ""
+msgstr "无效的解拜耳引擎"
 
 #: fitsviewer/fitsdata.cpp:6604
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
-msgstr ""
+msgstr "无效的 8 位解拜耳调用参数"
 
 #: fitsviewer/fitsdata.cpp:6620 fitsviewer/fitsdata.cpp:6666
 #: fitsviewer/fitsdata.cpp:6724 fitsviewer/fitsdata.cpp:6770
@@ -30739,7 +30749,7 @@ msgstr "解拜耳失败 (%1)"
 #: fitsviewer/fitsdata.cpp:6709
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
-msgstr ""
+msgstr "无效的 16 位解拜耳参数调用"
 
 #: fitsviewer/fitsdebayer.cpp:105
 #, kde-format
@@ -30786,19 +30796,19 @@ msgstr "就绪。"
 #: fitsviewer/fitsdebayer.ui:73 indi/recordingoptions.ui:253
 #, kde-format
 msgid "Engine:"
-msgstr ""
+msgstr "引擎："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, engineCombo)
 #: fitsviewer/fitsdebayer.ui:84
 #, kde-format
 msgid "dc1394"
-msgstr ""
+msgstr "dc1394"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, engineCombo)
 #: fitsviewer/fitsdebayer.ui:89
 #, kde-format
 msgid "openCV"
-msgstr ""
+msgstr "openCV"
 
 #. i18n: ectx: property (text), widget (QLabel, methodLabel)
 #. i18n: ectx: property (text), widget (QLabel, AlignMethodLabel)
@@ -31001,7 +31011,7 @@ msgstr "%1 校准失败"
 #, kde-format
 msgctxt "Stack monitor status"
 msgid "%1 Failed Correction"
-msgstr ""
+msgstr "%1 修正失败"
 
 #: fitsviewer/fitsstackmonitor.h:172
 #, kde-format
@@ -31315,12 +31325,14 @@ msgid ""
 "Correction\n"
 "Status"
 msgstr ""
+"修正\n"
+"状态"
 
 #: fitsviewer/fitsstackmonitor.h:326
 #, kde-format
 msgctxt "Tooltip for Correction Status column"
 msgid "Correction status"
-msgstr ""
+msgstr "修正状态"
 
 #: fitsviewer/fitsstackmonitor.h:330
 #, kde-format
@@ -31329,36 +31341,38 @@ msgid ""
 "Correction\n"
 "Time(s)"
 msgstr ""
+"修正\n"
+"时间 (秒)"
 
 #: fitsviewer/fitsstackmonitor.h:331
 #, kde-format
 msgctxt "Tooltip for Correction Time column"
 msgid "Time to correct"
-msgstr ""
+msgstr "修正时间"
 
 #: fitsviewer/fitsstackmonitor.h:335
 #, kde-format
 msgctxt "Column header"
 msgid "Hot Pix"
-msgstr ""
+msgstr "热像素"
 
 #: fitsviewer/fitsstackmonitor.h:336
 #, kde-format
 msgctxt "Tooltip for Hot Pix column"
 msgid "Number of hot pixels removed"
-msgstr ""
+msgstr "已删除热像素的数量"
 
 #: fitsviewer/fitsstackmonitor.h:340
 #, kde-format
 msgctxt "Column header"
 msgid "Cold Pix"
-msgstr ""
+msgstr "冷像素"
 
 #: fitsviewer/fitsstackmonitor.h:341
 #, kde-format
 msgctxt "Tooltip for Cold Pix column"
 msgid "Number of cold pixels removed"
-msgstr ""
+msgstr "已删除冷像素的数量"
 
 #: fitsviewer/fitsstackmonitor.h:346
 #, kde-format
@@ -33087,25 +33101,25 @@ msgstr "校准绿色光帧的主平场文件选择器"
 #: fitsviewer/livestacking.ui:2696
 #, kde-format
 msgid "<html><head/><body><p>Check to remove hot pixels.</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>勾选以移除热像素。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, HotPixels)
 #: fitsviewer/livestacking.ui:2699
 #, kde-format
 msgid "Remove Hot Pix"
-msgstr ""
+msgstr "移除热像素"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ColdPixels)
 #: fitsviewer/livestacking.ui:2709
 #, kde-format
 msgid "<html><head/><body><p>Check to remove cold pixels</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>勾选以移除冷像素。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ColdPixels)
 #: fitsviewer/livestacking.ui:2712
 #, kde-format
 msgid "Remove Cold Pix"
-msgstr ""
+msgstr "移除冷像素"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, CalibrationMinimized)
 #: fitsviewer/livestacking.ui:2725
@@ -39516,25 +39530,25 @@ msgstr "记录 Ekos 天文台模块的活动。"
 #: kstars.kcfg:1668
 #, kde-format
 msgid "Debayer engine to use on images."
-msgstr ""
+msgstr "用于图像的解拜耳引擎。"
 
 #. i18n: ectx: label, entry (ImageDebayerAlgo), group (General)
 #: kstars.kcfg:1672
 #, kde-format
 msgid "Debayer algo to use on images."
-msgstr ""
+msgstr "用于图像的解拜耳算法。"
 
 #. i18n: ectx: label, entry (StackDebayerEngine), group (General)
 #: kstars.kcfg:1676
 #, kde-format
 msgid "Debayer engine to use on live stack subs."
-msgstr ""
+msgstr "用于实时堆叠子图的解拜耳引擎。"
 
 #. i18n: ectx: label, entry (StackDebayerAlgo), group (General)
 #: kstars.kcfg:1680
 #, kde-format
 msgid "Debayer algo to use on live stack subs."
-msgstr ""
+msgstr "用于实时堆叠子图的解拜耳算法。"
 
 #. i18n: ectx: label, entry (FITSWindowGeometry), group (FITSViewer)
 #: kstars.kcfg:1686
@@ -39782,13 +39796,13 @@ msgstr "实时堆叠主平场"
 #: kstars.kcfg:1838
 #, kde-format
 msgid "Live Stacking remove hot pixels"
-msgstr ""
+msgstr "实时堆叠时移除热像素"
 
 #. i18n: ectx: whatsthis, entry (fitsLSColdPixels), group (FITSViewer)
 #: kstars.kcfg:1842
 #, kde-format
 msgid "Live Stacking remove cold pixels"
-msgstr ""
+msgstr "实时堆叠时移除冷像素"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1846
@@ -42114,13 +42128,13 @@ msgstr "复用校准数据时，过中天后翻转赤纬角度。"
 #: kstars.kcfg:3357
 #, kde-format
 msgid "Remove DEC backlash when calibrating guider."
-msgstr ""
+msgstr "导星校准时消除赤纬反向间隙。"
 
 #. i18n: ectx: label, entry (SerializedCalibration), group (Scheduler)
 #: kstars.kcfg:3361
 #, kde-format
 msgid "Last Calibration serialized."
-msgstr ""
+msgstr "上次校准已序列化。"
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
 #: kstars.kcfg:3364
@@ -42136,7 +42150,7 @@ msgstr "如果导星校准失败，在进行重新校准之前再次运行对齐
 msgid ""
 "Maximum number of hours before the next job is due to trigger a pre-emptive "
 "shutdown."
-msgstr ""
+msgstr "触发主动提前关机的下一项任务最长间隔时长 (小时)。"
 
 #. i18n: ectx: label, entry (RememberJobProgress), group (Scheduler)
 #: kstars.kcfg:3372
@@ -42144,7 +42158,7 @@ msgstr ""
 msgid ""
 "When processing a scheduled job, resume the sequence starting from the last "
 "image present in storage."
-msgstr ""
+msgstr "处理调度任务时，从储存的最后一张图像恢复序列。"
 
 #. i18n: ectx: label, entry (GreedyScheduling), group (Scheduler)
 #: kstars.kcfg:3376
@@ -72609,6 +72623,8 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
+"选择此项启用星图正立显示：赤道坐标系下北向上，地平坐标系下天顶向上，适用于正"
+"像寻星镜或目视观测。"
 
 #: kstarsinit.cpp:764
 #, kde-format
@@ -72619,6 +72635,8 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
+"选择此项启用星图倒立显示：赤道坐标系下北向下，地平坐标系下天顶向下，适用于倒"
+"像寻星镜、无正像棱镜的折射 / 卡塞格林望远镜或道布森望远镜。"
 
 #: kstarsinit.cpp:769
 #, kde-format
@@ -72635,12 +72653,14 @@ msgid ""
 "using Shift + Drag mouse action, to inform you that the orientation is "
 "arbitrary"
 msgstr ""
+"当你通过 Shift + 鼠标拖拽操作手动旋转星图时，系统会自动选中此模式，以提示当前"
+"星图方位为任意状态。"
 
 #: kstarsinit.cpp:780
 #, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
-msgstr ""
+msgstr "无修正"
 
 #: kstarsinit.cpp:784
 #, kde-format
@@ -72648,7 +72668,7 @@ msgctxt "Orientation of the sky map"
 msgid ""
 "Select this if you are using a camera on the telescope, or have the sky map "
 "display mounted on your telescope"
-msgstr ""
+msgstr "若望远镜搭载相机或星图显示器安装于望远镜，选择此项"
 
 #: kstarsinit.cpp:790
 #, kde-format
@@ -72656,7 +72676,7 @@ msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
 "telescope"
 msgid "Erect observer correction, left-handed"
-msgstr ""
+msgstr "正立观察者校正 (左旋)"
 
 #: kstarsinit.cpp:794
 #, kde-format
@@ -72669,6 +72689,10 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
+"当你使用道布森望远镜进行目视观测，且仰望镜筒时调焦座位于左侧，请选择此选项。"
+"该功能将校正星图的方位，以适配观测者在望远镜上下移动过程中始终保持正立的观测"
+"状态，这与随望远镜同步旋转的相机成像逻辑不同。此选项通常建议与天顶向下方位模"
+"式搭配使用。"
 
 #: kstarsinit.cpp:800
 #, kde-format
@@ -72676,7 +72700,7 @@ msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
 "telescope"
 msgid "Erect observer correction, right-handed"
-msgstr ""
+msgstr "正立观察者校正 (右旋)"
 
 #: kstarsinit.cpp:804
 #, kde-format
@@ -72689,6 +72713,10 @@ msgid ""
 "a camera which would rotate with the telescope. Typically makes sense to "
 "combine this with Zenith Down orientation."
 msgstr ""
+"当你使用道布森望远镜进行目视观测，且仰望镜筒时调焦座位于右侧，请选择此选项。"
+"该功能将校正星图的方位，以适配观测者在望远镜上下移动过程中始终保持正立的观测"
+"状态，这与随望远镜同步旋转的相机成像逻辑不同。此选项通常建议与天顶向下方位模"
+"式搭配使用。"
 
 #: kstarsinit.cpp:828
 #, kde-format
@@ -72811,7 +72839,7 @@ msgstr "照明"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:163
 #, kde-kuit-format
 msgid "Perihelion"
-msgstr ""
+msgstr "近日点"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:168
 #, kde-kuit-format
@@ -72831,7 +72859,7 @@ msgstr "旋转周期"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:188
 #, kde-kuit-format
 msgid "EarthMOID"
-msgstr ""
+msgstr "地球平均轨道交会距离 (EarthMOID)"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:193
 #, kde-kuit-format
@@ -72841,7 +72869,7 @@ msgstr "轨道类别"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:198
 #, kde-kuit-format
 msgid "Albedo"
-msgstr ""
+msgstr "反照率"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:203
 #, kde-kuit-format
@@ -72931,12 +72959,12 @@ msgstr "在互联网中搜索"
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:13
 #, kde-kuit-format
 msgid "%1 - Edit Link"
-msgstr ""
+msgstr "%1 - 编辑链接"
 
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:13
 #, kde-kuit-format
 msgid "%1 - Add a Link"
-msgstr ""
+msgstr "%1 - 添加链接"
 
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:77
 #, kde-kuit-format
@@ -73448,7 +73476,7 @@ msgstr "0 天"
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:186
 #, kde-format
 msgid "1 sid day"
-msgstr ""
+msgstr "1 恒星日"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:187
 #, kde-format
@@ -73603,12 +73631,12 @@ msgstr "无月夜"
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:34
 #, kde-kuit-format
 msgid "Lambert (Default)"
-msgstr ""
+msgstr "郎伯光照模型 (Default)"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:35
 #, kde-kuit-format
 msgid "Azimuthal Equidistant"
-msgstr ""
+msgstr "方位等距投影"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:36
 #, kde-kuit-format
@@ -73623,7 +73651,7 @@ msgstr "等量投影"
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:38
 #, kde-kuit-format
 msgid "Stereographic"
-msgstr ""
+msgstr "球极平面投影"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:39
 #, kde-kuit-format
@@ -73737,7 +73765,7 @@ msgstr "KStars Lite 是一个免费的，用于移动设备，开放源码跨平
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:51
 #, kde-kuit-format
 msgid "A quick tutorial will introduce you to main functions of KStars Lite"
-msgstr ""
+msgstr "一个快速教程将向您介绍 KStars Lite 的主要功能"
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:66
 #, kde-kuit-format
@@ -73747,19 +73775,19 @@ msgstr "开始教程"
 #: kstarslite/qml/modules/tutorial/TutorialStep1.qml:35
 #, kde-kuit-format
 msgid "Global Drawer"
-msgstr ""
+msgstr "全局功能面板"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep1.qml:36
 #, kde-kuit-format
 msgid ""
 "By swiping from left to right on any page of KStars Lite you can access "
 "global drawer"
-msgstr ""
+msgstr "在 KStars Lite 的任何页面上从左向右滑动，您都可以访问全局功能面板"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep2.qml:28
 #, kde-kuit-format
 msgid "Context Drawer"
-msgstr ""
+msgstr "上下文面板"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep2.qml:29
 #, kde-kuit-format
@@ -73767,6 +73795,7 @@ msgid ""
 "By swiping from right to left you can access context drawer with functions "
 "related to Sky Map. This menu is available only on Sky Map."
 msgstr ""
+"通过从右到左滑动，您可以访问与星图相关功能的上下文面板。此菜单仅在星图可用。"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep3.qml:30
 #, kde-kuit-format
@@ -73778,7 +73807,7 @@ msgstr "顶部菜单"
 msgid ""
 "By tapping on this arrow you can access top menu from which you can control "
 "visibility of different sky objects"
-msgstr ""
+msgstr "点击此箭头即可访问顶部菜单，您可以从中控制不同天体的可见性"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep4.qml:25
 #, kde-kuit-format
@@ -73790,7 +73819,7 @@ msgstr "底部菜单"
 msgid ""
 "By tapping on this arrow you can access bottom menu from which you can set "
 "time and start time simulation"
-msgstr ""
+msgstr "点击此箭头即可访问底部菜单，您可以从底部菜单中设置时间和开始时间模拟"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep5.qml:18
 #, kde-kuit-format
@@ -73804,6 +73833,8 @@ msgid ""
 "almost over. The last step to do is to set your location (you can do that "
 "either manually or from GPS). Click next to proceed."
 msgstr ""
+"恭喜您在 KStars Lite 中的第一步。您的教程即将结束。最后一步是设置您的位置 (您"
+"可以手动设置，也可以从 GPS 设置)。点击下一步继续。"
 
 #: kstarslite/skyitems/horizonitem.cpp:22
 #: skycomponents/horizoncomponent.cpp:111
@@ -74514,7 +74545,7 @@ msgstr "断开"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Divisor"
-msgstr ""
+msgstr "除数"
 
 #: libindi_strings.cpp:116
 #, kde-kuit-format
@@ -74532,7 +74563,7 @@ msgstr "圆顶控制"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dome locks"
-msgstr ""
+msgstr "圆顶锁止机构"
 
 #: libindi_strings.cpp:119
 #, kde-kuit-format
@@ -74652,7 +74683,7 @@ msgstr "编码器"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "EQ PE"
-msgstr ""
+msgstr "赤道仪周期误差 (EQ PE)"
 
 #: libindi_strings.cpp:139
 #, kde-kuit-format
@@ -75210,7 +75241,7 @@ msgstr "导星相机"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guider Head Rapid Guide"
-msgstr ""
+msgstr "导星头快速导星"
 
 #: libindi_strings.cpp:234
 #, kde-kuit-format
@@ -75396,7 +75427,7 @@ msgstr "木星"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "LPR"
-msgstr ""
+msgstr "光污染抑制 (LPR)"
 
 #: libindi_strings.cpp:265
 #, kde-kuit-format
@@ -75630,13 +75661,13 @@ msgstr "移动控制"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Motion N/S"
-msgstr ""
+msgstr "南北方向运动"
 
 #: libindi_strings.cpp:304
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Motion W/E"
-msgstr ""
+msgstr "东西方向运动"
 
 #: libindi_strings.cpp:305
 #, kde-kuit-format
@@ -75654,7 +75685,7 @@ msgstr "电机步数"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Motor steps per tick"
-msgstr ""
+msgstr "电机每脉冲步数"
 
 #: libindi_strings.cpp:308
 #, kde-kuit-format
@@ -75678,7 +75709,7 @@ msgstr "挂接"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Move to rate"
-msgstr ""
+msgstr "移动速率"
 
 #: libindi_strings.cpp:312
 #, kde-kuit-format
@@ -77022,19 +77053,19 @@ msgstr "Y"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "app. to refracted"
-msgstr ""
+msgstr "视位置至折射修正位置"
 
 #: libindi_strings.cpp:536
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "app., refr., tel., observed"
-msgstr ""
+msgstr "视位置、折射修正位置、望远镜位置测量值"
 
 #: libindi_strings.cpp:537
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "app., refr., telescope"
-msgstr ""
+msgstr "视位置、折射修正位置、望远镜位置"
 
 #: libindi_strings.cpp:538
 #, kde-kuit-format
@@ -77261,12 +77292,12 @@ msgstr "Csaba Kertesz"
 #: main.cpp:174
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
-msgstr ""
+msgstr "双小行星列表，深空天体数据库和星表"
 
 #: main.cpp:175
 #, kde-format
 msgid "Artem Fedoskin"
-msgstr ""
+msgstr "Artem Fedoskin"
 
 #: main.cpp:175
 #, kde-format
@@ -77356,7 +77387,7 @@ msgstr "Valery Kharitonov"
 #: main.cpp:200
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
-msgstr ""
+msgstr "已将包含技术术语的界面标签全部转换为可跳转至对应说明文档的超链接"
 
 #: main.cpp:201
 #, kde-format
@@ -77396,7 +77427,7 @@ msgstr "Utkarsh Simha"
 #: main.cpp:208
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
-msgstr ""
+msgstr "完成对观测计划执行流程、逐星导览功能等模块的改进优化"
 
 #: main.cpp:209
 #, kde-format
@@ -77451,32 +77482,32 @@ msgstr "鱼骨板对焦助手"
 #: main.cpp:218
 #, kde-format
 msgid "Philipp Auersperg-Castell"
-msgstr ""
+msgstr "Philipp Auersperg-Castell"
 
 #: main.cpp:218
 #, kde-format
 msgid "Supernovae daily updates"
-msgstr ""
+msgstr "超新星数据每日更新"
 
 #: main.cpp:219
 #, kde-format
 msgid "Tony Schriber"
-msgstr ""
+msgstr "Tony Schriber"
 
 #: main.cpp:219
 #, kde-format
 msgid "Rotator Dialog improvements"
-msgstr ""
+msgstr "旋转器对话框优化"
 
 #: main.cpp:220
 #, kde-format
 msgid "Joseph McGee"
-msgstr ""
+msgstr "Joseph McGee"
 
 #: main.cpp:220
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
-msgstr ""
+msgstr "基于 Robin Glover 博士研究的子曝光计算器"
 
 #: main.cpp:230
 #, kde-format
@@ -77511,7 +77542,7 @@ msgstr "启动时暂停时钟。"
 #: main.cpp:236
 #, kde-format
 msgid "Run Live Stacker standalone mode"
-msgstr ""
+msgstr "运行实时堆叠器独立模式"
 
 #: main.cpp:239
 #, kde-format
@@ -77641,7 +77672,7 @@ msgstr "销售商："
 msgid ""
 "Official telescope focal length in millimeters without any reducers or "
 "barlows"
-msgstr ""
+msgstr "望远镜无加装减焦镜或巴洛镜时的官方标称焦距 (单位：毫米)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
@@ -79414,7 +79445,7 @@ msgstr ""
 msgid ""
 "Open overlay directory. Copy or move images to this directory to process "
 "them."
-msgstr ""
+msgstr "打开叠加目录。复制或移动图像到此目录以处理它们。"
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:156
@@ -79430,6 +79461,8 @@ msgid ""
 "have been added there, and remove overlays that are no longer there.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>从叠加目录刷新。添加的叠加层将被加入此目录，移除的叠加"
+"层将被不会在此目录</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:250
@@ -79450,19 +79483,30 @@ msgid ""
 "is OK, but you can manually change the status to something else, then plate-"
 "solving is enabled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>对选中的叠加图像执行板解操作。</p><p>使用右侧选中的校准"
+"配置文件，但不采用该配置文件中的校准比例尺与位置参数。若表格行的比例尺列无参"
+"数录入 (数值 0 代表无比例尺约束)，则会采用右侧默认的比例尺 (单位：角秒 / 像"
+"素)。仅当表格行中录入了赤经 (RA) 与赤纬 (DEC) 坐标信息时，才会调用位置参数进"
+"行计算。板解过程将沿用上方设置的超时时间。你可通过单击和 Shift + 单击的方式选"
+"中多行数据，软件会尝试对所有选中图像依次执行板解。</p><p>板解操作可能存在一定"
+"难度，你未必能成功完成所有图像的板解。可尝试手动补充比例尺与位置参数，或切换"
+"不同的校准配置文件重试。若板解失败但仍需显示图像，可在目标图像对应的表格行"
+"中，填写赤经、赤纬、比例尺及朝向参数，随后手动将该行的状态列标记为正常 (OK)。"
+"</p><p>对于状态列已标记为正常 (OK) 的表格行，无法再次执行板解操作；但你可手动"
+"将其状态修改为其他值，即可重新启用板解功能。</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:266
 #, kde-format
 msgid "Selects the Options Profile (from Align) to use for Plate Solving"
-msgstr ""
+msgstr "选择用于板解的选项配置文件 (源自校准模块)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editAlignProfile)
 #: options/opsimageoverlay.ui:288
 #, kde-format
 msgid ""
 "Opens the currently selected Align Profile in the Options Profile Editor"
-msgstr ""
+msgstr "在选项配置文件编辑器中打开当前选中的校准配置文件"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayScaleLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_ImageOverlayDefaultScale)
@@ -79471,7 +79515,7 @@ msgstr ""
 msgid ""
 "Default arcsec/px scale to use in solving. 0 is none. Would use what's in "
 "table if there."
-msgstr ""
+msgstr "板解默认角秒 / 像素比例尺，0 为无。若表格有值则优先使用。"
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:307

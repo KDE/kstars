@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-26 02:02+0000\n"
+"POT-Creation-Date: 2026-01-28 02:06+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -2112,7 +2112,7 @@ msgstr "ਸਥਿਤੀ"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:3487 ekos/auxiliary/buildfilteroffsets.cpp:153
-#: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
+#: ekos/auxiliary/darklibrary.cpp:47 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:25
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
@@ -4004,7 +4004,7 @@ msgstr "0.0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:993
-#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1057
+#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1099
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6675,7 +6675,7 @@ msgstr ""
 msgid "Refresh is complete."
 msgstr "%1 ਆਨਲਾਈਨ ਹੈ।"
 
-#: ekos/align/align.cpp:2707 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/align/align.cpp:2707 ekos/auxiliary/darklibrary.cpp:1455
 #: ekos/focus/focus.cpp:1716
 #, fuzzy, kde-format
 #| msgid "Capture Image"
@@ -12016,110 +12016,110 @@ msgstr "ਤਾਰੇ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 msgid "Adapt Focus"
 msgstr "ਤਕਨੀਕੀ"
 
-#: ekos/auxiliary/darklibrary.cpp:97
+#: ekos/auxiliary/darklibrary.cpp:98
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Failed to load %1: %2"
 msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 
-#: ekos/auxiliary/darklibrary.cpp:309
+#: ekos/auxiliary/darklibrary.cpp:337
 #, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %1 seconds exposure for more accurate results."
 msgstr ""
 
-#: ekos/auxiliary/darklibrary.cpp:319
+#: ekos/auxiliary/darklibrary.cpp:347
 #, kde-format
 msgid "Dark frame %s is expired. Please create new master dark."
 msgstr ""
 
-#: ekos/auxiliary/darklibrary.cpp:342
+#: ekos/auxiliary/darklibrary.cpp:370
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Removing bad dark frame file %1"
 msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 
-#: ekos/auxiliary/darklibrary.cpp:438
+#: ekos/auxiliary/darklibrary.cpp:480
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Failed to load defect map %1"
 msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 
-#: ekos/auxiliary/darklibrary.cpp:458
+#: ekos/auxiliary/darklibrary.cpp:500
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Failed to load defect map file %1"
 msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 
-#: ekos/auxiliary/darklibrary.cpp:478
+#: ekos/auxiliary/darklibrary.cpp:520
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Failed to load dark frame file %1"
 msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 
-#: ekos/auxiliary/darklibrary.cpp:539
+#: ekos/auxiliary/darklibrary.cpp:581
 #, fuzzy, kde-format
 #| msgid "Date, time and location: "
 msgid "Failed to process dark data."
 msgstr "ਮਿਤੀ, ਸਮਾਂ ਅਤੇ ਟਿਕਾਣਾ: "
 
-#: ekos/auxiliary/darklibrary.cpp:545
+#: ekos/auxiliary/darklibrary.cpp:587
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Failed to load dark data."
 msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 
-#: ekos/auxiliary/darklibrary.cpp:555
+#: ekos/auxiliary/darklibrary.cpp:597
 #, fuzzy, kde-format
 #| msgid "Received image %1 out of %2."
 msgid "Received %1/%2 images."
 msgstr "%2 ਵਿੱਚੋਂ %1 ਚਿੱਤਰ ਮਿਲਿਆ।"
 
-#: ekos/auxiliary/darklibrary.cpp:672
+#: ekos/auxiliary/darklibrary.cpp:714
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "ਕੀ ਤੁਸੀਂ %1 ਕਲਾਇਟ ਨੂੰ ਹਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: ekos/auxiliary/darklibrary.cpp:1213 ekos/focus/focusadvisor.cpp:658
+#: ekos/auxiliary/darklibrary.cpp:1255 ekos/focus/focusadvisor.cpp:658
 #: ekos/focus/focusadvisor.cpp:972 ekos/focus/focusadvisor.cpp:1269
 #, fuzzy, kde-format
 #| msgid "In progress"
 msgid "In progress..."
 msgstr "ਚਾਲੂ ਹੈ"
 
-#: ekos/auxiliary/darklibrary.cpp:1371
+#: ekos/auxiliary/darklibrary.cpp:1413
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to save master frame: %1"
 msgstr "ਫਾਇਲ਼ %1 ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ।"
 
-#: ekos/auxiliary/darklibrary.cpp:1392
+#: ekos/auxiliary/darklibrary.cpp:1434
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Master Dark saved to %1"
 msgstr "ਡਾਟਾ ਫਾਇਲ  %1 ਵਿੱਚ ਸੰਭਾਲੀ ਗਈ"
 
-#: ekos/auxiliary/darklibrary.cpp:1417
+#: ekos/auxiliary/darklibrary.cpp:1459
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture completed."
 msgstr "ਚਿੱਤਰ ਲਵੋ"
 
-#: ekos/auxiliary/darklibrary.cpp:1444
+#: ekos/auxiliary/darklibrary.cpp:1486
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Defect map saved to %1"
 msgstr "ਡਾਟਾ ਫਾਇਲ  %1 ਵਿੱਚ ਸੰਭਾਲੀ ਗਈ"
 
-#: ekos/auxiliary/darklibrary.cpp:1464
+#: ekos/auxiliary/darklibrary.cpp:1506
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to save defect map to %1"
 msgstr "ਫਾਇਲ਼ %1 ਨੂੰ ਖੋਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ ਹੈ।"
 
-#: ekos/auxiliary/darklibrary.cpp:1639
+#: ekos/auxiliary/darklibrary.cpp:1681
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr ""
@@ -12553,7 +12553,7 @@ msgstr "ਖੇਤਰ ਸਾਫ਼ ਕਰੋ(&C)"
 msgid "Double click to load dark frame"
 msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 
-#: ekos/auxiliary/darkprocessor.cpp:271 ekos/auxiliary/darkprocessor.cpp:279
+#: ekos/auxiliary/darkprocessor.cpp:278 ekos/auxiliary/darkprocessor.cpp:293
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -26377,18 +26377,18 @@ msgstr ""
 msgid "Drivers"
 msgstr "ਡਰਾਇਵਰ:"
 
-#: ekos/profileeditor.cpp:710
+#: ekos/profileeditor.cpp:740
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:711
+#: ekos/profileeditor.cpp:741
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr ""
 
-#: ekos/profileeditor.cpp:775
+#: ekos/profileeditor.cpp:805
 #, fuzzy, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "ਕੋਈ ਨਾ ਚੁਣੋ"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-26 02:02+0000\n"
+"POT-Creation-Date: 2026-01-28 02:06+0000\n"
 "PO-Revision-Date: 2025-03-30 23:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -2049,7 +2049,7 @@ msgstr "Statuso:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:3487 ekos/auxiliary/buildfilteroffsets.cpp:153
-#: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
+#: ekos/auxiliary/darklibrary.cpp:47 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:25
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
@@ -3887,7 +3887,7 @@ msgstr "0.0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:993
-#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1057
+#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1099
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6576,7 +6576,7 @@ msgstr "Nuna PA estas %1; Celo PA estas %2; diferenco: %3"
 msgid "Refresh is complete."
 msgstr "Refreŝigo estas kompleta."
 
-#: ekos/align/align.cpp:2707 ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/align/align.cpp:2707 ekos/auxiliary/darklibrary.cpp:1455
 #: ekos/focus/focus.cpp:1716
 #, kde-format
 msgid "Capture aborted."
@@ -12114,12 +12114,12 @@ msgstr ""
 msgid "Adapt Focus"
 msgstr "Adapti Fokuson"
 
-#: ekos/auxiliary/darklibrary.cpp:97
+#: ekos/auxiliary/darklibrary.cpp:98
 #, kde-format
 msgid "Failed to load %1: %2"
 msgstr "Malsukcesis ŝargi %1: %2"
 
-#: ekos/auxiliary/darklibrary.cpp:309
+#: ekos/auxiliary/darklibrary.cpp:337
 #, kde-format
 msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
@@ -12128,85 +12128,85 @@ msgstr ""
 "Uzante disponeblan malhelan kadron kun %1 sekunda ekspozicio. Bonvolu preni "
 "malhelan kadron kun %1 sekunda ekspozicio por pli precizaj rezultoj."
 
-#: ekos/auxiliary/darklibrary.cpp:319
+#: ekos/auxiliary/darklibrary.cpp:347
 #, kde-format
 msgid "Dark frame %s is expired. Please create new master dark."
 msgstr "Malhela kadro %s eksvalidiĝis. Bonvolu krei novan majstron mallumo."
 
-#: ekos/auxiliary/darklibrary.cpp:342
+#: ekos/auxiliary/darklibrary.cpp:370
 #, kde-format
 msgid "Removing bad dark frame file %1"
 msgstr "Forigante malbonan malhelan kadran dosieron %1"
 
-#: ekos/auxiliary/darklibrary.cpp:438
+#: ekos/auxiliary/darklibrary.cpp:480
 #, kde-format
 msgid "Failed to load defect map %1"
 msgstr "Malsukcesis ŝargi difektan mapon %1"
 
-#: ekos/auxiliary/darklibrary.cpp:458
+#: ekos/auxiliary/darklibrary.cpp:500
 #, kde-format
 msgid "Failed to load defect map file %1"
 msgstr "Malsukcesis ŝargi difektan mapdosieron %1"
 
-#: ekos/auxiliary/darklibrary.cpp:478
+#: ekos/auxiliary/darklibrary.cpp:520
 #, kde-format
 msgid "Failed to load dark frame file %1"
 msgstr "Malsukcesis ŝargi malhelan kadran dosieron %1"
 
-#: ekos/auxiliary/darklibrary.cpp:539
+#: ekos/auxiliary/darklibrary.cpp:581
 #, kde-format
 msgid "Failed to process dark data."
 msgstr "Malsukcesis prilabori malhelajn datumojn."
 
-#: ekos/auxiliary/darklibrary.cpp:545
+#: ekos/auxiliary/darklibrary.cpp:587
 #, kde-format
 msgid "Failed to load dark data."
 msgstr "Malsukcesis ŝargi malhelajn datumojn."
 
-#: ekos/auxiliary/darklibrary.cpp:555
+#: ekos/auxiliary/darklibrary.cpp:597
 #, kde-format
 msgid "Received %1/%2 images."
 msgstr "Ricevis %1/%2 bildoj."
 
-#: ekos/auxiliary/darklibrary.cpp:672
+#: ekos/auxiliary/darklibrary.cpp:714
 #, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr ""
 "Ĉu vi certas, ke vi volas forigi ĉiujn mallumajn kadrajn bildojn kaj "
 "datumojn?"
 
-#: ekos/auxiliary/darklibrary.cpp:1213 ekos/focus/focusadvisor.cpp:658
+#: ekos/auxiliary/darklibrary.cpp:1255 ekos/focus/focusadvisor.cpp:658
 #: ekos/focus/focusadvisor.cpp:972 ekos/focus/focusadvisor.cpp:1269
 #, kde-format
 msgid "In progress..."
 msgstr "En progreso..."
 
-#: ekos/auxiliary/darklibrary.cpp:1371
+#: ekos/auxiliary/darklibrary.cpp:1413
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Malsukcesis konservi majstran kadron: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1392
+#: ekos/auxiliary/darklibrary.cpp:1434
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "Majstro Mallumo konservita al %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1417
+#: ekos/auxiliary/darklibrary.cpp:1459
 #, kde-format
 msgid "Capture completed."
 msgstr "Kapto finiĝis."
 
-#: ekos/auxiliary/darklibrary.cpp:1444
+#: ekos/auxiliary/darklibrary.cpp:1486
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Difekta mapo konservita al %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1464
+#: ekos/auxiliary/darklibrary.cpp:1506
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Malsukcesis konservi difektan mapon al %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1639
+#: ekos/auxiliary/darklibrary.cpp:1681
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "Optika ilĉeno ne ekzistas por id %1"
@@ -12627,7 +12627,7 @@ msgstr "Clear Eksvalidiĝis"
 msgid "Double click to load dark frame"
 msgstr "Duoble alklaku por ŝargi malhelan kadron"
 
-#: ekos/auxiliary/darkprocessor.cpp:271 ekos/auxiliary/darkprocessor.cpp:279
+#: ekos/auxiliary/darkprocessor.cpp:278 ekos/auxiliary/darkprocessor.cpp:293
 #, kde-format
 msgid ""
 "No suitable dark frames or defect maps found. Please run the Dark Library "
@@ -26736,18 +26736,18 @@ msgstr "<nobr><b>Etikedo</b>: %1 ━ <b>Pelilo</b>: %2 ━ <b>Rulo</b>: %3<nobr/
 msgid "Drivers"
 msgstr "Peliloj:"
 
-#: ekos/profileeditor.cpp:710
+#: ekos/profileeditor.cpp:740
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Skananta Reton"
 
-#: ekos/profileeditor.cpp:711
+#: ekos/profileeditor.cpp:741
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Skananta reton por INDI-Retaj Administrantoj..."
 
-#: ekos/profileeditor.cpp:775
+#: ekos/profileeditor.cpp:805
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Trovis INDI-Retan Administranton ĉe %1"
