@@ -17,6 +17,7 @@
 #include "skycomponents/skymapcomposite.h"
 
 #include <QFileDialog>
+#include <QRegularExpression>
 #include <QStandardItemModel>
 
 #include <kstars_debug.h>
@@ -593,15 +594,15 @@ void HorizonManager::importHorizon()
             if (line.startsWith(CEILING_KEYWORD))
             {
                 isCeiling = true;
-                name = line.mid(strlen(CEILING_KEYWORD));
+                name = line.mid(strlen(CEILING_KEYWORD)).trimmed();
             }
             else if (line.startsWith(HORIZON_KEYWORD))
             {
-                name = line.mid(strlen(HORIZON_KEYWORD));
+                name = line.mid(strlen(HORIZON_KEYWORD)).trimmed();
             }
             else
             {
-                const QStringList columns = line.split(" ");
+                const QStringList columns = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
                 if (columns.size() != 2 || columns[0].isEmpty() || columns[1].isEmpty()) continue;
                 SkyPoint pt;
                 pt.setAz(dms::fromString(columns[0], true));
