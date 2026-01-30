@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-29 02:28+0000\n"
+"POT-Creation-Date: 2026-01-30 02:25+0000\n"
 "PO-Revision-Date: 2014-06-12 16:56+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -94505,69 +94505,69 @@ msgstr "Ännern sekern"
 msgid "Slew to the flag coordinates"
 msgstr "Dat Teleskoop na de Teelkoordinaten swojen"
 
-#: tools/horizonmanager.cpp:59 tools/horizonmanager.cpp:204
+#: tools/horizonmanager.cpp:60 tools/horizonmanager.cpp:205
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region is invalid."
 msgstr "Regina"
 
-#: tools/horizonmanager.cpp:62
+#: tools/horizonmanager.cpp:63
 #, fuzzy, kde-format
 #| msgid "Color of horizon line"
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr "Kimm-Klöör"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region"
 msgstr "Regina"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "Az"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
 msgstr "Hööchde"
 
-#: tools/horizonmanager.cpp:197
+#: tools/horizonmanager.cpp:198
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region is valid"
 msgstr "Regina"
 
-#: tools/horizonmanager.cpp:295
+#: tools/horizonmanager.cpp:296
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region %1"
 msgstr "Regina"
 
-#: tools/horizonmanager.cpp:386
+#: tools/horizonmanager.cpp:387
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 region is invalid."
 msgstr "%1 is tokoppelt."
 
-#: tools/horizonmanager.cpp:551
+#: tools/horizonmanager.cpp:552
 #, fuzzy, kde-format
 #| msgid "Color of horizon line"
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
 msgstr "Kimm-Klöör"
 
-#: tools/horizonmanager.cpp:667
+#: tools/horizonmanager.cpp:668
 #, fuzzy, kde-format
 #| msgid "Invalid file: %1"
 msgid "Invalid angle value: %1"

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-29 02:28+0000\n"
+"POT-Creation-Date: 2026-01-30 02:25+0000\n"
 "PO-Revision-Date: 2024-07-27 13:28+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -88389,69 +88389,69 @@ msgstr "儲存變更"
 msgid "Slew to the flag coordinates"
 msgstr "旋轉到旗標座標"
 
-#: tools/horizonmanager.cpp:59 tools/horizonmanager.cpp:204
+#: tools/horizonmanager.cpp:60 tools/horizonmanager.cpp:205
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region is invalid."
 msgstr "Regina（勒吉那）"
 
-#: tools/horizonmanager.cpp:62
+#: tools/horizonmanager.cpp:63
 #, fuzzy, kde-format
 #| msgid "Artificial Horizon"
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr "人造地平線"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region"
 msgstr "Regina（勒吉那）"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "方位"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
 msgstr "高度"
 
-#: tools/horizonmanager.cpp:197
+#: tools/horizonmanager.cpp:198
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region is valid"
 msgstr "Regina（勒吉那）"
 
-#: tools/horizonmanager.cpp:295
+#: tools/horizonmanager.cpp:296
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region %1"
 msgstr "Regina（勒吉那）"
 
-#: tools/horizonmanager.cpp:386
+#: tools/horizonmanager.cpp:387
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 region is invalid."
 msgstr "%1 已上線。"
 
-#: tools/horizonmanager.cpp:551
+#: tools/horizonmanager.cpp:552
 #, fuzzy, kde-format
 #| msgid "Artificial Horizon"
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
 msgstr "人造地平線"
 
-#: tools/horizonmanager.cpp:667
+#: tools/horizonmanager.cpp:668
 #, fuzzy, kde-format
 #| msgid "Invalid file: %1"
 msgid "Invalid angle value: %1"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-29 02:28+0000\n"
+"POT-Creation-Date: 2026-01-30 02:25+0000\n"
 "PO-Revision-Date: 2026-01-22 11:22+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -86942,58 +86942,58 @@ msgstr "Guardar cambios"
 msgid "Slew to the flag coordinates"
 msgstr "Mover hasta las coordenadas indicadas"
 
-#: tools/horizonmanager.cpp:59 tools/horizonmanager.cpp:204
+#: tools/horizonmanager.cpp:60 tools/horizonmanager.cpp:205
 #, kde-format
 msgid "Region is invalid."
 msgstr "La zona no es válida."
 
-#: tools/horizonmanager.cpp:62
+#: tools/horizonmanager.cpp:63
 #, kde-format
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr "Gestor del horizonte artificial"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #, kde-format
 msgid "Region"
 msgstr "Zona"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "Ac"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
 msgstr "Alt"
 
-#: tools/horizonmanager.cpp:197
+#: tools/horizonmanager.cpp:198
 #, kde-format
 msgid "Region is valid"
 msgstr "La zona es válida"
 
-#: tools/horizonmanager.cpp:295
+#: tools/horizonmanager.cpp:296
 #, kde-format
 msgid "Region %1"
 msgstr "Zona %1"
 
-#: tools/horizonmanager.cpp:386
+#: tools/horizonmanager.cpp:387
 #, kde-format
 msgid "%1 region is invalid."
 msgstr "La zona %1 no es válida."
 
-#: tools/horizonmanager.cpp:551
+#: tools/horizonmanager.cpp:552
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
 msgstr "Guardar horizonte artificial"
 
-#: tools/horizonmanager.cpp:667
+#: tools/horizonmanager.cpp:668
 #, kde-format
 msgid "Invalid angle value: %1"
 msgstr "Valor de ángulo no válido: %1"

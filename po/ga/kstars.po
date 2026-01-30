@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu/kstars.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-29 02:28+0000\n"
+"POT-Creation-Date: 2026-01-30 02:25+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -92856,69 +92856,69 @@ msgstr "Sábháil na hathruithe"
 msgid "Slew to the flag coordinates"
 msgstr "Roghnaigh Comhordanáidí Ionchurtha"
 
-#: tools/horizonmanager.cpp:59 tools/horizonmanager.cpp:204
+#: tools/horizonmanager.cpp:60 tools/horizonmanager.cpp:205
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region is invalid."
 msgstr "Regina"
 
-#: tools/horizonmanager.cpp:62
+#: tools/horizonmanager.cpp:63
 #, fuzzy, kde-format
 #| msgid "Color of horizon line"
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr "Dath na léaslíne"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region"
 msgstr "Regina"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "As"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
 msgstr "Ard"
 
-#: tools/horizonmanager.cpp:197
+#: tools/horizonmanager.cpp:198
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region is valid"
 msgstr "Regina"
 
-#: tools/horizonmanager.cpp:295
+#: tools/horizonmanager.cpp:296
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region %1"
 msgstr "Regina"
 
-#: tools/horizonmanager.cpp:386
+#: tools/horizonmanager.cpp:387
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 region is invalid."
 msgstr "Tá %1 ar líne."
 
-#: tools/horizonmanager.cpp:551
+#: tools/horizonmanager.cpp:552
 #, fuzzy, kde-format
 #| msgid "Color of horizon line"
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
 msgstr "Dath na léaslíne"
 
-#: tools/horizonmanager.cpp:667
+#: tools/horizonmanager.cpp:668
 #, fuzzy, kde-format
 #| msgid "Invalid file: %1"
 msgid "Invalid angle value: %1"

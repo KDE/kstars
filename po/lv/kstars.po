@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-29 02:28+0000\n"
+"POT-Creation-Date: 2026-01-30 02:25+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -89687,64 +89687,64 @@ msgstr "Saglabāt izmaiņas"
 msgid "Slew to the flag coordinates"
 msgstr "Neizdevās parsēt koordinātes."
 
-#: tools/horizonmanager.cpp:59 tools/horizonmanager.cpp:204
+#: tools/horizonmanager.cpp:60 tools/horizonmanager.cpp:205
 #, fuzzy, kde-format
 #| msgid "Begin:"
 msgid "Region is invalid."
 msgstr "Sākums:"
 
-#: tools/horizonmanager.cpp:62
+#: tools/horizonmanager.cpp:63
 #, kde-format
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr ""
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #, fuzzy, kde-format
 #| msgid "Begin:"
 msgid "Region"
 msgstr "Sākums:"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "Azim"
 
-#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
+#: tools/horizonmanager.cpp:80 tools/horizonmanager.cpp:483
 #: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
 msgstr "Augst"
 
-#: tools/horizonmanager.cpp:197
+#: tools/horizonmanager.cpp:198
 #, fuzzy, kde-format
 #| msgid "Begin:"
 msgid "Region is valid"
 msgstr "Sākums:"
 
-#: tools/horizonmanager.cpp:295
+#: tools/horizonmanager.cpp:296
 #, fuzzy, kde-format
 #| msgid "Begin:"
 msgid "Region %1"
 msgstr "Sākums:"
 
-#: tools/horizonmanager.cpp:386
+#: tools/horizonmanager.cpp:387
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 region is invalid."
 msgstr "%1 ir tiešsaistē."
 
-#: tools/horizonmanager.cpp:551
+#: tools/horizonmanager.cpp:552
 #, fuzzy, kde-format
 #| msgid "Creating horizon"
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
 msgstr "Izveido horizontu"
 
-#: tools/horizonmanager.cpp:667
+#: tools/horizonmanager.cpp:668
 #, fuzzy, kde-format
 #| msgid "Invalid file: %1"
 msgid "Invalid angle value: %1"
