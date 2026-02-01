@@ -12,19 +12,20 @@
 # Julia Dronova <juliette.tux@gmail.com>, 2012.
 # Yuri Efremov <yur.arh@gmail.com>, 2013.
 # Alexander Lakhin <exclusion@gmail.com>, 2013.
+# SPDX-FileCopyrightText: 2026 Alexander Yavorskiy <kekcuha@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-30 02:25+0000\n"
-"PO-Revision-Date: 2019-10-15 11:11+0300\n"
-"Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
+"PO-Revision-Date: 2026-01-31 19:34+0200\n"
+"Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.07.70\n"
+"X-Generator: Lokalize 25.12.1\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -132,11 +133,9 @@ msgid "Horizon"
 msgstr "Горизонт"
 
 #: auxiliary/colorscheme.cpp:46
-#, fuzzy, kde-format
-#| msgctxt "City in Mississippi USA"
-#| msgid "Meridian"
+#, kde-format
 msgid "Local Meridian"
-msgstr "Меридиан"
+msgstr "Локальный меридиан"
 
 #: auxiliary/colorscheme.cpp:47
 #, kde-format
@@ -241,7 +240,7 @@ msgstr "Астероиды"
 #: skycomponents/artificialhorizoncomponent.cpp:142
 #, kde-format
 msgid "Artificial Horizon"
-msgstr ""
+msgstr "Искусственный горизонт"
 
 #: auxiliary/colorscheme.cpp:65
 #, kde-format
@@ -259,10 +258,9 @@ msgid "Solver FOV"
 msgstr "Поле зрения решателя"
 
 #: auxiliary/colorscheme.cpp:68
-#, fuzzy, kde-format
-#| msgid "Solver FOV"
+#, kde-format
 msgid "Sensor FOV"
-msgstr "Поле зрения решателя"
+msgstr "Поле зрения датчика"
 
 #: auxiliary/colorscheme.cpp:69
 #, kde-format
@@ -955,11 +953,10 @@ msgid "Crop region will be scaled to [ %1 * %2 ]"
 msgstr "Фрагмент будет приведён к размеру [%1 * %2]"
 
 #: auxiliary/thumbnaileditor.cpp:39
-#, fuzzy, kde-format
-#| msgid "Edit Thumbnail Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Edit Thumbnail Image"
-msgstr "Изменить миниатюру"
+msgstr "Редактирование миниатюры"
 
 #: auxiliary/thumbnaileditor.cpp:72
 #, kde-format
@@ -78203,53 +78200,45 @@ msgid "Please, wait while we are retrieving location name"
 msgstr "Дождитесь переиндексации звёзд..."
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:247
-#, fuzzy, kde-kuit-format
-#| msgid "City:"
+#, kde-kuit-format
 msgid "City: "
-msgstr "Город:"
+msgstr "Город: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:260
-#, fuzzy, kde-kuit-format
-#| msgid "Province:"
+#, kde-kuit-format
 msgid "Province: "
-msgstr "Регион:"
+msgstr "Регион: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:273
-#, fuzzy, kde-kuit-format
-#| msgid "Country:"
+#, kde-kuit-format
 msgid "Country: "
-msgstr "Страна:"
+msgstr "Страна: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:294
-#, fuzzy, kde-kuit-format
-#| msgid "Latitude:"
+#, kde-kuit-format
 msgid "Latitude: "
-msgstr "Широта:"
+msgstr "Широта: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:307
-#, fuzzy, kde-kuit-format
-#| msgid "Longitude:"
+#, kde-kuit-format
 msgid "Longitude: "
-msgstr "Долгота:"
+msgstr "Долгота: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:323
-#, fuzzy, kde-kuit-format
-#| msgid "UT offset:"
+#, kde-kuit-format
 msgid "UT offset: "
-msgstr "Часовой пояс:"
+msgstr "Часовой пояс: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:334
-#, fuzzy, kde-kuit-format
-#| msgid "DST rule:"
+#, kde-kuit-format
 msgid "DST rule: "
-msgstr "Переход на летнее время:"
+msgstr "Переход на летнее время: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:352
 #: kstarslite/qml/dialogs/LocationDialog.qml:139
-#, fuzzy, kde-kuit-format
-#| msgid "from: "
+#, kde-kuit-format
 msgid "Set from GPS"
-msgstr "из: "
+msgstr "Получить от GPS"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:378
 #, fuzzy, kde-kuit-format
@@ -78300,28 +78289,24 @@ msgid "Added new location - %1"
 msgstr "установить местонахождение"
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:423
-#, fuzzy, kde-kuit-format
-#| msgid "Failed to set binning."
+#, kde-kuit-format
 msgid "Failed to edit city"
-msgstr "Не удалось установить биннинг."
+msgstr "Не удалось изменить город"
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:14
-#, fuzzy, kde-kuit-format
-#| msgid "set location"
+#, kde-kuit-format
 msgid "Set Geolocation"
-msgstr "установить местонахождение"
+msgstr "Установить местонахождение"
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:39
-#, fuzzy, kde-kuit-format
-#| msgid "Set Location..."
+#, kde-kuit-format
 msgid "Current Location: "
-msgstr "Местонахождение..."
+msgstr "Текущее местоположение: "
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:63
-#, fuzzy, kde-kuit-format
-#| msgid "City filter:"
+#, kde-kuit-format
 msgid "City filter: "
-msgstr "Фильтр городов:"
+msgstr "Фильтр городов: "
 
 #: kstarslite/qml/dialogs/LocationDialog.qml:78
 #, fuzzy, kde-kuit-format
