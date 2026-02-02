@@ -4,6 +4,70 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.8.1
+
+1b45a3486 2026-01-29 Jasem Mutlaq         Make artficial horizon importer more permissive with spaces in files.
+739157d48 2026-01-28 Jasem Mutlaq         Fix issue with completed jobs marked as aborted
+14291f169 2026-01-28 Jasem Mutlaq         Set up wakeup timer for preemptive shutdown
+cbf392079 2026-01-27 Jasem Mutlaq         Add diagnostic logging if dark frame cannot be found.
+7d6d11c7a 2026-01-27 Jasem Mutlaq         Account for different drivers format to be backward compatible
+f5d696d26 2026-01-25 John Evans           Add new debayer functionality to streamwg / videowg
+72e57a657 2026-01-25 John Evans           Bug fix 515021 in focusFilterStars
+5989f2f5e 2026-01-24 Wolfgang Reissenberger Fixing issues with test cases caused by UI changes
+2885560d8 2026-01-22 John Evans           Live Stacking Debayering Bug for Touptek camera
+19cc43856 2026-01-22 Jasem Mutlaq         Add more logging to post meridian flip actions to know why an action was skipped
+7b05cd2c7 2026-01-22 Jasem Mutlaq         remove spammy logging
+d8f0e2e3e 2026-01-21 John Evans           Added hot/cold pixel removal to Live Stacker
+806a15140 2026-01-21 Jasem Mutlaq         Add more debug logging
+9757aae0d 2026-01-20 John Evans           Bayer Refactor
+3bbf3d431 2026-01-20 Jasem Mutlaq         Update to Windows 610
+1beac1042 2026-01-18 Jasem Mutlaq         Also add the web manager error an alert event
+5624bfea3 2026-01-18 Jasem Mutlaq         Use more resiliant method to check if INDI web manager is online and fail gracefully instead of assuming we have a running server.
+cdb1421c9 2026-01-15 Jasem Mutlaq         Fix scheduler startup state reset after preemptive shutdown. When a job finishes for the night due to constraints and triggers soft shutdown, ensure..
+836e5971f 2026-01-15 Jasem Mutlaq         Add filtering option and sort the HIPS entries. Also allow for partial (not all sky) surveys in the list.
+c5b223583 2026-01-13 Jasem Mutlaq         In case rotator times out or has an error, abort alignment instead of waiting indefinitely.
+90bb47656 2026-01-13 Jasem Mutlaq         Fix ADU based flat frames, use a signature that can match the runtime generated exposure time.
+adc17c07b 2026-01-11 Jasem Mutlaq         Use explicit programatic functions to install and remove index files
+be191c8d8 2026-01-11 Wolfgang Reissenberger Bugfix if built without xisf library
+917e2f702 2026-01-10 Robert Lancaster     Some new macOS versions don't have the LaunchAgents folder by default
+d3c0f47b3 2026-01-10 Wolfgang Reissenberger Bugfix filter change check
+0f6e9c343 2026-01-10 Wolfgang Reissenberger Formatting corrected due to current formatting rules
+9c86e9141 2026-01-10 Jasem Mutlaq         Only forward regular messages, skip all debug and extra
+d49dbffe6 2026-01-09 Robert Lancaster     Small Fix for Data directory installation on MacOS
+b9bab369d 2026-01-07 Jasem Mutlaq         Fix wcslib location
+74c9ba328 2026-01-07 John Evans           Live Stacker Bug Fixes 3
+83a54b18d 2026-01-07 John Evans           Added debayering for XISF files
+01e6d9584 2026-01-07 John Evans           Live Stacker: Added support for XISF files
+c1185b133 2025-12-21 Andreas Sturmlechner CMake: Drop obsolete silencing of warnings
+fd1e73918 2026-01-05 Milhan Kim           nitpik: Fix parser handling of empty lines
+a6d376010 2026-01-05 Wolfgang Reissenberger Test cases adapted for new profile editor
+6f343c854 2026-01-05 Wolfgang Reissenberger Bugfix for OpenSuSE build
+617e284de 2026-01-05 Milhan Kim           Artistic change: add `astyle` tooling, apply linting, ignore this change from git blame.
+c0ae063cb 2026-01-02 Milhan Kim           Add astyle formatting check
+f5634e359 2026-01-02 Jasem Mutlaq         Improve template manager loading and saving. When double-clicking on an item, edit it.
+b56c70332 2025-12-31 Jasem Mutlaq         Fix condition where stopEkosAfterShutdown is not used.
+f044e3bd4 2025-12-31 Jasem Mutlaq         Fix state machine transition when scheduler is executed again
+b4d34fcab 2025-12-30 Jasem Mutlaq         Fix comet calculations for hyperbolic orbits. This should fix wrong position for comet 3I/ATLAS
+97608afa5 2025-12-26 Wolfgang Reissenberger Bug fix for filter offsets and multi camera
+42f5e6a29 2025-12-22 Jasem Mutlaq         Add processIndexFile instead of relying on purely UI actions to install or remove indexes.
+0cbba5c67 2025-12-17 Jasem Mutlaq         Invalidate capture operations timer when in meridian flip so that it does not time out afterwards
+3ffcbbb70 2025-12-17 Jasem Mutlaq         Fix new compile issue on MacOS.
+b78d2ceed 2025-12-14 Paul Brown           Removed list of supporters, as we now have a less annoying way of showing them on the apps website.
+33a48adff 2025-12-08 Paul Brown           Adding Emily Domingues  to list of supporters
+5ab4aa0f5 2025-12-05 Jasem Mutlaq         Further improve weather scheduling by continuing to monitor safety monotor even after complete shutdown. This requires a standealone safety monitor ..
+6ffb0fc69 2025-12-05 Jasem Mutlaq         Extend maximum values to give more flexibility
+dbdfedc80 2025-12-04 Jasem Mutlaq         Fix issue where custom templates are not deleted
+061d387ba 2025-12-04 Jasem Mutlaq         Fix issue with weather based scheduling so that it can aborts and resumes job correctly in the soft shutdown mode.
+539d3ab26 2025-12-04 Jasem Mutlaq         Protect against crash due to index
+9f1e382fa 2025-12-04 Jasem Mutlaq         Only disconnect devices we directly manage
+3d10e7bd5 2025-12-04 Jasem Mutlaq         Fix build issue on GCC 15.
+7595b73d6 2025-12-03 Jasem Mutlaq         KStars v3.8.1 Development Cycle
+0cdf6392a 2025-12-02 Paul Brown           Adding @kaibojens@gruene.social to list of supporters
+f5568d6c0 2025-12-02 Jasem Mutlaq         Fix compile error on Windows MSVC
+900f0408b 2025-12-02 Jasem Mutlaq         Fix the remainder of the struct fixes
+f3ef85a8f 2025-12-02 Jasem Mutlaq         Make it compile on MSVC
+044293f87 2025-11-30 Daniel Kauser        The string "Open" in ekos/observatory/observatory.cpp:416 was used to indicate the state of a roll-off roof (i.e. "roof is open"), but the same stri..
+
 3.8.0
 
 b6c2a8b73 2025-11-29 Jasem Mutlaq         Fix the root cause of remote-disconnect crashes in flatpaks.
