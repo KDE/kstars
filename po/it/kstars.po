@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-30 02:25+0000\n"
-"PO-Revision-Date: 2026-01-22 23:20+0100\n"
+"PO-Revision-Date: 2026-01-28 22:50+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -32038,6 +32038,10 @@ msgid ""
 "very reliable<br/><br/><b>OpenCV</b>: Experimental OpenCV-based debayer "
 "engine<br/>• Faster than libdc1394<br/>• Better edge handling"
 msgstr ""
+"<b>DC1394</b>: usa il motore di debayerizzazione libdc1394 obsoleto<br/>• "
+"Più lento ma molto affidabile<br/><br/><b>OpenCV</b>: motore di "
+"debayerizzazione sperimentale basato su OpenCV<br/>• Più veloce di "
+"libdc1394<br/>• Migliore gestione dei bordi"
 
 #: fitsviewer/bayerparameters.cpp:45
 #, kde-format
@@ -32072,6 +32076,11 @@ msgid ""
 "reconstruction<br/>• 8-bit images only<br/><br/><b>Edge-Aware</b>: Edge-"
 "aware interpolation<br/>• High quality and very fast"
 msgstr ""
+"<b>Bilineare</b>: interpolazione bilineare semplice<br/>• Molto veloce, "
+"bordi smussati<br/><br/><b>VNG</b>: numero variabile di sfumature (Variable "
+"Number of Gradients)<br/>• Ricostruzione dei colori migliorata<br/>• "
+"Soltanto immagini a 8 bit<br/><br/><b>Edge-Aware</b>: interpolazione Edge-"
+"aware<br/>• Alta qualità e molto veloce"
 
 #: fitsviewer/bayerparameters.cpp:74
 #, kde-format
@@ -32125,6 +32134,12 @@ msgid ""
 "><b>Edge Sense</b>: Preserves edges, high quality<br/><br/><b>VNG</b>: "
 "Highest quality, slowest"
 msgstr ""
+"<b>Più vicino</b>: metodo più veloce, qualità inferiore<br/><br/"
+"><b>Semplice</b>: interpolazione di base, smussatura leggera<br/><br/"
+"><b>Bilineare</b>: buon bilanciamento tra velocità e qualità<br/><br/"
+"><b>Lineare HQ</b>: qualità più elevata, più lento<br/><br/><b>Edge Sense</"
+"b>: mantiene i bordi, alta qualità<br/><br/><b>VNG</b>: qualità superiore, "
+"più lento"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, filterCombo)
 #: fitsviewer/bayerparameters.cpp:118 fitsviewer/fitsdebayer.ui:112
@@ -32355,16 +32370,14 @@ msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Sono gestite solo immagini bayer a 8 o 16 bit."
 
 #: fitsviewer/fitsdata.cpp:6208 fitsviewer/fitsdata.cpp:6319
-#, fuzzy, kde-format
-#| msgid "Unsupported bayer pattern %1."
+#, kde-format
 msgid "Unknown bayer pattern %1"
-msgstr "Schema Bayer %1 non supportato."
+msgstr "Schema Bayer %1 sconosciuto"
 
 #: fitsviewer/fitsdata.cpp:6232 fitsviewer/fitsdata.cpp:6258
-#, fuzzy, kde-format
-#| msgid "Unsupported bayer pattern %1."
+#, kde-format
 msgid "Unsupported bayer pattern %1"
-msgstr "Schema Bayer %1 non supportato."
+msgstr "Schema Bayer %1 non supportato"
 
 #: fitsviewer/fitsdata.cpp:6266
 #, kde-format
@@ -32372,27 +32385,24 @@ msgid "Unsupported bayer offsets %1 %2."
 msgstr "Scostamenti Bayer non supportati %1 %2."
 
 #: fitsviewer/fitsdata.cpp:6277 fitsviewer/fitsdata.cpp:6330
-#, fuzzy, kde-format
-#| msgid "Invalid Parameters"
+#, kde-format
 msgid "Invalid dc1394 debayer parameters."
-msgstr "Parametri non validi"
+msgstr "Parametri di debayerizzazione dc1394 non validi."
 
 #: fitsviewer/fitsdata.cpp:6288 fitsviewer/fitsdata.cpp:6341
-#, fuzzy, kde-format
-#| msgid "Invalid Parameters"
+#, kde-format
 msgid "Invalid OpenCV debayer parameters."
-msgstr "Parametri non validi"
+msgstr "Parametri OpenCV non validi."
 
 #: fitsviewer/fitsdata.cpp:6297 fitsviewer/fitsdata.cpp:6350
-#, fuzzy, kde-format
-#| msgid "Invalid response."
+#, kde-format
 msgid "Invalid debayer engine"
-msgstr "Risposta non valida."
+msgstr "Motore di debayerizzazione non valido"
 
 #: fitsviewer/fitsdata.cpp:6604
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
-msgstr ""
+msgstr "debayer_8bit chiamato con parametri di debayerizzazione non validi"
 
 #: fitsviewer/fitsdata.cpp:6620 fitsviewer/fitsdata.cpp:6666
 #: fitsviewer/fitsdata.cpp:6724 fitsviewer/fitsdata.cpp:6770
@@ -32413,7 +32423,7 @@ msgstr "Debayerizzazione non riuscita (%1)"
 #: fitsviewer/fitsdata.cpp:6709
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
-msgstr ""
+msgstr "debayer_16bit chiamato con parametri di debayerizzazione non validi"
 
 #: fitsviewer/fitsdebayer.cpp:105
 #, kde-format
@@ -34830,11 +34840,10 @@ msgstr "Finestra di dialogo di scelta file per il Master flat verde"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, HotPixels)
 #: fitsviewer/livestacking.ui:2696
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Check to remove hot pixels.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Attiva per visualizzare il sensore.</p></body></html>"
+"<html><head/><body><p>Spunta per rimuovere i pixel caldi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, HotPixels)
 #: fitsviewer/livestacking.ui:2699
@@ -34844,12 +34853,10 @@ msgstr "Rimuovi i pixel caldi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ColdPixels)
 #: fitsviewer/livestacking.ui:2709
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Check to remove cold pixels</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dimensione del subframe in pixel.</p></body></html>"
+"<html><head/><body><p>Spunta per rimuovere i pixel freddi</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ColdPixels)
 #: fitsviewer/livestacking.ui:2712
@@ -36940,10 +36947,9 @@ msgstr "Registra flusso per la durata in secondi specificata"
 #. i18n: ectx: property (title), widget (QGroupBox, debayerOptions)
 #. i18n: ectx: property (title), widget (QGroupBox, gridGroupBox)
 #: indi/recordingoptions.ui:241 options/opsdeveloper.ui:101
-#, fuzzy, kde-format
-#| msgid "Developer Options"
+#, kde-format
 msgid "Debayer Options:"
-msgstr "Opzioni per gli sviluppatori"
+msgstr "Opzioni di debayerizzazione:"
 
 #: indi/servermanager.cpp:98
 #, kde-format
@@ -41702,28 +41708,27 @@ msgstr "Registra l'attività del modulo Osservatorio di Ekos."
 
 #. i18n: ectx: label, entry (ImageDebayerEngine), group (General)
 #: kstars.kcfg:1668
-#, fuzzy, kde-format
-#| msgid "Delay between two consequent focus images"
+#, kde-format
 msgid "Debayer engine to use on images."
-msgstr "Ritardo tra immagini per la messa a fuoco consecutive"
+msgstr "Motore di debayerizzazione da usare sulle immagini."
 
 #. i18n: ectx: label, entry (ImageDebayerAlgo), group (General)
 #: kstars.kcfg:1672
 #, kde-format
 msgid "Debayer algo to use on images."
-msgstr ""
+msgstr "Algoritmo di debayerizzazione da usare sulle immagini."
 
 #. i18n: ectx: label, entry (StackDebayerEngine), group (General)
 #: kstars.kcfg:1676
 #, kde-format
 msgid "Debayer engine to use on live stack subs."
-msgstr ""
+msgstr "Motore di debayerizzazione da usare sui sub live stack."
 
 #. i18n: ectx: label, entry (StackDebayerAlgo), group (General)
 #: kstars.kcfg:1680
 #, kde-format
 msgid "Debayer algo to use on live stack subs."
-msgstr ""
+msgstr "Algoritmo di debayerizzazione da usare sui sub live stack."
 
 #. i18n: ectx: label, entry (FITSWindowGeometry), group (FITSViewer)
 #: kstars.kcfg:1686
@@ -41987,17 +41992,15 @@ msgstr "Live Stacking - master flat"
 
 #. i18n: ectx: whatsthis, entry (fitsLSHotPixels), group (FITSViewer)
 #: kstars.kcfg:1838
-#, fuzzy, kde-format
-#| msgid "Live Stacking denoise amount"
+#, kde-format
 msgid "Live Stacking remove hot pixels"
-msgstr "Live Stacking - quantità di riduzione rumore"
+msgstr "Live Stacking - rimuovi i pixel caldi"
 
 #. i18n: ectx: whatsthis, entry (fitsLSColdPixels), group (FITSViewer)
 #: kstars.kcfg:1842
-#, fuzzy, kde-format
-#| msgid "Live Stacking Monitor column widths"
+#, kde-format
 msgid "Live Stacking remove cold pixels"
-msgstr "Monitor Live Stacking - larghezza colonne"
+msgstr "Live Stacking - rimuovi i pixel freddi"
 
 #. i18n: ectx: whatsthis, entry (fitsLSAlignMethod), group (FITSViewer)
 #: kstars.kcfg:1846
@@ -81749,42 +81752,35 @@ msgstr "Non sincronizzare col tempo reale all'avvio di Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: options/opsdeveloper.ui:114
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Debayer parameters to be applied to images.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Corsa massima in passi prima che il processo di messa "
-"a fuoco automatica venga interrotto</p></body></html>"
+"<html><head/><body><p>Parametri di debayerizzazione da applicare alle "
+"immagini.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opsdeveloper.ui:117
-#, fuzzy, kde-format
-#| msgid "Image Debayering"
+#, kde-format
 msgid "Image Debayer:"
-msgstr "Debayerizzazione dell'immagine"
+msgstr "Debayerizzazione immagine:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: options/opsdeveloper.ui:131
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#| "process aborts</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Debayer parameters to be applied to Live Stacker subs."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Corsa massima in passi prima che il processo di messa "
-"a fuoco automatica venga interrotto</p></body></html>"
+"<html><head/><body><p>Parametri di debayerizzazione da applicare ai sub del "
+"Live Stacker.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opsdeveloper.ui:134
 #, kde-format
 msgid "Stack Sub Debayer:"
-msgstr ""
+msgstr "Debayerizzazione sub stack:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
