@@ -30749,7 +30749,8 @@ msgid "Edit Template"
 msgstr "이미지 편집...(&G)"
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:142
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Device:"
 msgid "Device:"
 msgstr "기기:"
 
