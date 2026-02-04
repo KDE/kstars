@@ -21,9 +21,7 @@ ecm_qt_declare_logging_category(LibKSDataHandlers_SRC HEADER catalog_debug.h IDE
 ecm_qt_declare_logging_category(EXPERIMENT_SRCS HEADER catalogsdb_debug.h IDENTIFIER KSTARS_CATALOGS CATEGORY_NAME org.kde.kstars.catalogdb)
 
 add_library(LibKSDataHandlers STATIC ${LibKSDataHandlers_SRC})
-if (BUILD_PYKSTARS)
-  set_target_properties(LibKSDataHandlers PROPERTIES POSITION_INDEPENDENT_CODE ON)
-ENDIF ()
+set_target_properties(LibKSDataHandlers PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # Added this because includedir was missing, is this required?
 if (ANDROID)
