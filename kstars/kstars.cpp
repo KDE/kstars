@@ -39,6 +39,7 @@
 #include <kspaths.h>
 #include "auxiliary/thememanager.h"
 
+#include <QActionGroup>
 #ifdef Q_OS_WIN
 #include <QProcess>
 #endif
