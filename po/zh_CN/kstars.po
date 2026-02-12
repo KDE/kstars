@@ -35126,7 +35126,7 @@ msgstr "以秒为单位录制指定时间长度的流"
 #: indi/recordingoptions.ui:241 options/opsdeveloper.ui:101
 #, kde-format
 msgid "Debayer Options:"
-msgstr ""
+msgstr "解拜耳选项："
 
 #: indi/servermanager.cpp:98
 #, kde-format
@@ -42167,6 +42167,7 @@ msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
 "priority job can run. Recommended."
 msgstr ""
+"为真时，没有更高优先级的作业以运行时，调度器尝试运行较低优先级的作业。推荐。"
 
 #. i18n: ectx: label, entry (LeadTime), group (Scheduler)
 #: kstars.kcfg:3380
@@ -42180,7 +42181,7 @@ msgstr "任务之间的最短时间（分钟）。"
 msgid ""
 "Do not permit jobs to be scheduled or executed past this many minutes before "
 "dawn."
-msgstr ""
+msgstr "不允许在黎明这么多分钟之前安排或执行作业。"
 
 #. i18n: ectx: label, entry (DawnOffset), group (Scheduler)
 #: kstars.kcfg:3388
@@ -42244,7 +42245,7 @@ msgstr "相机相对于正北的角度位置。"
 #: kstars.kcfg:3424
 #, kde-format
 msgid "Strategy how to react, when a job aborts or steps into an error."
-msgstr ""
+msgstr "当任务中止或遇到错误时应对的策略。"
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategyDelay), group (Scheduler)
 #: kstars.kcfg:3428
@@ -42252,7 +42253,7 @@ msgstr ""
 msgid ""
 "Delay in minutes how long the scheduler should pause before restarting an "
 "aborted job or a job that ran into an error."
-msgstr ""
+msgstr "调度器在重新启动中止的任务或遇到错误的任务之前应暂停的分钟数。"
 
 #. i18n: ectx: label, entry (RescheduleErrors), group (Scheduler)
 #: kstars.kcfg:3432
@@ -42270,7 +42271,7 @@ msgstr "作业启动中，用于开始支架跟踪的默认调度器复选框。
 #: kstars.kcfg:3448
 #, kde-format
 msgid "Enable startup queue execution"
-msgstr ""
+msgstr "启用启动队列执行"
 
 #. i18n: ectx: whatsthis, entry (SchedulerStartupEnabled), group (Scheduler)
 #: kstars.kcfg:3449
@@ -42278,13 +42279,13 @@ msgstr ""
 msgid ""
 "If enabled, the startup queue will be executed when the scheduler starts. If "
 "disabled, no startup procedure will run."
-msgstr ""
+msgstr "如果启用，启动队列将在调度器启动时执行。如果禁用，将不会执行启动队列。"
 
 #. i18n: ectx: label, entry (SchedulerPreStartupScript), group (Scheduler)
 #: kstars.kcfg:3453
 #, kde-format
 msgid "Path to startup queue file or script."
-msgstr ""
+msgstr "启动队列文件或脚本路径。"
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreStartupScript), group (Scheduler)
 #: kstars.kcfg:3454
@@ -42292,13 +42293,13 @@ msgstr ""
 msgid ""
 "Path to the startup queue file to execute when starting the scheduler before "
 "starting the equipment profile."
-msgstr ""
+msgstr "启动调度器时在设备配置文件前执行的启动队列文件的路径。"
 
 #. i18n: ectx: label, entry (SchedulerPostStartupScript), group (Scheduler)
 #: kstars.kcfg:3457
 #, kde-format
 msgid "Path to post-startup queue file or script."
-msgstr ""
+msgstr "启动后队列文件或脚本路径。"
 
 #. i18n: ectx: whatsthis, entry (SchedulerPostStartupScript), group (Scheduler)
 #: kstars.kcfg:3458
@@ -42306,13 +42307,13 @@ msgstr ""
 msgid ""
 "Path to the startup queue file to execute when starting the scheduler after "
 "starting the equipment profile."
-msgstr ""
+msgstr "启动调度器时在设备配置文件后执行的启动队列文件的路径。"
 
 #. i18n: ectx: label, entry (SchedulerShutdownEnabled), group (Scheduler)
 #: kstars.kcfg:3462
 #, kde-format
 msgid "Enable shutdown queue execution"
-msgstr ""
+msgstr "启用关闭队列执行"
 
 #. i18n: ectx: whatsthis, entry (SchedulerShutdownEnabled), group (Scheduler)
 #: kstars.kcfg:3463
@@ -42320,13 +42321,13 @@ msgstr ""
 msgid ""
 "If enabled, the shutdown queue will be executed when the scheduler shuts "
 "down. If disabled, no shutdown procedure will run."
-msgstr ""
+msgstr "如果启用，关闭队列将在调度器关闭时执行。如果禁用，将不会执行关闭队列。"
 
 #. i18n: ectx: label, entry (SchedulerPreShutdownScript), group (Scheduler)
 #: kstars.kcfg:3467
 #, kde-format
 msgid "Path to shutdown queue file or script."
-msgstr ""
+msgstr "关闭队列文件或脚本路径。"
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreShutdownScript), group (Scheduler)
 #: kstars.kcfg:3468
@@ -42334,7 +42335,7 @@ msgstr ""
 msgid ""
 "Path to the shutdown queue file to execute when stopping the scheduler "
 "before stopping the equipment profile."
-msgstr ""
+msgstr "关闭调度器时在设备配置文件前执行的关闭队列文件的路径。"
 
 #. i18n: ectx: label, entry (SchedulerPostShutdownScript), group (Scheduler)
 #: kstars.kcfg:3472
