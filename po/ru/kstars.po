@@ -18,14 +18,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-30 02:25+0000\n"
-"PO-Revision-Date: 2026-01-31 19:34+0200\n"
+"PO-Revision-Date: 2026-02-12 22:23+0200\n"
 "Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Lokalize 25.12.2\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -53,10 +53,9 @@ msgid "Sky"
 msgstr "Небо"
 
 #: auxiliary/colorscheme.cpp:30
-#, fuzzy, kde-format
-#| msgid "Use Dark Frame"
+#, kde-format
 msgid "Sky Daytime"
-msgstr "Использовать темновой кадр"
+msgstr "Небо днём"
 
 #: auxiliary/colorscheme.cpp:31
 #, kde-format
@@ -265,26 +264,22 @@ msgstr "Поле зрения датчика"
 #: auxiliary/colorscheme.cpp:69
 #, kde-format
 msgid "HiPS Grid"
-msgstr ""
+msgstr "Сетка HiPS"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "CCD Simulator"
+#, kde-format
 msgid "Dome Slit"
-msgstr "Симулятор ПЗС"
+msgstr "Щель купола"
 
 #: auxiliary/colorscheme.cpp:71
-#, fuzzy, kde-format
-#| msgid "Object labels"
+#, kde-format
 msgid "FITS Image Object Label"
-msgstr "Названия объектов"
+msgstr "Подпись объекта изображения FITS"
 
 #: auxiliary/colorscheme.cpp:72
-#, fuzzy, kde-format
-#| msgid "Object labels"
+#, kde-format
 msgid "FITS Image Object Highlight Label"
-msgstr "Названия объектов"
+msgstr "Подпись выделения объекта FITS-изображения"
 
 #: auxiliary/colorscheme.cpp:138 kstarsdata.cpp:1071 options/opscolors.cpp:58
 #: tools/scriptbuilder.cpp:741
@@ -326,16 +321,14 @@ msgstr ""
 "Схема не может быть записана."
 
 #: auxiliary/filedownloader.cpp:100
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Data verification failed"
-msgstr "Размывание..."
+msgstr "Ошибка проверки данных"
 
 #: auxiliary/filedownloader.cpp:111
-#, fuzzy, kde-format
-#| msgid "Auto calibration failed."
+#, kde-format
 msgid "File verification failed"
-msgstr "Автоматическая калибровка не получилась."
+msgstr "Ошибка проверки файла"
 
 #: auxiliary/filedownloader.cpp:159
 #, fuzzy, kde-format
@@ -396,10 +389,9 @@ msgid "KStars Exported Sky Image"
 msgstr "Экспортированное изображение неба KStars"
 
 #: auxiliary/imageexporter.cpp:162
-#, fuzzy, kde-format
-#| msgid "Error: Unable to save image: %1 "
+#, kde-format
 msgid "Error: Unable to save image: %1"
-msgstr "Ошибка: невозможно сохранить изображение: %1"
+msgstr "Ошибка: невозможно сохранить изображение «%1»"
 
 #: auxiliary/imageexporter.cpp:169 auxiliary/imageviewer.cpp:357
 #: auxiliary/xplanetimageviewer.cpp:1261
@@ -419,11 +411,10 @@ msgid "Could not export image: URL %1 invalid"
 msgstr "Не удаётся экспортировать изображение: URL %1 неверный"
 
 #: auxiliary/imageviewer.cpp:118
-#, fuzzy, kde-format
-#| msgid "KStars image viewer: %1"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars image viewer: %1"
-msgstr "Просмотр изображения: %1"
+msgstr "Просмотр изображений KStars: %1"
 
 #: auxiliary/imageviewer.cpp:132
 #, kde-format
@@ -463,33 +454,29 @@ msgstr "Сохранить изображение на диск"
 #: auxiliary/imageviewer.cpp:177
 #, kde-format
 msgid "Remove temporary file %1 from disk?"
-msgstr ""
+msgstr "Удалить с диска временный файл «%1»?"
 
 #: auxiliary/imageviewer.cpp:178
-#, fuzzy, kde-format
-#| msgid "Config file"
+#, kde-format
 msgid "Confirm Removal"
-msgstr "Файл конфигурации"
+msgstr "Подтверждение удаления"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadB)
 #: auxiliary/imageviewer.cpp:195
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:59
-#, fuzzy, kde-format
-#| msgid "Downloading..."
+#, kde-format
 msgid "Download"
-msgstr "Загрузка с сервера..."
+msgstr "Загрузить"
 
 #: auxiliary/imageviewer.cpp:196
-#, fuzzy, kde-format
-#| msgid "Please wait while re-indexing stars..."
+#, kde-format
 msgid "Please wait while image is being downloaded..."
-msgstr "Дождитесь переиндексации звёзд..."
+msgstr "Подождите, выполняется загрузка изображения…"
 
 #: auxiliary/imageviewer.cpp:224
-#, fuzzy, kde-format
-#| msgid "KStars FITS Viewer"
+#, kde-format
 msgid "Image Viewer"
-msgstr "Просмотрщик FITS для KStars."
+msgstr "Просмотр изображений"
 
 #: auxiliary/imageviewer.cpp:257
 #, kde-format
@@ -498,11 +485,10 @@ msgstr "Ошибка при загрузке изображения %1."
 
 #: auxiliary/imageviewer.cpp:312 auxiliary/xplanetimageviewer.cpp:1232
 #: indi/clientmanagerlite.cpp:797 printing/foveditordialog.cpp:119
-#, fuzzy, kde-format
-#| msgid "Save Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
-msgstr "Сохранить изображение"
+msgstr "Сохранение изображения"
 
 #: auxiliary/imageviewer.cpp:321 ekos/align/align.cpp:4096
 #: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1391
@@ -524,44 +510,37 @@ msgid "Saving of the image %1 failed."
 msgstr "Ошибка при сохранении изображения %1."
 
 #: auxiliary/ksdssdownloader.cpp:206 auxiliary/ksdssdownloader.cpp:234
-#, fuzzy, kde-format
-#| msgid "Downloading..."
+#, kde-format
 msgid "DSS Download"
-msgstr "Загрузка с сервера..."
+msgstr "Загрузка DSS"
 
 #: auxiliary/ksdssdownloader.cpp:207 auxiliary/ksdssdownloader.cpp:235
-#, fuzzy, kde-format
-#| msgid "Please wait while re-indexing stars..."
+#, kde-format
 msgid "Please wait while DSS image is being downloaded..."
-msgstr "Дождитесь переиндексации звёзд..."
+msgstr "Ждите, загружается изображение DSS…"
 
 #: auxiliary/ksfilereader.cpp:98 tools/modcalcdaylength.cpp:208
 #: tools/wutdialog.cpp:239
 #, kde-format
 msgctxt "%2 is the value, % is the percent sign"
 msgid "%1 (%2%)"
-msgstr ""
+msgstr "%1 (%2%)"
 
 #: auxiliary/ksmessagebox.cpp:132
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Auto close in ..."
-msgstr "Автофокус в процессе..."
+msgstr "Автозакрытие через…"
 
 #: auxiliary/ksmessagebox.cpp:254 kstarslite/qml/modules/TimePage.qml:535
 #: kstarslite/qml/modules/TimePage.qml:553
-#, fuzzy, kde-format, kde-kuit-format
-#| msgctxt "City in Siberia Russia"
-#| msgid "Omsk"
+#, kde-format, kde-kuit-format
 msgid "Ok"
-msgstr "Омск"
+msgstr "ОК"
 
 #: auxiliary/ksmessagebox.h:35
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Quesnel"
+#, kde-format
 msgid "Question"
-msgstr "Квеснел"
+msgstr "Вопрос"
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerYesR)
 #: auxiliary/ksmessagebox.h:36 dialogs/detaildialog.cpp:441
@@ -595,11 +574,9 @@ msgstr "Предупреждение"
 
 #: auxiliary/ksmessagebox.h:38
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:246
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Abort Slew"
+#, kde-format
 msgid "Continue"
-msgstr "Прервать наведение"
+msgstr "Продолжить"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
@@ -653,7 +630,7 @@ msgstr "Ошибка"
 #: ekos/scheduler/framingassistantui.cpp:815
 #, kde-format
 msgid "Sorry"
-msgstr ""
+msgstr "Ошибка"
 
 #. i18n: ectx: property (title), widget (QGroupBox, catalogInfo)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
@@ -763,7 +740,7 @@ msgstr "ССЗ"
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
-msgstr ""
+msgstr "???"
 
 #: auxiliary/ksutils.cpp:1447
 #, kde-format
@@ -772,40 +749,38 @@ msgid ""
 " %1 \n"
 " does not exist.  Do you want to make the directory?"
 msgstr ""
+"Выбранное расположение файлов астрометрических индексов:\n"
+" %1 \n"
+" не существует. Создать каталог?"
 
 #: auxiliary/ksutils.cpp:1450
-#, fuzzy, kde-format
-#| msgid "Alignment timed out."
+#, kde-format
 msgid "Make Astrometry Index File Directory?"
-msgstr "Истекло время выравнивания."
+msgstr "Создать каталог файлов индексов астрометрии?"
 
 #: auxiliary/ksutils.cpp:1455
-#, fuzzy, kde-format
-#| msgid "Alignment timed out."
+#, kde-format
 msgid "The Default Astrometry Index File Location was created."
-msgstr "Истекло время выравнивания."
+msgstr "Создано расположение файлов индекса астрометрии по умолчанию."
 
 #: auxiliary/ksutils.cpp:1460
-#, fuzzy, kde-format
-#| msgid "Alignment timed out."
+#, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
-msgstr "Истекло время выравнивания."
+msgstr "Ошибка создания каталога файлов индекса астрометрии по умолчанию."
 
 #: auxiliary/ksutils.cpp:1481 auxiliary/ksutils.cpp:1637
 #: auxiliary/ksutils.cpp:1702
-#, fuzzy, kde-format
-#| msgid "Astrometry.net configuration file"
+#, kde-format
 msgid "Astrometry Configuration File Read Error."
-msgstr "Файл конфигурации Astrometry.net"
+msgstr "Ошибка чтения файла конфигурации астрометрии."
 
 #: auxiliary/ksutils.cpp:1495 auxiliary/ksutils.cpp:1680
 #: auxiliary/ksutils.cpp:1722
-#, fuzzy, kde-format
-#| msgid "Astrometry.net configuration file"
+#, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
-msgstr "Файл конфигурации Astrometry.net"
+msgstr "Ошибка записи внутреннего файла конфигурации астрометрии."
 
 #: auxiliary/ksutils.cpp:1768 fitsviewer/fitsdata.cpp:2661
 #, kde-format
@@ -813,23 +788,23 @@ msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
+"Не удалось найти dcraw и cjpeg. Установите необходимые инструменты для "
+"преобразования CR2/NEF в JPEG."
 
 #: auxiliary/ksutils.cpp:1779
-#, fuzzy, kde-format
-#| msgid "Could not open file: %1"
+#, kde-format
 msgid "Cannot open %1: %2"
-msgstr "Не удаётся открыть файл: %1"
+msgstr "Не удалось открыть «%1»: %2"
 
 #: auxiliary/ksutils.cpp:1787
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
-msgstr ""
+msgstr "Не удалось распаковать миниатюру %1: %2"
 
 #: auxiliary/ksutils.cpp:1798
-#, fuzzy, kde-format
-#| msgid "Cannot write to user log file"
+#, kde-format
 msgid "Cannot write %s %1: %2"
-msgstr "Не могу записать файл журнала наблюдений"
+msgstr "Не удалось записать %s «%1»: %2"
 
 #: auxiliary/ksutils.cpp:1922 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
@@ -840,11 +815,10 @@ msgid "unnamed"
 msgstr "без имени"
 
 #: auxiliary/kswizard.cpp:69
-#, fuzzy, kde-format
-#| msgid "Startup Wizard..."
+#, kde-format
 msgctxt "@title:window"
 msgid "Startup Wizard"
-msgstr "Мастер первого запуска..."
+msgstr "Мастер первого запуска"
 
 #: auxiliary/kswizard.cpp:76 printing/printingwizard.cpp:413
 #: tools/obslistwizard.cpp:37
@@ -863,65 +837,55 @@ msgstr "< &Назад"
 #: ekos/align/polaralignmentassistant.ui:282 ekos/focus/focusadvisor.cpp:170
 #: ekos/focus/focusadvisor.cpp:758 ekos/focus/focusadvisor.cpp:1153
 #: ekos/focus/focusadvisor.cpp:1398
-#, fuzzy, kde-format
-#| msgctxt "City in Ulster Ireland"
-#| msgid "Donegal"
+#, kde-format
 msgid "Done"
-msgstr "Донегол"
+msgstr "Готово"
 
 #: auxiliary/kswizard.cpp:271
 #, kde-format
 msgid "There was no default data directory found in the app bundle."
-msgstr ""
+msgstr "Каталог данных по умолчанию не найден в пакете приложения."
 
 #: auxiliary/kswizard.cpp:280
 #, kde-format
 msgid ""
 "There was a problem creating the data directory ~/Library/Application "
 "Support/."
-msgstr ""
+msgstr "Не удалось создать каталог данных ~/Library/Application Support/."
 
 #: auxiliary/kswizard.cpp:386
-#, fuzzy, kde-format
-#| msgid "Alt Error:"
+#, kde-format
 msgid "File write error."
-msgstr "Ошибка высоты:"
+msgstr "Ошибка записи файла."
 
 #: auxiliary/kswizard.cpp:398
-#, fuzzy, kde-format
-#| msgid "Astrometry.net"
+#, kde-format
 msgid "Data folder permissions error."
-msgstr "Astrometry.net"
+msgstr "Ошибка прав доступа к папке данных."
 
 #: auxiliary/skymapview.cpp:54
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Set the sky-map view to zenith up"
 msgid "Zenith Up"
-msgstr "&Зенит"
+msgstr "Зенит вверху"
 
 #: auxiliary/skymapview.cpp:63
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Set the sky-map view to zenith down"
 msgid "Zenith Down"
-msgstr "&Зенит"
+msgstr "Зенит внизу"
 
 #: auxiliary/skymapview.cpp:72
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgctxt "Set the sky-map view to north up"
 msgid "North Up"
-msgstr "Север"
+msgstr "Север сверху"
 
 #: auxiliary/skymapview.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Norton"
+#, kde-format
 msgctxt "Set the sky-map view to north down"
 msgid "North Down"
-msgstr "Нортон"
+msgstr "Север внизу"
 
 #: auxiliary/skymapview.cpp:91
 #, kde-format
@@ -929,20 +893,17 @@ msgctxt ""
 "Set the sky-map view to match a Schmidt-Cassegrain telescope with erecting "
 "prism pointed upwards"
 msgid "SCT with upward diagonal"
-msgstr ""
+msgstr "ШК с диагональю вверх"
 
 #: auxiliary/skymapview.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Estonia"
+#, kde-format
 msgctxt ""
 "Set the sky-map view to match the view through a typical Dobsonian telescope"
 msgid "Typical Dobsonian"
-msgstr "Эстония"
+msgstr "Типичный добсон"
 
 #: auxiliary/thememanager.cpp:62
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgctxt "default theme name"
 msgid "Default"
 msgstr "По умолчанию"
@@ -1076,7 +1037,7 @@ msgstr "Выбор миниатюры"
 #: tools/conjunctions.ui:227 tools/eclipsetool.ui:183
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: auxiliary/thumbnailpicker.ui:72
@@ -1103,11 +1064,10 @@ msgid "Unset Image"
 msgstr "Удалить изображение"
 
 #: auxiliary/xplanetimageviewer.cpp:186 auxiliary/xplanetimageviewer.cpp:905
-#, fuzzy, kde-format
-#| msgid "Solar System Viewer"
+#, kde-format
 msgctxt "@title:window"
 msgid "XPlanet Solar System Simulator: %1"
-msgstr "Солнечная система"
+msgstr "Симулятор Солнечной системы XPlanet: %1"
 
 #. i18n?
 #. i18nc("Asteroid name (optional)", "Pluto");
@@ -1414,18 +1374,17 @@ msgstr "Тритон"
 #: auxiliary/xplanetimageviewer.cpp:230
 #, kde-format
 msgid "This allows you to select a new object/target for XPlanet to view"
-msgstr ""
+msgstr "Позволяет выбрать новый объект или цель для просмотра в XPlanet"
 
 #: auxiliary/xplanetimageviewer.cpp:238
-#, fuzzy, kde-format
-#| msgid "from: "
+#, kde-format
 msgid "from"
-msgstr "из: "
+msgstr "из"
 
 #: auxiliary/xplanetimageviewer.cpp:241
 #, kde-format
 msgid "This allows you to select a viewing location"
-msgstr ""
+msgstr "Выбор места наблюдения"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useGeographicUpdate)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1448,21 +1407,26 @@ msgid ""
 "XPlanet Latitude, Longitude, and object radius in %. This is only valid when "
 "viewing the object from the same object"
 msgstr ""
+"Широта, долгота XPlanet и радиус объекта в %. Действительно только при "
+"просмотре объекта с того же объекта"
 
 #: auxiliary/xplanetimageviewer.cpp:264
 #, kde-format
 msgid "Reset XPlanet Location to the location specified in the XPlanet Options"
 msgstr ""
+"Сбросить местоположение XPlanet к местоположению, указанному в настройках "
+"XPlanet"
 
 #: auxiliary/xplanetimageviewer.cpp:274
 #, kde-format
 msgid "Hover over target and freely rotate view with mouse in XPlanet Viewer"
 msgstr ""
+"Наведите на цель и свободно поворачивайте вид мышью в просмотрщике XPlanet"
 
 #: auxiliary/xplanetimageviewer.cpp:283
 #, kde-format
 msgid "Recenters the XPlanet image once it has been moved"
-msgstr ""
+msgstr "Центрирует изображение XPlanet после его перемещения"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: auxiliary/xplanetimageviewer.cpp:301 ekos/align/align.ui:371
@@ -1476,6 +1440,8 @@ msgid ""
 "Sets the FOV to the Specified value.   Note: has no effect if hovering over "
 "object."
 msgstr ""
+"Устанавливает поле зрения на указанное значение. Примечание: не действует "
+"при наведении на объект."
 
 #: auxiliary/xplanetimageviewer.cpp:326
 #, kde-format
@@ -1483,11 +1449,15 @@ msgid ""
 "Zoom to the current KStars FOV.   Note: has no effect if hovering over "
 "object."
 msgstr ""
+"Увеличить до текущего поля зрения KStars. Примечание: не работает при "
+"наведении на объект."
 
 #: auxiliary/xplanetimageviewer.cpp:335
 #, kde-format
 msgid "Zoom to a specific FOV. This has no effect when hovering over an object"
 msgstr ""
+"Масштабировать до определённого поля зрения. Не действует при наведении на "
+"объект"
 
 #: auxiliary/xplanetimageviewer.cpp:345
 #, kde-format
@@ -1495,6 +1465,8 @@ msgid ""
 "Optimum FOV for the target, FOV parameter not specified.  Note: has no "
 "effect if hovering over object."
 msgstr ""
+"Оптимальное поле зрения для цели, параметр FOV не указан. Примечание: не "
+"действует при наведении на объект."
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
@@ -1507,47 +1479,43 @@ msgstr "Вращение:"
 #: auxiliary/xplanetimageviewer.cpp:358
 #, kde-format
 msgid "Set the view rotation to the desired angle"
-msgstr ""
+msgstr "Установите поворот вида на нужный угол"
 
 #: auxiliary/xplanetimageviewer.cpp:367
-#, fuzzy, kde-format
-#| msgid "Longitude in degrees"
+#, kde-format
 msgid "Rotate the view 180 degrees"
-msgstr "Долгота в градусах"
+msgstr "Повернуть изображение на 180 градусов"
 
 #: auxiliary/xplanetimageviewer.cpp:376
 #, kde-format
 msgid "Reset view rotation to 0"
-msgstr ""
+msgstr "Сбросить поворот вида на 0"
 
 #: auxiliary/xplanetimageviewer.cpp:385
 #, kde-format
 msgid "Bring up XPlanet Options"
-msgstr ""
+msgstr "Показать параметры XPlanet"
 
 #: auxiliary/xplanetimageviewer.cpp:411
 #, kde-format
 msgid "Allows you to set the XPlanet time to a different date/time from KStars"
-msgstr ""
+msgstr "Позволяет установить время XPlanet отличное от времени KStars"
 
 #: auxiliary/xplanetimageviewer.cpp:420
 #, kde-format
 msgid "Sets the XPlanet time to the current KStars time"
-msgstr ""
+msgstr "Устанавливает время XPlanet в соответствии с текущим временем KStars"
 
 #: auxiliary/xplanetimageviewer.cpp:425
-#, fuzzy, kde-format
-#| msgctxt "the angle of an object above (or below) the horizon"
-#| msgid "Altitude"
+#, kde-format
 msgid "Current XPlanet Time"
-msgstr "Высота"
+msgstr "Текущее время XPlanet"
 
 #: auxiliary/xplanetimageviewer.cpp:428 auxiliary/xplanetimageviewer.cpp:892
 #: auxiliary/xplanetimageviewer.cpp:1053 auxiliary/xplanetimageviewer.cpp:1066
-#, fuzzy, kde-format
-#| msgid "%1, %2 and %3"
+#, kde-format
 msgid "%1, %2"
-msgstr "%1, %2 и %3"
+msgstr "%1, %2"
 
 #: auxiliary/xplanetimageviewer.cpp:435
 #, kde-format
@@ -1555,23 +1523,23 @@ msgid ""
 "This sets the time step from the current XPlanet time, good for viewing "
 "events"
 msgstr ""
+"Задаёт временной шаг от текущего времени XPlanet — удобно для просмотра "
+"событий"
 
 #: auxiliary/xplanetimageviewer.cpp:441
 #, kde-format
 msgid "This sets the time step from the current XPlanet time"
-msgstr ""
+msgstr "Устанавливает временной шаг от текущего времени XPlanet"
 
 #: auxiliary/xplanetimageviewer.cpp:448
-#, fuzzy, kde-format
-#| msgid "year"
+#, kde-format
 msgid "years"
-msgstr "год"
+msgstr "лет"
 
 #: auxiliary/xplanetimageviewer.cpp:449
-#, fuzzy, kde-format
-#| msgid "month"
+#, kde-format
 msgid "months"
-msgstr "месяц"
+msgstr "месяцев"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: auxiliary/xplanetimageviewer.cpp:450 ekos/auxiliary/darklibrary.ui:1188
@@ -1582,8 +1550,7 @@ msgid "days"
 msgstr "дней"
 
 #: auxiliary/xplanetimageviewer.cpp:451 ekos/scheduler/schedulerjob.cpp:1134
-#, fuzzy, kde-format
-#| msgid "hours"
+#, kde-format
 msgid "hours"
 msgstr "часов"
 
@@ -1593,11 +1560,9 @@ msgstr "часов"
 #: auxiliary/xplanetimageviewer.cpp:452 ekos/auxiliary/darklibrary.ui:236
 #: ekos/capture/limits.ui:357 ekos/scheduler/opsweathersettings.ui:71
 #: ekos/scheduler/schedulerjob.cpp:1132
-#, fuzzy, kde-format
-#| msgctxt "minutes"
-#| msgid "mins"
+#, kde-format
 msgid "minutes"
-msgstr "мин"
+msgstr "минут"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
@@ -1620,25 +1585,24 @@ msgstr "мин"
 #: ekos/guide/opsguide.ui:547 ekos/scheduler/opsweathersettings.ui:115
 #: ekos/scheduler/schedulerjob.cpp:1130
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:236
-#, fuzzy, kde-format
-#| msgid "seconds"
+#, kde-format
 msgid "seconds"
-msgstr "с"
+msgstr "секунд"
 
 #: auxiliary/xplanetimageviewer.cpp:455
 #, kde-format
 msgid "Lets you change the units for the timestep in the animation"
-msgstr ""
+msgstr "Позволяет изменить единицы измерения временного шага в анимации"
 
 #: auxiliary/xplanetimageviewer.cpp:468
 #, kde-format
 msgid "Lets you run the animation"
-msgstr ""
+msgstr "Позволяет запустить анимацию"
 
 #: auxiliary/xplanetimageviewer.cpp:477
 #, kde-format
 msgid "Resets the animation to 0 timesteps from the current XPlanet Time"
-msgstr ""
+msgstr "Сбрасывает анимацию на 0 временных шагов от текущего времени XPlanet"
 
 #: auxiliary/xplanetimageviewer.cpp:548
 #, kde-format
@@ -1649,23 +1613,23 @@ msgstr "Путь до двоичного файла Xplanet в панели ко
 #, kde-format
 msgid "The configured Xplanet binary does not exist or is not executable."
 msgstr ""
+"Настроенный исполняемый файл Xplanet не существует или не является "
+"исполняемым."
 
 #: auxiliary/xplanetimageviewer.cpp:763
-#, fuzzy, kde-format
-#| msgid "Planet Name"
+#, kde-format
 msgid "XPlanet View: %1 from %2 on %3"
-msgstr "Название планеты"
+msgstr "Вид XPlanet: %1 с %2 на %3"
 
 #: auxiliary/xplanetimageviewer.cpp:765
 #, kde-format
 msgid "XPlanet View: %1 from %2 on %3 at FOV: %4 deg"
-msgstr ""
+msgstr "XPlanet: %1 с %2 на %3 при поле зрения %4°"
 
 #: auxiliary/xplanetimageviewer.cpp:779
-#, fuzzy, kde-format
-#| msgid "Loading of the image %1 failed."
+#, kde-format
 msgid "Loading of the image of object %1 failed."
-msgstr "Ошибка при загрузке изображения %1."
+msgstr "Не удалось загрузить изображение объекта %1."
 
 #: auxiliary/xplanetimageviewer.cpp:785
 #, kde-format
