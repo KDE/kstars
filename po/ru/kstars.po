@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-30 02:25+0000\n"
-"PO-Revision-Date: 2026-02-16 20:15+0200\n"
+"PO-Revision-Date: 2026-02-17 12:59+0200\n"
 "Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -12016,17 +12016,14 @@ msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr "Сохранить. Сохранение нового смещения для связанного фильтра."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:376
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to cancel?"
+#, kde-format
 msgid "Are you sure you want to stop Build Filter Offsets?"
-msgstr "Вы действительно хотите отменить?"
+msgstr "Остановить построение смещений фильтров?"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:376
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Offset"
+#, kde-format
 msgid "Stop Build Filter Offsets"
-msgstr "Смещение"
+msgstr "Остановить построение смещений фильтра"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:407
 #, kde-format
@@ -12034,46 +12031,45 @@ msgid ""
 "An unexpected problem occurred.\n"
 "Stop Build Filter Offsets, or Cancel to retry?"
 msgstr ""
+"Произошла непредвиденная проблема.\n"
+"\n"
+"Остановить сборку смещений фильтров или отменить для повторной попытки?"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:408
 #, kde-format
 msgid "Build Filter Offsets Unexpected Problem"
-msgstr ""
+msgstr "Ошибка при построении смещений фильтра"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:451
-#, fuzzy, kde-format
-#| msgid "Autofocus complete."
+#, kde-format
 msgid "Processing complete."
-msgstr "Автофокусировка завершена."
+msgstr "Обработка завершена."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:472
-#, fuzzy, kde-format
-#| msgid "Changing filter to %1..."
+#, kde-format
 msgid "Problem changing filter to %1..."
-msgstr "Изменение фильтра для %1..."
+msgstr "Ошибка смены фильтра на «%1»…"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:481
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
-msgstr ""
+msgstr "Выполняется автофокусировка на %1 (%2/%3)…"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:611
 #, kde-format
 msgid "(ΔT=%1)"
-msgstr ""
+msgstr "(ΔT=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:612
 #: ekos/auxiliary/buildfilteroffsets.cpp:615
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Ticks"
+#, kde-format
 msgid "(%1 ticks)"
-msgstr "Сдвиги"
+msgstr "(%1 тактов)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:614
 #, kde-format
 msgid "(ΔAlt=%1)"
-msgstr ""
+msgstr "(ΔAlt=%1)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:621
 #, kde-format
@@ -12104,44 +12100,36 @@ msgstr ""
 "tr><tr><th>Скорректированное положение</th><td>%9</ td></tr></table></body>"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:731
-#, fuzzy, kde-format
-#| msgid "Calibrating..."
+#, kde-format
 msgid "Aborting Autofocus..."
-msgstr "Калибровка..."
+msgstr "Отмена автофокуса…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, buildOffsetsDialog)
 #: ekos/auxiliary/buildfilteroffsets.ui:23
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Offset"
+#, kde-format
 msgid "Build Filter Offsets"
-msgstr "Смещение"
+msgstr "Построение смещений фильтра"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, buildOffsetsAdaptFocus)
 #: ekos/auxiliary/buildfilteroffsets.ui:45
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to apply Adaptive focus to Autofocus runs.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Принудительное достижение значения температуры перед "
-"съёмкой изображения</p></body></html>"
+"<html><head/><body><p>Применение адаптивного автофокуса при выполнении "
+"процедуры наведения на резкость.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, buildOffsetsAdaptFocus)
 #: ekos/auxiliary/buildfilteroffsets.ui:48
-#, fuzzy, kde-format
-#| msgid "Adaptive Optics"
+#, kde-format
 msgid "Adapt Focus"
-msgstr "Адаптивная оптика"
+msgstr "Адаптивная фокусировка"
 
 #: ekos/auxiliary/darklibrary.cpp:98
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "Failed to load %1: %2"
-msgstr "Невозможно загрузить изображение"
+msgstr "Не удалось загрузить «%1»: %2"
 
 #: ekos/auxiliary/darklibrary.cpp:337
 #, kde-format
@@ -12149,78 +12137,71 @@ msgid ""
 "Using available dark frame with %1 seconds exposure. Please take a dark "
 "frame with %1 seconds exposure for more accurate results."
 msgstr ""
+"Используется доступный тёмный кадр с выдержкой %1 секунд. Для повышения "
+"точности результатов сделайте тёмный кадр с выдержкой %1 секунд."
 
 #: ekos/auxiliary/darklibrary.cpp:347
 #, kde-format
 msgid "Dark frame %s is expired. Please create new master dark."
 msgstr ""
+"Срок действия кадра темнового тока «%s» истёк. Создайте новый мастер-кадра "
+"темнового тока."
 
 #: ekos/auxiliary/darklibrary.cpp:370
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Removing bad dark frame file %1"
-msgstr "Невозможно загрузить изображение в %1"
+msgstr "Удаление с диска плохого файла тёмного кадра «%1»"
 
 #: ekos/auxiliary/darklibrary.cpp:480
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to load defect map %1"
-msgstr "Невозможно загрузить изображение в %1"
+msgstr "Ошибка загрузки карты дефектов «%1»"
 
 #: ekos/auxiliary/darklibrary.cpp:500
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to load defect map file %1"
-msgstr "Невозможно загрузить изображение в %1"
+msgstr "Ошибка загрузки файла карты дефектов «%1»"
 
 #: ekos/auxiliary/darklibrary.cpp:520
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to load dark frame file %1"
-msgstr "Невозможно загрузить изображение в %1"
+msgstr "Ошибка загрузки файла тёмного кадра «%1»"
 
 #: ekos/auxiliary/darklibrary.cpp:581
-#, fuzzy, kde-format
-#| msgid "Date, time and location: "
+#, kde-format
 msgid "Failed to process dark data."
-msgstr "Дата, время и место: "
+msgstr "Ошибка обработки тёмных кадров."
 
 #: ekos/auxiliary/darklibrary.cpp:587
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to load dark data."
-msgstr "Невозможно загрузить изображение в %1"
+msgstr "Не удалось загрузить данные тёмного кадра."
 
 #: ekos/auxiliary/darklibrary.cpp:597
-#, fuzzy, kde-format
-#| msgid "Received image %1 out of %2."
+#, kde-format
 msgid "Received %1/%2 images."
-msgstr "Получено изображение %1 из %2."
+msgstr "Получено изображений: %1/%2."
 
 #: ekos/auxiliary/darklibrary.cpp:714
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Are you sure you want to delete all dark frames images and data?"
-msgstr "Вы действительно хотите удалить %1?"
+msgstr "Удалить все изображения и данные тёмных кадров?"
 
 #: ekos/auxiliary/darklibrary.cpp:1255 ekos/focus/focusadvisor.cpp:658
 #: ekos/focus/focusadvisor.cpp:972 ekos/focus/focusadvisor.cpp:1269
-#, fuzzy, kde-format
-#| msgid "In Progress"
+#, kde-format
 msgid "In progress..."
-msgstr "В процессе"
+msgstr "Выполнение…"
 
 #: ekos/auxiliary/darklibrary.cpp:1413
-#, fuzzy, kde-format
-#| msgid "Failed to set sub frame."
+#, kde-format
 msgid "Failed to save master frame: %1"
-msgstr "Не удалось установить область кадра."
+msgstr "Ошибка сохранения мастер-кадра: %1"
 
 #: ekos/auxiliary/darklibrary.cpp:1434
-#, fuzzy, kde-format
-#| msgid "Data file saved to %1"
+#, kde-format
 msgid "Master Dark saved to %1"
-msgstr "Файл данных сохранён в %1"
+msgstr "Мастер-кадр тёмного кадра сохранён в «%1»"
 
 #: ekos/auxiliary/darklibrary.cpp:1459
 #, fuzzy, kde-format

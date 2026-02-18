@@ -1,10 +1,8 @@
 # Traducerea kstars.po în Română
 # translation of kstars.po to Romanian
-# translation of @PACKAGE.po to @LANGUAGE
 # Copyright (C) 2005, 2008 Free Software Foundation, Inc.
 # Claudiu Costin <claudiuc@kde.org>, 2003, 2005.
-# Sergiu Bivol <sergiu@cip.md>, 2008.
-# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2010, 2012, 2013, 2015, 2020, 2022.
+# SPDX-FileCopyrightText: 2008, 2009, 2010, 2012, 2013, 2015, 2020, 2025, 2026 Sergiu Bivol <sergiu@cip.md>
 # Florentina Mușat <kuchiki14@yahoo.com>, 2010.
 # Victor Cărbune <victor.carbune@kdemail.net>, 2010.
 # Cristian Oneț <onet.cristian@gmail.com>, 2011.
@@ -14,16 +12,16 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-30 02:25+0000\n"
-"PO-Revision-Date: 2022-02-04 15:32+0000\n"
+"PO-Revision-Date: 2026-02-09 15:32+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
-"Language-Team: Romanian\n"
+"Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Lokalize 21.12.2\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -468,10 +466,9 @@ msgid "Remove temporary file %1 from disk?"
 msgstr ""
 
 #: auxiliary/imageviewer.cpp:178
-#, fuzzy, kde-format
-#| msgid "Config file"
+#, kde-format
 msgid "Confirm Removal"
-msgstr "Fșier config"
+msgstr "Confirmă eliminarea"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadB)
 #: auxiliary/imageviewer.cpp:195
@@ -1040,7 +1037,7 @@ msgstr "Nu s-a putut încarca imaginea la %1"
 #: auxiliary/thumbnailpicker.cpp:356
 #, kde-format
 msgid "Failed to load image"
-msgstr "Eșec la încărcarea imaginii"
+msgstr "Încărcarea imaginii a eșuat"
 
 #: auxiliary/thumbnailpicker.h:38
 #, kde-format
@@ -13026,10 +13023,9 @@ msgid "Set filter to %1. Is filter set?"
 msgstr ""
 
 #: ekos/auxiliary/filtermanager.cpp:579
-#, fuzzy, kde-format
-#| msgid "Config file"
+#, kde-format
 msgid "Confirm Filter"
-msgstr "Fșier config"
+msgstr "Confirmă filtrarea"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
@@ -14149,10 +14145,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:32
-#, fuzzy, kde-format
-#| msgid "Arc file"
+#, kde-format
 msgid "Options Profiles"
-msgstr "Fșier arc"
+msgstr "Profiluri de opțiuni"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, optionsProfileGroup)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:64
@@ -20548,10 +20543,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:1108
-#, fuzzy, kde-format
-#| msgid "Arc file"
+#, kde-format
 msgid "Profile..."
-msgstr "Fșier arc"
+msgstr "Profil…"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDataB)
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
@@ -25267,10 +25261,9 @@ msgid "Are you sure you want to delete the profile?"
 msgstr "Sigur doriți să eliminați clientul %1?"
 
 #: ekos/manager.cpp:2753
-#, fuzzy, kde-format
-#| msgid "Config file"
+#, kde-format
 msgid "Confirm Delete"
-msgstr "Fșier config"
+msgstr "Confirmă ștergerea"
 
 #: ekos/manager.cpp:2805
 #, kde-format
@@ -26912,10 +26905,9 @@ msgstr "Port video INDI"
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverProfileLabel)
 #: ekos/profileeditor.ui:32 fitsviewer/platesolve.ui:419
-#, fuzzy, kde-format
-#| msgid "Arc file"
+#, kde-format
 msgid "Profile"
-msgstr "Fșier arc"
+msgstr "Profil"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, autoConnectCheck)
 #: ekos/profileeditor.ui:65
@@ -27179,10 +27171,9 @@ msgstr "stea"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, profileSearchEdit)
 #: ekos/profileeditor.ui:546
-#, fuzzy, kde-format
-#| msgid "Arc file"
+#, kde-format
 msgid "Profile Search"
-msgstr "Fșier arc"
+msgstr "Căutare profil"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteDriversLabel)
 #: ekos/profileeditor.ui:595
@@ -31062,7 +31053,8 @@ msgid "Edit Template"
 msgstr "Editeaza ima&gine..."
 
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:142
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Device:"
 msgid "Device:"
 msgstr "Dispozitiv:"
 
@@ -33506,10 +33498,9 @@ msgid "Detect Stars in Image"
 msgstr "Deschide FITS..."
 
 #: fitsviewer/fitsview.cpp:2808
-#, fuzzy, kde-format
-#| msgid "Arc file"
+#, kde-format
 msgid "View Star Profile..."
-msgstr "Fșier arc"
+msgstr "Vezi profilul stelei…"
 
 #: fitsviewer/fitsview.cpp:2818 fitsviewer/fitsviewer.cpp:254
 #: fitsviewer/fitsviewer.cpp:1511
@@ -35501,11 +35492,10 @@ msgid "Couldn't initialize the OpenGL context."
 msgstr ""
 
 #: fitsviewer/starprofileviewer.cpp:63
-#, fuzzy, kde-format
-#| msgid "Arc file"
+#, kde-format
 msgctxt "@title:window"
 msgid "View Star Profile"
-msgstr "Fșier arc"
+msgstr "Vezi profilul stelei"
 
 #: fitsviewer/starprofileviewer.cpp:80
 #, kde-format
@@ -36490,12 +36480,12 @@ msgstr ""
 #: indi/indidriver.cpp:796
 #, kde-kuit-format
 msgid "Add Host"
-msgstr "Adăugare gazdă"
+msgstr "Adaugă gazdă"
 
 #: indi/indidriver.cpp:843
 #, kde-kuit-format
 msgid "Modify Host"
-msgstr "Modificare gazdă"
+msgstr "Modifică gazda"
 
 #: indi/indidustcap.cpp:59
 #, fuzzy, kde-format
@@ -36548,10 +36538,9 @@ msgid "INDI Server Message"
 msgstr "Server INDI:"
 
 #: indi/indimount.cpp:30 indi/indimount.cpp:1589
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "Moving"
-msgstr "Încărcare %1"
+msgstr "Se mută"
 
 #: indi/indimount.cpp:253
 #, fuzzy, kde-format
@@ -36669,11 +36658,9 @@ msgstr "Timp"
 
 #: indi/indiproperty.cpp:225 indi/indiproperty.cpp:249
 #: kstarslite/qml/indi/modules/KSINDITextField.qml:32
-#, fuzzy, kde-format, kde-kuit-format
-#| msgctxt "Set a value"
-#| msgid "Set"
+#, kde-format, kde-kuit-format
 msgid "Set"
-msgstr "Setează"
+msgstr "Stabilește"
 
 #: indi/indiproperty.cpp:292
 #, kde-format
@@ -41350,7 +41337,7 @@ msgstr ""
 #: kstars.kcfg:1487
 #, kde-format
 msgid "Arc file"
-msgstr "Fșier arc"
+msgstr "Fișier arc"
 
 #. i18n: ectx: whatsthis, entry (XplanetArcFile), group (Xplanet)
 #: kstars.kcfg:1488
@@ -41377,7 +41364,7 @@ msgstr "Specificați un fișier arc ce va fi deschis deasupra fundalului."
 #: kstars.kcfg:1497
 #, kde-format
 msgid "Config file"
-msgstr "Fșier config"
+msgstr "Fișier de configurare"
 
 #. i18n: ectx: whatsthis, entry (XplanetConfigFile), group (Xplanet)
 #: kstars.kcfg:1498
@@ -93521,7 +93508,7 @@ msgstr "Ora locală"
 #: tools/altvstime.cpp:159 tools/skycalendar.cpp:51
 #, kde-format
 msgid "&Print..."
-msgstr "&Printează..."
+msgstr "Ti&părește…"
 
 #: tools/altvstime.cpp:160
 #, fuzzy, kde-format
@@ -95448,13 +95435,15 @@ msgstr "Radisson"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
 #: tools/imagingplanner.ui:1423
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Min:"
 msgid "Min:"
 msgstr "Min:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxRadiusLabel)
 #: tools/imagingplanner.ui:1469
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Max:"
 msgid "Max:"
 msgstr "Max:"
 
@@ -100485,7 +100474,7 @@ msgstr "Dacă e bifat, utilizează un fișier sau o culoare ca fundal."
 #: xplanet/opsxplanet.ui:1033
 #, kde-format
 msgid "Background image:"
-msgstr "Imagine fundal:"
+msgstr "Imagine de fundal:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetBackgroundImagePath)
 #: xplanet/opsxplanet.ui:1043
