@@ -757,7 +757,10 @@ void SequenceJobState::setCurrentFilterID(int value)
 {
     // ignore events if preparation is already completed
     if (preparationCompleted())
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Current Filter ID" << value << "received but preparation already complete.";
         return;
+    }
 
     m_CameraState->currentFilterID = value;
     // Signal the FilterManager if we need a new targetFilterID or a new autofocus on that filter
@@ -765,8 +768,23 @@ void SequenceJobState::setCurrentFilterID(int value)
             (value != targetFilterID || m_filterPolicy & FilterManager::AUTOFOCUS_POLICY))
     {
         // mark filter preparation action
-        // TODO introduce settle time
         prepareActions[CAPTURE_ACTION_FILTER] = false;
+
+        // Pre-register AUTOFOCUS as not-ready only when the filter actually needs to physically
+        // move to a different position. In that case, FilterManager queues FILTER_AUTOFOCUS after
+        // the move completes. Without this, the filter wheel arriving at the target position fires
+        // checkAllActionsReady() — BEFORE FilterManager has dequeued FILTER_AUTOFOCUS — causing
+        // prepareComplete() to fire prematurely while autofocus hasn't started yet.
+        // When the filter is already at the target position (value == targetFilterID), FilterManager
+        // may still run autofocus via setFilterStatus(FILTER_AUTOFOCUS) in the normal path,
+        // so we must not pre-register it here or we will block indefinitely.
+        if ((value != targetFilterID) && (m_filterPolicy & FilterManager::AUTOFOCUS_POLICY))
+        {
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Pre-registering AUTOFOCUS action as not ready "
+                                            "(filter needs to move to" << targetFilterID
+                                         << "from current" << value << "and AUTOFOCUS_POLICY is set).";
+            prepareActions[CAPTURE_ACTION_AUTOFOCUS] = false;
+        }
 
         emit changeFilterPosition(targetFilterID, m_filterPolicy);
         emit prepareState(CAPTURE_CHANGING_FILTER);
@@ -774,7 +792,12 @@ void SequenceJobState::setCurrentFilterID(int value)
     setInitialized(CAPTURE_ACTION_FILTER, true);
 
     if (value == targetFilterID)
+    {
         prepareActions[CAPTURE_ACTION_FILTER] = true;
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Filter reached target" << targetFilterID
+                                     << "AUTOFOCUS pending:" << (prepareActions.contains(CAPTURE_ACTION_AUTOFOCUS)
+                                             && !prepareActions[CAPTURE_ACTION_AUTOFOCUS]);
+    }
     else if (value < 0)
     {
         m_PreparationState = PREP_NONE;
@@ -860,7 +883,10 @@ void SequenceJobState::setFocusStatus(FocusState state)
 {
     // ignore events if preparation is already completed
     if (preparationCompleted())
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Focus status" << state << "received but preparation already complete - ignoring.";
         return;
+    }
 
     switch (state)
     {
@@ -1032,7 +1058,10 @@ void SequenceJobState::setFilterStatus(FilterState filterState)
 {
     // ignore events if preparation is already completed
     if (preparationCompleted())
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Filter status" << filterState << "received but preparation already complete - ignoring.";
         return;
+    }
 
     switch (filterState)
     {
