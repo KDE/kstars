@@ -217,7 +217,7 @@ inline QString statusHelp(const QString &name, const bool useNA = true)
 inline QString overallStatusHelp(const QString &name)
 {
     return ki18nc("Stack monitor overall status help",
-                  "%1 \n%2\n%3 = Processed Successfully\n%4\n%5\n%6\n%7\n%8\n%9")
+                  "%1 \n%2\n%3 = Processed Successfully\n%4\n%5\n%6\n%7\n%8\n%9\n%10")
            .subs(name)
            .subs(displayOverallStatus(SubStatus::InProgress))
            .subs(displayOverallStatus(SubStatus::Processed))
