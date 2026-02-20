@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-30 02:25+0000\n"
+"POT-Creation-Date: 2026-02-20 02:42+0000\n"
 "PO-Revision-Date: 2024-07-27 13:28+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -18768,46 +18768,46 @@ msgstr "FITS 影像載入失敗，正在中止..."
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "重新啟動自動對焦程序..."
 
-#: ekos/capture/sequencejobstate.cpp:921
+#: ekos/capture/sequencejobstate.cpp:947
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:935
+#: ekos/capture/sequencejobstate.cpp:961
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap error occurred."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:939
+#: ekos/capture/sequencejobstate.cpp:965
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Dust cap is idle."
 msgstr "%1  過濾器已上線。"
 
-#: ekos/capture/sequencejobstate.cpp:942
+#: ekos/capture/sequencejobstate.cpp:968
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is parked."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:945
+#: ekos/capture/sequencejobstate.cpp:971
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is parking..."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:948
+#: ekos/capture/sequencejobstate.cpp:974
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is unparking..."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:951
+#: ekos/capture/sequencejobstate.cpp:977
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
@@ -33923,7 +33923,8 @@ msgid ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:240

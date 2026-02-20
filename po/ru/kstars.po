@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-30 02:25+0000\n"
+"POT-Creation-Date: 2026-02-20 02:42+0000\n"
 "PO-Revision-Date: 2026-02-17 12:59+0200\n"
 "Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -18635,46 +18635,46 @@ msgstr "Не удалось загрузить изображение FITS, пр
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Рестарт процесса автофокусировки..."
 
-#: ekos/capture/sequencejobstate.cpp:921
+#: ekos/capture/sequencejobstate.cpp:947
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:935
+#: ekos/capture/sequencejobstate.cpp:961
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap error occurred."
 msgstr "Дом-Крик"
 
-#: ekos/capture/sequencejobstate.cpp:939
+#: ekos/capture/sequencejobstate.cpp:965
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Dust cap is idle."
 msgstr "фильтр %1 доступен."
 
-#: ekos/capture/sequencejobstate.cpp:942
+#: ekos/capture/sequencejobstate.cpp:968
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is parked."
 msgstr "Дом-Крик"
 
-#: ekos/capture/sequencejobstate.cpp:945
+#: ekos/capture/sequencejobstate.cpp:971
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is parking..."
 msgstr "Дом-Крик"
 
-#: ekos/capture/sequencejobstate.cpp:948
+#: ekos/capture/sequencejobstate.cpp:974
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is unparking..."
 msgstr "Дом-Крик"
 
-#: ekos/capture/sequencejobstate.cpp:951
+#: ekos/capture/sequencejobstate.cpp:977
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
@@ -34156,7 +34156,18 @@ msgstr ""
 "%2 = Не применимо"
 
 #: fitsviewer/fitsstackmonitor.h:220
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Stack monitor overall status help"
+#| msgid ""
+#| "%1 \n"
+#| "%2\n"
+#| "%3 = Processed Successfully\n"
+#| "%4\n"
+#| "%5\n"
+#| "%6\n"
+#| "%7\n"
+#| "%8\n"
+#| "%9"
 msgctxt "Stack monitor overall status help"
 msgid ""
 "%1 \n"
@@ -34167,7 +34178,8 @@ msgid ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 msgstr ""
 "%1 \n"
 "%2\n"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-30 02:25+0000\n"
+"POT-Creation-Date: 2026-02-20 02:42+0000\n"
 "PO-Revision-Date: 2025-06-21 12:07+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -18357,37 +18357,37 @@ msgstr "O estacionamento da bóveda fallou, interrompendo…"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Estacionando a bóveda antes de calibrar a captura de fotogramas…"
 
-#: ekos/capture/sequencejobstate.cpp:921
+#: ekos/capture/sequencejobstate.cpp:947
 #, kde-format
 msgid "Light box on."
 msgstr "A caixa luminosa está acendida."
 
-#: ekos/capture/sequencejobstate.cpp:935
+#: ekos/capture/sequencejobstate.cpp:961
 #, kde-format
 msgid "Dust cap error occurred."
 msgstr "Produciuse un erro de cuberta."
 
-#: ekos/capture/sequencejobstate.cpp:939
+#: ekos/capture/sequencejobstate.cpp:965
 #, kde-format
 msgid "Dust cap is idle."
 msgstr "A cuberta está desocupada."
 
-#: ekos/capture/sequencejobstate.cpp:942
+#: ekos/capture/sequencejobstate.cpp:968
 #, kde-format
 msgid "Dust cap is parked."
 msgstr "A cuberta está estacionada."
 
-#: ekos/capture/sequencejobstate.cpp:945
+#: ekos/capture/sequencejobstate.cpp:971
 #, kde-format
 msgid "Dust cap is parking..."
 msgstr "A cuberta está estacionándose…"
 
-#: ekos/capture/sequencejobstate.cpp:948
+#: ekos/capture/sequencejobstate.cpp:974
 #, kde-format
 msgid "Dust cap is unparking..."
 msgstr "A cuberta está desestacionándose…"
 
-#: ekos/capture/sequencejobstate.cpp:951
+#: ekos/capture/sequencejobstate.cpp:977
 #, kde-format
 msgid "Dust cap status unknown."
 msgstr "Descoñécese o estado da cuberta."
@@ -32997,7 +32997,8 @@ msgid ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:240

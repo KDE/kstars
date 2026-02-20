@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-30 02:25+0000\n"
+"POT-Creation-Date: 2026-02-20 02:42+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -17424,45 +17424,45 @@ msgstr "ടെലസ്കോപ്പ്"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"
 
-#: ekos/capture/sequencejobstate.cpp:921
+#: ekos/capture/sequencejobstate.cpp:947
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:935
+#: ekos/capture/sequencejobstate.cpp:961
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Cave Creek"
 msgid "Dust cap error occurred."
 msgstr "കേവ് ക്രീക്ക്"
 
-#: ekos/capture/sequencejobstate.cpp:939
+#: ekos/capture/sequencejobstate.cpp:965
 #, fuzzy, kde-format
 msgid "Dust cap is idle."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/capture/sequencejobstate.cpp:942
+#: ekos/capture/sequencejobstate.cpp:968
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Cave Creek"
 msgid "Dust cap is parked."
 msgstr "കേവ് ക്രീക്ക്"
 
-#: ekos/capture/sequencejobstate.cpp:945
+#: ekos/capture/sequencejobstate.cpp:971
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Cave Creek"
 msgid "Dust cap is parking..."
 msgstr "കേവ് ക്രീക്ക്"
 
-#: ekos/capture/sequencejobstate.cpp:948
+#: ekos/capture/sequencejobstate.cpp:974
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Cave Creek"
 msgid "Dust cap is unparking..."
 msgstr "കേവ് ക്രീക്ക്"
 
-#: ekos/capture/sequencejobstate.cpp:951
+#: ekos/capture/sequencejobstate.cpp:977
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Cave Creek"
@@ -30819,7 +30819,8 @@ msgid ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:240

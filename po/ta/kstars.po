@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-30 02:25+0000\n"
+"POT-Creation-Date: 2026-02-20 02:42+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -17992,38 +17992,38 @@ msgstr "தொலை நோக்கி"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/capture/sequencejobstate.cpp:921
+#: ekos/capture/sequencejobstate.cpp:947
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:935
+#: ekos/capture/sequencejobstate.cpp:961
 #, fuzzy, kde-format
 msgid "Dust cap error occurred."
 msgstr "கூஸ்கிரீக்"
 
-#: ekos/capture/sequencejobstate.cpp:939
+#: ekos/capture/sequencejobstate.cpp:965
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Dust cap is idle."
 msgstr "%1 இணைப்பில் உள்ளது"
 
-#: ekos/capture/sequencejobstate.cpp:942
+#: ekos/capture/sequencejobstate.cpp:968
 #, fuzzy, kde-format
 msgid "Dust cap is parked."
 msgstr "கூஸ்கிரீக்"
 
-#: ekos/capture/sequencejobstate.cpp:945
+#: ekos/capture/sequencejobstate.cpp:971
 #, fuzzy, kde-format
 msgid "Dust cap is parking..."
 msgstr "கூஸ்கிரீக்"
 
-#: ekos/capture/sequencejobstate.cpp:948
+#: ekos/capture/sequencejobstate.cpp:974
 #, fuzzy, kde-format
 msgid "Dust cap is unparking..."
 msgstr "கூஸ்கிரீக்"
 
-#: ekos/capture/sequencejobstate.cpp:951
+#: ekos/capture/sequencejobstate.cpp:977
 #, fuzzy, kde-format
 msgid "Dust cap status unknown."
 msgstr "கூஸ்கிரீக்"
@@ -31743,7 +31743,8 @@ msgid ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:240

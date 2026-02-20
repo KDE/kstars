@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-30 02:25+0000\n"
+"POT-Creation-Date: 2026-02-20 02:42+0000\n"
 "PO-Revision-Date: 2009-02-23 19:53+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -18242,46 +18242,46 @@ msgstr "रेडियोटेलिस्कोप"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "मं चालू:"
 
-#: ekos/capture/sequencejobstate.cpp:921
+#: ekos/capture/sequencejobstate.cpp:947
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:935
+#: ekos/capture/sequencejobstate.cpp:961
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Dust cap error occurred."
 msgstr "डोम क्रीक"
 
-#: ekos/capture/sequencejobstate.cpp:939
+#: ekos/capture/sequencejobstate.cpp:965
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Dust cap is idle."
 msgstr "%1 आनलाइन हे."
 
-#: ekos/capture/sequencejobstate.cpp:942
+#: ekos/capture/sequencejobstate.cpp:968
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Dust cap is parked."
 msgstr "डोम क्रीक"
 
-#: ekos/capture/sequencejobstate.cpp:945
+#: ekos/capture/sequencejobstate.cpp:971
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Dust cap is parking..."
 msgstr "डोम क्रीक"
 
-#: ekos/capture/sequencejobstate.cpp:948
+#: ekos/capture/sequencejobstate.cpp:974
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Dust cap is unparking..."
 msgstr "डोम क्रीक"
 
-#: ekos/capture/sequencejobstate.cpp:951
+#: ekos/capture/sequencejobstate.cpp:977
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
@@ -32399,7 +32399,8 @@ msgid ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:240

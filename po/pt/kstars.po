@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-30 02:25+0000\n"
+"POT-Creation-Date: 2026-02-20 02:42+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -19718,42 +19718,42 @@ msgstr "O bloqueio do Dome foi mal-sucedido; a interromper..."
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "A bloquear o 'dome' antes da captura das imagens de calibração..."
 
-#: ekos/capture/sequencejobstate.cpp:921
+#: ekos/capture/sequencejobstate.cpp:947
 #, kde-format
 msgid "Light box on."
 msgstr "Caixa de luz ligada."
 
-#: ekos/capture/sequencejobstate.cpp:935
+#: ekos/capture/sequencejobstate.cpp:961
 #, fuzzy, kde-format
 #| msgid "Dust cap parked."
 msgid "Dust cap error occurred."
 msgstr "A tampa de pó está bloqueada."
 
-#: ekos/capture/sequencejobstate.cpp:939
+#: ekos/capture/sequencejobstate.cpp:965
 #, fuzzy, kde-format
 #| msgid "%1 Dust cap is online."
 msgid "Dust cap is idle."
 msgstr "A tampa de pó %1 está ligada."
 
-#: ekos/capture/sequencejobstate.cpp:942
+#: ekos/capture/sequencejobstate.cpp:968
 #, fuzzy, kde-format
 #| msgid "Dust cap parked."
 msgid "Dust cap is parked."
 msgstr "A tampa de pó está bloqueada."
 
-#: ekos/capture/sequencejobstate.cpp:945
+#: ekos/capture/sequencejobstate.cpp:971
 #, fuzzy, kde-format
 #| msgid "%1 is parking..."
 msgid "Dust cap is parking..."
 msgstr "O %1 está a bloquear..."
 
-#: ekos/capture/sequencejobstate.cpp:948
+#: ekos/capture/sequencejobstate.cpp:974
 #, fuzzy, kde-format
 #| msgid "%1 is unparking..."
 msgid "Dust cap is unparking..."
 msgstr "O %1 está a desbloquear..."
 
-#: ekos/capture/sequencejobstate.cpp:951
+#: ekos/capture/sequencejobstate.cpp:977
 #, fuzzy, kde-format
 #| msgid "Dust cap unparked."
 msgid "Dust cap status unknown."
@@ -34704,7 +34704,8 @@ msgid ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:240

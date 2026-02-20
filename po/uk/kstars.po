@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-30 02:25+0000\n"
+"POT-Creation-Date: 2026-02-20 02:42+0000\n"
 "PO-Revision-Date: 2026-01-22 21:04+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -18246,37 +18246,37 @@ msgstr ""
 "Паркуємо купол, перш ніж виконувати процедуру захоплення кадрів для "
 "калібрування…"
 
-#: ekos/capture/sequencejobstate.cpp:921
+#: ekos/capture/sequencejobstate.cpp:947
 #, kde-format
 msgid "Light box on."
 msgstr "Підсвічування увімкнено."
 
-#: ekos/capture/sequencejobstate.cpp:935
+#: ekos/capture/sequencejobstate.cpp:961
 #, kde-format
 msgid "Dust cap error occurred."
 msgstr "Сталася помилка при роботі з пилозахисним ковпаком."
 
-#: ekos/capture/sequencejobstate.cpp:939
+#: ekos/capture/sequencejobstate.cpp:965
 #, kde-format
 msgid "Dust cap is idle."
 msgstr "Протипиловий ковпак неактивний."
 
-#: ekos/capture/sequencejobstate.cpp:942
+#: ekos/capture/sequencejobstate.cpp:968
 #, kde-format
 msgid "Dust cap is parked."
 msgstr "Пилозахисний ковпак запарковано."
 
-#: ekos/capture/sequencejobstate.cpp:945
+#: ekos/capture/sequencejobstate.cpp:971
 #, kde-format
 msgid "Dust cap is parking..."
 msgstr "Паркуємо пилозахисний ковпак…"
 
-#: ekos/capture/sequencejobstate.cpp:948
+#: ekos/capture/sequencejobstate.cpp:974
 #, kde-format
 msgid "Dust cap is unparking..."
 msgstr "Знімаємо з паркування пилозахисний ковпак…"
 
-#: ekos/capture/sequencejobstate.cpp:951
+#: ekos/capture/sequencejobstate.cpp:977
 #, kde-format
 msgid "Dust cap status unknown."
 msgstr "Стан пилозахисного ковпака не відомий."
@@ -32678,7 +32678,18 @@ msgstr ""
 "%2 = Не застосовне"
 
 #: fitsviewer/fitsstackmonitor.h:220
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Stack monitor overall status help"
+#| msgid ""
+#| "%1 \n"
+#| "%2\n"
+#| "%3 = Processed Successfully\n"
+#| "%4\n"
+#| "%5\n"
+#| "%6\n"
+#| "%7\n"
+#| "%8\n"
+#| "%9"
 msgctxt "Stack monitor overall status help"
 msgid ""
 "%1 \n"
@@ -32689,7 +32700,8 @@ msgid ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 msgstr ""
 "%1 \n"
 "%2\n"

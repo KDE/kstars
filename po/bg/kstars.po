@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-30 02:25+0000\n"
+"POT-Creation-Date: 2026-02-20 02:42+0000\n"
 "PO-Revision-Date: 2025-09-14 15:11+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -18370,37 +18370,37 @@ msgstr "Паркирането на купола е неуспешно, прек
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Паркиране на купола преди заснемане на кадри за калибриране..."
 
-#: ekos/capture/sequencejobstate.cpp:921
+#: ekos/capture/sequencejobstate.cpp:947
 #, kde-format
 msgid "Light box on."
 msgstr "Включена е светлинната кутия."
 
-#: ekos/capture/sequencejobstate.cpp:935
+#: ekos/capture/sequencejobstate.cpp:961
 #, kde-format
 msgid "Dust cap error occurred."
 msgstr "Възникна грешка в капачката за прах."
 
-#: ekos/capture/sequencejobstate.cpp:939
+#: ekos/capture/sequencejobstate.cpp:965
 #, kde-format
 msgid "Dust cap is idle."
 msgstr "Капачката за прах е в покой."
 
-#: ekos/capture/sequencejobstate.cpp:942
+#: ekos/capture/sequencejobstate.cpp:968
 #, kde-format
 msgid "Dust cap is parked."
 msgstr "Прахозащитната капачка е паркирана."
 
-#: ekos/capture/sequencejobstate.cpp:945
+#: ekos/capture/sequencejobstate.cpp:971
 #, kde-format
 msgid "Dust cap is parking..."
 msgstr "Прахозащитната капачка е паркирана..."
 
-#: ekos/capture/sequencejobstate.cpp:948
+#: ekos/capture/sequencejobstate.cpp:974
 #, kde-format
 msgid "Dust cap is unparking..."
 msgstr "Капачката за прах се откопчава..."
 
-#: ekos/capture/sequencejobstate.cpp:951
+#: ekos/capture/sequencejobstate.cpp:977
 #, kde-format
 msgid "Dust cap status unknown."
 msgstr "Състоянието на капачката за прах е неизвестно."
@@ -32968,7 +32968,8 @@ msgid ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:240

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-30 02:25+0000\n"
+"POT-Creation-Date: 2026-02-20 02:42+0000\n"
 "PO-Revision-Date: 2013-11-16 05:16+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -18622,46 +18622,46 @@ msgstr "FITS кескінің жүктеу жаңылысы, доғарылад�
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Автотоғыстау барысында..."
 
-#: ekos/capture/sequencejobstate.cpp:921
+#: ekos/capture/sequencejobstate.cpp:947
 #, kde-format
 msgid "Light box on."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:935
+#: ekos/capture/sequencejobstate.cpp:961
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap error occurred."
 msgstr "Доум-Крик"
 
-#: ekos/capture/sequencejobstate.cpp:939
+#: ekos/capture/sequencejobstate.cpp:965
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Dust cap is idle."
 msgstr "%1 байланыста."
 
-#: ekos/capture/sequencejobstate.cpp:942
+#: ekos/capture/sequencejobstate.cpp:968
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is parked."
 msgstr "Доум-Крик"
 
-#: ekos/capture/sequencejobstate.cpp:945
+#: ekos/capture/sequencejobstate.cpp:971
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is parking..."
 msgstr "Доум-Крик"
 
-#: ekos/capture/sequencejobstate.cpp:948
+#: ekos/capture/sequencejobstate.cpp:974
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is unparking..."
 msgstr "Доум-Крик"
 
-#: ekos/capture/sequencejobstate.cpp:951
+#: ekos/capture/sequencejobstate.cpp:977
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
@@ -33563,7 +33563,8 @@ msgid ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 msgstr ""
 
 #: fitsviewer/fitsstackmonitor.h:240

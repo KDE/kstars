@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-30 02:25+0000\n"
+"POT-Creation-Date: 2026-02-20 02:42+0000\n"
 "PO-Revision-Date: 2026-01-22 11:22+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -18293,37 +18293,37 @@ msgstr "Ha fallado el aparcamiento de la cúpula. Interrumpiendo…"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Aparcando la cúpula antes de capturar fotogramas de calibración…"
 
-#: ekos/capture/sequencejobstate.cpp:921
+#: ekos/capture/sequencejobstate.cpp:947
 #, kde-format
 msgid "Light box on."
 msgstr "Caja de luz encendida."
 
-#: ekos/capture/sequencejobstate.cpp:935
+#: ekos/capture/sequencejobstate.cpp:961
 #, kde-format
 msgid "Dust cap error occurred."
 msgstr "Ha ocurrido un error de la cubierta antipolvo."
 
-#: ekos/capture/sequencejobstate.cpp:939
+#: ekos/capture/sequencejobstate.cpp:965
 #, kde-format
 msgid "Dust cap is idle."
 msgstr "La cubierta antipolvo está inactiva."
 
-#: ekos/capture/sequencejobstate.cpp:942
+#: ekos/capture/sequencejobstate.cpp:968
 #, kde-format
 msgid "Dust cap is parked."
 msgstr "La cubierta antipolvo está aparcada."
 
-#: ekos/capture/sequencejobstate.cpp:945
+#: ekos/capture/sequencejobstate.cpp:971
 #, kde-format
 msgid "Dust cap is parking..."
 msgstr "La cubierta antipolvo se está aparcando…"
 
-#: ekos/capture/sequencejobstate.cpp:948
+#: ekos/capture/sequencejobstate.cpp:974
 #, kde-format
 msgid "Dust cap is unparking..."
 msgstr "La cubierta antipolvo se está desaparcando…"
 
-#: ekos/capture/sequencejobstate.cpp:951
+#: ekos/capture/sequencejobstate.cpp:977
 #, kde-format
 msgid "Dust cap status unknown."
 msgstr "Se desconoce el estado de la cubierta antipolvo."
@@ -32764,7 +32764,18 @@ msgstr ""
 "%2 = No aplicable"
 
 #: fitsviewer/fitsstackmonitor.h:220
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Stack monitor overall status help"
+#| msgid ""
+#| "%1 \n"
+#| "%2\n"
+#| "%3 = Processed Successfully\n"
+#| "%4\n"
+#| "%5\n"
+#| "%6\n"
+#| "%7\n"
+#| "%8\n"
+#| "%9"
 msgctxt "Stack monitor overall status help"
 msgid ""
 "%1 \n"
@@ -32775,7 +32786,8 @@ msgid ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 msgstr ""
 "%1 \n"
 "%2\n"
