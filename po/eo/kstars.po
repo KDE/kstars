@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-20 02:42+0000\n"
+"POT-Creation-Date: 2026-02-21 02:10+0000\n"
 "PO-Revision-Date: 2025-03-30 23:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -32,7 +32,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "heiko@evermann.de,olivermkellogg@gmail.com"
 
-#: auxiliary/colorscheme.cpp:29 kstars.cpp:62
+#: auxiliary/colorscheme.cpp:29 kstars.cpp:63
 #, kde-format
 msgid "Sky"
 msgstr "Ĉielo"
@@ -33543,7 +33543,7 @@ msgstr "Marki Stelojn"
 msgid "View 3D Graph"
 msgstr "Rigardi 3D-Grafikon"
 
-#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:1124 kstars.cpp:65
+#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:1124 kstars.cpp:66
 #, fuzzy, kde-format
 #| msgid "KStars Lite"
 msgctxt "@title:window"
@@ -37416,40 +37416,40 @@ msgstr "Iri al && Meti Kiel Parkuma Pozicio"
 msgid "Find Telescope"
 msgstr "Trovi Teleskopon"
 
-#: kstars.cpp:65
+#: kstars.cpp:66
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:298 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
+#: kstars.cpp:299 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:299
+#: kstars.cpp:300
 #, fuzzy, kde-format
 #| msgid "KStars Lite"
 msgid "KStars Live Stacker"
 msgstr "KStars Lite"
 
-#: kstars.cpp:300
+#: kstars.cpp:301
 #, fuzzy, kde-format
 #| msgid "(c), The KStars Team"
 msgid "© 2025 KStars Team"
 msgstr "(c), La KStars Teamo"
 
-#: kstars.cpp:427 kstarsactions.cpp:1658 skymap.cpp:463
+#: kstars.cpp:428 kstarsactions.cpp:1658 skymap.cpp:463
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "Hal&tigi Spuradon"
 
-#: kstars.cpp:435 kstarsactions.cpp:1825 kstarsinit.cpp:277
+#: kstars.cpp:436 kstarsactions.cpp:1825 kstarsinit.cpp:277
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Ŝanĝi al Star Globe View (Ekvatoraj &Koordinatoj)"
 
-#: kstars.cpp:436 kstarsactions.cpp:1806 kstarsinit.cpp:278
+#: kstars.cpp:437 kstarsactions.cpp:1806 kstarsinit.cpp:278
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Ŝanĝi al Horizontala Vido (Horizontalaj &Koordinatoj)"

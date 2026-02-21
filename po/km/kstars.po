@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-20 02:42+0000\n"
+"POT-Creation-Date: 2026-02-21 02:10+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -29,7 +29,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "khoemsokhem@khmeros.info,​​evannak@khmeros.info,piseth_dv@khmeros.info"
 
-#: auxiliary/colorscheme.cpp:29 kstars.cpp:62
+#: auxiliary/colorscheme.cpp:29 kstars.cpp:63
 #, fuzzy, kde-format
 msgid "Sky"
 msgstr "​មេឃ"
@@ -30624,7 +30624,7 @@ msgstr "ផ្កា​ភ្លើង​"
 msgid "View 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:1124 kstars.cpp:65
+#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:1124 kstars.cpp:66
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "KStars Live Stacker"
@@ -34167,38 +34167,38 @@ msgstr ""
 msgid "Find Telescope"
 msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 
-#: kstars.cpp:65
+#: kstars.cpp:66
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "KStars"
 msgstr "ផ្កាយ"
 
-#: kstars.cpp:298 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
+#: kstars.cpp:299 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
 #, fuzzy, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "ផ្កាយ"
 
-#: kstars.cpp:299
+#: kstars.cpp:300
 #, fuzzy, kde-format
 msgid "KStars Live Stacker"
 msgstr "ផ្កាយ"
 
-#: kstars.cpp:300
+#: kstars.cpp:301
 #, kde-format
 msgid "© 2025 KStars Team"
 msgstr ""
 
-#: kstars.cpp:427 kstarsactions.cpp:1658 skymap.cpp:463
+#: kstars.cpp:428 kstarsactions.cpp:1658 skymap.cpp:463
 #, kde-format
 msgid "Stop &Tracking"
 msgstr ""
 
-#: kstars.cpp:435 kstarsactions.cpp:1825 kstarsinit.cpp:277
+#: kstars.cpp:436 kstarsactions.cpp:1825 kstarsinit.cpp:277
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr ""
 
-#: kstars.cpp:436 kstarsactions.cpp:1806 kstarsinit.cpp:278
+#: kstars.cpp:437 kstarsactions.cpp:1806 kstarsinit.cpp:278
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr ""

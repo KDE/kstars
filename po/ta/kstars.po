@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-20 02:42+0000\n"
+"POT-Creation-Date: 2026-02-21 02:10+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -44,7 +44,7 @@ msgstr ""
 "_: EMAIL OF TRANSLATORS\n"
 "tamilpc@ambalam.com"
 
-#: auxiliary/colorscheme.cpp:29 kstars.cpp:62
+#: auxiliary/colorscheme.cpp:29 kstars.cpp:63
 #, kde-format
 msgid "Sky"
 msgstr "வானம்"
@@ -32759,7 +32759,7 @@ msgstr "மர்கர்ஸ்"
 msgid "View 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:1124 kstars.cpp:65
+#: fitsviewer/fitsviewer.cpp:350 fitsviewer/fitsviewer.cpp:1124 kstars.cpp:66
 #, fuzzy, kde-format
 #| msgid "KStars"
 msgctxt "@title:window"
@@ -36590,42 +36590,42 @@ msgstr ""
 msgid "Find Telescope"
 msgstr "தொலை நோக்கியின் அமைப்பு"
 
-#: kstars.cpp:65
+#: kstars.cpp:66
 #, fuzzy, kde-format
 #| msgid "KStars"
 msgctxt "@title:window"
 msgid "KStars"
 msgstr "கே-ஸ்டார்ஸ்"
 
-#: kstars.cpp:298 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
+#: kstars.cpp:299 kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:139
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "கே-ஸ்டார்ஸ்"
 
-#: kstars.cpp:299
+#: kstars.cpp:300
 #, fuzzy, kde-format
 #| msgid "KStars"
 msgid "KStars Live Stacker"
 msgstr "கே-ஸ்டார்ஸ்"
 
-#: kstars.cpp:300
+#: kstars.cpp:301
 #, fuzzy, kde-format
 #| msgid "(c) 2001-2003, The KStars Team"
 msgid "© 2025 KStars Team"
 msgstr "(c) 2001-2003, கே-ஸ்டார்ஸ் குழு"
 
-#: kstars.cpp:427 kstarsactions.cpp:1658 skymap.cpp:463
+#: kstars.cpp:428 kstarsactions.cpp:1658 skymap.cpp:463
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "நிறுத்தல் &சுவடுபற்றல்"
 
-#: kstars.cpp:435 kstarsactions.cpp:1825 kstarsinit.cpp:277
+#: kstars.cpp:436 kstarsactions.cpp:1825 kstarsinit.cpp:277
 #, fuzzy, kde-format
 #| msgid "Equatorial &Coordinates"
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "மத்திய ஒருங்கிணைப்புகள்"
 
-#: kstars.cpp:436 kstarsactions.cpp:1806 kstarsinit.cpp:278
+#: kstars.cpp:437 kstarsactions.cpp:1806 kstarsinit.cpp:278
 #, fuzzy, kde-format
 #| msgid "Horizontal &Coordinates"
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
