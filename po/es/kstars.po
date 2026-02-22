@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-21 02:10+0000\n"
-"PO-Revision-Date: 2026-01-22 11:22+0100\n"
+"PO-Revision-Date: 2026-02-21 00:55+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.12.1\n"
+"X-Generator: Lokalize 25.12.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -32764,18 +32764,7 @@ msgstr ""
 "%2 = No aplicable"
 
 #: fitsviewer/fitsstackmonitor.h:220
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor overall status help"
-#| msgid ""
-#| "%1 \n"
-#| "%2\n"
-#| "%3 = Processed Successfully\n"
-#| "%4\n"
-#| "%5\n"
-#| "%6\n"
-#| "%7\n"
-#| "%8\n"
-#| "%9"
+#, kde-format
 msgctxt "Stack monitor overall status help"
 msgid ""
 "%1 \n"
@@ -32797,7 +32786,8 @@ msgstr ""
 "%6\n"
 "%7\n"
 "%8\n"
-"%9"
+"%9\n"
+"%10"
 
 #: fitsviewer/fitsstackmonitor.h:240
 #, kde-format
