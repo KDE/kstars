@@ -770,19 +770,22 @@ void SequenceJobState::setCurrentFilterID(int value)
         // mark filter preparation action
         prepareActions[CAPTURE_ACTION_FILTER] = false;
 
-        // Pre-register AUTOFOCUS as not-ready only when the filter actually needs to physically
-        // move to a different position. In that case, FilterManager queues FILTER_AUTOFOCUS after
-        // the move completes. Without this, the filter wheel arriving at the target position fires
-        // checkAllActionsReady() — BEFORE FilterManager has dequeued FILTER_AUTOFOCUS — causing
-        // prepareComplete() to fire prematurely while autofocus hasn't started yet.
-        // When the filter is already at the target position (value == targetFilterID), FilterManager
-        // may still run autofocus via setFilterStatus(FILTER_AUTOFOCUS) in the normal path,
-        // so we must not pre-register it here or we will block indefinitely.
-        if ((value != targetFilterID) && (m_filterPolicy & FilterManager::AUTOFOCUS_POLICY))
+        // Pre-register AUTOFOCUS as not-ready whenever AUTOFOCUS_POLICY is set in the filter policy.
+        // FilterManager will always call setFilterStatus(FILTER_AUTOFOCUS) when AUTOFOCUS_POLICY is
+        // present — regardless of whether the filter physically needs to move or is already at target.
+        // Without this pre-registration, checkAllActionsReady() can fire the moment the filter
+        // position is confirmed (FILTER=true, AUTOFOCUS not yet in map → areActionsReady() = true),
+        // causing prepareComplete()/initCaptureComplete() to fire prematurely before autofocus runs.
+        // This guard is intentionally NOT conditioned on (value != targetFilterID): the race exists
+        // equally when the filter is already at target, because FilterManager still queues
+        // FILTER_AUTOFOCUS asynchronously based solely on the policy flags.
+        // Safety: if AUTOFOCUS_POLICY is absent (e.g. stripped because autoFocusReady==false),
+        // FilterManager emits FILTER_IDLE without ever calling setFilterStatus(FILTER_AUTOFOCUS),
+        // so AUTOFOCUS never enters the map and areActionsReady() will naturally return true. ✓
+        if (m_filterPolicy & FilterManager::AUTOFOCUS_POLICY)
         {
             qCDebug(KSTARS_EKOS_CAPTURE) << "Pre-registering AUTOFOCUS action as not ready "
-                                            "(filter needs to move to" << targetFilterID
-                                         << "from current" << value << "and AUTOFOCUS_POLICY is set).";
+                                            "(AUTOFOCUS_POLICY is set).";
             prepareActions[CAPTURE_ACTION_AUTOFOCUS] = false;
         }
 
