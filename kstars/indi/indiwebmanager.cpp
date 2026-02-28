@@ -95,19 +95,28 @@ bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUr
     }
 }
 
-// Helper function to check if a TCP port is reachable
+// Helper function to check if a TCP port is reachable.
+// Uses QEventLoop + signals instead of blocking waitForConnected(), which is
+// documented to fail randomly on Windows and is unreliable on macOS.
 static bool isPortReachable(const QString &host, int port, int timeoutMs)
 {
     QTcpSocket socket;
-    socket.connectToHost(host, port);
+    QEventLoop loop;
+    QTimer timer;
+    timer.setSingleShot(true);
 
-    if (socket.waitForConnected(timeoutMs))
-    {
+    QObject::connect(&socket, &QTcpSocket::connected, &loop, &QEventLoop::quit);
+    QObject::connect(&socket, &QAbstractSocket::errorOccurred, &loop, &QEventLoop::quit);
+    QObject::connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+
+    timer.start(timeoutMs);
+    socket.connectToHost(host, static_cast<quint16>(port));
+    loop.exec();
+
+    const bool connected = (socket.state() == QAbstractSocket::ConnectedState);
+    if (connected)
         socket.disconnectFromHost();
-        return true;
-    }
-
-    return false;
+    return connected;
 }
 
 // Helper function to try API connection with timeout
@@ -116,7 +125,7 @@ static bool tryApiConnection(const QString &host, int port, int timeoutMs)
     QTimer timer;
     timer.setSingleShot(true);
     QNetworkAccessManager manager;
-    QUrl url(QString("http://%1:%2/api/server/status").arg(host).arg(port));
+    QUrl url(QString("http://%1:%2/api/server/status").arg(host).arg(QString::number(port)));
     QNetworkReply *response = manager.get(QNetworkRequest(url));
 
     // Wait synchronously
@@ -210,7 +219,7 @@ bool isOnline(const QSharedPointer<ProfileInfo> &pi)
 bool checkVersion(const QSharedPointer<ProfileInfo> &pi)
 {
     QNetworkAccessManager manager;
-    QUrl url(QString("http://%1:%2/api/info/version").arg(pi->host).arg(pi->INDIWebManagerPort));
+    QUrl url(QString("http://%1:%2/api/info/version").arg(pi->host).arg(QString::number(pi->INDIWebManagerPort)));
 
     QJsonDocument json;
     if (getWebManagerResponse(QNetworkAccessManager::GetOperation, url, &json))
@@ -227,7 +236,7 @@ bool checkVersion(const QSharedPointer<ProfileInfo> &pi)
 bool syncCustomDrivers(const QSharedPointer<ProfileInfo> &pi)
 {
     QNetworkAccessManager manager;
-    QUrl url(QString("http://%1:%2/api/profiles/custom/add").arg(pi->host).arg(pi->INDIWebManagerPort));
+    QUrl url(QString("http://%1:%2/api/profiles/custom/add").arg(pi->host).arg(QString::number(pi->INDIWebManagerPort)));
 
     QStringList customDriversLabels;
     QMapIterator<DeviceFamily, QList<QString>> i(pi->drivers);
@@ -270,7 +279,7 @@ bool syncCustomDrivers(const QSharedPointer<ProfileInfo> &pi)
 
 bool areDriversRunning(const QSharedPointer<ProfileInfo> &pi)
 {
-    QUrl url(QString("http://%1:%2/api/server/drivers").arg(pi->host).arg(pi->INDIWebManagerPort));
+    QUrl url(QString("http://%1:%2/api/server/drivers").arg(pi->host).arg(QString::number(pi->INDIWebManagerPort)));
     QJsonDocument json;
 
     if (getWebManagerResponse(QNetworkAccessManager::GetOperation, url, &json))
@@ -338,7 +347,8 @@ bool syncProfile(const QSharedPointer<ProfileInfo> &pi)
     QJsonArray profileScripts;
 
     //Add Profile
-    url = QUrl(QString("http://%1:%2/api/profiles/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
+    url = QUrl(QString("http://%1:%2/api/profiles/%3").arg(pi->host).arg(QString::number(pi->INDIWebManagerPort)).arg(
+                   pi->name));
     getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 
     // Parse scripts if available
@@ -350,7 +360,8 @@ bool syncProfile(const QSharedPointer<ProfileInfo> &pi)
     }
 
     // Always update profile info with port and driver_source (include scripts if parsed successfully)
-    url = QUrl(QString("http://%1:%2/api/profiles/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
+    url = QUrl(QString("http://%1:%2/api/profiles/%3").arg(pi->host).arg(QString::number(pi->INDIWebManagerPort)).arg(
+                   pi->name));
     QJsonObject profileObject{ { "port", pi->port }, {"driver_source", pi->driverSource} };
     if (!profileScripts.isEmpty())
         profileObject["scripts"] = profileScripts;
@@ -360,7 +371,8 @@ bool syncProfile(const QSharedPointer<ProfileInfo> &pi)
     getWebManagerResponse(QNetworkAccessManager::PutOperation, url, nullptr, &data);
 
     // Add drivers
-    url = QUrl(QString("http://%1:%2/api/profiles/%3/drivers").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
+    url = QUrl(QString("http://%1:%2/api/profiles/%3/drivers").arg(pi->host).arg(QString::number(pi->INDIWebManagerPort)).arg(
+                   pi->name));
     QJsonArray driverArray;
     QMapIterator<DeviceFamily, QList<QString>> i(pi->drivers);
 
@@ -420,20 +432,22 @@ bool startProfile(const QSharedPointer<ProfileInfo> &pi)
     syncProfile(pi);
 
     // Start profile
-    QUrl url(QString("http://%1:%2/api/server/start/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
+    QUrl url(QString("http://%1:%2/api/server/start/%3").arg(pi->host).arg(QString::number(pi->INDIWebManagerPort)).arg(
+                 pi->name));
     return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 }
 
 bool stopProfile(const QSharedPointer<ProfileInfo> &pi)
 {
     // Stop profile
-    QUrl url(QString("http://%1:%2/api/server/stop").arg(pi->host).arg(pi->INDIWebManagerPort));
+    QUrl url(QString("http://%1:%2/api/server/stop").arg(pi->host).arg(QString::number(pi->INDIWebManagerPort)));
     return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 }
 
 bool restartDriver(const QSharedPointer<ProfileInfo> &pi, const QString &label)
 {
-    QUrl url(QString("http://%1:%2/api/drivers/restart/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(label));
+    QUrl url(QString("http://%1:%2/api/drivers/restart/%3").arg(pi->host).arg(QString::number(pi->INDIWebManagerPort)).arg(
+                 label));
     return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 }
 }

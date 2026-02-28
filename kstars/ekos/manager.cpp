@@ -1134,7 +1134,8 @@ void Manager::start()
                 return;
 
             appendLogText(
-                i18n("Connecting to remote INDI server at %1 on port %2 ...", m_CurrentProfile->host, m_CurrentProfile->port));
+                i18n("Connecting to remote INDI server at %1 on port %2 ...", m_CurrentProfile->host,
+                     QString::number(m_CurrentProfile->port)));
 
             DriverManager::Instance()->connectRemoteHost(managedDrivers.first());
         };
@@ -1191,7 +1192,7 @@ void Manager::start()
                 else
                 {
                     auto message = i18n("Error: INDI Web Manager is not online at %1:%2", m_CurrentProfile->host,
-                                        m_CurrentProfile->INDIWebManagerPort);
+                                        QString::number(m_CurrentProfile->INDIWebManagerPort));
                     appendLogText(message);
                     KSNotification::event(QLatin1String("IndiServerMessage"), message, KSNotification::General, KSNotification::Alert);
                     m_ekosStatus = Ekos::Error;
@@ -1231,15 +1232,16 @@ void Manager::setClientStarted(const QString &host, int port)
         if (m_LocalMode)
         {
             if (m_CurrentProfile->autoConnect)
-                appendLogText(i18n("INDI services started on port %1.", port));
+                appendLogText(i18n("INDI services started on port %1.", QString::number(port)));
             else
                 appendLogText(
-                    i18n("INDI services started on port %1. Please connect devices.", port));
+                    i18n("INDI services started on port %1. Please connect devices.", QString::number(port)));
         }
         else
         {
             appendLogText(
-                i18n("INDI services started. Connection to remote INDI server %1:%2 is successful. Waiting for devices...", host, port));
+                i18n("INDI services started. Connection to remote INDI server %1:%2 is successful. Waiting for devices...", host,
+                     QString::number(port)));
         }
     }
 
@@ -1270,9 +1272,9 @@ void Manager::setClientStarted(const QString &host, int port)
 void Manager::setClientFailed(const QString &host, int port, const QString &errorMessage)
 {
     if (m_LocalMode)
-        appendLogText(i18n("Failed to connect to local INDI server %1:%2", host, port));
+        appendLogText(i18n("Failed to connect to local INDI server %1:%2", host, QString::number(port)));
     else
-        appendLogText(i18n("Failed to connect to remote INDI server %1:%2", host, port));
+        appendLogText(i18n("Failed to connect to remote INDI server %1:%2", host, QString::number(port)));
 
     //INDIListener::Instance()->disconnect(this);
     //    qDeleteAll(managedDrivers);
@@ -1285,9 +1287,9 @@ void Manager::setClientFailed(const QString &host, int port, const QString &erro
 void Manager::setClientTerminated(const QString &host, int port, const QString &errorMessage)
 {
     if (m_LocalMode)
-        appendLogText(i18n("Lost connection to local INDI server %1:%2", host, port));
+        appendLogText(i18n("Lost connection to local INDI server %1:%2", host, QString::number(port)));
     else
-        appendLogText(i18n("Lost connection to remote INDI server %1:%2", host, port));
+        appendLogText(i18n("Lost connection to remote INDI server %1:%2", host, QString::number(port)));
 
     //INDIListener::Instance()->disconnect(this);
     //    qDeleteAll(managedDrivers);
