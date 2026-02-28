@@ -220,9 +220,9 @@ void INDIListener::processUniversalMessage(const QString &message)
         displayMessage = displayMessage.mid(colonIndex + 2);
 
     // Special case for Alignment since it is not tied to a device
-    if (displayMessage.startsWith("[ALIGNMENT]"))
+    if (displayMessage.startsWith("[ALIGNMENT]") || displayMessage.startsWith("[DEBUG]"))
     {
-        qCDebug(KSTARS_INDI) << "AlignmentSubSystem:" << displayMessage;
+        qCDebug(KSTARS_INDI) << displayMessage;
         return;
     }
 
