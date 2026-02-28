@@ -449,8 +449,8 @@ void PolarAlign::calculateAzAltErrorFromAzAlt(double *azError, double *altError,
     *altError = northernHemisphere() ?
                 alt - latitudeDegrees : alt + latitudeDegrees;
     *azError = northernHemisphere() ? az : az + 180.0;
-    while (*azError > 180.0)
-        *azError -= 360;
+    while (*azError >  180.0) *azError -= 360.0;
+    while (*azError < -180.0) *azError += 360.0;
 }
 
 void PolarAlign::setMaxPixelSearchRange(double degrees)
@@ -502,7 +502,12 @@ bool PolarAlign::pixelError(const QSharedPointer<FITSData> &image, const QPointF
     if (pixDist > 10)
         return false;
 
-    azE = KSUtils::range360(azE);
+    // Normalize azimuth error to a signed angle in (-180, 180] so that e.g. -5°
+    // is not incorrectly wrapped to 355° by range360().  Polar-alignment errors are
+    // always small (typically within ±10°), so the sign matters both for the magnitude
+    // display and for the direction arrows shown to the user.
+    while (azE >  180.0) azE -= 360.0;
+    while (azE < -180.0) azE += 360.0;
     altE = KSUtils::rangeAlt(altE);
 
     *azError = azE;
