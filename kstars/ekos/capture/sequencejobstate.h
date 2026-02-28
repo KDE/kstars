@@ -317,6 +317,10 @@ class SequenceJobState: public QObject
         bool m_enforceTemperature { false };
         // flag if auto focus has been completed for the selected filter
         bool autoFocusReady;
+        // flag tracking whether FilterManager has triggered autofocus (FILTER_AUTOFOCUS received)
+        // but focus has not yet completed. While true, FILTER_IDLE must NOT clear AUTOFOCUS because
+        // it is only the intermediate lock-filter change completing, not the final "done" signal.
+        bool m_filterAutofocusTriggered { false };
         // Capturing mode, necessary for the display in the FITS viewer
         FITSMode m_fitsMode;
         // Capture Operations Timeout
@@ -350,11 +354,19 @@ class SequenceJobState: public QObject
         bool areActionsReady();
 
         /**
-         * @brief preparationCompleted helper function for checking, if the preparation has been completed
+         * @brief preparationCompleted helper function for checking, if the preparation has been
+         *        completed (PREP_COMPLETED) OR has not yet been started (PREP_NONE).
+         *        In both cases, incoming filter/focus/temperature events must be silently ignored.
+         *        Critically, PREP_NONE is also the state after initCaptureComplete() fires and
+         *        actual camera exposure begins. While the camera is capturing, the FilterManager
+         *        may still emit FILTER_CHANGE / FILTER_OFFSET signals as it restores the science
+         *        filter after autofocus (which ran on the lock/focus filter). Without this guard,
+         *        those post-autofocus filter events set AUTOFOCUS=false on the inactive state
+         *        machine and leave it permanently stuck.
          */
         bool preparationCompleted()
         {
-            return m_PreparationState == PREP_COMPLETED;
+            return m_PreparationState == PREP_COMPLETED || m_PreparationState == PREP_NONE;
         }
 
         /**

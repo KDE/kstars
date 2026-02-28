@@ -285,6 +285,10 @@ void SequenceJobState::setAllActionsReady()
                 CAPTURE_ACTION_FILTER, CAPTURE_ACTION_ROTATOR, CAPTURE_ACTION_TEMPERATURE
             })
         setInitialized(action, false);
+
+    // reset the autofocus-triggered flag so FILTER_IDLE is not blocked at the start of
+    // a new preparation cycle (each cycle must decide independently whether AF was triggered)
+    m_filterAutofocusTriggered = false;
 }
 
 void SequenceJobState::prepareTargetFilter(CCDFrameType frameType, bool isPreview)
@@ -894,8 +898,10 @@ void SequenceJobState::setFocusStatus(FocusState state)
     switch (state)
     {
         case FOCUS_COMPLETE:
-            // did we wait for a successful autofocus run?
-            if (prepareActions[CAPTURE_ACTION_AUTOFOCUS] == false)
+            // Autofocus completed successfully — clear the trigger flag and release AUTOFOCUS.
+            m_filterAutofocusTriggered = false;
+            if (prepareActions.contains(CAPTURE_ACTION_AUTOFOCUS) &&
+                    prepareActions[CAPTURE_ACTION_AUTOFOCUS] == false)
             {
                 prepareActions[CAPTURE_ACTION_AUTOFOCUS] = true;
                 checkAllActionsReady();
@@ -903,7 +909,8 @@ void SequenceJobState::setFocusStatus(FocusState state)
             break;
         case FOCUS_ABORTED:
         case FOCUS_FAILED:
-            // finish preparation with failure
+            // Autofocus failed — clear the trigger flag and finish preparation with failure.
+            m_filterAutofocusTriggered = false;
             emit prepareComplete(false);
             break;
         default:
@@ -1069,14 +1076,46 @@ void SequenceJobState::setFilterStatus(FilterState filterState)
     switch (filterState)
     {
         case FILTER_AUTOFOCUS:
-            // we need to wait until focusing has completed
+            // FilterManager has triggered autofocus — mark it so that subsequent FILTER_IDLE
+            // signals (from e.g. the lock-filter change completing) are not mistaken for
+            // "no autofocus needed" and do not prematurely release the AUTOFOCUS lock.
+            m_filterAutofocusTriggered = true;
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Filter status FILTER_AUTOFOCUS received. "
+                                            "Waiting for FOCUS_COMPLETE to clear AUTOFOCUS.";
             prepareActions[CAPTURE_ACTION_AUTOFOCUS] = false;
             emit prepareState(CAPTURE_FOCUSING);
             break;
 
-        // nothing to do in all other cases
-        case FILTER_IDLE:
         case FILTER_OFFSET:
+            // FilterManager is applying a focus offset — keep waiting.
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Filter status FILTER_OFFSET received. Waiting for focus to complete.";
+            prepareActions[CAPTURE_ACTION_AUTOFOCUS] = false;
+            emit prepareState(CAPTURE_FOCUSING);
+            break;
+
+        case FILTER_IDLE:
+            // FilterManager has finished all filter operations.
+            // Only release the AUTOFOCUS lock if FilterManager did NOT trigger autofocus
+            // (m_filterAutofocusTriggered == false). When autofocus IS running, FILTER_IDLE
+            // is merely the intermediate lock-filter change completing; in that case the lock
+            // must stay until FOCUS_COMPLETE arrives via setFocusStatus().
+            if (!m_filterAutofocusTriggered &&
+                    prepareActions.contains(CAPTURE_ACTION_AUTOFOCUS) &&
+                    !prepareActions[CAPTURE_ACTION_AUTOFOCUS])
+            {
+                qCDebug(KSTARS_EKOS_CAPTURE) << "FilterManager completed without autofocus "
+                                                "(FILTER_IDLE received, no AF triggered) - clearing AUTOFOCUS pending state.";
+                prepareActions[CAPTURE_ACTION_AUTOFOCUS] = true;
+                checkAllActionsReady();
+            }
+            else if (m_filterAutofocusTriggered)
+            {
+                qCDebug(KSTARS_EKOS_CAPTURE) << "FILTER_IDLE received but autofocus is still running "
+                                                "(m_filterAutofocusTriggered=true) - keeping AUTOFOCUS pending.";
+            }
+            break;
+
+        // nothing to do in all other cases
         case FILTER_CHANGE:
             break;
     }
