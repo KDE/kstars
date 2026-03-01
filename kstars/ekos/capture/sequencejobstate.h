@@ -354,19 +354,24 @@ class SequenceJobState: public QObject
         bool areActionsReady();
 
         /**
-         * @brief preparationCompleted helper function for checking, if the preparation has been
-         *        completed (PREP_COMPLETED) OR has not yet been started (PREP_NONE).
-         *        In both cases, incoming filter/focus/temperature events must be silently ignored.
-         *        Critically, PREP_NONE is also the state after initCaptureComplete() fires and
-         *        actual camera exposure begins. While the camera is capturing, the FilterManager
-         *        may still emit FILTER_CHANGE / FILTER_OFFSET signals as it restores the science
-         *        filter after autofocus (which ran on the lock/focus filter). Without this guard,
-         *        those post-autofocus filter events set AUTOFOCUS=false on the inactive state
-         *        machine and leave it permanently stuck.
+         * @brief preparationCompleted helper function for checking if the preparation has been
+         *        completed (PREP_COMPLETED). When true, incoming filter/focus/temperature events
+         *        must be silently ignored.
+         *
+         *        Post-capture guard: after initCaptureComplete() fires, the state is set to
+         *        PREP_COMPLETED (not PREP_NONE) so that FilterManager signals emitted while the
+         *        camera is exposing (e.g. restoring the science filter after autofocus) are
+         *        correctly ignored here.
+         *
+         *        Pre-preparation window: when a new job begins, initPreparation() resets the
+         *        state to PREP_NONE before any signals are emitted. During that brief window
+         *        preparationCompleted() returns false, allowing temperature/rotator callbacks
+         *        to be processed. checkAllActionsReady() harmlessly falls through the
+         *        "case PREP_NONE: break" branch so no premature prepareComplete() can fire.
          */
         bool preparationCompleted()
         {
-            return m_PreparationState == PREP_COMPLETED || m_PreparationState == PREP_NONE;
+            return m_PreparationState == PREP_COMPLETED;
         }
 
         /**

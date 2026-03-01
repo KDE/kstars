@@ -56,9 +56,15 @@ void SequenceJobState::setFrameType(CCDFrameType frameType)
 
 void SequenceJobState::initPreparation(bool isPreview)
 {
-    m_status      = JOB_BUSY;
-    m_isPreview   = isPreview;
-    wpScopeStatus = WP_NONE;
+    m_status           = JOB_BUSY;
+    m_isPreview        = isPreview;
+    wpScopeStatus      = WP_NONE;
+    // Explicitly reset to PREP_NONE so that temperature/rotator callbacks emitted
+    // during the brief window before PREP_BUSY is set are NOT silently discarded
+    // by preparationCompleted() (which now only returns true for PREP_COMPLETED).
+    // checkAllActionsReady() safely ignores calls during PREP_NONE via its
+    // "case PREP_NONE: break" branch, preventing premature prepareComplete().
+    m_PreparationState = PREP_NONE;
     m_CaptureOperationsTimer.start();
 }
 
@@ -257,8 +263,12 @@ void SequenceJobState::checkAllActionsReady()
         case PREP_INIT_CAPTURE:
             if (areActionsReady())
             {
-                // reset the state to avoid double events
-                m_PreparationState = PREP_NONE;
+                // Set PREP_COMPLETED (not PREP_NONE) so that post-capture signals from
+                // FilterManager (FILTER_CHANGE, FILTER_IDLE, etc.) emitted while the camera
+                // is exposing are silently discarded by preparationCompleted(). Using PREP_NONE
+                // here would mean those signals bypass the guard and corrupt the state machine.
+                // The next call to initPreparation() will reset the state to PREP_NONE cleanly.
+                m_PreparationState = PREP_COMPLETED;
                 emit initCaptureComplete(m_fitsMode);
             }
             break;
