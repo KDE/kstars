@@ -346,7 +346,14 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
         QMutexLocker locker(&m_DriverMutex);
         m_ManagedDrivers.erase(std::remove_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [exec](const auto & driver)
         {
-            return driver->getExecutable() == exec;
+            if( !driver )
+            {
+                return true;
+            }
+            else
+            {
+                return driver->getExecutable() == exec;
+            }
         }));
     }
 
@@ -413,7 +420,14 @@ bool ServerManager::restartDriver(const QSharedPointer<DriverInfo> &driver)
             QMutexLocker locker(&m_DriverMutex);
             m_ManagedDrivers.erase(std::remove_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [exec](const auto & driver)
             {
-                return driver->getExecutable() == exec;
+                if( !driver )
+                {
+                    return true;
+                }
+                else
+                {
+                    return driver->getExecutable() == exec;
+                }
             }));
         }
     }

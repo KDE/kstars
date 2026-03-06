@@ -1526,6 +1526,11 @@ bool FITSView::drawHFR(QPainter * painter, const QString &hfr, int x, int y)
 
 void FITSView::drawStarCentroid(QPainter * painter, double scale)
 {
+    if( !m_ImageData )
+    {
+        return;
+    }
+
     QFont painterFont;
     double fontSize = painterFont.pointSizeF() * 2;
     painter->setRenderHint(QPainter::Antialiasing);
