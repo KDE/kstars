@@ -322,9 +322,9 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
     QRegularExpressionMatch match;
     QRegularExpression
 #if defined(Q_OS_WIN)
-    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|sequence|s))(?<level>\\d+)?)(?<sep>[_\\\\])?");
+    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|sequence|s|night|N))(?<level>\\d+)?)(?<sep>[_\\\\])?");
 #else
-    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|hostname|H|sequence|s))(?<level>\\d+)?)(?<sep>[_/])?");
+    re("(?<replace>\\%(?<name>(filename|f|Datetime|D|Type|T|exposure|e|exp|E|Filter|F|target|t|temperature|C|bin|B|gain|G|offset|O|iso|I|pierside|P|hostname|H|sequence|s|night|N))(?<level>\\d+)?)(?<sep>[_/])?");
 #endif
 
     while ((i = tempFormat.indexOf(re, i, &match)) != -1)
@@ -465,6 +465,24 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
                 // fix string for remote, ID is set remotely
                 replacement = isVideo ? "" : "XXX";
             }
+        }
+        else if ((math.captured("name") == "night") || (match.captured("name") == "N"))
+        {
+            if (glob || gettingSignature)
+            {
+                if (local)
+                    replacement = "\\d-\\d-\\d";
+                else
+                    replacement = "ISO8601";
+
+            }
+            else
+                // Set the day to be one less than it actually is if the time is less than 12 o'clock (noon)
+                // This is for a consistent date through the night
+                if (QDateTime::currentDateTime().time().hour >= 12)
+                    replacement = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+                else
+                    replacement = QDateTime::currentDateTime().addDays(-1).toString("yyyy-MM-dd");
         }
         else
             qWarning() << "Unknown replacement string: " << match.captured("replace");
