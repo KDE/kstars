@@ -479,10 +479,7 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
             else
                 // Set the day to be one less than it actually is if the time is less than 12 o'clock (noon)
                 // This is for a consistent date through the night
-                if (QDateTime::currentDateTime().time().hour >= 12)
-                    replacement = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-                else
-                    replacement = QDateTime::currentDateTime().addDays(-1).toString("yyyy-MM-dd");
+                replacement = QDateTime::currentDateTime().addDays(QDateTime::currentDateTime().time().hour() >= 12 ? 0 : -1).toString("yyyy-MM-dd");
         }
         else
             qWarning() << "Unknown replacement string: " << match.captured("replace");
