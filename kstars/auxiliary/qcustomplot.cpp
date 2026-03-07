@@ -22577,8 +22577,11 @@ void QCPGraph::getOptimizedScatterData(QVector<QCPGraphData> *scatterData, QCPGr
                 {
                     // determine value pixel span and add as many points in interval to maintain certain vertical data density (this is specific to scatter plot):
                     double valuePixelSpan = qAbs(valueAxis->coordToPixel(minValue) - valueAxis->coordToPixel(maxValue));
-                    int dataModulo = qMax(1, qRound(intervalDataCount / (valuePixelSpan /
-                                                    4.0))); // approximately every 4 value pixels one data point on average
+                    // Guard against zero/near-zero span (all points at same value → division by zero → qRound overflow → SIGABRT).
+                    // When the entire interval is flat (< 1 px of vertical spread) only one representative point is needed.
+                    int dataModulo = (valuePixelSpan >= 1.0)
+                                     ? qMax(1, qRound(intervalDataCount / (valuePixelSpan / 4.0)))
+                                     : intervalDataCount; // approximately every 4 value pixels one data point on average
                     QCPGraphDataContainer::const_iterator intervalIt = currentIntervalStart;
                     int c = 0;
                     while (intervalIt != it)
@@ -22625,8 +22628,11 @@ void QCPGraph::getOptimizedScatterData(QVector<QCPGraphData> *scatterData, QCPGr
         {
             // determine value pixel span and add as many points in interval to maintain certain vertical data density (this is specific to scatter plot):
             double valuePixelSpan = qAbs(valueAxis->coordToPixel(minValue) - valueAxis->coordToPixel(maxValue));
-            int dataModulo = qMax(1, qRound(intervalDataCount / (valuePixelSpan /
-                                            4.0))); // approximately every 4 value pixels one data point on average
+            // Guard against zero/near-zero span (all points at same value → division by zero → qRound overflow → SIGABRT).
+            // When the entire interval is flat (< 1 px of vertical spread) only one representative point is needed.
+            int dataModulo = (valuePixelSpan >= 1.0)
+                             ? qMax(1, qRound(intervalDataCount / (valuePixelSpan / 4.0)))
+                             : intervalDataCount; // approximately every 4 value pixels one data point on average
             QCPGraphDataContainer::const_iterator intervalIt = currentIntervalStart;
             int intervalItIndex = int(intervalIt - mDataContainer->constBegin());
             int c = 0;

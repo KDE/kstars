@@ -91,6 +91,22 @@ class InternalGuider : public GuideInterface
         // Image Data
         void setImageData(const QSharedPointer<FITSData> &data);
 
+        /**
+         * @brief setStreamingMode Enable or disable streaming guide mode.
+         *        When enabled, the guider does NOT emit frameCaptureRequested after sending pulses,
+         *        because new frames arrive automatically from the camera's continuous stream.
+         * @param enabled True for streaming mode, false for single-capture mode.
+         */
+        void setStreamingMode(bool enabled)
+        {
+            m_StreamingMode = enabled;
+        }
+
+        bool isStreamingMode() const
+        {
+            return m_StreamingMode;
+        }
+
         bool start();
 
         bool isGuiding(void) const;
@@ -157,6 +173,11 @@ class InternalGuider : public GuideInterface
         bool m_isSubFramed { false };
         bool m_isFirstFrame { false };
         int m_starLostCounter { 0 };
+
+        // When true, the guide camera is streaming continuously.
+        // In this mode processGuiding() must NOT emit frameCaptureRequested after sending pulses,
+        // because the next frame will arrive on its own from the stream pipeline.
+        bool m_StreamingMode { false };
 
         QFile logFile;
         uint32_t guideBoxSize { 32 };

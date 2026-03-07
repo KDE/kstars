@@ -777,7 +777,12 @@ void InternalGuider::iterateCalibration()
     int pulseMsecs;
     calibrationProcess->getPulse(&pulseDirection, &pulseMsecs);
     if (pulseDirection != NO_DIR)
-        emit newSinglePulse(pulseDirection, pulseMsecs, StartCaptureAfterPulses);
+    {
+        // In streaming mode frames arrive continuously — don't trigger an extra capture after
+        // the pulse. In single-capture mode the pulse timer must request the next frame.
+        const auto captureMode = m_StreamingMode ? DontCaptureAfterPulses : StartCaptureAfterPulses;
+        emit newSinglePulse(pulseDirection, pulseMsecs, captureMode);
+    }
 
     if (status == GUIDE_CALIBRATION_ERROR)
     {
@@ -986,7 +991,8 @@ bool InternalGuider::processGuiding()
 
     if (state == GUIDE_SUSPENDED)
     {
-        if (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM)
+        // In streaming mode the next frame is already on its way — no need to request a capture.
+        if (!m_StreamingMode && Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM)
             emit frameCaptureRequested();
         return true;
     }
@@ -1012,13 +1018,19 @@ bool InternalGuider::processGuiding()
     bool sendPulses = !pmath->isStarLost();
 
     // Send pulse if we have one active direction at least.
+    // In streaming mode: always use DontCaptureAfterPulses because the next frame arrives automatically.
+    // In single-capture mode: use StartCaptureAfterPulses so a new exposure is triggered after the mount settles.
     if (sendPulses && (out->pulse_dir[GUIDE_RA] != NO_DIR || out->pulse_dir[GUIDE_DEC] != NO_DIR))
     {
+        const auto captureMode = m_StreamingMode ? DontCaptureAfterPulses : StartCaptureAfterPulses;
         emit newMultiPulse(out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA],
-                           out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC], StartCaptureAfterPulses);
+                           out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC], captureMode);
     }
-    else
+    else if (!m_StreamingMode)
+    {
+        // In streaming mode there is nothing to request — frames keep coming continuously.
         emit frameCaptureRequested();
+    }
 
     if (state == GUIDE_DITHERING || state == GUIDE_MANUAL_DITHERING || state == GUIDE_DITHERING_SETTLE)
         return true;
@@ -1311,7 +1323,11 @@ bool InternalGuider::reacquire()
         return false;
     }
 
-    emit frameCaptureRequested();
+    // In streaming mode the next frame arrives automatically from the stream pipeline.
+    // Emitting frameCaptureRequested() would trigger an unnecessary Guide::capture() call
+    // that restarts the m_captureTimer and can disrupt GPG time-step accounting.
+    if (!m_StreamingMode)
+        emit frameCaptureRequested();
     return rc;
 }
 

@@ -578,6 +578,20 @@ class Guide : public QWidget, public Ui::Guide
 
         bool captureOneFrame();
 
+        /**
+         * @brief startGuideStreaming Start the camera video stream for guide mode.
+         *        Sets the camera chip to FITS_GUIDE mode so incoming stream BLOBs are
+         *        routed through the guide pipeline (latest-frame-wins dispatch).
+         * @return True if stream was started successfully, false otherwise.
+         */
+        bool startGuideStreaming();
+
+        /**
+         * @brief stopGuideStreaming Stop the camera video stream and restore the chip
+         *        capture mode to FITS_GUIDE (single-capture mode).
+         */
+        void stopGuideStreaming();
+
         void setupOpticalTrainManager();
         void refreshOpticalTrain();
 
@@ -646,6 +660,27 @@ class Guide : public QWidget, public Ui::Guide
 
         // Misc
         bool useGuideHead { false };
+
+        // When true, guide frames arrive via continuous camera streaming rather than
+        // single captures. The camera chip stays in FITS_GUIDE mode and the latest-frame-wins
+        // dispatch in ISD::Camera::processStream() feeds processData() directly.
+        bool m_StreamingGuide { false };
+
+        // Re-entrancy guard for processData() in streaming mode.
+        // StellarSolver::extract() runs its own QEventLoop while detecting stars;
+        // queued newImage signals can fire during that nested loop and call
+        // processData() a second time before the first cycle has finished.
+        // Setting this flag causes those re-entrant calls to be silently dropped.
+        bool m_isProcessingFrame { false };
+
+        // Single-shot timer used as a "pulse in-flight" gate in streaming mode.
+        // After a guide pulse is sent the timer is started for the pulse duration
+        // plus the configured guide delay.  While it is active, processData() discards
+        // incoming stream frames so we never compute a new correction from a star
+        // position that is still mid-correction from the previous pulse.
+        // This is the streaming-mode equivalent of the m_PulseTimer gate used in
+        // single-capture mode (where the camera is simply not exposing during the pulse).
+        QTimer m_streamingPulseGuard;
 
         // Progress Activity Indicator
         QProgressIndicator *m_ProgressIndicator { nullptr };

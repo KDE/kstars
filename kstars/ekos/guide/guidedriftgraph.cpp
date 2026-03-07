@@ -567,6 +567,13 @@ void GuideDriftGraph::setAxisDelta(double ra, double de)
         graph(GuideGraph::G_RA_HIGHLIGHT)->addData(key, ra); //Set highlighted RA point to latest point
         graph(GuideGraph::G_DEC_HIGHLIGHT)->addData(key, de); //Set highlighted DEC point to latest point
     }
+
+    // Guard: QCustomPlot crashes with qRound(inf) when the axis rect has zero pixel span.
+    // The widget width/height may be non-zero while the axis rect is still 0 (not yet
+    // painted), so check axisRect() directly rather than width()/height().
+    if (axisRect()->width() <= 0 || axisRect()->height() <= 0)
+        return;
+
     replot();
 }
 

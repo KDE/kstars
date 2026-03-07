@@ -444,6 +444,16 @@ void Camera::processSwitch(INDI::Property prop)
         }
 
         m_isStreamEnabled = (svp[0].getState() == ISS_ON);
+
+        // When streaming stops, release the cached guide frame and reset the
+        // dispatch flag so no stale newImage() signal is emitted after restart.
+        if (!m_isStreamEnabled)
+        {
+            QMutexLocker lock(&m_guideFrameMutex);
+            m_latestGuideStreamFrame.reset();
+            m_guideFrameSignalPending = false;
+        }
+
         emit videoStreamToggled(m_isStreamEnabled);
     }
     else if (svp.isNameMatch("CCD_CAPTURE_FORMAT"))
@@ -571,7 +581,170 @@ void Camera::processStream(INDI::Property prop)
         streamH = h / biny;
     }
 
-    emit showVideoFrame(prop, streamW, streamH);
+    // When the primary chip is in FITS_GUIDE mode, this is a guide stream.
+    // Route frames exclusively to the guide pipeline (latest-frame-wins) to avoid
+    // loading StreamWG unnecessarily at high frame rates.
+    if (primaryChip->getCaptureMode() == FITS_GUIDE)
+    {
+        auto bp = prop.getBLOB()->at(0);
+        QSharedPointer<FITSData> frame = buildGuideFrameFromStream(bp);
+
+        if (frame)
+        {
+            QMutexLocker locker(&m_guideFrameMutex);
+            m_latestGuideStreamFrame = frame;   // always overwrite — older frames silently dropped
+
+            if (!m_guideFrameSignalPending)
+            {
+                m_guideFrameSignalPending = true;
+                // Queue exactly one dispatch on the main thread. When it fires it picks up
+                // whatever the most recently stored frame is, ensuring we never process stale data.
+                QMetaObject::invokeMethod(this, [this]()
+                {
+                    QSharedPointer<FITSData> latest;
+                    {
+                        QMutexLocker lock(&m_guideFrameMutex);
+                        latest = m_latestGuideStreamFrame;
+                        m_guideFrameSignalPending = false;
+                    }
+                    if (latest)
+                        emit newImage(latest, "stream");
+                }, Qt::QueuedConnection);
+            }
+        }
+    }
+    else
+    {
+        // Regular streaming — send to StreamWG as before
+        emit showVideoFrame(prop, streamW, streamH);
+    }
+}
+
+QSharedPointer<FITSData> Camera::buildGuideFrameFromStream(INDI::WidgetViewBlob *bp)
+{
+    if (!bp || bp->getBlobLen() <= 0 || streamW <= 0 || streamH <= 0)
+        return {};
+
+#ifndef HAVE_CFITSIO
+    Q_UNUSED(bp);
+    return {};
+#else
+    const uint32_t totalPx  = static_cast<uint32_t>(streamW) * static_cast<uint32_t>(streamH);
+    const uint32_t blobLen  = static_cast<uint32_t>(bp->getBlobLen());
+    const uchar   *blobPtr  = static_cast<const uchar *>(bp->getBlob());
+
+    // Detect the stream format exactly as VideoWG::newFrame() does.
+    QString fmt = QString(bp->getFormat()).toLower();
+    fmt.remove('.');
+    fmt.remove("stream_");
+    const bool fmtSupported = QImageReader::supportedImageFormats().contains(fmt.toLatin1());
+
+    // ── Decode stream blob into a flat 8-bit grayscale pixel buffer ──────────────────────
+    // For compressed formats (JPEG, PNG …) we use Qt's image decoders — there is no
+    // alternative.  For uncompressed raw blobs we operate directly on the pixel data to
+    // avoid redundant copies.  At modern guide-camera resolutions (1920×1080 and above)
+    // at 5 Hz the difference is measurable: the raw path touches N bytes once vs the
+    // QImage path touching 3–7N bytes for an RGB frame.
+    QByteArray rawGray;
+
+    if (fmtSupported)
+    {
+        // Compressed image (JPEG, PNG, TIFF, …) — Qt decodes, then convert to gray.
+        QImage img;
+        if (!img.loadFromData(blobPtr, static_cast<int>(blobLen)))
+        {
+            qCWarning(KSTARS_INDI) << "buildGuideFrameFromStream: Qt failed to decode format" << fmt;
+            return {};
+        }
+        if (img.format() != QImage::Format_Grayscale8)
+            img = img.convertToFormat(QImage::Format_Grayscale8);
+        rawGray = QByteArray(reinterpret_cast<const char *>(img.constBits()),
+                             static_cast<int>(img.width() * img.height()));
+    }
+    else if (blobLen == totalPx)
+    {
+        // 8-bit raw monochrome — single memcpy, no conversion needed.
+        rawGray = QByteArray(reinterpret_cast<const char *>(blobPtr), static_cast<int>(blobLen));
+    }
+    else if (blobLen == totalPx * 3)
+    {
+        // 8-bit raw RGB — extract luminance in a single pass.
+        // Using the standard ITU-R BT.601 coefficients gives better star contrast than
+        // a bare green-channel extraction on colour guide cameras.
+        rawGray.resize(static_cast<int>(totalPx));
+        uint8_t *dst = reinterpret_cast<uint8_t *>(rawGray.data());
+        for (uint32_t i = 0; i < totalPx; ++i)
+        {
+            const uint8_t r = blobPtr[i * 3];
+            const uint8_t g = blobPtr[i * 3 + 1];
+            const uint8_t b = blobPtr[i * 3 + 2];
+            // Fast integer approximation: 0.299R + 0.587G + 0.114B
+            dst[i] = static_cast<uint8_t>((77 * r + 150 * g + 29 * b) >> 8);
+        }
+    }
+    else
+    {
+        qCWarning(KSTARS_INDI) << "buildGuideFrameFromStream: unrecognised format" << fmt
+                               << "blobLen=" << blobLen << "totalPx=" << totalPx;
+        return {};
+    }
+
+    // ── Build a proper in-memory FITS using CFITSIO ───────────────────────────────────────
+    fitsfile *fptr    = nullptr;
+    void     *fitsBuf = nullptr;
+    size_t    fitsSz  = 0;
+    int       status  = 0;
+    char      errStr[FLEN_STATUS] = {};
+
+    if (fits_create_memfile(&fptr, &fitsBuf, &fitsSz, 4096, realloc, &status))
+    {
+        fits_get_errstatus(status, errStr);
+        qCWarning(KSTARS_INDI) << "buildGuideFrameFromStream: fits_create_memfile:" << errStr;
+        return {};
+    }
+
+    long naxes[2] = { streamW, streamH };
+    if (fits_create_img(fptr, BYTE_IMG, 2, naxes, &status))
+    {
+        fits_get_errstatus(status, errStr);
+        qCWarning(KSTARS_INDI) << "buildGuideFrameFromStream: fits_create_img:" << errStr;
+        status = 0;
+        fits_close_file(fptr, &status);
+        free(fitsBuf);
+        return {};
+    }
+
+    if (fits_write_img(fptr, TBYTE, 1, static_cast<long>(totalPx),
+                       const_cast<char *>(rawGray.constData()), &status))
+    {
+        fits_get_errstatus(status, errStr);
+        qCWarning(KSTARS_INDI) << "buildGuideFrameFromStream: fits_write_img:" << errStr;
+        status = 0;
+        fits_close_file(fptr, &status);
+        free(fitsBuf);
+        return {};
+    }
+
+    fits_flush_file(fptr, &status);
+    fits_close_file(fptr, &status);
+
+    QByteArray fitsBuffer(static_cast<const char *>(fitsBuf), static_cast<int>(fitsSz));
+    free(fitsBuf);
+
+    // ── Load into FITSData ────────────────────────────────────────────────────────────────
+    QSharedPointer<FITSData> imageData(new FITSData(FITS_GUIDE), &QObject::deleteLater);
+    imageData->setProperty("device", getDeviceName());
+    imageData->setProperty("chip",   static_cast<int>(CameraChip::PRIMARY_CCD));
+    imageData->setExtension("fits");
+
+    if (!imageData->loadFromBuffer(fitsBuffer))
+    {
+        qCWarning(KSTARS_INDI) << "buildGuideFrameFromStream: FITSData::loadFromBuffer failed";
+        return {};
+    }
+
+    return imageData;
+#endif // HAVE_CFITSIO
 }
 
 void ISD::Camera::updateFileBuffer(INDI::Property prop, bool is_fits)

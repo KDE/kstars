@@ -812,6 +812,11 @@ bool Guide::capture()
 
 bool Guide::captureOneFrame()
 {
+    // In streaming guide mode, frames are delivered continuously by the camera's stream pipeline.
+    // There is nothing to "capture" — just return true so the operation stack completes normally.
+    if (m_StreamingGuide)
+        return true;
+
     captureTimeout.stop();
 
     if (m_Camera == nullptr)
@@ -862,6 +867,64 @@ bool Guide::captureOneFrame()
     return true;
 }
 
+bool Guide::startGuideStreaming()
+{
+    if (!m_Camera || !m_Camera->hasVideoStream())
+        return false;
+
+    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+    if (!targetChip)
+        return false;
+
+    // Set chip to guide mode so the stream frames are routed through the guide pipeline
+    // (ISD::Camera::processStream detects FITS_GUIDE and uses the latest-frame-wins dispatch)
+    targetChip->setCaptureMode(FITS_GUIDE);
+    targetChip->setFrameType(FRAME_LIGHT);
+    targetChip->setCaptureFilter(FITS_NONE);
+
+    // Apply streaming exposure time from the guide exposure control
+    m_Camera->setStreamExposure(guideExposure->value());
+
+    // Apply gain if applicable
+    if (m_Camera->hasGain() && guideGain->isEnabled() && guideGain->value() > guideGainSpecialValue)
+        m_Camera->setGain(guideGain->value());
+
+    if (!m_Camera->setVideoStreamEnabled(true))
+    {
+        qCWarning(KSTARS_EKOS_GUIDE) << "startGuideStreaming: failed to enable video stream";
+        return false;
+    }
+
+    m_StreamingGuide = true;
+
+    // Tell the internal guider not to request captures after pulses — frames arrive continuously
+    if (guiderType == GUIDE_INTERNAL)
+        internalGuider->setStreamingMode(true);
+
+    appendLogText(i18n("Guide streaming started."));
+    qCDebug(KSTARS_EKOS_GUIDE) << "Guide streaming started, exposure=" << guideExposure->value() << "s";
+    return true;
+}
+
+void Guide::stopGuideStreaming()
+{
+    if (!m_StreamingGuide || !m_Camera)
+        return;
+
+    m_Camera->setVideoStreamEnabled(false);
+    m_StreamingGuide = false;
+
+    // Cancel any in-flight pulse gate so it doesn't fire after streaming stops.
+    m_streamingPulseGuard.stop();
+
+    // Restore single-capture mode in the internal guider
+    if (guiderType == GUIDE_INTERNAL)
+        internalGuider->setStreamingMode(false);
+
+    appendLogText(i18n("Guide streaming stopped."));
+    qCDebug(KSTARS_EKOS_GUIDE) << "Guide streaming stopped";
+}
+
 void Guide::prepareCapture(ISD::CameraChip * targetChip)
 {
     targetChip->setBatchMode(false);
@@ -897,6 +960,11 @@ bool Guide::abort()
     {
         captureTimeout.stop();
         m_PulseTimer.stop();
+
+        // Stop streaming if we were in streaming guide mode
+        if (m_StreamingGuide)
+            stopGuideStreaming();
+
         ISD::CameraChip *targetChip =
             m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
         if (targetChip->isCapturing())
@@ -1091,6 +1159,37 @@ void Guide::reconnectDriver(const QString &camera, QVariantMap settings)
 
 void Guide::processData(const QSharedPointer<FITSData> &data)
 {
+    // In streaming guide mode, discard frames that arrive during dithering or settle.
+    // The settle timer is purely time-based; we don't need to feed stream frames into it.
+    if (m_StreamingGuide &&
+            (m_State == GUIDE_DITHERING || m_State == GUIDE_DITHERING_SETTLE ||
+             m_State == GUIDE_MANUAL_DITHERING))
+        return;
+
+    // In streaming mode, discard frames that arrive while a guide pulse is still in-flight.
+    // Without this gate every stream frame immediately triggers another guide correction
+    // before the previous pulse has finished executing, causing rapid-fire overlapping
+    // pulses that drive oscillations.  The m_streamingPulseGuard timer is started by
+    // sendMultiPulse() / sendSinglePulse() and expires after the pulse duration + margin.
+    if (m_StreamingGuide && m_streamingPulseGuard.isActive())
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << "Streaming: discarding frame while pulse guard is active ("
+                                   << m_streamingPulseGuard.remainingTime() << "ms remaining)";
+        return;
+    }
+
+    // Re-entrancy guard: StellarSolver::extract() spins a nested QEventLoop while
+    // detecting stars.  If streaming is active a queued newImage signal can fire
+    // inside that loop and call processData() a second time before the first guide
+    // cycle has finished.  The second call would emit newAxisDelta with uninitialised
+    // values, causing QCustomPlot to crash with qRound(inf).  Drop the re-entrant
+    // call silently — the "latest-frame-wins" logic in processStream() already
+    // ensures we never fall behind on the most current frame.
+    if (m_isProcessingFrame)
+        return;
+    m_isProcessingFrame = true;
+    auto frameGuard = qScopeGuard([this] { m_isProcessingFrame = false; });
+
     ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
     if (targetChip->getCaptureMode() != FITS_GUIDE)
     {
@@ -1280,6 +1379,20 @@ bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection d
 
         m_PulseTimer.start(delay);
     }
+    else if (m_StreamingGuide)
+    {
+        // In streaming mode frames keep arriving continuously, so we must gate them
+        // while the mount is still responding to this pulse.  Without this guard every
+        // stream frame would immediately trigger another guide correction, causing the
+        // rapid-fire overlapping pulses that produce oscillations.
+        // The gate duration is the longer of the two pulse lengths plus a small
+        // propagation margin, floored by the user's guide delay setting.
+        auto ms = std::max(ra_msecs, dec_msecs) + 100;
+        auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
+        qCDebug(KSTARS_EKOS_GUIDE) << "Streaming pulse guard started for" << delay << "ms";
+        m_streamingPulseGuard.start(delay);
+    }
+
     return m_Guider->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
 }
 
@@ -1296,6 +1409,14 @@ bool Guide::sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses fo
         auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
 
         m_PulseTimer.start(delay);
+    }
+    else if (m_StreamingGuide)
+    {
+        // Same pulse-in-flight gate as sendMultiPulse() above.
+        auto ms = msecs + 100;
+        auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
+        qCDebug(KSTARS_EKOS_GUIDE) << "Streaming pulse guard started for" << delay << "ms (single pulse)";
+        m_streamingPulseGuard.start(delay);
     }
 
     return m_Guider->doPulse(dir, msecs);
@@ -1671,7 +1792,15 @@ void Guide::setStatus(Ekos::GuideState newState)
             break;
 
         case GUIDE_IDLE:
+            setBusy(false);
+            manualDitherB->setEnabled(false);
+            manualPulseB->setEnabled(true);
+            break;
+
         case GUIDE_CALIBRATION_ERROR:
+            // Stop streaming if it was running for calibration (or guiding).
+            if (m_StreamingGuide)
+                stopGuideStreaming();
             setBusy(false);
             manualDitherB->setEnabled(false);
             manualPulseB->setEnabled(true);
@@ -1682,11 +1811,21 @@ void Guide::setStatus(Ekos::GuideState newState)
             appendLogText(i18n("Calibration started."));
             setBusy(true);
             manualPulseB->setEnabled(false);
+            // Start streaming for calibration if enabled and camera supports it.
+            // Guard against double-starting in case we are already streaming.
+            if (guiderType == GUIDE_INTERNAL && m_Camera && !m_StreamingGuide)
+            {
+                auto streamingCheckbox = findChild<QCheckBox *>("guideStreamingEnabled");
+                if (streamingCheckbox && streamingCheckbox->isChecked() && m_Camera->hasVideoStream())
+                    startGuideStreaming();
+            }
             break;
 
         case GUIDE_GUIDING:
             if (previousState == GUIDE_SUSPENDED || previousState == GUIDE_DITHERING_SUCCESS)
+            {
                 appendLogText(i18n("Guiding resumed."));
+            }
             else
             {
                 appendLogText(i18n("Autoguiding running."));
@@ -1696,12 +1835,25 @@ void Guide::setStatus(Ekos::GuideState newState)
                 guideTimer.start();
                 driftGraph->resetTimer();
                 driftGraph->refreshColorScheme();
+
+                // Start streaming guide mode if the user enabled it and the camera supports it.
+                // Only start on fresh GUIDE_GUIDING entry (not resume from suspend/dither).
+                // Guard against double-starting if streaming was already active from calibration.
+                if (guiderType == GUIDE_INTERNAL && m_Camera && !m_StreamingGuide)
+                {
+                    auto streamingCheckbox = findChild<QCheckBox *>("guideStreamingEnabled");
+                    if (streamingCheckbox && streamingCheckbox->isChecked() && m_Camera->hasVideoStream())
+                        startGuideStreaming();
+                }
             }
             manualDitherB->setEnabled(true);
             break;
 
         case GUIDE_ABORTED:
             appendLogText(i18n("Autoguiding aborted."));
+            // Stop streaming guide mode if active
+            if (m_StreamingGuide)
+                stopGuideStreaming();
             setBusy(false);
             break;
 
@@ -2334,7 +2486,9 @@ void Guide::buildOperationStack(GuideState operation)
     switch (operation)
     {
         case GUIDE_CAPTURE:
-            if (guideDarkFrame->isChecked())
+            // Dark frames are irrelevant in streaming mode — frames arrive continuously
+            // and there is no single-capture lifecycle to interleave a dark into.
+            if (guideDarkFrame->isChecked() && !m_StreamingGuide)
                 operationStack.push(GUIDE_DARK);
 
             operationStack.push(GUIDE_CAPTURE);
@@ -2345,7 +2499,7 @@ void Guide::buildOperationStack(GuideState operation)
             operationStack.push(GUIDE_CALIBRATING);
             if (guiderType == GUIDE_INTERNAL)
             {
-                if (guideDarkFrame->isChecked())
+                if (guideDarkFrame->isChecked() && !m_StreamingGuide)
                     operationStack.push(GUIDE_DARK);
 
                 // Auto Star Selected Path
@@ -3046,9 +3200,15 @@ void Guide::initConnections()
         m_GuiderInstance->Disconnect();
     });
 
-    // Pulse Timer
+    // Pulse Timer — fires after a pulse + delay in single-capture mode to trigger the next exposure.
     m_PulseTimer.setSingleShot(true);
     connect(&m_PulseTimer, &QTimer::timeout, this, &Ekos::Guide::capture);
+
+    // Streaming pulse guard — single-shot timer used as an "in-flight" flag.
+    // While active, processData() discards incoming stream frames so we never
+    // compute a new guide correction before the previous pulse has completed.
+    // No timeout slot is connected; the timer is used purely as an isActive() flag.
+    m_streamingPulseGuard.setSingleShot(true);
 
     //This connects all the buttons and slider below the guide plots.
     connect(guiderAccuracyThreshold, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
@@ -3147,7 +3307,19 @@ void Guide::loop()
         stopB->setEnabled(true);
     }
     else if (guiderType == GUIDE_INTERNAL)
-        capture();
+    {
+        // Start streaming if enabled and camera supports it; otherwise fall back to single-frame captures.
+        if (!m_StreamingGuide)
+        {
+            auto streamingCheckbox = findChild<QCheckBox *>("guideStreamingEnabled");
+            if (streamingCheckbox && streamingCheckbox->isChecked() && m_Camera && m_Camera->hasVideoStream())
+                startGuideStreaming();
+        }
+        // In streaming mode frames arrive automatically — no initial capture needed.
+        // In single-capture mode an explicit capture is required to start the loop.
+        if (!m_StreamingGuide)
+            capture();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

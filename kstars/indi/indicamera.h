@@ -16,6 +16,7 @@
 
 #include <QStringList>
 #include <QPointer>
+#include <QMutex>
 #include <QtConcurrent>
 
 #include <memory>
@@ -265,6 +266,15 @@ class Camera : public ConcreteDevice
         void processStream(INDI::Property prop);
         bool WriteImageFileInternal(const QString &filename, char *buffer, const size_t size);
 
+        /**
+         * @brief buildGuideFrameFromStream Convert a raw stream BLOB into a FITSData object for guide processing.
+         *        Handles 8-bit grayscale raw, 8-bit RGB raw (green-channel extraction), and image-reader formats (e.g. JPEG).
+         *        Constructs a minimal in-memory FITS buffer to avoid any unnecessary format conversions.
+         * @param bp Pointer to the BLOB widget containing stream data
+         * @return Shared pointer to FITSData on success, empty shared pointer on failure
+         */
+        QSharedPointer<FITSData> buildGuideFrameFromStream(INDI::WidgetViewBlob *bp);
+
         bool HasGuideHead { false };
         bool HasCooler { false };
         bool CanCool { false };
@@ -337,5 +347,12 @@ class Camera : public ConcreteDevice
         int fileWriteBufferSize { 0 };
         QString fileWriteFilename;
         QFuture<void> fileWriteThread;
+
+        // Guide stream frame-drop support: always process the latest frame, not stale ones.
+        // m_latestGuideStreamFrame is overwritten every time a new stream frame arrives.
+        // m_guideFrameSignalPending ensures at most one newImage() dispatch is queued at a time.
+        QSharedPointer<FITSData> m_latestGuideStreamFrame;
+        QMutex m_guideFrameMutex;
+        bool m_guideFrameSignalPending { false };
 };
 }

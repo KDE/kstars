@@ -257,13 +257,23 @@ void GuideTargetPlot::setAxisDelta(double ra, double de)
         graph(GuideGraph::G_DEC)->addData(ra, de); //Set highlighted point to latest point
     }
 
+    // Guard: QCustomPlot crashes with qRound(inf) when the axis rect has zero pixel span.
+    // This happens when the widget hasn't been fully laid out yet (e.g. first streaming
+    // frame arrives before the paint event runs).  The widget width/height may already
+    // be non-zero while axisRect()->height() is still 0, so check the axis rect directly.
+    if (axisRect()->width() <= 0 || axisRect()->height() <= 0)
+        return;
+
     if (xAxis->range().contains(ra) == false || yAxis->range().contains(de) == false)
     {
         setBackground(QBrush(Qt::gray));
         QTimer::singleShot(300, this, [ = ]()
         {
-            setBackground(QBrush(Qt::black));
-            replot();
+            if (axisRect()->width() > 0 && axisRect()->height() > 0)
+            {
+                setBackground(QBrush(Qt::black));
+                replot();
+            }
         });
     }
 
