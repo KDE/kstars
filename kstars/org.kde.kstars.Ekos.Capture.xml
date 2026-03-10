@@ -40,6 +40,11 @@
       <arg name="enabled" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="findCameraPosition">
+      <arg type="i" direction="out"/>
+      <arg name="train" type="s" direction="in"/>
+      <arg name="addIfNecessary" type="b" direction="in"/>
+    </method>
     <method name="loadSequenceQueue">
       <arg type="b" direction="out"/>
       <arg name="fileURL" type="s" direction="in"/>

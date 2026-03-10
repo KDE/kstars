@@ -402,12 +402,13 @@ class Capture : public QWidget, public Ui::Capture
         const QSharedPointer<Camera> mainCamera() const;
 
         /**
+         * DBUS interface function.
          * @brief find the camera ID using the given train
          * @param train optical train name
          * @param addIfNecessary if true, add a new camera with the given train, if none uses this train
          * @return index in the lost of cameras (@see #camera(int))
          */
-        int findCameraPosition(QString train, bool addIfNecessary);
+        Q_SCRIPTABLE int findCameraPosition(QString train, bool addIfNecessary);
 
         /**
          * @brief findCamera Find the camera that uses the given optical train.

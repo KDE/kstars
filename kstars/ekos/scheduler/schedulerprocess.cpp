@@ -958,6 +958,11 @@ void SchedulerProcess::startFocusing()
 
 void SchedulerProcess::startFocusing(SchedulerJob *job)
 {
+    //ensure that the camera module is created for all involved trains
+    QList<QVariant> findCameraPositionArgs;
+    findCameraPositionArgs.append(job->getOpticalTrain());
+    findCameraPositionArgs.append( true );
+    captureInterface()->callWithArgumentList( QDBus::AutoDetect, "findCameraPosition", findCameraPositionArgs );
 
     // Check if autofocus is supported
     QDBusReply<bool> boolReply;

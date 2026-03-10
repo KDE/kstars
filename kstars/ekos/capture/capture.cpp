@@ -169,6 +169,15 @@ QSharedPointer<Camera> Capture::addCamera()
     if (train != "")
         newCamera->opticalTrainCombo->setCurrentText(train);
 
+    //ensure that the rotator control panels are using the correct devices of the optical train
+    foreach(auto cam, cameras())
+    {
+        if (cam->devices()->rotator() && cam->m_RotatorControlPanel)
+        {
+            cam->m_RotatorControlPanel->initRotator( cam->opticalTrain(), cam->devices(), cam->devices()->rotator() );
+        }
+    }
+
     moduleState()->addCamera(newCamera);
     // update the tab text
     updateCamera(tabIndex, true);
@@ -564,8 +573,13 @@ void Capture::setAlignResults(double solverPA, double ra, double de, double pixs
     Q_UNUSED(ra)
     Q_UNUSED(de)
     Q_UNUSED(pixscale)
-    if (mainCameraDevices()->rotator() && mainCamera()->m_RotatorControlPanel)
-        mainCamera()->m_RotatorControlPanel->refresh(solverPA);
+
+    //for now, let's sync the PA position to all rotators
+    foreach( auto cam, cameras() )
+    {
+        if (cam->devices()->rotator() && cam->m_RotatorControlPanel)
+            cam->m_RotatorControlPanel->refresh(solverPA);
+    }
 }
 
 void Capture::setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate)
