@@ -383,8 +383,7 @@ void Camera::saveSequenceQueue()
 {
     QUrl backupCurrent = state()->sequenceURL();
 
-    if (state()->sequenceURL().toLocalFile().startsWith(QLatin1String("/tmp/"))
-            || state()->sequenceURL().toLocalFile().contains("/Temp"))
+    if (state()->sequenceURL().toLocalFile().startsWith(QDir::tempPath()))
         state()->setSequenceURL(QUrl(""));
 
     // If no changes made, return.

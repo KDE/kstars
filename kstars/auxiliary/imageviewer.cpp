@@ -171,7 +171,7 @@ void ImageViewer::init(QString caption, QString capText)
 ImageViewer::~ImageViewer()
 {
     QString filename = file.fileName();
-    if (filename.startsWith(QLatin1String("/tmp/")) || filename.contains("/Temp"))
+    if (filename.startsWith(QDir::tempPath()))
     {
         if (m_ImageUrl.isEmpty() == false ||
                 KMessageBox::warningContinueCancel(nullptr, i18n("Remove temporary file %1 from disk?", filename),
@@ -237,7 +237,7 @@ bool ImageViewer::loadImage(const QString &filename)
 {
 #ifndef KSTARS_LITE
     // If current file is temporary, remove from disk.
-    if (file.fileName().startsWith(QLatin1String("/tmp/")) || file.fileName().contains("/Temp"))
+    if (file.fileName().startsWith(QDir::tempPath()))
         QFile::remove(file.fileName());
 
     file.setFileName(filename);
@@ -319,7 +319,7 @@ void ImageViewer::saveFileToDisc()
         {
             if ((KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
                                                     i18n("A file named \"%1\" already exists. "
-                 "Overwrite it?",
+                                                            "Overwrite it?",
                                                             newURL.fileName()),
                                                     i18n("Overwrite File?"), KStandardGuiItem::overwrite()) == KMessageBox::Cancel))
                 return;

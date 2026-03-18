@@ -1501,7 +1501,7 @@ bool FITSTab::saveFile()
     QUrl currentDir(Options::fitsDir());
     currentDir.setScheme("file");
 
-    if (currentURL.toLocalFile().startsWith(QLatin1String("/tmp/")) || currentURL.toLocalFile().contains("/Temp"))
+    if (currentURL.toLocalFile().startsWith(QDir::tempPath()))
         currentURL.clear();
 
     // If no changes made, return.

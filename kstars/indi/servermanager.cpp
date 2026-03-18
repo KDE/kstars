@@ -82,7 +82,7 @@ bool ServerManager::start()
 
     args << "-v" << "-p" << QString::number(port);
 
-    QString fifoFile = QString("/tmp/indififo%1").arg(QUuid::createUuid().toString().mid(1, 8));
+    QString fifoFile = QString("%1/indififo%2").arg(QDir::tempPath(), QUuid::createUuid().toString().mid(1, 8));
 
     if (mkfifo(fifoFile.toLatin1(), S_IRUSR | S_IWUSR) < 0)
     {
