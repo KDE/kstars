@@ -80,6 +80,7 @@ class QueueViewerWidget : public QWidget
         void onItemRemoved(QueueItem *item, int index);
         void onItemMoved(int fromIndex, int toIndex);
         void onQueueCleared();
+        void onQueueLoaded(const QString &filePath, QueueManager::QueueSource source);
         void onStateChanged(QueueManager::QueueState state);
 
         // Executor signals
@@ -109,6 +110,8 @@ class QueueViewerWidget : public QWidget
         // Modified state tracking
         void setModified(bool modified);
         bool promptToSave();
+        void setDisplayedSource(const QString &filePath, bool useAsSaveTarget);
+        void updateWindowTitle();
 
         // Collection loading helpers
         void loadCollectionFile(const QString &filePath);
@@ -143,6 +146,7 @@ class QueueViewerWidget : public QWidget
 
         // Last used queue file path for save/load operations
         QString m_lastQueueFilePath;
+        QString m_displayedSourcePath;
 
         // Modified state tracking
         bool m_isModified = false;
