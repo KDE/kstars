@@ -211,14 +211,21 @@ bool QueueManager::loadQueue(const QString &filePath)
     QJsonObject json = doc.object();
 
     // Check if this is a collection file (has "tasks" array) or queue file (has "items" array)
+    QueueSource source = QueueFile;
     if (json.contains("tasks"))
     {
-        return loadCollectionFromJson(json);
+        source = CollectionFile;
+        if (!loadCollectionFromJson(json))
+            return false;
     }
     else
     {
-        return fromJson(json);
+        if (!fromJson(json))
+            return false;
     }
+
+    emit queueLoaded(filePath, source);
+    return true;
 }
 
 QJsonObject QueueManager::toJson() const
