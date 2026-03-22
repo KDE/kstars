@@ -58,7 +58,7 @@ bool SetAction::start()
     // Send the SET command
     if (!sendSetCommand())
     {
-        qCWarning(KSTARS_EKOS_SCHEDULER) << "Failed to send SET command";
+        qCWarning(KSTARS_EKOS_SCHEDULER) << "Failed to send SET command:" << m_errorMessage;
         if (incrementRetry())
         {
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Retrying SET action" << m_currentRetry << "/" << m_retries;
@@ -67,7 +67,10 @@ bool SetAction::start()
         }
         else
         {
-            setErrorMessage("Failed to send SET command after all retries");
+            if (m_errorMessage.isEmpty())
+                setErrorMessage("Failed to send SET command after all retries");
+            qCWarning(KSTARS_EKOS_SCHEDULER) << "SET action failed after all retries:" << m_errorMessage;
+            emit progress(m_errorMessage);
             setStatus(FAILED);
             Q_EMIT failed(m_errorMessage);
             return false;
@@ -129,6 +132,7 @@ bool SetAction::sendSetCommand()
     if (!m_devicePtr)
     {
         setErrorMessage(QString("Device %1 not found").arg(m_device));
+        qCWarning(KSTARS_EKOS_SCHEDULER) << m_errorMessage;
         return false;
     }
 
@@ -136,6 +140,7 @@ bool SetAction::sendSetCommand()
     if (!m_devicePtr->isConnected())
     {
         setErrorMessage(QString("Device %1 not connected").arg(m_device));
+        qCWarning(KSTARS_EKOS_SCHEDULER) << m_errorMessage;
         return false;
     }
 
@@ -144,6 +149,7 @@ bool SetAction::sendSetCommand()
     if (!prop.isValid())
     {
         setErrorMessage(QString("Property %1 not found on device %2").arg(m_property).arg(m_device));
+        qCWarning(KSTARS_EKOS_SCHEDULER) << m_errorMessage;
         return false;
     }
 
@@ -163,7 +169,9 @@ bool SetAction::sendSetCommand()
             }
             else
             {
-                setErrorMessage(QString("Element %1 not found in property %2").arg(m_element).arg(m_property));
+                setErrorMessage(QString("Element %1 not found in property %2 on device %3")
+                                .arg(m_element).arg(m_property).arg(m_device));
+                qCWarning(KSTARS_EKOS_SCHEDULER) << m_errorMessage;
             }
             break;
         }
@@ -181,7 +189,9 @@ bool SetAction::sendSetCommand()
             }
             else
             {
-                setErrorMessage(QString("Element %1 not found in property %2").arg(m_element).arg(m_property));
+                setErrorMessage(QString("Element %1 not found in property %2 on device %3")
+                                .arg(m_element).arg(m_property).arg(m_device));
+                qCWarning(KSTARS_EKOS_SCHEDULER) << m_errorMessage;
             }
             break;
         }
@@ -197,12 +207,15 @@ bool SetAction::sendSetCommand()
             }
             else
             {
-                setErrorMessage(QString("Element %1 not found in property %2").arg(m_element).arg(m_property));
+                setErrorMessage(QString("Element %1 not found in property %2 on device %3")
+                                .arg(m_element).arg(m_property).arg(m_device));
+                qCWarning(KSTARS_EKOS_SCHEDULER) << m_errorMessage;
             }
             break;
         }
         default:
-            setErrorMessage(QString("Unsupported property type for %1").arg(m_property));
+            setErrorMessage(QString("Unsupported property type for %1 on device %2").arg(m_property).arg(m_device));
+            qCWarning(KSTARS_EKOS_SCHEDULER) << m_errorMessage;
             break;
     }
 
@@ -307,6 +320,8 @@ void SetAction::onPropertyUpdated(INDI::Property prop)
             // Clear device pointer to prevent crashes during cleanup
             m_devicePtr.clear();
             setErrorMessage("Property entered Alert state");
+            qCWarning(KSTARS_EKOS_SCHEDULER) << m_errorMessage;
+            emit progress(m_errorMessage);
             setStatus(FAILED);
             Q_EMIT failed(m_errorMessage);
         }
@@ -361,6 +376,8 @@ void SetAction::checkCompletion()
             // Clear device pointer to prevent crashes during cleanup
             m_devicePtr.clear();
             setErrorMessage("Property entered Alert state");
+            qCWarning(KSTARS_EKOS_SCHEDULER) << m_errorMessage;
+            emit progress(m_errorMessage);
             setStatus(FAILED);
             Q_EMIT failed(m_errorMessage);
         }
@@ -386,8 +403,9 @@ void SetAction::handleTimeout()
     {
         // Clear device pointer to prevent crashes during cleanup
         m_devicePtr.clear();
-        qCWarning(KSTARS_EKOS_SCHEDULER) << "SET action failed after all retries";
         setErrorMessage(QString("Timeout waiting for %1.%2 to complete").arg(m_property).arg(m_element));
+        qCWarning(KSTARS_EKOS_SCHEDULER) << "SET action failed after all retries:" << m_errorMessage;
+        emit progress(m_errorMessage);
         setStatus(FAILED);
         Q_EMIT failed(m_errorMessage);
     }

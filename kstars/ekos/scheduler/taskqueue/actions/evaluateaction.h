@@ -126,6 +126,12 @@ class EvaluateAction : public TaskAction
         void onPropertyUpdated(INDI::Property prop);
 
     private:
+        QVariant lookupFailure(const QString &message);
+
+        void clearLookupFailure()
+        {
+            m_lastLookupError.clear();
+        }
 
         /**
          * @brief Evaluate the condition based on current property value
@@ -179,6 +185,10 @@ class EvaluateAction : public TaskAction
         // For tracking state during execution
         int m_pollInterval = 1000; // Poll every 1 second
         bool m_acceptIdleOnSkippedPredecessor = false;
+
+        // Polling may observe missing properties before a driver publishes them.
+        // Keep the last lookup error so a final timeout reports the missing dependency.
+        QString m_lastLookupError;
 };
 
 } // namespace Ekos
