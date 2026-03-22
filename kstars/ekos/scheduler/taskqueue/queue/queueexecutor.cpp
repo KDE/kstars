@@ -11,9 +11,75 @@
 #include "ekos/manager.h"
 #include "indi/indilistener.h"
 #include <ekos_scheduler_debug.h>
+#include <QStringList>
 
 namespace Ekos
 {
+
+namespace
+{
+
+QString supportedInterfaceList(const QList<uint32_t> &interfaces)
+{
+    QStringList values;
+    values.reserve(interfaces.size());
+
+    for (uint32_t interface : interfaces)
+        values << QString::number(interface);
+
+    return values.join(", ");
+}
+
+bool matchesSupportedInterfaces(const QList<uint32_t> &supportedInterfaces, uint32_t deviceInterfaces)
+{
+    // supported_interfaces is a list of acceptable INDI driver interface flags.
+    // A device only needs to expose one of them to satisfy the template.
+    for (uint32_t supportedInterface : supportedInterfaces)
+    {
+        if (deviceInterfaces & supportedInterface)
+            return true;
+    }
+
+    return false;
+}
+
+TaskTemplate *resolveTaskTemplate(Task *task)
+{
+    if (!task || task->templateId().isEmpty())
+        return nullptr;
+
+    TemplateManager *templateMgr = TemplateManager::Instance();
+    if (!templateMgr)
+        return nullptr;
+
+    if (templateMgr->allTemplates().isEmpty() && !templateMgr->initialize())
+        return nullptr;
+
+    return templateMgr->getTemplate(task->templateId());
+}
+
+bool ensureSupportedInterfaces(Task *task, QList<uint32_t> &supportedInterfaces)
+{
+    if (!task)
+        return false;
+
+    supportedInterfaces = task->supportedInterfaces();
+    if (!supportedInterfaces.isEmpty() || task->templateId().isEmpty())
+        return true;
+
+    // Older queue files do not persist supported_interfaces, so recover them
+    // from the template when the template is still available.
+    if (TaskTemplate *tmpl = resolveTaskTemplate(task))
+    {
+        supportedInterfaces = tmpl->supportedInterfaces();
+        task->setSupportedInterfaces(supportedInterfaces);
+        return true;
+    }
+
+    return false;
+}
+
+}
 
 QueueExecutor::QueueExecutor(QueueManager *manager, QObject *parent)
     : QObject(parent)
@@ -41,14 +107,16 @@ bool QueueExecutor::start()
         return false;
     }
 
-    // Check if any task requires devices by looking at template interfaces
+    // Check if any task requires devices by looking at the task's recorded
+    // interface requirements. Older queue files may need a template lookup.
     bool requiresDevices = false;
-    TemplateManager *templateMgr = TemplateManager::Instance();
 
     for (QueueItem *item : m_manager->items())
     {
         if (item && item->task())
         {
+            Task *task = item->task();
+
             // Check if task has explicit device OR template requires interfaces
             if (!item->device().isEmpty())
             {
@@ -56,15 +124,20 @@ bool QueueExecutor::start()
                 break;
             }
 
-            // Check template for interface requirements
-            if (templateMgr)
+            QList<uint32_t> supportedInterfaces;
+            if (!ensureSupportedInterfaces(task, supportedInterfaces))
             {
-                TaskTemplate *tmpl = templateMgr->getTemplate(item->task()->templateId());
-                if (tmpl && !tmpl->supportedInterfaces().isEmpty())
-                {
-                    requiresDevices = true;
-                    break;
-                }
+                const QString errorMsg = i18n("Cannot start queue: task template '%1' is unavailable for '%2'.")
+                                         .arg(task->templateId(), task->name());
+                qCWarning(KSTARS_EKOS_SCHEDULER) << errorMsg;
+                emit newLog(errorMsg);
+                return false;
+            }
+
+            if (!supportedInterfaces.isEmpty())
+            {
+                requiresDevices = true;
+                break;
             }
         }
     }
@@ -212,88 +285,66 @@ void QueueExecutor::executeItem(QueueItem *item)
     Task *task = item->task();
     if (task->device().isEmpty())
     {
-        // Get template to find required device interface
-        TemplateManager *templateMgr = TemplateManager::Instance();
-        if (templateMgr)
+        QList<uint32_t> supportedInterfaces;
+        if (!ensureSupportedInterfaces(task, supportedInterfaces))
         {
-            TaskTemplate *tmpl = templateMgr->getTemplate(task->templateId());
-            if (tmpl && !tmpl->supportedInterfaces().isEmpty())
+            const QString errorMsg = i18n("Task template '%1' is unavailable for runtime device assignment.")
+                                     .arg(task->templateId());
+            qCWarning(KSTARS_EKOS_SCHEDULER) << errorMsg << "for task:" << task->name();
+            emit newLog(i18n("Task '%1' failed device assignment: %2", task->name(), errorMsg));
+            item->setErrorMessage(errorMsg);
+            item->setStatus(QueueItem::FAILED);
+            emit itemFailed(item, errorMsg);
+            m_currentItem = nullptr;
+            executeNext();
+            return;
+        }
+
+        if (!supportedInterfaces.isEmpty())
+        {
+            auto allDevices = INDIListener::devices();
+            QString assignedDevice;
+
+            qCInfo(KSTARS_EKOS_SCHEDULER) << "Searching for device matching supported interfaces:"
+                                          << supportedInterfaceList(supportedInterfaces)
+                                          << "for task:" << task->name();
+
+            for (const auto &device : allDevices)
             {
-                // Combine all supported interfaces using BIT-OR
-                uint32_t requiredInterfaces = 0;
-                for (int interface : tmpl->supportedInterfaces())
+                if (device && device->isConnected())
                 {
-                    requiredInterfaces |= static_cast<uint32_t>(interface);
-                }
+                    uint32_t deviceInterfaces = device->getDriverInterface();
+                    qCInfo(KSTARS_EKOS_SCHEDULER) << "  Checking device:" << device->getDeviceName()
+                                                  << "interfaces:" << deviceInterfaces
+                                                  << "(" << QString::number(deviceInterfaces, 2) << ")";
 
-                // Get ALL devices and check if they have all required interfaces
-                auto allDevices = INDIListener::devices();
-                QString assignedDevice;
-
-                qCInfo(KSTARS_EKOS_SCHEDULER) << "Searching for device with required interfaces:" << requiredInterfaces;
-
-                for (const auto &device : allDevices)
-                {
-                    if (device && device->isConnected())
+                    if (matchesSupportedInterfaces(supportedInterfaces, deviceInterfaces))
                     {
-                        uint32_t deviceInterfaces = device->getDriverInterface();
-                        qCInfo(KSTARS_EKOS_SCHEDULER) << "  Checking device:" << device->getDeviceName()
-                                                      << "interfaces:" << deviceInterfaces
-                                                      << "(" << QString::number(deviceInterfaces, 2) << ")";
-
-                        // Check if device has ALL required interfaces using BIT-AND
-                        if ((deviceInterfaces & requiredInterfaces) == requiredInterfaces)
-                        {
-                            assignedDevice = device->getDeviceName();
-                            qCInfo(KSTARS_EKOS_SCHEDULER) << "Found matching device:" << assignedDevice
-                                                          << "with interfaces:" << deviceInterfaces
-                                                          << "required:" << requiredInterfaces;
-                            break;
-                        }
+                        assignedDevice = device->getDeviceName();
+                        qCInfo(KSTARS_EKOS_SCHEDULER) << "Found matching device:" << assignedDevice
+                                                      << "with interfaces:" << deviceInterfaces
+                                                      << "matching supported interfaces:"
+                                                      << supportedInterfaceList(supportedInterfaces);
+                        break;
                     }
                 }
+            }
 
-                if (!assignedDevice.isEmpty())
-                {
-                    task->setDevice(assignedDevice);
-                    qCInfo(KSTARS_EKOS_SCHEDULER) << "Dynamically assigned device:" << assignedDevice << "to task:" << task->name();
-                }
-                else
-                {
-                    // No device found with required interfaces - check failure action
-                    QString errorMsg = i18n("No connected device found with required interfaces");
-                    qCWarning(KSTARS_EKOS_SCHEDULER) << errorMsg << QString::number(requiredInterfaces, 2) << "for task:" << task->name();
-                    emit newLog(i18n("Task '%1' failed device assignment: %2", task->name(), errorMsg));
+            if (!assignedDevice.isEmpty())
+            {
+                task->setDevice(assignedDevice);
+                qCInfo(KSTARS_EKOS_SCHEDULER) << "Dynamically assigned device:" << assignedDevice << "to task:" << task->name();
+            }
+            else
+            {
+                // No device found with required interfaces - check failure action
+                QString errorMsg = i18n("No connected device found matching supported interfaces (%1)")
+                                   .arg(supportedInterfaceList(supportedInterfaces));
+                qCWarning(KSTARS_EKOS_SCHEDULER) << errorMsg << "for task:" << task->name();
+                emit newLog(i18n("Task '%1' failed device assignment: %2", task->name(), errorMsg));
 
-                    // Handle based on task's device mapping failure action
-                    switch (task->deviceMappingFailureAction())
-                    {
-                        case TaskAction::SKIP_TO_NEXT_TASK:
-                            qCInfo(KSTARS_EKOS_SCHEDULER) << "Skipping task due to missing device (failure_action: skip_to_next_task)";
-                            item->setStatus(QueueItem::SKIPPED);
-                            item->setErrorMessage(errorMsg);
-                            // Don't emit itemFailed for skipped tasks - just move to next
-                            m_currentItem = nullptr;
-                            executeNext();
-                            return;
-
-                        case TaskAction::CONTINUE:
-                            qCInfo(KSTARS_EKOS_SCHEDULER) << "Marking task as completed despite missing device (failure_action: continue)";
-                            item->setErrorMessage(errorMsg);
-                            handleItemCompletion(item);
-                            return;
-
-                        case TaskAction::ABORT_QUEUE:
-                        default:
-                            qCWarning(KSTARS_EKOS_SCHEDULER) << "Aborting queue due to missing device (failure_action: abort_queue)";
-                            item->setErrorMessage(errorMsg);
-                            item->setStatus(QueueItem::FAILED);
-                            Q_EMIT itemFailed(item, errorMsg);
-                            m_currentItem = nullptr;
-                            executeNext();
-                            return;
-                    }
-                }
+                handleMissingDevice(item, errorMsg);
+                return;
             }
         }
     }
@@ -317,6 +368,40 @@ void QueueExecutor::executeItem(QueueItem *item)
     // Execute first action
     m_currentAction = task->actions().first();
     executeAction(m_currentAction);
+}
+
+void QueueExecutor::handleMissingDevice(QueueItem *item, const QString &errorMsg)
+{
+    if (!item || !item->task())
+        return;
+
+    switch (item->task()->deviceMappingFailureAction())
+    {
+        case TaskAction::SKIP_TO_NEXT_TASK:
+            qCInfo(KSTARS_EKOS_SCHEDULER) << "Skipping task due to missing device (failure_action: skip_to_next_task)";
+            item->setStatus(QueueItem::SKIPPED);
+            item->setErrorMessage(errorMsg);
+            // Skipped tasks are not failures; continue with the next pending queue item.
+            m_currentItem = nullptr;
+            executeNext();
+            return;
+
+        case TaskAction::CONTINUE:
+            qCInfo(KSTARS_EKOS_SCHEDULER) << "Marking task as completed despite missing device (failure_action: continue)";
+            item->setErrorMessage(errorMsg);
+            handleItemCompletion(item);
+            return;
+
+        case TaskAction::ABORT_QUEUE:
+        default:
+            qCWarning(KSTARS_EKOS_SCHEDULER) << "Aborting queue due to missing device (failure_action: abort_queue)";
+            item->setErrorMessage(errorMsg);
+            item->setStatus(QueueItem::FAILED);
+            Q_EMIT itemFailed(item, errorMsg);
+            m_currentItem = nullptr;
+            executeNext();
+            return;
+    }
 }
 
 void QueueExecutor::executeAction(TaskAction *action)

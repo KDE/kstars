@@ -85,6 +85,15 @@ class Task : public QObject
             return m_category;
         }
 
+        QList<uint32_t> supportedInterfaces() const
+        {
+            return m_supportedInterfaces;
+        }
+        void setSupportedInterfaces(const QList<uint32_t> &interfaces)
+        {
+            m_supportedInterfaces = interfaces;
+        }
+
         // Status
         Status status() const
         {
@@ -172,6 +181,7 @@ class Task : public QObject
         QString m_templateId;
         QString m_device;
         QString m_category;
+        QList<uint32_t> m_supportedInterfaces;
 
         // Runtime state
         Status m_status = PENDING;
