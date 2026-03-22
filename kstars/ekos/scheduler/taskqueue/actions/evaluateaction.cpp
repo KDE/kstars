@@ -7,6 +7,7 @@
 #include "evaluateaction.h"
 #include "indi/indilistener.h"
 #include "indi/indistd.h"
+#include <ekos_scheduler_debug.h>
 
 #include <indiproperty.h>
 #include <basedevice.h>
@@ -34,7 +35,10 @@ bool EvaluateAction::start()
     m_devicePtr = getDevice();
     if (!m_devicePtr)
     {
-        setErrorMessage(QString("Device %1 not found").arg(m_device));
+        const QString message = QString("Device %1 not found").arg(m_device);
+        setErrorMessage(message);
+        qCWarning(KSTARS_EKOS_SCHEDULER) << message;
+        emit progress(message);
         setStatus(FAILED);
         Q_EMIT failed(m_errorMessage);
         return false;
@@ -42,7 +46,10 @@ bool EvaluateAction::start()
 
     if (!m_devicePtr->isConnected())
     {
-        setErrorMessage(QString("Device %1 not connected").arg(m_device));
+        const QString message = QString("Device %1 not connected").arg(m_device);
+        setErrorMessage(message);
+        qCWarning(KSTARS_EKOS_SCHEDULER) << message;
+        emit progress(message);
         setStatus(FAILED);
         Q_EMIT failed(m_errorMessage);
         return false;
@@ -149,15 +156,17 @@ QVariant EvaluateAction::getCurrentValue()
 {
     auto device = getDevice();
     if (!device || !device->isConnected())
-        return QVariant();
+        return lookupFailure(!device ? QString("Device %1 not found").arg(m_device)
+                             : QString("Device %1 not connected").arg(m_device));
 
     // For STATE property type, get the property state
     if (m_propertyType == STATE)
     {
         INDI::Property prop = device->getProperty(m_property.toUtf8());
         if (!prop.isValid())
-            return QVariant();
+            return lookupFailure(QString("Property %1 not found on device %2").arg(m_property, m_device));
 
+        clearLookupFailure();
         IPState state = prop.getState();
         switch (state)
         {
@@ -177,7 +186,7 @@ QVariant EvaluateAction::getCurrentValue()
     // For other types, get the property value
     INDI::Property prop = device->getProperty(m_property.toUtf8());
     if (!prop.isValid())
-        return QVariant();
+        return lookupFailure(QString("Property %1 not found on device %2").arg(m_property, m_device));
 
     switch (prop.getType())
     {
@@ -186,24 +195,36 @@ QVariant EvaluateAction::getCurrentValue()
             auto np = prop.getNumber();
             auto element = np->findWidgetByName(m_element.toUtf8().constData());
             if (element)
+            {
+                clearLookupFailure();
                 return QVariant(element->getValue());
-            break;
+            }
+            return lookupFailure(QString("Element %1 not found in property %2 on device %3")
+                                 .arg(m_element, m_property, m_device));
         }
         case INDI_TEXT:
         {
             auto tp = prop.getText();
             auto element = tp->findWidgetByName(m_element.toUtf8().constData());
             if (element)
+            {
+                clearLookupFailure();
                 return QVariant(QString::fromUtf8(element->getText()));
-            break;
+            }
+            return lookupFailure(QString("Element %1 not found in property %2 on device %3")
+                                 .arg(m_element, m_property, m_device));
         }
         case INDI_SWITCH:
         {
             auto sp = prop.getSwitch();
             auto element = sp->findWidgetByName(m_element.toUtf8().constData());
             if (element)
+            {
+                clearLookupFailure();
                 return QVariant(element->getState() == ISS_ON);
-            break;
+            }
+            return lookupFailure(QString("Element %1 not found in property %2 on device %3")
+                                 .arg(m_element, m_property, m_device));
         }
         case INDI_LIGHT:
         {
@@ -211,14 +232,28 @@ QVariant EvaluateAction::getCurrentValue()
             auto element = lp->findWidgetByName(m_element.toUtf8().constData());
             if (element)
             {
+                clearLookupFailure();
                 // Convert light state to boolean
                 IPState lightState = element->getState();
                 return QVariant(lightState == IPS_OK || lightState == IPS_BUSY);
             }
-            break;
+            return lookupFailure(QString("Element %1 not found in property %2 on device %3")
+                                 .arg(m_element, m_property, m_device));
         }
         default:
-            break;
+            return lookupFailure(QString("Unsupported property type for %1 on device %2").arg(m_property, m_device));
+    }
+
+    return QVariant();
+}
+
+QVariant EvaluateAction::lookupFailure(const QString &message)
+{
+    if (m_lastLookupError != message)
+    {
+        m_lastLookupError = message;
+        qCWarning(KSTARS_EKOS_SCHEDULER) << "EVALUATE action lookup failed:" << message;
+        emit progress(message);
     }
 
     return QVariant();
@@ -401,6 +436,10 @@ void EvaluateAction::handleTimeout()
     if (m_deviceConnection)
         disconnect(m_deviceConnection);
 
+    qCWarning(KSTARS_EKOS_SCHEDULER) << "Timeout evaluating" << m_device << "." << m_property << "." << m_element
+                                     << (m_lastLookupError.isEmpty() ? QString() : QString("Last lookup error: %1")
+                                         .arg(m_lastLookupError));
+
     if (incrementRetry())
     {
         Q_EMIT progress(QString("Timeout, retry %1/%2").arg(m_currentRetry).arg(m_retries));
@@ -410,7 +449,10 @@ void EvaluateAction::handleTimeout()
     {
         // Clear device pointer to prevent crashes during cleanup
         m_devicePtr.clear();
-        setErrorMessage(QString("Timeout evaluating %1.%2").arg(m_property).arg(m_element));
+        setErrorMessage(!m_lastLookupError.isEmpty() ? m_lastLookupError
+                        : QString("Timeout evaluating %1.%2").arg(m_property).arg(m_element));
+        qCWarning(KSTARS_EKOS_SCHEDULER) << "EVALUATE action failed:" << m_errorMessage;
+        emit progress(m_errorMessage);
         setStatus(FAILED);
         Q_EMIT failed(m_errorMessage);
     }
