@@ -128,6 +128,7 @@ void SchedulerProcess::execute()
         case SCHEDULER_IDLE:
             qCInfo(KSTARS_EKOS_SCHEDULER) << "Scheduler is starting...";
 
+            m_startupQueueFailurePopupShown = false;
             moduleState()->setSchedulerState(SCHEDULER_RUNNING);
             moduleState()->setupNextIteration(RUN_SCHEDULER);
 
@@ -136,6 +137,7 @@ void SchedulerProcess::execute()
             break;
 
         case SCHEDULER_PAUSED:
+            m_startupQueueFailurePopupShown = false;
             moduleState()->setSchedulerState(SCHEDULER_RUNNING);
             moduleState()->setupNextIteration(RUN_SCHEDULER);
 
@@ -700,12 +702,39 @@ void SchedulerProcess::start()
     // STARTUP_COMPLETE is preserved so we don't re-run the startup procedure unnecessarily.
     // This handles the case where the previous run ended with STARTUP_ERROR
     // and the user manually presses Start to retry.
-    if (moduleState()->startupState() != STARTUP_IDLE &&
-            moduleState()->startupState() != STARTUP_COMPLETE)
+    const StartupState previousStartupState = moduleState()->startupState();
+    switch (previousStartupState)
     {
-        qCDebug(KSTARS_EKOS_SCHEDULER) << "start: Resetting startup state from"
-                                       << startupStateString(moduleState()->startupState()) << "to STARTUP_IDLE";
-        moduleState()->setStartupState(STARTUP_IDLE);
+        case STARTUP_PRE_DEVICES_RUNNING:
+        case STARTUP_PRE_DEVICES:
+        case STARTUP_POST_DEVICES_RUNNING:
+        case STARTUP_POST_DEVICES:
+        case STARTUP_ERROR:
+            moduleState()->setStartupState(STARTUP_IDLE);
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "start: Resetting startup state from"
+                                           << startupStateString(previousStartupState) << "to STARTUP_IDLE";
+            break;
+
+        case STARTUP_IDLE:
+        case STARTUP_COMPLETE:
+            break;
+    }
+
+    const ShutdownState previousShutdownState = moduleState()->shutdownState();
+    switch (previousShutdownState)
+    {
+        case SHUTDOWN_PRE_QUEUE_RUNNING:
+        case SHUTDOWN_STOPPING_EKOS:
+        case SHUTDOWN_POST_QUEUE_RUNNING:
+        case SHUTDOWN_ERROR:
+            moduleState()->setShutdownState(SHUTDOWN_IDLE);
+            qCDebug(KSTARS_EKOS_SCHEDULER) << "shutdown: Resetting shutdown state from"
+                                           << shutdownStateString(previousShutdownState) << "to SHUTDOWN_IDLE";
+            break;
+
+        case SHUTDOWN_IDLE:
+        case SHUTDOWN_COMPLETE:
+            break;
     }
 
     moduleState()->init();
@@ -1951,11 +1980,23 @@ bool SchedulerProcess::checkStartupState()
     const bool observatoryStarted = moduleState()->ekosCommunicationStatus() == Ekos::Success &&
                                     moduleState()->isINDIConnected();
 
+    resetLatchedStartupErrorIfQueuesDisabled(observatoryStarted);
+
     // STARTUP_COMPLETE only remains valid while the observatory is still up. If Ekos/INDI was
     // stopped outside the scheduler, re-enter the startup state machine from IDLE so pre-startup
     // tasks are executed again.
     if (moduleState()->startupState() == STARTUP_COMPLETE && !observatoryStarted)
         moduleState()->setStartupState(STARTUP_IDLE);
+
+    // STARTUP_ERROR is also only meaningful while the failed startup environment is still live.
+    // If the user stopped Ekos/INDI after a queue failure, allow the next scheduler start to
+    // retry the startup queues from scratch.
+    if (moduleState()->startupState() == STARTUP_ERROR && !observatoryStarted)
+    {
+        appendLogText(i18n("Observatory is down, resetting startup error state and retrying startup procedure."));
+        moduleState()->setStartupState(STARTUP_IDLE);
+        m_lastStartupQueueError.clear();
+    }
 
     switch (moduleState()->startupState())
     {
@@ -1965,6 +2006,7 @@ bool SchedulerProcess::checkStartupState()
                                   KSNotification::Scheduler);
 
             qCDebug(KSTARS_EKOS_SCHEDULER) << "Startup Idle. Starting startup process...";
+            m_lastStartupQueueError.clear();
 
             if (moduleState()->currentProfile() != i18n("Default"))
             {
@@ -1989,7 +2031,8 @@ bool SchedulerProcess::checkStartupState()
                 }
                 else
                 {
-                    appendLogText(i18n("Failed to load pre-startup queue from %1", queueFile));
+                    m_lastStartupQueueError = i18n("Failed to load pre-startup queue from %1", queueFile);
+                    appendLogText(m_lastStartupQueueError);
                     moduleState()->setStartupState(STARTUP_ERROR);
                     return false;
                 }
@@ -2027,7 +2070,8 @@ bool SchedulerProcess::checkStartupState()
                 }
                 else
                 {
-                    appendLogText(i18n("Failed to load post-startup tasks from %1", queueFile));
+                    m_lastStartupQueueError = i18n("Failed to load post-startup queue from %1", queueFile);
+                    appendLogText(m_lastStartupQueueError);
                     moduleState()->setStartupState(STARTUP_ERROR);
                     return false;
                 }
@@ -2459,9 +2503,25 @@ bool SchedulerProcess::checkStatus()
         // #3 Check if startup procedure has failed.
         if (moduleState()->startupState() == STARTUP_ERROR)
         {
-            // Stop Scheduler
-            stop();
-            return true;
+            const bool observatoryStarted = moduleState()->ekosCommunicationStatus() == Ekos::Success &&
+                                            moduleState()->isINDIConnected();
+            if (resetLatchedStartupErrorIfQueuesDisabled(observatoryStarted))
+            {
+                // Continue into the normal startup checks with the corrected state.
+            }
+            else if (!observatoryStarted)
+            {
+                appendLogText(i18n("Observatory is down, resetting startup error state and retrying startup procedure."));
+                moduleState()->setStartupState(STARTUP_IDLE);
+                m_lastStartupQueueError.clear();
+            }
+            else
+            {
+                showStartupQueueFailurePopup();
+                // Stop Scheduler
+                stop();
+                return true;
+            }
         }
 
         // #4 Check if startup procedure is complete
@@ -3386,9 +3446,8 @@ void SchedulerProcess::queueItemFailed(QueueItem *item, const QString &error)
     if (moduleState()->startupState() == STARTUP_PRE_DEVICES_RUNNING
             || moduleState()->startupState() == STARTUP_POST_DEVICES_RUNNING)
     {
-        // Latch the error for display in popup
-        m_lastStartupQueueError = error;
-        appendLogText(i18n("Startup queue failed: %1", error));
+        m_lastStartupQueueError = i18n("Startup queue failed: %1", error);
+        appendLogText(m_lastStartupQueueError);
         moduleState()->setStartupState(STARTUP_ERROR);
         return;
     }
@@ -3418,6 +3477,18 @@ void SchedulerProcess::queueItemFailed(QueueItem *item, const QString &error)
         activeJob()->setState(SCHEDJOB_ABORTED);
         findNextJob();
     }
+}
+
+bool SchedulerProcess::resetLatchedStartupErrorIfQueuesDisabled(bool observatoryStarted)
+{
+    if (moduleState()->startupState() != STARTUP_ERROR || Options::schedulerStartupEnabled())
+        return false;
+
+    appendLogText(i18n("Startup queue is disabled, ignoring the previous startup queue error."));
+    moduleState()->setStartupState(observatoryStarted ? STARTUP_COMPLETE : STARTUP_IDLE);
+    m_lastStartupQueueError.clear();
+    m_startupQueueFailurePopupShown = false;
+    return true;
 }
 
 bool SchedulerProcess::appendEkosScheduleList(const QString &fileURL)
@@ -4801,15 +4872,14 @@ void SchedulerProcess::printStates(const QString &label)
 
 void SchedulerProcess::showStartupQueueFailurePopup()
 {
-    // Only show once per failure cycle
     if (m_startupQueueFailurePopupShown)
         return;
 
     m_startupQueueFailurePopupShown = true;
 
-    QString errorMessage = m_lastStartupQueueError.isEmpty()
-                           ? i18n("Unknown error occurred during startup queue execution.")
-                           : m_lastStartupQueueError;
+    const QString errorMessage = m_lastStartupQueueError.isEmpty()
+                                 ? i18n("Scheduler cannot start because of an error while processing the startup queue.")
+                                 : m_lastStartupQueueError;
 
     KSMessageBox::Instance()->sorry(i18n("Startup Queue Failed"),
                                     i18n("The scheduler startup queue has failed:\n\n%1\n\n"

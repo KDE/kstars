@@ -834,5 +834,11 @@ class SchedulerProcess : public QObject, public ModuleLogger
          * when startup queues are disabled in options, allowing recovery.
          */
         void resetLatchedStartupErrorIfQueuesDisabled();
+
+        /**
+         * @brief resetLatchedStartupErrorIfQueuesDisabled Clear a stale startup-queue error when
+         * startup queue processing is disabled for the current run.
+         */
+        bool resetLatchedStartupErrorIfQueuesDisabled(bool observatoryStarted);
 };
 }
