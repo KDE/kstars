@@ -65,7 +65,7 @@ bool knsErrorIsNetworkRelated(const QSignalSpy &errorSpy)
         if (signalArguments.isEmpty())
             continue;
 
-        const auto errorCode = static_cast<KNSCore::ErrorCode::ErrorCode>(signalArguments.at(0).toInt());
+        const auto errorCode = static_cast<KNSCore::ErrorCode>(signalArguments.at(0).toInt());
         if (errorCode == KNSCore::ErrorCode::NetworkError || errorCode == KNSCore::ErrorCode::TryAgainLaterError)
             return true;
     }
