@@ -135,7 +135,11 @@ QSharedPointer<Camera> Capture::addCamera()
 
     // forward signals from the camera
     connect(newCamera.get(), &Camera::newLog, this, &Capture::appendLogText);
-    connect(newCamera.get(), &Camera::refreshCamera, this, &Capture::updateCamera);
+    connect(newCamera.get(), &Camera::refreshCamera, this,
+            [this](unsigned int tabID, bool isValid)
+    {
+        updateCamera(static_cast<int>(tabID), isValid);
+    });
     connect(newCamera.get(), &Camera::sequenceChanged, this, &Capture::sequenceChanged);
     connect(newCamera.get(), &Camera::newLocalPreview, this, &Capture::newLocalPreview);
     connect(newCamera.get(), &Camera::dslrInfoRequested, this, &Capture::dslrInfoRequested);

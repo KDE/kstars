@@ -1,5 +1,5 @@
 {
-   "qt": "@_qt5Core_install_prefix@",
+   "qt": "@_qt6Core_install_prefix@",
    "sdk": "@ANDROID_SDK_ROOT@",
    "ndk": "@ANDROID_NDK@",
    "toolchain-prefix": "@ANDROID_TOOLCHAIN@",
@@ -12,6 +12,6 @@
    ##EXTRAPLUGINS##
    "android-package-source-directory": "@ANDROID_APK_DIR@",
    "stdcpp-path": "@ANDROID_NDK@/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a/libc++_shared.so",
-   "android-extra-libs": "kf5/kde/install/lib/libKF5I18n.so,kf5/kde/install/lib/libKF5Plotting.so,kf5/kde/install/lib/libKF5ConfigGui.so,kf5/kde/install/lib/libKF5ConfigCore.so",
+   "android-extra-libs": "kf6/kde/install/lib/libKF6I18n.so,kf6/kde/install/lib/libKF6Plotting.so,kf6/kde/install/lib/libKF6ConfigGui.so,kf6/kde/install/lib/libKF6ConfigCore.so",
    "sdkBuildToolsRevision": "@ANDROID_SDK_BUILD_TOOLS_REVISION@"
 }

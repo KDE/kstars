@@ -8,8 +8,8 @@
 #  For other platforms
 #  INDI_LIBRARIES - Link to these for XML and INDI Common support (INDI < 1.4 only)
 #  INDI_CLIENT_LIBRARIES - Link to these to build INDI clients
-#  INDI_CLIENT_QT_LIBRARIES - Link to these to build INDI clients with Qt5 backend
-#  INDI_CLIENT_ANDROID_LIBRARIES - Link to these to build INDI clients with Qt5 backend on Android
+#  INDI_CLIENT_QT_LIBRARIES - Link to these to build INDI clients with the Qt backend
+#  INDI_CLIENT_ANDROID_LIBRARIES - Link to these to build INDI clients with the Qt backend on Android
 # SPDX-FileCopyrightText: 2012-2017 Jasem Mutlaq <mutlaqja@ikarustech.com>
 # SPDX-FileCopyrightText: 2012 Pino Toscano <pino@kde.org>
 #
@@ -148,7 +148,7 @@ if(NOT INDI_FOUND)
                 message(STATUS "Found INDI Client Library: ${INDI_CLIENT_LIBRARIES}")
             endif (INDI_CLIENT_LIBRARIES)
             if (INDI_CLIENT_QT_LIBRARIES)
-                message(STATUS "Found INDI Qt5 Client Library: ${INDI_CLIENT_QT_LIBRARIES}")
+                message(STATUS "Found INDI Qt Client Library: ${INDI_CLIENT_QT_LIBRARIES}")
             endif (INDI_CLIENT_QT_LIBRARIES)
         endif(ANDROID)
         endif (NOT INDI_FIND_QUIETLY)

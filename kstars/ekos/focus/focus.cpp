@@ -6282,7 +6282,7 @@ void Focus::syncSettings()
     }
 
     // Save immediately
-    Options::self()->setProperty(key.toLatin1(), value);
+    Options::self()->setProperty(key.toLatin1().constData(), value);
 
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
@@ -6316,7 +6316,7 @@ void Focus::loadGlobalSettings()
             continue;
 
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid() && oneWidget->count() > 0)
         {
             oneWidget->setCurrentText(value.toString());
@@ -6330,7 +6330,7 @@ void Focus::loadGlobalSettings()
     for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
     {
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid())
         {
             oneWidget->setValue(value.toDouble());
@@ -6344,7 +6344,7 @@ void Focus::loadGlobalSettings()
     for (auto &oneWidget : findChildren<QSpinBox * >())
     {
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid())
         {
             oneWidget->setValue(value.toInt());
@@ -6358,7 +6358,7 @@ void Focus::loadGlobalSettings()
     for (auto &oneWidget : findChildren<QCheckBox * >())
     {
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid())
         {
             oneWidget->setChecked(value.toBool());
@@ -6374,7 +6374,7 @@ void Focus::loadGlobalSettings()
         if (oneWidget->isCheckable())
         {
             key = oneWidget->objectName();
-            value = Options::self()->property(key.toLatin1());
+            value = Options::self()->property(key.toLatin1().constData());
             if (value.isValid())
             {
                 oneWidget->setChecked(value.toBool());
@@ -6389,7 +6389,7 @@ void Focus::loadGlobalSettings()
     for (auto &oneWidget : findChildren<QSplitter * >())
     {
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid())
         {
             // Convert the saved QString to a QByteArray using Base64
@@ -6405,7 +6405,7 @@ void Focus::loadGlobalSettings()
     for (auto &oneWidget : findChildren<QRadioButton * >())
     {
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid())
         {
             oneWidget->setChecked(value.toBool());
@@ -6568,7 +6568,10 @@ void Focus::initConnections()
     connect(focusInB, &QPushButton::clicked, this, &Ekos::Focus::handleFocusButtonEvent);
 
     // Capture a single frame
-    connect(captureB, &QPushButton::clicked, this, &Ekos::Focus::capture);
+    connect(captureB, &QPushButton::clicked, this, [this](bool)
+    {
+        capture();
+    });
     // Start continuous capture
     connect(startLoopB, &QPushButton::clicked, this, &Ekos::Focus::startFraming);
     // Use a subframe when capturing
@@ -7902,7 +7905,7 @@ void Focus::setAllSettings(QVariantMap &settings)
     {
         auto value = settings[key];
         // Save immediately
-        Options::self()->setProperty(key.toLatin1(), value);
+        Options::self()->setProperty(key.toLatin1().constData(), value);
 
         m_Settings[key] = value;
         m_GlobalSettings[key] = value;

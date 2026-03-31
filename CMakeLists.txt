@@ -12,19 +12,9 @@ set (KStars_VERSION_REVISION ${kstars_VERSION_PATCH})
 set (KSTARS_BUILD_RELEASE "Beta")
 set (CMAKE_CXX_STANDARD 17)
 
-# Option to choose between Qt5 and Qt6
-# This is used by KDE CI
-option(BUILD_WITH_QT6 "Build using Qt6" OFF)
-
-if(NOT BUILD_WITH_QT6)
-    set(QT_MIN_VERSION 5.12.7)
-    set(KF5_MIN_VERSION 5.68.0)
-    set(QT_MAJOR_VERSION 5)
-else()
-    set(QT_MIN_VERSION 6.6.0)
-    set(KF6_MIN_VERSION 6.6.0)
-    set(QT_MAJOR_VERSION 6)
-endif()
+set(QT_MIN_VERSION 6.6.0)
+set(KF_MIN_VERSION 6.6.0)
+set(QT_MAJOR_VERSION 6)
 
 # Build KStars Lite with -DBUILD_KSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)
@@ -69,10 +59,10 @@ if(CMAKE_SYSTEM_NAME STREQUAL Android)
 endif()
 
 if("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
-    include(${CMAKE_BINARY_DIR}/kf5/kde/install/share/ECM/cmake/ECMConfig.cmake)
+    include(${CMAKE_BINARY_DIR}/kf6/kde/install/share/ECM/cmake/ECMConfig.cmake)
 endif()
 
-find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
@@ -80,109 +70,72 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE
 include(ExternalProject)
 include(ECMInstallIcons)
 include(ECMAddAppIcon)
-if(NOT BUILD_WITH_QT6)
-    include(KDEInstallDirs)
-else()
-    include(KDEInstallDirs6)
-endif()
+include(KDEInstallDirs6)
 include(MacroBoolTo01)
 include(ECMQtDeclareLoggingCategory)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
 include(FeatureSummary)
 
+# KStars sources still use Qt's signals/slots keywords broadly.
+# Keep the Qt6/KF6 toolchain, but do not force keyword disabling globally.
+remove_definitions(-DQT_NO_KEYWORDS)
+
+# The codebase still relies on implicit QString conversions from string
+# literals in many existing headers and DBus adaptor inputs.
+remove_definitions(-DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII)
+
+# Third-party and legacy in-tree code still uses Qt's foreach macro.
+remove_definitions(-DQT_NO_FOREACH)
+
 if(BUILD_KSTARS_LITE)
     if("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
         set(QT_ANDROID $ENV{QT_ANDROID})
-        set(Qt5Core_DIR "${QT_ANDROID}/lib/cmake/Qt5Core")
-        set(Qt5Gui_DIR "${QT_ANDROID}/lib/cmake/Qt5Gui")
-        set(Qt5Network_DIR "${QT_ANDROID}/lib/cmake/Qt5Network")
-        set(Qt5Positioning_DIR "${QT_ANDROID}/lib/cmake/Qt5Positioning")
-        set(Qt5Qml_DIR "${QT_ANDROID}/lib/cmake/Qt5Qml")
-        set(Qt5Quick_DIR "${QT_ANDROID}/lib/cmake/Qt5Quick")
-        set(Qt5Widgets_DIR "${QT_ANDROID}/lib/cmake/Qt5Widgets")
-        include(${QT_ANDROID}/lib/cmake/Qt5/Qt5Config.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5Core/Qt5CoreConfig.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5Qml/Qt5QmlConfig.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5Quick/Qt5QuickConfig.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5QuickControls2/Qt5QuickControls2Config.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5Xml/Qt5XmlConfig.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5Svg/Qt5SvgConfig.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5Sql/Qt5SqlConfig.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5Network/Qt5NetworkConfig.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5Positioning/Qt5PositioningConfig.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5PositioningQuick/Qt5PositioningQuickConfig.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5Concurrent/Qt5ConcurrentConfig.cmake)
-        include(${QT_ANDROID}/lib/cmake/Qt5AndroidExtras/Qt5AndroidExtrasConfig.cmake)
+        set(CMAKE_PREFIX_PATH "${QT_ANDROID};${CMAKE_PREFIX_PATH}")
+        find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Qml Quick QuickControls2 Xml Svg Sql Network Positioning PositioningQuick Concurrent WebSockets CoreTools)
     else()
-        if(ANDROID)
-            list(APPEND QT_EXTRA_COMPONENTS AndroidExtras)
-        else()
+        if(NOT ANDROID)
             list(APPEND QT_EXTRA_COMPONENTS PrintSupport)
         endif()
-        find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Qml Quick QuickControls2 Xml Svg Sql Network Positioning PositioningQuick Concurrent WebSockets ${QT_EXTRA_COMPONENTS})
+        find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Qml Quick QuickControls2 Xml Svg Sql Network Positioning PositioningQuick Concurrent WebSockets CoreTools ${QT_EXTRA_COMPONENTS})
     endif()
 else()
-    if(NOT BUILD_WITH_QT6)
-        find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport Concurrent WebSockets)
-    else()
-        find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg SvgWidgets Network PrintSupport Concurrent WebSockets DBus)
-    endif(NOT BUILD_WITH_QT6)
+    find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg SvgWidgets Network PrintSupport Concurrent WebSockets DBus CoreTools)
 endif()
 
 # Load the frameworks we need
 if(BUILD_KSTARS_LITE)
     if("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
-        set(KF5_VERSION 5.28.0)
-        set(KF5_HOST_TOOLING /usr/lib/x86_64-linux-gnu/cmake/)
-        include(${CMAKE_BINARY_DIR}/kf5/kde/install/lib/cmake/KF5Config/KF5ConfigConfig.cmake)
-        include(${CMAKE_BINARY_DIR}/kf5/kde/install/lib/cmake/KF5I18n/KF5I18nConfig.cmake)
-        include(${CMAKE_BINARY_DIR}/kf5/kde/install/lib/cmake/KF5Plotting/KF5PlottingConfig.cmake)
+        set(KF6_VERSION 6.6.0)
+        set(KF6_HOST_TOOLING /usr/lib/x86_64-linux-gnu/cmake/)
+        include(${CMAKE_BINARY_DIR}/kf6/kde/install/lib/cmake/KF6Config/KF6ConfigConfig.cmake)
+        include(${CMAKE_BINARY_DIR}/kf6/kde/install/lib/cmake/KF6I18n/KF6I18nConfig.cmake)
+        include(${CMAKE_BINARY_DIR}/kf6/kde/install/lib/cmake/KF6Plotting/KF6PlottingConfig.cmake)
     else()
         # Find Optional package NotifyConfig for desktop notifications
-        find_package(KF5 ${KF5_MIN_VERSION} COMPONENTS NotifyConfig)
-        MACRO_BOOL_TO_01(KF5NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
+        find_package(KF6 ${KF_MIN_VERSION} COMPONENTS NotifyConfig)
+        MACRO_BOOL_TO_01(KF6NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
 
-        find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Auth Config Crash WidgetsAddons NewStuff I18n KIO XmlGui Plotting Notifications)
+        find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS Auth Config Crash WidgetsAddons NewStuff I18n KIO XmlGui Plotting Notifications)
     endif()
 else(BUILD_KSTARS_LITE)
-    if(NOT BUILD_WITH_QT6)
-       # Find Optional package NotifyConfig for desktop notifications
-       find_package(KF5 ${KF5_MIN_VERSION} COMPONENTS NotifyConfig)
-       MACRO_BOOL_TO_01(KF5NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
+    # Find Optional package NotifyConfig for desktop notifications
+    find_package(KF6 ${KF_MIN_VERSION} COMPONENTS NotifyConfig)
+    MACRO_BOOL_TO_01(KF6NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
 
-       find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
-         Config
-         Crash
-         WidgetsAddons
-         NewStuff
-         I18n
-         KIO
-         XmlGui
-         Plotting
-         Notifications
-       )
-       set(KFX_VERSION ${KF5_VERSION})
-    else()
-       # Find Optional package NotifyConfig for desktop notifications
-       find_package(KF6 ${KF5_MIN_VERSION} COMPONENTS NotifyConfig)
-       MACRO_BOOL_TO_01(KF6NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
-
-        find_package(KF6 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
-          Config
-          Crash
-          WidgetsAddons
-          NewStuff
-          I18n
-          KIO
-          XmlGui
-          Plotting
-          Notifications
-        )
-       set(KFX_VERSION ${KF6_VERSION})
-    endif(NOT BUILD_WITH_QT6)
+    find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
+      Config
+      Crash
+      WidgetsAddons
+      NewStuff
+      I18n
+      KIO
+      XmlGui
+      Plotting
+      Notifications
+    )
 endif(BUILD_KSTARS_LITE)
+set(KFX_VERSION ${KF6_VERSION})
 
 ## Eigen3 Library
 find_package(Eigen3 REQUIRED CONFIG)
@@ -299,14 +252,9 @@ set_package_properties(WCSLIB PROPERTIES DESCRIPTION "World Coordinate System li
 find_package(Xplanet)
 set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all the major planets and most satellites" URL "http://xplanet.sourceforge.net" TYPE RUNTIME PURPOSE "Gives KStars support for xplanet.")
 
-# Qt5/6 Data Visualization
-if (NOT BUILD_WITH_QT6)
-   find_package(Qt5DataVisualization)
-   MACRO_BOOL_TO_01(Qt5DataVisualization_FOUND HAVE_DATAVISUALIZATION)
-else()
-   find_package(Qt6DataVisualization)
-   MACRO_BOOL_TO_01(Qt6DataVisualization_FOUND HAVE_DATAVISUALIZATION)
-endif()
+# Qt6 Data Visualization
+find_package(Qt6DataVisualization)
+MACRO_BOOL_TO_01(Qt6DataVisualization_FOUND HAVE_DATAVISUALIZATION)
 
 # LibXISF
 find_package(LibXISF)
@@ -318,13 +266,8 @@ MACRO_BOOL_TO_01(LibXISF_FOUND HAVE_XISF)
 #set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE RUNTIME PURPOSE "Support for plate solving in KStars.")
 
 ## Key Chain
-if (NOT BUILD_WITH_QT6)
-   find_package(Qt5Keychain)
-   MACRO_BOOL_TO_01(Qt5Keychain_FOUND HAVE_KEYCHAIN)
-else()
-   find_package(Qt6Keychain)
-   MACRO_BOOL_TO_01(Qt6Keychain_FOUND HAVE_KEYCHAIN)
-endif()
+find_package(Qt6Keychain)
+MACRO_BOOL_TO_01(Qt6Keychain_FOUND HAVE_KEYCHAIN)
 
 ## OpenCV
 # Ensure we have at least version 4.6.0
@@ -533,12 +476,12 @@ endif()
 #if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 #    # This helper file is generated to download astrometry.net index files.
 #    add_executable(kauth_kstars_helper kstars/auxiliary/downloadhelper.cpp  ${helper_mocs})
-#    target_link_libraries(kauth_kstars_helper Qt5::Core)
-#    target_link_libraries(kauth_kstars_helper Qt5::Widgets)
-#    target_link_libraries(kauth_kstars_helper KF5::Auth)
+#    target_link_libraries(kauth_kstars_helper Qt6::Core)
+#    target_link_libraries(kauth_kstars_helper Qt6::Widgets)
+#    target_link_libraries(kauth_kstars_helper KF6::Auth)
 #    install(TARGETS kauth_kstars_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
-#    kauth_install_helper_files(kauth_kstars_helper org.kde.kf5auth.kstars root)
-#    kauth_install_actions(org.kde.kf5auth.kstars org.kde.kf5auth.kstars.actions)
+#    kauth_install_helper_files(kauth_kstars_helper org.kde.kf6auth.kstars root)
+#    kauth_install_actions(org.kde.kf6auth.kstars org.kde.kf6auth.kstars.actions)
 #ENDIF ()
 
 # Final package generation
@@ -561,20 +504,20 @@ if ("${CMAKE_TOOLCHAIN_FILE}" MATCHES "android.toolchain.cmake$")
 
 
     add_custom_target(create-apk-debug-kstars
-        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt"
+        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE:Qt6::androiddeployqt>"
         COMMAND cmake -E remove_directory "${EXPORT_DIR}"
         COMMAND cmake -E copy_directory "${CMAKE_SOURCE_DIR}/packaging/android/apk" "${EXPORT_DIR}"
         COMMAND cmake -E copy "$<TARGET_FILE:kstars>" "${EXECUTABLE_DESTINATION_PATH}"
         COMMAND cmake -DINPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json.in" -DOUTPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" "-DTARGET_DIR=${CMAKE_BINARY_DIR}/kstars" "-DTARGET_NAME=kstars" "-DEXPORT_DIR=${CMAKE_INSTALL_PREFIX}" -P ${CMAKE_SOURCE_DIR}/packaging/android/specifydependencies.cmake
-        COMMAND $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt --input "${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --debug --deployment bundled "\\$(ARGS)"
+        COMMAND $<TARGET_FILE:Qt6::androiddeployqt> --input "${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --debug --deployment bundled "\\$(ARGS)"
         )
     add_custom_target(create-apk-release-kstars
-        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt"
+        COMMAND cmake -E echo "Generating $<TARGET_NAME:kstars> with $<TARGET_FILE:Qt6::androiddeployqt>"
         COMMAND cmake -E remove_directory "${EXPORT_DIR}"
         COMMAND cmake -E copy_directory "${CMAKE_SOURCE_DIR}/packaging/android/apk" "${EXPORT_DIR}"
         COMMAND cmake -E copy "$<TARGET_FILE:kstars>" "${EXECUTABLE_DESTINATION_PATH}"
         COMMAND cmake -DINPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json.in" -DOUTPUT_FILE="${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" "-DTARGET_DIR=${CMAKE_BINARY_DIR}/kstars" "-DTARGET_NAME=kstars" "-DEXPORT_DIR=${CMAKE_INSTALL_PREFIX}" -P ${CMAKE_SOURCE_DIR}/packaging/android/specifydependencies.cmake
-        COMMAND $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt --input "${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --release --deployment bundled "\\$(ARGS)"
+        COMMAND $<TARGET_FILE:Qt6::androiddeployqt> --input "${CMAKE_BINARY_DIR}/packaging/android/kstars-deployment.json" --output "${EXPORT_DIR}" --android-platform android-${ANDROID_API_LEVEL} --release --deployment bundled "\\$(ARGS)"
         )
     add_custom_target(install-apk-debug-kstars
         COMMAND adb install -r ${CMAKE_BINARY_DIR}/packaging/android/kstars_build_apk//bin/QtApp-debug.apk

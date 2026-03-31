@@ -88,7 +88,7 @@ bool INDI_D::buildProperty(INDI::Property prop)
     {
         pg = new INDI_G(this, groupName);
         groupsList.append(pg);
-        groupContainer->addTab(pg, i18nc(libindi_strings_context, groupName.toUtf8()));
+        groupContainer->addTab(pg, i18nc(libindi_strings_context, groupName.toUtf8().constData()));
     }
 
     return pg->addProperty(prop);

@@ -99,12 +99,12 @@ sudo dnf install -y cfitsio-devel eigen3-devel cmake extra-cmake-modules.noarch 
 cd /tmp
 git clone --branch 2.6 https://github.com/rlancaste/stellarsolver.git
 cd stellarsolver/linux-scripts/
-./installStellarSolverLibraryQt5.sh 
+Build and install StellarSolver with its current default Qt6 configuration.
 ```
 
 ### Qt6 Support (Recommended)
 
-We recommend using Qt6 for building KStars as we phase out Qt5 support. For optimal compatibility, we suggest using the latest Ubuntu or Arch Linux.
+KStars now builds on Qt6 only. For optimal compatibility, use a recent Ubuntu or Arch Linux release.
 
 Arch Linux packages for Qt6:
 ```
@@ -128,13 +128,13 @@ To run KStars, simply type **kstars** in the terminal.
 
 #### Compiling with Qt6
 
-If you are building with Qt6, you need to add the `-DBUILD_WITH_QT6=ON` flag to the cmake command:
+Qt6 is now the default and only supported build path:
 ```
 mkdir -p ~/Projects/build/kstars
 cd ~/Projects
 git clone https://invent.kde.org/education/kstars.git
 cd build/kstars
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_WITH_QT6=ON ~/Projects/kstars
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=RelWithDebInfo ~/Projects/kstars
 make -j16
 sudo make install
 ```

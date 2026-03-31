@@ -8,6 +8,7 @@
 
 int __gl_memInit(size_t maxFast)
 {
+    (void)maxFast;
 #ifndef NO_MALLOPT
     /*  mallopt( M_MXFAST, maxFast );*/
 #ifdef MEMORY_DEBUG

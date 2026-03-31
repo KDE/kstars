@@ -1524,7 +1524,7 @@ void Mount::setAllSettings(const QVariantMap &settings)
     {
         auto value = settings[key];
         // Save immediately
-        Options::self()->setProperty(key.toLatin1(), value);
+        Options::self()->setProperty(key.toLatin1().constData(), value);
         Options::self()->save();
 
         m_Settings[key] = value;
@@ -1656,7 +1656,7 @@ void Mount::syncSettings()
     }
 
     // Save immediately
-    Options::self()->setProperty(key.toLatin1(), value);
+    Options::self()->setProperty(key.toLatin1().constData(), value);
     m_Settings[key] = value;
     m_GlobalSettings[key] = value;
 
@@ -1691,7 +1691,7 @@ void Mount::loadGlobalSettings()
             continue;
 
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid() && oneWidget->count() > 0)
         {
             oneWidget->setCurrentText(value.toString());
@@ -1703,7 +1703,7 @@ void Mount::loadGlobalSettings()
     for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
     {
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid())
         {
             oneWidget->setValue(value.toDouble());
@@ -1715,7 +1715,7 @@ void Mount::loadGlobalSettings()
     for (auto &oneWidget : findChildren<QSpinBox * >())
     {
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid())
         {
             oneWidget->setValue(value.toInt());
@@ -1727,7 +1727,7 @@ void Mount::loadGlobalSettings()
     for (auto &oneWidget : findChildren<QCheckBox * >())
     {
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid())
         {
             oneWidget->setChecked(value.toBool());

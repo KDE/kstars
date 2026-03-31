@@ -11,7 +11,7 @@
 
 SkyObjListModel::SkyObjListModel(SkyObjItem *soitem, QObject *parent) : QAbstractListModel(parent)
 {
-    //FIXME Needs porting to KF5
+    // FIXME: needs the remaining framework port work
     //Fixed in roleNames(). setRoleNames is not a member of QAbstractListModel anymore
     //setRoleNames(soitem->roleNames());
     Q_UNUSED(soitem);

@@ -18,7 +18,8 @@ QVariant INDIPropertyAccess::getProperty(QDBusInterface *interface, const QStrin
     if (!isInterfaceValid(interface))
         return QVariant();
 
-    QVariant value = interface->property(propertyName.toUtf8());
+    const QByteArray propertyNameUtf8 = propertyName.toUtf8();
+    QVariant value = interface->property(propertyNameUtf8.constData());
 
     if (!value.isValid())
     {
@@ -80,7 +81,8 @@ QString INDIPropertyAccess::getPropertyState(QDBusInterface *interface, const QS
 
     // Try to get the property state - different interfaces may use different property names
     QString statePropertyName = propertyName + "State";
-    QVariant state = interface->property(statePropertyName.toUtf8());
+    const QByteArray statePropertyNameUtf8 = statePropertyName.toUtf8();
+    QVariant state = interface->property(statePropertyNameUtf8.constData());
 
     if (!state.isValid())
     {

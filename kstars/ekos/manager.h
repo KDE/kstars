@@ -6,7 +6,7 @@
 
 #pragma once
 
-#ifdef USE_QT5_INDI
+#ifdef USE_INDI_QT_CLIENT
 #include <baseclientqt.h>
 #else
 #include <baseclient.h>

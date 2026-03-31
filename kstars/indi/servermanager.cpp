@@ -53,7 +53,11 @@ bool ServerManager::start()
 
     if (serverProcess.get() == nullptr)
     {
-        serverBuffer.open();
+        if (!serverBuffer.open())
+        {
+            emit failed(i18n("Could not open INDI server log buffer."));
+            return false;
+        }
 
         serverProcess.reset(new QProcess(this));
 #ifdef Q_OS_MACOS
@@ -84,7 +88,8 @@ bool ServerManager::start()
 
     QString fifoFile = QString("%1/indififo%2").arg(QDir::tempPath(), QUuid::createUuid().toString().mid(1, 8));
 
-    if (mkfifo(fifoFile.toLatin1(), S_IRUSR | S_IWUSR) < 0)
+    const QByteArray fifoFileBytes = fifoFile.toLatin1();
+    if (mkfifo(fifoFileBytes.constData(), S_IRUSR | S_IWUSR) < 0)
     {
         emit failed(i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
         return false;
@@ -607,7 +612,9 @@ QString ServerManager::getLogBuffer()
     serverBuffer.flush();
     serverBuffer.close();
 
-    serverBuffer.open();
+    if (!serverBuffer.open())
+        return {};
+
     return serverBuffer.readAll();
 }
 

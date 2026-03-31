@@ -8,8 +8,7 @@ void run_example(const double vertices_array[], const double *contours_array[], 
     int *tris_out;
     int nverts, ntris, i;
 
-    const double *p = vertices_array;
-    /* const double **contours = contours_array; */
+    (void)vertices_array;
 
     tessellate(&coordinates_out, &nverts, &tris_out, &ntris, contours_array, contours_array + contours_size);
 
@@ -33,7 +32,7 @@ int main()
     double a1[]        = { 0, 0, 1, 5, 2, 0, -1, 3, 3, 3 };
     const double *c1[] = { a1, a1 + 10 };
     int s1             = 2;
-    run_example(a1, c1, 2);
+    run_example(a1, c1, s1);
 
     double a2[]        = { 0, 0, 3, 0, 3, 3, 0, 3, 1, 1, 2, 1, 2, 2, 1, 2 };
     const double *c2[] = { a2, a2 + 8, a2 + 16 };

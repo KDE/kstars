@@ -781,7 +781,8 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[MOUNT_GOTO_TARGET])
     {
-        mount->gotoTarget(ki18n(payload["target"].toString().toLatin1()).toString());
+        const QByteArray targetName = payload["target"].toString().toLatin1();
+        mount->gotoTarget(ki18n(targetName.constData()).toString());
     }
     else if (command == commands[MOUNT_SET_SLEW_RATE])
     {
@@ -1421,7 +1422,8 @@ void Message::processOptionsCommands(const QString &command, const QJsonObject &
     {
         const QJsonArray options = payload["options"].toArray();
         for (const auto &oneOption : options)
-            Options::self()->setProperty(oneOption[QString("name")].toString().toLatin1(), oneOption[QString("value")].toVariant());
+            Options::self()->setProperty(oneOption[QString("name")].toString().toLatin1().constData(),
+                                         oneOption[QString("value")].toVariant());
 
         Options::self()->save();
         emit optionsUpdated();
@@ -1433,7 +1435,7 @@ void Message::processOptionsCommands(const QString &command, const QJsonObject &
         for (const auto &oneOption : options)
         {
             const auto name = oneOption[QString("name")].toString();
-            QVariant value = Options::self()->property(name.toLatin1());
+            QVariant value = Options::self()->property(name.toLatin1().constData());
             QVariantMap map;
             map["name"] = name;
             map["value"] = value;
@@ -3066,7 +3068,7 @@ void Message::invokeMethod(QObject *context, const QJsonObject &payload)
 
     QList<SimpleTypes> typesList;
 
-    auto name = payload["name"].toString().toLatin1();
+    const QByteArray name = payload["name"].toString().toLatin1();
 
     if (payload.contains("args"))
     {
@@ -3099,16 +3101,16 @@ void Message::invokeMethod(QObject *context, const QJsonObject &payload)
         switch (argsList.size())
         {
             case 1:
-                QMetaObject::invokeMethod(context, name, argsList[0]);
+                QMetaObject::invokeMethod(context, name.constData(), argsList[0]);
                 break;
             case 2:
-                QMetaObject::invokeMethod(context, name, argsList[0], argsList[1]);
+                QMetaObject::invokeMethod(context, name.constData(), argsList[0], argsList[1]);
                 break;
             case 3:
-                QMetaObject::invokeMethod(context, name, argsList[0], argsList[1], argsList[2]);
+                QMetaObject::invokeMethod(context, name.constData(), argsList[0], argsList[1], argsList[2]);
                 break;
             case 4:
-                QMetaObject::invokeMethod(context, name, argsList[0], argsList[1], argsList[2], argsList[3]);
+                QMetaObject::invokeMethod(context, name.constData(), argsList[0], argsList[1], argsList[2], argsList[3]);
                 break;
             default:
                 break;
@@ -3116,7 +3118,7 @@ void Message::invokeMethod(QObject *context, const QJsonObject &payload)
     }
     else
     {
-        QMetaObject::invokeMethod(context, name);
+        QMetaObject::invokeMethod(context, name.constData());
     }
 }
 

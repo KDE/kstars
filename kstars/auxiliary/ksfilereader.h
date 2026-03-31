@@ -137,7 +137,7 @@ class KSFileReader : public QObject, public QTextStream
          */
         void showProgress();
 
-    signals:
+    Q_SIGNALS:
         void progressText(const QString &message);
 
     private:

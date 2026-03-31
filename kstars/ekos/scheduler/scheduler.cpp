@@ -822,8 +822,9 @@ void Scheduler::processFITSSelection(const QUrl &url)
     dms raDMS, deDMS;
     char comment[128], error_status[512];
     fitsfile *fptr = nullptr;
+    const QByteArray filenameLatin1 = filename.toLatin1();
 
-    if (fits_open_diskfile(&fptr, filename.toLatin1(), READONLY, &status))
+    if (fits_open_diskfile(&fptr, filenameLatin1.constData(), READONLY, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);

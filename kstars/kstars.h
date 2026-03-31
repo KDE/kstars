@@ -608,7 +608,7 @@ class KStars : public KXmlGuiWindow
 
         /** @}*/
 
-    signals:
+    Q_SIGNALS:
         /** DBUS interface notification. Color scheme was updated.
          */
         void colorSchemeChanged();

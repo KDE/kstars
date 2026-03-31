@@ -447,7 +447,7 @@ void KStars::initActions()
             << QIcon::fromTheme("accessories-calculator")
             << QKeySequence(Qt::SHIFT | Qt::CTRL | Qt::Key_C);
 
-    /* FIXME Enable once port to KF5 is complete for moonphasetool
+    /* FIXME: enable once the framework port is complete for moonphasetool
      actionCollection()->addAction("moonphasetool", this, SLOT(slotMoonPhaseTool()) )
          << i18n("Moon Phase Calendar");
     */

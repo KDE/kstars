@@ -24,27 +24,15 @@ if(WCSLIB_FOUND)
   include_directories( ${WCSLIB_INCLUDE_DIR} )
 endif(WCSLIB_FOUND)
 
-if (NOT BUILD_WITH_QT6)
-    FIND_PACKAGE(Qt5Test REQUIRED)
-    SET( TEST_LIBRARIES
-        Qt5::Core
-        Qt5::Test
-    )
-    SET( TEST_KSLITE_LIBRARIES
-        Qt5::Core
-        Qt5::Test
-    )
-else(NOT BUILD_WITH_QT6)
-    FIND_PACKAGE(Qt6Test REQUIRED)
-    SET( TEST_LIBRARIES
-        Qt6::Core
-        Qt6::Test
-    )
-    SET( TEST_KSLITE_LIBRARIES
-        Qt6::Core
-        Qt6::Test
-    )
-endif(NOT BUILD_WITH_QT6)
+FIND_PACKAGE(Qt6Test REQUIRED)
+SET( TEST_LIBRARIES
+    Qt6::Core
+    Qt6::Test
+)
+SET( TEST_KSLITE_LIBRARIES
+    Qt6::Core
+    Qt6::Test
+)
 
 SET( TEST_LIBRARIES
         ${TEST_LIBRARIES}

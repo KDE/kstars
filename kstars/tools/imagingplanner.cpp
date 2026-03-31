@@ -1462,7 +1462,7 @@ void ImagingPlanner::initialize()
         takeScreenshot();
     });
 
-    // Fix some Qt5 weirdness...
+    // Preserve the previous UI behavior here.
     ui->WholeLayout->setAlignment(ui->RightSideLayoutWithSpacer, Qt::AlignTop);
 }
 

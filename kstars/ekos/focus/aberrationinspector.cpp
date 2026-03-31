@@ -269,7 +269,7 @@ void AberrationInspector::loadSettings()
     for (auto &oneWidget : findChildren<QComboBox * >())
     {
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid())
             oneWidget->setCurrentText(value.toString());
         else
@@ -285,7 +285,7 @@ void AberrationInspector::loadSettings()
             // Also the table widget has a column of checkboxes whose value is data dependent so these aren't persisted
             continue;
 
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid())
             oneWidget->setChecked(value.toBool());
         else
@@ -296,7 +296,7 @@ void AberrationInspector::loadSettings()
     for (auto &oneWidget : findChildren<QSplitter * >())
     {
         key = oneWidget->objectName();
-        value = Options::self()->property(key.toLatin1());
+        value = Options::self()->property(key.toLatin1().constData());
         if (value.isValid())
         {
             // Convert the saved QString to a QByteArray using Base64
@@ -335,7 +335,7 @@ void AberrationInspector::syncSettings()
     }
 
     // Save changed setting
-    Options::self()->setProperty(key.toLatin1(), value);
+    Options::self()->setProperty(key.toLatin1().constData(), value);
     Options::self()->save();
 }
 

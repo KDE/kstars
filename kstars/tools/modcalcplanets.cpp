@@ -395,7 +395,8 @@ void modCalcPlanets::processLines(QTextStream &istream)
         }
         else
         {
-            kspb = new KSPlanet(i18n(pn.toLocal8Bit()), QString(), Qt::white, 1.0);
+            const QByteArray planetName = pn.toLocal8Bit();
+            kspb = new KSPlanet(i18n(planetName.constData()), QString(), Qt::white, 1.0);
         }
         kspb->findPosition(&num, &latB, &LST, &Earth);
         kspb->EquatorialToHorizontal(&LST, &latB);

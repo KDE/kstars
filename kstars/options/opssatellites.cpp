@@ -118,7 +118,7 @@ void OpsSatellites::updateListView()
         bool all_sat_unchecked = true;
 
         // Add the group
-        group_item = new QStandardItem(i18nc(satgroup_strings_context, sat_group->name().toUtf8()));
+        group_item = new QStandardItem(i18nc(satgroup_strings_context, sat_group->name().toUtf8().constData()));
         group_item->setCheckable(true);
         m_Model->appendRow(group_item);
 

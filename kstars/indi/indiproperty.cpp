@@ -97,7 +97,7 @@ void INDI_P::initGUI()
 
     if (label.isEmpty())
     {
-        label = i18nc(libindi_strings_context, name.toUtf8());
+        label = i18nc(libindi_strings_context, name.toUtf8().constData());
         if (label == "(I18N_EMPTY_MESSAGE)")
             label = name.toUtf8();
 
@@ -474,7 +474,7 @@ void INDI_P::buildMenuGUI()
 
         lp->buildMenuItem(tp);
 
-        oneOption = i18nc(libindi_strings_context, lp->getLabel().toUtf8());
+        oneOption = i18nc(libindi_strings_context, lp->getLabel().toUtf8().constData());
 
         if (oneOption == "(I18N_EMPTY_MESSAGE)")
             oneOption = lp->getLabel().toUtf8();

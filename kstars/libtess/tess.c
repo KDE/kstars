@@ -27,44 +27,67 @@
 
 /*ARGSUSED*/ static void GLAPIENTRY noBegin(GLenum type)
 {
+    (void)type;
 }
 /*ARGSUSED*/ static void GLAPIENTRY noEdgeFlag(GLboolean boundaryEdge)
 {
+    (void)boundaryEdge;
 }
 /*ARGSUSED*/ static void GLAPIENTRY noVertex(void *data)
 {
+    (void)data;
 }
 /*ARGSUSED*/ static void GLAPIENTRY noEnd(void)
 {
 }
 /*ARGSUSED*/ static void GLAPIENTRY noError(GLenum errnum)
 {
+    (void)errnum;
 }
 /*ARGSUSED*/ static void GLAPIENTRY noCombine(GLdouble coords[3], void *data[4], GLfloat weight[4], void **dataOut)
 {
+    (void)coords;
+    (void)data;
+    (void)weight;
+    (void)dataOut;
 }
 /*ARGSUSED*/ static void GLAPIENTRY noMesh(GLUmesh *mesh)
 {
+    (void)mesh;
 }
 
 /*ARGSUSED*/ void GLAPIENTRY __gl_noBeginData(GLenum type, void *polygonData)
 {
+    (void)type;
+    (void)polygonData;
 }
 /*ARGSUSED*/ void GLAPIENTRY __gl_noEdgeFlagData(GLboolean boundaryEdge, void *polygonData)
 {
+    (void)boundaryEdge;
+    (void)polygonData;
 }
 /*ARGSUSED*/ void GLAPIENTRY __gl_noVertexData(void *data, void *polygonData)
 {
+    (void)data;
+    (void)polygonData;
 }
 /*ARGSUSED*/ void GLAPIENTRY __gl_noEndData(void *polygonData)
 {
+    (void)polygonData;
 }
 /*ARGSUSED*/ void GLAPIENTRY __gl_noErrorData(GLenum errnum, void *polygonData)
 {
+    (void)errnum;
+    (void)polygonData;
 }
 /*ARGSUSED*/ void GLAPIENTRY __gl_noCombineData(GLdouble coords[3], void *data[4], GLfloat weight[4], void **outData,
         void *polygonData)
 {
+    (void)coords;
+    (void)data;
+    (void)weight;
+    (void)outData;
+    (void)polygonData;
 }
 
 /* Half-edges are allocated in pairs (see mesh.c) */
@@ -222,6 +245,8 @@ void GLAPIENTRY gluTessProperty(GLUtesselator *tess, GLenum which, GLdouble valu
                 default:
                     break;
             }
+
+            break;
 
         case GLU_TESS_BOUNDARY_ONLY:
             tess->boundaryOnly = (value != 0);
@@ -403,7 +428,7 @@ static int EmptyCache(GLUtesselator *tess)
     return 1;
 }
 
-void GLAPIENTRY gluTessVertex(GLUtesselator *tess, GLdouble coords[3], void *data)
+void GLAPIENTRY gluTessVertex(GLUtesselator *tess, GLdouble *coords, void *data)
 {
     int i, tooLarge = FALSE;
     GLdouble x, clamped[3];
@@ -619,6 +644,7 @@ void GLAPIENTRY gluBeginPolygon(GLUtesselator *tess)
 /*ARGSUSED*/
 void GLAPIENTRY gluNextContour(GLUtesselator *tess, GLenum type)
 {
+    (void)type;
     gluTessEndContour(tess);
     gluTessBeginContour(tess);
 }

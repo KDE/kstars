@@ -3,4 +3,4 @@ IncludeFiles=qpoint.h
 ClassName=Options
 Singleton=yes
 Mutators=true
-GenerateProperties=@KF5_CONFIG_OK@
+GenerateProperties=@KCONFIG_GENERATE_PROPERTIES_OK@

@@ -161,7 +161,8 @@ class SkyObject : public SkyPoint
         {
             return i18n(
                        name()
-                       .toUtf8()); // FIXME: Hmm... that's funny. How does the string extraction work, if we are UTF8-ing the name first? Does the string extraction change to UTF8?
+                       .toUtf8()
+                       .constData()); // FIXME: Hmm... that's funny. How does the string extraction work, if we are UTF8-ing the name first? Does the string extraction change to UTF8?
         }
 
         /** @return object's secondary name */
@@ -173,7 +174,7 @@ class SkyObject : public SkyPoint
         /** @return object's secondary name, translated to local language. */
         inline QString translatedName2() const
         {
-            return (hasName2() ? i18n(Name2.toUtf8()) : emptyString);
+            return (hasName2() ? i18n(Name2.toUtf8().constData()) : emptyString);
         }
 
         /**
@@ -189,7 +190,7 @@ class SkyObject : public SkyPoint
          */
         QString translatedLongName() const
         {
-            return i18n(longname().toUtf8());
+            return i18n(longname().toUtf8().constData());
         }
 
         /**

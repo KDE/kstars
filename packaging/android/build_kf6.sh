@@ -17,9 +17,9 @@ CURDIR="$(pwd)"/
 
 #git clean -fdx
 
-# Clone the KF5 sources
-mkdir kf5
-cd kf5
+# Clone the KF6 sources
+mkdir kf6
+cd kf6
 git clone git://anongit.kde.org/scratch/cordlandwehr/kdesrc-conf-android.git
 mkdir -p extragear/kdesrc-build
 git clone git://anongit.kde.org/kdesrc-build extragear/kdesrc-build
@@ -27,32 +27,32 @@ ln -s extragear/kdesrc-build/kdesrc-build kdesrc-build
 ln -s kdesrc-conf-android/kdesrc-buildrc kdesrc-buildrc
 
 # Change the build configuration
-sed -E -i "s|build-dir.*|build-dir $CURDIR/kf5/kde/build/${android_architecture} |g" kdesrc-conf-android/kdesrc-buildrc
-sed -E -i "s|source-dir.*|source-dir $CURDIR/kf5/kde/src |g" kdesrc-conf-android/kdesrc-buildrc
-sed -E -i "s|kdedir.*|kdedir $CURDIR/kf5/kde/install/${android_architecture} |g" kdesrc-conf-android/kdesrc-buildrc
+sed -E -i "s|build-dir.*|build-dir $CURDIR/kf6/kde/build/${android_architecture} |g" kdesrc-conf-android/kdesrc-buildrc
+sed -E -i "s|source-dir.*|source-dir $CURDIR/kf6/kde/src |g" kdesrc-conf-android/kdesrc-buildrc
+sed -E -i "s|kdedir.*|kdedir $CURDIR/kf6/kde/install/${android_architecture} |g" kdesrc-conf-android/kdesrc-buildrc
 sed -i -- 's/make-options -j8/make-options -j4 VERBOSE=1/g' kdesrc-conf-android/kdesrc-buildrc
 
 if [ -e $qt_android_libs ]
 then
-    sed -E -i "s|-DCMAKE_PREFIX_PATH=.*?\\ |-DCMAKE_PREFIX_PATH=$QT_ANDROID- -DCMAKE_ANDROID_NDK=$CMAKE_ANDROID_NDK -DECM_ADDITIONAL_FIND_ROOT_PATH=$QT_ANDROID\;$CURDIR/kf5/kde/install -DANDROID_STL=c++_shared -DCMAKE_TOOLCHAIN_FILE=$CURDIR/kf5/kde/src/frameworks/extra-cmake-modules/toolchain/Android.cmake -DKCONFIG_USE_DBUS=OFF |g" kdesrc-conf-android/kdesrc-buildrc
+    sed -E -i "s|-DCMAKE_PREFIX_PATH=.*?\\ |-DCMAKE_PREFIX_PATH=$QT_ANDROID- -DCMAKE_ANDROID_NDK=$CMAKE_ANDROID_NDK -DECM_ADDITIONAL_FIND_ROOT_PATH=$QT_ANDROID\;$CURDIR/kf6/kde/install -DANDROID_STL=c++_shared -DCMAKE_TOOLCHAIN_FILE=$CURDIR/kf6/kde/src/frameworks/extra-cmake-modules/toolchain/Android.cmake -DKCONFIG_USE_DBUS=OFF |g" kdesrc-conf-android/kdesrc-buildrc
 else
     echo "Qt Android libraries path doesn't exist. Exiting."
     exit
 fi
 
 sed -E -i "s|use-modules.+|use-modules kconfig ki18n kplotting|g" kdesrc-conf-android/kdesrc-buildrc
-rm -rf ${kf5_android_path}/kde/build/${android_architecture}/* # clean build folders
+rm -rf ${kf6_android_path}/kde/build/${android_architecture}/* # clean build folders
 # Build ki18n first to get the sources, it needs to be patched
 ./kdesrc-build extra-cmake-modules
 ./kdesrc-build libintl-lite
 ./kdesrc-build ki18n
-sed -i -- 's/target_link_libraries(ktranscript PRIVATE Qt5::Qml Qt5::Core)/target_link_libraries(ktranscript PRIVATE Qt5::Qml Qt5::Core -l:libc.a -Wl,--exclude-libs=ALL)/g' $CURDIR/kf5/kde/src/frameworks/ki18n/src/CMakeLists.txt
+sed -i -- 's/target_link_libraries(ktranscript PRIVATE Qt6::Qml Qt6::Core)/target_link_libraries(ktranscript PRIVATE Qt6::Qml Qt6::Core -l:libc.a -Wl,--exclude-libs=ALL)/g' $CURDIR/kf6/kde/src/frameworks/ki18n/src/CMakeLists.txt
 ./kdesrc-build frameworks-android
 
 # Fix some config files
-sed -i '/find_package(PythonInterp/ s/^/#/' kde/install/lib/cmake/KF5I18n/KF5I18nMacros.cmake
-sed -i '/find_dependency(Qt5Xml/ s/^/#/' kde/install/lib/cmake/KF5Config/KF5ConfigConfig.cmake
+sed -i '/find_package(PythonInterp/ s/^/#/' kde/install/lib/cmake/KF6I18n/KF6I18nMacros.cmake
+sed -i '/find_dependency(Qt6Xml/ s/^/#/' kde/install/lib/cmake/KF6Config/KF6ConfigConfig.cmake
 
-cp /usr/lib/x86_64-linux-gnu/libexec/kf5/kconfig_compiler_kf5 $CURDIR/kf5/kde/install/lib/libexec/kf5/kconfig_compiler_kf5
+cp /usr/lib/x86_64-linux-gnu/libexec/kf6/kconfig_compiler_kf6 $CURDIR/kf6/kde/install/lib/libexec/kf6/kconfig_compiler_kf6
 
 cd $CURDIR

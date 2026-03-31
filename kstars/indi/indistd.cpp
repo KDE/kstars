@@ -894,12 +894,12 @@ bool GenericDevice::setProperty(QObject *setPropCommand)
 bool GenericDevice::getMinMaxStep(const QString &propName, const QString &elementName, double *min, double *max,
                                   double *step)
 {
-    auto nvp = m_BaseDevice.getNumber(propName.toLatin1());
+    auto nvp = m_BaseDevice.getNumber(propName.toLatin1().constData());
 
     if (!nvp)
         return false;
 
-    auto np = nvp.findWidgetByName(elementName.toLatin1());
+    auto np = nvp.findWidgetByName(elementName.toLatin1().constData());
 
     if (!np)
         return false;

@@ -11,7 +11,7 @@
 const int KSParser::EBROKEN_INT         = 0;
 const double KSParser::EBROKEN_DOUBLE   = 0.0;
 const float KSParser::EBROKEN_FLOAT     = 0.0;
-const QString KSParser::EBROKEN_QSTRING = "Null";
+const QString KSParser::EBROKEN_QSTRING = QStringLiteral("Null");
 const bool KSParser::parser_debug_mode_ = false;
 
 KSParser::KSParser(const QString &filename, const char comment_char, const QList<QPair<QString, DataTypes>> &sequence,
@@ -68,7 +68,7 @@ QHash<QString, QVariant> KSParser::ReadCSVRow()
         next_line = file_reader_.readLine();
         if (next_line.isEmpty() || next_line.startsWith(QLatin1Char(comment_char_)))
             continue;
-        separated = next_line.split(delimiter_);
+        separated = next_line.split(QLatin1Char(delimiter_));
         /*
             * 1) split along delimiter eg. comma (,)
             * 2) check first and last characters.
@@ -138,7 +138,7 @@ QHash<QString, QVariant> KSParser::ReadFixedWidthRow()
     QHash<QString, QVariant> newRow;
     int total_min_length = 0;
 
-    foreach (const int width_value, width_sequence_)
+    for (const int width_value : width_sequence_)
     {
         total_min_length += width_value;
     }
@@ -268,12 +268,12 @@ QList<QString> KSParser::CombineQuoteParts(QList<QString> &separated)
             QList<QString> queue;
             QString iter_string = separated[i];
 
-            if (iter_string.indexOf("\"") == 0) // if (quote mark is the first character)
+            if (iter_string.startsWith(QLatin1Char('"'))) // if (quote mark is the first character)
             {
                 iter_string = (iter_string).remove(0, 1); // remove the quote at the start
                 while (true) // handle stuff between parent quotes
                 {
-                    if (iter_string.lastIndexOf('\"') == (iter_string.length() - 1))
+                    if (iter_string.endsWith(QLatin1Char('"')))
                     {
                         iter_string.chop(1); // remove the quote at the end
                         queue.append(iter_string);
@@ -293,8 +293,8 @@ QList<QString> KSParser::CombineQuoteParts(QList<QString> &separated)
             }
 
             QString col_result;
-            foreach (const QString &join, queue)
-                col_result += (join + delimiter_);
+            for (const QString &join : queue)
+                col_result += (join + QLatin1Char(delimiter_));
             if (!col_result.isEmpty())
                 col_result.chop(1); // remove extra delimiter
             quoteCombined.append(col_result);

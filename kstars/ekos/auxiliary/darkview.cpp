@@ -49,7 +49,11 @@ void DarkView::setDefectMapEnabled(bool enabled)
 void DarkView::setDefectMap(const QSharedPointer<DefectMap> &defect)
 {
     m_CurrentDefectMap = defect;
-    connect(m_CurrentDefectMap.data(), &DefectMap::pixelsUpdated, this, &DarkView::updateFrame, Qt::UniqueConnection);
+    connect(m_CurrentDefectMap.data(), &DefectMap::pixelsUpdated, this,
+            [this](unsigned int, unsigned int)
+    {
+        updateFrame();
+    }, Qt::UniqueConnection);
 }
 
 void DarkView::drawBadPixels(QPainter * painter, double scale)
@@ -77,4 +81,3 @@ void DarkView::drawBadPixels(QPainter * painter, double scale)
         }
     }
 }
-

@@ -80,9 +80,10 @@ void SupernovaeComponent::loadData()
 
     try
     {
+        const QByteArray fileNameLocal8Bit = sFileName.toLocal8Bit();
         io::CSVReader<26, io::trim_chars<' '>, io::double_quote_escape<',', '\"'>,
         io::ignore_overflow>
-        in(sFileName.toLocal8Bit());
+        in(fileNameLocal8Bit.constData());
         // skip header
         const char *line = in.next_line();
         if (line == nullptr)

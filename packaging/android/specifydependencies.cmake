@@ -11,8 +11,8 @@ string(STRIP "${outout}" outout)
 string(REPLACE " /" ";/" outout "${outout}")
 
 set(extralibs)
-foreach(lib IN LISTS outout) #now we filter Qt5 libraries, because Qt wants to take care about these itself
-    if(NOT ${lib} MATCHES ".*/libQt5.*")
+foreach(lib IN LISTS outout) # now we filter Qt6 libraries, because Qt wants to take care about these itself
+    if(NOT ${lib} MATCHES ".*/libQt6.*")
         # resolve relative paths
         if(${lib} MATCHES "^(\\.\\./|\\./)")
             set(lib "${TARGET_DIR}/${lib}")

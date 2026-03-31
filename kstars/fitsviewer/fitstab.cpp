@@ -221,7 +221,7 @@ void FITSTab::loadFile(const QUrl &imageURL, FITSMode mode, FITSScale filter)
     // check if the address points to an appropriate address
     if (imageURL.isEmpty() || !imageURL.isValid() || !QFileInfo::exists(imageURL.toLocalFile()))
     {
-        emit failed(i18nc("File not found: %1", imageURL.toString().toLatin1()));
+        emit failed(i18n("File not found: %1", imageURL.toString()));
         return;
     }
 
@@ -254,7 +254,7 @@ void FITSTab::initStack(const QString &dir, FITSMode mode, FITSScale filter)
     // check if the address points to an appropriate address
     if (dir.isEmpty() || !QFileInfo(dir).isDir())
     {
-        emit failed(i18nc("Invalid directory: %1", dir.toLatin1()));
+        emit failed(i18n("Invalid directory: %1", dir));
         return;
     }
 

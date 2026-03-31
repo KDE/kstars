@@ -16,7 +16,7 @@
 /* Define if you have notify config */
 #cmakedefine HAVE_NOTIFYCONFIG 1
 
-/* Define if you have Qt5 Data Visualization */
+/* Define if you have Qt6 Data Visualization */
 #cmakedefine HAVE_DATAVISUALIZATION 1
 
 /* Define if you have LibXISF */
@@ -25,7 +25,7 @@
 /* Define if you have StellarSolver */
 #cmakedefine HAVE_STELLARSOLVER 1
 
-/* Define if you have Qt5 Keychain */
+/* Define if you have Qt6 Keychain */
 #cmakedefine HAVE_KEYCHAIN 1
 
 /* Define if indi is installed in a non-standard location */

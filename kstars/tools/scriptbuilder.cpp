@@ -908,7 +908,8 @@ void ScriptBuilder::slotSave()
 
 #ifndef _WIN32
         //set rwx for owner, rx for group, rx for other
-        chmod(fname.toLatin1(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+        const QByteArray fileNameLatin1 = fname.toLatin1();
+        chmod(fileNameLatin1.constData(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
 #endif
 
         if (tmpfile.fileName() == fname)
@@ -991,7 +992,8 @@ void ScriptBuilder::slotRunScript()
 
 #ifndef _WIN32
     //set rwx for owner, rx for group, rx for other
-    chmod(QFile::encodeName(f.fileName()), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+    const QByteArray encodedFileName = QFile::encodeName(f.fileName());
+    chmod(encodedFileName.constData(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
 #endif
 
     QProcess p;

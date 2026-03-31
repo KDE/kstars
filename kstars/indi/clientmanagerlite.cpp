@@ -307,7 +307,7 @@ QString ClientManagerLite::syncLED(const QString &device, const QString &propert
     {
         if (devInfo->device->getDeviceName() == device)
         {
-            INDI::Property prop = devInfo->device->getProperty(property.toLatin1());
+            INDI::Property prop = devInfo->device->getProperty(property.toLatin1().constData());
             if (prop)
             {
                 IPState state = prop->getState();
@@ -488,7 +488,7 @@ void ClientManagerLite::buildMenuGUI(INDI::Property property)
 
         lp->buildMenuItem(tp);
 
-        oneOption = i18nc(libindi_strings_context, lp->getLabel().toUtf8());
+        oneOption = i18nc(libindi_strings_context, lp->getLabel().toUtf8().constData());
 
         if (oneOption == "(I18N_EMPTY_MESSAGE)")
             oneOption =  lp->getLabel().toUtf8();
@@ -655,7 +655,7 @@ void ClientManagerLite::sendNewINDISwitch(const QString &deviceName, const QStri
         INDI::BaseDevice *device = devInfo->device;
         if (device->getDeviceName() == deviceName)
         {
-            auto property = device->getProperty(propName.toLatin1());
+            auto property = device->getProperty(propName.toLatin1().constData());
             if (property)
             {
                 auto svp = property->getSwitch();
@@ -704,10 +704,10 @@ void ClientManagerLite::sendNewINDINumber(const QString &deviceName, const QStri
         INDI::BaseDevice *device = devInfo->device;
         if (device->getDeviceName() == deviceName)
         {
-            auto np = device->getNumber(propName.toLatin1());
+            auto np = device->getNumber(propName.toLatin1().constData());
             if (np)
             {
-                auto n = np->findWIdgetByName(numberName.toLatin1());
+                auto n = np->findWIdgetByName(numberName.toLatin1().constData());
                 if (n)
                 {
                     n->setValue(value);
@@ -733,10 +733,10 @@ void ClientManagerLite::sendNewINDIText(const QString &deviceName, const QString
         INDI::BaseDevice *device = devInfo->device;
         if (device->getDeviceName() == deviceName)
         {
-            auto tp = device->getText(propName.toLatin1());
+            auto tp = device->getText(propName.toLatin1().constData());
             if (tp)
             {
-                auto t = tp->findWidgetByName(fieldName.toLatin1());
+                auto t = tp->findWidgetByName(fieldName.toLatin1().constData());
                 if (t)
                 {
                     t.setText(text.toLatin1().data());
@@ -1069,10 +1069,10 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB *bp)
             jpgPreview.close();
             QString jpeg_filename = jpgPreview.fileName();
 
-            RawProcessor.open_file(filename.toLatin1());
+            RawProcessor.open_file(filename.toLatin1().constData());
             RawProcessor.unpack();
             RawProcessor.dcraw_process();
-            RawProcessor.dcraw_ppm_tiff_writer(jpeg_filename.toLatin1());
+            RawProcessor.dcraw_ppm_tiff_writer(jpeg_filename.toLatin1().constData());
             QFile::remove(filename);
             filename = jpeg_filename;
 #else

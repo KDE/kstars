@@ -89,7 +89,11 @@ Triangle *new_triangle(TessContext *ctx, int v1, int v2, int v3)
 
 /******************************************************************************/
 
-void skip_vertex(Vertex *v, TessContext *ctx) {};
+void skip_vertex(Vertex *v, TessContext *ctx)
+{
+    (void)v;
+    (void)ctx;
+}
 
 void fan_vertex(Vertex *v, TessContext *ctx)
 {
@@ -181,6 +185,8 @@ void begin(GLenum which, void *poly_data)
 void combine(const GLdouble newVertex[3], const void *neighborVertex[4], const GLfloat neighborWeight[4],
              void **outData, void *polyData)
 {
+    (void)neighborVertex;
+    (void)neighborWeight;
     TessContext *ctx = (TessContext *)polyData;
     Vertex *result   = new_vertex(ctx, newVertex[0], newVertex[1]);
     *outData         = result;

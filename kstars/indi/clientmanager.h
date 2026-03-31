@@ -8,7 +8,7 @@
 
 #include <QPointer>
 
-#ifdef USE_QT5_INDI
+#ifdef USE_INDI_QT_CLIENT
 #include <baseclientqt.h>
 #else
 #include <baseclient.h>
@@ -31,7 +31,7 @@ class ServerManager;
  * @author Jasem Mutlaq
  * @version 1.3
  */
-#ifdef USE_QT5_INDI
+#ifdef USE_INDI_QT_CLIENT
 class ClientManager : public INDI::BaseClientQt
 #else
 class ClientManager : public QObject, public INDI::BaseClient

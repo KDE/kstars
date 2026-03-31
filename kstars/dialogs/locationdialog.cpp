@@ -85,7 +85,7 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
     connect(ld->RemoveButton, SIGNAL(clicked()), this, SLOT(removeCity()));
     connect(ld->UpdateButton, SIGNAL(clicked()), this, SLOT(updateCity()));
 
-    // FIXME Disable this until Qt5 works with Geoclue2
+    // FIXME: disable this until Geoclue2 support is restored
 #ifdef HAVE_GEOCLUE_2
     source = QGeoPositionInfoSource::createDefaultSource(this);
     source->setPreferredPositioningMethods(QGeoPositionInfoSource::SatellitePositioningMethods);
@@ -108,7 +108,7 @@ LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr
 
     ld->errorLabel->setText(QString());
 
-    // FIXME Disable this until Qt5 works with Geoclue2
+    // FIXME: disable this until Geoclue2 support is restored
 #ifdef HAVE_GEOCLUE_2
     nam = new QNetworkAccessManager(this);
     connect(nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(processLocationNameData(QNetworkReply*)));
@@ -655,7 +655,7 @@ void LocationDialog::slotOk()
         accept();
 }
 
-// FIXME Disable this until Qt5 works with Geoclue2
+// FIXME: disable this until Geoclue2 support is restored
 #ifdef HAVE_GEOCLUE_2
 void LocationDialog::getNameFromCoordinates(double latitude, double longitude)
 {

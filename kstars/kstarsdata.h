@@ -416,7 +416,7 @@ class KStarsData : public QObject
         /** @short send a message to the console*/
         void slotConsoleMessage(QString s)
         {
-            std::cout << (const char *)(s.toLocal8Bit()) << std::endl;
+            std::cout << s.toLocal8Bit().constData() << std::endl;
         }
 
         /**

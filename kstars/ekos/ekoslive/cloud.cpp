@@ -101,10 +101,10 @@ void Cloud::onTextReceived(const QString &message)
         const QJsonArray options = payload["options"].toArray();
         for (const auto &oneOption : options)
         {
-            auto name = oneOption[QStringLiteral("name")].toString().toLatin1();
-            auto value = oneOption[QStringLiteral("value")].toVariant();
+            const QByteArray name = oneOption[QStringLiteral("name")].toString().toLatin1();
+            const QVariant value = oneOption[QStringLiteral("value")].toVariant();
 
-            Options::self()->setProperty(name, value);
+            Options::self()->setProperty(name.constData(), value);
         }
 
         Options::self()->save();

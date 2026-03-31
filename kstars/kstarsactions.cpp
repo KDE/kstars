@@ -655,7 +655,7 @@ void KStars::slotJMoonTool()
 
 void KStars::slotMoonPhaseTool()
 {
-    //FIXME Port to KF5
+    // FIXME: finish the framework port
     //if( ! mpt ) mpt = new MoonPhaseTool( this );
     //mpt->show();
 }

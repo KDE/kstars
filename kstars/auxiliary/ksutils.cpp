@@ -1906,7 +1906,7 @@ void setGlobalSettings(const QVariantMap &settings)
             property.remove("kcfg_");
             property.replace(0, 1, property.at(0).toLower());
         }
-        Options::self()->setProperty(property.toLatin1(), settings[key]);
+        Options::self()->setProperty(property.toLatin1().constData(), settings[key]);
     }
 
     Options::self()->save();

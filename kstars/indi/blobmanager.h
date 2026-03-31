@@ -6,7 +6,7 @@
 
 #pragma once
 
-#ifdef USE_QT5_INDI
+#ifdef USE_INDI_QT_CLIENT
 #include <baseclientqt.h>
 #else
 #include <baseclient.h>
@@ -26,7 +26,7 @@ class ServerManager;
  * @author Jasem Mutlaq
  * @version 1.0
  */
-#ifdef USE_QT5_INDI
+#ifdef USE_INDI_QT_CLIENT
 class BlobManager : public INDI::BaseClientQt
 #else
 class BlobManager : public QObject, public INDI::BaseClient
