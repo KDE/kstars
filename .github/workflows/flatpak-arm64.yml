@@ -1,0 +1,70 @@
+name: Build and Publish Flatpak (ARM64)
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run nightly at 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  FLATPAK_MANIFEST: .flatpak-manifest.json
+  BUILD_DIR: build-dir
+  EXPORT_DIR: export
+  REPO_DIR: repo
+
+jobs:
+  build-flatpak-arm64:
+    runs-on: [ubuntu-24.04-arm]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install flatpak-builder
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder
+
+      - name: Add Flathub repository
+        run: |
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: Install KDE SDK
+        run: |
+          flatpak install --user -y flathub org.kde.Sdk//6.10
+          flatpak install --user -y flathub org.kde.Platform//6.10
+
+      - name: Build Flatpak
+        run: |
+          flatpak-builder \
+            --arch=aarch64 \
+            --repo=${{ env.REPO_DIR }} \
+            --install-deps-from=flathub \
+            --force-clean \
+            ${{ env.BUILD_DIR }} \
+            --disable-rofiles-fuse \
+            --user \
+            ${{ env.FLATPAK_MANIFEST }}
+
+      - name: Export Flatpak repository
+        run: |
+          mkdir -p ${{ env.EXPORT_DIR }}
+          flatpak build-export ${{ env.EXPORT_DIR }}/ ${{ env.BUILD_DIR }} master
+
+      - name: Update repository metadata with GPG signature
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --import --batch --passphrase "${{ secrets.GPG_PASSPHRASE }}"
+          flatpak build-update-repo ${{ env.EXPORT_DIR }}/ --gpg-sign="${{ secrets.GPG_PUBLIC_KEY }}"
+
+      - name: Deploy to remote repository
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          SOURCE: ${{ env.EXPORT_DIR }}/
+          TARGET: /var/www/smhub/
+          ARGS: -az --delete
