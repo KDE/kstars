@@ -19,7 +19,12 @@ WSMedia::WSMedia(Camera *manager): m_Manager(manager)
 {
     connect(&m_WebSocket, &QWebSocket::connected, this, &WSMedia::onConnected);
     connect(&m_WebSocket, &QWebSocket::disconnected, this, &WSMedia::onDisconnected);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(&m_WebSocket, &QWebSocket::errorOccurred, this, &WSMedia::onError);
+#else
+    connect(&m_WebSocket, static_cast<void(QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this,
+            &WSMedia::onError);
+#endif
 }
 
 void WSMedia::connectServer()
