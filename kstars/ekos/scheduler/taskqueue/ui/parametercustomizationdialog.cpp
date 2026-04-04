@@ -155,7 +155,11 @@ QWidget* ParameterCustomizationDialog::createParameterWidget(const TaskTemplate:
     if (param.type == "number")
     {
         // Check if it's a floating point or integer based on default value
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         bool isDouble = param.defaultValue.typeId() == QMetaType::Double ||
+#else
+        bool isDouble = param.defaultValue.type() == QVariant::Double ||
+#endif
                         (param.step.isValid() && param.step.toDouble() != param.step.toInt());
 
         if (isDouble)
