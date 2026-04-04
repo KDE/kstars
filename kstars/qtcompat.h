@@ -46,10 +46,14 @@ inline QPoint dropPos(QDropEvent *e)
 // QImage mirrored
 inline QImage mirrored(const QImage &img, bool horizontal = false, bool vertical = true)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
+    return img.mirrored(horizontal, vertical);
+#else
     Qt::Orientations orient;
     if (horizontal) orient |= Qt::Horizontal;
     if (vertical) orient |= Qt::Vertical;
     return img.flipped(orient);
+#endif
 }
 #else
 inline QPointF mousePos(QMouseEvent *e)

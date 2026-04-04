@@ -2624,7 +2624,7 @@ void TestEkosSchedulerOps::testWeatherSoftShutdownSimulator()
     helper.m_CCDDevice = "CCD Simulator";
     helper.m_FocuserDevice = "Focuser Simulator";
     helper.m_GuiderDevice = "Guide Simulator";
-    helper.m_ExtraDevices = {"Weather Simulator"};
+    helper.m_ExtraDevices = QStringList() << "Weather Simulator";
     QVERIFY(helper.setupEkosProfile("Simulators+Weather", false));
 
     KTRY_EKOS_START_PROFILE("Simulators+Weather");
@@ -2736,7 +2736,7 @@ void TestEkosSchedulerOps::testWeatherHardShutdownSimulator()
     helper.m_CCDDevice = "CCD Simulator";
     helper.m_FocuserDevice = "Focuser Simulator";
     helper.m_GuiderDevice = "Guide Simulator";
-    helper.m_ExtraDevices = {"Weather Simulator"};
+    helper.m_ExtraDevices = QStringList() << "Weather Simulator";
     QVERIFY(helper.setupEkosProfile("Simulators+Weather", false));
 
     KTRY_EKOS_START_PROFILE("Simulators+Weather");
@@ -2849,7 +2849,7 @@ void TestEkosSchedulerOps::testWeatherMonitoringModeSimulator()
     helper.m_CCDDevice = "CCD Simulator";
     helper.m_FocuserDevice = "Focuser Simulator";
     helper.m_GuiderDevice = "Guide Simulator";
-    helper.m_ExtraDevices = {"Weather Simulator"};
+    helper.m_ExtraDevices = QStringList() << "Weather Simulator";
     QVERIFY(helper.setupEkosProfile("Simulators+Weather", false));
 
     KTRY_EKOS_START_PROFILE("Simulators+Weather");

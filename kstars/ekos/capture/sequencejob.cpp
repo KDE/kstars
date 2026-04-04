@@ -16,6 +16,17 @@
 #define MF_TIMER_TIMEOUT    90000
 #define MF_RA_DIFF_LIMIT    4
 
+namespace
+{
+inline int variantTypeId(const QVariant &v)
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return v.typeId();
+#else
+    return v.userType();
+#endif
+}
+}
 namespace Ekos
 {
 QString const &SequenceJob::ISOMarker("_ISO8601");
@@ -1085,11 +1096,7 @@ void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
         while (iter.hasNext())
         {
             iter.next();
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-            if (iter.value().typeId() == QMetaType::QString)
-#else
-            if (iter.value().type() == QVariant::String)
-#endif
+            if (variantTypeId(iter.value()) == QMetaType::QString)
             {
                 outstream << "<OneElement name='" << iter.key()
                           << "'>" << iter.value().toString() << "</OneElement>" << Qt::endl;

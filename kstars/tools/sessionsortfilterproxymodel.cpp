@@ -10,6 +10,18 @@
 #include <QModelIndex>
 #include <QSortFilterProxyModel>
 
+namespace
+{
+inline int variantTypeId(const QVariant &v)
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return v.typeId();
+#else
+    return v.userType();
+#endif
+}
+}
+
 SessionSortFilterProxyModel::SessionSortFilterProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
 {
 }
@@ -18,11 +30,7 @@ bool SessionSortFilterProxyModel::lessThan(const QModelIndex &left, const QModel
 {
     QVariant leftData  = sourceModel()->data(left);
     QVariant rightData = sourceModel()->data(right);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    if (leftData.typeId() == QMetaType::QTime)
-#else
-    if (leftData.type() == QVariant::Time)
-#endif
+    if (variantTypeId(leftData) == QMetaType::QTime)
     {
         // We are sorting the observing time.
         return (leftData.toTime().addSecs(12 * 3600) <
