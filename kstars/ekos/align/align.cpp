@@ -77,6 +77,7 @@
 #define CAPTURE_RETRY_DELAY       10000
 #define CAPTURE_ROTATOR_DELAY     5000  // After 5 seconds estimated value should be not bad
 #define PAH_CUTOFF_FOV            10    // Minimum FOV width in arcminutes for PAH to work
+#define ROTATOR_FLIP_TOLERANCE    10    // Tolerance in degrees to detect a flipped PA (~180°)
 #define CHECK_PAH(x) \
     m_PolarAlignmentAssistant && m_PolarAlignmentAssistant->x
 #define RUN_PAH(x) \
@@ -352,22 +353,22 @@ void Align::handlePointTooltip(QMouseEvent *event)
                 return;
             QToolTip::showText(QtCompat::mouseGlobalPos(event).toPoint(),
                                i18n("<table>"
-                 "<tr>"
-                 "<th colspan=\"2\">Object %1: %2</th>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>RA:</td><td>%3</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>DE:</td><td>%4</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>dRA:</td><td>%5</td>"
-                 "</tr>"
-                 "<tr>"
-                 "<td>dDE:</td><td>%6</td>"
-                 "</tr>"
-                 "</table>",
+                                    "<tr>"
+                                    "<th colspan=\"2\">Object %1: %2</th>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>RA:</td><td>%3</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>DE:</td><td>%4</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dRA:</td><td>%5</td>"
+                                    "</tr>"
+                                    "<tr>"
+                                    "<td>dDE:</td><td>%6</td>"
+                                    "</tr>"
+                                    "</table>",
                                     point + 1,
                                     solutionTable->item(point, 2)->text(),
                                     solutionTable->item(point, 0)->text(),
@@ -1958,7 +1959,7 @@ void Align::startSolving()
             {
                 appendLogText(
                     i18n("No index files were found on your system in the specified index file directories."
-                     "Please download some index files or add the correct directory to the list."));
+                         "Please download some index files or add the correct directory to the list."));
                 KConfigDialog * alignSettings = KConfigDialog::exists("alignsettings");
                 if(alignSettings && m_IndexFilesPage)
                 {
@@ -2259,10 +2260,13 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
             if (rotation)
             {
                 auto clientManager = m_Camera->getDriverInfo()->getClientManager();
-                rotation->setValue(orientation);
-                clientManager->sendNewProperty(ccdRotation);
+                if (clientManager)
+                {
+                    rotation->setValue(orientation);
+                    clientManager->sendNewProperty(ccdRotation);
+                }
 
-                if (m_wcsSynced == false)
+                if (clientManager && m_wcsSynced == false)
                 {
                     appendLogText(
                         i18n("WCS information updated. Images captured from this point forward shall have valid WCS."));
@@ -2607,6 +2611,19 @@ bool Align::checkIfRotationRequired()
                     sRawAngle = RotatorUtils::Instance()->calcRotatorAngle(m_TargetPositionAngle);
                     m_TargetPositionAngle = RotatorUtils::Instance()->calcCameraAngle(sRawAngle, true);
                     RotatorUtils::Instance()->setImagePierside(ISD::Mount::PIER_UNKNOWN); // ... once!
+                }
+                // If "Preserve Rotator Angle" is enabled and the PA difference is close to 180°,
+                // treat it as a flipped image scenario and skip rotation.
+                else if (Options::astrometryFlipRotationAllowed())
+                {
+                    double paDiff = fabs(KSUtils::rangePA(currentRotatorPA - m_TargetPositionAngle));
+                    if (fabs(paDiff - 180.0) < ROTATOR_FLIP_TOLERANCE)
+                    {
+                        appendLogText(i18n("PA difference ~%1°, image is flipped. Preserving rotator angle.",
+                                           QString::number(paDiff, 'f', 1)));
+                        m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
+                        return false;
+                    }
                 }
                 // Match the position angle with rotator
                 if  (m_Rotator != nullptr && m_Rotator->isConnected())
@@ -4115,7 +4132,7 @@ void Align::exportSolutionPoints()
     {
         int r = KMessageBox::warningContinueCancel(nullptr,
                 i18n("A file named \"%1\" already exists. "
-             "Overwrite it?",
+                     "Overwrite it?",
                      exportFile.fileName()),
                 i18n("Overwrite File?"), KStandardGuiItem::overwrite());
         if (r == KMessageBox::Cancel)
