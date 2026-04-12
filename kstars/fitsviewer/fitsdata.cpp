@@ -1426,18 +1426,28 @@ void FITSData::stackFITSLoaded()
                 }
                 // We're not plate solving so update sub status to good and emit stats
                 m_CurrentStack->addSubStatus(true);
-                emit stackUpdateStats(true, m_StackSubPos, m_StackDirWatcher->getCurrentFiles().size(),
-                                      m_CurrentStack->getMeanSubSNR(), m_CurrentStack->getMinSubSNR(),
-                                      m_CurrentStack->getMaxSubSNR());
+                {
+                    int totalStacked = 0;
+                    for (auto &stack : m_Stacks)
+                        if (stack) totalStacked += stack->getNumSubsStacked();
+                    emit stackUpdateStats(true, totalStacked, m_StackDirWatcher->getCurrentFiles().size(),
+                                          m_CurrentStack->getMeanSubSNR(), m_CurrentStack->getMinSubSNR(),
+                                          m_CurrentStack->getMaxSubSNR());
+                }
             }
             else
             {
                 // Something has gone wrong with this sub so mark it failed and move to the next action
                 qCDebug(KSTARS_FITS) << "Failed to process sub.";
                 m_CurrentStack->addSubStatus(false);
-                emit stackUpdateStats(false, m_StackSubPos, m_StackDirWatcher->getCurrentFiles().size(),
-                                      m_CurrentStack->getMeanSubSNR(), m_CurrentStack->getMinSubSNR(),
-                                      m_CurrentStack->getMaxSubSNR());
+                {
+                    int totalStacked = 0;
+                    for (auto &stack : m_Stacks)
+                        if (stack) totalStacked += stack->getNumSubsStacked();
+                    emit stackUpdateStats(false, totalStacked, m_StackDirWatcher->getCurrentFiles().size(),
+                                          m_CurrentStack->getMeanSubSNR(), m_CurrentStack->getMinSubSNR(),
+                                          m_CurrentStack->getMaxSubSNR());
+                }
             }
             nextStackAction();
             break;
@@ -1610,9 +1620,14 @@ void FITSData::solverDone(const bool timedOut, const bool success, const double 
         if (ok)
             ok = m_CurrentStack->solverDone(m_StackWCSHandle, timedOut, success, hfr, numStars);
 
-        emit stackUpdateStats(ok, m_StackSubPos, m_StackDirWatcher->getCurrentFiles().size(),
-                              m_CurrentStack->getMeanSubSNR(), m_CurrentStack->getMinSubSNR(),
-                              m_CurrentStack->getMaxSubSNR());
+        {
+            int totalStacked = 0;
+            for (auto &stack : m_Stacks)
+                if (stack) totalStacked += stack->getNumSubsStacked();
+            emit stackUpdateStats(ok, totalStacked, m_StackDirWatcher->getCurrentFiles().size(),
+                                  m_CurrentStack->getMeanSubSNR(), m_CurrentStack->getMinSubSNR(),
+                                  m_CurrentStack->getMaxSubSNR());
+        }
 
         // Signal the Plate Solved stage complete to Stack Monitor
         QVariantMap extraData;
