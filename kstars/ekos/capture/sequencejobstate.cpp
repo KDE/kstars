@@ -9,6 +9,7 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "indicom.h"
+#include "capturetypes.h"
 #include "ekos/auxiliary/rotatorutils.h"
 #include <ekos_capture_debug.h>
 
@@ -39,6 +40,35 @@ SequenceJobState::SequenceJobState(const QSharedPointer<CameraState> &sharedStat
         // If preparation is not complete by now, let should abort.
         if (!preparationCompleted())
         {
+            // Map action enum values to readable names
+            static const QMap<CaptureWorkflowActionType, QString> actionNames =
+            {
+                {CAPTURE_ACTION_NONE, "NONE"},
+                {CAPTURE_ACTION_START, "START"},
+                {CAPTURE_ACTION_PAUSE, "PAUSE"},
+                {CAPTURE_ACTION_SUSPEND, "SUSPEND"},
+                {CAPTURE_ACTION_FILTER, "FILTER"},
+                {CAPTURE_ACTION_TEMPERATURE, "TEMPERATURE"},
+                {CAPTURE_ACTION_ROTATOR, "ROTATOR"},
+                {CAPTURE_ACTION_PREPARE_LIGHTSOURCE, "LIGHTSOURCE"},
+                {CAPTURE_ACTION_MOUNT_PARK, "MOUNT_PARK"},
+                {CAPTURE_ACTION_DOME_PARK, "DOME_PARK"},
+                {CAPTURE_ACTION_FLAT_SYNC_FOCUS, "FLAT_SYNC_FOCUS"},
+                {CAPTURE_ACTION_SCOPE_COVER, "SCOPE_COVER"},
+                {CAPTURE_ACTION_AUTOFOCUS, "AUTOFOCUS"},
+                {CAPTURE_ACTION_DITHER_REQUEST, "DITHER_REQUEST"},
+                {CAPTURE_ACTION_DITHER, "DITHER"},
+                {CAPTURE_ACTION_CHECK_GUIDING, "CHECK_GUIDING"},
+            };
+            QStringList pending;
+            for (auto it = prepareActions.constBegin(); it != prepareActions.constEnd(); ++it)
+            {
+                if (!it.value())
+                    pending << actionNames.value(it.key(), QString::number(it.key()));
+            }
+            qCDebug(KSTARS_EKOS_CAPTURE) << "Capture operations timed out after" << Options::captureOperationsTimeout()
+                                         << "seconds. Pending actions:" << pending.join(",")
+                                         << "Prep state:" << m_PreparationState;
             emit newLog(i18n("Capture operations timed out after %1 seconds.", Options::captureOperationsTimeout()));
             m_CaptureOperationsTimer.stop();
             emit prepareComplete(false);
@@ -165,6 +195,29 @@ bool SequenceJobState::initCapture(CCDFrameType frameType, bool isPreview, bool 
     autoFocusReady = isAutofocusReady;
     m_fitsMode = mode;
     m_CaptureOperationsTimer.start();
+
+    {
+        // Map action enum values to readable names
+        static const QMap<CaptureWorkflowActionType, QString> actionNames =
+        {
+            {CAPTURE_ACTION_NONE, "NONE"}, {CAPTURE_ACTION_START, "START"},
+            {CAPTURE_ACTION_PAUSE, "PAUSE"}, {CAPTURE_ACTION_SUSPEND, "SUSPEND"},
+            {CAPTURE_ACTION_FILTER, "FILTER"}, {CAPTURE_ACTION_TEMPERATURE, "TEMPERATURE"},
+            {CAPTURE_ACTION_ROTATOR, "ROTATOR"}, {CAPTURE_ACTION_PREPARE_LIGHTSOURCE, "LIGHTSOURCE"},
+            {CAPTURE_ACTION_MOUNT_PARK, "MOUNT_PARK"}, {CAPTURE_ACTION_DOME_PARK, "DOME_PARK"},
+            {CAPTURE_ACTION_FLAT_SYNC_FOCUS, "FLAT_SYNC_FOCUS"}, {CAPTURE_ACTION_SCOPE_COVER, "SCOPE_COVER"},
+            {CAPTURE_ACTION_AUTOFOCUS, "AUTOFOCUS"}, {CAPTURE_ACTION_DITHER_REQUEST, "DITHER_REQUEST"},
+            {CAPTURE_ACTION_DITHER, "DITHER"}, {CAPTURE_ACTION_CHECK_GUIDING, "CHECK_GUIDING"},
+        };
+        QStringList actionList;
+        for (auto it = prepareActions.constBegin(); it != prepareActions.constEnd(); ++it)
+            actionList << QString("%1=%2").arg(actionNames.value(it.key(), QString::number(it.key())),
+                                               it.value() ? "ready" : "pending");
+        qCDebug(KSTARS_EKOS_CAPTURE) << "initCapture() targetFilter:" << targetFilterID
+                                     << "currentFilter:" << m_CameraState->currentFilterID
+                                     << "actions:" << actionList.join(", ")
+                                     << "filterPolicy:" << m_filterPolicy;
+    }
 
     //check for setting the target filter
     prepareTargetFilter(frameType, isPreview);
@@ -1112,6 +1165,11 @@ SequenceJobState::PreparationState SequenceJobState::getPreparationState() const
 
 void SequenceJobState::setFilterStatus(FilterState filterState)
 {
+    qCDebug(KSTARS_EKOS_CAPTURE) << "SequenceJobState::setFilterStatus()" << filterState
+                                 << "prepState:" << m_PreparationState
+                                 << "filterAutofocusTriggered:" << m_filterAutofocusTriggered
+                                 << "actions:" << prepareActions;
+
     // ignore events if preparation is already completed
     if (preparationCompleted())
     {

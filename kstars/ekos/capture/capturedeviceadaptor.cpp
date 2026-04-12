@@ -403,6 +403,8 @@ void CaptureDeviceAdaptor::connectFilterManager(SequenceJobState *state)
 
     if (m_FilterManager.isNull() == false)
     {
+        qCDebug(KSTARS_EKOS_CAPTURE) <<
+        "CaptureDeviceAdaptor::connectFilterManager() - connecting FilterManager::newStatus to SequenceJobState::setFilterStatus";
         connect(m_FilterManager.get(), &FilterManager::newStatus, state, &SequenceJobState::setFilterStatus);
         connect(m_FilterManager.get(), &FilterManager::positionChanged, state, &SequenceJobState::setCurrentFilterID);
     }
@@ -419,6 +421,8 @@ void CaptureDeviceAdaptor::disconnectFilterManager(SequenceJobState *state)
 
     if (m_FilterManager.isNull() == false)
     {
+        qCDebug(KSTARS_EKOS_CAPTURE) <<
+        "CaptureDeviceAdaptor::disconnectFilterManager() - disconnecting FilterManager::newStatus from SequenceJobState::setFilterStatus";
         disconnect(m_FilterManager.get(), &FilterManager::positionChanged, state, &SequenceJobState::setCurrentFilterID);
         disconnect(m_FilterManager.get(), &FilterManager::newStatus, state, &SequenceJobState::setFilterStatus);
     }
