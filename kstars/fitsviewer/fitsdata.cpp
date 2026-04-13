@@ -3203,12 +3203,15 @@ bool FITSData::saveImage(const QString &newFilename)
     if (fptr && fits_close_file(fptr, &status))
         // We can continue if the close fails, e.g. on a memory file
         status = 0;
+    // Always null out fptr immediately after closing so that if fits_create_file
+    // fails below we never leave a dangling pointer to freed CFITSIO memory.
+    fptr = nullptr;
 
     /* Create a new File, overwriting existing*/
     if (fits_create_file(&new_fptr, QString("!%1").arg(newFilename).toLocal8Bit(), &status))
     {
         m_LastError = i18n("Failed to create file: %1", fitsErrorToString(status));
-        return status;
+        return false;
     }
 
     status = 0;
