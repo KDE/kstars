@@ -5,6 +5,7 @@
 */
 
 #include "templatelibrarywidget.h"
+#include "../../schedulericonutils.h"
 #include "propertytemplatebuilder.h"
 #include "../tasktemplate.h"
 #include "../templatemanager.h"
@@ -178,7 +179,8 @@ void TemplateLibraryWidget::populateTemplates()
             // Add icon based on whether it's system or user template
             if (tmpl->isSystemTemplate())
             {
-                templateItem->setIcon(0, QIcon::fromTheme("folder-template"));
+                templateItem->setIcon(0, firstThemedIcon({"text-x-generic-template", "document-new", "folder-template",
+                                      "folder"}));
             }
             else
             {

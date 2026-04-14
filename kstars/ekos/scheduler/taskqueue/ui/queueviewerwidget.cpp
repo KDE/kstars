@@ -5,6 +5,7 @@
 */
 
 #include "queueviewerwidget.h"
+#include "../../schedulericonutils.h"
 #include "templatelibrarywidget.h"
 #include "deviceselectiondialog.h"
 #include "parametercustomizationdialog.h"
@@ -58,7 +59,8 @@ void QueueViewerWidget::setupUI()
 
     // Group 1: Template and collection management
     m_addTemplateButton = new QPushButton(QIcon::fromTheme("list-add"), i18n("Add from Template"), this);
-    m_collectionsButton = new QPushButton(QIcon::fromTheme("folder-templates"), i18n("Load Collection"), this);
+    m_collectionsButton = new QPushButton(firstThemedIcon({"folder-open", "folder", "folder-templates", "document-open"}),
+                                          i18n("Load Collection"), this);
     toolbarLayout->addWidget(m_addTemplateButton);
     toolbarLayout->addWidget(m_collectionsButton);
 
@@ -135,8 +137,8 @@ void QueueViewerWidget::setupUI()
     auto *itemControlsLayout = new QHBoxLayout();
 
     m_removeButton = new QPushButton(QIcon::fromTheme("list-remove"), i18n("Remove"), this);
-    m_moveUpButton = new QPushButton(QIcon::fromTheme("arrow-up"), i18n("Move Up"), this);
-    m_moveDownButton = new QPushButton(QIcon::fromTheme("arrow-down"), i18n("Move Down"), this);
+    m_moveUpButton = new QPushButton(firstThemedIcon({"go-up", "arrow-up"}), i18n("Move Up"), this);
+    m_moveDownButton = new QPushButton(firstThemedIcon({"go-down", "arrow-down"}), i18n("Move Down"), this);
 
     itemControlsLayout->addWidget(m_removeButton);
     itemControlsLayout->addWidget(m_moveUpButton);
@@ -428,7 +430,7 @@ void QueueViewerWidget::onItemDoubleClicked(int row, int /*column*/)
     {
         QMessageBox::warning(this, i18n("Template Not Found"),
                              i18n("The template for this task is no longer available.\n"
-             "Template ID: %1", task->templateId()));
+                                  "Template ID: %1", task->templateId()));
         return;
     }
 
@@ -662,17 +664,17 @@ QIcon QueueViewerWidget::statusToIcon(QueueItem::Status status) const
     {
         case QueueItem::PENDING:
         case QueueItem::SCHEDULED:
-            return QIcon::fromTheme("clock");
+            return firstThemedIcon({"appointment-soon", "chronometer", "clock"});
         case QueueItem::RUNNING:
             return QIcon::fromTheme("media-playback-start");
         case QueueItem::COMPLETED:
-            return QIcon::fromTheme("dialog-ok");
+            return firstThemedIcon({"dialog-ok", "dialog-ok-apply"});
         case QueueItem::FAILED:
             return QIcon::fromTheme("dialog-error");
         case QueueItem::SKIPPED:
             return QIcon::fromTheme("dialog-warning");
         default:
-            return QIcon::fromTheme("help-about");
+            return firstThemedIcon({"dialog-information", "help-about"});
     }
 }
 
