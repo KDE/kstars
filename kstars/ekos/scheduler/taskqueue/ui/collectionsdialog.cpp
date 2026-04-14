@@ -5,6 +5,7 @@
 */
 
 #include "collectionsdialog.h"
+#include "../../schedulericonutils.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -138,7 +139,8 @@ void CollectionsDialog::loadCollections()
                 name = fileInfo.baseName();
 
             // Add to list
-            auto *item = new QListWidgetItem(QIcon::fromTheme("folder-templates"), name);
+            auto *item = new QListWidgetItem(firstThemedIcon({"folder", "folder-open", "folder-templates", "document-open"}),
+                                             name);
             item->setToolTip(filePath);
             m_collectionList->addItem(item);
 

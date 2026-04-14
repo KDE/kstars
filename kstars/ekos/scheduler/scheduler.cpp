@@ -20,6 +20,7 @@
 #include "skymap.h"
 #include "Options.h"
 #include "scheduleradaptor.h"
+#include "schedulericonutils.h"
 #include "schedulerjob.h"
 #include "schedulerprocess.h"
 #include "schedulermodulestate.h"
@@ -210,6 +211,9 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     sortJobsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
     mosaicB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    queueViewerB->setIcon(firstThemedIcon({"view-list-details", "view-list-text", "format-justify-fill"}));
+    queueViewerB->setToolTip(i18n("Open the task queue viewer to edit queue and collection files."));
+    queueViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     positionAngleSpin->setSpecialValueText("--");
 
@@ -226,6 +230,24 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     loadSequenceB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectFITSB->setIcon(QIcon::fromTheme("document-open"));
     selectFITSB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    const QIcon clearQueueIcon = firstThemedIcon({"edit-clear", "edit-delete-remove", "list-remove", "window-close"});
+    const QIcon selectQueueIcon = firstThemedIcon({"document-open", "folder-open", "folder"});
+    const auto setupQueueFileButton = [](QPushButton * button, const QIcon & icon, const QString & tooltip)
+    {
+        button->setIcon(icon);
+        button->setToolTip(tooltip);
+        button->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    };
+
+    setupQueueFileButton(preStartupQueueClearB, clearQueueIcon, i18n("Clear the selected pre-startup queue."));
+    setupQueueFileButton(postStartupQueueClearB, clearQueueIcon, i18n("Clear the selected post-startup queue."));
+    setupQueueFileButton(preShutdownQueueClearB, clearQueueIcon, i18n("Clear the selected pre-shutdown queue."));
+    setupQueueFileButton(postShutdownQueueClearB, clearQueueIcon, i18n("Clear the selected post-shutdown queue."));
+    setupQueueFileButton(selectPreStartupQueueB, selectQueueIcon, i18n("Browse for pre-startup queue/collection file."));
+    setupQueueFileButton(selectPostStartupQueueB, selectQueueIcon, i18n("Browse for post-startup queue/collection file."));
+    setupQueueFileButton(selectPreShutdownQueueB, selectQueueIcon, i18n("Browse for pre-shutdown queue/collection file."));
+    setupQueueFileButton(selectPostShutdownQueueB, selectQueueIcon, i18n("Browse for post-shutdown queue/collection file."));
 
     // 2023-06-27 sterne-jaeger: For simplicity reasons, the repeat option
     // for all sequences is only active if we do consider the past
@@ -593,7 +615,7 @@ void Scheduler::prepareGUI ()
 
     m_OpsJobsSettings = new OpsJobsSettings();
     page = dialog->addPage(m_OpsJobsSettings, i18n("Jobs"));
-    page->setIcon(QIcon::fromTheme("view-calendar-workweek-symbolic"));
+    page->setIcon(firstThemedIcon({"x-office-calendar", "view-calendar-workweek-symbolic"}));
 
     m_OpsScriptsSettings = new OpsScriptsSettings();
     page = dialog->addPage(m_OpsScriptsSettings, i18n("Scripts"));
