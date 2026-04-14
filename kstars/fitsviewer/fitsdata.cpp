@@ -3148,7 +3148,7 @@ bool FITSData::saveImage(const QString &newFilename)
 
     int status = 0;
     long nelements;
-    fitsfile * new_fptr;
+    fitsfile * new_fptr = nullptr;
 
     if (ext == "xisf")
     {
@@ -3199,23 +3199,26 @@ bool FITSData::saveImage(const QString &newFilename)
     // Read the image back into buffer in case we debyayed
     nelements = m_Statistics.samples_per_channel * m_Statistics.channels;
 
-    /* close current file */
-    if (fptr && fits_close_file(fptr, &status))
-        // We can continue if the close fails, e.g. on a memory file
-        status = 0;
-    // Always null out fptr immediately after closing so that if fits_create_file
-    // fails below we never leave a dangling pointer to freed CFITSIO memory.
-    fptr = nullptr;
-
-    /* Create a new File, overwriting existing*/
+    /* Create a new file, overwriting existing.
+     * Use a local new_fptr so that fptr is not modified until we are sure the
+     * new file has been created successfully.  This preserves the original code
+     * style and keeps FITSData in a fully usable state on any failure path
+     * (e.g. directory missing, sandbox restriction, disk full). */
     if (fits_create_file(&new_fptr, QString("!%1").arg(newFilename).toLocal8Bit(), &status))
     {
         m_LastError = i18n("Failed to create file: %1", fitsErrorToString(status));
+        // fptr is unchanged — FITSData stays fully usable after a failed save.
         return false;
     }
 
     status = 0;
 
+    /* New file created successfully — release the old handle and switch over. */
+    if (fptr)
+    {
+        int closeStatus = 0;
+        fits_close_file(fptr, &closeStatus);
+    }
     fptr = new_fptr;
 
     // Create image
