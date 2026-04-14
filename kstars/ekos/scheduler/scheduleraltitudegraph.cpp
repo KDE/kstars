@@ -10,6 +10,7 @@
 #include "kplotobject.h"
 #include "kplotaxis.h"
 #include "ksalmanac.h"
+#include "schedulericonutils.h"
 #include "schedulerjob.h"
 #include "schedulerutils.h"
 
@@ -99,13 +100,13 @@ void SchedulerAltitudeGraph::handleButtons(bool disable)
     {
         altMoveLeftB->setEnabled(true);
         altMoveRightB->setEnabled(true);
-        altMoveLeftB->setIcon(QIcon::fromTheme("arrow-left"));
-        altMoveRightB->setIcon(QIcon::fromTheme("arrow-right"));
+        altMoveLeftB->setIcon(firstThemedIcon({"go-previous", "arrow-left"}));
+        altMoveRightB->setIcon(firstThemedIcon({"go-next", "arrow-right"}));
     }
     else if (m_AltGraphDay == 2)
     {
         altMoveLeftB->setEnabled(true);
-        altMoveLeftB->setIcon(QIcon::fromTheme("arrow-left"));
+        altMoveLeftB->setIcon(firstThemedIcon({"go-previous", "arrow-left"}));
         altMoveRightB->setEnabled(false);
         altMoveRightB->setIcon(QIcon());
     }
@@ -115,7 +116,7 @@ void SchedulerAltitudeGraph::handleButtons(bool disable)
         altMoveLeftB->setEnabled(false);
         altMoveLeftB->setIcon(QIcon());
         altMoveRightB->setEnabled(true);
-        altMoveRightB->setIcon(QIcon::fromTheme("arrow-right"));
+        altMoveRightB->setIcon(firstThemedIcon({"go-next", "arrow-right"}));
     }
 }
 
