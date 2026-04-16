@@ -166,9 +166,28 @@ bool CameraProcess::setCamera(ISD::Camera *device)
     if (devices()->getActiveCamera() == device)
         return false;
 
-    // disable passing through new frames to the FITS viewer
     if (activeCamera())
+    {
+        // disable passing through new frames to the FITS viewer
         disconnect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::showFITSPreview);
+
+        // Disconnect all video-streaming signals bound to the old camera.
+        // updateVideoWindow is connected here in setCamera(); showVideoFrame and
+        // closeVideoWindow are connected lazily inside getVideoWindow(). All three
+        // must be severed before we switch cameras so the new camera gets clean,
+        // correctly wired connections.
+        disconnect(activeCamera(), &ISD::Camera::updateVideoWindow, this, &CameraProcess::updateVideoWindow);
+        disconnect(activeCamera(), &ISD::Camera::showVideoFrame,    this, &CameraProcess::showVideoFrame);
+        disconnect(activeCamera(), &ISD::Camera::closeVideoWindow,  this, &CameraProcess::closeVideoWindow);
+    }
+
+    // Tear down the stale video window. It was constructed for the previous camera
+    // (holds an internal m_Camera pointer to it and carries camera-specific signal
+    // connections). Resetting to null forces getVideoWindow() to build a fresh
+    // StreamWG for the new camera the next time streaming is requested.
+    // Qt's QObject destructor automatically disconnects all signals/slots that
+    // target the StreamWG object itself, so no manual cleanup is needed for those.
+    m_VideoWindow.reset();
 
     devices()->setActiveCamera(device);
 
