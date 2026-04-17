@@ -493,7 +493,7 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
 
             qCWarning(KSTARS_EKOS_SCHEDULER) << "Action" << (m_currentActionIndex + 1) << "failed:" << action->errorMessage();
             Q_EMIT newLog(i18n("Task '%1', action %2 failed: %3",
-                             m_currentItem->task()->name(), m_currentActionIndex + 1, action->errorMessage()));
+                               m_currentItem->task()->name(), m_currentActionIndex + 1, action->errorMessage()));
             Q_EMIT actionFailed(action, action->errorMessage());
             handleActionFailure(action);
             break;
