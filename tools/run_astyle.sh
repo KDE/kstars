@@ -121,9 +121,14 @@ if (( ${#filtered[@]} == 0 )); then
 fi
 
 if (( check_mode == 1 )); then
+    declare -a format_cmd=("${astyle_cmd[@]}" --options="${options_file}" --suffix="${suffix}" --dry-run --formatted)
+    if (( ${#passthrough[@]} > 0 )); then
+        format_cmd+=("${passthrough[@]}")
+    fi
+
     output="$(
         printf '%s\0' "${filtered[@]}" |
-            xargs -0 "${astyle_cmd[@]}" --options="${options_file}" --suffix="${suffix}" --dry-run --formatted "${passthrough[@]}"
+            xargs -0 "${format_cmd[@]}"
     )"
     if [[ -n "${output}" ]]; then
         echo "${output}"
@@ -133,4 +138,9 @@ if (( check_mode == 1 )); then
     exit 0
 fi
 
-printf '%s\0' "${filtered[@]}" | xargs -0 "${astyle_cmd[@]}" --options="${options_file}" --suffix="${suffix}" "${passthrough[@]}"
+declare -a format_cmd=("${astyle_cmd[@]}" --options="${options_file}" --suffix="${suffix}")
+if (( ${#passthrough[@]} > 0 )); then
+    format_cmd+=("${passthrough[@]}")
+fi
+
+printf '%s\0' "${filtered[@]}" | xargs -0 "${format_cmd[@]}"
