@@ -415,8 +415,16 @@ void Camera::processSwitch(INDI::Property prop)
 
             if (nvp)
             {
-                w = nvp[0].getValue();
-                h = nvp[1].getValue();
+                // CCD_STREAM_FRAME has four elements: X, Y, WIDTH, HEIGHT.
+                // Access by name so the order of elements in the property vector
+                // doesn't matter and we don't accidentally read X/Y as dimensions.
+                auto warg = nvp.findWidgetByName("WIDTH");
+                auto harg = nvp.findWidgetByName("HEIGHT");
+                if (warg && harg)
+                {
+                    w = warg->getValue();
+                    h = harg->getValue();
+                }
             }
 
             if (w && h)
@@ -561,8 +569,16 @@ void Camera::processStream(INDI::Property prop)
 
     if (streamFrame)
     {
-        w = streamFrame[0].getValue();
-        h = streamFrame[1].getValue();
+        // CCD_STREAM_FRAME has four elements: X, Y, WIDTH, HEIGHT.
+        // Access by name so the order of elements in the property vector
+        // doesn't matter and we don't accidentally read X/Y as dimensions.
+        auto warg = streamFrame.findWidgetByName("WIDTH");
+        auto harg = streamFrame.findWidgetByName("HEIGHT");
+        if (warg && harg)
+        {
+            w = warg->getValue();
+            h = harg->getValue();
+        }
     }
 
     if (w && h)

@@ -65,13 +65,26 @@ bool VideoWG::newFrame(IBLOB *bp)
         rc = streamImage->loadFromData(static_cast<uchar *>(bp->blob), bp->size);
     else if (static_cast<uint32_t>(bp->size) == totalBaseCount)
     {
-        streamImage.reset(new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_Indexed8));
-        streamImage->setColorTable(grayTable);
+        // The blob buffer is owned by the INDI library and may be freed or reused as soon as
+        // newFrame() returns (shared-memory path) or on the next frame (heap path).  Wrap it
+        // in a temporary non-owning QImage only long enough to produce an owned deep copy,
+        // exactly as debayer1394() and debayerCV() do.
+        //
+        // Always supply bytesPerLine explicitly (= streamW * bytes-per-pixel, no padding).
+        // The 4-argument QImage constructor auto-aligns to 4-byte boundaries, so for widths
+        // that are not multiples of 4 (e.g. 406) it would compute bpl=408 and index 2 bytes
+        // past the end of each row, shearing every subsequent row in the display.
+        QImage img(static_cast<uchar *>(bp->blob), streamW, streamH,
+                   static_cast<qsizetype>(streamW), QImage::Format_Indexed8);
+        img.setColorTable(grayTable);
+        streamImage.reset(new QImage(img.copy()));
         rc = !streamImage->isNull();
     }
     else if (static_cast<uint32_t>(bp->size) == totalBaseCount * 3)
     {
-        streamImage.reset(new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_RGB888));
+        QImage img(static_cast<uchar *>(bp->blob), streamW, streamH,
+                   static_cast<qsizetype>(streamW) * 3, QImage::Format_RGB888);
+        streamImage.reset(new QImage(img.copy()));
         rc = !streamImage->isNull();
     }
 
@@ -240,8 +253,12 @@ bool VideoWG::debayer1394(const IBLOB *bp, const BayerParameters &params, const 
         return false;
     }
 
-    // Force a deep copy as we're about to free destinationBuffer
-    QImage img(destinationBuffer, streamW, streamH, QImage::Format_RGB888);
+    // Force a deep copy as we're about to free destinationBuffer.
+    // Pass bytesPerLine explicitly: dc1394 writes a packed buffer (streamW*3 bytes/row,
+    // no padding), but the 4-argument QImage constructor auto-aligns to 4-byte boundaries,
+    // which shears the image for widths that are not multiples of 4.
+    QImage img(destinationBuffer, streamW, streamH,
+               static_cast<qsizetype>(streamW) * 3, QImage::Format_RGB888);
     streamImage.reset(new QImage(img.copy()));
     bool rc = !streamImage->isNull();
 
