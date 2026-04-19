@@ -86,6 +86,7 @@ class QueueExecutor : public QObject
         void onActionProgress(const QString &message);
 
     private:
+        Task *taskForItem(QueueItem *item, const QString &context);
         void executeItem(QueueItem *item);
         void executeAction(TaskAction *action);
         void handleItemCompletion(QueueItem *item);
