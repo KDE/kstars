@@ -270,9 +270,28 @@ void QueueExecutor::executeNext()
     QueueItem *nextItem = nullptr;
     for (QueueItem *item : m_manager->items())
     {
+        if (!item)
+        {
+            const QString message = i18n("Task queue contains an invalid empty item. Skipping it.");
+            qCWarning(KSTARS_EKOS_SCHEDULER) << message;
+            Q_EMIT newLog(message);
+            continue;
+        }
+
         if (item->status() == QueueItem::PENDING ||
                 item->status() == QueueItem::SCHEDULED)
         {
+            if (!item->task())
+            {
+                const QString message = i18n("Task queue item '%1' has no task. Marking it failed.", item->id());
+                qCWarning(KSTARS_EKOS_SCHEDULER) << message;
+                Q_EMIT newLog(message);
+                item->setErrorMessage(message);
+                item->setStatus(QueueItem::FAILED);
+                Q_EMIT itemFailed(item, message);
+                continue;
+            }
+
             nextItem = item;
             break;
         }
