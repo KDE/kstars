@@ -116,6 +116,46 @@ Task *QueueExecutor::taskForItem(QueueItem *item, const QString &context)
     return task;
 }
 
+bool QueueExecutor::currentTaskFor(const QString &context, Task **task)
+{
+    if (!m_currentItem)
+    {
+        failCurrentExecution(i18n("Task queue executor lost its current item while trying to %1.", context));
+        return false;
+    }
+
+    Task *currentTask = m_currentItem->task();
+    if (!currentTask)
+    {
+        const QString itemName = m_currentItem->name().isEmpty() ? m_currentItem->id() : m_currentItem->name();
+        failCurrentExecution(i18n("Task queue item '%1' has no task while trying to %2.", itemName, context));
+        return false;
+    }
+
+    if (task)
+        *task = currentTask;
+
+    return true;
+}
+
+void QueueExecutor::failCurrentExecution(const QString &message)
+{
+    qCWarning(KSTARS_EKOS_SCHEDULER) << message;
+    Q_EMIT newLog(message);
+
+    if (m_currentItem)
+    {
+        m_currentItem->setErrorMessage(message);
+        m_currentItem->setStatus(QueueItem::FAILED);
+        Q_EMIT itemFailed(m_currentItem, message);
+    }
+
+    if (m_running)
+        abort();
+    else
+        clearCurrentExecution();
+}
+
 void QueueExecutor::clearCurrentExecution()
 {
     if (m_currentAction)
@@ -468,11 +508,17 @@ void QueueExecutor::handleMissingDevice(QueueItem *item, const QString &errorMsg
 
 void QueueExecutor::executeAction(TaskAction *action)
 {
-    if (!action || m_paused || m_abortRequested)
+    if (m_paused || m_abortRequested)
         return;
 
-    Task *task = taskForItem(m_currentItem, i18n("execute an action"));
-    if (!task)
+    if (!action)
+    {
+        failCurrentExecution(i18n("Task queue executor cannot execute a missing action."));
+        return;
+    }
+
+    Task *task = nullptr;
+    if (!currentTaskFor(i18n("execute an action"), &task))
         return;
 
     m_currentAction = action;
@@ -522,15 +568,15 @@ void QueueExecutor::onItemStatusChanged(QueueItem::Status status)
 
 void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
 {
-    if (!m_currentAction || !m_currentItem)
-        return;
-
-    Task *task = taskForItem(m_currentItem, i18n("handle an action status change"));
-    if (!task)
+    if (!m_currentAction)
         return;
 
     TaskAction *action = qobject_cast<TaskAction *>(sender());
     if (!action || action != m_currentAction)
+        return;
+
+    Task *task = nullptr;
+    if (!currentTaskFor(i18n("handle an action status change"), &task))
         return;
 
     switch (status)
@@ -588,15 +634,23 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
 
 void QueueExecutor::onActionProgress(const QString &message)
 {
+    if (!currentTaskFor(i18n("report progress")))
+        return;
+
     updateProgress();
-    Q_EMIT progress(m_currentItem->progress(), message);
+
+    if (m_currentItem)
+        Q_EMIT progress(m_currentItem->progress(), message);
 }
 
 void QueueExecutor::handleItemCompletion(QueueItem *item)
 {
     Task *task = taskForItem(item, i18n("complete an item"));
     if (!task)
+    {
+        failCurrentExecution(i18n("Task queue executor cannot complete an item without a task."));
         return;
+    }
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Task completed:" << task->name();
 
@@ -616,7 +670,10 @@ void QueueExecutor::handleItemFailure(QueueItem *item)
 {
     Task *task = taskForItem(item, i18n("fail an item"));
     if (!task)
+    {
+        failCurrentExecution(i18n("Task queue executor cannot fail an item without a task."));
         return;
+    }
 
     qCWarning(KSTARS_EKOS_SCHEDULER) << "Task failed:" << task->name()
                                      << "- Error:" << item->errorMessage();
@@ -633,11 +690,11 @@ void QueueExecutor::handleItemFailure(QueueItem *item)
 
 void QueueExecutor::handleActionFailure(TaskAction *action)
 {
-    if (!action || !m_currentItem)
+    if (!action)
         return;
 
-    Task *task = taskForItem(m_currentItem, i18n("handle an action failure"));
-    if (!task)
+    Task *task = nullptr;
+    if (!currentTaskFor(i18n("handle an action failure"), &task))
         return;
 
     // Check failure action policy
@@ -678,8 +735,8 @@ void QueueExecutor::handleActionFailure(TaskAction *action)
 
 void QueueExecutor::updateProgress()
 {
-    Task *task = taskForItem(m_currentItem, i18n("update progress"));
-    if (!task)
+    Task *task = nullptr;
+    if (!currentTaskFor(i18n("update progress"), &task))
         return;
 
     if (task->actionCount() == 0)

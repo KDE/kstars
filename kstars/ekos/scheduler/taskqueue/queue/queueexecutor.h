@@ -87,6 +87,8 @@ class QueueExecutor : public QObject
 
     private:
         Task *taskForItem(QueueItem *item, const QString &context);
+        bool currentTaskFor(const QString &context, Task **task = nullptr);
+        void failCurrentExecution(const QString &message);
         void clearCurrentExecution();
         void executeItem(QueueItem *item);
         void executeAction(TaskAction *action);
