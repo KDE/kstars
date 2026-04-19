@@ -221,19 +221,19 @@ bool QueueItem::loadFromJson(const QJsonObject &json)
     m_progressMessage.clear();
     m_errorMessage.clear();
 
-    // Load task
-    if (json.contains("task"))
+    const QJsonValue taskValue = json["task"];
+    if (!taskValue.isObject())
+        return false;
+
+    Task *task = new Task(this);
+    if (task->loadFromJson(taskValue.toObject()))
     {
-        Task *task = new Task(this);
-        if (task->loadFromJson(json["task"].toObject()))
-        {
-            setTask(task);
-        }
-        else
-        {
-            delete task;
-            return false;
-        }
+        setTask(task);
+    }
+    else
+    {
+        delete task;
+        return false;
     }
 
     return true;
