@@ -9,6 +9,8 @@
 #include "../tasktemplate.h"
 #include "../templatemanager.h"
 
+#include <ekos_scheduler_debug.h>
+
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -257,21 +259,27 @@ bool QueueManager::fromJson(const QJsonObject &json)
 
     // Load items
     QJsonArray itemsArray = json["items"].toArray();
+    int skippedItems = 0;
     for (const QJsonValue &val : itemsArray)
     {
         QueueItem *item = new QueueItem(this);
-        if (item->loadFromJson(val.toObject()))
+        if (item->loadFromJson(val.toObject()) && item->task())
         {
             m_items.append(item);
         }
         else
         {
             delete item;
+            skippedItems++;
         }
     }
 
+    if (skippedItems > 0)
+        qCWarning(KSTARS_EKOS_SCHEDULER) << "Skipped" << skippedItems << "invalid task queue item(s) while loading queue";
+
     // Restore state
     m_state = static_cast<QueueState>(json["state"].toInt());
+    m_currentItem = nullptr;
 
     // Restore current item
     if (json.contains("current_index"))
@@ -279,7 +287,9 @@ bool QueueManager::fromJson(const QJsonObject &json)
         int index = json["current_index"].toInt();
         if (index >= 0 && index < m_items.size())
         {
-            m_currentItem = m_items.at(index);
+            QueueItem *item = m_items.at(index);
+            if (item && item->task())
+                m_currentItem = item;
         }
     }
 
