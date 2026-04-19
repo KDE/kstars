@@ -10,6 +10,7 @@
 #include "../actions/taskaction.h"
 
 #include <QObject>
+#include <QPointer>
 #include <QTimer>
 
 namespace Ekos
@@ -53,11 +54,11 @@ class QueueExecutor : public QObject
 
         QueueItem *currentItem() const
         {
-            return m_currentItem;
+            return m_currentItem.data();
         }
         TaskAction *currentAction() const
         {
-            return m_currentAction;
+            return m_currentAction.data();
         }
 
     Q_SIGNALS:
@@ -98,9 +99,9 @@ class QueueExecutor : public QObject
         void handleActionFailure(TaskAction *action);
         void updateProgress();
 
-        QueueManager *m_manager = nullptr;
-        QueueItem *m_currentItem = nullptr;
-        TaskAction *m_currentAction = nullptr;
+        QPointer<QueueManager> m_manager;
+        QPointer<QueueItem> m_currentItem;
+        QPointer<TaskAction> m_currentAction;
         int m_currentActionIndex = -1;
 
         bool m_running = false;
