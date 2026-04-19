@@ -147,7 +147,7 @@ void QueueExecutor::failCurrentExecution(const QString &message)
     {
         m_currentItem->setErrorMessage(message);
         m_currentItem->setStatus(QueueItem::FAILED);
-        Q_EMIT itemFailed(m_currentItem, message);
+        Q_EMIT itemFailed(m_currentItem.data(), message);
     }
 
     if (m_running)
@@ -159,10 +159,10 @@ void QueueExecutor::failCurrentExecution(const QString &message)
 void QueueExecutor::clearCurrentExecution()
 {
     if (m_currentAction)
-        disconnect(m_currentAction, nullptr, this, nullptr);
+        disconnect(m_currentAction.data(), nullptr, this, nullptr);
 
     if (m_currentItem)
-        disconnect(m_currentItem, nullptr, this, nullptr);
+        disconnect(m_currentItem.data(), nullptr, this, nullptr);
 
     if (m_manager)
         m_manager->setCurrentItem(nullptr);
@@ -180,7 +180,8 @@ bool QueueExecutor::start()
         return false;
     }
 
-    if (!m_manager || m_manager->count() == 0)
+    QueueManager *manager = m_manager.data();
+    if (!manager || manager->count() == 0)
     {
         qCWarning(KSTARS_EKOS_SCHEDULER) << "Cannot start queue: no items";
         return false;
@@ -190,7 +191,7 @@ bool QueueExecutor::start()
     // interface requirements. Older queue files may need a template lookup.
     bool requiresDevices = false;
 
-    for (QueueItem *item : m_manager->items())
+    for (QueueItem *item : manager->items())
     {
         Task *task = taskForItem(item, i18n("start a queue"));
         if (!task)
@@ -245,9 +246,9 @@ bool QueueExecutor::start()
     m_paused = false;
     m_abortRequested = false;
 
-    Q_EMIT newLog(i18n("Starting task queue with %1 items", m_manager->count()));
+    Q_EMIT newLog(i18n("Starting task queue with %1 items", manager->count()));
 
-    m_manager->setState(QueueManager::RUNNING);
+    manager->setState(QueueManager::RUNNING);
     Q_EMIT started();
 
     // Start executing from first pending item
@@ -262,7 +263,8 @@ void QueueExecutor::pause()
         return;
 
     m_paused = true;
-    m_manager->setState(QueueManager::PAUSED);
+    if (m_manager)
+        m_manager->setState(QueueManager::PAUSED);
     Q_EMIT paused();
 }
 
@@ -272,7 +274,8 @@ void QueueExecutor::resume()
         return;
 
     m_paused = false;
-    m_manager->setState(QueueManager::RUNNING);
+    if (m_manager)
+        m_manager->setState(QueueManager::RUNNING);
     Q_EMIT resumed();
 
     // Continue execution
@@ -291,7 +294,8 @@ void QueueExecutor::stop()
     m_paused = false;
     clearCurrentExecution();
 
-    m_manager->setState(QueueManager::IDLE);
+    if (m_manager)
+        m_manager->setState(QueueManager::IDLE);
     Q_EMIT stopped();
 }
 
@@ -302,12 +306,12 @@ void QueueExecutor::abort()
 
     m_abortRequested = true;
 
-    TaskAction *action = m_currentAction;
+    TaskAction *action = m_currentAction.data();
     if (action)
         disconnect(action, nullptr, this, nullptr);
 
     if (m_currentItem)
-        disconnect(m_currentItem, nullptr, this, nullptr);
+        disconnect(m_currentItem.data(), nullptr, this, nullptr);
 
     if (action && action->status() == TaskAction::Status::RUNNING)
         action->abort();
@@ -316,7 +320,8 @@ void QueueExecutor::abort()
     m_paused = false;
     clearCurrentExecution();
 
-    m_manager->setState(QueueManager::ABORTED);
+    if (m_manager)
+        m_manager->setState(QueueManager::ABORTED);
     Q_EMIT aborted();
     Q_EMIT stopped();
 }
@@ -325,6 +330,12 @@ void QueueExecutor::executeNext()
 {
     if (!m_running || m_paused || m_abortRequested)
         return;
+
+    if (!m_manager)
+    {
+        failCurrentExecution(i18n("Task queue executor cannot continue because the queue manager is unavailable."));
+        return;
+    }
 
     // Find next pending item
     QueueItem *nextItem = nullptr;
@@ -361,7 +372,8 @@ void QueueExecutor::executeNext()
     {
         // Queue completed
         m_running = false;
-        m_manager->setState(QueueManager::COMPLETED);
+        if (m_manager)
+            m_manager->setState(QueueManager::COMPLETED);
         Q_EMIT completed();
         return;
     }
@@ -377,7 +389,8 @@ void QueueExecutor::executeItem(QueueItem *item)
 
     m_currentItem = item;
     m_currentActionIndex = 0;
-    m_manager->setCurrentItem(item);
+    if (m_manager)
+        m_manager->setCurrentItem(item);
 
     // Connect to item signals
     connect(item, &QueueItem::statusChanged,
@@ -468,7 +481,7 @@ void QueueExecutor::executeItem(QueueItem *item)
 
     // Execute first action
     m_currentAction = task->actions().first();
-    executeAction(m_currentAction);
+    executeAction(m_currentAction.data());
 }
 
 void QueueExecutor::handleMissingDevice(QueueItem *item, const QString &errorMsg)
@@ -572,7 +585,7 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
         return;
 
     TaskAction *action = qobject_cast<TaskAction *>(sender());
-    if (!action || action != m_currentAction)
+    if (!action || action != m_currentAction.data())
         return;
 
     Task *task = nullptr;
@@ -594,12 +607,12 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
             if (m_currentActionIndex < task->actions().size())
             {
                 m_currentAction = task->actions().at(m_currentActionIndex);
-                executeAction(m_currentAction);
+                executeAction(m_currentAction.data());
             }
             else
             {
                 // All actions completed
-                handleItemCompletion(m_currentItem);
+                handleItemCompletion(m_currentItem.data());
             }
             break;
 
@@ -622,7 +635,7 @@ void QueueExecutor::onActionStatusChanged(TaskAction::Status status)
             emit newLog(i18n("Task '%1', action %2 aborted.",
                              task->name(), m_currentActionIndex + 1));
             // Action was aborted
-            handleItemFailure(m_currentItem);
+            handleItemFailure(m_currentItem.data());
             break;
 
         default:
@@ -704,7 +717,7 @@ void QueueExecutor::handleActionFailure(TaskAction *action)
             qCWarning(KSTARS_EKOS_SCHEDULER) << "Failure action: Aborting entire queue";
             // Abort entire queue
             m_currentItem->setErrorMessage(action->errorMessage());
-            handleItemFailure(m_currentItem);
+            handleItemFailure(m_currentItem.data());
             break;
 
         case TaskAction::CONTINUE:
@@ -714,12 +727,12 @@ void QueueExecutor::handleActionFailure(TaskAction *action)
             if (m_currentActionIndex < task->actions().size())
             {
                 m_currentAction = task->actions().at(m_currentActionIndex);
-                executeAction(m_currentAction);
+                executeAction(m_currentAction.data());
             }
             else
             {
                 // No more actions, complete item despite error
-                handleItemCompletion(m_currentItem);
+                handleItemCompletion(m_currentItem.data());
             }
             break;
 
