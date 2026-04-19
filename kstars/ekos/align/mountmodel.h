@@ -89,6 +89,9 @@ class MountModel : public QDialog, public Ui::mountModel
         int findClosestAlignmentPointToTelescope();
         void swapAlignPoints(int firstPt, int secondPt);
 
+        void saveAndOverrideSolverSettings();
+        void restoreSolverSettings();
+
         /**
              * @brief Get formatted RA & DEC coordinates compatible with astrometry.net format.
              * @param ra Right ascension
@@ -111,6 +114,12 @@ class MountModel : public QDialog, public Ui::mountModel
         QVector<const StarObject *> alignStars;
         QUrl alignURL;
         SkyPoint telescopeCoord;
+
+        // Saved solver settings restored after model run
+        bool m_solverSettingsSaved { false };
+        bool m_savedUsePosition { false };
+        bool m_savedUseScale { false };
+        int m_savedGotoMode { 2 };  // Align::GOTO_NOTHING -- safe no-op default
 
 
 };

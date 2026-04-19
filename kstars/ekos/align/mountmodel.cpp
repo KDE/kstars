@@ -7,6 +7,7 @@
 #include "mountmodel.h"
 
 #include "align.h"
+#include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "flagcomponent.h"
@@ -119,7 +120,8 @@ MountModel::MountModel(Align *parent) : QDialog(parent)
 
 MountModel::~MountModel()
 {
-
+    if (m_solverSettingsSaved)
+        restoreSolverSettings();
 }
 
 void MountModel::generateAlignStarList()
@@ -964,6 +966,8 @@ void MountModel::resetAlignmentProcedure()
     statusReport->setIcon(QIcon(":/icons/AlignWarning.svg"));
     alignTable->setItem(currentAlignmentPoint, 3, statusReport);
 
+    if (m_solverSettingsSaved)
+        restoreSolverSettings();
     Q_EMIT newLog(i18n("The Mount Model Tool is Reset."));
     startAlignB->setIcon(
         QIcon::fromTheme("media-playback-start"));
@@ -1028,6 +1032,7 @@ void MountModel::startStopAlignmentProcedure()
             startAlignB->setIcon(
                 QIcon::fromTheme("media-playback-pause"));
             m_IsRunning = true;
+            saveAndOverrideSolverSettings();
             Q_EMIT newLog(i18n("The Mount Model Tool is Starting."));
             startAlignmentPoint();
         }
@@ -1040,6 +1045,7 @@ void MountModel::startStopAlignmentProcedure()
         Q_EMIT newLog(i18n("The Mount Model Tool is Paused."));
         Q_EMIT aborted();
         m_IsRunning = false;
+        restoreSolverSettings();
 
         QTableWidgetItem *statusReport = new QTableWidgetItem();
         statusReport->setFlags(Qt::ItemIsSelectable);
@@ -1067,7 +1073,10 @@ void MountModel::startAlignmentPoint()
         alignIndicator->startAnimation();
 
         const SkyObject *target = getWizardAlignObject(raDeg, dec);
-        m_AlignInstance->setTarget(*target);
+        if (target)
+            m_AlignInstance->setTarget(*target);
+        else
+            m_AlignInstance->setTarget(SkyPoint(raDMS, decDMS));
         m_AlignInstance->Slew();
     }
 }
@@ -1094,12 +1103,40 @@ void MountModel::finishAlignmentPoint(bool solverSucceeded)
         else
         {
             m_IsRunning = false;
+            restoreSolverSettings();
             startAlignB->setIcon(
                 QIcon::fromTheme("media-playback-start"));
             Q_EMIT newLog(i18n("The Mount Model Tool is Finished."));
             currentAlignmentPoint = 0;
         }
     }
+}
+
+void MountModel::saveAndOverrideSolverSettings()
+{
+    m_savedUsePosition = Options::astrometryUsePosition();
+    m_savedUseScale    = Options::astrometryUseImageScale();
+    m_savedGotoMode    = static_cast<int>(m_AlignInstance->currentGOTOMode());
+    m_solverSettingsSaved = true;
+
+    Options::setAstrometryUsePosition(false);
+    Options::setAstrometryUseImageScale(false);
+
+    // Only override the goto mode if it is not already GOTO_NOTHING (report-only run)
+    if (m_AlignInstance->currentGOTOMode() != Align::GOTO_NOTHING)
+        m_AlignInstance->setSolverAction(Align::GOTO_SYNC);
+
+    emit newLog(i18n("Mount model: forcing blind solve and sync for each alignment point."));
+}
+
+void MountModel::restoreSolverSettings()
+{
+    if (!m_solverSettingsSaved)
+        return;
+    Options::setAstrometryUsePosition(m_savedUsePosition);
+    Options::setAstrometryUseImageScale(m_savedUseScale);
+    m_AlignInstance->setSolverAction(static_cast<int>(m_savedGotoMode));
+    m_solverSettingsSaved = false;
 }
 
 void MountModel::setAlignStatus(Ekos::AlignState state)
