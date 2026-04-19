@@ -36,6 +36,7 @@ class MountModel : public QDialog, public Ui::mountModel
             OBJECT_ANY_STAR,
             OBJECT_NAMED_STAR,
             OBJECT_ANY_OBJECT,
+            OBJECT_HALTON_SEQUENCE,
             OBJECT_FIXED_DEC,
             OBJECT_FIXED_GRID
         };
@@ -88,6 +89,7 @@ class MountModel : public QDialog, public Ui::mountModel
         int findNextAlignmentPointAfter(int currentSpot);
         int findClosestAlignmentPointToTelescope();
         void swapAlignPoints(int firstPt, int secondPt);
+        double halton(int index, int base);
 
         void saveAndOverrideSolverSettings();
         void restoreSolverSettings();

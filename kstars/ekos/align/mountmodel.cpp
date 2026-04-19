@@ -557,6 +557,118 @@ void MountModel::slotWizardAlignmentPoints()
         }
     }
 
+    if (alignTypeBox->currentIndex() == OBJECT_HALTON_SEQUENCE ||
+        alignTypeBox->currentIndex() == OBJECT_NAMED_STAR ||
+        alignTypeBox->currentIndex() == OBJECT_ANY_STAR ||
+        alignTypeBox->currentIndex() == OBJECT_ANY_OBJECT)
+    {
+        // Generate points directly in AltAz space so every point is above the
+        // horizon by construction.  85 deg ceiling avoids the azimuth singularity
+        // near zenith.  Points whose declination exceeds +-80 deg after conversion
+        // are discarded (not clamped) so the stored (ra, dec) always corresponds
+        // to the generated AltAz position.
+        constexpr double maxAlt    = 85.0;
+        constexpr double maxAbsDec = 80.0;
+        double sinMin = std::sin(minAlt * dms::DegToRad);
+        double sinMax = std::sin(maxAlt * dms::DegToRad);
+
+        const bool snap = alignTypeBox->currentIndex() != OBJECT_HALTON_SEQUENCE;
+        QSet<const SkyObject *> usedObjects;
+        struct Point { QString ra, dec, name; };
+        QVector<Point> newPoints;
+
+        // Iterate through the Halton sequence until we have enough points.
+        // Use a generous upper bound to handle sparse catalogues at high latitudes.
+        const int maxCandidates = qMax(points * 10, 200);
+        for (int i = 1; i <= maxCandidates && newPoints.size() < points; i++)
+        {
+            double az  = halton(i, 2) * 360.0;
+            double alt = std::asin(sinMin + halton(i, 3) * (sinMax - sinMin)) / dms::DegToRad;
+
+            SkyPoint sp;
+            sp.setAlt(alt);
+            sp.setAz(az);
+            sp.HorizontalToEquatorial(data->lst(), data->geo()->lat());
+
+            double ra  = sp.ra().Hours();
+            double dec = sp.dec().Degrees();
+            if (std::abs(dec) > maxAbsDec)
+                continue;
+
+            QString ra_report, dec_report, name;
+
+            if (snap)
+            {
+                const SkyObject *obj = getWizardAlignObject(ra * 15.0, dec);
+                if (!obj)
+                    continue;
+                if (usedObjects.contains(obj))
+                    continue;
+                usedObjects.insert(obj);
+                SkyObject *o = obj->clone();
+                o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
+                getFormattedCoords(o->ra0().Hours(), o->dec0().Degrees(), ra_report, dec_report);
+                name = o->longname();
+                delete o;
+            }
+            else
+            {
+                getFormattedCoords(ra, dec, ra_report, dec_report);
+                name = i18n("Sky Point");
+            }
+
+            newPoints.append({ra_report, dec_report, name});
+        }
+
+        if (newPoints.size() < points)
+            Q_EMIT newLog(i18n("Warning: only %1 of %2 requested alignment points could be placed.",
+                               newPoints.size(), points));
+
+        // Determine start point for sorting: last existing row, or telescope if table is empty.
+        SkyPoint sortStart = telescopeCoord;
+        int lastExistingRow = alignTable->rowCount() - 1;
+        if (lastExistingRow >= 0)
+        {
+            QTableWidgetItem *raCell  = alignTable->item(lastExistingRow, 0);
+            QTableWidgetItem *decCell = alignTable->item(lastExistingRow, 1);
+            if (raCell && decCell)
+                sortStart = SkyPoint(dms::fromString(raCell->text(), false),
+                                     dms::fromString(decCell->text(), true));
+        }
+        const int firstNewRow = alignTable->rowCount();
+
+        for (const auto &pt : newPoints)
+        {
+            int currentRow = alignTable->rowCount();
+            alignTable->insertRow(currentRow);
+
+            QTableWidgetItem *RAReport = new QTableWidgetItem();
+            RAReport->setText(pt.ra);
+            RAReport->setTextAlignment(Qt::AlignHCenter);
+            alignTable->setItem(currentRow, 0, RAReport);
+
+            QTableWidgetItem *DECReport = new QTableWidgetItem();
+            DECReport->setText(pt.dec);
+            DECReport->setTextAlignment(Qt::AlignHCenter);
+            alignTable->setItem(currentRow, 1, DECReport);
+
+            QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
+            ObjNameReport->setText(pt.name);
+            ObjNameReport->setTextAlignment(Qt::AlignHCenter);
+            alignTable->setItem(currentRow, 2, ObjNameReport);
+
+            QTableWidgetItem *disabledBox = new QTableWidgetItem();
+            disabledBox->setFlags(Qt::ItemIsSelectable);
+            alignTable->setItem(currentRow, 3, disabledBox);
+        }
+
+        sortTableRows(firstNewRow, sortStart);
+
+        if (previewShowing)
+            updatePreviewAlignPoints();
+        return;
+    }
+
     //If there are less than 6 points, keep them all in the same DEC,
     //any more, set the num per row to be the sqrt of the points to evenly distribute in RA and DEC
     int numRAperDEC = 5;
@@ -739,6 +851,20 @@ void MountModel::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZW
     AZWest.setRadians(2.0 * dms::PI - AZRad);
 }
 
+double MountModel::halton(int index, int base)
+{
+    double result = 0;
+    double f      = 1.0 / base;
+    int i         = index;
+    while (i > 0)
+    {
+        result += f * (i % base);
+        i /= base;
+        f /= base;
+    }
+    return result;
+}
+
 const SkyObject *MountModel::getWizardAlignObject(double ra, double dec)
 {
     double maxSearch = 5.0;
@@ -748,6 +874,7 @@ const SkyObject *MountModel::getWizardAlignObject(double ra, double dec)
             return KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch);
         case OBJECT_FIXED_DEC:
         case OBJECT_FIXED_GRID:
+        case OBJECT_HALTON_SEQUENCE:
             return nullptr;
 
         case OBJECT_ANY_STAR:
@@ -1059,11 +1186,14 @@ void MountModel::startAlignmentPoint()
     if (m_IsRunning && currentAlignmentPoint >= 0 && currentAlignmentPoint < alignTable->rowCount())
     {
         QTableWidgetItem *raCell = alignTable->item(currentAlignmentPoint, 0);
+        QTableWidgetItem *decCell = alignTable->item(currentAlignmentPoint, 1);
+        if (!raCell || !decCell)
+            return;
+
         QString raString         = raCell->text();
         dms raDMS                = dms::fromString(raString, false);
         double raDeg             = raDMS.Degrees();
 
-        QTableWidgetItem *decCell = alignTable->item(currentAlignmentPoint, 1);
         QString decString         = decCell->text();
         dms decDMS                = dms::fromString(decString, true);
         double dec                = decDMS.Degrees();
