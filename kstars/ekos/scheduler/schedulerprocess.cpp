@@ -3345,6 +3345,12 @@ void SchedulerProcess::queueExecutionCompleted()
     {
         appendLogText(i18n("Post-shutdown queue completed successfully."));
         moduleState()->setShutdownState(SHUTDOWN_COMPLETE);
+        // Immediately finalize shutdown: log completion, stop the scheduler (or enter
+        // weather monitoring mode). Without this call the RUN_SHUTDOWN timer fires ~1 s
+        // later, the guard at the top of checkShutdownState() sees SHUTDOWN_COMPLETE
+        // while INDI is still connected (stopEkosAfterShutdown == false) and resets the
+        // state back to SHUTDOWN_IDLE, causing an infinite shutdown loop.
+        completeShutdown();
         return;
     }
 }
@@ -4232,15 +4238,15 @@ bool SchedulerProcess::isMountParked()
         // Deduce state of mount - see getParkingStatus in mount.cpp
         switch (static_cast<ISD::ParkStatus>(parkingStatus.toInt()))
         {
-                //            case Mount::PARKING_OK:     // INDI switch ok, and parked
-                //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
+            //            case Mount::PARKING_OK:     // INDI switch ok, and parked
+            //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
             case ISD::PARK_PARKED:
                 return true;
 
-                //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
-                //            case Mount::PARKING_ERROR:  // INDI switch error
-                //            case Mount::PARKING_BUSY:   // INDI switch busy
-                //            case Mount::UNPARKING_BUSY: // INDI switch busy
+            //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
+            //            case Mount::PARKING_ERROR:  // INDI switch error
+            //            case Mount::PARKING_BUSY:   // INDI switch busy
+            //            case Mount::UNPARKING_BUSY: // INDI switch busy
             default:
                 return false;
         }
@@ -4760,8 +4766,8 @@ void SchedulerProcess::showStartupQueueFailurePopup()
 
     KSMessageBox::Instance()->sorry(i18n("Startup Queue Failed"),
                                     i18n("The scheduler startup queue has failed:\n\n%1\n\n"
-         "The scheduler has been stopped. Please check the log for details "
-         "and correct the issue before restarting.", errorMessage), 30);
+                                         "The scheduler has been stopped. Please check the log for details "
+                                         "and correct the issue before restarting.", errorMessage), 30);
 }
 
 void SchedulerProcess::resetLatchedStartupErrorIfQueuesDisabled()
