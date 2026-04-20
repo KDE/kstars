@@ -205,8 +205,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     sortJobsB->setIcon(QIcon::fromTheme("transform-move-vertical"));
     sortJobsB->setToolTip(
         i18n("Reset state and sort observation jobs per altitude and movement in sky, using the start time of the first job.\n"
-         "This action sorts setting targets before rising targets, and may help scheduling when starting your observation.\n"
-         "Note the algorithm first calculates all altitudes using the same time, then evaluates jobs."));
+             "This action sorts setting targets before rising targets, and may help scheduling when starting your observation.\n"
+             "Note the algorithm first calculates all altitudes using the same time, then evaluates jobs."));
     sortJobsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
     mosaicB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -1003,13 +1003,29 @@ void Scheduler::clearPreStartupQueue()
 
 void Scheduler::clearPostStartupQueue()
 {
-    schedulerPostStartupScript->setText(QString());
+    if (schedulerPostStartupScript->text().isEmpty())
+    {
+        schedulerPostStartupScript->setText(KSPaths::locate(QStandardPaths::AppLocalDataLocation,
+                                            "taskqueue/collections/observatory_startup.json"));
+    }
+    else
+    {
+        schedulerPostStartupScript->setText(QString());
+    }
     moduleState()->setDirty(true);
 }
 
 void Scheduler::clearPreShutdownQueue()
 {
-    schedulerPreShutdownScript->setText(QString());
+    if (schedulerPreShutdownScript->text().isEmpty())
+    {
+        schedulerPreShutdownScript->setText(KSPaths::locate(QStandardPaths::AppLocalDataLocation,
+                                            "taskqueue/collections/observatory_shutdown.json"));
+    }
+    else
+    {
+        schedulerPreShutdownScript->setText(QString());
+    }
     moduleState()->setDirty(true);
 }
 
