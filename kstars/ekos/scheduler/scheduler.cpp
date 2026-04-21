@@ -1093,6 +1093,20 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
         return false;
     }
 
+    // Check for duplicate job name (skip if editing the same job)
+    for (auto *existingJob : moduleState()->jobs())
+    {
+        if (existingJob == job)
+            continue;
+        if (existingJob->getName() == nameEdit->text())
+        {
+            process()->appendLogText(
+                i18n("Warning: A job with name '%1' already exists. Please use a unique name.",
+                     nameEdit->text()));
+            return false;
+        }
+    }
+
     if (sequenceEdit->text().isEmpty())
     {
         process()->appendLogText(i18n("Warning: Sequence file is required."));
