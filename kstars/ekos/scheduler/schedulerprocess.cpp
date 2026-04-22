@@ -3307,6 +3307,14 @@ void SchedulerProcess::queueExecutionCompleted()
             appendLogText(i18n("Resuming scheduler after safety recovery startup tasks..."));
             execute();
         }
+        else if (moduleState()->schedulerState() == SCHEDULER_RUNNING)
+        {
+            // Scheduler is already running (e.g. weather recovery while scheduler was active).
+            // Force a RUN_SCHEDULER iteration so checkStatus() evaluates jobs.
+            // Without this, execute() is a no-op when schedulerState is already RUNNING, and the
+            // scheduler never proceeds past the post-startup queue completion.
+            moduleState()->setupNextIteration(RUN_SCHEDULER);
+        }
         return;
     }
 

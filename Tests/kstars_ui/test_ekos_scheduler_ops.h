@@ -60,6 +60,7 @@ class TestEkosSchedulerOps : public QObject
         void testDawnShutdown();
         void testPreemptiveShutdown();
         void testPreemptiveShutdownTimerSwitchOnQueueComplete();
+        void testWeatherRecoveryAfterDawnRunsShutdown();
 
         // Weather soft-shutdown → recovery state-machine tests.
         // testWeatherSoftShutdownSimulator goes through the full Ekos/INDI simulator
