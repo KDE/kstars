@@ -159,9 +159,17 @@ void VideoWG::mouseReleaseEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
+        if (!rubberBand)
+            return;
+
         rubberBand->hide();
 
-        if (event->button() == Qt::RightButton)
+        // Guard: kPix must be valid (i.e. at least one frame has been displayed)
+        // and streamImage must be non-null before we compute the scale factors.
+        // If kPix has zero width/height the division below would produce Inf/NaN,
+        // which Qt's checked-integer arithmetic would then abort on.
+        if (kPix.isNull() || kPix.width() <= 0 || kPix.height() <= 0 ||
+                streamImage.isNull() || streamImage->isNull())
         {
             emit newSelection(QRect());
             return;
@@ -176,10 +184,17 @@ void VideoWG::mouseReleaseEvent(QMouseEvent *event)
         double scaleX = static_cast<double>(streamImage->width()) / kPix.width();
         double scaleY = static_cast<double>(streamImage->height()) / kPix.height();
 
-        finalSelection.setX((rawSelection.x() - pixmapX) * scaleX);
-        finalSelection.setY((rawSelection.y() - pixmapY) * scaleY);
-        finalSelection.setWidth(rawSelection.width() * scaleX);
-        finalSelection.setHeight(rawSelection.height() * scaleY);
+        // Protect against NaN / Inf that could arise from unexpected edge cases
+        if (!std::isfinite(scaleX) || !std::isfinite(scaleY))
+        {
+            Q_EMIT newSelection(QRect());
+            return;
+        }
+
+        finalSelection.setX(qRound((rawSelection.x() - pixmapX) * scaleX));
+        finalSelection.setY(qRound((rawSelection.y() - pixmapY) * scaleY));
+        finalSelection.setWidth(qRound(rawSelection.width() * scaleX));
+        finalSelection.setHeight(qRound(rawSelection.height() * scaleY));
 
         emit newSelection(finalSelection);
         // determine selection, for example using QRect::intersects()
