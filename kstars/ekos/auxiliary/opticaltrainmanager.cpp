@@ -1167,11 +1167,11 @@ ISD::AdaptiveOptics *OpticalTrainManager::getAdaptiveOptics(const QString &name)
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
-const QVariantMap OpticalTrainManager::getOpticalTrain(uint8_t id) const
+const QVariantMap OpticalTrainManager::getOpticalTrain(uint32_t id) const
 {
     for (auto &oneTrain : m_OpticalTrains)
     {
-        if (oneTrain["id"].toInt() == id)
+        if (oneTrain["id"].toUInt() == id)
             return oneTrain;
     }
 
@@ -1181,11 +1181,11 @@ const QVariantMap OpticalTrainManager::getOpticalTrain(uint8_t id) const
 ////////////////////////////////////////////////////////////////////////////
 ///
 ////////////////////////////////////////////////////////////////////////////
-bool OpticalTrainManager::exists(uint8_t id) const
+bool OpticalTrainManager::exists(uint32_t id) const
 {
     for (auto &oneTrain : m_OpticalTrains)
     {
-        if (oneTrain["id"].toInt() == id)
+        if (oneTrain["id"].toUInt() == id)
             return true;
     }
 
