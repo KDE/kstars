@@ -19,4 +19,18 @@ TARGET_LINK_LIBRARIES( testtaskqueueexecutor ${TEST_LIBRARIES})
 ADD_TEST( NAME SchedulerTaskQueueExecutorTest COMMAND testtaskqueueexecutor )
 SET_TESTS_PROPERTIES( SchedulerTaskQueueExecutorTest PROPERTIES LABELS "stable" TIMEOUT 60)
 
+SET( SchedulerTaskQueueItemTests_SRCS testtaskqueueitem.cpp  )
+
+ADD_EXECUTABLE( testtaskqueueitem testtaskqueueitem.cpp )
+TARGET_LINK_LIBRARIES( testtaskqueueitem ${TEST_LIBRARIES})
+ADD_TEST( NAME SchedulerTaskQueueItemTest COMMAND testtaskqueueitem )
+SET_TESTS_PROPERTIES( SchedulerTaskQueueItemTest PROPERTIES LABELS "stable" TIMEOUT 60)
+
+SET( SchedulerTaskQueueManagerTests_SRCS testtaskqueuemanager.cpp  )
+
+ADD_EXECUTABLE( testtaskqueuemanager testtaskqueuemanager.cpp )
+TARGET_LINK_LIBRARIES( testtaskqueuemanager ${TEST_LIBRARIES})
+ADD_TEST( NAME SchedulerTaskQueueManagerTest COMMAND testtaskqueuemanager )
+SET_TESTS_PROPERTIES( SchedulerTaskQueueManagerTest PROPERTIES LABELS "stable" TIMEOUT 60)
+
 ENDIF ()
