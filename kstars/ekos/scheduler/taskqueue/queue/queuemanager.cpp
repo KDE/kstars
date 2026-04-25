@@ -30,6 +30,19 @@ QueueManager::~QueueManager()
     clear();
 }
 
+bool QueueManager::isExecutionLocked() const
+{
+    return m_state == RUNNING || m_state == PAUSED;
+}
+
+QueueManager::QueueState QueueManager::normalizedState(int stateValue) const
+{
+    if (stateValue < IDLE || stateValue > ABORTED)
+        return IDLE;
+
+    return static_cast<QueueState>(stateValue);
+}
+
 void QueueManager::addItem(QueueItem *item)
 {
     if (!item)
@@ -58,10 +71,12 @@ bool QueueManager::removeItem(int index)
     QueueItem *item = m_items.at(index);
 
     // Don't remove currently executing item
-    if (item == m_currentItem && m_state == RUNNING)
+    if (item == m_currentItem && isExecutionLocked())
         return false;
 
     m_items.removeAt(index);
+    if (item == m_currentItem)
+        setCurrentItem(nullptr);
     Q_EMIT itemRemoved(item, index);
 
     // Delete the item
@@ -81,8 +96,8 @@ bool QueueManager::removeItem(QueueItem *item)
 
 void QueueManager::clear()
 {
-    // Don't clear while running
-    if (m_state == RUNNING)
+    // Don't clear while the executor may still be holding queue item state.
+    if (isExecutionLocked())
         return;
 
     // Use deleteLater() to allow proper cleanup of device connections
@@ -94,7 +109,7 @@ void QueueManager::clear()
     }
 
     m_items.clear();
-    m_currentItem = nullptr;
+    setCurrentItem(nullptr);
 
     Q_EMIT queueCleared();
 }
@@ -108,8 +123,8 @@ bool QueueManager::moveItem(int fromIndex, int toIndex)
     if (fromIndex == toIndex)
         return true;
 
-    // Don't move currently executing item
-    if (m_items.at(fromIndex) == m_currentItem && m_state == RUNNING)
+    // Don't move the current item while the queue is active.
+    if (m_items.at(fromIndex) == m_currentItem && isExecutionLocked())
         return false;
 
     m_items.move(fromIndex, toIndex);
@@ -158,6 +173,12 @@ void QueueManager::setState(QueueState state)
 
 void QueueManager::setCurrentItem(QueueItem *item)
 {
+    if (item && !m_items.contains(item))
+    {
+        qCWarning(KSTARS_EKOS_SCHEDULER) << "Ignoring current queue item that is not owned by the queue manager";
+        return;
+    }
+
     if (m_currentItem != item)
     {
         m_currentItem = item;
@@ -167,7 +188,7 @@ void QueueManager::setCurrentItem(QueueItem *item)
 
 int QueueManager::currentIndex() const
 {
-    return m_items.indexOf(m_currentItem);
+    return m_items.indexOf(m_currentItem.data());
 }
 
 bool QueueManager::saveQueue(const QString &filePath)
@@ -238,9 +259,10 @@ QJsonObject QueueManager::toJson() const
     json["version"] = "1.0";
     json["state"] = static_cast<int>(m_state);
 
-    if (m_currentItem)
+    const int currentIndex = m_items.indexOf(m_currentItem.data());
+    if (currentIndex >= 0)
     {
-        json["current_index"] = m_items.indexOf(m_currentItem);
+        json["current_index"] = currentIndex;
     }
 
     QJsonArray itemsArray;
@@ -255,6 +277,12 @@ QJsonObject QueueManager::toJson() const
 
 bool QueueManager::fromJson(const QJsonObject &json)
 {
+    if (isExecutionLocked())
+    {
+        qCWarning(KSTARS_EKOS_SCHEDULER) << "Cannot load a task queue while queue execution is active";
+        return false;
+    }
+
     // Clear existing queue
     clear();
 
@@ -279,7 +307,7 @@ bool QueueManager::fromJson(const QJsonObject &json)
         qCWarning(KSTARS_EKOS_SCHEDULER) << "Skipped" << skippedItems << "invalid task queue item(s) while loading queue";
 
     // Restore state
-    m_state = static_cast<QueueState>(json["state"].toInt());
+    m_state = normalizedState(json["state"].toInt(IDLE));
     m_currentItem = nullptr;
 
     // Restore current item
@@ -335,8 +363,8 @@ int QueueManager::pendingCount() const
 
 void QueueManager::resetAllItems()
 {
-    // Don't reset while running
-    if (m_state == RUNNING)
+    // Don't reset while the executor may still be holding queue item state.
+    if (isExecutionLocked())
         return;
 
     for (QueueItem *item : m_items)
@@ -351,7 +379,7 @@ void QueueManager::resetAllItems()
 
     // Reset queue state to IDLE
     m_state = IDLE;
-    m_currentItem = nullptr;
+    setCurrentItem(nullptr);
 
     Q_EMIT itemsReset();
 }
@@ -429,6 +457,12 @@ bool QueueManager::addDelayTask(int delaySeconds)
 
 bool QueueManager::loadCollectionFromJson(const QJsonObject &json)
 {
+    if (isExecutionLocked())
+    {
+        qCWarning(KSTARS_EKOS_SCHEDULER) << "Cannot load a task collection while queue execution is active";
+        return false;
+    }
+
     // Clear existing queue
     clear();
 
