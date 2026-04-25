@@ -29,27 +29,32 @@ QueueItem::QueueItem(Task *task, QObject *parent)
 QueueItem::~QueueItem()
 {
     // Task is owned by this QueueItem
-    delete m_task;
+    delete m_task.data();
 }
 
 void QueueItem::setTask(Task *task)
 {
+    if (m_task.data() == task)
+        return;
+
     if (m_task)
     {
-        disconnect(m_task, nullptr, this, nullptr);
-        delete m_task;
+        Task *oldTask = m_task.data();
+        disconnect(oldTask, nullptr, this, nullptr);
+        delete oldTask;
     }
 
     m_task = task;
 
     if (m_task)
     {
-        m_task->setParent(this);
+        Task *newTask = m_task.data();
+        newTask->setParent(this);
 
         // Connect task signals
-        connect(m_task, &Task::statusChanged,
+        connect(newTask, &Task::statusChanged,
                 this, &QueueItem::onTaskStatusChanged);
-        connect(m_task, &Task::progress,
+        connect(newTask, &Task::progress,
                 this, &QueueItem::onTaskProgress);
     }
 }
@@ -206,6 +211,18 @@ QJsonObject QueueItem::toJson() const
 
 bool QueueItem::loadFromJson(const QJsonObject &json)
 {
+    // Validate the replacement task first so failed loads leave this item unchanged.
+    const QJsonValue taskValue = json["task"];
+    if (!taskValue.isObject())
+        return false;
+
+    Task *task = new Task;
+    if (!task->loadFromJson(taskValue.toObject()))
+    {
+        delete task;
+        return false;
+    }
+
     m_id = json["id"].toString();
     // Reset status to PENDING when loading - tasks should be re-runnable
     m_status = PENDING;
@@ -221,20 +238,7 @@ bool QueueItem::loadFromJson(const QJsonObject &json)
     m_progressMessage.clear();
     m_errorMessage.clear();
 
-    const QJsonValue taskValue = json["task"];
-    if (!taskValue.isObject())
-        return false;
-
-    Task *task = new Task(this);
-    if (task->loadFromJson(taskValue.toObject()))
-    {
-        setTask(task);
-    }
-    else
-    {
-        delete task;
-        return false;
-    }
+    setTask(task);
 
     return true;
 }

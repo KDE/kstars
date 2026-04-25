@@ -9,6 +9,7 @@
 #include "../task.h"
 
 #include <QObject>
+#include <QPointer>
 #include <QString>
 #include <QDateTime>
 
@@ -49,7 +50,7 @@ class QueueItem : public QObject
         // Task access
         Task *task() const
         {
-            return m_task;
+            return m_task.data();
         }
         void setTask(Task *task);
 
@@ -143,7 +144,8 @@ class QueueItem : public QObject
 
     private:
         QString m_id;
-        Task *m_task = nullptr;
+        // QueueItem owns the task; QPointer clears if external code destroys it.
+        QPointer<Task> m_task;
         Status m_status = PENDING;
 
         // Timestamps
