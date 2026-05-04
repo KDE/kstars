@@ -65,18 +65,25 @@ bool VideoWG::newFrame(IBLOB *bp)
         rc = streamImage->loadFromData(static_cast<uchar *>(bp->blob), bp->size);
     else if (static_cast<uint32_t>(bp->size) == totalBaseCount)
     {
-        // The blob buffer is owned by the INDI library and may be freed or reused as soon as
-        // newFrame() returns (shared-memory path) or on the next frame (heap path).  Wrap it
-        // in a temporary non-owning QImage only long enough to produce an owned deep copy,
-        // exactly as debayer1394() and debayerCV() do.
-        //
-        // Always supply bytesPerLine explicitly (= streamW * bytes-per-pixel, no padding).
-        // The 4-argument QImage constructor auto-aligns to 4-byte boundaries, so for widths
-        // that are not multiples of 4 (e.g. 406) it would compute bpl=408 and index 2 bytes
-        // past the end of each row, shearing every subsequent row in the display.
+        // 8-bit mono
         QImage img(static_cast<uchar *>(bp->blob), streamW, streamH,
                    static_cast<qsizetype>(streamW), QImage::Format_Indexed8);
         img.setColorTable(grayTable);
+        streamImage.reset(new QImage(img.copy()));
+        rc = !streamImage->isNull();
+    }
+    else if (static_cast<uint32_t>(bp->size) == totalBaseCount * 2)
+    {
+        // 16-bit mono — downscale to 8-bit for display by taking the high byte
+        QImage img(streamW, streamH, QImage::Format_Indexed8);
+        img.setColorTable(grayTable);
+        const uint16_t *src = static_cast<const uint16_t *>(bp->blob);
+        for (int y = 0; y < streamH; ++y)
+        {
+            uchar *dst = img.scanLine(y);
+            for (int x = 0; x < streamW; ++x)
+                dst[x] = static_cast<uchar>(src[y * streamW + x] >> 8);
+        }
         streamImage.reset(new QImage(img.copy()));
         rc = !streamImage->isNull();
     }

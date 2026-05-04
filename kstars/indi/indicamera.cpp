@@ -448,7 +448,10 @@ void Camera::processSwitch(INDI::Property prop)
                 }
             }
 
-            Q_EMIT updateVideoWindow(streamW, streamH, svp[0].getState() == ISS_ON);
+            // Only show/update the video window if we are NOT in guide streaming mode.
+            // Guide streaming routes frames through the guide pipeline, not StreamWG.
+            if (primaryChip->getCaptureMode() != FITS_GUIDE)
+                Q_EMIT updateVideoWindow(streamW, streamH, svp[0].getState() == ISS_ON);
         }
 
         m_isStreamEnabled = (svp[0].getState() == ISS_ON);

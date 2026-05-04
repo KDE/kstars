@@ -240,6 +240,12 @@ void CameraProcess::toggleVideo(bool enabled)
             }
         }
 
+        // Ensure the chip is in normal capture mode (not FITS_GUIDE from a previous guide session)
+        // so that stream frames are routed to the video window, not the guide pipeline.
+        auto activeChip = devices()->getActiveChip();
+        if (activeChip)
+            activeChip->setCaptureMode(FITS_NORMAL);
+
         // turn on streaming
         devices()->getActiveCamera()->setVideoStreamEnabled(true);
     }
