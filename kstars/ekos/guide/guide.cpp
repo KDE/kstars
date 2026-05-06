@@ -143,7 +143,8 @@ Guide::Guide() : QWidget()
     // Exposure
     //Should we set the range for the spin box here?
     QList<double> exposureValues;
-    exposureValues << 0.02 << 0.05 << 0.1 << 0.2 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 3.5 << 4 << 4.5 << 5 << 6 << 7 << 8 << 9
+    exposureValues << 0.001 << 0.002 << 0.005 << 0.01 << 0.02 << 0.05 << 0.1 << 0.2 << 0.5 << 1 << 1.5 << 2 << 2.5 << 3 << 3.5
+                   << 4 << 4.5 << 5 << 6 << 7 << 8 << 9
                    << 10 << 15 << 30;
     guideExposure->setRecommendedValues(exposureValues);
     connect(guideExposure, &NonLinearDoubleSpinBox::editingFinished, this, &Ekos::Guide::saveDefaultGuideExposure);
@@ -718,7 +719,12 @@ void Guide::updateGuideParams()
         connect(guideGain, &QDoubleSpinBox::editingFinished, this, [this]()
         {
             if (guideGain->value() > guideGainSpecialValue)
+            {
                 TargetCustomGainValue = guideGain->value();
+                // Apply gain immediately if streaming is active
+                if (m_StreamingGuide && m_Camera && m_Camera->hasGain())
+                    m_Camera->setGain(guideGain->value());
+            }
         });
     }
     else
@@ -885,6 +891,24 @@ bool Guide::startGuideStreaming()
     // Apply streaming exposure time from the guide exposure control
     m_Camera->setStreamExposure(guideExposure->value());
 
+    // Apply frame, binning and gain from the guide module settings so the driver
+    // uses the correct values even if another module changed them previously.
+    // This mirrors what captureOneFrame() does for single-frame captures.
+    if (frameSettings.contains(targetChip))
+    {
+        QVariantMap settings = frameSettings[targetChip];
+        targetChip->setFrame(settings["x"].toInt(), settings["y"].toInt(),
+                             settings["w"].toInt(), settings["h"].toInt());
+        int binIndex = settings["binx"].toInt();
+        targetChip->setBinning(binIndex, binIndex);
+    }
+    else
+    {
+        // No frame settings yet — apply binning from the guide UI at minimum
+        int binIndex = guideBinning->currentIndex() + 1;
+        targetChip->setBinning(binIndex, binIndex);
+    }
+
     // Apply gain if applicable
     if (m_Camera->hasGain() && guideGain->isEnabled() && guideGain->value() > guideGainSpecialValue)
         m_Camera->setGain(guideGain->value());
@@ -894,6 +918,10 @@ bool Guide::startGuideStreaming()
         qCWarning(KSTARS_EKOS_GUIDE) << "startGuideStreaming: failed to enable video stream";
         return false;
     }
+
+    // Re-apply stream exposure after enabling — some drivers set their own
+    // exposure from FPS when the stream starts, overriding our earlier setting.
+    m_Camera->setStreamExposure(guideExposure->value());
 
     m_StreamingGuide = true;
 
@@ -1713,6 +1741,29 @@ void Guide::setSubFrameEnabled(bool enable)
         guideSubframe->setChecked(enable);
     if(guiderType == GUIDE_PHD2)
         setExternalGuiderBLOBEnabled(!enable);
+
+    // When subframe is disabled, immediately reset frameSettings to full frame
+    // so the next stream start uses the correct dimensions without needing
+    // an extra stop/start cycle.
+    if (!enable && guiderType == GUIDE_INTERNAL && m_Camera)
+    {
+        ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+        if (targetChip)
+        {
+            targetChip->resetFrame();
+            int x, y, w, h;
+            targetChip->getFrame(&x, &y, &w, &h);
+
+            QVariantMap settings      = frameSettings[targetChip];
+            settings["x"]             = x;
+            settings["y"]             = y;
+            settings["w"]             = w;
+            settings["h"]             = h;
+            frameSettings[targetChip] = settings;
+
+            subFramed = false;
+        }
+    }
 }
 
 void Guide::setAutoStarEnabled(bool enable)
@@ -1934,6 +1985,13 @@ void Guide::updateCCDBin(int index)
 
     m_GuiderInstance->setFrameParams(settings["x"].toInt(), settings["y"].toInt(), settings["w"].toInt(), settings["h"].toInt(),
                                      settings["binx"].toInt(), settings["biny"].toInt());
+
+    // If streaming is active, restart to pick up the new binning
+    if (m_StreamingGuide)
+    {
+        stopGuideStreaming();
+        startGuideStreaming();
+    }
 }
 
 void Guide::updateProperty(INDI::Property prop)
@@ -2015,6 +2073,15 @@ void Guide::saveDefaultGuideExposure()
     else if (guiderType == GUIDE_INTERNAL)
     {
         internalGuider->setExposureTime();
+
+        // If streaming is active, restart to pick up the new exposure time.
+        // The driver's streaming worker sets exposure once at start, so a
+        // simple property update is not sufficient.
+        if (m_StreamingGuide)
+        {
+            stopGuideStreaming();
+            startGuideStreaming();
+        }
     }
 }
 
