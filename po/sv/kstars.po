@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-05 02:10+0000\n"
+"POT-Creation-Date: 2026-05-06 02:10+0000\n"
 "PO-Revision-Date: 2025-10-27 22:18+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -27202,77 +27202,83 @@ msgstr ""
 "drivrutin@värddator:port,drivrutin@värddator,@värddator:port,@värddator,"
 "drivrutin"
 
-#: ekos/profilescript.cpp:38
-#, kde-format
-msgid "Delay this many seconds before executing pre driver script."
-msgstr "Vänta så här många sekunder innan predrivrutinskriptet körs."
-
-#: ekos/profilescript.cpp:47
+#: ekos/profilescript.cpp:39
 #, kde-format
 msgid ""
-"Delay this many seconds after driver startup before executing post driver "
-"script."
+"Wait this many seconds before starting the driver. The delay applies whether "
+"or not a pre-startup script is set."
+msgstr ""
+
+#: ekos/profilescript.cpp:49
+#, fuzzy, kde-format
+#| msgid ""
+#| "Delay this many seconds after driver startup before executing post driver "
+#| "script."
+msgid ""
+"Wait this many seconds after the driver starts. The delay applies whether or "
+"not a post-startup script is set."
 msgstr ""
 "Vänta så här många sekunder efter drivrutinen startats innan "
 "postdrivrutinskriptet körs."
 
-#: ekos/profilescript.cpp:57
+#: ekos/profilescript.cpp:59
 #, kde-format
 msgid ""
-"Delay this many seconds after executing stopping driver script before "
-"stopping driver."
+"Wait this many seconds before stopping the driver. The delay applies whether "
+"or not a pre-shutdown script is set."
 msgstr ""
-"Vänta så här många sekunder efter skriptet för stoppad drivrutin körs innan "
-"drivrutinen stoppas."
 
-#: ekos/profilescript.cpp:67
-#, kde-format
+#: ekos/profilescript.cpp:69
+#, fuzzy, kde-format
+#| msgid ""
+#| "Delay this many seconds after driver startup before executing post driver "
+#| "script."
 msgid ""
-"Delay this many seconds after driver stopped before executing stopped driver "
-"script."
+"Wait this many seconds after the driver stops. The delay applies whether or "
+"not a post-shutdown script is set."
 msgstr ""
-"Vänta så här många sekunder efter drivrutinen stoppas innan skriptet för "
-"stoppad drivrutin."
+"Vänta så här många sekunder efter drivrutinen startats innan "
+"postdrivrutinskriptet körs."
 
-#: ekos/profilescript.cpp:77
+#: ekos/profilescript.cpp:79
 #, kde-format
 msgid "Select script to execute before starting the driver"
 msgstr "Välj skript att köra innan drivrutinen startas"
 
-#: ekos/profilescript.cpp:86
+#: ekos/profilescript.cpp:88
 #, kde-format
 msgid "Select script to execute after starting the driver"
 msgstr "Välj skript att köra efter drivrutinen startats"
 
-#: ekos/profilescript.cpp:95
+#: ekos/profilescript.cpp:97
 #, kde-format
 msgid "Select script to execute before stopping the driver"
 msgstr "Välj skript att köra innan drivrutinen stoppas"
 
-#: ekos/profilescript.cpp:104
+#: ekos/profilescript.cpp:106
 #, kde-format
 msgid "Select script to execute after stopping the driver"
 msgstr "Välj skript att köra efter drivrutinen stoppas"
 
-#: ekos/profilescript.cpp:171
+#: ekos/profilescript.cpp:173
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Startup Script"
 msgstr "Välj predrivrutinstartskript"
 
-#: ekos/profilescript.cpp:177
+#: ekos/profilescript.cpp:179
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Startup Script"
 msgstr "Välj postdrivrutinstartskript"
 
-#: ekos/profilescript.cpp:183
+#: ekos/profilescript.cpp:185
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
 msgstr "Välj predrivrutinstoppskript"
 
-#: ekos/profilescript.cpp:189
+#: ekos/profilescript.cpp:191
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
@@ -92743,6 +92749,23 @@ msgstr "Bakgrundsfärg:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Ställ in bakgrundsfärgen."
+
+#~ msgid "Delay this many seconds before executing pre driver script."
+#~ msgstr "Vänta så här många sekunder innan predrivrutinskriptet körs."
+
+#~ msgid ""
+#~ "Delay this many seconds after executing stopping driver script before "
+#~ "stopping driver."
+#~ msgstr ""
+#~ "Vänta så här många sekunder efter skriptet för stoppad drivrutin körs "
+#~ "innan drivrutinen stoppas."
+
+#~ msgid ""
+#~ "Delay this many seconds after driver stopped before executing stopped "
+#~ "driver script."
+#~ msgstr ""
+#~ "Vänta så här många sekunder efter drivrutinen stoppas innan skriptet för "
+#~ "stoppad drivrutin."
 
 #, fuzzy
 #~| msgid ""

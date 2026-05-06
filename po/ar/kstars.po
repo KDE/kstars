@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-05 02:10+0000\n"
+"POT-Creation-Date: 2026-05-06 02:10+0000\n"
 "PO-Revision-Date: 2026-04-30 17:36+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -26781,77 +26781,83 @@ msgstr ""
 msgid "driver@host:port,driver@host,@host:port,@host,driver"
 msgstr "driver@host:port,driver@host,@host:port,@host,driver"
 
-#: ekos/profilescript.cpp:38
-#, kde-format
-msgid "Delay this many seconds before executing pre driver script."
-msgstr "أخّر هذا العدد من الثواني قبل تنفيذ النص البرمجي لما قبل المشغِّل."
-
-#: ekos/profilescript.cpp:47
+#: ekos/profilescript.cpp:39
 #, kde-format
 msgid ""
-"Delay this many seconds after driver startup before executing post driver "
-"script."
+"Wait this many seconds before starting the driver. The delay applies whether "
+"or not a pre-startup script is set."
+msgstr ""
+
+#: ekos/profilescript.cpp:49
+#, fuzzy, kde-format
+#| msgid ""
+#| "Delay this many seconds after driver startup before executing post driver "
+#| "script."
+msgid ""
+"Wait this many seconds after the driver starts. The delay applies whether or "
+"not a post-startup script is set."
 msgstr ""
 "أخّر هذا العدد من الثواني بعد بدء تشغيل المشغِّل قبل تنفيذ النص البرمجي لما بعد "
 "المشغِّل."
 
-#: ekos/profilescript.cpp:57
+#: ekos/profilescript.cpp:59
 #, kde-format
 msgid ""
-"Delay this many seconds after executing stopping driver script before "
-"stopping driver."
+"Wait this many seconds before stopping the driver. The delay applies whether "
+"or not a pre-shutdown script is set."
 msgstr ""
-"أخّر هذا العدد من الثواني بعد تنفيذ النص البرمجي لإيقاف المشغِّل قبل إيقاف "
+
+#: ekos/profilescript.cpp:69
+#, fuzzy, kde-format
+#| msgid ""
+#| "Delay this many seconds after driver startup before executing post driver "
+#| "script."
+msgid ""
+"Wait this many seconds after the driver stops. The delay applies whether or "
+"not a post-shutdown script is set."
+msgstr ""
+"أخّر هذا العدد من الثواني بعد بدء تشغيل المشغِّل قبل تنفيذ النص البرمجي لما بعد "
 "المشغِّل."
 
-#: ekos/profilescript.cpp:67
-#, kde-format
-msgid ""
-"Delay this many seconds after driver stopped before executing stopped driver "
-"script."
-msgstr ""
-"أخّر هذا العدد من الثواني بعد توقف المشغِّل قبل تنفيذ النص البرمجي للمشغِّل "
-"المتوقف."
-
-#: ekos/profilescript.cpp:77
+#: ekos/profilescript.cpp:79
 #, kde-format
 msgid "Select script to execute before starting the driver"
 msgstr "اختر النص البرمجي لتنفيذه قبل بدء تشغيل المشغِّل"
 
-#: ekos/profilescript.cpp:86
+#: ekos/profilescript.cpp:88
 #, kde-format
 msgid "Select script to execute after starting the driver"
 msgstr "اختر النص البرمجي لتنفيذه بعد بدء تشغيل المشغِّل"
 
-#: ekos/profilescript.cpp:95
+#: ekos/profilescript.cpp:97
 #, kde-format
 msgid "Select script to execute before stopping the driver"
 msgstr "اختر النص البرمجي لتنفيذه قبل إيقاف المشغِّل"
 
-#: ekos/profilescript.cpp:104
+#: ekos/profilescript.cpp:106
 #, kde-format
 msgid "Select script to execute after stopping the driver"
 msgstr "اختر النص البرمجي لتنفيذه بعد إيقاف المشغِّل"
 
-#: ekos/profilescript.cpp:171
+#: ekos/profilescript.cpp:173
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Startup Script"
 msgstr "اختر النص البرمجي لما قبل بدء تشغيل المشغِّل"
 
-#: ekos/profilescript.cpp:177
+#: ekos/profilescript.cpp:179
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Startup Script"
 msgstr "اختر النص البرمجي لما بعد بدء تشغيل المشغِّل"
 
-#: ekos/profilescript.cpp:183
+#: ekos/profilescript.cpp:185
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
 msgstr "اختر النص البرمجي لما قبل إيقاف المشغِّل"
 
-#: ekos/profilescript.cpp:189
+#: ekos/profilescript.cpp:191
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
@@ -91513,6 +91519,23 @@ msgstr "لون الخلفية:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "اضبط لون الخلفية."
+
+#~ msgid "Delay this many seconds before executing pre driver script."
+#~ msgstr "أخّر هذا العدد من الثواني قبل تنفيذ النص البرمجي لما قبل المشغِّل."
+
+#~ msgid ""
+#~ "Delay this many seconds after executing stopping driver script before "
+#~ "stopping driver."
+#~ msgstr ""
+#~ "أخّر هذا العدد من الثواني بعد تنفيذ النص البرمجي لإيقاف المشغِّل قبل إيقاف "
+#~ "المشغِّل."
+
+#~ msgid ""
+#~ "Delay this many seconds after driver stopped before executing stopped "
+#~ "driver script."
+#~ msgstr ""
+#~ "أخّر هذا العدد من الثواني بعد توقف المشغِّل قبل تنفيذ النص البرمجي للمشغِّل "
+#~ "المتوقف."
 
 #~ msgid "Main PA: %1, Main offset: %2, Guide offset: %3"
 #~ msgstr "زاوية الموضع الرئيسة: %1، الإزاحة الرئيسة: %2، إزاحة الدليل: %3"

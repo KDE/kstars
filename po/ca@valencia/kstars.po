@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-05 02:10+0000\n"
+"POT-Creation-Date: 2026-05-06 02:10+0000\n"
 "PO-Revision-Date: 2026-05-04 15:41+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -27936,78 +27936,83 @@ msgstr ""
 "controlador@amfitrió:port,controlador@amfitrió,@amfitrió:port,@amfitrió,"
 "controlador"
 
-#: ekos/profilescript.cpp:38
-#, kde-format
-msgid "Delay this many seconds before executing pre driver script."
-msgstr ""
-"Temps d'espera en segons abans d'executar l'script anterior al controlador."
-
-#: ekos/profilescript.cpp:47
+#: ekos/profilescript.cpp:39
 #, kde-format
 msgid ""
-"Delay this many seconds after driver startup before executing post driver "
-"script."
+"Wait this many seconds before starting the driver. The delay applies whether "
+"or not a pre-startup script is set."
+msgstr ""
+
+#: ekos/profilescript.cpp:49
+#, fuzzy, kde-format
+#| msgid ""
+#| "Delay this many seconds after driver startup before executing post driver "
+#| "script."
+msgid ""
+"Wait this many seconds after the driver starts. The delay applies whether or "
+"not a post-startup script is set."
 msgstr ""
 "Temps d'espera en segons abans d'iniciar el controlador executant l'script "
 "posterior al controlador."
 
-#: ekos/profilescript.cpp:57
+#: ekos/profilescript.cpp:59
 #, kde-format
 msgid ""
-"Delay this many seconds after executing stopping driver script before "
-"stopping driver."
+"Wait this many seconds before stopping the driver. The delay applies whether "
+"or not a pre-shutdown script is set."
 msgstr ""
-"Temps d'espera en segons després d'executar l'script de parar el controlador "
-"abans de parar el controlador."
 
-#: ekos/profilescript.cpp:67
-#, kde-format
+#: ekos/profilescript.cpp:69
+#, fuzzy, kde-format
+#| msgid ""
+#| "Delay this many seconds after driver startup before executing post driver "
+#| "script."
 msgid ""
-"Delay this many seconds after driver stopped before executing stopped driver "
-"script."
+"Wait this many seconds after the driver stops. The delay applies whether or "
+"not a post-shutdown script is set."
 msgstr ""
-"Temps d'espera en segons després que el controlador s'haja parat abans "
-"d'executar l'script del controlador parat."
+"Temps d'espera en segons abans d'iniciar el controlador executant l'script "
+"posterior al controlador."
 
-#: ekos/profilescript.cpp:77
+#: ekos/profilescript.cpp:79
 #, kde-format
 msgid "Select script to execute before starting the driver"
 msgstr "Trieu l'script que s'executarà abans d'iniciar el controlador"
 
-#: ekos/profilescript.cpp:86
+#: ekos/profilescript.cpp:88
 #, kde-format
 msgid "Select script to execute after starting the driver"
 msgstr "Trieu l'script que s'executarà després d'iniciar el controlador"
 
-#: ekos/profilescript.cpp:95
+#: ekos/profilescript.cpp:97
 #, kde-format
 msgid "Select script to execute before stopping the driver"
 msgstr "Trieu l'script que s'executarà abans de parar el controlador"
 
-#: ekos/profilescript.cpp:104
+#: ekos/profilescript.cpp:106
 #, kde-format
 msgid "Select script to execute after stopping the driver"
 msgstr "Trieu l'script que s'executarà després de parar el controlador"
 
-#: ekos/profilescript.cpp:171
+#: ekos/profilescript.cpp:173
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Startup Script"
 msgstr "Trieu l'script d'inici anterior al controlador"
 
-#: ekos/profilescript.cpp:177
+#: ekos/profilescript.cpp:179
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Startup Script"
 msgstr "Trieu l'script d'inici posterior al controlador"
 
-#: ekos/profilescript.cpp:183
+#: ekos/profilescript.cpp:185
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
 msgstr "Trieu l'script de parada anterior al controlador"
 
-#: ekos/profilescript.cpp:189
+#: ekos/profilescript.cpp:191
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
@@ -94533,3 +94538,22 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
+
+#~ msgid "Delay this many seconds before executing pre driver script."
+#~ msgstr ""
+#~ "Temps d'espera en segons abans d'executar l'script anterior al "
+#~ "controlador."
+
+#~ msgid ""
+#~ "Delay this many seconds after executing stopping driver script before "
+#~ "stopping driver."
+#~ msgstr ""
+#~ "Temps d'espera en segons després d'executar l'script de parar el "
+#~ "controlador abans de parar el controlador."
+
+#~ msgid ""
+#~ "Delay this many seconds after driver stopped before executing stopped "
+#~ "driver script."
+#~ msgstr ""
+#~ "Temps d'espera en segons després que el controlador s'haja parat abans "
+#~ "d'executar l'script del controlador parat."
