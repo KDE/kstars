@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-06 02:10+0000\n"
-"PO-Revision-Date: 2026-05-04 20:58+0300\n"
+"POT-Creation-Date: 2026-05-07 02:06+0000\n"
+"PO-Revision-Date: 2026-05-06 13:17+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3914,7 +3914,7 @@ msgstr "0,0 pc"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:455 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
-#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:607
+#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:702 ekos/guide/guide.ui:607
 #: ekos/guide/guide.ui:731 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
@@ -6330,7 +6330,7 @@ msgstr "Hedef RA:%1 DEC:%2 olarak ayarlanıyor"
 msgid "Error: No camera detected."
 msgstr "Hata: Algılanan kamera yok."
 
-#: ekos/align/align.cpp:1518 ekos/guide/guide.cpp:827
+#: ekos/align/align.cpp:1518 ekos/guide/guide.cpp:833
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Hata: Kamerayla bağlantı kesildi."
@@ -6617,7 +6617,7 @@ msgstr "Çözücü iptal edildi."
 
 #: ekos/align/align.cpp:2825 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1343 ekos/manager.cpp:2394 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1371 ekos/manager.cpp:2394 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3608
 #, kde-format
@@ -16432,7 +16432,7 @@ msgstr ""
 "Pozlama zaman aşımı. 3’ten fazlası algılandı, sürücü yeniden başlatılacak."
 
 #: ekos/capture/cameraprocess.cpp:2173 ekos/focus/focus.cpp:6133
-#: ekos/guide/guide.cpp:1078
+#: ekos/guide/guide.cpp:1106
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Pozlama zaman aşımı. Pozlama yeniden başlatılıyor…"
@@ -22613,7 +22613,7 @@ msgstr "Kıpırdat"
 msgid "GPG RA Guider"
 msgstr "GPG RA Kılavuzu"
 
-#: ekos/guide/guide.cpp:426
+#: ekos/guide/guide.cpp:427
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
@@ -22622,7 +22622,7 @@ msgstr ""
 "PHD2’nin geçerli kamerası: %1, Ekos’a bağlı değil. PHD2 Kılavuz Yıldız "
 "Görseli alınacak; ancak tam dış kılavuz kareler alınamayacak."
 
-#: ekos/guide/guide.cpp:436
+#: ekos/guide/guide.cpp:437
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
@@ -22633,169 +22633,169 @@ msgstr ""
 "kullanarak tam dış kılavuz karelerini kullanmayı veya yalnızca PHD2 Kılavuz "
 "Yıldız Görseli’ni almayı seçebilirsiniz."
 
-#: ekos/guide/guide.cpp:584
+#: ekos/guide/guide.cpp:585
 #, kde-format
 msgid "Connection to the guide camera is lost."
 msgstr "Kılavuz kamera ile olan bağlantı kesildi."
 
-#: ekos/guide/guide.cpp:904
+#: ekos/guide/guide.cpp:932
 #, kde-format
 msgid "Guide streaming started."
 msgstr "Kılavuz akışı başlatıldı."
 
-#: ekos/guide/guide.cpp:924
+#: ekos/guide/guide.cpp:952
 #, kde-format
 msgid "Guide streaming stopped."
 msgstr "Kılavuz akışı durduruldu."
 
-#: ekos/guide/guide.cpp:1072
+#: ekos/guide/guide.cpp:1100
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Pozlama zaman aşımı; ancak askıya alınmış. Yok sayılıyor…"
 
-#: ekos/guide/guide.cpp:1100
+#: ekos/guide/guide.cpp:1128
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Pozlama zaman aşımı. Kendiliğinden kılavuzluk iptal ediliyor."
 
-#: ekos/guide/guide.cpp:1102
+#: ekos/guide/guide.cpp:1130
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Pozlama zaman aşımı. Kıpırdatma iptal ediliyor."
 
-#: ekos/guide/guide.cpp:1104
+#: ekos/guide/guide.cpp:1132
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Pozlama zaman aşımı. Kalibrasyon iptal ediliyor."
 
-#: ekos/guide/guide.cpp:1113
+#: ekos/guide/guide.cpp:1141
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Pozlama zaman aşımı. Pek çok kez oldu. Sürücü yeniden başlatılıyor."
 
-#: ekos/guide/guide.cpp:1438
+#: ekos/guide/guide.cpp:1466
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Algılanan kamera yok. Optik katarlarda kamerayı denetleyin."
 
-#: ekos/guide/guide.cpp:1444
+#: ekos/guide/guide.cpp:1472
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "Algılanan kılavuz yok. Optik katarlarda kılavuzu denetleyin."
 
-#: ekos/guide/guide.cpp:1525
+#: ekos/guide/guide.cpp:1553
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Bu kaide park edilmiş. Kılavuzluğu başlatmak için parktan çıkın."
 
-#: ekos/guide/guide.cpp:1634
+#: ekos/guide/guide.cpp:1662
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "İskele yanı değişikliği algılandı. Kalibrasyon temizleniyor."
 
-#: ekos/guide/guide.cpp:1648
+#: ekos/guide/guide.cpp:1676
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Kaide hareket ediyor. Kalibrasyon yeniden başlatılıyor…"
 
-#: ekos/guide/guide.cpp:1665
+#: ekos/guide/guide.cpp:1693
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Kaide park ediliyor. Kılavuz iptal ediliyor…"
 
-#: ekos/guide/guide.cpp:1667
+#: ekos/guide/guide.cpp:1695
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Kaide çevriliyor. Kılavuz iptal ediliyor…"
 
-#: ekos/guide/guide.cpp:1730
+#: ekos/guide/guide.cpp:1781
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibrasyon temizlendi."
 
-#: ekos/guide/guide.cpp:1758
+#: ekos/guide/guide.cpp:1809
 #, kde-format
 msgid "External guider connected."
 msgstr "Dış kılavuz bağlandı."
 
-#: ekos/guide/guide.cpp:1776
+#: ekos/guide/guide.cpp:1827
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Dış kılavuz bağlantısı kesildi."
 
-#: ekos/guide/guide.cpp:1793
+#: ekos/guide/guide.cpp:1844
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibrasyon tamamlandı."
 
-#: ekos/guide/guide.cpp:1819
+#: ekos/guide/guide.cpp:1870
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibrasyon başlatıldı."
 
-#: ekos/guide/guide.cpp:1835
+#: ekos/guide/guide.cpp:1886
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Kılavuzluk sürdürüldü."
 
-#: ekos/guide/guide.cpp:1839
+#: ekos/guide/guide.cpp:1890
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Kendiliğinden kılavuzlama çalışıyor."
 
-#: ekos/guide/guide.cpp:1861
+#: ekos/guide/guide.cpp:1912
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Kendiliğinden kılavuzluk iptal edildi."
 
-#: ekos/guide/guide.cpp:1869
+#: ekos/guide/guide.cpp:1920
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Kılavuzluk askıya alındı."
 
-#: ekos/guide/guide.cpp:1878
+#: ekos/guide/guide.cpp:1929
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Elle kıpırdatma yapılıyor."
 
-#: ekos/guide/guide.cpp:1882
+#: ekos/guide/guide.cpp:1933
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Kıpırdatma yapılıyor."
 
-#: ekos/guide/guide.cpp:1886
+#: ekos/guide/guide.cpp:1937
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "%1 saniye için kıpırdatma sonrası yerleşim yapılıyor…"
 msgstr[1] "%1 saniye için kıpırdatma sonrası yerleşim yapılıyor…"
 
-#: ekos/guide/guide.cpp:1891
+#: ekos/guide/guide.cpp:1942
 #, kde-format
 msgid "Dithering failed."
 msgstr "Kıpırdatma başarısız."
 
-#: ekos/guide/guide.cpp:1902
+#: ekos/guide/guide.cpp:1953
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Kıpırdatma başarıyla tamamlandı."
 
-#: ekos/guide/guide.cpp:1951
+#: ekos/guide/guide.cpp:2009
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "%1 × %1 kılavuz gruplaması desteklenmiyor."
 
-#: ekos/guide/guide.cpp:1973
+#: ekos/guide/guide.cpp:2031
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Pozlama başarısız. Pozlama yeniden başlatılıyor…"
 
-#: ekos/guide/guide.cpp:2099
+#: ekos/guide/guide.cpp:2166
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Etkinken kılavuz türü değiştirilemiyor."
 
-#: ekos/guide/guide.cpp:2194
+#: ekos/guide/guide.cpp:2261
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -22804,37 +22804,37 @@ msgstr ""
 "Uyarı: Kılavuz kalibrasyonunu sıfırlama etkin. Bu seçeneğin PHD2 için "
 "kapatılması önerilir."
 
-#: ekos/guide/guide.cpp:2603
+#: ekos/guide/guide.cpp:2670
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibrasyon başlatılamadı."
 
-#: ekos/guide/guide.cpp:2754
+#: ekos/guide/guide.cpp:2821
 #, kde-format
 msgid "Auto star selected."
 msgstr "Kendiliğinden yıldız seçildi."
 
-#: ekos/guide/guide.cpp:2758
+#: ekos/guide/guide.cpp:2825
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Kendiliğinden bir yıldız seçilemedi."
 
-#: ekos/guide/guide.cpp:2767
+#: ekos/guide/guide.cpp:2834
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Kalibre etmek için bir kılavuz yıldız seçin."
 
-#: ekos/guide/guide.cpp:3029
+#: ekos/guide/guide.cpp:3096
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (piksel)"
 
-#: ekos/guide/guide.cpp:3030
+#: ekos/guide/guide.cpp:3097
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (piksel)"
 
-#: ekos/guide/guide.cpp:3173 ekos/guide/guide.cpp:3307
+#: ekos/guide/guide.cpp:3240 ekos/guide/guide.cpp:3374
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -22844,7 +22844,7 @@ msgstr ""
 "göremezsiniz. Ancak kılavuzluk ettiğinizde Kılavuz Yıldız Görseli’ni yine de "
 "göreceksiniz."
 
-#: ekos/guide/guide.cpp:3177 ekos/guide/guide.cpp:3311
+#: ekos/guide/guide.cpp:3244 ekos/guide/guide.cpp:3378
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -22855,7 +22855,7 @@ msgstr ""
 "işareti kaldırılmalıdır. Görsel yakalamalarınızı etkinleştirmek için şimdi "
 "işaretini kaldırın. Kılavuzluktan önce yeniden etkinleştirebilirsiniz."
 
-#: ekos/guide/guide.cpp:3490
+#: ekos/guide/guide.cpp:3557
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "PHD2 bağlıyken etkin optik katar değiştirilemiyor"
@@ -27229,18 +27229,17 @@ msgid ""
 "Wait this many seconds before starting the driver. The delay applies whether "
 "or not a pre-startup script is set."
 msgstr ""
+"Sürücüyü başlatmadan önce bu kadar saniye bekleyin. Gecikme, başlangıç "
+"öncesi betiği ayarlanmış olsa da, olmasa da uygulanır."
 
 #: ekos/profilescript.cpp:49
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Wait this many seconds after the driver starts. The delay applies whether or "
 "not a post-startup script is set."
 msgstr ""
-"Sürücü başlangıcı sonrası, sürücü sonrası betiğini yürütmeden önce bu kadar "
-"saniye geciktirin."
+"Sürücüyü başlattıktan sonra bu kadar saniye bekleyin. Gecikme, başlangıç "
+"öncesi betiği ayarlanmış olsa da, olmasa da uygulanır."
 
 #: ekos/profilescript.cpp:59
 #, kde-format
@@ -27248,18 +27247,17 @@ msgid ""
 "Wait this many seconds before stopping the driver. The delay applies whether "
 "or not a pre-shutdown script is set."
 msgstr ""
+"Sürücüyü durdurmadan önce bu kadar saniye bekleyin. Gecikme, başlangıç "
+"öncesi betiği ayarlanmış olsa da, olmasa da uygulanır."
 
 #: ekos/profilescript.cpp:69
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Wait this many seconds after the driver stops. The delay applies whether or "
 "not a post-shutdown script is set."
 msgstr ""
-"Sürücü başlangıcı sonrası, sürücü sonrası betiğini yürütmeden önce bu kadar "
-"saniye geciktirin."
+"Sürücüyü durdurduktan sonra bu kadar saniye bekleyin. Gecikme, başlangıç "
+"öncesi betiği ayarlanmış olsa da, olmasa da uygulanır."
 
 #: ekos/profilescript.cpp:79
 #, kde-format

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-06 02:10+0000\n"
+"POT-Creation-Date: 2026-05-07 02:06+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3848,7 +3848,7 @@ msgstr "0.0 秒差距"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:455 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
-#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:607
+#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:702 ekos/guide/guide.ui:607
 #: ekos/guide/guide.ui:731 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
@@ -6212,7 +6212,7 @@ msgstr "设置目标为 RA:%1 DEC:%2"
 msgid "Error: No camera detected."
 msgstr "错误：未检测到相机。"
 
-#: ekos/align/align.cpp:1518 ekos/guide/guide.cpp:827
+#: ekos/align/align.cpp:1518 ekos/guide/guide.cpp:833
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "错误：相机连接中断。"
@@ -6479,7 +6479,7 @@ msgstr "解析器已中止。"
 
 #: ekos/align/align.cpp:2825 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1343 ekos/manager.cpp:2394 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1371 ekos/manager.cpp:2394 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3608
 #, kde-format
@@ -15861,7 +15861,7 @@ msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr "曝光超时。检测到超过 3 次，将重启驱动程序。"
 
 #: ekos/capture/cameraprocess.cpp:2173 ekos/focus/focus.cpp:6133
-#: ekos/guide/guide.cpp:1078
+#: ekos/guide/guide.cpp:1106
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "曝光超时。重新启动曝光..."
@@ -21780,7 +21780,7 @@ msgstr "抖动"
 msgid "GPG RA Guider"
 msgstr "高斯过程赤经导星（GPG）"
 
-#: ekos/guide/guide.cpp:426
+#: ekos/guide/guide.cpp:427
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
@@ -21789,7 +21789,7 @@ msgstr ""
 "PHD2 现在相机：%1，未连接到 Ekos。将接收 PHD2 导星图像，但不能接收完整外导星"
 "帧。"
 
-#: ekos/guide/guide.cpp:436
+#: ekos/guide/guide.cpp:437
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
@@ -21799,205 +21799,205 @@ msgstr ""
 "PHD2 的当前摄像头： %1，已连接到 Ekos。 您可以选择接收全视场的外部导星图像，"
 "或勾选截幅复选框只接收 PHD2 的被导星图像。"
 
-#: ekos/guide/guide.cpp:584
+#: ekos/guide/guide.cpp:585
 #, kde-format
 msgid "Connection to the guide camera is lost."
 msgstr "与导星相机的连接丢失。"
 
-#: ekos/guide/guide.cpp:904
+#: ekos/guide/guide.cpp:932
 #, kde-format
 msgid "Guide streaming started."
 msgstr "导星数据流已启动。"
 
-#: ekos/guide/guide.cpp:924
+#: ekos/guide/guide.cpp:952
 #, kde-format
 msgid "Guide streaming stopped."
 msgstr "导星数据流已停止。"
 
-#: ekos/guide/guide.cpp:1072
+#: ekos/guide/guide.cpp:1100
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "曝光超时，但暂停。正在忽略..."
 
-#: ekos/guide/guide.cpp:1100
+#: ekos/guide/guide.cpp:1128
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "曝光超时。中止自动导星。"
 
-#: ekos/guide/guide.cpp:1102
+#: ekos/guide/guide.cpp:1130
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "曝光超时。中止像素偏移。"
 
-#: ekos/guide/guide.cpp:1104
+#: ekos/guide/guide.cpp:1132
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "曝光超时。中止校准。"
 
-#: ekos/guide/guide.cpp:1113
+#: ekos/guide/guide.cpp:1141
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "曝光超时。过多次数。重启驱动。"
 
-#: ekos/guide/guide.cpp:1438
+#: ekos/guide/guide.cpp:1466
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "未检测到相机，请检查 optical train 内相机。"
 
-#: ekos/guide/guide.cpp:1444
+#: ekos/guide/guide.cpp:1472
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "未检测到导星镜，请 optical train 中“导星自”选项。"
 
-#: ekos/guide/guide.cpp:1525
+#: ekos/guide/guide.cpp:1553
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "支架已归位，请解除归位以开始导星。"
 
-#: ekos/guide/guide.cpp:1634
+#: ekos/guide/guide.cpp:1662
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "检测到立柱偏向改变。正在清除校准数据。"
 
-#: ekos/guide/guide.cpp:1648
+#: ekos/guide/guide.cpp:1676
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "赤道仪正在移动，正在重置校准..."
 
-#: ekos/guide/guide.cpp:1665
+#: ekos/guide/guide.cpp:1693
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "赤道仪正在归位，中止导星..."
 
-#: ekos/guide/guide.cpp:1667
+#: ekos/guide/guide.cpp:1695
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "赤道仪正在转动，中止导星..."
 
-#: ekos/guide/guide.cpp:1730
+#: ekos/guide/guide.cpp:1781
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "校准已清除。"
 
-#: ekos/guide/guide.cpp:1758
+#: ekos/guide/guide.cpp:1809
 #, kde-format
 msgid "External guider connected."
 msgstr "外部导星器连接成功。"
 
-#: ekos/guide/guide.cpp:1776
+#: ekos/guide/guide.cpp:1827
 #, kde-format
 msgid "External guider disconnected."
 msgstr "外部到星期连接断开。"
 
-#: ekos/guide/guide.cpp:1793
+#: ekos/guide/guide.cpp:1844
 #, kde-format
 msgid "Calibration completed."
 msgstr "校准完毕。"
 
-#: ekos/guide/guide.cpp:1819
+#: ekos/guide/guide.cpp:1870
 #, kde-format
 msgid "Calibration started."
 msgstr "校准开始。"
 
-#: ekos/guide/guide.cpp:1835
+#: ekos/guide/guide.cpp:1886
 #, kde-format
 msgid "Guiding resumed."
 msgstr "自动导星已经恢复。"
 
-#: ekos/guide/guide.cpp:1839
+#: ekos/guide/guide.cpp:1890
 #, kde-format
 msgid "Autoguiding running."
 msgstr "自动导星运行中。"
 
-#: ekos/guide/guide.cpp:1861
+#: ekos/guide/guide.cpp:1912
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "自动导星已中止。"
 
-#: ekos/guide/guide.cpp:1869
+#: ekos/guide/guide.cpp:1920
 #, kde-format
 msgid "Guiding suspended."
 msgstr "自动导星暂停。"
 
-#: ekos/guide/guide.cpp:1878
+#: ekos/guide/guide.cpp:1929
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "手动抖动中"
 
-#: ekos/guide/guide.cpp:1882
+#: ekos/guide/guide.cpp:1933
 #, kde-format
 msgid "Dithering in progress."
 msgstr "正在进行像素偏移。"
 
-#: ekos/guide/guide.cpp:1886
+#: ekos/guide/guide.cpp:1937
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "抖动后安定 %1 秒中..."
 
-#: ekos/guide/guide.cpp:1891
+#: ekos/guide/guide.cpp:1942
 #, kde-format
 msgid "Dithering failed."
 msgstr "像素偏移失败。"
 
-#: ekos/guide/guide.cpp:1902
+#: ekos/guide/guide.cpp:1953
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "像素偏移成功完成。"
 
-#: ekos/guide/guide.cpp:1951
+#: ekos/guide/guide.cpp:2009
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "%1x%1 导星像素合并不支持。"
 
-#: ekos/guide/guide.cpp:1973
+#: ekos/guide/guide.cpp:2031
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "曝光失败。重新启动曝光..."
 
-#: ekos/guide/guide.cpp:2099
+#: ekos/guide/guide.cpp:2166
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "激活后无法改变导星器类型。"
 
-#: ekos/guide/guide.cpp:2194
+#: ekos/guide/guide.cpp:2261
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr "警告：已启用导星校准重置。建议关闭此 PHD2 选项。"
 
-#: ekos/guide/guide.cpp:2603
+#: ekos/guide/guide.cpp:2670
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "校准启动失败。"
 
-#: ekos/guide/guide.cpp:2754
+#: ekos/guide/guide.cpp:2821
 #, kde-format
 msgid "Auto star selected."
 msgstr "自动选中被导星。"
 
-#: ekos/guide/guide.cpp:2758
+#: ekos/guide/guide.cpp:2825
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "自动选择被导星失败。"
 
-#: ekos/guide/guide.cpp:2767
+#: ekos/guide/guide.cpp:2834
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "选择一颗被导星来进行校准。"
 
-#: ekos/guide/guide.cpp:3029
+#: ekos/guide/guide.cpp:3096
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx( 像素 )"
 
-#: ekos/guide/guide.cpp:3030
+#: ekos/guide/guide.cpp:3097
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (像素)"
 
-#: ekos/guide/guide.cpp:3173 ekos/guide/guide.cpp:3307
+#: ekos/guide/guide.cpp:3240 ekos/guide/guide.cpp:3374
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -22006,7 +22006,7 @@ msgstr ""
 "PHD2 的相机在 Ekos 不可用，所以您未能看到拍摄的图像。 但您在导星时仍可看到被"
 "导星图像。"
 
-#: ekos/guide/guide.cpp:3177 ekos/guide/guide.cpp:3311
+#: ekos/guide/guide.cpp:3244 ekos/guide/guide.cpp:3378
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -22016,7 +22016,7 @@ msgstr ""
 "为了接收 PHD2 图像而不是被导星图像，必须取消勾选截幅。 请现在取消勾选以拍摄图"
 "像。您可以在导星前重新启用它。"
 
-#: ekos/guide/guide.cpp:3490
+#: ekos/guide/guide.cpp:3557
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "不能更改 optical train 当已连上 PHD2 时"

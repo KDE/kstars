@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-06 02:10+0000\n"
+"POT-Creation-Date: 2026-05-07 02:06+0000\n"
 "PO-Revision-Date: 2026-04-03 22:48+0200\n"
 "Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -3929,7 +3929,7 @@ msgstr "0.0 пк"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:455 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
-#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:701 ekos/guide/guide.ui:607
+#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:702 ekos/guide/guide.ui:607
 #: ekos/guide/guide.ui:731 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
@@ -6350,7 +6350,7 @@ msgstr "Назначение цели: прямое восхождение: %1, 
 msgid "Error: No camera detected."
 msgstr "Ошибка: камера не обнаружена."
 
-#: ekos/align/align.cpp:1518 ekos/guide/guide.cpp:827
+#: ekos/align/align.cpp:1518 ekos/guide/guide.cpp:833
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Ошибка: потеряно соединение с камерой."
@@ -6643,7 +6643,7 @@ msgstr "Решение прервано."
 
 #: ekos/align/align.cpp:2825 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1343 ekos/manager.cpp:2394 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1371 ekos/manager.cpp:2394 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3608
 #, kde-format
@@ -16493,7 +16493,7 @@ msgstr ""
 "выполнен перезапуск драйвера."
 
 #: ekos/capture/cameraprocess.cpp:2173 ekos/focus/focus.cpp:6133
-#: ekos/guide/guide.cpp:1078
+#: ekos/guide/guide.cpp:1106
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Истекло время экспозиции. Перезапуск экспозиции…"
@@ -23296,7 +23296,7 @@ msgstr "Размывание"
 msgid "GPG RA Guider"
 msgstr "Ошибка гида по П.В."
 
-#: ekos/guide/guide.cpp:426
+#: ekos/guide/guide.cpp:427
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
@@ -23306,7 +23306,7 @@ msgstr ""
 "изображения опорной звезды PHD2, но полные внешние кадры ведения приняты не "
 "будут."
 
-#: ekos/guide/guide.cpp:436
+#: ekos/guide/guide.cpp:437
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
@@ -23317,154 +23317,154 @@ msgstr ""
 "выберите использование полных внешних кадров ведения либо только получение "
 "изображения ведущей звезды PHD2."
 
-#: ekos/guide/guide.cpp:584
+#: ekos/guide/guide.cpp:585
 #, fuzzy, kde-format
 #| msgid "Connection to the guide CCD is lost."
 msgid "Connection to the guide camera is lost."
 msgstr "Подключение к гиду потеряно."
 
-#: ekos/guide/guide.cpp:904
+#: ekos/guide/guide.cpp:932
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Guide streaming started."
 msgstr "Автогидирование запущено."
 
-#: ekos/guide/guide.cpp:924
+#: ekos/guide/guide.cpp:952
 #, fuzzy, kde-format
 #| msgid "Framing stopped"
 msgid "Guide streaming stopped."
 msgstr "Остановлена формирование кадра"
 
-#: ekos/guide/guide.cpp:1072
+#: ekos/guide/guide.cpp:1100
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Выдержка камеры/ПЗС в секундах."
 
-#: ekos/guide/guide.cpp:1100
+#: ekos/guide/guide.cpp:1128
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Выдержка камеры/ПЗС в секундах."
 
-#: ekos/guide/guide.cpp:1102
+#: ekos/guide/guide.cpp:1130
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Истекло время экспозиции. Прервано случайное смещение."
 
-#: ekos/guide/guide.cpp:1104
+#: ekos/guide/guide.cpp:1132
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Выдержка камеры/ПЗС в секундах."
 
-#: ekos/guide/guide.cpp:1113
+#: ekos/guide/guide.cpp:1141
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Автофокусировка не удалась. Прерывание экспозиции..."
 
-#: ekos/guide/guide.cpp:1438
+#: ekos/guide/guide.cpp:1466
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Камера не обнаружена. Проверьте камеру в оптических системах."
 
-#: ekos/guide/guide.cpp:1444
+#: ekos/guide/guide.cpp:1472
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
 "Устройство ведения не обнаружено. Проверьте параметр «guide-via» в "
 "оптических схемах."
 
-#: ekos/guide/guide.cpp:1525
+#: ekos/guide/guide.cpp:1553
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Телескоп припаркован. Отпаркуйте его для начала ведения."
 
-#: ekos/guide/guide.cpp:1634
+#: ekos/guide/guide.cpp:1662
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Обнаружена смена стороны опорной колонны. Сброс калибровки."
 
-#: ekos/guide/guide.cpp:1648
+#: ekos/guide/guide.cpp:1676
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Поворочивание назад в исходное положение..."
 
-#: ekos/guide/guide.cpp:1665
+#: ekos/guide/guide.cpp:1693
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount is parking. Aborting guide..."
 msgstr "Гора Экар"
 
-#: ekos/guide/guide.cpp:1667
+#: ekos/guide/guide.cpp:1695
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Поворочивание назад в исходное положение..."
 
-#: ekos/guide/guide.cpp:1730
+#: ekos/guide/guide.cpp:1781
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Calibration is cleared."
 msgstr "Калибровка завершена."
 
-#: ekos/guide/guide.cpp:1758
+#: ekos/guide/guide.cpp:1809
 #, kde-format
 msgid "External guider connected."
 msgstr "Устройство ведения подключено."
 
-#: ekos/guide/guide.cpp:1776
+#: ekos/guide/guide.cpp:1827
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Внешнее устройство ведения отключено."
 
-#: ekos/guide/guide.cpp:1793
+#: ekos/guide/guide.cpp:1844
 #, kde-format
 msgid "Calibration completed."
 msgstr "Калибровка завершена."
 
-#: ekos/guide/guide.cpp:1819
+#: ekos/guide/guide.cpp:1870
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Calibration started."
 msgstr "Калибровка завершена."
 
-#: ekos/guide/guide.cpp:1835
+#: ekos/guide/guide.cpp:1886
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Гидирование возобновлено."
 
-#: ekos/guide/guide.cpp:1839
+#: ekos/guide/guide.cpp:1890
 #, fuzzy, kde-format
 #| msgid "Guiding resumed."
 msgid "Autoguiding running."
 msgstr "Гидирование возобновлено."
 
-#: ekos/guide/guide.cpp:1861
+#: ekos/guide/guide.cpp:1912
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Autoguiding aborted."
 msgstr "Автогидирование запущено."
 
-#: ekos/guide/guide.cpp:1869
+#: ekos/guide/guide.cpp:1920
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Гидирование приостановлено."
 
-#: ekos/guide/guide.cpp:1878
+#: ekos/guide/guide.cpp:1929
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Выполняется ручное случайное смещение."
 
-#: ekos/guide/guide.cpp:1882
+#: ekos/guide/guide.cpp:1933
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Выполняется смещение между кадрами."
 
-#: ekos/guide/guide.cpp:1886
+#: ekos/guide/guide.cpp:1937
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
@@ -23473,35 +23473,35 @@ msgstr[1] "Ожидание после смещения %1 секунды…"
 msgstr[2] "Ожидание после смещения %1 секунд…"
 msgstr[3] "Ожидание после смещения %1 секунда…"
 
-#: ekos/guide/guide.cpp:1891
+#: ekos/guide/guide.cpp:1942
 #, kde-format
 msgid "Dithering failed."
 msgstr "Не удалось выполнить смещение между кадрами."
 
-#: ekos/guide/guide.cpp:1902
+#: ekos/guide/guide.cpp:1953
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Смещение между кадрами успешно завершено."
 
-#: ekos/guide/guide.cpp:1951
+#: ekos/guide/guide.cpp:2009
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "%1x%1 guide binning is not supported."
 msgstr "Автофокус в процессе..."
 
-#: ekos/guide/guide.cpp:1973
+#: ekos/guide/guide.cpp:2031
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Автофокусировка не удалась. Прерывание экспозиции..."
 
-#: ekos/guide/guide.cpp:2099
+#: ekos/guide/guide.cpp:2166
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot change guider type while active."
 msgstr "Автофокус в процессе..."
 
-#: ekos/guide/guide.cpp:2194
+#: ekos/guide/guide.cpp:2261
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23510,44 +23510,44 @@ msgstr ""
 "Предупреждение: включён сброс калибровки устройства ведения. Рекомендуется "
 "отключить этот параметр для PHD2."
 
-#: ekos/guide/guide.cpp:2603
+#: ekos/guide/guide.cpp:2670
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Calibration failed to start."
 msgstr "Автоматическая калибровка не получилась."
 
-#: ekos/guide/guide.cpp:2754
+#: ekos/guide/guide.cpp:2821
 #, fuzzy, kde-format
 #| msgid "%1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Auto star selected."
 msgstr "%1 звезда обнаружена."
 
-#: ekos/guide/guide.cpp:2758
+#: ekos/guide/guide.cpp:2825
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to select an auto star."
 msgstr "Не удалось установить область кадра."
 
-#: ekos/guide/guide.cpp:2767
+#: ekos/guide/guide.cpp:2834
 #, fuzzy, kde-format
 #| msgid "2. Select guide star"
 msgid "Select a guide star to calibrate."
 msgstr "2. Выбрать звезду для гидирования"
 
-#: ekos/guide/guide.cpp:3029
+#: ekos/guide/guide.cpp:3096
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dx (pixels)"
 msgstr "пикс."
 
-#: ekos/guide/guide.cpp:3030
+#: ekos/guide/guide.cpp:3097
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid "dy (pixels)"
 msgstr "пикс."
 
-#: ekos/guide/guide.cpp:3173 ekos/guide/guide.cpp:3307
+#: ekos/guide/guide.cpp:3240 ekos/guide/guide.cpp:3374
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -23557,7 +23557,7 @@ msgstr ""
 "изображения. Однако изображение звезды ведения будет видно при выполнении "
 "ведения."
 
-#: ekos/guide/guide.cpp:3177 ekos/guide/guide.cpp:3311
+#: ekos/guide/guide.cpp:3244 ekos/guide/guide.cpp:3378
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23568,7 +23568,7 @@ msgstr ""
 "требуется отключить SubFrame. Флажок отключён для включения захвата "
 "изображений. Флажок можно включить заново перед началом ведения."
 
-#: ekos/guide/guide.cpp:3490
+#: ekos/guide/guide.cpp:3557
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Невозможно изменить активную оптическую систему при подключённом PHD2."
