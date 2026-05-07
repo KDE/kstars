@@ -502,7 +502,14 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     else if (command == commands[CAPTURE_SAVE_SEQUENCE_FILE])
     {
         if (capture->saveSequenceQueue(payload["filepath"].toString()))
-            sendResponse(commands[CAPTURE_SAVE_SEQUENCE_FILE], QString::fromUtf8(QFile(payload["filepath"].toString()).readAll()));
+        {
+            QFile file(payload["filepath"].toString());
+            if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+            {
+                sendResponse(commands[CAPTURE_SAVE_SEQUENCE_FILE], QString::fromUtf8(file.readAll()));
+                file.close();
+            }
+        }
     }
     else if (command == commands[CAPTURE_LOAD_SEQUENCE_FILE])
     {
@@ -985,7 +992,14 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
     else if (command == commands[SCHEDULER_SAVE_FILE])
     {
         if (scheduler->saveFile(QUrl::fromLocalFile(payload["filepath"].toString())))
-            sendResponse(commands[SCHEDULER_SAVE_FILE], QString::fromUtf8(QFile(payload["filepath"].toString()).readAll()));
+        {
+            QFile file(payload["filepath"].toString());
+            if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+            {
+                sendResponse(commands[SCHEDULER_SAVE_FILE], QString::fromUtf8(file.readAll()));
+                file.close();
+            }
+        }
     }
     else if (command == commands[SCHEDULER_SAVE_SEQUENCE_FILE])
     {
@@ -1906,26 +1920,26 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
         switch (objectType)
         {
-                // Stars
+            // Stars
             case SkyObject::STAR:
             case SkyObject::CATALOG_STAR:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
                 break;
-                // Planets & Moon
+            // Planets & Moon
             case SkyObject::PLANET:
             case SkyObject::MOON:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
                 break;
-                // Comets & Asteroids
+            // Comets & Asteroids
             case SkyObject::COMET:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
                 break;
             case SkyObject::ASTEROID:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
                 break;
-                // Clusters
+            // Clusters
             case SkyObject::OPEN_CLUSTER:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::OPEN_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
@@ -1934,7 +1948,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GLOBULAR_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
                 break;
-                // Nebuale
+            // Nebuale
             case SkyObject::GASEOUS_NEBULA:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GASEOUS_NEBULA, objectMaxMagnitude));
                 isDSO = true;
