@@ -1285,7 +1285,7 @@ void Mount::startParkTimer()
     if (m_Mount == nullptr || m_ParkStatus == ISD::PARK_UNKNOWN)
         return;
 
-    if (m_Mount->isParked())
+    if (m_Mount->isParked() && parkEveryDay->isChecked() == false)
     {
         appendLogText(i18n("Mount already parked."));
         return;
@@ -1325,10 +1325,11 @@ void Mount::startParkTimer()
         return;
     }
 
-    if (parkMilliSeconds > 12 * 60 * 60 * 1000)
+    if (parkMilliSeconds > 12 * 60 * 60 * 1000 && parkEveryDay->isChecked() == false)
         appendLogText(i18n("Warning! Parking time is more than 12 hours away."));
 
-    appendLogText(i18n("Caution: do not use Auto Park while scheduler is active."));
+    if (parkEveryDay->isChecked() == false)
+        appendLogText(i18n("Caution: do not use Auto Park while scheduler is active."));
 
     autoParkTimer.setInterval(static_cast<int>(parkMilliSeconds));
     autoParkTimer.start();
@@ -1362,6 +1363,9 @@ void Mount::startAutoPark()
             park();
         }
     }
+    // If "Park Every Day" is enabled, re-schedule the timer for the next day
+    if (parkEveryDay->isChecked())
+        startParkTimer();
 }
 
 void Mount::syncAxisReversed(INDI_EQ_AXIS axis, bool reversed)
