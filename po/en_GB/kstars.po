@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-07 02:06+0000\n"
+"POT-Creation-Date: 2026-05-08 02:05+0000\n"
 "PO-Revision-Date: 2024-11-23 12:49+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -18673,12 +18673,12 @@ msgstr "Online"
 msgid "Offline"
 msgstr "Offline"
 
-#: ekos/ekoslive/message.cpp:788
+#: ekos/ekoslive/message.cpp:795
 #, kde-format
 msgid "target"
 msgstr "target"
 
-#: ekos/ekoslive/message.cpp:1076
+#: ekos/ekoslive/message.cpp:1090
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mosaic import failed."
@@ -25935,32 +25935,32 @@ msgstr "Parking time must be within 24 hours of current time."
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Warning! Parking time is more than 12 hours away."
 
-#: ekos/mount/mount.cpp:1331
+#: ekos/mount/mount.cpp:1332
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr "Caution: do not use Auto Park while scheduler is active."
 
-#: ekos/mount/mount.cpp:1351
+#: ekos/mount/mount.cpp:1352
 #, kde-format
 msgid "Parking timer is up."
 msgstr "Parking timer is up."
 
-#: ekos/mount/mount.cpp:1361
+#: ekos/mount/mount.cpp:1362
 #, kde-format
 msgid "Starting auto park..."
 msgstr "Starting auto park..."
 
-#: ekos/mount/mount.cpp:1854
+#: ekos/mount/mount.cpp:1858
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr "Updating master time source to %1."
 
-#: ekos/mount/mount.cpp:1875
+#: ekos/mount/mount.cpp:1879
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr "Updating master location source to %1. Updating GPS..."
 
-#: ekos/mount/mount.cpp:1883
+#: ekos/mount/mount.cpp:1887
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr "Updating master location source to %1."

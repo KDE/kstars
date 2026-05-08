@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-07 02:06+0000\n"
+"POT-Creation-Date: 2026-05-08 02:05+0000\n"
 "PO-Revision-Date: 2026-05-06 09:05-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -18716,12 +18716,12 @@ msgstr "Conectado"
 msgid "Offline"
 msgstr "Desconectado"
 
-#: ekos/ekoslive/message.cpp:788
+#: ekos/ekoslive/message.cpp:795
 #, kde-format
 msgid "target"
 msgstr "alvo"
 
-#: ekos/ekoslive/message.cpp:1076
+#: ekos/ekoslive/message.cpp:1090
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Importação do mosaico falhou."
@@ -25990,34 +25990,34 @@ msgstr "O tempo de bloqueio deve ser dentro de 24 horas do horário atual."
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Atenção! O tempo de bloqueio é superior a 12 horas."
 
-#: ekos/mount/mount.cpp:1331
+#: ekos/mount/mount.cpp:1332
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Cuidado: não utilize o bloqueio automático enquanto o agendador estiver "
 "ativo."
 
-#: ekos/mount/mount.cpp:1351
+#: ekos/mount/mount.cpp:1352
 #, kde-format
 msgid "Parking timer is up."
 msgstr "O temporizador de bloqueio está ativo."
 
-#: ekos/mount/mount.cpp:1361
+#: ekos/mount/mount.cpp:1362
 #, kde-format
 msgid "Starting auto park..."
 msgstr "Iniciando bloqueio automático..."
 
-#: ekos/mount/mount.cpp:1854
+#: ekos/mount/mount.cpp:1858
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr "Atualizando fonte de tempo mestre para %1."
 
-#: ekos/mount/mount.cpp:1875
+#: ekos/mount/mount.cpp:1879
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr "Atualizando a fonte de localização mestre para %1. Atualizando GPS..."
 
-#: ekos/mount/mount.cpp:1883
+#: ekos/mount/mount.cpp:1887
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr "Atualizando a fonte de localização mestre para %1."

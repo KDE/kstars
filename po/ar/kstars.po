@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-07 02:06+0000\n"
+"POT-Creation-Date: 2026-05-08 02:05+0000\n"
 "PO-Revision-Date: 2026-04-30 17:36+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -18294,12 +18294,12 @@ msgstr "متصل"
 msgid "Offline"
 msgstr "غير متّصل"
 
-#: ekos/ekoslive/message.cpp:788
+#: ekos/ekoslive/message.cpp:795
 #, kde-format
 msgid "target"
 msgstr "هدف"
 
-#: ekos/ekoslive/message.cpp:1076
+#: ekos/ekoslive/message.cpp:1090
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "فشل استيراد الفسيفساء."
@@ -25376,32 +25376,32 @@ msgstr "يجب أن يكون وقت الركن في غضون 24 ساعة من ا
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "تحذير! وقت الركن يبعد أكثر من 12 ساعة."
 
-#: ekos/mount/mount.cpp:1331
+#: ekos/mount/mount.cpp:1332
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr "تنبيه: لا تستخدم الركن الآلي أثناء نشاط المجدول."
 
-#: ekos/mount/mount.cpp:1351
+#: ekos/mount/mount.cpp:1352
 #, kde-format
 msgid "Parking timer is up."
 msgstr "انتهت مدة مؤقت الركن."
 
-#: ekos/mount/mount.cpp:1361
+#: ekos/mount/mount.cpp:1362
 #, kde-format
 msgid "Starting auto park..."
 msgstr "بدء الركن الآلي..."
 
-#: ekos/mount/mount.cpp:1854
+#: ekos/mount/mount.cpp:1858
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr "تحديث مصدر وقت السيد إلى %1."
 
-#: ekos/mount/mount.cpp:1875
+#: ekos/mount/mount.cpp:1879
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr "تحديث مصدر موقع السيد إلى %1. تحديث نظام تحديد المواقع..."
 
-#: ekos/mount/mount.cpp:1883
+#: ekos/mount/mount.cpp:1887
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr "تحديث مصدر موقع السيد إلى %1."

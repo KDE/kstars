@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-07 02:06+0000\n"
+"POT-Creation-Date: 2026-05-08 02:05+0000\n"
 "PO-Revision-Date: 2025-06-21 12:07+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -18863,12 +18863,12 @@ msgstr "En liña"
 msgid "Offline"
 msgstr "Desconectado"
 
-#: ekos/ekoslive/message.cpp:788
+#: ekos/ekoslive/message.cpp:795
 #, kde-format
 msgid "target"
 msgstr "destino"
 
-#: ekos/ekoslive/message.cpp:1076
+#: ekos/ekoslive/message.cpp:1090
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "A importación do mosaico fallou."
@@ -26268,34 +26268,34 @@ msgstr "A hora de estacionamento debe estar nas 24 horas seguintes á actual."
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Aviso! Faltan máis de 12 horas para o estacionamento."
 
-#: ekos/mount/mount.cpp:1331
+#: ekos/mount/mount.cpp:1332
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Coidado: non use o estacionamento automático mentres o planificador está "
 "activo."
 
-#: ekos/mount/mount.cpp:1351
+#: ekos/mount/mount.cpp:1352
 #, kde-format
 msgid "Parking timer is up."
 msgstr "Rematou o temporizador de estacionamento."
 
-#: ekos/mount/mount.cpp:1361
+#: ekos/mount/mount.cpp:1362
 #, kde-format
 msgid "Starting auto park..."
 msgstr "Iniciando o estacionamento automático…"
 
-#: ekos/mount/mount.cpp:1854
+#: ekos/mount/mount.cpp:1858
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr "Actualizando a orixe da hora mestra a %1."
 
-#: ekos/mount/mount.cpp:1875
+#: ekos/mount/mount.cpp:1879
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr "Actualizando a orixe da localización mestra a %1. Actualizando o GPS…"
 
-#: ekos/mount/mount.cpp:1883
+#: ekos/mount/mount.cpp:1887
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr "Actualizando a orixe da localización mestra a %1."

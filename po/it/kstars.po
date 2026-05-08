@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-07 02:06+0000\n"
+"POT-Creation-Date: 2026-05-08 02:05+0000\n"
 "PO-Revision-Date: 2026-04-26 19:17+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -18809,12 +18809,12 @@ msgstr "In linea"
 msgid "Offline"
 msgstr "Non in linea"
 
-#: ekos/ekoslive/message.cpp:788
+#: ekos/ekoslive/message.cpp:795
 #, kde-format
 msgid "target"
 msgstr "destinazione"
 
-#: ekos/ekoslive/message.cpp:1076
+#: ekos/ekoslive/message.cpp:1090
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Importazione del mosaico non riuscita."
@@ -26144,36 +26144,36 @@ msgstr "L'orario di parcheggio deve essere entro 24 ore dall'ora corrente."
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Attenzione: l'orario di parcheggio è a oltre 12 ore di distanza."
 
-#: ekos/mount/mount.cpp:1331
+#: ekos/mount/mount.cpp:1332
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Attenzione: non usare il parcheggio automatico mentre il pianificatore è "
 "attivo."
 
-#: ekos/mount/mount.cpp:1351
+#: ekos/mount/mount.cpp:1352
 #, kde-format
 msgid "Parking timer is up."
 msgstr "Timer del parcheggio impostato."
 
-#: ekos/mount/mount.cpp:1361
+#: ekos/mount/mount.cpp:1362
 #, kde-format
 msgid "Starting auto park..."
 msgstr "Avvio parcheggio automatico..."
 
-#: ekos/mount/mount.cpp:1854
+#: ekos/mount/mount.cpp:1858
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr "Aggiornamento della sorgente dell'orario master a %1."
 
-#: ekos/mount/mount.cpp:1875
+#: ekos/mount/mount.cpp:1879
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 "Aggiornamento della sorgente della posizione master a %1. Aggiornamento del "
 "GPS..."
 
-#: ekos/mount/mount.cpp:1883
+#: ekos/mount/mount.cpp:1887
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr "Aggiornamento della sorgente della posizione master a %1."

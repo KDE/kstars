@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-07 02:06+0000\n"
+"POT-Creation-Date: 2026-05-08 02:05+0000\n"
 "PO-Revision-Date: 2025-12-03 10:56+0100\n"
 "Last-Translator: Daniel Kauser <danysahne333@yahoo.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -18813,13 +18813,13 @@ msgstr "Online"
 msgid "Offline"
 msgstr "Offline"
 
-#: ekos/ekoslive/message.cpp:788
+#: ekos/ekoslive/message.cpp:795
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "target"
 msgstr "Ziel"
 
-#: ekos/ekoslive/message.cpp:1076
+#: ekos/ekoslive/message.cpp:1090
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -26375,7 +26375,7 @@ msgstr ""
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1331
+#: ekos/mount/mount.cpp:1332
 #, fuzzy, kde-format
 #| msgid "Cannot switch modes while INDI services are running."
 msgid "Caution: do not use Auto Park while scheduler is active."
@@ -26383,29 +26383,29 @@ msgstr ""
 "Wechsel der Modi ist nicht möglich, während die INDI-Dienste ausgeführt "
 "werden."
 
-#: ekos/mount/mount.cpp:1351
+#: ekos/mount/mount.cpp:1352
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Parking timer is up."
 msgstr "Teleskop wird geparkt ..."
 
-#: ekos/mount/mount.cpp:1361
+#: ekos/mount/mount.cpp:1362
 #, fuzzy, kde-format
 #| msgid "Starting solver..."
 msgid "Starting auto park..."
 msgstr "Lösung wird gestartet ..."
 
-#: ekos/mount/mount.cpp:1854
+#: ekos/mount/mount.cpp:1858
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1875
+#: ekos/mount/mount.cpp:1879
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1883
+#: ekos/mount/mount.cpp:1887
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr ""
