@@ -26195,14 +26195,11 @@ msgid ""
 msgstr ""
 
 #: ekos/profilescript.cpp:49
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Wait this many seconds after the driver starts. The delay applies whether or "
 "not a post-startup script is set."
-msgstr "驱动启动后，执行后驱动脚本前的延迟的秒数。"
+msgstr ""
 
 #: ekos/profilescript.cpp:59
 #, kde-format
@@ -26212,14 +26209,11 @@ msgid ""
 msgstr ""
 
 #: ekos/profilescript.cpp:69
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Wait this many seconds after the driver stops. The delay applies whether or "
 "not a post-shutdown script is set."
-msgstr "驱动启动后，执行后驱动脚本前的延迟的秒数。"
+msgstr ""
 
 #: ekos/profilescript.cpp:79
 #, kde-format
@@ -89919,16 +89913,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Delay this many seconds before executing pre driver script."
-#~ msgstr "执行驱动脚本前延迟的秒数。"
-
-#~ msgid ""
-#~ "Delay this many seconds after executing stopping driver script before "
-#~ "stopping driver."
-#~ msgstr "执行停止驱动程序脚本后，延迟这么多秒再停止驱动程序。"
-
-#~ msgid ""
-#~ "Delay this many seconds after driver stopped before executing stopped "
-#~ "driver script."
-#~ msgstr "驱动停止后，延迟该秒数再执行驱动停止脚本。"

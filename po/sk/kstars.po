@@ -26880,17 +26880,17 @@ msgid ""
 "Wait this many seconds before starting the driver. The delay applies whether "
 "or not a pre-startup script is set."
 msgstr ""
+"Čakať toľto sekúnd pred spustením ovládača. Oneskorenie platí bez ohľadu na "
+"to, či je nastavený skript pred spustením."
 
 #: ekos/profilescript.cpp:49
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Wait this many seconds after the driver starts. The delay applies whether or "
 "not a post-startup script is set."
 msgstr ""
-"Čakať toľto sekúnd po spustení ovládača pred spustením skriptu po ovládači."
+"Čakať toľto sekúnd po zastavení ovládača. Oneskorenie platí bez ohľadu na "
+"to, či je nastavený skript po spustení."
 
 #: ekos/profilescript.cpp:59
 #, kde-format
@@ -26898,17 +26898,17 @@ msgid ""
 "Wait this many seconds before stopping the driver. The delay applies whether "
 "or not a pre-shutdown script is set."
 msgstr ""
+"Čakať toľto sekúnd pred zastavením ovládača. Oneskorenie platí bez ohľadu na "
+"to, či je nastavený skript pred vypnutím."
 
 #: ekos/profilescript.cpp:69
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Wait this many seconds after the driver stops. The delay applies whether or "
 "not a post-shutdown script is set."
 msgstr ""
-"Čakať toľto sekúnd po spustení ovládača pred spustením skriptu po ovládači."
+"Čakať toľto sekúnd po zastavení ovládača. Oneskorenie platí bez ohľadu na "
+"to, či je nastavený skript po vypnutí."
 
 #: ekos/profilescript.cpp:79
 #, kde-format

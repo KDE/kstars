@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-08 02:05+0000\n"
-"PO-Revision-Date: 2026-04-26 19:17+0200\n"
+"PO-Revision-Date: 2026-05-07 17:07+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -27584,18 +27584,17 @@ msgid ""
 "Wait this many seconds before starting the driver. The delay applies whether "
 "or not a pre-startup script is set."
 msgstr ""
+"Attendi questi secondi prima dell'avvio del driver. Il ritardo si applica a "
+"prescindere che sia configurato o no uno script di pre-avvio."
 
 #: ekos/profilescript.cpp:49
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Wait this many seconds after the driver starts. The delay applies whether or "
 "not a post-startup script is set."
 msgstr ""
-"Ritarda questi secondi dopo l'avvio del driver prima di eseguire lo script "
-"del post-driver."
+"Attendi questi secondi dopo l'avvio del driver. Il ritardo si applica a "
+"prescindere che sia configurato o no uno script di post-avvio."
 
 #: ekos/profilescript.cpp:59
 #, kde-format
@@ -27603,18 +27602,17 @@ msgid ""
 "Wait this many seconds before stopping the driver. The delay applies whether "
 "or not a pre-shutdown script is set."
 msgstr ""
+"Attendi questi secondi prima dell'interruzione del driver. Il ritardo si "
+"applica a prescindere che sia configurato o no uno script di pre-spegnimento."
 
 #: ekos/profilescript.cpp:69
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Wait this many seconds after the driver stops. The delay applies whether or "
 "not a post-shutdown script is set."
 msgstr ""
-"Ritarda questi secondi dopo l'avvio del driver prima di eseguire lo script "
-"del post-driver."
+"Attendi questi secondi dopo l'interruzione del driver. Il ritardo si applica "
+"a prescindere che sia configurato o no uno script di post-spegnimento."
 
 #: ekos/profilescript.cpp:79
 #, kde-format
@@ -30895,10 +30893,10 @@ msgid "No post-startup tasks, startup complete."
 msgstr "Nessuna operazione di post-avvio, avvio completato."
 
 #: ekos/scheduler/schedulerprocess.cpp:2087
-#, fuzzy, kde-format
-#| msgid "Observatory is in the shutdown process"
+#, kde-format
 msgid "Observatory was not started, skipping shutdown procedure."
-msgstr "L'osservatorio è in fase di spegnimento"
+msgstr ""
+"L'osservatorio non è stato avviato, sto saltando la procedura di spegnimento."
 
 #: ekos/scheduler/schedulerprocess.cpp:2100
 #, kde-format
