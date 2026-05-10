@@ -2589,7 +2589,7 @@ bool CurveFitting::getGaussianParams(StarParams *starParams)
     double FWHMy = 2 * pow(2 * log(2) * sigmay2, 0.5);
     double FWHM  = (FWHMx + FWHMy) / 2.0;
 
-    if (isnan(FWHM) || FWHM < 0.0)
+    if (std::isnan(FWHM) || FWHM < 0.0)
     {
         qCDebug(KSTARS_EKOS_FOCUS) << QString("Error in CurveFitting::getGaussianParams FWHM=%1").arg(FWHM);
         return false;
