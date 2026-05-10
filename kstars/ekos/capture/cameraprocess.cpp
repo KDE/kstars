@@ -784,6 +784,13 @@ void CameraProcess::prepareJobExecution()
     activeJob()->setCoreProperty(SequenceJob::SJ_GuiderActive,
                                  state()->isActivelyGuiding());
 
+    // Sync the CameraState shadow copies for dust cap and light box from the real
+    // INDI device state before any speculative writes happen inside prepareCapture().
+    if (devices()->dustCap())
+        state()->setDustCapState(devices()->dustCap()->status());
+    if (devices()->lightBox())
+        state()->setLightBoxLightState(devices()->lightBox()->lightStatus());
+
     // signal that capture preparation steps should be executed
     qCDebug(KSTARS_EKOS_CAPTURE) << "Calling activeJob()->prepareCapture()";
     activeJob()->prepareCapture();
