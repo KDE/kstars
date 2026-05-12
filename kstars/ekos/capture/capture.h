@@ -610,6 +610,19 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         /**
+         * @brief Set the pictures capture directory.
+         * @param path Full path to the directory where captured images will be saved.
+         * @return true if the path is valid and updated, false otherwise.
+         */
+        Q_SCRIPTABLE bool setPicturesDirectory(const QString &path);
+
+        /**
+         * @brief Get the current pictures capture directory.
+         * @return Full path to the current capture directory.
+         */
+        Q_SCRIPTABLE QString getPicturesDirectory();
+
+        /**
          * @brief Name of the main camera's device
          */
         Q_SCRIPTABLE QString mainCameraDeviceName()

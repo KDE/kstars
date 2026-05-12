@@ -137,6 +137,13 @@
       <arg name="train" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="setPicturesDirectory">
+      <arg name="path" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="getPicturesDirectory">
+      <arg type="s" direction="out"/>
+    </method>
     <method name="mainCameraDeviceName">
       <arg type="s" direction="out"/>
     </method>

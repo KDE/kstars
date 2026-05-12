@@ -369,6 +369,23 @@ void Capture::setCapturedFramesMap(const QString &signature, int count, QString 
     cam->state()->setCapturedFramesCount(signature, count);
 }
 
+bool Capture::setPicturesDirectory(const QString &path)
+{
+    QFileInfo info(path);
+    if (info.exists() && info.isDir())
+    {
+        Options::setCaptureDirectory(path);
+        mainCamera()->fileDirectoryT->setText(path);
+        return true;
+    }
+    return false;
+}
+
+QString Capture::getPicturesDirectory()
+{
+    return mainCamera()->fileDirectoryT->text();
+}
+
 void Capture::setAlignStatus(AlignState newstate)
 {
     // forward it directly to the state machine
