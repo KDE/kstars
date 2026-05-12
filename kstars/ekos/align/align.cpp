@@ -3429,7 +3429,6 @@ void Align::checkFilter()
 
 void Align::setRotator(ISD::Rotator * Device)
 {
-    bool ok = false;
     if ((Manager::Instance()->existRotatorController()) && (!m_Rotator || !(Device == m_Rotator)))
     {
         rotatorB->setEnabled(false);
@@ -3452,10 +3451,7 @@ void Align::setRotator(ISD::Rotator * Device)
                 rotatorB->setEnabled(true);
             }
         }
-        else
-            ok = true;
     }
-    rotatorB->setEnabled(ok);
 }
 
 void Align::setWCSEnabled(bool enable)
