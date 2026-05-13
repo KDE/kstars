@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-11 02:06+0000\n"
+"POT-Creation-Date: 2026-05-13 02:04+0000\n"
 "PO-Revision-Date: 2025-07-29 14:41+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -479,14 +479,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Gorde irudia"
 
-#: auxiliary/imageviewer.cpp:321 ekos/align/align.cpp:4173
+#: auxiliary/imageviewer.cpp:321 ekos/align/align.cpp:4169
 #: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1391
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "\"%1\" izeneko fitxategi bat badago lehendik ere. Gainidatzi?"
 
-#: auxiliary/imageviewer.cpp:324 ekos/align/align.cpp:4176
+#: auxiliary/imageviewer.cpp:324 ekos/align/align.cpp:4172
 #: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1392
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -2639,7 +2639,7 @@ msgstr ""
 "Emandako URL-a baliogabea da. Arakatzaile lehio bat ireki nahi duzu\n"
 "Google bilaketa motorrean?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4184
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4180
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:427
 #: ekos/guide/guidedriftgraph.cpp:503 ekos/scheduler/scheduler.cpp:2223
@@ -6547,7 +6547,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr "Helburua soluzioaren koordenatuen %1 graduren barruan dago."
 
 #: ekos/align/align.cpp:2940 ekos/align/align.cpp:2958
-#: ekos/align/align.cpp:3587 ekos/align/align.cpp:4332
+#: ekos/align/align.cpp:3583 ekos/align/align.cpp:4328
 #: ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
@@ -6625,105 +6625,105 @@ msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Kargatu irudia"
 
-#: ekos/align/align.cpp:3483
+#: ekos/align/align.cpp:3479
 #, fuzzy, kde-format
 #| msgid "World Coordinate System (WCS) is enabled."
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "World Coordinate System (WCS) gaituta."
 
-#: ekos/align/align.cpp:3488
+#: ekos/align/align.cpp:3484
 #, fuzzy, kde-format
 #| msgid "World Coordinate System (WCS) is disabled."
 msgid "%1: World Coordinate System (WCS) is disabled."
 msgstr "World Coordinate System (WCS) ezgaituta"
 
-#: ekos/align/align.cpp:3507
+#: ekos/align/align.cpp:3503
 #, kde-format
 msgid "Capture error. Aborting..."
 msgstr "Harrapaketa errorea. Galarazten..."
 
-#: ekos/align/align.cpp:3512 ekos/capture/cameraprocess.cpp:1668
+#: ekos/align/align.cpp:3508 ekos/capture/cameraprocess.cpp:1668
 #: ekos/capture/cameraprocess.cpp:2233
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3638
+#: ekos/align/align.cpp:3634
 #, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "Lerrokatu markoa"
 
-#: ekos/align/align.cpp:3713
+#: ekos/align/align.cpp:3709
 #, kde-format
 msgid "StellarSolver Options"
 msgstr "StellarSolver aukerak"
 
-#: ekos/align/align.cpp:3718
+#: ekos/align/align.cpp:3714
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3722
+#: ekos/align/align.cpp:3718
 #, kde-format
 msgid "Scale & Position"
 msgstr "Eskala eta posizioa"
 
-#: ekos/align/align.cpp:3726
+#: ekos/align/align.cpp:3722
 #, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "Lerrokatze aukerak profilen editorea"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3745 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3741 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Indize fitxategiak"
 
-#: ekos/align/align.cpp:3810 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3806 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
 msgstr "dRA (arcsec)"
 
-#: ekos/align/align.cpp:3811 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3807 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
 msgstr "dDE (arcsec)"
 
-#: ekos/align/align.cpp:3859 ekos/capture/camera_config.cpp:717
+#: ekos/align/align.cpp:3855 ekos/capture/camera_config.cpp:717
 #: ekos/focus/focus.cpp:5957
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Filtro eragiketak huts egin du."
 
-#: ekos/align/align.cpp:3871 ekos/capture/camera.cpp:577
+#: ekos/align/align.cpp:3867 ekos/capture/camera.cpp:577
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3878 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3874 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/camera.cpp:582
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3883 ekos/capture/camera.cpp:587
+#: ekos/align/align.cpp:3879 ekos/capture/camera.cpp:587
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Auto focus filtroan aldatu da..."
 
-#: ekos/align/align.cpp:4004
+#: ekos/align/align.cpp:4000
 #, kde-format
 msgid "Invalid FOV."
 msgstr "FOV baliogabea"
 
-#: ekos/align/align.cpp:4160
+#: ekos/align/align.cpp:4156
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Esportatu soluzioaren puntuak"
 
-#: ekos/align/align.cpp:4183 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:4179 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:426 ekos/guide/guidedriftgraph.cpp:502
 #: ekos/scheduler/scheduler.cpp:2222 ekos/scheduler/scheduler.cpp:2332
@@ -6733,7 +6733,7 @@ msgstr "Esportatu soluzioaren puntuak"
 msgid "Invalid URL: %1"
 msgstr "URL baliogabea: %1"
 
-#: ekos/align/align.cpp:4192 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:4188 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:511
 #: ekos/scheduler/schedulerprocess.cpp:2961
 #: ekos/scheduler/schedulerprocess.cpp:4567
@@ -6741,7 +6741,7 @@ msgstr "URL baliogabea: %1"
 msgid "Unable to write to file %1"
 msgstr "Ezin da %1 fitxategira idatzi"
 
-#: ekos/align/align.cpp:4193 ekos/align/mountmodel.cpp:286
+#: ekos/align/align.cpp:4189 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:2646 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2962
@@ -6761,32 +6761,32 @@ msgstr "Ezin da %1 fitxategira idatzi"
 msgid "Could Not Open File"
 msgstr "Ezin izan da fitxategia ireki"
 
-#: ekos/align/align.cpp:4214
+#: ekos/align/align.cpp:4210
 #, kde-format
 msgid "Error in table structure."
 msgstr "Taularen estrukturan errorea izan da."
 
-#: ekos/align/align.cpp:4223
+#: ekos/align/align.cpp:4219
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Soluzio puntuak honela gordeta: %1"
 
-#: ekos/align/align.cpp:4240
+#: ekos/align/align.cpp:4236
 #, kde-format
 msgid "Polar Alignment"
 msgstr "Lerrokadura polarra"
 
-#: ekos/align/align.cpp:4814
+#: ekos/align/align.cpp:4810
 #, kde-format
 msgid "Capture timed out."
 msgstr "Harrapaketa denbora-muga gainditu da."
 
-#: ekos/align/align.cpp:4823
+#: ekos/align/align.cpp:4819
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Harrapaketa oraindik badoa; berriro saiatu %1 segundotan..."
 
-#: ekos/align/align.cpp:4869
+#: ekos/align/align.cpp:4865
 #, fuzzy, kde-format
 #| msgid "Solver aborted after %1 seconds."
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
@@ -10592,7 +10592,7 @@ msgid "Start plate solving the position you are currently aiming at."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/align/pushtoassistant.cpp:267 ekos/capture/capture.cpp:481
+#: ekos/align/pushtoassistant.cpp:267 ekos/capture/capture.cpp:498
 #: ekos/focus/focusmodule.cpp:676 ekos/observatory/observatory.ui:550
 #: kspopupmenu.cpp:644 skycomponents/imageoverlaycomponent.cpp:624
 #: skycomponents/imageoverlaycomponent.cpp:754
@@ -16527,12 +16527,12 @@ msgstr ""
 msgid "DSLR"
 msgstr ""
 
-#: ekos/capture/capture.cpp:479 ekos/focus/focusmodule.cpp:675
+#: ekos/capture/capture.cpp:496 ekos/focus/focusmodule.cpp:675
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:480 ekos/focus/focusmodule.cpp:676
+#: ekos/capture/capture.cpp:497 ekos/focus/focusmodule.cpp:676
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop capturing"
