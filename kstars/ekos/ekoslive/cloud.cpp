@@ -166,6 +166,11 @@ void Cloud::dispatch(const QSharedPointer<FITSData> &data, const QString &uuid)
         data->loadFromFile(filepath).waitForFinished();
     }
 
+    // Determine file extension for compression decision
+    QString ext = QFileInfo(filenameOnly).suffix().toLower();
+    // FITS and XISF files get qCompress (zlib/deflate) compression
+    bool useCompression = (ext == "fits" || ext == "fit" || ext == "fts" || ext == "xisf");
+
     // Send complete metadata
     // Add file name and size
     QJsonObject metadata;
@@ -182,27 +187,28 @@ void Cloud::dispatch(const QSharedPointer<FITSData> &data, const QString &uuid)
     metadata.insert("filename", filenameOnly);
     metadata.insert("filesize", static_cast<int>(data->size()));
     // Must set Content-Disposition so
-    metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filenameOnly));
+    if (useCompression)
+        metadata.insert("Content-Disposition", QString("attachment;filename=%1.gz").arg(filenameOnly));
+    else
+        metadata.insert("Content-Disposition", QString("attachment;filename=%1").arg(filenameOnly));
 
     QByteArray image;
     QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
     meta = meta.leftJustified(METADATA_PACKET, 0);
     image += meta;
 
-    QString compressedFile = QDir::tempPath() + QString("/ekoslivecloud%1").arg(uuid);
-    data->saveImage(compressedFile + QStringLiteral("[compress R]"));
-    // Upload the compressed image
-    QFile compressedImage(compressedFile);
-    if (compressedImage.open(QIODevice::ReadOnly))
+    // All sequence images are already saved to disk — read directly from the file.
+    // For FITS/XISF we compress the raw bytes; for other formats we send as-is.
+    QFile sourceFile(filepath);
+    if (sourceFile.open(QIODevice::ReadOnly))
     {
-        image += compressedImage.readAll();
+        QByteArray rawData = sourceFile.readAll();
+        image += useCompression ? qCompress(rawData) : rawData;
         Q_EMIT newImage(image);
-        qCInfo(KSTARS_EKOS) << "Uploaded" << compressedFile << " to the cloud";
+        qCInfo(KSTARS_EKOS) << (useCompression ? "Uploaded compressed" : "Uploaded") << filenameOnly << " to the cloud";
     }
-
-    // Remove from disk if temporary
-    if (compressedFile != filepath && compressedFile.startsWith(QDir::tempPath()))
-        QFile::remove(compressedFile);
+    else
+        qCWarning(KSTARS_EKOS) << "Failed to open file for upload:" << filepath;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

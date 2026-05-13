@@ -69,6 +69,9 @@ bool FITSData::readableFilename(const QString &filename)
 {
     QFileInfo info(filename);
     QString extension = info.completeSuffix().toLower();
+    // Handle .gz compressed files (e.g. .fits.gz, .xisf.gz)
+    if (extension.endsWith(".gz"))
+        extension.chop(3);
     return extension.contains("fit") || extension.contains("fz") ||
            extension.contains("xisf") ||
            QImageReader::supportedImageFormats().contains(extension.toLatin1()) ||
@@ -322,6 +325,29 @@ QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
     loadCommon(inFilename);
     QFileInfo info(m_Filename);
     m_Extension = info.completeSuffix().toLower();
+
+    // Handle .gz compressed files (e.g. .fits.gz, .xisf.gz)
+    if (m_Extension.endsWith(".gz"))
+    {
+        QString baseExt = m_Extension;
+        baseExt.chop(3); // remove .gz
+        QFile file(m_Filename);
+        if (file.open(QIODevice::ReadOnly))
+        {
+            QByteArray compressed = file.readAll();
+            file.close();
+            QByteArray decompressed = qUncompress(compressed);
+            if (!decompressed.isEmpty())
+            {
+                m_Extension = baseExt;
+                qCDebug(KSTARS_FITS) << "Decompressed .gz file" << m_Filename;
+                return QtConcurrent::run(&FITSData::loadFromBuffer, this, decompressed);
+            }
+            else
+                qCWarning(KSTARS_FITS) << "Failed to decompress .gz file" << m_Filename;
+        }
+    }
+
     qCDebug(KSTARS_FITS) << "Loading file " << m_Filename;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     return QtConcurrent::run(&FITSData::privateLoad, this, QByteArray());
