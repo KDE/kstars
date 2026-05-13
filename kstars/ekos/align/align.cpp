@@ -3246,7 +3246,7 @@ bool Align::loadAndSlew(QString fileURL)
 {
     if (fileURL.isEmpty())
         fileURL = QFileDialog::getOpenFileName(Ekos::Manager::Instance(), i18nc("@title:window", "Load Image"), dirPath,
-                                               "Images (*.fits *.fits.fz *.fit *.fts *.xisf "
+                                               "Images (*.fits *.fits.fz *.fits.gz *.fit *.fts *.xisf *.xisf.gz"
                                                "*.jpg *.jpeg *.png *.gif *.bmp "
                                                "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw *.orf)");
 
