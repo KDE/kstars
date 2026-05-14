@@ -119,31 +119,6 @@ static bool isPortReachable(const QString &host, int port, int timeoutMs)
     return connected;
 }
 
-// Helper function to try API connection with timeout
-static bool tryApiConnection(const QString &host, int port, int timeoutMs)
-{
-    QTimer timer;
-    timer.setSingleShot(true);
-    QNetworkAccessManager manager;
-    QUrl url(QString("http://%1:%2/api/server/status").arg(host).arg(QString::number(port)));
-    QNetworkReply *response = manager.get(QNetworkRequest(url));
-
-    // Wait synchronously
-    QEventLoop event;
-    QObject::connect(&timer, &QTimer::timeout, &event, &QEventLoop::quit);
-    QObject::connect(response, &QNetworkReply::finished, &event, &QEventLoop::quit);
-    timer.start(timeoutMs);
-    event.exec();
-
-    bool success = timer.isActive() && response->error() == QNetworkReply::NoError;
-
-    // Clean up
-    timer.stop();
-    response->deleteLater();
-
-    return success;
-}
-
 bool isOnline(const QSharedPointer<ProfileInfo> &pi)
 {
     // Layer 1: DNS resolution check (fast fail on DNS issues)
@@ -156,9 +131,7 @@ bool isOnline(const QSharedPointer<ProfileInfo> &pi)
         if (pi->host.contains(".local"))
         {
             qCDebug(KSTARS_EKOS) << "INDI: Attempting fallback to 10.250.250.1";
-
-            // Try the fallback address
-            if (isPortReachable("10.250.250.1", 8624, 1000) && tryApiConnection("10.250.250.1", 8624, 1500))
+            if (isPortReachable("10.250.250.1", 8624, 1000))
             {
                 qCDebug(KSTARS_EKOS) << "INDI: Successfully connected via fallback address";
                 pi->host = "10.250.250.1";
@@ -169,7 +142,9 @@ bool isOnline(const QSharedPointer<ProfileInfo> &pi)
         return false;
     }
 
-    // Layer 2: TCP port check (verify port is open and accepting connections)
+    // Layer 2: TCP port check (verify port is open and accepting connections).
+    // Port 8624 is exclusively used by the INDI Web Manager, so a successful
+    // TCP connection is sufficient to confirm the service is online.
     if (!isPortReachable(pi->host, pi->INDIWebManagerPort, 1000))
     {
         qCDebug(KSTARS_EKOS) << "INDI: Port" << pi->INDIWebManagerPort << "not reachable on" << pi->host;
@@ -184,7 +159,7 @@ bool isOnline(const QSharedPointer<ProfileInfo> &pi)
             if (pi->host.contains(".local"))
             {
                 qCDebug(KSTARS_EKOS) << "INDI: Attempting fallback to 10.250.250.1";
-                if (isPortReachable("10.250.250.1", 8624, 1000) && tryApiConnection("10.250.250.1", 8624, 1500))
+                if (isPortReachable("10.250.250.1", 8624, 1000))
                 {
                     qCDebug(KSTARS_EKOS) << "INDI: Successfully connected via fallback address";
                     pi->host = "10.250.250.1";
@@ -196,24 +171,8 @@ bool isOnline(const QSharedPointer<ProfileInfo> &pi)
         }
     }
 
-    // Layer 3: API call (verify it's actually the INDI Web Manager)
-    qCDebug(KSTARS_EKOS) << "INDI: Attempting API connection to" << pi->host << ":" << pi->INDIWebManagerPort;
-    if (tryApiConnection(pi->host, pi->INDIWebManagerPort, 1500))
-    {
-        qCDebug(KSTARS_EKOS) << "INDI: Web Manager is online at" << pi->host << ":" << pi->INDIWebManagerPort;
-        return true;
-    }
-
-    // Retry once for transient failures
-    qCDebug(KSTARS_EKOS) << "INDI: API call failed, retrying...";
-    if (tryApiConnection(pi->host, pi->INDIWebManagerPort, 2000))
-    {
-        qCDebug(KSTARS_EKOS) << "INDI: Web Manager is online at" << pi->host << ":" << pi->INDIWebManagerPort;
-        return true;
-    }
-
-    qCDebug(KSTARS_EKOS) << "INDI: Failed to connect to Web Manager at" << pi->host << ":" << pi->INDIWebManagerPort;
-    return false;
+    qCDebug(KSTARS_EKOS) << "INDI: Web Manager is online at" << pi->host << ":" << pi->INDIWebManagerPort;
+    return true;
 }
 
 bool checkVersion(const QSharedPointer<ProfileInfo> &pi)
