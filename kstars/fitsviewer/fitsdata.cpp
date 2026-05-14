@@ -341,7 +341,11 @@ QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
             {
                 m_Extension = baseExt;
                 qCDebug(KSTARS_FITS) << "Decompressed .gz file" << m_Filename;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
                 return QtConcurrent::run(&FITSData::loadFromBuffer, this, decompressed);
+#else
+                return QtConcurrent::run(this, &FITSData::loadFromBuffer, decompressed);
+#endif
             }
             else
                 qCWarning(KSTARS_FITS) << "Failed to decompress .gz file" << m_Filename;
