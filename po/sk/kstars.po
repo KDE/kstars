@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-14 02:06+0000\n"
+"POT-Creation-Date: 2026-05-15 02:04+0000\n"
 "PO-Revision-Date: 2026-04-10 12:00+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -765,7 +765,7 @@ msgstr "Chyba čítania konfiguračného súboru astrometry."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Interná chyba zápisu konfiguračného súboru astrometry."
 
-#: auxiliary/ksutils.cpp:1769 fitsviewer/fitsdata.cpp:2994
+#: auxiliary/ksutils.cpp:1769 fitsviewer/fitsdata.cpp:2998
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -31752,217 +31752,217 @@ msgstr "Popis typu objektu"
 msgid "Object Type Comments"
 msgstr "Komentáre k typu objektu"
 
-#: fitsviewer/fitsdata.cpp:1951
+#: fitsviewer/fitsdata.cpp:1955
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Chyba čítania vyrovnávacej pamäte FITS: %1."
 
-#: fitsviewer/fitsdata.cpp:1960
+#: fitsviewer/fitsdata.cpp:1964
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Nepodarilo sa rozbaliť komprimované FITS"
 
-#: fitsviewer/fitsdata.cpp:1990
+#: fitsviewer/fitsdata.cpp:1994
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Chyba pri otváraní súboru FITS %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:2005
+#: fitsviewer/fitsdata.cpp:2009
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Chyba čítania vyrovnávacej pamäte FITS: %1"
 
-#: fitsviewer/fitsdata.cpp:2019
+#: fitsviewer/fitsdata.cpp:2023
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Nepodarilo sa nájsť obrazový HDU: %1"
 
-#: fitsviewer/fitsdata.cpp:2029
+#: fitsviewer/fitsdata.cpp:2033
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "Chyba pri otváraní súboru FITS (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2043
+#: fitsviewer/fitsdata.cpp:2047
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "Obrázky 1D FITS nie sú podporované v KStars."
 
-#: fitsviewer/fitsdata.cpp:2091 fitsviewer/fitsdata.cpp:2823
+#: fitsviewer/fitsdata.cpp:2095 fitsviewer/fitsdata.cpp:2827
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Bitová hĺbka %1 nie je podporovaná."
 
-#: fitsviewer/fitsdata.cpp:2101
+#: fitsviewer/fitsdata.cpp:2105
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Obrázok má neplatné rozmery %1x%2"
 
-#: fitsviewer/fitsdata.cpp:2155
+#: fitsviewer/fitsdata.cpp:2159
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Chyba čítania obrázku: %1 "
 
-#: fitsviewer/fitsdata.cpp:2562 fitsviewer/fitsdata.cpp:2783
+#: fitsviewer/fitsdata.cpp:2566 fitsviewer/fitsdata.cpp:2787
 #, kde-format
 msgid "XISF file open error: "
 msgstr "Chyba otvorenia súboru XISF: "
 
-#: fitsviewer/fitsdata.cpp:2697
+#: fitsviewer/fitsdata.cpp:2701
 #, kde-format
 msgid "File contain no images"
 msgstr "Súbor neobsahuje žiadne obrázky"
 
-#: fitsviewer/fitsdata.cpp:2726
+#: fitsviewer/fitsdata.cpp:2730
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Vzorkový formát %1 nie je podporovaný."
 
-#: fitsviewer/fitsdata.cpp:2861
+#: fitsviewer/fitsdata.cpp:2865
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Chyba pri ukladaní snímky XISF"
 
-#: fitsviewer/fitsdata.cpp:2953 fitsviewer/fitsdata.cpp:3069
+#: fitsviewer/fitsdata.cpp:2957 fitsviewer/fitsdata.cpp:3073
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSData: Nedostatok pamäte pre kanál image_buffer. Požadované: %1 bajtov"
 
-#: fitsviewer/fitsdata.cpp:3008
+#: fitsviewer/fitsdata.cpp:3012
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Nie je možné otvoriť súbor %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3021
+#: fitsviewer/fitsdata.cpp:3025
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Nemožno otvoriť zásobník: %1"
 
-#: fitsviewer/fitsdata.cpp:3032
+#: fitsviewer/fitsdata.cpp:3036
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Nemožno unpack_thumb: %1"
 
-#: fitsviewer/fitsdata.cpp:3039
+#: fitsviewer/fitsdata.cpp:3043
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Nemožno dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:3047
+#: fitsviewer/fitsdata.cpp:3051
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Nemožno načítať do pamäte: %1"
 
-#: fitsviewer/fitsdata.cpp:3194
+#: fitsviewer/fitsdata.cpp:3198
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Ukladanie komprimovaných súborov nie je podporované."
 
-#: fitsviewer/fitsdata.cpp:3258
+#: fitsviewer/fitsdata.cpp:3262
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Nepodarilo sa vytvoriť súbor: %1"
 
-#: fitsviewer/fitsdata.cpp:3280
+#: fitsviewer/fitsdata.cpp:3284
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Nepodarilo sa vytvoriť obrázok: %1"
 
-#: fitsviewer/fitsdata.cpp:3289 fitsviewer/fitsdata.cpp:3296
+#: fitsviewer/fitsdata.cpp:3293 fitsviewer/fitsdata.cpp:3300
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Nepodarilo sa aktualizovať kľúč: %1"
 
-#: fitsviewer/fitsdata.cpp:3424
+#: fitsviewer/fitsdata.cpp:3428
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Zlyhalo načítanie obrázku na %1"
 
-#: fitsviewer/fitsdata.cpp:3433
+#: fitsviewer/fitsdata.cpp:3437
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Nepodarilo sa aktualizovať históriu: %1"
 
-#: fitsviewer/fitsdata.cpp:3455
+#: fitsviewer/fitsdata.cpp:3459
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Zlyhalo načítanie obrázku na %1"
 
-#: fitsviewer/fitsdata.cpp:5230 fitsviewer/fitsdata.cpp:5241
-#: fitsviewer/fitsdata.cpp:5278 fitsviewer/fitsdata.cpp:5314
-#: fitsviewer/fitsdata.cpp:5448
+#: fitsviewer/fitsdata.cpp:5234 fitsviewer/fitsdata.cpp:5245
+#: fitsviewer/fitsdata.cpp:5282 fitsviewer/fitsdata.cpp:5318
+#: fitsviewer/fitsdata.cpp:5452
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Nenašli sa žiadne svetové súradnicové systémy."
 
-#: fitsviewer/fitsdata.cpp:5623 fitsviewer/fitsdata.cpp:5729
+#: fitsviewer/fitsdata.cpp:5627 fitsviewer/fitsdata.cpp:5733
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Chyba pri dopyte Simbad"
 
-#: fitsviewer/fitsdata.cpp:5638
+#: fitsviewer/fitsdata.cpp:5642
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Dopyt Simbad vypršal"
 
-#: fitsviewer/fitsdata.cpp:6615 fitsviewer/fitsdata.cpp:6728
+#: fitsviewer/fitsdata.cpp:6619 fitsviewer/fitsdata.cpp:6732
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Podporované sú iba 8 a 16 bitové bayerované obrázky."
 
-#: fitsviewer/fitsdata.cpp:6623 fitsviewer/fitsdata.cpp:6734
+#: fitsviewer/fitsdata.cpp:6627 fitsviewer/fitsdata.cpp:6738
 #, kde-format
 msgid "Unknown bayer pattern %1"
 msgstr "Neznámy Bayerov vzor %1"
 
-#: fitsviewer/fitsdata.cpp:6647 fitsviewer/fitsdata.cpp:6673
+#: fitsviewer/fitsdata.cpp:6651 fitsviewer/fitsdata.cpp:6677
 #, kde-format
 msgid "Unsupported bayer pattern %1"
 msgstr "Nepodporovaný Bayerov vzor %1"
 
-#: fitsviewer/fitsdata.cpp:6681
+#: fitsviewer/fitsdata.cpp:6685
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Nepodporované Bayerove posuny %1 %2."
 
-#: fitsviewer/fitsdata.cpp:6692 fitsviewer/fitsdata.cpp:6745
+#: fitsviewer/fitsdata.cpp:6696 fitsviewer/fitsdata.cpp:6749
 #, kde-format
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Neplatné parametre debayerovania dc1394."
 
-#: fitsviewer/fitsdata.cpp:6703 fitsviewer/fitsdata.cpp:6756
+#: fitsviewer/fitsdata.cpp:6707 fitsviewer/fitsdata.cpp:6760
 #, kde-format
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Neplatné parametre debayerovania OpenCV."
 
-#: fitsviewer/fitsdata.cpp:6712 fitsviewer/fitsdata.cpp:6765
+#: fitsviewer/fitsdata.cpp:6716 fitsviewer/fitsdata.cpp:6769
 #, kde-format
 msgid "Invalid debayer engine"
 msgstr "Neplatný engine debayerovania"
 
-#: fitsviewer/fitsdata.cpp:7019
+#: fitsviewer/fitsdata.cpp:7023
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr "debayer_8bit zavolané s neplatnými parametrami debayerovania"
 
-#: fitsviewer/fitsdata.cpp:7035 fitsviewer/fitsdata.cpp:7081
-#: fitsviewer/fitsdata.cpp:7139 fitsviewer/fitsdata.cpp:7185
+#: fitsviewer/fitsdata.cpp:7039 fitsviewer/fitsdata.cpp:7085
+#: fitsviewer/fitsdata.cpp:7143 fitsviewer/fitsdata.cpp:7189
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Nemožno alokovať pamäť pre dočasný Bayerov zásobník: %1"
 
-#: fitsviewer/fitsdata.cpp:7045 fitsviewer/fitsdata.cpp:7149
+#: fitsviewer/fitsdata.cpp:7049 fitsviewer/fitsdata.cpp:7153
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Nemôžem alokovať pamäť pre dočasný buffer debayeru."
 
-#: fitsviewer/fitsdata.cpp:7064 fitsviewer/fitsdata.cpp:7168
+#: fitsviewer/fitsdata.cpp:7068 fitsviewer/fitsdata.cpp:7172
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Debayer zlyhal (%1)"
 
-#: fitsviewer/fitsdata.cpp:7124
+#: fitsviewer/fitsdata.cpp:7128
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr "debayer_16bit zavolané s neplatnými parametrami debayerovania"
@@ -36434,7 +36434,7 @@ msgstr "Poloha montáže"
 msgid "Data file saved to %1"
 msgstr "Dátový súbor uložený do %1"
 
-#: indi/indiwebmanager.cpp:329
+#: indi/indiwebmanager.cpp:288
 #, kde-format
 msgid "Driver %1 failed to start on the remote INDI server."
 msgstr "Ovládač %1 sa nepodarilo spustiť na vzdialenom serveri INDI."
