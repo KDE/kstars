@@ -86,8 +86,7 @@ class MountModel : public QDialog, public Ui::mountModel
                                      double minAlt);
         void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
         void updatePreviewAlignPoints();
-        int findNextAlignmentPointAfter(int currentSpot);
-        int findClosestAlignmentPointToTelescope();
+        void sortTableRows(int fromRow, const SkyPoint &start);
         void swapAlignPoints(int firstPt, int secondPt);
         double halton(int index, int base);
 

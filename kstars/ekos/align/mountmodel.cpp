@@ -436,91 +436,81 @@ bool MountModel::saveAlignmentPoints(const QString &path)
     return true;
 }
 
+void MountModel::swapAlignPoints(int firstPt, int secondPt)
+{
+    for (int i = 0; i < alignTable->columnCount(); i++)
+    {
+        QTableWidgetItem *firstPtItem  = alignTable->takeItem(firstPt, i);
+        QTableWidgetItem *secondPtItem = alignTable->takeItem(secondPt, i);
+        alignTable->setItem(firstPt, i, secondPtItem);
+        alignTable->setItem(secondPt, i, firstPtItem);
+    }
+}
+
+void MountModel::sortTableRows(int fromRow, const SkyPoint &start)
+{
+    int rowCount = alignTable->rowCount();
+    if (fromRow >= rowCount)
+        return;
+
+    auto skyPointAt = [&](int row) -> SkyPoint
+    {
+        return SkyPoint(dms::fromString(alignTable->item(row, 0)->text(), false),
+                        dms::fromString(alignTable->item(row, 1)->text(), true));
+    };
+
+    // Find the row in [fromRow, rowCount) closest to start and swap it to fromRow.
+    SkyPoint ref = start;
+    dms bestDiff(360);
+    int bestIndex = fromRow;
+    for (int i = fromRow; i < rowCount; i++)
+    {
+        if (!alignTable->item(i, 0) || !alignTable->item(i, 1))
+            continue;
+        SkyPoint sp = skyPointAt(i);
+        dms diff = ref.angularDistanceTo(&sp);
+        if (diff.Degrees() < bestDiff.Degrees())
+        {
+            bestIndex = i;
+            bestDiff  = diff;
+        }
+    }
+    if (bestIndex != fromRow)
+        swapAlignPoints(bestIndex, fromRow);
+
+    // Nearest-neighbour for the rest of the range.
+    for (int i = fromRow; i < rowCount - 1; i++)
+    {
+        if (!alignTable->item(i, 0) || !alignTable->item(i, 1))
+            continue;
+        SkyPoint current = skyPointAt(i);
+        bestDiff  = dms(360);
+        bestIndex = i + 1;
+        for (int j = i + 1; j < rowCount; j++)
+        {
+            if (!alignTable->item(j, 0) || !alignTable->item(j, 1))
+                continue;
+            SkyPoint sp = skyPointAt(j);
+            dms diff = current.angularDistanceTo(&sp);
+            if (diff.Degrees() < bestDiff.Degrees())
+            {
+                bestIndex = j;
+                bestDiff  = diff;
+            }
+        }
+        if (bestIndex != i + 1)
+            swapAlignPoints(bestIndex, i + 1);
+    }
+}
+
 void MountModel::slotSortAlignmentPoints()
 {
-    int firstAlignmentPt = findClosestAlignmentPointToTelescope();
-    if (firstAlignmentPt != -1)
-    {
-        swapAlignPoints(firstAlignmentPt, 0);
-    }
-
-    for (int i = 0; i < alignTable->rowCount() - 1; i++)
-    {
-        int nextAlignmentPoint = findNextAlignmentPointAfter(i);
-        if (nextAlignmentPoint != -1)
-        {
-            swapAlignPoints(nextAlignmentPoint, i + 1);
-        }
-    }
+    // While a run is in progress, sort only the points not yet visited so that
+    // completed rows are not disturbed and currentAlignmentPoint stays valid.
+    int fromRow = m_IsRunning ? currentAlignmentPoint : 0;
+    sortTableRows(fromRow, telescopeCoord);
     if (previewShowing)
         updatePreviewAlignPoints();
-}
-
-int MountModel::findClosestAlignmentPointToTelescope()
-{
-    dms bestDiff = dms(360);
-    double index = -1;
-
-    for (int i = 0; i < alignTable->rowCount(); i++)
-    {
-        QTableWidgetItem *raCell = alignTable->item(i, 0);
-        QTableWidgetItem *deCell = alignTable->item(i, 1);
-
-        if (raCell && deCell)
-        {
-            dms raDMS = dms::fromString(raCell->text(), false);
-            dms deDMS = dms::fromString(deCell->text(), true);
-
-            SkyPoint sk(raDMS, deDMS);
-            dms thisDiff = telescopeCoord.angularDistanceTo(&sk);
-            if (thisDiff.Degrees() < bestDiff.Degrees())
-            {
-                index    = i;
-                bestDiff = thisDiff;
-            }
-        }
-    }
-    return index;
-}
-
-int MountModel::findNextAlignmentPointAfter(int currentSpot)
-{
-    QTableWidgetItem *currentRACell = alignTable->item(currentSpot, 0);
-    QTableWidgetItem *currentDECell = alignTable->item(currentSpot, 1);
-
-    if (currentRACell && currentDECell)
-    {
-        dms thisRADMS = dms::fromString(currentRACell->text(), false);
-        dms thisDEDMS = dms::fromString(currentDECell->text(), true);
-
-        SkyPoint thisPt(thisRADMS, thisDEDMS);
-
-        dms bestDiff = dms(360);
-        double index = -1;
-
-        for (int i = currentSpot + 1; i < alignTable->rowCount(); i++)
-        {
-            QTableWidgetItem *raCell = alignTable->item(i, 0);
-            QTableWidgetItem *deCell = alignTable->item(i, 1);
-
-            if (raCell && deCell)
-            {
-                dms raDMS = dms::fromString(raCell->text(), false);
-                dms deDMS = dms::fromString(deCell->text(), true);
-                SkyPoint point(raDMS, deDMS);
-                dms thisDiff = thisPt.angularDistanceTo(&point);
-
-                if (thisDiff.Degrees() < bestDiff.Degrees())
-                {
-                    index    = i;
-                    bestDiff = thisDiff;
-                }
-            }
-        }
-        return index;
-    }
-    else
-        return -1;
 }
 
 void MountModel::slotWizardAlignmentPoints()
@@ -1022,17 +1012,6 @@ void MountModel::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVis
         updatePreviewAlignPoints();
 }
 
-void MountModel::swapAlignPoints(int firstPt, int secondPt)
-{
-    for (int i = 0; i < alignTable->columnCount(); i++)
-    {
-        QTableWidgetItem *firstPtItem  = alignTable->takeItem(firstPt, i);
-        QTableWidgetItem *secondPtItem = alignTable->takeItem(secondPt, i);
-
-        alignTable->setItem(firstPt, i, secondPtItem);
-        alignTable->setItem(secondPt, i, firstPtItem);
-    }
-}
 
 void MountModel::slotAddAlignPoint()
 {
