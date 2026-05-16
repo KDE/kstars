@@ -142,7 +142,7 @@ bool StarBlockList::fillToMag(float maglim)
         }
 
         /*
-          if( faintMag > -5.0 && fabs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
+          if( faintMag > -5.0 && std::abs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
           qDebug() << Q_FUNC_INFO << "Encountered a jump from mag" << faintMag << "to mag"
           << blocks[nBlocks - 1]->getFaintMag() << "in trixel" << trixel;
           }

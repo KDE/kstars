@@ -90,7 +90,7 @@ void NOMADStarDataWriter::calculatePMCoords(double startRA, double startDec, dou
     double PMperyear = sqrt(dRA * dRA + dDec * dDec);
 
     double dir0 = (years > 0.0) ? atan2(dRA, dDec) : atan2(-dRA, -dDec); // If years < 0, we're precessing backwards
-    double PM   = PMperyear * fabs(years);
+    double PM   = PMperyear * std::abs(years);
 
     double dst = deg2rad(arcsec2deg(PM / 1000.0)); // Milliarcsecond -> radian
 

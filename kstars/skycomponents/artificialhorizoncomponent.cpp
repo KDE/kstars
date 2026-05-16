@@ -74,9 +74,9 @@ namespace
 // where in-between means "the short way".
 bool inBetween(const dms &angle, const dms &range1, const dms &range2)
 {
-    const double rangeDelta = fabs(range1.deltaAngle(range2).Degrees());
-    const double delta1 = fabs(range1.deltaAngle(angle).Degrees());
-    const double delta2 = fabs(range2.deltaAngle(angle).Degrees());
+    const double rangeDelta = std::abs(range1.deltaAngle(range2).Degrees());
+    const double delta1 = std::abs(range1.deltaAngle(angle).Degrees());
+    const double delta2 = std::abs(range2.deltaAngle(angle).Degrees());
     // The angle is between range1 and range2 if its two distances to each are both
     // less than the range distance.
     return delta1 <= rangeDelta && delta2 <= rangeDelta;
@@ -113,7 +113,7 @@ double ArtificialHorizonEntity::altitudeConstraint(double azimuthDegrees, bool *
             // interpolate the altitude constraint, and use that value.
             // If there are other line segments which also contain the point,
             // we use the max constraint.
-            const double totalDelta = fabs(lastAz.deltaAngle(az).Degrees());
+            const double totalDelta = std::abs(lastAz.deltaAngle(az).Degrees());
             if (totalDelta <= 0)
             {
                 if (!m_Ceiling)
@@ -272,7 +272,7 @@ void drawSelectedPoint(LineList *lineList, int index, SkyPainter *painter)
 void appendGreatCirclePoints(double az1, double alt1, double az2, double alt2, LineList *region, bool testing)
 {
     constexpr double sampling = 2.0;  // degrees
-    const double maxAngleDiff = std::max(fabs(az1 - az2), fabs(alt1 - alt2));
+    const double maxAngleDiff = std::max(std::abs(az1 - az2), std::abs(alt1 - alt2));
     const int numSamples = maxAngleDiff / sampling;
 
     // Hy 9/25/22: These 4 lines cause rendering issues in equatorial mode (horizon mode is ok).
@@ -576,8 +576,8 @@ void sampleLineList(std::shared_ptr<LineList> *list, std::shared_ptr<LineList> *
         const auto p2 = points->at(upto + 1);
         GreatCircle gc(p1->az().Degrees(), std::min(89.999, p1->alt().Degrees()), p2->az().Degrees(), std::min(89.999,
                        p2->alt().Degrees()));
-        const double maxDelta = std::max(fabs(p2->az().Degrees() - p1->az().Degrees()),
-                                         fabs(p2->alt().Degrees() - p1->alt().Degrees()));
+        const double maxDelta = std::max(std::abs(p2->az().Degrees() - p1->az().Degrees()),
+                                         std::abs(p2->alt().Degrees() - p1->alt().Degrees()));
         if (maxDelta == 0) continue;
         int numP = maxDelta / sampling;
         if (numP == 0) numP = 2;
@@ -853,7 +853,7 @@ bool ArtificialHorizon::isAltitudeOK(double azimuthDegrees, double altitudeDegre
         const double constraint = altitudeConstraint(azimuthDegrees);
         const double diff = altitudeDegrees - constraint;
         if (margin)
-            *margin = fabs(diff);
+            *margin = std::abs(diff);
         if (diff >= 0)
             return true;
         if (reason != nullptr)
@@ -880,7 +880,7 @@ bool ArtificialHorizon::isVisible(double azimuthDegrees, double altitudeDegrees,
             if (reason)
                 *reason = QString("altitude %1 < horizon %2").arg(altitudeDegrees, 0, 'f', 1).arg(constraint, 0, 'f', 1);
             if (margin)
-                *margin = fabs(altitudeDegrees - constraint);
+                *margin = std::abs(altitudeDegrees - constraint);
         }
         return false;
     }
@@ -893,7 +893,7 @@ bool ArtificialHorizon::isVisible(double azimuthDegrees, double altitudeDegrees,
             if (reason)
                 *reason = QString("altitude %1 > ceiling %2").arg(altitudeDegrees, 0, 'f', 1).arg(constraint, 0, 'f', 1);
             if (margin)
-                *margin = fabs(altitudeDegrees - constraint);
+                *margin = std::abs(altitudeDegrees - constraint);
         }
         return false;
     }
@@ -901,9 +901,9 @@ bool ArtificialHorizon::isVisible(double azimuthDegrees, double altitudeDegrees,
     {
         // we're ok on one or both margins, but how close?
         if (below && !below->ceiling())
-            *margin = fabs(altitudeDegrees - below->altitudeConstraint(azimuthDegrees, &ignoreMe));
+            *margin = std::abs(altitudeDegrees - below->altitudeConstraint(azimuthDegrees, &ignoreMe));
         if (above && above->ceiling())
-            *margin = std::min(*margin, fabs(altitudeDegrees - above->altitudeConstraint(azimuthDegrees, &ignoreMe)));
+            *margin = std::min(*margin, std::abs(altitudeDegrees - above->altitudeConstraint(azimuthDegrees, &ignoreMe)));
     }
     return true;
 }

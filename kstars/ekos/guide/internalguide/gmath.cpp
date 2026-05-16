@@ -434,7 +434,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
             pulse = lGuider->guide(arcsecDrift) * calibration.decPulseMillisecondsPerArcsecond();
             pulseDirection = pulse > 0 ? DEC_DEC_DIR : DEC_INC_DIR;
         }
-        pulseLength = std::min(fabs(pulse), maxPulseMilliseconds);
+        pulseLength = std::min(std::abs(pulse), maxPulseMilliseconds);
     }
     else if (hGuider != nullptr)
     {
@@ -455,7 +455,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
             pulse = hGuider->guide(arcsecDrift) * calibration.decPulseMillisecondsPerArcsecond();
             pulseDirection = pulse > 0 ? DEC_DEC_DIR : DEC_INC_DIR;
         }
-        pulseLength = std::min(fabs(pulse), maxPulseMilliseconds);
+        pulseLength = std::min(std::abs(pulse), maxPulseMilliseconds);
     }
     else
     {
@@ -477,7 +477,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
                                         calibration.decPulseMillisecondsPerArcsecond();
         const double proportionalResponse = arcsecDrift * in_params.proportional_gain[k] * arcsecPerMsPulse;
         const double integralResponse = drift_integral[k] * in_params.integral_gain[k] * arcsecPerMsPulse;
-        pulseLength = std::min(fabs(proportionalResponse + integralResponse), maxPulseMilliseconds);
+        pulseLength = std::min(std::abs(proportionalResponse + integralResponse), maxPulseMilliseconds);
 
         // calculation of correcting mount pulse
         // We do not send pulse if direction is disabled completely, or if direction in a specific axis (e.g. N or S) is disabled

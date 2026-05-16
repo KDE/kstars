@@ -364,7 +364,7 @@ void HEALPix::neighbours(int nside, qint32 ipix, int *result)
 
 int HEALPix::ang2pix_nest_z_phi (qint32 nside_, double z, double phi)
 {
-    double za = fabs(z);
+    double za = std::abs(z);
     double tt = fmodulo(phi, twopi) * inv_halfpi; /* in [0,4) */
     int face_num, ix, iy;
 

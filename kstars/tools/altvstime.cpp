@@ -337,8 +337,8 @@ void AltVsTime::slotAddSource()
             for (auto p : pList)
             {
                 //within an arcsecond?
-                if (fabs(newRA.Degrees() - p->ra().Degrees()) < 0.0003 &&
-                        fabs(newDec.Degrees() - p->dec().Degrees()) < 0.0003)
+                if (std::abs(newRA.Degrees() - p->ra().Degrees()) < 0.0003 &&
+                        std::abs(newDec.Degrees() - p->dec().Degrees()) < 0.0003)
                 {
                     found = true;
                     break;
@@ -458,8 +458,8 @@ void AltVsTime::processObject(SkyObject *o, bool forceAdd)
         // Go into initial state: without Zoom/Pan
         avtUI->View->xAxis->setRange(43200, 129600);
         avtUI->View->xAxis2->setRange(61200, 147600);
-        if (abs(minAlt) > maxAlt)
-            maxAlt = abs(minAlt);
+        if (std::abs(minAlt) > maxAlt)
+            maxAlt = std::abs(minAlt);
         else
             minAlt = -maxAlt;
 
@@ -606,22 +606,22 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, int data
                 QToolTip::hideText();
                 QToolTip::showText(QtCompat::mouseGlobalPos(event).toPoint(),
                                    i18n("<table>"
-                                        "<tr>"
-                                        "<th colspan=\"2\">%1</th>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>LST:   </td>"
-                                        "<td>%3</td>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>LT:   </td>"
-                                        "<td>%2</td>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>Altitude:   </td>"
-                                        "<td>%4</td>"
-                                        "</tr>"
-                                        "</table>",
+                     "<tr>"
+                     "<th colspan=\"2\">%1</th>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>LST:   </td>"
+                     "<td>%3</td>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>LT:   </td>"
+                     "<td>%2</td>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>Altitude:   </td>"
+                     "<td>%4</td>"
+                     "</tr>"
+                     "</table>",
                                         graph->name().isEmpty() ? "???" : graph->name(),
                                         localTime.toString(),
                                         localSiderealTime.toString(),
@@ -901,22 +901,22 @@ void AltVsTime::mouseOverLine(QMouseEvent *event)
                 QToolTip::hideText();
                 QToolTip::showText(QtCompat::mouseGlobalPos(event).toPoint(),
                                    i18n("<table>"
-                                        "<tr>"
-                                        "<th colspan=\"2\">%1</th>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>LST:   </td>"
-                                        "<td>%3</td>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>LT:   </td>"
-                                        "<td>%2</td>"
-                                        "</tr>"
-                                        "<tr>"
-                                        "<td>Altitude:   </td>"
-                                        "<td>%4</td>"
-                                        "</tr>"
-                                        "</table>",
+                     "<tr>"
+                     "<th colspan=\"2\">%1</th>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>LST:   </td>"
+                     "<td>%3</td>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>LT:   </td>"
+                     "<td>%2</td>"
+                     "</tr>"
+                     "<tr>"
+                     "<td>Altitude:   </td>"
+                     "<td>%4</td>"
+                     "</tr>"
+                     "</table>",
                                         graph->name().isEmpty() ? "???" : graph->name(),
                                         localTime.toString(), localSiderealTime.toString(),
                                         QString::number(yValue, 'f', 2) + ' ' + QChar(176)),
@@ -987,8 +987,8 @@ void AltVsTime::slotUpdateDateLoc()
             avtUI->View->xAxis2->setRange(61200, 147600);
 
             // Center the altitude axis in 0 value:
-            if (abs(minAlt) > maxAlt)
-                maxAlt = abs(minAlt);
+            if (std::abs(minAlt) > maxAlt)
+                maxAlt = std::abs(minAlt);
             else
                 minAlt = -maxAlt;
             avtUI->View->yAxis->setRange(minAlt - offset, maxAlt + offset);
@@ -1039,8 +1039,8 @@ void AltVsTime::slotUpdateDateLoc()
             avtUI->View->xAxis2->setRange(61200, 147600);
 
             // Center the altitude axis in 0 value:
-            if (abs(minAlt) > maxAlt)
-                maxAlt = abs(minAlt);
+            if (std::abs(minAlt) > maxAlt)
+                maxAlt = std::abs(minAlt);
             else
                 minAlt = -maxAlt;
             avtUI->View->yAxis->setRange(minAlt - offset, maxAlt + offset);

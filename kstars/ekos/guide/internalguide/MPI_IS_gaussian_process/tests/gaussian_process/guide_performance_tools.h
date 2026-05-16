@@ -166,7 +166,7 @@ class GAHysteresis
 
             dReturn *= m_aggression;
 
-            if (fabs(input) < m_minMove)
+            if (std::abs(input) < m_minMove)
             {
                 dReturn = 0.0;
             }
@@ -213,7 +213,7 @@ inline double calculate_improvement(std::string filename, GAHysteresis GAH, Gaus
         }
         gp_guider_control = GPG->result(gp_guider_state, SNRs(i), exposure);
         gp_guider_state = gp_guider_state + (measurements(i + 1) - (measurements(i) - controls(i))) - gp_guider_control;
-        assert(fabs(gp_guider_state) < 100);
+        assert(std::abs(gp_guider_state) < 100);
 
         gp_guider_states(i) = gp_guider_state;
     }

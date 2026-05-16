@@ -983,7 +983,7 @@ void SkyMap::slotCaptureFov()
 void SkyMap::slotClockSlewing()
 {
     //If the current timescale exceeds slewTimeScale, set clockSlewing=true, and stop the clock.
-    if ((fabs(data->clock()->scale()) > Options::slewTimeScale()) ^ clockSlewing)
+    if ((std::abs(data->clock()->scale()) > Options::slewTimeScale()) ^ clockSlewing)
     {
         data->clock()->setManualMode(!clockSlewing);
         clockSlewing = !clockSlewing;

@@ -55,7 +55,7 @@ void HighPMStarList::setIndexTime(KSNumbers *num)
 
 bool HighPMStarList::reindex(KSNumbers *num, StarIndex *starIndex)
 {
-    if (fabs(num->julianCenturies() - m_reindexNum.julianCenturies()) < m_reindexInterval)
+    if (std::abs(num->julianCenturies() - m_reindexNum.julianCenturies()) < m_reindexInterval)
         return false;
 
     m_reindexNum = KSNumbers(*num);

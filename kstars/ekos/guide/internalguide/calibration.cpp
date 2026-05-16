@@ -155,7 +155,7 @@ double Calibration::calculateRotation(double x, double y)
         return -1;
 
     // 90 or 270 degrees
-    if (fabs(x) < fabs(y) / 1000000.0)
+    if (std::abs(x) < std::abs(y) / 1000000.0)
     {
         phi = y > 0 ? 90.0 : 270;
     }
@@ -278,7 +278,7 @@ bool Calibration::calculate2D(
     if (phi_dec < 0)
         phi_dec += 360.0;
 
-    if (fabs(phi_dec - phi_ra) > 180)
+    if (std::abs(phi_dec - phi_ra) > 180)
     {
         if (phi_ra > phi_dec)
             phi_ra -= 360;

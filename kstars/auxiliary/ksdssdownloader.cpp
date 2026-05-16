@@ -81,8 +81,8 @@ QString KSDssDownloader::getDSSURL(const SkyPoint *const p, const QString &versi
         // height and width -- i.e. a dRA and dDec.
         // DSS uses dDec for height and dRA for width. (i.e. "top" is north in the DSS images, AFAICT)
         // From some trigonometry, assuming we have a rectangular object (worst case), we need:
-        width  = a * sin(pa) + b * fabs(cos(pa));
-        height = a * fabs(cos(pa)) + b * sin(pa);
+        width  = a * sin(pa) + b * std::abs(cos(pa));
+        height = a * std::abs(cos(pa)) + b * sin(pa);
         // 'a' and 'b' are in arcminutes, so height and width are in arcminutes
 
         // Pad the RA and Dec, so that we show more of the sky than just the object.
@@ -136,9 +136,9 @@ QString KSDssDownloader::getDSSURL(const dms &ra, const dms &dec, float width, f
     QString URLsuffix = QString("&e=J2000&f=%1&c=none&fov=NONE").arg(type);
 
     char decsgn = (dec.Degrees() < 0.0) ? '-' : '+';
-    int dd      = abs(dec.degree());
-    int dm      = abs(dec.arcmin());
-    int ds      = abs(dec.arcsec());
+    int dd      = std::abs(dec.degree());
+    int dm      = std::abs(dec.arcmin());
+    int ds      = std::abs(dec.arcsec());
 
     // Infinite and NaN sizes are replaced by the default size and tiny DSS images are resized to default size
     if (!qIsFinite(height) || height <= 0.0)

@@ -687,7 +687,7 @@ void MountModel::calculateAngleForRALine(double &raIncrement, double &initRA, do
     SkyPoint spWest;
 
     //Circumpolar dec
-    if (fabs(initDEC) > (90 - fabs(lat) + minAlt))
+    if (std::abs(initDEC) > (90 - std::abs(lat) + minAlt))
     {
         if (raPoints > 1)
             raIncrement = 360 / (raPoints - 1);
@@ -712,7 +712,7 @@ void MountModel::calculateAngleForRALine(double &raIncrement, double &initRA, do
 
         initRA = spWest.ra().Degrees();
         if (raPoints > 1)
-            raIncrement = fabs(angleSep.Degrees() / (raPoints - 1));
+            raIncrement = std::abs(angleSep.Degrees() / (raPoints - 1));
         else
             raIncrement = 0;
     }
@@ -843,8 +843,8 @@ void MountModel::getFormattedCoords(double ra, double dec, QString &ra_str, QStr
              .arg(ra_s.second(), 2, 10, QChar('0'));
     if (dec_s.Degrees() < 0)
         dec_str = QString("-%1:%2:%3")
-                  .arg(abs(dec_s.degree()), 2, 10, QChar('0'))
-                  .arg(abs(dec_s.arcmin()), 2, 10, QChar('0'))
+                  .arg(std::abs(dec_s.degree()), 2, 10, QChar('0'))
+                  .arg(std::abs(dec_s.arcmin()), 2, 10, QChar('0'))
                   .arg(dec_s.arcsec(), 2, 10, QChar('0'));
     else
         dec_str = QString("%1:%2:%3")

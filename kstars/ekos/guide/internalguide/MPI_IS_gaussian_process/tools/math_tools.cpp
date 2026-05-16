@@ -177,7 +177,7 @@ std::pair<Eigen::VectorXd, Eigen::VectorXd> compute_spectrum(Eigen::VectorXd &da
     int low_index = static_cast<int>(std::ceil(static_cast<double>(N) / static_cast<double>(N_data)));
 
     // prepare amplitudes and frequencies, don't return frequencies introduced by padding
-    Eigen::VectorXd spectrum = result.segment(low_index, N / 2 - low_index + 1).array().abs().pow(2);
+    Eigen::VectorXd spectrum = result.segment(low_index, N / 2 - low_index + 1).array().std::abs().pow(2);
     Eigen::VectorXd frequencies = Eigen::VectorXd::LinSpaced(N / 2 - low_index + 1, low_index, N / 2);
     frequencies /= N;
 

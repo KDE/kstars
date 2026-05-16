@@ -632,8 +632,8 @@ void TestEkosSchedulerOps::startModules(KStarsDateTime &currentUTime, int &sleep
 bool TestEkosSchedulerOps::checkLastSlew(const SkyObject* targetObject)
 {
     constexpr double halfDegreeInHours = 1 / (15 * 2.0);
-    bool success = (fabs(mount->lastRaHoursSlew - targetObject->ra().Hours()) < halfDegreeInHours) &&
-                   (fabs(mount->lastDecDegreesSlew - targetObject->dec().Degrees()) < 0.5);
+    bool success = (std::abs(mount->lastRaHoursSlew - targetObject->ra().Hours()) < halfDegreeInHours) &&
+                   (std::abs(mount->lastDecDegreesSlew - targetObject->dec().Degrees()) < 0.5);
     if (!success)
         fprintf(stderr, "Expected slew RA: %f DEC: %F but got %f %f\n",
                 targetObject->ra().Hours(), targetObject->dec().Degrees(),
@@ -799,7 +799,7 @@ void TestEkosSchedulerOps::testDawnShutdown()
     // The job should be interrupted at the pre-dawn time, which is about 3:53am
     QDateTime preDawnUTime(QDateTime(QDate(2021, 6, 14), QTime(10, 53, 0), QTimeZone::utc()));
     // Consider pre-dawn security range
-    preDawnUTime = preDawnUTime.addSecs(-60.0 * abs(Options::preDawnTime()));
+    preDawnUTime = preDawnUTime.addSecs(-60.0 * std::abs(Options::preDawnTime()));
 
     KStarsDateTime currentUTime;
     int sleepMs = 0;

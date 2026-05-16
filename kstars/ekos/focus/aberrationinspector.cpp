@@ -1348,21 +1348,21 @@ QVector3D AberrationInspector::rotatePoint(QVector3D point)
 // Backfocus simulation slider has changed
 void AberrationInspector::simBackfocusChanged(int value)
 {
-    m_simBackfocus = abs(m_backfocus) * static_cast<double>(value) / 5.0;
+    m_simBackfocus = std::abs(m_backfocus) * static_cast<double>(value) / 5.0;
     updateGraphic(static_cast<TileSelection>(abInsTileSelection->currentIndex()));
 }
 
 // Left-to-Right tilt simulation slider has changed
 void AberrationInspector::simLRTiltChanged(int value)
 {
-    m_simLRTilt = abs(m_LRTilt) * static_cast<double>(value) / 5.0;
+    m_simLRTilt = std::abs(m_LRTilt) * static_cast<double>(value) / 5.0;
     updateGraphic(static_cast<TileSelection>(abInsTileSelection->currentIndex()));
 }
 
 // Top-to-Bottom tilt simulation slider has changed
 void AberrationInspector::simTBTiltChanged(int value)
 {
-    m_simTBTilt = abs(m_TBTilt) * static_cast<double>(value) / 5.0;
+    m_simTBTilt = std::abs(m_TBTilt) * static_cast<double>(value) / 5.0;
     updateGraphic(static_cast<TileSelection>(abInsTileSelection->currentIndex()));
 }
 

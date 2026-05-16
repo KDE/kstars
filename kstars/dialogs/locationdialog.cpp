@@ -501,7 +501,7 @@ void LocationDialog::findCitiesNear(int lng, int lat)
 
     for (auto loc : data->getGeoList())
     {
-        if ((abs(lng - int(loc->lng()->Degrees())) < 3) && (abs(lat - int(loc->lat()->Degrees())) < 3))
+        if ((std::abs(lng - int(loc->lng()->Degrees())) < 3) && (std::abs(lat - int(loc->lat()->Degrees())) < 3))
         {
             ld->GeoBox->addItem(loc->fullName());
             filteredCityList.append(loc);
@@ -531,7 +531,7 @@ bool LocationDialog::checkLongLat()
     if (!ok)
         return false;
 
-    if (fabs(lng) > 180 || fabs(lat) > 90)
+    if (std::abs(lng) > 180 || std::abs(lat) > 90)
         return false;
 
     return true;

@@ -467,7 +467,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
                 {
                     // This difference between the user-specified start time, and the time it can really start.
                     const double startDelta = atJobStartTime.secsTo(atTime);
-                    if (fabs(startDelta) < 20 * 60)
+                    if (std::abs(startDelta) < 20 * 60)
                     {
                         // If we're looking for a new job to start, then give the START_AT priority
                         // if it's within 10 minutes of its user-specified time.

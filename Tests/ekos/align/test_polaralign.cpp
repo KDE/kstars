@@ -167,16 +167,16 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
 
         // Test the entire path, start to end. We should see the full azimuth and altitude errors.
         QVERIFY(polarAlign.pixelError(image, QPointF(data.x, data.y), corrected, &azE, &altE));
-        QVERIFY(fabs(azE - azimuthError) < .03);
-        QVERIFY(fabs(altE - altitudeError) < .02);
+        QVERIFY(std::abs(azE - azimuthError) < .03);
+        QVERIFY(std::abs(altE - altitudeError) < .02);
 
         // Simulate that the user has started correcting, and is halfway on the alt-only segment,
         // there should be 1/2 the alt error left, and all of the az error.
         if (polarAlign.pixelError(image, QPointF((altCorrected.x() + data.x) / 2, (altCorrected.y() + data.y) / 2), corrected,
                                   &azE, &altE))
         {
-            QVERIFY(fabs(azE - azimuthError) < .03);
-            QVERIFY(fabs(altE - altitudeError / 2.0) < .02);
+            QVERIFY(std::abs(azE - azimuthError) < .03);
+            QVERIFY(std::abs(altE - altitudeError / 2.0) < .02);
         }
         else QVERIFY(canSkipPixelError);
 
@@ -184,8 +184,8 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
         // The azimuth error should not be fixed, but alt should be fully corrected.
         if (polarAlign.pixelError(image, altCorrected, corrected, &azE, &altE))
         {
-            QVERIFY(fabs(azE - azimuthError) < .03);
-            QVERIFY(fabs(altE) < .02);
+            QVERIFY(std::abs(azE - azimuthError) < .03);
+            QVERIFY(std::abs(altE) < .02);
         }
         else QVERIFY(canSkipPixelError);
 
@@ -194,16 +194,16 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
         if (polarAlign.pixelError(image, QPointF((corrected.x() + altCorrected.x()) / 2,
                                   (corrected.y() + altCorrected.y()) / 2), corrected, &azE, &altE))
         {
-            QVERIFY(fabs(azE - azimuthError / 2) < .03);
-            QVERIFY(fabs(altE) < .02);
+            QVERIFY(std::abs(azE - azimuthError / 2) < .03);
+            QVERIFY(std::abs(altE) < .02);
         }
         else QVERIFY(canSkipPixelError);
 
         // At the end there should be no error left.
         if (polarAlign.pixelError(image, corrected, corrected, &azE, &altE))
         {
-            QVERIFY(fabs(azE) < .02);
-            QVERIFY(fabs(altE) < .02);
+            QVERIFY(std::abs(azE) < .02);
+            QVERIFY(std::abs(altE) < .02);
         }
         else QVERIFY(canSkipPixelError);
 
@@ -211,8 +211,8 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
         // Using that correction path, there should be no Azimuth error, but alt error remains.
         if (polarAlign.pixelError(image, QPointF(data.x, data.y), altCorrected, &azE, &altE))
         {
-            QVERIFY(fabs(azE) < .02);
-            QVERIFY(fabs(altE - altitudeError) < .02);
+            QVERIFY(std::abs(azE) < .02);
+            QVERIFY(std::abs(altE - altitudeError) < .02);
         }
         else QVERIFY(canSkipPixelError);
 
@@ -220,8 +220,8 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
     // Some approximations in the time (no sub-second decimals), and the
     // findAltAz search resolution introduce a pixel or two of error.
     // This is way below the noise in polar alignment.
-    QVERIFY(data.correctedX < 0 || abs(data.correctedX - corrected.x()) < 3);
-    QVERIFY(data.correctedY < 0 || abs(data.correctedY - corrected.y()) < 3);
+    QVERIFY(data.correctedX < 0 || std::abs(data.correctedX - corrected.x()) < 3);
+    QVERIFY(data.correctedY < 0 || std::abs(data.correctedY - corrected.y()) < 3);
 }
 }  // namespace
 
@@ -1096,10 +1096,10 @@ void runRefreshCoords(const GeoLocation &geo,
                                         &azAdjustment, &altAdjustment);
 
         constexpr double smallError = .01;
-        QVERIFY(fabs(azErr - refreshSolutions[i].azErr) < smallError);
-        QVERIFY(fabs(altErr - refreshSolutions[i].altErr) < smallError);
-        QVERIFY(fabs(azAdjustment - refreshSolutions[i].azAdj) < smallError);
-        QVERIFY(fabs(altAdjustment - refreshSolutions[i].altAdj) < smallError);
+        QVERIFY(std::abs(azErr - refreshSolutions[i].azErr) < smallError);
+        QVERIFY(std::abs(altErr - refreshSolutions[i].altErr) < smallError);
+        QVERIFY(std::abs(azAdjustment - refreshSolutions[i].azAdj) < smallError);
+        QVERIFY(std::abs(altAdjustment - refreshSolutions[i].altAdj) < smallError);
 
         i++;
     }

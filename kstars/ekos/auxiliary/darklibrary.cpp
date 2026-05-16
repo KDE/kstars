@@ -262,7 +262,8 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
             {
                 double darkTemperature = map["temperature"].toDouble();
                 // If different is above threshold, it is completely rejected.
-                if (darkTemperature != INVALID_VALUE && hasTemp && fabs(darkTemperature - temperature) > maxDarkTemperatureDiff->value())
+                if (darkTemperature != INVALID_VALUE && hasTemp
+                        && std::abs(darkTemperature - temperature) > maxDarkTemperatureDiff->value())
                 {
                     rejectedTemp++;
                     continue;
@@ -333,7 +334,7 @@ bool DarkLibrary::findDarkFrame(ISD::CameraChip *m_TargetChip, double duration, 
         return false;
     }
 
-    if (fabs(bestCandidate["duration"].toDouble() - duration) > 3)
+    if (std::abs(bestCandidate["duration"].toDouble() - duration) > 3)
         Q_EMIT i18n("Using available dark frame with %1 seconds exposure. Please take a dark frame with %1 seconds exposure for more accurate results.",
                     QString::number(bestCandidate["duration"].toDouble(), 'f', 1),
                     QString::number(duration, 'f', 1));

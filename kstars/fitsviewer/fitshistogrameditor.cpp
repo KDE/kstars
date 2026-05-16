@@ -111,7 +111,7 @@ void FITSHistogramEditor::syncGUI()
     sliderScale.clear();
     for (int n = 0; n < m_ImageData->channels(); n++)
     {
-        sliderTick  << fabs(m_ImageData->getMax(n) - m_ImageData->getMin(n)) / 99.0;
+        sliderTick  << std::abs(m_ImageData->getMax(n) - m_ImageData->getMin(n)) / 99.0;
         sliderScale << 99.0 / (m_ImageData->getMax(n) - m_ImageData->getMin(n) - sliderTick[n]);
     }
 
@@ -147,13 +147,13 @@ void FITSHistogramEditor::syncGUI()
             numDecimals << 10;
 
         minBoxes[n]->setDecimals(numDecimals[n]);
-        minBoxes[n]->setSingleStep(fabs(m_ImageData->getMax(n) - m_ImageData->getMin(n)) / 20.0);
+        minBoxes[n]->setSingleStep(std::abs(m_ImageData->getMax(n) - m_ImageData->getMin(n)) / 20.0);
         minBoxes[n]->setMinimum(m_ImageData->getMin(n));
         minBoxes[n]->setMaximum(m_ImageData->getMax(n) - sliderTick[n]);
         minBoxes[n]->setValue(m_ImageData->getMin(n) + (sliders[n]->minimumValue() / sliderScale[n]));
 
         maxBoxes[n]->setDecimals(numDecimals[n]);
-        maxBoxes[n]->setSingleStep(fabs(m_ImageData->getMax(n) - m_ImageData->getMin(n)) / 20.0);
+        maxBoxes[n]->setSingleStep(std::abs(m_ImageData->getMax(n) - m_ImageData->getMin(n)) / 20.0);
         maxBoxes[n]->setMinimum(m_ImageData->getMin(n) + sliderTick[n]);
         maxBoxes[n]->setMaximum(m_ImageData->getMax(n));
         maxBoxes[n]->setValue(m_ImageData->getMin(n) + sliderTick[n] + (sliders[n]->maximumValue() / sliderScale[n]));

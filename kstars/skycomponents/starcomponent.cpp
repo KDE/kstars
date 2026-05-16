@@ -143,7 +143,7 @@ bool StarComponent::reindex(KSNumbers *num)
         return false;
 
     // for large time steps we re-index all points
-    if (fabs(num->julianCenturies() - m_reindexNum.julianCenturies()) > m_reindexInterval)
+    if (std::abs(num->julianCenturies() - m_reindexNum.julianCenturies()) > m_reindexInterval)
     {
         reindexAll(num);
         return true;

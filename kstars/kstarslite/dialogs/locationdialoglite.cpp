@@ -473,7 +473,7 @@ bool LocationDialogLite::checkLongLat(const QString &longitude, const QString &l
     if (!ok || std::isnan(lat))
         return false;
 
-    if (fabs(lng) > 180 || fabs(lat) > 90)
+    if (std::abs(lng) > 180 || std::abs(lat) > 90)
         return false;
 
     return true;

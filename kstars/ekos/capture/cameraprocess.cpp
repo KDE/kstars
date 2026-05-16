@@ -2308,8 +2308,8 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
         return false;
     }
 
-    double ADUDiff = fabs(currentADU - activeJob()->getCoreProperty(
-                              SequenceJob::SJ_TargetADU).toDouble());
+    double ADUDiff = std::abs(currentADU - activeJob()->getCoreProperty(
+                                  SequenceJob::SJ_TargetADU).toDouble());
 
     // If it is within tolerance range of target ADU
     if (ADUDiff <= state()->targetADUTolerance())

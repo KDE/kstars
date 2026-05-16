@@ -350,7 +350,7 @@ template <typename T> void FITSHistogram::constructHistogram()
     sliderScale.clear();
     for (int n = 0; n < channels; n++)
     {
-        sliderTick  << fabs(FITSMax[n] - FITSMin[n]) / 99.0;
+        sliderTick  << std::abs(FITSMax[n] - FITSMin[n]) / 99.0;
         sliderScale << 99.0 / (FITSMax[n] - FITSMin[n] - sliderTick[n]);
     }
 }
@@ -391,13 +391,13 @@ void FITSHistogram::syncGUI()
             numDecimals << 10;
 
         minBoxes[n]->setDecimals(numDecimals[n]);
-        minBoxes[n]->setSingleStep(fabs(FITSMax[n] - FITSMin[n]) / 20.0);
+        minBoxes[n]->setSingleStep(std::abs(FITSMax[n] - FITSMin[n]) / 20.0);
         minBoxes[n]->setMinimum(FITSMin[n]);
         minBoxes[n]->setMaximum(FITSMax[n] - sliderTick[n]);
         minBoxes[n]->setValue(FITSMin[n] + (sliders[n]->minimumValue() / sliderScale[n]));
 
         maxBoxes[n]->setDecimals(numDecimals[n]);
-        maxBoxes[n]->setSingleStep(fabs(FITSMax[n] - FITSMin[n]) / 20.0);
+        maxBoxes[n]->setSingleStep(std::abs(FITSMax[n] - FITSMin[n]) / 20.0);
         maxBoxes[n]->setMinimum(FITSMin[n] + sliderTick[n]);
         maxBoxes[n]->setMaximum(FITSMax[n]);
         maxBoxes[n]->setValue(FITSMin[n] + sliderTick[n] + (sliders[n]->maximumValue() / sliderScale[n]));

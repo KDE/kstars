@@ -198,7 +198,7 @@ bool KSMoon::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *)
         if (mlrd.nm) //if M != 0, include changing eccentricity of Earth's orbit
         {
             E = Et;
-            if (abs(mlrd.nm) == 2)
+            if (std::abs(mlrd.nm) == 2)
                 E = E * E; //use E^2
         }
         sumL += E * mlrd.Li * sin(mlrd.nd * D + mlrd.nm * M + mlrd.nm1 * M1 + mlrd.nf * F);
@@ -213,7 +213,7 @@ bool KSMoon::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *)
         if (mbd.nm) //if M != 0, include changing eccentricity of Earth's orbit
         {
             E = Et;
-            if (abs(mbd.nm) == 2)
+            if (std::abs(mbd.nm) == 2)
                 E = E * E; //use E^2
         }
         sumB += E * mbd.Bi * sin(mbd.nd * D + mbd.nm * M + mbd.nm1 * M1 + mbd.nf * F);
@@ -257,8 +257,8 @@ void KSMoon::findMagnitude(const KSNumbers *)
     int i = p / 10;
     int k = p % 10;
     int j = (i + 1 > 18) ? 18 : i + 1;
-    i     = 18 - abs(i);
-    j     = 18 - abs(j);
+    i     = 18 - std::abs(i);
+    j     = 18 - std::abs(j);
     if (i >= 0 && j >= 0 && i <= 18 && j <= 18)
     {
         setMag(MagArray[i] + (MagArray[j] - MagArray[i]) * k / 10);
@@ -288,14 +288,14 @@ void KSMoon::findPhase(const KSSun *Sun)
 QString KSMoon::phaseName() const
 {
     double f = illum();
-    double p = abs(dms(Phase).reduce().Degrees());
+    double p = std::abs(dms(Phase).reduce().Degrees());
 
     //First, handle the major phases
     if (f > 0.99)
         return i18nc("moon phase, 100 percent illuminated", "Full moon");
     if (f < 0.01)
         return i18nc("moon phase, 0 percent illuminated", "New moon");
-    if (fabs(f - 0.50) < 0.06)
+    if (std::abs(f - 0.50) < 0.06)
     {
         if (p < 180.0)
             return i18nc("moon phase, half-illuminated and growing", "First quarter");

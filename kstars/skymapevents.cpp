@@ -531,8 +531,8 @@ void SkyMap::mouseMoveEvent(QMouseEvent *e)
         {
             //Resize the rectangle so that it passes through the cursor position
             QPoint pcenter = ZoomRect.center();
-            int dx         = abs(QtCompat::mouseX(e) - pcenter.x());
-            int dy         = abs(QtCompat::mouseY(e) - pcenter.y());
+            int dx         = std::abs(QtCompat::mouseX(e) - pcenter.x());
+            int dy         = std::abs(QtCompat::mouseY(e) - pcenter.y());
             if (dx == 0 || float(dy) / float(dx) > float(height()) / float(width()))
             {
                 //Size rect by height

@@ -54,7 +54,7 @@ void TimeStepBox::syncUnits(int tstep)
 {
     int i;
     for (i = unitbox()->maxValue(); i >= unitbox()->minValue(); --i)
-        if (abs(tstep) >= unitBox->getUnitValue(i))
+        if (std::abs(tstep) >= unitBox->getUnitValue(i))
             break;
 
     //don't want setValue to trigger changeUnits()...

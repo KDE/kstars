@@ -132,9 +132,9 @@ QString getDSSURL(const dms &ra, const dms &dec, float width, float height,
     const double dss_default_size = Options::defaultDSSImageSize();
 
     char decsgn = (dec.Degrees() < 0.0) ? '-' : '+';
-    int dd      = abs(dec.degree());
-    int dm      = abs(dec.arcmin());
-    int ds      = abs(dec.arcsec());
+    int dd      = std::abs(dec.degree());
+    int dm      = std::abs(dec.arcmin());
+    int ds      = std::abs(dec.arcsec());
 
     // Infinite and NaN sizes are replaced by the default size and tiny DSS images are resized to default size
     if (!qIsFinite(height) || height <= 0.0)

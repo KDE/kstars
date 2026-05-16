@@ -740,8 +740,8 @@ bool GuideStars::getDrift(double oneStarDrift, double reticle_x, double reticle_
     for (int i = 0; i < raDrifts.size(); ++i)
     {
         if ((allowMissingGuideStar && !guideStarProcessed) ||
-                ((fabs(raDrifts[i] - guideStarRADrift) < 2.0) &&
-                 (fabs(decDrifts[i] - guideStarDECDrift) < 2.0)))
+                ((std::abs(raDrifts[i] - guideStarRADrift) < 2.0) &&
+                 (std::abs(decDrifts[i] - guideStarDECDrift) < 2.0)))
         {
             driftRASum += raDrifts[i];
             driftDECSum += decDrifts[i];

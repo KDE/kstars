@@ -161,9 +161,9 @@ bool Focuser::moveRel(int steps)
         if (!getFocusDirection(&dir))
             return false;
         if (dir == FOCUS_INWARD)
-            steps = -abs(steps);
+            steps = -std::abs(steps);
         else if (dir == FOCUS_OUTWARD)
-            steps = abs(steps);
+            steps = std::abs(steps);
 
         //manualfocusdrive needs different steps value ​​at every turn
         if (steps == getLastManualFocusDriveValue())
@@ -172,7 +172,7 @@ bool Focuser::moveRel(int steps)
         //Nikon Z6 fails if step is -1, 0, 1
         if (deviation == NIKONZ6)
         {
-            if (abs(steps) < 2)
+            if (std::abs(steps) < 2)
                 steps = 2;
         }
 

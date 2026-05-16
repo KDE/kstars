@@ -72,11 +72,11 @@ void Projector::setViewParams(const ViewParams &p)
     m_xrange = 1.2 * m_fov / m_cosY0;
     if (m_vp.useAltAz)
     {
-        Ymax     = fabs(SkyPoint::refract(m_vp.focus->alt().Degrees(), m_vp.useRefraction)) + m_fov;
+        Ymax     = std::abs(SkyPoint::refract(m_vp.focus->alt().Degrees(), m_vp.useRefraction)) + m_fov;
     }
     else
     {
-        Ymax     = fabs(m_vp.focus->dec().Degrees()) + m_fov;
+        Ymax     = std::abs(m_vp.focus->dec().Degrees()) + m_fov;
     }
     m_isPoleVisible = (Ymax >= 90.0);
 
@@ -206,11 +206,11 @@ bool Projector::checkVisibility(const SkyPoint *p) const
     {
         /** To avoid calculating refraction, we just use the unrefracted
             altitude and add a 2-degree 'safety factor' */
-        dY = fabs(p->alt().Degrees() - m_vp.focus->alt().Degrees()) - 2.;
+        dY = std::abs(p->alt().Degrees() - m_vp.focus->alt().Degrees()) - 2.;
     }
     else
     {
-        dY = fabs(p->dec().Degrees() - m_vp.focus->dec().Degrees());
+        dY = std::abs(p->dec().Degrees() - m_vp.focus->dec().Degrees());
     }
     if (m_isPoleVisible)
         dY *= 0.75; //increase effective FOV when pole visible.
@@ -221,11 +221,11 @@ bool Projector::checkVisibility(const SkyPoint *p) const
 
     if (m_vp.useAltAz)
     {
-        dX = fabs(p->az().Degrees() - m_vp.focus->az().Degrees());
+        dX = std::abs(p->az().Degrees() - m_vp.focus->az().Degrees());
     }
     else
     {
-        dX = fabs(p->ra().Degrees() - m_vp.focus->ra().Degrees());
+        dX = std::abs(p->ra().Degrees() - m_vp.focus->ra().Degrees());
     }
     if (dX > 180.0)
         dX = 360.0 - dX; // take shorter distance around sky

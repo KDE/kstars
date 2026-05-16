@@ -54,7 +54,7 @@ Edge makeEdge(float x, float y)
     return e;
 }
 
-#define CompareFloat(d1,d2) QVERIFY(fabs((d1) - (d2)) < .001)
+#define CompareFloat(d1,d2) QVERIFY(std::abs((d1) - (d2)) < .001)
 
 void TestGuideStars::basicTest()
 {

@@ -285,7 +285,7 @@ bool KSPlanet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *
         double eZ = Earth->rsun() * sinB0;
 
         bool once = true;
-        while (fabs(dst - olddst) > .001)
+        while (std::abs(dst - olddst) > .001)
         {
             calcEcliptic(jm, trialpos);
 
@@ -384,7 +384,7 @@ void KSPlanet::findMagnitude(const KSNumbers *num)
         double a0    = (40.66 - 4.695 * T) * dms::PI / 180.;
         double d0    = (83.52 + 0.403 * T) * dms::PI / 180.;
         double sinx  = -cos(d0) * cosDec * cos(a0 - ra().radians());
-        sinx         = fabs(sinx - sin(d0) * sinDec);
+        sinx         = std::abs(sinx - sin(d0) * sinDec);
         double rings = -2.6 * sinx + 1.25 * sinx * sinx;
         magnitude    = -8.88 + param + 0.044 * phase + rings;
     }

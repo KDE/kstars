@@ -2576,7 +2576,7 @@ bool CurveFitting::getGaussianParams(StarParams *starParams)
 
     const double AmC = A - C;
     double theta;
-    abs(AmC) < 1e-10 ? theta = 0.0 : theta = 0.5 * atan(2 * B / AmC);
+    std::abs(AmC) < 1e-10 ? theta = 0.0 : theta = 0.5 * atan(2 * B / AmC);
     const double costheta = cos(theta);
     const double costheta2 = costheta * costheta;
     const double sintheta = sin(theta);
@@ -2798,7 +2798,7 @@ void CurveFitting::calculateCurveDeltas(CurveFit curveFit, std::vector<std::pair
 
             for (int i = 0; i < m_y.size(); i++)
                 if (!m_outliers[i])
-                    curveDeltas.push_back(std::make_pair(i, abs(m_y[i] - hypfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
+                    curveDeltas.push_back(std::make_pair(i, std::abs(m_y[i] - hypfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
                                                          m_coefficients[C_IDX], m_coefficients[D_IDX]))));
             break;
 
@@ -2812,7 +2812,7 @@ void CurveFitting::calculateCurveDeltas(CurveFit curveFit, std::vector<std::pair
 
             for (int i = 0; i < m_y.size(); i++)
                 if (!m_outliers[i])
-                    curveDeltas.push_back(std::make_pair(i, abs(m_y[i] - parfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
+                    curveDeltas.push_back(std::make_pair(i, std::abs(m_y[i] - parfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
                                                          m_coefficients[C_IDX]))));
             break;
 
@@ -2826,7 +2826,7 @@ void CurveFitting::calculateCurveDeltas(CurveFit curveFit, std::vector<std::pair
 
             for (int i = 0; i < m_y.size(); i++)
                 if (!m_outliers[i])
-                    curveDeltas.push_back(std::make_pair(i, abs(m_y[i] - gau2Dfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
+                    curveDeltas.push_back(std::make_pair(i, std::abs(m_y[i] - gau2Dfx(m_x[i], m_coefficients[A_IDX], m_coefficients[B_IDX],
                                                          m_coefficients[C_IDX], m_coefficients[D_IDX]))));
             break;
 

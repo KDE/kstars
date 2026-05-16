@@ -284,7 +284,7 @@ float StarHopper::cost(const SkyPoint *curr, const SkyPoint *next)
             {
                 if (star == nextstar)
                     localNeighbors.removeOne(star);
-                else if (fabs(star->mag() - nextstar->mag()) > 1.0)
+                else if (std::abs(star->mag() - nextstar->mag()) > 1.0)
                     localNeighbors.removeOne(star);
             } // Now, we should have a pruned list
             factor += 1.0;
@@ -307,7 +307,7 @@ float StarHopper::cost(const SkyPoint *curr, const SkyPoint *next)
             double dist2sqr   = dRA2 * dRA2 + dDec2 * dDec2;
 
             // Check for right-angled triangles (without loss of generality, right angle is at this vertex)
-            if (fabs((dRA1 * dRA2 - dDec1 * dDec2) / sqrt(dist1sqr * dist2sqr)) < RIGHT_ANGLE_THRESHOLD)
+            if (std::abs((dRA1 * dRA2 - dDec1 * dDec2) / sqrt(dist1sqr * dist2sqr)) < RIGHT_ANGLE_THRESHOLD)
             {
                 // We have a right angled triangle! Give -3 magnitudes!
                 patterncost += -3;
@@ -315,11 +315,11 @@ float StarHopper::cost(const SkyPoint *curr, const SkyPoint *next)
             }
 
             // Check for isosceles triangles (without loss of generality, this is the vertex)
-            if (fabs((dist1sqr - dist2sqr) / (dist1sqr)) < EQUAL_EDGE_THRESHOLD)
+            if (std::abs((dist1sqr - dist2sqr) / (dist1sqr)) < EQUAL_EDGE_THRESHOLD)
             {
                 patterncost += -1;
                 patternName = i18n("isosceles triangle");
-                if (fabs((dRA2 * dDec1 - dRA1 * dDec2) / sqrt(dist1sqr * dist2sqr)) < RIGHT_ANGLE_THRESHOLD)
+                if (std::abs((dRA2 * dDec1 - dRA1 * dDec2) / sqrt(dist1sqr * dist2sqr)) < RIGHT_ANGLE_THRESHOLD)
                 {
                     patterncost += -1;
                     patternName = i18n("straight line of 3 stars");
@@ -327,7 +327,7 @@ float StarHopper::cost(const SkyPoint *curr, const SkyPoint *next)
                 // Check for equilateral triangles
                 double dist3    = star1->angularDistanceTo(star2).radians();
                 double dist3sqr = dist3 * dist3;
-                if (fabs((dist3sqr - dist1sqr) / dist1sqr) < EQUAL_EDGE_THRESHOLD)
+                if (std::abs((dist3sqr - dist1sqr) / dist1sqr) < EQUAL_EDGE_THRESHOLD)
                 {
                     patterncost += -1;
                     patternName = i18n("equilateral triangle");

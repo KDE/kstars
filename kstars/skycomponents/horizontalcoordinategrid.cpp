@@ -65,7 +65,7 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid(SkyComposite *parent)
             continue;
 
         // Adjust point density
-        int nPoints = int(round(fabs(cos(alt * dms::PI / 180.0)) * dAz / dAz2));
+        int nPoints = int(round(std::abs(cos(alt * dms::PI / 180.0)) * dAz / dAz2));
         if (nPoints < 5)
             nPoints = 5;
         double dAz3 = dAz / nPoints;

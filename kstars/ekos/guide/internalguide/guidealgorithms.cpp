@@ -421,8 +421,8 @@ repeat:
             ++b;
             for (; b != stars.end(); ++b)
             {
-                int dx = abs(a->x - b->x);
-                int dy = abs(a->y - b->y);
+                int dx = std::abs(a->x - b->x);
+                int dy = std::abs(a->y - b->y);
                 if (dx <= fullw && dy <= fullw)
                 {
                     // stars closer than search region, exclude them both

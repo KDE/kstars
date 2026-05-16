@@ -215,7 +215,7 @@ void CalibrationProcess::raOutState(double cur_x, double cur_y)
     const double yDrift = cur_y - start_y1;
     if (((ra_iterations >= maximumSteps) ||
             (std::hypot(xDrift, yDrift) > Options::calibrationMaxMove()))
-            && (fabs(xDrift) > 1.5 || fabs(yDrift) > 1.5))
+            && (std::abs(xDrift) > 1.5 || std::abs(yDrift) > 1.5))
     {
         ra_total_pulse += last_pulse;
         calibrationStage = CAL_RA_DEC;
@@ -256,7 +256,7 @@ void CalibrationProcess::raOutState(double cur_x, double cur_y)
     else
     {
         // Aggressive pulse in case we're going slow
-        if (fabs(cur_x - last_x) < 0.5 && fabs(cur_y - last_y) < 0.5)
+        if (std::abs(cur_x - last_x) < 0.5 && std::abs(cur_y - last_y) < 0.5)
         {
             // 200%
             last_pulse = Options::calibrationPulseDuration() * 2;
@@ -305,7 +305,7 @@ void CalibrationProcess::raInState(double cur_x, double cur_y)
     }
     // If we'not moving much, try increasing pulse to 200% to clear any backlash
     // Also increase pulse width if we are going FARTHER and not back to our original position
-    else if ( (fabs(cur_x - last_x) < 0.5 && fabs(cur_y - last_y) < 0.5)
+    else if ( (std::abs(cur_x - last_x) < 0.5 && std::abs(cur_y - last_y) < 0.5)
               || driftRA > ra_distance)
     {
         backlash++;
@@ -406,7 +406,7 @@ void CalibrationProcess::decBacklashState(double cur_x, double cur_y)
     // DEC direction.
     constexpr int MIN_DEC_BACKLASH_MOVE_PIXELS = 3;
     if ((++backlash_iterations >= 5) ||
-            (fabs(driftDEC) > MIN_DEC_BACKLASH_MOVE_PIXELS))
+            (std::abs(driftDEC) > MIN_DEC_BACKLASH_MOVE_PIXELS))
     {
         addCalibrationUpdate(GuideInterface::BACKLASH, i18n("Calibrating DEC Backlash"),
                              cur_x - start_x1, cur_y - start_y1);
@@ -449,7 +449,7 @@ void CalibrationProcess::decOutState(double cur_x, double cur_y)
     const double yDrift = cur_y - start_y2;
     if (((dec_iterations >= maximumSteps) ||
             (std::hypot(xDrift, yDrift) > Options::calibrationMaxMove()))
-            && (fabs(xDrift) > 1.5 || fabs(yDrift) > 1.5))
+            && (std::abs(xDrift) > 1.5 || std::abs(yDrift) > 1.5))
     {
         calibrationStage = CAL_DEC_DEC;
 
@@ -494,7 +494,7 @@ void CalibrationProcess::decOutState(double cur_x, double cur_y)
     }
     else
     {
-        if (fabs(cur_x - last_x) < 0.5 && fabs(cur_y - last_y) < 0.5)
+        if (std::abs(cur_x - last_x) < 0.5 && std::abs(cur_y - last_y) < 0.5)
         {
             // Increase pulse by 200%
             last_pulse = Options::calibrationPulseDuration() * 2;
@@ -547,7 +547,7 @@ void CalibrationProcess::decInState(double cur_x, double cur_y)
         axisCalibrationComplete = true;
     }
     // Increase pulse if we're not moving much or if we are moving _away_ from target.
-    else if ( (fabs(cur_x - last_x) < 0.5 && fabs(cur_y - last_y) < 0.5)
+    else if ( (std::abs(cur_x - last_x) < 0.5 && std::abs(cur_y - last_y) < 0.5)
               || driftRA > de_distance)
     {
         // Increase pulse by 200%

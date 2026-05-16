@@ -232,7 +232,7 @@ void computeParamsOneChannel(T const *buffer, StretchParams1Channel *params,
     const int sampleBy = width * height < maxSamples ? 1 : width * height / maxSamples;
 
     T medianSample = median(buffer, width * height, sampleBy);
-    // Find the Median deviation: 1.4826 * median of abs(sample[i] - median).
+    // Find the Median deviation: 1.4826 * median of std::abs(sample[i] - median).
     const int numSamples = width * height / sampleBy;
     std::vector<T> deviations(numSamples);
     for (int index = 0, i = 0; i < numSamples; ++i, index += sampleBy)

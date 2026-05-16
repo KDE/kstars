@@ -742,7 +742,7 @@ QString creativeCommonsTooltipString(const QString &astrobinAbbrev)
 QString shortCoordString(const dms &ra, const dms &dec)
 {
     return QString("%1h%2' %3%4°%5'").arg(ra.hour()).arg(ra.minute())
-           .arg(dec.Degrees() < 0 ? "-" : "").arg(abs(dec.degree())).arg(abs(dec.arcmin()));
+           .arg(dec.Degrees() < 0 ? "-" : "").arg(std::abs(dec.degree())).arg(std::abs(dec.arcmin()));
 }
 
 double getAltitude(GeoLocation *geo, SkyPoint &p, const QDateTime &time)

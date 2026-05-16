@@ -188,7 +188,7 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
             F = F0 - (e * sinh_F - F0 - M) / (e * cosh_F - 1.0);
             iter++;
         }
-        while (fabs(F - F0) > 1e-8 && iter < 100);
+        while (std::abs(F - F0) > 1e-8 && iter < 100);
 
         // True anomaly from hyperbolic anomaly
         // tan(v/2) = sqrt((e+1)/(e-1)) * tanh(F/2)
@@ -242,11 +242,11 @@ bool KSComet::findGeocentricPosition(const KSNumbers *num, const KSPlanetBase *E
                 E = E0 - (E0 - e * 180.0 / dms::PI * sin(E0 * dms::DegToRad) - m.Degrees()) /
                     (1 - e * cos(E0 * dms::DegToRad));
             }
-            while (fabs(E - E0) > 0.001 && iter < 1000);
+            while (std::abs(E - E0) > 0.001 && iter < 1000);
         }
 
         // Assert that the solution of the Kepler equation E = M + e sin E is accurate to about 0.1 arcsecond
-        //Q_ASSERT( fabs( E - ( m.Degrees() + ( e * 180.0 / dms::PI ) * sin( E * dms::DegToRad ) ) ) < 0.10/3600.0 );
+        //Q_ASSERT( std::abs( E - ( m.Degrees() + ( e * 180.0 / dms::PI ) * sin( E * dms::DegToRad ) ) ) < 0.10/3600.0 );
 
         double sinE, cosE;
         dms E1(E);

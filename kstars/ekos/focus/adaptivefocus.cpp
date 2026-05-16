@@ -124,7 +124,7 @@ void AdaptiveFocus::runAdaptiveFocus(const int currentPosition, const QString &f
 
         // Scale the altitude delta to number of ticks
         const double ticksPerAlt = m_focus->m_FilterManager->getFilterTicksPerAlt(adaptiveFilter);
-        altDimension = (abs(ticksPerAlt) > 0.001);
+        altDimension = (std::abs(ticksPerAlt) > 0.001);
         altTicksDelta = ticksPerAlt * altDelta;
         altTicksDeltaLast = ticksPerAlt * altDeltaLast;
     }
@@ -148,7 +148,7 @@ void AdaptiveFocus::runAdaptiveFocus(const int currentPosition, const QString &f
                                        static_cast<int>(round(m_ThisAdaptiveFocusTempTicks + m_ThisAdaptiveFocusAltTicks));
 
     // Check movement is above user defined minimum
-    if (abs(proposedMove) < m_focus->m_OpsFocusSettings->focusAdaptiveMinMove->value())
+    if (std::abs(proposedMove) < m_focus->m_OpsFocusSettings->focusAdaptiveMinMove->value())
     {
         m_focus->appendLogText(i18n("Adaptive Focus: No movement (below threshold)"));
         adaptiveFocusAdmin(currentPosition, true, false);
@@ -156,7 +156,7 @@ void AdaptiveFocus::runAdaptiveFocus(const int currentPosition, const QString &f
     else
     {
         // Now do some checks that the movement is permitted
-        if (abs(m_focus->initialFocuserAbsPosition - proposedPosition) > m_focus->m_OpsFocusMechanics->focusMaxTravel->value())
+        if (std::abs(m_focus->initialFocuserAbsPosition - proposedPosition) > m_focus->m_OpsFocusMechanics->focusMaxTravel->value())
         {
             // We are about to move the focuser beyond focus max travel so don't
             // Suspend adaptive focusing, user can always re-enable, if required
@@ -164,7 +164,7 @@ void AdaptiveFocus::runAdaptiveFocus(const int currentPosition, const QString &f
             m_focus->appendLogText(i18n("Adaptive Focus suspended. Total movement would exceed Max Travel limit"));
             adaptiveFocusAdmin(currentPosition, false, false);
         }
-        else if (abs(m_AdaptiveTotalMove + proposedMove) > m_focus->m_OpsFocusSettings->focusAdaptiveMaxMove->value())
+        else if (std::abs(m_AdaptiveTotalMove + proposedMove) > m_focus->m_OpsFocusSettings->focusAdaptiveMaxMove->value())
         {
             // We are about to move the focuser beyond adaptive focus max move so don't
             // Suspend adaptive focusing. User can always re-enable, if required
@@ -406,7 +406,7 @@ int AdaptiveFocus::adaptStartPosition(int currentPosition, QString &AFfilter)
     {
         double currentTemp = m_focus->currentTemperatureSourceElement->value;
         tempDelta = currentTemp - lastTemp;
-        if (abs(tempDelta) > 30)
+        if (std::abs(tempDelta) > 30)
             // Sanity check on the temperature delta
             m_focus->appendLogText(i18n("Adaptive start point, very large temperature delta, ignoring"));
         else
@@ -421,7 +421,7 @@ int AdaptiveFocus::adaptStartPosition(int currentPosition, QString &AFfilter)
     // Sanity check on the altitude delta
     if (lastAlt == INVALID_VALUE)
         m_focus->appendLogText(i18n("Adaptive start point, no alt recorded for last AF solution"));
-    else if (abs(altDelta) > 90.0)
+    else if (std::abs(altDelta) > 90.0)
         m_focus->appendLogText(i18n("Adaptive start point, very large altitude delta, ignoring"));
     else
         ticksAlt = altDelta * m_focus->m_FilterManager->getFilterTicksPerAlt(AFfilter);
@@ -438,7 +438,7 @@ int AdaptiveFocus::adaptStartPosition(int currentPosition, QString &AFfilter)
         return staticPosition;
     }
 
-    if (abs(targetPos - currentPosition) > m_focus->m_OpsFocusSettings->focusAdaptiveMaxMove->value())
+    if (std::abs(targetPos - currentPosition) > m_focus->m_OpsFocusSettings->focusAdaptiveMaxMove->value())
     {
         // Disallow excessive movement.
         // No need to check minimum movement

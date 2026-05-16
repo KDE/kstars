@@ -609,7 +609,7 @@ void Media::sendUpdatedFrame(const QSharedPointer<FITSView> &view)
         const double currentZoom = view->getCurrentZoom();
         const double normalizedZoom = currentZoom / 100;
         // If zoom level is not 100%, then scale.
-        if (fabs(normalizedZoom - 1) > 0.001)
+        if (std::abs(normalizedZoom - 1) > 0.001)
             scaledImage = view->getDisplayPixmap().scaledToWidth(view->zoomedWidth());
         else
             scaledImage = view->getDisplayPixmap();

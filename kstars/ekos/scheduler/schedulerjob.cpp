@@ -582,8 +582,8 @@ bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, 
     {
         // Check the mount's altitude constraints.
         if (margin)
-            *margin = std::min(fabs(altitude - Options::minimumAltLimit()),
-                               fabs(altitude - Options::maximumAltLimit()));
+            *margin = std::min(std::abs(altitude - Options::minimumAltLimit()),
+                               std::abs(altitude - Options::maximumAltLimit()));
         if (altitude < Options::minimumAltLimit() || altitude > Options::maximumAltLimit())
         {
             if (altitudeReason != nullptr)
@@ -601,7 +601,7 @@ bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, 
 
     const double minAltitude = getMinAltitude();
     if (margin)
-        *margin = std::min(*margin, fabs(minAltitude - altitude));
+        *margin = std::min(*margin, std::abs(minAltitude - altitude));
 
     // Check the global min-altitude constraint.
     if (altitude < minAltitude)
@@ -628,7 +628,12 @@ bool SchedulerJob::moonConstraintsOK(QDateTime const &when, QString *reason, dou
     if (margin)
         *margin = 90;
 
-    if ((moon == nullptr) || ((getMinMoonSeparation() <= 0) && (getMaxMoonAltitude() >= 90)))
+    // No moon data available, skip moon constraints
+    if (moon == nullptr)
+        return true;
+
+    // Moon constraints are effectively disabled (any separation OK, any altitude OK)
+    if (getMinMoonSeparation() <= 0 && getMaxMoonAltitude() >= 90)
         return true;
 
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
@@ -656,7 +661,7 @@ bool SchedulerJob::moonConstraintsOK(QDateTime const &when, QString *reason, dou
         const double val = moon->angularDistanceTo(&o).Degrees() - getMinMoonSeparation();
         separationOK = val >= 0;
         if (margin)
-            *margin = fabs(val);
+            *margin = std::abs(val);
     }
 
     bool altitudeOK = true;
@@ -665,7 +670,7 @@ bool SchedulerJob::moonConstraintsOK(QDateTime const &when, QString *reason, dou
         const double val = moon->alt().Degrees() - getMaxMoonAltitude();
         altitudeOK = val <= 0;
         if (margin)
-            *margin = std::min(*margin, fabs(val));
+            *margin = std::min(*margin, std::abs(val));
     }
 
     bool result = separationOK && altitudeOK;
@@ -899,7 +904,7 @@ bool SchedulerJob::runsDuringAstronomicalNightTimeInternal(const QDateTime &time
     }
 
     // Calculate the next astronomical dawn time, adjusted with the Ekos pre-dawn offset
-    QDateTime const earlyDawn = nDawn.addSecs(-60.0 * abs(Options::preDawnTime()));
+    QDateTime const earlyDawn = nDawn.addSecs(-60.0 * std::abs(Options::preDawnTime()));
 
     *minDawnDusk = earlyDawn < nDusk ? earlyDawn : nDusk;
 
@@ -1115,17 +1120,17 @@ QString progressLineLabel(CCDFrameType frameType, const QMap<SequenceJob::Proper
     QString label;
 
     int precisionRequired = 0;
-    double fraction = exposure - fabs(exposure);
+    double fraction = exposure - std::abs(exposure);
     if (fraction > .0001)
     {
         precisionRequired = 1;
         fraction = fraction * 10;
-        fraction = fraction - fabs(fraction);
+        fraction = fraction - std::abs(fraction);
         if (fraction > .0001)
         {
             precisionRequired = 2;
             fraction = fraction * 10;
-            fraction = fraction - fabs(fraction);
+            fraction = fraction - std::abs(fraction);
             if (fraction > .0001)
                 precisionRequired = 3;
         }

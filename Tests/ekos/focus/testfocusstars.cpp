@@ -38,7 +38,7 @@ TestFocusStars::TestFocusStars() : QObject()
 {
 }
 
-#define CompareFloat(d1,d2) QVERIFY(fabs((d1) - (d2)) < .0001)
+#define CompareFloat(d1,d2) QVERIFY(std::abs((d1) - (d2)) < .0001)
 
 Edge makeEdge(float x, float y, float hfr)
 {

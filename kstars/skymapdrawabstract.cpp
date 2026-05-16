@@ -359,7 +359,7 @@ void SkyMapDrawAbstract::drawOrientationArrows(QPainter &p)
             QRectF angleMarkerRect(centerScreenPoint.x() - labelRadius, centerScreenPoint.y() - labelRadius,
                                    2.f * labelRadius, 2.f * labelRadius);
             p.setPen(pen);
-            if (abs(angle) < 0.01)
+            if (std::abs(angle) < 0.01)
             {
                 angle = 0.;
             }

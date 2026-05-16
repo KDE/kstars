@@ -63,7 +63,7 @@ EquatorialCoordinateGrid::EquatorialCoordinateGrid(SkyComposite *parent)
             continue;
 
         // Adjust point density
-        int nPoints = int(round(fabs(cos(dec * dms::PI / 180.0)) * dRa / dRa2));
+        int nPoints = int(round(std::abs(cos(dec * dms::PI / 180.0)) * dRa / dRa2));
         if (nPoints < 5)
             nPoints = 5;
         double dRa3 = dRa / nPoints;

@@ -117,7 +117,7 @@ void GeoLocation::cartToGeod()
     latd = atan2(rpro, (1 - e2));
     lat1 = 0.;
 
-    while (fabs(latd - lat1) > RIT)
+    while (std::abs(latd - lat1) > RIT)
     {
         double s1 = sin(latd);
 

@@ -190,7 +190,7 @@ TestFocus::TestFocus() : QObject()
 {
 }
 
-#define CompareFloat(d1,d2) QVERIFY(fabs((d1) - (d2)) < .0001)
+#define CompareFloat(d1,d2) QVERIFY(std::abs((d1) - (d2)) < .0001)
 
 void TestFocus::basicTest()
 {

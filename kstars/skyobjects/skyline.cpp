@@ -59,7 +59,7 @@ dms SkyLine::angularSize(int i) const
     double aux = havd + cos(p1->dec().radians()) * cos(p2->dec().radians()) * hava;
 
     dms angDist;
-    angDist.setRadians(2 * fabs(asin(sqrt(aux))));
+    angDist.setRadians(2 * std::abs(asin(sqrt(aux))));
 
     return angDist;
 }

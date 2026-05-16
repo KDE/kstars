@@ -457,7 +457,7 @@ void PolarAlign::setMaxPixelSearchRange(double degrees)
 {
     // Suggestion for how far pixelError() below searches.
     // Don't allow the search to be modified too much.
-    const double d = fabs(degrees);
+    const double d = std::abs(degrees);
     if (d < 2)
         maxPixelSearchRange = 2.0;
     else if (d > 10)

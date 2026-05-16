@@ -194,7 +194,7 @@ int TimeSpinBox::valueFromText(const QString &text) const
 QString TimeSpinBox::textFromValue(int value) const
 {
     QString result;
-    int posval(abs(value));
+    int posval(std::abs(value));
 
     if (posval > TimeString.size() - 1)
         posval = 4;
@@ -216,7 +216,7 @@ void TimeSpinBox::changeScale(float x)
 
     for (unsigned int i = 0; i < 42; ++i)
     {
-        float dx = fabs(TimeScale[i] - fabs(x));
+        float dx = std::abs(TimeScale[i] - std::abs(x));
 
         if (dx < dxmin)
         {
@@ -236,7 +236,7 @@ void TimeSpinBox::changeScale(float x)
 
 float TimeSpinBox::timeScale(void) const
 {
-    return value() > 0 ? TimeScale[value()] : -1. * TimeScale[abs(value())];
+    return value() > 0 ? TimeScale[value()] : -1. * TimeScale[std::abs(value())];
 }
 
 void TimeSpinBox::reportChange()

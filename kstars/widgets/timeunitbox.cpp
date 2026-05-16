@@ -116,7 +116,7 @@ int TimeUnitBox::unitValue()
     if (value() >= 0)
         uval = UnitStep[value()];
     else
-        uval = -1 * UnitStep[abs(value())];
+        uval = -1 * UnitStep[std::abs(value())];
     return uval;
 }
 
@@ -125,5 +125,5 @@ int TimeUnitBox::getUnitValue(int val)
     if (val >= 0)
         return UnitStep[val];
     else
-        return -1 * UnitStep[abs(val)];
+        return -1 * UnitStep[std::abs(val)];
 }

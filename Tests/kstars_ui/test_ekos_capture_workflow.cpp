@@ -595,7 +595,7 @@ void TestEkosCaptureWorkflow::testCaptureWaitingForRotator()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates, 60000);
 
     // KTRY_GADGET(rotatorDialog, QLineEdit, rawAngleOut);
-    // QTRY_VERIFY2(fabs(rawAngleOut->text().toDouble() - targetAngle) * 60 <= Options::astrometryRotatorThreshold(),
+    // QTRY_VERIFY2(std::abs(rawAngleOut->text().toDouble() - targetAngle) * 60 <= Options::astrometryRotatorThreshold(),
     //              QString("Rotator angle %1° not at the expected value of %2°").arg(rawAngleOut->text()).arg(targetAngle).toLocal8Bit());
     QWARN("Since the rotator interface has changed, the correct rotator angle cannot be checked from the test case.");
 }

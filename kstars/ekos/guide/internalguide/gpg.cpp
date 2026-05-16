@@ -52,7 +52,7 @@ void getGPGParameters(GaussianProcessGuider::guide_parameters *parameters)
 // running SEP MultiStar, then just 50, as this isn't a critical parameter.
 double getSNR(const GuideStars *guideStars, const double raArcsecError)
 {
-    if (fabs(raArcsecError) > MAX_ARCSEC_ERROR)
+    if (std::abs(raArcsecError) > MAX_ARCSEC_ERROR)
         return 1.0;
 
     // If no SEP MultiStar, just fudge the SNR. Won't be a big deal.
@@ -218,7 +218,7 @@ bool GPG::computePulse(double raArcsecError, GuideStars *guideStars,
                        int *pulseLength, GuideDirection *pulseDir,
                        const Calibration &cal, Seconds timeStep)
 {
-    if (fabs(raArcsecError) > MAX_ARCSEC_ERROR)
+    if (std::abs(raArcsecError) > MAX_ARCSEC_ERROR)
     {
         if (++gpgSkippedSamples > MAX_SKIPPED_SAMPLES)
         {
@@ -236,7 +236,7 @@ bool GPG::computePulse(double raArcsecError, GuideStars *guideStars,
     // I want to start off the gpg on the right foot.
     // If the initial guiding is messed up by an early focus,
     // wait until RA has settled down.
-    if (gpgSamples == 0 && fabs(raArcsecError) > 1)
+    if (gpgSamples == 0 && std::abs(raArcsecError) > 1)
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "Delaying GPG startup. RA error = "
                                    << raArcsecError;
@@ -285,7 +285,7 @@ double GPG::convertCorrectionToPulseMilliseconds(const Calibration &cal, int *pu
     const double gpgPulse = gpgResult * cal.raPulseMillisecondsPerArcsecond();
 
     *pulseDir = gpgPulse > 0 ? RA_DEC_DIR : RA_INC_DIR;
-    *pulseLength = fabs(gpgPulse);
+    *pulseLength = std::abs(gpgPulse);
     return gpgPulse;
 }
 

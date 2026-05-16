@@ -900,7 +900,7 @@ void SequenceJobState::setCurrentCCDTemperature(double currentTemperature)
     if (isInitialized(CAPTURE_ACTION_TEMPERATURE))
     {
         if (m_enforceTemperature == false
-                || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
+                || std::abs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
             prepareActions[CAPTURE_ACTION_TEMPERATURE] = true;
 
         checkAllActionsReady();
@@ -909,7 +909,7 @@ void SequenceJobState::setCurrentCCDTemperature(double currentTemperature)
     {
         setInitialized(CAPTURE_ACTION_TEMPERATURE, true);
         if (m_enforceTemperature == false
-                || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
+                || std::abs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
         {
             prepareActions[CAPTURE_ACTION_TEMPERATURE] = true;
             checkAllActionsReady();
@@ -933,7 +933,7 @@ void SequenceJobState::setCurrentRotatorPositionAngle(double rotatorAngle, IPSta
     {
         // TODO introduce settle time
         // TODO make sure rotator has fully stopped -> see 'align.cpp' captureAndSolve()
-        if (fabs(currentPositionAngle - targetPositionAngle) * 60 <= Options::astrometryRotatorThreshold()
+        if (std::abs(currentPositionAngle - targetPositionAngle) * 60 <= Options::astrometryRotatorThreshold()
                 && state != IPS_BUSY)
             prepareActions[CAPTURE_ACTION_ROTATOR] = true;
 
@@ -942,7 +942,7 @@ void SequenceJobState::setCurrentRotatorPositionAngle(double rotatorAngle, IPSta
     else
     {
         setInitialized(CAPTURE_ACTION_ROTATOR, true);
-        if (fabs(currentPositionAngle - targetPositionAngle) * 60 <= Options::astrometryRotatorThreshold()
+        if (std::abs(currentPositionAngle - targetPositionAngle) * 60 <= Options::astrometryRotatorThreshold()
                 && state != IPS_BUSY)
         {
             prepareActions[CAPTURE_ACTION_ROTATOR] = true;

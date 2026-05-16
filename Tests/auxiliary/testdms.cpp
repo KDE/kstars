@@ -94,15 +94,15 @@ void TestDMS::testReduceToRange()
     dms d;
     d.setD(a);
     d.reduceToRange(dms::ZERO_TO_2PI);
-    QVERIFY(fabs(d.Degrees() - base) < 1e-9);
+    QVERIFY(std::abs(d.Degrees() - base) < 1e-9);
 
     d.setD(b);
     d.reduceToRange(dms::ZERO_TO_2PI);
-    QVERIFY(fabs(d.Degrees() - base) < 1e-9);
+    QVERIFY(std::abs(d.Degrees() - base) < 1e-9);
 
     d.setD(360.0);
     d.reduceToRange(dms::ZERO_TO_2PI);
-    QVERIFY(fabs(d.Degrees() - 0.) < 1e-9);
+    QVERIFY(std::abs(d.Degrees() - 0.) < 1e-9);
 
     double c = 180.0 * 13. + base;
     double e = 180.0 * 14. + base;
@@ -111,19 +111,19 @@ void TestDMS::testReduceToRange()
 
     d.setD(c);
     d.reduceToRange(dms::MINUSPI_TO_PI);
-    QVERIFY(fabs(d.Degrees() - (base - 180.0)) < 1e-9);
+    QVERIFY(std::abs(d.Degrees() - (base - 180.0)) < 1e-9);
 
     d.setD(e);
     d.reduceToRange(dms::MINUSPI_TO_PI);
-    QVERIFY(fabs(d.Degrees() - base) < 1e-9);
+    QVERIFY(std::abs(d.Degrees() - base) < 1e-9);
 
     d.setD(f);
     d.reduceToRange(dms::MINUSPI_TO_PI);
-    QVERIFY(fabs(d.Degrees() - (base - 180.0)) < 1e-9);
+    QVERIFY(std::abs(d.Degrees() - (base - 180.0)) < 1e-9);
 
     d.setD(g);
     d.reduceToRange(dms::MINUSPI_TO_PI);
-    QVERIFY(fabs(d.Degrees() - base) < 1e-9);
+    QVERIFY(std::abs(d.Degrees() - base) < 1e-9);
 }
 
 void TestDMS::testSubstraction()

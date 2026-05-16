@@ -71,7 +71,7 @@ TestCalibrationProcess::TestCalibrationProcess() : QObject()
 
 bool compareDouble(double d1, double d2, double tolerance = .001)
 {
-    return (fabs(d1 - d2) < tolerance);
+    return (std::abs(d1 - d2) < tolerance);
 }
 
 bool checkCalibrationProcessOutputs(CalibrationProcess *cp,

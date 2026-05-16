@@ -1481,7 +1481,7 @@ QString getSign(int val)
 }
 QString signedIntString(int val)
 {
-    return QString("%1%2").arg(getSign(val)).arg(abs(val));
+    return QString("%1%2").arg(getSign(val)).arg(std::abs(val));
 }
 }
 
@@ -2142,7 +2142,7 @@ void updateStat(double time, QLineEdit *valueBox, QCPGraph *graph, Func func, co
     auto begin = graph->data()->findBegin(time);
     double timeDiffThreshold = 10000000.0;
     if ((begin != graph->data()->constEnd()) &&
-            (fabs(begin->mainKey() - time) < timeDiffThreshold))
+            (std::abs(begin->mainKey() - time) < timeDiffThreshold))
     {
         double foundVal = begin->mainValue();
         valueBox->setDisabled(false);
@@ -3319,7 +3319,7 @@ void Analyze::processAdaptiveFocusComplete(double time, const QString &filter, d
 
     // In general if nothing happened we won't plot a value. This means there won't be lots of points with zeros in them.
     // However, we need to cover the situation of offsetting movements that overall don't move the focuser but still have non-zero detail
-    if (!focuserMoved || (abs(tempTicks) < 1.00 && abs(altTicks) < 1.0 && prevPosError == 0 && thisPosError == 0))
+    if (!focuserMoved || (std::abs(tempTicks) < 1.00 && std::abs(altTicks) < 1.0 && prevPosError == 0 && thisPosError == 0))
         return;
 
     // Add a dot on the timeline.
@@ -3914,11 +3914,11 @@ void Analyze::mountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSid
 
     // Only process the message if something's changed by 1/4 degree or more.
     constexpr double MIN_DEGREES_CHANGE = 0.25;
-    if ((fabs(ra - lastMountRa) > MIN_DEGREES_CHANGE) ||
-            (fabs(dec - lastMountDec) > MIN_DEGREES_CHANGE) ||
-            (fabs(ha - lastMountHa) > MIN_DEGREES_CHANGE) ||
-            (fabs(az - lastMountAz) > MIN_DEGREES_CHANGE) ||
-            (fabs(alt - lastMountAlt) > MIN_DEGREES_CHANGE) ||
+    if ((std::abs(ra - lastMountRa) > MIN_DEGREES_CHANGE) ||
+            (std::abs(dec - lastMountDec) > MIN_DEGREES_CHANGE) ||
+            (std::abs(ha - lastMountHa) > MIN_DEGREES_CHANGE) ||
+            (std::abs(az - lastMountAz) > MIN_DEGREES_CHANGE) ||
+            (std::abs(alt - lastMountAlt) > MIN_DEGREES_CHANGE) ||
             (pierSide != lastMountPierSide))
     {
         saveMessage("MountCoords", QString("%1,%2,%3,%4,%5,%6")

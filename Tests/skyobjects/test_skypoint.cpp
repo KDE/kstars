@@ -31,8 +31,8 @@ void TestSkyPoint::testPrecession()
     auto verify = [](const SkyPoint & p, const double targetRA, const double targetDec, const double tolerance)
     {
         qDebug() << p.ra().toHMSString() << " " << p.dec().toDMSString();
-        QVERIFY(fabs(p.ra().Degrees() - targetRA) < tolerance * 15.);
-        QVERIFY(fabs(p.dec().Degrees() - targetDec) < tolerance);
+        QVERIFY(std::abs(p.ra().Degrees() - targetRA) < tolerance * 15.);
+        QVERIFY(std::abs(p.dec().Degrees() - targetDec) < tolerance);
     };
 
     /* Precession of equinoxes within FK5 system */
@@ -105,7 +105,7 @@ void TestSkyPoint::compareNovas()
     // compare JD provided by KStarsDateTime and libnova
     qDebug() << "KDT JD " << static_cast<double>(jd) << "  LN JD " << lnJd << " Diff " << (static_cast<double>
              (jd) - lnJd) * 86400 << "secs";
-    QVERIFY(fabs(static_cast<double>(jd) - lnJd) * 86400 < 1);
+    QVERIFY(std::abs(static_cast<double>(jd) - lnJd) * 86400 < 1);
 
     qDebug() << "Check conversion in Align";
     // the align process is a bit like this:
@@ -146,8 +146,8 @@ void TestSkyPoint::compareNovas()
     qDebug() << "Error (arcsec)" << (raN - ran2) * 3600 << ", " << (decN - decn2) * 3600;
 
     // check the difference
-    //QVERIFY(fabs(decN - decn2) * 3600. < 1);
-    //QVERIFY(fabs(raN - ran2) * 3600. < 1);
+    //QVERIFY(std::abs(decN - decn2) * 3600. < 1);
+    //QVERIFY(std::abs(raN - ran2) * 3600. < 1);
 
     qDebug();
     qDebug() << "Using libnova throughout";
@@ -185,8 +185,8 @@ void TestSkyPoint::compareNovas()
 
     qDebug() << "Error " << (raN - ccd.ra().Degrees()) * 3600 << ", " << (decN - ccd.dec().Degrees()) * 3600;
 
-    //QVERIFY(fabs(p.ra().Degrees() - targetRA) < tolerance * 15.);
-    //QVERIFY(fabs(p.dec().Degrees() - targetDec) < tolerance);
+    //QVERIFY(std::abs(p.ra().Degrees() - targetRA) < tolerance * 15.);
+    //QVERIFY(std::abs(p.dec().Degrees() - targetDec) < tolerance);
 
     //qCDebug(KSTARS_EKOS_ALIGN) << "libnova errors " <<
     //        (epochPos.ra - targetCoord.ra().Degrees()) * 3600. << "as, " << (epochPos.dec - targetCoord.dec().Degrees()) * 3600. << "as";
@@ -345,7 +345,7 @@ void TestSkyPoint::testApparentCatalogue()
     double rjd = static_cast<double>(jd - J2000L);
     //qDebug() << "DT " << dt.toString() << " JD " << static_cast<double>(jd) << " RJD " << rjd;
 
-    QVERIFY(fabs(rjd - 10343.771) < 0.1);
+    QVERIFY(std::abs(rjd - 10343.771) < 0.1);
 
     SkyPoint sp;
     QFETCH(double, Ra);
@@ -533,9 +533,11 @@ void TestSkyPoint::compare(QString msg, double ra1, double dec1, double ra2, dou
 
     double errRa = err / cos(dec1 * M_PI / 180.0);
 
-    QVERIFY2(fabs(ra1 - ra2) < errRa, qPrintable(QString("Ra %1, %2 error %3").arg(ra1).arg(ra2).arg(((ra1 - ra2) * 3600.0), 6,
+    QVERIFY2(std::abs(ra1 - ra2) < errRa, qPrintable(QString("Ra %1, %2 error %3").arg(ra1).arg(ra2).arg(((ra1 - ra2) * 3600.0),
+             6,
              'f', 1)));
-    QVERIFY2(fabs(dec1 - dec2) < err, qPrintable(QString("Dec %1, %2 error %3").arg(dec1).arg(dec2).arg((dec1 - dec2) * 3600.,
+    QVERIFY2(std::abs(dec1 - dec2) < err, qPrintable(QString("Dec %1, %2 error %3").arg(dec1).arg(dec2).arg((
+                 dec1 - dec2) * 3600.,
              6, 'f', 1)));
 }
 
@@ -584,9 +586,9 @@ void TestSkyPoint::testUpdateCoords()
     ra.setH(11, 55, 28, 0);
     //    ra.setH(12, 00, 53, 0); Max RA
 
-    //    dec.setD(-89,52,41,0); Min abs(dec)
+    //    dec.setD(-89,52,41,0); Min std::abs(dec)
     dec.setD(-89, 53, 02, 0);
-    //    dec.setD(-89,53,23,0); Max abs(Dec)
+    //    dec.setD(-89,53,23,0); Max std::abs(Dec)
 
     auto dt = KStarsDateTime::fromString("2021-01-24T00:00");
     int numtest = 100;
@@ -602,10 +604,10 @@ void TestSkyPoint::testUpdateCoords()
     {
         sp.updateCoordsNow(&num);
         jdfrac = modf(static_cast<double>(dt.djd()), &jdint);
-        if (fabs(sp.dec().Degrees()) > 90.0)
+        if (std::abs(sp.dec().Degrees()) > 90.0)
             qDebug() << "i" << i << " jdfrac" << jdfrac << ": sp ra0 " << sp.ra0().Degrees() << ", dec " << sp.dec0().Degrees() <<
                         " ra " << sp.ra().Degrees() << ", dec " << sp.dec().Degrees();
-        QVERIFY(fabs(sp.dec().Degrees()) <= 90.0);
+        QVERIFY(std::abs(sp.dec().Degrees()) <= 90.0);
 
         dt = dt.addSecs(numdays * 86400 / numtest);
         jd = dt.djd();

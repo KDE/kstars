@@ -251,14 +251,14 @@ bool InternalGuider::ditherXY(double x, double y)
 
     do
     {
-        if (fabs(targetX - x) > oneJump)
+        if (std::abs(targetX - x) > oneJump)
             targetX += oneJump * xSign;
-        else if (fabs(targetX - x) < oneJump)
+        else if (std::abs(targetX - x) < oneJump)
             targetX = x;
 
-        if (fabs(targetY - y) > oneJump)
+        if (std::abs(targetY - y) > oneJump)
             targetY += oneJump * ySign;
-        else if (fabs(targetY - y) < oneJump)
+        else if (std::abs(targetY - y) < oneJump)
             targetY = y;
 
         m_ProgressiveDither.enqueue(GuiderUtils::Vector(targetX, targetY, -1));
@@ -330,7 +330,7 @@ bool InternalGuider::dither(double pixels)
                 ((diff_x + totalXOffset < -MAX_DITHER_TRAVEL) && (diff_x < 0)))
         {
             qCDebug(KSTARS_EKOS_GUIDE)
-                    << QString("Dithering target off by too much in X (abs(%1 + %2) > %3), adjust diff_x from %4 to %5")
+                    << QString("Dithering target off by too much in X (std::abs(%1 + %2) > %3), adjust diff_x from %4 to %5")
                     .arg(diff_x).arg(totalXOffset).arg(MAX_DITHER_TRAVEL).arg(diff_x).arg(diff_x * -1.5);
             diff_x *= -1.5;
         }
@@ -338,7 +338,7 @@ bool InternalGuider::dither(double pixels)
                 ((diff_y + totalYOffset < -MAX_DITHER_TRAVEL) && (diff_y < 0)))
         {
             qCDebug(KSTARS_EKOS_GUIDE)
-                    << QString("Dithering target off by too much in Y (abs(%1 + %2) > %3), adjust diff_y from %4 to %5")
+                    << QString("Dithering target off by too much in Y (std::abs(%1 + %2) > %3), adjust diff_y from %4 to %5")
                     .arg(diff_y).arg(totalYOffset).arg(MAX_DITHER_TRAVEL).arg(diff_y).arg(diff_y * -1.5);
             diff_y *= -1.5;
         }
@@ -386,7 +386,7 @@ bool InternalGuider::dither(double pixels)
             .arg(star_position.x - m_DitherOrigin.x(), 5, 'f', 1)
             .arg(star_position.y - m_DitherOrigin.y(), 5, 'f', 1);
 
-    if (Options::ditherWithOnePulse() || (fabs(driftRA) < 1 && fabs(driftDEC) < 1))
+    if (Options::ditherWithOnePulse() || (std::abs(driftRA) < 1 && std::abs(driftDEC) < 1))
     {
         pmath->setTargetPosition(star_position.x, star_position.y);
 
@@ -452,7 +452,7 @@ bool InternalGuider::onePulseDither(double pixels)
             ((diff_x + totalXOffset < -MAX_DITHER_TRAVEL) && (diff_x < 0)))
     {
         qCDebug(KSTARS_EKOS_GUIDE)
-                << QString("OPD: Dithering target off by too much in X (abs(%1 + %2) > %3), adjust diff_x from %4 to %5")
+                << QString("OPD: Dithering target off by too much in X (std::abs(%1 + %2) > %3), adjust diff_x from %4 to %5")
                 .arg(diff_x).arg(totalXOffset).arg(MAX_DITHER_TRAVEL).arg(diff_x).arg(diff_x * -1.5);
         diff_x *= -1.5;
     }
@@ -460,7 +460,7 @@ bool InternalGuider::onePulseDither(double pixels)
             ((diff_y + totalYOffset < -MAX_DITHER_TRAVEL) && (diff_y < 0)))
     {
         qCDebug(KSTARS_EKOS_GUIDE)
-                << QString("OPD: Dithering target off by too much in Y (abs(%1 + %2) > %3), adjust diff_y from %4 to %5")
+                << QString("OPD: Dithering target off by too much in Y (std::abs(%1 + %2) > %3), adjust diff_y from %4 to %5")
                 .arg(diff_y).arg(totalYOffset).arg(MAX_DITHER_TRAVEL).arg(diff_y).arg(diff_y * -1.5);
         diff_y *= -1.5;
     }
@@ -486,8 +486,8 @@ bool InternalGuider::onePulseDither(double pixels)
 
     const GuiderUtils::Vector xyMove(diff_x, diff_y, 0);
     const GuiderUtils::Vector raDecMove = pmath->getCalibration().rotateToRaDec(xyMove);
-    double raPulse = fabs(raDecMove.x * pmath->getCalibration().raPulseMillisecondsPerArcsecond());
-    double decPulse = fabs(raDecMove.y * pmath->getCalibration().decPulseMillisecondsPerArcsecond());
+    double raPulse = std::abs(raDecMove.x * pmath->getCalibration().raPulseMillisecondsPerArcsecond());
+    double decPulse = std::abs(raDecMove.y * pmath->getCalibration().decPulseMillisecondsPerArcsecond());
     auto raDir = raDecMove.x > 0 ? RA_INC_DIR : RA_DEC_DIR;
     auto decDir = raDecMove.y < 0 ? DEC_DEC_DIR : DEC_INC_DIR;
 
@@ -562,7 +562,7 @@ bool InternalGuider::processManualDithering()
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Manual Dithering in progress. Diff star X:" << driftRA << "Y:" << driftDEC;
 
-    if (fabs(driftRA) < guideBoxSize / 5.0 && fabs(driftDEC) < guideBoxSize / 5.0)
+    if (std::abs(driftRA) < guideBoxSize / 5.0 && std::abs(driftDEC) < guideBoxSize / 5.0)
     {
         if (m_ProgressiveDither.empty() == false)
         {
@@ -576,7 +576,7 @@ bool InternalGuider::processManualDithering()
             return true;
         }
 
-        if (fabs(driftRA) < 1 && fabs(driftDEC) < 1)
+        if (std::abs(driftRA) < 1 && std::abs(driftDEC) < 1)
         {
             pmath->setTargetPosition(cur_x, cur_y);
             qCDebug(KSTARS_EKOS_GUIDE) << "Manual Dither complete.";
@@ -1256,7 +1256,7 @@ bool InternalGuider::selectAutoStar()
                 if (edge == center)
                     continue;
 
-                if (fabs(center->x - edge->x) < center->width * 2 && fabs(center->y - edge->y) < center->width * 2)
+                if (std::abs(center->x - edge->x) < center->width * 2 && std::abs(center->y - edge->y) < center->width * 2)
                 {
                     score -= 15;
                     break;

@@ -57,7 +57,7 @@ QMap<long double, dms> ApproachSolver::findClosestApproach(long double startJD,
         //	qCDebug(KSTARS) << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees()) << "; Step = " << step;
 
         //How close are we to a conjunction, and how fast are we approaching one?
-        double factor = fabs((Dist.Degrees() - prevDist.Degrees()) / Dist.Degrees());
+        double factor = std::abs((Dist.Degrees() - prevDist.Degrees()) / Dist.Degrees());
         if (factor > 10.0) //let's go faster!
         {
             step = step0 * factor / 10.0;
@@ -134,7 +134,7 @@ bool ApproachSolver::findPrecise(QPair<long double, dms> *out, long double jd,
         Dist = updateAndFindDistance(jd);
         //    qCDebug(KSTARS) << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "step=" << step;
 
-        if (fabs(step) < 1.0 / (24.0 * 60.0))
+        if (std::abs(step) < 1.0 / (24.0 * 60.0))
         {
             out->first  = jd - step / 2.0;
             out->second = updateAndFindDistance(jd - step / 2.0);

@@ -437,7 +437,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
             }
         }
 
-        if (fabs(view->markerCrosshair.x() - x) <= 15 && fabs(view->markerCrosshair.y() - y) <= 15)
+        if (std::abs(view->markerCrosshair.x() - x) <= 15 && std::abs(view->markerCrosshair.y() - y) <= 15)
             Q_EMIT markerSelected(0, 0);
     }
 #endif

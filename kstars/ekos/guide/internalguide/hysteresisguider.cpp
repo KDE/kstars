@@ -45,7 +45,7 @@ double HysteresisGuider::guide(double offset)
     const double time = ++m_GuiderIteration;
     double guideVal = m_Gain * ((1.0 - hysteresis) * offset + hysteresis * m_LastOutput);
 
-    if (fabs(guideVal) > 0 && fabs(guideVal) < m_MinMove)
+    if (std::abs(guideVal) > 0 && std::abs(guideVal) < m_MinMove)
     {
 
         comment.append(QString("%1%2 < minMove %3").arg(!comment.isEmpty() ? ", " : "")

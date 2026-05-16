@@ -165,8 +165,8 @@ void SkyMapLite::mouseMoveEvent(QMouseEvent *e)
         } else {
             //Resize the rectangle so that it passes through the cursor position
             QPoint pcenter = ZoomRect.center();
-            int dx = abs(e->x() - pcenter.x());
-            int dy = abs(e->y() - pcenter.y());
+            int dx = std::abs(e->x() - pcenter.x());
+            int dy = std::abs(e->y() - pcenter.y());
             if ( dx == 0 || float(dy)/float(dx) > float(height())/float(width()) ) {
                 //Size rect by height
                 ZoomRect.setHeight( 2*dy );

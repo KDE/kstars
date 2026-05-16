@@ -459,7 +459,7 @@
     two point identical if their Manhattan distance (in degrees) is less
     than eps:
 
-       fabs(ra1 - ra2) + fabs(dec1 - dec2) < eps
+       std::abs(ra1 - ra2) + std::abs(dec1 - dec2) < eps
 
     Since we typically use a level 5 or less mesh and average edge of a
     trixel at level 5 is about 3 degrees, an eps as large as 0.1 or so

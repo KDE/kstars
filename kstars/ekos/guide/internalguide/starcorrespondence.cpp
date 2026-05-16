@@ -483,8 +483,8 @@ void StarCorrespondence::adaptOffsets(const QList<Edge> &stars, const QVector<in
         // The adaptation is meant for small movements of at most a few pixels.
         // We don't want it to move enough to find a new star.
         constexpr double maxMovement = 2.5;  // pixels
-        if ((fabs(newXOffset - originalGuideStarOffsets[refIndex].x) < maxMovement) &&
-                (fabs(newYOffset - originalGuideStarOffsets[refIndex].y) < maxMovement))
+        if ((std::abs(newXOffset - originalGuideStarOffsets[refIndex].x) < maxMovement) &&
+                (std::abs(newYOffset - originalGuideStarOffsets[refIndex].y) < maxMovement))
         {
             guideStarOffsets[refIndex].x = newXOffset;
             guideStarOffsets[refIndex].y = newYOffset;

@@ -125,8 +125,8 @@ void runTest(int guideStar)
     c.setAllowMissingGuideStar(true);
     gStar = c.find(stars2, maxDistanceToStar, &output, false);
     // There's been noise added so it won't recover the guide star exactly.
-    QVERIFY2(fabs(gStar.x - guideX) < 2, "guide and 8 removed");
-    QVERIFY2(fabs(gStar.y - guideY) < 2, "guide and 8 removed");
+    QVERIFY2(std::abs(gStar.x - guideX) < 2, "guide and 8 removed");
+    QVERIFY2(std::abs(gStar.y - guideY) < 2, "guide and 8 removed");
     for (int i = 0; i < stars2.size(); ++i)
     {
         // previously we removed 8, but also removing the guide star moves the index for star 8 to 7.
@@ -197,8 +197,8 @@ void runAdaptationTest()
     const double alpha = 1 / pow(25.0, 0.865);
     const double x1 = alpha * 151 + (1 - alpha) * 150;
     const double y1 = alpha * 48 + (1 - alpha) * 50;
-    QVERIFY(fabs(c.reference(1).x - x1) < .0001);
-    QVERIFY(fabs(c.reference(1).y - y1) < .0001);
+    QVERIFY(std::abs(c.reference(1).x - x1) < .0001);
+    QVERIFY(std::abs(c.reference(1).y - y1) < .0001);
 }
 
 // Checks a set of reference stars and detected stars which should fail star correspondence.

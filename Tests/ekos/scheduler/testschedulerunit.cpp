@@ -135,7 +135,7 @@ TestSchedulerUnit::TestSchedulerUnit() : QObject()
 // Tests that the doubles are within tolerance.
 bool compareFloat(double d1, double d2, double tolerance = .0001)
 {
-    return (fabs(d1 - d2) < tolerance);
+    return (std::abs(d1 - d2) < tolerance);
 }
 
 // Tests that the QDateTimes are within the tolerance in seconds.

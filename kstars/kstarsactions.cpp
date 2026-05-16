@@ -1540,7 +1540,7 @@ void KStars::slotToggleTimer()
     }
     else
     {
-        if (fabs(data()->clock()->scale()) > Options::slewTimeScale())
+        if (std::abs(data()->clock()->scale()) > Options::slewTimeScale())
             data()->clock()->setManualMode(true);
         data()->clock()->start();
         if (data()->clock()->isManualMode())

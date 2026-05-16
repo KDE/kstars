@@ -83,7 +83,7 @@ void GuideView::drawNeighbor(QPainter *painter, const Neighbor &neighbor)
         const double dx = neighbor.targetX * scale - x1;
         const double dy = neighbor.targetY * scale - y1;
 
-        const double lineLength = std::hypotf(fabs(dx), fabs(dy));
+        const double lineLength = std::hypotf(std::abs(dx), std::abs(dy));
 
         // f1 indicates the place along line between the guide star and the neighbor star
         // where the line should start because it intersects the reticle box around the guide star.

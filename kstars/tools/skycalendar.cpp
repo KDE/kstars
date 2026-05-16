@@ -331,7 +331,7 @@ void SkyCalendar::addPlanetEvents(int nPlanet)
 
         if (vRise.at(i).x() > -23.0 && vRise.at(i).x() < 23.0)
         {
-            if (i > 0 && fabs(vRise.at(i).x() - vRise.at(i - 1).x()) > 6.0)
+            if (i > 0 && std::abs(vRise.at(i).x() - vRise.at(i - 1).x()) > 6.0)
             {
                 scUI->CalendarView->addPlotObject(oRise);
                 oRise          = new KPlotObject(pColor, KPlotObject::Lines, 2.0);
@@ -353,7 +353,7 @@ void SkyCalendar::addPlanetEvents(int nPlanet)
 
         if (vSet.at(i).x() > -23.0 && vSet.at(i).x() < 23.0)
         {
-            if (i > 0 && fabs(vSet.at(i).x() - vSet.at(i - 1).x()) > 6.0)
+            if (i > 0 && std::abs(vSet.at(i).x() - vSet.at(i - 1).x()) > 6.0)
             {
                 scUI->CalendarView->addPlotObject(oSet);
                 oSet          = new KPlotObject(pColor, KPlotObject::Lines, 2.0);
@@ -375,7 +375,7 @@ void SkyCalendar::addPlanetEvents(int nPlanet)
 
         if (vTransit.at(i).x() > -23.0 && vTransit.at(i).x() < 23.0)
         {
-            if (i > 0 && fabs(vTransit.at(i).x() - vTransit.at(i - 1).x()) > 6.0)
+            if (i > 0 && std::abs(vTransit.at(i).x() - vTransit.at(i - 1).x()) > 6.0)
             {
                 scUI->CalendarView->addPlotObject(oTransit);
                 oTransit          = new KPlotObject(pColor, KPlotObject::Lines, 2.0);

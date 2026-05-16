@@ -586,9 +586,9 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const CapturedFram
             unsigned int const captures_to_go = captures_required - captures_completed;
             const double secsPerCapture = (seqJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() +
                                            (seqJob->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000.0));
-            totalImagingTime += fabs(secsPerCapture * captures_to_go);
-            imagingTimePerRepeat += fabs(secsPerCapture * seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
-            imagingTimeLeftThisRepeat += fabs(secsPerCapture * capturesLeftThisRepeat);
+            totalImagingTime += std::abs(secsPerCapture * captures_to_go);
+            imagingTimePerRepeat += std::abs(secsPerCapture * seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt());
+            imagingTimeLeftThisRepeat += std::abs(secsPerCapture * capturesLeftThisRepeat);
             /* If we have light frames to process, add focus/dithering delay */
             if (seqJob->getFrameType() == FRAME_LIGHT)
             {

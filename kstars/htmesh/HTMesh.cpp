@@ -115,13 +115,13 @@ void HTMesh::intersect(double ra, double dec, double radius, BufNum bufNum)
 // TRIANGLE
 void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2, double ra3, double dec3, BufNum bufNum)
 {
-    if (fabs(ra1 - ra3) + fabs(dec1 - dec3) < eps)
+    if (std::abs(ra1 - ra3) + std::abs(dec1 - dec3) < eps)
         return intersect(ra1, dec1, ra2, dec2);
 
-    else if (fabs(ra1 - ra2) + fabs(dec1 - dec2) < eps)
+    else if (std::abs(ra1 - ra2) + std::abs(dec1 - dec2) < eps)
         return intersect(ra1, dec1, ra3, dec3);
 
-    else if (fabs(ra2 - ra3) + fabs(dec2 - dec3) < eps)
+    else if (std::abs(ra2 - ra3) + std::abs(dec2 - dec3) < eps)
         return intersect(ra1, dec1, ra2, dec2);
 
     SpatialVector p1(ra1, dec1);
@@ -137,16 +137,16 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2, double 
 void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2, double ra3, double dec3, double ra4,
                        double dec4, BufNum bufNum)
 {
-    if (fabs(ra1 - ra4) + fabs(dec1 - dec4) < eps)
+    if (std::abs(ra1 - ra4) + std::abs(dec1 - dec4) < eps)
         return intersect(ra2, dec2, ra3, dec3, ra4, dec4);
 
-    else if (fabs(ra1 - ra2) + fabs(dec1 - dec2) < eps)
+    else if (std::abs(ra1 - ra2) + std::abs(dec1 - dec2) < eps)
         return intersect(ra2, dec2, ra3, dec3, ra4, dec4);
 
-    else if (fabs(ra2 - ra3) + fabs(dec2 - dec3) < eps)
+    else if (std::abs(ra2 - ra3) + std::abs(dec2 - dec3) < eps)
         return intersect(ra1, dec1, ra2, dec2, ra4, dec4);
 
-    else if (fabs(ra3 - ra4) + fabs(dec3 - dec4) < eps)
+    else if (std::abs(ra3 - ra4) + std::abs(dec3 - dec4) < eps)
         return intersect(ra1, dec1, ra2, dec2, ra4, dec4);
 
     SpatialVector p1(ra1, dec1);
@@ -193,9 +193,9 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2, BufNum 
 
     // Check if points are too close
     double len;
-    len = fabs(x1 - x2);
-    len += fabs(y1 - y2);
-    len += fabs(z1 - z2);
+    len = std::abs(x1 - x2);
+    len += std::abs(y1 - y2);
+    len += std::abs(z1 - z2);
 
     if (htmDebug > 0)
     {

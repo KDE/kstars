@@ -91,7 +91,7 @@ V3 haDec2xyz(const QPointF &haDec, double latitude)
     const double x = cos(decRadians);
     const double y = sin(haRadians) * sin(decRadians);
     const double z = cos(haRadians) * sin(decRadians);
-    return rotateAroundY(V3(x, y, z), -fabs(latitude));
+    return rotateAroundY(V3(x, y, z), -std::abs(latitude));
 }
 
 QPointF xyz2haDec(const V3 &xyz, double latitude)
@@ -100,7 +100,7 @@ QPointF xyz2haDec(const V3 &xyz, double latitude)
     const V3 pt = rotateAroundY(xyz, latitude);
     const double ha = r2d(atan2(pt.y(), pt.z()));
 
-    V3 pole = Rotations::azAlt2xyz(QPointF(0, fabs(latitude)));
+    V3 pole = Rotations::azAlt2xyz(QPointF(0, std::abs(latitude)));
     const double dec = 90 - getAngle(xyz, pole);
     return QPointF(ha, dec);
 }

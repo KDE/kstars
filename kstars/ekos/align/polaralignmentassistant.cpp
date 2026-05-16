@@ -315,7 +315,7 @@ void rightArrow(QPainter *painter, int w, int h)
 void PolarAlignmentAssistant::drawArrows(double azError, double altError)
 {
     constexpr double minError = 20.0 / 3600.0;  // 20 arcsec
-    double absError = fabs(altError);
+    double absError = std::abs(altError);
 
     // these constants are worked out so a 10' error gives a size of 50
     // and a 1' error gives a size of 20.
@@ -339,7 +339,7 @@ void PolarAlignmentAssistant::drawArrows(double azError, double altError)
         upArrow(&altPainter, size, size);
     arrowAlt->setPixmap(altPixmap);
 
-    absError = fabs(azError);
+    absError = std::abs(azError);
     if (absError > largeErr)
         size = largeSize;
     else if (absError < smallErr)
@@ -715,12 +715,12 @@ bool PolarAlignmentAssistant::checkPAHForMeridianCrossing()
         dec -= 360;
 
     // Don't do this check within 2 degrees of the poles.
-    bool nearThePole = fabs(dec) > 88;
+    bool nearThePole = std::abs(dec) > 88;
     if (nearThePole)
         return false;
 
     double degreesPerSlew = pAHRotation->value();
-    bool closeToMeridian = fabs(hourAngle) < 2.0 * degreesPerSlew;
+    bool closeToMeridian = std::abs(hourAngle) < 2.0 * degreesPerSlew;
     bool goingWest = pAHDirection->currentIndex() == 0;
 
     // If the pier is on the east side (pointing west) and will slew west and is within 2 slews of the HA=0,

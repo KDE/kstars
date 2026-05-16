@@ -986,7 +986,7 @@ void Focus::processTemperatureSource(INDI::Property prop)
         if (m_LastSourceAutofocusTemperature != INVALID_VALUE)
         {
             delta = currentTemperatureSourceElement->value - m_LastSourceAutofocusTemperature;
-            Q_EMIT newFocusTemperatureDelta(abs(delta), currentTemperatureSourceElement->value, opticalTrain());
+            Q_EMIT newFocusTemperatureDelta(std::abs(delta), currentTemperatureSourceElement->value, opticalTrain());
         }
         else
         {
@@ -1516,7 +1516,7 @@ bool Focus::checkAFOptimisation(const AutofocusReason autofocusReason)
     }
 
     // We now have all the information required to move the focuser
-    if (abs(position - currentPosition) <= 1)
+    if (std::abs(position - currentPosition) <= 1)
     {
         // Focuser at correct position so nothing more to do
         dontRunAF = true;
@@ -2106,7 +2106,7 @@ bool Focus::changeFocus(int amount, bool updateDir)
 {
     // Retry capture if we stay at the same position
     // Allow 1 step of tolerance--Have seen stalls with amount==1.
-    if (inAutoFocus && abs(amount) <= 1)
+    if (inAutoFocus && std::abs(amount) <= 1)
     {
         if (m_RestartState == RESTART_NOW)
             // Restart in progress which is normally triggered by the completion of the focuser
@@ -2141,7 +2141,7 @@ bool Focus::changeFocus(int amount, bool updateDir)
         return true;
 
     const int newAmount = newPosition - currentPosition;
-    const int absNewAmount = abs(newAmount);
+    const int absNewAmount = std::abs(newAmount);
     const bool focusingOut = newAmount > 0;
     const QString dirStr = focusingOut ? i18n("outward") : i18n("inward");
     // update the m_LastFocusDirection unless in Iterative / Polynomial which controls this variable itself.
@@ -2160,7 +2160,7 @@ bool Focus::changeFocus(int amount, bool updateDir)
     {
         m_LastFocusSteps = newPosition;
         m_Focuser->moveAbs(newPosition);
-        appendLogText(i18n("Focusing %2 by %1 steps...", abs(absNewAmount), dirStr));
+        appendLogText(i18n("Focusing %2 by %1 steps...", std::abs(absNewAmount), dirStr));
     }
     else if (canRelMove)
     {
@@ -4002,7 +4002,7 @@ void Focus::autoFocusAbs()
     double targetPosition = 0;
     bool ignoreLimitedDelta = false;
 
-    QString deltaTxt = QString("%1").arg(fabs(lastFrame().hfr - minHFR) * 100.0, 0, 'g', 3);
+    QString deltaTxt = QString("%1").arg(std::abs(lastFrame().hfr - minHFR) * 100.0, 0, 'g', 3);
     QString HFRText  = QString("%1").arg(lastFrame().hfr, 0, 'g', 3);
 
     qCDebug(KSTARS_EKOS_FOCUS) << "===============================";
@@ -4071,7 +4071,7 @@ void Focus::autoFocusAbs()
         case FOCUS_IN:
         case FOCUS_OUT:
             if (reverseDir && focusInLimit && focusOutLimit &&
-                    fabs(lastFrame().hfr - minHFR) < (m_OpsFocusProcess->focusTolerance->value() / 100.0) && HFRInc == 0)
+                    std::abs(lastFrame().hfr - minHFR) < (m_OpsFocusProcess->focusTolerance->value() / 100.0) && HFRInc == 0)
             {
                 if (absIterations <= 2)
                 {
@@ -4097,13 +4097,13 @@ void Focus::autoFocusAbs()
             {
                 // Let's now limit the travel distance of the focuser
                 if (HFRInc >= 1 && m_LastFocusDirection == FOCUS_OUT && lastHFRPos < focusInLimit
-                        && fabs(lastFrame().hfr - lastHFR) > 0.1)
+                        && std::abs(lastFrame().hfr - lastHFR) > 0.1)
                 {
                     focusInLimit = lastHFRPos;
                     qCDebug(KSTARS_EKOS_FOCUS) << "New FocusInLimit " << focusInLimit;
                 }
                 else if (HFRInc >= 1 && m_LastFocusDirection == FOCUS_IN && lastHFRPos > focusOutLimit &&
-                         fabs(lastFrame().hfr - lastHFR) > 0.1)
+                         std::abs(lastFrame().hfr - lastHFR) > 0.1)
                 {
                     focusOutLimit = lastHFRPos;
                     qCDebug(KSTARS_EKOS_FOCUS) << "New FocusOutLimit " << focusOutLimit;
@@ -4281,19 +4281,19 @@ void Focus::autoFocusAbs()
             }
 
             // Restrict the target position even more with the maximum travel option
-            if (fabs(targetPosition - initialFocuserAbsPosition) > m_OpsFocusMechanics->focusMaxTravel->value())
+            if (std::abs(targetPosition - initialFocuserAbsPosition) > m_OpsFocusMechanics->focusMaxTravel->value())
             {
                 int minTravelLimit = qMax(0.0, initialFocuserAbsPosition - m_OpsFocusMechanics->focusMaxTravel->value());
                 int maxTravelLimit = qMin(absMotionMax, initialFocuserAbsPosition + m_OpsFocusMechanics->focusMaxTravel->value());
 
                 // In case we are asked to go below travel limit, but we are not there yet
                 // let us go there and see the result before aborting
-                if (fabs(currentPosition - minTravelLimit) > 10 && targetPosition < minTravelLimit)
+                if (std::abs(currentPosition - minTravelLimit) > 10 && targetPosition < minTravelLimit)
                 {
                     targetPosition = minTravelLimit;
                 }
                 // Same for max travel
-                else if (fabs(currentPosition - maxTravelLimit) > 10 && targetPosition > maxTravelLimit)
+                else if (std::abs(currentPosition - maxTravelLimit) > 10 && targetPosition > maxTravelLimit)
                 {
                     targetPosition = maxTravelLimit;
                 }
@@ -4415,7 +4415,7 @@ void Focus::autoFocusRel()
 {
     static int noStarCount = 0;
     static double minHFR   = 1e6;
-    QString deltaTxt       = QString("%1").arg(fabs(lastFrame().hfr - minHFR) * 100.0, 0, 'g', 2);
+    QString deltaTxt       = QString("%1").arg(std::abs(lastFrame().hfr - minHFR) * 100.0, 0, 'g', 2);
     QString minHFRText     = QString("%1").arg(minHFR, 0, 'g', 3);
     QString HFRText        = QString("%1").arg(lastFrame().hfr, 0, 'g', 3);
 
@@ -4465,7 +4465,7 @@ void Focus::autoFocusRel()
 
         case FOCUS_IN:
         case FOCUS_OUT:
-            if (fabs(lastFrame().hfr - minHFR) < (m_OpsFocusProcess->focusTolerance->value() / 100.0) && HFRInc == 0)
+            if (std::abs(lastFrame().hfr - minHFR) < (m_OpsFocusProcess->focusTolerance->value() / 100.0) && HFRInc == 0)
             {
                 completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE);
             }
@@ -4546,7 +4546,7 @@ void Focus::autoFocusProcessPositionChange(IPState state)
         {
             // Add a check that the current position matches the requested position (within a tolerance)
             if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
-                if (abs(linearRequestedPosition - currentPosition) > m_OpsFocusMechanics->focusTicks->value())
+                if (std::abs(linearRequestedPosition - currentPosition) > m_OpsFocusMechanics->focusTicks->value())
                     qCDebug(KSTARS_EKOS_FOCUS) << QString("Focus positioning error: requested position %1, current position %2")
                                                .arg(linearRequestedPosition).arg(currentPosition);
 

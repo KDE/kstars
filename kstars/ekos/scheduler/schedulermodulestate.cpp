@@ -531,7 +531,7 @@ void SchedulerModuleState::calculateDawnDusk()
 {
     calculateDawnDusk(QDateTime(), m_Dawn, m_Dusk);
 
-    m_PreDawnDateTime = m_Dawn.addSecs(-60.0 * abs(Options::preDawnTime()));
+    m_PreDawnDateTime = m_Dawn.addSecs(-60.0 * std::abs(Options::preDawnTime()));
     Q_EMIT updateNightTime();
 }
 

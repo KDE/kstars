@@ -155,7 +155,7 @@ void ConstellationLines::reindex(KSNumbers *num)
     if (!num)
         return;
 
-    if (fabs(num->julianCenturies() - m_reindexNum.julianCenturies()) < m_reindexInterval)
+    if (std::abs(num->julianCenturies() - m_reindexNum.julianCenturies()) < m_reindexInterval)
         return;
 
     //printf("Re-indexing CLines to year %4.1f...\n", 2000.0 + num->julianCenturies() * 100.0);

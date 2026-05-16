@@ -417,7 +417,7 @@ void MosaicTiles::updateTiles()
             auto rotation =  tile_center_ra0 - mosaic_center_ra0;
 
             // Large rotations handled wrong by the algorithm - prefer doing multiple mosaics
-            if (abs(rotation) <= 90.0)
+            if (std::abs(rotation) <= 90.0)
             {
                 auto next_index = ++index;
                 MosaicTiles::OneTile tile = {pos, tile_center, sky_center, rotation, next_index};
@@ -535,7 +535,7 @@ void MosaicTiles::draw(QPainter *painter)
                                   .arg(tile->skyCenter.ra0().toHMSString(), tile->skyCenter.dec0().toDMSString()));
                 painter->drawText(oneRect, Qt::AlignHCenter | Qt::AlignBottom, QString("%1%2°")
                                   .arg(tile->rotation >= 0.01 ? '+' : tile->rotation <= -0.01 ? '-' : '~')
-                                  .arg(abs(tile->rotation), 5, 'f', 2));
+                                  .arg(std::abs(tile->rotation), 5, 'f', 2));
 
                 painter->restore();
             }

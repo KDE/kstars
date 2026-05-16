@@ -178,7 +178,7 @@ void PlanetViewer::updatePlanets()
     //Check each planet to see if it needs to be updated
     for (int i = 0; i < PlanetList.count(); ++i)
     {
-        if (abs(int(ut.date().toJulianDay()) - LastUpdate[i]) > UpdateInterval[i])
+        if (std::abs(int(ut.date().toJulianDay()) - LastUpdate[i]) > UpdateInterval[i])
         {
             KSPlanetBase *p = PlanetList[i];
             p->findPosition(&num);

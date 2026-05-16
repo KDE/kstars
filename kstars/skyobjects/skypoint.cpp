@@ -280,7 +280,7 @@ SkyPoint SkyPoint::deprecess(const KSNumbers *num, long double epoch)
     long double now = num->julianDay();
     p1.precessFromAnyEpoch(now, epoch);
     if ((std::isnan(RA0.Degrees()) || std::isnan(Dec0.Degrees())) ||
-            (!std::isnan(Dec0.Degrees()) && fabs(Dec0.Degrees()) > 90.0))
+            (!std::isnan(Dec0.Degrees()) && std::abs(Dec0.Degrees()) > 90.0))
     {
         // We have invalid RA0 and Dec0, so set them if epoch = J2000. Otherwise, do not touch.
         if (epoch == J2000L)
@@ -295,7 +295,7 @@ SkyPoint SkyPoint::deprecess(const KSNumbers *num, long double epoch)
 void SkyPoint::nutate(const KSNumbers *num, const bool reverse)
 {
     //Step 2: Nutation
-    if (fabs(Dec.Degrees()) < 80.0) //approximate method
+    if (std::abs(Dec.Degrees()) < 80.0) //approximate method
     {
         double cosRA, sinRA, cosDec, sinDec, tanDec;
         double cosOb, sinOb;
@@ -399,7 +399,7 @@ SkyPoint SkyPoint::moveAway(const SkyPoint &from, double dist) const
         return *this;
     }
 
-    double dst = fabs(dist * dms::DegToRad / 3600.0); // In radian
+    double dst = std::abs(dist * dms::DegToRad / 3600.0); // In radian
 
     // Compute the bearing angle w.r.t. the RA axis ("latitude")
     CachingDms dRA(ra() - from.ra());
@@ -439,7 +439,7 @@ bool SkyPoint::checkBendLight()
     }
 
     // TODO: This can be optimized further. We only need a ballpark estimate of the distance to the sun to start with.
-    return (fabs(angularDistanceTo(static_cast<const SkyPoint *>(m_Sun)).Degrees()) <=
+    return (std::abs(angularDistanceTo(static_cast<const SkyPoint *>(m_Sun)).Degrees()) <=
             maxAngle.Degrees()); // NOTE: dynamic_cast is slow and not important here.
 }
 
@@ -503,7 +503,7 @@ void SkyPoint::aberrate(const KSNumbers *num, bool reverse)
     double K = num->constAberr().Degrees(); //constant of aberration
     double e = num->earthEccentricity(); // eccentricity of Earth's orbit
 
-    if (fabs(Dec.Degrees()) < 80.0)
+    if (std::abs(Dec.Degrees()) < 80.0)
     {
 
         double cosRA, sinRA, cosDec, sinDec;
@@ -938,7 +938,7 @@ dms SkyPoint::angularDistanceTo(const SkyPoint *sp, double *const positionAngle)
     double aux = havd + (sp->dec().cos()) * dec().cos() * hava;
 
     dms angDist;
-    angDist.setRadians(2. * fabs(asin(sqrt(aux))));
+    angDist.setRadians(2. * std::abs(asin(sqrt(aux))));
 
     if (positionAngle)
     {
@@ -1065,7 +1065,7 @@ double SkyPoint::vTopocentric(double vgeo, double vsite[3])
 
 bool SkyPoint::checkCircumpolar(const dms *gLat) const
 {
-    return fabs(dec().Degrees()) > (90 - fabs(gLat->Degrees()));
+    return std::abs(dec().Degrees()) > (90 - std::abs(gLat->Degrees()));
 }
 
 dms SkyPoint::altRefracted() const
@@ -1121,7 +1121,7 @@ double SkyPoint::unrefract(const double alt, bool conditional)
         (refract(h0) -
          h0); // It's probably okay to add h0 in refract() and subtract it here, since refract() is called way more frequently.
 
-    while (fabs(h1 - h0) > 1e-4)
+    while (std::abs(h1 - h0) > 1e-4)
     {
         h0 = h1;
         h1 = alt - (refract(h0) - h0);

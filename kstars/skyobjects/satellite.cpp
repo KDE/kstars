@@ -262,7 +262,7 @@ void Satellite::init()
         eta   = ao * m_eccentricity * tsi;
         etasq = eta * eta;
         eeta  = m_eccentricity * eta;
-        psisq = fabs(1.0 - etasq);
+        psisq = std::abs(1.0 - etasq);
         coef  = qzms24 * pow(tsi, 4.0);
         coef1 = coef / pow(psisq, 3.5);
         cc2   = coef1 * m_mean_motion *
@@ -298,7 +298,7 @@ void Satellite::init()
         nodecf = 3.5 * omeosq * xhdot1 * cc1;
         t2cof  = 1.5 * cc1;
         // Do not divide by zero
-        if (fabs(1.0 + cosio) > 1.5e-12)
+        if (std::abs(1.0 + cosio) > 1.5e-12)
             xlcof = -0.25 * J3OJ2 * sinio * (3.0 + 5.0 * cosio) / (1.0 + cosio);
         else
             xlcof = -0.25 * J3OJ2 * sinio * (3.0 + 5.0 * cosio) / temp4;
@@ -793,7 +793,7 @@ int Satellite::sgp4(double tsince)
         ft = 0.0;
         if (irez != 0)
         {
-            if ((atime == 0.0) || (tsince * atime <= 0.0) || (fabs(tsince) < fabs(atime)))
+            if ((atime == 0.0) || (tsince * atime <= 0.0) || (std::abs(tsince) < std::abs(atime)))
             {
                 atime = 0.0;
                 xni   = m_mean_motion;
@@ -837,7 +837,7 @@ int Satellite::sgp4(double tsince)
                     xnddt = xnddt * xldot;
                 }
 
-                if (fabs(tsince - atime) >= step)
+                if (std::abs(tsince - atime) >= step)
                 {
                     iretn = 381;
                 }
@@ -995,7 +995,7 @@ int Satellite::sgp4(double tsince)
             nodep = atan2(alfdp, betdp);
             if ((nodep < 0.0))
                 nodep += TWOPI;
-            if (fabs(xnoh - nodep) > M_PI)
+            if (std::abs(xnoh - nodep) > M_PI)
             {
                 if (nodep < xnoh)
                     nodep += TWOPI;
@@ -1026,7 +1026,7 @@ int Satellite::sgp4(double tsince)
         sinip = sin(xincp);
         cosip = cos(xincp);
         aycof = -0.5 * J3OJ2 * sinip;
-        if (fabs(cosip + 1.0) > 1.5e-12)
+        if (std::abs(cosip + 1.0) > 1.5e-12)
             xlcof = -0.25 * J3OJ2 * sinip * (3.0 + 5.0 * cosip) / (1.0 + cosip);
         else
             xlcof = -0.25 * J3OJ2 * sinip * (3.0 + 5.0 * cosip) / temp4;
@@ -1041,13 +1041,13 @@ int Satellite::sgp4(double tsince)
     eo1  = u;
     tem5 = 9999.9;
     ktr  = 1;
-    while ((fabs(tem5) >= 1.0e-12) && (ktr <= 10))
+    while ((std::abs(tem5) >= 1.0e-12) && (ktr <= 10))
     {
         sineo1 = sin(eo1);
         coseo1 = cos(eo1);
         tem5   = 1.0 - coseo1 * axnl - sineo1 * aynl;
         tem5   = (u - aynl * coseo1 + axnl * sineo1 - eo1) / tem5;
-        if (fabs(tem5) >= 0.95)
+        if (std::abs(tem5) >= 0.95)
             tem5 = tem5 > 0.0 ? 0.95 : -0.95;
         eo1 = eo1 + tem5;
         ktr = ktr + 1;
@@ -1255,7 +1255,7 @@ QString Satellite::sgp4ErrorString(int code)
 
 double Satellite::arcSin(double arg)
 {
-    if (fabs(arg) >= 1.)
+    if (std::abs(arg) >= 1.)
         if (arg > 0.)
             return PIO2;
         else if (arg < 0.)

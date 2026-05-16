@@ -329,8 +329,8 @@ bool TerrainRenderer::sameView(const Projector *proj, bool forceRefresh)
               view.useRefraction == savedViewParams.useRefraction &&
               view.useAltAz == savedViewParams.useAltAz &&
               view.fillGround == savedViewParams.fillGround;
-    const double azDiff = fabs(savedAz - az);
-    const double altDiff = fabs(savedAlt - alt);
+    const double azDiff = std::abs(savedAz - az);
+    const double altDiff = std::abs(savedAlt - alt);
     if (!forceRefresh && ok && azDiff < .0001 && altDiff < .0001)
         return true;
 

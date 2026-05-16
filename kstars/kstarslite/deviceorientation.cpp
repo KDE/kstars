@@ -39,6 +39,6 @@ void DeviceOrientation::getOrientation()
     m_Altitude                 = m_Altitude + ALPHA_LOW_PASS * (activity.callMethod<float>("getPitch") - m_Altitude);
 
     float newRoll = activity.callMethod<float>("getRoll");
-    m_Roll        = abs(newRoll - m_Roll) > 10 ? newRoll : m_Roll + ALPHA_LOW_PASS * (newRoll - m_Roll);
+    m_Roll        = std::abs(newRoll - m_Roll) > 10 ? newRoll : m_Roll + ALPHA_LOW_PASS * (newRoll - m_Roll);
 #endif
 }

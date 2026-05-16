@@ -183,7 +183,7 @@ void TestEkosSimulator::testMountSlew()
             return dms(coords[0] * 15.0).arcsec();
         return std::numeric_limits<double>::quiet_NaN();
     };
-    QTRY_VERIFY_WITH_TIMEOUT(!std::isnan(currentRaArcsec()) && abs(targetRA - currentRaArcsec()) <= raTolerance(), 15000);
+    QTRY_VERIFY_WITH_TIMEOUT(!std::isnan(currentRaArcsec()) && std::abs(targetRA - currentRaArcsec()) <= raTolerance(), 15000);
     QTest::qWait(100);
     const double currentRA = currentRaArcsec();
     if (!std::isnan(currentRA) && targetRA != currentRA)
@@ -191,7 +191,7 @@ void TestEkosSimulator::testMountSlew()
               .arg(NAME)
               .arg(targetRA)
               .arg(currentRA)
-              .arg(abs(targetRA - currentRA)).toStdString().c_str());
+              .arg(std::abs(targetRA - currentRA)).toStdString().c_str());
 
     const double targetDE = clampDE(DEC);
     QLabel *deOut = ekos->findChild<QLabel *>("decOUT");
@@ -211,7 +211,7 @@ void TestEkosSimulator::testMountSlew()
             return dms(coords[1]).arcsec();
         return std::numeric_limits<double>::quiet_NaN();
     };
-    QTRY_VERIFY_WITH_TIMEOUT(!std::isnan(currentDeArcsec()) && abs(targetDE - currentDeArcsec()) <= deTolerance(), 20000);
+    QTRY_VERIFY_WITH_TIMEOUT(!std::isnan(currentDeArcsec()) && std::abs(targetDE - currentDeArcsec()) <= deTolerance(), 20000);
     QTest::qWait(100);
     const double currentDE = currentDeArcsec();
     if (!std::isnan(currentDE) && targetDE != currentDE)
@@ -219,7 +219,7 @@ void TestEkosSimulator::testMountSlew()
               .arg(NAME)
               .arg(targetDE)
               .arg(currentDE)
-              .arg(abs(targetDE - currentDE)).toStdString().c_str());
+              .arg(std::abs(targetDE - currentDE)).toStdString().c_str());
 
     QVERIFY(Ekos::Manager::Instance()->mountModule()->abort());
 #endif

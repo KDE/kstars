@@ -101,7 +101,8 @@ void TestFitsData::testComputeHFR()
              qPrintable(QString("Detected stars %1 outside expected %2±2").arg(detectedStars).arg(NSTARS)));
     QVERIFY2(std::abs(starCenters - NSTARS) <= 2,
              qPrintable(QString("Star centers %1 outside expected %2±2").arg(starCenters).arg(NSTARS)));
-    QVERIFY2(abs(d->getHFR() - HFR) <= 0.1, qPrintable(QString("HFR expected(measured): %1(%2)").arg(HFR).arg(d->getHFR())));
+    QVERIFY2(std::abs(d->getHFR() - HFR) <= 0.1,
+             qPrintable(QString("HFR expected(measured): %1(%2)").arg(HFR).arg(d->getHFR())));
 #endif
 }
 
@@ -145,7 +146,7 @@ void TestFitsData::testBahtinovFocusHFR()
     d->findStars(ALGORITHM_BAHTINOV, trackingBox).waitForFinished();
     QCOMPARE(d->getDetectedStars(), NSTARS);
     QCOMPARE(d->getStarCenters().count(), 1);
-    QVERIFY(abs(d->getHFR() - HFR) < 0.01);
+    QVERIFY(std::abs(d->getHFR() - HFR) < 0.01);
 #endif
 }
 
@@ -242,17 +243,17 @@ void TestFitsData::testLoadFits()
     QVERIFY(worker.result());
 
     // Statistics computation
-    QVERIFY(abs(fd->getADU() - ADU) < 0.01);
-    QVERIFY(abs(fd->getMean() - MEAN) < 0.01);
-    fprintf(stderr, "%f vs %f (%f\n", fd->getStdDev(), STDDEV, abs(fd->getStdDev() - STDDEV));
-    QVERIFY(abs(fd->getStdDev() - STDDEV) < 0.01);
-    QVERIFY(abs(fd->getSNR() - SNR) < 0.001);
+    QVERIFY(std::abs(fd->getADU() - ADU) < 0.01);
+    QVERIFY(std::abs(fd->getMean() - MEAN) < 0.01);
+    fprintf(stderr, "%f vs %f (%f\n", fd->getStdDev(), STDDEV, std::abs(fd->getStdDev() - STDDEV));
+    QVERIFY(std::abs(fd->getStdDev() - STDDEV) < 0.01);
+    QVERIFY(std::abs(fd->getSNR() - SNR) < 0.001);
 
     // Minmax
     QCOMPARE((long)fd->getMax(), MAXIMUM);
     QCOMPARE((long)fd->getMin(), MINIMUM);
 
-    QVERIFY(abs(fd->getMedian() - MEDIAN) < 0.01);
+    QVERIFY(std::abs(fd->getMedian() - MEDIAN) < 0.01);
 
     // Without searching for stars, there are no stars found
     QCOMPARE(fd->getStarCenters().count(), 0);
@@ -262,19 +263,19 @@ void TestFitsData::testLoadFits()
     fd->findStars().waitForFinished();
     QCOMPARE(fd->getDetectedStars(), NSTARS_CENTROID);
     QCOMPARE(fd->getStarCenters().count(), NSTARS_CENTROID);
-    QVERIFY(abs(fd->getHFR() - HFR_CENTROID) < 0.01);
+    QVERIFY(std::abs(fd->getHFR() - HFR_CENTROID) < 0.01);
 
     // With the centroid algorithm, 80 stars with MEAN HFR 1.495
     fd->findStars(ALGORITHM_CENTROID).waitForFinished();
     QCOMPARE(fd->getDetectedStars(), NSTARS_CENTROID);
     QCOMPARE(fd->getStarCenters().count(), NSTARS_CENTROID);
-    QVERIFY(abs(fd->getHFR() - HFR_CENTROID) < 0.01);
+    QVERIFY(std::abs(fd->getHFR() - HFR_CENTROID) < 0.01);
 
     // With the gradient algorithm, one single star found with HFR 1.801
     fd->findStars(ALGORITHM_GRADIENT).waitForFinished();
     QCOMPARE(fd->getDetectedStars(), 1);
     QCOMPARE(fd->getStarCenters().count(), 1);
-    QVERIFY(abs(fd->getHFR() - HFR_GRADIENT) < 0.01);
+    QVERIFY(std::abs(fd->getHFR() - HFR_GRADIENT) < 0.01);
 
     // The threshold algorithm depends on a global option - skip until we know how to fiddle with that
     //QCOMPARE(fd->findStars(ALGORITHM_THRESHOLD), -1);
@@ -292,7 +293,7 @@ void TestFitsData::testLoadFits()
     QVERIFY2(std::abs(sepStarCenters - NSTARS_STELLARSOLVER) <= 2,
              qPrintable(QString("SEP star centers %1 outside expected %2±2")
                         .arg(sepStarCenters).arg(NSTARS_STELLARSOLVER)));
-    QVERIFY(abs(fd->getHFR() - HFR_STELLARSOLVER) < 0.1);
+    QVERIFY(std::abs(fd->getHFR() - HFR_STELLARSOLVER) < 0.1);
 
     // Test the SEP algorithm with a tracking box, as used by the internal guider and subframe focus.
     fd->findStars(ALGORITHM_SEP, TRACKING_BOX).waitForFinished();
@@ -300,8 +301,8 @@ void TestFitsData::testLoadFits()
     QCOMPARE(centers.count(), 1);
     // QWARN(QString("Center    %1,%2").arg(centers[0]->x).arg(centers[0]->y).toStdString().c_str());
     // QWARN(QString("TB Center %1,%2").arg(TRACKING_BOX.center().x()).arg(TRACKING_BOX.center().y()).toStdString().c_str());
-    QVERIFY(abs(centers[0]->x - TRACKING_BOX.center().x()) <= 5);
-    QVERIFY(abs(centers[0]->y - TRACKING_BOX.center().y()) <= 5);
+    QVERIFY(std::abs(centers[0]->x - TRACKING_BOX.center().x()) <= 5);
+    QVERIFY(std::abs(centers[0]->y - TRACKING_BOX.center().y()) <= 5);
 #endif
 }
 
@@ -359,8 +360,8 @@ void TestFitsData::testLoadCompressedFits()
     QCOMPARE(compressed->width(), uncompressed->width());
     QCOMPARE(compressed->height(), uncompressed->height());
     QCOMPARE(compressed->channels(), uncompressed->channels());
-    QVERIFY(abs(compressed->getMean() - uncompressed->getMean()) < 0.01);
-    QVERIFY(abs(compressed->getStdDev() - uncompressed->getStdDev()) < 0.01);
+    QVERIFY(std::abs(compressed->getMean() - uncompressed->getMean()) < 0.01);
+    QVERIFY(std::abs(compressed->getStdDev() - uncompressed->getStdDev()) < 0.01);
 #endif
 }
 

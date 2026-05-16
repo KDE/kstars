@@ -84,8 +84,8 @@ void CaptureCountsWidget::updateExposureProgress(const QSharedPointer<Ekos::Sequ
     const double remaining = job->getExposeLeft();
 
     // changes recognized only if the difference is at least one second (since we update once a second)
-    imageCounts[trainname].changed = fabs(total - imageCounts[trainname].totalTime) >= 1.0 ||
-                                     fabs(remaining - imageCounts[trainname].remainingTime) >= 1.0;
+    imageCounts[trainname].changed = std::abs(total - imageCounts[trainname].totalTime) >= 1.0 ||
+                                     std::abs(remaining - imageCounts[trainname].remainingTime) >= 1.0;
     imageCounts[trainname].totalTime = total;
     imageCounts[trainname].remainingTime = remaining;
 

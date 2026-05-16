@@ -291,10 +291,10 @@ void TestEkosMount::testMountCtrlCoordConversion()
         // HA/Dec -> RA/Dec
         clickControl(coordRaDe);
         QTest::qWait(20);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(RA.Hours() -  dms::fromString(raText->property("text").toString(),
-                                      false).Hours()) < hourPrecision, 1000);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(Dec.Degrees() -  dms::fromString(deText->property("text").toString(),
-                                      true).Degrees()) < degreePrecision, 1000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(RA.Hours() -  dms::fromString(raText->property("text").toString(),
+                                          false).Hours()) < hourPrecision, 1000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(Dec.Degrees() -  dms::fromString(deText->property("text").toString(),
+                                          true).Degrees()) < degreePrecision, 1000);
 
         // backward chain RA/Dec -> HA/Dec -> Az/Alt -> RA/Dec
 
@@ -319,10 +319,10 @@ void TestEkosMount::testMountCtrlCoordConversion()
         DEText = deText->property("text");
         clickControl(coordRaDe);
         QTest::qWait(20);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(RA.Hours() -  dms::fromString(raText->property("text").toString(),
-                                      false).Hours()) < hourPrecision, 1000);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(Dec.Degrees() -  dms::fromString(deText->property("text").toString(),
-                                      true).Degrees()) < degreePrecision, 1000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(RA.Hours() -  dms::fromString(raText->property("text").toString(),
+                                          false).Hours()) < hourPrecision, 1000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(Dec.Degrees() -  dms::fromString(deText->property("text").toString(),
+                                          true).Degrees()) < degreePrecision, 1000);
     }
 }
 
@@ -365,10 +365,10 @@ void TestEkosMount::testMountCtrlGoto()
 
         // check GOTO RA/Dec
         clickButton(gotoButton);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(RA.Hours() -  dms::fromString(raValue->property("text").toString(),
-                                      false).Hours()) < hourPrecision, 30000);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),
-                                      true).Degrees()) < degreePrecision, 30000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(RA.Hours() -  dms::fromString(raValue->property("text").toString(),
+                                          false).Hours()) < hourPrecision, 30000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),
+                                          true).Degrees()) < degreePrecision, 30000);
     }
 
     // montecarlo test of GOTO with Az/alt coordinate
@@ -387,10 +387,10 @@ void TestEkosMount::testMountCtrlGoto()
 
         // check GOTO Az/Alt
         clickButton(gotoButton);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(Az.Degrees() -  dms::fromString(azValue->property("text").toString(),
-                                      true).Degrees()) < degreePrecision * 120.0, 30000);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(Alt.Degrees() -  dms::fromString(altValue->property("text").toString(),
-                                      true).Degrees()) < degreePrecision * 120.0, 30000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(Az.Degrees() -  dms::fromString(azValue->property("text").toString(),
+                                          true).Degrees()) < degreePrecision * 120.0, 30000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(Alt.Degrees() -  dms::fromString(altValue->property("text").toString(),
+                                          true).Degrees()) < degreePrecision * 120.0, 30000);
     }
 
     // montecarlo test of GOTO with HA/Dec coordinate
@@ -429,10 +429,10 @@ void TestEkosMount::testMountCtrlGoto()
 
         // check GOTO RA/Dec
         clickButton(gotoButton);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(HA.Hours() -  dms::fromString(haValue->property("text").toString(),
-                                      false).Hours()) < hourPrecision * 120, 30000);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),
-                                      true).Degrees()) < degreePrecision, 30000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(HA.Hours() -  dms::fromString(haValue->property("text").toString(),
+                                          false).Hours()) < hourPrecision * 120, 30000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),
+                                          true).Degrees()) < degreePrecision, 30000);
     }
 }
 
@@ -475,10 +475,10 @@ void TestEkosMount::testMountCtrlSync()
 
         // check SYNC RA/Dec
         clickButton(syncButton);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(RA.Hours() -  dms::fromString(raValue->property("text").toString(),
-                                      false).Hours()) < hourPrecision, 30000);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),
-                                      true).Degrees()) < degreePrecision, 30000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(RA.Hours() -  dms::fromString(raValue->property("text").toString(),
+                                          false).Hours()) < hourPrecision, 30000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),
+                                          true).Degrees()) < degreePrecision, 30000);
     }
 
     // montecarlo test of SYNC with Az/alt coordinate
@@ -498,10 +498,10 @@ void TestEkosMount::testMountCtrlSync()
 
         // check SYNC Az/Alt
         clickButton(syncButton);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(Az.Degrees() -  dms::fromString(azValue->property("text").toString(),
-                                      true).Degrees()) < degreePrecision * 20, 20000);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(Alt.Degrees() -  dms::fromString(altValue->property("text").toString(),
-                                      true).Degrees()) < degreePrecision * 20, 20000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(Az.Degrees() -  dms::fromString(azValue->property("text").toString(),
+                                          true).Degrees()) < degreePrecision * 20, 20000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(Alt.Degrees() -  dms::fromString(altValue->property("text").toString(),
+                                          true).Degrees()) < degreePrecision * 20, 20000);
     }
 
     // montecarlo test of SYNC with HA/Dec coordinate
@@ -540,10 +540,10 @@ void TestEkosMount::testMountCtrlSync()
 
         // check SYNC RA/Dec
         clickButton(syncButton);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(HA.Hours() -  dms::fromString(haValue->property("text").toString(),
-                                      false).Hours()) < hourPrecision * 2, 30000);
-        QTRY_VERIFY_WITH_TIMEOUT(fabs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),
-                                      true).Degrees()) < degreePrecision, 30000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(HA.Hours() -  dms::fromString(haValue->property("text").toString(),
+                                          false).Hours()) < hourPrecision * 2, 30000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::abs(Dec.Degrees() -  dms::fromString(deValue->property("text").toString(),
+                                          true).Degrees()) < degreePrecision, 30000);
     }
 
     // close Mount Control

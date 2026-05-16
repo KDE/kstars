@@ -135,7 +135,7 @@ void LineListLabel::draw()
             continue;
         }
 
-        if (fabs(a[j]) > comfyAngle)
+        if (std::abs(a[j]) > comfyAngle)
             continue;
 
         if (m_skyLabeler->drawGuideLabel(o[j], m_text, a[j]))
@@ -163,7 +163,7 @@ void LineListLabel::draw()
     // find the valid non-overlap candidate with the smallest angle
     for (int j = best + 1; j < 4; j++)
     {
-        if (idx[j] && okay[j] && fabs(a[j]) < fabs(a[best]))
+        if (idx[j] && okay[j] && std::abs(a[j]) < std::abs(a[best]))
             best = j;
     }
 

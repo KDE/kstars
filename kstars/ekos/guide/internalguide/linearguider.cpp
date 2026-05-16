@@ -56,7 +56,7 @@ double LinearGuider::guide(double offset)
     {
         // Seems extreme, should at least min the m_MinMove with 1 or 2 a-s
         constexpr double MIN_BAD_OFFSET = 2.0;
-        if (fabs(offset) > std::min(MIN_BAD_OFFSET, 4 * m_MinMove))
+        if (std::abs(offset) > std::min(MIN_BAD_OFFSET, 4 * m_MinMove))
         {
             comment = QString("%1Reset: offset > 4*minMove %2").arg(!comment.isEmpty() ? ", " : "").arg(m_MinMove, 0, 'f', 2);
             reset();
@@ -83,7 +83,7 @@ double LinearGuider::guide(double offset)
     else
         comment.append(QString("%1Starting").arg(!comment.isEmpty() ? ", " : ""));
 
-    if (fabs(guideVal) > fabs(offset))
+    if (std::abs(guideVal) > std::abs(offset))
     {
         comment.append(QString("%1Guideval %2 > offset").arg(!comment.isEmpty() ? ", " : "").arg(guideVal, 0, 'f', 2));
         guideVal = m_Gain * offset;
@@ -97,7 +97,7 @@ double LinearGuider::guide(double offset)
     else
         m_NumRejects = 0;
 
-    if (fabs(guideVal) > 0 && fabs(guideVal) < m_MinMove)
+    if (std::abs(guideVal) > 0 && std::abs(guideVal) < m_MinMove)
     {
 
         comment.append(QString("%1%2 < minMove %3").arg(!comment.isEmpty() ? ", " : "")

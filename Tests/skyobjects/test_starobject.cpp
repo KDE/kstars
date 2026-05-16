@@ -46,9 +46,11 @@ void TestStarObject::compare(QString msg, double ra1, double dec1, double ra2, d
 
     double errRa = err / cos(dec1 * M_PI / 180.0);
 
-    QVERIFY2(fabs(ra1 - ra2) < errRa, qPrintable(QString("Ra %1, %2 error %3").arg(ra1).arg(ra2).arg(((ra1 - ra2) * 3600.0), 6,
+    QVERIFY2(std::abs(ra1 - ra2) < errRa, qPrintable(QString("Ra %1, %2 error %3").arg(ra1).arg(ra2).arg(((ra1 - ra2) * 3600.0),
+             6,
              'f', 1)));
-    QVERIFY2(fabs(dec1 - dec2) < err, qPrintable(QString("Dec %1, %2 error %3").arg(dec1).arg(dec2).arg((dec1 - dec2) * 3600.,
+    QVERIFY2(std::abs(dec1 - dec2) < err, qPrintable(QString("Dec %1, %2 error %3").arg(dec1).arg(dec2).arg((
+                 dec1 - dec2) * 3600.,
              6, 'f', 1)));
 }
 
@@ -56,9 +58,9 @@ void TestStarObject::compare(QString msg, double ra1, double dec1, double ra2, d
 void TestStarObject::compare(QString msg, double number1, double number2, double tolerance)
 {
     qDebug() << qPrintable(QString("%1 num1 %2 num2 %3 error %4").arg(msg)
-                           .arg(number1).arg(number2).arg(fabs(number1 - number2)));
-    QVERIFY2(fabs(number1 - number2) < tolerance,
-             qPrintable(QString("number1 %1, number2 %2; error %3").arg(number1).arg(number2).arg(fabs(number1 - number2))));
+                           .arg(number1).arg(number2).arg(std::abs(number1 - number2)));
+    QVERIFY2(std::abs(number1 - number2) < tolerance,
+             qPrintable(QString("number1 %1, number2 %2; error %3").arg(number1).arg(number2).arg(std::abs(number1 - number2))));
 }
 
 void TestStarObject::testUpdateCoordsStepByStep()

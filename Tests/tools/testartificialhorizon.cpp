@@ -265,7 +265,7 @@ void TestArtificialHorizon::greatCircleTest()
     double az1 = 290, alt1 = 89.0, az2 = 0, alt2 = 89, target = 300;
     GreatCircle gc(az1, alt1, az2, alt2);
     double result = gc.altAtAz(target);
-    QVERIFY(fabs(result - 89.0961) < .001);
+    QVERIFY(std::abs(result - 89.0961) < .001);
 
     az1 = 290;
     alt1 = 89.0;
@@ -273,7 +273,7 @@ void TestArtificialHorizon::greatCircleTest()
     alt2 = 89;
     GreatCircle gc2(az1, alt1, az2, alt2);
     result = gc2.altAtAz(target);
-    QVERIFY(fabs(result - 89.0943) < .001);
+    QVERIFY(std::abs(result - 89.0943) < .001);
 
     az1 = 0;
     alt1 = 89.0;
@@ -281,7 +281,7 @@ void TestArtificialHorizon::greatCircleTest()
     alt2 = 89;
     GreatCircle gc3(az1, alt1, az2, alt2);
     result = gc3.altAtAz(target);
-    QVERIFY(fabs(result - 89.0961) < .001);
+    QVERIFY(std::abs(result - 89.0961) < .001);
 
     az1 = 0;
     alt1 = 79.0;
@@ -289,7 +289,7 @@ void TestArtificialHorizon::greatCircleTest()
     alt2 = 79;
     GreatCircle gc4(az1, alt1, az2, alt2);
     result = gc4.altAtAz(target);
-    QVERIFY(fabs(result - 80.0355) < .001);
+    QVERIFY(std::abs(result - 80.0355) < .001);
 }
 
 QTEST_GUILESS_MAIN(TestArtificialHorizon)

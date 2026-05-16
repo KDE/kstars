@@ -514,7 +514,7 @@ int LinearFocusAlgorithm::newMeasurement(int position, double value, const doubl
                 .arg(firstPassBestPosition).arg(firstPassBestValue, 0, 'f', 3);
 
     const int LINEAR_POSITION_TOLERANCE = params.initialStepSize;
-    if (abs(position - requestedPosition) > LINEAR_POSITION_TOLERANCE)
+    if (std::abs(position - requestedPosition) > LINEAR_POSITION_TOLERANCE)
     {
         qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear: error didn't get the requested position");
         return requestedPosition;
@@ -761,7 +761,7 @@ int LinearFocusAlgorithm::linearWalk(int position, double value, const double st
                                .arg(numSteps).arg(position).arg(value);
 
     // If we are within stepsize ticks of where we should be then fine, otherwise try again
-    if (abs(position - requestedPosition) > params.initialStepSize)
+    if (std::abs(position - requestedPosition) > params.initialStepSize)
     {
         qCDebug(KSTARS_EKOS_FOCUS) << QString("linearWalk error: position %1, requested position %2").arg(position)
                                    .arg(requestedPosition);
@@ -968,7 +968,7 @@ int LinearFocusAlgorithm::setupSolution(int position, double value, double weigh
                                    .arg(position).arg(value).arg(firstPassBestValue);
     else // Linear 1 Pass
     {
-        double delta = fabs(value - firstPassBestValue);
+        double delta = std::abs(value - firstPassBestValue);
         QString str("Linear: solution @ ");
         str.append(QString("%1 = %2 (expected %3) delta=%4").arg(position).arg(value).arg(firstPassBestValue).arg(delta));
 
@@ -1286,7 +1286,7 @@ double LinearFocusAlgorithm::peirce_criterion(double N, double n, double m)
         double r_old = 0.0;
 
         // Start iteration to converge on R:
-        while (abs(r_new - r_old) > (N * 2.0e-16))
+        while (std::abs(r_new - r_old) > (N * 2.0e-16))
         {
             // Calculate Lamda
             // (1 / (N - n) th root of Gould's equation B
