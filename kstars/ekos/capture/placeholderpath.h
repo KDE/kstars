@@ -10,6 +10,8 @@
 #include "indi/indistd.h"
 #include <QDebug>
 #include <QFileInfo>
+#include <QHash>
+#include <QStringList>
 
 class QString;
 class SchedulerJob;
@@ -145,6 +147,15 @@ class PlaceholderPath
          * @brief getCompletedFiles determines the number of files matching the given path pattern
          */
         static int getCompletedFiles(const QString &path);
+
+        /**
+         * @brief getCompletedFiles variant that reuses a per-call directory-listing cache so that
+         * repeated scans of the same capture directory (common when the scheduler re-evaluates N
+         * jobs with M sequence jobs each) do a single readdir per directory instead of N*M.
+         * @param path signature path to match
+         * @param dirCache caller-owned map from directory path to its cached file listing
+         */
+        static int getCompletedFiles(const QString &path, QHash<QString, QStringList> &dirCache);
 
         /**
          * @brief checkSeqBoundary provides the ID to use for the next file

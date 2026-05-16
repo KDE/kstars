@@ -606,7 +606,12 @@ int PlaceholderPath::getCompletedFiles(const SequenceJob &job)
 
 int PlaceholderPath::getCompletedFiles(const QString &path)
 {
-    int seqFileCount = 0;
+    QHash<QString, QStringList> localCache;
+    return getCompletedFiles(path, localCache);
+}
+
+int PlaceholderPath::getCompletedFiles(const QString &path, QHash<QString, QStringList> &dirCache)
+{
 #ifdef Q_OS_WIN
     // Splitting directory and baseName in QFileInfo does not distinguish regular expression backslash from directory separator on Windows.
     // So do not use QFileInfo for the code that separates directory and basename for Windows.
@@ -640,36 +645,42 @@ int PlaceholderPath::getCompletedFiles(const QString &path)
     QString const sig_dir(path_info.dir().path());
     QString const sig_file(path_info.completeBaseName());
 #endif
-    QRegularExpression re(sig_file);
-
-    QDirIterator it(sig_dir, QDir::Files);
 
     if (sig_dir.contains(PierSideStr))
     {
-        QString tempPath = sig_dir;
-        tempPath.replace(PierSideStr, "East");
-        QString newPath = tempPath + QDir::separator() + sig_file;
-        int count = getCompletedFiles(newPath);
-        tempPath = sig_dir;
-        tempPath.replace(PierSideStr, "West");
-        newPath = tempPath + QDir::separator() + sig_file;
-        count += getCompletedFiles(newPath);
-        tempPath = sig_dir;
-        tempPath.replace(PierSideStr, "Unknown");
-        newPath = tempPath + QDir::separator() + sig_file;
-        count += getCompletedFiles(newPath);
+        int count = 0;
+        for (const char *side :
+                { "East", "West", "Unknown"
+                })
+        {
+            QString tempPath = sig_dir;
+            tempPath.replace(PierSideStr, QLatin1String(side));
+            // Skip recursion into pier-side variants whose directory does not exist on disk;
+            // otherwise every load would scan three phantom subtrees per sequence job.
+            if (!QFileInfo::exists(tempPath))
+                continue;
+            count += getCompletedFiles(tempPath + QDir::separator() + sig_file, dirCache);
+        }
         return count;
     }
-    /* FIXME: this counts all files with prefix in the storage location, not just captures. DSS analysis files are counted in, for instance. */
-    while (it.hasNext())
-    {
-        QString const fileName = QFileInfo(it.next()).completeBaseName();
 
-        QRegularExpressionMatch match = re.match(fileName);
-        if (match.hasMatch())
+    // Avoid constructing a QDirIterator for a non-existent directory — on slow storage
+    // (SD card / network mount) that alone is a measurable cost when repeated per sequence job.
+    if (sig_dir.isEmpty() || !QFileInfo::exists(sig_dir))
+        return 0;
+
+    auto cacheIt = dirCache.find(sig_dir);
+    if (cacheIt == dirCache.end())
+        cacheIt = dirCache.insert(sig_dir, QDir(sig_dir).entryList(QDir::Files));
+
+    QRegularExpression re(sig_file);
+    int seqFileCount = 0;
+    /* FIXME: this counts all files with prefix in the storage location, not just captures. DSS analysis files are counted in, for instance. */
+    for (const QString &entry : cacheIt.value())
+    {
+        if (re.match(QFileInfo(entry).completeBaseName()).hasMatch())
             seqFileCount++;
     }
-
     return seqFileCount;
 }
 

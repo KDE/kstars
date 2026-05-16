@@ -31,6 +31,9 @@
 
 #include <QtDBus/QDBusReply>
 #include <QtDBus/QDBusInterface>
+#include <QCoreApplication>
+#include <QEventLoop>
+#include <QScopeGuard>
 
 #define RESTART_GUIDING_DELAY_MS  5000
 
@@ -4628,8 +4631,24 @@ bool SchedulerProcess::canCountCaptures(const SchedulerJob &job)
 
 void SchedulerProcess::updateCompletedJobsCount(bool forced)
 {
+    // Reentrancy guard: QCoreApplication::processEvents() called further below can dispatch
+    // timer events that re-enter evaluateJobs() → updateCompletedJobsCount() while the outer
+    // call is still iterating over moduleState()->jobs(). A re-entrant call would walk a live
+    // container that may be mutated, which is undefined behaviour. We make the nested call a
+    // no-op instead; it will be re-run naturally on the next scheduler iteration.
+    if (m_updatingJobCount)
+        return;
+    m_updatingJobCount = true;
+    const auto countGuard = qScopeGuard([this] { m_updatingJobCount = false; });
+
     /* Use a temporary map in order to limit the number of file searches */
     CapturedFramesMap newFramesCount;
+
+    // Per-call directory listing cache: one readdir per capture directory instead of one
+    // per sequence job. Loading an ESL with many jobs sharing a capture folder used to
+    // re-scan that folder N*M times, which on slow storage could freeze the UI and on a
+    // constrained host trigger swap thrash severe enough to stall the whole OS.
+    QHash<QString, QStringList> dirCache;
 
     /* FIXME: Capture storage cache is refreshed too often, feature requires rework. */
 
@@ -4699,7 +4718,7 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
                 count = earlierRunIterator.value();
             else
                 // else recount captures already stored
-                count =  PlaceholderPath::getCompletedFiles(signature);
+                count =  PlaceholderPath::getCompletedFiles(signature, dirCache);
 
             newFramesCount[signature] = count;
             newJobFramesCount[signature] = count;
@@ -4708,6 +4727,11 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
 
         // determine whether we need to continue capturing, depending on captured frames
         SchedulerUtils::updateLightFramesRequired(oneJob, seqjobs, newFramesCount);
+
+        // Keep paint/timer events flowing so a long scan on slow storage does not look
+        // like a frozen UI. ExcludeUserInputEvents guards against re-entrant user actions
+        // mutating the job list mid-iteration.
+        QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
     }
 
     moduleState()->setCapturedFramesCount(newFramesCount);

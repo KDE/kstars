@@ -816,6 +816,13 @@ class SchedulerProcess : public QObject, public ModuleLogger
         QString m_lastStartupQueueError;
         bool m_startupQueueFailurePopupShown = false;
 
+        /// Reentrancy guard for updateCompletedJobsCount().
+        /// QCoreApplication::processEvents() inside that function can dispatch timer events
+        /// which call evaluateJobs() → updateCompletedJobsCount() again. A re-entrant call
+        /// would iterate over a job list that is already being iterated, causing undefined
+        /// behaviour if the list is mutated. The flag makes the nested call a no-op.
+        bool m_updatingJobCount {false};
+
         /**
          * @brief showStartupQueueFailurePopup Display a popup notification for startup queue failure.
          * Only shows the popup once per failure cycle.
