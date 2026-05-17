@@ -1556,6 +1556,8 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/48-apps-kstars.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/64-apps-kstars.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/128-apps-kstars.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/256-apps-kstars.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/512-apps-kstars.png
 )
 
 if (NOT BUILD_WITH_QT6)
