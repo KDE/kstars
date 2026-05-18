@@ -168,17 +168,30 @@ void SchedulerAltitudeGraph::plot()
     const QDateTime now = SchedulerModuleState::getLocalTime().addDays(m_AltGraphDay), start, end;
     QDateTime nextDawn, nextDusk;
     SchedulerModuleState::calculateDawnDusk(now, nextDawn, nextDusk);
-    QDateTime plotStart = (nextDusk < nextDawn) ? nextDusk : nextDusk.addDays(-1);
+
+    // Dawn/Dusk are very confusing.
+    // Find the Dawn just before Now (pastDawn) and the Dawn just after (futureDawn).
+    // Find the Dusk between the two Dawns.
+    // That "middle Dusk" is when the plot should start.
+    // The plot ends on the dawn after that dusk.
+    QDateTime pastDawn = nextDawn;
+    while (pastDawn >= now)pastDawn = pastDawn.addDays(-1);
+    QDateTime futureDawn = pastDawn;
+    while (futureDawn <= now) futureDawn = futureDawn.addDays(1);
+    QDateTime plotStart = nextDusk;
+    while (plotStart > futureDawn) plotStart = plotStart.addDays(-1);
+    while (plotStart < pastDawn) plotStart = plotStart.addDays(1);
+    QDateTime plotEnd = pastDawn;
+    while (plotEnd <= plotStart) plotEnd = plotEnd.addDays(1);
+
+    //QDateTime plotStart = (nextDusk < nextDawn) ? nextDusk : nextDusk.addDays(-1);
 
     // Normally start the plot 1 hour before dusk and end it an hour after dawn.
     int startOffset = 1;
 
-    KStarsDateTime midnight = KStarsDateTime(now.date().addDays(1), QTime(0, 1), QTimeZone(QTimeZone::systemTimeZoneId()));
-    // Midnight not quite right if it's in the wee hours before dawn.
-    // Then we use the midnight before now.
-    if (now.secsTo(nextDawn) < now.secsTo(nextDusk) && now.date() == nextDawn.date())
-        midnight = KStarsDateTime(now.date(), QTime(0, 1), QTimeZone(QTimeZone::systemTimeZoneId()));
-    else if (now < nextDusk.addSecs(-startOffset * 3600))
+    KStarsDateTime midnight = KStarsDateTime(plotStart.date().addDays(1), QTime(0, 1),
+                              QTimeZone(QTimeZone::systemTimeZoneId()));
+    if (now < plotStart.addSecs(-startOffset * 3600))
     {
         // It's in the (day)time between dawn and dusk. If there is a job scheduled to run
         // during this (day)time, then extend the startOffset to cover this run time.
@@ -187,14 +200,14 @@ void SchedulerAltitudeGraph::plot()
     }
 
     plotStart = plotStart.addSecs(-startOffset * 3600);
-    auto plotEnd = nextDawn.addSecs(startOffset * 3600);
+    plotEnd = plotEnd.addSecs(startOffset * 3600);
 
     const QString dayName = m_AltGraphDay == 1 ? i18n("Tomorrow") : (m_AltGraphDay == 2 ? i18n("Day After Tomorrow") :
                             i18n("Tonight"));
     const QString plotTitle = QString("%1 -- %2 -- %3")
-                              .arg(midnight.addSecs(-6 * 3600).date().toString("MMM d"))
+                              .arg(plotStart.date().toString("MMM d"))
                               .arg(dayName)
-                              .arg(midnight.date().toString("MMM d"));
+                              .arg(plotEnd.date().toString("MMM d"));
     altGraphLabel->setText(plotTitle);
 
     const KStarsDateTime ut  = SchedulerModuleState::getGeo()->LTtoUT(KStarsDateTime(midnight));

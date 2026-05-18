@@ -469,6 +469,9 @@ void AVTPlotWidget::disableAxis(KPlotWidget::Axis axisToDisable)
 void AVTPlotWidget::plot(const GeoLocation *geo, KSAlmanac *ksal, const QVector<double> &times,
                          const QVector<double> &alts, int lineWidth, Qt::GlobalColor color, const QString &label)
 {
+    if (times.size() == 0)
+        return;
+
     currentLine = 0;
     xMin = times[0];
     xMax = times.last();
