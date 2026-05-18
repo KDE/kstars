@@ -546,7 +546,20 @@ void GenericDevice::processLight(INDI::Property prop)
 
 void GenericDevice::processMessage(int messageID)
 {
-    Q_EMIT messageUpdated(messageID);
+    QString messageText;
+    if (messageID >= 0 && m_BaseDevice.isValid())
+    {
+        try
+        {
+            messageText = QString::fromStdString(m_BaseDevice.messageQueue(messageID));
+        }
+        catch (const std::exception &e)
+        {
+            qCWarning(KSTARS_INDI) << "Failed to retrieve message" << messageID
+                                   << "from device" << m_BaseDevice.getDeviceName() << ":" << e.what();
+        }
+    }
+    Q_EMIT messageUpdated(messageText);
 }
 
 bool GenericDevice::processBLOB(INDI::Property prop)

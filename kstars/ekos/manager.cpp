@@ -1857,7 +1857,8 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
             Qt::UniqueConnection);
     connect(device.get(), &ISD::GenericDevice::propertyUpdated, this, &Ekos::Manager::processUpdateProperty,
             Qt::UniqueConnection);
-    connect(device.get(), &ISD::GenericDevice::messageUpdated, this, &Ekos::Manager::processMessage, Qt::UniqueConnection);
+    connect(device.get(), &ISD::GenericDevice::messageUpdated, this, &Ekos::Manager::processMessage,
+            Qt::UniqueConnection);
 
     if (m_DriverDevicesCount <= 0)
     {
@@ -2209,7 +2210,7 @@ void Manager::processDeleteProperty(INDI::Property prop)
     ekosLiveClient.get()->message()->processDeleteProperty(prop);
 }
 
-void Manager::processMessage(int id)
+void Manager::processMessage(const QString &message)
 {
     auto origin = static_cast<ISD::GenericDevice *>(sender());
     // Shouldn't happen
@@ -2219,7 +2220,7 @@ void Manager::processMessage(int id)
     if (!INDIListener::findDevice(origin->getDeviceName(), device))
         return;
 
-    ekosLiveClient.get()->message()->processMessage(device, id);
+    ekosLiveClient.get()->message()->processMessage(device, message);
 }
 
 void Manager::processUpdateProperty(INDI::Property prop)
@@ -3125,9 +3126,9 @@ void Manager::wizardProfile()
 bool Manager::getCurrentProfile(QSharedPointer<ProfileInfo> &profile) const
 {
     // Get current profile
-    for (auto &pi : profiles)
-    {
-        if (profileCombo->currentText() == pi->name)
+for (auto &pi : profiles)
+{
+    if (profileCombo->currentText() == pi->name)
         {
             profile = pi;
             return true;

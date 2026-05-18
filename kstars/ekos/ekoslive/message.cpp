@@ -1920,26 +1920,26 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
         switch (objectType)
         {
-                // Stars
+            // Stars
             case SkyObject::STAR:
             case SkyObject::CATALOG_STAR:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
                 break;
-                // Planets & Moon
+            // Planets & Moon
             case SkyObject::PLANET:
             case SkyObject::MOON:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
                 break;
-                // Comets & Asteroids
+            // Comets & Asteroids
             case SkyObject::COMET:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
                 break;
             case SkyObject::ASTEROID:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
                 break;
-                // Clusters
+            // Clusters
             case SkyObject::OPEN_CLUSTER:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::OPEN_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
@@ -1948,7 +1948,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GLOBULAR_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
                 break;
-                // Nebuale
+            // Nebuale
             case SkyObject::GASEOUS_NEBULA:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GASEOUS_NEBULA, objectMaxMagnitude));
                 isDSO = true;
@@ -2785,12 +2785,17 @@ void Message::processDeleteProperty(INDI::Property prop)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-void Message::processMessage(const QSharedPointer<ISD::GenericDevice> &device, int id)
+void Message::processMessage(const QSharedPointer<ISD::GenericDevice> &device, const QString &message)
 {
+
     if (Options::ekosLiveNotifications() == false)
         return;
 
-    auto message = QString::fromStdString(device->getBaseDevice().messageQueue(id));
+    // Message text was already extracted safely in GenericDevice::processMessage.
+    // An empty string means the extraction failed (e.g. invalid device state or
+    // out-of-range message ID), so there is nothing to forward.
+    if (message.isEmpty())
+        return;
 
     // Return if message doesn't contain any log level indicator
     static const QRegularExpression logLevelRegex(QStringLiteral("\\[(INFO|WARNING|ERROR)\\]"));

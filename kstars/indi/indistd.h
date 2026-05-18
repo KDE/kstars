@@ -253,7 +253,7 @@ class GenericDevice : public GDInterface
         void Disconnected();
 
         void propertyUpdated(INDI::Property prop);
-        void messageUpdated(int messageID);
+        void messageUpdated(const QString &messageText);
 
         void interfaceDefined();
         void systemPortDetected();
