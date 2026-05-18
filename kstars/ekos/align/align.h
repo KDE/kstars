@@ -349,6 +349,11 @@ class Align : public QWidget, public Ui::Align
             return m_MountModel;
         }
 
+        ISD::Mount *mount() const
+        {
+            return m_Mount;
+        }
+
         PolarAlignmentAssistant *polarAlignmentAssistant() const
         {
             return m_PolarAlignmentAssistant;

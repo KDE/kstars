@@ -1,3 +1,8 @@
+ADD_EXECUTABLE( test_mountmodel_halton test_mountmodel_halton.cpp )
+TARGET_LINK_LIBRARIES( test_mountmodel_halton ${TEST_LIBRARIES})
+ADD_TEST( NAME TestMountModelHalton COMMAND test_mountmodel_halton )
+SET_TESTS_PROPERTIES( TestMountModelHalton PROPERTIES LABELS "stable")
+
 ADD_EXECUTABLE( test_poleaxis test_poleaxis.cpp )
 TARGET_LINK_LIBRARIES( test_poleaxis ${TEST_LIBRARIES})
 ADD_TEST( NAME TestPoleAxis COMMAND test_poleaxis )

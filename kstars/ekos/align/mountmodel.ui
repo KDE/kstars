@@ -58,13 +58,15 @@
       <item row="2" column="1" colspan="4">
        <widget class="QComboBox" name="alignTypeBox">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the type of objects/points added by the wizard.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note:&lt;/span&gt; all of the options except Fixed DEC start with a grid of RA/DEC points.&lt;/p&gt;
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select how the wizard chooses alignment points.&lt;/p&gt;
+&lt;p&gt;All modes except Fixed DEC and Fixed Grid spread points evenly across the sky using uniform distribution. The modes differ in what each point snaps to:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;b&gt;Any Stars:&lt;/b&gt; The wizard searches for the nearest star.&lt;/li&gt;
-&lt;li&gt;&lt;b&gt;Any object:&lt;/b&gt;  The wizard searches for the nearest object of any type.&lt;/li&gt;
-&lt;li&gt;&lt;b&gt;Named Stars&lt;/b&gt; The wizard searches for the nearest star in the currently visible star list. Note that the first named star might be fairly far from the intended point and also sometimes the same star could be the closest one for multiple points.&lt;/li&gt;
-&lt;li&gt;&lt;b&gt;Fixed DEC:&lt;/b&gt; The wizard generates all points at the chosen DEC.&lt;/li&gt;
-&lt;li&gt;&lt;b&gt;Fixed Grid:&lt;/b&gt;  The wizard just uses the original grid without trying to pair it with objects.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Any Stars:&lt;/b&gt; Snaps to the nearest visible star.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Named Stars:&lt;/b&gt; Snaps to a well-known named star (e.g. Vega, Arcturus).&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Any Object:&lt;/b&gt; Snaps to the nearest visible object of any type.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Uniform Distribution:&lt;/b&gt; Points are spread evenly across the visible sky.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Fixed DEC:&lt;/b&gt; All points share the same declination (set below).&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Fixed Grid:&lt;/b&gt; Points arranged in a regular RA/DEC grid, evenly spaced in RA and DEC.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -81,6 +83,11 @@
         <item>
          <property name="text">
           <string>Any Object</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Uniform Distribution</string>
          </property>
         </item>
         <item>

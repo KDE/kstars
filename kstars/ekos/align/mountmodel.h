@@ -9,6 +9,7 @@
 
 #include "ui_mountmodel.h"
 #include "ekos/ekos.h"
+#include "indi/indistd.h"
 #include "skypoint.h"
 
 #include <QDialog>
@@ -36,6 +37,7 @@ class MountModel : public QDialog, public Ui::mountModel
             OBJECT_ANY_STAR,
             OBJECT_NAMED_STAR,
             OBJECT_ANY_OBJECT,
+            OBJECT_HALTON_SEQUENCE,
             OBJECT_FIXED_DEC,
             OBJECT_FIXED_GRID
         };
@@ -69,6 +71,7 @@ class MountModel : public QDialog, public Ui::mountModel
         void alignTypeChanged(int alignType);
         void togglePreviewAlignPoints();
         void slotSortAlignmentPoints();
+        void onMountParkStatusChanged(ISD::ParkStatus status);
 
 
     private:
@@ -85,9 +88,12 @@ class MountModel : public QDialog, public Ui::mountModel
                                      double minAlt);
         void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
         void updatePreviewAlignPoints();
-        int findNextAlignmentPointAfter(int currentSpot);
-        int findClosestAlignmentPointToTelescope();
+        void sortTableRows(int fromRow, const SkyPoint &start);
         void swapAlignPoints(int firstPt, int secondPt);
+        double halton(int index, int base);
+
+        void saveAndOverrideSolverSettings();
+        void restoreSolverSettings();
 
         /**
              * @brief Get formatted RA & DEC coordinates compatible with astrometry.net format.
@@ -111,6 +117,14 @@ class MountModel : public QDialog, public Ui::mountModel
         QVector<const StarObject *> alignStars;
         QUrl alignURL;
         SkyPoint telescopeCoord;
+
+        // Saved solver settings restored after model run
+        bool m_solverSettingsSaved { false };
+        bool m_savedUsePosition { false };
+        bool m_savedUseScale { false };
+        int m_savedGotoMode { 2 };  // Align::GOTO_NOTHING -- safe no-op default
+
+        bool m_WaitingForUnpark { false };
 
 
 };

@@ -7,6 +7,8 @@
 #include "mountmodel.h"
 
 #include "align.h"
+#include "indi/indimount.h"
+#include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "flagcomponent.h"
@@ -119,7 +121,14 @@ MountModel::MountModel(Align *parent) : QDialog(parent)
 
 MountModel::~MountModel()
 {
-
+    if (m_solverSettingsSaved)
+    {
+        // Restore persistent options only -- do not call setSolverAction() here
+        // because Align's child widgets (including the goto button group) may
+        // already be partially destroyed by the time this destructor runs.
+        Options::setAstrometryUsePosition(m_savedUsePosition);
+        Options::setAstrometryUseImageScale(m_savedUseScale);
+    }
 }
 
 void MountModel::generateAlignStarList()
@@ -434,91 +443,81 @@ bool MountModel::saveAlignmentPoints(const QString &path)
     return true;
 }
 
+void MountModel::swapAlignPoints(int firstPt, int secondPt)
+{
+    for (int i = 0; i < alignTable->columnCount(); i++)
+    {
+        QTableWidgetItem *firstPtItem  = alignTable->takeItem(firstPt, i);
+        QTableWidgetItem *secondPtItem = alignTable->takeItem(secondPt, i);
+        alignTable->setItem(firstPt, i, secondPtItem);
+        alignTable->setItem(secondPt, i, firstPtItem);
+    }
+}
+
+void MountModel::sortTableRows(int fromRow, const SkyPoint &start)
+{
+    int rowCount = alignTable->rowCount();
+    if (fromRow >= rowCount)
+        return;
+
+    auto skyPointAt = [&](int row) -> SkyPoint
+    {
+        return SkyPoint(dms::fromString(alignTable->item(row, 0)->text(), false),
+                        dms::fromString(alignTable->item(row, 1)->text(), true));
+    };
+
+    // Find the row in [fromRow, rowCount) closest to start and swap it to fromRow.
+    SkyPoint ref = start;
+    dms bestDiff(360);
+    int bestIndex = fromRow;
+    for (int i = fromRow; i < rowCount; i++)
+    {
+        if (!alignTable->item(i, 0) || !alignTable->item(i, 1))
+            continue;
+        SkyPoint sp = skyPointAt(i);
+        dms diff = ref.angularDistanceTo(&sp);
+        if (diff.Degrees() < bestDiff.Degrees())
+        {
+            bestIndex = i;
+            bestDiff  = diff;
+        }
+    }
+    if (bestIndex != fromRow)
+        swapAlignPoints(bestIndex, fromRow);
+
+    // Nearest-neighbour for the rest of the range.
+    for (int i = fromRow; i < rowCount - 1; i++)
+    {
+        if (!alignTable->item(i, 0) || !alignTable->item(i, 1))
+            continue;
+        SkyPoint current = skyPointAt(i);
+        bestDiff  = dms(360);
+        bestIndex = i + 1;
+        for (int j = i + 1; j < rowCount; j++)
+        {
+            if (!alignTable->item(j, 0) || !alignTable->item(j, 1))
+                continue;
+            SkyPoint sp = skyPointAt(j);
+            dms diff = current.angularDistanceTo(&sp);
+            if (diff.Degrees() < bestDiff.Degrees())
+            {
+                bestIndex = j;
+                bestDiff  = diff;
+            }
+        }
+        if (bestIndex != i + 1)
+            swapAlignPoints(bestIndex, i + 1);
+    }
+}
+
 void MountModel::slotSortAlignmentPoints()
 {
-    int firstAlignmentPt = findClosestAlignmentPointToTelescope();
-    if (firstAlignmentPt != -1)
-    {
-        swapAlignPoints(firstAlignmentPt, 0);
-    }
-
-    for (int i = 0; i < alignTable->rowCount() - 1; i++)
-    {
-        int nextAlignmentPoint = findNextAlignmentPointAfter(i);
-        if (nextAlignmentPoint != -1)
-        {
-            swapAlignPoints(nextAlignmentPoint, i + 1);
-        }
-    }
+    // While a run is in progress, sort only the points not yet visited so that
+    // completed rows are not disturbed and currentAlignmentPoint stays valid.
+    int fromRow = m_IsRunning ? currentAlignmentPoint : 0;
+    sortTableRows(fromRow, telescopeCoord);
     if (previewShowing)
         updatePreviewAlignPoints();
-}
-
-int MountModel::findClosestAlignmentPointToTelescope()
-{
-    dms bestDiff = dms(360);
-    double index = -1;
-
-    for (int i = 0; i < alignTable->rowCount(); i++)
-    {
-        QTableWidgetItem *raCell = alignTable->item(i, 0);
-        QTableWidgetItem *deCell = alignTable->item(i, 1);
-
-        if (raCell && deCell)
-        {
-            dms raDMS = dms::fromString(raCell->text(), false);
-            dms deDMS = dms::fromString(deCell->text(), true);
-
-            SkyPoint sk(raDMS, deDMS);
-            dms thisDiff = telescopeCoord.angularDistanceTo(&sk);
-            if (thisDiff.Degrees() < bestDiff.Degrees())
-            {
-                index    = i;
-                bestDiff = thisDiff;
-            }
-        }
-    }
-    return index;
-}
-
-int MountModel::findNextAlignmentPointAfter(int currentSpot)
-{
-    QTableWidgetItem *currentRACell = alignTable->item(currentSpot, 0);
-    QTableWidgetItem *currentDECell = alignTable->item(currentSpot, 1);
-
-    if (currentRACell && currentDECell)
-    {
-        dms thisRADMS = dms::fromString(currentRACell->text(), false);
-        dms thisDEDMS = dms::fromString(currentDECell->text(), true);
-
-        SkyPoint thisPt(thisRADMS, thisDEDMS);
-
-        dms bestDiff = dms(360);
-        double index = -1;
-
-        for (int i = currentSpot + 1; i < alignTable->rowCount(); i++)
-        {
-            QTableWidgetItem *raCell = alignTable->item(i, 0);
-            QTableWidgetItem *deCell = alignTable->item(i, 1);
-
-            if (raCell && deCell)
-            {
-                dms raDMS = dms::fromString(raCell->text(), false);
-                dms deDMS = dms::fromString(deCell->text(), true);
-                SkyPoint point(raDMS, deDMS);
-                dms thisDiff = thisPt.angularDistanceTo(&point);
-
-                if (thisDiff.Degrees() < bestDiff.Degrees())
-                {
-                    index    = i;
-                    bestDiff = thisDiff;
-                }
-            }
-        }
-        return index;
-    }
-    else
-        return -1;
 }
 
 void MountModel::slotWizardAlignmentPoints()
@@ -553,6 +552,121 @@ void MountModel::slotWizardAlignmentPoints()
                 return;
             }
         }
+    }
+
+    if (alignTypeBox->currentIndex() == OBJECT_HALTON_SEQUENCE ||
+            alignTypeBox->currentIndex() == OBJECT_NAMED_STAR ||
+            alignTypeBox->currentIndex() == OBJECT_ANY_STAR ||
+            alignTypeBox->currentIndex() == OBJECT_ANY_OBJECT)
+    {
+        // Generate points directly in AltAz space so every point is above the
+        // horizon by construction.  85 deg ceiling avoids the azimuth singularity
+        // near zenith.  Points whose declination exceeds +-80 deg after conversion
+        // are discarded (not clamped) so the stored (ra, dec) always corresponds
+        // to the generated AltAz position.
+        constexpr double maxAlt    = 85.0;
+        constexpr double maxAbsDec = 80.0;
+        double sinMin = std::sin(minAlt * dms::DegToRad);
+        double sinMax = std::sin(maxAlt * dms::DegToRad);
+
+        const bool snap = alignTypeBox->currentIndex() != OBJECT_HALTON_SEQUENCE;
+        QSet<const SkyObject *> usedObjects;
+        struct Point
+        {
+            QString ra, dec, name;
+        };
+        QVector<Point> newPoints;
+
+        // Iterate through the Halton sequence until we have enough points.
+        // Use a generous upper bound to handle sparse catalogues at high latitudes.
+        const int maxCandidates = qMax(points * 10, 200);
+        for (int i = 1; i <= maxCandidates && newPoints.size() < points; i++)
+        {
+            double az  = halton(i, 2) * 360.0;
+            double alt = std::asin(sinMin + halton(i, 3) * (sinMax - sinMin)) / dms::DegToRad;
+
+            SkyPoint sp;
+            sp.setAlt(alt);
+            sp.setAz(az);
+            sp.HorizontalToEquatorial(data->lst(), data->geo()->lat());
+
+            double ra  = sp.ra().Hours();
+            double dec = sp.dec().Degrees();
+            if (std::abs(dec) > maxAbsDec)
+                continue;
+
+            QString ra_report, dec_report, name;
+
+            if (snap)
+            {
+                const SkyObject *obj = getWizardAlignObject(ra * 15.0, dec);
+                if (!obj)
+                    continue;
+                if (usedObjects.contains(obj))
+                    continue;
+                usedObjects.insert(obj);
+                SkyObject *o = obj->clone();
+                o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
+                getFormattedCoords(o->ra0().Hours(), o->dec0().Degrees(), ra_report, dec_report);
+                name = o->longname();
+                delete o;
+            }
+            else
+            {
+                getFormattedCoords(ra, dec, ra_report, dec_report);
+                name = i18n("Sky Point");
+            }
+
+            newPoints.append({ra_report, dec_report, name});
+        }
+
+        if (newPoints.size() < points)
+            Q_EMIT newLog(i18n("Warning: only %1 of %2 requested alignment points could be placed.",
+                               newPoints.size(), points));
+
+        // Determine start point for sorting: last existing row, or telescope if table is empty.
+        SkyPoint sortStart = telescopeCoord;
+        int lastExistingRow = alignTable->rowCount() - 1;
+        if (lastExistingRow >= 0)
+        {
+            QTableWidgetItem *raCell  = alignTable->item(lastExistingRow, 0);
+            QTableWidgetItem *decCell = alignTable->item(lastExistingRow, 1);
+            if (raCell && decCell)
+                sortStart = SkyPoint(dms::fromString(raCell->text(), false),
+                                     dms::fromString(decCell->text(), true));
+        }
+        const int firstNewRow = alignTable->rowCount();
+
+        for (const auto &pt : newPoints)
+        {
+            int currentRow = alignTable->rowCount();
+            alignTable->insertRow(currentRow);
+
+            QTableWidgetItem *RAReport = new QTableWidgetItem();
+            RAReport->setText(pt.ra);
+            RAReport->setTextAlignment(Qt::AlignHCenter);
+            alignTable->setItem(currentRow, 0, RAReport);
+
+            QTableWidgetItem *DECReport = new QTableWidgetItem();
+            DECReport->setText(pt.dec);
+            DECReport->setTextAlignment(Qt::AlignHCenter);
+            alignTable->setItem(currentRow, 1, DECReport);
+
+            QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
+            ObjNameReport->setText(pt.name);
+            ObjNameReport->setTextAlignment(Qt::AlignHCenter);
+            alignTable->setItem(currentRow, 2, ObjNameReport);
+
+            QTableWidgetItem *disabledBox = new QTableWidgetItem();
+            disabledBox->setFlags(Qt::ItemIsSelectable);
+            alignTable->setItem(currentRow, 3, disabledBox);
+        }
+
+        sortTableRows(firstNewRow, sortStart);
+
+        if (previewShowing)
+            updatePreviewAlignPoints();
+        return;
     }
 
     //If there are less than 6 points, keep them all in the same DEC,
@@ -737,6 +851,20 @@ void MountModel::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZW
     AZWest.setRadians(2.0 * dms::PI - AZRad);
 }
 
+double MountModel::halton(int index, int base)
+{
+    double result = 0;
+    double f      = 1.0 / base;
+    int i         = index;
+    while (i > 0)
+    {
+        result += f * (i % base);
+        i /= base;
+        f /= base;
+    }
+    return result;
+}
+
 const SkyObject *MountModel::getWizardAlignObject(double ra, double dec)
 {
     double maxSearch = 5.0;
@@ -746,6 +874,7 @@ const SkyObject *MountModel::getWizardAlignObject(double ra, double dec)
             return KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra), dms(dec)), maxSearch);
         case OBJECT_FIXED_DEC:
         case OBJECT_FIXED_GRID:
+        case OBJECT_HALTON_SEQUENCE:
             return nullptr;
 
         case OBJECT_ANY_STAR:
@@ -893,17 +1022,6 @@ void MountModel::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVis
         updatePreviewAlignPoints();
 }
 
-void MountModel::swapAlignPoints(int firstPt, int secondPt)
-{
-    for (int i = 0; i < alignTable->columnCount(); i++)
-    {
-        QTableWidgetItem *firstPtItem  = alignTable->takeItem(firstPt, i);
-        QTableWidgetItem *secondPtItem = alignTable->takeItem(secondPt, i);
-
-        alignTable->setItem(firstPt, i, secondPtItem);
-        alignTable->setItem(secondPt, i, firstPtItem);
-    }
-}
 
 void MountModel::slotAddAlignPoint()
 {
@@ -964,6 +1082,8 @@ void MountModel::resetAlignmentProcedure()
     statusReport->setIcon(QIcon(":/icons/AlignWarning.svg"));
     alignTable->setItem(currentAlignmentPoint, 3, statusReport);
 
+    if (m_solverSettingsSaved)
+        restoreSolverSettings();
     Q_EMIT newLog(i18n("The Mount Model Tool is Reset."));
     startAlignB->setIcon(
         QIcon::fromTheme("media-playback-start"));
@@ -993,6 +1113,29 @@ bool MountModel::alignmentPointsAreBad()
     return false;
 }
 
+void MountModel::onMountParkStatusChanged(ISD::ParkStatus status)
+{
+    if (!m_WaitingForUnpark)
+        return;
+
+    auto *mount = m_AlignInstance->mount();
+    if (status == ISD::PARK_UNPARKED)
+    {
+        m_WaitingForUnpark = false;
+        if (mount)
+            disconnect(mount, &ISD::Mount::newParkStatus, this, &MountModel::onMountParkStatusChanged);
+        Q_EMIT newLog(i18n("Mount unparked. Starting mount model..."));
+        startStopAlignmentProcedure();
+    }
+    else if (status == ISD::PARK_ERROR)
+    {
+        m_WaitingForUnpark = false;
+        if (mount)
+            disconnect(mount, &ISD::Mount::newParkStatus, this, &MountModel::onMountParkStatusChanged);
+        Q_EMIT newLog(i18n("Mount unpark failed. Cannot start mount model."));
+    }
+}
+
 void MountModel::startStopAlignmentProcedure()
 {
     if (!m_IsRunning)
@@ -1002,6 +1145,18 @@ void MountModel::startStopAlignmentProcedure()
             if (alignmentPointsAreBad())
             {
                 KSNotification::error(i18n("Please Check the Alignment Points."));
+                return;
+            }
+
+            // Unpark mount before starting if needed
+            auto *mount = m_AlignInstance->mount();
+            if (mount && mount->isParked())
+            {
+                Q_EMIT newLog(i18n("Mount is parked. Unparking before starting mount model..."));
+                m_WaitingForUnpark = true;
+                connect(mount, &ISD::Mount::newParkStatus, this, &MountModel::onMountParkStatusChanged,
+                        Qt::UniqueConnection);
+                mount->unpark();
                 return;
             }
             if (m_AlignInstance->currentGOTOMode() == Align::GOTO_NOTHING)
@@ -1028,6 +1183,7 @@ void MountModel::startStopAlignmentProcedure()
             startAlignB->setIcon(
                 QIcon::fromTheme("media-playback-pause"));
             m_IsRunning = true;
+            saveAndOverrideSolverSettings();
             Q_EMIT newLog(i18n("The Mount Model Tool is Starting."));
             startAlignmentPoint();
         }
@@ -1040,6 +1196,7 @@ void MountModel::startStopAlignmentProcedure()
         Q_EMIT newLog(i18n("The Mount Model Tool is Paused."));
         Q_EMIT aborted();
         m_IsRunning = false;
+        restoreSolverSettings();
 
         QTableWidgetItem *statusReport = new QTableWidgetItem();
         statusReport->setFlags(Qt::ItemIsSelectable);
@@ -1053,11 +1210,14 @@ void MountModel::startAlignmentPoint()
     if (m_IsRunning && currentAlignmentPoint >= 0 && currentAlignmentPoint < alignTable->rowCount())
     {
         QTableWidgetItem *raCell = alignTable->item(currentAlignmentPoint, 0);
+        QTableWidgetItem *decCell = alignTable->item(currentAlignmentPoint, 1);
+        if (!raCell || !decCell)
+            return;
+
         QString raString         = raCell->text();
         dms raDMS                = dms::fromString(raString, false);
         double raDeg             = raDMS.Degrees();
 
-        QTableWidgetItem *decCell = alignTable->item(currentAlignmentPoint, 1);
         QString decString         = decCell->text();
         dms decDMS                = dms::fromString(decString, true);
         double dec                = decDMS.Degrees();
@@ -1067,7 +1227,10 @@ void MountModel::startAlignmentPoint()
         alignIndicator->startAnimation();
 
         const SkyObject *target = getWizardAlignObject(raDeg, dec);
-        m_AlignInstance->setTarget(*target);
+        if (target)
+            m_AlignInstance->setTarget(*target);
+        else
+            m_AlignInstance->setTarget(SkyPoint(raDMS, decDMS));
         m_AlignInstance->Slew();
     }
 }
@@ -1094,12 +1257,45 @@ void MountModel::finishAlignmentPoint(bool solverSucceeded)
         else
         {
             m_IsRunning = false;
+            restoreSolverSettings();
             startAlignB->setIcon(
                 QIcon::fromTheme("media-playback-start"));
             Q_EMIT newLog(i18n("The Mount Model Tool is Finished."));
             currentAlignmentPoint = 0;
         }
     }
+}
+
+void MountModel::saveAndOverrideSolverSettings()
+{
+    m_savedUsePosition = Options::astrometryUsePosition();
+    m_savedUseScale    = Options::astrometryUseImageScale();
+    m_savedGotoMode    = static_cast<int>(m_AlignInstance->currentGOTOMode());
+    m_solverSettingsSaved = true;
+
+    Options::setAstrometryUsePosition(false);
+    Options::setAstrometryUseImageScale(false);
+
+    // Only override the goto mode if it is not already GOTO_NOTHING (report-only run)
+    if (m_AlignInstance->currentGOTOMode() != Align::GOTO_NOTHING)
+        m_AlignInstance->setSolverAction(Align::GOTO_SYNC);
+
+    // Clear any stale target PA from a previous Load & Slew.  If left set,
+    // checkIfRotationRequired() will command the rotator to match it on the
+    // first solve, which is wrong for an independent mount model run.
+    m_AlignInstance->setTargetPositionAngle(std::numeric_limits<double>::quiet_NaN());
+
+    emit newLog(i18n("Mount model: forcing blind solve and sync for each alignment point."));
+}
+
+void MountModel::restoreSolverSettings()
+{
+    if (!m_solverSettingsSaved)
+        return;
+    Options::setAstrometryUsePosition(m_savedUsePosition);
+    Options::setAstrometryUseImageScale(m_savedUseScale);
+    m_AlignInstance->setSolverAction(static_cast<int>(m_savedGotoMode));
+    m_solverSettingsSaved = false;
 }
 
 void MountModel::setAlignStatus(Ekos::AlignState state)
