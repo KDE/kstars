@@ -360,6 +360,13 @@ if (INDI_FOUND)
 
             # Align
             ekos/align/align.cpp
+            ekos/align/align_components.cpp
+            ekos/align/align_devices.cpp
+            ekos/align/align_fov.cpp
+            ekos/align/align_goto.cpp
+            ekos/align/align_settings.cpp
+            ekos/align/align_solution.cpp
+            ekos/align/align_solver.cpp
             ekos/align/alignmentplot.cpp
             ekos/align/alignview.cpp
             ekos/align/astrometryparser.cpp
