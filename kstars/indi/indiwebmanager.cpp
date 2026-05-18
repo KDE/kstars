@@ -12,6 +12,7 @@
 #include "Options.h"
 #include "profileinfo.h"
 
+#include <QHostAddress>
 #include <QHostInfo>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -121,25 +122,32 @@ static bool isPortReachable(const QString &host, int port, int timeoutMs)
 
 bool isOnline(const QSharedPointer<ProfileInfo> &pi)
 {
-    // Layer 1: DNS resolution check (fast fail on DNS issues)
-    QHostInfo hostInfo = QHostInfo::fromName(pi->host);
-    if (hostInfo.error() != QHostInfo::NoError)
+    // Layer 1: DNS resolution check (fast fail on DNS issues).
+    // If the host is already a numeric IP address, skip the DNS lookup entirely.
+    // QHostInfo::fromName() on Windows can take ~5 seconds even for bare IP addresses
+    // due to the WinSock resolver stack, so we short-circuit that path here.
+    if (QHostAddress(pi->host).isNull())
     {
-        qCDebug(KSTARS_EKOS) << "INDI: DNS lookup failed for" << pi->host << ":" << hostInfo.errorString();
-
-        // Fallback to default IP if DNS lookup fails for .local addresses
-        if (pi->host.contains(".local"))
+        // Host is a name — perform DNS resolution
+        QHostInfo hostInfo = QHostInfo::fromName(pi->host);
+        if (hostInfo.error() != QHostInfo::NoError)
         {
-            qCDebug(KSTARS_EKOS) << "INDI: Attempting fallback to 10.250.250.1";
-            if (isPortReachable("10.250.250.1", 8624, 1000))
+            qCDebug(KSTARS_EKOS) << "INDI: DNS lookup failed for" << pi->host << ":" << hostInfo.errorString();
+
+            // Fallback to default IP if DNS lookup fails for .local addresses
+            if (pi->host.contains(".local"))
             {
-                qCDebug(KSTARS_EKOS) << "INDI: Successfully connected via fallback address";
-                pi->host = "10.250.250.1";
-                pi->INDIWebManagerPort = 8624;
-                return true;
+                qCDebug(KSTARS_EKOS) << "INDI: Attempting fallback to 10.250.250.1";
+                if (isPortReachable("10.250.250.1", 8624, 1000))
+                {
+                    qCDebug(KSTARS_EKOS) << "INDI: Successfully connected via fallback address";
+                    pi->host = "10.250.250.1";
+                    pi->INDIWebManagerPort = 8624;
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 
     // Layer 2: TCP port check (verify port is open and accepting connections).
