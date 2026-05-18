@@ -3897,6 +3897,8 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &trai
             // reset the failure counter only if the image comes from the lead job
             if (job->isLead())
                 moduleState()->resetCaptureFailureCount();
+
+            Q_EMIT jobsUpdated(moduleState()->getJSONJobs());
         }
     }
 }
