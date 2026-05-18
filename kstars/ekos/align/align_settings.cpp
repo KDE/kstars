@@ -48,6 +48,7 @@ void Align::slotMountModel()
     }
 
     m_MountModel->show();
+    m_MountModel->raise();
 }
 
 void Align::refreshAlignOptions()

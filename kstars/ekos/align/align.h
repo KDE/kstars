@@ -20,7 +20,9 @@
 #include <QTime>
 #include <QTimer>
 #include <QElapsedTimer>
+#include <QPointer>
 #include <KConfigDialog>
+#include "mountmodel.h"
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtDBus/qtdbusglobal.h>
@@ -949,9 +951,7 @@ class Align : public QWidget, public Ui::Align
         static constexpr uint16_t DELAY_THRESHOLD_NOTIFY { 3000 };
 
         // Mount Model
-        // N.B. We do not need to use "smart pointer" here as the object memory
-        // is taken care of by the Qt framework.
-        MountModel *m_MountModel {nullptr};
+        QPointer<MountModel> m_MountModel;
         PolarAlignmentAssistant *m_PolarAlignmentAssistant {nullptr};
         ManualRotator *m_ManualRotator {nullptr};
 

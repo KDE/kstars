@@ -676,6 +676,11 @@ void Align::setTarget(const SkyPoint &targetCoord)
                               << "DE:" << m_TargetCoord.dec().toDMSString();
 }
 
+QList<double> Align::getSolutionResult()
+{
+    return QList<double>() << sOrientation << sRA << sDEC;
+}
+
 QList<double> Align::getTargetCoords()
 {
     return QList<double>() << m_TargetCoord.ra0().Hours() << m_TargetCoord.dec0().Degrees();

@@ -38,7 +38,7 @@ MountModel::MountModel(Align *parent) : QDialog(parent)
     m_AlignInstance = parent;
 
     setWindowTitle("Mount Model Tool");
-    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+    setWindowFlag(Qt::WindowStaysOnTopHint, true);
     alignTable->setColumnWidth(0, 70);
     alignTable->setColumnWidth(1, 75);
     alignTable->setColumnWidth(2, 130);
@@ -1009,10 +1009,10 @@ void MountModel::startStopAlignmentProcedure()
                 int r = KMessageBox::warningContinueCancel(
                             nullptr,
                             i18n("In the Align Module, \"Nothing\" is Selected for the Solver Action.  This means that the "
-                     "mount model tool will not sync/align your mount but will only report the pointing model "
-                     "errors.  Do you wish to continue?"),
+                                 "mount model tool will not sync/align your mount but will only report the pointing model "
+                                 "errors.  Do you wish to continue?"),
                             i18n("Pointing Model Report Only?"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                     "nothing_selected_warning");
+                            "nothing_selected_warning");
                 if (r == KMessageBox::Cancel)
                     return;
             }
