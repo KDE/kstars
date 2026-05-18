@@ -489,7 +489,7 @@ void Align::startSolving()
             {
                 appendLogText(
                     i18n("No index files were found on your system in the specified index file directories."
-                         "Please download some index files or add the correct directory to the list."));
+                     "Please download some index files or add the correct directory to the list."));
                 KConfigDialog * alignSettings = KConfigDialog::exists("alignsettings");
                 if(alignSettings && m_IndexFilesPage)
                 {
