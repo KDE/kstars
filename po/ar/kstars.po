@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-17 02:03+0000\n"
+"POT-Creation-Date: 2026-05-19 02:06+0000\n"
 "PO-Revision-Date: 2026-04-30 17:36+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -240,7 +240,7 @@ msgstr "خطا تتبع م.م"
 msgid "DEC Guide Error"
 msgstr "خطا تتبع ميل"
 
-#: auxiliary/colorscheme.cpp:67 ekos/align/align.cpp:111
+#: auxiliary/colorscheme.cpp:67 ekos/align/align.cpp:98
 #, kde-format
 msgid "Solver FOV"
 msgstr "مجال رؤية المحلل"
@@ -415,7 +415,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddScope)
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
-#: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:386
+#: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:395
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera_jobs.cpp:418
 #: ekos/scheduler/scheduler.cpp:2323
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
@@ -472,14 +472,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "احفظ الصورة"
 
-#: auxiliary/imageviewer.cpp:321 ekos/align/align.cpp:4169
+#: auxiliary/imageviewer.cpp:321 ekos/align/align_solution.cpp:438
 #: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1391
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "الملف المسمى \"%1\" موجود سلفاً. الكتابة فوقه?"
 
-#: auxiliary/imageviewer.cpp:324 ekos/align/align.cpp:4172
+#: auxiliary/imageviewer.cpp:324 ekos/align/align_solution.cpp:441
 #: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1392
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -2660,8 +2660,8 @@ msgstr ""
 "الرابط غير صحيح. هل تريد أن تفتح نافذة متصفح الأنترنت\n"
 "للبحث من خلال غوغل؟"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:4180
-#: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align_solution.cpp:449
+#: ekos/align/mountmodel.cpp:276 ekos/align/mountmodel.cpp:402
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:427
 #: ekos/guide/guidedriftgraph.cpp:503 ekos/scheduler/scheduler.cpp:2223
 #: ekos/scheduler/scheduler.cpp:2333 fitsviewer/fitstab.cpp:1611
@@ -3118,7 +3118,7 @@ msgstr "_رخصة"
 
 #. i18n: ectx: property (title), widget (QGroupBox, object_group)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
-#: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:458
+#: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:465
 #: fitsviewer/fitstab.cpp:813
 #, kde-format
 msgid "Object"
@@ -3869,7 +3869,7 @@ msgstr "0.0 فرسخ فلكي"
 #. i18n: ectx: property (text), widget (QLabel, l_Reducer)
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
-#: dialogs/details_data.ui:390 ekos/align/align.cpp:1001
+#: dialogs/details_data.ui:390 ekos/align/align_devices.cpp:484
 #: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1100
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
@@ -5280,7 +5280,7 @@ msgstr "احسب مجال الرؤية"
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
-#: ekos/manager.cpp:2446
+#: ekos/manager.cpp:2447
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
 #, kde-format
 msgid "Camera"
@@ -6174,647 +6174,15 @@ msgstr ""
 "<p>هذا المرشد سيساعدك في إعداد بعض الخيارات الأساسية، مثل موقعك على الأرض.</"
 "p><p>للبدء، اضغط زر  <b>التالي</b>.</p>"
 
-#: ekos/align/align.cpp:355
-#, kde-format
-msgid ""
-"<table><tr><th colspan=\"2\">Object %1: %2</th></tr><tr><td>RA:</td><td>%3</"
-"td></tr><tr><td>DE:</td><td>%4</td></tr><tr><td>dRA:</td><td>%5</td></"
-"tr><tr><td>dDE:</td><td>%6</td></tr></table>"
-msgstr ""
-"<table><tr><th colspan=\"2\">الهدف %1: %2</th></tr><tr><td>المطلع المستقيم:</"
-"td><td>%3</td></tr><tr><td>الميل:</td><td>%4</td></tr><tr><td>تغيّر المطلع:</"
-"td><td>%5</td></tr><tr><td>تغيّر الميل:</td><td>%6</td></tr></table>"
-
-#: ekos/align/align.cpp:485
-#, kde-format
-msgid "Are you sure you want to clear all of the solution points?"
-msgstr "هل أنت متأكد من رغبتك في مسح كل نقاط الحل؟"
-
-#: ekos/align/align.cpp:486
-#, kde-format
-msgid "Clear Solution Points"
-msgstr "امسح نقاط الحل"
-
-#: ekos/align/align.cpp:559
-#, kde-format
-msgid "Remote solver timed out."
-msgstr "انتهت مهلة برنامج الحل عن بعد."
-
-#: ekos/align/align.cpp:804
-#, kde-format
-msgid "Dustcap unparked. Resuming capture and solve."
-msgstr "غطاء الغبار غير مركون. استئناف الالتقاط والحل."
-
-#: ekos/align/align.cpp:810
-#, kde-format
-msgid "Dustcap error detected. Aborting alignment."
-msgstr "اكتُشف خطأ في غطاء الغبار. إيقاف المحاذاة."
-
-#: ekos/align/align.cpp:871 ekos/focus/focus.cpp:5877
-#, kde-format
-msgid "Dustcap device %1 removed."
-msgstr "أُزيل جهاز غطاء الغبار %1."
-
-#: ekos/align/align.cpp:901
-#, kde-format
-msgid "Mount does not support syncing."
-msgstr "لا يدعم الحامل المزامنة."
-
-#: ekos/align/align.cpp:1106
-#, kde-format
-msgid ""
-"Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
-"%4 Pitch: %5 FOVW: %6)."
-msgstr ""
-"حُدِّث الطول البؤري الفعّال للمقراب إلى %1 مم (طول بؤري: %2 مختزِل: %3 عرض: %4 "
-"خطوة: %5 عرض مجال الرؤية: %6)."
-
-#: ekos/align/align.cpp:1154
-#, kde-format
-msgid ""
-"Warning! The calculated field of view (%1) is out of bounds. Ensure the "
-"telescope focal length and camera pixel size are correct."
-msgstr ""
-"تحذير! مجال الرؤية المحسوب (%1) خارج الحدود. تحقق من أن الطول البؤري للمقراب "
-"وحجم بكسل آلة التصوير صحيحان."
-
-#: ekos/align/align.cpp:1193
-#, kde-format
-msgid ""
-"<p>Effective field of view size in arcminutes.</p><p>Please capture and "
-"solve once to measure the effective FOV or enter the values manually.</"
-"p><p>Calculated FOV: %1</p>"
-msgstr ""
-"<p>حجم مجال الرؤية الفعّال بالدقائق القوسية.</p><p>التقط وحلّ مرة واحدة لقياس "
-"مجال الرؤية الفعّال، أو أدخل القيم يدويًا.</p><p>مجال الرؤية المحسوب: %1</p>"
-
-#: ekos/align/align.cpp:1202
-#, kde-format
-msgid "<p>Effective field of view size in arcminutes.</p>"
-msgstr "<p>حجم مجال الرؤية الفعّال بالدقائق القوسية.</p>"
-
-#: ekos/align/align.cpp:1486
-#, kde-format
-msgid "Mount coordinates are invalid. Check mount connection and try again."
-msgstr "إحداثيات الحامل غير صالحة. تحقق من اتصال الحامل وحاول مرة أخرى."
-
-#: ekos/align/align.cpp:1487 ekos/align/align.cpp:1519
-#: ekos/align/align.cpp:2601
-#, kde-format
-msgid "Astrometry alignment failed"
-msgstr "فشل محاذاة قياسات الفلك"
-
-#: ekos/align/align.cpp:1493
-#, kde-format
-msgid "Setting target to RA:%1 DEC:%2"
-msgstr "اضبط الهدف على مطلع مستقيم: %1 ميل: %2"
-
-#: ekos/align/align.cpp:1512
-#, kde-format
-msgid "Error: No camera detected."
-msgstr "خطأ: لم يعثر على آلة تصوير."
-
-#: ekos/align/align.cpp:1518 ekos/guide/guide.cpp:833
-#, kde-format
-msgid "Error: lost connection to camera."
-msgstr "خطأ: فُقد الاتصال بآلة التصوير."
-
-#: ekos/align/align.cpp:1535
-#, kde-format
-msgid ""
-"Telescope aperture and focal length are missing. Please check your optical "
-"train settings and try again."
-msgstr ""
-"فتحة المقراب وطوله البؤري مفقودان. تحقق من إعدادات سلسلة مقرابك وحاول مرة "
-"أخرى."
-
-#: ekos/align/align.cpp:1541
-#, kde-format
-msgid ""
-"Camera pixel size is missing. Please check your driver settings and try "
-"again."
-msgstr "حجم بكسل الكاميرا مفقود. تحقق من إعدادات برنامج تشغيلك وحاول مرة أخرى."
-
-#: ekos/align/align.cpp:1549
-#, kde-format
-msgid "Error: lost connection to filter wheel."
-msgstr "خطأ: فُقد الاتصال بعجلة المرشحات."
-
-#: ekos/align/align.cpp:1569 ekos/capture/cameraprocess.cpp:236
-#: ekos/capture/cameraprocess.cpp:657 ekos/focus/focus.cpp:6076
-#, kde-format
-msgid ""
-"Image transfer is disabled for this camera. Would you like to enable it?"
-msgstr "نقل الصور معطّل لآلة التصوير هذه. هل تريد تمكينه؟"
-
-#: ekos/align/align.cpp:1584
-#, kde-format
-msgid "Dustcap is parked. Unparking before capture and solve..."
-msgstr "غطاء الغبار مركون. فُكّ الغطاء قبل الالتقاط والحل..."
-
-#: ekos/align/align.cpp:1592
-#, kde-format
-msgid "Dustcap is not ready (status: %1). Waiting before capture and solve..."
-msgstr "غطاء الغبار غير جاهز (الحالة: %1). في انتظار التقاط والحل ..."
-
-#: ekos/align/align.cpp:1606
-#, kde-format
-msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
-msgstr ""
-"لا أستطيع التقاط الصورة بينما وحدة التركيز مشغولة. أعيد المحاولة في %1 "
-"ثانية..."
-
-#: ekos/align/align.cpp:1623
-#, kde-format
-msgid ""
-"Cannot capture while camera exposure is in progress. Retrying in %1 "
-"seconds..."
-msgstr ""
-"لا أستطيع التقاط الصورة بينما تعريض الكاميرا قيد التقدم. أعيد المحاولة في %1 "
-"ثانية..."
-
-#: ekos/align/align.cpp:1650
-#, kde-format
-msgid "Cannot capture while rotator is busy: Time delay estimate started..."
-msgstr "لا أستطيع التقاط الصورة بينما المدور مشغول: بدأ تقدير تأخير الوقت..."
-
-#: ekos/align/align.cpp:1666
-#, kde-format
-msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
-msgstr ""
-"لا أستطيع التقاط الصورة بينما المدور مشغول: أعيد المحاولة في %1 ثانية..."
-
-#: ekos/align/align.cpp:1685 ekos/align/align.cpp:3279
-#, kde-format
-msgid "No remote astrometry driver detected, switching to StellarSolver."
-msgstr "لم يعثر على برنامج تشغيل قياسات فلك عن بُعد، تحوّل إلى StellarSolver."
-
-#: ekos/align/align.cpp:1738 ekos/focus/focus.cpp:2014
-#, kde-format
-msgid "Capturing image..."
-msgstr "ألتقط الصورة..."
-
-#: ekos/align/align.cpp:1828 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:3162
-#, kde-format
-msgid "Image received."
-msgstr "اِستُلمت الصورة."
-
-#: ekos/align/align.cpp:1961
-#, kde-format
-msgid ""
-"No index files were found on your system in the specified index file "
-"directories.Please download some index files or add the correct directory to "
-"the list."
-msgstr ""
-"لم يعثر على أي ملفات فهارس على حاسوبك في أدلة ملفات الفهارس المحددة. نَزِّل بعض "
-"ملفات الفهارس أو أَضف الدليل الصحيح إلى القائمة."
-
-#: ekos/align/align.cpp:2018
-#, kde-format
-msgid "Solving with blind image scale..."
-msgstr "أحلّ باستخدام مقياس الصورة الأعمى..."
-
-#: ekos/align/align.cpp:2026
-#, kde-format
-msgid "Solving with blind image position..."
-msgstr "أحلّ باستخدام موضع الصورة الأعمى..."
-
-#: ekos/align/align.cpp:2032
-#, kde-format
-msgid "Solving with blind dynamic threshold..."
-msgstr "أحلّ باستخدام العتبة الديناميكية العمياء..."
-
-#: ekos/align/align.cpp:2062
-#, kde-format
-msgid "Loaded image does not have pierside information"
-msgstr "الصورة المحمّلة ليس لديها معلومات جانب الرصيف"
-
-#: ekos/align/align.cpp:2067
-#, kde-format
-msgid "Loaded image was taken on pierside %1"
-msgstr "اُلتُقِطت الصورة المحمّلة على جانب الرصيف %1"
-
-#: ekos/align/align.cpp:2143
-#, kde-format
-msgid "Solver timed out after %1 seconds."
-msgstr "انتهت مهلة برنامج الحل بعد %1 ثانية."
-
-#: ekos/align/align.cpp:2146
-#, kde-format
-msgid "Solver failed after %1 seconds."
-msgstr "فشل برنامج الحل بعد %1 ثانية."
-
-#: ekos/align/align.cpp:2168
-#, kde-format
-msgid "Solver completed after %1 seconds."
-msgstr "أكمل برنامج الحل بعد %1 ثانية."
-
-#: ekos/align/align.cpp:2189
-#, kde-format
-msgid "Remote solver completed after %1 seconds."
-msgstr "أكمل برنامج الحل عن بعد بعد %1 ثانية."
-
-#: ekos/align/align.cpp:2202
-#, kde-format
-msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
-msgstr ""
-"برنامج الحل: مطلع مستقيم (%1) ميل (%2) توجيه (%3) مقياس البكسل (%4) تماثل "
-"(%5)"
-
-#: ekos/align/align.cpp:2272
-#, kde-format
-msgid ""
-"WCS information updated. Images captured from this point forward shall have "
-"valid WCS."
-msgstr ""
-"حُدّثت معلومات نظام الإحداثيات العالمي (WCS). الصور الملتقطة من هذه النقطة "
-"فصاعدًا يجب أن يكون لديها نظام إحداثيات عالمي صالح."
-
-#: ekos/align/align.cpp:2290
-#, kde-format
-msgid ""
-"Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
-"(%4) Target Coordinates: RA (%5) DEC (%6)"
-msgstr ""
-"إحداثيات الحل: مطلع مستقيم (%1) ميل (%2) إحداثيات المقراب: مطلع مستقيم (%3) "
-"ميل (%4) إحداثيات الهدف: مطلع مستقيم (%5) ميل (%6)"
-
-#: ekos/align/align.cpp:2301
-#, kde-format
-msgid "Target is within %1 degrees of solution coordinates."
-msgstr "الهدف ضمن %1 درجة من إحداثيات الحل."
-
-#: ekos/align/align.cpp:2359
-#, kde-format
-msgid ""
-"Rotator is moving in the wrong direction. The position angle error increased "
-"from %1° to %2° after rotation. Please reverse the rotator direction and try "
-"again."
-msgstr ""
-"يتحرك جهاز الدوران في الاتجاه الخاطئ. زاد خطأ زاوية الموضع من %1° إلى %2° "
-"بعد الدوران. يرجى عكس اتجاه جهاز الدوران ومحاولة إعادة العملية."
-
-#. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-#: ekos/align/align.cpp:2382
-#, kde-format
-msgid "Camera position angle is %1 degrees."
-msgstr "زاوية موضع الكاميرا هي %1 درجة."
-
-#: ekos/align/align.cpp:2418 ekos/align/align.cpp:2558
-#, kde-format
-msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
-msgstr "عُدِّلت العتبة الديناميكية إلى %1 (العثور على %2 نجمة)."
-
-#: ekos/align/align.cpp:2426 ekos/align/align.cpp:2910
-#, kde-format
-msgid "Astrometry alignment completed successfully"
-msgstr "اكتملت المحاذاة الفلكيّة بنجاح"
-
-#: ekos/align/align.cpp:2448
-#, kde-format
-msgid "Maximum number of iterations reached. Solver failed."
-msgstr "وُصل إلى العدد الأقصى للتكرارات. فشل برنامج الحل."
-
-#: ekos/align/align.cpp:2477
-#, kde-format
-msgid "Target is within acceptable range."
-msgstr "الهدف ضمن النطاق المقبول."
-
-#: ekos/align/align.cpp:2540
-#, kde-format
-msgid "Saving failed solver image to %1"
-msgstr "أحفظ صورة برنامج الحل الفاشل إلى %1"
-
-#: ekos/align/align.cpp:2564
-#, kde-format
-msgid "Solver failed. Retrying with blind dynamic threshold."
-msgstr "فشل برنامج الحل. أعيد المحاولة بالعتبة الديناميكية العمياء."
-
-#: ekos/align/align.cpp:2578
-#, kde-format
-msgid "Solver failed. Retrying without scale constraint."
-msgstr "فشل برنامج الحل. أعيد المحاولة بدون قيد المقياس."
-
-#: ekos/align/align.cpp:2588
-#, kde-format
-msgid "Solver failed. Retrying without position constraint."
-msgstr "فشل برنامج الحل. أعيد المحاولة بدون قيد الموضع."
-
-#: ekos/align/align.cpp:2596
-#, kde-format
-msgid "Solver Failed."
-msgstr "فشل برنامج الحل."
-
-#: ekos/align/align.cpp:2599
-#, kde-format
-msgid ""
-"Please check you have sufficient stars in the image, the indicated FOV is "
-"correct, and the necessary index files are installed. Enable Alignment "
-"Logging in Setup Tab -> Logs to get detailed information on the failure."
-msgstr ""
-"تحقق من أن لديك نجومًا كافية في الصورة، ومجال الرؤية المشار إليه صحيح، وملفات "
-"الفهارس الضرورية مثبّتة. مكّن تسجيل المحاذاة في لسان الإعداد -> السجلات للحصول "
-"على معلومات تفصيلية عن الفشل."
-
-#: ekos/align/align.cpp:2658
-#, kde-format
-msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
-msgstr "فرق زاوية الموضع ~%1°، الصورة مقلوبة. المحافظة على زاوية المدور."
-
-#: ekos/align/align.cpp:2675
-#, kde-format
-msgid "Setting camera position angle to %1 degrees ..."
-msgstr "تُضبط زاوية موضع الكاميرا إلى %1 درجة..."
-
-#: ekos/align/align.cpp:2685
-#, kde-format
-msgid "Camera position angle is within acceptable range."
-msgstr "زاوية موضع الكاميرا ضمن النطاق المقبول."
-
-#: ekos/align/align.cpp:2699
-#, kde-format
-msgid "Current PA is %1; Target PA is %2; diff: %3"
-msgstr "زاوية الموضع الحالية: %1؛ زاوية الموضع المستهدفة: %2؛ الفرق: %3"
-
-#: ekos/align/align.cpp:2773
-#, kde-format
-msgid "Refresh is complete."
-msgstr "اكتمل التحديث."
-
-#: ekos/align/align.cpp:2780 ekos/auxiliary/darklibrary.cpp:1456
-#: ekos/focus/focus.cpp:1711
-#, kde-format
-msgid "Capture aborted."
-msgstr "أُجهض الالتقاط."
-
-#: ekos/align/align.cpp:2783
-#, kde-format
-msgid "Solver aborted."
-msgstr "أُجهض برنامج الحل."
-
-#: ekos/align/align.cpp:2825 ekos/analyze/analyze.cpp:4167
+#: ekos/align/align.cpp:275 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1371 ekos/manager.cpp:2394 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1371 ekos/manager.cpp:2395 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3611
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr "%1 %2"
-
-#: ekos/align/align.cpp:2881
-#, kde-format
-msgid "Mount completed slewing near celestial pole. Capture again to verify."
-msgstr "أكمل الحامل التدوير قرب القطب السماوي. التقط مرة أخرى للتحقق."
-
-#: ekos/align/align.cpp:2904
-#, kde-format
-msgid "Mount is synced to solution coordinates."
-msgstr "الحامل مزامَن مع إحداثيات الحل."
-
-#: ekos/align/align.cpp:2940 ekos/align/align.cpp:2958
-#: ekos/align/align.cpp:3583 ekos/align/align.cpp:4328
-#: ekos/align/polaralignmentassistant.cpp:665
-#, kde-format
-msgid "Settling..."
-msgstr "استقرار..."
-
-#: ekos/align/align.cpp:2948
-#, kde-format
-msgid "Slew complete. Target accuracy is not met, running solver again..."
-msgstr "اكتمل التدوير. دقة الهدف لم تُلَبَّ، أعيد تشغيل برنامج الحل..."
-
-#: ekos/align/align.cpp:2950
-#, kde-format
-msgid "Slew complete. Solving Alignment Point. . ."
-msgstr "اكتمل التدوير. أحلّ نقطة المحاذاة..."
-
-#: ekos/align/align.cpp:2993 ekos/align/align.cpp:3157
-#, kde-format
-msgid "Syncing failed."
-msgstr "فشلت المزامنة."
-
-#: ekos/align/align.cpp:2995
-#, kde-format
-msgid "Slewing failed."
-msgstr "فشل التدوير."
-
-#: ekos/align/align.cpp:3033
-#, kde-format
-msgid "Rotator error detected. Aborting alignment."
-msgstr "اكتُشف خطأ في الدوّار. إيقاف المحاذاة."
-
-#: ekos/align/align.cpp:3052
-#, kde-format
-msgid "Rotator reached camera position angle."
-msgstr "وصل المدور إلى زاوية موضع آلة التصوير."
-
-#: ekos/align/align.cpp:3065
-#, kde-format
-msgid ""
-"Rotator failed to arrive at the requested position angle (Deviation %1 "
-"arcmin)."
-msgstr ""
-"فشل المدور في الوصول إلى زاوية الموضع المطلوبة (انحراف %1 دقيقة قوسية)."
-
-#: ekos/align/align.cpp:3103
-#, kde-format
-msgid "Slew detected, suspend solving..."
-msgstr "اكتشف التدوير، أوقِف الحل مؤقتًا..."
-
-#: ekos/align/align.cpp:3151
-#, kde-format
-msgid "Syncing to RA (%1) DEC (%2)"
-msgstr "أزامِن مع مطلع مستقيم (%1) ميل (%2)"
-
-#: ekos/align/align.cpp:3175
-#, kde-format
-msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
-msgstr "أدوِّر إلى إحداثيات الهدف: مطلع مستقيم (%1) ميل (%2)."
-
-#: ekos/align/align.cpp:3180
-#, kde-format
-msgid ""
-"Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
-"notification)"
-msgstr ""
-"رُفض التدوير إلى إحداثيات الهدف: مطلع مستقيم (%1) ميل (%2). (اطلع على الإخطار)"
-
-#: ekos/align/align.cpp:3199
-#, kde-format
-msgid "Ekos job (%1) - Telescope synced"
-msgstr "مهمة إيكوس (%1) - المقراب مزامَن"
-
-#: ekos/align/align.cpp:3248
-#, kde-format
-msgctxt "@title:window"
-msgid "Load Image"
-msgstr "حمّل الصّورة"
-
-#: ekos/align/align.cpp:3479
-#, kde-format
-msgid "World Coordinate System (WCS) is enabled."
-msgstr "نظام الإحداثيات العالمي (WCS) مُمكَّن."
-
-#: ekos/align/align.cpp:3484
-#, kde-format
-msgid "%1: World Coordinate System (WCS) is disabled."
-msgstr "%1: نظام الإحداثيات العالمي (WCS) معطَّل."
-
-#: ekos/align/align.cpp:3503
-#, kde-format
-msgid "Capture error. Aborting..."
-msgstr "خطأ في الالتقاط. إجهاض..."
-
-#: ekos/align/align.cpp:3508 ekos/capture/cameraprocess.cpp:1668
-#: ekos/capture/cameraprocess.cpp:2233
-#, kde-format
-msgid "Restarting capture attempt #%1"
-msgstr "أعيد محاولة الالتقاط #%1"
-
-#: ekos/align/align.cpp:3634
-#, kde-format
-msgctxt "@title:window"
-msgid "Align Frame"
-msgstr "إطار المحاذاة"
-
-#: ekos/align/align.cpp:3709
-#, kde-format
-msgid "StellarSolver Options"
-msgstr "خيارات StellarSolver"
-
-#: ekos/align/align.cpp:3714
-#, kde-format
-msgid "External & Online Programs"
-msgstr "البرامج الخارجية وعبر الإنترنت"
-
-#: ekos/align/align.cpp:3718
-#, kde-format
-msgid "Scale & Position"
-msgstr "المقياس والموضع"
-
-#: ekos/align/align.cpp:3722
-#, kde-format
-msgid "Align Options Profiles Editor"
-msgstr "محرر تشكيلات خيارات المحاذاة"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3741 ekos/align/opsastrometryindexfiles.ui:329
-#, kde-format
-msgid "Index Files"
-msgstr "ملفات الفهارس"
-
-#: ekos/align/align.cpp:3806 ekos/guide/guidetargetplot.cpp:55
-#, kde-format
-msgid "dRA (arcsec)"
-msgstr "تغيّر المطلع (ثانية قوسية)"
-
-#: ekos/align/align.cpp:3807 ekos/guide/guidetargetplot.cpp:56
-#, kde-format
-msgid "dDE (arcsec)"
-msgstr "تغيّر الميل (ثانية قوسية)"
-
-#: ekos/align/align.cpp:3855 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5957
-#, kde-format
-msgid "Filter operation failed."
-msgstr "فشلت عملية المرشح."
-
-#: ekos/align/align.cpp:3867 ekos/capture/camera.cpp:577
-#, kde-format
-msgid "Changing focus offset by %1 steps..."
-msgstr "أغيّر إزاحة التركيز بمقدار %1 خطوة..."
-
-#: ekos/align/align.cpp:3874 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:582
-#, kde-format
-msgid "Changing filter to %1..."
-msgstr "أغيّر المرشح إلى %1..."
-
-#: ekos/align/align.cpp:3879 ekos/capture/camera.cpp:587
-#, kde-format
-msgid "Auto focus on filter change..."
-msgstr "تركيز آلي عند تغيير المرشح..."
-
-#: ekos/align/align.cpp:4000
-#, kde-format
-msgid "Invalid FOV."
-msgstr "مجال رؤية غير صالح."
-
-#: ekos/align/align.cpp:4156
-#, kde-format
-msgctxt "@title:window"
-msgid "Export Solution Points"
-msgstr "صدّر نقاط الحل"
-
-#: ekos/align/align.cpp:4179 ekos/align/mountmodel.cpp:266
-#: ekos/align/mountmodel.cpp:392 ekos/capture/camera_jobs.cpp:340
-#: ekos/capture/camera_jobs.cpp:426 ekos/guide/guidedriftgraph.cpp:502
-#: ekos/scheduler/scheduler.cpp:2222 ekos/scheduler/scheduler.cpp:2332
-#: fitsviewer/fitstab.cpp:1610 tools/scriptbuilder.cpp:832
-#: tools/scriptbuilder.cpp:929
-#, kde-format
-msgid "Invalid URL: %1"
-msgstr "الـعنوان غير صحيح: %1"
-
-#: ekos/align/align.cpp:4188 ekos/align/mountmodel.cpp:403
-#: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:511
-#: ekos/scheduler/schedulerprocess.cpp:2964
-#: ekos/scheduler/schedulerprocess.cpp:4570
-#, kde-format
-msgid "Unable to write to file %1"
-msgstr "تعذّرت الكتابة إلى الملفّ %1"
-
-#: ekos/align/align.cpp:4189 ekos/align/mountmodel.cpp:286
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:356
-#: ekos/capture/cameraprocess.cpp:2646 ekos/capture/sequencequeue.cpp:33
-#: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2965
-#: ekos/scheduler/schedulerprocess.cpp:3434
-#: ekos/scheduler/schedulerprocess.cpp:4571
-#: ekos/scheduler/schedulerprocess.cpp:4591 indi/drivermanager.cpp:1567
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:321
-#: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
-#: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
-#: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
-#: tools/modcalcjd.cpp:117 tools/modcalcplanets.cpp:195
-#: tools/modcalcsidtime.cpp:205 tools/modcalcvizequinox.cpp:69
-#: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:908
-#: tools/observinglist.cpp:1174 tools/scriptbuilder.cpp:820
-#: tools/scriptbuilder.cpp:900 tools/scriptbuilder.cpp:983
-#, kde-format, kde-kuit-format
-msgid "Could Not Open File"
-msgstr "لم يمكن فتح الملف"
-
-#: ekos/align/align.cpp:4210
-#, kde-format
-msgid "Error in table structure."
-msgstr "خطأ في هيكل الجدول."
-
-#: ekos/align/align.cpp:4219
-#, kde-format
-msgid "Solution Points Saved as: %1"
-msgstr "حُفظت نقاط الحل باسم: %1"
-
-#: ekos/align/align.cpp:4236
-#, kde-format
-msgid "Polar Alignment"
-msgstr "محاذاة قطبية"
-
-#: ekos/align/align.cpp:4810
-#, kde-format
-msgid "Capture timed out."
-msgstr "انتهت مهلة الالتقاط."
-
-#: ekos/align/align.cpp:4819
-#, kde-format
-msgid "Capturing still running, Retrying in %1 seconds..."
-msgstr "الالتقاط لا يزال قيد التشغيل، أعيد المحاولة في %1 ثانية..."
-
-#: ekos/align/align.cpp:4865
-#, kde-format
-msgid "Rotator timeout after %1 seconds. Aborting alignment."
-msgstr "انتهت مهلة الدوّار بعد %1 ثانية. إيقاف المحاذاة."
 
 #. i18n: ectx: property (text), widget (QLabel, trainLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
@@ -7263,7 +6631,7 @@ msgstr "اسم الهدف"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
-#: ekos/align/align.ui:924 ekos/align/mountmodel.ui:463
+#: ekos/align/align.ui:924 ekos/align/mountmodel.ui:470
 #, kde-format
 msgid "~~"
 msgstr "~~"
@@ -7333,6 +6701,632 @@ msgstr ""
 #, kde-format
 msgid "Mount Model"
 msgstr "نموذج الحامل"
+
+#: ekos/align/align_components.cpp:39
+#, kde-format
+msgid "Polar Alignment"
+msgstr "محاذاة قطبية"
+
+#: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
+#: ekos/align/align_goto.cpp:194 ekos/align/align_goto.cpp:212
+#: ekos/align/polaralignmentassistant.cpp:665
+#, kde-format
+msgid "Settling..."
+msgstr "استقرار..."
+
+#: ekos/align/align_devices.cpp:42
+#, kde-format
+msgid "Remote solver timed out."
+msgstr "انتهت مهلة برنامج الحل عن بعد."
+
+#: ekos/align/align_devices.cpp:287
+#, kde-format
+msgid "Dustcap unparked. Resuming capture and solve."
+msgstr "غطاء الغبار غير مركون. استئناف الالتقاط والحل."
+
+#: ekos/align/align_devices.cpp:293
+#, kde-format
+msgid "Dustcap error detected. Aborting alignment."
+msgstr "اكتُشف خطأ في غطاء الغبار. إيقاف المحاذاة."
+
+#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5877
+#, kde-format
+msgid "Dustcap device %1 removed."
+msgstr "أُزيل جهاز غطاء الغبار %1."
+
+#: ekos/align/align_devices.cpp:384
+#, kde-format
+msgid "Mount does not support syncing."
+msgstr "لا يدعم الحامل المزامنة."
+
+#: ekos/align/align_devices.cpp:653
+#, kde-format
+msgid "World Coordinate System (WCS) is enabled."
+msgstr "نظام الإحداثيات العالمي (WCS) مُمكَّن."
+
+#: ekos/align/align_devices.cpp:658
+#, kde-format
+msgid "%1: World Coordinate System (WCS) is disabled."
+msgstr "%1: نظام الإحداثيات العالمي (WCS) معطَّل."
+
+#: ekos/align/align_devices.cpp:677
+#, kde-format
+msgid "Capture error. Aborting..."
+msgstr "خطأ في الالتقاط. إجهاض..."
+
+#: ekos/align/align_devices.cpp:682 ekos/capture/cameraprocess.cpp:1668
+#: ekos/capture/cameraprocess.cpp:2233
+#, kde-format
+msgid "Restarting capture attempt #%1"
+msgstr "أعيد محاولة الالتقاط #%1"
+
+#: ekos/align/align_fov.cpp:106
+#, kde-format
+msgid ""
+"Effective telescope focal length is updated to %1 mm (FL: %2 Reducer: %3 W: "
+"%4 Pitch: %5 FOVW: %6)."
+msgstr ""
+"حُدِّث الطول البؤري الفعّال للمقراب إلى %1 مم (طول بؤري: %2 مختزِل: %3 عرض: %4 "
+"خطوة: %5 عرض مجال الرؤية: %6)."
+
+#: ekos/align/align_fov.cpp:154
+#, kde-format
+msgid ""
+"Warning! The calculated field of view (%1) is out of bounds. Ensure the "
+"telescope focal length and camera pixel size are correct."
+msgstr ""
+"تحذير! مجال الرؤية المحسوب (%1) خارج الحدود. تحقق من أن الطول البؤري للمقراب "
+"وحجم بكسل آلة التصوير صحيحان."
+
+#: ekos/align/align_fov.cpp:193
+#, kde-format
+msgid ""
+"<p>Effective field of view size in arcminutes.</p><p>Please capture and "
+"solve once to measure the effective FOV or enter the values manually.</"
+"p><p>Calculated FOV: %1</p>"
+msgstr ""
+"<p>حجم مجال الرؤية الفعّال بالدقائق القوسية.</p><p>التقط وحلّ مرة واحدة لقياس "
+"مجال الرؤية الفعّال، أو أدخل القيم يدويًا.</p><p>مجال الرؤية المحسوب: %1</p>"
+
+#: ekos/align/align_fov.cpp:202
+#, kde-format
+msgid "<p>Effective field of view size in arcminutes.</p>"
+msgstr "<p>حجم مجال الرؤية الفعّال بالدقائق القوسية.</p>"
+
+#: ekos/align/align_fov.cpp:537
+#, kde-format
+msgid "Invalid FOV."
+msgstr "مجال رؤية غير صالح."
+
+#: ekos/align/align_goto.cpp:85
+#, kde-format
+msgid "Refresh is complete."
+msgstr "اكتمل التحديث."
+
+#: ekos/align/align_goto.cpp:92 ekos/auxiliary/darklibrary.cpp:1456
+#: ekos/focus/focus.cpp:1711
+#, kde-format
+msgid "Capture aborted."
+msgstr "أُجهض الالتقاط."
+
+#: ekos/align/align_goto.cpp:95
+#, kde-format
+msgid "Solver aborted."
+msgstr "أُجهض برنامج الحل."
+
+#: ekos/align/align_goto.cpp:141
+#, kde-format
+msgid "Mount completed slewing near celestial pole. Capture again to verify."
+msgstr "أكمل الحامل التدوير قرب القطب السماوي. التقط مرة أخرى للتحقق."
+
+#: ekos/align/align_goto.cpp:163
+#, kde-format
+msgid "Mount is synced to solution coordinates."
+msgstr "الحامل مزامَن مع إحداثيات الحل."
+
+#: ekos/align/align_goto.cpp:166 ekos/align/align_solver.cpp:910
+#, kde-format
+msgid "Astrometry alignment completed successfully"
+msgstr "اكتملت المحاذاة الفلكيّة بنجاح"
+
+#: ekos/align/align_goto.cpp:202
+#, kde-format
+msgid "Slew complete. Target accuracy is not met, running solver again..."
+msgstr "اكتمل التدوير. دقة الهدف لم تُلَبَّ، أعيد تشغيل برنامج الحل..."
+
+#: ekos/align/align_goto.cpp:204
+#, kde-format
+msgid "Slew complete. Solving Alignment Point. . ."
+msgstr "اكتمل التدوير. أحلّ نقطة المحاذاة..."
+
+#: ekos/align/align_goto.cpp:243 ekos/align/align_goto.cpp:393
+#, kde-format
+msgid "Syncing failed."
+msgstr "فشلت المزامنة."
+
+#: ekos/align/align_goto.cpp:245
+#, kde-format
+msgid "Slewing failed."
+msgstr "فشل التدوير."
+
+#: ekos/align/align_goto.cpp:276
+#, kde-format
+msgid "Rotator error detected. Aborting alignment."
+msgstr "اكتُشف خطأ في الدوّار. إيقاف المحاذاة."
+
+#: ekos/align/align_goto.cpp:295
+#, kde-format
+msgid "Rotator reached camera position angle."
+msgstr "وصل المدور إلى زاوية موضع آلة التصوير."
+
+#: ekos/align/align_goto.cpp:306
+#, kde-format
+msgid ""
+"Rotator failed to arrive at the requested position angle (Deviation %1 "
+"arcmin)."
+msgstr ""
+"فشل المدور في الوصول إلى زاوية الموضع المطلوبة (انحراف %1 دقيقة قوسية)."
+
+#: ekos/align/align_goto.cpp:343
+#, kde-format
+msgid "Slew detected, suspend solving..."
+msgstr "اكتشف التدوير، أوقِف الحل مؤقتًا..."
+
+#: ekos/align/align_goto.cpp:387
+#, kde-format
+msgid "Syncing to RA (%1) DEC (%2)"
+msgstr "أزامِن مع مطلع مستقيم (%1) ميل (%2)"
+
+#: ekos/align/align_goto.cpp:405
+#, kde-format
+msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
+msgstr "أدوِّر إلى إحداثيات الهدف: مطلع مستقيم (%1) ميل (%2)."
+
+#: ekos/align/align_goto.cpp:410
+#, kde-format
+msgid ""
+"Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
+"notification)"
+msgstr ""
+"رُفض التدوير إلى إحداثيات الهدف: مطلع مستقيم (%1) ميل (%2). (اطلع على الإخطار)"
+
+#: ekos/align/align_goto.cpp:467
+#, kde-format
+msgctxt "@title:window"
+msgid "Load Image"
+msgstr "حمّل الصّورة"
+
+#: ekos/align/align_goto.cpp:498 ekos/align/align_solver.cpp:235
+#, kde-format
+msgid "No remote astrometry driver detected, switching to StellarSolver."
+msgstr "لم يعثر على برنامج تشغيل قياسات فلك عن بُعد، تحوّل إلى StellarSolver."
+
+#: ekos/align/align_goto.cpp:562
+#, kde-format
+msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
+msgstr "فرق زاوية الموضع ~%1°، الصورة مقلوبة. المحافظة على زاوية المدور."
+
+#: ekos/align/align_goto.cpp:576
+#, kde-format
+msgid "Setting camera position angle to %1 degrees ..."
+msgstr "تُضبط زاوية موضع الكاميرا إلى %1 درجة..."
+
+#: ekos/align/align_goto.cpp:585
+#, kde-format
+msgid "Camera position angle is within acceptable range."
+msgstr "زاوية موضع الكاميرا ضمن النطاق المقبول."
+
+#: ekos/align/align_goto.cpp:597
+#, kde-format
+msgid "Current PA is %1; Target PA is %2; diff: %3"
+msgstr "زاوية الموضع الحالية: %1؛ زاوية الموضع المستهدفة: %2؛ الفرق: %3"
+
+#: ekos/align/align_goto.cpp:635
+#, kde-format
+msgid "Rotator timeout after %1 seconds. Aborting alignment."
+msgstr "انتهت مهلة الدوّار بعد %1 ثانية. إيقاف المحاذاة."
+
+#: ekos/align/align_settings.cpp:73
+#, kde-format
+msgid "StellarSolver Options"
+msgstr "خيارات StellarSolver"
+
+#: ekos/align/align_settings.cpp:77
+#, kde-format
+msgid "External & Online Programs"
+msgstr "البرامج الخارجية وعبر الإنترنت"
+
+#: ekos/align/align_settings.cpp:81
+#, kde-format
+msgid "Scale & Position"
+msgstr "المقياس والموضع"
+
+#: ekos/align/align_settings.cpp:85
+#, kde-format
+msgid "Align Options Profiles Editor"
+msgstr "محرر تشكيلات خيارات المحاذاة"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: ekos/align/align_settings.cpp:104 ekos/align/opsastrometryindexfiles.ui:329
+#, kde-format
+msgid "Index Files"
+msgstr "ملفات الفهارس"
+
+#: ekos/align/align_settings.cpp:169 ekos/guide/guidetargetplot.cpp:55
+#, kde-format
+msgid "dRA (arcsec)"
+msgstr "تغيّر المطلع (ثانية قوسية)"
+
+#: ekos/align/align_settings.cpp:170 ekos/guide/guidetargetplot.cpp:56
+#, kde-format
+msgid "dDE (arcsec)"
+msgstr "تغيّر الميل (ثانية قوسية)"
+
+#: ekos/align/align_settings.cpp:218 ekos/capture/camera_config.cpp:717
+#: ekos/focus/focus.cpp:5957
+#, kde-format
+msgid "Filter operation failed."
+msgstr "فشلت عملية المرشح."
+
+#: ekos/align/align_settings.cpp:230 ekos/capture/camera.cpp:577
+#, kde-format
+msgid "Changing focus offset by %1 steps..."
+msgstr "أغيّر إزاحة التركيز بمقدار %1 خطوة..."
+
+#: ekos/align/align_settings.cpp:237 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/capture/camera.cpp:582
+#, kde-format
+msgid "Changing filter to %1..."
+msgstr "أغيّر المرشح إلى %1..."
+
+#: ekos/align/align_settings.cpp:242 ekos/capture/camera.cpp:587
+#, kde-format
+msgid "Auto focus on filter change..."
+msgstr "تركيز آلي عند تغيير المرشح..."
+
+#: ekos/align/align_solution.cpp:105
+#, kde-format
+msgid ""
+"<table><tr><th colspan=\"2\">Object %1: %2</th></tr><tr><td>RA:</td><td>%3</"
+"td></tr><tr><td>DE:</td><td>%4</td></tr><tr><td>dRA:</td><td>%5</td></"
+"tr><tr><td>dDE:</td><td>%6</td></tr></table>"
+msgstr ""
+"<table><tr><th colspan=\"2\">الهدف %1: %2</th></tr><tr><td>المطلع المستقيم:</"
+"td><td>%3</td></tr><tr><td>الميل:</td><td>%4</td></tr><tr><td>تغيّر المطلع:</"
+"td><td>%5</td></tr><tr><td>تغيّر الميل:</td><td>%6</td></tr></table>"
+
+#: ekos/align/align_solution.cpp:234
+#, kde-format
+msgid "Are you sure you want to clear all of the solution points?"
+msgstr "هل أنت متأكد من رغبتك في مسح كل نقاط الحل؟"
+
+#: ekos/align/align_solution.cpp:235
+#, kde-format
+msgid "Clear Solution Points"
+msgstr "امسح نقاط الحل"
+
+#: ekos/align/align_solution.cpp:425
+#, kde-format
+msgctxt "@title:window"
+msgid "Export Solution Points"
+msgstr "صدّر نقاط الحل"
+
+#: ekos/align/align_solution.cpp:448 ekos/align/mountmodel.cpp:275
+#: ekos/align/mountmodel.cpp:401 ekos/capture/camera_jobs.cpp:340
+#: ekos/capture/camera_jobs.cpp:426 ekos/guide/guidedriftgraph.cpp:502
+#: ekos/scheduler/scheduler.cpp:2222 ekos/scheduler/scheduler.cpp:2332
+#: fitsviewer/fitstab.cpp:1610 tools/scriptbuilder.cpp:832
+#: tools/scriptbuilder.cpp:929
+#, kde-format
+msgid "Invalid URL: %1"
+msgstr "الـعنوان غير صحيح: %1"
+
+#: ekos/align/align_solution.cpp:457 ekos/align/mountmodel.cpp:412
+#: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:511
+#: ekos/scheduler/schedulerprocess.cpp:2964
+#: ekos/scheduler/schedulerprocess.cpp:4572
+#, kde-format
+msgid "Unable to write to file %1"
+msgstr "تعذّرت الكتابة إلى الملفّ %1"
+
+#: ekos/align/align_solution.cpp:458 ekos/align/mountmodel.cpp:295
+#: ekos/align/mountmodel.cpp:413 ekos/capture/camera_jobs.cpp:356
+#: ekos/capture/cameraprocess.cpp:2646 ekos/capture/sequencequeue.cpp:33
+#: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2965
+#: ekos/scheduler/schedulerprocess.cpp:3434
+#: ekos/scheduler/schedulerprocess.cpp:4573
+#: ekos/scheduler/schedulerprocess.cpp:4593 indi/drivermanager.cpp:1567
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:321
+#: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
+#: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
+#: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
+#: tools/modcalcjd.cpp:117 tools/modcalcplanets.cpp:195
+#: tools/modcalcsidtime.cpp:205 tools/modcalcvizequinox.cpp:69
+#: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:908
+#: tools/observinglist.cpp:1174 tools/scriptbuilder.cpp:820
+#: tools/scriptbuilder.cpp:900 tools/scriptbuilder.cpp:983
+#, kde-format, kde-kuit-format
+msgid "Could Not Open File"
+msgstr "لم يمكن فتح الملف"
+
+#: ekos/align/align_solution.cpp:479
+#, kde-format
+msgid "Error in table structure."
+msgstr "خطأ في هيكل الجدول."
+
+#: ekos/align/align_solution.cpp:488
+#, kde-format
+msgid "Solution Points Saved as: %1"
+msgstr "حُفظت نقاط الحل باسم: %1"
+
+#: ekos/align/align_solution.cpp:552
+#, kde-format
+msgctxt "@title:window"
+msgid "Align Frame"
+msgstr "إطار المحاذاة"
+
+#: ekos/align/align_solver.cpp:52
+#, kde-format
+msgid "Mount coordinates are invalid. Check mount connection and try again."
+msgstr "إحداثيات الحامل غير صالحة. تحقق من اتصال الحامل وحاول مرة أخرى."
+
+#: ekos/align/align_solver.cpp:53 ekos/align/align_solver.cpp:82
+#: ekos/align/align_solver.cpp:1068
+#, kde-format
+msgid "Astrometry alignment failed"
+msgstr "فشل محاذاة قياسات الفلك"
+
+#: ekos/align/align_solver.cpp:59
+#, kde-format
+msgid "Setting target to RA:%1 DEC:%2"
+msgstr "اضبط الهدف على مطلع مستقيم: %1 ميل: %2"
+
+#: ekos/align/align_solver.cpp:75
+#, kde-format
+msgid "Error: No camera detected."
+msgstr "خطأ: لم يعثر على آلة تصوير."
+
+#: ekos/align/align_solver.cpp:81 ekos/guide/guide.cpp:833
+#, kde-format
+msgid "Error: lost connection to camera."
+msgstr "خطأ: فُقد الاتصال بآلة التصوير."
+
+#: ekos/align/align_solver.cpp:95
+#, kde-format
+msgid ""
+"Telescope aperture and focal length are missing. Please check your optical "
+"train settings and try again."
+msgstr ""
+"فتحة المقراب وطوله البؤري مفقودان. تحقق من إعدادات سلسلة مقرابك وحاول مرة "
+"أخرى."
+
+#: ekos/align/align_solver.cpp:101
+#, kde-format
+msgid ""
+"Camera pixel size is missing. Please check your driver settings and try "
+"again."
+msgstr "حجم بكسل الكاميرا مفقود. تحقق من إعدادات برنامج تشغيلك وحاول مرة أخرى."
+
+#: ekos/align/align_solver.cpp:109
+#, kde-format
+msgid "Error: lost connection to filter wheel."
+msgstr "خطأ: فُقد الاتصال بعجلة المرشحات."
+
+#: ekos/align/align_solver.cpp:128 ekos/capture/cameraprocess.cpp:236
+#: ekos/capture/cameraprocess.cpp:657 ekos/focus/focus.cpp:6076
+#, kde-format
+msgid ""
+"Image transfer is disabled for this camera. Would you like to enable it?"
+msgstr "نقل الصور معطّل لآلة التصوير هذه. هل تريد تمكينه؟"
+
+#: ekos/align/align_solver.cpp:143
+#, kde-format
+msgid "Dustcap is parked. Unparking before capture and solve..."
+msgstr "غطاء الغبار مركون. فُكّ الغطاء قبل الالتقاط والحل..."
+
+#: ekos/align/align_solver.cpp:150
+#, kde-format
+msgid "Dustcap is not ready (status: %1). Waiting before capture and solve..."
+msgstr "غطاء الغبار غير جاهز (الحالة: %1). في انتظار التقاط والحل ..."
+
+#: ekos/align/align_solver.cpp:162
+#, kde-format
+msgid "Cannot capture while focus module is busy. Retrying in %1 seconds..."
+msgstr ""
+"لا أستطيع التقاط الصورة بينما وحدة التركيز مشغولة. أعيد المحاولة في %1 "
+"ثانية..."
+
+#: ekos/align/align_solver.cpp:175
+#, kde-format
+msgid ""
+"Cannot capture while camera exposure is in progress. Retrying in %1 "
+"seconds..."
+msgstr ""
+"لا أستطيع التقاط الصورة بينما تعريض الكاميرا قيد التقدم. أعيد المحاولة في %1 "
+"ثانية..."
+
+#: ekos/align/align_solver.cpp:202
+#, kde-format
+msgid "Cannot capture while rotator is busy: Time delay estimate started..."
+msgstr "لا أستطيع التقاط الصورة بينما المدور مشغول: بدأ تقدير تأخير الوقت..."
+
+#: ekos/align/align_solver.cpp:217
+#, kde-format
+msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
+msgstr ""
+"لا أستطيع التقاط الصورة بينما المدور مشغول: أعيد المحاولة في %1 ثانية..."
+
+#: ekos/align/align_solver.cpp:284 ekos/focus/focus.cpp:2014
+#, kde-format
+msgid "Capturing image..."
+msgstr "ألتقط الصورة..."
+
+#: ekos/align/align_solver.cpp:367 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/focus/focus.cpp:3162
+#, kde-format
+msgid "Image received."
+msgstr "اِستُلمت الصورة."
+
+#: ekos/align/align_solver.cpp:491
+#, kde-format
+msgid ""
+"No index files were found on your system in the specified index file "
+"directories.Please download some index files or add the correct directory to "
+"the list."
+msgstr ""
+"لم يعثر على أي ملفات فهارس على حاسوبك في أدلة ملفات الفهارس المحددة. نَزِّل بعض "
+"ملفات الفهارس أو أَضف الدليل الصحيح إلى القائمة."
+
+#: ekos/align/align_solver.cpp:544
+#, kde-format
+msgid "Solving with blind image scale..."
+msgstr "أحلّ باستخدام مقياس الصورة الأعمى..."
+
+#: ekos/align/align_solver.cpp:552
+#, kde-format
+msgid "Solving with blind image position..."
+msgstr "أحلّ باستخدام موضع الصورة الأعمى..."
+
+#: ekos/align/align_solver.cpp:558
+#, kde-format
+msgid "Solving with blind dynamic threshold..."
+msgstr "أحلّ باستخدام العتبة الديناميكية العمياء..."
+
+#: ekos/align/align_solver.cpp:588
+#, kde-format
+msgid "Loaded image does not have pierside information"
+msgstr "الصورة المحمّلة ليس لديها معلومات جانب الرصيف"
+
+#: ekos/align/align_solver.cpp:593
+#, kde-format
+msgid "Loaded image was taken on pierside %1"
+msgstr "اُلتُقِطت الصورة المحمّلة على جانب الرصيف %1"
+
+#: ekos/align/align_solver.cpp:659
+#, kde-format
+msgid "Solver timed out after %1 seconds."
+msgstr "انتهت مهلة برنامج الحل بعد %1 ثانية."
+
+#: ekos/align/align_solver.cpp:662
+#, kde-format
+msgid "Solver failed after %1 seconds."
+msgstr "فشل برنامج الحل بعد %1 ثانية."
+
+#: ekos/align/align_solver.cpp:684
+#, kde-format
+msgid "Solver completed after %1 seconds."
+msgstr "أكمل برنامج الحل بعد %1 ثانية."
+
+#: ekos/align/align_solver.cpp:705
+#, kde-format
+msgid "Remote solver completed after %1 seconds."
+msgstr "أكمل برنامج الحل عن بعد بعد %1 ثانية."
+
+#: ekos/align/align_solver.cpp:717
+#, kde-format
+msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
+msgstr ""
+"برنامج الحل: مطلع مستقيم (%1) ميل (%2) توجيه (%3) مقياس البكسل (%4) تماثل "
+"(%5)"
+
+#: ekos/align/align_solver.cpp:779
+#, kde-format
+msgid ""
+"WCS information updated. Images captured from this point forward shall have "
+"valid WCS."
+msgstr ""
+"حُدّثت معلومات نظام الإحداثيات العالمي (WCS). الصور الملتقطة من هذه النقطة "
+"فصاعدًا يجب أن يكون لديها نظام إحداثيات عالمي صالح."
+
+#: ekos/align/align_solver.cpp:796
+#, kde-format
+msgid ""
+"Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
+"(%4) Target Coordinates: RA (%5) DEC (%6)"
+msgstr ""
+"إحداثيات الحل: مطلع مستقيم (%1) ميل (%2) إحداثيات المقراب: مطلع مستقيم (%3) "
+"ميل (%4) إحداثيات الهدف: مطلع مستقيم (%5) ميل (%6)"
+
+#: ekos/align/align_solver.cpp:807
+#, kde-format
+msgid "Target is within %1 degrees of solution coordinates."
+msgstr "الهدف ضمن %1 درجة من إحداثيات الحل."
+
+#: ekos/align/align_solver.cpp:850
+#, kde-format
+msgid ""
+"Rotator is moving in the wrong direction. The position angle error increased "
+"from %1° to %2° after rotation. Please reverse the rotator direction and try "
+"again."
+msgstr ""
+"يتحرك جهاز الدوران في الاتجاه الخاطئ. زاد خطأ زاوية الموضع من %1° إلى %2° "
+"بعد الدوران. يرجى عكس اتجاه جهاز الدوران ومحاولة إعادة العملية."
+
+#: ekos/align/align_solver.cpp:870
+#, kde-format
+msgid "Camera position angle is %1 degrees."
+msgstr "زاوية موضع الكاميرا هي %1 درجة."
+
+#: ekos/align/align_solver.cpp:902 ekos/align/align_solver.cpp:1029
+#, kde-format
+msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
+msgstr "عُدِّلت العتبة الديناميكية إلى %1 (العثور على %2 نجمة)."
+
+#: ekos/align/align_solver.cpp:930
+#, kde-format
+msgid "Maximum number of iterations reached. Solver failed."
+msgstr "وُصل إلى العدد الأقصى للتكرارات. فشل برنامج الحل."
+
+#: ekos/align/align_solver.cpp:957
+#, kde-format
+msgid "Target is within acceptable range."
+msgstr "الهدف ضمن النطاق المقبول."
+
+#: ekos/align/align_solver.cpp:1015
+#, kde-format
+msgid "Saving failed solver image to %1"
+msgstr "أحفظ صورة برنامج الحل الفاشل إلى %1"
+
+#: ekos/align/align_solver.cpp:1034
+#, kde-format
+msgid "Solver failed. Retrying with blind dynamic threshold."
+msgstr "فشل برنامج الحل. أعيد المحاولة بالعتبة الديناميكية العمياء."
+
+#: ekos/align/align_solver.cpp:1047
+#, kde-format
+msgid "Solver failed. Retrying without scale constraint."
+msgstr "فشل برنامج الحل. أعيد المحاولة بدون قيد المقياس."
+
+#: ekos/align/align_solver.cpp:1056
+#, kde-format
+msgid "Solver failed. Retrying without position constraint."
+msgstr "فشل برنامج الحل. أعيد المحاولة بدون قيد الموضع."
+
+#: ekos/align/align_solver.cpp:1063
+#, kde-format
+msgid "Solver Failed."
+msgstr "فشل برنامج الحل."
+
+#: ekos/align/align_solver.cpp:1066
+#, kde-format
+msgid ""
+"Please check you have sufficient stars in the image, the indicated FOV is "
+"correct, and the necessary index files are installed. Enable Alignment "
+"Logging in Setup Tab -> Logs to get detailed information on the failure."
+msgstr ""
+"تحقق من أن لديك نجومًا كافية في الصورة، ومجال الرؤية المشار إليه صحيح، وملفات "
+"الفهارس الضرورية مثبّتة. مكّن تسجيل المحاذاة في لسان الإعداد -> السجلات للحصول "
+"على معلومات تفصيلية عن الفشل."
+
+#: ekos/align/align_solver.cpp:1116
+#, kde-format
+msgid "Capture timed out."
+msgstr "انتهت مهلة الالتقاط."
+
+#: ekos/align/align_solver.cpp:1125
+#, kde-format
+msgid "Capturing still running, Retrying in %1 seconds..."
+msgstr "الالتقاط لا يزال قيد التشغيل، أعيد المحاولة في %1 ثانية..."
 
 #: ekos/align/alignmentplot.cpp:158
 #, kde-format
@@ -7418,79 +7412,102 @@ msgstr "زاوية الموضع الهدف"
 msgid "Take Another Image"
 msgstr "اِلْتَقِط صورة أخرى"
 
-#: ekos/align/mountmodel.cpp:258
+#: ekos/align/mountmodel.cpp:267
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "اِفْتَح قائمة محاذاة إكوس"
 
-#: ekos/align/mountmodel.cpp:285 ekos/capture/camera_jobs.cpp:355
+#: ekos/align/mountmodel.cpp:294 ekos/capture/camera_jobs.cpp:355
 #: ekos/capture/cameraprocess.cpp:2645 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3433
-#: ekos/scheduler/schedulerprocess.cpp:4590
+#: ekos/scheduler/schedulerprocess.cpp:4592
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "تعذّر فتح الملفّ %1"
 
-#: ekos/align/mountmodel.cpp:307 ekos/capture/sequencequeue.cpp:56
+#: ekos/align/mountmodel.cpp:316 ekos/capture/sequencequeue.cpp:56
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
 "file."
 msgstr "إصدار تنسيق ملف تسلسل مهمل %1. اِبْنِ ملف تسلسل جديد."
 
-#: ekos/align/mountmodel.cpp:369
+#: ekos/align/mountmodel.cpp:378
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Alignment List"
 msgstr "اِحْفَظ قائمة محاذاة إكوس"
 
-#: ekos/align/mountmodel.cpp:386
+#: ekos/align/mountmodel.cpp:395
 #, kde-format
 msgid "Failed to save alignment list"
 msgstr "فَشِل حفظ قائمة المحاذاة"
 
-#: ekos/align/mountmodel.cpp:432
+#: ekos/align/mountmodel.cpp:441
 #, kde-format
 msgid "Alignment List saved to %1"
 msgstr "حُفِظَت قائمة المحاذاة في %1"
 
-#: ekos/align/mountmodel.cpp:544 ekos/align/mountmodel.cpp:552
+#: ekos/align/mountmodel.cpp:543 ekos/align/mountmodel.cpp:551
 #, kde-format
 msgid "DEC is below the altitude limit"
 msgstr "الميل أدنى من حد الارتفاع"
 
-#: ekos/align/mountmodel.cpp:631
-#, kde-format
-msgid "Point calculation error."
-msgstr "خطأ في حساب النقطة."
-
-#: ekos/align/mountmodel.cpp:653
+#: ekos/align/mountmodel.cpp:617 ekos/align/mountmodel.cpp:767
 #, kde-format
 msgid "Sky Point"
 msgstr "نقطة السماء"
 
-#: ekos/align/mountmodel.cpp:861
+#: ekos/align/mountmodel.cpp:624
+#, kde-format
+msgid "Warning: only %1 of %2 requested alignment points could be placed."
+msgstr ""
+
+#: ekos/align/mountmodel.cpp:745
+#, kde-format
+msgid "Point calculation error."
+msgstr "خطأ في حساب النقطة."
+
+#: ekos/align/mountmodel.cpp:990
 #, kde-format
 msgid "Are you sure you want to clear all the alignment points?"
 msgstr "هَلْ أنت متأكد أنك تريد مسح جميع نقاط المحاذاة؟"
 
-#: ekos/align/mountmodel.cpp:862
+#: ekos/align/mountmodel.cpp:991
 #, kde-format
 msgid "Clear Align Points"
 msgstr "أَفْرِغ نقاط المحاذاة"
 
-#: ekos/align/mountmodel.cpp:967
+#: ekos/align/mountmodel.cpp:1087
 #, kde-format
 msgid "The Mount Model Tool is Reset."
 msgstr "أُعِيد ضبط أداة نموذج الحامل."
 
-#: ekos/align/mountmodel.cpp:1004
+#: ekos/align/mountmodel.cpp:1127
+#, fuzzy, kde-format
+#| msgid "Mount is parking. Aborting guide..."
+msgid "Mount unparked. Starting mount model..."
+msgstr "الحامل يتوقف. أجهِض الدليل..."
+
+#: ekos/align/mountmodel.cpp:1135
+#, fuzzy, kde-format
+#| msgid "Mount unpark requested but no mounts detected."
+msgid "Mount unpark failed. Cannot start mount model."
+msgstr "طُلب إخراج الحامل من المَرْكَن ولكن لم يُكتشف أي حامل."
+
+#: ekos/align/mountmodel.cpp:1147
 #, kde-format
 msgid "Please Check the Alignment Points."
 msgstr "رَاجِع نقاط المحاذاة."
 
-#: ekos/align/mountmodel.cpp:1011
+#: ekos/align/mountmodel.cpp:1155
+#, fuzzy, kde-format
+#| msgid "Dustcap is parked. Unparking before capture..."
+msgid "Mount is parked. Unparking before starting mount model..."
+msgstr "غطاء الغبار مركون. فُكّ الغطاء قبل الالتقاط..."
+
+#: ekos/align/mountmodel.cpp:1166
 #, kde-format
 msgid ""
 "In the Align Module, \"Nothing\" is Selected for the Solver Action.  This "
@@ -7501,25 +7518,30 @@ msgstr ""
 "الحامل لن تزامن/تحاذي حاملَك ولكنها ستبلغ فقط عن أخطاء نموذج التوجيه. هل ترغب "
 "في الاستمرار؟"
 
-#: ekos/align/mountmodel.cpp:1014
+#: ekos/align/mountmodel.cpp:1169
 #, kde-format
 msgid "Pointing Model Report Only?"
 msgstr "تقرير نموذج التوجيه فقط؟"
 
-#: ekos/align/mountmodel.cpp:1031
+#: ekos/align/mountmodel.cpp:1187
 #, kde-format
 msgid "The Mount Model Tool is Starting."
 msgstr "جاري بدء أداة نموذج الحامل."
 
-#: ekos/align/mountmodel.cpp:1040
+#: ekos/align/mountmodel.cpp:1196
 #, kde-format
 msgid "The Mount Model Tool is Paused."
 msgstr "أُوقِفَت أداة نموذج الحامل مؤقتًا."
 
-#: ekos/align/mountmodel.cpp:1099
+#: ekos/align/mountmodel.cpp:1263
 #, kde-format
 msgid "The Mount Model Tool is Finished."
 msgstr "اِنْتَهَت أداة نموذج الحامل."
+
+#: ekos/align/mountmodel.cpp:1288
+#, kde-format
+msgid "Mount model: forcing blind solve and sync for each alignment point."
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, mountModel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpsAstrometryIndexFiles)
@@ -7558,75 +7580,67 @@ msgid "Object Type:"
 msgstr "نوع الجرم:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, alignTypeBox)
-#: ekos/align/mountmodel.ui:69
+#: ekos/align/mountmodel.ui:71
 #, kde-format
 msgid ""
-"<html><head/><body><p>Select the type of objects/points added by the wizard."
-"</p><p><span style=\" font-weight:600;\">Note:</span> all of the options "
-"except Fixed DEC start with a grid of RA/DEC points.</p>\n"
+"<html><head/><body><p>Select how the wizard chooses alignment points.</p>\n"
+"<p>All modes except Fixed DEC and Fixed Grid spread points evenly across the "
+"sky using uniform distribution. The modes differ in what each point snaps to:"
+"</p>\n"
 "<ul>\n"
-"<li><b>Any Stars:</b> The wizard searches for the nearest star.</li>\n"
-"<li><b>Any object:</b>  The wizard searches for the nearest object of any "
-"type.</li>\n"
-"<li><b>Named Stars</b> The wizard searches for the nearest star in the "
-"currently visible star list. Note that the first named star might be fairly "
-"far from the intended point and also sometimes the same star could be the "
-"closest one for multiple points.</li>\n"
-"<li><b>Fixed DEC:</b> The wizard generates all points at the chosen DEC.</"
+"<li><b>Any Stars:</b> Snaps to the nearest visible star.</li>\n"
+"<li><b>Named Stars:</b> Snaps to a well-known named star (e.g. Vega, "
+"Arcturus).</li>\n"
+"<li><b>Any Object:</b> Snaps to the nearest visible object of any type.</"
 "li>\n"
-"<li><b>Fixed Grid:</b>  The wizard just uses the original grid without "
-"trying to pair it with objects.</li>\n"
+"<li><b>Uniform Distribution:</b> Points are spread evenly across the visible "
+"sky.</li>\n"
+"<li><b>Fixed DEC:</b> All points share the same declination (set below).</"
+"li>\n"
+"<li><b>Fixed Grid:</b> Points arranged in a regular RA/DEC grid, evenly "
+"spaced in RA and DEC.</li>\n"
 "</ul>\n"
 "</body></html>"
 msgstr ""
-"<html><head/><body><p>اختار نوع الأجرام/النقاط المضافة بواسطة المعالج.</"
-"p><p><span style=\" font-weight:600;\">ملاحظة:</span> تبدأ جميع الخيارات "
-"باستثناء الانحراف الثابت (Fixed DEC) بشبكة من نقاط الصعود المستقيم/الانحراف "
-"(RA/DEC).</p>\n"
-"<ul>\n"
-"<li><b>أي نجوم:</b> يبحث المعالج عن أقرب نجم.</li>\n"
-"<li><b>أي جرم:</b> يبحث المعالج عن أقرب جرم من أي نوع.</li>\n"
-"<li><b>نجوم مسماة:</b> يبحث المعالج عن أقرب نجم في قائمة النجوم المرئية "
-"حاليًا. لاحظ أن النجم المسمى الأول قد يكون بعيدًا جدًا عن النقطة المقصودة "
-"وأحيانًا يمكن أن يكون النجم نفسه هو الأقرب لنقاط متعددة.</li>\n"
-"<li><b>انحراف ثابت:</b> يولّد المعالج جميع النقاط عند الانحراف المختار.</li>\n"
-"<li><b>شبكة ثابتة:</b> يستخدم المعالج فقط الشبكة الأصلية دون محاولة إقرانها "
-"بالكائنات.</li>\n"
-"</ul>\n"
-"</body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
-#: ekos/align/mountmodel.ui:73
+#: ekos/align/mountmodel.ui:75
 #, kde-format
 msgid "Any Stars"
 msgstr "أي نجم"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
-#: ekos/align/mountmodel.ui:78
+#: ekos/align/mountmodel.ui:80
 #, kde-format
 msgid "Named Stars"
 msgstr "نجوم مسماة"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
-#: ekos/align/mountmodel.ui:83
+#: ekos/align/mountmodel.ui:85
 #, kde-format
 msgid "Any Object"
 msgstr "أي جرم"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
-#: ekos/align/mountmodel.ui:88
+#: ekos/align/mountmodel.ui:90
+#, kde-format
+msgid "Uniform Distribution"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
+#: ekos/align/mountmodel.ui:95
 #, kde-format
 msgid "Fixed DEC"
 msgstr "ميل ثابت"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
-#: ekos/align/mountmodel.ui:93
+#: ekos/align/mountmodel.ui:100
 #, kde-format
 msgid "Fixed Grid"
 msgstr "شبكة ثابتة"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, wizardAlignB)
-#: ekos/align/mountmodel.ui:107
+#: ekos/align/mountmodel.ui:114
 #, kde-format
 msgid ""
 "Automatically generate the specified number of alignment points in the table "
@@ -7636,13 +7650,13 @@ msgstr ""
 "الخيارات المختارة في هذا المعالج."
 
 #. i18n: ectx: property (text), widget (QPushButton, wizardAlignB)
-#: ekos/align/mountmodel.ui:110
+#: ekos/align/mountmodel.ui:117
 #, kde-format
 msgid "Generate"
 msgstr "ولّد"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignDec)
-#: ekos/align/mountmodel.ui:120
+#: ekos/align/mountmodel.ui:127
 #, kde-format
 msgid ""
 "The Declination of the points that will be generated.  This option only "
@@ -7651,13 +7665,13 @@ msgstr ""
 "انحراف النقاط التي ستُولَّد. ينطبق هذا الخيار على خيار الانحراف الثابت فقط."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/align/mountmodel.ui:133
+#: ekos/align/mountmodel.ui:140
 #, kde-format
 msgid "Minimum Alt:"
 msgstr "الارتفاع الأدنى:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, minAltBox)
-#: ekos/align/mountmodel.ui:140
+#: ekos/align/mountmodel.ui:147
 #, kde-format
 msgid ""
 "This is the minimum altitude above the horizon to use in generating points "
@@ -7666,7 +7680,7 @@ msgstr ""
 "هذا هو الحد الأدنى للارتفاع فوق الأفق الذي يُسْتَعْمَل في توليد النقاط بالمعالج."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/align/mountmodel.ui:153
+#: ekos/align/mountmodel.ui:160
 #, kde-format
 msgid "Alignment Points:"
 msgstr "نقاط المحاذاة:"
@@ -7680,7 +7694,7 @@ msgstr "نقاط المحاذاة:"
 #. i18n: ectx: property (text), widget (QLabel, DecLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, decCheckBatch)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/align/mountmodel.ui:173 oal/execute.ui:188 tools/flagmanager.ui:47
+#: ekos/align/mountmodel.ui:180 oal/execute.ui:188 tools/flagmanager.ui:47
 #: tools/modcalcaltaz.ui:232 tools/modcalcangdist.ui:148
 #: tools/modcalcangdist.ui:251 tools/modcalcapcoord.ui:117
 #: tools/modcalcapcoord.ui:359 tools/modcalcapcoord.ui:517
@@ -7691,7 +7705,7 @@ msgid "Declination:"
 msgstr "الميل:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignPtNum)
-#: ekos/align/mountmodel.ui:193
+#: ekos/align/mountmodel.ui:200
 #, kde-format
 msgid ""
 "The Number of points the wizard should generate. If this number is less than "
@@ -7704,19 +7718,19 @@ msgstr ""
 "لاحظ، إذا اُخْتِير الميل الثابت، فإن جميع النقاط سَتَكُون عند نفس الميل."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: ekos/align/mountmodel.ui:219
+#: ekos/align/mountmodel.ui:226
 #, kde-format
 msgid "Add Currently Visible Stars"
 msgstr "أَضِف النجوم المرئية حاليًا"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/align/mountmodel.ui:237
+#: ekos/align/mountmodel.ui:244
 #, kde-format
 msgid "Common Names:"
 msgstr "أسماء مألوفة:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, starListBox)
-#: ekos/align/mountmodel.ui:250
+#: ekos/align/mountmodel.ui:257
 #, kde-format
 msgid ""
 "These are the common names for the named stars that are currently up at your "
@@ -7726,13 +7740,13 @@ msgstr ""
 "نجمًا، سيُضاف إلى الجدول أدناه."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/align/mountmodel.ui:270
+#: ekos/align/mountmodel.ui:277
 #, kde-format
 msgid "Greek:"
 msgstr "اليونانيّة:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, greekStarListBox)
-#: ekos/align/mountmodel.ui:283
+#: ekos/align/mountmodel.ui:290
 #, kde-format
 msgid ""
 "These are the Greek names for the brighter stars that are currently up at "
@@ -7742,13 +7756,13 @@ msgstr ""
 "اخترت نجمًا، سيُضاف إلى الجدول أدناه."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/mountmodel.ui:293
+#: ekos/align/mountmodel.ui:300
 #, kde-format
 msgid "Mount Model Alignment Points"
 msgstr "نقاط محاذاة نموذج الحامل"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAllAlignB)
-#: ekos/align/mountmodel.ui:331
+#: ekos/align/mountmodel.ui:338
 #, kde-format
 msgid ""
 "Clear the entire table of alignment points below.  Note that this will not "
@@ -7761,7 +7775,7 @@ msgstr ""
 "إذا شغَّلت روتين نموذج الحامل مرة أخرى، لن تُدرَج هذه النقاط."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeAlignB)
-#: ekos/align/mountmodel.ui:353
+#: ekos/align/mountmodel.ui:360
 #, kde-format
 msgid ""
 "<p>Remove the selected row from the alignment point table below. Note that "
@@ -7774,7 +7788,7 @@ msgstr ""
 "الحامل، فلن تُضَمَّن هذه النقطة في القائمة.</p>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addAlignB)
-#: ekos/align/mountmodel.ui:375
+#: ekos/align/mountmodel.ui:382
 #, kde-format
 msgid ""
 "Add an empty row to the alignment list so that you can manually add an RA "
@@ -7785,7 +7799,7 @@ msgstr ""
 "لموقع تَرْغَب في أن ينتقل إليه المقراب عند إجراء روتين نموذج الحامل."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, findAlignB)
-#: ekos/align/mountmodel.ui:397
+#: ekos/align/mountmodel.ui:404
 #, kde-format
 msgid ""
 "Open the Find Object dialog so that you can select an object to get an RA "
@@ -7796,7 +7810,7 @@ msgstr ""
 "آليًا تَرْغَب في أن ينتقل إليه المقراب عند إجراء روتين نموذج الحامل."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, sortAlignB)
-#: ekos/align/mountmodel.ui:419
+#: ekos/align/mountmodel.ui:426
 #, kde-format
 msgid ""
 "Sort the alignment points, starting with the point closest to the current "
@@ -7806,7 +7820,7 @@ msgstr ""
 "تقليل المسافة بين كل عملية انتقال."
 
 #. i18n: ectx: property (toolTip), widget (QTableWidget, alignTable)
-#: ekos/align/mountmodel.ui:444
+#: ekos/align/mountmodel.ui:451
 #, kde-format
 msgid ""
 "This is a table of alignment points that you would like the mount model "
@@ -7828,19 +7842,19 @@ msgstr ""
 "يمكنَك سحب الصف للأعلى أو للأسفل باستخدام الرأس العمودي لهذا الصف على اليسار."
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
-#: ekos/align/mountmodel.ui:448
+#: ekos/align/mountmodel.ui:455
 #, kde-format
 msgid "RA (J2000)"
 msgstr "المطلع المستقيم (J2000)"
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
-#: ekos/align/mountmodel.ui:453
+#: ekos/align/mountmodel.ui:460
 #, kde-format
 msgid "DEC (J2000)"
 msgstr "الميل (J2000)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadAlignB)
-#: ekos/align/mountmodel.ui:491
+#: ekos/align/mountmodel.ui:498
 #, kde-format
 msgid ""
 "Load a saved alignment point list so that you can run the same alignment you "
@@ -7850,7 +7864,7 @@ msgstr ""
 "مناسبة سابقة."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveAlignB)
-#: ekos/align/mountmodel.ui:513
+#: ekos/align/mountmodel.ui:520
 #, kde-format
 msgid ""
 "Save the alignment list so that you can run this alignment again in the "
@@ -7859,7 +7873,7 @@ msgstr ""
 "اِحْفَظ قائمة المحاذاة بحيث يُمْكِنُك إجراء هذه المحاذاة مرة أخرى في المستقبل."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
-#: ekos/align/mountmodel.ui:535
+#: ekos/align/mountmodel.ui:542
 #, kde-format
 msgid ""
 "Display the alignment points on the skymap as flags.  Clicking it again will "
@@ -7869,7 +7883,7 @@ msgstr ""
 "أخرى إلى إزالة الأعلام. لن تُحفَظ الأعلام."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startAlignB)
-#: ekos/align/mountmodel.ui:570
+#: ekos/align/mountmodel.ui:577
 #, kde-format
 msgid ""
 "Start or pause the mount model routine.  It will slew to and astrometrically "
@@ -7883,7 +7897,7 @@ msgstr ""
 "سابقًا، فسيستأنف من حيث توقف. إذا أوقف أو أنهى فإنه سيبدأ الروتين من جديد."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopAlignB)
-#: ekos/align/mountmodel.ui:592
+#: ekos/align/mountmodel.ui:599
 #, kde-format
 msgid ""
 "<p>Stop the mount model routine.  It will <b>not</b> clear any points from "
@@ -10792,7 +10806,7 @@ msgstr "ابدأ إكوس"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/align/pushtoassistant.ui:199 ekos/analyze/analyze.cpp:2334
-#: ekos/manager.cpp:2498 ekos/scheduler/framingassistant.ui:1276
+#: ekos/manager.cpp:2499 ekos/scheduler/framingassistant.ui:1276
 #: ekos/scheduler/scheduler.ui:240 fitsviewer/fitsviewer.cpp:582
 #, kde-format
 msgid "Align"
@@ -10804,7 +10818,7 @@ msgstr "حاذِ إلى"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2337
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2688 ekos/manager.ui:778
+#: ekos/manager.cpp:2689 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -10895,7 +10909,7 @@ msgstr "لا تستطيع عرض ملف الصورة المؤقت: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2333 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2542 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2543 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:574
 #, kde-format
@@ -10907,7 +10921,7 @@ msgstr "التركيز البؤري"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2335 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:129 ekos/manager.cpp:2763
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:129 ekos/manager.cpp:2764
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -13144,7 +13158,7 @@ msgstr "<html><head/><body><p>سجّل نشاط وحدة مرصد إيكوس</p>
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2813
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2814
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -24857,17 +24871,17 @@ msgstr "قطع ربط أجهزة INDI..."
 msgid "INDI services stopped."
 msgstr "أوقفت خدمات INDI."
 
-#: ekos/manager.cpp:1878
+#: ekos/manager.cpp:1879
 #, kde-format
 msgid "Remote devices established."
 msgstr "أجهزة بعيدة أنشئت."
 
-#: ekos/manager.cpp:1881
+#: ekos/manager.cpp:1882
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "أجهزة بعيدة أنشئت. وصل الأجهزة."
 
-#: ekos/manager.cpp:1945
+#: ekos/manager.cpp:1946
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -24876,118 +24890,118 @@ msgstr ""
 "فشل %1 في الاتصال.\n"
 "تأكد من أن الجهاز موصول ومزود بالطاقة."
 
-#: ekos/manager.cpp:1952
+#: ekos/manager.cpp:1953
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "فُصل %1."
 
-#: ekos/manager.cpp:1973 ekos/manager.cpp:1982 ekos/manager.cpp:2015
-#: indi/indistd.cpp:719
+#: ekos/manager.cpp:1974 ekos/manager.cpp:1983 ekos/manager.cpp:2016
+#: indi/indistd.cpp:732
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 على الخط"
 
-#: ekos/manager.cpp:1990
+#: ekos/manager.cpp:1991
 #, kde-format
 msgid "%1 filter is online."
 msgstr "مرشح %1 متصل."
 
-#: ekos/manager.cpp:1999
+#: ekos/manager.cpp:2000
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "مكثف %1 متصل."
 
-#: ekos/manager.cpp:2006
+#: ekos/manager.cpp:2007
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "مدورة %1 متصلة."
 
-#: ekos/manager.cpp:2022
+#: ekos/manager.cpp:2023
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "طقس %1 متصل."
 
-#: ekos/manager.cpp:2029
+#: ekos/manager.cpp:2030
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "نظام تحديد المواقع %1 متصل."
 
-#: ekos/manager.cpp:2036
+#: ekos/manager.cpp:2037
 #, kde-format
 msgid "%1 PAC is online."
 msgstr "مصحح المحاذاة القطبية %1 متصل."
 
-#: ekos/manager.cpp:2045
+#: ekos/manager.cpp:2046
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "غطاء الغبار %1 متصل."
 
-#: ekos/manager.cpp:2052
+#: ekos/manager.cpp:2053
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "صندوق الإضاءة %1 متصل."
 
-#: ekos/manager.cpp:2197
+#: ekos/manager.cpp:2198
 #, kde-format
 msgid "%1 is offline."
 msgstr "فُصل %1."
 
-#: ekos/manager.cpp:2830
+#: ekos/manager.cpp:2831
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "منفذ دليل من %1 جاهز."
 
-#: ekos/manager.cpp:3093
+#: ekos/manager.cpp:3094
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "هل أنت متأكد من رغبتك في حذف التشكيلة؟"
 
-#: ekos/manager.cpp:3094
+#: ekos/manager.cpp:3095
 #, kde-format
 msgid "Confirm Delete"
 msgstr "أكّد الحذف"
 
-#: ekos/manager.cpp:3146
+#: ekos/manager.cpp:3147
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "حدث موقع الموقع إلى %1."
 
-#: ekos/manager.cpp:3148
+#: ekos/manager.cpp:3149
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "فشل في تحديث موقع الموقع إلى %1. لم أجد المدينة."
 
-#: ekos/manager.cpp:3421
+#: ekos/manager.cpp:3422
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "تفعيل تسجيل تصحيح لـ %1..."
 
-#: ekos/manager.cpp:3429
+#: ekos/manager.cpp:3430
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "تعطيل تسجيل تصحيح لـ %1..."
 
-#: ekos/manager.cpp:3457
+#: ekos/manager.cpp:3458
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "إعادة تفعيل تسجيل تصحيح لـ %1..."
 
-#: ekos/manager.cpp:3469
+#: ekos/manager.cpp:3470
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "إعادة تعطيل تسجيل تصحيح لـ %1..."
 
-#: ekos/manager.cpp:4238
+#: ekos/manager.cpp:4239
 #, kde-format
 msgid "Preview source set to external"
 msgstr "اضبط مصدر المعاينة إلى خارجي"
 
-#: ekos/manager.cpp:4245
+#: ekos/manager.cpp:4246
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "أعد ضبط مصدر المعاينة إلى داخلي"
 
-#: ekos/manager.cpp:4252
+#: ekos/manager.cpp:4253
 #, kde-format
 msgid "Received external preview file"
 msgstr "استلم ملف معاينة خارجي"
@@ -29506,17 +29520,17 @@ msgstr "طابور ما بعد الإيقاف المختار لتشغيله بع
 msgid "Browse for post-shutdown queue/collection file"
 msgstr "تصفح بحثاً عن ملف طابور/تجميع ما بعد الإيقاف"
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:192
+#: ekos/scheduler/scheduleraltitudegraph.cpp:205
 #, kde-format
 msgid "Tomorrow"
 msgstr "الغدّ"
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:192
+#: ekos/scheduler/scheduleraltitudegraph.cpp:205
 #, kde-format
 msgid "Day After Tomorrow"
 msgstr "بعد غد"
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:193
+#: ekos/scheduler/scheduleraltitudegraph.cpp:206
 #, kde-format
 msgid "Tonight"
 msgstr "الليلة"
@@ -30243,76 +30257,76 @@ msgstr "[%2] أُجهِضت المهمة التابعة ”%1“."
 msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] المهمة (%1) - اِنتهاء الالتقاط"
 
-#: ekos/scheduler/schedulerprocess.cpp:3930
+#: ekos/scheduler/schedulerprocess.cpp:3932
 #, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
 msgstr "اِكتمل تركيز المهمة ”%1“ للمسار «%2»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3942
+#: ekos/scheduler/schedulerprocess.cpp:3944
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "تحذير: فشل تركيز المهمة ”%1“."
 
-#: ekos/scheduler/schedulerprocess.cpp:3946
+#: ekos/scheduler/schedulerprocess.cpp:3948
 #, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
 msgstr "المهمة ”%1“ للمسار «%2» تُعيد تشغيل إجراء التركيز الخاص بها."
 
-#: ekos/scheduler/schedulerprocess.cpp:3951
+#: ekos/scheduler/schedulerprocess.cpp:3953
 #, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr "تحذير: فشل إجراء تركيز المهمة ”%1“ على المسار «%2»، اِجعلها مُجهَضة."
 
-#: ekos/scheduler/schedulerprocess.cpp:3984
+#: ekos/scheduler/schedulerprocess.cpp:3986
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "اِكتمال اِنزلاق المهمة ”%1“."
 
-#: ekos/scheduler/schedulerprocess.cpp:3990
+#: ekos/scheduler/schedulerprocess.cpp:3992
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr "تحذير: فشل اِنزلاق المهمة ”%1“، اِجعلها مُنهَاة بسبب أخطاء."
 
-#: ekos/scheduler/schedulerprocess.cpp:3996
+#: ekos/scheduler/schedulerprocess.cpp:3998
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "تحذير: المهمة ”%1“ لا تنزلق، تُعاد تشغيلها."
 
-#: ekos/scheduler/schedulerprocess.cpp:4009
+#: ekos/scheduler/schedulerprocess.cpp:4011
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "اِكتملت إعادة تموضع المهمة ”%1“."
 
-#: ekos/scheduler/schedulerprocess.cpp:4015
+#: ekos/scheduler/schedulerprocess.cpp:4017
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr "تحذير: فشلت إعادة تموضع المهمة ”%1“، اِجعلها مُنهَاة بسبب أخطاء."
 
-#: ekos/scheduler/schedulerprocess.cpp:4021
+#: ekos/scheduler/schedulerprocess.cpp:4023
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "تحذير: المهمة ”%1“ لا تعيد تموضع، تُعاد تشغيلها."
 
-#: ekos/scheduler/schedulerprocess.cpp:4035
-#: ekos/scheduler/schedulerprocess.cpp:4046
+#: ekos/scheduler/schedulerprocess.cpp:4037
+#: ekos/scheduler/schedulerprocess.cpp:4048
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr "تحذير: الحامل مركون بينما مُجدوِل المهمة ”%1“ نشط. إجهاض."
 
-#: ekos/scheduler/schedulerprocess.cpp:4112
+#: ekos/scheduler/schedulerprocess.cpp:4114
 #, kde-format
 msgid "Safety has improved. Resuming operations."
 msgstr "تحسنت السلامة. استئناف العمليات."
 
-#: ekos/scheduler/schedulerprocess.cpp:4135
+#: ekos/scheduler/schedulerprocess.cpp:4137
 #, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr "اِكتشاف تنبيه بالسلامة. بدء إجراء الإيقاف الليِّن في %1 ثانية."
 
-#: ekos/scheduler/schedulerprocess.cpp:4163
+#: ekos/scheduler/schedulerprocess.cpp:4165
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown. Monitoring weather indefinitely "
@@ -30321,23 +30335,23 @@ msgstr ""
 "من المقرر إغلاق المرصد بشكل تدريجي. مراقبة الطقس إلى أجل غير مسمى حتى تتحسن "
 "الظروف الأمنية."
 
-#: ekos/scheduler/schedulerprocess.cpp:4165
+#: ekos/scheduler/schedulerprocess.cpp:4167
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
 msgstr "جُدْوِل المرصد لإيقاف التشغيل الليِّن حتى تتحسن السلامة أو حتى %1."
 
-#: ekos/scheduler/schedulerprocess.cpp:4193
+#: ekos/scheduler/schedulerprocess.cpp:4195
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "اِكتمل إجراء إيقاف التشغيل اليدوي بنجاح."
 
-#: ekos/scheduler/schedulerprocess.cpp:4199
+#: ekos/scheduler/schedulerprocess.cpp:4201
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "أُنهِي إجراء إيقاف التشغيل اليدوي بسبب أخطاء."
 
-#: ekos/scheduler/schedulerprocess.cpp:4360
+#: ekos/scheduler/schedulerprocess.cpp:4362
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -30345,27 +30359,27 @@ msgid ""
 msgstr ""
 "ينام لـ %1 على تحديث ساعة المحاكاة حتى تكون مهمة الرصد التالية جاهزة..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4681
+#: ekos/scheduler/schedulerprocess.cpp:4683
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "تحذير: للمهمة ”%1“ تسلسل «%2» لا يمكن الوصول إليه، اِجعله غير صالح."
 
-#: ekos/scheduler/schedulerprocess.cpp:4771
+#: ekos/scheduler/schedulerprocess.cpp:4773
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
 msgstr "تهيئة مراقب السلامة بسلسلة الاتصال: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:4809
+#: ekos/scheduler/schedulerprocess.cpp:4811
 #, kde-format
 msgid "Unknown error occurred during startup queue execution."
 msgstr "حدث خطأ غير معروف أثناء تنفيذ قائمة الانتظار عند بدء التشغيل."
 
-#: ekos/scheduler/schedulerprocess.cpp:4812
+#: ekos/scheduler/schedulerprocess.cpp:4814
 #, kde-format
 msgid "Startup Queue Failed"
 msgstr "طابور بدء التشغيل فشل"
 
-#: ekos/scheduler/schedulerprocess.cpp:4813
+#: ekos/scheduler/schedulerprocess.cpp:4815
 #, kde-format
 msgid ""
 "The scheduler startup queue has failed:\n"
@@ -36255,12 +36269,12 @@ msgstr "موقع جي بي اس"
 msgid "Mount Location"
 msgstr "موقع الحامل"
 
-#: indi/indistd.cpp:658
+#: indi/indistd.cpp:671
 #, kde-format
 msgid "Data file saved to %1"
 msgstr "حفظ ملف البيانات إلى %1"
 
-#: indi/indiwebmanager.cpp:288
+#: indi/indiwebmanager.cpp:296
 #, kde-format
 msgid "Driver %1 failed to start on the remote INDI server."
 msgstr "فشل المشغّل %1 في البدء على خادم INDI البعيد."
@@ -91520,6 +91534,45 @@ msgstr "لون الخلفية:"
 msgid "Set the color for the background."
 msgstr "اضبط لون الخلفية."
 
+#~ msgid "Ekos job (%1) - Telescope synced"
+#~ msgstr "مهمة إيكوس (%1) - المقراب مزامَن"
+
+#~ msgid ""
+#~ "<html><head/><body><p>Select the type of objects/points added by the "
+#~ "wizard.</p><p><span style=\" font-weight:600;\">Note:</span> all of the "
+#~ "options except Fixed DEC start with a grid of RA/DEC points.</p>\n"
+#~ "<ul>\n"
+#~ "<li><b>Any Stars:</b> The wizard searches for the nearest star.</li>\n"
+#~ "<li><b>Any object:</b>  The wizard searches for the nearest object of any "
+#~ "type.</li>\n"
+#~ "<li><b>Named Stars</b> The wizard searches for the nearest star in the "
+#~ "currently visible star list. Note that the first named star might be "
+#~ "fairly far from the intended point and also sometimes the same star could "
+#~ "be the closest one for multiple points.</li>\n"
+#~ "<li><b>Fixed DEC:</b> The wizard generates all points at the chosen DEC.</"
+#~ "li>\n"
+#~ "<li><b>Fixed Grid:</b>  The wizard just uses the original grid without "
+#~ "trying to pair it with objects.</li>\n"
+#~ "</ul>\n"
+#~ "</body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>اختار نوع الأجرام/النقاط المضافة بواسطة المعالج.</"
+#~ "p><p><span style=\" font-weight:600;\">ملاحظة:</span> تبدأ جميع الخيارات "
+#~ "باستثناء الانحراف الثابت (Fixed DEC) بشبكة من نقاط الصعود المستقيم/"
+#~ "الانحراف (RA/DEC).</p>\n"
+#~ "<ul>\n"
+#~ "<li><b>أي نجوم:</b> يبحث المعالج عن أقرب نجم.</li>\n"
+#~ "<li><b>أي جرم:</b> يبحث المعالج عن أقرب جرم من أي نوع.</li>\n"
+#~ "<li><b>نجوم مسماة:</b> يبحث المعالج عن أقرب نجم في قائمة النجوم المرئية "
+#~ "حاليًا. لاحظ أن النجم المسمى الأول قد يكون بعيدًا جدًا عن النقطة المقصودة "
+#~ "وأحيانًا يمكن أن يكون النجم نفسه هو الأقرب لنقاط متعددة.</li>\n"
+#~ "<li><b>انحراف ثابت:</b> يولّد المعالج جميع النقاط عند الانحراف المختار.</"
+#~ "li>\n"
+#~ "<li><b>شبكة ثابتة:</b> يستخدم المعالج فقط الشبكة الأصلية دون محاولة "
+#~ "إقرانها بالكائنات.</li>\n"
+#~ "</ul>\n"
+#~ "</body></html>"
+
 #~ msgid "Delay this many seconds before executing pre driver script."
 #~ msgstr "أخّر هذا العدد من الثواني قبل تنفيذ النص البرمجي لما قبل المشغِّل."
 
@@ -91961,9 +92014,6 @@ msgstr "اضبط لون الخلفية."
 
 #~ msgid "Parking mount in progress..."
 #~ msgstr "ركن الحامل قيد التقدّم..."
-
-#~ msgid "Mount unpark requested but no mounts detected."
-#~ msgstr "طُلب إخراج الحامل من المَرْكَن ولكن لم يُكتشف أي حامل."
 
 #~ msgid "Mount already unparked."
 #~ msgstr "أُخرِج الحامل من المَرْكَن بالفعل."
