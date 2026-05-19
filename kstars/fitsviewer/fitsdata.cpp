@@ -4344,7 +4344,7 @@ bool FITSData::parseSolution(FITSImage::Solution &solution, const bool stack) co
     // Reset all
     solution.fieldWidth = solution.fieldHeight = solution.pixscale = solution.ra = solution.dec = -1;
     solution.raError = solution.decError = solution.orientation = 0.0;
-    solution.parity == FITSImage::NEGATIVE;
+    solution.parity = FITSImage::NEGATIVE;
 
     // RA
     if (getRecordValue("OBJCTRA", value, stack))
