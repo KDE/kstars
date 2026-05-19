@@ -1905,12 +1905,7 @@ IPState CameraProcess::runCaptureScript(ScriptTypes scriptType, bool precond)
         if (captureScript.isEmpty() == false && precond)
         {
             state()->setCaptureScriptType(scriptType);
-            // If running inside a Flatpak sandbox, use flatpak-spawn to execute
-            // the script on the host system where all Python packages are available.
-            if (KSUtils::isFlatpak())
-                m_CaptureScript.start("flatpak-spawn", QStringList() << "--host" << captureScript);
-            else
-                m_CaptureScript.start(captureScript);
+            KSUtils::startProcess(m_CaptureScript, captureScript);
             m_CaptureScript.write(generateScriptInput());
             m_CaptureScript.closeWriteChannel();
             Q_EMIT newLog(i18n("Executing capture script %1", captureScript));

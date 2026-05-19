@@ -6,6 +6,7 @@
 
 #include "astapastrometryparser.h"
 
+#include "auxiliary/ksutils.h"
 #include "align.h"
 #include "ekos_align_debug.h"
 #include "Options.h"
@@ -65,7 +66,7 @@ bool ASTAPAstrometryParser::startSolver(const QString &filename, const QStringLi
 
     QString solverPath = Options::aSTAPExecutable();
 
-    solver->start(solverPath, solverArgs);
+    KSUtils::startProcess(*solver, solverPath);
 
     align->appendLogText(i18n("Starting solver..."));
 

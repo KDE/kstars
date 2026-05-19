@@ -8,6 +8,7 @@
 
 #include "kspaths.h"
 #include "scriptfunction.h"
+#include "auxiliary/ksutils.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -173,7 +174,7 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
     //Initialize function templates and descriptions
     KStarsFunctionList.append(new ScriptFunction("lookTowards",
                               i18n("Point the display at the specified location. %1 can be the name "
-         "of an object, a cardinal point on the compass, or 'zenith'.",
+                                   "of an object, a cardinal point on the compass, or 'zenith'.",
                                    QString("dir")),
                               false, "QString", "dir"));
     KStarsFunctionList.append(new ScriptFunction(
@@ -188,7 +189,7 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
                                   "name"));
     KStarsFunctionList.append(new ScriptFunction("setRaDec",
                               i18n("Point the display at the specified RA/Dec coordinates.  RA is "
-         "expressed in Hours; Dec is expressed in Degrees."),
+                                   "expressed in Hours; Dec is expressed in Degrees."),
                               false, "double", "ra", "double", "dec"));
     KStarsFunctionList.append(new ScriptFunction(
                                   "setAltAz",
@@ -207,7 +208,7 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
                                   "waitFor", i18n("Pause script execution for specified number of seconds."), false, "double", "sec"));
     KStarsFunctionList.append(new ScriptFunction("waitForKey",
                               i18n("Halt script execution until the specified key is pressed.  Only "
-         "single-key strokes are possible; use 'space' for the spacebar."),
+                                   "single-key strokes are possible; use 'space' for the spacebar."),
                               false, "QString", "key"));
     KStarsFunctionList.append(new ScriptFunction(
                                   "setTracking", i18n("Set whether the display is tracking the current location."), false, "bool", "track"));
@@ -228,14 +229,14 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
     KStarsFunctionList.append(
         new ScriptFunction("printImage",
                            i18n("Print the sky image to a printer or file.  If %1 is true, it will show the print "
-         "dialog.  If %2 is true, it will use the Star Chart color scheme for printing.",
+                                "dialog.  If %2 is true, it will use the Star Chart color scheme for printing.",
                                 QString("usePrintDialog"), QString("useChartColors")),
                            false, "bool", "usePrintDialog", "bool", "useChartColors"));
     SimClockFunctionList.append(new ScriptFunction("stop", i18n("Halt the simulation clock."), true));
     SimClockFunctionList.append(new ScriptFunction("start", i18n("Start the simulation clock."), true));
     SimClockFunctionList.append(new ScriptFunction("setClockScale",
                                 i18n("Set the timescale of the simulation clock to specified scale. "
-         " 1.0 means real-time; 2.0 means twice real-time; etc."),
+                                     " 1.0 means real-time; 2.0 means twice real-time; etc."),
                                 true, "double", "scale"));
 
     // JM: We're using QTreeWdiget for Qt4 now
@@ -877,7 +878,7 @@ void ScriptBuilder::slotSave()
             {
                 int r = KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
                         i18n("A file named \"%1\" already exists. "
-                     "Overwrite it?",
+                             "Overwrite it?",
                              currentFileURL.fileName()),
                         i18n("Overwrite File?"), KStandardGuiItem::overwrite());
 
@@ -1001,8 +1002,7 @@ void ScriptBuilder::slotRunScript()
     env.insert("PATH", "/usr/local/bin:" + QCoreApplication::applicationDirPath() + ':' + path);
     p.setProcessEnvironment(env);
 #endif
-    QStringList arguments;
-    p.start(f.fileName(), arguments);
+    KSUtils::startProcess(p, f.fileName());
 
     if (!p.waitForStarted())
         qDebug() << Q_FUNC_INFO << "Process did not start.";

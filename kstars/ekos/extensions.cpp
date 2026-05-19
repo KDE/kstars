@@ -1,5 +1,6 @@
 #include "extensions.h"
 #include "auxiliary/kspaths.h"
+#include "auxiliary/ksutils.h"
 #include "kstars_debug.h"
 #include "version.h"
 
@@ -274,7 +275,7 @@ void extensions::run(const QString &extension)
     else
     {
         extensionProcess->setProcessChannelMode(QProcess::MergedChannels);
-        extensionProcess->start(processPath, arguments);
+        KSUtils::startProcess(*extensionProcess, processPath);
     }
     Q_EMIT extensionStateChanged(Ekos::EXTENSION_START_REQUESTED);
 }

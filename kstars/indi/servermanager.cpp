@@ -11,6 +11,7 @@
 #include "drivermanager.h"
 #include "auxiliary/kspaths.h"
 #include "auxiliary/ksmessagebox.h"
+#include "auxiliary/ksutils.h"
 #include "Options.h"
 #include "ksnotification.h"
 
@@ -207,7 +208,7 @@ void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
                          &loop, &QEventLoop::quit);
         QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
         qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing pre-driver script" << PreScript;
-        script.start(PreScript, QStringList());
+        KSUtils::startProcess(script, PreScript);
         loop.exec();
 
         if (script.exitCode() != 0)
@@ -278,7 +279,7 @@ void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
                          &loop, &QEventLoop::quit);
         QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
         qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing post-driver script" << PreScript;
-        script.start(PostScript, QStringList());
+        KSUtils::startProcess(script, PostScript);
         loop.exec();
 
         if (script.exitCode() != 0)
@@ -315,7 +316,7 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
                          &loop, &QEventLoop::quit);
         QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
         qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing pre-shutdown driver script" << StoppingScript;
-        script.start(StoppingScript, QStringList());
+        KSUtils::startProcess(script, StoppingScript);
         loop.exec();
 
         if (script.exitCode() != 0)
@@ -382,7 +383,7 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
                          &loop, &QEventLoop::quit);
         QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
         qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing post-driver shutdown script" << StoppedScript;
-        script.start(StoppedScript, QStringList());
+        KSUtils::startProcess(script, StoppedScript);
         loop.exec();
 
         if (script.exitCode() != 0)

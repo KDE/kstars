@@ -49,6 +49,7 @@
 #include <cstddef>
 
 class QFile;
+class QProcess;
 class QString;
 class QTextStream;
 class SkyPoint;
@@ -75,6 +76,15 @@ bool isHardwareLimited();
 
 // Check if we are running inside a flatpak
 bool isFlatpak();
+
+/** Start a process, wrapping with flatpak-spawn --host if running inside Flatpak.
+ *  This ensures external scripts and binaries that are not bundled in the Flatpak
+ *  sandbox can still be executed on the host system.
+ *  @param process The QProcess to use
+ *  @param program The program to execute
+ *  @param args Arguments to pass to the program
+ */
+void startProcess(QProcess &process, const QString &program, const QStringList &args = {});
 
 /** Attempt to open the data file named filename, using the QFile object "file".
  *First look in the standard KDE directories, then look in a local "data"
@@ -317,7 +327,7 @@ class JPLParser
     public:
         JPLParser(const QString & path);
 
-        const QJsonArray   & data() const
+        const QJsonArray    &data() const
         {
             return m_data;
         }

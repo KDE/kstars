@@ -65,6 +65,14 @@ bool isFlatpak()
     return QProcessEnvironment::systemEnvironment().contains("FLATPAK_ID");
 }
 
+void startProcess(QProcess &process, const QString &program, const QStringList &args)
+{
+    if (isFlatpak())
+        process.start("flatpak-spawn", QStringList() << "--host" << program << args);
+    else
+        process.start(program, args);
+}
+
 bool openDataFile(QFile &file, const QString &s)
 {
     QString FileName = KSPaths::locate(QStandardPaths::AppLocalDataLocation, s);
@@ -1446,7 +1454,7 @@ bool configureAstrometry()
         if (KMessageBox::warningContinueCancel(
                     nullptr,
                     i18n("The selected Astrometry Index File Location:\n %1 \n does not "
-             "exist.  Do you want to make the directory?",
+                         "exist.  Do you want to make the directory?",
                          defaultAstrometryDataDir),
                     i18n("Make Astrometry Index File Directory?")) == KMessageBox::Continue)
         {
@@ -1459,7 +1467,7 @@ bool configureAstrometry()
             {
                 KSNotification::sorry(
                     i18n("The Default Astrometry Index File Directory does not exist and "
-                     "was not able to be created."));
+                         "was not able to be created."));
             }
         }
         else

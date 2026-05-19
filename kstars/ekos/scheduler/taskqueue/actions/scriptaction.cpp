@@ -11,6 +11,8 @@
 #include <QFileInfo>
 #include <QJsonObject>
 
+#include "auxiliary/ksutils.h"
+
 namespace Ekos
 {
 
@@ -70,7 +72,7 @@ bool ScriptAction::start()
     Q_EMIT progress(QString("Executing script: %1").arg(m_scriptPath));
 
     // Start the script
-    m_process->start(m_scriptPath);
+    KSUtils::startProcess(*m_process, m_scriptPath);
 
     if (!m_process->waitForStarted(5000))
     {
