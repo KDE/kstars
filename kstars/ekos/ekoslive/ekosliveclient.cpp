@@ -130,15 +130,30 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
             const auto passwordText = dynamic_cast<QKeychain::ReadPasswordJob*>(job)->textData().toLatin1();
 
             // Only set and attempt connection if the data is not empty
-            if (passwordText.isEmpty() == false && username->text().isEmpty() == false)
-            {
+            // For the new enrollment scheme (SM OS 2.2.0+), device_secret and enrollment_token
+            // files on disk replace the password — allow auto-start if either token file exists,
+            // even when the keychain password is empty.
+            const bool hasDeviceTokenFiles =
+                QFile::exists(NodeManager::ekosLiveDataPath() + "/device_secret") ||
+                QFile::exists(NodeManager::ekosLiveDataPath() + "/enrollment_token");
+
+            const bool canAutoStart = !username->text().isEmpty() &&
+                                      (!passwordText.isEmpty() || hasDeviceTokenFiles);
+
+            if (!passwordText.isEmpty())
                 password->setText(passwordText);
-                if (autoStartCheck->isChecked())
-                {
-                    qCInfo(KSTARS_EKOS) << "Attempting auto-start EkosLive connection.";
-                    // pi->startAnimation() will be handled by checkAndTriggerAuth if auth is attempted
-                    checkAndTriggerAuth();
-                }
+
+            if (canAutoStart && autoStartCheck->isChecked())
+            {
+                qCInfo(KSTARS_EKOS) << "Attempting auto-start EkosLive connection."
+                                    << "(password:" << (!passwordText.isEmpty() ? "present" : "empty")
+                                    << "deviceTokenFiles:" << hasDeviceTokenFiles << ")";
+                checkAndTriggerAuth();
+            }
+            else if (!canAutoStart && autoStartCheck->isChecked())
+            {
+                qCWarning(KSTARS_EKOS) << "Auto-start skipped: username is empty and no device token files found."
+                                       << "App must call setUser() with at least a username.";
             }
         }
         else
@@ -175,6 +190,37 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
 
 void Client::checkAndTriggerAuth(bool force)
 {
+    // Read device tokens from disk BEFORE authentication so NodeManagers always have
+    // up-to-date credentials. The StellarMate App writes these files during enrollment
+    // (Phase B for device_secret, Phase C for enrollment_token). We must read them here,
+    // not in onConnected(), because onConnected() is only called after a successful auth —
+    // creating a deadlock when a freshly-written token has never been loaded into memory.
+    const QString enrollmentTokenPath = NodeManager::ekosLiveDataPath() + "/enrollment_token";
+    QFile enrollmentTokenFile(enrollmentTokenPath);
+    if (enrollmentTokenFile.exists() && enrollmentTokenFile.open(QIODevice::ReadOnly))
+    {
+        const QString enrollmentToken = QString::fromUtf8(enrollmentTokenFile.readAll().trimmed());
+        enrollmentTokenFile.close();
+        if (!enrollmentToken.isEmpty() && m_NodeManagers.size() > Online)
+        {
+            m_NodeManagers[Online]->setDeviceToken(enrollmentToken);
+            qCInfo(KSTARS_EKOS) << "checkAndTriggerAuth: Loaded enrollment_token from disk for online manager.";
+        }
+    }
+
+    const QString deviceSecretPath = NodeManager::ekosLiveDataPath() + "/device_secret";
+    QFile deviceSecretFile(deviceSecretPath);
+    if (deviceSecretFile.exists() && deviceSecretFile.open(QIODevice::ReadOnly))
+    {
+        const QString deviceSecret = QString::fromUtf8(deviceSecretFile.readAll().trimmed());
+        deviceSecretFile.close();
+        if (!deviceSecret.isEmpty() && m_NodeManagers.size() > Offline)
+        {
+            m_NodeManagers[Offline]->setDeviceToken(deviceSecret);
+            qCInfo(KSTARS_EKOS) << "checkAndTriggerAuth: Loaded device_secret from disk for offline manager.";
+        }
+    }
+
     bool needsReAuthForAllManagers = false;
     int managersAttemptingAuth = 0;
 
