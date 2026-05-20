@@ -40,10 +40,20 @@ class NodeManager : public QObject
 
         void setURLs(const QUrl &service, const QUrl &websocket);
         void setCredentials(const QString &username, const QString &password);
+        void setDeviceToken(const QString &token)
+        {
+            m_DeviceToken = token;
+        }
+        bool hasDeviceToken() const
+        {
+            return !m_DeviceToken.isEmpty();
+        }
         void setAuthResponse(const QJsonObject &response)
         {
             m_AuthResponse = response;
         }
+
+        static QString ekosLiveDataPath();
 
         Node *message()
         {
@@ -97,6 +107,7 @@ class NodeManager : public QObject
         uint16_t m_ReconnectTries {0};
         QUrl m_ServiceURL, m_WebsocketURL;
         QString m_Username, m_Password;
+        QString m_DeviceToken;
 
         QPointer<QNetworkAccessManager> m_NetworkManager;
         QMap<Channels, Node*> m_Nodes;

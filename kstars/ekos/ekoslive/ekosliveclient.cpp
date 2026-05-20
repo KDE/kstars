@@ -29,6 +29,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QFormLayout>
+#include <QFile>
 
 namespace EkosLive
 {
@@ -376,6 +377,33 @@ void Client::onConnected()
         offlineIcon->setPixmap(m_NodeManagers[Offline]->isConnected() ? connectedIcon : disconnectedIcon);
         if (m_NodeManagers[Offline]->isConnected())
             offlineLabel->setToolTip(QString());
+    }
+
+    // Load device tokens from disk if available (StellarMate hardware path).
+    // The enrollment_token file contains the enrollment JWT for the online server.
+    // The device_secret file contains the device secret for the offline server.
+    // These files are written by the SM App via the KStars HTTP API.
+    const QString tokenPath = NodeManager::ekosLiveDataPath() + "/enrollment_token";
+    QFile tokenFile(tokenPath);
+    if (tokenFile.exists())
+    {
+        if (tokenFile.open(QIODevice::ReadOnly))
+        {
+            QString enrollmentToken = QString::fromUtf8(tokenFile.readAll().trimmed());
+            tokenFile.close();
+            if (!enrollmentToken.isEmpty() && m_NodeManagers.size() > Online)
+                m_NodeManagers[Online]->setDeviceToken(enrollmentToken);
+        }
+
+        const QString secretPath = NodeManager::ekosLiveDataPath() + "/device_secret";
+        QFile secretFile(secretPath);
+        if (secretFile.exists() && secretFile.open(QIODevice::ReadOnly))
+        {
+            QString deviceSecret = QString::fromUtf8(secretFile.readAll().trimmed());
+            secretFile.close();
+            if (!deviceSecret.isEmpty() && m_NodeManagers.size() > Offline)
+                m_NodeManagers[Offline]->setDeviceToken(deviceSecret);
+        }
     }
 }
 

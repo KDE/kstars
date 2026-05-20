@@ -17,6 +17,10 @@
 #include <QUrlQuery>
 #include <QTimer>
 #include <QJsonDocument>
+#include <QStandardPaths>
+#include <QDir>
+#include <QFile>
+#include <QSaveFile>
 
 #include <KActionCollection>
 #include <KLocalizedString>
@@ -162,7 +166,12 @@ void NodeManager::authenticate()
 
     request.setUrl(authURL);
 
-    QJsonObject json = {{"username", m_Username}, {"password", m_Password}, {"machine_id", KSUtils::getMachineID()}};
+    QJsonObject json = {{"username", m_Username}, {"machine_id", KSUtils::getMachineID()}};
+
+    if (!m_DeviceToken.isEmpty())
+        json["device_token"] = m_DeviceToken;
+    else
+        json["password"] = m_Password;
 
     auto postData = QJsonDocument(json).toJson(QJsonDocument::Compact);
 
@@ -295,6 +304,14 @@ void NodeManager::retryAuthentication()
     // Reset the re-authenticating flag to allow the new attempt to proceed.
     setIsReauthenticating(false);
     authenticate();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+QString NodeManager::ekosLiveDataPath()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/ekoslive";
 }
 
 }
