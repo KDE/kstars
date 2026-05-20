@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-19 02:06+0000\n"
+"POT-Creation-Date: 2026-05-20 02:06+0000\n"
 "PO-Revision-Date: 2026-05-06 16:48+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -201,7 +201,7 @@ msgstr "Satèl·lits visibles"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:243
 #: data/qml/whatisinteresting/wiview.qml:255 dialogs/finddialog.cpp:48
-#: kstarsactions.cpp:1144 kstarslite/dialogs/finddialoglite.cpp:37
+#: kstarsactions.cpp:1145 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
 msgid "Satellites"
@@ -214,7 +214,7 @@ msgstr "Etiquetes dels satèl·lits"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:528
 #: data/qml/whatisinteresting/wiview.qml:540 dialogs/finddialog.cpp:47
-#: kstarsactions.cpp:1147 kstarslite/dialogs/finddialoglite.cpp:36
+#: kstarsactions.cpp:1148 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
 msgid "Supernovae"
@@ -280,21 +280,21 @@ msgid "FITS Image Object Highlight Label"
 msgstr "Etiqueta ressaltada d'objecte de la imatge FITS"
 
 #: auxiliary/colorscheme.cpp:138 kstarsdata.cpp:1071 options/opscolors.cpp:58
-#: tools/scriptbuilder.cpp:741
+#: tools/scriptbuilder.cpp:742
 #, kde-format
 msgctxt "use default color scheme"
 msgid "Default Colors"
 msgstr "Colors predeterminats"
 
 #: auxiliary/colorscheme.cpp:140 kstarsdata.cpp:1073 options/opscolors.cpp:59
-#: tools/scriptbuilder.cpp:742
+#: tools/scriptbuilder.cpp:743
 #, kde-format
 msgctxt "use 'star chart' color scheme"
 msgid "Star Chart"
 msgstr "Carta estel·lar"
 
 #: auxiliary/colorscheme.cpp:142 kstarsdata.cpp:1075 options/opscolors.cpp:60
-#: tools/scriptbuilder.cpp:743
+#: tools/scriptbuilder.cpp:744
 #, kde-format
 msgctxt "use 'night vision' color scheme"
 msgid "Night Vision"
@@ -395,7 +395,7 @@ msgid "Saved image to %1"
 msgstr "S'ha guardat la imatge a %1"
 
 #: auxiliary/imageexporter.cpp:229 printing/foveditordialog.cpp:197
-#: tools/scriptbuilder.cpp:920
+#: tools/scriptbuilder.cpp:921
 #, kde-format
 msgid "Could not upload image to remote location: %1"
 msgstr "No es pot pujar la imatge a la ubicació remota: %1"
@@ -486,15 +486,15 @@ msgid "Save Image"
 msgstr "Guardeu la imatge"
 
 #: auxiliary/imageviewer.cpp:321 ekos/align/align_solution.cpp:438
-#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1391
-#: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
+#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1392
+#: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Ja existix un fitxer anomenat «%1». Voleu sobreescriure'l?"
 
 #: auxiliary/imageviewer.cpp:324 ekos/align/align_solution.cpp:441
-#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1392
-#: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
+#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1393
+#: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:883
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Voleu sobreescriure el fitxer?"
@@ -615,7 +615,7 @@ msgstr "Cancel·la"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:977
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:23 indi/indidustcap.cpp:18
 #: indi/indilightbox.cpp:20 indi/indimount.cpp:32 indi/indipac.cpp:17
-#: kstarsactions.cpp:506 kstarsactions.cpp:514 kstarsactions.cpp:524
+#: kstarsactions.cpp:507 kstarsactions.cpp:515 kstarsactions.cpp:525
 #: skycomponents/imageoverlaycomponent.cpp:557
 #, kde-format
 msgid "Error"
@@ -636,109 +636,109 @@ msgstr "Ho sentim"
 msgid "Info"
 msgstr "Informació"
 
-#: auxiliary/ksutils.cpp:169
+#: auxiliary/ksutils.cpp:177
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "N"
 msgstr "N"
 
-#: auxiliary/ksutils.cpp:170
+#: auxiliary/ksutils.cpp:178
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNE"
 msgstr "NNE"
 
-#: auxiliary/ksutils.cpp:171
+#: auxiliary/ksutils.cpp:179
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NE"
 msgstr "NE"
 
-#: auxiliary/ksutils.cpp:172
+#: auxiliary/ksutils.cpp:180
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ENE"
 msgstr "ENE"
 
-#: auxiliary/ksutils.cpp:173
+#: auxiliary/ksutils.cpp:181
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "E"
 msgstr "E"
 
-#: auxiliary/ksutils.cpp:174
+#: auxiliary/ksutils.cpp:182
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ESE"
 msgstr "ESE"
 
-#: auxiliary/ksutils.cpp:175
+#: auxiliary/ksutils.cpp:183
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SE"
 msgstr "SE"
 
-#: auxiliary/ksutils.cpp:176
+#: auxiliary/ksutils.cpp:184
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSE"
 msgstr "SSE"
 
-#: auxiliary/ksutils.cpp:177
+#: auxiliary/ksutils.cpp:185
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "S"
 msgstr "S"
 
-#: auxiliary/ksutils.cpp:178
+#: auxiliary/ksutils.cpp:186
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSW"
 msgstr "SSO"
 
-#: auxiliary/ksutils.cpp:179
+#: auxiliary/ksutils.cpp:187
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SW"
 msgstr "SO"
 
-#: auxiliary/ksutils.cpp:180
+#: auxiliary/ksutils.cpp:188
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WSW"
 msgstr "OSO"
 
-#: auxiliary/ksutils.cpp:181
+#: auxiliary/ksutils.cpp:189
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "W"
 msgstr "O"
 
-#: auxiliary/ksutils.cpp:182
+#: auxiliary/ksutils.cpp:190
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WNW"
 msgstr "ONO"
 
-#: auxiliary/ksutils.cpp:183
+#: auxiliary/ksutils.cpp:191
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NW"
 msgstr "NO"
 
-#: auxiliary/ksutils.cpp:184
+#: auxiliary/ksutils.cpp:192
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNW"
 msgstr "NNO"
 
-#: auxiliary/ksutils.cpp:185
+#: auxiliary/ksutils.cpp:193
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1448
+#: auxiliary/ksutils.cpp:1456
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -749,19 +749,19 @@ msgstr ""
 " %1 \n"
 " no existix. Voleu crear la carpeta?"
 
-#: auxiliary/ksutils.cpp:1451
+#: auxiliary/ksutils.cpp:1459
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "Voleu crear la carpeta per als fitxers d'índex de l'astrometria?"
 
-#: auxiliary/ksutils.cpp:1456
+#: auxiliary/ksutils.cpp:1464
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr ""
 "S'ha creat la ubicació predeterminada per als fitxers d'índex de "
 "l'astrometria."
 
-#: auxiliary/ksutils.cpp:1461
+#: auxiliary/ksutils.cpp:1469
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
@@ -770,22 +770,22 @@ msgstr ""
 "La carpeta predeterminada per als fitxers d'índex de l'astrometria no "
 "existix i no s'ha pogut crear."
 
-#: auxiliary/ksutils.cpp:1482 auxiliary/ksutils.cpp:1638
-#: auxiliary/ksutils.cpp:1703
+#: auxiliary/ksutils.cpp:1490 auxiliary/ksutils.cpp:1646
+#: auxiliary/ksutils.cpp:1711
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr ""
 "S'ha produït un error de lectura del fitxer de configuració de l'astrometria."
 
-#: auxiliary/ksutils.cpp:1496 auxiliary/ksutils.cpp:1681
-#: auxiliary/ksutils.cpp:1723
+#: auxiliary/ksutils.cpp:1504 auxiliary/ksutils.cpp:1689
+#: auxiliary/ksutils.cpp:1731
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 "S'ha produït un error mentre s'escrivia en el fitxer de configuració intern "
 "de l'astrometria."
 
-#: auxiliary/ksutils.cpp:1769 fitsviewer/fitsdata.cpp:2998
+#: auxiliary/ksutils.cpp:1777 fitsviewer/fitsdata.cpp:2998
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -794,22 +794,22 @@ msgstr ""
 "No s'ha pogut trobar ni «dcraw» ni «cjpeg». Instal·leu les eines requerides "
 "per a convertir des de CR2/NEF cap a JPEG."
 
-#: auxiliary/ksutils.cpp:1780
+#: auxiliary/ksutils.cpp:1788
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "No s'ha pogut obrir %1: %2"
 
-#: auxiliary/ksutils.cpp:1788
+#: auxiliary/ksutils.cpp:1796
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "No s'ha pogut fer «unpack_thumb» de %1: %2"
 
-#: auxiliary/ksutils.cpp:1799
+#: auxiliary/ksutils.cpp:1807
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "No s'ha pogut escriure %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1923 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1931 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -1646,7 +1646,7 @@ msgstr ""
 "Xplanet ha fallat mentre es generava la imatge per a l'objecte %1 abans que "
 "expire el temps d'espera."
 
-#: auxiliary/xplanetimageviewer.cpp:807 indi/servermanager.cpp:93
+#: auxiliary/xplanetimageviewer.cpp:807 indi/servermanager.cpp:94
 #, kde-format
 msgid "Error making FIFO file %1: %2."
 msgstr "S'ha produït un error mentre es creava el fitxer FIFO %1: %2."
@@ -2740,7 +2740,7 @@ msgstr ""
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:427
 #: ekos/guide/guidedriftgraph.cpp:503 ekos/scheduler/scheduler.cpp:2223
 #: ekos/scheduler/scheduler.cpp:2333 fitsviewer/fitstab.cpp:1611
-#: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
+#: tools/scriptbuilder.cpp:833 tools/scriptbuilder.cpp:931
 #, kde-format
 msgid "Invalid URL"
 msgstr "L'URL no és vàlid"
@@ -3044,7 +3044,7 @@ msgstr "Tipus de mapatge"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2501 ekos/capture/capturecountswidget.cpp:321
+#: ekos/capture/cameraprocess.cpp:2502 ekos/capture/capturecountswidget.cpp:321
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
 #: fitsviewer/fitsviewer.cpp:833 fitsviewer/fitsviewer.cpp:834
 #, kde-format
@@ -3485,7 +3485,7 @@ msgid "Clone..."
 msgstr "Clona…"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1162
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1163
 #, kde-format
 msgid "Colors"
 msgstr "Colors"
@@ -3785,7 +3785,7 @@ msgstr "Enllaços"
 msgid "Could not add the link."
 msgstr "No s'ha pogut afegir l'enllaç."
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1189
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1190
 #, kde-format
 msgid "Advanced"
 msgstr "Avançat"
@@ -3838,7 +3838,7 @@ msgid "Could not update the user log."
 msgstr "No s'ha pogut actualitzar el registre d'usuaris."
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:322 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
+#: kstarsactions.cpp:323 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
 #: tools/observinglist.cpp:690 tools/observinglist.cpp:712
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, kde-format
@@ -3846,7 +3846,7 @@ msgid "No connected mounts found."
 msgstr "No s'ha trobat cap muntura connectada."
 
 #: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:488
-#: kstarsactions.cpp:307 tools/observinglist.cpp:701
+#: kstarsactions.cpp:308 tools/observinglist.cpp:701
 #: tools/whatsinteresting/wiview.cpp:354
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
@@ -4451,7 +4451,7 @@ msgstr "Posició de la llegenda:"
 msgid "Any"
 msgstr "Tots"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1141 kstarsinit.cpp:508
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1142 kstarsinit.cpp:508
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:101
@@ -6938,8 +6938,8 @@ msgstr ""
 msgid "Capture error. Aborting..."
 msgstr "S'ha produït un error durant la captura. S'interromp…"
 
-#: ekos/align/align_devices.cpp:682 ekos/capture/cameraprocess.cpp:1668
-#: ekos/capture/cameraprocess.cpp:2233
+#: ekos/align/align_devices.cpp:682 ekos/capture/cameraprocess.cpp:1674
+#: ekos/capture/cameraprocess.cpp:2234
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "S'està tornant a iniciar l'intent de captura núm. %1"
@@ -7214,8 +7214,8 @@ msgstr "Exporteu els punts de la solució"
 #: ekos/align/mountmodel.cpp:401 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:426 ekos/guide/guidedriftgraph.cpp:502
 #: ekos/scheduler/scheduler.cpp:2222 ekos/scheduler/scheduler.cpp:2332
-#: fitsviewer/fitstab.cpp:1610 tools/scriptbuilder.cpp:832
-#: tools/scriptbuilder.cpp:929
+#: fitsviewer/fitstab.cpp:1610 tools/scriptbuilder.cpp:833
+#: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL: %1"
 msgstr "URL no vàlid: %1"
@@ -7230,20 +7230,20 @@ msgstr "No es pot escriure en el fitxer %1"
 
 #: ekos/align/align_solution.cpp:458 ekos/align/mountmodel.cpp:295
 #: ekos/align/mountmodel.cpp:413 ekos/capture/camera_jobs.cpp:356
-#: ekos/capture/cameraprocess.cpp:2646 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2647 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2965
 #: ekos/scheduler/schedulerprocess.cpp:3434
 #: ekos/scheduler/schedulerprocess.cpp:4573
 #: ekos/scheduler/schedulerprocess.cpp:4593 indi/drivermanager.cpp:1567
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:321
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1441 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
 #: tools/modcalcjd.cpp:117 tools/modcalcplanets.cpp:195
 #: tools/modcalcsidtime.cpp:205 tools/modcalcvizequinox.cpp:69
 #: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:908
-#: tools/observinglist.cpp:1174 tools/scriptbuilder.cpp:820
-#: tools/scriptbuilder.cpp:900 tools/scriptbuilder.cpp:983
+#: tools/observinglist.cpp:1174 tools/scriptbuilder.cpp:821
+#: tools/scriptbuilder.cpp:901 tools/scriptbuilder.cpp:984
 #, kde-format, kde-kuit-format
 msgid "Could Not Open File"
 msgstr "No es pot obrir el fitxer"
@@ -7316,7 +7316,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "S'ha produït un error: s'ha perdut la connexió amb la roda de filtres."
 
 #: ekos/align/align_solver.cpp:128 ekos/capture/cameraprocess.cpp:236
-#: ekos/capture/cameraprocess.cpp:657 ekos/focus/focus.cpp:6076
+#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6076
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -7566,24 +7566,24 @@ msgstr "Dif. de l'altitud (graus)"
 msgid "RA Axis"
 msgstr "Eix de l'AR"
 
-#: ekos/align/astapastrometryparser.cpp:57
+#: ekos/align/astapastrometryparser.cpp:58
 #, kde-format
 msgid "Error starting solver: %1"
 msgstr "S'ha produït un error mentre s'iniciava el solucionador: %1"
 
-#: ekos/align/astapastrometryparser.cpp:70
+#: ekos/align/astapastrometryparser.cpp:71
 #, kde-format
 msgid "Starting solver..."
 msgstr "S'està iniciant el solucionador…"
 
-#: ekos/align/astapastrometryparser.cpp:101
-#: ekos/align/astapastrometryparser.cpp:153
+#: ekos/align/astapastrometryparser.cpp:102
+#: ekos/align/astapastrometryparser.cpp:154
 #: ekos/align/remoteastrometryparser.cpp:248
 #, kde-format
 msgid "Solver failed. Try again."
 msgstr "Ha fallat el solucionador. Torneu-ho a provar."
 
-#: ekos/align/astapastrometryparser.cpp:148
+#: ekos/align/astapastrometryparser.cpp:149
 #, kde-format
 msgid "Solver completed in %1 second."
 msgid_plural "Solver completed in %1 seconds."
@@ -7639,7 +7639,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Obriu la llista d'alineació d'Ekos"
 
 #: ekos/align/mountmodel.cpp:294 ekos/capture/camera_jobs.cpp:355
-#: ekos/capture/cameraprocess.cpp:2645 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2646 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3433
 #: ekos/scheduler/schedulerprocess.cpp:4592
 #, kde-format
@@ -13491,7 +13491,7 @@ msgid "Log INDI devices activity"
 msgstr "Registre d'activitat dels dispositius INDI."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1173
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1174
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -13506,7 +13506,7 @@ msgstr "Registre d'activitat del processament de FITS."
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:308
-#: kstarsactions.cpp:1167
+#: kstarsactions.cpp:1168
 #, kde-format
 msgid "FITS"
 msgstr "FITS"
@@ -15636,7 +15636,7 @@ msgstr "Opcions de calibratge automàtic dels fotogrames foscos i plans."
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, CalibrationMinimized)
-#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2514
+#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2515
 #: ekos/guide/guide.cpp:70 fitsviewer/livestacking.ui:2260
 #: fitsviewer/livestacking.ui:2886
 #, kde-format
@@ -15683,7 +15683,7 @@ msgstr "Configura els límits del guiatge i enfocament."
 #. i18n: ectx: property (text), widget (QLabel, limitsLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
 #: ekos/capture/camera.ui:1323 ekos/mount/mount.ui:186
-#: tools/scriptbuilder.cpp:685
+#: tools/scriptbuilder.cpp:686
 #, kde-format
 msgid "Limits"
 msgstr "Límits"
@@ -16540,7 +16540,7 @@ msgstr "S'han aplicat els canvis de la tasca núm. %1."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Segur que voleu restablir l'estat de totes les tasques?"
 
-#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2766
+#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2767
 #, kde-format
 msgid "Reset job status"
 msgstr "Restablix l'estat de les tasques"
@@ -16594,89 +16594,89 @@ msgid_plural "%1 dark flats jobs were created."
 msgstr[0] "S'ha creat una tasca de plans foscos."
 msgstr[1] "S'han creat %1 tasques de plans foscos."
 
-#: ekos/capture/cameraprocess.cpp:237 ekos/capture/cameraprocess.cpp:658
+#: ekos/capture/cameraprocess.cpp:237 ekos/capture/cameraprocess.cpp:664
 #, kde-format
 msgid "Image Transfer"
 msgstr "Transferència d'imatge"
 
-#: ekos/capture/cameraprocess.cpp:258
+#: ekos/capture/cameraprocess.cpp:264
 #, kde-format
 msgid "Sequence resumed."
 msgstr "S'ha représ la seqüència."
 
-#: ekos/capture/cameraprocess.cpp:294
+#: ekos/capture/cameraprocess.cpp:300
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr ""
 "No s'han trobat tasques pendents. Afegiu una tasca a la cua en seqüència."
 
-#: ekos/capture/cameraprocess.cpp:308
+#: ekos/capture/cameraprocess.cpp:314
 #, kde-format
 msgid "No new job created."
 msgstr "No s'ha creat cap tasca nova."
 
-#: ekos/capture/cameraprocess.cpp:331 ekos/capture/cameraprocess.cpp:924
+#: ekos/capture/cameraprocess.cpp:337 ekos/capture/cameraprocess.cpp:930
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr "No es pot capturar mentre el mòdul «Enfocament» està ocupat."
 
-#: ekos/capture/cameraprocess.cpp:338
+#: ekos/capture/cameraprocess.cpp:344
 #, kde-format
 msgid "Starting framing..."
 msgstr "S'està iniciant l'enquadrament…"
 
-#: ekos/capture/cameraprocess.cpp:372
+#: ekos/capture/cameraprocess.cpp:378
 #, kde-format
 msgid "Camera capture suspended"
 msgstr "S'ha suspés la captura de la càmera"
 
-#: ekos/capture/cameraprocess.cpp:377
+#: ekos/capture/cameraprocess.cpp:383
 #, kde-format
 msgid "Camera capture complete"
 msgstr "S'ha completat la captura de la càmera"
 
-#: ekos/capture/cameraprocess.cpp:382
+#: ekos/capture/cameraprocess.cpp:388
 #, kde-format
 msgid "Framing stopped"
 msgstr "S'ha parat l'enquadrament"
 
-#: ekos/capture/cameraprocess.cpp:382 ekos/capture/cameraprocess.cpp:388
+#: ekos/capture/cameraprocess.cpp:388 ekos/capture/cameraprocess.cpp:394
 #, kde-format
 msgid "Camera capture stopped"
 msgstr "S'ha parat la captura de la càmera"
 
-#: ekos/capture/cameraprocess.cpp:466
+#: ekos/capture/cameraprocess.cpp:472
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr ""
 "Només és possible fer una pausa mentre s'està executant la captura de "
 "fotogrames."
 
-#: ekos/capture/cameraprocess.cpp:473
+#: ekos/capture/cameraprocess.cpp:479
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr "La seqüència farà una pausa després de completar l'exposició actual."
 
-#: ekos/capture/cameraprocess.cpp:486
+#: ekos/capture/cameraprocess.cpp:492
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
 "No s'ha detectat cap càmera. Comproveu la configuració del tren i la "
 "configuració de la connexió."
 
-#: ekos/capture/cameraprocess.cpp:511
+#: ekos/capture/cameraprocess.cpp:517
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 "No hi ha cap vista disponible per a les vistes prèvies. Voleu que s'active "
 "el «Visor de FITS»?"
 
-#: ekos/capture/cameraprocess.cpp:512
+#: ekos/capture/cameraprocess.cpp:518
 #, kde-format
 msgid "Display preview"
 msgstr "Mostra la vista prèvia"
 
-#: ekos/capture/cameraprocess.cpp:596
+#: ekos/capture/cameraprocess.cpp:602
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
@@ -16685,7 +16685,7 @@ msgstr ""
 "La tasca requerix %2 imatges en %1 segons, ja té %3/%4 captures i no "
 "necessita executar-se."
 
-#: ekos/capture/cameraprocess.cpp:611
+#: ekos/capture/cameraprocess.cpp:617
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
@@ -16694,32 +16694,32 @@ msgstr ""
 "La tasca requerix %2 imatges en %1 segons, ha capturat %3/%4 fotogrames i "
 "serà processada."
 
-#: ekos/capture/cameraprocess.cpp:624
+#: ekos/capture/cameraprocess.cpp:630
 #, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
 msgstr "La tasca requerix el vídeo %3 de %1 x %2 segons i serà processada."
 
-#: ekos/capture/cameraprocess.cpp:870
+#: ekos/capture/cameraprocess.cpp:876
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "S'ha représ el guiatge automàtic."
 
-#: ekos/capture/cameraprocess.cpp:914
+#: ekos/capture/cameraprocess.cpp:920
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "No s'ha pogut fer l'establiment del submarc."
 
-#: ekos/capture/cameraprocess.cpp:919
+#: ekos/capture/cameraprocess.cpp:925
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Ha fallat mentre s'establia l'agrupament."
 
-#: ekos/capture/cameraprocess.cpp:1079
+#: ekos/capture/cameraprocess.cpp:1085
 #, kde-format
 msgid "file saved to %1"
 msgstr "el fitxer s'ha guardat a %1"
 
-#: ekos/capture/cameraprocess.cpp:1089
+#: ekos/capture/cameraprocess.cpp:1095
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -16728,124 +16728,124 @@ msgstr ""
 "Ha fallat mentre s'escrivia la imatge a %1\n"
 "Comproveu la carpeta, el nom de fitxer i els permisos."
 
-#: ekos/capture/cameraprocess.cpp:1091
+#: ekos/capture/cameraprocess.cpp:1097
 #, kde-format
 msgid "Image Write Failed"
 msgstr "Ha fallat mentre s'escrivia la imatge"
 
-#: ekos/capture/cameraprocess.cpp:1319
+#: ekos/capture/cameraprocess.cpp:1325
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "La imatge remota s'ha guardat a %1"
 
-#: ekos/capture/cameraprocess.cpp:1345
+#: ekos/capture/cameraprocess.cpp:1351
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "S'ha suspés el guiatge automàtic."
 
-#: ekos/capture/cameraprocess.cpp:1375
+#: ekos/capture/cameraprocess.cpp:1381
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Avís: El procés de calibratge ha finalitzat prematurament."
 
-#: ekos/capture/cameraprocess.cpp:1440
+#: ekos/capture/cameraprocess.cpp:1446
 #, kde-format
 msgid "Camera capture sequence completed"
 msgstr "S'ha completat la seqüència de captura de la càmera"
 
-#: ekos/capture/cameraprocess.cpp:1497
+#: ekos/capture/cameraprocess.cpp:1503
 #, kde-format
 msgid "Error: Lost connection to camera."
 msgstr "S'ha produït un error: s'ha perdut la connexió amb la càmera."
 
-#: ekos/capture/cameraprocess.cpp:1525
+#: ekos/capture/cameraprocess.cpp:1531
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "No s'han pogut calcular els nivells de l'ADU en les imatges no FITS."
 
-#: ekos/capture/cameraprocess.cpp:1660 ekos/capture/cameraprocess.cpp:2225
+#: ekos/capture/cameraprocess.cpp:1666 ekos/capture/cameraprocess.cpp:2226
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 "No s'ha pogut fer la captura. Per als detalls, verifiqueu el quadro de "
 "control d'INDI."
 
-#: ekos/capture/cameraprocess.cpp:1760
+#: ekos/capture/cameraprocess.cpp:1766
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Temps de baixada: %1 s, Estimació del temps de baixada: %2 s."
 
-#: ekos/capture/cameraprocess.cpp:1826
+#: ekos/capture/cameraprocess.cpp:1832
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "S'ha rebut la imatge %1 de %2."
 
-#: ekos/capture/cameraprocess.cpp:1863
+#: ekos/capture/cameraprocess.cpp:1869
 #, kde-format
 msgid "Captured %1"
 msgstr "S'ha capturat %1"
 
-#: ekos/capture/cameraprocess.cpp:1869
+#: ekos/capture/cameraprocess.cpp:1875
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 "AVÍS: Queden %1 variables de substitució o potencialment desconegudes a %2"
 
-#: ekos/capture/cameraprocess.cpp:1916
+#: ekos/capture/cameraprocess.cpp:1917
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "S'està executant l'script de captura %1"
 
-#: ekos/capture/cameraprocess.cpp:1931
+#: ekos/capture/cameraprocess.cpp:1932
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "L'script %1 anterior a la captura ha finalitzat amb el codi %1."
 
-#: ekos/capture/cameraprocess.cpp:1942
+#: ekos/capture/cameraprocess.cpp:1943
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "L'script %1 posterior a la captura ha finalitzat amb el codi %1."
 
-#: ekos/capture/cameraprocess.cpp:1954
+#: ekos/capture/cameraprocess.cpp:1955
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "S'està processant la inversió del meridià…"
 
-#: ekos/capture/cameraprocess.cpp:1964
+#: ekos/capture/cameraprocess.cpp:1965
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "L'script %1 anterior a la tasca ha finalitzat amb el codi %1."
 
-#: ekos/capture/cameraprocess.cpp:1969
+#: ekos/capture/cameraprocess.cpp:1970
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "L'script %1 posterior a la tasca ha finalitzat amb el codi %1."
 
-#: ekos/capture/cameraprocess.cpp:2155 ekos/focus/focus.cpp:6128
+#: ekos/capture/cameraprocess.cpp:2156 ekos/focus/focus.cpp:6128
 #: ekos/focus/focus.cpp:6152
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "S'ha excedit el temps d'exposició. S'interromp…"
 
-#: ekos/capture/cameraprocess.cpp:2162
+#: ekos/capture/cameraprocess.cpp:2163
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "S'ha excedit el temps d'exposició. Se n'han detectat més de 3, es reiniciarà "
 "el controlador."
 
-#: ekos/capture/cameraprocess.cpp:2180 ekos/focus/focus.cpp:6133
+#: ekos/capture/cameraprocess.cpp:2181 ekos/focus/focus.cpp:6133
 #: ekos/guide/guide.cpp:1106
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "S'ha excedit el temps d'exposició. Es reinicia l'exposició…"
 
-#: ekos/capture/cameraprocess.cpp:2206
+#: ekos/capture/cameraprocess.cpp:2207
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "S'ha excedit el temps d'exposició. Massa. S'interromp…"
 
-#: ekos/capture/cameraprocess.cpp:2287
+#: ekos/capture/cameraprocess.cpp:2288
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16854,19 +16854,19 @@ msgstr ""
 "Ha fallat el calibratge pla. La imatge capturada és de només %1 bits, mentre "
 "que l'ADU sol·licitada era %2."
 
-#: ekos/capture/cameraprocess.cpp:2298
+#: ekos/capture/cameraprocess.cpp:2299
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "La imatge actual està saturada (%1). L'exposició següent és de %2 segons."
 
-#: ekos/capture/cameraprocess.cpp:2320
+#: ekos/capture/cameraprocess.cpp:2321
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "L'ADU actual %1 es troba dins l'interval de tolerància de l'ADU objectiu."
 
-#: ekos/capture/cameraprocess.cpp:2349
+#: ekos/capture/cameraprocess.cpp:2350
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16875,27 +16875,27 @@ msgstr ""
 "No s'ha pogut calcular la configuració òptima per a l'exposició. Per favor, "
 "captureu manualment els nivells."
 
-#: ekos/capture/cameraprocess.cpp:2357
+#: ekos/capture/cameraprocess.cpp:2358
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "L'ADU actual és %1. L'exposició següent és de %2 segons."
 
-#: ekos/capture/cameraprocess.cpp:2498
+#: ekos/capture/cameraprocess.cpp:2499
 #, kde-format
 msgid "%1 Preview"
 msgstr "Vista prèvia %1"
 
-#: ekos/capture/cameraprocess.cpp:2509 ekos/capture/cameraprocess.cpp:2511
+#: ekos/capture/cameraprocess.cpp:2510 ekos/capture/cameraprocess.cpp:2512
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Calibratge dels plans"
 
-#: ekos/capture/cameraprocess.cpp:2715
+#: ekos/capture/cameraprocess.cpp:2716
 #, kde-format
 msgid "Sequence paused."
 msgstr "Seqüència en pausa."
 
-#: ekos/capture/cameraprocess.cpp:2765
+#: ekos/capture/cameraprocess.cpp:2766
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16904,7 +16904,7 @@ msgstr ""
 "S'han completat totes les tasques. Voleu que se'n restablisca l'estat i que "
 "es reprenga la captura?"
 
-#: ekos/capture/cameraprocess.cpp:2779
+#: ekos/capture/cameraprocess.cpp:2780
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16913,17 +16913,17 @@ msgstr ""
 "Avís: l'opció «Reinicia sempre la seqüència en iniciar» està activa i compta "
 "el reinici de la seqüència."
 
-#: ekos/capture/cameraprocess.cpp:3015
+#: ekos/capture/cameraprocess.cpp:3016
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Segur que voleu reiniciar el controlador de la càmera %1?"
 
-#: ekos/capture/cameraprocess.cpp:3016
+#: ekos/capture/cameraprocess.cpp:3017
 #, kde-format
 msgid "Driver Restart"
 msgstr "Reinicia el controlador"
 
-#: ekos/capture/cameraprocess.cpp:3163 ekos/capture/sequencejobstate.cpp:72
+#: ekos/capture/cameraprocess.cpp:3164 ekos/capture/sequencejobstate.cpp:72
 #, kde-format
 msgid "Capture operations timed out after %1 seconds."
 msgstr ""
@@ -17182,7 +17182,7 @@ msgstr "Global"
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1177 kstarsinit.cpp:486
+#: kstarsactions.cpp:1178 kstarsinit.cpp:486
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -37552,17 +37552,17 @@ msgstr ""
 "los des del Gestor de dispositius amb l'element de menú «Dades → "
 "Dispositius»."
 
-#: indi/indicamera.cpp:490
+#: indi/indicamera.cpp:493
 #, kde-format
 msgid "Video Recording Stopped"
 msgstr "S'ha parat la gravació de vídeo"
 
-#: indi/indicamera.cpp:497
+#: indi/indicamera.cpp:500
 #, kde-format
 msgid "Video Recording Started"
 msgstr "Ha començat la gravació de vídeo"
 
-#: indi/indicamera.cpp:886
+#: indi/indicamera.cpp:889
 #, kde-format
 msgid "Image file is received"
 msgstr "S'ha rebut un fitxer d'imatge"
@@ -38161,23 +38161,23 @@ msgstr "Grava el flux per a la duració especificada, en segons."
 msgid "Debayer Options:"
 msgstr "Opcions de la reconstrucció de Bayer:"
 
-#: indi/servermanager.cpp:102
+#: indi/servermanager.cpp:103
 #, kde-format
 msgid "Unable to create INDI FIFO file %1"
 msgstr "No s'ha pogut crear el fitxer FIFO %1 d'INDI"
 
-#: indi/servermanager.cpp:130
+#: indi/servermanager.cpp:131
 #, kde-format
 msgid "INDI server failed to start: %1"
 msgstr "El servidor INDI ha fallat mentre s'iniciava: %1"
 
-#: indi/servermanager.cpp:215
+#: indi/servermanager.cpp:216
 #, kde-format
 msgid "Pre driver startup script failed with exit code: %1"
 msgstr ""
 "L'script d'inici abans del controlador ha fallat amb el codi d'eixida: %1"
 
-#: indi/servermanager.cpp:239
+#: indi/servermanager.cpp:240
 #, kde-format
 msgid ""
 "Driver %1 was not found on the system. Please make sure the package that "
@@ -38186,37 +38186,37 @@ msgstr ""
 "El controlador %1 no s'ha trobat en el sistema. Assegureu-vos que el paquet "
 "que proporciona el binari «%1» està instal·lat."
 
-#: indi/servermanager.cpp:286
+#: indi/servermanager.cpp:287
 #, kde-format
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 "L'script d'inici després del controlador ha fallat amb el codi d'eixida: %1"
 
-#: indi/servermanager.cpp:323
+#: indi/servermanager.cpp:324
 #, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
 msgstr ""
 "L'script de tancament abans del controlador ha fallat amb el codi d'eixida: "
 "%1"
 
-#: indi/servermanager.cpp:390
+#: indi/servermanager.cpp:391
 #, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
 msgstr ""
 "L'script de tancament després del controlador ha fallat amb el codi "
 "d'eixida: %1"
 
-#: indi/servermanager.cpp:541
+#: indi/servermanager.cpp:542
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "La connexió amb el servidor INDI %1:%2 ha finalitzat: %3."
 
-#: indi/servermanager.cpp:594
+#: indi/servermanager.cpp:595
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "El controlador <b>%1</b> d'INDI ha fallat. Voleu reiniciar-lo?"
 
-#: indi/servermanager.cpp:595
+#: indi/servermanager.cpp:596
 #, kde-format
 msgid "Driver crash"
 msgstr "Fallada del controlador"
@@ -40801,7 +40801,7 @@ msgstr ""
 "centrat."
 
 #. i18n: ectx: label, entry (UseAutoTrail), group (View)
-#: kstars.kcfg:789 tools/scriptbuilder.cpp:664
+#: kstars.kcfg:789 tools/scriptbuilder.cpp:665
 #, kde-format
 msgid "Automatically add trail to centered solar system body?"
 msgstr ""
@@ -75585,12 +75585,12 @@ msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "Altres"
 
-#: kstarsactions.cpp:219
+#: kstarsactions.cpp:220
 #, kde-format
 msgid "Refraction effects disabled"
 msgstr "S'han desactivat els efectes de la refracció"
 
-#: kstarsactions.cpp:220
+#: kstarsactions.cpp:221
 #, kde-format
 msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
@@ -75599,34 +75599,34 @@ msgstr ""
 "Quan l'horitzó està apagat, els efectes de la refracció es desactiven "
 "temporalment."
 
-#: kstarsactions.cpp:507
+#: kstarsactions.cpp:508
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr "El catàleg «%1» s'ha malmés."
 
-#: kstarsactions.cpp:515
+#: kstarsactions.cpp:516
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
 "El catàleg «%1» s'ha malmés.<br>S'esperava ID=%2, però s'ha obtingut ID=%3"
 
-#: kstarsactions.cpp:525
+#: kstarsactions.cpp:526
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr "No s'ha pogut importar el catàleg «%1»<br>%2"
 
-#: kstarsactions.cpp:582
+#: kstarsactions.cpp:583
 #, kde-format
 msgid "Light Pollution Settings"
 msgstr "Configureu la pol·lució lumínica"
 
-#: kstarsactions.cpp:584
+#: kstarsactions.cpp:585
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr "Configureu l'equip: tipus i paràmetres de l'equip"
 
-#: kstarsactions.cpp:693 kstarsactions.cpp:730 kstarsactions.cpp:773
-#: kstarsactions.cpp:812
+#: kstarsactions.cpp:694 kstarsactions.cpp:731 kstarsactions.cpp:774
+#: kstarsactions.cpp:813
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
@@ -75635,7 +75635,7 @@ msgstr ""
 "No s'ha pogut trobar el servidor INDI. Assegureu-vos de tindre instal·lat el "
 "paquet que proporciona l'executable «indiserver»."
 
-#: kstarsactions.cpp:747
+#: kstarsactions.cpp:748
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
@@ -75645,86 +75645,86 @@ msgstr ""
 "tècnics avançats. No es pot utilitzar amb Ekos. Encara voleu obrir el gestor "
 "de dispositius d'INDI?"
 
-#: kstarsactions.cpp:750
+#: kstarsactions.cpp:751
 #, kde-format
 msgid "INDI Device Manager"
 msgstr "Gestor de dispositius d'INDI"
 
-#: kstarsactions.cpp:1138
+#: kstarsactions.cpp:1139
 #, kde-format
 msgid "Catalogs"
 msgstr "Catàlegs"
 
-#: kstarsactions.cpp:1150
+#: kstarsactions.cpp:1151
 #, kde-format
 msgid "Guides"
 msgstr "Guies"
 
-#: kstarsactions.cpp:1153
+#: kstarsactions.cpp:1154
 #, kde-format
 msgid "Terrain"
 msgstr "Terreny"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1156 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1157 options/opsimageoverlay.ui:202
 #, kde-format
 msgid "Image Overlays"
 msgstr "Superposicions d'imatges"
 
-#: kstarsactions.cpp:1186
+#: kstarsactions.cpp:1187
 #, kde-format
 msgid "Xplanet"
 msgstr "Xplanet"
 
-#: kstarsactions.cpp:1192
+#: kstarsactions.cpp:1193
 #, kde-format
 msgid "Developer"
 msgstr "Desenvolupador"
 
-#: kstarsactions.cpp:1210 kstarsactions.cpp:2088 kstarsinit.cpp:288
+#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:288
 #, kde-format
 msgid "Hide Terrain"
 msgstr "Oculta el terreny"
 
-#: kstarsactions.cpp:1210 kstarsactions.cpp:2088 kstarsinit.cpp:289
+#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:289
 #, kde-format
 msgid "Show Terrain"
 msgstr "Mostra el terreny"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2098 kstarsinit.cpp:293
+#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:293
 #, kde-format
 msgid "Hide Image Overlays"
 msgstr "Oculta les superposicions d'imatges"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2098 kstarsinit.cpp:294
+#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:294
 #, kde-format
 msgid "Show Image Overlays"
 msgstr "Mostra les superposicions d'imatges"
 
-#: kstarsactions.cpp:1377
+#: kstarsactions.cpp:1378
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Exporteu una imatge"
 
-#: kstarsactions.cpp:1423 tools/scriptbuilder.cpp:795
-#: tools/scriptbuilder.cpp:863
+#: kstarsactions.cpp:1424 tools/scriptbuilder.cpp:796
+#: tools/scriptbuilder.cpp:864
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "Scripts de KStars (*.kstars)"
 
-#: kstarsactions.cpp:1431
+#: kstarsactions.cpp:1432
 #, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "No s'admet l'execució de scripts remots."
 
-#: kstarsactions.cpp:1439 oal/execute.cpp:320 tools/observinglist.cpp:907
+#: kstarsactions.cpp:1440 oal/execute.cpp:320 tools/observinglist.cpp:907
 #, kde-format
 msgid "Could not open file %1"
 msgstr "No s'ha pogut obrir el fitxer %1"
 
-#: kstarsactions.cpp:1464
+#: kstarsactions.cpp:1465
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -75737,17 +75737,17 @@ msgstr ""
 "correctament o fins i tot podria contindre codi maliciós. Voleu executar-lo, "
 "tanmateix?"
 
-#: kstarsactions.cpp:1469
+#: kstarsactions.cpp:1470
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "No s'ha pogut validar l'script"
 
-#: kstarsactions.cpp:1469
+#: kstarsactions.cpp:1470
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Executa'l malgrat tot"
 
-#: kstarsactions.cpp:1476
+#: kstarsactions.cpp:1477
 #, kde-format
 msgid "Running script: %1"
 msgstr "S'està executant l'script: %1"
@@ -77859,7 +77859,7 @@ msgstr "Objectes del cel profund"
 msgid "Constellation Lines"
 msgstr "Línies de les constel·lacions"
 
-#: kstarslite/qml/modules/TopMenu.qml:196 tools/scriptbuilder.cpp:580
+#: kstarslite/qml/modules/TopMenu.qml:196 tools/scriptbuilder.cpp:581
 #, kde-format, kde-kuit-format
 msgid "Constellation Names"
 msgstr "Noms de les constel·lacions"
@@ -83020,7 +83020,7 @@ msgstr ""
 msgid "Show objects of unknown magnitude"
 msgstr "Mostra els objectes de magnitud desconeguda"
 
-#: options/opscolors.cpp:61 tools/scriptbuilder.cpp:744
+#: options/opscolors.cpp:61 tools/scriptbuilder.cpp:745
 #, kde-format
 msgctxt "use 'moonless night' color scheme"
 msgid "Moonless Night"
@@ -84684,7 +84684,7 @@ msgid "Field of View Snapshot Browser"
 msgstr "Navegador d'instantànies del camp de visió"
 
 #: printing/foveditordialog.cpp:198 printing/pwizprint.cpp:127
-#: tools/scriptbuilder.cpp:921
+#: tools/scriptbuilder.cpp:922
 #, kde-format
 msgid "Could not upload file"
 msgstr "No s'ha pogut carregar el fitxer"
@@ -89961,8 +89961,8 @@ msgstr "Segona posició"
 #: tools/modcalcgeodcoord.cpp:230 tools/modcalcjd.cpp:116
 #: tools/modcalcplanets.cpp:194 tools/modcalcsidtime.cpp:204
 #: tools/modcalcvizequinox.cpp:69 tools/modcalcvlsr.cpp:289
-#: tools/scriptbuilder.cpp:820 tools/scriptbuilder.cpp:899
-#: tools/scriptbuilder.cpp:982
+#: tools/scriptbuilder.cpp:821 tools/scriptbuilder.cpp:900
+#: tools/scriptbuilder.cpp:983
 #, kde-format
 msgid "Could not open file %1."
 msgstr "No s'ha pogut obrir el fitxer %1."
@@ -92021,25 +92021,25 @@ msgstr "12 hores"
 msgid "24 Hours"
 msgstr "24 hores"
 
-#: tools/scriptbuilder.cpp:54
+#: tools/scriptbuilder.cpp:55
 #, kde-format
 msgctxt "@title:window"
 msgid "Options"
 msgstr "Opcions"
 
-#: tools/scriptbuilder.cpp:124
+#: tools/scriptbuilder.cpp:125
 #, kde-format
 msgctxt "@title:window"
 msgid "Script Data"
 msgstr "Dades de l'script"
 
-#: tools/scriptbuilder.cpp:165
+#: tools/scriptbuilder.cpp:166
 #, kde-format
 msgctxt "@title:window"
 msgid "Script Builder"
 msgstr "Constructor de scripts"
 
-#: tools/scriptbuilder.cpp:175
+#: tools/scriptbuilder.cpp:176
 #, kde-format
 msgid ""
 "Point the display at the specified location. %1 can be the name of an "
@@ -92048,27 +92048,27 @@ msgstr ""
 "Apunta la vista cap a la ubicació especificada. «%1» pot ser el nom d'un "
 "objecte, un punt cardinal a la brúixola o el «zenit»."
 
-#: tools/scriptbuilder.cpp:180
+#: tools/scriptbuilder.cpp:181
 #, kde-format
 msgid "Add a name label to the object named %1."
 msgstr "Afig una etiqueta de nom a l'objecte anomenat «%1»."
 
-#: tools/scriptbuilder.cpp:182
+#: tools/scriptbuilder.cpp:183
 #, kde-format
 msgid "Remove the name label from the object named %1."
 msgstr "Elimina l'etiqueta de nom de l'objecte anomenat «%1»."
 
-#: tools/scriptbuilder.cpp:185
+#: tools/scriptbuilder.cpp:186
 #, kde-format
 msgid "Add a trail to the solar system body named %1."
 msgstr "Afig una traça al cos del sistema solar anomenat «%1»."
 
-#: tools/scriptbuilder.cpp:187
+#: tools/scriptbuilder.cpp:188
 #, kde-format
 msgid "Remove the trail from the solar system body named %1."
 msgstr "Elimina la traça del cos del sistema solar anomenat «%1»."
 
-#: tools/scriptbuilder.cpp:190
+#: tools/scriptbuilder.cpp:191
 #, kde-format
 msgid ""
 "Point the display at the specified RA/Dec coordinates.  RA is expressed in "
@@ -92077,7 +92077,7 @@ msgstr ""
 "Apunta la vista cap a les coordenades AR/Dec especificades. L'AR s'expressa "
 "en hores, la Dec s'expressa en graus."
 
-#: tools/scriptbuilder.cpp:195
+#: tools/scriptbuilder.cpp:196
 #, kde-format
 msgid ""
 "Point the display at the specified Alt/Az coordinates.  Alt and Az are "
@@ -92086,37 +92086,37 @@ msgstr ""
 "Apunta la vista cap a les coordenades Alt/Az especificades. L'Alt. i l'Az. "
 "s'expressen en graus."
 
-#: tools/scriptbuilder.cpp:197
+#: tools/scriptbuilder.cpp:198
 #, kde-format
 msgid "Increase the display Zoom Level."
 msgstr "Augmenta el nivell d'ampliació."
 
-#: tools/scriptbuilder.cpp:198
+#: tools/scriptbuilder.cpp:199
 #, kde-format
 msgid "Decrease the display Zoom Level."
 msgstr "Disminuïx el nivell d'ampliació."
 
-#: tools/scriptbuilder.cpp:200
+#: tools/scriptbuilder.cpp:201
 #, kde-format
 msgid "Set the display Zoom Level to its default value."
 msgstr "Establix el nivell d'ampliació al seu valor predeterminat."
 
-#: tools/scriptbuilder.cpp:202
+#: tools/scriptbuilder.cpp:203
 #, kde-format
 msgid "Set the display Zoom Level manually."
 msgstr "Establix el nivell d'ampliació manualment."
 
-#: tools/scriptbuilder.cpp:204
+#: tools/scriptbuilder.cpp:205
 #, kde-format
 msgid "Set the system clock to the specified Local Time."
 msgstr "Establix el rellotge del sistema al temps local especificat."
 
-#: tools/scriptbuilder.cpp:207
+#: tools/scriptbuilder.cpp:208
 #, kde-format
 msgid "Pause script execution for specified number of seconds."
 msgstr "Suspén l'execució de l'script durant el nombre de segons especificat."
 
-#: tools/scriptbuilder.cpp:209
+#: tools/scriptbuilder.cpp:210
 #, kde-format
 msgid ""
 "Halt script execution until the specified key is pressed.  Only single-key "
@@ -92126,17 +92126,17 @@ msgstr ""
 "es permeten pulsacions de tecles soltes; utilitzeu «space» per a la barra "
 "espaiadora."
 
-#: tools/scriptbuilder.cpp:213
+#: tools/scriptbuilder.cpp:214
 #, kde-format
 msgid "Set whether the display is tracking the current location."
 msgstr "Establix si es farà el seguiment des de l'emplaçament actual."
 
-#: tools/scriptbuilder.cpp:215
+#: tools/scriptbuilder.cpp:216
 #, kde-format
 msgid "Change view option named %1 to value %2."
 msgstr "Canvia l'opció de vista anomenada «%1» al valor «%2»."
 
-#: tools/scriptbuilder.cpp:218
+#: tools/scriptbuilder.cpp:219
 #, kde-format
 msgid ""
 "Set the geographic location to the city specified by city, province and "
@@ -92145,24 +92145,24 @@ msgstr ""
 "Establiu l'emplaçament geogràfic a la ciutat especificada per ciutat, "
 "província i país."
 
-#: tools/scriptbuilder.cpp:221
+#: tools/scriptbuilder.cpp:222
 #, kde-format
 msgid "Set the color named %1 to the value %2."
 msgstr "Establix el color anomenat «%1» al valor «%2»."
 
-#: tools/scriptbuilder.cpp:223
+#: tools/scriptbuilder.cpp:224
 #, kde-format
 msgid "Load the color scheme specified by name."
 msgstr "Carrega l'esquema de color especificat pel nom."
 
-#: tools/scriptbuilder.cpp:226
+#: tools/scriptbuilder.cpp:227
 #, kde-format
 msgid "Export the sky image to the file, with specified width and height."
 msgstr ""
 "Exporta la imatge del cel cap al fitxer, amb l'amplària i alçària "
 "especificades."
 
-#: tools/scriptbuilder.cpp:230
+#: tools/scriptbuilder.cpp:231
 #, kde-format
 msgid ""
 "Print the sky image to a printer or file.  If %1 is true, it will show the "
@@ -92173,17 +92173,17 @@ msgstr ""
 "es mostrarà el de diàleg d'impressió. Si «%2» és cert, per a imprimir "
 "s'utilitzarà l'esquema de color «Carta estel·lar»."
 
-#: tools/scriptbuilder.cpp:234
+#: tools/scriptbuilder.cpp:235
 #, kde-format
 msgid "Halt the simulation clock."
 msgstr "Para la simulació del rellotge."
 
-#: tools/scriptbuilder.cpp:235
+#: tools/scriptbuilder.cpp:236
 #, kde-format
 msgid "Start the simulation clock."
 msgstr "Inicia la simulació del rellotge."
 
-#: tools/scriptbuilder.cpp:237
+#: tools/scriptbuilder.cpp:238
 #, kde-format
 msgid ""
 "Set the timescale of the simulation clock to specified scale.  1.0 means "
@@ -92193,360 +92193,360 @@ msgstr ""
 "especificada. 1,0 vol dir el temps real, 2,0 dues vegades més de pressa que "
 "el temps real, etc."
 
-#: tools/scriptbuilder.cpp:255
+#: tools/scriptbuilder.cpp:256
 #, kde-format
 msgid "Functions"
 msgstr "Funcions"
 
 # skip-rule: kct-box
-#: tools/scriptbuilder.cpp:406
+#: tools/scriptbuilder.cpp:407
 #, kde-format
 msgid "InfoBoxes"
 msgstr "Rètols informatius"
 
 # skip-rule: kct-box
-#: tools/scriptbuilder.cpp:407
+#: tools/scriptbuilder.cpp:408
 #, kde-format
 msgid "Toggle display of all InfoBoxes"
 msgstr "Canvia la visualització de tots els rètols informatius"
 
-#: tools/scriptbuilder.cpp:407 tools/scriptbuilder.cpp:410
-#: tools/scriptbuilder.cpp:413 tools/scriptbuilder.cpp:416
-#: tools/scriptbuilder.cpp:419 tools/scriptbuilder.cpp:422
-#: tools/scriptbuilder.cpp:425 tools/scriptbuilder.cpp:439
-#: tools/scriptbuilder.cpp:442 tools/scriptbuilder.cpp:451
-#: tools/scriptbuilder.cpp:454 tools/scriptbuilder.cpp:461
-#: tools/scriptbuilder.cpp:464 tools/scriptbuilder.cpp:467
-#: tools/scriptbuilder.cpp:470 tools/scriptbuilder.cpp:473
-#: tools/scriptbuilder.cpp:476 tools/scriptbuilder.cpp:479
-#: tools/scriptbuilder.cpp:482 tools/scriptbuilder.cpp:485
-#: tools/scriptbuilder.cpp:488 tools/scriptbuilder.cpp:494
-#: tools/scriptbuilder.cpp:497 tools/scriptbuilder.cpp:518
-#: tools/scriptbuilder.cpp:521 tools/scriptbuilder.cpp:524
-#: tools/scriptbuilder.cpp:527 tools/scriptbuilder.cpp:530
-#: tools/scriptbuilder.cpp:533 tools/scriptbuilder.cpp:536
-#: tools/scriptbuilder.cpp:539 tools/scriptbuilder.cpp:542
-#: tools/scriptbuilder.cpp:545 tools/scriptbuilder.cpp:548
-#: tools/scriptbuilder.cpp:551 tools/scriptbuilder.cpp:554
-#: tools/scriptbuilder.cpp:557 tools/scriptbuilder.cpp:560
-#: tools/scriptbuilder.cpp:581 tools/scriptbuilder.cpp:584
-#: tools/scriptbuilder.cpp:587 tools/scriptbuilder.cpp:596
-#: tools/scriptbuilder.cpp:602 tools/scriptbuilder.cpp:605
-#: tools/scriptbuilder.cpp:608 tools/scriptbuilder.cpp:611
-#: tools/scriptbuilder.cpp:614 tools/scriptbuilder.cpp:617
-#: tools/scriptbuilder.cpp:620 tools/scriptbuilder.cpp:635
-#: tools/scriptbuilder.cpp:651 tools/scriptbuilder.cpp:654
-#: tools/scriptbuilder.cpp:657 tools/scriptbuilder.cpp:661
-#: tools/scriptbuilder.cpp:664 tools/scriptbuilder.cpp:668
+#: tools/scriptbuilder.cpp:408 tools/scriptbuilder.cpp:411
+#: tools/scriptbuilder.cpp:414 tools/scriptbuilder.cpp:417
+#: tools/scriptbuilder.cpp:420 tools/scriptbuilder.cpp:423
+#: tools/scriptbuilder.cpp:426 tools/scriptbuilder.cpp:440
+#: tools/scriptbuilder.cpp:443 tools/scriptbuilder.cpp:452
+#: tools/scriptbuilder.cpp:455 tools/scriptbuilder.cpp:462
+#: tools/scriptbuilder.cpp:465 tools/scriptbuilder.cpp:468
+#: tools/scriptbuilder.cpp:471 tools/scriptbuilder.cpp:474
+#: tools/scriptbuilder.cpp:477 tools/scriptbuilder.cpp:480
+#: tools/scriptbuilder.cpp:483 tools/scriptbuilder.cpp:486
+#: tools/scriptbuilder.cpp:489 tools/scriptbuilder.cpp:495
+#: tools/scriptbuilder.cpp:498 tools/scriptbuilder.cpp:519
+#: tools/scriptbuilder.cpp:522 tools/scriptbuilder.cpp:525
+#: tools/scriptbuilder.cpp:528 tools/scriptbuilder.cpp:531
+#: tools/scriptbuilder.cpp:534 tools/scriptbuilder.cpp:537
+#: tools/scriptbuilder.cpp:540 tools/scriptbuilder.cpp:543
+#: tools/scriptbuilder.cpp:546 tools/scriptbuilder.cpp:549
+#: tools/scriptbuilder.cpp:552 tools/scriptbuilder.cpp:555
+#: tools/scriptbuilder.cpp:558 tools/scriptbuilder.cpp:561
+#: tools/scriptbuilder.cpp:582 tools/scriptbuilder.cpp:585
+#: tools/scriptbuilder.cpp:588 tools/scriptbuilder.cpp:597
+#: tools/scriptbuilder.cpp:603 tools/scriptbuilder.cpp:606
+#: tools/scriptbuilder.cpp:609 tools/scriptbuilder.cpp:612
+#: tools/scriptbuilder.cpp:615 tools/scriptbuilder.cpp:618
+#: tools/scriptbuilder.cpp:621 tools/scriptbuilder.cpp:636
+#: tools/scriptbuilder.cpp:652 tools/scriptbuilder.cpp:655
+#: tools/scriptbuilder.cpp:658 tools/scriptbuilder.cpp:662
+#: tools/scriptbuilder.cpp:665 tools/scriptbuilder.cpp:669
 #, kde-format
 msgid "bool"
 msgstr "bool"
 
 # skip-rule: kct-box
-#: tools/scriptbuilder.cpp:410
+#: tools/scriptbuilder.cpp:411
 #, kde-format
 msgid "Toggle display of Time InfoBox"
 msgstr "Canvia mostrar el rètol informatiu del temps"
 
 # skip-rule: kct-box
-#: tools/scriptbuilder.cpp:413
+#: tools/scriptbuilder.cpp:414
 #, kde-format
 msgid "Toggle display of Geographic InfoBox"
 msgstr "Canvia mostrar el rètol informatiu de l'emplaçament geogràfic"
 
 # skip-rule: kct-box
-#: tools/scriptbuilder.cpp:416
+#: tools/scriptbuilder.cpp:417
 #, kde-format
 msgid "Toggle display of Focus InfoBox"
 msgstr "Canvia mostrar el rètol informatiu de l'enfocament"
 
 # skip-rule: kct-box
-#: tools/scriptbuilder.cpp:419
+#: tools/scriptbuilder.cpp:420
 #, kde-format
 msgid "(un)Shade Time InfoBox"
 msgstr "Mostra o oculta el rètol informatiu del temps"
 
 # skip-rule: kct-box
-#: tools/scriptbuilder.cpp:422
+#: tools/scriptbuilder.cpp:423
 #, kde-format
 msgid "(un)Shade Geographic InfoBox"
 msgstr "Mostra o oculta el rètol informatiu de l'emplaçament geogràfic"
 
 # skip-rule: kct-box
-#: tools/scriptbuilder.cpp:425
+#: tools/scriptbuilder.cpp:426
 #, kde-format
 msgid "(un)Shade Focus InfoBox"
 msgstr "Mostra o oculta el rètol informatiu de l'enfocament"
 
-#: tools/scriptbuilder.cpp:438
+#: tools/scriptbuilder.cpp:439
 #, kde-format
 msgid "Toolbars"
 msgstr "Barres d'eines"
 
-#: tools/scriptbuilder.cpp:439
+#: tools/scriptbuilder.cpp:440
 #, kde-format
 msgid "Toggle display of main toolbar"
 msgstr "Canvia mostrar la barra d'eines principal"
 
-#: tools/scriptbuilder.cpp:442
+#: tools/scriptbuilder.cpp:443
 #, kde-format
 msgid "Toggle display of view toolbar"
 msgstr "Canvia mostrar la barra d'eines de vista"
 
-#: tools/scriptbuilder.cpp:450
+#: tools/scriptbuilder.cpp:451
 #, kde-format
 msgid "Show Objects"
 msgstr "Mostra objectes"
 
-#: tools/scriptbuilder.cpp:451
+#: tools/scriptbuilder.cpp:452
 #, kde-format
 msgid "Toggle display of Stars"
 msgstr "Canvia mostrar les estreles"
 
-#: tools/scriptbuilder.cpp:454
+#: tools/scriptbuilder.cpp:455
 #, kde-format
 msgid "Toggle display of all deep-sky objects"
 msgstr "Canvia mostrar tots els objectes del cel profund"
 
-#: tools/scriptbuilder.cpp:461
+#: tools/scriptbuilder.cpp:462
 #, kde-format
 msgid "Toggle display of all solar system bodies"
 msgstr "Canvia mostrar tots els cossos del sistema solar"
 
-#: tools/scriptbuilder.cpp:464
+#: tools/scriptbuilder.cpp:465
 #, kde-format
 msgid "Toggle display of Sun"
 msgstr "Canvia mostrar el Sol"
 
-#: tools/scriptbuilder.cpp:467
+#: tools/scriptbuilder.cpp:468
 #, kde-format
 msgid "Toggle display of Moon"
 msgstr "Canvia mostrar la Lluna"
 
-#: tools/scriptbuilder.cpp:470
+#: tools/scriptbuilder.cpp:471
 #, kde-format
 msgid "Toggle display of Mercury"
 msgstr "Canvia mostrar Mercuri"
 
-#: tools/scriptbuilder.cpp:473
+#: tools/scriptbuilder.cpp:474
 #, kde-format
 msgid "Toggle display of Venus"
 msgstr "Canvia mostrar Venus"
 
-#: tools/scriptbuilder.cpp:476
+#: tools/scriptbuilder.cpp:477
 #, kde-format
 msgid "Toggle display of Mars"
 msgstr "Canvia mostrar Mart"
 
-#: tools/scriptbuilder.cpp:479
+#: tools/scriptbuilder.cpp:480
 #, kde-format
 msgid "Toggle display of Jupiter"
 msgstr "Canvia mostrar Júpiter"
 
-#: tools/scriptbuilder.cpp:482
+#: tools/scriptbuilder.cpp:483
 #, kde-format
 msgid "Toggle display of Saturn"
 msgstr "Canvia mostrar Saturn"
 
-#: tools/scriptbuilder.cpp:485
+#: tools/scriptbuilder.cpp:486
 #, kde-format
 msgid "Toggle display of Uranus"
 msgstr "Canvia mostrar Urà"
 
-#: tools/scriptbuilder.cpp:488
+#: tools/scriptbuilder.cpp:489
 #, kde-format
 msgid "Toggle display of Neptune"
 msgstr "Canvia mostrar Neptú"
 
-#: tools/scriptbuilder.cpp:494
+#: tools/scriptbuilder.cpp:495
 #, kde-format
 msgid "Toggle display of Asteroids"
 msgstr "Canvia mostrar els asteroides"
 
-#: tools/scriptbuilder.cpp:497
+#: tools/scriptbuilder.cpp:498
 #, kde-format
 msgid "Toggle display of Comets"
 msgstr "Canvia mostrar els cometes"
 
-#: tools/scriptbuilder.cpp:517
+#: tools/scriptbuilder.cpp:518
 #, kde-format
 msgid "Show Other"
 msgstr "Mostra un altre"
 
-#: tools/scriptbuilder.cpp:518
+#: tools/scriptbuilder.cpp:519
 #, kde-format
 msgid "Toggle display of constellation lines"
 msgstr "Canvia mostrar les línies de les constel·lacions"
 
-#: tools/scriptbuilder.cpp:521
+#: tools/scriptbuilder.cpp:522
 #, kde-format
 msgid "Toggle display of constellation boundaries"
 msgstr "Canvia mostrar els límits de les constel·lacions"
 
-#: tools/scriptbuilder.cpp:524
+#: tools/scriptbuilder.cpp:525
 #, kde-format
 msgid "Toggle display of constellation names"
 msgstr "Canvia mostrar els noms de les constel·lacions"
 
-#: tools/scriptbuilder.cpp:527
+#: tools/scriptbuilder.cpp:528
 #, kde-format
 msgid "Toggle display of Milky Way"
 msgstr "Canvia mostrar la Via Làctia"
 
-#: tools/scriptbuilder.cpp:530
+#: tools/scriptbuilder.cpp:531
 #, kde-format
 msgid "Toggle display of the coordinate grid"
 msgstr "Canvia mostrar la quadrícula de les coordenades"
 
-#: tools/scriptbuilder.cpp:533
+#: tools/scriptbuilder.cpp:534
 #, kde-format
 msgid "Toggle display of the celestial equator"
 msgstr "Canvia mostrar l'equador celeste"
 
-#: tools/scriptbuilder.cpp:536
+#: tools/scriptbuilder.cpp:537
 #, kde-format
 msgid "Toggle display of the ecliptic"
 msgstr "Canvia mostrar l'eclíptica"
 
-#: tools/scriptbuilder.cpp:539
+#: tools/scriptbuilder.cpp:540
 #, kde-format
 msgid "Toggle display of the horizon line"
 msgstr "Canvia mostrar la línia de l'horitzó"
 
-#: tools/scriptbuilder.cpp:542
+#: tools/scriptbuilder.cpp:543
 #, kde-format
 msgid "Toggle display of the opaque ground"
 msgstr "Canvia mostrar el terra opac"
 
-#: tools/scriptbuilder.cpp:545
+#: tools/scriptbuilder.cpp:546
 #, kde-format
 msgid "Toggle display of star name labels"
 msgstr "Canvia mostrar les etiquetes de nom per a les estreles"
 
-#: tools/scriptbuilder.cpp:548
+#: tools/scriptbuilder.cpp:549
 #, kde-format
 msgid "Toggle display of star magnitude labels"
 msgstr "Canvia mostrar les etiquetes de magnitud per a les estreles"
 
-#: tools/scriptbuilder.cpp:551
+#: tools/scriptbuilder.cpp:552
 #, kde-format
 msgid "Toggle display of asteroid name labels"
 msgstr "Canvia mostrar les etiquetes de nom per als asteroides"
 
-#: tools/scriptbuilder.cpp:554
+#: tools/scriptbuilder.cpp:555
 #, kde-format
 msgid "Toggle display of comet name labels"
 msgstr "Canvia mostrar les etiquetes de nom per als cometes"
 
-#: tools/scriptbuilder.cpp:557
+#: tools/scriptbuilder.cpp:558
 #, kde-format
 msgid "Toggle display of planet name labels"
 msgstr "Canvia mostrar les etiquetes de nom per als planetes"
 
-#: tools/scriptbuilder.cpp:560
+#: tools/scriptbuilder.cpp:561
 #, kde-format
 msgid "Toggle display of planet images"
 msgstr "Canvia mostrar les imatges per als planetes"
 
-#: tools/scriptbuilder.cpp:581
+#: tools/scriptbuilder.cpp:582
 #, kde-format
 msgid "Show Latin constellation names"
 msgstr "Mostra els noms de les constel·lacions en llatí"
 
-#: tools/scriptbuilder.cpp:584
+#: tools/scriptbuilder.cpp:585
 #, kde-format
 msgid "Show constellation names in local language"
 msgstr "Mostra els noms de les constel·lacions en l'idioma local"
 
-#: tools/scriptbuilder.cpp:587
+#: tools/scriptbuilder.cpp:588
 #, kde-format
 msgid "Show IAU-standard constellation abbreviations"
 msgstr "Mostra els noms abreujats de les constel·lacions (estàndard IAU)"
 
-#: tools/scriptbuilder.cpp:595
+#: tools/scriptbuilder.cpp:596
 #, kde-format
 msgid "Hide Items"
 msgstr "Oculta elements"
 
-#: tools/scriptbuilder.cpp:596
+#: tools/scriptbuilder.cpp:597
 #, kde-format
 msgid "Toggle whether objects hidden while slewing display"
 msgstr "Canvia quan s'ocultaran els objectes mentre es mostra l'orientació"
 
-#: tools/scriptbuilder.cpp:599
+#: tools/scriptbuilder.cpp:600
 #, kde-format
 msgid "Timestep threshold (in seconds) for hiding objects"
 msgstr "Llindar del pas temporal (en segons) per a ocultar els objectes"
 
-#: tools/scriptbuilder.cpp:599 tools/scriptbuilder.cpp:638
-#: tools/scriptbuilder.cpp:641 tools/scriptbuilder.cpp:706
-#: tools/scriptbuilder.cpp:709 tools/scriptbuilder.cpp:712
-#: tools/scriptbuilder.cpp:716 tools/scriptbuilder.cpp:720
+#: tools/scriptbuilder.cpp:600 tools/scriptbuilder.cpp:639
+#: tools/scriptbuilder.cpp:642 tools/scriptbuilder.cpp:707
+#: tools/scriptbuilder.cpp:710 tools/scriptbuilder.cpp:713
+#: tools/scriptbuilder.cpp:717 tools/scriptbuilder.cpp:721
 #, kde-format
 msgid "double"
 msgstr "doble"
 
-#: tools/scriptbuilder.cpp:602
+#: tools/scriptbuilder.cpp:603
 #, kde-format
 msgid "Hide faint stars while slewing?"
 msgstr "Voleu que s'oculten les estreles més febles durant la transició?"
 
-#: tools/scriptbuilder.cpp:605
+#: tools/scriptbuilder.cpp:606
 #, kde-format
 msgid "Hide solar system bodies while slewing?"
 msgstr "Voleu que s'oculten els cossos del sistema solar durant la transició?"
 
-#: tools/scriptbuilder.cpp:608
+#: tools/scriptbuilder.cpp:609
 #, kde-format
 msgid "Hide Milky Way while slewing?"
 msgstr "Voleu que s'oculte la Via Làctia durant la transició?"
 
-#: tools/scriptbuilder.cpp:611
+#: tools/scriptbuilder.cpp:612
 #, kde-format
 msgid "Hide constellation names while slewing?"
 msgstr ""
 "Voleu que s'oculten els noms de les constel·lacions durant la transició?"
 
-#: tools/scriptbuilder.cpp:614
+#: tools/scriptbuilder.cpp:615
 #, kde-format
 msgid "Hide constellation lines while slewing?"
 msgstr ""
 "Voleu que s'oculten les línies de les constel·lacions durant la transició?"
 
-#: tools/scriptbuilder.cpp:617
+#: tools/scriptbuilder.cpp:618
 #, kde-format
 msgid "Hide constellation boundaries while slewing?"
 msgstr ""
 "Voleu que s'oculten els límits de les constel·lacions durant la transició?"
 
-#: tools/scriptbuilder.cpp:620
+#: tools/scriptbuilder.cpp:621
 #, kde-format
 msgid "Hide coordinate grid while slewing?"
 msgstr "Voleu que s'oculte la quadrícula de coordenades durant la transició?"
 
-#: tools/scriptbuilder.cpp:634
+#: tools/scriptbuilder.cpp:635
 #, kde-format
 msgid "Skymap Options"
 msgstr "Opcions del mapa celeste"
 
-#: tools/scriptbuilder.cpp:635
+#: tools/scriptbuilder.cpp:636
 #, kde-format
 msgid "Use Horizontal coordinates? (otherwise, use Equatorial)"
 msgstr ""
 "Voleu que s'utilitzen les coordenades horitzontals? (Altrament, "
 "s'utilitzaran les equatorials)"
 
-#: tools/scriptbuilder.cpp:638
+#: tools/scriptbuilder.cpp:639
 #, kde-format
 msgid "Set the Zoom Factor"
 msgstr "Establix el factor d'apropament"
 
-#: tools/scriptbuilder.cpp:641
+#: tools/scriptbuilder.cpp:642
 #, kde-format
 msgid "Select angular size for the FOV symbol (in arcmin)"
 msgstr "Tria la mida angular per al símbol de CDV (en min. d'arc)"
 
-#: tools/scriptbuilder.cpp:644
+#: tools/scriptbuilder.cpp:645
 #, kde-format
 msgid ""
 "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, "
@@ -92555,47 +92555,47 @@ msgstr ""
 "Selecció per al símbol de CDV (0=Quadrat, 1=Cercle, 2=Punt de mira, 4=Ull de "
 "bou)"
 
-#: tools/scriptbuilder.cpp:645
+#: tools/scriptbuilder.cpp:646
 #, kde-format
 msgid "int"
 msgstr "int"
 
-#: tools/scriptbuilder.cpp:648
+#: tools/scriptbuilder.cpp:649
 #, kde-format
 msgid "Select color for the FOV symbol"
 msgstr "Tria un color per al símbol de CDV"
 
-#: tools/scriptbuilder.cpp:648
+#: tools/scriptbuilder.cpp:649
 #, kde-format
 msgid "string"
 msgstr "string"
 
-#: tools/scriptbuilder.cpp:651
+#: tools/scriptbuilder.cpp:652
 #, kde-format
 msgid "Use animated slewing? (otherwise, \"snap\" to new focus)"
 msgstr ""
 "Voleu que s'utilitze la transició animada? (Altrament, se «saltarà» cap a "
 "l'enfocament nou)"
 
-#: tools/scriptbuilder.cpp:654
+#: tools/scriptbuilder.cpp:655
 #, kde-format
 msgid "Correct for atmospheric refraction?"
 msgstr "Voleu que es faça la correcció per a la refracció atmosfèrica?"
 
-#: tools/scriptbuilder.cpp:657
+#: tools/scriptbuilder.cpp:658
 #, kde-format
 msgid "Automatically attach name label to centered object?"
 msgstr ""
 "Voleu que s'adjunte automàticament l'etiqueta de nom a l'objecte centrat?"
 
-#: tools/scriptbuilder.cpp:660
+#: tools/scriptbuilder.cpp:661
 #, kde-format
 msgid "Attach temporary name label when hovering mouse over an object?"
 msgstr ""
 "Voleu que s'adjunte una etiqueta transitòria quan es passe pel damunt d'un "
 "objecte amb el ratolí?"
 
-#: tools/scriptbuilder.cpp:667
+#: tools/scriptbuilder.cpp:668
 #, kde-format
 msgid "Planet trails fade to sky color? (otherwise color is constant)"
 msgstr ""
@@ -92619,49 +92619,49 @@ msgstr ""
 #. fields.clear();
 #.
 #. FIXME: This description is incorrect! Fix after strings freeze
-#: tools/scriptbuilder.cpp:706
+#: tools/scriptbuilder.cpp:707
 #, kde-format
 msgid "magnitude of faintest star labeled on map"
 msgstr "Magnitud de l'estrela més feble que s'ha d'etiquetar en el mapa"
 
-#: tools/scriptbuilder.cpp:709
+#: tools/scriptbuilder.cpp:710
 #, kde-format
 msgid "magnitude of brightest star hidden while slewing"
 msgstr ""
 "Magnitud de l'estrela més brillant que s'ha d'ocultar durant la transició"
 
-#: tools/scriptbuilder.cpp:712
+#: tools/scriptbuilder.cpp:713
 #, kde-format
 msgid "magnitude of faintest asteroid drawn on map"
 msgstr "Magnitud de l'asteroide més feble que s'ha de dibuixar en el mapa"
 
-#: tools/scriptbuilder.cpp:716
+#: tools/scriptbuilder.cpp:717
 #, kde-format
 msgid "magnitude of faintest asteroid labeled on map"
 msgstr "Magnitud de l'asteroide més feble que s'ha d'etiquetar en el mapa"
 
-#: tools/scriptbuilder.cpp:719
+#: tools/scriptbuilder.cpp:720
 #, kde-format
 msgid "comets nearer to the Sun than this (in AU) are labeled on map"
 msgstr ""
 "Els cometes més pròxims al Sol que açò (en UA) seran etiquetats al mapa"
 
-#: tools/scriptbuilder.cpp:814
+#: tools/scriptbuilder.cpp:815
 #, kde-format
 msgid "Could not download remote file."
 msgstr "No es pot descarregar el fitxer remot."
 
-#: tools/scriptbuilder.cpp:814
+#: tools/scriptbuilder.cpp:815
 #, kde-format
 msgid "Download Error"
 msgstr "S'ha produït un error de baixada"
 
-#: tools/scriptbuilder.cpp:946
+#: tools/scriptbuilder.cpp:947
 #, kde-format
 msgid "Save Changes to Script?"
 msgstr "Voleu que es guarden els canvis a l'script?"
 
-#: tools/scriptbuilder.cpp:947
+#: tools/scriptbuilder.cpp:948
 #, kde-format
 msgid ""
 "The current script has unsaved changes.  Would you like to save before "

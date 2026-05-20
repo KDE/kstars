@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-19 02:06+0000\n"
+"POT-Creation-Date: 2026-05-20 02:06+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -190,7 +190,7 @@ msgstr "Redzamie pavadoņi"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:243
 #: data/qml/whatisinteresting/wiview.qml:255 dialogs/finddialog.cpp:48
-#: kstarsactions.cpp:1144 kstarslite/dialogs/finddialoglite.cpp:37
+#: kstarsactions.cpp:1145 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
 msgid "Satellites"
@@ -203,7 +203,7 @@ msgstr "Pavadoņu etiķetes"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:528
 #: data/qml/whatisinteresting/wiview.qml:540 dialogs/finddialog.cpp:47
-#: kstarsactions.cpp:1147 kstarslite/dialogs/finddialoglite.cpp:36
+#: kstarsactions.cpp:1148 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
 msgid "Supernovae"
@@ -275,21 +275,21 @@ msgid "FITS Image Object Highlight Label"
 msgstr ""
 
 #: auxiliary/colorscheme.cpp:138 kstarsdata.cpp:1071 options/opscolors.cpp:58
-#: tools/scriptbuilder.cpp:741
+#: tools/scriptbuilder.cpp:742
 #, kde-format
 msgctxt "use default color scheme"
 msgid "Default Colors"
 msgstr "Noklusētās krāsas"
 
 #: auxiliary/colorscheme.cpp:140 kstarsdata.cpp:1073 options/opscolors.cpp:59
-#: tools/scriptbuilder.cpp:742
+#: tools/scriptbuilder.cpp:743
 #, kde-format
 msgctxt "use 'star chart' color scheme"
 msgid "Star Chart"
 msgstr "Zvaigžņu karte"
 
 #: auxiliary/colorscheme.cpp:142 kstarsdata.cpp:1075 options/opscolors.cpp:60
-#: tools/scriptbuilder.cpp:743
+#: tools/scriptbuilder.cpp:744
 #, kde-format
 msgctxt "use 'night vision' color scheme"
 msgid "Night Vision"
@@ -398,7 +398,7 @@ msgid "Saved image to %1"
 msgstr "Saglabāt attēlu uz diska"
 
 #: auxiliary/imageexporter.cpp:229 printing/foveditordialog.cpp:197
-#: tools/scriptbuilder.cpp:920
+#: tools/scriptbuilder.cpp:921
 #, kde-format
 msgid "Could not upload image to remote location: %1"
 msgstr "Neizdevās augšupielādēt attēlu uz attālināto vietu: %1"
@@ -496,15 +496,15 @@ msgid "Save Image"
 msgstr "Saglabāt izmaiņas"
 
 #: auxiliary/imageviewer.cpp:321 ekos/align/align_solution.cpp:438
-#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1391
-#: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
+#: ekos/guide/guidedriftgraph.cpp:492 kstarsactions.cpp:1392
+#: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:880
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Fails ar nosaukumu \"%1\" jau pastāv. Vai vēlaties to pārrakstīt?"
 
 #: auxiliary/imageviewer.cpp:324 ekos/align/align_solution.cpp:441
-#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1392
-#: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
+#: ekos/guide/guidedriftgraph.cpp:495 kstarsactions.cpp:1393
+#: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:883
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Pārrakstīt failu?"
@@ -632,7 +632,7 @@ msgstr "Atcelt"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:977
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:23 indi/indidustcap.cpp:18
 #: indi/indilightbox.cpp:20 indi/indimount.cpp:32 indi/indipac.cpp:17
-#: kstarsactions.cpp:506 kstarsactions.cpp:514 kstarsactions.cpp:524
+#: kstarsactions.cpp:507 kstarsactions.cpp:515 kstarsactions.cpp:525
 #: skycomponents/imageoverlaycomponent.cpp:557
 #, kde-format
 msgid "Error"
@@ -653,109 +653,109 @@ msgstr ""
 msgid "Info"
 msgstr "Informācija"
 
-#: auxiliary/ksutils.cpp:169
+#: auxiliary/ksutils.cpp:177
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "N"
 msgstr "Z"
 
-#: auxiliary/ksutils.cpp:170
+#: auxiliary/ksutils.cpp:178
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNE"
 msgstr "ZZA"
 
-#: auxiliary/ksutils.cpp:171
+#: auxiliary/ksutils.cpp:179
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NE"
 msgstr "ZA"
 
-#: auxiliary/ksutils.cpp:172
+#: auxiliary/ksutils.cpp:180
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ENE"
 msgstr "AZA"
 
-#: auxiliary/ksutils.cpp:173
+#: auxiliary/ksutils.cpp:181
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "E"
 msgstr "A"
 
-#: auxiliary/ksutils.cpp:174
+#: auxiliary/ksutils.cpp:182
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "ESE"
 msgstr "ADA"
 
-#: auxiliary/ksutils.cpp:175
+#: auxiliary/ksutils.cpp:183
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SE"
 msgstr "DA"
 
-#: auxiliary/ksutils.cpp:176
+#: auxiliary/ksutils.cpp:184
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSE"
 msgstr "DDA"
 
-#: auxiliary/ksutils.cpp:177
+#: auxiliary/ksutils.cpp:185
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "S"
 msgstr "D"
 
-#: auxiliary/ksutils.cpp:178
+#: auxiliary/ksutils.cpp:186
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SSW"
 msgstr "DDR"
 
-#: auxiliary/ksutils.cpp:179
+#: auxiliary/ksutils.cpp:187
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "SW"
 msgstr "DR"
 
-#: auxiliary/ksutils.cpp:180
+#: auxiliary/ksutils.cpp:188
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WSW"
 msgstr "RDR"
 
-#: auxiliary/ksutils.cpp:181
+#: auxiliary/ksutils.cpp:189
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "W"
 msgstr "R"
 
-#: auxiliary/ksutils.cpp:182
+#: auxiliary/ksutils.cpp:190
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "WNW"
 msgstr "RZR"
 
-#: auxiliary/ksutils.cpp:183
+#: auxiliary/ksutils.cpp:191
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NW"
 msgstr "ZR"
 
-#: auxiliary/ksutils.cpp:184
+#: auxiliary/ksutils.cpp:192
 #, kde-format
 msgctxt "Abbreviated cardinal / intercardinal etc. direction"
 msgid "NNW"
 msgstr "ZZR"
 
-#: auxiliary/ksutils.cpp:185
+#: auxiliary/ksutils.cpp:193
 #, kde-format
 msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1448
+#: auxiliary/ksutils.cpp:1456
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -763,60 +763,60 @@ msgid ""
 " does not exist.  Do you want to make the directory?"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1451
+#: auxiliary/ksutils.cpp:1459
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1456
+#: auxiliary/ksutils.cpp:1464
 #, fuzzy, kde-format
 #| msgid "Location:"
 msgid "The Default Astrometry Index File Location was created."
 msgstr "Vieta:"
 
-#: auxiliary/ksutils.cpp:1461
+#: auxiliary/ksutils.cpp:1469
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1482 auxiliary/ksutils.cpp:1638
-#: auxiliary/ksutils.cpp:1703
+#: auxiliary/ksutils.cpp:1490 auxiliary/ksutils.cpp:1646
+#: auxiliary/ksutils.cpp:1711
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1496 auxiliary/ksutils.cpp:1681
-#: auxiliary/ksutils.cpp:1723
+#: auxiliary/ksutils.cpp:1504 auxiliary/ksutils.cpp:1689
+#: auxiliary/ksutils.cpp:1731
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1769 fitsviewer/fitsdata.cpp:2998
+#: auxiliary/ksutils.cpp:1777 fitsviewer/fitsdata.cpp:2998
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1780
+#: auxiliary/ksutils.cpp:1788
 #, fuzzy, kde-format
 msgid "Cannot open %1: %2"
 msgstr "Nevaru Atvērt Failu"
 
-#: auxiliary/ksutils.cpp:1788
+#: auxiliary/ksutils.cpp:1796
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1799
+#: auxiliary/ksutils.cpp:1807
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot write %s %1: %2"
 msgstr "Neizdevās rakstīt uz lietotāja žurnāla failu"
 
-#: auxiliary/ksutils.cpp:1923 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1931 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -1684,7 +1684,7 @@ msgid ""
 "expired."
 msgstr ""
 
-#: auxiliary/xplanetimageviewer.cpp:807 indi/servermanager.cpp:93
+#: auxiliary/xplanetimageviewer.cpp:807 indi/servermanager.cpp:94
 #, kde-format
 msgid "Error making FIFO file %1: %2."
 msgstr "Radās kļūda, izveidojot FIFO failu %1: %2."
@@ -2772,7 +2772,7 @@ msgstr ""
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:427
 #: ekos/guide/guidedriftgraph.cpp:503 ekos/scheduler/scheduler.cpp:2223
 #: ekos/scheduler/scheduler.cpp:2333 fitsviewer/fitstab.cpp:1611
-#: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
+#: tools/scriptbuilder.cpp:833 tools/scriptbuilder.cpp:931
 #, kde-format
 msgid "Invalid URL"
 msgstr "Nederīgs URL"
@@ -3091,7 +3091,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2501 ekos/capture/capturecountswidget.cpp:321
+#: ekos/capture/cameraprocess.cpp:2502 ekos/capture/capturecountswidget.cpp:321
 #: ekos/scheduler/taskqueue/ui/templatelibrarywidget.cpp:61
 #: fitsviewer/fitsviewer.cpp:833 fitsviewer/fitsviewer.cpp:834
 #, kde-format
@@ -3577,7 +3577,7 @@ msgid "Clone..."
 msgstr "Avalona"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1162
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1163
 #, kde-format
 msgid "Colors"
 msgstr "Krāsas"
@@ -3895,7 +3895,7 @@ msgstr "Saites"
 msgid "Could not add the link."
 msgstr "Neizdevās lejupielādēt failu."
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1189
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1190
 #, kde-format
 msgid "Advanced"
 msgstr "Paplašināti"
@@ -3952,7 +3952,7 @@ msgid "Could not update the user log."
 msgstr "Neizdevās dzēst failu: %1"
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:322 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
+#: kstarsactions.cpp:323 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
 #: tools/observinglist.cpp:690 tools/observinglist.cpp:712
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, fuzzy, kde-format
@@ -3961,7 +3961,7 @@ msgid "No connected mounts found."
 msgstr "Nav atrasts objekts ar nosaukumu %1."
 
 #: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:488
-#: kstarsactions.cpp:307 tools/observinglist.cpp:701
+#: kstarsactions.cpp:308 tools/observinglist.cpp:701
 #: tools/whatsinteresting/wiview.cpp:354
 #, fuzzy, kde-format
 #| msgid "Telescope %1 is offline. Please connect and retry again."
@@ -4573,7 +4573,7 @@ msgstr "Leģendas novietojums:"
 msgid "Any"
 msgstr "Ikviens"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1141 kstarsinit.cpp:508
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1142 kstarsinit.cpp:508
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:101
@@ -6969,8 +6969,8 @@ msgstr "Attēlojamās koordinātes:"
 msgid "Capture error. Aborting..."
 msgstr "Tvert"
 
-#: ekos/align/align_devices.cpp:682 ekos/capture/cameraprocess.cpp:1668
-#: ekos/capture/cameraprocess.cpp:2233
+#: ekos/align/align_devices.cpp:682 ekos/capture/cameraprocess.cpp:1674
+#: ekos/capture/cameraprocess.cpp:2234
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -7248,8 +7248,8 @@ msgstr "Soltleiksitija"
 #: ekos/align/mountmodel.cpp:401 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:426 ekos/guide/guidedriftgraph.cpp:502
 #: ekos/scheduler/scheduler.cpp:2222 ekos/scheduler/scheduler.cpp:2332
-#: fitsviewer/fitstab.cpp:1610 tools/scriptbuilder.cpp:832
-#: tools/scriptbuilder.cpp:929
+#: fitsviewer/fitstab.cpp:1610 tools/scriptbuilder.cpp:833
+#: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL: %1"
 msgstr "Nederīgs URL: %1"
@@ -7265,20 +7265,20 @@ msgstr "Neizdevās saglabāt attēlu: %1 "
 
 #: ekos/align/align_solution.cpp:458 ekos/align/mountmodel.cpp:295
 #: ekos/align/mountmodel.cpp:413 ekos/capture/camera_jobs.cpp:356
-#: ekos/capture/cameraprocess.cpp:2646 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2647 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2965
 #: ekos/scheduler/schedulerprocess.cpp:3434
 #: ekos/scheduler/schedulerprocess.cpp:4573
 #: ekos/scheduler/schedulerprocess.cpp:4593 indi/drivermanager.cpp:1567
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1440 oal/execute.cpp:321
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1441 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
 #: tools/modcalcjd.cpp:117 tools/modcalcplanets.cpp:195
 #: tools/modcalcsidtime.cpp:205 tools/modcalcvizequinox.cpp:69
 #: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:908
-#: tools/observinglist.cpp:1174 tools/scriptbuilder.cpp:820
-#: tools/scriptbuilder.cpp:900 tools/scriptbuilder.cpp:983
+#: tools/observinglist.cpp:1174 tools/scriptbuilder.cpp:821
+#: tools/scriptbuilder.cpp:901 tools/scriptbuilder.cpp:984
 #, kde-format, kde-kuit-format
 msgid "Could Not Open File"
 msgstr "Neizdevās atvērt failu"
@@ -7360,7 +7360,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr ""
 
 #: ekos/align/align_solver.cpp:128 ekos/capture/cameraprocess.cpp:236
-#: ekos/capture/cameraprocess.cpp:657 ekos/focus/focus.cpp:6076
+#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6076
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -7590,26 +7590,26 @@ msgstr "Platums:"
 msgid "RA Axis"
 msgstr ""
 
-#: ekos/align/astapastrometryparser.cpp:57
+#: ekos/align/astapastrometryparser.cpp:58
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error starting solver: %1"
 msgstr "Kļūda: neizdevās saglabāt attēlu: %1 "
 
-#: ekos/align/astapastrometryparser.cpp:70
+#: ekos/align/astapastrometryparser.cpp:71
 #, fuzzy, kde-format
 #| msgid "Starting the timer"
 msgid "Starting solver..."
 msgstr "Startēt taimeri"
 
-#: ekos/align/astapastrometryparser.cpp:101
-#: ekos/align/astapastrometryparser.cpp:153
+#: ekos/align/astapastrometryparser.cpp:102
+#: ekos/align/astapastrometryparser.cpp:154
 #: ekos/align/remoteastrometryparser.cpp:248
 #, kde-format
 msgid "Solver failed. Try again."
 msgstr ""
 
-#: ekos/align/astapastrometryparser.cpp:148
+#: ekos/align/astapastrometryparser.cpp:149
 #, kde-format
 msgid "Solver completed in %1 second."
 msgid_plural "Solver completed in %1 seconds."
@@ -7671,7 +7671,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Novērojamo saraksts"
 
 #: ekos/align/mountmodel.cpp:294 ekos/capture/camera_jobs.cpp:355
-#: ekos/capture/cameraprocess.cpp:2645 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2646 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3433
 #: ekos/scheduler/schedulerprocess.cpp:4592
 #, fuzzy, kde-format
@@ -13227,7 +13227,7 @@ msgid "Log INDI devices activity"
 msgstr "INDI ierīce %1 vairs nepastāv."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1173
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1174
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -13241,7 +13241,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:308
-#: kstarsactions.cpp:1167
+#: kstarsactions.cpp:1168
 #, fuzzy, kde-format
 #| msgid "FITS Open"
 msgid "FITS"
@@ -15278,7 +15278,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, CalibrationMinimized)
-#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2514
+#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2515
 #: ekos/guide/guide.cpp:70 fitsviewer/livestacking.ui:2260
 #: fitsviewer/livestacking.ui:2886
 #, kde-format
@@ -15324,7 +15324,7 @@ msgstr "Konfigurēt slēptos objektus"
 #. i18n: ectx: property (text), widget (QLabel, limitsLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
 #: ekos/capture/camera.ui:1323 ekos/mount/mount.ui:186
-#: tools/scriptbuilder.cpp:685
+#: tools/scriptbuilder.cpp:686
 #, kde-format
 msgid "Limits"
 msgstr "Ierobežojumi"
@@ -16110,7 +16110,7 @@ msgstr ""
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Vai tiešām vēlaties dzēst saiti %1?"
 
-#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2766
+#: ekos/capture/camera_jobs.cpp:192 ekos/capture/cameraprocess.cpp:2767
 #, kde-format
 msgid "Reset job status"
 msgstr ""
@@ -16172,310 +16172,310 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: ekos/capture/cameraprocess.cpp:237 ekos/capture/cameraprocess.cpp:658
+#: ekos/capture/cameraprocess.cpp:237 ekos/capture/cameraprocess.cpp:664
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Image Transfer"
 msgstr "Informācija"
 
-#: ekos/capture/cameraprocess.cpp:258
+#: ekos/capture/cameraprocess.cpp:264
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence resumed."
 msgstr "Biežums:"
 
-#: ekos/capture/cameraprocess.cpp:294
+#: ekos/capture/cameraprocess.cpp:300
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:308
+#: ekos/capture/cameraprocess.cpp:314
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "No new job created."
 msgstr "pabeigti"
 
-#: ekos/capture/cameraprocess.cpp:331 ekos/capture/cameraprocess.cpp:924
+#: ekos/capture/cameraprocess.cpp:337 ekos/capture/cameraprocess.cpp:930
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:338
+#: ekos/capture/cameraprocess.cpp:344
 #, fuzzy, kde-format
 #| msgid "Starting the timer"
 msgid "Starting framing..."
 msgstr "Startēt taimeri"
 
-#: ekos/capture/cameraprocess.cpp:372
+#: ekos/capture/cameraprocess.cpp:378
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "Camera capture suspended"
 msgstr "Pārnovu opcijas"
 
-#: ekos/capture/cameraprocess.cpp:377
+#: ekos/capture/cameraprocess.cpp:383
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Camera capture complete"
 msgstr "Tvert"
 
-#: ekos/capture/cameraprocess.cpp:382
+#: ekos/capture/cameraprocess.cpp:388
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Framing stopped"
 msgstr "Kalibrēšana"
 
-#: ekos/capture/cameraprocess.cpp:382 ekos/capture/cameraprocess.cpp:388
+#: ekos/capture/cameraprocess.cpp:388 ekos/capture/cameraprocess.cpp:394
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Camera capture stopped"
 msgstr "Tvert"
 
-#: ekos/capture/cameraprocess.cpp:466
+#: ekos/capture/cameraprocess.cpp:472
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:473
+#: ekos/capture/cameraprocess.cpp:479
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:486
+#: ekos/capture/cameraprocess.cpp:492
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:511
+#: ekos/capture/cameraprocess.cpp:517
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:512
+#: ekos/capture/cameraprocess.cpp:518
 #, fuzzy, kde-format
 msgid "Display preview"
 msgstr "Slēgt Zvaigznāju Līnijas"
 
-#: ekos/capture/cameraprocess.cpp:596
+#: ekos/capture/cameraprocess.cpp:602
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:611
+#: ekos/capture/cameraprocess.cpp:617
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:624
+#: ekos/capture/cameraprocess.cpp:630
 #, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:870
+#: ekos/capture/cameraprocess.cpp:876
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding resumed."
 msgstr "Ielādē zvaigznes"
 
-#: ekos/capture/cameraprocess.cpp:914
+#: ekos/capture/cameraprocess.cpp:920
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to set sub frame."
 msgstr "Neizdevās atvērt failu %1."
 
-#: ekos/capture/cameraprocess.cpp:919
+#: ekos/capture/cameraprocess.cpp:925
 #, kde-format
 msgid "Failed to set binning."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1079
+#: ekos/capture/cameraprocess.cpp:1085
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "file saved to %1"
 msgstr "FITS fails saglabāts uz %1"
 
-#: ekos/capture/cameraprocess.cpp:1089
+#: ekos/capture/cameraprocess.cpp:1095
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1091
+#: ekos/capture/cameraprocess.cpp:1097
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Image Write Failed"
 msgstr "Informācija"
 
-#: ekos/capture/cameraprocess.cpp:1319
+#: ekos/capture/cameraprocess.cpp:1325
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "Datu fails saglabāts uz %1"
 
-#: ekos/capture/cameraprocess.cpp:1345
+#: ekos/capture/cameraprocess.cpp:1351
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding suspended."
 msgstr "Ielādē zvaigznes"
 
-#: ekos/capture/cameraprocess.cpp:1375
+#: ekos/capture/cameraprocess.cpp:1381
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1440
+#: ekos/capture/cameraprocess.cpp:1446
 #, fuzzy, kde-format
 #| msgid "Supernovae options"
 msgid "Camera capture sequence completed"
 msgstr "Pārnovu opcijas"
 
-#: ekos/capture/cameraprocess.cpp:1497
+#: ekos/capture/cameraprocess.cpp:1503
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Error: Lost connection to camera."
 msgstr "Pievienot"
 
-#: ekos/capture/cameraprocess.cpp:1525
+#: ekos/capture/cameraprocess.cpp:1531
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1660 ekos/capture/cameraprocess.cpp:2225
+#: ekos/capture/cameraprocess.cpp:1666 ekos/capture/cameraprocess.cpp:2226
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1760
+#: ekos/capture/cameraprocess.cpp:1766
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1826
+#: ekos/capture/cameraprocess.cpp:1832
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1863
+#: ekos/capture/cameraprocess.cpp:1869
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Captured %1"
 msgstr "Tvert"
 
-#: ekos/capture/cameraprocess.cpp:1869
+#: ekos/capture/cameraprocess.cpp:1875
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1916
+#: ekos/capture/cameraprocess.cpp:1917
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "Palaiž skriptu: %1"
 
-#: ekos/capture/cameraprocess.cpp:1931
+#: ekos/capture/cameraprocess.cpp:1932
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1942
+#: ekos/capture/cameraprocess.cpp:1943
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1954
+#: ekos/capture/cameraprocess.cpp:1955
 #, fuzzy, kde-format
 #| msgctxt "City in Maine USA"
 #| msgid "Greenville"
 msgid "Processing meridian flip..."
 msgstr "Grīnvila"
 
-#: ekos/capture/cameraprocess.cpp:1964
+#: ekos/capture/cameraprocess.cpp:1965
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1969
+#: ekos/capture/cameraprocess.cpp:1970
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2155 ekos/focus/focus.cpp:6128
+#: ekos/capture/cameraprocess.cpp:2156 ekos/focus/focus.cpp:6128
 #: ekos/focus/focus.cpp:6152
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "Sākt kameras/CCD ekpozīciju. Ilgums sekundēs."
 
-#: ekos/capture/cameraprocess.cpp:2162
+#: ekos/capture/cameraprocess.cpp:2163
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2180 ekos/focus/focus.cpp:6133
+#: ekos/capture/cameraprocess.cpp:2181 ekos/focus/focus.cpp:6133
 #: ekos/guide/guide.cpp:1106
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Sākt kameras/CCD ekpozīciju. Ilgums sekundēs."
 
-#: ekos/capture/cameraprocess.cpp:2206
+#: ekos/capture/cameraprocess.cpp:2207
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Sākt kameras/CCD ekpozīciju. Ilgums sekundēs."
 
-#: ekos/capture/cameraprocess.cpp:2287
+#: ekos/capture/cameraprocess.cpp:2288
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2298
+#: ekos/capture/cameraprocess.cpp:2299
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2320
+#: ekos/capture/cameraprocess.cpp:2321
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2349
+#: ekos/capture/cameraprocess.cpp:2350
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2357
+#: ekos/capture/cameraprocess.cpp:2358
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2498
+#: ekos/capture/cameraprocess.cpp:2499
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "%1 Preview"
 msgstr "Priekšapskate"
 
-#: ekos/capture/cameraprocess.cpp:2509 ekos/capture/cameraprocess.cpp:2511
+#: ekos/capture/cameraprocess.cpp:2510 ekos/capture/cameraprocess.cpp:2512
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Flat Calibration"
 msgstr "Kalibrēšana"
 
-#: ekos/capture/cameraprocess.cpp:2715
+#: ekos/capture/cameraprocess.cpp:2716
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "Biežums:"
 
-#: ekos/capture/cameraprocess.cpp:2765
+#: ekos/capture/cameraprocess.cpp:2766
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -16483,27 +16483,27 @@ msgid ""
 "restart capturing?"
 msgstr "Vai tiešām vēlaties dzēst saiti %1?"
 
-#: ekos/capture/cameraprocess.cpp:2779
+#: ekos/capture/cameraprocess.cpp:2780
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:3015
+#: ekos/capture/cameraprocess.cpp:3016
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Vai tiešām vēlaties nodzēst klientu %1?"
 
-#: ekos/capture/cameraprocess.cpp:3016
+#: ekos/capture/cameraprocess.cpp:3017
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Restart"
 msgid "Driver Restart"
 msgstr "Pārstartēt"
 
-#: ekos/capture/cameraprocess.cpp:3163 ekos/capture/sequencejobstate.cpp:72
+#: ekos/capture/cameraprocess.cpp:3164 ekos/capture/sequencejobstate.cpp:72
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Capture operations timed out after %1 seconds."
@@ -16760,7 +16760,7 @@ msgstr ""
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1177 kstarsinit.cpp:486
+#: kstarsactions.cpp:1178 kstarsinit.cpp:486
 #, kde-format
 msgid "Ekos"
 msgstr ""
@@ -36549,17 +36549,17 @@ msgstr ""
 "Pašreiz nedarbojas neviena INDI ierīce. Lai ierīces palaistu, lūdzu, "
 "izvēlieties tās no ierīču pārvadnieka ierīču izvēlnē."
 
-#: indi/indicamera.cpp:490
+#: indi/indicamera.cpp:493
 #, kde-format
 msgid "Video Recording Stopped"
 msgstr ""
 
-#: indi/indicamera.cpp:497
+#: indi/indicamera.cpp:500
 #, kde-format
 msgid "Video Recording Started"
 msgstr ""
 
-#: indi/indicamera.cpp:886
+#: indi/indicamera.cpp:889
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Image file is received"
@@ -37177,56 +37177,56 @@ msgstr "Sākt kameras/CCD ekpozīciju. Ilgums sekundēs."
 msgid "Debayer Options:"
 msgstr "Pārnovu opcijas"
 
-#: indi/servermanager.cpp:102
+#: indi/servermanager.cpp:103
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Unable to create INDI FIFO file %1"
 msgstr "Neizdevās saglabāt attēlu: %1 "
 
-#: indi/servermanager.cpp:130
+#: indi/servermanager.cpp:131
 #, kde-format
 msgid "INDI server failed to start: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:215
+#: indi/servermanager.cpp:216
 #, kde-format
 msgid "Pre driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:239
+#: indi/servermanager.cpp:240
 #, kde-format
 msgid ""
 "Driver %1 was not found on the system. Please make sure the package that "
 "provides the '%1' binary is installed."
 msgstr ""
 
-#: indi/servermanager.cpp:286
+#: indi/servermanager.cpp:287
 #, kde-format
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:323
+#: indi/servermanager.cpp:324
 #, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:390
+#: indi/servermanager.cpp:391
 #, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:541
+#: indi/servermanager.cpp:542
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "Neizdevās palaist INDI serveri: porta kļūda."
 
-#: indi/servermanager.cpp:594
+#: indi/servermanager.cpp:595
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr ""
 
-#: indi/servermanager.cpp:595
+#: indi/servermanager.cpp:596
 #, fuzzy, kde-format
 #| msgid "Driver:"
 msgid "Driver crash"
@@ -39592,7 +39592,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (UseAutoTrail), group (View)
-#: kstars.kcfg:789 tools/scriptbuilder.cpp:664
+#: kstars.kcfg:789 tools/scriptbuilder.cpp:665
 #, kde-format
 msgid "Automatically add trail to centered solar system body?"
 msgstr ""
@@ -77666,12 +77666,12 @@ msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "Cits"
 
-#: kstarsactions.cpp:219
+#: kstarsactions.cpp:220
 #, kde-format
 msgid "Refraction effects disabled"
 msgstr "Refrakcijas efekti atslēgti"
 
-#: kstarsactions.cpp:220
+#: kstarsactions.cpp:221
 #, kde-format
 msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
@@ -77679,66 +77679,66 @@ msgid ""
 msgstr ""
 "Kad horizonts tiek izslēgts, refrakcijas efekti uz laiku tiek atslēgti."
 
-#: kstarsactions.cpp:507
+#: kstarsactions.cpp:508
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr ""
 
-#: kstarsactions.cpp:515
+#: kstarsactions.cpp:516
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
 
-#: kstarsactions.cpp:525
+#: kstarsactions.cpp:526
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr ""
 
-#: kstarsactions.cpp:582
+#: kstarsactions.cpp:583
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Simulator Settings"
 msgid "Light Pollution Settings"
 msgstr "Simulatora iestatījumi"
 
-#: kstarsactions.cpp:584
+#: kstarsactions.cpp:585
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr ""
 
-#: kstarsactions.cpp:693 kstarsactions.cpp:730 kstarsactions.cpp:773
-#: kstarsactions.cpp:812
+#: kstarsactions.cpp:694 kstarsactions.cpp:731 kstarsactions.cpp:774
+#: kstarsactions.cpp:813
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
 "'indiserver' binary is installed."
 msgstr ""
 
-#: kstarsactions.cpp:747
+#: kstarsactions.cpp:748
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
 "cannot be used with Ekos. Do you still want to open INDI device manager?"
 msgstr ""
 
-#: kstarsactions.cpp:750
+#: kstarsactions.cpp:751
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Site Management"
 msgid "INDI Device Manager"
 msgstr "Vietņu pārvaldība"
 
-#: kstarsactions.cpp:1138
+#: kstarsactions.cpp:1139
 #, kde-format
 msgid "Catalogs"
 msgstr "Katalogi"
 
-#: kstarsactions.cpp:1150
+#: kstarsactions.cpp:1151
 #, kde-format
 msgid "Guides"
 msgstr "Vedņi"
 
-#: kstarsactions.cpp:1153
+#: kstarsactions.cpp:1154
 #, fuzzy, kde-format
 #| msgctxt "City in Bahamas"
 #| msgid "Nassau"
@@ -77746,74 +77746,74 @@ msgid "Terrain"
 msgstr "Naso"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1156 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1157 options/opsimageoverlay.ui:202
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
 msgid "Image Overlays"
 msgstr "Attēla dati"
 
-#: kstarsactions.cpp:1186
+#: kstarsactions.cpp:1187
 #, kde-format
 msgid "Xplanet"
 msgstr "Xplanet"
 
-#: kstarsactions.cpp:1192
+#: kstarsactions.cpp:1193
 #, kde-format
 msgid "Developer"
 msgstr ""
 
-#: kstarsactions.cpp:1210 kstarsactions.cpp:2088 kstarsinit.cpp:288
+#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:288
 #, fuzzy, kde-format
 #| msgctxt "City in Bahamas"
 #| msgid "Nassau"
 msgid "Hide Terrain"
 msgstr "Naso"
 
-#: kstarsactions.cpp:1210 kstarsactions.cpp:2088 kstarsinit.cpp:289
+#: kstarsactions.cpp:1211 kstarsactions.cpp:2088 kstarsinit.cpp:289
 #, fuzzy, kde-format
 #| msgid "Show details..."
 msgid "Show Terrain"
 msgstr "Rādīt detaļas..."
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2098 kstarsinit.cpp:293
+#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:293
 #, fuzzy, kde-format
 #| msgid "Save changes"
 msgid "Hide Image Overlays"
 msgstr "Saglabāt izmaiņas"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2098 kstarsinit.cpp:294
+#: kstarsactions.cpp:1215 kstarsactions.cpp:2098 kstarsinit.cpp:294
 #, fuzzy, kde-format
 #| msgid "Show HST Image"
 msgid "Show Image Overlays"
 msgstr "Rādīt HST attēlu"
 
-#: kstarsactions.cpp:1377
+#: kstarsactions.cpp:1378
 #, fuzzy, kde-format
 #| msgid "Export image"
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Eksportēt attēlu"
 
-#: kstarsactions.cpp:1423 tools/scriptbuilder.cpp:795
-#: tools/scriptbuilder.cpp:863
+#: kstarsactions.cpp:1424 tools/scriptbuilder.cpp:796
+#: tools/scriptbuilder.cpp:864
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr ""
 
-#: kstarsactions.cpp:1431
+#: kstarsactions.cpp:1432
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Executing remote scripts is not supported."
 msgstr "Autofokusa opcijas"
 
-#: kstarsactions.cpp:1439 oal/execute.cpp:320 tools/observinglist.cpp:907
+#: kstarsactions.cpp:1440 oal/execute.cpp:320 tools/observinglist.cpp:907
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Neizdevās atvērt failu %1"
 
-#: kstarsactions.cpp:1464
+#: kstarsactions.cpp:1465
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -77825,17 +77825,17 @@ msgstr ""
 "izveidots ar KStars skriptu būvētāju. Skripts var funkcionēt nepareizi vai "
 "pat saturēt ļaunprātīgu kodu. Vai tomēr vēlaties to izpildīt?"
 
-#: kstarsactions.cpp:1469
+#: kstarsactions.cpp:1470
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "Skripta validācija neizdevās"
 
-#: kstarsactions.cpp:1469
+#: kstarsactions.cpp:1470
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Tomēr palaist"
 
-#: kstarsactions.cpp:1476
+#: kstarsactions.cpp:1477
 #, kde-format
 msgid "Running script: %1"
 msgstr "Palaiž skriptu: %1"
@@ -80161,7 +80161,7 @@ msgstr "Dziļā debesu objekta nosaukums"
 msgid "Constellation Lines"
 msgstr "Zvaigznāju līnijas"
 
-#: kstarslite/qml/modules/TopMenu.qml:196 tools/scriptbuilder.cpp:580
+#: kstarslite/qml/modules/TopMenu.qml:196 tools/scriptbuilder.cpp:581
 #, kde-format, kde-kuit-format
 msgid "Constellation Names"
 msgstr "Zvaigznāju nosaukumi"
@@ -85580,7 +85580,7 @@ msgstr ""
 msgid "Show objects of unknown magnitude"
 msgstr "Rādīt objektus, kas ir spilgtāki par šo zvaigžņlielumu:"
 
-#: options/opscolors.cpp:61 tools/scriptbuilder.cpp:744
+#: options/opscolors.cpp:61 tools/scriptbuilder.cpp:745
 #, kde-format
 msgctxt "use 'moonless night' color scheme"
 msgid "Moonless Night"
@@ -87126,7 +87126,7 @@ msgid "Field of View Snapshot Browser"
 msgstr "nobīde no Jupitera (loka minūtes)"
 
 #: printing/foveditordialog.cpp:198 printing/pwizprint.cpp:127
-#: tools/scriptbuilder.cpp:921
+#: tools/scriptbuilder.cpp:922
 #, kde-format
 msgid "Could not upload file"
 msgstr "Neizdevās augšupielādēt failu"
@@ -91819,8 +91819,8 @@ msgstr ""
 #: tools/modcalcgeodcoord.cpp:230 tools/modcalcjd.cpp:116
 #: tools/modcalcplanets.cpp:194 tools/modcalcsidtime.cpp:204
 #: tools/modcalcvizequinox.cpp:69 tools/modcalcvlsr.cpp:289
-#: tools/scriptbuilder.cpp:820 tools/scriptbuilder.cpp:899
-#: tools/scriptbuilder.cpp:982
+#: tools/scriptbuilder.cpp:821 tools/scriptbuilder.cpp:900
+#: tools/scriptbuilder.cpp:983
 #, kde-format
 msgid "Could not open file %1."
 msgstr "Neizdevās atvērt failu %1."
@@ -93795,141 +93795,141 @@ msgstr ""
 msgid "24 Hours"
 msgstr "stunda"
 
-#: tools/scriptbuilder.cpp:54
+#: tools/scriptbuilder.cpp:55
 #, fuzzy, kde-format
 #| msgid "Options"
 msgctxt "@title:window"
 msgid "Options"
 msgstr "Opcijas"
 
-#: tools/scriptbuilder.cpp:124
+#: tools/scriptbuilder.cpp:125
 #, fuzzy, kde-format
 #| msgid "Script Data"
 msgctxt "@title:window"
 msgid "Script Data"
 msgstr "Skripta dati"
 
-#: tools/scriptbuilder.cpp:165
+#: tools/scriptbuilder.cpp:166
 #, fuzzy, kde-format
 #| msgid "Script Builder"
 msgctxt "@title:window"
 msgid "Script Builder"
 msgstr "Skriptu būvētājs"
 
-#: tools/scriptbuilder.cpp:175
+#: tools/scriptbuilder.cpp:176
 #, kde-format
 msgid ""
 "Point the display at the specified location. %1 can be the name of an "
 "object, a cardinal point on the compass, or 'zenith'."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:180
+#: tools/scriptbuilder.cpp:181
 #, kde-format
 msgid "Add a name label to the object named %1."
 msgstr "Pievienot nosaukuma etiķeti objektam ar nosaukumu %1."
 
-#: tools/scriptbuilder.cpp:182
+#: tools/scriptbuilder.cpp:183
 #, kde-format
 msgid "Remove the name label from the object named %1."
 msgstr "Noņemt nosaukuma etiķeti no objekta ar nosaukumu %1."
 
-#: tools/scriptbuilder.cpp:185
+#: tools/scriptbuilder.cpp:186
 #, fuzzy, kde-format
 #| msgid "Add a name label to the object named %1."
 msgid "Add a trail to the solar system body named %1."
 msgstr "Pievienot nosaukuma etiķeti objektam ar nosaukumu %1."
 
-#: tools/scriptbuilder.cpp:187
+#: tools/scriptbuilder.cpp:188
 #, fuzzy, kde-format
 #| msgid "Remove the name label from the object named %1."
 msgid "Remove the trail from the solar system body named %1."
 msgstr "Noņemt nosaukuma etiķeti no objekta ar nosaukumu %1."
 
-#: tools/scriptbuilder.cpp:190
+#: tools/scriptbuilder.cpp:191
 #, kde-format
 msgid ""
 "Point the display at the specified RA/Dec coordinates.  RA is expressed in "
 "Hours; Dec is expressed in Degrees."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:195
+#: tools/scriptbuilder.cpp:196
 #, kde-format
 msgid ""
 "Point the display at the specified Alt/Az coordinates.  Alt and Az are "
 "expressed in Degrees."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:197
+#: tools/scriptbuilder.cpp:198
 #, kde-format
 msgid "Increase the display Zoom Level."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:198
+#: tools/scriptbuilder.cpp:199
 #, kde-format
 msgid "Decrease the display Zoom Level."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:200
+#: tools/scriptbuilder.cpp:201
 #, kde-format
 msgid "Set the display Zoom Level to its default value."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:202
+#: tools/scriptbuilder.cpp:203
 #, kde-format
 msgid "Set the display Zoom Level manually."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:204
+#: tools/scriptbuilder.cpp:205
 #, kde-format
 msgid "Set the system clock to the specified Local Time."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:207
+#: tools/scriptbuilder.cpp:208
 #, kde-format
 msgid "Pause script execution for specified number of seconds."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:209
+#: tools/scriptbuilder.cpp:210
 #, kde-format
 msgid ""
 "Halt script execution until the specified key is pressed.  Only single-key "
 "strokes are possible; use 'space' for the spacebar."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:213
+#: tools/scriptbuilder.cpp:214
 #, kde-format
 msgid "Set whether the display is tracking the current location."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:215
+#: tools/scriptbuilder.cpp:216
 #, kde-format
 msgid "Change view option named %1 to value %2."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:218
+#: tools/scriptbuilder.cpp:219
 #, kde-format
 msgid ""
 "Set the geographic location to the city specified by city, province and "
 "country."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:221
+#: tools/scriptbuilder.cpp:222
 #, fuzzy, kde-format
 #| msgid "Set the color for the label."
 msgid "Set the color named %1 to the value %2."
 msgstr "Iestatīt etiķetes krāsu."
 
-#: tools/scriptbuilder.cpp:223
+#: tools/scriptbuilder.cpp:224
 #, kde-format
 msgid "Load the color scheme specified by name."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:226
+#: tools/scriptbuilder.cpp:227
 #, kde-format
 msgid "Export the sky image to the file, with specified width and height."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:230
+#: tools/scriptbuilder.cpp:231
 #, kde-format
 msgid ""
 "Print the sky image to a printer or file.  If %1 is true, it will show the "
@@ -93940,414 +93940,414 @@ msgstr ""
 "drukāšanas dialoglogs. Ja patiess ir %2, drukāšanai tiks izmantota krāsu "
 "shēma 'Zvaigžņu karte'."
 
-#: tools/scriptbuilder.cpp:234
+#: tools/scriptbuilder.cpp:235
 #, kde-format
 msgid "Halt the simulation clock."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:235
+#: tools/scriptbuilder.cpp:236
 #, kde-format
 msgid "Start the simulation clock."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:237
+#: tools/scriptbuilder.cpp:238
 #, kde-format
 msgid ""
 "Set the timescale of the simulation clock to specified scale.  1.0 means "
 "real-time; 2.0 means twice real-time; etc."
 msgstr ""
 
-#: tools/scriptbuilder.cpp:255
+#: tools/scriptbuilder.cpp:256
 #, kde-format
 msgid "Functions"
 msgstr "Funkcijas"
 
-#: tools/scriptbuilder.cpp:406
+#: tools/scriptbuilder.cpp:407
 #, kde-format
 msgid "InfoBoxes"
 msgstr "Informācijas rūtis"
 
-#: tools/scriptbuilder.cpp:407
+#: tools/scriptbuilder.cpp:408
 #, kde-format
 msgid "Toggle display of all InfoBoxes"
 msgstr "Pārslēgt visu informācijas rūšu attēlošanu"
 
-#: tools/scriptbuilder.cpp:407 tools/scriptbuilder.cpp:410
-#: tools/scriptbuilder.cpp:413 tools/scriptbuilder.cpp:416
-#: tools/scriptbuilder.cpp:419 tools/scriptbuilder.cpp:422
-#: tools/scriptbuilder.cpp:425 tools/scriptbuilder.cpp:439
-#: tools/scriptbuilder.cpp:442 tools/scriptbuilder.cpp:451
-#: tools/scriptbuilder.cpp:454 tools/scriptbuilder.cpp:461
-#: tools/scriptbuilder.cpp:464 tools/scriptbuilder.cpp:467
-#: tools/scriptbuilder.cpp:470 tools/scriptbuilder.cpp:473
-#: tools/scriptbuilder.cpp:476 tools/scriptbuilder.cpp:479
-#: tools/scriptbuilder.cpp:482 tools/scriptbuilder.cpp:485
-#: tools/scriptbuilder.cpp:488 tools/scriptbuilder.cpp:494
-#: tools/scriptbuilder.cpp:497 tools/scriptbuilder.cpp:518
-#: tools/scriptbuilder.cpp:521 tools/scriptbuilder.cpp:524
-#: tools/scriptbuilder.cpp:527 tools/scriptbuilder.cpp:530
-#: tools/scriptbuilder.cpp:533 tools/scriptbuilder.cpp:536
-#: tools/scriptbuilder.cpp:539 tools/scriptbuilder.cpp:542
-#: tools/scriptbuilder.cpp:545 tools/scriptbuilder.cpp:548
-#: tools/scriptbuilder.cpp:551 tools/scriptbuilder.cpp:554
-#: tools/scriptbuilder.cpp:557 tools/scriptbuilder.cpp:560
-#: tools/scriptbuilder.cpp:581 tools/scriptbuilder.cpp:584
-#: tools/scriptbuilder.cpp:587 tools/scriptbuilder.cpp:596
-#: tools/scriptbuilder.cpp:602 tools/scriptbuilder.cpp:605
-#: tools/scriptbuilder.cpp:608 tools/scriptbuilder.cpp:611
-#: tools/scriptbuilder.cpp:614 tools/scriptbuilder.cpp:617
-#: tools/scriptbuilder.cpp:620 tools/scriptbuilder.cpp:635
-#: tools/scriptbuilder.cpp:651 tools/scriptbuilder.cpp:654
-#: tools/scriptbuilder.cpp:657 tools/scriptbuilder.cpp:661
-#: tools/scriptbuilder.cpp:664 tools/scriptbuilder.cpp:668
+#: tools/scriptbuilder.cpp:408 tools/scriptbuilder.cpp:411
+#: tools/scriptbuilder.cpp:414 tools/scriptbuilder.cpp:417
+#: tools/scriptbuilder.cpp:420 tools/scriptbuilder.cpp:423
+#: tools/scriptbuilder.cpp:426 tools/scriptbuilder.cpp:440
+#: tools/scriptbuilder.cpp:443 tools/scriptbuilder.cpp:452
+#: tools/scriptbuilder.cpp:455 tools/scriptbuilder.cpp:462
+#: tools/scriptbuilder.cpp:465 tools/scriptbuilder.cpp:468
+#: tools/scriptbuilder.cpp:471 tools/scriptbuilder.cpp:474
+#: tools/scriptbuilder.cpp:477 tools/scriptbuilder.cpp:480
+#: tools/scriptbuilder.cpp:483 tools/scriptbuilder.cpp:486
+#: tools/scriptbuilder.cpp:489 tools/scriptbuilder.cpp:495
+#: tools/scriptbuilder.cpp:498 tools/scriptbuilder.cpp:519
+#: tools/scriptbuilder.cpp:522 tools/scriptbuilder.cpp:525
+#: tools/scriptbuilder.cpp:528 tools/scriptbuilder.cpp:531
+#: tools/scriptbuilder.cpp:534 tools/scriptbuilder.cpp:537
+#: tools/scriptbuilder.cpp:540 tools/scriptbuilder.cpp:543
+#: tools/scriptbuilder.cpp:546 tools/scriptbuilder.cpp:549
+#: tools/scriptbuilder.cpp:552 tools/scriptbuilder.cpp:555
+#: tools/scriptbuilder.cpp:558 tools/scriptbuilder.cpp:561
+#: tools/scriptbuilder.cpp:582 tools/scriptbuilder.cpp:585
+#: tools/scriptbuilder.cpp:588 tools/scriptbuilder.cpp:597
+#: tools/scriptbuilder.cpp:603 tools/scriptbuilder.cpp:606
+#: tools/scriptbuilder.cpp:609 tools/scriptbuilder.cpp:612
+#: tools/scriptbuilder.cpp:615 tools/scriptbuilder.cpp:618
+#: tools/scriptbuilder.cpp:621 tools/scriptbuilder.cpp:636
+#: tools/scriptbuilder.cpp:652 tools/scriptbuilder.cpp:655
+#: tools/scriptbuilder.cpp:658 tools/scriptbuilder.cpp:662
+#: tools/scriptbuilder.cpp:665 tools/scriptbuilder.cpp:669
 #, kde-format
 msgid "bool"
 msgstr "būla"
 
-#: tools/scriptbuilder.cpp:410
+#: tools/scriptbuilder.cpp:411
 #, kde-format
 msgid "Toggle display of Time InfoBox"
 msgstr "Pārslēgt laika informācijas rūts attēlošanu"
 
-#: tools/scriptbuilder.cpp:413
+#: tools/scriptbuilder.cpp:414
 #, kde-format
 msgid "Toggle display of Geographic InfoBox"
 msgstr "Pārslēgt ģeogrāfiskās informācijas rūts attēlošanu"
 
-#: tools/scriptbuilder.cpp:416
+#: tools/scriptbuilder.cpp:417
 #, kde-format
 msgid "Toggle display of Focus InfoBox"
 msgstr "Pārslēgt fokusa informācijas rūts attēlošanu"
 
-#: tools/scriptbuilder.cpp:419
+#: tools/scriptbuilder.cpp:420
 #, kde-format
 msgid "(un)Shade Time InfoBox"
 msgstr "(At)Ritināt laika informācijas rūti"
 
-#: tools/scriptbuilder.cpp:422
+#: tools/scriptbuilder.cpp:423
 #, kde-format
 msgid "(un)Shade Geographic InfoBox"
 msgstr "(At)Ritināt ģeogrāfisko informācijas rūti"
 
-#: tools/scriptbuilder.cpp:425
+#: tools/scriptbuilder.cpp:426
 #, kde-format
 msgid "(un)Shade Focus InfoBox"
 msgstr "(At)Ritināt fokusa informācijas rūti"
 
-#: tools/scriptbuilder.cpp:438
+#: tools/scriptbuilder.cpp:439
 #, kde-format
 msgid "Toolbars"
 msgstr "Rīkjoslas"
 
-#: tools/scriptbuilder.cpp:439
+#: tools/scriptbuilder.cpp:440
 #, kde-format
 msgid "Toggle display of main toolbar"
 msgstr "Pārslēgt galvenās rīkjoslas attēlošanu"
 
-#: tools/scriptbuilder.cpp:442
+#: tools/scriptbuilder.cpp:443
 #, kde-format
 msgid "Toggle display of view toolbar"
 msgstr "Pārslēgt skata rīkjoslas attēlošanu"
 
-#: tools/scriptbuilder.cpp:450
+#: tools/scriptbuilder.cpp:451
 #, kde-format
 msgid "Show Objects"
 msgstr "Rādīt objektus"
 
-#: tools/scriptbuilder.cpp:451
+#: tools/scriptbuilder.cpp:452
 #, kde-format
 msgid "Toggle display of Stars"
 msgstr "Pārslēgt zvaigžņu attēlošanu"
 
-#: tools/scriptbuilder.cpp:454
+#: tools/scriptbuilder.cpp:455
 #, kde-format
 msgid "Toggle display of all deep-sky objects"
 msgstr "Pārslēgt visu dziļo debesu objektu attēlošanu"
 
-#: tools/scriptbuilder.cpp:461
+#: tools/scriptbuilder.cpp:462
 #, kde-format
 msgid "Toggle display of all solar system bodies"
 msgstr "Pārslēgt visu Saules sistēmas ķermeņu attēlošanu"
 
-#: tools/scriptbuilder.cpp:464
+#: tools/scriptbuilder.cpp:465
 #, kde-format
 msgid "Toggle display of Sun"
 msgstr "Pārslēgt Saules attēlošanu"
 
-#: tools/scriptbuilder.cpp:467
+#: tools/scriptbuilder.cpp:468
 #, kde-format
 msgid "Toggle display of Moon"
 msgstr "Pārslēgt Mēness attēlošanu"
 
-#: tools/scriptbuilder.cpp:470
+#: tools/scriptbuilder.cpp:471
 #, kde-format
 msgid "Toggle display of Mercury"
 msgstr "Pārslēgt Merkūra attēlošanu"
 
-#: tools/scriptbuilder.cpp:473
+#: tools/scriptbuilder.cpp:474
 #, kde-format
 msgid "Toggle display of Venus"
 msgstr "Pārslēgt Venēras attēlošanu"
 
-#: tools/scriptbuilder.cpp:476
+#: tools/scriptbuilder.cpp:477
 #, kde-format
 msgid "Toggle display of Mars"
 msgstr "Pārslēgt Marsa attēlošanu"
 
-#: tools/scriptbuilder.cpp:479
+#: tools/scriptbuilder.cpp:480
 #, kde-format
 msgid "Toggle display of Jupiter"
 msgstr "Pārslēgt Jupitera attēlošanu"
 
-#: tools/scriptbuilder.cpp:482
+#: tools/scriptbuilder.cpp:483
 #, kde-format
 msgid "Toggle display of Saturn"
 msgstr "Pārslēgt Saturna attēlošanu"
 
-#: tools/scriptbuilder.cpp:485
+#: tools/scriptbuilder.cpp:486
 #, kde-format
 msgid "Toggle display of Uranus"
 msgstr "Pārslēgt Urāna attēlošanu"
 
-#: tools/scriptbuilder.cpp:488
+#: tools/scriptbuilder.cpp:489
 #, kde-format
 msgid "Toggle display of Neptune"
 msgstr "Pārslēgt Neptūna attēlošanu"
 
-#: tools/scriptbuilder.cpp:494
+#: tools/scriptbuilder.cpp:495
 #, kde-format
 msgid "Toggle display of Asteroids"
 msgstr "Pārslēgt asteroīdu attēlošanu"
 
-#: tools/scriptbuilder.cpp:497
+#: tools/scriptbuilder.cpp:498
 #, kde-format
 msgid "Toggle display of Comets"
 msgstr "Pārslēgt komētu attēlošanu"
 
-#: tools/scriptbuilder.cpp:517
+#: tools/scriptbuilder.cpp:518
 #, kde-format
 msgid "Show Other"
 msgstr "Rādīt citus"
 
-#: tools/scriptbuilder.cpp:518
+#: tools/scriptbuilder.cpp:519
 #, kde-format
 msgid "Toggle display of constellation lines"
 msgstr "Pārslēgt zvaigznāju līniju attēlošanu"
 
-#: tools/scriptbuilder.cpp:521
+#: tools/scriptbuilder.cpp:522
 #, kde-format
 msgid "Toggle display of constellation boundaries"
 msgstr "Pārslēgt zvaigznāju robežu attēlošanu"
 
-#: tools/scriptbuilder.cpp:524
+#: tools/scriptbuilder.cpp:525
 #, kde-format
 msgid "Toggle display of constellation names"
 msgstr "Pārslēgt zvaigznāju nosaukumu attēlošanu"
 
-#: tools/scriptbuilder.cpp:527
+#: tools/scriptbuilder.cpp:528
 #, kde-format
 msgid "Toggle display of Milky Way"
 msgstr "Pārslēgt Piena Ceļa attēlošanu"
 
-#: tools/scriptbuilder.cpp:530
+#: tools/scriptbuilder.cpp:531
 #, kde-format
 msgid "Toggle display of the coordinate grid"
 msgstr "Pārslēgt koordinātu tīkla attēlošanu"
 
-#: tools/scriptbuilder.cpp:533
+#: tools/scriptbuilder.cpp:534
 #, kde-format
 msgid "Toggle display of the celestial equator"
 msgstr "Pārslēgt debesu ekvatora attēlošanu"
 
-#: tools/scriptbuilder.cpp:536
+#: tools/scriptbuilder.cpp:537
 #, kde-format
 msgid "Toggle display of the ecliptic"
 msgstr "Pārslēgt ekliptikas attēlošanu"
 
-#: tools/scriptbuilder.cpp:539
+#: tools/scriptbuilder.cpp:540
 #, kde-format
 msgid "Toggle display of the horizon line"
 msgstr "Pārslēgt horizonta līnijas attēlošanu"
 
-#: tools/scriptbuilder.cpp:542
+#: tools/scriptbuilder.cpp:543
 #, kde-format
 msgid "Toggle display of the opaque ground"
 msgstr "Pārslēgt necaurspīdīgas zemes attēlošanu"
 
-#: tools/scriptbuilder.cpp:545
+#: tools/scriptbuilder.cpp:546
 #, kde-format
 msgid "Toggle display of star name labels"
 msgstr "Pārslēgt zvaigžņu nosaukumu etiķešu attēlošanu"
 
-#: tools/scriptbuilder.cpp:548
+#: tools/scriptbuilder.cpp:549
 #, kde-format
 msgid "Toggle display of star magnitude labels"
 msgstr "Pārslēgt zvaigžņu zvaigžņlielumu etiķešu attēlošanu"
 
-#: tools/scriptbuilder.cpp:551
+#: tools/scriptbuilder.cpp:552
 #, kde-format
 msgid "Toggle display of asteroid name labels"
 msgstr "Pārslēgt asteroīdu nosaukumu etiķešu attēlošanu"
 
-#: tools/scriptbuilder.cpp:554
+#: tools/scriptbuilder.cpp:555
 #, kde-format
 msgid "Toggle display of comet name labels"
 msgstr "Pārslēgt komētu nosaukumu etiķešu attēlošanu"
 
-#: tools/scriptbuilder.cpp:557
+#: tools/scriptbuilder.cpp:558
 #, kde-format
 msgid "Toggle display of planet name labels"
 msgstr "Pārslēgt planētu nosaukumu etiķešu attēlošanu"
 
-#: tools/scriptbuilder.cpp:560
+#: tools/scriptbuilder.cpp:561
 #, kde-format
 msgid "Toggle display of planet images"
 msgstr "Pārslēgt planētu attēlu attēlošanu"
 
-#: tools/scriptbuilder.cpp:581
+#: tools/scriptbuilder.cpp:582
 #, kde-format
 msgid "Show Latin constellation names"
 msgstr "Rādīt latīņu zvaigznāju nosaukumus"
 
-#: tools/scriptbuilder.cpp:584
+#: tools/scriptbuilder.cpp:585
 #, kde-format
 msgid "Show constellation names in local language"
 msgstr "Rādīt zvaigznāju nosaukumus vietējā valodā"
 
-#: tools/scriptbuilder.cpp:587
+#: tools/scriptbuilder.cpp:588
 #, kde-format
 msgid "Show IAU-standard constellation abbreviations"
 msgstr "Rādīt IAU-standarta zvaigznāju saīsinājumus"
 
-#: tools/scriptbuilder.cpp:595
+#: tools/scriptbuilder.cpp:596
 #, kde-format
 msgid "Hide Items"
 msgstr "Slēpt vienības"
 
-#: tools/scriptbuilder.cpp:596
+#: tools/scriptbuilder.cpp:597
 #, kde-format
 msgid "Toggle whether objects hidden while slewing display"
 msgstr ""
 
-#: tools/scriptbuilder.cpp:599
+#: tools/scriptbuilder.cpp:600
 #, kde-format
 msgid "Timestep threshold (in seconds) for hiding objects"
 msgstr ""
 
-#: tools/scriptbuilder.cpp:599 tools/scriptbuilder.cpp:638
-#: tools/scriptbuilder.cpp:641 tools/scriptbuilder.cpp:706
-#: tools/scriptbuilder.cpp:709 tools/scriptbuilder.cpp:712
-#: tools/scriptbuilder.cpp:716 tools/scriptbuilder.cpp:720
+#: tools/scriptbuilder.cpp:600 tools/scriptbuilder.cpp:639
+#: tools/scriptbuilder.cpp:642 tools/scriptbuilder.cpp:707
+#: tools/scriptbuilder.cpp:710 tools/scriptbuilder.cpp:713
+#: tools/scriptbuilder.cpp:717 tools/scriptbuilder.cpp:721
 #, kde-format
 msgid "double"
 msgstr "double"
 
-#: tools/scriptbuilder.cpp:602
+#: tools/scriptbuilder.cpp:603
 #, fuzzy, kde-format
 #| msgid "Hide objects while moving?"
 msgid "Hide faint stars while slewing?"
 msgstr "Slēpt objektus, tos pārvietojot?"
 
-#: tools/scriptbuilder.cpp:605
+#: tools/scriptbuilder.cpp:606
 #, fuzzy, kde-format
 msgid "Hide solar system bodies while slewing?"
 msgstr "Saules Sistēma"
 
-#: tools/scriptbuilder.cpp:608
+#: tools/scriptbuilder.cpp:609
 #, kde-format
 msgid "Hide Milky Way while slewing?"
 msgstr ""
 
-#: tools/scriptbuilder.cpp:611
+#: tools/scriptbuilder.cpp:612
 #, fuzzy, kde-format
 #| msgid "Show constellation names in local language"
 msgid "Hide constellation names while slewing?"
 msgstr "Rādīt zvaigznāju nosaukumus vietējā valodā"
 
-#: tools/scriptbuilder.cpp:614
+#: tools/scriptbuilder.cpp:615
 #, fuzzy, kde-format
 #| msgid "Toggle constellation lines"
 msgid "Hide constellation lines while slewing?"
 msgstr "Pārslēgt zvaigznāju līnijas"
 
-#: tools/scriptbuilder.cpp:617
+#: tools/scriptbuilder.cpp:618
 #, fuzzy, kde-format
 #| msgid "Toggle constellation boundaries"
 msgid "Hide constellation boundaries while slewing?"
 msgstr "Pārslēgt zvaigznāju robežas"
 
-#: tools/scriptbuilder.cpp:620
+#: tools/scriptbuilder.cpp:621
 #, kde-format
 msgid "Hide coordinate grid while slewing?"
 msgstr ""
 
-#: tools/scriptbuilder.cpp:634
+#: tools/scriptbuilder.cpp:635
 #, kde-format
 msgid "Skymap Options"
 msgstr "Debesu kartes opcijas"
 
-#: tools/scriptbuilder.cpp:635
+#: tools/scriptbuilder.cpp:636
 #, kde-format
 msgid "Use Horizontal coordinates? (otherwise, use Equatorial)"
 msgstr ""
 "Lietot horizontālās koordinātes? (Pretējā gadījumā lietot ekvatoriālās)"
 
-#: tools/scriptbuilder.cpp:638
+#: tools/scriptbuilder.cpp:639
 #, kde-format
 msgid "Set the Zoom Factor"
 msgstr "Iestatīt tuvinājuma pakāpi"
 
-#: tools/scriptbuilder.cpp:641
+#: tools/scriptbuilder.cpp:642
 #, fuzzy, kde-format
 msgid "Select angular size for the FOV symbol (in arcmin)"
 msgstr "Mērķa Indikators"
 
-#: tools/scriptbuilder.cpp:644
+#: tools/scriptbuilder.cpp:645
 #, kde-format
 msgid ""
 "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, "
 "4=Bullseye)"
 msgstr ""
 
-#: tools/scriptbuilder.cpp:645
+#: tools/scriptbuilder.cpp:646
 #, kde-format
 msgid "int"
 msgstr "int"
 
-#: tools/scriptbuilder.cpp:648
+#: tools/scriptbuilder.cpp:649
 #, fuzzy, kde-format
 #| msgid "Set the color for the label."
 msgid "Select color for the FOV symbol"
 msgstr "Iestatīt etiķetes krāsu."
 
-#: tools/scriptbuilder.cpp:648
+#: tools/scriptbuilder.cpp:649
 #, kde-format
 msgid "string"
 msgstr "virkne"
 
-#: tools/scriptbuilder.cpp:651
+#: tools/scriptbuilder.cpp:652
 #, kde-format
 msgid "Use animated slewing? (otherwise, \"snap\" to new focus)"
 msgstr ""
 
-#: tools/scriptbuilder.cpp:654
+#: tools/scriptbuilder.cpp:655
 #, kde-format
 msgid "Correct for atmospheric refraction?"
 msgstr "Labot atmosfēras atstarošanu?"
 
-#: tools/scriptbuilder.cpp:657
+#: tools/scriptbuilder.cpp:658
 #, fuzzy, kde-format
 #| msgid "Attach label to centered object"
 msgid "Automatically attach name label to centered object?"
 msgstr "Piesaistīt etiķeti centrētajam objektam"
 
-#: tools/scriptbuilder.cpp:660
+#: tools/scriptbuilder.cpp:661
 #, kde-format
 msgid "Attach temporary name label when hovering mouse over an object?"
 msgstr ""
 "Piesaistīt pagaidu nosaukuma etiķeti, objektam pāri pārvietojoties pelei?"
 
-#: tools/scriptbuilder.cpp:667
+#: tools/scriptbuilder.cpp:668
 #, kde-format
 msgid "Planet trails fade to sky color? (otherwise color is constant)"
 msgstr ""
@@ -94369,49 +94369,49 @@ msgstr ""
 #. fields.clear();
 #.
 #. FIXME: This description is incorrect! Fix after strings freeze
-#: tools/scriptbuilder.cpp:706
+#: tools/scriptbuilder.cpp:707
 #, kde-format
 msgid "magnitude of faintest star labeled on map"
 msgstr "uz kartes apzīmētās blāvākās zvaigznes zvaigžņlielums"
 
-#: tools/scriptbuilder.cpp:709
+#: tools/scriptbuilder.cpp:710
 #, fuzzy, kde-format
 msgid "magnitude of brightest star hidden while slewing"
 msgstr "Slēpt objektus pārvietojot"
 
-#: tools/scriptbuilder.cpp:712
+#: tools/scriptbuilder.cpp:713
 #, kde-format
 msgid "magnitude of faintest asteroid drawn on map"
 msgstr "uz kartes attēlotā blāvākā asteroīda zvaigžņlielums"
 
-#: tools/scriptbuilder.cpp:716
+#: tools/scriptbuilder.cpp:717
 #, kde-format
 msgid "magnitude of faintest asteroid labeled on map"
 msgstr "uz kartes apzīmētā blāvākā asteroīda zvaigžņlielums"
 
-#: tools/scriptbuilder.cpp:719
+#: tools/scriptbuilder.cpp:720
 #, kde-format
 msgid "comets nearer to the Sun than this (in AU) are labeled on map"
 msgstr ""
 "komētas, kas atrodas tuvāk Saulei nekā šis (astronomiskajās vienībās), tiks "
 "apzīmētas kartē"
 
-#: tools/scriptbuilder.cpp:814
+#: tools/scriptbuilder.cpp:815
 #, kde-format
 msgid "Could not download remote file."
 msgstr "Neizdevās lejupielādēt attālināto failu."
 
-#: tools/scriptbuilder.cpp:814
+#: tools/scriptbuilder.cpp:815
 #, kde-format
 msgid "Download Error"
 msgstr "Lejupielādes kļūda"
 
-#: tools/scriptbuilder.cpp:946
+#: tools/scriptbuilder.cpp:947
 #, kde-format
 msgid "Save Changes to Script?"
 msgstr "Saglabāt izmaiņas skriptā?"
 
-#: tools/scriptbuilder.cpp:947
+#: tools/scriptbuilder.cpp:948
 #, kde-format
 msgid ""
 "The current script has unsaved changes.  Would you like to save before "
