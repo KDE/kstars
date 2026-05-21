@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-20 02:06+0000\n"
+"POT-Creation-Date: 2026-05-21 02:06+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -13329,7 +13329,7 @@ msgstr "വടക്കേ നദി"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:401
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:475
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:336
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13341,7 +13341,7 @@ msgstr "ബന്ധം"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:355
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:402
 #: ekos/guide/guide.ui:402 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -17879,32 +17879,32 @@ msgstr "റിക്കോര്‍ഡിങ് _നിര്‍ത്തുക"
 msgid "Stopped"
 msgstr "INDI"
 
-#: ekos/ekoslive/ekosliveclient.cpp:485
+#: ekos/ekoslive/ekosliveclient.cpp:559
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "റിക്കോര്‍ഡിങ് _നിര്‍ത്തുക"
 
-#: ekos/ekoslive/ekosliveclient.cpp:487
+#: ekos/ekoslive/ekosliveclient.cpp:561
 #, fuzzy, kde-format
 msgid "Observatory:"
 msgstr "നക്ഷത്രനിരീക്ഷണാലയത്തിന്റെ പേര് ടൈപ്പ് ചെയ്യുക"
 
-#: ekos/ekoslive/ekosliveclient.cpp:488
+#: ekos/ekoslive/ekosliveclient.cpp:562
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alpine"
 msgid "Offline:"
 msgstr "ആല്‍പൈന്‍"
 
-#: ekos/ekoslive/ekosliveclient.cpp:489
+#: ekos/ekoslive/ekosliveclient.cpp:563
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Alpine"
 msgid "Online:"
 msgstr "ആല്‍പൈന്‍"
 
-#: ekos/ekoslive/ekosliveclient.cpp:490
+#: ekos/ekoslive/ekosliveclient.cpp:564
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
 #| msgid "Mali"
@@ -17981,12 +17981,12 @@ msgstr "അര്‍ജെന്റിയ"
 msgid "Mosaic import failed."
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: ekos/ekoslive/nodemanager.cpp:227
+#: ekos/ekoslive/nodemanager.cpp:236
 #, fuzzy, kde-format
 msgid "Error authenticating with EkosLive server: %1"
 msgstr "URL തുറക്കുവാന്‍ സാധ്യമായില്ല"
 
-#: ekos/ekoslive/nodemanager.cpp:240
+#: ekos/ekoslive/nodemanager.cpp:249
 #, fuzzy, kde-format
 msgid "Error parsing server response: %1"
 msgstr "URL തുറക്കുവാന്‍ സാധ്യമായില്ല"

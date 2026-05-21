@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-20 02:06+0000\n"
+"POT-Creation-Date: 2026-05-21 02:06+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -12925,7 +12925,7 @@ msgstr "ច្រក"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:401
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:475
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:336
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12936,7 +12936,7 @@ msgstr "តភ្ជាប់"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:355
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:402
 #: ekos/guide/guide.ui:402 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, fuzzy, kde-format, kde-kuit-format
@@ -17287,28 +17287,28 @@ msgstr "កំពុង​អាន"
 msgid "Stopped"
 msgstr "របារ​ឧបករណ៍"
 
-#: ekos/ekoslive/ekosliveclient.cpp:485
+#: ekos/ekoslive/ekosliveclient.cpp:559
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 
-#: ekos/ekoslive/ekosliveclient.cpp:487
+#: ekos/ekoslive/ekosliveclient.cpp:561
 #, fuzzy, kde-format
 msgid "Observatory:"
 msgstr "ម៉ាស៊ីន​បម្រើ"
 
-#: ekos/ekoslive/ekosliveclient.cpp:488
+#: ekos/ekoslive/ekosliveclient.cpp:562
 #, fuzzy, kde-format
 msgid "Offline:"
 msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
-#: ekos/ekoslive/ekosliveclient.cpp:489
+#: ekos/ekoslive/ekosliveclient.cpp:563
 #, fuzzy, kde-format
 msgid "Online:"
 msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
-#: ekos/ekoslive/ekosliveclient.cpp:490
+#: ekos/ekoslive/ekosliveclient.cpp:564
 #, fuzzy, kde-format
 msgid "Machine ID:"
 msgstr "ម៉ាលី"
@@ -17377,12 +17377,12 @@ msgstr "ច្រក"
 msgid "Mosaic import failed."
 msgstr "រក្សា​ទុក"
 
-#: ekos/ekoslive/nodemanager.cpp:227
+#: ekos/ekoslive/nodemanager.cpp:236
 #, fuzzy, kde-format
 msgid "Error authenticating with EkosLive server: %1"
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
 
-#: ekos/ekoslive/nodemanager.cpp:240
+#: ekos/ekoslive/nodemanager.cpp:249
 #, fuzzy, kde-format
 msgid "Error parsing server response: %1"
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"

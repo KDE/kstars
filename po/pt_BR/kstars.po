@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-20 02:06+0000\n"
+"POT-Creation-Date: 2026-05-21 02:06+0000\n"
 "PO-Revision-Date: 2026-05-19 07:18-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -13887,7 +13887,7 @@ msgstr "Porta"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:401
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:475
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:336
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13898,7 +13898,7 @@ msgstr "Conectar"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:355
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:402
 #: ekos/guide/guide.ui:402 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -18673,28 +18673,28 @@ msgstr "Parando"
 msgid "Stopped"
 msgstr "Parado"
 
-#: ekos/ekoslive/ekosliveclient.cpp:485
+#: ekos/ekoslive/ekosliveclient.cpp:559
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Selecionar servidores EkosLive"
 
-#: ekos/ekoslive/ekosliveclient.cpp:487
+#: ekos/ekoslive/ekosliveclient.cpp:561
 #, kde-format
 msgid "Observatory:"
 msgstr "Observatório:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:488
+#: ekos/ekoslive/ekosliveclient.cpp:562
 #, kde-format
 msgid "Offline:"
 msgstr "Desconectado:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:489
+#: ekos/ekoslive/ekosliveclient.cpp:563
 #, kde-format
 msgid "Online:"
 msgstr "Conectado:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:490
+#: ekos/ekoslive/ekosliveclient.cpp:564
 #, kde-format
 msgid "Machine ID:"
 msgstr "ID da máquina:"
@@ -18763,12 +18763,12 @@ msgstr "alvo"
 msgid "Mosaic import failed."
 msgstr "Importação do mosaico falhou."
 
-#: ekos/ekoslive/nodemanager.cpp:227
+#: ekos/ekoslive/nodemanager.cpp:236
 #, kde-format
 msgid "Error authenticating with EkosLive server: %1"
 msgstr "Erro de autenticação com o servidor EkosLive: %1"
 
-#: ekos/ekoslive/nodemanager.cpp:240
+#: ekos/ekoslive/nodemanager.cpp:249
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Erro ao analisar a resposta do servidor: %1"

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-20 02:06+0000\n"
-"PO-Revision-Date: 2026-05-06 16:48+0200\n"
+"POT-Creation-Date: 2026-05-21 02:06+0000\n"
+"PO-Revision-Date: 2026-05-20 15:42+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 25.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 # Diccionari de termes astronòmics:
@@ -6776,7 +6776,7 @@ msgid ""
 "Load and Slew Tool, and the Mount Model Tool will be displayed below."
 msgstr ""
 "Els resultats de les solucions per a l'astrometria de les eines «Captura» i "
-"«Resol», «Carrega» i «Orienta», així com l'eina «Models de muntura» es "
+"«Resol», «Carrega» i «Orienta», així com l'eina «Model de la muntura» es "
 "mostraran davall."
 
 # skip-rule: abbreviations-dec
@@ -6870,7 +6870,7 @@ msgid ""
 "list of points to go to and solve. It can aid in building a pointing model "
 "for better accuracy."
 msgstr ""
-"Inicia l'eina «Models de muntura». Esta eina permet crear una llista "
+"Inicia l'eina «Model de la muntura». Esta eina permet crear una llista "
 "programada de punts per a anar-hi i resoldre. Pot ajudar a construir un "
 "model d'apuntador per a una precisió més acurada."
 
@@ -6878,7 +6878,7 @@ msgstr ""
 #: ekos/align/align.ui:1051
 #, kde-format
 msgid "Mount Model"
-msgstr "Model de muntura"
+msgstr "Model de la muntura"
 
 #: ekos/align/align_components.cpp:39
 #, kde-format
@@ -7685,6 +7685,7 @@ msgstr "Punt del cel"
 #, kde-format
 msgid "Warning: only %1 of %2 requested alignment points could be placed."
 msgstr ""
+"Avís: només es poden col·locar %1 de %2 punts d'alineació sol·licitats."
 
 #: ekos/align/mountmodel.cpp:745
 #, kde-format
@@ -7704,18 +7705,19 @@ msgstr "Neteja tots els punts d'alineació"
 #: ekos/align/mountmodel.cpp:1087
 #, kde-format
 msgid "The Mount Model Tool is Reset."
-msgstr "Es reinicialitza l'eina «Models de muntura»."
+msgstr "Es reinicialitza l'eina «Model de la muntura»."
 
 #: ekos/align/mountmodel.cpp:1127
-#, fuzzy, kde-format
-#| msgid "Mount is parking. Aborting guide..."
+#, kde-format
 msgid "Mount unparked. Starting mount model..."
-msgstr "S'està aparcant la muntura. S'interromp el guiatge…"
+msgstr "La muntura està desaparcada. S'està iniciant el model de la muntura…"
 
 #: ekos/align/mountmodel.cpp:1135
 #, kde-format
 msgid "Mount unpark failed. Cannot start mount model."
 msgstr ""
+"Ha fallat el desaparcament de la muntura. No s'ha pogut iniciar el model de "
+"la muntura…"
 
 #: ekos/align/mountmodel.cpp:1147
 #, kde-format
@@ -7723,10 +7725,11 @@ msgid "Please Check the Alignment Points."
 msgstr "Comproveu els punts d'alineació."
 
 #: ekos/align/mountmodel.cpp:1155
-#, fuzzy, kde-format
-#| msgid "Dustcap is parked. Unparking before capture..."
+#, kde-format
 msgid "Mount is parked. Unparking before starting mount model..."
-msgstr "La tapa per la pols està aparcada. Es desaparcarà abans de la captura…"
+msgstr ""
+"La muntura està aparcada. Es desaparcarà abans d'iniciar el model de la "
+"muntura…"
 
 #: ekos/align/mountmodel.cpp:1166
 #, kde-format
@@ -7736,7 +7739,7 @@ msgid ""
 "report the pointing model errors.  Do you wish to continue?"
 msgstr ""
 "En el mòdul «Alinea», se selecciona «Res» per a l'acció del solucionador. "
-"Açò vol dir que l'eina «Models de muntura» no sincronitzarà i alinearà la "
+"Açò vol dir que l'eina «Model de la muntura» no sincronitzarà i alinearà la "
 "muntura, sinó que només informarà dels errors del model d'apuntador. Voleu "
 "continuar?"
 
@@ -7748,22 +7751,24 @@ msgstr "Voleu que s'informe només del model d'apuntador?"
 #: ekos/align/mountmodel.cpp:1187
 #, kde-format
 msgid "The Mount Model Tool is Starting."
-msgstr "S'inicia l'eina «Models de muntura»."
+msgstr "S'inicia l'eina «Model de la muntura»."
 
 #: ekos/align/mountmodel.cpp:1196
 #, kde-format
 msgid "The Mount Model Tool is Paused."
-msgstr "L'eina «Models de muntura» està en pausa."
+msgstr "L'eina «Model de la muntura» està en pausa."
 
 #: ekos/align/mountmodel.cpp:1263
 #, kde-format
 msgid "The Mount Model Tool is Finished."
-msgstr "L'eina «Models de muntura» ha finalitzat."
+msgstr "L'eina «Model de la muntura» ha finalitzat."
 
 #: ekos/align/mountmodel.cpp:1288
 #, kde-format
 msgid "Mount model: forcing blind solve and sync for each alignment point."
 msgstr ""
+"Model de la muntura: es força la resolució a cegues i la sincronització per "
+"a cadascun dels punts d'alineació."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, mountModel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpsAstrometryIndexFiles)
@@ -7794,7 +7799,7 @@ msgstr ""
 #: ekos/align/mountmodel.ui:48
 #, kde-format
 msgid "Mount Model Wizard"
-msgstr "Assistent del model de muntura"
+msgstr "Assistent del model de la muntura"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/align/mountmodel.ui:54
@@ -7825,6 +7830,26 @@ msgid ""
 "</ul>\n"
 "</body></html>"
 msgstr ""
+"<html><head/><body><p>Trieu com triarà l'assistent els punts d'alineació.</"
+"p>\n"
+"<p>Tots els modes, excepte «Dec fixa» i «Quadrícula fixa», estenen els punts "
+"uniformement a través del cel utilitzant una distribució uniforme. Els modes "
+"diferixen amb què s'ajusta cada punt:</p>\n"
+"<ul>\n"
+"<li><b>Qualsevol estrela:</b> Ajusta amb l'estrela visible més propera.</"
+"li>\n"
+"<li><b>Estreles amb nom:</b> Ajusta amb una estrela amb nom ben conegut (p. "
+"ex., Vega, Arcturus).</li>\n"
+"<li><b>Qualsevol objecte:</b> Ajusta amb l'objecte visible més proper de "
+"qualsevol tipus.</li>\n"
+"<li><b>Distribució uniforme:</b> Els punts es distribuïxen uniformement a "
+"través del cel visible.</li>\n"
+"<li><b>Dec fixa:</b> Tots els punts compartixen la mateixa declinació "
+"(s'establix davall).</li>\n"
+"<li><b>Quadrícula fixa:</b> Els punts s'establixen en una quadrícula AR/Dec "
+"normal, espaiada uniformement a l'«AR» i la «Dec».</li>\n"
+"</ul>\n"
+"</body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:75
@@ -7848,7 +7873,7 @@ msgstr "Qualsevol objecte"
 #: ekos/align/mountmodel.ui:90
 #, kde-format
 msgid "Uniform Distribution"
-msgstr ""
+msgstr "Distribució uniforme"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:95
@@ -7988,7 +8013,7 @@ msgstr ""
 #: ekos/align/mountmodel.ui:300
 #, kde-format
 msgid "Mount Model Alignment Points"
-msgstr "Punts d'alineació del model de muntura"
+msgstr "Punts d'alineació del model de la muntura"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAllAlignB)
 #: ekos/align/mountmodel.ui:338
@@ -8002,7 +8027,7 @@ msgstr ""
 "Neteja la taula sencera de punts d'alineació de davall. Cal tindre en compte "
 "que açò no afectarà la muntura de cap manera. No netejarà el model "
 "d'apuntador. Només neteja la llista de punts, així que si torneu a executar "
-"la rutina del model de muntura, no s'inclouran estos punts."
+"la rutina del model de la muntura, no s'inclouran estos punts."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeAlignB)
 #: ekos/align/mountmodel.ui:360
@@ -8015,7 +8040,7 @@ msgid ""
 msgstr ""
 "<p>Elimina la fila seleccionada de la taula de punts d'alineació de davall. "
 "Cal tindre en compte que <b>no</b> ordena a la muntura que netege este punt "
-"del model, només vol dir que si executeu la rutina del model de muntura, "
+"del model, només vol dir que si executeu la rutina del model de la muntura, "
 "este punt no s'inclourà en la llista.</p>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addAlignB)
@@ -8028,7 +8053,7 @@ msgid ""
 msgstr ""
 "Afig una fila buida a la llista d'alineació de manera que podreu afegir "
 "manualment una AR i una Dec per a una posició cap a la qual voldríeu "
-"orientar el telescopi en fer una rutina del model de muntura."
+"orientar el telescopi en fer una rutina del model de la muntura."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, findAlignB)
 #: ekos/align/mountmodel.ui:404
@@ -8040,7 +8065,7 @@ msgid ""
 msgstr ""
 "Obri el diàleg «Busca un objecte» per tal de poder-ne seleccionar un per a "
 "aconseguir automàticament una AR i una Dec cap a les que voldríeu orientar "
-"el telescopi en realitzar la rutina del model de muntura."
+"el telescopi en realitzar la rutina del model de la muntura."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, sortAlignB)
 #: ekos/align/mountmodel.ui:426
@@ -8068,14 +8093,14 @@ msgid ""
 "for that row on the left."
 msgstr ""
 "Esta és una taula de punts d'alineació que voldríeu que la rutina del model "
-"de muntura utilitze per a alinear el telescopi. Si vos agradaria afegir o "
+"de la muntura utilitze per a alinear el telescopi. Si vos agradaria afegir o "
 "eliminar punts, podeu utilitzar els botons superiors. Si voleu executar, fer "
-"una pausa o parar la rutina del model de muntura, podeu utilitzar els botons "
-"inferiors. Podeu editar una AR o una Dec d'un punt concret directament en "
-"les cel·les. Assegureu-vos només de seguir el format hh:mm:ss. El nom de "
-"l'objecte es proporciona per comoditat i no s'utilitza. Si voleu canviar "
-"l'ordre dels punts d'alineació, podeu arrossegar la fila amunt o avall "
-"utilitzant la capçalera vertical de l'esquerra d'esta fila."
+"una pausa o parar la rutina del model de la muntura, podeu utilitzar els "
+"botons inferiors. Podeu editar una AR o una Dec d'un punt concret "
+"directament en les cel·les. Assegureu-vos només de seguir el format hh:mm:"
+"ss. El nom de l'objecte es proporciona per comoditat i no s'utilitza. Si "
+"voleu canviar l'ordre dels punts d'alineació, podeu arrossegar la fila amunt "
+"o avall utilitzant la capçalera vertical de l'esquerra d'esta fila."
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: ekos/align/mountmodel.ui:455
@@ -8129,7 +8154,7 @@ msgid ""
 "off.  If it was stopped or it had finished it will start the routine over "
 "again."
 msgstr ""
-"Inicia o fa pausa en la rutina del model de muntura. Orientarà i resoldrà "
+"Inicia o fa pausa en la rutina del model de la muntura. Orientarà i resoldrà "
 "l'astrometria a partir de la llista de punts de la taula anterior utilitzant "
 "la configuració en el mòdul «Alinea». Si la rutina estava en pausa "
 "prèviament, es reprendrà a on estava. Si estava parada o havia acabat, es "
@@ -8144,10 +8169,11 @@ msgid ""
 "currently being solved. If you run the mount model again after hitting stop, "
 "it will start the routine over again with the first point.</p>"
 msgstr ""
-"<p>Para la rutina del model de muntura. <b>No</b> netejarà cap punt del "
+"<p>Para la rutina del model de la muntura. <b>No</b> netejarà cap punt del "
 "model d'apuntador del telescopi. Pararà la rutina i qualsevol punt que "
-"s'estiga resolent. Si executeu una altra vegada el model de muntura després "
-"de prémer «Para», es tornarà a iniciar la captura pel primer punt.</p>"
+"s'estiga resolent. Si executeu una altra vegada el model de la muntura "
+"després de prémer «Para», es tornarà a iniciar la captura pel primer punt.</"
+"p>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
 #: ekos/align/opsalign.ui:32
@@ -14049,7 +14075,7 @@ msgstr "Port"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:401
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:475
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:336
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -14060,7 +14086,7 @@ msgstr "Connecta"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:355
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:402
 #: ekos/guide/guide.ui:402 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -18318,7 +18344,7 @@ msgstr "Reinicia sempre la seqüència en iniciar"
 #: ekos/capture/opsmiscsettings.ui:218
 #, kde-format
 msgid "Reset mount model after meridian flip"
-msgstr "Reinicia el model de muntura després de la inversió del meridià"
+msgstr "Reinicia el model de la muntura després de la inversió del meridià"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForcedFlip)
 #: ekos/capture/opsmiscsettings.ui:225
@@ -18999,28 +19025,28 @@ msgstr "S'està parant"
 msgid "Stopped"
 msgstr "Parada"
 
-#: ekos/ekoslive/ekosliveclient.cpp:485
+#: ekos/ekoslive/ekosliveclient.cpp:559
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Trieu els servidors EkosLive"
 
-#: ekos/ekoslive/ekosliveclient.cpp:487
+#: ekos/ekoslive/ekosliveclient.cpp:561
 #, kde-format
 msgid "Observatory:"
 msgstr "Observatori:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:488
+#: ekos/ekoslive/ekosliveclient.cpp:562
 #, kde-format
 msgid "Offline:"
 msgstr "Desconnectat:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:489
+#: ekos/ekoslive/ekosliveclient.cpp:563
 #, kde-format
 msgid "Online:"
 msgstr "Connectat:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:490
+#: ekos/ekoslive/ekosliveclient.cpp:564
 #, kde-format
 msgid "Machine ID:"
 msgstr "ID de la màquina:"
@@ -19089,13 +19115,13 @@ msgstr "Objectiu"
 msgid "Mosaic import failed."
 msgstr "Ha fallat la importació del mosaic."
 
-#: ekos/ekoslive/nodemanager.cpp:227
+#: ekos/ekoslive/nodemanager.cpp:236
 #, kde-format
 msgid "Error authenticating with EkosLive server: %1"
 msgstr ""
 "S'ha produït un error durant l'autenticació amb el servidor EkosLive: %1"
 
-#: ekos/ekoslive/nodemanager.cpp:240
+#: ekos/ekoslive/nodemanager.cpp:249
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr "S'ha produït un error durant l'anàlisi de la resposta del servidor: %1"
@@ -29418,7 +29444,7 @@ msgstr "minuts d'arc"
 #: ekos/scheduler/opsalignmentsettings.ui:89
 #, kde-format
 msgid "Reset mount model on alignment failure"
-msgstr "Reinicia el model de muntura en fallar l'alineació"
+msgstr "Reinicia el model de la muntura en fallar l'alineació"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RealignAfterCalibrationFailure)
 #: ekos/scheduler/opsalignmentsettings.ui:96
@@ -29445,7 +29471,7 @@ msgstr "Reinicia l'alineació en fallar el calibratge del guiatge"
 #: ekos/scheduler/opsalignmentsettings.ui:106
 #, kde-format
 msgid "Reset mount model before starting each job:"
-msgstr "Reinicia el model de muntura abans de començar cada tasca:"
+msgstr "Reinicia el model de la muntura abans de començar cada tasca:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ForceAlignmentBeforeJob)
 #: ekos/scheduler/opsalignmentsettings.ui:113
@@ -31530,7 +31556,7 @@ msgstr "Avís: ha fallat l'alineació de la tasca «%1»."
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
 msgstr ""
-"Avís: la tasca «%1» ha forçat un reinici del model de muntura després de "
+"Avís: la tasca «%1» ha forçat un reinici del model de la muntura després de "
 "fallar l'alineació núm. %2."
 
 #: ekos/scheduler/schedulerprocess.cpp:3674
@@ -94547,45 +94573,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Ekos job (%1) - Telescope synced"
-#~ msgstr "Tasca d'Ekos (%1): S'ha sincronitzat el telescopi"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Select the type of objects/points added by the "
-#~ "wizard.</p><p><span style=\" font-weight:600;\">Note:</span> all of the "
-#~ "options except Fixed DEC start with a grid of RA/DEC points.</p>\n"
-#~ "<ul>\n"
-#~ "<li><b>Any Stars:</b> The wizard searches for the nearest star.</li>\n"
-#~ "<li><b>Any object:</b>  The wizard searches for the nearest object of any "
-#~ "type.</li>\n"
-#~ "<li><b>Named Stars</b> The wizard searches for the nearest star in the "
-#~ "currently visible star list. Note that the first named star might be "
-#~ "fairly far from the intended point and also sometimes the same star could "
-#~ "be the closest one for multiple points.</li>\n"
-#~ "<li><b>Fixed DEC:</b> The wizard generates all points at the chosen DEC.</"
-#~ "li>\n"
-#~ "<li><b>Fixed Grid:</b>  The wizard just uses the original grid without "
-#~ "trying to pair it with objects.</li>\n"
-#~ "</ul>\n"
-#~ "</body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Trieu els tipus d'objectes/punts afegits per "
-#~ "l'assistent:</p><p><span style=\"font-weight:600;\">Nota:</span> Totes "
-#~ "les opcions excepte «Dec fixa» comencen amb una quadrícula de punts AR/"
-#~ "Dec.</p>\n"
-#~ "<ul>\n"
-#~ "<li><b>Qualsevol estrela:</b> L'assistent busca l'estrela més propera.</"
-#~ "li>\n"
-#~ "<li><b>Qualsevol objecte:</b> L'assistent busca l'objecte més proper de "
-#~ "qualsevol classe.</li>\n"
-#~ "<li><b>Estreles amb nom:</b> L'assistent busca l'estrela més propera en "
-#~ "la llista d'estreles visibles actualment. Cal tindre en compte que la "
-#~ "primera estrela amb nom pot estar força lluny del punt desitjat, i també "
-#~ "la mateixa estrela pot estar a prop de múltiples punts.</li>\n"
-#~ "<li><b>Dec fixa:</b> L'assistent genera tots els punts a la Dec triada.</"
-#~ "li>\n"
-#~ "<li><b>Quadrícula fixa:</b> L'assistent només utilitza la quadrícula "
-#~ "original sense intentar aparellar-la amb objectes.</li>\n"
-#~ "</ul>\n"
-#~ "</body></html>"
