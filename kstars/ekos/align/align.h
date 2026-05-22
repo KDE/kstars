@@ -483,6 +483,11 @@ class Align : public QWidget, public Ui::Align
             m_TelescopeCoord = position;
         }
 
+        const SkyPoint &telescopeCoordinates() const
+        {
+            return m_TelescopeCoord;
+        }
+
         Q_SCRIPTABLE Q_NOREPLY void setTargetPositionAngle(double value);
 
         /** DBUS interface function.

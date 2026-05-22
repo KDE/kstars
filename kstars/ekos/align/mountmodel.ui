@@ -217,6 +217,19 @@
         </property>
        </spacer>
       </item>
+      <item row="3" column="0" colspan="5">
+       <widget class="QCheckBox" name="artificialHorizonCheck">
+        <property name="toolTip">
+         <string>Skip generated points that are below the artificial horizon, if any are defined and enabled. See the artificial horizon item in the KStars Settings menu.</string>
+        </property>
+        <property name="text">
+         <string>Artificial Horizon</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

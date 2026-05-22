@@ -14,10 +14,12 @@
 
 #include <QDialog>
 #include <QUrl>
+#include <functional>
 
 class QProgressIndicator;
 class SkyObject;
 class StarObject;
+class ArtificialHorizon;
 
 namespace Ekos
 {
@@ -29,8 +31,28 @@ class MountModel : public QDialog, public Ui::mountModel
         Q_OBJECT
 
     public:
+        struct AlignmentPoint
+        {
+            QString ra;
+            QString dec;
+            QString name;
+        };
+
         explicit MountModel(Align *parent);
         ~MountModel();
+
+        static QVector<AlignmentPoint> generateHaltonPoints(
+            int points,
+            double minAlt,
+            double maxAlt,
+            double maxAbsDec,
+            const dms &lst,
+            const dms &lat,
+            const ArtificialHorizon *horizon,
+            bool snap,
+            const std::function<const SkyObject*(double, double)> &lookupObject = nullptr,
+            const std::function<void(SkyObject*)> &updateCoords = nullptr
+        );
 
         enum ModelObjectType
         {
@@ -41,11 +63,6 @@ class MountModel : public QDialog, public Ui::mountModel
             OBJECT_FIXED_DEC,
             OBJECT_FIXED_GRID
         };
-
-        void setTelescopeCoord(const SkyPoint &newCoord)
-        {
-            telescopeCoord = newCoord;
-        }
 
         bool isRunning() const
         {
@@ -90,7 +107,6 @@ class MountModel : public QDialog, public Ui::mountModel
         void updatePreviewAlignPoints();
         void sortTableRows(int fromRow, const SkyPoint &start);
         void swapAlignPoints(int firstPt, int secondPt);
-        double halton(int index, int base);
 
         void saveAndOverrideSolverSettings();
         void restoreSolverSettings();
@@ -102,7 +118,7 @@ class MountModel : public QDialog, public Ui::mountModel
              * @param ra_str will contain the formatted RA string
              * @param dec_str will contain the formatted DEC string
              */
-        void getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str);
+        static void getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str);
 
     Q_SIGNALS:
         void newLog(const QString &);
@@ -116,8 +132,6 @@ class MountModel : public QDialog, public Ui::mountModel
         bool previewShowing { false };
         QVector<const StarObject *> alignStars;
         QUrl alignURL;
-        SkyPoint telescopeCoord;
-
         // Saved solver settings restored after model run
         bool m_solverSettingsSaved { false };
         bool m_savedUsePosition { false };
@@ -125,7 +139,6 @@ class MountModel : public QDialog, public Ui::mountModel
         int m_savedGotoMode { 2 };  // Align::GOTO_NOTHING -- safe no-op default
 
         bool m_WaitingForUnpark { false };
-
 
 };
 }

@@ -17,6 +17,7 @@
 #include "skymap.h"
 #include "starobject.h"
 #include "skymapcomposite.h"
+#include "artificialhorizoncomponent.h"
 #include "skyobject.h"
 #include "starobject.h"
 #include "dialogs/finddialog.h"
@@ -30,6 +31,8 @@
 
 // Qt version calming
 #include <qtendl.h>
+
+#include "haltonsequence.h"
 
 namespace Ekos
 {
@@ -515,9 +518,89 @@ void MountModel::slotSortAlignmentPoints()
     // While a run is in progress, sort only the points not yet visited so that
     // completed rows are not disturbed and currentAlignmentPoint stays valid.
     int fromRow = m_IsRunning ? currentAlignmentPoint : 0;
-    sortTableRows(fromRow, telescopeCoord);
+    sortTableRows(fromRow, m_AlignInstance->telescopeCoordinates());
     if (previewShowing)
         updatePreviewAlignPoints();
+}
+
+QVector<MountModel::AlignmentPoint> MountModel::generateHaltonPoints(
+    int points,
+    double minAlt,
+    double maxAlt,
+    double maxAbsDec,
+    const dms &lst,
+    const dms &lat,
+    const ArtificialHorizon *horizon,
+    bool snap,
+    const std::function<const SkyObject*(double, double)> &lookupObject,
+    const std::function<void(SkyObject*)> &updateCoords
+)
+{
+    double sinMin = std::sin(minAlt * dms::DegToRad);
+    double sinMax = std::sin(maxAlt * dms::DegToRad);
+
+    QSet<const SkyObject *> usedObjects;
+    QVector<AlignmentPoint> newPoints;
+
+    const bool horizonActive = horizon && horizon->altitudeConstraintsExist();
+
+    // Iterate through the Halton sequence until we have enough points.
+    HaltonSequence haltonAz(2);
+    HaltonSequence haltonAlt(3);
+    constexpr int MAX_CANDIDATES = 50000;
+
+    while (newPoints.size() < points && haltonAz.index() <= MAX_CANDIDATES)
+    {
+        double az  = haltonAz.next() * 360.0;
+        double alt = std::asin(sinMin + haltonAlt.next() * (sinMax - sinMin)) / dms::DegToRad;
+
+        if (horizonActive && !horizon->isAltitudeOK(az, alt, nullptr))
+            continue;
+
+        SkyPoint sp;
+        sp.setAlt(alt);
+        sp.setAz(az);
+        sp.HorizontalToEquatorial(&lst, &lat);
+
+        double ra  = sp.ra().Hours();
+        double dec = sp.dec().Degrees();
+        if (std::abs(dec) > maxAbsDec)
+            continue;
+
+        QString ra_report, dec_report, name;
+
+        if (snap && lookupObject && updateCoords)
+        {
+            const SkyObject *obj = lookupObject(ra * 15.0, dec);
+            if (!obj)
+                continue;
+            if (usedObjects.contains(obj))
+                continue;
+
+            SkyObject *o = obj->clone();
+            updateCoords(o);
+
+            if (horizonActive && !horizon->isAltitudeOK(o->az().Degrees(), o->alt().Degrees(), nullptr))
+            {
+                delete o;
+                continue;
+            }
+
+            usedObjects.insert(obj);
+            getFormattedCoords(o->ra0().Hours(), o->dec0().Degrees(), ra_report, dec_report);
+            name = o->longname();
+            delete o;
+        }
+        else
+        {
+            getFormattedCoords(ra, dec, ra_report, dec_report);
+            name = i18n("Sky Point");
+        }
+
+        newPoints.append({ra_report, dec_report, name});
+    }
+
+    return newPoints;
 }
 
 void MountModel::slotWizardAlignmentPoints()
@@ -559,73 +642,41 @@ void MountModel::slotWizardAlignmentPoints()
             alignTypeBox->currentIndex() == OBJECT_ANY_STAR ||
             alignTypeBox->currentIndex() == OBJECT_ANY_OBJECT)
     {
-        // Generate points directly in AltAz space so every point is above the
-        // horizon by construction.  85 deg ceiling avoids the azimuth singularity
-        // near zenith.  Points whose declination exceeds +-80 deg after conversion
-        // are discarded (not clamped) so the stored (ra, dec) always corresponds
-        // to the generated AltAz position.
-        constexpr double maxAlt    = 85.0;
-        constexpr double maxAbsDec = 80.0;
-        double sinMin = std::sin(minAlt * dms::DegToRad);
-        double sinMax = std::sin(maxAlt * dms::DegToRad);
+        const bool useHorizon = artificialHorizonCheck->isChecked();
+        ArtificialHorizon const *horizon = nullptr;
+        if (useHorizon && data->skyComposite() && data->skyComposite()->artificialHorizon())
+        {
+            horizon = &data->skyComposite()->artificialHorizon()->getHorizon();
+        }
 
         const bool snap = alignTypeBox->currentIndex() != OBJECT_HALTON_SEQUENCE;
-        QSet<const SkyObject *> usedObjects;
-        struct Point
-        {
-            QString ra, dec, name;
+
+        auto lookupObject = [this](double ra, double dec) {
+            return getWizardAlignObject(ra, dec);
         };
-        QVector<Point> newPoints;
+        auto updateCoords = [data](SkyObject *o) {
+            o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
+        };
 
-        // Iterate through the Halton sequence until we have enough points.
-        // Use a generous upper bound to handle sparse catalogues at high latitudes.
-        const int maxCandidates = qMax(points * 10, 200);
-        for (int i = 1; i <= maxCandidates && newPoints.size() < points; i++)
-        {
-            double az  = halton(i, 2) * 360.0;
-            double alt = std::asin(sinMin + halton(i, 3) * (sinMax - sinMin)) / dms::DegToRad;
-
-            SkyPoint sp;
-            sp.setAlt(alt);
-            sp.setAz(az);
-            sp.HorizontalToEquatorial(data->lst(), data->geo()->lat());
-
-            double ra  = sp.ra().Hours();
-            double dec = sp.dec().Degrees();
-            if (std::abs(dec) > maxAbsDec)
-                continue;
-
-            QString ra_report, dec_report, name;
-
-            if (snap)
-            {
-                const SkyObject *obj = getWizardAlignObject(ra * 15.0, dec);
-                if (!obj)
-                    continue;
-                if (usedObjects.contains(obj))
-                    continue;
-                usedObjects.insert(obj);
-                SkyObject *o = obj->clone();
-                o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
-                getFormattedCoords(o->ra0().Hours(), o->dec0().Degrees(), ra_report, dec_report);
-                name = o->longname();
-                delete o;
-            }
-            else
-            {
-                getFormattedCoords(ra, dec, ra_report, dec_report);
-                name = i18n("Sky Point");
-            }
-
-            newPoints.append({ra_report, dec_report, name});
-        }
+        QVector<AlignmentPoint> newPoints = generateHaltonPoints(
+            points,
+            minAlt,
+            85.0,
+            80.0,
+            *data->lst(),
+            *data->geo()->lat(),
+            horizon,
+            snap,
+            lookupObject,
+            updateCoords
+        );
 
         if (newPoints.size() < points)
             Q_EMIT newLog(i18n("Warning: only %1 of %2 requested alignment points could be placed.",
                                newPoints.size(), points));
 
         // Determine start point for sorting: last existing row, or telescope if table is empty.
-        SkyPoint sortStart = telescopeCoord;
+        SkyPoint sortStart = m_AlignInstance->telescopeCoordinates();
         int lastExistingRow = alignTable->rowCount() - 1;
         if (lastExistingRow >= 0)
         {
@@ -849,20 +900,6 @@ void MountModel::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZW
     AZRad      = acos(arg);
     AZEast.setRadians(AZRad);
     AZWest.setRadians(2.0 * dms::PI - AZRad);
-}
-
-double MountModel::halton(int index, int base)
-{
-    double result = 0;
-    double f      = 1.0 / base;
-    int i         = index;
-    while (i > 0)
-    {
-        result += f * (i % base);
-        i /= base;
-        f /= base;
-    }
-    return result;
 }
 
 const SkyObject *MountModel::getWizardAlignObject(double ra, double dec)

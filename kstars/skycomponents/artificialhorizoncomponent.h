@@ -11,6 +11,7 @@
 #include <memory>
 
 class TestArtificialHorizon;
+class TestMountModelHalton;
 
 // An ArtificialHorizonEntity is a set of Azimuth & Altitude values defining
 // a series of connected line segments. Assuming ceiling is false (the default)
@@ -127,6 +128,7 @@ class ArtificialHorizon
         bool noCeilingConstraints { true };
         void checkForCeilings();
         friend TestArtificialHorizon;
+        friend TestMountModelHalton;
 };
 
 /**
