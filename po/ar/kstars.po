@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-21 02:06+0000\n"
-"PO-Revision-Date: 2026-04-30 17:36+0400\n"
+"PO-Revision-Date: 2026-05-21 13:35+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -7462,7 +7462,7 @@ msgstr "نقطة السماء"
 #: ekos/align/mountmodel.cpp:624
 #, kde-format
 msgid "Warning: only %1 of %2 requested alignment points could be placed."
-msgstr ""
+msgstr "تحذير: وضعت %1 فقط من نقاط المحاذاة المطلوبة البالغ عددها %2."
 
 #: ekos/align/mountmodel.cpp:745
 #, kde-format
@@ -7485,16 +7485,14 @@ msgid "The Mount Model Tool is Reset."
 msgstr "أُعِيد ضبط أداة نموذج الحامل."
 
 #: ekos/align/mountmodel.cpp:1127
-#, fuzzy, kde-format
-#| msgid "Mount is parking. Aborting guide..."
+#, kde-format
 msgid "Mount unparked. Starting mount model..."
-msgstr "الحامل يتوقف. أجهِض الدليل..."
+msgstr "أُلغي ركن الحامل. يبدأ في تركيب النموذج…"
 
 #: ekos/align/mountmodel.cpp:1135
-#, fuzzy, kde-format
-#| msgid "Mount unpark requested but no mounts detected."
+#, kde-format
 msgid "Mount unpark failed. Cannot start mount model."
-msgstr "طُلب إخراج الحامل من المَرْكَن ولكن لم يُكتشف أي حامل."
+msgstr "فشلت عملية إلغاء إيقاف الحامل. لا يمكن بدء نموذج الحامل."
 
 #: ekos/align/mountmodel.cpp:1147
 #, kde-format
@@ -7502,10 +7500,9 @@ msgid "Please Check the Alignment Points."
 msgstr "رَاجِع نقاط المحاذاة."
 
 #: ekos/align/mountmodel.cpp:1155
-#, fuzzy, kde-format
-#| msgid "Dustcap is parked. Unparking before capture..."
+#, kde-format
 msgid "Mount is parked. Unparking before starting mount model..."
-msgstr "غطاء الغبار مركون. فُكّ الغطاء قبل الالتقاط..."
+msgstr "الحامل في وضع التوقف. جارٍ إلغاء التوقف قبل بدء نموذج الحامل..."
 
 #: ekos/align/mountmodel.cpp:1166
 #, kde-format
@@ -7541,7 +7538,7 @@ msgstr "اِنْتَهَت أداة نموذج الحامل."
 #: ekos/align/mountmodel.cpp:1288
 #, kde-format
 msgid "Mount model: forcing blind solve and sync for each alignment point."
-msgstr ""
+msgstr "نموذج الحمل: فرض حل أعمى ومزامنة لكل نقطة محاذاة."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, mountModel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpsAstrometryIndexFiles)
@@ -7602,6 +7599,23 @@ msgid ""
 "</ul>\n"
 "</body></html>"
 msgstr ""
+"<html><head/><body><p>اختر الطريقة التي يختار بها المعالج نقاط المحاذاة.</"
+"p>\n"
+"<p>توزع جميع الأنماط، باستثناء الميل الثابت (Fixed DEC) والشبكة الثابتة "
+"(Fixed Grid)، النقاط بالتساوي عبر السماء باستخدام توزيع موحد. تختلف الأنماط "
+"في ما تنجذب إليه كل نقطة:</p>\n"
+"<ul>\n"
+"<li><b>أي نجوم:</b> تنجذب إلى أقرب نجم مرئي.</li>\n"
+"<li><b>نجوم مسماة:</b> تنجذب إلى نجم معروف وله اسم (مثل النسر الواقع Vega، "
+"أو السماك الرامح Arcturus).</li>\n"
+"<li><b>أي جرم:</b> تنجذب إلى أقرب جرم مرئي من أي نوع.</li>\n"
+"<li><b>توزيع موحد:</b> تُوزع النقاط بالتساوي عبر السماء المرئية.</li>\n"
+"<li><b>ميل ثابت (Fixed DEC):</b> تشترك جميع النقاط في نفس الميل (يُضبط أدناه)."
+"</li>\n"
+"<li><b>شبكة ثابتة (Fixed Grid):</b> نقاط مرتبة في شبكة منتظمة من المطلع "
+"المستقيم/الميل (RA/DEC)، ومتباعدة بانتظام في المطلع المستقيم والميل.</li>\n"
+"</ul>\n"
+"</body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:75
@@ -7625,7 +7639,7 @@ msgstr "أي جرم"
 #: ekos/align/mountmodel.ui:90
 #, kde-format
 msgid "Uniform Distribution"
-msgstr ""
+msgstr "التوزيع المنتظم"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:95
@@ -26801,18 +26815,17 @@ msgid ""
 "Wait this many seconds before starting the driver. The delay applies whether "
 "or not a pre-startup script is set."
 msgstr ""
+"انتظر هذه المدة بالثواني قبل بدء تشغيل المُشغّل. يُطبّق التأخير سواءً عُين سكريبت "
+"ما قبل بدء التشغيل أم لا."
 
 #: ekos/profilescript.cpp:49
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Wait this many seconds after the driver starts. The delay applies whether or "
 "not a post-startup script is set."
 msgstr ""
-"أخّر هذا العدد من الثواني بعد بدء تشغيل المشغِّل قبل تنفيذ النص البرمجي لما بعد "
-"المشغِّل."
+"انتظر هذا العدد من الثواني بعد بدء تعريف التشغيل. يُطبق هذا التأخير بغض النظر "
+"عما إذا كان قد ضُبط نص برمجي لما بعد التشغيل أم لا."
 
 #: ekos/profilescript.cpp:59
 #, kde-format
@@ -26820,18 +26833,17 @@ msgid ""
 "Wait this many seconds before stopping the driver. The delay applies whether "
 "or not a pre-shutdown script is set."
 msgstr ""
+"انتظر هذه المدة بالثواني قبل إيقاف تشغيل المُشغّل. يُطبّق التأخير سواءً عُين "
+"سكريبت ما قبل إيقاف التشغيل أم لا."
 
 #: ekos/profilescript.cpp:69
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Wait this many seconds after the driver stops. The delay applies whether or "
 "not a post-shutdown script is set."
 msgstr ""
-"أخّر هذا العدد من الثواني بعد بدء تشغيل المشغِّل قبل تنفيذ النص البرمجي لما بعد "
-"المشغِّل."
+"انتظر هذا العدد من الثواني بعد توقف تعريف التشغيل. يُطبق هذا التأخير بغض "
+"النظر عما إذا كان قد ضُبط نص برمجي لما بعد الإيقاف أم لا."
 
 #: ekos/profilescript.cpp:79
 #, kde-format
@@ -29970,10 +29982,9 @@ msgid "No post-startup tasks, startup complete."
 msgstr "لا مهام ما بعد بدء تشغيل، بدء التشغيل انتهى."
 
 #: ekos/scheduler/schedulerprocess.cpp:2090
-#, fuzzy, kde-format
-#| msgid "Observatory is in the shutdown process"
+#, kde-format
 msgid "Observatory was not started, skipping shutdown procedure."
-msgstr "دخل المرصد عمليّة الإطفاء"
+msgstr "لم يُبدأ تشغيل المرصد، لذا ستُتخطى إجراءات الإيقاف."
 
 #: ekos/scheduler/schedulerprocess.cpp:2103
 #, kde-format
