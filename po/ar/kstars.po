@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-21 02:06+0000\n"
+"POT-Creation-Date: 2026-05-23 02:05+0000\n"
 "PO-Revision-Date: 2026-05-21 13:35+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -223,8 +223,10 @@ msgstr "المستعرات  العظمى"
 msgid "Asteroids"
 msgstr "الكويكبات"
 
+#. i18n: ectx: property (text), widget (QCheckBox, artificialHorizonCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerHorizon)
-#: auxiliary/colorscheme.cpp:64 ekos/scheduler/scheduler.ui:1731
+#: auxiliary/colorscheme.cpp:64 ekos/align/mountmodel.ui:226
+#: ekos/scheduler/scheduler.ui:1731
 #: skycomponents/artificialhorizoncomponent.cpp:142
 #, kde-format
 msgid "Artificial Horizon"
@@ -415,7 +417,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddScope)
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
-#: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:395
+#: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:398
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera_jobs.cpp:418
 #: ekos/scheduler/scheduler.cpp:2323
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
@@ -2661,7 +2663,7 @@ msgstr ""
 "للبحث من خلال غوغل؟"
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align_solution.cpp:449
-#: ekos/align/mountmodel.cpp:276 ekos/align/mountmodel.cpp:402
+#: ekos/align/mountmodel.cpp:279 ekos/align/mountmodel.cpp:405
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:427
 #: ekos/guide/guidedriftgraph.cpp:503 ekos/scheduler/scheduler.cpp:2223
 #: ekos/scheduler/scheduler.cpp:2333 fitsviewer/fitstab.cpp:1611
@@ -3118,7 +3120,7 @@ msgstr "_رخصة"
 
 #. i18n: ectx: property (title), widget (QGroupBox, object_group)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
-#: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:465
+#: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:478
 #: fitsviewer/fitstab.cpp:813
 #, kde-format
 msgid "Object"
@@ -6631,7 +6633,7 @@ msgstr "اسم الهدف"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
-#: ekos/align/align.ui:924 ekos/align/mountmodel.ui:470
+#: ekos/align/align.ui:924 ekos/align/mountmodel.ui:483
 #, kde-format
 msgid "~~"
 msgstr "~~"
@@ -7011,8 +7013,8 @@ msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "صدّر نقاط الحل"
 
-#: ekos/align/align_solution.cpp:448 ekos/align/mountmodel.cpp:275
-#: ekos/align/mountmodel.cpp:401 ekos/capture/camera_jobs.cpp:340
+#: ekos/align/align_solution.cpp:448 ekos/align/mountmodel.cpp:278
+#: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:426 ekos/guide/guidedriftgraph.cpp:502
 #: ekos/scheduler/scheduler.cpp:2222 ekos/scheduler/scheduler.cpp:2332
 #: fitsviewer/fitstab.cpp:1610 tools/scriptbuilder.cpp:833
@@ -7021,7 +7023,7 @@ msgstr "صدّر نقاط الحل"
 msgid "Invalid URL: %1"
 msgstr "الـعنوان غير صحيح: %1"
 
-#: ekos/align/align_solution.cpp:457 ekos/align/mountmodel.cpp:412
+#: ekos/align/align_solution.cpp:457 ekos/align/mountmodel.cpp:415
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:511
 #: ekos/scheduler/schedulerprocess.cpp:2964
 #: ekos/scheduler/schedulerprocess.cpp:4572
@@ -7029,8 +7031,8 @@ msgstr "الـعنوان غير صحيح: %1"
 msgid "Unable to write to file %1"
 msgstr "تعذّرت الكتابة إلى الملفّ %1"
 
-#: ekos/align/align_solution.cpp:458 ekos/align/mountmodel.cpp:295
-#: ekos/align/mountmodel.cpp:413 ekos/capture/camera_jobs.cpp:356
+#: ekos/align/align_solution.cpp:458 ekos/align/mountmodel.cpp:298
+#: ekos/align/mountmodel.cpp:416 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:2647 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2965
 #: ekos/scheduler/schedulerprocess.cpp:3434
@@ -7412,13 +7414,13 @@ msgstr "زاوية الموضع الهدف"
 msgid "Take Another Image"
 msgstr "اِلْتَقِط صورة أخرى"
 
-#: ekos/align/mountmodel.cpp:267
+#: ekos/align/mountmodel.cpp:270
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "اِفْتَح قائمة محاذاة إكوس"
 
-#: ekos/align/mountmodel.cpp:294 ekos/capture/camera_jobs.cpp:355
+#: ekos/align/mountmodel.cpp:297 ekos/capture/camera_jobs.cpp:355
 #: ekos/capture/cameraprocess.cpp:2646 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3433
 #: ekos/scheduler/schedulerprocess.cpp:4592
@@ -7426,85 +7428,85 @@ msgstr "اِفْتَح قائمة محاذاة إكوس"
 msgid "Unable to open file %1"
 msgstr "تعذّر فتح الملفّ %1"
 
-#: ekos/align/mountmodel.cpp:316 ekos/capture/sequencequeue.cpp:56
+#: ekos/align/mountmodel.cpp:319 ekos/capture/sequencequeue.cpp:56
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
 "file."
 msgstr "إصدار تنسيق ملف تسلسل مهمل %1. اِبْنِ ملف تسلسل جديد."
 
-#: ekos/align/mountmodel.cpp:378
+#: ekos/align/mountmodel.cpp:381
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Alignment List"
 msgstr "اِحْفَظ قائمة محاذاة إكوس"
 
-#: ekos/align/mountmodel.cpp:395
+#: ekos/align/mountmodel.cpp:398
 #, kde-format
 msgid "Failed to save alignment list"
 msgstr "فَشِل حفظ قائمة المحاذاة"
 
-#: ekos/align/mountmodel.cpp:441
+#: ekos/align/mountmodel.cpp:444
 #, kde-format
 msgid "Alignment List saved to %1"
 msgstr "حُفِظَت قائمة المحاذاة في %1"
 
-#: ekos/align/mountmodel.cpp:543 ekos/align/mountmodel.cpp:551
-#, kde-format
-msgid "DEC is below the altitude limit"
-msgstr "الميل أدنى من حد الارتفاع"
-
-#: ekos/align/mountmodel.cpp:617 ekos/align/mountmodel.cpp:767
+#: ekos/align/mountmodel.cpp:597 ekos/align/mountmodel.cpp:818
 #, kde-format
 msgid "Sky Point"
 msgstr "نقطة السماء"
 
-#: ekos/align/mountmodel.cpp:624
+#: ekos/align/mountmodel.cpp:626 ekos/align/mountmodel.cpp:634
+#, kde-format
+msgid "DEC is below the altitude limit"
+msgstr "الميل أدنى من حد الارتفاع"
+
+#: ekos/align/mountmodel.cpp:675
 #, kde-format
 msgid "Warning: only %1 of %2 requested alignment points could be placed."
 msgstr "تحذير: وضعت %1 فقط من نقاط المحاذاة المطلوبة البالغ عددها %2."
 
-#: ekos/align/mountmodel.cpp:745
+#: ekos/align/mountmodel.cpp:796
 #, kde-format
 msgid "Point calculation error."
 msgstr "خطأ في حساب النقطة."
 
-#: ekos/align/mountmodel.cpp:990
+#: ekos/align/mountmodel.cpp:1027
 #, kde-format
 msgid "Are you sure you want to clear all the alignment points?"
 msgstr "هَلْ أنت متأكد أنك تريد مسح جميع نقاط المحاذاة؟"
 
-#: ekos/align/mountmodel.cpp:991
+#: ekos/align/mountmodel.cpp:1028
 #, kde-format
 msgid "Clear Align Points"
 msgstr "أَفْرِغ نقاط المحاذاة"
 
-#: ekos/align/mountmodel.cpp:1087
+#: ekos/align/mountmodel.cpp:1124
 #, kde-format
 msgid "The Mount Model Tool is Reset."
 msgstr "أُعِيد ضبط أداة نموذج الحامل."
 
-#: ekos/align/mountmodel.cpp:1127
+#: ekos/align/mountmodel.cpp:1164
 #, kde-format
 msgid "Mount unparked. Starting mount model..."
 msgstr "أُلغي ركن الحامل. يبدأ في تركيب النموذج…"
 
-#: ekos/align/mountmodel.cpp:1135
+#: ekos/align/mountmodel.cpp:1172
 #, kde-format
 msgid "Mount unpark failed. Cannot start mount model."
 msgstr "فشلت عملية إلغاء إيقاف الحامل. لا يمكن بدء نموذج الحامل."
 
-#: ekos/align/mountmodel.cpp:1147
+#: ekos/align/mountmodel.cpp:1184
 #, kde-format
 msgid "Please Check the Alignment Points."
 msgstr "رَاجِع نقاط المحاذاة."
 
-#: ekos/align/mountmodel.cpp:1155
+#: ekos/align/mountmodel.cpp:1192
 #, kde-format
 msgid "Mount is parked. Unparking before starting mount model..."
 msgstr "الحامل في وضع التوقف. جارٍ إلغاء التوقف قبل بدء نموذج الحامل..."
 
-#: ekos/align/mountmodel.cpp:1166
+#: ekos/align/mountmodel.cpp:1203
 #, kde-format
 msgid ""
 "In the Align Module, \"Nothing\" is Selected for the Solver Action.  This "
@@ -7515,27 +7517,27 @@ msgstr ""
 "الحامل لن تزامن/تحاذي حاملَك ولكنها ستبلغ فقط عن أخطاء نموذج التوجيه. هل ترغب "
 "في الاستمرار؟"
 
-#: ekos/align/mountmodel.cpp:1169
+#: ekos/align/mountmodel.cpp:1206
 #, kde-format
 msgid "Pointing Model Report Only?"
 msgstr "تقرير نموذج التوجيه فقط؟"
 
-#: ekos/align/mountmodel.cpp:1187
+#: ekos/align/mountmodel.cpp:1224
 #, kde-format
 msgid "The Mount Model Tool is Starting."
 msgstr "جاري بدء أداة نموذج الحامل."
 
-#: ekos/align/mountmodel.cpp:1196
+#: ekos/align/mountmodel.cpp:1233
 #, kde-format
 msgid "The Mount Model Tool is Paused."
 msgstr "أُوقِفَت أداة نموذج الحامل مؤقتًا."
 
-#: ekos/align/mountmodel.cpp:1263
+#: ekos/align/mountmodel.cpp:1300
 #, kde-format
 msgid "The Mount Model Tool is Finished."
 msgstr "اِنْتَهَت أداة نموذج الحامل."
 
-#: ekos/align/mountmodel.cpp:1288
+#: ekos/align/mountmodel.cpp:1325
 #, kde-format
 msgid "Mount model: forcing blind solve and sync for each alignment point."
 msgstr "نموذج الحمل: فرض حل أعمى ومزامنة لكل نقطة محاذاة."
@@ -7731,20 +7733,37 @@ msgstr ""
 "سَيُوَلِّدها عند نفس الميل. بعد ذلك سَتُوَزَّع بالتساوي على المطلع المستقيم والميل. "
 "لاحظ، إذا اُخْتِير الميل الثابت، فإن جميع النقاط سَتَكُون عند نفس الميل."
 
+#. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
+#: ekos/align/mountmodel.ui:223
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><body><p>The artificial horizon restriction constrains the altitude "
+#| "of the target to be above the artificial horizon, if any are defined and "
+#| "enabled. See the artificial horizon item in the KStars Settings menu.</"
+#| "p></body></html>"
+msgid ""
+"Skip generated points that are below the artificial horizon, if any are "
+"defined and enabled. See the artificial horizon item in the KStars Settings "
+"menu."
+msgstr ""
+"<html><body><p>يقيد قيد الأفق الاصطناعي ارتفاع الهدف ليكون فوق الأفق "
+"الاصطناعي، إذا كان أي منها معرّفًا ومُمكَّنًا. اِطّلع على عنصر الأفق الاصطناعي في "
+"قائمة إعدادات نجوم‌ك.</p></body></html>"
+
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: ekos/align/mountmodel.ui:226
+#: ekos/align/mountmodel.ui:239
 #, kde-format
 msgid "Add Currently Visible Stars"
 msgstr "أَضِف النجوم المرئية حاليًا"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/align/mountmodel.ui:244
+#: ekos/align/mountmodel.ui:257
 #, kde-format
 msgid "Common Names:"
 msgstr "أسماء مألوفة:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, starListBox)
-#: ekos/align/mountmodel.ui:257
+#: ekos/align/mountmodel.ui:270
 #, kde-format
 msgid ""
 "These are the common names for the named stars that are currently up at your "
@@ -7754,13 +7773,13 @@ msgstr ""
 "نجمًا، سيُضاف إلى الجدول أدناه."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/align/mountmodel.ui:277
+#: ekos/align/mountmodel.ui:290
 #, kde-format
 msgid "Greek:"
 msgstr "اليونانيّة:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, greekStarListBox)
-#: ekos/align/mountmodel.ui:290
+#: ekos/align/mountmodel.ui:303
 #, kde-format
 msgid ""
 "These are the Greek names for the brighter stars that are currently up at "
@@ -7770,13 +7789,13 @@ msgstr ""
 "اخترت نجمًا، سيُضاف إلى الجدول أدناه."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/mountmodel.ui:300
+#: ekos/align/mountmodel.ui:313
 #, kde-format
 msgid "Mount Model Alignment Points"
 msgstr "نقاط محاذاة نموذج الحامل"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAllAlignB)
-#: ekos/align/mountmodel.ui:338
+#: ekos/align/mountmodel.ui:351
 #, kde-format
 msgid ""
 "Clear the entire table of alignment points below.  Note that this will not "
@@ -7789,7 +7808,7 @@ msgstr ""
 "إذا شغَّلت روتين نموذج الحامل مرة أخرى، لن تُدرَج هذه النقاط."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeAlignB)
-#: ekos/align/mountmodel.ui:360
+#: ekos/align/mountmodel.ui:373
 #, kde-format
 msgid ""
 "<p>Remove the selected row from the alignment point table below. Note that "
@@ -7802,7 +7821,7 @@ msgstr ""
 "الحامل، فلن تُضَمَّن هذه النقطة في القائمة.</p>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addAlignB)
-#: ekos/align/mountmodel.ui:382
+#: ekos/align/mountmodel.ui:395
 #, kde-format
 msgid ""
 "Add an empty row to the alignment list so that you can manually add an RA "
@@ -7813,7 +7832,7 @@ msgstr ""
 "لموقع تَرْغَب في أن ينتقل إليه المقراب عند إجراء روتين نموذج الحامل."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, findAlignB)
-#: ekos/align/mountmodel.ui:404
+#: ekos/align/mountmodel.ui:417
 #, kde-format
 msgid ""
 "Open the Find Object dialog so that you can select an object to get an RA "
@@ -7824,7 +7843,7 @@ msgstr ""
 "آليًا تَرْغَب في أن ينتقل إليه المقراب عند إجراء روتين نموذج الحامل."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, sortAlignB)
-#: ekos/align/mountmodel.ui:426
+#: ekos/align/mountmodel.ui:439
 #, kde-format
 msgid ""
 "Sort the alignment points, starting with the point closest to the current "
@@ -7834,7 +7853,7 @@ msgstr ""
 "تقليل المسافة بين كل عملية انتقال."
 
 #. i18n: ectx: property (toolTip), widget (QTableWidget, alignTable)
-#: ekos/align/mountmodel.ui:451
+#: ekos/align/mountmodel.ui:464
 #, kde-format
 msgid ""
 "This is a table of alignment points that you would like the mount model "
@@ -7856,19 +7875,19 @@ msgstr ""
 "يمكنَك سحب الصف للأعلى أو للأسفل باستخدام الرأس العمودي لهذا الصف على اليسار."
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
-#: ekos/align/mountmodel.ui:455
+#: ekos/align/mountmodel.ui:468
 #, kde-format
 msgid "RA (J2000)"
 msgstr "المطلع المستقيم (J2000)"
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
-#: ekos/align/mountmodel.ui:460
+#: ekos/align/mountmodel.ui:473
 #, kde-format
 msgid "DEC (J2000)"
 msgstr "الميل (J2000)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadAlignB)
-#: ekos/align/mountmodel.ui:498
+#: ekos/align/mountmodel.ui:511
 #, kde-format
 msgid ""
 "Load a saved alignment point list so that you can run the same alignment you "
@@ -7878,7 +7897,7 @@ msgstr ""
 "مناسبة سابقة."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveAlignB)
-#: ekos/align/mountmodel.ui:520
+#: ekos/align/mountmodel.ui:533
 #, kde-format
 msgid ""
 "Save the alignment list so that you can run this alignment again in the "
@@ -7887,7 +7906,7 @@ msgstr ""
 "اِحْفَظ قائمة المحاذاة بحيث يُمْكِنُك إجراء هذه المحاذاة مرة أخرى في المستقبل."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
-#: ekos/align/mountmodel.ui:542
+#: ekos/align/mountmodel.ui:555
 #, kde-format
 msgid ""
 "Display the alignment points on the skymap as flags.  Clicking it again will "
@@ -7897,7 +7916,7 @@ msgstr ""
 "أخرى إلى إزالة الأعلام. لن تُحفَظ الأعلام."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startAlignB)
-#: ekos/align/mountmodel.ui:577
+#: ekos/align/mountmodel.ui:590
 #, kde-format
 msgid ""
 "Start or pause the mount model routine.  It will slew to and astrometrically "
@@ -7911,7 +7930,7 @@ msgstr ""
 "سابقًا، فسيستأنف من حيث توقف. إذا أوقف أو أنهى فإنه سيبدأ الروتين من جديد."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopAlignB)
-#: ekos/align/mountmodel.ui:599
+#: ekos/align/mountmodel.ui:612
 #, kde-format
 msgid ""
 "<p>Stop the mount model routine.  It will <b>not</b> clear any points from "
