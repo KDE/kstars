@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-23 02:05+0000\n"
-"PO-Revision-Date: 2026-05-19 10:50+0200\n"
+"PO-Revision-Date: 2026-05-23 14:24+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -7853,21 +7853,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
 #: ekos/align/mountmodel.ui:223
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>The artificial horizon restriction constrains the altitude "
-#| "of the target to be above the artificial horizon, if any are defined and "
-#| "enabled. See the artificial horizon item in the KStars Settings menu.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "Skip generated points that are below the artificial horizon, if any are "
 "defined and enabled. See the artificial horizon item in the KStars Settings "
 "menu."
 msgstr ""
-"<html><body><p>De kunstmatige horizonbeperking beperkt de hoogte van het "
-"doel om boven de kunstmatige horizon te zijn, als deze zijn gedefinieerd en "
-"ingeschakeld. Zie het item kunstmatige horizon in het menu Instellingen van "
-"KStars.</p></body></html>"
+"Sla gegenereerde punten over die zich onder de kunstmatige horizon bevinden, "
+"indien deze zijn gedefinieerd en ingeschakeld. Zie het item 'Kunstmatige "
+"horizon' in het KStars-instellingenmenu."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:239

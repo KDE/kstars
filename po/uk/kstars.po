@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-23 02:05+0000\n"
-"PO-Revision-Date: 2026-05-19 08:17+0300\n"
+"PO-Revision-Date: 2026-05-23 20:10+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -7859,20 +7859,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
 #: ekos/align/mountmodel.ui:223
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>The artificial horizon restriction constrains the altitude "
-#| "of the target to be above the artificial horizon, if any are defined and "
-#| "enabled. See the artificial horizon item in the KStars Settings menu.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "Skip generated points that are below the artificial horizon, if any are "
 "defined and enabled. See the artificial horizon item in the KStars Settings "
 "menu."
 msgstr ""
-"<html><body><p>Обмеження на штучний горизонт вимагають перебування цілі на "
-"певній висоті від штучного горизонту, якщо такий визначено і увімкнено. Див. "
-"пункт штучного горизонту у меню «Параметри» KStars.</p></body></html>"
+"Пропустити створені точки, які перебувають під штучним горизонтом, якщо такі "
+"визначено і увімкнено. Див. запис «штучний горизонт» у меню параметрів "
+"KStars."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:239

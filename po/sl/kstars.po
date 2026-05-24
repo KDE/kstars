@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-23 02:05+0000\n"
-"PO-Revision-Date: 2026-05-19 07:37+0200\n"
+"PO-Revision-Date: 2026-05-23 06:38+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7843,20 +7843,14 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
 #: ekos/align/mountmodel.ui:223
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>The artificial horizon restriction constrains the altitude "
-#| "of the target to be above the artificial horizon, if any are defined and "
-#| "enabled. See the artificial horizon item in the KStars Settings menu.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "Skip generated points that are below the artificial horizon, if any are "
 "defined and enabled. See the artificial horizon item in the KStars Settings "
 "menu."
 msgstr ""
-"<html><body><p>Omejitev umetnega obzorja omejuje višino cilja nad umetnim "
-"obzorjem, če je določeno in omogočeno. Oglejte si element umetnega obzorja v "
-"meniju z nastavitvami KStars.</p></body></html>"
+"Preskoči ustvarjene točke, ki so pod umetnim horizontom, če so določene in "
+"omogočene. Glejte umetni horizont v meniju Nastavitve KStars."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:239
