@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-23 02:05+0000\n"
-"PO-Revision-Date: 2026-05-20 15:42+0200\n"
+"PO-Revision-Date: 2026-05-24 18:29+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -7539,7 +7539,7 @@ msgid ""
 msgstr ""
 "Comproveu que hi haja estreles suficients en la imatge, que CDV indicat siga "
 "correcte i que estiguen instal·lats els fitxers d'índex necessaris. Activeu "
-"la gravació de l'alineació en la pestanya «Configuració → Registres» per a "
+"la gravació de l'alineació en la «pestanya Configuració → Registres» per a "
 "obtindre informació detallada de la fallada."
 
 #: ekos/align/align_solver.cpp:1116
@@ -7973,21 +7973,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
 #: ekos/align/mountmodel.ui:223
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>The artificial horizon restriction constrains the altitude "
-#| "of the target to be above the artificial horizon, if any are defined and "
-#| "enabled. See the artificial horizon item in the KStars Settings menu.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "Skip generated points that are below the artificial horizon, if any are "
 "defined and enabled. See the artificial horizon item in the KStars Settings "
 "menu."
 msgstr ""
-"<html><body><p>La restricció de l'horitzó artificial obliga que l'altitud de "
-"l'objectiu estiga per damunt de l'horitzó artificial, si se n'ha definit i "
-"activat una. Vegeu l'element de l'horitzó artificial en el menú "
-"«Configuració» de KStars.</p></body></html>"
+"Omet els punts generats que es troben per davall de l'horitzó artificial, si "
+"s'han definit i activat. Vegeu l'element de menú «Configuració → Horitzó "
+"artificial…»."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:239

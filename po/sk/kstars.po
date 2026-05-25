@@ -7521,6 +7521,8 @@ msgstr "DEC je pod hranicou výšky"
 #, kde-format
 msgid "Warning: only %1 of %2 requested alignment points could be placed."
 msgstr ""
+"Upozornenie: bolo možné umiestniť iba %1 z %2 požadovaných zarovnávacích "
+"bodov."
 
 #: ekos/align/mountmodel.cpp:796
 #, kde-format
@@ -7543,15 +7545,14 @@ msgid "The Mount Model Tool is Reset."
 msgstr "Nástroj modelu montáže bol resetovaný."
 
 #: ekos/align/mountmodel.cpp:1164
-#, fuzzy, kde-format
-#| msgid "Mount is parking. Aborting guide..."
+#, kde-format
 msgid "Mount unparked. Starting mount model..."
-msgstr "Chyba parkovania montáže."
+msgstr "Montáž odparkovaná. Spúšťa sa model montáže..."
 
 #: ekos/align/mountmodel.cpp:1172
 #, kde-format
 msgid "Mount unpark failed. Cannot start mount model."
-msgstr ""
+msgstr "Odparkovanie montáže zlyhalo. Nedá sa spustiť model montáže."
 
 #: ekos/align/mountmodel.cpp:1184
 #, kde-format
@@ -7559,10 +7560,9 @@ msgid "Please Check the Alignment Points."
 msgstr "Skontrolujte zarovnávacie body."
 
 #: ekos/align/mountmodel.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Dustcap is parked. Unparking before capture..."
+#, kde-format
 msgid "Mount is parked. Unparking before starting mount model..."
-msgstr "Dome Creek"
+msgstr "Montáž je zaparkovaná. Odparkovanie pred spustením modelu montáže..."
 
 #: ekos/align/mountmodel.cpp:1203
 #, kde-format
@@ -7599,6 +7599,8 @@ msgstr "Nástroj modelu montáže je dokončený."
 #, kde-format
 msgid "Mount model: forcing blind solve and sync for each alignment point."
 msgstr ""
+"Model montáže: vynúti sa slepé riešenie a synchronizácia pre každý "
+"zarovnávací bod."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, mountModel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpsAstrometryIndexFiles)
@@ -7660,6 +7662,25 @@ msgid ""
 "</ul>\n"
 "</body></html>"
 msgstr ""
+"<html><head/><body><p>Vyberte, ako sprievodca vyberá zarovnávacie body.</p>\n"
+"<p>Všetky režimy okrem Pevná DEC a Pevná mriežka rovnomerne rozprestrú body "
+"po oblohe pomocou rovnomerného rozloženia. Režimy sa líšia v tom, na čo sa "
+"každý bod prichytí:</p>\n"
+"<ul>\n"
+"<li><b>Akékoľvek hviezdy:</b> Prichytí sa na najbližšiu viditeľnú hviezdu.</"
+"li>\n"
+"<li><b>Pomenované hviezdy:</b> Prichytí sa na dobre známu pomenovanú hviezdu "
+"(napr. Vega, Arcturus).</li>\n"
+"<li><b>Ľubovoľný objekt:</b> Prichytí sa na najbližší viditeľný objekt "
+"akéhokoľvek typu.</li>\n"
+"<li><b>Rovnomerné rozloženie:</b> Body sú rozprestreté rovnomerne po "
+"viditeľnej oblohe.</li>\n"
+"<li><b>Pevná DEC:</b> Všetky body majú rovnakú deklináciu (nastavená nižšie)."
+"</li>\n"
+"<li><b>Pevná mriežka:</b> Body usporiadané v pravidelnej mriežke RA/DEC, "
+"rovnomerne rozmiestnené v RA a DEC.</li>\n"
+"</ul>\n"
+"</body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:75
@@ -7683,7 +7704,7 @@ msgstr "Ľubovoľný objekt"
 #: ekos/align/mountmodel.ui:90
 #, kde-format
 msgid "Uniform Distribution"
-msgstr ""
+msgstr "Rovnomerné rozloženie"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:95
@@ -7775,20 +7796,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
 #: ekos/align/mountmodel.ui:223
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>The artificial horizon restriction constrains the altitude "
-#| "of the target to be above the artificial horizon, if any are defined and "
-#| "enabled. See the artificial horizon item in the KStars Settings menu.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "Skip generated points that are below the artificial horizon, if any are "
 "defined and enabled. See the artificial horizon item in the KStars Settings "
 "menu."
 msgstr ""
-"<html><body><p>Obmedzenie umelého horizontu obmedzuje výšku cieľa na hodnotu "
-"nad umelým horizontom, ak sú definované a povolené. Pozrite položku umelého "
-"horizontu v menu Nastavenia KStars.</p></body></html>"
+"Preskočiť vygenerované body, ktoré sú pod umelým horizontom, ak sú "
+"definované a povolené. Pozrite položku umelého horizontu v menu Nastavenia "
+"KStars."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:239
