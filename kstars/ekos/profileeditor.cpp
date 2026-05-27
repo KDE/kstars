@@ -209,6 +209,12 @@ void ProfileEditor::saveProfile()
     // Set driver source from member variable (populated by setSettings)
     pi->driverSource = m_DriverSource;
 
+    // Apply any scripts passed via setSettings.
+    // Only overwrite when m_Scripts is non-empty so a plain desktop save never
+    // accidentally clears scripts configured via the Scripts button.
+    if (!m_Scripts.isEmpty())
+        pi->scripts = m_Scripts;
+
     KStarsData::Instance()->userdb()->SaveProfile(pi);
 
     // Ekos manager will reload and new profiles will be created
@@ -514,6 +520,11 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
     // Extract driver source from JSON (defaults to "system" if not present)
     // TODO expose in UI?
     m_DriverSource = profile["driver_source"].toString("system");
+
+    // Preserve scripts from remote settings.
+    // Stored here and applied to pi->scripts in saveProfile() so they survive the
+    // round-trip through the ProfileEditor UI without needing user interaction.
+    m_Scripts = profile["scripts"].toString().toUtf8();
 
     profileDriversModel->clear();
 

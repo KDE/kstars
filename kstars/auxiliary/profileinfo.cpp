@@ -30,10 +30,10 @@ void ProfileInfo::addDriver(DeviceFamily family, const QString &driver)
 QList<QString> ProfileInfo::getDrivers(DeviceFamily family) const
 {
     if (drivers.contains(family))
-        return drivers[family];
+    return drivers[family];
     else
         return QList<QString>();
-}
+    }
 
 QString ProfileInfo::mount() const
 {
@@ -173,6 +173,10 @@ QJsonObject ProfileInfo::toJson() const
         driversObject[fromDeviceFamily(i.key())] = driverArray;
     }
     json["drivers"] = driversObject;
+
+    // Include scripts so clients can detect an already-configured startup delay
+    if (!scripts.isEmpty())
+        json["scripts"] = QString(scripts);
 
     return json;
 }

@@ -90,4 +90,5 @@ class ProfileEditor : public QDialog
 
         bool m_CancelScan { false };
         QString m_DriverSource { "system" };
+        QByteArray m_Scripts;
 };
