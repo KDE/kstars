@@ -219,6 +219,10 @@ void CaptureDeviceAdaptor::setRotator(ISD::Rotator *device)
         connectRotator(currentSequenceJobState.data());
 
         Q_EMIT newRotator(device->getDeviceName());
+        // Seed the signal chain with the current reverse state so that any listener
+        // (e.g. Camera::setRotatorReversed) that was connected *after* the INDI device
+        // first emitted reverseToggled will still receive the correct initial value.
+        Q_EMIT rotatorReverseToggled(m_ActiveRotator->isReversed());
     }
     else
         Q_EMIT newRotator(""); // no real rotator present, so check if user wants to use "manual rotator"
@@ -277,7 +281,6 @@ void CaptureDeviceAdaptor::reverseRotator(bool toggled)
     if (m_ActiveRotator != nullptr)
     {
         m_ActiveRotator->setReversed(toggled);
-        m_ActiveRotator->setConfig(SAVE_CONFIG);
     }
 }
 

@@ -23,6 +23,14 @@ class RotatorUtils : public QObject
         double calcCameraAngle(double RotatorAngle, bool flippedImage);
         double calcOffsetAngle(double RotatorAngle, double PositionAngle);
         void   updateOffset(double Angle);
+        /**
+         * @brief setReversed Inform RotatorUtils whether the rotator is currently reversed.
+         *        This is needed so that calcRotatorAngle() sends the correctly compensated
+         *        raw angle to the driver: a reversed driver maps command A -> reports range360(-A),
+         *        so to achieve a given camera PA we must send range360(offset - PA) instead of
+         *        range360(PA - offset).
+         */
+        void   setReversed(bool reversed);
         void   setImagePierside(ISD::Mount::PierSide ImgPierside);
         ISD::Mount::PierSide getMountPierside();
         double DiffPA(double diff);
@@ -39,6 +47,7 @@ class RotatorUtils : public QObject
         ISD::Mount::PierSide m_ImgPierside {ISD::Mount::PIER_UNKNOWN};
         double m_Offset {0};
         bool   m_flippedMount {false};
+        bool   m_Reversed {false};
         ISD::Mount *m_Mount {nullptr};
         double m_StartAngle, m_EndAngle {0};
         double m_ShiftAngle, m_DiffAngle {0};

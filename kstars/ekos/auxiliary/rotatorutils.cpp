@@ -62,10 +62,22 @@ void RotatorUtils::initRotatorUtils(const QString &train)
 double RotatorUtils::calcRotatorAngle(double PositionAngle)
 {
     if (m_flippedMount)
-    {
         PositionAngle += 180;
-    }
-    return KSUtils::range360(PositionAngle - m_Offset);
+
+    // A reversed rotator driver maps a commanded angle A to range360(-A) when reporting
+    // back ABS_ROTATOR_ANGLE. To achieve a desired camera PA we must therefore send the
+    // negated (offset-relative) angle so that the driver's own reversal cancels it out:
+    //   normal:   command = range360(PA - offset)
+    //   reversed: command = range360(offset - PA)
+    if (m_Reversed)
+        return KSUtils::range360(m_Offset - PositionAngle);
+    else
+        return KSUtils::range360(PositionAngle - m_Offset);
+}
+
+void RotatorUtils::setReversed(bool reversed)
+{
+    m_Reversed = reversed;
 }
 
 double RotatorUtils::calcCameraAngle(double RotatorAngle, bool flippedImage)

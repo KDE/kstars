@@ -112,8 +112,21 @@ void RotatorSettings::initRotator(const QString &train, const QSharedPointer<Eko
     m_Rotator = device;
     RotatorName->setText(m_Rotator->getDeviceName());
     updateFlipPolicy(Options::astrometryFlipRotationAllowed());
-    // Give getState() a second
-    QTimer::singleShot(1000, [ = ]
+
+    // Initialize the reverse direction checkbox from the actual INDI device state.
+    // The reverseToggled signal from the INDI device may have already fired before the
+    // connection chain (CaptureDeviceAdaptor -> CameraProcess -> Camera) was fully
+    // established, leaving the checkbox in its default (unchecked) state. Reading the
+    // value directly from the device here ensures the UI always reflects reality.
+    reverseDirection->blockSignals(true);
+    reverseDirection->setChecked(m_Rotator->isReversed());
+    reverseDirection->blockSignals(false);
+    // Keep RotatorUtils in sync so that calcRotatorAngle() sends the correct compensated
+    // angle to the driver when the rotator is reversed (see RotatorUtils::calcRotatorAngle).
+    RotatorUtils::Instance()->setReversed(m_Rotator->isReversed());
+
+    // Give getState() a second to settle before reading the initial angle
+    QTimer::singleShot(1000, this, [this]()
     {
         if (m_CaptureDA->getRotatorAngleState() < IPS_BUSY)
         {
@@ -207,6 +220,9 @@ void RotatorSettings::activateRotator(double Angle)
 void RotatorSettings::commitRotatorDirection(bool Reverse)
 {
     m_CaptureDA->reverseRotator(Reverse);
+    // Keep RotatorUtils in sync so that calcRotatorAngle() immediately uses the
+    // correct (reversed or normal) formula for any subsequent PA → RAngle conversion.
+    RotatorUtils::Instance()->setReversed(Reverse);
 }
 
 void RotatorSettings::refresh(double PAngle) // Call from setAlignResults() in Module Capture
