@@ -17,9 +17,40 @@
 #include <QtConcurrent>
 #include <QFutureWatcher>
 #include <KFormat>
+#include <zlib.h>
 
 namespace EkosLive
 {
+
+///////////////////////////////////////////////////////////////////////////////////////////
+/// Compress data using standard RFC 1952 gzip format (level 1 = Z_BEST_SPEED).
+/// Unlike Qt's qCompress(), the result can be decompressed by any standard tool.
+///////////////////////////////////////////////////////////////////////////////////////////
+static QByteArray gzipCompress(const QByteArray &input)
+{
+    z_stream zs{};
+    // windowBits = 15 + 16 → produce gzip format; level 1 = Z_BEST_SPEED
+    if (deflateInit2(&zs, Z_BEST_SPEED, Z_DEFLATED, 15 + 16, 8, Z_DEFAULT_STRATEGY) != Z_OK)
+        return input; // fallback: send uncompressed
+
+    const uLongf bound = deflateBound(&zs, static_cast<uLong>(input.size()));
+    QByteArray output(static_cast<int>(bound), Qt::Uninitialized);
+
+    zs.next_in   = reinterpret_cast<Bytef *>(const_cast<char *>(input.data()));
+    zs.avail_in  = static_cast<uInt>(input.size());
+    zs.next_out  = reinterpret_cast<Bytef *>(output.data());
+    zs.avail_out = static_cast<uInt>(output.size());
+
+    const int ret = deflate(&zs, Z_FINISH);
+    deflateEnd(&zs);
+
+    if (ret != Z_STREAM_END)
+        return input; // fallback
+
+    output.resize(static_cast<int>(zs.total_out));
+    return output;
+}
+
 
 Cloud::Cloud(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager >> &nodeManagers):
     m_Manager(manager), m_NodeManagers(nodeManagers)
@@ -203,7 +234,8 @@ void Cloud::dispatch(const QSharedPointer<FITSData> &data, const QString &uuid)
     if (sourceFile.open(QIODevice::ReadOnly))
     {
         QByteArray rawData = sourceFile.readAll();
-        image += useCompression ? qCompress(rawData) : rawData;
+        // gzipCompress produces standard RFC 1952 gzip.
+        image += useCompression ? gzipCompress(rawData) : rawData;
         Q_EMIT newImage(image);
         qCInfo(KSTARS_EKOS) << (useCompression ? "Uploaded compressed" : "Uploaded") << filenameOnly << " to the cloud";
     }

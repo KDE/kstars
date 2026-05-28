@@ -1116,7 +1116,7 @@ void FITSViewer::openFile()
     QFileDialog dialog(KStars::Instance(), i18nc("@title:window", "Open Image"));
     dialog.setFileMode(QFileDialog::ExistingFiles);
     dialog.setDirectoryUrl(lastURL);
-    dialog.setNameFilter("Images (*.fits *.fits.fz *.fits.gz *.fit *.fts *.xisf *.xisf.gz"
+    dialog.setNameFilter("Images (*.fits *.fits.fz *.fits.gz *.fit *.fts *.xisf *.xisf.gz "
                          "*.jpg *.jpeg *.png *.gif *.bmp "
                          "*.cr2 *.cr3 *.crw *.nef *.raf *.dng *.arw *.orf)");
     if (!dialog.exec())

@@ -48,6 +48,7 @@
 
 #include <cfloat>
 #include <cmath>
+#include <zlib.h>
 
 #include <fits_debug.h>
 
@@ -336,7 +337,35 @@ QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
         {
             QByteArray compressed = file.readAll();
             file.close();
-            QByteArray decompressed = qUncompress(compressed);
+
+            // Standard gzip inflate (RFC 1952); windowBits = 15 + 16 enables gzip header support
+            QByteArray decompressed;
+            z_stream zs{};
+            if (inflateInit2(&zs, 15 + 16) == Z_OK)
+            {
+                zs.next_in  = reinterpret_cast<Bytef *>(compressed.data());
+                zs.avail_in = static_cast<uInt>(compressed.size());
+                const int chunkSize = qMax(compressed.size() * 4, 4 * 1024 * 1024);
+                decompressed.resize(chunkSize);
+                uLong totalOut = 0;
+                int ret;
+                do
+                {
+                    zs.next_out  = reinterpret_cast<Bytef *>(decompressed.data() + totalOut);
+                    zs.avail_out = static_cast<uInt>(decompressed.size() - static_cast<int>(totalOut));
+                    ret = inflate(&zs, Z_NO_FLUSH);
+                    totalOut = zs.total_out;
+                    if (ret == Z_OK && zs.avail_out == 0)
+                        decompressed.resize(decompressed.size() + chunkSize);
+                }
+                while (ret == Z_OK);
+                inflateEnd(&zs);
+                if (ret == Z_STREAM_END)
+                    decompressed.resize(static_cast<int>(zs.total_out));
+                else
+                    decompressed.clear();
+            }
+
             if (!decompressed.isEmpty())
             {
                 m_Extension = baseExt;
@@ -1196,8 +1225,8 @@ void FITSData::redoPostProcessStack(const LiveStackPPData &ppParams)
     // Create a combined future that waits for all others to complete
     QFuture<void> combined = QtConcurrent::run([futures]() mutable
     {
-        for (auto &f : futures)
-            f.waitForFinished();
+for (auto &f : futures)
+        f.waitForFinished();
     });
 
     // Watch the combined future and process the final image when all stacks complete
@@ -2442,7 +2471,7 @@ bool FITSData::stackLoadXISFImage(QString filename)
     try
     {
         LibXISF::XISFReader xisfReader;
-        xisfReader.open(filename.toLocal8Bit().data());
+        xisfReader.open(filename.toStdString());
 
         if (xisfReader.imagesCount() == 0)
         {
@@ -2688,7 +2717,7 @@ bool FITSData::loadXISFImage(const QByteArray &buffer)
         LibXISF::XISFReader xisfReader;
         if (buffer.isEmpty())
         {
-            xisfReader.open(m_Filename.toLocal8Bit().data());
+            xisfReader.open(m_Filename.toStdString());
         }
         else
         {
@@ -2857,7 +2886,7 @@ bool FITSData::saveXISFImage(const QString &newFilename)
                 xisfPixels[i] /= scaleFactor;
         }
         xisfWriter.writeImage(image);
-        xisfWriter.save(newFilename.toLocal8Bit().data());
+        xisfWriter.save(newFilename.toStdString());
         m_Filename = newFilename;
     }
     catch (LibXISF::Error &err)
@@ -5968,7 +5997,7 @@ QString FITSData::getCatObjectLabel(const QString code) const
 bool FITSData::getCatObjectFilter(const QString type) const
 {
     if (m_CatObjectsFilters.isEmpty() || m_CatObjectsFilters.contains(type))
-        return true;
+    return true;
     return false;
 }
 #endif
@@ -6970,7 +6999,7 @@ bool FITSData::debayer(bool reload)
         else if (m_Extension.contains("xisf") && !m_Filename.isEmpty())
         {
             LibXISF::XISFReader xisfReader;
-            xisfReader.open(m_Filename.toLocal8Bit().data());
+            xisfReader.open(m_Filename.toStdString());
             const LibXISF::Image &image = xisfReader.getImage(0);
             m_ImageBufferSize = image.imageDataSize();
             std::memcpy(m_ImageBuffer, image.imageData(), m_ImageBufferSize);
@@ -7885,13 +7914,13 @@ void FITSData::constructHistogram()
 template <typename T> int32_t FITSData::histogramBinInternal(T value, int channel) const
 {
     return qMax(static_cast<T>(0), qMin(static_cast<T>(m_HistogramBinCount),
-                                        static_cast<T>(rint((value - m_Statistics.min[channel]) / m_HistogramBinWidth[channel]))));
+    static_cast<T>(rint((value - m_Statistics.min[channel]) / m_HistogramBinWidth[channel]))));
 }
 
 template <typename T> int32_t FITSData::histogramBinInternal(int x, int y, int channel) const
 {
     if (!m_ImageBuffer || !isHistogramConstructed())
-        return 0;
+    return 0;
     uint32_t samples = m_Statistics.width * m_Statistics.height;
     uint32_t offset = channel * samples;
     auto * const buffer = reinterpret_cast<T const *>(m_ImageBuffer);
@@ -7903,9 +7932,9 @@ template <typename T> int32_t FITSData::histogramBinInternal(int x, int y, int c
 int32_t FITSData::histogramBin(int x, int y, int channel) const
 {
     switch (m_Statistics.dataType)
-    {
-        case TBYTE:
-            return histogramBinInternal<uint8_t>(x, y, channel);
+{
+    case TBYTE:
+        return histogramBinInternal<uint8_t>(x, y, channel);
             break;
 
         case TSHORT:
