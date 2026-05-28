@@ -199,7 +199,7 @@ flatpak-amd64:
     - !reference [.publishing-recipes, rules]
 
 flatpak-arm64:
-  timeout: 2h
+  timeout: 3h
   needs:
     - suse_tumbleweed_qt611
   rules:
