@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-23 02:05+0000\n"
+"POT-Creation-Date: 2026-05-28 02:02+0000\n"
 "PO-Revision-Date: 2026-05-24 18:29+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -17335,29 +17335,29 @@ msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 "Canvia la pantalla al mode gràfic de visualització del nombre de captures."
 
-#: ekos/capture/capturedeviceadaptor.cpp:437
+#: ekos/capture/capturedeviceadaptor.cpp:440
 #, kde-format
 msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr ""
 "El gestor de filtres encara no està inicialitzat. Falta la roda de filtres "
 "del tren?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:691
+#: ekos/capture/capturedeviceadaptor.cpp:694
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Elimina la funda del telescopi per tal de continuar."
 
-#: ekos/capture/capturedeviceadaptor.cpp:692
+#: ekos/capture/capturedeviceadaptor.cpp:695
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescopi cobert"
 
-#: ekos/capture/capturedeviceadaptor.cpp:824
+#: ekos/capture/capturedeviceadaptor.cpp:827
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "%1 té un obturador?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:825
+#: ekos/capture/capturedeviceadaptor.cpp:828
 #: ekos/capture/sequencejobstate.cpp:546
 #, kde-format
 msgid "Dark Exposure"
@@ -18425,7 +18425,7 @@ msgstr ""
 "Ekos tornarà a enfocar tan prompte com siga possible, l'últim procediment ha "
 "sigut fa %1 segons."
 
-#: ekos/capture/rotatorsettings.cpp:124
+#: ekos/capture/rotatorsettings.cpp:137
 #, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
 msgstr "S'ha llegit correctament l'angle %1° inicial del rotor."
@@ -27627,7 +27627,7 @@ msgstr "No es pot guardar un perfil buit."
 msgid "Profile name already exists."
 msgstr "Ja existix un perfil amb este nom."
 
-#: ekos/profileeditor.cpp:336
+#: ekos/profileeditor.cpp:342
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
@@ -27636,7 +27636,7 @@ msgstr ""
 "<nobr>Disponible com a controlador <b>remot</b>. Per a utilitzar localment, "
 "instal·leu el controlador corresponent.<nobr/>"
 
-#: ekos/profileeditor.cpp:338
+#: ekos/profileeditor.cpp:344
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -27645,23 +27645,23 @@ msgstr ""
 "<nobr><b>Etiqueta</b>: %1 &#9473; <b>Controlador</b>: %2 &#9473; <b>Exec</"
 "b>: %3<nobr/>"
 
-#: ekos/profileeditor.cpp:347
+#: ekos/profileeditor.cpp:353
 #, kde-format
 msgid "Drivers"
 msgstr "Controladors"
 
-#: ekos/profileeditor.cpp:740
+#: ekos/profileeditor.cpp:751
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Exploreu la xarxa"
 
-#: ekos/profileeditor.cpp:741
+#: ekos/profileeditor.cpp:752
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "S'està explorant la xarxa buscant gestors web d'INDI…"
 
-#: ekos/profileeditor.cpp:805
+#: ekos/profileeditor.cpp:816
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "S'ha trobat un gestor web d'INDI a %1"

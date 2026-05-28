@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-23 02:05+0000\n"
+"POT-Creation-Date: 2026-05-28 02:02+0000\n"
 "PO-Revision-Date: 2024-07-27 13:28+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -17462,12 +17462,12 @@ msgstr "本地時間"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:437
+#: ekos/capture/capturedeviceadaptor.cpp:440
 #, kde-format
 msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:691
+#: ekos/capture/capturedeviceadaptor.cpp:694
 #, fuzzy, kde-format
 #| msgid ""
 #| "If the guider camera if not equipped with a shutter, cover the telescope "
@@ -17476,18 +17476,18 @@ msgid "Remove cover from the telescope in order to continue."
 msgstr ""
 "如果引導的相機未配備快門或遮光器，請將望遠鏡或相機遮住，以便取得黑暗曝光。"
 
-#: ekos/capture/capturedeviceadaptor.cpp:692
+#: ekos/capture/capturedeviceadaptor.cpp:695
 #, fuzzy, kde-format
 #| msgid "Telescope Coordinates"
 msgid "Telescope Covered"
 msgstr "望遠鏡座標"
 
-#: ekos/capture/capturedeviceadaptor.cpp:824
+#: ekos/capture/capturedeviceadaptor.cpp:827
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:825
+#: ekos/capture/capturedeviceadaptor.cpp:828
 #: ekos/capture/sequencejobstate.cpp:546
 #, kde-format
 msgid "Dark Exposure"
@@ -18603,7 +18603,7 @@ msgid ""
 "Ekos will refocus as soon as possible, last procedure was %1 seconds ago."
 msgstr ""
 
-#: ekos/capture/rotatorsettings.cpp:124
+#: ekos/capture/rotatorsettings.cpp:137
 #, fuzzy, kde-format
 #| msgid "Telescope info updated successfully."
 msgid "Initial rotator angle %1° is read in successfully."
@@ -28313,40 +28313,40 @@ msgstr "開啟觀測階段清單"
 msgid "Profile name already exists."
 msgstr "檔案 %1 已存在。要覆寫嗎？"
 
-#: ekos/profileeditor.cpp:336
+#: ekos/profileeditor.cpp:342
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:338
+#: ekos/profileeditor.cpp:344
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
 "%3<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:347
+#: ekos/profileeditor.cpp:353
 #, fuzzy, kde-format
 #| msgid "Driver:"
 msgid "Drivers"
 msgstr "驅動程式："
 
-#: ekos/profileeditor.cpp:740
+#: ekos/profileeditor.cpp:751
 #, fuzzy, kde-format
 #| msgid "Artwork"
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "美工"
 
-#: ekos/profileeditor.cpp:741
+#: ekos/profileeditor.cpp:752
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Scanning network for INDI Web Managers..."
 msgstr "遠端 INDI 焦點器裝置名稱。"
 
-#: ekos/profileeditor.cpp:805
+#: ekos/profileeditor.cpp:816
 #, fuzzy, kde-format
 #| msgid "INDI Filter port"
 msgid "Found INDI Web Manager at %1"

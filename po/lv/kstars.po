@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-23 02:05+0000\n"
+"POT-Creation-Date: 2026-05-28 02:02+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -16874,28 +16874,28 @@ msgstr "Lokālais Laiks"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:437
+#: ekos/capture/capturedeviceadaptor.cpp:440
 #, kde-format
 msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:691
+#: ekos/capture/capturedeviceadaptor.cpp:694
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:692
+#: ekos/capture/capturedeviceadaptor.cpp:695
 #, fuzzy, kde-format
 #| msgid "Catalog Coordinates"
 msgid "Telescope Covered"
 msgstr "Kataloga koordinātes"
 
-#: ekos/capture/capturedeviceadaptor.cpp:824
+#: ekos/capture/capturedeviceadaptor.cpp:827
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:825
+#: ekos/capture/capturedeviceadaptor.cpp:828
 #: ekos/capture/sequencejobstate.cpp:546
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -17935,7 +17935,7 @@ msgid ""
 "Ekos will refocus as soon as possible, last procedure was %1 seconds ago."
 msgstr ""
 
-#: ekos/capture/rotatorsettings.cpp:124
+#: ekos/capture/rotatorsettings.cpp:137
 #, fuzzy, kde-format
 #| msgid "Catalog Coordinates"
 msgid "Initial rotator angle %1° is read in successfully."
@@ -26745,38 +26745,38 @@ msgstr "Atvērt novērojumu sesijas sarakstu"
 msgid "Profile name already exists."
 msgstr "Fails ar nosaukumu \"%1\" jau pastāv. Vai vēlaties to pārrakstīt?"
 
-#: ekos/profileeditor.cpp:336
+#: ekos/profileeditor.cpp:342
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:338
+#: ekos/profileeditor.cpp:344
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
 "%3<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:347
+#: ekos/profileeditor.cpp:353
 #, fuzzy, kde-format
 #| msgid "Driver:"
 msgid "Drivers"
 msgstr "Dzinis:"
 
-#: ekos/profileeditor.cpp:740
+#: ekos/profileeditor.cpp:751
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:741
+#: ekos/profileeditor.cpp:752
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr ""
 
-#: ekos/profileeditor.cpp:805
+#: ekos/profileeditor.cpp:816
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Site Management"

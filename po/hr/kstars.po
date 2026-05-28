@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-23 02:05+0000\n"
+"POT-Creation-Date: 2026-05-28 02:02+0000\n"
 "PO-Revision-Date: 2010-01-28 23:11+0100\n"
 "Last-Translator: Marko Dimjasevic <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -16434,27 +16434,27 @@ msgstr "_Upotrijebi lokalni izvor vremena"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:437
+#: ekos/capture/capturedeviceadaptor.cpp:440
 #, kde-format
 msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:691
+#: ekos/capture/capturedeviceadaptor.cpp:694
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:692
+#: ekos/capture/capturedeviceadaptor.cpp:695
 #, fuzzy, kde-format
 msgid "Telescope Covered"
 msgstr "Nebeske koordinate"
 
-#: ekos/capture/capturedeviceadaptor.cpp:824
+#: ekos/capture/capturedeviceadaptor.cpp:827
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:825
+#: ekos/capture/capturedeviceadaptor.cpp:828
 #: ekos/capture/sequencejobstate.cpp:546
 #, fuzzy, kde-format
 #| msgid "Exposure:"
@@ -17438,7 +17438,7 @@ msgid ""
 "Ekos will refocus as soon as possible, last procedure was %1 seconds ago."
 msgstr ""
 
-#: ekos/capture/rotatorsettings.cpp:124
+#: ekos/capture/rotatorsettings.cpp:137
 #, fuzzy, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
 msgstr "Nebeske koordinate"
@@ -25848,37 +25848,37 @@ msgstr "Otvori popis datoteka..."
 msgid "Profile name already exists."
 msgstr "Datoteka naziva \"%1\" već postoji- Želite li je prepisati?"
 
-#: ekos/profileeditor.cpp:336
+#: ekos/profileeditor.cpp:342
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:338
+#: ekos/profileeditor.cpp:344
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
 "%3<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:347
+#: ekos/profileeditor.cpp:353
 #, fuzzy, kde-format
 msgid "Drivers"
 msgstr "<b>Upravljački program:</b>"
 
-#: ekos/profileeditor.cpp:740
+#: ekos/profileeditor.cpp:751
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:741
+#: ekos/profileeditor.cpp:752
 #, fuzzy, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Pogreška pri povezivanju s poslužiteljem web-galerije."
 
-#: ekos/profileeditor.cpp:805
+#: ekos/profileeditor.cpp:816
 #, fuzzy, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Lokalni port: "

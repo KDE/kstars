@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-23 02:05+0000\n"
+"POT-Creation-Date: 2026-05-28 02:02+0000\n"
 "PO-Revision-Date: 2026-05-21 13:35+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -16647,27 +16647,27 @@ msgstr "المجموع"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr "حوِّل العرض إلى الوضع الرسومي لعرض عدّاد الالتقاط."
 
-#: ekos/capture/capturedeviceadaptor.cpp:437
+#: ekos/capture/capturedeviceadaptor.cpp:440
 #, kde-format
 msgid "Filter manager is not initialized yet. Filter wheel missing from train?"
 msgstr "لم يُهيَّأ مدير المرشحات بعد. هل عجلة المرشح مفقودة من مجموعة الأجهزة؟"
 
-#: ekos/capture/capturedeviceadaptor.cpp:691
+#: ekos/capture/capturedeviceadaptor.cpp:694
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "أزِل الغطاء عن المقراب لكي تكمل."
 
-#: ekos/capture/capturedeviceadaptor.cpp:692
+#: ekos/capture/capturedeviceadaptor.cpp:695
 #, kde-format
 msgid "Telescope Covered"
 msgstr "المقراب مغطى"
 
-#: ekos/capture/capturedeviceadaptor.cpp:824
+#: ekos/capture/capturedeviceadaptor.cpp:827
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "هل يملك %1 مصراعاً؟"
 
-#: ekos/capture/capturedeviceadaptor.cpp:825
+#: ekos/capture/capturedeviceadaptor.cpp:828
 #: ekos/capture/sequencejobstate.cpp:546
 #, kde-format
 msgid "Dark Exposure"
@@ -17674,7 +17674,7 @@ msgstr ""
 "إكوس يستعد لإعادة الضبط البؤري في أقرب وقت ممكن، الإجراء الأخير مضى عليه %1 "
 "ثوانٍ."
 
-#: ekos/capture/rotatorsettings.cpp:124
+#: ekos/capture/rotatorsettings.cpp:137
 #, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
 msgstr "تُقرأ زاوية المدور المبدئية %1° بنجاح."
@@ -26480,7 +26480,7 @@ msgstr "لا يمكن حفظ تشكيلة فارغة."
 msgid "Profile name already exists."
 msgstr "اسم التشكيلة موجود بالفعل."
 
-#: ekos/profileeditor.cpp:336
+#: ekos/profileeditor.cpp:342
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
@@ -26488,7 +26488,7 @@ msgid ""
 msgstr ""
 "<nobr>متاح كمُشغِّل <b>عن بُعد</b>. للاستعمال محلياً، ثبّت المشغِّل المقابل.<nobr/>"
 
-#: ekos/profileeditor.cpp:338
+#: ekos/profileeditor.cpp:344
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -26497,23 +26497,23 @@ msgstr ""
 "<nobr><b>اللصيقة</b>: %1 &#9473; <b>المشغِّل</b>: %2 &#9473; <b>التنفيذ</b>: "
 "%3<nobr/>"
 
-#: ekos/profileeditor.cpp:347
+#: ekos/profileeditor.cpp:353
 #, kde-format
 msgid "Drivers"
 msgstr "المشغّلات"
 
-#: ekos/profileeditor.cpp:740
+#: ekos/profileeditor.cpp:751
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "مسح الشبكة ضوئياً"
 
-#: ekos/profileeditor.cpp:741
+#: ekos/profileeditor.cpp:752
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "مسح الشبكة ضوئياً بحثاً عن مديري ويب INDI..."
 
-#: ekos/profileeditor.cpp:805
+#: ekos/profileeditor.cpp:816
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "عثر على مدير ويب INDI في %1"
