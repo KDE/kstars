@@ -24,6 +24,8 @@
 #include "../testhelpers.h"
 
 #include <QDir>
+#include <QJsonArray>
+#include <QJsonObject>
 
 namespace
 {
@@ -1227,6 +1229,106 @@ bool TestEkosHelper::ensureSimulatorProfile(const QString &profileName, const QS
     }
 
     return KStarsData::Instance()->userdb()->SaveProfile(pi);
+}
+
+bool TestEkosHelper::ensureRemoteProfile(const QString &profileName, const QString &host,
+                                          int port, const QStringList &drivers)
+{
+    qCInfo(KSTARS_EKOS_TEST) << "Setting up remote Ekos profile" << profileName
+                             << "->" << host << ":" << port;
+
+    Ekos::Manager *ekos = Ekos::Manager::Instance();
+    if (!ekos)
+        return false;
+
+    bool isDone = false;
+
+    // Safety timer: reject the dialog if it hasn't been saved within 10 s
+    QTimer closeDialog;
+    closeDialog.setSingleShot(true);
+    closeDialog.setInterval(10000);
+    QObject::connect(&closeDialog, &QTimer::timeout, ekos, [&]()
+    {
+        ProfileEditor *profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
+        if (profileEditor)
+        {
+            profileEditor->reject();
+            qWarning(KSTARS_EKOS_TEST) << "Remote profile setup timed out and was aborted.";
+        }
+    });
+
+    QComboBox *profileCBox = ekos->findChild<QComboBox*>("profileCombo");
+    if (!profileCBox)
+        return false;
+
+    bool profileExists = profileCBox->findText(profileName) >= 0;
+
+    // Build the JSON for ProfileEditor::setSettings — one call fills every field:
+    // name, mode (remote), host, port, auto_connect, port_selector, and the driver list.
+    QJsonObject settings;
+    settings["name"]          = profileName;
+    settings["mode"]          = QStringLiteral("remote");
+    settings["remote_host"]   = host;
+    settings["remote_port"]   = QString::number(port);
+    settings["auto_connect"]  = false;
+    settings["port_selector"] = false;
+
+    if (!drivers.isEmpty())
+    {
+        QJsonArray driverArray;
+        for (const QString &drv : drivers)
+            driverArray.append(drv);
+        settings["drivers"] = driverArray;
+    }
+
+    // After the dialog opens (1 s delay), configure it via setSettings and click Save.
+    QTimer::singleShot(1000, ekos, [&]()
+    {
+        ProfileEditor *profileEditor = ekos->findChild<ProfileEditor*>("profileEditorDialog");
+        if (!profileEditor)
+        {
+            qWarning(KSTARS_EKOS_TEST) << "ProfileEditor dialog not found";
+            return;
+        }
+
+        // Single call populates every visible field in the dialog
+        profileEditor->setSettings(settings);
+
+        QDialogButtonBox *buttons = profileEditor->findChild<QDialogButtonBox*>("dialogButtons");
+        if (!buttons)
+            return;
+        auto *saveButton = buttons->button(QDialogButtonBox::Save);
+        if (!saveButton)
+            return;
+        QTRY_VERIFY_WITH_TIMEOUT(saveButton->isEnabled(), 5000);
+        QTest::mouseClick(saveButton, Qt::LeftButton);
+
+        qCInfo(KSTARS_EKOS_TEST) << "Remote profile" << profileName << "saved.";
+        isDone = true;
+    });
+
+    if (profileExists)
+    {
+        // Select the existing profile so we can edit it
+        profileCBox->setCurrentIndex(profileCBox->findText(profileName));
+        QPushButton *editB = ekos->findChild<QPushButton*>("editProfileB");
+        if (!editB || !editB->isEnabled())
+            return false;
+        QTest::mouseClick(editB, Qt::LeftButton);
+    }
+    else
+    {
+        QPushButton *addB = ekos->findChild<QPushButton*>("addProfileB");
+        if (!addB)
+            return false;
+        QTest::mouseClick(addB, Qt::LeftButton);
+    }
+
+    closeDialog.start();
+    KTRY_VERIFY_WITH_TIMEOUT_SUB(isDone, 15000);
+    closeDialog.stop();
+
+    return isDone;
 }
 
 bool TestEkosHelper::setSimulatedWeather(bool alert, QSharedPointer<Ekos::Scheduler> &scheduler, int timeoutMs)

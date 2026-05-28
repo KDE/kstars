@@ -469,13 +469,24 @@ void DriverManager::stopDevices(const QList<QSharedPointer<DriverInfo>> &dList)
         if (cm == nullptr)
             continue;
 
+        // Defensive check: if cm is no longer in our tracked clients list it was already
+        // cleaned up by a prior setClientFailed/setClientTerminated handler. The DriverInfo
+        // may still hold a stale (or even dangling) pointer in that case, so skip it.
+        if (!clients.contains(cm))
+            continue;
+
         cm->removeManagedDriver(dv);
 
         if (cm->count() == 0)
         {
             GUIManager::Instance()->removeClient(cm);
             INDIListener::Instance()->removeClient(cm);
-            cm->disconnectServer();
+            // Use disconnectAll() rather than disconnectServer() so that
+            // m_PendingDisconnection is set to true before the disconnect happens.
+            // This prevents the INDI background thread's serverDisconnected() callback
+            // from doing redundant work (retries, emitting terminated, etc.) on a
+            // ClientManager that is about to be deleted.
+            cm->disconnectAll();
             clients.removeOne(cm);
             cm->deleteLater();
 

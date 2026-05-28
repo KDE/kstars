@@ -255,6 +255,12 @@ void ClientManager::removeManagedDriver(const QSharedPointer<DriverInfo> &driver
     qCDebug(KSTARS_INDI) << "Removing managed driver" << driver->getName();
 
     driver->setClientState(false);
+    // Always explicitly clear the clientManager pointer, regardless of whether setClientState
+    // performed an early return (which happens when clientState was already false, e.g. when
+    // the connection was never successfully established and serverConnected was never called).
+    // Without this, the DriverInfo would hold a dangling pointer to a deleted ClientManager
+    // after cleanup, causing a crash if stopDevices is called afterwards.
+    driver->setClientManager(nullptr);
 
     for (auto &di : driver->getDevices())
     {

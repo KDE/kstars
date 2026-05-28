@@ -52,7 +52,7 @@ ENDIF()
 # ADD_TEST(NAME TestEkosProfiles COMMAND test_ekos)
 # SET_TESTS_PROPERTIES( TestEkosProfiles PROPERTIES LABELS "stable;ui")
 
-ADD_EXECUTABLE(test_ekos_simulator ${KSTARS_UI_EKOS_SRC} test_ekos_simulator.cpp)
+ADD_EXECUTABLE(test_ekos_simulator ${KSTARS_UI_EKOS_SRC} test_ekos_simulator.cpp test_ekos_helper.cpp)
 TARGET_LINK_LIBRARIES(test_ekos_simulator ${KSTARS_UI_EKOS_LIBS})
 ADD_TEST(NAME TestEkosSimulator COMMAND test_ekos_simulator)
 # SET_TESTS_PROPERTIES( TestEkosSimulator PROPERTIES LABELS "stable;ui")

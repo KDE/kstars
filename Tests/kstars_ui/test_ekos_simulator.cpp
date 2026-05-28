@@ -8,6 +8,9 @@
 #include "test_ekos_simulator.h"
 #include "ekos/guide/guide.h"
 
+#include "test_ekos_helper.h"
+#include "kstarsdata.h"
+
 #include <cmath>
 #include <limits>
 
@@ -176,11 +179,13 @@ void TestEkosSimulator::testMountSlew()
     auto currentRaArcsec = [&]() -> double
     {
         if (labelHasCoordinateText(raOut))
-            return clampRA(raOut->text());
+        return clampRA(raOut->text());
 
         QList<double> coords = ekos->mountModule()->equatorialCoords();
         if (coords.size() >= 2)
+        {
             return dms(coords[0] * 15.0).arcsec();
+            }
         return std::numeric_limits<double>::quiet_NaN();
     };
     QTRY_VERIFY_WITH_TIMEOUT(!std::isnan(currentRaArcsec()) && std::abs(targetRA - currentRaArcsec()) <= raTolerance(), 15000);
@@ -204,11 +209,13 @@ void TestEkosSimulator::testMountSlew()
     auto currentDeArcsec = [&]() -> double
     {
         if (labelHasCoordinateText(deOut))
-            return clampDE(deOut->text());
+        return clampDE(deOut->text());
 
         QList<double> coords = ekos->mountModule()->equatorialCoords();
         if (coords.size() >= 2)
+        {
             return dms(coords[1]).arcsec();
+            }
         return std::numeric_limits<double>::quiet_NaN();
     };
     QTRY_VERIFY_WITH_TIMEOUT(!std::isnan(currentDeArcsec()) && std::abs(targetDE - currentDeArcsec()) <= deTolerance(), 20000);
@@ -271,6 +278,82 @@ void TestEkosSimulator::testColorSchemes()
     QTRY_COMPARE_WITH_TIMEOUT(Ekos::Manager::Instance()->guideModule()->driftGraph->graph(3)->pen().color(),
                               KStars::Instance()->data()->colorScheme()->colorNamed("DEGuideError"), 1000);
 #endif
+}
+
+void TestEkosSimulator::testProfileStopClearsDriverManager()
+{
+    // Regression test for the crash:
+    //   INDIListener::removeClient -> QObject::disconnect (SIGSEGV)
+    //
+    // Exact scenario reproduced here:
+    //   1. A remote profile is started whose INDI server does not exist
+    //      (host=localhost, port=9999 — guaranteed to have nothing listening).
+    //   2. ClientManager tries to connect, retries, then fails.
+    //      Manager::setClientFailed() is called → ekosStatus becomes Ekos::Error.
+    //      Inside the failure path, removeManagedDriver calls
+    //      driver->setClientState(false); because clientState was NEVER set to
+    //      true (connection never succeeded), the idempotency guard returns early
+    //      WITHOUT calling driver->setClientManager(nullptr).
+    //      ClientManager is then deleted via deleteLater().
+    //   3. Manager::stop() is called — exactly as EkosLive does on STOP_PROFILE.
+    //      stopDevices() iterates managed drivers; getClientManager() returns the
+    //      now-dangling pointer; INDIListener::removeClient(cm) dereferences it
+    //      with cm->disconnect(this) → SIGSEGV.
+    //
+    // Fix:
+    //   ClientManager::removeManagedDriver now calls driver->setClientManager(nullptr)
+    //   unconditionally (bypassing the idempotency guard).
+    //   stopDevices() uses disconnectAll() to arm m_PendingDisconnection before the
+    //   background thread can call serverDisconnected(), and guards with
+    //   clients.contains(cm) to skip already-cleaned-up drivers.
+    //
+    // Pass criteria: no crash, ekos returns to Idle state.
+
+    Ekos::Manager *ekos = Ekos::Manager::Instance();
+    QVERIFY(ekos != nullptr);
+
+    const QString badProfileName = QStringLiteral("TestBadConnectionPort");
+
+    // init() started the Simulators profile — stop them cleanly first
+    // so we can switch to the failing profile.
+    KTRY_EKOS_STOP_SIMULATORS();
+
+    // ---- Create a remote profile pointing to a port with no INDI server ----
+    // TestEkosHelper::ensureRemoteProfile opens the ProfileEditor dialog and uses
+    // ProfileEditor::setSettings to configure all fields (name, mode=remote, host,
+    // port, drivers) in a single clean call, then saves via the Save button.
+    // "Telescope Simulator" is added so that a DriverInfo object is created and
+    // assigned a ClientManager — this is the pointer that becomes dangling after
+    // the failed connection, causing the crash before the fix.
+    QVERIFY2(TestEkosHelper::ensureRemoteProfile(
+                 badProfileName, QStringLiteral("localhost"), 9999,
+    {QStringLiteral("Telescope Simulator"), QStringLiteral("CCD Simulator")}),
+    "Failed to create test profile via ProfileEditor");
+
+    // ---- Select and start the bad profile ----
+    KTRY_EKOS_SELECT_PROFILE(badProfileName);
+    KTRY_EKOS_CLICK(processINDIB);
+
+    // Wait for connection failure (ClientManager retries a few times, ~4-8 s total).
+    // After failure, Manager::setClientFailed() sets ekosStatus = Ekos::Error.
+    // Before the fix, DriverInfo::clientManager held a dangling pointer to the
+    // deleted ClientManager at this point.
+    QTRY_VERIFY_WITH_TIMEOUT(ekos->ekosStatus() == Ekos::Error, 30000);
+
+    // ---- Call Manager::stop() — the EXACT EkosLive STOP_PROFILE code path ----
+    // Before the fix this would crash at:
+    //   stopDevices → INDIListener::removeClient(cm) → cm->disconnect(this)
+    // because cm was a dangling pointer.
+    // After the fix, clientManager is nullptr and the driver is skipped.
+    ekos->stop();  // Must NOT crash
+
+    QTRY_VERIFY_WITH_TIMEOUT(ekos->indiStatus() == Ekos::Idle, 10000);
+
+    // ---- Clean up the test profile ----
+    ekos->deleteProfile(badProfileName);
+
+    // ---- Re-start simulators so cleanup() -> KTRY_EKOS_STOP_SIMULATORS works ----
+    KTRY_EKOS_START_SIMULATORS();
 }
 
 QTEST_KSTARS_MAIN(TestEkosSimulator)

@@ -631,6 +631,28 @@
       }
     },
     {
+      "name": "Simulator: Test testProfileStopClearsDriverManager",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/Tests/kstars_ui/test_ekos_simulator",
+      "args": [
+        "testProfileStopClearsDriverManager",
+        "-v2"
+      ],
+      "cwd": "${workspaceFolder}/build/Tests/kstars_ui",
+      "sourceLanguages": [
+        "cpp"
+      ],
+      "initCommands": [
+        "command script import ${workspaceFolder}/.lldb/formatters/all.py",
+        "process handle SIGPIPE -s false -p false -n false"
+      ],
+      "env": {
+        "LD_BIND_NOW": "1",
+        "KSTARS_NO_WEB_MANAGER_SYNC": "1"
+      }
+    },
+    {
       "name": "Debug test_ekos_meridianflip",
       "type": "lldb",
       "request": "launch",

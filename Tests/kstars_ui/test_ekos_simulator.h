@@ -84,6 +84,11 @@ class TestEkosSimulator : public QObject
 
         void testColorSchemes_data();
         void testColorSchemes();
+
+        /** Regression test for crash in INDIListener::removeClient -> QObject::disconnect
+         *  when DriverInfo::clientManager held a stale pointer after cleanup.
+         *  Calling Manager::stop() directly (as EkosLive does) a second time must not crash. */
+        void testProfileStopClearsDriverManager();
 };
 
 #endif // HAVE_INDI

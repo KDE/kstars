@@ -589,6 +589,33 @@ class TestEkosHelper : public QObject
                                            const QStringList &extraDevices = {});
 
         /**
+         * @brief Creates or updates a remote (client-only) INDI profile in the Profile Manager.
+         *
+         * The profile is configured in remote mode, connecting to @p host:@p port without
+         * starting a local INDI server process. If @p drivers is non-empty, those driver
+         * labels are added to the profile via ProfileEditor::setSettings so that DriverInfo
+         * objects are created and assigned a ClientManager on the next profile start.
+         *
+         * Typical use-cases:
+         *   - Connecting to an INDI server on a remote machine.
+         *   - Regression tests that need a profile whose connection is guaranteed to fail
+         *     (e.g. port 9999) so that the full failure-path of Manager::setClientFailed
+         *     and Manager::stop() can be exercised.
+         *
+         * Calling this twice with the same name is idempotent (the profile is updated
+         * in-place rather than duplicated).
+         *
+         * @param profileName   Name of the profile to create or update.
+         * @param host          Remote INDI server hostname (e.g. "localhost").
+         * @param port          Remote INDI server port (e.g. 7624 for real, 9999 for tests).
+         * @param drivers       Optional list of INDI driver labels to add (e.g. {"Telescope Simulator"}).
+         * @return true if the profile was successfully created or updated.
+         */
+        static bool ensureRemoteProfile(const QString &profileName,
+                                        const QString &host, int port,
+                                        const QStringList &drivers = {});
+
+        /**
          * @brief Sets the simulated weather condition by writing to the WEATHER_CONTROL
          * INDI property on the Weather Simulator driver, then waits for the
          * scheduler's weatherStatus() to reflect the new state.
