@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-28 02:02+0000\n"
+"POT-Creation-Date: 2026-05-29 02:08+0000\n"
 "PO-Revision-Date: 2024-11-23 12:49+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -769,7 +769,7 @@ msgstr "Astrometry Configuration File Read Error."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Internal Astrometry Configuration File Write Error."
 
-#: auxiliary/ksutils.cpp:1777 fitsviewer/fitsdata.cpp:2998
+#: auxiliary/ksutils.cpp:1777 fitsviewer/fitsdata.cpp:3027
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -3770,7 +3770,7 @@ msgstr "Could not edit the entry."
 msgid "Are you sure you want to remove the %1 link?"
 msgstr "Are you sure you want to remove the %1 link?"
 
-#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1542
+#: dialogs/detaildialog.cpp:963 indi/drivermanager.cpp:1553
 #: indi/indidriver.cpp:897
 #, kde-format, kde-kuit-format
 msgid "Delete Confirmation"
@@ -7097,7 +7097,7 @@ msgstr "Unable to write to file %1"
 #: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2965
 #: ekos/scheduler/schedulerprocess.cpp:3434
 #: ekos/scheduler/schedulerprocess.cpp:4573
-#: ekos/scheduler/schedulerprocess.cpp:4593 indi/drivermanager.cpp:1567
+#: ekos/scheduler/schedulerprocess.cpp:4593 indi/drivermanager.cpp:1578
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1441 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
@@ -14741,7 +14741,7 @@ msgstr ""
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
 #: fitsviewer/livestacking.ui:133 fitsviewer/livestacking.ui:1204
 #: fitsviewer/livestacking.ui:1208 fitsviewer/livestacking.ui:1697
-#: indi/drivermanager.cpp:1359 indi/indidriver.cpp:735 kstarsinit.cpp:875
+#: indi/drivermanager.cpp:1370 indi/indidriver.cpp:735 kstarsinit.cpp:875
 #: tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -32417,222 +32417,222 @@ msgstr "Object Type Description"
 msgid "Object Type Comments"
 msgstr "Object Type Comments"
 
-#: fitsviewer/fitsdata.cpp:1955
+#: fitsviewer/fitsdata.cpp:1984
 #, kde-format
 msgid "Error reading fits buffer: %1."
 msgstr "Error reading fits buffer: %1."
 
-#: fitsviewer/fitsdata.cpp:1964
+#: fitsviewer/fitsdata.cpp:1993
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr "Failed to unpack compressed fits"
 
-#: fitsviewer/fitsdata.cpp:1994
+#: fitsviewer/fitsdata.cpp:2023
 #, kde-format
 msgid "Error opening fits file %1 : %2"
 msgstr "Error opening fits file %1 : %2"
 
-#: fitsviewer/fitsdata.cpp:2009
+#: fitsviewer/fitsdata.cpp:2038
 #, kde-format
 msgid "Error reading fits buffer: %1"
 msgstr "Error reading fits buffer: %1"
 
-#: fitsviewer/fitsdata.cpp:2023
+#: fitsviewer/fitsdata.cpp:2052
 #, kde-format
 msgid "Could not locate image HDU: %1"
 msgstr "Could not locate image HDU: %1"
 
-#: fitsviewer/fitsdata.cpp:2033
+#: fitsviewer/fitsdata.cpp:2062
 #, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "FITS file open error (fits_get_img_param): %1"
 
-#: fitsviewer/fitsdata.cpp:2047
+#: fitsviewer/fitsdata.cpp:2076
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr "1D FITS images are not supported in KStars."
 
-#: fitsviewer/fitsdata.cpp:2095 fitsviewer/fitsdata.cpp:2827
+#: fitsviewer/fitsdata.cpp:2124 fitsviewer/fitsdata.cpp:2856
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Bit depth %1 is not supported."
 
-#: fitsviewer/fitsdata.cpp:2105
+#: fitsviewer/fitsdata.cpp:2134
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr "Image has invalid dimensions %1x%2"
 
-#: fitsviewer/fitsdata.cpp:2159
+#: fitsviewer/fitsdata.cpp:2188
 #, kde-format
 msgid "Error reading image: %1"
 msgstr "Error reading image: %1"
 
-#: fitsviewer/fitsdata.cpp:2566 fitsviewer/fitsdata.cpp:2787
+#: fitsviewer/fitsdata.cpp:2595 fitsviewer/fitsdata.cpp:2816
 #, kde-format
 msgid "XISF file open error: "
 msgstr "XISF file open error: "
 
-#: fitsviewer/fitsdata.cpp:2701
+#: fitsviewer/fitsdata.cpp:2730
 #, kde-format
 msgid "File contain no images"
 msgstr "File contain no images"
 
-#: fitsviewer/fitsdata.cpp:2730
+#: fitsviewer/fitsdata.cpp:2759
 #, kde-format
 msgid "Sample format %1 is not supported."
 msgstr "Sample format %1 is not supported."
 
-#: fitsviewer/fitsdata.cpp:2865
+#: fitsviewer/fitsdata.cpp:2894
 #, kde-format
 msgid "Error saving XISF image"
 msgstr "Error saving XISF image"
 
-#: fitsviewer/fitsdata.cpp:2957 fitsviewer/fitsdata.cpp:3073
+#: fitsviewer/fitsdata.cpp:2986 fitsviewer/fitsdata.cpp:3102
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 
-#: fitsviewer/fitsdata.cpp:3012
+#: fitsviewer/fitsdata.cpp:3041
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Cannot open file %1: %2"
 
-#: fitsviewer/fitsdata.cpp:3025
+#: fitsviewer/fitsdata.cpp:3054
 #, kde-format
 msgid "Cannot open buffer: %1"
 msgstr "Cannot open buffer: %1"
 
-#: fitsviewer/fitsdata.cpp:3036
+#: fitsviewer/fitsdata.cpp:3065
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr "Cannot unpack_thumb: %1"
 
-#: fitsviewer/fitsdata.cpp:3043
+#: fitsviewer/fitsdata.cpp:3072
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr "Cannot dcraw_process: %1"
 
-#: fitsviewer/fitsdata.cpp:3051
+#: fitsviewer/fitsdata.cpp:3080
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Cannot load to memory: %1"
 
-#: fitsviewer/fitsdata.cpp:3198
+#: fitsviewer/fitsdata.cpp:3227
 #, kde-format
 msgid "Saving compressed files is not supported."
 msgstr "Saving compressed files is not supported."
 
-#: fitsviewer/fitsdata.cpp:3262
+#: fitsviewer/fitsdata.cpp:3291
 #, kde-format
 msgid "Failed to create file: %1"
 msgstr "Failed to create file: %1"
 
-#: fitsviewer/fitsdata.cpp:3284
+#: fitsviewer/fitsdata.cpp:3313
 #, kde-format
 msgid "Failed to create image: %1"
 msgstr "Failed to create image: %1"
 
-#: fitsviewer/fitsdata.cpp:3293 fitsviewer/fitsdata.cpp:3300
+#: fitsviewer/fitsdata.cpp:3322 fitsviewer/fitsdata.cpp:3329
 #, kde-format
 msgid "Failed to update key: %1"
 msgstr "Failed to update key: %1"
 
-#: fitsviewer/fitsdata.cpp:3428
+#: fitsviewer/fitsdata.cpp:3457
 #, kde-format
 msgid "Failed to update date: %1"
 msgstr "Failed to update date: %1"
 
-#: fitsviewer/fitsdata.cpp:3437
+#: fitsviewer/fitsdata.cpp:3466
 #, kde-format
 msgid "Failed to update history: %1"
 msgstr "Failed to update history: %1"
 
-#: fitsviewer/fitsdata.cpp:3459
+#: fitsviewer/fitsdata.cpp:3488
 #, kde-format
 msgid "Failed to write image: %1"
 msgstr "Failed to write image: %1"
 
-#: fitsviewer/fitsdata.cpp:5234 fitsviewer/fitsdata.cpp:5245
-#: fitsviewer/fitsdata.cpp:5282 fitsviewer/fitsdata.cpp:5318
-#: fitsviewer/fitsdata.cpp:5452
+#: fitsviewer/fitsdata.cpp:5263 fitsviewer/fitsdata.cpp:5274
+#: fitsviewer/fitsdata.cpp:5311 fitsviewer/fitsdata.cpp:5347
+#: fitsviewer/fitsdata.cpp:5481
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "No world coordinate systems found."
 
-#: fitsviewer/fitsdata.cpp:5627 fitsviewer/fitsdata.cpp:5733
+#: fitsviewer/fitsdata.cpp:5656 fitsviewer/fitsdata.cpp:5762
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Error querying Simbad"
 
-#: fitsviewer/fitsdata.cpp:5642
+#: fitsviewer/fitsdata.cpp:5671
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Simbad query timed out"
 
-#: fitsviewer/fitsdata.cpp:6619 fitsviewer/fitsdata.cpp:6732
+#: fitsviewer/fitsdata.cpp:6648 fitsviewer/fitsdata.cpp:6761
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Only 8 and 16 bits bayered images supported."
 
-#: fitsviewer/fitsdata.cpp:6627 fitsviewer/fitsdata.cpp:6738
+#: fitsviewer/fitsdata.cpp:6656 fitsviewer/fitsdata.cpp:6767
 #, fuzzy, kde-format
 #| msgid "Unsupported bayer pattern %1."
 msgid "Unknown bayer pattern %1"
 msgstr "Unsupported bayer pattern %1."
 
-#: fitsviewer/fitsdata.cpp:6651 fitsviewer/fitsdata.cpp:6677
+#: fitsviewer/fitsdata.cpp:6680 fitsviewer/fitsdata.cpp:6706
 #, fuzzy, kde-format
 #| msgid "Unsupported bayer pattern %1."
 msgid "Unsupported bayer pattern %1"
 msgstr "Unsupported bayer pattern %1."
 
-#: fitsviewer/fitsdata.cpp:6685
+#: fitsviewer/fitsdata.cpp:6714
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Unsupported bayer offsets %1 %2."
 
-#: fitsviewer/fitsdata.cpp:6696 fitsviewer/fitsdata.cpp:6749
+#: fitsviewer/fitsdata.cpp:6725 fitsviewer/fitsdata.cpp:6778
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid dc1394 debayer parameters."
 msgstr "Input Parameters"
 
-#: fitsviewer/fitsdata.cpp:6707 fitsviewer/fitsdata.cpp:6760
+#: fitsviewer/fitsdata.cpp:6736 fitsviewer/fitsdata.cpp:6789
 #, fuzzy, kde-format
 #| msgid "Input Parameters"
 msgid "Invalid OpenCV debayer parameters."
 msgstr "Input Parameters"
 
-#: fitsviewer/fitsdata.cpp:6716 fitsviewer/fitsdata.cpp:6769
+#: fitsviewer/fitsdata.cpp:6745 fitsviewer/fitsdata.cpp:6798
 #, fuzzy, kde-format
 #| msgid "Invalid response."
 msgid "Invalid debayer engine"
 msgstr "Invalid response."
 
-#: fitsviewer/fitsdata.cpp:7023
+#: fitsviewer/fitsdata.cpp:7052
 #, kde-format
 msgid "debayer_8bit called with invalid debayer parameters"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:7039 fitsviewer/fitsdata.cpp:7085
-#: fitsviewer/fitsdata.cpp:7143 fitsviewer/fitsdata.cpp:7189
+#: fitsviewer/fitsdata.cpp:7068 fitsviewer/fitsdata.cpp:7114
+#: fitsviewer/fitsdata.cpp:7172 fitsviewer/fitsdata.cpp:7218
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Unable to allocate memory for temporary bayer buffer: %1"
 
-#: fitsviewer/fitsdata.cpp:7049 fitsviewer/fitsdata.cpp:7153
+#: fitsviewer/fitsdata.cpp:7078 fitsviewer/fitsdata.cpp:7182
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Unable to allocate memory for temporary bayer buffer."
 
-#: fitsviewer/fitsdata.cpp:7068 fitsviewer/fitsdata.cpp:7172
+#: fitsviewer/fitsdata.cpp:7097 fitsviewer/fitsdata.cpp:7201
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Debayer failed (%1)"
 
-#: fitsviewer/fitsdata.cpp:7128
+#: fitsviewer/fitsdata.cpp:7157
 #, kde-format
 msgid "debayer_16bit called with invalid debayer parameters"
 msgstr ""
@@ -36472,12 +36472,12 @@ msgstr "Show HiPS While Panning"
 msgid "Linear interpolation"
 msgstr "Linear interpolation"
 
-#: indi/clientmanager.cpp:364
+#: indi/clientmanager.cpp:370
 #, kde-format
 msgid "Failed to connect to INDI server %1:%2"
 msgstr "Failed to connect to INDI server %1:%2"
 
-#: indi/clientmanager.cpp:369
+#: indi/clientmanager.cpp:375
 #, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
@@ -36773,17 +36773,17 @@ msgstr "Cannot start INDI server: port error."
 msgid "Failed to create local INDI server"
 msgstr "Failed to create local INDI server"
 
-#: indi/drivermanager.cpp:633 indi/indidriver.cpp:291
+#: indi/drivermanager.cpp:644 indi/indidriver.cpp:291
 #, kde-format, kde-kuit-format
 msgid "Invalid port entry: %1"
 msgstr "Invalid port entry: %1"
 
-#: indi/drivermanager.cpp:830
+#: indi/drivermanager.cpp:841
 #, kde-format
 msgid "Connected to INDI server"
 msgstr "Connected to INDI server"
 
-#: indi/drivermanager.cpp:1039 indi/indidriver.cpp:487
+#: indi/drivermanager.cpp:1050 indi/indidriver.cpp:487
 #, kde-format, kde-kuit-format
 msgid ""
 "Unable to find INDI drivers directory: %1\n"
@@ -36792,44 +36792,44 @@ msgstr ""
 "Unable to find INDI drivers directory: %1\n"
 "Please make sure to set the correct path in KStars configuration"
 
-#: indi/drivermanager.cpp:1070 indi/indidriver.cpp:528
+#: indi/drivermanager.cpp:1081 indi/indidriver.cpp:528
 #, kde-format, kde-kuit-format
 msgid "Failed to open INDI Driver file: %1"
 msgstr "Failed to open INDI Driver file: %1"
 
-#: indi/drivermanager.cpp:1436
+#: indi/drivermanager.cpp:1447
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Host"
 msgstr "Add Host"
 
-#: indi/drivermanager.cpp:1447 indi/indidriver.cpp:812
+#: indi/drivermanager.cpp:1458 indi/indidriver.cpp:812
 #, kde-format, kde-kuit-format
 msgid "Error: the port number is invalid."
 msgstr "Error: the port number is invalid."
 
-#: indi/drivermanager.cpp:1460 indi/indidriver.cpp:822
+#: indi/drivermanager.cpp:1471 indi/indidriver.cpp:822
 #, kde-format, kde-kuit-format
 msgid "Host: %1 Port: %2 already exists."
 msgstr "Host: %1 Port: %2 already exists."
 
-#: indi/drivermanager.cpp:1488
+#: indi/drivermanager.cpp:1499
 #, kde-format
 msgctxt "@title:window"
 msgid "Modify Host"
 msgstr "Modify Host"
 
-#: indi/drivermanager.cpp:1534 indi/indidriver.cpp:890
+#: indi/drivermanager.cpp:1545 indi/indidriver.cpp:890
 #, kde-format, kde-kuit-format
 msgid "You need to disconnect the client before removing it."
 msgstr "You need to disconnect the client before removing it."
 
-#: indi/drivermanager.cpp:1540 indi/indidriver.cpp:895
+#: indi/drivermanager.cpp:1551 indi/indidriver.cpp:895
 #, kde-format, kde-kuit-format
 msgid "Are you sure you want to remove the %1 client?"
 msgstr "Are you sure you want to remove the %1 client?"
 
-#: indi/drivermanager.cpp:1565 indi/indidriver.cpp:920
+#: indi/drivermanager.cpp:1576 indi/indidriver.cpp:920
 #, kde-format, kde-kuit-format
 msgid ""
 "Unable to write to file 'indihosts.xml'\n"
