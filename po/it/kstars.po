@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-05-29 02:08+0000\n"
-"PO-Revision-Date: 2026-05-07 17:07+0200\n"
+"PO-Revision-Date: 2026-05-23 17:03+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -7603,6 +7603,8 @@ msgstr "DEC è sotto il limite di altezza"
 #, kde-format
 msgid "Warning: only %1 of %2 requested alignment points could be placed."
 msgstr ""
+"Avviso: è stato possibile posizionare soltanto %1 dei %2 punti di "
+"allineamento richiesti."
 
 #: ekos/align/mountmodel.cpp:796
 #, kde-format
@@ -7625,17 +7627,15 @@ msgid "The Mount Model Tool is Reset."
 msgstr "Lo strumento Modello montatura è stato ripristinato."
 
 #: ekos/align/mountmodel.cpp:1164
-#, fuzzy, kde-format
-#| msgid "Mount is parking. Aborting guide..."
+#, kde-format
 msgid "Mount unparked. Starting mount model..."
-msgstr "La montatura si sta parcheggiando. Interruzione della guida..."
+msgstr "Montatura sparcheggiata. Avvio del modello montatura..."
 
 #: ekos/align/mountmodel.cpp:1172
-#, fuzzy, kde-format
-#| msgid "Mount unpark requested but no mounts detected."
+#, kde-format
 msgid "Mount unpark failed. Cannot start mount model."
 msgstr ""
-"Sparcheggio della montatura richiesto, ma non ne è stata trovata nessuna."
+"Sparcheggio montatura non riuscito. Impossibile avviare il modello montatura."
 
 #: ekos/align/mountmodel.cpp:1184
 #, kde-format
@@ -7643,10 +7643,11 @@ msgid "Please Check the Alignment Points."
 msgstr "Controlla i punti di allineamento."
 
 #: ekos/align/mountmodel.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Dustcap is parked. Unparking before capture..."
+#, kde-format
 msgid "Mount is parked. Unparking before starting mount model..."
-msgstr "Il parapolvere è parcheggiato. Sparcheggio prima di acquisire..."
+msgstr ""
+"La montatura è parcheggiata. Sparcheggio prima avviare il modello "
+"montatura..."
 
 #: ekos/align/mountmodel.cpp:1203
 #, kde-format
@@ -7684,6 +7685,8 @@ msgstr "Lo strumento Modello montatura ha finito."
 #, kde-format
 msgid "Mount model: forcing blind solve and sync for each alignment point."
 msgstr ""
+"Modello montatura: forzatura della risoluzione cieca e della "
+"sincronizzazione per ciascun punto di allineamento."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, mountModel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpsAstrometryIndexFiles)
@@ -7746,6 +7749,26 @@ msgid ""
 "</ul>\n"
 "</body></html>"
 msgstr ""
+"<html><head/><body><p>Scegli come la procedura guidata deve scegliere i "
+"punti di allineamento.</p>\n"
+"<p>Tutte le modalità, ad eccezione di DEC fisso e Griglia fissa, diffondono "
+"uniformemente i punti nel cielo utilizzando la «distribuzione uniforme». Le "
+"modalità differiscono nel modo in cui ogni punto si aggancia a:</p>\n"
+"<ul>\n"
+"<li><b>Qualsiasi stella:</b> si aggancia alla stella visibile più vicina.</"
+"li>\n"
+"<li><b>Stelle con nome:</b> si aggancia a una stella con nome molto "
+"conosciuta (es. Vega, Arturo).</li>\n"
+"<li><b>Qualsiasi oggetto:</b> si aggancia all'oggetto visibile più vicino di "
+"qualsiasi tipo.</li>\n"
+"<li><b>Distribuzione uniforme:</b> i punti vengono diffusi uniformemente nel "
+"cielo visibile.</li>\n"
+"<li><b>DEC fisso:</b> tutti i punti condividono la stessa declinazione "
+"(impostata sotto).</li>\n"
+"<li><b>Griglia fissa:</b> i punti sono disposti in una griglia AR/DEC "
+"regolare, distanziati uniformemente in AR e DEC.</li>\n"
+"</ul>\n"
+"</body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:75
@@ -7769,7 +7792,7 @@ msgstr "Qualsiasi oggetto"
 #: ekos/align/mountmodel.ui:90
 #, kde-format
 msgid "Uniform Distribution"
-msgstr ""
+msgstr "Distribuzione uniforme"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, alignTypeBox)
 #: ekos/align/mountmodel.ui:95
@@ -7867,21 +7890,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
 #: ekos/align/mountmodel.ui:223
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>The artificial horizon restriction constrains the altitude "
-#| "of the target to be above the artificial horizon, if any are defined and "
-#| "enabled. See the artificial horizon item in the KStars Settings menu.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "Skip generated points that are below the artificial horizon, if any are "
 "defined and enabled. See the artificial horizon item in the KStars Settings "
 "menu."
 msgstr ""
-"<html><body><p>La limitazione dell'orizzonte artificiale costringe l'altezza "
-"del soggetto a essere sopra l'orizzonte artificiale, se ne è stato definito "
-"e abilitato uno. Vedi la voce «Orizzonte artificiale» nel menu delle "
-"Impostazioni di KStars.</p></body></html>"
+"Salta i punti generati che si trovano sotto l'orizzonte artificiale, se ne è "
+"stato definito e abilitato uno. Vedi la voce «Orizzonte artificiale» nel "
+"menu delle Impostazioni di KStars."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:239
