@@ -198,10 +198,17 @@ void VideoWG::mouseReleaseEvent(QMouseEvent *event)
             return;
         }
 
-        finalSelection.setX(qRound((rawSelection.x() - pixmapX) * scaleX));
-        finalSelection.setY(qRound((rawSelection.y() - pixmapY) * scaleY));
-        finalSelection.setWidth(qRound(rawSelection.width() * scaleX));
-        finalSelection.setHeight(qRound(rawSelection.height() * scaleY));
+        // Round to nearest even integer so that all selection coordinates are even.
+        auto roundEven = [](double value) -> int
+        {
+            int rounded = qRound(value);
+            return rounded + (rounded & 1);
+        };
+
+        finalSelection.setX(roundEven((rawSelection.x() - pixmapX) * scaleX));
+        finalSelection.setY(roundEven((rawSelection.y() - pixmapY) * scaleY));
+        finalSelection.setWidth(roundEven(rawSelection.width() * scaleX));
+        finalSelection.setHeight(roundEven(rawSelection.height() * scaleY));
 
         Q_EMIT newSelection(finalSelection);
         // determine selection, for example using QRect::intersects()

@@ -108,7 +108,7 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
         options->engineCombo->addItem(BayerUtils::debayerEngineToString(static_cast<DebayerEngine>(i)), i);
 
     options->engineCombo->setToolTip(BayerUtils::debayerEngineToolTip());
-    options->engineCombo->setCurrentIndex(static_cast<int>(DebayerEngine::DC1394));
+    options->engineCombo->setCurrentIndex(static_cast<int>(DebayerEngine::OpenCV));
 
     // Connection for Engine combo changes
     connect(options->engineCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -309,6 +309,7 @@ void StreamWG::updateDebayerMethodList()
         for (int i = 0; i < static_cast<int>(OpenCVAlgo::MAX_ITEMS); i++)
             options->methodCombo->addItem(BayerUtils::openCVAlgoToString(static_cast<OpenCVAlgo>(i)), i);
 
+        options->methodCombo->setCurrentIndex(static_cast<int>(OpenCVAlgo::EA));
         options->methodCombo->setToolTip(BayerUtils::openCVAlgoToolTip());
     }
     else // ENGINE_DC1394
