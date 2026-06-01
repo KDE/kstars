@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-29 02:08+0000\n"
+"POT-Creation-Date: 2026-06-01 02:02+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -35741,12 +35741,12 @@ msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "വീഡിയോ പാത"
 
-#: indi/streamwg.cpp:410 indi/streamwg.cpp:457
+#: indi/streamwg.cpp:411 indi/streamwg.cpp:458
 #, fuzzy, kde-format
 msgid "Stop recording"
 msgstr "റിക്കോര്‍ഡിങ് _നിര്‍ത്തുക"
 
-#: indi/streamwg.cpp:415 indi/streamwg.cpp:425
+#: indi/streamwg.cpp:416 indi/streamwg.cpp:426
 #, fuzzy, kde-format
 msgid "Start recording"
 msgstr "ഈ പ്രയോഗത്തിനുള്ള സഹായം"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-29 02:08+0000\n"
+"POT-Creation-Date: 2026-06-01 02:02+0000\n"
 "PO-Revision-Date: 2026-04-10 12:00+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -36954,12 +36954,12 @@ msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "%1 Živé video"
 
-#: indi/streamwg.cpp:410 indi/streamwg.cpp:457
+#: indi/streamwg.cpp:411 indi/streamwg.cpp:458
 #, kde-format
 msgid "Stop recording"
 msgstr "Zastaviť nahrávanie"
 
-#: indi/streamwg.cpp:415 indi/streamwg.cpp:425
+#: indi/streamwg.cpp:416 indi/streamwg.cpp:426
 #, kde-format
 msgid "Start recording"
 msgstr "Spustiť nahrávanie"

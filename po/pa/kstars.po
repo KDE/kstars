@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-29 02:08+0000\n"
+"POT-Creation-Date: 2026-06-01 02:02+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -37210,13 +37210,13 @@ msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "ਵਿਡੀਓ"
 
-#: indi/streamwg.cpp:410 indi/streamwg.cpp:457
+#: indi/streamwg.cpp:411 indi/streamwg.cpp:458
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop recording"
 msgstr "ਟਰੈਕ ਕਰਨਾ ਰੋਕੋ(&T)"
 
-#: indi/streamwg.cpp:415 indi/streamwg.cpp:425
+#: indi/streamwg.cpp:416 indi/streamwg.cpp:426
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Start recording"

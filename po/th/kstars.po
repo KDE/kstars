@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-29 02:08+0000\n"
+"POT-Creation-Date: 2026-06-01 02:02+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -36031,12 +36031,12 @@ msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr ""
 
-#: indi/streamwg.cpp:410 indi/streamwg.cpp:457
+#: indi/streamwg.cpp:411 indi/streamwg.cpp:458
 #, kde-format
 msgid "Stop recording"
 msgstr ""
 
-#: indi/streamwg.cpp:415 indi/streamwg.cpp:425
+#: indi/streamwg.cpp:416 indi/streamwg.cpp:426
 #, fuzzy, kde-format
 #| msgid "Star Name"
 msgid "Start recording"

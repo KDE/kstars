@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-29 02:08+0000\n"
+"POT-Creation-Date: 2026-06-01 02:02+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -37852,13 +37852,13 @@ msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "ビデオポート:"
 
-#: indi/streamwg.cpp:410 indi/streamwg.cpp:457
+#: indi/streamwg.cpp:411 indi/streamwg.cpp:458
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop recording"
 msgstr "追尾を停止(&T)"
 
-#: indi/streamwg.cpp:415 indi/streamwg.cpp:425
+#: indi/streamwg.cpp:416 indi/streamwg.cpp:426
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Start recording"

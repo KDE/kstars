@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-05-29 02:08+0000\n"
-"PO-Revision-Date: 2026-05-24 18:29+0200\n"
+"POT-Creation-Date: 2026-06-01 02:02+0000\n"
+"PO-Revision-Date: 2026-05-25 17:32+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -7719,7 +7719,7 @@ msgstr "La muntura està desaparcada. S'està iniciant el model de la muntura…
 msgid "Mount unpark failed. Cannot start mount model."
 msgstr ""
 "Ha fallat el desaparcament de la muntura. No s'ha pogut iniciar el model de "
-"la muntura…"
+"la muntura."
 
 #: ekos/align/mountmodel.cpp:1184
 #, kde-format
@@ -38382,13 +38382,13 @@ msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "%1 vídeo en directe"
 
-#: indi/streamwg.cpp:410 indi/streamwg.cpp:457
+#: indi/streamwg.cpp:411 indi/streamwg.cpp:458
 #, kde-format
 msgid "Stop recording"
 msgstr "Para la gravació"
 
 # skip-rule: punctuation-period-no
-#: indi/streamwg.cpp:415 indi/streamwg.cpp:425
+#: indi/streamwg.cpp:416 indi/streamwg.cpp:426
 #, kde-format
 msgid "Start recording"
 msgstr "Comença la gravació."
