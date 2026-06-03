@@ -1225,8 +1225,8 @@ void FITSData::redoPostProcessStack(const LiveStackPPData &ppParams)
     // Create a combined future that waits for all others to complete
     QFuture<void> combined = QtConcurrent::run([futures]() mutable
     {
-for (auto &f : futures)
-        f.waitForFinished();
+        for (auto &f : futures)
+            f.waitForFinished();
     });
 
     // Watch the combined future and process the final image when all stacks complete
@@ -5997,7 +5997,7 @@ QString FITSData::getCatObjectLabel(const QString code) const
 bool FITSData::getCatObjectFilter(const QString type) const
 {
     if (m_CatObjectsFilters.isEmpty() || m_CatObjectsFilters.contains(type))
-    return true;
+        return true;
     return false;
 }
 #endif
@@ -7914,13 +7914,13 @@ void FITSData::constructHistogram()
 template <typename T> int32_t FITSData::histogramBinInternal(T value, int channel) const
 {
     return qMax(static_cast<T>(0), qMin(static_cast<T>(m_HistogramBinCount),
-    static_cast<T>(rint((value - m_Statistics.min[channel]) / m_HistogramBinWidth[channel]))));
+                                        static_cast<T>(rint((value - m_Statistics.min[channel]) / m_HistogramBinWidth[channel]))));
 }
 
 template <typename T> int32_t FITSData::histogramBinInternal(int x, int y, int channel) const
 {
     if (!m_ImageBuffer || !isHistogramConstructed())
-    return 0;
+        return 0;
     uint32_t samples = m_Statistics.width * m_Statistics.height;
     uint32_t offset = channel * samples;
     auto * const buffer = reinterpret_cast<T const *>(m_ImageBuffer);
@@ -7932,9 +7932,9 @@ template <typename T> int32_t FITSData::histogramBinInternal(int x, int y, int c
 int32_t FITSData::histogramBin(int x, int y, int channel) const
 {
     switch (m_Statistics.dataType)
-{
-    case TBYTE:
-        return histogramBinInternal<uint8_t>(x, y, channel);
+    {
+        case TBYTE:
+            return histogramBinInternal<uint8_t>(x, y, channel);
             break;
 
         case TSHORT:

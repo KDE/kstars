@@ -514,7 +514,7 @@ void KStars::slotDownload()
                         QMessageBox::critical(
                             this, i18n("Error"),
                             i18n("The catalog \"%1\" is corrupt.<br>Expected id=%2 but "
-                                 "got id=%3",
+                             "got id=%3",
                                  entry.name(), id, meta.second.id));
                         continue;
                     }
@@ -746,11 +746,11 @@ void KStars::slotINDIDriver()
     if (KMessageBox::warningContinueCancel(
                 nullptr,
                 i18n("INDI Device Manager should only be used by advanced technical users. "
-                     "It cannot be used with Ekos. Do you still want to open INDI device "
-                     "manager?"),
+         "It cannot be used with Ekos. Do you still want to open INDI device "
+         "manager?"),
                 i18n("INDI Device Manager"), KStandardGuiItem::cont(),
                 KStandardGuiItem::cancel(),
-                "indi_device_manager_warning") == KMessageBox::Cancel)
+    "indi_device_manager_warning") == KMessageBox::Cancel)
         return;
 
     QString indiServerDir = Options::indiServer();

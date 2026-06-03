@@ -1232,7 +1232,7 @@ bool TestEkosHelper::ensureSimulatorProfile(const QString &profileName, const QS
 }
 
 bool TestEkosHelper::ensureRemoteProfile(const QString &profileName, const QString &host,
-                                          int port, const QStringList &drivers)
+        int port, const QStringList &drivers)
 {
     qCInfo(KSTARS_EKOS_TEST) << "Setting up remote Ekos profile" << profileName
                              << "->" << host << ":" << port;
