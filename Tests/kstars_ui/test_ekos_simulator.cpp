@@ -179,13 +179,13 @@ void TestEkosSimulator::testMountSlew()
     auto currentRaArcsec = [&]() -> double
     {
         if (labelHasCoordinateText(raOut))
-        return clampRA(raOut->text());
+            return clampRA(raOut->text());
 
         QList<double> coords = ekos->mountModule()->equatorialCoords();
         if (coords.size() >= 2)
         {
             return dms(coords[0] * 15.0).arcsec();
-            }
+        }
         return std::numeric_limits<double>::quiet_NaN();
     };
     QTRY_VERIFY_WITH_TIMEOUT(!std::isnan(currentRaArcsec()) && std::abs(targetRA - currentRaArcsec()) <= raTolerance(), 15000);
@@ -209,13 +209,13 @@ void TestEkosSimulator::testMountSlew()
     auto currentDeArcsec = [&]() -> double
     {
         if (labelHasCoordinateText(deOut))
-        return clampDE(deOut->text());
+            return clampDE(deOut->text());
 
         QList<double> coords = ekos->mountModule()->equatorialCoords();
         if (coords.size() >= 2)
         {
             return dms(coords[1]).arcsec();
-            }
+        }
         return std::numeric_limits<double>::quiet_NaN();
     };
     QTRY_VERIFY_WITH_TIMEOUT(!std::isnan(currentDeArcsec()) && std::abs(targetDE - currentDeArcsec()) <= deTolerance(), 20000);

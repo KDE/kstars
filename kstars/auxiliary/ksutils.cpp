@@ -1454,7 +1454,7 @@ bool configureAstrometry()
         if (KMessageBox::warningContinueCancel(
                     nullptr,
                     i18n("The selected Astrometry Index File Location:\n %1 \n does not "
-                         "exist.  Do you want to make the directory?",
+             "exist.  Do you want to make the directory?",
                          defaultAstrometryDataDir),
                     i18n("Make Astrometry Index File Directory?")) == KMessageBox::Continue)
         {
@@ -1467,7 +1467,7 @@ bool configureAstrometry()
             {
                 KSNotification::sorry(
                     i18n("The Default Astrometry Index File Directory does not exist and "
-                         "was not able to be created."));
+                     "was not able to be created."));
             }
         }
         else

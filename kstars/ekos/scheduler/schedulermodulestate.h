@@ -15,6 +15,7 @@
 #include "schedulertypes.h"
 #include "ekos/capture/capturetypes.h"
 #include <QDateTime>
+#include <QTimer>
 #include <QUrl>
 
 class SchedulerJob;
@@ -137,6 +138,7 @@ class SchedulerModuleState : public QObject
             return m_currentPosition;
         }
         void setCurrentPosition(int newCurrentPosition);
+        void emitCurrentPosition();
 
         void setStartupState(StartupState state);
 
@@ -734,6 +736,7 @@ class SchedulerModuleState : public QObject
         // current position on the job list - necessary if there is no line selected in the
         // UI, for example after deleting a row.
         int m_currentPosition { -1 };
+        QTimer m_currentPositionDebouncer;
         // Pre-shutdown script URL (before Ekos/INDI stop)
         QUrl m_preShutdownScriptURL;
         // Post-shutdown script URL (after Ekos/INDI stopped)

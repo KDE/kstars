@@ -70,15 +70,15 @@ void TestMountModelHalton::testPointsAboveHorizon()
     lstDms.setH(lst);
 
     QVector<Ekos::MountModel::AlignmentPoint> points = Ekos::MountModel::generateHaltonPoints(
-        kNumPoints,
-        minAlt,
-        kMaxAlt,
-        kMaxAbsDec,
-        lstDms,
-        latDms,
-        nullptr, // horizon
-        false    // snap
-    );
+            kNumPoints,
+            minAlt,
+            kMaxAlt,
+            kMaxAbsDec,
+            lstDms,
+            latDms,
+            nullptr, // horizon
+            false    // snap
+        );
 
     QCOMPARE(points.size(), kNumPoints);
 
@@ -132,15 +132,15 @@ void TestMountModelHalton::testPointsAwayFromPole()
     lstDms.setH(lst);
 
     QVector<Ekos::MountModel::AlignmentPoint> points = Ekos::MountModel::generateHaltonPoints(
-        kNumPoints,
-        minAlt,
-        kMaxAlt,
-        kMaxAbsDec,
-        lstDms,
-        latDms,
-        nullptr, // horizon
-        false    // snap
-    );
+            kNumPoints,
+            minAlt,
+            kMaxAlt,
+            kMaxAbsDec,
+            lstDms,
+            latDms,
+            nullptr, // horizon
+            false    // snap
+        );
 
     QCOMPARE(points.size(), kNumPoints);
 
@@ -157,7 +157,8 @@ void TestMountModelHalton::testPointsAwayFromPole()
 
 void TestMountModelHalton::testStatefulHaltonSequence()
 {
-    auto halton = [](int index, int base) -> double {
+    auto halton = [](int index, int base) -> double
+    {
         double result = 0.0;
         double f      = 1.0;
         while (index > 0)
@@ -218,15 +219,15 @@ void TestMountModelHalton::testHorizonRejection()
     dms latDms(45.0); // Arbitrary latitude
 
     QVector<Ekos::MountModel::AlignmentPoint> points = Ekos::MountModel::generateHaltonPoints(
-        100,
-        minAlt,
-        maxAlt,
-        kMaxAbsDec,
-        lstDms,
-        latDms,
-        &horizon,
-        false    // snap
-    );
+            100,
+            minAlt,
+            maxAlt,
+            kMaxAbsDec,
+            lstDms,
+            latDms,
+            &horizon,
+            false    // snap
+        );
 
     QCOMPARE(points.size(), 100);
 

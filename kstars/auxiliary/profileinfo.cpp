@@ -30,10 +30,10 @@ void ProfileInfo::addDriver(DeviceFamily family, const QString &driver)
 QList<QString> ProfileInfo::getDrivers(DeviceFamily family) const
 {
     if (drivers.contains(family))
-    return drivers[family];
+        return drivers[family];
     else
         return QList<QString>();
-    }
+}
 
 QString ProfileInfo::mount() const
 {

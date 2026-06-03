@@ -37,7 +37,10 @@ class HaltonSequence
             return m_value;
         }
 
-        int index() const { return m_index; }
+        int index() const
+        {
+            return m_index;
+        }
 
     private:
         double m_value;

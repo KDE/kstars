@@ -651,25 +651,27 @@ void MountModel::slotWizardAlignmentPoints()
 
         const bool snap = alignTypeBox->currentIndex() != OBJECT_HALTON_SEQUENCE;
 
-        auto lookupObject = [this](double ra, double dec) {
+        auto lookupObject = [this](double ra, double dec)
+        {
             return getWizardAlignObject(ra, dec);
         };
-        auto updateCoords = [data](SkyObject *o) {
+        auto updateCoords = [data](SkyObject * o)
+        {
             o->updateCoords(data->updateNum(), true, data->geo()->lat(), data->lst(), false);
         };
 
         QVector<AlignmentPoint> newPoints = generateHaltonPoints(
-            points,
-            minAlt,
-            85.0,
-            80.0,
-            *data->lst(),
-            *data->geo()->lat(),
-            horizon,
-            snap,
-            lookupObject,
-            updateCoords
-        );
+                                                points,
+                                                minAlt,
+                                                85.0,
+                                                80.0,
+                                                *data->lst(),
+                                                *data->geo()->lat(),
+                                                horizon,
+                                                snap,
+                                                lookupObject,
+                                                updateCoords
+                                            );
 
         if (newPoints.size() < points)
             Q_EMIT newLog(i18n("Warning: only %1 of %2 requested alignment points could be placed.",

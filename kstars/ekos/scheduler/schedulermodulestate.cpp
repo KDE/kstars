@@ -20,7 +20,11 @@ namespace Ekos
 QDateTime SchedulerModuleState::m_Dawn, SchedulerModuleState::m_Dusk, SchedulerModuleState::m_PreDawnDateTime;
 GeoLocation *SchedulerModuleState::storedGeo = nullptr;
 
-SchedulerModuleState::SchedulerModuleState() {}
+SchedulerModuleState::SchedulerModuleState()
+{
+    m_currentPositionDebouncer.setInterval(300);
+    connect(&m_currentPositionDebouncer, &QTimer::timeout, this, &SchedulerModuleState::emitCurrentPosition);
+}
 
 void SchedulerModuleState::init()
 {
@@ -140,7 +144,13 @@ void SchedulerModuleState::setSchedulerState(const SchedulerState &newState)
 void SchedulerModuleState::setCurrentPosition(int newCurrentPosition)
 {
     m_currentPosition = newCurrentPosition;
-    Q_EMIT currentPositionChanged(newCurrentPosition);
+    m_currentPositionDebouncer.stop();
+    m_currentPositionDebouncer.start();
+}
+
+void SchedulerModuleState::emitCurrentPosition()
+{
+    Q_EMIT currentPositionChanged(m_currentPosition);
 }
 
 void SchedulerModuleState::setStartupState(StartupState state)
