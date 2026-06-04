@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-01 02:02+0000\n"
+"POT-Creation-Date: 2026-06-04 02:21+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -2954,7 +2954,7 @@ msgstr "%1 নামক কোন বস্তু পাওয়া যায় ন�
 #. i18n: ectx: property (text), item, widget (QComboBox, schedulerProfileCombo)
 #: dialogs/catalogcoloreditor.cpp:109
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:441
-#: ekos/scheduler/scheduler.ui:552 ekos/scheduler/schedulermodulestate.cpp:59
+#: ekos/scheduler/scheduler.ui:552 ekos/scheduler/schedulermodulestate.cpp:63
 #: ekos/scheduler/schedulerprocess.cpp:1969
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:210
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:469
@@ -7903,7 +7903,7 @@ msgstr "ছবি লোড করা যায় নি"
 msgid "Alignment List saved to %1"
 msgstr "FITS ফাইলকে %1-এ সংরক্ষণ করা হয়েছে"
 
-#: ekos/align/mountmodel.cpp:597 ekos/align/mountmodel.cpp:818
+#: ekos/align/mountmodel.cpp:597 ekos/align/mountmodel.cpp:820
 #, fuzzy, kde-format
 msgid "Sky Point"
 msgstr "হাই পয়েন্ট"
@@ -7913,57 +7913,57 @@ msgstr "হাই পয়েন্ট"
 msgid "DEC is below the altitude limit"
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:675
+#: ekos/align/mountmodel.cpp:677
 #, kde-format
 msgid "Warning: only %1 of %2 requested alignment points could be placed."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:796
+#: ekos/align/mountmodel.cpp:798
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Point calculation error."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/align/mountmodel.cpp:1027
+#: ekos/align/mountmodel.cpp:1029
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to clear all the alignment points?"
 msgstr "আপনি কি %1 ক্লায়েন্টকে অপসারণের ব্যাপারে নিশ্চিত?"
 
-#: ekos/align/mountmodel.cpp:1028
+#: ekos/align/mountmodel.cpp:1030
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgid "Clear Align Points"
 msgstr "প্রতিটি কক্ষপথ মুছে ফেলো"
 
-#: ekos/align/mountmodel.cpp:1124
+#: ekos/align/mountmodel.cpp:1126
 #, kde-format
 msgid "The Mount Model Tool is Reset."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1164
+#: ekos/align/mountmodel.cpp:1166
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Monte Carlo"
 msgid "Mount unparked. Starting mount model..."
 msgstr "মন্টে কার্লো"
 
-#: ekos/align/mountmodel.cpp:1172
+#: ekos/align/mountmodel.cpp:1174
 #, kde-format
 msgid "Mount unpark failed. Cannot start mount model."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1184
+#: ekos/align/mountmodel.cpp:1186
 #, kde-format
 msgid "Please Check the Alignment Points."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1192
+#: ekos/align/mountmodel.cpp:1194
 #, fuzzy, kde-format
 msgid "Mount is parked. Unparking before starting mount model..."
 msgstr "গুজ ক্রিক"
 
-#: ekos/align/mountmodel.cpp:1203
+#: ekos/align/mountmodel.cpp:1205
 #, kde-format
 msgid ""
 "In the Align Module, \"Nothing\" is Selected for the Solver Action.  This "
@@ -7971,27 +7971,27 @@ msgid ""
 "report the pointing model errors.  Do you wish to continue?"
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1206
+#: ekos/align/mountmodel.cpp:1208
 #, kde-format
 msgid "Pointing Model Report Only?"
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1224
+#: ekos/align/mountmodel.cpp:1226
 #, kde-format
 msgid "The Mount Model Tool is Starting."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1233
+#: ekos/align/mountmodel.cpp:1235
 #, kde-format
 msgid "The Mount Model Tool is Paused."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1300
+#: ekos/align/mountmodel.cpp:1302
 #, kde-format
 msgid "The Mount Model Tool is Finished."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1325
+#: ekos/align/mountmodel.cpp:1327
 #, kde-format
 msgid "Mount model: forcing blind solve and sync for each alignment point."
 msgstr ""
@@ -29582,12 +29582,12 @@ msgstr "অন্ধকার ফ্রেম"
 msgid "images"
 msgstr "ছবি"
 
-#: ekos/scheduler/schedulermodulestate.cpp:185
+#: ekos/scheduler/schedulermodulestate.cpp:195
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
 msgstr ""
 
-#: ekos/scheduler/schedulermodulestate.cpp:191
+#: ekos/scheduler/schedulermodulestate.cpp:201
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
 msgstr ""

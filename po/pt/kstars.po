@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-01 02:02+0000\n"
+"POT-Creation-Date: 2026-06-04 02:21+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -4005,7 +4005,7 @@ msgstr "O catálogo com o ID %1 não foi encontrado."
 #. i18n: ectx: property (text), item, widget (QComboBox, schedulerProfileCombo)
 #: dialogs/catalogcoloreditor.cpp:109
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:441
-#: ekos/scheduler/scheduler.ui:552 ekos/scheduler/schedulermodulestate.cpp:59
+#: ekos/scheduler/scheduler.ui:552 ekos/scheduler/schedulermodulestate.cpp:63
 #: ekos/scheduler/schedulerprocess.cpp:1969
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:210
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:469
@@ -8799,7 +8799,7 @@ msgstr "Não foi possível gravar a lista de alinhamento"
 msgid "Alignment List saved to %1"
 msgstr "A Lista do Alinhamento foi gravada em %1"
 
-#: ekos/align/mountmodel.cpp:597 ekos/align/mountmodel.cpp:818
+#: ekos/align/mountmodel.cpp:597 ekos/align/mountmodel.cpp:820
 #, kde-format
 msgid "Sky Point"
 msgstr "Ponto do Céu"
@@ -8809,38 +8809,38 @@ msgstr "Ponto do Céu"
 msgid "DEC is below the altitude limit"
 msgstr "A DEC está abaixo do limite de altitude"
 
-#: ekos/align/mountmodel.cpp:675
+#: ekos/align/mountmodel.cpp:677
 #, kde-format
 msgid "Warning: only %1 of %2 requested alignment points could be placed."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:796
+#: ekos/align/mountmodel.cpp:798
 #, kde-format
 msgid "Point calculation error."
 msgstr "Erro de cálculo do ponto."
 
-#: ekos/align/mountmodel.cpp:1027
+#: ekos/align/mountmodel.cpp:1029
 #, kde-format
 msgid "Are you sure you want to clear all the alignment points?"
 msgstr "Tem a certeza que deseja limpar todos os pontos do alinhamento?"
 
-#: ekos/align/mountmodel.cpp:1028
+#: ekos/align/mountmodel.cpp:1030
 #, kde-format
 msgid "Clear Align Points"
 msgstr "Limpar os Pontos do Alinhamento"
 
-#: ekos/align/mountmodel.cpp:1124
+#: ekos/align/mountmodel.cpp:1126
 #, kde-format
 msgid "The Mount Model Tool is Reset."
 msgstr "A Ferramenta do Modelo de Montagem foi Reiniciada."
 
-#: ekos/align/mountmodel.cpp:1164
+#: ekos/align/mountmodel.cpp:1166
 #, fuzzy, kde-format
 #| msgid "Mount is parking. Aborting guide..."
 msgid "Mount unparked. Starting mount model..."
 msgstr "A montagem está a bloquear. A interromper a guia..."
 
-#: ekos/align/mountmodel.cpp:1172
+#: ekos/align/mountmodel.cpp:1174
 #, fuzzy, kde-format
 #| msgid "Mount unpark requested but no mounts detected."
 msgid "Mount unpark failed. Cannot start mount model."
@@ -8848,18 +8848,18 @@ msgstr ""
 "Foi pedido o desbloqueio da montagem, mas não foram detectadas nenhumas "
 "montagens."
 
-#: ekos/align/mountmodel.cpp:1184
+#: ekos/align/mountmodel.cpp:1186
 #, kde-format
 msgid "Please Check the Alignment Points."
 msgstr "Verifique por Favor os Pontos de Alinhamento."
 
-#: ekos/align/mountmodel.cpp:1192
+#: ekos/align/mountmodel.cpp:1194
 #, fuzzy, kde-format
 #| msgid "%1 is unparking..."
 msgid "Mount is parked. Unparking before starting mount model..."
 msgstr "O %1 está a desbloquear..."
 
-#: ekos/align/mountmodel.cpp:1203
+#: ekos/align/mountmodel.cpp:1205
 #, kde-format
 msgid ""
 "In the Align Module, \"Nothing\" is Selected for the Solver Action.  This "
@@ -8871,27 +8871,27 @@ msgstr ""
 "sincronizar/alinhar a sua montagem, mas irá comunicar apenas os erros do "
 "modelo de posicionamento. Deseja continuar?"
 
-#: ekos/align/mountmodel.cpp:1206
+#: ekos/align/mountmodel.cpp:1208
 #, kde-format
 msgid "Pointing Model Report Only?"
 msgstr "Comunicar Apenas o Modelo de Posicionamento?"
 
-#: ekos/align/mountmodel.cpp:1224
+#: ekos/align/mountmodel.cpp:1226
 #, kde-format
 msgid "The Mount Model Tool is Starting."
 msgstr "A Ferramenta do Modelo de Montagem Está a Iniciar."
 
-#: ekos/align/mountmodel.cpp:1233
+#: ekos/align/mountmodel.cpp:1235
 #, kde-format
 msgid "The Mount Model Tool is Paused."
 msgstr "A Ferramenta do Modelo de Montagem Está em Pausa."
 
-#: ekos/align/mountmodel.cpp:1300
+#: ekos/align/mountmodel.cpp:1302
 #, kde-format
 msgid "The Mount Model Tool is Finished."
 msgstr "A Ferramenta do Modelo de Montagem Está Terminada."
 
-#: ekos/align/mountmodel.cpp:1325
+#: ekos/align/mountmodel.cpp:1327
 #, kde-format
 msgid "Mount model: forcing blind solve and sync for each alignment point."
 msgstr ""
@@ -32293,12 +32293,12 @@ msgstr "Imagem Plana Escura"
 msgid "images"
 msgstr "Imagens"
 
-#: ekos/scheduler/schedulermodulestate.cpp:185
+#: ekos/scheduler/schedulermodulestate.cpp:195
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
 msgstr ""
 
-#: ekos/scheduler/schedulermodulestate.cpp:191
+#: ekos/scheduler/schedulermodulestate.cpp:201
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
 msgstr ""
