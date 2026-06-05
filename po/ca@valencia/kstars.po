@@ -7849,7 +7849,7 @@ msgstr ""
 "<li><b>Dec fixa:</b> Tots els punts compartixen la mateixa declinació "
 "(s'establix davall).</li>\n"
 "<li><b>Quadrícula fixa:</b> Els punts s'establixen en una quadrícula AR/Dec "
-"normal, espaiada uniformement a l'«AR» i la «Dec».</li>\n"
+"normal, espaiada uniformement en l'«AR» i la «Dec».</li>\n"
 "</ul>\n"
 "</body></html>"
 
@@ -8545,7 +8545,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Quan es marca, si l'error de l'alineació polar en un "
 "eix <b>augmenta</b> després de la primera correcció del PAC, el sistema "
-"invertirà automàticament la direcció de la correcció d'este eix a l'intent "
+"invertirà automàticament la direcció de la correcció d'este eix en l'intent "
 "següent.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoChangeDirection)
@@ -14659,9 +14659,9 @@ msgstr ""
 "canviar la FWHM. El filtre «Predeterminat» és el més ràpid, però no canvia "
 "amb el paràmetre de FWHM, i per tant és millor per a les estreles xicotetes. "
 "El filtre «Gaussià» és millor per a la detecció d'objectes febles.  El "
-"filtre «Barret mexicà» és bo en camps d'estreles atapeïts o als voltants de "
-"nebuloses. El filtre «Barret de copa alta» és bo per a objectes estesos de "
-"brillantor baixa. Nota: La selecció del filtre «Personalitzat» està "
+"filtre «Barret mexicà» és bo en camps d'estreles atapeïts o en els voltants "
+"de nebuloses. El filtre «Barret de copa alta» és bo per a objectes estesos "
+"de brillantor baixa. Nota: La selecció del filtre «Personalitzat» està "
 "destinada a propòsits de prova i només l'han d'utilitzar els desenvolupadors."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, convFilter)
@@ -43500,7 +43500,7 @@ msgstr "Commutador del postprocessament en l'«Apilament en directe»"
 #: kstars.kcfg:1911
 #, kde-format
 msgid "Live Stacking gradient removal amount"
-msgstr "Quantitat d'eliminació del degradat a l'«Apilament en directe»"
+msgstr "Quantitat d'eliminació del degradat en l'«Apilament en directe»"
 
 #. i18n: ectx: label, entry (fitsLSDeconvAmt), group (FITSViewer)
 #: kstars.kcfg:1915
