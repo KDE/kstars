@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-04 02:21+0000\n"
-"PO-Revision-Date: 2026-05-21 13:35+0400\n"
+"PO-Revision-Date: 2026-06-05 13:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -7735,20 +7735,14 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, artificialHorizonCheck)
 #: ekos/align/mountmodel.ui:223
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>The artificial horizon restriction constrains the altitude "
-#| "of the target to be above the artificial horizon, if any are defined and "
-#| "enabled. See the artificial horizon item in the KStars Settings menu.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "Skip generated points that are below the artificial horizon, if any are "
 "defined and enabled. See the artificial horizon item in the KStars Settings "
 "menu."
 msgstr ""
-"<html><body><p>يقيد قيد الأفق الاصطناعي ارتفاع الهدف ليكون فوق الأفق "
-"الاصطناعي، إذا كان أي منها معرّفًا ومُمكَّنًا. اِطّلع على عنصر الأفق الاصطناعي في "
-"قائمة إعدادات نجوم‌ك.</p></body></html>"
+"تجاوز النقاط المُنشأة التي تقع تحت الأفق الاصطناعي، إذا وُجدت ومُكّنت. راجع عنصر "
+"الأفق الاصطناعي في قائمة إعدادات نجومك."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:239
