@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-04 02:21+0000\n"
-"PO-Revision-Date: 2026-05-25 17:32+0200\n"
+"PO-Revision-Date: 2026-06-10 20:48+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -10370,7 +10370,7 @@ msgstr "S'està netejant el model d'alineació de la muntura…"
 #: ekos/align/polaralignmentassistant.cpp:824
 #, kde-format
 msgid "This could cause the telescope to cross the meridian."
-msgstr "Açò pot provocar que el telescopi creui el meridià."
+msgstr "Açò pot provocar que el telescopi creue el meridià."
 
 #: ekos/align/polaralignmentassistant.cpp:886
 #, kde-format
@@ -15942,8 +15942,8 @@ msgid ""
 "<html><head/><body><p>Number of digits used to append the sequence number to "
 "the filename.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>El nombre de dígits emprats per a adjuntar el número "
-"de seqüència al nom de fitxer.</p></body></html>"
+"<html><head/><body><p>El nombre de dígits emprats per a annexar el número de "
+"seqüència al nom de fitxer.</p></body></html>"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
 #: ekos/capture/camera.ui:1849
@@ -18211,7 +18211,7 @@ msgstr ""
 #: ekos/capture/opsdslrsettings.ui:43
 #, kde-format
 msgid "Force DSLR presets"
-msgstr "Força les predefinicions de la rèflex digital"
+msgstr "Força els ajustaments predefinits de la rèflex digital"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useDSLRImageViewer)
@@ -20878,8 +20878,8 @@ msgid ""
 "p><p>This is an experimental feature.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Executa l'Inspector d'aberracions (primer s'executarà "
-"l'enfocament automàtic per a arreplegar dades).</p><p>Nota: Cal seleccionar "
-"la «Màscara de mosaic» per a activar este botó.</p><p>Esta és una "
+"l'enfocament automàtic per a arreplegar dades).</p><p>Nota: Cal establir la "
+"«Màscara de mosaic» per a activar este botó.</p><p>Esta és una "
 "característica experimental.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, advisorB)
@@ -22444,8 +22444,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Amb quina agressivitat s'aplicarà el «Rebuig dels "
 "valors discrepants». Els valors més alts rebutgen més valors discrepants.</"
-"p><p>Per tal que esta opció estiga activa, s'ha de seleccionar «Refina "
-"l'ajust de la corba».</p></body></html>"
+"p><p>Per tal que esta opció estiga activa, s'ha d'establir «Refina l'ajust "
+"de la corba».</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:827
@@ -30331,7 +30331,7 @@ msgid ""
 "jobs to queue.</p></body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Carrega la programació des d'un "
-"fitxer i afig les tasques a la cua.</p></body></html>"
+"fitxer i annexa les tasques a la cua.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
 #: ekos/scheduler/scheduler.ui:1061
@@ -34074,8 +34074,8 @@ msgid ""
 "Cycle through stretch presets. Current stretch: preset %1. Click for preset "
 "%2."
 msgstr ""
-"Circula per les predefinicions de l'estirament. Estirament actual: "
-"predefinit %1. Cliqueu per al predefinit %2."
+"Circula pels ajustaments predefinits de l'estirament. Estirament actual: "
+"ajustament predefinit %1. Cliqueu per a l'ajustament predefinit %2."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stretchButton)
 #: fitsviewer/fitsstretchui.ui:87
@@ -34139,7 +34139,7 @@ msgstr "Trobarà automàticament el paràmetre d'estirament."
 #: fitsviewer/fitsstretchui.ui:394
 #, kde-format
 msgid "Cycle through stretch presets."
-msgstr "Circula entre els predefinits de l'estirament."
+msgstr "Circula entre els ajustaments predefinits de l'estirament."
 
 #: fitsviewer/fitstab.cpp:38
 #, kde-format
@@ -36732,7 +36732,7 @@ msgstr "Registre de visualització"
 #: fitsviewer/starprofileviewer.cpp:29
 #, kde-format
 msgid "Pixel Values"
-msgstr "Valors de píxel"
+msgstr "Valors del píxel"
 
 #: fitsviewer/starprofileviewer.cpp:52
 #, kde-format
@@ -37855,7 +37855,8 @@ msgstr "Establix"
 msgid ""
 "Enable binary data transfer from this property to KStars and vice-versa."
 msgstr ""
-"Permet la transferència binària d'esta propietat cap a KStars i viceversa."
+"Permet la transferència de les dades binàries d'esta propietat a KStars i "
+"viceversa."
 
 #: indi/indiproperty.cpp:299
 #, kde-format
@@ -42740,8 +42741,8 @@ msgstr "Escriu els marcadors de límit"
 msgid ""
 "If checked, write coordinates of the bounding box for each marker in a file."
 msgstr ""
-"Si està marcada, s'escriuran en un fitxer les coordenades del contenidor per "
-"a cada marcador."
+"Si està marcada, s'escriuran en un fitxer les coordenades del quadro "
+"contenidor per a cada marcador."
 
 #. i18n: ectx: label, entry (XplanetMarkerBoundsPath), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetMarkerBoundsPath)
@@ -79966,7 +79967,7 @@ msgstr "Neptú"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Noise Reduction"
-msgstr "Reducció de soroll"
+msgstr "Reducció del soroll"
 
 #: libindi_strings.cpp:318
 #, kde-kuit-format
@@ -80268,25 +80269,25 @@ msgstr "Pressió en hPa"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Presets"
-msgstr "Predefinits"
+msgstr "Ajustaments predefinits"
 
 #: libindi_strings.cpp:368
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Preset 1"
-msgstr "Predefinit 1"
+msgstr "Ajustaments predefinits 1"
 
 #: libindi_strings.cpp:369
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Preset 2"
-msgstr "Predefinit 2"
+msgstr "Ajustaments predefinits 2"
 
 #: libindi_strings.cpp:370
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Preset 3"
-msgstr "Predefinit 3"
+msgstr "Ajustaments predefinits 3"
 
 #: libindi_strings.cpp:371
 #, kde-kuit-format
@@ -80708,7 +80709,7 @@ msgstr "Llocs"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Sky Glow (magnitudes)"
-msgstr "Brillantor del cel (magnituds)"
+msgstr "Lluïssor del cel (magnituds)"
 
 #: libindi_strings.cpp:441
 #, kde-kuit-format
@@ -82044,7 +82045,7 @@ msgstr "Introduïu els detalls de les lents de Barlow i Shapley"
 #: oal/equipmentwriter.ui:842
 #, kde-format
 msgid "Magnification factor of the Barlow/Shapley lens"
-msgstr "Factor d'augment de les lents Barlow/Shapley."
+msgstr "Factor d'augment de la lent Barlow/Shapley."
 
 #. i18n: ectx: property (text), widget (QLabel, label51)
 #: oal/equipmentwriter.ui:845
@@ -83286,8 +83287,8 @@ msgid ""
 msgstr ""
 "Després de canviar els colors a un esquema que vos agrade, premeu este botó "
 "per a crear un esquema nou emprant estos colors. El vostre esquema "
-"apareixerà ací en la llista d'esquemes predefinits i també estarà disponible "
-"en el menú «Configuració» de la finestra principal."
+"apareixerà ací en la llista d'ajustaments predefinits i també estarà "
+"disponible en el menú «Configuració» de la finestra principal."
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemovePreset)
@@ -84745,7 +84746,7 @@ msgstr "Torna a capturar…"
 #: printing/foveditordialog.ui:174
 #, kde-format
 msgid "Delete snapshot"
-msgstr "Suprimix la captura de pantalla"
+msgstr "Suprimix la instantània"
 
 #. i18n: ectx: property (text), widget (QPushButton, saveButton)
 #: printing/foveditordialog.ui:194
@@ -84891,7 +84892,7 @@ msgstr "Formulari de registre"
 #: printing/printingwizard.cpp:540
 #, kde-format
 msgid "Field of View Snapshots"
-msgstr "Captures de pantalla del camp de visió"
+msgstr "Instantànies del camp de visió"
 
 # skip-rule: t-apo_fin
 #: printing/printingwizard.cpp:548
@@ -85213,7 +85214,7 @@ msgstr "Mètode de definició del camp de visió:"
 #: printing/pwizfovtypeselection.ui:136
 #, kde-format
 msgid "Manually capture field of view snapshots"
-msgstr "Captura manualment les instantànies de camp de visió"
+msgstr "Captura manualment les instantànies del camp de visió"
 
 #. i18n: ectx: property (text), widget (QRadioButton, hopperRadio)
 #: printing/pwizfovtypeselection.ui:152
