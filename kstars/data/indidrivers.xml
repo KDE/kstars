@@ -107,21 +107,29 @@
             <driver name="Pegasus NYX-101">indi_lx200_pegasus_nyx101</driver>
             <version>2.2</version>
         </device>
+        <device label="ZWO AM7 WiFi" manufacturer="ZWO">
+            <driver name="ZWO AM5">indi_lx200am5</driver>
+            <version>1.5</version>
+        </device>
+        <device label="ZWO AM7 USB" manufacturer="ZWO">
+            <driver name="ZWO AM5">indi_lx200am5</driver>
+            <version>1.5</version>
+        </device>
         <device label="ZWO AM5 WiFi" manufacturer="ZWO">
             <driver name="ZWO AM5">indi_lx200am5</driver>
-            <version>1.4</version>
+            <version>1.5</version>
         </device>
         <device label="ZWO AM5 USB" manufacturer="ZWO">
             <driver name="ZWO AM5">indi_lx200am5</driver>
-            <version>1.4</version>
+            <version>1.5</version>
         </device>
         <device label="ZWO AM3 WiFi" manufacturer="ZWO">
             <driver name="ZWO AM5">indi_lx200am5</driver>
-            <version>1.4</version>
+            <version>1.5</version>
         </device>
         <device label="ZWO AM3 USB" manufacturer="ZWO">
             <driver name="ZWO AM5">indi_lx200am5</driver>
-            <version>1.4</version>
+            <version>1.5</version>
         </device>
         <device label="Celestron GPS" manufacturer="Celestron">
             <driver name="Celestron GPS">indi_celestron_gps</driver>
@@ -385,6 +393,10 @@
         </device>
         <device label="ESP32go" manufacturer="DIY">
             <driver name="LX200 ESP32go">indi_lx200_esp32go</driver>
+            <version>1.0</version>
+        </device>
+        <device label="MX-HD Telescope" manufacturer="GOTO INC">
+            <driver name="MX-HD Telescope">indi_mxhd_telescope</driver>
             <version>1.0</version>
         </device>
     </devGroup>
@@ -810,6 +822,10 @@
         <device label="Pegasus FlatMaster" manufacturer="Pegasus Astro">
             <driver name="Pegasus FlatMaster">indi_pegasus_flatmaster</driver>
             <version>1.2</version>
+        </device>
+        <device label="Pegasus FlatMaster Neo" manufacturer="Pegasus Astro">
+            <driver name="Pegasus FlatMaster Neo">indi_pegasus_flatmaster_neo</driver>
+            <version>1.0</version>
         </device>
         <device label="PlaneWave Delta-T" manufacturer="Planewave Instruments">
             <driver name="PlaneWave Delta-T">indi_planewave_deltat</driver>
@@ -1589,23 +1605,23 @@
     <devGroup group="CCDs">
         <device label="Canon DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Canon DSLR">indi_canon_ccd</driver>
-            <version>3.4</version>
+            <version>3.5</version>
         </device>
         <device label="Nikon DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Nikon DSLR">indi_nikon_ccd</driver>
-            <version>3.4</version>
+            <version>3.5</version>
         </device>
         <device label="Pentax DSLR Legacy" mdpd="true" manufacturer="DSLRs">
             <driver name="Pentax DSLR">indi_pentax_ccd</driver>
-            <version>3.4</version>
+            <version>3.5</version>
         </device>
         <device label="Sony DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Sony DSLR">indi_sony_ccd</driver>
-            <version>3.4</version>
+            <version>3.5</version>
         </device>
         <device label="Fuji DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Fuji DSLR">indi_fuji_ccd</driver>
-            <version>3.4</version>
+            <version>3.5</version>
         </device>
         <device label="GPhoto CCD" manufacturer="DSLRs">
             <driver name="GPhoto CCD">indi_gphoto_ccd</driver>
@@ -1809,7 +1825,7 @@
     <devGroup group="Focusers">
         <device label="Nncam AAF" mdpd="true" manufacturer="Nn">
             <driver name="Nn">indi_nncam_focuser</driver>
-            <version>2.4</version>
+            <version>2.6</version>
         </device>
     </devGroup>
 </driversList>
