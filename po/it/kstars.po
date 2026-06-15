@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-04 02:21+0000\n"
-"PO-Revision-Date: 2026-05-23 17:03+0200\n"
+"PO-Revision-Date: 2026-06-13 18:44+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -13047,8 +13047,8 @@ msgstr ""
 #, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
 msgstr ""
-"Soluzione dell'ultima AF. Aggiornata automaticamente dal processo di messa a "
-"fuoco automatica."
+"Soluzione dell'ultima AF. Aggiornata automaticamente dal procedimento di "
+"messa a fuoco automatica."
 
 #: ekos/auxiliary/filtermanager.cpp:136
 #, kde-format
@@ -13062,7 +13062,7 @@ msgid ""
 "autofocus process."
 msgstr ""
 "La temperatura della soluzione dell'ultima AF. Aggiornata automaticamente "
-"dal processo di messa a fuoco automatica."
+"dal procedimento di messa a fuoco automatica."
 
 #: ekos/auxiliary/filtermanager.cpp:140
 #, kde-format
@@ -13076,7 +13076,7 @@ msgid ""
 "process."
 msgstr ""
 "L'altitudine della soluzione dell'ultima AF. Aggiornata automaticamente dal "
-"processo di messa a fuoco automatica."
+"procedimento di messa a fuoco automatica."
 
 #: ekos/auxiliary/filtermanager.cpp:144
 #, kde-format
@@ -13090,7 +13090,7 @@ msgid ""
 "process."
 msgstr ""
 "Data e ora della soluzione dell'ultima AF. Aggiornata automaticamente dal "
-"processo di messa a fuoco automatica."
+"procedimento di messa a fuoco automatica."
 
 #: ekos/auxiliary/filtermanager.cpp:148
 #, kde-format
@@ -13192,7 +13192,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Se stai usando una ruota portafiltri e un "
 "focheggiatore con posizione assoluta, ricorda sempre la posizione del fuoco "
-"del processo di messa a fuoco automatica per i light frame in ciascun "
+"del procedimento di messa a fuoco automatica per i light frame in ciascun "
 "filtro. Prima che venga acquisito un flat frame, il focheggiatore è spostato "
 "allo stesso punto focale dei light frame.</p></body></html>"
 
@@ -15241,7 +15241,7 @@ msgid ""
 "started."
 msgstr ""
 "Attenzione: è stata selezionata la messa a fuoco nella sequenza ma il "
-"processo di messa a fuoco automatica non è stato avviato."
+"procedimento di messa a fuoco automatica non è stato avviato."
 
 #: ekos/capture/camera.cpp:622
 #, kde-format
@@ -15250,7 +15250,7 @@ msgid ""
 "started."
 msgstr ""
 "Attenzione: è stata selezionato il controllo della delta temperatura ma il "
-"processo di messa a fuoco automatica non è stato avviato."
+"procedimento di messa a fuoco automatica non è stato avviato."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
 #: ekos/capture/camera.ui:160
@@ -17470,7 +17470,7 @@ msgstr "ISO"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:309
 #, kde-format
 msgid "Read noise constant"
-msgstr "Costante read-noise"
+msgstr "Costante di rumore di lettura"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:375
@@ -17501,7 +17501,7 @@ msgstr ""
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:433
 #, kde-format
 msgid "Shot Noise"
-msgstr "Rumore shot"
+msgstr "Rumore scatto"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
@@ -17581,7 +17581,7 @@ msgstr "Selezione dati della fotocamera"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:750
 #, kde-format
 msgid "Potential exposure time graph"
-msgstr "Grafico tempo di esposizione potenziale"
+msgstr "Grafico del tempo potenziale di esposizione"
 
 #. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:769
@@ -19789,7 +19789,7 @@ msgstr "Processo"
 #: ekos/focus/focus.cpp:204 ekos/focus/opsfocusprocess.ui:14
 #, kde-format
 msgid "Focus Process"
-msgstr "Processo di messa a fuoco"
+msgstr "Procedimento di messa a fuoco"
 
 #: ekos/focus/focus.cpp:208
 #, kde-format
@@ -20399,7 +20399,7 @@ msgstr "Profilo relativo"
 #: ekos/focus/focus.ui:170
 #, kde-format
 msgid "Stop Auto Focus process"
-msgstr "Ferma il processo di messa a fuoco automatica"
+msgstr "Ferma il procedimento di messa a fuoco automatica"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
 #: ekos/focus/focus.ui:189
@@ -20432,7 +20432,7 @@ msgstr "Inizio:"
 #: ekos/focus/focus.ui:273
 #, kde-format
 msgid "Start Auto Focus process"
-msgstr "Avvio del processo di messa a fuoco automatica"
+msgstr "Avvio del procedimento di messa a fuoco automatica"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, absTicksLabel)
 #: ekos/focus/focus.ui:303
@@ -21340,8 +21340,8 @@ msgid ""
 "<html><head/><body><p>Maximum travel in steps before the autofocus process "
 "aborts</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Corsa massima in passi prima che il processo di messa "
-"a fuoco automatica venga interrotto</p></body></html>"
+"<html><head/><body><p>Corsa massima in passi prima che il procedimento di "
+"messa a fuoco automatica venga interrotto</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/opsfocusmechanics.ui:393
@@ -21888,29 +21888,29 @@ msgid ""
 "doing a 2nd pass,  moves straight to the minimum HFR value calculated.  Use "
 "Curve Fit of Hyperbola or Parabola.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleziona l'algoritmo del processo di messa a fuoco:</"
-"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Iterativo</span>: sposta il "
-"focheggiatore con passi discreti inizialmente decisi dalla dimensione del "
-"passo. Una volta calcolata una pendenza della curva, vengono calcolate "
-"ulteriori dimensioni del passo in modo da raggiungere la soluzione ottimale. "
-"L'algoritmo si interrompe quando l'HFR misurato rientra nella tolleranza "
-"percentuale dell'HFR minimo registrato nella procedura.</li><li style=\" "
-"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Polinomiale</span>: si inizia con il metodo iterativo. Al passaggio "
-"all'altro lato della curva V vengono calcolati i coefficienti di adattamento "
-"polinomiale, insieme alla possibile soluzione minima. Questo algoritmo può "
-"essere più veloce dell'approccio puramente iterativo se viene fornito un "
-"buon insieme di dati.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Lineare</span>: i campioni si "
-"concentrano verso l'interno in modo regolare, usando 2 passaggi. L'algoritmo "
-"può anche essere lento ma è più resistente alle reazioni. Inizia con il "
-"focheggiatore posizionato vicino a una buona messa a fuoco. Imposta la "
-"dimensione del passo iniziale e la corsa massima per l'intervallo di "
+"<html><head/><body><p>Seleziona l'algoritmo del procedimento di messa a "
+"fuoco:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Iterativo</span>: "
+"sposta il focheggiatore con passi discreti inizialmente decisi dalla "
+"dimensione del passo. Una volta calcolata una pendenza della curva, vengono "
+"calcolate ulteriori dimensioni del passo in modo da raggiungere la soluzione "
+"ottimale. L'algoritmo si interrompe quando l'HFR misurato rientra nella "
+"tolleranza percentuale dell'HFR minimo registrato nella procedura.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Polinomiale</span>: si inizia con il metodo iterativo. Al "
+"passaggio all'altro lato della curva V vengono calcolati i coefficienti di "
+"adattamento polinomiale, insieme alla possibile soluzione minima. Questo "
+"algoritmo può essere più veloce dell'approccio puramente iterativo se viene "
+"fornito un buon insieme di dati.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Lineare</span>: i campioni "
+"si concentrano verso l'interno in modo regolare, usando 2 passaggi. "
+"L'algoritmo può anche essere lento ma è più resistente alle reazioni. Inizia "
+"con il focheggiatore posizionato vicino a una buona messa a fuoco. Imposta "
+"la dimensione del passo iniziale e la corsa massima per l'intervallo di "
 "campionamento e l'intervallo desiderati attorno alla posizione di messa a "
 "fuoco iniziale. La tolleranza dovrebbe aggirarsi intorno al 5%.</li><li "
 "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
@@ -24242,7 +24242,7 @@ msgstr ""
 #: ekos/guide/opscalibration.ui:398
 #, kde-format
 msgid "Store and reuse guide calibration when possible."
-msgstr "Memorizza e riutilizza la calibrazione della guida quando possibile."
+msgstr "Memorizza e riutilizza la calibrazione della guida quando possibile"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:405
@@ -44005,7 +44005,7 @@ msgstr "Profilo di estrazione sorgente della messa a fuoco"
 #: kstars.kcfg:2522
 #, kde-format
 msgid "Focus process algorithm"
-msgstr "Algoritmo del processo di messa a fuoco"
+msgstr "Algoritmo del procedimento di messa a fuoco"
 
 #. i18n: ectx: whatsthis, entry (FocusCurveFit), group (Focus)
 #: kstars.kcfg:2526
@@ -44051,8 +44051,8 @@ msgstr ""
 #, kde-format
 msgid "How many frames to average over at each step in the Autofocus process."
 msgstr ""
-"Quanti fotogrammi calcolare in media in ogni fase del processo di messa a "
-"fuoco automatica."
+"Quanti fotogrammi calcolare in media in ogni fase del procedimento di messa "
+"a fuoco automatica."
 
 #. i18n: ectx: whatsthis, entry (focusHFRFramesCount), group (Focus)
 #: kstars.kcfg:2554
@@ -45451,7 +45451,7 @@ msgstr ""
 msgid "Reverse DEC on pier-side change when reusing calibration."
 msgstr ""
 "Inverti DEC sul cambio dello stato di puntamento quando riutilizzi la "
-"calibrazione."
+"calibrazione"
 
 #. i18n: ectx: label, entry (GuideCalibrationBacklash), group (Scheduler)
 #: kstars.kcfg:3400

@@ -2439,7 +2439,7 @@ msgstr "短轴:"
 #: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:107
 #, kde-format
 msgid "Misc"
-msgstr "杂项"
+msgstr "其他"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_3)
@@ -23252,7 +23252,7 @@ msgstr ""
 #: ekos/guide/opsgpg.ui:81
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
-msgstr "启用在导星选项卡上的 GPG，使用赤经导星算法的下拉菜单。"
+msgstr "在导星标签页上启用 GPG，使用赤经导星算法的下拉菜单"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -23664,7 +23664,7 @@ msgstr ""
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">GPG</span>: (仅适用赤径) GPG "
 "算法尝试预测周期性误差和线性漂移。它使用此处的激进度、最小值和最大值参数，以"
-"及单独的 GPG 选项卡中的更多参数。不应用滞后和积分增益。</li></ul></body></"
+"及单独的 GPG 标签页中的更多参数。不应用滞后和积分增益。</li></ul></body></"
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
