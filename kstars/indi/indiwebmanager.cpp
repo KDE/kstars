@@ -326,10 +326,14 @@ bool syncProfile(const QSharedPointer<ProfileInfo> &pi)
             profileScripts = doc.array();
     }
 
-    // Always update profile info with port and driver_source (include scripts if parsed successfully)
+    // Always update profile info with port, driver_source and autoconnect
+    // (include scripts if parsed successfully).
+    // autoconnect must be included so that the web manager can honour the
+    // KStars profile setting when it starts the INDI server.
     url = QUrl(QString("http://%1:%2/api/profiles/%3").arg(pi->host).arg(QString::number(pi->INDIWebManagerPort)).arg(
                    pi->name));
-    QJsonObject profileObject{ { "port", pi->port }, {"driver_source", pi->driverSource} };
+    QJsonObject profileObject{ { "port", pi->port }, {"driver_source", pi->driverSource},
+        {"autoconnect", pi->autoConnect ? 1 : 0} };
     if (!profileScripts.isEmpty())
         profileObject["scripts"] = profileScripts;
 
