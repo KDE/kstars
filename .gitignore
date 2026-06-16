@@ -96,3 +96,4 @@ unitybuild_*.cpp
 
 # Test folder
 /Testing/
+kstars/data/citydb.sqlite

@@ -6,10 +6,34 @@ else(APPLE)
 	set(KSTARS_DATADIR "${KDE_INSTALL_DATADIR}")
 endif(APPLE)
 
+# Build citydb.sqlite from TSV files at build time
+find_package(Python3 REQUIRED)
+set(GEN_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate-citydb.py)
+set(CITYDB_SQLITE ${CMAKE_CURRENT_BINARY_DIR}/citydb.sqlite)
+set(CITYDB_TSV ${CMAKE_CURRENT_SOURCE_DIR}/citydb.tsv)
+
+add_custom_command(
+    OUTPUT ${CITYDB_SQLITE}
+    COMMAND ${Python3_EXECUTABLE} ${GEN_SCRIPT} ${CITYDB_TSV} --sqlite ${CITYDB_SQLITE}
+    DEPENDS ${GEN_SCRIPT} ${CITYDB_TSV}
+    COMMENT "Generating city database..."
+    VERBATIM
+)
+add_custom_target(generate_citydb ALL DEPENDS ${CITYDB_SQLITE})
+
+if(BUILD_TESTING)
+    add_test(NAME generate_citydb_tests
+        COMMAND ${Python3_EXECUTABLE} -m unittest discover
+                -s ${CMAKE_CURRENT_SOURCE_DIR}/tools
+                -p "test-*.py"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tools)
+    set_tests_properties(generate_citydb_tests PROPERTIES LABELS "stable")
+endif()
+
 install(FILES
     kstars.png
     geomap.jpg
-    citydb.sqlite
+    ${CITYDB_SQLITE}
     skycultures/skycultures.sqlite
     stars.dat
     starnames.dat namedstars.dat unnamedstars.dat
