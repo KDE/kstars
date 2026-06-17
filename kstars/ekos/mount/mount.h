@@ -226,7 +226,7 @@ class Mount : public QWidget, public Ui::Mount
              * @param DEC Declination in degrees.
              * @return true if the command is sent successfully, false otherwise.
              */
-        Q_INVOKABLE Q_SCRIPTABLE bool slew(double RA, double DEC);
+        Q_INVOKABLE Q_SCRIPTABLE bool slew(double RA, double DEC, bool isJ2000 = false);
 
         /** DBUS interface function.
              * Slew the mount to the target. Target name must be valid in KStars.
@@ -241,7 +241,7 @@ class Mount : public QWidget, public Ui::Mount
              * @param DEC Declination in degrees.
              * @return true if the command is sent successfully, false otherwise.
              */
-        Q_INVOKABLE Q_SCRIPTABLE bool sync(double RA, double DEC);
+        Q_INVOKABLE Q_SCRIPTABLE bool sync(double RA, double DEC, bool isJ2000 = false);
 
         /** DBUS interface function.
              * Sync the mount to the target. Target name must be valid in KStars.
