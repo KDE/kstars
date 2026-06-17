@@ -774,10 +774,17 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
         mount->setTrackEnabled(payload["enabled"].toBool());
     else if (command == commands[MOUNT_SYNC_RADE])
     {
-        mount->setJ2000Enabled(payload["isJ2000"].toBool());
+        const bool isJ2000 = payload["isJ2000"].toBool();
         auto ra = dms::fromString(payload["ra"].toString(), false);
         auto de = dms::fromString(payload["de"].toString(), true);
-        mount->sync(ra.Hours(), de.Degrees());
+        if (isJ2000)
+        {
+            SkyPoint coords(ra, de);
+            coords.apparentCoord(static_cast<long double>(J2000), KStarsData::Instance()->ut().djd());
+            mount->sync(coords.ra().Hours(), coords.dec().Degrees());
+        }
+        else
+            mount->sync(ra.Hours(), de.Degrees());
     }
     else if (command == commands[MOUNT_SYNC_TARGET])
     {
@@ -785,10 +792,17 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[MOUNT_GOTO_RADE])
     {
-        mount->setJ2000Enabled(payload["isJ2000"].toBool());
+        const bool isJ2000 = payload["isJ2000"].toBool();
         auto ra = dms::fromString(payload["ra"].toString(), false);
         auto de = dms::fromString(payload["de"].toString(), true);
-        mount->slew(ra.Hours(), de.Degrees());
+        if (isJ2000)
+        {
+            SkyPoint coords(ra, de);
+            coords.apparentCoord(static_cast<long double>(J2000), KStarsData::Instance()->ut().djd());
+            mount->slew(coords.ra().Hours(), coords.dec().Degrees());
+        }
+        else
+            mount->slew(ra.Hours(), de.Degrees());
     }
     else if (command == commands[MOUNT_GOTO_TARGET])
     {
@@ -1920,26 +1934,26 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
         switch (objectType)
         {
-                // Stars
+            // Stars
             case SkyObject::STAR:
             case SkyObject::CATALOG_STAR:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
                 break;
-                // Planets & Moon
+            // Planets & Moon
             case SkyObject::PLANET:
             case SkyObject::MOON:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
                 break;
-                // Comets & Asteroids
+            // Comets & Asteroids
             case SkyObject::COMET:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
                 break;
             case SkyObject::ASTEROID:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
                 break;
-                // Clusters
+            // Clusters
             case SkyObject::OPEN_CLUSTER:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::OPEN_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
@@ -1948,7 +1962,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GLOBULAR_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
                 break;
-                // Nebuale
+            // Nebuale
             case SkyObject::GASEOUS_NEBULA:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GASEOUS_NEBULA, objectMaxMagnitude));
                 isDSO = true;
