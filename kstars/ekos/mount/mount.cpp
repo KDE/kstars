@@ -982,28 +982,17 @@ bool Mount::syncTarget(const QString &target)
     return false;
 }
 
-bool Mount::slew(double RA, double DEC, bool isJ2000)
+bool Mount::slew(double RA, double DEC)
 {
     if (m_Mount == nullptr || m_Mount->isConnected() == false)
         return false;
 
     // calculate the new target
     targetPosition = new SkyPoint(RA, DEC);
-
-    if (isJ2000)
-    {
-        // Input coordinates are J2000. ra0/dec0 are J2000 (preserved).
-        // Convert ra/dec from J2000 to JNow for the mount slew.
-        targetPosition->apparentCoord(static_cast<long double>(J2000), KStarsData::Instance()->ut().djd());
-    }
-    else
-    {
-        // Input coordinates are JNow. Compute ra0/dec0 as J2000 equivalents.
-        SkyPoint J2000Coord(targetPosition->ra(), targetPosition->dec());
-        J2000Coord.catalogueCoord(KStarsData::Instance()->ut().djd());
-        targetPosition->setRA0(J2000Coord.ra());
-        targetPosition->setDec0(J2000Coord.dec());
-    }
+    SkyPoint J2000Coord(targetPosition->ra(), targetPosition->dec());
+    J2000Coord.catalogueCoord(KStarsData::Instance()->ut().djd());
+    targetPosition->setRA0(J2000Coord.ra());
+    targetPosition->setDec0(J2000Coord.dec());
 
     mf_state->setTargetPosition(targetPosition);
     mf_state->resetMeridianFlip();
@@ -1033,18 +1022,10 @@ SkyPoint Mount::currentTarget()
     return telescopeCoord;
 }
 
-bool Mount::sync(double RA, double DEC, bool isJ2000)
+bool Mount::sync(double RA, double DEC)
 {
     if (m_Mount == nullptr || m_Mount->isConnected() == false)
         return false;
-
-    if (isJ2000)
-    {
-        // Input coordinates are J2000. Convert to JNow for the mount sync.
-        SkyPoint coords(RA, DEC);
-        coords.apparentCoord(static_cast<long double>(J2000), KStarsData::Instance()->ut().djd());
-        return m_Mount->Sync(coords.ra().Hours(), coords.dec().Degrees());
-    }
 
     return m_Mount->Sync(RA, DEC);
 }
