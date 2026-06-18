@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 02:05+0000\n"
+"POT-Creation-Date: 2026-06-18 02:08+0000\n"
 "PO-Revision-Date: 2026-06-13 18:44+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -18857,12 +18857,12 @@ msgstr "In linea"
 msgid "Offline"
 msgstr "Non in linea"
 
-#: ekos/ekoslive/message.cpp:795
+#: ekos/ekoslive/message.cpp:809
 #, kde-format
 msgid "target"
 msgstr "destinazione"
 
-#: ekos/ekoslive/message.cpp:1090
+#: ekos/ekoslive/message.cpp:1104
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Importazione del mosaico non riuscita."

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 02:05+0000\n"
+"POT-Creation-Date: 2026-06-18 02:08+0000\n"
 "PO-Revision-Date: 2026-05-23 14:24+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -18682,12 +18682,12 @@ msgstr "Online"
 msgid "Offline"
 msgstr "Offline"
 
-#: ekos/ekoslive/message.cpp:795
+#: ekos/ekoslive/message.cpp:809
 #, kde-format
 msgid "target"
 msgstr "doel"
 
-#: ekos/ekoslive/message.cpp:1090
+#: ekos/ekoslive/message.cpp:1104
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mozaïek importeren is mislukt."

@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-17 02:05+0000\n"
-"PO-Revision-Date: 2026-05-23 06:01-0300\n"
+"POT-Creation-Date: 2026-06-18 02:08+0000\n"
+"PO-Revision-Date: 2026-06-17 05:48-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.04.1\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -18767,12 +18767,12 @@ msgstr "Conectado"
 msgid "Offline"
 msgstr "Desconectado"
 
-#: ekos/ekoslive/message.cpp:795
+#: ekos/ekoslive/message.cpp:809
 #, kde-format
 msgid "target"
 msgstr "alvo"
 
-#: ekos/ekoslive/message.cpp:1090
+#: ekos/ekoslive/message.cpp:1104
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Importação do mosaico falhou."
@@ -29413,6 +29413,9 @@ msgid ""
 "Warning: A job with name '%1' and the same sequence file already exists. "
 "This would cause both jobs to complete simultaneously due to shared storage."
 msgstr ""
+"Aviso: Já existe uma tarefa com o nome '%1' e o mesmo arquivo de sequência. "
+"Isso fará com que ambas as tarefas sejam concluídas simultaneamente devido "
+"ao armazenamento compartilhado."
 
 #: ekos/scheduler/scheduler.cpp:1118
 #, kde-format
