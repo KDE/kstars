@@ -15,14 +15,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-18 02:08+0000\n"
-"PO-Revision-Date: 2026-05-23 14:24+0200\n"
+"PO-Revision-Date: 2026-06-18 13:49+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.04.1\n"
+"X-Generator: Lokalize 26.04.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -29276,6 +29276,9 @@ msgid ""
 "Warning: A job with name '%1' and the same sequence file already exists. "
 "This would cause both jobs to complete simultaneously due to shared storage."
 msgstr ""
+"Waarschuwing: Er bestaat al een taak met de naam '%1' en hetzelfde "
+"sequentiebestand. Dit zou ertoe leiden dat beide taken tegelijkertijd worden "
+"voltooid vanwege gedeelde opslag."
 
 #: ekos/scheduler/scheduler.cpp:1118
 #, kde-format
