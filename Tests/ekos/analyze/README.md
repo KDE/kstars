@@ -1,59 +1,20 @@
-# Analyze Tests — Stub
+<!--
+SPDX-FileCopyrightText: 2026 Eric Dejouhanet <eric.dejouhanet@gmail.com>
+SPDX-License-Identifier: GPL-2.0-or-later
+-->
 
-This directory is a stub for tests of `kstars/ekos/analyze/`.
+# Analyze tests
 
-**No tests have been written yet.** See `Tests/README.md` for the full
-coverage gap analysis.
+`TestAnalyzeMetrics` covers the live Ekos Analyze OpenMetrics model and HTTP endpoint without requiring a display or connected astronomy equipment.
 
----
+The tests exercise session reset behavior, capture and focus totals, rolling guider RMS, mount/alignment/meridian-flip state, scheduler job labels, OpenMetrics escaping and filter cardinality limits. Endpoint coverage includes lifecycle, ephemeral and conflicting ports, `GET`/`HEAD`, health and error paths, fragmented requests, and the request-size limit.
 
-## Source subsystem
+`AnalyzeMetricsFixture` exposes deterministic samples on `0.0.0.0:9108`. The `integration` directory contains Prometheus and OpenTelemetry Collector configurations used for real ARM64 scrape checks.
 
-`kstars/ekos/analyze/` contains the **Ekos Analyze** panel — a post-session
-timeline viewer that parses KStars session log files (`.analyze`) and displays
-a graphical timeline of all events (capture, focus, guide, scheduler, mount,
-alignment) with statistics.
+Run the test from a configured build tree with:
 
-| Class | Source file | Responsibility |
-|---|---|---|
-| `Analyze` | `analyze.cpp` | Main panel: reads `.analyze` log, populates timeline |
-| `YAxisTool` | `yaxistool.cpp` | Interactive Y-axis range editor for the timeline plots |
-
----
-
-## What to test
-
-### Log parsing (no display required)
-
-The `.analyze` file format is a simple line-oriented text log.  The parser
-extracts events such as:
-
-```
-2024-01-15T22:30:00 captureComplete exposure=120.0 filter=Luminance hfr=2.1 ...
-2024-01-15T22:31:00 guideStats ra=0.12 dec=0.08 rms=0.14 ...
+```sh
+ctest --test-dir build -R TestAnalyzeMetrics --output-on-failure
 ```
 
-Tests should:
-
-1. **Parse a synthetic `.analyze` file** — verify that each event line is
-   converted to the correct segment type with the correct start time, end
-   time, and metadata fields.
-2. **Statistics** — median HFR over a session, peak guide RMS, total
-   captured exposure time.
-3. **Empty file** — no crash on an empty or minimal log.
-4. **Corrupt lines** — malformed lines are skipped without aborting the parse.
-
-### `YAxisTool` (no display required for math)
-
-- Range clamping and tick spacing calculation for various data ranges.
-
----
-
-## Adding tests
-
-1. Create a small synthetic `.analyze` fixture file.
-2. Create `test_analyze.cpp`.
-3. Uncomment and fill in the `ADD_EXECUTABLE` / `ADD_TEST` block in
-   `CMakeLists.txt`.
-4. `Tests/ekos/CMakeLists.txt` already has `add_subdirectory(analyze)`.
-5. Update this README with the test inventory.
+Analyze log parsing and timeline rendering remain separate coverage gaps because they require the full Analyze widget and representative `.analyze` fixtures.

@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2026 Eric Dejouhanet <eric.dejouhanet@gmail.com>
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+receivers:
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: kstars-ekos-integration
+          scrape_interval: 1s
+          static_configs:
+            - targets: [metrics-fixture:9108]
+
+exporters:
+  prometheus:
+    endpoint: 0.0.0.0:9465
+
+service:
+  pipelines:
+    metrics:
+      receivers: [prometheus]
+      exporters: [prometheus]
