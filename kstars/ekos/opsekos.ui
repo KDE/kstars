@@ -536,6 +536,132 @@
     </item>
    </layout>
   </widget>
+  <widget class="QWidget" name="telemetryTab">
+   <attribute name="title">
+    <string>Telemetry</string>
+   </attribute>
+   <layout class="QVBoxLayout" name="telemetryTabLayout">
+    <property name="spacing">
+     <number>3</number>
+    </property>
+    <property name="leftMargin">
+     <number>3</number>
+    </property>
+    <property name="topMargin">
+     <number>3</number>
+    </property>
+    <property name="rightMargin">
+     <number>3</number>
+    </property>
+    <property name="bottomMargin">
+     <number>3</number>
+    </property>
+    <item>
+     <widget class="QGroupBox" name="openMetricsGroupBox">
+      <property name="title">
+       <string>Prometheus / OpenTelemetry</string>
+      </property>
+      <layout class="QVBoxLayout" name="openMetricsLayout">
+       <item>
+        <widget class="QCheckBox" name="kcfg_OpenMetricsEnabled">
+         <property name="text">
+          <string>Enable OpenMetrics endpoint</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QFormLayout" name="openMetricsFormLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="openMetricsAddressLabel">
+           <property name="text">
+            <string>Bind address:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="kcfg_OpenMetricsBindAddress">
+           <property name="toolTip">
+            <string>Use 127.0.0.1 for local access or 0.0.0.0 for all IPv4 interfaces on a trusted network.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="openMetricsPortLabel">
+           <property name="text">
+            <string>Port:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="kcfg_OpenMetricsPort">
+           <property name="minimum">
+            <number>1024</number>
+           </property>
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="openMetricsStatusLayout">
+         <item>
+          <widget class="KLed" name="openMetricsStatusLed" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>16</width>
+             <height>16</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="openMetricsStatusLabel">
+           <property name="text">
+            <string>Endpoint disabled</string>
+           </property>
+           <property name="textInteractionFlags">
+            <set>Qt::TextSelectableByMouse</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="openMetricsSecurityLabel">
+         <property name="text">
+          <string>This endpoint has no authentication or encryption. Only expose it on a trusted network.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <spacer name="telemetryVerticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections/>

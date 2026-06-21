@@ -5,6 +5,7 @@
 */
 
 #include "analyze.h"
+#include "openmetricsserver.h"
 #include "qtcompat.h"
 
 #include <knotification.h>
@@ -29,6 +30,7 @@
 #include <version.h>
 #include <QDesktopServices>
 #include <QFileDialog>
+#include <QHostAddress>
 
 #include <QStyle>
 #include <QStyleOptionFrame>
@@ -415,7 +417,7 @@ bool Analyze::eventFilter(QObject *obj, QEvent *ev)
     return false;
 }
 
-Analyze::Analyze() : m_YAxisTool(this)
+Analyze::Analyze() : m_YAxisTool(this), m_metrics(QStringLiteral(KSTARS_VERSION))
 {
     setupUi(this);
 
@@ -704,6 +706,48 @@ Analyze::~Analyze()
     // TODO:
     // We should write out to disk any sessions that haven't terminated
     // (e.g. capture, focus, guide)
+}
+
+bool Analyze::startOpenMetrics(const QString &bindAddress, quint16 port, QString *error)
+{
+    QHostAddress address;
+    if (!address.setAddress(bindAddress))
+    {
+        if (error)
+            *error = i18n("Invalid listen address: %1", bindAddress);
+        return false;
+    }
+
+    if (!m_openMetricsServer)
+    {
+        m_openMetricsServer = std::make_unique<OpenMetricsServer>([this]()
+        {
+            return m_metrics.render(QDateTime::currentMSecsSinceEpoch());
+        }, this);
+    }
+    return m_openMetricsServer->restart(address, port, error);
+}
+
+void Analyze::stopOpenMetrics()
+{
+    if (m_openMetricsServer)
+        m_openMetricsServer->stop();
+    m_openMetricsServer.reset();
+}
+
+bool Analyze::isOpenMetricsListening() const
+{
+    return m_openMetricsServer && m_openMetricsServer->isListening();
+}
+
+QString Analyze::openMetricsBindAddress() const
+{
+    return m_openMetricsServer ? m_openMetricsServer->address().toString() : QString();
+}
+
+quint16 Analyze::openMetricsPort() const
+{
+    return m_openMetricsServer ? m_openMetricsServer->port() : 0;
 }
 
 void Analyze::setSelectedSession(const Session &s)
@@ -3046,6 +3090,7 @@ void Analyze::restart()
 void Analyze::startLog()
 {
     analyzeStartTime = QDateTime::currentDateTime();
+    m_metrics.reset(analyzeStartTime.toMSecsSinceEpoch());
     startTimeInitialized = true;
     if (runtimeDisplay)
         displayStartTime = analyzeStartTime;
@@ -3154,6 +3199,7 @@ void Analyze::captureStarting(double exposureSeconds, const QString &filter)
 {
     saveMessage("CaptureStarting",
                 QString("%1,%2").arg(QString::number(exposureSeconds, 'f', 3), filter));
+    m_metrics.captureStarting(QDateTime::currentMSecsSinceEpoch(), exposureSeconds, filter);
     processCaptureStarting(logTime(), exposureSeconds, filter);
 }
 
@@ -3187,6 +3233,7 @@ void Analyze::captureComplete(const QVariantMap &metadata)
                 .arg(starCount)
                 .arg(median)
                 .arg(QString::number(eccentricity, 'f', 3)));
+    m_metrics.captureComplete(QDateTime::currentMSecsSinceEpoch(), exposure, filter, hfr, starCount, median, eccentricity);
     if (runtimeDisplay && captureStartedTime >= 0)
         processCaptureComplete(logTime(), filename, exposure, filter, hfr, starCount, median, eccentricity);
 }
@@ -3224,6 +3271,7 @@ void Analyze::captureAborted(double exposureSeconds)
 {
     saveMessage("CaptureAborted",
                 QString("%1").arg(QString::number(exposureSeconds, 'f', 3)));
+    m_metrics.captureAborted(QDateTime::currentMSecsSinceEpoch(), captureStartedFilter);
     if (runtimeDisplay && captureStartedTime >= 0)
         processCaptureAborted(logTime(), exposureSeconds);
 }
@@ -3274,6 +3322,8 @@ void Analyze::autofocusStarting(double temperature, const QString &filter, const
                 .arg(QString::number(temperature, 'f', 1))
                 .arg(QString::number(reason))
                 .arg(reasonInfo));
+    m_metrics.autofocusStarting(QDateTime::currentMSecsSinceEpoch(), filter);
+    m_metrics.temperature(temperature);
     processAutofocusStarting(logTime(), temperature, filter, reason, reasonInfo);
 }
 
@@ -3302,6 +3352,8 @@ void Analyze::adaptiveFocusComplete(const QString &filter, double temperature, d
     saveMessage("AdaptiveFocusComplete", QString("%1,%2,%3,%4,%5,%6,%7,%8,%9,%10").arg(filter).arg(temperature, 0, 'f', 2)
                 .arg(tempTicks, 0, 'f', 2).arg(altitude, 0, 'f', 2).arg(altTicks, 0, 'f', 2).arg(prevPosError)
                 .arg(thisPosError).arg(totalTicks).arg(position).arg(focuserMoved ? 1 : 0));
+    m_metrics.adaptiveFocusComplete(QDateTime::currentMSecsSinceEpoch(), filter, totalTicks, position, focuserMoved);
+    m_metrics.temperature(temperature);
 
     if (runtimeDisplay)
         processAdaptiveFocusComplete(logTime(), filter, temperature, tempTicks, altitude, altTicks, prevPosError, thisPosError,
@@ -3366,6 +3418,13 @@ void Analyze::autofocusComplete(const double temperature, const QString &filter,
     else
         saveMessage("AutofocusComplete", QString("%1,%2,%3,%4,%5,%6,%7,%8").arg(temp, reason, reasonInfo, filter, points, weights,
                     curve, title));
+
+    auto metricsSession = FocusSession(0, 0, nullptr, true, temperature, filter, autofocusStartedReason,
+                                       reasonInfo, points, useWeights, curve, title,
+                                       AutofocusFailReason::FOCUS_FAIL_NONE, QString());
+    const double metricsPosition = metricsSession.positions.isEmpty() ? qQNaN() : metricsSession.focusPosition();
+    m_metrics.autofocusComplete(QDateTime::currentMSecsSinceEpoch(), filter, metricsPosition);
+    m_metrics.temperature(temperature);
 
     if (runtimeDisplay && autofocusStartedTime >= 0)
         processAutofocusCompleteV2(logTime(), temperature, filter, autofocusStartedReason, reasonInfo, points, useWeights, curve,
@@ -3440,6 +3499,7 @@ void Analyze::autofocusAborted(const QString &filter, const QString &points, con
     QString failReason = failReasonV.toString();
     saveMessage("AutofocusAborted", QString("%1,%2,%3,%4,%5,%6,%7,%8").arg(temperature, reason, reasonInfo, filter, points,
                 weights, failReason, failCodeInfo));
+    m_metrics.autofocusAborted(QDateTime::currentMSecsSinceEpoch(), filter);
     if (runtimeDisplay && autofocusStartedTime >= 0)
         processAutofocusAbortedV2(logTime(), autofocusStartedTemperature, filter, autofocusStartedReason, reasonInfo, points,
                                   useWeights, failCode, failCodeInfo);
@@ -3615,6 +3675,26 @@ void Analyze::guideState(Ekos::GuideState state)
 {
     QString str = getGuideStatusString(state);
     saveMessage("GuideState", str);
+    switch (convertGuideState(state))
+    {
+        case G_GUIDING:
+            m_metrics.guideState(QStringLiteral("guiding"));
+            break;
+        case G_CALIBRATING:
+            m_metrics.guideState(QStringLiteral("calibrating"));
+            break;
+        case G_SUSPENDED:
+            m_metrics.guideState(QStringLiteral("suspended"));
+            break;
+        case G_DITHERING:
+            m_metrics.guideState(QStringLiteral("dithering"));
+            break;
+        case G_IDLE:
+            m_metrics.guideState(QStringLiteral("idle"));
+            break;
+        case G_IGNORE:
+            break;
+    }
     if (runtimeDisplay)
         processGuideState(logTime(), str);
 }
@@ -3664,6 +3744,7 @@ void Analyze::newTemperature(double temperatureDelta, double temperature)
     if (temperature > -200 && temperature != lastTemperature)
     {
         saveMessage("Temperature", QString("%1").arg(QString::number(temperature, 'f', 3)));
+        m_metrics.temperature(temperature);
         lastTemperature = temperature;
         if (runtimeDisplay)
             processTemperature(logTime(), temperature);
@@ -3686,6 +3767,7 @@ void Analyze::resetTemperature()
 void Analyze::newTargetDistance(double targetDistance)
 {
     saveMessage("TargetDistance", QString("%1").arg(QString::number(targetDistance, 'f', 0)));
+    m_metrics.targetDistance(targetDistance);
     if (runtimeDisplay)
         processTargetDistance(logTime(), targetDistance);
 }
@@ -3707,6 +3789,7 @@ void Analyze::guideStats(double raError, double decError, int raPulse, int decPu
                 .arg(decPulse)
                 .arg(QString::number(snr, 'f', 3), QString::number(skyBg, 'f', 3))
                 .arg(numStars));
+    m_metrics.guideStats(QDateTime::currentMSecsSinceEpoch(), raError, decError, raPulse, decPulse, snr, skyBg, numStars);
 
     if (runtimeDisplay)
         processGuideStats(logTime(), raError, decError, raPulse, decPulse, snr, skyBg, numStars);
@@ -3781,6 +3864,7 @@ void Analyze::alignState(AlignState state)
 
     QString stateStr = getAlignStatusString(state);
     saveMessage("AlignState", stateStr);
+    m_metrics.alignState(getAlignStatusString(state, false));
     if (runtimeDisplay)
         processAlignState(logTime(), stateStr);
 }
@@ -3868,6 +3952,7 @@ void Analyze::mountState(ISD::Mount::Status state)
 {
     QString statusString = ISD::Mount::getMountStatusString(state);
     saveMessage("MountState", statusString);
+    m_metrics.mountState(ISD::Mount::getMountStatusString(state, false));
     if (runtimeDisplay)
         processMountState(logTime(), statusString);
 }
@@ -3926,6 +4011,7 @@ void Analyze::mountCoords(const SkyPoint &position, ISD::Mount::PierSide pierSid
                          QString::number(az, 'f', 4), QString::number(alt, 'f', 4))
                     .arg(pierSide)
                     .arg(QString::number(ha, 'f', 4)));
+        m_metrics.mountCoordinates(ra, dec, az, alt, pierSide, ha);
 
         if (runtimeDisplay)
             processMountCoords(logTime(), ra, dec, az, alt, pierSide, ha);
@@ -4013,6 +4099,7 @@ void Analyze::mountFlipStatus(MeridianFlipState::MeridianFlipMountState state)
 
     QString stateStr = MeridianFlipState::meridianFlipStatusString(state);
     saveMessage("MeridianFlipState", stateStr);
+    m_metrics.meridianFlipState(stateStr);
     if (runtimeDisplay)
         processMountFlipState(logTime(), stateStr);
 
@@ -4097,6 +4184,7 @@ QBrush Analyze::schedulerJobBrush(const QString &jobName, bool temporary)
 void Analyze::schedulerJobStarted(const QString &jobName)
 {
     saveMessage("SchedulerJobStart", jobName);
+    m_metrics.schedulerJobStarted(QDateTime::currentMSecsSinceEpoch(), jobName);
     if (runtimeDisplay)
         processSchedulerJobStarted(logTime(), jobName);
 
@@ -4105,6 +4193,7 @@ void Analyze::schedulerJobStarted(const QString &jobName)
 void Analyze::schedulerJobEnded(const QString &jobName, const QString &reason)
 {
     saveMessage("SchedulerJobEnd", QString("%1,%2").arg(jobName, reason));
+    m_metrics.schedulerJobEnded(QDateTime::currentMSecsSinceEpoch());
     if (runtimeDisplay)
         processSchedulerJobEnded(logTime(), jobName, reason);
 }

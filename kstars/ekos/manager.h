@@ -118,12 +118,16 @@ class Manager : public QDialog, public Ui::Manager
             ekosOptionsWidget = ops;
             opsEkos = opsEkosPtr;
             updateMCPStatusLabel();
+            updateOpenMetricsStatusLabel();
         }
         void addObjectToScheduler(SkyObject *object);
 
         MCP::Server *mcpServer() const;
         void ensureMCPServer();
         void updateMCPStatusLabel();
+
+        void applyOpenMetricsSettings();
+        void updateOpenMetricsStatusLabel(const QString &error = QString());
 
         Scheduler *schedulerModule()
         {

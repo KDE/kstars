@@ -3952,4 +3952,18 @@
          <default>false</default>
       </entry>
    </group>
+   <group name="OpenMetrics">
+      <entry name="OpenMetricsEnabled" type="Bool">
+         <label>Enable the Ekos OpenMetrics endpoint</label>
+         <default>false</default>
+      </entry>
+      <entry name="OpenMetricsBindAddress" type="String">
+         <label>OpenMetrics endpoint bind address</label>
+         <default>127.0.0.1</default>
+      </entry>
+      <entry name="OpenMetricsPort" type="UInt">
+         <label>OpenMetrics endpoint port</label>
+         <default>9108</default>
+      </entry>
+   </group>
 </kcfg>

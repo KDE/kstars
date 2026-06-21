@@ -56,6 +56,14 @@ OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
     connect(kcfg_MCPEnabled, &QCheckBox::toggled, kcfg_MCPPort, &QSpinBox::setEnabled);
     kcfg_MCPPort->setEnabled(kcfg_MCPEnabled->isChecked());
 
+    auto setOpenMetricsControlsEnabled = [this](bool enabled)
+    {
+        kcfg_OpenMetricsBindAddress->setEnabled(enabled);
+        kcfg_OpenMetricsPort->setEnabled(enabled);
+    };
+    connect(kcfg_OpenMetricsEnabled, &QCheckBox::toggled, this, setOpenMetricsControlsEnabled);
+    setOpenMetricsControlsEnabled(kcfg_OpenMetricsEnabled->isChecked());
+
     // Live enable/disable the MCP server when the checkbox is toggled in the dialog
     connect(kcfg_MCPEnabled, &QCheckBox::toggled, this, [this](bool enabled)
     {
@@ -99,6 +107,11 @@ OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
                 else
                     mgr->updateMCPStatusLabel();
             }
+        });
+        connect(m_ConfigDialog, &KConfigDialog::settingsChanged, this, []()
+        {
+            if (auto *mgr = Ekos::Manager::Instance())
+                mgr->applyOpenMetricsSettings();
         });
     }
 
@@ -192,5 +205,29 @@ void OpsEkos::setMCPState(bool listening, quint16 port, const QString &error)
     {
         mcpStatusLed->setColor(Qt::gray);
         mcpStatusLed->setToolTip(i18n("Server is not running"));
+    }
+}
+
+void OpsEkos::setOpenMetricsState(bool listening, const QString &address, quint16 port, const QString &error)
+{
+    if (!error.isEmpty())
+    {
+        openMetricsStatusLed->setColor(Qt::red);
+        openMetricsStatusLed->setToolTip(error);
+        openMetricsStatusLabel->setText(error);
+    }
+    else if (listening)
+    {
+        openMetricsStatusLed->setColor(Qt::green);
+        const QString displayAddress = address.contains(QLatin1Char(':')) ? QStringLiteral("[%1]").arg(address) : address;
+        const QString endpoint = QStringLiteral("http://%1:%2/metrics").arg(displayAddress).arg(port);
+        openMetricsStatusLed->setToolTip(i18n("OpenMetrics endpoint is listening"));
+        openMetricsStatusLabel->setText(endpoint);
+    }
+    else
+    {
+        openMetricsStatusLed->setColor(Qt::gray);
+        openMetricsStatusLed->setToolTip(i18n("OpenMetrics endpoint is disabled"));
+        openMetricsStatusLabel->setText(i18n("Endpoint disabled"));
     }
 }

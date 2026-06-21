@@ -29,6 +29,8 @@ class OpsEkos : public QTabWidget, public Ui::OpsEkos
     public slots:
         void setMCPState(bool listening, quint16 port, const QString &error = QString());
         void refreshMCPTokens();
+        void setOpenMetricsState(bool listening, const QString &address = QString(), quint16 port = 0,
+                                 const QString &error = QString());
 
     private:
         KConfigDialog *m_ConfigDialog;

@@ -437,6 +437,9 @@ Manager::Manager(QWidget * parent) : QDialog(parent), m_networkManager(this)
     analyzeProcess.reset(new Ekos::Analyze());
     connect(analyzeProcess.get(), &Ekos::Analyze::newLog, this, &Ekos::Manager::updateLog);
 
+    if (Options::openMetricsEnabled())
+        applyOpenMetricsSettings();
+
     index = addModuleTab(EkosModule::Analyze, analyzeProcess.get(), QIcon(":/icons/ekos_analyze.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Analyze"));
 
@@ -630,6 +633,48 @@ void Manager::updateMCPStatusLabel()
         opsEkos->setMCPState(true, m_MCPServer->port());
     else
         opsEkos->setMCPState(false, 0);
+}
+
+void Manager::applyOpenMetricsSettings()
+{
+    if (!analyzeProcess)
+        return;
+    if (!Options::openMetricsEnabled())
+    {
+        analyzeProcess->stopOpenMetrics();
+        updateOpenMetricsStatusLabel();
+        return;
+    }
+
+    QString error;
+    if (!analyzeProcess->startOpenMetrics(Options::openMetricsBindAddress(),
+                                          static_cast<quint16>(Options::openMetricsPort()), &error))
+    {
+        qCWarning(KSTARS_EKOS) << "OpenMetrics endpoint failed to start:" << error;
+        if (analyzeProcess->isOpenMetricsListening())
+        {
+            error += i18n(" Previous endpoint remains active at %1:%2.",
+                          analyzeProcess->openMetricsBindAddress(), analyzeProcess->openMetricsPort());
+        }
+        updateOpenMetricsStatusLabel(error);
+        return;
+    }
+    updateOpenMetricsStatusLabel();
+}
+
+void Manager::updateOpenMetricsStatusLabel(const QString &error)
+{
+    if (!opsEkos)
+        return;
+    if (!error.isEmpty())
+    {
+        opsEkos->setOpenMetricsState(false, QString(), 0, error);
+        return;
+    }
+    if (analyzeProcess && analyzeProcess->isOpenMetricsListening())
+        opsEkos->setOpenMetricsState(true, analyzeProcess->openMetricsBindAddress(), analyzeProcess->openMetricsPort());
+    else
+        opsEkos->setOpenMetricsState(false);
 }
 
 MCP::Server *Manager::mcpServer() const

@@ -289,6 +289,8 @@ if (INDI_FOUND)
 	        
             # Analyze
             ekos/analyze/analyze.cpp
+            ekos/analyze/analyzemetrics.cpp
+            ekos/analyze/openmetricsserver.cpp
             ekos/analyze/yaxistool.cpp
 
             # Scheduler

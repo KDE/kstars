@@ -8,6 +8,7 @@
 #define ANALYZE_H
 
 #include <memory>
+#include "analyzemetrics.h"
 #include "ekos/ekos.h"
 #include "ekos/mount/mount.h"
 #include "indi/indimount.h"
@@ -24,6 +25,7 @@ namespace Ekos
 {
 
 class RmsFilter;
+class OpenMetricsServer;
 
 /**
  *@class Analyze
@@ -186,6 +188,12 @@ class Analyze : public QWidget, public Ui::Analyze
         // .analyze file that's already open and start writing a new .analyze file.
         // All graphics will be reset such that the session begins "now".
         void restart();
+
+        bool startOpenMetrics(const QString &bindAddress, quint16 port, QString *error = nullptr);
+        void stopOpenMetrics();
+        bool isOpenMetricsListening() const;
+        QString openMetricsBindAddress() const;
+        quint16 openMetricsPort() const;
 
         void clearLog();
         QStringList logText()
@@ -497,6 +505,9 @@ class Analyze : public QWidget, public Ui::Analyze
         QString logFilename { "" };
         QSharedPointer<QFile> logFile;
         bool logInitialized { false };
+
+        AnalyzeMetrics m_metrics;
+        std::unique_ptr<OpenMetricsServer> m_openMetricsServer;
 
         // These define the view for the timeline and stats plots.
         // The plots start plotStart seconds from the start of the session, and
