@@ -1,0 +1,214 @@
+{
+  "__copyright": "SPDX-FileCopyrightText: 2026 Eric Dejouhanet <eric.dejouhanet@gmail.com>",
+  "__license": "SPDX-License-Identifier: GPL-2.0-or-later",
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "annotations": {
+    "list": []
+  },
+  "description": "Live Ekos Analyze session telemetry exported by KStars.",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
+      "id": 1,
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto", "wideLayout": true },
+      "targets": [{ "expr": "kstars_ekos_session_elapsed_seconds{job=~\"$job\",instance=~\"$instance\"}", "refId": "A" }],
+      "title": "Session elapsed",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
+      "id": 2,
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto", "wideLayout": true },
+      "targets": [{ "expr": "sum(kstars_ekos_capture_exposure_seconds_total{job=~\"$job\",instance=~\"$instance\"})", "refId": "A" }],
+      "title": "Collected exposure",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
+      "id": 3,
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "auto", "wideLayout": true },
+      "targets": [{ "expr": "sum(kstars_ekos_capture_results_total{job=~\"$job\",instance=~\"$instance\",result=\"completed\"})", "refId": "A" }],
+      "title": "Completed captures",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 },
+      "id": 4,
+      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "auto", "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "name", "wideLayout": true },
+      "targets": [{ "expr": "kstars_ekos_capture_filter_info{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "{{filter}}", "refId": "A" }],
+      "title": "Current filter",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "gridPos": { "h": 4, "w": 8, "x": 16, "y": 0 },
+      "id": 5,
+      "options": { "colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "horizontal", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "name", "wideLayout": true },
+      "targets": [{ "expr": "kstars_ekos_scheduler_job_info{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "{{job_name}}", "refId": "A" }],
+      "title": "Active scheduler job",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": {}, "overrides": [{ "matcher": { "id": "byName", "options": "HFR" }, "properties": [{ "id": "custom.axisPlacement", "value": "left" }] }] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "id": 6,
+      "options": { "legend": { "calcs": ["lastNotNull", "mean"], "displayMode": "table", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "multi", "sort": "none" } },
+      "targets": [
+        { "expr": "kstars_ekos_capture_hfr{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "HFR", "refId": "A" },
+        { "expr": "kstars_ekos_capture_eccentricity{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Eccentricity", "refId": "B" },
+        { "expr": "kstars_ekos_capture_detected_stars{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Detected stars", "refId": "C" }
+      ],
+      "title": "Capture quality",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": { "unit": "arcsec" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "id": 7,
+      "options": { "legend": { "calcs": ["lastNotNull", "mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "multi", "sort": "none" } },
+      "targets": [
+        { "expr": "kstars_ekos_guide_ra_error_arcseconds{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "RA", "refId": "A" },
+        { "expr": "kstars_ekos_guide_dec_error_arcseconds{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "DEC", "refId": "B" },
+        { "expr": "kstars_ekos_guide_drift_arcseconds{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Drift", "refId": "C" },
+        { "expr": "kstars_ekos_guide_rms_arcseconds{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "RMS", "refId": "D" },
+        { "expr": "kstars_ekos_guide_capture_rms_arcseconds{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Capture RMS", "refId": "E" }
+      ],
+      "title": "Guiding error",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "id": 8,
+      "options": { "legend": { "calcs": ["lastNotNull"], "displayMode": "table", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "multi", "sort": "none" } },
+      "targets": [
+        { "expr": "kstars_ekos_guide_ra_pulse_milliseconds{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "RA pulse (ms)", "refId": "A" },
+        { "expr": "kstars_ekos_guide_dec_pulse_milliseconds{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "DEC pulse (ms)", "refId": "B" },
+        { "expr": "kstars_ekos_guide_signal_to_noise_ratio{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "SNR", "refId": "C" },
+        { "expr": "kstars_ekos_guide_detected_stars{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Stars", "refId": "D" }
+      ],
+      "title": "Guide corrections and signal",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
+      "id": 9,
+      "options": { "legend": { "calcs": ["lastNotNull"], "displayMode": "table", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "multi", "sort": "none" } },
+      "targets": [
+        { "expr": "kstars_ekos_focus_position_steps{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Position (steps)", "refId": "A" },
+        { "expr": "kstars_ekos_adaptive_focus_adjustment_steps{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Adjustment (steps)", "refId": "B" },
+        { "expr": "kstars_ekos_focuser_temperature_celsius{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Temperature (°C)", "refId": "C" }
+      ],
+      "title": "Focus and temperature",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": { "unit": "degree" }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 20 },
+      "id": 10,
+      "options": { "legend": { "calcs": ["lastNotNull"], "displayMode": "table", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "multi", "sort": "none" } },
+      "targets": [
+        { "expr": "kstars_ekos_mount_altitude_degrees{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Altitude", "refId": "A" },
+        { "expr": "kstars_ekos_mount_azimuth_degrees{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Azimuth", "refId": "B" },
+        { "expr": "kstars_ekos_mount_hour_angle_degrees{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Hour angle", "refId": "C" }
+      ],
+      "title": "Mount coordinates",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": { "custom": { "fillOpacity": 70, "lineWidth": 0 }, "mappings": [{ "options": { "0": { "color": "transparent", "text": "Inactive" }, "1": { "color": "green", "text": "Active" } }, "type": "value" }] }, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 20 },
+      "id": 11,
+      "options": { "alignValue": "left", "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true }, "mergeValues": true, "rowHeight": 0.9, "showValue": "never", "tooltip": { "mode": "single", "sort": "none" } },
+      "targets": [
+        { "expr": "kstars_ekos_guide_state{job=~\"$job\",instance=~\"$instance\"} == 1", "legendFormat": "Guide: {{state}}", "refId": "A" },
+        { "expr": "kstars_ekos_mount_state{job=~\"$job\",instance=~\"$instance\"} == 1", "legendFormat": "Mount: {{state}}", "refId": "B" },
+        { "expr": "kstars_ekos_align_state{job=~\"$job\",instance=~\"$instance\"} == 1", "legendFormat": "Align: {{state}}", "refId": "C" },
+        { "expr": "kstars_ekos_meridian_flip_state{job=~\"$job\",instance=~\"$instance\"} == 1", "legendFormat": "Flip: {{state}}", "refId": "D" }
+      ],
+      "title": "Ekos state history",
+      "type": "state-timeline"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 28 },
+      "id": 12,
+      "options": { "legend": { "calcs": ["lastNotNull"], "displayMode": "table", "placement": "bottom", "showLegend": true }, "tooltip": { "mode": "multi", "sort": "none" } },
+      "targets": [
+        { "expr": "kstars_ekos_capture_active{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Capture active", "refId": "A" },
+        { "expr": "kstars_ekos_autofocus_active{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Autofocus active", "refId": "B" },
+        { "expr": "kstars_ekos_scheduler_job_active{job=~\"$job\",instance=~\"$instance\"}", "legendFormat": "Scheduler active", "refId": "C" }
+      ],
+      "title": "Session activity",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": ["kstars", "ekos", "astrophotography"],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+        "definition": "label_values(kstars_info, job)",
+        "includeAll": false,
+        "label": "Prometheus job",
+        "name": "job",
+        "query": { "query": "label_values(kstars_info, job)", "refId": "PrometheusVariableQueryEditor-VariableQuery" },
+        "refresh": 1,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+        "definition": "label_values(kstars_info{job=~\"$job\"}, instance)",
+        "includeAll": false,
+        "label": "KStars instance",
+        "name": "instance",
+        "query": { "query": "label_values(kstars_info{job=~\"$job\"}, instance)", "refId": "PrometheusVariableQueryEditor-VariableQuery" },
+        "refresh": 1,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "KStars Ekos Observation",
+  "uid": "kstars-ekos-observation",
+  "version": 1,
+  "weekStart": ""
+}

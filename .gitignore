@@ -93,6 +93,7 @@ unitybuild_*.cpp
 .cache
 .idea
 /cmake-build*
+/build-*/
 
 # Test folder
 /Testing/

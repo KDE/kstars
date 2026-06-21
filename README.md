@@ -39,6 +39,8 @@ README.customize:   Advanced customization options
 README.images:      Copyright information for images used in KStars.
 README.i18n:        Instructions for translators
 
+Ekos Prometheus/OpenTelemetry setup examples and a Grafana dashboard are available in [`examples/observability`](examples/observability/README.md).
+
 ## Development
 
 Code can be cloned, viewed and merge requests can be made via the [KStars repository](https://invent.kde.org/education/kstars). If you are new to remote git repositories, please see the Git Tips section below.
