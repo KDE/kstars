@@ -3938,4 +3938,18 @@
      <default>50</default>
    </entry>
    </group>
+   <group name="MCP">
+      <entry name="MCPEnabled" type="Bool">
+         <label>Enable MCP server</label>
+         <default>false</default>
+      </entry>
+      <entry name="MCPPort" type="UInt">
+         <label>MCP server port</label>
+         <default>8765</default>
+      </entry>
+      <entry name="MCPReadOnlyMode" type="Bool">
+         <label>Allow only read-only MCP tools</label>
+         <default>false</default>
+      </entry>
+   </group>
 </kcfg>

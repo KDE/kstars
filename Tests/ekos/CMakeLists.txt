@@ -10,6 +10,7 @@ add_subdirectory(observatory)
 add_subdirectory(analyze)
 add_subdirectory(mount)
 add_subdirectory(capture)
+add_subdirectory(mcp)
 
 # ── Require CFITSIO + INDI ───────────────────────────────────────────────────
 IF (CFITSIO_FOUND AND INDI_FOUND)

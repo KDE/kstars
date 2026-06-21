@@ -55,6 +55,8 @@
 #include "ekoslive/ekosliveclient.h"
 #include "ekoslive/message.h"
 #include "ekoslive/media.h"
+#include "mcp/mcpserver.h"
+#include "mcp/tools/ekostools.h"
 
 #include <basedevice.h>
 
@@ -203,6 +205,10 @@ Manager::Manager(QWidget * parent) : QDialog(parent), m_networkManager(this)
             }
         });
     }
+
+    // MCP server
+    if (Options::mCPEnabled())
+        ensureMCPServer();
 
     // Port Selector
     m_PortSelectorTimer.setInterval(500);
@@ -616,6 +622,43 @@ void Manager::hideEvent(QHideEvent * /*event*/)
 
 // Returns true if the url will result in a successful get.
 // Times out after 3 seconds.
+void Manager::updateMCPStatusLabel()
+{
+    if (!opsEkos)
+        return;
+    if (m_MCPServer && m_MCPServer->isListening())
+        opsEkos->setMCPState(true, m_MCPServer->port());
+    else
+        opsEkos->setMCPState(false, 0);
+}
+
+MCP::Server *Manager::mcpServer() const
+{
+    return m_MCPServer.get();
+}
+
+void Manager::ensureMCPServer()
+{
+    if (!m_MCPServer)
+    {
+        m_MCPServer = std::make_unique<MCP::Server>(this);
+        MCP::Tools::initEkosTools(m_MCPServer->registry(), this);
+    }
+
+    if (m_MCPServer->isListening())
+        return;
+
+    if (!m_MCPServer->start(Options::mCPPort()))
+    {
+        qCWarning(KSTARS_EKOS) << "MCP server failed to start on port" << Options::mCPPort();
+        if (opsEkos)
+            opsEkos->setMCPState(false, 0, i18n("Failed: port in use"));
+        return;
+    }
+    qCInfo(KSTARS_EKOS) << "MCP server started on port" << Options::mCPPort();
+    updateMCPStatusLabel();
+}
+
 bool Manager::checkIfPageExists(const QString &urlString)
 {
     if (urlString.isEmpty())

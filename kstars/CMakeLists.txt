@@ -1261,6 +1261,7 @@ ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_mount_debug.h IDENTIFIER
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_scheduler_debug.h IDENTIFIER KSTARS_EKOS_SCHEDULER CATEGORY_NAME org.kde.kstars.ekos.scheduler)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_analyze_debug.h IDENTIFIER KSTARS_EKOS_ANALYZE CATEGORY_NAME org.kde.kstars.ekos.analyze)
 ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_observatory_debug.h IDENTIFIER KSTARS_EKOS_OBSERVATORY CATEGORY_NAME org.kde.kstars.ekos.observatory)
+ecm_qt_declare_logging_category(kstars_SRCS HEADER ekos_mcp_debug.h IDENTIFIER KSTARS_EKOS_MCP CATEGORY_NAME org.kde.kstars.ekos.mcp)
 
 ecm_qt_declare_logging_category(kstars_SRCS HEADER catalogsdb_debug.h IDENTIFIER KSTARS_CATALOGS CATEGORY_NAME org.kde.kstars.catalogdb)
 
@@ -1516,6 +1517,8 @@ if(INDI_FOUND)
         endif(BUILD_KSTARS_LITE)
         target_link_libraries(KStarsLib ${INDI_CLIENT_LIBRARIES} ${NOVA_LIBRARIES} z)
     endif(WIN32 OR ANDROID)
+
+    add_subdirectory(ekos/mcp)
 
 endif(INDI_FOUND)
 

@@ -37,6 +37,11 @@ class Message;
 class Media;
 }
 
+namespace MCP
+{
+class Server;
+}
+
 class DriverInfo;
 class ProfileInfo;
 class KPageWidgetItem;
@@ -112,8 +117,13 @@ class Manager : public QDialog, public Ui::Manager
         {
             ekosOptionsWidget = ops;
             opsEkos = opsEkosPtr;
+            updateMCPStatusLabel();
         }
         void addObjectToScheduler(SkyObject *object);
+
+        MCP::Server *mcpServer() const;
+        void ensureMCPServer();
+        void updateMCPStatusLabel();
 
         Scheduler *schedulerModule()
         {
@@ -611,6 +621,7 @@ class Manager : public QDialog, public Ui::Manager
         std::unique_ptr<Scheduler> schedulerProcess;
         std::unique_ptr<Observatory> observatoryProcess;
         std::unique_ptr<EkosLive::Client> ekosLiveClient;
+        std::unique_ptr<MCP::Server> m_MCPServer;
 
         bool m_LocalMode { true };
         bool m_isStarted { false };
