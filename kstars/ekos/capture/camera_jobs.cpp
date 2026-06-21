@@ -664,7 +664,13 @@ void Camera::syncGUIToJob(const QSharedPointer<SequenceJob> &job)
     captureFrameYN->setValue(roi.y());
     captureFrameWN->setValue(roi.width());
     captureFrameHN->setValue(roi.height());
-    FilterPosCombo->setCurrentIndex(job->getTargetFilter() - 1);
+    // In standalone mode, targetFilter index may be wrong (filterLabels() is empty during load),
+    // so resolve by filter name from the combo box contents instead.
+    const QString filterName = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
+    if (!filterName.isEmpty() && FilterPosCombo->findText(filterName) >= 0)
+        FilterPosCombo->setCurrentText(filterName);
+    else
+        FilterPosCombo->setCurrentIndex(job->getTargetFilter() - 1);
     captureCountN->setValue(job->getCoreProperty(SequenceJob::SJ_Count).toInt());
     captureDelayN->setValue(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000);
     targetNameT->setText(job->getCoreProperty(SequenceJob::SJ_TargetName).toString());
