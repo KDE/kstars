@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-20 02:06+0000\n"
-"PO-Revision-Date: 2026-06-05 13:43+0400\n"
+"POT-Creation-Date: 2026-06-22 02:12+0000\n"
+"PO-Revision-Date: 2026-06-21 20:13+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -591,7 +591,7 @@ msgstr "إلغاء"
 #: ekos/align/opsastrometryindexfiles.cpp:722
 #: ekos/align/opsastrometryindexfiles.cpp:743
 #: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:36
-#: ekos/manager.cpp:1540 ekos/manager.cpp:1555 ekos/manager.cpp:1571
+#: ekos/manager.cpp:1583 ekos/manager.cpp:1598 ekos/manager.cpp:1614
 #: ekos/scheduler/scheduler.cpp:1852
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:409
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:419
@@ -2047,7 +2047,7 @@ msgstr "الحالة:"
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:36
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:1065 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:1108 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1845
 #: ekos/scheduler/scheduler.cpp:2488 ekos/scheduler/scheduler.cpp:2659
 #: ekos/scheduler/scheduler.cpp:2667 ekos/scheduler/scheduler.cpp:2677
@@ -5282,7 +5282,7 @@ msgstr "احسب مجال الرؤية"
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
-#: ekos/manager.cpp:2447
+#: ekos/manager.cpp:2490
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
 #, kde-format
 msgid "Camera"
@@ -6178,7 +6178,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:275 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1371 ekos/manager.cpp:2395 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1371 ekos/manager.cpp:2438 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3611
 #, kde-format
@@ -6226,7 +6226,7 @@ msgstr "حمّل ودوّر..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
 #: ekos/align/polaralignmentassistant.ui:826 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/manager.cpp:249
+#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/manager.cpp:255
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
@@ -10605,7 +10605,7 @@ msgstr "خطأ ارتفاع المحاذاة القطبية المقدّر بع�
 #. i18n: ectx: property (text), widget (QPushButton, StartB)
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:152 ekos/manager.cpp:255 ekos/manager.cpp:1073
+#: ekos/manager.cpp:154 ekos/manager.cpp:261 ekos/manager.cpp:1116
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
@@ -10654,7 +10654,7 @@ msgid "Slew"
 msgstr "توجيه"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:395
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:401
 #, kde-format
 msgid "Setup"
 msgstr "الإعداد"
@@ -10833,7 +10833,7 @@ msgstr "ابدأ إكوس"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/align/pushtoassistant.ui:199 ekos/analyze/analyze.cpp:2334
-#: ekos/manager.cpp:2499 ekos/scheduler/framingassistant.ui:1276
+#: ekos/manager.cpp:2542 ekos/scheduler/framingassistant.ui:1276
 #: ekos/scheduler/scheduler.ui:240 fitsviewer/fitsviewer.cpp:582
 #, kde-format
 msgid "Align"
@@ -10845,7 +10845,7 @@ msgstr "حاذِ إلى"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2337
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2689 ekos/manager.ui:778
+#: ekos/manager.cpp:2732 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -10936,7 +10936,7 @@ msgstr "لا تستطيع عرض ملف الصورة المؤقت: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2333 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2543 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2586 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:574
 #, kde-format
@@ -10948,7 +10948,7 @@ msgstr "التركيز البؤري"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2335 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:129 ekos/manager.cpp:2764
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:129 ekos/manager.cpp:2807
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -13005,7 +13005,7 @@ msgid "Log Ekos Scheduler module activity"
 msgstr "سجّل نشاطات وحدة مجدول إيكوس"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:400
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:406
 #: ekos/scheduler/framingassistantui.cpp:706
 #, kde-format
 msgid "Scheduler"
@@ -13185,7 +13185,7 @@ msgstr "<html><head/><body><p>سجّل نشاط وحدة مرصد إيكوس</p>
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2814
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2857
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -24641,85 +24641,91 @@ msgstr ""
 msgid "Use dedicated Guiding Chip for Guiding"
 msgstr "استخدم رقاقة دليل مخصصة للدليل"
 
-#: ekos/manager.cpp:250
+#: ekos/manager.cpp:256
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "إكوس - تشكيلة %1"
 
-#: ekos/manager.cpp:260
+#: ekos/manager.cpp:266
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr "الاتصال قيد التقدم. انقر للإلغاء."
 
-#: ekos/manager.cpp:283
+#: ekos/manager.cpp:289
 #, kde-format
 msgid "Logging"
 msgstr "السجلّ"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:435 ekos/opsekos.ui:174
+#: ekos/manager.cpp:441 ekos/opsekos.ui:174
 #, kde-format
 msgid "Analyze"
 msgstr "حلل"
 
-#: ekos/manager.cpp:450
+#: ekos/manager.cpp:456
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
 msgstr "فشل الامتداد '%1' في البدء، ألغِ العملية"
 
-#: ekos/manager.cpp:464
+#: ekos/manager.cpp:470
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
 msgstr "فشل الامتداد '%1' في الإيقاف، الإلغاء مفعل"
 
-#: ekos/manager.cpp:473
+#: ekos/manager.cpp:479
 #, kde-format
 msgid "Extension '%1' aborting"
 msgstr "الامتداد '%1' يلغي العملية"
 
-#: ekos/manager.cpp:483
+#: ekos/manager.cpp:489
 #, kde-format
 msgid "Extension '%1' start requested"
 msgstr "طُلب بدء الامتداد '%1'"
 
-#: ekos/manager.cpp:488
+#: ekos/manager.cpp:494
 #, kde-format
 msgid "Extension '%1' started"
 msgstr "بدأ الامتداد '%1'"
 
-#: ekos/manager.cpp:496
+#: ekos/manager.cpp:502
 #, kde-format
 msgid "Extension '%1' stop requested"
 msgstr "طُلب إيقاف الامتداد '%1'"
 
-#: ekos/manager.cpp:501
+#: ekos/manager.cpp:507
 #, kde-format
 msgid "Extension '%1' stopped"
 msgstr "أوقف الامتداد '%1'"
 
-#: ekos/manager.cpp:517
+#: ekos/manager.cpp:523
 #, kde-format
 msgid "Extension '%1': %2"
 msgstr "الامتداد '%1': %2"
 
-#: ekos/manager.cpp:940
+#: ekos/manager.cpp:655 ekos/opsekos.cpp:98
+#, fuzzy, kde-format
+#| msgid "Failed to start: Port %1 may be in use."
+msgid "Failed: port in use"
+msgstr "فشل البدء: المنفذ %1 قد يكون مستخدمًا."
+
+#: ekos/manager.cpp:983
 #, kde-format
 msgid "Imported profile '%1' from INDI Web Manager."
 msgstr "التشكيلة المستوردة ”%1“ من INDI مدير الويب."
 
-#: ekos/manager.cpp:1094
+#: ekos/manager.cpp:1137
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "ايكوس"
 
-#: ekos/manager.cpp:1242 ekos/manager.cpp:1267
+#: ekos/manager.cpp:1285 ekos/manager.cpp:1310
 #, kde-format
 msgid "Ekos requires at least one Camera to operate."
 msgstr "يتطلب إكوس كاميرا واحدة على الأقل للعمل."
 
-#: ekos/manager.cpp:1330
+#: ekos/manager.cpp:1373
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -24728,17 +24734,17 @@ msgstr ""
 "اكتشف إكوس أن كاميرا PTP تعمل وقد تمنع كاميرا كانون أو نيكون من الاتصال "
 "بإكوس. هل تريد إنهاء كاميرا PTP الآن؟"
 
-#: ekos/manager.cpp:1331
+#: ekos/manager.cpp:1374
 #, kde-format
 msgid "PTP Camera"
 msgstr "كاميرا PTP"
 
-#: ekos/manager.cpp:1345
+#: ekos/manager.cpp:1388
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "بدء خدمات INDI..."
 
-#: ekos/manager.cpp:1376
+#: ekos/manager.cpp:1419
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -24748,47 +24754,47 @@ msgstr ""
 "النسخة الحالية قبل بدء واحدة جديدة؟"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1378 indi/opsindi.ui:248
+#: ekos/manager.cpp:1421 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "خادوم INDI"
 
-#: ekos/manager.cpp:1393
+#: ekos/manager.cpp:1436
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "اتصال بخادوم INDI البعيد في %1 على المنفذ %2 ..."
 
-#: ekos/manager.cpp:1414
+#: ekos/manager.cpp:1457
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "فشل في بدء تشكيلة على مدير الويب لـ INDI البعيد."
 
-#: ekos/manager.cpp:1418
+#: ekos/manager.cpp:1461
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "بدء تشكيلة على مدير الويب لـ INDI البعيد..."
 
-#: ekos/manager.cpp:1431
+#: ekos/manager.cpp:1474
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "إنشاء اتصال مع مدير الويب لـ INDI البعيد..."
 
-#: ekos/manager.cpp:1450
+#: ekos/manager.cpp:1493
 #, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
 msgstr "خطأ: مدير الويب لـ INDI ليس متصلاً عند %1:%2"
 
-#: ekos/manager.cpp:1491
+#: ekos/manager.cpp:1534
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "بدأت خدمات INDI على المنفذ %1."
 
-#: ekos/manager.cpp:1494
+#: ekos/manager.cpp:1537
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "بدأت خدمات INDI على المنفذ %1. وصل الأجهزة."
 
-#: ekos/manager.cpp:1499
+#: ekos/manager.cpp:1542
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -24796,33 +24802,33 @@ msgid ""
 msgstr ""
 "بدأت خدمات INDI. نجح الاتصال بخادوم INDI البعيد %1:%2. انتظر الأجهزة..."
 
-#: ekos/manager.cpp:1531
+#: ekos/manager.cpp:1574
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "فشل الاتصال بخادوم INDI المحلي %1:%2"
 
-#: ekos/manager.cpp:1533
+#: ekos/manager.cpp:1576
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "فشل الاتصال بخادوم INDI البعيد %1:%2"
 
-#: ekos/manager.cpp:1546
+#: ekos/manager.cpp:1589
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "فقد الاتصال بخادوم INDI المحلي %1:%2"
 
-#: ekos/manager.cpp:1548
+#: ekos/manager.cpp:1591
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "فقد الاتصال بخادوم INDI البعيد %1:%2"
 
-#: ekos/manager.cpp:1615
+#: ekos/manager.cpp:1658
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr "فشل الاتصال بـ %1. تأكد من أن الجهاز موصول ومزود بالطاقة."
 
-#: ekos/manager.cpp:1617
+#: ekos/manager.cpp:1660
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -24833,7 +24839,7 @@ msgstr ""
 "%1\n"
 "تأكد من أن كل جهاز موصول ومزود بالطاقة."
 
-#: ekos/manager.cpp:1645
+#: ekos/manager.cpp:1688
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -24844,13 +24850,13 @@ msgstr ""
 "%1\n"
 "تأكد من أن الجهاز موصول ومزود بالطاقة."
 
-#: ekos/manager.cpp:1649 ekos/manager.cpp:1657 ekos/manager.cpp:1690
-#: ekos/manager.cpp:1698
+#: ekos/manager.cpp:1692 ekos/manager.cpp:1700 ekos/manager.cpp:1733
+#: ekos/manager.cpp:1741
 #, kde-format
 msgid "Ekos startup error"
 msgstr "خطأ بدء تشغيل إكوس"
 
-#: ekos/manager.cpp:1653
+#: ekos/manager.cpp:1696
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -24861,7 +24867,7 @@ msgstr ""
 "%1\n"
 "تأكد من أن كل جهاز موصول ومزود بالطاقة."
 
-#: ekos/manager.cpp:1686
+#: ekos/manager.cpp:1729
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -24872,7 +24878,7 @@ msgstr ""
 "%1\n"
 "تأكد من أن الجهاز موصول ومزود بالطاقة."
 
-#: ekos/manager.cpp:1694
+#: ekos/manager.cpp:1737
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -24883,32 +24889,32 @@ msgstr ""
 "%1\n"
 "تأكد من أن كل جهاز موصول ومزود بالطاقة."
 
-#: ekos/manager.cpp:1752
+#: ekos/manager.cpp:1795
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "ربط أجهزة INDI..."
 
-#: ekos/manager.cpp:1771
+#: ekos/manager.cpp:1814
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "قطع ربط أجهزة INDI..."
 
-#: ekos/manager.cpp:1811
+#: ekos/manager.cpp:1854
 #, kde-format
 msgid "INDI services stopped."
 msgstr "أوقفت خدمات INDI."
 
-#: ekos/manager.cpp:1879
+#: ekos/manager.cpp:1922
 #, kde-format
 msgid "Remote devices established."
 msgstr "أجهزة بعيدة أنشئت."
 
-#: ekos/manager.cpp:1882
+#: ekos/manager.cpp:1925
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "أجهزة بعيدة أنشئت. وصل الأجهزة."
 
-#: ekos/manager.cpp:1946
+#: ekos/manager.cpp:1989
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -24917,118 +24923,118 @@ msgstr ""
 "فشل %1 في الاتصال.\n"
 "تأكد من أن الجهاز موصول ومزود بالطاقة."
 
-#: ekos/manager.cpp:1953
+#: ekos/manager.cpp:1996
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "فُصل %1."
 
-#: ekos/manager.cpp:1974 ekos/manager.cpp:1983 ekos/manager.cpp:2016
+#: ekos/manager.cpp:2017 ekos/manager.cpp:2026 ekos/manager.cpp:2059
 #: indi/indistd.cpp:732
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 على الخط"
 
-#: ekos/manager.cpp:1991
+#: ekos/manager.cpp:2034
 #, kde-format
 msgid "%1 filter is online."
 msgstr "مرشح %1 متصل."
 
-#: ekos/manager.cpp:2000
+#: ekos/manager.cpp:2043
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "مكثف %1 متصل."
 
-#: ekos/manager.cpp:2007
+#: ekos/manager.cpp:2050
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "مدورة %1 متصلة."
 
-#: ekos/manager.cpp:2023
+#: ekos/manager.cpp:2066
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "طقس %1 متصل."
 
-#: ekos/manager.cpp:2030
+#: ekos/manager.cpp:2073
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "نظام تحديد المواقع %1 متصل."
 
-#: ekos/manager.cpp:2037
+#: ekos/manager.cpp:2080
 #, kde-format
 msgid "%1 PAC is online."
 msgstr "مصحح المحاذاة القطبية %1 متصل."
 
-#: ekos/manager.cpp:2046
+#: ekos/manager.cpp:2089
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "غطاء الغبار %1 متصل."
 
-#: ekos/manager.cpp:2053
+#: ekos/manager.cpp:2096
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "صندوق الإضاءة %1 متصل."
 
-#: ekos/manager.cpp:2198
+#: ekos/manager.cpp:2241
 #, kde-format
 msgid "%1 is offline."
 msgstr "فُصل %1."
 
-#: ekos/manager.cpp:2831
+#: ekos/manager.cpp:2874
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "منفذ دليل من %1 جاهز."
 
-#: ekos/manager.cpp:3094
+#: ekos/manager.cpp:3137
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "هل أنت متأكد من رغبتك في حذف التشكيلة؟"
 
-#: ekos/manager.cpp:3095
+#: ekos/manager.cpp:3138
 #, kde-format
 msgid "Confirm Delete"
 msgstr "أكّد الحذف"
 
-#: ekos/manager.cpp:3147
+#: ekos/manager.cpp:3190
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "حدث موقع الموقع إلى %1."
 
-#: ekos/manager.cpp:3149
+#: ekos/manager.cpp:3192
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "فشل في تحديث موقع الموقع إلى %1. لم أجد المدينة."
 
-#: ekos/manager.cpp:3422
+#: ekos/manager.cpp:3465
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "تفعيل تسجيل تصحيح لـ %1..."
 
-#: ekos/manager.cpp:3430
+#: ekos/manager.cpp:3473
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "تعطيل تسجيل تصحيح لـ %1..."
 
-#: ekos/manager.cpp:3458
+#: ekos/manager.cpp:3501
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "إعادة تفعيل تسجيل تصحيح لـ %1..."
 
-#: ekos/manager.cpp:3470
+#: ekos/manager.cpp:3513
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "إعادة تعطيل تسجيل تصحيح لـ %1..."
 
-#: ekos/manager.cpp:4239
+#: ekos/manager.cpp:4282
 #, kde-format
 msgid "Preview source set to external"
 msgstr "اضبط مصدر المعاينة إلى خارجي"
 
-#: ekos/manager.cpp:4246
+#: ekos/manager.cpp:4289
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "أعد ضبط مصدر المعاينة إلى داخلي"
 
-#: ekos/manager.cpp:4253
+#: ekos/manager.cpp:4296
 #, kde-format
 msgid "Received external preview file"
 msgstr "استلم ملف معاينة خارجي"
@@ -26346,15 +26352,41 @@ msgstr "مع عقارب السّاعة"
 msgid "counter clockwise"
 msgstr "عكس اتجاه عقارب الساعة"
 
-#: ekos/opsekos.cpp:27
+#: ekos/opsekos.cpp:33
 #, kde-format
 msgid "You must restart KStars for this change to take effect."
 msgstr "أعد تشغيل «نجوم‌ك» ليصبح هذا التغيير ساري المفعول."
 
-#: ekos/opsekos.cpp:34
+#: ekos/opsekos.cpp:40
 #, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
 msgstr "اضبط مجلداً أساسياً بديلاً لصور Analyze الملتقطة"
+
+#: ekos/opsekos.cpp:123 ekos/opsekos.cpp:146
+#, fuzzy, kde-format
+#| msgctxt "City in Spain"
+#| msgid "Terrassa"
+msgid "Hide token"
+msgstr "Terrassa"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, mcpShowTokenButton)
+#. i18n: ectx: property (toolTip), widget (QPushButton, mcpShowROTokenButton)
+#: ekos/opsekos.cpp:123 ekos/opsekos.cpp:146 ekos/opsekos.ui:404
+#: ekos/opsekos.ui:480
+#, fuzzy, kde-format
+#| msgid "Show terrain"
+msgid "Show token"
+msgstr "اعرض التضاريس"
+
+#: ekos/opsekos.cpp:189
+#, fuzzy, kde-format
+msgid "Listening on port %1"
+msgstr "الملف غير صحيح: %1"
+
+#: ekos/opsekos.cpp:194
+#, kde-format
+msgid "Server is not running"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/opsekos.ui:44
@@ -26457,6 +26489,85 @@ msgstr "المجلد البديل للصور: "
 #, kde-format
 msgid "Set the alternative image directory for Analyze"
 msgstr "اضبط المجلد البديل للصور لبرنامج Analyze"
+
+#. i18n: ectx: attribute (title), widget (QWidget, mcpTab)
+#: ekos/opsekos.ui:292
+#, fuzzy, kde-format
+#| msgctxt "North Celestial Pole"
+#| msgid "NCP"
+msgid "MCP"
+msgstr "ق.س.ش"
+
+#. i18n: ectx: property (title), widget (QGroupBox, mcpGroupBox)
+#: ekos/opsekos.ui:313
+#, kde-format
+msgid "AI Assistant (MCP)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_MCPEnabled)
+#. i18n: ectx: label, entry (MCPEnabled), group (MCP)
+#: ekos/opsekos.ui:319 kstars.kcfg:3943
+#, fuzzy, kde-format
+#| msgid "Manage Observers"
+msgid "Enable MCP server"
+msgstr "إدارة الراصدين"
+
+#. i18n: ectx: property (text), widget (QLabel, mcpPortLabel)
+#. i18n: ectx: property (text), widget (QLabel, INDIWebManagerPortLabel)
+#. i18n: ectx: property (text), widget (QLabel, remotePortLabel)
+#. i18n: ectx: property (text), widget (QLabel, externalGuidePortLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QLabel, label_21)
+#. i18n: ectx: property (text), widget (QLabel, portLabel)
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
+#: ekos/opsekos.ui:328 ekos/profileeditor.ui:124 ekos/profileeditor.ui:298
+#: ekos/profileeditor.ui:334 ekos/profilewizard.ui:526
+#: ekos/profilewizard.ui:718 fitsviewer/livestackwebcast.ui:93
+#: indi/indihostconf.ui:40
+#, kde-format
+msgid "Port:"
+msgstr "المنفذ:"
+
+#. i18n: ectx: property (toolTip), widget (KLed, mcpStatusLed)
+#: ekos/opsekos.ui:357
+#, fuzzy, kde-format
+#| msgid "Observatory Status"
+msgid "MCP server status"
+msgstr "حالة المرصد"
+
+#. i18n: ectx: property (text), widget (QLabel, mcpTokenLabel)
+#: ekos/opsekos.ui:381
+#, kde-format
+msgid "Token:"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, mcpCopyTokenButton)
+#. i18n: ectx: property (toolTip), widget (QPushButton, mcpCopyROTokenButton)
+#: ekos/opsekos.ui:426 ekos/opsekos.ui:502
+#, fuzzy, kde-format
+#| msgid "Copy TLE to Clipboard"
+msgid "Copy token to clipboard"
+msgstr "انسخ TLE إلى الحافظة"
+
+#. i18n: ectx: property (text), widget (QPushButton, mcpRegenTokenButton)
+#. i18n: ectx: property (text), widget (QPushButton, mcpRegenROTokenButton)
+#: ekos/opsekos.ui:439 ekos/opsekos.ui:515
+#, fuzzy, kde-format
+#| msgid "Generate"
+msgid "Regenerate"
+msgstr "ولّد"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_MCPReadOnlyMode)
+#: ekos/opsekos.ui:448
+#, kde-format
+msgid "Read-only mode (refuse rig control tools)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, mcpROTokenLabel)
+#: ekos/opsekos.ui:457
+#, kde-format
+msgid "Read-only token:"
+msgstr ""
 
 #: ekos/profileeditor.cpp:51
 #, kde-format
@@ -26573,21 +26684,6 @@ msgstr ""
 #, kde-format
 msgid "Site Info"
 msgstr "معلومات الموقع الجغرافي البعيد"
-
-#. i18n: ectx: property (text), widget (QLabel, INDIWebManagerPortLabel)
-#. i18n: ectx: property (text), widget (QLabel, remotePortLabel)
-#. i18n: ectx: property (text), widget (QLabel, externalGuidePortLabel)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QLabel, label_21)
-#. i18n: ectx: property (text), widget (QLabel, portLabel)
-#. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
-#: ekos/profileeditor.ui:124 ekos/profileeditor.ui:298
-#: ekos/profileeditor.ui:334 ekos/profilewizard.ui:526
-#: ekos/profilewizard.ui:718 fitsviewer/livestackwebcast.ui:93
-#: indi/indihostconf.ui:40
-#, kde-format
-msgid "Port:"
-msgstr "المنفذ:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, externalGuidePort)
 #: ekos/profileeditor.ui:140
@@ -28710,6 +28806,8 @@ msgid ""
 "Warning: A job with name '%1' and the same sequence file already exists. "
 "This would cause both jobs to complete simultaneously due to shared storage."
 msgstr ""
+"تحذير: توجد مهمة أخرى تحمل الاسم '%1' ولها نفس ملف التسلسل. سيؤدي ذلك إلى "
+"إكمال المهمتين في وقت واحد بسبب استخدام وحدة تخزين مشتركة."
 
 #: ekos/scheduler/scheduler.cpp:1118
 #, kde-format
@@ -44779,6 +44877,19 @@ msgstr "أدِر مستوى شفافية لوحة الفسيفساء آلي."
 #, kde-format
 msgid "Control mosaic panel transparency level."
 msgstr "تحكَّم في مستوى شفافية لوحة الفسيفساء."
+
+#. i18n: ectx: label, entry (MCPPort), group (MCP)
+#: kstars.kcfg:3947
+#, fuzzy, kde-format
+#| msgid "Server Port"
+msgid "MCP server port"
+msgstr "منفذ الخادم"
+
+#. i18n: ectx: label, entry (MCPReadOnlyMode), group (MCP)
+#: kstars.kcfg:3951
+#, kde-format
+msgid "Allow only read-only MCP tools"
+msgstr ""
 
 #: kstars_i18n.cpp:2
 #, kde-kuit-format
@@ -93350,10 +93461,6 @@ msgstr "اضبط لون الخلفية."
 #~ msgstr "الإتصال إلى INDI مضيف عند يعمل منفذ failed."
 
 #, fuzzy
-#~ msgid "Invalid host port %1"
-#~ msgstr "الملف غير صحيح: %1"
-
-#, fuzzy
 #~ msgid "FITS Open"
 #~ msgstr "افتح"
 
@@ -95647,12 +95754,6 @@ msgstr "اضبط لون الخلفية."
 #, fuzzy
 #~ msgid "_color"
 #~ msgstr "اللون:"
-
-#, fuzzy
-#~| msgctxt "City in Spain"
-#~| msgid "Terrassa"
-#~ msgid "Hide terrain"
-#~ msgstr "Terrassa"
 
 #~ msgid "Add New..."
 #~ msgstr "أضف أيضاً ..."
