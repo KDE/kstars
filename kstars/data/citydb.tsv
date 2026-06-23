@@ -3274,6 +3274,7 @@ Johnstown	Pennsylvania	USA	 40° 19' 35"	-78° 55' 03"	-5.0	US	356.71
 Joliet	Illinois	USA	 41° 31' 36"	-88° 04' 47"	-6.0	US	162.93
 Jonesboro	Arkansas	USA	 35° 50' 12"	-90° 42' 24"	-6.0	US	100.82
 Joplin	Missouri	USA	 37° 05' 35"	-94° 30' 42"	-6.0	US	291.81
+Joshua Tree	California	USA	 34° 08' 05"	-116° 18' 47"	-8.0	US	834.00
 Julian	California	USA	 33° 00' 00"	-116° 34' 47"	-8.0	US	1608.59
 Juneau	Alaska	USA	 58° 18' 11"	-134° 24' 28"	-9.0	US	32.56
 Kaena Point	Hawaii	USA	 21° 30' 00"	-158° 11' 59"	-10.0	--	449.86
@@ -3348,6 +3349,7 @@ Lanai City	Hawaii	USA	 20° 49' 58"	-156° 55' 58"	-10.0	--	467.63
 Lancaster	New Hampshire	USA	 44° 25' 01"	-71° 30' 00"	-5.0	US	332.33
 Lancaster	Pennsylvania	USA	 40° 02' 25"	-76° 18' 28"	-5.0	US	105.29
 Lander	Wyoming	USA	 42° 50' 06"	-108° 43' 58"	-7.0	US	1631.50
+Landers	California	USA	 34° 15' 58"	-116° 23' 35"	-8.0	US	940.00
 Lansing	Michigan	USA	 42° 44' 00"	-84° 33' 15"	-5.0	US	260.40
 Laramie	Wyoming	USA	 41° 18' 42"	-105° 35' 05"	-7.0	US	2184.97
 Laredo	Texas	USA	 27° 30' 21"	-99° 30' 29"	-6.0	US	128.98
@@ -3655,6 +3657,7 @@ Pacific Beach	California	USA	 32° 43' 59"	-117° 10' 01"	-8.0	US	47.76
 Paducah	Kentucky	USA	 37° 05' 12"	-88° 35' 56"	-6.0	US	104.16
 Palestine	Texas	USA	 32° 16' 21"	-97° 03' 08"	-6.0	US	420.00
 Palm City	Florida	USA	 27° 06' 35"	-80° 06' 35"	-5.0	US	3.66
+Palm Springs	California	USA	 33° 49' 49"	-116° 32' 43"	-8.0	US	146.00
 Palmdale	California	USA	 34° 59' 45"	-118° 07' 01"	-8.0	US	783.25
 Palmer	Alaska	USA	 61° 36' 00"	-149° 05' 59"	-9.0	US	70.84
 Palo Alto	California	USA	 37° 26' 30"	-122° 09' 46"	-8.0	US	19.53
@@ -3691,6 +3694,7 @@ Pierre	South Dakota	USA	 44° 22' 18"	-100° 20' 52"	-6.0	US	473.51
 Pilot Hill	California	USA	 38° 49' 40"	-120° 58' 40"	-8.0	US	299.48
 Pine Bluff	Arkansas	USA	 34° 13' 23"	-92° 01' 00"	-6.0	US	69.59
 Pine City	Minnesota	USA	 45° 49' 58"	-93° 01' 01"	-6.0	US	289.28
+Pioneertown	California	USA	 34° 09' 24"	-116° 29' 46"	-8.0	US	1236.00
 Pittsburgh	Pennsylvania	USA	 40° 26' 18"	-80° 00' 00"	-5.0	US	227.44
 Pittsfield	Massachusetts	USA	 42° 26' 52"	-73° 15' 14"	-5.0	US	315.38
 Placerville	California	USA	 38° 42' 34"	-120° 40' 58"	-8.0	US	749.48
@@ -3745,6 +3749,7 @@ Quakertown	Pennsylvania	USA	 40° 27' 55"	-75° 22' 19"	-5.0	US	173.05
 Quincy	Massachusetts	USA	 42° 15' 06"	-71° 00' 06"	-5.0	US	10.73
 Racine	Wisconsin	USA	 42° 43' 49"	-87° 47' 12"	-6.0	US	179.81
 Raleigh	North Carolina	USA	 35° 46' 37"	-78° 38' 21"	-5.0	US	102.52
+Rancho Mirage	California	USA	 33° 44' 23"	-116° 24' 46"	-8.0	US	83.00
 Rancho Palos Verdes	California	USA	 33° 46' 02"	-118° 24' 10"	-8.0	US	189.59
 Randolph	Vermont	USA	 43° 55' 01"	-72° 40' 01"	-5.0	US	241.13
 Rangeley	Maine	USA	 45° 00' 00"	-70° 25' 01"	-5.0	US	827.94
@@ -3830,6 +3835,7 @@ Sanford	Maine	USA	 43° 26' 30"	-70° 46' 36"	-5.0	US	92.91
 Santa Ana	California	USA	 33° 45' 47"	-117° 51' 53"	-8.0	US	44.30
 Santa Barbara	California	USA	 34° 25' 18"	-119° 41' 56"	-8.0	US	14.50
 Santa Clara	California	USA	 37° 20' 41"	-121° 56' 49"	-8.0	US	27.40
+Santa Cruz	California	USA	 36° 58' 27"	-122° 01' 51"	-8.0	US	11.00
 Santa Fe	New Mexico	USA	 35° 41' 11"	-105° 56' 09"	-7.0	US	2136.71
 Santa Maria	California	USA	 34° 53' 56"	-120° 27' 21"	-8.0	US	74.02
 Santa Monica	California	USA	 34° 00' 47"	-118° 29' 05"	-8.0	US	30.30
@@ -3870,6 +3876,7 @@ Sioux City	Iowa	USA	 42° 29' 45"	-96° 24' 29"	-6.0	US	337.85
 Sioux Falls	South Dakota	USA	 43° 32' 34"	-96° 43' 35"	-6.0	US	436.31
 Sitka	Alaska	USA	 57° 02' 59"	-135° 21' 36"	-9.0	US	3.49
 Skokie	Illinois	USA	 42° 02' 35"	-87° 44' 48"	-6.0	US	191.13
+Sky's The Limit Obs.	California	USA	 34° 04' 47"	-116° 02' 10"	-8.0	US	857.00
 Slidell	Louisiana	USA	 30° 16' 29"	-89° 48' 06"	-6.0	US	0.00
 Slocum	Texas	USA	 32° 03' 13"	-85° 46' 22"	-6.0	US	492.00
 Smyrna	Delaware	USA	 39° 18' 10"	-75° 36' 24"	-5.0	US	11.08
@@ -3963,6 +3970,7 @@ Tucumcari	New Mexico	USA	 35° 10' 58"	-103° 43' 01"	-7.0	US	1241.83
 Tulsa	Oklahoma	USA	 36° 09' 11"	-95° 59' 34"	-6.0	US	219.98
 Tupelo	Mississippi	USA	 34° 13' 58"	-88° 43' 01"	-6.0	US	91.37
 Tuscaloosa	Alabama	USA	 33° 12' 17"	-87° 34' 00"	-6.0	US	70.07
+Twentynine Palms	California	USA	 34° 08' 08"	-116° 03' 15"	-8.0	US	606.00
 Twin Falls	Idaho	USA	 42° 33' 42"	-114° 28' 11"	-7.0	US	1136.46
 Tyler	Texas	USA	 32° 20' 41"	-95° 18' 06"	-6.0	US	174.65
 US Naval Observatory	Washington, DC	USA	 38° 55' 03"	-77° 04' 00"	-5.0	US	46.61
@@ -4079,6 +4087,7 @@ Winona	Mississippi	USA	 33° 28' 58"	-89° 43' 01"	-6.0	US	112.82
 Winooski	Vermont	USA	 44° 30' 00"	-73° 10' 01"	-5.0	US	96.41
 Winsted	Connecticut	USA	 41° 55' 01"	-73° 04' 58"	-5.0	US	271.47
 Winston-Salem	North Carolina	USA	 36° 05' 52"	-80° 14' 42"	-5.0	US	281.84
+Wonder Valley	California	USA	 34° 09' 04"	-115° 55' 53"	-8.0	US	457.00
 Woodland Hills	California	USA	 34° 09' 01"	-118° 35' 24"	-8.0	US	332.53
 Woodsville	New Hampshire	USA	 44° 10' 01"	-72° 00' 00"	-5.0	US	247.45
 Woodward	Oklahoma	USA	 36° 25' 01"	-99° 24' 00"	-6.0	US	607.77
@@ -4099,6 +4108,7 @@ York	Pennsylvania	USA	 39° 57' 34"	-76° 43' 36"	-5.0	US	122.19
 Yorktown Heights	New York	USA	 41° 19' 59"	-73° 46' 00"	-5.0	US	162.91
 Youngstown	Ohio	USA	 41° 05' 57"	-80° 39' 01"	-5.0	US	261.09
 Yuba City	California	USA	 39° 07' 58"	-121° 37' 58"	-8.0	US	17.54
+Yucca Valley	California	USA	 34° 06' 51"	-116° 25' 56"	-8.0	US	1027.00
 Yuma	Arizona	USA	 32° 42' 54"	-114° 37' 22"	-7.0	--	62.29
 Yuma	Colorado	USA	 40° 07' 58"	-102° 49' 58"	-7.0	US	1287.73
 Zanesville	Ohio	USA	 39° 56' 17"	-82° 00' 29"	-5.0	US	213.82
