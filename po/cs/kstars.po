@@ -24848,7 +24848,7 @@ msgstr ""
 #: ekos/opsekos.ui:381
 #, kde-format
 msgid "Token:"
-msgstr ""
+msgstr "Token:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpCopyTokenButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpCopyROTokenButton)

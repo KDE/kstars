@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-22 02:12+0000\n"
-"PO-Revision-Date: 2026-06-17 06:48+0200\n"
+"PO-Revision-Date: 2026-06-22 07:22+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -25114,10 +25114,9 @@ msgid "Extension '%1': %2"
 msgstr "Razširitev '%1': %2"
 
 #: ekos/manager.cpp:655 ekos/opsekos.cpp:98
-#, fuzzy, kde-format
-#| msgid "Failed to start: Port %1 may be in use."
+#, kde-format
 msgid "Failed: port in use"
-msgstr "Zagon ni uspel: vrata %1 so morda v uporabi."
+msgstr "Neuspelo: vrata v uporabi"
 
 #: ekos/manager.cpp:983
 #, kde-format
@@ -26793,29 +26792,27 @@ msgid "Set an alternate base directory for Analyze's captured images"
 msgstr "Nastavi nadomestni osnovni imenik za zajete slike Analyze"
 
 #: ekos/opsekos.cpp:123 ekos/opsekos.cpp:146
-#, fuzzy, kde-format
-#| msgid "Hide Items"
+#, kde-format
 msgid "Hide token"
-msgstr "Skrij objekte"
+msgstr "Skrij žeton"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpShowTokenButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpShowROTokenButton)
 #: ekos/opsekos.cpp:123 ekos/opsekos.cpp:146 ekos/opsekos.ui:404
 #: ekos/opsekos.ui:480
-#, fuzzy, kde-format
-#| msgid "Show terrain"
+#, kde-format
 msgid "Show token"
-msgstr "Pokaži teren"
+msgstr "Pokaži žeton"
 
 #: ekos/opsekos.cpp:189
 #, kde-format
 msgid "Listening on port %1"
-msgstr ""
+msgstr "Poslušanje na vratih %1"
 
 #: ekos/opsekos.cpp:194
 #, kde-format
 msgid "Server is not running"
-msgstr ""
+msgstr "Strežnik ne teče"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/opsekos.ui:44
@@ -26923,25 +26920,22 @@ msgstr "Nastavi alternativni imenik slik za Analyze"
 
 #. i18n: ectx: attribute (title), widget (QWidget, mcpTab)
 #: ekos/opsekos.ui:292
-#, fuzzy, kde-format
-#| msgctxt "North Celestial Pole"
-#| msgid "NCP"
+#, kde-format
 msgid "MCP"
-msgstr "NCP"
+msgstr "MCP"
 
 #. i18n: ectx: property (title), widget (QGroupBox, mcpGroupBox)
 #: ekos/opsekos.ui:313
 #, kde-format
 msgid "AI Assistant (MCP)"
-msgstr ""
+msgstr "AI Assistant (MCP)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MCPEnabled)
 #. i18n: ectx: label, entry (MCPEnabled), group (MCP)
 #: ekos/opsekos.ui:319 kstars.kcfg:3943
-#, fuzzy, kde-format
-#| msgid "Manage Observers"
+#, kde-format
 msgid "Enable MCP server"
-msgstr "Upravljanje z opazovalci"
+msgstr "Omogoči strežnik MCP"
 
 #. i18n: ectx: property (text), widget (QLabel, mcpPortLabel)
 #. i18n: ectx: property (text), widget (QLabel, INDIWebManagerPortLabel)
@@ -26961,44 +26955,41 @@ msgstr "Vrata:"
 
 #. i18n: ectx: property (toolTip), widget (KLed, mcpStatusLed)
 #: ekos/opsekos.ui:357
-#, fuzzy, kde-format
-#| msgid "Observatory Status"
+#, kde-format
 msgid "MCP server status"
-msgstr "Stanje observatorija"
+msgstr "Stanje strežnika MCP"
 
 #. i18n: ectx: property (text), widget (QLabel, mcpTokenLabel)
 #: ekos/opsekos.ui:381
 #, kde-format
 msgid "Token:"
-msgstr ""
+msgstr "Žeton:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpCopyTokenButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpCopyROTokenButton)
 #: ekos/opsekos.ui:426 ekos/opsekos.ui:502
-#, fuzzy, kde-format
-#| msgid "Copy TLE to Clipboard"
+#, kde-format
 msgid "Copy token to clipboard"
-msgstr "Kopiraj TLE v odložišče"
+msgstr "Kopiraj žeton na odložišče"
 
 #. i18n: ectx: property (text), widget (QPushButton, mcpRegenTokenButton)
 #. i18n: ectx: property (text), widget (QPushButton, mcpRegenROTokenButton)
 #: ekos/opsekos.ui:439 ekos/opsekos.ui:515
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Regenerate"
-msgstr "Ustvari"
+msgstr "Regeneriraj"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MCPReadOnlyMode)
 #: ekos/opsekos.ui:448
 #, kde-format
 msgid "Read-only mode (refuse rig control tools)"
-msgstr ""
+msgstr "Način samo za branje (zavrni orodja za nadzor ploščadi)"
 
 #. i18n: ectx: property (text), widget (QLabel, mcpROTokenLabel)
 #: ekos/opsekos.ui:457
 #, kde-format
 msgid "Read-only token:"
-msgstr ""
+msgstr "Žeton za zgolj branje:"
 
 #: ekos/profileeditor.cpp:51
 #, kde-format
@@ -45782,16 +45773,15 @@ msgstr "Nadzirae raven prosojnosti plošče mozaika."
 
 #. i18n: ectx: label, entry (MCPPort), group (MCP)
 #: kstars.kcfg:3947
-#, fuzzy, kde-format
-#| msgid "Server Port"
+#, kde-format
 msgid "MCP server port"
-msgstr "Vrata strežnika"
+msgstr "Vrata strežnika MCP"
 
 #. i18n: ectx: label, entry (MCPReadOnlyMode), group (MCP)
 #: kstars.kcfg:3951
 #, kde-format
 msgid "Allow only read-only MCP tools"
-msgstr ""
+msgstr "Dovoli le orodja samo za branje MCP"
 
 #: kstars_i18n.cpp:2
 #, kde-kuit-format

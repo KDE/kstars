@@ -24158,10 +24158,9 @@ msgid "Extension '%1': %2"
 msgstr "扩展 '%1': %2"
 
 #: ekos/manager.cpp:655 ekos/opsekos.cpp:98
-#, fuzzy, kde-format
-#| msgid "Failed to start guider."
+#, kde-format
 msgid "Failed: port in use"
-msgstr "启动导星失败。"
+msgstr ""
 
 #: ekos/manager.cpp:983
 #, kde-format
@@ -25791,19 +25790,17 @@ msgid "Set an alternate base directory for Analyze's captured images"
 msgstr "为分析器拍的图设置另外的目录"
 
 #: ekos/opsekos.cpp:123 ekos/opsekos.cpp:146
-#, fuzzy, kde-format
-#| msgid "Hide Items"
+#, kde-format
 msgid "Hide token"
-msgstr "隐藏项目"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpShowTokenButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpShowROTokenButton)
 #: ekos/opsekos.cpp:123 ekos/opsekos.cpp:146 ekos/opsekos.ui:404
 #: ekos/opsekos.ui:480
-#, fuzzy, kde-format
-#| msgid "Show terrain"
+#, kde-format
 msgid "Show token"
-msgstr "显示地景"
+msgstr ""
 
 #: ekos/opsekos.cpp:189
 #, kde-format
@@ -25917,11 +25914,9 @@ msgstr "设置分析器的候选图像目录"
 
 #. i18n: ectx: attribute (title), widget (QWidget, mcpTab)
 #: ekos/opsekos.ui:292
-#, fuzzy, kde-format
-#| msgctxt "North Celestial Pole"
-#| msgid "NCP"
+#, kde-format
 msgid "MCP"
-msgstr "NCP"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, mcpGroupBox)
 #: ekos/opsekos.ui:313
@@ -25932,10 +25927,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MCPEnabled)
 #. i18n: ectx: label, entry (MCPEnabled), group (MCP)
 #: ekos/opsekos.ui:319 kstars.kcfg:3943
-#, fuzzy, kde-format
-#| msgid "Manage Observers"
+#, kde-format
 msgid "Enable MCP server"
-msgstr "管理观测员"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, mcpPortLabel)
 #. i18n: ectx: property (text), widget (QLabel, INDIWebManagerPortLabel)
@@ -25955,10 +25949,9 @@ msgstr "端口："
 
 #. i18n: ectx: property (toolTip), widget (KLed, mcpStatusLed)
 #: ekos/opsekos.ui:357
-#, fuzzy, kde-format
-#| msgid "Observatory Status"
+#, kde-format
 msgid "MCP server status"
-msgstr "天文台状态"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, mcpTokenLabel)
 #: ekos/opsekos.ui:381
@@ -25969,18 +25962,16 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpCopyTokenButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpCopyROTokenButton)
 #: ekos/opsekos.ui:426 ekos/opsekos.ui:502
-#, fuzzy, kde-format
-#| msgid "Copy TLE to Clipboard"
+#, kde-format
 msgid "Copy token to clipboard"
-msgstr "复制 TLE 到剪贴板"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, mcpRegenTokenButton)
 #. i18n: ectx: property (text), widget (QPushButton, mcpRegenROTokenButton)
 #: ekos/opsekos.ui:439 ekos/opsekos.ui:515
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Regenerate"
-msgstr "生成"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MCPReadOnlyMode)
 #: ekos/opsekos.ui:448
@@ -43903,10 +43894,9 @@ msgstr "控制马赛克面板透明度级别。"
 
 #. i18n: ectx: label, entry (MCPPort), group (MCP)
 #: kstars.kcfg:3947
-#, fuzzy, kde-format
-#| msgid "Server Port"
+#, kde-format
 msgid "MCP server port"
-msgstr "服务器端口"
+msgstr ""
 
 #. i18n: ectx: label, entry (MCPReadOnlyMode), group (MCP)
 #: kstars.kcfg:3951
