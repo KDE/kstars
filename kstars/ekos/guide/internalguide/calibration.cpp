@@ -268,28 +268,40 @@ bool Calibration::calculate2D(
     calibrationAngleRA = phi_ra;
     calibrationAngleDEC = phi_dec;
 
-    if (ra_dec_is_CW_system)
-        phi_dec += 90;
-    else // ra-dec is standard CCW system
-        phi_dec -= 90;
-
-    if (phi_dec > 360)
-        phi_dec -= 360.0;
-    if (phi_dec < 0)
-        phi_dec += 360.0;
-
-    if (std::abs(phi_dec - phi_ra) > 180)
+    if (Options::assumeDecOrthogonal())
     {
-        if (phi_ra > phi_dec)
-            phi_ra -= 360;
-        else
-            phi_dec -= 360;
+        // Use RA angle directly as the guide angle, bypassing the potentially
+        // noisy DEC angle measurement. The DEC pulse rate is still computed
+        // from the actual DEC movement distance below.
+        phi = phi_ra;
+        qCDebug(KSTARS_EKOS_GUIDE) << "AssumeDecOrthogonal: using phi_ra" << phi_ra
+                                   << "as guide angle (measured phi_dec was" << phi_dec << ")";
     }
+    else
+    {
+        if (ra_dec_is_CW_system)
+            phi_dec += 90;
+        else // ra-dec is standard CCW system
+            phi_dec -= 90;
 
-    // average angles
-    phi = (phi_ra + phi_dec) / 2;
-    if (phi < 0)
-        phi += 360.0;
+        if (phi_dec > 360)
+            phi_dec -= 360.0;
+        if (phi_dec < 0)
+            phi_dec += 360.0;
+
+        if (std::abs(phi_dec - phi_ra) > 180)
+        {
+            if (phi_ra > phi_dec)
+                phi_ra -= 360;
+            else
+                phi_dec -= 360;
+        }
+
+        // average angles
+        phi = (phi_ra + phi_dec) / 2;
+        if (phi < 0)
+            phi += 360.0;
+    }
 
     // setAngle sets the angle we'll use when guiding.
     // calibrationAngle is the saved angle to be stored.

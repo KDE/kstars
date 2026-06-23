@@ -3400,6 +3400,10 @@
          <label>Remove DEC backlash when calibrating guider.</label>
          <default>true</default>
       </entry>
+      <entry name="AssumeDecOrthogonal" type="Bool">
+         <label>Assume DEC is orthogonal to RA during calibration instead of measuring the DEC angle independently.</label>
+         <default>false</default>
+      </entry>
       <entry name="SerializedCalibration" type="String">
          <label>Last Calibration serialized.</label>
       </entry>

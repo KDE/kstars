@@ -2489,7 +2489,38 @@ void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const 
             calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->addData(dx, dy);
             break;
         case GuideInterface::DEC_OUT_OK:
-            drawRADECAxis(calDECLabel, calDECArrow, dx - calDecArrowStartX, dy - calDecArrowStartY);
+            if (Options::assumeDecOrthogonal() && calRAArrow->visible())
+            {
+                // Draw DEC arrow as RA rotated 90° (orthogonal assumption)
+                double raX = calRAArrow->end->coords().x();
+                double raY = calRAArrow->end->coords().y();
+                double raLen = std::hypot(raX, raY);
+                double decDx = dx - calDecArrowStartX;
+                double decDy = dy - calDecArrowStartY;
+                double decLen = std::hypot(decDx, decDy);
+                if (raLen > 0 && decLen > 0)
+                {
+                    // Rotate RA direction by -90° (CW) and scale to DEC length
+                    double scale = decLen / raLen;
+                    double orthX = raY * scale;
+                    double orthY = -raX * scale;
+                    // Pick the sign that matches the measured DEC direction
+                    if ((orthX * decDx + orthY * decDy) < 0)
+                    {
+                        orthX = -orthX;
+                        orthY = -orthY;
+                    }
+                    drawRADECAxis(calDECLabel, calDECArrow, orthX, orthY);
+                }
+                else
+                {
+                    drawRADECAxis(calDECLabel, calDECArrow, decDx, decDy);
+                }
+            }
+            else
+            {
+                drawRADECAxis(calDECLabel, calDECArrow, dx - calDecArrowStartX, dy - calDecArrowStartY);
+            }
             break;
         case GuideInterface::DEC_IN:
             calibrationPlot->graph(GuideGraph::G_RA_PULSE)->addData(dx, dy);

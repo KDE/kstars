@@ -374,6 +374,19 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="kcfg_AssumeDecOrthogonal">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When enabled, the DEC axis angle is assumed to be exactly 90° from the measured RA angle instead of being independently measured. This helps when periodic error or backlash causes erratic DEC calibration datapoints. The DEC pulse rate (speed) is still measured normally.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="statusTip">
+      <string/>
+     </property>
+     <property name="text">
+      <string>Assume DEC orthogonal to RA</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="kcfg_ResetGuideCalibration">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked,  always re-calibrate when guiding is started. This is often not necessary when a good quality calibration has previously been done and the guide camera has not been rotated or re-installed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -434,6 +447,7 @@
   <tabstop>kcfg_TwoAxisEnabled</tabstop>
   <tabstop>kcfg_GuideAutoSquareSizeEnabled</tabstop>
   <tabstop>kcfg_GuideCalibrationBacklash</tabstop>
+  <tabstop>kcfg_AssumeDecOrthogonal</tabstop>
   <tabstop>kcfg_ResetGuideCalibration</tabstop>
   <tabstop>kcfg_ReuseGuideCalibration</tabstop>
   <tabstop>kcfg_ReverseDecOnPierSideChange</tabstop>
