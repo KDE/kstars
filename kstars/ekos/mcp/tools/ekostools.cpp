@@ -83,7 +83,12 @@ void initEkosTools(MCP::ToolRegistry *registry, Ekos::Manager *manager)
                 { QStringLiteral("profile"), manager->getCurrentProfile() },
                 { QStringLiteral("devices"), devices }
             };
-        }
+        },
+        QStringLiteral("Ekos Status"),
+        false,
+        false,
+        false,
+        false
     });
 
     registry->classify(QStringLiteral("ekos_status"), /*ro*/true, /*destr*/false, /*idemp*/true);

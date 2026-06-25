@@ -115,18 +115,18 @@ class Mount : public QWidget, public Ui::Mount
         QString statusString(bool translated = true) const
         {
             if (m_Mount)
-                return m_Mount->statusString(m_Status, translated);
+            return m_Mount->statusString(m_Status, translated);
             else
                 return "NA";
-        }
-        ISD::Mount::PierSide pierSide() const
+            }
+    ISD::Mount::PierSide pierSide() const
         {
             if (m_Mount)
-                return m_Mount->pierSide();
+            return m_Mount->pierSide();
             else
                 return ISD::Mount::PIER_UNKNOWN;
-        }
-        ISD::ParkStatus parkStatus() const
+            }
+    ISD::ParkStatus parkStatus() const
         {
             return m_ParkStatus;
         }
@@ -301,6 +301,12 @@ class Mount : public QWidget, public Ui::Mount
              * @return true if the command is executed successfully, false otherwise.
              */
         Q_INVOKABLE Q_SCRIPTABLE bool resetModel();
+
+        /** DBUS interface function.
+         * Return the alignment model as a QVariantMap.
+         * @return QVariantMap containing the alignment model, or empty map if no model.
+         */
+        Q_INVOKABLE Q_SCRIPTABLE QVariantMap alignmentModel();
 
         /** DBUS interface function.
              * Can mount park?

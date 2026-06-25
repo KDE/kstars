@@ -1181,6 +1181,14 @@ bool Mount::resetModel()
     return false;
 }
 
+QVariantMap Mount::alignmentModel()
+{
+    if (m_Mount == nullptr || !m_Mount->hasAlignmentModelDocument())
+        return {};
+
+    return m_Mount->alignmentModelDocument().toVariant().toMap();
+}
+
 
 void Mount::setScopeStatus(ISD::Mount::Status status)
 {

@@ -7,6 +7,7 @@
 #pragma once
 
 #include <QtDBus/QDBusArgument>
+#include <QJsonDocument>
 #include <QTimer>
 
 #include <KLocalizedString>
@@ -72,6 +73,7 @@ class Mount : public ConcreteDevice
         void processSwitch(INDI::Property prop) override;
         void processText(INDI::Property prop) override;
         void processNumber(INDI::Property prop) override;
+        bool processBLOB(INDI::Property prop) override;
 
         // Coordinates
         bool getEqCoords(double *ra, double *dec);
@@ -173,6 +175,16 @@ class Mount : public ConcreteDevice
         bool hasAlignmentModel()
         {
             return m_hasAlignmentModel;
+        }
+
+        // Alignment Model Document (JSON BLOB)
+        const QJsonDocument &alignmentModelDocument() const
+        {
+            return m_AlignmentModelDocument;
+        }
+        bool hasAlignmentModelDocument() const
+        {
+            return !m_AlignmentModelDocument.isNull();
         }
 
         // Slew Rates
@@ -375,6 +387,9 @@ class Mount : public ConcreteDevice
         HomeAction m_currentHomeOperation { HOME_FIND };
         bool m_isHomed { false };
         QStringList m_slewRates;
+
+        // Alignment Model
+        QJsonDocument m_AlignmentModelDocument;
 };
 }
 

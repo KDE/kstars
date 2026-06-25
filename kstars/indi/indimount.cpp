@@ -467,6 +467,40 @@ void Mount::processText(INDI::Property prop)
     }
 }
 
+bool Mount::processBLOB(INDI::Property prop)
+{
+    auto bvp = INDI::PropertyBlob(prop);
+    auto size = bvp[0].getSize();
+    // Ignore write-only BLOBs since we only receive it for state-change
+    if (bvp.getPermission() == IP_WO || size == 0)
+        return false;
+
+    auto format = QString(bvp[0].getFormat()).toLower();
+
+    // Only process JSON BLOBs
+    if (!format.endsWith(".json"))
+        return false;
+
+    // Read JSON data from the BLOB
+    QByteArray data = QByteArray::fromRawData(reinterpret_cast<const char *>(bvp[0].getBlob()), static_cast<int>(size));
+
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(data, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError)
+    {
+        qCWarning(KSTARS_INDI) << "Failed to parse alignment JSON BLOB:" << parseError.errorString();
+        return false;
+    }
+
+    // Replace the stored alignment model document
+    m_AlignmentModelDocument = doc;
+
+    qCDebug(KSTARS_INDI) << "Received alignment model JSON BLOB. Points:" << doc.object().value("points").toArray().size();
+
+    return true;
+}
+
 void Mount::updateParkStatus()
 {
     auto svp = getSwitch("TELESCOPE_PARK");
@@ -1333,10 +1367,10 @@ Mount::Status Mount::status()
 const QString Mount::statusString(Mount::Status status, bool translated) const
 {
     switch (status)
-    {
-        case ISD::Mount::MOUNT_MOVING:
-            return (translated ? mountStates[status].toString() : mountStates[status].untranslatedText() + QString(" %1").arg(
-                        getManualMotionString()));
+{
+    case ISD::Mount::MOUNT_MOVING:
+        return (translated ? mountStates[status].toString() : mountStates[status].untranslatedText() + QString(" %1").arg(
+                    getManualMotionString()));
         default:
             return translated ? mountStates[status].toString() : mountStates[status].untranslatedText();
     }
