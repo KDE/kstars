@@ -4,24 +4,50 @@
 import os
 import sys
 
-# Determine the TSV file path relative to this script
+# Determine paths relative to this script
 script_dir = os.path.dirname(os.path.abspath(__file__))
-tsv_path = os.path.join(script_dir, "..", "citydb.tsv")
+data_dir = os.path.join(script_dir, "..")
+tsv_path = os.path.join(data_dir, "citydb.tsv")
+countries_path = os.path.join(data_dir, "countryInfo.txt")
 
 if not os.path.exists(tsv_path):
-    # Fallback to the working directory path if run differently
     tsv_path = "data/citydb.tsv"
-
 if not os.path.exists(tsv_path):
-    print(f"Error: Could not find citydb.tsv at {tsv_path}", file=sys.stderr)
+    print("Error: Could not find citydb.tsv at {0}".format(tsv_path), file=sys.stderr)
     sys.exit(1)
+
+# GeoNames canonical country names that KStars displays differently.
+DISPLAY_NAME_OVERRIDES = {
+    "United States": "USA",
+    "Czech Republic": "Czechia",
+    "Turkey": "Türkiye",
+}
+
+
+def load_countries(path):
+    """Load countryInfo.txt -> dict mapping ISO code to display name."""
+    countries = {}
+    if not os.path.exists(path):
+        return countries
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.startswith("#"):
+                continue
+            fields = line.strip().split("\t")
+            if len(fields) >= 5:
+                iso = fields[0]
+                canonical = fields[4]
+                countries[iso] = DISPLAY_NAME_OVERRIDES.get(canonical, canonical)
+    return countries
+
+
+country_map = load_countries(countries_path)
 
 seen_cities = set()
 cities = []
 regions = set()
 countries = set()
 
-# Process the TSV file
 with open(tsv_path, "r", encoding="utf-8") as f:
     for line in f:
         line = line.strip()
@@ -33,9 +59,10 @@ with open(tsv_path, "r", encoding="utf-8") as f:
 
         name = fields[0]
         province = fields[1]
-        country = fields[2]
+        country_code = fields[2]
+        country = country_map.get(country_code, country_code)
 
-        city_key = (name.lower(), province.lower(), country.lower())
+        city_key = (name.lower(), province.lower(), country_code.lower())
         if city_key in seen_cities:
             continue
         seen_cities.add(city_key)

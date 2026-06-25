@@ -556,6 +556,9 @@ void TimeZoneRule::reset_with_ltime(KStarsDateTime &ltime, const double TZoffset
 
 bool TimeZoneRule::equals(TimeZoneRule *r)
 {
+    if (!r)
+        return isEmptyRule();
+
     if (StartDay == r->StartDay && RevertDay == r->RevertDay && StartWeek == r->StartWeek &&
             RevertWeek == r->RevertWeek && StartMonth == r->StartMonth && RevertMonth == r->RevertMonth &&
             StartTime == r->StartTime && RevertTime == r->RevertTime && isEmptyRule() == r->isEmptyRule())

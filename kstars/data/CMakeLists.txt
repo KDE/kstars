@@ -11,11 +11,15 @@ find_package(Python3 REQUIRED)
 set(GEN_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate-citydb.py)
 set(CITYDB_SQLITE ${CMAKE_CURRENT_BINARY_DIR}/citydb.sqlite)
 set(CITYDB_TSV ${CMAKE_CURRENT_SOURCE_DIR}/citydb.tsv)
+set(COUNTRY_INFO ${CMAKE_CURRENT_SOURCE_DIR}/countryInfo.txt)
 
 add_custom_command(
     OUTPUT ${CITYDB_SQLITE}
-    COMMAND ${Python3_EXECUTABLE} ${GEN_SCRIPT} ${CITYDB_TSV} --sqlite ${CITYDB_SQLITE}
-    DEPENDS ${GEN_SCRIPT} ${CITYDB_TSV}
+    COMMAND ${Python3_EXECUTABLE} ${GEN_SCRIPT}
+        --countries ${COUNTRY_INFO} --strict
+        --sqlite ${CITYDB_SQLITE}
+        ${CITYDB_TSV}
+    DEPENDS ${GEN_SCRIPT} ${CITYDB_TSV} ${COUNTRY_INFO}
     COMMENT "Generating city database..."
     VERBATIM
 )
