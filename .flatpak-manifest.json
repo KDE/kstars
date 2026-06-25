@@ -37,14 +37,6 @@
             "name": "eigen",
             "buildsystem": "cmake-ninja",
             "builddir": true,
-            "config-opts": [
-                "-DCMAKE_BUILD_TYPE=Release",
-                "-DEIGEN_BUILD_BLAS=OFF",
-                "-DEIGEN_BUILD_LAPACK=OFF",
-                "-DEIGEN_BUILD_DOC=OFF",
-                "-DEIGEN_BUILD_DEMOS=OFF",
-                "-DEIGEN_BUILD_TESTING=OFF"
-            ],
             "cleanup": [
                 "*"
             ],
@@ -131,8 +123,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/rlancaste/stellarsolver/archive/refs/tags/2.7.tar.gz",
-                    "sha256": "36ff495f325920b9a23b7c3f7453a99c8d405e0984d4b27da7568625cb6c76c9",
+                    "url": "https://github.com/rlancaste/stellarsolver/archive/refs/tags/2.8.tar.gz",
+                    "sha256": "1456cac5cd67353e19e1c6e57546af052a9302b7fbe2deaa649a44eec45fbec8",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 242699,
@@ -491,6 +483,59 @@
             ]
         },
         {
+            "name": "libgpiod",
+            "buildsystem": "autotools",
+            "config-opts": [
+                "--enable-tools=no",
+                "--enable-bindings-cxx=yes",
+                "--enable-bindings-python=no"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git",
+                    "tag": "v2.2.4"
+                }
+            ]
+        },
+        {
+            "name": "libicm20948",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DGPIOD_INCLUDE_DIR=/app/include",
+                "-DGPIOD_LIBRARIES=/app/lib/libgpiodcxx.so"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/knro/libicm20948.git",
+                    "commit": "dcda1ea0ffc6991e2a18f44ce93ac8dea9407910"
+                }
+            ]
+        },
+        {
+            "name": "liberfa",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/liberfa/erfa/archive/refs/tags/v2.0.1.tar.gz",
+                    "sha256": "d5469fbd0b212b3c7270c1da15c9bd82f37da9218fc89627f98283d27b416cbf"
+                }
+            ]
+        },
+        {
+            "name": "xplanet",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/knro/xplanet/archive/refs/tags/1.3.2.tar.gz",
+                    "sha256": "6902db5dcc74d234565ff9738816a499c67861cb946cccb63e3e0ff6fdc44580"
+                }
+            ]
+        },
+        {
             "name": "indi",
             "buildsystem": "cmake-ninja",
             "config-opts": [
@@ -525,7 +570,8 @@
             "config-opts": [
                 "-DBUILD_LIBS=OFF",
                 "-DINDI_INSTALL_UDEV_RULES=OFF",
-                "-DINDI_INSTALL_FIRMWARE=OFF"
+                "-DINDI_INSTALL_FIRMWARE=OFF",
+                "-DWITH_ICM_IMU=ON"
             ],
             "sources": [
                 {
@@ -542,13 +588,6 @@
                 "-DBUILD_TESTING=OFF",
                 "-DBUILD_WITH_QT6=ON"
             ],
-            "build-options": {
-                "arch": {
-                    "aarch64": {
-                        "make-args": ["-j2"]
-                    }
-                }
-            },
             "sources": [
                 {
                     "type": "dir",
