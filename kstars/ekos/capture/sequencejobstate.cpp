@@ -828,14 +828,22 @@ void SequenceJobState::setInitialized(CaptureWorkflowActionType action, bool ini
 
 void SequenceJobState::setCurrentFilterID(int value)
 {
-    // ignore events if preparation is already completed
+    // Always keep currentFilterID in sync with hardware reality.
+    // Other modules (e.g. Align) may change the filter outside of Capture's
+    // preparation cycle (notably during post-meridian-flip plate solving).
+    // If we skip this update, initCapture()'s prepareTargetFilter() will see a
+    // stale value and fail to restore the correct capture filter.
+    m_CameraState->currentFilterID = value;
+
+    // Skip action-triggering logic if preparation is already completed —
+    // we only need the state tracking above, not the filter-change commands.
     if (preparationCompleted())
     {
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Current Filter ID" << value << "received but preparation already complete.";
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Current Filter ID" << value <<
+                                        "updated (preparation already complete, no action triggered).";
         return;
     }
 
-    m_CameraState->currentFilterID = value;
     // Signal the FilterManager if we need a new targetFilterID or a new autofocus on that filter
     if (isInitialized(CAPTURE_ACTION_FILTER) == false &&
             (value != targetFilterID || m_filterPolicy & FilterManager::AUTOFOCUS_POLICY))

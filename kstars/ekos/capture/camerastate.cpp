@@ -836,7 +836,9 @@ bool CameraState::startFocusIfRequired()
     // as it could have changed for whatever reason (e.g. alignment used a different filter).
     // Then when focus process begins with the _target_ filter in place, it should take all the necessary actions to make it
     // work for the next set of captures. This is direct reset to the filter device, not via Filter Manager.
-    if (getMeridianFlipState()->getMeridianFlipStage() != MeridianFlipState::MF_NONE)
+    // Note: By the time this code runs, MF stage has already transitioned to MF_NONE.
+    // We detect a post-MF refocus via the refocus reason instead.
+    if (reason == RefocusState::REFOCUS_POST_MF)
     {
         int targetFilterPosition = m_activeJob->getTargetFilter();
         if (targetFilterPosition > 0 && targetFilterPosition != getCurrentFilterPosition())
