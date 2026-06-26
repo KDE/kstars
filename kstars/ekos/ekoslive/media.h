@@ -88,6 +88,11 @@ class Media : public QObject
         void upload(const QSharedPointer<FITSView> &view, const QString &uuid);
 
         void upload(const QSharedPointer<FITSData> &data, const QImage &image, const StretchParams &params, const QString &uuid);
+
+        // Returns true if at least one NodeManager has blob sending enabled.
+        // Used as a fast early-exit to avoid unnecessary processing when all
+        // destinations have blobs turned off.
+        bool anyBlobsEnabled() const;
         void stretch(const QSharedPointer<FITSData> &data, QImage &image, StretchParams &params) const;
 
         Ekos::Manager * m_Manager { nullptr };
@@ -96,7 +101,10 @@ class Media : public QObject
         QStringList temporaryFiles;
         QLineF correctionVector;
 
-        bool m_sendBlobs { true };
+        // Per-NodeManager blob sending state.
+        // The online server may toggle its blob flag to save bandwidth.
+        // The offline (StellarMate App) server always keeps blobs enabled.
+        QMap<NodeManager*, bool> m_BlobState;
         // When the native KStars livestacker is active, raw capture frames are
         // suppressed so only the stacked results (delivered via PictureMonitor)
         // reach the App.

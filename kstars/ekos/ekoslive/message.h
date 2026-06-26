@@ -265,8 +265,6 @@ class Message : public QObject
         Ekos::Manager *m_Manager { nullptr };
         QVector < QSharedPointer < NodeManager >> m_NodeManagers;
 
-        bool m_sendBlobs { true};
-
         QMap < QString, QSet < QString >> m_PropertySubscriptions;
         QLineF correctionVector;
         QRect m_BoundingRect;

@@ -90,10 +90,18 @@ void Media::onDisconnected()
 
     qCInfo(KSTARS_EKOS) << "Disconnected from Message Websocket server at" << node->url().toDisplayString();
 
+    // Reset blob state for the NodeManager that owns this node
+    for (auto &nodeManager : m_NodeManagers)
+    {
+        if (nodeManager->media() == node)
+        {
+            m_BlobState[nodeManager.get()] = true;
+            break;
+        }
+    }
+
     if (isConnected() == false)
     {
-        m_sendBlobs = true;
-
         for (const QString &oneFile : temporaryFiles)
             QFile::remove(oneFile);
         temporaryFiles.clear();
@@ -139,7 +147,25 @@ void Media::onTextReceived(const QString &message)
     else if (command == commands[ALIGN_SET_FILE_EXTENSION])
         extension = payload["ext"].toString();
     else if (command == commands[SET_BLOBS])
-        m_sendBlobs = msgObj["payload"].toBool();
+    {
+        // Identify which NodeManager sent this command so we only toggle
+        // blob state for that specific manager, not both (online + offline).
+        auto node = qobject_cast<Node*>(sender());
+        if (node)
+        {
+            for (auto &nodeManager : m_NodeManagers)
+            {
+                if (nodeManager->media() == node)
+                {
+                    bool newState = msgObj["payload"].toBool();
+                    m_BlobState[nodeManager.get()] = newState;
+                    qCInfo(KSTARS_EKOS) << "Media: SET_BLOBS" << newState
+                                        << "for NodeManager with URL" << nodeManager->property("serviceURL").toUrl().toDisplayString();
+                    break;
+                }
+            }
+        }
+    }
     // Get a list of object based on criteria
     else if (command == commands[ASTRO_GET_OBJECTS_IMAGE])
     {
@@ -300,7 +326,7 @@ void Media::sendDarkLibraryData(const QSharedPointer<FITSData> &data)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
-    if (m_sendBlobs == false || isConnected() == false)
+    if (anyBlobsEnabled() == false || isConnected() == false)
         return;
 
     StretchParams params;
@@ -314,7 +340,7 @@ void Media::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendFile(const QString &filename, const QString &uuid)
 {
-    if (m_sendBlobs == false || isConnected() == false)
+    if (anyBlobsEnabled() == false || isConnected() == false)
         return;
 
     QSharedPointer<FITSData> data(new FITSData());
@@ -331,7 +357,7 @@ void Media::sendFile(const QString &filename, const QString &uuid)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendView(const QSharedPointer<FITSView> &view, const QString &uuid)
 {
-    if (m_sendBlobs == false || isConnected() == false)
+    if (anyBlobsEnabled() == false || isConnected() == false)
         return;
 
     upload(view, uuid);
@@ -645,9 +671,7 @@ void Media::sendUpdatedFrame(const QSharedPointer<FITSView> &view)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 {
-    if (isConnected() == false ||
-            m_sendBlobs == false ||
-            !frame)
+    if (isConnected() == false || anyBlobsEnabled() == false || !frame)
         return;
 
     int32_t width = HB_VIDEO_WIDTH;
@@ -680,6 +704,9 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 
     for (auto &nodeManager : m_NodeManagers)
     {
+        // Skip NodeManagers whose blob sending is explicitly disabled
+        if (m_BlobState.value(nodeManager.get(), true) == false)
+            continue;
         nodeManager->media()->sendBinaryMessage(image);
     }
 }
@@ -732,6 +759,9 @@ void Media::uploadImage(const QByteArray &image, const QString &uuid)
 
     for (auto &nodeManager : m_NodeManagers)
     {
+        // Skip NodeManagers whose blob sending is explicitly disabled
+        if (m_BlobState.value(nodeManager.get(), true) == false)
+            continue;
         nodeManager->media()->sendBinaryMessage(image, shouldBypassClientStateCheck);
     }
 }
@@ -743,7 +773,7 @@ void Media::processNewBLOB(IBLOB * bp)
 
 void Media::sendModuleFrame(const QSharedPointer<FITSView> &view)
 {
-    if (m_sendBlobs == false)
+    if (anyBlobsEnabled() == false)
         return;
 
     if (qobject_cast<Ekos::Align * >(sender()) == m_Manager->alignModule())
@@ -754,5 +784,19 @@ void Media::sendModuleFrame(const QSharedPointer<FITSView> &view)
         sendView(view, "+G");
     else if (qobject_cast<Ekos::DarkLibrary * >(sender()) == Ekos::DarkLibrary::Instance())
         sendView(view, "+D");
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+bool Media::anyBlobsEnabled() const
+{
+    // Default to true (send blobs) if no entry exists for a NodeManager
+for (auto &nodeManager : m_NodeManagers)
+{
+    if (m_BlobState.value(nodeManager.get(), true))
+            return true;
+    }
+    return false;
 }
 }
