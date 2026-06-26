@@ -1386,7 +1386,7 @@ QStringList getAstrometryDefaultIndexFolderPaths()
 
 #if defined(Q_OS_MACOS)
 //Note that this will copy and will not overwrite, so that the user's changes in the files are preserved.
-void copyResourcesFolderFromAppBundle(QString folder)
+void copyResourcesFolderFromAppBundle(QString folder, const QStringList &excludeFiles)
 {
     QString folderLocation = QStandardPaths::locate(
                                  QStandardPaths::GenericDataLocation, folder, QStandardPaths::LocateDirectory);
@@ -1406,7 +1406,7 @@ void copyResourcesFolderFromAppBundle(QString folder)
             folder;
         QDir writableDir;
         writableDir.mkdir(folderLocation);
-        copyRecursively(folderSourceDir.absolutePath(), folderLocation);
+        copyRecursively(folderSourceDir.absolutePath(), folderLocation, excludeFiles);
     }
 }
 
@@ -1418,9 +1418,22 @@ bool setupMacKStarsIfNeeded() // This method will return false if the KStars dat
     copyResourcesFolderFromAppBundle("knotifications6");
     copyResourcesFolderFromAppBundle("sounds");
 
+    // These databases are read-only data shipped (or regenerated) with each release.
+    // KSPaths::locate finds them directly in the app bundle on macOS (see kspaths.cpp),
+    // so they must not be copied into the writable data location: a non-overwriting copy
+    // there would shadow the bundle and silently pin an outdated database across upgrades.
+    // User customizations live in separate files (e.g. mycitydb.sqlite) and are untouched.
+    const QStringList bundleOnlyData = { "citydb.sqlite", "skycultures.sqlite" };
+
     //This will copy the KStars data directory
-    copyResourcesFolderFromAppBundle("kstars");
+    copyResourcesFolderFromAppBundle("kstars", bundleOnlyData);
     copyResourcesFolderFromAppBundle("kstars/xplanet");
+
+    // Remove any stale writable copies left by earlier versions that copied them.
+    const QString writableKstars =
+        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kstars/";
+    for (const QString &dataFile : bundleOnlyData)
+        QFile::remove(writableKstars + dataFile);
 
     if (Options::kStarsFirstRun())
     {
@@ -1514,7 +1527,7 @@ bool replaceIndexFileNotYetSet()
     return true;
 }
 
-bool copyRecursively(QString sourceFolder, QString destFolder)
+bool copyRecursively(QString sourceFolder, QString destFolder, const QStringList &excludeFiles)
 {
     QDir sourceDir(sourceFolder);
 
@@ -1528,6 +1541,8 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
     QStringList files = sourceDir.entryList(QDir::Files);
     for (int i = 0; i < files.count(); i++)
     {
+        if (excludeFiles.contains(files[i]))
+            continue;
         QString srcName  = sourceFolder + QDir::separator() + files[i];
         QString destName = destFolder + QDir::separator() + files[i];
         QFile::copy(srcName, destName); //Note this does not overwrite files
@@ -1539,7 +1554,7 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
     {
         QString srcName  = sourceFolder + QDir::separator() + files[i];
         QString destName = destFolder + QDir::separator() + files[i];
-        copyRecursively(srcName, destName);
+        copyRecursively(srcName, destName, excludeFiles);
     }
 
     return true;

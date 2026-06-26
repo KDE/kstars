@@ -10,7 +10,9 @@
 
 namespace
 {
-[[maybe_unused]] static bool isTestDataLocation(QStandardPaths::StandardLocation location)
+// All call sites are behind KSTARS_BUILD_TESTING or Q_OS_MACOS guards, so a
+// plain non-macOS production build does not reference this helper.
+[[maybe_unused]] static bool isDataLocation(QStandardPaths::StandardLocation location)
 {
     switch (location)
     {
@@ -62,7 +64,7 @@ QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString
         }
 
 #if defined(KSTARS_BUILD_TESTING)
-        if (findings.isEmpty() && isTestDataLocation(location))
+        if (findings.isEmpty() && isDataLocation(location))
         {
             const QByteArray testDataDir = qgetenv("KSTARS_TEST_DATADIR");
             if (!testDataDir.isEmpty())
@@ -82,6 +84,20 @@ QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString
         QFileInfo const rfile("/data/data/org.kde.kstars.lite/qt-reserved-files/share/kstars/" + fileName);
         if (rfile.exists())
             return rfile.filePath();
+    }
+#endif
+
+#ifdef Q_OS_MACOS
+    // Qt's AppLocalDataLocation on macOS includes Contents/Resources/ as a search root
+    // but KStars data is installed into Contents/Resources/kstars/ (one level deeper).
+    // Search that subdirectory explicitly so data files are found in the bundle without
+    // requiring a copy to Application Support.
+    if (findings.isEmpty() && isDataLocation(location))
+    {
+        const QString candidate = QDir(QCoreApplication::applicationDirPath()
+                                       + "/../Resources/kstars/").filePath(fileName);
+        if (QFileInfo::exists(candidate))
+            return candidate;
     }
 #endif
 
@@ -121,7 +137,7 @@ QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const 
         }
 
 #if defined(KSTARS_BUILD_TESTING)
-        if (findings.isEmpty() && isTestDataLocation(location))
+        if (findings.isEmpty() && isDataLocation(location))
         {
             const QByteArray testDataDir = qgetenv("KSTARS_TEST_DATADIR");
             if (!testDataDir.isEmpty())
@@ -141,6 +157,16 @@ QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const 
         QFileInfo const rfile("/data/data/org.kde.kstars.lite/qt-reserved-files/share/kstars/" + fileName);
         if (rfile.exists())
             return { rfile.filePath() };
+    }
+#endif
+
+#ifdef Q_OS_MACOS
+    if (findings.isEmpty() && isDataLocation(location))
+    {
+        const QString candidate = QDir(QCoreApplication::applicationDirPath()
+                                       + "/../Resources/kstars/").filePath(fileName);
+        if (QFileInfo::exists(candidate))
+            return { candidate };
     }
 #endif
 
