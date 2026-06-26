@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-25 02:11+0000\n"
+"POT-Creation-Date: 2026-06-26 02:08+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -1053,7 +1053,7 @@ msgstr "Perihal Pelihat Log"
 #: data/qml/whatisinteresting/wiview.qml:146
 #: data/qml/whatisinteresting/wiview.qml:158 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:828 indi/indimount.cpp:843 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:187
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -2042,7 +2042,7 @@ msgstr "Status"
 #: ekos/scheduler/scheduler.ui:1362
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1015
 #: indi/indidome.cpp:21 indi/indidustcap.cpp:17 indi/indimount.cpp:30
-#: indi/indimount.cpp:1581 indi/indipac.cpp:17
+#: indi/indimount.cpp:1615 indi/indipac.cpp:17
 #, kde-format, kde-kuit-format
 msgid "Idle"
 msgstr ""
@@ -17321,7 +17321,7 @@ msgid "Syncing"
 msgstr ""
 
 #: ekos/ekos.h:140 ekos/scheduler/scheduler.cpp:2489 indi/indimount.cpp:30
-#: indi/indimount.cpp:1587
+#: indi/indimount.cpp:1621
 #, fuzzy, kde-format
 msgid "Slewing"
 msgstr "Skop"
@@ -23881,52 +23881,52 @@ msgstr "Bandar nama"
 msgid "Failed to clear Alignment Model."
 msgstr "Pada Ahli:"
 
-#: ekos/mount/mount.cpp:1290
+#: ekos/mount/mount.cpp:1298
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1315
+#: ekos/mount/mount.cpp:1323
 #, fuzzy, kde-format
 msgid "Parking time cannot be in the past."
 msgstr "Tetapan Rangkaian"
 
-#: ekos/mount/mount.cpp:1324
+#: ekos/mount/mount.cpp:1332
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1329
+#: ekos/mount/mount.cpp:1337
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1332
+#: ekos/mount/mount.cpp:1340
 #, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1352
+#: ekos/mount/mount.cpp:1360
 #, fuzzy, kde-format
 msgid "Parking timer is up."
 msgstr "Tetapan Rangkaian"
 
-#: ekos/mount/mount.cpp:1362
+#: ekos/mount/mount.cpp:1370
 #, fuzzy, kde-format
 msgid "Starting auto park..."
 msgstr "Bandar nama"
 
-#: ekos/mount/mount.cpp:1858
+#: ekos/mount/mount.cpp:1866
 #, kde-format
 msgid "Updating master time source to %1."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1879
+#: ekos/mount/mount.cpp:1887
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
 
-#: ekos/mount/mount.cpp:1887
+#: ekos/mount/mount.cpp:1895
 #, kde-format
 msgid "Updating master location source to %1."
 msgstr ""
@@ -24126,7 +24126,7 @@ msgstr "Bandar nama"
 
 #. i18n: ectx: property (text), widget (QLabel, trackingLabel)
 #: ekos/mount/mount.ui:783 indi/indidome.cpp:22 indi/indimount.cpp:31
-#: indi/indimount.cpp:1591
+#: indi/indimount.cpp:1625
 #, fuzzy, kde-format
 msgid "Tracking"
 msgstr "Trek Seterusnya"
@@ -24297,7 +24297,7 @@ msgstr "Warna"
 
 #: ekos/observatory/observatory.cpp:350 ekos/observatory/observatory.cpp:366
 #: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:31
-#: indi/indimount.cpp:1585
+#: indi/indimount.cpp:1619
 #, fuzzy, kde-format
 msgid "Parking"
 msgstr "Bandar nama"
@@ -24350,7 +24350,7 @@ msgid "Open"
 msgstr "Skala"
 
 #: ekos/observatory/observatory.cpp:423 indi/indidome.cpp:22
-#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1583
+#: indi/indidustcap.cpp:18 indi/indimount.cpp:31 indi/indimount.cpp:1617
 #, fuzzy, kde-format
 msgid "Parked"
 msgstr "Bandar nama"
@@ -34119,7 +34119,7 @@ msgstr "Tidak hingga 1"
 msgid "INDI Server Message"
 msgstr "Pelayan"
 
-#: indi/indimount.cpp:30 indi/indimount.cpp:1589
+#: indi/indimount.cpp:30 indi/indimount.cpp:1623
 #, fuzzy, kde-format
 msgid "Moving"
 msgstr "Memuatkan jurupacu %s..."
@@ -34154,57 +34154,57 @@ msgstr "Kordinat Bulan"
 msgid "Mount homing failed"
 msgstr "Bandar nama"
 
-#: indi/indimount.cpp:486
+#: indi/indimount.cpp:520
 #, fuzzy, kde-format
 msgid "Mount parking failed"
 msgstr "Bandar nama"
 
-#: indi/indimount.cpp:492
+#: indi/indimount.cpp:526
 #, fuzzy, kde-format
 msgid "Mount parking is in progress"
 msgstr "Tetapan Rangkaian"
 
-#: indi/indimount.cpp:500
+#: indi/indimount.cpp:534
 #, fuzzy, kde-format
 msgid "Mount unparking is in progress"
 msgstr "Tetapan Rangkaian"
 
-#: indi/indimount.cpp:507
+#: indi/indimount.cpp:541
 #, fuzzy, kde-format
 msgid "Mount parked"
 msgstr "Bandar nama"
 
-#: indi/indimount.cpp:526
+#: indi/indimount.cpp:560
 #, fuzzy, kde-format
 msgid "Mount unparked"
 msgstr "Bandar nama"
 
-#: indi/indimount.cpp:823
+#: indi/indimount.cpp:857
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr ""
 
-#: indi/indimount.cpp:824
+#: indi/indimount.cpp:858
 #, fuzzy, kde-format
 msgid "Sun Warning"
 msgstr "Bandar nama"
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:876
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr ""
 
-#: indi/indimount.cpp:876
+#: indi/indimount.cpp:910
 #, fuzzy, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
 msgstr "ialah seperti hingga?"
 
-#: indi/indimount.cpp:877
+#: indi/indimount.cpp:911
 #, fuzzy, kde-format
 msgid "Telescope Motion"
 msgstr "Port tempatan:"
@@ -46013,7 +46013,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:714
 #, fuzzy, kde-kuit-format
-msgctxt "City in Ivory coast"
+msgctxt "City in Ivory Coast"
 msgid "Abidjan"
 msgstr "Bandar nama"
 
@@ -46091,7 +46091,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:727
 #, fuzzy, kde-kuit-format
-msgctxt "City in Pitcairn Islands"
+msgctxt "City in Pitcairn"
 msgid "Adamstown"
 msgstr "Bandar nama"
 
@@ -47628,7 +47628,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:983
 #, fuzzy, kde-kuit-format
-msgctxt "City in Guinea Bissau"
+msgctxt "City in Guinea-Bissau"
 msgid "Bafata"
 msgstr "Bandar nama"
 
@@ -48246,7 +48246,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:1086
 #, fuzzy, kde-kuit-format
-msgctxt "City in Yugoslavia"
+msgctxt "City in Serbia"
 msgid "Belgrade"
 msgstr "Bandar nama"
 
@@ -48636,7 +48636,7 @@ msgstr ""
 
 #: kstars_i18n.cpp:1151
 #, fuzzy, kde-kuit-format
-msgctxt "City in Guinea Bissau"
+msgctxt "City in Guinea-Bissau"
 msgid "Bissau"
 msgstr "Bandar nama"
 
@@ -49146,7 +49146,7 @@ msgstr ""
 
 #: kstars_i18n.cpp:1236
 #, fuzzy, kde-kuit-format
-msgctxt "City in Congo"
+msgctxt "City in Republic of the Congo"
 msgid "Brazzaville"
 msgstr "Bandar nama"
 
@@ -49992,7 +49992,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:1377
 #, fuzzy, kde-kuit-format
-msgctxt "City in St. Lucia"
+msgctxt "City in Saint Lucia"
 msgid "Castries"
 msgstr "Bandar nama"
 
@@ -51019,7 +51019,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:1548
 #, fuzzy, kde-kuit-format
-msgctxt "City in Bénin"
+msgctxt "City in Benin"
 msgid "Cotonou"
 msgstr "Bandar nama"
 
@@ -51230,7 +51230,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:1583
 #, fuzzy, kde-kuit-format
-msgctxt "City in Western sahara"
+msgctxt "City in Western Sahara"
 msgid "Dakhla"
 msgstr "Bandar nama"
 
@@ -51734,7 +51734,7 @@ msgstr ""
 
 #: kstars_i18n.cpp:1667
 #, fuzzy, kde-kuit-format
-msgctxt "City in US Territory"
+msgctxt "City in United States Minor Outlying Islands"
 msgid "Diego Garcia"
 msgstr "Bandar nama"
 
@@ -52460,7 +52460,7 @@ msgstr ""
 
 #: kstars_i18n.cpp:1788
 #, fuzzy, kde-kuit-format
-msgctxt "City in Western sahara"
+msgctxt "City in Western Sahara"
 msgid "El Aaiun"
 msgstr "Bandar nama"
 
@@ -53996,19 +53996,19 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:2044
 #, fuzzy, kde-kuit-format
-msgctxt "City in Ascension Island"
+msgctxt "City in Cayman Islands"
 msgid "Georgetown"
 msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:2045
 #, fuzzy, kde-kuit-format
-msgctxt "City in Cayman Islands"
+msgctxt "City in Guyana"
 msgid "Georgetown"
 msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:2046
 #, fuzzy, kde-kuit-format
-msgctxt "City in Guyana"
+msgctxt "City in Saint Helena"
 msgid "Georgetown"
 msgstr "Bandar nama"
 
@@ -56367,7 +56367,7 @@ msgstr "Bandar nama Bandar"
 
 #: kstars_i18n.cpp:2439
 #, fuzzy, kde-kuit-format
-msgctxt "City in US Territory"
+msgctxt "City in United States Minor Outlying Islands"
 msgid "Johnston Atoll"
 msgstr "Bandar nama"
 
@@ -57369,7 +57369,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:2606
 #, fuzzy, kde-kuit-format
-msgctxt "City in Congo (Democratic Republic)"
+msgctxt "City in Democratic Republic of the Congo"
 msgid "Kinshasa"
 msgstr "Bandar nama"
 
@@ -57405,7 +57405,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:2612
 #, fuzzy, kde-kuit-format
-msgctxt "City in Dem rep of Congo"
+msgctxt "City in Democratic Republic of the Congo"
 msgid "Kisangani"
 msgstr "Bandar nama"
 
@@ -59787,7 +59787,7 @@ msgstr "Kawasan nama"
 
 #: kstars_i18n.cpp:3009
 #, fuzzy, kde-kuit-format
-msgctxt "City in Dem rep of Congo"
+msgctxt "City in Democratic Republic of the Congo"
 msgid "Matadi"
 msgstr "Bandar nama"
 
@@ -59859,7 +59859,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:3021
 #, fuzzy, kde-kuit-format
-msgctxt "City in Dem rep of Congo"
+msgctxt "City in Democratic Republic of the Congo"
 msgid "Mbandaka"
 msgstr "Bandar nama"
 
@@ -60616,7 +60616,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:3147
 #, fuzzy, kde-kuit-format
-msgctxt "City in US Territory"
+msgctxt "City in United States Minor Outlying Islands"
 msgid "Midway Island"
 msgstr "Bandar nama"
 
@@ -63010,7 +63010,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:3546
 #, fuzzy, kde-kuit-format
-msgctxt "City in US Territory"
+msgctxt "City in United States Minor Outlying Islands"
 msgid "Pagan Island"
 msgstr "Bandar nama"
 
@@ -63790,7 +63790,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:3676
 #, fuzzy, kde-kuit-format
-msgctxt "City in Congo"
+msgctxt "City in Republic of the Congo"
 msgid "Pointe Noire"
 msgstr "Bandar nama"
 
@@ -64018,7 +64018,7 @@ msgstr "Liang"
 
 #: kstars_i18n.cpp:3714
 #, fuzzy, kde-kuit-format
-msgctxt "City in Bénin"
+msgctxt "City in Benin"
 msgid "Porto Novo"
 msgstr "Bandar nama"
 
@@ -65086,7 +65086,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:3892
 #, fuzzy, kde-kuit-format
-msgctxt "City in US Territory"
+msgctxt "City in United States Minor Outlying Islands"
 msgid "Rota Island"
 msgstr "Bandar nama"
 
@@ -65338,7 +65338,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:3934
 #, fuzzy, kde-kuit-format
-msgctxt "City in US Territory"
+msgctxt "City in United States Minor Outlying Islands"
 msgid "Saipan Island"
 msgstr "Bandar nama"
 
@@ -66976,7 +66976,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:4207
 #, fuzzy, kde-kuit-format
-msgctxt "City in Virgin Islands"
+msgctxt "City in U.S. Virgin Islands"
 msgid "St. Croix"
 msgstr "Bandar nama"
 
@@ -67084,7 +67084,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:4225
 #, fuzzy, kde-kuit-format
-msgctxt "City in Virgin Islands"
+msgctxt "City in U.S. Virgin Islands"
 msgid "St. Thomas"
 msgstr "Bandar nama"
 
@@ -68075,7 +68075,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:4390
 #, fuzzy, kde-kuit-format
-msgctxt "City in US Territory"
+msgctxt "City in United States Minor Outlying Islands"
 msgid "Tinian Island"
 msgstr "Bandar nama"
 
@@ -69341,7 +69341,7 @@ msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:4601
 #, fuzzy, kde-kuit-format
-msgctxt "City in US Territory"
+msgctxt "City in United States Minor Outlying Islands"
 msgid "Wake Island"
 msgstr "Bandar nama"
 
@@ -70199,7 +70199,7 @@ msgstr ""
 
 #: kstars_i18n.cpp:4744
 #, fuzzy, kde-kuit-format
-msgctxt "City in Ivory coast"
+msgctxt "City in Ivory Coast"
 msgid "Yamoussoukro"
 msgstr "Bandar nama"
 
@@ -72830,56 +72830,56 @@ msgstr "Negara nama"
 #: kstars_i18n.cpp:5182
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Ascension Island"
+msgid "Australia"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5183
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Australia"
+msgid "Austria"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5184
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Austria"
+msgid "Bahamas"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5185
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Bahamas"
-msgstr "Negara nama"
-
-#: kstars_i18n.cpp:5186
-#, fuzzy, kde-kuit-format
-msgctxt "Country name"
 msgid "Bahrain"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5187
+#: kstars_i18n.cpp:5186
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Bangladesh"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5188
+#: kstars_i18n.cpp:5187
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Barbados"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5189
+#: kstars_i18n.cpp:5188
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Belgium"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5190
+#: kstars_i18n.cpp:5189
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Belize"
 msgstr "Negara nama"
+
+#: kstars_i18n.cpp:5190
+#, fuzzy, kde-kuit-format
+msgctxt "Country name"
+msgid "Benin"
+msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:5191
 #, fuzzy, kde-kuit-format
@@ -72938,673 +72938,673 @@ msgstr "Negara nama"
 #: kstars_i18n.cpp:5200
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Bénin"
+msgid "Cameroon"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5201
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Cameroon"
+msgid "Canada"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5202
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Canada"
+msgid "Cape Verde"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5203
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Cape Verde"
+msgid "Cayman Islands"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5204
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Cayman Islands"
+msgid "Central African Republic"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5205
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Central African Republic"
+msgid "Chad"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5206
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Chad"
+msgid "Chile"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5207
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Chile"
+msgid "China"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5208
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "China"
+msgid "Colombia"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5209
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Colombia"
+msgid "Costa Rica"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5210
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Congo"
+msgid "Croatia"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5211
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Congo (Democratic Republic)"
+msgid "Cuba"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5212
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Costa Rica"
+msgid "Cyprus"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5213
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Croatia"
-msgstr "Negara nama"
+msgid "Czechia"
+msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:5214
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Cuba"
+msgid "Democratic Republic of the Congo"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5215
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Cyprus"
+msgid "Denmark"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5216
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Czechia"
+msgid "Djibouti"
 msgstr "Bandar nama"
 
 #: kstars_i18n.cpp:5217
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Dem rep of Congo"
-msgstr "Negara nama bagi Congo"
-
-#: kstars_i18n.cpp:5218
-#, fuzzy, kde-kuit-format
-msgctxt "Country name"
-msgid "Denmark"
-msgstr "Negara nama"
-
-#: kstars_i18n.cpp:5219
-#, fuzzy, kde-kuit-format
-msgctxt "Country name"
-msgid "Djibouti"
-msgstr "Bandar nama"
-
-#: kstars_i18n.cpp:5220
-#, fuzzy, kde-kuit-format
-msgctxt "Country name"
 msgid "Dominican Republic"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5221
+#: kstars_i18n.cpp:5218
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Ecuador"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5222
+#: kstars_i18n.cpp:5219
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Egypt"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5223
+#: kstars_i18n.cpp:5220
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "El Salvador"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5224
+#: kstars_i18n.cpp:5221
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Equatorial Guinea"
 msgstr "Negara nama Guinea"
 
-#: kstars_i18n.cpp:5225
+#: kstars_i18n.cpp:5222
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Eritrea"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5226
+#: kstars_i18n.cpp:5223
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Estonia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5227
+#: kstars_i18n.cpp:5224
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Ethiopia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5228
+#: kstars_i18n.cpp:5225
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Falkland Islands"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5229
+#: kstars_i18n.cpp:5226
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Fiji"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5230
+#: kstars_i18n.cpp:5227
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Finland"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5231
+#: kstars_i18n.cpp:5228
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "France"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5232
+#: kstars_i18n.cpp:5229
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "French Guiana"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5233
+#: kstars_i18n.cpp:5230
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "French Polynesia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5234
+#: kstars_i18n.cpp:5231
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Gabon"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5235
+#: kstars_i18n.cpp:5232
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Gambia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5236
+#: kstars_i18n.cpp:5233
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Germany"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5237
+#: kstars_i18n.cpp:5234
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Ghana"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5238
+#: kstars_i18n.cpp:5235
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Greece"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5239
+#: kstars_i18n.cpp:5236
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Greenland"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5240
+#: kstars_i18n.cpp:5237
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Guam"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5241
+#: kstars_i18n.cpp:5238
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Guatemala"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5242
+#: kstars_i18n.cpp:5239
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Guinea"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5243
+#: kstars_i18n.cpp:5240
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Guinea Bissau"
+msgid "Guinea-Bissau"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5244
+#: kstars_i18n.cpp:5241
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Guyana"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5245
+#: kstars_i18n.cpp:5242
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Haiti"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5246
+#: kstars_i18n.cpp:5243
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Honduras"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5247
+#: kstars_i18n.cpp:5244
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Hong Kong"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5248
+#: kstars_i18n.cpp:5245
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Hungary"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5249
+#: kstars_i18n.cpp:5246
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Iceland"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5250
+#: kstars_i18n.cpp:5247
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "India"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5251
+#: kstars_i18n.cpp:5248
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Indonesia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5252
+#: kstars_i18n.cpp:5249
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Iran"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5253
+#: kstars_i18n.cpp:5250
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Iraq"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5254
+#: kstars_i18n.cpp:5251
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Ireland"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5255
+#: kstars_i18n.cpp:5252
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Isle of Man"
 msgstr "Negara nama bagi"
 
-#: kstars_i18n.cpp:5256
+#: kstars_i18n.cpp:5253
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Israel"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5257
+#: kstars_i18n.cpp:5254
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Italy"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5258
+#: kstars_i18n.cpp:5255
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Ivory coast"
+msgid "Ivory Coast"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5259
+#: kstars_i18n.cpp:5256
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Jamaica"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5260
+#: kstars_i18n.cpp:5257
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Japan"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5261
+#: kstars_i18n.cpp:5258
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Jordan"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5262
+#: kstars_i18n.cpp:5259
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Kazakhstan"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5263
+#: kstars_i18n.cpp:5260
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Kenya"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5264
+#: kstars_i18n.cpp:5261
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Kiribati"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5265
+#: kstars_i18n.cpp:5262
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Kuwait"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5266
+#: kstars_i18n.cpp:5263
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Latvia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5267
+#: kstars_i18n.cpp:5264
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Lebanon"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5268
+#: kstars_i18n.cpp:5265
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Lesotho"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5269
+#: kstars_i18n.cpp:5266
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Liberia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5270
+#: kstars_i18n.cpp:5267
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Libya"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5271
+#: kstars_i18n.cpp:5268
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Lithuania"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5272
+#: kstars_i18n.cpp:5269
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Luxembourg"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5273
+#: kstars_i18n.cpp:5270
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Macedonia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5274
+#: kstars_i18n.cpp:5271
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Madagascar"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5275
+#: kstars_i18n.cpp:5272
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Malawi"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5276
+#: kstars_i18n.cpp:5273
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Malaysia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5277
+#: kstars_i18n.cpp:5274
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Maldives"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5278
+#: kstars_i18n.cpp:5275
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Mali"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5279
+#: kstars_i18n.cpp:5276
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Malta"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5280
+#: kstars_i18n.cpp:5277
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Marshall Islands"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5281
+#: kstars_i18n.cpp:5278
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Mauritania"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5282
+#: kstars_i18n.cpp:5279
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Mauritius"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5283
+#: kstars_i18n.cpp:5280
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Mexico"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5284
+#: kstars_i18n.cpp:5281
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Micronesia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5285
+#: kstars_i18n.cpp:5282
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Monaco"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5286
+#: kstars_i18n.cpp:5283
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Morocco"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5287
+#: kstars_i18n.cpp:5284
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Mozambique"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5288
+#: kstars_i18n.cpp:5285
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Myanmar"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5289
+#: kstars_i18n.cpp:5286
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Namibia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5290
+#: kstars_i18n.cpp:5287
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Nepal"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5291
+#: kstars_i18n.cpp:5288
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Netherlands"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5292
+#: kstars_i18n.cpp:5289
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "New Zealand"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5293
+#: kstars_i18n.cpp:5290
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Nicaragua"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5294
+#: kstars_i18n.cpp:5291
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Niger"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5295
+#: kstars_i18n.cpp:5292
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Nigeria"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5296
+#: kstars_i18n.cpp:5293
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "North Korea"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5297
+#: kstars_i18n.cpp:5294
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Norway"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5298
+#: kstars_i18n.cpp:5295
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Pakistan"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5299
+#: kstars_i18n.cpp:5296
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Palau"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5300
+#: kstars_i18n.cpp:5297
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Panama"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5301
+#: kstars_i18n.cpp:5298
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Papua New Guinea"
 msgstr "Negara nama Baru Guinea"
 
-#: kstars_i18n.cpp:5302
+#: kstars_i18n.cpp:5299
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Paraguay"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5303
+#: kstars_i18n.cpp:5300
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Peru"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5304
+#: kstars_i18n.cpp:5301
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Philippines"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5305
+#: kstars_i18n.cpp:5302
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Pitcairn Islands"
+msgid "Pitcairn"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5306
+#: kstars_i18n.cpp:5303
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Poland"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5307
+#: kstars_i18n.cpp:5304
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Portugal"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5308
+#: kstars_i18n.cpp:5305
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Qatar"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5309
+#: kstars_i18n.cpp:5306
+#, kde-kuit-format
+msgctxt "Country name"
+msgid "Republic of the Congo"
+msgstr ""
+
+#: kstars_i18n.cpp:5307
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Romania"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5310
+#: kstars_i18n.cpp:5308
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Russia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5311
+#: kstars_i18n.cpp:5309
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Rwanda"
+msgstr "Negara nama"
+
+#: kstars_i18n.cpp:5310
+#, fuzzy, kde-kuit-format
+msgctxt "Country name"
+msgid "Saint Helena"
+msgstr "Bandar nama"
+
+#: kstars_i18n.cpp:5311
+#, fuzzy, kde-kuit-format
+msgctxt "Country name"
+msgid "Saint Lucia"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5312
@@ -73626,75 +73626,75 @@ msgid "Senegal"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5315
+#, kde-kuit-format
+msgctxt "Country name"
+msgid "Serbia"
+msgstr ""
+
+#: kstars_i18n.cpp:5316
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Seychelles"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5316
+#: kstars_i18n.cpp:5317
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Sierra Leone"
 msgstr "Negara nama Leone"
 
-#: kstars_i18n.cpp:5317
+#: kstars_i18n.cpp:5318
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Singapore"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5318
+#: kstars_i18n.cpp:5319
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Slovakia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5319
+#: kstars_i18n.cpp:5320
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Slovenia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5320
+#: kstars_i18n.cpp:5321
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Solomon Islands"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5321
+#: kstars_i18n.cpp:5322
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Somalia"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5322
+#: kstars_i18n.cpp:5323
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "South Africa"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5323
+#: kstars_i18n.cpp:5324
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "South Korea"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5324
+#: kstars_i18n.cpp:5325
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Spain"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5325
-#, fuzzy, kde-kuit-format
-msgctxt "Country name"
-msgid "Sri Lanka"
-msgstr "Negara nama"
-
 #: kstars_i18n.cpp:5326
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "St. Lucia"
+msgid "Sri Lanka"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5327
@@ -73778,7 +73778,7 @@ msgstr ""
 #: kstars_i18n.cpp:5340
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "US Territory"
+msgid "U.S. Virgin Islands"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5341
@@ -73812,45 +73812,45 @@ msgid "United Kingdom"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5346
+#, kde-kuit-format
+msgctxt "Country name"
+msgid "United States Minor Outlying Islands"
+msgstr ""
+
+#: kstars_i18n.cpp:5347
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Uruguay"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5347
+#: kstars_i18n.cpp:5348
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Uzbekistan"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5348
+#: kstars_i18n.cpp:5349
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Vanuatu"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5349
+#: kstars_i18n.cpp:5350
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Vatican"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5350
+#: kstars_i18n.cpp:5351
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
 msgid "Venezuela"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5351
-#, fuzzy, kde-kuit-format
-msgctxt "Country name"
-msgid "Virgin Islands"
-msgstr "Negara nama"
-
 #: kstars_i18n.cpp:5352
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Western sahara"
+msgid "Western Sahara"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5353
@@ -73862,2150 +73862,2144 @@ msgstr "Negara nama"
 #: kstars_i18n.cpp:5354
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Yugoslavia"
+msgid "Zambia"
 msgstr "Negara nama"
 
 #: kstars_i18n.cpp:5355
 #, fuzzy, kde-kuit-format
 msgctxt "Country name"
-msgid "Zambia"
-msgstr "Negara nama"
-
-#: kstars_i18n.cpp:5356
-#, fuzzy, kde-kuit-format
-msgctxt "Country name"
 msgid "Zimbabwe"
 msgstr "Negara nama"
 
-#: kstars_i18n.cpp:5357
+#: kstars_i18n.cpp:5356
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Comet Impact Scars (HST)"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5358
+#: kstars_i18n.cpp:5357
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Galilean Satellites (HST)"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5359
+#: kstars_i18n.cpp:5358
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Global Dust Storm (HST)"
 msgstr "Imej Ribut"
 
-#: kstars_i18n.cpp:5360
+#: kstars_i18n.cpp:5359
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Jupiter and Io (HST)"
 msgstr "Imej dan"
 
-#: kstars_i18n.cpp:5361
+#: kstars_i18n.cpp:5360
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show APOD Image"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5362
+#: kstars_i18n.cpp:5361
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show APOD Image (Radar)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5363
+#: kstars_i18n.cpp:5362
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show APOD Image (Venera lander)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5364
+#: kstars_i18n.cpp:5363
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Collage of Saturn and moons"
 msgstr "Imej bagi dan"
 
-#: kstars_i18n.cpp:5365
+#: kstars_i18n.cpp:5364
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5366
+#: kstars_i18n.cpp:5365
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1995)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5367
+#: kstars_i18n.cpp:5366
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1996)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5368
+#: kstars_i18n.cpp:5367
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1998)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5369
+#: kstars_i18n.cpp:5368
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (1999)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5370
+#: kstars_i18n.cpp:5369
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2001)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5371
+#: kstars_i18n.cpp:5370
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2002)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5372
+#: kstars_i18n.cpp:5371
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2003)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5373
+#: kstars_i18n.cpp:5372
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (2004)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5374
+#: kstars_i18n.cpp:5373
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Aurora)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5375
+#: kstars_i18n.cpp:5374
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (detail)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5376
+#: kstars_i18n.cpp:5375
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Detail)"
 msgstr "Imej Imej Perincian"
 
-#: kstars_i18n.cpp:5377
+#: kstars_i18n.cpp:5376
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Hubble V)"
 msgstr "Imej Imej V"
 
-#: kstars_i18n.cpp:5378
+#: kstars_i18n.cpp:5377
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (Hubble X)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5379
+#: kstars_i18n.cpp:5378
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (SN 2004dj)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5380
+#: kstars_i18n.cpp:5379
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST Image (stars in M 31)"
 msgstr "Imej Imej inci M"
 
-#: kstars_i18n.cpp:5381
+#: kstars_i18n.cpp:5380
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show HST (Rings and Moons)"
 msgstr "Imej dan"
 
-#: kstars_i18n.cpp:5382
+#: kstars_i18n.cpp:5381
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show KPNO AOP Image"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5383
+#: kstars_i18n.cpp:5382
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show MGS Image"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5384
+#: kstars_i18n.cpp:5383
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show NASA Mosaic"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5385
+#: kstars_i18n.cpp:5384
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show NOAO Image"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5386
+#: kstars_i18n.cpp:5385
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show NOAO Image (Halpha)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5387
+#: kstars_i18n.cpp:5386
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show NOAO Image (Optical)"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5388
+#: kstars_i18n.cpp:5387
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show SEDS Image"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5389
+#: kstars_i18n.cpp:5388
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Spitzer Image"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5390
+#: kstars_i18n.cpp:5389
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Sun Image"
 msgstr "Imej Ahad Imej"
 
-#: kstars_i18n.cpp:5391
+#: kstars_i18n.cpp:5390
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Viking Lander Image"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5392
+#: kstars_i18n.cpp:5391
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Show Voyager 1 Image"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5393
+#: kstars_i18n.cpp:5392
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Total Eclipse Image"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5394
+#: kstars_i18n.cpp:5393
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Triple Eclipse (HST)"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5395
+#: kstars_i18n.cpp:5394
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Comet Shoemaker-Levy 9"
 msgstr "Imej 9"
 
-#: kstars_i18n.cpp:5396
+#: kstars_i18n.cpp:5395
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Comet Shoemaker–Levy 9 Wikipedia page"
 msgstr "Imej 9"
 
-#: kstars_i18n.cpp:5397
+#: kstars_i18n.cpp:5396
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Daily Solar Images"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5398
+#: kstars_i18n.cpp:5397
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Eclipse page"
 msgstr "Imej Imej"
 
-#: kstars_i18n.cpp:5399
+#: kstars_i18n.cpp:5398
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Mars Missions"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5400
+#: kstars_i18n.cpp:5399
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Science Mariner missions"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5401
+#: kstars_i18n.cpp:5400
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Solar System Exploration Page"
 msgstr ""
 
-#: kstars_i18n.cpp:5402
+#: kstars_i18n.cpp:5401
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "NASA Sun-Earth Days page"
 msgstr ""
 
-#: kstars_i18n.cpp:5403
+#: kstars_i18n.cpp:5402
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Nine Planets Page"
 msgstr "Kepulauan Luar Minor Amerika Syarikat"
 
-#: kstars_i18n.cpp:5404
+#: kstars_i18n.cpp:5403
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "SEDS Information Page"
 msgstr "Imej Maklumat Halaman"
 
-#: kstars_i18n.cpp:5405
+#: kstars_i18n.cpp:5404
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "The Apollo Program"
 msgstr "Imej Program"
 
-#: kstars_i18n.cpp:5406
+#: kstars_i18n.cpp:5405
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "The Cassini Mission"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5407
+#: kstars_i18n.cpp:5406
 #, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "The \"face\" on Mars"
 msgstr ""
 
-#: kstars_i18n.cpp:5408
+#: kstars_i18n.cpp:5407
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "The Galileo Mission"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5409
+#: kstars_i18n.cpp:5408
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "The Magellan Mission"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5410
+#: kstars_i18n.cpp:5409
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "The Mariner 10 Mission"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5411
+#: kstars_i18n.cpp:5410
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "The Mars Society"
 msgstr "Imej Persatuan"
 
-#: kstars_i18n.cpp:5412
+#: kstars_i18n.cpp:5411
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "The Voyager Missions"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5413
+#: kstars_i18n.cpp:5412
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "The Whole Mars Catalog"
 msgstr "Imej"
 
-#: kstars_i18n.cpp:5414
+#: kstars_i18n.cpp:5413
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Welcome to Mars!"
 msgstr "Imej hingga!"
 
-#: kstars_i18n.cpp:5415
+#: kstars_i18n.cpp:5414
 #, fuzzy, kde-kuit-format
 msgctxt "Image/info menu item (should be translated)"
 msgid "Wikipedia Page"
 msgstr "Imej Halaman"
 
-#: kstars_i18n.cpp:5416
+#: kstars_i18n.cpp:5415
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sirius"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5417
+#: kstars_i18n.cpp:5416
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Canopus"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5418
+#: kstars_i18n.cpp:5417
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Arcturus"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5419
+#: kstars_i18n.cpp:5418
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Rigel Kentaurus"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5420
+#: kstars_i18n.cpp:5419
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Vega"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5421
+#: kstars_i18n.cpp:5420
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Capella"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5422
+#: kstars_i18n.cpp:5421
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Rigel"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5423
+#: kstars_i18n.cpp:5422
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Procyon"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5424
+#: kstars_i18n.cpp:5423
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Achernar"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5425
+#: kstars_i18n.cpp:5424
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Betelgeuse"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5426
+#: kstars_i18n.cpp:5425
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Hadar"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5427
+#: kstars_i18n.cpp:5426
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Altair"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5428
+#: kstars_i18n.cpp:5427
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Acrux"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5429
+#: kstars_i18n.cpp:5428
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Aldebaran"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5430
+#: kstars_i18n.cpp:5429
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Spica"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5431
+#: kstars_i18n.cpp:5430
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Antares"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5432
+#: kstars_i18n.cpp:5431
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Pollux"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5433
+#: kstars_i18n.cpp:5432
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Fomalhaut"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5434
+#: kstars_i18n.cpp:5433
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Mimosa"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5435
+#: kstars_i18n.cpp:5434
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Deneb"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5436
+#: kstars_i18n.cpp:5435
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Regulus"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5437
+#: kstars_i18n.cpp:5436
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Adhara"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5438
+#: kstars_i18n.cpp:5437
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Castor"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5439
+#: kstars_i18n.cpp:5438
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Gacrux"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5440
+#: kstars_i18n.cpp:5439
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Shaula"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5441
+#: kstars_i18n.cpp:5440
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Bellatrix"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5442
+#: kstars_i18n.cpp:5441
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alnath"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5443
+#: kstars_i18n.cpp:5442
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Miaplacidus"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5444
+#: kstars_i18n.cpp:5443
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alnilam"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5445
+#: kstars_i18n.cpp:5444
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Al Na'ir"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5446
+#: kstars_i18n.cpp:5445
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alnitak"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5447
+#: kstars_i18n.cpp:5446
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Regor"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5448
+#: kstars_i18n.cpp:5447
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alioth"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5449
+#: kstars_i18n.cpp:5448
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Mirfak"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5450
+#: kstars_i18n.cpp:5449
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Kaus Australis"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5451
+#: kstars_i18n.cpp:5450
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Dubhe"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5452
+#: kstars_i18n.cpp:5451
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Wezen"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5453
+#: kstars_i18n.cpp:5452
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alkaid"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5454
+#: kstars_i18n.cpp:5453
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sargas"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5455
+#: kstars_i18n.cpp:5454
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Avior"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5456
+#: kstars_i18n.cpp:5455
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Menkalinan"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5457
+#: kstars_i18n.cpp:5456
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alhena"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5458
+#: kstars_i18n.cpp:5457
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Peacock"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5459 tools/polarishourangle.cpp:28
+#: kstars_i18n.cpp:5458 tools/polarishourangle.cpp:28
 #, fuzzy, kde-format, kde-kuit-format
 msgctxt "star name"
 msgid "Polaris"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5460
+#: kstars_i18n.cpp:5459
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Mirzam"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5461
+#: kstars_i18n.cpp:5460
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alphard"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5462
+#: kstars_i18n.cpp:5461
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Hamal"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5463
+#: kstars_i18n.cpp:5462
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Al Gieba"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5464
+#: kstars_i18n.cpp:5463
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Diphda"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5465
+#: kstars_i18n.cpp:5464
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Nunki"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5466
+#: kstars_i18n.cpp:5465
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Menkent"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5467
+#: kstars_i18n.cpp:5466
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alpheratz"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5468
+#: kstars_i18n.cpp:5467
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Saiph"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5469
+#: kstars_i18n.cpp:5468
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Mirach"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5470
+#: kstars_i18n.cpp:5469
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Kocab"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5471
+#: kstars_i18n.cpp:5470
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Rasalhague"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5472
+#: kstars_i18n.cpp:5471
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Algol"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5473
+#: kstars_i18n.cpp:5472
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Almach"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5474
+#: kstars_i18n.cpp:5473
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Denebola"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5475
+#: kstars_i18n.cpp:5474
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Navi"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5476
+#: kstars_i18n.cpp:5475
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Naos"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5477
+#: kstars_i18n.cpp:5476
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Aspidiske"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5478
+#: kstars_i18n.cpp:5477
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alphecca"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5479
+#: kstars_i18n.cpp:5478
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Mizar"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5480
+#: kstars_i18n.cpp:5479
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sadr"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5481
+#: kstars_i18n.cpp:5480
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Suhail"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5482
+#: kstars_i18n.cpp:5481
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Schedar"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5483
+#: kstars_i18n.cpp:5482
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Eltanin"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5484
+#: kstars_i18n.cpp:5483
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Mintaka"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5485
+#: kstars_i18n.cpp:5484
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Caph"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5486
+#: kstars_i18n.cpp:5485
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Dschubba"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5487
+#: kstars_i18n.cpp:5486
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Men"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5488
+#: kstars_i18n.cpp:5487
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Merak"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5489
+#: kstars_i18n.cpp:5488
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Pulcherrima"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5490
+#: kstars_i18n.cpp:5489
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Enif"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5491
+#: kstars_i18n.cpp:5490
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Ankaa"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5492
+#: kstars_i18n.cpp:5491
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Phecda"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5493
+#: kstars_i18n.cpp:5492
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Scheat"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5494
+#: kstars_i18n.cpp:5493
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Aludra"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5495
+#: kstars_i18n.cpp:5494
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alderamin"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5496
+#: kstars_i18n.cpp:5495
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Merkab"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5497
+#: kstars_i18n.cpp:5496
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Gienah"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5498
+#: kstars_i18n.cpp:5497
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Markab"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5499
+#: kstars_i18n.cpp:5498
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Menkab"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5500
+#: kstars_i18n.cpp:5499
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Zozma"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5501
+#: kstars_i18n.cpp:5500
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Graffias"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5502
+#: kstars_i18n.cpp:5501
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Arneb"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5503
+#: kstars_i18n.cpp:5502
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Gienah Corvi"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5504
+#: kstars_i18n.cpp:5503
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Zuben el Chamali"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5505
+#: kstars_i18n.cpp:5504
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Unukalhai"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5506
+#: kstars_i18n.cpp:5505
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sheratan"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5507
+#: kstars_i18n.cpp:5506
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Phakt"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5508
+#: kstars_i18n.cpp:5507
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Kraz"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5509
+#: kstars_i18n.cpp:5508
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Ruchbah"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5510
+#: kstars_i18n.cpp:5509
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Muphrid"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5511
+#: kstars_i18n.cpp:5510
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Kabdhilinan"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5512
+#: kstars_i18n.cpp:5511
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Lesath"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5513
+#: kstars_i18n.cpp:5512
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Kaus Media"
 msgstr "nama Media"
 
-#: kstars_i18n.cpp:5514
+#: kstars_i18n.cpp:5513
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Tarazed"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5515
+#: kstars_i18n.cpp:5514
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Yed Prior"
 msgstr "nama Utama"
 
-#: kstars_i18n.cpp:5516
+#: kstars_i18n.cpp:5515
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Na'ir al Saif"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5517
+#: kstars_i18n.cpp:5516
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Zuben El Genubi"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5518
+#: kstars_i18n.cpp:5517
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Kelb al Rai"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5519
+#: kstars_i18n.cpp:5518
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Cursa"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5520
+#: kstars_i18n.cpp:5519
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Kornephoros"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5521
+#: kstars_i18n.cpp:5520
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Ras Algethi"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5522
+#: kstars_i18n.cpp:5521
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Rastaban"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5523
+#: kstars_i18n.cpp:5522
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Nihal"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5524
+#: kstars_i18n.cpp:5523
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Kaus Borealis"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5525
+#: kstars_i18n.cpp:5524
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Algenib"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5526
+#: kstars_i18n.cpp:5525
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Atik"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5527
+#: kstars_i18n.cpp:5526
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Tchou"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5528
+#: kstars_i18n.cpp:5527
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alcyone"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5529
+#: kstars_i18n.cpp:5528
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Vindemiatrix"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5530
+#: kstars_i18n.cpp:5529
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Deneb Algiedi"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5531
+#: kstars_i18n.cpp:5530
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Tejat"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5532
+#: kstars_i18n.cpp:5531
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Acamar"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5533
+#: kstars_i18n.cpp:5532
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Gomeisa"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5534
+#: kstars_i18n.cpp:5533
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Cor Caroli"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5535
+#: kstars_i18n.cpp:5534
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Al Niyat"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5536
+#: kstars_i18n.cpp:5535
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sadalsud"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5537
+#: kstars_i18n.cpp:5536
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Matar"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5538
+#: kstars_i18n.cpp:5537
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Algorab"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5539
+#: kstars_i18n.cpp:5538
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sadalmelik"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5540
+#: kstars_i18n.cpp:5539
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Zaurak"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5541
+#: kstars_i18n.cpp:5540
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Al Nasl"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5542
+#: kstars_i18n.cpp:5541
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Pherkab"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5543
+#: kstars_i18n.cpp:5542
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Al Dhanab"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5544
+#: kstars_i18n.cpp:5543
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Furud"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5545
+#: kstars_i18n.cpp:5544
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Minkar"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5546
+#: kstars_i18n.cpp:5545
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Maaz"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5547
+#: kstars_i18n.cpp:5546
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Seginus"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5548
+#: kstars_i18n.cpp:5547
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Dabih"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5549
+#: kstars_i18n.cpp:5548
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Albireo"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5550
+#: kstars_i18n.cpp:5549
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Mebsuta"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5551
+#: kstars_i18n.cpp:5550
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Tania Australis"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5552
+#: kstars_i18n.cpp:5551
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Altais"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5553
+#: kstars_i18n.cpp:5552
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Al Nair"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5554
+#: kstars_i18n.cpp:5553
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Talitha Borealis"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5555
+#: kstars_i18n.cpp:5554
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sarin"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5556
+#: kstars_i18n.cpp:5555
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Wazn"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5557
+#: kstars_i18n.cpp:5556
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Kaou Pih"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5558
+#: kstars_i18n.cpp:5557
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Er Rai"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5559
+#: kstars_i18n.cpp:5558
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Yed Posterior"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5560
+#: kstars_i18n.cpp:5559
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alphirk"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5561
+#: kstars_i18n.cpp:5560
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sulaphat"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5562
+#: kstars_i18n.cpp:5561
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Skat"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5563
+#: kstars_i18n.cpp:5562
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Edasich"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5564
+#: kstars_i18n.cpp:5563
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Megrez"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5565
+#: kstars_i18n.cpp:5564
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Chertan"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5566
+#: kstars_i18n.cpp:5565
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Asmidiske"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5567
+#: kstars_i18n.cpp:5566
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Segin"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5568
+#: kstars_i18n.cpp:5567
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Muscida"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5569
+#: kstars_i18n.cpp:5568
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Heze"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5570
+#: kstars_i18n.cpp:5569
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Auva"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5571
+#: kstars_i18n.cpp:5570
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Homan"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5572
+#: kstars_i18n.cpp:5571
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Mothallah"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5573
+#: kstars_i18n.cpp:5572
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Adhafera"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5574
+#: kstars_i18n.cpp:5573
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Al Thalimain"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5575
+#: kstars_i18n.cpp:5574
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Tania Borealis"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5576
+#: kstars_i18n.cpp:5575
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Nekkar"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5577
+#: kstars_i18n.cpp:5576
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alula Borealis"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5578
+#: kstars_i18n.cpp:5577
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Wasat"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5579
+#: kstars_i18n.cpp:5578
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sadalbari"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5580
+#: kstars_i18n.cpp:5579
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Rana"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5581
+#: kstars_i18n.cpp:5580
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Tseen Ke"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5582
+#: kstars_i18n.cpp:5581
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sheliak"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5583
+#: kstars_i18n.cpp:5582
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Baham"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5584
+#: kstars_i18n.cpp:5583
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Ain"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5585
+#: kstars_i18n.cpp:5584
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Tarf"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5586
+#: kstars_i18n.cpp:5585
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Schemali"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5587
+#: kstars_i18n.cpp:5586
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Talitha Australis"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5588
+#: kstars_i18n.cpp:5587
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Al Giedi"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5589
+#: kstars_i18n.cpp:5588
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Zawijah"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5590
+#: kstars_i18n.cpp:5589
 #, fuzzy, kde-kuit-format
 #| msgid "Alias:"
 msgctxt "star name"
 msgid "Atlas"
 msgstr "Alias:"
 
-#: kstars_i18n.cpp:5591
+#: kstars_i18n.cpp:5590
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Rotanev"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5592
+#: kstars_i18n.cpp:5591
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Primus Hyadum"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5593
+#: kstars_i18n.cpp:5592
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Chow"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5594
+#: kstars_i18n.cpp:5593
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Nusakan"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5595
+#: kstars_i18n.cpp:5594
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Thuban"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5596
+#: kstars_i18n.cpp:5595
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Nashira"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5597
+#: kstars_i18n.cpp:5596
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sadatoni"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5598
+#: kstars_i18n.cpp:5597
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Marfik"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5599
+#: kstars_i18n.cpp:5598
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alshain"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5600
+#: kstars_i18n.cpp:5599
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Electra"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5601
+#: kstars_i18n.cpp:5600
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Prijipati"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5602
+#: kstars_i18n.cpp:5601
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Grumium"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5603
+#: kstars_i18n.cpp:5602
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Baten"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5604
+#: kstars_i18n.cpp:5603
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Svalocin"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5605
+#: kstars_i18n.cpp:5604
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Albali"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5606
+#: kstars_i18n.cpp:5605
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Praecipula"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5607
+#: kstars_i18n.cpp:5606
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Sadachbia"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5608
+#: kstars_i18n.cpp:5607
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Maia"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5609
+#: kstars_i18n.cpp:5608
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Mesarthim"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5610
+#: kstars_i18n.cpp:5609
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Rasalas"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5611
+#: kstars_i18n.cpp:5610
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Azha"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5612
+#: kstars_i18n.cpp:5611
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Zuben el Hakrabi"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5613
+#: kstars_i18n.cpp:5612
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Kitalpha"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5614
+#: kstars_i18n.cpp:5613
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Asellus Australis"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5615
+#: kstars_i18n.cpp:5614
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Menkib"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5616
+#: kstars_i18n.cpp:5615
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alcor"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5617
+#: kstars_i18n.cpp:5616
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Mekbuda"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5618
+#: kstars_i18n.cpp:5617
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Dulfim"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5619
+#: kstars_i18n.cpp:5618
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Beid"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5620
+#: kstars_i18n.cpp:5619
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Syrma"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5621
+#: kstars_i18n.cpp:5620
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alkes"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5622
+#: kstars_i18n.cpp:5621
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Muliphein"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5623
+#: kstars_i18n.cpp:5622
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alphekka Meridiana"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5624
+#: kstars_i18n.cpp:5623
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Merope"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5625
+#: kstars_i18n.cpp:5624
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Ancha"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5626
+#: kstars_i18n.cpp:5625
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Chara"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5627
+#: kstars_i18n.cpp:5626
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Acubens"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5628
+#: kstars_i18n.cpp:5627
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Taygeta"
 msgstr "ETA"
 
-#: kstars_i18n.cpp:5629
+#: kstars_i18n.cpp:5628
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alkalurops"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5630
+#: kstars_i18n.cpp:5629
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Botein"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5631
+#: kstars_i18n.cpp:5630
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Minhar al Shuja"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5632
+#: kstars_i18n.cpp:5631
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Cujam"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5633
+#: kstars_i18n.cpp:5632
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Dziban"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5634
+#: kstars_i18n.cpp:5633
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Alya"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5635
+#: kstars_i18n.cpp:5634
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Asellus Borealis"
 msgstr "nama"
 
-#: kstars_i18n.cpp:5636
+#: kstars_i18n.cpp:5635
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Marsik"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5637
+#: kstars_i18n.cpp:5636
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Pleione"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5638
+#: kstars_i18n.cpp:5637
 #, fuzzy, kde-kuit-format
 #| msgid "Asteroid"
 msgctxt "star name"
 msgid "Asterope"
 msgstr "Asteroid"
 
-#: kstars_i18n.cpp:5639
+#: kstars_i18n.cpp:5638
 #, fuzzy, kde-kuit-format
 msgctxt "star name"
 msgid "Mira"
 msgstr "Nama Volum _Logikal:"
 
-#: kstars_i18n.cpp:5640
+#: kstars_i18n.cpp:5639
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Last Launches"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5641
+#: kstars_i18n.cpp:5640
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "International Space Station"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5642
+#: kstars_i18n.cpp:5641
 #, fuzzy, kde-kuit-format
 #| msgid "Brightness:"
 msgctxt "Satellite group name"
 msgid "Brightest"
 msgstr "Kecerahan:"
 
-#: kstars_i18n.cpp:5643
+#: kstars_i18n.cpp:5642
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Weather"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5644
+#: kstars_i18n.cpp:5643
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "NOAA"
 msgstr ""
 
-#: kstars_i18n.cpp:5645
+#: kstars_i18n.cpp:5644
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "GOES"
 msgstr ""
 
-#: kstars_i18n.cpp:5646
+#: kstars_i18n.cpp:5645
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Earth Resources"
 msgstr "Sumber Berita"
 
-#: kstars_i18n.cpp:5647
+#: kstars_i18n.cpp:5646
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Search & Rescue (SARSAT)"
 msgstr ""
 
-#: kstars_i18n.cpp:5648
+#: kstars_i18n.cpp:5647
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Disaster Monitoring"
 msgstr ""
 
-#: kstars_i18n.cpp:5649
+#: kstars_i18n.cpp:5648
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Tracking and Data Relay Satellite System (TDRSS)"
 msgstr ""
 
-#: kstars_i18n.cpp:5650
+#: kstars_i18n.cpp:5649
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Geostationary"
 msgstr "Tind_akan"
 
-#: kstars_i18n.cpp:5651
+#: kstars_i18n.cpp:5650
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Intelsat"
 msgstr "Keamatan kesan:"
 
-#: kstars_i18n.cpp:5652
+#: kstars_i18n.cpp:5651
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Gorizont"
 msgstr "Atas Ufuk"
 
-#: kstars_i18n.cpp:5653
+#: kstars_i18n.cpp:5652
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Raduga"
 msgstr ""
 
-#: kstars_i18n.cpp:5654
+#: kstars_i18n.cpp:5653
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Molniya"
 msgstr ""
 
-#: kstars_i18n.cpp:5655
+#: kstars_i18n.cpp:5654
 #, fuzzy, kde-kuit-format
 #| msgid "Median"
 msgctxt "Satellite group name"
 msgid "Iridium"
 msgstr "Median"
 
-#: kstars_i18n.cpp:5656
+#: kstars_i18n.cpp:5655
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Orbcomm"
 msgstr ""
 
-#: kstars_i18n.cpp:5657
+#: kstars_i18n.cpp:5656
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Globalstar"
 msgstr "Nama Gugusan:"
 
-#: kstars_i18n.cpp:5658
+#: kstars_i18n.cpp:5657
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Amateur Radio"
 msgstr ""
 
-#: kstars_i18n.cpp:5659
+#: kstars_i18n.cpp:5658
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Experimental"
 msgstr ""
 
-#: kstars_i18n.cpp:5660
+#: kstars_i18n.cpp:5659
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Other"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5661
+#: kstars_i18n.cpp:5660
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "GPS Operational"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5662
+#: kstars_i18n.cpp:5661
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Glonass Operational"
 msgstr ""
 
-#: kstars_i18n.cpp:5663
+#: kstars_i18n.cpp:5662
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Galileo"
 msgstr ""
 
-#: kstars_i18n.cpp:5664
+#: kstars_i18n.cpp:5663
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Satellite-Based Augmentation System (WAAS/EGNOS/MSAS)"
 msgstr ""
 
-#: kstars_i18n.cpp:5665
+#: kstars_i18n.cpp:5664
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Navy Navigation Satellite System (NNSS)"
 msgstr ""
 
-#: kstars_i18n.cpp:5666
+#: kstars_i18n.cpp:5665
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Russian LEO Navigation"
 msgstr ""
 
-#: kstars_i18n.cpp:5667
+#: kstars_i18n.cpp:5666
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Space & Earth Science"
 msgstr ""
 
-#: kstars_i18n.cpp:5668
+#: kstars_i18n.cpp:5667
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Geodetic"
 msgstr ""
 
-#: kstars_i18n.cpp:5669
+#: kstars_i18n.cpp:5668
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Engineering"
 msgstr ""
 
-#: kstars_i18n.cpp:5670
+#: kstars_i18n.cpp:5669
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Education"
 msgstr "Tind_akan"
 
-#: kstars_i18n.cpp:5671
+#: kstars_i18n.cpp:5670
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Miscellaneous Military"
 msgstr ""
 
-#: kstars_i18n.cpp:5672
+#: kstars_i18n.cpp:5671
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Radar Calibration"
 msgstr "Bandar nama"
 
-#: kstars_i18n.cpp:5673
+#: kstars_i18n.cpp:5672
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "CubeSats"
 msgstr ""
 
-#: kstars_i18n.cpp:5674
+#: kstars_i18n.cpp:5673
 #, fuzzy, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Other Miscellaneous"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5675
+#: kstars_i18n.cpp:5674
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Supplemental GPS"
 msgstr ""
 
-#: kstars_i18n.cpp:5676
+#: kstars_i18n.cpp:5675
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Supplemental GLONASS"
 msgstr ""
 
-#: kstars_i18n.cpp:5677
+#: kstars_i18n.cpp:5676
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Supplemental METEOSAT"
 msgstr ""
 
-#: kstars_i18n.cpp:5678
+#: kstars_i18n.cpp:5677
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Supplemental INTELSAT"
 msgstr ""
 
-#: kstars_i18n.cpp:5679
+#: kstars_i18n.cpp:5678
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Supplemental ORBCOMM"
 msgstr ""
 
-#: kstars_i18n.cpp:5680
+#: kstars_i18n.cpp:5679
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Simbad"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5681
+#: kstars_i18n.cpp:5680
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Aladin"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5682
+#: kstars_i18n.cpp:5681
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Skyview"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5683
+#: kstars_i18n.cpp:5682
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Gamma-ray"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5684
+#: kstars_i18n.cpp:5683
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "X-ray"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5685
+#: kstars_i18n.cpp:5684
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "EUV"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5686
+#: kstars_i18n.cpp:5685
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "UV"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5687
+#: kstars_i18n.cpp:5686
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Optical"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5688
+#: kstars_i18n.cpp:5687
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Infrared"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5689
+#: kstars_i18n.cpp:5688
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Radio"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5690
+#: kstars_i18n.cpp:5689
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "High Energy Astrophysical Archive (HEASARC)"
 msgstr "Lanjutan URL uketerangan atau Arkib"
 
-#: kstars_i18n.cpp:5691
+#: kstars_i18n.cpp:5690
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Recent X-Ray Missions"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5692
+#: kstars_i18n.cpp:5691
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Past X-ray Mission"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5693
+#: kstars_i18n.cpp:5692
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Gamma-Ray Missions"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5694
+#: kstars_i18n.cpp:5693
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Other Missions"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5695
+#: kstars_i18n.cpp:5694
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Popular Catalog Choices"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5696
+#: kstars_i18n.cpp:5695
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Multiwavelength Catalogs"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5697
+#: kstars_i18n.cpp:5696
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "NASA Extragalactic Database (NED)"
 msgstr "Lanjutan URL uketerangan atau Pangkalan Data"
 
-#: kstars_i18n.cpp:5698
+#: kstars_i18n.cpp:5697
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Positions"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5699
+#: kstars_i18n.cpp:5698
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "NASA Astrophysics Data System (ADS)"
 msgstr "Lanjutan URL uketerangan atau Data Sistem"
 
-#: kstars_i18n.cpp:5700
+#: kstars_i18n.cpp:5699
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Astronomy and Astrophysics"
 msgstr "Lanjutan URL uketerangan atau dan"
 
-#: kstars_i18n.cpp:5701
+#: kstars_i18n.cpp:5700
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Instrumentation"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5702
+#: kstars_i18n.cpp:5701
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Physics and Geophysics"
 msgstr "Lanjutan URL uketerangan atau dan"
 
-#: kstars_i18n.cpp:5703
+#: kstars_i18n.cpp:5702
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Astrophysics preprints"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5704
+#: kstars_i18n.cpp:5703
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Multimission Archive at Space Telescope (MAST)"
 msgstr "Lanjutan URL uketerangan atau Arkib Ruang"
 
-#: kstars_i18n.cpp:5705
+#: kstars_i18n.cpp:5704
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "HST"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5706
+#: kstars_i18n.cpp:5705
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "ASTRO"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5707
+#: kstars_i18n.cpp:5706
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "ORFEUS"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5708
+#: kstars_i18n.cpp:5707
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "COPERNICUS"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5709
+#: kstars_i18n.cpp:5708
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Images"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5710
+#: kstars_i18n.cpp:5709
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Spectra"
 msgstr "Lanjutan URL uketerangan atau"
 
-#: kstars_i18n.cpp:5711
+#: kstars_i18n.cpp:5710
 #, fuzzy, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Other"
@@ -93538,6 +93532,36 @@ msgstr "Pudar hingga latar belakang"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "Pudar latar belakang?"
+
+#, fuzzy
+#~ msgctxt "Country name"
+#~ msgid "Ascension Island"
+#~ msgstr "Negara nama"
+
+#, fuzzy
+#~ msgctxt "Country name"
+#~ msgid "Bénin"
+#~ msgstr "Negara nama"
+
+#, fuzzy
+#~ msgctxt "Country name"
+#~ msgid "Congo"
+#~ msgstr "Negara nama"
+
+#, fuzzy
+#~ msgctxt "Country name"
+#~ msgid "Dem rep of Congo"
+#~ msgstr "Negara nama bagi Congo"
+
+#, fuzzy
+#~ msgctxt "Country name"
+#~ msgid "US Territory"
+#~ msgstr "Negara nama"
+
+#, fuzzy
+#~ msgctxt "Country name"
+#~ msgid "Yugoslavia"
+#~ msgstr "Negara nama"
 
 #, fuzzy
 #~ msgctxt "Country name"
