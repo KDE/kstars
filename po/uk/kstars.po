@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-26 02:08+0000\n"
-"PO-Revision-Date: 2026-06-25 09:34+0300\n"
+"POT-Creation-Date: 2026-06-27 02:10+0000\n"
+"PO-Revision-Date: 2026-06-26 12:26+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -727,7 +727,7 @@ msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1456
+#: auxiliary/ksutils.cpp:1469
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -738,17 +738,17 @@ msgstr ""
 " %1 \n"
 " не існує. Хочете створити цю теку?"
 
-#: auxiliary/ksutils.cpp:1459
+#: auxiliary/ksutils.cpp:1472
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "Створити каталог файлів покажчика астрометрії?"
 
-#: auxiliary/ksutils.cpp:1464
+#: auxiliary/ksutils.cpp:1477
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr "Створено теку для зберігання файлів типового покажчика астрометрії."
 
-#: auxiliary/ksutils.cpp:1469
+#: auxiliary/ksutils.cpp:1482
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
@@ -757,20 +757,20 @@ msgstr ""
 "Не знайдено каталог файлів типового астрометричного покажчика. Новий каталог "
 "створити не вдалося."
 
-#: auxiliary/ksutils.cpp:1490 auxiliary/ksutils.cpp:1646
-#: auxiliary/ksutils.cpp:1711
+#: auxiliary/ksutils.cpp:1503 auxiliary/ksutils.cpp:1661
+#: auxiliary/ksutils.cpp:1726
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "Помилка під час читання файла налаштувань засобу астрометрії."
 
-#: auxiliary/ksutils.cpp:1504 auxiliary/ksutils.cpp:1689
-#: auxiliary/ksutils.cpp:1731
+#: auxiliary/ksutils.cpp:1517 auxiliary/ksutils.cpp:1704
+#: auxiliary/ksutils.cpp:1746
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 "Помилка під час записування файла налаштувань вбудованого засобу астрометрії."
 
-#: auxiliary/ksutils.cpp:1777 fitsviewer/fitsdata.cpp:3027
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3027
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -779,22 +779,22 @@ msgstr ""
 "Не вдалося знайти dcraw і cjpeg. Будь ласка, встановіть відповідні "
 "інструменти для перетворення CR2/NEF на JPEG."
 
-#: auxiliary/ksutils.cpp:1788
+#: auxiliary/ksutils.cpp:1803
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "Не вдалося відкрити %1: %2"
 
-#: auxiliary/ksutils.cpp:1796
+#: auxiliary/ksutils.cpp:1811
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "Не вдалося виконати unpack_thumb %1: %2"
 
-#: auxiliary/ksutils.cpp:1807
+#: auxiliary/ksutils.cpp:1822
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "Не вдалося записати %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1931 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1946 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -16357,12 +16357,12 @@ msgstr "Збереження черги послідовності Ekos"
 msgid "Failed to save sequence queue"
 msgstr "Не вдалося зберегти чергу послідовності зображень"
 
-#: ekos/capture/camera_jobs.cpp:493 ekos/capture/camera_jobs.cpp:875
+#: ekos/capture/camera_jobs.cpp:493 ekos/capture/camera_jobs.cpp:881
 #, kde-format
 msgid "Dark Flat"
 msgstr "Темний кадр"
 
-#: ekos/capture/camera_jobs.cpp:913
+#: ekos/capture/camera_jobs.cpp:919
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -16828,50 +16828,50 @@ msgstr "Обмеження: %1 °C"
 msgid "Limit: %1 mins"
 msgstr "Обмеження: %1 хвилин"
 
-#: ekos/capture/camerastate.cpp:983
+#: ekos/capture/camerastate.cpp:985
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Виконуємо повторне вирівнювання після переходу…"
 
-#: ekos/capture/camerastate.cpp:1003
+#: ekos/capture/camerastate.cpp:1005
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Перевищено час очікування на дані модуля наведення."
 
-#: ekos/capture/camerastate.cpp:1035
+#: ekos/capture/camerastate.cpp:1037
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "Початкове відхилення під час наведення, %1, є нижчим за значення у %2 "
 "кутових секунд"
 
-#: ekos/capture/camerastate.cpp:1044
+#: ekos/capture/camerastate.cpp:1046
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "Початкове відхилення під час наведення, %1, перевищує граничне значення у %2 "
 "кутових секунд"
 
-#: ekos/capture/camerastate.cpp:1066
+#: ekos/capture/camerastate.cpp:1068
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Повторне калібрування після переходу за меридіаном успішно завершено."
 
-#: ekos/capture/camerastate.cpp:1080
+#: ekos/capture/camerastate.cpp:1082
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "Відхилення наведення на початку захоплення, %1, перевищує обмеження у %2 "
 "кутових секунд."
 
-#: ekos/capture/camerastate.cpp:1094
+#: ekos/capture/camerastate.cpp:1096
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Відхилення наведення на початку захоплення, %1, є нижчим за обмеження у %2 "
 "кутових секунд."
 
-#: ekos/capture/camerastate.cpp:1121
+#: ekos/capture/camerastate.cpp:1123
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16881,7 +16881,7 @@ msgstr ""
 "секунд для %4 послідовних вимірювань. Експонування призупинено. Очікуємо на "
 "відновлення працездатності засобу наведення за %3 секунд."
 
-#: ekos/capture/camerastate.cpp:1168
+#: ekos/capture/camerastate.cpp:1170
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16890,7 +16890,7 @@ msgstr ""
 "Зараз відхилення під час наведення %1 не перевищує граничного значення у %2 "
 "кутових секунд. Відновлюємо експонування."
 
-#: ekos/capture/camerastate.cpp:1172
+#: ekos/capture/camerastate.cpp:1174
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16899,24 +16899,24 @@ msgstr ""
 "Зараз відхилення під час наведення %1 не перевищує граничного значення у %2 "
 "кутових секунд. Відновлюємо експонування за %3 секунд."
 
-#: ekos/capture/camerastate.cpp:1187
+#: ekos/capture/camerastate.cpp:1189
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "Зараз відхилення під час наведення %1 усе ще перевищує граничне значення у "
 "%2 кутових секунд."
 
-#: ekos/capture/camerastate.cpp:1567
+#: ekos/capture/camerastate.cpp:1569
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Повторне вирівнювання після переходу успішно завершено."
 
-#: ekos/capture/camerastate.cpp:1586
+#: ekos/capture/camerastate.cpp:1588
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Невдала спроба вирівнювання після переходу."
 
-#: ekos/capture/camerastate.cpp:1591
+#: ekos/capture/camerastate.cpp:1593
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Невдала спроба вирівнювання після переходу. Повторюємо спробу…"
@@ -18528,52 +18528,52 @@ msgstr ""
 "Паркуємо купол, перш ніж виконувати процедуру захоплення кадрів для "
 "калібрування…"
 
-#: ekos/capture/sequencejobstate.cpp:1040
+#: ekos/capture/sequencejobstate.cpp:1048
 #, kde-format
 msgid "Light box light turned on."
 msgstr "Увімкнено світло у підсвічуванні."
 
-#: ekos/capture/sequencejobstate.cpp:1043
+#: ekos/capture/sequencejobstate.cpp:1051
 #, kde-format
 msgid "Light box light turned off."
 msgstr "Вимкнено світло у підсвічуванні."
 
-#: ekos/capture/sequencejobstate.cpp:1046
+#: ekos/capture/sequencejobstate.cpp:1054
 #, kde-format
 msgid "Light box busy."
 msgstr "Підсвічування зайнято."
 
-#: ekos/capture/sequencejobstate.cpp:1049
+#: ekos/capture/sequencejobstate.cpp:1057
 #, kde-format
 msgid "Light box error."
 msgstr "Помилка підсвічування."
 
-#: ekos/capture/sequencejobstate.cpp:1073
+#: ekos/capture/sequencejobstate.cpp:1081
 #, kde-format
 msgid "Dust cap error occurred."
 msgstr "Сталася помилка при роботі з пилозахисним ковпаком."
 
-#: ekos/capture/sequencejobstate.cpp:1079
+#: ekos/capture/sequencejobstate.cpp:1087
 #, kde-format
 msgid "Dust cap is idle."
 msgstr "Протипиловий ковпак неактивний."
 
-#: ekos/capture/sequencejobstate.cpp:1082
+#: ekos/capture/sequencejobstate.cpp:1090
 #, kde-format
 msgid "Dust cap is parked."
 msgstr "Пилозахисний ковпак запарковано."
 
-#: ekos/capture/sequencejobstate.cpp:1085
+#: ekos/capture/sequencejobstate.cpp:1093
 #, kde-format
 msgid "Dust cap is parking..."
 msgstr "Паркуємо пилозахисний ковпак…"
 
-#: ekos/capture/sequencejobstate.cpp:1088
+#: ekos/capture/sequencejobstate.cpp:1096
 #, kde-format
 msgid "Dust cap is unparking..."
 msgstr "Знімаємо з паркування пилозахисний ковпак…"
 
-#: ekos/capture/sequencejobstate.cpp:1091
+#: ekos/capture/sequencejobstate.cpp:1099
 #, kde-format
 msgid "Dust cap status unknown."
 msgstr "Стан пилозахисного ковпака не відомий."
@@ -49981,9 +49981,7 @@ msgid "Aberdeen"
 msgstr "Абердін"
 
 #: kstars_i18n.cpp:714
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Ivory coast"
-#| msgid "Abidjan"
+#, kde-kuit-format
 msgctxt "City in Ivory Coast"
 msgid "Abidjan"
 msgstr "Абіджан"
@@ -50061,9 +50059,7 @@ msgid "Adams"
 msgstr "Адамс"
 
 #: kstars_i18n.cpp:727
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Pitcairn Islands"
-#| msgid "Adamstown"
+#, kde-kuit-format
 msgctxt "City in Pitcairn"
 msgid "Adamstown"
 msgstr "Адамстаун"
@@ -51599,9 +51595,7 @@ msgid "Badger"
 msgstr "Беджер"
 
 #: kstars_i18n.cpp:983
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Guinea Bissau"
-#| msgid "Bafata"
+#, kde-kuit-format
 msgctxt "City in Guinea-Bissau"
 msgid "Bafata"
 msgstr "Бафата"
@@ -52219,9 +52213,7 @@ msgid "Belgorod"
 msgstr "Бєлгород"
 
 #: kstars_i18n.cpp:1086
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Yugoslavia"
-#| msgid "Belgrade"
+#, kde-kuit-format
 msgctxt "City in Serbia"
 msgid "Belgrade"
 msgstr "Белград"
@@ -52611,9 +52603,7 @@ msgid "Bismil"
 msgstr "Бісміл"
 
 #: kstars_i18n.cpp:1151
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Guinea Bissau"
-#| msgid "Bissau"
+#, kde-kuit-format
 msgctxt "City in Guinea-Bissau"
 msgid "Bissau"
 msgstr "Бісау"
@@ -53123,9 +53113,7 @@ msgid "Brazos Bend SP (Needville)"
 msgstr "Парк штату «Бразос-Бенд» (Нідвіль)"
 
 #: kstars_i18n.cpp:1236
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Congo"
-#| msgid "Brazzaville"
+#, kde-kuit-format
 msgctxt "City in Republic of the Congo"
 msgid "Brazzaville"
 msgstr "Браззавіль"
@@ -53971,9 +53959,7 @@ msgid "Castlerock"
 msgstr "Каслрок"
 
 #: kstars_i18n.cpp:1377
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in St. Lucia"
-#| msgid "Castries"
+#, kde-kuit-format
 msgctxt "City in Saint Lucia"
 msgid "Castries"
 msgstr "Кастрі"
@@ -54999,9 +54985,7 @@ msgid "Costa Mesa"
 msgstr "Коста-Меза"
 
 #: kstars_i18n.cpp:1548
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Bénin"
-#| msgid "Cotonou"
+#, kde-kuit-format
 msgctxt "City in Benin"
 msgid "Cotonou"
 msgstr "Котону"
@@ -55211,9 +55195,7 @@ msgid "Dakar"
 msgstr "Дакар"
 
 #: kstars_i18n.cpp:1583
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Western sahara"
-#| msgid "Dakhla"
+#, kde-kuit-format
 msgctxt "City in Western Sahara"
 msgid "Dakhla"
 msgstr "Дахла"
@@ -55717,12 +55699,10 @@ msgid "Didim"
 msgstr "Дідім"
 
 #: kstars_i18n.cpp:1667
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Diego Garcia"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Diego Garcia"
-msgstr "Дієго Гарсія"
+msgstr "Дієго-Гарсія"
 
 #: kstars_i18n.cpp:1668
 #, kde-kuit-format
@@ -56445,9 +56425,7 @@ msgid "Ekinözü"
 msgstr "Екіньозю"
 
 #: kstars_i18n.cpp:1788
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Western sahara"
-#| msgid "El Aaiun"
+#, kde-kuit-format
 msgctxt "City in Western Sahara"
 msgid "El Aaiun"
 msgstr "Ель-Аюн"
@@ -57995,9 +57973,7 @@ msgid "Georgetown"
 msgstr "Джорджтаун"
 
 #: kstars_i18n.cpp:2046
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Ascension Island"
-#| msgid "Georgetown"
+#, kde-kuit-format
 msgctxt "City in Saint Helena"
 msgid "Georgetown"
 msgstr "Джорджтаун"
@@ -60355,12 +60331,10 @@ msgid "Johnson City"
 msgstr "Джонсон-Сіті"
 
 #: kstars_i18n.cpp:2439
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Johnston Atoll"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Johnston Atoll"
-msgstr "Атол Джонсон"
+msgstr "Атол Джонстон"
 
 #: kstars_i18n.cpp:2440
 #, kde-kuit-format
@@ -61359,9 +61333,7 @@ msgid "Kingston"
 msgstr "Кінгстон"
 
 #: kstars_i18n.cpp:2606
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Congo (Democratic Republic)"
-#| msgid "Kinshasa"
+#, kde-kuit-format
 msgctxt "City in Democratic Republic of the Congo"
 msgid "Kinshasa"
 msgstr "Кіншаса"
@@ -61397,9 +61369,7 @@ msgid "Kiruna"
 msgstr "Кіруна"
 
 #: kstars_i18n.cpp:2612
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Dem rep of Congo"
-#| msgid "Kisangani"
+#, kde-kuit-format
 msgctxt "City in Democratic Republic of the Congo"
 msgid "Kisangani"
 msgstr "Кісангані"
@@ -63781,9 +63751,7 @@ msgid "Matachewan"
 msgstr "Матачеван"
 
 #: kstars_i18n.cpp:3009
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Dem rep of Congo"
-#| msgid "Matadi"
+#, kde-kuit-format
 msgctxt "City in Democratic Republic of the Congo"
 msgid "Matadi"
 msgstr "Матаді"
@@ -63855,9 +63823,7 @@ msgid "Mbabane"
 msgstr "Мбабане"
 
 #: kstars_i18n.cpp:3021
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Dem rep of Congo"
-#| msgid "Mbandaka"
+#, kde-kuit-format
 msgctxt "City in Democratic Republic of the Congo"
 msgid "Mbandaka"
 msgstr "Мбандака"
@@ -64613,9 +64579,7 @@ msgid "Midnapore"
 msgstr "Міднапур"
 
 #: kstars_i18n.cpp:3147
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Midway Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Midway Island"
 msgstr "Острів Мідвей"
@@ -67009,9 +66973,7 @@ msgid "Paducah"
 msgstr "Падука"
 
 #: kstars_i18n.cpp:3546
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Pagan Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Pagan Island"
 msgstr "Острів Паган"
@@ -67791,9 +67753,7 @@ msgid "Point Hope"
 msgstr "Пойнт-Гоуп"
 
 #: kstars_i18n.cpp:3676
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Congo"
-#| msgid "Pointe Noire"
+#, kde-kuit-format
 msgctxt "City in Republic of the Congo"
 msgid "Pointe Noire"
 msgstr "Пойнт-Нуар"
@@ -68021,9 +67981,7 @@ msgid "Portneuf"
 msgstr "Портнеф"
 
 #: kstars_i18n.cpp:3714
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Bénin"
-#| msgid "Porto Novo"
+#, kde-kuit-format
 msgctxt "City in Benin"
 msgid "Porto Novo"
 msgstr "Порто-Ново"
@@ -69091,9 +69049,7 @@ msgid "Roswell"
 msgstr "Росуелл"
 
 #: kstars_i18n.cpp:3892
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Rota Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Rota Island"
 msgstr "Острів Рота"
@@ -69345,9 +69301,7 @@ msgid "Sainte-Adele"
 msgstr "Сен-Адель"
 
 #: kstars_i18n.cpp:3934
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Saipan Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Saipan Island"
 msgstr "Острів Сайпан"
@@ -70985,9 +70939,7 @@ msgid "St. Cloud"
 msgstr "Сен-Клод"
 
 #: kstars_i18n.cpp:4207
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Virgin Islands"
-#| msgid "St. Croix"
+#, kde-kuit-format
 msgctxt "City in U.S. Virgin Islands"
 msgid "St. Croix"
 msgstr "Сен-Круа"
@@ -71095,9 +71047,7 @@ msgid "St. Stephen"
 msgstr "Сент-Стівен"
 
 #: kstars_i18n.cpp:4225
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Virgin Islands"
-#| msgid "St. Thomas"
+#, kde-kuit-format
 msgctxt "City in U.S. Virgin Islands"
 msgid "St. Thomas"
 msgstr "Сент-Томас"
@@ -72087,12 +72037,10 @@ msgid "Tindouf"
 msgstr "Тіндуф"
 
 #: kstars_i18n.cpp:4390
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Tinian Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Tinian Island"
-msgstr "Острови Тінян"
+msgstr "Острів Тініан"
 
 #: kstars_i18n.cpp:4391
 #, kde-kuit-format
@@ -73355,9 +73303,7 @@ msgid "Waipahu"
 msgstr "Ваїпау"
 
 #: kstars_i18n.cpp:4601
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in US Territory"
-#| msgid "Wake Island"
+#, kde-kuit-format
 msgctxt "City in United States Minor Outlying Islands"
 msgid "Wake Island"
 msgstr "Острів Вейк"
@@ -74215,9 +74161,7 @@ msgid "Yalıhüyük"
 msgstr "Ялихююк"
 
 #: kstars_i18n.cpp:4744
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Ivory coast"
-#| msgid "Yamoussoukro"
+#, kde-kuit-format
 msgctxt "City in Ivory Coast"
 msgid "Yamoussoukro"
 msgstr "Ямусукро"
@@ -76893,12 +76837,10 @@ msgid "Belize"
 msgstr "Беліз"
 
 #: kstars_i18n.cpp:5190
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Washington USA"
-#| msgid "Tenino"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Benin"
-msgstr "Теніно"
+msgstr "Бенін"
 
 #: kstars_i18n.cpp:5191
 #, kde-kuit-format
@@ -77039,12 +76981,10 @@ msgid "Czechia"
 msgstr "Чехія"
 
 #: kstars_i18n.cpp:5214
-#, fuzzy, kde-kuit-format
-#| msgctxt "Country name"
-#| msgid "Congo (Democratic Republic)"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Democratic Republic of the Congo"
-msgstr "Конго (Демократична республіка)"
+msgstr "Демократична Республіка Конго"
 
 #: kstars_i18n.cpp:5215
 #, kde-kuit-format
@@ -77197,9 +77137,7 @@ msgid "Guinea"
 msgstr "Гвінея"
 
 #: kstars_i18n.cpp:5240
-#, fuzzy, kde-kuit-format
-#| msgctxt "Country name"
-#| msgid "Guinea Bissau"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Guinea-Bissau"
 msgstr "Гвінея-Бісау"
@@ -77289,12 +77227,10 @@ msgid "Italy"
 msgstr "Італія"
 
 #: kstars_i18n.cpp:5255
-#, fuzzy, kde-kuit-format
-#| msgctxt "Country name"
-#| msgid "Ivory coast"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Ivory Coast"
-msgstr "Берег Слонової Кістки"
+msgstr "Кот-д'Івуар"
 
 #: kstars_i18n.cpp:5256
 #, kde-kuit-format
@@ -77573,12 +77509,10 @@ msgid "Philippines"
 msgstr "Філіппіни"
 
 #: kstars_i18n.cpp:5302
-#, fuzzy, kde-kuit-format
-#| msgctxt "Country name"
-#| msgid "Pitcairn Islands"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Pitcairn"
-msgstr "Острови Піткерн"
+msgstr "Піткерн"
 
 #: kstars_i18n.cpp:5303
 #, kde-kuit-format
@@ -77602,7 +77536,7 @@ msgstr "Катар"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Republic of the Congo"
-msgstr ""
+msgstr "Республіка Конго"
 
 #: kstars_i18n.cpp:5307
 #, kde-kuit-format
@@ -77623,17 +77557,13 @@ msgid "Rwanda"
 msgstr "Руанда"
 
 #: kstars_i18n.cpp:5310
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Quebec Canada"
-#| msgid "Saint-Felicien"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Saint Helena"
-msgstr "Сен-Фелісьєн"
+msgstr "Острів Святої Єлени"
 
 #: kstars_i18n.cpp:5311
-#, fuzzy, kde-kuit-format
-#| msgctxt "Country name"
-#| msgid "St. Lucia"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Saint Lucia"
 msgstr "Сент-Люсія"
@@ -77660,7 +77590,7 @@ msgstr "Сенегал"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "Serbia"
-msgstr ""
+msgstr "Сербія"
 
 #: kstars_i18n.cpp:5316
 #, kde-kuit-format
@@ -77807,12 +77737,10 @@ msgid "Türkiye"
 msgstr "Туреччина"
 
 #: kstars_i18n.cpp:5340
-#, fuzzy, kde-kuit-format
-#| msgctxt "Country name"
-#| msgid "Virgin Islands"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "U.S. Virgin Islands"
-msgstr "Віргінські Острови"
+msgstr "Американські Віргінські Острови (США)"
 
 #: kstars_i18n.cpp:5341
 #, kde-kuit-format
@@ -77848,7 +77776,7 @@ msgstr "Велика Британія"
 #, kde-kuit-format
 msgctxt "Country name"
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Зовнішні малі острови США"
 
 #: kstars_i18n.cpp:5347
 #, kde-kuit-format
@@ -77881,9 +77809,7 @@ msgid "Venezuela"
 msgstr "Венесуела"
 
 #: kstars_i18n.cpp:5352
-#, fuzzy, kde-kuit-format
-#| msgctxt "Country name"
-#| msgid "Western sahara"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Western Sahara"
 msgstr "Західна Сахара"

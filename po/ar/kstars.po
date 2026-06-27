@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-26 02:08+0000\n"
+"POT-Creation-Date: 2026-06-27 02:10+0000\n"
 "PO-Revision-Date: 2026-06-21 20:13+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -727,7 +727,7 @@ msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "؟؟؟"
 
-#: auxiliary/ksutils.cpp:1456
+#: auxiliary/ksutils.cpp:1469
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -738,36 +738,36 @@ msgstr ""
 " %1 \n"
 " لا وجود له. أتريد إنشاء المجلد؟"
 
-#: auxiliary/ksutils.cpp:1459
+#: auxiliary/ksutils.cpp:1472
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "أنشئ دليل ملف فهرس القياسات الفلكية؟"
 
-#: auxiliary/ksutils.cpp:1464
+#: auxiliary/ksutils.cpp:1477
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr "أُنشِئ موقع ملف فهرس القياسات الفلكية المبدئي."
 
-#: auxiliary/ksutils.cpp:1469
+#: auxiliary/ksutils.cpp:1482
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
 msgstr "لا وجود لدليل ملف فهرس القياسات الفلكية المبدئي ولم يُمكن إنشاؤه."
 
-#: auxiliary/ksutils.cpp:1490 auxiliary/ksutils.cpp:1646
-#: auxiliary/ksutils.cpp:1711
+#: auxiliary/ksutils.cpp:1503 auxiliary/ksutils.cpp:1661
+#: auxiliary/ksutils.cpp:1726
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "خطأ في قراءة ملف إعداد القياسات الفلكية."
 
-#: auxiliary/ksutils.cpp:1504 auxiliary/ksutils.cpp:1689
-#: auxiliary/ksutils.cpp:1731
+#: auxiliary/ksutils.cpp:1517 auxiliary/ksutils.cpp:1704
+#: auxiliary/ksutils.cpp:1746
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "خطا في كتابة ملف القياسات الفلكية الداخلي"
 
-#: auxiliary/ksutils.cpp:1777 fitsviewer/fitsdata.cpp:3027
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3027
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -775,22 +775,22 @@ msgid ""
 msgstr ""
 "تعذّر العثور على dcraw و cjpeg. ثَبِّتْ الأدوات المطلوبة لتحويل CR2/NEF إلى JPEG."
 
-#: auxiliary/ksutils.cpp:1788
+#: auxiliary/ksutils.cpp:1803
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "تعذّر فتح %1: %2"
 
-#: auxiliary/ksutils.cpp:1796
+#: auxiliary/ksutils.cpp:1811
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "لا يُمكِن فك حزمة المصغّر %1: %2"
 
-#: auxiliary/ksutils.cpp:1807
+#: auxiliary/ksutils.cpp:1822
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "لا يُمكِن كتابة %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1931 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1946 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -15974,12 +15974,12 @@ msgstr "احفَظ طابور تسلسل إيكوس"
 msgid "Failed to save sequence queue"
 msgstr "أخفق حفظ طابور التسلسل"
 
-#: ekos/capture/camera_jobs.cpp:493 ekos/capture/camera_jobs.cpp:875
+#: ekos/capture/camera_jobs.cpp:493 ekos/capture/camera_jobs.cpp:881
 #, kde-format
 msgid "Dark Flat"
 msgstr "مسطّح مُظلِم"
 
-#: ekos/capture/camera_jobs.cpp:913
+#: ekos/capture/camera_jobs.cpp:919
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -16408,42 +16408,42 @@ msgstr "حد: %1 درجة مئوية"
 msgid "Limit: %1 mins"
 msgstr "حد: %1 دقيقة"
 
-#: ekos/capture/camerastate.cpp:983
+#: ekos/capture/camerastate.cpp:985
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "يُجرَى إعادة محاذاة ما بعد القلب..."
 
-#: ekos/capture/camerastate.cpp:1003
+#: ekos/capture/camerastate.cpp:1005
 #, kde-format
 msgid "Guide module timed out."
 msgstr "انقضى زمن وِحدة دليل."
 
-#: ekos/capture/camerastate.cpp:1035
+#: ekos/capture/camerastate.cpp:1037
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "انحراف دليل مبدئي %1 أقل من قيمة حد %2 ثانية قوسية"
 
-#: ekos/capture/camerastate.cpp:1044
+#: ekos/capture/camerastate.cpp:1046
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "تجاوز انحراف دليل مبدئي %1 قيمة حد %2 ثانية قوسية"
 
-#: ekos/capture/camerastate.cpp:1066
+#: ekos/capture/camerastate.cpp:1068
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "أكملت معايرة قلب ما بعد خط الزوال بنجاح."
 
-#: ekos/capture/camerastate.cpp:1080
+#: ekos/capture/camerastate.cpp:1082
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr "تجاوز انحراف دليل عند بدء الاقتناص %1 الحد %2 ثانية قوسية."
 
-#: ekos/capture/camerastate.cpp:1094
+#: ekos/capture/camerastate.cpp:1096
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr "انحراف دليل عند بدء الاقتناص %1 أقل من قيمة حد %2 ثانية قوسية"
 
-#: ekos/capture/camerastate.cpp:1121
+#: ekos/capture/camerastate.cpp:1123
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16452,14 +16452,14 @@ msgstr ""
 "تجاوز انحراف دليل %1 قيمة حد %2 ثانية قوسية لـ %4 عينات مُتتالية، يُوقَف "
 "التعريض مؤقتًا ويُنتَظَر دليل لمدة تصل إلى %3 ثانية."
 
-#: ekos/capture/camerastate.cpp:1168
+#: ekos/capture/camerastate.cpp:1170
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr "انحراف دليل %1 أقل الآن من قيمة حد %2 ثانية قوسية، يُستَأنَف التعريض."
 
-#: ekos/capture/camerastate.cpp:1172
+#: ekos/capture/camerastate.cpp:1174
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16468,22 +16468,22 @@ msgstr ""
 "انحراف دليل %1 أقل الآن من قيمة حد %2 ثانية قوسية، يُستَأنَف التعريض في %3 "
 "ثانية."
 
-#: ekos/capture/camerastate.cpp:1187
+#: ekos/capture/camerastate.cpp:1189
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "انحراف دليل %1 أعلى من قيمة حد %2 ثانية قوسية."
 
-#: ekos/capture/camerastate.cpp:1567
+#: ekos/capture/camerastate.cpp:1569
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "أكملت إعادة محاذاة ما بعد القلب بنجاح."
 
-#: ekos/capture/camerastate.cpp:1586
+#: ekos/capture/camerastate.cpp:1588
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "أخفقت محاذاة ما بعد القلب."
 
-#: ekos/capture/camerastate.cpp:1591
+#: ekos/capture/camerastate.cpp:1593
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "أخفقت محاذاة ما بعد القلب. يُعاد المُحاولة..."
@@ -18048,52 +18048,52 @@ msgstr "فشل ركن القبة، إجهاض..."
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "يركن القبة قبل التقاط إطارات المعايرة..."
 
-#: ekos/capture/sequencejobstate.cpp:1040
+#: ekos/capture/sequencejobstate.cpp:1048
 #, kde-format
 msgid "Light box light turned on."
 msgstr "ضوء صندوق الضوء يعمل."
 
-#: ekos/capture/sequencejobstate.cpp:1043
+#: ekos/capture/sequencejobstate.cpp:1051
 #, kde-format
 msgid "Light box light turned off."
 msgstr "ضوء صندوق الضوء مطفئ."
 
-#: ekos/capture/sequencejobstate.cpp:1046
+#: ekos/capture/sequencejobstate.cpp:1054
 #, kde-format
 msgid "Light box busy."
 msgstr "صندوق الضوء مشغول."
 
-#: ekos/capture/sequencejobstate.cpp:1049
+#: ekos/capture/sequencejobstate.cpp:1057
 #, kde-format
 msgid "Light box error."
 msgstr "خطأ صندوق الضوء."
 
-#: ekos/capture/sequencejobstate.cpp:1073
+#: ekos/capture/sequencejobstate.cpp:1081
 #, kde-format
 msgid "Dust cap error occurred."
 msgstr "حدث خطأ في غطاء الغبار."
 
-#: ekos/capture/sequencejobstate.cpp:1079
+#: ekos/capture/sequencejobstate.cpp:1087
 #, kde-format
 msgid "Dust cap is idle."
 msgstr "غطاء الغبار خامل."
 
-#: ekos/capture/sequencejobstate.cpp:1082
+#: ekos/capture/sequencejobstate.cpp:1090
 #, kde-format
 msgid "Dust cap is parked."
 msgstr "غطاء الغبار مركون."
 
-#: ekos/capture/sequencejobstate.cpp:1085
+#: ekos/capture/sequencejobstate.cpp:1093
 #, kde-format
 msgid "Dust cap is parking..."
 msgstr "غطاء الغبار يركن..."
 
-#: ekos/capture/sequencejobstate.cpp:1088
+#: ekos/capture/sequencejobstate.cpp:1096
 #, kde-format
 msgid "Dust cap is unparking..."
 msgstr "غطاء الغبار يفك ركنه..."
 
-#: ekos/capture/sequencejobstate.cpp:1091
+#: ekos/capture/sequencejobstate.cpp:1099
 #, kde-format
 msgid "Dust cap status unknown."
 msgstr "حالة غطاء الغبار مجهولة."

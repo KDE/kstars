@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-26 02:08+0000\n"
+"POT-Creation-Date: 2026-06-27 02:10+0000\n"
 "PO-Revision-Date: 2015-01-30 09:02+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <lokal@lugbih.org>\n"
@@ -758,7 +758,7 @@ msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1456
+#: auxiliary/ksutils.cpp:1469
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -766,62 +766,62 @@ msgid ""
 " does not exist.  Do you want to make the directory?"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1459
+#: auxiliary/ksutils.cpp:1472
 #, fuzzy, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "Rješavač  pauziran."
 
-#: auxiliary/ksutils.cpp:1464
+#: auxiliary/ksutils.cpp:1477
 #, fuzzy, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr "Rješavač  pauziran."
 
-#: auxiliary/ksutils.cpp:1469
+#: auxiliary/ksutils.cpp:1482
 #, fuzzy, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
 msgstr "Rješavač  pauziran."
 
-#: auxiliary/ksutils.cpp:1490 auxiliary/ksutils.cpp:1646
-#: auxiliary/ksutils.cpp:1711
+#: auxiliary/ksutils.cpp:1503 auxiliary/ksutils.cpp:1661
+#: auxiliary/ksutils.cpp:1726
 #, fuzzy, kde-format
 #| msgid "Astrometry.net configuration file"
 msgid "Astrometry Configuration File Read Error."
 msgstr "Astrometry.net konfiguracijska datoteka"
 
-#: auxiliary/ksutils.cpp:1504 auxiliary/ksutils.cpp:1689
-#: auxiliary/ksutils.cpp:1731
+#: auxiliary/ksutils.cpp:1517 auxiliary/ksutils.cpp:1704
+#: auxiliary/ksutils.cpp:1746
 #, fuzzy, kde-format
 #| msgid "Astrometry.net configuration file"
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Astrometry.net konfiguracijska datoteka"
 
-#: auxiliary/ksutils.cpp:1777 fitsviewer/fitsdata.cpp:3027
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3027
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1788
+#: auxiliary/ksutils.cpp:1803
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1 for reading"
 msgid "Cannot open %1: %2"
 msgstr "Ne mogu da otvorim datoteku %1 za čitanje."
 
-#: auxiliary/ksutils.cpp:1796
+#: auxiliary/ksutils.cpp:1811
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1807
+#: auxiliary/ksutils.cpp:1822
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot write %s %1: %2"
 msgstr "Nemoguće pisati u  korisnikov dnevnik"
 
-#: auxiliary/ksutils.cpp:1931 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1946 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -16331,13 +16331,13 @@ msgstr "Sekvencijalni red"
 msgid "Failed to save sequence queue"
 msgstr "Nije moguće snimiti sekvencijalni red"
 
-#: ekos/capture/camera_jobs.cpp:493 ekos/capture/camera_jobs.cpp:875
+#: ekos/capture/camera_jobs.cpp:493 ekos/capture/camera_jobs.cpp:881
 #, fuzzy, kde-format
 #| msgid "Use Dark Frame"
 msgid "Dark Flat"
 msgstr "Koristi tamni okvir"
 
-#: ekos/capture/camera_jobs.cpp:913
+#: ekos/capture/camera_jobs.cpp:919
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -16805,17 +16805,17 @@ msgstr ""
 msgid "Limit: %1 mins"
 msgstr "Podešenja Siulatora"
 
-#: ekos/capture/camerastate.cpp:983
+#: ekos/capture/camerastate.cpp:985
 #, fuzzy, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Obrađujem rješenje polarnog poravnanja..."
 
-#: ekos/capture/camerastate.cpp:1003
+#: ekos/capture/camerastate.cpp:1005
 #, fuzzy, kde-format
 msgid "Guide module timed out."
 msgstr "Navođenje nastavljeno."
 
-#: ekos/capture/camerastate.cpp:1035
+#: ekos/capture/camerastate.cpp:1037
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16825,7 +16825,7 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1044
+#: ekos/capture/camerastate.cpp:1046
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16835,12 +16835,12 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1066
+#: ekos/capture/camerastate.cpp:1068
 #, fuzzy, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Telescope Wizard je uspješno završen."
 
-#: ekos/capture/camerastate.cpp:1080
+#: ekos/capture/camerastate.cpp:1082
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16850,7 +16850,7 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1094
+#: ekos/capture/camerastate.cpp:1096
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16860,7 +16860,7 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1121
+#: ekos/capture/camerastate.cpp:1123
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting "
@@ -16872,7 +16872,7 @@ msgstr ""
 "Odstupanje navođenja %1 premašuje nivo ograničenja od %2 arcsecs, "
 "obustavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1168
+#: ekos/capture/camerastate.cpp:1170
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16881,7 +16881,7 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1172
+#: ekos/capture/camerastate.cpp:1174
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16893,7 +16893,7 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1187
+#: ekos/capture/camerastate.cpp:1189
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16903,17 +16903,17 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1567
+#: ekos/capture/camerastate.cpp:1569
 #, fuzzy, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Telescope Wizard je uspješno završen."
 
-#: ekos/capture/camerastate.cpp:1586
+#: ekos/capture/camerastate.cpp:1588
 #, fuzzy, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Rješavač  pauziran."
 
-#: ekos/capture/camerastate.cpp:1591
+#: ekos/capture/camerastate.cpp:1593
 #, fuzzy, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Rješavač  pauziran."
@@ -18554,67 +18554,67 @@ msgstr "FITS slika nije uspjela se učitati, prekidam..."
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: ekos/capture/sequencejobstate.cpp:1040
+#: ekos/capture/sequencejobstate.cpp:1048
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Light box light turned on."
 msgstr "%1 filter je onlajn."
 
-#: ekos/capture/sequencejobstate.cpp:1043
+#: ekos/capture/sequencejobstate.cpp:1051
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Light box light turned off."
 msgstr "%1 filter je onlajn."
 
-#: ekos/capture/sequencejobstate.cpp:1046
+#: ekos/capture/sequencejobstate.cpp:1054
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Light"
 msgid "Light box busy."
 msgstr "Osvjetljenje"
 
-#: ekos/capture/sequencejobstate.cpp:1049
+#: ekos/capture/sequencejobstate.cpp:1057
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Light"
 msgid "Light box error."
 msgstr "Osvjetljenje"
 
-#: ekos/capture/sequencejobstate.cpp:1073
+#: ekos/capture/sequencejobstate.cpp:1081
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Dust cap error occurred."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1079
+#: ekos/capture/sequencejobstate.cpp:1087
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Dust cap is idle."
 msgstr "%1 filter je onlajn."
 
-#: ekos/capture/sequencejobstate.cpp:1082
+#: ekos/capture/sequencejobstate.cpp:1090
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Dust cap is parked."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1085
+#: ekos/capture/sequencejobstate.cpp:1093
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Dust cap is parking..."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1088
+#: ekos/capture/sequencejobstate.cpp:1096
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"
 msgid "Dust cap is unparking..."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1091
+#: ekos/capture/sequencejobstate.cpp:1099
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dome Creek"

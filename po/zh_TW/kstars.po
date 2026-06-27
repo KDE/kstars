@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-26 02:08+0000\n"
+"POT-Creation-Date: 2026-06-27 02:10+0000\n"
 "PO-Revision-Date: 2024-07-27 13:28+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -748,7 +748,7 @@ msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1456
+#: auxiliary/ksutils.cpp:1469
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error!  The Astrometry Index File Directory does not exist and was not "
@@ -759,12 +759,12 @@ msgid ""
 " does not exist.  Do you want to make the directory?"
 msgstr "發生錯誤！Astrometry 索引檔目錄不存在，也無法建立。"
 
-#: auxiliary/ksutils.cpp:1459
+#: auxiliary/ksutils.cpp:1472
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1464
+#: auxiliary/ksutils.cpp:1477
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error!  The Astrometry Index File Directory does not exist and was not "
@@ -772,7 +772,7 @@ msgstr ""
 msgid "The Default Astrometry Index File Location was created."
 msgstr "發生錯誤！Astrometry 索引檔目錄不存在，也無法建立。"
 
-#: auxiliary/ksutils.cpp:1469
+#: auxiliary/ksutils.cpp:1482
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error!  The Astrometry Index File Directory does not exist and was not "
@@ -782,20 +782,20 @@ msgid ""
 "to be created."
 msgstr "發生錯誤！Astrometry 索引檔目錄不存在，也無法建立。"
 
-#: auxiliary/ksutils.cpp:1490 auxiliary/ksutils.cpp:1646
-#: auxiliary/ksutils.cpp:1711
+#: auxiliary/ksutils.cpp:1503 auxiliary/ksutils.cpp:1661
+#: auxiliary/ksutils.cpp:1726
 #, fuzzy, kde-format
 #| msgid "Internal Astrometry Configuration File Read Error."
 msgid "Astrometry Configuration File Read Error."
 msgstr "內部 Astrometry 設定檔讀取錯誤。"
 
-#: auxiliary/ksutils.cpp:1504 auxiliary/ksutils.cpp:1689
-#: auxiliary/ksutils.cpp:1731
+#: auxiliary/ksutils.cpp:1517 auxiliary/ksutils.cpp:1704
+#: auxiliary/ksutils.cpp:1746
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "內部 Astrometry 設定檔寫入錯誤。"
 
-#: auxiliary/ksutils.cpp:1777 fitsviewer/fitsdata.cpp:3027
+#: auxiliary/ksutils.cpp:1792 fitsviewer/fitsdata.cpp:3027
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to find dcraw and cjpeg. Please install the required tools to "
@@ -805,24 +805,24 @@ msgid ""
 "CR2/NEF to JPEG."
 msgstr "找不到 dcraw 和 cjpeg。請安裝所需的工具來轉換CR2 成 JPEG。"
 
-#: auxiliary/ksutils.cpp:1788
+#: auxiliary/ksutils.cpp:1803
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open %1: %2"
 msgstr "無法開啟檔案：%1"
 
-#: auxiliary/ksutils.cpp:1796
+#: auxiliary/ksutils.cpp:1811
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1807
+#: auxiliary/ksutils.cpp:1822
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot write %s %1: %2"
 msgstr "無法寫入使用者紀錄檔"
 
-#: auxiliary/ksutils.cpp:1931 ekos/scheduler/framingassistantui.cpp:177
+#: auxiliary/ksutils.cpp:1946 ekos/scheduler/framingassistantui.cpp:177
 #: ekos/scheduler/framingassistantui.cpp:192
 #: ekos/scheduler/framingassistantui.cpp:903
 #: ekos/scheduler/framingassistantui.cpp:922 skyobjects/ksplanetbase.h:60
@@ -16723,13 +16723,13 @@ msgstr "儲存 Ekos 序列佇列"
 msgid "Failed to save sequence queue"
 msgstr "儲存序列佇列失敗。"
 
-#: ekos/capture/camera_jobs.cpp:493 ekos/capture/camera_jobs.cpp:875
+#: ekos/capture/camera_jobs.cpp:493 ekos/capture/camera_jobs.cpp:881
 #, fuzzy, kde-format
 #| msgid "Use Dark Frame"
 msgid "Dark Flat"
 msgstr "使用黑暗訊框"
 
-#: ekos/capture/camera_jobs.cpp:913
+#: ekos/capture/camera_jobs.cpp:919
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -17196,18 +17196,18 @@ msgstr ""
 msgid "Limit: %1 mins"
 msgstr "模擬器設定"
 
-#: ekos/capture/camerastate.cpp:983
+#: ekos/capture/camerastate.cpp:985
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "後翻轉重新校準處理中..."
 
-#: ekos/capture/camerastate.cpp:1003
+#: ekos/capture/camerastate.cpp:1005
 #, fuzzy, kde-format
 #| msgid "Guiding timed out."
 msgid "Guide module timed out."
 msgstr "導引逾時。"
 
-#: ekos/capture/camerastate.cpp:1035
+#: ekos/capture/camerastate.cpp:1037
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -17215,7 +17215,7 @@ msgstr "導引逾時。"
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1044
+#: ekos/capture/camerastate.cpp:1046
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -17223,12 +17223,12 @@ msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1066
+#: ekos/capture/camerastate.cpp:1068
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "後子午線翻轉調校已成功完成。"
 
-#: ekos/capture/camerastate.cpp:1080
+#: ekos/capture/camerastate.cpp:1082
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -17236,7 +17236,7 @@ msgstr "後子午線翻轉調校已成功完成。"
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1094
+#: ekos/capture/camerastate.cpp:1096
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -17244,7 +17244,7 @@ msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1121
+#: ekos/capture/camerastate.cpp:1123
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting "
@@ -17254,14 +17254,14 @@ msgid ""
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr "引導偏向 %1 超過了 %2 弧秒的限制，將中止曝光。"
 
-#: ekos/capture/camerastate.cpp:1168
+#: ekos/capture/camerastate.cpp:1170
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1172
+#: ekos/capture/camerastate.cpp:1174
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -17271,7 +17271,7 @@ msgid ""
 "exposure in %3 seconds."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1187
+#: ekos/capture/camerastate.cpp:1189
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -17279,18 +17279,18 @@ msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1567
+#: ekos/capture/camerastate.cpp:1569
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "後翻轉重新調校已成功完成。"
 
-#: ekos/capture/camerastate.cpp:1586
+#: ekos/capture/camerastate.cpp:1588
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed."
 msgstr "校準逾時。"
 
-#: ekos/capture/camerastate.cpp:1591
+#: ekos/capture/camerastate.cpp:1593
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed. Retrying..."
@@ -19012,67 +19012,67 @@ msgstr "FITS 影像載入失敗，正在中止..."
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "重新啟動自動對焦程序..."
 
-#: ekos/capture/sequencejobstate.cpp:1040
+#: ekos/capture/sequencejobstate.cpp:1048
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Light box light turned on."
 msgstr "%1  過濾器已上線。"
 
-#: ekos/capture/sequencejobstate.cpp:1043
+#: ekos/capture/sequencejobstate.cpp:1051
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Light box light turned off."
 msgstr "%1  過濾器已上線。"
 
-#: ekos/capture/sequencejobstate.cpp:1046
+#: ekos/capture/sequencejobstate.cpp:1054
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Light"
 msgid "Light box busy."
 msgstr "亮"
 
-#: ekos/capture/sequencejobstate.cpp:1049
+#: ekos/capture/sequencejobstate.cpp:1057
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Light"
 msgid "Light box error."
 msgstr "亮"
 
-#: ekos/capture/sequencejobstate.cpp:1073
+#: ekos/capture/sequencejobstate.cpp:1081
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap error occurred."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1079
+#: ekos/capture/sequencejobstate.cpp:1087
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Dust cap is idle."
 msgstr "%1  過濾器已上線。"
 
-#: ekos/capture/sequencejobstate.cpp:1082
+#: ekos/capture/sequencejobstate.cpp:1090
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is parked."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1085
+#: ekos/capture/sequencejobstate.cpp:1093
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is parking..."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1088
+#: ekos/capture/sequencejobstate.cpp:1096
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap is unparking..."
 msgstr "Dome Creek"
 
-#: ekos/capture/sequencejobstate.cpp:1091
+#: ekos/capture/sequencejobstate.cpp:1099
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
