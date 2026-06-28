@@ -1,6 +1,6 @@
 # Translation of kstars.po to French
 # Traduction de kstars.po en français
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025, 2026 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2020-2026 Xavier Besnard <xavier.besnard@kde.org>
 # Matthieu Robin <kde@macolu.org>, 2004, 2005, 2006, 2007.
 # Nicolas Ternisien <nicolas.ternisien@gmail.com>, 2004, 2005.
 # Delafond <gerard@delafond.org>, 2005.
@@ -24,9 +24,9 @@ msgstr ""
 "Project-Id-Version: kstars_3.8.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-06-27 02:10+0000\n"
-"PO-Revision-Date: 2026-04-10 09:43+0200\n"
-"Last-Translator: Stax <stax@ik.me>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2026-06-26 11:16+0200\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
+"Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.2\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -52358,13 +52358,13 @@ msgstr "Bay St. Louis"
 #, kde-kuit-format
 msgctxt "City in Afyonkarahisar Türkiye"
 msgid "Bayat"
-msgstr ""
+msgstr "Bayat"
 
 #: kstars_i18n.cpp:1050
 #, kde-kuit-format
 msgctxt "City in Çorum Türkiye"
 msgid "Bayat"
-msgstr ""
+msgstr "Bayat"
 
 #: kstars_i18n.cpp:1051
 #, kde-kuit-format
@@ -57571,7 +57571,7 @@ msgstr "Fayetteville"
 #, kde-kuit-format
 msgctxt "City in Adana Türkiye"
 msgid "Feke"
-msgstr ""
+msgstr "Feke"
 
 #: kstars_i18n.cpp:1909
 #, kde-kuit-format

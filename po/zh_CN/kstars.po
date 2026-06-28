@@ -51466,12 +51466,10 @@ msgid "Castlerock"
 msgstr ""
 
 #: kstars_i18n.cpp:1377
-#, fuzzy, kde-kuit-format
-#| msgctxt "star name"
-#| msgid "Castor"
+#, kde-kuit-format
 msgctxt "City in Saint Lucia"
 msgid "Castries"
-msgstr "北河二(Castor)"
+msgstr ""
 
 #: kstars_i18n.cpp:1378
 #, kde-kuit-format
@@ -61260,12 +61258,10 @@ msgid "Matachewan"
 msgstr ""
 
 #: kstars_i18n.cpp:3009
-#, fuzzy, kde-kuit-format
-#| msgctxt "star name"
-#| msgid "Matar"
+#, kde-kuit-format
 msgctxt "City in Democratic Republic of the Congo"
 msgid "Matadi"
-msgstr "离宫四"
+msgstr ""
 
 #: kstars_i18n.cpp:3010
 #, kde-kuit-format
@@ -61334,11 +61330,10 @@ msgid "Mbabane"
 msgstr ""
 
 #: kstars_i18n.cpp:3021
-#, fuzzy, kde-kuit-format
-#| msgid "Miranda"
+#, kde-kuit-format
 msgctxt "City in Democratic Republic of the Congo"
 msgid "Mbandaka"
-msgstr "天卫五 (Miranda)"
+msgstr ""
 
 #: kstars_i18n.cpp:3022
 #, kde-kuit-format
@@ -65265,11 +65260,10 @@ msgid "Point Hope"
 msgstr ""
 
 #: kstars_i18n.cpp:3676
-#, fuzzy, kde-kuit-format
-#| msgid "Shot Noise"
+#, kde-kuit-format
 msgctxt "City in Republic of the Congo"
 msgid "Pointe Noire"
-msgstr "散粒噪声"
+msgstr ""
 
 #: kstars_i18n.cpp:3677
 #, kde-kuit-format
@@ -65494,11 +65488,10 @@ msgid "Portneuf"
 msgstr ""
 
 #: kstars_i18n.cpp:3714
-#, fuzzy, kde-kuit-format
-#| msgid "Port to:"
+#, kde-kuit-format
 msgctxt "City in Benin"
 msgid "Porto Novo"
-msgstr "端口到："
+msgstr ""
 
 #: kstars_i18n.cpp:3715
 #, kde-kuit-format
@@ -74351,11 +74344,10 @@ msgid "Belize"
 msgstr ""
 
 #: kstars_i18n.cpp:5190
-#, fuzzy, kde-kuit-format
-#| msgid "Opening"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Benin"
-msgstr "正在打开"
+msgstr ""
 
 #: kstars_i18n.cpp:5191
 #, kde-kuit-format
@@ -75078,11 +75070,10 @@ msgid "Saint Helena"
 msgstr ""
 
 #: kstars_i18n.cpp:5311
-#, fuzzy, kde-kuit-format
-#| msgid "Stephane Lucas"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Saint Lucia"
-msgstr "Stephane Lucas"
+msgstr ""
 
 #: kstars_i18n.cpp:5312
 #, kde-kuit-format
@@ -75325,12 +75316,10 @@ msgid "Venezuela"
 msgstr ""
 
 #: kstars_i18n.cpp:5352
-#, fuzzy, kde-kuit-format
-#| msgctxt "Sky Culture"
-#| msgid "Western"
+#, kde-kuit-format
 msgctxt "Country name"
 msgid "Western Sahara"
-msgstr "西方"
+msgstr ""
 
 #: kstars_i18n.cpp:5353
 #, kde-kuit-format
