@@ -71,23 +71,63 @@ class MountModel : public QDialog, public Ui::mountModel
 
         void setAlignStatus(Ekos::AlignState state);
 
+        /**
+         * @brief Get all mount model settings as a variant map.
+         * @return QVariantMap containing alignment points data.
+         */
+        Q_INVOKABLE QVariantMap getAllSettings();
+
+        /**
+         * @brief Set all mount model settings from a variant map.
+         * @param settings QVariantMap containing alignment points data.
+         */
+        Q_INVOKABLE void setAllSettings(const QVariantMap &settings);
+
+        /**
+         * @brief Start or stop the alignment procedure.
+         */
+        Q_INVOKABLE void startStopAlignmentProcedure();
+
+        /**
+         * @brief Reset the alignment procedure.
+         */
+        Q_INVOKABLE void resetAlignmentProcedure();
+
+        /**
+         * @brief Clear all alignment points.
+         */
+        Q_INVOKABLE void slotClearAllAlignPoints();
+
+        /**
+         * @brief Generate wizard alignment points.
+         */
+        Q_INVOKABLE void slotWizardAlignmentPoints();
+
+        /**
+         * @brief Add an alignment point.
+         */
+        Q_INVOKABLE void slotAddAlignPoint();
+
+        /**
+         * @brief Remove the selected alignment point.
+         */
+        Q_INVOKABLE void slotRemoveAlignPoint();
+
+        /**
+         * @brief Sort alignment points.
+         */
+        Q_INVOKABLE void slotSortAlignmentPoints();
+
     protected:
-        void slotWizardAlignmentPoints();
         void slotStarSelected(const QString selectedStar);
         void slotLoadAlignmentPoints();
         void slotSaveAlignmentPoints();
-        void slotClearAllAlignPoints();
-        void slotRemoveAlignPoint();
-        void slotAddAlignPoint();
         void slotFindAlignObject();
-        void resetAlignmentProcedure();
-        void startStopAlignmentProcedure();
         void startAlignmentPoint();
         void finishAlignmentPoint(bool solverSucceeded);
         void moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex);
         void alignTypeChanged(int alignType);
         void togglePreviewAlignPoints();
-        void slotSortAlignmentPoints();
         void onMountParkStatusChanged(ISD::ParkStatus status);
 
 
@@ -119,10 +159,12 @@ class MountModel : public QDialog, public Ui::mountModel
              * @param dec_str will contain the formatted DEC string
              */
         static void getFormattedCoords(double ra, double dec, QString &ra_str, QString &dec_str);
+        QVariantList getAlignmentPointsList();
 
     Q_SIGNALS:
         void newLog(const QString &);
         void aborted();
+        void progressUpdated(const QVariantMap &settings);
 
     private:
 

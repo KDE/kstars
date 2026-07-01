@@ -34,6 +34,15 @@ namespace Ekos
 
 void Align::slotMountModel()
 {
+    ensureMountModelCreated();
+
+    m_MountModel->show();
+    m_MountModel->raise();
+    m_MountModel->activateWindow();
+}
+
+void Align::ensureMountModelCreated()
+{
     if (!m_MountModel)
     {
         m_MountModel = new MountModel(this);
@@ -45,11 +54,8 @@ void Align::slotMountModel()
             abort();
         });
         connect(this, &Ekos::Align::newStatus, m_MountModel, &Ekos::MountModel::setAlignStatus, Qt::UniqueConnection);
+        connect(m_MountModel, &Ekos::MountModel::progressUpdated, this, &Ekos::Align::mountModelProgressUpdated, Qt::UniqueConnection);
     }
-
-    m_MountModel->show();
-    m_MountModel->raise();
-    m_MountModel->activateWindow();
 }
 
 void Align::refreshAlignOptions()

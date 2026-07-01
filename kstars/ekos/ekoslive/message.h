@@ -99,6 +99,9 @@ class Message : public QObject
         // Mount
         void sendMountSettings(const QVariantMap &settings);
 
+        // Mount Model
+        void sendMountModelSettings(const QVariantMap &settings);
+
         // Dark Library
         void sendDarkLibrarySettings(const QVariantMap &settings);
 
@@ -179,6 +182,9 @@ class Message : public QObject
 
         // Align
         void processAlignCommands(const QString &command, const QJsonObject &payload);
+
+        // Mount Model
+        void processMountModelCommands(const QString &command, const QJsonObject &payload);
 
         // Scheduler
         void processSchedulerCommands(const QString &command, const QJsonObject &payload);

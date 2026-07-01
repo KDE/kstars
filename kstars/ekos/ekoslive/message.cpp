@@ -35,6 +35,7 @@
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "ekos/align/mountmodel.h"
 #include "skymap.h"
 #include "Options.h"
 #include "version.h"
@@ -276,6 +277,8 @@ void Message::onTextReceived(const QString &message)
         sendDevices();
     else if (command.startsWith("capture_"))
         processCaptureCommands(command, payload);
+    else if (command.startsWith("mount_model_"))
+        processMountModelCommands(command, payload);
     else if (command.startsWith("mount_"))
         processMountCommands(command, payload);
     else if (command.startsWith("focus_"))
@@ -939,6 +942,41 @@ void Message::processAlignCommands(const QString &command, const QJsonObject &pa
     {
         align->toggleManualRotator(payload["toggled"].toBool());
     }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::processMountModelCommands(const QString &command, const QJsonObject &payload)
+{
+    Ekos::Align *align = m_Manager->alignModule();
+
+    if (align == nullptr)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as align module is not available";
+        return;
+    }
+
+    align->ensureMountModelCreated();
+
+    Ekos::MountModel *mountModel = align->mountModel();
+
+    if (command == commands[MOUNT_MODEL_GET_ALL_SETTINGS])
+        sendMountModelSettings(mountModel->getAllSettings());
+    else if (command == commands[MOUNT_MODEL_SET_ALL_SETTINGS])
+    {
+        auto settings = payload.toVariantMap();
+        mountModel->setAllSettings(settings);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendMountModelSettings(const QVariantMap &settings)
+{
+    m_DebouncedSend.start();
+    m_DebouncedMap[commands[MOUNT_MODEL_GET_ALL_SETTINGS]] = settings;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

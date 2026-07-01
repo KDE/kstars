@@ -159,6 +159,10 @@ enum COMMANDS
     ALIGN_MANUAL_ROTATOR_STATUS,
     ALIGN_MANUAL_ROTATOR_TOGGLE,
 
+    // Mount Model
+    MOUNT_MODEL_GET_ALL_SETTINGS,
+    MOUNT_MODEL_SET_ALL_SETTINGS,
+
     // Scheduler
     SCHEDULER_GET_ALL_SETTINGS,
     SCHEDULER_SET_ALL_SETTINGS,
@@ -414,6 +418,9 @@ static QMap<COMMANDS, QString> const commands =
     {ALIGN_SET_ASTROMETRY_SETTINGS, "align_set_astrometry_settings"},
     {ALIGN_MANUAL_ROTATOR_STATUS, "align_manual_rotator_status"},
     {ALIGN_MANUAL_ROTATOR_TOGGLE, "align_manual_rotator_toggle"},
+
+    {MOUNT_MODEL_GET_ALL_SETTINGS, "mount_model_get_all_settings"},
+    {MOUNT_MODEL_SET_ALL_SETTINGS, "mount_model_set_all_settings"},
 
     {PAH_START, "polar_start"},
     {PAH_STOP, "polar_stop"},

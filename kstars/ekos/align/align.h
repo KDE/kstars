@@ -349,6 +349,13 @@ class Align : public QWidget, public Ui::Align
             return m_MountModel;
         }
 
+        /**
+         * @brief Ensure the MountModel instance is created (without showing the dialog).
+         * This is used by EkosLive to allow remote access to mount model settings
+         * even when the dialog hasn't been opened locally.
+         */
+        void ensureMountModelCreated();
+
         ISD::Mount *mount() const
         {
             return m_Mount;
@@ -644,6 +651,9 @@ class Align : public QWidget, public Ui::Align
 
         // Astrometry index files progress
         void newDownloadProgress(QString info);
+
+        // Mount model progress update
+        void mountModelProgressUpdated(const QVariantMap &settings);
 
     private:
 

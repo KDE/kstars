@@ -25,6 +25,8 @@
 
 #include <ekos_align_debug.h>
 
+#include <QVariantMap>
+
 #define AL_FORMAT_VERSION 1.0
 
 #include <QFileDialog>
@@ -1129,6 +1131,7 @@ void MountModel::resetAlignmentProcedure()
     m_IsRunning     = false;
     currentAlignmentPoint = 0;
     Q_EMIT aborted();
+    Q_EMIT progressUpdated({{"isRunning", false}, {"currentAlignmentPoint", 0}, {"points", getAlignmentPointsList()}});
 }
 
 bool MountModel::alignmentPointsAreBad()
@@ -1224,6 +1227,7 @@ void MountModel::startStopAlignmentProcedure()
             m_IsRunning = true;
             saveAndOverrideSolverSettings();
             Q_EMIT newLog(i18n("The Mount Model Tool is Starting."));
+            Q_EMIT progressUpdated({{"isRunning", true}, {"currentAlignmentPoint", currentAlignmentPoint}, {"points", getAlignmentPointsList()}});
             startAlignmentPoint();
         }
     }
@@ -1291,6 +1295,7 @@ void MountModel::finishAlignmentPoint(bool solverSucceeded)
 
         if (currentAlignmentPoint < alignTable->rowCount())
         {
+            Q_EMIT progressUpdated({{"isRunning", true}, {"currentAlignmentPoint", currentAlignmentPoint}, {"points", getAlignmentPointsList()}});
             startAlignmentPoint();
         }
         else
@@ -1301,6 +1306,7 @@ void MountModel::finishAlignmentPoint(bool solverSucceeded)
                 QIcon::fromTheme("media-playback-start"));
             Q_EMIT newLog(i18n("The Mount Model Tool is Finished."));
             currentAlignmentPoint = 0;
+            Q_EMIT progressUpdated({{"isRunning", false}, {"currentAlignmentPoint", 0}, {"points", getAlignmentPointsList()}});
         }
     }
 }
@@ -1352,6 +1358,86 @@ void MountModel::setAlignStatus(Ekos::AlignState state)
             break;
         default:
             break;
+    }
+}
+
+QVariantList MountModel::getAlignmentPointsList()
+{
+    QVariantList points;
+
+    for (int i = 0; i < alignTable->rowCount(); i++)
+    {
+        QTableWidgetItem *raCell      = alignTable->item(i, 0);
+        QTableWidgetItem *deCell      = alignTable->item(i, 1);
+        QTableWidgetItem *objNameCell = alignTable->item(i, 2);
+
+        if (!raCell || !deCell || !objNameCell)
+            continue;
+
+        QVariantMap point;
+        point["ra"]   = raCell->text();
+        point["dec"]  = deCell->text();
+        point["name"] = objNameCell->text();
+        points.append(point);
+    }
+
+    return points;
+}
+
+QVariantMap MountModel::getAllSettings()
+{
+    QVariantMap settings;
+
+    settings["points"] = getAlignmentPointsList();
+    settings["minAltitude"] = minAltBox->value();
+    settings["numPoints"] = alignPtNum->value();
+    settings["isRunning"] = m_IsRunning;
+    settings["currentAlignmentPoint"] = currentAlignmentPoint;
+
+    return settings;
+}
+
+void MountModel::setAllSettings(const QVariantMap &settings)
+{
+    if (settings.contains("minAltitude"))
+        minAltBox->setValue(settings["minAltitude"].toInt());
+    if (settings.contains("numPoints"))
+        alignPtNum->setValue(settings["numPoints"].toInt());
+
+    if (settings.contains("points"))
+    {
+        alignTable->setRowCount(0);
+
+        const QVariantList points = settings["points"].toList();
+        for (const auto &pointVar : points)
+        {
+            const QVariantMap point = pointVar.toMap();
+
+            int currentRow = alignTable->rowCount();
+            alignTable->insertRow(currentRow);
+
+            QTableWidgetItem *RAReport = new QTableWidgetItem();
+            RAReport->setText(point["ra"].toString());
+            RAReport->setTextAlignment(Qt::AlignHCenter);
+            alignTable->setItem(currentRow, 0, RAReport);
+
+            QTableWidgetItem *DECReport = new QTableWidgetItem();
+            DECReport->setText(point["dec"].toString());
+            DECReport->setTextAlignment(Qt::AlignHCenter);
+            alignTable->setItem(currentRow, 1, DECReport);
+
+            QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
+            ObjNameReport->setText(point["name"].toString());
+            ObjNameReport->setTextAlignment(Qt::AlignHCenter);
+            alignTable->setItem(currentRow, 2, ObjNameReport);
+
+            QTableWidgetItem *disabledBox = new QTableWidgetItem();
+            disabledBox->setFlags(Qt::ItemIsSelectable);
+            alignTable->setItem(currentRow, 3, disabledBox);
+        }
+
+        if (previewShowing)
+            updatePreviewAlignPoints();
     }
 }
 }
