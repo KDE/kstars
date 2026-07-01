@@ -88,13 +88,13 @@ Francistown		BW	-21° 17' 00"	 27° 50' 00"	2.0	--	961.77
 Gaborone		BW	-24° 40' 00"	 25° 55' 00"	2.0	--	1004.02
 Lobatsi		BW	-25° 13' 00"	 25° 40' 00"	2.0	--	1345.13
 Belem		BR	-1° 22' 59"	-48° 28' 59"	-3.0	--	13.48
-Brasilia		BR	-15° 52' 00"	-47° 55' 00"	-3.0	BZ	1056.24
-Itapetinga		BR	-23° 11' 01"	-46° 33' 45"	-3.0	BZ	812.24
+Brasilia		BR	-15° 52' 00"	-47° 55' 00"	-3.0	--	1056.24
+Itapetinga		BR	-23° 11' 01"	-46° 33' 45"	-3.0	--	812.24
 Manaus		BR	-3° 01' 59"	-60° 02' 59"	-4.0	--	74.70
-Natal		BR	-5° 17' 59"	-35° 47' 59"	-3.0	BZ	129.27
-Recife		BR	-8° 07' 58"	-34° 55' 58"	-3.0	BZ	53.14
-Rio de Janeiro		BR	-22° 26' 59"	-42° 43' 01"	-3.0	BZ	139.82
-São Paulo		BR	-23° 32' 51"	-46° 37' 59"	-3.0	BZ	765.40
+Natal		BR	-5° 17' 59"	-35° 47' 59"	-3.0	--	129.27
+Recife		BR	-8° 07' 58"	-34° 55' 58"	-3.0	--	53.14
+Rio de Janeiro		BR	-22° 26' 59"	-42° 43' 01"	-3.0	--	139.82
+São Paulo		BR	-23° 32' 51"	-46° 37' 59"	-3.0	--	765.40
 Bandar Seri Begawan		BN	 4° 57' 00"	 114° 56' 12"	8.0	--	33.05
 Sofia		BG	 42° 43' 00"	 23° 19' 59"	2.0	EU	535.00
 Bobo-Dioulasso		BF	 11° 11' 00"	 4° 17' 00"	0.0	--	146.60
@@ -842,7 +842,7 @@ Viljandi		EE	 58° 21' 41"	 25° 34' 29"	2.0	EU	79.99
 Võhma		EE	 58° 38' 01"	 25° 33' 37"	2.0	EU	56.69
 Võru		EE	 57° 50' 15"	 27° 00' 46"	2.0	EU	73.74
 Addis Ababa		ET	 9° 00' 00"	 38° 43' 59"	3.0	--	2325.77
-Stanley		FK	-51° 45' 59"	-57° 58' 59"	-4.0	FK	5.04
+Stanley		FK	-51° 45' 59"	-57° 58' 59"	-4.0	--	5.04
 Nandi		FJ	-17° 45' 00"	 177° 26' 59"	12.0	--	9.60
 Dalsbruk		FI	 60° 00' 35"	 22° 28' 48"	2.0	EU	1.00
 Espoo		FI	 60° 10' 00"	 24° 42' 00"	2.0	EU	7.64
@@ -1112,7 +1112,7 @@ Tatabánya	Komárom-Esztergom	HU	 47° 35' 10"	 18° 23' 10"	1.0	EU	140.33
 Veszprém	Veszprém	HU	 47° 05' 34"	 17° 54' 34"	1.0	EU	261.13
 Zalaegerszeg	Zala	HU	 46° 50' 43"	 16° 50' 43"	1.0	EU	152.94
 Keflavik		IS	 64° 00' 00"	-22° 37' 01"	0.0	--	40.00
-Reykjavik		IS	 64° 08' 04"	-21° 57' 29"	0.0	EU	4.11
+Reykjavik		IS	 64° 08' 04"	-21° 57' 29"	0.0	--	4.11
 Bangalore		IN	 12° 58' 00"	 77° 34' 00"	5.5	--	893.24
 Chennai		IN	 13° 00' 00"	 80° 10' 58"	5.5	--	19.04
 GMRT		IN	 19° 06' 00"	 74° 03' 00"	5.5	--	663.25
@@ -1304,13 +1304,13 @@ Benghazi		LY	 32° 05' 00"	 20° 16' 00"	1.0	--	123.66
 Misratah		LY	 32° 19' 00"	 15° 03' 00"	1.0	--	18.48
 Tobruk		LY	 32° 06' 00"	 23° 55' 00"	1.0	--	54.55
 Tripoli		LY	 32° 49' 59"	 13° 13' 00"	1.0	--	23.16
-Alytus		LT	 54° 22' 53"	 24° 02' 53"	2.0	RU	93.38
-Kaunas		LT	 54° 54' 21"	 23° 51' 21"	2.0	RU	15.00
-Klaipėda		LT	 55° 44' 36"	 21° 06' 36"	2.0	RU	26.00
-Marijampolė		LT	 54° 33' 14"	 23° 20' 14"	2.0	RU	71.19
-Panevėžys		LT	 55° 44' 14"	 24° 21' 14"	2.0	RU	50.27
-Vilnius		LT	 54° 41' 00"	 25° 17' 15"	2.0	RU	103.28
-Šiauliai		LT	 55° 55' 43"	 23° 18' 43"	2.0	RU	130.45
+Alytus		LT	 54° 22' 53"	 24° 02' 53"	2.0	EE	93.38
+Kaunas		LT	 54° 54' 21"	 23° 51' 21"	2.0	EE	15.00
+Klaipėda		LT	 55° 44' 36"	 21° 06' 36"	2.0	EE	26.00
+Marijampolė		LT	 54° 33' 14"	 23° 20' 14"	2.0	EE	71.19
+Panevėžys		LT	 55° 44' 14"	 24° 21' 14"	2.0	EE	50.27
+Vilnius		LT	 54° 41' 00"	 25° 17' 15"	2.0	EE	103.28
+Šiauliai		LT	 55° 55' 43"	 23° 18' 43"	2.0	EE	130.45
 Luxembourg City		LU	 49° 37' 01"	 6° 12' 00"	1.0	EU	359.75
 Skopje		MK	 41° 59' 00"	 21° 26' 00"	1.0	EU	253.83
 Antananarivo		MG	-18° 48' 00"	 47° 29' 00"	3.0	--	1271.86
@@ -1376,11 +1376,11 @@ Pemba		MZ	-12° 58' 00"	 40° 30' 00"	2.0	--	57.95
 Mandalay		MM	 22° 00' 00"	 96° 07' 59"	6.5	--	78.17
 Rangoon		MM	 16° 46' 00"	 96° 09' 00"	6.5	--	0.00
 Sittwe		MM	 20° 07' 59"	 92° 52' 59"	6.5	--	7.58
-Katima Mulilo		NA	-17° 05' 00"	 24° 27' 00"	0.0	NB	1048.42
-Ondangwa		NA	-17° 54' 00"	 15° 58' 00"	0.0	NB	1096.04
-Walvis Bay		NA	-22° 58' 00"	 14° 40' 00"	0.0	NB	102.56
-Windhoek		NA	-23° 50' 00"	 29° 25' 00"	0.0	NB	1222.30
-Windhoek	Khomas Hochland	NA	-22° 33' 35"	 17° 04' 34"	1.0	NB	1673.73
+Katima Mulilo		NA	-17° 05' 00"	 24° 27' 00"	0.0	--	1048.42
+Ondangwa		NA	-17° 54' 00"	 15° 58' 00"	0.0	--	1096.04
+Walvis Bay		NA	-22° 58' 00"	 14° 40' 00"	0.0	--	102.56
+Windhoek		NA	-23° 50' 00"	 29° 25' 00"	0.0	--	1222.30
+Windhoek	Khomas Hochland	NA	-22° 33' 35"	 17° 04' 34"	1.0	--	1673.73
 Kathmandu		NP	 27° 49' 00"	 85° 20' 59"	5.75	--	1963.77
 Amsterdam		NL	 52° 21' 00"	 4° 51' 59"	1.0	EU	2.53
 Dwingeloo Obs.		NL	 52° 48' 08"	 6° 23' 44"	1.0	EU	10.16
@@ -1472,91 +1472,91 @@ Lisbon		PT	 38° 42' 05"	-9° 11' 15"	0.0	EU	40.78
 Oporto		PT	 41° 06' 05"	-8° 35' 15"	0.0	EU	202.59
 Doha		QA	 25° 16' 01"	 51° 34' 01"	3.0	--	9.33
 Bucharest		RO	 44° 25' 57"	 26° 06' 14"	2.0	EU	79.86
-Abakan	Siberia	RU	 53° 43' 00"	 91° 26' 00"	7.0	RU	247.60
-Aginskoe	Siberia	RU	 51° 06' 00"	 114° 32' 00"	9.0	RU	675.46
-Anadyr	Far East	RU	 64° 45' 00"	 177° 29' 00"	12.0	RU	63.00
-Arkhangelsk	North-West Region	RU	 64° 33' 00"	 40° 32' 00"	3.0	RU	1.00
-Barnaul	Siberia	RU	 53° 22' 00"	 83° 45' 00"	6.0	RU	185.55
-Belgorod	Central Region	RU	 50° 36' 00"	 36° 35' 00"	3.0	RU	139.76
-Birobidzhan	Far East	RU	 48° 48' 00"	 132° 57' 00"	10.0	RU	80.45
-Bratsk	Siberia	RU	 56° 05' 00"	 101° 48' 00"	8.0	RU	391.00
-Bryansk	Central Region	RU	 53° 15' 00"	 34° 22' 00"	3.0	RU	180.48
-Cheboksary	Volga Region	RU	 56° 04' 00"	 47° 10' 00"	3.0	RU	174.97
-Chelyabinsk	Ural	RU	 55° 10' 00"	 61° 24' 00"	5.0	RU	216.00
-Cherkessk	South Region	RU	 44° 14' 00"	 42° 04' 00"	3.0	RU	525.00
-Chita	Siberia	RU	 52° 03' 00"	 113° 30' 00"	9.0	RU	690.77
-Dudinka	Siberia	RU	 69° 25' 00"	 86° 15' 00"	7.0	RU	37.22
-Egvekinot	Far East	RU	 66° 19' 00"	 179° 10' 00"	12.0	RU	412.31
-Ekaterinburg	Ural	RU	 56° 49' 00"	 60° 38' 00"	5.0	RU	235.75
-Gorno-Altaysk	Siberia	RU	 51° 58' 00"	 85° 58' 00"	6.0	RU	335.89
-Grozny	South Region	RU	 43° 20' 00"	 45° 42' 00"	3.0	RU	118.68
-Irkutsk	Siberia	RU	 52° 16' 00"	 104° 20' 00"	8.0	RU	485.15
-Ivanovo	Central Region	RU	 57° 00' 00"	 40° 59' 00"	3.0	RU	130.73
-Izhevsk	Volga Region	RU	 56° 51' 00"	 53° 14' 00"	4.0	RU	145.68
-Kaliningrad	North-West Region	RU	 54° 43' 00"	 20° 30' 00"	2.0	RU	17.03
-Kaluga	Central Region	RU	 54° 31' 00"	 36° 16' 00"	3.0	RU	197.30
-Kazan	Volga Region	RU	 55° 49' 00"	 49° 08' 00"	3.0	RU	53.00
-Kemerovo	Siberia	RU	 55° 20' 00"	 86° 05' 00"	7.0	RU	134.82
-Khabarovsk	Far East	RU	 48° 30' 00"	 135° 06' 00"	10.0	RU	101.23
-Khanty-Mansiysk	Ural	RU	 61° 00' 00"	 69° 06' 00"	5.0	RU	28.83
-Kostroma	Central Region	RU	 57° 46' 00"	 40° 55' 00"	3.0	RU	87.94
-Krasnodar	South Region	RU	 45° 02' 00"	 39° 00' 00"	3.0	RU	27.00
-Krasnoyarsk	Siberia	RU	 56° 01' 00"	 92° 57' 00"	7.0	RU	124.00
-Kurgan	Ural	RU	 55° 26' 00"	 65° 18' 00"	5.0	RU	77.98
-Kursk	Central Region	RU	 51° 42' 00"	 36° 12' 00"	3.0	RU	157.00
-Kyzyl	Siberia	RU	 51° 42' 00"	 94° 27' 00"	7.0	RU	644.87
-Lipetsk	Central Region	RU	 52° 37' 00"	 39° 35' 00"	3.0	RU	164.64
-Magadan	Far East	RU	 59° 34' 00"	 150° 48' 00"	11.0	RU	59.69
-Makhachkala	South Region	RU	 42° 58' 00"	 47° 30' 00"	3.0	RU	11.79
-Maykop	South Region	RU	 44° 35' 00"	 40° 07' 00"	3.0	RU	295.22
-Mirnyi	Far East	RU	 62° 33' 00"	 113° 53' 00"	9.0	RU	319.50
-Moscow	Central Region	RU	 55° 46' 00"	 37° 40' 00"	3.0	RU	144.94
-Murmansk	North-West Region	RU	 68° 58' 00"	 33° 05' 00"	3.0	RU	40.05
-Nal'chik	South Region	RU	 43° 29' 00"	 43° 37' 00"	3.0	RU	487.92
-Nizhnii Novgorod	Volga Region	RU	 56° 20' 00"	 44° 00' 00"	3.0	RU	60.00
-Novgorod	North-West Region	RU	 58° 31' 00"	 31° 17' 00"	3.0	RU	25.01
-Novosibirsk	Siberia	RU	 55° 02' 00"	 82° 55' 00"	6.0	RU	155.01
-Omsk	Siberia	RU	 55° 00' 00"	 73° 24' 00"	6.0	RU	97.94
-Orel	Central Region	RU	 52° 59' 00"	 36° 05' 00"	3.0	RU	157.42
-Orenburg	Volga Region	RU	 51° 54' 00"	 55° 06' 00"	5.0	RU	95.17
-Oymiakon	Far East	RU	 63° 28' 00"	 142° 49' 00"	9.0	RU	696.75
-Palana	Far East	RU	 59° 07' 00"	 159° 58' 00"	12.0	RU	293.15
-Pechory		RU	 57° 48' 30"	 27° 36' 00"	2.0	EU	88.00
-Penza	Volga Region	RU	 53° 13' 00"	 45° 00' 00"	3.0	RU	163.87
-Perm	Volga Region	RU	 58° 00' 00"	 56° 15' 00"	5.0	RU	166.37
-Petropavlovsk-Kamchatskiy	Far East	RU	 53° 01' 00"	 158° 39' 00"	12.0	RU	27.64
-Petrozavodsk	North-West Region	RU	 61° 47' 00"	 34° 21' 00"	3.0	RU	82.18
-Pevek	Far East	RU	 69° 42' 00"	 170° 17' 00"	12.0	RU	11.26
-Provideniya Bay	Far East	RU	 64° 23' 00"	 173° 18' 00"	12.0	RU	302.77
-Pskov	North-West Region	RU	 57° 50' 00"	 28° 20' 00"	3.0	RU	47.00
-Pulkovo		RU	 59° 46' 04"	 30° 19' 30"	1.0	RU	67.65
-Rostov na Donu	South Region	RU	 47° 13' 00"	 39° 43' 00"	3.0	RU	43.96
-Ryazan	Central Region	RU	 54° 38' 00"	 39° 44' 00"	3.0	RU	114.49
-Samara	Volga Region	RU	 53° 11' 00"	 50° 06' 00"	4.0	RU	53.58
-Saransk	Volga Region	RU	 54° 11' 00"	 45° 11' 00"	3.0	RU	157.75
-Saratov	Volga Region	RU	 51° 34' 00"	 46° 02' 00"	3.0	RU	146.84
-Smolensk	Central Region	RU	 54° 47' 00"	 32° 03' 00"	3.0	RU	248.92
-Sochi	South Region	RU	 43° 35' 00"	 39° 45' 00"	3.0	RU	57.39
-St. Petersburg	North-West Region	RU	 59° 56' 00"	 30° 16' 00"	3.0	RU	16.00
-Stavropol'	South Region	RU	 45° 02' 00"	 41° 59' 00"	3.0	RU	520.02
-Syktyvkar	North-West Region	RU	 61° 40' 00"	 50° 46' 00"	3.0	RU	130.63
-Tambov	Central Region	RU	 52° 43' 00"	 41° 25' 00"	3.0	RU	147.41
-Tomsk	Siberia	RU	 56° 30' 00"	 84° 58' 00"	6.0	RU	116.84
-Tula	Central Region	RU	 54° 12' 00"	 37° 37' 00"	3.0	RU	157.66
-Tver'	Central Region	RU	 56° 52' 00"	 35° 55' 00"	3.0	RU	129.71
-Tyumen'	Ural	RU	 57° 09' 00"	 65° 32' 00"	5.0	RU	85.78
-Ufa	Volga Region	RU	 54° 44' 00"	 55° 56' 00"	5.0	RU	160.48
-Ulan-Ude	Siberia	RU	 51° 50' 00"	 107° 37' 00"	8.0	RU	544.10
-Ust'-Ordynsky	Siberia	RU	 52° 48' 00"	 104° 45' 00"	8.0	RU	507.43
-Vladikavkaz	South Region	RU	 43° 03' 00"	 44° 40' 00"	3.0	RU	669.36
-Vladimir	Central Region	RU	 56° 10' 00"	 40° 25' 00"	3.0	RU	100.91
-Vladivostok	Far East	RU	 43° 07' 00"	 131° 55' 00"	10.0	RU	129.43
-Volgograd	South Region	RU	 48° 42' 00"	 44° 31' 00"	3.0	RU	35.96
-Vologda	North-West Region	RU	 59° 12' 00"	 39° 55' 00"	3.0	RU	115.50
-Yakutsk	Far East	RU	 62° 00' 00"	 129° 40' 00"	9.0	RU	105.89
-Yoshkar Ola	Volga Region	RU	 56° 38' 00"	 47° 52' 00"	3.0	RU	105.06
-Yuzhno-Sakhalinsk	Far East	RU	 46° 58' 00"	 142° 42' 00"	10.0	RU	29.00
-Zelenchukskaya		RU	 43° 39' 02"	 41° 26' 30"	3.0	RU	2002.53
+Abakan	Siberia	RU	 53° 43' 00"	 91° 26' 00"	7.0	--	247.60
+Aginskoe	Siberia	RU	 51° 06' 00"	 114° 32' 00"	9.0	--	675.46
+Anadyr	Far East	RU	 64° 45' 00"	 177° 29' 00"	12.0	--	63.00
+Arkhangelsk	North-West Region	RU	 64° 33' 00"	 40° 32' 00"	3.0	--	1.00
+Barnaul	Siberia	RU	 53° 22' 00"	 83° 45' 00"	6.0	--	185.55
+Belgorod	Central Region	RU	 50° 36' 00"	 36° 35' 00"	3.0	--	139.76
+Birobidzhan	Far East	RU	 48° 48' 00"	 132° 57' 00"	10.0	--	80.45
+Bratsk	Siberia	RU	 56° 05' 00"	 101° 48' 00"	8.0	--	391.00
+Bryansk	Central Region	RU	 53° 15' 00"	 34° 22' 00"	3.0	--	180.48
+Cheboksary	Volga Region	RU	 56° 04' 00"	 47° 10' 00"	3.0	--	174.97
+Chelyabinsk	Ural	RU	 55° 10' 00"	 61° 24' 00"	5.0	--	216.00
+Cherkessk	South Region	RU	 44° 14' 00"	 42° 04' 00"	3.0	--	525.00
+Chita	Siberia	RU	 52° 03' 00"	 113° 30' 00"	9.0	--	690.77
+Dudinka	Siberia	RU	 69° 25' 00"	 86° 15' 00"	7.0	--	37.22
+Egvekinot	Far East	RU	 66° 19' 00"	 179° 10' 00"	12.0	--	412.31
+Ekaterinburg	Ural	RU	 56° 49' 00"	 60° 38' 00"	5.0	--	235.75
+Gorno-Altaysk	Siberia	RU	 51° 58' 00"	 85° 58' 00"	6.0	--	335.89
+Grozny	South Region	RU	 43° 20' 00"	 45° 42' 00"	3.0	--	118.68
+Irkutsk	Siberia	RU	 52° 16' 00"	 104° 20' 00"	8.0	--	485.15
+Ivanovo	Central Region	RU	 57° 00' 00"	 40° 59' 00"	3.0	--	130.73
+Izhevsk	Volga Region	RU	 56° 51' 00"	 53° 14' 00"	4.0	--	145.68
+Kaliningrad	North-West Region	RU	 54° 43' 00"	 20° 30' 00"	2.0	--	17.03
+Kaluga	Central Region	RU	 54° 31' 00"	 36° 16' 00"	3.0	--	197.30
+Kazan	Volga Region	RU	 55° 49' 00"	 49° 08' 00"	3.0	--	53.00
+Kemerovo	Siberia	RU	 55° 20' 00"	 86° 05' 00"	7.0	--	134.82
+Khabarovsk	Far East	RU	 48° 30' 00"	 135° 06' 00"	10.0	--	101.23
+Khanty-Mansiysk	Ural	RU	 61° 00' 00"	 69° 06' 00"	5.0	--	28.83
+Kostroma	Central Region	RU	 57° 46' 00"	 40° 55' 00"	3.0	--	87.94
+Krasnodar	South Region	RU	 45° 02' 00"	 39° 00' 00"	3.0	--	27.00
+Krasnoyarsk	Siberia	RU	 56° 01' 00"	 92° 57' 00"	7.0	--	124.00
+Kurgan	Ural	RU	 55° 26' 00"	 65° 18' 00"	5.0	--	77.98
+Kursk	Central Region	RU	 51° 42' 00"	 36° 12' 00"	3.0	--	157.00
+Kyzyl	Siberia	RU	 51° 42' 00"	 94° 27' 00"	7.0	--	644.87
+Lipetsk	Central Region	RU	 52° 37' 00"	 39° 35' 00"	3.0	--	164.64
+Magadan	Far East	RU	 59° 34' 00"	 150° 48' 00"	11.0	--	59.69
+Makhachkala	South Region	RU	 42° 58' 00"	 47° 30' 00"	3.0	--	11.79
+Maykop	South Region	RU	 44° 35' 00"	 40° 07' 00"	3.0	--	295.22
+Mirnyi	Far East	RU	 62° 33' 00"	 113° 53' 00"	9.0	--	319.50
+Moscow	Central Region	RU	 55° 46' 00"	 37° 40' 00"	3.0	--	144.94
+Murmansk	North-West Region	RU	 68° 58' 00"	 33° 05' 00"	3.0	--	40.05
+Nal'chik	South Region	RU	 43° 29' 00"	 43° 37' 00"	3.0	--	487.92
+Nizhnii Novgorod	Volga Region	RU	 56° 20' 00"	 44° 00' 00"	3.0	--	60.00
+Novgorod	North-West Region	RU	 58° 31' 00"	 31° 17' 00"	3.0	--	25.01
+Novosibirsk	Siberia	RU	 55° 02' 00"	 82° 55' 00"	6.0	--	155.01
+Omsk	Siberia	RU	 55° 00' 00"	 73° 24' 00"	6.0	--	97.94
+Orel	Central Region	RU	 52° 59' 00"	 36° 05' 00"	3.0	--	157.42
+Orenburg	Volga Region	RU	 51° 54' 00"	 55° 06' 00"	5.0	--	95.17
+Oymiakon	Far East	RU	 63° 28' 00"	 142° 49' 00"	9.0	--	696.75
+Palana	Far East	RU	 59° 07' 00"	 159° 58' 00"	12.0	--	293.15
+Pechory		RU	 57° 48' 30"	 27° 36' 00"	2.0	--	88.00
+Penza	Volga Region	RU	 53° 13' 00"	 45° 00' 00"	3.0	--	163.87
+Perm	Volga Region	RU	 58° 00' 00"	 56° 15' 00"	5.0	--	166.37
+Petropavlovsk-Kamchatskiy	Far East	RU	 53° 01' 00"	 158° 39' 00"	12.0	--	27.64
+Petrozavodsk	North-West Region	RU	 61° 47' 00"	 34° 21' 00"	3.0	--	82.18
+Pevek	Far East	RU	 69° 42' 00"	 170° 17' 00"	12.0	--	11.26
+Provideniya Bay	Far East	RU	 64° 23' 00"	 173° 18' 00"	12.0	--	302.77
+Pskov	North-West Region	RU	 57° 50' 00"	 28° 20' 00"	3.0	--	47.00
+Pulkovo		RU	 59° 46' 04"	 30° 19' 30"	1.0	--	67.65
+Rostov na Donu	South Region	RU	 47° 13' 00"	 39° 43' 00"	3.0	--	43.96
+Ryazan	Central Region	RU	 54° 38' 00"	 39° 44' 00"	3.0	--	114.49
+Samara	Volga Region	RU	 53° 11' 00"	 50° 06' 00"	4.0	--	53.58
+Saransk	Volga Region	RU	 54° 11' 00"	 45° 11' 00"	3.0	--	157.75
+Saratov	Volga Region	RU	 51° 34' 00"	 46° 02' 00"	3.0	--	146.84
+Smolensk	Central Region	RU	 54° 47' 00"	 32° 03' 00"	3.0	--	248.92
+Sochi	South Region	RU	 43° 35' 00"	 39° 45' 00"	3.0	--	57.39
+St. Petersburg	North-West Region	RU	 59° 56' 00"	 30° 16' 00"	3.0	--	16.00
+Stavropol'	South Region	RU	 45° 02' 00"	 41° 59' 00"	3.0	--	520.02
+Syktyvkar	North-West Region	RU	 61° 40' 00"	 50° 46' 00"	3.0	--	130.63
+Tambov	Central Region	RU	 52° 43' 00"	 41° 25' 00"	3.0	--	147.41
+Tomsk	Siberia	RU	 56° 30' 00"	 84° 58' 00"	6.0	--	116.84
+Tula	Central Region	RU	 54° 12' 00"	 37° 37' 00"	3.0	--	157.66
+Tver'	Central Region	RU	 56° 52' 00"	 35° 55' 00"	3.0	--	129.71
+Tyumen'	Ural	RU	 57° 09' 00"	 65° 32' 00"	5.0	--	85.78
+Ufa	Volga Region	RU	 54° 44' 00"	 55° 56' 00"	5.0	--	160.48
+Ulan-Ude	Siberia	RU	 51° 50' 00"	 107° 37' 00"	8.0	--	544.10
+Ust'-Ordynsky	Siberia	RU	 52° 48' 00"	 104° 45' 00"	8.0	--	507.43
+Vladikavkaz	South Region	RU	 43° 03' 00"	 44° 40' 00"	3.0	--	669.36
+Vladimir	Central Region	RU	 56° 10' 00"	 40° 25' 00"	3.0	--	100.91
+Vladivostok	Far East	RU	 43° 07' 00"	 131° 55' 00"	10.0	--	129.43
+Volgograd	South Region	RU	 48° 42' 00"	 44° 31' 00"	3.0	--	35.96
+Vologda	North-West Region	RU	 59° 12' 00"	 39° 55' 00"	3.0	--	115.50
+Yakutsk	Far East	RU	 62° 00' 00"	 129° 40' 00"	9.0	--	105.89
+Yoshkar Ola	Volga Region	RU	 56° 38' 00"	 47° 52' 00"	3.0	--	105.06
+Yuzhno-Sakhalinsk	Far East	RU	 46° 58' 00"	 142° 42' 00"	10.0	--	29.00
+Zelenchukskaya		RU	 43° 39' 02"	 41° 26' 30"	3.0	--	2002.53
 Bukavu		RW	-2° 05' 00"	 29° 27' 00"	2.0	--	1797.29
 Kigali		RW	-1° 58' 00"	 30° 07' 00"	2.0	--	1422.83
 Pago Pago		WS	-14° 19' 58"	-170° 43' 01"	-11.0	--	5.00
@@ -1811,793 +1811,793 @@ Tataouine		TN	 33° 00' 00"	 10° 28' 00"	1.0	--	192.79
 Tozeur		TN	 33° 55' 00"	 8° 06' 00"	1.0	--	97.51
 Tunis		TN	 36° 51' 00"	 10° 13' 01"	1.0	--	2.85
 Zarzis		TN	 33° 34' 00"	 11° 04' 00"	1.0	--	36.04
-Seyhan	Adana	TR	36° 59' 00"	35° 19' 00"	3.0	TR	20
-Yüreğir	Adana	TR	36° 53' 00"	35° 23' 00"	3.0	TR	15
-Çukurova	Adana	TR	36° 59' 00"	35° 15' 00"	3.0	TR	40
-Sarıçam	Adana	TR	37° 03' 00"	35° 26' 00"	3.0	TR	85
-Ceyhan	Adana	TR	37° 01' 30"	35° 48' 42"	3.0	TR	30
-Kozan	Adana	TR	37° 27' 17"	35° 48' 56"	3.0	TR	135
-İmamoğlu	Adana	TR	37° 15' 52"	35° 39' 47"	3.0	TR	73
-Karataş	Adana	TR	36° 33' 35"	35° 22' 23"	3.0	TR	10
-Karaisalı	Adana	TR	37° 15' 31"	35° 03' 41"	3.0	TR	220
-Pozantı	Adana	TR	37° 25' 38"	34° 52' 14"	3.0	TR	790
-Feke	Adana	TR	37° 49' 06"	35° 54' 34"	3.0	TR	620
-Saimbeyli	Adana	TR	37° 59' 16"	36° 05' 46"	3.0	TR	1050
-Tufanbeyli	Adana	TR	38° 15' 54"	36° 13' 22"	3.0	TR	1420
-Aladağ	Adana	TR	37° 32' 55"	35° 23' 46"	3.0	TR	850
-Yumurtalık	Adana	TR	36° 46' 21"	35° 47' 39"	3.0	TR	5
-Merkez	Adıyaman	TR	37° 45' 49"	38° 16' 35"	3.0	TR	669
-Kahta	Adıyaman	TR	37° 47' 06"	38° 37' 27"	3.0	TR	720
-Besni	Adıyaman	TR	37° 41' 22"	37° 51' 40"	3.0	TR	1050
-Gölbaşı	Adıyaman	TR	37° 47' 05"	37° 38' 43"	3.0	TR	870
-Gerger	Adıyaman	TR	37° 57' 04"	39° 02' 18"	3.0	TR	780
-Sincik	Adıyaman	TR	38° 01' 11"	38° 36' 45"	3.0	TR	1325
-Çelikhan	Adıyaman	TR	38° 02' 04"	38° 14' 30"	3.0	TR	1388
-Tut	Adıyaman	TR	37° 47' 42"	37° 54' 45"	3.0	TR	900
-Samsat	Adıyaman	TR	37° 34' 40"	38° 29' 40"	3.0	TR	610
-Merkez	Afyonkarahisar	TR	38° 45' 25"	30° 32' 19"	3.0	TR	1021
-Sandıklı	Afyonkarahisar	TR	38° 27' 48"	30° 16' 18"	3.0	TR	1050
-Dinar	Afyonkarahisar	TR	38° 03' 53"	30° 09' 54"	3.0	TR	880
-Bolvadin	Afyonkarahisar	TR	38° 42' 43"	31° 02' 52"	3.0	TR	995
-Sinanpaşa	Afyonkarahisar	TR	38° 44' 25"	30° 14' 40"	3.0	TR	1110
-Emirdağ	Afyonkarahisar	TR	39° 01' 10"	31° 09' 00"	3.0	TR	1000
-Şuhut	Afyonkarahisar	TR	38° 31' 46"	30° 32' 39"	3.0	TR	1150
-Çay	Afyonkarahisar	TR	38° 35' 18"	31° 01' 40"	3.0	TR	1010
-İhsaniye	Afyonkarahisar	TR	38° 59' 12"	30° 25' 00"	3.0	TR	1100
-İscehisar	Afyonkarahisar	TR	38° 51' 51"	30° 44' 45"	3.0	TR	1075
-Sultandağı	Afyonkarahisar	TR	38° 31' 40"	31° 13' 45"	3.0	TR	1000
-Başmakçı	Afyonkarahisar	TR	37° 54' 15"	30° 00' 40"	3.0	TR	1020
-Dazkırı	Afyonkarahisar	TR	37° 55' 20"	29° 51' 30"	3.0	TR	900
-Bayat	Afyonkarahisar	TR	38° 59' 20"	30° 55' 30"	3.0	TR	1250
-Hocalar	Afyonkarahisar	TR	38° 37' 42"	29° 59' 15"	3.0	TR	1115
-Çobanlar	Afyonkarahisar	TR	38° 42' 00"	30° 47' 00"	3.0	TR	992
-Evciler	Afyonkarahisar	TR	38° 00' 45"	30° 02' 10"	3.0	TR	910
-Kızılören	Afyonkarahisar	TR	38° 20' 15"	30° 09' 20"	3.0	TR	1120
-Merkez	Ağrı	TR	39° 43' 11"	43° 03' 03"	3.0	TR	1650
-Patnos	Ağrı	TR	39° 13' 23"	42° 52' 19"	3.0	TR	1635
-Doğubayazıt	Ağrı	TR	39° 32' 52"	44° 05' 05"	3.0	TR	1625
-Diyadin	Ağrı	TR	39° 33' 31"	43° 40' 17"	3.0	TR	1925
-Eleşkirt	Ağrı	TR	39° 47' 55"	42° 40' 21"	3.0	TR	1810
-Tutak	Ağrı	TR	39° 31' 44"	42° 47' 46"	3.0	TR	1565
-Taşlıçay	Ağrı	TR	39° 38' 15"	43° 23' 00"	3.0	TR	1660
-Hamur	Ağrı	TR	39° 36' 11"	42° 59' 12"	3.0	TR	1675
-Merkez	Amasya	TR	40° 39' 04"	35° 49' 58"	3.0	TR	411
-Merzifon	Amasya	TR	40° 52' 27"	35° 27' 44"	3.0	TR	740
-Suluova	Amasya	TR	40° 50' 16"	35° 39' 18"	3.0	TR	510
-Taşova	Amasya	TR	40° 45' 44"	36° 19' 11"	3.0	TR	230
-Gümüşhacıköy	Amasya	TR	40° 52' 17"	35° 12' 46"	3.0	TR	815
-Göynücek	Amasya	TR	40° 25' 54"	35° 27' 00"	3.0	TR	520
-Hamamözü	Amasya	TR	40° 47' 10"	35° 02' 15"	3.0	TR	695
-Çankaya	Ankara	TR	39° 53' 00"	32° 52' 00"	3.0	TR	850
-Keçiören	Ankara	TR	39° 58' 00"	32° 52' 00"	3.0	TR	950
-Yenimahalle	Ankara	TR	39° 58' 00"	32° 48' 00"	3.0	TR	880
-Mamak	Ankara	TR	39° 56' 00"	32° 55' 00"	3.0	TR	900
-Etimesgut	Ankara	TR	39° 56' 40"	32° 39' 45"	3.0	TR	810
-Sincan	Ankara	TR	39° 57' 35"	32° 34' 42"	3.0	TR	825
-Altındağ	Ankara	TR	39° 57' 00"	32° 52' 00"	3.0	TR	875
-Pursaklar	Ankara	TR	40° 02' 00"	32° 53' 00"	3.0	TR	940
-Gölbaşı	Ankara	TR	39° 47' 15"	32° 48' 15"	3.0	TR	970
-Polatlı	Ankara	TR	39° 34' 44"	32° 08' 48"	3.0	TR	850
-Çubuk	Ankara	TR	40° 14' 18"	33° 01' 54"	3.0	TR	1100
-Kahramankazan	Ankara	TR	40° 11' 11"	32° 41' 02"	3.0	TR	890
-Beypazarı	Ankara	TR	40° 10' 04"	31° 55' 15"	3.0	TR	675
-Elmadağ	Ankara	TR	39° 55' 12"	33° 13' 50"	3.0	TR	1125
-Şereflikoçhisar	Ankara	TR	38° 58' 23"	33° 32' 14"	3.0	TR	975
-Akyurt	Ankara	TR	40° 07' 50"	33° 05' 10"	3.0	TR	960
-Nallıhan	Ankara	TR	40° 11' 03"	31° 21' 01"	3.0	TR	625
-Haymana	Ankara	TR	39° 25' 58"	32° 29' 42"	3.0	TR	1250
-Kızılcahamam	Ankara	TR	40° 28' 14"	32° 38' 54"	3.0	TR	975
-Bala	Ankara	TR	39° 30' 32"	33° 07' 24"	3.0	TR	1310
-Kalecik	Ankara	TR	40° 05' 46"	33° 24' 34"	3.0	TR	725
-Ayaş	Ankara	TR	40° 01' 03"	32° 19' 57"	3.0	TR	910
-Güdül	Ankara	TR	40° 12' 20"	32° 14' 44"	3.0	TR	740
-Çamlıdere	Ankara	TR	40° 29' 20"	32° 28' 30"	3.0	TR	1240
-Evren	Ankara	TR	39° 01' 04"	33° 48' 22"	3.0	TR	915
-Kepez	Antalya	TR	36° 56' 00"	30° 40' 00"	3.0	TR	55
-Muratpaşa	Antalya	TR	36° 53' 00"	30° 42' 00"	3.0	TR	35
-Alanya	Antalya	TR	36° 32' 37"	31° 59' 51"	3.0	TR	10
-Manavgat	Antalya	TR	36° 47' 11"	31° 26' 31"	3.0	TR	20
-Konyaaltı	Antalya	TR	36° 52' 00"	30° 38' 00"	3.0	TR	15
-Serik	Antalya	TR	36° 55' 03"	31° 06' 11"	3.0	TR	30
-Aksu	Antalya	TR	36° 55' 45"	30° 51' 10"	3.0	TR	25
-Kumluca	Antalya	TR	36° 21' 54"	30° 17' 11"	3.0	TR	35
-Döşemealtı	Antalya	TR	36° 59' 00"	30° 37' 00"	3.0	TR	300
-Kaş	Antalya	TR	36° 12' 05"	29° 38' 36"	3.0	TR	15
-Korkuteli	Antalya	TR	37° 03' 46"	30° 11' 35"	3.0	TR	1020
-Gazipaşa	Antalya	TR	36° 16' 14"	32° 19' 04"	3.0	TR	25
-Finike	Antalya	TR	36° 17' 42"	30° 08' 32"	3.0	TR	10
-Kemer	Antalya	TR	36° 36' 00"	30° 33' 45"	3.0	TR	12
-Elmalı	Antalya	TR	36° 44' 04"	29° 55' 01"	3.0	TR	1150
-Demre	Antalya	TR	36° 14' 40"	29° 58' 45"	3.0	TR	15
-Akseki	Antalya	TR	37° 02' 46"	31° 47' 11"	3.0	TR	1050
-Gündoğmuş	Antalya	TR	36° 48' 31"	31° 59' 45"	3.0	TR	900
-İbradı	Antalya	TR	37° 05' 45"	31° 35' 40"	3.0	TR	950
-Merkez	Artvin	TR	41° 10' 54"	41° 49' 05"	3.0	TR	345
-Hopa	Artvin	TR	41° 23' 51"	41° 26' 07"	3.0	TR	10
-Borçka	Artvin	TR	41° 21' 44"	41° 40' 43"	3.0	TR	125
-Arhavi	Artvin	TR	41° 21' 03"	41° 18' 35"	3.0	TR	15
-Yusufeli	Artvin	TR	40° 49' 20"	41° 32' 46"	3.0	TR	650
-Ardanuç	Artvin	TR	41° 07' 41"	42° 03' 31"	3.0	TR	460
-Şavşat	Artvin	TR	41° 14' 35"	42° 21' 42"	3.0	TR	1000
-Murgul	Artvin	TR	41° 11' 20"	41° 34' 10"	3.0	TR	420
-Kemalpaşa	Artvin	TR	41° 28' 50"	41° 31' 12"	3.0	TR	20
-Efeler	Aydın	TR	37° 50' 40"	27° 50' 43"	3.0	TR	65
-Nazilli	Aydın	TR	37° 54' 44"	28° 19' 14"	3.0	TR	75
-Söke	Aydın	TR	37° 45' 03"	27° 24' 19"	3.0	TR	40
-Kuşadası	Aydın	TR	37° 51' 35"	27° 15' 46"	3.0	TR	15
-Didim	Aydın	TR	37° 23' 05"	27° 15' 52"	3.0	TR	25
-İncirliova	Aydın	TR	37° 50' 52"	27° 43' 35"	3.0	TR	45
-Çine	Aydın	TR	37° 36' 50"	28° 03' 40"	3.0	TR	90
-Germencik	Aydın	TR	37° 52' 14"	27° 35' 50"	3.0	TR	60
-Bozdoğan	Aydın	TR	37° 40' 05"	28° 21' 32"	3.0	TR	140
-Köşk	Aydın	TR	37° 51' 15"	28° 02' 50"	3.0	TR	80
-Kuyucak	Aydın	TR	37° 54' 50"	28° 27' 35"	3.0	TR	85
-Sultanhisar	Aydın	TR	37° 53' 04"	28° 09' 06"	3.0	TR	95
-Karacasu	Aydın	TR	37° 43' 34"	28° 36' 11"	3.0	TR	410
-Koçarlı	Aydın	TR	37° 46' 10"	27° 41' 55"	3.0	TR	50
-Yenipazar	Aydın	TR	37° 53' 23"	28° 11' 54"	3.0	TR	60
-Buharkent	Aydın	TR	37° 57' 42"	28° 44' 25"	3.0	TR	135
-Karpuzlu	Aydın	TR	37° 33' 20"	27° 49' 40"	3.0	TR	110
-Karesi	Balıkesir	TR	39° 39' 15"	27° 53' 00"	3.0	TR	150
-Altıeylül	Balıkesir	TR	39° 37' 40"	27° 52' 30"	3.0	TR	140
-Bandırma	Balıkesir	TR	40° 21' 00"	27° 58' 00"	3.0	TR	39
-Edremit	Balıkesir	TR	39° 35' 46"	27° 01' 27"	3.0	TR	35
-Gönen	Balıkesir	TR	40° 06' 15"	27° 39' 14"	3.0	TR	40
-Ayvalık	Balıkesir	TR	39° 19' 00"	26° 41' 30"	3.0	TR	5
-Burhaniye	Balıkesir	TR	39° 30' 11"	26° 58' 14"	3.0	TR	25
-Bigadiç	Balıkesir	TR	39° 23' 51"	28° 07' 34"	3.0	TR	175
-Susurluk	Balıkesir	TR	39° 54' 45"	28° 09' 20"	3.0	TR	60
-Dursunbey	Balıkesir	TR	39° 35' 03"	28° 37' 35"	3.0	TR	640
-Sindırgı	Balıkesir	TR	39° 14' 34"	28° 10' 37"	3.0	TR	230
-Erdek	Balıkesir	TR	40° 23' 55"	27° 47' 35"	3.0	TR	10
-İvrindi	Balıkesir	TR	39° 35' 20"	27° 29' 10"	3.0	TR	250
-Havran	Balıkesir	TR	39° 33' 30"	27° 05' 45"	3.0	TR	45
-Manyas	Balıkesir	TR	40° 02' 46"	27° 58' 11"	3.0	TR	50
-Kepsut	Balıkesir	TR	39° 42' 00"	28° 09' 05"	3.0	TR	85
-Savaştepe	Balıkesir	TR	39° 23' 04"	27° 39' 25"	3.0	TR	280
-Balya	Balıkesir	TR	39° 45' 40"	27° 35' 15"	3.0	TR	230
-Marmara	Balıkesir	TR	40° 35' 03"	27° 33' 04"	3.0	TR	20
-Gömeç	Balıkesir	TR	39° 23' 10"	26° 50' 25"	3.0	TR	15
-Merkez	Bilecik	TR	40° 08' 35"	29° 58' 56"	3.0	TR	513
-Bozüyük	Bilecik	TR	39° 54' 25"	30° 02' 23"	3.0	TR	740
-Osmaneli	Bilecik	TR	40° 21' 25"	30° 01' 40"	3.0	TR	110
-Söğüt	Bilecik	TR	40° 01' 03"	30° 11' 04"	3.0	TR	660
-Gölpazarı	Bilecik	TR	40° 16' 11"	30° 19' 11"	3.0	TR	520
-Pazaryeri	Bilecik	TR	39° 59' 42"	29° 53' 55"	3.0	TR	800
-Yenipazar	Bilecik	TR	40° 10' 30"	30° 31' 10"	3.0	TR	510
-İnhisar	Bilecik	TR	40° 02' 50"	30° 23' 15"	3.0	TR	210
-Merkez	Bingöl	TR	38° 53' 02"	40° 29' 38"	3.0	TR	1153
-Genç	Bingöl	TR	38° 44' 51"	40° 33' 35"	3.0	TR	1020
-Solhan	Bingöl	TR	38° 57' 42"	41° 03' 03"	3.0	TR	1395
-Karlıova	Bingöl	TR	39° 17' 34"	41° 00' 54"	3.0	TR	1820
-Adaklı	Bingöl	TR	39° 14' 15"	40° 25' 38"	3.0	TR	1500
-Kiğı	Bingöl	TR	39° 19' 14"	40° 21' 03"	3.0	TR	1520
-Yedisu	Bingöl	TR	39° 25' 38"	40° 33' 11"	3.0	TR	1550
-Yayladere	Bingöl	TR	39° 13' 23"	40° 04' 07"	3.0	TR	1510
-Merkez	Bitlis	TR	38° 24' 05"	42° 06' 31"	3.0	TR	1545
-Tatvan	Bitlis	TR	38° 29' 53"	42° 16' 48"	3.0	TR	1650
-Güroymak	Bitlis	TR	38° 35' 31"	42° 03' 14"	3.0	TR	1320
-Ahlat	Bitlis	TR	38° 45' 03"	42° 29' 40"	3.0	TR	1700
-Hizan	Bitlis	TR	38° 13' 00"	42° 25' 30"	3.0	TR	1450
-Mutki	Bitlis	TR	38° 24' 45"	41° 55' 15"	3.0	TR	1350
-Adilcevaz	Bitlis	TR	38° 48' 23"	42° 44' 04"	3.0	TR	1680
-Merkez	Bolu	TR	40° 44' 05"	31° 36' 27"	3.0	TR	726
-Gerede	Bolu	TR	40° 48' 03"	32° 11' 44"	3.0	TR	1325
-Mudurnu	Bolu	TR	40° 27' 54"	31° 12' 41"	3.0	TR	840
-Göynük	Bolu	TR	40° 23' 58"	30° 47' 11"	3.0	TR	820
-Mengen	Bolu	TR	40° 56' 40"	32° 03' 40"	3.0	TR	740
-Yeniçağa	Bolu	TR	40° 46' 35"	32° 01' 44"	3.0	TR	1000
-Dörtdivan	Bolu	TR	40° 43' 35"	32° 03' 51"	3.0	TR	1165
-Seben	Bolu	TR	40° 24' 40"	31° 34' 35"	3.0	TR	750
-Kıbrıscık	Bolu	TR	40° 24' 15"	31° 50' 11"	3.0	TR	1130
-Merkez	Burdur	TR	37° 43' 13"	30° 17' 08"	3.0	TR	950
-Bucak	Burdur	TR	37° 27' 37"	30° 35' 42"	3.0	TR	850
-Gölhisar	Burdur	TR	36° 59' 31"	29° 31' 03"	3.0	TR	945
-Yeşilova	Burdur	TR	37° 30' 25"	29° 45' 15"	3.0	TR	1160
-Tefenni	Burdur	TR	37° 18' 49"	29° 46' 31"	3.0	TR	1140
-Çavdır	Burdur	TR	37° 09' 20"	29° 41' 25"	3.0	TR	980
-Ağlasun	Burdur	TR	37° 38' 44"	30° 32' 14"	3.0	TR	1120
-Karamanlı	Burdur	TR	37° 23' 03"	29° 49' 43"	3.0	TR	1180
-Altınyayla	Burdur	TR	36° 55' 11"	29° 33' 00"	3.0	TR	1250
-Çeltikçi	Burdur	TR	37° 31' 30"	30° 27' 40"	3.0	TR	850
-Kemer	Burdur	TR	37° 20' 46"	30° 05' 11"	3.0	TR	1150
-Osmangazi	Bursa	TR	40° 12' 00"	29° 03' 00"	3.0	TR	150
-Yıldırım	Bursa	TR	40° 11' 00"	29° 05' 00"	3.0	TR	155
-Nilüfer	Bursa	TR	40° 12' 00"	28° 57' 00"	3.0	TR	125
-İnegöl	Bursa	TR	40° 04' 44"	29° 30' 34"	3.0	TR	290
-Gemlik	Bursa	TR	40° 25' 52"	29° 09' 23"	3.0	TR	15
-Mustafakemalpaşa	Bursa	TR	40° 02' 11"	28° 24' 34"	3.0	TR	45
-Mudanya	Bursa	TR	40° 22' 31"	28° 52' 52"	3.0	TR	10
-Gürsu	Bursa	TR	40° 12' 50"	29° 11' 40"	3.0	TR	110
-Karacabey	Bursa	TR	40° 12' 41"	28° 21' 36"	3.0	TR	15
-Orhangazi	Bursa	TR	40° 29' 40"	29° 18' 28"	3.0	TR	115
-Kestel	Bursa	TR	40° 11' 58"	29° 13' 12"	3.0	TR	125
-Yenişehir	Bursa	TR	40° 15' 52"	29° 39' 11"	3.0	TR	225
-Orhaneli	Bursa	TR	39° 53' 51"	28° 59' 23"	3.0	TR	490
-Büyükorhan	Bursa	TR	39° 46' 20"	28° 53' 15"	3.0	TR	830
-Keles	Bursa	TR	39° 54' 42"	29° 13' 40"	3.0	TR	1050
-Harmancık	Bursa	TR	39° 41' 11"	29° 09' 44"	3.0	TR	670
-İznik	Bursa	TR	40° 25' 42"	29° 43' 11"	3.0	TR	90
-Merkez	Çanakkale	TR	40° 09' 11"	26° 24' 17"	3.0	TR	6
-Biga	Çanakkale	TR	40° 13' 41"	27° 14' 31"	3.0	TR	45
-Gelibolu	Çanakkale	TR	40° 24' 37"	26° 40' 16"	3.0	TR	15
-Çan	Çanakkale	TR	40° 01' 44"	27° 02' 54"	3.0	TR	65
-Ezine	Çanakkale	TR	39° 47' 25"	26° 20' 03"	3.0	TR	40
-Yenice	Çanakkale	TR	39° 55' 52"	27° 15' 35"	3.0	TR	250
-Ayvacık	Çanakkale	TR	39° 36' 04"	26° 24' 15"	3.0	TR	260
-Bayramiç	Çanakkale	TR	39° 48' 40"	26° 36' 40"	3.0	TR	105
-Lapseki	Çanakkale	TR	40° 20' 36"	26° 41' 06"	3.0	TR	10
-Eceabat	Çanakkale	TR	40° 10' 54"	26° 21' 35"	3.0	TR	10
-Gökçeada	Çanakkale	TR	40° 12' 00"	25° 54' 00"	3.0	TR	25
-Bozcaada	Çanakkale	TR	39° 49' 15"	26° 04' 30"	3.0	TR	15
-Merkez	Çankırı	TR	40° 36' 02"	33° 36' 57"	3.0	TR	730
-Orta	Çankırı	TR	40° 37' 42"	33° 06' 40"	3.0	TR	1240
-Çerkeş	Çankırı	TR	40° 48' 37"	32° 53' 35"	3.0	TR	1110
-Ilgaz	Çankırı	TR	40° 55' 03"	33° 37' 34"	3.0	TR	925
-Eldivan	Çankırı	TR	40° 31' 34"	33° 30' 25"	3.0	TR	930
-Şabanözü	Çankırı	TR	40° 28' 35"	33° 16' 35"	3.0	TR	1020
-Kurşunlu	Çankırı	TR	40° 50' 22"	33° 15' 40"	3.0	TR	1025
-Yapraklı	Çankırı	TR	40° 39' 34"	33° 46' 11"	3.0	TR	1160
-Kızılırmak	Çankırı	TR	40° 20' 45"	33° 59' 15"	3.0	TR	550
-Atkaracalar	Çankırı	TR	40° 48' 54"	33° 06' 11"	3.0	TR	1220
-Korgun	Çankırı	TR	40° 44' 04"	33° 31' 11"	3.0	TR	890
-Bayramören	Çankırı	TR	40° 57' 20"	33° 11' 15"	3.0	TR	850
-Merkez	Çorum	TR	40° 32' 56"	34° 57' 12"	3.0	TR	801
-Sungurlu	Çorum	TR	40° 09' 51"	34° 22' 31"	3.0	TR	780
-Osmancık	Çorum	TR	40° 58' 14"	34° 48' 15"	3.0	TR	430
-Alaca	Çorum	TR	40° 10' 02"	34° 50' 32"	3.0	TR	950
-İskilip	Çorum	TR	40° 44' 04"	34° 28' 27"	3.0	TR	720
-Bayat	Çorum	TR	40° 38' 35"	34° 15' 31"	3.0	TR	625
-Mecitözü	Çorum	TR	40° 31' 14"	35° 17' 42"	3.0	TR	750
-Kargı	Çorum	TR	41° 07' 55"	34° 29' 11"	3.0	TR	400
-Ortaköy	Çorum	TR	40° 15' 52"	35° 14' 34"	3.0	TR	660
-Uğurludağ	Çorum	TR	40° 41' 15"	34° 25' 10"	3.0	TR	775
-Dodurga	Çorum	TR	40° 50' 11"	34° 41' 10"	3.0	TR	610
-Oğuzlar	Çorum	TR	40° 44' 34"	34° 44' 50"	3.0	TR	680
-Laçin	Çorum	TR	40° 46' 45"	34° 52' 40"	3.0	TR	720
-Boğazkale	Çorum	TR	40° 01' 14"	34° 36' 31"	3.0	TR	1035
-Merkez	Denizli	TR	37° 46' 35"	29° 05' 12"	3.0	TR	354
-Pamukkale	Denizli	TR	37° 47' 00"	29° 05' 00"	3.0	TR	360
-Merkezefendi	Denizli	TR	37° 46' 00"	29° 04' 00"	3.0	TR	350
-Acıpayam	Denizli	TR	37° 25' 23"	29° 20' 52"	3.0	TR	925
-Tavas	Denizli	TR	37° 34' 22"	29° 03' 35"	3.0	TR	950
-Çivril	Denizli	TR	38° 18' 04"	29° 44' 31"	3.0	TR	820
-Buldan	Denizli	TR	38° 03' 02"	28° 49' 46"	3.0	TR	690
-Kale	Denizli	TR	37° 26' 14"	28° 50' 54"	3.0	TR	1050
-Honaz	Denizli	TR	37° 45' 40"	29° 15' 44"	3.0	TR	500
-Sarayköy	Denizli	TR	37° 52' 27"	28° 55' 22"	3.0	TR	170
-Çameli	Denizli	TR	37° 04' 51"	29° 20' 15"	3.0	TR	1325
-Serinhisar	Denizli	TR	37° 35' 25"	29° 16' 12"	3.0	TR	980
-Bozkurt	Denizli	TR	37° 49' 20"	29° 36' 31"	3.0	TR	860
-Güney	Denizli	TR	38° 09' 23"	28° 59' 40"	3.0	TR	825
-Çardak	Denizli	TR	37° 49' 14"	29° 40' 05"	3.0	TR	850
-Bekilli	Denizli	TR	38° 13' 42"	29° 22' 15"	3.0	TR	840
-Beyağaç	Denizli	TR	37° 16' 20"	28° 56' 45"	3.0	TR	670
-Babadağ	Denizli	TR	37° 48' 22"	28° 51' 14"	3.0	TR	780
-Baklan	Denizli	TR	37° 58' 04"	29° 33' 27"	3.0	TR	900
-Bağlar	Diyarbakır	TR	37° 54' 00"	40° 12' 00"	3.0	TR	675
-Kayapınar	Diyarbakır	TR	37° 56' 00"	40° 10' 00"	3.0	TR	690
-Yenişehir	Diyarbakır	TR	37° 55' 20"	40° 14' 10"	3.0	TR	670
-Sur	Diyarbakır	TR	37° 54' 40"	40° 14' 30"	3.0	TR	660
-Ergani	Diyarbakır	TR	38° 16' 11"	39° 45' 40"	3.0	TR	955
-Bismil	Diyarbakır	TR	37° 50' 52"	40° 39' 58"	3.0	TR	545
-Silvan	Diyarbakır	TR	38° 08' 35"	41° 00' 40"	3.0	TR	820
-Çınar	Diyarbakır	TR	37° 43' 22"	40° 24' 42"	3.0	TR	670
-Çermik	Diyarbakır	TR	38° 08' 04"	39° 27' 11"	3.0	TR	710
-Dicle	Diyarbakır	TR	38° 23' 00"	40° 04' 00"	3.0	TR	920
-Kulp	Diyarbakır	TR	38° 30' 02"	41° 00' 41"	3.0	TR	1100
-Lice	Diyarbakır	TR	38° 27' 15"	40° 38' 35"	3.0	TR	1020
-Çüngüş	Diyarbakır	TR	38° 13' 11"	39° 17' 54"	3.0	TR	870
-Hazro	Diyarbakır	TR	38° 15' 18"	40° 46' 31"	3.0	TR	1050
-Hani	Diyarbakır	TR	38° 24' 42"	40° 23' 40"	3.0	TR	910
-Eğil	Diyarbakır	TR	38° 15' 32"	40° 04' 44"	3.0	TR	860
-Kocaköy	Diyarbakır	TR	38° 16' 45"	40° 31' 40"	3.0	TR	940
-Merkez	Edirne	TR	41° 40' 37"	26° 33' 21"	3.0	TR	42
-Keşan	Edirne	TR	40° 51' 17"	26° 37' 54"	3.0	TR	115
-Uzunköprü	Edirne	TR	41° 16' 11"	26° 41' 11"	3.0	TR	25
-İpsala	Edirne	TR	40° 49' 14"	26° 22' 55"	3.0	TR	10
-Havsa	Edirne	TR	41° 33' 02"	26° 49' 20"	3.0	TR	65
-Meriç	Edirne	TR	41° 11' 25"	26° 25' 03"	3.0	TR	35
-Enez	Edirne	TR	40° 43' 31"	26° 04' 50"	3.0	TR	5
-Süloğlu	Edirne	TR	41° 46' 11"	26° 54' 44"	3.0	TR	145
-Lalapaşa	Edirne	TR	41° 50' 15"	26° 44' 04"	3.0	TR	160
-Merkez	Elazığ	TR	38° 40' 43"	39° 13' 22"	3.0	TR	1067
-Kovancılar	Elazığ	TR	38° 42' 37"	39° 51' 43"	3.0	TR	1010
-Karakoçan	Elazığ	TR	38° 57' 12"	40° 02' 40"	3.0	TR	1090
-Palu	Elazığ	TR	38° 41' 23"	39° 55' 20"	3.0	TR	910
-Baskil	Elazığ	TR	38° 47' 11"	38° 49' 14"	3.0	TR	1220
-Arıcak	Elazığ	TR	38° 29' 11"	40° 16' 54"	3.0	TR	1100
-Maden	Elazığ	TR	38° 23' 40"	39° 39' 51"	3.0	TR	1020
-Sivrice	Elazığ	TR	38° 26' 50"	39° 18' 42"	3.0	TR	1270
-Alacakaya	Elazığ	TR	38° 29' 14"	39° 51' 41"	3.0	TR	1150
-Keban	Elazığ	TR	38° 47' 42"	38° 44' 11"	3.0	TR	790
-Ağın	Elazığ	TR	38° 56' 45"	38° 42' 22"	3.0	TR	875
-Merkez	Erzincan	TR	39° 44' 54"	39° 29' 27"	3.0	TR	1185
-Tercan	Erzincan	TR	39° 46' 43"	40° 23' 11"	3.0	TR	1415
-Üzümlü	Erzincan	TR	39° 44' 35"	39° 42' 14"	3.0	TR	1160
-Refahiye	Erzincan	TR	39° 53' 51"	38° 46' 04"	3.0	TR	1590
-Çayırlı	Erzincan	TR	39° 53' 35"	40° 09' 06"	3.0	TR	1510
-İliç	Erzincan	TR	39° 26' 44"	38° 33' 40"	3.0	TR	1110
-Kemah	Erzincan	TR	39° 36' 11"	39° 03' 40"	3.0	TR	1070
-Kemaliye	Erzincan	TR	39° 15' 42"	38° 29' 34"	3.0	TR	950
-Otlukbeli	Erzincan	TR	39° 58' 22"	40° 07' 45"	3.0	TR	1740
-Yakutiye	Erzurum	TR	39° 54' 30"	41° 16' 30"	3.0	TR	1890
-Palandöken	Erzurum	TR	39° 52' 30"	41° 16' 00"	3.0	TR	1920
-Aziziye	Erzurum	TR	39° 56' 00"	41° 06' 00"	3.0	TR	1810
-Horasan	Erzurum	TR	40° 02' 40"	42° 10' 04"	3.0	TR	1560
-Oltu	Erzurum	TR	40° 33' 11"	41° 59' 53"	3.0	TR	1275
-Pasinler	Erzurum	TR	39° 58' 54"	41° 40' 31"	3.0	TR	1660
-Karayazı	Erzurum	TR	39° 41' 52"	42° 08' 42"	3.0	TR	2450
-Hınıs	Erzurum	TR	39° 21' 35"	41° 41' 44"	3.0	TR	1720
-Tekman	Erzurum	TR	39° 34' 11"	41° 33' 51"	3.0	TR	1940
-Karaçoban	Erzurum	TR	39° 21' 40"	42° 06' 35"	3.0	TR	1550
-Aşkale	Erzurum	TR	39° 55' 11"	40° 41' 35"	3.0	TR	1670
-Tortum	Erzurum	TR	40° 17' 54"	41° 33' 02"	3.0	TR	1450
-Şenkaya	Erzurum	TR	40° 32' 14"	42° 19' 31"	3.0	TR	1850
-Çat	Erzurum	TR	39° 36' 41"	40° 56' 11"	3.0	TR	1920
-Köprüköy	Erzurum	TR	39° 58' 14"	41° 52' 40"	3.0	TR	1610
-İspir	Erzurum	TR	40° 28' 54"	40° 59' 40"	3.0	TR	1220
-Narman	Erzurum	TR	40° 20' 52"	41° 52' 35"	3.0	TR	1650
-Uzundere	Erzurum	TR	40° 31' 52"	41° 32' 20"	3.0	TR	1000
-Olur	Erzurum	TR	40° 49' 11"	42° 07' 42"	3.0	TR	1320
-Pazaryolu	Erzurum	TR	40° 25' 20"	40° 46' 45"	3.0	TR	1250
-Odunpazarı	Eskişehir	TR	39° 45' 00"	30° 32' 00"	3.0	TR	795
-Tepebaşı	Eskişehir	TR	39° 47' 00"	30° 30' 00"	3.0	TR	785
-Sivrihisar	Eskişehir	TR	39° 26' 40"	31° 32' 11"	3.0	TR	1070
-Çifteler	Eskişehir	TR	39° 22' 52"	31° 02' 18"	3.0	TR	875
-Alpu	Eskişehir	TR	39° 46' 04"	30° 57' 42"	3.0	TR	750
-Mihalıççık	Eskişehir	TR	39° 51' 42"	31° 29' 40"	3.0	TR	1325
-Mahmudiye	Eskişehir	TR	39° 30' 04"	30° 58' 52"	3.0	TR	880
-Seyitgazi	Eskişehir	TR	39° 26' 43"	30° 41' 42"	3.0	TR	1030
-İnönü	Eskişehir	TR	39° 48' 41"	30° 08' 52"	3.0	TR	840
-Günyüzü	Eskişehir	TR	39° 23' 15"	31° 54' 40"	3.0	TR	865
-Beylikova	Eskişehir	TR	39° 41' 14"	31° 12' 11"	3.0	TR	760
-Sarıcakaya	Eskişehir	TR	40° 02' 22"	30° 37' 55"	3.0	TR	220
-Mihalgazi	Eskişehir	TR	40° 01' 03"	30° 31' 05"	3.0	TR	215
-Han	Eskişehir	TR	39° 13' 44"	30° 52' 15"	3.0	TR	1210
-Şahinbey	Gaziantep	TR	37° 02' 00"	37° 22' 00"	3.0	TR	850
-Şehitkamil	Gaziantep	TR	37° 05' 00"	37° 23' 00"	3.0	TR	840
-Nizip	Gaziantep	TR	37° 00' 37"	37° 47' 43"	3.0	TR	520
-İslahiye	Gaziantep	TR	37° 01' 32"	36° 37' 50"	3.0	TR	515
-Nurdağı	Gaziantep	TR	37° 10' 35"	36° 44' 22"	3.0	TR	535
-Araban	Gaziantep	TR	37° 25' 42"	37° 41' 14"	3.0	TR	610
-Oğuzeli	Gaziantep	TR	36° 57' 42"	37° 31' 03"	3.0	TR	690
-Yavuzeli	Gaziantep	TR	37° 19' 14"	37° 34' 15"	3.0	TR	660
-Karkamış	Gaziantep	TR	36° 50' 15"	38° 01' 02"	3.0	TR	365
-Merkez	Giresun	TR	40° 54' 55"	38° 23' 18"	3.0	TR	10
-Bulancak	Giresun	TR	40° 56' 11"	38° 13' 54"	3.0	TR	15
-Espiye	Giresun	TR	40° 57' 34"	38° 42' 46"	3.0	TR	12
-Görele	Giresun	TR	41° 01' 52"	39° 00' 25"	3.0	TR	10
-Tirebolu	Giresun	TR	41° 00' 31"	38° 48' 52"	3.0	TR	10
-Şebinkarahisar	Giresun	TR	40° 17' 11"	38° 25' 23"	3.0	TR	1420
-Dereli	Giresun	TR	40° 44' 23"	38° 26' 45"	3.0	TR	260
-Keşap	Giresun	TR	40° 54' 45"	38° 29' 40"	3.0	TR	15
-Yağlıdere	Giresun	TR	40° 50' 35"	38° 40' 52"	3.0	TR	110
-Alucra	Giresun	TR	40° 19' 20"	38° 45' 55"	3.0	TR	1460
-Piraziz	Giresun	TR	40° 57' 10"	38° 06' 45"	3.0	TR	10
-Eynesil	Giresun	TR	41° 03' 40"	39° 08' 42"	3.0	TR	10
-Çamoluk	Giresun	TR	40° 08' 22"	38° 47' 15"	3.0	TR	1050
-Doğankent	Giresun	TR	40° 53' 30"	38° 45' 10"	3.0	TR	120
-Güce	Giresun	TR	40° 50' 55"	38° 44' 45"	3.0	TR	340
-Çanakçı	Giresun	TR	40° 54' 15"	39° 00' 11"	3.0	TR	160
-Merkez	Gümüşhane	TR	40° 27' 36"	39° 28' 53"	3.0	TR	1150
-Kelkit	Gümüşhane	TR	40° 07' 34"	39° 25' 58"	3.0	TR	1400
-Şiran	Gümüşhane	TR	40° 11' 22"	39° 07' 35"	3.0	TR	1410
-Kürtün	Gümüşhane	TR	40° 42' 11"	39° 01' 03"	3.0	TR	610
-Torul	Gümüşhane	TR	40° 33' 27"	39° 17' 35"	3.0	TR	930
-Köse	Gümüşhane	TR	40° 12' 31"	39° 38' 42"	3.0	TR	1600
-Merkez	Hakkari	TR	37° 34' 28"	43° 44' 27"	3.0	TR	1720
-Yüksekova	Hakkari	TR	37° 33' 51"	44° 17' 13"	3.0	TR	1950
-Şemdinli	Hakkari	TR	37° 18' 25"	44° 34' 23"	3.0	TR	1450
-Çukurca	Hakkari	TR	37° 14' 50"	43° 36' 45"	3.0	TR	1290
-Derecik	Hakkari	TR	37° 09' 55"	44° 21' 40"	3.0	TR	850
-Antakya	Hatay	TR	36° 12' 09"	36° 09' 38"	3.0	TR	85
-İskenderun	Hatay	TR	36° 35' 14"	36° 10' 25"	3.0	TR	10
-Defne	Hatay	TR	36° 10' 30"	36° 08' 00"	3.0	TR	110
-Dörtyol	Hatay	TR	36° 51' 35"	36° 13' 31"	3.0	TR	40
-Samandağ	Hatay	TR	36° 05' 03"	35° 57' 55"	3.0	TR	15
-Kırıkhan	Hatay	TR	36° 29' 58"	36° 21' 25"	3.0	TR	110
-Reyhanlı	Hatay	TR	36° 16' 11"	36° 34' 04"	3.0	TR	165
-Arsuz	Hatay	TR	36° 24' 45"	35° 53' 15"	3.0	TR	10
-Altınözü	Hatay	TR	36° 07' 03"	36° 14' 44"	3.0	TR	240
-Hassa	Hatay	TR	36° 47' 43"	36° 31' 03"	3.0	TR	420
-Erzin	Hatay	TR	36° 57' 11"	36° 12' 04"	3.0	TR	165
-Payas	Hatay	TR	36° 45' 15"	36° 12' 40"	3.0	TR	20
-Yayladağı	Hatay	TR	35° 54' 04"	36° 03' 40"	3.0	TR	450
-Belen	Hatay	TR	36° 29' 14"	36° 11' 35"	3.0	TR	520
-Kumlu	Hatay	TR	36° 22' 11"	36° 27' 42"	3.0	TR	95
-Merkez	Isparta	TR	37° 45' 52"	30° 33' 17"	3.0	TR	1035
-Yalvaç	Isparta	TR	38° 17' 44"	31° 10' 32"	3.0	TR	1100
-Eğirdir	Isparta	TR	37° 52' 23"	30° 51' 03"	3.0	TR	920
-Şarkikaraağaç	Isparta	TR	38° 04' 42"	31° 22' 14"	3.0	TR	1180
-Gelendost	Isparta	TR	38° 07' 11"	31° 00' 54"	3.0	TR	940
-Keçiborlu	Isparta	TR	37° 56' 43"	30° 17' 54"	3.0	TR	1010
-Senirkent	Isparta	TR	38° 06' 14"	30° 33' 03"	3.0	TR	1000
-Sütçüler	Isparta	TR	37° 29' 11"	30° 59' 04"	3.0	TR	1000
-Gönen	Isparta	TR	37° 57' 31"	30° 30' 42"	3.0	TR	1050
-Uluborlu	Isparta	TR	38° 04' 50"	30° 26' 45"	3.0	TR	1100
-Atabey	Isparta	TR	37° 57' 04"	30° 38' 31"	3.0	TR	1010
-Aksu	Isparta	TR	37° 48' 14"	31° 04' 10"	3.0	TR	1200
-Yenişarbademli	Isparta	TR	37° 42' 20"	31° 23' 11"	3.0	TR	1180
-Mersin	Mersin	TR	36° 48' 11"	34° 38' 26"	3.0	TR	10
-Tarsus	Mersin	TR	36° 54' 52"	34° 53' 44"	3.0	TR	25
-Toroslar	Mersin	TR	36° 50' 00"	34° 37' 00"	3.0	TR	50
-Yenişehir	Mersin	TR	36° 47' 30"	34° 35' 30"	3.0	TR	15
-Mezitli	Mersin	TR	36° 45' 00"	34° 32' 00"	3.0	TR	12
-Akdeniz	Mersin	TR	36° 49' 00"	34° 39' 00"	3.0	TR	10
-Silifke	Mersin	TR	36° 22' 27"	33° 55' 52"	3.0	TR	20
-Erdemli	Mersin	TR	36° 36' 11"	34° 18' 20"	3.0	TR	10
-Anamur	Mersin	TR	36° 04' 34"	32° 50' 04"	3.0	TR	15
-Mut	Mersin	TR	36° 38' 35"	33° 26' 11"	3.0	TR	300
-Bozyazı	Mersin	TR	36° 05' 50"	32° 57' 42"	3.0	TR	10
-Gülnar	Mersin	TR	36° 20' 15"	33° 24' 14"	3.0	TR	950
-Aydıncık	Mersin	TR	36° 08' 42"	33° 19' 14"	3.0	TR	15
-Çamlıyayla	Mersin	TR	37° 10' 04"	34° 36' 20"	3.0	TR	1050
-Kadıköy	İstanbul	TR	40° 59' 00"	29° 02' 00"	3.0	TR	10
-Üsküdar	İstanbul	TR	41° 01' 00"	29° 01' 00"	3.0	TR	80
-Beşiktaş	İstanbul	TR	41° 03' 00"	29° 00' 00"	3.0	TR	50
-Fatih	İstanbul	TR	41° 01' 00"	28° 56' 00"	3.0	TR	30
-Esenyurt	İstanbul	TR	41° 02' 00"	28° 41' 00"	3.0	TR	135
-Küçükçekmece	İstanbul	TR	41° 00' 00"	28° 46' 00"	3.0	TR	45
-Bağcılar	İstanbul	TR	41° 02' 00"	28° 50' 00"	3.0	TR	110
-Pendik	İstanbul	TR	40° 53' 00"	29° 16' 00"	3.0	TR	30
-Ümraniye	İstanbul	TR	41° 02' 00"	29° 06' 00"	3.0	TR	145
-Tuzla	İstanbul	TR	40° 49' 00"	29° 18' 00"	3.0	TR	15
-Maltepe	İstanbul	TR	40° 56' 00"	29° 08' 00"	3.0	TR	25
-Kartal	İstanbul	TR	40° 54' 00"	29° 11' 00"	3.0	TR	40
-Bahçelievler	İstanbul	TR	41° 00' 00"	28° 51' 00"	3.0	TR	75
-Esenler	İstanbul	TR	41° 03' 00"	28° 53' 00"	3.0	TR	85
-Sultangazi	İstanbul	TR	41° 06' 00"	28° 52' 00"	3.0	TR	160
-Güngören	İstanbul	TR	41° 01' 00"	28° 52' 00"	3.0	TR	70
-Zeytinburnu	İstanbul	TR	41° 00' 00"	28° 54' 00"	3.0	TR	15
-Bakırköy	İstanbul	TR	40° 59' 00"	28° 52' 00"	3.0	TR	20
-Beylikdüzü	İstanbul	TR	41° 00' 00"	28° 39' 00"	3.0	TR	150
-Avcılar	İstanbul	TR	41° 00' 00"	28° 43' 00"	3.0	TR	60
-Başakşehir	İstanbul	TR	41° 05' 00"	28° 48' 00"	3.0	TR	100
-Eyüpsultan	İstanbul	TR	41° 03' 00"	28° 56' 00"	3.0	TR	40
-Beyoğlu	İstanbul	TR	41° 02' 00"	28° 58' 00"	3.0	TR	65
-Şişli	İstanbul	TR	41° 04' 00"	28° 59' 00"	3.0	TR	115
-Kağıthane	İstanbul	TR	41° 05' 00"	28° 58' 00"	3.0	TR	35
-Sarıyer	İstanbul	TR	41° 10' 00"	29° 03' 00"	3.0	TR	60
-Arnavutköy	İstanbul	TR	41° 11' 00"	28° 44' 00"	3.0	TR	120
-Silivri	İstanbul	TR	41° 04' 00"	28° 15' 00"	3.0	TR	25
-Çatalca	İstanbul	TR	41° 08' 00"	28° 27' 00"	3.0	TR	130
-Büyükçekmece	İstanbul	TR	41° 01' 00"	28° 35' 00"	3.0	TR	30
-Ataşehir	İstanbul	TR	40° 59' 00"	29° 07' 00"	3.0	TR	90
-Sancaktepe	İstanbul	TR	41° 00' 00"	29° 14' 00"	3.0	TR	125
-Sultanbeyli	İstanbul	TR	40° 58' 00"	29° 16' 00"	3.0	TR	130
-Çekmeköy	İstanbul	TR	41° 02' 00"	29° 11' 00"	3.0	TR	100
-Beykoz	İstanbul	TR	41° 08' 00"	29° 06' 00"	3.0	TR	115
-Şile	İstanbul	TR	41° 10' 00"	29° 36' 00"	3.0	TR	35
-Adalar	İstanbul	TR	40° 52' 00"	29° 08' 00"	3.0	TR	20
-Şile	İstanbul	TR	41° 10' 00"	29° 36' 00"	3.0	TR	35
-Konak	İzmir	TR	38° 25' 00"	27° 08' 00"	3.0	TR	10
-Karşıyaka	İzmir	TR	38° 27' 00"	27° 07' 00"	3.0	TR	5
-Bornova	İzmir	TR	38° 28' 00"	27° 13' 00"	3.0	TR	40
-Buca	İzmir	TR	38° 23' 00"	27° 10' 00"	3.0	TR	110
-Bayraklı	İzmir	TR	38° 28' 00"	27° 10' 00"	3.0	TR	25
-Karabağlar	İzmir	TR	38° 22' 00"	27° 07' 00"	3.0	TR	90
-Çiğli	İzmir	TR	38° 29' 00"	27° 03' 00"	3.0	TR	10
-Gaziemir	İzmir	TR	38° 19' 00"	27° 08' 00"	3.0	TR	125
-Balçova	İzmir	TR	38° 23' 00"	27° 03' 00"	3.0	TR	30
-Narlıdere	İzmir	TR	38° 23' 00"	27° 00' 00"	3.0	TR	45
-Güzelbahçe	İzmir	TR	38° 22' 00"	26° 53' 00"	3.0	TR	20
-Torbalı	İzmir	TR	38° 09' 14"	27° 21' 44"	3.0	TR	35
-Menemen	İzmir	TR	38° 35' 38"	27° 04' 11"	3.0	TR	20
-Ödemiş	İzmir	TR	38° 13' 52"	27° 58' 22"	3.0	TR	125
-Bergama	İzmir	TR	39° 07' 08"	27° 10' 44"	3.0	TR	65
-Aliağa	İzmir	TR	38° 47' 54"	26° 58' 14"	3.0	TR	15
-Kemalpaşa	İzmir	TR	38° 25' 35"	27° 25' 03"	3.0	TR	225
-Tire	İzmir	TR	38° 05' 15"	27° 44' 02"	3.0	TR	110
-Menderes	İzmir	TR	38° 15' 11"	27° 08' 12"	3.0	TR	90
-Urla	İzmir	TR	38° 19' 24"	26° 45' 51"	3.0	TR	65
-Aliağa	İzmir	TR	38° 47' 54"	26° 58' 14"	3.0	TR	15
-Çeşme	İzmir	TR	38° 19' 23"	26° 18' 14"	3.0	TR	10
-Dikili	İzmir	TR	39° 04' 14"	26° 53' 27"	3.0	TR	10
-Seferihisar	İzmir	TR	38° 11' 52"	26° 50' 17"	3.0	TR	25
-Selçuk	İzmir	TR	37° 56' 56"	27° 22' 10"	3.0	TR	15
-Foça	İzmir	TR	38° 40' 03"	26° 45' 15"	3.0	TR	10
-Kiraz	İzmir	TR	38° 13' 51"	28° 12' 04"	3.0	TR	310
-Bayındır	İzmir	TR	38° 13' 03"	27° 38' 56"	3.0	TR	70
-Kınık	İzmir	TR	39° 05' 31"	27° 23' 03"	3.0	TR	90
-Beydağ	İzmir	TR	38° 07' 52"	28° 10' 11"	3.0	TR	220
-Karaburun	İzmir	TR	38° 38' 15"	26° 30' 40"	3.0	TR	50
-Onikişubat	Kahramanmaraş	TR	37° 35' 00"	36° 54' 00"	3.0	TR	570
-Dulkadiroğlu	Kahramanmaraş	TR	37° 35' 00"	36° 57' 00"	3.0	TR	565
-Elbistan	Kahramanmaraş	TR	38° 12' 17"	37° 11' 14"	3.0	TR	1150
-Afşin	Kahramanmaraş	TR	38° 14' 51"	36° 54' 45"	3.0	TR	1230
-Türkoğlu	Kahramanmaraş	TR	37° 23' 20"	36° 51' 11"	3.0	TR	500
-Pazarcık	Kahramanmaraş	TR	37° 29' 14"	37° 18' 11"	3.0	TR	750
-Göksun	Kahramanmaraş	TR	38° 01' 15"	36° 29' 45"	3.0	TR	1350
-Andırın	Kahramanmaraş	TR	37° 34' 41"	36° 20' 52"	3.0	TR	1050
-Çağlayancerit	Kahramanmaraş	TR	37° 44' 50"	37° 17' 20"	3.0	TR	1150
-Ekinözü	Kahramanmaraş	TR	38° 04' 51"	37° 11' 15"	3.0	TR	1280
-Nurhak	Kahramanmaraş	TR	37° 58' 14"	37° 24' 12"	3.0	TR	1400
-Merkez	Kars	TR	40° 36' 11"	43° 05' 42"	3.0	TR	1760
-Sarıkamış	Kars	TR	40° 19' 51"	42° 35' 18"	3.0	TR	2100
-Kağızman	Kars	TR	40° 08' 22"	43° 07' 05"	3.0	TR	1350
-Selim	Kars	TR	40° 27' 43"	42° 47' 42"	3.0	TR	1830
-Digor	Kars	TR	40° 22' 14"	43° 24' 35"	3.0	TR	1450
-Arpaçay	Kars	TR	40° 50' 11"	43° 19' 45"	3.0	TR	1675
-Akyaka	Kars	TR	40° 44' 20"	43° 37' 40"	3.0	TR	1690
-Susuz	Kars	TR	40° 46' 52"	43° 08' 11"	3.0	TR	1780
-Merkez	Kastamonu	TR	41° 22' 43"	33° 46' 32"	3.0	TR	774
-Tosya	Kastamonu	TR	41° 01' 03"	34° 02' 23"	3.0	TR	815
-Taşköprü	Kastamonu	TR	41° 31' 03"	34° 12' 51"	3.0	TR	550
-İnebolu	Kastamonu	TR	41° 58' 31"	33° 45' 34"	3.0	TR	10
-Cide	Kastamonu	TR	41° 53' 25"	32° 58' 42"	3.0	TR	15
-Araç	Kastamonu	TR	41° 14' 30"	33° 19' 35"	3.0	TR	640
-Devrekani	Kastamonu	TR	41° 36' 04"	33° 50' 11"	3.0	TR	1100
-Küre	Kastamonu	TR	41° 48' 20"	33° 42' 40"	3.0	TR	1140
-Bozkurt	Kastamonu	TR	41° 57' 23"	34° 00' 44"	3.0	TR	35
-Abana	Kastamonu	TR	41° 58' 35"	34° 01' 10"	3.0	TR	5
-Çatalzeytin	Kastamonu	TR	41° 57' 11"	34° 13' 11"	3.0	TR	10
-Daday	Kastamonu	TR	41° 28' 22"	33° 28' 04"	3.0	TR	940
-Azdavay	Kastamonu	TR	41° 38' 54"	33° 18' 40"	3.0	TR	830
-Pınarbaşı	Kastamonu	TR	41° 36' 11"	33° 06' 43"	3.0	TR	700
-Şenpazar	Kastamonu	TR	41° 48' 22"	33° 14' 14"	3.0	TR	335
-Ağlı	Kastamonu	TR	41° 41' 11"	33° 32' 42"	3.0	TR	1120
-Hanönü	Kastamonu	TR	41° 38' 14"	34° 28' 05"	3.0	TR	420
-Seydiler	Kastamonu	TR	41° 39' 52"	33° 38' 45"	3.0	TR	1075
-Melikgazi	Kayseri	TR	38° 43' 00"	35° 30' 00"	3.0	TR	1055
-Kocasinan	Kayseri	TR	38° 44' 00"	35° 28' 00"	3.0	TR	1050
-Talas	Kayseri	TR	38° 41' 22"	35° 32' 39"	3.0	TR	1150
-Develi	Kayseri	TR	38° 23' 14"	35° 29' 35"	3.0	TR	1250
-Yahyalı	Kayseri	TR	38° 06' 11"	35° 21' 35"	3.0	TR	1210
-Bünyan	Kayseri	TR	38° 50' 44"	35° 51' 40"	3.0	TR	1375
-Pınarbaşı	Kayseri	TR	38° 43' 20"	36° 23' 35"	3.0	TR	1500
-Tomarza	Kayseri	TR	38° 26' 45"	35° 47' 42"	3.0	TR	1390
-İncesu	Kayseri	TR	38° 37' 14"	35° 11' 25"	3.0	TR	1070
-Yeşilhisar	Kayseri	TR	38° 20' 54"	35° 05' 18"	3.0	TR	1080
-Sarıoğlan	Kayseri	TR	39° 04' 14"	35° 58' 20"	3.0	TR	1150
-Hacılar	Kayseri	TR	38° 40' 04"	35° 27' 02"	3.0	TR	1350
-Sarız	Kayseri	TR	38° 28' 52"	36° 30' 04"	3.0	TR	1580
-Akkışla	Kayseri	TR	39° 01' 11"	36° 07' 42"	3.0	TR	1360
-Felahiye	Kayseri	TR	39° 05' 45"	35° 41' 40"	3.0	TR	1320
-Özvatan	Kayseri	TR	39° 05' 52"	35° 42' 14"	3.0	TR	1310
-Merkez	Kırklareli	TR	41° 44' 06"	27° 13' 31"	3.0	TR	203
-Lüleburgaz	Kırklareli	TR	41° 24' 14"	27° 21' 25"	3.0	TR	35
-Babaeski	Kırklareli	TR	41° 25' 54"	27° 05' 42"	3.0	TR	55
-Vize	Kırklareli	TR	41° 34' 23"	27° 45' 56"	3.0	TR	175
-Pınarhisar	Kırklareli	TR	41° 37' 15"	27° 31' 11"	3.0	TR	190
-Demirköy	Kırklareli	TR	41° 49' 17"	27° 45' 43"	3.0	TR	300
-Pehlivanköy	Kırklareli	TR	41° 21' 58"	26° 54' 34"	3.0	TR	25
-Kofçaz	Kırklareli	TR	41° 55' 54"	27° 09' 35"	3.0	TR	440
-Merkez	Kırşehir	TR	39° 08' 45"	34° 09' 34"	3.0	TR	985
-Kaman	Kırşehir	TR	39° 21' 25"	33° 43' 27"	3.0	TR	1100
-Mucur	Kırşehir	TR	39° 03' 54"	34° 22' 40"	3.0	TR	1010
-Çiçekdağı	Kırşehir	TR	39° 36' 11"	34° 25' 18"	3.0	TR	930
-Akpınar	Kırşehir	TR	39° 27' 11"	33° 56' 45"	3.0	TR	1140
-Boztepe	Kırşehir	TR	39° 14' 34"	34° 17' 54"	3.0	TR	1190
-Akçakent	Kırşehir	TR	39° 36' 14"	34° 09' 04"	3.0	TR	1410
-İzmit	Kocaeli	TR	40° 45' 58"	29° 55' 00"	3.0	TR	10
-Gebze	Kocaeli	TR	40° 48' 11"	29° 25' 51"	3.0	TR	140
-Gölcük	Kocaeli	TR	40° 41' 45"	29° 52' 52"	3.0	TR	15
-Darıca	Kocaeli	TR	40° 46' 00"	29° 24' 00"	3.0	TR	45
-Körfez	Kocaeli	TR	40° 46' 52"	29° 44' 34"	3.0	TR	15
-Derince	Kocaeli	TR	40° 45' 34"	29° 49' 40"	3.0	TR	25
-Kartepe	Kocaeli	TR	40° 44' 00"	30° 01' 00"	3.0	TR	40
-Çayırova	Kocaeli	TR	40° 49' 00"	29° 23' 00"	3.0	TR	110
-Başiskele	Kocaeli	TR	40° 42' 00"	29° 55' 00"	3.0	TR	30
-Karamürsel	Kocaeli	TR	40° 41' 25"	29° 36' 54"	3.0	TR	15
-Dilovası	Kocaeli	TR	40° 47' 00"	29° 32' 00"	3.0	TR	60
-Kandıra	Kocaeli	TR	41° 04' 02"	30° 09' 14"	3.0	TR	65
-Selçuklu	Konya	TR	37° 53' 00"	32° 29' 00"	3.0	TR	1020
-Meram	Konya	TR	37° 51' 00"	32° 26' 00"	3.0	TR	1030
-Karatay	Konya	TR	37° 52' 00"	32° 31' 00"	3.0	TR	1015
-Ereğli	Konya	TR	37° 30' 52"	34° 03' 44"	3.0	TR	1005
-Beyşehir	Konya	TR	37° 40' 43"	31° 43' 35"	3.0	TR	1125
-Seydişehir	Konya	TR	37° 25' 03"	31° 50' 46"	3.0	TR	1130
-Akşehir	Konya	TR	38° 21' 31"	31° 25' 00"	3.0	TR	1025
-Çumra	Konya	TR	37° 34' 25"	32° 46' 52"	3.0	TR	1010
-Kulu	Konya	TR	39° 05' 42"	33° 04' 46"	3.0	TR	1000
-Ilgın	Konya	TR	38° 16' 45"	31° 55' 04"	3.0	TR	1020
-Cihanbeyli	Konya	TR	38° 39' 25"	32° 55' 31"	3.0	TR	965
-Karapınar	Konya	TR	37° 42' 54"	33° 33' 03"	3.0	TR	1000
-Kadınhanı	Konya	TR	38° 14' 22"	32° 13' 03"	3.0	TR	1135
-Sarayönü	Konya	TR	38° 15' 51"	32° 33' 02"	3.0	TR	1065
-Bozkır	Konya	TR	37° 11' 11"	32° 14' 44"	3.0	TR	1120
-Yunak	Konya	TR	38° 44' 45"	31° 43' 55"	3.0	TR	1110
-Doğanhisar	Konya	TR	38° 08' 50"	31° 40' 42"	3.0	TR	1220
-Hüyük	Konya	TR	37° 56' 52"	31° 35' 45"	3.0	TR	1240
-Hadim	Konya	TR	36° 59' 14"	32° 27' 23"	3.0	TR	1515
-Çeltik	Konya	TR	38° 49' 54"	31° 47' 11"	3.0	TR	850
-Altınekin	Konya	TR	38° 20' 52"	32° 41' 15"	3.0	TR	1005
-Güneysınır	Konya	TR	37° 16' 11"	32° 43' 03"	3.0	TR	1100
-Tuzlukçu	Konya	TR	38° 23' 52"	31° 31' 41"	3.0	TR	1015
-Derebucak	Konya	TR	37° 22' 40"	31° 29' 15"	3.0	TR	1230
-Taşkent	Konya	TR	36° 55' 18"	32° 29' 34"	3.0	TR	1620
-Ahırlı	Konya	TR	37° 13' 45"	32° 07' 11"	3.0	TR	1210
-Yalıhüyük	Konya	TR	37° 18' 04"	32° 05' 10"	3.0	TR	1100
-Emirgazi	Konya	TR	37° 54' 14"	33° 50' 11"	3.0	TR	1080
-Merkez	Kütahya	TR	39° 25' 19"	29° 59' 01"	3.0	TR	930
-Tavşanlı	Kütahya	TR	39° 32' 52"	29° 29' 34"	3.0	TR	850
-Simav	Kütahya	TR	39° 05' 12"	28° 58' 42"	3.0	TR	810
-Gediz	Kütahya	TR	38° 59' 31"	29° 23' 35"	3.0	TR	740
-Emet	Kütahya	TR	39° 20' 40"	29° 15' 40"	3.0	TR	910
-Altıntaş	Kütahya	TR	39° 03' 51"	30° 06' 31"	3.0	TR	1015
-Domaniç	Kütahya	TR	39° 48' 04"	29° 36' 35"	3.0	TR	870
-Hisarcık	Kütahya	TR	39° 13' 14"	29° 15' 52"	3.0	TR	860
-Aslanapa	Kütahya	TR	39° 12' 51"	30° 01' 44"	3.0	TR	1030
-Çavdarhisar	Kütahya	TR	39° 11' 55"	29° 38' 54"	3.0	TR	1010
-Şaphane	Kütahya	TR	39° 01' 41"	29° 13' 11"	3.0	TR	1010
-Pazarlar	Kütahya	TR	39° 00' 11"	29° 00' 42"	3.0	TR	920
-Dumlupınar	Kütahya	TR	38° 51' 11"	30° 03' 51"	3.0	TR	1220
-Battalgazi	Malatya	TR	38° 25' 00"	38° 22' 00"	3.0	TR	900
-Yeşilyurt	Malatya	TR	38° 18' 00"	38° 15' 00"	3.0	TR	1010
-Doğanşehir	Malatya	TR	38° 05' 38"	37° 52' 43"	3.0	TR	1220
-Akçadağ	Malatya	TR	38° 20' 15"	37° 58' 14"	3.0	TR	1050
-Darende	Malatya	TR	38° 34' 14"	37° 30' 18"	3.0	TR	1020
-Hekimhan	Malatya	TR	38° 49' 04"	37° 55' 54"	3.0	TR	1100
-Pütürge	Malatya	TR	38° 11' 50"	38° 43' 03"	3.0	TR	1250
-Yazıhan	Malatya	TR	38° 40' 52"	38° 07' 11"	3.0	TR	830
-Arapgir	Malatya	TR	39° 02' 14"	38° 29' 34"	3.0	TR	1210
-Kuluncak	Malatya	TR	38° 54' 15"	37° 38' 40"	3.0	TR	1270
-Arguvan	Malatya	TR	38° 46' 42"	38° 16' 11"	3.0	TR	1160
-Kale	Malatya	TR	38° 24' 45"	38° 44' 35"	3.0	TR	880
-Doğanyol	Malatya	TR	38° 18' 54"	38° 52' 40"	3.0	TR	910
-Yunusemre	Manisa	TR	38° 37' 00"	27° 24' 00"	3.0	TR	75
-Şehzadeler	Manisa	TR	38° 36' 00"	27° 26' 00"	3.0	TR	70
-Akhisar	Manisa	TR	38° 55' 20"	27° 50' 22"	3.0	TR	105
-Turgutlu	Manisa	TR	38° 29' 44"	27° 42' 14"	3.0	TR	80
-Salihli	Manisa	TR	38° 28' 53"	28° 08' 22"	3.0	TR	110
-Soma	Manisa	TR	39° 11' 18"	27° 36' 31"	3.0	TR	160
-Alaşehir	Manisa	TR	38° 21' 03"	28° 31' 04"	3.0	TR	190
-Saruhanlı	Manisa	TR	38° 44' 04"	27° 33' 51"	3.0	TR	45
-Kula	Manisa	TR	38° 32' 44"	28° 38' 58"	3.0	TR	640
-Demirci	Manisa	TR	39° 02' 44"	28° 39' 31"	3.0	TR	850
-Gördes	Manisa	TR	38° 55' 52"	28° 17' 23"	3.0	TR	650
-Selendi	Manisa	TR	38° 44' 45"	28° 51' 54"	3.0	TR	430
-Ahmetli	Manisa	TR	38° 31' 11"	27° 55' 44"	3.0	TR	90
-Kırkağaç	Manisa	TR	39° 06' 14"	27° 40' 11"	3.0	TR	175
-Köprübaşı	Manisa	TR	38° 45' 15"	28° 24' 20"	3.0	TR	250
-Gölmarmara	Manisa	TR	38° 42' 50"	27° 54' 45"	3.0	TR	105
-Artuklu	Mardin	TR	37° 19' 00"	40° 44' 00"	3.0	TR	1080
-Kızıltepe	Mardin	TR	37° 11' 37"	40° 35' 15"	3.0	TR	405
-Nusaybin	Mardin	TR	37° 04' 37"	41° 12' 42"	3.0	TR	465
-Midyat	Mardin	TR	37° 25' 18"	41° 20' 23"	3.0	TR	940
-Derik	Mardin	TR	37° 21' 51"	40° 16' 11"	3.0	TR	780
-Mazıdağı	Mardin	TR	37° 31' 34"	40° 29' 14"	3.0	TR	1020
-Dargeçit	Mardin	TR	37° 33' 11"	41° 42' 42"	3.0	TR	910
-Savur	Mardin	TR	37° 32' 14"	40° 53' 18"	3.0	TR	900
-Yeşilli	Mardin	TR	37° 21' 11"	40° 49' 14"	3.0	TR	850
-Ömerli	Mardin	TR	37° 25' 45"	40° 56' 40"	3.0	TR	1050
-Bodrum	Muğla	TR	37° 02' 18"	27° 25' 42"	3.0	TR	10
-Fethiye	Muğla	TR	36° 37' 14"	29° 06' 51"	3.0	TR	15
-Milas	Muğla	TR	37° 18' 41"	27° 47' 03"	3.0	TR	55
-Menteşe	Muğla	TR	37° 13' 00"	28° 21' 00"	3.0	TR	660
-Marmaris	Muğla	TR	36° 51' 11"	28° 16' 18"	3.0	TR	10
-Seydikemer	Muğla	TR	36° 35' 00"	29° 21' 00"	3.0	TR	130
-Ortaca	Muğla	TR	36° 50' 25"	28° 45' 52"	3.0	TR	30
-Dalaman	Muğla	TR	36° 42' 11"	28° 48' 11"	3.0	TR	15
-Yatağan	Muğla	TR	37° 20' 25"	28° 08' 20"	3.0	TR	390
-Köycegiz	Muğla	TR	36° 58' 14"	28° 41' 11"	3.0	TR	20
-Ula	Muğla	TR	37° 06' 11"	28° 23' 51"	3.0	TR	600
-Datça	Muğla	TR	36° 43' 35"	27° 41' 11"	3.0	TR	15
-Kavaklıdere	Muğla	TR	37° 26' 54"	28° 21' 54"	3.0	TR	850
-Merkez	Muş	TR	38° 44' 36"	41° 29' 05"	3.0	TR	1334
-Bulanık	Muş	TR	39° 05' 11"	42° 16' 11"	3.0	TR	1480
-Malazgirt	Muş	TR	39° 08' 52"	42° 32' 31"	3.0	TR	1530
-Hasköy	Muş	TR	38° 41' 14"	41° 41' 15"	3.0	TR	1275
-Korkut	Muş	TR	38° 43' 03"	41° 46' 52"	3.0	TR	1260
-Varto	Muş	TR	39° 10' 35"	41° 27' 11"	3.0	TR	1520
-Merkez	Nevşehir	TR	38° 37' 32"	34° 42' 53"	3.0	TR	1224
-Ürgüp	Nevşehir	TR	38° 37' 54"	34° 54' 43"	3.0	TR	1050
-Avanos	Nevşehir	TR	38° 42' 53"	34° 50' 41"	3.0	TR	920
-Gülşehir	Nevşehir	TR	38° 44' 45"	34° 37' 14"	3.0	TR	885
-Derinkuyu	Nevşehir	TR	38° 22' 23"	34° 44' 34"	3.0	TR	1300
-Acıgöl	Nevşehir	TR	38° 33' 11"	34° 31' 03"	3.0	TR	1240
-Kozaklı	Nevşehir	TR	39° 12' 51"	34° 51' 15"	3.0	TR	960
-Hacıbektaş	Nevşehir	TR	38° 56' 35"	34° 33' 40"	3.0	TR	1250
-Merkez	Niğde	TR	37° 57' 56"	34° 40' 45"	3.0	TR	1229
-Bor	Niğde	TR	37° 53' 27"	34° 33' 40"	3.0	TR	1110
-Çiftlik	Niğde	TR	38° 09' 51"	34° 31' 12"	3.0	TR	1550
-Ulukışla	Niğde	TR	37° 32' 51"	34° 29' 05"	3.0	TR	1427
-Altunhisar	Niğde	TR	37° 58' 54"	34° 22' 40"	3.0	TR	1190
-Çamardı	Niğde	TR	37° 49' 31"	35° 01' 52"	3.0	TR	1600
-Altınordu	Ordu	TR	40° 58' 53"	37° 52' 44"	3.0	TR	5
-Ünye	Ordu	TR	41° 07' 42"	37° 17' 11"	3.0	TR	10
-Fatsa	Ordu	TR	41° 01' 55"	37° 30' 11"	3.0	TR	10
-Gölköy	Ordu	TR	40° 41' 14"	37° 37' 03"	3.0	TR	1050
-Korgan	Ordu	TR	40° 49' 24"	37° 20' 45"	3.0	TR	780
-Kumru	Ordu	TR	40° 52' 27"	37° 15' 52"	3.0	TR	450
-Aybastı	Ordu	TR	40° 41' 15"	37° 23' 51"	3.0	TR	920
-Ulubey	Ordu	TR	40° 52' 31"	37° 45' 42"	3.0	TR	590
-Mesudiye	Ordu	TR	40° 27' 43"	37° 46' 35"	3.0	TR	1140
-İkizce	Ordu	TR	41° 04' 50"	37° 04' 55"	3.0	TR	130
-Gürgentepe	Ordu	TR	40° 47' 20"	37° 35' 50"	3.0	TR	1120
-Perşembe	Ordu	TR	41° 03' 50"	37° 46' 15"	3.0	TR	10
-Çamaş	Ordu	TR	40° 55' 11"	37° 31' 14"	3.0	TR	550
-Kabataş	Ordu	TR	40° 48' 52"	37° 26' 45"	3.0	TR	610
-Çatalpınar	Ordu	TR	40° 56' 45"	37° 29' 15"	3.0	TR	140
-Çaybaşı	Ordu	TR	41° 01' 40"	37° 07' 45"	3.0	TR	420
-Akkus	Ordu	TR	40° 47' 34"	37° 01' 14"	3.0	TR	1340
-Gülyalı	Ordu	TR	40° 57' 50"	37° 59' 51"	3.0	TR	10
-Kabadüz	Ordu	TR	40° 51' 40"	37° 54' 10"	3.0	TR	570
-Çamaş	Ordu	TR	40° 55' 11"	37° 31' 14"	3.0	TR	550
-Merkez	Rize	TR	41° 01' 14"	40° 31' 05"	3.0	TR	6
-Çayeli	Rize	TR	41° 05' 35"	40° 43' 31"	3.0	TR	10
-Ardeşen	Rize	TR	41° 11' 22"	40° 59' 15"	3.0	TR	10
-Pazar	Rize	TR	41° 10' 45"	40° 51' 20"	3.0	TR	10
-Fındıklı	Rize	TR	41° 16' 11"	41° 08' 42"	3.0	TR	10
-Güneysu	Rize	TR	41° 00' 11"	40° 36' 15"	3.0	TR	150
-Kalkandere	Rize	TR	40° 55' 15"	40° 26' 11"	3.0	TR	160
-İyidere	Rize	TR	41° 00' 45"	40° 21' 52"	3.0	TR	10
-Derepazarı	Rize	TR	41° 01' 35"	40° 25' 40"	3.0	TR	10
-Çamlıhemşin	Rize	TR	41° 02' 52"	41° 00' 41"	3.0	TR	310
-İkizdere	Rize	TR	40° 47' 03"	40° 33' 40"	3.0	TR	560
-Hemşin	Rize	TR	41° 02' 40"	40° 54' 14"	3.0	TR	320
-Adapazarı	Sakarya	TR	40° 46' 41"	30° 24' 13"	3.0	TR	31
-Serdivan	Sakarya	TR	40° 45' 30"	30° 21' 30"	3.0	TR	65
-Erenler	Sakarya	TR	40° 45' 00"	30° 25' 00"	3.0	TR	32
-Akyazı	Sakarya	TR	40° 40' 54"	30° 37' 31"	3.0	TR	40
-Hendek	Sakarya	TR	40° 47' 55"	30° 45' 04"	3.0	TR	175
-Karasu	Sakarya	TR	41° 06' 11"	30° 41' 25"	3.0	TR	10
-Geyve	Sakarya	TR	40° 30' 42"	30° 17' 31"	3.0	TR	85
-Arifiye	Sakarya	TR	40° 43' 00"	30° 22' 00"	3.0	TR	35
-Sapanca	Sakarya	TR	40° 41' 11"	30° 15' 52"	3.0	TR	45
-Pamukova	Sakarya	TR	40° 30' 37"	30° 07' 52"	3.0	TR	85
-Ferizli	Sakarya	TR	40° 52' 42"	30° 28' 54"	3.0	TR	35
-Kocaali	Sakarya	TR	41° 03' 11"	30° 51' 14"	3.0	TR	15
-Kaynarca	Sakarya	TR	41° 02' 14"	30° 18' 14"	3.0	TR	50
-Söğütlü	Sakarya	TR	40° 54' 20"	30° 28' 41"	3.0	TR	40
-Karapürçek	Sakarya	TR	40° 41' 14"	30° 30' 11"	3.0	TR	70
-Taraklı	Sakarya	TR	40° 23' 35"	30° 24' 45"	3.0	TR	490
-İlkadım	Samsun	TR	41° 16' 40"	36° 19' 30"	3.0	TR	15
-Atakum	Samsun	TR	41° 19' 00"	36° 16' 00"	3.0	TR	10
-Canik	Samsun	TR	41° 16' 20"	36° 21' 30"	3.0	TR	35
-Bafra	Samsun	TR	41° 34' 04"	35° 54' 20"	3.0	TR	20
-Çarşamba	Samsun	TR	41° 11' 50"	36° 43' 30"	3.0	TR	10
-Vezirköprü	Samsun	TR	41° 08' 35"	35° 27' 15"	3.0	TR	340
-Terme	Samsun	TR	41° 12' 31"	36° 58' 23"	3.0	TR	10
-Tekkeköy	Samsun	TR	41° 13' 00"	36° 27' 00"	3.0	TR	15
-Havza	Samsun	TR	40° 58' 02"	35° 40' 00"	3.0	TR	675
-19 Mayıs	Samsun	TR	41° 29' 38"	36° 04' 41"	3.0	TR	15
-Alaçam	Samsun	TR	41° 36' 17"	35° 35' 55"	3.0	TR	15
-Asarcık	Samsun	TR	41° 02' 40"	36° 14' 35"	3.0	TR	810
-Kavak	Samsun	TR	41° 04' 34"	36° 02' 23"	3.0	TR	600
-Salıpazarı	Samsun	TR	41° 04' 51"	36° 49' 33"	3.0	TR	70
-Ayvacık	Samsun	TR	40° 59' 20"	36° 37' 54"	3.0	TR	110
-Ladik	Samsun	TR	40° 54' 40"	35° 53' 45"	3.0	TR	950
-Yakakent	Samsun	TR	41° 37' 55"	35° 31' 15"	3.0	TR	10
-Haliliye	Şanlıurfa	TR	37° 10' 00"	38° 48' 00"	3.0	TR	520
-Eyyübiye	Şanlıurfa	TR	37° 08' 00"	38° 47' 00"	3.0	TR	510
-Karaköprü	Şanlıurfa	TR	37° 12' 00"	38° 49' 00"	3.0	TR	580
-Siverek	Şanlıurfa	TR	37° 45' 18"	39° 19' 06"	3.0	TR	800
-Viranşehir	Şanlıurfa	TR	37° 14' 14"	39° 45' 56"	3.0	TR	580
-Suruç	Şanlıurfa	TR	36° 58' 35"	38° 25' 25"	3.0	TR	470
-Birecik	Şanlıurfa	TR	37° 01' 44"	37° 58' 40"	3.0	TR	340
-Akçakale	Şanlıurfa	TR	36° 42' 41"	38° 56' 51"	3.0	TR	360
-Ceylanpınar	Şanlıurfa	TR	36° 51' 12"	40° 02' 35"	3.0	TR	390
-Harran	Şanlıurfa	TR	36° 51' 52"	39° 01' 53"	3.0	TR	375
-Bozova	Şanlıurfa	TR	37° 21' 40"	38° 30' 44"	3.0	TR	570
-Hilvan	Şanlıurfa	TR	37° 35' 12"	38° 57' 27"	3.0	TR	610
-Halfeti	Şanlıurfa	TR	37° 14' 44"	37° 52' 14"	3.0	TR	440
-Merkez	Uşak	TR	38° 40' 43"	29° 24' 20"	3.0	TR	907
-Banaz	Uşak	TR	38° 43' 53"	29° 44' 56"	3.0	TR	915
-Eşme	Uşak	TR	38° 24' 04"	28° 58' 14"	3.0	TR	820
-Sivaslı	Uşak	TR	38° 30' 11"	29° 41' 15"	3.0	TR	1120
-Ulubey	Uşak	TR	38° 25' 14"	29° 17' 23"	3.0	TR	710
-Karahallı	Uşak	TR	38° 21' 40"	29° 31' 45"	3.0	TR	910
-Süleymanpaşa	Tekirdağ	TR	40° 58' 00"	27° 31' 00"	3.0	TR	35
-Çorlu	Tekirdağ	TR	41° 09' 35"	27° 48' 10"	3.0	TR	180
-Çerkezköy	Tekirdağ	TR	41° 17' 11"	28° 00' 41"	3.0	TR	130
-Kapaklı	Tekirdağ	TR	41° 19' 30"	27° 58' 30"	3.0	TR	140
-Ergene	Tekirdağ	TR	41° 13' 00"	27° 49' 00"	3.0	TR	160
-Malkara	Tekirdağ	TR	40° 53' 35"	26° 54' 14"	3.0	TR	230
-Saray	Tekirdağ	TR	41° 26' 40"	27° 55' 31"	3.0	TR	140
-Hayrabolu	Tekirdağ	TR	41° 12' 40"	27° 06' 45"	3.0	TR	65
-Şarköy	Tekirdağ	TR	40° 36' 54"	27° 06' 50"	3.0	TR	10
-Muratlı	Tekirdağ	TR	41° 10' 32"	27° 30' 14"	3.0	TR	70
-Marmaraereğlisi	Tekirdağ	TR	40° 58' 14"	27° 57' 15"	3.0	TR	15
-Merkez	Zonguldak	TR	41° 27' 05"	31° 47' 35"	3.0	TR	55
-Ereğli	Zonguldak	TR	41° 17' 05"	31° 24' 53"	3.0	TR	30
-Çaycuma	Zonguldak	TR	41° 25' 20"	32° 04' 52"	3.0	TR	45
-Devrek	Zonguldak	TR	41° 13' 11"	31° 57' 14"	3.0	TR	85
-Alaplı	Zonguldak	TR	41° 10' 25"	31° 23' 04"	3.0	TR	15
-Kozlu	Zonguldak	TR	41° 26' 11"	31° 44' 52"	3.0	TR	40
-Kilimli	Zonguldak	TR	41° 29' 03"	31° 50' 44"	3.0	TR	25
-Gökçebey	Zonguldak	TR	41° 18' 15"	32° 08' 20"	3.0	TR	55
+Seyhan	Adana	TR	36° 59' 00"	35° 19' 00"	3.0	--	20
+Yüreğir	Adana	TR	36° 53' 00"	35° 23' 00"	3.0	--	15
+Çukurova	Adana	TR	36° 59' 00"	35° 15' 00"	3.0	--	40
+Sarıçam	Adana	TR	37° 03' 00"	35° 26' 00"	3.0	--	85
+Ceyhan	Adana	TR	37° 01' 30"	35° 48' 42"	3.0	--	30
+Kozan	Adana	TR	37° 27' 17"	35° 48' 56"	3.0	--	135
+İmamoğlu	Adana	TR	37° 15' 52"	35° 39' 47"	3.0	--	73
+Karataş	Adana	TR	36° 33' 35"	35° 22' 23"	3.0	--	10
+Karaisalı	Adana	TR	37° 15' 31"	35° 03' 41"	3.0	--	220
+Pozantı	Adana	TR	37° 25' 38"	34° 52' 14"	3.0	--	790
+Feke	Adana	TR	37° 49' 06"	35° 54' 34"	3.0	--	620
+Saimbeyli	Adana	TR	37° 59' 16"	36° 05' 46"	3.0	--	1050
+Tufanbeyli	Adana	TR	38° 15' 54"	36° 13' 22"	3.0	--	1420
+Aladağ	Adana	TR	37° 32' 55"	35° 23' 46"	3.0	--	850
+Yumurtalık	Adana	TR	36° 46' 21"	35° 47' 39"	3.0	--	5
+Merkez	Adıyaman	TR	37° 45' 49"	38° 16' 35"	3.0	--	669
+Kahta	Adıyaman	TR	37° 47' 06"	38° 37' 27"	3.0	--	720
+Besni	Adıyaman	TR	37° 41' 22"	37° 51' 40"	3.0	--	1050
+Gölbaşı	Adıyaman	TR	37° 47' 05"	37° 38' 43"	3.0	--	870
+Gerger	Adıyaman	TR	37° 57' 04"	39° 02' 18"	3.0	--	780
+Sincik	Adıyaman	TR	38° 01' 11"	38° 36' 45"	3.0	--	1325
+Çelikhan	Adıyaman	TR	38° 02' 04"	38° 14' 30"	3.0	--	1388
+Tut	Adıyaman	TR	37° 47' 42"	37° 54' 45"	3.0	--	900
+Samsat	Adıyaman	TR	37° 34' 40"	38° 29' 40"	3.0	--	610
+Merkez	Afyonkarahisar	TR	38° 45' 25"	30° 32' 19"	3.0	--	1021
+Sandıklı	Afyonkarahisar	TR	38° 27' 48"	30° 16' 18"	3.0	--	1050
+Dinar	Afyonkarahisar	TR	38° 03' 53"	30° 09' 54"	3.0	--	880
+Bolvadin	Afyonkarahisar	TR	38° 42' 43"	31° 02' 52"	3.0	--	995
+Sinanpaşa	Afyonkarahisar	TR	38° 44' 25"	30° 14' 40"	3.0	--	1110
+Emirdağ	Afyonkarahisar	TR	39° 01' 10"	31° 09' 00"	3.0	--	1000
+Şuhut	Afyonkarahisar	TR	38° 31' 46"	30° 32' 39"	3.0	--	1150
+Çay	Afyonkarahisar	TR	38° 35' 18"	31° 01' 40"	3.0	--	1010
+İhsaniye	Afyonkarahisar	TR	38° 59' 12"	30° 25' 00"	3.0	--	1100
+İscehisar	Afyonkarahisar	TR	38° 51' 51"	30° 44' 45"	3.0	--	1075
+Sultandağı	Afyonkarahisar	TR	38° 31' 40"	31° 13' 45"	3.0	--	1000
+Başmakçı	Afyonkarahisar	TR	37° 54' 15"	30° 00' 40"	3.0	--	1020
+Dazkırı	Afyonkarahisar	TR	37° 55' 20"	29° 51' 30"	3.0	--	900
+Bayat	Afyonkarahisar	TR	38° 59' 20"	30° 55' 30"	3.0	--	1250
+Hocalar	Afyonkarahisar	TR	38° 37' 42"	29° 59' 15"	3.0	--	1115
+Çobanlar	Afyonkarahisar	TR	38° 42' 00"	30° 47' 00"	3.0	--	992
+Evciler	Afyonkarahisar	TR	38° 00' 45"	30° 02' 10"	3.0	--	910
+Kızılören	Afyonkarahisar	TR	38° 20' 15"	30° 09' 20"	3.0	--	1120
+Merkez	Ağrı	TR	39° 43' 11"	43° 03' 03"	3.0	--	1650
+Patnos	Ağrı	TR	39° 13' 23"	42° 52' 19"	3.0	--	1635
+Doğubayazıt	Ağrı	TR	39° 32' 52"	44° 05' 05"	3.0	--	1625
+Diyadin	Ağrı	TR	39° 33' 31"	43° 40' 17"	3.0	--	1925
+Eleşkirt	Ağrı	TR	39° 47' 55"	42° 40' 21"	3.0	--	1810
+Tutak	Ağrı	TR	39° 31' 44"	42° 47' 46"	3.0	--	1565
+Taşlıçay	Ağrı	TR	39° 38' 15"	43° 23' 00"	3.0	--	1660
+Hamur	Ağrı	TR	39° 36' 11"	42° 59' 12"	3.0	--	1675
+Merkez	Amasya	TR	40° 39' 04"	35° 49' 58"	3.0	--	411
+Merzifon	Amasya	TR	40° 52' 27"	35° 27' 44"	3.0	--	740
+Suluova	Amasya	TR	40° 50' 16"	35° 39' 18"	3.0	--	510
+Taşova	Amasya	TR	40° 45' 44"	36° 19' 11"	3.0	--	230
+Gümüşhacıköy	Amasya	TR	40° 52' 17"	35° 12' 46"	3.0	--	815
+Göynücek	Amasya	TR	40° 25' 54"	35° 27' 00"	3.0	--	520
+Hamamözü	Amasya	TR	40° 47' 10"	35° 02' 15"	3.0	--	695
+Çankaya	Ankara	TR	39° 53' 00"	32° 52' 00"	3.0	--	850
+Keçiören	Ankara	TR	39° 58' 00"	32° 52' 00"	3.0	--	950
+Yenimahalle	Ankara	TR	39° 58' 00"	32° 48' 00"	3.0	--	880
+Mamak	Ankara	TR	39° 56' 00"	32° 55' 00"	3.0	--	900
+Etimesgut	Ankara	TR	39° 56' 40"	32° 39' 45"	3.0	--	810
+Sincan	Ankara	TR	39° 57' 35"	32° 34' 42"	3.0	--	825
+Altındağ	Ankara	TR	39° 57' 00"	32° 52' 00"	3.0	--	875
+Pursaklar	Ankara	TR	40° 02' 00"	32° 53' 00"	3.0	--	940
+Gölbaşı	Ankara	TR	39° 47' 15"	32° 48' 15"	3.0	--	970
+Polatlı	Ankara	TR	39° 34' 44"	32° 08' 48"	3.0	--	850
+Çubuk	Ankara	TR	40° 14' 18"	33° 01' 54"	3.0	--	1100
+Kahramankazan	Ankara	TR	40° 11' 11"	32° 41' 02"	3.0	--	890
+Beypazarı	Ankara	TR	40° 10' 04"	31° 55' 15"	3.0	--	675
+Elmadağ	Ankara	TR	39° 55' 12"	33° 13' 50"	3.0	--	1125
+Şereflikoçhisar	Ankara	TR	38° 58' 23"	33° 32' 14"	3.0	--	975
+Akyurt	Ankara	TR	40° 07' 50"	33° 05' 10"	3.0	--	960
+Nallıhan	Ankara	TR	40° 11' 03"	31° 21' 01"	3.0	--	625
+Haymana	Ankara	TR	39° 25' 58"	32° 29' 42"	3.0	--	1250
+Kızılcahamam	Ankara	TR	40° 28' 14"	32° 38' 54"	3.0	--	975
+Bala	Ankara	TR	39° 30' 32"	33° 07' 24"	3.0	--	1310
+Kalecik	Ankara	TR	40° 05' 46"	33° 24' 34"	3.0	--	725
+Ayaş	Ankara	TR	40° 01' 03"	32° 19' 57"	3.0	--	910
+Güdül	Ankara	TR	40° 12' 20"	32° 14' 44"	3.0	--	740
+Çamlıdere	Ankara	TR	40° 29' 20"	32° 28' 30"	3.0	--	1240
+Evren	Ankara	TR	39° 01' 04"	33° 48' 22"	3.0	--	915
+Kepez	Antalya	TR	36° 56' 00"	30° 40' 00"	3.0	--	55
+Muratpaşa	Antalya	TR	36° 53' 00"	30° 42' 00"	3.0	--	35
+Alanya	Antalya	TR	36° 32' 37"	31° 59' 51"	3.0	--	10
+Manavgat	Antalya	TR	36° 47' 11"	31° 26' 31"	3.0	--	20
+Konyaaltı	Antalya	TR	36° 52' 00"	30° 38' 00"	3.0	--	15
+Serik	Antalya	TR	36° 55' 03"	31° 06' 11"	3.0	--	30
+Aksu	Antalya	TR	36° 55' 45"	30° 51' 10"	3.0	--	25
+Kumluca	Antalya	TR	36° 21' 54"	30° 17' 11"	3.0	--	35
+Döşemealtı	Antalya	TR	36° 59' 00"	30° 37' 00"	3.0	--	300
+Kaş	Antalya	TR	36° 12' 05"	29° 38' 36"	3.0	--	15
+Korkuteli	Antalya	TR	37° 03' 46"	30° 11' 35"	3.0	--	1020
+Gazipaşa	Antalya	TR	36° 16' 14"	32° 19' 04"	3.0	--	25
+Finike	Antalya	TR	36° 17' 42"	30° 08' 32"	3.0	--	10
+Kemer	Antalya	TR	36° 36' 00"	30° 33' 45"	3.0	--	12
+Elmalı	Antalya	TR	36° 44' 04"	29° 55' 01"	3.0	--	1150
+Demre	Antalya	TR	36° 14' 40"	29° 58' 45"	3.0	--	15
+Akseki	Antalya	TR	37° 02' 46"	31° 47' 11"	3.0	--	1050
+Gündoğmuş	Antalya	TR	36° 48' 31"	31° 59' 45"	3.0	--	900
+İbradı	Antalya	TR	37° 05' 45"	31° 35' 40"	3.0	--	950
+Merkez	Artvin	TR	41° 10' 54"	41° 49' 05"	3.0	--	345
+Hopa	Artvin	TR	41° 23' 51"	41° 26' 07"	3.0	--	10
+Borçka	Artvin	TR	41° 21' 44"	41° 40' 43"	3.0	--	125
+Arhavi	Artvin	TR	41° 21' 03"	41° 18' 35"	3.0	--	15
+Yusufeli	Artvin	TR	40° 49' 20"	41° 32' 46"	3.0	--	650
+Ardanuç	Artvin	TR	41° 07' 41"	42° 03' 31"	3.0	--	460
+Şavşat	Artvin	TR	41° 14' 35"	42° 21' 42"	3.0	--	1000
+Murgul	Artvin	TR	41° 11' 20"	41° 34' 10"	3.0	--	420
+Kemalpaşa	Artvin	TR	41° 28' 50"	41° 31' 12"	3.0	--	20
+Efeler	Aydın	TR	37° 50' 40"	27° 50' 43"	3.0	--	65
+Nazilli	Aydın	TR	37° 54' 44"	28° 19' 14"	3.0	--	75
+Söke	Aydın	TR	37° 45' 03"	27° 24' 19"	3.0	--	40
+Kuşadası	Aydın	TR	37° 51' 35"	27° 15' 46"	3.0	--	15
+Didim	Aydın	TR	37° 23' 05"	27° 15' 52"	3.0	--	25
+İncirliova	Aydın	TR	37° 50' 52"	27° 43' 35"	3.0	--	45
+Çine	Aydın	TR	37° 36' 50"	28° 03' 40"	3.0	--	90
+Germencik	Aydın	TR	37° 52' 14"	27° 35' 50"	3.0	--	60
+Bozdoğan	Aydın	TR	37° 40' 05"	28° 21' 32"	3.0	--	140
+Köşk	Aydın	TR	37° 51' 15"	28° 02' 50"	3.0	--	80
+Kuyucak	Aydın	TR	37° 54' 50"	28° 27' 35"	3.0	--	85
+Sultanhisar	Aydın	TR	37° 53' 04"	28° 09' 06"	3.0	--	95
+Karacasu	Aydın	TR	37° 43' 34"	28° 36' 11"	3.0	--	410
+Koçarlı	Aydın	TR	37° 46' 10"	27° 41' 55"	3.0	--	50
+Yenipazar	Aydın	TR	37° 53' 23"	28° 11' 54"	3.0	--	60
+Buharkent	Aydın	TR	37° 57' 42"	28° 44' 25"	3.0	--	135
+Karpuzlu	Aydın	TR	37° 33' 20"	27° 49' 40"	3.0	--	110
+Karesi	Balıkesir	TR	39° 39' 15"	27° 53' 00"	3.0	--	150
+Altıeylül	Balıkesir	TR	39° 37' 40"	27° 52' 30"	3.0	--	140
+Bandırma	Balıkesir	TR	40° 21' 00"	27° 58' 00"	3.0	--	39
+Edremit	Balıkesir	TR	39° 35' 46"	27° 01' 27"	3.0	--	35
+Gönen	Balıkesir	TR	40° 06' 15"	27° 39' 14"	3.0	--	40
+Ayvalık	Balıkesir	TR	39° 19' 00"	26° 41' 30"	3.0	--	5
+Burhaniye	Balıkesir	TR	39° 30' 11"	26° 58' 14"	3.0	--	25
+Bigadiç	Balıkesir	TR	39° 23' 51"	28° 07' 34"	3.0	--	175
+Susurluk	Balıkesir	TR	39° 54' 45"	28° 09' 20"	3.0	--	60
+Dursunbey	Balıkesir	TR	39° 35' 03"	28° 37' 35"	3.0	--	640
+Sindırgı	Balıkesir	TR	39° 14' 34"	28° 10' 37"	3.0	--	230
+Erdek	Balıkesir	TR	40° 23' 55"	27° 47' 35"	3.0	--	10
+İvrindi	Balıkesir	TR	39° 35' 20"	27° 29' 10"	3.0	--	250
+Havran	Balıkesir	TR	39° 33' 30"	27° 05' 45"	3.0	--	45
+Manyas	Balıkesir	TR	40° 02' 46"	27° 58' 11"	3.0	--	50
+Kepsut	Balıkesir	TR	39° 42' 00"	28° 09' 05"	3.0	--	85
+Savaştepe	Balıkesir	TR	39° 23' 04"	27° 39' 25"	3.0	--	280
+Balya	Balıkesir	TR	39° 45' 40"	27° 35' 15"	3.0	--	230
+Marmara	Balıkesir	TR	40° 35' 03"	27° 33' 04"	3.0	--	20
+Gömeç	Balıkesir	TR	39° 23' 10"	26° 50' 25"	3.0	--	15
+Merkez	Bilecik	TR	40° 08' 35"	29° 58' 56"	3.0	--	513
+Bozüyük	Bilecik	TR	39° 54' 25"	30° 02' 23"	3.0	--	740
+Osmaneli	Bilecik	TR	40° 21' 25"	30° 01' 40"	3.0	--	110
+Söğüt	Bilecik	TR	40° 01' 03"	30° 11' 04"	3.0	--	660
+Gölpazarı	Bilecik	TR	40° 16' 11"	30° 19' 11"	3.0	--	520
+Pazaryeri	Bilecik	TR	39° 59' 42"	29° 53' 55"	3.0	--	800
+Yenipazar	Bilecik	TR	40° 10' 30"	30° 31' 10"	3.0	--	510
+İnhisar	Bilecik	TR	40° 02' 50"	30° 23' 15"	3.0	--	210
+Merkez	Bingöl	TR	38° 53' 02"	40° 29' 38"	3.0	--	1153
+Genç	Bingöl	TR	38° 44' 51"	40° 33' 35"	3.0	--	1020
+Solhan	Bingöl	TR	38° 57' 42"	41° 03' 03"	3.0	--	1395
+Karlıova	Bingöl	TR	39° 17' 34"	41° 00' 54"	3.0	--	1820
+Adaklı	Bingöl	TR	39° 14' 15"	40° 25' 38"	3.0	--	1500
+Kiğı	Bingöl	TR	39° 19' 14"	40° 21' 03"	3.0	--	1520
+Yedisu	Bingöl	TR	39° 25' 38"	40° 33' 11"	3.0	--	1550
+Yayladere	Bingöl	TR	39° 13' 23"	40° 04' 07"	3.0	--	1510
+Merkez	Bitlis	TR	38° 24' 05"	42° 06' 31"	3.0	--	1545
+Tatvan	Bitlis	TR	38° 29' 53"	42° 16' 48"	3.0	--	1650
+Güroymak	Bitlis	TR	38° 35' 31"	42° 03' 14"	3.0	--	1320
+Ahlat	Bitlis	TR	38° 45' 03"	42° 29' 40"	3.0	--	1700
+Hizan	Bitlis	TR	38° 13' 00"	42° 25' 30"	3.0	--	1450
+Mutki	Bitlis	TR	38° 24' 45"	41° 55' 15"	3.0	--	1350
+Adilcevaz	Bitlis	TR	38° 48' 23"	42° 44' 04"	3.0	--	1680
+Merkez	Bolu	TR	40° 44' 05"	31° 36' 27"	3.0	--	726
+Gerede	Bolu	TR	40° 48' 03"	32° 11' 44"	3.0	--	1325
+Mudurnu	Bolu	TR	40° 27' 54"	31° 12' 41"	3.0	--	840
+Göynük	Bolu	TR	40° 23' 58"	30° 47' 11"	3.0	--	820
+Mengen	Bolu	TR	40° 56' 40"	32° 03' 40"	3.0	--	740
+Yeniçağa	Bolu	TR	40° 46' 35"	32° 01' 44"	3.0	--	1000
+Dörtdivan	Bolu	TR	40° 43' 35"	32° 03' 51"	3.0	--	1165
+Seben	Bolu	TR	40° 24' 40"	31° 34' 35"	3.0	--	750
+Kıbrıscık	Bolu	TR	40° 24' 15"	31° 50' 11"	3.0	--	1130
+Merkez	Burdur	TR	37° 43' 13"	30° 17' 08"	3.0	--	950
+Bucak	Burdur	TR	37° 27' 37"	30° 35' 42"	3.0	--	850
+Gölhisar	Burdur	TR	36° 59' 31"	29° 31' 03"	3.0	--	945
+Yeşilova	Burdur	TR	37° 30' 25"	29° 45' 15"	3.0	--	1160
+Tefenni	Burdur	TR	37° 18' 49"	29° 46' 31"	3.0	--	1140
+Çavdır	Burdur	TR	37° 09' 20"	29° 41' 25"	3.0	--	980
+Ağlasun	Burdur	TR	37° 38' 44"	30° 32' 14"	3.0	--	1120
+Karamanlı	Burdur	TR	37° 23' 03"	29° 49' 43"	3.0	--	1180
+Altınyayla	Burdur	TR	36° 55' 11"	29° 33' 00"	3.0	--	1250
+Çeltikçi	Burdur	TR	37° 31' 30"	30° 27' 40"	3.0	--	850
+Kemer	Burdur	TR	37° 20' 46"	30° 05' 11"	3.0	--	1150
+Osmangazi	Bursa	TR	40° 12' 00"	29° 03' 00"	3.0	--	150
+Yıldırım	Bursa	TR	40° 11' 00"	29° 05' 00"	3.0	--	155
+Nilüfer	Bursa	TR	40° 12' 00"	28° 57' 00"	3.0	--	125
+İnegöl	Bursa	TR	40° 04' 44"	29° 30' 34"	3.0	--	290
+Gemlik	Bursa	TR	40° 25' 52"	29° 09' 23"	3.0	--	15
+Mustafakemalpaşa	Bursa	TR	40° 02' 11"	28° 24' 34"	3.0	--	45
+Mudanya	Bursa	TR	40° 22' 31"	28° 52' 52"	3.0	--	10
+Gürsu	Bursa	TR	40° 12' 50"	29° 11' 40"	3.0	--	110
+Karacabey	Bursa	TR	40° 12' 41"	28° 21' 36"	3.0	--	15
+Orhangazi	Bursa	TR	40° 29' 40"	29° 18' 28"	3.0	--	115
+Kestel	Bursa	TR	40° 11' 58"	29° 13' 12"	3.0	--	125
+Yenişehir	Bursa	TR	40° 15' 52"	29° 39' 11"	3.0	--	225
+Orhaneli	Bursa	TR	39° 53' 51"	28° 59' 23"	3.0	--	490
+Büyükorhan	Bursa	TR	39° 46' 20"	28° 53' 15"	3.0	--	830
+Keles	Bursa	TR	39° 54' 42"	29° 13' 40"	3.0	--	1050
+Harmancık	Bursa	TR	39° 41' 11"	29° 09' 44"	3.0	--	670
+İznik	Bursa	TR	40° 25' 42"	29° 43' 11"	3.0	--	90
+Merkez	Çanakkale	TR	40° 09' 11"	26° 24' 17"	3.0	--	6
+Biga	Çanakkale	TR	40° 13' 41"	27° 14' 31"	3.0	--	45
+Gelibolu	Çanakkale	TR	40° 24' 37"	26° 40' 16"	3.0	--	15
+Çan	Çanakkale	TR	40° 01' 44"	27° 02' 54"	3.0	--	65
+Ezine	Çanakkale	TR	39° 47' 25"	26° 20' 03"	3.0	--	40
+Yenice	Çanakkale	TR	39° 55' 52"	27° 15' 35"	3.0	--	250
+Ayvacık	Çanakkale	TR	39° 36' 04"	26° 24' 15"	3.0	--	260
+Bayramiç	Çanakkale	TR	39° 48' 40"	26° 36' 40"	3.0	--	105
+Lapseki	Çanakkale	TR	40° 20' 36"	26° 41' 06"	3.0	--	10
+Eceabat	Çanakkale	TR	40° 10' 54"	26° 21' 35"	3.0	--	10
+Gökçeada	Çanakkale	TR	40° 12' 00"	25° 54' 00"	3.0	--	25
+Bozcaada	Çanakkale	TR	39° 49' 15"	26° 04' 30"	3.0	--	15
+Merkez	Çankırı	TR	40° 36' 02"	33° 36' 57"	3.0	--	730
+Orta	Çankırı	TR	40° 37' 42"	33° 06' 40"	3.0	--	1240
+Çerkeş	Çankırı	TR	40° 48' 37"	32° 53' 35"	3.0	--	1110
+Ilgaz	Çankırı	TR	40° 55' 03"	33° 37' 34"	3.0	--	925
+Eldivan	Çankırı	TR	40° 31' 34"	33° 30' 25"	3.0	--	930
+Şabanözü	Çankırı	TR	40° 28' 35"	33° 16' 35"	3.0	--	1020
+Kurşunlu	Çankırı	TR	40° 50' 22"	33° 15' 40"	3.0	--	1025
+Yapraklı	Çankırı	TR	40° 39' 34"	33° 46' 11"	3.0	--	1160
+Kızılırmak	Çankırı	TR	40° 20' 45"	33° 59' 15"	3.0	--	550
+Atkaracalar	Çankırı	TR	40° 48' 54"	33° 06' 11"	3.0	--	1220
+Korgun	Çankırı	TR	40° 44' 04"	33° 31' 11"	3.0	--	890
+Bayramören	Çankırı	TR	40° 57' 20"	33° 11' 15"	3.0	--	850
+Merkez	Çorum	TR	40° 32' 56"	34° 57' 12"	3.0	--	801
+Sungurlu	Çorum	TR	40° 09' 51"	34° 22' 31"	3.0	--	780
+Osmancık	Çorum	TR	40° 58' 14"	34° 48' 15"	3.0	--	430
+Alaca	Çorum	TR	40° 10' 02"	34° 50' 32"	3.0	--	950
+İskilip	Çorum	TR	40° 44' 04"	34° 28' 27"	3.0	--	720
+Bayat	Çorum	TR	40° 38' 35"	34° 15' 31"	3.0	--	625
+Mecitözü	Çorum	TR	40° 31' 14"	35° 17' 42"	3.0	--	750
+Kargı	Çorum	TR	41° 07' 55"	34° 29' 11"	3.0	--	400
+Ortaköy	Çorum	TR	40° 15' 52"	35° 14' 34"	3.0	--	660
+Uğurludağ	Çorum	TR	40° 41' 15"	34° 25' 10"	3.0	--	775
+Dodurga	Çorum	TR	40° 50' 11"	34° 41' 10"	3.0	--	610
+Oğuzlar	Çorum	TR	40° 44' 34"	34° 44' 50"	3.0	--	680
+Laçin	Çorum	TR	40° 46' 45"	34° 52' 40"	3.0	--	720
+Boğazkale	Çorum	TR	40° 01' 14"	34° 36' 31"	3.0	--	1035
+Merkez	Denizli	TR	37° 46' 35"	29° 05' 12"	3.0	--	354
+Pamukkale	Denizli	TR	37° 47' 00"	29° 05' 00"	3.0	--	360
+Merkezefendi	Denizli	TR	37° 46' 00"	29° 04' 00"	3.0	--	350
+Acıpayam	Denizli	TR	37° 25' 23"	29° 20' 52"	3.0	--	925
+Tavas	Denizli	TR	37° 34' 22"	29° 03' 35"	3.0	--	950
+Çivril	Denizli	TR	38° 18' 04"	29° 44' 31"	3.0	--	820
+Buldan	Denizli	TR	38° 03' 02"	28° 49' 46"	3.0	--	690
+Kale	Denizli	TR	37° 26' 14"	28° 50' 54"	3.0	--	1050
+Honaz	Denizli	TR	37° 45' 40"	29° 15' 44"	3.0	--	500
+Sarayköy	Denizli	TR	37° 52' 27"	28° 55' 22"	3.0	--	170
+Çameli	Denizli	TR	37° 04' 51"	29° 20' 15"	3.0	--	1325
+Serinhisar	Denizli	TR	37° 35' 25"	29° 16' 12"	3.0	--	980
+Bozkurt	Denizli	TR	37° 49' 20"	29° 36' 31"	3.0	--	860
+Güney	Denizli	TR	38° 09' 23"	28° 59' 40"	3.0	--	825
+Çardak	Denizli	TR	37° 49' 14"	29° 40' 05"	3.0	--	850
+Bekilli	Denizli	TR	38° 13' 42"	29° 22' 15"	3.0	--	840
+Beyağaç	Denizli	TR	37° 16' 20"	28° 56' 45"	3.0	--	670
+Babadağ	Denizli	TR	37° 48' 22"	28° 51' 14"	3.0	--	780
+Baklan	Denizli	TR	37° 58' 04"	29° 33' 27"	3.0	--	900
+Bağlar	Diyarbakır	TR	37° 54' 00"	40° 12' 00"	3.0	--	675
+Kayapınar	Diyarbakır	TR	37° 56' 00"	40° 10' 00"	3.0	--	690
+Yenişehir	Diyarbakır	TR	37° 55' 20"	40° 14' 10"	3.0	--	670
+Sur	Diyarbakır	TR	37° 54' 40"	40° 14' 30"	3.0	--	660
+Ergani	Diyarbakır	TR	38° 16' 11"	39° 45' 40"	3.0	--	955
+Bismil	Diyarbakır	TR	37° 50' 52"	40° 39' 58"	3.0	--	545
+Silvan	Diyarbakır	TR	38° 08' 35"	41° 00' 40"	3.0	--	820
+Çınar	Diyarbakır	TR	37° 43' 22"	40° 24' 42"	3.0	--	670
+Çermik	Diyarbakır	TR	38° 08' 04"	39° 27' 11"	3.0	--	710
+Dicle	Diyarbakır	TR	38° 23' 00"	40° 04' 00"	3.0	--	920
+Kulp	Diyarbakır	TR	38° 30' 02"	41° 00' 41"	3.0	--	1100
+Lice	Diyarbakır	TR	38° 27' 15"	40° 38' 35"	3.0	--	1020
+Çüngüş	Diyarbakır	TR	38° 13' 11"	39° 17' 54"	3.0	--	870
+Hazro	Diyarbakır	TR	38° 15' 18"	40° 46' 31"	3.0	--	1050
+Hani	Diyarbakır	TR	38° 24' 42"	40° 23' 40"	3.0	--	910
+Eğil	Diyarbakır	TR	38° 15' 32"	40° 04' 44"	3.0	--	860
+Kocaköy	Diyarbakır	TR	38° 16' 45"	40° 31' 40"	3.0	--	940
+Merkez	Edirne	TR	41° 40' 37"	26° 33' 21"	3.0	--	42
+Keşan	Edirne	TR	40° 51' 17"	26° 37' 54"	3.0	--	115
+Uzunköprü	Edirne	TR	41° 16' 11"	26° 41' 11"	3.0	--	25
+İpsala	Edirne	TR	40° 49' 14"	26° 22' 55"	3.0	--	10
+Havsa	Edirne	TR	41° 33' 02"	26° 49' 20"	3.0	--	65
+Meriç	Edirne	TR	41° 11' 25"	26° 25' 03"	3.0	--	35
+Enez	Edirne	TR	40° 43' 31"	26° 04' 50"	3.0	--	5
+Süloğlu	Edirne	TR	41° 46' 11"	26° 54' 44"	3.0	--	145
+Lalapaşa	Edirne	TR	41° 50' 15"	26° 44' 04"	3.0	--	160
+Merkez	Elazığ	TR	38° 40' 43"	39° 13' 22"	3.0	--	1067
+Kovancılar	Elazığ	TR	38° 42' 37"	39° 51' 43"	3.0	--	1010
+Karakoçan	Elazığ	TR	38° 57' 12"	40° 02' 40"	3.0	--	1090
+Palu	Elazığ	TR	38° 41' 23"	39° 55' 20"	3.0	--	910
+Baskil	Elazığ	TR	38° 47' 11"	38° 49' 14"	3.0	--	1220
+Arıcak	Elazığ	TR	38° 29' 11"	40° 16' 54"	3.0	--	1100
+Maden	Elazığ	TR	38° 23' 40"	39° 39' 51"	3.0	--	1020
+Sivrice	Elazığ	TR	38° 26' 50"	39° 18' 42"	3.0	--	1270
+Alacakaya	Elazığ	TR	38° 29' 14"	39° 51' 41"	3.0	--	1150
+Keban	Elazığ	TR	38° 47' 42"	38° 44' 11"	3.0	--	790
+Ağın	Elazığ	TR	38° 56' 45"	38° 42' 22"	3.0	--	875
+Merkez	Erzincan	TR	39° 44' 54"	39° 29' 27"	3.0	--	1185
+Tercan	Erzincan	TR	39° 46' 43"	40° 23' 11"	3.0	--	1415
+Üzümlü	Erzincan	TR	39° 44' 35"	39° 42' 14"	3.0	--	1160
+Refahiye	Erzincan	TR	39° 53' 51"	38° 46' 04"	3.0	--	1590
+Çayırlı	Erzincan	TR	39° 53' 35"	40° 09' 06"	3.0	--	1510
+İliç	Erzincan	TR	39° 26' 44"	38° 33' 40"	3.0	--	1110
+Kemah	Erzincan	TR	39° 36' 11"	39° 03' 40"	3.0	--	1070
+Kemaliye	Erzincan	TR	39° 15' 42"	38° 29' 34"	3.0	--	950
+Otlukbeli	Erzincan	TR	39° 58' 22"	40° 07' 45"	3.0	--	1740
+Yakutiye	Erzurum	TR	39° 54' 30"	41° 16' 30"	3.0	--	1890
+Palandöken	Erzurum	TR	39° 52' 30"	41° 16' 00"	3.0	--	1920
+Aziziye	Erzurum	TR	39° 56' 00"	41° 06' 00"	3.0	--	1810
+Horasan	Erzurum	TR	40° 02' 40"	42° 10' 04"	3.0	--	1560
+Oltu	Erzurum	TR	40° 33' 11"	41° 59' 53"	3.0	--	1275
+Pasinler	Erzurum	TR	39° 58' 54"	41° 40' 31"	3.0	--	1660
+Karayazı	Erzurum	TR	39° 41' 52"	42° 08' 42"	3.0	--	2450
+Hınıs	Erzurum	TR	39° 21' 35"	41° 41' 44"	3.0	--	1720
+Tekman	Erzurum	TR	39° 34' 11"	41° 33' 51"	3.0	--	1940
+Karaçoban	Erzurum	TR	39° 21' 40"	42° 06' 35"	3.0	--	1550
+Aşkale	Erzurum	TR	39° 55' 11"	40° 41' 35"	3.0	--	1670
+Tortum	Erzurum	TR	40° 17' 54"	41° 33' 02"	3.0	--	1450
+Şenkaya	Erzurum	TR	40° 32' 14"	42° 19' 31"	3.0	--	1850
+Çat	Erzurum	TR	39° 36' 41"	40° 56' 11"	3.0	--	1920
+Köprüköy	Erzurum	TR	39° 58' 14"	41° 52' 40"	3.0	--	1610
+İspir	Erzurum	TR	40° 28' 54"	40° 59' 40"	3.0	--	1220
+Narman	Erzurum	TR	40° 20' 52"	41° 52' 35"	3.0	--	1650
+Uzundere	Erzurum	TR	40° 31' 52"	41° 32' 20"	3.0	--	1000
+Olur	Erzurum	TR	40° 49' 11"	42° 07' 42"	3.0	--	1320
+Pazaryolu	Erzurum	TR	40° 25' 20"	40° 46' 45"	3.0	--	1250
+Odunpazarı	Eskişehir	TR	39° 45' 00"	30° 32' 00"	3.0	--	795
+Tepebaşı	Eskişehir	TR	39° 47' 00"	30° 30' 00"	3.0	--	785
+Sivrihisar	Eskişehir	TR	39° 26' 40"	31° 32' 11"	3.0	--	1070
+Çifteler	Eskişehir	TR	39° 22' 52"	31° 02' 18"	3.0	--	875
+Alpu	Eskişehir	TR	39° 46' 04"	30° 57' 42"	3.0	--	750
+Mihalıççık	Eskişehir	TR	39° 51' 42"	31° 29' 40"	3.0	--	1325
+Mahmudiye	Eskişehir	TR	39° 30' 04"	30° 58' 52"	3.0	--	880
+Seyitgazi	Eskişehir	TR	39° 26' 43"	30° 41' 42"	3.0	--	1030
+İnönü	Eskişehir	TR	39° 48' 41"	30° 08' 52"	3.0	--	840
+Günyüzü	Eskişehir	TR	39° 23' 15"	31° 54' 40"	3.0	--	865
+Beylikova	Eskişehir	TR	39° 41' 14"	31° 12' 11"	3.0	--	760
+Sarıcakaya	Eskişehir	TR	40° 02' 22"	30° 37' 55"	3.0	--	220
+Mihalgazi	Eskişehir	TR	40° 01' 03"	30° 31' 05"	3.0	--	215
+Han	Eskişehir	TR	39° 13' 44"	30° 52' 15"	3.0	--	1210
+Şahinbey	Gaziantep	TR	37° 02' 00"	37° 22' 00"	3.0	--	850
+Şehitkamil	Gaziantep	TR	37° 05' 00"	37° 23' 00"	3.0	--	840
+Nizip	Gaziantep	TR	37° 00' 37"	37° 47' 43"	3.0	--	520
+İslahiye	Gaziantep	TR	37° 01' 32"	36° 37' 50"	3.0	--	515
+Nurdağı	Gaziantep	TR	37° 10' 35"	36° 44' 22"	3.0	--	535
+Araban	Gaziantep	TR	37° 25' 42"	37° 41' 14"	3.0	--	610
+Oğuzeli	Gaziantep	TR	36° 57' 42"	37° 31' 03"	3.0	--	690
+Yavuzeli	Gaziantep	TR	37° 19' 14"	37° 34' 15"	3.0	--	660
+Karkamış	Gaziantep	TR	36° 50' 15"	38° 01' 02"	3.0	--	365
+Merkez	Giresun	TR	40° 54' 55"	38° 23' 18"	3.0	--	10
+Bulancak	Giresun	TR	40° 56' 11"	38° 13' 54"	3.0	--	15
+Espiye	Giresun	TR	40° 57' 34"	38° 42' 46"	3.0	--	12
+Görele	Giresun	TR	41° 01' 52"	39° 00' 25"	3.0	--	10
+Tirebolu	Giresun	TR	41° 00' 31"	38° 48' 52"	3.0	--	10
+Şebinkarahisar	Giresun	TR	40° 17' 11"	38° 25' 23"	3.0	--	1420
+Dereli	Giresun	TR	40° 44' 23"	38° 26' 45"	3.0	--	260
+Keşap	Giresun	TR	40° 54' 45"	38° 29' 40"	3.0	--	15
+Yağlıdere	Giresun	TR	40° 50' 35"	38° 40' 52"	3.0	--	110
+Alucra	Giresun	TR	40° 19' 20"	38° 45' 55"	3.0	--	1460
+Piraziz	Giresun	TR	40° 57' 10"	38° 06' 45"	3.0	--	10
+Eynesil	Giresun	TR	41° 03' 40"	39° 08' 42"	3.0	--	10
+Çamoluk	Giresun	TR	40° 08' 22"	38° 47' 15"	3.0	--	1050
+Doğankent	Giresun	TR	40° 53' 30"	38° 45' 10"	3.0	--	120
+Güce	Giresun	TR	40° 50' 55"	38° 44' 45"	3.0	--	340
+Çanakçı	Giresun	TR	40° 54' 15"	39° 00' 11"	3.0	--	160
+Merkez	Gümüşhane	TR	40° 27' 36"	39° 28' 53"	3.0	--	1150
+Kelkit	Gümüşhane	TR	40° 07' 34"	39° 25' 58"	3.0	--	1400
+Şiran	Gümüşhane	TR	40° 11' 22"	39° 07' 35"	3.0	--	1410
+Kürtün	Gümüşhane	TR	40° 42' 11"	39° 01' 03"	3.0	--	610
+Torul	Gümüşhane	TR	40° 33' 27"	39° 17' 35"	3.0	--	930
+Köse	Gümüşhane	TR	40° 12' 31"	39° 38' 42"	3.0	--	1600
+Merkez	Hakkari	TR	37° 34' 28"	43° 44' 27"	3.0	--	1720
+Yüksekova	Hakkari	TR	37° 33' 51"	44° 17' 13"	3.0	--	1950
+Şemdinli	Hakkari	TR	37° 18' 25"	44° 34' 23"	3.0	--	1450
+Çukurca	Hakkari	TR	37° 14' 50"	43° 36' 45"	3.0	--	1290
+Derecik	Hakkari	TR	37° 09' 55"	44° 21' 40"	3.0	--	850
+Antakya	Hatay	TR	36° 12' 09"	36° 09' 38"	3.0	--	85
+İskenderun	Hatay	TR	36° 35' 14"	36° 10' 25"	3.0	--	10
+Defne	Hatay	TR	36° 10' 30"	36° 08' 00"	3.0	--	110
+Dörtyol	Hatay	TR	36° 51' 35"	36° 13' 31"	3.0	--	40
+Samandağ	Hatay	TR	36° 05' 03"	35° 57' 55"	3.0	--	15
+Kırıkhan	Hatay	TR	36° 29' 58"	36° 21' 25"	3.0	--	110
+Reyhanlı	Hatay	TR	36° 16' 11"	36° 34' 04"	3.0	--	165
+Arsuz	Hatay	TR	36° 24' 45"	35° 53' 15"	3.0	--	10
+Altınözü	Hatay	TR	36° 07' 03"	36° 14' 44"	3.0	--	240
+Hassa	Hatay	TR	36° 47' 43"	36° 31' 03"	3.0	--	420
+Erzin	Hatay	TR	36° 57' 11"	36° 12' 04"	3.0	--	165
+Payas	Hatay	TR	36° 45' 15"	36° 12' 40"	3.0	--	20
+Yayladağı	Hatay	TR	35° 54' 04"	36° 03' 40"	3.0	--	450
+Belen	Hatay	TR	36° 29' 14"	36° 11' 35"	3.0	--	520
+Kumlu	Hatay	TR	36° 22' 11"	36° 27' 42"	3.0	--	95
+Merkez	Isparta	TR	37° 45' 52"	30° 33' 17"	3.0	--	1035
+Yalvaç	Isparta	TR	38° 17' 44"	31° 10' 32"	3.0	--	1100
+Eğirdir	Isparta	TR	37° 52' 23"	30° 51' 03"	3.0	--	920
+Şarkikaraağaç	Isparta	TR	38° 04' 42"	31° 22' 14"	3.0	--	1180
+Gelendost	Isparta	TR	38° 07' 11"	31° 00' 54"	3.0	--	940
+Keçiborlu	Isparta	TR	37° 56' 43"	30° 17' 54"	3.0	--	1010
+Senirkent	Isparta	TR	38° 06' 14"	30° 33' 03"	3.0	--	1000
+Sütçüler	Isparta	TR	37° 29' 11"	30° 59' 04"	3.0	--	1000
+Gönen	Isparta	TR	37° 57' 31"	30° 30' 42"	3.0	--	1050
+Uluborlu	Isparta	TR	38° 04' 50"	30° 26' 45"	3.0	--	1100
+Atabey	Isparta	TR	37° 57' 04"	30° 38' 31"	3.0	--	1010
+Aksu	Isparta	TR	37° 48' 14"	31° 04' 10"	3.0	--	1200
+Yenişarbademli	Isparta	TR	37° 42' 20"	31° 23' 11"	3.0	--	1180
+Mersin	Mersin	TR	36° 48' 11"	34° 38' 26"	3.0	--	10
+Tarsus	Mersin	TR	36° 54' 52"	34° 53' 44"	3.0	--	25
+Toroslar	Mersin	TR	36° 50' 00"	34° 37' 00"	3.0	--	50
+Yenişehir	Mersin	TR	36° 47' 30"	34° 35' 30"	3.0	--	15
+Mezitli	Mersin	TR	36° 45' 00"	34° 32' 00"	3.0	--	12
+Akdeniz	Mersin	TR	36° 49' 00"	34° 39' 00"	3.0	--	10
+Silifke	Mersin	TR	36° 22' 27"	33° 55' 52"	3.0	--	20
+Erdemli	Mersin	TR	36° 36' 11"	34° 18' 20"	3.0	--	10
+Anamur	Mersin	TR	36° 04' 34"	32° 50' 04"	3.0	--	15
+Mut	Mersin	TR	36° 38' 35"	33° 26' 11"	3.0	--	300
+Bozyazı	Mersin	TR	36° 05' 50"	32° 57' 42"	3.0	--	10
+Gülnar	Mersin	TR	36° 20' 15"	33° 24' 14"	3.0	--	950
+Aydıncık	Mersin	TR	36° 08' 42"	33° 19' 14"	3.0	--	15
+Çamlıyayla	Mersin	TR	37° 10' 04"	34° 36' 20"	3.0	--	1050
+Kadıköy	İstanbul	TR	40° 59' 00"	29° 02' 00"	3.0	--	10
+Üsküdar	İstanbul	TR	41° 01' 00"	29° 01' 00"	3.0	--	80
+Beşiktaş	İstanbul	TR	41° 03' 00"	29° 00' 00"	3.0	--	50
+Fatih	İstanbul	TR	41° 01' 00"	28° 56' 00"	3.0	--	30
+Esenyurt	İstanbul	TR	41° 02' 00"	28° 41' 00"	3.0	--	135
+Küçükçekmece	İstanbul	TR	41° 00' 00"	28° 46' 00"	3.0	--	45
+Bağcılar	İstanbul	TR	41° 02' 00"	28° 50' 00"	3.0	--	110
+Pendik	İstanbul	TR	40° 53' 00"	29° 16' 00"	3.0	--	30
+Ümraniye	İstanbul	TR	41° 02' 00"	29° 06' 00"	3.0	--	145
+Tuzla	İstanbul	TR	40° 49' 00"	29° 18' 00"	3.0	--	15
+Maltepe	İstanbul	TR	40° 56' 00"	29° 08' 00"	3.0	--	25
+Kartal	İstanbul	TR	40° 54' 00"	29° 11' 00"	3.0	--	40
+Bahçelievler	İstanbul	TR	41° 00' 00"	28° 51' 00"	3.0	--	75
+Esenler	İstanbul	TR	41° 03' 00"	28° 53' 00"	3.0	--	85
+Sultangazi	İstanbul	TR	41° 06' 00"	28° 52' 00"	3.0	--	160
+Güngören	İstanbul	TR	41° 01' 00"	28° 52' 00"	3.0	--	70
+Zeytinburnu	İstanbul	TR	41° 00' 00"	28° 54' 00"	3.0	--	15
+Bakırköy	İstanbul	TR	40° 59' 00"	28° 52' 00"	3.0	--	20
+Beylikdüzü	İstanbul	TR	41° 00' 00"	28° 39' 00"	3.0	--	150
+Avcılar	İstanbul	TR	41° 00' 00"	28° 43' 00"	3.0	--	60
+Başakşehir	İstanbul	TR	41° 05' 00"	28° 48' 00"	3.0	--	100
+Eyüpsultan	İstanbul	TR	41° 03' 00"	28° 56' 00"	3.0	--	40
+Beyoğlu	İstanbul	TR	41° 02' 00"	28° 58' 00"	3.0	--	65
+Şişli	İstanbul	TR	41° 04' 00"	28° 59' 00"	3.0	--	115
+Kağıthane	İstanbul	TR	41° 05' 00"	28° 58' 00"	3.0	--	35
+Sarıyer	İstanbul	TR	41° 10' 00"	29° 03' 00"	3.0	--	60
+Arnavutköy	İstanbul	TR	41° 11' 00"	28° 44' 00"	3.0	--	120
+Silivri	İstanbul	TR	41° 04' 00"	28° 15' 00"	3.0	--	25
+Çatalca	İstanbul	TR	41° 08' 00"	28° 27' 00"	3.0	--	130
+Büyükçekmece	İstanbul	TR	41° 01' 00"	28° 35' 00"	3.0	--	30
+Ataşehir	İstanbul	TR	40° 59' 00"	29° 07' 00"	3.0	--	90
+Sancaktepe	İstanbul	TR	41° 00' 00"	29° 14' 00"	3.0	--	125
+Sultanbeyli	İstanbul	TR	40° 58' 00"	29° 16' 00"	3.0	--	130
+Çekmeköy	İstanbul	TR	41° 02' 00"	29° 11' 00"	3.0	--	100
+Beykoz	İstanbul	TR	41° 08' 00"	29° 06' 00"	3.0	--	115
+Şile	İstanbul	TR	41° 10' 00"	29° 36' 00"	3.0	--	35
+Adalar	İstanbul	TR	40° 52' 00"	29° 08' 00"	3.0	--	20
+Şile	İstanbul	TR	41° 10' 00"	29° 36' 00"	3.0	--	35
+Konak	İzmir	TR	38° 25' 00"	27° 08' 00"	3.0	--	10
+Karşıyaka	İzmir	TR	38° 27' 00"	27° 07' 00"	3.0	--	5
+Bornova	İzmir	TR	38° 28' 00"	27° 13' 00"	3.0	--	40
+Buca	İzmir	TR	38° 23' 00"	27° 10' 00"	3.0	--	110
+Bayraklı	İzmir	TR	38° 28' 00"	27° 10' 00"	3.0	--	25
+Karabağlar	İzmir	TR	38° 22' 00"	27° 07' 00"	3.0	--	90
+Çiğli	İzmir	TR	38° 29' 00"	27° 03' 00"	3.0	--	10
+Gaziemir	İzmir	TR	38° 19' 00"	27° 08' 00"	3.0	--	125
+Balçova	İzmir	TR	38° 23' 00"	27° 03' 00"	3.0	--	30
+Narlıdere	İzmir	TR	38° 23' 00"	27° 00' 00"	3.0	--	45
+Güzelbahçe	İzmir	TR	38° 22' 00"	26° 53' 00"	3.0	--	20
+Torbalı	İzmir	TR	38° 09' 14"	27° 21' 44"	3.0	--	35
+Menemen	İzmir	TR	38° 35' 38"	27° 04' 11"	3.0	--	20
+Ödemiş	İzmir	TR	38° 13' 52"	27° 58' 22"	3.0	--	125
+Bergama	İzmir	TR	39° 07' 08"	27° 10' 44"	3.0	--	65
+Aliağa	İzmir	TR	38° 47' 54"	26° 58' 14"	3.0	--	15
+Kemalpaşa	İzmir	TR	38° 25' 35"	27° 25' 03"	3.0	--	225
+Tire	İzmir	TR	38° 05' 15"	27° 44' 02"	3.0	--	110
+Menderes	İzmir	TR	38° 15' 11"	27° 08' 12"	3.0	--	90
+Urla	İzmir	TR	38° 19' 24"	26° 45' 51"	3.0	--	65
+Aliağa	İzmir	TR	38° 47' 54"	26° 58' 14"	3.0	--	15
+Çeşme	İzmir	TR	38° 19' 23"	26° 18' 14"	3.0	--	10
+Dikili	İzmir	TR	39° 04' 14"	26° 53' 27"	3.0	--	10
+Seferihisar	İzmir	TR	38° 11' 52"	26° 50' 17"	3.0	--	25
+Selçuk	İzmir	TR	37° 56' 56"	27° 22' 10"	3.0	--	15
+Foça	İzmir	TR	38° 40' 03"	26° 45' 15"	3.0	--	10
+Kiraz	İzmir	TR	38° 13' 51"	28° 12' 04"	3.0	--	310
+Bayındır	İzmir	TR	38° 13' 03"	27° 38' 56"	3.0	--	70
+Kınık	İzmir	TR	39° 05' 31"	27° 23' 03"	3.0	--	90
+Beydağ	İzmir	TR	38° 07' 52"	28° 10' 11"	3.0	--	220
+Karaburun	İzmir	TR	38° 38' 15"	26° 30' 40"	3.0	--	50
+Onikişubat	Kahramanmaraş	TR	37° 35' 00"	36° 54' 00"	3.0	--	570
+Dulkadiroğlu	Kahramanmaraş	TR	37° 35' 00"	36° 57' 00"	3.0	--	565
+Elbistan	Kahramanmaraş	TR	38° 12' 17"	37° 11' 14"	3.0	--	1150
+Afşin	Kahramanmaraş	TR	38° 14' 51"	36° 54' 45"	3.0	--	1230
+Türkoğlu	Kahramanmaraş	TR	37° 23' 20"	36° 51' 11"	3.0	--	500
+Pazarcık	Kahramanmaraş	TR	37° 29' 14"	37° 18' 11"	3.0	--	750
+Göksun	Kahramanmaraş	TR	38° 01' 15"	36° 29' 45"	3.0	--	1350
+Andırın	Kahramanmaraş	TR	37° 34' 41"	36° 20' 52"	3.0	--	1050
+Çağlayancerit	Kahramanmaraş	TR	37° 44' 50"	37° 17' 20"	3.0	--	1150
+Ekinözü	Kahramanmaraş	TR	38° 04' 51"	37° 11' 15"	3.0	--	1280
+Nurhak	Kahramanmaraş	TR	37° 58' 14"	37° 24' 12"	3.0	--	1400
+Merkez	Kars	TR	40° 36' 11"	43° 05' 42"	3.0	--	1760
+Sarıkamış	Kars	TR	40° 19' 51"	42° 35' 18"	3.0	--	2100
+Kağızman	Kars	TR	40° 08' 22"	43° 07' 05"	3.0	--	1350
+Selim	Kars	TR	40° 27' 43"	42° 47' 42"	3.0	--	1830
+Digor	Kars	TR	40° 22' 14"	43° 24' 35"	3.0	--	1450
+Arpaçay	Kars	TR	40° 50' 11"	43° 19' 45"	3.0	--	1675
+Akyaka	Kars	TR	40° 44' 20"	43° 37' 40"	3.0	--	1690
+Susuz	Kars	TR	40° 46' 52"	43° 08' 11"	3.0	--	1780
+Merkez	Kastamonu	TR	41° 22' 43"	33° 46' 32"	3.0	--	774
+Tosya	Kastamonu	TR	41° 01' 03"	34° 02' 23"	3.0	--	815
+Taşköprü	Kastamonu	TR	41° 31' 03"	34° 12' 51"	3.0	--	550
+İnebolu	Kastamonu	TR	41° 58' 31"	33° 45' 34"	3.0	--	10
+Cide	Kastamonu	TR	41° 53' 25"	32° 58' 42"	3.0	--	15
+Araç	Kastamonu	TR	41° 14' 30"	33° 19' 35"	3.0	--	640
+Devrekani	Kastamonu	TR	41° 36' 04"	33° 50' 11"	3.0	--	1100
+Küre	Kastamonu	TR	41° 48' 20"	33° 42' 40"	3.0	--	1140
+Bozkurt	Kastamonu	TR	41° 57' 23"	34° 00' 44"	3.0	--	35
+Abana	Kastamonu	TR	41° 58' 35"	34° 01' 10"	3.0	--	5
+Çatalzeytin	Kastamonu	TR	41° 57' 11"	34° 13' 11"	3.0	--	10
+Daday	Kastamonu	TR	41° 28' 22"	33° 28' 04"	3.0	--	940
+Azdavay	Kastamonu	TR	41° 38' 54"	33° 18' 40"	3.0	--	830
+Pınarbaşı	Kastamonu	TR	41° 36' 11"	33° 06' 43"	3.0	--	700
+Şenpazar	Kastamonu	TR	41° 48' 22"	33° 14' 14"	3.0	--	335
+Ağlı	Kastamonu	TR	41° 41' 11"	33° 32' 42"	3.0	--	1120
+Hanönü	Kastamonu	TR	41° 38' 14"	34° 28' 05"	3.0	--	420
+Seydiler	Kastamonu	TR	41° 39' 52"	33° 38' 45"	3.0	--	1075
+Melikgazi	Kayseri	TR	38° 43' 00"	35° 30' 00"	3.0	--	1055
+Kocasinan	Kayseri	TR	38° 44' 00"	35° 28' 00"	3.0	--	1050
+Talas	Kayseri	TR	38° 41' 22"	35° 32' 39"	3.0	--	1150
+Develi	Kayseri	TR	38° 23' 14"	35° 29' 35"	3.0	--	1250
+Yahyalı	Kayseri	TR	38° 06' 11"	35° 21' 35"	3.0	--	1210
+Bünyan	Kayseri	TR	38° 50' 44"	35° 51' 40"	3.0	--	1375
+Pınarbaşı	Kayseri	TR	38° 43' 20"	36° 23' 35"	3.0	--	1500
+Tomarza	Kayseri	TR	38° 26' 45"	35° 47' 42"	3.0	--	1390
+İncesu	Kayseri	TR	38° 37' 14"	35° 11' 25"	3.0	--	1070
+Yeşilhisar	Kayseri	TR	38° 20' 54"	35° 05' 18"	3.0	--	1080
+Sarıoğlan	Kayseri	TR	39° 04' 14"	35° 58' 20"	3.0	--	1150
+Hacılar	Kayseri	TR	38° 40' 04"	35° 27' 02"	3.0	--	1350
+Sarız	Kayseri	TR	38° 28' 52"	36° 30' 04"	3.0	--	1580
+Akkışla	Kayseri	TR	39° 01' 11"	36° 07' 42"	3.0	--	1360
+Felahiye	Kayseri	TR	39° 05' 45"	35° 41' 40"	3.0	--	1320
+Özvatan	Kayseri	TR	39° 05' 52"	35° 42' 14"	3.0	--	1310
+Merkez	Kırklareli	TR	41° 44' 06"	27° 13' 31"	3.0	--	203
+Lüleburgaz	Kırklareli	TR	41° 24' 14"	27° 21' 25"	3.0	--	35
+Babaeski	Kırklareli	TR	41° 25' 54"	27° 05' 42"	3.0	--	55
+Vize	Kırklareli	TR	41° 34' 23"	27° 45' 56"	3.0	--	175
+Pınarhisar	Kırklareli	TR	41° 37' 15"	27° 31' 11"	3.0	--	190
+Demirköy	Kırklareli	TR	41° 49' 17"	27° 45' 43"	3.0	--	300
+Pehlivanköy	Kırklareli	TR	41° 21' 58"	26° 54' 34"	3.0	--	25
+Kofçaz	Kırklareli	TR	41° 55' 54"	27° 09' 35"	3.0	--	440
+Merkez	Kırşehir	TR	39° 08' 45"	34° 09' 34"	3.0	--	985
+Kaman	Kırşehir	TR	39° 21' 25"	33° 43' 27"	3.0	--	1100
+Mucur	Kırşehir	TR	39° 03' 54"	34° 22' 40"	3.0	--	1010
+Çiçekdağı	Kırşehir	TR	39° 36' 11"	34° 25' 18"	3.0	--	930
+Akpınar	Kırşehir	TR	39° 27' 11"	33° 56' 45"	3.0	--	1140
+Boztepe	Kırşehir	TR	39° 14' 34"	34° 17' 54"	3.0	--	1190
+Akçakent	Kırşehir	TR	39° 36' 14"	34° 09' 04"	3.0	--	1410
+İzmit	Kocaeli	TR	40° 45' 58"	29° 55' 00"	3.0	--	10
+Gebze	Kocaeli	TR	40° 48' 11"	29° 25' 51"	3.0	--	140
+Gölcük	Kocaeli	TR	40° 41' 45"	29° 52' 52"	3.0	--	15
+Darıca	Kocaeli	TR	40° 46' 00"	29° 24' 00"	3.0	--	45
+Körfez	Kocaeli	TR	40° 46' 52"	29° 44' 34"	3.0	--	15
+Derince	Kocaeli	TR	40° 45' 34"	29° 49' 40"	3.0	--	25
+Kartepe	Kocaeli	TR	40° 44' 00"	30° 01' 00"	3.0	--	40
+Çayırova	Kocaeli	TR	40° 49' 00"	29° 23' 00"	3.0	--	110
+Başiskele	Kocaeli	TR	40° 42' 00"	29° 55' 00"	3.0	--	30
+Karamürsel	Kocaeli	TR	40° 41' 25"	29° 36' 54"	3.0	--	15
+Dilovası	Kocaeli	TR	40° 47' 00"	29° 32' 00"	3.0	--	60
+Kandıra	Kocaeli	TR	41° 04' 02"	30° 09' 14"	3.0	--	65
+Selçuklu	Konya	TR	37° 53' 00"	32° 29' 00"	3.0	--	1020
+Meram	Konya	TR	37° 51' 00"	32° 26' 00"	3.0	--	1030
+Karatay	Konya	TR	37° 52' 00"	32° 31' 00"	3.0	--	1015
+Ereğli	Konya	TR	37° 30' 52"	34° 03' 44"	3.0	--	1005
+Beyşehir	Konya	TR	37° 40' 43"	31° 43' 35"	3.0	--	1125
+Seydişehir	Konya	TR	37° 25' 03"	31° 50' 46"	3.0	--	1130
+Akşehir	Konya	TR	38° 21' 31"	31° 25' 00"	3.0	--	1025
+Çumra	Konya	TR	37° 34' 25"	32° 46' 52"	3.0	--	1010
+Kulu	Konya	TR	39° 05' 42"	33° 04' 46"	3.0	--	1000
+Ilgın	Konya	TR	38° 16' 45"	31° 55' 04"	3.0	--	1020
+Cihanbeyli	Konya	TR	38° 39' 25"	32° 55' 31"	3.0	--	965
+Karapınar	Konya	TR	37° 42' 54"	33° 33' 03"	3.0	--	1000
+Kadınhanı	Konya	TR	38° 14' 22"	32° 13' 03"	3.0	--	1135
+Sarayönü	Konya	TR	38° 15' 51"	32° 33' 02"	3.0	--	1065
+Bozkır	Konya	TR	37° 11' 11"	32° 14' 44"	3.0	--	1120
+Yunak	Konya	TR	38° 44' 45"	31° 43' 55"	3.0	--	1110
+Doğanhisar	Konya	TR	38° 08' 50"	31° 40' 42"	3.0	--	1220
+Hüyük	Konya	TR	37° 56' 52"	31° 35' 45"	3.0	--	1240
+Hadim	Konya	TR	36° 59' 14"	32° 27' 23"	3.0	--	1515
+Çeltik	Konya	TR	38° 49' 54"	31° 47' 11"	3.0	--	850
+Altınekin	Konya	TR	38° 20' 52"	32° 41' 15"	3.0	--	1005
+Güneysınır	Konya	TR	37° 16' 11"	32° 43' 03"	3.0	--	1100
+Tuzlukçu	Konya	TR	38° 23' 52"	31° 31' 41"	3.0	--	1015
+Derebucak	Konya	TR	37° 22' 40"	31° 29' 15"	3.0	--	1230
+Taşkent	Konya	TR	36° 55' 18"	32° 29' 34"	3.0	--	1620
+Ahırlı	Konya	TR	37° 13' 45"	32° 07' 11"	3.0	--	1210
+Yalıhüyük	Konya	TR	37° 18' 04"	32° 05' 10"	3.0	--	1100
+Emirgazi	Konya	TR	37° 54' 14"	33° 50' 11"	3.0	--	1080
+Merkez	Kütahya	TR	39° 25' 19"	29° 59' 01"	3.0	--	930
+Tavşanlı	Kütahya	TR	39° 32' 52"	29° 29' 34"	3.0	--	850
+Simav	Kütahya	TR	39° 05' 12"	28° 58' 42"	3.0	--	810
+Gediz	Kütahya	TR	38° 59' 31"	29° 23' 35"	3.0	--	740
+Emet	Kütahya	TR	39° 20' 40"	29° 15' 40"	3.0	--	910
+Altıntaş	Kütahya	TR	39° 03' 51"	30° 06' 31"	3.0	--	1015
+Domaniç	Kütahya	TR	39° 48' 04"	29° 36' 35"	3.0	--	870
+Hisarcık	Kütahya	TR	39° 13' 14"	29° 15' 52"	3.0	--	860
+Aslanapa	Kütahya	TR	39° 12' 51"	30° 01' 44"	3.0	--	1030
+Çavdarhisar	Kütahya	TR	39° 11' 55"	29° 38' 54"	3.0	--	1010
+Şaphane	Kütahya	TR	39° 01' 41"	29° 13' 11"	3.0	--	1010
+Pazarlar	Kütahya	TR	39° 00' 11"	29° 00' 42"	3.0	--	920
+Dumlupınar	Kütahya	TR	38° 51' 11"	30° 03' 51"	3.0	--	1220
+Battalgazi	Malatya	TR	38° 25' 00"	38° 22' 00"	3.0	--	900
+Yeşilyurt	Malatya	TR	38° 18' 00"	38° 15' 00"	3.0	--	1010
+Doğanşehir	Malatya	TR	38° 05' 38"	37° 52' 43"	3.0	--	1220
+Akçadağ	Malatya	TR	38° 20' 15"	37° 58' 14"	3.0	--	1050
+Darende	Malatya	TR	38° 34' 14"	37° 30' 18"	3.0	--	1020
+Hekimhan	Malatya	TR	38° 49' 04"	37° 55' 54"	3.0	--	1100
+Pütürge	Malatya	TR	38° 11' 50"	38° 43' 03"	3.0	--	1250
+Yazıhan	Malatya	TR	38° 40' 52"	38° 07' 11"	3.0	--	830
+Arapgir	Malatya	TR	39° 02' 14"	38° 29' 34"	3.0	--	1210
+Kuluncak	Malatya	TR	38° 54' 15"	37° 38' 40"	3.0	--	1270
+Arguvan	Malatya	TR	38° 46' 42"	38° 16' 11"	3.0	--	1160
+Kale	Malatya	TR	38° 24' 45"	38° 44' 35"	3.0	--	880
+Doğanyol	Malatya	TR	38° 18' 54"	38° 52' 40"	3.0	--	910
+Yunusemre	Manisa	TR	38° 37' 00"	27° 24' 00"	3.0	--	75
+Şehzadeler	Manisa	TR	38° 36' 00"	27° 26' 00"	3.0	--	70
+Akhisar	Manisa	TR	38° 55' 20"	27° 50' 22"	3.0	--	105
+Turgutlu	Manisa	TR	38° 29' 44"	27° 42' 14"	3.0	--	80
+Salihli	Manisa	TR	38° 28' 53"	28° 08' 22"	3.0	--	110
+Soma	Manisa	TR	39° 11' 18"	27° 36' 31"	3.0	--	160
+Alaşehir	Manisa	TR	38° 21' 03"	28° 31' 04"	3.0	--	190
+Saruhanlı	Manisa	TR	38° 44' 04"	27° 33' 51"	3.0	--	45
+Kula	Manisa	TR	38° 32' 44"	28° 38' 58"	3.0	--	640
+Demirci	Manisa	TR	39° 02' 44"	28° 39' 31"	3.0	--	850
+Gördes	Manisa	TR	38° 55' 52"	28° 17' 23"	3.0	--	650
+Selendi	Manisa	TR	38° 44' 45"	28° 51' 54"	3.0	--	430
+Ahmetli	Manisa	TR	38° 31' 11"	27° 55' 44"	3.0	--	90
+Kırkağaç	Manisa	TR	39° 06' 14"	27° 40' 11"	3.0	--	175
+Köprübaşı	Manisa	TR	38° 45' 15"	28° 24' 20"	3.0	--	250
+Gölmarmara	Manisa	TR	38° 42' 50"	27° 54' 45"	3.0	--	105
+Artuklu	Mardin	TR	37° 19' 00"	40° 44' 00"	3.0	--	1080
+Kızıltepe	Mardin	TR	37° 11' 37"	40° 35' 15"	3.0	--	405
+Nusaybin	Mardin	TR	37° 04' 37"	41° 12' 42"	3.0	--	465
+Midyat	Mardin	TR	37° 25' 18"	41° 20' 23"	3.0	--	940
+Derik	Mardin	TR	37° 21' 51"	40° 16' 11"	3.0	--	780
+Mazıdağı	Mardin	TR	37° 31' 34"	40° 29' 14"	3.0	--	1020
+Dargeçit	Mardin	TR	37° 33' 11"	41° 42' 42"	3.0	--	910
+Savur	Mardin	TR	37° 32' 14"	40° 53' 18"	3.0	--	900
+Yeşilli	Mardin	TR	37° 21' 11"	40° 49' 14"	3.0	--	850
+Ömerli	Mardin	TR	37° 25' 45"	40° 56' 40"	3.0	--	1050
+Bodrum	Muğla	TR	37° 02' 18"	27° 25' 42"	3.0	--	10
+Fethiye	Muğla	TR	36° 37' 14"	29° 06' 51"	3.0	--	15
+Milas	Muğla	TR	37° 18' 41"	27° 47' 03"	3.0	--	55
+Menteşe	Muğla	TR	37° 13' 00"	28° 21' 00"	3.0	--	660
+Marmaris	Muğla	TR	36° 51' 11"	28° 16' 18"	3.0	--	10
+Seydikemer	Muğla	TR	36° 35' 00"	29° 21' 00"	3.0	--	130
+Ortaca	Muğla	TR	36° 50' 25"	28° 45' 52"	3.0	--	30
+Dalaman	Muğla	TR	36° 42' 11"	28° 48' 11"	3.0	--	15
+Yatağan	Muğla	TR	37° 20' 25"	28° 08' 20"	3.0	--	390
+Köycegiz	Muğla	TR	36° 58' 14"	28° 41' 11"	3.0	--	20
+Ula	Muğla	TR	37° 06' 11"	28° 23' 51"	3.0	--	600
+Datça	Muğla	TR	36° 43' 35"	27° 41' 11"	3.0	--	15
+Kavaklıdere	Muğla	TR	37° 26' 54"	28° 21' 54"	3.0	--	850
+Merkez	Muş	TR	38° 44' 36"	41° 29' 05"	3.0	--	1334
+Bulanık	Muş	TR	39° 05' 11"	42° 16' 11"	3.0	--	1480
+Malazgirt	Muş	TR	39° 08' 52"	42° 32' 31"	3.0	--	1530
+Hasköy	Muş	TR	38° 41' 14"	41° 41' 15"	3.0	--	1275
+Korkut	Muş	TR	38° 43' 03"	41° 46' 52"	3.0	--	1260
+Varto	Muş	TR	39° 10' 35"	41° 27' 11"	3.0	--	1520
+Merkez	Nevşehir	TR	38° 37' 32"	34° 42' 53"	3.0	--	1224
+Ürgüp	Nevşehir	TR	38° 37' 54"	34° 54' 43"	3.0	--	1050
+Avanos	Nevşehir	TR	38° 42' 53"	34° 50' 41"	3.0	--	920
+Gülşehir	Nevşehir	TR	38° 44' 45"	34° 37' 14"	3.0	--	885
+Derinkuyu	Nevşehir	TR	38° 22' 23"	34° 44' 34"	3.0	--	1300
+Acıgöl	Nevşehir	TR	38° 33' 11"	34° 31' 03"	3.0	--	1240
+Kozaklı	Nevşehir	TR	39° 12' 51"	34° 51' 15"	3.0	--	960
+Hacıbektaş	Nevşehir	TR	38° 56' 35"	34° 33' 40"	3.0	--	1250
+Merkez	Niğde	TR	37° 57' 56"	34° 40' 45"	3.0	--	1229
+Bor	Niğde	TR	37° 53' 27"	34° 33' 40"	3.0	--	1110
+Çiftlik	Niğde	TR	38° 09' 51"	34° 31' 12"	3.0	--	1550
+Ulukışla	Niğde	TR	37° 32' 51"	34° 29' 05"	3.0	--	1427
+Altunhisar	Niğde	TR	37° 58' 54"	34° 22' 40"	3.0	--	1190
+Çamardı	Niğde	TR	37° 49' 31"	35° 01' 52"	3.0	--	1600
+Altınordu	Ordu	TR	40° 58' 53"	37° 52' 44"	3.0	--	5
+Ünye	Ordu	TR	41° 07' 42"	37° 17' 11"	3.0	--	10
+Fatsa	Ordu	TR	41° 01' 55"	37° 30' 11"	3.0	--	10
+Gölköy	Ordu	TR	40° 41' 14"	37° 37' 03"	3.0	--	1050
+Korgan	Ordu	TR	40° 49' 24"	37° 20' 45"	3.0	--	780
+Kumru	Ordu	TR	40° 52' 27"	37° 15' 52"	3.0	--	450
+Aybastı	Ordu	TR	40° 41' 15"	37° 23' 51"	3.0	--	920
+Ulubey	Ordu	TR	40° 52' 31"	37° 45' 42"	3.0	--	590
+Mesudiye	Ordu	TR	40° 27' 43"	37° 46' 35"	3.0	--	1140
+İkizce	Ordu	TR	41° 04' 50"	37° 04' 55"	3.0	--	130
+Gürgentepe	Ordu	TR	40° 47' 20"	37° 35' 50"	3.0	--	1120
+Perşembe	Ordu	TR	41° 03' 50"	37° 46' 15"	3.0	--	10
+Çamaş	Ordu	TR	40° 55' 11"	37° 31' 14"	3.0	--	550
+Kabataş	Ordu	TR	40° 48' 52"	37° 26' 45"	3.0	--	610
+Çatalpınar	Ordu	TR	40° 56' 45"	37° 29' 15"	3.0	--	140
+Çaybaşı	Ordu	TR	41° 01' 40"	37° 07' 45"	3.0	--	420
+Akkus	Ordu	TR	40° 47' 34"	37° 01' 14"	3.0	--	1340
+Gülyalı	Ordu	TR	40° 57' 50"	37° 59' 51"	3.0	--	10
+Kabadüz	Ordu	TR	40° 51' 40"	37° 54' 10"	3.0	--	570
+Çamaş	Ordu	TR	40° 55' 11"	37° 31' 14"	3.0	--	550
+Merkez	Rize	TR	41° 01' 14"	40° 31' 05"	3.0	--	6
+Çayeli	Rize	TR	41° 05' 35"	40° 43' 31"	3.0	--	10
+Ardeşen	Rize	TR	41° 11' 22"	40° 59' 15"	3.0	--	10
+Pazar	Rize	TR	41° 10' 45"	40° 51' 20"	3.0	--	10
+Fındıklı	Rize	TR	41° 16' 11"	41° 08' 42"	3.0	--	10
+Güneysu	Rize	TR	41° 00' 11"	40° 36' 15"	3.0	--	150
+Kalkandere	Rize	TR	40° 55' 15"	40° 26' 11"	3.0	--	160
+İyidere	Rize	TR	41° 00' 45"	40° 21' 52"	3.0	--	10
+Derepazarı	Rize	TR	41° 01' 35"	40° 25' 40"	3.0	--	10
+Çamlıhemşin	Rize	TR	41° 02' 52"	41° 00' 41"	3.0	--	310
+İkizdere	Rize	TR	40° 47' 03"	40° 33' 40"	3.0	--	560
+Hemşin	Rize	TR	41° 02' 40"	40° 54' 14"	3.0	--	320
+Adapazarı	Sakarya	TR	40° 46' 41"	30° 24' 13"	3.0	--	31
+Serdivan	Sakarya	TR	40° 45' 30"	30° 21' 30"	3.0	--	65
+Erenler	Sakarya	TR	40° 45' 00"	30° 25' 00"	3.0	--	32
+Akyazı	Sakarya	TR	40° 40' 54"	30° 37' 31"	3.0	--	40
+Hendek	Sakarya	TR	40° 47' 55"	30° 45' 04"	3.0	--	175
+Karasu	Sakarya	TR	41° 06' 11"	30° 41' 25"	3.0	--	10
+Geyve	Sakarya	TR	40° 30' 42"	30° 17' 31"	3.0	--	85
+Arifiye	Sakarya	TR	40° 43' 00"	30° 22' 00"	3.0	--	35
+Sapanca	Sakarya	TR	40° 41' 11"	30° 15' 52"	3.0	--	45
+Pamukova	Sakarya	TR	40° 30' 37"	30° 07' 52"	3.0	--	85
+Ferizli	Sakarya	TR	40° 52' 42"	30° 28' 54"	3.0	--	35
+Kocaali	Sakarya	TR	41° 03' 11"	30° 51' 14"	3.0	--	15
+Kaynarca	Sakarya	TR	41° 02' 14"	30° 18' 14"	3.0	--	50
+Söğütlü	Sakarya	TR	40° 54' 20"	30° 28' 41"	3.0	--	40
+Karapürçek	Sakarya	TR	40° 41' 14"	30° 30' 11"	3.0	--	70
+Taraklı	Sakarya	TR	40° 23' 35"	30° 24' 45"	3.0	--	490
+İlkadım	Samsun	TR	41° 16' 40"	36° 19' 30"	3.0	--	15
+Atakum	Samsun	TR	41° 19' 00"	36° 16' 00"	3.0	--	10
+Canik	Samsun	TR	41° 16' 20"	36° 21' 30"	3.0	--	35
+Bafra	Samsun	TR	41° 34' 04"	35° 54' 20"	3.0	--	20
+Çarşamba	Samsun	TR	41° 11' 50"	36° 43' 30"	3.0	--	10
+Vezirköprü	Samsun	TR	41° 08' 35"	35° 27' 15"	3.0	--	340
+Terme	Samsun	TR	41° 12' 31"	36° 58' 23"	3.0	--	10
+Tekkeköy	Samsun	TR	41° 13' 00"	36° 27' 00"	3.0	--	15
+Havza	Samsun	TR	40° 58' 02"	35° 40' 00"	3.0	--	675
+19 Mayıs	Samsun	TR	41° 29' 38"	36° 04' 41"	3.0	--	15
+Alaçam	Samsun	TR	41° 36' 17"	35° 35' 55"	3.0	--	15
+Asarcık	Samsun	TR	41° 02' 40"	36° 14' 35"	3.0	--	810
+Kavak	Samsun	TR	41° 04' 34"	36° 02' 23"	3.0	--	600
+Salıpazarı	Samsun	TR	41° 04' 51"	36° 49' 33"	3.0	--	70
+Ayvacık	Samsun	TR	40° 59' 20"	36° 37' 54"	3.0	--	110
+Ladik	Samsun	TR	40° 54' 40"	35° 53' 45"	3.0	--	950
+Yakakent	Samsun	TR	41° 37' 55"	35° 31' 15"	3.0	--	10
+Haliliye	Şanlıurfa	TR	37° 10' 00"	38° 48' 00"	3.0	--	520
+Eyyübiye	Şanlıurfa	TR	37° 08' 00"	38° 47' 00"	3.0	--	510
+Karaköprü	Şanlıurfa	TR	37° 12' 00"	38° 49' 00"	3.0	--	580
+Siverek	Şanlıurfa	TR	37° 45' 18"	39° 19' 06"	3.0	--	800
+Viranşehir	Şanlıurfa	TR	37° 14' 14"	39° 45' 56"	3.0	--	580
+Suruç	Şanlıurfa	TR	36° 58' 35"	38° 25' 25"	3.0	--	470
+Birecik	Şanlıurfa	TR	37° 01' 44"	37° 58' 40"	3.0	--	340
+Akçakale	Şanlıurfa	TR	36° 42' 41"	38° 56' 51"	3.0	--	360
+Ceylanpınar	Şanlıurfa	TR	36° 51' 12"	40° 02' 35"	3.0	--	390
+Harran	Şanlıurfa	TR	36° 51' 52"	39° 01' 53"	3.0	--	375
+Bozova	Şanlıurfa	TR	37° 21' 40"	38° 30' 44"	3.0	--	570
+Hilvan	Şanlıurfa	TR	37° 35' 12"	38° 57' 27"	3.0	--	610
+Halfeti	Şanlıurfa	TR	37° 14' 44"	37° 52' 14"	3.0	--	440
+Merkez	Uşak	TR	38° 40' 43"	29° 24' 20"	3.0	--	907
+Banaz	Uşak	TR	38° 43' 53"	29° 44' 56"	3.0	--	915
+Eşme	Uşak	TR	38° 24' 04"	28° 58' 14"	3.0	--	820
+Sivaslı	Uşak	TR	38° 30' 11"	29° 41' 15"	3.0	--	1120
+Ulubey	Uşak	TR	38° 25' 14"	29° 17' 23"	3.0	--	710
+Karahallı	Uşak	TR	38° 21' 40"	29° 31' 45"	3.0	--	910
+Süleymanpaşa	Tekirdağ	TR	40° 58' 00"	27° 31' 00"	3.0	--	35
+Çorlu	Tekirdağ	TR	41° 09' 35"	27° 48' 10"	3.0	--	180
+Çerkezköy	Tekirdağ	TR	41° 17' 11"	28° 00' 41"	3.0	--	130
+Kapaklı	Tekirdağ	TR	41° 19' 30"	27° 58' 30"	3.0	--	140
+Ergene	Tekirdağ	TR	41° 13' 00"	27° 49' 00"	3.0	--	160
+Malkara	Tekirdağ	TR	40° 53' 35"	26° 54' 14"	3.0	--	230
+Saray	Tekirdağ	TR	41° 26' 40"	27° 55' 31"	3.0	--	140
+Hayrabolu	Tekirdağ	TR	41° 12' 40"	27° 06' 45"	3.0	--	65
+Şarköy	Tekirdağ	TR	40° 36' 54"	27° 06' 50"	3.0	--	10
+Muratlı	Tekirdağ	TR	41° 10' 32"	27° 30' 14"	3.0	--	70
+Marmaraereğlisi	Tekirdağ	TR	40° 58' 14"	27° 57' 15"	3.0	--	15
+Merkez	Zonguldak	TR	41° 27' 05"	31° 47' 35"	3.0	--	55
+Ereğli	Zonguldak	TR	41° 17' 05"	31° 24' 53"	3.0	--	30
+Çaycuma	Zonguldak	TR	41° 25' 20"	32° 04' 52"	3.0	--	45
+Devrek	Zonguldak	TR	41° 13' 11"	31° 57' 14"	3.0	--	85
+Alaplı	Zonguldak	TR	41° 10' 25"	31° 23' 04"	3.0	--	15
+Kozlu	Zonguldak	TR	41° 26' 11"	31° 44' 52"	3.0	--	40
+Kilimli	Zonguldak	TR	41° 29' 03"	31° 50' 44"	3.0	--	25
+Gökçebey	Zonguldak	TR	41° 18' 15"	32° 08' 20"	3.0	--	55
 Cockburn Town		TC	 21° 26' 59"	-71° 09' 00"	-5.0	US	4.87
 Diego Garcia		UM	-7° 19' 00"	 72° 24' 00"	4.0	--	0.00
 Johnston Atoll		UM	 16° 43' 59"	-169° 31' 58"	-10.0	--	3.00
