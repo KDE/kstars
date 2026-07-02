@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-27 02:10+0000\n"
+"POT-Creation-Date: 2026-07-02 02:06+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -438,7 +438,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddScope)
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
-#: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:398
+#: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:400
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera_jobs.cpp:418
 #: ekos/scheduler/scheduler.cpp:2329
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
@@ -2762,7 +2762,7 @@ msgstr ""
 "për tek motori i kërkimit Google?"
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align_solution.cpp:449
-#: ekos/align/mountmodel.cpp:279 ekos/align/mountmodel.cpp:405
+#: ekos/align/mountmodel.cpp:281 ekos/align/mountmodel.cpp:407
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:427
 #: ekos/guide/guidedriftgraph.cpp:503 ekos/scheduler/scheduler.cpp:2229
 #: ekos/scheduler/scheduler.cpp:2339 fitsviewer/fitstab.cpp:1611
@@ -7121,67 +7121,67 @@ msgstr ""
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr "Skedari FITS u regjistrua tek %1"
 
-#: ekos/align/align_settings.cpp:73
+#: ekos/align/align_settings.cpp:79
 #, fuzzy, kde-format
 #| msgid "supernova remnant"
 msgid "StellarSolver Options"
 msgstr "ngelje e një supernova"
 
-#: ekos/align/align_settings.cpp:77
+#: ekos/align/align_settings.cpp:83
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align_settings.cpp:81
+#: ekos/align/align_settings.cpp:87
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Scale & Position"
 msgstr "Pozicioni"
 
-#: ekos/align/align_settings.cpp:85
+#: ekos/align/align_settings.cpp:91
 #, fuzzy, kde-format
 #| msgid "Mode"
 msgid "Align Options Profiles Editor"
 msgstr "Mënyra"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align_settings.cpp:104 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align_settings.cpp:110 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr ""
 
-#: ekos/align/align_settings.cpp:169 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align_settings.cpp:175 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgctxt "angular size in arcminutes"
 #| msgid "%1 arcmin"
 msgid "dRA (arcsec)"
 msgstr "%1 arcmin"
 
-#: ekos/align/align_settings.cpp:170 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align_settings.cpp:176 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "arcseconds"
 msgid "dDE (arcsec)"
 msgstr "arcsekonda"
 
-#: ekos/align/align_settings.cpp:218 ekos/capture/camera_config.cpp:717
+#: ekos/align/align_settings.cpp:224 ekos/capture/camera_config.cpp:717
 #: ekos/focus/focus.cpp:5957
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Filter operation failed."
 msgstr "Këndi"
 
-#: ekos/align/align_settings.cpp:230 ekos/capture/camera.cpp:577
+#: ekos/align/align_settings.cpp:236 ekos/capture/camera.cpp:577
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align_settings.cpp:237 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align_settings.cpp:243 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/camera.cpp:582
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align_settings.cpp:242 ekos/capture/camera.cpp:587
+#: ekos/align/align_settings.cpp:248 ekos/capture/camera.cpp:587
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr ""
@@ -7213,8 +7213,8 @@ msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "&Mbishkruaje"
 
-#: ekos/align/align_solution.cpp:448 ekos/align/mountmodel.cpp:278
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:340
+#: ekos/align/align_solution.cpp:448 ekos/align/mountmodel.cpp:280
+#: ekos/align/mountmodel.cpp:406 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:426 ekos/guide/guidedriftgraph.cpp:502
 #: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2338
 #: fitsviewer/fitstab.cpp:1610 tools/scriptbuilder.cpp:833
@@ -7223,7 +7223,7 @@ msgstr "&Mbishkruaje"
 msgid "Invalid URL: %1"
 msgstr "URL e pavlefshme: %1"
 
-#: ekos/align/align_solution.cpp:457 ekos/align/mountmodel.cpp:415
+#: ekos/align/align_solution.cpp:457 ekos/align/mountmodel.cpp:417
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:511
 #: ekos/scheduler/schedulerprocess.cpp:2964
 #: ekos/scheduler/schedulerprocess.cpp:4572
@@ -7232,8 +7232,8 @@ msgstr "URL e pavlefshme: %1"
 msgid "Unable to write to file %1"
 msgstr "Dështuam në hapjen e skedarit të driverave INDI: %1"
 
-#: ekos/align/align_solution.cpp:458 ekos/align/mountmodel.cpp:298
-#: ekos/align/mountmodel.cpp:416 ekos/capture/camera_jobs.cpp:356
+#: ekos/align/align_solution.cpp:458 ekos/align/mountmodel.cpp:300
+#: ekos/align/mountmodel.cpp:418 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:2647 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2965
 #: ekos/scheduler/schedulerprocess.cpp:3434
@@ -7620,14 +7620,14 @@ msgstr "Yjet"
 msgid "Take Another Image"
 msgstr "Provo Një Tjetër"
 
-#: ekos/align/mountmodel.cpp:270
+#: ekos/align/mountmodel.cpp:272
 #, fuzzy, kde-format
 #| msgid "Observing List Label"
 msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Etiketa e listës së vështrimit"
 
-#: ekos/align/mountmodel.cpp:297 ekos/capture/camera_jobs.cpp:355
+#: ekos/align/mountmodel.cpp:299 ekos/capture/camera_jobs.cpp:355
 #: ekos/capture/cameraprocess.cpp:2646 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3433
 #: ekos/scheduler/schedulerprocess.cpp:4592
@@ -7636,94 +7636,94 @@ msgstr "Etiketa e listës së vështrimit"
 msgid "Unable to open file %1"
 msgstr "Dështuam në hapjen e skedarit të driverave INDI: %1"
 
-#: ekos/align/mountmodel.cpp:319 ekos/capture/sequencequeue.cpp:56
+#: ekos/align/mountmodel.cpp:321 ekos/capture/sequencequeue.cpp:56
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
 "file."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:381
+#: ekos/align/mountmodel.cpp:383
 #, fuzzy, kde-format
 #| msgid "Observing List Label"
 msgctxt "@title:window"
 msgid "Save Ekos Alignment List"
 msgstr "Etiketa e listës së vështrimit"
 
-#: ekos/align/mountmodel.cpp:398
+#: ekos/align/mountmodel.cpp:400
 #, fuzzy, kde-format
 #| msgid "Failed to open INDI Driver file: %1"
 msgid "Failed to save alignment list"
 msgstr "Dështuam në hapjen e skedarit të driverave INDI: %1"
 
-#: ekos/align/mountmodel.cpp:444
+#: ekos/align/mountmodel.cpp:446
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Alignment List saved to %1"
 msgstr "Skedari FITS u regjistrua tek %1"
 
-#: ekos/align/mountmodel.cpp:597 ekos/align/mountmodel.cpp:820
+#: ekos/align/mountmodel.cpp:599 ekos/align/mountmodel.cpp:822
 #, fuzzy, kde-format
 #| msgid "Add to List"
 msgid "Sky Point"
 msgstr "Shtoje në Listë"
 
-#: ekos/align/mountmodel.cpp:626 ekos/align/mountmodel.cpp:634
+#: ekos/align/mountmodel.cpp:628 ekos/align/mountmodel.cpp:636
 #, kde-format
 msgid "DEC is below the altitude limit"
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:677
+#: ekos/align/mountmodel.cpp:679
 #, kde-format
 msgid "Warning: only %1 of %2 requested alignment points could be placed."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:798
+#: ekos/align/mountmodel.cpp:800
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Point calculation error."
 msgstr "Këndi"
 
-#: ekos/align/mountmodel.cpp:1029
+#: ekos/align/mountmodel.cpp:1031
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to clear all the alignment points?"
 msgstr "A jeni i sigurtë që doni ta hiqni klientin %1?"
 
-#: ekos/align/mountmodel.cpp:1030
+#: ekos/align/mountmodel.cpp:1032
 #, fuzzy, kde-format
 #| msgid "&Overwrite"
 msgid "Clear Align Points"
 msgstr "&Mbishkruaje"
 
-#: ekos/align/mountmodel.cpp:1126
+#: ekos/align/mountmodel.cpp:1128
 #, kde-format
 msgid "The Mount Model Tool is Reset."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1166
+#: ekos/align/mountmodel.cpp:1169
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Mount unparked. Starting mount model..."
 msgstr "Koordinatat"
 
-#: ekos/align/mountmodel.cpp:1174
+#: ekos/align/mountmodel.cpp:1177
 #, kde-format
 msgid "Mount unpark failed. Cannot start mount model."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1186
+#: ekos/align/mountmodel.cpp:1189
 #, kde-format
 msgid "Please Check the Alignment Points."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1194
+#: ekos/align/mountmodel.cpp:1197
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Mount is parked. Unparking before starting mount model..."
 msgstr "Koordinatat"
 
-#: ekos/align/mountmodel.cpp:1205
+#: ekos/align/mountmodel.cpp:1208
 #, kde-format
 msgid ""
 "In the Align Module, \"Nothing\" is Selected for the Solver Action.  This "
@@ -7731,27 +7731,27 @@ msgid ""
 "report the pointing model errors.  Do you wish to continue?"
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1208
+#: ekos/align/mountmodel.cpp:1211
 #, kde-format
 msgid "Pointing Model Report Only?"
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1226
+#: ekos/align/mountmodel.cpp:1229
 #, kde-format
 msgid "The Mount Model Tool is Starting."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1235
+#: ekos/align/mountmodel.cpp:1239
 #, kde-format
 msgid "The Mount Model Tool is Paused."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1302
+#: ekos/align/mountmodel.cpp:1307
 #, kde-format
 msgid "The Mount Model Tool is Finished."
 msgstr ""
 
-#: ekos/align/mountmodel.cpp:1327
+#: ekos/align/mountmodel.cpp:1333
 #, kde-format
 msgid "Mount model: forcing blind solve and sync for each alignment point."
 msgstr ""
@@ -18370,13 +18370,13 @@ msgstr ""
 msgid "Offline"
 msgstr ""
 
-#: ekos/ekoslive/message.cpp:809
+#: ekos/ekoslive/message.cpp:812
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "target"
 msgstr "Yjet"
 
-#: ekos/ekoslive/message.cpp:1104
+#: ekos/ekoslive/message.cpp:1142
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -24744,17 +24744,17 @@ msgstr ""
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:4282
+#: ekos/manager.cpp:4285
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:4289
+#: ekos/manager.cpp:4292
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:4296
+#: ekos/manager.cpp:4299
 #, kde-format
 msgid "Received external preview file"
 msgstr ""

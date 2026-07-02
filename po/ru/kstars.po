@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-06-27 02:10+0000\n"
+"POT-Creation-Date: 2026-07-02 02:06+0000\n"
 "PO-Revision-Date: 2026-06-24 23:14+0200\n"
 "Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -433,7 +433,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddScope)
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
-#: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:398
+#: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:400
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera_jobs.cpp:418
 #: ekos/scheduler/scheduler.cpp:2329
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
@@ -2712,7 +2712,7 @@ msgstr ""
 "машиной Google?"
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align_solution.cpp:449
-#: ekos/align/mountmodel.cpp:279 ekos/align/mountmodel.cpp:405
+#: ekos/align/mountmodel.cpp:281 ekos/align/mountmodel.cpp:407
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:427
 #: ekos/guide/guidedriftgraph.cpp:503 ekos/scheduler/scheduler.cpp:2229
 #: ekos/scheduler/scheduler.cpp:2339 fitsviewer/fitstab.cpp:1611
@@ -7022,60 +7022,60 @@ msgstr "Текущий угол поворота: %1; требуемый уго�
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr "Тайм-аут поворотного устройства через %1 с. Прерывание юстировки."
 
-#: ekos/align/align_settings.cpp:73
+#: ekos/align/align_settings.cpp:79
 #, kde-format
 msgid "StellarSolver Options"
 msgstr "Параметры StellarSolver"
 
-#: ekos/align/align_settings.cpp:77
+#: ekos/align/align_settings.cpp:83
 #, kde-format
 msgid "External & Online Programs"
 msgstr "Внешние и сетевые приложения"
 
-#: ekos/align/align_settings.cpp:81
+#: ekos/align/align_settings.cpp:87
 #, kde-format
 msgid "Scale & Position"
 msgstr "Масштаб и положение"
 
-#: ekos/align/align_settings.cpp:85
+#: ekos/align/align_settings.cpp:91
 #, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "Редактор профилей параметров выравнивания"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align_settings.cpp:104 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align_settings.cpp:110 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Файлы индексов"
 
-#: ekos/align/align_settings.cpp:169 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align_settings.cpp:175 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
 msgstr "dRA (угл. сек.)"
 
-#: ekos/align/align_settings.cpp:170 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align_settings.cpp:176 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
 msgstr "dDE (угл. сек)"
 
-#: ekos/align/align_settings.cpp:218 ekos/capture/camera_config.cpp:717
+#: ekos/align/align_settings.cpp:224 ekos/capture/camera_config.cpp:717
 #: ekos/focus/focus.cpp:5957
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Ошибка операции с фильтром."
 
-#: ekos/align/align_settings.cpp:230 ekos/capture/camera.cpp:577
+#: ekos/align/align_settings.cpp:236 ekos/capture/camera.cpp:577
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Изменение смещения фокуса на %1 шаг…"
 
-#: ekos/align/align_settings.cpp:237 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align_settings.cpp:243 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/camera.cpp:582
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Изменение фильтра для %1..."
 
-#: ekos/align/align_settings.cpp:242 ekos/capture/camera.cpp:587
+#: ekos/align/align_settings.cpp:248 ekos/capture/camera.cpp:587
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Автофокус при смене фильтра…"
@@ -7108,8 +7108,8 @@ msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Экспорт точек решения"
 
-#: ekos/align/align_solution.cpp:448 ekos/align/mountmodel.cpp:278
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera_jobs.cpp:340
+#: ekos/align/align_solution.cpp:448 ekos/align/mountmodel.cpp:280
+#: ekos/align/mountmodel.cpp:406 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:426 ekos/guide/guidedriftgraph.cpp:502
 #: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2338
 #: fitsviewer/fitstab.cpp:1610 tools/scriptbuilder.cpp:833
@@ -7118,7 +7118,7 @@ msgstr "Экспорт точек решения"
 msgid "Invalid URL: %1"
 msgstr "Неверный адрес: %1"
 
-#: ekos/align/align_solution.cpp:457 ekos/align/mountmodel.cpp:415
+#: ekos/align/align_solution.cpp:457 ekos/align/mountmodel.cpp:417
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:511
 #: ekos/scheduler/schedulerprocess.cpp:2964
 #: ekos/scheduler/schedulerprocess.cpp:4572
@@ -7126,8 +7126,8 @@ msgstr "Неверный адрес: %1"
 msgid "Unable to write to file %1"
 msgstr "Невозможно записать в файл %1"
 
-#: ekos/align/align_solution.cpp:458 ekos/align/mountmodel.cpp:298
-#: ekos/align/mountmodel.cpp:416 ekos/capture/camera_jobs.cpp:356
+#: ekos/align/align_solution.cpp:458 ekos/align/mountmodel.cpp:300
+#: ekos/align/mountmodel.cpp:418 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:2647 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2965
 #: ekos/scheduler/schedulerprocess.cpp:3434
@@ -7524,13 +7524,13 @@ msgstr "Целевой угол поворота"
 msgid "Take Another Image"
 msgstr "Сделать ещё один снимок"
 
-#: ekos/align/mountmodel.cpp:270
+#: ekos/align/mountmodel.cpp:272
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Открытие списка выравнивания Ekos"
 
-#: ekos/align/mountmodel.cpp:297 ekos/capture/camera_jobs.cpp:355
+#: ekos/align/mountmodel.cpp:299 ekos/capture/camera_jobs.cpp:355
 #: ekos/capture/cameraprocess.cpp:2646 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3433
 #: ekos/scheduler/schedulerprocess.cpp:4592
@@ -7538,7 +7538,7 @@ msgstr "Открытие списка выравнивания Ekos"
 msgid "Unable to open file %1"
 msgstr "Не удаётся открыть файл %1"
 
-#: ekos/align/mountmodel.cpp:319 ekos/capture/sequencequeue.cpp:56
+#: ekos/align/mountmodel.cpp:321 ekos/capture/sequencequeue.cpp:56
 #, kde-format
 msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
@@ -7547,82 +7547,82 @@ msgstr ""
 "Устаревшая версия формата файла последовательности %1. Создайте новый файл "
 "последовательности."
 
-#: ekos/align/mountmodel.cpp:381
+#: ekos/align/mountmodel.cpp:383
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Alignment List"
 msgstr "Сохранение списка выравнивания Ekos"
 
-#: ekos/align/mountmodel.cpp:398
+#: ekos/align/mountmodel.cpp:400
 #, kde-format
 msgid "Failed to save alignment list"
 msgstr "Не удалось сохранить список выравнивания"
 
-#: ekos/align/mountmodel.cpp:444
+#: ekos/align/mountmodel.cpp:446
 #, kde-format
 msgid "Alignment List saved to %1"
 msgstr "Список выравнивания сохранён в «%1»"
 
-#: ekos/align/mountmodel.cpp:597 ekos/align/mountmodel.cpp:820
+#: ekos/align/mountmodel.cpp:599 ekos/align/mountmodel.cpp:822
 #, kde-format
 msgid "Sky Point"
 msgstr "Точка неба"
 
-#: ekos/align/mountmodel.cpp:626 ekos/align/mountmodel.cpp:634
+#: ekos/align/mountmodel.cpp:628 ekos/align/mountmodel.cpp:636
 #, kde-format
 msgid "DEC is below the altitude limit"
 msgstr "Склонение ниже предела высоты"
 
-#: ekos/align/mountmodel.cpp:677
+#: ekos/align/mountmodel.cpp:679
 #, kde-format
 msgid "Warning: only %1 of %2 requested alignment points could be placed."
 msgstr ""
 "Предупреждение: из %2 запрошенных точек выравнивания удалось разместить "
 "только %1."
 
-#: ekos/align/mountmodel.cpp:798
+#: ekos/align/mountmodel.cpp:800
 #, kde-format
 msgid "Point calculation error."
 msgstr "Ошибка вычисления координат."
 
-#: ekos/align/mountmodel.cpp:1029
+#: ekos/align/mountmodel.cpp:1031
 #, kde-format
 msgid "Are you sure you want to clear all the alignment points?"
 msgstr "Удалить все точки выравнивания?"
 
-#: ekos/align/mountmodel.cpp:1030
+#: ekos/align/mountmodel.cpp:1032
 #, kde-format
 msgid "Clear Align Points"
 msgstr "Очистить точки юстировки"
 
-#: ekos/align/mountmodel.cpp:1126
+#: ekos/align/mountmodel.cpp:1128
 #, kde-format
 msgid "The Mount Model Tool is Reset."
 msgstr "Инструмент моделирования монтировки сброшен."
 
-#: ekos/align/mountmodel.cpp:1166
+#: ekos/align/mountmodel.cpp:1169
 #, kde-format
 msgid "Mount unparked. Starting mount model..."
 msgstr "Монтировка распаркована. Запуск модели монтировки…"
 
-#: ekos/align/mountmodel.cpp:1174
+#: ekos/align/mountmodel.cpp:1177
 #, kde-format
 msgid "Mount unpark failed. Cannot start mount model."
 msgstr ""
 "Не удалось отпарковать монтировку. Запуск модели монтировки невозможен."
 
-#: ekos/align/mountmodel.cpp:1186
+#: ekos/align/mountmodel.cpp:1189
 #, kde-format
 msgid "Please Check the Alignment Points."
 msgstr "Проверьте точки выравнивания."
 
-#: ekos/align/mountmodel.cpp:1194
+#: ekos/align/mountmodel.cpp:1197
 #, kde-format
 msgid "Mount is parked. Unparking before starting mount model..."
 msgstr ""
 "Монтировка зафиксирована. Снятие фиксации перед запуском модели монтирования…"
 
-#: ekos/align/mountmodel.cpp:1205
+#: ekos/align/mountmodel.cpp:1208
 #, kde-format
 msgid ""
 "In the Align Module, \"Nothing\" is Selected for the Solver Action.  This "
@@ -7634,27 +7634,27 @@ msgstr ""
 "синхронизацию или выравнивание, а только сообщит об ошибках модели "
 "наведения. Продолжить?"
 
-#: ekos/align/mountmodel.cpp:1208
+#: ekos/align/mountmodel.cpp:1211
 #, kde-format
 msgid "Pointing Model Report Only?"
 msgstr "Только отчёт о модели наведения?"
 
-#: ekos/align/mountmodel.cpp:1226
+#: ekos/align/mountmodel.cpp:1229
 #, kde-format
 msgid "The Mount Model Tool is Starting."
 msgstr "Запуск инструмента моделирования монтировки."
 
-#: ekos/align/mountmodel.cpp:1235
+#: ekos/align/mountmodel.cpp:1239
 #, kde-format
 msgid "The Mount Model Tool is Paused."
 msgstr "Работа с моделью монтировки приостановлена."
 
-#: ekos/align/mountmodel.cpp:1302
+#: ekos/align/mountmodel.cpp:1307
 #, kde-format
 msgid "The Mount Model Tool is Finished."
 msgstr "Завершена настройка модели монтировки."
 
-#: ekos/align/mountmodel.cpp:1327
+#: ekos/align/mountmodel.cpp:1333
 #, kde-format
 msgid "Mount model: forcing blind solve and sync for each alignment point."
 msgstr ""
@@ -18745,12 +18745,12 @@ msgstr "В сети"
 msgid "Offline"
 msgstr "Не в сети"
 
-#: ekos/ekoslive/message.cpp:809
+#: ekos/ekoslive/message.cpp:812
 #, kde-format
 msgid "target"
 msgstr "цель"
 
-#: ekos/ekoslive/message.cpp:1104
+#: ekos/ekoslive/message.cpp:1142
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Ошибка импорта мозаики."
@@ -26297,17 +26297,17 @@ msgstr ""
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:4282
+#: ekos/manager.cpp:4285
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:4289
+#: ekos/manager.cpp:4292
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:4296
+#: ekos/manager.cpp:4299
 #, kde-format
 msgid "Received external preview file"
 msgstr ""
