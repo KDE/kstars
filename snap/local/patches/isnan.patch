@@ -1,0 +1,13 @@
+diff --git a/kstars/skyqpainter.cpp b/kstars/skyqpainter.cpp
+index 6bfc449d5..8e8ae4bb2 100644
+--- a/kstars/skyqpainter.cpp
++++ b/kstars/skyqpainter.cpp
+@@ -918,7 +918,7 @@ bool SkyQPainter::drawImageOverlay(const QList<ImageOverlay> *imageOverlays, boo
+
+         bool visible;
+         QPointF pos  = m_proj->toScreen(&coord, true, &visible);
+-        if (!visible || isnan(pos.x()) || isnan(pos.y()))
++        if (!visible || std::isnan(pos.x()) || std::isnan(pos.y()))
+             continue;
+
+         const auto PA = (orientation < 0) ? orientation + 360 : orientation;
