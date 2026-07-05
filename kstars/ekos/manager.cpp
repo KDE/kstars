@@ -56,6 +56,7 @@
 #include "ekoslive/message.h"
 #include "ekoslive/media.h"
 #include "mcp/mcpserver.h"
+#include "mcp/tools/catalogtools.h"
 #include "mcp/tools/ekostools.h"
 
 #include <basedevice.h>
@@ -643,6 +644,7 @@ void Manager::ensureMCPServer()
     {
         m_MCPServer = std::make_unique<MCP::Server>(this);
         MCP::Tools::initEkosTools(m_MCPServer->registry(), this);
+        MCP::Tools::initCatalogTools(m_MCPServer->registry());
     }
 
     if (m_MCPServer->isListening())

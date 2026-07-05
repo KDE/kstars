@@ -4,6 +4,7 @@ target_sources(KStarsLib PRIVATE
     mcptoolregistry.cpp
     mcpserver.cpp
     tools/ekostools.cpp
+    tools/catalogtools.cpp
 )
 
 target_include_directories(KStarsLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
