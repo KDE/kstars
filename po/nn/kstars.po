@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-02 02:06+0000\n"
-"PO-Revision-Date: 2023-07-29 12:39+0200\n"
+"PO-Revision-Date: 2026-07-05 17:14+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@nuug.no>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.07.70\n"
+"X-Generator: Lokalize 26.04.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -42280,7 +42280,7 @@ msgstr "BJØRNEPASSAREN"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "CAELUM"
-msgstr "GRAVSTIKKEN"
+msgstr "GRAVSTIKKA"
 
 # OK: Namn sjekka.
 #: kstars_i18n.cpp:13 kstars_i18n.cpp:573
@@ -42427,7 +42427,7 @@ msgstr "SØRKROSSEN"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "CYGNUS"
-msgstr "SVANEN"
+msgstr "SVANA"
 
 # OK: Namn sjekka.
 #: kstars_i18n.cpp:34 kstars_i18n.cpp:594
@@ -76722,7 +76722,7 @@ msgstr "Stjernebiletlinjer"
 #: kstarsinit.cpp:599
 #, kde-format
 msgid "Toggle constellation lines"
-msgstr "Slå av/på stjernebiletlinjer"
+msgstr "Slå på/av stjernebiletlinjer"
 
 #: kstarsinit.cpp:601
 #, kde-format
@@ -91058,7 +91058,7 @@ msgstr "Infoboksar"
 #: tools/scriptbuilder.cpp:408
 #, kde-format
 msgid "Toggle display of all InfoBoxes"
-msgstr "Slå av/på vising av alle infoboksar"
+msgstr "Slå på/av vising av alle infoboksar"
 
 #: tools/scriptbuilder.cpp:408 tools/scriptbuilder.cpp:411
 #: tools/scriptbuilder.cpp:414 tools/scriptbuilder.cpp:417
@@ -91100,12 +91100,12 @@ msgstr "Slå av på vising av tids-infoboksen"
 #: tools/scriptbuilder.cpp:414
 #, kde-format
 msgid "Toggle display of Geographic InfoBox"
-msgstr "Slå av/på vising av geografisk infoboks"
+msgstr "Slå på/av vising av geografisk infoboks"
 
 #: tools/scriptbuilder.cpp:417
 #, kde-format
 msgid "Toggle display of Focus InfoBox"
-msgstr "Slå av/på vising av fokus-infoboksen"
+msgstr "Slå på/av vising av fokus-infoboksen"
 
 #: tools/scriptbuilder.cpp:420
 #, kde-format
@@ -91130,12 +91130,12 @@ msgstr "Verktøylinjer"
 #: tools/scriptbuilder.cpp:440
 #, kde-format
 msgid "Toggle display of main toolbar"
-msgstr "Slå hovudverktøylinja av/på"
+msgstr "Slå hovudverktøylinja på/av"
 
 #: tools/scriptbuilder.cpp:443
 #, kde-format
 msgid "Toggle display of view toolbar"
-msgstr "Slå visings-verktøylinja av/på"
+msgstr "Slå visings-verktøylinja på/av"
 
 #: tools/scriptbuilder.cpp:451
 #, kde-format
@@ -91145,72 +91145,72 @@ msgstr "Vis objekt"
 #: tools/scriptbuilder.cpp:452
 #, kde-format
 msgid "Toggle display of Stars"
-msgstr "Slå av/på vising av stjerner"
+msgstr "Slå på/av vising av stjerner"
 
 #: tools/scriptbuilder.cpp:455
 #, kde-format
 msgid "Toggle display of all deep-sky objects"
-msgstr "Slå av/på vising av alle fjerne objekt"
+msgstr "Slå på/av vising av alle fjerne objekt"
 
 #: tools/scriptbuilder.cpp:462
 #, kde-format
 msgid "Toggle display of all solar system bodies"
-msgstr "Slå av/på vising av alle solsystemobjekt"
+msgstr "Slå på/av vising av alle solsystemobjekt"
 
 #: tools/scriptbuilder.cpp:465
 #, kde-format
 msgid "Toggle display of Sun"
-msgstr "Slå av/på vising av Sola"
+msgstr "Slå på/av vising av Sola"
 
 #: tools/scriptbuilder.cpp:468
 #, kde-format
 msgid "Toggle display of Moon"
-msgstr "Slå av/på vising av Månen"
+msgstr "Slå på/av vising av Månen"
 
 #: tools/scriptbuilder.cpp:471
 #, kde-format
 msgid "Toggle display of Mercury"
-msgstr "Slå av/på vising av Merkur"
+msgstr "Slå på/av vising av Merkur"
 
 #: tools/scriptbuilder.cpp:474
 #, kde-format
 msgid "Toggle display of Venus"
-msgstr "Slå av/på vising av Venus"
+msgstr "Slå på/av vising av Venus"
 
 #: tools/scriptbuilder.cpp:477
 #, kde-format
 msgid "Toggle display of Mars"
-msgstr "Slå av/på vising av Mars"
+msgstr "Slå på/av vising av Mars"
 
 #: tools/scriptbuilder.cpp:480
 #, kde-format
 msgid "Toggle display of Jupiter"
-msgstr "Slå av/på vising av Jupiter"
+msgstr "Slå på/av vising av Jupiter"
 
 #: tools/scriptbuilder.cpp:483
 #, kde-format
 msgid "Toggle display of Saturn"
-msgstr "Slå av/på vising av Saturn"
+msgstr "Slå på/av vising av Saturn"
 
 #: tools/scriptbuilder.cpp:486
 #, kde-format
 msgid "Toggle display of Uranus"
-msgstr "Slå av/på vising av Uranus"
+msgstr "Slå på/av vising av Uranus"
 
 #: tools/scriptbuilder.cpp:489
 #, kde-format
 msgid "Toggle display of Neptune"
-msgstr "Slå av/på vising av Neptun"
+msgstr "Slå på/av vising av Neptun"
 
 #: tools/scriptbuilder.cpp:495
 #, kde-format
 msgid "Toggle display of Asteroids"
-msgstr "Slå av/på vising av asteroidar"
+msgstr "Slå på/av vising av asteroidar"
 
 #: tools/scriptbuilder.cpp:498
 #, kde-format
 msgid "Toggle display of Comets"
-msgstr "Slå av/på vising av kometar"
+msgstr "Slå på/av vising av kometar"
 
 #: tools/scriptbuilder.cpp:518
 #, kde-format
@@ -91220,77 +91220,77 @@ msgstr "Vis andre"
 #: tools/scriptbuilder.cpp:519
 #, kde-format
 msgid "Toggle display of constellation lines"
-msgstr "Slå av/på vising av stjernebiletelinjer"
+msgstr "Slå på/av vising av stjernebiletelinjer"
 
 #: tools/scriptbuilder.cpp:522
 #, kde-format
 msgid "Toggle display of constellation boundaries"
-msgstr "Slå av/på vising av stjernebiletegrenser"
+msgstr "Slå på/av vising av stjernebiletegrenser"
 
 #: tools/scriptbuilder.cpp:525
 #, kde-format
 msgid "Toggle display of constellation names"
-msgstr "Slå av/på vising av stjernebiletenamn"
+msgstr "Slå på/av vising av stjernebiletenamn"
 
 #: tools/scriptbuilder.cpp:528
 #, kde-format
 msgid "Toggle display of Milky Way"
-msgstr "Slå av/på vising av mjølkevegen"
+msgstr "Slå på/av vising av mjølkevegen"
 
 #: tools/scriptbuilder.cpp:531
 #, kde-format
 msgid "Toggle display of the coordinate grid"
-msgstr "Slå av/på vising av koordinat-nettet"
+msgstr "Slå på/av vising av koordinat-nettet"
 
 #: tools/scriptbuilder.cpp:534
 #, kde-format
 msgid "Toggle display of the celestial equator"
-msgstr "Slå av/på vising av himmelekvator"
+msgstr "Slå på/av vising av himmelekvator"
 
 #: tools/scriptbuilder.cpp:537
 #, kde-format
 msgid "Toggle display of the ecliptic"
-msgstr "Slå av/på vising av ekliptikken"
+msgstr "Slå på/av vising av ekliptikken"
 
 #: tools/scriptbuilder.cpp:540
 #, kde-format
 msgid "Toggle display of the horizon line"
-msgstr "Slå av/på vising av horisontlinja"
+msgstr "Slå på/av vising av horisontlinja"
 
 #: tools/scriptbuilder.cpp:543
 #, kde-format
 msgid "Toggle display of the opaque ground"
-msgstr "Slå av/på vising av ugjennomsiktig grunn"
+msgstr "Slå på/av vising av ugjennomsiktig grunn"
 
 #: tools/scriptbuilder.cpp:546
 #, kde-format
 msgid "Toggle display of star name labels"
-msgstr "Slå av/på vising av stjernenamn"
+msgstr "Slå på/av vising av stjernenamn"
 
 #: tools/scriptbuilder.cpp:549
 #, kde-format
 msgid "Toggle display of star magnitude labels"
-msgstr "Slå av/på vising av stjernestorleik"
+msgstr "Slå på/av vising av stjernestorleik"
 
 #: tools/scriptbuilder.cpp:552
 #, kde-format
 msgid "Toggle display of asteroid name labels"
-msgstr "Slå av/på vising av asteroidenamn"
+msgstr "Slå på/av vising av asteroidenamn"
 
 #: tools/scriptbuilder.cpp:555
 #, kde-format
 msgid "Toggle display of comet name labels"
-msgstr "Slå av/på vising av kometnamn"
+msgstr "Slå på/av vising av kometnamn"
 
 #: tools/scriptbuilder.cpp:558
 #, kde-format
 msgid "Toggle display of planet name labels"
-msgstr "Slå av/på vising av planetnamn"
+msgstr "Slå på/av vising av planetnamn"
 
 #: tools/scriptbuilder.cpp:561
 #, kde-format
 msgid "Toggle display of planet images"
-msgstr "Slå av/på vising av planetbilete"
+msgstr "Slå på/av vising av planetbilete"
 
 #: tools/scriptbuilder.cpp:582
 #, kde-format
@@ -91391,7 +91391,7 @@ msgid ""
 "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, "
 "4=Bullseye)"
 msgstr ""
-"Velg form til synsfeltsymbolet (0=kvadrat, 1=sirkel, 2=trådkors, 4=blink)"
+"Vel form til synsfeltsymbolet (0=kvadrat, 1=sirkel, 2=trådkors, 4=blink)"
 
 #: tools/scriptbuilder.cpp:646
 #, kde-format
@@ -91401,7 +91401,7 @@ msgstr "int"
 #: tools/scriptbuilder.cpp:649
 #, kde-format
 msgid "Select color for the FOV symbol"
-msgstr "Velg farge for synsfeltsymbolet"
+msgstr "Vel farge for synsfeltsymbolet"
 
 #: tools/scriptbuilder.cpp:649
 #, kde-format
@@ -92631,9 +92631,9 @@ msgstr ""
 "Oppgje tidsskala for simuleringsklokka. «1 s» tyder at klokka går i sanntid "
 "og held nøyaktig takt med CPU-klokka.  Høgare verdiar gjer at "
 "simuleringsklokka går fortare, lågare verdiar gjer at ho går seinare. "
-"Negative verdier gjer at simuleringa går baklengs.\n"
+"Negative verdiar gjer at simuleringa går baklengs.\n"
 "\n"
-"Det er to par opp/ned-knapper. Paret til venstre går gjennom alle "
+"Det er to par opp/ned-knappar. Paret til venstre går gjennom alle "
 "tilgjengelege tidssteg etter kvarandre. Sidan det er eit stort tal tidssteg "
 "kan paret til høgre brukast til å hoppa til neste større/mindre tidseining. "
 "Dersom tidsskalaen for eksempel er «1 min», vil opp-knappen til høgre setja "
