@@ -3026,6 +3026,17 @@ QObject * Message::findObject(const QString &name)
         }
     }
 
+    // Filter Managers
+    for (auto &fm : m_Manager->filterManagers())
+    {
+        if (fm)
+        {
+            object = fm->findChild<QObject *>(name);
+            if (object)
+                return object;
+        }
+    }
+
     // Finally KStars
     // N.B. This does not include independent objects with their parent set to null (e.g. FITSViewer)
     object = KStars::Instance()->findChild<QObject *>(name);

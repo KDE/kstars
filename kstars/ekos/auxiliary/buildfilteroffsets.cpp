@@ -75,6 +75,8 @@ BuildFilterOffsets::BuildFilterOffsets(FilterManager *filterManager)
 
     m_filterManager = filterManager;
 
+    setObjectName(QString("BuildFilterOffsets:%1").arg(filterManager->filterWheel()->getDeviceName()));
+
     setupUi(this);
     setupConnections();
     setupGUIOnce();
@@ -1002,16 +1004,16 @@ void BuildFilterOffsets::calculateOffset(const int row)
 int BuildFilterOffsets::getColumn(const BFOColID id) const
 {
     switch (id)
-    {
-        case BFO_FILTER:
-        case BFO_OFFSET:
-        case BFO_LOCK:
-        case BFO_NUM_FOCUS_RUNS:
-        case BFO_AF_RUN_1:
-            break;
+{
+    case BFO_FILTER:
+    case BFO_OFFSET:
+    case BFO_LOCK:
+    case BFO_NUM_FOCUS_RUNS:
+    case BFO_AF_RUN_1:
+        break;
 
-        case BFO_AVERAGE:
-            return m_BFOModel.columnCount() - 3;
+    case BFO_AVERAGE:
+        return m_BFOModel.columnCount() - 3;
             break;
 
         case BFO_NEW_OFFSET:

@@ -158,6 +158,10 @@ class Manager : public QDialog, public Ui::Manager
         void createFilterManager(ISD::FilterWheel *device);
         bool getFilterManager(const QString &name, QSharedPointer<FilterManager> &fm);
         bool getFilterManager(QSharedPointer<FilterManager> &fm);
+        const QMap<QString, QSharedPointer<FilterManager>> &filterManagers() const
+        {
+            return m_FilterManagers;
+        }
 
         // Rotator Control
         void createRotatorController(ISD::Rotator *device);
