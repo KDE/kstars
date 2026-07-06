@@ -104,6 +104,9 @@ FilterManager::FilterManager(QWidget *parent) : QDialog(parent)
     // Wavelength delegate
     wavelengthDelegate = new IntegerDelegate(m_FilterView, 200, 1000, 50);
     m_FilterView->setItemDelegateForColumn(FM_WAVELENGTH, wavelengthDelegate);
+
+    // Create the Build Filter Offsets utility (reused across show/hide)
+    m_BuildFilterOffsets = new BuildFilterOffsets(this);
 }
 
 void FilterManager::createFilterModel()
@@ -1009,10 +1012,10 @@ void FilterManager::setFilterData(const QJsonObject &settings)
 
 void FilterManager::buildFilterOffsets()
 {
-    // Launch the Build Filter Offsets utility. The utility uses a sync call to launch the dialog
-    QSharedPointer<FilterManager> filterManager;
-    Ekos::Manager::Instance()->getFilterManager(m_FilterWheel->getDeviceName(), filterManager);
-    BuildFilterOffsets bfo(filterManager);
+    // Launch the Build Filter Offsets utility.
+    // m_BuildFilterOffsets is created once in the constructor and reused.
+    if (m_BuildFilterOffsets && m_FilterWheel)
+        m_BuildFilterOffsets->showDialog();
 }
 
 void FilterManager::signalRunAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo)

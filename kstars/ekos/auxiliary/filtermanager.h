@@ -30,6 +30,8 @@ class DatetimeDelegate;
 namespace Ekos
 {
 
+class BuildFilterOffsets;
+
 class FilterManager : public QDialog, public Ui::FilterSettings
 {
         Q_OBJECT
@@ -206,9 +208,13 @@ class FilterManager : public QDialog, public Ui::FilterSettings
 
         /**
          * @brief buildFilterOffsets Launch the Build Filter Offsets utility
-         * @param FM pointer to the FilterManager
          */
         void buildFilterOffsets();
+
+        BuildFilterOffsets * getBuildFilterOffsets()
+        {
+            return m_BuildFilterOffsets;
+        }
 
     public Q_SLOTS:
         // Position. if applyPolicy is true then all filter offsets and autofocus & lock policies are applied.
@@ -356,6 +362,9 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         // Keep track of Autofocus failures
         void setAutofocusStatus(Ekos::FocusState focusState);
         QMap<QString, bool> m_LastAFFailed;
+
+        // Build Filter Offsets utility (member, reused across show/hide)
+        BuildFilterOffsets *m_BuildFilterOffsets {nullptr};
 };
 
 }

@@ -67,62 +67,167 @@ namespace Ekos
 // any outliers (set the AF value to 0 to exclude from processing, or adjust the number). In addition, it is possible
 // to override the offset with a manually entered value.
 //
-BuildFilterOffsets::BuildFilterOffsets(QSharedPointer<FilterManager> filterManager)
+BuildFilterOffsets::BuildFilterOffsets(FilterManager *filterManager)
 {
 #ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
-    if (filterManager.isNull())
-        return;
-
     m_filterManager = filterManager;
 
     setupUi(this);
     setupConnections();
-    initBuildFilterOffsets();
-    setupBuildFilterOffsetsTable();
-    setupGUI();
+    setupGUIOnce();
 
-    // Launch the dialog - synchronous call
-    this->exec();
 }
 
 BuildFilterOffsets::~BuildFilterOffsets()
 {
 }
 
+void BuildFilterOffsets::showDialog()
+{
+    // Reset selection so all filters are used in GUI mode
+    m_selectedFilters.clear();
+
+    // Initialize for a fresh session
+    initialize();
+
+    // Re-setup the per-show GUI elements (buttons, status bar, etc.)
+    setupGUI();
+
+    // Reset the adapt focus checkbox to match saved option
+    buildOffsetsAdaptFocus->setChecked(Options::adaptFocusBFO());
+
+    // Reset the progress bar
+    buildOffsetsProgressBar->reset();
+
+    // Resize the dialog
+    buildOffsetsDialogResize();
+
+    // Show the dialog - synchronous call
+    this->exec();
+}
+
+void BuildFilterOffsets::initialize()
+{
+    // Re-initialize state each time
+    initBuildFilterOffsets();
+
+    // Reset the model - clear all data and reset to initial columns
+    m_BFOModel.clear();
+
+    // Clear AF solutions from previous runs
+    m_AFSolutions.clear();
+
+    // Re-setup the table with current filter data
+    setupBuildFilterOffsetsTable();
+}
+
+void BuildFilterOffsets::setFilterSelection(const QStringList &filters)
+{
+    m_selectedFilters = filters;
+    // Request 5 AF runs by default for each selected filter
+    for (const auto &filter : filters)
+        setNumAFRuns(filter, 5);
+}
+
+void BuildFilterOffsets::setNumAFRuns(const QString &filter, int runs)
+{
+    // Find the row for this filter and set the AF runs
+    for (int row = 0; row < m_BFOModel.rowCount(); row++)
+    {
+        if (m_BFOModel.item(row, getColumn(BFO_FILTER))->text().remove(" *") == filter)
+        {
+            m_BFOModel.setItem(row, getColumn(BFO_NUM_FOCUS_RUNS), new QStandardItem(QString::number(runs)));
+            return;
+        }
+    }
+}
+
+void BuildFilterOffsets::setNumAFRuns(int runs)
+{
+    // Apply to selected filters, or all filters if no selection
+    QStringList targets = m_selectedFilters.isEmpty() ? m_filters.toList() : m_selectedFilters;
+    for (const auto &filter : targets)
+        setNumAFRuns(filter, runs);
+}
+
+void BuildFilterOffsets::setRefFilter(const QString &filter)
+{
+    // Find the row for this filter and set it as reference
+    for (int row = 0; row < m_filters.count(); row++)
+    {
+        if (m_filters[row] == filter)
+        {
+            m_refFilter = row;
+            // Update display: remove * from old ref, add to new
+            for (int r = 0; r < m_BFOModel.rowCount(); r++)
+            {
+                QString text = m_BFOModel.item(r, getColumn(BFO_FILTER))->text();
+                if (text.endsWith(" *"))
+                    m_BFOModel.setItem(r, getColumn(BFO_FILTER), new QStandardItem(m_filters[r]));
+                if (r == row)
+                    m_BFOModel.setItem(r, getColumn(BFO_FILTER), new QStandardItem(m_filters[r] + " *"));
+            }
+            return;
+        }
+    }
+}
+
+void BuildFilterOffsets::startProcessing()
+{
+    buildTheOffsets();
+}
+
+void BuildFilterOffsets::saveOffsets()
+{
+    saveTheOffsets();
+}
+
+QVector<BuildFilterOffsets::AFSolutionDetail> BuildFilterOffsets::getAFSolutions() const
+{
+    return m_AFSolutions;
+}
+
+QMap<QString, int> BuildFilterOffsets::getCalculatedOffsets() const
+{
+    QMap<QString, int> offsets;
+    for (int row = 0; row < m_filters.count(); row++)
+    {
+        auto *item = m_BFOModel.item(row, getColumn(BFO_NEW_OFFSET));
+        if (item)
+            offsets.insert(m_filters[row], item->text().toInt());
+    }
+    return offsets;
+}
+
+QStringList BuildFilterOffsets::getSelectedFilters() const
+{
+    return m_selectedFilters;
+}
+
 void BuildFilterOffsets::setupConnections()
 {
+    if (!m_filterManager)
+        return;
+
     // Connections to FilterManager
-    connect(this, &BuildFilterOffsets::runAutoFocus, m_filterManager.get(), &FilterManager::signalRunAutoFocus);
-    connect(this, &BuildFilterOffsets::abortAutoFocus, m_filterManager.get(), &FilterManager::signalAbortAutoFocus);
+    connect(this, &BuildFilterOffsets::runAutoFocus, m_filterManager, &FilterManager::signalRunAutoFocus);
+    connect(this, &BuildFilterOffsets::abortAutoFocus, m_filterManager, &FilterManager::signalAbortAutoFocus);
 
     // Connections from FilterManager
-    connect(m_filterManager.get(), &FilterManager::autoFocusDone, this, &BuildFilterOffsets::autoFocusComplete);
-    connect(m_filterManager.get(), &FilterManager::ready, this, &BuildFilterOffsets::buildTheOffsetsTaskComplete);
+    connect(m_filterManager, &FilterManager::autoFocusDone, this, &BuildFilterOffsets::autoFocusComplete);
+    connect(m_filterManager, &FilterManager::ready, this, &BuildFilterOffsets::buildTheOffsetsTaskComplete);
 
     // Connections internal to BuildFilterOffsets
     connect(this, &BuildFilterOffsets::ready, this, &BuildFilterOffsets::buildTheOffsetsTaskComplete);
 }
 
-void BuildFilterOffsets::setupGUI()
+void BuildFilterOffsets::setupGUIOnce()
 {
-    // Add action buttons to the button box
-    m_runButton = buildOffsetsButtonBox->addButton("Run", QDialogButtonBox::ActionRole);
-    m_stopButton = buildOffsetsButtonBox->addButton("Stop", QDialogButtonBox::ActionRole);
-
-    // Set tooltips for the buttons
-    m_runButton->setToolTip("Run Build Filter Offsets utility");
-    m_stopButton->setToolTip("Interrupt processing when utility is running");
-    buildOffsetsButtonBox->button(QDialogButtonBox::Save)->setToolTip("Save New Offsets");
-
-    // Set the buttons' state
-    setBuildFilterOffsetsButtons(BFO_INIT);
-
+    // These are one-time connections that only need to be set up once
     // Connect up button callbacks
-    connect(m_runButton, &QPushButton::clicked, this, &BuildFilterOffsets::buildTheOffsets);
-    connect(m_stopButton, &QPushButton::clicked, this, &BuildFilterOffsets::stopProcessing);
     connect(buildOffsetsButtonBox->button(QDialogButtonBox::Save), &QPushButton::clicked, this,
             &BuildFilterOffsets::saveTheOffsets);
     connect(buildOffsetsButtonBox->button(QDialogButtonBox::Close), &QPushButton::clicked, this, [this]()
@@ -135,8 +240,7 @@ void BuildFilterOffsets::setupGUI()
             this->done(QDialog::Rejected);
     });
 
-    // Setup the Adapt Focus checkbox
-    buildOffsetsAdaptFocus->setChecked(Options::adaptFocusBFO());
+    // Setup the Adapt Focus checkbox - connect just once
     connect(buildOffsetsAdaptFocus, &QCheckBox::toggled, this, [&](bool checked)
     {
         Options::setAdaptFocusBFO(checked);
@@ -148,6 +252,36 @@ void BuildFilterOffsets::setupGUI()
 
     // Connect double click callback
     connect(buildOffsetsTableView, &QAbstractItemView::doubleClicked, this, &BuildFilterOffsets::refChanged);
+}
+
+void BuildFilterOffsets::setupGUI()
+{
+    // Clear any existing buttons to avoid duplicates across showDialog calls
+    // Remove previously added action buttons (if any) to avoid duplicates
+    auto buttons = buildOffsetsButtonBox->buttons();
+    for (auto button : buttons)
+    {
+        if (button->text() == "Run" || button->text() == "Stop")
+            buildOffsetsButtonBox->removeButton(button);
+    }
+
+    // Add action buttons to the button box
+    m_runButton = buildOffsetsButtonBox->addButton("Run", QDialogButtonBox::ActionRole);
+    m_stopButton = buildOffsetsButtonBox->addButton("Stop", QDialogButtonBox::ActionRole);
+
+    // Set tooltips for the buttons
+    m_runButton->setToolTip("Run Build Filter Offsets utility");
+    m_stopButton->setToolTip("Interrupt processing when utility is running");
+    buildOffsetsButtonBox->button(QDialogButtonBox::Save)->setToolTip("Save New Offsets");
+
+    // Set the buttons' state
+    setBuildFilterOffsetsButtons(BFO_INIT);
+
+    // Connect up per-show button callbacks (disconnect old ones first)
+    disconnect(m_runButton, nullptr, this, nullptr);
+    disconnect(m_stopButton, nullptr, this, nullptr);
+    connect(m_runButton, &QPushButton::clicked, this, &BuildFilterOffsets::buildTheOffsets);
+    connect(m_stopButton, &QPushButton::clicked, this, &BuildFilterOffsets::stopProcessing);
 
     // Display an initial message in the status bar
     buildOffsetsStatusBar->showMessage(i18n("Idle"));
@@ -449,6 +583,7 @@ void BuildFilterOffsets::runBuildOffsets()
         setBuildFilterOffsetsButtons(BFO_SAVE);
         m_tableInEditMode = true;
         buildOffsetsStatusBar->showMessage(i18n("Processing complete."));
+        Q_EMIT processingComplete();
     }
     else
     {
@@ -864,7 +999,7 @@ void BuildFilterOffsets::calculateOffset(const int row)
 // Col x -- BFO_AVERAGE        -- Average AF run. User selects the number of AF runs at run time
 // Col y -- BFO_NEW_OFFSET     -- New offset.
 // Col z -- BFO_SAVE_CHECK     -- Save checkbox
-int BuildFilterOffsets::getColumn(const BFOColID id)
+int BuildFilterOffsets::getColumn(const BFOColID id) const
 {
     switch (id)
     {
