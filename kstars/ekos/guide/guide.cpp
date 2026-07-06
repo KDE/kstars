@@ -615,6 +615,21 @@ void Guide::updateGuideParams()
         for (int i = 1; i <= maxBinX; i++)
             guideBinning->addItem(QString("%1x%2").arg(i).arg(i));
 
+        // If we have a saved binning from optical train settings, apply it now
+        // that the combo is populated. This handles the case where setAllSettings()
+        // ran before the camera connected and the combo was still empty.
+        auto savedBinning = m_Settings["guideBinning"];
+        if (savedBinning.isValid())
+        {
+            int idx = guideBinning->findText(savedBinning.toString());
+            if (idx >= 0)
+            {
+                guideBinIndex = idx;
+                subBinX = idx + 1;
+                subBinY = idx + 1;
+            }
+        }
+
         guideBinning->setCurrentIndex( guideBinIndex );
 
         guideBinning->blockSignals(false);
@@ -2022,11 +2037,15 @@ void Guide::updateProperty(INDI::Property prop)
             (prop.isNameMatch("GUIDER_BINNING") && useGuideHead))
     {
         auto nvp = prop.getNumber();
-        auto value = nvp->at(0)->getValue();
-        if (guideBinIndex > (value - 1)) // INDI driver reports not supported binning
+        auto maxBin = nvp->at(0)->getMax();
+
+        // Only report "not supported" if desired binning exceeds the driver's max
+        if (guideBinIndex > (maxBin - 1))
         {
-            appendLogText(i18n("%1x%1 guide binning is not supported.", guideBinIndex + 1));
-            guideBinning->setCurrentIndex( value - 1 );
+            appendLogText(i18n("%1x%1 guide binning is not supported. Maximum is %2x%2.",
+                               guideBinIndex + 1, static_cast<int>(maxBin)));
+            guideBinIndex = static_cast<int>(maxBin) - 1;
+            guideBinning->setCurrentIndex(guideBinIndex);
             updateSetting("guideBinning", guideBinning->currentText());
         }
         else
