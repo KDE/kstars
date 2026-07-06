@@ -139,14 +139,14 @@ int main(int argc, char *argv[])
         "kstars", i18n("KStars"), versionString, description.toString(), KAboutLicense::GPL,
         "2001-" + QString::number(QDate::currentDate().year()) +
         i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) "
-         "2014-2017 Max Planck Society"),
+             "2014-2017 Max Planck Society"),
         i18nc("Build number followed by copyright notice", "Build: %1\n\n%2\n\n%3",
               KSTARS_BUILD_TS,
               KSTARS_BUILD_RELEASE == QLatin1String("Beta") ?
-    "Pre-release beta snapshot. Do not use in production." :
-    "Stable release.",
+              "Pre-release beta snapshot. Do not use in production." :
+              "Stable release.",
               notice.toString()),
-    "https://edu.kde.org/kstars");
+        "https://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"),
                         "jharris@30doradus.org", "http://www.30doradus.org");
     aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"),
@@ -159,14 +159,15 @@ int main(int argc, char *argv[])
                         i18n("FITSViewer & Ekos Improvements. KStars OSX Port"),
                         "rlancaste@gmail.com");
     aboutData.addAuthor(i18n("Eric Dejouhanet"), QString(), "eric.dejouhanet@gmail.com",
-                        i18n("Ekos Scheduler Improvements"));
+                        i18n("CI/CD pipeline & Ekos Scheduler Improvements"));
     aboutData.addAuthor(i18n("Wolfgang Reissenberger"), QString(),
                         "sterne-jaeger@t-online.de",
                         i18n("Ekos Scheduler & Observatory Improvements"));
     aboutData.addAuthor(i18n("Hy Murveit"), QString(), "murveit@gmail.com",
-                        i18n("FITS, Focus, Guide Improvements"));
+                        i18n("Analyze module. FITS, Focus, Guide, and Scheduler Improvements"));
     aboutData.addAuthor(i18n("John Evans"), QString(), "john.e.evans.email@gmail.com",
-                        i18n("Focus algorithms"));
+                        i18n("Focus algorithms & Livestacking"));
+    aboutData.addCredit(i18n("Tony Schriber"), i18n("Rotator Control"));
 
     // Inactive developers
     aboutData.addAuthor(i18n("Csaba Kertesz"), QString(), "csaba.kertesz@gmail.com", "");
@@ -195,13 +196,14 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Rishab Arora"), QString(), "ra.rishab@gmail.com");
 
     // Contributors
+    aboutData.addCredit(i18n("Andreas Ruthner"), i18n("Numerous fixes in Guiding, Streaming, and Scheduler."));
+    aboutData.addCredit(i18n("Christian Kemper"), i18n("Mount Model wizard improvements. Cities database refactor."));
+    aboutData.addCredit(i18n("Thomas Nemer"), i18n("Ekos MCP server and AI skills."));
     aboutData.addCredit(
         i18n("Valery Kharitonov"),
         i18n("Converted labels containing technical terms to links to documentation"));
     aboutData.addCredit(i18n("Ana-Maria Constantin"),
                         i18n("Technical documentation on Astronomy and KStars"));
-    aboutData.addCredit(i18n("Andrew Stepanenko"),
-                        i18n("Guiding code based on lin_guider"));
     aboutData.addCredit(i18n("Nuno Pinheiro"), i18n("Artwork"));
     aboutData.addCredit(
         i18n("Utkarsh Simha"),
@@ -216,7 +218,6 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Jamie Smith"), i18n("KStars OSX Port."));
     aboutData.addCredit(i18n("Patrick Molenaar"), i18n("Bahtinov Focus Assistant."));
     aboutData.addCredit(i18n("Philipp Auersperg-Castell"), i18n("Supernovae daily updates"));
-    aboutData.addCredit(i18n("Tony Schriber"), i18n("Rotator Dialog improvements"));
     aboutData.addCredit(i18n("Joseph McGee"), i18n("Sub-exposure calculator based on Dr Robin Glover's work"));
     aboutData.addCredit(i18n("Project Nayuki"), i18n("QR Code generator library (MIT)"), QString(),
                         "https://www.nayuki.io/page/qr-code-generator-library");
