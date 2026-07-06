@@ -210,6 +210,12 @@ class Focus : public QWidget, public Ui::Focus
         void reconnectFocuser(const QString &focuser);
 
         /**
+             * @brief reconnectDriver Reconnect the camera driver after a timeout-driven restart.
+             * @param camera name of the camera.
+             */
+        void reconnectDriver(const QString &camera);
+
+        /**
              * @brief addFilter Add filter to the list of available filters.
              * @param newFilter pointer to filter device.
              * @return True if added successfully, false if duplicate or failed to add.
@@ -655,6 +661,12 @@ class Focus : public QWidget, public Ui::Focus
          * @param focuser
          */
         void focuserTimedout(const QString &focuser);
+
+        /**
+         * @brief driverTimedout Signal emitted when camera driver times out and needs restart.
+         * @param deviceName name of the device that timed out.
+         */
+        void driverTimedout(const QString &deviceName);
 
     private:
 
@@ -1351,6 +1363,7 @@ class Focus : public QWidget, public Ui::Focus
         QTimer captureTimeout;
         uint8_t captureTimeoutCounter { 0 };
         uint8_t m_MissingCameraCounter { 0 };
+        uint8_t m_DeviceRestartCounter { 0 };
         uint8_t captureFailureCounter { 0 };
 
         // Gain Control

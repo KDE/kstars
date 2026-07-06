@@ -37,6 +37,8 @@
 
 #include <ekos_align_debug.h>
 
+#define CAPTURE_TIMEOUT_THRESHOLD 30000
+
 namespace Ekos
 {
 
@@ -262,10 +264,13 @@ bool Align::captureAndSolve(bool initialCall)
 
     prepareCapture(targetChip);
 
+    double captureExposure = seqExpose;
     if (matchPAHStage(PAA::PAH_REFRESH))
-        targetChip->capture(m_PolarAlignmentAssistant->getPAHExposureDuration());
-    else
-        targetChip->capture(seqExpose);
+        captureExposure = m_PolarAlignmentAssistant->getPAHExposureDuration();
+    targetChip->capture(captureExposure);
+
+    // Start capture timeout: exposure + 30s threshold
+    m_CaptureTimer.start(captureExposure * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
 
     solveB->setEnabled(false);
     loadSlewB->setEnabled(false);
@@ -345,8 +350,20 @@ void Align::processData(const QSharedPointer<FITSData> &data)
     if (chip.isValid() && chip.toInt() == ISD::CameraChip::GUIDE_CCD)
         return;
 
+    // Stop the capture timeout timer since we got the image
+    m_CaptureTimer.stop();
+    m_CaptureTimeoutCounter = 0;
+
+    // disconnect() with a null sender is a safe Qt no-op, so these calls are safe
+    // even if m_Camera has been set to nullptr already.
     disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Align::processData);
     disconnect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Align::checkCameraExposureProgress);
+
+    // Guard against m_Camera being null: if the driver was removed/restarted the
+    // newImage signal may have been already queued when m_Camera was set to nullptr.
+    // getChip() on a null pointer would cause SIGSEGV at the primaryChip offset.
+    if (!m_Camera)
+        return;
 
     if (data)
     {
@@ -489,7 +506,7 @@ void Align::startSolving()
             {
                 appendLogText(
                     i18n("No index files were found on your system in the specified index file directories."
-                     "Please download some index files or add the correct directory to the list."));
+                         "Please download some index files or add the correct directory to the list."));
                 KConfigDialog * alignSettings = KConfigDialog::exists("alignsettings");
                 if(alignSettings && m_IndexFilesPage)
                 {
@@ -1111,31 +1128,70 @@ uint8_t Align::getSolverDownsample(uint16_t binnedW)
 
 void Align::processCaptureTimeout()
 {
-    if (m_CaptureTimeoutCounter++ > 3)
+    m_CaptureTimeoutCounter++;
+
+    if (m_Camera == nullptr)
+        return;
+
+    if (m_DeviceRestartCounter >= 3)
     {
-        appendLogText(i18n("Capture timed out."));
+        m_CaptureTimeoutCounter = 0;
+        m_DeviceRestartCounter = 0;
+        appendLogText(i18n("Exposure timeout. Aborting..."));
         m_CaptureTimer.stop();
         abort();
+        return;
+    }
+
+    if (m_CaptureTimeoutCounter > 3)
+    {
+        appendLogText(i18n("Exposure timeout. Too many. Restarting driver."));
+        QString camera = m_Camera->getDeviceName();
+        m_CaptureTimer.stop();
+        Q_EMIT driverTimedout(camera);
+        QTimer::singleShot(5000, this, [guard = QPointer<Align>(this), camera]()
+        {
+            if (!guard)
+                return;
+            guard->m_DeviceRestartCounter++;
+            guard->reconnectDriver(camera);
+        });
+        return;
+    }
+
+    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+
+    // If the camera is still exposing, this is a genuine capture timeout.
+    // Abort the exposure and retry with the original capture timeout.
+    if (targetChip->isCapturing())
+    {
+        appendLogText(i18n("Exposure timeout. Restarting exposure..."));
+        targetChip->abortExposure();
+        m_CaptureTimer.start(alignExposure->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
     }
     else
     {
-        ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
-        if (targetChip->isCapturing())
+        // Camera is not capturing — restart the whole capture-and-solve cycle.
+        setAlignTableResult(ALIGN_RESULT_FAILED);
+        if (m_resetCaptureTimeoutCounter)
         {
-            appendLogText(i18n("Capturing still running, Retrying in %1 seconds...", m_CaptureTimer.interval() / 500));
-            targetChip->abortExposure();
-            m_CaptureTimer.start( m_CaptureTimer.interval() * 2);
+            m_resetCaptureTimeoutCounter = false;
+            m_CaptureTimeoutCounter = 0;
         }
-        else
-        {
-            setAlignTableResult(ALIGN_RESULT_FAILED);
-            if (m_resetCaptureTimeoutCounter)
-            {
-                m_resetCaptureTimeoutCounter = false;
-                m_CaptureTimeoutCounter = 0;
-            }
-            captureAndSolve(false);
-        }
+        captureAndSolve(false);
+    }
+}
+
+void Align::reconnectDriver(const QString &camera)
+{
+    if (m_Camera && m_Camera->getDeviceName() == camera)
+    {
+        // Set state to IDLE so that checkCamera is processed
+        checkCamera();
+
+        // Reset the counters and restart capture & solve
+        m_CaptureTimeoutCounter = 0;
+        captureAndSolve(false);
     }
 }
 

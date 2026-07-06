@@ -2561,6 +2561,7 @@ void Manager::initAlign()
 
         ekosLiveClient.get()->message()->updateAlignStatus(cStatus);
     });
+    connect(alignModule(), &Ekos::Align::driverTimedout, this, &Ekos::Manager::restartDriver);
     if (Options::ekosLeftIcons())
     {
         QTransform trans;
@@ -2593,6 +2594,7 @@ void Manager::initFocus()
             &Ekos::FocusProgressWidget::updateFocusStarPixmap);
     connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newHFR, this, &Ekos::Manager::updateCurrentHFR);
     connect(focusModule()->mainFocuser().get(), &Ekos::Focus::focuserTimedout, this, &Ekos::Manager::restartDriver);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::driverTimedout, this, &Ekos::Manager::restartDriver);
     connect(focusModule(), &Ekos::FocusModule::newLog, this, [this]()
     {
         // update the logging in the client

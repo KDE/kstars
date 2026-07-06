@@ -608,6 +608,12 @@ class Align : public QWidget, public Ui::Align
         // Capture Timeout
         void processCaptureTimeout();
 
+        /**
+         * @brief reconnectDriver Reconnect the camera driver after a timeout-driven restart.
+         * @param camera name of the camera.
+         */
+        void reconnectDriver(const QString &camera);
+
         // Rotator Timeout
         void checkRotatorTimeout();
 
@@ -654,6 +660,12 @@ class Align : public QWidget, public Ui::Align
 
         // Mount model progress update
         void mountModelProgressUpdated(const QVariantMap &settings);
+
+        /**
+         * @brief driverTimedout Signal emitted when camera driver times out and needs restart.
+         * @param deviceName name of the device that timed out.
+         */
+        void driverTimedout(const QString &deviceName);
 
     private:
 
@@ -894,6 +906,7 @@ class Align : public QWidget, public Ui::Align
         /// Issue counters
         uint8_t m_CaptureTimeoutCounter { 0 };
         uint8_t m_CaptureErrorCounter { 0 };
+        uint8_t m_DeviceRestartCounter { 0 };
         uint8_t m_SlewErrorCounter { 0 };
         bool m_resetCaptureTimeoutCounter = false;
 

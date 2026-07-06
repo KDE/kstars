@@ -129,7 +129,11 @@ void CaptureCountsWidget::updateCaptureCountDown(int delta)
         overallRemainingTime->setText(totalCounts[m_currentTrainName].countDown.toString("hh:mm:ss"));
         gr_overallRemainingTime->setText(overallRemainingTime->text());
     }
-    if (!m_captureProcess->isActiveJobPreview() && isCaptureActive(m_currentTrainName))
+    // Guard against a null m_captureProcess: the raw pointer is initialised to nullptr
+    // and the countdown timer can fire before shareCaptureProcess() is called, or after
+    // the Capture module has been torn down during a driver restart.  Dereferencing a
+    // null pointer here causes SIGSEGV deep inside Capture::mainCamera().
+    if (m_captureProcess != nullptr && !m_captureProcess->isActiveJobPreview() && isCaptureActive(m_currentTrainName))
     {
         jobRemainingTime->setText(jobCounts[m_currentTrainName].countDown.toString("hh:mm:ss"));
         sequenceRemainingTime->setText(sequenceCounts[m_currentTrainName].countDown.toString("hh:mm:ss"));

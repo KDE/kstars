@@ -1144,10 +1144,12 @@ void Guide::processCaptureTimeout()
         ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
         QVariantMap settings = frameSettings[targetChip];
         Q_EMIT driverTimedout(camera);
-        QTimer::singleShot(5000, [ &, camera, settings]()
+        QTimer::singleShot(5000, this, [guard = QPointer<Guide>(this), camera, settings]()
         {
-            m_DeviceRestartCounter++;
-            reconnectDriver(camera, settings);
+            if (!guard)
+                return;
+            guard->m_DeviceRestartCounter++;
+            guard->reconnectDriver(camera, settings);
         });
         return;
     }
@@ -1179,9 +1181,19 @@ void Guide::reconnectDriver(const QString &camera, QVariantMap settings)
         return;
     }
 
-    QTimer::singleShot(5000, this, [ &, camera, settings]()
+    // Guard against infinite retry when camera was removed during driver restart
+    if (m_DeviceRestartCounter >= 3)
     {
-        reconnectDriver(camera, settings);
+        appendLogText(i18n("Failed to reconnect camera after driver restart."));
+        abort();
+        return;
+    }
+
+    QTimer::singleShot(5000, this, [guard = QPointer<Guide>(this), camera, settings]()
+    {
+        if (!guard)
+            return;
+        guard->reconnectDriver(camera, settings);
     });
 }
 
@@ -1219,6 +1231,13 @@ void Guide::processData(const QSharedPointer<FITSData> &data)
         return;
     m_isProcessingFrame = true;
     auto frameGuard = qScopeGuard([this] { m_isProcessingFrame = false; });
+
+    // Guard against the case where the camera driver was removed/restarted and a
+    // newImage signal was already queued in the event loop before m_Camera was set
+    // to nullptr.  Dereferencing a null m_Camera causes SIGSEGV at the primaryChip
+    // offset inside ISD::Camera.
+    if (!m_Camera)
+        return;
 
     ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
     if (targetChip->getCaptureMode() != FITS_GUIDE)

@@ -2066,9 +2066,11 @@ void CameraProcess::reconnectCameraDriver(const QString &camera, const QString &
         return;
     }
 
-    QTimer::singleShot(5000, this, [ &, camera, filterWheel]()
+    QTimer::singleShot(5000, this, [guard = QPointer<CameraProcess>(this), camera, filterWheel]()
     {
-        reconnectCameraDriver(camera, filterWheel);
+        if (!guard)
+                return;
+            guard->reconnectCameraDriver(camera, filterWheel);
     });
 }
 
@@ -2165,10 +2167,12 @@ void CameraProcess::processCaptureTimeout()
         QString fw = (devices()->filterWheel() != nullptr) ?
                      devices()->filterWheel()->getDeviceName() : "";
         Q_EMIT driverTimedout(camera);
-        QTimer::singleShot(5000, this, [ &, camera, fw]()
+        QTimer::singleShot(5000, this, [guard = QPointer<CameraProcess>(this), camera, fw]()
         {
-            state()->setDeviceRestartCounter(state()->deviceRestartCounter() + 1);
-            reconnectCameraDriver(camera, fw);
+            if (!guard)
+                return;
+            guard->state()->setDeviceRestartCounter(guard->state()->deviceRestartCounter() + 1);
+            guard->reconnectCameraDriver(camera, fw);
         });
         return;
     }

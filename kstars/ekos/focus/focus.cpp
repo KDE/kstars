@@ -2217,9 +2217,11 @@ void Focus::handleFocusMotionTimeout()
         appendLogText(i18n("Focus motion timed out (%1). Restarting focus driver %2", m_FocusMotionTimerCounter, focuser));
         Q_EMIT focuserTimedout(focuser);
 
-        QTimer::singleShot(5000, this, [ &, focuser]()
+        QTimer::singleShot(5000, this, [guard = QPointer<Focus>(this), focuser]()
         {
-            Focus::reconnectFocuser(focuser);
+            if (!guard)
+                return;
+            guard->reconnectFocuser(focuser);
         });
         return;
     }
@@ -2285,10 +2287,29 @@ void Focus::reconnectFocuser(const QString &focuser)
         return;
     }
 
-    QTimer::singleShot(5000, this, [ &, focuser]()
+    QTimer::singleShot(5000, this, [guard = QPointer<Focus>(this), focuser]()
     {
-        reconnectFocuser(focuser);
+        if (!guard)
+            return;
+        guard->reconnectFocuser(focuser);
     });
+}
+
+void Focus::reconnectDriver(const QString &camera)
+{
+    if (m_Camera && m_Camera->getDeviceName() == camera)
+    {
+        // Set state to IDLE so that checkCamera is processed
+        Ekos::FocusState currentState = m_state;
+        m_state = FOCUS_IDLE;
+        checkCamera();
+        // Restore state
+        m_state = currentState;
+
+        // Reset the counters and restart capture
+        captureTimeoutCounter = 0;
+        capture(focusExposure->value());
+    }
 }
 
 void Focus::processData(const QSharedPointer<FITSData> &data)
@@ -6120,39 +6141,39 @@ void Focus::processCaptureTimeout()
 
     captureTimeoutCounter++;
 
-    if (captureTimeoutCounter >= 3)
+    if (m_Camera == nullptr)
+        return;
+
+    if (m_DeviceRestartCounter >= 3)
     {
         captureTimeoutCounter = 0;
-        m_MissingCameraCounter = 0;
+        m_DeviceRestartCounter = 0;
         captureTimeout.stop();
         appendLogText(i18n("Exposure timeout. Aborting..."));
         completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_CAPTURE_TIMEOUT);
+        return;
     }
-    else if (m_Camera)
-    {
-        appendLogText(i18n("Exposure timeout. Restarting exposure..."));
-        ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
-        targetChip->abortExposure();
 
-        capture(focusExposure->value());
-    }
-    // Don't allow this to happen all night. We will repeat checking (most likely for activeCamera()
-    // another 200s = 40 * 5s, but after that abort capture.
-    else if (m_MissingCameraCounter < 40)
+    if (captureTimeoutCounter > 3)
     {
-        m_MissingCameraCounter++;
-        qCDebug(KSTARS_EKOS_FOCUS) << "Unable to restart focus exposure as camera is missing, trying again in 5 seconds...";
-        QTimer::singleShot(5000, this, &Focus::processCaptureTimeout);
-    }
-    else
-    {
-        m_MissingCameraCounter = 0;
-        captureTimeoutCounter = 0;
+        appendLogText(i18n("Exposure timeout. Too many. Restarting driver."));
+        QString camera = m_Camera->getDeviceName();
         captureTimeout.stop();
-        appendLogText(i18n("Exposure timeout. Aborting..."));
-        completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_CAPTURE_TIMEOUT);
+        Q_EMIT driverTimedout(camera);
+        QTimer::singleShot(5000, this, [guard = QPointer<Focus>(this), camera]()
+        {
+            if (!guard)
+                return;
+            guard->m_DeviceRestartCounter++;
+            guard->reconnectDriver(camera);
+        });
+        return;
     }
 
+    appendLogText(i18n("Exposure timeout. Restarting exposure..."));
+    ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
+    targetChip->abortExposure();
+    capture(focusExposure->value());
 }
 
 void Focus::processCaptureErrorDefault()
