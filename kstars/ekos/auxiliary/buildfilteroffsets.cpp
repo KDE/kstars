@@ -78,6 +78,8 @@ BuildFilterOffsets::BuildFilterOffsets(FilterManager *filterManager) : QDialog(f
     setupUi(this);
     setupConnections();
     setupGUIOnce();
+
+    setObjectName(QString("BuildFilterOffsets:%1").arg(filterManager->filterWheel()->getDeviceName()));
 }
 
 BuildFilterOffsets::~BuildFilterOffsets()
@@ -212,8 +214,8 @@ void BuildFilterOffsets::setupConnections()
         return;
 
     // Connections to FilterManager
-    connect(this, &BuildFilterOffsets::runAutoFocus, m_filterManager, &FilterManager::signalRunAutoFocus);
-    connect(this, &BuildFilterOffsets::abortAutoFocus, m_filterManager, &FilterManager::signalAbortAutoFocus);
+    connect(this, &BuildFilterOffsets::runAutoFocus, m_filterManager, &FilterManager::runAutoFocus);
+    connect(this, &BuildFilterOffsets::abortAutoFocus, m_filterManager, &FilterManager::abortAutoFocus);
 
     // Connections from FilterManager
     connect(m_filterManager, &FilterManager::autoFocusDone, this, &BuildFilterOffsets::autoFocusComplete);
@@ -283,7 +285,7 @@ void BuildFilterOffsets::setupGUI()
     connect(m_stopButton, &QPushButton::clicked, this, &BuildFilterOffsets::stopProcessing);
 
     // Display an initial message in the status bar
-    buildOffsetsStatusBar->showMessage(i18n("Idle"));
+    updateStatusBar(i18n("Idle"));
 
     // Resize the dialog based on the data
     buildOffsetsDialogResize();
@@ -365,6 +367,10 @@ void BuildFilterOffsets::setupBuildFilterOffsetsTable()
 
 void BuildFilterOffsets::setBuildFilterOffsetsButtons(const BFOButtonState state)
 {
+    // In programmatic mode, buttons are not created
+    if (!m_runButton || !m_stopButton)
+        return;
+
     switch (state)
     {
         case BFO_INIT:
@@ -409,6 +415,19 @@ void BuildFilterOffsets::setBuildFilterOffsetsButtons(const BFOButtonState state
 // - Calculate the average AF solution for that filter and display it
 void BuildFilterOffsets::buildTheOffsets()
 {
+    // If the dialog hasn't been set up yet (programmatic/EkosLive path),
+    // initialize and show it non-modally so the user can see progress,
+    // then fall through to continue processing.
+    if (!m_runButton)
+    {
+        initialize();
+        setupGUI();
+        buildOffsetsAdaptFocus->setChecked(Options::adaptFocusBFO());
+        buildOffsetsProgressBar->reset();
+        buildOffsetsDialogResize();
+        show();
+    }
+
     buildOffsetsQItem qItem;
 
     // Set the buttons
@@ -497,7 +516,7 @@ void BuildFilterOffsets::buildTheOffsets()
     m_inBuildOffsets = true;
 
     // Emit progress
-    emit filterOffsetProgress(0, m_buildOffsetsQ.count(), i18n("Starting Build Filter Offsets..."));
+    emit progressUpdated(0, m_buildOffsetsQ.count(), i18n("Starting Build Filter Offsets..."));
     runBuildOffsets();
 }
 
@@ -564,8 +583,8 @@ void BuildFilterOffsets::buildTheOffsetsTaskComplete()
     {
         // All good so update the progress bar and process the next task
         buildOffsetsProgressBar->setValue(buildOffsetsProgressBar->value() + 1);
-        emit filterOffsetProgress(buildOffsetsProgressBar->value(), buildOffsetsProgressBar->maximum(),
-                                  buildOffsetsStatusBar->currentMessage());
+        emit progressUpdated(buildOffsetsProgressBar->value(), buildOffsetsProgressBar->maximum(),
+                             buildOffsetsStatusBar->currentMessage());
         runBuildOffsets();
     }
 }
@@ -583,6 +602,13 @@ void BuildFilterOffsets::buildOffsetsDialogResize()
     this->resize(width, height);
 }
 
+void BuildFilterOffsets::updateStatusBar(const QString &message)
+{
+    buildOffsetsStatusBar->showMessage(message);
+    emit progressUpdated(buildOffsetsProgressBar->value(), buildOffsetsProgressBar->maximum(),
+                         message);
+}
+
 void BuildFilterOffsets::runBuildOffsets()
 {
     if (m_buildOffsetsQ.isEmpty())
@@ -591,7 +617,7 @@ void BuildFilterOffsets::runBuildOffsets()
         setCellsEditable();
         setBuildFilterOffsetsButtons(BFO_SAVE);
         m_tableInEditMode = true;
-        buildOffsetsStatusBar->showMessage(i18n("Processing complete."));
+        updateStatusBar("Processing complete.");
         Q_EMIT processingComplete();
     }
     else
@@ -607,13 +633,13 @@ void BuildFilterOffsets::processQItem(const buildOffsetsQItem currentItem)
     if (currentItem.changeFilter)
     {
         // Need to change filter
-        buildOffsetsStatusBar->showMessage(i18n("Changing filter to %1...", currentItem.color));
+        updateStatusBar(i18n("Changing filter to %1...", currentItem.color));
 
         auto pos = m_filterManager->m_currentFilterLabels.indexOf(currentItem.color) + 1;
         if (!m_filterManager->setFilterPosition(pos, m_filterManager->CHANGE_POLICY))
         {
             // Filter wheel position change failed.
-            buildOffsetsStatusBar->showMessage(i18n("Problem changing filter to %1...", currentItem.color));
+            updateStatusBar(i18n("Problem changing filter to %1...", currentItem.color));
             m_problemFlag = true;
         }
     }
@@ -622,7 +648,7 @@ void BuildFilterOffsets::processQItem(const buildOffsetsQItem currentItem)
         // Signal an AF run with an arg of "build offsets"
         const int run = m_colIdx - getColumn(BFO_AF_RUN_1) + 1;
         const int numRuns = m_BFOModel.item(m_rowIdx, getColumn(BFO_NUM_FOCUS_RUNS))->text().toInt();
-        buildOffsetsStatusBar->showMessage(i18n("Running Autofocus on %1 (%2/%3)...", currentItem.color, run, numRuns));
+        updateStatusBar(i18n("Running Autofocus on %1 (%2/%3)...", currentItem.color, run, numRuns));
         Q_EMIT runAutoFocus(AutofocusReason::FOCUS_FILTER_OFFSETS, "");
     }
 }
@@ -873,7 +899,7 @@ void BuildFilterOffsets::stopProcessing()
     else
     {
         // AF run is currently in progress so signal an abort
-        buildOffsetsStatusBar->showMessage(i18n("Aborting Autofocus..."));
+        updateStatusBar(i18n("Aborting Autofocus..."));
         m_abortAFPending = true;
         Q_EMIT abortAutoFocus();
     }
@@ -1012,16 +1038,16 @@ void BuildFilterOffsets::calculateOffset(const int row)
 int BuildFilterOffsets::getColumn(const BFOColID id) const
 {
     switch (id)
-{
-    case BFO_FILTER:
-    case BFO_OFFSET:
-    case BFO_LOCK:
-    case BFO_NUM_FOCUS_RUNS:
-    case BFO_AF_RUN_1:
-        break;
+    {
+        case BFO_FILTER:
+        case BFO_OFFSET:
+        case BFO_LOCK:
+        case BFO_NUM_FOCUS_RUNS:
+        case BFO_AF_RUN_1:
+            break;
 
-    case BFO_AVERAGE:
-        return m_BFOModel.columnCount() - 3;
+        case BFO_AVERAGE:
+            return m_BFOModel.columnCount() - 3;
             break;
 
         case BFO_NEW_OFFSET:
@@ -1050,8 +1076,12 @@ int BuildFilterOffsets::getMaxRuns() const
     return getColumn(BFO_AVERAGE) - getColumn(BFO_AF_RUN_1);
 }
 
-QVariantMap BuildFilterOffsets::getAllSettings() const
+QVariantMap BuildFilterOffsets::getAllSettings()
 {
+    // Lazy-initialize if called before the dialog is shown (programmatic path)
+    if (m_BFOModel.rowCount() == 0)
+        initialize();
+
     QVariantMap settings;
     QVariantList filtersList;
 
@@ -1117,6 +1147,10 @@ QVariantMap BuildFilterOffsets::getAllSettings() const
 
 void BuildFilterOffsets::setAllSettings(const QVariantMap &settings)
 {
+    // Lazy-initialize if called before the dialog is shown (programmatic path)
+    if (m_BFOModel.rowCount() == 0)
+        initialize();
+
     if (settings.contains("adaptFocus"))
         buildOffsetsAdaptFocus->setChecked(settings["adaptFocus"].toBool());
 

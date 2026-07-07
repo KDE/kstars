@@ -340,8 +340,8 @@ void FilterManager::setFilterWheel(ISD::FilterWheel *filter)
     m_BuildFilterOffsets = new BuildFilterOffsets(this);
 
     // Forward BuildFilterOffsets progress signal
-    connect(m_BuildFilterOffsets, &BuildFilterOffsets::filterOffsetProgress,
-            this, &FilterManager::filterOffsetProgress, Qt::UniqueConnection);
+    connect(m_BuildFilterOffsets, &BuildFilterOffsets::progressUpdated,
+            this, &FilterManager::progressUpdated, Qt::UniqueConnection);
 
     setObjectName(QString("FilterManager:%1").arg(filter->getDeviceName()));
 
@@ -1029,23 +1029,11 @@ void FilterManager::buildFilterOffsets()
         m_BuildFilterOffsets->showDialog();
 }
 
-void FilterManager::signalRunAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo)
-{
-    // BuildFilterOffsets signalled runAutoFocus so pass signal to Focus
-    Q_EMIT runAutoFocus(autofocusReason, reasonInfo);
-}
-
 void FilterManager::autoFocusComplete(FocusState completionState, int currentPosition, double currentTemperature,
                                       double currentAlt)
 {
     // Focus signalled Autofocus completed so pass signal to BuildFilterOffsets
     Q_EMIT autoFocusDone(completionState, currentPosition, currentTemperature, currentAlt);
-}
-
-void FilterManager::signalAbortAutoFocus()
-{
-    // BuildFilterOffsets signalled abortAutoFocus so pass signal to Focus
-    Q_EMIT abortAutoFocus();
 }
 
 void FilterManager::checkFilterChangeTimeout()

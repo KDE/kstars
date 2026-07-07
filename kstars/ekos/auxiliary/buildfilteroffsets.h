@@ -40,7 +40,7 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
 
         // ----- GUI -----
         // Show and execute the dialog - reinitializes model/UI each time
-        void showDialog();
+        Q_INVOKABLE void showDialog();
 
         // ----- Programmatic API -----
         // Initialize for a new build-filter-offsets session. Clears previous state.
@@ -70,7 +70,7 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
         void autoFocusComplete(FocusState completionState, int currentPosition, double currentTemperature, double currentAlt);
 
         // Get all settings
-        QVariantMap getAllSettings() const;
+        QVariantMap getAllSettings();
         // Set all settings
         void setAllSettings(const QVariantMap &settings);
 
@@ -85,7 +85,7 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
         void ready();
         // Emitted when all processing is complete (queue empty, AF runs done)
         void processingComplete();
-        void filterOffsetProgress(int current, int total, const QString &status);
+        void progressUpdated(int current, int total, const QString &status);
 
     public Q_SLOTS:
         // Start the build process
@@ -98,6 +98,7 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
     private Q_SLOTS:
         void itemChanged(QStandardItem *item);
         void refChanged(QModelIndex index);
+        void updateStatusBar(const QString &message);
 
     private:
 
@@ -186,8 +187,8 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
         bool m_inBuildOffsets { false };
         int m_rowIdx { 0 };
         int m_colIdx { 0 };
-        QPushButton *m_runButton;
-        QPushButton *m_stopButton;
+        QPushButton *m_runButton {nullptr};
+        QPushButton *m_stopButton {nullptr};
         bool m_problemFlag { false };
         bool m_stopFlag { false };
         bool m_remoteStop { false };

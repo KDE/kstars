@@ -4229,7 +4229,7 @@ void Manager::createFilterManager(ISD::FilterWheel *device)
 
         // Forward BuildFilterOffsets progress to EkosLive
         if (ekosLiveClient)
-            connect(newFM.data(), &FilterManager::filterOffsetProgress,
+            connect(newFM.data(), &FilterManager::progressUpdated,
                     ekosLiveClient->message(), &EkosLive::Message::sendFilterOffsetProgress,
                     Qt::UniqueConnection);
 

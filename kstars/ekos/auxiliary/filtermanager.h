@@ -238,10 +238,6 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         }
         // Inti filter property after connection
         void refreshFilterProperties();
-        // Signal from BuildFilterOffsets to run Autofocus. Pass onto Focus
-        void signalRunAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo);
-        // Signal from BuildFilterOffsets to abort AF run. Pass onto Focus
-        void signalAbortAutoFocus();
         // Signal from Focus that Autofocus has completed - used by BuildFilterOffsets utility
         void autoFocusComplete(FocusState completionState, int currentPosition, double currentTemperature, double currentAlt);
 
@@ -275,7 +271,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         // Pass on Autofocus completed signal to Build Filter Offsets
         void autoFocusDone(FocusState completionState, int currentPosition, double currentTemperature, double currentAlt);
         // Build Filter Offsets progress forwarding
-        void filterOffsetProgress(int current, int total, const QString &status);
+        void progressUpdated(int current, int total, const QString &status);
 
     private Q_SLOTS:
         void updateProperty(INDI::Property prop);
