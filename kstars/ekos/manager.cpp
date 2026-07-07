@@ -58,6 +58,7 @@
 #include "mcp/mcpserver.h"
 #include "mcp/tools/catalogtools.h"
 #include "mcp/tools/ekostools.h"
+#include "mcp/tools/mounttools.h"
 
 #include <basedevice.h>
 
@@ -645,6 +646,7 @@ void Manager::ensureMCPServer()
         m_MCPServer = std::make_unique<MCP::Server>(this);
         MCP::Tools::initEkosTools(m_MCPServer->registry(), this);
         MCP::Tools::initCatalogTools(m_MCPServer->registry());
+        MCP::Tools::initMountTools(m_MCPServer->registry(), this);
     }
 
     if (m_MCPServer->isListening())
