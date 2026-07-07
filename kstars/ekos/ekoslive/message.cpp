@@ -19,6 +19,7 @@
 #include "ekos/capture/capture.h"
 #include "ekos/capture/cameraprocess.h"
 #include "ekos/focus/focusmodule.h"
+#include "ekos/auxiliary/buildfilteroffsets.h"
 #include "ekos/guide/guide.h"
 #include "ekos/mount/mount.h"
 #include "ekos/scheduler/scheduler.h"
@@ -299,6 +300,8 @@ void Message::onTextReceived(const QString &message)
         processDeviceCommands(command, payload);
     else if (command.startsWith("livestacker_"))
         processLiveStackerCommands(command, payload);
+    else if (command.startsWith("filter_offset_"))
+        processFilterOffsetCommands(command, payload);
 
 }
 
@@ -1972,26 +1975,26 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
         switch (objectType)
         {
-            // Stars
+                // Stars
             case SkyObject::STAR:
             case SkyObject::CATALOG_STAR:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
                 break;
-            // Planets & Moon
+                // Planets & Moon
             case SkyObject::PLANET:
             case SkyObject::MOON:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
                 break;
-            // Comets & Asteroids
+                // Comets & Asteroids
             case SkyObject::COMET:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
                 break;
             case SkyObject::ASTEROID:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
                 break;
-            // Clusters
+                // Clusters
             case SkyObject::OPEN_CLUSTER:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::OPEN_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
@@ -2000,7 +2003,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GLOBULAR_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
                 break;
-            // Nebuale
+                // Nebuale
             case SkyObject::GASEOUS_NEBULA:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GASEOUS_NEBULA, objectMaxMagnitude));
                 isDSO = true;
@@ -3460,6 +3463,68 @@ void Message::processLiveStackerCommands(const QString &command, const QJsonObje
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::processFilterOffsetCommands(const QString &command, const QJsonObject &payload)
+{
+    if (!m_Manager)
+        return;
+
+    // Find the BuildFilterOffsets dialog via FilterManager
+    QSharedPointer<Ekos::FilterManager> fm;
+    if (!m_Manager->getFilterManager(fm) || !fm)
+        return;
+
+    auto bfo = fm->getBuildFilterOffsets();
+    if (!bfo)
+    {
+        qCWarning(KSTARS_EKOS) << "Ignoring filter offset command" << command << "as BuildFilterOffsets is not available";
+        return;
+    }
+
+    if (command == commands[FILTER_OFFSET_GET_ALL_SETTINGS])
+    {
+        sendFilterOffsetSettings(bfo->getAllSettings());
+    }
+    else if (command == commands[FILTER_OFFSET_SET_ALL_SETTINGS])
+    {
+        auto settings = payload.toVariantMap();
+        bfo->setAllSettings(settings);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendFilterOffsetSettings(const QVariantMap &settings)
+{
+    sendResponse(commands[FILTER_OFFSET_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendFilterOffsetProgress(int current, int total, const QString &status)
+{
+    // This slot is connected once via the signal forwarding chain:
+    // BuildFilterOffsets -> FilterManager -> Manager -> EkosLive::Message
+    Q_UNUSED(current)
+    Q_UNUSED(total)
+    Q_UNUSED(status)
+
+    if (!m_Manager)
+        return;
+
+    // Find the BuildFilterOffsets dialog via FilterManager
+    QSharedPointer<Ekos::FilterManager> fm;
+    if (!m_Manager->getFilterManager(fm) || !fm)
+        return;
+
+    Ekos::BuildFilterOffsets *bfo = fm->getBuildFilterOffsets();
+    if (bfo)
+        sendFilterOffsetSettings(bfo->getAllSettings());
+}
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////

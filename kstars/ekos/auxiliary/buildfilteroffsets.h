@@ -55,21 +55,24 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
         void setRefFilter(const QString &filter);
         // Start the build-filter-offsets workflow. Emits processingComplete() when done.
         void startProcessing();
-        // Stop the in-flight workflow
-        void stopProcessing();
         // Persist the calculated offsets to FilterManager / database
         void saveOffsets();
 
         // ----- Results -----
         // Returns all AF solution details
-        QVector<AFSolutionDetail> getAFSolutions() const;
+        QVector < AFSolutionDetail > getAFSolutions() const;
         // Returns map of filter name → calculated offset
-        QMap<QString, int> getCalculatedOffsets() const;
+        QMap < QString, int > getCalculatedOffsets() const;
         // Returns the list of selected filters
         QStringList getSelectedFilters() const;
 
         // Used by build filter offsets utility to process the completion of an AF run.
         void autoFocusComplete(FocusState completionState, int currentPosition, double currentTemperature, double currentAlt);
+
+        // Get all settings
+        QVariantMap getAllSettings() const;
+        // Set all settings
+        void setAllSettings(const QVariantMap &settings);
 
     Q_SIGNALS:
         // Trigger Autofocus
@@ -82,6 +85,15 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
         void ready();
         // Emitted when all processing is complete (queue empty, AF runs done)
         void processingComplete();
+        void filterOffsetProgress(int current, int total, const QString &status);
+
+    public Q_SLOTS:
+        // Start the build process
+        Q_INVOKABLE void buildTheOffsets();
+        // Stop in-flight processing
+        Q_INVOKABLE void stopProcessing();
+        // Persist the calculated filter offsets
+        Q_INVOKABLE void saveTheOffsets();
 
     private Q_SLOTS:
         void itemChanged(QStandardItem *item);
@@ -131,10 +143,6 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
         void setupBuildFilterOffsetsTable();
         // Set the buttons state
         void setBuildFilterOffsetsButtons(const BFOButtonState state);
-        // Function to setup the work required to build the offsets
-        void buildTheOffsets();
-        // Function to persist the calculated filter offsets (internal, called from UI button)
-        void saveTheOffsets();
         // When all automated processing is  complete allow some cells to be editable
         void setCellsEditable();
         // Function to call Autofocus to build the filter offsets
@@ -158,9 +166,9 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
         // Return the column for the passed in ID
         int getColumn(const BFOColID id) const;
         // Get the number of AF runs for the passed in row
-        int getNumRuns(const int row);
+        int getNumRuns(const int row) const;
         // Get the maximum number of AF runs
-        int getMaxRuns();
+        int getMaxRuns() const;
 
         QStandardItemModel m_BFOModel;
 
@@ -182,6 +190,7 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
         QPushButton *m_stopButton;
         bool m_problemFlag { false };
         bool m_stopFlag { false };
+        bool m_remoteStop { false };
         bool m_abortAFPending { false };
         bool m_tableInEditMode {false};
         QVector < AFSolutionDetail > m_AFSolutions;

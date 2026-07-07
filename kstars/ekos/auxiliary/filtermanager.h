@@ -274,6 +274,8 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void wavelengthChanged();
         // Pass on Autofocus completed signal to Build Filter Offsets
         void autoFocusDone(FocusState completionState, int currentPosition, double currentTemperature, double currentAlt);
+        // Build Filter Offsets progress forwarding
+        void filterOffsetProgress(int current, int total, const QString &status);
 
     private Q_SLOTS:
         void updateProperty(INDI::Property prop);

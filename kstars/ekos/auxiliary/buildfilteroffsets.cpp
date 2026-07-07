@@ -67,7 +67,7 @@ namespace Ekos
 // any outliers (set the AF value to 0 to exclude from processing, or adjust the number). In addition, it is possible
 // to override the offset with a manually entered value.
 //
-BuildFilterOffsets::BuildFilterOffsets(FilterManager *filterManager)
+BuildFilterOffsets::BuildFilterOffsets(FilterManager *filterManager) : QDialog(filterManager)
 {
 #ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
@@ -75,12 +75,9 @@ BuildFilterOffsets::BuildFilterOffsets(FilterManager *filterManager)
 
     m_filterManager = filterManager;
 
-    setObjectName(QString("BuildFilterOffsets:%1").arg(filterManager->filterWheel()->getDeviceName()));
-
     setupUi(this);
     setupConnections();
     setupGUIOnce();
-
 }
 
 BuildFilterOffsets::~BuildFilterOffsets()
@@ -498,6 +495,9 @@ void BuildFilterOffsets::buildTheOffsets()
 
     // The Q has been loaded with all required actions so lets start processing
     m_inBuildOffsets = true;
+
+    // Emit progress
+    emit filterOffsetProgress(0, m_buildOffsetsQ.count(), i18n("Starting Build Filter Offsets..."));
     runBuildOffsets();
 }
 
@@ -507,10 +507,15 @@ void BuildFilterOffsets::buildTheOffsetsTaskComplete()
 {
     if (m_stopFlag)
     {
+        if (m_remoteStop)
+        {
+            m_stopFlag = m_abortAFPending = m_remoteStop = false;
+            this->done(QDialog::Rejected);
+        }
         // User hit the stop button, so see what they want to do
-        if (KMessageBox::warningContinueCancel(KStars::Instance(),
-                                               i18n("Are you sure you want to stop Build Filter Offsets?"), i18n("Stop Build Filter Offsets"),
-                                               KStandardGuiItem::stop(), KStandardGuiItem::cancel(), "") == KMessageBox::Cancel)
+        else if (KMessageBox::warningContinueCancel(KStars::Instance(),
+                 i18n("Are you sure you want to stop Build Filter Offsets?"), i18n("Stop Build Filter Offsets"),
+                 KStandardGuiItem::stop(), KStandardGuiItem::cancel(), "") == KMessageBox::Cancel)
         {
             // User wants to retry processing
             m_stopFlag = false;
@@ -559,6 +564,8 @@ void BuildFilterOffsets::buildTheOffsetsTaskComplete()
     {
         // All good so update the progress bar and process the next task
         buildOffsetsProgressBar->setValue(buildOffsetsProgressBar->value() + 1);
+        emit filterOffsetProgress(buildOffsetsProgressBar->value(), buildOffsetsProgressBar->maximum(),
+                                  buildOffsetsStatusBar->currentMessage());
         runBuildOffsets();
     }
 }
@@ -855,6 +862,7 @@ void BuildFilterOffsets::setCellsEditable()
 void BuildFilterOffsets::stopProcessing()
 {
     m_stopFlag = true;
+    m_remoteStop = true;
     setBuildFilterOffsetsButtons(BFO_STOP);
 
     if (m_qItemInProgress.changeFilter)
@@ -1031,15 +1039,128 @@ int BuildFilterOffsets::getColumn(const BFOColID id) const
 }
 
 // Get the number of AF runs for the passed in row
-int BuildFilterOffsets::getNumRuns(const int row)
+int BuildFilterOffsets::getNumRuns(const int row) const
 {
     return m_BFOModel.item(row, getColumn(BFO_NUM_FOCUS_RUNS))->text().toInt();
 }
 
 // Get the maximum number of AF runs
-int BuildFilterOffsets::getMaxRuns()
+int BuildFilterOffsets::getMaxRuns() const
 {
     return getColumn(BFO_AVERAGE) - getColumn(BFO_AF_RUN_1);
+}
+
+QVariantMap BuildFilterOffsets::getAllSettings() const
+{
+    QVariantMap settings;
+    QVariantList filtersList;
+
+    for (int row = 0; row < m_filters.count(); row++)
+    {
+        QVariantMap filterData;
+        filterData["filter"] = m_filters[row];
+        filterData["selected"] = true;
+
+        if (m_BFOModel.item(row, getColumn(BFO_OFFSET)))
+            filterData["offset"] = m_BFOModel.item(row, getColumn(BFO_OFFSET))->text().toInt();
+        else
+            filterData["offset"] = 0;
+
+        if (m_BFOModel.item(row, getColumn(BFO_LOCK)))
+            filterData["lock"] = m_BFOModel.item(row, getColumn(BFO_LOCK))->text();
+        else
+            filterData["lock"] = QString();
+
+        if (m_BFOModel.item(row, getColumn(BFO_NUM_FOCUS_RUNS)))
+            filterData["numFocusRuns"] = m_BFOModel.item(row, getColumn(BFO_NUM_FOCUS_RUNS))->text().toInt();
+        else
+            filterData["numFocusRuns"] = 0;
+
+        // Include AF run results
+        {
+            QVariantList afRuns;
+            const int numRuns = getNumRuns(row);
+            for (int run = 0; run < numRuns; run++)
+            {
+                auto *item = m_BFOModel.item(row, getColumn(BFO_AF_RUN_1) + run);
+                if (item)
+                    afRuns.append(item->text().toInt());
+                else
+                    afRuns.append(0);
+            }
+            filterData["afRuns"] = afRuns;
+
+            auto *avgItem = m_BFOModel.item(row, getColumn(BFO_AVERAGE));
+            filterData["average"] = avgItem ? avgItem->text().toInt() : 0;
+
+            auto *newOffsetItem = m_BFOModel.item(row, getColumn(BFO_NEW_OFFSET));
+            filterData["newOffset"] = newOffsetItem ? newOffsetItem->text().toInt() : 0;
+
+            auto *saveItem = m_BFOModel.item(row, getColumn(BFO_SAVE_CHECK));
+            filterData["save"] = saveItem ? saveItem->text().toInt() : 0;
+        }
+
+        filtersList.append(filterData);
+    }
+
+    settings["filters"] = filtersList;
+    settings["refFilter"] = (m_refFilter >= 0 && m_refFilter < m_filters.count()) ? m_filters[m_refFilter] : QString();
+    settings["adaptFocus"] = buildOffsetsAdaptFocus->isChecked();
+    settings["inBuildOffsets"] = m_inBuildOffsets;
+    settings["tableInEditMode"] = m_tableInEditMode;
+    settings["progress"] = buildOffsetsProgressBar->value();
+    settings["progressMax"] = buildOffsetsProgressBar->maximum();
+    settings["status"] = buildOffsetsStatusBar->currentMessage();
+
+    return settings;
+}
+
+void BuildFilterOffsets::setAllSettings(const QVariantMap &settings)
+{
+    if (settings.contains("adaptFocus"))
+        buildOffsetsAdaptFocus->setChecked(settings["adaptFocus"].toBool());
+
+    if (settings.contains("filters"))
+    {
+        const QVariantList filtersList = settings["filters"].toList();
+        for (int row = 0; row < filtersList.size() && row < m_filters.count(); row++)
+        {
+            const QVariantMap filterData = filtersList[row].toMap();
+
+            if (filterData.contains("numFocusRuns"))
+            {
+                QStandardItem *item = new QStandardItem(QString::number(filterData["numFocusRuns"].toInt()));
+                m_BFOModel.setItem(row, getColumn(BFO_NUM_FOCUS_RUNS), item);
+            }
+
+            if (filterData.contains("offset"))
+            {
+                QStandardItem *item = new QStandardItem(QString::number(filterData["offset"].toInt()));
+                m_BFOModel.setItem(row, getColumn(BFO_OFFSET), item);
+            }
+
+            if (filterData.contains("lock"))
+            {
+                QStandardItem *item = new QStandardItem(filterData["lock"].toString());
+                m_BFOModel.setItem(row, getColumn(BFO_LOCK), item);
+            }
+
+            // Support the "selected" field from the app
+            if (filterData.contains("selected") && !filterData["selected"].toBool())
+            {
+                QStandardItem *item = new QStandardItem(QString::number(0));
+                m_BFOModel.setItem(row, getColumn(BFO_NUM_FOCUS_RUNS), item);
+            }
+        }
+    }
+
+    // Restore the reference filter by name
+    if (settings.contains("refFilter"))
+    {
+        QString refName = settings["refFilter"].toString();
+        if (!refName.isEmpty())
+            setRefFilter(refName);
+    }
 }
 
 }

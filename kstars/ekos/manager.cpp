@@ -4226,6 +4226,13 @@ void Manager::createFilterManager(ISD::FilterWheel *device)
     {
         QSharedPointer<FilterManager> newFM(new FilterManager());
         newFM->setFilterWheel(device);
+
+        // Forward BuildFilterOffsets progress to EkosLive
+        if (ekosLiveClient)
+            connect(newFM.data(), &FilterManager::filterOffsetProgress,
+                    ekosLiveClient->message(), &EkosLive::Message::sendFilterOffsetProgress,
+                    Qt::UniqueConnection);
+
         m_FilterManagers.insert(name, std::move(newFM));
     }
     else

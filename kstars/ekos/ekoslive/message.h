@@ -152,6 +152,9 @@ class Message : public QObject
 
         void sendManualRotatorStatus(double currentPA, double targetPA, double threshold);
 
+        // Filter Offset
+        void sendFilterOffsetProgress(int current, int total, const QString &status);
+
     private Q_SLOTS:
 
         // Connection
@@ -227,6 +230,11 @@ class Message : public QObject
 
         // LiveStacker commands
         void processLiveStackerCommands(const QString &command, const QJsonObject &payload);
+
+
+        // Filter Offset Builder commands
+        void processFilterOffsetCommands(const QString &command, const QJsonObject &payload);
+        void sendFilterOffsetSettings(const QVariantMap &settings);
         void sendLiveStackerProgress(bool ok, int sub, int total, double meanSNR, double minSNR, double maxSNR);
         void sendLiveStackerComplete();
         // Slot called for each captured frame when livestacking in looping mode.
