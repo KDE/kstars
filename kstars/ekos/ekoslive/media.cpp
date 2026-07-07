@@ -792,9 +792,9 @@ void Media::sendModuleFrame(const QSharedPointer<FITSView> &view)
 bool Media::anyBlobsEnabled() const
 {
     // Default to true (send blobs) if no entry exists for a NodeManager
-for (auto &nodeManager : m_NodeManagers)
-{
-    if (m_BlobState.value(nodeManager.get(), true))
+    for (auto &nodeManager : m_NodeManagers)
+    {
+        if (m_BlobState.value(nodeManager.get(), true))
             return true;
     }
     return false;

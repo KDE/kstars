@@ -54,7 +54,8 @@ void Align::ensureMountModelCreated()
             abort();
         });
         connect(this, &Ekos::Align::newStatus, m_MountModel, &Ekos::MountModel::setAlignStatus, Qt::UniqueConnection);
-        connect(m_MountModel, &Ekos::MountModel::progressUpdated, this, &Ekos::Align::mountModelProgressUpdated, Qt::UniqueConnection);
+        connect(m_MountModel, &Ekos::MountModel::progressUpdated, this, &Ekos::Align::mountModelProgressUpdated,
+                Qt::UniqueConnection);
     }
 }
 

@@ -1367,10 +1367,10 @@ Mount::Status Mount::status()
 const QString Mount::statusString(Mount::Status status, bool translated) const
 {
     switch (status)
-{
-    case ISD::Mount::MOUNT_MOVING:
-        return (translated ? mountStates[status].toString() : mountStates[status].untranslatedText() + QString(" %1").arg(
-                    getManualMotionString()));
+    {
+        case ISD::Mount::MOUNT_MOVING:
+            return (translated ? mountStates[status].toString() : mountStates[status].untranslatedText() + QString(" %1").arg(
+                        getManualMotionString()));
         default:
             return translated ? mountStates[status].toString() : mountStates[status].untranslatedText();
     }

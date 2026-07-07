@@ -115,18 +115,18 @@ class Mount : public QWidget, public Ui::Mount
         QString statusString(bool translated = true) const
         {
             if (m_Mount)
-            return m_Mount->statusString(m_Status, translated);
+                return m_Mount->statusString(m_Status, translated);
             else
                 return "NA";
-            }
-    ISD::Mount::PierSide pierSide() const
+        }
+        ISD::Mount::PierSide pierSide() const
         {
             if (m_Mount)
-            return m_Mount->pierSide();
+                return m_Mount->pierSide();
             else
                 return ISD::Mount::PIER_UNKNOWN;
-            }
-    ISD::ParkStatus parkStatus() const
+        }
+        ISD::ParkStatus parkStatus() const
         {
             return m_ParkStatus;
         }

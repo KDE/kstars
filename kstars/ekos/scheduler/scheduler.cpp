@@ -205,8 +205,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     sortJobsB->setIcon(QIcon::fromTheme("transform-move-vertical"));
     sortJobsB->setToolTip(
         i18n("Reset state and sort observation jobs per altitude and movement in sky, using the start time of the first job.\n"
-             "This action sorts setting targets before rising targets, and may help scheduling when starting your observation.\n"
-             "Note the algorithm first calculates all altitudes using the same time, then evaluates jobs."));
+         "This action sorts setting targets before rising targets, and may help scheduling when starting your observation.\n"
+         "Note the algorithm first calculates all altitudes using the same time, then evaluates jobs."));
     sortJobsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
     mosaicB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -1107,7 +1107,7 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
         {
             process()->appendLogText(
                 i18n("Warning: A job with name '%1' and the same sequence file already exists. "
-                     "This would cause both jobs to complete simultaneously due to shared storage.",
+                 "This would cause both jobs to complete simultaneously due to shared storage.",
                      nameEdit->text()));
             return false;
         }

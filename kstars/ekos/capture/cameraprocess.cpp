@@ -2069,8 +2069,8 @@ void CameraProcess::reconnectCameraDriver(const QString &camera, const QString &
     QTimer::singleShot(5000, this, [guard = QPointer<CameraProcess>(this), camera, filterWheel]()
     {
         if (!guard)
-                return;
-            guard->reconnectCameraDriver(camera, filterWheel);
+            return;
+        guard->reconnectCameraDriver(camera, filterWheel);
     });
 }
 
