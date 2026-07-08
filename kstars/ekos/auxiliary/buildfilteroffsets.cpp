@@ -241,6 +241,17 @@ void BuildFilterOffsets::setupGUIOnce()
             this->done(QDialog::Rejected);
     });
 
+    m_runButton = buildOffsetsButtonBox->addButton("Run", QDialogButtonBox::ActionRole);
+    m_stopButton = buildOffsetsButtonBox->addButton("Stop", QDialogButtonBox::ActionRole);
+
+    // Set tooltips for the buttons
+    m_runButton->setToolTip("Run Build Filter Offsets utility");
+    m_stopButton->setToolTip("Interrupt processing when utility is running");
+    buildOffsetsButtonBox->button(QDialogButtonBox::Save)->setToolTip("Save New Offsets");
+
+    connect(m_runButton, &QPushButton::clicked, this, &BuildFilterOffsets::buildTheOffsets);
+    connect(m_stopButton, &QPushButton::clicked, this, &BuildFilterOffsets::stopProcessing);
+
     // Setup the Adapt Focus checkbox - connect just once
     connect(buildOffsetsAdaptFocus, &QCheckBox::toggled, this, [&](bool checked)
     {
@@ -257,32 +268,10 @@ void BuildFilterOffsets::setupGUIOnce()
 
 void BuildFilterOffsets::setupGUI()
 {
-    // Clear any existing buttons to avoid duplicates across showDialog calls
-    // Remove previously added action buttons (if any) to avoid duplicates
-    auto buttons = buildOffsetsButtonBox->buttons();
-    for (auto button : buttons)
-    {
-        if (button->text() == "Run" || button->text() == "Stop")
-            buildOffsetsButtonBox->removeButton(button);
-    }
-
-    // Add action buttons to the button box
-    m_runButton = buildOffsetsButtonBox->addButton("Run", QDialogButtonBox::ActionRole);
-    m_stopButton = buildOffsetsButtonBox->addButton("Stop", QDialogButtonBox::ActionRole);
-
-    // Set tooltips for the buttons
-    m_runButton->setToolTip("Run Build Filter Offsets utility");
-    m_stopButton->setToolTip("Interrupt processing when utility is running");
-    buildOffsetsButtonBox->button(QDialogButtonBox::Save)->setToolTip("Save New Offsets");
+    // Buttons are created once in setupGUIOnce(); here we only reset per-show state
 
     // Set the buttons' state
     setBuildFilterOffsetsButtons(BFO_INIT);
-
-    // Connect up per-show button callbacks (disconnect old ones first)
-    disconnect(m_runButton, nullptr, this, nullptr);
-    disconnect(m_stopButton, nullptr, this, nullptr);
-    connect(m_runButton, &QPushButton::clicked, this, &BuildFilterOffsets::buildTheOffsets);
-    connect(m_stopButton, &QPushButton::clicked, this, &BuildFilterOffsets::stopProcessing);
 
     // Display an initial message in the status bar
     updateStatusBar(i18n("Idle"));
@@ -418,7 +407,7 @@ void BuildFilterOffsets::buildTheOffsets()
     // If the dialog hasn't been set up yet (programmatic/EkosLive path),
     // initialize and show it non-modally so the user can see progress,
     // then fall through to continue processing.
-    if (!m_runButton)
+    if (m_BFOModel.rowCount() == 0)
     {
         initialize();
         setupGUI();
@@ -828,10 +817,12 @@ void BuildFilterOffsets::saveTheOffsets()
     for (int row = 0; row < m_filters.count(); row++)
     {
         // Check there's an item set for the current row before accessing
-        if (m_BFOModel.item(row, getColumn(BFO_SAVE_CHECK))->text().toInt())
+        auto *saveItem = m_BFOModel.item(row, getColumn(BFO_SAVE_CHECK));
+        if (saveItem && saveItem->text().toInt())
         {
             // Save item is set so persist the offset
-            const int offset = m_BFOModel.item(row, getColumn(BFO_NEW_OFFSET))->text().toInt();
+            auto *offsetItem = m_BFOModel.item(row, getColumn(BFO_NEW_OFFSET));
+            const int offset = offsetItem ? offsetItem->text().toInt() : 0;
             if (!m_filterManager->setFilterOffset(m_filters[row], offset))
                 qCDebug(KSTARS) << "Unable to save calculated offset for filter " << m_filters[row];
         }
