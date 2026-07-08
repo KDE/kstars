@@ -241,13 +241,13 @@ void BuildFilterOffsets::setupGUIOnce()
             this->done(QDialog::Rejected);
     });
 
-    m_runButton = buildOffsetsButtonBox->addButton("Run", QDialogButtonBox::ActionRole);
-    m_stopButton = buildOffsetsButtonBox->addButton("Stop", QDialogButtonBox::ActionRole);
+    m_runButton = buildOffsetsButtonBox->addButton(i18n("Run"), QDialogButtonBox::ActionRole);
+    m_stopButton = buildOffsetsButtonBox->addButton(i18n("Stop"), QDialogButtonBox::ActionRole);
 
     // Set tooltips for the buttons
-    m_runButton->setToolTip("Run Build Filter Offsets utility");
-    m_stopButton->setToolTip("Interrupt processing when utility is running");
-    buildOffsetsButtonBox->button(QDialogButtonBox::Save)->setToolTip("Save New Offsets");
+    m_runButton->setToolTip(i18n("Run Build Filter Offsets utility"));
+    m_stopButton->setToolTip(i18n("Interrupt processing when utility is running"));
+    buildOffsetsButtonBox->button(QDialogButtonBox::Save)->setToolTip(i18n("Save New Offsets"));
 
     connect(m_runButton, &QPushButton::clicked, this, &BuildFilterOffsets::buildTheOffsets);
     connect(m_stopButton, &QPushButton::clicked, this, &BuildFilterOffsets::stopProcessing);
@@ -606,7 +606,7 @@ void BuildFilterOffsets::runBuildOffsets()
         setCellsEditable();
         setBuildFilterOffsetsButtons(BFO_SAVE);
         m_tableInEditMode = true;
-        updateStatusBar("Processing complete.");
+        updateStatusBar(i18n("Processing complete."));
         Q_EMIT processingComplete();
     }
     else
@@ -957,7 +957,8 @@ void BuildFilterOffsets::calculateAFAverage(const int row, const int col)
     int useableRuns = numRuns;
     for(int i = 0; i < numRuns; i++)
     {
-        int j = m_BFOModel.item(row, getColumn(BFO_AF_RUN_1) + i)->text().toInt();
+        auto *item = m_BFOModel.item(row, getColumn(BFO_AF_RUN_1) + i);
+        int j = item ? item->text().toInt() : 0;
         if (j > 0)
             total += j;
         else
@@ -1003,8 +1004,12 @@ void BuildFilterOffsets::calculateOffset(const int row)
     if (m_rowIdx >= m_refFilter)
     {
         // The ref filter has been processed so we can calculate the offset from it
-        const int average = m_BFOModel.item(row, getColumn(BFO_AVERAGE))->text().toInt();
-        const int refFilterAverage = m_BFOModel.item(m_refFilter, getColumn(BFO_AVERAGE))->text().toInt();
+        auto *avgItem = m_BFOModel.item(row, getColumn(BFO_AVERAGE));
+        auto *refAvgItem = m_BFOModel.item(m_refFilter, getColumn(BFO_AVERAGE));
+        if (!avgItem || !refAvgItem)
+            return;
+        const int average = avgItem->text().toInt();
+        const int refFilterAverage = refAvgItem->text().toInt();
 
         // Calculate the offset and set it in the model
         const int offset = average - refFilterAverage;
@@ -1058,7 +1063,8 @@ int BuildFilterOffsets::getColumn(const BFOColID id) const
 // Get the number of AF runs for the passed in row
 int BuildFilterOffsets::getNumRuns(const int row) const
 {
-    return m_BFOModel.item(row, getColumn(BFO_NUM_FOCUS_RUNS))->text().toInt();
+    auto *item = m_BFOModel.item(row, getColumn(BFO_NUM_FOCUS_RUNS));
+    return item ? item->text().toInt() : 0;
 }
 
 // Get the maximum number of AF runs
