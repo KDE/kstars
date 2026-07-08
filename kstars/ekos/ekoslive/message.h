@@ -154,6 +154,7 @@ class Message : public QObject
 
         // Filter Offset
         void sendFilterOffsetProgress(int current, int total, const QString &status);
+        void sendFilterOffsetCalculated(const QString &filter, int newOffset, int average);
 
     private Q_SLOTS:
 

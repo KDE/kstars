@@ -3175,9 +3175,9 @@ void Manager::wizardProfile()
 bool Manager::getCurrentProfile(QSharedPointer<ProfileInfo> &profile) const
 {
     // Get current profile
-    for (auto &pi : profiles)
-    {
-        if (profileCombo->currentText() == pi->name)
+for (auto &pi : profiles)
+{
+    if (profileCombo->currentText() == pi->name)
         {
             profile = pi;
             return true;
@@ -4231,9 +4231,16 @@ void Manager::createFilterManager(ISD::FilterWheel *device)
 
         // Forward BuildFilterOffsets progress to EkosLive
         if (ekosLiveClient)
+        {
             connect(newFM.data(), &FilterManager::progressUpdated,
                     ekosLiveClient->message(), &EkosLive::Message::sendFilterOffsetProgress,
                     Qt::UniqueConnection);
+
+            // Forward per-filter offset calculated signal to EkosLive
+            connect(newFM.data(), &FilterManager::filterOffsetCalculated,
+                    ekosLiveClient->message(), &EkosLive::Message::sendFilterOffsetCalculated,
+                    Qt::UniqueConnection);
+        }
 
         m_FilterManagers.insert(name, std::move(newFM));
     }

@@ -272,6 +272,8 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         void autoFocusDone(FocusState completionState, int currentPosition, double currentTemperature, double currentAlt);
         // Build Filter Offsets progress forwarding
         void progressUpdated(int current, int total, const QString &status);
+        // Forward offset calculated signal from BuildFilterOffsets
+        void filterOffsetCalculated(const QString &filter, int newOffset, int average);
 
     private Q_SLOTS:
         void updateProperty(INDI::Property prop);

@@ -1975,26 +1975,26 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
         switch (objectType)
         {
-                // Stars
+            // Stars
             case SkyObject::STAR:
             case SkyObject::CATALOG_STAR:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
                 break;
-                // Planets & Moon
+            // Planets & Moon
             case SkyObject::PLANET:
             case SkyObject::MOON:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
                 break;
-                // Comets & Asteroids
+            // Comets & Asteroids
             case SkyObject::COMET:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
                 break;
             case SkyObject::ASTEROID:
                 allObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
                 break;
-                // Clusters
+            // Clusters
             case SkyObject::OPEN_CLUSTER:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::OPEN_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
@@ -2003,7 +2003,7 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GLOBULAR_CLUSTER, objectMaxMagnitude));
                 isDSO = true;
                 break;
-                // Nebuale
+            // Nebuale
             case SkyObject::GASEOUS_NEBULA:
                 dsoObjects.splice(dsoObjects.end(), m_DSOManager.get_objects(SkyObject::GASEOUS_NEBULA, objectMaxMagnitude));
                 isDSO = true;
@@ -3507,23 +3507,25 @@ void Message::sendFilterOffsetSettings(const QVariantMap &settings)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendFilterOffsetProgress(int current, int total, const QString &status)
 {
-    // This slot is connected once via the signal forwarding chain:
-    // BuildFilterOffsets -> FilterManager -> Manager -> EkosLive::Message
-    Q_UNUSED(current)
-    Q_UNUSED(total)
-    Q_UNUSED(status)
+    // Send lightweight progress-only payload (current/total/status)
+    QJsonObject payload =
+    {
+        {"current", current},
+        {"total", total},
+        {"status", status}
+    };
+    sendResponse(commands[FILTER_OFFSET_PROGRESS], payload);
+}
 
-    if (!m_Manager)
-        return;
-
-    // Find the BuildFilterOffsets dialog via FilterManager
-    QSharedPointer<Ekos::FilterManager> fm;
-    if (!m_Manager->getFilterManager(fm) || !fm)
-        return;
-
-    Ekos::BuildFilterOffsets *bfo = fm->getBuildFilterOffsets();
-    if (bfo)
-        sendFilterOffsetSettings(bfo->getAllSettings());
+void Message::sendFilterOffsetCalculated(const QString &filter, int newOffset, int average)
+{
+    QJsonObject payload =
+    {
+        {"filter", filter},
+        {"newOffset", newOffset},
+        {"average", average}
+    };
+    sendResponse(commands[FILTER_OFFSET_CALCULATED], payload);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///

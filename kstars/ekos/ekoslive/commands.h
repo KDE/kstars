@@ -275,6 +275,8 @@ enum COMMANDS
     // Filter Offset Builder
     FILTER_OFFSET_GET_ALL_SETTINGS,
     FILTER_OFFSET_SET_ALL_SETTINGS,
+    FILTER_OFFSET_CALCULATED,
+    FILTER_OFFSET_PROGRESS,
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -512,6 +514,8 @@ static QMap<COMMANDS, QString> const commands =
 
     {FILTER_OFFSET_GET_ALL_SETTINGS, "filter_offset_get_all_settings"},
     {FILTER_OFFSET_SET_ALL_SETTINGS, "filter_offset_set_all_settings"},
+    {FILTER_OFFSET_CALCULATED, "filter_offset_calculated"},
+    {FILTER_OFFSET_PROGRESS, "filter_offset_progress"},
 };
 
 }

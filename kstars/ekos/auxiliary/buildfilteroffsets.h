@@ -85,6 +85,8 @@ class BuildFilterOffsets : public QDialog, public Ui::buildOffsetsDialog
         void ready();
         // Emitted when all processing is complete (queue empty, AF runs done)
         void processingComplete();
+        // Emitted when a single filter's offset has been calculated or updated
+        void offsetCalculated(const QString &filter, int newOffset, int average);
         void progressUpdated(int current, int total, const QString &status);
 
     public Q_SLOTS:

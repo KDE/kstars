@@ -518,6 +518,8 @@ void BuildFilterOffsets::buildTheOffsetsTaskComplete()
         if (m_remoteStop)
         {
             m_stopFlag = m_abortAFPending = m_remoteStop = false;
+            // Notify listeners that processing has stopped
+            emit progressUpdated(0, 0, i18n("Stopped"));
             this->done(QDialog::Rejected);
         }
         // User hit the stop button, so see what they want to do
@@ -546,6 +548,8 @@ void BuildFilterOffsets::buildTheOffsetsTaskComplete()
         {
             // User wants to abort
             m_stopFlag = m_abortAFPending = false;
+            // Notify listeners that processing has stopped
+            emit progressUpdated(0, 0, i18n("Stopped"));
             this->done(QDialog::Rejected);
         }
     }
@@ -565,6 +569,8 @@ void BuildFilterOffsets::buildTheOffsetsTaskComplete()
         {
             // User wants to abort
             m_problemFlag = false;
+            // Notify listeners that processing has stopped due to a problem
+            emit progressUpdated(0, 0, i18n("Stopped"));
             this->done(QDialog::Rejected);
         }
     }
@@ -1019,6 +1025,9 @@ void BuildFilterOffsets::calculateOffset(const int row)
         // Set the save checkbox
         QStandardItem *saveItem = new QStandardItem(QString::number(1));
         m_BFOModel.setItem(row, getColumn(BFO_SAVE_CHECK), saveItem);
+
+        // Notify listeners that a filter's offset has been calculated
+        Q_EMIT offsetCalculated(m_filters[row], offset, average);
     }
 }
 
@@ -1034,16 +1043,16 @@ void BuildFilterOffsets::calculateOffset(const int row)
 int BuildFilterOffsets::getColumn(const BFOColID id) const
 {
     switch (id)
-    {
-        case BFO_FILTER:
-        case BFO_OFFSET:
-        case BFO_LOCK:
-        case BFO_NUM_FOCUS_RUNS:
-        case BFO_AF_RUN_1:
-            break;
+{
+    case BFO_FILTER:
+    case BFO_OFFSET:
+    case BFO_LOCK:
+    case BFO_NUM_FOCUS_RUNS:
+    case BFO_AF_RUN_1:
+        break;
 
-        case BFO_AVERAGE:
-            return m_BFOModel.columnCount() - 3;
+    case BFO_AVERAGE:
+        return m_BFOModel.columnCount() - 3;
             break;
 
         case BFO_NEW_OFFSET:
