@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-07 02:04+0000\n"
+"POT-Creation-Date: 2026-07-08 02:11+0000\n"
 "PO-Revision-Date: 2026-04-10 12:00+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -416,7 +416,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:400
-#: ekos/auxiliary/buildfilteroffsets.cpp:479 ekos/capture/camera_jobs.cpp:418
+#: ekos/auxiliary/buildfilteroffsets.cpp:495 ekos/capture/camera_jobs.cpp:418
 #: ekos/scheduler/scheduler.cpp:2329
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:73
@@ -589,7 +589,7 @@ msgstr "Zrušiť"
 #: ekos/align/opsastrometryindexfiles.cpp:722
 #: ekos/align/opsastrometryindexfiles.cpp:743
 #: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:36
-#: ekos/manager.cpp:1585 ekos/manager.cpp:1600 ekos/manager.cpp:1616
+#: ekos/manager.cpp:1587 ekos/manager.cpp:1602 ekos/manager.cpp:1618
 #: ekos/scheduler/scheduler.cpp:1852
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:409
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:419
@@ -2054,12 +2054,12 @@ msgstr "Stav:"
 #. i18n: ectx: property (text), widget (QLabel, guideStatus)
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
-#: ekos/analyze/analyze.cpp:3512 ekos/auxiliary/buildfilteroffsets.cpp:289
+#: ekos/analyze/analyze.cpp:3512 ekos/auxiliary/buildfilteroffsets.cpp:288
 #: ekos/auxiliary/darklibrary.cpp:47 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:36
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:1110 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:1112 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1845
 #: ekos/scheduler/scheduler.cpp:2488 ekos/scheduler/scheduler.cpp:2659
 #: ekos/scheduler/scheduler.cpp:2667 ekos/scheduler/scheduler.cpp:2677
@@ -5305,7 +5305,7 @@ msgstr "Vypočítať ZU"
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
-#: ekos/manager.cpp:2492
+#: ekos/manager.cpp:2494
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
 #, kde-format
 msgid "Camera"
@@ -6214,7 +6214,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:275 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1405 ekos/manager.cpp:2440 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1405 ekos/manager.cpp:2442 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3611
 #, kde-format
@@ -6264,7 +6264,7 @@ msgstr "Načítať && Natočiť..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
 #: ekos/align/polaralignmentassistant.ui:826 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/manager.cpp:256
+#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/manager.cpp:257
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
@@ -6974,60 +6974,60 @@ msgstr "Aktuálny PA je %1; Cieľový PA je %2; rozdiel: %3"
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr "Vypršal čas rotátora po %1 sekundách. Prerušujem zarovnanie."
 
-#: ekos/align/align_settings.cpp:79
+#: ekos/align/align_settings.cpp:80
 #, kde-format
 msgid "StellarSolver Options"
 msgstr "Možnosti StellarSolver"
 
-#: ekos/align/align_settings.cpp:83
+#: ekos/align/align_settings.cpp:84
 #, kde-format
 msgid "External & Online Programs"
 msgstr "Externé a online programy"
 
-#: ekos/align/align_settings.cpp:87
+#: ekos/align/align_settings.cpp:88
 #, kde-format
 msgid "Scale & Position"
 msgstr "Mierka a poloha"
 
-#: ekos/align/align_settings.cpp:91
+#: ekos/align/align_settings.cpp:92
 #, kde-format
 msgid "Align Options Profiles Editor"
 msgstr "Editor profilov možností zarovnania"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align_settings.cpp:110 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align_settings.cpp:111 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Indexové súbory"
 
-#: ekos/align/align_settings.cpp:175 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align_settings.cpp:176 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
 msgstr "dRA (uhlové sekundy)"
 
-#: ekos/align/align_settings.cpp:176 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align_settings.cpp:177 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
 msgstr "arcsec"
 
-#: ekos/align/align_settings.cpp:224 ekos/capture/camera_config.cpp:717
+#: ekos/align/align_settings.cpp:225 ekos/capture/camera_config.cpp:717
 #: ekos/focus/focus.cpp:5978
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Operácia filtra zlyhala."
 
-#: ekos/align/align_settings.cpp:236 ekos/capture/camera.cpp:577
+#: ekos/align/align_settings.cpp:237 ekos/capture/camera.cpp:577
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Mením posunutie zaostrenia o %1 krokov..."
 
-#: ekos/align/align_settings.cpp:243 ekos/auxiliary/buildfilteroffsets.cpp:603
+#: ekos/align/align_settings.cpp:244 ekos/auxiliary/buildfilteroffsets.cpp:636
 #: ekos/capture/camera.cpp:582
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Mením filter na %1..."
 
-#: ekos/align/align_settings.cpp:248 ekos/capture/camera.cpp:587
+#: ekos/align/align_settings.cpp:249 ekos/capture/camera.cpp:587
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Automaticky zamerať pri zmene filtra"
@@ -10699,7 +10699,7 @@ msgstr "Chyba výšky polárneho zarovnania odhadnutá po nedávnych úpravách.
 #. i18n: ectx: property (text), widget (QPushButton, StartB)
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:155 ekos/manager.cpp:262 ekos/manager.cpp:1118
+#: ekos/manager.cpp:156 ekos/manager.cpp:263 ekos/manager.cpp:1120
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
@@ -10748,7 +10748,7 @@ msgid "Slew"
 msgstr "Otočiť"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:402
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:403
 #, kde-format
 msgid "Setup"
 msgstr "Nastavenie"
@@ -10930,7 +10930,7 @@ msgstr "Automatické spustenie"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/align/pushtoassistant.ui:199 ekos/analyze/analyze.cpp:2334
-#: ekos/manager.cpp:2544 ekos/scheduler/framingassistant.ui:1276
+#: ekos/manager.cpp:2546 ekos/scheduler/framingassistant.ui:1276
 #: ekos/scheduler/scheduler.ui:240 fitsviewer/fitsviewer.cpp:582
 #, kde-format
 msgid "Align"
@@ -10942,7 +10942,7 @@ msgstr "Zarovnať"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2337
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2736 ekos/manager.ui:778
+#: ekos/manager.cpp:2738 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -11033,7 +11033,7 @@ msgstr "Nedá sa zobraziť dočasný súbor obrázku: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2333 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2589 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2591 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:574
 #, kde-format
@@ -11045,7 +11045,7 @@ msgstr "Zameranie"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2335 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:129 ekos/manager.cpp:2811
+#: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:129 ekos/manager.cpp:2813
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -12005,7 +12005,7 @@ msgstr "Zmeniť"
 msgid "Use Default Limits"
 msgstr "Použiť predvolené limity"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:241
+#: ekos/auxiliary/buildfilteroffsets.cpp:240
 #, kde-format
 msgid "Are you sure you want to quit?"
 msgstr "Ste si istí, že chcete ukončiť?"
@@ -12013,48 +12013,48 @@ msgstr "Ste si istí, že chcete ukončiť?"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/buildfilteroffsets.cpp:313
-#: ekos/auxiliary/filtermanager.cpp:121 ekos/capture/camera.ui:2307
+#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/filtermanager.cpp:119 ekos/capture/camera.ui:2307
 #: fitsviewer/catalogobject.ui:63 oal/equipmentwriter.ui:912
 #, kde-format
 msgid "Filter"
 msgstr "Filter"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/buildfilteroffsets.cpp:313
-#: ekos/auxiliary/filtermanager.cpp:127 ekos/capture/camera.ui:2337
+#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/filtermanager.cpp:125 ekos/capture/camera.ui:2337
 #: ekos/scheduler/scheduler.cpp:587
 #, kde-format
 msgid "Offset"
 msgstr "Posun"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:313
-#: ekos/auxiliary/filtermanager.cpp:135
+#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/filtermanager.cpp:133
 #, kde-format
 msgid "Lock Filter"
 msgstr "Zamknúť filter"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:313
+#: ekos/auxiliary/buildfilteroffsets.cpp:312
 #, kde-format
 msgid "# Focus Runs"
 msgstr "# Behov zaostrovania"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:319
+#: ekos/auxiliary/buildfilteroffsets.cpp:318
 #, kde-format
 msgid "Filter. * indicates reference filter. Double click to change"
 msgstr "Filter. * označuje referenčný filter. Dvojklikom zmeníte"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:321
+#: ekos/auxiliary/buildfilteroffsets.cpp:320
 #, kde-format
 msgid "# Focus Runs. Set per filter. 0 to ignore"
 msgstr "# Behov zaostrovania. Nastavuje sa na filter. 0 na ignorovanie"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:458
+#: ekos/auxiliary/buildfilteroffsets.cpp:474
 #, kde-format
 msgid "AF Run %1"
 msgstr "Beh AF %1"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:461
+#: ekos/auxiliary/buildfilteroffsets.cpp:477
 #, kde-format
 msgid ""
 "AF Run %1. Calculated automatically but can be edited. Set to 0 to exclude "
@@ -12066,43 +12066,49 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
 #. i18n: ectx: property (currentText), widget (QComboBox, StackingMethod)
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
-#: ekos/auxiliary/buildfilteroffsets.cpp:467 ekos/auxiliary/darklibrary.ui:221
+#: ekos/auxiliary/buildfilteroffsets.cpp:483 ekos/auxiliary/darklibrary.ui:221
 #: fitsviewer/livestacking.ui:1134 fitsviewer/livestacking.ui:1141
 #, kde-format
 msgid "Average"
 msgstr "Priemer"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:469
+#: ekos/auxiliary/buildfilteroffsets.cpp:485
 #, kde-format
 msgid "AF Average (mean)."
 msgstr "Priemer AF (stredná hodnota)."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:472
+#: ekos/auxiliary/buildfilteroffsets.cpp:488
 #, kde-format
 msgid "New Offset"
 msgstr "Nový posun"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:475
+#: ekos/auxiliary/buildfilteroffsets.cpp:491
 #, kde-format
 msgid "New Offset. Calculated relative to Filter with *. Can be edited."
 msgstr "Nový posun. Vypočítaný relatívne k filtru s *. Môže byť upravený."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:482
+#: ekos/auxiliary/buildfilteroffsets.cpp:498
 #, kde-format
 msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr "Uložiť. Zaškrtnite na uloženie nového posunu pre priradený filter."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:512
+#: ekos/auxiliary/buildfilteroffsets.cpp:519
+#, fuzzy, kde-format
+#| msgid "Stop Build Filter Offsets"
+msgid "Starting Build Filter Offsets..."
+msgstr "Zastaviť zostavovanie posunov filtrov"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:536
 #, kde-format
 msgid "Are you sure you want to stop Build Filter Offsets?"
 msgstr "Ste si istí, že chcete zastaviť zostavovanie posunutí filtra?"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:512
+#: ekos/auxiliary/buildfilteroffsets.cpp:536
 #, kde-format
 msgid "Stop Build Filter Offsets"
 msgstr "Zastaviť zostavovanie posunov filtrov"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:543
+#: ekos/auxiliary/buildfilteroffsets.cpp:567
 #, kde-format
 msgid ""
 "An unexpected problem occurred.\n"
@@ -12111,43 +12117,38 @@ msgstr ""
 "Vyskytol sa neočakávaný problém.\n"
 "Zastaviť zostavenie ofsetov filtrov, alebo Zrušiť pre opakovanie?"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:544
+#: ekos/auxiliary/buildfilteroffsets.cpp:568
 #, kde-format
 msgid "Build Filter Offsets Unexpected Problem"
 msgstr "Neočakávaný problém pri zostavení ofsetov filtrov"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:587
-#, kde-format
-msgid "Processing complete."
-msgstr "Spracovanie dokončené."
-
-#: ekos/auxiliary/buildfilteroffsets.cpp:609
+#: ekos/auxiliary/buildfilteroffsets.cpp:642
 #, kde-format
 msgid "Problem changing filter to %1..."
 msgstr "Problém pri zmene filtra na %1..."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:618
+#: ekos/auxiliary/buildfilteroffsets.cpp:651
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
 msgstr "Spúšťa sa automatické zaostrovanie na %1 (%2/%3)..."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:748
+#: ekos/auxiliary/buildfilteroffsets.cpp:781
 #, kde-format
 msgid "(ΔT=%1)"
 msgstr "(ΔT=%1)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:749
-#: ekos/auxiliary/buildfilteroffsets.cpp:752
+#: ekos/auxiliary/buildfilteroffsets.cpp:782
+#: ekos/auxiliary/buildfilteroffsets.cpp:785
 #, kde-format
 msgid "(%1 ticks)"
 msgstr "(%1 krokov)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:751
+#: ekos/auxiliary/buildfilteroffsets.cpp:784
 #, kde-format
 msgid "(ΔAlt=%1)"
 msgstr "(ΔAlt=%1)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:758
+#: ekos/auxiliary/buildfilteroffsets.cpp:791
 #, kde-format
 msgctxt ""
 "Graphics tooltip; column 1 is a header, column 2 is focus position, column 3 "
@@ -12175,7 +12176,7 @@ msgstr ""
 "tr><tr><th>Prispôsobenia</th><td>%6</td><td>%7</td><td>%8</td></"
 "tr><tr><th>Prispôsobená poloha</th><td>%9</td></tr></table></body>"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:868
+#: ekos/auxiliary/buildfilteroffsets.cpp:902
 #, kde-format
 msgid "Aborting Autofocus..."
 msgstr "Automatické zaostrenie po zmene filtra..."
@@ -12722,51 +12723,51 @@ msgstr ""
 "Nenašli sa vhodné tmavé rámce ani mapy defektov. Spustite sprievodcu "
 "knižnice tmavých rámcov v module Snímanie."
 
-#: ekos/auxiliary/filtermanager.cpp:123
+#: ekos/auxiliary/filtermanager.cpp:121
 #, kde-format
 msgid "Filter exposure time during focus"
 msgstr "Odštartovať kamerovú/CCD expozíciu. Dĺžka trvania je v sekundách."
 
-#: ekos/auxiliary/filtermanager.cpp:124
+#: ekos/auxiliary/filtermanager.cpp:122
 #: ekos/capture/capturecountswidget.cpp:212
 #, kde-format
 msgid "Exposure"
 msgstr "Expozícia"
 
-#: ekos/auxiliary/filtermanager.cpp:126
+#: ekos/auxiliary/filtermanager.cpp:124
 #, kde-format
 msgid "Relative offset in steps"
 msgstr "Relatívny posun v krokoch"
 
-#: ekos/auxiliary/filtermanager.cpp:129
+#: ekos/auxiliary/filtermanager.cpp:127
 #, kde-format
 msgid "Start Auto Focus when filter is activated"
 msgstr "Automaticky zamerať pri zmene filtra"
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:131 ekos/ekos.h:162 ekos/focus/focus.ui:276
+#: ekos/auxiliary/filtermanager.cpp:129 ekos/ekos.h:162 ekos/focus/focus.ui:276
 #, kde-format
 msgid "Auto Focus"
 msgstr "Automatické zaostrenie"
 
-#: ekos/auxiliary/filtermanager.cpp:133
+#: ekos/auxiliary/filtermanager.cpp:131
 #, kde-format
 msgid "Lock specific filter when running Auto Focus"
 msgstr "Uzamknúť konkrétny filter pri spúšťaní automatického zaostrovania"
 
-#: ekos/auxiliary/filtermanager.cpp:138
+#: ekos/auxiliary/filtermanager.cpp:136
 #, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
 msgstr ""
 "Posledné riešenie AF. Automaticky aktualizované procesom automatického "
 "zaostrovania."
 
-#: ekos/auxiliary/filtermanager.cpp:139
+#: ekos/auxiliary/filtermanager.cpp:137
 #, kde-format
 msgid "Last AF Solution"
 msgstr "Posledné riešenie AF"
 
-#: ekos/auxiliary/filtermanager.cpp:142
+#: ekos/auxiliary/filtermanager.cpp:140
 #, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
@@ -12775,12 +12776,12 @@ msgstr ""
 "Teplota posledného riešenia AF. Automaticky aktualizovaná procesom "
 "automatického zaostrovania."
 
-#: ekos/auxiliary/filtermanager.cpp:143
+#: ekos/auxiliary/filtermanager.cpp:141
 #, kde-format
 msgid "Last AF Temp (°C)"
 msgstr "Posledná teplota AF (°C)"
 
-#: ekos/auxiliary/filtermanager.cpp:146
+#: ekos/auxiliary/filtermanager.cpp:144
 #, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
@@ -12789,12 +12790,12 @@ msgstr ""
 "Výška posledného riešenia AF. Automaticky aktualizovaná procesom "
 "automatického zaostrovania."
 
-#: ekos/auxiliary/filtermanager.cpp:147
+#: ekos/auxiliary/filtermanager.cpp:145
 #, kde-format
 msgid "Last AF Alt (°Alt)"
 msgstr "Posledná výška AF (°Alt)"
 
-#: ekos/auxiliary/filtermanager.cpp:150
+#: ekos/auxiliary/filtermanager.cpp:148
 #, kde-format
 msgid ""
 "The datetime of the last AF solution. Updated automatically by the autofocus "
@@ -12803,12 +12804,12 @@ msgstr ""
 "Dátum a čas posledného riešenia AF. Automaticky aktualizovaný procesom "
 "automatického zaostrovania."
 
-#: ekos/auxiliary/filtermanager.cpp:151
+#: ekos/auxiliary/filtermanager.cpp:149
 #, kde-format
 msgid "Last AF Datetime"
 msgstr "Posledný dátum a čas AF"
 
-#: ekos/auxiliary/filtermanager.cpp:154
+#: ekos/auxiliary/filtermanager.cpp:152
 #, kde-format
 msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
@@ -12817,12 +12818,12 @@ msgstr ""
 "Počet krokov na zvýšenie teploty o °C. Kladná hodnota pre pohyb zaostrovača "
 "smerom von"
 
-#: ekos/auxiliary/filtermanager.cpp:155
+#: ekos/auxiliary/filtermanager.cpp:153
 #, kde-format
 msgid "Ticks / °C"
 msgstr "Tikoty / °C"
 
-#: ekos/auxiliary/filtermanager.cpp:158
+#: ekos/auxiliary/filtermanager.cpp:156
 #, kde-format
 msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
@@ -12831,27 +12832,27 @@ msgstr ""
 "Počet krokov na zvýšenie výšky o stupeň. Kladná hodnota pre pohyb "
 "zaostrovača smerom von"
 
-#: ekos/auxiliary/filtermanager.cpp:159
+#: ekos/auxiliary/filtermanager.cpp:157
 #, kde-format
 msgid "Ticks / °Alt"
 msgstr "Kroky / °Alt"
 
-#: ekos/auxiliary/filtermanager.cpp:161
+#: ekos/auxiliary/filtermanager.cpp:159
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
 msgstr "Stredná vlnová dĺžka filtra v nm"
 
-#: ekos/auxiliary/filtermanager.cpp:162
+#: ekos/auxiliary/filtermanager.cpp:160
 #, kde-format
 msgid "Wavelength"
 msgstr "Vlnová dĺžka"
 
-#: ekos/auxiliary/filtermanager.cpp:583
+#: ekos/auxiliary/filtermanager.cpp:593
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "Nastaviť filter na %1. Je filter nastavený?"
 
-#: ekos/auxiliary/filtermanager.cpp:584
+#: ekos/auxiliary/filtermanager.cpp:594
 #, kde-format
 msgid "Confirm Filter"
 msgstr "Potvrdiť filter"
@@ -13028,7 +13029,7 @@ msgid "Log Ekos Scheduler module activity"
 msgstr "Záznam aktivity modulu plánovača Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:407
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:408
 #: ekos/scheduler/framingassistantui.cpp:706
 #, kde-format
 msgid "Scheduler"
@@ -13211,7 +13212,7 @@ msgstr "<html><head/><body><p>Preemptívne hodiny vypnutia</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2861
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2863
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -18416,12 +18417,12 @@ msgstr "Online"
 msgid "Offline"
 msgstr "Offline"
 
-#: ekos/ekoslive/message.cpp:812
+#: ekos/ekoslive/message.cpp:815
 #, kde-format
 msgid "target"
 msgstr "Cieľ"
 
-#: ekos/ekoslive/message.cpp:1142
+#: ekos/ekoslive/message.cpp:1145
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Import mozaiky zlyhal."
@@ -24751,91 +24752,91 @@ msgstr ""
 msgid "Use dedicated Guiding Chip for Guiding"
 msgstr "Použiť vyhradený čip vedenia pre vedenie"
 
-#: ekos/manager.cpp:257
+#: ekos/manager.cpp:258
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "Ekos - %1 profil"
 
-#: ekos/manager.cpp:267
+#: ekos/manager.cpp:268
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr "Pripojenie prebieha. Kliknite pre zrušenie."
 
-#: ekos/manager.cpp:290
+#: ekos/manager.cpp:291
 #, kde-format
 msgid "Logging"
 msgstr "Záznam"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:442 ekos/opsekos.ui:174
+#: ekos/manager.cpp:443 ekos/opsekos.ui:174
 #, kde-format
 msgid "Analyze"
 msgstr "Analýza"
 
-#: ekos/manager.cpp:457
+#: ekos/manager.cpp:458
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
 msgstr "Rozšírenie '%1' sa nepodarilo spustiť, ruší sa"
 
-#: ekos/manager.cpp:471
+#: ekos/manager.cpp:472
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
 msgstr "Rozšírenie '%1' sa nepodarilo zastaviť, povolenie prerušenia"
 
-#: ekos/manager.cpp:480
+#: ekos/manager.cpp:481
 #, kde-format
 msgid "Extension '%1' aborting"
 msgstr "Rozšírenie '%1' sa ruší"
 
-#: ekos/manager.cpp:490
+#: ekos/manager.cpp:491
 #, kde-format
 msgid "Extension '%1' start requested"
 msgstr "Rozšírenie '%1': požiadavka na spustenie"
 
-#: ekos/manager.cpp:495
+#: ekos/manager.cpp:496
 #, kde-format
 msgid "Extension '%1' started"
 msgstr "Rozšírenie '%1' spustené"
 
-#: ekos/manager.cpp:503
+#: ekos/manager.cpp:504
 #, kde-format
 msgid "Extension '%1' stop requested"
 msgstr "Rozšírenie '%1': požiadavka na zastavenie"
 
-#: ekos/manager.cpp:508
+#: ekos/manager.cpp:509
 #, kde-format
 msgid "Extension '%1' stopped"
 msgstr "Rozšírenie '%1' zastavené"
 
-#: ekos/manager.cpp:524
+#: ekos/manager.cpp:525
 #, kde-format
 msgid "Extension '%1': %2"
 msgstr "Rozšírenie '%1': %2"
 
-#: ekos/manager.cpp:657 ekos/opsekos.cpp:98
+#: ekos/manager.cpp:659 ekos/opsekos.cpp:98
 #, fuzzy, kde-format
 #| msgid "Failed to start: Port %1 may be in use."
 msgid "Failed: port in use"
 msgstr "Zlyhalo odhadnutie času pre úlohu pozorovania %1."
 
-#: ekos/manager.cpp:985
+#: ekos/manager.cpp:987
 #, kde-format
 msgid "Imported profile '%1' from INDI Web Manager."
 msgstr "Importovaný profil '%1' z INDI Web Manager."
 
-#: ekos/manager.cpp:1139
+#: ekos/manager.cpp:1141
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:1287 ekos/manager.cpp:1312
+#: ekos/manager.cpp:1289 ekos/manager.cpp:1314
 #, kde-format
 msgid "Ekos requires at least one Camera to operate."
 msgstr "Ekos požaduje aspoň jeden CCD alebo Navádzač k činnosti"
 
-#: ekos/manager.cpp:1375
+#: ekos/manager.cpp:1377
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -24844,17 +24845,17 @@ msgstr ""
 "Ekos zistil, že PTP Camera beží a môže brániť pripojeniu kamery Canon alebo "
 "Nikon k Ekos. Chcete teraz ukončiť PTP Camera?"
 
-#: ekos/manager.cpp:1376
+#: ekos/manager.cpp:1378
 #, kde-format
 msgid "PTP Camera"
 msgstr "PTP kamera"
 
-#: ekos/manager.cpp:1390
+#: ekos/manager.cpp:1392
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Spúšťam INDI služby..."
 
-#: ekos/manager.cpp:1421
+#: ekos/manager.cpp:1423
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -24864,47 +24865,47 @@ msgstr ""
 "inštanciu servera pred spustením novej?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1423 indi/opsindi.ui:248
+#: ekos/manager.cpp:1425 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "INDI Server"
 
-#: ekos/manager.cpp:1438
+#: ekos/manager.cpp:1440
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "Pripojenie na vzdialený INDI server na %1 s portom %2..."
 
-#: ekos/manager.cpp:1459
+#: ekos/manager.cpp:1461
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Zlyhalo spustenie profilu na vzdialenom web správcovi INDI."
 
-#: ekos/manager.cpp:1463
+#: ekos/manager.cpp:1465
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Spúšťam profil na vzdialenom webovom správcovi INDI..."
 
-#: ekos/manager.cpp:1476
+#: ekos/manager.cpp:1478
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Nadväzujem komunikáciu so vzdialonym webovým správcom INDI..."
 
-#: ekos/manager.cpp:1495
+#: ekos/manager.cpp:1497
 #, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
 msgstr "Chyba: INDI Web Manager nie je online na %1:%2"
 
-#: ekos/manager.cpp:1536
+#: ekos/manager.cpp:1538
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "Služby INDI spustené na porte %1."
 
-#: ekos/manager.cpp:1539
+#: ekos/manager.cpp:1541
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Služby INDI spustené na porte %1. Prosím, pripojte zariadenia."
 
-#: ekos/manager.cpp:1544
+#: ekos/manager.cpp:1546
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -24913,27 +24914,27 @@ msgstr ""
 "Služby INDI spustené. Pripojenie k vzdialenému serveru INDI %1:%2 je "
 "úspešné. Čaká sa na zariadenia..."
 
-#: ekos/manager.cpp:1576
+#: ekos/manager.cpp:1578
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Nepodarilo sa pripojiť k lokálnemu serveru INDI %1:%2"
 
-#: ekos/manager.cpp:1578
+#: ekos/manager.cpp:1580
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Zlyhalo pripojenie na vzdialený INDI server %1:%2"
 
-#: ekos/manager.cpp:1591
+#: ekos/manager.cpp:1593
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Stratené spojenie s lokálnym serverom INDI %1:%2"
 
-#: ekos/manager.cpp:1593
+#: ekos/manager.cpp:1595
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Stratené spojenie so vzdialeným serverom INDI %1:%2"
 
-#: ekos/manager.cpp:1660
+#: ekos/manager.cpp:1662
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -24941,7 +24942,7 @@ msgstr ""
 "Nepodarilo sa pripojiť k %1. Uistite sa, že zariadenie je pripojené a "
 "zapnuté."
 
-#: ekos/manager.cpp:1662
+#: ekos/manager.cpp:1664
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -24952,7 +24953,7 @@ msgstr ""
 "%1\n"
 "Uistite sa, že každé zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1690
+#: ekos/manager.cpp:1692
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -24963,13 +24964,13 @@ msgstr ""
 "%1\n"
 "Uistite sa, že zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1694 ekos/manager.cpp:1702 ekos/manager.cpp:1735
-#: ekos/manager.cpp:1743
+#: ekos/manager.cpp:1696 ekos/manager.cpp:1704 ekos/manager.cpp:1737
+#: ekos/manager.cpp:1745
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Chyba spustenia Ekos"
 
-#: ekos/manager.cpp:1698
+#: ekos/manager.cpp:1700
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -24980,7 +24981,7 @@ msgstr ""
 "%1\n"
 "Uistite sa, že každé zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1731
+#: ekos/manager.cpp:1733
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -24991,7 +24992,7 @@ msgstr ""
 "%1\n"
 "Uistite sa, že zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1739
+#: ekos/manager.cpp:1741
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -25002,32 +25003,32 @@ msgstr ""
 "%1\n"
 "Uistite sa, že každé zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1797
+#: ekos/manager.cpp:1799
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Pripájanie zariadení INDI..."
 
-#: ekos/manager.cpp:1816
+#: ekos/manager.cpp:1818
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Odpájanie zariadení INDI..."
 
-#: ekos/manager.cpp:1856
+#: ekos/manager.cpp:1858
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Služby INDI zastavené."
 
-#: ekos/manager.cpp:1924
+#: ekos/manager.cpp:1926
 #, kde-format
 msgid "Remote devices established."
 msgstr "Vzdialené zariadenia zistené."
 
-#: ekos/manager.cpp:1927
+#: ekos/manager.cpp:1929
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Vzdialené zariadenia zistené. Prosím, pripojte zariadenia."
 
-#: ekos/manager.cpp:1991
+#: ekos/manager.cpp:1993
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -25036,118 +25037,118 @@ msgstr ""
 "%1 sa nepodarilo pripojiť.\n"
 "Uistite sa, že zariadenie je pripojené a zapnuté."
 
-#: ekos/manager.cpp:1998
+#: ekos/manager.cpp:2000
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 je odpojené"
 
-#: ekos/manager.cpp:2019 ekos/manager.cpp:2028 ekos/manager.cpp:2061
+#: ekos/manager.cpp:2021 ekos/manager.cpp:2030 ekos/manager.cpp:2063
 #: indi/indistd.cpp:732
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 je pripojený."
 
-#: ekos/manager.cpp:2036
+#: ekos/manager.cpp:2038
 #, kde-format
 msgid "%1 filter is online."
 msgstr "filter %1 je pripojený."
 
-#: ekos/manager.cpp:2045
+#: ekos/manager.cpp:2047
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "focuser %1 je pripojený."
 
-#: ekos/manager.cpp:2052
+#: ekos/manager.cpp:2054
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "Rotátor %1 je online."
 
-#: ekos/manager.cpp:2068
+#: ekos/manager.cpp:2070
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "Weather %1 je pripojený."
 
-#: ekos/manager.cpp:2075
+#: ekos/manager.cpp:2077
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "%1 GPS je online."
 
-#: ekos/manager.cpp:2082
+#: ekos/manager.cpp:2084
 #, kde-format
 msgid "%1 PAC is online."
 msgstr "%1 PAC je online."
 
-#: ekos/manager.cpp:2091
+#: ekos/manager.cpp:2093
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "%1 Kryt pred prachom je pripojený."
 
-#: ekos/manager.cpp:2098
+#: ekos/manager.cpp:2100
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "%1 Svetelná krabica je pripojená."
 
-#: ekos/manager.cpp:2243
+#: ekos/manager.cpp:2245
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 je  v režime offline."
 
-#: ekos/manager.cpp:2878
+#: ekos/manager.cpp:2880
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Port navádzača z %1 je pripravený."
 
-#: ekos/manager.cpp:3141
+#: ekos/manager.cpp:3143
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Naozaj chcete vymazať profil?"
 
-#: ekos/manager.cpp:3142
+#: ekos/manager.cpp:3144
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Potvrdiť vymazanie"
 
-#: ekos/manager.cpp:3194
+#: ekos/manager.cpp:3196
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Umiestnenie aktualizované na %1."
 
-#: ekos/manager.cpp:3196
+#: ekos/manager.cpp:3198
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Zlyhala aktualizácia umiestnenia na %1. Mesto nenájdené."
 
-#: ekos/manager.cpp:3469
+#: ekos/manager.cpp:3471
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Zapínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:3477
+#: ekos/manager.cpp:3479
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Vypínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:3505
+#: ekos/manager.cpp:3507
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Znova zapínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:3517
+#: ekos/manager.cpp:3519
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Znova vypínam ladiace protokolovanie pre %1..."
 
-#: ekos/manager.cpp:4289
+#: ekos/manager.cpp:4298
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Zdroj náhľadu nastavený na externý"
 
-#: ekos/manager.cpp:4296
+#: ekos/manager.cpp:4305
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Zdroj náhľadu obnovený na interný"
 
-#: ekos/manager.cpp:4303
+#: ekos/manager.cpp:4312
 #, kde-format
 msgid "Received external preview file"
 msgstr "Prijímať externé vodiace snímky"
@@ -97823,6 +97824,9 @@ msgstr "Farba pozadia:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte farbu pre pozadie."
+
+#~ msgid "Processing complete."
+#~ msgstr "Spracovanie dokončené."
 
 #~ msgid "Capture timed out."
 #~ msgstr "Zachytenie vypršalo."
