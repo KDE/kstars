@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-08 02:11+0000\n"
+"POT-Creation-Date: 2026-07-09 02:06+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -464,7 +464,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:400
-#: ekos/auxiliary/buildfilteroffsets.cpp:495 ekos/capture/camera_jobs.cpp:418
+#: ekos/auxiliary/buildfilteroffsets.cpp:484 ekos/capture/camera_jobs.cpp:418
 #: ekos/scheduler/scheduler.cpp:2329
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:73
@@ -2209,7 +2209,7 @@ msgstr "நிலை"
 #. i18n: ectx: property (text), widget (QLabel, guideStatus)
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
-#: ekos/analyze/analyze.cpp:3512 ekos/auxiliary/buildfilteroffsets.cpp:288
+#: ekos/analyze/analyze.cpp:3512 ekos/auxiliary/buildfilteroffsets.cpp:277
 #: ekos/auxiliary/darklibrary.cpp:47 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:36
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -6550,7 +6550,8 @@ msgstr "அட்டவணை-ஐ சேர்க்க..."
 #. i18n: ectx: property (text), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
-#: ekos/align/polaralignmentassistant.ui:826 ekos/auxiliary/darklibrary.ui:585
+#: ekos/align/polaralignmentassistant.ui:826
+#: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/manager.cpp:257
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
@@ -7320,7 +7321,7 @@ msgstr "காலியென்ட்"
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align_settings.cpp:244 ekos/auxiliary/buildfilteroffsets.cpp:636
+#: ekos/align/align_settings.cpp:244 ekos/auxiliary/buildfilteroffsets.cpp:631
 #: ekos/capture/camera.cpp:582
 #, kde-format
 msgid "Changing filter to %1..."
@@ -12133,10 +12134,37 @@ msgstr "முன்னிருப்பு"
 msgid "Are you sure you want to quit?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா?"
 
+#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
+#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
+#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
+#: ekos/auxiliary/buildfilteroffsets.cpp:244 ekos/focus/focusadvisor.cpp:85
+#: ekos/guide/guidestatewidget.ui:64 tools/modcalcangdist.ui:666
+#: tools/modcalcapcoord.ui:720 tools/modcalcgalcoord.ui:418
+#: tools/modcalcgeod.ui:572 tools/modcalcplanets.ui:932
+#: tools/modcalcvlsr.ui:750
+#, kde-format
+msgid "Run"
+msgstr "இயக்கு"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:248
+#, fuzzy, kde-format
+msgid "Run Build Filter Offsets utility"
+msgstr "UT எதிரீடு :"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:249
+#, kde-format
+msgid "Interrupt processing when utility is running"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:250
+#, fuzzy, kde-format
+msgid "Save New Offsets"
+msgstr "UT எதிரீடு :"
+
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:119 ekos/capture/camera.ui:2307
 #: fitsviewer/catalogobject.ui:63 oal/equipmentwriter.ui:912
 #, fuzzy, kde-format
@@ -12144,41 +12172,41 @@ msgid "Filter"
 msgstr "படிமங்களை வடிகட்டு"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:125 ekos/capture/camera.ui:2337
 #: ekos/scheduler/scheduler.cpp:587
 #, fuzzy, kde-format
 msgid "Offset"
 msgstr "UT எதிரீடு :"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:133
 #, fuzzy, kde-format
 msgid "Lock Filter"
 msgstr "படிமங்களை வடிகட்டு"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "# Focus Runs"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:318
+#: ekos/auxiliary/buildfilteroffsets.cpp:307
 #, kde-format
 msgid "Filter. * indicates reference filter. Double click to change"
 msgstr ""
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:320
+#: ekos/auxiliary/buildfilteroffsets.cpp:309
 #, kde-format
 msgid "# Focus Runs. Set per filter. 0 to ignore"
 msgstr ""
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:474
+#: ekos/auxiliary/buildfilteroffsets.cpp:463
 #, kde-format
 msgid "AF Run %1"
 msgstr ""
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:477
+#: ekos/auxiliary/buildfilteroffsets.cpp:466
 #, kde-format
 msgid ""
 "AF Run %1. Calculated automatically but can be edited. Set to 0 to exclude "
@@ -12188,89 +12216,103 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
 #. i18n: ectx: property (currentText), widget (QComboBox, StackingMethod)
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
-#: ekos/auxiliary/buildfilteroffsets.cpp:483 ekos/auxiliary/darklibrary.ui:221
+#: ekos/auxiliary/buildfilteroffsets.cpp:472 ekos/auxiliary/darklibrary.ui:221
 #: fitsviewer/livestacking.ui:1134 fitsviewer/livestacking.ui:1141
 #, fuzzy, kde-format
 #| msgid "Average"
 msgid "Average"
 msgstr "சராசரி வரை"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:485
+#: ekos/auxiliary/buildfilteroffsets.cpp:474
 #, fuzzy, kde-format
 #| msgid "Average"
 msgid "AF Average (mean)."
 msgstr "சராசரி வரை"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:488
+#: ekos/auxiliary/buildfilteroffsets.cpp:477
 #, fuzzy, kde-format
 msgid "New Offset"
 msgstr "UT எதிரீடு :"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:491
+#: ekos/auxiliary/buildfilteroffsets.cpp:480
 #, kde-format
 msgid "New Offset. Calculated relative to Filter with *. Can be edited."
 msgstr ""
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:498
+#: ekos/auxiliary/buildfilteroffsets.cpp:487
 #, kde-format
 msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr ""
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:519
+#: ekos/auxiliary/buildfilteroffsets.cpp:508
 #, fuzzy, kde-format
 msgid "Starting Build Filter Offsets..."
 msgstr "UT எதிரீடு :"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:536
+#: ekos/auxiliary/buildfilteroffsets.cpp:522
+#: ekos/auxiliary/buildfilteroffsets.cpp:552
+#: ekos/auxiliary/buildfilteroffsets.cpp:573 ekos/ekos.h:220
+#, fuzzy, kde-format
+#| msgid "INDI"
+msgid "Stopped"
+msgstr "INDI"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:527
 #, fuzzy, kde-format
 msgid "Are you sure you want to stop Build Filter Offsets?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா?"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:536
+#: ekos/auxiliary/buildfilteroffsets.cpp:527
 #, fuzzy, kde-format
 msgid "Stop Build Filter Offsets"
 msgstr "UT எதிரீடு :"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:567
+#: ekos/auxiliary/buildfilteroffsets.cpp:560
 #, kde-format
 msgid ""
 "An unexpected problem occurred.\n"
 "Stop Build Filter Offsets, or Cancel to retry?"
 msgstr ""
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:568
+#: ekos/auxiliary/buildfilteroffsets.cpp:561
 #, kde-format
 msgid "Build Filter Offsets Unexpected Problem"
 msgstr ""
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:642
+#: ekos/auxiliary/buildfilteroffsets.cpp:615
+#, fuzzy, kde-format
+#| msgid "completed"
+msgid "Processing complete."
+msgstr "முடிந்தது"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:637
 #, fuzzy, kde-format
 #| msgid "Change Date..."
 msgid "Problem changing filter to %1..."
 msgstr "தேதியை மாற்று..."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:651
+#: ekos/auxiliary/buildfilteroffsets.cpp:646
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
 msgstr ""
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:781
+#: ekos/auxiliary/buildfilteroffsets.cpp:776
 #, kde-format
 msgid "(ΔT=%1)"
 msgstr ""
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:782
-#: ekos/auxiliary/buildfilteroffsets.cpp:785
+#: ekos/auxiliary/buildfilteroffsets.cpp:777
+#: ekos/auxiliary/buildfilteroffsets.cpp:780
 #, fuzzy, kde-format
 msgid "(%1 ticks)"
 msgstr "டிக்கின்சன்"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:784
+#: ekos/auxiliary/buildfilteroffsets.cpp:779
 #, kde-format
 msgid "(ΔAlt=%1)"
 msgstr ""
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:791
+#: ekos/auxiliary/buildfilteroffsets.cpp:786
 #, kde-format
 msgctxt ""
 "Graphics tooltip; column 1 is a header, column 2 is focus position, column 3 "
@@ -12289,7 +12331,7 @@ msgid ""
 "td></tr></table></body>"
 msgstr ""
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:902
+#: ekos/auxiliary/buildfilteroffsets.cpp:899
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -12977,12 +13019,12 @@ msgstr ""
 msgid "Wavelength"
 msgstr "அலை நீளம்:"
 
-#: ekos/auxiliary/filtermanager.cpp:593
+#: ekos/auxiliary/filtermanager.cpp:597
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:594
+#: ekos/auxiliary/filtermanager.cpp:598
 #, fuzzy, kde-format
 msgid "Confirm Filter"
 msgstr "பிழை நீக்கும் கோப்பு"
@@ -18455,12 +18497,6 @@ msgstr "தொடங்கு"
 msgid "Stopping"
 msgstr "நிறுத்தல் &சுவடுபற்றல்"
 
-#: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "INDI"
-msgid "Stopped"
-msgstr "INDI"
-
 #: ekos/ekoslive/ekosliveclient.cpp:559
 #, fuzzy, kde-format
 #| msgid "Stop Service"
@@ -20295,17 +20331,6 @@ msgstr "கிளியர்"
 #, fuzzy, kde-format
 msgid "Section"
 msgstr "இணைப்பு"
-
-#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
-#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
-#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
-#: ekos/focus/focusadvisor.cpp:85 ekos/guide/guidestatewidget.ui:64
-#: tools/modcalcangdist.ui:666 tools/modcalcapcoord.ui:720
-#: tools/modcalcgalcoord.ui:418 tools/modcalcgeod.ui:572
-#: tools/modcalcplanets.ui:932 tools/modcalcvlsr.ui:750
-#, kde-format
-msgid "Run"
-msgstr "இயக்கு"
 
 #: ekos/focus/focusadvisor.cpp:86
 #, fuzzy, kde-format
@@ -24944,17 +24969,17 @@ msgstr ""
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:4298
+#: ekos/manager.cpp:4305
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:4305
+#: ekos/manager.cpp:4312
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:4312
+#: ekos/manager.cpp:4319
 #, kde-format
 msgid "Received external preview file"
 msgstr ""
@@ -103673,11 +103698,6 @@ msgstr "பின்னனி வண்ணத்திற்கான போல�
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "பின்புலனில் அடிச்சுவட்டு வண்ணங்களை போலியாக்கவும்."
-
-#, fuzzy
-#~| msgid "completed"
-#~ msgid "Processing complete."
-#~ msgstr "முடிந்தது"
 
 #, fuzzy
 #~| msgid "Capture Image"

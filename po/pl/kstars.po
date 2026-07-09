@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1740874 $
+# Version: $Revision: 1740953 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-08 02:11+0000\n"
+"POT-Creation-Date: 2026-07-09 02:06+0000\n"
 "PO-Revision-Date: 2026-03-21 07:28+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -436,7 +436,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:400
-#: ekos/auxiliary/buildfilteroffsets.cpp:495 ekos/capture/camera_jobs.cpp:418
+#: ekos/auxiliary/buildfilteroffsets.cpp:484 ekos/capture/camera_jobs.cpp:418
 #: ekos/scheduler/scheduler.cpp:2329
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:73
@@ -2083,7 +2083,7 @@ msgstr "Stan:"
 #. i18n: ectx: property (text), widget (QLabel, guideStatus)
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
-#: ekos/analyze/analyze.cpp:3512 ekos/auxiliary/buildfilteroffsets.cpp:288
+#: ekos/analyze/analyze.cpp:3512 ekos/auxiliary/buildfilteroffsets.cpp:277
 #: ekos/auxiliary/darklibrary.cpp:47 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:36
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -6315,7 +6315,8 @@ msgstr "Wczytaj i obróć..."
 #. i18n: ectx: property (text), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
-#: ekos/align/polaralignmentassistant.ui:826 ekos/auxiliary/darklibrary.ui:585
+#: ekos/align/polaralignmentassistant.ui:826
+#: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/manager.cpp:257
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
@@ -7103,7 +7104,7 @@ msgstr "Nie udało się działanie filtra."
 msgid "Changing focus offset by %1 steps..."
 msgstr "Zmiana przesunięcia ogniskowej o %1 kroków..."
 
-#: ekos/align/align_settings.cpp:244 ekos/auxiliary/buildfilteroffsets.cpp:636
+#: ekos/align/align_settings.cpp:244 ekos/auxiliary/buildfilteroffsets.cpp:631
 #: ekos/capture/camera.cpp:582
 #, kde-format
 msgid "Changing filter to %1..."
@@ -12282,10 +12283,39 @@ msgstr "Użyj domyślnych granic"
 msgid "Are you sure you want to quit?"
 msgstr "Czy na pewno zakończyć?"
 
+#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
+#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
+#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
+#: ekos/auxiliary/buildfilteroffsets.cpp:244 ekos/focus/focusadvisor.cpp:85
+#: ekos/guide/guidestatewidget.ui:64 tools/modcalcangdist.ui:666
+#: tools/modcalcapcoord.ui:720 tools/modcalcgalcoord.ui:418
+#: tools/modcalcgeod.ui:572 tools/modcalcplanets.ui:932
+#: tools/modcalcvlsr.ui:750
+#, kde-format
+msgid "Run"
+msgstr "Uruchom"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:248
+#, fuzzy, kde-format
+#| msgid "Build Filter Offsets"
+msgid "Run Build Filter Offsets utility"
+msgstr "Zbuduj przesunięcia filtra"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:249
+#, kde-format
+msgid "Interrupt processing when utility is running"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:250
+#, fuzzy, kde-format
+#| msgid "New Offset"
+msgid "Save New Offsets"
+msgstr "Nowe przesunięcie"
+
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:119 ekos/capture/camera.ui:2307
 #: fitsviewer/catalogobject.ui:63 oal/equipmentwriter.ui:912
 #, kde-format
@@ -12293,41 +12323,41 @@ msgid "Filter"
 msgstr "Filtr"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:125 ekos/capture/camera.ui:2337
 #: ekos/scheduler/scheduler.cpp:587
 #, kde-format
 msgid "Offset"
 msgstr "Przesunięcie"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:133
 #, kde-format
 msgid "Lock Filter"
 msgstr "Zablokuj filtr"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #, kde-format
 msgid "# Focus Runs"
 msgstr "# Przebiegów Ogniskowej"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:318
+#: ekos/auxiliary/buildfilteroffsets.cpp:307
 #, kde-format
 msgid "Filter. * indicates reference filter. Double click to change"
 msgstr ""
 "Filtruj. * wskazuje filtr odniesienia. Naciśnij dwukrotnie, aby zmienić"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:320
+#: ekos/auxiliary/buildfilteroffsets.cpp:309
 #, kde-format
 msgid "# Focus Runs. Set per filter. 0 to ignore"
 msgstr "# Przebiegów ogniskowania. Ustaw na filtr. 0 aby pominąć"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:474
+#: ekos/auxiliary/buildfilteroffsets.cpp:463
 #, kde-format
 msgid "AF Run %1"
 msgstr "Przebieg SO %1"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:477
+#: ekos/auxiliary/buildfilteroffsets.cpp:466
 #, kde-format
 msgid ""
 "AF Run %1. Calculated automatically but can be edited. Set to 0 to exclude "
@@ -12339,50 +12369,57 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
 #. i18n: ectx: property (currentText), widget (QComboBox, StackingMethod)
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
-#: ekos/auxiliary/buildfilteroffsets.cpp:483 ekos/auxiliary/darklibrary.ui:221
+#: ekos/auxiliary/buildfilteroffsets.cpp:472 ekos/auxiliary/darklibrary.ui:221
 #: fitsviewer/livestacking.ui:1134 fitsviewer/livestacking.ui:1141
 #, kde-format
 msgid "Average"
 msgstr "Średnia"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:485
+#: ekos/auxiliary/buildfilteroffsets.cpp:474
 #, kde-format
 msgid "AF Average (mean)."
 msgstr "Średnia SO (przeciętna)."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:488
+#: ekos/auxiliary/buildfilteroffsets.cpp:477
 #, kde-format
 msgid "New Offset"
 msgstr "Nowe przesunięcie"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:491
+#: ekos/auxiliary/buildfilteroffsets.cpp:480
 #, kde-format
 msgid "New Offset. Calculated relative to Filter with *. Can be edited."
 msgstr "Nowe przesunięcie. Obliczone względem filtra z *. Dostępny do zmiany."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:498
+#: ekos/auxiliary/buildfilteroffsets.cpp:487
 #, kde-format
 msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr ""
 "Zapisz. Zaznacz, aby zapisać nowe przesunięcie dla skojarzonego filtra."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:519
+#: ekos/auxiliary/buildfilteroffsets.cpp:508
 #, fuzzy, kde-format
 #| msgid "Stop Build Filter Offsets"
 msgid "Starting Build Filter Offsets..."
 msgstr "Zatrzymaj budowanie przesunięć filtra"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:536
+#: ekos/auxiliary/buildfilteroffsets.cpp:522
+#: ekos/auxiliary/buildfilteroffsets.cpp:552
+#: ekos/auxiliary/buildfilteroffsets.cpp:573 ekos/ekos.h:220
+#, kde-format
+msgid "Stopped"
+msgstr "Zatrzymany"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:527
 #, kde-format
 msgid "Are you sure you want to stop Build Filter Offsets?"
 msgstr "Czy na pewno zatrzymać budowanie przesunięć filtra?"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:536
+#: ekos/auxiliary/buildfilteroffsets.cpp:527
 #, kde-format
 msgid "Stop Build Filter Offsets"
 msgstr "Zatrzymaj budowanie przesunięć filtra"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:567
+#: ekos/auxiliary/buildfilteroffsets.cpp:560
 #, kde-format
 msgid ""
 "An unexpected problem occurred.\n"
@@ -12391,38 +12428,43 @@ msgstr ""
 "Nastąpił nieoczekiwany błąd.\n"
 "Zatrzymać budowanie przesunięć filtra, czy zaniechać, aby móc to ponowić?"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:568
+#: ekos/auxiliary/buildfilteroffsets.cpp:561
 #, kde-format
 msgid "Build Filter Offsets Unexpected Problem"
 msgstr "Nieoczekiwany błąd przy budowaniu przesunięć filtra"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:642
+#: ekos/auxiliary/buildfilteroffsets.cpp:615
+#, kde-format
+msgid "Processing complete."
+msgstr "Ukończono przetwarzanie."
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:637
 #, kde-format
 msgid "Problem changing filter to %1..."
 msgstr "Napotkano kłopot przy zmianie filtra na %1..."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:651
+#: ekos/auxiliary/buildfilteroffsets.cpp:646
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
 msgstr "Wykonywanie samoogniskowania na %1 (%2/%3)..."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:781
+#: ekos/auxiliary/buildfilteroffsets.cpp:776
 #, kde-format
 msgid "(ΔT=%1)"
 msgstr "(ΔT=%1)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:782
-#: ekos/auxiliary/buildfilteroffsets.cpp:785
+#: ekos/auxiliary/buildfilteroffsets.cpp:777
+#: ekos/auxiliary/buildfilteroffsets.cpp:780
 #, kde-format
 msgid "(%1 ticks)"
 msgstr "(%1 podziałek)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:784
+#: ekos/auxiliary/buildfilteroffsets.cpp:779
 #, kde-format
 msgid "(ΔAlt=%1)"
 msgstr "(ΔAlt=%1)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:791
+#: ekos/auxiliary/buildfilteroffsets.cpp:786
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "Graphics tooltip; colume 1 is a header, column 2 is focus position, "
@@ -12465,7 +12507,7 @@ msgstr ""
 "tr><tr><th>Dostosowania</th><td>%6</td><td>%7</td><td>%8</td></"
 "tr><tr><th>Dostosowane położenie</th><td>%9</td></tr></table></body>"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:902
+#: ekos/auxiliary/buildfilteroffsets.cpp:899
 #, kde-format
 msgid "Aborting Autofocus..."
 msgstr "Przerywanie samoogniskowania..."
@@ -13147,12 +13189,12 @@ msgstr "Długość fali w punkcie środkowym filtra w nm"
 msgid "Wavelength"
 msgstr "Długość fali:"
 
-#: ekos/auxiliary/filtermanager.cpp:593
+#: ekos/auxiliary/filtermanager.cpp:597
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "Ustaw filtr na %1. Czy filtr jest ustawiony?"
 
-#: ekos/auxiliary/filtermanager.cpp:594
+#: ekos/auxiliary/filtermanager.cpp:598
 #, kde-format
 msgid "Confirm Filter"
 msgstr "Potwierdź filtr"
@@ -18872,11 +18914,6 @@ msgstr "Uruchomiony"
 msgid "Stopping"
 msgstr "Zatrzymaj nagrywanie"
 
-#: ekos/ekos.h:220
-#, kde-format
-msgid "Stopped"
-msgstr "Zatrzymany"
-
 #: ekos/ekoslive/ekosliveclient.cpp:559
 #, kde-format
 msgctxt "@title:window"
@@ -20855,17 +20892,6 @@ msgstr "Wyczyść"
 #, kde-format
 msgid "Section"
 msgstr "Rozdział"
-
-#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
-#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
-#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
-#: ekos/focus/focusadvisor.cpp:85 ekos/guide/guidestatewidget.ui:64
-#: tools/modcalcangdist.ui:666 tools/modcalcapcoord.ui:720
-#: tools/modcalcgalcoord.ui:418 tools/modcalcgeod.ui:572
-#: tools/modcalcplanets.ui:932 tools/modcalcvlsr.ui:750
-#, kde-format
-msgid "Run"
-msgstr "Uruchom"
 
 #: ekos/focus/focusadvisor.cpp:86
 #, fuzzy, kde-format
@@ -26169,17 +26195,17 @@ msgstr "Ponowne włączanie diagnostyki dla %1 ..."
 msgid "Re-disabling debug logging for %1..."
 msgstr "Ponowne wyłączanie diagnostyki dla %1 ..."
 
-#: ekos/manager.cpp:4298
+#: ekos/manager.cpp:4305
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:4305
+#: ekos/manager.cpp:4312
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:4312
+#: ekos/manager.cpp:4319
 #, fuzzy, kde-format
 #| msgid "Receive external guide frames"
 msgid "Received external preview file"
@@ -99659,9 +99685,6 @@ msgstr "Barwa tła:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Ustaw barwę tła."
-
-#~ msgid "Processing complete."
-#~ msgstr "Ukończono przetwarzanie."
 
 #~ msgid "Capture timed out."
 #~ msgstr "Upłynął czas na przechwytywanie."

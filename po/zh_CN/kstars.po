@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-08 02:11+0000\n"
+"POT-Creation-Date: 2026-07-09 02:06+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -411,7 +411,7 @@ msgstr "反转图像颜色。需要加强对比时该功能会比较有用。该
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:400
-#: ekos/auxiliary/buildfilteroffsets.cpp:495 ekos/capture/camera_jobs.cpp:418
+#: ekos/auxiliary/buildfilteroffsets.cpp:484 ekos/capture/camera_jobs.cpp:418
 #: ekos/scheduler/scheduler.cpp:2329
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:73
@@ -2029,7 +2029,7 @@ msgstr "状态："
 #. i18n: ectx: property (text), widget (QLabel, guideStatus)
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
-#: ekos/analyze/analyze.cpp:3512 ekos/auxiliary/buildfilteroffsets.cpp:288
+#: ekos/analyze/analyze.cpp:3512 ekos/auxiliary/buildfilteroffsets.cpp:277
 #: ekos/auxiliary/darklibrary.cpp:47 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:36
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -6165,7 +6165,8 @@ msgstr "加载并转动"
 #. i18n: ectx: property (text), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
-#: ekos/align/polaralignmentassistant.ui:826 ekos/auxiliary/darklibrary.ui:585
+#: ekos/align/polaralignmentassistant.ui:826
+#: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/manager.cpp:257
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
@@ -6907,7 +6908,7 @@ msgstr "滤镜操作失败。"
 msgid "Changing focus offset by %1 steps..."
 msgstr "更改焦点偏移 %1 步..."
 
-#: ekos/align/align_settings.cpp:244 ekos/auxiliary/buildfilteroffsets.cpp:636
+#: ekos/align/align_settings.cpp:244 ekos/auxiliary/buildfilteroffsets.cpp:631
 #: ekos/capture/camera.cpp:582
 #, kde-format
 msgid "Changing filter to %1..."
@@ -11774,10 +11775,39 @@ msgstr "使用默认限制"
 msgid "Are you sure you want to quit?"
 msgstr "您确定退出吗？"
 
+#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
+#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
+#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
+#: ekos/auxiliary/buildfilteroffsets.cpp:244 ekos/focus/focusadvisor.cpp:85
+#: ekos/guide/guidestatewidget.ui:64 tools/modcalcangdist.ui:666
+#: tools/modcalcapcoord.ui:720 tools/modcalcgalcoord.ui:418
+#: tools/modcalcgeod.ui:572 tools/modcalcplanets.ui:932
+#: tools/modcalcvlsr.ui:750
+#, kde-format
+msgid "Run"
+msgstr "运行"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:248
+#, fuzzy, kde-format
+#| msgid "Build Filter Offsets"
+msgid "Run Build Filter Offsets utility"
+msgstr "构建滤镜偏置"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:249
+#, kde-format
+msgid "Interrupt processing when utility is running"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:250
+#, fuzzy, kde-format
+#| msgid "New Offset"
+msgid "Save New Offsets"
+msgstr "新偏置"
+
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:119 ekos/capture/camera.ui:2307
 #: fitsviewer/catalogobject.ui:63 oal/equipmentwriter.ui:912
 #, kde-format
@@ -11785,40 +11815,40 @@ msgid "Filter"
 msgstr "滤镜"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:125 ekos/capture/camera.ui:2337
 #: ekos/scheduler/scheduler.cpp:587
 #, kde-format
 msgid "Offset"
 msgstr "偏移量"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:133
 #, kde-format
 msgid "Lock Filter"
 msgstr "锁定滤镜"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #, kde-format
 msgid "# Focus Runs"
 msgstr "# 对焦运行"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:318
+#: ekos/auxiliary/buildfilteroffsets.cpp:307
 #, kde-format
 msgid "Filter. * indicates reference filter. Double click to change"
 msgstr "滤镜.* 表示参考滤镜。双击以更改"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:320
+#: ekos/auxiliary/buildfilteroffsets.cpp:309
 #, kde-format
 msgid "# Focus Runs. Set per filter. 0 to ignore"
 msgstr "# 对焦运行。设置每片滤镜。设 0 忽略。"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:474
+#: ekos/auxiliary/buildfilteroffsets.cpp:463
 #, kde-format
 msgid "AF Run %1"
 msgstr "自动对焦运行 %1"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:477
+#: ekos/auxiliary/buildfilteroffsets.cpp:466
 #, kde-format
 msgid ""
 "AF Run %1. Calculated automatically but can be edited. Set to 0 to exclude "
@@ -11828,49 +11858,56 @@ msgstr "自动对焦运行 %1。自动计算但可以编辑。设置为 0 排除
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
 #. i18n: ectx: property (currentText), widget (QComboBox, StackingMethod)
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
-#: ekos/auxiliary/buildfilteroffsets.cpp:483 ekos/auxiliary/darklibrary.ui:221
+#: ekos/auxiliary/buildfilteroffsets.cpp:472 ekos/auxiliary/darklibrary.ui:221
 #: fitsviewer/livestacking.ui:1134 fitsviewer/livestacking.ui:1141
 #, kde-format
 msgid "Average"
 msgstr "平均"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:485
+#: ekos/auxiliary/buildfilteroffsets.cpp:474
 #, kde-format
 msgid "AF Average (mean)."
 msgstr "自动对焦均值。"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:488
+#: ekos/auxiliary/buildfilteroffsets.cpp:477
 #, kde-format
 msgid "New Offset"
 msgstr "新偏置"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:491
+#: ekos/auxiliary/buildfilteroffsets.cpp:480
 #, kde-format
 msgid "New Offset. Calculated relative to Filter with *. Can be edited."
 msgstr "新偏移。相对于标*的滤镜。可以编辑。"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:498
+#: ekos/auxiliary/buildfilteroffsets.cpp:487
 #, kde-format
 msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr "保存。选中以保存关联滤镜的新偏置。"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:519
+#: ekos/auxiliary/buildfilteroffsets.cpp:508
 #, fuzzy, kde-format
 #| msgid "Stop Build Filter Offsets"
 msgid "Starting Build Filter Offsets..."
 msgstr "停止构建滤镜偏置"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:536
+#: ekos/auxiliary/buildfilteroffsets.cpp:522
+#: ekos/auxiliary/buildfilteroffsets.cpp:552
+#: ekos/auxiliary/buildfilteroffsets.cpp:573 ekos/ekos.h:220
+#, kde-format
+msgid "Stopped"
+msgstr "已终止"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:527
 #, kde-format
 msgid "Are you sure you want to stop Build Filter Offsets?"
 msgstr "您确定要停止构建滤镜偏置吗？"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:536
+#: ekos/auxiliary/buildfilteroffsets.cpp:527
 #, kde-format
 msgid "Stop Build Filter Offsets"
 msgstr "停止构建滤镜偏置"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:567
+#: ekos/auxiliary/buildfilteroffsets.cpp:560
 #, kde-format
 msgid ""
 "An unexpected problem occurred.\n"
@@ -11879,38 +11916,43 @@ msgstr ""
 "发生了未预期的问题。\n"
 "停止构建滤镜偏置，还是取消以重试？"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:568
+#: ekos/auxiliary/buildfilteroffsets.cpp:561
 #, kde-format
 msgid "Build Filter Offsets Unexpected Problem"
 msgstr "构建滤镜偏置未预期问题"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:642
+#: ekos/auxiliary/buildfilteroffsets.cpp:615
+#, kde-format
+msgid "Processing complete."
+msgstr "处理完成。"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:637
 #, kde-format
 msgid "Problem changing filter to %1..."
 msgstr "更改滤镜至 %1 出现问题..."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:651
+#: ekos/auxiliary/buildfilteroffsets.cpp:646
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
 msgstr "运行自动聚焦于 %1 (%2/%3)..."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:781
+#: ekos/auxiliary/buildfilteroffsets.cpp:776
 #, kde-format
 msgid "(ΔT=%1)"
 msgstr "(ΔT=%1)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:782
-#: ekos/auxiliary/buildfilteroffsets.cpp:785
+#: ekos/auxiliary/buildfilteroffsets.cpp:777
+#: ekos/auxiliary/buildfilteroffsets.cpp:780
 #, kde-format
 msgid "(%1 ticks)"
 msgstr "(%1 刻度)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:784
+#: ekos/auxiliary/buildfilteroffsets.cpp:779
 #, kde-format
 msgid "(ΔAlt=%1)"
 msgstr "(Δ高度角=%1)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:791
+#: ekos/auxiliary/buildfilteroffsets.cpp:786
 #, kde-format
 msgctxt ""
 "Graphics tooltip; column 1 is a header, column 2 is focus position, column 3 "
@@ -11937,7 +11979,7 @@ msgstr ""
 "td><td>%4 %5</td></tr><tr><th>适配量</th><td>%6</td><td>%7</td><td>%8</td></"
 "tr><tr><th>适配后位置</th><td>%9</td></tr></table></body>"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:902
+#: ekos/auxiliary/buildfilteroffsets.cpp:899
 #, kde-format
 msgid "Aborting Autofocus..."
 msgstr "自动对焦中断中..."
@@ -12581,12 +12623,12 @@ msgstr "滤镜的中心波长(nm)"
 msgid "Wavelength"
 msgstr "波长"
 
-#: ekos/auxiliary/filtermanager.cpp:593
+#: ekos/auxiliary/filtermanager.cpp:597
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "设置滤镜为 %1。是否设置滤镜？"
 
-#: ekos/auxiliary/filtermanager.cpp:594
+#: ekos/auxiliary/filtermanager.cpp:598
 #, kde-format
 msgid "Confirm Filter"
 msgstr "确认滤镜"
@@ -17896,11 +17938,6 @@ msgstr "已开始"
 msgid "Stopping"
 msgstr "终止中"
 
-#: ekos/ekos.h:220
-#, kde-format
-msgid "Stopped"
-msgstr "已终止"
-
 #: ekos/ekoslive/ekosliveclient.cpp:559
 #, kde-format
 msgctxt "@title:window"
@@ -19684,17 +19721,6 @@ msgstr "清除"
 #, kde-format
 msgid "Section"
 msgstr "选区"
-
-#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
-#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
-#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
-#: ekos/focus/focusadvisor.cpp:85 ekos/guide/guidestatewidget.ui:64
-#: tools/modcalcangdist.ui:666 tools/modcalcapcoord.ui:720
-#: tools/modcalcgalcoord.ui:418 tools/modcalcgeod.ui:572
-#: tools/modcalcplanets.ui:932 tools/modcalcvlsr.ui:750
-#, kde-format
-msgid "Run"
-msgstr "运行"
 
 #: ekos/focus/focusadvisor.cpp:86
 #, kde-format
@@ -24479,17 +24505,17 @@ msgstr "为%1重新启用调试日志"
 msgid "Re-disabling debug logging for %1..."
 msgstr "为%1重新禁用调试日志"
 
-#: ekos/manager.cpp:4298
+#: ekos/manager.cpp:4305
 #, kde-format
 msgid "Preview source set to external"
 msgstr "预览源设置为外部"
 
-#: ekos/manager.cpp:4305
+#: ekos/manager.cpp:4312
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "预览源重置为内部"
 
-#: ekos/manager.cpp:4312
+#: ekos/manager.cpp:4319
 #, kde-format
 msgid "Received external preview file"
 msgstr "收到外部预览文件"
@@ -95205,9 +95231,6 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Processing complete."
-#~ msgstr "处理完成。"
 
 #~ msgid "Capture timed out."
 #~ msgstr "拍摄超时。"

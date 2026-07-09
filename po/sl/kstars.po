@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-08 02:11+0000\n"
-"PO-Revision-Date: 2026-07-07 06:48+0200\n"
+"POT-Creation-Date: 2026-07-09 02:06+0000\n"
+"PO-Revision-Date: 2026-07-08 07:17+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -452,7 +452,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:135 ekos/align/mountmodel.cpp:400
-#: ekos/auxiliary/buildfilteroffsets.cpp:495 ekos/capture/camera_jobs.cpp:418
+#: ekos/auxiliary/buildfilteroffsets.cpp:484 ekos/capture/camera_jobs.cpp:418
 #: ekos/scheduler/scheduler.cpp:2329
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:111
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:73
@@ -2091,7 +2091,7 @@ msgstr "Stanje:"
 #. i18n: ectx: property (text), widget (QLabel, guideStatus)
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1073 ekos/align/polaralignmentassistant.cpp:28
-#: ekos/analyze/analyze.cpp:3512 ekos/auxiliary/buildfilteroffsets.cpp:288
+#: ekos/analyze/analyze.cpp:3512 ekos/auxiliary/buildfilteroffsets.cpp:277
 #: ekos/auxiliary/darklibrary.cpp:47 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:36
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -6297,7 +6297,8 @@ msgstr "Naloži in obrni…"
 #. i18n: ectx: property (text), widget (QPushButton, PAHStopB)
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
-#: ekos/align/polaralignmentassistant.ui:826 ekos/auxiliary/darklibrary.ui:585
+#: ekos/align/polaralignmentassistant.ui:826
+#: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/manager.cpp:257
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
@@ -7065,7 +7066,7 @@ msgstr "Operacija filtra ni uspela."
 msgid "Changing focus offset by %1 steps..."
 msgstr "Spreminjanje izostritve za %1 s…"
 
-#: ekos/align/align_settings.cpp:244 ekos/auxiliary/buildfilteroffsets.cpp:636
+#: ekos/align/align_settings.cpp:244 ekos/auxiliary/buildfilteroffsets.cpp:631
 #: ekos/capture/camera.cpp:582
 #, kde-format
 msgid "Changing filter to %1..."
@@ -12177,10 +12178,39 @@ msgstr "Uporabi privzete meje"
 msgid "Are you sure you want to quit?"
 msgstr "Ali ste prepričani, da želite zapreti program?"
 
+#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
+#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
+#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
+#: ekos/auxiliary/buildfilteroffsets.cpp:244 ekos/focus/focusadvisor.cpp:85
+#: ekos/guide/guidestatewidget.ui:64 tools/modcalcangdist.ui:666
+#: tools/modcalcapcoord.ui:720 tools/modcalcgalcoord.ui:418
+#: tools/modcalcgeod.ui:572 tools/modcalcplanets.ui:932
+#: tools/modcalcvlsr.ui:750
+#, kde-format
+msgid "Run"
+msgstr "Zaženi"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:248
+#, fuzzy, kde-format
+#| msgid "Build Filter Offsets"
+msgid "Run Build Filter Offsets utility"
+msgstr "Izdelaj odmike filtra"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:249
+#, kde-format
+msgid "Interrupt processing when utility is running"
+msgstr ""
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:250
+#, fuzzy, kde-format
+#| msgid "New Offset"
+msgid "Save New Offsets"
+msgstr "Nov odmik"
+
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:119 ekos/capture/camera.ui:2307
 #: fitsviewer/catalogobject.ui:63 oal/equipmentwriter.ui:912
 #, kde-format
@@ -12188,40 +12218,40 @@ msgid "Filter"
 msgstr "Filter"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:125 ekos/capture/camera.ui:2337
 #: ekos/scheduler/scheduler.cpp:587
 #, kde-format
 msgid "Offset"
 msgstr "Odmik"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #: ekos/auxiliary/filtermanager.cpp:133
 #, kde-format
 msgid "Lock Filter"
 msgstr "Zakleni filter"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:312
+#: ekos/auxiliary/buildfilteroffsets.cpp:301
 #, kde-format
 msgid "# Focus Runs"
 msgstr "Št. izvedb ostrenja"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:318
+#: ekos/auxiliary/buildfilteroffsets.cpp:307
 #, kde-format
 msgid "Filter. * indicates reference filter. Double click to change"
 msgstr "Filter. * nakazuje referenčni filter. Dvokliknite za spremembo"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:320
+#: ekos/auxiliary/buildfilteroffsets.cpp:309
 #, kde-format
 msgid "# Focus Runs. Set per filter. 0 to ignore"
 msgstr "Št. izvedb ostrenja. Nastavitev na filter. 0 za prezrtje"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:474
+#: ekos/auxiliary/buildfilteroffsets.cpp:463
 #, kde-format
 msgid "AF Run %1"
 msgstr "%1. izvedba SO"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:477
+#: ekos/auxiliary/buildfilteroffsets.cpp:466
 #, kde-format
 msgid ""
 "AF Run %1. Calculated automatically but can be edited. Set to 0 to exclude "
@@ -12233,49 +12263,55 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, combinAlgorithmCombo)
 #. i18n: ectx: property (currentText), widget (QComboBox, StackingMethod)
 #. i18n: ectx: property (text), item, widget (QComboBox, StackingMethod)
-#: ekos/auxiliary/buildfilteroffsets.cpp:483 ekos/auxiliary/darklibrary.ui:221
+#: ekos/auxiliary/buildfilteroffsets.cpp:472 ekos/auxiliary/darklibrary.ui:221
 #: fitsviewer/livestacking.ui:1134 fitsviewer/livestacking.ui:1141
 #, kde-format
 msgid "Average"
 msgstr "Povprečje"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:485
+#: ekos/auxiliary/buildfilteroffsets.cpp:474
 #, kde-format
 msgid "AF Average (mean)."
 msgstr "Povprečje SO."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:488
+#: ekos/auxiliary/buildfilteroffsets.cpp:477
 #, kde-format
 msgid "New Offset"
 msgstr "Nov odmik"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:491
+#: ekos/auxiliary/buildfilteroffsets.cpp:480
 #, kde-format
 msgid "New Offset. Calculated relative to Filter with *. Can be edited."
 msgstr "Nov odmik. Izračunano relativno na filter z *. Ga je možno urejati."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:498
+#: ekos/auxiliary/buildfilteroffsets.cpp:487
 #, kde-format
 msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr "Shrani. Potrdite, da shranite nov odmik za povezani filter."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:519
-#, fuzzy, kde-format
-#| msgid "Stop Build Filter Offsets"
+#: ekos/auxiliary/buildfilteroffsets.cpp:508
+#, kde-format
 msgid "Starting Build Filter Offsets..."
-msgstr "Ustavi izdelavo odmikov za filter"
+msgstr "Začetek izdelave odmikov za filter..."
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:536
+#: ekos/auxiliary/buildfilteroffsets.cpp:522
+#: ekos/auxiliary/buildfilteroffsets.cpp:552
+#: ekos/auxiliary/buildfilteroffsets.cpp:573 ekos/ekos.h:220
+#, kde-format
+msgid "Stopped"
+msgstr "Zaustavljeno"
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:527
 #, kde-format
 msgid "Are you sure you want to stop Build Filter Offsets?"
 msgstr "Ali ste prepričani, da želite ustaviti izdelavo odmikov za filter?"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:536
+#: ekos/auxiliary/buildfilteroffsets.cpp:527
 #, kde-format
 msgid "Stop Build Filter Offsets"
 msgstr "Ustavi izdelavo odmikov za filter"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:567
+#: ekos/auxiliary/buildfilteroffsets.cpp:560
 #, kde-format
 msgid ""
 "An unexpected problem occurred.\n"
@@ -12285,38 +12321,43 @@ msgstr ""
 "Ali želite ustaviti izdelavo odmikov filtrov ali preklicati za ponoven "
 "poskus?"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:568
+#: ekos/auxiliary/buildfilteroffsets.cpp:561
 #, kde-format
 msgid "Build Filter Offsets Unexpected Problem"
 msgstr "Nepričakovana težava izdelave odmikov filtrov"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:642
+#: ekos/auxiliary/buildfilteroffsets.cpp:615
+#, kde-format
+msgid "Processing complete."
+msgstr "Obdelovanje zaključeno."
+
+#: ekos/auxiliary/buildfilteroffsets.cpp:637
 #, kde-format
 msgid "Problem changing filter to %1..."
 msgstr "Težava pri spreminjanju filtra v %1 …"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:651
+#: ekos/auxiliary/buildfilteroffsets.cpp:646
 #, kde-format
 msgid "Running Autofocus on %1 (%2/%3)..."
 msgstr "Izvajanje samodejnega ostrenja na %1 (%2/%3) …"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:781
+#: ekos/auxiliary/buildfilteroffsets.cpp:776
 #, kde-format
 msgid "(ΔT=%1)"
 msgstr "(ΔT=%1)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:782
-#: ekos/auxiliary/buildfilteroffsets.cpp:785
+#: ekos/auxiliary/buildfilteroffsets.cpp:777
+#: ekos/auxiliary/buildfilteroffsets.cpp:780
 #, kde-format
 msgid "(%1 ticks)"
 msgstr "(%1 črtic)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:784
+#: ekos/auxiliary/buildfilteroffsets.cpp:779
 #, kde-format
 msgid "(ΔAlt=%1)"
 msgstr "(ΔViš.=%1)"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:791
+#: ekos/auxiliary/buildfilteroffsets.cpp:786
 #, kde-format
 msgctxt ""
 "Graphics tooltip; column 1 is a header, column 2 is focus position, column 3 "
@@ -12344,7 +12385,7 @@ msgstr ""
 "tr><tr><th>Prilagoditve</th><td>%6</td><td>%7</td><td>%8</td></"
 "tr><tr><th>Adapted Pos</th><td>%9</td></tr></table></body>"
 
-#: ekos/auxiliary/buildfilteroffsets.cpp:902
+#: ekos/auxiliary/buildfilteroffsets.cpp:899
 #, kde-format
 msgid "Aborting Autofocus..."
 msgstr "Prekinjanje samodejnega ostrenja…"
@@ -13014,12 +13055,12 @@ msgstr "Valovna dolžina središčne točke filtra v nm"
 msgid "Wavelength"
 msgstr "Valovna dolžina"
 
-#: ekos/auxiliary/filtermanager.cpp:593
+#: ekos/auxiliary/filtermanager.cpp:597
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "Nastavi filter na %1. Ali je filter nastavljen?"
 
-#: ekos/auxiliary/filtermanager.cpp:594
+#: ekos/auxiliary/filtermanager.cpp:598
 #, kde-format
 msgid "Confirm Filter"
 msgstr "Potrdi filter"
@@ -18533,11 +18574,6 @@ msgstr "Začeto"
 msgid "Stopping"
 msgstr "Ustavljanje"
 
-#: ekos/ekos.h:220
-#, kde-format
-msgid "Stopped"
-msgstr "Zaustavljeno"
-
 #: ekos/ekoslive/ekosliveclient.cpp:559
 #, kde-format
 msgctxt "@title:window"
@@ -20394,17 +20430,6 @@ msgstr "Počisti"
 #, kde-format
 msgid "Section"
 msgstr "Razdelek"
-
-#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
-#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
-#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
-#: ekos/focus/focusadvisor.cpp:85 ekos/guide/guidestatewidget.ui:64
-#: tools/modcalcangdist.ui:666 tools/modcalcapcoord.ui:720
-#: tools/modcalcgalcoord.ui:418 tools/modcalcgeod.ui:572
-#: tools/modcalcplanets.ui:932 tools/modcalcvlsr.ui:750
-#, kde-format
-msgid "Run"
-msgstr "Zaženi"
 
 #: ekos/focus/focusadvisor.cpp:86
 #, kde-format
@@ -25457,17 +25482,17 @@ msgstr "Ponovno omogočanje dnevnika odpravljanja napak za %1…"
 msgid "Re-disabling debug logging for %1..."
 msgstr "Ponovno onemogočanje dnevnika odpravljanja napak za %1…"
 
-#: ekos/manager.cpp:4298
+#: ekos/manager.cpp:4305
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Vir predogleda je nastavljen na zunanje"
 
-#: ekos/manager.cpp:4305
+#: ekos/manager.cpp:4312
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Vir predogleda je nastavljen na notranje"
 
-#: ekos/manager.cpp:4312
+#: ekos/manager.cpp:4319
 #, kde-format
 msgid "Received external preview file"
 msgstr "Prejeta zunanja datoteka za predogled"
@@ -97889,9 +97914,6 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
-
-#~ msgid "Processing complete."
-#~ msgstr "Obdelovanje zaključeno."
 
 #~ msgid "Capture timed out."
 #~ msgstr "Čas zajema je potekel."
