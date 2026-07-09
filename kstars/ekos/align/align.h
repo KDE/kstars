@@ -817,6 +817,10 @@ class Align : public QWidget, public Ui::Align
         // Target Pierside of solver Load&Slew image to be used
         ISD::Mount::PierSide m_TargetPierside = ISD::Mount::PIER_UNKNOWN;
         double currentRotatorPA { -1 };
+        /// True if currentRotatorPA is still valid (mount hasn't moved since last solve)
+        bool m_PreviousPAValid { false };
+        /// Pier side at the time PA was last validated (for meridian flip detection)
+        ISD::Mount::PierSide m_PAValidPierSide { ISD::Mount::PIER_UNKNOWN };
         /// Previous PA error before the last rotation command (to detect wrong direction)
         double m_PreviousPAError { -1 };
         /// Auto-reverse rotator direction attempted for current alignment
@@ -950,6 +954,8 @@ class Align : public QWidget, public Ui::Align
 
         // move rotator
         bool RotatorGOTO { false };
+        // True when rotation was initiated before solve (rotate-first optimization)
+        bool m_RotateBeforeSolve { false };
 
         // Align slew
         bool targetAccuracyNotMet { false };

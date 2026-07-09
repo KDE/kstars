@@ -37,7 +37,7 @@
 
 #include <ekos_align_debug.h>
 
-#define CAPTURE_TIMEOUT_THRESHOLD 30000
+#define ALIGN_CAPTURE_TIMEOUT_THRESHOLD 30000
 
 namespace Ekos
 {
@@ -227,6 +227,34 @@ bool Align::captureAndSolve(bool initialCall)
     m_AlignView->setProperty("suspended", (solverModeButtonGroup->checkedId() == SOLVER_LOCAL
                                            && alignDarkFrame->isChecked()));
 
+    // Optimization: If we have a valid PA from a previous solve and mount hasn't moved,
+    // rotate before capturing instead of capture→solve→rotate→capture→solve.
+    if (!m_SolveFromFile && std::isnan(m_TargetPositionAngle) == false && m_PreviousPAValid
+            && Options::astrometryUseRotator())
+    {
+        // Only for automatic rotator (not manual rotator) for safety
+        if (m_Rotator != nullptr && m_Rotator->isConnected())
+        {
+            double paDiffArcmin = std::abs(KSUtils::rangePA(currentRotatorPA - m_TargetPositionAngle)) * 60;
+
+            if (paDiffArcmin > Options::astrometryRotatorThreshold())
+            {
+                m_PreviousPAError = std::abs(KSUtils::rangePA(currentRotatorPA - m_TargetPositionAngle));
+                Q_EMIT newRotatorCommand(m_TargetPositionAngle);
+                appendLogText(i18n("Setting camera position angle to %1 degrees (using cached PA from previous solve)...",
+                                   m_TargetPositionAngle));
+                setState(ALIGN_ROTATING);
+                Q_EMIT newStatus(state);
+                m_RotatorTimer.start();
+                QTimer::singleShot(1000, this, &Align::checkRotatorTimeout);
+                // Mark PA as no longer valid (we're rotating, will re-validate after next solve)
+                m_PreviousPAValid = false;
+                m_RotateBeforeSolve = true;
+                return true;
+            }
+        }
+    }
+
     connect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Align::processData);
     connect(m_Camera, &ISD::Camera::newExposureValue, this, &Ekos::Align::checkCameraExposureProgress);
 
@@ -270,7 +298,7 @@ bool Align::captureAndSolve(bool initialCall)
     targetChip->capture(captureExposure);
 
     // Start capture timeout: exposure + 30s threshold
-    m_CaptureTimer.start(captureExposure * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+    m_CaptureTimer.start(captureExposure * 1000 + ALIGN_CAPTURE_TIMEOUT_THRESHOLD);
 
     solveB->setEnabled(false);
     loadSlewB->setEnabled(false);
@@ -767,6 +795,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
     sensorFOV->setPA(solverPA);
 
+    // Mark that we have a valid PA from this solve that can be used for rotate-first optimization
+    m_PreviousPAValid = true;
+    m_PAValidPierSide = m_Mount ? m_Mount->pierSide() : ISD::Mount::PIER_UNKNOWN;
+
     PAOut->setText(QString::number(solverPA, 'f', 2));
 
     QString ra_dms, dec_dms;
@@ -1194,7 +1226,7 @@ void Align::processCaptureTimeout()
     {
         appendLogText(i18n("Exposure timeout. Restarting exposure..."));
         targetChip->abortExposure();
-        m_CaptureTimer.start(alignExposure->value() * 1000 + CAPTURE_TIMEOUT_THRESHOLD);
+        m_CaptureTimer.start(alignExposure->value() * 1000 + ALIGN_CAPTURE_TIMEOUT_THRESHOLD);
     }
     else
     {

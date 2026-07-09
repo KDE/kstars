@@ -136,6 +136,15 @@ void Align::updateProperty(INDI::Property prop)
                     Options::setAstrometryPositionDE(nvp->np[1].value);
                 }
 
+                // Invalidate cached PA if pier side changed (meridian flip)
+                if (m_wasSlewStarted && m_Mount && m_PreviousPAValid &&
+                        m_Mount->pierSide() != ISD::Mount::PIER_UNKNOWN &&
+                        m_Mount->pierSide() != m_PAValidPierSide)
+                {
+                    m_PreviousPAValid = false;
+                    qCDebug(KSTARS_EKOS_ALIGN) << "Pier side changed, invalidating cached PA";
+                }
+
                 // If we are looking for celestial pole
                 if (m_wasSlewStarted && matchPAHStage(PAA::PAH_FIND_CP))
                 {
@@ -295,8 +304,23 @@ void Align::updateProperty(INDI::Property prop)
             if (diff <= Options::astrometryRotatorThreshold())
             {
                 appendLogText(i18n("Rotator reached camera position angle."));
-                RotatorGOTO = true; // Flag for SlewToTarget()
-                executeGOTO();
+                if (m_RotateBeforeSolve)
+                {
+                    // Rotate-first optimization: skip stale sync, go directly to capture
+                    m_RotateBeforeSolve = false;
+                    m_RotatorTimer.invalidate();
+                    setState(ALIGN_PROGRESS);
+                    Q_EMIT newStatus(state);
+                    if (alignSettlingTime->value() >= DELAY_THRESHOLD_NOTIFY)
+                        appendLogText(i18n("Settling..."));
+                    m_resetCaptureTimeoutCounter = true;
+                    m_CaptureTimer.start(alignSettlingTime->value());
+                }
+                else
+                {
+                    RotatorGOTO = true; // Flag for SlewToTarget()
+                    executeGOTO();
+                }
             }
             else
             {
