@@ -861,7 +861,7 @@ void BuildFilterOffsets::setCellsEditable()
     }
 
     // Offset column
-    IntegerDelegate *offsetDel = new IntegerDelegate(buildOffsetsTableView, -10000, 10000, 1);
+    IntegerDelegate *offsetDel = new IntegerDelegate(buildOffsetsTableView, -500000, 500000, 1);
     buildOffsetsTableView->setItemDelegateForColumn(getColumn(BFO_NEW_OFFSET), offsetDel);
 
     // Save column
@@ -1043,16 +1043,16 @@ void BuildFilterOffsets::calculateOffset(const int row)
 int BuildFilterOffsets::getColumn(const BFOColID id) const
 {
     switch (id)
-{
-    case BFO_FILTER:
-    case BFO_OFFSET:
-    case BFO_LOCK:
-    case BFO_NUM_FOCUS_RUNS:
-    case BFO_AF_RUN_1:
-        break;
+    {
+        case BFO_FILTER:
+        case BFO_OFFSET:
+        case BFO_LOCK:
+        case BFO_NUM_FOCUS_RUNS:
+        case BFO_AF_RUN_1:
+            break;
 
-    case BFO_AVERAGE:
-        return m_BFOModel.columnCount() - 3;
+        case BFO_AVERAGE:
+            return m_BFOModel.columnCount() - 3;
             break;
 
         case BFO_NEW_OFFSET:

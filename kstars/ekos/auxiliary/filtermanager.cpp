@@ -64,7 +64,7 @@ FilterManager::FilterManager(QWidget *parent) : QDialog(parent)
     m_FilterView->setItemDelegateForColumn(FM_EXPOSURE, exposureDelegate);
 
     // Offset delegate
-    offsetDelegate = new IntegerDelegate(m_FilterView, -10000, 10000, 1);
+    offsetDelegate = new IntegerDelegate(m_FilterView, -500000, 500000, 1);
     m_FilterView->setItemDelegateForColumn(FM_OFFSET, offsetDelegate);
 
     // Auto Focus delegate
@@ -832,24 +832,24 @@ double FilterManager::getFilterTicksPerAlt(const QString &name) const
 OAL::Filter * FilterManager::getFilterByName(const QString &name) const
 {
     if (m_currentFilterLabels.empty() ||
-    m_currentFilterPosition < 1 ||
-    m_currentFilterPosition > m_currentFilterLabels.count())
-    return nullptr;
+            m_currentFilterPosition < 1 ||
+            m_currentFilterPosition > m_currentFilterLabels.count())
+        return nullptr;
 
     QString color = name;
     if (color.isEmpty())
         color = m_currentFilterLabels[m_currentFilterPosition - 1];
 
-        auto pos = std::find_if(m_ActiveFilters.begin(), m_ActiveFilters.end(), [color](OAL::Filter * oneFilter)
+    auto pos = std::find_if(m_ActiveFilters.begin(), m_ActiveFilters.end(), [color](OAL::Filter * oneFilter)
     {
         return (oneFilter->color() == color);
-        });
+    });
 
     if (pos != m_ActiveFilters.end())
-    return (*pos);
-        else
-            return nullptr;
-        }
+        return (*pos);
+    else
+        return nullptr;
+}
 void FilterManager::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
     if (m_FilterWheel && (m_FilterWheel->getDeviceName() == device->getDeviceName()))

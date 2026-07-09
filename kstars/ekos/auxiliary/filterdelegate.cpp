@@ -115,8 +115,8 @@ QWidget * OffsetDelegate::createEditor(QWidget *parent, const QStyleOptionViewIt
 {
     spinbox = new QSpinBox(parent);
     spinbox->setFrame(false);
-    spinbox->setMinimum(-10000);
-    spinbox->setMaximum(10000);
+    spinbox->setMinimum(-500000);
+    spinbox->setMaximum(500000);
     return spinbox;
 }
 
