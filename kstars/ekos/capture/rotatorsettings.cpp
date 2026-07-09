@@ -44,7 +44,8 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
         double RAngle = RotatorUtils::Instance()->calcRotatorAngle(PAngle);
         RotatorAngle->setValue(RAngle);
         syncFOV(PAngle);
-        activateRotator(RAngle);
+        if (!m_inhibitActivate)
+            activateRotator(RAngle);
         CameraPASlider->setSliderPosition(PAngle * 100); // Prevent rounding to integer
     });
     connect(CameraPASlider, &QSlider::sliderReleased, this, [this]()
@@ -227,9 +228,21 @@ void RotatorSettings::commitRotatorDirection(bool Reverse)
 
 void RotatorSettings::refresh(double PAngle) // Call from setAlignResults() in Module Capture
 {
+    // Inhibit activateRotator() from the CameraPA::valueChanged lambda —
+    // refresh() only updates the UI (gauges, spinboxes), rotation commands
+    // come exclusively through commandRotator().
+    m_inhibitActivate = true;
     CameraPA->setValue(PAngle);
+    m_inhibitActivate = false;
     syncFOV(PAngle);
     CameraOffset->setValue(Options::pAOffset());
+}
+
+void RotatorSettings::commandRotator(double targetPA)
+{
+    double RAngle = RotatorUtils::Instance()->calcRotatorAngle(targetPA);
+    RotatorAngle->setValue(RAngle);
+    activateRotator(RAngle);
 }
 
 void RotatorSettings::syncFOV(double PA)

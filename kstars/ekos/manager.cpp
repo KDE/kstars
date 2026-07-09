@@ -3175,9 +3175,9 @@ void Manager::wizardProfile()
 bool Manager::getCurrentProfile(QSharedPointer<ProfileInfo> &profile) const
 {
     // Get current profile
-for (auto &pi : profiles)
-{
-    if (profileCombo->currentText() == pi->name)
+    for (auto &pi : profiles)
+    {
+        if (profileCombo->currentText() == pi->name)
         {
             profile = pi;
             return true;
@@ -3645,6 +3645,9 @@ void Manager::connectModules()
                 Qt::UniqueConnection);
         // Solver data
         connect(alignModule(), &Ekos::Align::newSolverResults, captureModule(),  &Ekos::Capture::setAlignResults,
+                Qt::UniqueConnection);
+        // Rotator command
+        connect(alignModule(), &Ekos::Align::newRotatorCommand, captureModule(), &Ekos::Capture::commandRotator,
                 Qt::UniqueConnection);
         // Capture Status
         connect(captureModule(), &Ekos::Capture::newStatus, alignModule(), &Ekos::Align::setCaptureStatus,

@@ -59,6 +59,8 @@ void Align::stop(Ekos::AlignState mode)
     m_CaptureErrorCounter = 0;
     m_CaptureTimeoutCounter = 0;
     m_SlewErrorCounter = 0;
+    m_PreviousPAError = -1;
+    m_RotatorAutoReversed = false;
     m_RemoteAlignTimer.stop();
 
     disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Align::processData);
@@ -572,7 +574,7 @@ bool Align::checkIfRotationRequired()
                             Options::astrometryRotatorThreshold())
                     {
                         m_PreviousPAError = std::abs(KSUtils::rangePA(currentRotatorPA - m_TargetPositionAngle));
-                        Q_EMIT newSolverResults(m_TargetPositionAngle, 0, 0, 0);
+                        Q_EMIT newRotatorCommand(m_TargetPositionAngle);
                         appendLogText(i18n("Setting camera position angle to %1 degrees ...", m_TargetPositionAngle));
                         setState(ALIGN_ROTATING);
                         Q_EMIT newStatus(state);

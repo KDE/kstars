@@ -710,6 +710,9 @@ class Capture : public QWidget, public Ui::Capture
         void setAlignStatus(Ekos::AlignState newstate);
         void setAlignResults(double solverPA, double ra, double de, double pixscale);
 
+        // Rotator command from Align module (real rotation, not informational)
+        void commandRotator(double targetPA);
+
         // Update Mount module status
         void setMountStatus(ISD::Mount::Status newState);
 

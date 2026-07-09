@@ -48,11 +48,20 @@ class RotatorSettings : public QDialog, public Ui::RotatorDialog
         }
         void   refresh(double PAngle);
 
+        /**
+         * @brief commandRotator Convert a target position angle to rotator absolute angle and command the rotator.
+         *        This is the dedicated entry point for the newRotatorCommand signal (real rotation commands).
+         * @param targetPA Target position angle in degrees (-180 to 180)
+         */
+        void   commandRotator(double targetPA);
+
     private:
         // Capture adaptor instance to access functions
         QSharedPointer<Ekos::CaptureDeviceAdaptor> m_CaptureDA;
         // Rotator Device
         ISD::Rotator *m_Rotator = {nullptr};
+        /// Guard to prevent refresh() from triggering activateRotator() via CameraPA::valueChanged
+        bool m_inhibitActivate { false };
         void   setFlipPolicy(const int index);
         void   showAlignOptions();
         void   activateRotator(double Angle);

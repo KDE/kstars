@@ -591,11 +591,22 @@ void Capture::setAlignResults(double solverPA, double ra, double de, double pixs
     Q_UNUSED(de)
     Q_UNUSED(pixscale)
 
-    //for now, let's sync the PA position to all rotators
+    // Informational only — update the UI (gauges, spinboxes) without commanding the rotator.
+    // Actual rotation commands come through commandRotator().
     for (auto cam : cameras())
     {
         if (cam->devices()->rotator() && cam->m_RotatorControlPanel)
             cam->m_RotatorControlPanel->refresh(solverPA);
+    }
+}
+
+void Capture::commandRotator(double targetPA)
+{
+    // Explicit rotation command from the Align module's checkIfRotationRequired.
+    for (auto cam : cameras())
+    {
+        if (cam->devices()->rotator() && cam->m_RotatorControlPanel)
+            cam->m_RotatorControlPanel->commandRotator(targetPA);
     }
 }
 

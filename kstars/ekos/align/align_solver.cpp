@@ -506,7 +506,7 @@ void Align::startSolving()
             {
                 appendLogText(
                     i18n("No index files were found on your system in the specified index file directories."
-                     "Please download some index files or add the correct directory to the list."));
+                         "Please download some index files or add the correct directory to the list."));
                 KConfigDialog * alignSettings = KConfigDialog::exists("alignsettings");
                 if(alignSettings && m_IndexFilesPage)
                 {
@@ -864,16 +864,42 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                     double newPAError = std::abs(KSUtils::rangePA(solverPA - m_TargetPositionAngle));
                     if (newPAError > m_PreviousPAError + 0.5)
                     {
+                        // First wrong-direction detection: try auto-reversing the rotator
+                        if (!m_RotatorAutoReversed)
+                        {
+                            auto reverseProperty = m_Rotator->getSwitch("ROTATOR_REVERSE");
+                            bool isReversed = reverseProperty ? (reverseProperty[0].getState() == ISS_ON) : false;
+                            bool newReversed = !isReversed;
+
+                            appendLogText(i18n("Rotator is moving in the wrong direction. "
+                                               "Automatically reversing rotator direction and retrying..."));
+                            qCDebug(KSTARS_EKOS_ALIGN) << "Rotator wrong direction detected."
+                                                       << "Previous PA error:" << m_PreviousPAError
+                                                       << "New PA error:" << newPAError
+                                                       << "Auto-reversing direction to:"
+                                                       << (newReversed ? "reversed" : "normal");
+
+                            m_Rotator->setReversed(newReversed);
+                            RotatorUtils::Instance()->setReversed(newReversed);
+                            m_RotatorAutoReversed = true;
+                            m_PreviousPAError = -1;
+                            // Re-issue the rotation command with the reversed direction
+                            checkIfRotationRequired();
+                            return;
+                        }
+
+                        // Auto-reverse already attempted — abort
                         appendLogText(i18n("Rotator is moving in the wrong direction. "
                                            "The position angle error increased from %1° to %2° after rotation. "
-                                           "Please reverse the rotator direction and try again.",
+                                           "Auto-reverse was already tried. Please check rotator configuration.",
                                            QString::number(m_PreviousPAError, 'f', 2),
                                            QString::number(newPAError, 'f', 2)));
-                        qCDebug(KSTARS_EKOS_ALIGN) << "Rotator wrong direction detected."
+                        qCDebug(KSTARS_EKOS_ALIGN) << "Rotator wrong direction detected after auto-reverse."
                                                    << "Previous PA error:" << m_PreviousPAError
                                                    << "New PA error:" << newPAError;
                         m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
                         m_PreviousPAError = -1;
+                        m_RotatorAutoReversed = false;
                         setState(ALIGN_FAILED);
                         emit newStatus(state);
                         solveB->setEnabled(true);
@@ -881,6 +907,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                         return;
                     }
                     m_PreviousPAError = -1;
+                    m_RotatorAutoReversed = false;
                 }
 
                 Q_EMIT newSolverResults(solverPA, ra, dec, pixscale);

@@ -646,6 +646,9 @@ class Align : public QWidget, public Ui::Align
         // Send new solver results
         void newSolverResults(double orientation, double ra, double dec, double pixscale);
 
+        // Command the rotator to move to a target position angle (from checkIfRotationRequired)
+        void newRotatorCommand(double targetPA);
+
         // Train changed
         void trainChanged();
 
@@ -816,6 +819,8 @@ class Align : public QWidget, public Ui::Align
         double currentRotatorPA { -1 };
         /// Previous PA error before the last rotation command (to detect wrong direction)
         double m_PreviousPAError { -1 };
+        /// Auto-reverse rotator direction attempted for current alignment
+        bool m_RotatorAutoReversed { false };
         /// Solver iterations count
         uint8_t solverIterations { 0 };
         /// Was solving with scale off used?
