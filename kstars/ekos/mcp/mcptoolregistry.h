@@ -33,7 +33,7 @@ struct ToolDefinition
     std::function<QJsonValue(const QJsonObject &args, QString &error)> handler;
 
     // MCP annotation hints (spec 2025-03-26) — all default to false
-    QString title;                    // optional human-readable title
+    QString title {};                 // optional human-readable title
     bool readOnly    { false };       // readOnlyHint: tool only observes, never mutates
     bool destructive { false };       // destructiveHint: mutation is hard to undo
     bool idempotent  { false };       // idempotentHint: safe to call multiple times
