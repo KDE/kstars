@@ -18,6 +18,15 @@
 
 QTEST_MAIN(TestMCPServer)
 
+void TestMCPServer::initTestCase()
+{
+    // Critical: the tests call setToken/regenerateToken/start, all of which
+    // persist to the shared "kstars" keychain service used by the live app.
+    // Without this, running the suite overwrites the user's real MCP tokens
+    // (e.g. the full token becomes the literal "full-token"). Isolate it.
+    MCP::Server::setKeychainPersistenceEnabled(false);
+}
+
 static quint16 startServer(MCP::Server &server)
 {
     if (!server.start(0))

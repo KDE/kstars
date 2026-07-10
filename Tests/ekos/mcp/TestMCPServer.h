@@ -13,6 +13,9 @@ class TestMCPServer : public QObject
         Q_OBJECT
 
     private Q_SLOTS:
+        // Disable MCP keychain persistence for the whole run so these tests never
+        // read or overwrite the user's real mcp_token / mcp_readonly_token.
+        void initTestCase();
         void testInitialize();
         void testToolsList();
         void testToolsCallUnknown();

@@ -36,8 +36,18 @@ static const QLatin1String KEYCHAIN_SERVICE("kstars");
 static const QLatin1String KEY_TOKEN("mcp_token");
 static const QLatin1String KEY_RO_TOKEN("mcp_readonly_token");
 
+bool Server::s_keychainPersistenceEnabled = true;
+
+void Server::setKeychainPersistenceEnabled(bool enabled)
+{
+    s_keychainPersistenceEnabled = enabled;
+}
+
 QString Server::loadFromKeychain(const QString &key)
 {
+    // Test seam: never read the user's real credential store under test.
+    if (!s_keychainPersistenceEnabled)
+        return QString();
 #ifdef HAVE_KEYCHAIN
     QKeychain::ReadPasswordJob job(KEYCHAIN_SERVICE);
     job.setAutoDelete(false);
@@ -61,6 +71,9 @@ QString Server::loadFromKeychain(const QString &key)
 
 void Server::storeToKeychain(const QString &key, const QString &value)
 {
+    // Test seam: never overwrite the user's real credential store under test.
+    if (!s_keychainPersistenceEnabled)
+        return;
 #ifdef HAVE_KEYCHAIN
     auto *job = new QKeychain::WritePasswordJob(KEYCHAIN_SERVICE);
     job->setAutoDelete(true);

@@ -52,6 +52,13 @@ class Server : public QObject
         void regenerateToken();
         void regenerateReadOnlyToken();
 
+        // Test seam: turn off system-keychain persistence so unit tests never
+        // read or overwrite the user's real MCP tokens (service "kstars", keys
+        // "mcp_token"/"mcp_readonly_token"). Default enabled. Call once with
+        // false from a test's initTestCase(); applies to every Server in the
+        // process. Production code never touches this.
+        static void setKeychainPersistenceEnabled(bool enabled);
+
     signals:
         void tokenChanged();
         void readOnlyTokenChanged();
@@ -74,6 +81,9 @@ class Server : public QObject
         // caller's session is unaffected by persistence errors — the in-memory
         // cache carries the token until the next launch.
         static void storeToKeychain(const QString &key, const QString &value);
+
+        // Gates loadFromKeychain/storeToKeychain. See setKeychainPersistenceEnabled.
+        static bool s_keychainPersistenceEnabled;
 
         Transport    *m_transport { nullptr };
         ToolRegistry *m_registry  { nullptr };
