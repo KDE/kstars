@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-09 02:06+0000\n"
-"PO-Revision-Date: 2026-07-08 19:55+0200\n"
+"POT-Creation-Date: 2026-07-10 02:05+0000\n"
+"PO-Revision-Date: 2026-07-09 19:28+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6889,8 +6889,8 @@ msgid "Polar Alignment"
 msgstr "Alineació polar"
 
 #: ekos/align/align_components.cpp:130 ekos/align/align_devices.cpp:724
-#: ekos/align/align_goto.cpp:194 ekos/align/align_goto.cpp:212
-#: ekos/align/polaralignmentassistant.cpp:665
+#: ekos/align/align_goto.cpp:205 ekos/align/align_goto.cpp:223
+#: ekos/align/align_goto.cpp:315 ekos/align/polaralignmentassistant.cpp:665
 #, kde-format
 msgid "Settling..."
 msgstr "Posicionament…"
@@ -6987,72 +6987,72 @@ msgstr "<p>Mida del camp de visió efectiu, en minuts d'arc.</p>"
 msgid "Invalid FOV."
 msgstr "CDV no vàlid."
 
-#: ekos/align/align_goto.cpp:85
+#: ekos/align/align_goto.cpp:87
 #, kde-format
 msgid "Refresh is complete."
 msgstr "S'ha completat l'actualització."
 
-#: ekos/align/align_goto.cpp:92 ekos/auxiliary/darklibrary.cpp:1456
+#: ekos/align/align_goto.cpp:94 ekos/auxiliary/darklibrary.cpp:1456
 #: ekos/focus/focus.cpp:1711
 #, kde-format
 msgid "Capture aborted."
 msgstr "Captura interrompuda."
 
-#: ekos/align/align_goto.cpp:95
+#: ekos/align/align_goto.cpp:97
 #, kde-format
 msgid "Solver aborted."
 msgstr "S'ha interromput el solucionador."
 
-#: ekos/align/align_goto.cpp:141
+#: ekos/align/align_goto.cpp:152
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 "La muntura ha completat l'orientació prop del pol celeste. Torneu a capturar "
 "per a verificar-ho."
 
-#: ekos/align/align_goto.cpp:163
+#: ekos/align/align_goto.cpp:174
 #, kde-format
 msgid "Mount is synced to solution coordinates."
 msgstr "La muntura s'ha sincronitzat amb les coordenades de la solució."
 
-#: ekos/align/align_goto.cpp:166 ekos/align/align_solver.cpp:927
+#: ekos/align/align_goto.cpp:177 ekos/align/align_solver.cpp:986
 #, kde-format
 msgid "Astrometry alignment completed successfully"
 msgstr "S'ha completat amb èxit l'alineació amb l'astrometria"
 
-#: ekos/align/align_goto.cpp:202
+#: ekos/align/align_goto.cpp:213
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "S'ha completat l'orientació. No s'ha assolit la precisió de l'objectiu, "
 "s'està tornant a executar el solucionador…"
 
-#: ekos/align/align_goto.cpp:204
+#: ekos/align/align_goto.cpp:215
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr "S'ha completat l'orientació. S'estan resolent els punts d'alineació…"
 
-#: ekos/align/align_goto.cpp:243 ekos/align/align_goto.cpp:393
+#: ekos/align/align_goto.cpp:254 ekos/align/align_goto.cpp:419
 #, kde-format
 msgid "Syncing failed."
 msgstr "No s'ha pogut sincronitzar."
 
-#: ekos/align/align_goto.cpp:245
+#: ekos/align/align_goto.cpp:256
 #, kde-format
 msgid "Slewing failed."
 msgstr "No s'ha pogut fer l'orientació."
 
-#: ekos/align/align_goto.cpp:276
+#: ekos/align/align_goto.cpp:287
 #, kde-format
 msgid "Rotator error detected. Aborting alignment."
 msgstr "S'ha detectat un error del rotor. S'interromp l'alineació."
 
-#: ekos/align/align_goto.cpp:295
+#: ekos/align/align_goto.cpp:306
 #, kde-format
 msgid "Rotator reached camera position angle."
 msgstr "El rotor ha arribat fins a l'angle de posició de la càmera."
 
-#: ekos/align/align_goto.cpp:306
+#: ekos/align/align_goto.cpp:332
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
@@ -7061,22 +7061,22 @@ msgstr ""
 "El rotor no ha pogut arribar fins a l'angle de posició sol·licitat "
 "(desviació de %1 minuts d'arc)."
 
-#: ekos/align/align_goto.cpp:343
+#: ekos/align/align_goto.cpp:369
 #, kde-format
 msgid "Slew detected, suspend solving..."
 msgstr "S'ha detectat una orientació, se suspén la resolució…"
 
-#: ekos/align/align_goto.cpp:387
+#: ekos/align/align_goto.cpp:413
 #, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "Se sincronitza amb l'AR (%1) Dec (%2)"
 
-#: ekos/align/align_goto.cpp:405
+#: ekos/align/align_goto.cpp:431
 #, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "Orientat cap a les coordenades de l'objectiu: AR (%1) Dec (%2)."
 
-#: ekos/align/align_goto.cpp:410
+#: ekos/align/align_goto.cpp:436
 #, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
@@ -7085,43 +7085,43 @@ msgstr ""
 "S'ha rebutjat l'orientació cap a les coordenades de l'objectiu: AR (%1) Dec "
 "(%2) (vegeu la notificació)"
 
-#: ekos/align/align_goto.cpp:467
+#: ekos/align/align_goto.cpp:493
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Image"
 msgstr "Carregueu una imatge"
 
-#: ekos/align/align_goto.cpp:498 ekos/align/align_solver.cpp:237
+#: ekos/align/align_goto.cpp:524 ekos/align/align_solver.cpp:265
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "No s'ha detectat cap controlador remot de l'astrometria, es canvia a "
 "StellarSolver."
 
-#: ekos/align/align_goto.cpp:562
+#: ekos/align/align_goto.cpp:588
 #, kde-format
 msgid "PA difference ~%1°, image is flipped. Preserving rotator angle."
 msgstr ""
 "La diferència de l'AP és ~%1°, la imatge s'invertix. Es manté l'angle del "
 "rotor."
 
-#: ekos/align/align_goto.cpp:576
+#: ekos/align/align_goto.cpp:602
 #, kde-format
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "L'angle de posició de la càmera s'establix a %1 graus…"
 
-#: ekos/align/align_goto.cpp:585
+#: ekos/align/align_goto.cpp:611
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 "L'angle de posició de la càmera es troba dins d'un interval acceptable."
 
-#: ekos/align/align_goto.cpp:597
+#: ekos/align/align_goto.cpp:623
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr "L'AP actual és %1; l'AP de l'objectiu és %2; dif.: %3"
 
-#: ekos/align/align_goto.cpp:635
+#: ekos/align/align_goto.cpp:661
 #, kde-format
 msgid "Rotator timeout after %1 seconds. Aborting alignment."
 msgstr ""
@@ -7275,7 +7275,7 @@ msgstr ""
 "muntura i torneu-ho a provar."
 
 #: ekos/align/align_solver.cpp:55 ekos/align/align_solver.cpp:84
-#: ekos/align/align_solver.cpp:1085
+#: ekos/align/align_solver.cpp:1144
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr "No s'ha pogut fer l'alineació amb l'astrometria"
@@ -7371,18 +7371,26 @@ msgstr ""
 "No es pot capturar mentre el rotor està ocupat: es tornarà a intentar en %1 "
 "segons…"
 
-#: ekos/align/align_solver.cpp:289 ekos/focus/focus.cpp:2014
+#: ekos/align/align_solver.cpp:244
+#, fuzzy, kde-format
+#| msgid "Setting camera position angle to %1 degrees ..."
+msgid ""
+"Setting camera position angle to %1 degrees (using cached PA from previous "
+"solve)..."
+msgstr "L'angle de posició de la càmera s'establix a %1 graus…"
+
+#: ekos/align/align_solver.cpp:317 ekos/focus/focus.cpp:2014
 #, kde-format
 msgid "Capturing image..."
 msgstr "S'està capturant una imatge…"
 
-#: ekos/align/align_solver.cpp:384 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/align/align_solver.cpp:412 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/focus/focus.cpp:3183
 #, kde-format
 msgid "Image received."
 msgstr "S'ha rebut la imatge."
 
-#: ekos/align/align_solver.cpp:508
+#: ekos/align/align_solver.cpp:536
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -7393,61 +7401,61 @@ msgstr ""
 "especificades. Baixeu alguns fitxers d'índex o afegiu la carpeta correcta a "
 "la llista."
 
-#: ekos/align/align_solver.cpp:561
+#: ekos/align/align_solver.cpp:589
 #, kde-format
 msgid "Solving with blind image scale..."
 msgstr "S'està resolent amb una escala cega de la imatge…"
 
-#: ekos/align/align_solver.cpp:569
+#: ekos/align/align_solver.cpp:597
 #, kde-format
 msgid "Solving with blind image position..."
 msgstr "S'està resolent amb una posició cega de la imatge…"
 
-#: ekos/align/align_solver.cpp:575
+#: ekos/align/align_solver.cpp:603
 #, kde-format
 msgid "Solving with blind dynamic threshold..."
 msgstr "S'està resolent amb un llindar dinàmic cec…"
 
 # Nota: https://ascom-standards.org/Help/Platform/html/T_ASCOM_DeviceInterface_PierSide.htm
-#: ekos/align/align_solver.cpp:605
+#: ekos/align/align_solver.cpp:633
 #, kde-format
 msgid "Loaded image does not have pierside information"
 msgstr ""
 "La imatge carregada no conté la informació del costat del moll («PierSide»)"
 
-#: ekos/align/align_solver.cpp:610
+#: ekos/align/align_solver.cpp:638
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
 msgstr "La imatge carregada es va prendre al costat del moll («PierSide») %1"
 
-#: ekos/align/align_solver.cpp:676
+#: ekos/align/align_solver.cpp:704
 #, kde-format
 msgid "Solver timed out after %1 seconds."
 msgstr "El solucionador ha excedit el temps després de %1 segons."
 
-#: ekos/align/align_solver.cpp:679
+#: ekos/align/align_solver.cpp:707
 #, kde-format
 msgid "Solver failed after %1 seconds."
 msgstr "El solucionador ha fallat després de %1 segons."
 
-#: ekos/align/align_solver.cpp:701
+#: ekos/align/align_solver.cpp:729
 #, kde-format
 msgid "Solver completed after %1 seconds."
 msgstr "S'ha completat el solucionador en %1 segons."
 
-#: ekos/align/align_solver.cpp:722
+#: ekos/align/align_solver.cpp:750
 #, kde-format
 msgid "Remote solver completed after %1 seconds."
 msgstr "S'ha completat el solucionador remot en %1 segons."
 
-#: ekos/align/align_solver.cpp:734
+#: ekos/align/align_solver.cpp:762
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 "Solucionador AR (%1) Dec. (%2) Orientació (%3) Escala de píxels (%4) Paritat "
 "(%5)"
 
-#: ekos/align/align_solver.cpp:796
+#: ekos/align/align_solver.cpp:828
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
@@ -7456,7 +7464,7 @@ msgstr ""
 "S'ha actualitzat la informació del WCS. Les imatges capturades des d'este "
 "punt i més enllà haurien de tindre un WCS vàlid."
 
-#: ekos/align/align_solver.cpp:813
+#: ekos/align/align_solver.cpp:845
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
@@ -7465,73 +7473,91 @@ msgstr ""
 "Coordenades solucionades: AR (%1) Dec (%2) Coordenades del telescopi: AR "
 "(%3) Dec (%4) Coordenades de l'objectiu: AR (%5) Dec (%6)"
 
-#: ekos/align/align_solver.cpp:824
+#: ekos/align/align_solver.cpp:856
 #, kde-format
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "L'objectiu es troba a %1 graus de les coordenades de la solució."
 
-#: ekos/align/align_solver.cpp:867
-#, kde-format
+#: ekos/align/align_solver.cpp:906
+#, fuzzy, kde-format
+#| msgid ""
+#| "Rotator is moving in the wrong direction. The position angle error "
+#| "increased from %1° to %2° after rotation. Please reverse the rotator "
+#| "direction and try again."
 msgid ""
-"Rotator is moving in the wrong direction. The position angle error increased "
-"from %1° to %2° after rotation. Please reverse the rotator direction and try "
-"again."
+"Rotator is moving in the wrong direction. Automatically reversing rotator "
+"direction and retrying..."
 msgstr ""
 "El rotor s'està movent en la direcció incorrecta. L'error de l'angle de "
 "posició ha augmentat des de %1° fins a %2° després del gir. Invertiu la "
 "direcció del rotor i torneu-ho a provar."
 
-#: ekos/align/align_solver.cpp:887
+#: ekos/align/align_solver.cpp:924
+#, fuzzy, kde-format
+#| msgid ""
+#| "Rotator is moving in the wrong direction. The position angle error "
+#| "increased from %1° to %2° after rotation. Please reverse the rotator "
+#| "direction and try again."
+msgid ""
+"Rotator is moving in the wrong direction. The position angle error increased "
+"from %1° to %2° after rotation. Auto-reverse was already tried. Please check "
+"rotator configuration."
+msgstr ""
+"El rotor s'està movent en la direcció incorrecta. L'error de l'angle de "
+"posició ha augmentat des de %1° fins a %2° després del gir. Invertiu la "
+"direcció del rotor i torneu-ho a provar."
+
+#: ekos/align/align_solver.cpp:946
 #, kde-format
 msgid "Camera position angle is %1 degrees."
 msgstr "L'angle de posició de la càmera és de %1 graus."
 
-#: ekos/align/align_solver.cpp:919 ekos/align/align_solver.cpp:1046
+#: ekos/align/align_solver.cpp:978 ekos/align/align_solver.cpp:1105
 #, kde-format
 msgid "Dynamic threshold adjusted to %1 (stars found: %2)."
 msgstr "S'ha ajustat el llindar dinàmic a %1 (estreles trobades: %2)."
 
-#: ekos/align/align_solver.cpp:947
+#: ekos/align/align_solver.cpp:1006
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 "S'ha arribat fins al nombre màxim d'iteracions. Ha fallat el solucionador."
 
-#: ekos/align/align_solver.cpp:974
+#: ekos/align/align_solver.cpp:1033
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr "L'objectiu es troba dins d'un l'interval acceptable."
 
-#: ekos/align/align_solver.cpp:1032
+#: ekos/align/align_solver.cpp:1091
 #, kde-format
 msgid "Saving failed solver image to %1"
 msgstr "S'està guardant la imatge fallida del solucionador a %1"
 
-#: ekos/align/align_solver.cpp:1051
+#: ekos/align/align_solver.cpp:1110
 #, kde-format
 msgid "Solver failed. Retrying with blind dynamic threshold."
 msgstr ""
 "Ha fallat el solucionador. Es torna a intentar amb un llindar dinàmic cec."
 
-#: ekos/align/align_solver.cpp:1064
+#: ekos/align/align_solver.cpp:1123
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr ""
 "Ha fallat el solucionador. Es torna a intentar sense la restricció d'escala."
 
-#: ekos/align/align_solver.cpp:1073
+#: ekos/align/align_solver.cpp:1132
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr ""
 "Ha fallat el solucionador. Es torna a intentar sense la restricció de "
 "posició."
 
-#: ekos/align/align_solver.cpp:1080
+#: ekos/align/align_solver.cpp:1139
 #, kde-format
 msgid "Solver Failed."
 msgstr "Ha fallat el solucionador."
 
-#: ekos/align/align_solver.cpp:1083
+#: ekos/align/align_solver.cpp:1142
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -7543,19 +7569,19 @@ msgstr ""
 "la gravació de l'alineació en la «pestanya Configuració → Registres» per a "
 "obtindre informació detallada de la fallada."
 
-#: ekos/align/align_solver.cpp:1140 ekos/capture/cameraprocess.cpp:2158
+#: ekos/align/align_solver.cpp:1199 ekos/capture/cameraprocess.cpp:2158
 #: ekos/focus/focus.cpp:6152
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "S'ha excedit el temps d'exposició. S'interromp…"
 
-#: ekos/align/align_solver.cpp:1148 ekos/focus/focus.cpp:6159
+#: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6159
 #: ekos/guide/guide.cpp:1156
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "S'ha excedit el temps d'exposició. Es torna a iniciar el controlador."
 
-#: ekos/align/align_solver.cpp:1168 ekos/capture/cameraprocess.cpp:2185
+#: ekos/align/align_solver.cpp:1227 ekos/capture/cameraprocess.cpp:2185
 #: ekos/focus/focus.cpp:6173 ekos/guide/guide.cpp:1121
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -12431,21 +12457,19 @@ msgid "Run"
 msgstr "Executa"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:248
-#, fuzzy, kde-format
-#| msgid "Build Filter Offsets"
+#, kde-format
 msgid "Run Build Filter Offsets utility"
-msgstr "Construcció de desplaçaments dels filtres"
+msgstr "Executa la utilitat «Construcció de desplaçaments dels filtres»"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:249
 #, kde-format
 msgid "Interrupt processing when utility is running"
-msgstr ""
+msgstr "Interromp el processament mentre s'execute la utilitat"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:250
-#, fuzzy, kde-format
-#| msgid "New Offset"
+#, kde-format
 msgid "Save New Offsets"
-msgstr "Desplaçament nou"
+msgstr "Guarda els desplaçaments nous"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
@@ -12570,10 +12594,9 @@ msgid "Build Filter Offsets Unexpected Problem"
 msgstr "Problema inesperat en la «Construcció de desplaçaments dels filtres»"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:615
-#, fuzzy, kde-format
-#| msgid "Focus complete."
+#, kde-format
 msgid "Processing complete."
-msgstr "S'ha completat l'enfocament."
+msgstr "S'ha completat el processament."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:637
 #, kde-format
@@ -15513,7 +15536,7 @@ msgstr ""
 #, kde-format
 msgctxt "camera capture settings section title"
 msgid "Capture Settings"
-msgstr "Configureu la captura"
+msgstr "Configureu de la captura"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
@@ -18463,7 +18486,7 @@ msgstr ""
 "Ekos tornarà a enfocar tan prompte com siga possible, l'últim procediment ha "
 "sigut fa %1 segons."
 
-#: ekos/capture/rotatorsettings.cpp:137
+#: ekos/capture/rotatorsettings.cpp:138
 #, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
 msgstr "S'ha llegit correctament l'angle %1° inicial del rotor."
@@ -26175,17 +26198,17 @@ msgstr "Es torna a activar el registre de depuració de %1…"
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració de %1…"
 
-#: ekos/manager.cpp:4305
+#: ekos/manager.cpp:4308
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Font de vista prèvia establida a externa"
 
-#: ekos/manager.cpp:4312
+#: ekos/manager.cpp:4315
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Font de vista prèvia restablida a interna"
 
-#: ekos/manager.cpp:4319
+#: ekos/manager.cpp:4322
 #, kde-format
 msgid "Received external preview file"
 msgstr "S'ha rebut un fitxer extern de vista prèvia"
