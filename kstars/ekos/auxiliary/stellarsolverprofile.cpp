@@ -190,6 +190,9 @@ QList<SSolver::Parameters> getDefaultAlignOptionsProfiles()
     SSolver::Parameters defaultProfile;
     defaultProfile.listName = "1-Default";
     defaultProfile.description = i18n("Default profile. Generic and not optimized for any specific purpose.");
+    defaultProfile.minwidth = 0.1;
+    defaultProfile.maxwidth = 10;
+    defaultProfile.keepNum = 50;
     defaultProfile.convFilterType = SSolver::CONV_GAUSSIAN;
     defaultProfile.fwhm = 1;
     profileList.append(defaultProfile);

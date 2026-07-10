@@ -23,4 +23,9 @@ ADD_CUSTOM_COMMAND( TARGET testfitsdata POST_BUILD
             ${CMAKE_CURRENT_BINARY_DIR}/bahtinov-focus.fits)
 ADD_TEST( NAME FitsDataTest COMMAND testfitsdata )
 SET_TESTS_PROPERTIES( FitsDataTest PROPERTIES LABELS "stable")
+
+ADD_EXECUTABLE( testsolverbenchmark testsolverbenchmark.cpp )
+TARGET_LINK_LIBRARIES( testsolverbenchmark ${TEST_LIBRARIES})
+ADD_TEST( NAME SolverBenchmarkTest COMMAND testsolverbenchmark )
+SET_TESTS_PROPERTIES( SolverBenchmarkTest PROPERTIES LABELS "benchmark")
 endif()

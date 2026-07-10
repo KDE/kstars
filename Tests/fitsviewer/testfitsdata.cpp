@@ -11,6 +11,7 @@
 #endif
 
 #include <memory>
+#include <QDir>
 #include <QFileInfo>
 #include <QTemporaryDir>
 #include "testfitsdata.h"
@@ -555,10 +556,10 @@ void SolverLoop::solverDone(bool timedOut, bool success, const FITSImage::Soluti
         const double scale = solution.pixscale;
         qInfo() << QString("#%1: %2 Solver returned RA %3 DEC %4 Scale %5: %6s").arg(numDetects).arg(filename)
                 .arg(ra, 6, 'f', 3).arg(dec, 6, 'f', 3).arg(scale).arg(elapsedSeconds, 4, 'f', 1);
-
-        if (numDetects++ < repetitions)
-            startDetect(numDetects % filenames.size());
     }
+
+    if (++numDetects < repetitions)
+        startDetect(numDetects % filenames.size());
 }
 
 void SolverLoop::randomTimeout()
@@ -644,92 +645,84 @@ void SolverLoop::startDetect(int index)
     }
 }
 
-// This tests how well we can detect stars and/or plate-solve a number of images
-// at the same time. Mostly a memory test--a failure would be a segv.
-// I have not provided the fits files as part of the source code, so you need to
-// provide them, add them the QVector<QString> variables, and make sure the directory
-// below points to the one holding your files.
-//
-// You may wish to reconfigure the section with SolverLoop at the bottom to have more
-// or less parallelism and switch between star detection and plate solves.
-//
-// You can want to run this as follows:
-//   export QTEST_FUNCTION_TIMEOUT=1000000000; testfitsdata testParallelSolvers -maxwarnings 1000000
-void TestFitsData::testParallelSolvers()
+static bool ensureIndexFiles()
 {
-#define SKIP_PARALLEL_SOLVERS_TEST
-#ifdef SKIP_PARALLEL_SOLVERS_TEST
-    QSKIP("Skipping testParallelSolvers");
-    return;
-#else
+    if (Options::astrometryIndexFolderList().isEmpty())
+    {
+        const QStringList candidates =
+        {
+            QDir::homePath() + "/Library/Application Support/kstars/astrometry",
+            QDir::homePath() + "/.local/share/kstars/astrometry",
+        };
+        for (const auto &d : candidates)
+            if (QDir(d).exists())
+            {
+                Options::setAstrometryIndexFolderList(QStringList() << d);
+                break;
+            }
+    }
+    return !Options::astrometryIndexFolderList().isEmpty();
+}
+
+// Parallel solver stress test. Runs concurrent star detection and plate
+// solving loops. A failure would typically be a segv or deadlock.
+//
+// Set KSTARS_SOLVER_STRESS_ITERATIONS to control intensity (default: 50).
+// For heavy stress testing:
+//   KSTARS_SOLVER_STRESS_ITERATIONS=10000 QTEST_FUNCTION_TIMEOUT=1000000000 \
+//     testfitsdata testParallelSolvers -maxwarnings 1000000
+void TestFitsData::runParallelSolvers(int multiAlgoOverride)
+{
     Options::setAutoDebayer(false);
 
-    const QString dir = "/home/hy/Desktop/SharedFolder/DEBUG-solver";
-    const QString dir1 = dir;
-    const QVector<QString> files1 =
+    const QString probe = QFINDTESTDATA("ngc4535-autofocus1.fits");
+    if (probe.isEmpty())
+        QSKIP("Skipping parallel solver test -- missing fixture files");
+    const QString dir = QFileInfo(probe).absolutePath();
+
+    const QVector<QString> detectFiles1 =
     {
-        "guide_frame_00-20-08.fits",
-        "guide_frame_00-20-12.fits",
-        "guide_frame_00-20-15.fits",
-        "guide_frame_00-20-18.fits",
-        "guide_frame_00-20-21.fits",
-        "guide_frame_00-20-24.fits",
-        "guide_frame_00-20-27.fits",
+        "ngc4535-autofocus1.fits",
+        "ngc4535-autofocus2.fits",
+        "ngc4535-autofocus3.fits",
+        "m47_sim_stars.fits",
+    };
+    const QVector<QString> detectFiles2 =
+    {
+        "m47_sim_stars.fits",
+        "ngc4535-autofocus3.fits",
+        "ngc4535-autofocus1.fits",
+    };
+    const QVector<QString> solveFiles =
+    {
+        "ngc4535-autofocus1.fits",
+        "ngc4535-autofocus2.fits",
+        "ngc4535-autofocus3.fits",
     };
 
-    const QString dir2 = dir;
-    const QVector<QString> files2 =
-    {
-        "guide_frame_00-20-30.fits",
-        "guide_frame_00-20-34.fits",
-        "guide_frame_00-20-37.fits",
-        "guide_frame_00-20-40.fits",
-        "guide_frame_00-20-43.fits",
-        "guide_frame_00-20-46.fits"
-    };
+    if (!ensureIndexFiles())
+        QSKIP("No astrometry index files found -- skipping parallel solver test");
 
-    const QString dir3 = dir;
-    const QVector<QString> files3 =
-    {
-        "m5_Light_LPR_120_secs_2022-03-12T04-44-56_201.fits",
-        "m5_Light_LPR_120_secs_2022-03-12T04-47-02_202.fits",
-        "m5_Light_LPR_120_secs_2022-03-12T04-49-04_203.fits",
-        "m5_Light_LPR_120_secs_2022-03-12T04-51-06_204.fits",
-        "m5_Light_LPR_120_secs_2022-03-12T04-53-07_205.fits"
-    };
+    if (multiAlgoOverride >= 0)
+        SolverUtils::setMultiAlgorithmOverride(multiAlgoOverride);
 
-    const QString dir5 = dir;
-    const QVector<QString> files5 =
-    {
-        "m74_Light_LPR_60_secs_2021-10-11T04-48-41_301.fits",
-        "m74_Light_LPR_60_secs_2021-10-11T04-49-43_302.fits",
-        "m74_Light_LPR_60_secs_2021-10-11T04-50-55_303.fits",
-        "m74_Light_LPR_60_secs_2021-10-11T04-51-57_304.fits"
-    };
+    bool ok = false;
+    int numIterations = qEnvironmentVariableIntValue("KSTARS_SOLVER_STRESS_ITERATIONS", &ok);
+    if (!ok || numIterations <= 0)
+        numIterations = 50;
 
-    // Set the number of iterations here. THe more the better, e.g. 10000.
-    constexpr int numIterations = 10000;
-
-    // In the below declarations of SolverLoop,
-    // for the 3rd arg: true means detect stars, false means plate solve them.
-
-    // Detect stars in guide files
-    SolverLoop loop1(files1, dir1, true, numIterations);
+    SolverLoop loop1(detectFiles1, dir, true, numIterations);
     loop1.setRandomAbort(1);
 
-    // Detect stars in other guide files
-    SolverLoop loop2(files2, dir2, true, numIterations);
+    SolverLoop loop2(detectFiles2, dir, true, numIterations);
     loop2.setRandomAbort(1);
 
-    // Detect stars in subs
-    SolverLoop loop3(files3, dir3, true, numIterations / 15);
+    SolverLoop loop3(detectFiles1, dir, true, numIterations / 15);
     loop3.setRandomAbort(3);
 
-    // This one solves the fits files
-    SolverLoop loop4(files1, dir1, false, numIterations / 50);
+    SolverLoop loop4(solveFiles, dir, false, numIterations / 50);
 
-    // This one solves the fits files
-    SolverLoop loop5(files5, dir5, false, numIterations / 50);
+    SolverLoop loop5(solveFiles, dir, false, numIterations / 50);
 
     loop1.start();
     loop2.start();
@@ -744,7 +737,6 @@ void TestFitsData::testParallelSolvers()
             || !loop4.done()
             || !loop5.done())
     {
-        // The qWait is needed to allow message passing.
         QTest::qWait(10);
         if (iteration++ % 400 == 0)
             qInfo() << QString("%1 -- %2 -- %3 -- %4 -- %5")
@@ -763,7 +755,24 @@ void TestFitsData::testParallelSolvers()
             .arg(loop5.status());
 
     qInfo() << QString("Done!");
-#endif
+
+    if (multiAlgoOverride >= 0)
+        SolverUtils::clearMultiAlgorithmOverride();
+}
+
+void TestFitsData::testParallelSolvers()
+{
+    runParallelSolvers(-1);
+}
+
+void TestFitsData::testParallelSolversMultiScales()
+{
+    runParallelSolvers(MULTI_SCALES);
+}
+
+void TestFitsData::testParallelSolversMultiDepths()
+{
+    runParallelSolvers(MULTI_DEPTHS);
 }
 
 QTEST_GUILESS_MAIN(TestFitsData)

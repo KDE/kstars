@@ -612,7 +612,7 @@ void Align::startSolving()
             {
                 m_UsedScale = true;
                 m_ScaleUsed = solution.pixscale;
-                m_Solver->useScale(true, solution.pixscale * 0.8, solution.pixscale * 1.2);
+                m_Solver->useScale(true, solution.pixscale, solution.pixscale);
             }
             else
                 m_Solver->useScale(false, 0, 0);
@@ -648,7 +648,7 @@ void Align::startSolving()
                 m_ScaleUsed = Options::astrometryImageScaleLow();
 
                 SSolver::ScaleUnits units = static_cast<SSolver::ScaleUnits>(Options::astrometryImageScaleUnits());
-                m_Solver->useScale(true, Options::astrometryImageScaleLow() * 0.8, Options::astrometryImageScaleHigh() * 1.2, units);
+                m_Solver->useScale(true, Options::astrometryImageScaleLow(), Options::astrometryImageScaleHigh(), units);
             }
             else
                 m_Solver->useScale(false, 0, 0);

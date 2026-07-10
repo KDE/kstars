@@ -157,7 +157,7 @@ void PolarAlignmentAssistant::startSolver()
     connect(m_Solver.get(), &SolverUtils::done, this, &PolarAlignmentAssistant::solverDone, Qt::UniqueConnection);
 
     // Use the scale and position from the most recent solve.
-    m_Solver->useScale(Options::astrometryUseImageScale(), m_LastPixscale * 0.9, m_LastPixscale * 1.1);
+    m_Solver->useScale(Options::astrometryUseImageScale(), m_LastPixscale, m_LastPixscale);
     m_Solver->usePosition(true, m_LastRa, m_LastDec);
     m_Solver->setHealpix(m_IndexToUse, m_HealpixToUse);
     m_Solver->runSolver(m_ImageData);

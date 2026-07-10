@@ -6,10 +6,13 @@
 
 #include "solverutils.h"
 
+#include "ekos_debug.h"
 #include "fitsviewer/fitsdata.h"
 #include "Options.h"
 #include <QRegularExpression>
 #include <QUuid>
+
+int SolverUtils::s_MultiAlgorithmOverride = -1;
 
 SolverUtils::SolverUtils(const SSolver::Parameters &parameters, double timeoutSeconds,
                          SSolver::ProcessType type) :
@@ -223,14 +226,47 @@ void SolverUtils::solverTimeout()
     m_TemporaryFilename.clear();
 }
 
-// We don't trust StellarSolver's mutli-processing algorithm MULTI_DEPTHS which is used
-// with multiAlgorithm==MULTI_AUTO && use_scale && !use_position.
+// StellarSolver's MULTI_AUTO maps hints to algorithms backwards:
+//   both hints -> NOT_MULTI, pos only -> MULTI_SCALES, scale only -> MULTI_DEPTHS.
+// MULTI_DEPTHS needs position to narrow healpix search; without it, solve times
+// blow up 5-14x. MULTI_SCALES wastes threads when scale is already known.
+// Fix: select based on which hints are available.
 void SolverUtils::patchMultiAlgorithm(StellarSolver *solver)
 {
-    if (solver && solver->property("UseScale").toBool() && !solver->property("UsePosition").toBool())
+    if (!solver)
+        return;
+
+    auto params = solver->getCurrentParameters();
+
+    if (s_MultiAlgorithmOverride >= 0)
     {
-        auto currentParameters = solver->getCurrentParameters();
-        currentParameters.multiAlgorithm = NOT_MULTI;
-        solver->setParameters(currentParameters);
+        params.multiAlgorithm = static_cast<SSolver::MultiAlgo>(s_MultiAlgorithmOverride);
+        solver->setParameters(params);
+        return;
+    }
+
+    if (params.multiAlgorithm == MULTI_AUTO)
+    {
+        bool usePosition = solver->property("UsePosition").toBool();
+        // MULTI_DEPTHS partitions the star-depth axis across threads, which
+        // helps when a position hint constrains the healpix search area but
+        // only if the scale window is also narrow enough for each thread to
+        // work a meaningful slice. With maxwidth at the full-sky default (180)
+        // there is no useful scale partitioning, so fall back to MULTI_SCALES.
+        bool scaleConstrained = params.maxwidth < 180.0;
+        if (usePosition && !scaleConstrained)
+        {
+            static bool s_warnedMaxwidth = false;
+            if (!s_warnedMaxwidth)
+            {
+                s_warnedMaxwidth = true;
+                qCInfo(KSTARS_EKOS) << "Position hint available, but solver profile maxwidth is"
+                                    << params.maxwidth
+                                    << "deg (full sky) -- parallel solving cannot take advantage of the hint."
+                                    << "For faster solves, set a narrower maxwidth (e.g. 10 deg) in your solver profile.";
+            }
+        }
+        params.multiAlgorithm = (usePosition && scaleConstrained) ? MULTI_DEPTHS : MULTI_SCALES;
+        solver->setParameters(params);
     }
 }

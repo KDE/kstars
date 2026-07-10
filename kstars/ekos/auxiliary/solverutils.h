@@ -63,9 +63,17 @@ class SolverUtils : public QObject
             return m_StellarSolver->getNumStarsFound();
         };
 
-        // We don't trust StellarSolver's mutli-processing algorithm MULTI_DEPTHS which is used
-        // with multiAlgorithm==MULTI_AUTO && use_scale && !use_position. This disables that.
         static void patchMultiAlgorithm(StellarSolver *solver);
+
+        // Override the multi-algorithm selection for testing.
+        static void setMultiAlgorithmOverride(int algo)
+        {
+            s_MultiAlgorithmOverride = algo;
+        }
+        static void clearMultiAlgorithmOverride()
+        {
+            s_MultiAlgorithmOverride = -1;
+        }
 
     Q_SIGNALS:
         void done(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
@@ -103,4 +111,6 @@ class SolverUtils : public QObject
 
         SSolver::ProcessType m_Type = SSolver::SOLVE;
         std::mutex deleteSolverMutex;
+
+        static int s_MultiAlgorithmOverride;
 };
