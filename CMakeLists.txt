@@ -327,8 +327,14 @@ else()
 endif()
 
 ## OpenCV
-# Ensure we have at least version 4.6.0
-find_package(OpenCV 4.6.0 REQUIRED COMPONENTS core imgcodecs calib3d photo)
+find_package(OpenCV 5 QUIET COMPONENTS core imgcodecs calib photo)
+if(NOT OpenCV_FOUND)
+    find_package(OpenCV 4.6.0...<5.0 QUIET COMPONENTS core imgcodecs calib3d photo)
+endif()
+if(NOT OpenCV_FOUND)
+    message(FATAL_ERROR "OpenCV >= 4.6.0 (4.x or 5.x) is required but was not found.")
+endif()
+
 set_package_properties(OpenCV PROPERTIES DESCRIPTION "OpenCV library" URL "https://opencv.org" TYPE REQUIRED PURPOSE "Standard library of image processing functions.")
 include_directories(SYSTEM ${OpenCV_INCLUDE_DIRS})
 
