@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-10 02:05+0000\n"
+"POT-Creation-Date: 2026-07-11 02:05+0000\n"
 "PO-Revision-Date: 2026-06-26 12:16+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -14291,7 +14291,7 @@ msgstr "Estrazione stella con telescopio guida predefinito."
 msgid "Default profile. Generic and not optimized for any specific purpose."
 msgstr "Profilo base. Generico e non ottimizzato per scopi specifici."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:199
+#: ekos/auxiliary/stellarsolverprofile.cpp:202
 #, kde-format
 msgid ""
 "Profile intended for Plate Solving telescopic sized images in a single CPU "
@@ -14300,31 +14300,31 @@ msgstr ""
 "Profilo programmato per immagini in formato telescopico con risoluzione "
 "astrometrica in un singolo thread della CPU"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:212
+#: ekos/auxiliary/stellarsolverprofile.cpp:215
 #, kde-format
 msgid "Profile intended for Plate Solving camera lens sized images"
 msgstr ""
 "Profilo programmato per immagini in formato obiettivo della fotocamera con "
 "risoluzione astrometrica"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:224
+#: ekos/auxiliary/stellarsolverprofile.cpp:227
 #, kde-format
 msgid "Profile intended for Plate Solving telescopic sized images"
 msgstr ""
 "Profilo programmato per immagini in formato telescopico con risoluzione "
 "astrometrico"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:243
+#: ekos/auxiliary/stellarsolverprofile.cpp:246
 #, kde-format
 msgid "Default. Set for typical HFR estimation."
 msgstr "Predefinito. Impostato per stima HFR tipica."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:263
+#: ekos/auxiliary/stellarsolverprofile.cpp:266
 #, kde-format
 msgid "Set for typical HFR estimation on big stars."
 msgstr "Impostato per stima HFR tipica sulle grandi stelle."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:282
+#: ekos/auxiliary/stellarsolverprofile.cpp:285
 #, kde-format
 msgid "Set for HFR estimation on most stars."
 msgstr "Impostato per stima HFR sulla maggior parte delle stelle."

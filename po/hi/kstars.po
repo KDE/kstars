@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-10 02:05+0000\n"
+"POT-Creation-Date: 2026-07-11 02:05+0000\n"
 "PO-Revision-Date: 2022-02-26 11:47+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -14301,34 +14301,34 @@ msgstr "डिफ़ॉल्ट एफआईटीएस डिरेक्ट�
 msgid "Default profile. Generic and not optimized for any specific purpose."
 msgstr ""
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:199
+#: ekos/auxiliary/stellarsolverprofile.cpp:202
 #, kde-format
 msgid ""
 "Profile intended for Plate Solving telescopic sized images in a single CPU "
 "Thread"
 msgstr ""
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:212
+#: ekos/auxiliary/stellarsolverprofile.cpp:215
 #, kde-format
 msgid "Profile intended for Plate Solving camera lens sized images"
 msgstr ""
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:224
+#: ekos/auxiliary/stellarsolverprofile.cpp:227
 #, kde-format
 msgid "Profile intended for Plate Solving telescopic sized images"
 msgstr ""
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:243
+#: ekos/auxiliary/stellarsolverprofile.cpp:246
 #, kde-format
 msgid "Default. Set for typical HFR estimation."
 msgstr ""
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:263
+#: ekos/auxiliary/stellarsolverprofile.cpp:266
 #, kde-format
 msgid "Set for typical HFR estimation on big stars."
 msgstr ""
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:282
+#: ekos/auxiliary/stellarsolverprofile.cpp:285
 #, kde-format
 msgid "Set for HFR estimation on most stars."
 msgstr ""

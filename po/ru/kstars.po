@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-10 02:05+0000\n"
+"POT-Creation-Date: 2026-07-11 02:05+0000\n"
 "PO-Revision-Date: 2026-06-24 23:14+0200\n"
 "Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -14208,7 +14208,7 @@ msgstr ""
 "Профиль по умолчанию. Универсальный и не оптимизирован для какой-либо "
 "конкретной цели."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:199
+#: ekos/auxiliary/stellarsolverprofile.cpp:202
 #, kde-format
 msgid ""
 "Profile intended for Plate Solving telescopic sized images in a single CPU "
@@ -14217,29 +14217,29 @@ msgstr ""
 "Профиль для астрометрической привязки изображений телескопического размера в "
 "одном потоке процессора"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:212
+#: ekos/auxiliary/stellarsolverprofile.cpp:215
 #, kde-format
 msgid "Profile intended for Plate Solving camera lens sized images"
 msgstr ""
 "Профиль предназначен для изображений размером объектива камеры, используемых "
 "при астрометрии."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:224
+#: ekos/auxiliary/stellarsolverprofile.cpp:227
 #, kde-format
 msgid "Profile intended for Plate Solving telescopic sized images"
 msgstr "Профиль для решения пластинок телескопических изображений"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:243
+#: ekos/auxiliary/stellarsolverprofile.cpp:246
 #, kde-format
 msgid "Default. Set for typical HFR estimation."
 msgstr "По умолчанию. Установлено для типичной оценки HFR."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:263
+#: ekos/auxiliary/stellarsolverprofile.cpp:266
 #, kde-format
 msgid "Set for typical HFR estimation on big stars."
 msgstr "Установка для типичной оценки HFR по крупным звёздам."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:282
+#: ekos/auxiliary/stellarsolverprofile.cpp:285
 #, kde-format
 msgid "Set for HFR estimation on most stars."
 msgstr "Установка оценки HFR по большинству звёзд."

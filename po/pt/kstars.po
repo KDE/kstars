@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-10 02:05+0000\n"
+"POT-Creation-Date: 2026-07-11 02:05+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -15550,7 +15550,7 @@ msgstr ""
 "O perfil predefinido. Genérico e não optimizado para nenhum fim em "
 "particular."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:199
+#: ekos/auxiliary/stellarsolverprofile.cpp:202
 #, kde-format
 msgid ""
 "Profile intended for Plate Solving telescopic sized images in a single CPU "
@@ -15559,31 +15559,31 @@ msgstr ""
 "O perfil pretendido para a Resolução no Prato de imagens de tamanho "
 "telescópico num único núcleo de CPU"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:212
+#: ekos/auxiliary/stellarsolverprofile.cpp:215
 #, kde-format
 msgid "Profile intended for Plate Solving camera lens sized images"
 msgstr ""
 "O perfil pretendido para a Resolução no Prato de imagens dimensionadas à "
 "lente de uma câmara"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:224
+#: ekos/auxiliary/stellarsolverprofile.cpp:227
 #, kde-format
 msgid "Profile intended for Plate Solving telescopic sized images"
 msgstr ""
 "O perfil pretendido para a Resolução no Prato de imagens de tamanho "
 "telescópico"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:243
+#: ekos/auxiliary/stellarsolverprofile.cpp:246
 #, kde-format
 msgid "Default. Set for typical HFR estimation."
 msgstr "Predefinido. Definir para uma estimativa típica do HFR."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:263
+#: ekos/auxiliary/stellarsolverprofile.cpp:266
 #, kde-format
 msgid "Set for typical HFR estimation on big stars."
 msgstr "Definir para a estimativa típica do HFR com estrelas grandes."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:282
+#: ekos/auxiliary/stellarsolverprofile.cpp:285
 #, kde-format
 msgid "Set for HFR estimation on most stars."
 msgstr "Definir para a estimativa do HFR na maioria das estrelas."

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-10 02:05+0000\n"
-"PO-Revision-Date: 2026-07-09 11:53+0200\n"
+"POT-Creation-Date: 2026-07-11 02:05+0000\n"
+"PO-Revision-Date: 2026-07-10 13:06+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -2050,13 +2050,13 @@ msgstr "SYNC"
 #: data/qml/mount/mountbox.qml:1032 ekos/mount/mountcontrolpanel.ui:82
 #, kde-format, kde-kuit-format
 msgid "PARK"
-msgstr "PARK"
+msgstr "PARKEREN"
 
 #. i18n: ectx: property (text), widget (QPushButton, unparkButtonObject)
 #: data/qml/mount/mountbox.qml:1044 ekos/mount/mountcontrolpanel.ui:75
 #, kde-format, kde-kuit-format
 msgid "UNPARK"
-msgstr "ONTPARK"
+msgstr "PARKEREN OPHEFFEN"
 
 #. i18n: ectx: property (text), widget (QLabel, statusLabel)
 #: data/qml/mount/mountbox.qml:1063 fitsviewer/fitsdebayer.ui:56
@@ -6455,7 +6455,7 @@ msgstr "Rotatiehoek afbeelding, van Noord naar Oost"
 #: ekos/align/align.ui:442
 #, kde-format
 msgid "PA:"
-msgstr "PH:"
+msgstr "Ph:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, PAOut)
 #: ekos/align/align.ui:449
@@ -7259,12 +7259,13 @@ msgstr ""
 "seconden..."
 
 #: ekos/align/align_solver.cpp:244
-#, fuzzy, kde-format
-#| msgid "Setting camera position angle to %1 degrees ..."
+#, kde-format
 msgid ""
 "Setting camera position angle to %1 degrees (using cached PA from previous "
 "solve)..."
-msgstr "Positiehoek van camera wordt ingesteld op %1 graden ..."
+msgstr ""
+"Positiehoek van camera wordt ingesteld op %1 graden (gebruikt opgeslagen Ph "
+"van vorige oplossing)..."
 
 #: ekos/align/align_solver.cpp:317 ekos/focus/focus.cpp:2014
 #, kde-format
@@ -7363,33 +7364,24 @@ msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Doel is binnen %1 boogseconden van de oplossingscoördinaten."
 
 #: ekos/align/align_solver.cpp:906
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically reversing rotator "
 "direction and retrying..."
 msgstr ""
-"De rotator draait in de verkeerde richting. De positiehoekfout is toegenomen "
-"van %1 naar %2 na de rotatie. Draai de rotator in de tegenovergestelde "
-"richting en probeer het opnieuw."
+"De rotator draait in de verkeerde richting. De rotatorrichting automatisch "
+"omdraaien en opnieuw proberen..."
 
 #: ekos/align/align_solver.cpp:924
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. The position angle error increased "
 "from %1° to %2° after rotation. Auto-reverse was already tried. Please check "
 "rotator configuration."
 msgstr ""
 "De rotator draait in de verkeerde richting. De positiehoekfout is toegenomen "
-"van %1 naar %2 na de rotatie. Draai de rotator in de tegenovergestelde "
-"richting en probeer het opnieuw."
+"van %1° naar %2° na de rotatie. Automatisch omdraaien is al geprobeerd. "
+"Controleer de rotator configuratie."
 
 #: ekos/align/align_solver.cpp:946
 #, kde-format
@@ -7537,13 +7529,13 @@ msgstr ""
 #: ekos/align/manualrotator.ui:58
 #, kde-format
 msgid "Current PA"
-msgstr "Huidige FPS"
+msgstr "Huidige Ph"
 
 #. i18n: ectx: property (text), widget (QLabel, targetRotationL)
 #: ekos/align/manualrotator.ui:78
 #, kde-format
 msgid "Target PA"
-msgstr "Doel-FPS"
+msgstr "Doel-Ph"
 
 #. i18n: ectx: property (text), widget (QPushButton, takeImageB)
 #: ekos/align/manualrotator.ui:128
@@ -14191,7 +14183,7 @@ msgstr "Standaard begeleider van ster-extractie."
 msgid "Default profile. Generic and not optimized for any specific purpose."
 msgstr "Standaard profiel. Algemeen en niet speciaal voor enig doel."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:199
+#: ekos/auxiliary/stellarsolverprofile.cpp:202
 #, kde-format
 msgid ""
 "Profile intended for Plate Solving telescopic sized images in a single CPU "
@@ -14200,29 +14192,29 @@ msgstr ""
 "Profiel dat bedoeld is voor het oplossen van platen van "
 "telescoopafbeeldingen in een enkele cpu-thread"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:212
+#: ekos/auxiliary/stellarsolverprofile.cpp:215
 #, kde-format
 msgid "Profile intended for Plate Solving camera lens sized images"
 msgstr ""
 "Profiel dat bedoeld is voor het oplossen van platen van camera-afbeeldingen"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:224
+#: ekos/auxiliary/stellarsolverprofile.cpp:227
 #, kde-format
 msgid "Profile intended for Plate Solving telescopic sized images"
 msgstr ""
 "Profiel dat bedoeld is voor het oplossen van platen van telescoopafbeeldingen"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:243
+#: ekos/auxiliary/stellarsolverprofile.cpp:246
 #, kde-format
 msgid "Default. Set for typical HFR estimation."
 msgstr "Standaard. Ingesteld voor typische schatting van HFR."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:263
+#: ekos/auxiliary/stellarsolverprofile.cpp:266
 #, kde-format
 msgid "Set for typical HFR estimation on big stars."
 msgstr "Ingesteld voor typische schatting HFR voor grote sterren."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:282
+#: ekos/auxiliary/stellarsolverprofile.cpp:285
 #, kde-format
 msgid "Set for HFR estimation on most stars."
 msgstr "Ingesteld voor typische schatting HFR voor de meeste sterren."
@@ -29706,7 +29698,7 @@ msgstr "Streefpositiehoek"
 #: ekos/scheduler/scheduler.ui:331 fitsviewer/platesolve.ui:341
 #, kde-format
 msgid "PA"
-msgstr "PH"
+msgstr "Ph"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copySkyCenterB)
 #: ekos/scheduler/scheduler.ui:338

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-10 02:05+0000\n"
+"POT-Creation-Date: 2026-07-11 02:05+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -7085,12 +7085,11 @@ msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr "旋像器运行时无法拍摄：%1 秒后重试..."
 
 #: ekos/align/align_solver.cpp:244
-#, fuzzy, kde-format
-#| msgid "Setting camera position angle to %1 degrees ..."
+#, kde-format
 msgid ""
 "Setting camera position angle to %1 degrees (using cached PA from previous "
 "solve)..."
-msgstr "设置相机位置角为 %1 度..."
+msgstr ""
 
 #: ekos/align/align_solver.cpp:317 ekos/focus/focus.cpp:2014
 #, kde-format
@@ -7185,31 +7184,19 @@ msgid "Target is within %1 degrees of solution coordinates."
 msgstr "目标在解析坐标 %1 度范围内。"
 
 #: ekos/align/align_solver.cpp:906
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically reversing rotator "
 "direction and retrying..."
 msgstr ""
-"旋像器移动方向错误。旋转后，位置角误差从 %1° 增加到了 %2°。请反转旋像器方向后"
-"重试。"
 
 #: ekos/align/align_solver.cpp:924
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. The position angle error increased "
 "from %1° to %2° after rotation. Auto-reverse was already tried. Please check "
 "rotator configuration."
 msgstr ""
-"旋像器移动方向错误。旋转后，位置角误差从 %1° 增加到了 %2°。请反转旋像器方向后"
-"重试。"
 
 #: ekos/align/align_solver.cpp:946
 #, kde-format
@@ -11813,10 +11800,9 @@ msgid "Run"
 msgstr "运行"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:248
-#, fuzzy, kde-format
-#| msgid "Build Filter Offsets"
+#, kde-format
 msgid "Run Build Filter Offsets utility"
-msgstr "构建滤镜偏置"
+msgstr ""
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:249
 #, kde-format
@@ -11824,10 +11810,9 @@ msgid "Interrupt processing when utility is running"
 msgstr ""
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:250
-#, fuzzy, kde-format
-#| msgid "New Offset"
+#, kde-format
 msgid "Save New Offsets"
-msgstr "新偏置"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
@@ -11910,10 +11895,9 @@ msgid "Save. Check to save the New Offset for the associated Filter."
 msgstr "保存。选中以保存关联滤镜的新偏置。"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:508
-#, fuzzy, kde-format
-#| msgid "Stop Build Filter Offsets"
+#, kde-format
 msgid "Starting Build Filter Offsets..."
-msgstr "停止构建滤镜偏置"
+msgstr ""
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:522
 #: ekos/auxiliary/buildfilteroffsets.cpp:552
@@ -13673,34 +13657,34 @@ msgstr "默认导星星点提取。"
 msgid "Default profile. Generic and not optimized for any specific purpose."
 msgstr "默认配置。通用，未根据任何特定用途优化。"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:199
+#: ekos/auxiliary/stellarsolverprofile.cpp:202
 #, kde-format
 msgid ""
 "Profile intended for Plate Solving telescopic sized images in a single CPU "
 "Thread"
 msgstr "用于单 CPU 线程中平面解析望远镜尺度图像的配置"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:212
+#: ekos/auxiliary/stellarsolverprofile.cpp:215
 #, kde-format
 msgid "Profile intended for Plate Solving camera lens sized images"
 msgstr "用于平面解析相机镜头尺度图像的配置"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:224
+#: ekos/auxiliary/stellarsolverprofile.cpp:227
 #, kde-format
 msgid "Profile intended for Plate Solving telescopic sized images"
 msgstr "用于平面解析望远镜尺度图像的配置"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:243
+#: ekos/auxiliary/stellarsolverprofile.cpp:246
 #, kde-format
 msgid "Default. Set for typical HFR estimation."
 msgstr "默认值。为典型的 HFR 估计值所设。"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:263
+#: ekos/auxiliary/stellarsolverprofile.cpp:266
 #, kde-format
 msgid "Set for typical HFR estimation on big stars."
 msgstr "为大星点的 HFR 估计值所设。"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:282
+#: ekos/auxiliary/stellarsolverprofile.cpp:285
 #, kde-format
 msgid "Set for HFR estimation on most stars."
 msgstr "为大多数星体的 HFR 估算值所设。"
@@ -21931,10 +21915,9 @@ msgid "Exposure timeout. Aborting Calibration."
 msgstr "曝光超时。中止校准。"
 
 #: ekos/guide/guide.cpp:1202
-#, fuzzy, kde-format
-#| msgid "Failed to select an auto star."
+#, kde-format
 msgid "Failed to reconnect camera after driver restart."
-msgstr "自动选择被导星失败。"
+msgstr ""
 
 #: ekos/guide/guide.cpp:1500
 #, kde-format
@@ -22043,10 +22026,9 @@ msgid "Dithering completed successfully."
 msgstr "像素偏移成功完成。"
 
 #: ekos/guide/guide.cpp:2045
-#, fuzzy, kde-format
-#| msgid "%1x%1 guide binning is not supported."
+#, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
-msgstr "%1x%1 导星像素合并不支持。"
+msgstr ""
 
 #: ekos/guide/guide.cpp:2069
 #, kde-format
@@ -83290,10 +83272,9 @@ msgid "Eric Dejouhanet"
 msgstr "Eric Dejouhanet"
 
 #: main.cpp:162
-#, fuzzy, kde-format
-#| msgid "Ekos Scheduler Improvements"
+#, kde-format
 msgid "CI/CD pipeline & Ekos Scheduler Improvements"
-msgstr "Ekos 调度器改进"
+msgstr ""
 
 #: main.cpp:163
 #, kde-format
@@ -83311,10 +83292,9 @@ msgid "Hy Murveit"
 msgstr "Hy Murveit"
 
 #: main.cpp:167
-#, fuzzy, kde-format
-#| msgid "FITS, Focus, Guide Improvements"
+#, kde-format
 msgid "Analyze module. FITS, Focus, Guide, and Scheduler Improvements"
-msgstr "提升 FITS、对焦、导星"
+msgstr ""
 
 #: main.cpp:168
 #, kde-format
@@ -83322,10 +83302,9 @@ msgid "John Evans"
 msgstr "John Evans"
 
 #: main.cpp:169
-#, fuzzy, kde-format
-#| msgid "Focus algorithms"
+#, kde-format
 msgid "Focus algorithms & Livestacking"
-msgstr "对焦算法"
+msgstr ""
 
 #: main.cpp:170
 #, kde-format
@@ -83448,10 +83427,9 @@ msgid "Mount Model wizard improvements. Cities database refactor."
 msgstr ""
 
 #: main.cpp:201
-#, fuzzy, kde-format
-#| msgid "Thomas Kabelmann"
+#, kde-format
 msgid "Thomas Nemer"
-msgstr "Thomas Kabelmann"
+msgstr ""
 
 #: main.cpp:201
 #, kde-format
@@ -95256,18 +95234,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Capture timed out."
-#~ msgstr "拍摄超时。"
-
-#~ msgid "Capturing still running, Retrying in %1 seconds..."
-#~ msgstr "拍摄仍在进行， %1 秒后重试..."
-
-#~ msgid "Andrew Stepanenko"
-#~ msgstr "Andrew Stepanenko"
-
-#~ msgid "Guiding code based on lin_guider"
-#~ msgstr "导星代码基于 lin_guider"
-
-#~ msgid "Rotator Dialog improvements"
-#~ msgstr "旋转器对话框优化"

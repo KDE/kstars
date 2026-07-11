@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-10 02:05+0000\n"
-"PO-Revision-Date: 2026-07-09 08:06-0300\n"
+"POT-Creation-Date: 2026-07-11 02:05+0000\n"
+"PO-Revision-Date: 2026-07-10 07:04-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -7290,12 +7290,13 @@ msgstr ""
 "novamente em %1 segundos..."
 
 #: ekos/align/align_solver.cpp:244
-#, fuzzy, kde-format
-#| msgid "Setting camera position angle to %1 degrees ..."
+#, kde-format
 msgid ""
 "Setting camera position angle to %1 degrees (using cached PA from previous "
 "solve)..."
-msgstr "Definindo o ângulo de posição da câmera para %1 graus ..."
+msgstr ""
+"Definindo o ângulo de posição da câmera para %1 graus (usando PA em cache da "
+"resolução anterior)..."
 
 #: ekos/align/align_solver.cpp:317 ekos/focus/focus.cpp:2014
 #, kde-format
@@ -7394,33 +7395,24 @@ msgid "Target is within %1 degrees of solution coordinates."
 msgstr "O alvo está dentro dos %1 graus das coordenadas da solução."
 
 #: ekos/align/align_solver.cpp:906
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically reversing rotator "
 "direction and retrying..."
 msgstr ""
-"O rotador está se movendo na direção errada. O erro do ângulo de posição "
-"aumentou de %1° para %2° após a rotação. Inverta a direção do rotador e "
-"tente novamente."
+"O rotador está se movendo na direção errada. Invertendo automaticamente a "
+"direção do rotador e tentando novamente..."
 
 #: ekos/align/align_solver.cpp:924
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. The position angle error increased "
 "from %1° to %2° after rotation. Auto-reverse was already tried. Please check "
 "rotator configuration."
 msgstr ""
 "O rotador está se movendo na direção errada. O erro do ângulo de posição "
-"aumentou de %1° para %2° após a rotação. Inverta a direção do rotador e "
-"tente novamente."
+"aumentou de %1° para %2° após a rotação. A reversão automática já foi "
+"tentada. Por favor, verifique a configuração do rotador."
 
 #: ekos/align/align_solver.cpp:946
 #, kde-format
@@ -14244,7 +14236,7 @@ msgid "Default profile. Generic and not optimized for any specific purpose."
 msgstr ""
 "Perfil padrão. Genérico e não otimizado para nenhuma finalidade específica."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:199
+#: ekos/auxiliary/stellarsolverprofile.cpp:202
 #, kde-format
 msgid ""
 "Profile intended for Plate Solving telescopic sized images in a single CPU "
@@ -14253,30 +14245,30 @@ msgstr ""
 "Perfil destinado à resolução de placas com imagens telescópicas em uma única "
 "thread de CPU"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:212
+#: ekos/auxiliary/stellarsolverprofile.cpp:215
 #, kde-format
 msgid "Profile intended for Plate Solving camera lens sized images"
 msgstr ""
 "Perfil destinado a imagens do tamanho de lentes de câmera de resolução de "
 "placas"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:224
+#: ekos/auxiliary/stellarsolverprofile.cpp:227
 #, kde-format
 msgid "Profile intended for Plate Solving telescopic sized images"
 msgstr "Perfil destinado à resolução de placas de imagens telescópicas"
 
 # Raio do Meio-Fluxo (RMF)
-#: ekos/auxiliary/stellarsolverprofile.cpp:243
+#: ekos/auxiliary/stellarsolverprofile.cpp:246
 #, kde-format
 msgid "Default. Set for typical HFR estimation."
 msgstr "Padrão. Definido para estimativa típica de RMF."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:263
+#: ekos/auxiliary/stellarsolverprofile.cpp:266
 #, kde-format
 msgid "Set for typical HFR estimation on big stars."
 msgstr "Definido para estimativa típica de RMF em estrelas grandes."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:282
+#: ekos/auxiliary/stellarsolverprofile.cpp:285
 #, kde-format
 msgid "Set for HFR estimation on most stars."
 msgstr "Definido para estimativa de RMF na maioria das estrelas."

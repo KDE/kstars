@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-10 02:05+0000\n"
-"PO-Revision-Date: 2026-07-09 09:27+0200\n"
+"POT-Creation-Date: 2026-07-11 02:05+0000\n"
+"PO-Revision-Date: 2026-07-10 08:54+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -7313,12 +7313,13 @@ msgstr ""
 "a %1 segons..."
 
 #: ekos/align/align_solver.cpp:244
-#, fuzzy, kde-format
-#| msgid "Setting camera position angle to %1 degrees ..."
+#, kde-format
 msgid ""
 "Setting camera position angle to %1 degrees (using cached PA from previous "
 "solve)..."
-msgstr "L'angle de posició de la càmera s'estableix a %1 graus..."
+msgstr ""
+"L'angle de posició de la càmera s'estableix a %1 graus (s'utilitza l'AP de "
+"la memòria cau de la solució anterior)..."
 
 #: ekos/align/align_solver.cpp:317 ekos/focus/focus.cpp:2014
 #, kde-format
@@ -7418,33 +7419,24 @@ msgid "Target is within %1 degrees of solution coordinates."
 msgstr "L'objectiu es troba a %1 graus de les coordenades de la solució."
 
 #: ekos/align/align_solver.cpp:906
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically reversing rotator "
 "direction and retrying..."
 msgstr ""
-"El rotor s'està movent en la direcció incorrecta. L'error de l'angle de "
-"posició ha augmentat des de %1° a %2° després del gir. Invertiu la direcció "
-"del rotor i torneu-ho a intentar."
+"El rotor s'està movent en la direcció incorrecta. S'inverteix automàticament "
+"la direcció del rotor i es tornarà a intentar..."
 
 #: ekos/align/align_solver.cpp:924
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. The position angle error increased "
 "from %1° to %2° after rotation. Auto-reverse was already tried. Please check "
 "rotator configuration."
 msgstr ""
 "El rotor s'està movent en la direcció incorrecta. L'error de l'angle de "
-"posició ha augmentat des de %1° a %2° després del gir. Invertiu la direcció "
-"del rotor i torneu-ho a intentar."
+"posició ha augmentat des de %1° a %2° després del gir. Ja s'ha provat la "
+"inversió automàtica. Comproveu la configuració del rotor."
 
 #: ekos/align/align_solver.cpp:946
 #, kde-format
@@ -14329,7 +14321,7 @@ msgstr ""
 "Perfil predeterminat. Genèric i no optimitzat per a cap finalitat en "
 "especial."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:199
+#: ekos/auxiliary/stellarsolverprofile.cpp:202
 #, kde-format
 msgid ""
 "Profile intended for Plate Solving telescopic sized images in a single CPU "
@@ -14338,28 +14330,28 @@ msgstr ""
 "Perfil destinat a la solució de plaques d'imatges de mida telescòpica en un "
 "fil únic de CPU"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:212
+#: ekos/auxiliary/stellarsolverprofile.cpp:215
 #, kde-format
 msgid "Profile intended for Plate Solving camera lens sized images"
 msgstr ""
 "Perfil destinat a la solució de plaques d'imatges de mida de lents de càmera"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:224
+#: ekos/auxiliary/stellarsolverprofile.cpp:227
 #, kde-format
 msgid "Profile intended for Plate Solving telescopic sized images"
 msgstr "Perfil destinat a la solució de plaques d'imatges de mida telescòpica"
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:243
+#: ekos/auxiliary/stellarsolverprofile.cpp:246
 #, kde-format
 msgid "Default. Set for typical HFR estimation."
 msgstr "Predeterminada. Establiu-ho per a l'estimació HFR típica."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:263
+#: ekos/auxiliary/stellarsolverprofile.cpp:266
 #, kde-format
 msgid "Set for typical HFR estimation on big stars."
 msgstr "Establiu-ho per a l'estimació HFR típica en estrelles grans."
 
-#: ekos/auxiliary/stellarsolverprofile.cpp:282
+#: ekos/auxiliary/stellarsolverprofile.cpp:285
 #, kde-format
 msgid "Set for HFR estimation on most stars."
 msgstr "Establiu-ho per a l'estimació HFR a la majoria d'estrelles."
