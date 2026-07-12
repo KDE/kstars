@@ -35,13 +35,13 @@
     "modules": [
         {
             "name": "eigen",
-            "buildsystem": "cmake-ninja",
+            "buildsystem": "simple",
             "builddir": true,
-            "build-options": {
-                "env": {
-                    "CMAKE_BUILD_PARALLEL_LEVEL": "4"
-                }
-            },
+            "build-commands": [
+                "cmake -G Ninja .. -DCMAKE_INSTALL_PREFIX=/app -DCMAKE_BUILD_TYPE=Release",
+                "ninja -j4",
+                "cmake --install ."
+            ],
             "cleanup": [
                 "*"
             ],
