@@ -121,16 +121,6 @@ double RotatorUtils::calcOffsetAngle(double RotatorAngle, double PositionAngle)
     {
         OffsetAngle -= 180;
     }
-
-    // Record the pier side at which the offset was calibrated.
-    // m_flippedMount must be re-evaluated relative to this side.
-    if (m_Mount)
-    {
-        m_CalPierside = m_Mount->pierSide();
-        // by definition we are on the cal side now
-        m_flippedMount = false;
-    }
-
     return KSUtils::rangePA(OffsetAngle);
 }
 
