@@ -37,6 +37,11 @@
             "name": "eigen",
             "buildsystem": "cmake-ninja",
             "builddir": true,
+            "build-options": {
+                "env": {
+                    "CMAKE_BUILD_PARALLEL_LEVEL": "4"
+                }
+            },
             "cleanup": [
                 "*"
             ],
