@@ -689,6 +689,9 @@ void SchedulerProcess::start()
     // Reset latched startup error state for new scheduler session
     resetLatchedStartupErrorIfQueuesDisabled();
 
+    // Clear the sequence file cache so any edits made while stopped are picked up.
+    SchedulerUtils::clearSequenceQueueCache();
+
     // New scheduler session shouldn't inherit ABORT or ERROR states from the last one.
     for (auto j : moduleState()->jobs())
     {

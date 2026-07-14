@@ -361,27 +361,71 @@ QSharedPointer<SequenceJob> SchedulerUtils::processSequenceJobInfo(XMLEle * root
     return job;
 }
 
+// Cache structure for sequence queue file content to avoid repeated disk I/O.
+// Key: file path, Value: { modification time, raw file content }
+struct SequenceQueueCacheEntry
+{
+    QDateTime lastModified;
+    QByteArray content;
+};
+static QMap<QString, SequenceQueueCacheEntry> s_sequenceQueueCache;
+
+void SchedulerUtils::clearSequenceQueueCache()
+{
+    s_sequenceQueueCache.clear();
+}
+
 bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob,
                                        QList<QSharedPointer<SequenceJob>> &jobs, bool &hasAutoFocus, ModuleLogger * logger)
 {
-    QFile sFile;
-    sFile.setFileName(fileURL);
+    // Read file content from cache or disk.
+    // On resource-constrained systems (e.g. Raspberry Pi / StellarMate), repeatedly reading
+    // the same .esq file from disk for each of N scheduler jobs creates O(N) disk I/O overhead
+    // per scheduler evaluation cycle. With 80 jobs this adds 9-10 minutes of pure overhead
+    // between each capture frame. Caching the file content in memory eliminates the disk I/O.
+    QByteArray fileContent;
+    QFileInfo fileInfo(fileURL);
 
-    if (!sFile.open(QIODevice::ReadOnly))
+    if (!fileInfo.exists())
     {
         if (logger != nullptr) logger->appendLogText(i18n("Unable to open sequence queue file '%1'", fileURL));
         return false;
     }
 
+    auto it = s_sequenceQueueCache.find(fileURL);
+    if (it != s_sequenceQueueCache.end() && it->lastModified == fileInfo.lastModified())
+    {
+        // Cache hit - use in-memory content
+        fileContent = it->content;
+    }
+    else
+    {
+        // Cache miss or file modified - read from disk and update cache
+        QFile sFile(fileURL);
+        if (!sFile.open(QIODevice::ReadOnly))
+        {
+            if (logger != nullptr) logger->appendLogText(i18n("Unable to open sequence queue file '%1'", fileURL));
+            return false;
+        }
+        fileContent = sFile.readAll();
+        sFile.close();
+
+        SequenceQueueCacheEntry entry;
+        entry.lastModified = fileInfo.lastModified();
+        entry.content = fileContent;
+        s_sequenceQueueCache[fileURL] = entry;
+    }
+
+    // Parse the XML from the in-memory buffer
     LilXML *xmlParser = newLilXML();
     char errmsg[MAXRBUF];
     XMLEle *root = nullptr;
     XMLEle *ep   = nullptr;
-    char c;
 
-    while (sFile.getChar(&c))
+    hasAutoFocus = false;
+    for (int i = 0; i < fileContent.size(); ++i)
     {
-        root = readXMLEle(xmlParser, c, errmsg);
+        root = readXMLEle(xmlParser, fileContent[i], errmsg);
 
         if (root)
         {
@@ -400,7 +444,6 @@ bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob *sch
                         {
                             schedJob->setInitialFilter(firstJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
                         }
-
                     }
                 }
             }
@@ -414,6 +457,7 @@ bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob *sch
         }
     }
 
+    delLilXML(xmlParser);
     return true;
 }
 

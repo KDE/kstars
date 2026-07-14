@@ -97,6 +97,12 @@ class SchedulerUtils
                                       bool &hasAutoFocus, ModuleLogger *logger);
 
         /**
+             * @brief clearSequenceQueueCache Clears the in-memory cache of sequence queue file contents.
+             * Should be called when the scheduler is stopped or when sequence files may have been edited.
+             */
+        static void clearSequenceQueueCache();
+
+        /**
              * @brief estimateJobTime Estimates the time the job takes to complete based on the sequence file and what modules to utilize during the observation run.
              * @param job target job
              * @param capturedFramesCount a map of what's been captured already
