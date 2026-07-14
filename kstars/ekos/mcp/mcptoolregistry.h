@@ -50,9 +50,19 @@ class ToolRegistry : public QObject
         void registerTool(const ToolDefinition &tool);
         void classify(const QString &name, bool readOnly,
                       bool destructive = false, bool idempotent = false, bool openWorld = false);
-        QJsonArray toolsList() const;
+        // Tools whose name appears in @p excluded are omitted from the list.
+        QJsonArray toolsList(const QStringList &excluded = QStringList()) const;
         QJsonValue dispatch(const QString &name, const QJsonObject &args, QString &error) const;
         const ToolDefinition *find(const QString &name) const;
+
+        // Read-only view of every registered tool, in registration order.
+        // Used by the Ekos settings dialog to render the discoverable tool
+        // tree. Iteration only — do not store references across server
+        // restarts.
+        const QList<ToolDefinition> &tools() const
+        {
+            return m_tools;
+        }
 
     private:
         QList<ToolDefinition> m_tools;

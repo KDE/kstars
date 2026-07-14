@@ -369,3 +369,59 @@ void TestMCPServer::testReadOnlyTokenGates()
     QVERIFY(callWithToken("full-token", "mut_tool2").contains("result"));
 }
 
+void TestMCPServer::testDisabledTools()
+{
+    MCP::Server server;
+
+    // Two read-only tools so the read-only gate can't interfere
+    server.registry()->registerTool(
+    {
+        "fam_a", "Tool A", {}, [](const QJsonObject &, QString &) -> QJsonValue {
+            return QJsonObject{{"ok", true}};
+        }
+    });
+    server.registry()->classify("fam_a", /*ro*/true);
+
+    server.registry()->registerTool(
+    {
+        "fam_b", "Tool B", {}, [](const QJsonObject &, QString &) -> QJsonValue {
+            return QJsonObject{{"ok", true}};
+        }
+    });
+    server.registry()->classify("fam_b", /*ro*/true);
+
+    Options::setMCPDisabledTools(QStringList{ "fam_a" });
+    const quint16 port = startServer(server);
+    MCPTestClient client(port, server.token());
+
+    // tools/list must omit the disabled tool and keep the enabled one
+    QJsonObject listReq{ {"jsonrpc", "2.0"}, {"id", 1}, {"method", "tools/list"} };
+    QJsonObject listResp = client.post(listReq);
+    QVERIFY(listResp.contains("result"));
+    QStringList listed;
+    for (const auto &t : listResp["result"].toObject()["tools"].toArray())
+        listed << t.toObject()["name"].toString();
+    QVERIFY2(!listed.contains("fam_a"), "disabled tool must not appear in tools/list");
+    QVERIFY2(listed.contains("fam_b"), "enabled tool must appear in tools/list");
+
+    auto callTool = [&](const QString & name) -> QJsonObject
+    {
+        QJsonObject params;
+        params["name"]      = name;
+        params["arguments"] = QJsonObject{};
+        QJsonObject req{ {"jsonrpc", "2.0"}, {"id", 1}, {"method", "tools/call"}, {"params", params} };
+        return client.post(req);
+    };
+
+    // Calling the disabled tool must fail with a transparent error
+    QJsonObject aResp = callTool("fam_a");
+    QVERIFY2(aResp.contains("error"), "disabled tool must be rejected on tools/call");
+    QCOMPARE(aResp["error"].toObject()["code"].toInt(), -32601);
+    QVERIFY(aResp["error"].toObject()["message"].toString().contains("disabled"));
+
+    // The enabled tool still works
+    QVERIFY(callTool("fam_b").contains("result"));
+
+    Options::setMCPDisabledTools(QStringList());
+}
+

@@ -3955,5 +3955,9 @@
          <label>Allow only read-only MCP tools</label>
          <default>false</default>
       </entry>
+      <entry name="MCPDisabledTools" type="StringList">
+         <label>MCP tools disabled by the user</label>
+         <whatsthis>Tool names excluded from the MCP tools/list response and rejected on tools/call. Tools not listed here are enabled.</whatsthis>
+      </entry>
    </group>
 </kcfg>

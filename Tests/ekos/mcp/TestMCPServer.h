@@ -27,4 +27,5 @@ class TestMCPServer : public QObject
         void testAnnotationsEmitted();
         void testReadOnlyModeBlocks();
         void testReadOnlyTokenGates();
+        void testDisabledTools();
 };

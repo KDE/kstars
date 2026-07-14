@@ -29,7 +29,21 @@ class OpsEkos : public QTabWidget, public Ui::OpsEkos
     public slots:
         void setMCPState(bool listening, quint16 port, const QString &error = QString());
         void refreshMCPTokens();
+        // Populate the "Available tools" tree from the live MCP::ToolRegistry.
+        // Groups by family prefix (mount_*, capture_*, ...). Tool annotations
+        // (read-only / destructive / idempotent / openWorld) shown as icons +
+        // tooltips. Each leaf carries a checkbox (family roots are tristate)
+        // to enable/disable the tool; unchecked names persist in the
+        // MCPDisabledTools option. Called on initial dialog construction and
+        // whenever the MCP server is (re)created.
+        void populateMCPTools();
+
+    private slots:
+        // Persist checkbox changes from the tools tree into MCPDisabledTools.
+        void onMCPToolItemChanged();
 
     private:
         KConfigDialog *m_ConfigDialog;
+        // Coalesces the burst of itemChanged signals a family toggle emits.
+        bool m_MCPToolsSavePending { false };
 };

@@ -522,6 +522,44 @@
      </widget>
     </item>
     <item>
+     <widget class="QGroupBox" name="mcpToolsGroupBox">
+      <property name="title">
+       <string>Available tools</string>
+      </property>
+      <layout class="QVBoxLayout" name="mcpToolsLayout">
+       <item>
+        <widget class="QTreeWidget" name="mcpToolsTree">
+         <property name="rootIsDecorated">
+          <bool>true</bool>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="uniformRowHeights">
+          <bool>true</bool>
+         </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="headerHidden">
+          <bool>false</bool>
+         </property>
+         <column>
+          <property name="text">
+           <string>Tool</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Description</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
      <spacer name="verticalSpacer_mcp">
       <property name="orientation">
        <enum>Qt::Vertical</enum>

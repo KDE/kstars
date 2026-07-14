@@ -34,11 +34,14 @@ void ToolRegistry::classify(const QString &name, bool readOnly,
     }
 }
 
-QJsonArray ToolRegistry::toolsList() const
+QJsonArray ToolRegistry::toolsList(const QStringList &excluded) const
 {
     QJsonArray result;
     for (const auto &tool : m_tools)
     {
+        if (excluded.contains(tool.name))
+            continue;
+
         QJsonObject properties;
         QJsonArray required;
 

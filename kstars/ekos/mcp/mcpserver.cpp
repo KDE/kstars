@@ -267,7 +267,7 @@ void Server::handleRequest(QTcpSocket *socket, const QByteArray &body)
         }
 
         QJsonObject result;
-        result["tools"] = m_registry->toolsList();
+        result["tools"] = m_registry->toolsList(Options::mCPDisabledTools());
         m_transport->sendResponse(socket,
                                   QJsonDocument(makeResponse(id, result)).toJson(QJsonDocument::Compact));
     }
@@ -289,6 +289,17 @@ void Server::handleRequest(QTcpSocket *socket, const QByteArray &body)
         {
             m_transport->sendResponse(socket,
                                       QJsonDocument(makeError(id, -32603, QString("Tool not found: %1").arg(toolName)))
+                                      .toJson(QJsonDocument::Compact));
+            return;
+        }
+
+        // Disabled-tool enforcement: user unchecked the tool in the Ekos
+        // settings tree. Checked before the read-only gate.
+        if (Options::mCPDisabledTools().contains(toolName))
+        {
+            m_transport->sendResponse(socket,
+                                      QJsonDocument(makeError(id, -32601,
+                                                    QStringLiteral("Tool '%1' is disabled").arg(toolName)))
                                       .toJson(QJsonDocument::Compact));
             return;
         }
