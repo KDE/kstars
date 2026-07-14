@@ -12181,8 +12181,7 @@ msgid "Build Filter Offsets Unexpected Problem"
 msgstr "مشكل غير متوقع في إنشاء إزاحات المرشحات"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:615
-#, fuzzy, kde-format
-#| msgid "Processing complete."
+#, kde-format
 msgid "Processing complete."
 msgstr "اكتملت المعالجة."
 

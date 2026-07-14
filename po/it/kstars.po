@@ -10,7 +10,7 @@
 # Luciano Montanaro <mikelima@cirulla.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 # Luigi Toscano <luigi.toscano@tiscali.it>, 2012, 2013.
 # Vincenzo Reale <smart2128vr@gmail.com>, 2019, 2020, 2022.
-# SPDX-FileCopyrightText: 2022, 2024, 2025, 2026 Valter Mura <valtermura@gmail.com>
+# SPDX-FileCopyrightText: 2022, 2024-2026 Valter Mura <valtermura@gmail.com>
 # Paolo Zamponi <feus73@gmail.com>, 2023.
 #
 # Mini-glossary:
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-11 02:05+0000\n"
-"PO-Revision-Date: 2026-06-26 12:16+0200\n"
+"PO-Revision-Date: 2026-07-10 09:25+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6325,7 +6325,7 @@ msgstr "Carica &e punta..."
 #: kstarslite/qml/indi/modules/MotionControl.qml:146
 #, kde-format, kde-kuit-format
 msgid "Stop"
-msgstr "Interrompi"
+msgstr "Ferma"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, gotoBox)
 #: ekos/align/align.ui:160
@@ -7291,12 +7291,13 @@ msgstr ""
 "secondi..."
 
 #: ekos/align/align_solver.cpp:244
-#, fuzzy, kde-format
-#| msgid "Setting camera position angle to %1 degrees ..."
+#, kde-format
 msgid ""
 "Setting camera position angle to %1 degrees (using cached PA from previous "
 "solve)..."
-msgstr "Impostazione dell'angolo di posizione della fotocamera a %1 gradi ..."
+msgstr ""
+"Impostazione dell'angolo di posizione della fotocamera a %1 gradi (con "
+"utilizzo dell'AP in cache dalla risoluzione precedente)..."
 
 #: ekos/align/align_solver.cpp:317 ekos/focus/focus.cpp:2014
 #, kde-format
@@ -7398,33 +7399,24 @@ msgid "Target is within %1 degrees of solution coordinates."
 msgstr "Il bersaglio è all'interno di %1 gradi di coordinate della soluzione."
 
 #: ekos/align/align_solver.cpp:906
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. Automatically reversing rotator "
 "direction and retrying..."
 msgstr ""
-"Il rotatore si sta muovendo nella direzione sbagliata. L'errore dell'angolo "
-"di posizione è aumentato da %1° a %2° dopo la rotazione. Inverti la "
-"direzione del rotatore e riprova."
+"Il rotatore si sta muovendo nella direzione sbagliata. Inversione automatica "
+"della direzione del rotatore e nuovo tentativo..."
 
 #: ekos/align/align_solver.cpp:924
-#, fuzzy, kde-format
-#| msgid ""
-#| "Rotator is moving in the wrong direction. The position angle error "
-#| "increased from %1° to %2° after rotation. Please reverse the rotator "
-#| "direction and try again."
+#, kde-format
 msgid ""
 "Rotator is moving in the wrong direction. The position angle error increased "
 "from %1° to %2° after rotation. Auto-reverse was already tried. Please check "
 "rotator configuration."
 msgstr ""
 "Il rotatore si sta muovendo nella direzione sbagliata. L'errore dell'angolo "
-"di posizione è aumentato da %1° a %2° dopo la rotazione. Inverti la "
-"direzione del rotatore e riprova."
+"di posizione è aumentato da %1° a %2° dopo la rotazione. L'inversione "
+"automatica è stata già tentata. Controlla la configurazione del rotatore."
 
 #: ekos/align/align_solver.cpp:946
 #, kde-format
@@ -10140,7 +10132,7 @@ msgstr "Durata massima:"
 #, kde-format
 msgid "Timeout in seconds to wait for astrometry solver to complete"
 msgstr ""
-"Tempo massimo in secondi per attendere il completamento del risolutore "
+"Tempo massimo, in secondi, di attesa per il completamento del risolutore "
 "astrometrico"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIKey)
@@ -12333,21 +12325,19 @@ msgid "Run"
 msgstr "Esegui"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:248
-#, fuzzy, kde-format
-#| msgid "Build Filter Offsets"
+#, kde-format
 msgid "Run Build Filter Offsets utility"
-msgstr "Generazione compensazioni filtro"
+msgstr "Esegui applicazione Generazione compensazioni filtro"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:249
 #, kde-format
 msgid "Interrupt processing when utility is running"
-msgstr ""
+msgstr "Interrompi l'elaborazione quando l'applicazione è in esecuzione"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:250
-#, fuzzy, kde-format
-#| msgid "New Offset"
+#, kde-format
 msgid "Save New Offsets"
-msgstr "Nuova compensazione"
+msgstr "Salva nuove compensazioni"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
@@ -12435,17 +12425,16 @@ msgstr ""
 "Salva. Attiva per salvare la nuova compensazione per il filtro associato."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:508
-#, fuzzy, kde-format
-#| msgid "Stop Build Filter Offsets"
+#, kde-format
 msgid "Starting Build Filter Offsets..."
-msgstr "Ferma generazione compensazioni filtro"
+msgstr "Avvio generazione compensazioni filtro..."
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:522
 #: ekos/auxiliary/buildfilteroffsets.cpp:552
 #: ekos/auxiliary/buildfilteroffsets.cpp:573 ekos/ekos.h:220
 #, kde-format
 msgid "Stopped"
-msgstr "Interrotto"
+msgstr "Fermato"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:527
 #, kde-format
@@ -20404,7 +20393,8 @@ msgstr "Richiesta controllo messa a fuoco scartata - %1 in corso."
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
-"Controllo messa a fuoco ignorata - La Misura stella si deve basare su stelle"
+"Controllo messa a fuoco ignorata - La Misura stellare si deve basare su "
+"stelle"
 
 #: ekos/focus/focus.cpp:5513
 #, kde-format
@@ -21292,9 +21282,9 @@ msgid ""
 "<html><head/><body><p>Maximum time in seconds to wait for the focuser to "
 "move to the desired position before declaring a timeout.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tempo massimo in secondi per aspettare lo spostamento "
-"che focheggiatore si sposti alla posizione desiderata prima di dichiarare "
-"scaduto il tempo.</p></body></html>"
+"<html><head/><body><p>Tempo massimo, in secondi, di attesa dello spostamento "
+"del focheggiatore alla posizione desiderata prima di dichiarare scaduto il "
+"tempo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
 #: ekos/focus/opsfocusmechanics.ui:191
@@ -21379,8 +21369,8 @@ msgid ""
 "Maximum time in seconds to wait for a captured image to be received before "
 "declaring a timeout."
 msgstr ""
-"Tempo massimo in secondi per aspettare un'immagine catturata prima di "
-"dichiarare scaduto il tempo."
+"Tempo massimo, in secondi, di attesa per l'acquisizione di un'immagine prima "
+"di dichiarare scaduto il tempo."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/opsfocusmechanics.ui:362
@@ -21728,7 +21718,7 @@ msgstr ""
 "</li></ul><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
 "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">FWHM</span>: Full Width Half Maximum. La curva adatta un PSF "
-"al baricentro di ciascuna stella e usa la curva per calcolare il FWHM. È una "
+"al baricentro di ciascuna stella e usa la curva per calcolare la FWHM. È una "
 "funzionalità sperimentale.</li><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\"># Stelle</span>: Numero di "
@@ -23060,10 +23050,9 @@ msgid "Exposure timeout. Aborting Calibration."
 msgstr "Tempo scaduto per l'esposizione. Interruzione calibrazione."
 
 #: ekos/guide/guide.cpp:1202
-#, fuzzy, kde-format
-#| msgid "Failed to select an auto star."
+#, kde-format
 msgid "Failed to reconnect camera after driver restart."
-msgstr "Selezione di una stella automatica non riuscita."
+msgstr "Riconnessione fotocamera dopo riavvio del driver non riuscita."
 
 #: ekos/guide/guide.cpp:1500
 #, kde-format
@@ -23175,10 +23164,9 @@ msgid "Dithering completed successfully."
 msgstr "Dithering completato correttamente."
 
 #: ekos/guide/guide.cpp:2045
-#, fuzzy, kde-format
-#| msgid "%1x%1 guide binning is not supported."
+#, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
-msgstr "Il binning di guida %1x%1 non è supportato."
+msgstr "Il binning di guida %1x%1 non è supportato. Il massimo è %2x%2."
 
 #: ekos/guide/guide.cpp:2069
 #, kde-format
@@ -29811,7 +29799,7 @@ msgstr "Valutazione"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:645
 #, kde-format
 msgid "Scheduled"
-msgstr "Pianificato"
+msgstr "Pianificata"
 
 #: ekos/scheduler/scheduler.cpp:1849
 #, kde-format
@@ -30993,7 +30981,7 @@ msgstr "Avvio di Ekos oltre il tempo massimo."
 #: ekos/scheduler/schedulerprocess.cpp:1628
 #, kde-format
 msgid "Ekos stopped."
-msgstr "Ekos arrestato."
+msgstr "Ekos fermato."
 
 #: ekos/scheduler/schedulerprocess.cpp:1671
 #, kde-format
@@ -32442,7 +32430,7 @@ msgstr "In sospeso"
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:653
 #, kde-format
 msgid "Skipped"
-msgstr "Saltato"
+msgstr "Saltata"
 
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:751
 #, kde-format
@@ -33824,7 +33812,7 @@ msgstr "Dispositivo sconosciuto"
 #: fitsviewer/fitsstackwebcast.cpp:443
 #, kde-format
 msgid "Webcast Stopped"
-msgstr "Webcast interrotto"
+msgstr "Webcast fermato"
 
 #: fitsviewer/fitsstackwebcast.cpp:508
 #, kde-format
@@ -34137,7 +34125,7 @@ msgstr "LRGB"
 #: fitsviewer/fitstab.cpp:1893
 #, kde-format
 msgid "(%1) Stopped Watching"
-msgstr "(%1) Osservazione interrotta"
+msgstr "(%1) Osservazione fermata"
 
 #: fitsviewer/fitstab.cpp:1894
 #, kde-format
@@ -34152,7 +34140,7 @@ msgstr "%1 %2"
 #: fitsviewer/fitstab.cpp:1899
 #, kde-format
 msgid "(%1) Stopped"
-msgstr "(%1) Interrotto"
+msgstr "(%1) Fermato"
 
 #: fitsviewer/fitstab.cpp:1900
 #, kde-format
@@ -34502,7 +34490,7 @@ msgstr "Stacking completato."
 #: fitsviewer/fitsviewer.cpp:1234
 #, kde-format
 msgid "Stacking Stopped"
-msgstr "Stacking interrrotto"
+msgstr "Stacking fermato"
 
 #: fitsviewer/fitsviewer.cpp:1518
 #, kde-format
@@ -34886,8 +34874,8 @@ msgid ""
 "<html><head/><body><p>Start / Stop Webcasting stacked images</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Avvia / interrompi il webcast delle immagini "
-"sovrapposte</p></body></html>"
+"<html><head/><body><p>Avvia / ferma il webcast delle immagini sovrapposte</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, WebcastB)
 #. i18n: ectx: property (text), widget (QToolButton, previousYear)
@@ -35711,13 +35699,13 @@ msgstr "Avvia webcast"
 #: fitsviewer/livestackwebcast.ui:171
 #, kde-format
 msgid "<html><head/><body><p>Stop the webcast</p></body></html>"
-msgstr "<html><head/><body><p>Interrompi il webcast</p></body></html>"
+msgstr "<html><head/><body><p>Ferma il webcast</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, stopBtn)
 #: fitsviewer/livestackwebcast.ui:174
 #, kde-format
 msgid "Stop Webcast"
-msgstr "Interrompi webcast"
+msgstr "Ferma webcast"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetBtn)
 #: fitsviewer/livestackwebcast.ui:187
@@ -37867,7 +37855,7 @@ msgstr "Registra flusso finché non viene fermato manualmente"
 #: indi/recordingoptions.ui:118
 #, kde-format
 msgid "Until stopped"
-msgstr "Fino all'interruzione"
+msgstr "Fino all'arresto"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordFramesR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, framesSpin)
@@ -44114,7 +44102,7 @@ msgstr ""
 #: kstars.kcfg:2490
 #, kde-format
 msgid "Wait for this many seconds after resuming guide."
-msgstr "Aspetta questo numero di secondi dopo aver ripristinato la guida."
+msgstr "Attendi questi secondi dopo aver ripristinato la guida."
 
 #. i18n: ectx: whatsthis, entry (FocusUnits), group (Focus)
 #: kstars.kcfg:2494
@@ -44185,7 +44173,7 @@ msgstr "Il tipo di curva da adattare"
 #: kstars.kcfg:2530
 #, kde-format
 msgid "The type of star measure to use."
-msgstr "Il tipo di misura di stella da usare."
+msgstr "Il tipo di misura stellare da usare."
 
 #. i18n: ectx: whatsthis, entry (FocusStarPSF), group (Focus)
 #: kstars.kcfg:2534
@@ -44366,8 +44354,8 @@ msgid ""
 "Wait for this many seconds after moving the focuser before capturing the "
 "next image during AutoFocus."
 msgstr ""
-"Attendere questi secondi dopo aver spostato il focheggiatore prima di "
-"catturare l'immagine successiva durante la messa a fuoco automatica."
+"Attendi questi secondi dopo aver spostato il focheggiatore prima di "
+"acquisire l'immagine successiva durante la messa a fuoco automatica."
 
 #. i18n: ectx: label, entry (FocusTicks), group (Focus)
 #: kstars.kcfg:2620
@@ -44452,7 +44440,7 @@ msgid ""
 "Maximum time in seconds to wait for a focuser to move to desired position "
 "before declaring a timeout."
 msgstr ""
-"Tempo massimo in secondi per aspettare lo spostamento di un focheggiatore "
+"Tempo massimo, in secondi, di attesa per lo spostamento di un focheggiatore "
 "alla posizione desiderata prima di dichiarare scaduto il tempo."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAlgorithm), group (Focus)
@@ -45071,7 +45059,7 @@ msgstr ""
 #, kde-format
 msgid "Timeout in seconds to wait for astrometry solver to complete."
 msgstr ""
-"Tempo massimo in secondi per attendere il completamento del risolutore "
+"Tempo massimo, in secondi, di attesa per il completamento del risolutore "
 "astrometrico."
 
 #. i18n: ectx: label, entry (PAHMountSpeed), group (Align)
@@ -79775,7 +79763,7 @@ msgstr "Più luminosi"
 #, kde-kuit-format
 msgctxt "Satellite group name"
 msgid "Weather"
-msgstr "Metereologici"
+msgstr "Meteorologici"
 
 #: kstars_i18n.cpp:5643
 #, kde-kuit-format
@@ -85375,7 +85363,7 @@ msgstr "Passi"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Stop"
-msgstr "Interrompi"
+msgstr "Ferma"
 
 #: libindi_strings.cpp:464
 #, kde-kuit-format
@@ -86006,10 +85994,9 @@ msgid "Eric Dejouhanet"
 msgstr "Eric Dejouhanet"
 
 #: main.cpp:162
-#, fuzzy, kde-format
-#| msgid "Ekos Scheduler Improvements"
+#, kde-format
 msgid "CI/CD pipeline & Ekos Scheduler Improvements"
-msgstr "Miglioramenti al pianificatore di Ekos"
+msgstr "Pipeline CI/CD e miglioramenti al pianificatore di Ekos"
 
 #: main.cpp:163
 #, kde-format
@@ -86027,10 +86014,10 @@ msgid "Hy Murveit"
 msgstr "Hy Murveit"
 
 #: main.cpp:167
-#, fuzzy, kde-format
-#| msgid "FITS, Focus, Guide Improvements"
+#, kde-format
 msgid "Analyze module. FITS, Focus, Guide, and Scheduler Improvements"
-msgstr "FITS, fuoco, Miglioramenti nella guida"
+msgstr ""
+"Modulo Analizza, FITS, messa a fuoco, guida e miglioramenti al pianificatore"
 
 #: main.cpp:168
 #, kde-format
@@ -86038,10 +86025,9 @@ msgid "John Evans"
 msgstr "John Evans"
 
 #: main.cpp:169
-#, fuzzy, kde-format
-#| msgid "Focus algorithms"
+#, kde-format
 msgid "Focus algorithms & Livestacking"
-msgstr "Algoritmo di messa a fuoco"
+msgstr "Algoritmo di messa a fuoco e livestacking"
 
 #: main.cpp:170
 #, kde-format
@@ -86146,35 +86132,36 @@ msgstr "Rishab Arora"
 #: main.cpp:199
 #, kde-format
 msgid "Andreas Ruthner"
-msgstr ""
+msgstr "Andreas Ruthner"
 
 #: main.cpp:199
 #, kde-format
 msgid "Numerous fixes in Guiding, Streaming, and Scheduler."
 msgstr ""
+"Numerose correzioni alla procedura della guida, del flusso e al "
+"pianificatore."
 
 #: main.cpp:200
-#, fuzzy, kde-format
-#| msgctxt "City in Bornholm Denmark"
-#| msgid "Christiansoe"
+#, kde-format
 msgid "Christian Kemper"
-msgstr "Christiansø"
+msgstr "Christian Kemper"
 
 #: main.cpp:200
 #, kde-format
 msgid "Mount Model wizard improvements. Cities database refactor."
 msgstr ""
+"Miglioramenti alla procedura guidata Modello della montatura. Refactoring "
+"della banca dati delle città."
 
 #: main.cpp:201
-#, fuzzy, kde-format
-#| msgid "Thomas Kabelmann"
+#, kde-format
 msgid "Thomas Nemer"
-msgstr "Thomas Kabelmann"
+msgstr "Thomas Nemer"
 
 #: main.cpp:201
 #, kde-format
 msgid "Ekos MCP server and AI skills."
-msgstr ""
+msgstr "Server MCP di Ekos e skill IA."
 
 #: main.cpp:203
 #, kde-format
@@ -92525,7 +92512,7 @@ msgstr "Tasto:"
 #: tools/argwaitforkey.ui:37
 #, kde-format
 msgid "Wait for this key to be pressed"
-msgstr "Aspetta che sia premuto questo tasto"
+msgstr "Attendi che sia premuto questo tasto"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, WaitKeyEdit)
 #: tools/argwaitforkey.ui:42
