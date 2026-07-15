@@ -277,6 +277,13 @@ enum COMMANDS
     FILTER_OFFSET_SET_ALL_SETTINGS,
     FILTER_OFFSET_CALCULATED,
     FILTER_OFFSET_PROGRESS,
+
+    // AI Guider
+    AI_GUIDE_GET_ALL_SETTINGS,
+    AI_GUIDE_SET_ALL_SETTINGS,
+    NEW_AI_GUIDE_PROGRESS,
+    NEW_AI_GUIDE_LOG,
+    NEW_AI_GUIDE_COMPLETE,
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -516,6 +523,12 @@ static QMap<COMMANDS, QString> const commands =
     {FILTER_OFFSET_SET_ALL_SETTINGS, "filter_offset_set_all_settings"},
     {FILTER_OFFSET_CALCULATED, "filter_offset_calculated"},
     {FILTER_OFFSET_PROGRESS, "filter_offset_progress"},
+
+    {AI_GUIDE_GET_ALL_SETTINGS, "ai_guide_get_all_settings"},
+    {AI_GUIDE_SET_ALL_SETTINGS, "ai_guide_set_all_settings"},
+    {NEW_AI_GUIDE_PROGRESS, "new_ai_guide_progress"},
+    {NEW_AI_GUIDE_LOG, "new_ai_guide_log"},
+    {NEW_AI_GUIDE_COMPLETE, "new_ai_guide_complete"},
 };
 
 }

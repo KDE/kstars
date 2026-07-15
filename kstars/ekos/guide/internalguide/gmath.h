@@ -25,6 +25,7 @@
 #include "calibration.h"
 
 #include "gpg.h"
+#include "mount_guider.h"
 
 class FITSData;
 class Edge;
@@ -43,6 +44,44 @@ class HysteresisGuider;
 #define GUIDE_RA    0
 #define GUIDE_DEC   1
 #define CHANNEL_CNT 2
+
+/**
+ * @brief Lifecycle state of the AI feed-forward prediction system.
+ *
+ * DISABLED   – no weights loaded, or AI not configured.
+ * WARMUP     – weights loaded, model running, but prediction not yet valid.
+ * SHADOW     – weights loaded, model running; predictions are logged to CSV
+ *              but NOT blended into guide pulses (observer mode).
+ * ACTIVE     – weights loaded, model running; predictions ARE blended.
+ * FALLBACK   – model was ACTIVE but confidence dropped; reverted to standard.
+ */
+enum class AIGuideState
+{
+    DISABLED,
+    WARMUP,
+    SHADOW,
+    ACTIVE,
+    FALLBACK
+};
+
+/// Helper to stringify AIGuideState for the debug CSV
+inline QString aiGuideStateString(AIGuideState s)
+{
+    switch (s)
+    {
+        case AIGuideState::DISABLED:
+            return QStringLiteral("DISABLED");
+        case AIGuideState::WARMUP:
+            return QStringLiteral("WARMUP");
+        case AIGuideState::SHADOW:
+            return QStringLiteral("SHADOW");
+        case AIGuideState::ACTIVE:
+            return QStringLiteral("ACTIVE");
+        case AIGuideState::FALLBACK:
+            return QStringLiteral("FALLBACK");
+    }
+    return QStringLiteral("UNKNOWN");
+}
 
 // input params
 class cproc_in_params
@@ -103,6 +142,20 @@ class cgmath : public QObject
         {
             return *gpg;
         }
+        MountSpecificGuider *getAIGuider()
+        {
+            return m_AIGuider.get();
+        }
+        const MountSpecificGuider *getAIGuider() const
+        {
+            return m_AIGuider.get();
+        }
+        // True after start() when the AI algorithm was selected but the AI guider could not be
+        // loaded (no/invalid weights); the internal guider uses this to abort instead of guiding.
+        bool aiRequiredButUnavailable() const
+        {
+            return m_aiRequiredButUnavailable;
+        }
         const cproc_out_params *getOutputParameters() const
         {
             return &out_params;
@@ -160,6 +213,12 @@ class cgmath : public QObject
         // For Analyze.
         void guideStats(double raError, double decError, int raPulse, int decPulse,
                         double snr, double skyBg, int numStars);
+
+        // Push visible UI messages to Guide log
+        void newLog(const QString &text);
+
+        // Emitted whenever the AI feed-forward lifecycle changes. state is AIGuideState cast to int.
+        void newAIState(int state, double confidence);
 
     private:
         // Templated functions
@@ -223,9 +282,34 @@ class cgmath : public QObject
         std::unique_ptr < HysteresisGuider > m_RAHysteresisGuider;
         std::unique_ptr < HysteresisGuider > m_DECHysteresisGuider;
 
+        std::unique_ptr < MountSpecificGuider > m_AIGuider;
+        GuideOutput m_lastAIPrediction;
+        double m_sessionStartTime { 0.0 };
+
+        // Accumulate pulses sent between camera frames
+        double m_accumulated_pulse_ra { 0.0 };
+        double m_accumulated_pulse_dec { 0.0 };
+
+        bool m_AILoggedActive { false };
+        bool m_AILoggedFullConfidence { false };
+        bool m_AILoggedWarmup { false };
+
+        /// Current AI lifecycle state (DISABLED/WARMUP/SHADOW/ACTIVE/FALLBACK)
+        AIGuideState m_aiState { AIGuideState::DISABLED };
+
+        /// Set in start(): AI algorithm selected but the AI guider could not be loaded.
+        bool m_aiRequiredButUnavailable { false };
+
+        // AI debug CSV logger (per-session file)
+        QFile *m_AIDebugFile { nullptr };
+        bool m_AIDebugHeaderWritten { false };
+
         Calibration calibration;
         bool configureInParams(Ekos::GuideState state);
-        void updateOutParams(int k, const double arcsecDrift, int pulseLength, GuideDirection pulseDirection);
+        void updateOutParams(int k, const double arcsecDrift, int pulseLength, GuideDirection pulseDirection,
+                             bool accumulate = true);
+        // Assigns m_aiState and emits newAIState() so the UI can mirror the AI lifecycle.
+        void setAIState(AIGuideState s);
         void outputGuideLog();
         void processAxis(const int k, const bool dithering, const bool darkGuiding, const Seconds &timeStep, const QString &label);
 };

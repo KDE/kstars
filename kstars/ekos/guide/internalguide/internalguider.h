@@ -139,6 +139,15 @@ class InternalGuider : public GuideInterface
     public Q_SLOTS:
         void setDECSwap(bool enable);
 
+        // AI Guider accessor for EkosLive
+        MountSpecificGuider *getAIGuider()
+        {
+            return pmath ? pmath->getAIGuider() : nullptr;
+        }
+        const MountSpecificGuider *getAIGuider() const
+        {
+            return pmath ? pmath->getAIGuider() : nullptr;
+        }
 
     protected Q_SLOTS:
         void trackingStarSelected(int x, int y);
@@ -151,6 +160,8 @@ class InternalGuider : public GuideInterface
         void newSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses followWithCapture);
         //void newStarPosition(QVector3D, bool);
         void DESwapChanged(bool enable);
+        // Forwarded from cgmath: AI feed-forward lifecycle (state is AIGuideState cast to int).
+        void newAIState(int state, double confidence);
     private:
         // Guiding
         bool processGuiding();

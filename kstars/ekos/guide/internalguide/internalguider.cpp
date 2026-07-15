@@ -41,6 +41,8 @@ InternalGuider::InternalGuider()
     pmath.reset(new cgmath());
     connect(pmath.get(), &cgmath::newStarPosition, this, &InternalGuider::newStarPosition);
     connect(pmath.get(), &cgmath::guideStats, this, &InternalGuider::guideStats);
+    connect(pmath.get(), &cgmath::newLog, this, &InternalGuider::newLog);
+    connect(pmath.get(), &cgmath::newAIState, this, &InternalGuider::newAIState);
 
     state = GUIDE_IDLE;
     m_DitherOrigin = QVector3D(0, 0, 0);
@@ -76,7 +78,12 @@ void InternalGuider::setTimer(std::unique_ptr<QTimer> &timer, Seconds seconds)
 void InternalGuider::setDarkGuideTimerInterval()
 {
     constexpr double kMinInterval = 0.5;  // 0.5s is the shortest allowed dark-guiding period.
-    const Seconds seconds(std::max(kMinInterval, Options::gPGDarkGuidingInterval()));
+    double interval = Options::gPGDarkGuidingInterval();
+    if (Options::aIDarkGuiding() && Options::rAGuidePulseAlgorithm() == Ekos::OpsGuide::AI_ALGORITHM)
+    {
+        interval = Options::aIDarkGuidingInterval();
+    }
+    const Seconds seconds(std::max(kMinInterval, interval));
     setTimer(m_darkGuideTimer, seconds);
 }
 
@@ -105,6 +112,17 @@ bool InternalGuider::guide()
     m_GuideFrame->disconnect(this);
 
     pmath->start();
+
+    // AI algorithm selected but the AI guider could not be loaded (no/invalid weights): abort the
+    // session rather than silently guiding with the standard algorithm. cgmath has already logged
+    // the reason and shown a notification.
+    if (pmath->aiRequiredButUnavailable())
+    {
+        state = GUIDE_ABORTED;
+        Q_EMIT newStatus(state);
+        return false;
+    }
+
     Q_EMIT guideInfo("");
 
     m_starLostCounter = 0;
@@ -204,7 +222,10 @@ bool InternalGuider::suspend()
 
 void InternalGuider::startDarkGuiding()
 {
-    if (Options::gPGDarkGuiding())
+    bool gpgReady = Options::gPGDarkGuiding();
+    bool aiReady = (Options::aIDarkGuiding() && Options::rAGuidePulseAlgorithm() == Ekos::OpsGuide::AI_ALGORITHM);
+
+    if (gpgReady || aiReady)
     {
         connect(m_darkGuideTimer.get(), &QTimer::timeout, this, &InternalGuider::darkGuide, Qt::UniqueConnection);
 
@@ -1074,7 +1095,11 @@ std::pair<Seconds, Seconds> InternalGuider::calculateGPGTimeStep()
     auto const captureInterval = Seconds(m_captureTimer->intervalAsDuration()) + guideDelay;
     auto const darkGuideInterval = Seconds(m_darkGuideTimer->intervalAsDuration());
 
-    if (!Options::gPGDarkGuiding() || !isInferencePeriodFinished())
+    bool gpgReady = (Options::gPGDarkGuiding() && isInferencePeriodFinished());
+    bool aiReady = (Options::aIDarkGuiding() && Options::rAGuidePulseAlgorithm() == Ekos::OpsGuide::AI_ALGORITHM
+                    && pmath->getAIGuider() && pmath->getAIGuider()->isLoaded());
+
+    if (!gpgReady && !aiReady)
     {
         return std::pair<Seconds, Seconds>(captureInterval, captureInterval);
     }
@@ -1109,7 +1134,11 @@ void InternalGuider::darkGuide()
     if (state != GUIDE_GUIDING)
         return;
 
-    if(Options::gPGDarkGuiding() && isInferencePeriodFinished())
+    bool gpgReady = (Options::gPGDarkGuiding() && isInferencePeriodFinished());
+    bool aiReady = (Options::aIDarkGuiding() && Options::rAGuidePulseAlgorithm() == Ekos::OpsGuide::AI_ALGORITHM
+                    && pmath->getAIGuider() && pmath->getAIGuider()->isLoaded());
+
+    if(gpgReady || aiReady)
     {
         const cproc_out_params *out;
         auto const timeStep = calculateGPGTimeStep();

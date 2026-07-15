@@ -6,6 +6,9 @@
 */
 
 #include "guidestatewidget.h"
+#include "internalguide/gmath.h"
+
+#include <KLocalizedString>
 
 namespace Ekos
 {
@@ -40,6 +43,22 @@ void GuideStateWidget::init()
 
 void GuideStateWidget::updateGuideStatus(GuideState state)
 {
+    m_lastGuideState = state;
+
+    // Leaving an active guide session hands the strip back to the canonical display, even if the
+    // AI never emitted a DISABLED transition (e.g. the user simply stopped guiding).
+    if (m_aiMode && (state == GUIDE_IDLE || state == GUIDE_ABORTED
+                     || state == GUIDE_DISCONNECTED || state == GUIDE_CONNECTED))
+    {
+        m_aiMode = false;
+        setCanonicalLabels();
+        setToolTip(QString());
+    }
+
+    // While AI-guiding, updateAIStatus() owns the LEDs and labels.
+    if (m_aiMode)
+        return;
+
     idlingStateLed->off();
     preparingStateLed->off();
     runningStateLed->off();
@@ -106,5 +125,65 @@ void GuideStateWidget::updateGuideStatus(GuideState state)
             break;
     }
 
+}
+
+void GuideStateWidget::updateAIStatus(int aiState)
+{
+    const AIGuideState s = static_cast<AIGuideState>(aiState);
+
+    if (s == AIGuideState::DISABLED)
+    {
+        // AI turned off (weights failed, algorithm not AI, or session ended): restore canonical view.
+        if (m_aiMode)
+        {
+            m_aiMode = false;
+            setCanonicalLabels();
+            setToolTip(QString());
+            updateGuideStatus(m_lastGuideState);
+        }
+        return;
+    }
+
+    if (!m_aiMode)
+    {
+        m_aiMode = true;
+        setAILabels();
+    }
+
+    idlingStateLed->off();
+    preparingStateLed->off();
+    runningStateLed->off();
+    switch (s)
+    {
+        case AIGuideState::WARMUP:
+            preparingStateLed->setColor(Qt::yellow);   // "Warm up"
+            preparingStateLed->on();
+            break;
+        case AIGuideState::SHADOW:
+        case AIGuideState::ACTIVE:
+            runningStateLed->setColor(Qt::green);       // "Active"
+            runningStateLed->on();
+            break;
+        case AIGuideState::FALLBACK:
+            idlingStateLed->setColor(QColor(255, 140, 0)); // "Idle" (amber): AI loaded but stepped back
+            idlingStateLed->on();
+            break;
+        default:
+            break;
+    }
+}
+
+void GuideStateWidget::setCanonicalLabels()
+{
+    idlingStateLabel->setText(i18n("Idle"));
+    preparingStateLabel->setText(i18n("Prep"));
+    runningStateLabel->setText(i18n("Run"));
+}
+
+void GuideStateWidget::setAILabels()
+{
+    idlingStateLabel->setText(i18n("Idle"));
+    preparingStateLabel->setText(i18n("Warm up"));
+    runningStateLabel->setText(i18n("Active"));
 }
 }

@@ -27,13 +27,21 @@ class GuideStateWidget : public QWidget, public Ui::GuideStateWidget
 
     public Q_SLOTS:
         void updateGuideStatus(GuideState state);
+        // AI lifecycle mirror. aiState is AIGuideState cast to int. DISABLED returns the strip
+        // to the canonical Idle/Prep/Run display; any other state relabels it to Warmup/Active/Fallback.
+        void updateAIStatus(int aiState);
 
     private:
+        void setCanonicalLabels();   // Idle / Prep / Run
+        void setAILabels();          // Warmup / Active / Fallback
+
         // State
         KLed * idlingStateLed { nullptr };
         KLed * preparingStateLed { nullptr };
         KLed * runningStateLed { nullptr };
 
-
+        // When true the AI updater owns the LEDs/labels; the canonical updater stands aside.
+        bool m_aiMode { false };
+        GuideState m_lastGuideState { GUIDE_IDLE };
 };
 }

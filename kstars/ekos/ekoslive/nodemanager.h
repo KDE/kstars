@@ -86,10 +86,14 @@ class NodeManager : public QObject
         void connected();
         void disconnected();
         void authenticationError(QString);
+        void trainSessionResult(bool success, const QJsonObject &result);
 
     public Q_SLOTS:
         void authenticate();
         void disconnectNodes();
+
+    public:
+        void trainSession(const QJsonObject &sysidData);
 
         void setConnected();
         void setDisconnected();

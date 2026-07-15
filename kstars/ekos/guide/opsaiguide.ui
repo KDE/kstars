@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OpsAIGuide</class>
+ <widget class="QWizard" name="OpsAIGuide">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Ekos Guide AI Assistant (Experimental)</string>
+  </property>
+  <property name="wizardStyle">
+   <enum>QWizard::ModernStyle</enum>
+  </property>
+  <widget class="QWizardPage" name="wizardPage1">
+   <property name="title">
+    <string>Mount Identification</string>
+   </property>
+   <property name="subTitle">
+    <string>Welcome to the Ekos AI Guiding Assistant. Please verify your mount type below.</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_1">
+    <item>
+     <widget class="QLabel" name="experimentalWarningLabel">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff5500; font-weight:600;&quot;&gt;This is an experimental feature. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_1">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Detected Mount Type:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="mountTypeCombo">
+        <item>
+         <property name="text">
+          <string>Worm Gear</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Harmonic Drive</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Direct Drive</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_1">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QLabel" name="exposureLabel">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Exposure Recommendations:&lt;/span&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Worm Gear:&lt;/span&gt; 2.0s (Default)&lt;/li&gt;&lt;li&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Harmonic Drive:&lt;/span&gt; 0.5s or 1.0s (Depends on guide star SNR)&lt;/li&gt;&lt;li&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Direct Drive:&lt;/span&gt; 1.0s to 3.0s&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;span style=&quot; color:#ff5500;&quot;&gt;Note: The AI model will be trained and locked to your current guide exposure.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_1">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="wizardPage2">
+   <property name="title">
+    <string>Protocol Preview</string>
+   </property>
+   <property name="subTitle">
+    <string>The assistant will perform the following steps to characterize the tracking errors.</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QLabel" name="algorithmWarningLabel">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff5500;&quot;&gt;The Guide AI Assistant requires the Standard guiding algorithm for both axes during data collection. Your current settings will be temporarily changed to Standard for the duration of the wizard and restored when it completes.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="protocolStackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="pageWormGear">
+       <layout class="QVBoxLayout" name="verticalLayout_WormGear">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="labelWormGear">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Worm Gear Protocol (~45 mins):&lt;/span&gt;&lt;br/&gt;1. Slew to High Altitude : Free drift, then standard guiding.&lt;br/&gt;2. Slew to Lower Altitude : Free drift, then standard guiding.&lt;br/&gt;3. Slew to High Altitude : Standard guiding.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="pageHarmonic">
+       <layout class="QVBoxLayout" name="verticalLayout_Harmonic">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="labelHarmonic">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Harmonic Drive Protocol (~35 mins):&lt;/span&gt;&lt;br/&gt;1. Slew to High Altitude: Free drift, pulse response test, then standard guiding.&lt;br/&gt;2. Slew to Lower Altitude: Free drift, then standard guiding.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="pageDirectDrive">
+       <layout class="QVBoxLayout" name="verticalLayout_DirectDrive">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="labelDirectDrive">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Direct Drive Protocol (~20 mins):&lt;/span&gt;&lt;br/&gt;1. Slew to High, Mid, and Low Altitudes: Free drift at each position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+
+    <item>
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+
+    <item>
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="wizardPage3">
+   <property name="title">
+    <string>System Identification Progress</string>
+   </property>
+   <property name="subTitle">
+    <string>Collecting mount telemetry. Please do not interrupt the process unless necessary.</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QLabel" name="statusLabel">
+      <property name="text">
+       <string>Ready to begin...</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_progress">
+      <item>
+       <widget class="QProgressBar" name="progressBar">
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="stopButton">
+        <property name="text">
+         <string>Stop</string>
+        </property>
+        <property name="icon">
+         <iconset theme="process-stop"/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTextEdit" name="logTextEdit">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Waiting to start...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="wizardPage4">
+   <property name="title">
+    <string>Data Collection Complete</string>
+   </property>
+   <property name="subTitle">
+    <string>System identification data has been saved. Please choose a training method.</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <item>
+     <spacer name="verticalSpacer_top">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="exportOfflineButton">
+      <property name="text">
+       <string>Export for offline training</string>
+      </property>
+      <property name="toolTip">
+       <string>Saves the system identification data to a JSON file so you can train the AI model on your local computer using the provided Python scripts.</string>
+      </property>
+      <property name="icon">
+       <iconset theme="document-export"/>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="trainEkosLiveButton">
+      <property name="text">
+       <string>Train in EkosLive</string>
+      </property>
+      <property name="toolTip">
+       <string>Uploads anonymized data to EkosLive Cloud to instantly train your model using community baselines. (Target coordinates are stripped).</string>
+      </property>
+      <property name="icon">
+       <iconset theme="network-cloud"/>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_bottom">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>mountTypeCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>protocolStackedWidget</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>0</x>
+     <y>0</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>0</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

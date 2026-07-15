@@ -190,6 +190,8 @@ if (INDI_FOUND)
             ekos/guide/guidestatewidget.ui
             ekos/guide/opscalibration.ui
             ekos/guide/opsguide.ui
+            ekos/guide/opsaiguide.ui
+            ekos/guide/opsaiconfig.ui
             ekos/guide/opsdither.ui
             ekos/guide/opsgpg.ui
             ekos/guide/manualdither.ui
@@ -392,14 +394,20 @@ if (INDI_FOUND)
             ekos/guide/opsguide.cpp
             ekos/guide/opsdither.cpp
             ekos/guide/opsgpg.cpp
+            ekos/guide/opsaiconfig.cpp
+            ekos/guide/opsaiguide.cpp
             ekos/guide/guidedriftgraph.cpp
             ekos/guide/guidetargetplot.cpp
             ekos/guide/manualpulse.cpp
             # Internal Guide
             ekos/guide/internalguide/gmath.cpp
+           ekos/guide/internalguide/worm_gear_guider.cpp
+           ekos/guide/internalguide/direct_drive_guider.cpp
+           ekos/guide/internalguide/harmonic_guider.cpp
             ekos/guide/internalguide/guidealgorithms.cpp
             ekos/guide/internalguide/calibrationprocess.cpp
             ekos/guide/internalguide/internalguider.cpp
+            ekos/guide/internalguide/mount_guider_factory.cpp
             ekos/guide/internalguide/matr.cpp
             ekos/guide/internalguide/vect.cpp
             ekos/guide/internalguide/imageautoguiding.cpp

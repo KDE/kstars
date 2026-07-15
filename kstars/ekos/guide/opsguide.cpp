@@ -79,6 +79,7 @@ void OpsGuide::setRAGuidePulseAlg(int index)
             kcfg_RAIntegralGain->setDisabled(true);
             break;
         case GPG_ALGORITHM:
+        case AI_ALGORITHM:
             kcfg_RAHysteresis->setDisabled(true);
             kcfg_RAIntegralGain->setDisabled(true);
             break;
@@ -102,6 +103,11 @@ void OpsGuide::setDECGuidePulseAlg(int index)
             kcfg_DECIntegralGain->setDisabled(true);
             break;
         case LINEAR_ALGORITHM:
+            kcfg_DECHysteresis->setDisabled(true);
+            kcfg_DECIntegralGain->setDisabled(true);
+            break;
+        case GPG_ALGORITHM:
+        case AI_ALGORITHM:
             kcfg_DECHysteresis->setDisabled(true);
             kcfg_DECIntegralGain->setDisabled(true);
             break;

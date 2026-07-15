@@ -43,7 +43,8 @@ class OpsGuide : public QFrame, public Ui::OpsGuide
             STANDARD_ALGORITHM = 0,
             HYSTERESIS_ALGORITHM,
             LINEAR_ALGORITHM,
-            GPG_ALGORITHM
+            GPG_ALGORITHM,
+            AI_ALGORITHM
         };
 
     Q_SIGNALS:

@@ -215,6 +215,14 @@ void NodeManager::clearAuthentication()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void NodeManager::onResult(QNetworkReply *reply)
 {
+    // This slot is connected to the shared QNetworkAccessManager::finished, so it fires for EVERY
+    // request on m_NetworkManager. Only the authentication reply belongs here — other requests
+    // (notably /api/offlinetrainer/train) have their own finished handlers. Processing a non-auth
+    // reply here would overwrite m_AuthResponse with the wrong body, blank the token, reconnect every
+    // node with empty credentials, and tear the session down — exactly what happened on each Train click.
+    if (reply->url().path() != QLatin1String("/api/authenticate"))
+        return;
+
     qCDebug(KSTARS_EKOS) << "NodeManager(" << m_ServiceURL.toDisplayString() << "): Entering onResult(). Reply error:" <<
                          reply->error() << "String:" << reply->errorString();
     if (reply->error() != QNetworkReply::NoError)
@@ -304,6 +312,74 @@ void NodeManager::retryAuthentication()
     // Reset the re-authenticating flag to allow the new attempt to proceed.
     setIsReauthenticating(false);
     authenticate();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void NodeManager::trainSession(const QJsonObject &sysidData)
+{
+    if (!isConnected())
+    {
+        QJsonObject errorResult;
+        errorResult["message"] = QStringLiteral("Online server is not connected");
+        Q_EMIT trainSessionResult(false, errorResult);
+        return;
+    }
+
+    const QString token = m_AuthResponse["token"].toString();
+    if (token.isEmpty())
+    {
+        QJsonObject errorResult;
+        errorResult["message"] = QStringLiteral("No authentication token available");
+        Q_EMIT trainSessionResult(false, errorResult);
+        return;
+    }
+
+    QNetworkRequest request;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QUrl trainURL(m_ServiceURL);
+    trainURL.setPath("/api/offlinetrainer/train");
+
+    QUrlQuery query;
+    query.addQueryItem("username", m_Username);
+    query.addQueryItem("token", token);
+    trainURL.setQuery(query);
+
+    request.setUrl(trainURL);
+
+    QJsonObject body;
+    body["sysid_data"] = sysidData;
+    auto postData = QJsonDocument(body).toJson(QJsonDocument::Compact);
+
+    QNetworkReply *reply = m_NetworkManager->post(request, postData);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]()
+    {
+        reply->deleteLater();
+
+        if (reply->error() != QNetworkReply::NoError)
+        {
+            QJsonObject errorResult;
+            errorResult["message"] = reply->errorString();
+            Q_EMIT trainSessionResult(false, errorResult);
+            return;
+        }
+
+        QJsonParseError parseError;
+        auto response = QJsonDocument::fromJson(reply->readAll(), &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            QJsonObject errorResult;
+            errorResult["message"] = parseError.errorString();
+            Q_EMIT trainSessionResult(false, errorResult);
+            return;
+        }
+
+        const QJsonObject responseObj = response.object();
+        const bool success = responseObj["success"].toBool(false);
+        Q_EMIT trainSessionResult(success, responseObj);
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

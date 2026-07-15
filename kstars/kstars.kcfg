@@ -3075,6 +3075,25 @@
          <label>Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 Hysteresis, 2 Linear).</label>
          <default>0</default>
       </entry>
+      <entry name="AIGuiderWeightsFile" type="Url">
+         <label>Path to the AI Guider Weights JSON file.</label>
+         <default></default>
+      </entry>
+      <entry name="AIPredictionGain" type="Double">
+         <label>AI feed-forward prediction gain (0.0–1.0). Blended with model confidence at runtime.</label>
+         <default>0.5</default>
+         <min>0.0</min>
+         <max>1.0</max>
+      </entry>
+      <entry name="AIProportionalBackoff" type="Bool">
+         <label>Dynamically scale down standard proportional gain when AI is highly confident.</label>
+         <default>false</default>
+      </entry>
+      <entry name="AIShadowMode" type="Bool">
+         <label>Run AI model alongside standard guiding, logging predictions without applying them.</label>
+         <whatsthis>When enabled and a valid AI weights file is configured, the AI model runs silently in parallel with the selected guiding algorithm. Predictions are written to the AI debug CSV log but are never blended into guide pulses. Use this to evaluate AI model quality before enabling full AI guiding.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="PHD2Host" type="String">
          <label>Host name of external PHD2 service</label>
          <default>localhost</default>
@@ -3271,6 +3290,12 @@
       </entry>
       <entry name="GPGDarkGuidingInterval" type="Double">
          <default>1</default>
+      </entry>
+      <entry name="AIDarkGuiding" type="Bool">
+         <default>false</default>
+      </entry>
+      <entry name="AIDarkGuidingInterval" type="Double">
+         <default>1.0</default>
       </entry>
       <entry name="GPGcWeight" type="Double">
          <default>0.6</default>

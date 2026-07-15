@@ -14,6 +14,7 @@
 
 #include <QTime>
 #include <QTimer>
+#include <QJsonObject>
 
 #include <random>
 
@@ -29,6 +30,8 @@ namespace Ekos
 {
 class OpsCalibration;
 class OpsGuide;
+class OpsAIGuide;
+class OpsAIConfig;
 class OpsDither;
 class OpsGPG;
 class InternalGuider;
@@ -96,6 +99,15 @@ class Guide : public QWidget, public Ui::Guide
              */
         Q_SCRIPTABLE QString guider();
 
+        Q_SCRIPTABLE double focalLength() const
+        {
+            return m_FocalLength;
+        }
+        Q_SCRIPTABLE double pixelSizeX() const
+        {
+            return ccdPixelSizeX;
+        }
+
         /** DBUS interface function.
          * @brief connectGuider Establish connection to guider application. For internal guider, this always returns true.
          * @return True if successfully connected, false otherwise.
@@ -149,6 +161,10 @@ class Guide : public QWidget, public Ui::Guide
          * @return True if added successfully, false if duplicate or failed to add.
         */
         bool setMount(ISD::Mount *device);
+        ISD::Mount *mount() const
+        {
+            return m_Mount;
+        }
 
         /**
          * @brief Add new Guider
@@ -208,17 +224,37 @@ class Guide : public QWidget, public Ui::Guide
             return m_GuiderInstance;
         }
 
+        /**
+         * @brief getAIGuide Access the OpsAIGuide wizard. Creates it if it doesn't exist.
+         * @return pointer to OpsAIGuide
+         */
+        OpsAIGuide *getAIGuide();
+
         // Settings
         QVariantMap getAllSettings() const;
         void setAllSettings(const QVariantMap &settings);
 
     public Q_SLOTS:
 
+        // Result of an EkosLive cloud training request: on success, save the returned weights and set
+        // them as the active AI weights file so they auto-load on the next guide session.
+        void updateTrainingWeight(bool success, const QJsonObject &result);
+
         /** DBUS interface function.
              * Start the autoguiding operation.
              * @return Returns true if guiding started successfully, false otherwise.
              */
         Q_SCRIPTABLE bool guide();
+
+        // Used by OpsAIGuide to disable pulses but keep the tracking loop (Free Drift)
+        void setAIFreeDrift(bool enable)
+        {
+            m_AIFreeDrift = enable;
+        }
+        bool isAIFreeDrift() const
+        {
+            return m_AIFreeDrift;
+        }
 
         /** DBUS interface function.
              * Stop any active calibration, guiding, or dithering operation
@@ -436,6 +472,9 @@ class Guide : public QWidget, public Ui::Guide
 
         void onControlDirectionChanged();
 
+        // Opens a file dialog to pick a trained AI weights JSON; applied at next guide start.
+        void loadAIWeights();
+
         void showFITSViewer();
 
         void displayGuideView(bool enabled);
@@ -452,6 +491,9 @@ class Guide : public QWidget, public Ui::Guide
         void newStarPixmap(QPixmap &);
 
         void trainChanged();
+
+        // Sysid data ready to upload to EkosLive Cloud for training (forwarded from the AI wizard).
+        void newTrainingData(const QJsonObject &sysidData);
 
         // Immediate deviations in arcsecs
         void newAxisDelta(double ra, double de);
@@ -690,6 +732,8 @@ class Guide : public QWidget, public Ui::Guide
         OpsGuide *opsGuide { nullptr };
         OpsDither *opsDither { nullptr };
         OpsGPG *opsGPG { nullptr };
+        OpsAIConfig *opsAIConfig { nullptr };
+        OpsAIGuide *opsAIGuide { nullptr };
 
         // Guide Frame
         QSharedPointer<GuideView> m_GuideView;
@@ -737,6 +781,9 @@ class Guide : public QWidget, public Ui::Guide
         //autostar is not selected, and the user has chosen a star.
         //This connection storage is so that the connection can be disconnected after enforcement
         QMetaObject::Connection guideConnect;
+
+        // AI Guider Free Drift override
+        bool m_AIFreeDrift { false };
 
         // Some layer items
         QCPItemText *calLabel { nullptr }; // Title

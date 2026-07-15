@@ -3809,6 +3809,13 @@ void Manager::connectModules()
 
         connect(guideModule(), &Ekos::Guide::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
                 Qt::UniqueConnection);
+
+        // AI cloud-training round-trip: wizard sysid data -> EkosLive train -> returned weights.
+        connect(guideModule(), &Ekos::Guide::newTrainingData, ekosLiveClient.get(),
+                &EkosLive::Client::trainSession, Qt::UniqueConnection);
+
+        connect(ekosLiveClient.get(), &EkosLive::Client::trainSessionResult, guideModule(),
+                &Ekos::Guide::updateTrainingWeight, Qt::UniqueConnection);
     }
 
     // Analyze connections.

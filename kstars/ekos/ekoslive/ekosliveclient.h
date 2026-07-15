@@ -8,6 +8,7 @@
 
 #include <QDialog>
 #include <QtWebSockets/QWebSocket>
+#include <QJsonObject>
 #include <memory>
 
 #include "ekos/ekos.h"
@@ -66,6 +67,7 @@ class Client : public QDialog, public Ui::EkosLiveDialog
         void syncURLs();
         void setConfig(bool rememberCredentials, bool autoConnect);
         void setUser(const QString &user, const QString &pass);
+        void trainSession(const QJsonObject &sysidData);
 
     protected:
         void showSelectServersDialog();
@@ -73,6 +75,7 @@ class Client : public QDialog, public Ui::EkosLiveDialog
     Q_SIGNALS:
         void connected();
         void disconnected();
+        void trainSessionResult(bool success, const QJsonObject &result);
 
     private Q_SLOTS:
         void onConnected();

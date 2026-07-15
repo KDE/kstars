@@ -13,6 +13,8 @@
 #include "ksnotification.h"
 #include "opscalibration.h"
 #include "opsguide.h"
+#include "opsaiconfig.h"
+#include "opsaiguide.h"
 #include "opsdither.h"
 #include "opsgpg.h"
 #include "Options.h"
@@ -36,6 +38,16 @@
 #include "ekos/auxiliary/darkprocessor.h"
 
 #include <KConfigDialog>
+
+#include <QFileDialog>
+#include <QMenu>
+#include <QAction>
+#include <QJsonDocument>
+#include <QFile>
+#include <QDir>
+#include <QStandardPaths>
+
+#include "kspaths.h"
 
 #include <basedevice.h>
 #include <ekos_guide_debug.h>
@@ -77,6 +89,10 @@ Guide::Guide() : QWidget()
     opsGPG = new OpsGPG(internalGuider);
     page = dialog->addPage(opsGPG, i18n("GPG RA Guider"));
     page->setIcon(QIcon::fromTheme("pathshape"));
+
+    opsAIConfig = new OpsAIConfig();
+    page = dialog->addPage(opsAIConfig, i18n("AI Guider"));
+    page->setIcon(QIcon::fromTheme("tools-wizard"));
 
     // #1 Setup UI
     setupUi(this);
@@ -1063,6 +1079,13 @@ void Guide::setBusy(bool enable)
         opticalTrainCombo->setEnabled(false);
         trainB->setEnabled(false);
 
+        // Lock the AI Guider options while AI guiding is active (mirrors Focus locking its ops pages),
+        // so weights / prediction gain can't be changed mid-run.
+        const bool aiSelected = (Options::rAGuidePulseAlgorithm() == OpsGuide::AI_ALGORITHM ||
+                                 Options::dECGuidePulseAlgorithm() == (OpsGuide::AI_ALGORITHM - 1));
+        if (aiSelected && opsAIConfig)
+            opsAIConfig->aiGroupBox->setEnabled(false);
+
         m_ProgressIndicator->startAnimation();
     }
     else
@@ -1101,6 +1124,10 @@ void Guide::setBusy(bool enable)
         // Optical Train
         opticalTrainCombo->setEnabled(true);
         trainB->setEnabled(true);
+
+        // Re-enable the AI Guider options (unconditionally, in case the algorithm changed mid-session).
+        if (opsAIConfig)
+            opsAIConfig->aiGroupBox->setEnabled(true);
 
         disconnect(m_Camera, &ISD::Camera::newImage, this, &Ekos::Guide::processData);
         connect(m_GuideView.get(), &FITSView::trackingStarSelected, this, &Ekos::Guide::setTrackingStar, Qt::UniqueConnection);
@@ -1434,6 +1461,25 @@ bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection d
     if (m_Guider == nullptr || (ra_dir == NO_DIR && dec_dir == NO_DIR))
         return false;
 
+    if (m_AIFreeDrift)
+    {
+        appendLogText(i18n("AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms).", ra_msecs, dec_msecs));
+
+        if (followWithCapture == StartCaptureAfterPulses)
+        {
+            auto ms = std::max(ra_msecs, dec_msecs) + 100;
+            auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
+            m_PulseTimer.start(delay);
+        }
+        else if (m_StreamingGuide)
+        {
+            auto ms = std::max(ra_msecs, dec_msecs) + 100;
+            auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
+            m_streamingPulseGuard.start(delay);
+        }
+        return true;
+    }
+
     if (followWithCapture == StartCaptureAfterPulses)
     {
         // Delay next capture by user-configurable delay.
@@ -1464,6 +1510,25 @@ bool Guide::sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses fo
 {
     if (m_Guider == nullptr || dir == NO_DIR)
         return false;
+
+    if (m_AIFreeDrift)
+    {
+        appendLogText(i18n("AI Free Drift active. Suppressed single pulse (%1ms).", msecs));
+
+        if (followWithCapture == StartCaptureAfterPulses)
+        {
+            auto ms = msecs + 100;
+            auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
+            m_PulseTimer.start(delay);
+        }
+        else if (m_StreamingGuide)
+        {
+            auto ms = msecs + 100;
+            auto delay = std::max(static_cast<int>(guideDelay->value() * 1000), ms);
+            m_streamingPulseGuard.start(delay);
+        }
+        return true;
+    }
 
     if (followWithCapture == StartCaptureAfterPulses)
     {
@@ -1544,7 +1609,7 @@ bool Guide::guide()
     {
         if(guiderType != GUIDE_PHD2)
         {
-            if (calibrationComplete == false)
+            if (calibrationComplete == false && !m_AIFreeDrift)
             {
                 calibrate();
                 return;
@@ -3388,6 +3453,21 @@ void Guide::initConnections()
     connect(manualDitherB, &QPushButton::clicked, this, &Guide::handleManualDither);
 
     connect(this, &Ekos::Guide::newStatus, guideStateWidget, &Ekos::GuideStateWidget::updateGuideStatus);
+
+    // AI Guiding (Experimental): dropdown button below Clear Calibration.
+    QMenu *aiMenu = new QMenu(this);
+    connect(aiMenu->addAction(QIcon::fromTheme("tools-wizard"), i18n("AI Guiding Assistant...")),
+            &QAction::triggered, this, [this]()
+    {
+        getAIGuide()->show();
+    });
+    connect(aiMenu->addAction(QIcon::fromTheme("document-open"), i18n("Load Weights...")),
+            &QAction::triggered, this, &Ekos::Guide::loadAIWeights);
+    aiAssistantB->setMenu(aiMenu);
+    aiAssistantB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    // Mirror the AI feed-forward lifecycle onto the guide-state strip while AI-guiding.
+    connect(internalGuider, &InternalGuider::newAIState, guideStateWidget, &Ekos::GuideStateWidget::updateAIStatus);
 }
 
 void Guide::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
@@ -3469,6 +3549,64 @@ void Guide::loop()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
+Ekos::OpsAIGuide *Guide::getAIGuide()
+{
+    if (!opsAIGuide)
+    {
+        opsAIGuide = new OpsAIGuide(this);
+        // Forward the wizard's "Train in EkosLive" request up so the Manager can route it to the cloud.
+        connect(opsAIGuide, &OpsAIGuide::trainInEkosLiveRequested, this, &Guide::newTrainingData);
+    }
+    return opsAIGuide;
+}
+
+void Guide::updateTrainingWeight(bool success, const QJsonObject &result)
+{
+    if (!success)
+    {
+        appendLogText(i18n("EkosLive AI training failed: %1",
+                           result.value("message").toString(i18n("unknown error"))));
+        if (opsAIGuide)
+            opsAIGuide->onTrainingResult(false, result);
+        return;
+    }
+
+    // Cloud contract (confirmed against staging): success responses carry the trained weights under "weights".
+    const QJsonObject weights = result.value("weights").isObject() ? result.value("weights").toObject() : result;
+
+    const QString dir = KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+    QDir().mkpath(dir);
+    const QString path = QDir(dir).filePath("ai_guider_weights.json");
+
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        appendLogText(i18n("Failed to save AI weights to %1", path));
+        if (opsAIGuide)
+            opsAIGuide->onTrainingResult(false, result);
+        return;
+    }
+    file.write(QJsonDocument(weights).toJson(QJsonDocument::Indented));
+    file.close();
+
+    // Point the AI guider at the new weights; they load automatically the next time guiding starts.
+    Options::setAIGuiderWeightsFile(QUrl::fromLocalFile(path));
+    appendLogText(i18n("AI training complete. Weights saved to %1 and set as the active AI weights.", path));
+    if (opsAIGuide)
+        opsAIGuide->onTrainingResult(true, result);
+}
+
+void Guide::loadAIWeights()
+{
+    const QString startDir = Options::aIGuiderWeightsFile().toLocalFile();
+    const QString path = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Load AI Guider Weights"),
+                         startDir, i18n("AI Weights (*.json)"));
+    if (path.isEmpty())
+        return;
+    Options::setAIGuiderWeightsFile(QUrl::fromLocalFile(path));
+    appendLogText(i18n("AI Guider weights set to %1. They will be applied the next time guiding starts.", path));
+}
+
 QVariantMap Guide::getAllSettings() const
 {
     QVariantMap settings;

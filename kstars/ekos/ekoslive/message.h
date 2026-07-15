@@ -156,6 +156,11 @@ class Message : public QObject
         void sendFilterOffsetProgress(int current, int total, const QString &status);
         void sendFilterOffsetCalculated(const QString &filter, int newOffset, int average);
 
+        // AI Guider
+        void sendAIGuideProgress(int current, int total, const QString &status);
+        void sendAIGuideLog(const QString &message);
+        void sendAIGuideComplete();
+
     private Q_SLOTS:
 
         // Connection
@@ -236,6 +241,10 @@ class Message : public QObject
         // Filter Offset Builder commands
         void processFilterOffsetCommands(const QString &command, const QJsonObject &payload);
         void sendFilterOffsetSettings(const QVariantMap &settings);
+
+        // AI Guider commands
+        void processAIGuideCommands(const QString &command, const QJsonObject &payload);
+        void sendAIGuideSettings(const QVariantMap &settings);
         void sendLiveStackerProgress(bool ok, int sub, int total, double meanSNR, double minSNR, double maxSNR);
         void sendLiveStackerComplete();
         // Slot called for each captured frame when livestacking in looping mode.

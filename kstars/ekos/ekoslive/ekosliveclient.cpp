@@ -186,6 +186,9 @@ Client::Client(Ekos::Manager *manager) : QDialog(manager), m_Manager(manager)
     connect(m_Cloud, &Cloud::connected, this, &Client::onConnected);
     connect(m_Cloud, &Cloud::disconnected, this, &Client::onDisconnected); // Assuming Cloud also needs disconnect handling
     connect(m_Cloud, &Cloud::globalLogoutTriggered, this, &Client::processGlobalLogoutTrigger); // Connect Cloud's signal
+
+    // Forward trainSessionResult from NodeManager[Online]
+    connect(m_NodeManagers[Online].get(), &NodeManager::trainSessionResult, this, &Client::trainSessionResult);
 }
 
 void Client::checkAndTriggerAuth(bool force)
@@ -550,6 +553,26 @@ void Client::setUser(const QString &user, const QString &pass)
     Options::setEkosLiveUsername(user);
 
     password->setText(pass);
+}
+
+void Client::trainSession(const QJsonObject &sysidData)
+{
+    if (m_NodeManagers.size() <= Online || !m_NodeManagers[Online]->isConnected())
+    {
+        // Not connected (or no online node yet): pop up this EkosLive dialog so the user can log in
+        // and connect to the Online server, then retry training. Mirrors how the toolbar button opens it.
+        show();
+        raise();
+        activateWindow();
+
+        QJsonObject errorResult;
+        errorResult["message"] =
+            QStringLiteral("Online server is not connected. Please log in to EkosLive and connect, then click Train again.");
+        Q_EMIT trainSessionResult(false, errorResult);
+        return;
+    }
+
+    m_NodeManagers[Online]->trainSession(sysidData);
 }
 
 void Client::showSelectServersDialog()
