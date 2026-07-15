@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-11 02:05+0000\n"
+"POT-Creation-Date: 2026-07-15 02:05+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -2943,7 +2943,7 @@ msgstr "%1 என்று பெயரிடப்பட்ட எந்தவ�
 #: dialogs/catalogcoloreditor.cpp:109
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:441
 #: ekos/scheduler/scheduler.ui:552 ekos/scheduler/schedulermodulestate.cpp:63
-#: ekos/scheduler/schedulerprocess.cpp:1969
+#: ekos/scheduler/schedulerprocess.cpp:1972
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:210
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:469
 #: ekos/scheduler/taskqueue/ui/propertytemplatebuilder.cpp:1197
@@ -6501,7 +6501,7 @@ msgstr ""
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1405 ekos/manager.cpp:2442 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
-#: ekos/scheduler/schedulerprocess.cpp:3611
+#: ekos/scheduler/schedulerprocess.cpp:3614
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -7372,8 +7372,8 @@ msgstr "முறையற்ற URL : %1"
 
 #: ekos/align/align_solution.cpp:457 ekos/align/mountmodel.cpp:417
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:511
-#: ekos/scheduler/schedulerprocess.cpp:2964
-#: ekos/scheduler/schedulerprocess.cpp:4572
+#: ekos/scheduler/schedulerprocess.cpp:2967
+#: ekos/scheduler/schedulerprocess.cpp:4575
 #, fuzzy, kde-format
 #| msgid "Unable to read FITS data from file. %1.\n"
 msgid "Unable to write to file %1"
@@ -7382,10 +7382,10 @@ msgstr "%1 கோப்பில் இருந்து FITS  தரவை ப
 #: ekos/align/align_solution.cpp:458 ekos/align/mountmodel.cpp:300
 #: ekos/align/mountmodel.cpp:418 ekos/capture/camera_jobs.cpp:356
 #: ekos/capture/cameraprocess.cpp:2651 ekos/capture/sequencequeue.cpp:33
-#: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2965
-#: ekos/scheduler/schedulerprocess.cpp:3434
-#: ekos/scheduler/schedulerprocess.cpp:4573
-#: ekos/scheduler/schedulerprocess.cpp:4593 indi/drivermanager.cpp:1578
+#: ekos/guide/guidedriftgraph.cpp:512 ekos/scheduler/schedulerprocess.cpp:2968
+#: ekos/scheduler/schedulerprocess.cpp:3437
+#: ekos/scheduler/schedulerprocess.cpp:4576
+#: ekos/scheduler/schedulerprocess.cpp:4596 indi/drivermanager.cpp:1578
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1441 oal/execute.cpp:321
 #: options/opscolors.cpp:267 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:259
@@ -7798,8 +7798,8 @@ msgstr "பட்டியலை பார்க்கிறது...."
 
 #: ekos/align/mountmodel.cpp:299 ekos/capture/camera_jobs.cpp:355
 #: ekos/capture/cameraprocess.cpp:2650 ekos/capture/sequencequeue.cpp:32
-#: ekos/scheduler/schedulerprocess.cpp:3433
-#: ekos/scheduler/schedulerprocess.cpp:4592
+#: ekos/scheduler/schedulerprocess.cpp:3436
+#: ekos/scheduler/schedulerprocess.cpp:4595
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
@@ -18644,9 +18644,10 @@ msgstr ""
 msgid "Tile"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QTreeWidget, mcpToolsTree)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:99
-#: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:68
+#: ekos/opsekos.ui:554 kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:68
 #: tools/optionstreeview.ui:28
 #, kde-format, kde-kuit-format
 msgid "Description"
@@ -24659,7 +24660,7 @@ msgstr "பதிப்பு"
 msgid "Extension '%1': %2"
 msgstr ""
 
-#: ekos/manager.cpp:659 ekos/opsekos.cpp:98
+#: ekos/manager.cpp:659 ekos/opsekos.cpp:103
 #, fuzzy, kde-format
 msgid "Failed: port in use"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
@@ -26366,17 +26367,17 @@ msgstr ""
 msgid "counter clockwise"
 msgstr "இதில் ஃபோகஸ் செய்யப்பட்டுள்ளது:"
 
-#: ekos/opsekos.cpp:33
+#: ekos/opsekos.cpp:37
 #, kde-format
 msgid "You must restart KStars for this change to take effect."
 msgstr ""
 
-#: ekos/opsekos.cpp:40
+#: ekos/opsekos.cpp:44
 #, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
 msgstr ""
 
-#: ekos/opsekos.cpp:123 ekos/opsekos.cpp:146
+#: ekos/opsekos.cpp:132 ekos/opsekos.cpp:155
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Terrassa"
@@ -26385,20 +26386,52 @@ msgstr "டர்ராசா"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpShowTokenButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, mcpShowROTokenButton)
-#: ekos/opsekos.cpp:123 ekos/opsekos.cpp:146 ekos/opsekos.ui:404
+#: ekos/opsekos.cpp:132 ekos/opsekos.cpp:155 ekos/opsekos.ui:404
 #: ekos/opsekos.ui:480
 #, fuzzy, kde-format
 #| msgid "Show Other"
 msgid "Show token"
 msgstr "மற்றதைக் காட்டு"
 
-#: ekos/opsekos.cpp:189
+#: ekos/opsekos.cpp:200
+#, fuzzy, kde-format
+#| msgid "Server"
+msgid "(enable the MCP server to populate)"
+msgstr "சேவையகம்"
+
+#: ekos/opsekos.cpp:244
+#, kde-format
+msgid "read-only"
+msgstr ""
+
+#: ekos/opsekos.cpp:244
+#, fuzzy, kde-format
+msgid "mutating"
+msgstr "விருப்பத்தேர்வு:"
+
+#: ekos/opsekos.cpp:245
+#, fuzzy, kde-format
+#| msgid "Interactive Mode"
+msgid "destructive"
+msgstr "உள்செயல் வகை"
+
+#: ekos/opsekos.cpp:246
+#, kde-format
+msgid "idempotent"
+msgstr ""
+
+#: ekos/opsekos.cpp:247
+#, kde-format
+msgid "open-world"
+msgstr ""
+
+#: ekos/opsekos.cpp:322
 #, fuzzy, kde-format
 #| msgid "observing notes for %1:"
 msgid "Listening on port %1"
 msgstr "%1க்கான குறிப்புகளை கவனிக்கிறது:"
 
-#: ekos/opsekos.cpp:194
+#: ekos/opsekos.cpp:327
 #, kde-format
 msgid "Server is not running"
 msgstr ""
@@ -26583,6 +26616,18 @@ msgstr ""
 #, kde-format
 msgid "Read-only token:"
 msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, mcpToolsGroupBox)
+#: ekos/opsekos.ui:527
+#, fuzzy, kde-format
+msgid "Available tools"
+msgstr "ஒன்றையும் தேர்ந்தெடுக்க வேணடாம்"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, mcpToolsTree)
+#: ekos/opsekos.ui:549
+#, fuzzy, kde-format
+msgid "Tool"
+msgstr "கருவிப்பட்டைகள்"
 
 #: ekos/profileeditor.cpp:51
 #, fuzzy, kde-format
@@ -28595,7 +28640,7 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:511 ekos/scheduler/scheduler.cpp:2449
-#: ekos/scheduler/schedulerprocess.cpp:3520
+#: ekos/scheduler/schedulerprocess.cpp:3523
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
@@ -28756,7 +28801,7 @@ msgstr "%1யில் FITS கோப்பில் சேமிக்கப்
 msgid "Resume Scheduler"
 msgstr "ஸ்கேந்தர்"
 
-#: ekos/scheduler/scheduler.cpp:2150 ekos/scheduler/schedulerprocess.cpp:2077
+#: ekos/scheduler/scheduler.cpp:2150 ekos/scheduler/schedulerprocess.cpp:2080
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr ""
@@ -29673,400 +29718,400 @@ msgstr ""
 msgid "Scheduler is awake. Jobs shall be started when scheduler is resumed."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:737
+#: ekos/scheduler/schedulerprocess.cpp:740
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:859
+#: ekos/scheduler/schedulerprocess.cpp:862
 #, kde-format
 msgid "Job '%1' cannot start, weather grace period is active."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:878
+#: ekos/scheduler/schedulerprocess.cpp:881
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
 "until next job is ready."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:904
+#: ekos/scheduler/schedulerprocess.cpp:907
 #, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
 "ready."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:936
+#: ekos/scheduler/schedulerprocess.cpp:939
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Sleeping until observation job %1 is ready at %2"
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:947
+#: ekos/scheduler/schedulerprocess.cpp:950
 #, kde-format
 msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
 "Shutdown."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:981
+#: ekos/scheduler/schedulerprocess.cpp:984
 #, kde-format
 msgid "Mount is parked, adding unpark task before slewing."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1017
+#: ekos/scheduler/schedulerprocess.cpp:1020
 #, fuzzy, kde-format
 msgid "Job '%1' is slewing to target."
 msgstr "பட்டியலில் இருந்து பொருளைத் தேர்ந்தெடு"
 
-#: ekos/scheduler/schedulerprocess.cpp:1098
+#: ekos/scheduler/schedulerprocess.cpp:1101
 #, kde-format
 msgid "Warning: job '%1' is unable to proceed with autofocus, not supported."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1214
+#: ekos/scheduler/schedulerprocess.cpp:1217
 #, kde-format
 msgid "Job '%1' is focusing."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1241
+#: ekos/scheduler/schedulerprocess.cpp:1244
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' target FITS file does not exist."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:1253
+#: ekos/scheduler/schedulerprocess.cpp:1256
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1264
+#: ekos/scheduler/schedulerprocess.cpp:1267
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' loadAndSlew request failed."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:1270
+#: ekos/scheduler/schedulerprocess.cpp:1273
 #, fuzzy, kde-format
 msgid "Job '%1' is plate solving %2."
 msgstr "கே-ஸ்டார்ஸ்-ஐ ஏற்றுகிறது"
 
-#: ekos/scheduler/schedulerprocess.cpp:1284
+#: ekos/scheduler/schedulerprocess.cpp:1287
 #, kde-format
 msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1300
+#: ekos/scheduler/schedulerprocess.cpp:1303
 #, kde-format
 msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1313
+#: ekos/scheduler/schedulerprocess.cpp:1316
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:1324
+#: ekos/scheduler/schedulerprocess.cpp:1327
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Warning: job '%1' captureAndSolve request failed."
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:1330
+#: ekos/scheduler/schedulerprocess.cpp:1333
 #, fuzzy, kde-format
 msgid "Job '%1' is capturing and plate solving."
 msgstr "கே-ஸ்டார்ஸ்-ஐ ஏற்றுகிறது"
 
-#: ekos/scheduler/schedulerprocess.cpp:1346
+#: ekos/scheduler/schedulerprocess.cpp:1349
 #, fuzzy, kde-format
 msgid "Guiding already running for %1, starting next scheduler action..."
 msgstr "பொருளை தேடு"
 
-#: ekos/scheduler/schedulerprocess.cpp:1370
+#: ekos/scheduler/schedulerprocess.cpp:1373
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Starting guiding procedure for %1 ..."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:1433
+#: ekos/scheduler/schedulerprocess.cpp:1436
 #, kde-format
 msgid "Ekos job (%1) - Capture started"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1436
+#: ekos/scheduler/schedulerprocess.cpp:1439
 #, kde-format
 msgid "Job '%1' capture is in progress (batch #%2)..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1439
+#: ekos/scheduler/schedulerprocess.cpp:1442
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Job '%1' capture is in progress..."
 msgstr "தொலை நோக்கி"
 
-#: ekos/scheduler/schedulerprocess.cpp:1582
+#: ekos/scheduler/schedulerprocess.cpp:1585
 #, fuzzy, kde-format
 msgid "Ekos started."
 msgstr "பொருளை தேடு"
 
-#: ekos/scheduler/schedulerprocess.cpp:1591
+#: ekos/scheduler/schedulerprocess.cpp:1594
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Starting Ekos failed. Retrying..."
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை."
 
-#: ekos/scheduler/schedulerprocess.cpp:1596
+#: ekos/scheduler/schedulerprocess.cpp:1599
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Starting Ekos failed."
 msgstr "வேறு"
 
-#: ekos/scheduler/schedulerprocess.cpp:1607
+#: ekos/scheduler/schedulerprocess.cpp:1610
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Starting Ekos timed out. Retrying..."
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை."
 
-#: ekos/scheduler/schedulerprocess.cpp:1617
+#: ekos/scheduler/schedulerprocess.cpp:1620
 #, fuzzy, kde-format
 msgid "Starting Ekos timed out."
 msgstr "பொருளை தேடு"
 
-#: ekos/scheduler/schedulerprocess.cpp:1628
+#: ekos/scheduler/schedulerprocess.cpp:1631
 #, fuzzy, kde-format
 msgid "Ekos stopped."
 msgstr "பொருளை தேடு"
 
-#: ekos/scheduler/schedulerprocess.cpp:1671
+#: ekos/scheduler/schedulerprocess.cpp:1674
 #, fuzzy, kde-format
 #| msgid "INDI device %1 no longer exists."
 msgid "INDI devices connected."
 msgstr "INDI கருவி %1 இல்லை."
 
-#: ekos/scheduler/schedulerprocess.cpp:1678
+#: ekos/scheduler/schedulerprocess.cpp:1681
 #, kde-format
 msgid "One or more INDI devices failed to connect. Retrying..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1683
+#: ekos/scheduler/schedulerprocess.cpp:1686
 #, kde-format
 msgid ""
 "One or more INDI devices failed to connect. Check INDI control panel for "
 "details."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1692
+#: ekos/scheduler/schedulerprocess.cpp:1695
 #, kde-format
 msgid "One or more INDI devices timed out. Retrying..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1698
+#: ekos/scheduler/schedulerprocess.cpp:1701
 #, kde-format
 msgid ""
 "One or more INDI devices timed out. Check INDI control panel for details."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1709
+#: ekos/scheduler/schedulerprocess.cpp:1712
 #, fuzzy, kde-format
 #| msgid "INDI device %1 no longer exists."
 msgid "INDI devices disconnected."
 msgstr "INDI கருவி %1 இல்லை."
 
-#: ekos/scheduler/schedulerprocess.cpp:1743
+#: ekos/scheduler/schedulerprocess.cpp:1746
 #, kde-format
 msgid "INDI devices ready. Proceeding to post-startup phase..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1818
+#: ekos/scheduler/schedulerprocess.cpp:1821
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "Executing post-shutdown tasks from %1..."
 msgstr "உயர்வு நேரம்: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1826
+#: ekos/scheduler/schedulerprocess.cpp:1829
 #, fuzzy, kde-format
 msgid "Post-shutdown queue is empty, shutdown complete."
 msgstr "ஆரம்ப ஒருங்கிணைப்புகள்"
 
-#: ekos/scheduler/schedulerprocess.cpp:1832
+#: ekos/scheduler/schedulerprocess.cpp:1835
 #, fuzzy, kde-format
 msgid "Failed to load post-shutdown queue from %1"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1847
+#: ekos/scheduler/schedulerprocess.cpp:1850
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Shutdown complete."
 msgstr "முடிந்தது"
 
-#: ekos/scheduler/schedulerprocess.cpp:1849
+#: ekos/scheduler/schedulerprocess.cpp:1852
 #, kde-format
 msgid "Shutdown procedure failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1854
+#: ekos/scheduler/schedulerprocess.cpp:1857
 #, kde-format
 msgid "Entering weather monitoring mode. Waiting for weather to improve..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1964
+#: ekos/scheduler/schedulerprocess.cpp:1967
 #, kde-format
 msgid "Observatory is in the startup process"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1984
+#: ekos/scheduler/schedulerprocess.cpp:1987
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "Executing pre-startup tasks from %1..."
 msgstr "உயர்வு நேரம்: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1992
+#: ekos/scheduler/schedulerprocess.cpp:1995
 #, fuzzy, kde-format
 msgid "Failed to load pre-startup queue from %1"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1998
+#: ekos/scheduler/schedulerprocess.cpp:2001
 #, kde-format
 msgid "No pre-startup tasks, pre-startup phase complete. Starting Ekos..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2022
+#: ekos/scheduler/schedulerprocess.cpp:2025
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "Executing post-startup tasks from %1..."
 msgstr "உயர்வு நேரம்: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:2030
+#: ekos/scheduler/schedulerprocess.cpp:2033
 #, fuzzy, kde-format
 msgid "Failed to load post-startup tasks from %1"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:2036
+#: ekos/scheduler/schedulerprocess.cpp:2039
 #, kde-format
 msgid "No post-startup tasks, startup complete."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2090
+#: ekos/scheduler/schedulerprocess.cpp:2093
 #, fuzzy, kde-format
 msgid "Observatory was not started, skipping shutdown procedure."
 msgstr "ஹாட் ப்ரோவென்ஸ்"
 
-#: ekos/scheduler/schedulerprocess.cpp:2103
+#: ekos/scheduler/schedulerprocess.cpp:2106
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "Executing pre-shutdown tasks from %1..."
 msgstr "உயர்வு நேரம்: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:2111
+#: ekos/scheduler/schedulerprocess.cpp:2114
 #, fuzzy, kde-format
 msgid "Failed to load pre-shutdown queue from %1"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:2131
+#: ekos/scheduler/schedulerprocess.cpp:2134
 #, fuzzy, kde-format
 msgid ""
 "No pre-shutdown tasks during weather grace period; soft shutdown complete."
 msgstr "ஆரம்ப ஒருங்கிணைப்புகள்"
 
-#: ekos/scheduler/schedulerprocess.cpp:2142
+#: ekos/scheduler/schedulerprocess.cpp:2145
 #, kde-format
 msgid "No pre-shutdown tasks, proceeding to stop Ekos/INDI."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2185
+#: ekos/scheduler/schedulerprocess.cpp:2188
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Park/unpark procedure failed, aborting..."
 msgstr "தொலை நோக்கி"
 
-#: ekos/scheduler/schedulerprocess.cpp:2198
+#: ekos/scheduler/schedulerprocess.cpp:2201
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler paused."
 msgstr "%1யில் FITS கோப்பில் சேமிக்கப்பட்டது"
 
-#: ekos/scheduler/schedulerprocess.cpp:2241
+#: ekos/scheduler/schedulerprocess.cpp:2244
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2251
+#: ekos/scheduler/schedulerprocess.cpp:2254
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
 "those."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2265
+#: ekos/scheduler/schedulerprocess.cpp:2268
 #, kde-format
 msgid "No jobs scheduled."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2434
+#: ekos/scheduler/schedulerprocess.cpp:2437
 #, kde-format
 msgid "Starting job sequence iteration #%1"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2450
+#: ekos/scheduler/schedulerprocess.cpp:2453
 #, kde-format
 msgid "No executable jobs found. Stopping scheduler."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2518
+#: ekos/scheduler/schedulerprocess.cpp:2521
 #, kde-format
 msgid "Guiding already running, directly start capturing."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2530
+#: ekos/scheduler/schedulerprocess.cpp:2533
 #, kde-format
 msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
 "frames are pending."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2746
-#: ekos/scheduler/schedulerprocess.cpp:3679
+#: ekos/scheduler/schedulerprocess.cpp:2749
+#: ekos/scheduler/schedulerprocess.cpp:3682
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:2772
+#: ekos/scheduler/schedulerprocess.cpp:2775
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:2818
+#: ekos/scheduler/schedulerprocess.cpp:2821
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:2841
-#: ekos/scheduler/schedulerprocess.cpp:3750
+#: ekos/scheduler/schedulerprocess.cpp:2844
+#: ekos/scheduler/schedulerprocess.cpp:3753
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:2865
+#: ekos/scheduler/schedulerprocess.cpp:2868
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -30074,174 +30119,174 @@ msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:2882
+#: ekos/scheduler/schedulerprocess.cpp:2885
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:2950
+#: ekos/scheduler/schedulerprocess.cpp:2953
 #, fuzzy, kde-format
 msgid "Ekos job started (%1)"
 msgstr "பொருளை தேடு"
 
-#: ekos/scheduler/schedulerprocess.cpp:3143
+#: ekos/scheduler/schedulerprocess.cpp:3146
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler list saved to %1"
 msgstr "%1யில் FITS கோப்பில் சேமிக்கப்பட்டது"
 
-#: ekos/scheduler/schedulerprocess.cpp:3259
+#: ekos/scheduler/schedulerprocess.cpp:3262
 #, fuzzy, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "பொருளை தேடு"
 
-#: ekos/scheduler/schedulerprocess.cpp:3261
+#: ekos/scheduler/schedulerprocess.cpp:3264
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver failed: %1s %2"
 msgstr "FOV இல்லை"
 
-#: ekos/scheduler/schedulerprocess.cpp:3296
+#: ekos/scheduler/schedulerprocess.cpp:3299
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3308
+#: ekos/scheduler/schedulerprocess.cpp:3311
 #, fuzzy, kde-format
 msgid "Pre-startup queue completed successfully. Starting Ekos..."
 msgstr "ஆரம்ப ஒருங்கிணைப்புகள்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3316
+#: ekos/scheduler/schedulerprocess.cpp:3319
 #, fuzzy, kde-format
 msgid "Post-startup queue completed successfully."
 msgstr "ஆரம்ப ஒருங்கிணைப்புகள்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3323
+#: ekos/scheduler/schedulerprocess.cpp:3326
 #, kde-format
 msgid "Resuming scheduler after safety recovery startup tasks..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3339
+#: ekos/scheduler/schedulerprocess.cpp:3342
 #, fuzzy, kde-format
 msgid "Pre-shutdown queue completed successfully."
 msgstr "ஆரம்ப ஒருங்கிணைப்புகள்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3370
+#: ekos/scheduler/schedulerprocess.cpp:3373
 #, fuzzy, kde-format
 msgid "Post-shutdown queue completed successfully."
 msgstr "ஆரம்ப ஒருங்கிணைப்புகள்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3391
+#: ekos/scheduler/schedulerprocess.cpp:3394
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Startup queue failed: %1"
 msgstr "FOV இல்லை"
 
-#: ekos/scheduler/schedulerprocess.cpp:3398
+#: ekos/scheduler/schedulerprocess.cpp:3401
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Pre-shutdown queue failed: %1"
 msgstr "FOV இல்லை"
 
-#: ekos/scheduler/schedulerprocess.cpp:3405
+#: ekos/scheduler/schedulerprocess.cpp:3408
 #, kde-format
 msgid "Post-shutdown queue failed: %1"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3417
+#: ekos/scheduler/schedulerprocess.cpp:3420
 #, kde-format
 msgid "Warning: task failed during job '%1': %2. Marking job aborted."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3483
+#: ekos/scheduler/schedulerprocess.cpp:3486
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3484
+#: ekos/scheduler/schedulerprocess.cpp:3487
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3486
-#: ekos/scheduler/schedulerprocess.cpp:3498
+#: ekos/scheduler/schedulerprocess.cpp:3489
+#: ekos/scheduler/schedulerprocess.cpp:3501
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
 msgid "Select optical train"
 msgstr "ஒளி"
 
-#: ekos/scheduler/schedulerprocess.cpp:3495
+#: ekos/scheduler/schedulerprocess.cpp:3498
 #, kde-format
 msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3645
+#: ekos/scheduler/schedulerprocess.cpp:3648
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Job '%1' alignment is complete."
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3664
+#: ekos/scheduler/schedulerprocess.cpp:3667
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Warning: job '%1' alignment failed."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3670
+#: ekos/scheduler/schedulerprocess.cpp:3673
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3674
-#: ekos/scheduler/schedulerprocess.cpp:3738
+#: ekos/scheduler/schedulerprocess.cpp:3677
+#: ekos/scheduler/schedulerprocess.cpp:3741
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Restarting %1 alignment procedure..."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3710
+#: ekos/scheduler/schedulerprocess.cpp:3713
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Job '%1' guiding is in progress."
 msgstr "தொலை நோக்கி"
 
-#: ekos/scheduler/schedulerprocess.cpp:3722
+#: ekos/scheduler/schedulerprocess.cpp:3725
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' guiding failed."
 msgstr "%1 இணைப்பில் உள்ளது"
 
-#: ekos/scheduler/schedulerprocess.cpp:3724
+#: ekos/scheduler/schedulerprocess.cpp:3727
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Warning: job '%1' calibration failed."
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3743
+#: ekos/scheduler/schedulerprocess.cpp:3746
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3796
+#: ekos/scheduler/schedulerprocess.cpp:3799
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "[%2] Warning: job '%1' failed to capture target."
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3814
+#: ekos/scheduler/schedulerprocess.cpp:3817
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -30250,55 +30295,55 @@ msgid ""
 "of %4)."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3823
+#: ekos/scheduler/schedulerprocess.cpp:3826
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3829
+#: ekos/scheduler/schedulerprocess.cpp:3832
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3842
+#: ekos/scheduler/schedulerprocess.cpp:3845
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3848
+#: ekos/scheduler/schedulerprocess.cpp:3851
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3856
+#: ekos/scheduler/schedulerprocess.cpp:3859
 #, kde-format
 msgid "[%2] Job (%1) - Capture finished"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3932
+#: ekos/scheduler/schedulerprocess.cpp:3935
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' focusing train '%2' is complete."
 msgstr "%1 இணைப்பில் உள்ளது"
 
-#: ekos/scheduler/schedulerprocess.cpp:3944
+#: ekos/scheduler/schedulerprocess.cpp:3947
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' focusing failed."
 msgstr "%1 இணைப்பில் உள்ளது"
 
-#: ekos/scheduler/schedulerprocess.cpp:3948
+#: ekos/scheduler/schedulerprocess.cpp:3951
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3953
+#: ekos/scheduler/schedulerprocess.cpp:3956
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
@@ -30306,83 +30351,83 @@ msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr "ஃபார்மிங்டன்"
 
-#: ekos/scheduler/schedulerprocess.cpp:3986
+#: ekos/scheduler/schedulerprocess.cpp:3989
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' slew is complete."
 msgstr "%1 இணைப்பில் உள்ளது"
 
-#: ekos/scheduler/schedulerprocess.cpp:3992
+#: ekos/scheduler/schedulerprocess.cpp:3995
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3998
+#: ekos/scheduler/schedulerprocess.cpp:4001
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "%1 இணைப்பில் உள்ளது"
 
-#: ekos/scheduler/schedulerprocess.cpp:4011
+#: ekos/scheduler/schedulerprocess.cpp:4014
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' repositioning is complete."
 msgstr "%1 இணைப்பில் உள்ளது"
 
-#: ekos/scheduler/schedulerprocess.cpp:4017
+#: ekos/scheduler/schedulerprocess.cpp:4020
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4023
+#: ekos/scheduler/schedulerprocess.cpp:4026
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "%1 இணைப்பில் உள்ளது"
 
-#: ekos/scheduler/schedulerprocess.cpp:4037
-#: ekos/scheduler/schedulerprocess.cpp:4048
+#: ekos/scheduler/schedulerprocess.cpp:4040
+#: ekos/scheduler/schedulerprocess.cpp:4051
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4114
+#: ekos/scheduler/schedulerprocess.cpp:4117
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Safety has improved. Resuming operations."
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை."
 
-#: ekos/scheduler/schedulerprocess.cpp:4137
+#: ekos/scheduler/schedulerprocess.cpp:4140
 #, kde-format
 msgid "Safety alert detected. Starting soft shutdown procedure in %1 seconds."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4165
+#: ekos/scheduler/schedulerprocess.cpp:4168
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown. Monitoring weather indefinitely "
 "until safety improves."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4167
+#: ekos/scheduler/schedulerprocess.cpp:4170
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until safety improves or until %1."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4195
+#: ekos/scheduler/schedulerprocess.cpp:4198
 #, fuzzy, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "ஆரம்ப ஒருங்கிணைப்புகள்"
 
-#: ekos/scheduler/schedulerprocess.cpp:4201
+#: ekos/scheduler/schedulerprocess.cpp:4204
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4362
+#: ekos/scheduler/schedulerprocess.cpp:4365
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -30391,30 +30436,30 @@ msgid ""
 "ready..."
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:4683
+#: ekos/scheduler/schedulerprocess.cpp:4686
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "காலியென்ட்"
 
-#: ekos/scheduler/schedulerprocess.cpp:4773
+#: ekos/scheduler/schedulerprocess.cpp:4776
 #, kde-format
 msgid "Safety monitor initialized with connection string: %1"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4811
+#: ekos/scheduler/schedulerprocess.cpp:4814
 #, kde-format
 msgid "Unknown error occurred during startup queue execution."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4814
+#: ekos/scheduler/schedulerprocess.cpp:4817
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Startup Queue Failed"
 msgstr "FOV இல்லை"
 
-#: ekos/scheduler/schedulerprocess.cpp:4815
+#: ekos/scheduler/schedulerprocess.cpp:4818
 #, kde-format
 msgid ""
 "The scheduler startup queue has failed:\n"
@@ -30521,20 +30566,20 @@ msgstr "INDI... கட்டமை"
 msgid "Safety monitor monitoring disabled"
 msgstr ""
 
-#: ekos/scheduler/schedulerutils.cpp:372
+#: ekos/scheduler/schedulerutils.cpp:391 ekos/scheduler/schedulerutils.cpp:407
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open sequence queue file '%1'"
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை."
 
-#: ekos/scheduler/schedulerutils.cpp:444
+#: ekos/scheduler/schedulerutils.cpp:488
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
 "procedures currently set in its sequence will not occur."
 msgstr ""
 
-#: ekos/scheduler/schedulerutils.cpp:472
+#: ekos/scheduler/schedulerutils.cpp:516
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr ""
@@ -45000,6 +45045,20 @@ msgstr "சேவையக பதிகை"
 #: kstars.kcfg:3955
 #, kde-format
 msgid "Allow only read-only MCP tools"
+msgstr ""
+
+#. i18n: ectx: label, entry (MCPDisabledTools), group (MCP)
+#: kstars.kcfg:3959
+#, kde-format
+msgid "MCP tools disabled by the user"
+msgstr ""
+
+#. i18n: ectx: whatsthis, entry (MCPDisabledTools), group (MCP)
+#: kstars.kcfg:3960
+#, kde-format
+msgid ""
+"Tool names excluded from the MCP tools/list response and rejected on tools/"
+"call. Tools not listed here are enabled."
 msgstr ""
 
 #: kstars_i18n.cpp:2
