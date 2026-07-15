@@ -152,26 +152,29 @@ def train_direct_drive(sysid: dict,
 
 
 def _build_fingerprint(sysid: dict) -> dict:
-    """Build the model validity fingerprint from sysid equipment block."""
-    eq = sysid["equipment"]
-    # The sysid JSON records the settings that were active during collection
-    fp = {
-        "guide_exposure_s":    eq.get("guide_exposure_ms", 2000) / 1000.0,
-        "guide_binning":       eq.get("guide_binning", "1x1"),
-        "ra_proportional_gain":  eq.get("ra_proportional_gain",  133.33),
-        "dec_proportional_gain": eq.get("dec_proportional_gain", 133.33),
-        "ra_integral_gain":      eq.get("ra_integral_gain",  0.0),
-        "dec_integral_gain":     eq.get("dec_integral_gain", 0.0),
-        "ra_min_pulse_arcsec":   eq.get("ra_min_pulse_arcsec",  0.2),
-        "dec_min_pulse_arcsec":  eq.get("dec_min_pulse_arcsec", 0.2),
-        "ra_max_pulse_arcsec":   eq.get("ra_max_pulse_arcsec",  25.0),
-        "dec_max_pulse_arcsec":  eq.get("dec_max_pulse_arcsec", 25.0),
-        "ra_hysteresis":         eq.get("ra_hysteresis",  0.0),
-        "dec_hysteresis":        eq.get("dec_hysteresis", 0.0),
-        "ra_pulse_algorithm":    eq.get("ra_pulse_algorithm",  0),
-        "dec_pulse_algorithm":   eq.get("dec_pulse_algorithm", 0),
-        "all_directions_enabled": True,
-    }
+    """Build the model validity fingerprint."""
+    kfp = sysid.get("model_fingerprint")
+    if isinstance(kfp, dict) and kfp:
+        fp = {k: v for k, v in kfp.items() if k != "fingerprint_sha256"}
+    else:
+        eq = sysid.get("equipment", {})
+        fp = {
+            "guide_exposure_s":    eq.get("guide_exposure_ms", 2000) / 1000.0,
+            "guide_binning":       eq.get("guide_binning", "1x1"),
+            "ra_proportional_gain":  eq.get("ra_proportional_gain",  133.33),
+            "dec_proportional_gain": eq.get("dec_proportional_gain", 133.33),
+            "ra_integral_gain":      eq.get("ra_integral_gain",  0.0),
+            "dec_integral_gain":     eq.get("dec_integral_gain", 0.0),
+            "ra_min_pulse_arcsec":   eq.get("ra_min_pulse_arcsec",  0.2),
+            "dec_min_pulse_arcsec":  eq.get("dec_min_pulse_arcsec", 0.2),
+            "ra_max_pulse_arcsec":   eq.get("ra_max_pulse_arcsec",  25.0),
+            "dec_max_pulse_arcsec":  eq.get("dec_max_pulse_arcsec", 25.0),
+            "ra_hysteresis":         eq.get("ra_hysteresis",  0.0),
+            "dec_hysteresis":        eq.get("dec_hysteresis", 0.0),
+            "ra_pulse_algorithm":    eq.get("ra_pulse_algorithm",  0),
+            "dec_pulse_algorithm":   eq.get("dec_pulse_algorithm", 0),
+            "all_directions_enabled": True,
+        }
     # SHA256 of sorted key=value pairs
     import hashlib
     fp_str = "&".join(f"{k}={v}" for k, v in sorted(fp.items()))
