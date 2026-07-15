@@ -6,6 +6,8 @@ target_sources(KStarsLib PRIVATE
     tools/ekostools.cpp
     tools/catalogtools.cpp
     tools/mounttools.cpp
+    tools/devicelookup.cpp
+    tools/focusertools.cpp
 )
 
 target_include_directories(KStarsLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

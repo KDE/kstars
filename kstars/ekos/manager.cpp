@@ -58,6 +58,7 @@
 #include "mcp/mcpserver.h"
 #include "mcp/tools/catalogtools.h"
 #include "mcp/tools/ekostools.h"
+#include "mcp/tools/focusertools.h"
 #include "mcp/tools/mounttools.h"
 
 #include <basedevice.h>
@@ -647,6 +648,7 @@ void Manager::ensureMCPServer()
         MCP::Tools::initEkosTools(m_MCPServer->registry(), this);
         MCP::Tools::initCatalogTools(m_MCPServer->registry());
         MCP::Tools::initMountTools(m_MCPServer->registry(), this);
+        MCP::Tools::initFocuserTools(m_MCPServer->registry());
     }
 
     if (m_MCPServer->isListening())
