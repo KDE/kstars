@@ -318,7 +318,17 @@ void FITSTab::processData()
         qCDebug(KSTARS_FITS) << "FITS HFR:" << imageData->getHFR();
     }
 
-    displayStats();
+    // If the selection rectangle is active, recalculate ROI statistics
+    // for the new image data and display ROI stats instead of full-image stats.
+    if (m_View->isSelectionRectShown())
+    {
+        QRect roiRect = m_View->getSelectionRegion();
+        if (roiRect.isValid())
+            imageData->makeRoiBuffer(roiRect);
+        displayStats(true);
+    }
+    else
+        displayStats();
 
     loadFITSHeader();
 
@@ -491,7 +501,7 @@ void FITSTab::statFITS()
         fitsSplitter->setSizes(QList<int>() << 200 << m_View->width() - 200);
     else
         fitsSplitter->setSizes(QList<int>() << 50 << 50);
-    displayStats();
+    displayStats(m_View->isSelectionRectShown());
 }
 
 void FITSTab::loadFITSHeader()
