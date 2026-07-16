@@ -6,12 +6,23 @@
 
 #pragma once
 
+#include <QDateTime>
+#include <QHash>
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QObject>
+#include <QSet>
+#include <QSharedPointer>
 #include <QString>
 
 class QTcpSocket;
+class FITSData;
+
+namespace ISD
+{
+class GenericDevice;
+class Camera;
+}
 
 namespace MCP
 {
@@ -33,6 +44,40 @@ class Server : public QObject
         quint16 port() const;
 
         ToolRegistry *registry();
+
+        // Latest captured image — populated by a per-camera hook on
+        // ISD::Camera::newImage installed in hookCamera(). Covers every frame
+        // producer (Capture queue, PAA, Focus, Align, ad-hoc camera_capture, raw
+        // INDI) without requiring per-module wiring.
+        struct LastImage
+        {
+            bool                       available = false;
+            QString                    cameraName;
+            QDateTime                  receivedAt;
+            QString                    filter;
+            QString                    target;
+            QString                    dateObs;
+            double                     exposure = 0.0;
+            double                     ccdTemp  = 0.0;
+            double                     hfr      = 0.0;
+            int                        starCount = 0;
+            int                        width    = 0;
+            int                        height   = 0;
+            // The on-disk path is not cached: ISD::Camera::newImage fires before
+            // the file is written, so the FITSData's m_Filename is empty at hook
+            // time. Read data->filename() at query time instead — by then the
+            // consumer (Capture::cameraprocess for queue, etc.) has set it. For
+            // ad-hoc / preview captures there's no disk save at all, and the
+            // thumbnail tool round-trips via FITSData::saveImage() to a temp file.
+            QSharedPointer<FITSData>   data;
+        };
+        // Most-recent frame across all cameras. Sentinel (.available == false) if
+        // no frame has been received this session.
+        const LastImage &lastImage() const;
+        // Most-recent frame from a specific camera (matched by device name).
+        // Sentinel if no frame from that camera. Empty cameraName returns the
+        // same sentinel.
+        const LastImage &lastImageFor(const QString &cameraName) const;
 
         // The in-memory cache (m_token, m_readOnlyToken) is the runtime source of
         // truth. The system keychain (via QtKeychain) is used to persist tokens
@@ -85,8 +130,24 @@ class Server : public QObject
         // Gates loadFromKeychain/storeToKeychain. See setKeychainPersistenceEnabled.
         static bool s_keychainPersistenceEnabled;
 
+        // Hook a device's camera-frame signal. The concrete ISD::Camera object
+        // may not exist yet at INDIListener::newDevice time — it's created
+        // asynchronously when DRIVER_INFO arrives — so we either install the
+        // hook immediately if the camera is already there, or wire up
+        // GenericDevice::newCamera to install it when ready.
+        void hookCamera(const QSharedPointer<ISD::GenericDevice> &device);
+        // Connect ISD::Camera::newImage → image-cache update. Tracked via
+        // m_hookedCameras so duplicate calls (initial sweep + signal, or two
+        // newCamera deliveries) don't stack listeners.
+        void installImageHook(ISD::Camera *camera);
+
         Transport    *m_transport { nullptr };
         ToolRegistry *m_registry  { nullptr };
+
+        QHash<QString, LastImage> m_imagesByCamera;
+        QString                   m_mostRecentCamera;
+        QSet<QString>             m_hookedCameras;
+        LastImage                 m_emptyImage; // sentinel returned when nothing cached
 
         QString m_token;
         QString m_readOnlyToken;

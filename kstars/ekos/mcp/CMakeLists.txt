@@ -8,6 +8,7 @@ target_sources(KStarsLib PRIVATE
     tools/mounttools.cpp
     tools/devicelookup.cpp
     tools/focusertools.cpp
+    tools/imagetools.cpp
 )
 
 target_include_directories(KStarsLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
