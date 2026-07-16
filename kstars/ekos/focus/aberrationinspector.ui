@@ -119,6 +119,16 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="5">
+        <widget class="QCheckBox" name="abInsTiltPlate">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check if you have a tilt adjustment plate installed. Shows the Tilt Correction Advisory panel with suggested adjustments.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Tilt Plate</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>
@@ -300,6 +310,13 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="Ekos::TiltCorrectionWidget" name="tiltCorrectionWidget">
+          <property name="title">
+           <string>Tilt Correction Advisory</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -561,6 +578,11 @@ p, li { white-space: pre-wrap; }
    <class>AbInsTableWidget</class>
    <extends>QTableWidget</extends>
    <header>ekos/focus/abinstablewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Ekos::TiltCorrectionWidget</class>
+   <extends>QGroupBox</extends>
+   <header>ekos/focus/tiltcorrectionwidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

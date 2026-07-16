@@ -12,6 +12,7 @@
 #include "curvefit.h"
 #include "ui_aberrationinspector.h"
 #include "aberrationinspectorutils.h"
+#include "tiltcorrectionwidget.h"
 
 // The AberrationInspector class manages the Aberration Inspector dialog.
 // Settings are managed in a global way, rather than per Optical Train which would be overkill. The approach is the same as Focus
@@ -373,6 +374,9 @@ class AberrationInspector : public QDialog, public Ui::aberrationInspectorDialog
 
         // Plot widget
         AberrationInspectorPlot *m_plot;
+
+        // Tilt Correction Advisory widget
+        TiltCorrectionWidget *m_tiltCorrection { nullptr };
 
         // Graphic
         Q3DSurface *m_graphic = nullptr;

@@ -449,6 +449,7 @@ if (INDI_FOUND)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/aberrationinspectorplot.cpp)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/sensorgraphic.cpp)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/abinstablewidget.cpp)
+            set(ekos_SRCS ${ekos_SRCS} ekos/focus/tiltcorrectionwidget.cpp)
         endif()
 
     endif(CFITSIO_FOUND)

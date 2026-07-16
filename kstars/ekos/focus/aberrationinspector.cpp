@@ -6,6 +6,7 @@
 
 #include "aberrationinspector.h"
 #include "aberrationinspectorplot.h"
+#include "tiltcorrectionwidget.h"
 #include "sensorgraphic.h"
 #include <kstars_debug.h>
 #include "kstars.h"
@@ -85,6 +86,14 @@ void AberrationInspector::setupGUI()
         setOptCentres(setting);
     });
 
+    // Tilt Plate checkbox — persist and update tilt widget visibility
+    // Note: setChecked() is deferred until after m_tiltCorrection is assigned below
+    connect(abInsTiltPlate, &QCheckBox::toggled, this, [this](bool checked)
+    {
+        Options::setTiltPlatePresent(checked);
+        m_tiltCorrection->updateVisibility();
+    });
+
     // Create a plot widget and add to the top of the dialog
     m_plot = new AberrationInspectorPlot(this);
     abInsPlotLayout->addWidget(m_plot);
@@ -116,6 +125,13 @@ void AberrationInspector::setupGUI()
 
     // Setup a SensorGraphic minimal window that acts like a visual tooltip
     sensorGraphic = new SensorGraphic(abInsTable, m_data.sensorWidth, m_data.sensorHeight, m_data.tileWidth);
+
+    // The Tilt Correction Advisory widget is placed via the .ui file (tiltCorrectionWidget).
+    // Assign to member pointer for use in analyseResults().
+    m_tiltCorrection = tiltCorrectionWidget;
+
+    // Now safe to sync the checkbox — m_tiltCorrection is valid for the toggled signal
+    abInsTiltPlate->setChecked(Options::tiltPlatePresent());
 }
 
 // Mouse over table row, col. Show the sensor graphic
@@ -600,6 +616,18 @@ void AberrationInspector::analyseResults()
 
     // Set m_resultsOK dependent on whether calcs were successful or not
     m_resultsOK = backfocusOK && tiltOK;
+
+    // Update Tilt Correction Advisory
+    if (tiltOK)
+    {
+        const double sensorWidthMicrons = (m_data.sensorWidth - m_data.tileWidth) * m_data.pixelSize;
+        const double sensorHeightMicrons = (m_data.sensorHeight - m_data.tileWidth) * m_data.pixelSize;
+        m_tiltCorrection->updateTilt(m_LRMicrons, m_TBMicrons, sensorWidthMicrons, sensorHeightMicrons);
+    }
+    else
+    {
+        m_tiltCorrection->setInvalid();
+    }
 }
 
 // Calculate the backfocus in microns

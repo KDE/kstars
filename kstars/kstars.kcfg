@@ -2774,6 +2774,35 @@
          <label>Aberration Inspector 3D graphic show Petzval surface.</label>
          <default>false</default>
       </entry>
+
+      <entry name="tiltPlateType" type="UInt">
+         <label>Tilt Correction Advisory plate type (0=3-point, 1=4-point).</label>
+         <default>0</default>
+      </entry>
+      <entry name="tiltRadius" type="Double">
+         <label>Tilt plate bolt circle radius in mm.</label>
+         <default>64.0</default>
+      </entry>
+      <entry name="tiltThreadIndex" type="UInt">
+         <label>Tilt Correction Advisory thread preset index.</label>
+         <default>8</default>
+      </entry>
+      <entry name="tiltScrewPitch" type="Double">
+         <label>Tilt plate screw pitch in mm per turn.</label>
+         <default>0.5</default>
+      </entry>
+      <entry name="tiltRotation" type="Double">
+         <label>Camera rotation for tilt correction diagram in degrees.</label>
+         <default>0.0</default>
+      </entry>
+      <entry name="tiltMode" type="UInt">
+         <label>Tilt Correction Advisory mode (0=relative, 1=push-only).</label>
+         <default>0</default>
+      </entry>
+      <entry name="tiltPlatePresent" type="Bool">
+         <label>Whether a tilt adjustment plate is present in the imaging train.</label>
+         <default>false</default>
+      </entry>
    </group>
    <group name="StellarSolver">
       <entry name="FocusSextractorType" type="UInt">
