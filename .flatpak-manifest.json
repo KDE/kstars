@@ -591,6 +591,29 @@
         {
             "name": "kstars",
             "buildsystem": "cmake-ninja",
+            "only-arches": [
+                "aarch64"
+            ],
+            "config-opts": [
+                "-DBUILD_TESTING=OFF",
+                "-DBUILD_WITH_QT6=ON"
+            ],
+            "make-args": [
+                "-j4"
+            ],
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "."
+                }
+            ]
+        },
+        {
+            "name": "kstars",
+            "buildsystem": "cmake-ninja",
+            "skip-arches": [
+                "aarch64"
+            ],
             "config-opts": [
                 "-DBUILD_TESTING=OFF",
                 "-DBUILD_WITH_QT6=ON"
