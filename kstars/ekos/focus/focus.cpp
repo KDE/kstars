@@ -2087,7 +2087,6 @@ bool Focus::focusOut(int ms, int speedFactor)
     startGotoB->setEnabled(false);
     if (ms <= 0)
         ms = m_OpsFocusMechanics->focusTicks->value();
-    ms = m_OpsFocusMechanics->focusTicks->value();
 
     // apply speed factor
     ms *= speedFactor;
