@@ -284,6 +284,9 @@ enum COMMANDS
     NEW_AI_GUIDE_PROGRESS,
     NEW_AI_GUIDE_LOG,
     NEW_AI_GUIDE_COMPLETE,
+    NEW_AI_GUIDE_TRAINING_PROGRESS,
+    NEW_AI_GUIDE_TRAINING_COMPLETE,
+    NEW_AI_GUIDE_TRAINING_ERROR,
 };
 
 static QMap<COMMANDS, QString> const commands =
@@ -529,6 +532,9 @@ static QMap<COMMANDS, QString> const commands =
     {NEW_AI_GUIDE_PROGRESS, "new_ai_guide_progress"},
     {NEW_AI_GUIDE_LOG, "new_ai_guide_log"},
     {NEW_AI_GUIDE_COMPLETE, "new_ai_guide_complete"},
+    {NEW_AI_GUIDE_TRAINING_PROGRESS, "new_ai_guide_training_progress"},
+    {NEW_AI_GUIDE_TRAINING_COMPLETE, "new_ai_guide_training_complete"},
+    {NEW_AI_GUIDE_TRAINING_ERROR, "new_ai_guide_training_error"},
 };
 
 }

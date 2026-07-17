@@ -161,6 +161,11 @@ class Message : public QObject
         void sendAIGuideLog(const QString &message);
         void sendAIGuideComplete();
 
+        // AI Guider Training
+        void sendAIGuideTrainingProgress(const QString &message);
+        void sendAIGuideTrainingComplete();
+        void sendAIGuideTrainingError(const QString &error);
+
     private Q_SLOTS:
 
         // Connection
@@ -242,9 +247,6 @@ class Message : public QObject
         void processFilterOffsetCommands(const QString &command, const QJsonObject &payload);
         void sendFilterOffsetSettings(const QVariantMap &settings);
 
-        // AI Guider commands
-        void processAIGuideCommands(const QString &command, const QJsonObject &payload);
-        void sendAIGuideSettings(const QVariantMap &settings);
         void sendLiveStackerProgress(bool ok, int sub, int total, double meanSNR, double minSNR, double maxSNR);
         void sendLiveStackerComplete();
         // Slot called for each captured frame when livestacking in looping mode.

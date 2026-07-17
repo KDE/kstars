@@ -7,7 +7,6 @@
 #include "opsaiconfig.h"
 #include "kstars.h"
 
-#include "opsaiguide.h"
 
 namespace Ekos
 {

@@ -21,7 +21,7 @@
 #include "ekos/focus/focusmodule.h"
 #include "ekos/auxiliary/buildfilteroffsets.h"
 #include "ekos/guide/guide.h"
-#include "ekos/guide/opsaiguide.h"
+#include "ekos/guide/aiguidewizard.h"
 #include "ekos/guide/internalguide/internalguider.h"
 #include "ekos/guide/internalguide/gmath.h"
 #include "ekos/mount/mount.h"
@@ -305,9 +305,6 @@ void Message::onTextReceived(const QString &message)
         processLiveStackerCommands(command, payload);
     else if (command.startsWith("filter_offset_"))
         processFilterOffsetCommands(command, payload);
-    else if (command.startsWith("ai_guide_"))
-        processAIGuideCommands(command, payload);
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -3536,76 +3533,6 @@ void Message::sendFilterOffsetCalculated(const QString &filter, int newOffset, i
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-void Message::processAIGuideCommands(const QString &command, const QJsonObject &payload)
-{
-    if (!m_Manager)
-        return;
-
-    Ekos::Guide *guide = m_Manager->guideModule();
-    if (!guide)
-    {
-        qCWarning(KSTARS_EKOS) << "Ignoring AI guide command" << command << "as guide module is not available";
-        return;
-    }
-
-    // Access the OpsAIGuide wizard
-    auto *aiGuide = guide->getAIGuide();
-
-    // Stream the wizard's progress/log/completion to the client (idempotent).
-    connect(aiGuide, &Ekos::OpsAIGuide::aiGuideProgress, this, &Message::sendAIGuideProgress, Qt::UniqueConnection);
-    connect(aiGuide, &Ekos::OpsAIGuide::aiGuideLog,      this, &Message::sendAIGuideLog,      Qt::UniqueConnection);
-    connect(aiGuide, &Ekos::OpsAIGuide::aiGuideComplete, this, &Message::sendAIGuideComplete, Qt::UniqueConnection);
-
-    if (command == commands[AI_GUIDE_GET_ALL_SETTINGS])
-    {
-        // Gather AI-related settings from the Guide module and OpsAIGuide
-        QVariantMap settings;
-        settings["mount_type"] = aiGuide->property("mountType").toString();
-        settings["state"] = static_cast<int>(aiGuide->property("state").value<Ekos::OpsAIGuide::ProtocolState>());
-        settings["ai_free_drift"] = guide->isAIFreeDrift();
-        settings["total_phases"] = aiGuide->property("totalPhases").toInt();
-        settings["phases_remaining"] = aiGuide->property("phasesRemaining").toInt();
-
-        // AI Guider state from the internal guider
-        auto *guiderInstance = guide->getGuiderInstance();
-        if (guiderInstance)
-        {
-            auto *internalGuider = qobject_cast<Ekos::InternalGuider *>(guiderInstance);
-            if (internalGuider)
-            {
-                auto *aiGuider = internalGuider->getAIGuider();
-                if (aiGuider)
-                {
-                    settings["ai_confidence"] = aiGuider->confidence();
-                    settings["ai_state"] = aiGuider->stateString();
-                    settings["ai_loaded"] = aiGuider->isLoaded();
-                    settings["ai_warmup_frames"] = aiGuider->warmupFrames();
-                }
-            }
-        }
-
-        sendAIGuideSettings(settings);
-    }
-    else if (command == commands[AI_GUIDE_SET_ALL_SETTINGS])
-    {
-        auto settings = payload.toVariantMap();
-        if (settings.contains("mount_type"))
-        {
-            auto mountTypeCombo = aiGuide->findChild<QComboBox *>("mountTypeCombo");
-            if (mountTypeCombo)
-                mountTypeCombo->setCurrentText(settings["mount_type"].toString());
-        }
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-///
-///////////////////////////////////////////////////////////////////////////////////////////
-void Message::sendAIGuideSettings(const QVariantMap &settings)
-{
-    sendResponse(commands[AI_GUIDE_GET_ALL_SETTINGS], QJsonObject::fromVariantMap(settings));
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -3613,9 +3540,9 @@ void Message::sendAIGuideProgress(int current, int total, const QString &status)
 {
     QJsonObject payload =
     {
-        {"current", current},
-        {"total", total},
-        {"status", status}
+        {"state_string", status},
+        {"phases_completed", current},
+        {"total_phases", total}
     };
     sendResponse(commands[NEW_AI_GUIDE_PROGRESS], payload);
 }
@@ -3638,6 +3565,38 @@ void Message::sendAIGuideLog(const QString &message)
 void Message::sendAIGuideComplete()
 {
     sendResponse(commands[NEW_AI_GUIDE_COMPLETE], QJsonObject());
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendAIGuideTrainingProgress(const QString &message)
+{
+    QJsonObject payload =
+    {
+        {"message", message}
+    };
+    sendResponse(commands[NEW_AI_GUIDE_TRAINING_PROGRESS], payload);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendAIGuideTrainingComplete()
+{
+    sendResponse(commands[NEW_AI_GUIDE_TRAINING_COMPLETE], QJsonObject());
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::sendAIGuideTrainingError(const QString &error)
+{
+    QJsonObject payload =
+    {
+        {"message", error}
+    };
+    sendResponse(commands[NEW_AI_GUIDE_TRAINING_ERROR], payload);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

@@ -14,7 +14,8 @@
 #include "opscalibration.h"
 #include "opsguide.h"
 #include "opsaiconfig.h"
-#include "opsaiguide.h"
+#include "aiguidewizard.h"
+#include "aiguideprotocol.h"
 #include "opsdither.h"
 #include "opsgpg.h"
 #include "Options.h"
@@ -215,6 +216,19 @@ Guide::Guide() : QWidget()
         m_ManaulPulse->reset();
         m_ManaulPulse->show();
     });
+
+    // AI Guider protocol
+    m_AIGuideProtocol = new AIGuideProtocol(this);
+
+    connect(m_AIGuideProtocol, &AIGuideProtocol::protocolLog, this, &Guide::newAIGuideLog);
+    connect(m_AIGuideProtocol, &AIGuideProtocol::protocolProgress, this, &Guide::newAIGuideProgress);
+    connect(m_AIGuideProtocol, &AIGuideProtocol::protocolComplete, this, &Guide::newAIGuideComplete);
+
+    // AI Guider training signals
+    connect(m_AIGuideProtocol, &AIGuideProtocol::trainingRequested, this, &Guide::newTrainingData);
+    connect(m_AIGuideProtocol, &AIGuideProtocol::trainingProgress, this, &Guide::newAIGuideTrainingProgress);
+    connect(m_AIGuideProtocol, &AIGuideProtocol::trainingComplete, this, &Guide::newAIGuideTrainingComplete);
+    connect(m_AIGuideProtocol, &AIGuideProtocol::trainingError, this, &Guide::newAIGuideTrainingError);
 
     loadGlobalSettings();
     connectSettings();
@@ -3549,15 +3563,18 @@ void Guide::loop()
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-Ekos::OpsAIGuide *Guide::getAIGuide()
+Ekos::AIGuideWizard *Guide::getAIGuide()
 {
-    if (!opsAIGuide)
+    if (!aIGuideWizard)
     {
-        opsAIGuide = new OpsAIGuide(this);
-        // Forward the wizard's "Train in EkosLive" request up so the Manager can route it to the cloud.
-        connect(opsAIGuide, &OpsAIGuide::trainInEkosLiveRequested, this, &Guide::newTrainingData);
+        aIGuideWizard = new AIGuideWizard(m_AIGuideProtocol, this);
+        connect(aIGuideWizard, &AIGuideWizard::trainInEkosLiveRequested, this, &Guide::newTrainingData);
+        // Forward AI Guider progress/log/complete signals for EkosLive streaming
+        connect(aIGuideWizard, &AIGuideWizard::aiGuideProgress, this, &Guide::newAIGuideProgress);
+        connect(aIGuideWizard, &AIGuideWizard::aiGuideLog,      this, &Guide::newAIGuideLog);
+        connect(aIGuideWizard, &AIGuideWizard::aiGuideComplete, this, &Guide::newAIGuideComplete);
     }
-    return opsAIGuide;
+    return aIGuideWizard;
 }
 
 void Guide::updateTrainingWeight(bool success, const QJsonObject &result)
@@ -3566,8 +3583,11 @@ void Guide::updateTrainingWeight(bool success, const QJsonObject &result)
     {
         appendLogText(i18n("EkosLive AI training failed: %1",
                            result.value("message").toString(i18n("unknown error"))));
-        if (opsAIGuide)
-            opsAIGuide->onTrainingResult(false, result);
+        if (aIGuideWizard)
+            aIGuideWizard->onTrainingResult(false, result);
+        if (m_AIGuideProtocol)
+            m_AIGuideProtocol->onTrainingResult(false, i18n("EkosLive AI training failed: %1",
+                                                result.value("message").toString(i18n("unknown error"))));
         return;
     }
 
@@ -3582,8 +3602,8 @@ void Guide::updateTrainingWeight(bool success, const QJsonObject &result)
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         appendLogText(i18n("Failed to save AI weights to %1", path));
-        if (opsAIGuide)
-            opsAIGuide->onTrainingResult(false, result);
+        if (aIGuideWizard)
+            aIGuideWizard->onTrainingResult(false, result);
         return;
     }
     file.write(QJsonDocument(weights).toJson(QJsonDocument::Indented));
@@ -3592,8 +3612,10 @@ void Guide::updateTrainingWeight(bool success, const QJsonObject &result)
     // Point the AI guider at the new weights; they load automatically the next time guiding starts.
     Options::setAIGuiderWeightsFile(QUrl::fromLocalFile(path));
     appendLogText(i18n("AI training complete. Weights saved to %1 and set as the active AI weights.", path));
-    if (opsAIGuide)
-        opsAIGuide->onTrainingResult(true, result);
+    if (aIGuideWizard)
+        aIGuideWizard->onTrainingResult(true, result);
+    if (m_AIGuideProtocol)
+        m_AIGuideProtocol->onTrainingResult(true, i18n("AI training complete. Weights saved to %1.", path));
 }
 
 void Guide::loadAIWeights()

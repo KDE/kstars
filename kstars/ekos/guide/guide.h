@@ -30,7 +30,8 @@ namespace Ekos
 {
 class OpsCalibration;
 class OpsGuide;
-class OpsAIGuide;
+class AIGuideProtocol;
+class AIGuideWizard;
 class OpsAIConfig;
 class OpsDither;
 class OpsGPG;
@@ -225,10 +226,10 @@ class Guide : public QWidget, public Ui::Guide
         }
 
         /**
-         * @brief getAIGuide Access the OpsAIGuide wizard. Creates it if it doesn't exist.
-         * @return pointer to OpsAIGuide
+         * @brief getAIGuide Access the AIGuideWizard wizard. Creates it if it doesn't exist.
+         * @return pointer to AIGuideWizard
          */
-        OpsAIGuide *getAIGuide();
+        AIGuideWizard *getAIGuide();
 
         // Settings
         QVariantMap getAllSettings() const;
@@ -246,7 +247,7 @@ class Guide : public QWidget, public Ui::Guide
              */
         Q_SCRIPTABLE bool guide();
 
-        // Used by OpsAIGuide to disable pulses but keep the tracking loop (Free Drift)
+        // Used by AIGuideProtocol to disable pulses but keep the tracking loop (Free Drift)
         void setAIFreeDrift(bool enable)
         {
             m_AIFreeDrift = enable;
@@ -507,6 +508,16 @@ class Guide : public QWidget, public Ui::Guide
         void settingsUpdated(const QVariantMap &settings);
         void driverTimedout(const QString &deviceName);
 
+        // AI Guider signals mirrored from AIGuideWizard
+        void newAIGuideProgress(int current, int total, const QString &status);
+        void newAIGuideLog(const QString &message);
+        void newAIGuideComplete();
+
+        // AI Guider training signals
+        void newAIGuideTrainingProgress(const QString &message);
+        void newAIGuideTrainingComplete();
+        void newAIGuideTrainingError(const QString &error);
+
     private:
 
         void resizeEvent(QResizeEvent *event) override;
@@ -733,7 +744,8 @@ class Guide : public QWidget, public Ui::Guide
         OpsDither *opsDither { nullptr };
         OpsGPG *opsGPG { nullptr };
         OpsAIConfig *opsAIConfig { nullptr };
-        OpsAIGuide *opsAIGuide { nullptr };
+        AIGuideProtocol *m_AIGuideProtocol { nullptr };
+        AIGuideWizard *aIGuideWizard { nullptr };
 
         // Guide Frame
         QSharedPointer<GuideView> m_GuideView;

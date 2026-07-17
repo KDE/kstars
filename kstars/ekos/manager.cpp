@@ -2849,6 +2849,22 @@ void Manager::initGuide()
             toolsWidget->setTabIcon(index, icon);
         }
         guideManager->init(guideModule());
+
+        // Wire AI Guider progress/log/complete signals
+        connect(guideModule(), &Ekos::Guide::newAIGuideProgress, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendAIGuideProgress);
+        connect(guideModule(), &Ekos::Guide::newAIGuideLog, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendAIGuideLog);
+        connect(guideModule(), &Ekos::Guide::newAIGuideComplete, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendAIGuideComplete);
+
+        // Wire AI Guider training signals
+        connect(guideModule(), &Ekos::Guide::newAIGuideTrainingProgress, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendAIGuideTrainingProgress);
+        connect(guideModule(), &Ekos::Guide::newAIGuideTrainingComplete, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendAIGuideTrainingComplete);
+        connect(guideModule(), &Ekos::Guide::newAIGuideTrainingError, ekosLiveClient.get()->message(),
+                &EkosLive::Message::sendAIGuideTrainingError);
     }
 
     connectModules();
