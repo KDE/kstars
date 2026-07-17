@@ -252,7 +252,7 @@ void AIGuideProtocol::stop()
         disconnect(m_Guide, &Guide::guideStats, this, &AIGuideProtocol::onGuideStats);
     }
     restoreSettings();
-    m_State = STATE_DONE;
+    m_State = STATE_IDLE;
     emit protocolLog("Protocol Aborted by User");
     emit protocolStopped();
 }
