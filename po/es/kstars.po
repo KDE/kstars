@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-16 02:06+0000\n"
-"PO-Revision-Date: 2026-07-16 00:33+0100\n"
+"POT-Creation-Date: 2026-07-17 02:08+0000\n"
+"PO-Revision-Date: 2026-07-17 01:18+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -590,7 +590,7 @@ msgstr "Cancelar"
 #: ekos/align/opsastrometryindexfiles.cpp:722
 #: ekos/align/opsastrometryindexfiles.cpp:743
 #: ekos/align/opsastrometryindexfiles.cpp:753 ekos/capture/sequencejob.cpp:36
-#: ekos/manager.cpp:1589 ekos/manager.cpp:1604 ekos/manager.cpp:1620
+#: ekos/manager.cpp:1591 ekos/manager.cpp:1606 ekos/manager.cpp:1622
 #: ekos/scheduler/scheduler.cpp:1852
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:409
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:419
@@ -823,7 +823,7 @@ msgstr "< &Atrás"
 #: auxiliary/kswizard.cpp:80 ekos/align/manualrotator.cpp:47
 #: ekos/align/polaralignmentassistant.ui:282 ekos/focus/focusadvisor.cpp:177
 #: ekos/focus/focusadvisor.cpp:765 ekos/focus/focusadvisor.cpp:1160
-#: ekos/focus/focusadvisor.cpp:1405
+#: ekos/focus/focusadvisor.cpp:1405 ekos/focus/tiltcorrectionwidget.cpp:990
 #, kde-format
 msgid "Done"
 msgstr "Terminado"
@@ -1463,7 +1463,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
 #: auxiliary/xplanetimageviewer.cpp:352 dialogs/newfov.ui:1095
-#: indi/collimationOptions.ui:462
+#: ekos/focus/tiltcorrectionwidget.cpp:337 indi/collimationOptions.ui:462
 #, kde-format
 msgid "Rotation:"
 msgstr "Rotación:"
@@ -2076,7 +2076,7 @@ msgstr "Estado:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.cpp:178
 #: ekos/guide/guidestatewidget.cpp:185 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:1114 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:1116 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1845
 #: ekos/scheduler/scheduler.cpp:2488 ekos/scheduler/scheduler.cpp:2659
 #: ekos/scheduler/scheduler.cpp:2667 ekos/scheduler/scheduler.cpp:2677
@@ -2714,7 +2714,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:281 ekos/align/mountmodel.cpp:407
 #: ekos/capture/camera_jobs.cpp:341 ekos/capture/camera_jobs.cpp:427
 #: ekos/guide/guidedriftgraph.cpp:503 ekos/scheduler/scheduler.cpp:2229
-#: ekos/scheduler/scheduler.cpp:2339 fitsviewer/fitstab.cpp:1611
+#: ekos/scheduler/scheduler.cpp:2339 fitsviewer/fitstab.cpp:1621
 #: tools/scriptbuilder.cpp:833 tools/scriptbuilder.cpp:931
 #, kde-format
 msgid "Invalid URL"
@@ -3167,7 +3167,7 @@ msgstr "_lic"
 #. i18n: ectx: property (title), widget (QGroupBox, object_group)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:478
-#: fitsviewer/fitstab.cpp:813
+#: fitsviewer/fitstab.cpp:823
 #, kde-format
 msgid "Object"
 msgstr "Objeto"
@@ -4141,7 +4141,7 @@ msgstr "Detalles - Datos de posición"
 #. i18n: ectx: property (text), widget (QLabel, CoordTitle)
 #. i18n: ectx: property (text), widget (QRadioButton, coordinatesR)
 #: dialogs/details_position.ui:66 ekos/guide/manualdither.ui:55
-#: fitsviewer/fitstab.cpp:816 kstarslite/qml/dialogs/DetailsDialog.qml:236
+#: fitsviewer/fitstab.cpp:826 kstarslite/qml/dialogs/DetailsDialog.qml:236
 #: printing/detailstable.cpp:510
 #, kde-format, kde-kuit-format
 msgid "Coordinates"
@@ -5337,7 +5337,7 @@ msgstr "Calcular campo de visión"
 #. i18n: ectx: property (text), widget (QLabel, indiCameraLabel)
 #: dialogs/newfov.ui:433
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
-#: ekos/manager.cpp:2496
+#: ekos/manager.cpp:2498
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:487
 #, kde-format
 msgid "Camera"
@@ -6256,7 +6256,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:275 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1432 ekos/manager.cpp:2444 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1432 ekos/manager.cpp:2446 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3614
 #, kde-format
@@ -6309,7 +6309,7 @@ msgstr "Cargar y mover…"
 #: ekos/align/polaralignmentassistant.ui:826
 #: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
 #: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/guide/opsaiguide.ui:223
-#: ekos/manager.cpp:258 ekos/observatory/observatorydomemodel.cpp:132
+#: ekos/manager.cpp:259 ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
 #: fitsviewer/fitstab.cpp:37 kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -6833,7 +6833,7 @@ msgid "Dustcap error detected. Aborting alignment."
 msgstr ""
 "Detectado error de la cubierta antipolvo. Interrumpiendo la alineación."
 
-#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5898
+#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5897
 #, kde-format
 msgid "Dustcap device %1 removed."
 msgstr "Dispositivo de cubierta antipolvo %1 eliminado."
@@ -7082,7 +7082,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (segundos de arco)"
 
 #: ekos/align/align_settings.cpp:225 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5978
+#: ekos/focus/focus.cpp:5977
 #, kde-format
 msgid "Filter operation failed."
 msgstr "La operación de filtrado ha fallado."
@@ -7134,7 +7134,7 @@ msgstr "Exportar los puntos de la solución"
 #: ekos/align/mountmodel.cpp:406 ekos/capture/camera_jobs.cpp:340
 #: ekos/capture/camera_jobs.cpp:426 ekos/guide/guidedriftgraph.cpp:502
 #: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2338
-#: fitsviewer/fitstab.cpp:1610 tools/scriptbuilder.cpp:833
+#: fitsviewer/fitstab.cpp:1620 tools/scriptbuilder.cpp:833
 #: tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL: %1"
@@ -7236,7 +7236,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Error: se ha perdido la conexión con la rueda de filtros."
 
 #: ekos/align/align_solver.cpp:130 ekos/capture/cameraprocess.cpp:236
-#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6097
+#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6096
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -7303,7 +7303,7 @@ msgid "Capturing image..."
 msgstr "Capturando imagen…"
 
 #: ekos/align/align_solver.cpp:412 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:3183
+#: ekos/focus/focus.cpp:3182
 #, kde-format
 msgid "Image received."
 msgstr "Imagen recibida."
@@ -7484,12 +7484,12 @@ msgstr ""
 "fallo."
 
 #: ekos/align/align_solver.cpp:1199 ekos/capture/cameraprocess.cpp:2158
-#: ekos/focus/focus.cpp:6152
+#: ekos/focus/focus.cpp:6151
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "El tiempo de exposición se ha agotado. Interrumpiendo…"
 
-#: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6159
+#: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6158
 #: ekos/guide/guide.cpp:1183
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
@@ -7498,7 +7498,7 @@ msgstr ""
 "el controlador…"
 
 #: ekos/align/align_solver.cpp:1227 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6173 ekos/guide/guide.cpp:1148
+#: ekos/focus/focus.cpp:6172 ekos/guide/guide.cpp:1148
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "El tiempo de exposición se ha agotado. Reiniciando la exposición…"
@@ -8340,7 +8340,7 @@ msgstr "WCS"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryDynamicThreshold)
 #. i18n: ectx: label, entry (AstrometryDynamicThreshold), group (Align)
-#: ekos/align/opsalign.ui:260 kstars.kcfg:2941
+#: ekos/align/opsalign.ui:260 kstars.kcfg:2970
 #, kde-format
 msgid ""
 "Adjust StellarSolver threshold dynamically based on source extractor "
@@ -8686,7 +8686,7 @@ msgstr "L"
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_FitsSolverScale)
 #. i18n: ectx: label, entry (AstrometryUseImageScale), group (Align)
 #: ekos/align/opsastrometry.ui:57 fitsviewer/platesolve.ui:70
-#: fitsviewer/platesolve.ui:89 kstars.kcfg:2911
+#: fitsviewer/platesolve.ui:89 kstars.kcfg:2940
 #, kde-format
 msgid ""
 "Set image scale to speed up solver as it does not have to search index files "
@@ -8848,7 +8848,7 @@ msgstr "Opciones de la posición"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUsePosition)
 #. i18n: ectx: label, entry (AstrometryUsePosition), group (Align)
-#: ekos/align/opsastrometry.ui:322 kstars.kcfg:2945
+#: ekos/align/opsastrometry.ui:322 kstars.kcfg:2974
 #, kde-format
 msgid ""
 "Set estimated position to speed up astrometry solver as it does not have to "
@@ -8870,7 +8870,7 @@ msgstr "Usar posición"
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_FitsSolverRadius)
 #. i18n: ectx: label, entry (AstrometryRadius), group (Align)
 #: ekos/align/opsastrometry.ui:344 ekos/align/opsastrometry.ui:451
-#: fitsviewer/platesolve.ui:293 fitsviewer/platesolve.ui:309 kstars.kcfg:2959
+#: fitsviewer/platesolve.ui:293 fitsviewer/platesolve.ui:309 kstars.kcfg:2988
 #, kde-format
 msgid ""
 "The Search Radius for the Estimated Telescope/Image Field Position in "
@@ -10897,7 +10897,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, StartB)
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:157 ekos/manager.cpp:264 ekos/manager.cpp:1122
+#: ekos/manager.cpp:158 ekos/manager.cpp:265 ekos/manager.cpp:1124
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
@@ -10946,7 +10946,7 @@ msgid "Slew"
 msgstr "Mover"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:404
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:405
 #, kde-format
 msgid "Setup"
 msgstr "Configurar"
@@ -11130,7 +11130,7 @@ msgstr "Iniciar Ekos"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/align/pushtoassistant.ui:199 ekos/analyze/analyze.cpp:2334
-#: ekos/manager.cpp:2548 ekos/scheduler/framingassistant.ui:1276
+#: ekos/manager.cpp:2550 ekos/scheduler/framingassistant.ui:1276
 #: ekos/scheduler/scheduler.ui:240 fitsviewer/fitsviewer.cpp:582
 #, kde-format
 msgid "Align"
@@ -11142,7 +11142,7 @@ msgstr "Alinear"
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/align/pushtoassistant.ui:206 ekos/analyze/analyze.cpp:2337
 #: ekos/auxiliary/opslogs.ui:77 ekos/auxiliary/opslogs.ui:413
-#: ekos/manager.cpp:2740 ekos/manager.ui:778
+#: ekos/manager.cpp:2742 ekos/manager.ui:778
 #: ekos/scheduler/taskqueue/ui/deviceselectiondialog.cpp:485
 #, kde-format
 msgid "Mount"
@@ -11235,7 +11235,7 @@ msgstr "No se puede mostrar el archivo de imagen temporal: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2333 ekos/auxiliary/opslogs.ui:370
-#: ekos/manager.cpp:2593 ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2595 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:287
 #: fitsviewer/fitsviewer.cpp:574
 #, kde-format
@@ -11247,7 +11247,7 @@ msgstr "Foco"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2335 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:71 ekos/guide/guide.ui:129 ekos/manager.cpp:2815
+#: ekos/guide/guide.cpp:71 ekos/guide/guide.ui:129 ekos/manager.cpp:2817
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -13399,7 +13399,7 @@ msgid "Log Ekos Scheduler module activity"
 msgstr "Registrar la actividad del módulo de planificación de Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:409
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:410
 #: ekos/scheduler/framingassistantui.cpp:706
 #, kde-format
 msgid "Scheduler"
@@ -13584,7 +13584,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2865
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2867
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -14989,7 +14989,7 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, Normalization)
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
-#: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
+#: ekos/focus/aberrationinspector.ui:353 ekos/focus/aberrationinspector.ui:357
 #: fitsviewer/livestacking.ui:133 fitsviewer/livestacking.ui:1204
 #: fitsviewer/livestacking.ui:1208 fitsviewer/livestacking.ui:1697
 #: indi/drivermanager.cpp:1370 indi/indidriver.cpp:735 kstarsinit.cpp:875
@@ -18937,20 +18937,22 @@ msgstr "Ha ocurrido un error al autenticarse en el servidor de EkosLive: %1"
 msgid "Error parsing server response: %1"
 msgstr "Ha ocurrido un error al analizar la respuesta del servidor: %1"
 
-#: ekos/focus/aberrationinspector.cpp:60
+#: ekos/focus/aberrationinspector.cpp:61
 #, kde-format
 msgid "Aberration Inspector - Run %1"
 msgstr "Inspector de aberración: Ejecutar %1"
 
-#: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:98
+#: ekos/focus/aberrationinspector.cpp:102
+#: ekos/focus/aberrationinspector.cpp:107
 #, kde-format
 msgid "Tile"
 msgstr "Cuadrícula"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, mcpToolsTree)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
-#: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:99
-#: ekos/opsekos.ui:554 kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:68
+#: ekos/focus/aberrationinspector.cpp:102
+#: ekos/focus/aberrationinspector.cpp:108 ekos/opsekos.ui:554
+#: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:68
 #: tools/optionstreeview.ui:28
 #, kde-format, kde-kuit-format
 msgid "Description"
@@ -18958,77 +18960,78 @@ msgstr "Descripción"
 
 #. i18n: ectx: property (title), widget (QGroupBox, SolutionGroupBox)
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/platesolve.ui:521
+#: ekos/focus/aberrationinspector.cpp:102 fitsviewer/platesolve.ui:521
 #: fitsviewer/solveInfo.ui:91
 #, kde-format
 msgid "Solution"
 msgstr "Solución"
 
-#: ekos/focus/aberrationinspector.cpp:93
+#: ekos/focus/aberrationinspector.cpp:102
 #, kde-format
 msgid "Delta (ticks)"
 msgstr "Delta (pulsos)"
 
-#: ekos/focus/aberrationinspector.cpp:93
+#: ekos/focus/aberrationinspector.cpp:102
 #, kde-format
 msgid "Delta (μm)"
 msgstr "Delta (μm)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Weighting)
-#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/livestacking.ui:1086
+#: ekos/focus/aberrationinspector.cpp:102 fitsviewer/livestacking.ui:1086
 #, kde-format
 msgid "Num Stars"
 msgstr "Número de estrellas"
 
-#: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:104
+#: ekos/focus/aberrationinspector.cpp:102
+#: ekos/focus/aberrationinspector.cpp:113
 #, kde-format
 msgid "R²"
 msgstr "R²"
 
-#: ekos/focus/aberrationinspector.cpp:93
+#: ekos/focus/aberrationinspector.cpp:102
 #, kde-format
 msgid "Exclude"
 msgstr "Excluir"
 
-#: ekos/focus/aberrationinspector.cpp:100
+#: ekos/focus/aberrationinspector.cpp:109
 #, kde-format
 msgid "Focuser Solution"
 msgstr "Solución del enfocador"
 
-#: ekos/focus/aberrationinspector.cpp:101
+#: ekos/focus/aberrationinspector.cpp:110
 #, kde-format
 msgid "Delta from central tile in ticks"
 msgstr "Delta de la cuadrícula central en pulsos"
 
-#: ekos/focus/aberrationinspector.cpp:102
+#: ekos/focus/aberrationinspector.cpp:111
 #, kde-format
 msgid "Delta from central tile in micrometers"
 msgstr "Delta de la cuadrícula central en micrómetros"
 
-#: ekos/focus/aberrationinspector.cpp:103
+#: ekos/focus/aberrationinspector.cpp:112
 #, kde-format
 msgid "Min / max number of stars detected in the focus run"
 msgstr "Número mínimo/máximo de estrellas detectadas al ejecutar el enfoque"
 
-#: ekos/focus/aberrationinspector.cpp:105
+#: ekos/focus/aberrationinspector.cpp:114
 #, kde-format
 msgid "Check to exclude row from calculations"
 msgstr "Marque esto para excluir la fila de los cálculos"
 
-#: ekos/focus/aberrationinspector.cpp:572
-#: ekos/focus/aberrationinspector.cpp:589
-#: ekos/focus/aberrationinspector.cpp:590
-#: ekos/focus/aberrationinspector.cpp:591
+#: ekos/focus/aberrationinspector.cpp:588
+#: ekos/focus/aberrationinspector.cpp:605
+#: ekos/focus/aberrationinspector.cpp:606
+#: ekos/focus/aberrationinspector.cpp:607
 #, kde-format
 msgid "N/A"
 msgstr "N/d"
 
-#: ekos/focus/aberrationinspector.cpp:577
+#: ekos/focus/aberrationinspector.cpp:593
 #, kde-format
 msgid "Move sensor nearer flattener"
 msgstr "Acercar el sensor al aplanador"
 
-#: ekos/focus/aberrationinspector.cpp:579
+#: ekos/focus/aberrationinspector.cpp:595
 #, kde-format
 msgid "Move sensor away from flattener"
 msgstr "Alejar el sensor del aplanador"
@@ -19052,7 +19055,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowLabels)
 #. i18n: ectx: property (text), widget (QCheckBox, abInsLabels)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/focus/aberrationinspector.ui:51 ekos/focus/aberrationinspector.ui:418
+#: ekos/focus/aberrationinspector.ui:51 ekos/focus/aberrationinspector.ui:435
 #: xplanet/opsxplanet.ui:574
 #, kde-format
 msgid "Labels"
@@ -19119,20 +19122,44 @@ msgstr "CFZ"
 msgid "Optimise Tile Centres"
 msgstr "Optimizar los centros de las cuadrículas"
 
+#. i18n: ectx: property (toolTip), widget (QCheckBox, abInsTiltPlate)
+#: ekos/focus/aberrationinspector.ui:125
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
+#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
+#| "html>"
+msgid ""
+"<html><head/><body><p>Check if you have a tilt adjustment plate installed. "
+"Shows the Tilt Correction Advisory panel with suggested adjustments.</p></"
+"body></html>"
+msgstr ""
+"<html><head/><body><p>Arrastre el deslizador para ajustar la escala de los "
+"gráficos de correcciones relativos a la escala de los gráficos de deriva.</"
+"p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, abInsTiltPlate)
+#: ekos/focus/aberrationinspector.ui:128
+#, fuzzy, kde-format
+#| msgctxt "City in Nebraska USA"
+#| msgid "North Platte"
+msgid "Tilt Plate"
+msgstr "North Platte"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/focus/aberrationinspector.ui:228
+#: ekos/focus/aberrationinspector.ui:238
 #, kde-format
 msgid "Top-Bottom Tilt:"
 msgstr "Inclinación de arriba a abajo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/focus/aberrationinspector.ui:241
+#: ekos/focus/aberrationinspector.ui:251
 #, kde-format
 msgid "Total Tilt:"
 msgstr "Inclinación total:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, backfocus)
-#: ekos/focus/aberrationinspector.ui:255
+#: ekos/focus/aberrationinspector.ui:265
 #, kde-format
 msgid ""
 "<html><head/><body><p>Backfocus delta is the difference in focus position "
@@ -19144,25 +19171,33 @@ msgstr ""
 "del centro.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/focus/aberrationinspector.ui:271
+#: ekos/focus/aberrationinspector.ui:281
 #, kde-format
 msgid "Backfocus Δ:"
 msgstr "Δ de enfoque posterior:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/focus/aberrationinspector.ui:284
+#: ekos/focus/aberrationinspector.ui:294
 #, kde-format
 msgid "Left-Right Tilt:"
 msgstr "Inclinación de izquierda a derecha:"
 
+#. i18n: ectx: property (title), widget (Ekos::TiltCorrectionWidget, tiltCorrectionWidget)
+#: ekos/focus/aberrationinspector.ui:317
+#: ekos/focus/tiltcorrectionwidget.cpp:272
+#, fuzzy, kde-format
+#| msgid "Correction Timeout:"
+msgid "Tilt Correction Advisory"
+msgstr "Tiempo de espera de la corrección:"
+
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/focus/aberrationinspector.ui:319
+#: ekos/focus/aberrationinspector.ui:336
 #, kde-format
 msgid "Selection:"
 msgstr "Selección:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsSelection)
-#: ekos/focus/aberrationinspector.ui:333
+#: ekos/focus/aberrationinspector.ui:350
 #, kde-format
 msgid ""
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
@@ -19204,25 +19239,25 @@ msgstr ""
 "2D a través del gráfico.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsSelection)
-#: ekos/focus/aberrationinspector.ui:345 fitsviewer/starprofileviewer.cpp:131
+#: ekos/focus/aberrationinspector.ui:362 fitsviewer/starprofileviewer.cpp:131
 #, kde-format
 msgid "Item"
 msgstr "Elemento"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsSelection)
-#: ekos/focus/aberrationinspector.ui:350
+#: ekos/focus/aberrationinspector.ui:367
 #, kde-format
 msgid "Slice"
 msgstr "Porción"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/focus/aberrationinspector.ui:358
+#: ekos/focus/aberrationinspector.ui:375
 #, kde-format
 msgid "Theme:"
 msgstr "Temas:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTheme)
-#: ekos/focus/aberrationinspector.ui:365
+#: ekos/focus/aberrationinspector.ui:382
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></body></"
@@ -19232,55 +19267,55 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
-#: ekos/focus/aberrationinspector.ui:372
+#: ekos/focus/aberrationinspector.ui:389
 #, kde-format
 msgid "Qt"
 msgstr "Qt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
-#: ekos/focus/aberrationinspector.ui:377
+#: ekos/focus/aberrationinspector.ui:394
 #, kde-format
 msgid "Primary Colors"
 msgstr "Colores primarios"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
-#: ekos/focus/aberrationinspector.ui:382
+#: ekos/focus/aberrationinspector.ui:399
 #, kde-format
 msgid "Digia"
 msgstr "Digia"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
-#: ekos/focus/aberrationinspector.ui:387
+#: ekos/focus/aberrationinspector.ui:404
 #, kde-format
 msgid "Stone Moss"
 msgstr "Musgo de rocas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
-#: ekos/focus/aberrationinspector.ui:392
+#: ekos/focus/aberrationinspector.ui:409
 #, kde-format
 msgid "Army Blue"
 msgstr "Azul militar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
-#: ekos/focus/aberrationinspector.ui:397
+#: ekos/focus/aberrationinspector.ui:414
 #, kde-format
 msgid "Retro"
 msgstr "Retro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
-#: ekos/focus/aberrationinspector.ui:402
+#: ekos/focus/aberrationinspector.ui:419
 #, kde-format
 msgid "Ebony"
 msgstr "Ébano"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
-#: ekos/focus/aberrationinspector.ui:407
+#: ekos/focus/aberrationinspector.ui:424
 #, kde-format
 msgid "Isabelle"
 msgstr "Isabelle"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsLabels)
-#: ekos/focus/aberrationinspector.ui:415
+#: ekos/focus/aberrationinspector.ui:432
 #, kde-format
 msgid ""
 "<html><head/><body><p>Check to display mosaic tile sensor labels.</p></"
@@ -19290,20 +19325,20 @@ msgstr ""
 "cuadrículas de mosaico.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSensor)
-#: ekos/focus/aberrationinspector.ui:428
+#: ekos/focus/aberrationinspector.ui:445
 #, kde-format
 msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Marque esto para mostrar el sensor.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSensor)
-#: ekos/focus/aberrationinspector.ui:431
+#: ekos/focus/aberrationinspector.ui:448
 #, kde-format
 msgid "Sensor"
 msgstr "Sensor"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalWire)
-#: ekos/focus/aberrationinspector.ui:441
+#: ekos/focus/aberrationinspector.ui:458
 #, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface mesh.</p></body></"
@@ -19313,13 +19348,13 @@ msgstr ""
 "Petzval.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalWire)
-#: ekos/focus/aberrationinspector.ui:444
+#: ekos/focus/aberrationinspector.ui:461
 #, kde-format
 msgid "Petzval Wire"
 msgstr "Malla de Petzval"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsPetzvalSurface)
-#: ekos/focus/aberrationinspector.ui:454
+#: ekos/focus/aberrationinspector.ui:471
 #, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the Petzval surface.</p></body></html>"
@@ -19328,13 +19363,13 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsPetzvalSurface)
-#: ekos/focus/aberrationinspector.ui:457
+#: ekos/focus/aberrationinspector.ui:474
 #, kde-format
 msgid "Petzval Surface"
 msgstr "Superficie de Petzval"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsSimMode)
-#: ekos/focus/aberrationinspector.ui:470
+#: ekos/focus/aberrationinspector.ui:487
 #, kde-format
 msgid ""
 "<html><head/><body><p>Check to set 3D Graphic in Simulation Mode</p></body></"
@@ -19344,20 +19379,20 @@ msgstr ""
 "simulación.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsSimMode)
-#: ekos/focus/aberrationinspector.ui:473
+#: ekos/focus/aberrationinspector.ui:490
 #, kde-format
 msgid "Sim Mode"
 msgstr "Modo de simulación"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsBackfocusSlider)
-#: ekos/focus/aberrationinspector.ui:483
+#: ekos/focus/aberrationinspector.ui:500
 #, kde-format
 msgid "<html><head/><body><p>Backfocus slider</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Deslizador de enfoque posterior</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltLRSlider)
-#: ekos/focus/aberrationinspector.ui:502
+#: ekos/focus/aberrationinspector.ui:519
 #, kde-format
 msgid "<html><head/><body><p>Left-to-Right Tilt Slider</p></body></html>"
 msgstr ""
@@ -19365,7 +19400,7 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltTBSlider)
-#: ekos/focus/aberrationinspector.ui:521
+#: ekos/focus/aberrationinspector.ui:538
 #, kde-format
 msgid "<html><head/><body><p>Top-to-Bottom Tilt Slider</p></body></html>"
 msgstr ""
@@ -19893,7 +19928,7 @@ msgstr "¿Borrar fotogramas de enfoque?"
 msgid "No Focuser connected."
 msgstr "Ningún enfocador conectado."
 
-#: ekos/focus/focus.cpp:1151 ekos/focus/focus.cpp:5054
+#: ekos/focus/focus.cpp:1151 ekos/focus/focus.cpp:5053
 #, kde-format
 msgid "No camera connected."
 msgstr "No hay ninguna cámara conectada."
@@ -19924,16 +19959,16 @@ msgstr ""
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "En bucle de enfoque. Se ha rechazado el enfoque automático."
 
-#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5481
-#: ekos/focus/focus.cpp:5756
+#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5480
+#: ekos/focus/focus.cpp:5755
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Ajuste de enfoque"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5483
-#: ekos/focus/focus.cpp:5756 ekos/focus/opsfocussettings.ui:503
+#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5482
+#: ekos/focus/focus.cpp:5755 ekos/focus/opsfocussettings.ui:503
 #: ekos/focus/opsfocussettings.ui:583
 #, kde-format
 msgid "Adaptive Focus"
@@ -19966,7 +20001,7 @@ msgstr "Enfoque automático iniciado…"
 msgid "Autofocus operation started"
 msgstr "La operación de enfoque automático se ha iniciado"
 
-#: ekos/focus/focus.cpp:1547 ekos/focus/focus.cpp:2362
+#: ekos/focus/focus.cpp:1547 ekos/focus/focus.cpp:2361
 #, kde-format
 msgid "Detection complete."
 msgstr "Detección completada."
@@ -20038,260 +20073,260 @@ msgstr "Moviendo a la posición mínima de enfoque %1…"
 msgid "At maximum focus position %1..."
 msgstr "En la posición máxima de enfoque %1…"
 
-#: ekos/focus/focus.cpp:2098
+#: ekos/focus/focus.cpp:2097
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "Moviendo a la posición máxima de enfoque %1…"
 
-#: ekos/focus/focus.cpp:2125
+#: ekos/focus/focus.cpp:2124
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Error: no se ha detectado ningún enfocador."
 
-#: ekos/focus/focus.cpp:2132
+#: ekos/focus/focus.cpp:2131
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Error: se ha perdido la conexión con el enfocador."
 
-#: ekos/focus/focus.cpp:2146
+#: ekos/focus/focus.cpp:2145
 #, kde-format
 msgid "outward"
 msgstr "hacia afuera"
 
-#: ekos/focus/focus.cpp:2146
+#: ekos/focus/focus.cpp:2145
 #, kde-format
 msgid "inward"
 msgstr "hacia adentro"
 
-#: ekos/focus/focus.cpp:2163
+#: ekos/focus/focus.cpp:2162
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Enfocando %2 en %1 pasos…"
 
-#: ekos/focus/focus.cpp:2169
+#: ekos/focus/focus.cpp:2168
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Enfocando %2 en %1 pasos…"
 msgstr[1] "Enfocando %2 en %1 pasos…"
 
-#: ekos/focus/focus.cpp:2175
+#: ekos/focus/focus.cpp:2174
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Enfocando %2 en %1 ms…"
 
-#: ekos/focus/focus.cpp:2210
+#: ekos/focus/focus.cpp:2209
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "El enfocador sigue quedándose sin tiempo. Interrumpiendo…"
 
-#: ekos/focus/focus.cpp:2217
+#: ekos/focus/focus.cpp:2216
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Se ha agotado el tiempo del movimiento de enfoque (%1). Reiniciando el "
 "controlador de enfoque %2"
 
-#: ekos/focus/focus.cpp:2230
+#: ekos/focus/focus.cpp:2229
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "Se ha agotado el tiempo del movimiento de enfoque (%1). Enfocando a %2 pasos…"
 
-#: ekos/focus/focus.cpp:2276
+#: ekos/focus/focus.cpp:2275
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Intentando reconectar con el enfocador: %1"
 
-#: ekos/focus/focus.cpp:2285
+#: ekos/focus/focus.cpp:2284
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "No se puede reconectar con el enfocador: %1. Interrumpiendo…"
 
-#: ekos/focus/focus.cpp:2555
+#: ekos/focus/focus.cpp:2554
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Detectando fuentes…"
 
-#: ekos/focus/focus.cpp:2691
+#: ekos/focus/focus.cpp:2690
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "La operación de enfoque automático se ha completado con éxito"
 
-#: ekos/focus/focus.cpp:2705
+#: ekos/focus/focus.cpp:2704
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "La operación de enfoque automático ha fallado"
 
-#: ekos/focus/focus.cpp:2774
+#: ekos/focus/focus.cpp:2773
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Procedimiento de enfoque completado tras %1 iteración."
 msgstr[1] "Procedimiento de enfoque completado tras %1 iteraciones."
 
-#: ekos/focus/focus.cpp:2861
+#: ekos/focus/focus.cpp:2860
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "Estabilizando durante %1s…"
 
-#: ekos/focus/focus.cpp:2869
+#: ekos/focus/focus.cpp:2868
 #, kde-format
 msgid "Settling complete."
 msgstr "Estabilización completada."
 
-#: ekos/focus/focus.cpp:2882
+#: ekos/focus/focus.cpp:2881
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "El enfoque automático ha fallado; volviendo a la posición inicial de enfoque "
 "%1."
 
-#: ekos/focus/focus.cpp:2915
+#: ekos/focus/focus.cpp:2914
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS recibido. No se ha detectado ninguna estrella."
 
-#: ekos/focus/focus.cpp:3248
+#: ekos/focus/focus.cpp:3247
 #, kde-format
 msgid "Capture complete. Select a region of interest."
 msgstr "Captura completa. Seleccione una zona de interés."
 
-#: ekos/focus/focus.cpp:3289
+#: ekos/focus/focus.cpp:3288
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 "Ha fallado la selección automática de una estrella. Seleccione una estrella "
 "de forma manual."
 
-#: ekos/focus/focus.cpp:3383
+#: ekos/focus/focus.cpp:3382
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Captura completa. Seleccione la estrella a enfocar."
 
-#: ekos/focus/focus.cpp:3414
+#: ekos/focus/focus.cpp:3413
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 "No se ha detectado ninguna estrella al probar HFR. Volviendo a capturar…"
 
-#: ekos/focus/focus.cpp:3435
+#: ekos/focus/focus.cpp:3434
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "HFR %1 > Límite %2"
 
-#: ekos/focus/focus.cpp:3577
+#: ekos/focus/focus.cpp:3576
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "El enfoque automático ha fallado: se ha excedido el número máximo de %1 "
 "iteraciones"
 
-#: ekos/focus/focus.cpp:3588 ekos/focus/focus.cpp:3850
-#: ekos/focus/focus.cpp:4458
+#: ekos/focus/focus.cpp:3587 ekos/focus/focus.cpp:3849
+#: ekos/focus/focus.cpp:4457
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "No se ha detectado ninguna estrella. Volviendo a capturar…"
 
-#: ekos/focus/focus.cpp:3594 ekos/focus/focus.cpp:4464
+#: ekos/focus/focus.cpp:3593 ekos/focus/focus.cpp:4463
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Ha fallado la detección de estrellas en la posición %1. Continuando…"
 
-#: ekos/focus/focus.cpp:3600 ekos/focus/focus.cpp:4470
+#: ekos/focus/focus.cpp:3599 ekos/focus/focus.cpp:4469
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "Ha fallado la detección de estrellas. Reinicie el fotograma y vuelva a "
 "intentarlo."
 
-#: ekos/focus/focus.cpp:3787
+#: ekos/focus/focus.cpp:3786
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "No se ha podido lanzar la ejecución de %1 del inspector de aberración."
 
-#: ekos/focus/focus.cpp:3807
+#: ekos/focus/focus.cpp:3806
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Lanzando la ejecución de %1 del inspector de aberración…"
 
-#: ekos/focus/focus.cpp:3833
+#: ekos/focus/focus.cpp:3832
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Iniciando exploración para posición inicial del enfocador."
 
-#: ekos/focus/focus.cpp:3834
+#: ekos/focus/focus.cpp:3833
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Explorando para posición inicial…"
 
-#: ekos/focus/focus.cpp:3856
+#: ekos/focus/focus.cpp:3855
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Ha fallado la detección de estrellas. Interrumpiendo…"
 
-#: ekos/focus/focus.cpp:3865
+#: ekos/focus/focus.cpp:3864
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr ""
 "Posición de inicio de exploración: se ha excedido el número máximo de %1 "
 "iteraciones"
 
-#: ekos/focus/focus.cpp:3884
+#: ekos/focus/focus.cpp:3883
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Buscando posición de inicio %1/%2"
 
-#: ekos/focus/focus.cpp:3898
+#: ekos/focus/focus.cpp:3897
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Sin exploración mínima: ampliando la búsqueda…"
 
-#: ekos/focus/focus.cpp:3911
+#: ekos/focus/focus.cpp:3910
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Posición de inicio de exploración %1 encontrada"
 
-#: ekos/focus/focus.cpp:3912
+#: ekos/focus/focus.cpp:3911
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Posición de inicio de exploración %1 encontrada"
 
-#: ekos/focus/focus.cpp:3981
+#: ekos/focus/focus.cpp:3980
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "La comprobación del ajuste de curva ha fallado, focusR2Limit=%1 R2 límite="
 "%2. Reintentando…"
 
-#: ekos/focus/focus.cpp:3983
+#: ekos/focus/focus.cpp:3982
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Límite=%2"
 
-#: ekos/focus/focus.cpp:3991
+#: ekos/focus/focus.cpp:3990
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "La comprobación del ajuste de curva ha vuelto a fallar, focusR2Limit=%1 R2 "
 "límite=%2, pero se continúa…"
 
-#: ekos/focus/focus.cpp:4001
+#: ekos/focus/focus.cpp:4000
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Algoritmo de enfoque automático lineal interrumpido: %1"
 
-#: ekos/focus/focus.cpp:4036
+#: ekos/focus/focus.cpp:4035
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS recibido. HFR %1 @ %2. Delta (%3 %)"
 
-#: ekos/focus/focus.cpp:4038
+#: ekos/focus/focus.cpp:4037
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS recibido. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:4099
+#: ekos/focus/focus.cpp:4098
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -20300,26 +20335,26 @@ msgstr ""
 "El cambio en HFR es demasiado pequeño. Pruebe a aumentar el tamaño del paso "
 "o a disminuir la tolerancia."
 
-#: ekos/focus/focus.cpp:4106
+#: ekos/focus/focus.cpp:4105
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Ha fallado la detección la estrella enfocada en el fotograma. Capture y "
 "seleccione una estrella enfocada."
 
-#: ekos/focus/focus.cpp:4212
+#: ekos/focus/focus.cpp:4211
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Se ha encontrado una solución polinómica @ %1"
 
-#: ekos/focus/focus.cpp:4276
+#: ekos/focus/focus.cpp:4275
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "El enfocador no se puede mover más porque se ha alcanzado el límite del "
 "dispositivo. El enfoque automático se ha interrumpido."
 
-#: ekos/focus/focus.cpp:4287
+#: ekos/focus/focus.cpp:4286
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -20327,25 +20362,25 @@ msgstr ""
 "Fluctuaciones inestables. Pruebe a aumentar el tamaño del paso inicial o el "
 "tiempo de exposición."
 
-#: ekos/focus/focus.cpp:4297
+#: ekos/focus/focus.cpp:4296
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 "Se ha alcanzado un punto muerto. Pruebe de nuevo con diferentes ajustes."
 
-#: ekos/focus/focus.cpp:4326
+#: ekos/focus/focus.cpp:4325
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "Se ha alcanzado el límite máximo del recorrido. Se ha interrumpido el "
 "enfoque automático."
 
-#: ekos/focus/focus.cpp:4443
+#: ekos/focus/focus.cpp:4442
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS recibido. HFR %1. Delta (%2 %) HFR mín. (%3)"
 
-#: ekos/focus/focus.cpp:4447
+#: ekos/focus/focus.cpp:4446
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -20353,115 +20388,115 @@ msgstr ""
 "El enfoque automático no ha conseguido un enfoque apropiado. Pruebe a "
 "ajustar el valor de tolerancia."
 
-#: ekos/focus/focus.cpp:4561 ekos/focus/focus.cpp:4584
-#: ekos/focus/focus.cpp:4769 ekos/focus/focus.cpp:4862
-#: ekos/focus/focus.cpp:4944 ekos/focus/focus.cpp:5029
+#: ekos/focus/focus.cpp:4560 ekos/focus/focus.cpp:4583
+#: ekos/focus/focus.cpp:4768 ekos/focus/focus.cpp:4861
+#: ekos/focus/focus.cpp:4943 ekos/focus/focus.cpp:5028
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Error del enfocador; compruebe el panel de INDI."
 
-#: ekos/focus/focus.cpp:4645 ekos/focus/focus.cpp:4785
+#: ekos/focus/focus.cpp:4644 ekos/focus/focus.cpp:4784
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Simular fallo de comunicaciones del enfocador…"
 
-#: ekos/focus/focus.cpp:4746 ekos/focus/focus.cpp:4843
-#: ekos/focus/focus.cpp:4925 ekos/focus/focus.cpp:4966
+#: ekos/focus/focus.cpp:4745 ekos/focus/focus.cpp:4842
+#: ekos/focus/focus.cpp:4924 ekos/focus/focus.cpp:4965
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Reiniciando el proceso de enfoque automático…"
 
-#: ekos/focus/focus.cpp:5070
+#: ekos/focus/focus.cpp:5069
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Iniciando exposición continua…"
 
-#: ekos/focus/focus.cpp:5451
+#: ekos/focus/focus.cpp:5450
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Desactivando la selección automática de estrella porque el cuadro de "
 "selección de estrella se ha movido manualmente."
 
-#: ekos/focus/focus.cpp:5457
+#: ekos/focus/focus.cpp:5456
 #, kde-format
 msgid "Focus star is selected."
 msgstr "La estrella enfocada está seleccionada."
 
-#: ekos/focus/focus.cpp:5459
+#: ekos/focus/focus.cpp:5458
 #, kde-format
 msgid "Region of interest is selected."
 msgstr "La zona de interés está seleccionada."
 
-#: ekos/focus/focus.cpp:5479
+#: ekos/focus/focus.cpp:5478
 #, kde-format
 msgid "Autofocus"
 msgstr "Enfoque automático"
 
-#: ekos/focus/focus.cpp:5487
+#: ekos/focus/focus.cpp:5486
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Solicitud de comprobación de enfoque: esperando 10 segundos para que se "
 "complete %1."
 
-#: ekos/focus/focus.cpp:5495
+#: ekos/focus/focus.cpp:5494
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Descartando la solicitud de comprobación de enfoque: %1 en curso."
 
-#: ekos/focus/focus.cpp:5508
+#: ekos/focus/focus.cpp:5507
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 "Comprobación de enfoque ignorada: La medición de la estrella debe basarse en "
 "la estrella"
 
-#: ekos/focus/focus.cpp:5513
+#: ekos/focus/focus.cpp:5512
 #, kde-format
 msgid "Capturing to check HFR..."
 msgstr "Capturando para comprobar HFR…"
 
-#: ekos/focus/focus.cpp:5643
+#: ekos/focus/focus.cpp:5642
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 "No se ha seleccionado ninguna estrella. Usando la última posición conocida…"
 
-#: ekos/focus/focus.cpp:5649
+#: ekos/focus/focus.cpp:5648
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "No se ha detectado ninguna estrella. Interrumpiendo…"
 
-#: ekos/focus/focus.cpp:5660
+#: ekos/focus/focus.cpp:5659
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "El enfocador ya está en %1…"
 
-#: ekos/focus/focus.cpp:5759
+#: ekos/focus/focus.cpp:5758
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Solicitud de ajuste de enfoque: esperando 10 segundos para que se complete "
 "%1."
 
-#: ekos/focus/focus.cpp:5793
+#: ekos/focus/focus.cpp:5792
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Fotograma de enfoque"
 
-#: ekos/focus/focus.cpp:6197
+#: ekos/focus/focus.cpp:6196
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "No se ha podido guardar la imagen. Interrumpiendo…"
 
-#: ekos/focus/focus.cpp:6212 ekos/focus/focus.cpp:6237
+#: ekos/focus/focus.cpp:6211 ekos/focus/focus.cpp:6236
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "La exposición ha fallado. Interrumpiendo…"
 
-#: ekos/focus/focus.cpp:6536
+#: ekos/focus/focus.cpp:6535
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -21154,7 +21189,7 @@ msgstr "La solución se encuentra fuera del recorrido máximo."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:44 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:457
+#: fitsviewer/fitstab.cpp:467
 #, kde-format
 msgid "Value"
 msgstr "Valor"
@@ -22641,6 +22676,455 @@ msgstr "Adaptar posición de inicio"
 msgid "Max Total Move:"
 msgstr "Movimiento total máximo:"
 
+#: ekos/focus/tiltcorrectionwidget.cpp:124
+#, kde-format
+msgid "Sensor (rear view)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:131
+#, fuzzy, kde-format
+#| msgid "Loading city data"
+msgid "No tilt data"
+msgstr "Cargando datos de ciudades"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:140
+#, kde-format
+msgid "↑ Camera top (logo side) ↑"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:141
+#, kde-format
+msgid "Camera top rotated %1°"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:147
+#, kde-format
+msgid "View from behind camera"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:249
+#, kde-format
+msgid "%1%2 μm"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:284
+#, fuzzy, kde-format
+#| msgid "Date:"
+msgid "Plate:"
+msgstr "Fecha:"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:286
+#, fuzzy, kde-format
+#| msgctxt "City in Idaho USA"
+#| msgid "Sandpoint"
+msgid "3-point"
+msgstr "Sandpoint"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:287
+#, fuzzy, kde-format
+#| msgctxt "City in Idaho USA"
+#| msgid "Sandpoint"
+msgid "4-point"
+msgstr "Sandpoint"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:288
+#, kde-format
+msgid ""
+"Select your tilt plate type.\n"
+"3-point: ETA, Octopi, or any 3-screw plate (2 top, 1 bottom).\n"
+"4-point: Plates with screws at the four corners (UL/UR/LL/LR) — typical for "
+"TouTek-style tilt rings."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, radiusLabel)
+#: ekos/focus/tiltcorrectionwidget.cpp:295 tools/imagingplanner.ui:1410
+#, kde-format
+msgid "Radius:"
+msgstr "Radio:"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:299
+#, fuzzy, kde-format
+#| msgid " mm"
+msgctxt "millimeters suffix"
+msgid " mm"
+msgstr " mm"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:301
+#, kde-format
+msgid ""
+"Distance from plate center to adjustment point (bolt circle radius).\n"
+"Known values:\n"
+"  Wanderer ETA M54: 64 mm\n"
+"  ZWO Tilt Plates (M42/M48/M54/M68): 40 mm\n"
+"  TouTek M42 Tilter (Ø100mm): 46 mm"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:309
+#, fuzzy, kde-format
+#| msgid "Threshold:"
+msgid "Thread:"
+msgstr "Umbral:"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:311
+#, kde-format
+msgctxt "Thread preset"
+msgid "M2.5 (0.45 mm)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:312
+#, kde-format
+msgctxt "Thread preset"
+msgid "M3 (0.50 mm)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:313
+#, kde-format
+msgctxt "Thread preset"
+msgid "M3 fine (0.35 mm)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:314
+#, kde-format
+msgctxt "Thread preset"
+msgid "M4 (0.70 mm)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:315
+#, kde-format
+msgctxt "Thread preset"
+msgid "M4 fine (0.50 mm)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:316
+#, kde-format
+msgctxt "Thread preset"
+msgid "M5 (0.80 mm)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:317
+#, kde-format
+msgctxt "Thread preset"
+msgid "M5 fine (0.50 mm)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:318
+#, kde-format
+msgctxt "Thread preset"
+msgid "M6 (1.00 mm)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:319
+#, kde-format
+msgctxt "Thread preset"
+msgid "Wanderer ETA (0.50 mm)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:320
+#, fuzzy, kde-format
+#| msgid "Custom"
+msgctxt "Thread preset"
+msgid "Custom"
+msgstr "Personalizar"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:322
+#, kde-format
+msgid ""
+"Common adjustment screw thread types.\n"
+"Select to auto-fill pitch, or choose Custom to enter manually."
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:327
+#, fuzzy, kde-format
+#| msgid "Pixel Pitch:"
+msgid "Pitch:"
+msgstr "Distancia entre píxeles:"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:331
+#, kde-format
+msgctxt "millimeters per turn suffix"
+msgid " mm/turn"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:333
+#, kde-format
+msgid ""
+"Screw pitch (mm per full turn). Used to show turn count for manual plates."
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:344
+#, kde-format
+msgid ""
+"Camera rotation in optical train (0° = camera logo at top).\n"
+"Positive values rotate the camera clockwise as seen from behind.\n"
+"Diagram is adjusted so screw positions match what you physically see."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, modeLabel)
+#: ekos/focus/tiltcorrectionwidget.cpp:350 ekos/profileeditor.ui:154
+#, kde-format
+msgid "Mode:"
+msgstr "Modo:"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:352
+#, kde-format
+msgctxt "Tilt correction mode"
+msgid "Relative (± deltas)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:353
+#, kde-format
+msgctxt "Tilt correction mode"
+msgid "Push-only (from zero)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:355
+#, kde-format
+msgid ""
+"Choose how the corrections are presented:\n"
+"Relative: signed deltas (+ and -) to apply on top of current position.\n"
+"  Best for iterative tuning when already mid-range and screws can go both "
+"ways.\n"
+"Push-only: all values shifted to be positive (smallest = 0).\n"
+"  Best when starting from fully retracted (e.g. ETA at 0, manual screws "
+"unscrewed).\n"
+"  Push-only plates physically can't go negative, so use this for first-time "
+"tuning."
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:392
+#, kde-format
+msgid "Point 1: —"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:393
+#, kde-format
+msgid "Point 2: —"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:394
+#, kde-format
+msgid "Point 3: —"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:395
+#, kde-format
+msgid "Point 4: —"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:413
+#: ekos/focus/tiltcorrectionwidget.cpp:666
+#, kde-format
+msgid "Apply to ETA"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:414
+#: ekos/focus/tiltcorrectionwidget.cpp:562
+#: ekos/focus/tiltcorrectionwidget.cpp:667
+#, kde-format
+msgid ""
+"Send computed corrections to the Wanderer ETA M54 tilt plate via INDI.\n"
+"Reads current positions, adds the computed deltas, and moves all three "
+"points."
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:488
+#, kde-format
+msgid "Point 1: N/A"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:489
+#, kde-format
+msgid "Point 2: N/A"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:490
+#, kde-format
+msgid "Point 3: N/A"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:491
+#, kde-format
+msgid "Point 4: N/A"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:557
+#, kde-format
+msgid "Locked: Wanderer ETA M54 radius is 64 mm"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:558
+#, kde-format
+msgid "Locked: Wanderer ETA M54 pitch is 0.50 mm/turn"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:559
+#, kde-format
+msgid "Locked: Wanderer ETA M54 detected"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:638
+#: ekos/focus/tiltcorrectionwidget.cpp:710
+#, kde-format
+msgid "%1: no change"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:639
+#: ekos/focus/tiltcorrectionwidget.cpp:711
+#, kde-format
+msgid "%1: %2%3 mm (%4%5 turns)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:647
+#, kde-format
+msgctxt "3-point tilt plate screw"
+msgid "Point 1 (upper-right)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:648
+#, kde-format
+msgctxt "3-point tilt plate screw"
+msgid "Point 2 (bottom)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:649
+#, kde-format
+msgctxt "3-point tilt plate screw"
+msgid "Point 3 (upper-left)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:653
+#: ekos/focus/tiltcorrectionwidget.cpp:730
+#, kde-format
+msgid "Push-only mode (from zero)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:654
+#: ekos/focus/tiltcorrectionwidget.cpp:731
+#, fuzzy, kde-format
+#| msgid "Relative offset in steps"
+msgid "Relative mode (± deltas)"
+msgstr "Desplazamiento relativo en pasos"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:655
+#, kde-format
+msgid ""
+"Total tilt: %1 μm\n"
+"Max adjustment: %2 mm\n"
+"%3"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:719
+#, kde-format
+msgctxt "4-point tilt plate screw"
+msgid "Screw 1 (top-left)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:720
+#, kde-format
+msgctxt "4-point tilt plate screw"
+msgid "Screw 2 (top-right)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:721
+#, kde-format
+msgctxt "4-point tilt plate screw"
+msgid "Screw 3 (bottom-left)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:722
+#, kde-format
+msgctxt "4-point tilt plate screw"
+msgid "Screw 4 (bottom-right)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:732
+#, kde-format
+msgid ""
+"Total tilt: %1 μm\n"
+"LR: %2 μm | TB: %3 μm\n"
+"Max adjustment: %4 mm\n"
+"%5"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:817
+#, kde-format
+msgid "⚠ Wanderer ETA M54 not connected"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:819
+#, fuzzy, kde-format
+#| msgid "Where is your equipment connected?"
+msgid "Wanderer ETA not connected"
+msgstr "¿Dónde está conectado su equipo?"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:827
+#, kde-format
+msgid "⚠ Cannot read ETA positions (POSITION_READBACK not available)"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:837
+#, kde-format
+msgid "⚠ ETA position readback fields not found"
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:871
+#, kde-format
+msgid ""
+"⚠ Correction range (%1 mm) exceeds ETA plate travel (%2 mm).\n"
+"Cannot apply even partially. Zero the plate first."
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:884
+#, fuzzy, kde-format
+#| msgctxt "Stack monitor status"
+#| msgid "%1 Failed Correction"
+msgid "Partial Correction"
+msgstr "La corrección de %1 ha fallado"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:885
+#, kde-format
+msgid ""
+"Full correction exceeds plate travel. Apply best-fit partial correction?\n"
+"\n"
+"P1: %1 mm, P2: %2 mm, P3: %3 mm\n"
+"\n"
+"Run autofocus again afterward to apply the remainder."
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:905
+#, fuzzy, kde-format
+#| msgid "%1 properties available"
+msgid "⚠ ETA target properties not available"
+msgstr "%1 propiedades disponibles"
+
+#: ekos/focus/tiltcorrectionwidget.cpp:922
+#, kde-format
+msgid "⏳ Applying corrections to ETA (Point 1)..."
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:966
+#, kde-format
+msgid "⚠ ETA Point %1 move failed. Stopped."
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:979
+#, kde-format
+msgid "⏳ Applying corrections to ETA (Point %1)..."
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:985
+#, kde-format
+msgid ""
+"✓ Applied to ETA: P1→%1  P2→%2  P3→%3 mm. Run autofocus again to re-measure."
+msgstr ""
+
+#: ekos/focus/tiltcorrectionwidget.cpp:991
+#, kde-format
+msgid ""
+"Corrections already applied. Run autofocus again to get fresh tilt "
+"measurements."
+msgstr ""
+
 #: ekos/guide/externalguide/linguider.cpp:70
 #: ekos/guide/externalguide/phd2.cpp:298
 #, kde-format
@@ -23008,10 +23492,9 @@ msgstr "Sistema de guiado GPG de AR"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/guide.cpp:94 ekos/guide/opsguide.ui:116
 #: ekos/guide/opsguide.ui:152
-#, fuzzy, kde-format
-#| msgid "Guider"
+#, kde-format
 msgid "AI Guider"
-msgstr "Sistema de guiado"
+msgstr "Sistema de guiado con IA"
 
 #: ekos/guide/guide.cpp:443
 #, kde-format
@@ -23080,11 +23563,13 @@ msgstr "No se ha podido reconectar la cámara tras el reinicio del controlador."
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
+"Deriva libre de IA activada. Pulso múltiple suprimido (AR: %1 ms, DEC: %2 "
+"ms)."
 
 #: ekos/guide/guide.cpp:1516
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
-msgstr ""
+msgstr "Deriva libre de IA activada. Pulso único suprimido (%1 ms)."
 
 #: ekos/guide/guide.cpp:1565
 #, kde-format
@@ -23272,51 +23757,48 @@ msgstr ""
 "la captura de imágenes. Puede volver a marcarla antes de realizar un guiado."
 
 #: ekos/guide/guide.cpp:3459
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "AI Guiding Assistant..."
-msgstr "Buscando estrellas…"
+msgstr "Asistente de guiado con IA…"
 
 #: ekos/guide/guide.cpp:3464
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgid "Load Weights..."
-msgstr "Cargando…"
+msgstr "Cargar pesos…"
 
 #: ekos/guide/guide.cpp:3567
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s"
+#, kde-format
 msgid "EkosLive AI training failed: %1"
-msgstr "El sistema de identificación ha fallado: %1 s"
+msgstr "El entrenamiento de la IA de EkosLive ha fallado: %1"
 
 #: ekos/guide/guide.cpp:3568
-#, fuzzy, kde-format
-#| msgid "Unknown error"
+#, kde-format
 msgid "unknown error"
-msgstr "Error desconocido"
+msgstr "error desconocido"
 
 #: ekos/guide/guide.cpp:3584
-#, fuzzy, kde-format
-#| msgid "Failed to save queue to %1"
+#, kde-format
 msgid "Failed to save AI weights to %1"
-msgstr "No se ha podido guardar la cola en %1"
+msgstr "No se han podido guardar los pesos de la IA en %1"
 
 #: ekos/guide/guide.cpp:3594
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
+"Entrenamiento de IA completado. Los pesos se han guardado en %1 y se han "
+"definido como pesos activos de la IA."
 
 #: ekos/guide/guide.cpp:3602
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
-msgstr ""
+msgstr "Cargar pesos del sistema de guiado de IA"
 
 #: ekos/guide/guide.cpp:3603
 #, kde-format
 msgid "AI Weights (*.json)"
-msgstr ""
+msgstr "Pesos de IA (*.json)"
 
 #: ekos/guide/guide.cpp:3607
 #, kde-format
@@ -23324,6 +23806,8 @@ msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
 "starts."
 msgstr ""
+"Los pesos del sistema de guiado de IA se han definido a %1. Se aplicarán la "
+"próxima vez que se inicie el guiado."
 
 #: ekos/guide/guide.cpp:3764
 #, kde-format
@@ -23403,7 +23887,7 @@ msgstr ""
 "fotogramas mediante una emisión de vídeo continua en lugar de realizar "
 "exposiciones individuales. Esto reduce significativamente la sobrecarga por "
 "fotograma y permite frecuencias de guiado más altas (por ejemplo, de 2 a 5 "
-"Hz) requeridas por los controladores armónicos. No es compatible con la "
+"Hz) requeridas por los accionamientos armónicos. No es compatible con la "
 "sustracción de fotograma oscuro.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideStreamingEnabled)
@@ -23425,6 +23909,8 @@ msgid ""
 "<html><head/><body><p><b>AI Guiding (Experimental)</b></p><p>Open the AI "
 "Guiding Assistant, or load trained weights.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><b>Guiado por IA (experimental)</b></p><p>Abra el "
+"asistente de guiado con AI o cargue los pesos entrenados.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eastRAGuideEnabled)
 #: ekos/guide/guide.ui:333
@@ -23950,14 +24436,12 @@ msgstr "Prep"
 #: ekos/guide/guidestatewidget.cpp:186
 #, kde-format
 msgid "Warm up"
-msgstr ""
+msgstr "Calentamiento"
 
 #: ekos/guide/guidestatewidget.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Activate"
+#, kde-format
 msgid "Active"
-msgstr "Activar"
+msgstr "Activo"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:178
 #, kde-format
@@ -24074,6 +24558,8 @@ msgstr ""
 msgid ""
 "AI Guider failed to load weights or fingerprint mismatched. Guiding aborted."
 msgstr ""
+"El sistema de guiado por IA no ha podido cargar los pesos o la huella "
+"digital no coincide. El guiado se ha interrumpido."
 
 #: ekos/guide/internalguide/gmath.cpp:292
 #, kde-format
@@ -24084,12 +24570,17 @@ msgid ""
 "settings, or switch the Guide Algorithm back to a standard mode. Guiding has "
 "been aborted."
 msgstr ""
+"El sistema de guiado por IA no ha podido cargar los pesos o la huella "
+"digital no coincide.\n"
+"\n"
+"Vuelva a ejecutar el asistente de guiado por IA para generar nuevos pesos "
+"para los ajustes actuales o cambie el algoritmo de guiado al modo estándar. "
+"El guiado se ha interrumpido."
 
 #: ekos/guide/internalguide/gmath.cpp:293
-#, fuzzy, kde-format
-#| msgid "RA Guide Error"
+#, kde-format
 msgid "AI Guider Error"
-msgstr "Error de guiado de AR"
+msgstr "Error del sistema de guiado con IA"
 
 #: ekos/guide/internalguide/gmath.cpp:304
 #, kde-format
@@ -24098,6 +24589,9 @@ msgid ""
 "AI button > 'Load Weights...', or run the Guide AI Assistant. Guiding "
 "aborted."
 msgstr ""
+"Se ha seleccionado el guiado por IA, pero no se han cargado pesos "
+"entrenados. Cárguelos mediante el botón de IA > «Cargar pesos…» o ejecute el "
+"asistente de guiado por IA. El guiado se ha interrumpido."
 
 #: ekos/guide/internalguide/gmath.cpp:307
 #, kde-format
@@ -24108,11 +24602,17 @@ msgid ""
 "Assistant to generate weights for your current settings. Guiding has been "
 "aborted."
 msgstr ""
+"Se ha seleccionado el guiado por IA, pero no se han cargado pesos "
+"entrenados.\n"
+"\n"
+"Cargue un archivo de pesos (botón de IA > «Cargar pesos…») o ejecute el "
+"asistente de guiado por IA para generar pesos para los ajustes actuales. El "
+"guiado se ha interrumpido."
 
 #: ekos/guide/internalguide/gmath.cpp:310
 #, kde-format
 msgid "AI Guider: No Weights"
-msgstr ""
+msgstr "Sistema de guiado por IA: No hay pesos"
 
 #: ekos/guide/internalguide/gmath.cpp:754
 #, kde-format
@@ -24190,7 +24690,7 @@ msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "No se ha encontrado ninguna estrella guía adecuada. Interrumpiendo…"
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
-#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:818
+#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:828
 #: kstarslite/qml/dialogs/DetailsDialog.qml:138
 #, kde-format, kde-kuit-format
 msgid "Magnitude"
@@ -24253,10 +24753,9 @@ msgstr "Desplazamiento DE\":"
 
 #. i18n: ectx: property (title), widget (QGroupBox, aiGroupBox)
 #: ekos/guide/opsaiconfig.ui:32
-#, fuzzy, kde-format
-#| msgid "Invalid Configuration"
+#, kde-format
 msgid "AI Guiding Configuration"
-msgstr "Configuración no válida"
+msgstr "Configuración del guiado por IA"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, aiGroupBox)
 #: ekos/guide/opsaiconfig.ui:35
@@ -24266,6 +24765,9 @@ msgid ""
 "algorithm in the Guide options and load a matching trained weights file to "
 "activate it."
 msgstr ""
+"Ajustes para el sistema experimental de guiado por IA. Seleccione el "
+"algoritmo de IA en las opciones de «Guiado» y cargue un archivo de pesos "
+"entrenados compatible para activarlo."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/opsaiconfig.ui:44
@@ -24275,6 +24777,9 @@ msgid ""
 "your mount, use the AI Guiding button (below Clear Calibration) on the main "
 "Guide tab."
 msgstr ""
+"Configuración del guiado por IA. Para entrenar el modelo de IA o cargar los "
+"pesos entrenados para su montura, use el botón de «Guiado por IA» (debajo de "
+"«Borrar calibración») en la pestaña principal de «Guiado»."
 
 #. i18n: ectx: item, widget (QLabel, label)
 #: ekos/guide/opsaiconfig.ui:51
@@ -24285,6 +24790,10 @@ msgid ""
 "current guide settings (exposure, binning, gains) or it is rejected when "
 "guiding starts."
 msgstr ""
+"Pesos entrenados del modelo de IA (JSON). Puede generarlos con el asistente "
+"de guiado por IA o mediante el entrenamiento en la nube de EkosLive. El "
+"archivo debe coincidir con el tipo de montura y con los ajustes de guiado "
+"actuales (exposición, binning, ganancia) o se rechazará al iniciar el guiado."
 
 #. i18n: ectx: item, widget (QLabel, label)
 #: ekos/guide/opsaiconfig.ui:52
@@ -24294,12 +24803,15 @@ msgid ""
 "pulse: 0.0 = AI ignored (standard guiding only), 1.0 = full AI prediction. "
 "Lower values are more conservative."
 msgstr ""
+"Grado de mezcla de la predicción de realimentación de la IA en cada pulso de "
+"guiado: 0,0 = IA ignorada (solo guiado estándar), 1,0 = predicción completa "
+"de la IA. Los valores más bajos son más conservadores."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIProportionalBackoff)
 #: ekos/guide/opsaiconfig.ui:56
 #, kde-format
 msgid "Scale Down Proportional Gain During AI Correction"
-msgstr ""
+msgstr "Reducción de la ganancia proporcional durante la corrección de IA"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIProportionalBackoff)
 #: ekos/guide/opsaiconfig.ui:59
@@ -24309,12 +24821,16 @@ msgid ""
 "forward is highly confident to prevent constructive interference and "
 "oscillation."
 msgstr ""
+"Reducir dinámicamente la respuesta del controlador P estándar cuando la "
+"realimentación de IA tenga una alta confianza para prevenir la interferencia "
+"constructiva y la oscilación."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIShadowMode)
 #: ekos/guide/opsaiconfig.ui:69
 #, kde-format
 msgid "Enable Shadow Mode (log AI predictions without applying them)"
 msgstr ""
+"Activar el modo sombra (registra las predicciones de la IA sin aplicarlas)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIShadowMode)
 #: ekos/guide/opsaiconfig.ui:72
@@ -24325,13 +24841,17 @@ msgid ""
 "guide pulses. Use this to evaluate AI model quality before enabling full AI "
 "guiding."
 msgstr ""
+"Ejecuta el modelo de IA de forma silenciosa junto con el algoritmo de guiado "
+"estándar seleccionado. Las predicciones se registran en el archivo CSV de "
+"depuración de la IA, pero nunca se integran en los pulsos de guiado. Use "
+"esto para evaluar la calidad del modelo de IA antes de activar el guiado "
+"completo por IA."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:79
-#, fuzzy, kde-format
-#| msgid "East Direction Guiding"
+#, kde-format
 msgid "Enable Predictive Dark Guiding"
-msgstr "Guiar en dirección Este"
+msgstr "Activar el guiado oscuro predictivo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:82
@@ -24342,13 +24862,17 @@ msgid ""
 "camera downloads) by extrapolating the physical periodic error forward in "
 "time."
 msgstr ""
+"Permite que el sistema de guiado por IA continúe emitiendo pulsos de "
+"realimentación durante las interrupciones en las mediciones de la estrella "
+"guía (por ejemplo, durante la estabilización del desvío, la ejecución de "
+"enfoque automático o la descarga de datos de la cámara) extrapolando el "
+"error periódico físico hacia adelante en el tiempo."
 
 #. i18n: ectx: property (text), widget (QLabel, label_darkGuidingInterval)
 #: ekos/guide/opsaiconfig.ui:91
-#, fuzzy, kde-format
-#| msgid "Dark guiding interval"
+#, kde-format
 msgid "Dark Guiding Interval (s):"
-msgstr "Intervalo de guiado oscuro"
+msgstr "Intervalo de guiado oscuro (s):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_darkGuidingInterval)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AIDarkGuidingInterval)
@@ -24359,19 +24883,22 @@ msgid ""
 "measurement (dither settling, autofocus runs, camera downloads). Only used "
 "when Predictive Dark Guiding is enabled."
 msgstr ""
+"Segundos entre los pulsos de realimentación predichos cuando no hay medición "
+"de estrella guía (estabilización del desvío, ejecuciones de enfoque "
+"automático, descarga de datos de la cámara). Solo se usa cuando el guiado "
+"oscuro predictivo está activado."
 
 #. i18n: ectx: property (windowTitle), widget (QWizard, OpsAIGuide)
 #: ekos/guide/opsaiguide.ui:14
 #, kde-format
 msgid "Ekos Guide AI Assistant (Experimental)"
-msgstr ""
+msgstr "Asistente de guiado por IA de Ekos (experimental)"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage1)
 #: ekos/guide/opsaiguide.ui:21
-#, fuzzy, kde-format
-#| msgid "Mount direction"
+#, kde-format
 msgid "Mount Identification"
-msgstr "Dirección de la montura"
+msgstr "Identificación de la montura"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage1)
 #: ekos/guide/opsaiguide.ui:24
@@ -24380,46 +24907,42 @@ msgid ""
 "Welcome to the Ekos AI Guiding Assistant. Please verify your mount type "
 "below."
 msgstr ""
+"Bienvenido al asistente de guiado por IA de Ekos. Compruebe a continuación "
+"su tipo de montura."
 
 #. i18n: ectx: property (text), widget (QLabel, experimentalWarningLabel)
 #: ekos/guide/opsaiguide.ui:30
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
-#| "</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" color:#ff5500; font-weight:600;\">This "
 "is an experimental feature. </span></p></body></html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Recursos en línea:</"
-"span></p></body></html>"
+"<html><head/><body><p><span style=\" color:#ff5500; font-weight:600;\">Esta "
+"función es experimental. </span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/opsaiguide.ui:42
-#, fuzzy, kde-format
-#| msgid "Mount Type:"
+#, kde-format
 msgid "Detected Mount Type:"
-msgstr "Tipo de montura:"
+msgstr "Tipo de montura detectado:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
 #: ekos/guide/opsaiguide.ui:50
 #, kde-format
 msgid "Worm Gear"
-msgstr ""
+msgstr "Tornillo sin fin"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
 #: ekos/guide/opsaiguide.ui:55
 #, kde-format
 msgid "Harmonic Drive"
-msgstr ""
+msgstr "Accionamiento armónico"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
 #: ekos/guide/opsaiguide.ui:60
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Direction"
+#, kde-format
 msgid "Direct Drive"
-msgstr "Dirección"
+msgstr "Accionamiento directo"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #: ekos/guide/opsaiguide.ui:77
@@ -24433,13 +24956,20 @@ msgid ""
 "li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will be "
 "trained and locked to your current guide exposure.</span></p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Recomendaciones de "
+"exposición:</span></p><ul><li><span style=\" font-weight:600;\">Tornillo sin "
+"fin:</span> 2,0 s (predeterminado)</li><li><span style=\" font-weight:600;"
+"\">Accionamiento armónico:</span> 0,5 s o 1,0 s (depende de la relación "
+"señal/ruido de la estrella guía)</li><li><span style=\" font-weight:600;"
+"\">Accionamiento directo:</span> de 1,0 s a 3,0 s</li></ul><p><span style=\" "
+"color:#ff5500;\">Nota: El modelo de IA se entrenará y se ajustará a la "
+"exposición de guiado actual.</span></p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
 #: ekos/guide/opsaiguide.ui:95
-#, fuzzy, kde-format
-#| msgid "Print preview"
+#, kde-format
 msgid "Protocol Preview"
-msgstr "Vista previa de la impresión"
+msgstr "Vista previa del protocolo"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage2)
 #: ekos/guide/opsaiguide.ui:98
@@ -24448,6 +24978,8 @@ msgid ""
 "The assistant will perform the following steps to characterize the tracking "
 "errors."
 msgstr ""
+"El asistente realizará los siguientes pasos para caracterizar los errores de "
+"seguimiento."
 
 #. i18n: ectx: property (text), widget (QLabel, algorithmWarningLabel)
 #: ekos/guide/opsaiguide.ui:104
@@ -24459,6 +24991,11 @@ msgid ""
 "for the duration of the wizard and restored when it completes.</span></p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" color:#ff5500;\">El asistente de guiado "
+"por IA requiere el algoritmo de guiado estándar para ambos ejes durante la "
+"recopilación de datos. Su configuración actual se cambiará temporalmente a "
+"la estándar mientras dure el asistente y se restablecerá cuando termine.</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelWormGear)
 #: ekos/guide/opsaiguide.ui:127
@@ -24469,6 +25006,11 @@ msgid ""
 "guiding.<br/>2. Slew to Lower Altitude : Free drift, then standard guiding."
 "<br/>3. Slew to High Altitude : Standard guiding.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Protocolo de "
+"tornillo sin fin (~45 m):</span><br/>1. Desplazamiento a gran altitud: "
+"deriva libre y luego guiado estándar.<br/>2. Desplazamiento a baja altitud: "
+"deriva libre y luego guiado estándar.<br/>3. Desplazamiento a gran altitud: "
+"guiado estándar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
 #: ekos/guide/opsaiguide.ui:147
@@ -24479,29 +25021,29 @@ msgid ""
 "response test, then standard guiding.<br/>2. Slew to Lower Altitude: Free "
 "drift, then standard guiding.</p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Protocolo de "
+"accionamiento armónico (~35 m):</span><br/>1. Desplazamiento a gran altitud: "
+"deriva libre, prueba de respuesta de pulsos y luego guiado estándar.<br/>2. "
+"Desplazamiento a baja altitud: deriva libre y luego guiado estándar.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
 #: ekos/guide/opsaiguide.ui:167
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Option replaced by the <span style=\" font-"
-#| "weight:600;\">max. focus frame</span> option in the Focus options.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
 "Protocol (~20 mins):</span><br/>1. Slew to High, Mid, and Low Altitudes: "
 "Free drift at each position.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Opción sustituida por la opción <span style=\" font-"
-"weight:600;\">Máx. fotogramas de enfoque</span> en las opciones de «Enfoque»."
-"</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Protocolo de "
+"accionamiento directo (~20 m):</span><br/>1. Desplazamiento a altitudes "
+"grande, media y baja: deriva libre en cada posición.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
 #: ekos/guide/opsaiguide.ui:198
-#, fuzzy, kde-format
-#| msgid "Shutter opening is in progress"
+#, kde-format
 msgid "System Identification Progress"
-msgstr "La apertura del obturador está en curso"
+msgstr "Avance de la identificación del sistema"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage3)
 #: ekos/guide/opsaiguide.ui:201
@@ -24510,36 +25052,18 @@ msgid ""
 "Collecting mount telemetry. Please do not interrupt the process unless "
 "necessary."
 msgstr ""
+"Recopilando datos de telemetría de la montura. No interrumpa el proceso a "
+"menos que sea necesario."
 
 #. i18n: ectx: property (text), widget (QLabel, statusLabel)
 #: ekos/guide/opsaiguide.ui:207
-#, fuzzy, kde-format
-#| msgid "Read-only token:"
+#, kde-format
 msgid "Ready to begin..."
-msgstr "Token de solo lectura:"
+msgstr "Preparado para empezar…"
 
 #. i18n: ectx: property (html), widget (QTextEdit, logTextEdit)
 #: ekos/guide/opsaiguide.ui:242
-#, fuzzy, kde-format
-#| msgid ""
-#| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#| "REC-html40/strict.dtd\">\n"
-#| "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#| "css\">\n"
-#| "p, li { white-space: pre-wrap; }\n"
-#| "</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
-#| "size:13pt; font-weight:400; font-style:normal;\">\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Selection mode of the "
-#| "3D Graphic:</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- None.</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- Item selects the "
-#| "nearest datapoint.</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- Slice produces a 2D "
-#| "slice through the graphic.</p></body></html>"
+#, kde-format
 msgid ""
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
 "REC-html40/strict.dtd\">\n"
@@ -24557,26 +25081,17 @@ msgstr ""
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
 "\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
-"size:13pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Modo de selección del "
-"gráfico 3D:</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">- Ninguna.</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">- El elemento selecciona "
-"el punto de datos más cercano.</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">- Porción genera un corte "
-"2D a través del gráfico.</p></body></html>"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Esperando inicio…</p></"
+"body></html>"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage4)
 #: ekos/guide/opsaiguide.ui:250
-#, fuzzy, kde-format
-#| msgid "Detection complete."
+#, kde-format
 msgid "Data Collection Complete"
-msgstr "Detección completada."
+msgstr "Recopilación de datos completada"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage4)
 #: ekos/guide/opsaiguide.ui:253
@@ -24584,12 +25099,14 @@ msgstr "Detección completada."
 msgid ""
 "System identification data has been saved. Please choose a training method."
 msgstr ""
+"Se han guardado los datos de identificación del sistema. Seleccione un "
+"método de entrenamiento."
 
 #. i18n: ectx: property (text), widget (QPushButton, exportOfflineButton)
 #: ekos/guide/opsaiguide.ui:266
 #, kde-format
 msgid "Export for offline training"
-msgstr ""
+msgstr "Exportar para entrenamiento sin conexión"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exportOfflineButton)
 #: ekos/guide/opsaiguide.ui:269
@@ -24598,13 +25115,15 @@ msgid ""
 "Saves the system identification data to a JSON file so you can train the AI "
 "model on your local computer using the provided Python scripts."
 msgstr ""
+"Guarda los datos de identificación del sistema en un archivo JSON para que "
+"pueda entrenar el modelo de IA en su equipo local usando los guiones de "
+"Python proporcionados."
 
 #. i18n: ectx: property (text), widget (QPushButton, trainEkosLiveButton)
 #: ekos/guide/opsaiguide.ui:285
-#, fuzzy, kde-format
-#| msgid "Ekos Live"
+#, kde-format
 msgid "Train in EkosLive"
-msgstr "Ekos Live"
+msgstr "Entrenamiento en EkosLive"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, trainEkosLiveButton)
 #: ekos/guide/opsaiguide.ui:288
@@ -24613,6 +25132,9 @@ msgid ""
 "Uploads anonymized data to EkosLive Cloud to instantly train your model "
 "using community baselines. (Target coordinates are stripped)."
 msgstr ""
+"Envía datos anonimizados a la nube de EkosLive para entrenar el modelo de "
+"forma instantánea usando datos de referencia de la comunidad. (Se eliminan "
+"las coordenadas del objetivo)."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
@@ -24663,7 +25185,7 @@ msgstr "Máx. movimiento (px):"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationMaxMove)
 #. i18n: ectx: label, entry (CalibrationMaxMove), group (Guide)
-#: ekos/guide/opscalibration.ui:122 kstars.kcfg:3118
+#: ekos/guide/opscalibration.ui:122 kstars.kcfg:3147
 #, kde-format
 msgid "Maximum number of pixels the calibration should move (approximate)."
 msgstr ""
@@ -24677,7 +25199,7 @@ msgstr "Dos ejes"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GuideAutoSquareSizeEnabled)
 #. i18n: ectx: label, entry (GuideAutoSquareSizeEnabled), group (Guide)
-#: ekos/guide/opscalibration.ui:156 kstars.kcfg:3138
+#: ekos/guide/opscalibration.ui:156 kstars.kcfg:3167
 #, kde-format
 msgid "Automatically select the square size based on the selected star width."
 msgstr ""
@@ -24856,7 +25378,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherSettle)
 #. i18n: ectx: label, entry (DitherSettle), group (Guide)
-#: ekos/guide/opsdither.ui:62 ekos/guide/opsdither.ui:147 kstars.kcfg:3202
+#: ekos/guide/opsdither.ui:62 ekos/guide/opsdither.ui:147 kstars.kcfg:3231
 #, kde-format
 msgid ""
 "After dither is successful, wait for this many seconds before proceeding."
@@ -25920,7 +26442,7 @@ msgstr "Algoritmo de detección de estrellas"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_MinDetectionsSEPMultistar)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
 #. i18n: ectx: label, entry (MinDetectionsSEPMultistar), group (Guide)
-#: ekos/guide/opsguide.ui:687 ekos/guide/opsguide.ui:739 kstars.kcfg:3162
+#: ekos/guide/opsguide.ui:687 ekos/guide/opsguide.ui:739 kstars.kcfg:3191
 #, kde-format
 msgid "Minimum number of stars detected for SEP MultiStar to initialize."
 msgstr ""
@@ -25968,90 +26490,90 @@ msgstr ""
 msgid "Use dedicated Guiding Chip for Guiding"
 msgstr "Usar el chip de guía dedicado para el guiado"
 
-#: ekos/manager.cpp:259
+#: ekos/manager.cpp:260
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "Ekos - Perfil %1"
 
-#: ekos/manager.cpp:269
+#: ekos/manager.cpp:270
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr "Conexión en curso. Pulse para interrumpir."
 
-#: ekos/manager.cpp:292
+#: ekos/manager.cpp:293
 #, kde-format
 msgid "Logging"
 msgstr "Registro"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:444 ekos/opsekos.ui:174
+#: ekos/manager.cpp:445 ekos/opsekos.ui:174
 #, kde-format
 msgid "Analyze"
 msgstr "Analizar"
 
-#: ekos/manager.cpp:459
+#: ekos/manager.cpp:460
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
 msgstr "El inicio de la extensión «%1» ha fallado. Se interrumpe."
 
-#: ekos/manager.cpp:473
+#: ekos/manager.cpp:474
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
 msgstr "La detención de la extensión «%1» ha fallado. Interrupción activada."
 
-#: ekos/manager.cpp:482
+#: ekos/manager.cpp:483
 #, kde-format
 msgid "Extension '%1' aborting"
 msgstr "Interrumpiendo extensión «%1»"
 
-#: ekos/manager.cpp:492
+#: ekos/manager.cpp:493
 #, kde-format
 msgid "Extension '%1' start requested"
 msgstr "Solicitado inicio de la extensión «%1»"
 
-#: ekos/manager.cpp:497
+#: ekos/manager.cpp:498
 #, kde-format
 msgid "Extension '%1' started"
 msgstr "Extensión «%1» iniciada"
 
-#: ekos/manager.cpp:505
+#: ekos/manager.cpp:506
 #, kde-format
 msgid "Extension '%1' stop requested"
 msgstr "Solicitada detención de la extensión «%1»"
 
-#: ekos/manager.cpp:510
+#: ekos/manager.cpp:511
 #, kde-format
 msgid "Extension '%1' stopped"
 msgstr "Extensión «%1» detenida"
 
-#: ekos/manager.cpp:526
+#: ekos/manager.cpp:527
 #, kde-format
 msgid "Extension '%1': %2"
 msgstr "Extension «%1»: %2"
 
-#: ekos/manager.cpp:661 ekos/opsekos.cpp:103
+#: ekos/manager.cpp:663 ekos/opsekos.cpp:103
 #, kde-format
 msgid "Failed: port in use"
 msgstr "Ha fallado: puerto en uso"
 
-#: ekos/manager.cpp:989
+#: ekos/manager.cpp:991
 #, kde-format
 msgid "Imported profile '%1' from INDI Web Manager."
 msgstr "Se ha importado el perfil «%1» del gestor web de INDI."
 
-#: ekos/manager.cpp:1143
+#: ekos/manager.cpp:1145
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:1291 ekos/manager.cpp:1316
+#: ekos/manager.cpp:1293 ekos/manager.cpp:1318
 #, kde-format
 msgid "Ekos requires at least one Camera to operate."
 msgstr "Ekos necesita al menos una cámara para funcionar."
 
-#: ekos/manager.cpp:1379
+#: ekos/manager.cpp:1381
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -26061,17 +26583,17 @@ msgstr ""
 "impedir que una cámara Canon o Nikon se pueda conectar a Ekos. ¿Desea dejar "
 "de usar la cámara PTP ahora?"
 
-#: ekos/manager.cpp:1380
+#: ekos/manager.cpp:1382
 #, kde-format
 msgid "PTP Camera"
 msgstr "Cámara PTP"
 
-#: ekos/manager.cpp:1394
+#: ekos/manager.cpp:1396
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "Iniciando los servicios INDI…"
 
-#: ekos/manager.cpp:1425
+#: ekos/manager.cpp:1427
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -26081,47 +26603,47 @@ msgstr ""
 "terminar la instancia existente antes de iniciar una nueva?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1427 indi/opsindi.ui:248
+#: ekos/manager.cpp:1429 indi/opsindi.ui:248
 #, kde-format
 msgid "INDI Server"
 msgstr "Servidor INDI"
 
-#: ekos/manager.cpp:1442
+#: ekos/manager.cpp:1444
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "Conectando con el servidor INDI remoto en %1 en el puerto %2…"
 
-#: ekos/manager.cpp:1463
+#: ekos/manager.cpp:1465
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "El inicio del perfil en el gestor web INDI remoto ha fallado."
 
-#: ekos/manager.cpp:1467
+#: ekos/manager.cpp:1469
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Iniciando perfil en un gestor web INDI remoto…"
 
-#: ekos/manager.cpp:1480
+#: ekos/manager.cpp:1482
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Estableciendo comunicación con el gestor web INDI remoto…"
 
-#: ekos/manager.cpp:1499
+#: ekos/manager.cpp:1501
 #, kde-format
 msgid "Error: INDI Web Manager is not online at %1:%2"
 msgstr "Error: el gestor web INDI no está en línea en %1:%2"
 
-#: ekos/manager.cpp:1540
+#: ekos/manager.cpp:1542
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "Servicios INDI iniciados en el puerto %1."
 
-#: ekos/manager.cpp:1543
+#: ekos/manager.cpp:1545
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Servicios INDI iniciados en el puerto %1. Conecte los dispositivos."
 
-#: ekos/manager.cpp:1548
+#: ekos/manager.cpp:1550
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -26130,27 +26652,27 @@ msgstr ""
 "Servicios INDI iniciados. La conexión con el servidor INDI remoto %1:%2 ha "
 "tenido éxito. Esperando dispositivos…"
 
-#: ekos/manager.cpp:1580
+#: ekos/manager.cpp:1582
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "La conexión con el servidor INDI local %1:%2 ha fallado"
 
-#: ekos/manager.cpp:1582
+#: ekos/manager.cpp:1584
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "La conexión con el servidor INDI remoto %1:%2 ha fallado"
 
-#: ekos/manager.cpp:1595
+#: ekos/manager.cpp:1597
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "La conexión con el servidor INDI local %1:%2 se ha perdido"
 
-#: ekos/manager.cpp:1597
+#: ekos/manager.cpp:1599
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "La conexión con el servidor INDI remoto %1:%2 se ha perdido"
 
-#: ekos/manager.cpp:1664
+#: ekos/manager.cpp:1666
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -26158,7 +26680,7 @@ msgstr ""
 "No se ha podido conectar con %1. Asegúrese de que el dispositivo está "
 "conectado y encendido."
 
-#: ekos/manager.cpp:1666
+#: ekos/manager.cpp:1668
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -26169,7 +26691,7 @@ msgstr ""
 "%1\n"
 "Asegúrese de que todos los dispositivos están conectados y encendidos."
 
-#: ekos/manager.cpp:1694
+#: ekos/manager.cpp:1696
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -26180,13 +26702,13 @@ msgstr ""
 "%1\n"
 "Asegúrese de que el dispositivo está conectado y encendido."
 
-#: ekos/manager.cpp:1698 ekos/manager.cpp:1706 ekos/manager.cpp:1739
-#: ekos/manager.cpp:1747
+#: ekos/manager.cpp:1700 ekos/manager.cpp:1708 ekos/manager.cpp:1741
+#: ekos/manager.cpp:1749
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Error de arranque de Ekos"
 
-#: ekos/manager.cpp:1702
+#: ekos/manager.cpp:1704
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -26197,7 +26719,7 @@ msgstr ""
 "%1\n"
 "Asegúrese de que cada dispositivo está conectado y encendido."
 
-#: ekos/manager.cpp:1735
+#: ekos/manager.cpp:1737
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -26208,7 +26730,7 @@ msgstr ""
 "%1\n"
 "Asegúrese de que el dispositivo está conectado y encendido."
 
-#: ekos/manager.cpp:1743
+#: ekos/manager.cpp:1745
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -26219,32 +26741,32 @@ msgstr ""
 "%1\n"
 "Asegúrese de que cada dispositivo está conectado y encendido."
 
-#: ekos/manager.cpp:1801
+#: ekos/manager.cpp:1803
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Conectando dispositivos INDI…"
 
-#: ekos/manager.cpp:1820
+#: ekos/manager.cpp:1822
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Desconectando dispositivos INDI…"
 
-#: ekos/manager.cpp:1860
+#: ekos/manager.cpp:1862
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Servicios INDI detenidos."
 
-#: ekos/manager.cpp:1928
+#: ekos/manager.cpp:1930
 #, kde-format
 msgid "Remote devices established."
 msgstr "Dispositivos remotos establecidos."
 
-#: ekos/manager.cpp:1931
+#: ekos/manager.cpp:1933
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Dispositivos remotos establecidos. Conecte los dispositivos."
 
-#: ekos/manager.cpp:1995
+#: ekos/manager.cpp:1997
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -26253,120 +26775,120 @@ msgstr ""
 "%1 no ha podido realizar la conexión.\n"
 "Asegúrese de que el dispositivo está conectado y encendido."
 
-#: ekos/manager.cpp:2002
+#: ekos/manager.cpp:2004
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 está desconectado."
 
-#: ekos/manager.cpp:2023 ekos/manager.cpp:2032 ekos/manager.cpp:2065
+#: ekos/manager.cpp:2025 ekos/manager.cpp:2034 ekos/manager.cpp:2067
 #: indi/indistd.cpp:732
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 está en línea."
 
-#: ekos/manager.cpp:2040
+#: ekos/manager.cpp:2042
 #, kde-format
 msgid "%1 filter is online."
 msgstr "El filtro %1 está en línea."
 
-#: ekos/manager.cpp:2049
+#: ekos/manager.cpp:2051
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "El enfocador %1 está en línea."
 
-#: ekos/manager.cpp:2056
+#: ekos/manager.cpp:2058
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "El rotador %1 está en línea."
 
-#: ekos/manager.cpp:2072
+#: ekos/manager.cpp:2074
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "La estación meteorológica %1 está en línea."
 
-#: ekos/manager.cpp:2079
+#: ekos/manager.cpp:2081
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "El GPS %1 está en línea."
 
-#: ekos/manager.cpp:2086
+#: ekos/manager.cpp:2088
 #, kde-format
 msgid "%1 PAC is online."
 msgstr "El PAC %1 está en línea."
 
-#: ekos/manager.cpp:2095
+#: ekos/manager.cpp:2097
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "La cubierta antipolvo %1 está en línea."
 
-#: ekos/manager.cpp:2102
+#: ekos/manager.cpp:2104
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "La caja de luz %1 está en línea."
 
-#: ekos/manager.cpp:2247
+#: ekos/manager.cpp:2249
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 no está en línea."
 
-#: ekos/manager.cpp:2882
+#: ekos/manager.cpp:2884
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "El puerto del sistema de guiado de %1 está preparado."
 
-#: ekos/manager.cpp:3145
+#: ekos/manager.cpp:3147
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "¿Seguro que desea borrar el perfil?"
 
-#: ekos/manager.cpp:3146
+#: ekos/manager.cpp:3148
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirmar el borrado"
 
-#: ekos/manager.cpp:3198
+#: ekos/manager.cpp:3200
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Ubicación del lugar actualizada a %1."
 
-#: ekos/manager.cpp:3200
+#: ekos/manager.cpp:3202
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "Ha fallado la actualización de la actualización del lugar a %1. Ciudad no "
 "encontrada."
 
-#: ekos/manager.cpp:3473
+#: ekos/manager.cpp:3475
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Activando registro de depuración para %1…"
 
-#: ekos/manager.cpp:3481
+#: ekos/manager.cpp:3483
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Desactivando registro de depuración para %1…"
 
-#: ekos/manager.cpp:3509
+#: ekos/manager.cpp:3511
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Volviendo a activar registro de depuración para %1…"
 
-#: ekos/manager.cpp:3521
+#: ekos/manager.cpp:3523
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Volviendo a desactivar registro de depuración para %1…"
 
-#: ekos/manager.cpp:4317
+#: ekos/manager.cpp:4319
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Fuente de vista previa establecida a externa"
 
-#: ekos/manager.cpp:4324
+#: ekos/manager.cpp:4326
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Fuente de vista previa restablecida a interna"
 
-#: ekos/manager.cpp:4331
+#: ekos/manager.cpp:4333
 #, kde-format
 msgid "Received external preview file"
 msgstr "Recibido archivo externo de vista previa"
@@ -27905,7 +28427,7 @@ msgstr "Asistente de IA (MCP)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MCPEnabled)
 #. i18n: ectx: label, entry (MCPEnabled), group (MCP)
-#: ekos/opsekos.ui:319 kstars.kcfg:3972
+#: ekos/opsekos.ui:319 kstars.kcfg:4001
 #, kde-format
 msgid "Enable MCP server"
 msgstr "Activar servidor MCP"
@@ -28119,12 +28641,6 @@ msgstr ""
 "<p><span style=\"font-weight:600\">Remoto</span><br/>Conectar con un "
 "servidor INDI remoto que ya está funcionando.</p>\n"
 "</body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, modeLabel)
-#: ekos/profileeditor.ui:154
-#, kde-format
-msgid "Mode:"
-msgstr "Modo:"
 
 #. i18n: ectx: property (text), widget (QLabel, remoteHostLabel)
 #. i18n: ectx: property (text), widget (QLabel, externalGuideHostLabel)
@@ -29744,7 +30260,7 @@ msgstr "El trabajo «%1» no tiene más lotes pendientes."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: label, entry (AlignCheckThreshold), group (Scheduler)
-#: ekos/scheduler/opsalignmentsettings.ui:48 kstars.kcfg:3512
+#: ekos/scheduler/opsalignmentsettings.ui:48 kstars.kcfg:3541
 #, kde-format
 msgid ""
 "If captured position exceeds target position by more this many arcminutes, "
@@ -29762,7 +30278,7 @@ msgstr "Reiniciar la canalización si la delta de la imagen excede:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #. i18n: ectx: label, entry (AlignCheckFrequency), group (Scheduler)
-#: ekos/scheduler/opsalignmentsettings.ui:58 kstars.kcfg:3508
+#: ekos/scheduler/opsalignmentsettings.ui:58 kstars.kcfg:3537
 #, kde-format
 msgid ""
 "When calculating position after captures, compute it every Nth capture. Set "
@@ -30025,7 +30541,7 @@ msgstr "Período de gracia meteorológica"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_SchedulerWeatherGracePeriod)
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
-#: ekos/scheduler/opsweathersettings.ui:55 kstars.kcfg:3592
+#: ekos/scheduler/opsweathersettings.ui:55 kstars.kcfg:3621
 #, kde-format
 msgid ""
 "Wait this many minutes for the weather to improve before giving up. Set to 0 "
@@ -30059,7 +30575,7 @@ msgstr "Controlador del monitor de seguridad independiente:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SchedulerSafetyMonitorConnectionString)
 #. i18n: ectx: label, entry (SchedulerSafetyMonitorConnectionString), group (Scheduler)
-#: ekos/scheduler/opsweathersettings.ui:147 kstars.kcfg:3600
+#: ekos/scheduler/opsweathersettings.ui:147 kstars.kcfg:3629
 #, kde-format
 msgid ""
 "Connection string for the INDI Safety Monitor driver. The scheduler uses "
@@ -34503,28 +35019,28 @@ msgstr "Apilamiento en vivo"
 msgid "Recent Images"
 msgstr "Imágenes recientes"
 
-#: fitsviewer/fitstab.cpp:469
+#: fitsviewer/fitstab.cpp:479
 #, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:632
+#: fitsviewer/fitstab.cpp:642
 #, kde-format
 msgid "%1 / %2 Simbad objects loaded"
 msgstr "%1 / %2 objetos de Simbad cargados"
 
-#: fitsviewer/fitstab.cpp:647
+#: fitsviewer/fitstab.cpp:657
 #, kde-format
 msgid "Simbad query in progress..."
 msgstr "Consulta de Simbad en curso…"
 
-#: fitsviewer/fitstab.cpp:809
+#: fitsviewer/fitstab.cpp:819
 #, kde-format
 msgid "Num"
 msgstr "Núm"
 
-#: fitsviewer/fitstab.cpp:810
+#: fitsviewer/fitstab.cpp:820
 #, kde-format
 msgid "CDS Portal"
 msgstr "Portal CDS"
@@ -34532,64 +35048,64 @@ msgstr "Portal CDS"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad2)
-#: fitsviewer/fitstab.cpp:811 fitsviewer/opsfits.ui:445
+#: fitsviewer/fitstab.cpp:821 fitsviewer/opsfits.ui:445
 #: tools/imagingplanner.ui:1377 tools/imagingplanner.ui:1714
 #, kde-format
 msgid "Simbad"
 msgstr "Simbad"
 
-#: fitsviewer/fitstab.cpp:812
+#: fitsviewer/fitstab.cpp:822
 #, kde-format
 msgid "NED"
 msgstr "NED"
 
-#: fitsviewer/fitstab.cpp:814
+#: fitsviewer/fitstab.cpp:824
 #, kde-format
 msgid "Type Code"
 msgstr "Código del tipo"
 
-#: fitsviewer/fitstab.cpp:815
+#: fitsviewer/fitstab.cpp:825
 #, kde-format
 msgid "Type Label"
 msgstr "Etiqueta del tipo"
 
-#: fitsviewer/fitstab.cpp:817 kstarslite/qml/dialogs/DetailsDialog.qml:143
+#: fitsviewer/fitstab.cpp:827 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-format, kde-kuit-format
 msgid "Distance"
 msgstr "Distancia"
 
-#: fitsviewer/fitstab.cpp:819 fitsviewer/fitsviewer.cpp:1624
+#: fitsviewer/fitstab.cpp:829 fitsviewer/fitsviewer.cpp:1624
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:85
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Tamaño"
 
-#: fitsviewer/fitstab.cpp:824
+#: fitsviewer/fitstab.cpp:834
 #, kde-format
 msgid "Item reference number"
 msgstr "Número de referencia del elemento"
 
-#: fitsviewer/fitstab.cpp:825
+#: fitsviewer/fitstab.cpp:835
 #, kde-format
 msgid "Double click to launch CDS Portal browser"
 msgstr "Haga doble clic para lanzar el navegador del portal CDS"
 
-#: fitsviewer/fitstab.cpp:827
+#: fitsviewer/fitstab.cpp:837
 #, kde-format
 msgid "Double click to launch Simbad browser"
 msgstr "Haga doble clic para lanzar el navegador de Simbad"
 
-#: fitsviewer/fitstab.cpp:828
+#: fitsviewer/fitstab.cpp:838
 #, kde-format
 msgid "Double click to launch NED browser"
 msgstr "Haga doble clic para lanzar el navegador de NED"
 
-#: fitsviewer/fitstab.cpp:829
+#: fitsviewer/fitstab.cpp:839
 #, kde-format
 msgid "Catalog Object"
 msgstr "Objeto del catálogo"
 
-#: fitsviewer/fitstab.cpp:831
+#: fitsviewer/fitstab.cpp:841
 #, kde-format
 msgid ""
 "Object Type Code. Double click to launch Object Type Filter.\n"
@@ -34601,7 +35117,7 @@ msgstr ""
 "\n"
 "Consulte https://simbad.cds.unistra.fr/guide/otypes.htx para más detalles."
 
-#: fitsviewer/fitstab.cpp:834
+#: fitsviewer/fitstab.cpp:844
 #, kde-format
 msgid ""
 "Object Type Label. Double click to launch Object Type Filter.\n"
@@ -34613,95 +35129,95 @@ msgstr ""
 "\n"
 "Consulte https://simbad.cds.unistra.fr/guide/otypes.htx para más detalles."
 
-#: fitsviewer/fitstab.cpp:836
+#: fitsviewer/fitstab.cpp:846
 #, kde-format
 msgid "Object coordinates"
 msgstr "Coordenadas del objeto"
 
-#: fitsviewer/fitstab.cpp:837
+#: fitsviewer/fitstab.cpp:847
 #, kde-format
 msgid "Object distance in arcmins from the search center"
 msgstr "Distancia del objeto en minutos de arco desde el centro de la búsqueda"
 
-#: fitsviewer/fitstab.cpp:839
+#: fitsviewer/fitstab.cpp:849
 #, kde-format
 msgid "Object V magnitude"
 msgstr "Magnitud V del objeto"
 
-#: fitsviewer/fitstab.cpp:840
+#: fitsviewer/fitstab.cpp:850
 #, kde-format
 msgid "Object major coordinate size in arcsmins"
 msgstr "Tamaño de la coordenada major del objeto en minutos de arco"
 
-#: fitsviewer/fitstab.cpp:929
+#: fitsviewer/fitstab.cpp:939
 #, kde-format
 msgid "RAM"
 msgstr "RAM"
 
-#: fitsviewer/fitstab.cpp:1316 fitsviewer/fitstab.cpp:1461
+#: fitsviewer/fitstab.cpp:1326 fitsviewer/fitstab.cpp:1471
 #, kde-format
 msgctxt "@title:window"
 msgid "%1"
 msgstr "%1"
 
-#: fitsviewer/fitstab.cpp:1447
+#: fitsviewer/fitstab.cpp:1457
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Alignment Sub"
 msgstr "Seleccionar copia de alineación"
 
-#: fitsviewer/fitstab.cpp:1564 fitsviewer/fitstab.cpp:1568
+#: fitsviewer/fitstab.cpp:1574 fitsviewer/fitstab.cpp:1578
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Guardar FITS"
 
-#: fitsviewer/fitstab.cpp:1600
+#: fitsviewer/fitstab.cpp:1610
 #, kde-format
 msgid "Image save error: %1"
 msgstr "Ha ocurrido un error al guardar la imagen: %1"
 
-#: fitsviewer/fitstab.cpp:1600
+#: fitsviewer/fitstab.cpp:1610
 #, kde-format
 msgid "Image Save"
 msgstr "Guardar la imagen"
 
-#: fitsviewer/fitstab.cpp:1604
+#: fitsviewer/fitstab.cpp:1614
 #, kde-format
 msgid "File saved to %1"
 msgstr "Archivo guardado en %1"
 
-#: fitsviewer/fitstab.cpp:1722
+#: fitsviewer/fitstab.cpp:1732
 #, kde-format
 msgid "RGB"
 msgstr "RGB"
 
-#: fitsviewer/fitstab.cpp:1722
+#: fitsviewer/fitstab.cpp:1732
 #, kde-format
 msgid "LRGB"
 msgstr "LRGB"
 
-#: fitsviewer/fitstab.cpp:1893
+#: fitsviewer/fitstab.cpp:1903
 #, kde-format
 msgid "(%1) Stopped Watching"
 msgstr "(%1) Observación detenida"
 
-#: fitsviewer/fitstab.cpp:1894
+#: fitsviewer/fitstab.cpp:1904
 #, kde-format
 msgid "(%1) Watching"
 msgstr "(%1) Observando"
 
-#: fitsviewer/fitstab.cpp:1895 fitsviewer/fitstab.cpp:1901
+#: fitsviewer/fitstab.cpp:1905 fitsviewer/fitstab.cpp:1911
 #, kde-format
 msgid "%1 %2"
 msgstr "%1 %2"
 
-#: fitsviewer/fitstab.cpp:1899
+#: fitsviewer/fitstab.cpp:1909
 #, kde-format
 msgid "(%1) Stopped"
 msgstr "(%1) Detenido"
 
-#: fitsviewer/fitstab.cpp:1900
+#: fitsviewer/fitstab.cpp:1910
 #, kde-format
 msgid "(%1)"
 msgstr "(%1)"
@@ -45202,26 +45718,69 @@ msgid "Aberration Inspector 3D graphic show Petzval surface."
 msgstr ""
 "El gráfico 3D del inspector de aberración muestra la superficie de Petzval."
 
+#. i18n: ectx: label, entry (tiltPlateType), group (Focus)
+#: kstars.kcfg:2779
+#, kde-format
+msgid "Tilt Correction Advisory plate type (0=3-point, 1=4-point)."
+msgstr ""
+
+#. i18n: ectx: label, entry (tiltRadius), group (Focus)
+#: kstars.kcfg:2783
+#, kde-format
+msgid "Tilt plate bolt circle radius in mm."
+msgstr ""
+
+#. i18n: ectx: label, entry (tiltThreadIndex), group (Focus)
+#: kstars.kcfg:2787
+#, kde-format
+msgid "Tilt Correction Advisory thread preset index."
+msgstr ""
+
+#. i18n: ectx: label, entry (tiltScrewPitch), group (Focus)
+#: kstars.kcfg:2791
+#, kde-format
+msgid "Tilt plate screw pitch in mm per turn."
+msgstr ""
+
+#. i18n: ectx: label, entry (tiltRotation), group (Focus)
+#: kstars.kcfg:2795
+#, fuzzy, kde-format
+#| msgid "Terrain image altitude correction degrees:"
+msgid "Camera rotation for tilt correction diagram in degrees."
+msgstr "Grados de corrección de altitud de la imagen del terreno:"
+
+#. i18n: ectx: label, entry (tiltMode), group (Focus)
+#: kstars.kcfg:2799
+#, kde-format
+msgid "Tilt Correction Advisory mode (0=relative, 1=push-only)."
+msgstr ""
+
+#. i18n: ectx: label, entry (tiltPlatePresent), group (Focus)
+#: kstars.kcfg:2803
+#, kde-format
+msgid "Whether a tilt adjustment plate is present in the imaging train."
+msgstr ""
+
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
-#: kstars.kcfg:2780
+#: kstars.kcfg:2809
 #, kde-format
 msgid "Internal or External Sextractor for Focusing."
 msgstr "SExtractor interno o externo para enfoque."
 
 #. i18n: ectx: label, entry (FocusOptionsProfile), group (StellarSolver)
-#: kstars.kcfg:2784
+#: kstars.kcfg:2813
 #, kde-format
 msgid "Options Profile for Sextraction when Focusing."
 msgstr "Perfil de opciones para extracción de estrellas al enfocar."
 
 #. i18n: ectx: label, entry (HFRSextractorType), group (StellarSolver)
-#: kstars.kcfg:2788
+#: kstars.kcfg:2817
 #, kde-format
 msgid "Internal or External Sextractor to compute subs HFR."
 msgstr "SExtractor interno o externo para calcular la HFR de las copias."
 
 #. i18n: ectx: label, entry (HFROptionsProfile), group (StellarSolver)
-#: kstars.kcfg:2792
+#: kstars.kcfg:2821
 #, kde-format
 msgid "Options Profile for Sextraction to compute subs HFR"
 msgstr ""
@@ -45229,31 +45788,31 @@ msgstr ""
 "copias."
 
 #. i18n: ectx: label, entry (GuideSextractorType), group (StellarSolver)
-#: kstars.kcfg:2796
+#: kstars.kcfg:2825
 #, kde-format
 msgid "Internal or External Sextractor for Guiding."
 msgstr "SExtractor interno o externo para guiado."
 
 #. i18n: ectx: label, entry (GuideOptionsProfile), group (StellarSolver)
-#: kstars.kcfg:2800
+#: kstars.kcfg:2829
 #, kde-format
 msgid "Options Profile for Sextraction when Guiding."
 msgstr "Perfil de opciones para extracción de estrellas al guiar."
 
 #. i18n: ectx: label, entry (SolveSextractorType), group (StellarSolver)
-#: kstars.kcfg:2804
+#: kstars.kcfg:2833
 #, kde-format
 msgid "Internal, External, or BuiltIn Sextractor for Solving."
 msgstr "SExtractor interno, externo o integrado para resolución."
 
 #. i18n: ectx: label, entry (SolverMode), group (StellarSolver)
-#: kstars.kcfg:2808
+#: kstars.kcfg:2837
 #, kde-format
 msgid "Local (0) or Remote (1) solver."
 msgstr "Sistema de identificación local (0) o remoto (1)."
 
 #. i18n: ectx: label, entry (SolverType), group (StellarSolver)
-#: kstars.kcfg:2812
+#: kstars.kcfg:2841
 #, kde-format
 msgid ""
 "Local solving method. 0 for Internal Solver. 1 for Local Astrometry. 2 for "
@@ -45264,50 +45823,50 @@ msgstr ""
 "Astrometry en línea."
 
 #. i18n: ectx: label, entry (SolveOptionsProfile), group (StellarSolver)
-#: kstars.kcfg:2816
+#: kstars.kcfg:2845
 #, kde-format
 msgid "Options Profile for Solving."
 msgstr "Perfil de opciones para resolver."
 
 #. i18n: ectx: label, entry (LoggerLevel), group (StellarSolver)
-#: kstars.kcfg:2820
+#: kstars.kcfg:2849
 #, kde-format
 msgid "Level of verbosity in the log."
 msgstr "Nivel de verbosidad del registro."
 
 #. i18n: ectx: label, entry (AstrometryLogToFile), group (StellarSolver)
-#: kstars.kcfg:2824
+#: kstars.kcfg:2853
 #, kde-format
 msgid "Whether to log to a file instead."
 msgstr "Si se debe registrar en un archivo."
 
 #. i18n: ectx: label, entry (AstrometryLogFilepath), group (StellarSolver)
-#: kstars.kcfg:2828
+#: kstars.kcfg:2857
 #, kde-format
 msgid "Path of the log file to save astrometry logging to."
 msgstr "Ruta del archivo donde guardar el registro de Astrometry."
 
 #. i18n: ectx: label, entry (AstrometryIndexFolderList), group (StellarSolver)
-#: kstars.kcfg:2832
+#: kstars.kcfg:2861
 #, kde-format
 msgid "List of index folder paths."
 msgstr "Lista de rutas de carpetas de índice."
 
 #. i18n: ectx: whatsthis, entry (AstrometryIndexFolderList), group (StellarSolver)
-#: kstars.kcfg:2833
+#: kstars.kcfg:2862
 #, kde-format
 msgid "List of folders in which astrometry Index Files can be found."
 msgstr ""
 "Lista de carpetas donde se pueden encontrar archivos de índice de Astrometry."
 
 #. i18n: ectx: label, entry (AlignExposure), group (Align)
-#: kstars.kcfg:2839
+#: kstars.kcfg:2868
 #, kde-format
 msgid "Default alignment exposure value"
 msgstr "Valor de exposición de alineación por omisión"
 
 #. i18n: ectx: whatsthis, entry (AlignExposure), group (Align)
-#: kstars.kcfg:2840
+#: kstars.kcfg:2869
 #, kde-format
 msgid ""
 "Specifies exposure value of camera in seconds when performing plate solving."
@@ -45316,25 +45875,25 @@ msgstr ""
 "resolución de placa"
 
 #. i18n: ectx: label, entry (AlignBinning), group (Align)
-#: kstars.kcfg:2844
+#: kstars.kcfg:2873
 #, kde-format
 msgid "Default camera binning in alignment mode"
 msgstr "Binning de la cámara predeterminada en el modo de alineación"
 
 #. i18n: ectx: label, entry (AlignGain), group (Align)
-#: kstars.kcfg:2848
+#: kstars.kcfg:2877
 #, kde-format
 msgid "Default camera gain in alignment mode"
 msgstr "Ganancia de cámara predeterminada en el modo de alineación"
 
 #. i18n: ectx: label, entry (AlignISO), group (Align)
-#: kstars.kcfg:2852
+#: kstars.kcfg:2881
 #, kde-format
 msgid "Default camera ISO in alignment mode"
 msgstr "ISO de la cámara predeterminada en el modo de alineación"
 
 #. i18n: ectx: label, entry (AlignDarkFrame), group (Align)
-#: kstars.kcfg:2856
+#: kstars.kcfg:2885
 #, kde-format
 msgid "Take a dark frame and subtract it before running astrometry operation."
 msgstr ""
@@ -45342,25 +45901,25 @@ msgstr ""
 "astrometría."
 
 #. i18n: ectx: label, entry (AlignFilter), group (Align)
-#: kstars.kcfg:2860
+#: kstars.kcfg:2889
 #, kde-format
 msgid "Default filter wheel filter in alignment mode"
 msgstr "Filtro predeterminado de la rueda de filtros en el modo de alineación"
 
 #. i18n: ectx: label, entry (AlignUseCurrentFilter), group (Align)
-#: kstars.kcfg:2863
+#: kstars.kcfg:2892
 #, kde-format
 msgid "Use currently selected filter in alignment mode."
 msgstr "Usar el filtro seleccionado en el modo de alineación."
 
 #. i18n: ectx: whatsthis, entry (AstrometryUseRotator), group (Align)
-#: kstars.kcfg:2867
+#: kstars.kcfg:2896
 #, kde-format
 msgid "Use rotator when performing load and slew."
 msgstr "Usar el rotador al ejecutar «Cargar y desplazar»."
 
 #. i18n: ectx: whatsthis, entry (AstrometryRotatorThreshold), group (Align)
-#: kstars.kcfg:2871
+#: kstars.kcfg:2900
 #, kde-format
 msgid ""
 "Threshold between measured and FITS position angles in arcminutes to "
@@ -45370,7 +45929,7 @@ msgstr ""
 "considerar con éxito la operación de carga y desplazamiento."
 
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
-#: kstars.kcfg:2875
+#: kstars.kcfg:2904
 #, kde-format
 msgid "PA 180° rotation for rotator is accepted after mount flip."
 msgstr ""
@@ -45378,7 +45937,7 @@ msgstr ""
 "la montura."
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
-#: kstars.kcfg:2879
+#: kstars.kcfg:2908
 #, kde-format
 msgid ""
 "World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in "
@@ -45388,7 +45947,7 @@ msgstr ""
 "de AR/Dec en las imágenes CCD capturadas."
 
 #. i18n: ectx: label, entry (AstrometrySolverOverlay), group (Align)
-#: kstars.kcfg:2883
+#: kstars.kcfg:2912
 #, kde-format
 msgid "Display received FITS images unto solver FOV rectangle in the sky map."
 msgstr ""
@@ -45396,7 +45955,7 @@ msgstr ""
 "sistema de identificación en el mapa del cielo."
 
 #. i18n: ectx: label, entry (AstrometryDifferentialSlewing), group (Align)
-#: kstars.kcfg:2887
+#: kstars.kcfg:2916
 #, kde-format
 msgid ""
 "Do not use Sync when Slew to Target is selected. Use differential slewing to "
@@ -45406,7 +45965,7 @@ msgstr ""
 "Usar desplazamiento diferencial para corregir las discrepancias."
 
 #. i18n: ectx: label, entry (AlignAccuracyThreshold), group (Align)
-#: kstars.kcfg:2891
+#: kstars.kcfg:2920
 #, kde-format
 msgid ""
 "Accuracy threshold in arcseconds between solution and target coordinates."
@@ -45415,7 +45974,7 @@ msgstr ""
 "y las del objetivo."
 
 #. i18n: ectx: label, entry (AlignSettlingTime), group (Align)
-#: kstars.kcfg:2895
+#: kstars.kcfg:2924
 #, kde-format
 msgid ""
 "Time to wait in milliseconds after telescope slewing is complete before "
@@ -45425,7 +45984,7 @@ msgstr ""
 "telescopio antes de empezar la siguiente captura."
 
 #. i18n: ectx: label, entry (AstrometryUseNoFITS2FITS), group (Align)
-#: kstars.kcfg:2899
+#: kstars.kcfg:2928
 #, kde-format
 msgid ""
 "Do not sanitize FITS. This option should only be checked if astrometry.net "
@@ -45435,7 +45994,7 @@ msgstr ""
 "es 0.67 o anterior. Desmárquela para cualquier versión posterior a la 0.67."
 
 #. i18n: ectx: label, entry (AstrometryUseResort), group (Align)
-#: kstars.kcfg:2903
+#: kstars.kcfg:2932
 #, kde-format
 msgid ""
 "Check this option if your image does not have much nebulosity. If it does "
@@ -45445,7 +46004,7 @@ msgstr ""
 "nebulosidad, desmárquela."
 
 #. i18n: ectx: label, entry (AstrometryUseNoVerify), group (Align)
-#: kstars.kcfg:2907
+#: kstars.kcfg:2936
 #, kde-format
 msgid ""
 "This will prevent the solver from looking at an already existing WCS Header "
@@ -45457,19 +46016,19 @@ msgstr ""
 "que marque esta opción."
 
 #. i18n: ectx: label, entry (AstrometryImageScaleLow), group (Align)
-#: kstars.kcfg:2915
+#: kstars.kcfg:2944
 #, kde-format
 msgid "Lower image scale."
 msgstr "Escala de imagen inferior."
 
 #. i18n: ectx: label, entry (AstrometryImageScaleHigh), group (Align)
-#: kstars.kcfg:2918
+#: kstars.kcfg:2947
 #, kde-format
 msgid "Upper image scale."
 msgstr "Escala de imagen superior."
 
 #. i18n: ectx: label, entry (AstrometryAutoUpdateImageScale), group (Align)
-#: kstars.kcfg:2921
+#: kstars.kcfg:2950
 #, kde-format
 msgid ""
 "Automatically update image scale when CCD or Mount parameters are updated."
@@ -45478,7 +46037,7 @@ msgstr ""
 "parámetros del CCD o de la montura."
 
 #. i18n: ectx: label, entry (AstrometryImageScaleUnits), group (Align)
-#: kstars.kcfg:2925
+#: kstars.kcfg:2954
 #, kde-format
 msgid ""
 "Image scale units in arcminutes (aw), degrees (dw), or arcsec per pixel (app)"
@@ -45487,7 +46046,7 @@ msgstr ""
 "segundos de arco por píxel (app)"
 
 #. i18n: ectx: label, entry (AstrometryUseDownsample), group (Align)
-#: kstars.kcfg:2929
+#: kstars.kcfg:2958
 #, kde-format
 msgid "Downsample the image to shrink its size and speed up the solver."
 msgstr ""
@@ -45495,19 +46054,19 @@ msgstr ""
 "resolución."
 
 #. i18n: ectx: label, entry (AstrometryDownsample), group (Align)
-#: kstars.kcfg:2933
+#: kstars.kcfg:2962
 #, kde-format
 msgid "Downsample factor"
 msgstr "Factor de reducción del muestreo"
 
 #. i18n: ectx: label, entry (AstrometryAutoDownsample), group (Align)
-#: kstars.kcfg:2937
+#: kstars.kcfg:2966
 #, kde-format
 msgid "Automatically downsample based on image size."
 msgstr "Reducir el muestreo automáticamente según el tamaño de la imagen."
 
 #. i18n: ectx: label, entry (AstrometryPositionRA), group (Align)
-#: kstars.kcfg:2949
+#: kstars.kcfg:2978
 #, kde-format
 msgid ""
 "User supplied Right Ascension value in degrees to be passed to the solver."
@@ -45516,7 +46075,7 @@ msgstr ""
 "sistema de identificación."
 
 #. i18n: ectx: label, entry (AstrometryPositionDE), group (Align)
-#: kstars.kcfg:2952
+#: kstars.kcfg:2981
 #, kde-format
 msgid "User supplied declination value in degrees to be passed to the solver."
 msgstr ""
@@ -45524,7 +46083,7 @@ msgstr ""
 "sistema de identificación."
 
 #. i18n: ectx: label, entry (AstrometryAutoUpdatePosition), group (Align)
-#: kstars.kcfg:2955
+#: kstars.kcfg:2984
 #, kde-format
 msgid ""
 "Automatically update position coordinates when mounts completes slewing."
@@ -45533,7 +46092,7 @@ msgstr ""
 "desplazamiento de la montura."
 
 #. i18n: ectx: label, entry (AstrometryDetectParity), group (Align)
-#: kstars.kcfg:2963
+#: kstars.kcfg:2992
 #, kde-format
 msgid "Detect parity and reuse it to speed up solver."
 msgstr ""
@@ -45541,67 +46100,67 @@ msgstr ""
 "identificación."
 
 #. i18n: ectx: label, entry (AstrometryCustomOptions), group (Align)
-#: kstars.kcfg:2967
+#: kstars.kcfg:2996
 #, kde-format
 msgid "Additional optional astrometry.net options"
 msgstr "Opciones adicionales de astrometrynet"
 
 #. i18n: ectx: label, entry (AstrometrySolverBinary), group (Align)
-#: kstars.kcfg:2970
+#: kstars.kcfg:2999
 #, kde-format
 msgid "astrometry.net solve-field binary"
 msgstr "Binario de identificación de campo de astrometry.net"
 
 #. i18n: ectx: whatsthis, entry (AstrometrySolverBinary), group (Align)
-#: kstars.kcfg:2971
+#: kstars.kcfg:3000
 #, kde-format
 msgid "Path to astrometry.net solver location."
 msgstr "Ruta a la ubicación del sistema de identificación de astrometry.net."
 
 #. i18n: ectx: label, entry (AstrometryWCSInfo), group (Align)
-#: kstars.kcfg:2975
+#: kstars.kcfg:3004
 #, kde-format
 msgid "astrometry.net wcsinfo binary"
 msgstr "Binario wcsinfo de astrometry.net"
 
 #. i18n: ectx: whatsthis, entry (AstrometryWCSInfo), group (Align)
-#: kstars.kcfg:2976
+#: kstars.kcfg:3005
 #, kde-format
 msgid "Path to astrometry.net wcsinfo location."
 msgstr "Ruta a la ubicación de wcsinfo de astrometry.net."
 
 #. i18n: ectx: label, entry (AstrometryConfFile), group (Align)
-#: kstars.kcfg:2980
+#: kstars.kcfg:3009
 #, kde-format
 msgid "astrometry.net configuration file"
 msgstr "Archivo de configuración astrometry.net"
 
 #. i18n: ectx: whatsthis, entry (AstrometryConfFile), group (Align)
-#: kstars.kcfg:2981
+#: kstars.kcfg:3010
 #, kde-format
 msgid "Path to astrometry.net file location."
 msgstr "Ruta a la ubicación del archivo astrometry.net."
 
 #. i18n: ectx: whatsthis, entry (SextractorBinary), group (Align)
-#: kstars.kcfg:2986
+#: kstars.kcfg:3015
 #, kde-format
 msgid "Path to the Sextractor executable."
 msgstr "Ruta al ejecutable de SExtractor."
 
 #. i18n: ectx: whatsthis, entry (WatneyBinary), group (Align)
-#: kstars.kcfg:2991
+#: kstars.kcfg:3020
 #, kde-format
 msgid "Path to the Watney Solver executable."
 msgstr "Ruta al ejecutable del sistema de identificación Watney."
 
 #. i18n: ectx: label, entry (AstrometryAPIKey), group (Align)
-#: kstars.kcfg:2995
+#: kstars.kcfg:3024
 #, kde-format
 msgid "astrometry.net API Key"
 msgstr "Clave de la API de astrometry.net"
 
 #. i18n: ectx: whatsthis, entry (AstrometryAPIKey), group (Align)
-#: kstars.kcfg:2996
+#: kstars.kcfg:3025
 #, kde-format
 msgid ""
 "Key to access astrometry.net online web services. You must register with "
@@ -45611,13 +46170,13 @@ msgstr ""
 "registrarse en astrometry.net para obtener una clave."
 
 #. i18n: ectx: label, entry (AstrometryAPIURL), group (Align)
-#: kstars.kcfg:3000
+#: kstars.kcfg:3029
 #, kde-format
 msgid "astrometry.net API URL"
 msgstr "URL de la API de astrometry.net"
 
 #. i18n: ectx: label, entry (AstrometryUseJPEG), group (Align)
-#: kstars.kcfg:3004
+#: kstars.kcfg:3033
 #, kde-format
 msgid ""
 "Use JPEG format, instead of FITS, to upload images to the astrometry.net "
@@ -45627,7 +46186,7 @@ msgstr ""
 "línea astrometry.net."
 
 #. i18n: ectx: label, entry (AstrometryTimeout), group (Align)
-#: kstars.kcfg:3008
+#: kstars.kcfg:3037
 #, kde-format
 msgid "Timeout in seconds to wait for astrometry solver to complete."
 msgstr ""
@@ -45635,7 +46194,7 @@ msgstr ""
 "astrometría."
 
 #. i18n: ectx: label, entry (PAHMountSpeed), group (Align)
-#: kstars.kcfg:3012
+#: kstars.kcfg:3041
 #, kde-format
 msgid "Speed to set mount in Polar Alignment Assistant Tool."
 msgstr ""
@@ -45643,25 +46202,25 @@ msgstr ""
 "alineación polar."
 
 #. i18n: ectx: label, entry (PAHRotaion), group (Align)
-#: kstars.kcfg:3015
+#: kstars.kcfg:3044
 #, kde-format
 msgid "Rotate mount by this many degrees during polar alignment."
 msgstr "Rotar la montura esta cantidad de grados durante la alineación polar."
 
 #. i18n: ectx: label, entry (PAHRefreshAlgorithm), group (Align)
-#: kstars.kcfg:3019
+#: kstars.kcfg:3048
 #, kde-format
 msgid "The algorithm used for polar-align refresh."
 msgstr "El algoritmo usado para la actualización de la alineación polar."
 
 #. i18n: ectx: label, entry (PAHDirection), group (Align)
-#: kstars.kcfg:3022
+#: kstars.kcfg:3051
 #, kde-format
 msgid "Mount rotation direction during polar alignment."
 msgstr "Dirección de rotación de la montura durante la alineación polar."
 
 #. i18n: ectx: label, entry (PAHAutoPark), group (Align)
-#: kstars.kcfg:3025
+#: kstars.kcfg:3054
 #, kde-format
 msgid ""
 "Automatically park the mount after Polar Alignment Assistant Tool is "
@@ -45671,7 +46230,7 @@ msgstr ""
 "asistente de alineación polar."
 
 #. i18n: ectx: label, entry (PAHManualSlew), group (Align)
-#: kstars.kcfg:3029
+#: kstars.kcfg:3058
 #, kde-format
 msgid ""
 "User should manually rotate the mount about its axis during polar alignment."
@@ -45680,21 +46239,21 @@ msgstr ""
 "polar."
 
 #. i18n: ectx: label, entry (PAHExposure), group (Align)
-#: kstars.kcfg:3033
+#: kstars.kcfg:3062
 #, kde-format
 msgid "Polar Alignment Assistant exposure duration in seconds."
 msgstr ""
 "Duración de la exposición del asistente de alineación polar en segundos."
 
 #. i18n: ectx: label, entry (PAHAutoPACCorrection), group (Align)
-#: kstars.kcfg:3037
+#: kstars.kcfg:3066
 #, kde-format
 msgid "Enable automatic polar alignment correction using PAC device."
 msgstr ""
 "Activar corrección de alineación polar automática usando el dispositivo PAC."
 
 #. i18n: ectx: label, entry (PAHAutoChangeDirection), group (Align)
-#: kstars.kcfg:3041
+#: kstars.kcfg:3070
 #, kde-format
 msgid ""
 "Automatically reverse the correction direction for an axis if its polar "
@@ -45704,7 +46263,7 @@ msgstr ""
 "error de alineación polar tras el primer intento de corrección de PAC."
 
 #. i18n: ectx: label, entry (PAHSuccessThreshold), group (Align)
-#: kstars.kcfg:3045
+#: kstars.kcfg:3074
 #, kde-format
 msgid ""
 "Polar alignment success threshold in arcminutes. If total error is at or "
@@ -45714,7 +46273,7 @@ msgstr ""
 "este valor o está por debajo de él, la alineación se considera exitosa."
 
 #. i18n: ectx: label, entry (PAHCorrectionTimeout), group (Align)
-#: kstars.kcfg:3049
+#: kstars.kcfg:3078
 #, kde-format
 msgid ""
 "Timeout in seconds for automatic polar alignment correction. If the system "
@@ -45725,19 +46284,19 @@ msgstr ""
 "período, se interrumpe el proceso."
 
 #. i18n: ectx: label, entry (GuideExposure), group (Guide)
-#: kstars.kcfg:3055
+#: kstars.kcfg:3084
 #, kde-format
 msgid "Guider exposure duration in seconds."
 msgstr "Duración de la exposición de guiado en segundos."
 
 #. i18n: ectx: label, entry (GuideDelay), group (Guide)
-#: kstars.kcfg:3059
+#: kstars.kcfg:3088
 #, kde-format
 msgid "Delay next exposure by this many seconds."
 msgstr "Retrasar la siguiente exposición estos segundos."
 
 #. i18n: ectx: label, entry (GuiderType), group (Guide)
-#: kstars.kcfg:3063
+#: kstars.kcfg:3092
 #, kde-format
 msgid ""
 "Which guider process to utilize for guiding (0 Internal Guider, 1 PHD2, 2 "
@@ -45747,7 +46306,7 @@ msgstr ""
 "lin_guider)"
 
 #. i18n: ectx: label, entry (GuideAlgorithm), group (Guide)
-#: kstars.kcfg:3067
+#: kstars.kcfg:3096
 #, kde-format
 msgid ""
 "Which Algorithm to use track guide square (0 smart, 1 SEP, 2 fast, 3 "
@@ -45757,7 +46316,7 @@ msgstr ""
 "SEP, 2 = rápido, 3 = umbral, 4 = sin umbral, 5 = SEP multiestrella)."
 
 #. i18n: ectx: label, entry (RAGuidePulseAlgorithm), group (Guide)
-#: kstars.kcfg:3071
+#: kstars.kcfg:3100
 #, kde-format
 msgid ""
 "Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
@@ -45767,7 +46326,7 @@ msgstr ""
 "para estándar, 1 para histéresis, 2 para lineal, 3 para GPG)."
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
-#: kstars.kcfg:3075
+#: kstars.kcfg:3104
 #, kde-format
 msgid ""
 "Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
@@ -45777,37 +46336,43 @@ msgstr ""
 "para estándar, 1 para histéresis, 2 para lineal)."
 
 #. i18n: ectx: label, entry (AIGuiderWeightsFile), group (Guide)
-#: kstars.kcfg:3079
+#: kstars.kcfg:3108
 #, kde-format
 msgid "Path to the AI Guider Weights JSON file."
-msgstr ""
+msgstr "Ruta al archivo JSON de pesos del sistema de guiado por IA."
 
 #. i18n: ectx: label, entry (AIPredictionGain), group (Guide)
-#: kstars.kcfg:3083
+#: kstars.kcfg:3112
 #, kde-format
 msgid ""
 "AI feed-forward prediction gain (0.0–1.0). Blended with model confidence at "
 "runtime."
 msgstr ""
+"Ganancia de predicción de realimentación de la IA (0,0–1,0). Combinada con "
+"la confianza del modelo en tiempo de ejecución."
 
 #. i18n: ectx: label, entry (AIProportionalBackoff), group (Guide)
-#: kstars.kcfg:3089
+#: kstars.kcfg:3118
 #, kde-format
 msgid ""
 "Dynamically scale down standard proportional gain when AI is highly "
 "confident."
 msgstr ""
+"Reducir dinámicamente la ganancia proporcional estándar cuando la IA tenga "
+"un alto nivel de confianza."
 
 #. i18n: ectx: label, entry (AIShadowMode), group (Guide)
-#: kstars.kcfg:3093
+#: kstars.kcfg:3122
 #, kde-format
 msgid ""
 "Run AI model alongside standard guiding, logging predictions without "
 "applying them."
 msgstr ""
+"Ejecutar el modelo de IA junto con el guiado estándar, registrando las "
+"predicciones sin aplicarlas."
 
 #. i18n: ectx: whatsthis, entry (AIShadowMode), group (Guide)
-#: kstars.kcfg:3094
+#: kstars.kcfg:3123
 #, kde-format
 msgid ""
 "When enabled and a valid AI weights file is configured, the AI model runs "
@@ -45815,33 +46380,39 @@ msgid ""
 "written to the AI debug CSV log but are never blended into guide pulses. Use "
 "this to evaluate AI model quality before enabling full AI guiding."
 msgstr ""
+"Cuando está activada y se configura un archivo de pesos de IA válido, el "
+"modelo de IA se ejecuta de forma silenciosa en paralelo con el algoritmo de "
+"guiado seleccionado. Las predicciones se registran en el archivo CSV de "
+"depuración de la IA, pero nunca se combinan con los pulsos de guiado. Use "
+"esto para evaluar la calidad del modelo de IA antes de activar el guiado "
+"completo por IA."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
-#: kstars.kcfg:3098
+#: kstars.kcfg:3127
 #, kde-format
 msgid "Host name of external PHD2 service"
 msgstr "Nombre de máquina para el servicio PHD2 externo"
 
 #. i18n: ectx: label, entry (PHD2Port), group (Guide)
-#: kstars.kcfg:3102
+#: kstars.kcfg:3131
 #, kde-format
 msgid "PHD2 Event Monitoring Port"
 msgstr "Puerto de monitorización de eventos de PHD2"
 
 #. i18n: ectx: label, entry (LinGuiderHost), group (Guide)
-#: kstars.kcfg:3106
+#: kstars.kcfg:3135
 #, kde-format
 msgid "Host name of external lin_guider service"
 msgstr "Nombre de máquina para el servicio lin_guider externo"
 
 #. i18n: ectx: label, entry (LinGuiderPort), group (Guide)
-#: kstars.kcfg:3110
+#: kstars.kcfg:3139
 #, kde-format
 msgid "Lin_guider Event Monitoring Port"
 msgstr "Puerto de monitorización de eventos de lin_guider"
 
 #. i18n: ectx: label, entry (CalibrationPulseDuration), group (Guide)
-#: kstars.kcfg:3114
+#: kstars.kcfg:3143
 #, kde-format
 msgid ""
 "Pulse duration in milliseconds used for guiding pulses during calibration "
@@ -45851,19 +46422,19 @@ msgstr ""
 "la etapa de calibración."
 
 #. i18n: ectx: label, entry (GuideSquareSize), group (Guide)
-#: kstars.kcfg:3122
+#: kstars.kcfg:3151
 #, kde-format
 msgid "Guide square size selection in pixels."
 msgstr "Selección del tamaño cuadrado de guiado en píxeles."
 
 #. i18n: ectx: label, entry (GuideBinning), group (Guide)
-#: kstars.kcfg:3126
+#: kstars.kcfg:3155
 #, kde-format
 msgid "Guide binning."
 msgstr "Binning de guiado."
 
 #. i18n: ectx: label, entry (GuideAutoStar), group (Guide)
-#: kstars.kcfg:3130
+#: kstars.kcfg:3159
 #, kde-format
 msgid "Automatically select calibration star and perform calibration."
 msgstr ""
@@ -45871,20 +46442,20 @@ msgstr ""
 "calibración."
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
-#: kstars.kcfg:3134
+#: kstars.kcfg:3163
 #, kde-format
 msgid "Display guiding frames."
 msgstr "Mostrar fotogramas de guiado."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
-#: kstars.kcfg:3142
+#: kstars.kcfg:3171
 #, kde-format
 msgid "Number of automode iterations for calibration process."
 msgstr ""
 "Número de repeticiones de modo automático para el proceso de calibración."
 
 #. i18n: ectx: label, entry (GuideLostStarTimeout), group (Guide)
-#: kstars.kcfg:3146
+#: kstars.kcfg:3175
 #, kde-format
 msgid "When star tracking is lost, wait this many seconds before aborting."
 msgstr ""
@@ -45892,33 +46463,33 @@ msgstr ""
 "interrumpir."
 
 #. i18n: ectx: label, entry (GuideCalibrationTimeout), group (Guide)
-#: kstars.kcfg:3150
+#: kstars.kcfg:3179
 #, kde-format
 msgid "When calibration starts, wait this many seconds before aborting."
 msgstr ""
 "Cuando se inicia la calibración, esperar estos segundos antes de interrumpir."
 
 #. i18n: ectx: label, entry (GuideMaxDeltaRMS), group (Guide)
-#: kstars.kcfg:3154
+#: kstars.kcfg:3183
 #, kde-format
 msgid "Maximum delta RMS permitted while guiding before aborting."
 msgstr "Máximo delta de RMS permitido mientras se guía antes de interrumpir."
 
 #. i18n: ectx: label, entry (GuideMaxHFR), group (Guide)
-#: kstars.kcfg:3158
+#: kstars.kcfg:3187
 #, kde-format
 msgid "Maximum HFR permitted for SEP MultiStar guide star."
 msgstr "Máxima HFR permitida para guiado SEP multiestrella."
 
 #. i18n: ectx: label, entry (MaxMultistarReferenceStars), group (Guide)
-#: kstars.kcfg:3166
+#: kstars.kcfg:3195
 #, kde-format
 msgid "Maximum number of SEP MultiStar number of stars used as references."
 msgstr ""
 "Número máximo de estrellas de SEP multiestrella usadas como referencias."
 
 #. i18n: ectx: label, entry (AlwaysInventGuideStar), group (Guide)
-#: kstars.kcfg:3170
+#: kstars.kcfg:3199
 #, kde-format
 msgid "Invent a guide star position from the multi-star references."
 msgstr ""
@@ -45926,13 +46497,13 @@ msgstr ""
 "múltiples."
 
 #. i18n: ectx: label, entry (TwoAxisEnabled), group (Guide)
-#: kstars.kcfg:3174
+#: kstars.kcfg:3203
 #, kde-format
 msgid "Use both axes to perform calibration."
 msgstr "Usar ambos ejes para realizar la calibración."
 
 #. i18n: ectx: label, entry (UseGuideHead), group (Guide)
-#: kstars.kcfg:3178
+#: kstars.kcfg:3207
 #, kde-format
 msgid ""
 "Use the guider chip for guiding from cameras that have a dedicated guider "
@@ -45942,27 +46513,27 @@ msgstr ""
 "guiado dedicado."
 
 #. i18n: ectx: label, entry (SaveGuideLog), group (Guide)
-#: kstars.kcfg:3182
+#: kstars.kcfg:3211
 #, kde-format
 msgid "Automatically save internal guider user logs."
 msgstr ""
 "Guardar automáticamente registros de usuario del sistema de guiado interno."
 
 #. i18n: ectx: label, entry (GuideDarkFrame), group (Guide)
-#: kstars.kcfg:3186
+#: kstars.kcfg:3215
 #, kde-format
 msgid "Take dark frame for autoguider images."
 msgstr ""
 "Capturar fotograma oscuro para las imágenes del sistema de guía automático."
 
 #. i18n: ectx: label, entry (GuideSubframe), group (Guide)
-#: kstars.kcfg:3190
+#: kstars.kcfg:3219
 #, kde-format
 msgid "Subframe guide image around selected region"
 msgstr "Dividir la imagen de guiado alrededor de la zona seleccionada"
 
 #. i18n: ectx: label, entry (DitherPixels), group (Guide)
-#: kstars.kcfg:3194
+#: kstars.kcfg:3223
 #, kde-format
 msgid ""
 "How many pixels to move between subsequent exposures under auto dithering "
@@ -45972,13 +46543,13 @@ msgstr ""
 "desvío automático."
 
 #. i18n: ectx: label, entry (DitherFrames), group (Guide)
-#: kstars.kcfg:3198
+#: kstars.kcfg:3227
 #, kde-format
 msgid "Dither after this many frames."
 msgstr "Desviar tras este número de fotogramas."
 
 #. i18n: ectx: label, entry (DitherThreshold), group (Guide)
-#: kstars.kcfg:3206
+#: kstars.kcfg:3235
 #, kde-format
 msgid "Maximum distance (pixels) for guiding to be considered settled."
 msgstr ""
@@ -45986,31 +46557,31 @@ msgstr ""
 "estabilizado."
 
 #. i18n: ectx: label, entry (DitherTimeout), group (Guide)
-#: kstars.kcfg:3210
+#: kstars.kcfg:3239
 #, kde-format
 msgid "Time limit (seconds) on dithering to settle down."
 msgstr "Límite de tiempo (en segundos) para que el desvío se estabilice."
 
 #. i18n: ectx: label, entry (DitherMaxIterations), group (Guide)
-#: kstars.kcfg:3214
+#: kstars.kcfg:3243
 #, kde-format
 msgid "How many dithering attempts to undertake before giving up."
 msgstr "El número de intentos de desvío a llevar a cabo antes de rendirse."
 
 #. i18n: ectx: label, entry (DitherNoGuidingPulse), group (Guide)
-#: kstars.kcfg:3218
+#: kstars.kcfg:3247
 #, kde-format
 msgid "Pulse length in milliseconds used for non-guiding dither."
 msgstr "Duración del pulso en milisegundos usado para desvío no guiado."
 
 #. i18n: ectx: label, entry (DitherFailAbortsAutoGuide), group (Guide)
-#: kstars.kcfg:3222
+#: kstars.kcfg:3251
 #, kde-format
 msgid "If dithering fails then abort autoguide."
 msgstr "Si el desvío falla, interrumpir el guiado automático."
 
 #. i18n: ectx: label, entry (DitherWithOnePulse), group (Guide)
-#: kstars.kcfg:3226
+#: kstars.kcfg:3255
 #, kde-format
 msgid ""
 "Dithering amount is randomly generated, pulses are sent, but the resultant "
@@ -46026,98 +46597,98 @@ msgstr ""
 "solicita desvío en 2-D pero el guiado solo se realiza en un eje."
 
 #. i18n: ectx: label, entry (DitherEnabled), group (Guide)
-#: kstars.kcfg:3230
+#: kstars.kcfg:3259
 #, kde-format
 msgid "Use Auto Dithering when guiding."
 msgstr "Usar desvío automático durante el guiado."
 
 #. i18n: ectx: label, entry (DitherNoGuiding), group (Guide)
-#: kstars.kcfg:3234
+#: kstars.kcfg:3263
 #, kde-format
 msgid "Perform dithering even when not guiding."
 msgstr "Realizar desvío incluso cuando no se está guiando."
 
 #. i18n: ectx: label, entry (RAGuideEnabled), group (Guide)
-#: kstars.kcfg:3238
+#: kstars.kcfg:3267
 #, kde-format
 msgid "Enable autoguiding in the RA axis."
 msgstr "Activar guiado automático en el eje de AR."
 
 #. i18n: ectx: label, entry (DECGuideEnabled), group (Guide)
-#: kstars.kcfg:3242
+#: kstars.kcfg:3271
 #, kde-format
 msgid "Enable autoguiding in the DEC axis."
 msgstr "Activar guiado automático en el eje de DEC."
 
 #. i18n: ectx: label, entry (NorthDECGuideEnabled), group (Guide)
-#: kstars.kcfg:3246
+#: kstars.kcfg:3275
 #, kde-format
 msgid "Enable North autoguiding in the DEC axis."
 msgstr "Activar guiado automático al Norte en el eje de DEC."
 
 #. i18n: ectx: label, entry (SouthDECGuideEnabled), group (Guide)
-#: kstars.kcfg:3250
+#: kstars.kcfg:3279
 #, kde-format
 msgid "Enable South autoguiding in the DEC axis."
 msgstr "Activar guiado automático al Sur en el eje de DEC."
 
 #. i18n: ectx: label, entry (EastRAGuideEnabled), group (Guide)
-#: kstars.kcfg:3254
+#: kstars.kcfg:3283
 #, kde-format
 msgid "Enable East autoguiding in the RA axis."
 msgstr "Activar guiado automático al Este en el eje de AR."
 
 #. i18n: ectx: label, entry (WestRAGuideEnabled), group (Guide)
-#: kstars.kcfg:3258
+#: kstars.kcfg:3287
 #, kde-format
 msgid "Enable West autoguiding in the RA axis."
 msgstr "Activar guiado automático al Oeste en el eje de AR."
 
 #. i18n: ectx: label, entry (GuiderAccuracyThreshold), group (Guide)
-#: kstars.kcfg:3343
+#: kstars.kcfg:3372
 #, kde-format
 msgid "Accuracy threshold for the Guide Graphs."
 msgstr "Umbral de precisión para los gráficos de guiado."
 
 #. i18n: ectx: label, entry (RADisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:3347
+#: kstars.kcfg:3376
 #, kde-format
 msgid "Display the RA Plot on the Guide Drift Graphics."
 msgstr "Mostrar la AR en los gráficos de deriva de guiado."
 
 #. i18n: ectx: label, entry (DEDisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:3351
+#: kstars.kcfg:3380
 #, kde-format
 msgid "Display the DEC Plot on the Guide Drift Graphics."
 msgstr "Mostrar la DEC en los gráficos de deriva de guiado."
 
 #. i18n: ectx: label, entry (RACorrDisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:3355
+#: kstars.kcfg:3384
 #, kde-format
 msgid "Display the RA Corrections Plot on the Guide Drift Graphics."
 msgstr "Mostrar las correcciones de AR en los gráficos de deriva de guiado."
 
 #. i18n: ectx: label, entry (DECorrDisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:3359
+#: kstars.kcfg:3388
 #, kde-format
 msgid "Display the DEC Corrections Plot on the Guide Drift Graphics."
 msgstr "Mostrar las correcciones de DEC en los gráficos de deriva de guiado."
 
 #. i18n: ectx: label, entry (SNRDisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:3363
+#: kstars.kcfg:3392
 #, kde-format
 msgid "Display the SNR Plot on the Guide Drift Graphics."
 msgstr "Mostrar el gráfico de SNR en los gráficos de deriva de guiado."
 
 #. i18n: ectx: label, entry (RMSDisplayedOnGuideGraph), group (Guide)
-#: kstars.kcfg:3367
+#: kstars.kcfg:3396
 #, kde-format
 msgid "Display the RMS Error Plot on the Guide Drift Graphics."
 msgstr ""
 "Mostrar el gráfico de errores de RMS en los gráficos de deriva de guiado."
 
 #. i18n: ectx: label, entry (RAHysteresis), group (Guide)
-#: kstars.kcfg:3371
+#: kstars.kcfg:3400
 #, kde-format
 msgid ""
 "If > 0, use the hysteresis guider for RA internal guiding with that value."
@@ -46126,7 +46697,7 @@ msgstr ""
 "interno de AR con este valor."
 
 #. i18n: ectx: label, entry (DECHysteresis), group (Guide)
-#: kstars.kcfg:3375
+#: kstars.kcfg:3404
 #, kde-format
 msgid ""
 "If > 0, use the hysteresis guider for DEC internal guiding with that value."
@@ -46135,19 +46706,19 @@ msgstr ""
 "interno de DEC con este valor."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
-#: kstars.kcfg:3381
+#: kstars.kcfg:3410
 #, kde-format
 msgid "Scheduler algorithm"
 msgstr "Algoritmo del planificador"
 
 #. i18n: ectx: whatsthis, entry (SchedulerLogging), group (Scheduler)
-#: kstars.kcfg:3385
+#: kstars.kcfg:3414
 #, kde-format
 msgid "Log Ekos Scheduler Module activity."
 msgstr "Registrar la actividad del módulo de planificación de Ekos."
 
 #. i18n: ectx: label, entry (StopEkosAfterShutdown), group (Scheduler)
-#: kstars.kcfg:3389
+#: kstars.kcfg:3418
 #, kde-format
 msgid ""
 "After shutdown procedure is successfully executed, shutdown INDI and Ekos."
@@ -46155,7 +46726,7 @@ msgstr ""
 "Tras ejecutar con éxito el procedimiento de apagado, apagar INDI y Ekos."
 
 #. i18n: ectx: label, entry (ShutdownScriptTerminatesINDI), group (Scheduler)
-#: kstars.kcfg:3393
+#: kstars.kcfg:3422
 #, kde-format
 msgid ""
 "Whether shutdown script, if exists, terminates INDI server in the process."
@@ -46164,7 +46735,7 @@ msgstr ""
 "el proceso."
 
 #. i18n: ectx: label, entry (PreemptiveShutdown), group (Scheduler)
-#: kstars.kcfg:3397
+#: kstars.kcfg:3426
 #, kde-format
 msgid "Perform pre-emptive shutdown if no jobs are due for a number of hours."
 msgstr ""
@@ -46172,32 +46743,32 @@ msgstr ""
 "de horas."
 
 #. i18n: ectx: label, entry (ResetMountModelOnAlignFail), group (Scheduler)
-#: kstars.kcfg:3401
+#: kstars.kcfg:3430
 #, kde-format
 msgid "Reset mount model in case of alignment failure."
 msgstr "Reiniciar el modelo de la montura en caso de fallo de alineación."
 
 #. i18n: ectx: label, entry (ResetMountModelBeforeJob), group (Scheduler)
-#: kstars.kcfg:3405
+#: kstars.kcfg:3434
 #, kde-format
 msgid "Reset mount model before starting each job."
 msgstr "Reiniciar el modelo de montura antes de iniciar cada trabajo."
 
 #. i18n: ectx: label, entry (ResetGuideCalibration), group (Scheduler)
-#: kstars.kcfg:3409
+#: kstars.kcfg:3438
 #, kde-format
 msgid "Always Reset guiding calibration before starting each job."
 msgstr ""
 "Reiniciar siempre la calibración de guiado antes de iniciar cada trabajo."
 
 #. i18n: ectx: label, entry (ForceAlignmentBeforeJob), group (Scheduler)
-#: kstars.kcfg:3413
+#: kstars.kcfg:3442
 #, kde-format
 msgid "Force alignment before starting or restarting each job."
 msgstr "Forzar la alineación antes de iniciar o reiniciar cada trabajo."
 
 #. i18n: ectx: label, entry (ReuseGuideCalibration), group (Scheduler)
-#: kstars.kcfg:3417
+#: kstars.kcfg:3446
 #, kde-format
 msgid "Guider may re-use guiding calibration if one is available."
 msgstr ""
@@ -46205,7 +46776,7 @@ msgstr ""
 "alguna disponible."
 
 #. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
-#: kstars.kcfg:3421
+#: kstars.kcfg:3450
 #, kde-format
 msgid "Reverse DEC on pier-side change when reusing calibration."
 msgstr ""
@@ -46213,13 +46784,13 @@ msgstr ""
 "calibración."
 
 #. i18n: ectx: label, entry (GuideCalibrationBacklash), group (Scheduler)
-#: kstars.kcfg:3425
+#: kstars.kcfg:3454
 #, kde-format
 msgid "Remove DEC backlash when calibrating guider."
 msgstr "Eliminar rebote de DEC al calibrar el sistema de guiado."
 
 #. i18n: ectx: label, entry (AssumeDecOrthogonal), group (Scheduler)
-#: kstars.kcfg:3429
+#: kstars.kcfg:3458
 #, kde-format
 msgid ""
 "Assume DEC is orthogonal to RA during calibration instead of measuring the "
@@ -46230,13 +46801,13 @@ msgstr ""
 "independiente."
 
 #. i18n: ectx: label, entry (SerializedCalibration), group (Scheduler)
-#: kstars.kcfg:3433
+#: kstars.kcfg:3462
 #, kde-format
 msgid "Last Calibration serialized."
 msgstr "Última calibración serializada."
 
 #. i18n: ectx: label, entry (RealignAfterCalibrationFailure), group (Scheduler)
-#: kstars.kcfg:3436
+#: kstars.kcfg:3465
 #, kde-format
 msgid ""
 "If guiding calibration fails, run alignment process again before proceeding "
@@ -46246,7 +46817,7 @@ msgstr ""
 "alineación antes de continuar con la recalibración."
 
 #. i18n: ectx: label, entry (PreemptiveShutdownTime), group (Scheduler)
-#: kstars.kcfg:3440
+#: kstars.kcfg:3469
 #, kde-format
 msgid ""
 "Maximum number of hours before the next job is due to trigger a pre-emptive "
@@ -46256,7 +46827,7 @@ msgstr ""
 "para realizar un apagado preventivo."
 
 #. i18n: ectx: label, entry (RememberJobProgress), group (Scheduler)
-#: kstars.kcfg:3444
+#: kstars.kcfg:3473
 #, kde-format
 msgid ""
 "When processing a scheduled job, resume the sequence starting from the last "
@@ -46266,7 +46837,7 @@ msgstr ""
 "última imagen presente en el almacenamiento."
 
 #. i18n: ectx: label, entry (GreedyScheduling), group (Scheduler)
-#: kstars.kcfg:3448
+#: kstars.kcfg:3477
 #, kde-format
 msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
@@ -46277,13 +46848,13 @@ msgstr ""
 "Recomendado."
 
 #. i18n: ectx: label, entry (LeadTime), group (Scheduler)
-#: kstars.kcfg:3452
+#: kstars.kcfg:3481
 #, kde-format
 msgid "Minimum time between jobs in minutes."
 msgstr "Tiempo mínimo entre trabajos en minutos."
 
 #. i18n: ectx: label, entry (PreDawnTime), group (Scheduler)
-#: kstars.kcfg:3456
+#: kstars.kcfg:3485
 #, kde-format
 msgid ""
 "Do not permit jobs to be scheduled or executed past this many minutes before "
@@ -46293,7 +46864,7 @@ msgstr ""
 "antes del amanecer."
 
 #. i18n: ectx: label, entry (DawnOffset), group (Scheduler)
-#: kstars.kcfg:3460
+#: kstars.kcfg:3489
 #, kde-format
 msgid ""
 "Offset astronomical dawn by this many hours to relax twilight restriction "
@@ -46303,7 +46874,7 @@ msgstr ""
 "restricción del crepúsculo cuando se usan filtros de banda estrecha."
 
 #. i18n: ectx: label, entry (DuskOffset), group (Scheduler)
-#: kstars.kcfg:3464
+#: kstars.kcfg:3493
 #, kde-format
 msgid ""
 "Offset astronomical dusk by this many hours to relax twilight restriction "
@@ -46313,56 +46884,56 @@ msgstr ""
 "restricción del crepúsculo cuando se usan filtros de banda estrecha."
 
 #. i18n: ectx: label, entry (TelescopeFocalLength), group (Scheduler)
-#: kstars.kcfg:3468
+#: kstars.kcfg:3497
 #, kde-format
 msgid "Telescope focal length in millimeters."
 msgstr "Distancia focal del telescopio, en milímetros."
 
 #. i18n: ectx: label, entry (TelescopeFocalReducer), group (Scheduler)
-#: kstars.kcfg:3472
+#: kstars.kcfg:3501
 #, kde-format
 msgid "Focal Reducer ratio"
 msgstr "Relación del reductor focal"
 
 #. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
-#: kstars.kcfg:3476
+#: kstars.kcfg:3505
 #, kde-format
 msgid "Camera pixel size width in micrometers."
 msgstr "Anchura del tamaño de píxel de la cámara, en micrómetros."
 
 #. i18n: ectx: label, entry (CameraPixelHeight), group (Scheduler)
-#: kstars.kcfg:3480
+#: kstars.kcfg:3509
 #, kde-format
 msgid "Camera pixel size height in micrometers."
 msgstr "Altura del tamaño de píxel de la cámara, en micrómetros."
 
 #. i18n: ectx: label, entry (CameraWidth), group (Scheduler)
-#: kstars.kcfg:3484
+#: kstars.kcfg:3513
 #, kde-format
 msgid "Camera Width in pixels."
 msgstr "Anchura de la cámara, en píxeles."
 
 #. i18n: ectx: label, entry (CameraHeight), group (Scheduler)
-#: kstars.kcfg:3488
+#: kstars.kcfg:3517
 #, kde-format
 msgid "Camera Height in pixels."
 msgstr "Altura de la cámara, en píxeles."
 
 #. i18n: ectx: label, entry (CameraRotation), group (Scheduler)
-#: kstars.kcfg:3492
+#: kstars.kcfg:3521
 #, kde-format
 msgid "Position angle of the camera with respect to north."
 msgstr "Ángulo de posición de la cámara con respecto al Norte."
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategy), group (Scheduler)
-#: kstars.kcfg:3496
+#: kstars.kcfg:3525
 #, kde-format
 msgid "Strategy how to react, when a job aborts or steps into an error."
 msgstr ""
 "Estrategia de reacción cuando un trabajo se interrumpe o se produce un error."
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategyDelay), group (Scheduler)
-#: kstars.kcfg:3500
+#: kstars.kcfg:3529
 #, kde-format
 msgid ""
 "Delay in minutes how long the scheduler should pause before restarting an "
@@ -46372,13 +46943,13 @@ msgstr ""
 "trabajo interrumpido o en el que se han producido errores."
 
 #. i18n: ectx: label, entry (RescheduleErrors), group (Scheduler)
-#: kstars.kcfg:3504
+#: kstars.kcfg:3533
 #, kde-format
 msgid "Re-schedule jobs that ran into errors."
 msgstr "Volver a programar los trabajos en los que se han producido errores."
 
 #. i18n: ectx: label, entry (SchedulerTrackStep), group (Scheduler)
-#: kstars.kcfg:3516
+#: kstars.kcfg:3545
 #, kde-format
 msgid "Default scheduler checkbox for starting mount tracking on job startup."
 msgstr ""
@@ -46386,13 +46957,13 @@ msgstr ""
 "montura al empezar un trabajo."
 
 #. i18n: ectx: label, entry (SchedulerStartupEnabled), group (Scheduler)
-#: kstars.kcfg:3520
+#: kstars.kcfg:3549
 #, kde-format
 msgid "Enable startup queue execution"
 msgstr "Activar la ejecución de la cola de arranque"
 
 #. i18n: ectx: whatsthis, entry (SchedulerStartupEnabled), group (Scheduler)
-#: kstars.kcfg:3521
+#: kstars.kcfg:3550
 #, kde-format
 msgid ""
 "If enabled, the startup queue will be executed when the scheduler starts. If "
@@ -46403,13 +46974,13 @@ msgstr ""
 "arranque."
 
 #. i18n: ectx: label, entry (SchedulerPreStartupScript), group (Scheduler)
-#: kstars.kcfg:3525
+#: kstars.kcfg:3554
 #, kde-format
 msgid "Path to startup queue file or script."
 msgstr "Ruta al archivo o guion de cola de arranque."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreStartupScript), group (Scheduler)
-#: kstars.kcfg:3526
+#: kstars.kcfg:3555
 #, kde-format
 msgid ""
 "Path to the startup queue file to execute when starting the scheduler before "
@@ -46419,13 +46990,13 @@ msgstr ""
 "planificador antes de iniciar el perfil del equipo."
 
 #. i18n: ectx: label, entry (SchedulerPostStartupScript), group (Scheduler)
-#: kstars.kcfg:3529
+#: kstars.kcfg:3558
 #, kde-format
 msgid "Path to post-startup queue file or script."
 msgstr "Ruta al archivo o guion de cola de postarranque."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPostStartupScript), group (Scheduler)
-#: kstars.kcfg:3530
+#: kstars.kcfg:3559
 #, kde-format
 msgid ""
 "Path to the startup queue file to execute when starting the scheduler after "
@@ -46435,13 +47006,13 @@ msgstr ""
 "planificador tras iniciar el perfil del equipo."
 
 #. i18n: ectx: label, entry (SchedulerShutdownEnabled), group (Scheduler)
-#: kstars.kcfg:3534
+#: kstars.kcfg:3563
 #, kde-format
 msgid "Enable shutdown queue execution"
 msgstr "Activar ejecución de la cola de apagado"
 
 #. i18n: ectx: whatsthis, entry (SchedulerShutdownEnabled), group (Scheduler)
-#: kstars.kcfg:3535
+#: kstars.kcfg:3564
 #, kde-format
 msgid ""
 "If enabled, the shutdown queue will be executed when the scheduler shuts "
@@ -46452,13 +47023,13 @@ msgstr ""
 "apagado."
 
 #. i18n: ectx: label, entry (SchedulerPreShutdownScript), group (Scheduler)
-#: kstars.kcfg:3539
+#: kstars.kcfg:3568
 #, kde-format
 msgid "Path to shutdown queue file or script."
 msgstr "Ruta al archivo o guion de cola de apagado."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPreShutdownScript), group (Scheduler)
-#: kstars.kcfg:3540
+#: kstars.kcfg:3569
 #, kde-format
 msgid ""
 "Path to the shutdown queue file to execute when stopping the scheduler "
@@ -46468,13 +47039,13 @@ msgstr ""
 "planificador antes de detener el perfil del equipo."
 
 #. i18n: ectx: label, entry (SchedulerPostShutdownScript), group (Scheduler)
-#: kstars.kcfg:3544
+#: kstars.kcfg:3573
 #, kde-format
 msgid "Path to post-shutdown queue file or script."
 msgstr "Ruta al archivo o guion de cola de postapagado."
 
 #. i18n: ectx: whatsthis, entry (SchedulerPostShutdownScript), group (Scheduler)
-#: kstars.kcfg:3545
+#: kstars.kcfg:3574
 #, kde-format
 msgid ""
 "Path to the shutdown queue file to execute when stopping the scheduler after "
@@ -46484,7 +47055,7 @@ msgstr ""
 "planificador tras detener el perfil del equipo."
 
 #. i18n: ectx: label, entry (SchedulerFocusStep), group (Scheduler)
-#: kstars.kcfg:3548
+#: kstars.kcfg:3577
 #, kde-format
 msgid "Default scheduler checkbox for running autofocus on job startup."
 msgstr ""
@@ -46492,7 +47063,7 @@ msgstr ""
 "al empezar un trabajo."
 
 #. i18n: ectx: label, entry (SchedulerGuideStep), group (Scheduler)
-#: kstars.kcfg:3552
+#: kstars.kcfg:3581
 #, kde-format
 msgid "Default scheduler checkbox for starting guiding on job startup."
 msgstr ""
@@ -46500,14 +47071,14 @@ msgstr ""
 "trabajo."
 
 #. i18n: ectx: label, entry (SchedulerAlignStep), group (Scheduler)
-#: kstars.kcfg:3556
+#: kstars.kcfg:3585
 #, kde-format
 msgid "Default scheduler checkbox for aligning on job startup."
 msgstr ""
 "Casilla predeterminada del planificador para alinear al empezar un trabajo."
 
 #. i18n: ectx: label, entry (SchedulerAltitude), group (Scheduler)
-#: kstars.kcfg:3560
+#: kstars.kcfg:3589
 #, kde-format
 msgid "Default scheduler checkbox for job altitude constraints."
 msgstr ""
@@ -46515,13 +47086,13 @@ msgstr ""
 "del trabajo."
 
 #. i18n: ectx: label, entry (SchedulerAltitudeValue), group (Scheduler)
-#: kstars.kcfg:3564
+#: kstars.kcfg:3593
 #, kde-format
 msgid "Default scheduler job altitude constraint."
 msgstr "Restricción predeterminada de altitud de trabajo del planificador."
 
 #. i18n: ectx: label, entry (SchedulerHorizon), group (Scheduler)
-#: kstars.kcfg:3568
+#: kstars.kcfg:3597
 #, kde-format
 msgid "Default scheduler checkbox for job artificial horizon constraints."
 msgstr ""
@@ -46529,7 +47100,7 @@ msgstr ""
 "artificial del trabajo."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
-#: kstars.kcfg:3572
+#: kstars.kcfg:3601
 #, kde-format
 msgid "Default scheduler checkbox for job moon separation constraint."
 msgstr ""
@@ -46537,7 +47108,7 @@ msgstr ""
 "la Luna en el trabajo."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparationValue), group (Scheduler)
-#: kstars.kcfg:3576
+#: kstars.kcfg:3605
 #, kde-format
 msgid "Default scheduler job moon separation constraint."
 msgstr ""
@@ -46545,7 +47116,7 @@ msgstr ""
 "planificador."
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitude), group (Scheduler)
-#: kstars.kcfg:3580
+#: kstars.kcfg:3609
 #, kde-format
 msgid "Default scheduler checkbox for job moon altitude constraint."
 msgstr ""
@@ -46553,7 +47124,7 @@ msgstr ""
 "Luna en el trabajo."
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitudeMaxValue), group (Scheduler)
-#: kstars.kcfg:3584
+#: kstars.kcfg:3613
 #, kde-format
 msgid "Default scheduler job moon altitude constraint."
 msgstr ""
@@ -46561,7 +47132,7 @@ msgstr ""
 "planificador."
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
-#: kstars.kcfg:3588
+#: kstars.kcfg:3617
 #, kde-format
 msgid "Default scheduler checkbox for weather constraints."
 msgstr ""
@@ -46569,7 +47140,7 @@ msgstr ""
 "condiciones meteorológicas."
 
 #. i18n: ectx: label, entry (SchedulerWeatherShutdownDelay), group (Scheduler)
-#: kstars.kcfg:3596
+#: kstars.kcfg:3625
 #, kde-format
 msgid ""
 "Wait this many seconds when detecting weather alert before starting "
@@ -46579,7 +47150,7 @@ msgstr ""
 "el apagado del observatorio."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
-#: kstars.kcfg:3603
+#: kstars.kcfg:3632
 #, kde-format
 msgid "Default scheduler checkbox for job twilight constraints."
 msgstr ""
@@ -46587,13 +47158,13 @@ msgstr ""
 "del trabajo."
 
 #. i18n: ectx: label, entry (SchedulerCompleteSequences), group (Scheduler)
-#: kstars.kcfg:3607
+#: kstars.kcfg:3636
 #, kde-format
 msgid "Scheduler is complete once all sequences are complete."
 msgstr "El planificador terminará cuando se completen todas las secuencias."
 
 #. i18n: ectx: label, entry (SchedulerRepeatEverything), group (Scheduler)
-#: kstars.kcfg:3611
+#: kstars.kcfg:3640
 #, kde-format
 msgid "Restart all scheduler jobs when all scheduler jobs have completed."
 msgstr ""
@@ -46601,31 +47172,31 @@ msgstr ""
 "todos."
 
 #. i18n: ectx: label, entry (SchedulerRepeatSequences), group (Scheduler)
-#: kstars.kcfg:3615
+#: kstars.kcfg:3644
 #, kde-format
 msgid "Restart sequences as soon as all sequences have been completed."
 msgstr "Reiniciar las secuencias en cuanto se hayan completado todas."
 
 #. i18n: ectx: label, entry (SchedulerUntilTerminated), group (Scheduler)
-#: kstars.kcfg:3619
+#: kstars.kcfg:3648
 #, kde-format
 msgid "Restart sequences until manually terminated."
 msgstr "Reiniciar las secuencias hasta que se detengan manualmente."
 
 #. i18n: ectx: label, entry (SchedulerUntil), group (Scheduler)
-#: kstars.kcfg:3623
+#: kstars.kcfg:3652
 #, kde-format
 msgid "Loop sequences until specific time is up."
 msgstr "Secuencias en bucle hasta que se agote el tiempo indicado."
 
 #. i18n: ectx: label, entry (SchedulerUntilValue), group (Scheduler)
-#: kstars.kcfg:3627
+#: kstars.kcfg:3656
 #, kde-format
 msgid "Time when scheduler should stop repeating sequences."
 msgstr "Hora a la que el planificador debe dejar de repetir las secuencias."
 
 #. i18n: ectx: label, entry (SchedulerExecutionSequencesLimit), group (Scheduler)
-#: kstars.kcfg:3630
+#: kstars.kcfg:3659
 #, kde-format
 msgid "Limit how many times the scheduler should execute all sequences."
 msgstr ""
@@ -46633,7 +47204,7 @@ msgstr ""
 "todas las secuencias."
 
 #. i18n: ectx: label, entry (AnalyzeRestartWithEkos), group (Analyze)
-#: kstars.kcfg:3636
+#: kstars.kcfg:3665
 #, kde-format
 msgid ""
 "If Analyze is running and Ekos is disconnected then reconnected, a new ."
@@ -46645,20 +47216,20 @@ msgstr ""
 "nueva sesión."
 
 #. i18n: ectx: label, entry (AnalyzeAlternativeDirectoryName), group (Analyze)
-#: kstars.kcfg:3640
+#: kstars.kcfg:3669
 #, kde-format
 msgid "Alternative directory to use for searching for analyze image files."
 msgstr ""
 "Directorio alternativo que se usará al buscar archivos de imagen de Analyze."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
-#: kstars.kcfg:3644
+#: kstars.kcfg:3673
 #, kde-format
 msgid "Display HFR on the Analyze Statistics Plot."
 msgstr "Mostrar la HFR en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumCaptureStars), group (Analyze)
-#: kstars.kcfg:3648
+#: kstars.kcfg:3677
 #, kde-format
 msgid ""
 "Display number of stars detected in the capture on the Analyze Statistics "
@@ -46668,7 +47239,7 @@ msgstr ""
 "estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMedian), group (Analyze)
-#: kstars.kcfg:3652
+#: kstars.kcfg:3681
 #, kde-format
 msgid ""
 "Display median sample value for the capture on the Analyze Statistics Plot."
@@ -46677,7 +47248,7 @@ msgstr ""
 "estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeEccentricity), group (Analyze)
-#: kstars.kcfg:3656
+#: kstars.kcfg:3685
 #, kde-format
 msgid ""
 "Display the median eccentricity for the stars in the capture on the Analyze "
@@ -46687,75 +47258,75 @@ msgstr ""
 "de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTemperature), group (Analyze)
-#: kstars.kcfg:3660
+#: kstars.kcfg:3689
 #, kde-format
 msgid "Display the ambient temperature on the Analyze Statistics Plot."
 msgstr ""
 "Mostrar la temperatura ambiental en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (FocusPosition), group (Analyze)
-#: kstars.kcfg:3664
+#: kstars.kcfg:3693
 #, kde-format
 msgid "Display the autofocus solution position."
 msgstr "Mostrar la posición de la solución de enfoque automático."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumStars), group (Analyze)
-#: kstars.kcfg:3668
+#: kstars.kcfg:3697
 #, kde-format
 msgid "Display NumStars on the Analyze Statistics Plot."
 msgstr ""
 "Mostrar el número de estrellas en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSkyBg), group (Analyze)
-#: kstars.kcfg:3672
+#: kstars.kcfg:3701
 #, kde-format
 msgid "Display SkyBackground on the Analyze Statistics Plot."
 msgstr "Mostrar el fondo del cielo en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSNR), group (Analyze)
-#: kstars.kcfg:3676
+#: kstars.kcfg:3705
 #, kde-format
 msgid "Display SNR on the Analyze Statistics Plot."
 msgstr "Mostrar la SNR en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRA), group (Analyze)
-#: kstars.kcfg:3680
+#: kstars.kcfg:3709
 #, kde-format
 msgid "Display RA on the Analyze Statistics Plot."
 msgstr "Mostrar la AR en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDEC), group (Analyze)
-#: kstars.kcfg:3684
+#: kstars.kcfg:3713
 #, kde-format
 msgid "Display DEC on the Analyze Statistics Plot."
 msgstr "Mostrar la DEC en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRAp), group (Analyze)
-#: kstars.kcfg:3688
+#: kstars.kcfg:3717
 #, kde-format
 msgid "Display RA Pulses on the Analyze Statistics Plot."
 msgstr "Mostrar los pulsos de AR en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDECp), group (Analyze)
-#: kstars.kcfg:3692
+#: kstars.kcfg:3721
 #, kde-format
 msgid "Display DEC Pulses on the Analyze Statistics Plot."
 msgstr "Mostrar los pulsos de DEC en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDrift), group (Analyze)
-#: kstars.kcfg:3696
+#: kstars.kcfg:3725
 #, kde-format
 msgid "Display Drift on the Analyze Statistics Plot."
 msgstr "Mostrar la deriva en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMS), group (Analyze)
-#: kstars.kcfg:3700
+#: kstars.kcfg:3729
 #, kde-format
 msgid "Display RMS Error on the Analyze Statistics Plot."
 msgstr "Mostrar el error de RMS en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTargetDistance), group (Analyze)
-#: kstars.kcfg:3704
+#: kstars.kcfg:3733
 #, kde-format
 msgid ""
 "Display the arc-seconds distance between the target position and the plate-"
@@ -46765,7 +47336,7 @@ msgstr ""
 "imagen identificada de la captura de la placa en el gráfico del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMSC), group (Analyze)
-#: kstars.kcfg:3708
+#: kstars.kcfg:3737
 #, kde-format
 msgid "Display RMS Error (during capture) on the Analyze Statistics Plot."
 msgstr ""
@@ -46773,21 +47344,21 @@ msgstr ""
 "del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountRA), group (Analyze)
-#: kstars.kcfg:3712
+#: kstars.kcfg:3741
 #, kde-format
 msgid "Display Mount RA on the Analyze Statistics Plot."
 msgstr ""
 "Mostrar la AR de la montura en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountDEC), group (Analyze)
-#: kstars.kcfg:3716
+#: kstars.kcfg:3745
 #, kde-format
 msgid "Display Mount DEC on the Analyze Statistics Plot."
 msgstr ""
 "Mostrar la DEC de la montura en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountHA), group (Analyze)
-#: kstars.kcfg:3720
+#: kstars.kcfg:3749
 #, kde-format
 msgid "Display Mount Hour Angle on the Analyze Statistics Plot."
 msgstr ""
@@ -46795,26 +47366,26 @@ msgstr ""
 "análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAz), group (Analyze)
-#: kstars.kcfg:3724
+#: kstars.kcfg:3753
 #, kde-format
 msgid "Display Azimuth on the Analyze Statistics Plot."
 msgstr "Mostrar el acimut en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAlt), group (Analyze)
-#: kstars.kcfg:3728
+#: kstars.kcfg:3757
 #, kde-format
 msgid "Display Altitude on the Analyze Statistics Plot."
 msgstr "Mostrar la altitud en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: whatsthis, entry (AnalyzePierSide), group (Analyze)
-#: kstars.kcfg:3732
+#: kstars.kcfg:3761
 #, kde-format
 msgid "Display PierSide on the Analyze Statistics Plot."
 msgstr ""
 "Mostrar el lado de la columna en el gráfico de estadísticas del análisis."
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
-#: kstars.kcfg:3736
+#: kstars.kcfg:3765
 #, kde-format
 msgid "Stored Y-axis upper and lower limits for the Analyze Stats Plot."
 msgstr ""
@@ -46822,128 +47393,128 @@ msgstr ""
 "estadísticas de análisis."
 
 #. i18n: ectx: label, entry (LastServer), group (INDI Lite)
-#: kstars.kcfg:3741
+#: kstars.kcfg:3770
 #, kde-format
 msgid "The address of last used server"
 msgstr "La dirección del último servidor usado"
 
 #. i18n: ectx: label, entry (LastServerPort), group (INDI Lite)
-#: kstars.kcfg:3744
+#: kstars.kcfg:3773
 #, kde-format
 msgid "The port of last used server"
 msgstr "El puerto del último servidor usado"
 
 #. i18n: ectx: label, entry (LastWebManagerPort), group (INDI Lite)
-#: kstars.kcfg:3748
+#: kstars.kcfg:3777
 #, kde-format
 msgid "The port of last used Web Manager"
 msgstr "El puerto del último gestor web usado"
 
 #. i18n: ectx: label, entry (HIPSMemoryCache), group (HIPS)
-#: kstars.kcfg:3754
+#: kstars.kcfg:3783
 #, kde-format
 msgid "RAM cache size in MB used to store cached HIPS images."
 msgstr "Tamaño de la caché de RAM en MB usada para almacenar imágenes HIPS."
 
 #. i18n: ectx: label, entry (HIPSNetCache), group (HIPS)
-#: kstars.kcfg:3758
+#: kstars.kcfg:3787
 #, kde-format
 msgid "Hard disk cache size in MB used to store cached HIPS images."
 msgstr ""
 "Tamaño de la caché de disco duro en MB usada para almacenar imágenes HIPS."
 
 #. i18n: ectx: label, entry (HIPSSource), group (HIPS)
-#: kstars.kcfg:3762
+#: kstars.kcfg:3791
 #, kde-format
 msgid "HIPS source catalog title."
 msgstr "Título del catálogo fuente HIPS."
 
 #. i18n: ectx: label, entry (HIPSBiLinearInterpolation), group (HIPS)
-#: kstars.kcfg:3766
+#: kstars.kcfg:3795
 #, kde-format
 msgid "Use Bilinear interpolation when rendering HiPS images?"
 msgstr "¿Usar la interpolación bilineal al mostrar imágenes HiPS?"
 
 #. i18n: ectx: label, entry (HIPSShowGrid), group (HIPS)
-#: kstars.kcfg:3770
+#: kstars.kcfg:3799
 #, kde-format
 msgid "Show HiPS grid on the sky map."
 msgstr "Mostrar la cuadrícula HiPS en el mapa del cielo."
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
-#: kstars.kcfg:3774
+#: kstars.kcfg:3803
 #, kde-format
 msgid "Redraw HiPS while panning."
 msgstr "Redibujar HiPS cuando se hace un barrido."
 
 #. i18n: ectx: label, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3778
+#: kstars.kcfg:3807
 #, kde-format
 msgid "Draw HiPS sources in the sky map?"
 msgstr "¿Mostrar fuentes HiPS en el mapa del cielo?"
 
 #. i18n: ectx: whatsthis, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3779
+#: kstars.kcfg:3808
 #, kde-format
 msgid "Toggle whether the HIPS sources are drawn in the sky map."
 msgstr "Muestra/oculta las fuentes HIPS en el mapa del cielo."
 
 #. i18n: ectx: label, entry (HIPSUseOfflineSource), group (HIPS)
-#: kstars.kcfg:3783
+#: kstars.kcfg:3812
 #, kde-format
 msgid "Use offline storage to load HiPS?"
 msgstr "¿Usar almacenamiento sin conexión para cargar HiPS?"
 
 #. i18n: ectx: label, entry (HIPSOfflinePath), group (HIPS)
-#: kstars.kcfg:3787
+#: kstars.kcfg:3816
 #, kde-format
 msgid "HIPS offline full path."
 msgstr "Ruta completa de HiPS sin conexión."
 
 #. i18n: ectx: label, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3792
+#: kstars.kcfg:3821
 #, kde-format
 msgid "Terrain Filename."
 msgstr "Archivo de terreno."
 
 #. i18n: ectx: whatsthis, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3793
+#: kstars.kcfg:3822
 #, kde-format
 msgid "Terrain source filename."
 msgstr "Archivo de fuente de terreno."
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3797
+#: kstars.kcfg:3826
 #, kde-format
 msgid "Terrain Azimuth Correction."
 msgstr "Corrección de acimut del terreno."
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3798
+#: kstars.kcfg:3827
 #, kde-format
 msgid "Terrain source azimuth correction."
 msgstr "Corrección de acimut de la fuente de terreno."
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3802
+#: kstars.kcfg:3831
 #, kde-format
 msgid "Terrain Altitude Correction."
 msgstr "Corrección de altitud del terreno."
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3803
+#: kstars.kcfg:3832
 #, kde-format
 msgid "Terrain source altitude correction."
 msgstr "Corrección de altitud de la fuente de terreno."
 
 #. i18n: ectx: label, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3807
+#: kstars.kcfg:3836
 #, kde-format
 msgid "Terrain Downsampling"
 msgstr "Reducción de resolución del terreno"
 
 #. i18n: ectx: whatsthis, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3808
+#: kstars.kcfg:3837
 #, kde-format
 msgid "Speed quality tradeoff for rendering the terrain image."
 msgstr ""
@@ -46951,68 +47522,68 @@ msgstr ""
 "terreno."
 
 #. i18n: ectx: label, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3812
+#: kstars.kcfg:3841
 #, kde-format
 msgid "Terrain While panning."
 msgstr "Dibujar el terreno durante la panorámica."
 
 #. i18n: ectx: whatsthis, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3813
+#: kstars.kcfg:3842
 #, kde-format
 msgid "Redraw terrain while panning."
 msgstr "Redibujar el terreno al hacer un barrido panorámico."
 
 #. i18n: ectx: label, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3817
+#: kstars.kcfg:3846
 #, kde-format
 msgid "Draw terrain"
 msgstr "Dibujar el terreno"
 
 #. i18n: ectx: whatsthis, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3818
+#: kstars.kcfg:3847
 #, kde-format
 msgid "Toggle whether the terrain is drawn in the sky map."
 msgstr "Muestra/oculta el terreno en el mapa del cielo."
 
 #. i18n: ectx: label, entry (TerrainSkipSpeedup), group (Terrain)
-#: kstars.kcfg:3822
+#: kstars.kcfg:3851
 #, kde-format
 msgid "Terrain Skip Speedup"
 msgstr "Aceleración de salto del terreno"
 
 #. i18n: ectx: whatsthis, entry (TerrainSkipSpeedup), group (Terrain)
 #. i18n: ectx: whatsthis, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3823 kstars.kcfg:3828
+#: kstars.kcfg:3852 kstars.kcfg:3857
 #, kde-format
 msgid "Enable a one of the terrain drawing speedups."
 msgstr "Active una de las aceleraciones de dibujo del terreno."
 
 #. i18n: ectx: label, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3827
+#: kstars.kcfg:3856
 #, kde-format
 msgid "Terrain Transparency Speedup."
 msgstr "Aceleración de la transparencia del terreno."
 
 #. i18n: ectx: label, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3832
+#: kstars.kcfg:3861
 #, kde-format
 msgid "Terrain Smooth Pixels."
 msgstr "Píxeles suaves del terreno."
 
 #. i18n: ectx: whatsthis, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3833
+#: kstars.kcfg:3862
 #, kde-format
 msgid "Smooth pixels for a more pleasant, but slower rendering."
 msgstr "Suavizar píxeles para un renderizado más agradable, aunque más lento."
 
 #. i18n: ectx: label, entry (ShowImageOverlays), group (ImageOverlay)
-#: kstars.kcfg:3839
+#: kstars.kcfg:3868
 #, kde-format
 msgid "Display Image Overlays."
 msgstr "Mostrar capas de imágenes."
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
-#: kstars.kcfg:3840
+#: kstars.kcfg:3869
 #, kde-format
 msgid "Toggle whether to display image overlays."
 msgstr "Muestra/oculta la visualización de capas de imágenes."
@@ -47020,19 +47591,19 @@ msgstr "Muestra/oculta la visualización de capas de imágenes."
 #. i18n: ectx: label, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
 #. i18n: ectx: whatsthis, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
-#: kstars.kcfg:3844 kstars.kcfg:3845 options/opsimageoverlay.ui:81
+#: kstars.kcfg:3873 kstars.kcfg:3874 options/opsimageoverlay.ui:81
 #, kde-format
 msgid "Display Image Overlays below catalogs."
 msgstr "Mostrar capas de imágenes debajo de los catálogos."
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
-#: kstars.kcfg:3849
+#: kstars.kcfg:3878
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
 msgstr "Centrar el mapa del cielo sobre la capa de imagen seleccionada."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
-#: kstars.kcfg:3850
+#: kstars.kcfg:3879
 #, kde-format
 msgid ""
 "Center SkyMap over the selected overlay image in the image overlay table (if "
@@ -47042,37 +47613,37 @@ msgstr ""
 "de capas de imágenes (si se ha resuelto)."
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
-#: kstars.kcfg:3854
+#: kstars.kcfg:3883
 #, kde-format
 msgid "Image overlay max dimension"
 msgstr "Dimensión máxima de la capa de imagen"
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
-#: kstars.kcfg:3855
+#: kstars.kcfg:3884
 #, kde-format
 msgid "Maximum dimension for image overlay images."
 msgstr "Dimensión máxima para las imágenes de capas de imagen."
 
 #. i18n: ectx: label, entry (ImageOverlayTimeout), group (ImageOverlay)
-#: kstars.kcfg:3859
+#: kstars.kcfg:3888
 #, kde-format
 msgid "Image overlay plate-solving timeout."
 msgstr "Tiempo de espera de resolución de placas de capas de imágenes."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
-#: kstars.kcfg:3860
+#: kstars.kcfg:3889
 #, kde-format
 msgid "Timeout for plate-solving an image overlay."
 msgstr "Tiempo de espera para resolución de placa de una capa de imagen."
 
 #. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
-#: kstars.kcfg:3864
+#: kstars.kcfg:3893
 #, kde-format
 msgid "Image overlay default plate-solving scale."
 msgstr "Escala de resolución de placas predeterminada de capas de imágenes."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
-#: kstars.kcfg:3865
+#: kstars.kcfg:3894
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
@@ -47080,31 +47651,31 @@ msgstr ""
 "capas de imágenes."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
-#: kstars.kcfg:3871
+#: kstars.kcfg:3900
 #, kde-format
 msgid "Default observatory module weather source."
 msgstr "Fuente de temperatura por omisión del módulo de enfoque."
 
 #. i18n: ectx: label, entry (warningActionsActive), group (Observatory)
-#: kstars.kcfg:3874
+#: kstars.kcfg:3903
 #, kde-format
 msgid "Will be reacted upon warnings?"
 msgstr "¿Se debe reaccionar a las advertencias?"
 
 #. i18n: ectx: label, entry (alertActionsActive), group (Observatory)
-#: kstars.kcfg:3878
+#: kstars.kcfg:3907
 #, kde-format
 msgid "Will be reacted upon alerts?"
 msgstr "¿Se debe reaccionar a las alertas?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseDome), group (Observatory)
-#: kstars.kcfg:3882
+#: kstars.kcfg:3911
 #, kde-format
 msgid "Shall the dome being closed when a weather warning occurs?"
 msgstr "¿Se debe cerrar la cúpula cuando existe una advertencia meteorológica?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseShutter), group (Observatory)
-#: kstars.kcfg:3886
+#: kstars.kcfg:3915
 #, kde-format
 msgid "Shall the shutter being closed when a weather warning occurs?"
 msgstr ""
@@ -47113,62 +47684,62 @@ msgstr ""
 #. i18n: ectx: label, entry (weatherWarningStopScheduler), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertCloseShutter), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertStopScheduler), group (Observatory)
-#: kstars.kcfg:3890 kstars.kcfg:3902 kstars.kcfg:3906
+#: kstars.kcfg:3919 kstars.kcfg:3931 kstars.kcfg:3935
 #, kde-format
 msgid "Shall the shutter being closed when a weather alert occurs?"
 msgstr "¿Se debe cerrar el obturador cuando existe una alerta meteorológica?"
 
 #. i18n: ectx: label, entry (weatherWarningDelay), group (Observatory)
-#: kstars.kcfg:3894
+#: kstars.kcfg:3923
 #, kde-format
 msgid "Delay for reacting upon a weather warning."
 msgstr "Demora para reaccionar a una advertencia meteorológica."
 
 #. i18n: ectx: label, entry (weatherAlertCloseDome), group (Observatory)
-#: kstars.kcfg:3898
+#: kstars.kcfg:3927
 #, kde-format
 msgid "Shall the dome being closed when a weather alert occurs?"
 msgstr "¿Se debe cerrar la cúpula cuando existe una alerta meteorológica?"
 
 #. i18n: ectx: label, entry (weatherAlertDelay), group (Observatory)
-#: kstars.kcfg:3910
+#: kstars.kcfg:3939
 #, kde-format
 msgid "Delay for reacting upon a weather alert."
 msgstr "Demora para reaccionar a una alerta meteorológica."
 
 #. i18n: ectx: label, entry (observatoryStatusUseDome), group (Observatory)
-#: kstars.kcfg:3914
+#: kstars.kcfg:3943
 #, kde-format
 msgid "Dome status relevant for the Observatory status."
 msgstr "Estado de la cúpula relevante para el estado del observatorio."
 
 #. i18n: ectx: label, entry (observatoryStatusUseShutter), group (Observatory)
-#: kstars.kcfg:3918
+#: kstars.kcfg:3947
 #, kde-format
 msgid "Shutter status relevant for the Observatory status."
 msgstr "Estado del obturador relevante para el estado del observatorio."
 
 #. i18n: ectx: label, entry (observatoryStatusUseWeather), group (Observatory)
-#: kstars.kcfg:3922
+#: kstars.kcfg:3951
 #, kde-format
 msgid "Weather status relevant for the Observatory status."
 msgstr "Condiciones meteorológicas relevantes para el estado del observatorio."
 
 #. i18n: ectx: label, entry (weatherAutoScaleValues), group (Observatory)
-#: kstars.kcfg:3926
+#: kstars.kcfg:3955
 #, kde-format
 msgid "Scale the sensor graph value axis to the values range."
 msgstr "Escalar el eje de valores gráficos del sensor al intervalo de valores."
 
 #. i18n: ectx: label, entry (ASTAPExecutable), group (ASTAP)
-#: kstars.kcfg:3932
+#: kstars.kcfg:3961
 #, kde-format
 msgid "Full path to the ASTAP executable."
 msgstr "Ruta completa al ejecutable de ASTAP."
 
 #. i18n: ectx: label, entry (ASTAPDownSample), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPDownSampleValue), group (ASTAP)
-#: kstars.kcfg:3936 kstars.kcfg:3940
+#: kstars.kcfg:3965 kstars.kcfg:3969
 #, kde-format
 msgid ""
 "Down sample prior to solving. Also called binning. A value 0 will result in "
@@ -47179,7 +47750,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPSearchRadius), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPSearchRadiusValue), group (ASTAP)
-#: kstars.kcfg:3944 kstars.kcfg:3948
+#: kstars.kcfg:3973 kstars.kcfg:3977
 #, kde-format
 msgid ""
 "The program will search in a square spiral around the start position up to "
@@ -47189,49 +47760,49 @@ msgstr ""
 "inicio hasta este radio."
 
 #. i18n: ectx: label, entry (ASTAPUpdateFITS), group (ASTAP)
-#: kstars.kcfg:3952
+#: kstars.kcfg:3981
 #, kde-format
 msgid "Update the fits header with the found solution."
 msgstr "Actualizar la cabecera FITS con la solución encontrada."
 
 #. i18n: ectx: label, entry (ASTAPLargeSearchWindow), group (ASTAP)
-#: kstars.kcfg:3956
+#: kstars.kcfg:3985
 #, kde-format
 msgid "Increase search window size."
 msgstr "Aumentar el tamaño de la ventana de búsqueda."
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyAuto), group (Mosaic)
-#: kstars.kcfg:3962
+#: kstars.kcfg:3991
 #, kde-format
 msgid "Manage the mosaic panel transparency level automatically."
 msgstr "Gestión automática del nivel de transparencia del panel de mosaico."
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyLevel), group (Mosaic)
-#: kstars.kcfg:3966
+#: kstars.kcfg:3995
 #, kde-format
 msgid "Control mosaic panel transparency level."
 msgstr "Controlar el nivel de transparencia del panel de mosaico."
 
 #. i18n: ectx: label, entry (MCPPort), group (MCP)
-#: kstars.kcfg:3976
+#: kstars.kcfg:4005
 #, kde-format
 msgid "MCP server port"
 msgstr "Puerto del servidor MCP"
 
 #. i18n: ectx: label, entry (MCPReadOnlyMode), group (MCP)
-#: kstars.kcfg:3980
+#: kstars.kcfg:4009
 #, kde-format
 msgid "Allow only read-only MCP tools"
 msgstr "Permitir solo herramientas MCP de solo lectura"
 
 #. i18n: ectx: label, entry (MCPDisabledTools), group (MCP)
-#: kstars.kcfg:3984
+#: kstars.kcfg:4013
 #, kde-format
 msgid "MCP tools disabled by the user"
 msgstr "Herramientas MCP desactivadas por el usuario"
 
 #. i18n: ectx: whatsthis, entry (MCPDisabledTools), group (MCP)
-#: kstars.kcfg:3985
+#: kstars.kcfg:4014
 #, kde-format
 msgid ""
 "Tool names excluded from the MCP tools/list response and rejected on tools/"
@@ -94537,12 +95108,6 @@ msgstr ""
 #, kde-format
 msgid "Awards Required"
 msgstr "Se solicitan premios"
-
-#. i18n: ectx: property (text), widget (QLabel, radiusLabel)
-#: tools/imagingplanner.ui:1410
-#, kde-format
-msgid "Radius:"
-msgstr "Radio:"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
 #: tools/imagingplanner.ui:1423
