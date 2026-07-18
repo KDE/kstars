@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-17 02:08+0000\n"
-"PO-Revision-Date: 2026-07-16 11:20+0200\n"
+"POT-Creation-Date: 2026-07-18 02:08+0000\n"
+"PO-Revision-Date: 2026-07-17 12:47+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -3923,7 +3923,7 @@ msgstr "0,0 pc"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:455 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
-#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:733 ekos/guide/guide.ui:632
+#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:747 ekos/guide/guide.ui:632
 #: ekos/guide/guide.ui:756 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
@@ -6245,7 +6245,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:275 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1432 ekos/manager.cpp:2446 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1446 ekos/manager.cpp:2446 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3614
 #, kde-format
@@ -6297,8 +6297,9 @@ msgstr "Inlezen && Verplaatsen..."
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
 #: ekos/align/polaralignmentassistant.ui:826
 #: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/guide/opsaiguide.ui:223
-#: ekos/manager.cpp:259 ekos/observatory/observatorydomemodel.cpp:132
+#: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:345
+#: ekos/guide/aiguidewizard.ui:223 ekos/guide/guide.ui:258 ekos/manager.cpp:259
+#: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
 #: fitsviewer/fitstab.cpp:37 kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -7180,7 +7181,7 @@ msgstr "Doel wordt op RK:%1 DEC:%2 ingesteld"
 msgid "Error: No camera detected."
 msgstr "Fout: Geen camera gevonden."
 
-#: ekos/align/align_solver.cpp:83 ekos/guide/guide.cpp:864
+#: ekos/align/align_solver.cpp:83 ekos/guide/guide.cpp:878
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Fout: Verbinding met camera verbroken."
@@ -7453,13 +7454,13 @@ msgid "Exposure timeout. Aborting..."
 msgstr "Belichtingstijd verlopen. Wordt afgebroken..."
 
 #: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6158
-#: ekos/guide/guide.cpp:1183
+#: ekos/guide/guide.cpp:1197
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Belichtingstijd verlopen. Te veel. Stuurprogramma wordt herstart."
 
 #: ekos/align/align_solver.cpp:1227 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6172 ekos/guide/guide.cpp:1148
+#: ekos/focus/focus.cpp:6172 ekos/guide/guide.cpp:1162
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Belichtingstijd verlopen. Belichten wordt herstart..."
@@ -10822,8 +10823,8 @@ msgstr "Hoogtefout in polaire uitlijning geschat na recente aanpassingen."
 #. i18n: ectx: property (text), widget (QPushButton, StartB)
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:158 ekos/manager.cpp:265 ekos/manager.cpp:1124
-#: ekos/observatory/observatorydomemodel.cpp:132
+#: ekos/guide/aiguidewizard.cpp:213 ekos/manager.cpp:158 ekos/manager.cpp:265
+#: ekos/manager.cpp:1124 ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
 #: fitsviewer/fitstab.cpp:36 fitsviewer/livestacking.ui:317
@@ -11170,7 +11171,7 @@ msgstr "Scherpstellen"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2335 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:71 ekos/guide/guide.ui:129 ekos/manager.cpp:2817
+#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2817
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -13487,7 +13488,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2867
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2883
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -15432,7 +15433,7 @@ msgstr "Automatische kalibratieopties voor Dark- en Flat frames"
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, CalibrationMinimized)
 #: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2519
-#: ekos/guide/guide.cpp:82 fitsviewer/livestacking.ui:2260
+#: ekos/guide/guide.cpp:83 fitsviewer/livestacking.ui:2260
 #: fitsviewer/livestacking.ui:2886
 #, kde-format
 msgid "Calibration"
@@ -18733,12 +18734,12 @@ msgstr "Online"
 msgid "Offline"
 msgstr "Offline"
 
-#: ekos/ekoslive/message.cpp:820
+#: ekos/ekoslive/message.cpp:817
 #, kde-format
 msgid "target"
 msgstr "doel"
 
-#: ekos/ekoslive/message.cpp:1150
+#: ekos/ekoslive/message.cpp:1147
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mozaïek importeren is mislukt."
@@ -18939,27 +18940,21 @@ msgstr "Tegelcentra optimaliseren"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsTiltPlate)
 #: ekos/focus/aberrationinspector.ui:125
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check if you have a tilt adjustment plate installed. "
 "Shows the Tilt Correction Advisory panel with suggested adjustments.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Pas de schaal van de correctiegrafieken aan, aan de "
-"schaal van de driftgrafieken, door slepen van de schuifknop.</p></body></"
-"html>"
+"<html><head/><body><p>Controleer of er een kantelverstelplaat is "
+"geïnstalleerd. Toont het paneel met advies voor kantelcorrectie en "
+"voorgestelde aanpassingen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsTiltPlate)
 #: ekos/focus/aberrationinspector.ui:128
-#, fuzzy, kde-format
-#| msgctxt "City in Nebraska USA"
-#| msgid "North Platte"
+#, kde-format
 msgid "Tilt Plate"
-msgstr "North Platte"
+msgstr "Kantelplaat"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:238
@@ -19000,10 +18995,9 @@ msgstr "Links-rechts verschuiving:"
 #. i18n: ectx: property (title), widget (Ekos::TiltCorrectionWidget, tiltCorrectionWidget)
 #: ekos/focus/aberrationinspector.ui:317
 #: ekos/focus/tiltcorrectionwidget.cpp:272
-#, fuzzy, kde-format
-#| msgid "Flip correction vector."
+#, kde-format
 msgid "Tilt Correction Advisory"
-msgstr "Flip correctievector."
+msgstr "Advies over kantelcorrectie"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:336
@@ -22438,53 +22432,47 @@ msgstr "Max. totaal verplaatsingen:"
 #: ekos/focus/tiltcorrectionwidget.cpp:124
 #, kde-format
 msgid "Sensor (rear view)"
-msgstr ""
+msgstr "Sensor (achteraanzicht)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:131
-#, fuzzy, kde-format
-#| msgid "Loading city data"
+#, kde-format
 msgid "No tilt data"
-msgstr "Inlezen van gegevens van steden"
+msgstr "Geen kantelgegevens"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:140
 #, kde-format
 msgid "↑ Camera top (logo side) ↑"
-msgstr ""
+msgstr "↑ Bovenkant camera (kant met logo) ↑"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:141
 #, kde-format
 msgid "Camera top rotated %1°"
-msgstr ""
+msgstr "Camera bovenzijde %1° gedraaid"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:147
 #, kde-format
 msgid "View from behind camera"
-msgstr ""
+msgstr "Zicht van achter de camera"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:249
 #, kde-format
 msgid "%1%2 μm"
-msgstr ""
+msgstr "%1%2 μm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:284
-#, fuzzy, kde-format
-#| msgid "Date:"
+#, kde-format
 msgid "Plate:"
-msgstr "Datum:"
+msgstr "Plaat:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:286
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Sandpoint"
+#, kde-format
 msgid "3-point"
-msgstr "Sandpoint"
+msgstr "3-punts"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:287
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Sandpoint"
+#, kde-format
 msgid "4-point"
-msgstr "Sandpoint"
+msgstr "4-punts"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:288
 #, kde-format
@@ -22494,6 +22482,10 @@ msgid ""
 "4-point: Plates with screws at the four corners (UL/UR/LL/LR) — typical for "
 "TouTek-style tilt rings."
 msgstr ""
+"Selecteer het type kantelplaat.\n"
+"3-punts: ETA, Octopi of elke plaat met 3 schroeven (2 boven, 1 onder).\n"
+"4-punts: Platen met schroeven op de vier hoeken (UL/UR/LL/LR) — gebruikelijk "
+"bij kantelringen van het TouTek-type."
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:295 tools/imagingplanner.ui:1410
@@ -22502,8 +22494,7 @@ msgid "Radius:"
 msgstr "Straal:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:299
-#, fuzzy, kde-format
-#| msgid " mm"
+#, kde-format
 msgctxt "millimeters suffix"
 msgid " mm"
 msgstr " mm"
@@ -22517,70 +22508,74 @@ msgid ""
 "  ZWO Tilt Plates (M42/M48/M54/M68): 40 mm\n"
 "  TouTek M42 Tilter (Ø100mm): 46 mm"
 msgstr ""
+"Afstand van het midden van de plaat tot het afstelpunt (straal van de "
+"boutcirkel).\n"
+"Bekende waarden:\n"
+"  Wanderer ETA M54: 64 mm\n"
+"  ZWO Tilt Plates (M42/M48/M54/M68): 40 mm\n"
+"  TouTek M42 Tilter (Ø100 mm): 46 mm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:309
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Thread:"
-msgstr "Drempelwaarde:"
+msgstr "Thread:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:311
 #, kde-format
 msgctxt "Thread preset"
 msgid "M2.5 (0.45 mm)"
-msgstr ""
+msgstr "M2.5 (0.45 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:312
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 (0.50 mm)"
-msgstr ""
+msgstr "M3 (0.50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:313
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 fine (0.35 mm)"
-msgstr ""
+msgstr "M3 fijn (0.35 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:314
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 (0.70 mm)"
-msgstr ""
+msgstr "M4 (0.70 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:315
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 fine (0.50 mm)"
-msgstr ""
+msgstr "M4 fijn (0.50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:316
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 (0.80 mm)"
-msgstr ""
+msgstr "M5 (0.80 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:317
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 fine (0.50 mm)"
-msgstr ""
+msgstr "M5 fijn (0.50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:318
 #, kde-format
 msgctxt "Thread preset"
 msgid "M6 (1.00 mm)"
-msgstr ""
+msgstr "M6 (1.00 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:319
 #, kde-format
 msgctxt "Thread preset"
 msgid "Wanderer ETA (0.50 mm)"
-msgstr ""
+msgstr "Wanderer ETA (0.50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:320
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "Thread preset"
 msgid "Custom"
 msgstr "Aangepast"
@@ -22591,24 +22586,28 @@ msgid ""
 "Common adjustment screw thread types.\n"
 "Select to auto-fill pitch, or choose Custom to enter manually."
 msgstr ""
+"Veelvoorkomende schroefdraadtypes voor stelschroeven.\n"
+"Selecteer een optie om de spoed automatisch in te vullen, of kies Aangepast "
+"om deze handmatig in te voeren."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:327
-#, fuzzy, kde-format
-#| msgid "Pixel Pitch:"
+#, kde-format
 msgid "Pitch:"
-msgstr "Pixel Pitch (pixelafstand):"
+msgstr "Toonhoogte:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:331
 #, kde-format
 msgctxt "millimeters per turn suffix"
 msgid " mm/turn"
-msgstr ""
+msgstr "mm/omwenteling"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:333
 #, kde-format
 msgid ""
 "Screw pitch (mm per full turn). Used to show turn count for manual plates."
 msgstr ""
+"Schroefspoed (mm per volledige omwenteling). Wordt gebruikt om het aantal "
+"omwentelingen voor handmatige platen aan te geven."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:344
 #, kde-format
@@ -22617,6 +22616,10 @@ msgid ""
 "Positive values rotate the camera clockwise as seen from behind.\n"
 "Diagram is adjusted so screw positions match what you physically see."
 msgstr ""
+"Cameradraaiing in de optische trein (0° = cameralogo aan de bovenzijde).\n"
+"Positieve waarden draaien de camera met de klok mee, gezien van achteren.\n"
+"Het diagram is zo aangepast dat de schroefposities overeenkomen met wat u "
+"daadwerkelijk ziet."
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:350 ekos/profileeditor.ui:154
@@ -22628,13 +22631,13 @@ msgstr "Modus:"
 #, kde-format
 msgctxt "Tilt correction mode"
 msgid "Relative (± deltas)"
-msgstr ""
+msgstr "Relatief (± delta's)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:353
 #, kde-format
 msgctxt "Tilt correction mode"
 msgid "Push-only (from zero)"
-msgstr ""
+msgstr "Alleen-push (vanaf nul)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:355
 #, kde-format
@@ -22649,32 +22652,43 @@ msgid ""
 "  Push-only plates physically can't go negative, so use this for first-time "
 "tuning."
 msgstr ""
+"Kies hoe de correcties worden weergegeven:\n"
+"Relatief: waarden met teken (+ en -) die bovenop de huidige positie worden "
+"toegepast.\n"
+"  Ideaal voor iteratieve afstelling wanneer de instelling zich al in het "
+"middenbereik  bevindt en de schroeven beide kanten op kunnen draaien.\n"
+"Alleen-push: alle waarden zijn verschoven naar positieve getallen (laagste  "
+"waarde = 0).\n"
+"  Ideaal bij een start vanuit de volledig ingetrokken stand (bijv. ETA op 0, "
+"handmatige  schroeven volledig uitgedraaid).\n"
+"  Alleen-push-platen kunnen fysiek niet naar een negatieve waarde gaan; "
+"gebruik deze optie  daarom voor de eerste afstelling."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:392
 #, kde-format
 msgid "Point 1: —"
-msgstr ""
+msgstr "Punt 1: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:393
 #, kde-format
 msgid "Point 2: —"
-msgstr ""
+msgstr "Punt 2: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:394
 #, kde-format
 msgid "Point 3: —"
-msgstr ""
+msgstr "Punt 3: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:395
 #, kde-format
 msgid "Point 4: —"
-msgstr ""
+msgstr "Punt 4: —"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:413
 #: ekos/focus/tiltcorrectionwidget.cpp:666
 #, kde-format
 msgid "Apply to ETA"
-msgstr ""
+msgstr "Toepassen op ETA"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:414
 #: ekos/focus/tiltcorrectionwidget.cpp:562
@@ -22685,84 +22699,87 @@ msgid ""
 "Reads current positions, adds the computed deltas, and moves all three "
 "points."
 msgstr ""
+"Verstuur berekende correcties naar de Wanderer ETA M54-kantelplaat via "
+"INDI.\n"
+"Leest de huidige posities uit, voegt de berekende delta's toe en verplaatst "
+"alle drie de  punten."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:488
 #, kde-format
 msgid "Point 1: N/A"
-msgstr ""
+msgstr "Punt 1: N/A"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:489
 #, kde-format
 msgid "Point 2: N/A"
-msgstr ""
+msgstr "Punt 2: N/A"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:490
 #, kde-format
 msgid "Point 3: N/A"
-msgstr ""
+msgstr "Punt 3: N/A"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:491
 #, kde-format
 msgid "Point 4: N/A"
-msgstr ""
+msgstr "Punt 4: N/A"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:557
 #, kde-format
 msgid "Locked: Wanderer ETA M54 radius is 64 mm"
-msgstr ""
+msgstr "Vergrendeld: Wanderer ETA M54-straal is 64 mm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:558
 #, kde-format
 msgid "Locked: Wanderer ETA M54 pitch is 0.50 mm/turn"
-msgstr ""
+msgstr "Vergrendeld: Wanderer ETA M54-spoed is 0.50 mm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:559
 #, kde-format
 msgid "Locked: Wanderer ETA M54 detected"
-msgstr ""
+msgstr "Vergrendeld: Wanderer ETA M54 gedetecteerd"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:638
 #: ekos/focus/tiltcorrectionwidget.cpp:710
 #, kde-format
 msgid "%1: no change"
-msgstr ""
+msgstr "%1: geen wijziging"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:639
 #: ekos/focus/tiltcorrectionwidget.cpp:711
 #, kde-format
 msgid "%1: %2%3 mm (%4%5 turns)"
-msgstr ""
+msgstr "%1: %2%3 mm (%4%5 omwentelingen)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:647
 #, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 1 (upper-right)"
-msgstr ""
+msgstr "Punt 1 (rechtsboven)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:648
 #, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 2 (bottom)"
-msgstr ""
+msgstr "Punt 2 (onderaan)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:649
 #, kde-format
 msgctxt "3-point tilt plate screw"
 msgid "Point 3 (upper-left)"
-msgstr ""
+msgstr "Punt 3 (linksboven)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:653
 #: ekos/focus/tiltcorrectionwidget.cpp:730
 #, kde-format
 msgid "Push-only mode (from zero)"
-msgstr ""
+msgstr "Modus alleen-push (vanaf nul)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:654
 #: ekos/focus/tiltcorrectionwidget.cpp:731
-#, fuzzy, kde-format
-#| msgid "Relative offset in steps"
+#, kde-format
 msgid "Relative mode (± deltas)"
-msgstr "Relatieve offset in stappen"
+msgstr "Relatieve modus (± delta's)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:655
 #, kde-format
@@ -22771,30 +22788,33 @@ msgid ""
 "Max adjustment: %2 mm\n"
 "%3"
 msgstr ""
+"Totale kanteling: %1 μm\n"
+"Maximale afstelling: %2 mm\n"
+"%3"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:719
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 1 (top-left)"
-msgstr ""
+msgstr "Schroef 1 (linksboven)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:720
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 2 (top-right)"
-msgstr ""
+msgstr "Schroef 2 (rechtsboven)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:721
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 3 (bottom-left)"
-msgstr ""
+msgstr "Schroef 3 (linksonder)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:722
 #, kde-format
 msgctxt "4-point tilt plate screw"
 msgid "Screw 4 (bottom-right)"
-msgstr ""
+msgstr "Schroef 4 (rechtsonder)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:732
 #, kde-format
@@ -22804,27 +22824,30 @@ msgid ""
 "Max adjustment: %4 mm\n"
 "%5"
 msgstr ""
+"Totale kanteling: %1 μm\n"
+"LR: %2 μm | TB: %3 μm\n"
+"Maximale afstelling: %4 mm\n"
+"%5"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:817
 #, kde-format
 msgid "⚠ Wanderer ETA M54 not connected"
-msgstr ""
+msgstr "⚠ Wanderer ETA M54 niet verbonden"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:819
-#, fuzzy, kde-format
-#| msgid "Where is your equipment connected?"
+#, kde-format
 msgid "Wanderer ETA not connected"
-msgstr "Waarmee is uw apparatuur verbonden?"
+msgstr "Wanderer ETA niet verbonden"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:827
 #, kde-format
 msgid "⚠ Cannot read ETA positions (POSITION_READBACK not available)"
-msgstr ""
+msgstr "⚠ Kan ETA-posities niet lezen (POSITION_READBACK niet beschikbaar)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:837
 #, kde-format
 msgid "⚠ ETA position readback fields not found"
-msgstr ""
+msgstr "⚠ ETA-positie readback-velden niet gevonden"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:871
 #, kde-format
@@ -22832,13 +22855,14 @@ msgid ""
 "⚠ Correction range (%1 mm) exceeds ETA plate travel (%2 mm).\n"
 "Cannot apply even partially. Zero the plate first."
 msgstr ""
+"⚠ Het correctiebereik (%1 mm) overschrijdt de verplaatsing van de ETA-plaat "
+"(%2 mm).\n"
+"Toepassing (zelfs gedeeltelijk) niet mogelijk. Zet de plaat eerst op nul."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:884
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed Correction"
+#, kde-format
 msgid "Partial Correction"
-msgstr "%1 mislukte correctie"
+msgstr "Gedeeltelijke correctie"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:885
 #, kde-format
@@ -22849,33 +22873,40 @@ msgid ""
 "\n"
 "Run autofocus again afterward to apply the remainder."
 msgstr ""
+"De volledige correctie overschrijdt de plaatverplaatsing. De best passende "
+"gedeeltelijke correctie toepassen?\n"
+"\n"
+"P1: %1 mm, P2: %2 mm, P3: %3 mm\n"
+"\n"
+"Voer daarna de autofocus opnieuw uit om de rest toe te passen."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 properties available"
+#, kde-format
 msgid "⚠ ETA target properties not available"
-msgstr "%1 eigenschappen beschikbaar"
+msgstr "⚠ ETA doeleigenschappen niet beschikbaar"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:922
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point 1)..."
-msgstr ""
+msgstr "⏳ Correcties worden toegepast op ETA (punt 1)..."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:966
 #, kde-format
 msgid "⚠ ETA Point %1 move failed. Stopped."
-msgstr ""
+msgstr "⚠ Verplaatsing van ETA-punt %1 mislukt. Gestopt."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:979
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point %1)..."
-msgstr ""
+msgstr "⏳ Correcties worden toegepast op ETA (punt %1)..."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:985
 #, kde-format
 msgid ""
 "✓ Applied to ETA: P1→%1  P2→%2  P3→%3 mm. Run autofocus again to re-measure."
 msgstr ""
+"✓ Toegepast op ETA: P1→%1  P2→%2  P3→%3 mm. Voer autofocus opnieuw uit om "
+"opnieuw te meten."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:991
 #, kde-format
@@ -22883,6 +22914,269 @@ msgid ""
 "Corrections already applied. Run autofocus again to get fresh tilt "
 "measurements."
 msgstr ""
+"Correcties zijn al toegepast. Voer autofocus opnieuw uit om actuele "
+"kantelmetingen te verkrijgen."
+
+#: ekos/guide/aiguideprotocol.cpp:195
+#, kde-format
+msgid "No data to train! Please run the protocol first."
+msgstr ""
+
+#: ekos/guide/aiguideprotocol.cpp:196
+#, kde-format
+msgid "No data to train"
+msgstr ""
+
+#: ekos/guide/aiguideprotocol.cpp:201
+#, kde-format
+msgid "Starting AI training via EkosLive cloud..."
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
+#: ekos/guide/aiguidewizard.ui:14
+#, kde-format
+msgid "Ekos Guide AI Assistant (Experimental)"
+msgstr "Ekos AI-volgassistent (experimenteel)"
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage1)
+#: ekos/guide/aiguidewizard.ui:21
+#, kde-format
+msgid "Mount Identification"
+msgstr "Identificatie van opstelling"
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage1)
+#: ekos/guide/aiguidewizard.ui:24
+#, kde-format
+msgid ""
+"Welcome to the Ekos AI Guiding Assistant. Please verify your mount type "
+"below."
+msgstr ""
+"Welkom bij de Ekos AI-volgassistent. Controleer hieronder het type "
+"opstelling."
+
+#. i18n: ectx: property (text), widget (QLabel, experimentalWarningLabel)
+#: ekos/guide/aiguidewizard.ui:30
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" color:#ff5500; font-weight:600;\">This "
+"is an experimental feature. </span></p></body></html>"
+msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Dit is een "
+"experimentelefunctie. </span></p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ekos/guide/aiguidewizard.ui:42
+#, kde-format
+msgid "Detected Mount Type:"
+msgstr "Gedetecteerd type opstelling:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
+#: ekos/guide/aiguidewizard.ui:50
+#, kde-format
+msgid "Worm Gear"
+msgstr "Wormwiel"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
+#: ekos/guide/aiguidewizard.ui:55
+#, kde-format
+msgid "Harmonic Drive"
+msgstr "Harmonisch aansturing"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
+#: ekos/guide/aiguidewizard.ui:60
+#, kde-format
+msgid "Direct Drive"
+msgstr "Directe aansturing"
+
+#. i18n: ectx: property (text), widget (QLabel, exposureLabel)
+#: ekos/guide/aiguidewizard.ui:77
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
+"Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
+"Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
+"\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
+"li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to 3.0s</"
+"li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will be "
+"trained and locked to your current guide exposure.</span></p></body></html>"
+msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Belichtings-"
+"aanbevelingen:</span></p><ul><li><span style=\" font-weight:600;\">Worm-"
+"overbrenging:</span> 2,0 s (Standaard)</li><li><span style=\" font-"
+"weight:600;\">Harmonische aansturing:</span> 0,5 s of 1,0 s (Afhankelijk van "
+"de SNR van de volgster)</li><li><span style=\" font-weight:600;\">Directe "
+"aansturing:</span> 1,0 s tot 3,0 s</li></ul><p><span style=\" color:#ff5500;"
+"\">Opmerking: Het AI-model wordt getraind op en vastgezet op uw huidige "
+"volgbelichting.</span></p></body></html>"
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
+#: ekos/guide/aiguidewizard.ui:95
+#, kde-format
+msgid "Protocol Preview"
+msgstr "Voorbeeld van protocol"
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage2)
+#: ekos/guide/aiguidewizard.ui:98
+#, kde-format
+msgid ""
+"The assistant will perform the following steps to characterize the tracking "
+"errors."
+msgstr ""
+"De assistent zal de volgende stappen uitvoeren om de volgfouten te "
+"karakteriseren."
+
+#. i18n: ectx: property (text), widget (QLabel, algorithmWarningLabel)
+#: ekos/guide/aiguidewizard.ui:104
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" color:#ff5500;\">The Guide AI Assistant "
+"requires the Standard guiding algorithm for both axes during data "
+"collection. Your current settings will be temporarily changed to Standard "
+"for the duration of the wizard and restored when it completes.</span></p></"
+"body></html>"
+msgstr ""
+"<html><head/><body><p><span style=\" color:#ff5500;\">De AI-volgassistent "
+"vereist het 'Standaard'-volgalgoritme voor beide assen tijdens het "
+"verzamelen van gegevens. Uw huidige instellingen worden tijdelijk gewijzigd "
+"naar 'Standaard' zolang de assistent actief is, en worden hersteld zodra "
+"deze is voltooid.</span></p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, labelWormGear)
+#: ekos/guide/aiguidewizard.ui:127
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
+"(~45 mins):</span><br/>1. Slew to High Altitude : Free drift, then standard "
+"guiding.<br/>2. Slew to Lower Altitude : Free drift, then standard guiding."
+"<br/>3. Slew to High Altitude : Standard guiding.</p></body></html>"
+msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Protocol voor "
+"wormwiel (~45 min):</span><br/>1. Verplaatsen naar grote hoogte: Vrije "
+"drift, gevolgd door standaard volgen.<br/>2. Verplaatsen naar lagere hoogte: "
+"Vrije drift, gevolgd door standaard volgen.<br/>3. Verplaatsen naar grote "
+"hoogte: Standaard volgen.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
+#: ekos/guide/aiguidewizard.ui:147
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
+"Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, pulse "
+"response test, then standard guiding.<br/>2. Slew to Lower Altitude: Free "
+"drift, then standard guiding.</p></body></html>"
+msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Harmonisch "
+"aansturingsprotocol (~35 min):</span><br/>1. Verplaatsing naar grote hoogte: "
+"Vrije drift, pulsresponsietest, daarna standaard volgen.<br/>2. Verplaatsing "
+"naar lagere hoogte: Vrije drift, daarna standaard volgen.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
+#: ekos/guide/aiguidewizard.ui:167
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
+"Protocol (~20 mins):</span><br/>1. Slew to High, Mid, and Low Altitudes: "
+"Free drift at each position.</p></body></html>"
+msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Protocol van directe "
+"aansturing (~20 min):</span><br/>1. Bewegen naar hoge, gemiddelde en lage "
+"hoogtes: vrije drift op elke positie.</p></body></html>"
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
+#: ekos/guide/aiguidewizard.ui:198
+#, kde-format
+msgid "System Identification Progress"
+msgstr "Voortgang van systeemidentificatie"
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage3)
+#: ekos/guide/aiguidewizard.ui:201
+#, kde-format
+msgid ""
+"Collecting mount telemetry. Please do not interrupt the process unless "
+"necessary."
+msgstr ""
+"Telemetrie van de opstelling wordt verzameld. Onderbreek het proces niet, "
+"tenzij dit noodzakelijk is."
+
+#. i18n: ectx: property (text), widget (QLabel, statusLabel)
+#: ekos/guide/aiguidewizard.ui:207
+#, kde-format
+msgid "Ready to begin..."
+msgstr "Gereed om te beginnen..."
+
+#. i18n: ectx: property (html), widget (QTextEdit, logTextEdit)
+#: ekos/guide/aiguidewizard.ui:242
+#, kde-format
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Waiting to start...</p></"
+"body></html>"
+msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Wacht om te beginnen...</"
+"p></body></html>"
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage4)
+#: ekos/guide/aiguidewizard.ui:250
+#, kde-format
+msgid "Data Collection Complete"
+msgstr "Gegevensverzameling voltooid"
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage4)
+#: ekos/guide/aiguidewizard.ui:253
+#, kde-format
+msgid ""
+"System identification data has been saved. Please choose a training method."
+msgstr ""
+"Systeemidentificatiegegevens zijn opgeslagen. Kies een trainingsmethode."
+
+#. i18n: ectx: property (text), widget (QPushButton, exportOfflineButton)
+#: ekos/guide/aiguidewizard.ui:266
+#, kde-format
+msgid "Export for offline training"
+msgstr "Exporteren voor offline trainen"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, exportOfflineButton)
+#: ekos/guide/aiguidewizard.ui:269
+#, kde-format
+msgid ""
+"Saves the system identification data to a JSON file so you can train the AI "
+"model on your local computer using the provided Python scripts."
+msgstr ""
+"Slaat de systeemidentificatiegegevens op in een JSON-bestand, zodat u het AI-"
+"model op uw lokale computer kunt trainen met behulp van de meegeleverde "
+"Python-scripts."
+
+#. i18n: ectx: property (text), widget (QPushButton, trainEkosLiveButton)
+#: ekos/guide/aiguidewizard.ui:285
+#, kde-format
+msgid "Train in EkosLive"
+msgstr "In EkosLive trainen"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, trainEkosLiveButton)
+#: ekos/guide/aiguidewizard.ui:288
+#, kde-format
+msgid ""
+"Uploads anonymized data to EkosLive Cloud to instantly train your model "
+"using community baselines. (Target coordinates are stripped)."
+msgstr ""
+"Uploadt geanonimiseerde gegevens naar de EkosLive Cloud om uw model direct "
+"te trainen met behulp van community-baselines. (Doelcoördinaten worden "
+"verwijderd)."
 
 #: ekos/guide/externalguide/linguider.cpp:70
 #: ekos/guide/externalguide/phd2.cpp:298
@@ -23233,25 +23527,25 @@ msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: apparaten worden afgekoppeld. . . "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
-#: ekos/guide/guide.cpp:86 ekos/guide/opsdither.ui:102
+#: ekos/guide/guide.cpp:87 ekos/guide/opsdither.ui:102
 #, kde-format
 msgid "Dither"
 msgstr "Dither (wiebelen: telescoop steeds iets verplaatsen in RK en Dec)"
 
-#: ekos/guide/guide.cpp:90
+#: ekos/guide/guide.cpp:91
 #, kde-format
 msgid "GPG RA Guider"
 msgstr "GPG  RK-volger"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
-#: ekos/guide/guide.cpp:94 ekos/guide/opsguide.ui:116
+#: ekos/guide/guide.cpp:95 ekos/guide/opsguide.ui:116
 #: ekos/guide/opsguide.ui:152
 #, kde-format
 msgid "AI Guider"
 msgstr "AI-gids voor volgen"
 
-#: ekos/guide/guide.cpp:443
+#: ekos/guide/guide.cpp:457
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
@@ -23261,7 +23555,7 @@ msgstr ""
 "devolg-ster voor PHD2 wordt wel ontvangen, maar dit is niet mogelijk voor de "
 "volledige externe volgframes."
 
-#: ekos/guide/guide.cpp:453
+#: ekos/guide/guide.cpp:467
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
@@ -23272,184 +23566,184 @@ msgstr ""
 "volledige externe volgframes wilt gebruiken, of alleen de afbeelding van de "
 "volg-ster voor PHD2, met behulp van het keuzevakje voor Subframe."
 
-#: ekos/guide/guide.cpp:601
+#: ekos/guide/guide.cpp:615
 #, kde-format
 msgid "Connection to the guide camera is lost."
 msgstr "Verbinding met de camera voor volgen is verbroken."
 
-#: ekos/guide/guide.cpp:963
+#: ekos/guide/guide.cpp:977
 #, kde-format
 msgid "Guide streaming started."
 msgstr "Streamen van volgen gestart."
 
-#: ekos/guide/guide.cpp:983
+#: ekos/guide/guide.cpp:997
 #, kde-format
 msgid "Guide streaming stopped."
 msgstr "Streamen van volgen gestopt."
 
-#: ekos/guide/guide.cpp:1142
+#: ekos/guide/guide.cpp:1156
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Belichtingstijd verlopen,maar wordt onderbroken. Wordt genegeerd..."
 
-#: ekos/guide/guide.cpp:1170
+#: ekos/guide/guide.cpp:1184
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Belichtingstijd verlopen. Autovolgen afgebroken."
 
-#: ekos/guide/guide.cpp:1172
+#: ekos/guide/guide.cpp:1186
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Belichtingstijd verlopen. Ditheren afgebroken."
 
-#: ekos/guide/guide.cpp:1174
+#: ekos/guide/guide.cpp:1188
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Belichtingstijd verlopen. Calibratie afgebroken."
 
-#: ekos/guide/guide.cpp:1229
+#: ekos/guide/guide.cpp:1243
 #, kde-format
 msgid "Failed to reconnect camera after driver restart."
 msgstr ""
 "Het opnieuw verbinden van de camera na het herstarten van het stuurprogramma "
 "is mislukt."
 
-#: ekos/guide/guide.cpp:1466
+#: ekos/guide/guide.cpp:1480
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr "AI Free Drift actief. Multipuls onderdrukt (RK: %1 ms, DEC: %2 ms)."
 
-#: ekos/guide/guide.cpp:1516
+#: ekos/guide/guide.cpp:1530
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "AI Free Drift actief. Onderdrukt enkele puls (%1ms)."
 
-#: ekos/guide/guide.cpp:1565
+#: ekos/guide/guide.cpp:1579
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Geen camera gedetecteerd. Controleer de camera in optische treinen."
 
-#: ekos/guide/guide.cpp:1571
+#: ekos/guide/guide.cpp:1585
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "Geen richter gedetecteerd. Controleer richten-via in optische treinen."
 
-#: ekos/guide/guide.cpp:1652
+#: ekos/guide/guide.cpp:1666
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 "De opstelling is geparkeerd. Haal die uit de parkeerstand en start het "
 "volgen."
 
-#: ekos/guide/guide.cpp:1761
+#: ekos/guide/guide.cpp:1775
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "Pier-kant (kijkrichting) wijziging gedetecteerd. Calibratie wordt gewist."
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1789
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Opstelling beweegt. Reset van kalibratie..."
 
-#: ekos/guide/guide.cpp:1792
+#: ekos/guide/guide.cpp:1806
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Opstelling wordt geparkeerd. Volgen wordt afgebroken..."
 
-#: ekos/guide/guide.cpp:1794
+#: ekos/guide/guide.cpp:1808
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Opstelling draait. Volgen gestopt..."
 
-#: ekos/guide/guide.cpp:1880
+#: ekos/guide/guide.cpp:1894
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibreren gewist."
 
-#: ekos/guide/guide.cpp:1908
+#: ekos/guide/guide.cpp:1922
 #, kde-format
 msgid "External guider connected."
 msgstr "Verbonden met externe volger."
 
-#: ekos/guide/guide.cpp:1926
+#: ekos/guide/guide.cpp:1940
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Niet verbonden met externe volger."
 
-#: ekos/guide/guide.cpp:1943
+#: ekos/guide/guide.cpp:1957
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibratie voltooid."
 
-#: ekos/guide/guide.cpp:1969
+#: ekos/guide/guide.cpp:1983
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibreren gestart."
 
-#: ekos/guide/guide.cpp:1985
+#: ekos/guide/guide.cpp:1999
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Volgen hervat"
 
-#: ekos/guide/guide.cpp:1989
+#: ekos/guide/guide.cpp:2003
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Automatisch volgen is actief."
 
-#: ekos/guide/guide.cpp:2011
+#: ekos/guide/guide.cpp:2025
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Autovolgen afgebroken."
 
-#: ekos/guide/guide.cpp:2019
+#: ekos/guide/guide.cpp:2033
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Volgen onderbroken."
 
-#: ekos/guide/guide.cpp:2028
+#: ekos/guide/guide.cpp:2042
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Er wordt met de hand geditherd."
 
-#: ekos/guide/guide.cpp:2032
+#: ekos/guide/guide.cpp:2046
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Er wordt geditherd."
 
-#: ekos/guide/guide.cpp:2036
+#: ekos/guide/guide.cpp:2050
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Instellen gedurende %1 seconde na ditheren..."
 msgstr[1] "Instellen gedurende %1 seconden na ditheren..."
 
-#: ekos/guide/guide.cpp:2041
+#: ekos/guide/guide.cpp:2055
 #, kde-format
 msgid "Dithering failed."
 msgstr "Ditheren is mislukt."
 
-#: ekos/guide/guide.cpp:2052
+#: ekos/guide/guide.cpp:2066
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Ditheren met succes voltooid."
 
-#: ekos/guide/guide.cpp:2110
+#: ekos/guide/guide.cpp:2124
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "Binning bij volgen met %1x%1 wordt niet ondersteund. Maximum is %2x%2."
 
-#: ekos/guide/guide.cpp:2134
+#: ekos/guide/guide.cpp:2148
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Belichten is mislukt. Belichten wordt herhaald..."
 
-#: ekos/guide/guide.cpp:2269
+#: ekos/guide/guide.cpp:2283
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Kan actief volgtype niet wijzigen."
 
-#: ekos/guide/guide.cpp:2364
+#: ekos/guide/guide.cpp:2378
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23458,37 +23752,37 @@ msgstr ""
 "Waarschuwing: Reset van volgkalibratie is aan. U kunt deze optie beter "
 "uitzetten voor PHD2."
 
-#: ekos/guide/guide.cpp:2804
+#: ekos/guide/guide.cpp:2818
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibratie kon niet worden gestart."
 
-#: ekos/guide/guide.cpp:2955
+#: ekos/guide/guide.cpp:2969
 #, kde-format
 msgid "Auto star selected."
 msgstr "Autoster geselecteerd."
 
-#: ekos/guide/guide.cpp:2959
+#: ekos/guide/guide.cpp:2973
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Autoster selecteren is mislukt.."
 
-#: ekos/guide/guide.cpp:2968
+#: ekos/guide/guide.cpp:2982
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Selecteer een te kalibreren volgster."
 
-#: ekos/guide/guide.cpp:3230
+#: ekos/guide/guide.cpp:3244
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (pixels)"
 
-#: ekos/guide/guide.cpp:3231
+#: ekos/guide/guide.cpp:3245
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (pixels)"
 
-#: ekos/guide/guide.cpp:3374 ekos/guide/guide.cpp:3523
+#: ekos/guide/guide.cpp:3388 ekos/guide/guide.cpp:3537
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -23498,7 +23792,7 @@ msgstr ""
 "afbeeldingen niet bekijken. Maar desondanks kunt u de afbeelding van de volg-"
 "ster zien bij het volgen."
 
-#: ekos/guide/guide.cpp:3378 ekos/guide/guide.cpp:3527
+#: ekos/guide/guide.cpp:3392 ekos/guide/guide.cpp:3541
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23509,32 +23803,32 @@ msgstr ""
 "als SubFrame niet is gekozen. Na dit uitschakelen kunt opnames maken. "
 "Voordat u gaat volgen kunt u dit weer aanzetten."
 
-#: ekos/guide/guide.cpp:3459
+#: ekos/guide/guide.cpp:3473
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "AI-volgenassistent..."
 
-#: ekos/guide/guide.cpp:3464
+#: ekos/guide/guide.cpp:3478
 #, kde-format
 msgid "Load Weights..."
 msgstr "Gewichten worden geladen..."
 
-#: ekos/guide/guide.cpp:3567
+#: ekos/guide/guide.cpp:3584 ekos/guide/guide.cpp:3589
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "EkosLive AI-training is mislukt: %1"
 
-#: ekos/guide/guide.cpp:3568
+#: ekos/guide/guide.cpp:3585 ekos/guide/guide.cpp:3590
 #, kde-format
 msgid "unknown error"
 msgstr "onbekende fout"
 
-#: ekos/guide/guide.cpp:3584
+#: ekos/guide/guide.cpp:3604
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "AI-gewichten opslaan naar %1 is mislukt"
 
-#: ekos/guide/guide.cpp:3594
+#: ekos/guide/guide.cpp:3614
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -23542,18 +23836,28 @@ msgstr ""
 "AI-training voltooid. Gewichten opgeslagen in %1 en ingesteld als de actieve "
 "AI-gewichten."
 
-#: ekos/guide/guide.cpp:3602
+#: ekos/guide/guide.cpp:3618
+#, fuzzy, kde-format
+#| msgid ""
+#| "AI training complete. Weights saved to %1 and set as the active AI "
+#| "weights."
+msgid "AI training complete. Weights saved to %1."
+msgstr ""
+"AI-training voltooid. Gewichten opgeslagen in %1 en ingesteld als de actieve "
+"AI-gewichten."
+
+#: ekos/guide/guide.cpp:3624
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "AI-volggewichten laden"
 
-#: ekos/guide/guide.cpp:3603
+#: ekos/guide/guide.cpp:3625
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "AI-gewichten (*.json)"
 
-#: ekos/guide/guide.cpp:3607
+#: ekos/guide/guide.cpp:3629
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -23562,7 +23866,7 @@ msgstr ""
 "AI-volggewichten zijn ingesteld op %1. Ze worden toegepast zodra het volgen "
 "(guiding) de volgende keer start."
 
-#: ekos/guide/guide.cpp:3764
+#: ekos/guide/guide.cpp:3786
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Kan actieve optische trein niet wijzigen terwijl PHD2 is verbonden"
@@ -24627,252 +24931,6 @@ msgstr ""
 "meting plaatsvindt (stabiliseren na ditheren, autofocus-acties, uitlezen van "
 "de camera). Alleen van toepassing wanneer Voorspellend donker volgen is "
 "ingeschakeld."
-
-#. i18n: ectx: property (windowTitle), widget (QWizard, OpsAIGuide)
-#: ekos/guide/opsaiguide.ui:14
-#, kde-format
-msgid "Ekos Guide AI Assistant (Experimental)"
-msgstr "Ekos AI-volgassistent (experimenteel)"
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage1)
-#: ekos/guide/opsaiguide.ui:21
-#, kde-format
-msgid "Mount Identification"
-msgstr "Identificatie van opstelling"
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage1)
-#: ekos/guide/opsaiguide.ui:24
-#, kde-format
-msgid ""
-"Welcome to the Ekos AI Guiding Assistant. Please verify your mount type "
-"below."
-msgstr ""
-"Welkom bij de Ekos AI-volgassistent. Controleer hieronder het type "
-"opstelling."
-
-#. i18n: ectx: property (text), widget (QLabel, experimentalWarningLabel)
-#: ekos/guide/opsaiguide.ui:30
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" color:#ff5500; font-weight:600;\">This "
-"is an experimental feature. </span></p></body></html>"
-msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Dit is een "
-"experimentelefunctie. </span></p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/guide/opsaiguide.ui:42
-#, kde-format
-msgid "Detected Mount Type:"
-msgstr "Gedetecteerd type opstelling:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
-#: ekos/guide/opsaiguide.ui:50
-#, kde-format
-msgid "Worm Gear"
-msgstr "Wormwiel"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
-#: ekos/guide/opsaiguide.ui:55
-#, kde-format
-msgid "Harmonic Drive"
-msgstr "Harmonisch aansturing"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
-#: ekos/guide/opsaiguide.ui:60
-#, kde-format
-msgid "Direct Drive"
-msgstr "Directe aansturing"
-
-#. i18n: ectx: property (text), widget (QLabel, exposureLabel)
-#: ekos/guide/opsaiguide.ui:77
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
-"Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
-"Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
-"\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
-"li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to 3.0s</"
-"li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will be "
-"trained and locked to your current guide exposure.</span></p></body></html>"
-msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Belichtings-"
-"aanbevelingen:</span></p><ul><li><span style=\" font-weight:600;\">Worm-"
-"overbrenging:</span> 2,0 s (Standaard)</li><li><span style=\" font-"
-"weight:600;\">Harmonische aansturing:</span> 0,5 s of 1,0 s (Afhankelijk van "
-"de SNR van de volgster)</li><li><span style=\" font-weight:600;\">Directe "
-"aansturing:</span> 1,0 s tot 3,0 s</li></ul><p><span style=\" color:#ff5500;"
-"\">Opmerking: Het AI-model wordt getraind op en vastgezet op uw huidige "
-"volgbelichting.</span></p></body></html>"
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
-#: ekos/guide/opsaiguide.ui:95
-#, kde-format
-msgid "Protocol Preview"
-msgstr "Voorbeeld van protocol"
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage2)
-#: ekos/guide/opsaiguide.ui:98
-#, kde-format
-msgid ""
-"The assistant will perform the following steps to characterize the tracking "
-"errors."
-msgstr ""
-"De assistent zal de volgende stappen uitvoeren om de volgfouten te "
-"karakteriseren."
-
-#. i18n: ectx: property (text), widget (QLabel, algorithmWarningLabel)
-#: ekos/guide/opsaiguide.ui:104
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" color:#ff5500;\">The Guide AI Assistant "
-"requires the Standard guiding algorithm for both axes during data "
-"collection. Your current settings will be temporarily changed to Standard "
-"for the duration of the wizard and restored when it completes.</span></p></"
-"body></html>"
-msgstr ""
-"<html><head/><body><p><span style=\" color:#ff5500;\">De AI-volgassistent "
-"vereist het 'Standaard'-volgalgoritme voor beide assen tijdens het "
-"verzamelen van gegevens. Uw huidige instellingen worden tijdelijk gewijzigd "
-"naar 'Standaard' zolang de assistent actief is, en worden hersteld zodra "
-"deze is voltooid.</span></p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, labelWormGear)
-#: ekos/guide/opsaiguide.ui:127
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
-"(~45 mins):</span><br/>1. Slew to High Altitude : Free drift, then standard "
-"guiding.<br/>2. Slew to Lower Altitude : Free drift, then standard guiding."
-"<br/>3. Slew to High Altitude : Standard guiding.</p></body></html>"
-msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Protocol voor "
-"wormwiel (~45 min):</span><br/>1. Verplaatsen naar grote hoogte: Vrije "
-"drift, gevolgd door standaard volgen.<br/>2. Verplaatsen naar lagere hoogte: "
-"Vrije drift, gevolgd door standaard volgen.<br/>3. Verplaatsen naar grote "
-"hoogte: Standaard volgen.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
-#: ekos/guide/opsaiguide.ui:147
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
-"Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, pulse "
-"response test, then standard guiding.<br/>2. Slew to Lower Altitude: Free "
-"drift, then standard guiding.</p></body></html>"
-msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Harmonisch "
-"aansturingsprotocol (~35 min):</span><br/>1. Verplaatsing naar grote hoogte: "
-"Vrije drift, pulsresponsietest, daarna standaard volgen.<br/>2. Verplaatsing "
-"naar lagere hoogte: Vrije drift, daarna standaard volgen.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
-#: ekos/guide/opsaiguide.ui:167
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
-"Protocol (~20 mins):</span><br/>1. Slew to High, Mid, and Low Altitudes: "
-"Free drift at each position.</p></body></html>"
-msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Protocol van directe "
-"aansturing (~20 min):</span><br/>1. Bewegen naar hoge, gemiddelde en lage "
-"hoogtes: vrije drift op elke positie.</p></body></html>"
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
-#: ekos/guide/opsaiguide.ui:198
-#, kde-format
-msgid "System Identification Progress"
-msgstr "Voortgang van systeemidentificatie"
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage3)
-#: ekos/guide/opsaiguide.ui:201
-#, kde-format
-msgid ""
-"Collecting mount telemetry. Please do not interrupt the process unless "
-"necessary."
-msgstr ""
-"Telemetrie van de opstelling wordt verzameld. Onderbreek het proces niet, "
-"tenzij dit noodzakelijk is."
-
-#. i18n: ectx: property (text), widget (QLabel, statusLabel)
-#: ekos/guide/opsaiguide.ui:207
-#, kde-format
-msgid "Ready to begin..."
-msgstr "Gereed om te beginnen..."
-
-#. i18n: ectx: property (html), widget (QTextEdit, logTextEdit)
-#: ekos/guide/opsaiguide.ui:242
-#, kde-format
-msgid ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Waiting to start...</p></"
-"body></html>"
-msgstr ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Wacht om te beginnen...</"
-"p></body></html>"
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage4)
-#: ekos/guide/opsaiguide.ui:250
-#, kde-format
-msgid "Data Collection Complete"
-msgstr "Gegevensverzameling voltooid"
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage4)
-#: ekos/guide/opsaiguide.ui:253
-#, kde-format
-msgid ""
-"System identification data has been saved. Please choose a training method."
-msgstr ""
-"Systeemidentificatiegegevens zijn opgeslagen. Kies een trainingsmethode."
-
-#. i18n: ectx: property (text), widget (QPushButton, exportOfflineButton)
-#: ekos/guide/opsaiguide.ui:266
-#, kde-format
-msgid "Export for offline training"
-msgstr "Exporteren voor offline trainen"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, exportOfflineButton)
-#: ekos/guide/opsaiguide.ui:269
-#, kde-format
-msgid ""
-"Saves the system identification data to a JSON file so you can train the AI "
-"model on your local computer using the provided Python scripts."
-msgstr ""
-"Slaat de systeemidentificatiegegevens op in een JSON-bestand, zodat u het AI-"
-"model op uw lokale computer kunt trainen met behulp van de meegeleverde "
-"Python-scripts."
-
-#. i18n: ectx: property (text), widget (QPushButton, trainEkosLiveButton)
-#: ekos/guide/opsaiguide.ui:285
-#, kde-format
-msgid "Train in EkosLive"
-msgstr "In EkosLive trainen"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, trainEkosLiveButton)
-#: ekos/guide/opsaiguide.ui:288
-#, kde-format
-msgid ""
-"Uploads anonymized data to EkosLive Cloud to instantly train your model "
-"using community baselines. (Target coordinates are stripped)."
-msgstr ""
-"Uploadt geanonimiseerde gegevens naar de EkosLive Cloud om uw model direct "
-"te trainen met behulp van community-baselines. (Doelcoördinaten worden "
-"verwijderd)."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
@@ -26568,62 +26626,62 @@ msgstr "%1 lichtbox is online."
 msgid "%1 is offline."
 msgstr "%1 is offline."
 
-#: ekos/manager.cpp:2884
+#: ekos/manager.cpp:2900
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Poort %1 voor volgen is gereed."
 
-#: ekos/manager.cpp:3147
+#: ekos/manager.cpp:3163
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Wilt u het profiel werkelijk wissen??"
 
-#: ekos/manager.cpp:3148
+#: ekos/manager.cpp:3164
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Wissen bevestigen"
 
-#: ekos/manager.cpp:3200
+#: ekos/manager.cpp:3216
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Locatie bijgewerkt naar %1"
 
-#: ekos/manager.cpp:3202
+#: ekos/manager.cpp:3218
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Bijwerken locatie naar %1 mislukt. Locatie niet gevonden."
 
-#: ekos/manager.cpp:3475
+#: ekos/manager.cpp:3491
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Debugs loggen activeren van %1 ..."
 
-#: ekos/manager.cpp:3483
+#: ekos/manager.cpp:3499
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Debugs loggen afsluiten van %1 ..."
 
-#: ekos/manager.cpp:3511
+#: ekos/manager.cpp:3527
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Debugs loggen opnieuw activeren van %1 ..."
 
-#: ekos/manager.cpp:3523
+#: ekos/manager.cpp:3539
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Debugs loggen opnieuw afsluiten van %1 ..."
 
-#: ekos/manager.cpp:4319
+#: ekos/manager.cpp:4335
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Broncode op extern ingesteld bekijken"
 
-#: ekos/manager.cpp:4326
+#: ekos/manager.cpp:4342
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Broncode reset op intern bekijken"
 
-#: ekos/manager.cpp:4333
+#: ekos/manager.cpp:4349
 #, kde-format
 msgid "Received external preview file"
 msgstr "Extern bestand ontvangen om te bekijken"
@@ -45196,44 +45254,44 @@ msgstr "Petzval-oppervlak tonen van 3D grafiek van aberratie-inspecteur."
 #: kstars.kcfg:2779
 #, kde-format
 msgid "Tilt Correction Advisory plate type (0=3-point, 1=4-point)."
-msgstr ""
+msgstr "Advies voor kantelcorrectie voor plaattype (0=3-punts, 1=4-punts)."
 
 #. i18n: ectx: label, entry (tiltRadius), group (Focus)
 #: kstars.kcfg:2783
 #, kde-format
 msgid "Tilt plate bolt circle radius in mm."
-msgstr ""
+msgstr "Straal van de boutcirkel van de kantelplaat in mm."
 
 #. i18n: ectx: label, entry (tiltThreadIndex), group (Focus)
 #: kstars.kcfg:2787
 #, kde-format
 msgid "Tilt Correction Advisory thread preset index."
 msgstr ""
+"Advies over kantelcorrectie van index van voorinstellingen van schroefdraad."
 
 #. i18n: ectx: label, entry (tiltScrewPitch), group (Focus)
 #: kstars.kcfg:2791
 #, kde-format
 msgid "Tilt plate screw pitch in mm per turn."
-msgstr ""
+msgstr "Schroefspoed van de kantelplaat in mm per omwenteling."
 
 #. i18n: ectx: label, entry (tiltRotation), group (Focus)
 #: kstars.kcfg:2795
-#, fuzzy, kde-format
-#| msgid "Desired rotation with respect to center in degrees"
+#, kde-format
 msgid "Camera rotation for tilt correction diagram in degrees."
-msgstr "Gewenste rotatie om centrum in graden"
+msgstr "Diagram van de cameradraaiing in graden voor kantelcorrectie."
 
 #. i18n: ectx: label, entry (tiltMode), group (Focus)
 #: kstars.kcfg:2799
 #, kde-format
 msgid "Tilt Correction Advisory mode (0=relative, 1=push-only)."
-msgstr ""
+msgstr "Modus van advies over kantelcorrectie (0=relatief, 1=alleen-push)."
 
 #. i18n: ectx: label, entry (tiltPlatePresent), group (Focus)
 #: kstars.kcfg:2803
 #, kde-format
 msgid "Whether a tilt adjustment plate is present in the imaging train."
-msgstr ""
+msgstr "Of er een kantelverstelplaat in de beeldvormende keten aanwezig is."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2809

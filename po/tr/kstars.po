@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-17 02:08+0000\n"
-"PO-Revision-Date: 2026-07-16 19:45+0300\n"
+"POT-Creation-Date: 2026-07-18 02:08+0000\n"
+"PO-Revision-Date: 2026-07-17 20:01+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3917,7 +3917,7 @@ msgstr "0,0 pc"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:455 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
-#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:733 ekos/guide/guide.ui:632
+#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:747 ekos/guide/guide.ui:632
 #: ekos/guide/guide.ui:756 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
@@ -6233,7 +6233,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:275 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1432 ekos/manager.cpp:2446 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1446 ekos/manager.cpp:2446 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3614
 #, kde-format
@@ -6285,8 +6285,9 @@ msgstr "Yükle ve Çevir…"
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
 #: ekos/align/polaralignmentassistant.ui:826
 #: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/guide/opsaiguide.ui:223
-#: ekos/manager.cpp:259 ekos/observatory/observatorydomemodel.cpp:132
+#: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:345
+#: ekos/guide/aiguidewizard.ui:223 ekos/guide/guide.ui:258 ekos/manager.cpp:259
+#: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
 #: fitsviewer/fitstab.cpp:37 kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -7165,7 +7166,7 @@ msgstr "Hedef RA:%1 DEC:%2 olarak ayarlanıyor"
 msgid "Error: No camera detected."
 msgstr "Hata: Algılanan kamera yok."
 
-#: ekos/align/align_solver.cpp:83 ekos/guide/guide.cpp:864
+#: ekos/align/align_solver.cpp:83 ekos/guide/guide.cpp:878
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "Hata: Kamerayla bağlantı kesildi."
@@ -7427,13 +7428,13 @@ msgid "Exposure timeout. Aborting..."
 msgstr "Pozlama zaman aşımı. İptal ediliyor…"
 
 #: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6158
-#: ekos/guide/guide.cpp:1183
+#: ekos/guide/guide.cpp:1197
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Pozlama zaman aşımı. Pek çok kez oldu. Sürücü yeniden başlatılıyor."
 
 #: ekos/align/align_solver.cpp:1227 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6172 ekos/guide/guide.cpp:1148
+#: ekos/focus/focus.cpp:6172 ekos/guide/guide.cpp:1162
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Pozlama zaman aşımı. Pozlama yeniden başlatılıyor…"
@@ -10781,8 +10782,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, StartB)
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:158 ekos/manager.cpp:265 ekos/manager.cpp:1124
-#: ekos/observatory/observatorydomemodel.cpp:132
+#: ekos/guide/aiguidewizard.cpp:213 ekos/manager.cpp:158 ekos/manager.cpp:265
+#: ekos/manager.cpp:1124 ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
 #: fitsviewer/fitstab.cpp:36 fitsviewer/livestacking.ui:317
@@ -11128,7 +11129,7 @@ msgstr "Odak"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2335 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:71 ekos/guide/guide.ui:129 ekos/manager.cpp:2817
+#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2817
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -13443,7 +13444,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2867
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2883
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -15382,7 +15383,7 @@ msgstr "Karanlık ve düz karelerin kendiliğinden kalibrasyon seçenekleri"
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, CalibrationMinimized)
 #: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2519
-#: ekos/guide/guide.cpp:82 fitsviewer/livestacking.ui:2260
+#: ekos/guide/guide.cpp:83 fitsviewer/livestacking.ui:2260
 #: fitsviewer/livestacking.ui:2886
 #, kde-format
 msgid "Calibration"
@@ -18681,12 +18682,12 @@ msgstr "Çevrim içi"
 msgid "Offline"
 msgstr "Çevrim dışı"
 
-#: ekos/ekoslive/message.cpp:820
+#: ekos/ekoslive/message.cpp:817
 #, kde-format
 msgid "target"
 msgstr "hedef"
 
-#: ekos/ekoslive/message.cpp:1150
+#: ekos/ekoslive/message.cpp:1147
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mozaik içe aktarma başarısız."
@@ -18887,38 +18888,33 @@ msgstr "Karo merkezlerini eniyile"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsTiltPlate)
 #: ekos/focus/aberrationinspector.ui:125
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check if you have a tilt adjustment plate installed. "
 "Shows the Tilt Correction Advisory panel with suggested adjustments.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Düzeltme grafiklerinin ölçeğini sürüklenme "
-"grafiklerinin ölçeğine göre ayarlamak için sürgüyü sürün.</p></body></html>"
+"<html><head/><body><p>Bir eğim düzeltme plakası takılı olup olmadığına "
+"bakın. Tavsiye edilen düzeltmelerle birlikte Eğim Düzeltme Uyarı Paneli’ni "
+"gösterir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsTiltPlate)
 #: ekos/focus/aberrationinspector.ui:128
-#, fuzzy, kde-format
-#| msgctxt "City in Nebraska USA"
-#| msgid "North Platte"
+#, kde-format
 msgid "Tilt Plate"
-msgstr "North Platte"
+msgstr "Eğim plakası"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:238
 #, kde-format
 msgid "Top-Bottom Tilt:"
-msgstr "Alt–üst kaydırma:"
+msgstr "Alt–üst eğim:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/aberrationinspector.ui:251
 #, kde-format
 msgid "Total Tilt:"
-msgstr "Toplam kaydırma:"
+msgstr "Toplam eğim:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, backfocus)
 #: ekos/focus/aberrationinspector.ui:265
@@ -18941,15 +18937,14 @@ msgstr "Geri odak Δ:"
 #: ekos/focus/aberrationinspector.ui:294
 #, kde-format
 msgid "Left-Right Tilt:"
-msgstr "Sağ–sol kaydırma:"
+msgstr "Sağ–sol eğim:"
 
 #. i18n: ectx: property (title), widget (Ekos::TiltCorrectionWidget, tiltCorrectionWidget)
 #: ekos/focus/aberrationinspector.ui:317
 #: ekos/focus/tiltcorrectionwidget.cpp:272
-#, fuzzy, kde-format
-#| msgid "Correction Timeout:"
+#, kde-format
 msgid "Tilt Correction Advisory"
-msgstr "Düzeltme zaman aşımı:"
+msgstr "Eğim Düzeltme Uyarısı"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:336
@@ -19155,13 +19150,13 @@ msgstr "<html><head/><body><p>Geri odak sürgüsü</p></body></html>"
 #: ekos/focus/aberrationinspector.ui:519
 #, kde-format
 msgid "<html><head/><body><p>Left-to-Right Tilt Slider</p></body></html>"
-msgstr "<html><head/><body><p>Soldan sağa kaydırma sürgüsü</p></body></html>"
+msgstr "<html><head/><body><p>Soldan sağa eğim sürgüsü</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, abInsTiltTBSlider)
 #: ekos/focus/aberrationinspector.ui:538
 #, kde-format
 msgid "<html><head/><body><p>Top-to-Bottom Tilt Slider</p></body></html>"
-msgstr "<html><head/><body><p>Üstten alta kaydırma sürgüsü</p></body></html>"
+msgstr "<html><head/><body><p>Üstten alta eğim sürgüsü</p></body></html>"
 
 #: ekos/focus/aberrationinspectorplot.cpp:107
 #, kde-format
@@ -22374,53 +22369,47 @@ msgstr "En büyük hareket:"
 #: ekos/focus/tiltcorrectionwidget.cpp:124
 #, kde-format
 msgid "Sensor (rear view)"
-msgstr ""
+msgstr "Algılayıcı (arka görünüm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:131
-#, fuzzy, kde-format
-#| msgid "Loading city data"
+#, kde-format
 msgid "No tilt data"
-msgstr "Şehir verisi yükleniyor…"
+msgstr "Eğim verisi yok"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:140
 #, kde-format
 msgid "↑ Camera top (logo side) ↑"
-msgstr ""
+msgstr "↑ Kamera tepesi (logo tarafı) ↑"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:141
 #, kde-format
 msgid "Camera top rotated %1°"
-msgstr ""
+msgstr "Kamera tepesi %1° döndürüldü"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:147
 #, kde-format
 msgid "View from behind camera"
-msgstr ""
+msgstr "Arka kameradan olan görünüm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:249
 #, kde-format
 msgid "%1%2 μm"
-msgstr ""
+msgstr "%1%2 μm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:284
-#, fuzzy, kde-format
-#| msgid "Date:"
+#, kde-format
 msgid "Plate:"
-msgstr "Tarih:"
+msgstr "Plaka:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:286
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Sandpoint"
+#, kde-format
 msgid "3-point"
-msgstr "Sandpoint"
+msgstr "Üç noktalı"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:287
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Sandpoint"
+#, kde-format
 msgid "4-point"
-msgstr "Sandpoint"
+msgstr "Dört noktalı"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:288
 #, kde-format
@@ -22430,6 +22419,10 @@ msgid ""
 "4-point: Plates with screws at the four corners (UL/UR/LL/LR) — typical for "
 "TouTek-style tilt rings."
 msgstr ""
+"Eğim plakası türünüzü seçin.\n"
+"Üç noktalı: ETA, Octopi veya herhangi bir üç vidalı plaka (2 üst, 1 alt).\n"
+"Dört noktalı: Dört köşesinden vidalı plakalar (UL/UR/LL/LR) — TouTek türü "
+"eğim halkaları için genel tür."
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
 #: ekos/focus/tiltcorrectionwidget.cpp:295 tools/imagingplanner.ui:1410
@@ -22438,8 +22431,7 @@ msgid "Radius:"
 msgstr "Yarıçap:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:299
-#, fuzzy, kde-format
-#| msgid " mm"
+#, kde-format
 msgctxt "millimeters suffix"
 msgid " mm"
 msgstr " mm"
@@ -22453,70 +22445,74 @@ msgid ""
 "  ZWO Tilt Plates (M42/M48/M54/M68): 40 mm\n"
 "  TouTek M42 Tilter (Ø100mm): 46 mm"
 msgstr ""
+"Plaka merkezinden düzeltme noktasına olan uzaklık (cıvata çevresi "
+"yarıçapı).\n"
+"Bilinen değerler:\n"
+"  Wanderer ETA M54: 64 mm\n"
+"  ZWO Eğim Plakaları (M42/M48/M54/M68): 40 mm\n"
+"  TouTek M42 Eğici (Ø100 mm): 46 mm"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:309
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Thread:"
-msgstr "Eşik:"
+msgstr "Delik:"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:311
 #, kde-format
 msgctxt "Thread preset"
 msgid "M2.5 (0.45 mm)"
-msgstr ""
+msgstr "M2.5 (0,45 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:312
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 (0.50 mm)"
-msgstr ""
+msgstr "M3 (0,50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:313
 #, kde-format
 msgctxt "Thread preset"
 msgid "M3 fine (0.35 mm)"
-msgstr ""
+msgstr "M3 İnce (0,35 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:314
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 (0.70 mm)"
-msgstr ""
+msgstr "M4 (0,70 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:315
 #, kde-format
 msgctxt "Thread preset"
 msgid "M4 fine (0.50 mm)"
-msgstr ""
+msgstr "M4 İnce (0,50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:316
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 (0.80 mm)"
-msgstr ""
+msgstr "M5 (0,80 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:317
 #, kde-format
 msgctxt "Thread preset"
 msgid "M5 fine (0.50 mm)"
-msgstr ""
+msgstr "M5 İnce (0,50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:318
 #, kde-format
 msgctxt "Thread preset"
 msgid "M6 (1.00 mm)"
-msgstr ""
+msgstr "M6 (1,00 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:319
 #, kde-format
 msgctxt "Thread preset"
 msgid "Wanderer ETA (0.50 mm)"
-msgstr ""
+msgstr "Wanderer ETA (0,50 mm)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:320
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "Thread preset"
 msgid "Custom"
 msgstr "Özel"
@@ -22818,6 +22814,275 @@ msgstr ""
 msgid ""
 "Corrections already applied. Run autofocus again to get fresh tilt "
 "measurements."
+msgstr ""
+
+#: ekos/guide/aiguideprotocol.cpp:195
+#, kde-format
+msgid "No data to train! Please run the protocol first."
+msgstr ""
+
+#: ekos/guide/aiguideprotocol.cpp:196
+#, kde-format
+msgid "No data to train"
+msgstr ""
+
+#: ekos/guide/aiguideprotocol.cpp:201
+#, kde-format
+msgid "Starting AI training via EkosLive cloud..."
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
+#: ekos/guide/aiguidewizard.ui:14
+#, kde-format
+msgid "Ekos Guide AI Assistant (Experimental)"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage1)
+#: ekos/guide/aiguidewizard.ui:21
+#, fuzzy, kde-format
+#| msgid "Mount direction"
+msgid "Mount Identification"
+msgstr "Kaide yönü"
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage1)
+#: ekos/guide/aiguidewizard.ui:24
+#, kde-format
+msgid ""
+"Welcome to the Ekos AI Guiding Assistant. Please verify your mount type "
+"below."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, experimentalWarningLabel)
+#: ekos/guide/aiguidewizard.ui:30
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
+#| "</span></p></body></html>"
+msgid ""
+"<html><head/><body><p><span style=\" color:#ff5500; font-weight:600;\">This "
+"is an experimental feature. </span></p></body></html>"
+msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Çevrim içi "
+"özkaynaklar:</span></p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ekos/guide/aiguidewizard.ui:42
+#, fuzzy, kde-format
+#| msgid "Mount Type:"
+msgid "Detected Mount Type:"
+msgstr "Kaide türü:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
+#: ekos/guide/aiguidewizard.ui:50
+#, kde-format
+msgid "Worm Gear"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
+#: ekos/guide/aiguidewizard.ui:55
+#, kde-format
+msgid "Harmonic Drive"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
+#: ekos/guide/aiguidewizard.ui:60
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Direction"
+msgid "Direct Drive"
+msgstr "Yön"
+
+#. i18n: ectx: property (text), widget (QLabel, exposureLabel)
+#: ekos/guide/aiguidewizard.ui:77
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
+"Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
+"Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
+"\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
+"li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to 3.0s</"
+"li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will be "
+"trained and locked to your current guide exposure.</span></p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
+#: ekos/guide/aiguidewizard.ui:95
+#, fuzzy, kde-format
+#| msgid "Print preview"
+msgid "Protocol Preview"
+msgstr "Yazdırma Önizlemesi"
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage2)
+#: ekos/guide/aiguidewizard.ui:98
+#, kde-format
+msgid ""
+"The assistant will perform the following steps to characterize the tracking "
+"errors."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, algorithmWarningLabel)
+#: ekos/guide/aiguidewizard.ui:104
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" color:#ff5500;\">The Guide AI Assistant "
+"requires the Standard guiding algorithm for both axes during data "
+"collection. Your current settings will be temporarily changed to Standard "
+"for the duration of the wizard and restored when it completes.</span></p></"
+"body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelWormGear)
+#: ekos/guide/aiguidewizard.ui:127
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
+"(~45 mins):</span><br/>1. Slew to High Altitude : Free drift, then standard "
+"guiding.<br/>2. Slew to Lower Altitude : Free drift, then standard guiding."
+"<br/>3. Slew to High Altitude : Standard guiding.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
+#: ekos/guide/aiguidewizard.ui:147
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
+"Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, pulse "
+"response test, then standard guiding.<br/>2. Slew to Lower Altitude: Free "
+"drift, then standard guiding.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
+#: ekos/guide/aiguidewizard.ui:167
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Option replaced by the <span style=\" font-"
+#| "weight:600;\">max. focus frame</span> option in the Focus options.</p></"
+#| "body></html>"
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
+"Protocol (~20 mins):</span><br/>1. Slew to High, Mid, and Low Altitudes: "
+"Free drift at each position.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Odak seçeneklerinde <span style=\" font-weight:600;"
+"\">en çok odak karesi</span> seçeneğiyle değiştirilen seçenek.</p></body></"
+"html>"
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
+#: ekos/guide/aiguidewizard.ui:198
+#, fuzzy, kde-format
+#| msgid "Shutter opening is in progress"
+msgid "System Identification Progress"
+msgstr "Kepenk açılışı sürüyor…"
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage3)
+#: ekos/guide/aiguidewizard.ui:201
+#, kde-format
+msgid ""
+"Collecting mount telemetry. Please do not interrupt the process unless "
+"necessary."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, statusLabel)
+#: ekos/guide/aiguidewizard.ui:207
+#, fuzzy, kde-format
+#| msgid "Read-only token:"
+msgid "Ready to begin..."
+msgstr "Saltokunur jeton:"
+
+#. i18n: ectx: property (html), widget (QTextEdit, logTextEdit)
+#: ekos/guide/aiguidewizard.ui:242
+#, fuzzy, kde-format
+#| msgid ""
+#| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#| "REC-html40/strict.dtd\">\n"
+#| "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#| "css\">\n"
+#| "p, li { white-space: pre-wrap; }\n"
+#| "</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
+#| "size:13pt; font-weight:400; font-style:normal;\">\n"
+#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Selection mode of the "
+#| "3D Graphic:</p>\n"
+#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- None.</p>\n"
+#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- Item selects the "
+#| "nearest datapoint.</p>\n"
+#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- Slice produces a 2D "
+#| "slice through the graphic.</p></body></html>"
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Waiting to start...</p></"
+"body></html>"
+msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
+"size:13pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">3B grafiğin seçim kipi:</"
+"p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Yok.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Öge, en yakın veri "
+"noktasını seçer.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">- Dilim, grafikten geçen "
+"bir 2B dilim üretir.</p></body></html>"
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage4)
+#: ekos/guide/aiguidewizard.ui:250
+#, fuzzy, kde-format
+#| msgid "Detection complete."
+msgid "Data Collection Complete"
+msgstr "Algılama tamamlandı."
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage4)
+#: ekos/guide/aiguidewizard.ui:253
+#, kde-format
+msgid ""
+"System identification data has been saved. Please choose a training method."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, exportOfflineButton)
+#: ekos/guide/aiguidewizard.ui:266
+#, kde-format
+msgid "Export for offline training"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, exportOfflineButton)
+#: ekos/guide/aiguidewizard.ui:269
+#, kde-format
+msgid ""
+"Saves the system identification data to a JSON file so you can train the AI "
+"model on your local computer using the provided Python scripts."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, trainEkosLiveButton)
+#: ekos/guide/aiguidewizard.ui:285
+#, fuzzy, kde-format
+#| msgid "Ekos Live"
+msgid "Train in EkosLive"
+msgstr "EkosLive"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, trainEkosLiveButton)
+#: ekos/guide/aiguidewizard.ui:288
+#, kde-format
+msgid ""
+"Uploads anonymized data to EkosLive Cloud to instantly train your model "
+"using community baselines. (Target coordinates are stripped)."
 msgstr ""
 
 #: ekos/guide/externalguide/linguider.cpp:70
@@ -23174,25 +23439,25 @@ msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: Ekipman bağlantısı kesiliyor. . ."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
-#: ekos/guide/guide.cpp:86 ekos/guide/opsdither.ui:102
+#: ekos/guide/guide.cpp:87 ekos/guide/opsdither.ui:102
 #, kde-format
 msgid "Dither"
 msgstr "Kıpırdat"
 
-#: ekos/guide/guide.cpp:90
+#: ekos/guide/guide.cpp:91
 #, kde-format
 msgid "GPG RA Guider"
 msgstr "GPG RA Kılavuzu"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
-#: ekos/guide/guide.cpp:94 ekos/guide/opsguide.ui:116
+#: ekos/guide/guide.cpp:95 ekos/guide/opsguide.ui:116
 #: ekos/guide/opsguide.ui:152
 #, kde-format
 msgid "AI Guider"
 msgstr "Yapay Zekâ Kılavuzu"
 
-#: ekos/guide/guide.cpp:443
+#: ekos/guide/guide.cpp:457
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
@@ -23201,7 +23466,7 @@ msgstr ""
 "PHD2’nin geçerli kamerası: %1, Ekos’a bağlı değil. PHD2 Kılavuz Yıldız "
 "Görseli alınacak; ancak tam dış kılavuz kareler alınamayacak."
 
-#: ekos/guide/guide.cpp:453
+#: ekos/guide/guide.cpp:467
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
@@ -23212,183 +23477,183 @@ msgstr ""
 "kullanarak tam dış kılavuz karelerini kullanmayı veya yalnızca PHD2 Kılavuz "
 "Yıldız Görseli’ni almayı seçebilirsiniz."
 
-#: ekos/guide/guide.cpp:601
+#: ekos/guide/guide.cpp:615
 #, kde-format
 msgid "Connection to the guide camera is lost."
 msgstr "Kılavuz kamera ile olan bağlantı kesildi."
 
-#: ekos/guide/guide.cpp:963
+#: ekos/guide/guide.cpp:977
 #, kde-format
 msgid "Guide streaming started."
 msgstr "Kılavuz akışı başlatıldı."
 
-#: ekos/guide/guide.cpp:983
+#: ekos/guide/guide.cpp:997
 #, kde-format
 msgid "Guide streaming stopped."
 msgstr "Kılavuz akışı durduruldu."
 
-#: ekos/guide/guide.cpp:1142
+#: ekos/guide/guide.cpp:1156
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Pozlama zaman aşımı; ancak askıya alınmış. Yok sayılıyor…"
 
-#: ekos/guide/guide.cpp:1170
+#: ekos/guide/guide.cpp:1184
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "Pozlama zaman aşımı. Kendiliğinden kılavuzluk iptal ediliyor."
 
-#: ekos/guide/guide.cpp:1172
+#: ekos/guide/guide.cpp:1186
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Pozlama zaman aşımı. Kıpırdatma iptal ediliyor."
 
-#: ekos/guide/guide.cpp:1174
+#: ekos/guide/guide.cpp:1188
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Pozlama zaman aşımı. Kalibrasyon iptal ediliyor."
 
-#: ekos/guide/guide.cpp:1229
+#: ekos/guide/guide.cpp:1243
 #, kde-format
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Sürücü yeniden başlatıldıktan sonra kameraya yeniden bağlanılamadı."
 
-#: ekos/guide/guide.cpp:1466
+#: ekos/guide/guide.cpp:1480
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "Yapay zekâ serbest kayması etkin. Çoklu darbeler bastırıldı (RA: %1 ms, DEC: "
 "%2 ms)."
 
-#: ekos/guide/guide.cpp:1516
+#: ekos/guide/guide.cpp:1530
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "Yapay zekâ serbest kayması etkin. Tekil darbe bastırıldı (%1 ms)."
 
-#: ekos/guide/guide.cpp:1565
+#: ekos/guide/guide.cpp:1579
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Algılanan kamera yok. Optik katarlarda kamerayı denetleyin."
 
-#: ekos/guide/guide.cpp:1571
+#: ekos/guide/guide.cpp:1585
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "Algılanan kılavuz yok. Optik katarlarda kılavuzu denetleyin."
 
-#: ekos/guide/guide.cpp:1652
+#: ekos/guide/guide.cpp:1666
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Bu kaide park edilmiş. Kılavuzluğu başlatmak için parktan çıkın."
 
-#: ekos/guide/guide.cpp:1761
+#: ekos/guide/guide.cpp:1775
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "İskele yanı değişikliği algılandı. Kalibrasyon temizleniyor."
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1789
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Kaide hareket ediyor. Kalibrasyon yeniden başlatılıyor…"
 
-#: ekos/guide/guide.cpp:1792
+#: ekos/guide/guide.cpp:1806
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Kaide park ediliyor. Kılavuz iptal ediliyor…"
 
-#: ekos/guide/guide.cpp:1794
+#: ekos/guide/guide.cpp:1808
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Kaide çevriliyor. Kılavuz iptal ediliyor…"
 
-#: ekos/guide/guide.cpp:1880
+#: ekos/guide/guide.cpp:1894
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibrasyon temizlendi."
 
-#: ekos/guide/guide.cpp:1908
+#: ekos/guide/guide.cpp:1922
 #, kde-format
 msgid "External guider connected."
 msgstr "Dış kılavuz bağlandı."
 
-#: ekos/guide/guide.cpp:1926
+#: ekos/guide/guide.cpp:1940
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Dış kılavuz bağlantısı kesildi."
 
-#: ekos/guide/guide.cpp:1943
+#: ekos/guide/guide.cpp:1957
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibrasyon tamamlandı."
 
-#: ekos/guide/guide.cpp:1969
+#: ekos/guide/guide.cpp:1983
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibrasyon başlatıldı."
 
-#: ekos/guide/guide.cpp:1985
+#: ekos/guide/guide.cpp:1999
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Kılavuzluk sürdürüldü."
 
-#: ekos/guide/guide.cpp:1989
+#: ekos/guide/guide.cpp:2003
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Kendiliğinden kılavuzlama çalışıyor."
 
-#: ekos/guide/guide.cpp:2011
+#: ekos/guide/guide.cpp:2025
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Kendiliğinden kılavuzluk iptal edildi."
 
-#: ekos/guide/guide.cpp:2019
+#: ekos/guide/guide.cpp:2033
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Kılavuzluk askıya alındı."
 
-#: ekos/guide/guide.cpp:2028
+#: ekos/guide/guide.cpp:2042
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Elle kıpırdatma yapılıyor."
 
-#: ekos/guide/guide.cpp:2032
+#: ekos/guide/guide.cpp:2046
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Kıpırdatma yapılıyor."
 
-#: ekos/guide/guide.cpp:2036
+#: ekos/guide/guide.cpp:2050
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "%1 saniye için kıpırdatma sonrası yerleşim yapılıyor…"
 msgstr[1] "%1 saniye için kıpırdatma sonrası yerleşim yapılıyor…"
 
-#: ekos/guide/guide.cpp:2041
+#: ekos/guide/guide.cpp:2055
 #, kde-format
 msgid "Dithering failed."
 msgstr "Kıpırdatma başarısız."
 
-#: ekos/guide/guide.cpp:2052
+#: ekos/guide/guide.cpp:2066
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Kıpırdatma başarıyla tamamlandı."
 
-#: ekos/guide/guide.cpp:2110
+#: ekos/guide/guide.cpp:2124
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr ""
 "%1 × %1 kılavuz gruplaması desteklenmiyor. En büyük değer %2 × %2 olarak "
 "verilir."
 
-#: ekos/guide/guide.cpp:2134
+#: ekos/guide/guide.cpp:2148
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Pozlama başarısız. Pozlama yeniden başlatılıyor…"
 
-#: ekos/guide/guide.cpp:2269
+#: ekos/guide/guide.cpp:2283
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Etkinken kılavuz türü değiştirilemiyor."
 
-#: ekos/guide/guide.cpp:2364
+#: ekos/guide/guide.cpp:2378
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23397,37 +23662,37 @@ msgstr ""
 "Uyarı: Kılavuz kalibrasyonunu sıfırlama etkin. Bu seçeneğin PHD2 için "
 "kapatılması önerilir."
 
-#: ekos/guide/guide.cpp:2804
+#: ekos/guide/guide.cpp:2818
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibrasyon başlatılamadı."
 
-#: ekos/guide/guide.cpp:2955
+#: ekos/guide/guide.cpp:2969
 #, kde-format
 msgid "Auto star selected."
 msgstr "Kendiliğinden yıldız seçildi."
 
-#: ekos/guide/guide.cpp:2959
+#: ekos/guide/guide.cpp:2973
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Kendiliğinden bir yıldız seçilemedi."
 
-#: ekos/guide/guide.cpp:2968
+#: ekos/guide/guide.cpp:2982
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Kalibre etmek için bir kılavuz yıldız seçin."
 
-#: ekos/guide/guide.cpp:3230
+#: ekos/guide/guide.cpp:3244
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (piksel)"
 
-#: ekos/guide/guide.cpp:3231
+#: ekos/guide/guide.cpp:3245
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (piksel)"
 
-#: ekos/guide/guide.cpp:3374 ekos/guide/guide.cpp:3523
+#: ekos/guide/guide.cpp:3388 ekos/guide/guide.cpp:3537
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -23437,7 +23702,7 @@ msgstr ""
 "göremezsiniz. Ancak kılavuzluk ettiğinizde Kılavuz Yıldız Görseli’ni yine de "
 "göreceksiniz."
 
-#: ekos/guide/guide.cpp:3378 ekos/guide/guide.cpp:3527
+#: ekos/guide/guide.cpp:3392 ekos/guide/guide.cpp:3541
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23448,32 +23713,32 @@ msgstr ""
 "işareti kaldırılmalıdır. Görsel yakalamalarınızı etkinleştirmek için şimdi "
 "işaretini kaldırın. Kılavuzluktan önce yeniden etkinleştirebilirsiniz."
 
-#: ekos/guide/guide.cpp:3459
+#: ekos/guide/guide.cpp:3473
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Yapay zekâ yardımcıyı yönlendiriyor…"
 
-#: ekos/guide/guide.cpp:3464
+#: ekos/guide/guide.cpp:3478
 #, kde-format
 msgid "Load Weights..."
 msgstr "Ağırlıklar yükleniyor…"
 
-#: ekos/guide/guide.cpp:3567
+#: ekos/guide/guide.cpp:3584 ekos/guide/guide.cpp:3589
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "EkosLive yapay zekâ eğitimi başarısız oldu: %1"
 
-#: ekos/guide/guide.cpp:3568
+#: ekos/guide/guide.cpp:3585 ekos/guide/guide.cpp:3590
 #, kde-format
 msgid "unknown error"
 msgstr "Bilinmeyen hata"
 
-#: ekos/guide/guide.cpp:3584
+#: ekos/guide/guide.cpp:3604
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Yapay zekâ ağırlıkları %1 konumuna kaydedilemedi."
 
-#: ekos/guide/guide.cpp:3594
+#: ekos/guide/guide.cpp:3614
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -23481,18 +23746,28 @@ msgstr ""
 "Yapay zekâ eğitimi tamamlandı. Ağırlıklar %1 konumuna kaydedildi ve etkin "
 "yapay zekâ ağırlıkları olarak ayarlandı."
 
-#: ekos/guide/guide.cpp:3602
+#: ekos/guide/guide.cpp:3618
+#, fuzzy, kde-format
+#| msgid ""
+#| "AI training complete. Weights saved to %1 and set as the active AI "
+#| "weights."
+msgid "AI training complete. Weights saved to %1."
+msgstr ""
+"Yapay zekâ eğitimi tamamlandı. Ağırlıklar %1 konumuna kaydedildi ve etkin "
+"yapay zekâ ağırlıkları olarak ayarlandı."
+
+#: ekos/guide/guide.cpp:3624
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Yapay Zekâ Kılavuzu Ağırlıklarını Yükle"
 
-#: ekos/guide/guide.cpp:3603
+#: ekos/guide/guide.cpp:3625
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Yapay zekâ ağırlıkları (*.json)"
 
-#: ekos/guide/guide.cpp:3607
+#: ekos/guide/guide.cpp:3629
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -23501,7 +23776,7 @@ msgstr ""
 "Yapay zekâ ağırlıkları %1 olarak ayarlandı. Bir sonraki sefere kılavuzlama "
 "başlatıldığında uygulanacaklar."
 
-#: ekos/guide/guide.cpp:3764
+#: ekos/guide/guide.cpp:3786
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "PHD2 bağlıyken etkin optik katar değiştirilemiyor"
@@ -24525,260 +24800,6 @@ msgid ""
 "Seconds between predicted feed-forward pulses when there is no guide-star "
 "measurement (dither settling, autofocus runs, camera downloads). Only used "
 "when Predictive Dark Guiding is enabled."
-msgstr ""
-
-#. i18n: ectx: property (windowTitle), widget (QWizard, OpsAIGuide)
-#: ekos/guide/opsaiguide.ui:14
-#, kde-format
-msgid "Ekos Guide AI Assistant (Experimental)"
-msgstr ""
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage1)
-#: ekos/guide/opsaiguide.ui:21
-#, fuzzy, kde-format
-#| msgid "Mount direction"
-msgid "Mount Identification"
-msgstr "Kaide yönü"
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage1)
-#: ekos/guide/opsaiguide.ui:24
-#, kde-format
-msgid ""
-"Welcome to the Ekos AI Guiding Assistant. Please verify your mount type "
-"below."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, experimentalWarningLabel)
-#: ekos/guide/opsaiguide.ui:30
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
-#| "</span></p></body></html>"
-msgid ""
-"<html><head/><body><p><span style=\" color:#ff5500; font-weight:600;\">This "
-"is an experimental feature. </span></p></body></html>"
-msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Çevrim içi "
-"özkaynaklar:</span></p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/guide/opsaiguide.ui:42
-#, fuzzy, kde-format
-#| msgid "Mount Type:"
-msgid "Detected Mount Type:"
-msgstr "Kaide türü:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
-#: ekos/guide/opsaiguide.ui:50
-#, kde-format
-msgid "Worm Gear"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
-#: ekos/guide/opsaiguide.ui:55
-#, kde-format
-msgid "Harmonic Drive"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
-#: ekos/guide/opsaiguide.ui:60
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Direction"
-msgid "Direct Drive"
-msgstr "Yön"
-
-#. i18n: ectx: property (text), widget (QLabel, exposureLabel)
-#: ekos/guide/opsaiguide.ui:77
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
-"Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
-"Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
-"\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
-"li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to 3.0s</"
-"li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will be "
-"trained and locked to your current guide exposure.</span></p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
-#: ekos/guide/opsaiguide.ui:95
-#, fuzzy, kde-format
-#| msgid "Print preview"
-msgid "Protocol Preview"
-msgstr "Yazdırma Önizlemesi"
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage2)
-#: ekos/guide/opsaiguide.ui:98
-#, kde-format
-msgid ""
-"The assistant will perform the following steps to characterize the tracking "
-"errors."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, algorithmWarningLabel)
-#: ekos/guide/opsaiguide.ui:104
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" color:#ff5500;\">The Guide AI Assistant "
-"requires the Standard guiding algorithm for both axes during data "
-"collection. Your current settings will be temporarily changed to Standard "
-"for the duration of the wizard and restored when it completes.</span></p></"
-"body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelWormGear)
-#: ekos/guide/opsaiguide.ui:127
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
-"(~45 mins):</span><br/>1. Slew to High Altitude : Free drift, then standard "
-"guiding.<br/>2. Slew to Lower Altitude : Free drift, then standard guiding."
-"<br/>3. Slew to High Altitude : Standard guiding.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
-#: ekos/guide/opsaiguide.ui:147
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
-"Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, pulse "
-"response test, then standard guiding.<br/>2. Slew to Lower Altitude: Free "
-"drift, then standard guiding.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
-#: ekos/guide/opsaiguide.ui:167
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Option replaced by the <span style=\" font-"
-#| "weight:600;\">max. focus frame</span> option in the Focus options.</p></"
-#| "body></html>"
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
-"Protocol (~20 mins):</span><br/>1. Slew to High, Mid, and Low Altitudes: "
-"Free drift at each position.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Odak seçeneklerinde <span style=\" font-weight:600;"
-"\">en çok odak karesi</span> seçeneğiyle değiştirilen seçenek.</p></body></"
-"html>"
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
-#: ekos/guide/opsaiguide.ui:198
-#, fuzzy, kde-format
-#| msgid "Shutter opening is in progress"
-msgid "System Identification Progress"
-msgstr "Kepenk açılışı sürüyor…"
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage3)
-#: ekos/guide/opsaiguide.ui:201
-#, kde-format
-msgid ""
-"Collecting mount telemetry. Please do not interrupt the process unless "
-"necessary."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, statusLabel)
-#: ekos/guide/opsaiguide.ui:207
-#, fuzzy, kde-format
-#| msgid "Read-only token:"
-msgid "Ready to begin..."
-msgstr "Saltokunur jeton:"
-
-#. i18n: ectx: property (html), widget (QTextEdit, logTextEdit)
-#: ekos/guide/opsaiguide.ui:242
-#, fuzzy, kde-format
-#| msgid ""
-#| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#| "REC-html40/strict.dtd\">\n"
-#| "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#| "css\">\n"
-#| "p, li { white-space: pre-wrap; }\n"
-#| "</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
-#| "size:13pt; font-weight:400; font-style:normal;\">\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Selection mode of the "
-#| "3D Graphic:</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- None.</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- Item selects the "
-#| "nearest datapoint.</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- Slice produces a 2D "
-#| "slice through the graphic.</p></body></html>"
-msgid ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Waiting to start...</p></"
-"body></html>"
-msgstr ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
-"size:13pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">3B grafiğin seçim kipi:</"
-"p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">- Yok.</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">- Öge, en yakın veri "
-"noktasını seçer.</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">- Dilim, grafikten geçen "
-"bir 2B dilim üretir.</p></body></html>"
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage4)
-#: ekos/guide/opsaiguide.ui:250
-#, fuzzy, kde-format
-#| msgid "Detection complete."
-msgid "Data Collection Complete"
-msgstr "Algılama tamamlandı."
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage4)
-#: ekos/guide/opsaiguide.ui:253
-#, kde-format
-msgid ""
-"System identification data has been saved. Please choose a training method."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QPushButton, exportOfflineButton)
-#: ekos/guide/opsaiguide.ui:266
-#, kde-format
-msgid "Export for offline training"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, exportOfflineButton)
-#: ekos/guide/opsaiguide.ui:269
-#, kde-format
-msgid ""
-"Saves the system identification data to a JSON file so you can train the AI "
-"model on your local computer using the provided Python scripts."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QPushButton, trainEkosLiveButton)
-#: ekos/guide/opsaiguide.ui:285
-#, fuzzy, kde-format
-#| msgid "Ekos Live"
-msgid "Train in EkosLive"
-msgstr "EkosLive"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, trainEkosLiveButton)
-#: ekos/guide/opsaiguide.ui:288
-#, kde-format
-msgid ""
-"Uploads anonymized data to EkosLive Cloud to instantly train your model "
-"using community baselines. (Target coordinates are stripped)."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
@@ -26443,62 +26464,62 @@ msgstr "%1 ışık kutusu çevrim içi."
 msgid "%1 is offline."
 msgstr "%1 çevrim dışı."
 
-#: ekos/manager.cpp:2884
+#: ekos/manager.cpp:2900
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "%1 üzerinden kılavuz kapısı hazır."
 
-#: ekos/manager.cpp:3147
+#: ekos/manager.cpp:3163
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Bu profili silmek istediğinizden emin misiniz?"
 
-#: ekos/manager.cpp:3148
+#: ekos/manager.cpp:3164
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Silmeyi Onayla"
 
-#: ekos/manager.cpp:3200
+#: ekos/manager.cpp:3216
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Site konumu %1 olarak güncellendi."
 
-#: ekos/manager.cpp:3202
+#: ekos/manager.cpp:3218
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Site konumu %1 olarak güncellenemedi. Şehir bulunamadı."
 
-#: ekos/manager.cpp:3475
+#: ekos/manager.cpp:3491
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "%1 için hata ayıklama günlüğü etkinleştiriliyor…"
 
-#: ekos/manager.cpp:3483
+#: ekos/manager.cpp:3499
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "%1 için hata ayıklama günlüğü devre dışı bırakılıyor…"
 
-#: ekos/manager.cpp:3511
+#: ekos/manager.cpp:3527
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "%1 için hata ayıklama günlüğü yeniden etkinleştiriliyor…"
 
-#: ekos/manager.cpp:3523
+#: ekos/manager.cpp:3539
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "%1 için hata ayıklama günlüğü yeniden devre dışı bırakılıyor…"
 
-#: ekos/manager.cpp:4319
+#: ekos/manager.cpp:4335
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Önizleme kaynağı dış olarak ayarlandı"
 
-#: ekos/manager.cpp:4326
+#: ekos/manager.cpp:4342
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Önizleme kaynağı iç olarak ayarlandı"
 
-#: ekos/manager.cpp:4333
+#: ekos/manager.cpp:4349
 #, kde-format
 msgid "Received external preview file"
 msgstr "Dış önizleme dosyası alındı"

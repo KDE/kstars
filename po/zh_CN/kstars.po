@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-17 02:08+0000\n"
+"POT-Creation-Date: 2026-07-18 02:08+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3851,7 +3851,7 @@ msgstr "0.0 秒差距"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:141 ekos/capture/sequenceeditor.cpp:144
 #: ekos/focus/focus.cpp:455 ekos/focus/focus.ui:1054 ekos/focus/focus.ui:1068
-#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:733 ekos/guide/guide.ui:632
+#: ekos/focus/focus.ui:1082 ekos/guide/guide.cpp:747 ekos/guide/guide.ui:632
 #: ekos/guide/guide.ui:756 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
@@ -6119,7 +6119,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:275 ekos/analyze/analyze.cpp:4167
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:458
-#: ekos/guide/guide.cpp:1432 ekos/manager.cpp:2446 ekos/mount/mount.cpp:780
+#: ekos/guide/guide.cpp:1446 ekos/manager.cpp:2446 ekos/mount/mount.cpp:780
 #: ekos/observatory/observatory.cpp:1048
 #: ekos/scheduler/schedulerprocess.cpp:3614
 #, kde-format
@@ -6169,8 +6169,9 @@ msgstr "加载并转动"
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:823
 #: ekos/align/polaralignmentassistant.ui:826
 #: ekos/auxiliary/buildfilteroffsets.cpp:245 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:258 ekos/guide/opsaiguide.ui:223
-#: ekos/manager.cpp:259 ekos/observatory/observatorydomemodel.cpp:132
+#: ekos/focus/focus.ui:173 ekos/guide/aiguidewizard.cpp:345
+#: ekos/guide/aiguidewizard.ui:223 ekos/guide/guide.ui:258 ekos/manager.cpp:259
+#: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:98
 #: fitsviewer/fitstab.cpp:37 kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -7023,7 +7024,7 @@ msgstr "设置目标为 RA:%1 DEC:%2"
 msgid "Error: No camera detected."
 msgstr "错误：未检测到相机。"
 
-#: ekos/align/align_solver.cpp:83 ekos/guide/guide.cpp:864
+#: ekos/align/align_solver.cpp:83 ekos/guide/guide.cpp:878
 #, kde-format
 msgid "Error: lost connection to camera."
 msgstr "错误：相机连接中断。"
@@ -7262,13 +7263,13 @@ msgid "Exposure timeout. Aborting..."
 msgstr "曝光超时。终止..."
 
 #: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6158
-#: ekos/guide/guide.cpp:1183
+#: ekos/guide/guide.cpp:1197
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "曝光超时。过多次数。重启驱动。"
 
 #: ekos/align/align_solver.cpp:1227 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6172 ekos/guide/guide.cpp:1148
+#: ekos/focus/focus.cpp:6172 ekos/guide/guide.cpp:1162
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "曝光超时。重新启动曝光..."
@@ -10455,8 +10456,8 @@ msgstr "在最近调节后的极轴高度角误差。"
 #. i18n: ectx: property (text), widget (QPushButton, StartB)
 #: ekos/align/polaralignmentassistant.ui:810
 #: ekos/align/polaralignmentassistant.ui:813 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:158 ekos/manager.cpp:265 ekos/manager.cpp:1124
-#: ekos/observatory/observatorydomemodel.cpp:132
+#: ekos/guide/aiguidewizard.cpp:213 ekos/manager.cpp:158 ekos/manager.cpp:265
+#: ekos/manager.cpp:1124 ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: ekos/scheduler/taskqueue/ui/queueviewerwidget.cpp:93
 #: fitsviewer/fitstab.cpp:36 fitsviewer/livestacking.ui:317
@@ -10793,7 +10794,7 @@ msgstr "对焦"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2335 ekos/auxiliary/opslogs.ui:120
-#: ekos/guide/guide.cpp:71 ekos/guide/guide.ui:129 ekos/manager.cpp:2817
+#: ekos/guide/guide.cpp:72 ekos/guide/guide.ui:129 ekos/manager.cpp:2817
 #: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:262
 #: fitsviewer/fitsviewer.cpp:578
 #, kde-format
@@ -12993,7 +12994,7 @@ msgstr "<html><head/><body><p>记录 Ekos Observatory 模块活动</p></body></h
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2867
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2883
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -14842,7 +14843,7 @@ msgstr "暗场与平场自动校准选项"
 #. i18n: ectx: property (title), widget (QGroupBox, CalibrationGroupBox)
 #. i18n: ectx: property (text), widget (QLabel, CalibrationMinimized)
 #: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2519
-#: ekos/guide/guide.cpp:82 fitsviewer/livestacking.ui:2260
+#: ekos/guide/guide.cpp:83 fitsviewer/livestacking.ui:2260
 #: fitsviewer/livestacking.ui:2886
 #, kde-format
 msgid "Calibration"
@@ -18029,12 +18030,12 @@ msgstr "在线"
 msgid "Offline"
 msgstr "离线"
 
-#: ekos/ekoslive/message.cpp:820
+#: ekos/ekoslive/message.cpp:817
 #, kde-format
 msgid "target"
 msgstr "目标"
 
-#: ekos/ekoslive/message.cpp:1150
+#: ekos/ekoslive/message.cpp:1147
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mosaic 导入失败。"
@@ -18231,25 +18232,18 @@ msgstr "优化瓦片中心"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsTiltPlate)
 #: ekos/focus/aberrationinspector.ui:125
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Drag the slider to adjust the scale of the "
-#| "Corrections Graphs relative to the scale of the drift graphs.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check if you have a tilt adjustment plate installed. "
 "Shows the Tilt Correction Advisory panel with suggested adjustments.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>拖动滑动条以调整矫正图相对于漂移图的比例。</p></body></"
-"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsTiltPlate)
 #: ekos/focus/aberrationinspector.ui:128
-#, fuzzy, kde-format
-#| msgid "Edit Template"
+#, kde-format
 msgid "Tilt Plate"
-msgstr "编辑模板"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:238
@@ -18289,10 +18283,9 @@ msgstr "左-右瓦片："
 #. i18n: ectx: property (title), widget (Ekos::TiltCorrectionWidget, tiltCorrectionWidget)
 #: ekos/focus/aberrationinspector.ui:317
 #: ekos/focus/tiltcorrectionwidget.cpp:272
-#, fuzzy, kde-format
-#| msgid "Correction Timeout:"
+#, kde-format
 msgid "Tilt Correction Advisory"
-msgstr "校准超时："
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:336
@@ -21552,10 +21545,9 @@ msgid "Sensor (rear view)"
 msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:131
-#, fuzzy, kde-format
-#| msgid "Loading city data"
+#, kde-format
 msgid "No tilt data"
-msgstr "正在加载城市数据"
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:140
 #, kde-format
@@ -21578,22 +21570,19 @@ msgid "%1%2 μm"
 msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:284
-#, fuzzy, kde-format
-#| msgid "Date:"
+#, kde-format
 msgid "Plate:"
-msgstr "日期："
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:286
-#, fuzzy, kde-format
-#| msgid "Points"
+#, kde-format
 msgid "3-point"
-msgstr "点"
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:287
-#, fuzzy, kde-format
-#| msgid "Points"
+#, kde-format
 msgid "4-point"
-msgstr "点"
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:288
 #, kde-format
@@ -21611,11 +21600,10 @@ msgid "Radius:"
 msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:299
-#, fuzzy, kde-format
-#| msgid " mm"
+#, kde-format
 msgctxt "millimeters suffix"
 msgid " mm"
-msgstr " mm"
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:301
 #, kde-format
@@ -21628,10 +21616,9 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:309
-#, fuzzy, kde-format
-#| msgid "Threshold:"
+#, kde-format
 msgid "Thread:"
-msgstr "阈值："
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:311
 #, kde-format
@@ -21688,11 +21675,10 @@ msgid "Wanderer ETA (0.50 mm)"
 msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:320
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "Thread preset"
 msgid "Custom"
-msgstr "自定义"
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:322
 #, kde-format
@@ -21702,10 +21688,9 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:327
-#, fuzzy, kde-format
-#| msgid "Pixel Pitch:"
+#, kde-format
 msgid "Pitch:"
-msgstr "像素间距："
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:331
 #, kde-format
@@ -21868,10 +21853,9 @@ msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:654
 #: ekos/focus/tiltcorrectionwidget.cpp:731
-#, fuzzy, kde-format
-#| msgid "Relative offset in steps"
+#, kde-format
 msgid "Relative mode (± deltas)"
-msgstr "相对的偏移步数"
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:655
 #, kde-format
@@ -21920,10 +21904,9 @@ msgid "⚠ Wanderer ETA M54 not connected"
 msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:819
-#, fuzzy, kde-format
-#| msgid "Where is your equipment connected?"
+#, kde-format
 msgid "Wanderer ETA not connected"
-msgstr "您的设备连接到哪里？"
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:827
 #, kde-format
@@ -21943,11 +21926,9 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:884
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed Correction"
+#, kde-format
 msgid "Partial Correction"
-msgstr "%1 修正失败"
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:885
 #, kde-format
@@ -21960,10 +21941,9 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 properties available"
+#, kde-format
 msgid "⚠ ETA target properties not available"
-msgstr "%1 属性可用"
+msgstr ""
 
 #: ekos/focus/tiltcorrectionwidget.cpp:922
 #, kde-format
@@ -21991,6 +21971,217 @@ msgstr ""
 msgid ""
 "Corrections already applied. Run autofocus again to get fresh tilt "
 "measurements."
+msgstr ""
+
+#: ekos/guide/aiguideprotocol.cpp:195
+#, kde-format
+msgid "No data to train! Please run the protocol first."
+msgstr ""
+
+#: ekos/guide/aiguideprotocol.cpp:196
+#, kde-format
+msgid "No data to train"
+msgstr ""
+
+#: ekos/guide/aiguideprotocol.cpp:201
+#, kde-format
+msgid "Starting AI training via EkosLive cloud..."
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
+#: ekos/guide/aiguidewizard.ui:14
+#, kde-format
+msgid "Ekos Guide AI Assistant (Experimental)"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage1)
+#: ekos/guide/aiguidewizard.ui:21
+#, kde-format
+msgid "Mount Identification"
+msgstr ""
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage1)
+#: ekos/guide/aiguidewizard.ui:24
+#, kde-format
+msgid ""
+"Welcome to the Ekos AI Guiding Assistant. Please verify your mount type "
+"below."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, experimentalWarningLabel)
+#: ekos/guide/aiguidewizard.ui:30
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" color:#ff5500; font-weight:600;\">This "
+"is an experimental feature. </span></p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ekos/guide/aiguidewizard.ui:42
+#, kde-format
+msgid "Detected Mount Type:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
+#: ekos/guide/aiguidewizard.ui:50
+#, kde-format
+msgid "Worm Gear"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
+#: ekos/guide/aiguidewizard.ui:55
+#, kde-format
+msgid "Harmonic Drive"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
+#: ekos/guide/aiguidewizard.ui:60
+#, kde-format
+msgid "Direct Drive"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, exposureLabel)
+#: ekos/guide/aiguidewizard.ui:77
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
+"Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
+"Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
+"\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
+"li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to 3.0s</"
+"li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will be "
+"trained and locked to your current guide exposure.</span></p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
+#: ekos/guide/aiguidewizard.ui:95
+#, kde-format
+msgid "Protocol Preview"
+msgstr ""
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage2)
+#: ekos/guide/aiguidewizard.ui:98
+#, kde-format
+msgid ""
+"The assistant will perform the following steps to characterize the tracking "
+"errors."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, algorithmWarningLabel)
+#: ekos/guide/aiguidewizard.ui:104
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" color:#ff5500;\">The Guide AI Assistant "
+"requires the Standard guiding algorithm for both axes during data "
+"collection. Your current settings will be temporarily changed to Standard "
+"for the duration of the wizard and restored when it completes.</span></p></"
+"body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelWormGear)
+#: ekos/guide/aiguidewizard.ui:127
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
+"(~45 mins):</span><br/>1. Slew to High Altitude : Free drift, then standard "
+"guiding.<br/>2. Slew to Lower Altitude : Free drift, then standard guiding."
+"<br/>3. Slew to High Altitude : Standard guiding.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
+#: ekos/guide/aiguidewizard.ui:147
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
+"Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, pulse "
+"response test, then standard guiding.<br/>2. Slew to Lower Altitude: Free "
+"drift, then standard guiding.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
+#: ekos/guide/aiguidewizard.ui:167
+#, kde-format
+msgid ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
+"Protocol (~20 mins):</span><br/>1. Slew to High, Mid, and Low Altitudes: "
+"Free drift at each position.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
+#: ekos/guide/aiguidewizard.ui:198
+#, kde-format
+msgid "System Identification Progress"
+msgstr ""
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage3)
+#: ekos/guide/aiguidewizard.ui:201
+#, kde-format
+msgid ""
+"Collecting mount telemetry. Please do not interrupt the process unless "
+"necessary."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, statusLabel)
+#: ekos/guide/aiguidewizard.ui:207
+#, kde-format
+msgid "Ready to begin..."
+msgstr ""
+
+#. i18n: ectx: property (html), widget (QTextEdit, logTextEdit)
+#: ekos/guide/aiguidewizard.ui:242
+#, kde-format
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Waiting to start...</p></"
+"body></html>"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QWizardPage, wizardPage4)
+#: ekos/guide/aiguidewizard.ui:250
+#, kde-format
+msgid "Data Collection Complete"
+msgstr ""
+
+#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage4)
+#: ekos/guide/aiguidewizard.ui:253
+#, kde-format
+msgid ""
+"System identification data has been saved. Please choose a training method."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, exportOfflineButton)
+#: ekos/guide/aiguidewizard.ui:266
+#, kde-format
+msgid "Export for offline training"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, exportOfflineButton)
+#: ekos/guide/aiguidewizard.ui:269
+#, kde-format
+msgid ""
+"Saves the system identification data to a JSON file so you can train the AI "
+"model on your local computer using the provided Python scripts."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, trainEkosLiveButton)
+#: ekos/guide/aiguidewizard.ui:285
+#, kde-format
+msgid "Train in EkosLive"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, trainEkosLiveButton)
+#: ekos/guide/aiguidewizard.ui:288
+#, kde-format
+msgid ""
+"Uploads anonymized data to EkosLive Cloud to instantly train your model "
+"using community baselines. (Target coordinates are stripped)."
 msgstr ""
 
 #: ekos/guide/externalguide/linguider.cpp:70
@@ -22333,26 +22524,25 @@ msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: 断开设备..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherEnabled)
-#: ekos/guide/guide.cpp:86 ekos/guide/opsdither.ui:102
+#: ekos/guide/guide.cpp:87 ekos/guide/opsdither.ui:102
 #, kde-format
 msgid "Dither"
 msgstr "抖动"
 
-#: ekos/guide/guide.cpp:90
+#: ekos/guide/guide.cpp:91
 #, kde-format
 msgid "GPG RA Guider"
 msgstr "高斯过程赤经导星（GPG）"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
-#: ekos/guide/guide.cpp:94 ekos/guide/opsguide.ui:116
+#: ekos/guide/guide.cpp:95 ekos/guide/opsguide.ui:116
 #: ekos/guide/opsguide.ui:152
-#, fuzzy, kde-format
-#| msgid "Guider"
+#, kde-format
 msgid "AI Guider"
-msgstr "导星"
+msgstr ""
 
-#: ekos/guide/guide.cpp:443
+#: ekos/guide/guide.cpp:457
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
@@ -22361,7 +22551,7 @@ msgstr ""
 "PHD2 现在相机：%1，未连接到 Ekos。将接收 PHD2 导星图像，但不能接收完整外导星"
 "帧。"
 
-#: ekos/guide/guide.cpp:453
+#: ekos/guide/guide.cpp:467
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
@@ -22371,215 +22561,215 @@ msgstr ""
 "PHD2 的当前摄像头： %1，已连接到 Ekos。 您可以选择接收全视场的外部导星图像，"
 "或勾选截幅复选框只接收 PHD2 的被导星图像。"
 
-#: ekos/guide/guide.cpp:601
+#: ekos/guide/guide.cpp:615
 #, kde-format
 msgid "Connection to the guide camera is lost."
 msgstr "与导星相机的连接丢失。"
 
-#: ekos/guide/guide.cpp:963
+#: ekos/guide/guide.cpp:977
 #, kde-format
 msgid "Guide streaming started."
 msgstr "导星数据流已启动。"
 
-#: ekos/guide/guide.cpp:983
+#: ekos/guide/guide.cpp:997
 #, kde-format
 msgid "Guide streaming stopped."
 msgstr "导星数据流已停止。"
 
-#: ekos/guide/guide.cpp:1142
+#: ekos/guide/guide.cpp:1156
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "曝光超时，但暂停。正在忽略..."
 
-#: ekos/guide/guide.cpp:1170
+#: ekos/guide/guide.cpp:1184
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "曝光超时。中止自动导星。"
 
-#: ekos/guide/guide.cpp:1172
+#: ekos/guide/guide.cpp:1186
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "曝光超时。中止像素偏移。"
 
-#: ekos/guide/guide.cpp:1174
+#: ekos/guide/guide.cpp:1188
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "曝光超时。中止校准。"
 
-#: ekos/guide/guide.cpp:1229
+#: ekos/guide/guide.cpp:1243
 #, kde-format
 msgid "Failed to reconnect camera after driver restart."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1466
+#: ekos/guide/guide.cpp:1480
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1516
+#: ekos/guide/guide.cpp:1530
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1565
+#: ekos/guide/guide.cpp:1579
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "未检测到相机，请检查 optical train 内相机。"
 
-#: ekos/guide/guide.cpp:1571
+#: ekos/guide/guide.cpp:1585
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "未检测到导星镜，请 optical train 中“导星自”选项。"
 
-#: ekos/guide/guide.cpp:1652
+#: ekos/guide/guide.cpp:1666
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "支架已归位，请解除归位以开始导星。"
 
-#: ekos/guide/guide.cpp:1761
+#: ekos/guide/guide.cpp:1775
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "检测到立柱偏向改变。正在清除校准数据。"
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1789
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "赤道仪正在移动，正在重置校准..."
 
-#: ekos/guide/guide.cpp:1792
+#: ekos/guide/guide.cpp:1806
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "赤道仪正在归位，中止导星..."
 
-#: ekos/guide/guide.cpp:1794
+#: ekos/guide/guide.cpp:1808
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "赤道仪正在转动，中止导星..."
 
-#: ekos/guide/guide.cpp:1880
+#: ekos/guide/guide.cpp:1894
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "校准已清除。"
 
-#: ekos/guide/guide.cpp:1908
+#: ekos/guide/guide.cpp:1922
 #, kde-format
 msgid "External guider connected."
 msgstr "外部导星器连接成功。"
 
-#: ekos/guide/guide.cpp:1926
+#: ekos/guide/guide.cpp:1940
 #, kde-format
 msgid "External guider disconnected."
 msgstr "外部到星期连接断开。"
 
-#: ekos/guide/guide.cpp:1943
+#: ekos/guide/guide.cpp:1957
 #, kde-format
 msgid "Calibration completed."
 msgstr "校准完毕。"
 
-#: ekos/guide/guide.cpp:1969
+#: ekos/guide/guide.cpp:1983
 #, kde-format
 msgid "Calibration started."
 msgstr "校准开始。"
 
-#: ekos/guide/guide.cpp:1985
+#: ekos/guide/guide.cpp:1999
 #, kde-format
 msgid "Guiding resumed."
 msgstr "自动导星已经恢复。"
 
-#: ekos/guide/guide.cpp:1989
+#: ekos/guide/guide.cpp:2003
 #, kde-format
 msgid "Autoguiding running."
 msgstr "自动导星运行中。"
 
-#: ekos/guide/guide.cpp:2011
+#: ekos/guide/guide.cpp:2025
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "自动导星已中止。"
 
-#: ekos/guide/guide.cpp:2019
+#: ekos/guide/guide.cpp:2033
 #, kde-format
 msgid "Guiding suspended."
 msgstr "自动导星暂停。"
 
-#: ekos/guide/guide.cpp:2028
+#: ekos/guide/guide.cpp:2042
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "手动抖动中"
 
-#: ekos/guide/guide.cpp:2032
+#: ekos/guide/guide.cpp:2046
 #, kde-format
 msgid "Dithering in progress."
 msgstr "正在进行像素偏移。"
 
-#: ekos/guide/guide.cpp:2036
+#: ekos/guide/guide.cpp:2050
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "抖动后安定 %1 秒中..."
 
-#: ekos/guide/guide.cpp:2041
+#: ekos/guide/guide.cpp:2055
 #, kde-format
 msgid "Dithering failed."
 msgstr "像素偏移失败。"
 
-#: ekos/guide/guide.cpp:2052
+#: ekos/guide/guide.cpp:2066
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "像素偏移成功完成。"
 
-#: ekos/guide/guide.cpp:2110
+#: ekos/guide/guide.cpp:2124
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2134
+#: ekos/guide/guide.cpp:2148
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "曝光失败。重新启动曝光..."
 
-#: ekos/guide/guide.cpp:2269
+#: ekos/guide/guide.cpp:2283
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "激活后无法改变导星器类型。"
 
-#: ekos/guide/guide.cpp:2364
+#: ekos/guide/guide.cpp:2378
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr "警告：已启用导星校准重置。建议关闭此 PHD2 选项。"
 
-#: ekos/guide/guide.cpp:2804
+#: ekos/guide/guide.cpp:2818
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "校准启动失败。"
 
-#: ekos/guide/guide.cpp:2955
+#: ekos/guide/guide.cpp:2969
 #, kde-format
 msgid "Auto star selected."
 msgstr "自动选中被导星。"
 
-#: ekos/guide/guide.cpp:2959
+#: ekos/guide/guide.cpp:2973
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "自动选择被导星失败。"
 
-#: ekos/guide/guide.cpp:2968
+#: ekos/guide/guide.cpp:2982
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "选择一颗被导星来进行校准。"
 
-#: ekos/guide/guide.cpp:3230
+#: ekos/guide/guide.cpp:3244
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx( 像素 )"
 
-#: ekos/guide/guide.cpp:3231
+#: ekos/guide/guide.cpp:3245
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (像素)"
 
-#: ekos/guide/guide.cpp:3374 ekos/guide/guide.cpp:3523
+#: ekos/guide/guide.cpp:3388 ekos/guide/guide.cpp:3537
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -22588,7 +22778,7 @@ msgstr ""
 "PHD2 的相机在 Ekos 不可用，所以您未能看到拍摄的图像。 但您在导星时仍可看到被"
 "导星图像。"
 
-#: ekos/guide/guide.cpp:3378 ekos/guide/guide.cpp:3527
+#: ekos/guide/guide.cpp:3392 ekos/guide/guide.cpp:3541
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -22598,61 +22788,62 @@ msgstr ""
 "为了接收 PHD2 图像而不是被导星图像，必须取消勾选截幅。 请现在取消勾选以拍摄图"
 "像。您可以在导星前重新启用它。"
 
-#: ekos/guide/guide.cpp:3459
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#: ekos/guide/guide.cpp:3473
+#, kde-format
 msgid "AI Guiding Assistant..."
-msgstr "查找星点..."
+msgstr ""
 
-#: ekos/guide/guide.cpp:3464
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#: ekos/guide/guide.cpp:3478
+#, kde-format
 msgid "Load Weights..."
-msgstr "加载中..."
+msgstr ""
 
-#: ekos/guide/guide.cpp:3567
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s"
+#: ekos/guide/guide.cpp:3584 ekos/guide/guide.cpp:3589
+#, kde-format
 msgid "EkosLive AI training failed: %1"
-msgstr "解析器失败： %1s"
+msgstr ""
 
-#: ekos/guide/guide.cpp:3568
-#, fuzzy, kde-format
-#| msgid "Unknown error"
+#: ekos/guide/guide.cpp:3585 ekos/guide/guide.cpp:3590
+#, kde-format
 msgid "unknown error"
-msgstr "未知的错误"
+msgstr ""
 
-#: ekos/guide/guide.cpp:3584
-#, fuzzy, kde-format
-#| msgid "Failed to save queue to %1"
+#: ekos/guide/guide.cpp:3604
+#, kde-format
 msgid "Failed to save AI weights to %1"
-msgstr "无法保存队列到 %1"
+msgstr ""
 
-#: ekos/guide/guide.cpp:3594
+#: ekos/guide/guide.cpp:3614
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3602
+#: ekos/guide/guide.cpp:3618
+#, fuzzy, kde-format
+#| msgid "Alignment List saved to %1"
+msgid "AI training complete. Weights saved to %1."
+msgstr "对齐方式列表保存到 %1"
+
+#: ekos/guide/guide.cpp:3624
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3603
+#: ekos/guide/guide.cpp:3625
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3607
+#: ekos/guide/guide.cpp:3629
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
 "starts."
 msgstr ""
 
-#: ekos/guide/guide.cpp:3764
+#: ekos/guide/guide.cpp:3786
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "不能更改 optical train 当已连上 PHD2 时"
@@ -23247,11 +23438,9 @@ msgid "Warm up"
 msgstr ""
 
 #: ekos/guide/guidestatewidget.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Activate"
+#, kde-format
 msgid "Active"
-msgstr "启动"
+msgstr ""
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:178
 #, kde-format
@@ -23368,10 +23557,9 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/internalguide/gmath.cpp:293
-#, fuzzy, kde-format
-#| msgid "RA Guide Error"
+#, kde-format
 msgid "AI Guider Error"
-msgstr "赤经导星错误"
+msgstr ""
 
 #: ekos/guide/internalguide/gmath.cpp:304
 #, kde-format
@@ -23529,10 +23717,9 @@ msgstr "DE Offset\":"
 
 #. i18n: ectx: property (title), widget (QGroupBox, aiGroupBox)
 #: ekos/guide/opsaiconfig.ui:32
-#, fuzzy, kde-format
-#| msgid "Invalid Configuration"
+#, kde-format
 msgid "AI Guiding Configuration"
-msgstr "无效配置"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, aiGroupBox)
 #: ekos/guide/opsaiconfig.ui:35
@@ -23604,10 +23791,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:79
-#, fuzzy, kde-format
-#| msgid "East Direction Guiding"
+#, kde-format
 msgid "Enable Predictive Dark Guiding"
-msgstr "东向导星"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AIDarkGuiding)
 #: ekos/guide/opsaiconfig.ui:82
@@ -23621,10 +23807,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_darkGuidingInterval)
 #: ekos/guide/opsaiconfig.ui:91
-#, fuzzy, kde-format
-#| msgid "Dark guiding interval"
+#, kde-format
 msgid "Dark Guiding Interval (s):"
-msgstr "暗导星间隔"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_darkGuidingInterval)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_AIDarkGuidingInterval)
@@ -23634,256 +23819,6 @@ msgid ""
 "Seconds between predicted feed-forward pulses when there is no guide-star "
 "measurement (dither settling, autofocus runs, camera downloads). Only used "
 "when Predictive Dark Guiding is enabled."
-msgstr ""
-
-#. i18n: ectx: property (windowTitle), widget (QWizard, OpsAIGuide)
-#: ekos/guide/opsaiguide.ui:14
-#, kde-format
-msgid "Ekos Guide AI Assistant (Experimental)"
-msgstr ""
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage1)
-#: ekos/guide/opsaiguide.ui:21
-#, fuzzy, kde-format
-#| msgid "Mount direction"
-msgid "Mount Identification"
-msgstr "赤道仪方向"
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage1)
-#: ekos/guide/opsaiguide.ui:24
-#, kde-format
-msgid ""
-"Welcome to the Ekos AI Guiding Assistant. Please verify your mount type "
-"below."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, experimentalWarningLabel)
-#: ekos/guide/opsaiguide.ui:30
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
-#| "</span></p></body></html>"
-msgid ""
-"<html><head/><body><p><span style=\" color:#ff5500; font-weight:600;\">This "
-"is an experimental feature. </span></p></body></html>"
-msgstr ""
-"<html><head/> <body><p><span style=\"font-weight:600;\"> 在线资源：</span></"
-"p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/guide/opsaiguide.ui:42
-#, fuzzy, kde-format
-#| msgid "Mount Type:"
-msgid "Detected Mount Type:"
-msgstr "支架类型："
-
-#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
-#: ekos/guide/opsaiguide.ui:50
-#, kde-format
-msgid "Worm Gear"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
-#: ekos/guide/opsaiguide.ui:55
-#, kde-format
-msgid "Harmonic Drive"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (QComboBox, mountTypeCombo)
-#: ekos/guide/opsaiguide.ui:60
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Direction"
-msgid "Direct Drive"
-msgstr "方向"
-
-#. i18n: ectx: property (text), widget (QLabel, exposureLabel)
-#: ekos/guide/opsaiguide.ui:77
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Exposure "
-"Recommendations:</span></p><ul><li><span style=\" font-weight:600;\">Worm "
-"Gear:</span> 2.0s (Default)</li><li><span style=\" font-weight:600;"
-"\">Harmonic Drive:</span> 0.5s or 1.0s (Depends on guide star SNR)</"
-"li><li><span style=\" font-weight:600;\">Direct Drive:</span> 1.0s to 3.0s</"
-"li></ul><p><span style=\" color:#ff5500;\">Note: The AI model will be "
-"trained and locked to your current guide exposure.</span></p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage2)
-#: ekos/guide/opsaiguide.ui:95
-#, fuzzy, kde-format
-#| msgid "Print preview"
-msgid "Protocol Preview"
-msgstr "打印预览"
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage2)
-#: ekos/guide/opsaiguide.ui:98
-#, kde-format
-msgid ""
-"The assistant will perform the following steps to characterize the tracking "
-"errors."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, algorithmWarningLabel)
-#: ekos/guide/opsaiguide.ui:104
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" color:#ff5500;\">The Guide AI Assistant "
-"requires the Standard guiding algorithm for both axes during data "
-"collection. Your current settings will be temporarily changed to Standard "
-"for the duration of the wizard and restored when it completes.</span></p></"
-"body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelWormGear)
-#: ekos/guide/opsaiguide.ui:127
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Worm Gear Protocol "
-"(~45 mins):</span><br/>1. Slew to High Altitude : Free drift, then standard "
-"guiding.<br/>2. Slew to Lower Altitude : Free drift, then standard guiding."
-"<br/>3. Slew to High Altitude : Standard guiding.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelHarmonic)
-#: ekos/guide/opsaiguide.ui:147
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Harmonic Drive "
-"Protocol (~35 mins):</span><br/>1. Slew to High Altitude: Free drift, pulse "
-"response test, then standard guiding.<br/>2. Slew to Lower Altitude: Free "
-"drift, then standard guiding.</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelDirectDrive)
-#: ekos/guide/opsaiguide.ui:167
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:"
-#| "</span></p></body></html>"
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Direct Drive "
-"Protocol (~20 mins):</span><br/>1. Slew to High, Mid, and Low Altitudes: "
-"Free drift at each position.</p></body></html>"
-msgstr ""
-"<html><head/> <body><p><span style=\"font-weight:600;\"> 在线资源：</span></"
-"p></body></html>"
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage3)
-#: ekos/guide/opsaiguide.ui:198
-#, fuzzy, kde-format
-#| msgid "Shutter opening is in progress"
-msgid "System Identification Progress"
-msgstr "快门正在打开"
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage3)
-#: ekos/guide/opsaiguide.ui:201
-#, kde-format
-msgid ""
-"Collecting mount telemetry. Please do not interrupt the process unless "
-"necessary."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, statusLabel)
-#: ekos/guide/opsaiguide.ui:207
-#, kde-format
-msgid "Ready to begin..."
-msgstr ""
-
-#. i18n: ectx: property (html), widget (QTextEdit, logTextEdit)
-#: ekos/guide/opsaiguide.ui:242
-#, fuzzy, kde-format
-#| msgid ""
-#| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#| "REC-html40/strict.dtd\">\n"
-#| "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#| "css\">\n"
-#| "p, li { white-space: pre-wrap; }\n"
-#| "</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
-#| "size:13pt; font-weight:400; font-style:normal;\">\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Selection mode of the "
-#| "3D Graphic:</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- None.</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- Item selects the "
-#| "nearest datapoint.</p>\n"
-#| "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">- Slice produces a 2D "
-#| "slice through the graphic.</p></body></html>"
-msgid ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Waiting to start...</p></"
-"body></html>"
-msgstr ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'.AppleSystemUIFont'; font-"
-"size:13pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">3D 图像的选区模式：</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">- 无。</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">- 离数据点最近的项目。</"
-"p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">- 从图像作 2D 层切。</p></"
-"body></html>"
-
-#. i18n: ectx: property (title), widget (QWizardPage, wizardPage4)
-#: ekos/guide/opsaiguide.ui:250
-#, fuzzy, kde-format
-#| msgid "Detection complete."
-msgid "Data Collection Complete"
-msgstr "检测完成。"
-
-#. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage4)
-#: ekos/guide/opsaiguide.ui:253
-#, kde-format
-msgid ""
-"System identification data has been saved. Please choose a training method."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QPushButton, exportOfflineButton)
-#: ekos/guide/opsaiguide.ui:266
-#, kde-format
-msgid "Export for offline training"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, exportOfflineButton)
-#: ekos/guide/opsaiguide.ui:269
-#, kde-format
-msgid ""
-"Saves the system identification data to a JSON file so you can train the AI "
-"model on your local computer using the provided Python scripts."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QPushButton, trainEkosLiveButton)
-#: ekos/guide/opsaiguide.ui:285
-#, fuzzy, kde-format
-#| msgid "Ekos Live"
-msgid "Train in EkosLive"
-msgstr "Ekos Live"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, trainEkosLiveButton)
-#: ekos/guide/opsaiguide.ui:288
-#, kde-format
-msgid ""
-"Uploads anonymized data to EkosLive Cloud to instantly train your model "
-"using community baselines. (Target coordinates are stripped)."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
@@ -25447,62 +25382,62 @@ msgstr "%1 灯箱已上线。"
 msgid "%1 is offline."
 msgstr "%1 离线。"
 
-#: ekos/manager.cpp:2884
+#: ekos/manager.cpp:2900
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "端口 %1 的导星器已就绪。"
 
-#: ekos/manager.cpp:3147
+#: ekos/manager.cpp:3163
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "您确定要删除此配置文件吗？"
 
-#: ekos/manager.cpp:3148
+#: ekos/manager.cpp:3164
 #, kde-format
 msgid "Confirm Delete"
 msgstr "确认删除"
 
-#: ekos/manager.cpp:3200
+#: ekos/manager.cpp:3216
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "站址更新至 %1。"
 
-#: ekos/manager.cpp:3202
+#: ekos/manager.cpp:3218
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "更新站址至 %1 失败。未能找到城市。"
 
-#: ekos/manager.cpp:3475
+#: ekos/manager.cpp:3491
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "为%1启用调试日志记录"
 
-#: ekos/manager.cpp:3483
+#: ekos/manager.cpp:3499
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "为%1禁用调试日志"
 
-#: ekos/manager.cpp:3511
+#: ekos/manager.cpp:3527
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "为%1重新启用调试日志"
 
-#: ekos/manager.cpp:3523
+#: ekos/manager.cpp:3539
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "为%1重新禁用调试日志"
 
-#: ekos/manager.cpp:4319
+#: ekos/manager.cpp:4335
 #, kde-format
 msgid "Preview source set to external"
 msgstr "预览源设置为外部"
 
-#: ekos/manager.cpp:4326
+#: ekos/manager.cpp:4342
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "预览源重置为内部"
 
-#: ekos/manager.cpp:4333
+#: ekos/manager.cpp:4349
 #, kde-format
 msgid "Received external preview file"
 msgstr "收到外部预览文件"
@@ -26842,16 +26777,14 @@ msgid "read-only"
 msgstr ""
 
 #: ekos/opsekos.cpp:244
-#, fuzzy, kde-format
-#| msgid "Rotating"
+#, kde-format
 msgid "mutating"
-msgstr "旋转中"
+msgstr ""
 
 #: ekos/opsekos.cpp:245
-#, fuzzy, kde-format
-#| msgid "Iterative"
+#, kde-format
 msgid "destructive"
-msgstr "迭代"
+msgstr ""
 
 #: ekos/opsekos.cpp:246
 #, kde-format
@@ -27048,17 +26981,15 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, mcpToolsGroupBox)
 #: ekos/opsekos.ui:527
-#, fuzzy, kde-format
-#| msgid "Available Collections"
+#, kde-format
 msgid "Available tools"
-msgstr "可用的合集"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, mcpToolsTree)
 #: ekos/opsekos.ui:549
-#, fuzzy, kde-format
-#| msgid "Tools"
+#, kde-format
 msgid "Tool"
-msgstr "工具"
+msgstr ""
 
 #: ekos/profileeditor.cpp:51
 #, kde-format
@@ -43216,10 +43147,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (tiltRotation), group (Focus)
 #: kstars.kcfg:2795
-#, fuzzy, kde-format
-#| msgid "Terrain image altitude correction degrees:"
+#, kde-format
 msgid "Camera rotation for tilt correction diagram in degrees."
-msgstr "地景图像高度角校正角度："
+msgstr ""
 
 #. i18n: ectx: label, entry (tiltMode), group (Focus)
 #: kstars.kcfg:2799
