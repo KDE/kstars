@@ -1603,12 +1603,14 @@ CaptureHistory::FrameData Focus::calculateCurrentMeasureAndWeight()
         getFWHM(m_ImageData->getStarCenters(), &newFWHM, &newWeight);
         frameData.fwhm = newFWHM;
         frameData.measure = newFWHM;
+        frameData.weight = newWeight;
     }
     else if (m_StarMeasure == FOCUS_STAR_FOURIER_POWER)
     {
 
         getFourierPower(&newFourierPower, &newWeight);
         frameData.measure = newFourierPower;
+        frameData.weight = newWeight;
     }
     else if (m_StarMeasure == FOCUS_STAR_STDDEV || m_StarMeasure == FOCUS_STAR_SOBEL ||
              m_StarMeasure == FOCUS_STAR_LAPLASSIAN || m_StarMeasure == FOCUS_STAR_CANNY)
@@ -1618,6 +1620,7 @@ CaptureHistory::FrameData Focus::calculateCurrentMeasureAndWeight()
             roi = m_FocusView->isTrackingBoxEnabled() ? m_FocusView->getTrackingBox() : QRect();
         getBlurriness(m_StarMeasure, m_OpsFocusProcess->focusDenoise->isChecked(), &newBlurriness, &newWeight, roi);
         frameData.measure = newBlurriness;
+        frameData.weight = newWeight;
     }
     else
     {
@@ -3874,7 +3877,7 @@ void Focus::scanStartPos()
     const int step = m_scanPosition.size();
     const int maxSteps = m_OpsFocusProcess->focusScanDatapoints->value();
     const int stepSize = m_OpsFocusMechanics->focusTicks->value() * m_OpsFocusProcess->focusScanStepSizeFactor->value();
-    Q_EMIT newHFRPlotPosition(static_cast<double>(currentPosition), getLastMeasure(), pow(getLastMeasure(), -0.5), false,
+    Q_EMIT newHFRPlotPosition(static_cast<double>(currentPosition), getLastMeasure(), pow(getLastWeight(), -0.5), false,
                               stepSize,
                               true);
     if (step < maxSteps)
@@ -3938,7 +3941,7 @@ void Focus::autoFocusLinear()
                             && m_OpsFocusProcess->focusFramesCount->value() == 1;
     auto focusStars = useFocusStarsHFR || (m_FocusAlgorithm == FOCUS_LINEAR1PASS) ? &(m_ImageData->getStarCenters()) : nullptr;
 
-    linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, getLastMeasure(), getLastMeasure(), focusStars);
+    linearRequestedPosition = linearFocuser->newMeasurement(currentPosition, getLastMeasure(), getLastWeight(), focusStars);
     if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && linearFocuser->isDone() && linearFocuser->solution() != -1)
     {
         // Linear 1 Pass is done, graph is drawn, so just move to the focus position, and update the graph.
