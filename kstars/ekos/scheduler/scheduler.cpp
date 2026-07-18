@@ -1105,11 +1105,11 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
         if (existingJob->getName() == nameEdit->text() &&
                 existingJob->getSequenceFile() == QUrl::fromLocalFile(sequenceEdit->text()))
         {
+            // issue a warning but continue
             process()->appendLogText(
                 i18n("Warning: A job with name '%1' and the same sequence file already exists. "
                  "This would cause both jobs to complete simultaneously due to shared storage.",
                      nameEdit->text()));
-            return false;
         }
     }
 
