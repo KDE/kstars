@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-18 02:08+0000\n"
+"POT-Creation-Date: 2026-07-19 02:06+0000\n"
 "PO-Revision-Date: 2002-11-09 20:07+0200\n"
 "Last-Translator: Thelma Lungcuzo <thelma@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -6815,7 +6815,7 @@ msgstr ""
 msgid "Dustcap error detected. Aborting alignment."
 msgstr ""
 
-#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5897
+#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5900
 #, fuzzy, kde-format
 msgid "Dustcap device %1 removed."
 msgstr "Goose Creek"
@@ -6885,7 +6885,7 @@ msgid "Refresh is complete."
 msgstr "Ikhaya"
 
 #: ekos/align/align_goto.cpp:94 ekos/auxiliary/darklibrary.cpp:1456
-#: ekos/focus/focus.cpp:1711
+#: ekos/focus/focus.cpp:1714
 #, fuzzy, kde-format
 msgid "Capture aborted."
 msgstr "Gcina umfanekiso"
@@ -7045,7 +7045,7 @@ msgid "dDE (arcsec)"
 msgstr "Entsundu"
 
 #: ekos/align/align_settings.cpp:225 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5977
+#: ekos/focus/focus.cpp:5980
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -7197,7 +7197,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Dibanisa"
 
 #: ekos/align/align_solver.cpp:130 ekos/capture/cameraprocess.cpp:236
-#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6096
+#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6099
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -7242,13 +7242,13 @@ msgid ""
 "solve)..."
 msgstr "Iyaququzela"
 
-#: ekos/align/align_solver.cpp:317 ekos/focus/focus.cpp:2014
+#: ekos/align/align_solver.cpp:317 ekos/focus/focus.cpp:2017
 #, fuzzy, kde-format
 msgid "Capturing image..."
 msgstr "Ilayisha i KStars..."
 
 #: ekos/align/align_solver.cpp:412 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:3182
+#: ekos/focus/focus.cpp:3185
 #, fuzzy, kde-format
 msgid "Image received."
 msgstr "Umfanekiso"
@@ -7399,19 +7399,19 @@ msgid ""
 msgstr ""
 
 #: ekos/align/align_solver.cpp:1199 ekos/capture/cameraprocess.cpp:2158
-#: ekos/focus/focus.cpp:6151
+#: ekos/focus/focus.cpp:6154
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Gcina umfanekiso"
 
-#: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6158
+#: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6161
 #: ekos/guide/guide.cpp:1197
 #, fuzzy, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Gcina umfanekiso"
 
 #: ekos/align/align_solver.cpp:1227 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6172 ekos/guide/guide.cpp:1162
+#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1162
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr ""
@@ -18923,7 +18923,7 @@ msgstr "Icebo lesixeko lokucoca"
 msgid "No Focuser connected."
 msgstr "Winskin"
 
-#: ekos/focus/focus.cpp:1151 ekos/focus/focus.cpp:5053
+#: ekos/focus/focus.cpp:1151 ekos/focus/focus.cpp:5056
 #, fuzzy, kde-format
 msgid "No camera connected."
 msgstr "Winskin"
@@ -18949,8 +18949,8 @@ msgstr ""
 msgid "In Focus Loop, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5480
-#: ekos/focus/focus.cpp:5755
+#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5483
+#: ekos/focus/focus.cpp:5758
 #, fuzzy, kde-format
 #| msgid "Start Clock"
 msgid "Adjust Focus"
@@ -18958,8 +18958,8 @@ msgstr "Qala ikloko"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5482
-#: ekos/focus/focus.cpp:5755 ekos/focus/opsfocussettings.ui:503
+#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5485
+#: ekos/focus/focus.cpp:5758 ekos/focus/opsfocussettings.ui:503
 #: ekos/focus/opsfocussettings.ui:583
 #, fuzzy, kde-format
 msgid "Adaptive Focus"
@@ -18990,112 +18990,112 @@ msgstr "Alice"
 msgid "Autofocus operation started"
 msgstr "Amanani akunika indawo ncam kwi Cartesian"
 
-#: ekos/focus/focus.cpp:1547 ekos/focus/focus.cpp:2361
+#: ekos/focus/focus.cpp:1547 ekos/focus/focus.cpp:2364
 #, fuzzy, kde-format
 msgid "Detection complete."
 msgstr "Ikhaya"
 
-#: ekos/focus/focus.cpp:1716
+#: ekos/focus/focus.cpp:1719
 #, fuzzy, kde-format
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Fumana umxholo"
 
-#: ekos/focus/focus.cpp:1730
+#: ekos/focus/focus.cpp:1733
 #, fuzzy, kde-format
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "Fumana umxholo"
 
-#: ekos/focus/focus.cpp:1734
+#: ekos/focus/focus.cpp:1737
 #, fuzzy, kde-format
 msgid "Star detection still in progress, aborting..."
 msgstr "Fumana umxholo"
 
-#: ekos/focus/focus.cpp:1783
+#: ekos/focus/focus.cpp:1786
 #, fuzzy, kde-format
 msgid "Autofocus aborted."
 msgstr "Ikhaya"
 
-#: ekos/focus/focus.cpp:1887
+#: ekos/focus/focus.cpp:1890
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1894
+#: ekos/focus/focus.cpp:1897
 #, fuzzy, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Dibanisa"
 
-#: ekos/focus/focus.cpp:1902
+#: ekos/focus/focus.cpp:1905
 #, fuzzy, kde-format
 msgid "Dustcap is parked. Unparking before capture..."
 msgstr "Goose Creek"
 
-#: ekos/focus/focus.cpp:1910
+#: ekos/focus/focus.cpp:1913
 #, kde-format
 msgid "Dustcap is not ready (status: %1). Waiting before capture..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1934
+#: ekos/focus/focus.cpp:1937
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1940
+#: ekos/focus/focus.cpp:1943
 #, fuzzy, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Dibanisa"
 
-#: ekos/focus/focus.cpp:2058
+#: ekos/focus/focus.cpp:2061
 #, fuzzy, kde-format
 msgid "At minimum focus position %1..."
 msgstr "RA"
 
-#: ekos/focus/focus.cpp:2073
+#: ekos/focus/focus.cpp:2076
 #, fuzzy, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "Ilayisha i KStars..."
 
-#: ekos/focus/focus.cpp:2082
+#: ekos/focus/focus.cpp:2085
 #, fuzzy, kde-format
 msgid "At maximum focus position %1..."
 msgstr "RA"
 
-#: ekos/focus/focus.cpp:2097
+#: ekos/focus/focus.cpp:2100
 #, fuzzy, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "RA"
 
-#: ekos/focus/focus.cpp:2124
+#: ekos/focus/focus.cpp:2127
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2131
+#: ekos/focus/focus.cpp:2134
 #, fuzzy, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Dibanisa"
 
-#: ekos/focus/focus.cpp:2145
+#: ekos/focus/focus.cpp:2148
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Seward"
 msgid "outward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:2145
+#: ekos/focus/focus.cpp:2148
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Seward"
 msgid "inward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:2162
+#: ekos/focus/focus.cpp:2165
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 steps..."
 msgstr "Iqwalasele ku: "
 
-#: ekos/focus/focus.cpp:2168
+#: ekos/focus/focus.cpp:2171
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 step..."
@@ -19103,365 +19103,365 @@ msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Iqwalasele ku: "
 msgstr[1] "Iqwalasele ku: "
 
-#: ekos/focus/focus.cpp:2174
+#: ekos/focus/focus.cpp:2177
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focusing %2 by %1 ms..."
 msgstr "Iqwalasele ku: "
 
-#: ekos/focus/focus.cpp:2209
+#: ekos/focus/focus.cpp:2212
 #, fuzzy, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Gcina umfanekiso"
 
-#: ekos/focus/focus.cpp:2216
+#: ekos/focus/focus.cpp:2219
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "Iqwalasele ku: "
 
-#: ekos/focus/focus.cpp:2229
+#: ekos/focus/focus.cpp:2232
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Iqwalasele ku: "
 
-#: ekos/focus/focus.cpp:2275
+#: ekos/focus/focus.cpp:2278
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:2284
+#: ekos/focus/focus.cpp:2287
 #, fuzzy, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Gcina umfanekiso"
 
-#: ekos/focus/focus.cpp:2554
+#: ekos/focus/focus.cpp:2557
 #, fuzzy, kde-format
 msgid "Detecting sources..."
 msgstr "Ilayisha i KStars..."
 
-#: ekos/focus/focus.cpp:2690
+#: ekos/focus/focus.cpp:2693
 #, fuzzy, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Amanani akunika indawo ncam kwi Cartesian"
 
-#: ekos/focus/focus.cpp:2704
+#: ekos/focus/focus.cpp:2707
 #, fuzzy, kde-format
 msgid "Autofocus operation failed"
 msgstr "Amanani akunika indawo ncam kwi Cartesian"
 
-#: ekos/focus/focus.cpp:2773
+#: ekos/focus/focus.cpp:2776
 #, fuzzy, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Ikhaya"
 msgstr[1] "Ikhaya"
 
-#: ekos/focus/focus.cpp:2860
+#: ekos/focus/focus.cpp:2863
 #, fuzzy, kde-format
 msgid "Settling for %1s..."
 msgstr "Kettering"
 
-#: ekos/focus/focus.cpp:2868
+#: ekos/focus/focus.cpp:2871
 #, fuzzy, kde-format
 msgid "Settling complete."
 msgstr "Ikhaya"
 
-#: ekos/focus/focus.cpp:2881
+#: ekos/focus/focus.cpp:2884
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2914
+#: ekos/focus/focus.cpp:2917
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3247
+#: ekos/focus/focus.cpp:3250
 #, fuzzy, kde-format
 #| msgid "Toggle Coordinate Grid"
 msgid "Capture complete. Select a region of interest."
 msgstr "Qoboshela Inani elikunika indawo ncam Kwindibaniso ezinamandla ombane"
 
-#: ekos/focus/focus.cpp:3288
+#: ekos/focus/focus.cpp:3291
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3382
+#: ekos/focus/focus.cpp:3385
 #, fuzzy, kde-format
 #| msgid "Toggle Coordinate Grid"
 msgid "Capture complete. Select a star to focus."
 msgstr "Qoboshela Inani elikunika indawo ncam Kwindibaniso ezinamandla ombane"
 
-#: ekos/focus/focus.cpp:3413
+#: ekos/focus/focus.cpp:3416
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3434
+#: ekos/focus/focus.cpp:3437
 #, fuzzy, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "Ukutshona kwelanga:"
 
-#: ekos/focus/focus.cpp:3576
+#: ekos/focus/focus.cpp:3579
 #, fuzzy, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Ikhaya"
 
-#: ekos/focus/focus.cpp:3587 ekos/focus/focus.cpp:3849
-#: ekos/focus/focus.cpp:4457
+#: ekos/focus/focus.cpp:3590 ekos/focus/focus.cpp:3852
+#: ekos/focus/focus.cpp:4460
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3593 ekos/focus/focus.cpp:4463
+#: ekos/focus/focus.cpp:3596 ekos/focus/focus.cpp:4466
 #, fuzzy, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "imifanekiso Yelanga Yemihla yonke"
 
-#: ekos/focus/focus.cpp:3599 ekos/focus/focus.cpp:4469
+#: ekos/focus/focus.cpp:3602 ekos/focus/focus.cpp:4472
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3786
+#: ekos/focus/focus.cpp:3789
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3806
+#: ekos/focus/focus.cpp:3809
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3832
+#: ekos/focus/focus.cpp:3835
 #, fuzzy, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Ilayisha i KStars..."
 
-#: ekos/focus/focus.cpp:3833
+#: ekos/focus/focus.cpp:3836
 #, fuzzy, kde-format
 msgid "Scanning for starting position..."
 msgstr "Ayinakuvula Ifayile"
 
-#: ekos/focus/focus.cpp:3855
+#: ekos/focus/focus.cpp:3858
 #, fuzzy, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "imifanekiso Yelanga Yemihla yonke"
 
-#: ekos/focus/focus.cpp:3864
+#: ekos/focus/focus.cpp:3867
 #, fuzzy, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Ikhaya"
 
-#: ekos/focus/focus.cpp:3883
+#: ekos/focus/focus.cpp:3886
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3897
+#: ekos/focus/focus.cpp:3900
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3910
+#: ekos/focus/focus.cpp:3913
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3911
+#: ekos/focus/focus.cpp:3914
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3980
+#: ekos/focus/focus.cpp:3983
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3982
+#: ekos/focus/focus.cpp:3985
 #, fuzzy, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "Ukutshona kwelanga:"
 
-#: ekos/focus/focus.cpp:3990
+#: ekos/focus/focus.cpp:3993
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4000
+#: ekos/focus/focus.cpp:4003
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:4035
+#: ekos/focus/focus.cpp:4038
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:4037
+#: ekos/focus/focus.cpp:4040
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4098
+#: ekos/focus/focus.cpp:4101
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4105
+#: ekos/focus/focus.cpp:4108
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4211
+#: ekos/focus/focus.cpp:4214
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:4275
+#: ekos/focus/focus.cpp:4278
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4286
+#: ekos/focus/focus.cpp:4289
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4296
+#: ekos/focus/focus.cpp:4299
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4325
+#: ekos/focus/focus.cpp:4328
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4442
+#: ekos/focus/focus.cpp:4445
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:4446
+#: ekos/focus/focus.cpp:4449
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4560 ekos/focus/focus.cpp:4583
-#: ekos/focus/focus.cpp:4768 ekos/focus/focus.cpp:4861
-#: ekos/focus/focus.cpp:4943 ekos/focus/focus.cpp:5028
+#: ekos/focus/focus.cpp:4563 ekos/focus/focus.cpp:4586
+#: ekos/focus/focus.cpp:4771 ekos/focus/focus.cpp:4864
+#: ekos/focus/focus.cpp:4946 ekos/focus/focus.cpp:5031
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4644 ekos/focus/focus.cpp:4784
+#: ekos/focus/focus.cpp:4647 ekos/focus/focus.cpp:4787
 #, fuzzy, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Ikhaya"
 
-#: ekos/focus/focus.cpp:4745 ekos/focus/focus.cpp:4842
-#: ekos/focus/focus.cpp:4924 ekos/focus/focus.cpp:4965
+#: ekos/focus/focus.cpp:4748 ekos/focus/focus.cpp:4845
+#: ekos/focus/focus.cpp:4927 ekos/focus/focus.cpp:4968
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Restarting autofocus process..."
 msgstr "Farmington"
 
-#: ekos/focus/focus.cpp:5069
+#: ekos/focus/focus.cpp:5072
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Starting continuous exposure..."
 msgstr "Farmington"
 
-#: ekos/focus/focus.cpp:5450
+#: ekos/focus/focus.cpp:5453
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5456
+#: ekos/focus/focus.cpp:5459
 #, fuzzy, kde-format
 msgid "Focus star is selected."
 msgstr "Akukho Njongo ekhetiweyo!"
 
-#: ekos/focus/focus.cpp:5458
+#: ekos/focus/focus.cpp:5461
 #, fuzzy, kde-format
 msgid "Region of interest is selected."
 msgstr "Akukho Njongo ekhetiweyo!"
 
-#: ekos/focus/focus.cpp:5478
+#: ekos/focus/focus.cpp:5481
 #, fuzzy, kde-format
 #| msgid "Start Clock"
 msgid "Autofocus"
 msgstr "Qala ikloko"
 
-#: ekos/focus/focus.cpp:5486
+#: ekos/focus/focus.cpp:5489
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5494
+#: ekos/focus/focus.cpp:5497
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5507
+#: ekos/focus/focus.cpp:5510
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 
-#: ekos/focus/focus.cpp:5512
+#: ekos/focus/focus.cpp:5515
 #, fuzzy, kde-format
 msgid "Capturing to check HFR..."
 msgstr "Ilayisha i KStars..."
 
-#: ekos/focus/focus.cpp:5642
+#: ekos/focus/focus.cpp:5645
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5648
+#: ekos/focus/focus.cpp:5651
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5659
+#: ekos/focus/focus.cpp:5662
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focuser already at %1..."
 msgstr "Iqwalasele ku: "
 
-#: ekos/focus/focus.cpp:5758
+#: ekos/focus/focus.cpp:5761
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5792
+#: ekos/focus/focus.cpp:5795
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Iqwalasele ku: "
 
-#: ekos/focus/focus.cpp:6196
+#: ekos/focus/focus.cpp:6199
 #, fuzzy, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "imifanekiso Yelanga Yemihla yonke"
 
-#: ekos/focus/focus.cpp:6211 ekos/focus/focus.cpp:6236
+#: ekos/focus/focus.cpp:6214 ekos/focus/focus.cpp:6239
 #, fuzzy, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Gcina umfanekiso"
 
-#: ekos/focus/focus.cpp:6535
+#: ekos/focus/focus.cpp:6538
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -28769,7 +28769,7 @@ msgstr "Spencer"
 msgid "Warning: Target name is required."
 msgstr "Apparent Amanani akunika indawo ncam"
 
-#: ekos/scheduler/scheduler.cpp:1109
+#: ekos/scheduler/scheduler.cpp:1110
 #, kde-format
 msgid ""
 "Warning: A job with name '%1' and the same sequence file already exists. "

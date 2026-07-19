@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-18 02:08+0000\n"
+"POT-Creation-Date: 2026-07-19 02:06+0000\n"
 "PO-Revision-Date: 2026-04-10 12:00+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -6776,7 +6776,7 @@ msgstr "Krytka prachu odparkovana. Obnovuje sa snímanie a riešenie."
 msgid "Dustcap error detected. Aborting alignment."
 msgstr "Zistená chyba krytky prachu. Ruší sa zarovnanie."
 
-#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5897
+#: ekos/align/align_devices.cpp:354 ekos/focus/focus.cpp:5900
 #, kde-format
 msgid "Dustcap device %1 removed."
 msgstr "Zariadenie krytky prachu %1 bolo odstránené."
@@ -6852,7 +6852,7 @@ msgid "Refresh is complete."
 msgstr "Obnovenie je dokončené."
 
 #: ekos/align/align_goto.cpp:94 ekos/auxiliary/darklibrary.cpp:1456
-#: ekos/focus/focus.cpp:1711
+#: ekos/focus/focus.cpp:1714
 #, kde-format
 msgid "Capture aborted."
 msgstr "Zachytenie predčasne ukončené."
@@ -7015,7 +7015,7 @@ msgid "dDE (arcsec)"
 msgstr "arcsec"
 
 #: ekos/align/align_settings.cpp:225 ekos/capture/camera_config.cpp:717
-#: ekos/focus/focus.cpp:5977
+#: ekos/focus/focus.cpp:5980
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Operácia filtra zlyhala."
@@ -7169,7 +7169,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Chyba: Stratené spojenie na koliesko filtra."
 
 #: ekos/align/align_solver.cpp:130 ekos/capture/cameraprocess.cpp:236
-#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6096
+#: ekos/capture/cameraprocess.cpp:663 ekos/focus/focus.cpp:6099
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -7226,13 +7226,13 @@ msgid ""
 "solve)..."
 msgstr "Nastavujem polárny uhol kamery na %1 stupňov..."
 
-#: ekos/align/align_solver.cpp:317 ekos/focus/focus.cpp:2014
+#: ekos/align/align_solver.cpp:317 ekos/focus/focus.cpp:2017
 #, kde-format
 msgid "Capturing image..."
 msgstr "Snímam obrázok..."
 
 #: ekos/align/align_solver.cpp:412 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:3182
+#: ekos/focus/focus.cpp:3185
 #, kde-format
 msgid "Image received."
 msgstr "Obrázok prijatý."
@@ -7406,12 +7406,12 @@ msgstr ""
 "zlyhaní."
 
 #: ekos/align/align_solver.cpp:1199 ekos/capture/cameraprocess.cpp:2158
-#: ekos/focus/focus.cpp:6151
+#: ekos/focus/focus.cpp:6154
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Odštartovať kamerovú/CCD expozíciu. Dĺžka trvania je v sekundách."
 
-#: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6158
+#: ekos/align/align_solver.cpp:1207 ekos/focus/focus.cpp:6161
 #: ekos/guide/guide.cpp:1197
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
@@ -7419,7 +7419,7 @@ msgstr ""
 "Časový limit expozície vypršal. Príliš veľa pokusov. Reštartujem ovládač."
 
 #: ekos/align/align_solver.cpp:1227 ekos/capture/cameraprocess.cpp:2185
-#: ekos/focus/focus.cpp:6172 ekos/guide/guide.cpp:1162
+#: ekos/focus/focus.cpp:6175 ekos/guide/guide.cpp:1162
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Časový limit expozície vypršal. Reštartujem expozíciu..."
@@ -19451,7 +19451,7 @@ msgstr "Odstrániť snímky zaostrovania?"
 msgid "No Focuser connected."
 msgstr "CCD nepripojené."
 
-#: ekos/focus/focus.cpp:1151 ekos/focus/focus.cpp:5053
+#: ekos/focus/focus.cpp:1151 ekos/focus/focus.cpp:5056
 #, kde-format
 msgid "No camera connected."
 msgstr "camera nepripojené."
@@ -19479,16 +19479,16 @@ msgstr "Zostavenie posunu už beží, automatické zaostrovanie odmietnuté."
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "V slučke zaostrovania, automatické zaostrovanie odmietnuté."
 
-#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5480
-#: ekos/focus/focus.cpp:5755
+#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5483
+#: ekos/focus/focus.cpp:5758
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Adjustmatické zaostrenie"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5482
-#: ekos/focus/focus.cpp:5755 ekos/focus/opsfocussettings.ui:503
+#: ekos/focus/focus.cpp:1191 ekos/focus/focus.cpp:5485
+#: ekos/focus/focus.cpp:5758 ekos/focus/opsfocussettings.ui:503
 #: ekos/focus/opsfocussettings.ui:583
 #, kde-format
 msgid "Adaptive Focus"
@@ -19522,107 +19522,107 @@ msgstr "Spúšťam automatické zaostrovanie..."
 msgid "Autofocus operation started"
 msgstr "Operácia automatického zaostrenia spustená"
 
-#: ekos/focus/focus.cpp:1547 ekos/focus/focus.cpp:2361
+#: ekos/focus/focus.cpp:1547 ekos/focus/focus.cpp:2364
 #, kde-format
 msgid "Detection complete."
 msgstr "Detekcia dokončená."
 
-#: ekos/focus/focus.cpp:1716
+#: ekos/focus/focus.cpp:1719
 #, kde-format
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Snímanie prebieha, skúšam znova za 1 s..."
 
-#: ekos/focus/focus.cpp:1730
+#: ekos/focus/focus.cpp:1733
 #, kde-format
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "Detekcia hviezd prebieha, skúšam znova za 1 s..."
 
-#: ekos/focus/focus.cpp:1734
+#: ekos/focus/focus.cpp:1737
 #, kde-format
 msgid "Star detection still in progress, aborting..."
 msgstr "Detekcia hviezd stále prebieha, prerušujem..."
 
-#: ekos/focus/focus.cpp:1783
+#: ekos/focus/focus.cpp:1786
 #, kde-format
 msgid "Autofocus aborted."
 msgstr "Automatické zaostrovanie prerušené."
 
-#: ekos/focus/focus.cpp:1887
+#: ekos/focus/focus.cpp:1890
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr "Chyba: Nenašla sa žiadna kamera."
 
-#: ekos/focus/focus.cpp:1894
+#: ekos/focus/focus.cpp:1897
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Chyba: Stratené spojenie s kamerou."
 
-#: ekos/focus/focus.cpp:1902
+#: ekos/focus/focus.cpp:1905
 #, kde-format
 msgid "Dustcap is parked. Unparking before capture..."
 msgstr "Dome Creek"
 
-#: ekos/focus/focus.cpp:1910
+#: ekos/focus/focus.cpp:1913
 #, kde-format
 msgid "Dustcap is not ready (status: %1). Waiting before capture..."
 msgstr "Krytka prachu nie je pripravená (stav: %1). Čaká sa pred snímaním..."
 
-#: ekos/focus/focus.cpp:1934
+#: ekos/focus/focus.cpp:1937
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Chyba: Nenašlo sa žiadne koleso filtrov."
 
-#: ekos/focus/focus.cpp:1940
+#: ekos/focus/focus.cpp:1943
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Chyba: Stratené spojenie na koliesko filtra."
 
-#: ekos/focus/focus.cpp:2058
+#: ekos/focus/focus.cpp:2061
 #, kde-format
 msgid "At minimum focus position %1..."
 msgstr "Na minimálnej zaostrovacej pozícii %1..."
 
-#: ekos/focus/focus.cpp:2073
+#: ekos/focus/focus.cpp:2076
 #, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "Presúva sa na minimálnu zaostrovaciu pozíciu %1..."
 
-#: ekos/focus/focus.cpp:2082
+#: ekos/focus/focus.cpp:2085
 #, kde-format
 msgid "At maximum focus position %1..."
 msgstr "Na maximálnej zaostrovacej pozícii %1..."
 
-#: ekos/focus/focus.cpp:2097
+#: ekos/focus/focus.cpp:2100
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "Presúva sa na maximálnu zaostrovaciu pozíciu %1..."
 
-#: ekos/focus/focus.cpp:2124
+#: ekos/focus/focus.cpp:2127
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Chyba: Nenašiel sa žiadny zaostrovač."
 
-#: ekos/focus/focus.cpp:2131
+#: ekos/focus/focus.cpp:2134
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Chyba: Stratené spojenie na zaostrovanie."
 
-#: ekos/focus/focus.cpp:2145
+#: ekos/focus/focus.cpp:2148
 #, kde-format
 msgid "outward"
 msgstr "smerom von"
 
-#: ekos/focus/focus.cpp:2145
+#: ekos/focus/focus.cpp:2148
 #, kde-format
 msgid "inward"
 msgstr "smerom dovnútra"
 
-#: ekos/focus/focus.cpp:2162
+#: ekos/focus/focus.cpp:2165
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Zaostrovanie %2 o %1 krokov..."
 
-#: ekos/focus/focus.cpp:2168
+#: ekos/focus/focus.cpp:2171
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
@@ -19630,53 +19630,53 @@ msgstr[0] "Zaostrovanie %2 o %1 krok..."
 msgstr[1] "Zaostrovanie %2 o %1 kroky..."
 msgstr[2] "Zaostrovanie %2 o %1 krokov..."
 
-#: ekos/focus/focus.cpp:2174
+#: ekos/focus/focus.cpp:2177
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Zaostrovanie %2 o %1 ms..."
 
-#: ekos/focus/focus.cpp:2209
+#: ekos/focus/focus.cpp:2212
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Odštartovať kamerovú/CCD expozíciu. Dĺžka trvania je v sekundách."
 
-#: ekos/focus/focus.cpp:2216
+#: ekos/focus/focus.cpp:2219
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Časový limit pohybu zaostrovania (%1). Reštartovanie ovládača zaostrovania %2"
 
-#: ekos/focus/focus.cpp:2229
+#: ekos/focus/focus.cpp:2232
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Časový limit pohybu zaostrovania (%1). Zaostrovanie na %2 krokov..."
 
-#: ekos/focus/focus.cpp:2275
+#: ekos/focus/focus.cpp:2278
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Pokus o opätovné pripojenie zaostrovača: %1"
 
-#: ekos/focus/focus.cpp:2284
+#: ekos/focus/focus.cpp:2287
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Nie je možné znovu pripojiť zaostrovač: %1. Prerušujem..."
 
-#: ekos/focus/focus.cpp:2554
+#: ekos/focus/focus.cpp:2557
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Zisťujem zdroje..."
 
-#: ekos/focus/focus.cpp:2690
+#: ekos/focus/focus.cpp:2693
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Operácia automatického zaostrenia ukončená úspešne"
 
-#: ekos/focus/focus.cpp:2704
+#: ekos/focus/focus.cpp:2707
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Operácia automatického zaostrenia zlyhala"
 
-#: ekos/focus/focus.cpp:2773
+#: ekos/focus/focus.cpp:2776
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
@@ -19684,158 +19684,158 @@ msgstr[0] "Postup zaostrovania dokončený po %1 iterácii."
 msgstr[1] "Postup zaostrovania dokončený po %1 iteráciách."
 msgstr[2] "Postup zaostrovania dokončený po %1 iteráciách."
 
-#: ekos/focus/focus.cpp:2860
+#: ekos/focus/focus.cpp:2863
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "Ustálenie po %1s..."
 
-#: ekos/focus/focus.cpp:2868
+#: ekos/focus/focus.cpp:2871
 #, kde-format
 msgid "Settling complete."
 msgstr "Ustálenie dokončené."
 
-#: ekos/focus/focus.cpp:2881
+#: ekos/focus/focus.cpp:2884
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Automatické zaostrenie zlyhalo, vraciam späť na pôvodnú polohu zaostrenia %1."
 
-#: ekos/focus/focus.cpp:2914
+#: ekos/focus/focus.cpp:2917
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS prijatý. Nezistené žiadne hviezdy."
 
-#: ekos/focus/focus.cpp:3247
+#: ekos/focus/focus.cpp:3250
 #, kde-format
 msgid "Capture complete. Select a region of interest."
 msgstr "Zachytenie dokončené. Vyberte oblasť záujmu."
 
-#: ekos/focus/focus.cpp:3288
+#: ekos/focus/focus.cpp:3291
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Zlyhal automatický výber hviezdy. Prosím, vyberte hviezdu ručne."
 
-#: ekos/focus/focus.cpp:3382
+#: ekos/focus/focus.cpp:3385
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Zachytenie dokončené. Vybrať hviezdu na zameranie."
 
-#: ekos/focus/focus.cpp:3413
+#: ekos/focus/focus.cpp:3416
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "Nezistené žiadne hviezdy pri testovaní HFR, zachytávanie ešte raz..."
 
-#: ekos/focus/focus.cpp:3434
+#: ekos/focus/focus.cpp:3437
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "HFR %1 > Limit %2"
 
-#: ekos/focus/focus.cpp:3576
+#: ekos/focus/focus.cpp:3579
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "Automatické zaostrovanie zlyhalo: prekročený maximálny počet iterácií %1"
 
-#: ekos/focus/focus.cpp:3587 ekos/focus/focus.cpp:3849
-#: ekos/focus/focus.cpp:4457
+#: ekos/focus/focus.cpp:3590 ekos/focus/focus.cpp:3852
+#: ekos/focus/focus.cpp:4460
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Nezistené žiadne hviezdy, zachytávanie ešte raz..."
 
-#: ekos/focus/focus.cpp:3593 ekos/focus/focus.cpp:4463
+#: ekos/focus/focus.cpp:3596 ekos/focus/focus.cpp:4466
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Nepodarilo sa detegovať žiadne hviezdy na pozícii %1. Pokračujem..."
 
-#: ekos/focus/focus.cpp:3599 ekos/focus/focus.cpp:4469
+#: ekos/focus/focus.cpp:3602 ekos/focus/focus.cpp:4472
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr "Nepodarilo sa nájsť žiadne hviezdy. Resetujte snímku a skúste znova."
 
-#: ekos/focus/focus.cpp:3786
+#: ekos/focus/focus.cpp:3789
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Nie je možné spustiť beh inšpektora aberácie %1..."
 
-#: ekos/focus/focus.cpp:3806
+#: ekos/focus/focus.cpp:3809
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Spúšťa sa beh inšpektora aberácie %1..."
 
-#: ekos/focus/focus.cpp:3832
+#: ekos/focus/focus.cpp:3835
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Spúšťa sa skenovanie počiatočnej pozície zaostrovača."
 
-#: ekos/focus/focus.cpp:3833
+#: ekos/focus/focus.cpp:3836
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Hľadám štartovaciu pozíciu..."
 
-#: ekos/focus/focus.cpp:3855
+#: ekos/focus/focus.cpp:3858
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Nepodarilo sa nájsť žiadne hviezdy. Prerušujem..."
 
-#: ekos/focus/focus.cpp:3864
+#: ekos/focus/focus.cpp:3867
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Poč. pozícia skenovania: prekročený max. počet iterácií %1"
 
-#: ekos/focus/focus.cpp:3883
+#: ekos/focus/focus.cpp:3886
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Skenovanie štartovacej pozície %1/%2"
 
-#: ekos/focus/focus.cpp:3897
+#: ekos/focus/focus.cpp:3900
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Žiadne minimum skenovania - rozširujem vyhľadávanie..."
 
-#: ekos/focus/focus.cpp:3910
+#: ekos/focus/focus.cpp:3913
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Štartovacia pozícia skenovania %1 nájdená"
 
-#: ekos/focus/focus.cpp:3911
+#: ekos/focus/focus.cpp:3914
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Štartovacia pozícia skenovania %1 nájdená"
 
-#: ekos/focus/focus.cpp:3980
+#: ekos/focus/focus.cpp:3983
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Kontrola prispôsobenia krivky zlyhala R2=%1 focusR2Limit=%2 skúšam znova..."
 
-#: ekos/focus/focus.cpp:3982
+#: ekos/focus/focus.cpp:3985
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Limit=%2"
 
-#: ekos/focus/focus.cpp:3990
+#: ekos/focus/focus.cpp:3993
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Kontrola prispôsobenia krivky zlyhala znova R2=%1 focusR2Limit=%2 ale "
 "pokračujem..."
 
-#: ekos/focus/focus.cpp:4000
+#: ekos/focus/focus.cpp:4003
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Lineárny algoritmus automatického zaostrovania prerušený: %1"
 
-#: ekos/focus/focus.cpp:4035
+#: ekos/focus/focus.cpp:4038
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS prijaté. HFR %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:4037
+#: ekos/focus/focus.cpp:4040
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS prijatý. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:4098
+#: ekos/focus/focus.cpp:4101
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -19844,26 +19844,26 @@ msgstr ""
 "Zmena HFR je príliš malá. Skúste zvýšenie veľkosti kroku alebo zníženie "
 "tolerancie."
 
-#: ekos/focus/focus.cpp:4105
+#: ekos/focus/focus.cpp:4108
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Zlyhalo zistenie kontrolnej hviezdy v snímke. Nasnímajte a vyberte kontrolnú "
 "hviezdu."
 
-#: ekos/focus/focus.cpp:4211
+#: ekos/focus/focus.cpp:4214
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Nájdené polynomiálne riešenie @ %1"
 
-#: ekos/focus/focus.cpp:4275
+#: ekos/focus/focus.cpp:4278
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Zaostrovač sa nemôže ďalej pohybovať, dosiahnuté limity zariadenia. "
 "Automatické zaostrovanie prerušené."
 
-#: ekos/focus/focus.cpp:4286
+#: ekos/focus/focus.cpp:4289
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -19871,24 +19871,24 @@ msgstr ""
 "Nestabilné kolísanie. Skúste zvýšiť počiatočnú veľkosť kroku alebo čas "
 "expozície."
 
-#: ekos/focus/focus.cpp:4296
+#: ekos/focus/focus.cpp:4299
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 "Dosiahnutý nerozhodný výsledok. Skúste to, prosím, znova s iným nastavením."
 
-#: ekos/focus/focus.cpp:4325
+#: ekos/focus/focus.cpp:4328
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "Dosiahnutý maximálny zdvihový limit. Automatické zaostrovanie prerušené."
 
-#: ekos/focus/focus.cpp:4442
+#: ekos/focus/focus.cpp:4445
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS prijaté. HFR %1. Delta (%2%) Min HFR (%3)"
 
-#: ekos/focus/focus.cpp:4446
+#: ekos/focus/focus.cpp:4449
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -19896,109 +19896,109 @@ msgstr ""
 "Automatické ostrenie zlyhalo pri dosiahnutí náležitého zaostrenia. Skúste "
 "upravenie hodnoty tolerancie."
 
-#: ekos/focus/focus.cpp:4560 ekos/focus/focus.cpp:4583
-#: ekos/focus/focus.cpp:4768 ekos/focus/focus.cpp:4861
-#: ekos/focus/focus.cpp:4943 ekos/focus/focus.cpp:5028
+#: ekos/focus/focus.cpp:4563 ekos/focus/focus.cpp:4586
+#: ekos/focus/focus.cpp:4771 ekos/focus/focus.cpp:4864
+#: ekos/focus/focus.cpp:4946 ekos/focus/focus.cpp:5031
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Chyba zaostrovania, skontrolovať panel INDI."
 
-#: ekos/focus/focus.cpp:4644 ekos/focus/focus.cpp:4784
+#: ekos/focus/focus.cpp:4647 ekos/focus/focus.cpp:4787
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Simulovať zlyhanie komunikácie zaostriča..."
 
-#: ekos/focus/focus.cpp:4745 ekos/focus/focus.cpp:4842
-#: ekos/focus/focus.cpp:4924 ekos/focus/focus.cpp:4965
+#: ekos/focus/focus.cpp:4748 ekos/focus/focus.cpp:4845
+#: ekos/focus/focus.cpp:4927 ekos/focus/focus.cpp:4968
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Reštartujem automatické ostrenie..."
 
-#: ekos/focus/focus.cpp:5069
+#: ekos/focus/focus.cpp:5072
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Spustenie spojitej expozície..."
 
-#: ekos/focus/focus.cpp:5450
+#: ekos/focus/focus.cpp:5453
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Deaktivujem automatický výber hviezdy, pretože rámček výberu hviezdy bol "
 "presunutý manuálne."
 
-#: ekos/focus/focus.cpp:5456
+#: ekos/focus/focus.cpp:5459
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Zaostrovacia hviezda je vybraná."
 
-#: ekos/focus/focus.cpp:5458
+#: ekos/focus/focus.cpp:5461
 #, kde-format
 msgid "Region of interest is selected."
 msgstr "Oblasť záujmu je vybraná."
 
-#: ekos/focus/focus.cpp:5478
+#: ekos/focus/focus.cpp:5481
 #, kde-format
 msgid "Autofocus"
 msgstr "Automatické zaostrenie"
 
-#: ekos/focus/focus.cpp:5486
+#: ekos/focus/focus.cpp:5489
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr "Žiadosť o kontrolu zaostrovania - Čaká sa 10 sek. na dokončenie %1."
 
-#: ekos/focus/focus.cpp:5494
+#: ekos/focus/focus.cpp:5497
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Ignorujem požiadavku na kontrolu zaostrovania - %1 prebieha."
 
-#: ekos/focus/focus.cpp:5507
+#: ekos/focus/focus.cpp:5510
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 "Kontrola zaostrovania ignorovaná - Meranie hviezdy musí byť na základe hviezd"
 
-#: ekos/focus/focus.cpp:5512
+#: ekos/focus/focus.cpp:5515
 #, kde-format
 msgid "Capturing to check HFR..."
 msgstr "Snímam obrázok..."
 
-#: ekos/focus/focus.cpp:5642
+#: ekos/focus/focus.cpp:5645
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Nebola vybraná žiadna hviezda. Používam poslednú známu polohu..."
 
-#: ekos/focus/focus.cpp:5648
+#: ekos/focus/focus.cpp:5651
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Nebola vybraná žiadna hviezda. Prerušujem..."
 
-#: ekos/focus/focus.cpp:5659
+#: ekos/focus/focus.cpp:5662
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Zaostrujem von podľa %1 ms..."
 
-#: ekos/focus/focus.cpp:5758
+#: ekos/focus/focus.cpp:5761
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr "Žiadosť o nastavenie zaostrovania - Čaká sa 10 sek. na dokončenie %1."
 
-#: ekos/focus/focus.cpp:5792
+#: ekos/focus/focus.cpp:5795
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Snímka zaostrovania"
 
-#: ekos/focus/focus.cpp:6196
+#: ekos/focus/focus.cpp:6199
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Zlyhalo uloženie obrázka. Prerušujem..."
 
-#: ekos/focus/focus.cpp:6211 ekos/focus/focus.cpp:6236
+#: ekos/focus/focus.cpp:6214 ekos/focus/focus.cpp:6239
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Chyba expozície. Prerušujem..."
 
-#: ekos/focus/focus.cpp:6535
+#: ekos/focus/focus.cpp:6538
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -30011,7 +30011,7 @@ msgstr "Vybrať frontu po vypnutí"
 msgid "Warning: Target name is required."
 msgstr "Vyžaduje sa cieľový názov."
 
-#: ekos/scheduler/scheduler.cpp:1109
+#: ekos/scheduler/scheduler.cpp:1110
 #, kde-format
 msgid ""
 "Warning: A job with name '%1' and the same sequence file already exists. "
