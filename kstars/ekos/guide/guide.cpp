@@ -1475,6 +1475,34 @@ bool Guide::sendMultiPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection d
     if (m_Guider == nullptr || (ra_dir == NO_DIR && dec_dir == NO_DIR))
         return false;
 
+    // Suppress individual direction pulses when the user has disabled them.
+    // The gmath layer may still produce directional pulses even if the axis
+    // checkbox is on but the specific +/- direction is off, so we guard here.
+    if (ra_dir == RA_INC_DIR && !Options::eastRAGuideEnabled())
+    {
+        ra_dir = NO_DIR;
+        ra_msecs = 0;
+    }
+    else if (ra_dir == RA_DEC_DIR && !Options::westRAGuideEnabled())
+    {
+        ra_dir = NO_DIR;
+        ra_msecs = 0;
+    }
+    if (dec_dir == DEC_INC_DIR && !Options::northDECGuideEnabled())
+    {
+        dec_dir = NO_DIR;
+        dec_msecs = 0;
+    }
+    else if (dec_dir == DEC_DEC_DIR && !Options::southDECGuideEnabled())
+    {
+        dec_dir = NO_DIR;
+        dec_msecs = 0;
+    }
+
+    // If both directions were suppressed, bail out.
+    if (ra_dir == NO_DIR && dec_dir == NO_DIR)
+        return true;
+
     if (m_AIFreeDrift)
     {
         appendLogText(i18n("AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms).", ra_msecs, dec_msecs));
@@ -1524,6 +1552,16 @@ bool Guide::sendSinglePulse(GuideDirection dir, int msecs, CaptureAfterPulses fo
 {
     if (m_Guider == nullptr || dir == NO_DIR)
         return false;
+
+    // Suppress the pulse if its direction has been disabled by the user.
+    if (dir == RA_INC_DIR && !Options::eastRAGuideEnabled())
+        return true;
+    if (dir == RA_DEC_DIR && !Options::westRAGuideEnabled())
+        return true;
+    if (dir == DEC_INC_DIR && !Options::northDECGuideEnabled())
+        return true;
+    if (dir == DEC_DEC_DIR && !Options::southDECGuideEnabled())
+        return true;
 
     if (m_AIFreeDrift)
     {
@@ -2693,8 +2731,22 @@ QList<double> Guide::axisSigma()
 
 void Guide::setAxisPulse(double ra, double de)
 {
+    static const QPalette kGreyPalette = []()
+    {
+        QPalette p;
+        p.setColor(QPalette::WindowText, Qt::gray);
+        return p;
+    }
+    ();
+    static const QPalette kDefaultPalette;
+
     l_PulseRA->setText(QString::number(static_cast<int>(ra)));
     l_PulseDEC->setText(QString::number(static_cast<int>(de)));
+
+    // Grey out labels when the corresponding axis is disabled so the user
+    // can see at a glance that the pulse was suppressed before reaching the mount.
+    l_PulseRA->setPalette(Options::rAGuideEnabled() ? kDefaultPalette : kGreyPalette);
+    l_PulseDEC->setPalette(Options::dECGuideEnabled() ? kDefaultPalette : kGreyPalette);
 }
 
 void Guide::setSNR(double snr)
