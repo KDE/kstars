@@ -70,7 +70,7 @@ void Align::setupManualRotator()
         m_TargetPositionAngle = std::numeric_limits<double>::quiet_NaN();
         // If in progress stop it
         if (state > ALIGN_COMPLETE)
-            stop(ALIGN_IDLE);
+            stop(ALIGN_ABORTED);
     });
 }
 
