@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-19 02:06+0000\n"
-"PO-Revision-Date: 2026-07-18 19:43+0300\n"
+"POT-Creation-Date: 2026-07-20 02:05+0000\n"
+"PO-Revision-Date: 2026-07-19 19:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -22779,12 +22779,12 @@ msgstr "Wanderer ETA bağlı değil"
 #: ekos/focus/tiltcorrectionwidget.cpp:827
 #, kde-format
 msgid "⚠ Cannot read ETA positions (POSITION_READBACK not available)"
-msgstr ""
+msgstr "⚠ ETA konumları okunamıyor (POSITION_READBACK kullanılabilir değil)"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:837
 #, kde-format
 msgid "⚠ ETA position readback fields not found"
-msgstr ""
+msgstr "⚠ ETA konumu geri okuma alanları bulunamadı"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:871
 #, kde-format
@@ -22792,13 +22792,13 @@ msgid ""
 "⚠ Correction range (%1 mm) exceeds ETA plate travel (%2 mm).\n"
 "Cannot apply even partially. Zero the plate first."
 msgstr ""
+"⚠ Düzeltme erimi (%1 mm), ETA plaka hareketi alanını aşıyor (%2 mm).\n"
+"Kısmî olarak bile uygulanamıyor. Öncelikle plakayı sıfırlayın."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:884
-#, fuzzy, kde-format
-#| msgctxt "Stack monitor status"
-#| msgid "%1 Failed Correction"
+#, kde-format
 msgid "Partial Correction"
-msgstr "%1 başarısız düzeltme"
+msgstr "Kısmî Düzeltme"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:885
 #, kde-format
@@ -22809,33 +22809,40 @@ msgid ""
 "\n"
 "Run autofocus again afterward to apply the remainder."
 msgstr ""
+"Tam düzeltme, plaka hareket alanını aşıyor. En uyan kısmî düzeltme "
+"uygulansın mı?\n"
+"\n"
+"P1: %1 mm, P2: %2 mm, P3: %3 mm\n"
+"\n"
+"Kalanı da uygulamak için sonrasında kendiliğinden odağı yeniden çalıştırın."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 properties available"
+#, kde-format
 msgid "⚠ ETA target properties not available"
-msgstr "%1 özellik kullanılabilir"
+msgstr "⚠ ETA hedef özellikleri kullanılamıyor"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:922
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point 1)..."
-msgstr ""
+msgstr "⏳ ETA’ya düzeltmeler uygulanıyor (1. nokta)…"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:966
 #, kde-format
 msgid "⚠ ETA Point %1 move failed. Stopped."
-msgstr ""
+msgstr "⚠ ETA %1. nokta hareketi başarısız oldu. Durduruldu."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:979
 #, kde-format
 msgid "⏳ Applying corrections to ETA (Point %1)..."
-msgstr ""
+msgstr "⏳ ETA’ya düzeltmeler uygulanıyor (%1. nokta)…"
 
 #: ekos/focus/tiltcorrectionwidget.cpp:985
 #, kde-format
 msgid ""
 "✓ Applied to ETA: P1→%1  P2→%2  P3→%3 mm. Run autofocus again to re-measure."
 msgstr ""
+"✓ ETA’ya uygulandı: P1→%1  P2→%2  P3→%3 mm. Yeniden ölçmek için "
+"kendiliğinden odağı yeniden çalıştırın."
 
 #: ekos/focus/tiltcorrectionwidget.cpp:991
 #, kde-format
@@ -22843,34 +22850,35 @@ msgid ""
 "Corrections already applied. Run autofocus again to get fresh tilt "
 "measurements."
 msgstr ""
+"Düzeltmeler hâlihazırda uygulandı. Tâze eğim ölçülerini almak için "
+"kendiliğinden odağı yeniden çalıştırın."
 
 #: ekos/guide/aiguideprotocol.cpp:195
 #, kde-format
 msgid "No data to train! Please run the protocol first."
-msgstr ""
+msgstr "Çalıştırılacak veri yok! Lütfen önce protokolü çalıştırın."
 
 #: ekos/guide/aiguideprotocol.cpp:196
 #, kde-format
 msgid "No data to train"
-msgstr ""
+msgstr "Çalıştırılacak veri yok"
 
 #: ekos/guide/aiguideprotocol.cpp:201
 #, kde-format
 msgid "Starting AI training via EkosLive cloud..."
-msgstr ""
+msgstr "EkosLive Cloud ile yapay zekâ eğitimi başlatılıyor…"
 
 #. i18n: ectx: property (windowTitle), widget (QWizard, AIGuideWizard)
 #: ekos/guide/aiguidewizard.ui:14
 #, kde-format
 msgid "Ekos Guide AI Assistant (Experimental)"
-msgstr ""
+msgstr "Ekos Kılavuz Yapay Zekâ Yardımcısı (Deneysel)"
 
 #. i18n: ectx: property (title), widget (QWizardPage, wizardPage1)
 #: ekos/guide/aiguidewizard.ui:21
-#, fuzzy, kde-format
-#| msgid "Mount direction"
+#, kde-format
 msgid "Mount Identification"
-msgstr "Kaide yönü"
+msgstr "Kaide Tanımlaması"
 
 #. i18n: ectx: property (subTitle), widget (QWizardPage, wizardPage1)
 #: ekos/guide/aiguidewizard.ui:24
@@ -23545,143 +23553,143 @@ msgstr "Pozlama zaman aşımı. Kalibrasyon iptal ediliyor."
 msgid "Failed to reconnect camera after driver restart."
 msgstr "Sürücü yeniden başlatıldıktan sonra kameraya yeniden bağlanılamadı."
 
-#: ekos/guide/guide.cpp:1480
+#: ekos/guide/guide.cpp:1508
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "Yapay zekâ serbest kayması etkin. Çoklu darbeler bastırıldı (RA: %1 ms, DEC: "
 "%2 ms)."
 
-#: ekos/guide/guide.cpp:1530
+#: ekos/guide/guide.cpp:1568
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "Yapay zekâ serbest kayması etkin. Tekil darbe bastırıldı (%1 ms)."
 
-#: ekos/guide/guide.cpp:1579
+#: ekos/guide/guide.cpp:1617
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "Algılanan kamera yok. Optik katarlarda kamerayı denetleyin."
 
-#: ekos/guide/guide.cpp:1585
+#: ekos/guide/guide.cpp:1623
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "Algılanan kılavuz yok. Optik katarlarda kılavuzu denetleyin."
 
-#: ekos/guide/guide.cpp:1666
+#: ekos/guide/guide.cpp:1704
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "Bu kaide park edilmiş. Kılavuzluğu başlatmak için parktan çıkın."
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1813
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "İskele yanı değişikliği algılandı. Kalibrasyon temizleniyor."
 
-#: ekos/guide/guide.cpp:1789
+#: ekos/guide/guide.cpp:1827
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Kaide hareket ediyor. Kalibrasyon yeniden başlatılıyor…"
 
-#: ekos/guide/guide.cpp:1806
+#: ekos/guide/guide.cpp:1844
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Kaide park ediliyor. Kılavuz iptal ediliyor…"
 
-#: ekos/guide/guide.cpp:1808
+#: ekos/guide/guide.cpp:1846
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Kaide çevriliyor. Kılavuz iptal ediliyor…"
 
-#: ekos/guide/guide.cpp:1894
+#: ekos/guide/guide.cpp:1932
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Kalibrasyon temizlendi."
 
-#: ekos/guide/guide.cpp:1922
+#: ekos/guide/guide.cpp:1960
 #, kde-format
 msgid "External guider connected."
 msgstr "Dış kılavuz bağlandı."
 
-#: ekos/guide/guide.cpp:1940
+#: ekos/guide/guide.cpp:1978
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Dış kılavuz bağlantısı kesildi."
 
-#: ekos/guide/guide.cpp:1957
+#: ekos/guide/guide.cpp:1995
 #, kde-format
 msgid "Calibration completed."
 msgstr "Kalibrasyon tamamlandı."
 
-#: ekos/guide/guide.cpp:1983
+#: ekos/guide/guide.cpp:2021
 #, kde-format
 msgid "Calibration started."
 msgstr "Kalibrasyon başlatıldı."
 
-#: ekos/guide/guide.cpp:1999
+#: ekos/guide/guide.cpp:2037
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Kılavuzluk sürdürüldü."
 
-#: ekos/guide/guide.cpp:2003
+#: ekos/guide/guide.cpp:2041
 #, kde-format
 msgid "Autoguiding running."
 msgstr "Kendiliğinden kılavuzlama çalışıyor."
 
-#: ekos/guide/guide.cpp:2025
+#: ekos/guide/guide.cpp:2063
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Kendiliğinden kılavuzluk iptal edildi."
 
-#: ekos/guide/guide.cpp:2033
+#: ekos/guide/guide.cpp:2071
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Kılavuzluk askıya alındı."
 
-#: ekos/guide/guide.cpp:2042
+#: ekos/guide/guide.cpp:2080
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Elle kıpırdatma yapılıyor."
 
-#: ekos/guide/guide.cpp:2046
+#: ekos/guide/guide.cpp:2084
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Kıpırdatma yapılıyor."
 
-#: ekos/guide/guide.cpp:2050
+#: ekos/guide/guide.cpp:2088
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "%1 saniye için kıpırdatma sonrası yerleşim yapılıyor…"
 msgstr[1] "%1 saniye için kıpırdatma sonrası yerleşim yapılıyor…"
 
-#: ekos/guide/guide.cpp:2055
+#: ekos/guide/guide.cpp:2093
 #, kde-format
 msgid "Dithering failed."
 msgstr "Kıpırdatma başarısız."
 
-#: ekos/guide/guide.cpp:2066
+#: ekos/guide/guide.cpp:2104
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Kıpırdatma başarıyla tamamlandı."
 
-#: ekos/guide/guide.cpp:2124
+#: ekos/guide/guide.cpp:2162
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr ""
 "%1 × %1 kılavuz gruplaması desteklenmiyor. En büyük değer %2 × %2 olarak "
 "verilir."
 
-#: ekos/guide/guide.cpp:2148
+#: ekos/guide/guide.cpp:2186
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Pozlama başarısız. Pozlama yeniden başlatılıyor…"
 
-#: ekos/guide/guide.cpp:2283
+#: ekos/guide/guide.cpp:2321
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Etkinken kılavuz türü değiştirilemiyor."
 
-#: ekos/guide/guide.cpp:2378
+#: ekos/guide/guide.cpp:2416
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23690,37 +23698,37 @@ msgstr ""
 "Uyarı: Kılavuz kalibrasyonunu sıfırlama etkin. Bu seçeneğin PHD2 için "
 "kapatılması önerilir."
 
-#: ekos/guide/guide.cpp:2818
+#: ekos/guide/guide.cpp:2870
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Kalibrasyon başlatılamadı."
 
-#: ekos/guide/guide.cpp:2969
+#: ekos/guide/guide.cpp:3021
 #, kde-format
 msgid "Auto star selected."
 msgstr "Kendiliğinden yıldız seçildi."
 
-#: ekos/guide/guide.cpp:2973
+#: ekos/guide/guide.cpp:3025
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Kendiliğinden bir yıldız seçilemedi."
 
-#: ekos/guide/guide.cpp:2982
+#: ekos/guide/guide.cpp:3034
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Kalibre etmek için bir kılavuz yıldız seçin."
 
-#: ekos/guide/guide.cpp:3244
+#: ekos/guide/guide.cpp:3296
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (piksel)"
 
-#: ekos/guide/guide.cpp:3245
+#: ekos/guide/guide.cpp:3297
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (piksel)"
 
-#: ekos/guide/guide.cpp:3388 ekos/guide/guide.cpp:3537
+#: ekos/guide/guide.cpp:3440 ekos/guide/guide.cpp:3589
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -23730,7 +23738,7 @@ msgstr ""
 "göremezsiniz. Ancak kılavuzluk ettiğinizde Kılavuz Yıldız Görseli’ni yine de "
 "göreceksiniz."
 
-#: ekos/guide/guide.cpp:3392 ekos/guide/guide.cpp:3541
+#: ekos/guide/guide.cpp:3444 ekos/guide/guide.cpp:3593
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23741,32 +23749,32 @@ msgstr ""
 "işareti kaldırılmalıdır. Görsel yakalamalarınızı etkinleştirmek için şimdi "
 "işaretini kaldırın. Kılavuzluktan önce yeniden etkinleştirebilirsiniz."
 
-#: ekos/guide/guide.cpp:3473
+#: ekos/guide/guide.cpp:3525
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "Yapay zekâ yardımcıyı yönlendiriyor…"
 
-#: ekos/guide/guide.cpp:3478
+#: ekos/guide/guide.cpp:3530
 #, kde-format
 msgid "Load Weights..."
 msgstr "Ağırlıklar yükleniyor…"
 
-#: ekos/guide/guide.cpp:3584 ekos/guide/guide.cpp:3589
+#: ekos/guide/guide.cpp:3636 ekos/guide/guide.cpp:3641
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "EkosLive yapay zekâ eğitimi başarısız oldu: %1"
 
-#: ekos/guide/guide.cpp:3585 ekos/guide/guide.cpp:3590
+#: ekos/guide/guide.cpp:3637 ekos/guide/guide.cpp:3642
 #, kde-format
 msgid "unknown error"
 msgstr "Bilinmeyen hata"
 
-#: ekos/guide/guide.cpp:3604
+#: ekos/guide/guide.cpp:3656
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "Yapay zekâ ağırlıkları %1 konumuna kaydedilemedi."
 
-#: ekos/guide/guide.cpp:3614
+#: ekos/guide/guide.cpp:3666
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -23774,7 +23782,7 @@ msgstr ""
 "Yapay zekâ eğitimi tamamlandı. Ağırlıklar %1 konumuna kaydedildi ve etkin "
 "yapay zekâ ağırlıkları olarak ayarlandı."
 
-#: ekos/guide/guide.cpp:3618
+#: ekos/guide/guide.cpp:3670
 #, fuzzy, kde-format
 #| msgid ""
 #| "AI training complete. Weights saved to %1 and set as the active AI "
@@ -23784,18 +23792,18 @@ msgstr ""
 "Yapay zekâ eğitimi tamamlandı. Ağırlıklar %1 konumuna kaydedildi ve etkin "
 "yapay zekâ ağırlıkları olarak ayarlandı."
 
-#: ekos/guide/guide.cpp:3624
+#: ekos/guide/guide.cpp:3676
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "Yapay Zekâ Kılavuzu Ağırlıklarını Yükle"
 
-#: ekos/guide/guide.cpp:3625
+#: ekos/guide/guide.cpp:3677
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "Yapay zekâ ağırlıkları (*.json)"
 
-#: ekos/guide/guide.cpp:3629
+#: ekos/guide/guide.cpp:3681
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -23804,7 +23812,7 @@ msgstr ""
 "Yapay zekâ ağırlıkları %1 olarak ayarlandı. Bir sonraki sefere kılavuzlama "
 "başlatıldığında uygulanacaklar."
 
-#: ekos/guide/guide.cpp:3786
+#: ekos/guide/guide.cpp:3838
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "PHD2 bağlıyken etkin optik katar değiştirilemiyor"

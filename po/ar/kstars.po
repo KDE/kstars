@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-19 02:06+0000\n"
+"POT-Creation-Date: 2026-07-20 02:05+0000\n"
 "PO-Revision-Date: 2026-07-17 18:16+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -23116,109 +23116,109 @@ msgstr "اِنتهاء مهلة التعريض. أجهِض المعايرة."
 msgid "Failed to reconnect camera after driver restart."
 msgstr "فشل إعادة توصيل الكاميرا بعد إعادة تشغيل المُشغل."
 
-#: ekos/guide/guide.cpp:1480
+#: ekos/guide/guide.cpp:1508
 #, kde-format
 msgid "AI Free Drift active. Suppressed multi-pulse (RA: %1ms, DEC: %2ms)."
 msgstr ""
 "الانجراف الحر بالذكاء الاصطناعي نشط. كبت النبضات المتعددة (الصعود المباشر: "
 "%1ملّي، الانحدار: %2ملّي)."
 
-#: ekos/guide/guide.cpp:1530
+#: ekos/guide/guide.cpp:1568
 #, kde-format
 msgid "AI Free Drift active. Suppressed single pulse (%1ms)."
 msgstr "الانجراف الحر بالذكاء الاصطناعي نشط. كبت النبضة المفردة (%1ملّي)."
 
-#: ekos/guide/guide.cpp:1579
+#: ekos/guide/guide.cpp:1617
 #, kde-format
 msgid "No camera detected. Check camera in optical trains."
 msgstr "لم يُكتشف أي كاميرا. تحقق من الكاميرا في الأنساق البصرية."
 
-#: ekos/guide/guide.cpp:1585
+#: ekos/guide/guide.cpp:1623
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr "لم يُكتشف أي دليل. تحقق من «دليل عبر» في الأنساق البصرية."
 
-#: ekos/guide/guide.cpp:1666
+#: ekos/guide/guide.cpp:1704
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "الحامل متوقف. أزل الإيقاف لبدء الدليل."
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1813
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "اكتشف تغيير جانب الركيزة. أزل المعايرة."
 
-#: ekos/guide/guide.cpp:1789
+#: ekos/guide/guide.cpp:1827
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "الحامل يتحرك. أعد تعيين المعايرة..."
 
-#: ekos/guide/guide.cpp:1806
+#: ekos/guide/guide.cpp:1844
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "الحامل يتوقف. أجهِض الدليل..."
 
-#: ekos/guide/guide.cpp:1808
+#: ekos/guide/guide.cpp:1846
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "الحامل يجول. أجهِض الدليل..."
 
-#: ekos/guide/guide.cpp:1894
+#: ekos/guide/guide.cpp:1932
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "أُزيلت المعايرة."
 
-#: ekos/guide/guide.cpp:1922
+#: ekos/guide/guide.cpp:1960
 #, kde-format
 msgid "External guider connected."
 msgstr "اتصل الدليل الخارجي."
 
-#: ekos/guide/guide.cpp:1940
+#: ekos/guide/guide.cpp:1978
 #, kde-format
 msgid "External guider disconnected."
 msgstr "فُصل الدليل الخارجي."
 
-#: ekos/guide/guide.cpp:1957
+#: ekos/guide/guide.cpp:1995
 #, kde-format
 msgid "Calibration completed."
 msgstr "اكتملت المعايرة."
 
-#: ekos/guide/guide.cpp:1983
+#: ekos/guide/guide.cpp:2021
 #, kde-format
 msgid "Calibration started."
 msgstr "بدأت المعايرة."
 
-#: ekos/guide/guide.cpp:1999
+#: ekos/guide/guide.cpp:2037
 #, kde-format
 msgid "Guiding resumed."
 msgstr "اِستأنِف التوجيه."
 
-#: ekos/guide/guide.cpp:2003
+#: ekos/guide/guide.cpp:2041
 #, kde-format
 msgid "Autoguiding running."
 msgstr "الدليل الآلي يجري."
 
-#: ekos/guide/guide.cpp:2025
+#: ekos/guide/guide.cpp:2063
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "أُجهِض الدليل الآلي."
 
-#: ekos/guide/guide.cpp:2033
+#: ekos/guide/guide.cpp:2071
 #, kde-format
 msgid "Guiding suspended."
 msgstr "عُلِّق الدليل."
 
-#: ekos/guide/guide.cpp:2042
+#: ekos/guide/guide.cpp:2080
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "التنخيل اليدوي قيد التقدم."
 
-#: ekos/guide/guide.cpp:2046
+#: ekos/guide/guide.cpp:2084
 #, kde-format
 msgid "Dithering in progress."
 msgstr "التنخيل قيد التقدم."
 
-#: ekos/guide/guide.cpp:2050
+#: ekos/guide/guide.cpp:2088
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
@@ -23229,32 +23229,32 @@ msgstr[3] "استقرار بعد التنخيل لـ %1 ثوانٍ..."
 msgstr[4] "استقرار بعد التنخيل لـ %1 ثوانٍ..."
 msgstr[5] "استقرار بعد التنخيل لـ %1 ثوانٍ..."
 
-#: ekos/guide/guide.cpp:2055
+#: ekos/guide/guide.cpp:2093
 #, kde-format
 msgid "Dithering failed."
 msgstr "فشل التنخيل."
 
-#: ekos/guide/guide.cpp:2066
+#: ekos/guide/guide.cpp:2104
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "اكتمل التنخيل بنجاح."
 
-#: ekos/guide/guide.cpp:2124
+#: ekos/guide/guide.cpp:2162
 #, kde-format
 msgid "%1x%1 guide binning is not supported. Maximum is %2x%2."
 msgstr "تجميع دليل %1×%1 غير متاح. الحد الأقصى %2×%2."
 
-#: ekos/guide/guide.cpp:2148
+#: ekos/guide/guide.cpp:2186
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "فشل التعريض. أعد بدء التعريض..."
 
-#: ekos/guide/guide.cpp:2283
+#: ekos/guide/guide.cpp:2321
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "لا تغيّر نوع الدليل أثناء نشاطه."
 
-#: ekos/guide/guide.cpp:2378
+#: ekos/guide/guide.cpp:2416
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -23262,37 +23262,37 @@ msgid ""
 msgstr ""
 "تحذير: «إعادة تعيين معايرة الدليل» مُفعَّل. ينصح بإيقاف هذا الخيار لـ PHD2."
 
-#: ekos/guide/guide.cpp:2818
+#: ekos/guide/guide.cpp:2870
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "فشلت المعايرة في البدء."
 
-#: ekos/guide/guide.cpp:2969
+#: ekos/guide/guide.cpp:3021
 #, kde-format
 msgid "Auto star selected."
 msgstr "اختار نجم آلي."
 
-#: ekos/guide/guide.cpp:2973
+#: ekos/guide/guide.cpp:3025
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "فشل في اختيار نجم آلي."
 
-#: ekos/guide/guide.cpp:2982
+#: ekos/guide/guide.cpp:3034
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "اختر نجم دليل لمعايرته."
 
-#: ekos/guide/guide.cpp:3244
+#: ekos/guide/guide.cpp:3296
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (بكسلات)"
 
-#: ekos/guide/guide.cpp:3245
+#: ekos/guide/guide.cpp:3297
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (بكسلات)"
 
-#: ekos/guide/guide.cpp:3388 ekos/guide/guide.cpp:3537
+#: ekos/guide/guide.cpp:3440 ekos/guide/guide.cpp:3589
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -23301,7 +23301,7 @@ msgstr ""
 "كاميرا PHD2 غير متاحة لـ إيكوس، لذا لا ترى الصور المُلتقطة. ولكنك ستظل ترى "
 "صورة نجم الدليل عندما توجِّه."
 
-#: ekos/guide/guide.cpp:3392 ekos/guide/guide.cpp:3541
+#: ekos/guide/guide.cpp:3444 ekos/guide/guide.cpp:3593
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23311,32 +23311,32 @@ msgstr ""
 "لاستقبال صور PHD2 بخلاف صورة نجم الدليل، يجب إلغاء تحديد «الإطار الفرعي».  "
 "أزل تحديده الآن لتمكين التقاطات صورك.  يمكنك إعادة تمكينه قبل الدليل"
 
-#: ekos/guide/guide.cpp:3473
+#: ekos/guide/guide.cpp:3525
 #, kde-format
 msgid "AI Guiding Assistant..."
 msgstr "مساعد التوجيه بالذكاء الاصطناعي..."
 
-#: ekos/guide/guide.cpp:3478
+#: ekos/guide/guide.cpp:3530
 #, kde-format
 msgid "Load Weights..."
 msgstr "تحميل الأوزان..."
 
-#: ekos/guide/guide.cpp:3584 ekos/guide/guide.cpp:3589
+#: ekos/guide/guide.cpp:3636 ekos/guide/guide.cpp:3641
 #, kde-format
 msgid "EkosLive AI training failed: %1"
 msgstr "فشل تدريب الذكاء الاصطناعي في إيكوسلايف: %1"
 
-#: ekos/guide/guide.cpp:3585 ekos/guide/guide.cpp:3590
+#: ekos/guide/guide.cpp:3637 ekos/guide/guide.cpp:3642
 #, kde-format
 msgid "unknown error"
 msgstr "خطأ غير معروف"
 
-#: ekos/guide/guide.cpp:3604
+#: ekos/guide/guide.cpp:3656
 #, kde-format
 msgid "Failed to save AI weights to %1"
 msgstr "فشل حفظ أوزان الذكاء الاصطناعي في %1"
 
-#: ekos/guide/guide.cpp:3614
+#: ekos/guide/guide.cpp:3666
 #, kde-format
 msgid ""
 "AI training complete. Weights saved to %1 and set as the active AI weights."
@@ -23344,7 +23344,7 @@ msgstr ""
 "اكتمل تدريب الذكاء الاصطناعي. حُفظت الأوزان في %1 وعُيّنت كأوزان الذكاء "
 "الاصطناعي النشطة."
 
-#: ekos/guide/guide.cpp:3618
+#: ekos/guide/guide.cpp:3670
 #, fuzzy, kde-format
 #| msgid ""
 #| "AI training complete. Weights saved to %1 and set as the active AI "
@@ -23354,18 +23354,18 @@ msgstr ""
 "اكتمل تدريب الذكاء الاصطناعي. حُفظت الأوزان في %1 وعُيّنت كأوزان الذكاء "
 "الاصطناعي النشطة."
 
-#: ekos/guide/guide.cpp:3624
+#: ekos/guide/guide.cpp:3676
 #, kde-format
 msgctxt "@title:window"
 msgid "Load AI Guider Weights"
 msgstr "تحميل أوزان الموجّه بالذكاء الاصطناعي"
 
-#: ekos/guide/guide.cpp:3625
+#: ekos/guide/guide.cpp:3677
 #, kde-format
 msgid "AI Weights (*.json)"
 msgstr "أوزان الذكاء الاصطناعي (*.json)"
 
-#: ekos/guide/guide.cpp:3629
+#: ekos/guide/guide.cpp:3681
 #, kde-format
 msgid ""
 "AI Guider weights set to %1. They will be applied the next time guiding "
@@ -23374,7 +23374,7 @@ msgstr ""
 "عُيّنت أوزان الموجّه بالذكاء الاصطناعي إلى %1. ستُطبّق في المرة القادمة التي يبدأ "
 "فيها التوجيه."
 
-#: ekos/guide/guide.cpp:3786
+#: ekos/guide/guide.cpp:3838
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "لا تغيّر النسق البصري النشط أثناء اتصال PHD2"
