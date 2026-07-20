@@ -444,6 +444,28 @@ void SchedulerModuleState::startGuidingTimer(int milliseconds)
     m_restartGuidingTime = KStarsData::Instance()->ut();
 }
 
+void SchedulerModuleState::startGuidingStageTimer()
+{
+    if (!m_guidingStageStarted)
+    {
+        m_guidingStageStartTime = KStarsData::Instance()->ut();
+        m_guidingStageStarted = true;
+    }
+}
+
+void SchedulerModuleState::resetGuidingStageTimer()
+{
+    m_guidingStageStarted = false;
+    m_guidingStageStartTime = KStarsDateTime();
+}
+
+qint64 SchedulerModuleState::guidingStageTotalMsec() const
+{
+    if (!m_guidingStageStarted)
+        return 0;
+    return m_guidingStageStartTime.msecsTo(KStarsData::Instance()->ut());
+}
+
 // Allows for unit testing of static Scheduler methods,
 // as can't call KStarsData::Instance() during unit testing.
 KStarsDateTime *SchedulerModuleState::storedLocalTime = nullptr;

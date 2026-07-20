@@ -513,6 +513,23 @@ class SchedulerModuleState : public QObject
         bool isGuidingTimerActive();
         void startGuidingTimer(int milliseconds);
 
+        /**
+         * @brief startGuidingStageTimer Records the wall-clock time when the guiding stage
+         * was first entered for the current target. Unlike the restart timer, this is NOT
+         * reset on retries — it tracks total elapsed time in the guiding phase.
+         */
+        void startGuidingStageTimer();
+        /**
+         * @brief resetGuidingStageTimer Clears the guiding stage timer (called when moving
+         * to next job or when guiding succeeds and capture starts).
+         */
+        void resetGuidingStageTimer();
+        /**
+         * @brief guidingStageTotalMsec Returns milliseconds since the guiding stage was
+         * first entered for this target. Returns 0 if timer not started.
+         */
+        qint64 guidingStageTotalMsec() const;
+
         /** @brief Setter used in testing to fix the local time. Otherwise getter gets from KStars instance. */
         /** @{ */
         static KStarsDateTime getLocalTime();
@@ -853,6 +870,11 @@ class SchedulerModuleState : public QObject
         // Delay for restarting the guider
         int m_restartGuidingInterval { -1 };
         KStarsDateTime m_restartGuidingTime;
+        // Wall-clock timestamp for when guiding was first attempted on the current target.
+        // Unlike currentOperationTime (which resets on each retry), this tracks the absolute
+        // start to detect infinite guide-retry loops (e.g. PHD2 calibration timeout cycles).
+        KStarsDateTime m_guidingStageStartTime;
+        bool m_guidingStageStarted { false };
         // Used in testing, instead of KStars::Instance() resources
         static KStarsDateTime *storedLocalTime;
         // The various preemptiveShutdown states are controlled by this one variable.

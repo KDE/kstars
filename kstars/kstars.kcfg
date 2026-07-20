@@ -2355,7 +2355,7 @@
          <default>60</default>
       </entry>
       <entry name="CaptureOperationsTimeout" type="UInt">
-         <label>Maximum number of seconds to wait before aborting the capture if operations like filter wheel changes or meridian flips take too long.</label>
+         <label>Maximum number of seconds to wait before aborting the capture if operations like filter wheel changes or meridian flips take too long. Also bounds the time the scheduler spends establishing guiding (calibration and lock) before starting capture.</label>
          <default>300</default>
       </entry>
       <entry name="MinFlipDuration" type="UInt">

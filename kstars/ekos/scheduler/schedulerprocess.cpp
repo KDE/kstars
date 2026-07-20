@@ -171,6 +171,7 @@ void SchedulerProcess::findNextJob()
     // Reset failed count
     moduleState()->resetAlignFailureCount();
     moduleState()->resetGuideFailureCount();
+    moduleState()->resetGuidingStageTimer();
     moduleState()->resetFocusFailureCount();
     moduleState()->resetCaptureFailureCount();
 
@@ -1372,6 +1373,9 @@ void SchedulerProcess::startGuiding(bool resetCalibration)
 
     appendLogText(i18n("Starting guiding procedure for %1 ...", activeJob()->getName()));
 
+    // Start the wall-clock timer for the guiding stage (only records on first call,
+    // not reset on retries — used to detect infinite guide-retry loops).
+    moduleState()->startGuidingStageTimer();
     moduleState()->startCurrentOperationTimer();
 }
 
@@ -2827,6 +2831,20 @@ void SchedulerProcess::checkJobStageEpilogue()
             break;
 
         case SCHEDSTAGE_GUIDING:
+            // Safety net: if the total time spent in the guiding stage exceeds the
+            // capture operations timeout, abort the job and move on. This catches infinite
+            // retry loops where PHD2 calibration timeouts + transient GUIDE_GUIDING states
+            // keep resetting the failure counter, preventing the normal MAX_FAILURE_ATTEMPTS
+            // mechanism from working.
+            if (moduleState()->guidingStageTotalMsec() > static_cast<qint64>(Options::captureOperationsTimeout()) * 1000)
+            {
+                appendLogText(i18n("Warning: job '%1' guiding stage exceeded operations timeout (%2 seconds), marking aborted.",
+                                   activeJob()->getName(), Options::captureOperationsTimeout()));
+                stopGuiding();
+                activeJob()->setState(SCHEDJOB_ERROR);
+                findNextJob();
+                break;
+            }
             // Let's make sure guide module does not become unresponsive
             if (moduleState()->getCurrentOperationMsec() > GUIDE_INACTIVITY_TIMEOUT)
             {
@@ -3714,6 +3732,8 @@ void SchedulerProcess::setGuideStatus(GuideState status)
             moduleState()->resetGuideFailureCount();
             // if guiding recovered while we are waiting, abort the restart
             moduleState()->cancelGuidingTimer();
+            // Guiding succeeded — reset the stage timer for this target
+            moduleState()->resetGuidingStageTimer();
 
             moduleState()->updateJobStage(SCHEDSTAGE_GUIDING_COMPLETE);
             getNextAction();
