@@ -299,6 +299,25 @@ p, li { white-space: pre-wrap; }
      </widget>
     </item>
     <item>
+     <widget class="QPushButton" name="offlineDocsButton">
+      <property name="text">
+       <string>Offline Training Guide</string>
+      </property>
+      <property name="toolTip">
+       <string>Open the KStars documentation on training the model offline.</string>
+      </property>
+      <property name="icon">
+       <iconset theme="help-contents"/>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
      <spacer name="verticalSpacer_bottom">
       <property name="orientation">
        <enum>Qt::Vertical</enum>

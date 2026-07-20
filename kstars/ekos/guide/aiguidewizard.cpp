@@ -10,10 +10,13 @@
 #include "kspaths.h"
 #include <QDateTime>
 #include <QDebug>
+#include <QDesktopServices>
 #include <QDir>
 #include <QFileDialog>
 #include <QDirIterator>
 #include <QFileInfo>
+#include <QFutureWatcher>
+#include <QtConcurrent>
 #include <zlib.h>
 
 namespace
@@ -28,7 +31,7 @@ class ZipWriter
             return m_file.open(QIODevice::WriteOnly);
         }
 
-        int addTree(const QString &dir, const QString &prefix)
+        int addTree(const QString &dir, const QString &prefix, const QDateTime &since = QDateTime())
         {
             if (!QDir(dir).exists())
                 return 0;
@@ -38,6 +41,8 @@ class ZipWriter
             while (it.hasNext())
             {
                 const QString fp = it.next();
+                if (since.isValid() && QFileInfo(fp).lastModified() < since)
+                    continue;
                 if (addOne(fp, prefix + "/" + QDir(baseDir).relativeFilePath(fp)))
                     ++n;
             }
@@ -54,7 +59,7 @@ class ZipWriter
 
             const QByteArray name = archiveName.toUtf8();
             const quint32 crc = static_cast<quint32>(crc32(0L, reinterpret_cast<const Bytef *>(data.constData()),
-                static_cast<uInt>(data.size())));
+                                static_cast<uInt>(data.size())));
             const QByteArray comp = rawDeflate(data);
             const QDateTime mtime = QFileInfo(path).lastModified();
 
@@ -234,6 +239,11 @@ AIGuideWizard::AIGuideWizard(AIGuideProtocol *protocol, QWidget *parent) : QWiza
         m_Protocol->requestTraining();
     });
 
+    connect(offlineDocsButton, &QPushButton::clicked, this, []()
+    {
+        QDesktopServices::openUrl(QUrl("https://kstars-docs.kde.org/en/user_manual/ekos-guide.html#training-the-model-offline"));
+    });
+
     setButtonText(QWizard::CustomButton1, "Export Logs");
     setOption(QWizard::HaveCustomButton1, true);
     connect(this, &QWizard::customButtonClicked, this, [this](int which)
@@ -249,22 +259,33 @@ void AIGuideWizard::showEvent(QShowEvent *event)
 {
     QWizard::showEvent(event);
 
+    m_AutoNavigating = true;
+
     // If protocol is already running (e.g. started via EkosLive), jump to page 2
     if (m_Protocol->state() != AIGuideProtocol::STATE_IDLE &&
             m_Protocol->state() != AIGuideProtocol::STATE_DONE &&
             m_Protocol->state() != AIGuideProtocol::STATE_ERROR)
     {
-        while (currentId() != 2)
+        for (int i = 0; i < 4 && currentId() != 2; i++)
             next();
+
+        stopButton->setText(i18n("Stop"));
+        stopButton->setEnabled(true);
+        disconnect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStartProtocol);
+        connect(stopButton, &QPushButton::clicked, this, &AIGuideWizard::slotStopProtocol, Qt::UniqueConnection);
     }
     // If protocol already completed, jump to training page (page 3)
     else if (m_Protocol->state() == AIGuideProtocol::STATE_DONE)
     {
-        while (currentId() != 3)
+        for (int i = 0; i < 4 && currentId() != 3; i++)
             next();
         exportOfflineButton->setEnabled(true);
         progressBar->setValue(100);
     }
+    else if (m_Protocol->state() == AIGuideProtocol::STATE_IDLE && currentId() != 0)
+        restart();
+
+    m_AutoNavigating = false;
 }
 
 int AIGuideWizard::state() const
@@ -305,30 +326,58 @@ void AIGuideWizard::onTrainingResult(bool success, const QJsonObject &result)
 void AIGuideWizard::slotExportLogs()
 {
     const QString base = KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+
+    QDateTime since = QDateTime::currentDateTime().addDays(-1);
+    const auto sessions = QDir(base + "/ai_training_logs").entryList(QStringList("sysid_data_*.json"),
+                          QDir::Files, QDir::Name);
+    if (!sessions.isEmpty())
+    {
+        const QString stamp = QFileInfo(sessions.last()).completeBaseName().mid(QString("sysid_data_").size());
+        const QDateTime newest = QDateTime::fromString(stamp, "yyyyMMdd_HHmmss");
+        if (newest.isValid())
+            since = newest;
+    }
     const QString suggested = QDir::homePath() + "/ekos_ai_logs_" +
                               QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss") + ".zip";
     const QString out = QFileDialog::getSaveFileName(this, "Export Logs", suggested, "Zip Archives (*.zip)");
     if (out.isEmpty()) return;
 
-    ZipWriter zip;
-    if (!zip.open(out))
+    if (auto *exportButton = button(QWizard::CustomButton1))
+        exportButton->setEnabled(false);
+    appendLog(QString("Exporting logs to %1...").arg(out));
+
+    auto *watcher = new QFutureWatcher<int>(this);
+    connect(watcher, &QFutureWatcher<int>::finished, this, [this, watcher, out]()
     {
-        appendLog("Failed to create archive: " + out);
-        return;
-    }
+        watcher->deleteLater();
+        const int n = watcher->result();
+        if (auto *exportButton = button(QWizard::CustomButton1))
+            exportButton->setEnabled(true);
+        if (n < 0)
+            appendLog("Failed to create archive: " + out);
+        else if (n > 0)
+            appendLog(QString("Exported %1 log file(s) to: %2").arg(n).arg(out));
+        else
+            appendLog("No logs found for the latest session. Enable 'Log to File' in KStars settings to also capture terminal logs.");
+    });
 
-    int n = 0;
-    n += zip.addTree(base + "/ai_debug_logs",    "ai_debug_logs");
-    n += zip.addTree(base + "/ai_training_logs", "ai_training_logs");
-    n += zip.addTree(base + "/guidelogs",        "guidelogs");
-    n += zip.addTree(base + "/logs",             "logs");
-    n += zip.addOne(base + "/guide_log.txt",     "guide_log.txt");
-    zip.finish();
-
-    if (n > 0)
-        appendLog(QString("Exported %1 log file(s) to: %2").arg(n).arg(out));
-    else
-        appendLog("No logs found. Enable 'Log to File' in KStars settings to also capture terminal logs.");
+    watcher->setFuture(QtConcurrent::run([base, out, since]()
+    {
+        int n = -1;
+        ZipWriter zip;
+        if (zip.open(out))
+        {
+            n = 0;
+            n += zip.addTree(base + "/ai_debug_logs",    "ai_debug_logs",    since);
+            n += zip.addTree(base + "/ai_training_logs", "ai_training_logs", since);
+            n += zip.addTree(base + "/guidelogs",        "guidelogs",        since);
+            n += zip.addTree(base + "/logs",             "logs",             since);
+            if (!since.isValid() || QFileInfo(base + "/guide_log.txt").lastModified() >= since)
+                n += zip.addOne(base + "/guide_log.txt", "guide_log.txt");
+            zip.finish();
+        }
+        return n;
+    }));
 }
 
 void AIGuideWizard::initializePage(int id)
@@ -336,7 +385,7 @@ void AIGuideWizard::initializePage(int id)
     QWizard::initializePage(id);
 
     // Page 2 (0-indexed) is the "System Identification Progress" page
-    if (id == 2)
+    if (id == 2 && !m_AutoNavigating)
     {
         progressBar->setValue(0);
         logTextEdit->clear();
@@ -377,7 +426,7 @@ void AIGuideWizard::slotExportOffline()
     }
 
     QString savePath = QFileDialog::getSaveFileName(this, "Export Offline Training Data",
-        QDir::homePath() + "/sysid_data.json", "JSON Files (*.json)");
+                       QDir::homePath() + "/sysid_data.json", "JSON Files (*.json)");
     if (!savePath.isEmpty())
     {
         if (QFile::copy(filename, savePath))
@@ -395,7 +444,9 @@ void AIGuideWizard::slotStopProtocol()
 
 void AIGuideWizard::done(int result)
 {
-    m_Protocol->stop();
+    const auto state = m_Protocol->state();
+    if (state > AIGuideProtocol::STATE_IDLE && state < AIGuideProtocol::STATE_DONE)
+        m_Protocol->stop();
     QWizard::done(result);
 }
 

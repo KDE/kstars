@@ -64,6 +64,7 @@ class AIGuideWizard : public QWizard, public Ui::AIGuideWizard
         void appendLog(const QString &message);
 
         AIGuideProtocol *m_Protocol { nullptr };
+        bool m_AutoNavigating { false };
 };
 
 }
